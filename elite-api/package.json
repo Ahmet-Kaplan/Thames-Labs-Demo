@@ -1,0 +1,21 @@
+{
+  "name": "elite-api",
+  "version": "1.0.0",
+  "description": "EliteBMS API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jamie Collinson, Damien Robson",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.12.0",
+    "bookshelf": "^0.7.9",
+    "ejs": "^2.3.1",
+    "express": "^4.12.0",
+    "jwt-simple": "^0.2.0",
+    "knex": "^0.7.4",
+    "moment": "^2.9.0",
+    "mysql": "^2.5.5"
+  }
+}
