@@ -1,8 +1,10 @@
 var Amygdala = require('amygdala');
+var os = require('os');
+var config = require('../config');
 
 var store = new Amygdala({
   'config': {
-    'apiUrl': 'http://192.168.251.44:443',
+    'apiUrl': 'https://' + os.hostname() + ':' + config.port,
     'idAttribute': 'url',
     'localStorage': true
   },

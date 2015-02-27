@@ -5,12 +5,12 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 var bodyParser = require('body-parser');
 var app = express();
-var port = process.env.PORT || 3000;
 var Users = require('./model/user');
 var Companies = require('./model/company');
 var Contacts = require('./model/contact');
 var jwtauth = require('./jwtauth.js');
 var config = require('./config');
+var port = config.port;
 var https = require('https');
 var fs = require('fs');
 var http = require('http');
@@ -98,5 +98,6 @@ var options = {
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem')
 };
+
 https.createServer(options, app).listen(port);
 console.log('Running on port ' + port);
