@@ -21,6 +21,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+app.use(express.static('public'));
+
 app.get('/login', function (req, res) {
     res.render('../view/login.ejs');
 });
