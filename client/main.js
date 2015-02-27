@@ -1,34 +1,27 @@
 var React = require('react'),
-    store = require('./store');
+    CompanyList = require('./company')
+    LoginForm = require('./loginform');
 
-var CompanyList = React.createClass({
+var App = React.createClass({
   getInitialState: function(){
     return {
-      companies: []
+      loggedIn: false,
+      token: ''
     };
   },
-  componentDidMount: function(){
-    store.get('company').done(function(companies){
-      this.setState({
-        companies: companies
-      });
-    }.bind(this));
+  handleAuth: function(err, res){
+    console.log(err, res);
   },
   render: function(){
-    var companies = this.state.companies.map(function(company){
-      return <CompanyListItem data={company} />;
-    });
-    return <ul>{companies}</ul>;
-  }
-});
-
-var CompanyListItem = React.createClass({
-  render: function(){
-    return <li>{this.props.data.Company} - {this.props.data.Address}</li>;
+    if (this.state.loggedIn){
+      return <CompanyList token={this.state.token} />
+    } else {
+      return <LoginForm handleAuth={this.handleAuth} />
+    }
   }
 });
 
 React.render(
-  <CompanyList/>,
-  document.getElementById('react')
+  <App/>,
+  document.getElementById('app')
 );

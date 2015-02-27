@@ -30,6 +30,7 @@ app.get('/login', function (req, res) {
 app.post('/login', function (req, res, next) {
     var uid = req.body.uid;
     var pwd = req.body.pwd;
+    console.log(req.body);
 
     Users.where({
             username: uid,
