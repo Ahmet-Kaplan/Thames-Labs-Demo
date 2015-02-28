@@ -1,5 +1,5 @@
 var React = require('react'),
-    CompanyList = require('./company')
+    CompanyList = require('./company'),
     LoginForm = require('./loginform');
 
 var App = React.createClass({
@@ -11,10 +11,23 @@ var App = React.createClass({
   },
   handleAuth: function(err, res){
     console.log(err, res);
+    if (res.status === 200) {
+      this.setState({loggedIn: true, token: res.text});
+    }
+  },
+  selectCompany: function(CompanyID){
+    this.setState({selectedCompany: CompanyID});
+  },
+  deselectCompany: function(){
+    this.setState({selectedCompany: null});
   },
   render: function(){
     if (this.state.loggedIn){
-      return <CompanyList token={this.state.token} />
+      if (this.state.selectedCompany){
+        return <p onClick={this.deselectCompany}>Company {this.state.selectedCompany} selected</p>
+      } else {
+        return <CompanyList token={this.state.token} handleClick={this.selectCompany} />
+      }
     } else {
       return <LoginForm handleAuth={this.handleAuth} />
     }

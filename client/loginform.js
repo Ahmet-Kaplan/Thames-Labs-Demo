@@ -6,9 +6,9 @@ var LoginForm = React.createClass({
     e.preventDefault();
     var username = this.refs.username.getDOMNode().value.trim();
     var password = this.refs.password.getDOMNode().value.trim();
-    console.log(username, password);
     request
       .post('/login')
+      .type('form')
       .send({
         uid: username,
         pwd: password

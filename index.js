@@ -30,38 +30,37 @@ app.get('/login', function (req, res) {
 app.post('/login', function (req, res, next) {
     var uid = req.body.uid;
     var pwd = req.body.pwd;
-    console.log(req.body);
 
     Users.where({
-            username: uid,
-            userpassword: pwd
-        })
-        .fetch()
-        .then(function (user, err) {
-            if (err) {
-                console.log(err);
-                return res.sendStatus(401);
-            }
-            if (!user) {
-                return res.sendStatus(401);
-            }
+      username: uid,
+      userpassword: pwd
+    })
+    .fetch()
+    .then(function (user, err) {
+      if (err) {
+        console.log(err);
+        return res.sendStatus(401);
+      }
+      if (!user) {
+        return res.sendStatus(401);
+      }
 
-            var expires = moment().add(config.tokenExpireDuration, config.tokenExpireInterval).valueOf();
-            var token = jwt.encode({
-                iss: uid,
-                exp: expires
-            }, app.get('jwtTokenSecret'));
-            config.users[token] = uid;
+      var expires = moment().add(config.tokenExpireDuration, config.tokenExpireInterval).valueOf();
+      var token = jwt.encode({
+        iss: uid,
+        exp: expires
+      }, app.get('jwtTokenSecret'));
+      config.users[token] = uid;
 
-            res.send(token);
-        });
+      res.send(token);
+    });
 });
 
 app.get('/company', jwtauth.CheckValidToken, function (req, res) {
-    Companies.fetchAll()
-        .then(function (companies) {
-            res.json(companies);
-        });
+  Companies.fetchAll()
+  .then(function (companies) {
+    res.json(companies);
+  });
 });
 
 app.get('/company/:companyId', jwtauth.CheckValidToken, function (req, res) {

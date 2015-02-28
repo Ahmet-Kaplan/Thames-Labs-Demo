@@ -8,6 +8,7 @@ var CompanyList = React.createClass({
     };
   },
   componentDidMount: function(){
+    store._config.headers['x-tkn'] = this.props.token;
     store.get('company').done(function(companies){
       this.setState({
         companies: companies
@@ -16,15 +17,18 @@ var CompanyList = React.createClass({
   },
   render: function(){
     var companies = this.state.companies.map(function(company){
-      return <CompanyListItem data={company} />;
-    });
+      return <CompanyListItem data={company} handleClick={this.props.handleClick}/>;
+    }.bind(this));
     return <ul>{companies}</ul>;
   }
 });
 
 var CompanyListItem = React.createClass({
+  handleClick: function(){
+    this.props.handleClick(this.props.data.CompanyID);
+  },
   render: function(){
-    return <li>{this.props.data.Company} - {this.props.data.Address}</li>;
+    return <li onClick={this.handleClick}>{this.props.data.Company} - {this.props.data.Address}</li>;
   }
 });
 

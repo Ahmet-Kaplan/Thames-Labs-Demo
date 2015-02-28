@@ -115,6 +115,7 @@ var CompanyList = React.createClass({displayName: "CompanyList",
     };
   },
   componentDidMount: function(){
+    store._config.headers['x-tkn'] = this.props.token;
     store.get('company').done(function(companies){
       this.setState({
         companies: companies
@@ -123,15 +124,19 @@ var CompanyList = React.createClass({displayName: "CompanyList",
   },
   render: function(){
     var companies = this.state.companies.map(function(company){
-      return React.createElement(CompanyListItem, {data: company});
-    });
+      return React.createElement(CompanyListItem, {data: company, handleClick: this.props.handleClick});
+    }.bind(this));
     return React.createElement("ul", null, companies);
   }
 });
 
 var CompanyListItem = React.createClass({displayName: "CompanyListItem",
+  handleClick: function(){
+    console.log(this.props.data);
+    this.props.handleClick(this.props.data.CompanyID);
+  },
   render: function(){
-    return React.createElement("li", null, this.props.data.Company, " - ", this.props.data.Address);
+    return React.createElement("li", {onClick: this.handleClick}, this.props.data.Company, " - ", this.props.data.Address);
   }
 });
 
@@ -147,9 +152,9 @@ var LoginForm = React.createClass({displayName: "LoginForm",
     e.preventDefault();
     var username = this.refs.username.getDOMNode().value.trim();
     var password = this.refs.password.getDOMNode().value.trim();
-    console.log(username, password);
     request
       .post('/login')
+      .type('form')
       .send({
         uid: username,
         pwd: password
@@ -174,7 +179,7 @@ module.exports = LoginForm;
 
 },{"react":157,"superagent":158}],5:[function(require,module,exports){
 var React = require('react'),
-    CompanyList = require('./company')
+    CompanyList = require('./company'),
     LoginForm = require('./loginform');
 
 var App = React.createClass({displayName: "App",
@@ -186,10 +191,23 @@ var App = React.createClass({displayName: "App",
   },
   handleAuth: function(err, res){
     console.log(err, res);
+    if (res.status === 200) {
+      this.setState({loggedIn: true, token: res.text});
+    }
+  },
+  selectCompany: function(CompanyID){
+    this.setState({selectedCompany: CompanyID});
+  },
+  deselectCompany: function(){
+    this.setState({selectedCompany: null});
   },
   render: function(){
     if (this.state.loggedIn){
-      return React.createElement(CompanyList, {token: this.state.token})
+      if (this.state.selectedCompany){
+        return React.createElement("p", {onClick: this.deselectCompany}, "Company ", this.state.selectedCompany, " selected")
+      } else {
+        return React.createElement(CompanyList, {token: this.state.token, handleClick: this.selectCompany})
+      }
     } else {
       return React.createElement(LoginForm, {handleAuth: this.handleAuth})
     }
