@@ -37,8 +37,15 @@ var CompanyList = React.createClass({
     }.bind(this));
     return (
       <div>
-      <input type='search' ref='searchbox' onChange={this.searchHandler}/>
-      <ul>{companies}</ul>
+        <header className="bar bar-nav">
+          <h1 className="title">Companies</h1>
+        </header>
+        <div className="bar bar-standard bar-header-secondary">
+          <input type='search' ref='searchbox' onChange={this.searchHandler}/>
+        </div>
+        <div className="content">
+          <ul className="table-view">{companies}</ul>
+        </div>
       </div>
     )
   }
@@ -49,7 +56,11 @@ var CompanyListItem = React.createClass({
     this.props.handleClick(this.props.data.CompanyID);
   },
   render: function(){
-    return <li onClick={this.handleClick}>{this.props.data.Company} - {this.props.data.Address}</li>;
+    return (
+      <li className="table-view-cell" onClick={this.handleClick}>
+        <a className="navigate-right">{this.props.data.Company} - {this.props.data.Address}</a>
+      </li>
+    );
   }
 });
 

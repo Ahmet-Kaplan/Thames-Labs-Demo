@@ -144,8 +144,15 @@ var CompanyList = React.createClass({displayName: "CompanyList",
     }.bind(this));
     return (
       React.createElement("div", null, 
-      React.createElement("input", {type: "search", ref: "searchbox", onChange: this.searchHandler}), 
-      React.createElement("ul", null, companies)
+        React.createElement("header", {className: "bar bar-nav"}, 
+          React.createElement("h1", {className: "title"}, "Companies")
+        ), 
+        React.createElement("div", {className: "bar bar-standard bar-header-secondary"}, 
+          React.createElement("input", {type: "search", ref: "searchbox", onChange: this.searchHandler})
+        ), 
+        React.createElement("div", {className: "content"}, 
+          React.createElement("ul", {className: "table-view"}, companies)
+        )
       )
     )
   }
@@ -156,7 +163,11 @@ var CompanyListItem = React.createClass({displayName: "CompanyListItem",
     this.props.handleClick(this.props.data.CompanyID);
   },
   render: function(){
-    return React.createElement("li", {onClick: this.handleClick}, this.props.data.Company, " - ", this.props.data.Address);
+    return (
+      React.createElement("li", {className: "table-view-cell", onClick: this.handleClick}, 
+        React.createElement("a", {className: "navigate-right"}, this.props.data.Company, " - ", this.props.data.Address)
+      )
+    );
   }
 });
 
@@ -185,10 +196,17 @@ var LoginForm = React.createClass({displayName: "LoginForm",
   },
   render: function(){
     return (
-      React.createElement("form", {className: "commentForm", onSubmit: this.handleSubmit}, 
-        React.createElement("input", {type: "text", placeholder: "Your username", ref: "username"}), 
-        React.createElement("input", {type: "text", placeholder: "Your password", ref: "password"}), 
-        React.createElement("input", {type: "submit", value: "Submit"})
+      React.createElement("div", null, 
+        React.createElement("header", {className: "bar bar-nav"}, 
+          React.createElement("h1", {className: "title"}, "EliteWeb")
+        ), 
+        React.createElement("div", {className: "content"}, 
+          React.createElement("form", {onSubmit: this.handleSubmit}, 
+            React.createElement("input", {type: "text", placeholder: "Your username", ref: "username"}), 
+            React.createElement("input", {type: "text", placeholder: "Your password", ref: "password"}), 
+            React.createElement("button", {className: "btn btn-positive btn-block"}, "Login")
+          )
+        )
       )
     )
   }

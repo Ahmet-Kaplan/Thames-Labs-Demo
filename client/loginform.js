@@ -19,11 +19,18 @@ var LoginForm = React.createClass({
   },
   render: function(){
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
-        <input type="text" placeholder="Your username" ref="username" />
-        <input type="text" placeholder="Your password" ref="password" />
-        <input type="submit" value="Submit" />
-      </form>
+      <div>
+        <header className="bar bar-nav">
+          <h1 className="title">EliteWeb</h1>
+        </header>
+        <div className="content">
+          <form onSubmit={this.handleSubmit}>
+            <input type="text" placeholder="Your username" ref="username" />
+            <input type="text" placeholder="Your password" ref="password" />
+            <button className="btn btn-positive btn-block">Login</button>
+          </form>
+        </div>
+      </div>
     )
   }
 });
