@@ -1,6 +1,6 @@
 var Amygdala = require('amygdala');
 var os = require('os');
-var config = require('../config');
+var config = require('../server/config');
 
 var store = new Amygdala({
   'config': {

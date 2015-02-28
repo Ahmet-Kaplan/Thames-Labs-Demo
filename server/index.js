@@ -23,10 +23,6 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static('public'));
 
-app.get('/login', function (req, res) {
-    res.render('../view/login.ejs');
-});
-
 app.post('/login', function (req, res, next) {
     var uid = req.body.uid;
     var pwd = req.body.pwd;
@@ -95,8 +91,8 @@ app.get('/contact/:contactId', jwtauth.CheckValidToken, function (req, res) {
 });
 
 var options = {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
+    key: fs.readFileSync('server/key.pem'),
+    cert: fs.readFileSync('server/cert.pem')
 };
 
 https.createServer(options, app).listen(port);
