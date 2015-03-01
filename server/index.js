@@ -11,9 +11,9 @@ var Contacts = require('./model/contact');
 var jwtauth = require('./jwtauth.js');
 var config = require('./config');
 var port = config.port;
-var https = require('https');
 var fs = require('fs');
 var http = require('http');
+var https = require('https');
 
 app.set('jwtTokenSecret', config.secret);
 
@@ -95,5 +95,6 @@ var options = {
     cert: fs.readFileSync('server/cert.pem')
 };
 
-https.createServer(options, app).listen(port);
-console.log('Running on port ' + port);
+https.createServer(options, app).listen(port, function(){
+  console.log('Running on port ' + port);
+});
