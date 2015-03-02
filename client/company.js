@@ -1,16 +1,24 @@
 var React = require('react');
 var store = require('./store');
 var Fuse = require('fuse.js');
+var auth = require('./auth');
+var Router = require('react-router');
+
+var Link = Router.Link;
 
 var CompanyList = React.createClass({
+
+  mixins: [ auth.mixin ],
+
   getInitialState: function(){
     return {
       companies: [],
       filteredCompanies: []
     };
   },
+
   componentDidMount: function(){
-    store._config.headers['x-tkn'] = this.props.token;
+    store._config.headers['x-tkn'] = auth.getToken();
     store.get('company').done(function(companies){
       this.setState({
         companies: companies,
@@ -18,6 +26,7 @@ var CompanyList = React.createClass({
       });
     }.bind(this));
   },
+
   searchHandler: function(){
     var searchText = this.refs.searchbox.getDOMNode().value;
     var result = [];
@@ -31,6 +40,7 @@ var CompanyList = React.createClass({
       filteredCompanies: result
     });
   },
+
   render: function(){
     var companies = this.state.filteredCompanies.map(function(company){
       return <CompanyListItem data={company} handleClick={this.props.handleClick}/>;
@@ -38,6 +48,9 @@ var CompanyList = React.createClass({
     return (
       <div>
         <header className="bar bar-nav">
+          <Link to="logout" className="btn pull-left">
+            Logout
+          </Link>
           <h1 className="title">Companies</h1>
         </header>
         <div className="bar bar-standard bar-header-secondary">
@@ -49,11 +62,12 @@ var CompanyList = React.createClass({
       </div>
     )
   }
+
 });
 
 var CompanyListItem = React.createClass({
   handleClick: function(){
-    this.props.handleClick(this.props.data.CompanyID);
+    console.log(this.props.data.CompanyID);
   },
   render: function(){
     return (

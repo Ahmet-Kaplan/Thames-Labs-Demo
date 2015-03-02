@@ -1,43 +1,62 @@
-var React = require('react'),
-    CompanyList = require('./company'),
-    LoginForm = require('./loginform'),
-    Router = require('react-router');
+var React = require('react');
+var CompanyList = require('./company');
+var LoginForm = require('./loginform');
+var Router = require('react-router');
+var auth = require('./auth');
 
-var { Route, RouteHandler, Link, State } = Router;
+var { Route, RouteHandler, DefaultRoute } = Router;
 
 var App = React.createClass({
+
   getInitialState: function(){
     return {
       loggedIn: false,
       token: ''
     };
   },
-  handleAuth: function(err, res){
-    console.log(err, res);
-    if (res.status === 200) {
-      this.setState({loggedIn: true, token: res.text});
-    }
-  },
+
   selectCompany: function(CompanyID){
     this.setState({selectedCompany: CompanyID});
   },
+
   deselectCompany: function(){
     this.setState({selectedCompany: null});
   },
+  
   render: function(){
-    if (this.state.loggedIn){
-      if (this.state.selectedCompany){
-        return <p onClick={this.deselectCompany}>Company {this.state.selectedCompany} selected</p>
-      } else {
-        return <CompanyList token={this.state.token} handleClick={this.selectCompany} />
-      }
-    } else {
-      return <LoginForm handleAuth={this.handleAuth} />
-    }
+    return (
+      <div>
+        <RouteHandler/>
+      </div>
+    )
   }
+
 });
 
-React.render(
-  <App/>,
-  document.getElementById('app')
+var Logout = React.createClass({
+
+  mixins: [ Router.Navigation ],
+
+  componentDidMount: function() {
+    auth.logout();
+    this.transitionTo('app');
+  },
+
+  render: function() {
+    return <p>You're logged out!</p>
+  }
+
+})
+
+var routes = (
+  <Route name="app" path="/" handler={App}>
+    <Route name="login" handler={LoginForm}/>
+    <Route name="logout" handler={Logout}/>
+    <Route name="company" handler={CompanyList}/>
+    <DefaultRoute handler={CompanyList}/>
+  </Route>
 );
+
+Router.run(routes, function(Handler){
+  React.render(<Handler/>, document.getElementById('app'));
+});

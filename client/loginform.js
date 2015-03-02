@@ -1,23 +1,39 @@
 var React = require('react');
-var request = require('superagent');
+var auth = require('./auth');
+var Router = require('react-router');
 
 var LoginForm = React.createClass({
+
+  mixins: [ Router.State, Router.Navigation ],
+
+  getInitialState: function() {
+    return {
+      error: false
+    };
+  },
+
   handleSubmit: function(e){
     e.preventDefault();
     var username = this.refs.username.getDOMNode().value.trim();
     var password = this.refs.password.getDOMNode().value.trim();
-    request
-      .post('/login')
-      .type('form')
-      .send({
-        uid: username,
-        pwd: password
-      })
-      .end(function(err, res){
-        this.props.handleAuth(err, res);
-      }.bind(this));
+    auth.login(username, password, function(success) {
+
+      if (!success) {
+        return this.setState({ error: true });
+      }
+
+      var nextPath = this.getQuery().nextPath;
+      if (nextPath) {
+        this.transitionTo(nextPath);
+      } else {
+        this.transitionTo('/');
+      }
+
+    }.bind(this));
   },
+
   render: function(){
+    var errors = this.state.error ? <p>Login failed</p> : '';
     return (
       <div>
         <header className="bar bar-nav">
@@ -28,11 +44,13 @@ var LoginForm = React.createClass({
             <input type="text" placeholder="Your username" ref="username" />
             <input type="password" placeholder="Your password" ref="password" />
             <button className="btn btn-positive btn-block">Login</button>
+            {errors}
           </form>
         </div>
       </div>
     )
   }
+
 });
 
 module.exports = LoginForm;
