@@ -24793,7 +24793,7 @@ var config = {
     tokenExpireDuration: '60',
     tokenExpireInterval: 'minutes',
     users: {},
-    port: process.env.PORT || 3000
+    port: process.env.PORT || 3000,
 };
 
 module.exports = config;

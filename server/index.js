@@ -1,26 +1,28 @@
 // project: flaming-octo-sansa
 
-var express = require('express');
-var jwt = require('jwt-simple');
-var moment = require('moment');
-var bodyParser = require('body-parser');
-var app = express();
-var Users = require('./model/user');
 var Companies = require('./model/company');
 var Contacts = require('./model/contact');
-var jwtauth = require('./jwtauth.js');
+var Users = require('./model/user');
+var bodyParser = require('body-parser');
 var config = require('./config');
-var port = config.port;
+var express = require('express');
 var fs = require('fs');
-var http = require('http');
 var https = require('https');
+var jwt = require('jwt-simple');
+var jwtauth = require('./jwtauth.js');
+var moment = require('moment');
+
+var ssl_options = {
+    key: fs.readFileSync('server/key.pem'),
+    cert: fs.readFileSync('server/cert.pem')
+};
+
+var app = express();
+var server = https.createServer(ssl_options, app);
 
 app.set('jwtTokenSecret', config.secret);
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.post('/login', function (req, res, next) {
@@ -90,11 +92,6 @@ app.get('/contact/:contactId', jwtauth.CheckValidToken, function (req, res) {
         });
 });
 
-var options = {
-    key: fs.readFileSync('server/key.pem'),
-    cert: fs.readFileSync('server/cert.pem')
-};
-
-https.createServer(options, app).listen(port, function(){
-  console.log('Running on port ' + port);
+server.listen(config.port, function(){
+  console.log('Secure server running on port ' + config.port);
 });
