@@ -26,7 +26,7 @@ var LoginForm = React.createClass({
         <div className="content">
           <form onSubmit={this.handleSubmit}>
             <input type="text" placeholder="Your username" ref="username" />
-            <input type="text" placeholder="Your password" ref="password" />
+            <input type="password" placeholder="Your password" ref="password" />
             <button className="btn btn-positive btn-block">Login</button>
           </form>
         </div>

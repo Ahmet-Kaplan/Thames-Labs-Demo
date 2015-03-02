@@ -203,7 +203,7 @@ var LoginForm = React.createClass({displayName: "LoginForm",
         React.createElement("div", {className: "content"}, 
           React.createElement("form", {onSubmit: this.handleSubmit}, 
             React.createElement("input", {type: "text", placeholder: "Your username", ref: "username"}), 
-            React.createElement("input", {type: "text", placeholder: "Your password", ref: "password"}), 
+            React.createElement("input", {type: "password", placeholder: "Your password", ref: "password"}), 
             React.createElement("button", {className: "btn btn-positive btn-block"}, "Login")
           )
         )
