@@ -1,6 +1,9 @@
 var React = require('react'),
     CompanyList = require('./company'),
-    LoginForm = require('./loginform');
+    LoginForm = require('./loginform'),
+    Router = require('react-router');
+
+var { Route, RouteHandler, Link, State } = Router;
 
 var App = React.createClass({
   getInitialState: function(){
