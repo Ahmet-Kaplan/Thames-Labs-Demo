@@ -11,6 +11,7 @@ var https = require('https');
 var jwt = require('jwt-simple');
 var jwtauth = require('./jwtauth.js');
 var moment = require('moment');
+var bcrypt = require('bcryptjs');
 
 var ssl_options = {
     key: fs.readFileSync('server/key.pem'),
@@ -26,32 +27,30 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.post('/api/1.0/login', function (req, res, next) {
-    var uid = req.body.uid;
-    var pwd = req.body.pwd;
+  var uid = req.body.uid;
+  var pwd = req.body.pwd;
 
-    Users.where({
-      username: uid,
-      userpassword: pwd
-    })
-    .fetch()
-    .then(function (user, err) {
-      if (err) {
-        console.log(err);
-        return res.sendStatus(401);
-      }
-      if (!user) {
-        return res.sendStatus(401);
-      }
+  var user = Users
+  .where({username: uid})
+  .fetch()
+  .then(function(user){
+    console.log(user.get('Password'));
+    var computedPassword = bcrypt.hashSync(pwd, config.salt);
 
-      var expires = moment().add(config.tokenExpireDuration, config.tokenExpireInterval).valueOf();
-      var token = jwt.encode({
-        iss: uid,
-        exp: expires
-      }, app.get('jwtTokenSecret'));
-      config.users[token] = uid;
+    if (user.get('Password') !== computedPassword) {
+      return res.sendStatus(401);
+    }
+  });
 
-      res.send(token);
-    });
+  var expires = moment().add(config.tokenExpireDuration, config.tokenExpireInterval).valueOf();
+
+  var token = jwt.encode({
+    iss: uid,
+    exp: expires
+  }, app.get('jwtTokenSecret'));
+  config.users[token] = uid;
+
+  res.send(token);
 });
 
 app.get('/api/1.0/company', jwtauth.CheckValidToken, function (req, res) {
