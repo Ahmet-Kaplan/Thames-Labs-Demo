@@ -3,8 +3,7 @@ var config = {
     tokenExpireDuration: '60',
     tokenExpireInterval: 'minutes',
     users: {},
-    port: process.env.PORT || 3000,
-    salt: "$2a$10$AV9hl/W3uwrt1naVsEY3PO"
+    port: process.env.PORT || 3000
 };
 
 module.exports = config;

@@ -33,24 +33,43 @@ app.post('/api/1.0/login', function (req, res, next) {
   var user = Users
   .where({username: uid})
   .fetch()
-  .then(function(user){
-    console.log(user.get('Password'));
-    var computedPassword = bcrypt.hashSync(pwd, config.salt);
+  .then(function(user, err){
 
-    if (user.get('Password') !== computedPassword) {
+    if (err) {
+      console.log(err);
       return res.sendStatus(401);
     }
+
+    if (!user) {
+      console.log('No user with username ' + uid);
+      return res.sendStatus(401);
+    }
+
+    var storedHash = user.get('Password');
+    if (!storedHash) {
+      console.log('No password hash stored');
+      return res.sendStatus(401);
+    }
+
+    var passwordMatch = bcrypt.compareSync(pwd, storedHash);
+    if (!passwordMatch) {
+      console.log("Password doesn't match");
+      return res.sendStatus(401);
+    }
+    
+    // Success!
+    var expires = moment().add(config.tokenExpireDuration, config.tokenExpireInterval).valueOf();
+
+    var token = jwt.encode({
+      iss: uid,
+      exp: expires
+    }, app.get('jwtTokenSecret'));
+
+    config.users[token] = uid;
+    return res.send(token);
+
   });
 
-  var expires = moment().add(config.tokenExpireDuration, config.tokenExpireInterval).valueOf();
-
-  var token = jwt.encode({
-    iss: uid,
-    exp: expires
-  }, app.get('jwtTokenSecret'));
-  config.users[token] = uid;
-
-  res.send(token);
 });
 
 app.get('/api/1.0/company', jwtauth.CheckValidToken, function (req, res) {
