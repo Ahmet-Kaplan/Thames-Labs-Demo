@@ -6,7 +6,6 @@ var store = new Amygdala({
   'config': {
     'apiUrl': 'https://' + os.hostname() + ':' + config.port + '/api/1.0/',
     'idAttribute': 'url',
-    'localStorage': true,
     'headers': {
       'x-tkn': '',
     },

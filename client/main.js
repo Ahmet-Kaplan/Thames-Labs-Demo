@@ -1,6 +1,7 @@
 var React = require('react');
-var CompanyList = require('./company');
-var LoginForm = require('./loginform');
+var CompanyList = require('./companyList');
+var Company = require('./company');
+var LoginForm = require('./loginForm');
 var Router = require('react-router');
 var auth = require('./auth');
 
@@ -12,14 +13,6 @@ var App = React.createClass({
     return {};
   },
 
-  selectCompany: function(CompanyID){
-    this.setState({selectedCompany: CompanyID});
-  },
-
-  deselectCompany: function(){
-    this.setState({selectedCompany: null});
-  },
-  
   render: function(){
     return (
       <div>
@@ -49,11 +42,12 @@ var routes = (
   <Route name="app" path="/" handler={App}>
     <Route name="login" handler={LoginForm}/>
     <Route name="logout" handler={Logout}/>
-    <Route name="company" handler={CompanyList}/>
+    <Route name="companyList" path="company" handler={CompanyList}/>
+    <Route name="company" path="company/:companyId" handler={Company}/>
     <DefaultRoute handler={CompanyList}/>
   </Route>
 );
 
-Router.run(routes, Router.HistoryLocation, function(Handler){
+Router.run(routes, function(Handler){
   React.render(<Handler/>, document.getElementById('app'));
 });

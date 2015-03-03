@@ -22,6 +22,7 @@ var LoginForm = React.createClass({
         return this.setState({ error: true });
       }
 
+      // redirect to original location
       var nextPath = this.getQuery().nextPath;
       if (nextPath) {
         this.transitionTo(nextPath);
