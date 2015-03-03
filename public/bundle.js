@@ -408,7 +408,7 @@ var routes = React.createElement(
   React.createElement(DefaultRoute, { handler: CompanyList })
 );
 
-Router.run(routes, function (Handler) {
+Router.run(routes, Router.HistoryLocation, function (Handler) {
   React.render(React.createElement(Handler, null), document.getElementById("app"));
 });
 
