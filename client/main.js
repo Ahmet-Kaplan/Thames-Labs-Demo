@@ -9,10 +9,7 @@ var { Route, RouteHandler, DefaultRoute } = Router;
 var App = React.createClass({
 
   getInitialState: function(){
-    return {
-      loggedIn: false,
-      token: ''
-    };
+    return {};
   },
 
   selectCompany: function(CompanyID){
