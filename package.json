@@ -12,7 +12,6 @@
   "author": "Jamie Collinson, Damien Robson",
   "license": "ISC",
   "dependencies": {
-    "amygdala": "^0.4.3",
     "babelify": "^5.0.3",
     "bcryptjs": "^2.1.0",
     "body-parser": "^1.12.0",

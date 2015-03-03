@@ -2,7 +2,7 @@ var React = require('react');
 var Fuse = require('fuse.js');
 var auth = require('./auth');
 var Router = require('react-router');
-var store = require('./store');
+var request = require('superagent');
 
 var Link = Router.Link;
 
@@ -18,13 +18,15 @@ var CompanyList = React.createClass({
   },
 
   componentDidMount: function(){
-    store._config.headers['x-tkn'] = auth.getToken();
-    store.get('company').done(function(companies){
-      this.setState({
-        companies: companies,
-        filteredCompanies: companies
-      });
-    }.bind(this));
+    request
+      .get('/api/1.0/company/')
+      .set('x-tkn', auth.getToken())
+      .end(function(res) {
+        this.setState({
+          companies: res.body,
+          filteredCompanies: res.body
+        });
+      }.bind(this));
   },
 
   searchHandler: function(){
