@@ -4,7 +4,7 @@ var config = require('../server/config');
 
 var store = new Amygdala({
   'config': {
-    'apiUrl': 'https://' + os.hostname() + ':' + config.port,
+    'apiUrl': 'https://' + os.hostname() + ':' + config.port + '/api/1.0/',
     'idAttribute': 'url',
     'localStorage': true,
     'headers': {
@@ -13,10 +13,10 @@ var store = new Amygdala({
   },
   'schema': {
     'users': {
-      'url': '/users/'
+      'url': 'users/'
     },
     'company': {
-      'url': '/company/'
+      'url': 'company/'
     }
   }
 });

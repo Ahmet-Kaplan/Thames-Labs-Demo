@@ -4,7 +4,7 @@ var auth = {
 
   login: function(username, password, cb) {
     request
-      .post('/login')
+      .post('/api/1.0/login')
       .type('form')
       .send({
         uid: username,

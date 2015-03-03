@@ -25,7 +25,7 @@ app.set('jwtTokenSecret', config.secret);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-app.post('/login', function (req, res, next) {
+app.post('/api/1.0/login', function (req, res, next) {
     var uid = req.body.uid;
     var pwd = req.body.pwd;
 
@@ -54,14 +54,14 @@ app.post('/login', function (req, res, next) {
     });
 });
 
-app.get('/company', jwtauth.CheckValidToken, function (req, res) {
+app.get('/api/1.0/company', jwtauth.CheckValidToken, function (req, res) {
   Companies.fetchAll()
   .then(function (companies) {
     res.json(companies);
   });
 });
 
-app.get('/company/:companyId', jwtauth.CheckValidToken, function (req, res) {
+app.get('/api/1.0/company/:companyId', jwtauth.CheckValidToken, function (req, res) {
     var cid = req.params.companyId;
 
     Companies.where({
@@ -73,14 +73,14 @@ app.get('/company/:companyId', jwtauth.CheckValidToken, function (req, res) {
         });
 });
 
-app.get('/contact', jwtauth.CheckValidToken, function (req, res) {
+app.get('/api/1.0/contact', jwtauth.CheckValidToken, function (req, res) {
     Contacts.fetchAll()
         .then(function (contacts) {
             res.json(contacts);
         });
 });
 
-app.get('/contact/:contactId', jwtauth.CheckValidToken, function (req, res) {
+app.get('/api/1.0/contact/:contactId', jwtauth.CheckValidToken, function (req, res) {
     var cid = req.params.contactId;
 
     Contacts.where({
