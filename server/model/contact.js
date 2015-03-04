@@ -15,4 +15,4 @@ var Contact = bookshelf.Model.extend({
     tableName: 'contacts'
 });
 
-module.exports = new Contact();
+module.exports = Contact;

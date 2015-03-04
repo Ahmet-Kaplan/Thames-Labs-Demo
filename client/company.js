@@ -7,22 +7,30 @@ var Company = React.createClass({
 
   mixins: [ auth.mixin, Router.State ],
 
+  getCompanyData: function() {
+    var companyId = this.getParams().companyId;
+    request
+      .get('/api/1.0/company/' + companyId)
+      .set('x-tkn', auth.getToken())
+      .end(function(res) {
+        this.setState({
+          company: res.body
+        });
+      }.bind(this));
+  },
+  
   getInitialState: function() {
     return {
       company: {}
     };
   },
   
-  componentDidMount: function(){
-    request
-      .get('/api/1.0/company/' + this.getParams().companyId)
-      .set('x-tkn', auth.getToken())
-      .end(function(res) {
-        console.log(res.body);
-        this.setState({
-          company: res.body
-        });
-      }.bind(this));
+  componentDidMount: function() {
+    this.getCompanyData();
+  },
+  
+  componentWillReceiveProps: function() {
+    this.getCompanyData();
   },
   
   render: function() {

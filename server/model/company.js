@@ -15,4 +15,4 @@ var Company = bookshelf.Model.extend({
     tableName: 'companies'
 });
 
-module.exports = new Company();
+module.exports = Company;

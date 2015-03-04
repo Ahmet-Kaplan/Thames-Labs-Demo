@@ -15,4 +15,4 @@ var User = bookshelf.Model.extend({
     tableName: 'users'
 });
 
-module.exports = new User();
+module.exports = User;
