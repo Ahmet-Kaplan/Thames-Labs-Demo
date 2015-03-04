@@ -114,6 +114,8 @@ var Router = require("react-router");
 var auth = require("./auth");
 var request = require("superagent");
 
+var Link = Router.Link;
+
 var Company = React.createClass({
   displayName: "Company",
 
@@ -143,11 +145,93 @@ var Company = React.createClass({
   },
 
   render: function render() {
+    var company = this.state.company;
     return React.createElement(
       "div",
       null,
-      "Loaded - ",
-      this.state.company.CompanyID
+      React.createElement(
+        "header",
+        { className: "bar bar-nav" },
+        React.createElement(
+          Link,
+          { to: "logout", className: "btn pull-left" },
+          "Logout"
+        ),
+        React.createElement(
+          "h1",
+          { className: "title" },
+          company.Company
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "content" },
+        React.createElement(
+          "div",
+          { className: "card" },
+          React.createElement(
+            "ul",
+            { className: "table-view" },
+            React.createElement(
+              "li",
+              { className: "table-view-cell media" },
+              React.createElement(
+                "span",
+                { className: "media-object pull-left" },
+                React.createElement("i", { className: "fa fa-map-marker" })
+              ),
+              React.createElement(
+                "div",
+                { className: "media-body" },
+                "Address",
+                React.createElement(
+                  "p",
+                  null,
+                  company.Address
+                ),
+                React.createElement(
+                  "p",
+                  null,
+                  company.City
+                ),
+                React.createElement(
+                  "p",
+                  null,
+                  company.County
+                ),
+                React.createElement(
+                  "p",
+                  null,
+                  company.PostCode
+                ),
+                React.createElement(
+                  "p",
+                  null,
+                  company.Country
+                )
+              )
+            ),
+            React.createElement(
+              "li",
+              { className: "table-view-cell media" },
+              React.createElement(
+                "a",
+                { className: "navigate-right", href: "tel:" + company.Phone },
+                React.createElement(
+                  "span",
+                  { className: "media-object pull-left" },
+                  React.createElement("i", { className: "fa fa-phone" })
+                ),
+                React.createElement(
+                  "div",
+                  { className: "media-body" },
+                  company.Phone
+                )
+              )
+            )
+          )
+        )
+      )
     );
   }
 
