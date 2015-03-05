@@ -122,7 +122,7 @@ app.get('/api/1.0/company/:companyId/contact', jwtauth.CheckValidToken, function
     Contacts.where({
             companyId: cid
         })
-        .fetch()
+        .fetchAll()
         .then(function (contact) {
             res.json(contact);
         });

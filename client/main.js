@@ -1,9 +1,11 @@
 var React = require('react');
+var Router = require('react-router');
+
+var auth = require('./auth');
 var CompanyList = require('./companyList');
 var Company = require('./company');
+var Contact = require('./contact');
 var LoginForm = require('./loginForm');
-var Router = require('react-router');
-var auth = require('./auth');
 
 var { Route, RouteHandler, DefaultRoute } = Router;
 
@@ -44,6 +46,7 @@ var routes = (
     <Route name="logout" handler={Logout}/>
     <Route name="companyList" path="company" handler={CompanyList}/>
     <Route name="company" path="company/:companyId" handler={Company}/>
+    <Route name="contact" path="contact/:contactId" handler={Contact}/>
     <DefaultRoute handler={CompanyList}/>
   </Route>
 );

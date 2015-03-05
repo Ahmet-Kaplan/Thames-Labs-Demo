@@ -8,7 +8,7 @@ var Link = Router.Link;
 
 var CompanyList = React.createClass({
 
-  mixins: [ auth.mixin ],
+  mixins: [ auth.mixin, Router.Navigation ],
 
   getInitialState: function(){
     return {
@@ -24,6 +24,9 @@ var CompanyList = React.createClass({
       .get('/api/1.0/company/')
       .set('x-tkn', auth.getToken())
       .end(function(res) {
+        if (res.unauthorized) {
+          return this.transitionTo('login');
+        }
         var companies = res.body;
         this.setState({
           companies: companies,
@@ -59,13 +62,15 @@ var CompanyList = React.createClass({
       return <CompanyListItem data={company}/>;
     }.bind(this));
 
+    var title = this.state.filterByUser ? "My Companies" : "All Companies";
+
     return (
       <div>
         <header className="bar bar-nav">
-          <Link to="logout" className="btn pull-left">
-            Logout
-          </Link>
-          <h1 className="title">Companies</h1>
+          <button className="btn btn-link pull-left" onClick={this.goBack}>
+            <i className="icon ion-backspace-outline"/>
+          </button>
+          <h1 className="title">{title}</h1>
           <a className="icon ion-funnel pull-right" onClick={this.userFilterToggle}></a>
         </header>
         <div className="bar bar-standard bar-header-secondary">

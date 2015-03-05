@@ -9,8 +9,8 @@ var CheckToken = function (req, res, next) {
             var decoded = jwt.decode(token, config.secret);
 
             if (decoded.exp <= Date.now()) {
-                res.end('Access token has expired', 401);
                 delete config.users[token];
+                return res.status(401).send('Access token has expired');
             }
 
             return next();

@@ -1,13 +1,14 @@
 var React = require('react');
 var Router = require('react-router');
-var auth = require('./auth');
 var request = require('superagent');
+
+var auth = require('./auth');
 
 var Link = Router.Link;
 
 var Company = React.createClass({
 
-  mixins: [ auth.mixin, Router.State ],
+  mixins: [ auth.mixin, Router.State, Router.Navigation ],
 
   getCompanyData: function() {
     var companyId = this.getParams().companyId;
@@ -15,15 +16,31 @@ var Company = React.createClass({
       .get('/api/1.0/company/' + companyId)
       .set('x-tkn', auth.getToken())
       .end(function(res) {
+        if (res.unauthorized) {
+          return this.transitionTo('login');
+        }
         this.setState({
           company: res.body
+        });
+      }.bind(this));
+
+    request
+      .get('/api/1.0/company/' + companyId + '/contact')
+      .set('x-tkn', auth.getToken())
+      .end(function(res) {
+        if (res.unauthorized) {
+          return this.transitionTo('login');
+        }
+        this.setState({
+          contact: res.body
         });
       }.bind(this));
   },
   
   getInitialState: function() {
     return {
-      company: {}
+      company: {},
+      contact: []
     };
   },
   
@@ -37,39 +54,89 @@ var Company = React.createClass({
   
   render: function() {
     var company = this.state.company;
+    var contacts = this.state.contact.map(function(contact){
+      return (
+        <li className="table-view-cell media">
+          <Link to="contact" params={{contactId: contact.ContactID}} className="navigate-right">
+            <span className="media-object pull-left">
+              <i className="icon ion-person"/>
+            </span>
+            <div className="media-body">
+              {contact.Forename} {contact.Surname}
+              <p>{contact.Mobile}</p>
+            </div>
+          </Link>
+        </li>
+      )
+    });
+
     return (
       <div>
+
         <header className="bar bar-nav">
-          <Link to="logout" className="btn pull-left">
-            Logout
-          </Link>
-          <h1 className="title">{company.Company}</h1>
+          <button className="btn btn-link pull-left" onClick={this.goBack}>
+            <i className="icon ion-backspace-outline"/>
+          </button>
+          <h1 className="title">Company Information</h1>
         </header>
+
         <div className="content">
+
           <div className="card">
             <ul className="table-view">
-              <li className="table-view-cell media">
-                <span className="media-object pull-left"><i className="fa fa-map-marker"></i></span>
-                <div className="media-body">
-                  Address
-                  <p>{company.Address}</p>
-                  <p>{company.City}</p>
-                  <p>{company.County}</p>
-                  <p>{company.PostCode}</p>
-                  <p>{company.Country}</p>
-                </div>
+
+              <li className="table-view-cell table-view-divider">
+                {company.Company}
               </li>
+
+              <li className="table-view-cell media">
+                <a className="navigate-right" href={"http://maps.apple.com/?q=" + company.PostCode}>
+                  <span className="media-object pull-left"><i className="icon ion-location"></i></span>
+                  <div className="media-body">
+                    <p>{company.Address}</p>
+                    <p>{company.City}</p>
+                    <p>{company.County}</p>
+                    <p>{company.PostCode}</p>
+                    <p>{company.Country}</p>
+                  </div>
+                </a>
+              </li>
+
               <li className="table-view-cell media">
                 <a className="navigate-right" href={"tel:" + company.Phone}>
-                  <span className="media-object pull-left"><i className="fa fa-phone"></i></span>
+                  <span className="media-object pull-left"><i className="icon ion-ios-telephone"></i></span>
                   <div className="media-body">
                     {company.Phone}
                   </div>
                 </a>
               </li>
+
+              <li className="table-view-cell media">
+                <a className="navigate-right" href={company.WebSite}>
+                  <span className="media-object pull-left"><i className="icon ion-laptop"></i></span>
+                  <div className="media-body">
+                    {company.WebSite}
+                  </div>
+                </a>
+              </li>
+              
             </ul>
           </div>
+          
+          <div className="card">
+            <ul className="table-view">
+
+              <li className="table-view-cell table-view-divider">
+                Contacts
+              </li>
+
+              {contacts}
+
+            </ul>
+          </div>
+
         </div>
+
       </div>
     )
   }
