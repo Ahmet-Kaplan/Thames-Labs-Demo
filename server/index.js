@@ -66,7 +66,13 @@ app.post('/api/1.0/login', function (req, res, next) {
     }, app.get('jwtTokenSecret'));
 
     config.users[token] = uid;
-    return res.send(token);
+
+    var result = {
+      token: token,
+      userId: user.get('UserID')
+    }
+
+    return res.json(result);
 
   });
 

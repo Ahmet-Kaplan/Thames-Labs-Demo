@@ -70,7 +70,8 @@ var auth = {
       pwd: password
     }).end(function (err, res) {
       if (res.status === 200) {
-        localStorage.token = res.text;
+        localStorage.token = res.body.token;
+        localStorage.userId = res.body.userId;
         if (cb) cb(true);
       } else {
         if (cb) cb(false);
@@ -80,6 +81,7 @@ var auth = {
 
   logout: function logout(cb) {
     delete localStorage.token;
+    delete localStorage.userId;
     if (cb) cb();
   },
 
@@ -258,37 +260,49 @@ var CompanyList = React.createClass({
   getInitialState: function getInitialState() {
     return {
       companies: [],
-      filteredCompanies: []
+      filterByUser: false,
+      searchText: "",
+      fuse: {}
     };
   },
 
   componentDidMount: function componentDidMount() {
     request.get("/api/1.0/company/").set("x-tkn", auth.getToken()).end((function (res) {
+      var companies = res.body;
       this.setState({
-        companies: res.body,
-        filteredCompanies: res.body
+        companies: companies,
+        fuse: new Fuse(companies, { keys: ["Company"] })
       });
     }).bind(this));
   },
 
   searchHandler: function searchHandler() {
     var searchText = this.refs.searchbox.getDOMNode().value;
-    var result = [];
-    if (searchText === "") {
-      result = this.state.companies;
-    } else {
-      var fuse = new Fuse(this.state.companies, { keys: ["Company", "CompanyID"] });
-      result = fuse.search(searchText);
-    }
-    this.setState({
-      filteredCompanies: result
-    });
+    this.setState({ searchText: searchText });
+  },
+
+  userFilterToggle: function userFilterToggle() {
+    this.setState({ filterByUser: !this.state.filterByUser });
   },
 
   render: function render() {
-    var companies = this.state.filteredCompanies.map((function (company) {
-      return React.createElement(CompanyListItem, { data: company, handleClick: this.props.handleClick });
+
+    var companies = [];
+    if (this.state.searchText === "") {
+      companies = this.state.companies;
+    } else {
+      companies = this.state.fuse.search(this.state.searchText);
+    }
+    if (this.state.filterByUser) {
+      companies = companies.filter(function (company) {
+        return company.PrimaryContactID === localStorage.userId;
+      });
+    }
+
+    companies = companies.map((function (company) {
+      return React.createElement(CompanyListItem, { data: company });
     }).bind(this));
+
     return React.createElement(
       "div",
       null,
@@ -304,12 +318,13 @@ var CompanyList = React.createClass({
           "h1",
           { className: "title" },
           "Companies"
-        )
+        ),
+        React.createElement("a", { className: "icon ion-funnel pull-right", onClick: this.userFilterToggle })
       ),
       React.createElement(
         "div",
         { className: "bar bar-standard bar-header-secondary" },
-        React.createElement("input", { type: "search", ref: "searchbox", onChange: this.searchHandler })
+        React.createElement("input", { type: "search", ref: "searchbox", placeholder: "Search", onChange: this.searchHandler })
       ),
       React.createElement(
         "div",
@@ -335,9 +350,25 @@ var CompanyListItem = React.createClass({
       React.createElement(
         Link,
         { to: "company", params: { companyId: this.props.data.CompanyID }, className: "navigate-right" },
-        this.props.data.Company,
-        " - ",
-        this.props.data.Address
+        React.createElement(
+          "h3",
+          null,
+          this.props.data.Company
+        ),
+        React.createElement(
+          "p",
+          null,
+          React.createElement("i", { className: "icon ion-location" }),
+          " ",
+          this.props.data.Address
+        ),
+        React.createElement(
+          "p",
+          null,
+          React.createElement("i", { className: "icon ion-ios-telephone" }),
+          " ",
+          this.props.data.Phone
+        )
       )
     );
   }
@@ -385,11 +416,12 @@ var LoginForm = React.createClass({
   },
 
   render: function render() {
-    var errors = this.state.error ? React.createElement(
-      "p",
-      null,
-      "Login failed"
-    ) : "";
+    var buttonClassString = "btn btn-block";
+    if (this.state.error) {
+      buttonClassString += " btn-negative";
+    } else {
+      buttonClassString += " btn-positive";
+    }
     return React.createElement(
       "div",
       null,
@@ -412,10 +444,10 @@ var LoginForm = React.createClass({
           React.createElement("input", { type: "password", placeholder: "Your password", ref: "password" }),
           React.createElement(
             "button",
-            { className: "btn btn-positive btn-block" },
-            "Login"
-          ),
-          errors
+            { className: buttonClassString },
+            React.createElement("i", { className: "ion-log-in" }),
+            " Login"
+          )
         )
       )
     );

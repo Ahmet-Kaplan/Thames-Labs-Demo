@@ -13,7 +13,9 @@ var CompanyList = React.createClass({
   getInitialState: function(){
     return {
       companies: [],
-      filteredCompanies: []
+      filterByUser: false,
+      searchText: '',
+      fuse: {}
     };
   },
 
@@ -22,31 +24,41 @@ var CompanyList = React.createClass({
       .get('/api/1.0/company/')
       .set('x-tkn', auth.getToken())
       .end(function(res) {
+        var companies = res.body;
         this.setState({
-          companies: res.body,
-          filteredCompanies: res.body
+          companies: companies,
+          fuse: new Fuse(companies, {keys: ['Company']})
         });
       }.bind(this));
   },
 
   searchHandler: function(){
     var searchText = this.refs.searchbox.getDOMNode().value;
-    var result = [];
-    if (searchText === '') {
-      result = this.state.companies;
-    } else {
-      var fuse = new Fuse(this.state.companies, {keys: ['Company', 'CompanyID']});
-      result = fuse.search(searchText);
-    }
-    this.setState({
-      filteredCompanies: result
-    });
+    this.setState({searchText: searchText});
+  },
+
+  userFilterToggle: function(){
+    this.setState({filterByUser: !this.state.filterByUser});
   },
 
   render: function(){
-    var companies = this.state.filteredCompanies.map(function(company){
-      return <CompanyListItem data={company} handleClick={this.props.handleClick}/>;
+
+    var companies = [];
+    if (this.state.searchText === '') {
+      companies = this.state.companies;
+    } else {
+      companies = this.state.fuse.search(this.state.searchText);
+    }
+    if (this.state.filterByUser) {
+      companies = companies.filter(function(company){
+        return company.PrimaryContactID === localStorage.userId;
+      });
+    }
+
+    companies = companies.map(function(company){
+      return <CompanyListItem data={company}/>;
     }.bind(this));
+
     return (
       <div>
         <header className="bar bar-nav">
@@ -54,9 +66,10 @@ var CompanyList = React.createClass({
             Logout
           </Link>
           <h1 className="title">Companies</h1>
+          <a className="icon ion-funnel pull-right" onClick={this.userFilterToggle}></a>
         </header>
         <div className="bar bar-standard bar-header-secondary">
-          <input type='search' ref='searchbox' onChange={this.searchHandler}/>
+          <input type='search' ref='searchbox' placeholder="Search" onChange={this.searchHandler}/>
         </div>
         <div className="content">
           <ul className="table-view">{companies}</ul>
@@ -72,7 +85,11 @@ var CompanyListItem = React.createClass({
   render: function(){
     return (
       <li className="table-view-cell">
-        <Link to="company" params={{companyId: this.props.data.CompanyID}} className="navigate-right">{this.props.data.Company} - {this.props.data.Address}</Link>
+        <Link to="company" params={{companyId: this.props.data.CompanyID}} className="navigate-right">
+          <h3>{this.props.data.Company}</h3>
+          <p><i className="icon ion-location"/> {this.props.data.Address}</p>
+          <p><i className="icon ion-ios-telephone"/> {this.props.data.Phone}</p>
+        </Link>
       </li>
     );
   }

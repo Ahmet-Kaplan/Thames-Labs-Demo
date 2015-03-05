@@ -12,7 +12,8 @@ var auth = {
       })
       .end(function(err, res){
         if (res.status === 200) {
-          localStorage.token = res.text;
+          localStorage.token = res.body.token;
+          localStorage.userId = res.body.userId;
           if (cb) cb(true);
         } else {
           if (cb) cb(false);
@@ -22,6 +23,7 @@ var auth = {
 
   logout: function(cb) {
     delete localStorage.token;
+    delete localStorage.userId;
     if (cb) cb();
   },
 

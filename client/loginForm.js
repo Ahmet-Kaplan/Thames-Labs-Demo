@@ -34,20 +34,29 @@ var LoginForm = React.createClass({
   },
 
   render: function(){
-    var errors = this.state.error ? <p>Login failed</p> : '';
+    var buttonClassString = "btn btn-block";
+    if (this.state.error) {
+      buttonClassString += " btn-negative";
+    } else {
+      buttonClassString += " btn-positive";
+    } 
     return (
       <div>
+
         <header className="bar bar-nav">
           <h1 className="title">EliteWeb</h1>
         </header>
+
         <div className="content">
           <form onSubmit={this.handleSubmit}>
             <input type="text" placeholder="Your username" ref="username" />
             <input type="password" placeholder="Your password" ref="password" />
-            <button className="btn btn-positive btn-block">Login</button>
-            {errors}
+            <button className={buttonClassString}>
+              <i className="ion-log-in"></i> Login
+            </button>
           </form>
         </div>
+
       </div>
     )
   }
