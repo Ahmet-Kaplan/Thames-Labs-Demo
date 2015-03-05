@@ -110,6 +110,18 @@ app.get('/api/1.0/contact/:contactId', jwtauth.CheckValidToken, function (req, r
         });
 });
 
+app.get('/api/1.0/company/:companyId/contact', jwtauth.CheckValidToken, function (req, res) {
+    var cid = req.params.companyId;
+
+    Contacts.where({
+            companyId: cid
+        })
+        .fetch()
+        .then(function (contact) {
+            res.json(contact);
+        });
+});
+
 server.listen(config.port, function(){
   console.log('Secure server running on port ' + config.port);
 });
