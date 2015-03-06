@@ -54,7 +54,7 @@ var CompanyList = React.createClass({
     }
     if (this.state.filterByUser) {
       companies = companies.filter(function(company){
-        return company.PrimaryContactID == localStorage.userId;
+        return company.AccMgrID == localStorage.userId;
       });
     }
 
