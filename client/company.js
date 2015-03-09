@@ -85,11 +85,41 @@ var Company = React.createClass({
       )
     });
     var activities = this.state.activity.map(function(activity){
+        var acttypeid = activity.ActivityTypeID;    
+      var iconLoc = '';
+        
+      switch(acttypeid){
+        case 1: iconLoc='ion-document'; //note
+          break;
+          case 2: iconLoc='ion-document-text'; //doc
+          break;
+          case 3: iconLoc='ion-alert'; //unused
+          break;
+          case 4: iconLoc='ion-email'; //email
+          break;
+          case 5: iconLoc='ion-ios-compose-outline'; //letter
+          break;
+          case 6: iconLoc='ion-printer'; //fax
+          break;
+          case 7: iconLoc='ion-ios-telephone'; //phone
+          break;
+          case 8: iconLoc='ion-checkmark-round'; //task
+          break;
+          case 9: iconLoc='ion-ios-bookmarks'; //diary
+          break;
+          case 10: iconLoc='ion-ios-email-outline'; //email
+          break;
+          case 11: iconLoc='ion-ios-telephone-outline'; // telemarketing
+          break;
+        default: iconLoc='ion-help';
+          break;
+      };        
+        
       return (
         <li className="table-view-cell media">
          
           <span className="media-object pull-left">
-              <i className="icon ion-document"/>
+              <i className={"icon " + iconLoc}/>
             </span>
             <div className="media-body">
               {activity.Activity}

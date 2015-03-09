@@ -143,13 +143,55 @@ var Company = React.createClass({
       );
     });
     var activities = this.state.activity.map(function (activity) {
+      var acttypeid = activity.ActivityTypeID;
+      var iconLoc = "";
+
+      switch (acttypeid) {
+        case 1:
+          iconLoc = "ion-document"; //note
+          break;
+        case 2:
+          iconLoc = "ion-document-text"; //doc
+          break;
+        case 3:
+          iconLoc = "ion-alert"; //unused
+          break;
+        case 4:
+          iconLoc = "ion-email"; //email
+          break;
+        case 5:
+          iconLoc = "ion-ios-compose-outline"; //letter
+          break;
+        case 6:
+          iconLoc = "ion-printer"; //fax
+          break;
+        case 7:
+          iconLoc = "ion-ios-telephone"; //phone
+          break;
+        case 8:
+          iconLoc = "ion-checkmark-round"; //task
+          break;
+        case 9:
+          iconLoc = "ion-ios-bookmarks"; //diary
+          break;
+        case 10:
+          iconLoc = "ion-ios-email-outline"; //email
+          break;
+        case 11:
+          iconLoc = "ion-ios-telephone-outline"; // telemarketing
+          break;
+        default:
+          iconLoc = "ion-help";
+          break;
+      };
+
       return React.createElement(
         "li",
         { className: "table-view-cell media" },
         React.createElement(
           "span",
           { className: "media-object pull-left" },
-          React.createElement("i", { className: "icon ion-document" })
+          React.createElement("i", { className: "icon " + iconLoc })
         ),
         React.createElement(
           "div",
@@ -463,6 +505,8 @@ module.exports = CompanyList;
 var React = require("react");
 var Router = require("react-router");
 var request = require("superagent");
+var truncate = require("truncate");
+var moment = require("moment");
 
 var auth = require("./auth");
 
@@ -484,11 +528,21 @@ var Contact = React.createClass({
         contact: res.body
       });
     }).bind(this));
+
+    request.get("/api/1.0/contact/" + contactId + "/activity").set("x-tkn", auth.getToken()).end((function (res) {
+      if (res.unauthorized) {
+        return this.transitionTo("login");
+      }
+      this.setState({
+        activity: res.body
+      });
+    }).bind(this));
   },
 
   getInitialState: function getInitialState() {
     return {
-      contact: []
+      contact: [],
+      activity: []
     };
   },
 
@@ -502,6 +556,75 @@ var Contact = React.createClass({
 
   render: function render() {
     var contact = this.state.contact;
+
+    var activities = this.state.activity.map(function (activity) {
+      var acttypeid = activity.ActivityTypeID;
+      var iconLoc = "";
+
+      switch (acttypeid) {
+        case 1:
+          iconLoc = "ion-document"; //note
+          break;
+        case 2:
+          iconLoc = "ion-document-text"; //doc
+          break;
+        case 3:
+          iconLoc = "ion-alert"; //unused
+          break;
+        case 4:
+          iconLoc = "ion-email"; //email
+          break;
+        case 5:
+          iconLoc = "ion-ios-compose-outline"; //letter
+          break;
+        case 6:
+          iconLoc = "ion-printer"; //fax
+          break;
+        case 7:
+          iconLoc = "ion-ios-telephone"; //phone
+          break;
+        case 8:
+          iconLoc = "ion-checkmark-round"; //task
+          break;
+        case 9:
+          iconLoc = "ion-ios-bookmarks"; //diary
+          break;
+        case 10:
+          iconLoc = "ion-ios-email-outline"; //email
+          break;
+        case 11:
+          iconLoc = "ion-ios-telephone-outline"; // telemarketing
+          break;
+        default:
+          iconLoc = "ion-help";
+          break;
+      };
+
+      return React.createElement(
+        "li",
+        { className: "table-view-cell media" },
+        React.createElement(
+          "span",
+          { className: "media-object pull-left" },
+          React.createElement("i", { className: "icon " + iconLoc })
+        ),
+        React.createElement(
+          "div",
+          { className: "media-body" },
+          activity.Activity,
+          React.createElement(
+            "p",
+            null,
+            moment(activity.ActivityDate).format("MMMM Do YYYY, h:mm:ss a")
+          ),
+          React.createElement(
+            "p",
+            null,
+            truncate(activity.Body, 50)
+          )
+        )
+      );
+    });
 
     return React.createElement(
       "div",
@@ -589,6 +712,20 @@ var Contact = React.createClass({
               )
             )
           )
+        ),
+        React.createElement(
+          "div",
+          { className: "card" },
+          React.createElement(
+            "ul",
+            { className: "table-view" },
+            React.createElement(
+              "li",
+              { className: "table-view-cell table-view-divider" },
+              "Activities"
+            ),
+            activities
+          )
         )
       )
     );
@@ -598,7 +735,7 @@ var Contact = React.createClass({
 
 module.exports = Contact;
 
-},{"./auth":1,"react":196,"react-router":37,"superagent":197}],5:[function(require,module,exports){
+},{"./auth":1,"moment":9,"react":196,"react-router":37,"superagent":197,"truncate":200}],5:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
