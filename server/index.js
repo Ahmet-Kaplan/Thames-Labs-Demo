@@ -3,6 +3,8 @@
 var Companies = require('./model/company');
 var Contacts = require('./model/contact');
 var Users = require('./model/user');
+var Activities = require('./model/activity');
+
 var bodyParser = require('body-parser');
 var config = require('./config');
 var express = require('express');
@@ -65,12 +67,13 @@ app.post('/api/1.0/login', function (req, res, next) {
       exp: expires
     }, app.get('jwtTokenSecret'));
 
-    config.users[token] = uid;
-
     var result = {
       token: token,
-      userId: user.get('UserID')
-    }
+      userId: user.get('UserID'),
+      userName: uid
+    }    
+    
+    config.users[token] = result;
 
     return res.json(result);
 
@@ -125,6 +128,54 @@ app.get('/api/1.0/company/:companyId/contact', jwtauth.CheckValidToken, function
         .fetchAll()
         .then(function (contact) {
             res.json(contact);
+        });
+});
+
+app.get('/api/1.0/activity', jwtauth.CheckValidToken, function (req, res) {
+    var uid = config.users[token].userId;
+
+    Activities.where({
+            userId: uid
+        })
+        .fetchAll()
+        .then(function (act) {
+            res.json(act);
+        });
+});
+
+app.get('/api/1.0/activity:activityId', jwtauth.CheckValidToken, function (req, res) {
+    var aid = req.params.activityId;
+
+    Activities.where({
+            userId: uid
+        })
+        .fetchAll()
+        .then(function (act) {
+            res.json(act);
+        });
+});
+
+app.get('/api/1.0/company/:companyId/activity', jwtauth.CheckValidToken, function (req, res) {
+    var cid = req.params.companyId;
+
+    Activities.where({
+            companyId: cid
+        })
+        .fetchAll()
+        .then(function (act) {
+             res.json(act);
+        });
+});
+
+app.get('/api/1.0/contact/:contactId/activity', jwtauth.CheckValidToken, function (req, res) {
+    var cid = req.params.contactId;
+
+    Activities.where({
+            contactId: cid
+        })
+        .fetchAll()
+        .then(function (act) {
+            res.json(act);
         });
 });
 

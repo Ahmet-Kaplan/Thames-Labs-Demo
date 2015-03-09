@@ -1,6 +1,8 @@
 var React = require('react');
 var Router = require('react-router');
 var request = require('superagent');
+var truncate = require('truncate');
+var moment = require('moment');
 
 var auth = require('./auth');
 
@@ -35,12 +37,25 @@ var Company = React.createClass({
           contact: res.body
         });
       }.bind(this));
+      
+      request
+      .get('/api/1.0/company/' + companyId + '/activity')
+      .set('x-tkn', auth.getToken())
+      .end(function(res) {
+        if (res.unauthorized) {
+          return this.transitionTo('login');
+        }
+        this.setState({
+          activity: res.body
+        });
+      }.bind(this));
   },
   
   getInitialState: function() {
     return {
       company: {},
-      contact: []
+      contact: [],
+      activity: []
     };
   },
   
@@ -51,7 +66,7 @@ var Company = React.createClass({
   componentWillReceiveProps: function() {
     this.getCompanyData();
   },
-  
+      
   render: function() {
     var company = this.state.company;
     var contacts = this.state.contact.map(function(contact){
@@ -66,6 +81,21 @@ var Company = React.createClass({
               <p>{contact.Mobile}</p>
             </div>
           </Link>
+        </li>
+      )
+    });
+    var activities = this.state.activity.map(function(activity){
+      return (
+        <li className="table-view-cell media">
+         
+          <span className="media-object pull-left">
+              <i className="icon ion-document"/>
+            </span>
+            <div className="media-body">
+              {activity.Activity}
+              <p>{moment(activity.ActivityDate).format('MMMM Do YYYY, h:mm:ss a')}</p>
+              <p>{truncate(activity.Body,50)}</p>
+            </div>
         </li>
       )
     });
@@ -131,6 +161,18 @@ var Company = React.createClass({
               </li>
 
               {contacts}
+
+            </ul>
+          </div>
+        
+        <div className="card">
+            <ul className="table-view">
+
+              <li className="table-view-cell table-view-divider">
+                Activities
+              </li>
+
+              {activities}
 
             </ul>
           </div>
