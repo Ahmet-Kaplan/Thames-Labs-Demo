@@ -16,8 +16,9 @@ var moment = require('moment');
 var bcrypt = require('bcryptjs');
 
 var ssl_options = {
-    key: fs.readFileSync('server/key.pem'),
-    cert: fs.readFileSync('server/cert.pem')
+    cert: fs.readFileSync('server/ssl/cert.pem'),
+    key: fs.readFileSync('server/ssl/key.pem'),
+    ca: fs.readFileSync('server/ssl/cert_ca.pem')
 };
 
 var app = express();
