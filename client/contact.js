@@ -110,7 +110,7 @@ var Contact = React.createClass({
 
         <header className="bar bar-nav">
           <button className="btn btn-link pull-left" onClick={this.goBack}>
-            <i className="icon ion-chevron-left"/>
+            <i className="icon ion-chevron-left"/> Back
           </button>
           <h1 className="title">Contact Information</h1>
         </header>

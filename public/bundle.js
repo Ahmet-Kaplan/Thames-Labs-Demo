@@ -64,7 +64,8 @@ var ActiveUsers = React.createClass({
         React.createElement(
           "button",
           { className: "btn btn-link pull-left", onClick: this.goBack },
-          React.createElement("i", { className: "icon ion-chevron-left" })
+          React.createElement("i", { className: "icon ion-chevron-left" }),
+          " Back"
         ),
         React.createElement(
           "h1",
@@ -334,7 +335,8 @@ var Company = React.createClass({
         React.createElement(
           "button",
           { className: "btn btn-link pull-left", onClick: this.goBack },
-          React.createElement("i", { className: "icon ion-chevron-left" })
+          React.createElement("i", { className: "icon ion-chevron-left" }),
+          " Back"
         ),
         React.createElement(
           "h1",
@@ -519,6 +521,10 @@ var CompanyList = React.createClass({
     this.setState({ filterByUser: !this.state.filterByUser });
   },
 
+  showAdmin: function showAdmin() {
+    this.transitionTo("admin");
+  },
+
   render: function render() {
 
     var companies = [];
@@ -547,8 +553,8 @@ var CompanyList = React.createClass({
         { className: "bar bar-nav" },
         React.createElement(
           "button",
-          { className: "btn btn-link pull-left", onClick: this.goBack },
-          React.createElement("i", { className: "icon ion-chevron-left" })
+          { className: "btn btn-link pull-left", onClick: this.showAdmin },
+          "Admin"
         ),
         React.createElement(
           "h1",
@@ -749,7 +755,8 @@ var Contact = React.createClass({
         React.createElement(
           "button",
           { className: "btn btn-link pull-left", onClick: this.goBack },
-          React.createElement("i", { className: "icon ion-chevron-left" })
+          React.createElement("i", { className: "icon ion-chevron-left" }),
+          " Back"
         ),
         React.createElement(
           "h1",

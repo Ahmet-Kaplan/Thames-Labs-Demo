@@ -43,6 +43,10 @@ var CompanyList = React.createClass({
   userFilterToggle: function(){
     this.setState({filterByUser: !this.state.filterByUser});
   },
+    
+  showAdmin: function() {
+    this.transitionTo('admin');  
+  },
 
   render: function(){
 
@@ -67,8 +71,8 @@ var CompanyList = React.createClass({
     return (
       <div>
         <header className="bar bar-nav">
-          <button className="btn btn-link pull-left" onClick={this.goBack}>
-            <i className="icon ion-chevron-left"/>
+          <button className="btn btn-link pull-left" onClick={this.showAdmin}>
+            Admin
           </button>
           <h1 className="title">{title}</h1>
           <a className="icon ion-funnel pull-right" onClick={this.userFilterToggle}></a>
