@@ -180,6 +180,27 @@ app.get('/api/1.0/contact/:contactId/activity', jwtauth.CheckValidToken, functio
         });
 });
 
+app.get('/api/1.0/activeusers/', jwtauth.CheckValidToken, function (req, res) {
+    //Get date from 30 days ago
+    var dateLimit = new Date();
+    dateLimit.setDate(dateLimit.getDate()- 30);
+    dateLimit = new Date(dateLimit);
+    
+    var activeUsers = Users
+        .query('where', 'LastLoginTime', '>', dateLimit)
+        .fetchAll()
+        .then(function (users) {
+            var userNames = users.map(function(user) {
+               return user.get("Name"); 
+            });
+            var result = {
+                Count: users.length,
+                Users: userNames
+            };
+            res.json(result);
+        });
+});
+
 server.listen(config.port, function(){
   console.log('Secure server running on port ' + config.port);
 });
