@@ -68,7 +68,7 @@ var CompanyList = React.createClass({
       <div>
         <header className="bar bar-nav">
           <button className="btn btn-link pull-left" onClick={this.goBack}>
-            <i className="icon ion-backspace-outline"/>
+            <i className="icon ion-chevron-left"/>
           </button>
           <h1 className="title">{title}</h1>
           <a className="icon ion-funnel pull-right" onClick={this.userFilterToggle}></a>

@@ -220,7 +220,7 @@ var Company = React.createClass({
         React.createElement(
           "button",
           { className: "btn btn-link pull-left", onClick: this.goBack },
-          React.createElement("i", { className: "icon ion-backspace-outline" })
+          React.createElement("i", { className: "icon ion-chevron-left" })
         ),
         React.createElement(
           "h1",
@@ -434,7 +434,7 @@ var CompanyList = React.createClass({
         React.createElement(
           "button",
           { className: "btn btn-link pull-left", onClick: this.goBack },
-          React.createElement("i", { className: "icon ion-backspace-outline" })
+          React.createElement("i", { className: "icon ion-chevron-left" })
         ),
         React.createElement(
           "h1",
@@ -635,7 +635,7 @@ var Contact = React.createClass({
         React.createElement(
           "button",
           { className: "btn btn-link pull-left", onClick: this.goBack },
-          React.createElement("i", { className: "icon ion-backspace-outline" })
+          React.createElement("i", { className: "icon ion-chevron-left" })
         ),
         React.createElement(
           "h1",

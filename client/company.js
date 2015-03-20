@@ -135,7 +135,7 @@ var Company = React.createClass({
 
         <header className="bar bar-nav">
           <button className="btn btn-link pull-left" onClick={this.goBack}>
-            <i className="icon ion-backspace-outline"/>
+            <i className="icon ion-chevron-left"/>
           </button>
           <h1 className="title">Company Information</h1>
         </header>
