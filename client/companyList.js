@@ -96,8 +96,8 @@ var CompanyListItem = React.createClass({
       <li className="table-view-cell">
         <Link to="company" params={{companyId: this.props.data.CompanyID}} className="navigate-right">
           <h3>{this.props.data.Company}</h3>
-          <p><i className="icon ion-location"/> {this.props.data.Address}</p>
-          <p><i className="icon ion-ios-telephone"/> {this.props.data.Phone}</p>
+          <p><i className="fa fa-map-marker"/> {this.props.data.Address}</p>
+          <p><i className="fa fa-phone-square"/> {this.props.data.Phone}</p>
         </Link>
       </li>
     );

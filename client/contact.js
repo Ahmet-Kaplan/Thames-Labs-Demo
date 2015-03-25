@@ -64,29 +64,29 @@ var Contact = React.createClass({
       var iconLoc = '';
         
       switch(acttypeid){
-        case 1: iconLoc='ion-document'; //note
+        case 1: iconLoc='fa-file'; //note
           break;
-          case 2: iconLoc='ion-document-text'; //doc
+          case 2: iconLoc='fa-file-text'; //doc
           break;
-          case 3: iconLoc='ion-alert'; //unused
+          case 3: iconLoc='fa-exclamation'; //unused
           break;
-          case 4: iconLoc='ion-email'; //email
+          case 4: iconLoc='fa-envelope'; //email
           break;
-          case 5: iconLoc='ion-ios-compose-outline'; //letter
+          case 5: iconLoc='fa-envelope-o'; //letter
           break;
-          case 6: iconLoc='ion-printer'; //fax
+          case 6: iconLoc='fa-print'; //fax
           break;
-          case 7: iconLoc='ion-ios-telephone'; //phone
+          case 7: iconLoc='fa-phone'; //phone
           break;
-          case 8: iconLoc='ion-checkmark-round'; //task
+          case 8: iconLoc='fa-check-square-o'; //task
           break;
-          case 9: iconLoc='ion-ios-bookmarks'; //diary
+          case 9: iconLoc='fa-bookmark'; //diary
           break;
-          case 10: iconLoc='ion-ios-email-outline'; //email
+          case 10: iconLoc='fa-envelope'; //email
           break;
-          case 11: iconLoc='ion-ios-telephone-outline'; // telemarketing
+          case 11: iconLoc='fa-microphone'; // telemarketing
           break;
-        default: iconLoc='ion-help';
+        default: iconLoc='fa-question';
           break;
       };        
         
@@ -94,7 +94,7 @@ var Contact = React.createClass({
         <li className="table-view-cell media">
          
           <span className="media-object pull-left">
-              <i className={"icon " + iconLoc}/>
+              <i className={"fa " + iconLoc}/>
             </span>
             <div className="media-body">
               {activity.Activity}
@@ -110,7 +110,7 @@ var Contact = React.createClass({
 
         <header className="bar bar-nav">
           <button className="btn btn-link pull-left" onClick={this.goBack}>
-            <i className="icon ion-chevron-left"/> Back
+            <i className="fa fa-chevron-left"/> Back
           </button>
           <h1 className="title">Contact Information</h1>
         </header>
@@ -126,7 +126,7 @@ var Contact = React.createClass({
 
               <li className="table-view-cell media">
                 <a className="navigate-right" href={"tel:" + contact.Phone}>
-                  <span className="media-object pull-left"><i className="icon ion-ios-telephone"></i></span>
+                  <span className="media-object pull-left"><i className="fa fa-phone-square"></i></span>
                   <div className="media-body">
                     {contact.Phone}
                   </div>
@@ -135,7 +135,7 @@ var Contact = React.createClass({
 
               <li className="table-view-cell media">
                 <a className="navigate-right" href={"tel:" + contact.Mobile}>
-                  <span className="media-object pull-left"><i className="icon ion-iphone"></i></span>
+                  <span className="media-object pull-left"><i className="fa fa-mobile"></i></span>
                   <div className="media-body">
                     {contact.Mobile}
                   </div>
@@ -144,7 +144,7 @@ var Contact = React.createClass({
 
               <li className="table-view-cell media">
                 <a className="navigate-right" href={"mailto:" + contact.Email}>
-                  <span className="media-object pull-left"><i className="icon ion-email"></i></span>
+                  <span className="media-object pull-left"><i className="fa fa-envelope"></i></span>
                   <div className="media-body">
                     {contact.Email}
                   </div>

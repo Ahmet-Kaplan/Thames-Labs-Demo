@@ -58,7 +58,7 @@ var ActiveUsers = React.createClass({
      <div>
         <header className="bar bar-nav">
           <button className="btn btn-link pull-left" onClick={this.goBack}>
-            <i className="icon ion-chevron-left"/> Back
+            <i className="fa fa-chevron-left"/> Back
           </button>
           <h1 className="title">Active Users</h1>
         </header>

@@ -74,7 +74,7 @@ var Company = React.createClass({
         <li className="table-view-cell media">
           <Link to="contact" params={{contactId: contact.ContactID}} className="navigate-right">
             <span className="media-object pull-left">
-              <i className="icon ion-person"/>
+              <i className="fa fa-user"/>
             </span>
             <div className="media-body">
               {contact.Forename} {contact.Surname}
@@ -89,29 +89,29 @@ var Company = React.createClass({
       var iconLoc = '';
         
       switch(acttypeid){
-        case 1: iconLoc='ion-document'; //note
+        case 1: iconLoc='fa-file'; //note
           break;
-          case 2: iconLoc='ion-document-text'; //doc
+          case 2: iconLoc='fa-file-text'; //doc
           break;
-          case 3: iconLoc='ion-alert'; //unused
+          case 3: iconLoc='fa-exclamation'; //unused
           break;
-          case 4: iconLoc='ion-email'; //email
+          case 4: iconLoc='fa-envelope'; //email
           break;
-          case 5: iconLoc='ion-ios-compose-outline'; //letter
+          case 5: iconLoc='fa-envelope-o'; //letter
           break;
-          case 6: iconLoc='ion-printer'; //fax
+          case 6: iconLoc='fa-print'; //fax
           break;
-          case 7: iconLoc='ion-ios-telephone'; //phone
+          case 7: iconLoc='fa-phone'; //phone
           break;
-          case 8: iconLoc='ion-checkmark-round'; //task
+          case 8: iconLoc='fa-check-square-o'; //task
           break;
-          case 9: iconLoc='ion-ios-bookmarks'; //diary
+          case 9: iconLoc='fa-bookmark'; //diary
           break;
-          case 10: iconLoc='ion-ios-email-outline'; //email
+          case 10: iconLoc='fa-envelope'; //email
           break;
-          case 11: iconLoc='ion-ios-telephone-outline'; // telemarketing
+          case 11: iconLoc='fa-microphone'; // telemarketing
           break;
-        default: iconLoc='ion-help';
+        default: iconLoc='fa-question';
           break;
       };        
         
@@ -119,7 +119,7 @@ var Company = React.createClass({
         <li className="table-view-cell media">
          
           <span className="media-object pull-left">
-              <i className={"icon " + iconLoc}/>
+              <i className={"fa " + iconLoc}/>
             </span>
             <div className="media-body">
               {activity.Activity}
@@ -135,7 +135,7 @@ var Company = React.createClass({
 
         <header className="bar bar-nav">
           <button className="btn btn-link pull-left" onClick={this.goBack}>
-            <i className="icon ion-chevron-left"/> Back
+            <i className="fa fa-chevron-left"/> Back
           </button>
           <h1 className="title">Company Information</h1>
         </header>
@@ -151,7 +151,7 @@ var Company = React.createClass({
 
               <li className="table-view-cell media">
                 <a className="navigate-right" href={"http://maps.apple.com/?q=" + company.PostCode}>
-                  <span className="media-object pull-left"><i className="icon ion-location"></i></span>
+                  <span className="media-object pull-left"><i className="fa fa-map-marker"></i></span>
                   <div className="media-body">
                     <p>{company.Address}</p>
                     <p>{company.City}</p>
@@ -164,7 +164,7 @@ var Company = React.createClass({
 
               <li className="table-view-cell media">
                 <a className="navigate-right" href={"tel:" + company.Phone}>
-                  <span className="media-object pull-left"><i className="icon ion-ios-telephone"></i></span>
+                  <span className="media-object pull-left"><i className="fa fa-phone-square"></i></span>
                   <div className="media-body">
                     {company.Phone}
                   </div>
@@ -173,7 +173,7 @@ var Company = React.createClass({
 
               <li className="table-view-cell media">
                 <a className="navigate-right" href={company.WebSite}>
-                  <span className="media-object pull-left"><i className="icon ion-laptop"></i></span>
+                  <span className="media-object pull-left"><i className="fa fa-laptop"></i></span>
                   <div className="media-body">
                     {company.WebSite}
                   </div>

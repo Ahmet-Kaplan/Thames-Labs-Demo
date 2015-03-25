@@ -12,7 +12,7 @@ var CheckToken = function (req, res, next) {
                 delete config.users[token];
                 return res.status(401).send('Access token has expired');
             }
-            console.log('Token valid');
+            
             return next();
         } catch (err) {
             console.log('Token error: ' + err);

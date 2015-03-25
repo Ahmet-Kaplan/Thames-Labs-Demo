@@ -64,7 +64,7 @@ var ActiveUsers = React.createClass({
         React.createElement(
           "button",
           { className: "btn btn-link pull-left", onClick: this.goBack },
-          React.createElement("i", { className: "icon ion-chevron-left" }),
+          React.createElement("i", { className: "fa fa-chevron-left" }),
           " Back"
         ),
         React.createElement(
@@ -240,7 +240,7 @@ var Company = React.createClass({
           React.createElement(
             "span",
             { className: "media-object pull-left" },
-            React.createElement("i", { className: "icon ion-person" })
+            React.createElement("i", { className: "fa fa-user" })
           ),
           React.createElement(
             "div",
@@ -263,40 +263,40 @@ var Company = React.createClass({
 
       switch (acttypeid) {
         case 1:
-          iconLoc = "ion-document"; //note
+          iconLoc = "fa-file"; //note
           break;
         case 2:
-          iconLoc = "ion-document-text"; //doc
+          iconLoc = "fa-file-text"; //doc
           break;
         case 3:
-          iconLoc = "ion-alert"; //unused
+          iconLoc = "fa-exclamation"; //unused
           break;
         case 4:
-          iconLoc = "ion-email"; //email
+          iconLoc = "fa-envelope"; //email
           break;
         case 5:
-          iconLoc = "ion-ios-compose-outline"; //letter
+          iconLoc = "fa-envelope-o"; //letter
           break;
         case 6:
-          iconLoc = "ion-printer"; //fax
+          iconLoc = "fa-print"; //fax
           break;
         case 7:
-          iconLoc = "ion-ios-telephone"; //phone
+          iconLoc = "fa-phone"; //phone
           break;
         case 8:
-          iconLoc = "ion-checkmark-round"; //task
+          iconLoc = "fa-check-square-o"; //task
           break;
         case 9:
-          iconLoc = "ion-ios-bookmarks"; //diary
+          iconLoc = "fa-bookmark"; //diary
           break;
         case 10:
-          iconLoc = "ion-ios-email-outline"; //email
+          iconLoc = "fa-envelope"; //email
           break;
         case 11:
-          iconLoc = "ion-ios-telephone-outline"; // telemarketing
+          iconLoc = "fa-microphone"; // telemarketing
           break;
         default:
-          iconLoc = "ion-help";
+          iconLoc = "fa-question";
           break;
       };
 
@@ -306,7 +306,7 @@ var Company = React.createClass({
         React.createElement(
           "span",
           { className: "media-object pull-left" },
-          React.createElement("i", { className: "icon " + iconLoc })
+          React.createElement("i", { className: "fa " + iconLoc })
         ),
         React.createElement(
           "div",
@@ -335,7 +335,7 @@ var Company = React.createClass({
         React.createElement(
           "button",
           { className: "btn btn-link pull-left", onClick: this.goBack },
-          React.createElement("i", { className: "icon ion-chevron-left" }),
+          React.createElement("i", { className: "fa fa-chevron-left" }),
           " Back"
         ),
         React.createElement(
@@ -367,7 +367,7 @@ var Company = React.createClass({
                 React.createElement(
                   "span",
                   { className: "media-object pull-left" },
-                  React.createElement("i", { className: "icon ion-location" })
+                  React.createElement("i", { className: "fa fa-map-marker" })
                 ),
                 React.createElement(
                   "div",
@@ -409,7 +409,7 @@ var Company = React.createClass({
                 React.createElement(
                   "span",
                   { className: "media-object pull-left" },
-                  React.createElement("i", { className: "icon ion-ios-telephone" })
+                  React.createElement("i", { className: "fa fa-phone-square" })
                 ),
                 React.createElement(
                   "div",
@@ -427,7 +427,7 @@ var Company = React.createClass({
                 React.createElement(
                   "span",
                   { className: "media-object pull-left" },
-                  React.createElement("i", { className: "icon ion-laptop" })
+                  React.createElement("i", { className: "fa fa-laptop" })
                 ),
                 React.createElement(
                   "div",
@@ -600,14 +600,14 @@ var CompanyListItem = React.createClass({
         React.createElement(
           "p",
           null,
-          React.createElement("i", { className: "icon ion-location" }),
+          React.createElement("i", { className: "fa fa-map-marker" }),
           " ",
           this.props.data.Address
         ),
         React.createElement(
           "p",
           null,
-          React.createElement("i", { className: "icon ion-ios-telephone" }),
+          React.createElement("i", { className: "fa fa-phone-square" }),
           " ",
           this.props.data.Phone
         )
@@ -683,40 +683,40 @@ var Contact = React.createClass({
 
       switch (acttypeid) {
         case 1:
-          iconLoc = "ion-document"; //note
+          iconLoc = "fa-file"; //note
           break;
         case 2:
-          iconLoc = "ion-document-text"; //doc
+          iconLoc = "fa-file-text"; //doc
           break;
         case 3:
-          iconLoc = "ion-alert"; //unused
+          iconLoc = "fa-exclamation"; //unused
           break;
         case 4:
-          iconLoc = "ion-email"; //email
+          iconLoc = "fa-envelope"; //email
           break;
         case 5:
-          iconLoc = "ion-ios-compose-outline"; //letter
+          iconLoc = "fa-envelope-o"; //letter
           break;
         case 6:
-          iconLoc = "ion-printer"; //fax
+          iconLoc = "fa-print"; //fax
           break;
         case 7:
-          iconLoc = "ion-ios-telephone"; //phone
+          iconLoc = "fa-phone"; //phone
           break;
         case 8:
-          iconLoc = "ion-checkmark-round"; //task
+          iconLoc = "fa-check-square-o"; //task
           break;
         case 9:
-          iconLoc = "ion-ios-bookmarks"; //diary
+          iconLoc = "fa-bookmark"; //diary
           break;
         case 10:
-          iconLoc = "ion-ios-email-outline"; //email
+          iconLoc = "fa-envelope"; //email
           break;
         case 11:
-          iconLoc = "ion-ios-telephone-outline"; // telemarketing
+          iconLoc = "fa-microphone"; // telemarketing
           break;
         default:
-          iconLoc = "ion-help";
+          iconLoc = "fa-question";
           break;
       };
 
@@ -726,7 +726,7 @@ var Contact = React.createClass({
         React.createElement(
           "span",
           { className: "media-object pull-left" },
-          React.createElement("i", { className: "icon " + iconLoc })
+          React.createElement("i", { className: "fa " + iconLoc })
         ),
         React.createElement(
           "div",
@@ -755,7 +755,7 @@ var Contact = React.createClass({
         React.createElement(
           "button",
           { className: "btn btn-link pull-left", onClick: this.goBack },
-          React.createElement("i", { className: "icon ion-chevron-left" }),
+          React.createElement("i", { className: "fa fa-chevron-left" }),
           " Back"
         ),
         React.createElement(
@@ -787,7 +787,7 @@ var Contact = React.createClass({
                 React.createElement(
                   "span",
                   { className: "media-object pull-left" },
-                  React.createElement("i", { className: "icon ion-ios-telephone" })
+                  React.createElement("i", { className: "fa fa-phone-square" })
                 ),
                 React.createElement(
                   "div",
@@ -805,7 +805,7 @@ var Contact = React.createClass({
                 React.createElement(
                   "span",
                   { className: "media-object pull-left" },
-                  React.createElement("i", { className: "icon ion-iphone" })
+                  React.createElement("i", { className: "fa fa-mobile" })
                 ),
                 React.createElement(
                   "div",
@@ -823,7 +823,7 @@ var Contact = React.createClass({
                 React.createElement(
                   "span",
                   { className: "media-object pull-left" },
-                  React.createElement("i", { className: "icon ion-email" })
+                  React.createElement("i", { className: "fa fa-envelope" })
                 ),
                 React.createElement(
                   "div",
