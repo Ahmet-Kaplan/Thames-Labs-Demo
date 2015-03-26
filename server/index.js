@@ -6,8 +6,8 @@ var fs = require('fs');
 var https = require('https');
 
 var ssl_options = {
-    //cert: fs.readFileSync('./server/ssl/ssl.crt'),
-    cert: fs.readFileSync('./server/ssl/server.crt'),
+    cert: fs.readFileSync('./server/ssl/ssl.crt'),
+    //cert: fs.readFileSync('./server/ssl/server.crt'),
     key: fs.readFileSync('./server/ssl/private.key'),
     ca: fs.readFileSync('./server/ssl/sub.class1.server.ca.pem')
 };
