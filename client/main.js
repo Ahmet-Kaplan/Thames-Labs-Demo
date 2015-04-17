@@ -4,6 +4,7 @@ var Router = require('react-router');
 var auth = require('./auth');
 var ActiveUsers = require('./activeUsers');
 var CompanyList = require('./companyList');
+var ContactList = require('./contactList');
 var Company = require('./company');
 var Contact = require('./contact');
 var LoginForm = require('./loginForm');
@@ -47,6 +48,7 @@ var routes = (
     <Route name="logout" handler={Logout}/>
     <Route name="companyList" path="company" handler={CompanyList}/>
     <Route name="company" path="company/:companyId" handler={Company}/>
+    <Route name="contactList" path="contact" handler={ContactList}/>
     <Route name="contact" path="contact/:contactId" handler={Contact}/>
     <Route name="admin" handler={ActiveUsers}/>
     <DefaultRoute handler={CompanyList}/>
