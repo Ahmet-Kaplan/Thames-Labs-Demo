@@ -1,3 +1,6 @@
+/*jslint node: true */
+"use strict";
+
 var bodyParser = require('body-parser');
 var config = require('./config');
 var express = require('express');
@@ -13,11 +16,13 @@ var Contacts = require('./model/contact');
 var Users = require('./model/user');
 var Activities = require('./model/activity');
 
+var exchange = require('./exchange.js');
+
 module.exports = function (app) {
     app.get('/api/1.0/login', function (req, res) {
         res.sendStatus(200);
     });
-    
+
     app.post('/api/1.0/login', function (req, res, next) {
         var uid = req.body.uid;
         var pwd = req.body.pwd;
@@ -89,8 +94,8 @@ module.exports = function (app) {
             })
             .fetch()
             .then(function (company) {
-                if(company) 
-                    return res.json(company);                
+                if (company)
+                    return res.json(company);
                 res.sendStatus(204);
             });
     });
@@ -110,8 +115,8 @@ module.exports = function (app) {
             })
             .fetch()
             .then(function (contact) {
-                if(contact) 
-                    return res.json(contact);                
+                if (contact)
+                    return res.json(contact);
                 res.sendStatus(204);
             });
     });
@@ -148,8 +153,8 @@ module.exports = function (app) {
             })
             .fetchAll()
             .then(function (act) {
-                if(act) 
-                    return res.json(act);                
+                if (act)
+                    return res.json(act);
                 res.sendStatus(204);
             });
     });
@@ -197,5 +202,30 @@ module.exports = function (app) {
                 };
                 res.json(result);
             });
+    });
+
+    app.get('/api/1.0/exch-cal', function (req, res) {
+        if (!exchange.Agent) {
+            exchange.initConnection();
+
+            if (!exchange.Agent) {
+                return res.status(404).send('No agent established');
+            }
+        }
+
+        var soapReq = '<FindItem xmlns="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" Traversal="Shallow"><ItemShape><t:BaseShape>AllProperties</t:BaseShape></ItemShape><tns:CalendarView MaxEntriesReturned="1000" StartDate="2015-01-01T00:00:00Z" EndDate="2015-12-31T23:59:59Z"/><ParentFolderIds><t:DistinguishedFolderId Id="calendar"><t:Mailbox><t:EmailAddress>' + exchange.Settings.mailbox_email + '</t:EmailAddress></t:Mailbox></t:DistinguishedFolderId></ParentFolderIds></FindItem>';
+
+        exchange.Agent.FindItem(soapReq, function (err, result) {
+            if (err) {
+                return res.status(404).send(err);
+            }
+
+            if (result.ResponseMessages.FindItemResponseMessage.ResponseCode == 'NoError') {
+                var rootFolder = result.ResponseMessages.FindItemResponseMessage.RootFolder;
+
+                console.log(rootFolder.Items);
+                return res.status(200).send(JSON.stringify(rootFolder.Items));
+            }
+        });
     });
 };
