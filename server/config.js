@@ -6,4 +6,16 @@ var config = {
     port: process.env.PORT || 3000
 };
 
+var knexMySqlDatabaseSettings = {
+    client: 'mysql',
+    connection: {
+        host: 'localhost',
+        user: 'elite',
+        password: 'meRaWR73a$atH-3*',
+        database: 'cs-live',
+        charset: 'utf8'
+    }
+};
+
 module.exports = config;
+module.exports.KnexMySqlDatabaseSettings = knexMySqlDatabaseSettings;

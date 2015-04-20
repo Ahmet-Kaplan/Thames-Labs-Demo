@@ -16,7 +16,16 @@ var Contacts = require('./model/contact');
 var Users = require('./model/user');
 var Activities = require('./model/activity');
 
-var exchange = require('./exchange.js');
+var agent = null;
+var soap = require('soap');
+var path = require('path');
+var exchSettings = {
+    url: 'exchange.brightvisions.co.uk',
+    username: 'brightvisions\\csdemo',
+    password: '&tied?BORROW?close&',
+    mailbox_email: 'csdemo@brightvisions.co.uk'
+};
+
 
 module.exports = function (app) {
     app.get('/api/1.0/login', function (req, res) {
@@ -204,28 +213,61 @@ module.exports = function (app) {
             });
     });
 
-    app.get('/api/1.0/exch-cal', function (req, res) {
-        if (!exchange.Agent) {
-            exchange.initConnection();
+    app.get('/testUrl', function (req, res) {
+        var sa = require('superagent');
+        sa
+            .get('https://exchange.brightvisions.co.uk/ews/Services.wsdl')
+            .auth('csdemo', '&tied?BORROW?close&')
+            .end(function (res) {
+                console.log(res.body);
+            });
+    });
 
-            if (!exchange.Agent) {
-                return res.status(404).send('No agent established');
-            }
-        }
+    app.get('/api/1.0/msx-cal', function (req, res) {
+        var endpoint = "https://" + path.join(exchSettings.url, 'EWS/Exchange.asmx');
+        var url = path.join(__dirname, 'xch/Services.wsdl');
 
-        var soapReq = '<FindItem xmlns="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" Traversal="Shallow"><ItemShape><t:BaseShape>AllProperties</t:BaseShape></ItemShape><tns:CalendarView MaxEntriesReturned="1000" StartDate="2015-01-01T00:00:00Z" EndDate="2015-12-31T23:59:59Z"/><ParentFolderIds><t:DistinguishedFolderId Id="calendar"><t:Mailbox><t:EmailAddress>' + exchange.Settings.mailbox_email + '</t:EmailAddress></t:Mailbox></t:DistinguishedFolderId></ParentFolderIds></FindItem>';
+        console.log(url, " || ", endpoint);
 
-        exchange.Agent.FindItem(soapReq, function (err, result) {
+        soap.createClient(url, {}, function (err, client) {
             if (err) {
+                console.log(err);
                 return res.status(404).send(err);
             }
-
-            if (result.ResponseMessages.FindItemResponseMessage.ResponseCode == 'NoError') {
-                var rootFolder = result.ResponseMessages.FindItemResponseMessage.RootFolder;
-
-                console.log(rootFolder.Items);
-                return res.status(200).send(JSON.stringify(rootFolder.Items));
+            if (!client) {
+                console.log('No Exchange client available');
+                return res.status(404).send('Could not create client');
             }
-        });
+
+            agent = client;
+            agent.setSecurity(new soap.BasicAuthSecurity(exchSettings.username, exchSettings.password));
+        }, endpoint);
+
+        setTimeout(function () {
+            console.log();
+        }, 1000);
+
+        if (!agent) {
+            console.log('Could not establish a connection to the Exchange server');
+            return res.status(404).send('Could not establish a connection to the Exchange server');
+        } else {
+            var soapReq = '<FindItem xmlns="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" Traversal="Shallow"><ItemShape><t:BaseShape>AllProperties</t:BaseShape></ItemShape><tns:CalendarView MaxEntriesReturned="1000" StartDate="2015-01-01T00:00:00Z" EndDate="2015-12-31T23:59:59Z"/><ParentFolderIds><t:DistinguishedFolderId Id="calendar"><t:Mailbox><t:EmailAddress>' + exchSettings.mailbox_email + '</t:EmailAddress></t:Mailbox></t:DistinguishedFolderId></ParentFolderIds></FindItem>';
+            console.log(soapReq);
+
+            agent.FindItem(soapReq, function (err, result) {
+                if (err) {
+                    console.log('FindItem: ' + err);
+                    return res.status(404).send('FindItem: ' + err);
+                }
+
+                if (result.ResponseMessages.FindItemResponseMessage.ResponseCode == 'NoError') {
+                    var rootFolder = result.ResponseMessages.FindItemResponseMessage.RootFolder;
+
+                    console.log(rootFolder.Items);
+                    return res.status(200).send(JSON.stringify(rootFolder.Items));
+                }
+            });
+        }
+
     });
 };
