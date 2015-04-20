@@ -1,5 +1,12 @@
 ca.pem and sub.class1.server.ca.pem are included in the repo as they are the root certs for startssl.
 
+Steps to install in dev:
+- Copy included localhost ssl keys
+
+```
+cp server/ssl/dev-keys/* server/ssl/
+```
+
 Steps to install on a new server:
 - Copy ssl certificate as ssl.crt
 - Copy ssl encrypted private key as ssl.key
