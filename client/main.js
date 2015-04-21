@@ -1,13 +1,14 @@
 var React = require('react');
 var Router = require('react-router');
 
+var ActiveUsers = require('views/activeUsers');
+var CompanyList = require('views/companyList');
+var ContactList = require('views/contactList');
+var Company = require('views/company');
+var Contact = require('views/contact');
+var LoginForm = require('views/loginForm');
+
 var auth = require('./auth');
-var ActiveUsers = require('./activeUsers');
-var CompanyList = require('./companyList');
-var ContactList = require('./contactList');
-var Company = require('./company');
-var Contact = require('./contact');
-var LoginForm = require('./loginForm');
 
 var { Route, RouteHandler, DefaultRoute } = Router;
 
@@ -22,7 +23,7 @@ var App = React.createClass({
       <div>
         <RouteHandler/>
       </div>
-    )
+    );
   }
 
 });
@@ -37,10 +38,10 @@ var Logout = React.createClass({
   },
 
   render: function() {
-    return <p>You're logged out!</p>
+    return <p>You're logged out!</p>;
   }
 
-})
+});
 
 var routes = (
   <Route name="app" path="/" handler={App}>

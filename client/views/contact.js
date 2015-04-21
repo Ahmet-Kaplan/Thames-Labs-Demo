@@ -4,30 +4,19 @@ var request = require('superagent');
 var truncate = require('truncate');
 var moment = require('moment');
 
-var auth = require('./auth');
+var auth = require('../auth');
 
 var Link = Router.Link;
 
-var Company = React.createClass({
+var Contact = React.createClass({
 
   mixins: [ auth.mixin, Router.State, Router.Navigation ],
 
-  getCompanyData: function() {
-    var companyId = this.getParams().companyId;
-    request
-      .get('/api/1.0/company/' + companyId)
-      .set('x-tkn', auth.getToken())
-      .end(function(res) {
-        if (res.unauthorized) {
-          return this.transitionTo('login');
-        }
-        this.setState({
-          company: res.body
-        });
-      }.bind(this));
+  getContactData: function() {
+    var contactId = this.getParams().contactId;
 
     request
-      .get('/api/1.0/company/' + companyId + '/contact')
+      .get('/api/1.0/contact/' + contactId)
       .set('x-tkn', auth.getToken())
       .end(function(res) {
         if (res.unauthorized) {
@@ -36,10 +25,11 @@ var Company = React.createClass({
         this.setState({
           contact: res.body
         });
-      }.bind(this));
+      }.bind(this));      
+      
       
       request
-      .get('/api/1.0/company/' + companyId + '/activity')
+      .get('/api/1.0/contact/' + contactId + '/activity')
       .set('x-tkn', auth.getToken())
       .end(function(res) {
         if (res.unauthorized) {
@@ -53,39 +43,24 @@ var Company = React.createClass({
   
   getInitialState: function() {
     return {
-      company: {},
       contact: [],
       activity: []
     };
   },
   
   componentDidMount: function() {
-    this.getCompanyData();
+    this.getContactData();
   },
   
   componentWillReceiveProps: function() {
-    this.getCompanyData();
+    this.getContactData();
   },
-      
+  
   render: function() {
-    var company = this.state.company;
-    var contacts = this.state.contact.map(function(contact){
-      return (
-        <li className="table-view-cell media">
-          <Link to="contact" params={{contactId: contact.ContactID}} className="navigate-right">
-            <span className="media-object pull-left">
-              <i className="fa fa-user"/>
-            </span>
-            <div className="media-body">
-              {contact.Forename} {contact.Surname}
-              <p>{contact.Mobile}</p>
-            </div>
-          </Link>
-        </li>
-      )
-    });
+    var contact = this.state.contact;
+    
     var activities = this.state.activity.map(function(activity){
-        var acttypeid = activity.ActivityTypeID;    
+      var acttypeid = activity.ActivityTypeID;    
       var iconLoc = '';
         
       switch(acttypeid){
@@ -129,7 +104,7 @@ var Company = React.createClass({
         </li>
       )
     });
-
+      
     return (
       <div>
 
@@ -137,7 +112,7 @@ var Company = React.createClass({
           <button className="btn btn-link pull-left" onClick={this.goBack}>
             <i className="fa fa-chevron-left"/> Back
           </button>
-          <h1 className="title">Company Information</h1>
+          <h1 className="title">Contact Information</h1>
         </header>
 
         <div className="content">
@@ -146,56 +121,39 @@ var Company = React.createClass({
             <ul className="table-view">
 
               <li className="table-view-cell table-view-divider">
-                {company.Company}
+                {contact.Forename + ' ' + contact.Surname}
               </li>
 
               <li className="table-view-cell media">
-                <a className="navigate-right" href={"http://maps.apple.com/?q=" + company.PostCode}>
-                  <span className="media-object pull-left"><i className="fa fa-map-marker"></i></span>
-                  <div className="media-body">
-                    <p>{company.Address}</p>
-                    <p>{company.City}</p>
-                    <p>{company.County}</p>
-                    <p>{company.PostCode}</p>
-                    <p>{company.Country}</p>
-                  </div>
-                </a>
-              </li>
-
-              <li className="table-view-cell media">
-                <a className="navigate-right" href={"tel:" + company.Phone}>
+                <a className="navigate-right" href={"tel:" + contact.Phone}>
                   <span className="media-object pull-left"><i className="fa fa-phone-square"></i></span>
                   <div className="media-body">
-                    {company.Phone}
+                    {contact.Phone}
                   </div>
                 </a>
               </li>
 
               <li className="table-view-cell media">
-                <a className="navigate-right" href={company.WebSite}>
-                  <span className="media-object pull-left"><i className="fa fa-laptop"></i></span>
+                <a className="navigate-right" href={"tel:" + contact.Mobile}>
+                  <span className="media-object pull-left"><i className="fa fa-mobile"></i></span>
                   <div className="media-body">
-                    {company.WebSite}
+                    {contact.Mobile}
+                  </div>
+                </a>
+              </li>
+
+              <li className="table-view-cell media">
+                <a className="navigate-right" href={"mailto:" + contact.Email}>
+                  <span className="media-object pull-left"><i className="fa fa-envelope"></i></span>
+                  <div className="media-body">
+                    {contact.Email}
                   </div>
                 </a>
               </li>
               
             </ul>
           </div>
-          
           <div className="card">
-            <ul className="table-view">
-
-              <li className="table-view-cell table-view-divider">
-                Contacts
-              </li>
-
-              {contacts}
-
-            </ul>
-          </div>
-        
-        <div className="card">
             <ul className="table-view">
 
               <li className="table-view-cell table-view-divider">
@@ -211,8 +169,9 @@ var Company = React.createClass({
 
       </div>
     )
+      
   }
 
 });
 
-module.exports = Company;
+module.exports = Contact;

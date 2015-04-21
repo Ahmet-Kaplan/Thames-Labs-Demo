@@ -1,19 +1,18 @@
 var React = require('react');
 var Fuse = require('fuse.js');
-var auth = require('./auth');
+var auth = require('../auth');
 var Router = require('react-router');
 var request = require('superagent');
 
 var Link = Router.Link;
 
-var CompanyList = React.createClass({
+var ContactList = React.createClass({
 
   mixins: [ auth.mixin, Router.Navigation ],
 
   getInitialState: function(){
     return {
-      companies: [],
-      filterByUser: false,
+      contacts: [],
       searchText: '',
       fuse: {}
     };
@@ -21,16 +20,16 @@ var CompanyList = React.createClass({
 
   componentDidMount: function(){
     request
-      .get('/api/1.0/company/')
+      .get('/api/1.0/contact/')
       .set('x-tkn', auth.getToken())
       .end(function(res) {
         if (res.unauthorized) {
           return this.transitionTo('login');
         }
-        var companies = res.body;
+        var contacts = res.body;
         this.setState({
-          companies: companies,
-          fuse: new Fuse(companies, {keys: ['Company']})
+          contacts: contacts,
+          fuse: new Fuse(contacts, {keys: ['Forename', 'Surname']})
         });
       }.bind(this));
   },
@@ -40,33 +39,24 @@ var CompanyList = React.createClass({
     this.setState({searchText: searchText});
   },
 
-  userFilterToggle: function(){
-    this.setState({filterByUser: !this.state.filterByUser});
-  },
-    
   showAdmin: function() {
-    this.transitionTo('admin');  
+    this.transitionTo('admin');
   },
 
   render: function(){
 
-    var companies = [];
+    var contacts = [];
     if (this.state.searchText === '') {
-      companies = this.state.companies;
+      contacts = this.state.contacts;
     } else {
-      companies = this.state.fuse.search(this.state.searchText);
-    }
-    if (this.state.filterByUser) {
-      companies = companies.filter(function(company){
-        return company.AccMgrID == localStorage.userId;
-      });
+      contacts = this.state.fuse.search(this.state.searchText);
     }
 
-    companies = companies.map(function(company){
-      return <CompanyListItem data={company}/>;
+    contacts = contacts.map(function(contact){
+      return <ContactListItem data={contact}/>;
     }.bind(this));
 
-    var title = this.state.filterByUser ? "My Companies" : "All Companies";
+    var title = "All Contacts";
 
     return (
       <div>
@@ -75,13 +65,12 @@ var CompanyList = React.createClass({
             Admin
           </button>
           <h1 className="title">{title}</h1>
-          <a className="icon ion-funnel pull-right" onClick={this.userFilterToggle}></a>
         </header>
         <div className="bar bar-standard bar-header-secondary">
           <input type='search' ref='searchbox' placeholder="Search" onChange={this.searchHandler}/>
         </div>
         <div className="content">
-          <ul className="table-view">{companies}</ul>
+          <ul className="table-view">{contacts}</ul>
         </div>
       </div>
     )
@@ -89,15 +78,16 @@ var CompanyList = React.createClass({
 
 });
 
-var CompanyListItem = React.createClass({
-  
+var ContactListItem = React.createClass({
+
   render: function(){
     return (
       <li className="table-view-cell">
-        <Link to="company" params={{companyId: this.props.data.CompanyID}} className="navigate-right">
-          <h3>{this.props.data.Company}</h3>
-          <p><i className="fa fa-map-marker"/> {this.props.data.Address}</p>
+        <Link to="contact" params={{contactId: this.props.data.ContactID}} className="navigate-right">
+          <h3>{this.props.data.Forename} {this.props.data.Surname}</h3>
           <p><i className="fa fa-phone-square"/> {this.props.data.Phone}</p>
+          <p><i className="fa fa-mobile"/> {this.props.data.Mobile}</p>
+          <p><i className="fa fa-envelope"/> {this.props.data.Email}</p>
         </Link>
       </li>
     );
@@ -105,4 +95,4 @@ var CompanyListItem = React.createClass({
 
 });
 
-module.exports = CompanyList;
+module.exports = ContactList;

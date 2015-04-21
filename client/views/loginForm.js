@@ -1,5 +1,5 @@
 var React = require('react');
-var auth = require('./auth');
+var auth = require('../auth');
 var Router = require('react-router');
 
 var LoginForm = React.createClass({
@@ -39,7 +39,7 @@ var LoginForm = React.createClass({
       buttonClassString += " btn-negative";
     } else {
       buttonClassString += " btn-positive";
-    } 
+    }
     return (
       <div>
 
@@ -58,7 +58,7 @@ var LoginForm = React.createClass({
         </div>
 
       </div>
-    )
+    );
   }
 
 });

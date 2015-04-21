@@ -4,7 +4,7 @@ var request = require('superagent');
 var truncate = require('truncate');
 var moment = require('moment');
 
-var auth = require('./auth');
+var auth = require('../auth');
 
 var Link = Router.Link;
 
@@ -25,9 +25,9 @@ var ActiveUsers = React.createClass({
         this.setState({
           data: res.body
         });
-      }.bind(this));     
+      }.bind(this));
   },
-  
+
   getInitialState: function() {
     return {
       data: {
@@ -36,15 +36,15 @@ var ActiveUsers = React.createClass({
       }
     };
   },
-  
+
   componentDidMount: function() {
     this.getData();
   },
-  
+
   componentWillReceiveProps: function() {
     this.getData();
   },
-  
+
   render: function() {
     var users = this.state.data.Users.map(function(user) {
         return (
@@ -53,7 +53,7 @@ var ActiveUsers = React.createClass({
             </li>
         );
     });
-      
+
     return (
      <div>
         <header className="bar bar-nav">
@@ -77,7 +77,7 @@ var ActiveUsers = React.createClass({
         </div>
       </div>
     );
-      
+
   }
 
 });

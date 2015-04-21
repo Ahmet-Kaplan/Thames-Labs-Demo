@@ -29,3 +29,8 @@ node_modules
 
 # tmp files
 *.swp
+
+# Don't commit local ssl keys
+server/ssl/ssl.crt
+server/ssl/ssl.key
+server/ssl/private.key
