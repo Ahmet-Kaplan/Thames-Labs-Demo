@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build:js": "browserify -t babelify client/main.js -o public/bundle.js",
-    "watch:js": "watch \"npm run build:js\" client/",
+    "watch:js": "watchify -t babelify ./client/main.js -o ./public/bundle.js -v",
     "build:watch": "npm run watch:js",
     "serve": "nodemon --watch server server/index.js & npm run build:watch",
-    "serve:ngrok": "npm run serve & ngrok 3000",
     "test": "node_modules/.bin/mocha -w",
     "jest": "jest"
   },

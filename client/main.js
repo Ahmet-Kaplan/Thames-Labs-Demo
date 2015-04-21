@@ -1,12 +1,12 @@
 var React = require('react');
 var Router = require('react-router');
 
-var ActiveUsers = require('views/activeUsers');
-var CompanyList = require('views/companyList');
-var ContactList = require('views/contactList');
-var Company = require('views/company');
-var Contact = require('views/contact');
-var LoginForm = require('views/loginForm');
+var ActiveUsers = require('./views/activeUsers');
+var CompanyList = require('./views/companyList');
+var ContactList = require('./views/contactList');
+var Company = require('./views/company');
+var Contact = require('./views/contact');
+var LoginForm = require('./views/loginForm');
 
 var auth = require('./auth');
 
@@ -38,7 +38,7 @@ var Logout = React.createClass({
   },
 
   render: function() {
-    return <p>You're logged out!</p>;
+    return <p>You're logged out</p>;
   }
 
 });
