@@ -648,13 +648,13 @@ var CompanyList = React.createClass({
     }
     if (this.state.filterByUser) {
       companies = companies.filter(function (company) {
-        return company.AccMgrID == localStorage.userId;
+        return company.AccMgrID === localStorage.userId;
       });
     }
 
-    companies = companies.map((function (company) {
+    companies = companies.map(function (company) {
       return React.createElement(CompanyListItem, { data: company });
-    }).bind(this));
+    });
 
     var title = this.state.filterByUser ? "My Companies" : "All Companies";
 

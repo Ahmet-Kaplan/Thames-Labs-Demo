@@ -55,13 +55,13 @@ var CompanyList = React.createClass({
     }
     if (this.state.filterByUser) {
       companies = companies.filter(function(company){
-        return company.AccMgrID == localStorage.userId;
+        return company.AccMgrID === localStorage.userId;
       });
     }
 
     companies = companies.map(function(company){
       return <CompanyListItem data={company}/>;
-    }.bind(this));
+    });
 
     var title = this.state.filterByUser ? "My Companies" : "All Companies";
 
@@ -81,13 +81,13 @@ var CompanyList = React.createClass({
           <ul className="table-view">{companies}</ul>
         </div>
       </div>
-    )
+    );
   }
 
 });
 
 var CompanyListItem = React.createClass({
-  
+
   render: function(){
     return (
       <li className="table-view-cell">
