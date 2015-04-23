@@ -1,38 +1,35 @@
 var React = require('react');
 var Fuse = require('fuse.js');
-var auth = require('../auth');
 var Router = require('react-router');
 var request = require('superagent');
+var Reflux = require('reflux');
+
+var auth = require('../auth');
+var store = require('../stores/companyStore');
+var actions = require('../actions/actions');
 
 var Link = Router.Link;
 
 var CompanyList = React.createClass({
 
-  mixins: [ auth.mixin, Router.Navigation ],
+  mixins: [
+    auth.mixin,
+    Router.Navigation,
+    Reflux.connect(store, 'companies')
+  ],
 
   getInitialState: function(){
     return {
-      companies: [],
       filterByUser: false,
-      searchText: '',
-      fuse: {}
+      searchText: ''
     };
   },
 
   componentDidMount: function(){
-    request
-      .get('/api/1.0/company/')
-      .set('x-tkn', auth.getToken())
-      .end(function(res) {
-        if (res.unauthorized) {
-          return this.transitionTo('login');
-        }
-        var companies = res.body;
-        this.setState({
-          companies: companies,
-          fuse: new Fuse(companies, {keys: ['Company']})
-        });
-      }.bind(this));
+    setTimeout(actions.companyListUpdate, 1000);
+    this.setState({
+      fuse: new Fuse(this.state.companies, {keys: ['Company']})
+    });
   },
 
   searchHandler: function(){
@@ -43,9 +40,9 @@ var CompanyList = React.createClass({
   userFilterToggle: function(){
     this.setState({filterByUser: !this.state.filterByUser});
   },
-    
+
   showAdmin: function() {
-    this.transitionTo('admin');  
+    this.transitionTo('admin');
   },
 
   render: function(){
