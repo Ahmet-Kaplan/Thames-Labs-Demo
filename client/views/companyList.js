@@ -26,7 +26,7 @@ var CompanyList = React.createClass({
   },
 
   componentDidMount: function(){
-    setTimeout(actions.companyListUpdate, 1000);
+    actions.companyListUpdate;
     this.setState({
       fuse: new Fuse(this.state.companies, {keys: ['Company']})
     });

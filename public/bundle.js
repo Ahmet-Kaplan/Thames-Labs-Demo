@@ -145,7 +145,8 @@ var store = Reflux.createStore({
   listenables: actions,
 
   init: function init() {
-    this.data = [{ Company: "test", CompanyID: "1" }];
+    var data = localStorage.getItem("companies");
+    if (data) this.data = JSON.parse(data);else this.data = [];
   },
 
   onCompanyListUpdate: function onCompanyListUpdate() {
@@ -155,6 +156,7 @@ var store = Reflux.createStore({
       }
       this.data = res.body;
       this.trigger(this.data);
+      localStorage.setItem("companies", JSON.stringify(this.data));
     }).bind(this));
   },
 
@@ -619,7 +621,7 @@ var CompanyList = React.createClass({
   },
 
   componentDidMount: function componentDidMount() {
-    setTimeout(actions.companyListUpdate, 1000);
+    actions.companyListUpdate;
     this.setState({
       fuse: new Fuse(this.state.companies, { keys: ["Company"] })
     });

@@ -9,7 +9,9 @@ var store = Reflux.createStore({
     listenables: actions,
 
     init: function() {
-      this.data = [{"Company": "test", "CompanyID": "1"}];
+      var data = localStorage.getItem('companies');
+      if (data) this.data = JSON.parse(data);
+      else this.data = [];
     },
 
     onCompanyListUpdate: function() {
@@ -22,6 +24,7 @@ var store = Reflux.createStore({
           }
           this.data = res.body;
           this.trigger(this.data);
+          localStorage.setItem('companies', JSON.stringify(this.data));
         }.bind(this));
     },
 
