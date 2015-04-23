@@ -150,7 +150,7 @@ var Company = React.createClass({
               </li>
 
               <li className="table-view-cell media">
-                <a className="navigate-right" href={"http://maps.apple.com/?q=" + company.PostCode}>
+                <a className="navigate-right" href={"http://maps.apple.com/?q=" + company.PostCode} target="_blank">
                   <span className="media-object pull-left"><i className="fa fa-map-marker"></i></span>
                   <div className="media-body">
                     <p>{company.Address}</p>

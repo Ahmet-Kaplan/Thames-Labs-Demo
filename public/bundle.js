@@ -480,7 +480,7 @@ var Company = React.createClass({
               { className: "table-view-cell media" },
               React.createElement(
                 "a",
-                { className: "navigate-right", href: "http://maps.apple.com/?q=" + company.PostCode },
+                { className: "navigate-right", href: "http://maps.apple.com/?q=" + company.PostCode, target: "_blank" },
                 React.createElement(
                   "span",
                   { className: "media-object pull-left" },
