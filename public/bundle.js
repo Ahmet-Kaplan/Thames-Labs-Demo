@@ -673,7 +673,7 @@ var CompanyList = React.createClass({
           { className: "title" },
           title
         ),
-        React.createElement("a", { className: "icon ion-funnel pull-right", onClick: this.userFilterToggle })
+        React.createElement("a", { className: "icon fa fa-filter pull-right", onClick: this.userFilterToggle })
       ),
       React.createElement(
         "div",

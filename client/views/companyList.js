@@ -71,7 +71,7 @@ var CompanyList = React.createClass({
             Admin
           </button>
           <h1 className="title">{title}</h1>
-          <a className="icon ion-funnel pull-right" onClick={this.userFilterToggle}></a>
+          <a className="icon fa fa-filter pull-right" onClick={this.userFilterToggle}></a>
         </header>
         <div className="bar bar-standard bar-header-secondary">
           <input type='search' ref='searchbox' placeholder="Search" onChange={this.searchHandler}/>
