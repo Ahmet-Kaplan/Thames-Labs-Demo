@@ -1,14 +1,18 @@
 var React = require('react');
-var Fuse = require('fuse.js');
-var auth = require('../auth');
 var Router = require('react-router');
 var request = require('superagent');
+var textFilter = require('text-filter');
+
+var userStore = require('../stores/userStore');
+var actions = require('../actions/actions');
 
 var Link = Router.Link;
 
 var ContactList = React.createClass({
 
-  mixins: [ auth.mixin, Router.Navigation ],
+  contextTypes: {
+    router: React.PropTypes.func
+  },
 
   getInitialState: function(){
     return {
@@ -21,15 +25,14 @@ var ContactList = React.createClass({
   componentDidMount: function(){
     request
       .get('/api/1.0/contact/')
-      .set('x-tkn', auth.getToken())
+      .set('x-tkn', userStore.getToken())
       .end(function(res) {
         if (res.unauthorized) {
-          return this.transitionTo('login');
+          actions.logout();
         }
         var contacts = res.body;
         this.setState({
-          contacts: contacts,
-          fuse: new Fuse(contacts, {keys: ['Forename', 'Surname']})
+          contacts: contacts
         });
       }.bind(this));
   },
@@ -40,21 +43,22 @@ var ContactList = React.createClass({
   },
 
   showAdmin: function() {
-    this.transitionTo('admin');
+    this.context.router.transitionTo('admin');
   },
 
   render: function(){
 
-    var contacts = [];
-    if (this.state.searchText === '') {
-      contacts = this.state.contacts;
-    } else {
-      contacts = this.state.fuse.search(this.state.searchText);
+    var contacts = this.state.contacts;
+
+    if (this.state.searchText !== '') {
+      contacts = contacts.filter(
+        textFilter({query: this.state.searchText, fields: ['Forename', 'Surname']})
+      );
     }
 
     contacts = contacts.map(function(contact){
-      return <ContactListItem data={contact}/>;
-    }.bind(this));
+      return <ContactListItem key={contact.ContactID} data={contact}/>;
+    });
 
     var title = "All Contacts";
 
@@ -73,7 +77,7 @@ var ContactList = React.createClass({
           <ul className="table-view">{contacts}</ul>
         </div>
       </div>
-    )
+    );
   }
 
 });

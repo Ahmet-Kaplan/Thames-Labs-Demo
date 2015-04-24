@@ -4,65 +4,67 @@ var request = require('superagent');
 var truncate = require('truncate');
 var moment = require('moment');
 
-var auth = require('../auth');
+var userStore = require('../stores/userStore');
+var actions = require('../actions/actions');
 
 var Link = Router.Link;
 
 var Contact = React.createClass({
 
-  mixins: [ auth.mixin, Router.State, Router.Navigation ],
+  contextTypes: {
+    router: React.PropTypes.func
+  },
 
   getContactData: function() {
-    var contactId = this.getParams().contactId;
+    var contactId = this.context.router.getCurrentParams().contactId;
 
     request
       .get('/api/1.0/contact/' + contactId)
-      .set('x-tkn', auth.getToken())
+      .set('x-tkn', userStore.getToken())
       .end(function(res) {
         if (res.unauthorized) {
-          return this.transitionTo('login');
+          actions.logout();
         }
         this.setState({
           contact: res.body
         });
-      }.bind(this));      
-      
-      
+      }.bind(this));
+
       request
       .get('/api/1.0/contact/' + contactId + '/activity')
-      .set('x-tkn', auth.getToken())
+      .set('x-tkn', userStore.getToken())
       .end(function(res) {
         if (res.unauthorized) {
-          return this.transitionTo('login');
+          action.logout();
         }
         this.setState({
           activity: res.body
         });
       }.bind(this));
   },
-  
+
   getInitialState: function() {
     return {
       contact: [],
       activity: []
     };
   },
-  
+
   componentDidMount: function() {
     this.getContactData();
   },
-  
+
   componentWillReceiveProps: function() {
     this.getContactData();
   },
-  
+
   render: function() {
     var contact = this.state.contact;
-    
+
     var activities = this.state.activity.map(function(activity){
-      var acttypeid = activity.ActivityTypeID;    
+      var acttypeid = activity.ActivityTypeID;
       var iconLoc = '';
-        
+
       switch(acttypeid){
         case 1: iconLoc='fa-file'; //note
           break;
@@ -88,28 +90,28 @@ var Contact = React.createClass({
           break;
         default: iconLoc='fa-question';
           break;
-      };        
-        
+      }
+
       return (
-        <li className="table-view-cell media">
-         
+        <li className="table-view-cell media" key={activity.ActivityID}>
+
           <span className="media-object pull-left">
               <i className={"fa " + iconLoc}/>
             </span>
             <div className="media-body">
               {activity.Activity}
               <p>{moment(activity.ActivityDate).format('MMMM Do YYYY, h:mm:ss a')}</p>
-              <p>{truncate(activity.Body,50)}</p>
+              <p>{truncate(activity.Body, 50)}</p>
             </div>
         </li>
-      )
+      );
     });
-      
+
     return (
       <div>
 
         <header className="bar bar-nav">
-          <button className="btn btn-link pull-left" onClick={this.goBack}>
+          <button className="btn btn-link pull-left" onClick={this.context.router.goBack}>
             <i className="fa fa-chevron-left"/> Back
           </button>
           <h1 className="title">Contact Information</h1>
@@ -150,7 +152,7 @@ var Contact = React.createClass({
                   </div>
                 </a>
               </li>
-              
+
             </ul>
           </div>
           <div className="card">
@@ -168,8 +170,8 @@ var Contact = React.createClass({
         </div>
 
       </div>
-    )
-      
+    );
+
   }
 
 });

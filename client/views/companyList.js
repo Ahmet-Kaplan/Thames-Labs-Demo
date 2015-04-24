@@ -4,8 +4,7 @@ var request = require('superagent');
 var Reflux = require('reflux');
 var textFilter = require('text-filter');
 
-var auth = require('../auth');
-var store = require('../stores/companyStore');
+var companyStore = require('../stores/companyStore');
 var actions = require('../actions/actions');
 
 var Link = Router.Link;
@@ -13,9 +12,8 @@ var Link = Router.Link;
 var CompanyList = React.createClass({
 
   mixins: [
-    auth.mixin,
     Router.Navigation,
-    Reflux.connect(store, 'companies')
+    Reflux.connect(companyStore, 'companies')
   ],
 
   getInitialState: function(){

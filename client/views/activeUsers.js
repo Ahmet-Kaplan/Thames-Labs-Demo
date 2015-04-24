@@ -4,23 +4,26 @@ var request = require('superagent');
 var truncate = require('truncate');
 var moment = require('moment');
 
-var auth = require('../auth');
+var userStore = require('../stores/userStore');
+var actions = require('../actions/actions');
 
 var Link = Router.Link;
 
 var ActiveUsers = React.createClass({
 
-  mixins: [ auth.mixin, Router.State, Router.Navigation ],
+  contextTypes: {
+    router: React.PropTypes.func
+  },
 
   getData: function() {
-    var contactId = this.getParams().contactId;
+    var contactId = this.context.router.getCurrentParams().contactId;
 
     request
       .get('/api/1.0/activeusers')
-      .set('x-tkn', auth.getToken())
+      .set('x-tkn', userStore.getToken())
       .end(function(res) {
         if (res.unauthorized) {
-          return this.transitionTo('login');
+          actions.logout();
         }
         this.setState({
           data: res.body
@@ -57,7 +60,7 @@ var ActiveUsers = React.createClass({
     return (
      <div>
         <header className="bar bar-nav">
-          <button className="btn btn-link pull-left" onClick={this.goBack}>
+          <button className="btn btn-link pull-left" onClick={this.context.router.goBack}>
             <i className="fa fa-chevron-left"/> Back
           </button>
           <h1 className="title">Active Users</h1>

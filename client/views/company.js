@@ -4,22 +4,25 @@ var request = require('superagent');
 var truncate = require('truncate');
 var moment = require('moment');
 
-var auth = require('../auth');
+var userStore = require('../stores/userStore');
+var actions = require('../actions/actions');
 
 var Link = Router.Link;
 
 var Company = React.createClass({
 
-  mixins: [ auth.mixin, Router.State, Router.Navigation ],
+  contextTypes: {
+    router: React.PropTypes.func
+  },
 
   getCompanyData: function() {
-    var companyId = this.getParams().companyId;
+    var companyId = this.context.router.getCurrentParams().companyId;
     request
       .get('/api/1.0/company/' + companyId)
-      .set('x-tkn', auth.getToken())
+      .set('x-tkn', userStore.getToken())
       .end(function(res) {
         if (res.unauthorized) {
-          return this.transitionTo('login');
+          actions.logout();
         }
         this.setState({
           company: res.body
@@ -28,29 +31,29 @@ var Company = React.createClass({
 
     request
       .get('/api/1.0/company/' + companyId + '/contact')
-      .set('x-tkn', auth.getToken())
+      .set('x-tkn', userStore.getToken())
       .end(function(res) {
         if (res.unauthorized) {
-          return this.transitionTo('login');
+          actions.logout();
         }
         this.setState({
           contact: res.body
         });
       }.bind(this));
-      
+
       request
       .get('/api/1.0/company/' + companyId + '/activity')
-      .set('x-tkn', auth.getToken())
+      .set('x-tkn', userStore.getToken())
       .end(function(res) {
         if (res.unauthorized) {
-          return this.transitionTo('login');
+          actions.logout();
         }
         this.setState({
           activity: res.body
         });
       }.bind(this));
   },
-  
+
   getInitialState: function() {
     return {
       company: {},
@@ -58,20 +61,20 @@ var Company = React.createClass({
       activity: []
     };
   },
-  
+
   componentDidMount: function() {
     this.getCompanyData();
   },
-  
+
   componentWillReceiveProps: function() {
     this.getCompanyData();
   },
-      
+
   render: function() {
     var company = this.state.company;
     var contacts = this.state.contact.map(function(contact){
       return (
-        <li className="table-view-cell media">
+        <li className="table-view-cell media" key={contact.ContactID}>
           <Link to="contact" params={{contactId: contact.ContactID}} className="navigate-right">
             <span className="media-object pull-left">
               <i className="fa fa-user"/>
@@ -82,12 +85,12 @@ var Company = React.createClass({
             </div>
           </Link>
         </li>
-      )
+      );
     });
     var activities = this.state.activity.map(function(activity){
-        var acttypeid = activity.ActivityTypeID;    
+        var acttypeid = activity.ActivityTypeID;
       var iconLoc = '';
-        
+
       switch(acttypeid){
         case 1: iconLoc='fa-file'; //note
           break;
@@ -113,28 +116,28 @@ var Company = React.createClass({
           break;
         default: iconLoc='fa-question';
           break;
-      };        
-        
+      }
+
       return (
-        <li className="table-view-cell media">
-         
+        <li className="table-view-cell media" key={activity.ActivityID}>
+
           <span className="media-object pull-left">
               <i className={"fa " + iconLoc}/>
             </span>
             <div className="media-body">
               {activity.Activity}
               <p>{moment(activity.ActivityDate).format('MMMM Do YYYY, h:mm:ss a')}</p>
-              <p>{truncate(activity.Body,50)}</p>
+              <p>{truncate(activity.Body, 50)}</p>
             </div>
         </li>
-      )
+      );
     });
 
     return (
       <div>
 
         <header className="bar bar-nav">
-          <button className="btn btn-link pull-left" onClick={this.goBack}>
+          <button className="btn btn-link pull-left" onClick={this.context.router.goBack}>
             <i className="fa fa-chevron-left"/> Back
           </button>
           <h1 className="title">Company Information</h1>
@@ -179,10 +182,10 @@ var Company = React.createClass({
                   </div>
                 </a>
               </li>
-              
+
             </ul>
           </div>
-          
+
           <div className="card">
             <ul className="table-view">
 
@@ -194,7 +197,7 @@ var Company = React.createClass({
 
             </ul>
           </div>
-        
+
         <div className="card">
             <ul className="table-view">
 
@@ -210,7 +213,7 @@ var Company = React.createClass({
         </div>
 
       </div>
-    )
+    );
   }
 
 });

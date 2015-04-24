@@ -1,26 +1,26 @@
 var Reflux = require('reflux');
 var request = require('superagent');
 
-var auth = require('../auth');
 var actions = require('../actions/actions');
+var userStore = require('./userStore');
 
-var store = Reflux.createStore({
+var companyStore = Reflux.createStore({
 
     listenables: actions,
 
     init: function() {
-      var data = localStorage.getItem('companies');
-      if (data) this.data = JSON.parse(data);
-      else this.data = [];
+      this.data = [];
+      var cache = localStorage.getItem('companies');
+      if (cache) { this.data = JSON.parse(cache); }
     },
 
     onCompanyListUpdate: function() {
       request
         .get('/api/1.0/company/')
-        .set('x-tkn', auth.getToken())
+        .set('x-tkn', userStore.getToken())
         .end(function(res) {
           if (res.unauthorized) {
-            return console.log('unauthorised');
+            actions.logout();
           }
           this.data = res.body;
           this.trigger(this.data);
@@ -34,4 +34,4 @@ var store = Reflux.createStore({
 
 });
 
-module.exports = store;
+module.exports = companyStore;

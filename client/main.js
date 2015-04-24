@@ -1,5 +1,6 @@
 var React = require('react');
 var Router = require('react-router');
+var Reflux = require('reflux');
 
 var ActiveUsers = require('./views/activeUsers');
 var CompanyList = require('./views/companyList');
@@ -8,17 +9,32 @@ var Company = require('./views/company');
 var Contact = require('./views/contact');
 var LoginForm = require('./views/loginForm');
 
-var auth = require('./auth');
+var userStore = require('./stores/userStore');
+var actions = require('./actions/actions');
 
 var { Route, RouteHandler, DefaultRoute } = Router;
 
 var App = React.createClass({
 
-  getInitialState: function(){
+  mixins: [
+    Reflux.listenTo(userStore, "onUserChange")
+  ],
+
+  contextTypes: {
+    router: React.PropTypes.func
+  },
+
+  getInitialState: function() {
     return {};
   },
 
-  render: function(){
+  onUserChange: function(user) {
+    if (!user.loggedIn) {
+      this.context.router.transitionTo('login', {}, {nextPath: this.context.router.getCurrentPathname()});
+    }
+  },
+
+  render: function() {
     return (
       <div>
         <RouteHandler/>
@@ -30,11 +46,8 @@ var App = React.createClass({
 
 var Logout = React.createClass({
 
-  mixins: [ Router.Navigation ],
-
-  componentDidMount: function() {
-    auth.logout();
-    this.transitionTo('app');
+  componentWillMount: function() {
+    actions.logout();
   },
 
   render: function() {

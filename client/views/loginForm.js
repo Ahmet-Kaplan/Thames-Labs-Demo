@@ -1,10 +1,17 @@
 var React = require('react');
-var auth = require('../auth');
 var Router = require('react-router');
+var Reflux = require('reflux');
+
+var userStore = require('../stores/userStore.js');
+var actions = require('../actions/actions');
 
 var LoginForm = React.createClass({
 
-  mixins: [ Router.State, Router.Navigation ],
+  mixins: [ Reflux.listenTo(userStore, "onUserChange") ],
+
+  contextTypes: {
+    router: React.PropTypes.func
+  },
 
   getInitialState: function() {
     return {
@@ -12,25 +19,25 @@ var LoginForm = React.createClass({
     };
   },
 
+  onUserChange: function(user) {
+    if (!user.loggedIn) {
+      return this.setState({ error: true });
+    } else {
+      // redirect to original location
+      var nextPath = this.context.router.getCurrentQuery().nextPath;
+      if (nextPath && nextPath !== '/logout') {
+        this.context.router.transitionTo(nextPath);
+      } else {
+        this.context.router.transitionTo('app');
+      }
+    }
+  },
+
   handleSubmit: function(e){
     e.preventDefault();
     var username = this.refs.username.getDOMNode().value.trim();
     var password = this.refs.password.getDOMNode().value.trim();
-    auth.login(username, password, function(success) {
-
-      if (!success) {
-        return this.setState({ error: true });
-      }
-
-      // redirect to original location
-      var nextPath = this.getQuery().nextPath;
-      if (nextPath) {
-        this.transitionTo(nextPath);
-      } else {
-        this.transitionTo('/');
-      }
-
-    }.bind(this));
+    actions.login(username, password);
   },
 
   render: function(){
