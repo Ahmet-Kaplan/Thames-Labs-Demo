@@ -283,7 +283,7 @@ var ActiveUsers = React.createClass({
 
 module.exports = ActiveUsers;
 
-},{"../auth":2,"moment":13,"react":200,"react-router":41,"superagent":221,"truncate":224}],6:[function(require,module,exports){
+},{"../auth":2,"moment":13,"react":200,"react-router":41,"superagent":221,"truncate":226}],6:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -593,14 +593,14 @@ var Company = React.createClass({
 
 module.exports = Company;
 
-},{"../auth":2,"moment":13,"react":200,"react-router":41,"superagent":221,"truncate":224}],7:[function(require,module,exports){
+},{"../auth":2,"moment":13,"react":200,"react-router":41,"superagent":221,"truncate":226}],7:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
-var Fuse = require("fuse.js");
 var Router = require("react-router");
 var request = require("superagent");
 var Reflux = require("reflux");
+var textFilter = require("text-filter");
 
 var auth = require("../auth");
 var store = require("../stores/companyStore");
@@ -621,10 +621,7 @@ var CompanyList = React.createClass({
   },
 
   componentDidMount: function componentDidMount() {
-    actions.companyListUpdate;
-    this.setState({
-      fuse: new Fuse(this.state.companies, { keys: ["Company"] })
-    });
+    actions.companyListUpdate();
   },
 
   searchHandler: function searchHandler() {
@@ -642,12 +639,12 @@ var CompanyList = React.createClass({
 
   render: function render() {
 
-    var companies = [];
-    if (this.state.searchText === "") {
-      companies = this.state.companies;
-    } else {
-      companies = this.state.fuse.search(this.state.searchText);
+    var companies = this.state.companies;
+
+    if (this.state.searchText !== "") {
+      companies = companies.filter(textFilter({ query: this.state.searchText, fields: ["Company"] }));
     }
+
     if (this.state.filterByUser) {
       companies = companies.filter(function (company) {
         return company.AccMgrID === localStorage.userId;
@@ -655,7 +652,7 @@ var CompanyList = React.createClass({
     }
 
     companies = companies.map(function (company) {
-      return React.createElement(CompanyListItem, { data: company });
+      return React.createElement(CompanyListItem, { key: company.CompanyID, data: company });
     });
 
     var title = this.state.filterByUser ? "My Companies" : "All Companies";
@@ -734,7 +731,7 @@ var CompanyListItem = React.createClass({
 
 module.exports = CompanyList;
 
-},{"../actions/actions":1,"../auth":2,"../stores/companyStore":4,"fuse.js":12,"react":200,"react-router":41,"reflux":201,"superagent":221}],8:[function(require,module,exports){
+},{"../actions/actions":1,"../auth":2,"../stores/companyStore":4,"react":200,"react-router":41,"reflux":201,"superagent":221,"text-filter":224}],8:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -971,7 +968,7 @@ var Contact = React.createClass({
 
 module.exports = Contact;
 
-},{"../auth":2,"moment":13,"react":200,"react-router":41,"superagent":221,"truncate":224}],9:[function(require,module,exports){
+},{"../auth":2,"moment":13,"react":200,"react-router":41,"superagent":221,"truncate":226}],9:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -28468,6 +28465,51 @@ module.exports = function(arr, fn, initial){
   return curr;
 };
 },{}],224:[function(require,module,exports){
+/*jshint node:true */
+'use strict';
+
+module.exports = exports = require('./lib/text-filter');
+},{"./lib/text-filter":225}],225:[function(require,module,exports){
+ /*jshint globalstrict:true, trailing:false, unused:true, node:true */
+'use strict';
+
+function createRegExpsForQuery(queryText) {
+  var normalized = ("" + queryText).trim().toLowerCase();
+  var parts = normalized.split(/[\s\'']+/)
+                        .filter(function(s) { return !!s; })
+                        .filter(function(s, index) { return index < 10; } );
+
+  return parts.map(function(i) {
+    return new RegExp("\\b" + i, "i");
+  });
+}
+
+function getFields(fields, item) {
+  return fields.map(function(field) { return item[field]; }).filter(function(f) { return !!f; });
+}
+
+module.exports = function createTextFilter(options) {
+  function nopFilter() {}
+  var query = options.query;
+  var fields = options.fields;
+
+  if(!query) return nopFilter;
+
+  var regexps = createRegExpsForQuery(query);
+
+  return function(item) {
+    // Search the items or its fields
+    var searchable =  fields ? getFields(fields, item) : [item];
+    return searchable.some(function(item) {
+      return regexps.every(function(regexp) {
+        return item.match(regexp);
+      });
+    });
+  };
+
+};
+
+},{}],226:[function(require,module,exports){
 /*global module:true*/
 /*jslint nomen:true*/
 /**

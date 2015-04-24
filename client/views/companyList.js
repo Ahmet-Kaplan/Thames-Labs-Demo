@@ -1,8 +1,8 @@
 var React = require('react');
-var Fuse = require('fuse.js');
 var Router = require('react-router');
 var request = require('superagent');
 var Reflux = require('reflux');
+var textFilter = require('text-filter');
 
 var auth = require('../auth');
 var store = require('../stores/companyStore');
@@ -26,10 +26,7 @@ var CompanyList = React.createClass({
   },
 
   componentDidMount: function(){
-    actions.companyListUpdate;
-    this.setState({
-      fuse: new Fuse(this.state.companies, {keys: ['Company']})
-    });
+    actions.companyListUpdate();
   },
 
   searchHandler: function(){
@@ -47,12 +44,14 @@ var CompanyList = React.createClass({
 
   render: function(){
 
-    var companies = [];
-    if (this.state.searchText === '') {
-      companies = this.state.companies;
-    } else {
-      companies = this.state.fuse.search(this.state.searchText);
+    var companies = this.state.companies;
+
+    if (this.state.searchText !== '') {
+      companies = companies.filter(
+        textFilter({query: this.state.searchText, fields: ['Company']})
+      );
     }
+
     if (this.state.filterByUser) {
       companies = companies.filter(function(company){
         return company.AccMgrID === localStorage.userId;
@@ -60,7 +59,7 @@ var CompanyList = React.createClass({
     }
 
     companies = companies.map(function(company){
-      return <CompanyListItem data={company}/>;
+      return <CompanyListItem key={company.CompanyID} data={company}/>;
     });
 
     var title = this.state.filterByUser ? "My Companies" : "All Companies";
