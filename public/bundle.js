@@ -638,7 +638,11 @@ var Link = Router.Link;
 var CompanyList = React.createClass({
   displayName: "CompanyList",
 
-  mixins: [Router.Navigation, Reflux.connect(companyStore, "companies")],
+  mixins: [Reflux.connect(companyStore, "companies")],
+
+  contextTypes: {
+    router: React.PropTypes.func
+  },
 
   getInitialState: function getInitialState() {
     return {
@@ -661,7 +665,7 @@ var CompanyList = React.createClass({
   },
 
   showAdmin: function showAdmin() {
-    this.transitionTo("admin");
+    this.context.router.transitionTo("admin");
   },
 
   render: function render() {
