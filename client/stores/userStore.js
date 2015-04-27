@@ -50,6 +50,10 @@ var userStore = Reflux.createStore({
 
   getToken: function() {
     return this.data.token;
+  },
+
+  loggedIn: function() {
+    return this.data.loggedIn;
   }
 
 });

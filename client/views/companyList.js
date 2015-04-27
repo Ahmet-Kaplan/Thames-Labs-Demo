@@ -6,12 +6,16 @@ var textFilter = require('text-filter');
 
 var companyStore = require('../stores/companyStore');
 var actions = require('../actions/actions');
+var auth = require('../mixins/auth');
 
 var Link = Router.Link;
 
 var CompanyList = React.createClass({
 
-  mixins: [ Reflux.connect(companyStore, 'companies') ],
+  mixins: [
+    Reflux.connect(companyStore, 'companies'),
+    auth
+  ],
 
   contextTypes: {
     router: React.PropTypes.func

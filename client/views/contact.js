@@ -6,10 +6,13 @@ var moment = require('moment');
 
 var userStore = require('../stores/userStore');
 var actions = require('../actions/actions');
+var auth = require('../mixins/auth');
 
 var Link = Router.Link;
 
 var Contact = React.createClass({
+
+  mixins: [ auth ],
 
   contextTypes: {
     router: React.PropTypes.func

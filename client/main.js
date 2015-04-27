@@ -11,6 +11,7 @@ var LoginForm = require('./views/loginForm');
 
 var userStore = require('./stores/userStore');
 var actions = require('./actions/actions');
+var auth = require('./mixins/auth');
 
 var { Route, RouteHandler, DefaultRoute } = Router;
 
@@ -45,6 +46,8 @@ var App = React.createClass({
 });
 
 var Logout = React.createClass({
+
+  mixins: [ auth ],
 
   componentWillMount: function() {
     actions.logout();

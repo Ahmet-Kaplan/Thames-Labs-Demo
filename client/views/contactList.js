@@ -5,10 +5,13 @@ var textFilter = require('text-filter');
 
 var userStore = require('../stores/userStore');
 var actions = require('../actions/actions');
+var auth = require('../mixins/auth');
 
 var Link = Router.Link;
 
 var ContactList = React.createClass({
+
+  mixins: [ auth ],
 
   contextTypes: {
     router: React.PropTypes.func
