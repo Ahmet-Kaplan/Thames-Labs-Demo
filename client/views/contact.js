@@ -38,7 +38,7 @@ var Contact = React.createClass({
       .set('x-tkn', userStore.getToken())
       .end(function(res) {
         if (res.unauthorized) {
-          action.logout();
+          actions.logout();
         }
         this.setState({
           activity: res.body

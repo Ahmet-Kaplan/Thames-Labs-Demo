@@ -954,7 +954,7 @@ var Contact = React.createClass({
 
     request.get("/api/1.0/contact/" + contactId + "/activity").set("x-tkn", userStore.getToken()).end((function (res) {
       if (res.unauthorized) {
-        action.logout();
+        actions.logout();
       }
       this.setState({
         activity: res.body
