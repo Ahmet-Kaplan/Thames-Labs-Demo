@@ -1,5 +1,6 @@
 var Reflux = require('reflux');
 var request = require('superagent');
+var _ = require('underscore');
 
 var actions = require('../actions/actions');
 var userStore = require('../stores/userStore');
@@ -29,6 +30,28 @@ var contactStore = Reflux.createStore({
         this.data = res.body;
         this.trigger(this.data);
         localStorage.setItem('contacts', JSON.stringify(this.data));
+      }.bind(this));
+  },
+
+  onContactUpdate: function(contactId) {
+    return;
+  },
+
+  onContactUpdateByCompanyId: function(companyId) {
+    request
+      .get('/api/1.0/company/' + companyId + '/contact')
+      .set('x-tkn', userStore.getToken())
+      .end(function(res) {
+        if (res.unauthorized) {
+          actions.logout();
+        } else {
+          this.data = _.reject(this.data, function(contact) {
+            return contact.CompanyID === companyId;
+          });
+          this.data = this.data.concat(res.body);
+          this.trigger(this.data);
+          localStorage.setItem('contacts', JSON.stringify(this.data));
+        }
       }.bind(this));
   }
 

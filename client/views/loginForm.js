@@ -21,7 +21,8 @@ var LoginForm = React.createClass({
 
   onUserChange: function(user) {
     if (!user.loggedIn) {
-      return this.setState({ error: true });
+      this.setState({ error: true });
+      setTimeout(this.clearError, 1000);
     } else {
       // redirect to original location
       var nextPath = this.context.router.getCurrentQuery().nextPath;
@@ -31,6 +32,10 @@ var LoginForm = React.createClass({
         this.context.router.transitionTo('app');
       }
     }
+  },
+
+  clearError: function() {
+    this.setState({ error: false });
   },
 
   handleSubmit: function(e){

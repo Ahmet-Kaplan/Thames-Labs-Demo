@@ -1,10 +1,14 @@
 var React = require('react');
 var Router = require('react-router');
+var Reflux = require('reflux');
 var request = require('superagent');
 var truncate = require('truncate');
 var moment = require('moment');
+var _ = require('underscore');
 
 var userStore = require('../stores/userStore');
+var companyStore = require('../stores/companyStore');
+var contactStore = require('../stores/contactStore');
 var actions = require('../actions/actions');
 var auth = require('../mixins/auth');
 
@@ -12,57 +16,48 @@ var Link = Router.Link;
 
 var Company = React.createClass({
 
-  mixins: [ auth ],
+  mixins: [
+    Reflux.connectFilter(companyStore, 'company', function(companies) {
+      var companyId = parseInt(this.context.router.getCurrentParams().companyId);
+      return _.find(companies, function(company) {
+        return company.CompanyID === companyId;
+      });
+    }),
+    Reflux.connectFilter(contactStore, 'contact', function(contacts) {
+      var companyId = parseInt(this.context.router.getCurrentParams().companyId);
+      return contacts.filter(function(contact) {
+        return contact.CompanyID === companyId;
+      });
+    }),
+    auth
+  ],
 
   contextTypes: {
     router: React.PropTypes.func
   },
 
-  getCompanyData: function() {
-    var companyId = this.context.router.getCurrentParams().companyId;
-    request
-      .get('/api/1.0/company/' + companyId)
-      .set('x-tkn', userStore.getToken())
-      .end(function(res) {
-        if (res.unauthorized) {
-          actions.logout();
-        }
-        this.setState({
-          company: res.body
-        });
-      }.bind(this));
-
-    request
-      .get('/api/1.0/company/' + companyId + '/contact')
-      .set('x-tkn', userStore.getToken())
-      .end(function(res) {
-        if (res.unauthorized) {
-          actions.logout();
-        }
-        this.setState({
-          contact: res.body
-        });
-      }.bind(this));
-
-      request
-      .get('/api/1.0/company/' + companyId + '/activity')
-      .set('x-tkn', userStore.getToken())
-      .end(function(res) {
-        if (res.unauthorized) {
-          actions.logout();
-        }
-        this.setState({
-          activity: res.body
-        });
-      }.bind(this));
-  },
-
   getInitialState: function() {
     return {
-      company: {},
-      contact: [],
       activity: []
     };
+  },
+
+  getCompanyData: function() {
+    var companyId = parseInt(this.context.router.getCurrentParams().companyId);
+    actions.companyUpdate(companyId);
+    actions.contactUpdateByCompanyId(companyId);
+
+    request
+    .get('/api/1.0/company/' + companyId + '/activity')
+    .set('x-tkn', userStore.getToken())
+    .end(function(res) {
+      if (res.unauthorized) {
+        actions.logout();
+      }
+      this.setState({
+        activity: res.body
+      });
+    }.bind(this));
   },
 
   componentDidMount: function() {
