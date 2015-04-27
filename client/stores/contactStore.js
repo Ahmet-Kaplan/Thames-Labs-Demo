@@ -2,21 +2,25 @@ var Reflux = require('reflux');
 var request = require('superagent');
 
 var actions = require('../actions/actions');
-var userStore = require('./userStore');
+var userStore = require('../stores/userStore');
 
-var companyStore = Reflux.createStore({
+var contactStore = Reflux.createStore({
 
   listenables: actions,
 
   init: function() {
     this.data = [];
-    var cache = localStorage.getItem('companies');
+    var cache = localStorage.getItem('contacts');
     if (cache) { this.data = JSON.parse(cache); }
   },
 
-  onCompanyListUpdate: function() {
+  getInitialState: function() {
+    return this.data;
+  },
+
+  onContactListUpdate: function() {
     request
-      .get('/api/1.0/company/')
+      .get('/api/1.0/contact/')
       .set('x-tkn', userStore.getToken())
       .end(function(res) {
         if (res.unauthorized) {
@@ -24,14 +28,10 @@ var companyStore = Reflux.createStore({
         }
         this.data = res.body;
         this.trigger(this.data);
-        localStorage.setItem('companies', JSON.stringify(this.data));
+        localStorage.setItem('contacts', JSON.stringify(this.data));
       }.bind(this));
-  },
-
-  getInitialState: function() {
-    return this.data;
   }
 
 });
 
-module.exports = companyStore;
+module.exports = contactStore;

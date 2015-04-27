@@ -1,9 +1,9 @@
 var React = require('react');
 var Router = require('react-router');
-var request = require('superagent');
+var Reflux = require('reflux');
 var textFilter = require('text-filter');
 
-var userStore = require('../stores/userStore');
+var contactStore = require('../stores/contactStore');
 var actions = require('../actions/actions');
 var auth = require('../mixins/auth');
 
@@ -11,7 +11,10 @@ var Link = Router.Link;
 
 var ContactList = React.createClass({
 
-  mixins: [ auth ],
+  mixins: [
+    Reflux.connect(contactStore, 'contacts'),
+    auth
+  ],
 
   contextTypes: {
     router: React.PropTypes.func
@@ -19,25 +22,12 @@ var ContactList = React.createClass({
 
   getInitialState: function(){
     return {
-      contacts: [],
-      searchText: '',
-      fuse: {}
+      searchText: ''
     };
   },
 
   componentDidMount: function(){
-    request
-      .get('/api/1.0/contact/')
-      .set('x-tkn', userStore.getToken())
-      .end(function(res) {
-        if (res.unauthorized) {
-          actions.logout();
-        }
-        var contacts = res.body;
-        this.setState({
-          contacts: contacts
-        });
-      }.bind(this));
+    actions.contactListUpdate();
   },
 
   searchHandler: function(){
