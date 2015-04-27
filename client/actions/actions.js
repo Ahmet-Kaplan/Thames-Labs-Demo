@@ -13,7 +13,11 @@ var Actions = Reflux.createActions([
   // contact actions
   "contactListUpdate",
   "contactUpdate",
-  "contactUpdateByCompanyId"
+  "contactUpdateByCompanyId",
+
+  // activites actions
+  "activityUpdateByCompanyId",
+  "activityUpdateByContactId"
 
 ]);
 

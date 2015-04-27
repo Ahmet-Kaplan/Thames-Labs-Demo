@@ -9,6 +9,7 @@ var _ = require('underscore');
 var userStore = require('../stores/userStore');
 var companyStore = require('../stores/companyStore');
 var contactStore = require('../stores/contactStore');
+var activityStore = require('../stores/activityStore');
 var actions = require('../actions/actions');
 var auth = require('../mixins/auth');
 
@@ -29,6 +30,12 @@ var Company = React.createClass({
         return contact.CompanyID === companyId;
       });
     }),
+    Reflux.connectFilter(activityStore, 'activity', function(activities) {
+      var companyId = parseInt(this.context.router.getCurrentParams().companyId);
+      return activities.filter(function(activity) {
+        return activity.CompanyID === companyId;
+      });
+    }),
     auth
   ],
 
@@ -36,28 +43,11 @@ var Company = React.createClass({
     router: React.PropTypes.func
   },
 
-  getInitialState: function() {
-    return {
-      activity: []
-    };
-  },
-
   getCompanyData: function() {
     var companyId = parseInt(this.context.router.getCurrentParams().companyId);
     actions.companyUpdate(companyId);
     actions.contactUpdateByCompanyId(companyId);
-
-    request
-    .get('/api/1.0/company/' + companyId + '/activity')
-    .set('x-tkn', userStore.getToken())
-    .end(function(res) {
-      if (res.unauthorized) {
-        actions.logout();
-      }
-      this.setState({
-        activity: res.body
-      });
-    }.bind(this));
+    actions.activityUpdateByCompanyId(companyId);
   },
 
   componentDidMount: function() {
