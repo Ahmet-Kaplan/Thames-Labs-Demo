@@ -750,7 +750,7 @@ var Company = React.createClass({
               { className: "table-view-cell media" },
               React.createElement(
                 "a",
-                { className: "navigate-right", href: company.WebSite },
+                { className: "navigate-right", href: company.WebSite, target: "_blank" },
                 React.createElement(
                   "span",
                   { className: "media-object pull-left" },

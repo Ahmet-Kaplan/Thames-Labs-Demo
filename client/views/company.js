@@ -163,7 +163,7 @@ var Company = React.createClass({
               </li>
 
               <li className="table-view-cell media">
-                <a className="navigate-right" href={company.WebSite}>
+                <a className="navigate-right" href={company.WebSite} target="_blank">
                   <span className="media-object pull-left"><i className="fa fa-laptop"></i></span>
                   <div className="media-body">
                     {company.WebSite}
