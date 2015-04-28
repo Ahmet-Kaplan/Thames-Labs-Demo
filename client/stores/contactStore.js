@@ -34,7 +34,21 @@ var contactStore = Reflux.createStore({
   },
 
   onContactUpdate: function(contactId) {
-    return;
+    request
+      .get('/api/1.0/contact/' + contactId)
+      .set('x-tkn', userStore.getToken())
+      .end(function(res) {
+        if (res.unauthorized) {
+          actions.logout();
+        } else {
+          this.data = _.reject(this.data, function(contact) {
+            return contact.ContactID === contactId;
+          });
+          this.data.push(res.body);
+          this.trigger(this.data);
+          localStorage.setItem('contacts', JSON.stringify(this.data));
+        }
+      }.bind(this));
   },
 
   onContactUpdateByCompanyId: function(companyId) {

@@ -1,10 +1,13 @@
 var React = require('react');
 var Router = require('react-router');
+var Reflux = require('reflux');
 var request = require('superagent');
 var truncate = require('truncate');
 var moment = require('moment');
+var _ = require('underscore');
 
-var userStore = require('../stores/userStore');
+var contactStore = require('../stores/contactStore');
+var activityStore = require('../stores/activityStore');
 var actions = require('../actions/actions');
 var auth = require('../mixins/auth');
 
@@ -12,45 +15,30 @@ var Link = Router.Link;
 
 var Contact = React.createClass({
 
-  mixins: [ auth ],
+  mixins: [
+    Reflux.connectFilter(contactStore, 'contact', function(contacts) {
+      var contactId = parseInt(this.context.router.getCurrentParams().contactId);
+      return _.find(contacts, function(contact) {
+        return contact.ContactID === contactId;
+      });
+    }),
+    Reflux.connectFilter(activityStore, 'activity', function(activities) {
+      var contactId = parseInt(this.context.router.getCurrentParams().contactId);
+      return activities.filter(function(activity) {
+        return activity.ContactID === contactId;
+      });
+    }),
+    auth
+  ],
 
   contextTypes: {
     router: React.PropTypes.func
   },
 
   getContactData: function() {
-    var contactId = this.context.router.getCurrentParams().contactId;
-
-    request
-      .get('/api/1.0/contact/' + contactId)
-      .set('x-tkn', userStore.getToken())
-      .end(function(res) {
-        if (res.unauthorized) {
-          actions.logout();
-        }
-        this.setState({
-          contact: res.body
-        });
-      }.bind(this));
-
-      request
-      .get('/api/1.0/contact/' + contactId + '/activity')
-      .set('x-tkn', userStore.getToken())
-      .end(function(res) {
-        if (res.unauthorized) {
-          actions.logout();
-        }
-        this.setState({
-          activity: res.body
-        });
-      }.bind(this));
-  },
-
-  getInitialState: function() {
-    return {
-      contact: [],
-      activity: []
-    };
+    var contactId = parseInt(this.context.router.getCurrentParams().contactId);
+    actions.contactUpdate(contactId);
+    actions.activityUpdateByContactId(contactId);
   },
 
   componentDidMount: function() {

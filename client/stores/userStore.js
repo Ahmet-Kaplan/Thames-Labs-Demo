@@ -31,7 +31,7 @@ var userStore = Reflux.createStore({
         uid: username,
         pwd: password
       })
-      .end(function(err, res){
+      .end(function(res){
         if (res.status === 200) {
           this.data.id = res.body.userId;
           this.data.token = res.body.token;

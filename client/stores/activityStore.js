@@ -35,6 +35,24 @@ var activityStore = Reflux.createStore({
           localStorage.setItem('activities', JSON.stringify(this.data));
         }
       }.bind(this));
+  },
+
+  onActivityUpdateByContactId: function(contactId) {
+    request
+    .get('/api/1.0/contact/' + contactId + '/activity')
+    .set('x-tkn', userStore.getToken())
+    .end(function(res) {
+      if (res.unauthorized) {
+        actions.logout();
+      } else {
+        this.data = _.reject(this.data, function(activity) {
+          return activity.ContactID === contactId;
+        });
+        this.data = this.data.concat(res.body);
+        this.trigger(this.data);
+        localStorage.setItem('activities', JSON.stringify(this.data));
+      }
+    }.bind(this));
   }
 
 });

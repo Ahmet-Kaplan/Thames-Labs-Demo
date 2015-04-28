@@ -163,6 +163,21 @@ var activityStore = Reflux.createStore({
         localStorage.setItem("activities", JSON.stringify(this.data));
       }
     }).bind(this));
+  },
+
+  onActivityUpdateByContactId: function onActivityUpdateByContactId(contactId) {
+    request.get("/api/1.0/contact/" + contactId + "/activity").set("x-tkn", userStore.getToken()).end((function (res) {
+      if (res.unauthorized) {
+        actions.logout();
+      } else {
+        this.data = _.reject(this.data, function (activity) {
+          return activity.ContactID === contactId;
+        });
+        this.data = this.data.concat(res.body);
+        this.trigger(this.data);
+        localStorage.setItem("activities", JSON.stringify(this.data));
+      }
+    }).bind(this));
   }
 
 });
@@ -264,7 +279,18 @@ var contactStore = Reflux.createStore({
   },
 
   onContactUpdate: function onContactUpdate(contactId) {
-    return;
+    request.get("/api/1.0/contact/" + contactId).set("x-tkn", userStore.getToken()).end((function (res) {
+      if (res.unauthorized) {
+        actions.logout();
+      } else {
+        this.data = _.reject(this.data, function (contact) {
+          return contact.ContactID === contactId;
+        });
+        this.data.push(res.body);
+        this.trigger(this.data);
+        localStorage.setItem("contacts", JSON.stringify(this.data));
+      }
+    }).bind(this));
   },
 
   onContactUpdateByCompanyId: function onContactUpdateByCompanyId(companyId) {
@@ -320,7 +346,7 @@ var userStore = Reflux.createStore({
     request.post("/api/1.0/login").type("form").send({
       uid: username,
       pwd: password
-    }).end((function (err, res) {
+    }).end((function (res) {
       if (res.status === 200) {
         this.data.id = res.body.userId;
         this.data.token = res.body.token;
@@ -921,11 +947,14 @@ module.exports = CompanyList;
 
 var React = require("react");
 var Router = require("react-router");
+var Reflux = require("reflux");
 var request = require("superagent");
 var truncate = require("truncate");
 var moment = require("moment");
+var _ = require("underscore");
 
-var userStore = require("../stores/userStore");
+var contactStore = require("../stores/contactStore");
+var activityStore = require("../stores/activityStore");
 var actions = require("../actions/actions");
 var auth = require("../mixins/auth");
 
@@ -934,39 +963,26 @@ var Link = Router.Link;
 var Contact = React.createClass({
   displayName: "Contact",
 
-  mixins: [auth],
+  mixins: [Reflux.connectFilter(contactStore, "contact", function (contacts) {
+    var contactId = parseInt(this.context.router.getCurrentParams().contactId);
+    return _.find(contacts, function (contact) {
+      return contact.ContactID === contactId;
+    });
+  }), Reflux.connectFilter(activityStore, "activity", function (activities) {
+    var contactId = parseInt(this.context.router.getCurrentParams().contactId);
+    return activities.filter(function (activity) {
+      return activity.ContactID === contactId;
+    });
+  }), auth],
 
   contextTypes: {
     router: React.PropTypes.func
   },
 
   getContactData: function getContactData() {
-    var contactId = this.context.router.getCurrentParams().contactId;
-
-    request.get("/api/1.0/contact/" + contactId).set("x-tkn", userStore.getToken()).end((function (res) {
-      if (res.unauthorized) {
-        actions.logout();
-      }
-      this.setState({
-        contact: res.body
-      });
-    }).bind(this));
-
-    request.get("/api/1.0/contact/" + contactId + "/activity").set("x-tkn", userStore.getToken()).end((function (res) {
-      if (res.unauthorized) {
-        actions.logout();
-      }
-      this.setState({
-        activity: res.body
-      });
-    }).bind(this));
-  },
-
-  getInitialState: function getInitialState() {
-    return {
-      contact: [],
-      activity: []
-    };
+    var contactId = parseInt(this.context.router.getCurrentParams().contactId);
+    actions.contactUpdate(contactId);
+    actions.activityUpdateByContactId(contactId);
   },
 
   componentDidMount: function componentDidMount() {
@@ -1159,7 +1175,7 @@ var Contact = React.createClass({
 
 module.exports = Contact;
 
-},{"../actions/actions":1,"../mixins/auth":3,"../stores/userStore":7,"moment":15,"react":209,"react-router":40,"superagent":230,"truncate":235}],12:[function(require,module,exports){
+},{"../actions/actions":1,"../mixins/auth":3,"../stores/activityStore":4,"../stores/contactStore":6,"moment":15,"react":209,"react-router":40,"reflux":210,"superagent":230,"truncate":235,"underscore":236}],12:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
