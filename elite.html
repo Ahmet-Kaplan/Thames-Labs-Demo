@@ -1,14 +1,32 @@
 <head>
+  <meta name="viewport" content="width=device-width">
   <title>elite</title>
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  <h1>Welcome to Elite!</h1>
 
-  {{> hello}}
+  {{#if currentUser}}
+    {{> companies }}
+    <button class="logout">Log out</button>
+  {{else}}
+    {{> login }}
+  {{/if}}
+
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="companies">
+  <button class="add">Add company</button>
+  <button class="clear">Clear added companies</button>
+  <ul>
+    {{# each companies}}
+      {{> company }}
+    {{/ each }}
+  </ul>
+</template>
+
+<template name="company">
+<li>
+  {{ Company }} - CompanyID {{ CompanyID }}
+</li>
 </template>

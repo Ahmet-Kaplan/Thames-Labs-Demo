@@ -5,5 +5,8 @@
 # but you can also edit it by hand.
 
 meteor-platform
-autopublish
-insecure
+numtel:mysql
+accounts-ui
+accounts-base
+npm-bcrypt
+chrismbeckett:toastr
