@@ -1,0 +1,48 @@
+<template name="contacts">
+  <h1>Contacts</h1>
+  <ul class="collection">
+    {{#each contacts}}
+      {{>contactSummary}}
+    {{/each}}
+  </ul>
+</template>
+
+<template name="contactSummary">
+  <a class="collection-item" href="/contact/{{ContactID}}">
+    <i class="mdi-social-person"></i>
+    {{Forename}} {{Surname}}
+  </a>
+</template>
+
+<template name="contactDetail">
+
+  <h1>{{contact.Forename}} {{contact.Surname}}</h1>
+
+  <ul class="collection">
+    <li class="collection-item">{{contact.Forename}} {{contact.Surname}}</li>
+  </ul>
+
+  {{#if companies}}
+  <ul class="collection with-header">
+    <li class="collection-header">
+      Companies
+    </li>
+    {{#each companies}}
+      {{>companySummary}}
+    {{/each}}
+  </ul>
+  {{/if}}
+
+  {{#if activities}}
+  <ul class="collection with-header">
+    <li class="collection-header">Activities</li>
+    {{#each activities}}
+      <li class="collection-item">
+        <span class="title">{{Activity}}</span>
+        <p>{{Body}}</p>
+      </li>
+    {{/each}}
+  </ul>
+  {{/if}}
+
+</template>

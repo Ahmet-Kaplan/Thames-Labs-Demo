@@ -1,0 +1,85 @@
+<template name="companies">
+  <h1>Companies</h1>
+  <a class="waves-effect waves-light add btn">Add test company</a>
+  <a class="waves-effect waves-light clear btn">Clear test companies</a>
+  <ul class="collection">
+    {{#each companies}}
+      {{>companySummary}}
+    {{/each}}
+  </ul>
+</template>
+
+<template name="companySummary">
+  <a class="collection-item" href="/company/{{CompanyID}}">
+    <i class="mdi-communication-business"></i>
+    {{Company}}
+  </a>
+</template>
+
+<template name="companyDetail">
+
+  <h1>{{company.Company}}</h1>
+
+  <div class="row">
+
+    <div class="col m8">
+
+      <ul class="collection with-header">
+        <li class="collection-header">Contact Details</li>
+        <a class="collection-item">
+          <i class="mdi-communication-phone"></i>
+          {{company.Phone}}
+        </a>
+        {{#if company.Website}}
+          <a class="collection-item">
+            <i class="mdi-hardware-laptop-chromebook"></i>
+            {{company.Website}}
+          </a>
+        {{/if}}
+      </ul>
+
+      {{#if contacts}}
+        <ul class="collection with-header">
+          <li class="collection-header">
+            Contacts
+          </li>
+          {{#each contacts}}
+            {{>contactSummary}}
+          {{/each}}
+        </ul>
+      {{/if}}
+
+      {{#if activities}}
+        <ul class="collection with-header">
+          <li class="collection-header">Activities</li>
+            {{#each activities}}
+              <li class="collection-item">
+                <span class="title">{{Activity}}</span>
+                <p>{{Body}}</p>
+              </li>
+            {{/each}}
+        </ul>
+      {{/if}}
+
+    </div>
+
+    <div class="col m4">
+
+      <div class="card">
+        <div class="card-image">
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{company.PostCode}}&size=600x600&markers={{company.PostCode}}">
+        </div>
+        <div class="card-content">
+          <p>{{company.Address}}</p>
+          <p>{{company.City}}</p>
+          <p>{{company.Country}}</p>
+          <p>{{company.PostCode}}</p>
+          <p>{{company.Country}}</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</template>

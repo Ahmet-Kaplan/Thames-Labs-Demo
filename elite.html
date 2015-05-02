@@ -4,29 +4,13 @@
 </head>
 
 <body>
-  <h1>Welcome to Elite!</h1>
 
-  {{#if currentUser}}
-    {{> companies }}
-    <button class="logout">Log out</button>
-  {{else}}
-    {{> login }}
-  {{/if}}
+  {{>nav}}
+    
+  <div class="container">
+
+    {{>Router}}
+
+  </div>
 
 </body>
-
-<template name="companies">
-  <button class="add">Add company</button>
-  <button class="clear">Clear added companies</button>
-  <ul>
-    {{# each companies}}
-      {{> company }}
-    {{/ each }}
-  </ul>
-</template>
-
-<template name="company">
-<li>
-  {{ Company }} - CompanyID {{ CompanyID }}
-</li>
-</template>

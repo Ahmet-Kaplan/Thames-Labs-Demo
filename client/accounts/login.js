@@ -1,9 +1,3 @@
-toastr.options = {
-  positionClass: 'toast-bottom-right',
-  progressBar: true,
-  preventDuplicates: true
-}
-
 Template.login.events({
 
   'submit #login': function(event, template) {
@@ -14,10 +8,12 @@ Template.login.events({
         password = template.find('#login-password').value;
 
     Meteor.loginWithElite(username, password, function(error) {
-      if (error)
-        toastr.error('Login unsuccessful');
-      else
-        toastr.success('Login successful');
+      if (error) {
+        Materialize.toast('Login unsuccessful', 2000, 'red');
+      } else {
+        Materialize.toast('Login successful', 2000);
+        Router.go('/');
+      }
     });
 
   },

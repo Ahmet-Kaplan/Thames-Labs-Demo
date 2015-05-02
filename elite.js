@@ -1,10 +1,17 @@
 companies = new MysqlSubscription('allCompanies');
+contacts = new MysqlSubscription('allContacts');
+activities = new MysqlSubscription('allActivities');
 
 if (Meteor.isClient) {
 
+  Template.body.onRendered(function() {
+    $(".button-collapse").sideNav();
+  });
+
   Template.body.events({
-    'click button.logout': function() {
+    'click a.logout': function() {
       Meteor.logout();
+      $('.button-collapse').sideNav('hide');
     }
   });
 
@@ -15,11 +22,13 @@ if (Meteor.isClient) {
   });
 
   Template.companies.events({
-    'click button.add': function() {
+    'click a.add': function() {
       Meteor.call('addRandomCompany');
+      Materialize.toast('Test company added', 1000, 'green');
     },
-    'click button.clear': function() {
+    'click a.clear': function() {
       Meteor.call('clearRandomCompanies');
+      Materialize.toast('Test companies cleared', 1000, 'red');
     }
   });
 
@@ -53,6 +62,20 @@ if (Meteor.isServer) {
     return liveDb.select(
       'SELECT * FROM users',
       [ { table: 'users' } ]
+    )
+  });
+
+  Meteor.publish('allContacts', function() {
+    return liveDb.select(
+      'SELECT * FROM contacts ORDER BY contactid DESC',
+      [ { table: 'contacts' } ]
+    )
+  });
+
+  Meteor.publish('allActivities', function() {
+    return liveDb.select(
+      'SELECT * FROM activity',
+      [ { table: 'activity' } ]
     )
   });
 

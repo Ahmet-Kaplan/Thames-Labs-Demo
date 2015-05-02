@@ -9,4 +9,5 @@ numtel:mysql
 accounts-ui
 accounts-base
 npm-bcrypt
-chrismbeckett:toastr
+iron:router
+materialize:materialize
