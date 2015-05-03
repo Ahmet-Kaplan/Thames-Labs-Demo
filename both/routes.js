@@ -62,3 +62,11 @@ Router.route('/contact/:id', function() {
     }
   });
 });
+
+Router.route('/credential', function() {
+  this.render('credentials', {
+    data: {
+      credentials: credentials.reactive()
+    }
+  });
+});

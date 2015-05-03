@@ -12,7 +12,6 @@ Template.login.events({
         Materialize.toast('Login unsuccessful', 2000, 'red');
       } else {
         Materialize.toast('Login successful', 2000);
-        Router.go('/');
       }
     });
 

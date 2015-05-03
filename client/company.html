@@ -1,25 +1,36 @@
 <template name="companies">
 <h1>{{#if showMyCompanies}}My {{/if}}Companies</h1>
-  <section>
-    <h5>Demo buttons</h5>
+  <div class="row">
     <a class="waves-effect waves-light add btn">Add test company</a>
     <a class="waves-effect waves-light clear btn red lighten-1">Clear test companies</a>
-  </section>
-  <section>
-    <div class="switch">
-      <label>
-        All companies
-        <input type="checkbox" checked={{showMyCompanies}}>
-        <span class="lever"></span>
-        My companies
-      </label>
+  </div>
+
+  <div class="row">
+    <div class="input-field col s12 m6 l8">
+      <i class="mdi-action-search prefix"></i>
+      <input id="search" type="text" class="validate" value={{companySearch}}>
+      <label for="search" class={{companySearchLabelClass}}>Company search</label>
     </div>
-  </section>
-  <ul class="collection">
-    {{#each companies}}
-      {{>companySummary}}
-    {{/each}}
-  </ul>
+    <div class="input-field col s12 m6 l4">
+      <div class="switch">
+        <label>
+          <input type="checkbox" checked={{showMyCompanies}}>
+          <span class="lever"></span>
+          My companies
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="s12">
+      <ul class="collection">
+        {{#each companies}}
+          {{>companySummary}}
+        {{/each}}
+      </ul>
+    </div>
+  </div>
 </template>
 
 <template name="companySummary">

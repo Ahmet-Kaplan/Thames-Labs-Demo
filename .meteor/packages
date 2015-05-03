@@ -12,3 +12,5 @@ npm-bcrypt
 iron:router
 materialize:materialize
 okgrow:iron-router-autoscroll
+lbee:lunr
+stevezhu:lodash
