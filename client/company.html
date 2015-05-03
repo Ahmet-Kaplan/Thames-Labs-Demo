@@ -1,7 +1,20 @@
 <template name="companies">
-  <h1>Companies</h1>
-  <a class="waves-effect waves-light add btn">Add test company</a>
-  <a class="waves-effect waves-light clear btn">Clear test companies</a>
+<h1>{{#if showMyCompanies}}My {{/if}}Companies</h1>
+  <section>
+    <h5>Demo buttons</h5>
+    <a class="waves-effect waves-light add btn">Add test company</a>
+    <a class="waves-effect waves-light clear btn red lighten-1">Clear test companies</a>
+  </section>
+  <section>
+    <div class="switch">
+      <label>
+        All companies
+        <input type="checkbox" checked={{showMyCompanies}}>
+        <span class="lever"></span>
+        My companies
+      </label>
+    </div>
+  </section>
   <ul class="collection">
     {{#each companies}}
       {{>companySummary}}
@@ -66,8 +79,9 @@
     <div class="col m4">
 
       <div class="card">
+        <a href="http://maps.apple.com/?q={{addressString company}}" target="_blank">
         <div class="card-image">
-          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{company.PostCode}}&size=600x600&markers={{company.PostCode}}">
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString company}}&size=600x600&markers={{addressString company}}">
         </div>
         <div class="card-content">
           <p>{{company.Address}}</p>
@@ -76,6 +90,7 @@
           <p>{{company.PostCode}}</p>
           <p>{{company.Country}}</p>
         </div>
+      </a>
       </div>
 
     </div>

@@ -17,7 +17,17 @@ if (Meteor.isClient) {
 
   Template.companies.helpers({
     companies: function () {
-      return companies.reactive();
+      var companyList = companies.reactive();
+      if (Session.get('showMyCompanies')) {
+        return companyList.filter(function(company) {
+          return company.AccMgrID === Meteor.user().profile.UserID;
+        });
+      } else {
+        return companyList;
+      }
+    },
+    showMyCompanies: function() {
+      return Session.get('showMyCompanies');
     }
   });
 
@@ -29,8 +39,23 @@ if (Meteor.isClient) {
     'click a.clear': function() {
       Meteor.call('clearRandomCompanies');
       Materialize.toast('Test companies cleared', 1000, 'red');
+    },
+    'change .switch input': function(event) {
+      Session.set('showMyCompanies', event.target.checked);
     }
   });
+
+  Template.companyDetail.helpers({
+    addressString: function(company) {
+      return encodeURIComponent([
+        company.Company,
+        company.Address,
+        company.City,
+        company.Country,
+        company.PostCode
+      ].join(', '));
+    }
+  })
 
 }
 
