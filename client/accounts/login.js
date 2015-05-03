@@ -11,7 +11,7 @@ Template.login.events({
       if (error) {
         Materialize.toast('Login unsuccessful', 2000, 'red');
       } else {
-        Materialize.toast('Login successful', 2000);
+        Materialize.toast('Login successful', 2000, 'teal');
       }
     });
 

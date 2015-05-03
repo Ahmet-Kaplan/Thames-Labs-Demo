@@ -61,7 +61,7 @@ if (Meteor.isClient) {
   Template.companies.events({
     'click a.add': function() {
       Meteor.call('addRandomCompany');
-      Materialize.toast('Test company added', 1000, 'green');
+      Materialize.toast('Test company added', 1000, 'teal');
     },
     'click a.clear': function() {
       Meteor.call('clearRandomCompanies');
