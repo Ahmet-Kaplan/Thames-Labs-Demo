@@ -47,7 +47,6 @@ if (Meteor.isClient) {
           });
         });
         companyList = searchResults;
-        console.log(companyList);
       }
       return companyList;
     },
@@ -81,6 +80,26 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.addCompanyModal.events({
+    'submit form': function(event) {
+
+      event.preventDefault();
+
+      var companyName = event.target.company.value,
+          address = event.target.address.value;
+
+      Meteor.call('addCompany', {
+        companyName: companyName,
+        address: address
+      }, function(){
+        event.target.reset();
+        $('.modal').closeModal();
+        Materialize.toast('Company added', 1000, 'teal');
+      });
+
+    }
+  });
+
   Template.companyDetail.helpers({
     addressString: function(company) {
       return encodeURIComponent([
@@ -91,6 +110,16 @@ if (Meteor.isClient) {
       ].join(', '));
     }
   })
+
+  Template.companyDetail.events({
+    'click .delete-company': function(event) {
+      var companyId = this.company.CompanyID;
+      Meteor.call('deleteCompany', companyId, function() {
+        Router.go('company');
+        Materialize.toast('Company deleted', 2000, 'red');
+      })
+    }
+  });
 
 }
 
@@ -159,6 +188,18 @@ if (Meteor.isServer) {
     'clearRandomCompanies': function() {
       liveDb.db.query(
         'DELETE FROM companies WHERE company LIKE "TEST COMPANY%"'
+      )
+    },
+    'addCompany': function(data) {
+      liveDb.db.query(
+        'INSERT INTO companies (Company, Address, AccMgrID) values (?, ?, ?)',
+        [ data.companyName, data.address, Meteor.user().profile.UserID ]
+      )
+    },
+    'deleteCompany': function(companyId) {
+      liveDb.db.query(
+        'DELETE FROM companies WHERE CompanyID = ?',
+        [ companyId ]
       )
     }
   });

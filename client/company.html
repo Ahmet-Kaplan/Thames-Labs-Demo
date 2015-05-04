@@ -121,6 +121,12 @@
 
   </div>
 
+  <div class="fixed-action-btn" style="bottom: 24px; right: 24px;">
+    <a class="btn-floating btn-large red delete-company">
+      <i class="large mdi-action-delete"></i>
+    </a>
+  </div>
+
 </template>
 
 <template name="addCompanyModal">
@@ -128,9 +134,24 @@
     <div class="modal-content">
       <h2>Add a new company</h2>
       <div class="row">
-        <a class="waves-effect waves-light add btn">Add test company</a>
-        <a class="waves-effect waves-light clear btn red lighten-1">Clear test companies</a>
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="company-name" name='company' type="text" class="validate">
+              <label for="company-name">Company name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="company-address" name='address' type="text" class="validate">
+              <label for="company-address">Address</label>
+            </div>
+          </div>
+          <input type="submit" value="Add company" class="btn">
+        </form>
       </div>
+    </div>
+    <div class="modal-footer">
     </div>
   </div>
 </template>
