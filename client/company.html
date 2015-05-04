@@ -1,9 +1,5 @@
 <template name="companies">
 <h1>{{#if showMyCompanies}}My {{/if}}Companies</h1>
-  <div class="row">
-    <a class="waves-effect waves-light add btn">Add test company</a>
-    <a class="waves-effect waves-light clear btn red lighten-1">Clear test companies</a>
-  </div>
 
   <div class="row">
     <div class="input-field col s12 m6 l8">
@@ -33,16 +29,20 @@
   </div>
 
   <div class="fixed-action-btn" style="bottom: 24px; right: 24px;">
-    <a class="btn-floating btn-large red">
+    <a class="btn-floating btn-large teal modal-trigger" href="#addCompanyModal">
       <i class="large mdi-editor-mode-edit"></i>
     </a>
     <ul>
-      <li><a class="btn-floating red"><i class="large mdi-editor-insert-chart"></i></a></li>
+      <li><a class="btn-floating indigo"><i class="large mdi-editor-insert-chart"></i></a></li>
       <li><a class="btn-floating yellow darken-1"><i class="large mdi-editor-format-quote"></i></a></li>
       <li><a class="btn-floating green"><i class="large mdi-editor-publish"></i></a></li>
       <li><a class="btn-floating blue"><i class="large mdi-editor-attach-file"></i></a></li>
+      <li><a class="btn-floating red clear"><i class="large mdi-content-clear"></i></a></li>
+      <li><a class="btn-floating teal add"><i class="large mdi-content-add"></i></a></li>
     </ul>
   </div>
+
+  {{>addCompanyModal}}
 
 </template>
 
@@ -121,4 +121,16 @@
 
   </div>
 
+</template>
+
+<template name="addCompanyModal">
+  <div id="addCompanyModal" class="modal">
+    <div class="modal-content">
+      <h2>Add a new company</h2>
+      <div class="row">
+        <a class="waves-effect waves-light add btn">Add test company</a>
+        <a class="waves-effect waves-light clear btn red lighten-1">Clear test companies</a>
+      </div>
+    </div>
+  </div>
 </template>

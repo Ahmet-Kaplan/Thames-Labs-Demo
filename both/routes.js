@@ -6,6 +6,16 @@ Router.onBeforeAction(function () {
     // otherwise don't hold up the rest of hooks or our route/action function
     this.next();
   }
+}, {
+  except: ['ticket.create']
+});
+
+Router.onRun(function() {
+  // Meteor.logout();
+  Materialize.toast('Visiting this page would force re-authentication', 2000, 'red');
+  this.next();
+}, {
+  only: ['credential']
 });
 
 Router.route('/', function() {
@@ -70,3 +80,11 @@ Router.route('/credential', function() {
     }
   });
 });
+
+Router.route('/webhooks/ticket/create', { where: 'server', name: 'ticket.create' })
+  .get(function() {
+    var req = this.request,
+        res = this.response;
+
+    res.end('This would create a ticket');
+  });

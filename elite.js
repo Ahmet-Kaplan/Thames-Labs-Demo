@@ -16,6 +16,10 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.companies.onRendered(function() {
+    $('.modal-trigger').leanModal();
+  });
+
   Template.companies.helpers({
     companies: function () {
       var companyList = companies.reactive(),
@@ -60,12 +64,14 @@ if (Meteor.isClient) {
 
   Template.companies.events({
     'click a.add': function() {
-      Meteor.call('addRandomCompany');
-      Materialize.toast('Test company added', 1000, 'teal');
+      Meteor.call('addRandomCompany', function() {
+        Materialize.toast('Test company added', 1000, 'teal');
+      });
     },
     'click a.clear': function() {
-      Meteor.call('clearRandomCompanies');
-      Materialize.toast('Test companies cleared', 1000, 'red');
+      Meteor.call('clearRandomCompanies', function() {
+        Materialize.toast('Test companies cleared', 1000, 'red');
+      });
     },
     'change .switch input': function(event) {
       Session.set('showMyCompanies', event.target.checked);
