@@ -147,14 +147,57 @@
     <div class="modal-content">
       <h2>Add a new company</h2>
       {{# autoForm schema=companySchema id="addCompanyForm" type="method" meteormethod="addCompany" }}
-        {{> afQuickField name="Company" }}
-        {{> afQuickField name="Address" rows=3 }}
-        {{> afQuickField name="City" }}
-        {{> afQuickField name="County" }}
-        {{> afQuickField name="PostCode" }}
-        {{> afQuickField name="Country" options=countryOptions }}
-        {{> afQuickField name="WebSite" }}
-        <button type="submit" class="btn">Add company</button>
+        <div class="row">
+          <div class="col s12">
+            {{> afQuickField name="Company" }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s6">
+            <div class="row">
+              <div class="col s12">
+                {{> afQuickField name="Address" }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                {{> afQuickField name="City" }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                {{> afQuickField name="County" }}
+              </div>
+            </div>
+          </div>
+          <div class="col s6">
+            <div class="row">
+              <div class="col s12">
+                {{> afQuickField name="PostCode" }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                {{> afQuickField name="Country" options=countryOptions }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                {{> afQuickField name="WebSite" }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            {{> afQuickField name="Category" options="allowed" }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <button type="submit" class="btn">Add company</button>
+          </div>
+        </div>
       {{/autoForm}}
     </div>
     <div class="modal-footer">

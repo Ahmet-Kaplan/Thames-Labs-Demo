@@ -7,8 +7,7 @@ countries = new MysqlSubscription('allCountries');
 if (Meteor.isServer) {
 
   var liveDb = new LiveMysql({
-    user: 'elite',
-    password: 'meRaWR73a$atH-3*',
+    user: 'root',
     database: 'cs-live'
   })
 

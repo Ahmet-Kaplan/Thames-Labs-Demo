@@ -34,5 +34,10 @@ Schema.company = new SimpleSchema({
     type: String,
     label: 'Website',
     regEx: SimpleSchema.RegEx.Url
+  },
+  Category: {
+    type: String,
+    label: 'Category',
+    allowedValues: ['Suspect', 'Prospect', 'Customer']
   }
 });
