@@ -2,20 +2,27 @@
 <h1>{{#if showMyCompanies}}My {{/if}}Companies</h1>
 
   <div class="row">
-    <div class="input-field col s12 m6 l8">
-      <i class="mdi-action-search prefix"></i>
-      <input id="search" type="text" class="validate" value={{companySearch}}>
-      <label for="search" class={{companySearchLabelClass}}>Company search</label>
-    </div>
-    <div class="input-field col s12 m6 l4">
-      <div class="switch">
-        <label>
-          <input type="checkbox" checked={{showMyCompanies}}>
-          <span class="lever"></span>
-          My companies
-        </label>
+
+    <div class="col s12 m6 l8">
+      <div class="input-field">
+        <i class="mdi-action-search prefix"></i>
+        <input id="search" type="text" class="validate" value={{companySearch}}>
+        <label for="search" class={{companySearchLabelClass}}>Company search</label>
       </div>
     </div>
+
+    <div class="col s12 m6 l4">
+      <div class="input-field">
+        <div class="switch">
+          <label>
+            <input type="checkbox" checked={{showMyCompanies}}>
+            <span class="lever"></span>
+            My companies
+          </label>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div class="row">
@@ -48,8 +55,14 @@
 
 <template name="companySummary">
   <a class="collection-item" href="/company/{{CompanyID}}">
-    <i class="mdi-communication-business"></i>
-    {{Company}}
+    <h5>
+      <i class="mdi-communication-business"></i>
+      {{Company}}
+    </h5>
+    <ul>
+      {{#if Address}}<li><i class="mdi-communication-location-on"></i>{{Address}}</li>{{/if}}
+      {{#if Phone}}<li><i class="mdi-communication-phone"></i>{{Phone}}</li>{{/if}}
+    </ul>
   </a>
 </template>
 

@@ -10,7 +10,7 @@ Accounts.registerLoginHandler(function(loginRequest) {
   }
 
   eliteUser = eliteUsers.filter(function(user) {
-    return user.UserName == loginRequest.username;
+    return user.UserName.toLowerCase() == loginRequest.username.toLowerCase();
   })[0];
 
   if (!eliteUser)
