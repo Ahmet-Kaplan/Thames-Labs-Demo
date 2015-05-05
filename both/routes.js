@@ -18,6 +18,10 @@ Router.onRun(function() {
   only: ['credential']
 });
 
+Router.onAfterAction(function() {
+  $('.button-collapse').sideNav('hide');
+});
+
 Router.route('/', function() {
   this.redirect('/company');
 });
