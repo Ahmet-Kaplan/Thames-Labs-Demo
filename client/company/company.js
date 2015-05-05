@@ -62,6 +62,12 @@ Template.companies.events({
   }
 });
 
+Template.companySummary.helpers({
+  validatePhone: function() {
+    return this.Phone && this.Phone.trim().length != 0;
+  }
+})
+
 Template.addCompanyModal.helpers({
   companySchema: function() {
     return Schema.company;
