@@ -19,6 +19,11 @@ Accounts.registerLoginHandler(function(loginRequest) {
   if (!bcryptCompare(loginRequest.password, eliteUser.Password))
     throw new Meteor.Error(403, "Incorrect password");
 
+  if (eliteUser.Active === 0) {
+    console.log('user not active');
+    throw new Meteor.Error(403, "User not active");
+  }
+
   var userId = null;
   var existingUser = Meteor.users.findOne({username: loginRequest.username});
   if (existingUser) {

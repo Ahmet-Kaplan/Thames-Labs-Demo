@@ -126,7 +126,8 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
 
   var liveDb = new LiveMysql({
-    user: 'root',
+    user: 'elite',
+    password: 'meRaWR73a$atH-3*',
     database: 'cs-live'
   })
 
