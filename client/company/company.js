@@ -62,23 +62,20 @@ Template.companies.events({
   }
 });
 
-Template.addCompanyModal.events({
-  'submit form': function(event) {
-
-    event.preventDefault();
-
-    var companyName = event.target.company.value,
-    address = event.target.address.value;
-
-    Meteor.call('addCompany', {
-      companyName: companyName,
-      address: address
-    }, function(){
-      event.target.reset();
-      $('.modal').closeModal();
-      Materialize.toast('Company added', 1000, 'teal');
+Template.addCompanyModal.helpers({
+  companySchema: function() {
+    return Schema.company;
+  },
+  countryOptions: function() {
+    return {
+      'UK': 'United Kingdom',
+      'USA': 'United States of America'
+    }
+    return countries.reactive().filter(function(country) {
+      return country.Country != '';
+    }).map(function(country) {
+      return { label: country.Country, value: country.Country };
     });
-
   }
 });
 

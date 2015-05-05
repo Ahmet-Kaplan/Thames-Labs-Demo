@@ -2,6 +2,7 @@ companies = new MysqlSubscription('allCompanies');
 contacts = new MysqlSubscription('allContacts');
 activities = new MysqlSubscription('allActivities');
 credentials = new MysqlSubscription('allCredentials');
+countries = new MysqlSubscription('allCountries');
 
 if (Meteor.isServer) {
 
@@ -59,6 +60,14 @@ if (Meteor.isServer) {
     )
   });
 
+  Meteor.publish('allCountries', function() {
+    if (! this.userId) return [];
+    return liveDb.select(
+      'SELECT * FROM countries',
+      [ { table: 'countries' } ]
+    )
+  });
+
   Meteor.methods({
     'addRandomCompany': function() {
       liveDb.db.query(
@@ -71,11 +80,37 @@ if (Meteor.isServer) {
         'DELETE FROM companies WHERE company LIKE "TEST COMPANY%"'
       )
     },
-    'addCompany': function(data) {
-      liveDb.db.query(
-        'INSERT INTO companies (Company, Address, AccMgrID) values (?, ?, ?)',
-        [ data.companyName, data.address, Meteor.user().profile.UserID ]
-      )
+    'addCompany': function(doc) {
+
+      // IMPORTANT! verify doc adheres to schema server side
+      check(doc, Schema.company);
+
+      var columns = [
+        'Company',
+        'Address',
+        'City',
+        'County',
+        'PostCode',
+        'Country',
+        'WebSite',
+        'AccMgrId'
+      ];
+      var values = [
+        doc.Company,
+        doc.Address,
+        doc.City,
+        doc.County,
+        doc.PostCode,
+        doc.Country,
+        doc.WebSite,
+        Meteor.user().profile.UserID
+      ];
+
+      var query = liveDb.db.query(
+        'INSERT INTO companies (??) values (?);',
+        [ columns, values ]
+      );
+
     },
     'deleteCompany': function(companyId) {
       liveDb.db.query(
