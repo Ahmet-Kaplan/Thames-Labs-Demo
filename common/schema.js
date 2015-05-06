@@ -1,3 +1,5 @@
+//Outlines the schema used when talking to the database.
+//N.B. this is only required whilst not talking to MongoDB
 Schema = {};
 Schema.company = new SimpleSchema({
   Company: {
