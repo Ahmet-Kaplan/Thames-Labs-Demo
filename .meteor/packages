@@ -8,7 +8,6 @@ meteor-platform
 numtel:mysql
 accounts-ui
 accounts-base
-npm-bcrypt
 iron:router
 materialize:materialize
 okgrow:iron-router-autoscroll
