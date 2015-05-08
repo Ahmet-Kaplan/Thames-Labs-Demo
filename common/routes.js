@@ -1,94 +1,63 @@
-Router.onBeforeAction(function () {
-  if (!Meteor.userId()) {
-    // if the user is not logged in, render the Login template
-    this.render('login');
-  } else {
-    // otherwise don't hold up the rest of hooks or our route/action function
+// Require sign in for all routes
+Router.onBeforeAction(function() {
+  if (Meteor.user()) {
     this.next();
+  } else {
+    this.render('login');
+  }
+});
+
+// Require superadmin for some routes
+Router.onBeforeAction(function() {
+  if (Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
+    this.next();
+  } else {
+    this.redirect('/');
   }
 }, {
-  except: ['ticket.create']
+  only: ['customers']
 });
 
-Router.onRun(function() {
-  // Meteor.logout();
-  Materialize.toast('Visiting this page would force re-authentication', 2000, 'red');
-  this.next();
-}, {
-  only: ['credential']
-});
-
+// Close sidebar on any route change
 Router.onAfterAction(function() {
   $('.button-collapse').sideNav('hide');
 });
 
 Router.route('/', function() {
-  this.redirect('/company');
+  this.redirect('/companies');
 });
 
-Router.route('/login');
-
-Router.route('/company', function() {
-  this.render('companies');
+Router.route('/companies', {
+  
+  waitOn: function() {
+    return Meteor.subscribe('companies');
+  }
+    
 });
 
 Router.route('/company/:id', function() {
   var companyId = this.params.id;
-  this.render('companyDetail', {
-    data: {
-      company: companies.reactive().filter(function(company) {
-        return company.CompanyID == companyId;
-      })[0],
-      contacts: contacts.reactive().filter(function(contact) {
-        return contact.CompanyID == companyId;
-      }),
-      activities: activities.reactive().filter(function(activity) {
-        return activity.CompanyID == companyId;
-      })
-    }
-  });
+  this.render('companyDetail');
 });
 
-Router.route('/contact', function() {
-  this.render('contacts', {
-    data: {
-      contacts: contacts.reactive()
-    }
-  });
+Router.route('/customers', function() {
+
+  this.wait(Meteor.subscribe('customers'));
+
+  if (this.ready()) {
+    this.render('customers', {
+      data: function() {
+        return {
+          'customers': Customers.find({})
+        };
+      }
+    });
+  }
+
+}, {
+  name: 'customers'
 });
 
-Router.route('/contact/:id', function() {
-
-  var contactId = this.params.id;
-  var contact = contacts.reactive().filter(function(contact) {
-    return contact.ContactID == contactId;
-  })[0];
-
-  this.render('contactDetail', {
-    data: {
-      contact: contact,
-      companies: companies.reactive().filter(function(company) {
-        return company.CompanyID == contact.CompanyID;
-      }),
-      activities: activities.reactive().filter(function(activity) {
-        return activity.ContactID == contactId;
-      })
-    }
-  });
+Router.route('/customers/add', function() {
+  this.render('insertCustomerForm');
 });
-
-Router.route('/credential', function() {
-  this.render('credentials', {
-    data: {
-      credentials: credentials.reactive()
-    }
-  });
-});
-
-Router.route('/webhooks/ticket/create', { where: 'server', name: 'ticket.create' })
-  .get(function() {
-    var req = this.request,
-        res = this.response;
-
-    res.end('This would create a ticket');
-  });

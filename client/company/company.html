@@ -2,30 +2,6 @@
 <h1>{{#if showMyCompanies}}My {{/if}}Companies</h1>
 
   <div class="row">
-
-    <div class="col s12 m6 l8">
-      <div class="input-field">
-        <i class="mdi-action-search prefix"></i>
-        <input id="search" type="text" class="validate" value={{companySearch}}>
-        <label for="search" class={{companySearchLabelClass}}>Company search</label>
-      </div>
-    </div>
-
-    <div class="col s12 m6 l4">
-      <div class="input-field">
-        <div class="switch">
-          <label>
-            <input type="checkbox" checked={{showMyCompanies}}>
-            <span class="lever"></span>
-            My companies
-          </label>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="row">
     <div class="s12">
       <ul class="collection">
         {{#each companies}}
@@ -36,7 +12,7 @@
   </div>
 
   <div class="fixed-action-btn" style="bottom: 24px; right: 24px;">
-    <a class="btn-floating btn-large teal modal-trigger" href="#addCompanyModal">
+    <a class="btn-floating btn-large teal modal-trigger">
       <i class="large mdi-content-add"></i>
     </a>
     <ul>
@@ -49,19 +25,17 @@
     </ul>
   </div>
 
-  {{>addCompanyModal}}
-
 </template>
 
 <template name="companySummary">
   <a class="collection-item" href="/company/{{CompanyID}}">
     <h5>
       <i class="mdi-communication-business"></i>
-      {{Company}}
+      {{name}}
     </h5>
     <ul>
-      {{#if Address}}<li><i class="mdi-communication-location-on"></i>{{Address}}</li>{{/if}}
-      {{#if validatePhone}}<li><i class="mdi-communication-phone"></i>{{Phone}}</li>{{/if}}
+      {{#if address}}<li><i class="mdi-communication-location-on"></i>{{address}}</li>{{/if}}
+      {{#if phone}}<li><i class="mdi-communication-phone"></i>{{phone}}</li>{{/if}}
     </ul>
   </a>
 </template>
@@ -140,67 +114,4 @@
     </a>
   </div>
 
-</template>
-
-<template name="addCompanyModal">
-  <div id="addCompanyModal" class="modal">
-    <div class="modal-content">
-      <h2>Add a new company</h2>
-      {{# autoForm schema=companySchema id="addCompanyForm" type="method" meteormethod="addCompany" }}
-        <div class="row">
-          <div class="col s12">
-            {{> afQuickField name="Company" }}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s6">
-            <div class="row">
-              <div class="col s12">
-                {{> afQuickField name="Address" }}
-              </div>
-            </div>
-            <div class="row">
-              <div class="col s12">
-                {{> afQuickField name="City" }}
-              </div>
-            </div>
-            <div class="row">
-              <div class="col s12">
-                {{> afQuickField name="County" }}
-              </div>
-            </div>
-          </div>
-          <div class="col s6">
-            <div class="row">
-              <div class="col s12">
-                {{> afQuickField name="PostCode" }}
-              </div>
-            </div>
-            <div class="row">
-              <div class="col s12">
-                {{> afQuickField name="Country" options=countryOptions }}
-              </div>
-            </div>
-            <div class="row">
-              <div class="col s12">
-                {{> afQuickField name="WebSite" }}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12">
-            {{> afQuickField name="Category" options="allowed" }}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12">
-            <button type="submit" class="btn">Add company</button>
-          </div>
-        </div>
-      {{/autoForm}}
-    </div>
-    <div class="modal-footer">
-    </div>
-  </div>
 </template>

@@ -6,18 +6,18 @@
         Elite<span class="grey-text text-lighten-1">BMS</span>
       </a>
       <a href="#" data-activates="mobile-menu" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+
       <ul class="right hide-on-med-and-down">
-        <li><a href="/company"><i class="mdi-communication-business left"></i>Companies</a></li>
-        <li><a href="/contact"><i class="mdi-social-people left"></i>Contacts</a></li>
-        <li><a href="/credential"><i class="mdi-communication-vpn-key left"></i>Credentials</a></li>
-        <li><a href="#" class="logout"><i class="mdi-action-exit-to-app"></i></a></li>
+        {{#if isInRole 'superadmin'}}
+          <li><a href="/customers">Customers</a></li>
+        {{/if}}
+        {{> atNavButton}}
       </ul>
+
       <ul class="side-nav" id="mobile-menu">
-        <li><a href="/company"><i class="mdi-communication-business left"></i>Companies</a></li>
-        <li><a href="/contact"><i class="mdi-social-people left"></i>Contacts</a></li>
-        <li><a href="/credential"><i class="mdi-communication-vpn-key left"></i>Credentials</a></li>
-        <li><a href="#" class="logout"><i class="mdi-action-exit-to-app left"></i>Log out</a></li>
+        {{> atNavButton}}
       </ul>
+
     </div>
   </nav>
 </template>
