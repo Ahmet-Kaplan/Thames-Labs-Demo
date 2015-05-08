@@ -1,9 +1,13 @@
 <template name="customers">
 
+<h2>Existing Customers</h2>
 <ul>
   {{#each customers}}
     <li>{{name}}</li>
   {{/each}}
 </ul>
+
+<h2>Add customer</h2>
+{{> quickForm collection="Customers" id="insertCustomerForm" type="insert"}}
 
 </template>

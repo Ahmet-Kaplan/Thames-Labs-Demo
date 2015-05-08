@@ -57,7 +57,3 @@ Router.route('/customers', function() {
 }, {
   name: 'customers'
 });
-
-Router.route('/customers/add', function() {
-  this.render('insertCustomerForm');
-});
