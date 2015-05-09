@@ -5,6 +5,5 @@ AutoForm.setDefaultTemplate('materialize');
 AutoForm.addHooks(null, {
   onSuccess: function(formType, result) {
     $('.modal').closeModal();
-    Materialize.toast('Company added', 1000, 'teal');
   }
 });

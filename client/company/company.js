@@ -5,6 +5,12 @@ Template.companies.helpers({
   },
 });
 
+Template.companies.events({
+  'click .add-random': function() {
+    Meteor.call('addRandomCompany');
+  }
+});
+
 Template.companyDetail.helpers({
   addressString: function(company) {
     return encodeURIComponent([

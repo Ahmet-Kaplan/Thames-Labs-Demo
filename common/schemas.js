@@ -2,6 +2,7 @@
 
 Schemas = {};
 
+// Define schema for Customer object
 Schemas.Customer = new SimpleSchema({
   name: {
     type: String,
@@ -9,4 +10,30 @@ Schemas.Customer = new SimpleSchema({
   }
 });
 
+// Add schema to collection
 Customers.attachSchema(Schemas.Customer);
+
+// Define Schema for User object
+// NB! We don't attach to collection as this is only used for 
+// validation before passing to Accounts.createUser()
+Schemas.User = new SimpleSchema({
+  username: {
+    type: String,
+    optional: true
+  },
+  email: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Email
+  },
+  password: {
+    type: String,
+    min: 6
+  },
+  roles: {
+    type: [String],
+    optional: true
+  },
+  group: {
+    type: String
+  }
+});

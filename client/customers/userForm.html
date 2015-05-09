@@ -1,0 +1,16 @@
+<!-- Expects to be called in Customer context -->
+<template name="insertUserForm">
+  <div class="row">
+    <h5>Add new user</h5>
+    {{#autoForm schema="Schemas.User" id=formId type="method" meteormethod="addUser"}}
+    <div class="col s6">
+      {{> afQuickField name="email"}}
+    </div>
+    <div class="col s6">
+      {{> afQuickField name="password"}}
+    </div>
+    {{> afQuickField name="group" type="hidden" value=_id}}
+    <button type="submit" class="btn">Submit</button>
+    {{/autoForm}}
+  </div>
+</template>

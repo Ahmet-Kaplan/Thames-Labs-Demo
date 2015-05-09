@@ -40,20 +40,18 @@ Router.route('/company/:id', function() {
   this.render('companyDetail');
 });
 
-Router.route('/customers', function() {
+Router.route('/customers', {
 
-  this.wait(Meteor.subscribe('customers'));
+  name: 'customers',
 
-  if (this.ready()) {
-    this.render('customers', {
-      data: function() {
-        return {
-          'customers': Customers.find({})
-        };
-      }
-    });
+  waitOn: function() {
+    return [ Meteor.subscribe('customers'), Meteor.subscribe('userData') ];
+  },
+  
+  data: function() {
+    return {
+      'customers': Customers.find({})
+    };
   }
 
-}, {
-  name: 'customers'
 });

@@ -1,13 +1,55 @@
 <template name="customers">
 
-<h2>Existing Customers</h2>
-<ul>
-  {{#each customers}}
-    <li>{{name}}</li>
-  {{/each}}
-</ul>
+{{> autoformModals}}
 
-<h2>Add customer</h2>
-{{> quickForm collection="Customers" id="insertCustomerForm" type="insert"}}
+<div class="fixed-action-btn" style="bottom: 24px; right: 24px;">
+  {{#afModal classes="btn-floating btn-large" collection="Customers" operation="insert" title="Add a new customer"}}
+    <i class="large mdi-content-add"></i>
+  {{/afModal}}
+</div>
+
+<h2>Customers</h2>
+
+<div class="divider"></div>
+
+{{#each customers}}
+  <div class="section">
+    <h3>{{name}}</h3>
+    <a class="waves-effect waves-light btn modal-trigger right" href={{addHash _id}}>Add user</a>
+    {{#if users.count}}
+      <h5>Users ({{users.count}})</h5>
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>ID</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each users}}
+        <tr>
+          <td>{{emailsToString}}</td>
+          <td>{{_id}}</td>
+        </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <h5>No users yet</h5>
+    {{/if}}
+  </div>
+
+  <div id={{_id}} class="modal">
+    <div class="modal-content">
+      {{>insertUserForm}}
+    </div>
+  </div>
+
+  <div class="divider"></div>
+{{else}}
+  <div class="section">
+    <h3>No customers added</h3>
+  </div>
+{{/each}}
 
 </template>
