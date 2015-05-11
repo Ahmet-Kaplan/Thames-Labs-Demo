@@ -18,11 +18,6 @@ Router.onBeforeAction(function() {
   only: ['customers']
 });
 
-// Close sidebar on any route change
-Router.onAfterAction(function() {
-  $('.button-collapse').sideNav('hide');
-});
-
 Router.route('/', function() {
   this.redirect('/companies');
 });

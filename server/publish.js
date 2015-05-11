@@ -17,7 +17,7 @@ Meteor.publish("userData", function() {
   
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
     return Meteor.users.find({}, {
-      fields: {'group': 1, 'username': 1, 'emails': 1}
+      fields: {'group': true, 'username': true, 'emails': true, 'profile': true}
     });
   } else {
     // User not superadmin, do not publish

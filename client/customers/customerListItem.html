@@ -1,0 +1,29 @@
+<template name="customerListItem">
+  <div class="panel panel-default">
+    <div class="panel-heading">{{name}}</div>
+    <div class="panel-body">
+      <p>{{name}} has {{users.count}} users.</p>
+      <button class="btn btn-primary" id="add-user">Add user</button>
+    </div>
+    {{#if users.count}}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>ID</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each users}}
+        <tr>
+          <td>{{profile.name}}</td>
+          <td>{{emailsToString}}</td>
+          <td>{{_id}}</td>
+        </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
+  </div>
+</template>

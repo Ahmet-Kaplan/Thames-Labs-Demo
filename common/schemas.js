@@ -21,6 +21,9 @@ Schemas.User = new SimpleSchema({
     type: String,
     optional: true
   },
+  name: {
+    type: String
+  },
   email: {
     type: String,
     regEx: SimpleSchema.RegEx.Email
@@ -37,3 +40,12 @@ Schemas.User = new SimpleSchema({
     type: String
   }
 });
+
+Schemas.Company = new SimpleSchema({
+  name: {
+    type: String,
+    label: "Name",
+    max: 50
+  }
+});
+Companies.attachSchema(Schemas.Company);

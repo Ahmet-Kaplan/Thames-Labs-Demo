@@ -8,14 +8,10 @@ meteor-platform
 accounts-ui
 accounts-base
 iron:router
-materialize:materialize
 okgrow:iron-router-autoscroll
 lbee:lunr
 stevezhu:lodash
-aldeed:autoform
-gildaspk:autoform-materialize
 accounts-password
-useraccounts:materialize
 digilord:faker
 alanning:roles
 aldeed:collection2
@@ -23,4 +19,8 @@ msavin:mongol
 mizzao:partitioner
 ongoworks:security
 dburles:collection-helpers
-gildaspk:autoform-modals-materialize
+yogiben:autoform-modals
+twbs:bootstrap
+useraccounts:bootstrap
+peppelg:bootstrap-3-modal
+aldeed:autoform

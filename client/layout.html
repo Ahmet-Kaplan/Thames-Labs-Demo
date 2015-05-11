@@ -1,0 +1,20 @@
+<template name="AppLayout">
+  <head>
+    <meta name="viewport" content="width=device-width">
+    <title>elite</title>
+  </head>
+
+  <body>
+
+    {{> nav}}
+
+    <div class="content">
+      <div class="container-fluid">
+        {{> yield}}
+      </div>
+    </div>
+
+    {{> footer}}
+
+  </body>
+</template>

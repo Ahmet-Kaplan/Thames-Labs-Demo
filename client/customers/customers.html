@@ -1,55 +1,30 @@
 <template name="customers">
 
-{{> autoformModals}}
+<div class="row">
 
-<div class="fixed-action-btn" style="bottom: 24px; right: 24px;">
-  {{#afModal classes="btn-floating btn-large" collection="Customers" operation="insert" title="Add a new customer"}}
-    <i class="large mdi-content-add"></i>
-  {{/afModal}}
-</div>
-
-<h2>Customers</h2>
-
-<div class="divider"></div>
-
-{{#each customers}}
-  <div class="section">
-    <h3>{{name}}</h3>
-    <a class="waves-effect waves-light btn modal-trigger right" href={{addHash _id}}>Add user</a>
-    {{#if users.count}}
-      <h5>Users ({{users.count}})</h5>
-      <table>
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>ID</th>
-          </tr>
-        </thead>
-        <tbody>
-        {{#each users}}
-        <tr>
-          <td>{{emailsToString}}</td>
-          <td>{{_id}}</td>
-        </tr>
-        {{/each}}
-        </tbody>
-      </table>
-    {{else}}
-      <h5>No users yet</h5>
-    {{/if}}
-  </div>
-
-  <div id={{_id}} class="modal">
-    <div class="modal-content">
-      {{>insertUserForm}}
+  <div class="col-md-3">
+    <h1>Actions</h1>
+    <div class="btn-group-vertical btn-group-justified">
+      {{#afModal class="btn btn-primary" collection="Customers" operation="insert"}}
+        Add new customer
+      {{/afModal}}
     </div>
   </div>
 
-  <div class="divider"></div>
-{{else}}
-  <div class="section">
-    <h3>No customers added</h3>
+  <div class="col-md-9">
+
+    <h1>Customers</h1>
+
+    {{#each customers}}
+      {{> customerListItem}}
+    {{else}}
+      <h2>No customers added</h2>
+    {{/each}}
+
   </div>
-{{/each}}
+
+</div>
+
+{{> autoformModals}}
 
 </template>
