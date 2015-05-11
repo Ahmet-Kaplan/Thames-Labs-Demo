@@ -10,6 +10,7 @@
     <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
+        {{> esInput index="companies" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
         <div class="btn-group-vertical btn-group-justified">
           {{#afModal class="btn btn-primary" collection="Companies" operation="insert"}}
             Add new company
@@ -23,11 +24,14 @@
       <h1>Companies</h1>
 
       <div class="list-group">
-        {{#each companies}}
-          {{>companySummary}}
+        {{#ifEsIsSearching index="companies"}}
+          {{> spinner}}
         {{else}}
-          <li class="list-group-item">No companies added</li>
-        {{/each}}
+          {{#esEach index="companies"}}
+            {{>companySummary}}
+          {{/esEach}}
+          {{> esLoadMoreButton index="companies" class="btn btn-default"}}
+        {{/ifEsIsSearching}}
       </div>
 
     </div>
@@ -51,76 +55,32 @@
 
 <template name="companyDetail">
 
-  <h1>{{name}}</h1>
-
   <div class="row">
-
-    <div class="col m8">
-
-      <ul class="collection with-header">
-        <li class="collection-header">Contact Details</li>
-        <a class="collection-item">
-          <i class="mdi-communication-phone"></i>
-          {{phone}}
-        </a>
-        {{#if company.Website}}
-          <a class="collection-item">
-            <i class="mdi-hardware-laptop-chromebook"></i>
-            {{company.Website}}
-          </a>
-        {{/if}}
-      </ul>
-
-      {{#if contacts}}
-        <ul class="collection with-header">
-          <li class="collection-header">
-            Contacts
-          </li>
-          {{#each contacts}}
-            {{>contactSummary}}
-          {{/each}}
-        </ul>
-      {{/if}}
-
-      {{#if activities}}
-        <ul class="collection with-header">
-          <li class="collection-header">Activities</li>
-            {{#each activities}}
-              <li class="collection-item">
-                <span class="title">{{Activity}}</span>
-                <p>{{Body}}</p>
-              </li>
-            {{/each}}
-        </ul>
-      {{/if}}
+    <div class="col-md-3">
 
     </div>
 
-    <div class="col m4">
-
-      <div class="card">
-        <a href="http://maps.apple.com/?q={{addressString company}}" target="_blank">
-        <div class="card-image">
-          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString company}}&size=600x600&markers={{addressString company}}">
-        </div>
-        <div class="card-content">
-          <p>{{company.Address}}</p>
-          <p>{{company.City}}</p>
-          <p>{{company.Country}}</p>
-          <p>{{company.PostCode}}</p>
-          <p>{{company.Country}}</p>
-        </div>
-      </a>
-      </div>
-
+    <div class="col-md-6">
+      <h1>{{name}}</h1>
     </div>
 
-  </div>
+    <div class="col-md-3">
+      <!-- <div class="card"> -->
+      <!--   <a href="http://maps.apple.com/?q={{addressString company}}" target="_blank"> -->
+      <!--   <div class="card-image"> -->
+      <!--     <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString company}}&size=600x600&markers={{addressString company}}"> -->
+      <!--   </div> -->
+      <!--   <div class="card-content"> -->
+      <!--     <p>{{company.Address}}</p> -->
+      <!--     <p>{{company.City}}</p> -->
+      <!--     <p>{{company.Country}}</p> -->
+      <!--     <p>{{company.PostCode}}</p> -->
+      <!--     <p>{{company.Country}}</p> -->
+      <!--   </div> -->
+      <!--   </a> -->
+      <!-- </div> -->
+    </div>
 
-  <div class="fixed-action-btn" style="bottom: 24px; right: 24px;">
-    <a class="btn-floating btn-large red delete-company">
-      <i class="large mdi-action-delete"></i>
-    </a>
   </div>
 
 </template>

@@ -26,6 +26,12 @@ Router.route('/companies', {
   
   waitOn: function() {
     return Meteor.subscribe('companies');
+  },
+
+  data: function() {
+    return {
+      'companies': Companies.find({})
+    }
   }
     
 });
@@ -41,8 +47,7 @@ Router.route('/companies/:_id', {
   },
 
   data: function() {
-    var companyId = this.params._id;
-    return Customers.findOne();
+    return Companies.findOne(this.params._id);
   }
 
 });

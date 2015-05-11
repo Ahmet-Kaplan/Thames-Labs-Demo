@@ -9,13 +9,6 @@ Template.companies.onRendered(function() {
   // sidebar.width(sidebar.parent().width());
 });
 
-Template.companies.helpers({
-  companies: function () {
-    var companies = Companies.find({});
-    return companies;
-  },
-});
-
 Template.companies.events({
   'click .add-random': function() {
     Meteor.call('addRandomCompany');

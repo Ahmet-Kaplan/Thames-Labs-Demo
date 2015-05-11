@@ -1,5 +1,8 @@
 Companies = new Mongo.Collection("companies");
 Partitioner.partitionCollection(Companies);
+Companies.initEasySearch('name', {
+  limit: 50
+});
 
 Customers = new Mongo.Collection("customers");
 Customers.helpers({
