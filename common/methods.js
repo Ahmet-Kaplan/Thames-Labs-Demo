@@ -25,6 +25,32 @@ Meteor.methods({
       Partitioner.setUserGroup(userId, doc.group);
     }
 
-  }
+  },
 
+  generateDemoData: function(customerDoc) {
+
+    if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
+      return
+    }
+
+    Partitioner.bindGroup(customerDoc._id, function() {
+
+      // generate fake customer data
+      _.each(_.range(100), function() {
+        var randomName = faker.company.companyName();
+        Companies.insert({ 
+          name: faker.company.companyName(),
+          address: faker.address.streetAddress(),
+          city: faker.address.city(),
+          county: faker.address.county(),
+          postcode: faker.address.zipCode(),
+          country: faker.address.country(),
+          website: 'http://' + faker.internet.domainName(),
+          phone: faker.phone.phoneNumber()
+        });
+      });
+    
+    });
+
+  }
 });

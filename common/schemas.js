@@ -44,8 +44,38 @@ Schemas.User = new SimpleSchema({
 Schemas.Company = new SimpleSchema({
   name: {
     type: String,
-    label: "Name",
-    max: 50
+    label: "Company name"
+  },
+  address: {
+    type: String,
+    label: "Address"
+  },
+  city: {
+    type: String,
+    label: "City/Town"
+  },
+  county: {
+    type: String,
+    label: "County/State"
+  },
+  postcode: {
+    type: String,
+    label: "PostCode/Zip"
+  },
+  country: {
+    type: String,
+    label: "Country"
+  },
+  website: {
+    type: String,
+    label: "Website",
+    optional: true,
+    regEx: SimpleSchema.RegEx.Url
+  },
+  phone: {
+    type: String,
+    label: "Phone number",
+    optional: true
   }
 });
 Companies.attachSchema(Schemas.Company);

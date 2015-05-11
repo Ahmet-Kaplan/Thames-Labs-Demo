@@ -30,9 +30,21 @@ Router.route('/companies', {
     
 });
 
-Router.route('/company/:id', function() {
-  var companyId = this.params.id;
-  this.render('companyDetail');
+Router.route('/companies/:_id', {
+
+  name: 'company',
+
+  template: 'companyDetail',
+
+  waitOn: function() {
+    return Meteor.subscribe('companies');
+  },
+
+  data: function() {
+    var companyId = this.params._id;
+    return Customers.findOne();
+  }
+
 });
 
 Router.route('/customers', {
