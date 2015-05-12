@@ -47,7 +47,15 @@ Router.route('/companies/:_id', {
   },
 
   data: function() {
-    return Companies.findOne(this.params._id);
+    var company = Companies.findOne(this.params._id);
+    if (!company) {
+      // Bit of a hack to remove the BS modal backdrop
+      // Should go in template onRendered?
+      $(".modal-backdrop").remove();
+      $("body").removeClass('modal-open');
+      this.redirect('/companies');
+    }
+    return company;
   }
 
 });

@@ -16,12 +16,15 @@ Template.companies.events({
 });
 
 Template.companyDetail.helpers({
-  addressString: function(company) {
+  addressString: function() {
     return encodeURIComponent([
-      company.Address,
-      company.City,
-      company.Country,
-      company.PostCode
+      this.address,
+      this.city,
+      this.country,
+      this.postcode
     ].join(', '));
+  },
+  phoneHref: function(number) {
+    return 'tel:' + number;
   }
 });
