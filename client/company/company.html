@@ -69,6 +69,17 @@
             Delete company
           {{/afModal}}
         </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Use Word template <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#" id="template-upload-link">Select word template</a></li>
+            <li class="divider"></li>
+            <li><a href="#" id="template-help">How does this work?</a></li>
+          </ul>
+        </div>
+        <input type="file" id="template-upload" style="display:none;">
       </div>
     </div>
 
@@ -114,4 +125,27 @@
 
   {{> autoformModals}}
 
+</template>
+
+<template name="wordHelpModal">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Help on templates</h4>
+        </div>
+        <div class="modal-body">
+          <p>You can upload a word document template and we'll replace tags defined like {name}</p>
+          <p>Tags available on this page:</p>
+          <ul>
+            <li>{name} - Company name</li>
+            <li>{address} - 1st line of company address</li>
+            <li>{city} - Company's city / town</li>
+            <li>{county} - Company's county / state</li>
+            <li>{postcode} - Company's postcode / zip</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
