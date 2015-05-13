@@ -65,7 +65,7 @@
             Edit company details
           {{/afModal}}
 
-          {{#afModal class="btn btn-danger" collection="Companies" doc=_id operation="remove" formId="removeCompanyForm"}}
+          {{#afModal class="btn btn-danger" collection="Companies" doc=_id operation="remove" formId="removeCompanyForm" onSuccess="onCompanyRemove"}}
             Delete company
           {{/afModal}}
         </div>
