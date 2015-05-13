@@ -81,6 +81,8 @@ Schemas.Company = new SimpleSchema({
 });
 Companies.attachSchema(Schemas.Company);
 
+// This is just used for the feedback form - no attachment
+// to a collection
 Schemas.Feedback = new SimpleSchema({
   name: {
     type: String
@@ -92,3 +94,36 @@ Schemas.Feedback = new SimpleSchema({
     type: String
   }
 });
+
+Schemas.Contact = new SimpleSchema({
+  title: {
+    type: String,
+    allowedValues: [
+      "Mr",
+      "Mrs",
+      "Miss",
+      "Dr"
+    ]
+  },
+  forename: {
+    type: String
+  },
+  surname: {
+    type: String
+  },
+  phone: {
+    type: String,
+    label: "Phone number",
+    optional: true
+  },
+  mobile: {
+    type: String,
+    label: "Mobile phone number",
+    optional: true
+  },
+  company: {
+    type: String
+  }
+});
+
+Contacts.attachSchema(Schemas.Contact);

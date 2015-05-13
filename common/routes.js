@@ -23,6 +23,10 @@ Router.route('/', function() {
 });
 
 Router.route('/companies', {
+
+  name: 'companies',
+
+  template: 'companyList',
   
   waitOn: function() {
     return Meteor.subscribe('companies');
