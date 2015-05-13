@@ -6,6 +6,11 @@ Meteor.users.helpers({
 
 Companies = new Mongo.Collection("companies");
 Partitioner.partitionCollection(Companies);
+Companies.helpers({
+  contacts: function() {
+    return Contacts.find({ company: this._id });
+  }
+})
 Companies.initEasySearch('name', {
   limit: 50
 });

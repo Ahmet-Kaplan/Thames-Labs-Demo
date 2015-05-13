@@ -2,6 +2,10 @@ Meteor.publish("companies", function() {
   return Companies.find({});
 });
 
+Meteor.publish("contacts", function() {
+  return Contacts.find({});
+});
+
 Meteor.publish("customers", function() {
   
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {

@@ -31,6 +31,9 @@ Template.companyDetail.events({
   },
   'click #template-help': function() {
     Modal.show('wordHelpModal');
+  },
+  'click #add-contact': function() {
+    Modal.show('insertContactModal', this);
   }
 });
 

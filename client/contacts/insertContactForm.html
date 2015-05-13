@@ -1,0 +1,26 @@
+<!-- Expects to be called in companyDetail context -->
+<template name="insertContactModal">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5>Add new contact</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Contacts" id="insertContactForm" type="insert"}}
+            {{> afQuickField name="title" options="allowed"}}
+            {{> afQuickField name="forename"}}
+            {{> afQuickField name="surname"}}
+            {{> afQuickField name="phone"}}
+            {{> afQuickField name="mobile"}}
+            {{> afQuickField name="company" type="hidden" value=_id}}
+            <button type="submit" class="btn btn-primary">Submit</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

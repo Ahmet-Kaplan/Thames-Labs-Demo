@@ -47,7 +47,10 @@ Router.route('/companies/:_id', {
   template: 'companyDetail',
 
   waitOn: function() {
-    return Meteor.subscribe('companies');
+    return [
+      Meteor.subscribe('companies'),
+      Meteor.subscribe('contacts')
+    ];
   },
 
   data: function() {
