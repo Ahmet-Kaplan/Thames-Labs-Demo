@@ -6,7 +6,8 @@ Schemas = {};
 Schemas.Customer = new SimpleSchema({
   name: {
     type: String,
-    label: 'Customer name'
+    label: 'Customer name',
+    unique: true
   }
 });
 
@@ -79,3 +80,15 @@ Schemas.Company = new SimpleSchema({
   }
 });
 Companies.attachSchema(Schemas.Company);
+
+Schemas.Feedback = new SimpleSchema({
+  name: {
+    type: String
+  },
+  message: {
+    type: String
+  },
+  url: {
+    type: String
+  }
+});

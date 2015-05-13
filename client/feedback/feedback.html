@@ -1,0 +1,20 @@
+<template name="feedbackModal">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Feedback</h4>
+        </div>
+        <div class="modal-body">
+          <p>Have some feedback? Spotted a problem or have an idea for improvement?</p>
+          {{#autoForm schema="Schemas.Feedback" id="feedbackForm" type="method" meteormethod="sendFeedback"}}
+            {{> afQuickField name="name" type="hidden" value=userName}}
+            {{> afQuickField name="message" type="text" rows=10}}
+            {{> afQuickField name="url" type="hidden" value=currentUrl}}
+            <button type="submit" class="btn btn-primary">Submit</button>
+          {{/autoForm}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
