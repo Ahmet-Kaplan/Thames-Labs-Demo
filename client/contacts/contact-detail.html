@@ -33,12 +33,16 @@
             <i class="fa fa-fw fa-building"></i> {{companyDoc.name}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
-          <li class="list-group-item">
-            <i class="fa fa-fw fa-phone"></i> {{phone}}
-          </li>
-          <li class="list-group-item">
-            <i class="fa fa-fw fa-mobile"></i> {{mobile}}
-          </li>
+          {{#if phone}}
+            <li class="list-group-item">
+              <i class="fa fa-fw fa-phone"></i> {{phone}}
+            </li>
+          {{/if}}
+          {{#if mobile}}
+            <li class="list-group-item">
+              <i class="fa fa-fw fa-mobile"></i> {{mobile}}
+            </li>
+          {{/if}}
         </ul>
       </div>
     </div>
