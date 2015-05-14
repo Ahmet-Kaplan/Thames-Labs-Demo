@@ -1,0 +1,25 @@
+<!-- Expects to have a Company object in context -->
+<template name="insertActivityModal">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5>Add new activity</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Activities" id="insertActivityForm" type="insert"}}
+            {{> afQuickField name="type" options="allowed"}}
+            {{> afQuickField name="notes" rows=10}}
+            {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
+            {{> afQuickField name="companyId" type="hidden" value=company._id}}
+            {{> afQuickField name="contactId" options=contactsAsOptions}}
+            <button type="submit" class="btn btn-primary">Submit</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

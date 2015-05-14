@@ -34,6 +34,9 @@ Template.companyDetail.events({
   },
   'click #add-contact': function() {
     Modal.show('insertContactModal', this);
+  },
+  'click #add-activity': function() {
+    Modal.show('insertActivityModal', {company: this});
   }
 });
 

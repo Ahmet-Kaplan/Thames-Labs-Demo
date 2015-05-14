@@ -7,7 +7,17 @@
         <div class="timeline-badge"><i class="fa fa-{{timelineIcon type}}"></i></div>
         <div class="timeline-panel">
           <div class="timeline-heading">
-            <h4 class="timeline-title">{{type}}</h4>
+            <h4 class="timeline-title">
+              {{type}}
+              <div class="btn-group pull-right">
+                {{#afModal class="btn btn-xs btn-default" collection="Activities" doc=_id operation="update" formId="removeActivityForm" omitFields="companyId, contactId, createdAt"}}
+                  Edit
+                {{/afModal}}
+                {{#afModal class="btn btn-xs btn-danger" collection="Activities" doc=_id operation="remove" formId="removeActivityForm"}}
+                  Delete
+                {{/afModal}}
+            </div>
+            </h4>
             <p><small class="text-muted" data-toggle="tooltip" title="{{createdAt}}"><i class="fa fa-clock-o"></i> {{fromNow createdAt}} | {{contact.name}}</small></p>
           </div>
           <div class="timeline-body">
