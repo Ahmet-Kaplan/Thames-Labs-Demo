@@ -3,3 +3,11 @@ Template.customers.helpers({
     return '#' + str;
   }
 });
+
+AutoForm.hooks({
+  insertUserForm: {
+    onSuccess: function() {
+      Modal.hide();
+    }
+  }
+});

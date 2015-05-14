@@ -38,7 +38,7 @@ Meteor.methods({
       // generate fake customer data
       _.each(_.range(100), function() {
         var randomName = faker.company.companyName();
-        Companies.insert({ 
+        var companyId = Companies.insert({ 
           name: faker.company.companyName(),
           address: faker.address.streetAddress(),
           city: faker.address.city(),
@@ -47,6 +47,16 @@ Meteor.methods({
           country: faker.address.country(),
           website: 'http://' + faker.internet.domainName(),
           phone: faker.phone.phoneNumber()
+        });
+        _.each(_.range(_.random(0, 10)), function() {
+          Contacts.insert({
+            title: _.sample(Schemas.Contact._schema.title.allowedValues),
+            forename: faker.name.firstName(),
+            surname: faker.name.lastName(),
+            phone: faker.phone.phoneNumber(),
+            mobile: faker.phone.phoneNumber(),
+            company: companyId
+          })
         });
       });
     
