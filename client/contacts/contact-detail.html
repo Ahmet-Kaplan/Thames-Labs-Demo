@@ -52,12 +52,14 @@
 
   </div>
 
-  <div class="row">
-    <div class="col-md-9 col-md-offset-3">
-      <h1>Timeline</h1>
-      {{> activityTimeline activities=activities}}
+  {{#if activities.length}}
+    <div class="row">
+      <div class="col-md-9 col-md-offset-3">
+        <h1>Timeline</h1>
+        {{> activityTimeline activities=activities}}
+      </div>
     </div>
-  </div>
+  {{/if}}
 
   {{> autoformModals}}
 
