@@ -9,8 +9,11 @@ Partitioner.partitionCollection(Companies);
 Companies.helpers({
   contacts: function() {
     return Contacts.find({ companyId: this._id });
+  },
+  activities: function() {
+    return Activities.find({ companyId: this._id }, { sort: { createdAt: -1 } });
   }
-})
+});
 Companies.initEasySearch('name', {
   limit: 50
 });
@@ -30,6 +33,9 @@ Contacts.helpers({
   },
   company: function() {
     return Companies.findOne(this.companyId);
+  },
+  activities: function() {
+    return Activities.find({ contactId: this._id }, { sort: { createdAt: -1 } });
   }
 });
 
@@ -39,5 +45,7 @@ Activities.helpers({
   company: function() {
     return Companies.findOne(this.companyId);
   },
-
-})
+  contact: function() {
+    return Contacts.findOne(this.contactId);
+  }
+});

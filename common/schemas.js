@@ -127,3 +127,28 @@ Schemas.Contact = new SimpleSchema({
 });
 
 Contacts.attachSchema(Schemas.Contact);
+
+Schemas.Activity = new SimpleSchema({
+  type: {
+    type: String,
+    allowedValues: [
+      'note',
+      'email',
+      'call'
+    ]
+  },
+  notes: {
+    type: String
+  },
+  createdAt: {
+    type: Date
+  },
+  companyId: {
+    type: String
+  },
+  contactId: {
+    type: String
+  }
+});
+
+Activities.attachSchema(Schemas.Activity);

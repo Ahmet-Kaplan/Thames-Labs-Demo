@@ -6,6 +6,10 @@ Meteor.publish("contacts", function() {
   return Contacts.find({});
 });
 
+Meteor.publish("activities", function() {
+  return Activities.find({});
+});
+
 Meteor.publish("customers", function() {
   
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {

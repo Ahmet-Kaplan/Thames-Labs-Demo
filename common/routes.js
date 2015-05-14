@@ -49,13 +49,13 @@ Router.route('/companies/:_id', {
   waitOn: function() {
     return [
       Meteor.subscribe('companies'),
-      Meteor.subscribe('contacts')
+      Meteor.subscribe('contacts'),
+      Meteor.subscribe('activities')
     ];
   },
 
   data: function() {
-    var company = Companies.findOne(this.params._id);
-    return company;
+    return Companies.findOne(this.params._id);
   }
 
 });
@@ -85,13 +85,13 @@ Router.route('/contacts/:_id', {
   waitOn: function() {
     return [
       Meteor.subscribe('companies'),
-      Meteor.subscribe('contacts')
+      Meteor.subscribe('contacts'),
+      Meteor.subscribe('activities')
     ];
   },
 
   data: function() {
-    var contact = Contacts.findOne(this.params._id);
-    return contact;
+    return Contacts.findOne(this.params._id);
   }
 
 });

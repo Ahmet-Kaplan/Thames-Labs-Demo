@@ -49,14 +49,23 @@ Meteor.methods({
           phone: faker.phone.phoneNumber()
         });
         _.each(_.range(_.random(0, 10)), function() {
-          Contacts.insert({
+          var contactId = Contacts.insert({
             title: _.sample(Schemas.Contact._schema.title.allowedValues),
             forename: faker.name.firstName(),
             surname: faker.name.lastName(),
             phone: faker.phone.phoneNumber(),
             mobile: faker.phone.phoneNumber(),
             companyId: companyId
-          })
+          });
+          _.each(_.range(_.random(0, 2)), function() {
+            var activityId = Activities.insert({
+              type: _.sample(Schemas.Activity._schema.type.allowedValues),
+              notes: faker.lorem.paragraphs(_.random(1, 3)),
+              createdAt: faker.date.recent(100),
+              companyId: companyId,
+              contactId: contactId
+            });
+          });
         });
       });
     
