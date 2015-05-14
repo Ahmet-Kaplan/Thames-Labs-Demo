@@ -8,7 +8,7 @@ Companies = new Mongo.Collection("companies");
 Partitioner.partitionCollection(Companies);
 Companies.helpers({
   contacts: function() {
-    return Contacts.find({ company: this._id });
+    return Contacts.find({ companyId: this._id });
   }
 })
 Companies.initEasySearch('name', {
@@ -28,7 +28,16 @@ Contacts.helpers({
   name: function() {
     return [this.title, this.forename, this.surname].join(' ');
   },
-  companyDoc: function() {
-    return Companies.findOne(this.company);
+  company: function() {
+    return Companies.findOne(this.companyId);
   }
 });
+
+Activities = new Mongo.Collection("activities");
+Partitioner.partitionCollection(Activities);
+Activities.helpers({
+  company: function() {
+    return Companies.findOne(this.companyId);
+  },
+
+})

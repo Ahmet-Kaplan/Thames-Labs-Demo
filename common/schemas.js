@@ -121,7 +121,7 @@ Schemas.Contact = new SimpleSchema({
     label: "Mobile phone number",
     optional: true
   },
-  company: {
+  companyId: {
     type: String
   }
 });

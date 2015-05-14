@@ -55,7 +55,7 @@ Meteor.methods({
             surname: faker.name.lastName(),
             phone: faker.phone.phoneNumber(),
             mobile: faker.phone.phoneNumber(),
-            company: companyId
+            companyId: companyId
           })
         });
       });
