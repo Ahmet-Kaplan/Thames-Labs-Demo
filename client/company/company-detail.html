@@ -64,10 +64,10 @@
         <div class="panel-heading">Contacts</div>
         <ul class="list-group">
           {{#each contacts}}
-            <li class="list-group-item">
+            <a href="{{pathFor route='contact'}}" class="list-group-item">
               <i class="fa fa-fw fa-user"></i> {{title}} {{forename}} {{surname}}
               <i class="fa fa-fw fa-chevron-right pull-right"></i>
-            </li>
+            </a>
             {{else}}
             <li class="list-group-item">No contacts added</li>
           {{/each}}

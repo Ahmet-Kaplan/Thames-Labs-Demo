@@ -55,13 +55,6 @@ Router.route('/companies/:_id', {
 
   data: function() {
     var company = Companies.findOne(this.params._id);
-    if (!company) {
-      // Bit of a hack to remove the BS modal backdrop
-      // Should go in template onRendered?
-      $(".modal-backdrop").remove();
-      $("body").removeClass('modal-open');
-      this.redirect('/companies');
-    }
     return company;
   }
 
@@ -79,6 +72,26 @@ Router.route('/customers', {
     return {
       'customers': Customers.find({})
     };
+  }
+
+});
+
+Router.route('/contacts/:_id', {
+
+  name: 'contact',
+
+  template: 'contactDetail',
+
+  waitOn: function() {
+    return [
+      Meteor.subscribe('companies'),
+      Meteor.subscribe('contacts')
+    ];
+  },
+
+  data: function() {
+    var contact = Contacts.findOne(this.params._id);
+    return contact;
   }
 
 });

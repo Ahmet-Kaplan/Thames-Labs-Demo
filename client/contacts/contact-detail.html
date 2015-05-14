@@ -1,0 +1,53 @@
+<template name="contactDetail">
+
+  <ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li>Contacts</li>
+    <li class="active">{{name}}</li>
+  </ol>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar">
+        <h1>Actions</h1>
+        <div class="btn-group-vertical">
+          {{#afModal class="btn btn-primary" collection="Contacts" doc=_id operation="update" formId="updateContactForm" omitFields="company"}}
+            Edit contact details
+          {{/afModal}}
+
+          {{#afModal class="btn btn-danger" collection="Contacts" doc=_id operation="remove" formId="removeContactForm" onSuccess="onContactRemove"}}
+            Delete contact
+          {{/afModal}}
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <h1>{{name}}</h1>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">Contact details</div>
+        <ul class="list-group">
+          <a href="{{pathFor route="company" data=companyDoc}}" class="list-group-item">
+            <i class="fa fa-fw fa-building"></i> {{companyDoc.name}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
+          <li class="list-group-item">
+            <i class="fa fa-fw fa-phone"></i> {{phone}}
+          </li>
+          <li class="list-group-item">
+            <i class="fa fa-fw fa-mobile"></i> {{mobile}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+    </div>
+
+  </div>
+
+  {{> autoformModals}}
+
+</template>

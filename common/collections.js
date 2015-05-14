@@ -24,3 +24,11 @@ Customers.helpers({
 
 Contacts = new Mongo.Collection("contacts");
 Partitioner.partitionCollection(Contacts);
+Contacts.helpers({
+  name: function() {
+    return [this.title, this.forename, this.surname].join(' ');
+  },
+  companyDoc: function() {
+    return Companies.findOne(this.company);
+  }
+});
