@@ -32,10 +32,6 @@
         </div>
         <input type="file" id="template-upload" style="display:none;">
 
-        <div class="btn-group-vertical">
-          <a class="btn btn-primary" href="#" id="add-contact">Add contact</a>
-        </div>
-
       </div>
     </div>
 
@@ -61,7 +57,10 @@
       </div>
 
       <div class="panel panel-default">
-        <div class="panel-heading">Contacts</div>
+        <div class="panel-heading">
+          Contacts
+          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right">Add contact</a>
+        </div>
         <ul class="list-group">
           {{#each contacts}}
             <a href="{{pathFor route='contact'}}" class="list-group-item">
