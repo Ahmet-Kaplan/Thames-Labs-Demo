@@ -7,19 +7,16 @@
   </ol>
 
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
       <div class="sidebar">
-        <h1>Actions</h1>
-        <div class="btn-group-vertical">
-          {{#afModal class="btn btn-primary" collection="Companies" doc=_id operation="update" formId="updateCompanyForm"}}
-            Edit company details
-          {{/afModal}}
 
-          {{#afModal class="btn btn-danger" collection="Companies" doc=_id operation="remove" formId="removeCompanyForm" onSuccess="onCompanyRemove"}}
-            Delete company
-          {{/afModal}}
-          <a href="#" class="btn btn-primary" id="add-activity">Add activity</a>
-        </div>
+        <h1>Actions</h1>
+
+        <ul class="nav nav-stacked">
+          <li><a href="#">Company details</a></li>
+          <li><a href="#">test</a></li>
+          <li><a href="#">test</a></li>
+        </ul>
 
         <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -40,7 +37,18 @@
       <h1>{{name}}</h1>
 
       <div class="panel panel-default">
-        <div class="panel-heading">Company details</div>
+        <div class="panel-heading">
+          <div class="btn-group pull-right">
+            {{#afModal class="btn btn-primary btn-xs" collection="Companies" doc=_id operation="update" formId="updateCompanyForm"}}
+              Edit company details
+            {{/afModal}}
+
+            {{#afModal class="btn btn-danger btn-xs" collection="Companies" doc=_id operation="remove" formId="removeCompanyForm" onSuccess="onCompanyRemove"}}
+              Delete company
+            {{/afModal}}
+          </div>
+          Company details
+        </div>
         <ul class="list-group">
           {{#if website}}
             <a href="{{website}}" target="_blank" class="list-group-item">
@@ -77,7 +85,7 @@
 
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-4">
       <h1>Address</h1>
       <div class="thumbnail">
         <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}">
@@ -97,8 +105,12 @@
   </div>
 
   <div class="row">
-    <div class="col-md-9 col-md-offset-3">
-      <h1>Timeline</h1>
+    <div class="col-md-10 col-md-offset-2">
+      <h1>
+        Activity Timeline
+        <a href="#" class="btn btn-primary pull-right" id="add-activity">Add activity</a>
+      </h1>
+
       {{> activityTimeline activities=activities}}
     </div>
   </div>

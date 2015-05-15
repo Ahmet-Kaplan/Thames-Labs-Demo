@@ -1,4 +1,8 @@
 Template.companyDetail.onRendered(function() {
+  // Affix sidebar
+  var sidebar = $('.sidebar');
+  sidebar.affix({offset: {top: sidebar.offset().top}});
+  // Load docxgen
   $.getScript('/vendor/docxgen.min.js');
 });
 
