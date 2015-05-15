@@ -7,29 +7,34 @@
   </ol>
 
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2 hidden-xs hidden-sm">
       <div class="sidebar">
         <h1>Actions</h1>
-        <div class="btn-group-vertical">
-          {{#afModal class="btn btn-primary" collection="Contacts" doc=_id operation="update" formId="updateContactForm" omitFields="companyId"}}
-            Edit contact details
-          {{/afModal}}
 
-          {{#afModal class="btn btn-danger" collection="Contacts" doc=_id operation="remove" formId="removeContactForm" onSuccess="onContactRemove"}}
-            Delete contact
-          {{/afModal}}
-
-          <a href="#" class="btn btn-primary" id="add-activity">Add activity</a>
-        </div>
+        <ul class="nav nav-stacked">
+          <li><a href="#contact-details">Contact details</a></li>
+          <li><a href="#activity-timeline">Activity timeline</a></li>
+        </ul>
 
       </div>
     </div>
 
-    <div class="col-md-6">
-      <h1>{{name}}</h1>
+    <div class="col-md-10">
+      <h1 id="contact-details">{{name}}</h1>
 
       <div class="panel panel-default">
-        <div class="panel-heading">Contact details</div>
+        <div class="panel-heading">
+          <div class="btn-group pull-right">
+            {{#afModal class="btn btn-primary btn-xs" collection="Contacts" doc=_id operation="update" formId="updateContactForm" omitFields="companyId"}}
+              Edit contact details
+            {{/afModal}}
+
+            {{#afModal class="btn btn-danger btn-xs" collection="Contacts" doc=_id operation="remove" formId="removeContactForm" onSuccess="onContactRemove"}}
+              Delete contact
+            {{/afModal}}
+
+          </div>
+          Contact details</div>
         <ul class="list-group">
           <a href="{{pathFor route="company" data=company}}" class="list-group-item">
             <i class="fa fa-fw fa-building"></i> {{company.name}}
@@ -55,8 +60,11 @@
   </div>
 
   <div class="row">
-    <div class="col-md-9 col-md-offset-3">
-      <h1>Timeline</h1>
+    <div class="col-md-10 col-md-offset-2">
+      <h1 id="activity-timeline">
+        Timeline
+        <a href="#" class="btn btn-primary pull-right" id="add-activity">Add activity</a>
+      </h1>
       {{> activityTimeline activities=activities}}
     </div>
   </div>
