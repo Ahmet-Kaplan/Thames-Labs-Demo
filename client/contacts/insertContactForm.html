@@ -24,3 +24,29 @@
     </div>
   </div>
 </template>
+
+<template name="insertCompanyContactModal">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5>Add new contact</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Contacts" id="insertCompanyContactForm" type="insert"}}
+            {{> afQuickField name="title" options="allowed"}}
+            {{> afQuickField name="forename"}}
+            {{> afQuickField name="surname"}}
+            {{> afQuickField name="phone"}}
+            {{> afQuickField name="mobile"}}
+            {{> afQuickField name="companyId" options=companiesAsOptions}}
+            <button type="submit" class="btn btn-primary">Submit</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

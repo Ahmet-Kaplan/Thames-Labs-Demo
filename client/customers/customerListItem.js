@@ -5,5 +5,8 @@ Template.customerListItem.events({
   'click #generate-demo-data': function() {
     var customer = this;
     Meteor.call('generateDemoData', customer);
+  },
+  'click #deleteUser': function() {
+    Meteor.users.remove(this._id);
   }
 });

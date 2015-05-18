@@ -27,7 +27,7 @@ Router.route('/companies', {
   name: 'companies',
 
   template: 'companyList',
-  
+
   waitOn: function() {
     return Meteor.subscribe('companies');
   },
@@ -37,7 +37,7 @@ Router.route('/companies', {
       'companies': Companies.find({})
     }
   }
-    
+
 });
 
 Router.route('/companies/:_id', {
@@ -67,7 +67,7 @@ Router.route('/customers', {
   waitOn: function() {
     return [ Meteor.subscribe('customers'), Meteor.subscribe('userData') ];
   },
-  
+
   data: function() {
     return {
       'customers': Customers.find({})
@@ -92,6 +92,27 @@ Router.route('/contacts/:_id', {
 
   data: function() {
     return Contacts.findOne(this.params._id);
+  }
+
+});
+
+Router.route('/contacts', {
+
+  name: 'contacts',
+
+  template: 'contactList',
+
+  waitOn: function() {
+    return [
+      Meteor.subscribe('contacts'),
+      Meteor.subscribe('companies')
+    ];
+  },
+
+  data: function() {
+    return {
+      'contacts': Contacts.find({})
+    }
   }
 
 });

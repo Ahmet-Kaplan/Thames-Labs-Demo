@@ -38,6 +38,9 @@ Contacts.helpers({
     return Activities.find({ contactId: this._id }, { sort: { createdAt: -1 } });
   }
 });
+Contacts.initEasySearch(['forename', 'surname'], {
+  limit: 50
+});
 
 Activities = new Mongo.Collection("activities");
 Partitioner.partitionCollection(Activities);
