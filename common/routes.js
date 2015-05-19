@@ -48,9 +48,12 @@ Router.route('/companies/:_id', {
 
   waitOn: function() {
     return [
-      Meteor.subscribe('companies'),
-      Meteor.subscribe('contacts'),
-      Meteor.subscribe('activities')
+      // Meteor.subscribe('companies'),
+      // Meteor.subscribe('contacts'),
+      // Meteor.subscribe('activities')
+      Meteor.subscribe('companyById', this.params._id),
+      Meteor.subscribe('contactByCompanyId', this.params._id),
+      Meteor.subscribe('activityByCompanyId', this.params._id)
     ];
   },
 
@@ -65,7 +68,7 @@ Router.route('/customers', {
   name: 'customers',
 
   waitOn: function() {
-    return [ Meteor.subscribe('customers'), Meteor.subscribe('userData') ];
+    return [Meteor.subscribe('customers'), Meteor.subscribe('userData')];
   },
 
   data: function() {
@@ -84,9 +87,12 @@ Router.route('/contacts/:_id', {
 
   waitOn: function() {
     return [
-      Meteor.subscribe('companies'),
-      Meteor.subscribe('contacts'),
-      Meteor.subscribe('activities')
+      // Meteor.subscribe('companies'),
+      // Meteor.subscribe('contacts'),
+      // Meteor.subscribe('activities')
+      Meteor.subscribe('companyById', Contacts.findOne(this.params._id).companyId),
+      Meteor.subscribe('contactById', this.params._id),
+      Meteor.subscribe('activityByContactId', this.params._id)
     ];
   },
 
