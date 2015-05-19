@@ -1,0 +1,91 @@
+<template name="projectDetail">
+
+  <ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/projects">Projects</a></li>
+    <li class="active">{{description}}</li>
+  </ol>
+
+  <div class="row">
+    <div class="col-md-2 hidden-xs hidden-sm">
+      <div class="sidebar">
+        <h1>Actions</h1>
+
+        <ul class="nav nav-stacked">
+          <li><a href="#project-details">Project details</a></li>
+          <li><a href="#activity-timeline">Activity timeline</a></li>
+        </ul>
+
+      </div>
+    </div>
+
+    <div class="col-md-10">
+      <h1 id="project-details">{{description}}</h1>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="btn-group pull-right">
+            {{#afModal class="btn btn-info btn-xs" collection="Projects" doc=_id operation="update" formId="updateProjectForm" omitFields="projectId,companyId"}}
+              Edit project details
+            {{/afModal}}
+
+            {{#afModal class="btn btn-danger btn-xs" collection="Projects" doc=_id operation="remove" formId="removeProjectForm"}} Delete project {{/afModal}}
+
+          </div>
+          Project details</div>
+        <ul class="list-group">
+          <a href="{{pathFor route=" company " data=company}}" class="list-group-item">
+            <i class="fa fa-fw fa-building"></i> Company: {{company.name}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
+          {{#if contactId}}
+          <li class="list-group-item">
+            <i class="fa fa-fw fa-user"></i> Contact: {{contactName}}
+          </li>
+          {{/if}} {{#if userId}}
+          <li class="list-group-item">
+            <i class="fa fa-fw fa-user"></i> Account Manager: {{managerName}}
+          </li>
+          {{/if}} {{#if value}}
+          <li class="list-group-item">
+            <i class="fa fa-fw fa-money"></i> Value: £{{decimal value}}
+          </li>
+          {{/if}} {{#if probability}}
+          <li class="list-group-item">
+            <i class="fa fa-fw fa-question"></i> Probability: {{decimal probability}}%
+          </li>
+          {{/if}} {{#if status}}
+          <li class="list-group-item">
+            <i class="fa fa-fw fa-check-square-o"></i> Status: {{status}}
+          </li>
+          {{/if}} {{#if lastActionDate}}
+          <li class="list-group-item">
+            <i class="fa fa-fw fa-calendar"></i> Last Action: {{lastActionDate}}
+          </li>
+          {{/if}} {{#if nextActionBy}}
+          <li class="list-group-item">
+            <i class="fa fa-fw fa-user"></i> Next Action By: {{nextActionName}}
+          </li>
+          {{/if}}
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-10 col-md-offset-2">
+      <h1 id="activity-timeline">
+        Timeline
+        <a href="#" class="btn btn-primary pull-right" id="add-activity">Add activity</a>
+      </h1>
+      {{> activityTimeline activities=activities}}
+    </div>
+  </div>
+
+  {{> autoformModals}}
+
+</template>

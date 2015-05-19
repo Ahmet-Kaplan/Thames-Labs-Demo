@@ -3,16 +3,6 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide();
     }
-  },
-  insertUserModal: {
-    onSuccess: function() {
-      Modal.hide();
-    }
-  },
-  insertCompanyContactForm: {
-    onSuccess: function() {
-      Modal.hide();
-    }
   }
 });
 

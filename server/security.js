@@ -7,3 +7,5 @@ Companies.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 Contacts.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 
 Activities.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+
+Projects.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();

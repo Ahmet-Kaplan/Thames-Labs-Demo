@@ -122,3 +122,47 @@ Router.route('/contacts', {
   }
 
 });
+
+
+Router.route('/projects', {
+
+  name: 'projects',
+
+  template: 'projectsList',
+
+  waitOn: function() {
+    return [
+      Meteor.subscribe('projects'),
+      Meteor.subscribe('contacts'),
+      Meteor.subscribe('companies')
+    ];
+  },
+
+  data: function() {
+    return {
+      'projects': Projects.find({})
+    }
+  }
+
+});
+
+Router.route('/projects/:_id', {
+
+  name: 'project',
+
+  template: 'projectDetail',
+
+  waitOn: function() {
+    return [
+      Meteor.subscribe('projectById', this.params._id),
+      Meteor.subscribe('contactById', Projects.findOne(this.params._id).contactId),
+      Meteor.subscribe('companyById', Projects.findOne(this.params._id).companyId),
+      Meteor.subscribe('activityByProjectId', this.params._id)
+    ];
+  },
+
+  data: function() {
+    return Projects.findOne(this.params._id);
+  }
+
+});

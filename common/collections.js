@@ -52,3 +52,17 @@ Activities.helpers({
     return Contacts.findOne(this.contactId);
   }
 });
+
+Projects = new Mongo.Collection("projects");
+Partitioner.partitionCollection(Projects);
+Projects.helpers({
+  company: function() {
+    return Companies.findOne(this.companyId);
+  },
+  activities: function() {
+    return Activities.find({ projectId: this._id }, { sort: { createdAt: -1 } });
+  }
+});
+Projects.initEasySearch('description', {
+  limit: 50
+});

@@ -9,7 +9,10 @@ Template.activityTimeline.helpers({
     var icons = {
       'note': 'file-text-o',
       'email': 'envelope-o',
-      'call': 'phone'
+      'call': 'phone',
+      'Note': 'file-text-o',
+      'Email': 'envelope-o',
+      'Call': 'phone'
     };
     return icons[type];
   }

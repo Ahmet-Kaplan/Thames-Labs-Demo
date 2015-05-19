@@ -21,7 +21,9 @@
             <p>
               <small class="text-muted">
                 <span data-toggle="tooltip" title="{{createdAt}}"><i class="fa fa-clock-o"></i> {{fromNow createdAt}}</span>
+                {{#if contact}}
                 | <a href="{{pathFor route="contact" data=contact}}">{{contact.name}}</a>
+                {{/if}}
               </small>
             </p>
           </div>

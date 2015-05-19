@@ -12,8 +12,20 @@ Template.insertActivityModal.helpers({
   }
 });
 
+Template.insertProjectActivityModal.helpers({
+  currentDateTime: function() {
+    return new Date();
+  }
+});
+
 AutoForm.hooks({
   insertActivityForm: {
+    onSuccess: function() {
+      Modal.hide();
+      $('[data-toggle="tooltip"]').tooltip();
+    }
+  },
+  insertProjectActivityForm: {
     onSuccess: function() {
       Modal.hide();
       $('[data-toggle="tooltip"]').tooltip();

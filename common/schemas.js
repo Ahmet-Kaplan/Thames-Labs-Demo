@@ -15,7 +15,7 @@ Schemas.Customer = new SimpleSchema({
 Customers.attachSchema(Schemas.Customer);
 
 // Define Schema for User object
-// NB! We don't attach to collection as this is only used for 
+// NB! We don't attach to collection as this is only used for
 // validation before passing to Accounts.createUser()
 Schemas.User = new SimpleSchema({
   username: {
@@ -125,16 +125,15 @@ Schemas.Contact = new SimpleSchema({
     type: String
   }
 });
-
 Contacts.attachSchema(Schemas.Contact);
 
 Schemas.Activity = new SimpleSchema({
   type: {
     type: String,
     allowedValues: [
-      'note',
-      'email',
-      'call'
+      'Note',
+      'Email',
+      'Call'
     ]
   },
   notes: {
@@ -144,11 +143,83 @@ Schemas.Activity = new SimpleSchema({
     type: Date
   },
   companyId: {
-    type: String
+    type: String,
+    optional: true
   },
   contactId: {
-    type: String
+    type: String,
+    optional: true
+  },
+  projectId: {
+    type: String,
+    optional: true
   }
 });
 
 Activities.attachSchema(Schemas.Activity);
+
+Schemas.Project = new SimpleSchema({
+  description: {
+    type: String,
+    label: "Description"
+  },
+  companyId: {
+    type: String
+  },
+  contactId: {
+    type: String,
+    optional: true
+  },
+  userId: {
+    type: String,
+    label: "Account Manager",
+    // autoform: {
+    //   options: function() {
+    //     return _.map(Meteor.users, function(user) {
+    //       return {
+    //         'label': user.profile.name,
+    //         'value': user._id
+    //       };
+    //     });
+    //   }
+    // }
+  },
+  status: {
+    type: String,
+    allowedValues: [
+      'Proposed',
+      'Quoted',
+      'Accepted',
+      'Lost',
+      'Ordered',
+      'Incomplete',
+      'Completed'
+    ]
+  },
+  value: {
+    type: Number
+  },
+  probability: {
+    type: Number
+  },
+  lastActionDate: {
+    type: Date,
+    optional: true
+  },
+  nextActionBy: {
+    type: String,
+    optional: true,
+    // autoform: {
+    //   options: function() {
+    //     return _.map(Meteor.users, function(user) {
+    // 
+    //       return {
+    //         'label': user.profile.name,
+    //         'value': user._id
+    //       };
+    //     });
+    //   }
+    // }
+  }
+});
+Projects.attachSchema(Schemas.Project);

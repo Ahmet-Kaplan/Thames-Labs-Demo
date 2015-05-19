@@ -1,3 +1,17 @@
+Meteor.publish("projects", function() {
+  return Projects.find({});
+});
+Meteor.publish("projectsByCompanyId", function(companyId) {
+  return Projects.find({
+    companyId: companyId
+  });
+});
+Meteor.publish("projectById", function(projectId) {
+  return Projects.find({
+    _id: projectId
+  });
+});
+
 Meteor.publish("companies", function() {
   return Companies.find({});
 });
@@ -37,6 +51,12 @@ Meteor.publish("activityByContactId", function(contactId) {
 Meteor.publish("activityByCompanyId", function(companyId) {
   return Activities.find({
     companyId: companyId
+  });
+});
+
+Meteor.publish("activityByProjectId", function(projectId) {
+  return Activities.find({
+    projectId: projectId
   });
 });
 

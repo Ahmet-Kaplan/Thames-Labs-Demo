@@ -1,7 +1,9 @@
 Meteor.methods({
-
+  
   addRandomCompany: function() {
-    Companies.insert({ name: faker.company.companyName() });
+    Companies.insert({
+      name: faker.company.companyName()
+    });
   },
 
   addUser: function(doc) {
@@ -38,7 +40,7 @@ Meteor.methods({
       // generate fake customer data
       _.each(_.range(100), function() {
         var randomName = faker.company.companyName();
-        var companyId = Companies.insert({ 
+        var companyId = Companies.insert({
           name: faker.company.companyName(),
           address: faker.address.streetAddress(),
           city: faker.address.city(),
@@ -68,7 +70,7 @@ Meteor.methods({
           });
         });
       });
-    
+
     });
 
   },
@@ -84,4 +86,10 @@ Meteor.methods({
     });
   }
 
+});
+
+
+UI.registerHelper('decimal', function(number) {
+  if (!number) number = 0;
+  return parseFloat(number).toFixed(2);
 });
