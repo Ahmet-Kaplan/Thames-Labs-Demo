@@ -21,6 +21,9 @@ Router.onBeforeAction(function() {
 });
 
 Router.route('/', {
+  action: function() {
+    this.redirect('/dashboard');
+  }
 });
 
 Router.route('/dashboard', {
