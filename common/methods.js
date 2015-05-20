@@ -1,5 +1,5 @@
 Meteor.methods({
-  
+
   addRandomCompany: function() {
     Companies.insert({
       name: faker.company.companyName()
@@ -50,7 +50,10 @@ Meteor.methods({
           website: 'http://' + faker.internet.domainName(),
           phone: faker.phone.phoneNumber()
         });
-        _.each(_.range(_.random(0, 10)), function() {
+
+        contacts = [];
+
+        _.each(_.range(_.random(1, 10)), function() {
           var contactId = Contacts.insert({
             title: _.sample(Schemas.Contact._schema.title.allowedValues),
             forename: faker.name.firstName(),
@@ -59,6 +62,9 @@ Meteor.methods({
             mobile: faker.phone.phoneNumber(),
             companyId: companyId
           });
+
+          contacts.push(contactId);
+
           _.each(_.range(_.random(0, 2)), function() {
             var activityId = Activities.insert({
               type: _.sample(Schemas.Activity._schema.type.allowedValues),
@@ -67,6 +73,26 @@ Meteor.methods({
               companyId: companyId,
               contactId: contactId
             });
+          });
+        });
+
+        _.each(_.range(_.random(0, 2)), function() {
+          var array = Meteor.users.find({}).fetch();
+          var randomIndex = Math.floor( Math.random() * array.length );
+          var element = array[randomIndex];
+          console.log(element);
+          console.log(element._id);
+
+          var projectId = Projects.insert({
+            description: faker.lorem.sentence(),
+            companyId: companyId,
+            contactId: contacts[Math.floor(Math.random()*contacts.length)],
+            userId: element._id,
+            status:  _.sample(Schemas.Project._schema.status.allowedValues),
+            value: _.random(100, 3000),
+            probability:  _.random(0, 100),
+            lastActionDate: faker.date.past(100),
+            nextActionBy: element._id
           });
         });
       });

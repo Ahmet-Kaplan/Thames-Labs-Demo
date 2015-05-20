@@ -27,3 +27,9 @@ Template.contactList.events({
     Modal.show('insertCompanyContactModal', this);
   },
 })
+
+Template.contactList.helpers({
+  hasContacts: function() {
+    return Contacts.find({}).count() > 0;
+  }
+})

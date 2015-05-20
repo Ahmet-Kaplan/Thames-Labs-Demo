@@ -23,16 +23,14 @@
 
       <h1><i class="fa fa-users"></i> Contacts</h1>
 
+      {{#if hasContacts}}
       <div class="list-group">
-        {{#ifEsIsSearching index="contacts"}}
-          {{> spinner}}
-        {{else}}
-          {{#esEach index="contacts"}}
-            {{> contactListItem}}
-          {{/esEach}}
-          {{> esLoadMoreButton index="contacts" class="btn btn-default"}}
-        {{/ifEsIsSearching}}
+        {{#ifEsIsSearching index="contacts"}} {{> spinner}} {{else}} {{#esEach index="contacts"}} {{> contactListItem}} {{/esEach}} {{> esLoadMoreButton index="contacts" class="btn btn-default"}} {{/ifEsIsSearching}}
       </div>
+      {{else}}
+      <br />
+      <h4 style="color:gray;">No contacts</h4>
+      {{/if}}
 
     </div>
   </div>
@@ -42,7 +40,8 @@
 </template>
 
 <template name="contactListItem">
-  <a class="list-group-item" href="{{pathFor route='contact'}}"> <!-- <span class="badge">&gt;</span> -->
+  <a class="list-group-item" href="{{pathFor route='contact'}}">
+    <!-- <span class="badge">&gt;</span> -->
     <h4 class="list-group-item-heading">{{name}}<i class="fa fa-fw fa-chevron-right pull-right"></i></h4>
     <p class="list-group-item-text"><i class="fa fa-building"></i> {{companyName}}</p>
   </a>

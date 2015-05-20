@@ -172,17 +172,7 @@ Schemas.Project = new SimpleSchema({
   },
   userId: {
     type: String,
-    label: "Account Manager",
-    // autoform: {
-    //   options: function() {
-    //     return _.map(Meteor.users, function(user) {
-    //       return {
-    //         'label': user.profile.name,
-    //         'value': user._id
-    //       };
-    //     });
-    //   }
-    // }
+    label: "Account Manager"
   },
   status: {
     type: String,
@@ -208,18 +198,7 @@ Schemas.Project = new SimpleSchema({
   },
   nextActionBy: {
     type: String,
-    optional: true,
-    // autoform: {
-    //   options: function() {
-    //     return _.map(Meteor.users, function(user) {
-    //
-    //       return {
-    //         'label': user.profile.name,
-    //         'value': user._id
-    //       };
-    //     });
-    //   }
-    // }
+    optional: true
   }
 });
 Projects.attachSchema(Schemas.Project);

@@ -6,3 +6,10 @@ Template.companyList.onRendered(function() {
     }
   });
 });
+
+
+Template.companyList.helpers({
+  hasCompanies: function() {
+    return Companies.find({}).count() > 0;
+  }
+});
