@@ -1,0 +1,83 @@
+<template name="dashboard">
+  <ol class="breadcrumb">
+    <li class="active">Home</li>
+  </ol>
+
+  <div class="row">
+    <div class="col-md-2">
+      <div class="sidebar">
+
+        <h1>Actions</h1>
+
+        <ul class="nav nav-stacked">
+          <div class="list-group">
+          <a class="list-group-item" href="#companies">Your Companies</a>
+          <a class="list-group-item" href="#contacts">Your Contacts</a>
+          <a class="list-group-item" href="#projects">Your Projects</a>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-10">
+      <h1><i class="fa fa-home"></i> Dashboard</h1>
+
+      <div class="col-md-10">
+        <div class="panel-group" id="accordion">
+          <div class="panel panel-default" id="companies">
+            <div class="panel-heading" data-toggle="collapse" data-target="#compDisp" href="#compDisp">Your Companies<i class="fa fa-fw fa-chevron-down pull-right"></i></div>
+            <div class="panel-collapse collapse in" id="compDisp">
+              <div class="panel-body" id="compDisp">
+                <div class="list-group">
+                  {{#each myCompanies}} {{> ownedCompany}} {{/each}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default" id="contacts">
+            <div class="panel-heading" data-toggle="collapse" data-target="#contDisp" href="#contDisp">Your Contacts<i class="fa fa-fw fa-chevron-down pull-right"></i></div>
+            <div class="panel-collapse collapse in" id="contDisp">
+              <div class="panel-body" id="contDisp">
+                <div class="list-group">
+                  {{#each myContacts}} {{> ownedContact}} {{/each}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default" id="projects">
+            <div class="panel-heading" data-toggle="collapse" data-target="#projDisp" href="#projDisp">Your Projects<i class="fa fa-fw fa-chevron-down pull-right"></i></div>
+            <div class="panel-collapse collapse in" id="projDisp">
+              <div class="panel-body" id="projDisp">
+                <div class="list-group">
+                  {{#each myProjects}} {{> ownedProject}} {{/each}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="ownedCompany">
+  <a href="{{pathFor route='company'}}" class="list-group-item">
+    <i class="fa fa-fw fa-building"></i> {{name}}
+    <i class="fa fa-fw fa-chevron-right pull-right"></i>
+  </a>
+</template>
+
+<template name="ownedContact">
+  <a href="{{pathFor route='contact'}}" class="list-group-item">
+    <i class="fa fa-fw fa-user"></i> {{forename}} {{surname}}
+    <i class="fa fa-fw fa-chevron-right pull-right"></i>
+  </a>
+</template>
+
+<template name="ownedProject">
+  <a href="{{pathFor route='project'}}" class="list-group-item">
+    <i class="fa fa-fw fa-files-o"></i> {{description}}
+    <i class="fa fa-fw fa-chevron-right pull-right"></i>
+  </a>
+</template>

@@ -11,52 +11,66 @@ Meteor.publish("projectById", function(projectId) {
     _id: projectId
   });
 });
+Meteor.publish("ownerProjects", function(ownerId) {
+  return Projects.find({
+    createdBy: ownerId
+  });
+});
 
 Meteor.publish("companies", function() {
   return Companies.find({});
 });
-
 Meteor.publish("companyById", function(companyId) {
   return Companies.find({
     _id: companyId
+  });
+});
+Meteor.publish("ownerCompanies", function(ownerId) {
+  return Companies.find({
+    createdBy: ownerId
   });
 });
 
 Meteor.publish("contacts", function() {
   return Contacts.find({});
 });
-
 Meteor.publish("contactById", function(contactId) {
   return Contacts.find({
     _id: contactId
   });
 });
-
 Meteor.publish("contactByCompanyId", function(companyId) {
   return Contacts.find({
     companyId: companyId
+  });
+});
+Meteor.publish("ownerContacts", function(ownerId) {
+  return Contacts.find({
+    createdBy: ownerId
   });
 });
 
 Meteor.publish("activities", function() {
   return Activities.find({});
 });
-
 Meteor.publish("activityByContactId", function(contactId) {
   return Activities.find({
     contactId: contactId
   });
 });
-
 Meteor.publish("activityByCompanyId", function(companyId) {
   return Activities.find({
     companyId: companyId
   });
 });
-
 Meteor.publish("activityByProjectId", function(projectId) {
   return Activities.find({
     projectId: projectId
+  });
+});
+Meteor.publish("ownerActivities", function(ownerId) {
+  return Activities.find({
+    createdBy: ownerId
   });
 });
 

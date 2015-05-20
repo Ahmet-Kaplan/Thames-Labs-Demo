@@ -77,6 +77,12 @@ Schemas.Company = new SimpleSchema({
     type: String,
     label: "Phone number",
     optional: true
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
   }
 });
 Companies.attachSchema(Schemas.Company);
@@ -123,6 +129,12 @@ Schemas.Contact = new SimpleSchema({
   },
   companyId: {
     type: String
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
   }
 });
 Contacts.attachSchema(Schemas.Contact);
@@ -153,6 +165,12 @@ Schemas.Activity = new SimpleSchema({
   projectId: {
     type: String,
     optional: true
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
   }
 });
 
@@ -199,6 +217,12 @@ Schemas.Project = new SimpleSchema({
   nextActionBy: {
     type: String,
     optional: true
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
   }
 });
 Projects.attachSchema(Schemas.Project);

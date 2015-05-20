@@ -39,6 +39,10 @@ Meteor.methods({
 
       // generate fake customer data
       _.each(_.range(100), function() {
+        var usersArray = Meteor.users.find({}).fetch();
+        var randomIndex = Math.floor( Math.random() * usersArray.length );
+        var randomUser = usersArray[randomIndex];
+
         var randomName = faker.company.companyName();
         var companyId = Companies.insert({
           name: faker.company.companyName(),
@@ -48,7 +52,8 @@ Meteor.methods({
           postcode: faker.address.zipCode(),
           country: faker.address.country(),
           website: 'http://' + faker.internet.domainName(),
-          phone: faker.phone.phoneNumber()
+          phone: faker.phone.phoneNumber(),
+          createdBy: randomUser._id
         });
 
         contacts = [];
@@ -60,7 +65,8 @@ Meteor.methods({
             surname: faker.name.lastName(),
             phone: faker.phone.phoneNumber(),
             mobile: faker.phone.phoneNumber(),
-            companyId: companyId
+            companyId: companyId,
+            createdBy: randomUser._id
           });
 
           contacts.push(contactId);
@@ -71,7 +77,8 @@ Meteor.methods({
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
               companyId: companyId,
-              contactId: contactId
+              contactId: contactId,
+              createdBy: randomUser._id
             });
           });
         });
@@ -80,19 +87,18 @@ Meteor.methods({
           var array = Meteor.users.find({}).fetch();
           var randomIndex = Math.floor( Math.random() * array.length );
           var element = array[randomIndex];
-          console.log(element);
-          console.log(element._id);
 
           var projectId = Projects.insert({
             description: faker.lorem.sentence(),
             companyId: companyId,
             contactId: contacts[Math.floor(Math.random()*contacts.length)],
-            userId: element._id,
+            userId: randomUser._id,
             status:  _.sample(Schemas.Project._schema.status.allowedValues),
             value: _.random(100, 3000),
             probability:  _.random(0, 100),
             lastActionDate: faker.date.past(100),
-            nextActionBy: element._id
+            nextActionBy: element._id,
+            createdBy: randomUser._id
           });
         });
       });
@@ -112,10 +118,4 @@ Meteor.methods({
     });
   }
 
-});
-
-
-UI.registerHelper('decimal', function(number) {
-  if (!number) number = 0;
-  return parseFloat(number).toFixed(2);
 });

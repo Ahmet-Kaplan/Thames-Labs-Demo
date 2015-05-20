@@ -14,14 +14,34 @@ Router.onBeforeAction(function() {
   if (Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
     this.next();
   } else {
-    this.redirect('/');
+    this.redirect('/dashboard');
   }
 }, {
   only: ['customers']
 });
 
-Router.route('/', function() {
-  this.redirect('/companies');
+Router.route('/', {
+});
+
+Router.route('/dashboard', {
+  name: 'home',
+
+  template: 'dashboard',
+
+  waitOn: function() {
+    return [
+      subs.subscribe('ownerCompanies', Meteor.userId()),
+      subs.subscribe('ownerContacts', Meteor.userId()),
+      subs.subscribe('ownerProjects', Meteor.userId()),
+      subs.subscribe('ownerActivities', Meteor.userId())
+    ];
+  },
+
+  data: function() {
+    // return {
+    //   'companies': Companies.find({})
+    // }
+  }
 });
 
 Router.route('/companies', {

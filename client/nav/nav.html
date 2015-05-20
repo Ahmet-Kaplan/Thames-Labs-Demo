@@ -3,7 +3,7 @@
     <div class="container-fluid">
 
       <div class="navbar-header">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="/dashboard">
           Elite <small>beta</small>
         </a>
       </div>
@@ -16,6 +16,7 @@
             {{/if}}
 
             {{#unless isInRole 'superadmin'}}
+            <li><a href="/dashboard">Home</a></li>
             <li><a href="/companies">Companies</a></li>
             <li><a href="/contacts">Contacts</a></li>
             <li><a href="/projects">Projects</a></li>
@@ -23,7 +24,7 @@
           {{/if}}
 
           <li><a id="feedback-link" href="#">Feedback</a></li>
-          
+
           {{#if loggedIn}}
             <li>{{> atNavButton}}</li>
           {{/if}}
