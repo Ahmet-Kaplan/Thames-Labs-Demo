@@ -12,6 +12,9 @@ Companies.helpers({
   },
   activities: function() {
     return Activities.find({ companyId: this._id }, { sort: { createdAt: -1 } });
+  },
+  projects: function() {
+    return Projects.find({ companyId: this._id }, { sort: { createdAt: -1 } });
   }
 });
 Companies.initEasySearch('name', {

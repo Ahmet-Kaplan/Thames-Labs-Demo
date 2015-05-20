@@ -212,7 +212,7 @@ Schemas.Project = new SimpleSchema({
     // autoform: {
     //   options: function() {
     //     return _.map(Meteor.users, function(user) {
-    // 
+    //
     //       return {
     //         'label': user.profile.name,
     //         'value': user._id

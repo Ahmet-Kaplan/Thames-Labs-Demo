@@ -4,6 +4,12 @@ AutoForm.hooks({
       Modal.hide();
       toastr.success('Project created.');
     }
+  },
+  updateProjectForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Project updated.');
+    }
   }
 });
 
@@ -18,6 +24,44 @@ Template.newProjectForm.events({
       Session.set('sc', null);
   }
 });
+
+Template.updateProjectForm.onRendered(function() {
+  var c = this.data.companyId;
+  if (c)
+    Session.set('sc', c);
+  else
+    Session.set('sc', null);
+});
+
+Template.updateProjectForm.helpers({
+  companiesAsOptions: function() {
+    return Companies.find({}).map(function(company) {
+      return {
+        'label': company.name,
+        'value': company._id
+      };
+    });
+  },
+  contactsAsOptions: function() {
+    return Contacts.find({
+      companyId: Session.get('sc')
+    }).map(function(contact) {
+      return {
+        'label': contact.forename + " " + contact.surname,
+        'value': contact._id
+      };
+    });
+  },
+  usersAsOptions: function() {
+    return Meteor.users.find({}).map(function(user) {
+      return {
+        'label': user.profile.name,
+        'value': user._id
+      };
+    });
+  }
+});
+
 
 Template.newProjectForm.helpers({
   showContacts: function() {

@@ -41,6 +41,9 @@ Template.companyDetail.events({
   },
   'click #add-activity': function() {
     Modal.show('insertActivityModal', {company: this});
+  },
+  'click #add-project': function() {
+    Modal.show('newProjectForm', {companyId: this._id});
   }
 });
 

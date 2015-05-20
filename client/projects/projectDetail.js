@@ -32,5 +32,8 @@ Template.projectDetail.events({
     Modal.show('insertProjectActivityModal', {
       project: this
     });
-  }
+  },
+  'click #edit-project': function() {
+    Modal.show('updateProjectForm', this);
+  },
 });

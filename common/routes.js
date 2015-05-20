@@ -1,3 +1,5 @@
+var subs = new SubsManager();
+
 // Require sign in for all routes
 Router.onBeforeAction(function() {
   if (Meteor.user()) {
@@ -51,9 +53,13 @@ Router.route('/companies/:_id', {
       // Meteor.subscribe('companies'),
       // Meteor.subscribe('contacts'),
       // Meteor.subscribe('activities')
-      Meteor.subscribe('companyById', this.params._id),
-      Meteor.subscribe('contactByCompanyId', this.params._id),
-      Meteor.subscribe('activityByCompanyId', this.params._id)
+      // Meteor.subscribe('companyById', this.params._id),
+      // Meteor.subscribe('contactByCompanyId', this.params._id),
+      // Meteor.subscribe('activityByCompanyId', this.params._id)
+      subs.subscribe('companyById', this.params._id),
+      subs.subscribe('contactByCompanyId', this.params._id),
+      subs.subscribe('activityByCompanyId', this.params._id),
+      subs.subscribe('projectsByCompanyId', this.params._id)
     ];
   },
 
@@ -68,7 +74,8 @@ Router.route('/customers', {
   name: 'customers',
 
   waitOn: function() {
-    return [Meteor.subscribe('customers'), Meteor.subscribe('userData')];
+    // return [Meteor.subscribe('customers'), Meteor.subscribe('userData')];
+    return [subs.subscribe('customers'), subs.subscribe('userData')];
   },
 
   data: function() {
@@ -90,9 +97,12 @@ Router.route('/contacts/:_id', {
       // Meteor.subscribe('companies'),
       // Meteor.subscribe('contacts'),
       // Meteor.subscribe('activities')
-      Meteor.subscribe('companyById', Contacts.findOne(this.params._id).companyId),
-      Meteor.subscribe('contactById', this.params._id),
-      Meteor.subscribe('activityByContactId', this.params._id)
+      // Meteor.subscribe('companyById', Contacts.findOne(this.params._id).companyId),
+      // Meteor.subscribe('contactById', this.params._id),
+      // Meteor.subscribe('activityByContactId', this.params._id)
+      subs.subscribe('companyById', Contacts.findOne(this.params._id).companyId),
+      subs.subscribe('contactById', this.params._id),
+      subs.subscribe('activityByContactId', this.params._id)
     ];
   },
 
@@ -110,8 +120,10 @@ Router.route('/contacts', {
 
   waitOn: function() {
     return [
-      Meteor.subscribe('contacts'),
-      Meteor.subscribe('companies')
+      // Meteor.subscribe('contacts'),
+      // Meteor.subscribe('companies')
+      subs.subscribe('contacts'),
+      subs.subscribe('companies')
     ];
   },
 
@@ -132,9 +144,12 @@ Router.route('/projects', {
 
   waitOn: function() {
     return [
-      Meteor.subscribe('projects'),
-      Meteor.subscribe('contacts'),
-      Meteor.subscribe('companies')
+      // Meteor.subscribe('projects'),
+      // Meteor.subscribe('contacts'),
+      // Meteor.subscribe('companies')
+      subs.subscribe('projects'),
+      subs.subscribe('contacts'),
+      subs.subscribe('companies')
     ];
   },
 
@@ -154,10 +169,14 @@ Router.route('/projects/:_id', {
 
   waitOn: function() {
     return [
-      Meteor.subscribe('projectById', this.params._id),
-      Meteor.subscribe('contactById', Projects.findOne(this.params._id).contactId),
-      Meteor.subscribe('companyById', Projects.findOne(this.params._id).companyId),
-      Meteor.subscribe('activityByProjectId', this.params._id)
+      // Meteor.subscribe('projectById', this.params._id),
+      // Meteor.subscribe('contactById', Projects.findOne(this.params._id).contactId),
+      // Meteor.subscribe('companyById', Projects.findOne(this.params._id).companyId),
+      // Meteor.subscribe('activityByProjectId', this.params._id)
+      subs.subscribe('projectById', this.params._id),
+      subs.subscribe('contactByCompanyId', Projects.findOne(this.params._id).companyId),
+      subs.subscribe('companyById', Projects.findOne(this.params._id).companyId),
+      subs.subscribe('activityByProjectId', this.params._id)
     ];
   },
 
