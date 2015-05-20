@@ -10,14 +10,23 @@
 
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-          {{#if isInRole 'superadmin'}}
-            <li><a href="/customers">Customers</a></li>
+          {{#if loggedIn}}
+            {{#if isInRole 'superadmin'}}
+              <li><a href="/customers">Customers</a></li>
+            {{/if}}
+
+            {{#unless isInRole 'superadmin'}}
+            <li><a href="/companies">Companies</a></li>
+            <li><a href="/contacts">Contacts</a></li>
+            <li><a href="/projects">Projects</a></li>
+            {{/unless}}
           {{/if}}
-          <li><a href="/companies">Companies</a></li>
-          <li><a href="/contacts">Contacts</a></li>
-          <li><a href="/projects">Projects</a></li>
+
           <li><a id="feedback-link" href="#">Feedback</a></li>
-          <li>{{> atNavButton}}</li>
+          
+          {{#if loggedIn}}
+            <li>{{> atNavButton}}</li>
+          {{/if}}
         </ul>
       </div>
 

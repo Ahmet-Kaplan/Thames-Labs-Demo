@@ -37,9 +37,10 @@
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
           {{#if contactId}}
-          <li class="list-group-item">
+          <a href="{{pathFor route='contact' data=contact}}" class="list-group-item">
             <i class="fa fa-fw fa-user"></i> Contact: {{contactName}}
-          </li>
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
           {{/if}} {{#if userId}}
           <li class="list-group-item">
             <i class="fa fa-fw fa-user"></i> Account Manager: {{managerName}}

@@ -64,6 +64,9 @@ Projects.helpers({
   },
   activities: function() {
     return Activities.find({ projectId: this._id }, { sort: { createdAt: -1 } });
+  },
+  contact: function() {
+    return Contacts.findOne(this.contactId);
   }
 });
 Projects.initEasySearch('description', {

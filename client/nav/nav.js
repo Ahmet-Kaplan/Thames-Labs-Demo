@@ -6,3 +6,13 @@ Template.nav.onRendered(function() {
     Modal.show('feedbackModal');
   });
 })
+
+Template.nav.helpers({
+  loggedIn: function() {
+    if (!Meteor.userId()) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+});

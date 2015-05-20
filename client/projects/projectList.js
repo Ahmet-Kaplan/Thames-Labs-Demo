@@ -19,6 +19,26 @@ Template.projectsList.events({
   },
 })
 
+Template.projectCompanyListItem.helpers({
+  hasProjectsForCompany: function(){
+     var c = this;
+     return Projects.find({companyId: c._id}).count() > 0;
+  },
+  projectCount: function(){
+     var c = this;
+     return Projects.find({companyId: c._id}).count();
+  },
+  multipleProjects: function(){
+     var c = this;
+     return Projects.find({companyId: c._id}).count()> 1;
+  },
+  companyProjects: function(){
+     var c = this;
+     return Projects.find({companyId: c._id});
+  }
+});
+
+
 Template.projectListItem.helpers({
   companyName: function() {
     var project = this;
