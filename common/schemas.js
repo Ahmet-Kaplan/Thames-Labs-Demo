@@ -166,6 +166,10 @@ Schemas.Activity = new SimpleSchema({
     type: String,
     optional: true
   },
+  purchaseOrderId: {
+    type: String,
+    optional: true
+  },
   createdBy: {
     type: String,
     autoform: {
@@ -226,3 +230,114 @@ Schemas.Project = new SimpleSchema({
   }
 });
 Projects.attachSchema(Schemas.Project);
+
+Schemas.PurchaseOrder = new SimpleSchema({
+
+  userId: {
+    type: String,
+    label: "Requestor"
+  },
+  supplierCompanyId: {
+    type: String
+  },
+  supplierContactId: {
+    type: String,
+    optional: true
+  },
+  projectId: {
+    type: String,
+    optional: true
+  },
+  description: {
+    type: String,
+    label: "Description"
+  },
+  supplierReference: {
+    type: String,
+    label: "Supplier Reference",
+    optional: true
+  },
+  status: {
+    type: String,
+    allowedValues: [
+      'Requested',
+      'Approved',
+      'Rejected',
+      'Ordered',
+      'Arrived'
+    ]
+  },
+  orderDate: {
+    type: Date
+  },
+  deliveryDate: {
+    type: Date,
+    optional: true
+  },
+  paymentMethod: {
+    type: String,
+    allowedValues: [
+      'Cash',
+      'Debit Card',
+      'Credit Card',
+      'Company Account'
+    ]
+  },
+  currency: {
+    type: String,
+    allowedValues: [
+      'GBP',
+      'USD',
+      'EUR'
+    ]
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  }
+});
+PurchaseOrders.attachSchema(Schemas.PurchaseOrder);
+
+Schemas.PurchaseOrderItem = new SimpleSchema({
+
+  purchaseOrderId: {
+    type: String
+  },
+  description: {
+    type: String,
+    label: "Description"
+  },
+  productCode: {
+    type: String,
+    label: "Product Code"
+  },
+  currency: {
+    type: String,
+    allowedValues: [
+      'GBP',
+      'USD',
+      'EUR'
+    ]
+  },
+  value: {
+    type: String,
+    defaultValue: "0.00"
+  },
+  quantity: {
+    type: String,
+    defaultValue: "1"
+  },
+  totalPrice: {
+    type: String,
+    defaultValue: "0.00"
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  }
+});
+PurchaseOrderItems.attachSchema(Schemas.PurchaseOrderItem);

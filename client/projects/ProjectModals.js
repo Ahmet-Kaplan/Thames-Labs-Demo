@@ -73,7 +73,10 @@ Template.newProjectForm.helpers({
     }
   },
   currentDateTime: function() {
-    return new Date();
+  return moment();
+  },
+  currentUser: function() {
+  return Meteor.userId();
   },
   datePlusOneWeek: function() {
     var now = new Date();

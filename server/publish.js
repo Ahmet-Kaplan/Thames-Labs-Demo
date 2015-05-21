@@ -1,3 +1,36 @@
+Meteor.publish("purchaseOrderItems", function(purchaseOrderId) {
+  return PurchaseOrderItems.find({purchaseOrderId: purchaseOrderId});
+});
+
+Meteor.publish("purchaseOrders", function() {
+  return PurchaseOrders.find({});
+});
+Meteor.publish("purchaseOrdersByCompanyId", function(companyId) {
+  return PurchaseOrders.find({
+    supplierCompanyId: companyId
+  });
+});
+Meteor.publish("purchaseOrdersByContactId", function(contactId) {
+  return PurchaseOrders.find({
+    supplierContactId: contactId
+  });
+});
+Meteor.publish("purchaseOrdersByProjectId", function(projectId) {
+  return PurchaseOrders.find({
+    projectId: projectId
+  });
+});
+Meteor.publish("purchaseOrderById", function(purchaseOrderId) {
+  return PurchaseOrders.find({
+    _id: purchaseOrderId
+  });
+});
+Meteor.publish("ownerPurchaseOrders", function(ownerId) {
+  return PurchaseOrders.find({
+    createdBy: ownerId
+  });
+});
+
 Meteor.publish("projects", function() {
   return Projects.find({});
 });
@@ -66,6 +99,11 @@ Meteor.publish("activityByCompanyId", function(companyId) {
 Meteor.publish("activityByProjectId", function(projectId) {
   return Activities.find({
     projectId: projectId
+  });
+});
+Meteor.publish("activityByPurchaseOrderId", function(purchaseOrderId) {
+  return Activities.find({
+    purchaseOrderId: purchaseOrderId
   });
 });
 Meteor.publish("ownerActivities", function(ownerId) {

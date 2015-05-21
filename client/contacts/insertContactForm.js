@@ -16,5 +16,14 @@ Template.insertCompanyContactModal.helpers({
         'value': company._id
       };
     });
+  },
+  currentUser: function(){
+    return Meteor.userId();
+  }
+});
+
+Template.insertContactModal.helpers({
+  currentUser: function(){
+    return Meteor.userId();
   }
 });

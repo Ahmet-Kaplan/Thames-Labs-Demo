@@ -16,6 +16,7 @@
             {{> afQuickField name="phone"}}
             {{> afQuickField name="mobile"}}
             {{> afQuickField name="companyId" type="hidden" value=_id}}
+                        {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Submit</button>
           {{/autoForm}}
         </div>
@@ -42,6 +43,7 @@
             {{> afQuickField name="phone"}}
             {{> afQuickField name="mobile"}}
             {{> afQuickField name="companyId" options=companiesAsOptions}}
+                        {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Submit</button>
           {{/autoForm}}
         </div>

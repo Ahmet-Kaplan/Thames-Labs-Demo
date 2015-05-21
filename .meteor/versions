@@ -63,6 +63,7 @@ momentjs:moment@2.8.4
 mongo@1.1.0
 mongo-livedata@1.0.8
 mpowaga:string-template@0.1.0
+mrt:moment@2.8.1
 msavin:mongol@0.7.2
 npm-bcrypt@0.7.8_2
 observe-sequence@1.0.6

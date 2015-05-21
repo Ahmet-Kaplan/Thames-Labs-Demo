@@ -208,3 +208,53 @@ Router.route('/projects/:_id', {
   }
 
 });
+
+
+Router.route('/purchaseorders', {
+
+  name: 'purchaseorders',
+
+  template: 'purchaseOrderList',
+
+  waitOn: function() {
+    return [
+      subs.subscribe('purchaseOrders'),
+      subs.subscribe('companies'),
+      subs.subscribe('projects'),
+      subs.subscribe('contacts')
+    ];
+  },
+
+  data: function() {
+    return {
+      'purchaseOrders': PurchaseOrders.find({})
+    }
+  }
+
+});
+
+Router.route('/purchaseorders/:_id', {
+
+  name: 'purchaseorder',
+
+  template: 'purchaseOrderDetail',
+
+  waitOn: function() {
+    return [
+      subs.subscribe('purchaseOrderById', this.params._id),
+      // subs.subscribe('companyById', PurchaseOrders.findOne(this.params._id).supplierCompanyId),
+      // subs.subscribe('projectById', PurchaseOrders.findOne(this.params._id).projectId),
+      // subs.subscribe('contactById', PurchaseOrders.findOne(this.params._id).supplierContactId),
+      subs.subscribe("companies"),
+      subs.subscribe("contacts"),
+      subs.subscribe("projects"),
+      subs.subscribe('purchaseOrderItems', this.params._id),
+      subs.subscribe('activityByPurchaseOrderId', this.params._id)
+    ];
+  },
+
+  data: function() {
+    return PurchaseOrders.findOne(this.params._id);
+  }
+
+});

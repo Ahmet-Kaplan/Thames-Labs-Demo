@@ -1,4 +1,7 @@
 Meteor.methods({
+  calculatePurchaseOrderItemTotalValue: function(price, quantity){
+    return parseFloat(price*quantity).toFixed(2);
+  },
 
   addRandomCompany: function() {
     Companies.insert({

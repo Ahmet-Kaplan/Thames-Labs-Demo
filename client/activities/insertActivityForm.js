@@ -1,6 +1,6 @@
 Template.insertActivityModal.helpers({
   currentDateTime: function() {
-    return new Date();
+  return moment();
   },
   contactsAsOptions: function() {
     return this.company.contacts().map(function(contact) {
@@ -9,13 +9,28 @@ Template.insertActivityModal.helpers({
         'value': contact._id
       };
     });
-  }
+  },
+  currentUser: function(){
+    return Meteor.userId();
+  },
 });
 
 Template.insertProjectActivityModal.helpers({
   currentDateTime: function() {
-    return new Date();
-  }
+  return moment();
+  },
+  currentUser: function(){
+    return Meteor.userId();
+  },
+});
+
+Template.insertPurchaseOrderActivityModal.helpers({
+  currentDateTime: function() {
+  return moment();
+  },
+  currentUser: function(){
+    return Meteor.userId();
+  },
 });
 
 AutoForm.hooks({
@@ -26,6 +41,12 @@ AutoForm.hooks({
     }
   },
   insertProjectActivityForm: {
+    onSuccess: function() {
+      Modal.hide();
+      $('[data-toggle="tooltip"]').tooltip();
+    }
+  },
+  insertPurchaseOrderActivityModal: {
     onSuccess: function() {
       Modal.hide();
       $('[data-toggle="tooltip"]').tooltip();

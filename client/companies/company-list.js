@@ -7,9 +7,22 @@ Template.companyList.onRendered(function() {
   });
 });
 
-
 Template.companyList.helpers({
   hasCompanies: function() {
     return Companies.find({}).count() > 0;
+  }
+});
+
+AutoForm.hooks({
+  insertCompanyForm: {
+    before: {
+      insert: function(doc) {
+        doc.createdBy = Meteor.userId();
+        return doc;
+      }
+    },
+    onSuccess: function() {
+      Modal.hide();
+    }
   }
 });

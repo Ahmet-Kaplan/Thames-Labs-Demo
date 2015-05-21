@@ -15,6 +15,9 @@ Companies.helpers({
   },
   projects: function() {
     return Projects.find({ companyId: this._id }, { sort: { createdAt: -1 } });
+  },
+  purchaseOrders: function() {
+    return PurchaseOrders.find({ companyId: this._id }, { sort: { createdAt: -1 } });
   }
 });
 Companies.initEasySearch('name', {
@@ -39,6 +42,9 @@ Contacts.helpers({
   },
   activities: function() {
     return Activities.find({ contactId: this._id }, { sort: { createdAt: -1 } });
+  },
+  purchaseOrders: function() {
+    return PurchaseOrders.find({ contactId: this._id }, { sort: { createdAt: -1 } });
   }
 });
 Contacts.initEasySearch(['forename', 'surname'], {
@@ -53,6 +59,12 @@ Activities.helpers({
   },
   contact: function() {
     return Contacts.findOne(this.contactId);
+  },
+  project: function() {
+    return Projects.findOne(this.projectId );
+  },
+  purchaseOrder: function() {
+    return PurchaseOrders.findOne(this.purchaseOrderId);
   }
 });
 
@@ -67,8 +79,34 @@ Projects.helpers({
   },
   contact: function() {
     return Contacts.findOne(this.contactId);
+  },
+  purchaseOrders: function() {
+    return PurchaseOrders.find({ projectId: this._id }, { sort: { createdAt: -1 } });
   }
 });
 Projects.initEasySearch('description', {
   limit: 50
 });
+
+PurchaseOrders = new Mongo.Collection("purchaseorder");
+Partitioner.partitionCollection(PurchaseOrders);
+PurchaseOrders.helpers({
+  company: function() {
+    return Companies.findOne(this.supplierCompanyId);
+  },
+  activities: function() {
+    return Activities.find({ purchaseOrderId: this._id }, { sort: { createdAt: -1 } });
+  },
+  contact: function() {
+    return Contacts.findOne(this.supplierContactId);
+  },
+  project: function() {
+    return Projects.findOne(this.projectId);
+  }
+});
+PurchaseOrders.initEasySearch('description', {
+  limit: 50
+});
+
+PurchaseOrderItems = new Mongo.Collection("purchaseorderitems");
+Partitioner.partitionCollection(PurchaseOrderItems);

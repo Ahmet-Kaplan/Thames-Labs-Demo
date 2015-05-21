@@ -15,6 +15,7 @@
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="companyId" type="hidden" value=company._id}}
             {{> afQuickField name="contactId" options=contactsAsOptions}}
+            {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Submit</button>
           {{/autoForm}}
         </div>
@@ -39,6 +40,32 @@
             {{> afQuickField name="notes" rows=10}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="projectId" type="hidden" value=project._id}}
+            {{> afQuickField name="createdBy" value=currentUser }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="insertPurchaseOrderActivityModal">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5>Add activity</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Activities" id="insertPurchaseOrderActivityForm" type="insert"}}
+            {{> afQuickField name="type" options="allowed"}}
+            {{> afQuickField name="notes" rows=10}}
+            {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
+            {{> afQuickField name="purchaseOrderId" type="hidden" value=purchaseOrder._id}}
+            {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Submit</button>
           {{/autoForm}}
         </div>
