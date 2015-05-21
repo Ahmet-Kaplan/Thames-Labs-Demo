@@ -19,5 +19,8 @@ Template.dashboard.helpers({
   },
   myActivities: function() {
     return Activities.find({});
+  },
+  myPurchaseOrders: function() {
+    return PurchaseOrders.find({});
   }
 });

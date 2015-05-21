@@ -8,5 +8,9 @@ Template.customerListItem.events({
   },
   'click #deleteUser': function() {
     Meteor.users.remove(this._id);
-  }
+  },
+  'click #wipe-data': function() {
+    var customer = this;
+    Meteor.call('wipeData', customer);
+  },
 });
