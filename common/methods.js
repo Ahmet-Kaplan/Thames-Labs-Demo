@@ -182,17 +182,6 @@ Meteor.methods({
 
     });
 
-  },
-
-  sendFeedback: function(doc) {
-    check(doc, Schemas.Feedback);
-    this.unblock();
-    Email.send({
-      to: 'jamie@cambridgesoftware.co.uk',
-      from: 'admin@elitebms.net',
-      subject: 'new user feedback',
-      text: JSON.stringify(doc)
-    });
   }
 
 });
