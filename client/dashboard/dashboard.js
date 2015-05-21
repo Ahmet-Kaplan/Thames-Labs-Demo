@@ -5,6 +5,8 @@ Template.dashboard.onRendered(function() {
       top: sidebar.offset().top
     }
   });
+
+  $('.collapse').collapse('hide');
 });
 
 Template.dashboard.helpers({
