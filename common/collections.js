@@ -110,3 +110,6 @@ PurchaseOrders.initEasySearch('description', {
 
 PurchaseOrderItems = new Mongo.Collection("purchaseorderitems");
 Partitioner.partitionCollection(PurchaseOrderItems);
+
+Tasks = new Mongo.Collection("tasks");
+Partitioner.partitionCollection(Tasks);

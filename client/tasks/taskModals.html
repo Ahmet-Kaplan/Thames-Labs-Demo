@@ -1,0 +1,21 @@
+<template name="insertTaskModal">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5>New Task</h5>
+        </div>
+        <div class="modal-body">
+          {{#autoForm collection="Tasks" id="insertTaskForm" type="insert"}}
+            {{> afQuickField name="userId" options=usersAsOptions}}
+            {{> afQuickField name="taskNotes"}}
+            {{> afQuickField name="dueDate" value=currentDateTime }}
+            <!-- {{> afQuickField name="completed" }} -->
+            {{> afQuickField name="createdBy" value=currentUser }}
+            <button class="btn btn-success" type="submit">Submit</button>
+          {{/autoForm}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

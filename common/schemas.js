@@ -341,3 +341,26 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
   }
 });
 PurchaseOrderItems.attachSchema(Schemas.PurchaseOrderItem);
+
+Schemas.Task = new SimpleSchema({
+  userId:{
+    type: String
+  },
+  taskNotes:{
+    type:String
+  },
+  dueDate:{
+    type: Date
+  },
+  completed:{
+    type: Boolean,
+    defaultValue: false
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  }
+});
+Tasks.attachSchema(Schemas.Task);

@@ -1,0 +1,123 @@
+<template name="sidebar">
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+      <li class="sidebar-brand">
+        <a href="/dashboard">
+          Elite
+          <small>beta</small>
+        </a>
+      </li>
+      {{> salesTemplate}}
+      {{> opsTemplate}}
+      {{> marketingTemplate}}
+      {{> hrTemplate}}
+    </ul>
+  </div>
+</template>
+<template name="salesTemplate">
+  <div class="panel-group" id="accordion" style="margin:0;">
+    <div class="panel panel-default" id="sales">
+      <div class="panel-heading" data-target="#salesDisp" data-toggle="collapse"
+        href="#salesDisp">
+        <div class="panel-title">
+          <a href="#">
+            Sales</a>
+          <i class="fa fa-fw fa-chevron-down pull-right"></i>
+        </div>
+      </div>
+      <div class="panel-collapse collapse in" id="salesDisp">
+        <div class="panel-body" id="salesDisp">
+          <div class="list-group">
+            <li>
+              <a href="#">Prospects</a>
+            </li>
+            <li>
+              <a href="#">Customers</a>
+            </li>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<template name="opsTemplate">
+  <div class="panel-group" id="accordion" style="margin:0;">
+    <div class="panel panel-default" id="ops">
+      <div class="panel-heading" data-target="#opsDisp" data-toggle="collapse"
+        href="#opsDisp">
+        <div class="panel-title">
+          <a href="#">
+            Operations</a>
+          <i class="fa fa-fw fa-chevron-down pull-right"></i>
+        </div>
+      </div>
+      <div class="panel-collapse collapse in" id="opsDisp">
+        <div class="panel-body" id="opsDisp">
+          <div class="list-group">
+            <li>
+              <a href="#">Customers</a>
+            </li>
+            <li>
+              <a href="#">Projects</a>
+            </li>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<template name="marketingTemplate">
+  <div class="panel-group" id="accordion" style="margin:0;">
+    <div class="panel panel-default" id="mkt">
+      <div class="panel-heading" data-target="#mktDisp" data-toggle="collapse"
+        href="#mktDisp">
+        <div class="panel-title">
+          <a href="#">
+            Marketing</a>
+          <i class="fa fa-fw fa-chevron-down pull-right"></i>
+        </div>
+      </div>
+      <div class="panel-collapse collapse in" id="mktDisp">
+        <div class="panel-body" id="mktDisp">
+          <div class="list-group">
+            <li>
+              <a href="#">Companies</a>
+            </li>
+            <li>
+              <a href="#">Campaigns</a>
+            </li>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<template name="hrTemplate">
+  <div class="panel-group" id="accordion" style="margin:0;">
+    <div class="panel panel-default" id="hr">
+      <div class="panel-heading" data-target="#hrDisp" data-toggle="collapse"
+        href="#hrDisp">
+        <div class="panel-title">
+          <a href="#">
+            HR</a>
+          <i class="fa fa-fw fa-chevron-down pull-right"></i>
+        </div>
+      </div>
+      <div class="panel-collapse collapse in" id="hrDisp">
+        <div class="panel-body" id="hrDisp">
+          <div class="list-group">
+            <li>
+              <a href="#">Employees</a>
+            </li>
+            <li>
+              <a href="#">Timesheets</a>
+            </li>
+            <li>
+              <a href="#">Holidays</a>
+            </li>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

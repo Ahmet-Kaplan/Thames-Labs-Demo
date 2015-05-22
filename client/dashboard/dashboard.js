@@ -24,5 +24,20 @@ Template.dashboard.helpers({
   },
   myPurchaseOrders: function() {
     return PurchaseOrders.find({});
+  },
+  myTasks: function() {
+    return Tasks.find({});
+  }
+});
+
+Template.ownedTask.helpers({
+  completed: function() {
+    return this.completed;
+  }
+});
+
+Template.dashboard.events({
+  'click #add-new-task': function() {
+    Modal.show('insertTaskModal')
   }
 });

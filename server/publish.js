@@ -112,6 +112,13 @@ Meteor.publish("ownerActivities", function(ownerId) {
   });
 });
 
+Meteor.publish("tasks", function() {
+  return Tasks.find({});
+});
+Meteor.publish("tasksByUserId", function(userId) {
+  return Tasks.find({userId: userId});
+});
+
 Meteor.publish("customers", function() {
 
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {

@@ -37,7 +37,8 @@ Router.route('/dashboard', {
       subs.subscribe('ownerContacts', Meteor.userId()),
       subs.subscribe('ownerProjects', Meteor.userId()),
       subs.subscribe('ownerActivities', Meteor.userId()),
-      subs.subscribe('ownerPurchaseOrders', Meteor.userId())
+      subs.subscribe('ownerPurchaseOrders', Meteor.userId()),
+      subs.subscribe('tasksByUserId', Meteor.userId())
     ];
   },
 

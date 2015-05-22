@@ -13,3 +13,5 @@ Projects.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 PurchaseOrders.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 
 PurchaseOrderItems.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+
+Tasks.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
