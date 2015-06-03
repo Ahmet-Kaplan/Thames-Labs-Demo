@@ -1,0 +1,30 @@
+<template name="customers">
+
+<div class="row">
+
+  <div class="col-md-3">
+    <h1>Actions</h1>
+    <div class="btn-group-vertical btn-group-justified">
+      {{#afModal class="btn btn-primary" id="insertCustomerForm" collection="Customers" operation="insert"}}
+        Add new customer
+      {{/afModal}}
+    </div>
+  </div>
+
+  <div class="col-md-9">
+
+    <h1>Customers</h1>
+
+    {{#each customers}}
+      {{> customerListItem}}
+    {{else}}
+      <h2>No customers added</h2>
+    {{/each}}
+
+  </div>
+
+</div>
+
+{{> autoformModals}}
+
+</template>

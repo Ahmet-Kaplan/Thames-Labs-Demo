@@ -1,0 +1,69 @@
+<template name="companyList">
+
+  <ol class="breadcrumb">
+    <li><a href="/dashboard">Home</a></li>
+    <li class="active">Companies</li>
+  </ol>
+
+  <div class="row">
+
+    <div class="col-md-3">
+      <div class="sidebar">
+        <h1>Actions</h1>
+        {{> esInput index="companies" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
+        <div class="btn-group-vertical">
+          {{#afModal class="btn btn-primary" collection="Companies" operation="insert" formId="insertCompanyForm"}} Add new company {{/afModal}}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+
+      <h1><i class="fa fa-building"></i> Companies</h1>
+
+      {{#if hasCompanies}}
+      <div class="list-group">
+        {{#ifEsIsSearching index="companies"}} {{> spinner}} {{else}} {{#esEach index="companies"}} {{> companyListItem}} {{/esEach}} {{> esLoadMoreButton index="companies" class="btn btn-default"}} {{/ifEsIsSearching}}
+      </div>
+
+      {{else}}
+      <br />
+      <h4 style="color:gray;">No companies</h4>
+      {{/if}}
+
+    </div>
+  </div>
+
+  {{> autoformModals}}
+
+</template>
+
+<template name="companyListItem">
+  <a class="list-group-item" href="{{pathFor route='company'}}">
+    <h4 class="list-group-item-heading">{{name}}</h4>
+    <p class="list-group-item-text"><i class="fa fa-fw fa-map-marker"></i> {{city}}, {{country}}</p>
+  </a>
+</template>
+
+<template name="wordHelpModal">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Help on templates</h4>
+        </div>
+        <div class="modal-body">
+          <p>You can upload a word document template and we'll replace tags defined like {name}</p>
+          <p>Tags available on this page:</p>
+          <ul>
+            <li>{name} - Company name</li>
+            <li>{address} - 1st line of company address</li>
+            <li>{city} - Company's city / town</li>
+            <li>{county} - Company's county / state</li>
+            <li>{postcode} - Company's postcode / zip</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

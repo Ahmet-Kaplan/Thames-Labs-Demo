@@ -1,0 +1,64 @@
+<template name="newProjectForm">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5>New Project</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
+            {{> afQuickField name="description"}}
+
+            {{> afQuickField name="companyId" id="selectedCompany" options=companiesAsOptions}}
+
+            {{#if showContacts}}
+              {{> afQuickField name="contactId" id="companyContacts" options=contactsAsOptions }}
+            {{/if}}
+
+            {{> afQuickField name="userId" options=usersAsOptions}}
+
+            {{> afQuickField name="status" options="allowed"}}
+            {{> afQuickField name="value"}}
+            {{> afQuickField name="probability"}}
+            {{> afQuickField name="lastActionDate" type="hidden" value=currentDateTime }}
+
+            {{> afQuickField name="nextActionBy" options=usersAsOptions}}
+                        {{> afQuickField name="createdBy" value=currentUser }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="updateProjectForm">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5>Update Project</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Projects" id="updateProjectForm" type="update" doc=this}}
+            {{> afQuickField name="description"}}
+            {{> afQuickField name="contactId" id="companyContacts" options=contactsAsOptions }}
+            {{> afQuickField name="userId" options=usersAsOptions}}
+            {{> afQuickField name="status" options="allowed"}}
+            {{> afQuickField name="value"}}
+            {{> afQuickField name="probability"}}
+            {{> afQuickField name="lastActionDate" readonly=true }}
+            {{> afQuickField name="nextActionBy" options=usersAsOptions}}
+            <button type="submit" class="btn btn-primary">Submit</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

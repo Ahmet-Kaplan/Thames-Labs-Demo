@@ -1,0 +1,21 @@
+<template name="AppLayout">
+  <head>
+    <meta content="width=device-width" name="viewport">
+      <link href="/favicon.ico" rel="icon" sizes="16x16 32x32">
+        <title>Elite</title>
+      </head>
+      <body>
+        <!-- <div class="col-md-2"> -->
+          <!-- {{> sidebar}} -->
+        <!-- </div> -->
+        <!-- <div class="col-md-10" style="margin:0;"> -->
+          {{> nav}}
+          <div class="content">
+            <div class="container-fluid">
+              {{> yield}}
+            </div>
+          </div>
+          {{> footer}}
+        <!-- </div> -->
+      </body>
+    </template>

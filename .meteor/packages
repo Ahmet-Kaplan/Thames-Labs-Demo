@@ -1,0 +1,36 @@
+# Meteor packages used by this project, one per line.
+# Check this file (and the other files in this directory) into your repository.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+meteor-platform
+accounts-ui
+accounts-base
+iron:router
+okgrow:iron-router-autoscroll
+lbee:lunr
+stevezhu:lodash
+accounts-password
+digilord:faker
+alanning:roles
+aldeed:collection2
+msavin:mongol
+mizzao:partitioner
+ongoworks:security
+dburles:collection-helpers
+yogiben:autoform-modals
+twbs:bootstrap
+useraccounts:bootstrap
+peppelg:bootstrap-3-modal
+aldeed:autoform
+matteodem:easy-search
+sacha:spin
+fortawesome:fontawesome
+pfafman:filesaver
+email
+momentjs:moment
+chrismbeckett:toastr
+meteorhacks:subs-manager
+mrt:moment
+http

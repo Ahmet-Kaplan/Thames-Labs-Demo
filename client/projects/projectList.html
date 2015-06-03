@@ -1,0 +1,66 @@
+<template name="projectsList">
+
+  <ol class="breadcrumb">
+    <li><a href="/dashboard">Home</a></li>
+    <li class="active">Projects</li>
+  </ol>
+
+  <div class="row">
+
+    <div class="col-md-3">
+      <div class="sidebar">
+        <h1>Actions</h1>
+        {{> esInput index="companies" placeholder="search companies..." allDocsOnEmpty=true reactive=false class="form-control"}}
+        <div class="btn-group-vertical">
+          <div class="panel-heading" id="contacts">
+            <a href="#" id="add-project" class="btn btn-success btn-xs pull-right">New Project</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+
+      <h1><i class="fa fa-files-o"></i> Projects</h1>
+      {{#if hasProjects}}
+        {{#ifEsIsSearching index="companies"}}
+          {{> spinner}}
+        {{else}}
+          {{#esEach index="companies"}}
+
+            {{> projectCompanyListItem}}
+
+          {{/esEach}}
+          {{> esLoadMoreButton index="companies" class="btn btn-default"}}
+        {{/ifEsIsSearching}}
+      {{else}}
+      <br /> <h4 style="color:gray;">No projects</h4>
+      {{/if}}
+    </div>
+  </div>
+
+  {{> autoformModals}}
+
+</template>
+
+<template name="projectCompanyListItem">
+
+  {{#if hasProjectsForCompany}}
+    <div class="list-group">
+      <a class="list-group-item" href="{{pathFor route='company'}}">
+        <h4 class="list-group-item-heading"><i class="fa fa-building"></i> {{name}} <small>({{projectCount}} project{{#if multipleProjects}}s{{/if}})</small></h4>
+      </a>
+
+      {{#each companyProjects}}
+        {{> projectListItem}}
+      {{/each}}
+    </div>
+  {{/if}}
+
+</template>
+
+<template name="projectListItem">
+  <a class="list-group-item" href="{{pathFor route='project'}}">
+    <h5 class="list-group-item-heading" style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;vertical-align:top;"><i class="fa fa-files-o"></i> {{description}}<i class="fa fa-fw fa-chevron-right pull-right"></i></h5>
+  </a>
+</template>
