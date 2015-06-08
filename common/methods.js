@@ -12,14 +12,14 @@ Meteor.methods({
   addUser: function(doc) {
 
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
-      return
+      return;
     }
 
     // Important - do server side schema check
     check(doc, Schemas.User);
     // Create user account
     var userId = Accounts.createUser({
-      email: doc.email,
+      email: doc.email.toLowerCase(),
       password: doc.password,
       profile: {
         name: doc.name
@@ -35,28 +35,22 @@ Meteor.methods({
   wipeData: function(customerDoc) {
 
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
-      return
+      return;
     }
     Partitioner.bindGroup(customerDoc._id, function() {
-      PurchaseOrderItems.remove({
-      });
-      PurchaseOrders.remove({
-      });
-      Activities.remove({
-      });
-      Projects.remove({
-      });
-      Contacts.remove({
-      });
-      Companies.remove({
-      });
+      PurchaseOrderItems.remove({});
+      PurchaseOrders.remove({});
+      Activities.remove({});
+      Projects.remove({});
+      Contacts.remove({});
+      Companies.remove({});
     });
   },
 
   generateDemoData: function(customerDoc) {
 
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
-      return
+      return;
     }
 
     Partitioner.bindGroup(customerDoc._id, function() {
@@ -165,18 +159,18 @@ Meteor.methods({
             });
           });
 
-            _.each(_.range(_.random(0, 2)), function() {
-              var PurchaseOrderItemId = PurchaseOrderItems.insert({
-                purchaseOrderId: purchaseOrderId,
-                description: faker.lorem.sentence(),
-                productCode: faker.random.uuid(),
-                currency: _.sample(Schemas.PurchaseOrderItem._schema.currency.allowedValues),
-                value: parseFloat(_.random(1, 35)).toFixed(2),
-                quantity: _.random(1, 65),
-                totalPrice: "0.00",
-                createdBy: randomUser._id
-              });
+          _.each(_.range(_.random(0, 2)), function() {
+            var PurchaseOrderItemId = PurchaseOrderItems.insert({
+              purchaseOrderId: purchaseOrderId,
+              description: faker.lorem.sentence(),
+              productCode: faker.random.uuid(),
+              currency: _.sample(Schemas.PurchaseOrderItem._schema.currency.allowedValues),
+              value: parseFloat(_.random(1, 35)).toFixed(2),
+              quantity: _.random(1, 65),
+              totalPrice: "0.00",
+              createdBy: randomUser._id
             });
+          });
         });
       });
 

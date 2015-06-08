@@ -5,9 +5,9 @@ Meteor.methods({
   sendFeedback: function(doc) {
     check(doc, Schemas.Feedback);
     this.unblock();
-    var asanaApiKey = 'KAfqgsK.bfT1KDQeXqg1bxEN25c0dLDO',
+    var asanaApiKey = '7U5d5HNS.9gBvXvNdFeaiNoajrOvchS7',
         asanaWorkspace = '20585633191816',
-        asanaProject = '27810469635780';
+        asanaProject = '36900399110512';
 
     HTTP.post('https://app.asana.com/api/1.0/tasks', {
       auth: asanaApiKey + ':',
@@ -22,13 +22,6 @@ Meteor.methods({
     }, function(error, result) {
       if (error) console.log(error);
     });
-
-    // Email.send({
-    //   to: 'jamie@cambridgesoftware.co.uk',
-    //   from: 'admin@elitebms.net',
-    //   subject: 'new user feedback',
-    //   text: JSON.stringify(doc)
-    // });
   }
 
 });

@@ -27,7 +27,13 @@ Schemas.User = new SimpleSchema({
   },
   email: {
     type: String,
-    regEx: SimpleSchema.RegEx.Email
+    regEx: SimpleSchema.RegEx.Email,
+    unique: true,
+    autoValue: function() {
+      if (this.isSet && typeof this.value === "string") {
+        return this.value.toLowerCase();
+      }
+    }
   },
   password: {
     type: String,
@@ -343,16 +349,16 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
 PurchaseOrderItems.attachSchema(Schemas.PurchaseOrderItem);
 
 Schemas.Task = new SimpleSchema({
-  userId:{
+  userId: {
     type: String
   },
-  taskNotes:{
-    type:String
+  taskNotes: {
+    type: String
   },
-  dueDate:{
+  dueDate: {
     type: Date
   },
-  completed:{
+  completed: {
     type: Boolean,
     defaultValue: false
   },
