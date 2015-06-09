@@ -1,5 +1,11 @@
 AutoForm.hooks({
   insertTaskForm: {
+    before: {
+      insert: function(doc){
+        doc.userId = Meteor.userId();
+        return doc;
+      }
+    },
     onSuccess: function() {
       Modal.hide();
       toastr.success('Project created.');

@@ -57,6 +57,11 @@ Schemas.Company = new SimpleSchema({
     type: String,
     label: "Address"
   },
+  address2: {
+    type: String,
+    optional: true,
+    label: "Address Line 2"
+  },
   city: {
     type: String,
     label: "City/Town"
@@ -122,6 +127,11 @@ Schemas.Contact = new SimpleSchema({
   },
   surname: {
     type: String
+  },
+  email: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Email,
+    optional: true
   },
   phone: {
     type: String,
@@ -202,31 +212,20 @@ Schemas.Project = new SimpleSchema({
     type: String,
     label: "Account Manager"
   },
-  status: {
-    type: String,
-    allowedValues: [
-      'Proposed',
-      'Quoted',
-      'Accepted',
-      'Lost',
-      'Ordered',
-      'Incomplete',
-      'Completed'
-    ]
-  },
+  // status: {
+  //   type: String,
+  //   allowedValues: [
+  //     'Proposed',
+  //     'Quoted',
+  //     'Accepted',
+  //     'Lost',
+  //     'Ordered',
+  //     'Incomplete',
+  //     'Completed'
+  //   ]
+  // },
   value: {
     type: Number
-  },
-  probability: {
-    type: Number
-  },
-  lastActionDate: {
-    type: Date,
-    optional: true
-  },
-  nextActionBy: {
-    type: String,
-    optional: true
   },
   createdBy: {
     type: String,
@@ -276,19 +275,19 @@ Schemas.PurchaseOrder = new SimpleSchema({
   orderDate: {
     type: Date
   },
-  deliveryDate: {
-    type: Date,
-    optional: true
-  },
-  paymentMethod: {
-    type: String,
-    allowedValues: [
-      'Cash',
-      'Debit Card',
-      'Credit Card',
-      'Company Account'
-    ]
-  },
+  // deliveryDate: {
+  //   type: Date,
+  //   optional: true
+  // },
+  // paymentMethod: {
+  //   type: String,
+  //   allowedValues: [
+  //     'Cash',
+  //     'Debit Card',
+  //     'Credit Card',
+  //     'Company Account'
+  //   ]
+  // },
   currency: {
     type: String,
     allowedValues: [
@@ -317,15 +316,8 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
   },
   productCode: {
     type: String,
-    label: "Product Code"
-  },
-  currency: {
-    type: String,
-    allowedValues: [
-      'GBP',
-      'USD',
-      'EUR'
-    ]
+    label: "Product Code",
+    optional: true
   },
   value: {
     type: String,
@@ -350,7 +342,10 @@ PurchaseOrderItems.attachSchema(Schemas.PurchaseOrderItem);
 
 Schemas.Task = new SimpleSchema({
   userId: {
-    type: String
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
   },
   taskNotes: {
     type: String
