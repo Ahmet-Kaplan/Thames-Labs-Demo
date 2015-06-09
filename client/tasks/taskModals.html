@@ -6,7 +6,7 @@
           <h5>New Task</h5>
         </div>
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="insertTaskForm" type="insert"}}
+          {{#autoForm autocomplete="off" collection="Tasks" id="insertTaskForm" type="insert"}}
             {{> afQuickField name="userId" options=usersAsOptions}}
             {{> afQuickField name="taskNotes"}}
             {{> afQuickField name="dueDate" value=currentDateTime }}

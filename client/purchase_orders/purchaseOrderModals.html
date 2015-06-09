@@ -8,7 +8,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
+          {{#autoForm autocomplete="off" collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description"}}
 
             {{> afQuickField name="supplierCompanyId" id="selectedSupplier" options=companiesAsOptions}}
@@ -51,7 +51,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="PurchaseOrders" id="updatePurchaseOrderForm" type="update" doc=this}}
+          {{#autoForm autocomplete="off" collection="PurchaseOrders" id="updatePurchaseOrderForm" type="update" doc=this}}
             {{> afQuickField name="description"}}
 
             {{> afQuickField name="supplierCompanyId" id="selectedSupplier" options=companiesAsOptions}}
@@ -88,7 +88,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="PurchaseOrderItems" id="addPurchaseOrderItem" type="insert"}}
+          {{#autoForm autocomplete="off" collection="PurchaseOrderItems" id="addPurchaseOrderItem" type="insert"}}
             {{> afQuickField name="purchaseOrderId" type="hidden" value=project._id}}
             {{> afQuickField name="description"}}
             {{> afQuickField name="productCode" }}
@@ -116,7 +116,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="PurchaseOrderItems" id="editPurchaseOrderItem" type="update" doc=this}}
+          {{#autoForm autocomplete="off" collection="PurchaseOrderItems" id="editPurchaseOrderItem" type="update" doc=this}}
             {{> afQuickField name="description"}}
             {{> afQuickField name="productCode" }}
             {{> afQuickField name="currency" options="allowed"}}
