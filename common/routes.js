@@ -20,6 +20,13 @@ Router.onBeforeAction(function() {
   only: ['customers']
 });
 
+Router.onBeforeAction(function() {
+  GoogleMaps.load();
+  this.next();
+}, {
+  only: ['company']
+});
+
 Router.route('/', {
   action: function() {
     this.redirect('/dashboard');
