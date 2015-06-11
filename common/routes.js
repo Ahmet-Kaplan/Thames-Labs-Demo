@@ -3,6 +3,7 @@ var subs = new SubsManager();
 // Require sign in for all routes
 Router.onBeforeAction(function() {
   if (Meteor.user()) {
+    Meteor.logoutOtherClients();
     this.next();
   } else {
     this.render('login');
