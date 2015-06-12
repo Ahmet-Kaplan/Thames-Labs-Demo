@@ -26,10 +26,13 @@ Template.contactList.events({
   'click #add-contact': function() {
     Modal.show('insertCompanyContactModal', this);
   },
-})
+});
 
 Template.contactList.helpers({
   hasContacts: function() {
     return Contacts.find({}).count() > 0;
+  },
+  contactCount: function() {
+    return Contacts.find({}).count();
   }
-})
+});
