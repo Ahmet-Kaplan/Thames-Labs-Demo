@@ -1,0 +1,45 @@
+<template name="contactList">
+
+
+  <div class="row">
+
+    <div class="col-md-3">
+      <div class="sidebar">
+        <h1>Actions</h1>
+        {{> esInput index="contact" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
+        <div class="btn-group-vertical">
+          <div class="panel-heading" id="contacts">
+            <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right addContactToCompany">Add contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+
+      <h1><i class="fa fa-users"></i> Contacts</h1>
+	  <h1><i class="fa fa-building"></i> {{pageTitle}}</h1><small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</small>
+
+      {{#if hasContacts}}
+      <div class="list-group">
+        {{#ifEsIsSearching index="contact"}} {{> spinner}} {{else}} {{#esEach index="contact"}} {{> contactListItem}} {{/esEach}} {{> esLoadMoreButton index="contact" class="btn btn-default"}} {{/ifEsIsSearching}}
+      </div>
+      {{else}}
+      <br />
+      <h4 style="color:gray;">No contacts</h4>
+      {{/if}}
+
+    </div>
+  </div>
+
+  {{> autoformModals}}
+
+</template>
+
+<template name="contactListItem">
+  <a class="list-group-item" href="{{pathFor route='contact'}}">
+    <!-- <span class="badge">&gt;</span> -->
+    <h4 class="list-group-item-heading">{{name}}<i class="fa fa-fw fa-chevron-right pull-right"></i></h4>
+    <p class="list-group-item-text"><i class="fa fa-building"></i> {{companyName}}</p>
+  </a>
+</template>

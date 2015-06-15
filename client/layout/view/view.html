@@ -1,0 +1,307 @@
+<template name="view">
+  {{#if loggedIn}}
+  {{#unless isInRole 'superadmin'}}
+  <div id="id-view-sidebar">
+    <div class="panel-group" id="accordion">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a href='/'>
+              <i class="fa fa-fw fa-home"></i>
+              Dashboard</a>
+          </h4>
+        </div>
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-check"></i>
+                  <a href='/tasks' class="not-active">Tasks</a>
+                </td>
+              </tr>
+
+            </table>
+          </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseFavourites">
+              <i class="fa fa-fw fa-star"></i>
+              Favourites</a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseFavourites">
+          <div class="panel-body">
+            <table class="table">
+              {{#each favourites}}
+
+              {{else}}
+              <tr>
+                <td>
+                  <em>No favourites</em>
+                </td>
+              </tr>
+              {{/each}}
+
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseMarketing">
+              <i class="fa fa-fw fa-camera"></i>
+              Marketing</a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseMarketing">
+          <div class="panel-body">
+            <table class="table">
+
+              <tr>
+
+              </tr>
+
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseSales">
+              <i class="fa fa-fw fa-money"></i>
+              Sales</a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseSales">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-building"></i>
+                  <a href='/companies'>Companies</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-user"></i>
+                  <a href='/contacts'>Contacts</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-files-o"></i>
+                  <a href='/opportunities' class="not-active">Opportunities</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseOperations">
+              <i class="fa fa-fw fa-files-o"></i>
+              Operations</a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseOperations">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-building"></i>
+                  <a href='/customers' class="not-active">Customers</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-files-o"></i>
+                  <a href='/projects'>Projects</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapsePurchasing">
+              <i class="fa fa-fw fa-shopping-cart"></i>
+              Purchasing</a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapsePurchasing">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-building"></i>
+                  <a href='/suppliers' class="not-active">Suppliers</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-list"></i>
+                  <a href='/procurements' class="not-active">Procurements</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-shopping-cart"></i>
+                  <a href='/purchaseorders'>Purchase Orders</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-pencil"></i>
+                  <a href='/contracts' class="not-active">Contracts</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-money"></i>
+                  <a href='/invoices' class="not-active">Invoices</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseSupport">
+              <i class="fa fa-fw fa-question"></i>
+              Support</a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseSupport">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-ticket"></i>
+                  <a href='/tickets' class="not-active">Tickets</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseReporting">
+              <i class="fa fa-fw fa-book"></i>
+              Reporting</a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseReporting">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-bookmark"></i>
+                  <a href='/auditlog' class="not-active">Audit Log</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseHR">
+              <i class="fa fa-fw fa-users"></i>
+              HR</a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseHR">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-users"></i>
+                  <a href='/employees' class="not-active">Employees</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-plane"></i>
+                  <a href='/holidays' class="not-active">Holidays</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-user-md"></i>
+                  <a href='/absences' class="not-active">Absences</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-clock-o"></i>
+                  <a href='/timesheets' class="not-active">Timesheets</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseGeneral">
+              <i class="fa fa-fw fa-briefcase"></i>
+              General</a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseGeneral">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-file-text"></i>
+                  <a href='/templates' class="not-active">Templates</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-wrench"></i>
+                  <a href='/products' class="not-active">Products</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-cogs"></i>
+                  <a href='/components' class="not-active">Components</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/unless}}
+  {{/if}}
+  <div id="id-view-content">
+    {{> yield}}
+  </div>
+</template>

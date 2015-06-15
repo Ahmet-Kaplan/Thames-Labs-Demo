@@ -1,17 +1,10 @@
-Customers.permit(['insert']).ifHasRole('superadmin').apply();
+g_Tenants.permit(['insert', 'remove']).ifHasRole('superadmin').apply();
 
 Meteor.users.permit(['insert', 'remove']).ifHasRole('superadmin').apply();
 
-Companies.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
-
-Contacts.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
-
-Activities.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
-
-Projects.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
-
-PurchaseOrders.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
-
-PurchaseOrderItems.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
-
-Tasks.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+g_Companies.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+g_Contacts.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+g_Activities.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+g_Projects.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+g_PurchaseOrders.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+g_PurchaseOrderItems.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();

@@ -1,0 +1,20 @@
+<template name="addTenant">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5>New Tenant</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="g_Tenants" id="addTenantModal" type="insert"}}
+            {{> afQuickField name="TenantName"}}
+            <button type="submit" class="btn btn-primary">Submit</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

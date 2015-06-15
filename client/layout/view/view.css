@@ -1,0 +1,34 @@
+#id-view-sidebar {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #f2f2f2;
+  float: left;
+  width: 12%;
+  margin-top: -19px;
+}
+#id-view-content {
+  float: left;
+  margin-top: -19px;
+  margin-left: 4px;
+  padding-left: 7px;
+  width: 85%;
+  height: 100%;
+}
+tr > td > a{
+  color:black;
+}
+tr > td > a:hover{
+  text-decoration: none;
+}
+.panel-body{
+  margin-bottom: -20px;
+}
+#accordion{
+  height: : 100%;
+}
+.not-active {
+   pointer-events: none;
+   cursor: default;
+   color: #9d9d9d;
+}

@@ -1,7 +1,5 @@
 // Super secret server only methods
-
 Meteor.methods({
-
   sendFeedback: function(doc) {
     check(doc, Schemas.Feedback);
     this.unblock();
@@ -22,6 +20,10 @@ Meteor.methods({
     }, function(error, result) {
       if (error) console.log(error);
     });
-  }
+  },
 
+  switchTenancy: function(user, target){
+    Partitioner.clearUserGroup(user);
+    Partitioner.setUserGroup(user, target);
+  }
 });

@@ -1,0 +1,54 @@
+<template name="tenantList">
+  <h1>
+    <i class="fa fa-fw fa-archive"></i> Current Tenants</h1>
+  <div class="well well-sm">
+    <div class="btn-group" role="group">
+      <button class="btn btn-success pull-right btn-xs" id="btnAddNewTenant" type="button">
+        <i class="fa fa-fw fa-archive"></i> Add a new tenant
+      </button>
+    </div>
+  </div>
+
+  {{#each tenants}} {{> tenant}} {{/each}}
+
+</template>
+
+<template name="tenant">
+  <div class="panel panel-primary">
+    <div class="panel-heading ">
+      <h4 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}">{{TenantName}}</a>
+
+      </h4>
+    </div>
+    <div id="collapse{{_id}}" class="panel-collapse collapse in">
+      <div class="panel-body" id="listOfTenantUsers">
+        <div class="well well-sm">
+            <button class="btn btn-success btn-xs" id="btnAddNewTenantUser" type="button">
+              <i class="fa fa-fw fa-user"></i> Add a new user
+            </button>
+            <button class="btn btn-danger pull-right btn-xs" id="btnDeleteTenant" type="button">
+              <i class="fa fa-fw fa-archive"></i> Delete this tenant
+            </button>
+        </div>
+
+        <ul class="list-group">
+        {{#each users}} {{> user}} {{else}}
+        <div class="list-group-item ">
+          <em>No users</em>
+        </div>
+        {{/each}}
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="user">
+  <div class="list-group-item">
+    {{profile.name}} <button class="btn btn-danger pull-right btn-xs" id="btnDeleteTenantUser" type="button">
+      <i class="fa fa-fw fa-times"></i> Delete user
+    </button>
+  </div>
+</template>

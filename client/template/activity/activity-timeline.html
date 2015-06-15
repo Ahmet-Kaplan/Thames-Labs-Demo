@@ -1,0 +1,37 @@
+<!-- thanks to http://bootsnipp.com/snippets/featured/timeline-responsive -->
+
+<template name="activityTimeline">
+  <ul class="timeline">
+    {{#each indexedArray activities}}
+      <li class="{{timelineClass _index}}">
+        <div class="timeline-badge"><i class="fa fa-{{timelineIcon type}}"></i></div>
+        <div class="timeline-panel">
+          <div class="timeline-heading">
+            <h4 class="timeline-title">
+              {{type}}
+              <div class="btn-group pull-right">
+                {{#afModal class="btn btn-xs btn-info" collection="g_Activities" doc=_id operation="update" formId="removeActivityForm" omitFields="companyId, contactId, createdAt, projectId, purchaseOrderId"}}
+                  Edit
+                {{/afModal}}
+                {{#afModal class="btn btn-xs btn-danger" collection="g_Activities" doc=_id operation="remove" formId="removeActivityForm"}}
+                  Delete
+                {{/afModal}}
+            </div>
+            </h4>
+            <p>
+              <small class="text-muted">
+                <span data-toggle="tooltip" title="{{createdAt}}"><i class="fa fa-clock-o"></i> {{fromNow createdAt}}</span>
+                {{#if contact}}
+                | <a href="{{pathFor route="contact" data=contact}}">{{contact.name}}</a>
+                {{/if}}
+              </small>
+            </p>
+          </div>
+          <div class="timeline-body">
+            {{notes}}
+          </div>
+        </div>
+      </li>
+    {{/each}}
+  </ul>
+</template>
