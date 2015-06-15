@@ -13,6 +13,9 @@ Template.companyList.helpers({
   },
   companyCount: function() {
     return Companies.find({}).count();
+  },
+  hasMultipleCompanies: function() {
+    return Companies.find({}).count() !== 1;
   }
 });
 
