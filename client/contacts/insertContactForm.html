@@ -9,16 +9,9 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm autocomplete="off" collection="Contacts" id="insertContactForm" type="insert"}}
-            {{> afQuickField name="title" options="allowed"}}
-            {{> afQuickField name="forename"}}
-            {{> afQuickField name="surname"}}
-            {{> afQuickField name="email"}}
-            {{> afQuickField name="phone"}}
-            {{> afQuickField name="mobile"}}
-            {{> afQuickField name="companyId" type="hidden" value=_id}}
-                        {{> afQuickField name="createdBy" value=currentUser }}
-            <button type="submit" class="btn btn-primary">Submit</button>
+          {{#autoForm autocomplete="off" collection="Contacts" id="insertContactForm" type="insert"}} {{> afQuickField name="title" options="allowed"}} {{> afQuickField name="forename"}} {{> afQuickField name="surname"}} {{> afQuickField name="email"}} {{> afQuickField
+          name="phone"}} {{> afQuickField name="mobile"}} {{> afQuickField name="jobtitle"}} {{> afQuickField name="companyId" type="hidden" value=_id}} {{> afQuickField name="createdBy" value=currentUser }}
+          <button type="submit" class="btn btn-primary">Submit</button>
           {{/autoForm}}
         </div>
 
@@ -37,15 +30,9 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm autocomplete="off" collection="Contacts" id="insertCompanyContactForm" type="insert"}}
-            {{> afQuickField name="title" options="allowed"}}
-            {{> afQuickField name="forename"}}
-            {{> afQuickField name="surname"}}
-            {{> afQuickField name="phone"}}
-            {{> afQuickField name="mobile"}}
-            {{> afQuickField name="companyId" options=companiesAsOptions}}
-                        {{> afQuickField name="createdBy" value=currentUser }}
-            <button type="submit" class="btn btn-primary">Submit</button>
+          {{#autoForm autocomplete="off" collection="Contacts" id="insertCompanyContactForm" type="insert"}} {{> afQuickField name="title" options="allowed"}} {{> afQuickField name="forename"}} {{> afQuickField name="surname"}} {{> afQuickField name="email"}} {{>
+          afQuickField name="phone"}} {{> afQuickField name="mobile"}} {{> afQuickField name="jobtitle"}} {{> afQuickField name="companyId" options=companiesAsOptions}} {{> afQuickField name="createdBy" value=currentUser }}
+          <button type="submit" class="btn btn-primary">Submit</button>
           {{/autoForm}}
         </div>
 

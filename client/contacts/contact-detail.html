@@ -41,6 +41,12 @@
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
 
+          {{#if jobtitle}}
+            <li class="list-group-item">
+              <i class="fa fa-fw fa-graduation-cap"></i> {{jobtitle}}
+            </li>
+          {{/if}}
+
           {{#if email}}
             <li class="list-group-item">
               <i class="fa fa-fw fa-envelope"></i> {{email}}

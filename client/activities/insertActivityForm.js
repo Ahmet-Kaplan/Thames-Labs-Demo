@@ -1,6 +1,6 @@
 Template.insertActivityModal.helpers({
   currentDateTime: function() {
-  return moment();
+    return moment();
   },
   contactsAsOptions: function() {
     return this.company.contacts().map(function(contact) {
@@ -10,25 +10,34 @@ Template.insertActivityModal.helpers({
       };
     });
   },
-  currentUser: function(){
+  currentUser: function() {
+    return Meteor.userId();
+  },
+});
+
+Template.insertContactActivityModal.helpers({
+  currentDateTime: function() {
+    return moment();
+  },
+  currentUser: function() {
     return Meteor.userId();
   },
 });
 
 Template.insertProjectActivityModal.helpers({
   currentDateTime: function() {
-  return moment();
+    return moment();
   },
-  currentUser: function(){
+  currentUser: function() {
     return Meteor.userId();
   },
 });
 
 Template.insertPurchaseOrderActivityModal.helpers({
   currentDateTime: function() {
-  return moment();
+    return moment();
   },
-  currentUser: function(){
+  currentUser: function() {
     return Meteor.userId();
   },
 });
@@ -46,10 +55,16 @@ AutoForm.hooks({
       $('[data-toggle="tooltip"]').tooltip();
     }
   },
-  insertPurchaseOrderActivityModal: {
+  insertPurchaseOrderActivityForm: {
+    onSuccess: function() {
+      Modal.hide();
+      $('[data-toggle="tooltip"]').tooltip();
+    }
+  },
+  insertContactActivityForm: {
     onSuccess: function() {
       Modal.hide();
       $('[data-toggle="tooltip"]').tooltip();
     }
   }
-})
+});

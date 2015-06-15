@@ -26,6 +26,13 @@ AutoForm.hooks({
     },
     onSuccess: function() {
       Modal.hide();
+    },
+    after: {
+      insert: function(error, result) {
+        Router.go('/companies/' + result);
+        $(".modal-backdrop").remove();
+        $("body").removeClass('modal-open');
+      }
     }
   }
 });

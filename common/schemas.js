@@ -143,6 +143,11 @@ Schemas.Contact = new SimpleSchema({
     label: "Mobile phone number",
     optional: true
   },
+  jobtitle: {
+    type: String,
+    label: "Job title",
+    optional: true
+  },
   companyId: {
     type: String
   },
