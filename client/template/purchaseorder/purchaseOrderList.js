@@ -7,7 +7,6 @@ Template.purchaseOrderList.onRendered(function() {
   });
 });
 
-
 Template.purchaseOrderList.events({
     'click #add-purchase-order': function() {
       Modal.show('newPurchaseOrderForm', this);

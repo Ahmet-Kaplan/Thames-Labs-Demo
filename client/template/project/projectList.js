@@ -7,6 +7,7 @@ Template.projectsList.onRendered(function() {
   });
 });
 
+
 Template.projectsList.helpers({
   hasProjects: function() {
     return g_Projects.find({}).count() > 0;
@@ -16,8 +17,8 @@ Template.projectsList.helpers({
 Template.projectsList.events({
   'click #add-project': function() {
     Modal.show('newProjectForm', this);
-  },
-})
+  }
+});
 
 Template.projectCompanyListItem.helpers({
   hasProjectsForCompany: function(){

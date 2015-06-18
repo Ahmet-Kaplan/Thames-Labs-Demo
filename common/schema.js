@@ -74,6 +74,7 @@ Schemas.Company = new SimpleSchema({
   },
   county: {
     type: String,
+    optional: true,
     label: "County/State"
   },
   postcode: {

@@ -17,6 +17,10 @@ Template.purchaseOrderDetail.onRendered(function() {
   });
 });
 
+Template.purchaseOrderDetail.rendered = function(){
+  document.title = "Purchase Order - " + this.data.description;
+};
+
 Template.purchaseOrderDetail.events({
   'click #add-item': function() {
     Modal.show('addPurchaseOrderItemModal', {

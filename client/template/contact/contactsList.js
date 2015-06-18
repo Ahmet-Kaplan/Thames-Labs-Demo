@@ -7,6 +7,7 @@ Template.contactList.onRendered(function() {
   });
 });
 
+
 Template.contactListItem.helpers({
   companyName: function() {
     var contact = this;

@@ -8,6 +8,11 @@ Template.projectDetail.onRendered(function() {
   });
 });
 
+Template.projectDetail.rendered = function(){
+  document.title = "Project - " + this.data.description;
+};
+
+
 Template.projectDetail.helpers({
   managerName: function() {
     return Meteor.users.find({

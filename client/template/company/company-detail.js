@@ -4,7 +4,12 @@ Template.companyDetail.onRendered(function() {
   sidebar.affix({offset: {top: sidebar.offset().top}});
   // Load docxgen
   $.getScript('/vendor/docxgen.min.js');
+
 });
+
+Template.companyDetail.rendered = function(){
+  document.title = "Company - " + this.data.name;
+};
 
 Template.companyDetail.events({
   'change #template-upload': function(event) {

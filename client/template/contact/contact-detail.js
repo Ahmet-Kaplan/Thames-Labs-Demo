@@ -4,6 +4,10 @@ Template.contactDetail.onRendered(function() {
   sidebar.affix({offset: {top: sidebar.offset().top}});
 });
 
+Template.contactDetail.rendered = function(){
+  document.title = "Contact - " + this.data.title + " " + this.data.forename + " " + this.data.surname;
+};
+
 Template.contactDetail.events({
   'click #add-activity': function() {
     Modal.show('insertContactActivityModal', {

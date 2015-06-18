@@ -7,6 +7,8 @@ Template.companyList.onRendered(function() {
   });
 });
 
+
+
 Template.companyList.helpers({
   pageTitle: function() {
     return GetRoutedPageTitle(Router.current().route.getName());
