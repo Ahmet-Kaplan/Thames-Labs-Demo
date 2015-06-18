@@ -5,7 +5,7 @@
     <div class="col-md-2">
       <div class="sidebar">
         <h1>Actions</h1>
-        {{> esInput index="purchaseorder" placeholder="search purchase orders..." allDocsOnEmpty=true reactive=false class="form-control"}}
+        {{> esInput index="purchaseorders" placeholder="search purchase orders..." allDocsOnEmpty=true reactive=false class="form-control"}}
         <div class="btn-group-vertical">
           <a href="#" id="add-purchase-order" class="btn btn-success">Create purchase order</a>
         </div>
@@ -18,7 +18,7 @@
       <div class="col-md-10">
         {{#if hasPurchaseOrders}}
         <div class="list-group">
-          {{#ifEsIsSearching index="purchaseorder"}} {{> spinner}} {{else}} {{#esEach index="purchaseorder"}} {{> purchaseOrderListItem}} {{/esEach}} {{> esLoadMoreButton index="purchaseorder" class="btn btn-default"}} {{/ifEsIsSearching}}
+          {{#ifEsIsSearching index="purchaseorders"}} {{> spinner}} {{else}} {{#esEach index="purchaseorders"}} {{> purchaseOrderListItem}} {{/esEach}} {{> esLoadMoreButton index="purchaseorders" class="btn btn-default"}} {{/ifEsIsSearching}}
         </div>
         {{else}}
         <br />

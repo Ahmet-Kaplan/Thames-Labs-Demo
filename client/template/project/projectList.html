@@ -5,7 +5,7 @@
     <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
-        {{> esInput index="company" placeholder="search companies..." allDocsOnEmpty=true reactive=false class="form-control"}}
+        {{> esInput index="companies" placeholder="search companies..." allDocsOnEmpty=true reactive=false class="form-control"}}
         <div class="btn-group-vertical">
           <div class="panel-heading" id="contacts">
             <a href="#" id="add-project" class="btn btn-success btn-xs pull-right">New Project</a>
@@ -18,15 +18,15 @@
 
       <h1><i class="fa fa-files-o"></i> Projects</h1>
       {{#if hasProjects}}
-        {{#ifEsIsSearching index="company"}}
+        {{#ifEsIsSearching index="companies"}}
           {{> spinner}}
         {{else}}
-          {{#esEach index="company"}}
+          {{#esEach index="companies"}}
 
             {{> projectCompanyListItem}}
 
           {{/esEach}}
-          {{> esLoadMoreButton index="company" class="btn btn-default"}}
+          {{> esLoadMoreButton index="companies" class="btn btn-default"}}
         {{/ifEsIsSearching}}
       {{else}}
       <br /> <h4 style="color:gray;">No projects</h4>

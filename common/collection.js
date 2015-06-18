@@ -1,11 +1,11 @@
-g_Tenants = new Mongo.Collection('tenant');
+g_Tenants = new Mongo.Collection('tenants');
 g_Tenants.helpers({
   users: function() {
     return Meteor.users.find({ group: this._id });
   }
 });
 
-g_Companies = new Mongo.Collection('company');
+g_Companies = new Mongo.Collection('companies');
 Partitioner.partitionCollection(g_Companies);
 g_Companies.helpers({
   contacts: function() {
@@ -25,7 +25,7 @@ g_Companies.initEasySearch('name', {
   limit: 50
 });
 
-g_Contacts = new Mongo.Collection('contact');
+g_Contacts = new Mongo.Collection('contacts');
 Partitioner.partitionCollection(g_Contacts);
 g_Contacts.helpers({
   name: function() {
@@ -45,7 +45,7 @@ g_Contacts.initEasySearch(['forename', 'surname'], {
   limit: 50
 });
 
-g_Activities = new Mongo.Collection('activity');
+g_Activities = new Mongo.Collection('activities');
 Partitioner.partitionCollection(g_Activities);
 g_Activities.helpers({
   company: function() {
@@ -65,7 +65,7 @@ g_Activities.initEasySearch('notes', {
   limit: 50
 });
 
-g_Projects = new Mongo.Collection('project');
+g_Projects = new Mongo.Collection('projects');
 Partitioner.partitionCollection(g_Projects);
 g_Projects.helpers({
   company: function() {
@@ -85,7 +85,7 @@ g_Projects.initEasySearch('description', {
   limit: 50
 });
 
-g_PurchaseOrders = new Mongo.Collection('purchaseorder');
+g_PurchaseOrders = new Mongo.Collection('purchaseorders');
 Partitioner.partitionCollection(g_PurchaseOrders);
 g_PurchaseOrders.helpers({
   company: function() {
@@ -105,7 +105,7 @@ g_PurchaseOrders.initEasySearch('description', {
   limit: 50
 });
 
-g_PurchaseOrderItems = new Mongo.Collection('purchaseorderitem');
+g_PurchaseOrderItems = new Mongo.Collection('purchaseorderitems');
 Partitioner.partitionCollection(g_PurchaseOrderItems);
 g_PurchaseOrderItems.initEasySearch('description', {
   limit: 50
