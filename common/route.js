@@ -52,6 +52,13 @@ Router.route('/', {
   template: 'dashboard'
 });
 
+
+Router.route('/campaigns', {
+  name: 'campaigns',
+  template: 'campaignList'
+});
+
+
 Router.route('/companies', {
   name: 'companies',
   template: 'companyList',

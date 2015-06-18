@@ -35,7 +35,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Activities" id="insertContactActivityForm" type="insert"}}
+          {{#autoForm collection="g_Activities" id="insertContactActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
             {{> afQuickField name="notes" rows=10}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}

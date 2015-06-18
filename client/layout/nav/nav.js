@@ -34,7 +34,6 @@ Template.nav.events({
     window.location.reload();
   },
   'click #feedback-link': function() {
-    console.log('click');
     Modal.show('feedbackModal');
   }
 });

@@ -65,7 +65,6 @@ Template.updateProjectForm.helpers({
 
 Template.newProjectForm.helpers({
   showContacts: function() {
-    console.log(Session.get('sc'));
     if (Session.get('sc') === null) {
       return false;
     } else {

@@ -87,7 +87,6 @@ Template.newPurchaseOrderForm.helpers({
     });
   },
   contactsAsOptions: function() {
-    console.log(Session.get('posc'));
     return g_Contacts.find({
       companyId: Session.get('posc')
     }).map(function(contact) {
@@ -142,7 +141,6 @@ Template.updatePurchaseOrderFormModal.helpers({
     });
   },
   contactsAsOptions: function() {
-    console.log(Session.get('posc'));
     return g_Contacts.find({
       companyId: Session.get('posc')
     }).map(function(contact) {
@@ -178,7 +176,7 @@ Template.addPurchaseOrderItemModal.onRendered(function() {
 
   Meteor.call("calculatePurchaseOrderItemTotalValue", v,q, function(error, result){
     if(error){
-      console.log("error", error);
+
     }
     else{
       $('#activePrice').prop('value', result);
@@ -200,7 +198,7 @@ Template.addPurchaseOrderItemModal.events({
 
     Meteor.call("calculatePurchaseOrderItemTotalValue", v,q, function(error, result){
       if(error){
-        console.log("error", error);
+
       }
       else{
         $('#activePrice').prop('value', result);
@@ -214,7 +212,7 @@ Template.addPurchaseOrderItemModal.events({
 
     Meteor.call("calculatePurchaseOrderItemTotalValue", v,q, function(error, result){
       if(error){
-        console.log("error", error);
+
       }
       else{
         $('#activePrice').prop('value', result);
@@ -231,7 +229,7 @@ Template.editPurchaseOrderItemModal.events({
 
     Meteor.call("calculatePurchaseOrderItemTotalValue", v,q, function(error, result){
       if(error){
-        console.log("error", error);
+
       }
       else{
         $('#activePrice').prop('value', result);
@@ -245,7 +243,7 @@ Template.editPurchaseOrderItemModal.events({
 
     Meteor.call("calculatePurchaseOrderItemTotalValue", v,q, function(error, result){
       if(error){
-        console.log("error", error);
+        
       }
       else{
         $('#activePrice').prop('value', result);

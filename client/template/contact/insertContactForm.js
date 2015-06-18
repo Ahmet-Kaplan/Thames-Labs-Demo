@@ -8,7 +8,6 @@ AutoForm.hooks({
 
 Template.insertCompanyContactModal.helpers({
   companiesAsOptions: function() {
-    console.log('called');
 
     return g_Companies.find({}).map(function(company) {
       return {
