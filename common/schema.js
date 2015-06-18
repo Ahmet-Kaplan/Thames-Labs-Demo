@@ -46,7 +46,7 @@ Schemas.Feedback = new SimpleSchema({
 // ** --------- Non-attachment schemas --------- ** //
 
 Schemas.Tenant = new SimpleSchema({
-  TenantName: {
+  name: {
     type: String,
     label: "Name",
     unique: true

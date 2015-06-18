@@ -34,7 +34,7 @@ Meteor.methods({
     // See server/startup.js for MAIL_URL environment variable
 
     Email.send({
-      to: 'damien.robson@cambridgesoftware.co.uk',
+      to: doc.email,
       from: 'admin@realtimecrm.co.uk',
       subject: 'Your RealtimeCRM details',
       text:docText

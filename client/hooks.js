@@ -36,17 +36,17 @@ AutoForm.hooks({
       }
     }
   },
+  removeCompanyForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Company removed.');
+      Router.go('/companies');
+    }
+  },
   feedbackForm: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Feedback submitted.');
-    }
-  },
-  removeCompanyForm:{
-    onSuccess: function() {
-      Modal.hide();      
-        toastr.success('Company removed.');
-        Router.go('/companies');
     }
   }
 });

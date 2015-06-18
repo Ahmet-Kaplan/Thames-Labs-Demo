@@ -1,14 +1,14 @@
-Template.nav.onRendered(function() {
-  $('#feedback-link').click(function() {
-    Modal.show('feedbackModal');
-  });
-});
+
 
 Template.nav.helpers({
   loggedIn: function() {
     return (Meteor.userId() ? true : false);
   },
   userName: function() {
+    if (!Meteor.userId()) {
+      return false;
+    }
+
     var sName = '';
     if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
       sName = Meteor.users.find({
@@ -18,16 +18,6 @@ Template.nav.helpers({
 
     return sName;
   }
-
-  // currentTenant: function() {
-  //   var groupId = Meteor.users.find({
-  //     _id: Meteor.userId()
-  //   }).fetch()[0].group;
-  //
-  //   return g_Tenants.find({
-  //     _id: groupId
-  //   }).fetch()[0].TenantName;
-  // }
 });
 
 Template.nav.events({
@@ -42,5 +32,9 @@ Template.nav.events({
   "click #tenancy-three": function() {
     Meteor.call('switchTenancy', Meteor.userId(), '5yzHfQ96PuhuETdho');
     window.location.reload();
+  },
+  'click #feedback-link': function() {
+    console.log('click');
+    Modal.show('feedbackModal');
   }
 });
