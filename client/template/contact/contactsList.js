@@ -33,9 +33,9 @@ Template.contactList.helpers({
     return g_Contacts.find({}).count() > 0;
   },
   contactCount: function() {
-    return Contacts.find({}).count();
+    return g_Contacts.find({}).count();
   },
   hasMultipleContacts: function() {
-    return Contacts.find({}).count() !== 1;
+    return g_Contacts.find({}).count() !== 1;
   }
 });

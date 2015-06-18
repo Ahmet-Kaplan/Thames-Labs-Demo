@@ -1,18 +1,22 @@
-
 Template.nav.onRendered(function() {
   $('#feedback-link').click(function() {
     Modal.show('feedbackModal');
   });
-})
+});
 
 Template.nav.helpers({
   loggedIn: function() {
     return (Meteor.userId() ? true : false);
   },
   userName: function() {
-    return Meteor.users.find({
-      _id: Meteor.userId()
-    }).fetch()[0].profile.name;
+    var sName = '';
+    if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
+      sName = Meteor.users.find({
+        _id: Meteor.userId()
+      }).fetch()[0].profile.name;
+    }
+
+    return sName;
   }
 
   // currentTenant: function() {

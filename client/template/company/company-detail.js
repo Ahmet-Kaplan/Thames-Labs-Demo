@@ -60,9 +60,6 @@ Template.companyDetail.helpers({
     return 'tel:' + number;
   },
   onCompanyRemove: function() {
-    console.log('company removed');
-    // Bit of a hack to remove the BS modal backdrop
-    // Should go in template onRendered?
     $(".modal-backdrop").remove();
     $("body").removeClass('modal-open');
   }

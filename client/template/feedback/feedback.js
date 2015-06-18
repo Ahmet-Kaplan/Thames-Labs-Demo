@@ -1,16 +1,12 @@
 Template.feedbackModal.helpers({
   'userName': function() {
-    return Meteor.user().profile.name;
+    var sName = "Super Admin";
+    if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
+      sName = Meteor.user().profile.name;
+    }
+    return sName;
   },
   'currentUrl': function() {
     return Router.current().url;
-  }
-});
-
-AutoForm.hooks({
-  feedbackForm: {
-    onSuccess: function() {
-      Modal.hide();
-    }
   }
 });

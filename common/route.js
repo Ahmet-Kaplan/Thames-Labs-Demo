@@ -20,6 +20,16 @@ Router.onBeforeAction(function() {
 });
 
 Router.onBeforeAction(function() {
+  if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
+    this.next();
+  } else {
+    this.redirect('/tenants');
+  }
+}, {
+  only: ['dashboard']
+});
+
+Router.onBeforeAction(function() {
   GoogleMaps.load();
   this.next();
 }, {
