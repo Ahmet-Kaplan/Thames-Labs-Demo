@@ -9,7 +9,7 @@
         <h1>Actions</h1>
         {{> esInput index="companies" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
         <div class="btn-group-vertical">
-          {{#afModal autocomplete="off" class="btn btn-primary" collection="g_Companies" operation="insert" formId="insertCompanyForm"}} Add new company {{/afModal}}
+          {{#afModal autocomplete="off" class="btn btn-primary" id="mchShowAddCompanyModal" collection="g_Companies" operation="insert" formId="insertCompanyForm"}} Add new company {{/afModal}}
         </div>
       </div>
     </div>
@@ -19,13 +19,13 @@
       <h1><i class="fa fa-building"></i> {{pageTitle}}</h1><small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
 
       {{#if hasCompanies}}
-      <div class="list-group">
+      <div class="list-group" id="mchCompanyList">
         {{#ifEsIsSearching index="companies"}} {{> spinner}} {{else}} {{#esEach index="companies"}} {{> companyListItem}} {{/esEach}} {{> esLoadMoreButton index="companies" class="btn btn-default"}} {{/ifEsIsSearching}}
       </div>
 
       {{else}}
       <br />
-      <h4 style="color:gray;">No companies</h4>
+      <h4 style="color:gray;" id="mchNoCompaniesPlaceholder">No companies</h4>
       {{/if}}
 
     </div>
@@ -36,7 +36,7 @@
 </template>
 
 <template name="companyListItem">
-  <a class="list-group-item" href="{{pathFor route='company'}}">
+  <a class="list-group-item" href="{{pathFor route='company'}}" id='mchCompany'>
     <h4 class="list-group-item-heading">{{name}}</h4>
     <p class="list-group-item-text"><i class="fa fa-fw fa-map-marker"></i> {{city}}, {{country}}</p>
   </a>

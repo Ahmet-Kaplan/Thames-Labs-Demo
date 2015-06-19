@@ -1,7 +1,6 @@
 // jshint ignore: start
 var expect = chai.expect;
 
-// if (!(typeof MochaWeb === 'undefined')) {
 MochaWeb.testOnly(function() {
 
   describe('Login', function() {
@@ -63,7 +62,7 @@ MochaWeb.testOnly(function() {
         expect(err).to.be.null;
         if (comp) {
           expect(Router.current().url).to.equal("/tenants");
-          
+
           var userId = Accounts.createUser({
             email: doc.email,
             password: doc.password,
@@ -71,10 +70,95 @@ MochaWeb.testOnly(function() {
               name: doc.name
             }
           });
+
+          expect(userId).to.exist;
         }
       });
     });
 
   });
+
+  describe('Companies', function() {
+    beforeEach(function(done) {
+      Meteor.logout(function(callback) {
+        callback();
+      });
+
+      Meteor.loginWithPassword('demo@demo.co.uk', 'demo123', function(err) {
+
+      });
+
+      Router.go('/companies');
+      done();
+    });
+
+    it('should show an empty list of companies', function(done) {
+
+      expect($('#mchNoCompaniesPlaceholder')).to.exist;
+      done();
+    });
+
+    it('should allow the new company modal to be loaded', function(done) {
+
+      $('#mchShowAddCompanyModal').trigger("click");
+      expect($('#afModal')).to.exist;
+      done();
+    });
+
+    it('should prevent an empty form from being submitted', function(done) {
+
+      $('#mchShowAddCompanyModal').trigger("click");
+      expect($('#afModal')).to.exist;
+
+      $('#afModal button').trigger("click");
+      expect($('#afModal')).to.exist;
+      done();
+    });
+
+    it('should prevent an incomplete form from being submitted', function(done) {
+
+      $('#mchShowAddCompanyModal').trigger("click");
+      expect($('#afModal')).to.exist;
+
+      $('#afModal input[name=name]').val('Sample');
+
+      $('#afModal button').trigger("click");
+      expect($('#afModal')).to.exist;
+      done();
+    });
+
+    it('should allow a complete form to be submitted', function(done) {
+
+      $('#mchShowAddCompanyModal').trigger("click");
+      expect($('#afModal')).to.exist;
+
+      $('#afModal input[name=name]').val('Sample');
+      $('#afModal input[name=address]').val('Sample');
+      $('#afModal input[name=city]').val('Sample');
+      $('#afModal input[name=postcode]').val('Sample');
+      $('#afModal input[name=country]').val('Sample');
+
+      $('#afModal button').trigger("click");
+      expect($('#afModal')).to.exist;
+      done();
+    });
+
+    it('shows an list of companies', function(done) {
+
+      expect($('#mchCompanyList')).to.exist;
+      done();
+    });
+
+    it('should allow a company\'s details page to be loaded', function(done) {
+
+      expect($('#mchCompany')).to.exist;
+      var url = $('#mchCompany').eq(0).prop('href');
+
+      $('#mchCompany').eq(0).trigger('click');
+
+      expect(Router.current().url).to.not.equal("/companies");
+      done();
+
+    });
+  });
 });
-// }
