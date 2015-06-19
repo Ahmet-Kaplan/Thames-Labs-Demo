@@ -96,6 +96,16 @@ Schemas.Company = new SimpleSchema({
     label: "Phone number",
     optional: true
   },
+  // source: {
+  //   type: String,
+  //   label: "Source",
+  //   optional: true
+  // },
+  // industry: {
+  //   type: String,
+  //   label: "Industry",
+  //   optional: true
+  // },
   createdBy: {
     type: String,
     autoform: {
