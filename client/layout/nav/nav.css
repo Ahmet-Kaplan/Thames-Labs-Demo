@@ -1,3 +1,10 @@
 #id-nav-main-view {
   height: 100%;
 }
+
+.phone-not-active {
+   pointer-events: none;
+   cursor: default;
+   color: #9d9d9d;
+   display: none;
+}

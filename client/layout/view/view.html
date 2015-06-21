@@ -1,6 +1,5 @@
 <template name="view">
-  {{#if loggedIn}}
-  {{#unless isInRole 'superadmin'}}
+  {{#if isDesktop}} {{#if loggedIn}} {{#unless isInRole 'superadmin'}}
   <div id="id-view-sidebar">
     <div class="panel-group" id="accordion">
 
@@ -8,37 +7,35 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a href='/'>
-              <i class="fa fa-fw fa-home"></i>
-              Dashboard</a>
+              <i class="fa fa-fw fa-home"></i> Dashboard
+            </a>
           </h4>
         </div>
-          <div class="panel-body">
-            <table class="table">
-              <tr>
-                <td>
-                  <i class="fa fa-fw fa-check"></i>
-                  <a href='/tasks' class="not-active">Tasks</a>
-                </td>
-              </tr>
+        <div class="panel-body">
+          <table class="table">
+            <tr>
+              <td>
+                <i class="fa fa-fw fa-check"></i>
+                <a href='/tasks' class="not-active">Tasks</a>
+              </td>
+            </tr>
 
-            </table>
-          </div>
+          </table>
+        </div>
       </div>
 
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseFavourites">
-              <i class="fa fa-fw fa-star"></i>
-              Favourites</a>
+              <i class="fa fa-fw fa-star"></i> Favourites
+            </a>
           </h4>
         </div>
         <div class="panel-collapse collapse" id="collapseFavourites">
           <div class="panel-body">
             <table class="table">
-              {{#each favourites}}
-
-              {{else}}
+              {{#each favourites}} {{else}}
               <tr>
                 <td>
                   <em>No favourites</em>
@@ -55,8 +52,8 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseMarketing">
-              <i class="fa fa-fw fa-camera"></i>
-              Marketing</a>
+              <i class="fa fa-fw fa-camera"></i> Marketing
+            </a>
           </h4>
         </div>
         <div class="panel-collapse collapse" id="collapseMarketing">
@@ -91,8 +88,8 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseSales">
-              <i class="fa fa-fw fa-money"></i>
-              Sales</a>
+              <i class="fa fa-fw fa-money"></i> Sales
+            </a>
           </h4>
         </div>
         <div class="panel-collapse collapse" id="collapseSales">
@@ -125,8 +122,8 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseOperations">
-              <i class="fa fa-fw fa-files-o"></i>
-              Operations</a>
+              <i class="fa fa-fw fa-files-o"></i> Operations
+            </a>
           </h4>
         </div>
         <div class="panel-collapse collapse" id="collapseOperations">
@@ -153,8 +150,8 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapsePurchasing">
-              <i class="fa fa-fw fa-shopping-cart"></i>
-              Purchasing</a>
+              <i class="fa fa-fw fa-shopping-cart"></i> Purchasing
+            </a>
           </h4>
         </div>
         <div class="panel-collapse collapse" id="collapsePurchasing">
@@ -199,8 +196,8 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseSupport">
-              <i class="fa fa-fw fa-question"></i>
-              Support</a>
+              <i class="fa fa-fw fa-question"></i> Support
+            </a>
           </h4>
         </div>
         <div class="panel-collapse collapse" id="collapseSupport">
@@ -221,8 +218,8 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseReporting">
-              <i class="fa fa-fw fa-book"></i>
-              Reporting</a>
+              <i class="fa fa-fw fa-book"></i> Reporting
+            </a>
           </h4>
         </div>
         <div class="panel-collapse collapse" id="collapseReporting">
@@ -243,8 +240,8 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseHR">
-              <i class="fa fa-fw fa-users"></i>
-              HR</a>
+              <i class="fa fa-fw fa-users"></i> HR
+            </a>
           </h4>
         </div>
         <div class="panel-collapse collapse" id="collapseHR">
@@ -283,8 +280,8 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseGeneral">
-              <i class="fa fa-fw fa-briefcase"></i>
-              General</a>
+              <i class="fa fa-fw fa-briefcase"></i> General
+            </a>
           </h4>
         </div>
         <div class="panel-collapse collapse" id="collapseGeneral">
@@ -314,8 +311,8 @@
       </div>
     </div>
   </div>
-  {{/unless}}
-  {{/if}}
+  {{/unless}} {{/if}} {{/if}} 
+
   <div id="id-view-content">
     {{> yield}}
   </div>
