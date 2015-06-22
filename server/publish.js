@@ -37,12 +37,14 @@ Meteor.publish("allCompanies", function() {
 });
 Meteor.publish("companyById", function(companyId) {
   return g_Companies.find({
-    _id: companyId
+    _id: companyId,
+    _groupId: Partitioner.group()
   });
 });
 Meteor.publish("contactsByCompanyId", function(companyId) {
   return g_Contacts.find({
-    companyId: companyId
+    companyId: companyId,
+    _groupId: Partitioner.group()
   });
 });
 
@@ -52,7 +54,8 @@ Meteor.publish("allContacts", function() {
 });
 Meteor.publish("contactById", function(contactId) {
   return g_Contacts.find({
-    _id: contactId
+    _id: contactId,
+    _groupId: Partitioner.group()
   });
 });
 
@@ -62,22 +65,26 @@ Meteor.publish("allActivities", function() {
 });
 Meteor.publish("activityByContactId", function(contactId) {
   return g_Activities.find({
-    contactId: contactId
+    contactId: contactId,
+    _groupId: Partitioner.group()
   });
 });
 Meteor.publish("activityByCompanyId", function(companyId) {
   return g_Activities.find({
-    companyId: companyId
+    companyId: companyId,
+    _groupId: Partitioner.group()
   });
 });
 Meteor.publish("activityByProjectId", function(projectId) {
   return g_Activities.find({
-    projectId: projectId
+    projectId: projectId,
+    _groupId: Partitioner.group()
   });
 });
 Meteor.publish("activityByPurchaseOrderId", function(purchaseOrderId) {
   return g_Activities.find({
-    purchaseOrderId: purchaseOrderId
+    purchaseOrderId: purchaseOrderId,
+    _groupId: Partitioner.group()
   });
 });
 
@@ -87,12 +94,14 @@ Meteor.publish("allProjects", function() {
 });
 Meteor.publish("projectsByCompanyId", function(companyId) {
   return g_Projects.find({
-    companyId: companyId
+    companyId: companyId,
+    _groupId: Partitioner.group()
   });
 });
 Meteor.publish("projectById", function(projectId) {
   return g_Projects.find({
-    _id: projectId
+    _id: projectId,
+    _groupId: Partitioner.group()
   });
 });
 
@@ -102,28 +111,33 @@ Meteor.publish("allPurchaseOrders", function() {
 });
 Meteor.publish("purchaseOrdersByCompanyId", function(companyId) {
   return g_PurchaseOrders.find({
-    supplierCompanyId: companyId
+    supplierCompanyId: companyId,
+    _groupId: Partitioner.group()
   });
 });
 Meteor.publish("purchaseOrdersByContactId", function(contactId) {
   return g_PurchaseOrders.find({
-    supplierContactId: contactId
+    supplierContactId: contactId,
+    _groupId: Partitioner.group()
   });
 });
 Meteor.publish("purchaseOrdersByProjectId", function(projectId) {
   return g_PurchaseOrders.find({
-    projectId: projectId
+    projectId: projectId,
+    _groupId: Partitioner.group()
   });
 });
 Meteor.publish("purchaseOrderById", function(purchaseOrderId) {
   return g_PurchaseOrders.find({
-    _id: purchaseOrderId
+    _id: purchaseOrderId,
+    _groupId: Partitioner.group()
   });
 });
 
 
 Meteor.publish("allPurchaseOrderItems", function(purchaseOrderId) {
   return g_PurchaseOrderItems.find({
-    purchaseOrderId: purchaseOrderId
+    purchaseOrderId: purchaseOrderId,
+    _groupId: Partitioner.group()
   });
 });
