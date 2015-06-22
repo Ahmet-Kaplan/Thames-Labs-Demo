@@ -1,5 +1,5 @@
 <template name="view">
-  {{#if isDesktop}} {{#if loggedIn}} {{#unless isInRole 'superadmin'}}
+  {{#unless isPhone}} {{#if loggedIn}} {{#unless isInRole 'superadmin'}}
   <div id="id-view-sidebar">
     <div class="panel-group" id="accordion">
 
@@ -311,7 +311,7 @@
       </div>
     </div>
   </div>
-  {{/unless}} {{/if}} {{/if}} 
+  {{/unless}} {{/if}} {{/unless}}
 
   <div id="id-view-content">
     {{> yield}}

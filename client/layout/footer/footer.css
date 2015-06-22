@@ -1,14 +1,9 @@
-/*#id-footer {
-  border-top: 1px dashed #f2f2f2;
-  margin-top: 10px;
-  padding-left: 15px;
+
+.footer {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  height: 30px;
   width: 100%;
-  height: 7%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  background-color: #ffffff;
 }
-p {
-  padding-top: 2px;
-  color: #575757;
-}*/
