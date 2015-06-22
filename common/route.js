@@ -1,4 +1,5 @@
 var subs = new SubsManager();
+var group = Partitioner.group();
 
 Router.onBeforeAction(function() {
   if (Meteor.user()) {

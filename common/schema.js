@@ -122,6 +122,7 @@ Schemas.Contact = new SimpleSchema({
       "Mr",
       "Mrs",
       "Miss",
+      "Ms",
       "Dr"
     ]
   },
