@@ -16,7 +16,7 @@
             <tr>
               <td>
                 <i class="fa fa-fw fa-check"></i>
-                <a href='/tasks' class="not-active">Tasks</a>
+                <a href='/tasks' class="{{#if isActiveRoute 'tasks'}}active{{/if}} not-active">Tasks</a>
               </td>
             </tr>
 
@@ -62,20 +62,20 @@
 
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-building"></i>
-                  <a href='/companies'>Companies</a>
+                  <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
+                    <i class="fa fa-fw fa-building"></i> Companies</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-user"></i>
-                  <a href='/contacts'>Contacts</a>
+                  <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
+                    <i class="fa fa-fw fa-user"></i> Contacts</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-flag"></i>
-                  <a href='/campaigns' class="not-active">Campaigns</a>
+                  <a href='/campaigns' class="not-active {{#if isActiveRoute 'campaigns'}}active{{/if}}">
+                    <i class="fa fa-fw fa-flag"></i> Campaigns</a>
                 </td>
               </tr>
 
@@ -97,20 +97,20 @@
             <table class="table">
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-building"></i>
-                  <a href='/companies'>Companies</a>
+                  <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
+                    <i class="fa fa-fw fa-building"></i> Companies</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-user"></i>
-                  <a href='/contacts'>Contacts</a>
+                  <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
+                    <i class="fa fa-fw fa-user"></i> Contacts</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-files-o"></i>
-                  <a href='/opportunities' class="not-active">Opportunities</a>
+                  <a href='/opportunities' class="not-active {{#if isActiveRoute 'opportunities'}}active{{/if}}">
+                    <i class="fa fa-fw fa-files-o"></i> Opportunities</a>
                 </td>
               </tr>
             </table>
@@ -131,14 +131,14 @@
             <table class="table">
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-building"></i>
-                  <a href='/customers' class="not-active">Customers</a>
+                  <a href='/customers' class="not-active {{#if isActiveRoute 'customers'}}active{{/if}}">
+                    <i class="fa fa-fw fa-building"></i> Customers</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-files-o"></i>
-                  <a href='/projects'>Projects</a>
+                  <a href='/projects' class="{{#if isActiveRoute 'projects'}}active{{/if}}">
+                    <i class="fa fa-fw fa-files-o"></i> Projects</a>
                 </td>
               </tr>
             </table>
@@ -159,32 +159,32 @@
             <table class="table">
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-building"></i>
-                  <a href='/suppliers' class="not-active">Suppliers</a>
+                  <a href='/suppliers' class="not-active {{#if isActiveRoute 'suppliers'}}active{{/if}}">
+                    <i class="fa fa-fw fa-building"></i> Suppliers</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-list"></i>
-                  <a href='/procurements' class="not-active">Procurements</a>
+                  <a href='/procurements' class="not-active {{#if isActiveRoute 'procurements'}}active{{/if}}">
+                    <i class="fa fa-fw fa-list"></i> Procurements</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-shopping-cart"></i>
-                  <a href='/purchaseorders'>Purchase Orders</a>
+                  <a href='/purchaseorders' class="{{#if isActiveRoute 'purchase-orders'}}active{{/if}}">
+                    <i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-pencil"></i>
-                  <a href='/contracts' class="not-active">Contracts</a>
+                  <a href='/contracts' class="not-active {{#if isActiveRoute 'contracts'}}active{{/if}}">
+                    <i class="fa fa-fw fa-pencil"></i> Contracts</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-money"></i>
-                  <a href='/invoices' class="not-active">Invoices</a>
+                  <a href='/invoices' class="not-active {{#if isActiveRoute 'invoices'}}active{{/if}}">
+                    <i class="fa fa-fw fa-money"></i> Invoices</a>
                 </td>
               </tr>
             </table>
@@ -205,8 +205,8 @@
             <table class="table">
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-ticket"></i>
-                  <a href='/tickets' class="not-active">Tickets</a>
+                  <a href='/tickets' class="not-active {{#if isActiveRoute 'tickets'}}active{{/if}}">
+                    <i class="fa fa-fw fa-ticket"></i> Tickets</a>
                 </td>
               </tr>
             </table>
@@ -227,8 +227,8 @@
             <table class="table">
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-bookmark"></i>
-                  <a href='/auditlog' class="not-active">Audit Log</a>
+                  <a href='/auditlog' class="not-active {{#if isActiveRoute 'auditlog'}}active{{/if}}">
+                    <i class="fa fa-fw fa-bookmark"></i> Audit Log</a>
                 </td>
               </tr>
             </table>
@@ -249,26 +249,26 @@
             <table class="table">
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-users"></i>
-                  <a href='/employees' class="not-active">Employees</a>
+                  <a href='/employees' class="not-active {{#if isActiveRoute 'employees'}}active{{/if}}">
+                    <i class="fa fa-fw fa-users"></i> Employees</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-plane"></i>
-                  <a href='/holidays' class="not-active">Holidays</a>
+                  <a href='/holidays' class="not-active {{#if isActiveRoute 'holidays'}}active{{/if}}">
+                    <i class="fa fa-fw fa-plane"></i> Holidays</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-user-md"></i>
-                  <a href='/absences' class="not-active">Absences</a>
+                  <a href='/absences' class="not-active {{#if isActiveRoute 'absences'}}active{{/if}}">
+                    <i class="fa fa-fw fa-user-md"></i> Absences</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-clock-o"></i>
-                  <a href='/timesheets' class="not-active">Timesheets</a>
+                  <a href='/timesheets' class="not-active {{#if isActiveRoute 'timesheets'}}active{{/if}}">
+                    <i class="fa fa-fw fa-clock-o"></i> Timesheets</a>
                 </td>
               </tr>
             </table>
@@ -289,20 +289,20 @@
             <table class="table">
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-file-text"></i>
-                  <a href='/templates' class="not-active">Templates</a>
+                  <a href='/templates' class="not-active {{#if isActiveRoute 'templates'}}active{{/if}}">
+                    <i class="fa fa-fw fa-file-text"></i> Templates</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-wrench"></i>
-                  <a href='/products' class="not-active">Products</a>
+                  <a href='/products' class="not-active {{#if isActiveRoute 'products'}}active{{/if}}">
+                    <i class="fa fa-fw fa-wrench"></i> Products</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fa fa-fw fa-cogs"></i>
-                  <a href='/components' class="not-active">Components</a>
+                  <a href='/components' class="not-active {{#if isActiveRoute 'components'}}active{{/if}}">
+                    <i class="fa fa-fw fa-cogs"></i> Components</a>
                 </td>
               </tr>
             </table>

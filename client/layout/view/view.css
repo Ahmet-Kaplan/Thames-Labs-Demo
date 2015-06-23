@@ -35,6 +35,7 @@
 tr > td > a {
   color: black;
 }
+
 tr > td > a:hover {
   text-decoration: none;
 }
