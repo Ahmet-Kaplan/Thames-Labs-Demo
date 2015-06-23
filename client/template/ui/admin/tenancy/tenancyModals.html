@@ -18,3 +18,33 @@
     </div>
   </div>
 </template>
+
+<template name="updateTenantSettings">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5>Edit Tenancy Settings</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#each settings}}
+           {{> setting}}
+          {{/each}}
+        </div>
+
+        <div class="modal-footer">
+        <button id="btnSubmitSettings" class="btn btn-success pull-right">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="setting">
+<div class="form-group">
+    <label for="obj-{{name}}">{{name}}</label>
+    <input type="text" class="form-control" id="val-{{name}}" placeholder="Enter value..." value="{{value}}">
+  </div>
+</template>
