@@ -17,7 +17,7 @@ Router.onBeforeAction(function() {
     this.redirect('/');
   }
 }, {
-  only: ['tenants']
+  only: ['tenants', 'notifications']
 });
 
 Router.onBeforeAction(function() {
@@ -44,6 +44,16 @@ Router.route('/tenants', {
     return [
       subs.subscribe('allTenants'),
       subs.subscribe('allUserData')
+    ];
+  }
+});
+
+Router.route('/notifications', {
+  name: 'notifications',
+  template: 'notificationAdmin',
+  waitOn: function() {
+    return [
+      subs.subscribe('allNotifications')
     ];
   }
 });

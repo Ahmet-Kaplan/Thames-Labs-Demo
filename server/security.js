@@ -1,4 +1,5 @@
 g_Tenants.permit(['insert', 'update', 'remove']).ifHasRole('superadmin').apply();
+g_Notifications.permit(['insert', 'update', 'remove']).ifHasRole('superadmin').apply();
 
 Meteor.users.permit(['insert', 'remove']).ifHasRole('superadmin').apply();
 

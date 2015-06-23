@@ -15,6 +15,26 @@ Template.nav.helpers({
     }
 
     return sName;
+  },
+  notifications: function() {
+    return g_Notifications.find({}, {
+      sort: {
+        createdAt: -1
+      },
+      limit: 3
+    });
+  }
+});
+
+Template.notice.helpers({
+  shortText: function() {
+    var c = this.detail;
+    var s = c.substr(0, 20);
+    if (s.length > 17) {
+      return s + "...";
+    } else {
+      return s;
+    }
   }
 });
 
@@ -39,5 +59,11 @@ Template.nav.events({
   },
   'click #sign-out': function() {
     Meteor.logout();
+  }
+});
+
+Template.notice.events({
+  'click #btnOpenNotice': function(){
+    Modal.show('notificationModal', this);
   }
 });

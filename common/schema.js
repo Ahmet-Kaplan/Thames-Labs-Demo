@@ -43,6 +43,7 @@ Schemas.Feedback = new SimpleSchema({
     type: String
   }
 });
+
 // ** --------- Non-attachment schemas --------- ** //
 
 Schemas.Tenant = new SimpleSchema({
@@ -374,3 +375,19 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
   }
 });
 g_PurchaseOrderItems.attachSchema(Schemas.PurchaseOrderItem);
+
+Schemas.Notification = new SimpleSchema({
+  detail: {
+    type: String
+  },
+  createdAt: {
+    type: Date
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  }
+});
+g_Notifications.attachSchema(Schemas.Notification);
