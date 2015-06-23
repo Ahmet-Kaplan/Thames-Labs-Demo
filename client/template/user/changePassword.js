@@ -22,8 +22,8 @@ Template.changePassword.events({
         toastr.error("Error changing password.");
       }
 
+      toastr.success('Password changed successfully.');
       Modal.hide();
-      toast.success('Password changed successfully.');
     });
   }
 });
