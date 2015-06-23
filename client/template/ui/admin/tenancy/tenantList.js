@@ -1,11 +1,11 @@
-AutoForm.hooks({
-  addTenant: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Tenant created.');
-    }
-  }
-});
+// AutoForm.hooks({
+//   addTenant: {
+//     onSuccess: function() {
+//       Modal.hide();
+//       toastr.success('Tenant created.');
+//     }
+//   }
+// });
 
 
 Template.tenantList.helpers({
@@ -33,6 +33,9 @@ Template.tenant.events({
     g_Tenants.remove({
       _id: this._id
     });
+  },
+  "click #btnEditSettings": function(event, template) {
+    Modal.show('updateTenantSettings', this);
   }
 });
 

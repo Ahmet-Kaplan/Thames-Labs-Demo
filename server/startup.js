@@ -1,4 +1,19 @@
 Meteor.startup(function() {
-  //Uses MailGun (mailgun.com), mailbox settings: email: damien.robson@cambridgesoftware.co.uk, password: kM3975Ub
-  //process.env.MAIL_URL = 'smtp://postmaster%40sandboxeacc9610dcf248de99f4a0caeae61dff.mailgun.org:e03001020e656e0da764a0b636abcbcf@smtp.mailgun.org:587';
+  var tenants = g_Tenants.find({
+    settings: {
+      $exists: 0
+    }
+  }).fetch();
+
+  _.forEach(tenants, function(t) {
+
+    if (typeof t.settings === "undefined") {
+      console.log("No settings for " + t.name);
+      g_Tenants.update(t._id, {
+        $set: {
+          settings: tenancyDefaultSettings
+        }
+      });
+    }
+  });
 });

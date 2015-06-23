@@ -50,6 +50,14 @@ Schemas.Tenant = new SimpleSchema({
     type: String,
     label: "Name",
     unique: true
+  },
+  settings:{
+    type: Object,
+    blackbox: true,
+    autoform: {
+      type: "hidden"
+    },
+    optional: true
   }
 });
 g_Tenants.attachSchema(Schemas.Tenant);
