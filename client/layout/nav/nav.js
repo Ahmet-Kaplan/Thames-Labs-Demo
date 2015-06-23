@@ -1,3 +1,5 @@
+
+
 Template.nav.helpers({
   loggedIn: function() {
     return (Meteor.userId() ? true : false);
@@ -33,11 +35,5 @@ Template.nav.events({
   },
   'click #feedback-link': function() {
     Modal.show('feedbackModal');
-  },
-  'click #btnChangePassword': function() {
-    Modal.show('changePassword');
-  },
-  'click #sign-out': function() {
-    Meteor.logout();
   }
 });
