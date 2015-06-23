@@ -31,6 +31,8 @@ Meteor.methods({
     "Kind regards,\r\n" +
     "The RealtimeCRM Team";
 
+    // See server/startup.js for MAIL_URL environment variable
+
     Email.send({
       to: doc.email,
       from: 'admin@realtimecrm.co.uk',
