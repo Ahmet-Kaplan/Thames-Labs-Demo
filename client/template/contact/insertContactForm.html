@@ -16,6 +16,7 @@
             {{> afQuickField name="email"}}
             {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
+            {{> afQuickField name="jobtitle"}}
             {{> afQuickField name="companyId" type="hidden" value=_id}}
                         {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -41,8 +42,9 @@
             {{> afQuickField name="title" options="allowed"}}
             {{> afQuickField name="forename"}}
             {{> afQuickField name="surname"}}
-            {{> afQuickField name="phone"}}
+            {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
+            {{> afQuickField name="jobtitle"}}
             {{> afQuickField name="companyId" options=companiesAsOptions}}
                         {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Submit</button>
