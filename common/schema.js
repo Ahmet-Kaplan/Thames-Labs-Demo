@@ -377,6 +377,9 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
 g_PurchaseOrderItems.attachSchema(Schemas.PurchaseOrderItem);
 
 Schemas.Notification = new SimpleSchema({
+  title: {
+    type: String
+  },
   detail: {
     type: String
   },

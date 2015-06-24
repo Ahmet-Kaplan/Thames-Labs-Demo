@@ -9,9 +9,13 @@ Template.nav.helpers({
 
     var sName = '';
     if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
-      sName = Meteor.users.find({
+      var user = Meteor.users.find({
         _id: Meteor.userId()
-      }).fetch()[0].profile.name;
+      }).fetch()[0];
+
+      if (user) {
+        sName = user.profile.name;
+      }
     }
 
     return sName;
@@ -23,17 +27,58 @@ Template.nav.helpers({
       },
       limit: 3
     });
+  },
+  recentNote: function() {
+    var today = new Date();
+    var yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    var recent = g_Notifications.find({}, {
+      sort: {
+        createdAt: -1
+      },
+      limit: 1
+    }).fetch()[0];
+
+    if (recent.createdAt >= yesterday) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+  recentNoteCount: function() {
+    var today = new Date();
+    var yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    return g_Notifications.find({}, {
+      sort: {
+        createdAt: -1
+      },
+      limit: 1
+    }).count();
   }
 });
 
 Template.notice.helpers({
   shortText: function() {
-    var c = this.detail;
-    var s = c.substr(0, 20);
-    if (s.length > 17) {
+    var c = this.title;
+    var s = c.substr(0, 40);
+    if (s.length > 37) {
       return s + "...";
     } else {
       return s;
+    }
+  },
+  recentNote: function() {
+    var today = new Date();
+    var yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    if (this.createdAt >= yesterday) {
+      return true;
+    } else {
+      return false;
     }
   }
 });
@@ -63,7 +108,7 @@ Template.nav.events({
 });
 
 Template.notice.events({
-  'click #btnOpenNotice': function(){
+  'click #btnOpenNotice': function() {
     Modal.show('notificationModal', this);
   }
 });

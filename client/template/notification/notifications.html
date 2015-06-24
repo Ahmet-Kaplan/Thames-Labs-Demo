@@ -3,11 +3,16 @@
   <h1>
     <i class="fa fa-fw fa-envelope"></i> Notifications</h1>
   <div class="well well-sm">
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Notification text..." id="txtNotification">
-      <span class="input-group-btn">
-        <button class="btn btn-success " id="btnRaiseNotification" type="button">Raise this notification</button>
-      </span>
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Notification title..." id="txtNotificationTitle" style="margin-bottom:4px;">
+      </div>
+      <div class="col-md-7">
+        <input type="text" class="form-control" placeholder="Notification text..." id="txtNotification" style="margin-bottom:4px;">
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-success" id="btnRaiseNotification" type="button">Raise this notification</button>
+      </div>
     </div>
   </div>
 
@@ -24,9 +29,19 @@
 
 <template name="notification">
   <div class="list-group-item">
-    {{detail}}
-    <button class="btn btn-danger pull-right btn-xs" id="btnDeleteNotification" type="button">
-      <i class="fa fa-fw fa-times"></i> Remove notification
-    </button>
+    <div class="row">
+
+      <div class="col-md-10">
+        <b>Title:</b> {{title}}
+        <br />
+        <b>Detail:</b> {{detail}}
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-danger pull-right btn-xs" id="btnDeleteNotification" type="button">
+          <i class="fa fa-fw fa-times"></i> Remove notification
+        </button>
+      </div>
+
+    </div>
   </div>
 </template>
