@@ -6,3 +6,6 @@
 .panel-heading .accordion-toggle.collapsed:after {
     content: "\e080";
 }
+.userDataDisplay{
+  color:#d0d0d0
+}

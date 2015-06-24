@@ -16,7 +16,12 @@ Meteor.methods({
       email: doc.email,
       password: doc.password,
       profile: {
-        name: doc.name
+        name: doc.name,
+        lastLogin: null,
+        lastActivity: {
+          page: document.title,
+          url: Router.current().url
+        }
       }
     });
     // Add user to a group (partition) based on customer id

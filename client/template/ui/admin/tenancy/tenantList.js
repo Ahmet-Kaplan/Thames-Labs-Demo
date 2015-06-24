@@ -1,12 +1,6 @@
-// AutoForm.hooks({
-//   addTenant: {
-//     onSuccess: function() {
-//       Modal.hide();
-//       toastr.success('Tenant created.');
-//     }
-//   }
-// });
-
+Template.user.onRendered(function() {
+  $('[data-toggle="tooltip"]').tooltip();
+});
 
 Template.tenantList.helpers({
   tenants: function() {
@@ -36,6 +30,12 @@ Template.tenant.events({
   },
   "click #btnEditSettings": function(event, template) {
     Modal.show('updateTenantSettings', this);
+  }
+});
+
+Template.user.helpers({
+  friendlyLastLogin: function(){
+    return moment(this.profile.lastLogin).fromNow();
   }
 });
 

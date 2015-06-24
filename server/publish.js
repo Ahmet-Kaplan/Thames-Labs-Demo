@@ -1,3 +1,18 @@
+Meteor.publish('userPresence', function() {
+  var filter = {
+    userId: {
+      $exists: true
+    }
+  };
+
+  return Presences.find(filter, {
+    fields: {
+      state: true,
+      userId: true
+    }
+  });
+});
+
 Meteor.publish("allTenants", function() {
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
     return g_Tenants.find({});
@@ -12,6 +27,10 @@ Meteor.publish("myTenant", function() {
   //     _id: Meteor.userId()
   //   }).fetch()[0].group
   // });
+});
+
+Meteor.publish("currentTenantUserData", function(groupId) {
+  return Meteor.users.find({group: groupId});
 });
 
 Meteor.publish("allUserData", function() {
@@ -144,5 +163,9 @@ Meteor.publish("allPurchaseOrderItems", function(purchaseOrderId) {
 
 
 Meteor.publish("allNotifications", function() {
-  return g_Notifications.find({}, {sort: {createdAt: -1}});
+  return g_Notifications.find({}, {
+    sort: {
+      createdAt: -1
+    }
+  });
 });
