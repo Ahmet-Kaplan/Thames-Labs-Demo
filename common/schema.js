@@ -52,7 +52,7 @@ Schemas.Tenant = new SimpleSchema({
     label: "Name",
     unique: true
   },
-  settings:{
+  settings: {
     type: Object,
     blackbox: true,
     autoform: {

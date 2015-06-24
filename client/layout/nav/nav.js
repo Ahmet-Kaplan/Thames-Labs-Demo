@@ -40,10 +40,12 @@ Template.nav.helpers({
       limit: 1
     }).fetch()[0];
 
-    if (recent.createdAt >= yesterday) {
-      return true;
-    } else {
-      return false;
+    if (recent) {
+      if (recent.createdAt >= yesterday) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   recentNoteCount: function() {

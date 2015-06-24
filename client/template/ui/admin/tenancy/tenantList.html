@@ -51,9 +51,18 @@
 
 <template name="user">
   <div class="list-group-item">
-    {{profile.name}}
-    <button class="btn btn-danger pull-right btn-xs" id="btnDeleteTenantUser" type="button">
-      <i class="fa fa-fw fa-times"></i> Delete user
-    </button>
+    <div class="row">
+      <div class="col-md-3">
+        {{profile.name}}
+      </div>
+      <div class="col-md-7">
+        <small class="userDataDisplay" data-toggle="tooltip" title="{{profile.lastLogin}}"> Last logged in {{friendlyLastLogin}}</small>
+      </div>
+      <div class="col-md-2">
+      <button class="btn btn-danger pull-right btn-xs" id="btnDeleteTenantUser" type="button">
+        <i class="fa fa-fw fa-times"></i> Delete user
+      </button>
+      </div>
+    </div>
   </div>
 </template>
