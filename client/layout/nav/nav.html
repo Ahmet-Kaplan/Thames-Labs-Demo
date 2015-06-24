@@ -62,7 +62,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 {{#if recentNote}}
-                <i class="fa fa-fw fa-bell" style="color:#3573fd"></i> {{recentNoteCount}}
+                <i class="fa fa-fw fa-bell text-primary"></i> {{recentNoteCount}}
                 {{else}}
                 <i class="fa fa-fw fa-bell"></i>
                 {{/if}}
@@ -101,7 +101,14 @@
 
 <template name="notice">
   <li class="list-item">
-  <a href="#" id="btnOpenNotice" class="shortText">{{#if recentNote}}<i class="fa fa-fw fa-star"></i>{{else}}<i class="fa fa-fw fa-star" style="color:#fff;"></i>{{/if}} {{shortText}}</a></li>
+  <a href="#" id="btnOpenNotice" class="shortText">
+    {{#if recentNote}}
+      <i class="fa fa-fw fa-star text-primary"></i>
+    {{else}}
+      <i class="fa fa-fw fa-star-o"></i>
+    {{/if}}
+    {{shortText}}</a>
+  </li>
 </template>
 
 <template name="notificationModal">

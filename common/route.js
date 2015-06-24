@@ -1,4 +1,4 @@
-var subs = new SubsManager();
+subs = new SubsManager();
 var group = Partitioner.group();
 
 Router.onBeforeAction(function() {
