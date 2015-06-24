@@ -1,7 +1,7 @@
 subs = new SubsManager();
 var group = Partitioner.group();
 
-Router.onAfterAction(function() {
+Router.onRun(function() {
   var user = Meteor.users.find({
     _id: Meteor.userId()
   }).fetch()[0];
@@ -11,7 +11,7 @@ Router.onAfterAction(function() {
     var profile = user.profile;
     if (profile) {
       profile.lastActivity = {
-        page: document.title,
+        page: Router.current().route.getName(),
         url: Router.current().url
       };
 
@@ -27,9 +27,7 @@ Router.onAfterAction(function() {
 
 Router.onBeforeAction(function() {
   if (Meteor.user()) {
-    Meteor.logoutOtherClients();
     this.next();
-
   } else {
     this.render('login');
   }

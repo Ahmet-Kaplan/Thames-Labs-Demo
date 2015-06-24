@@ -1,4 +1,7 @@
 Accounts.onLogin(function(cb) {
+
+  Meteor.logoutOtherClients();
+
   var user = Meteor.users.find({
     _id: Meteor.userId()
   }).fetch()[0];
