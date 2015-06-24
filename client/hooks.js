@@ -8,13 +8,15 @@ Accounts.onLogin(function(cb) {
   if (user) {
 
     var profile = user.profile;
-    profile.lastLogin = snapshot;
+    if (profile) {
+      profile.lastLogin = snapshot;
 
-    Meteor.users.update(user._id, {
-      $set: {
-      profile: profile
-      }
-    });
+      Meteor.users.update(user._id, {
+        $set: {
+          profile: profile
+        }
+      });
+    }
   }
 });
 

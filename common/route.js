@@ -9,16 +9,18 @@ Router.onAfterAction(function() {
   if (user) {
 
     var profile = user.profile;
-    profile.lastActivity = {
-      page: document.title,
-      url: Router.current().url
-    };
+    if (profile) {
+      profile.lastActivity = {
+        page: document.title,
+        url: Router.current().url
+      };
 
-    Meteor.users.update(user._id, {
-      $set: {
-        profile: profile
-      }
-    });
+      Meteor.users.update(user._id, {
+        $set: {
+          profile: profile
+        }
+      });
+    }
   }
 });
 

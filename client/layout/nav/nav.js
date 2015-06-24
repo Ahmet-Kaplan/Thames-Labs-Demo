@@ -56,8 +56,7 @@ Template.nav.helpers({
     return g_Notifications.find({}, {
       sort: {
         createdAt: -1
-      },
-      limit: 1
+      }
     }).count();
   }
 });
