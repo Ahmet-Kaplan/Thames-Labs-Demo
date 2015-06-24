@@ -141,3 +141,8 @@ Meteor.publish("allPurchaseOrderItems", function(purchaseOrderId) {
     _groupId: Partitioner.group()
   });
 });
+
+
+Meteor.publish("allNotifications", function() {
+  return g_Notifications.find({}, {sort: {createdAt: -1}});
+});

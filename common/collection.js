@@ -110,3 +110,5 @@ Partitioner.partitionCollection(g_PurchaseOrderItems);
 g_PurchaseOrderItems.initEasySearch('description', {
   limit: 50
 });
+
+g_Notifications = new Mongo.Collection('notifications');
