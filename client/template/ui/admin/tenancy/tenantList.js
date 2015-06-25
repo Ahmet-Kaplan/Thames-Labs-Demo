@@ -30,6 +30,9 @@ Template.tenant.events({
   },
   "click #btnEditSettings": function(event, template) {
     Modal.show('updateTenantSettings', this);
+  },
+  'click #btnDemoData': function() {
+    Meteor.call('generateDemoData', this._id);
   }
 });
 
