@@ -61,10 +61,12 @@ Router.route('/', {
   name: 'dashboard',
   template: 'dashboard',
   waitOn: function() {
-    return [
-      subs.subscribe('currentTenantUserData', group),
-      subs.subscribe('allChatter', group),
-    ];
+    if (Meteor.user()) {
+      return [
+        subs.subscribe('currentTenantUserData', group),
+        subs.subscribe('allChatter')
+      ];
+    }
   }
 });
 
@@ -102,7 +104,7 @@ Router.route('/companies/:_id', {
   data: function() {
     return g_Companies.findOne(this.params._id);
   },
-  action: function(){
+  action: function() {
     this.render();
   }
 });
