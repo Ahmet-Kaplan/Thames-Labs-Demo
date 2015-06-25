@@ -11,4 +11,4 @@ g_Projects.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 g_PurchaseOrders.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 g_PurchaseOrderItems.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 
-g_Chatterbox.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+g_Chatterbox.permit(['insert']).ifLoggedIn().apply();
