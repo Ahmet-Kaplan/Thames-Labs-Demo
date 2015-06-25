@@ -19,6 +19,7 @@ Template.purchaseOrderDetail.onRendered(function() {
 
 Template.purchaseOrderDetail.rendered = function(){
   document.title = "Purchase Order - " + this.data.description;
+  SetRouteDetails(document.title);
 };
 
 Template.purchaseOrderDetail.events({

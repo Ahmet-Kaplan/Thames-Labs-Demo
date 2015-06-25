@@ -1,14 +1,21 @@
 Template.companyDetail.onRendered(function() {
   // Affix sidebar
   var sidebar = $('.sidebar');
-  sidebar.affix({offset: {top: sidebar.offset().top}});
+  sidebar.affix({
+    offset: {
+      top: sidebar.offset().top
+    }
+  });
   // Load docxgen
   $.getScript('/vendor/docxgen.min.js');
 
 });
 
-Template.companyDetail.rendered = function(){
-  document.title = "Company - " + this.data.name;
+Template.companyDetail.rendered = function() {
+  if (this.data) {
+    document.title = "Company - " + this.data.name;
+    SetRouteDetails(document.title);
+  }
 };
 
 Template.companyDetail.events({
@@ -30,7 +37,9 @@ Template.companyDetail.events({
         "phone": this.phone
       });
       doc.render();
-      var docDataUri = doc.getZip().generate({type:'blob'});
+      var docDataUri = doc.getZip().generate({
+        type: 'blob'
+      });
       saveAs(docDataUri, file.name);
     }.bind(this);
     reader.readAsBinaryString(file);
@@ -45,10 +54,14 @@ Template.companyDetail.events({
     Modal.show('insertContactModal', this);
   },
   'click #add-activity': function() {
-    Modal.show('insertActivityModal', {company: this});
+    Modal.show('insertActivityModal', {
+      company: this
+    });
   },
   'click #add-project': function() {
-    Modal.show('newProjectForm', {companyId: this._id});
+    Modal.show('newProjectForm', {
+      companyId: this._id
+    });
   }
 });
 

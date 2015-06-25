@@ -24,3 +24,9 @@ Template.dashboard.helpers({
     return onlineUsers.array();
   }
 });
+
+Template.colleagueData.events({
+  'click .activeUserLink': function(){
+    // Router.go(this.url);
+  }
+});

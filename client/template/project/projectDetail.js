@@ -10,6 +10,7 @@ Template.projectDetail.onRendered(function() {
 
 Template.projectDetail.rendered = function(){
   document.title = "Project - " + this.data.description;
+  SetRouteDetails(document.title);
 };
 
 
