@@ -62,7 +62,8 @@ Router.route('/', {
   template: 'dashboard',
   waitOn: function() {
     return [
-      subs.subscribe('currentTenantUserData', group)
+      subs.subscribe('currentTenantUserData', group),
+      subs.subscribe('allChatter', group),
     ];
   }
 });
