@@ -1,4 +1,7 @@
 Accounts.onLogin(function(cb) {
+
+  Meteor.logoutOtherClients();
+
   var user = Meteor.users.find({
     _id: Meteor.userId()
   }).fetch()[0];
@@ -21,6 +24,30 @@ Accounts.onLogin(function(cb) {
 });
 
 AutoForm.hooks({
+  insertActivityForm: {
+    onSuccess: function() {
+      Modal.hide();
+      $('[data-toggle="tooltip"]').tooltip();
+    }
+  },
+  insertProjectActivityForm: {
+    onSuccess: function() {
+      Modal.hide();
+      $('[data-toggle="tooltip"]').tooltip();
+    }
+  },
+  insertPurchaseOrderActivityForm: {
+    onSuccess: function() {
+      Modal.hide();
+      $('[data-toggle="tooltip"]').tooltip();
+    }
+  },
+  insertContactActivityForm: {
+    onSuccess: function() {
+      Modal.hide();
+      $('[data-toggle="tooltip"]').tooltip();
+    }
+  },
   addTenantUserModal: {
     before: {
       insert: function(doc) {

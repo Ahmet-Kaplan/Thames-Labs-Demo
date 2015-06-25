@@ -1,35 +1,9 @@
 subs = new SubsManager();
 var group = Partitioner.group();
 
-Router.onAfterAction(function() {
-  var user = Meteor.users.find({
-    _id: Meteor.userId()
-  }).fetch()[0];
-
-  if (user) {
-
-    var profile = user.profile;
-    if (profile) {
-      profile.lastActivity = {
-        page: document.title,
-        url: Router.current().url
-      };
-
-      Meteor.users.update(user._id, {
-        $set: {
-          profile: profile
-        }
-      });
-    }
-  }
-});
-
-
 Router.onBeforeAction(function() {
   if (Meteor.user()) {
-    Meteor.logoutOtherClients();
     this.next();
-
   } else {
     this.render('login');
   }
@@ -126,6 +100,9 @@ Router.route('/companies/:_id', {
   },
   data: function() {
     return g_Companies.findOne(this.params._id);
+  },
+  action: function(){
+    this.render();
   }
 });
 Router.route('/customers', {

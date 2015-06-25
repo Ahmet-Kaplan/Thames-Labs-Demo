@@ -25,6 +25,6 @@
 
 <template name="colleagueData">
   <li class="list-group-item">
-    <i class="fa fa-fw fa-circle text-success"></i> {{user}} {{#if last}} <br /><small>Currently viewing: <em><a href="{{url}}">{{last}}</a></em></small>{{/if}}
+    <i class="fa fa-fw fa-circle text-success"></i> {{user}} {{#if last}} <br /><small>Currently viewing: <em><span class="activeUserLink">{{last}}</span></em></small>{{/if}}
   </li>
 </template>

@@ -1,3 +1,7 @@
+Template.insertActivityModal.rendered = function(){
+
+};
+
 Template.insertActivityModal.helpers({
   currentDateTime: function() {
   return moment();
@@ -40,31 +44,4 @@ Template.insertPurchaseOrderActivityModal.helpers({
   currentUser: function(){
     return Meteor.userId();
   },
-});
-
-AutoForm.hooks({
-  insertActivityForm: {
-    onSuccess: function() {
-      Modal.hide();
-      $('[data-toggle="tooltip"]').tooltip();
-    }
-  },
-  insertProjectActivityForm: {
-    onSuccess: function() {
-      Modal.hide();
-      $('[data-toggle="tooltip"]').tooltip();
-    }
-  },
-  insertPurchaseOrderActivityForm: {
-    onSuccess: function() {
-      Modal.hide();
-      $('[data-toggle="tooltip"]').tooltip();
-    }
-  },
-  insertContactActivityForm: {
-    onSuccess: function() {
-      Modal.hide();
-      $('[data-toggle="tooltip"]').tooltip();
-    }
-  }
 });

@@ -57,6 +57,7 @@ Meteor.methods({
       "Please find your RealtimeCRM login details below:\r\n\r\n" +
       "Email address: " + doc.email + "\r\n" +
       "Password: " + doc.password + "\r\n\r\n" +
+      "Head over to http://app.realtimecrm.co.uk/ to get started." + "\r\n\r\n" +
       "Kind regards,\r\n" +
       "The RealtimeCRM Team";
 
