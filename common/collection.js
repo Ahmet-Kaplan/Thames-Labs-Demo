@@ -112,3 +112,6 @@ g_PurchaseOrderItems.initEasySearch('description', {
 });
 
 g_Notifications = new Mongo.Collection('notifications');
+
+g_Chatterbox = new Mongo.Collection('chatterbox');
+Partitioner.partitionCollection(g_Chatterbox);

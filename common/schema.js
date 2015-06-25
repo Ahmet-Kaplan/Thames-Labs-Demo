@@ -394,3 +394,17 @@ Schemas.Notification = new SimpleSchema({
   }
 });
 g_Notifications.attachSchema(Schemas.Notification);
+
+
+Schemas.Chatter = new SimpleSchema({
+  user: {
+    type: String
+  },
+  message: {
+    type: String
+  },
+  createdAt: {
+    type: Date
+  }
+});
+g_Chatterbox.attachSchema(Schemas.Chatter);

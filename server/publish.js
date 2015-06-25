@@ -169,3 +169,12 @@ Meteor.publish("allNotifications", function() {
     }
   });
 });
+
+
+Meteor.publish("allChatter", function() {
+  return g_Chatterbox.find({}, {
+    sort: {
+      createdAt: 1
+    }
+  });
+});

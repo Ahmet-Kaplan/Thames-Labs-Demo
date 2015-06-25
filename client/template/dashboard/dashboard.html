@@ -4,7 +4,36 @@
   <h1><i class="fa fa-fw fa-home"></i> Dashboard</h1>
 
   <div class="row">
-    <div class="col-md-offset-8 col-md-4">
+    <div class="col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h5 class="panel-title">Chatter</h5>
+        </div>
+        <div class="panel-body" style="margin-bottom:5px;">
+          <div class="chatWindow">
+            <ul class="list-unstyled">
+              {{#each chatMessages}}
+                {{> message}}
+              {{else}}
+              <li>
+                No chat messages
+              </li>
+              {{/each}}
+            </ul>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="input-group" >
+            <input type="text" class="form-control chatMessage" placeholder="Enter message (be nice!)...">
+            <span class="input-group-btn">
+              <button class="btn btn-default sendMessage" type="button">OK</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-offset-4 col-md-4">
       <div class="panel panel-default">
         <div class="panel-heading">
           <h5 class="panel-title">Users Online</h5>
@@ -26,5 +55,11 @@
 <template name="colleagueData">
   <li class="list-group-item">
     <i class="fa fa-fw fa-circle text-success"></i> {{user}} {{#if last}} <br /><small>Currently viewing: <em><span class="activeUserLink">{{last}}</span></em></small>{{/if}}
+  </li>
+</template>
+
+<template name="message">
+  <li>
+    <p><em class="chatUserName">{{user}}</em> <em class="chatTimestamp">{{niceTime}}<br /></em>{{message}}</p>
   </li>
 </template>
