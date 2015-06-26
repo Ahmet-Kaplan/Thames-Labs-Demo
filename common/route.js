@@ -1,40 +1,100 @@
 subs = new SubsManager();
 var group = Partitioner.group();
 
-Router.onBeforeAction(function() {
-  if (Meteor.user()) {
-    this.next();
-  } else {
+Router.onAfterAction(function() {
+
+  // console.log("Router: checking user state.");
+  if (!Meteor.user() && !Meteor.loggingIn()) {
+
+    // console.log("Router: user not logged in and not logging in - redirecting to login page.");
     this.render('login');
-  }
-});
 
-Router.onBeforeAction(function() {
-  if (Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
-    this.next();
+  } else if (Meteor.user() && !Meteor.loggingIn()) {
+
+    // console.log("Router: user logged in and not still logging in - determining role.");
+    if (Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
+
+      // console.log("Router: user is SA - checking route name.");
+      // console.log("Router: route name is " + Router.current().route.getName() + ". Determining action.");
+      if (Router.current().route.getName() === 'tenants' || Router.current().route.getName() === 'notifications') {
+
+        // console.log("Router: route permitted for SA - proceeding.");
+        // this.next(); // not needed if used in onAfterAction
+
+      } else {
+
+        // console.log("Router: route not permitted for SA - redirecting to /tenants.");
+        this.redirect('/tenants');
+
+      }
+
+    } else {
+
+      // console.log("Router: user is not SA - checking route name.");
+      // console.log("Router: route name is " + Router.current().route.getName() + ". Determining action.");
+      if (Router.current().route.getName() === 'company') {
+
+        // console.log("Router: loading Google Maps API for current route.");
+        GoogleMaps.load();
+
+      }
+
+      // console.log("Router: navigating.");
+      // this.next(); // not needed if used in onAfterAction
+    }
+
   } else {
-    this.redirect('/');
+
+    // console.log("Router: user logged in and still logging in - determining route.");
+    if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
+
+      // console.log("Router: user not is SA - proceeding.");
+      this.redirect('/tenants');
+
+    } else {
+
+      // console.log("Router: user is not SA - proceeding.");
+      this.redirect('/');
+
+    }
   }
-}, {
-  only: ['tenants', 'notifications']
+
 });
 
-Router.onBeforeAction(function() {
-  if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
-    this.next();
-  } else {
-    this.redirect('/tenants');
-  }
-}, {
-  only: ['dashboard']
-});
-
-Router.onBeforeAction(function() {
-  GoogleMaps.load();
-  this.next();
-}, {
-  only: ['company']
-});
+// Router.onBeforeAction(function() {
+//   if (Meteor.user()) {
+//     this.next();
+//   } else {
+//     this.render('login');
+//   }
+// });
+//
+// Router.onBeforeAction(function() {
+//   if (Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
+//     this.next();
+//   } else {
+//     this.redirect('/');
+//   }
+// }, {
+//   only: ['tenants', 'notifications']
+// });
+//
+// Router.onBeforeAction(function() {
+//   if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
+//     this.next();
+//   } else {
+//     this.redirect('/tenants');
+//   }
+// }, {
+//   only: ['dashboard']
+// });
+//
+// Router.onBeforeAction(function() {
+//   GoogleMaps.load();
+//   this.next();
+// }, {
+//   only: ['company']
+// });
 
 Router.route('/tenants', {
   name: 'tenants',
