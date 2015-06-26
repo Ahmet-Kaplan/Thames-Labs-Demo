@@ -30,7 +30,9 @@ Meteor.publish("myTenant", function() {
 });
 
 Meteor.publish("currentTenantUserData", function(groupId) {
-  return Meteor.users.find({group: groupId});
+  return Meteor.users.find({
+    group: groupId
+  });
 });
 
 Meteor.publish("allUserData", function() {
@@ -167,5 +169,12 @@ Meteor.publish("allNotifications", function() {
     sort: {
       createdAt: -1
     }
+  });
+});
+
+
+Meteor.publish("allChatter", function() {
+  return g_Chatterbox.find({
+    _groupId: Partitioner.group()
   });
 });

@@ -6,6 +6,7 @@ Template.contactDetail.onRendered(function() {
 
 Template.contactDetail.rendered = function(){
   document.title = "Contact - " + this.data.title + " " + this.data.forename + " " + this.data.surname;
+  SetRouteDetails(document.title);
 };
 
 Template.contactDetail.events({
