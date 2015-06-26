@@ -37,11 +37,11 @@ meteorhacks:subs-manager
 http
 mystor:device-detection
 dburles:google-maps
-mike:mocha
-practicalmeteor:chai
 meteorhacks:kadira
 meteorhacks:kadira-profiler
 zimme:active-route
 erasaur:notification-badge
 tmeasday:presence
 manuel:reactivearray
+panphora:environment-template-helpers
+xolvio:cucumber
