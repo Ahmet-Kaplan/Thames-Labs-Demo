@@ -34,6 +34,11 @@
           <button class="btn btn-info pull-right btn-xs" id="btnEditSettings" type="button">
             <i class="fa fa-fw fa-wrench"></i> Edit settings
           </button>
+          {{#if isDevEnvironment}}
+          <button class="btn btn-xs pull-right" id="btnDemoData" type="button">
+             <i class="fa fa-fw fa-wrench"></i> Populate with demo data
+          </button>
+          {{/if}}
         </div>
 
         <ul class="list-group">
