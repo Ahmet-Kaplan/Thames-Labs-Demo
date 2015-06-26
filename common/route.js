@@ -3,57 +3,45 @@ var group = Partitioner.group();
 
 Router.onAfterAction(function() {
 
-  // console.log("Router: checking user state.");
   if (!Meteor.user() && !Meteor.loggingIn()) {
 
-    // console.log("Router: user not logged in and not logging in - redirecting to login page.");
     this.render('login');
 
   } else if (Meteor.user() && !Meteor.loggingIn()) {
 
-    // console.log("Router: user logged in and not still logging in - determining role.");
     if (Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
 
-      // console.log("Router: user is SA - checking route name.");
-      // console.log("Router: route name is " + Router.current().route.getName() + ". Determining action.");
       if (Router.current().route.getName() === 'tenants' || Router.current().route.getName() === 'notifications') {
-
-        // console.log("Router: route permitted for SA - proceeding.");
-        // this.next(); // not needed if used in onAfterAction
 
       } else {
 
-        // console.log("Router: route not permitted for SA - redirecting to /tenants.");
         this.redirect('/tenants');
 
       }
 
     } else {
 
-      // console.log("Router: user is not SA - checking route name.");
-      // console.log("Router: route name is " + Router.current().route.getName() + ". Determining action.");
       if (Router.current().route.getName() === 'company') {
 
-        // console.log("Router: loading Google Maps API for current route.");
         GoogleMaps.load();
 
       }
 
-      // console.log("Router: navigating.");
-      // this.next(); // not needed if used in onAfterAction
+    if (Router.current().route.getName() === 'tenants' || Router.current().route.getName() === 'notifications') {
+      
+        this.redirect('/');
+
+      }
     }
 
   } else {
 
-    // console.log("Router: user logged in and still logging in - determining route.");
     if (Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
 
-      // console.log("Router: user not is SA - proceeding.");
       this.redirect('/tenants');
 
     } else {
 
-      // console.log("Router: user is not SA - proceeding.");
       this.redirect('/');
 
     }
