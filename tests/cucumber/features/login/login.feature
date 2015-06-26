@@ -26,3 +26,9 @@ Feature: Allow users to login and logout
   Scenario: A normal user should not see superadmin stuff
     When I enter good authentication information
     Then I should not see superadmin stuff
+
+  # think this is related to routing which will be fixed in another branch
+  @ignore
+  Scenario: A normal user should be redirected to the dashboard on login from '/'
+    When I enter good authentication information
+    Then I should see the dashboard
