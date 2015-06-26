@@ -46,7 +46,7 @@ Router.onAfterAction(function() {
   } else {
 
     // console.log("Router: user logged in and still logging in - determining route.");
-    if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
+    if (Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
 
       // console.log("Router: user not is SA - proceeding.");
       this.redirect('/tenants');
