@@ -1,0 +1,3 @@
+[submodule "packages/meteor-partitioner"]
+	path = packages/meteor-partitioner
+	url = https://github.com/jamiecollinson/meteor-partitioner.git

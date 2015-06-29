@@ -10,12 +10,12 @@ Template.companyList.onRendered(function() {
 
 Template.companyList.helpers({
   hasCompanies: function() {
-    return g_Companies.find({}).count() > 0;
+    return Companies.find({}).count() > 0;
   },
   companyCount: function() {
-    return g_Companies.find({}).count();
+    return Companies.find({}).count();
   },
   hasMultipleCompanies: function() {
-    return g_Companies.find({}).count() !== 1;
+    return Companies.find({}).count() !== 1;
   }
 });

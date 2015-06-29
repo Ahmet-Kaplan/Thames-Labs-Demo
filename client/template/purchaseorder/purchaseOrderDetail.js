@@ -40,7 +40,7 @@ Template.purchaseOrderDetail.events({
 
 Template.purchaseOrderItem.events({
   'click #removePurchaseOrderItem': function() {
-    g_PurchaseOrderItems.remove(this._id);
+    PurchaseOrderItems.remove(this._id);
   },
   'click #edit-po-item': function() {
     Modal.show('editPurchaseOrderItemModal', this);
@@ -57,12 +57,12 @@ Template.purchaseOrderItem.helpers({
 
 Template.purchaseOrderDetail.helpers({
   hasItems: function() {
-    return g_PurchaseOrderItems.find({
+    return PurchaseOrderItems.find({
       purchaseOrderId: this._id
     }).count() > 0;
   },
   purchaseOrderItems: function() {
-    return g_PurchaseOrderItems.find({
+    return PurchaseOrderItems.find({
       purchaseOrderId: this._id
     });
   }

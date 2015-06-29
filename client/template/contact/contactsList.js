@@ -11,7 +11,7 @@ Template.contactList.onRendered(function() {
 Template.contactListItem.helpers({
   companyName: function() {
     var contact = this;
-    var comp = g_Companies.findOne({
+    var comp = Companies.findOne({
       _id: contact.companyId
     });
 
@@ -31,12 +31,12 @@ Template.contactList.events({
 
 Template.contactList.helpers({
   hasContacts: function() {
-    return g_Contacts.find({}).count() > 0;
+    return Contacts.find({}).count() > 0;
   },
   contactCount: function() {
-    return g_Contacts.find({}).count();
+    return Contacts.find({}).count();
   },
   hasMultipleContacts: function() {
-    return g_Contacts.find({}).count() !== 1;
+    return Contacts.find({}).count() !== 1;
   }
 });

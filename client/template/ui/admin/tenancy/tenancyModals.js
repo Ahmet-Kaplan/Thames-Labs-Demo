@@ -22,7 +22,7 @@ Template.updateTenantSettings.events({
       o[p] = $('#val-' + p).val();
     }
 
-    g_Tenants.update(this._id, {
+    Tenants.update(this._id, {
       $set: {
         settings: o
       }

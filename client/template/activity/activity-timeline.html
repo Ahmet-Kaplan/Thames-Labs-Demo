@@ -10,10 +10,10 @@
             <h4 class="timeline-title">
               {{type}}
               <div class="btn-group pull-right">
-                {{#afModal class="btn btn-xs btn-info" collection="g_Activities" doc=_id operation="update" formId="removeActivityForm" omitFields="companyId, contactId, createdAt, projectId, purchaseOrderId"}}
+                {{#afModal class="btn btn-xs btn-info" collection="Activities" doc=_id operation="update" formId="removeActivityForm" omitFields="companyId, contactId, createdAt, projectId, purchaseOrderId"}}
                   Edit
                 {{/afModal}}
-                {{#afModal class="btn btn-xs btn-danger" collection="g_Activities" doc=_id operation="remove" formId="removeActivityForm"}}
+                {{#afModal class="btn btn-xs btn-danger" collection="Activities" doc=_id operation="remove" formId="removeActivityForm"}}
                   Delete
                 {{/afModal}}
             </div>

@@ -15,14 +15,14 @@ Template.purchaseOrderList.events({
 
 Template.purchaseOrderList.helpers({
   hasPurchaseOrders: function() {
-    return g_PurchaseOrders.find({}).count() > 0;
+    return PurchaseOrders.find({}).count() > 0;
   }
 });
 
 Template.purchaseOrderListItem.helpers({
   companyName: function() {
     var po = this;
-    var comp = g_Companies.findOne({
+    var comp = Companies.findOne({
       _id: po.supplierCompanyId
     });
 
@@ -34,7 +34,7 @@ Template.purchaseOrderListItem.helpers({
   },
   contactName: function() {
     var po = this;
-    var cont = g_Contacts.findOne({
+    var cont = Contacts.findOne({
       _id: po.supplierContactId
     });
 

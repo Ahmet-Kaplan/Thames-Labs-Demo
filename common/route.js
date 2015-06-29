@@ -28,7 +28,7 @@ Router.onAfterAction(function() {
       }
 
     if (Router.current().route.getName() === 'tenants' || Router.current().route.getName() === 'notifications') {
-      
+
         this.redirect('/');
 
       }
@@ -133,7 +133,7 @@ Router.route('/companies', {
   },
   data: function() {
     return {
-      'companies': g_Companies.find({})
+      'companies': Companies.find({})
     };
   }
 });
@@ -150,7 +150,7 @@ Router.route('/companies/:_id', {
     ];
   },
   data: function() {
-    return g_Companies.findOne(this.params._id);
+    return Companies.findOne(this.params._id);
   },
   action: function() {
     this.render();
@@ -164,7 +164,7 @@ Router.route('/customers', {
   },
   data: function() {
     return {
-      'companies': g_Companies.find({})
+      'companies': Companies.find({})
     };
   }
 });
@@ -181,7 +181,7 @@ Router.route('/customers/:_id', {
     ];
   },
   data: function() {
-    return g_Companies.findOne(this.params._id);
+    return Companies.findOne(this.params._id);
   }
 });
 Router.route('/suppliers', {
@@ -192,7 +192,7 @@ Router.route('/suppliers', {
   },
   data: function() {
     return {
-      'companies': g_Companies.find({})
+      'companies': Companies.find({})
     };
   }
 });
@@ -209,7 +209,7 @@ Router.route('/suppliers/:_id', {
     ];
   },
   data: function() {
-    return g_Companies.findOne(this.params._id);
+    return Companies.findOne(this.params._id);
   }
 });
 
@@ -226,7 +226,7 @@ Router.route('/contacts', {
 
   data: function() {
     return {
-      'contacts': g_Contacts.find({})
+      'contacts': Contacts.find({})
     };
   }
 });
@@ -236,12 +236,12 @@ Router.route('/contacts/:_id', {
   waitOn: function() {
     return [
       subs.subscribe("contactById", this.params._id),
-      subs.subscribe('companyById', g_Contacts.findOne(this.params._id).companyId),
+      subs.subscribe('companyById', Contacts.findOne(this.params._id).companyId),
       subs.subscribe('activityByContactId', this.params._id)
     ];
   },
   data: function() {
-    return g_Contacts.findOne(this.params._id);
+    return Contacts.findOne(this.params._id);
   }
 });
 
@@ -259,7 +259,7 @@ Router.route('/opportunities', {
 
   data: function() {
     return {
-      'projects': g_Projects.find({})
+      'projects': Projects.find({})
     };
   }
 });
@@ -269,13 +269,13 @@ Router.route('/opportunities/:_id', {
   waitOn: function() {
     return [
       subs.subscribe("projectById", this.params._id),
-      subs.subscribe('companyById', g_Projects.findOne(this.params._id).companyId),
+      subs.subscribe('companyById', Projects.findOne(this.params._id).companyId),
       subs.subscribe('activityByProjectId', this.params._id),
-      subs.subscribe('contactsByCompanyId', g_Projects.findOne(this.params._id).companyId)
+      subs.subscribe('contactsByCompanyId', Projects.findOne(this.params._id).companyId)
     ];
   },
   data: function() {
-    return g_Projects.findOne(this.params._id);
+    return Projects.findOne(this.params._id);
   }
 });
 Router.route('/projects', {
@@ -292,7 +292,7 @@ Router.route('/projects', {
 
   data: function() {
     return {
-      'projects': g_Projects.find({})
+      'projects': Projects.find({})
     };
   }
 });
@@ -302,13 +302,13 @@ Router.route('/projects/:_id', {
   waitOn: function() {
     return [
       subs.subscribe("projectById", this.params._id),
-      subs.subscribe('companyById', g_Projects.findOne(this.params._id).companyId),
+      subs.subscribe('companyById', Projects.findOne(this.params._id).companyId),
       subs.subscribe('activityByProjectId', this.params._id),
-      subs.subscribe('contactsByCompanyId', g_Projects.findOne(this.params._id).companyId)
+      subs.subscribe('contactsByCompanyId', Projects.findOne(this.params._id).companyId)
     ];
   },
   data: function() {
-    return g_Projects.findOne(this.params._id);
+    return Projects.findOne(this.params._id);
   }
 });
 
@@ -330,7 +330,7 @@ Router.route('/purchaseorders', {
 
   data: function() {
     return {
-      'purchaseOrders': g_PurchaseOrders.find({})
+      'purchaseOrders': PurchaseOrders.find({})
     };
   }
 });
@@ -339,16 +339,16 @@ Router.route('/purchaseorders/:_id', {
   template: 'purchaseOrderDetail',
   waitOn: function() {
     return [
-      subs.subscribe("projectById", g_PurchaseOrders.findOne(this.params._id).projectId),
-      subs.subscribe('companyById', g_PurchaseOrders.findOne(this.params._id).supplierCompanyId),
+      subs.subscribe("projectById", PurchaseOrders.findOne(this.params._id).projectId),
+      subs.subscribe('companyById', PurchaseOrders.findOne(this.params._id).supplierCompanyId),
       subs.subscribe('activityByPurchaseOrderId', this.params._id),
-      subs.subscribe('contactById', g_PurchaseOrders.findOne(this.params._id).supplierContactId),
+      subs.subscribe('contactById', PurchaseOrders.findOne(this.params._id).supplierContactId),
       subs.subscribe('purchaseOrderById', this.params._id),
       subs.subscribe('allPurchaseOrderItems', this.params._id)
     ];
   },
   data: function() {
-    return g_PurchaseOrders.findOne(this.params._id);
+    return PurchaseOrders.findOne(this.params._id);
   }
 });
 
