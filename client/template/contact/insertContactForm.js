@@ -9,7 +9,7 @@ AutoForm.hooks({
 Template.insertCompanyContactModal.helpers({
   companiesAsOptions: function() {
 
-    return g_Companies.find({}).map(function(company) {
+    return Companies.find({}).map(function(company) {
       return {
         'label': company.name,
         'value': company._id

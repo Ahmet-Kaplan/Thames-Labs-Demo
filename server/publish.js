@@ -15,14 +15,14 @@ Meteor.publish('userPresence', function() {
 
 Meteor.publish("allTenants", function() {
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
-    return g_Tenants.find({});
+    return Tenants.find({});
   } else {
     this.ready();
   }
 });
 
 Meteor.publish("myTenant", function() {
-  // return g_Tenants.find({
+  // return Tenants.find({
   //   _id: Meteor.users.find({
   //     _id: Meteor.userId()
   //   }).fetch()[0].group
@@ -54,118 +54,104 @@ Meteor.publish("allUserData", function() {
 });
 
 Meteor.publish("allCompanies", function() {
-  return g_Companies.find({});
+  return Companies.find({});
 });
 Meteor.publish("companyById", function(companyId) {
-  return g_Companies.find({
-    _id: companyId,
-    _groupId: Partitioner.group()
+  return Companies.find({
+    _id: companyId
   });
 });
 Meteor.publish("contactsByCompanyId", function(companyId) {
-  return g_Contacts.find({
-    companyId: companyId,
-    _groupId: Partitioner.group()
+  return Contacts.find({
+    companyId: companyId
   });
 });
 
 
 Meteor.publish("allContacts", function() {
-  return g_Contacts.find({});
+  return Contacts.find({});
 });
 Meteor.publish("contactById", function(contactId) {
-  return g_Contacts.find({
-    _id: contactId,
-    _groupId: Partitioner.group()
+  return Contacts.find({
+    _id: contactId
   });
 });
 
 
 Meteor.publish("allActivities", function() {
-  return g_Activities.find({});
+  return Activities.find({});
 });
 Meteor.publish("activityByContactId", function(contactId) {
-  return g_Activities.find({
-    contactId: contactId,
-    _groupId: Partitioner.group()
+  return Activities.find({
+    contactId: contactId
   });
 });
 Meteor.publish("activityByCompanyId", function(companyId) {
-  return g_Activities.find({
-    companyId: companyId,
-    _groupId: Partitioner.group()
+  return Activities.find({
+    companyId: companyId
   });
 });
 Meteor.publish("activityByProjectId", function(projectId) {
-  return g_Activities.find({
-    projectId: projectId,
-    _groupId: Partitioner.group()
+  return Activities.find({
+    projectId: projectId
   });
 });
 Meteor.publish("activityByPurchaseOrderId", function(purchaseOrderId) {
-  return g_Activities.find({
-    purchaseOrderId: purchaseOrderId,
-    _groupId: Partitioner.group()
+  return Activities.find({
+    purchaseOrderId: purchaseOrderId
   });
 });
 
 
 Meteor.publish("allProjects", function() {
-  return g_Projects.find({});
+  return Projects.find({});
 });
 Meteor.publish("projectsByCompanyId", function(companyId) {
-  return g_Projects.find({
-    companyId: companyId,
-    _groupId: Partitioner.group()
+  return Projects.find({
+    companyId: companyId
   });
 });
 Meteor.publish("projectById", function(projectId) {
-  return g_Projects.find({
-    _id: projectId,
-    _groupId: Partitioner.group()
+  return Projects.find({
+    _id: projectId
   });
 });
 
 
 Meteor.publish("allPurchaseOrders", function() {
-  return g_PurchaseOrders.find({});
+  return PurchaseOrders.find({});
 });
 Meteor.publish("purchaseOrdersByCompanyId", function(companyId) {
-  return g_PurchaseOrders.find({
-    supplierCompanyId: companyId,
-    _groupId: Partitioner.group()
+  return PurchaseOrders.find({
+    supplierCompanyId: companyId
   });
 });
 Meteor.publish("purchaseOrdersByContactId", function(contactId) {
-  return g_PurchaseOrders.find({
-    supplierContactId: contactId,
-    _groupId: Partitioner.group()
+  return PurchaseOrders.find({
+    supplierContactId: contactId
   });
 });
 Meteor.publish("purchaseOrdersByProjectId", function(projectId) {
-  return g_PurchaseOrders.find({
-    projectId: projectId,
-    _groupId: Partitioner.group()
+  return PurchaseOrders.find({
+    projectId: projectId
   });
 });
 Meteor.publish("purchaseOrderById", function(purchaseOrderId) {
-  return g_PurchaseOrders.find({
-    _id: purchaseOrderId,
-    _groupId: Partitioner.group()
+  return PurchaseOrders.find({
+    _id: purchaseOrderId
   });
 });
 
 
 Meteor.publish("allPurchaseOrderItems", function(purchaseOrderId) {
-  return g_PurchaseOrderItems.find({
-    purchaseOrderId: purchaseOrderId,
-    _groupId: Partitioner.group()
+  return PurchaseOrderItems.find({
+    purchaseOrderId: purchaseOrderId
   });
 });
 
 
 Meteor.publish("allNotifications", function() {
-  return g_Notifications.find({}, {
+  return Notifications.find({}, {
     sort: {
       createdAt: -1
     }
@@ -174,7 +160,5 @@ Meteor.publish("allNotifications", function() {
 
 
 Meteor.publish("allChatter", function() {
-  return g_Chatterbox.find({
-    _groupId: Partitioner.group()
-  });
+  return Chatterbox.find({});
 });

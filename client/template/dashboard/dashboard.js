@@ -15,7 +15,7 @@ Template.dashboard.events({
     if (user) {
       if (user.profile) {
         var m = $('.chatMessage').val();
-        g_Chatterbox.insert({
+        Chatterbox.insert({
           user: user.profile.name,
           message: m,
           createdAt: new Date()
@@ -37,7 +37,7 @@ Template.dashboard.helpers({
       if (user.profile) {
         var arr = [];
         var filter = new Date(user.profile.lastLogin);
-        var msgs = g_Chatterbox.find({}).fetch();
+        var msgs = Chatterbox.find({}).fetch();
         _.each(msgs, function(x){
           var thisDate = new Date(x.createdAt);
           if(thisDate >= filter){

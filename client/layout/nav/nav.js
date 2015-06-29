@@ -21,7 +21,7 @@ Template.nav.helpers({
     return sName;
   },
   notifications: function() {
-    return g_Notifications.find({}, {
+    return Notifications.find({}, {
       sort: {
         createdAt: -1
       },
@@ -33,7 +33,7 @@ Template.nav.helpers({
     var yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    var recent = g_Notifications.find({}, {
+    var recent = Notifications.find({}, {
       sort: {
         createdAt: -1
       },
@@ -53,7 +53,7 @@ Template.nav.helpers({
     var yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    return g_Notifications.find({}, {
+    return Notifications.find({}, {
       sort: {
         createdAt: -1
       }

@@ -26,7 +26,7 @@ Template.projectDetail.helpers({
     }).fetch()[0].profile.name;
   },
   contactName: function() {
-    var c = g_Contacts.find({
+    var c = Contacts.find({
       _id: this.contactId
     }).fetch()[0];
     return c.forename + " " + c.surname;

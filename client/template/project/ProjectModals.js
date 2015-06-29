@@ -35,7 +35,7 @@ Template.updateProjectForm.onRendered(function() {
 
 Template.updateProjectForm.helpers({
   companiesAsOptions: function() {
-    return g_Companies.find({}).map(function(company) {
+    return Companies.find({}).map(function(company) {
       return {
         'label': company.name,
         'value': company._id
@@ -43,7 +43,7 @@ Template.updateProjectForm.helpers({
     });
   },
   contactsAsOptions: function() {
-    return g_Contacts.find({
+    return Contacts.find({
       companyId: Session.get('sc')
     }).map(function(contact) {
       return {
@@ -83,7 +83,7 @@ Template.newProjectForm.helpers({
     return now;
   },
   companiesAsOptions: function() {
-    return g_Companies.find({}).map(function(company) {
+    return Companies.find({}).map(function(company) {
       return {
         'label': company.name,
         'value': company._id
@@ -91,7 +91,7 @@ Template.newProjectForm.helpers({
     });
   },
   contactsAsOptions: function() {
-    return g_Contacts.find({
+    return Contacts.find({
       companyId: Session.get('sc')
     }).map(function(contact) {
       return {

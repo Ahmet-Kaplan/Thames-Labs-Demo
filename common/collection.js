@@ -1,117 +1,117 @@
-g_Tenants = new Mongo.Collection('tenants');
-g_Tenants.helpers({
+Tenants = new Mongo.Collection('tenants');
+Tenants.helpers({
   users: function() {
     return Meteor.users.find({ group: this._id });
   }
 });
 
-g_Companies = new Mongo.Collection('companies');
-Partitioner.partitionCollection(g_Companies);
-g_Companies.helpers({
+Companies = new Mongo.Collection('companies');
+Partitioner.partitionCollection(Companies);
+Companies.helpers({
   contacts: function() {
-    return g_Contacts.find({ companyId: this._id });
+    return Contacts.find({ companyId: this._id });
   },
   activities: function() {
-    return g_Activities.find({ companyId: this._id }, { sort: { createdAt: -1 } });
+    return Activities.find({ companyId: this._id }, { sort: { createdAt: -1 } });
   },
   projects: function() {
-    return g_Projects.find({ companyId: this._id }, { sort: { createdAt: -1 } });
+    return Projects.find({ companyId: this._id }, { sort: { createdAt: -1 } });
   },
   purchaseOrders: function() {
-    return g_PurchaseOrders.find({ supplierCompanyId: this._id }, { sort: { createdAt: -1 } });
+    return PurchaseOrders.find({ supplierCompanyId: this._id }, { sort: { createdAt: -1 } });
   }
 });
-g_Companies.initEasySearch('name', {
+Companies.initEasySearch('name', {
   limit: 50
 });
 
-g_Contacts = new Mongo.Collection('contacts');
-Partitioner.partitionCollection(g_Contacts);
-g_Contacts.helpers({
+Contacts = new Mongo.Collection('contacts');
+Partitioner.partitionCollection(Contacts);
+Contacts.helpers({
   name: function() {
     return [this.title, this.forename, this.surname].join(' ');
   },
   company: function() {
-    return g_Companies.findOne(this.companyId);
+    return Companies.findOne(this.companyId);
   },
   activities: function() {
-    return g_Activities.find({ contactId: this._id }, { sort: { createdAt: -1 } });
+    return Activities.find({ contactId: this._id }, { sort: { createdAt: -1 } });
   },
   purchaseOrders: function() {
-    return g_PurchaseOrders.find({ supplierContactId: this._id }, { sort: { createdAt: -1 } });
+    return PurchaseOrders.find({ supplierContactId: this._id }, { sort: { createdAt: -1 } });
   }
 });
-g_Contacts.initEasySearch(['forename', 'surname'], {
+Contacts.initEasySearch(['forename', 'surname'], {
   limit: 50
 });
 
-g_Activities = new Mongo.Collection('activities');
-Partitioner.partitionCollection(g_Activities);
-g_Activities.helpers({
+Activities = new Mongo.Collection('activities');
+Partitioner.partitionCollection(Activities);
+Activities.helpers({
   company: function() {
-    return g_Companies.findOne(this.companyId);
+    return Companies.findOne(this.companyId);
   },
   contact: function() {
-    return g_Contacts.findOne(this.contactId);
+    return Contacts.findOne(this.contactId);
   },
   project: function() {
-    return g_Projects.findOne(this.projectId );
+    return Projects.findOne(this.projectId );
   },
   purchaseOrder: function() {
-    return g_PurchaseOrders.findOne(this.purchaseOrderId);
+    return PurchaseOrders.findOne(this.purchaseOrderId);
   }
 });
-g_Activities.initEasySearch('notes', {
+Activities.initEasySearch('notes', {
   limit: 50
 });
 
-g_Projects = new Mongo.Collection('projects');
-Partitioner.partitionCollection(g_Projects);
-g_Projects.helpers({
+Projects = new Mongo.Collection('projects');
+Partitioner.partitionCollection(Projects);
+Projects.helpers({
   company: function() {
-    return g_Companies.findOne(this.companyId);
+    return Companies.findOne(this.companyId);
   },
   activities: function() {
-    return g_Activities.find({ projectId: this._id }, { sort: { createdAt: -1 } });
+    return Activities.find({ projectId: this._id }, { sort: { createdAt: -1 } });
   },
   contact: function() {
-    return g_Contacts.findOne(this.contactId);
+    return Contacts.findOne(this.contactId);
   },
   purchaseOrders: function() {
-    return g_PurchaseOrders.find({ projectId: this._id }, { sort: { createdAt: -1 } });
+    return PurchaseOrders.find({ projectId: this._id }, { sort: { createdAt: -1 } });
   }
 });
-g_Projects.initEasySearch('description', {
+Projects.initEasySearch('description', {
   limit: 50
 });
 
-g_PurchaseOrders = new Mongo.Collection('purchaseorders');
-Partitioner.partitionCollection(g_PurchaseOrders);
-g_PurchaseOrders.helpers({
+PurchaseOrders = new Mongo.Collection('purchaseorders');
+Partitioner.partitionCollection(PurchaseOrders);
+PurchaseOrders.helpers({
   company: function() {
-    return g_Companies.findOne(this.supplierCompanyId);
+    return Companies.findOne(this.supplierCompanyId);
   },
   activities: function() {
-    return g_Activities.find({ purchaseOrderId: this._id }, { sort: { createdAt: -1 } });
+    return Activities.find({ purchaseOrderId: this._id }, { sort: { createdAt: -1 } });
   },
   contact: function() {
-    return g_Contacts.findOne(this.supplierContactId);
+    return Contacts.findOne(this.supplierContactId);
   },
   project: function() {
-    return g_Projects.findOne(this.projectId);
+    return Projects.findOne(this.projectId);
   }
 });
-g_PurchaseOrders.initEasySearch('description', {
+PurchaseOrders.initEasySearch('description', {
   limit: 50
 });
 
-g_PurchaseOrderItems = new Mongo.Collection('purchaseorderitems');
-Partitioner.partitionCollection(g_PurchaseOrderItems);
-g_PurchaseOrderItems.initEasySearch('description', {
+PurchaseOrderItems = new Mongo.Collection('purchaseorderitems');
+Partitioner.partitionCollection(PurchaseOrderItems);
+PurchaseOrderItems.initEasySearch('description', {
   limit: 50
 });
 
-g_Notifications = new Mongo.Collection('notifications');
+Notifications = new Mongo.Collection('notifications');
 
-g_Chatterbox = new Mongo.Collection('chatterbox');
-Partitioner.partitionCollection(g_Chatterbox);
+Chatterbox = new Mongo.Collection('chatterbox');
+Partitioner.partitionCollection(Chatterbox);
