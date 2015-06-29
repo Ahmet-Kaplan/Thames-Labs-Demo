@@ -8,6 +8,7 @@ Meteor.methods({
 
 Meteor.startup(function() {
   Meteor.users.remove({});
+
    var userId = Accounts.createUser({
     username: "test user",
     email: "test@domain.com",
@@ -16,7 +17,17 @@ Meteor.startup(function() {
       name: "test user"
     }
   });
+  
   // Important! Otherwise subs manager fails to load things and you get a lot of "loading..." screens
-  Partitioner.setUserGroup(userId, 'tenant1');
+  Partitioner.setUserGroup(userId, 'tenant 1');
 
+  var userId2 = Accounts.createUser({
+    username: "test user 2",
+    email: "test2@domain.com",
+    password: "goodpassword",
+    profile: {
+      name: "test user 2"
+    }
+  });
+  Partitioner.setUserGroup(userId2, 'tenant 2');
 });

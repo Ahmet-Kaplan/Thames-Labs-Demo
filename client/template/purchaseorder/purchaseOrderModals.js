@@ -79,7 +79,7 @@ Template.newPurchaseOrderForm.helpers({
     return moment();
   },
   companiesAsOptions: function() {
-    return g_Companies.find({}).map(function(company) {
+    return Companies.find({}).map(function(company) {
       return {
         'label': company.name,
         'value': company._id
@@ -87,7 +87,7 @@ Template.newPurchaseOrderForm.helpers({
     });
   },
   contactsAsOptions: function() {
-    return g_Contacts.find({
+    return Contacts.find({
       companyId: Session.get('posc')
     }).map(function(contact) {
       return {
@@ -97,7 +97,7 @@ Template.newPurchaseOrderForm.helpers({
     });
   },
   projectsAsOptions: function() {
-    return g_Projects.find({
+    return Projects.find({
       companyId: Session.get('posc')
     }).map(function(project) {
       return {
@@ -133,7 +133,7 @@ Template.updatePurchaseOrderFormModal.helpers({
     return moment();
   },
   companiesAsOptions: function() {
-    return g_Companies.find({}).map(function(company) {
+    return Companies.find({}).map(function(company) {
       return {
         'label': company.name,
         'value': company._id
@@ -141,7 +141,7 @@ Template.updatePurchaseOrderFormModal.helpers({
     });
   },
   contactsAsOptions: function() {
-    return g_Contacts.find({
+    return Contacts.find({
       companyId: Session.get('posc')
     }).map(function(contact) {
       return {
@@ -151,7 +151,7 @@ Template.updatePurchaseOrderFormModal.helpers({
     });
   },
   projectsAsOptions: function() {
-    return g_Projects.find({
+    return Projects.find({
       companyId: Session.get('posc')
     }).map(function(project) {
       return {

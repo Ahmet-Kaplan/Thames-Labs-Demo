@@ -4,7 +4,7 @@ Template.user.onRendered(function() {
 
 Template.tenantList.helpers({
   tenants: function() {
-    return g_Tenants.find({});
+    return Tenants.find({});
   },
   users: function() {
     return Meteor.users.find({
@@ -24,7 +24,7 @@ Template.tenant.events({
     Modal.show('addTenantUser', this);
   },
   "click #btnDeleteTenant": function(event, template) {
-    g_Tenants.remove({
+    Tenants.remove({
       _id: this._id
     });
   },

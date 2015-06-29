@@ -10,7 +10,7 @@ Template.projectsList.onRendered(function() {
 
 Template.projectsList.helpers({
   hasProjects: function() {
-    return g_Projects.find({}).count() > 0;
+    return Projects.find({}).count() > 0;
   }
 });
 
@@ -23,19 +23,19 @@ Template.projectsList.events({
 Template.projectCompanyListItem.helpers({
   hasProjectsForCompany: function(){
      var c = this;
-     return g_Projects.find({companyId: c._id}).count() > 0;
+     return Projects.find({companyId: c._id}).count() > 0;
   },
   projectCount: function(){
      var c = this;
-     return g_Projects.find({companyId: c._id}).count();
+     return Projects.find({companyId: c._id}).count();
   },
   multipleProjects: function(){
      var c = this;
-     return g_Projects.find({companyId: c._id}).count()> 1;
+     return Projects.find({companyId: c._id}).count()> 1;
   },
   companyProjects: function(){
      var c = this;
-     return g_Projects.find({companyId: c._id});
+     return Projects.find({companyId: c._id});
   }
 });
 
@@ -43,7 +43,7 @@ Template.projectCompanyListItem.helpers({
 Template.projectListItem.helpers({
   companyName: function() {
     var project = this;
-    var comp = g_Companies.findOne({
+    var comp = Companies.findOne({
       _id: project.companyId
     });
 

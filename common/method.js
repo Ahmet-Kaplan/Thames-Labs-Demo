@@ -18,7 +18,7 @@ Meteor.methods({
         var randomUser = usersArray[randomIndex];
 
         var randomName = faker.company.companyName();
-        var companyId = g_Companies.insert({
+        var companyId = Companies.insert({
           name: faker.company.companyName(),
           address: faker.address.streetAddress(),
           city: faker.address.city(),
@@ -34,7 +34,7 @@ Meteor.methods({
         projects = [];
 
         _.each(_.range(_.random(1, 10)), function() {
-          var contactId = g_Contacts.insert({
+          var contactId = Contacts.insert({
             title: _.sample(Schemas.Contact._schema.title.allowedValues),
             forename: faker.name.firstName(),
             surname: faker.name.lastName(),
@@ -47,7 +47,7 @@ Meteor.methods({
           contacts.push(contactId);
 
           _.each(_.range(_.random(0, 2)), function() {
-            var activityId = g_Activities.insert({
+            var activityId = Activities.insert({
               type: _.sample(Schemas.Activity._schema.type.allowedValues),
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
@@ -63,7 +63,7 @@ Meteor.methods({
           var randomIndex = Math.floor(Math.random() * array.length);
           var element = array[randomIndex];
 
-          var projectId = g_Projects.insert({
+          var projectId = Projects.insert({
             description: faker.lorem.sentence(),
             companyId: companyId,
             contactId: contacts[Math.floor(Math.random() * contacts.length)],
@@ -79,7 +79,7 @@ Meteor.methods({
           projects.push(projectId);
 
           _.each(_.range(_.random(0, 2)), function() {
-            var activityId = g_Activities.insert({
+            var activityId = Activities.insert({
               type: _.sample(Schemas.Activity._schema.type.allowedValues),
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
@@ -90,7 +90,7 @@ Meteor.methods({
         });
 
         _.each(_.range(_.random(0, 3)), function() {
-          var purchaseOrderId = g_PurchaseOrders.insert({
+          var purchaseOrderId = PurchaseOrders.insert({
             userId: randomUser._id,
             supplierCompanyId: companyId,
             supplierContactId: contacts[Math.floor(Math.random() * contacts.length)],
@@ -106,7 +106,7 @@ Meteor.methods({
           });
 
           _.each(_.range(_.random(0, 2)), function() {
-            var activityId = g_Activities.insert({
+            var activityId = Activities.insert({
               type: _.sample(Schemas.Activity._schema.type.allowedValues),
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
@@ -116,7 +116,7 @@ Meteor.methods({
           });
 
           _.each(_.range(_.random(0, 2)), function() {
-            var PurchaseOrderItemId = g_PurchaseOrderItems.insert({
+            var PurchaseOrderItemId = PurchaseOrderItems.insert({
               purchaseOrderId: purchaseOrderId,
               description: faker.lorem.sentence(),
               productCode: faker.random.uuid(),

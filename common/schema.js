@@ -61,7 +61,7 @@ Schemas.Tenant = new SimpleSchema({
     optional: true
   }
 });
-g_Tenants.attachSchema(Schemas.Tenant);
+Tenants.attachSchema(Schemas.Tenant);
 
 Schemas.Company = new SimpleSchema({
   name: {
@@ -122,7 +122,7 @@ Schemas.Company = new SimpleSchema({
     }
   }
 });
-g_Companies.attachSchema(Schemas.Company);
+Companies.attachSchema(Schemas.Company);
 
 Schemas.Contact = new SimpleSchema({
   title: {
@@ -171,7 +171,7 @@ Schemas.Contact = new SimpleSchema({
     }
   }
 });
-g_Contacts.attachSchema(Schemas.Contact);
+Contacts.attachSchema(Schemas.Contact);
 
 Schemas.Activity = new SimpleSchema({
   type: {
@@ -211,7 +211,7 @@ Schemas.Activity = new SimpleSchema({
     }
   }
 });
-g_Activities.attachSchema(Schemas.Activity);
+Activities.attachSchema(Schemas.Activity);
 
 Schemas.Project = new SimpleSchema({
   description: {
@@ -262,7 +262,7 @@ Schemas.Project = new SimpleSchema({
     }
   }
 });
-g_Projects.attachSchema(Schemas.Project);
+Projects.attachSchema(Schemas.Project);
 
 Schemas.PurchaseOrder = new SimpleSchema({
   userId: {
@@ -331,7 +331,7 @@ Schemas.PurchaseOrder = new SimpleSchema({
     }
   }
 });
-g_PurchaseOrders.attachSchema(Schemas.PurchaseOrder);
+PurchaseOrders.attachSchema(Schemas.PurchaseOrder);
 
 Schemas.PurchaseOrderItem = new SimpleSchema({
 
@@ -374,7 +374,7 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
     }
   }
 });
-g_PurchaseOrderItems.attachSchema(Schemas.PurchaseOrderItem);
+PurchaseOrderItems.attachSchema(Schemas.PurchaseOrderItem);
 
 Schemas.Notification = new SimpleSchema({
   title: {
@@ -393,7 +393,7 @@ Schemas.Notification = new SimpleSchema({
     }
   }
 });
-g_Notifications.attachSchema(Schemas.Notification);
+Notifications.attachSchema(Schemas.Notification);
 
 
 Schemas.Chatter = new SimpleSchema({
@@ -407,4 +407,4 @@ Schemas.Chatter = new SimpleSchema({
     type: Date
   }
 });
-g_Chatterbox.attachSchema(Schemas.Chatter);
+Chatterbox.attachSchema(Schemas.Chatter);

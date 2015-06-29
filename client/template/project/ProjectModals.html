@@ -8,7 +8,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="g_Projects" id="newProjectForm" type="insert"}}
+          {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
             {{> afQuickField name="description"}}
 
             {{> afQuickField name="companyId" id="selectedCompany" options=companiesAsOptions}}
@@ -45,7 +45,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="g_Projects" id="updateProjectForm" type="update" doc=this}}
+          {{#autoForm collection="Projects" id="updateProjectForm" type="update" doc=this}}
             {{> afQuickField name="description"}}
             {{> afQuickField name="contactId" id="companyContacts" options=contactsAsOptions }}
             {{> afQuickField name="userId" options=usersAsOptions}}
