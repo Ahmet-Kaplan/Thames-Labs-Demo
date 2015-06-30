@@ -8,6 +8,10 @@ module.exports = function () {
 
   this.Given(/^I am a new user$/, function (callback) {
     this.client
+      .setViewportSize({
+        width: 1024,
+        height: 768
+      })
       .url(url.resolve(process.env.ROOT_URL, '/'))
       .executeAsync(logout)
       .call(callback);
