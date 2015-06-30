@@ -66,7 +66,6 @@ meteorhacks:subs-manager@1.4.0
 meteortoys:toykit@0.8.1
 minifiers@1.1.5
 minimongo@1.0.8
-mizzao:partitioner@0.5.5
 mobile-status-bar@1.0.3
 momentjs:moment@2.10.3
 mongo@1.1.0
@@ -82,6 +81,7 @@ ongoworks:security@1.2.0
 ordered-dict@1.0.3
 package-version-parser@3.0.3
 panphora:environment-template-helpers@0.0.4
+partitioner@0.5.5
 peppelg:bootstrap-3-modal@1.0.3
 pfafman:filesaver@0.2.0_1
 practicalmeteor:chai@1.9.2_3
