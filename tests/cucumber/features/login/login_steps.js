@@ -50,7 +50,7 @@ module.exports = function () {
   this.Then(/^I should be logged in$/, function (callback) {
     this.client
       .waitForExist('li.dropdown')
-      .getText('a.dropdown-toggle', function(err, text) {
+      .getText('.navbar', function(err, text) {
         text.should.contain('test user');
       })
       .call(callback)
