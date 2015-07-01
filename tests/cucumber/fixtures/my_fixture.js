@@ -17,7 +17,7 @@ Meteor.startup(function() {
       name: "test user"
     }
   });
-  
+
   // Important! Otherwise subs manager fails to load things and you get a lot of "loading..." screens
   Partitioner.setUserGroup(userId, 'tenant 1');
 

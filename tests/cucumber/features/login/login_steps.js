@@ -49,9 +49,12 @@ module.exports = function () {
 
   this.Then(/^I should be logged in$/, function (callback) {
     this.client
-      .waitForExist('li.dropdown')
-      .getText('.navbar', function(err, text) {
-        text.should.contain('test user');
+      .waitForExist('.navbar-nav')
+      .executeAsync(function(done) {
+        // browser context
+        done(Meteor.user());
+      }, function(err, res) {
+        expect(res.value).to.exist;
       })
       .call(callback)
   });
