@@ -8,6 +8,10 @@ module.exports = function () {
 
   this.Given(/^I am a new user$/, function (callback) {
     this.client
+      .setViewportSize({
+        width: 1024,
+        height: 768
+      })
       .url(url.resolve(process.env.ROOT_URL, '/'))
       .executeAsync(logout)
       .call(callback);
@@ -45,9 +49,12 @@ module.exports = function () {
 
   this.Then(/^I should be logged in$/, function (callback) {
     this.client
-      .waitForExist('li.dropdown')
-      .getText('a.dropdown-toggle', function(err, text) {
-        text.should.contain('test user');
+      .waitForExist('.navbar-nav')
+      .executeAsync(function(done) {
+        // browser context
+        done(Meteor.user());
+      }, function(err, res) {
+        expect(res.value).to.exist;
       })
       .call(callback)
   });
