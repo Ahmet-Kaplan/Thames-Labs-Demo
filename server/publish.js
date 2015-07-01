@@ -162,3 +162,7 @@ Meteor.publish("allNotifications", function() {
 Meteor.publish("allChatter", function() {
   return Chatterbox.find({});
 });
+
+Meteor.publish("allTasks", function() {
+  return Tasks.find({});
+});
