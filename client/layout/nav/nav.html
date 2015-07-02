@@ -101,7 +101,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a href='/'>
+            <a href='/' class="dismiss-on-click">
               <i class="fa fa-fw fa-home"></i> Dashboard
             </a>
           </h4>
@@ -413,7 +413,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="/tenants">
+                <a href="/tenants" class="dismiss-on-click">
                   <i class="fa fa-fw fa-archive"></i> Tenants
                   <span class="sr-only">(current)</span>
                 </a>
@@ -424,7 +424,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="/notifications">
+                <a href="/notifications" class="dismiss-on-click">
                   <i class="fa fa-fw fa-envelope"></i> Notifications
                   <span class="sr-only">(current)</span>
                 </a>
@@ -432,11 +432,20 @@
             </div>
           </div>
 
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                  <a href="#" id="feedback-link" class="dismiss-on-click">Feedback</a>
+              </h4>
+            </div>
+          </div>
 
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                  <a href="#" id="feedback-link">Feedback</a>
+                  <a id="sign-out" class="dismiss-on-click" href="#">
+                    Sign out
+                    </a>
               </h4>
             </div>
           </div>

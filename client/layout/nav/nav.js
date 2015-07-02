@@ -146,9 +146,24 @@ Template.nav.events({
     if ( document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/) ) {
       document.getElementById("id-view-sidemenu").className =
         document.getElementById("id-view-sidemenu").className.replace
-        ( /(?:^|\s)active(?!\S)/g , '' )    }
+        ( /(?:^|\s)active(?!\S)/g , '' )
+    }
     else {
       document.getElementById("id-view-sidemenu").className="active";
+    }
+  },
+  'click .panel-body > table > tr > td > a': function() {
+    if ( document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/) ) {
+        document.getElementById("id-view-sidemenu").className =
+          document.getElementById("id-view-sidemenu").className.replace
+          ( /(?:^|\s)active(?!\S)/g , '' )
+    }
+  },
+  'click .dismiss-on-click': function() {
+    if ( document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/) ) {
+        document.getElementById("id-view-sidemenu").className =
+          document.getElementById("id-view-sidemenu").className.replace
+          ( /(?:^|\s)active(?!\S)/g , '' )
     }
   }
 });
