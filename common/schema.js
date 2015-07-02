@@ -324,6 +324,11 @@ Schemas.PurchaseOrder = new SimpleSchema({
   //     'EUR'
   //   ]
   // },
+  notes: {
+    type: String,
+    label: "Notes",
+    optional: true
+  },
   createdBy: {
     type: String,
     autoform: {
