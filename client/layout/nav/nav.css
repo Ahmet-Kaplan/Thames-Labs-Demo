@@ -58,3 +58,58 @@
 .navbar-toggle:active > .icon-bar {
   background-color: #000;
 }
+
+#id-view-sidemenu {
+  position:fixed;
+  top:49px; /*To hide the top border of the first item*/
+  left:0;
+  bottom:0;
+  width:180px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #f2f2f2;
+  border-right: 1px solid rgb(231, 231, 231);
+  transition: all 0.15s ease-in-out;
+  z-index: 999;
+}
+
+tr > td > a {
+  color: black;
+}
+
+tr > td > a:hover {
+  text-decoration: none;
+}
+.panel-body {
+  padding-bottom:0;
+}
+.not-active {
+  pointer-events: none;
+  cursor: default;
+  color: #9d9d9d;
+}
+
+#accordion {
+  margin-bottom:0;
+}
+
+#accordion > .panel, #accordion > div > .panel {
+  box-shadow:none;
+  border-left:none;
+  border-right:none;
+  border-radius:0;
+}
+
+#accordion > div > h5 {
+  padding: 10px 15px 0;
+}
+
+@media only screen and (max-width: 768px) {
+  #id-view-sidemenu {
+    left: -250px;
+    width: 250px;
+  }
+  #id-view-sidemenu.active {
+    left: 0;
+  }
+}

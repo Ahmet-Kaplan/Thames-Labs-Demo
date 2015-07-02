@@ -58,6 +58,18 @@ Template.nav.helpers({
         createdAt: -1
       }
     }).count();
+  },
+  favourites: function() {
+    return null;
+  },
+  shouldDisplayMenu: function() {
+    var isUserAdmin = Roles.userIsInRole(Meteor.user(), ['superadmin']);
+    if (isUserAdmin){
+      return "visible-xs";
+    }
+    else {
+      return "";
+    }
   }
 });
 
@@ -84,6 +96,7 @@ Template.notice.helpers({
   }
 });
 
+//NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
   "click #tenancy-one": function() {
     Meteor.call('switchTenancy', Meteor.userId(), 'JsdTxQCWWoDxNFnbf');
@@ -107,12 +120,12 @@ Template.nav.events({
     Meteor.logout();
   },
   'click #id-menu-button': function() {
-    if ( document.getElementById("id-view-sidemenubar").className.match(/(?:^|\s)active(?!\S)/) ) {
-      document.getElementById("id-view-sidemenubar").className =
-        document.getElementById("id-view-sidemenubar").className.replace
+    if ( document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/) ) {
+      document.getElementById("id-view-sidemenu").className =
+        document.getElementById("id-view-sidemenu").className.replace
         ( /(?:^|\s)active(?!\S)/g , '' )    }
     else {
-      document.getElementById("id-view-sidemenubar").className="active";
+      document.getElementById("id-view-sidemenu").className="active";
     }
   }
 });

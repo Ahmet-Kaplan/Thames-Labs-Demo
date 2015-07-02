@@ -6,11 +6,15 @@
     <div class="container-fluid">
       {{> nav}}
 
-      {{> sideMenuBar}}
-
-      <div id="id-view-content">
-        {{> yield}}
-      </div>
+      {{#if hasMenu}}
+        <div id="id-view-content">
+          {{> yield}}
+        </div>
+      {{else}}
+        <div id="id-view-content" class="no-menu">
+          {{> yield}}
+        </div>
+      {{/if}}
     </div>
     {{> footer}}
 </template>

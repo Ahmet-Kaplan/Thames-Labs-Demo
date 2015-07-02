@@ -45,6 +45,10 @@ body {
   padding-top:50px;
 }
 
+blockquote {
+  margin-bottom:0;
+}
+
 #id-view-content {
   position:absolute;
   left: 180px;
@@ -52,6 +56,10 @@ body {
   overflow-x:hidden;
   padding: 4px 8px;
   transition: all 0.15s ease-in-out;
+}
+
+#id-view-content.no-menu {
+  left:0;
 }
 
 @media only screen and (max-width: 768px) {
