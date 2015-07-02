@@ -46,14 +46,16 @@ body {
 }
 
 #id-view-content {
-  float: left;
-  margin-left: 180px;
-  padding-left: 7px;
-  height: 100%;
+  position:absolute;
+  left: 180px;
+  right:0;
+  overflow-x:hidden;
+  padding: 4px 8px;
+  transition: all 0.15s ease-in-out;
 }
 
 @media only screen and (max-width: 768px) {
   #id-view-content {
-    margin-left:0;
+    left:0;
   }
 }

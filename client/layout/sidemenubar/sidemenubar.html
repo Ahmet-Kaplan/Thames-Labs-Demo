@@ -1,5 +1,5 @@
 <template name="sideMenuBar">
-  {{#unless isPhone}} {{#if loggedIn}} {{#unless isInRole 'superadmin'}}
+  {{#if loggedIn}} {{#unless isInRole 'superadmin'}}
   <div id="id-view-sidemenubar">
     <div class="panel-group" id="accordion">
 
@@ -311,5 +311,5 @@
       </div>
     </div>
   </div>
-  {{/unless}} {{/if}} {{/unless}}
+  {{/unless}} {{/if}}
 </template>

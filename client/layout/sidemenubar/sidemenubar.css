@@ -30,8 +30,8 @@ tr > td > a:hover {
 
 @media only screen and (max-width: 768px) {
   #id-view-sidemenubar {
-    left: -200px;
-    width: 200px;
+    left: -250px;
+    width: 250px;
   }
   #id-view-sidemenubar.active {
     left: 0;
