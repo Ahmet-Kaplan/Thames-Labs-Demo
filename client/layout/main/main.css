@@ -52,7 +52,7 @@ blockquote {
 #id-view-content {
   position:absolute;
   left: 180px;
-  right:0;
+  right:10px;
   overflow-x:hidden;
   padding: 4px 12px 30px;
   transition: all 0.15s ease-in-out;
