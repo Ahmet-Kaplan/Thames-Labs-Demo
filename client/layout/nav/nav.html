@@ -1,18 +1,18 @@
 <template name="nav">
   <div id="id-nav-bar">
     {{#unless isPhone}}
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
-          <button class="navbar-toggle collapsed" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+          <button class="navbar-toggle collapsed pull-left" type="button">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="/">
-            <!-- <img alt="RealtimeCRM" src="elite-32x32.png"> -->
-            RealtimeCRM
+            <img alt="" src="light-icon.svg">
+            RealTime<span style="font-size:0.6em">CRM</span>
             <small>alpha</small>
           </a>
         </div>
@@ -93,10 +93,6 @@
     </nav>
     {{/unless}} {{#if isPhone}} {{> phoneNav}} {{/if}}
   </div>
-
-  <!--<div id="id-nav-main-view">-->
-  {{> view}}
-  <!--</div>-->
 </template>
 
 <template name="notice">

@@ -1,4 +1,4 @@
-Template.view.helpers({
+Template.sideMenuBar.helpers({
   favourites: function() {
     return null;
   },
