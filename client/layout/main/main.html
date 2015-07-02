@@ -7,11 +7,19 @@
   </head>
 
   <!--<body>-->
-    <div class="content">
-      <div class="container-fluid">
-        {{> nav}}
+    {{#if maintenanceMode}}
+
+      {{> maintenance}}
+
+    {{else}}
+
+      <div class="content">
+        <div class="container-fluid">
+          {{> nav}}
+        </div>
       </div>
-    </div>
-    {{> footer}}
+      {{> footer}}
+
+    {{/if}}
   <!--</body>-->
 </template>

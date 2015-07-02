@@ -58,7 +58,7 @@ Meteor.methods({
       "Username: " + doc.email + "\r\n" +
       "Password: " + doc.password + "\r\n\r\n" +
       "We would really appreciate it if you could change your password to secure password of your own choosing by logging into the system, clicking your name at the top right hand cover and selecting Change Password.\r\n\r\n" +
-      "Should you have any questions or comments please use the “Give Feedback” link just above Change Password.\r\n\r\n" + 
+      "Should you have any questions or comments please use the “Give Feedback” link just above Change Password.\r\n\r\n" +
       "We hope that you enjoy your RealTimeCRM experience." + "\r\n\r\n" +
       "Yours sincerely,\r\n" +
       "The RealtimeCRM Team";
@@ -71,5 +71,13 @@ Meteor.methods({
       subject: 'Your RealtimeCRM details',
       text: docText
     });
+  },
+
+  setMaintenanceMode: function(val) {
+    if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
+      return;
+    }
+    ServerSession.set('maintenance', val);
   }
+
 });
