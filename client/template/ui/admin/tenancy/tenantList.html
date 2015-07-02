@@ -1,4 +1,10 @@
 <template name="tenantList">
+
+  <h1><i class="fa fa-fw fa-wrench"></i>Maintenance mode</h1>
+  <p>This locks all normal users out of the site without taking the site offline - it's for when we want to do things like database upgrade work.</p>
+  <p><b>Don't press unless you know what you're doing!</b></p>
+  {{> maintenanceModeButton}}
+  
     {{setPageTitle 'Tenants'}}
     <h1>
     <i class="fa fa-fw fa-archive"></i> Current Tenants</h1>

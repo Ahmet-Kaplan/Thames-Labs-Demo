@@ -12,5 +12,5 @@ Template.maintenance.destroyed = function() {
   }
 };
 
-var message = '<p class="maintenance-message">RealtimeCRM is currently undergoing maintenance.</p>';
+var message = '<p class="maintenance-message">RealtimeCRM is currently undergoing maintenance and will be back soon.</p>';
 var spinner = '<div class="sk-spinner sk-spinner-rotating-plane"></div>';
