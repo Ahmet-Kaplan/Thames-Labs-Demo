@@ -8,11 +8,9 @@ Template.insertNewTask.helpers({
     });
   },
   getEntityType: function() {
-    console.log(this.entity_type);
     return this.entity_type;
   },
   getEntityId: function() {
-    console.log(this.entity_id);
     return this.entity_id;
   },
   isUserTask: function(){
@@ -52,6 +50,9 @@ Template.insertNewTask.events({
 });
 
 Template.taskDisplay.helpers({
+  isDashboard: function(){
+    return(Router.current().route.getName() === "dashboard" ? true : false);
+  },
   tasks: function() {
     return Tasks.find({
       entityId: this.entity_id,
