@@ -112,7 +112,8 @@ Router.route('/', {
     if (Meteor.user()) {
       return [
         subs.subscribe('currentTenantUserData', group),
-        subs.subscribe('allChatter')
+        subs.subscribe('allChatter'),
+        subs.subscribe('tasksByEntityId', Meteor.userId()),
       ];
     }
   }

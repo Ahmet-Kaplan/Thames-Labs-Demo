@@ -14,6 +14,12 @@ Template.insertNewTask.helpers({
   getEntityId: function() {
     console.log(this.entity_id);
     return this.entity_id;
+  },
+  isUserTask: function(){
+    return (this.entity_type ==="user" ? true:false);
+  },
+  getCurrentUserId: function(){
+    return Meteor.userId();
   }
 });
 
@@ -29,6 +35,12 @@ Template.updateTask.helpers({
         'value': user._id
       };
     });
+  },
+  isUserTask: function(){
+    return (this.entity_type ==="user" ? true:false);
+  },
+  getCurrentUserId: function(){
+    return Meteor.userId();
   }
 });
 
