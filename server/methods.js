@@ -53,23 +53,31 @@ Meteor.methods({
             Partitioner.setUserGroup(userId, doc.group);
         }
 
-        var docText = "Dear " + doc.name + ",\r\n" +
-            "Thank you for choosing to use RealTimeCRM. We hope you will enjoy the simple yet powerful functionality of the system. To login please go to https://app.RealTimeCRM.co.uk and use the following credentials:\r\n\r\n" +
-            "Username: " + doc.email + "\r\n" +
-            "Password: " + doc.password + "\r\n\r\n" +
-            "We would really appreciate it if you could change your password to secure password of your own choosing by logging into the system, clicking your name at the top right hand cover and selecting Change Password.\r\n\r\n" +
-            "Should you have any questions or comments please use the “Give Feedback” link just above Change Password.\r\n\r\n" +
-            "We hope that you enjoy your RealTimeCRM experience." + "\r\n\r\n" +
-            "Yours sincerely,\r\n" +
-            "The RealtimeCRM Team";
+    var docText = "Dear " + doc.name + ",\r\n" +
+      "Thank you for choosing to use RealTimeCRM. We hope you will enjoy the simple yet powerful functionality of the system. To login please go to https://app.RealTimeCRM.co.uk and use the following credentials:\r\n\r\n" +
+      "Username: " + doc.email + "\r\n" +
+      "Password: " + doc.password + "\r\n\r\n" +
+      "We would really appreciate it if you could change your password to secure password of your own choosing by logging into the system, clicking your name at the top right hand cover and selecting Change Password.\r\n\r\n" +
+      "Should you have any questions or comments please use the “Give Feedback” link just above Change Password.\r\n\r\n" +
+      "We hope that you enjoy your RealTimeCRM experience." + "\r\n\r\n" +
+      "Yours sincerely,\r\n" +
+      "The RealtimeCRM Team";
 
         // See server/startup.js for MAIL_URL environment variable
 
-        Email.send({
-            to: doc.email,
-            from: 'admin@realtimecrm.co.uk',
-            subject: 'Your RealtimeCRM details',
-            text: docText
-        });
+    Email.send({
+      to: doc.email,
+      from: 'admin@realtimecrm.co.uk',
+      subject: 'Your RealtimeCRM details',
+      text: docText
+    });
+  },
+
+  setMaintenanceMode: function(val) {
+    if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
+      return;
     }
+    ServerSession.set('maintenance', val);
+  }
+
 });

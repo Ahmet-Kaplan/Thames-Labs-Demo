@@ -4,7 +4,7 @@ if (!Meteor.users.findOne({
 
   console.log('No superuser found, creating one');
   var email = 'admin@cambridgesoftware.co.uk',
-    randomPassword = faker.internet.password();
+    randomPassword = Meteor.isDevelopment ? 'admin' : faker.internet.password();
 
   var userId = Accounts.createUser({
     email: email,
