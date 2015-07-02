@@ -1,6 +1,7 @@
 Meteor.methods({
   'reset': function() {
     ServerSession.set('maintenance', false);
+    Tasks.remove({});
   }
 });
 

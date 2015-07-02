@@ -66,12 +66,12 @@
 </template>
 
 <template name="taskDisplay">
-  <div class="panel panel-default">
-    <div class="panel-heading" id="contacts">
+  <div class="panel panel-default" id='entityTaskList'>
+    <div class="panel-heading" id="tasks">
       Tasks
       <a href="#" id="btnAddTaskToEntity" class="btn btn-success btn-xs pull-right">Add task</a>
     </div>
-    <ul class="list-group">
+    <ul class="list-group" id='taskContainer'>
       {{#each tasks}} {{> taskDisplayItem}} {{else}}
       <li class="list-group-item">No tasks added</li>
       {{/each}}
@@ -80,7 +80,7 @@
 </template>
 
 <template name="taskDisplayItem">
-  <li class="list-group-item">
+  <li class="list-group-item" id='displayedTask'>
     <i class="fa fa-fw fa-tasks"></i> {{title}}
     <div class="btn-group pull-right">
       <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
