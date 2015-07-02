@@ -112,7 +112,8 @@ Router.route('/', {
     if (Meteor.user()) {
       return [
         subs.subscribe('currentTenantUserData', group),
-        subs.subscribe('allChatter')
+        subs.subscribe('allChatter'),
+        subs.subscribe('tasksByEntityId', Meteor.userId()),
       ];
     }
   }
@@ -146,7 +147,9 @@ Router.route('/companies/:_id', {
       subs.subscribe("contactsByCompanyId", this.params._id),
       subs.subscribe("projectsByCompanyId", this.params._id),
       subs.subscribe('activityByCompanyId', this.params._id),
-      subs.subscribe('purchaseOrdersByCompanyId', this.params._id)
+      subs.subscribe('purchaseOrdersByCompanyId', this.params._id),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
@@ -177,7 +180,9 @@ Router.route('/customers/:_id', {
       subs.subscribe("contactsByCompanyId", this.params._id),
       subs.subscribe("projectsByCompanyId", this.params._id),
       subs.subscribe('activityByCompanyId', this.params._id),
-      subs.subscribe('purchaseOrdersByCompanyId', this.params._id)
+      subs.subscribe('purchaseOrdersByCompanyId', this.params._id),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
@@ -205,7 +210,9 @@ Router.route('/suppliers/:_id', {
       subs.subscribe("contactsByCompanyId", this.params._id),
       subs.subscribe("projectsByCompanyId", this.params._id),
       subs.subscribe('activityByCompanyId', this.params._id),
-      subs.subscribe('purchaseOrdersByCompanyId', this.params._id)
+      subs.subscribe('purchaseOrdersByCompanyId', this.params._id),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
@@ -237,7 +244,9 @@ Router.route('/contacts/:_id', {
     return [
       subs.subscribe("contactById", this.params._id),
       subs.subscribe('companyById', Contacts.findOne(this.params._id).companyId),
-      subs.subscribe('activityByContactId', this.params._id)
+      subs.subscribe('activityByContactId', this.params._id),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
@@ -271,7 +280,9 @@ Router.route('/opportunities/:_id', {
       subs.subscribe("projectById", this.params._id),
       subs.subscribe('companyById', Projects.findOne(this.params._id).companyId),
       subs.subscribe('activityByProjectId', this.params._id),
-      subs.subscribe('contactsByCompanyId', Projects.findOne(this.params._id).companyId)
+      subs.subscribe('contactsByCompanyId', Projects.findOne(this.params._id).companyId),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
@@ -304,7 +315,9 @@ Router.route('/projects/:_id', {
       subs.subscribe("projectById", this.params._id),
       subs.subscribe('companyById', Projects.findOne(this.params._id).companyId),
       subs.subscribe('activityByProjectId', this.params._id),
-      subs.subscribe('contactsByCompanyId', Projects.findOne(this.params._id).companyId)
+      subs.subscribe('contactsByCompanyId', Projects.findOne(this.params._id).companyId),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
@@ -344,7 +357,9 @@ Router.route('/purchaseorders/:_id', {
       subs.subscribe('activityByPurchaseOrderId', this.params._id),
       subs.subscribe('contactById', PurchaseOrders.findOne(this.params._id).supplierContactId),
       subs.subscribe('purchaseOrderById', this.params._id),
-      subs.subscribe('allPurchaseOrderItems', this.params._id)
+      subs.subscribe('allPurchaseOrderItems', this.params._id),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {

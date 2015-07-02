@@ -408,3 +408,39 @@ Schemas.Chatter = new SimpleSchema({
   }
 });
 Chatterbox.attachSchema(Schemas.Chatter);
+
+
+Schemas.Task = new SimpleSchema({
+  title: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  dueDate: {
+    type: Date,
+    optional: true
+  },
+  assigneeId: {
+    type: String
+  },
+  completed: {
+    type: Boolean,
+    defaultValue: false
+  },
+  entityType: {
+    type: String,
+    optional: true
+  },
+  entityId: {
+    type: String,
+    optional: true
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  }
+});
+Tasks.attachSchema(Schemas.Task);

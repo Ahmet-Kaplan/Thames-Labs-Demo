@@ -115,3 +115,5 @@ Notifications = new Mongo.Collection('notifications');
 
 Chatterbox = new Mongo.Collection('chatterbox');
 Partitioner.partitionCollection(Chatterbox);
+
+Tasks = new Mongo.Collection('tasks');

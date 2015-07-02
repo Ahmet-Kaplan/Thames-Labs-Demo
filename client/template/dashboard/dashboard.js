@@ -84,6 +84,9 @@ Template.dashboard.helpers({
       quoteObject.Person = "Anonymous"
     }
     return quoteObject;
+  },
+  getCurrentUserId: function(){
+    return Meteor.userId();
   }
 });
 
