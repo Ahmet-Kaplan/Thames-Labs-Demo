@@ -40,9 +40,6 @@ module.exports = function() {
   this.Then(/^I see the site as normal$/, function(callback) {
     this.client
       .waitForExist('.navbar-brand')
-      .getText('.navbar-brand', function(err, text) {
-        expect(text).to.contain('RealtimeCRM');
-      })
       .call(callback);
   });
 
