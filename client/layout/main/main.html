@@ -9,12 +9,13 @@
       {{#if hasMenu}}
         <div id="id-view-content">
           {{> yield}}
+          {{> footer}}
         </div>
       {{else}}
         <div id="id-view-content" class="no-menu">
           {{> yield}}
+          {{> footer}}
         </div>
       {{/if}}
     </div>
-    {{> footer}}
 </template>
