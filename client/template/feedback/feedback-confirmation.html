@@ -1,0 +1,23 @@
+<template name="feedbackConfirmModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Feedback Submitted</h4>
+                </div>
+                <div class="modal-body">
+                    Thank you for getting in touch, {{userName}}. Your feedback is shown below:
+                    <br />
+                    <div id="submittedFeedback">
+                        {{feedbackData}}
+                    </div>
+                    Kind regards,<br />
+                    The RealtimeCRM Team
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success pull-right" id="btnCls" role="button">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
