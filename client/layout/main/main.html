@@ -1,7 +1,12 @@
 <template name="AppLayout">
     <div class="container-fluid">
-      {{> sideMenuBar}}
       {{> nav}}
+
+      {{> sideMenuBar}}
+
+      <div id="id-view-content">
+        {{> yield}}
+      </div>
     </div>
     {{> footer}}
 </template>

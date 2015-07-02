@@ -40,9 +40,20 @@
        url('/fonts/Source-Sans-Pro-700/Source-Sans-Pro-700.svg#SourceSansPro') format('svg');
 }
 
-
-
 body {
   font-family: 'Source Sans Pro', sans-serif;
   padding-top:50px;
+}
+
+#id-view-content {
+  float: left;
+  margin-left: 180px;
+  padding-left: 7px;
+  height: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+  #id-view-content {
+    margin-left:0;
+  }
 }

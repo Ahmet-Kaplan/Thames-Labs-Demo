@@ -105,6 +105,16 @@ Template.nav.events({
   },
   'click #sign-out': function() {
     Meteor.logout();
+  },
+  'click #id-menu-button': function() {
+    console.log("hi");
+    if ( document.getElementById("id-view-sidemenubar").className.match(/(?:^|\s)active(?!\S)/) ) {
+      document.getElementById("id-view-sidemenubar").className =
+        document.getElementById("id-view-sidemenubar").className.replace
+        ( /(?:^|\s)active(?!\S)/g , '' )    }
+    else {
+      document.getElementById("id-view-sidemenubar").className="active";
+    }
   }
 });
 
