@@ -446,7 +446,7 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a data-parent="#accordion" data-toggle="collapse" href="#collapseUserName">
-                  <i class="fa fa-fw fa-briefcase"></i> {{userName}}
+                  <i class="fa fa-fw fa-user"></i> {{userName}}
                 </a>
               </h4>
             </div>
@@ -472,6 +472,29 @@
               </div>
             </div>
           </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                  <a data-parent="#accordion" data-toggle="collapse" href="#collapseNotifications">
+                    {{#if recentNote}}
+                    {{recentNoteCount}}
+                    <i class="fa fa-fw fa-bell text-primary"></i>
+                    {{else}}
+                    <i class="fa fa-fw fa-bell"></i>
+                    {{/if}}
+                    Notifications
+                    </a>
+              </h4>
+            </div>
+            <div class="panel-collapse collapse" id="collapseNotifications">
+              <div class="panel-body">
+                <table class="table">
+                  {{#each notifications}} {{> menuNotice}} {{/each}}
+                </table>
+              </div>
+            </div>
+          </div>
         {{/unless}}
       </div>
     </div>
@@ -481,7 +504,7 @@
 
 <template name="notice">
   <li class="list-item">
-  <a href="#" id="btnOpenNotice" class="shortText">
+  <a href="#" class="btnOpenNotice shortText">
     {{#if recentNote}}
       <i class="fa fa-fw fa-star text-primary"></i>
     {{else}}
@@ -489,6 +512,20 @@
     {{/if}}
     {{shortText}}</a>
   </li>
+</template>
+
+<template name="menuNotice">
+  <tr>
+    <td>
+      <a href="#" class="btnOpenNotice shortText">
+        {{#if recentNote}}
+          <i class="fa fa-fw fa-star text-primary"></i>
+        {{else}}
+          <i class="fa fa-fw fa-star-o"></i>
+        {{/if}}
+        {{shortText}}</a>
+    </td>
+  </tr>
 </template>
 
 <template name="notificationModal">

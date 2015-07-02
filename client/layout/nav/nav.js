@@ -96,6 +96,29 @@ Template.notice.helpers({
   }
 });
 
+Template.menuNotice.helpers({
+  shortText: function() {
+    var c = this.title;
+    var s = c.substr(0, 40);
+    if (s.length > 37) {
+      return s + "...";
+    } else {
+      return s;
+    }
+  },
+  recentNote: function() {
+    var today = new Date();
+    var yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    if (this.createdAt >= yesterday) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+});
+
 //NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
   "click #tenancy-one": function() {
@@ -131,7 +154,13 @@ Template.nav.events({
 });
 
 Template.notice.events({
-  'click #btnOpenNotice': function() {
+  'click .btnOpenNotice': function() {
+    Modal.show('notificationModal', this);
+  }
+});
+
+Template.menuNotice.events({
+  'click .btnOpenNotice': function() {
     Modal.show('notificationModal', this);
   }
 });
