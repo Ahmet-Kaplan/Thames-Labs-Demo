@@ -418,13 +418,15 @@ Schemas.Task = new SimpleSchema({
     type: String
   },
   dueDate: {
-    type: Date
+    type: Date,
+    optional: true
   },
   assigneeId: {
     type: String
   },
   completed: {
-    type: Boolean
+    type: Boolean,
+    defaultValue: false
   },
   entityType: {
     type: String,

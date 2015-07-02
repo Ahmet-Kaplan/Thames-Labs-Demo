@@ -56,6 +56,12 @@
 
   <div class="row">
     <div class="col-md-10 col-md-offset-2">
+      {{#with this}} {{> taskDisplay entity_type="project" entity_id=_id}} {{/with}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Timeline
         <a href="#" class="btn btn-primary pull-right" id="add-activity">Add activity</a>

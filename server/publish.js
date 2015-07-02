@@ -166,3 +166,7 @@ Meteor.publish("allChatter", function() {
 Meteor.publish("allTasks", function() {
   return Tasks.find({});
 });
+
+Meteor.publish("tasksByEntityId", function(entityId) {
+  return Tasks.find({entityId: entityId});
+});
