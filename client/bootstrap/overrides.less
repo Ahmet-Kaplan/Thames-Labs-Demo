@@ -1,0 +1,77 @@
+@import "custom.bootstrap.import.less";
+//typography
+h4, h5, h6 {
+  font-weight: normal;
+}
+
+.navbar:focus {
+  font-weight:inherit;
+}
+
+//inputs
+textarea:focus,
+input:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+  border-color: @brand-primary;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  outline: none;
+}
+
+//navbar
+.navbar-brand {
+  font-weight: lighter;
+  font-size: 2em;
+  color: #fff;
+}
+
+.navbar-brand > span {
+  font-size: 0.5em;
+  font-weight:normal;
+  color: #e0e0e0;
+}
+
+.navbar-brand > small {
+  font-size: 0.4em;
+  font-weight:normal;
+  color: #e0e0e0;
+}
+
+.navbar-brand > img {
+  display:inline;
+  width: 30px;
+  height:30px;
+  margin-top: -4px;
+  margin-right: 2px;
+}
+
+@media only screen and (max-width: 768px) {
+  .navbar-header {
+    padding: 10px 0 0 10px;
+  }
+  .navbar-brand, .navbar {
+    text-align:center;
+  }
+  .navbar-brand {
+    float:none;
+    display: inline-block;
+    margin-top:0;
+    padding:0;
+    line-height: 30px;
+    height:30px;
+  }
+}
