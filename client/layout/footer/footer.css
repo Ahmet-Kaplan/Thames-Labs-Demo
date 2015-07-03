@@ -11,10 +11,7 @@
 }
 
 @media only screen and (max-width: 768px) {
-  .footer {
-    position:relative;
-    width:100%;
-    display:inline-block;
-    bottom:auto;
-  }
+  .footer{
+     display:none;
+   }
 }

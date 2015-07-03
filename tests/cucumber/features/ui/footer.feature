@@ -11,4 +11,5 @@ Feature: Footer is displayed in the user interface
   @dev
   Scenario: A user can see a footer
     Given I am a logged in user
+    And I am on a desktop
     Then I see a footer
