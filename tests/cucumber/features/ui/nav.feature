@@ -13,3 +13,15 @@ Feature: Allow users to navigate the app
   Scenario: A user can see the dashboard on the sidebar
     Given I am a logged in user
     Then I see the dashboard on the sidebar
+
+  @dev
+  Scenario: The menu is hidden on mobile
+    Given I am a logged in user
+    And I am on a mobile
+    Then I cannot see the menu
+
+  @dev
+  Scenario: The menu is hidden on desktop
+    Given I am a logged in user
+    And I am on a desktop
+    Then I can see the menu

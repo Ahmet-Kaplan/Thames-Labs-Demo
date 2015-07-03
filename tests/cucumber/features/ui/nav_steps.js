@@ -18,4 +18,39 @@ module.exports = function () {
       .call(callback);
   });
 
+  this.Given(/^I am on a mobile$/, function(callback){
+    this.client
+      .setViewportSize({
+        width: 400,
+        height: 800
+      })
+      .call(callback);
+  });
+
+  this.Given(/^I am on a desktop$/, function(callback){
+    this.client
+      .setViewportSize({
+        width: 980,
+        height: 800
+      })
+      .call(callback);
+  });
+
+  this.Then(/^I cannot see the menu$/, function(callback) {
+    this.client
+      .getCssProperty("#id-view-sidemenu", 'left')
+      .then(function(leftValue) {
+        leftValue.value.should.equal('-250px');
+      })
+      .call(callback);
+  });
+
+  this.Then(/^I can see the menu$/, function(callback) {
+    this.client
+      .getCssProperty("#id-view-sidemenu", 'left')
+      .then(function(leftValue) {
+        leftValue.value.should.equal('0px');
+      })
+      .call(callback);
+  });
 }
