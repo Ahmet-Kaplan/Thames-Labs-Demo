@@ -5,6 +5,9 @@ Meteor.users.permit(['insert', 'remove']).ifHasRole('superadmin').apply();
 // Meteor.users.permit(['update']).ifLoggedIn().apply();
 
 Companies.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+Companies.allowTags(function(userId) {
+  return !!userId;
+});
 Contacts.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 Activities.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 Projects.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();

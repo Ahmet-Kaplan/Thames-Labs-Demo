@@ -146,7 +146,8 @@ Router.route('/companies/:_id', {
       subs.subscribe("contactsByCompanyId", this.params._id),
       subs.subscribe("projectsByCompanyId", this.params._id),
       subs.subscribe('activityByCompanyId', this.params._id),
-      subs.subscribe('purchaseOrdersByCompanyId', this.params._id)
+      subs.subscribe('purchaseOrdersByCompanyId', this.params._id),
+      subs.subscribe('companyTags')
     ];
   },
   data: function() {

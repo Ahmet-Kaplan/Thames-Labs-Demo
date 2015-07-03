@@ -37,7 +37,7 @@
 
 <template name="companyListItem">
   <a class="list-group-item" href="{{pathFor route='company'}}" id='mchCompany'>
-    <h4 class="list-group-item-heading">{{name}}</h4>
+    <h4 class="list-group-item-heading">{{name}} {{> tagBadges}}</h4>
     <p class="list-group-item-text"><i class="fa fa-fw fa-map-marker"></i> {{city}}, {{country}}</p>
   </a>
 </template>
