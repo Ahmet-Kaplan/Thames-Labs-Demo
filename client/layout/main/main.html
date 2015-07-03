@@ -1,25 +1,30 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="/favicon.ico" rel="icon" sizes="16x16 32x32">
+</head>
 <template name="AppLayout">
 
-  <head>
-    <meta content="width=device-width" name="viewport">
-    <link href="/favicon.ico" rel="icon" sizes="16x16 32x32">
-    <title>RealtimeCRM - Alpha Build</title>
-  </head>
-
-  <!--<body>-->
     {{#if maintenanceMode}}
 
       {{> maintenance}}
 
     {{else}}
 
-      <div class="content">
-        <div class="container-fluid">
-          {{> nav}}
-        </div>
+      <div class="container-fluid">
+        {{> nav}}
+
+        {{#if hasMenu}}
+          <div id="id-view-content">
+            {{> yield}}
+            {{> footer}}
+          </div>
+        {{else}}
+          <div id="id-view-content" class="no-menu">
+            {{> yield}}
+            {{> footer}}
+          </div>
+        {{/if}}
       </div>
-      {{> footer}}
 
     {{/if}}
-  <!--</body>-->
 </template>

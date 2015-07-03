@@ -2,3 +2,114 @@
   height: auto;
   min-height: 100%;
 }
+
+#id-menu-button {
+  border:none;
+  margin:0;
+  transition: all 0.15s ease-in-out;
+}
+
+#id-menu-button:focus {
+  background: rgba(0,0,0,0.05);
+}
+
+#id-menu-button:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+#id-menu-button:active {
+  background: rgba(0,0,0,0.1);
+}
+
+#id-menu-button > .icon-bar {
+  background-color: #eee !important;
+  transition: all 0.15s ease-in-out;
+}
+
+#id-menu-button:hover > .icon-bar {
+  background-color: #ddd !important;
+}
+
+#id-menu-button:active > .icon-bar {
+  background-color: #ccc !important;
+}
+
+#id-view-sidemenu {
+  position:fixed;
+  top:50px;
+  left:0;
+  bottom:0;
+  width:170px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+  border-right: 1px solid rgb(231, 231, 231);
+  transition: all 0.15s ease-in-out;
+  z-index: 999;
+}
+
+.nav > .dropdown > .dropdown-toggle {
+  color: #fff;
+  background: rgba(0,0,0,0) !important;
+  transition: all 0.15s ease-in-out;
+}
+
+.nav > .dropdown > .dropdown-toggle:focus {
+  background: rgba(0,0,0,0.1) !important;
+}
+
+.nav > .dropdown > .dropdown-toggle:hover {
+  background: rgba(0,0,0,0.1) !important;
+}
+
+.nav > .dropdown > .dropdown-toggle:active {
+  background: rgba(0,0,0,0.1) !important;
+}
+
+tr > td > a {
+  color: black;
+}
+
+tr > td > a:hover {
+  text-decoration: none;
+}
+.panel-body {
+  padding-bottom:0;
+}
+.not-active {
+  pointer-events: none;
+  cursor: default;
+  color: #9d9d9d;
+}
+
+#accordion {
+  margin-bottom:0;
+}
+
+#accordion > .panel, #accordion > div > .panel {
+  box-shadow:none;
+  border:none;
+  border-bottom: 1px solid #ddd;
+  border-radius:0;
+  margin-top:0;
+}
+
+#accordion > div > h5 {
+  padding: 10px 15px 10px;
+  margin-bottom: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+@media only screen and (max-width: 768px) {
+  #id-view-sidemenu {
+    left: -250px;
+    width: 250px;
+  }
+  #id-view-sidemenu.active {
+    left: 0;
+  }
+}
+
+#id-dashboard > .panel-heading {
+  border-bottom: 1px solid #ddd;
+}
