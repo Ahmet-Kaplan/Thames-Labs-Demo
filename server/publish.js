@@ -170,3 +170,7 @@ Meteor.publish("allTasks", function() {
 Meteor.publish("tasksByEntityId", function(entityId) {
   return Tasks.find({entityId: entityId});
 });
+
+Meteor.publish("allUserTasks", function(userId) {
+  return Tasks.find({createdBy: userId});
+});

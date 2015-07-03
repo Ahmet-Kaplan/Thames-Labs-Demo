@@ -1,5 +1,5 @@
 <template name="insertNewTask">
-  <div class="modal fade">
+  <div class="modal fade" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -31,7 +31,7 @@
 </template>
 
 <template name="updateTask">
-  <div class="modal fade">
+  <div class="modal fade" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -57,8 +57,6 @@
           <button type="submit" class="btn btn-primary ">Update</button>
           {{/autoForm}}
         </div>
-        <div class="modal-footer">
-        </div>
 
       </div>
     </div>
@@ -68,8 +66,8 @@
 <template name="taskDisplay">
   <div class="panel panel-default" id='entityTaskList'>
     <div class="panel-heading" id="tasks">
-      {{#if isDashboard}}Personal {{/if}}Tasks
-      <a href="#" id="btnAddTaskToEntity" class="btn btn-success btn-xs pull-right">Add task</a>
+      {{#if isDashboard}}My {{/if}}Tasks
+      <a href="#" id="btnAddTaskToEntity" class="btn btn-success btn-xs pull-right">Add {{#if isDashboard}}personal {{/if}}task</a>
     </div>
     <ul class="list-group" id='taskContainer'>
       {{#each tasks}} {{> taskDisplayItem}} {{else}}
@@ -80,7 +78,27 @@
 </template>
 
 <template name="taskDisplayItem">
-  <li class="list-group-item" id='displayedTask'>
+<li class="list-group-item" id='displayedTask'>
+  {{#if isDashboard}}
+  <div class="row">
+    <div class="col-md-3">
+      <i class="fa fa-fw fa-tasks"></i> {{title}}
+    </div>
+    <div class="col-md-6 userDataDisplay">
+      {{entityDetails}}
+    </div>
+    <div class="col-md-3">
+      <div class="btn-group pull-right">
+        <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
+          Edit task
+        </button>
+        <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button">
+          Delete task
+        </button>
+      </div>
+    </div>
+  </div>
+  {{else}}
     <i class="fa fa-fw fa-tasks"></i> {{title}}
     <div class="btn-group pull-right">
       <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
@@ -90,5 +108,6 @@
         Delete task
       </button>
     </div>
-  </li>
+  {{/if}}
+</li>
 </template>
