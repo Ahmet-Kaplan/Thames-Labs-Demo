@@ -66,6 +66,10 @@
   background: rgba(0,0,0,0.1) !important;
 }
 
+.table{
+  margin-bottom: 0 !important;
+}
+
 tr > td > a {
   color: black;
 }
@@ -112,4 +116,9 @@ tr > td > a:hover {
 
 #id-dashboard > .panel-heading {
   border-bottom: 1px solid #ddd;
+}
+
+#id-common{
+  padding: 15px ;
+  background-color: #f5f5f5;
 }

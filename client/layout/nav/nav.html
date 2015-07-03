@@ -12,8 +12,8 @@
           </button>
           {{/if}}
           <a class="navbar-brand" href="/">
-            <img alt="" src="/icon.svg">
-            RealTime<span>CRM</span>
+            <img alt="" src="/icon.svg"> RealTime
+            <span>CRM</span>
             <small>alpha</small>
           </a>
         </div>
@@ -98,7 +98,42 @@
   <div id="id-view-sidemenu" class={{shouldDisplayMenu}}>
     <div class="panel-group" id="accordion">
       {{#unless isInRole 'superadmin'}}
-      <div class="panel panel-default" id="id-dashboard">
+      <div class="panel panel-default" id="id-common">
+        <div class="panel-title">
+          <table class="table">
+            <tr>
+              <td>
+                <a href='/' class="dismiss-on-click {{#if isActiveRoute 'companies'}}active{{/if}}">
+                  <i class="fa fa-fw fa-home"></i> Dashboard
+                </a>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
+                  <i class="fa fa-fw fa-building"></i> Companies</a>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
+                  <i class="fa fa-fw fa-user"></i> Contacts</a>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <i class="fa fa-fw fa-check"></i>
+                <a href='/tasks' class="{{#if isActiveRoute 'tasks'}}active{{/if}} not-active">Tasks</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- <div class="panel panel-default" id="id-dashboard">
         <div class="panel-heading">
           <h4 class="panel-title">
             <a href='/' class="dismiss-on-click">
@@ -106,18 +141,24 @@
             </a>
           </h4>
         </div>
-        <div class="panel-body">
-          <table class="table">
-            <tr>
-              <td>
-                <i class="fa fa-fw fa-check"></i>
-                <a href='/tasks' class="{{#if isActiveRoute 'tasks'}}active{{/if}} not-active">Tasks</a>
-              </td>
-            </tr>
+        <div class="panel-collapse collapse">
+          <div class="panel-body">
+            <a href='/' class="dismiss-on-click">
+              <i class="fa fa-fw fa-home"></i> Dashboard
+            </a>
+            <table class="table">
 
-          </table>
+              <tr>
+                <td>
+                  <i class="fa fa-fw fa-check"></i>
+                  <a href='/tasks' class="{{#if isActiveRoute 'tasks'}}active{{/if}} not-active">Tasks</a>
+                </td>
+              </tr>
+
+            </table>
+          </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -155,7 +196,7 @@
           <div class="panel-body">
             <table class="table">
 
-              <tr>
+              <!-- <tr>
                 <td>
                   <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
                     <i class="fa fa-fw fa-building"></i> Companies</a>
@@ -166,7 +207,7 @@
                   <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
                     <i class="fa fa-fw fa-user"></i> Contacts</a>
                 </td>
-              </tr>
+              </tr> -->
               <tr>
                 <td>
                   <a href='/campaigns' class="not-active {{#if isActiveRoute 'campaigns'}}active{{/if}}">
@@ -190,7 +231,7 @@
         <div class="panel-collapse collapse" id="collapseSales">
           <div class="panel-body">
             <table class="table">
-              <tr>
+              <!-- <tr>
                 <td>
                   <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
                     <i class="fa fa-fw fa-building"></i> Companies</a>
@@ -201,7 +242,7 @@
                   <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
                     <i class="fa fa-fw fa-user"></i> Contacts</a>
                 </td>
-              </tr>
+              </tr> -->
               <tr>
                 <td>
                   <a href='/opportunities' class="not-active {{#if isActiveRoute 'opportunities'}}active{{/if}}">
@@ -224,12 +265,12 @@
         <div class="panel-collapse collapse" id="collapseOperations">
           <div class="panel-body">
             <table class="table">
-              <tr>
+              <!-- <tr>
                 <td>
                   <a href='/customers' class="not-active {{#if isActiveRoute 'customers'}}active{{/if}}">
                     <i class="fa fa-fw fa-building"></i> Customers</a>
                 </td>
-              </tr>
+              </tr> -->
               <tr>
                 <td>
                   <a href='/projects' class="{{#if isActiveRoute 'projects'}}active{{/if}}">
@@ -252,12 +293,12 @@
         <div class="panel-collapse collapse" id="collapsePurchasing">
           <div class="panel-body">
             <table class="table">
-              <tr>
+              <!-- <tr>
                 <td>
                   <a href='/suppliers' class="not-active {{#if isActiveRoute 'suppliers'}}active{{/if}}">
                     <i class="fa fa-fw fa-building"></i> Suppliers</a>
                 </td>
-              </tr>
+              </tr> -->
               <tr>
                 <td>
                   <a href='/procurements' class="not-active {{#if isActiveRoute 'procurements'}}active{{/if}}">
@@ -410,82 +451,81 @@
         <h5>Menu items</h5>
 
         {{#if isInRole 'superadmin'}}
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a href="/tenants" class="dismiss-on-click">
-                  <i class="fa fa-fw fa-archive"></i> Tenants
-                  <span class="sr-only">(current)</span>
-                </a>
-              </h4>
-            </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a href="/tenants" class="dismiss-on-click">
+                <i class="fa fa-fw fa-archive"></i> Tenants
+                <span class="sr-only">(current)</span>
+              </a>
+            </h4>
           </div>
+        </div>
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a href="/notifications" class="dismiss-on-click">
-                  <i class="fa fa-fw fa-envelope"></i> Notifications
-                  <span class="sr-only">(current)</span>
-                </a>
-              </h4>
-            </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a href="/notifications" class="dismiss-on-click">
+                <i class="fa fa-fw fa-envelope"></i> Notifications
+                <span class="sr-only">(current)</span>
+              </a>
+            </h4>
           </div>
+        </div>
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                  <a href="#" id="feedback-link" class="dismiss-on-click">Feedback</a>
-              </h4>
-            </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a href="#" id="feedback-link" class="dismiss-on-click">Feedback</a>
+            </h4>
           </div>
+        </div>
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                  <a id="sign-out" class="dismiss-on-click" href="#">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a id="sign-out" class="dismiss-on-click" href="#">
                     Sign out
                     </a>
-              </h4>
+            </h4>
+          </div>
+        </div>
+        {{/if}} {{#unless isInRole 'superadmin'}}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-parent="#accordion" data-toggle="collapse" href="#collapseUserName">
+                <i class="fa fa-fw fa-user"></i> {{userName}}
+              </a>
+            </h4>
+          </div>
+          <div class="panel-collapse collapse" id="collapseUserName">
+            <div class="panel-body">
+              <table class="table">
+                <tr>
+                  <td>
+                    <a href="#" id="feedback-link">Give Feedback</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="#" id="btnChangePassword">Change Password</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="#" id="sign-out">Sign Out</a>
+                  </td>
+                </tr>
+              </table>
             </div>
           </div>
-        {{/if}}
-        {{#unless isInRole 'superadmin'}}
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-parent="#accordion" data-toggle="collapse" href="#collapseUserName">
-                  <i class="fa fa-fw fa-user"></i> {{userName}}
-                </a>
-              </h4>
-            </div>
-            <div class="panel-collapse collapse" id="collapseUserName">
-              <div class="panel-body">
-                <table class="table">
-                  <tr>
-                    <td>
-                      <a href="#" id="feedback-link">Give Feedback</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="#" id="btnChangePassword">Change Password</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="#" id="sign-out">Sign Out</a>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div>
+        </div>
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                  <a data-parent="#accordion" data-toggle="collapse" href="#collapseNotifications">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-parent="#accordion" data-toggle="collapse" href="#collapseNotifications">
                     {{#if recentNote}}
                     {{recentNoteCount}}
                     <i class="fa fa-fw fa-bell text-primary"></i>
@@ -494,16 +534,16 @@
                     {{/if}}
                     Notifications
                     </a>
-              </h4>
-            </div>
-            <div class="panel-collapse collapse" id="collapseNotifications">
-              <div class="panel-body">
-                <table class="table">
-                  {{#each notifications}} {{> menuNotice}} {{/each}}
-                </table>
-              </div>
+            </h4>
+          </div>
+          <div class="panel-collapse collapse" id="collapseNotifications">
+            <div class="panel-body">
+              <table class="table">
+                {{#each notifications}} {{> menuNotice}} {{/each}}
+              </table>
             </div>
           </div>
+        </div>
         {{/unless}}
       </div>
     </div>
@@ -513,7 +553,7 @@
 
 <template name="notice">
   <li class="list-item">
-  <a href="#" class="btnOpenNotice shortText">
+    <a href="#" class="btnOpenNotice shortText">
     {{#if recentNote}}
       <i class="fa fa-fw fa-star text-primary"></i>
     {{else}}

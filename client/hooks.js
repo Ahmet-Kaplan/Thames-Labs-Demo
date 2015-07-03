@@ -107,14 +107,8 @@ AutoForm.hooks({
   },
   feedbackForm: {
     onSuccess: function() {
-      Session.set('feedbackMessage', this.insertDoc.message);
       Modal.hide();
-      toastr.success('Feedback submitted.');
-      if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
-        setTimeout(function() {
-          Modal.show('feedbackConfirmModal', this);
-        }, 500);
-      }
+      toastr.success('Feedback submitted.');    
     }
   },
   updateTenantSettingsModal: {
