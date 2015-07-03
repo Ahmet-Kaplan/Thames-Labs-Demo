@@ -16,6 +16,14 @@ Template.companyDetail.rendered = function() {
     document.title = "Company - " + this.data.name;
     SetRouteDetails(document.title);
   }
+
+  $("#id-delete").click(function(){
+    $( "#company-details" ).bind("DOMSubtreeModified",function(){
+      $(".modal-backdrop").remove();
+      $("body").removeClass('modal-open');
+      Router.go('/companies');
+    });
+  });
 };
 
 Template.companyDetail.events({

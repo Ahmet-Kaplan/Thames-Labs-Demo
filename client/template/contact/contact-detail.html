@@ -20,8 +20,9 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#afModal class="btn btn-info btn-xs" collection="Contacts" doc=_id operation="update" formId="updateContactForm" omitFields="companyId"}} Edit contact details {{/afModal}} {{#afModal class="btn btn-danger btn-xs" collection="Contacts" doc=_id operation="remove"
-            formId="removeContactForm" onSuccess="onContactRemove"}} Delete contact {{/afModal}}
+            {{#afModal class="btn btn-info btn-xs" collection="Contacts" doc=_id operation="update" formId="updateContactForm" omitFields="companyId"}} Edit contact details {{/afModal}}
+            
+            <div id="id-delete">{{#afModal class="btn btn-danger btn-xs" collection="Contacts" doc=_id operation="remove" formId="removeContactForm" onSuccess="onContactRemove"}} Delete contact {{/afModal}}</div>
 
           </div>
           Contact details</div>
