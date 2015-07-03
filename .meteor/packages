@@ -46,3 +46,7 @@ xolvio:cucumber
 local:partitioner
 nemo64:bootstrap
 less
+matteodem:server-session
+pcel:loading
+jboulhous:dev
+dbernhard:jquery-ui-draggable

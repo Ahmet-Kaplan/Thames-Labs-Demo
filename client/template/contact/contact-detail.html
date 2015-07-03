@@ -20,51 +20,47 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#afModal class="btn btn-info btn-xs" collection="Contacts" doc=_id operation="update" formId="updateContactForm" omitFields="companyId"}}
-              Edit contact details
-            {{/afModal}}
-
-            {{#afModal class="btn btn-danger btn-xs" collection="Contacts" doc=_id operation="remove" formId="removeContactForm" onSuccess="onContactRemove"}}
-              Delete contact
-            {{/afModal}}
+            {{#afModal class="btn btn-info btn-xs" collection="Contacts" doc=_id operation="update" formId="updateContactForm" omitFields="companyId"}} Edit contact details {{/afModal}} {{#afModal class="btn btn-danger btn-xs" collection="Contacts" doc=_id operation="remove"
+            formId="removeContactForm" onSuccess="onContactRemove"}} Delete contact {{/afModal}}
 
           </div>
           Contact details</div>
         <ul class="list-group">
-          <a href="{{pathFor route="company" data=company}}" class="list-group-item">
+          <a href="{{pathFor route=" company " data=company}}" class="list-group-item">
             <i class="fa fa-fw fa-building"></i> {{company.name}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
 
           {{#if jobtitle}}
-            <li class="list-group-item">
-              <i class="fa fa-fw fa-graduation-cap"></i> {{jobtitle}}
-            </li>
-          {{/if}}
-
-          {{#if email}}
-            <li class="list-group-item">
-              <i class="fa fa-fw fa-envelope"></i> {{email}}
-            </li>
-          {{/if}}
-
-          {{#if phone}}
-            <li class="list-group-item">
-              <i class="fa fa-fw fa-phone"></i> {{phone}}
-            </li>
-          {{/if}}
-          {{#if mobile}}
-            <li class="list-group-item">
-              <i class="fa fa-fw fa-mobile"></i> {{mobile}}
-            </li>
+          <li class="list-group-item">
+            <i class="fa fa-fw fa-graduation-cap"></i> {{jobtitle}}
+          </li>
+          {{/if}} {{#if email}}
+          <li class="list-group-item">
+            <i class="fa fa-fw fa-envelope"></i> {{email}}
+          </li>
+          {{/if}} {{#if phone}}
+          <li class="list-group-item">
+            <i class="fa fa-fw fa-phone"></i> {{phone}}
+          </li>
+          {{/if}} {{#if mobile}}
+          <li class="list-group-item">
+            <i class="fa fa-fw fa-mobile"></i> {{mobile}}
+          </li>
           {{/if}}
         </ul>
       </div>
     </div>
 
+
     <div class="col-md-3">
     </div>
 
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-2">
+      {{#with this}} {{> taskDisplay entity_type="contact" entity_id=_id}} {{/with}}
+    </div>
   </div>
 
   <div class="row">
