@@ -6,12 +6,11 @@
           <h4>Feedback</h4>
         </div>
         <div class="modal-body">
-          <p>Have some feedback? Spotted a problem or have an idea for improvement?</p>
-          {{#autoForm schema="Schemas.Feedback" id="feedbackForm" type="method" meteormethod="sendFeedback"}}
-            {{> afQuickField name="name" type="hidden" value=userName}}
-            {{> afQuickField name="message" rows=10}}
-            {{> afQuickField name="url" type="hidden" value=currentUrl}}
-            <button type="submit" class="btn btn-primary">Submit</button>
+          <p>Have some feedback? Spotted a problem or have an idea for improvement?
+            <br />
+            <br />Fill in the box below and press the Submit button - your input will be added to our list, and we may be in touch to discuss it with you further!</p>
+          {{#autoForm schema="Schemas.Feedback" id="feedbackForm" type="method" meteormethod="sendFeedback"}} {{> afQuickField name="name" type="hidden" value=userName}} {{> afQuickField name="message" rows=10}} {{> afQuickField name="url" type="hidden" value=currentUrl}}
+          <button type="submit" class="btn btn-primary">Submit</button>
           {{/autoForm}}
         </div>
       </div>

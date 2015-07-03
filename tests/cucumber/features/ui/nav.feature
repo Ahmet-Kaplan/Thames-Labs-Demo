@@ -21,7 +21,7 @@ Feature: Allow users to navigate the app
     Then I cannot see the menu
 
   @dev
-  Scenario: The menu is hidden on desktop
+  Scenario: The menu is visible on desktop
     Given I am a logged in user
     And I am on a desktop
     Then I can see the menu
