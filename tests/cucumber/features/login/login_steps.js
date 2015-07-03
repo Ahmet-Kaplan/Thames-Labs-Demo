@@ -2,6 +2,10 @@ module.exports = function () {
 
   var url = require('url');
 
+  var login = function(done) {
+    Meteor.loginWithPassword("test@domain.com", "goodpassword", done)
+  };
+
   var logout = function(done) {
     Meteor.logout(done);
   };
@@ -86,6 +90,13 @@ module.exports = function () {
       .getText('#id-view-content h1', function(err, text) {
         expect(text).to.contain('Dashboard');
       });
+  });
+
+  this.Given(/^I am a logged in user$/, function (callback) {
+    this.client
+      .url(url.resolve(process.env.ROOT_URL, '/'))
+      .executeAsync(login)
+      .call(callback);
   });
 
 };

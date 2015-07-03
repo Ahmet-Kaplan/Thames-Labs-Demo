@@ -2,17 +2,6 @@ module.exports = function () {
 
   var url = require('url');
 
-  var login = function(done) {
-    Meteor.loginWithPassword("test@domain.com", "goodpassword", done)
-  };
-
-  this.Given(/^I am a logged in user$/, function (callback) {
-    this.client
-      .url(url.resolve(process.env.ROOT_URL, '/'))
-      .executeAsync(login)
-      .call(callback);
-  });
-
   this.Then(/^I see an inspirational quote$/, function(callback) {
     this.client
       .waitForExist("#quote-box")

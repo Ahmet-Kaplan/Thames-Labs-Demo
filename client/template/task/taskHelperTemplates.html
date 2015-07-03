@@ -1,0 +1,113 @@
+<template name="insertNewTask">
+  <div class="modal fade" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>New Task</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Tasks" id="newTaskModal" type="insert"}}
+          {{> afQuickField name="title" id="taskTitle"}}
+          {{> afQuickField name="description" id="taskDescription"}}
+          {{> afQuickField name="dueDate" id="taskDueDate"}}
+
+          {{#if isUserTask}}
+            {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}}
+          {{else}}
+            {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}}
+          {{/if}}
+
+          {{> afQuickField name="entityType" value=getEntityType type='hidden' }}
+          {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
+          <button type="submit" class="btn btn-primary">Submit</button> {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="updateTask">
+  <div class="modal fade" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Edit Task</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Tasks" id="editTaskModal" type="update" doc=this}}
+          {{> afQuickField name="title" id="taskTitle"}}
+          {{> afQuickField name="description" id="taskDescription"}}
+          {{> afQuickField name="dueDate" id="taskDueDate"}}
+          <!-- {{> afQuickField name="assigneeId"          id="taskUserList" options=usersAsOptions}}  -->
+
+          {{#if isUserTask}}
+            {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}}
+          {{else}}
+            {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}}
+          {{/if}}
+
+          {{> afQuickField name="completed" id="taskCompleted"}}
+          <button type="submit" class="btn btn-primary ">Update</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="taskDisplay">
+  <div class="panel panel-default" id='entityTaskList'>
+    <div class="panel-heading" id="tasks">
+      {{#if isDashboard}}My {{/if}}Tasks
+      <a href="#" id="btnAddTaskToEntity" class="btn btn-success btn-xs pull-right">Add {{#if isDashboard}}personal {{/if}}task</a>
+    </div>
+    <ul class="list-group" id='taskContainer'>
+      {{#each tasks}} {{> taskDisplayItem}} {{else}}
+      <li class="list-group-item">No tasks added</li>
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="taskDisplayItem">
+<li class="list-group-item" id='displayedTask'>
+  {{#if isDashboard}}
+  <div class="row">
+    <div class="col-md-3">
+      <i class="fa fa-fw fa-tasks"></i> {{title}}
+    </div>
+    <div class="col-md-6 userDataDisplay">
+      {{entityDetails}}
+    </div>
+    <div class="col-md-3">
+      <div class="btn-group pull-right">
+        <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
+          Edit task
+        </button>
+        <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button">
+          Delete task
+        </button>
+      </div>
+    </div>
+  </div>
+  {{else}}
+    <i class="fa fa-fw fa-tasks"></i> {{title}}
+    <div class="btn-group pull-right">
+      <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
+        Edit task
+      </button>
+      <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button">
+        Delete task
+      </button>
+    </div>
+  {{/if}}
+</li>
+</template>

@@ -1,0 +1,5 @@
+#taskContainer{
+  max-height: 180px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}

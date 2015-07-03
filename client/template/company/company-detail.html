@@ -70,7 +70,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="contacts">
           Contacts
-          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right">Add contact</a>
+          <a href="#" id="add-contact" class="btn btn-success btn-xs pull-right">Add contact</a>
         </div>
         <ul class="list-group">
           {{#each contacts}}
@@ -104,7 +104,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
           Purchase Orders
-          <a href="#" id="add-project" class="btn btn-success btn-xs pull-right" disabled="disabled">Add purchase order</a>
+          <a href="#" id="add-purchase-order" class="btn btn-success btn-xs pull-right" disabled="disabled">Add purchase order</a>
         </div>
         <ul class="list-group">
           {{#each purchaseOrders}}
@@ -117,6 +117,10 @@
           {{/each}}
         </ul>
       </div>
+
+      {{#with this}}
+        {{> taskDisplay entity_type="company" entity_id=_id}}
+      {{/with}}
 
     </div>
 
