@@ -8,12 +8,11 @@ Template.contactDetail.rendered = function(){
   document.title = "Contact - " + this.data.title + " " + this.data.forename + " " + this.data.surname;
   SetRouteDetails(document.title);
 
-  $("#id-delete").click(function(){
-    $( "#contact-details" ).bind("DOMSubtreeModified",function(){
-      $(".modal-backdrop").remove();
-      $("body").removeClass('modal-open');
-      Router.go('/contacts');
-    });
+  //Unbind redirection handler if delete modal is closed
+  $(".modal.fade").click(function(e){
+    if(e.target == this){ // only if the dark bit has been clicked
+      $('#contact-details').unbind('DOMSubtreeModified');
+    }
   });
 };
 
@@ -23,5 +22,15 @@ Template.contactDetail.events({
       company: this.company(),
       contact: this
     });
+  },
+  'click #id-delete': function() {
+    $("#contact-details").bind("DOMSubtreeModified",function(){
+      $(".modal-backdrop").remove();
+      $("body").removeClass('modal-open');
+      Router.go('/contacts');
+    });
+  },
+  'click .modal-header > .close': function() {
+    $('#contact-details').unbind('DOMSubtreeModified');
   }
 });
