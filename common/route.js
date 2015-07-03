@@ -21,13 +21,7 @@ Router.onAfterAction(function() {
 
     } else {
 
-      if (Router.current().route.getName() === 'company') {
-
-        GoogleMaps.load();
-
-      }
-
-    if (Router.current().route.getName() === 'tenants' || Router.current().route.getName() === 'notifications') {
+      if (Router.current().route.getName() === 'tenants' || Router.current().route.getName() === 'notifications') {
 
         this.redirect('/');
 
@@ -77,12 +71,12 @@ Router.onAfterAction(function() {
 //   only: ['dashboard']
 // });
 //
-// Router.onBeforeAction(function() {
-//   GoogleMaps.load();
-//   this.next();
-// }, {
-//   only: ['company']
-// });
+Router.onBeforeAction(function() {
+  GoogleMaps.load();
+  this.next();
+}, {
+  only: ['company']
+});
 
 Router.route('/tenants', {
   name: 'tenants',
