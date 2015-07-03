@@ -5,7 +5,6 @@ Template.tagInput.rendered = function () {
     labelField: 'name',
     searchField: ['name'],
     create: function(input, cb) {
-      console.log('create tag: ', input)
       Companies.addTag(input, {_id: that.data._id});
       var tag =  Meteor.tags.findOne({collection: 'companies', name: input});
 
@@ -32,14 +31,10 @@ Template.tagInput.rendered = function () {
       }
     },
     onItemAdd: function(value, $item) {
-      console.log('add tag: ', value);
       Companies.addTag(value, {_id: that.data._id});
     },
     onItemRemove: function(value) {
-      console.log('remove tag: ', value);
-      console.log(Meteor.tags.find({collection: 'companies', name: value}).fetch());
       Companies.removeTag(value, {_id: that.data._id});
-      console.log(Meteor.tags.find({collection: 'companies', name: value}).fetch());
     }
   });
 };

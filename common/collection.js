@@ -21,7 +21,7 @@ Companies.helpers({
     return PurchaseOrders.find({ supplierCompanyId: this._id }, { sort: { createdAt: -1 } });
   }
 });
-Companies.initEasySearch('name', {
+Companies.initEasySearch(['name', 'tags'], {
   limit: 50
 });
 Tags.TagsMixin(Companies);
