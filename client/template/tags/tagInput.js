@@ -1,6 +1,7 @@
 Template.tagInput.rendered = function () {
   var that = this;
   this.$('.tag-input').selectize({
+    placeholder: 'Click here to add a tag ...',
     valueField: 'name',
     labelField: 'name',
     searchField: ['name'],
