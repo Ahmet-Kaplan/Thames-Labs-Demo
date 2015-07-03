@@ -17,6 +17,10 @@ Template.map.helpers({
   }
 });
 
+Template.map.onDestroyed(function() {
+  loadSwitch = false;
+})
+
 Template.map.onCreated(function() {
   GoogleMaps.ready('map', function(map) {
 
