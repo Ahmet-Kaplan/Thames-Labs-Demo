@@ -21,6 +21,10 @@ Template.companyList.helpers({
 });
 
 Template.companyList.events({
+
+  'click #template-help': function() {
+    Modal.show('importCompanyHelpModal');
+  },
   'click #exportCompanyList': function() {
     var tempFile = [];
 
@@ -117,10 +121,10 @@ Template.companyList.events({
         } else {
 
           new Confirmation({
-            message: "A company with the name " + de.name + " already exists. Overwrite the existing data with the data stored in the CSV file?",
-            title: "Company Conflict Detected",
-            cancelText: "No",
-            okText: "Yes",
+            message: "A company with the name ''" + de.name + "'' already exists. Overwrite the existing data with the data stored in the CSV file?",
+            title: "Company Already Exists",
+            cancelText: "Cancel",
+            okText: "Overwrite",
             success: true
           }, function(ok) {
 

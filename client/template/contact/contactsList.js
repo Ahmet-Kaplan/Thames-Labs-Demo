@@ -26,6 +26,10 @@ Template.contactListItem.helpers({
 
 
 Template.contactList.events({
+
+  'click #template-help': function() {
+    Modal.show('importContactHelpModal');
+  },
   'click #exportContactList': function() {
     var tempFile = [];
 
@@ -160,9 +164,9 @@ Template.contactList.events({
 
           new Confirmation({
             message: "A contact with the name '" + de.title + ' ' + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?",
-            title: "Contact Conflict Detected",
-            cancelText: "No",
-            okText: "Yes",
+            title: "Contact Already Exists",
+            cancelText: "Cancel",
+            okText: "Overwrite",
             success: true
           }, function(ok) {
 
