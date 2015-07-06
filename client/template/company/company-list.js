@@ -21,6 +21,34 @@ Template.companyList.helpers({
 });
 
 Template.companyList.events({
+  'click #exportCompanyList': function() {
+    var tempFile = [];
+
+    var companies = Companies.find({}).fetch();
+    _.each(companies, function(c) {
+
+      var entry = {
+        name: c.name,
+        address: c.address,
+        address2: c.address2,
+        city: c.city,
+        county: c.county,
+        postcode: c.postcode,
+        country: c.country,
+        website: c.website,
+        phone: c.phone
+      }
+      tempFile.push(entry);
+    });
+
+    var filename = 'realtimecrm-company-export_' + moment().format("MMM-Do-YY") + '.csv';
+    var fileData = Papa.unparse(tempFile);
+
+    var blob = new Blob([fileData], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(blob, filename);
+  },
   'click #template-download-link': function() {
     var tempFile = [];
     var entry = {
@@ -67,9 +95,13 @@ Template.companyList.events({
         skipEmptyLines: true
       };
       var unprocessed = Papa.parse(data, options);
+      var totalImported = 0,
+        totalToImport = 0,
+        totalUpdated = 0,
+        totalErrors = 0;
 
       _.each(unprocessed.data, function(de) {
-
+        totalToImport += 1;
         var existing = Companies.find({
           name: de.name
         }).count();
@@ -77,7 +109,10 @@ Template.companyList.events({
         if (existing === 0) {
 
           de.createdBy = Meteor.userId();
-          Companies.insert(de);
+          Companies.insert(de, function(e, i) {
+            if (e) totalErrors += 1;
+          });
+          totalImported += 1;
 
         } else {
 
@@ -108,14 +143,19 @@ Template.companyList.events({
                     website: de.website,
                     phone: de.phone
                   }
+                },
+                function(e, i) {
+                  if (e) totalErrors += 1;
                 });
-
+              totalUpdated += 1;
             }
 
           });
 
         }
-      })
+      });
+
+      // toastr.info("Import completed.\r\nNew: " + totalImported + "\r\nUpdated: " + totalUpdated + "\r\nErrors: " + totalErrors);
     }
 
     reader.readAsText(file);

@@ -26,6 +26,37 @@ Template.contactListItem.helpers({
 
 
 Template.contactList.events({
+  'click #exportContactList': function() {
+    var tempFile = [];
+
+    var contacts = Contacts.find({}).fetch();
+    _.each(contacts, function(c) {
+      var companyEntry = Companies.find({
+        _id: c.companyId
+      }).fetch()[0];
+      var companyName = (companyEntry ? companyEntry.name : "");
+
+      var entry = {
+        title: c.title,
+        forename: c.forename,
+        surname: c.surname,
+        email: c.email,
+        phone: c.phone,
+        mobile: c.mobile,
+        jobtitle: c.jobtitle,
+        company: (companyName !== "" ? companyName : "")
+      }
+      tempFile.push(entry);
+    });
+
+    var filename = 'realtimecrm-contact-export_' + moment().format("MMM-Do-YY") + '.csv';
+    var fileData = Papa.unparse(tempFile);
+
+    var blob = new Blob([fileData], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(blob, filename);
+  },
   'click #add-contact': function() {
     Modal.show('insertCompanyContactModal', this);
   },
@@ -74,11 +105,17 @@ Template.contactList.events({
         skipEmptyLines: true
       };
       var unprocessed = Papa.parse(data, options);
+      var totalImported = 0,
+        totalToImport = 0,
+        totalUpdated = 0,
+        totalErrors = 0;
 
       _.each(unprocessed.data, function(de) {
+        totalToImport += 1;
 
-        if(de.company === ""){
+        if (de.company === "") {
           toastr.error('Could not import contact ' + de.title + ' ' + de.forename + ' ' + de.surname + ': no company provided (orphaned contacts not yet supported)');
+          totalErrors += 1;
           return;
         }
 
@@ -88,10 +125,11 @@ Template.contactList.events({
 
         var companyId = "";
 
-        if(companyExists === 0){
+        if (companyExists === 0) {
           toastr.error('Contact ' + de.title + ' ' + de.forename + ' ' + de.surname + ' not added: given company could not be found? Have you checked your spelling?');
+          totalErrors += 1;
           return;
-        }else{
+        } else {
           var company = Companies.find({
             name: de.company
           }).fetch()[0];
@@ -112,7 +150,11 @@ Template.contactList.events({
           de.companyId = companyId;
           delete de.company;
 
-          Contacts.insert(de);
+          Contacts.insert(de, function(e, i) {
+            if (e) totalErrors += 1;
+          });
+
+          totalImported += 1;
 
         } else {
 
@@ -143,14 +185,21 @@ Template.contactList.events({
                     mobile: de.mobile,
                     jobtitle: de.jobtitle
                   }
+                },
+                function(e, i) {
+                  if (e) totalErrors += 1;
                 });
+
+              totalUpdated += 1;
 
             }
 
           });
 
         }
-      })
+      });
+
+      // toastr.info("Import completed.\r\nNew: " + totalImported + "\r\nUpdated: " + totalUpdated + "\r\nErrors: " + totalErrors);
     }
 
     reader.readAsText(file);
