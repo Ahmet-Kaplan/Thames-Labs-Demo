@@ -147,7 +147,15 @@ Router.route('/companies/:_id', {
     ];
   },
   data: function() {
-    return Companies.findOne(this.params._id);
+    var result = Companies.findOne(this.params._id);
+    if (result === undefined) {
+      Router.go('/companies');
+
+      //Remove modal if still exist
+      $(".modal-backdrop").remove();
+      $("body").removeClass('modal-open');
+    }
+    return result;
   },
   action: function() {
     this.render();
@@ -244,7 +252,15 @@ Router.route('/contacts/:_id', {
     ];
   },
   data: function() {
-    return Contacts.findOne(this.params._id);
+    var result = Contacts.findOne(this.params._id);
+    if (result === undefined) {
+      Router.go('/contacts');
+
+      //Remove modal if still exist
+      $(".modal-backdrop").remove();
+      $("body").removeClass('modal-open');
+    }
+    return result;
   }
 });
 
