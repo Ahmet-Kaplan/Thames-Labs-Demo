@@ -16,13 +16,6 @@ Template.companyDetail.rendered = function() {
     document.title = "Company - " + this.data.name;
     SetRouteDetails(document.title);
   }
-
-  //Unbind redirection handler if delete modal is closed
-  $(".modal.fade").click(function(e){
-    if(e.target == this){ // only if the dark bit has been clicked
-      $('#contact-details').unbind('DOMSubtreeModified');
-    }
-  });
 };
 
 Template.companyDetail.events({
@@ -69,14 +62,6 @@ Template.companyDetail.events({
     Modal.show('newProjectForm', {
       companyId: this._id
     });
-  },
-  'click #id-delete': function() {
-    $("#company-details").bind("DOMSubtreeModified",function(){
-      Router.go('/companies');
-    });
-  },
-  'click .modal-header > .close': function() {
-    $('#company-details').unbind('DOMSubtreeModified');
   }
 });
 
