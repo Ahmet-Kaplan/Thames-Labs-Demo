@@ -70,14 +70,11 @@ Template.companyList.events({
 
       _.each(unprocessed.data, function(de) {
 
-        console.log(de);
-
         var existing = Companies.find({
           name: de.name
         }).count();
 
         if (existing === 0) {
-
 
           de.createdBy = Meteor.userId();
           Companies.insert(de);

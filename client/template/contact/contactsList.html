@@ -1,6 +1,6 @@
 <template name="contactList">
 
-    {{setPageTitle 'Contacts'}}
+  {{setPageTitle 'Contacts'}}
 
   <div class="row">
 
@@ -9,16 +9,27 @@
         <h1>Actions</h1>
         {{> esInput index="contacts" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
         <div class="btn-group-vertical">
-          <div class="panel-heading" id="contacts">
-            <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right addContactToCompany">Add contact</a>
+          <a href="#" id="add-contact" class="btn btn-primary addContactToCompany">Add contact</a>
+          <div class="btn-group">
+            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+              Import Contacts
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#" id="template-download-link">Download import template</a></li>
+              <li class="divider"></li>
+              <li><a href="#" id="data-upload-link">Import from CSV...</a></li>
+            </ul>
           </div>
+          <input type="file" id="data-upload" style="display:none;">
         </div>
       </div>
     </div>
 
     <div class="col-md-9">
 
-      <h1><i class="fa fa-users"></i> Contacts</h1><small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</small>
+      <h1><i class="fa fa-users"></i> Contacts</h1>
+      <small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</small>
 
       {{#if hasContacts}}
       <div class="list-group">
