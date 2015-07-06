@@ -1,7 +1,7 @@
 <template name="companyList">
 
+  {{setPageTitle 'Companies'}}
 
-    {{setPageTitle 'Companies'}}
   <div class="row">
 
     <div class="col-md-3">
@@ -28,7 +28,14 @@
 
       {{#if hasCompanies}}
       <div class="list-group" id="mchCompanyList">
-        {{#ifEsIsSearching index="companies"}} {{> spinner}} {{else}} {{#esEach index="companies"}} {{> companyListItem}} {{/esEach}} {{> esLoadMoreButton index="companies" class="btn btn-default"}} {{/ifEsIsSearching}}
+        {{#ifEsIsSearching index="companies"}}
+          {{> spinner}}
+        {{else}}
+          {{#esEach index="companies"}}
+            {{> companyListItem}}
+          {{/esEach}}
+          {{> esLoadMoreButton index="companies" class="btn btn-default"}}
+        {{/ifEsIsSearching}}
       </div>
 
       {{else}}
