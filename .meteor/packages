@@ -44,14 +44,21 @@ manuel:reactivearray
 panphora:environment-template-helpers
 xolvio:cucumber
 local:partitioner
-nemo64:bootstrap
+nemo64:bootstrap@=3.3.4_2
 less
 matteodem:server-session
 pcel:loading
 jboulhous:dev
+chhib:selectize-bootstrap-3
 dbernhard:jquery-ui-draggable
+patrickleet:tags
 blaze
 meteorhacks:ssr
 harrison:papa-parse
 matdutour:popup-confirm
+<<<<<<< HEAD
 multiply:iron-router-progress
+=======
+aldeed:autoform-bs-datepicker
+rajit:bootstrap3-datepicker
+>>>>>>> master

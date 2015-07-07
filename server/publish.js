@@ -66,7 +66,9 @@ Meteor.publish("contactsByCompanyId", function(companyId) {
     companyId: companyId
   });
 });
-
+Meteor.publish("companyTags", function() {
+  return Meteor.tags.find({collection: 'companies'});
+});
 
 Meteor.publish("allContacts", function() {
   return Contacts.find({});

@@ -1,7 +1,29 @@
 Meteor.methods({
   'reset': function() {
     ServerSession.set('maintenance', false);
-    Tasks.remove({});
+    Partitioner.directOperation(function() {
+      Tasks.remove({});
+      Companies.remove({});
+      Meteor.tags.remove({});
+    });
+  },
+  'createCompany': function() {
+    Partitioner.bindGroup('tenant 1', function() {
+      Companies.insert({
+        name: 'test',
+        address: 'test',
+        city: 'test',
+        postcode: 'test',
+        country: 'test',
+        createdBy: 'xxx'
+      });
+    });
+  },
+  'addTagToCompany': function() {
+    Partitioner.bindGroup('tenant 1', function() {
+      var companyId = Companies.findOne();
+      Companies.addTag('test tag', {_id: companyId});
+    });
   }
 });
 

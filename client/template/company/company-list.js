@@ -5,6 +5,17 @@ Template.companyList.onRendered(function() {
       top: sidebar.offset().top
     }
   });
+
+  // Watch for session variable setting search
+  Session.set('companyListSearchQuery', null);
+  Tracker.autorun(function() {
+    var searchQuery = Session.get('companyListSearchQuery');
+    var easySearchInstance = EasySearch.getComponentInstance({index: 'companies'});
+    if (searchQuery) {
+      easySearchInstance.search(searchQuery);
+      $('.sidebar input').val(searchQuery);
+    }
+  });
 });
 
 

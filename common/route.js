@@ -41,6 +41,10 @@ Router.onAfterAction(function() {
     }
   }
 
+  //Remove modal if still exist
+  $(".modal-backdrop").remove();
+  $("body").removeClass('modal-open');
+
 });
 
 // Router.onBeforeAction(function() {
@@ -148,12 +152,17 @@ Router.route('/companies/:_id', {
       subs.subscribe("projectsByCompanyId", this.params._id),
       subs.subscribe('activityByCompanyId', this.params._id),
       subs.subscribe('purchaseOrdersByCompanyId', this.params._id),
+      subs.subscribe('companyTags'),
       subs.subscribe('tasksByEntityId', this.params._id),
       subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
-    return Companies.findOne(this.params._id);
+    var result = Companies.findOne(this.params._id);
+    if (result === undefined) {
+      Router.go('/companies');
+    }
+    return result;
   },
   action: function() {
     this.render();
@@ -250,7 +259,11 @@ Router.route('/contacts/:_id', {
     ];
   },
   data: function() {
-    return Contacts.findOne(this.params._id);
+    var result = Contacts.findOne(this.params._id);
+    if (result === undefined) {
+      Router.go('/contacts');
+    }
+    return result;
   }
 });
 
@@ -286,7 +299,11 @@ Router.route('/opportunities/:_id', {
     ];
   },
   data: function() {
-    return Projects.findOne(this.params._id);
+    var result = Projects.findOne(this.params._id);
+    if (result === undefined) {
+      Router.go('/opportunities');
+    }
+    return result;
   }
 });
 Router.route('/projects', {
@@ -321,7 +338,11 @@ Router.route('/projects/:_id', {
     ];
   },
   data: function() {
-    return Projects.findOne(this.params._id);
+    var result = Projects.findOne(this.params._id);
+    if (result === undefined) {
+      Router.go('/projects');
+    }
+    return result;
   }
 });
 
@@ -363,7 +384,11 @@ Router.route('/purchaseorders/:_id', {
     ];
   },
   data: function() {
-    return PurchaseOrders.findOne(this.params._id);
+    var result = PurchaseOrders.findOne(this.params._id);
+    if (result === undefined) {
+      Router.go('/purchaseorders');
+    }
+    return result;
   }
 });
 

@@ -1,6 +1,6 @@
 Template.insertNewTask.rendered = function() {
   $('#draggableModal').draggable({
-    grid: [ 50, 50 ],
+    grid: [50, 50],
     handle: '.modal-header',
     opacity: 0.35
   });
@@ -8,7 +8,7 @@ Template.insertNewTask.rendered = function() {
 
 Template.updateTask.rendered = function() {
   $('#draggableModal').draggable({
-    grid: [ 50, 50 ],
+    grid: [50, 50],
     handle: '.modal-header',
     opacity: 0.35
   });
@@ -17,10 +17,10 @@ Template.updateTask.rendered = function() {
 Template.insertNewTask.helpers({
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
-      return {
-        'label': user.profile.name,
-        'value': user._id
-      };
+        return {
+          'label': user.profile.name,
+          'value': user._id
+        };
     });
   },
   getEntityType: function() {
@@ -44,6 +44,7 @@ Template.insertNewTask.events({
 Template.updateTask.helpers({
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
+
       return {
         'label': user.profile.name,
         'value': user._id
