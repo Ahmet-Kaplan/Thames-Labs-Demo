@@ -50,5 +50,7 @@ matteodem:server-session
 pcel:loading
 jboulhous:dev
 dbernhard:jquery-ui-draggable
+blaze
+meteorhacks:ssr
 harrison:papa-parse
 matdutour:popup-confirm
