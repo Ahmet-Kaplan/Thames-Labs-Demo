@@ -78,6 +78,11 @@ Router.onBeforeAction(function() {
   only: ['company']
 });
 
+Router.configure({
+  progressSpinner : false,
+  progressDelay : 50
+});
+
 Router.route('/tenants', {
   name: 'tenants',
   template: 'tenantList',
