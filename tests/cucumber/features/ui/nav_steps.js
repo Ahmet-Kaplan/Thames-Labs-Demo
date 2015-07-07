@@ -12,7 +12,7 @@ module.exports = function () {
 
   this.Then(/^I see the dashboard on the sidebar$/, function(callback) {
     this.client
-      .getText('#id-common > div > table > tr > td > a').then(function (text){
+      .getText('#id-dashboard > a').then(function (text){
         text.should.contain('Dashboard');
       })
       .call(callback);
