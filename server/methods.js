@@ -14,7 +14,7 @@ Meteor.methods({
                     name: _.trunc(doc.message),
                     projects: asanaProject,
                     workspace: asanaWorkspace,
-                    notes: doc.message + '\n\nurl: ' + doc.url + '\nname: ' + doc.name
+                    notes: doc.message + '\n\nurl: ' + doc.url + '\nname: ' + doc.name + '\nemail: ' + doc.email
                 }
             }
         }, function (error, result) {
