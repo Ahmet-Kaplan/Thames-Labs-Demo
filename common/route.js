@@ -80,7 +80,8 @@ Router.onBeforeAction(function() {
 
 Router.configure({
   progressSpinner : false,
-  progressDelay : 50
+  progressDelay : 100,
+  loadingTemplate: 'loading'
 });
 
 Router.route('/tenants', {
