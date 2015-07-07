@@ -1,3 +1,4 @@
+@import "../../bootstrap/custom.bootstrap.import.less";
 #id-nav-main-view {
   height: auto;
   min-height: 100%;
@@ -39,7 +40,7 @@
   top:50px;
   left:0;
   bottom:0;
-  width:170px;
+  width:@sidebar-width;
   overflow-x: hidden;
   overflow-y: auto;
   background-color: #f5f5f5;
@@ -88,12 +89,12 @@ tr > td > a:hover {
 
 #accordion {
   margin-bottom:0;
+  padding-top: 5px;
 }
 
 #accordion > .panel, #accordion > div > .panel {
   box-shadow:none;
   border:none;
-  border-bottom: 1px solid #ddd;
   border-radius:0;
   margin-top:0;
 }
@@ -106,19 +107,28 @@ tr > td > a:hover {
 
 @media only screen and (max-width: 768px) {
   #id-view-sidemenu {
-    left: -250px;
-    width: 250px;
+    left: -@sidebar-width-mobile;
+    width: @sidebar-width-mobile;
   }
   #id-view-sidemenu.active {
     left: 0;
   }
 }
 
-#id-dashboard > .panel-heading {
+#accordion .panel-heading {
+  padding: 10px 15px;
+}
+
+#accordion .panel-body {
   border-bottom: 1px solid #ddd;
 }
 
-#id-common{
-  padding: 15px ;
-  background-color: #f5f5f5;
+.parent-title > a {
+  font-size: 1.5em;
+}
+
+.parent-title > a > i {
+  font-size: 1.5em;
+  margin-left: -5px;
+  padding-right: 10px;
 }
