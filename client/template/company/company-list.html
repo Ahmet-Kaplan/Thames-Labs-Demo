@@ -1,16 +1,23 @@
 <template name="companyList">
 
-
   {{setPageTitle 'Companies'}}
-  <div class="row">
+
+  <div class="row" id="company-list">
 
     <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
         {{> esInput index="companies" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
-        <div class="btn-group-vertical ">
-          {{#afModal autocomplete="off" class="btn btn-primary" id="mchShowAddCompanyModal" collection="Companies" operation="insert" formId="insertCompanyForm"}} Add new company {{/afModal}}
-
+        <div class="btn-group-vertical">
+          {{#afModal
+            autocomplete="off"
+            class="btn btn-primary"
+            id="mchShowAddCompanyModal"
+            collection="Companies"
+            operation="insert"
+            formId="insertCompanyForm"
+            omitFields="tags, tagGroups"
+          }} Add new company {{/afModal}}
           <div class="btn-group" style="margin-top:5px;">
             <div class="btn-group">
               <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -39,12 +46,18 @@
 
     <div class="col-md-9">
 
-      <h1><i class="fa fa-building"></i> {{pageTitle}}</h1>
-      <small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
+      <h1><i class="fa fa-building"></i> Companies</h1><small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
 
       {{#if hasCompanies}}
       <div class="list-group" id="mchCompanyList">
-        {{#ifEsIsSearching index="companies"}} {{> spinner}} {{else}} {{#esEach index="companies"}} {{> companyListItem}} {{/esEach}} {{> esLoadMoreButton index="companies" class="btn btn-default"}} {{/ifEsIsSearching}}
+        {{#ifEsIsSearching index="companies"}}
+          {{> spinner}}
+        {{else}}
+          {{#esEach index="companies"}}
+            {{> companyListItem}}
+          {{/esEach}}
+          {{> esLoadMoreButton index="companies" class="btn btn-default"}}
+        {{/ifEsIsSearching}}
       </div>
 
       {{else}}
@@ -61,6 +74,7 @@
 
 <template name="companyListItem">
   <a class="list-group-item" href="{{pathFor route='company'}}" id='mchCompany'>
+    <span class="pull-right">{{> tagBadges}}</span>
     <h4 class="list-group-item-heading">{{name}}</h4>
     <p class="list-group-item-text"><i class="fa fa-fw fa-map-marker"></i> {{city}}, {{country}}</p>
   </a>

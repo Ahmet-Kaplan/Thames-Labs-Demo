@@ -7,15 +7,12 @@ Feature: User-specific tasks on dashboard
   Background:
     Given I am a logged in user
 
-  @dev
   Scenario: A user can see the tasks container
     Then I see the task container
 
-  @dev
   Scenario: A user can see an empty list of items in the task container
     Then I see an empty task list
 
-  @dev
   Scenario: A user can create a personal task
     When I create a new task
     Then I see the task in the task list

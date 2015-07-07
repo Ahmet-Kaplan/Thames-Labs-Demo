@@ -4,7 +4,6 @@ Feature: Inspirational quote on dashboard
   I want to see an inspiring Quote
   So that I can feel inspired
 
-  @dev
   Scenario: A user can see a quote on the dashboard
     Given I am a logged in user
     Then I see an inspirational quote

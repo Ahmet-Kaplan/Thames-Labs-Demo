@@ -142,6 +142,7 @@ Router.route('/companies/:_id', {
       subs.subscribe("projectsByCompanyId", this.params._id),
       subs.subscribe('activityByCompanyId', this.params._id),
       subs.subscribe('purchaseOrdersByCompanyId', this.params._id),
+      subs.subscribe('companyTags'),
       subs.subscribe('tasksByEntityId', this.params._id),
       subs.subscribe('currentTenantUserData', group)
     ];
