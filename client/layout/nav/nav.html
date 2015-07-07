@@ -12,8 +12,7 @@
           </button>
           {{/if}}
           <a class="navbar-brand" href="/">
-            <img alt="" src="/icon.svg"> RealTime
-            <span>CRM</span>
+            <img alt="" src="/icon.svg">RealTime<span>CRM</span>
             <small>alpha</small>
           </a>
         </div>
@@ -98,73 +97,26 @@
   <div id="id-view-sidemenu" class={{shouldDisplayMenu}}>
     <div class="panel-group" id="accordion">
       {{#unless isInRole 'superadmin'}}
-      <div class="panel panel-default" id="id-common">
-        <div class="panel-title">
+      <div class="panel panel-default accordion-links">
           <table class="table">
             <tr>
-              <td>
-                <a href='/' class="dismiss-on-click {{#if isActiveRoute 'companies'}}active{{/if}}">
-                  <i class="fa fa-fw fa-home"></i> Dashboard
-                </a>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
-                  <i class="fa fa-fw fa-building"></i> Companies</a>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
-                  <i class="fa fa-fw fa-user"></i> Contacts</a>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <i class="fa fa-fw fa-check"></i>
-                <a href='/tasks' class="{{#if isActiveRoute 'tasks'}}active{{/if}} not-active">Tasks</a>
+              <td class="panel-heading">
+                <h4 class="panel-title" id="id-dashboard">
+                  <a href='/' class="dismiss-on-click {{#if isActiveRoute 'companies'}}active{{/if}}">
+                    <i class="fa fa-fw fa-home"></i> Dashboard
+                  </a>
+                </h4>
               </td>
             </tr>
           </table>
-        </div>
       </div>
-
-      <!-- <div class="panel panel-default" id="id-dashboard">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a href='/' class="dismiss-on-click">
-              <i class="fa fa-fw fa-home"></i> Dashboard
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse collapse">
-          <div class="panel-body">
-            <a href='/' class="dismiss-on-click">
-              <i class="fa fa-fw fa-home"></i> Dashboard
-            </a>
-            <table class="table">
-
-              <tr>
-                <td>
-                  <i class="fa fa-fw fa-check"></i>
-                  <a href='/tasks' class="{{#if isActiveRoute 'tasks'}}active{{/if}} not-active">Tasks</a>
-                </td>
-              </tr>
-
-            </table>
-          </div>
-        </div>
-      </div> -->
 
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseFavourites">
               <i class="fa fa-fw fa-star"></i> Favourites
+              <i class="fa fa-angle-down pull-right"></i>
             </a>
           </h4>
         </div>
@@ -184,30 +136,54 @@
         </div>
       </div>
 
+
+      <div class="panel panel-default accordion-links">
+          <table class="table">
+            <tr>
+              <td class="panel-heading">
+                <h4 class="panel-title">
+                  <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
+                    <i class="fa fa-fw fa-building"></i> Companies
+                  </a>
+                </h4>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="panel-heading">
+                <h4 class="panel-title">
+                  <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
+                    <i class="fa fa-fw fa-user"></i> Contacts
+                  </a>
+                </h4>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="panel-heading">
+                <h4 class="panel-title">
+                  <i class="fa fa-fw fa-check"></i>
+                    <a href='/tasks' class="{{#if isActiveRoute 'tasks'}}active{{/if}}">Tasks
+                  </a>
+                </h4>
+              </td>
+            </tr>
+          </table>
+      </div>
+
+
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseMarketing">
               <i class="fa fa-fw fa-camera"></i> Marketing
+              <i class="fa fa-angle-down pull-right"></i>
             </a>
           </h4>
         </div>
         <div class="panel-collapse collapse" id="collapseMarketing">
           <div class="panel-body">
             <table class="table">
-
-              <!-- <tr>
-                <td>
-                  <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
-                    <i class="fa fa-fw fa-building"></i> Companies</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
-                    <i class="fa fa-fw fa-user"></i> Contacts</a>
-                </td>
-              </tr> -->
               <tr>
                 <td>
                   <a href='/campaigns' class="not-active {{#if isActiveRoute 'campaigns'}}active{{/if}}">
@@ -225,24 +201,13 @@
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseSales">
               <i class="fa fa-fw fa-money"></i> Sales
+              <i class="fa fa-angle-down pull-right"></i>
             </a>
           </h4>
         </div>
         <div class="panel-collapse collapse" id="collapseSales">
           <div class="panel-body">
             <table class="table">
-              <!-- <tr>
-                <td>
-                  <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
-                    <i class="fa fa-fw fa-building"></i> Companies</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
-                    <i class="fa fa-fw fa-user"></i> Contacts</a>
-                </td>
-              </tr> -->
               <tr>
                 <td>
                   <a href='/opportunities' class="not-active {{#if isActiveRoute 'opportunities'}}active{{/if}}">
@@ -259,6 +224,7 @@
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseOperations">
               <i class="fa fa-fw fa-files-o"></i> Operations
+              <i class="fa fa-angle-down pull-right"></i>
             </a>
           </h4>
         </div>
@@ -287,6 +253,7 @@
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapsePurchasing">
               <i class="fa fa-fw fa-shopping-cart"></i> Purchasing
+              <i class="fa fa-angle-down pull-right"></i>
             </a>
           </h4>
         </div>
@@ -333,6 +300,7 @@
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseSupport">
               <i class="fa fa-fw fa-question"></i> Support
+              <i class="fa fa-angle-down pull-right"></i>
             </a>
           </h4>
         </div>
@@ -355,6 +323,7 @@
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseReporting">
               <i class="fa fa-fw fa-book"></i> Reporting
+              <i class="fa fa-angle-down pull-right"></i>
             </a>
           </h4>
         </div>
@@ -377,6 +346,7 @@
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseHR">
               <i class="fa fa-fw fa-users"></i> HR
+              <i class="fa fa-angle-down pull-right"></i>
             </a>
           </h4>
         </div>
@@ -417,6 +387,7 @@
           <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#collapseGeneral">
               <i class="fa fa-fw fa-briefcase"></i> General
+              <i class="fa fa-angle-down pull-right"></i>
             </a>
           </h4>
         </div>
