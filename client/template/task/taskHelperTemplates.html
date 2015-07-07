@@ -12,7 +12,7 @@
           {{#autoForm collection="Tasks" id="newTaskModal" type="insert"}}
           {{> afQuickField name="title" id="taskTitle"}}
           {{> afQuickField name="description" id="taskDescription"}}
-          {{> afQuickField name="dueDate" id="taskDueDate"}}
+          {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datepicker"}}
 
           {{#if isUserTask}}
             {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}}
@@ -44,7 +44,7 @@
           {{#autoForm collection="Tasks" id="editTaskModal" type="update" doc=this}}
           {{> afQuickField name="title" id="taskTitle"}}
           {{> afQuickField name="description" id="taskDescription"}}
-          {{> afQuickField name="dueDate" id="taskDueDate"}}
+          {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datepicker"}}
           <!-- {{> afQuickField name="assigneeId"          id="taskUserList" options=usersAsOptions}}  -->
 
           {{#if isUserTask}}
