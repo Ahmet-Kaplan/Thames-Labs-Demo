@@ -1,22 +1,46 @@
 <template name="companyList">
 
 
-    {{setPageTitle 'Companies'}}
+  {{setPageTitle 'Companies'}}
   <div class="row">
 
     <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
         {{> esInput index="companies" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
-        <div class="btn-group-vertical">
+        <div class="btn-group-vertical ">
           {{#afModal autocomplete="off" class="btn btn-primary" id="mchShowAddCompanyModal" collection="Companies" operation="insert" formId="insertCompanyForm"}} Add new company {{/afModal}}
+
+          <div class="btn-group" style="margin-top:5px;">
+            <div class="btn-group">
+              <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
+                Import Companies
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#" id="template-download-link">Download import template</a></li>
+                <li class="divider"></li>
+                <li><a href="#" id="data-upload-link">Import from CSV...</a></li>
+                <li class="divider"></li>
+                <li><a href="#" id="template-help">How does this work?</a></li>
+              </ul>
+            </div>
+            <div class="btn-group">
+              <button type="button" id='exportCompanyList' class="btn btn-info btn-xs">
+                Export Companies
+              </button>
+              <input type="file" id="data-upload" style="display:none;">
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
 
     <div class="col-md-9">
 
-      <h1><i class="fa fa-building"></i> {{pageTitle}}</h1><small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
+      <h1><i class="fa fa-building"></i> {{pageTitle}}</h1>
+      <small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
 
       {{#if hasCompanies}}
       <div class="list-group" id="mchCompanyList">
@@ -59,6 +83,28 @@
             <li>{county} - Company's county / state</li>
             <li>{postcode} - Company's postcode / zip</li>
           </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="importCompanyHelpModal">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Importing with templates</h4>
+        </div>
+        <div class="modal-body">
+          <p>Importing companies couldn't be simpler:</p>
+          <ol type="1">
+            <li>Download the template that we've provided.</li>
+            <li>Fill it with your data. The first row indicates what to put where. Please don't alter this line, or the import will fail.</li>
+            <li>Click the Import option.</li>
+            <li>Select the completed file and press the Open button.</li>
+          </ol>
         </div>
       </div>
     </div>
