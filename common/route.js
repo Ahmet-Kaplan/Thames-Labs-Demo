@@ -462,7 +462,12 @@ Router.route('/invoices', {
 
 Router.route('/tasks', {
   name: 'tasks',
-  template: 'taskList'
+  template: 'taskList',
+  waitOn:function(){
+    return [
+    subs.subscribe('allUserTasks', Meteor.userId())
+  ];
+  }
 });
 
 
