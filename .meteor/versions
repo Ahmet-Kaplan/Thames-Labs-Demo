@@ -60,11 +60,7 @@ logging@1.0.7
 manuel:reactivearray@1.0.5
 matb33:collection-hooks@0.7.13
 matdutour:popup-confirm@0.1.25
-<<<<<<< HEAD
 matteodem:easy-search@1.5.7
-=======
-matteodem:easy-search@1.5.6
->>>>>>> master
 matteodem:server-session@0.4.2
 meteor@1.1.6
 meteor-platform@1.2.2
