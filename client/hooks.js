@@ -88,7 +88,7 @@ AutoForm.hooks({
     after: {
       insert: function(error, result) {
         if (error) {
-          toastr.success('An error occurred: Company not created.');
+          toastr.error('An error occurred: Company not created.');
           return false;
         }
 
@@ -108,7 +108,7 @@ AutoForm.hooks({
   feedbackForm: {
     onSuccess: function() {
       Modal.hide();
-      toastr.success('Feedback submitted.');    
+      toastr.success('Feedback submitted.');
     }
   },
   updateTenantSettingsModal: {
@@ -124,8 +124,8 @@ AutoForm.hooks({
         return doc;
       }
     },
-    onError: function(formType, error){
-      if(error){
+    onError: function(formType, error) {
+      if (error) {
         console.log(error);
       }
     },
@@ -135,8 +135,8 @@ AutoForm.hooks({
     }
   },
   editTaskModal: {
-    onError: function(formType, error){
-      if(error){
+    onError: function(formType, error) {
+      if (error) {
         console.log(error);
       }
     },

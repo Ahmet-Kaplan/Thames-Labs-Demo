@@ -36,6 +36,9 @@ Schemas.Feedback = new SimpleSchema({
   name: {
     type: String
   },
+  email: {
+    type: String
+  },
   message: {
     type: String
   },
