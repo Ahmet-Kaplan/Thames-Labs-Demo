@@ -33,6 +33,7 @@ fastclick@1.0.3
 fortawesome:fontawesome@4.3.0
 geojson-utils@1.0.3
 gwendall:session-json@0.1.7
+harrison:papa-parse@1.1.0
 html-tools@1.0.4
 htmljs@1.0.4
 http@1.1.0
@@ -58,6 +59,7 @@ localstorage@1.0.3
 logging@1.0.7
 manuel:reactivearray@1.0.5
 matb33:collection-hooks@0.7.13
+matdutour:popup-confirm@0.1.25
 matteodem:easy-search@1.5.6
 matteodem:server-session@0.4.2
 meteor@1.1.6
