@@ -32,7 +32,7 @@ Meteor.publish("myTenant", function() {
 Meteor.publish("currentTenantUserData", function(groupId) {
   return Meteor.users.find({
     group: groupId
-  }, { fields: { emails: false, services:false } });
+  }, { fields: { services:false } });
 });
 
 Meteor.publish("allUserData", function() {
