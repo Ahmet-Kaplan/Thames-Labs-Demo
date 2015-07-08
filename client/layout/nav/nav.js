@@ -173,17 +173,17 @@ Template.nav.events({
       }
     });
   },
-  "click #tenancy-one": function() {
-    Meteor.call('switchTenancy', Meteor.userId(), 'JsdTxQCWWoDxNFnbf');
-    window.location.reload();
+  'click #qckCreateCompany': function() {
+    Modal.show('insertNewCompanyModal', this);
   },
-  "click #tenancy-two": function() {
-    Meteor.call('switchTenancy', Meteor.userId(), 'PBXf8D4FLTZaPsJjg');
-    window.location.reload();
+  'click #qckCreateContact': function() {
+    Modal.show('insertCompanyContactModal', this);
   },
-  "click #tenancy-three": function() {
-    Meteor.call('switchTenancy', Meteor.userId(), '5yzHfQ96PuhuETdho');
-    window.location.reload();
+  'click #qckCreateProject': function() {
+    Modal.show('newProjectForm', this);
+  },
+  'click #qckCreatePurchaseOrder': function() {
+    Modal.show('newPurchaseOrderForm', this);
   },
   'click #feedback-link': function() {
     Modal.show('feedbackModal');
