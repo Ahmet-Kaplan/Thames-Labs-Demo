@@ -17,10 +17,10 @@ Template.updateTask.rendered = function() {
 Template.insertNewTask.helpers({
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
-        return {
-          'label': user.profile.name,
-          'value': user._id
-        };
+      return {
+        'label': user.profile.name,
+        'value': user._id
+      };
     });
   },
   getEntityType: function() {
@@ -101,16 +101,31 @@ Template.taskDisplayItem.helpers({
         dataString = "Personal task"
         break;
       case 'company':
-        dataString = "Company task"
+        dataString = "Company task";
+        var handle = Meteor.subscribe("companyById", this.entityId);
+        if (handle.ready()) {
+          var c = Companies.find({}).fetch()[0];
+          dataString += ": " + c.name;
+        }
         break;
       case 'contact':
-        dataString = "Contact task"
+        dataString = "Contact task";
+        var handle = Meteor.subscribe("contactById", this.entityId);
+        if (handle.ready()) {
+          var c = Contacts.find({}).fetch()[0];
+          dataString += ": " + c.title + " " + c.forename + " " + c.surname;
+        }
         break;
       case 'project':
-        dataString = "Project task"
+        dataString = "Project task";
+        var handle = Meteor.subscribe("projectById", this.entityId);
+        if (handle.ready()) {
+          var p = Projects.find({}).fetch()[0];
+          dataString += ": " + p.description;
+        }
         break;
       default:
-        dataString = "Misc. task"
+        dataString = "Misc. task";
     }
 
     return dataString;
@@ -125,3 +140,10 @@ Template.taskDisplayItem.events({
     Tasks.remove(this._id);
   }
 });
+
+Template.taskDisplayItem.rendered = function() {
+  if (handle.ready()) {
+    console.log('ready');
+    console.log(FeedHits.find().fetch());
+  }
+};
