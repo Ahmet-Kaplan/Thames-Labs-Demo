@@ -64,10 +64,9 @@ Template.nav.helpers({
   },
   shouldDisplayMenu: function() {
     var isUserAdmin = Roles.userIsInRole(Meteor.user(), ['superadmin']);
-    if (isUserAdmin){
+    if (isUserAdmin) {
       return "visible-xs";
-    }
-    else {
+    } else {
       return "";
     }
   }
@@ -121,17 +120,17 @@ Template.menuNotice.helpers({
 
 //NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
-  "click #tenancy-one": function() {
-    Meteor.call('switchTenancy', Meteor.userId(), 'JsdTxQCWWoDxNFnbf');
-    window.location.reload();
+  'click #qckCreateCompany': function() {
+    Modal.show('insertNewCompanyModal', this);
   },
-  "click #tenancy-two": function() {
-    Meteor.call('switchTenancy', Meteor.userId(), 'PBXf8D4FLTZaPsJjg');
-    window.location.reload();
+  'click #qckCreateContact': function() {
+    Modal.show('insertCompanyContactModal', this);
   },
-  "click #tenancy-three": function() {
-    Meteor.call('switchTenancy', Meteor.userId(), '5yzHfQ96PuhuETdho');
-    window.location.reload();
+  'click #qckCreateProject': function() {
+    Modal.show('newProjectForm', this);
+  },
+  'click #qckCreatePurchaseOrder': function() {
+    Modal.show('newPurchaseOrderForm', this);
   },
   'click #feedback-link': function() {
     Modal.show('feedbackModal');
@@ -143,27 +142,23 @@ Template.nav.events({
     Meteor.logout();
   },
   'click #id-menu-button': function() {
-    if ( document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/) ) {
+    if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
       document.getElementById("id-view-sidemenu").className =
-        document.getElementById("id-view-sidemenu").className.replace
-        ( /(?:^|\s)active(?!\S)/g , '' )
-    }
-    else {
-      document.getElementById("id-view-sidemenu").className="active";
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
+    } else {
+      document.getElementById("id-view-sidemenu").className = "active";
     }
   },
   'click .panel-body > table > tr > td > a': function() {
-    if ( document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/) ) {
-        document.getElementById("id-view-sidemenu").className =
-          document.getElementById("id-view-sidemenu").className.replace
-          ( /(?:^|\s)active(?!\S)/g , '' )
+    if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
+      document.getElementById("id-view-sidemenu").className =
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
     }
   },
   'click .dismiss-on-click': function() {
-    if ( document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/) ) {
-        document.getElementById("id-view-sidemenu").className =
-          document.getElementById("id-view-sidemenu").className.replace
-          ( /(?:^|\s)active(?!\S)/g , '' )
+    if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
+      document.getElementById("id-view-sidemenu").className =
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
     }
   }
 });
