@@ -12,7 +12,8 @@
           </button>
           {{/if}}
           <a class="navbar-brand" href="/">
-            <img alt="" src="/icon.svg">RealTime<span>CRM</span>
+            <img alt="" src="/icon.svg">RealTime
+            <span>CRM</span>
             <small>alpha</small>
           </a>
         </div>
@@ -98,17 +99,17 @@
     <div class="panel-group" id="accordion">
       {{#unless isInRole 'superadmin'}}
       <div class="panel panel-default accordion-links">
-          <table class="table">
-            <tr>
-              <td class="panel-heading">
-                <h4 class="panel-title" id="id-dashboard">
-                  <a href='/' class="dismiss-on-click {{#if isActiveRoute 'companies'}}active{{/if}}">
-                    <i class="fa fa-fw fa-home"></i> Dashboard
-                  </a>
-                </h4>
-              </td>
-            </tr>
-          </table>
+        <table class="table">
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title" id="id-dashboard">
+                <a href='/' class="dismiss-on-click {{#if isActiveRoute 'companies'}}active{{/if}}">
+                  <i class="fa fa-fw fa-home"></i> Dashboard
+                </a>
+              </h4>
+            </td>
+          </tr>
+        </table>
       </div>
 
       <div class="panel panel-default">
@@ -122,8 +123,13 @@
         </div>
         <div class="panel-collapse collapse" id="collapseFavourites">
           <div class="panel-body">
+            <div class="btn-group btn-group-justified">
+              <div class="btn-group">
+                <button class="btn btn-xs btn-primary" role="button" id="mnuAddToFavourites">Add to favourites</button>
+              </div>
+            </div>
             <table class="table">
-              {{#each favourites}} {{else}}
+              {{#each favourites}} {{>favourite}} {{else}}
               <tr>
                 <td>
                   <em>No favourites</em>
@@ -138,37 +144,37 @@
 
 
       <div class="panel panel-default accordion-links">
-          <table class="table">
-            <tr>
-              <td class="panel-heading">
-                <h4 class="panel-title">
-                  <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
-                    <i class="fa fa-fw fa-building"></i> Companies
-                  </a>
-                </h4>
-              </td>
-            </tr>
+        <table class="table">
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
+                  <i class="fa fa-fw fa-building"></i> Companies
+                </a>
+              </h4>
+            </td>
+          </tr>
 
-            <tr>
-              <td class="panel-heading">
-                <h4 class="panel-title">
-                  <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
-                    <i class="fa fa-fw fa-user"></i> Contacts
-                  </a>
-                </h4>
-              </td>
-            </tr>
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
+                  <i class="fa fa-fw fa-user"></i> Contacts
+                </a>
+              </h4>
+            </td>
+          </tr>
 
-            <tr>
-              <td class="panel-heading">
-                <h4 class="panel-title">
-                  <i class="fa fa-fw fa-tasks"></i>
-                    <a href='/tasks' class="{{#if isActiveRoute 'tasks'}}active{{/if}}">Tasks
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <i class="fa fa-fw fa-tasks"></i>
+                <a href='/tasks' class="{{#if isActiveRoute 'tasks'}}active{{/if}}">Tasks
                   </a>
-                </h4>
-              </td>
-            </tr>
-          </table>
+              </h4>
+            </td>
+          </tr>
+        </table>
       </div>
 
 

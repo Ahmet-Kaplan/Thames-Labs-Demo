@@ -60,14 +60,25 @@ Template.nav.helpers({
     }).count();
   },
   favourites: function() {
-    return null;
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+    if (!profile.favourites) {
+      return null;
+    } else {
+      favList = profile.favourites;
+      return favList;
+      // var list = new ReactiveArray();
+      // _.each(favList, function(f) {
+      //   list.push(f);
+      // });
+      // console.log(list);
+      // return list;
+    }
   },
   shouldDisplayMenu: function() {
     var isUserAdmin = Roles.userIsInRole(Meteor.user(), ['superadmin']);
-    if (isUserAdmin){
+    if (isUserAdmin) {
       return "visible-xs";
-    }
-    else {
+    } else {
       return "";
     }
   }
@@ -121,6 +132,47 @@ Template.menuNotice.helpers({
 
 //NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
+  'click #mnuAddToFavourites': function() {
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+
+    if (profile.favourites) {
+      var favList = profile.favourites;
+      var exists = false;
+
+      _.each(favList, function(y) {
+        if (y.url === Router.current().url) {
+          exists = true;
+        }
+      });
+
+      if (exists) {
+        toastr.info('Page already favourited.');
+        return;
+      }
+      else {
+        var x = {
+          name: document.title,
+          url: Router.current().url
+        }
+        favList.push(x);
+        profile.favourites = favList;
+      }
+    } else {
+      var fav = [];
+      var x = {
+        name: document.title,
+        url: Router.current().url
+      }
+      fav.push(x);
+      profile.favourites = fav;
+    }
+
+    Meteor.users.update(Meteor.userId(), {
+      $set: {
+        profile: profile
+      }
+    });
+  },
   "click #tenancy-one": function() {
     Meteor.call('switchTenancy', Meteor.userId(), 'JsdTxQCWWoDxNFnbf');
     window.location.reload();
@@ -143,27 +195,23 @@ Template.nav.events({
     Meteor.logout();
   },
   'click #id-menu-button': function() {
-    if ( document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/) ) {
+    if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
       document.getElementById("id-view-sidemenu").className =
-        document.getElementById("id-view-sidemenu").className.replace
-        ( /(?:^|\s)active(?!\S)/g , '' )
-    }
-    else {
-      document.getElementById("id-view-sidemenu").className="active";
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
+    } else {
+      document.getElementById("id-view-sidemenu").className = "active";
     }
   },
   'click .panel-body > table > tr > td > a': function() {
-    if ( document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/) ) {
-        document.getElementById("id-view-sidemenu").className =
-          document.getElementById("id-view-sidemenu").className.replace
-          ( /(?:^|\s)active(?!\S)/g , '' )
+    if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
+      document.getElementById("id-view-sidemenu").className =
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
     }
   },
   'click .dismiss-on-click': function() {
-    if ( document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/) ) {
-        document.getElementById("id-view-sidemenu").className =
-          document.getElementById("id-view-sidemenu").className.replace
-          ( /(?:^|\s)active(?!\S)/g , '' )
+    if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
+      document.getElementById("id-view-sidemenu").className =
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
     }
   }
 });
