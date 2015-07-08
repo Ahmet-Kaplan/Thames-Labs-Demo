@@ -60,7 +60,19 @@ Template.nav.helpers({
     }).count();
   },
   favourites: function() {
-    return null;
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+    if (!profile.favourites) {
+      return null;
+    } else {
+      favList = profile.favourites;
+      return favList;
+      // var list = new ReactiveArray();
+      // _.each(favList, function(f) {
+      //   list.push(f);
+      // });
+      // console.log(list);
+      // return list;
+    }
   },
   shouldDisplayMenu: function() {
     var isUserAdmin = Roles.userIsInRole(Meteor.user(), ['superadmin']);
@@ -120,6 +132,47 @@ Template.menuNotice.helpers({
 
 //NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
+  'click #mnuAddToFavourites': function() {
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+
+    if (profile.favourites) {
+      var favList = profile.favourites;
+      var exists = false;
+
+      _.each(favList, function(y) {
+        if (y.url === Router.current().url) {
+          exists = true;
+        }
+      });
+
+      if (exists) {
+        toastr.info('Page already favourited.');
+        return;
+      }
+      else {
+        var x = {
+          name: document.title,
+          url: Router.current().url
+        }
+        favList.push(x);
+        profile.favourites = favList;
+      }
+    } else {
+      var fav = [];
+      var x = {
+        name: document.title,
+        url: Router.current().url
+      }
+      fav.push(x);
+      profile.favourites = fav;
+    }
+
+    Meteor.users.update(Meteor.userId(), {
+      $set: {
+        profile: profile
+      }
+    });
+  },
   'click #qckCreateCompany': function() {
     Modal.show('insertNewCompanyModal', this);
   },
