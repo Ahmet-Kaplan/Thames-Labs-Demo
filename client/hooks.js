@@ -26,6 +26,23 @@ Accounts.onLogin(function(cb) {
 });
 
 AutoForm.hooks({
+  insertNewCompanyForm:{
+    onSuccess: function() {
+      Modal.hide();
+      $('[data-toggle="tooltip"]').tooltip();
+      toastr.success('Company created.');
+    },
+    after: {
+      insert: function(error, result) {
+        if (error) {
+          toastr.error('An error occurred: Company not created.');
+          return false;
+        }
+
+        Router.go('/companies/' + result);
+      }
+    }
+  },
   insertActivityForm: {
     onSuccess: function() {
       Modal.hide();
