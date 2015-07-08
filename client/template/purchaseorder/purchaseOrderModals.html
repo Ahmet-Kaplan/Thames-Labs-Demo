@@ -24,7 +24,7 @@
             {{> afQuickField name="userId"  type="hidden" value=currentUser}}
 
             {{> afQuickField name="status" options="allowed"}}
-            {{> afQuickField name="orderDate" type="hidden" type="bootstrap-datepicker" value=currentDateTime }}
+            {{> afQuickField name="orderDate" type="hidden" type="bootstrap-datetimepicker" value=currentDateTime }}
             {{> afQuickField name="paymentMethod" options="allowed"}}
 
             {{> afQuickField name="createdBy" value=currentUser }}
@@ -64,7 +64,7 @@
             {{> afQuickField name="supplierReference" }}
 
             {{> afQuickField name="status" options="allowed"}}
-            {{> afQuickField name="deliveryDate" type="bootstrap-datepicker"}}
+            {{> afQuickField name="deliveryDate" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="paymentMethod" options="allowed"}}
 
             <button type="submit" class="btn btn-success">Update</button>

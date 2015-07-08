@@ -57,5 +57,5 @@ meteorhacks:ssr
 harrison:papa-parse
 matdutour:popup-confirm
 multiply:iron-router-progress
-aldeed:autoform-bs-datepicker
-rajit:bootstrap3-datepicker
+aldeed:autoform-bs-datetimepicker
+tsega:bootstrap3-datetimepicker@=3.1.3_3
