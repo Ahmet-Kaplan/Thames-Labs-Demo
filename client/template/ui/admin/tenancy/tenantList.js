@@ -66,6 +66,7 @@ Template.user.helpers({
 
 Template.user.events({
   "click #btnDeleteTenantUser": function(event, template) {
+    Meteor.call('removeUser', this._id);
     Meteor.users.remove({
       _id: this._id
     });
