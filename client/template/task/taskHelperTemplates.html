@@ -9,19 +9,9 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="newTaskModal" type="insert"}}
-          {{> afQuickField name="title" id="taskTitle"}}
-          {{> afQuickField name="description" id="taskDescription"}}
-          {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datepicker"}}
-
-          {{#if isUserTask}}
-            {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}}
-          {{else}}
-            {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}}
-          {{/if}}
-
-          {{> afQuickField name="entityType" value=getEntityType type='hidden' }}
-          {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
+          {{#autoForm collection="Tasks" id="newTaskModal" type="insert"}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datepicker"}} {{#if
+          isUserTask}} {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}} {{else}} {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}} {{/if}} {{> afQuickField name="entityType" value=getEntityType
+          type='hidden' }} {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
           <button type="submit" class="btn btn-primary">Submit</button> {{/autoForm}}
         </div>
 
@@ -41,19 +31,10 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="editTaskModal" type="update" doc=this}}
-          {{> afQuickField name="title" id="taskTitle"}}
-          {{> afQuickField name="description" id="taskDescription"}}
-          {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datepicker"}}
+          {{#autoForm collection="Tasks" id="editTaskModal" type="update" doc=this}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datepicker"}}
           <!-- {{> afQuickField name="assigneeId"          id="taskUserList" options=usersAsOptions}}  -->
 
-          {{#if isUserTask}}
-            {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}}
-          {{else}}
-            {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}}
-          {{/if}}
-
-          {{> afQuickField name="completed" id="taskCompleted"}}
+          {{#if isUserTask}} {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}} {{else}} {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}} {{/if}} {{> afQuickField name="completed" id="taskCompleted"}}
           <button type="submit" class="btn btn-primary ">Update</button>
           {{/autoForm}}
         </div>
@@ -78,36 +59,48 @@
 </template>
 
 <template name="taskDisplayItem">
-<li class="list-group-item" id='displayedTask'>
-  {{#if isDashboard}}
-  <div class="row">
-    <div class="col-md-3">
-      <i class="fa fa-fw fa-tasks"></i> {{title}}
-    </div>
-    <div class="col-md-6 userDataDisplay">
-      {{entityDetails}}
-    </div>
-    <div class="col-md-3">
-      <div class="btn-group pull-right">
-        <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
-          Edit task
-        </button>
-        <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button">
-          Delete task
-        </button>
+  <li class="list-group-item" id='displayedTask'>
+    {{#if isDashboard}}
+    <div class="row">
+      <div class="col-md-3">
+        <i class="fa fa-fw fa-tasks"></i> {{title}}
+      </div>
+      <div class="col-md-4 userDataDisplay">
+        {{entityDetails}}
+      </div>
+      <div class="col-md-2 userDataDisplay">
+        Due: {{dueDate}}
+      </div>
+      <div class="col-md-3">
+        <div class="btn-group pull-right">
+          <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
+            Edit task
+          </button>
+          <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button">
+            Delete task
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-  {{else}}
-    <i class="fa fa-fw fa-tasks"></i> {{title}}
-    <div class="btn-group pull-right">
-      <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
-        Edit task
-      </button>
-      <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button">
-        Delete task
-      </button>
+    {{else}}
+    <div class="row">
+      <div class="col-md-3">
+        <i class="fa fa-fw fa-tasks"></i> {{title}}
+      </div>
+      <div class="col-md-6 userDataDisplay">
+        Due: {{dueDate}}
+      </div>
+      <div class="col-md-3">
+        <div class="btn-group pull-right">
+          <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
+            Edit task
+          </button>
+          <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button">
+            Delete task
+          </button>
+        </div>
+      </div>
     </div>
-  {{/if}}
-</li>
+    {{/if}}
+  </li>
 </template>
