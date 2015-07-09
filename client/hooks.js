@@ -26,6 +26,12 @@ Accounts.onLogin(function(cb) {
 });
 
 AutoForm.hooks({
+  updatePurchaseOrderForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Purchase Order updated.');
+    }
+  },
   insertNewCompanyForm: {
     onSuccess: function() {
       Modal.hide();

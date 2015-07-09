@@ -1,12 +1,3 @@
-AutoForm.hooks({
-  updatePurchaseOrderForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Purchase Order updated.');
-    }
-  }
-});
-
 Template.purchaseOrderDetail.onRendered(function() {
   // Affix sidebar
   var sidebar = $('.sidebar');
@@ -15,14 +6,87 @@ Template.purchaseOrderDetail.onRendered(function() {
       top: sidebar.offset().top
     }
   });
+
+  $.getScript('/vendor/docxgen.min.js');
 });
 
-Template.purchaseOrderDetail.rendered = function(){
+Template.purchaseOrderDetail.rendered = function() {
   document.title = "Purchase Order - " + this.data.description;
   SetRouteDetails(document.title);
 };
 
 Template.purchaseOrderDetail.events({
+  'change #template-upload': function(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+
+    var reader = new FileReader();
+    reader.onload = function() {
+      var doc = new Docxgen(reader.result);
+
+      var customerName = "",
+        customerContact = "",
+        customerAddress = "",
+        orderNumber = "";
+
+      var company = Companies.findOne(this.supplierCompanyId);
+      customerName = company.name;
+      customerAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
+      if (this.supplierContactId) {
+        var contact = Contacts.findOne(this.supplierContactId);
+        customerContact = contact.title + " " + contact.forename + " " + contact.surname;
+      }
+      orderNumber = this.orderNumber;
+      var orderDate = moment().format("MMM Do YYYY");
+
+      var orderItems = PurchaseOrderItems.find({
+        purchaseOrderId: this._id
+      }).fetch();
+      var items = [];
+      var running = 0;
+
+      _.each(orderItems, function(oi) {
+        var obj = {
+          name: oi.description,
+          count:oi.quantity,
+          value:oi.value,
+          total:oi.totalPrice,
+        }
+
+        running = running + parseFloat(oi.totalPrice);
+
+        items.push(obj);
+      });
+
+      var vatAmount = parseFloat((running / 100) * 20);
+      var totalValue = running + vatAmount;
+
+      doc.setData({
+        "customerName": customerName,
+        "customerContact": customerContact,
+        "customerAddress": customerAddress,
+        "orderNumber": orderNumber,
+        "orderDate": orderDate,
+        "items": items,
+        "running": parseFloat(running).toFixed(2),
+        "vat": parseFloat(vatAmount).toFixed(2),
+        "total": parseFloat(totalValue).toFixed(2)
+      });
+
+      doc.render();
+      var docDataUri = doc.getZip().generate({
+        type: 'blob'
+      });
+      saveAs(docDataUri, file.name);
+    }.bind(this);
+    reader.readAsBinaryString(file);
+  },
+  'click #template-upload-link': function() {
+    document.getElementById('template-upload').click();
+  },
+  'click #po-template-help': function() {
+    Modal.show('poHelpModal');
+  },
   'click #add-item': function() {
     Modal.show('addPurchaseOrderItemModal', {
       project: this
