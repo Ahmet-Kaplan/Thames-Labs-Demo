@@ -1,9 +1,10 @@
 Meteor.methods({
-  calculatePurchaseOrderItemTotalValue: function (price, quantity) {
+
+  calculatePurchaseOrderItemTotalValue: function(price, quantity) {
     return parseFloat(price * quantity).toFixed(2);
   },
 
- generateDemoData: function(id) {
+  generateDemoData: function(id) {
 
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       return;
@@ -68,7 +69,7 @@ Meteor.methods({
             companyId: companyId,
             contactId: contacts[Math.floor(Math.random() * contacts.length)],
             userId: randomUser._id,
-          //  status: _.sample(Schemas.Project._schema.status.allowedValues),
+            //  status: _.sample(Schemas.Project._schema.status.allowedValues),
             value: _.random(100, 3000),
             probability: _.random(0, 100),
             lastActionDate: faker.date.past(100),
@@ -101,7 +102,7 @@ Meteor.methods({
             orderDate: faker.date.past(100),
             deliveryDate: faker.date.past(100),
             paymentMethod: _.sample(Schemas.PurchaseOrder._schema.paymentMethod.allowedValues),
-         //   currency: _.sample(Schemas.PurchaseOrder._schema.currency.allowedValues),
+            //   currency: _.sample(Schemas.PurchaseOrder._schema.currency.allowedValues),
             createdBy: randomUser._id
           });
 
@@ -120,7 +121,7 @@ Meteor.methods({
               purchaseOrderId: purchaseOrderId,
               description: faker.lorem.sentence(),
               productCode: faker.random.uuid(),
-         //     currency: _.sample(Schemas.PurchaseOrderItem._schema.currency.allowedValues),
+              //     currency: _.sample(Schemas.PurchaseOrderItem._schema.currency.allowedValues),
               value: parseFloat(_.random(1, 35)).toFixed(2),
               quantity: _.random(1, 65),
               totalPrice: "0.00",

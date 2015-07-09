@@ -103,7 +103,7 @@ Template.taskDisplayItem.helpers({
       case 'company':
         dataString = "Company task";
         var handle = Meteor.subscribe("companyById", this.entityId);
-        if (handle.ready()) {
+        if (handle && handle.ready()) {
           var c = Companies.find({}).fetch()[0];
           dataString += ": " + c.name;
         }
@@ -111,7 +111,7 @@ Template.taskDisplayItem.helpers({
       case 'contact':
         dataString = "Contact task";
         var handle = Meteor.subscribe("contactById", this.entityId);
-        if (handle.ready()) {
+        if (handle && handle.ready()) {
           var c = Contacts.find({}).fetch()[0];
           dataString += ": " + c.title + " " + c.forename + " " + c.surname;
         }
@@ -119,7 +119,7 @@ Template.taskDisplayItem.helpers({
       case 'project':
         dataString = "Project task";
         var handle = Meteor.subscribe("projectById", this.entityId);
-        if (handle.ready()) {
+        if (handle && handle.ready()) {
           var p = Projects.find({}).fetch()[0];
           dataString += ": " + p.description;
         }
@@ -140,10 +140,3 @@ Template.taskDisplayItem.events({
     Tasks.remove(this._id);
   }
 });
-
-Template.taskDisplayItem.rendered = function() {
-  if (handle.ready()) {
-    console.log('ready');
-    console.log(FeedHits.find().fetch());
-  }
-};

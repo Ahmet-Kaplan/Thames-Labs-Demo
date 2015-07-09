@@ -21,18 +21,20 @@ Meteor.publish("allTenants", function() {
   }
 });
 
-Meteor.publish("myTenant", function() {
-  // return Tenants.find({
-  //   _id: Meteor.users.find({
-  //     _id: Meteor.userId()
-  //   }).fetch()[0].group
-  // });
+Meteor.publish("myTenant", function(groupId) {
+  return Tenants.find({
+    _id: groupId
+  });
 });
 
 Meteor.publish("currentTenantUserData", function(groupId) {
   return Meteor.users.find({
     group: groupId
-  }, { fields: { services:false } });
+  }, {
+    fields: {
+      services: false
+    }
+  });
 });
 
 Meteor.publish("allUserData", function() {
@@ -67,7 +69,9 @@ Meteor.publish("contactsByCompanyId", function(companyId) {
   });
 });
 Meteor.publish("companyTags", function() {
-  return Meteor.tags.find({collection: 'companies'});
+  return Meteor.tags.find({
+    collection: 'companies'
+  });
 });
 
 Meteor.publish("allContacts", function() {
@@ -170,9 +174,13 @@ Meteor.publish("allTasks", function() {
 });
 
 Meteor.publish("tasksByEntityId", function(entityId) {
-  return Tasks.find({entityId: entityId});
+  return Tasks.find({
+    entityId: entityId
+  });
 });
 
 Meteor.publish("allUserTasks", function(userId) {
-  return Tasks.find({createdBy: userId});
+  return Tasks.find({
+    createdBy: userId
+  });
 });

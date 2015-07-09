@@ -272,6 +272,14 @@ Schemas.PurchaseOrder = new SimpleSchema({
     type: String,
     label: "Requestor"
   },
+  orderNumber:{
+    label: "Purchase Order Number",
+    type: String,
+    unique: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
   supplierCompanyId: {
     type: String
   },
