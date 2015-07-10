@@ -7,6 +7,15 @@ AutoForm.hooks({
   }
 });
 
+Template.purchaseOrderDetail.onCreated(function() {
+  // Redirect if data doesn't exist
+  this.autorun(function(){
+     var purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
+     if (purchaseOrder) return;
+     FlowRouter.go('purchaseOrders');
+  });
+});
+
 Template.purchaseOrderDetail.onRendered(function() {
   // Affix sidebar
   var sidebar = $('.sidebar');
@@ -15,9 +24,6 @@ Template.purchaseOrderDetail.onRendered(function() {
       top: sidebar.offset().top
     }
   });
-
-  document.title = "Purchase Order - " + this.data.description;
-  SetRouteDetails(document.title);
 });
 
 Template.purchaseOrderDetail.events({

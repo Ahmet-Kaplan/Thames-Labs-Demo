@@ -1,3 +1,12 @@
+Template.projectDetail.onCreated(function() {
+  // Redirect if data doesn't exist
+  this.autorun(function(){
+     var project = Projects.findOne(FlowRouter.getParam('id'));
+     if (project) return
+     FlowRouter.go('projects');
+  });
+});
+
 Template.projectDetail.onRendered(function() {
   // Affix sidebar
   var sidebar = $('.sidebar');
@@ -6,8 +15,6 @@ Template.projectDetail.onRendered(function() {
       top: sidebar.offset().top
     }
   });
-  document.title = "Project - " + this.data.description;
-  SetRouteDetails(document.title);
 });
 
 Template.projectDetail.helpers({

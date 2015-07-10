@@ -1,5 +1,13 @@
-Template.companyDetail.onRendered(function() {
+Template.companyDetail.onCreated(function() {
+  // Redirect if data doesn't exist
+  this.autorun(function(){
+    var company = Companies.findOne(FlowRouter.getParam('id'));
+    if (company) return;
+    FlowRouter.go('companies');
+  });
+});
 
+Template.companyDetail.onRendered(function() {
   // Affix sidebar
   var sidebar = $('.sidebar');
   sidebar.affix({
@@ -11,15 +19,8 @@ Template.companyDetail.onRendered(function() {
   // Load docxgen
   $.getScript('/vendor/docxgen.min.js');
 
-  // set page title
-  if (this.data) {
-    document.title = "Company - " + this.data.name;
-    SetRouteDetails(document.title);
-  }
-
   // Load google maps
   GoogleMaps.load();
-
 });
 
 Template.companyDetail.events({
