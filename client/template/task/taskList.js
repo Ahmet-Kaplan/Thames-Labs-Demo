@@ -1,7 +1,7 @@
 Session.set('showCompleted', 1);
 
 Template.taskList.helpers({
-  showComp: function() {    
+  showComp: function() {
     return (Session.get('showCompleted') === 1 ? true : false);
   },
   tasks: function() {
@@ -35,6 +35,9 @@ Template.taskList.events({
 });
 
 Template.taskListEntry.helpers({
+  friendlyDate:function(){
+    return moment(this.dueDate).format('MMMM Do YYYY');
+  },
   isCompleted: function() {
     return this.completed;
   },
@@ -46,16 +49,31 @@ Template.taskListEntry.helpers({
         dataString = "Personal task"
         break;
       case 'company':
-        dataString = "Company task"
+        dataString = "Company task";
+        var handle = Meteor.subscribe("companyById", this.entityId);
+        if (handle.ready()) {
+          var c = Companies.find({}).fetch()[0];
+          dataString += ": " + c.name;
+        }
         break;
       case 'contact':
-        dataString = "Contact task"
+        dataString = "Contact task";
+        var handle = Meteor.subscribe("contactById", this.entityId);
+        if (handle.ready()) {
+          var c = Contacts.find({}).fetch()[0];
+          dataString += ": " + c.title + " " + c.forename + " " + c.surname;
+        }
         break;
       case 'project':
-        dataString = "Project task"
+        dataString = "Project task";
+        var handle = Meteor.subscribe("projectById", this.entityId);
+        if (handle.ready()) {
+          var p = Projects.find({}).fetch()[0];
+          dataString += ": " + p.description;
+        }
         break;
       default:
-        dataString = "Misc. task"
+        dataString = "Misc. task";
     }
 
     return dataString;

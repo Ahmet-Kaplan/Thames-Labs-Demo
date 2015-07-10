@@ -90,6 +90,9 @@ Template.taskDisplay.events({
 });
 
 Template.taskDisplayItem.helpers({
+  friendlyDate:function(){
+    return moment(this.dueDate).format('MMMM Do YYYY');
+  },
   isDashboard: function() {
     return (Router.current().route.getName() === "dashboard" ? true : false);
   },
@@ -140,10 +143,3 @@ Template.taskDisplayItem.events({
     Tasks.remove(this._id);
   }
 });
-
-Template.taskDisplayItem.rendered = function() {
-  if (handle.ready()) {
-    console.log('ready');
-    console.log(FeedHits.find().fetch());
-  }
-};
