@@ -129,5 +129,11 @@ Template.purchaseOrderDetail.helpers({
     return PurchaseOrderItems.find({
       purchaseOrderId: this._id
     });
+  },
+  isOpen:function(){
+    return(this.status !=="Closed" ? true : false);
+  },
+  canAddMoreItems:function(){
+    return(this.status ==="Requested" ? true : false);
   }
 });

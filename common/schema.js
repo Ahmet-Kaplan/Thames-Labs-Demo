@@ -308,7 +308,9 @@ Schemas.PurchaseOrder = new SimpleSchema({
       'Approved',
       'Rejected',
       'Ordered',
-      'Arrived'
+      'Arrived',
+      'Closed',
+      'Cancelled'
     ]
   },
   orderDate: {
