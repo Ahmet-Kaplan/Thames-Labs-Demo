@@ -9,7 +9,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="newTaskModal" type="insert"}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datepicker"}} {{#if
+          {{#autoForm collection="Tasks" id="newTaskModal" type="insert"}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}} {{#if
           isUserTask}} {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}} {{else}} {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}} {{/if}} {{> afQuickField name="entityType" value=getEntityType
           type='hidden' }} {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
           <button type="submit" class="btn btn-primary">Submit</button> {{/autoForm}}
@@ -31,7 +31,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="editTaskModal" type="update" doc=this}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datepicker"}}
+          {{#autoForm collection="Tasks" id="editTaskModal" type="update" doc=this}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           <!-- {{> afQuickField name="assigneeId"          id="taskUserList" options=usersAsOptions}}  -->
 
           {{#if isUserTask}} {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}} {{else}} {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}} {{/if}} {{> afQuickField name="completed" id="taskCompleted"}}
@@ -69,7 +69,7 @@
         {{entityDetails}}
       </div>
       <div class="col-md-2 userDataDisplay">
-        Due: {{dueDate}}
+        Due: {{friendlyDate}}
       </div>
       <div class="col-md-3">
         <div class="btn-group pull-right">
@@ -88,7 +88,7 @@
         <i class="fa fa-fw fa-tasks"></i> {{title}}
       </div>
       <div class="col-md-6 userDataDisplay">
-        Due: {{dueDate}}
+        Due: {{friendlyDate}}
       </div>
       <div class="col-md-3">
         <div class="btn-group pull-right">

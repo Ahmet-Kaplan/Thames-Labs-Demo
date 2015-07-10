@@ -90,6 +90,9 @@ Template.taskDisplay.events({
 });
 
 Template.taskDisplayItem.helpers({
+  friendlyDate:function(){
+    return moment(this.dueDate).format('MMMM Do YYYY');
+  },
   isDashboard: function() {
     return (Router.current().route.getName() === "dashboard" ? true : false);
   },
