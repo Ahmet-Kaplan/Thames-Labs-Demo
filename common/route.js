@@ -47,34 +47,6 @@ Router.onAfterAction(function() {
 
 });
 
-// Router.onBeforeAction(function() {
-//   if (Meteor.user()) {
-//     this.next();
-//   } else {
-//     this.render('login');
-//   }
-// });
-//
-// Router.onBeforeAction(function() {
-//   if (Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
-//     this.next();
-//   } else {
-//     this.redirect('/');
-//   }
-// }, {
-//   only: ['tenants', 'notifications']
-// });
-//
-// Router.onBeforeAction(function() {
-//   if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
-//     this.next();
-//   } else {
-//     this.redirect('/tenants');
-//   }
-// }, {
-//   only: ['dashboard']
-// });
-//
 Router.onBeforeAction(function() {
   GoogleMaps.load();
   this.next();

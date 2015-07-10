@@ -5,12 +5,15 @@ Template.purchaseOrderList.onRendered(function() {
       top: sidebar.offset().top
     }
   });
+  if (this.supplierContactId) {
+    Meteor.subscribe("contactById", this.supplierContactId);
+  }
 });
 
 Template.purchaseOrderList.events({
-    'click #add-purchase-order': function() {
-      Modal.show('newPurchaseOrderForm', this);
-    },
+  'click #add-purchase-order': function() {
+    Modal.show('newPurchaseOrderForm', this);
+  },
 });
 
 Template.purchaseOrderList.helpers({
@@ -40,6 +43,18 @@ Template.purchaseOrderListItem.helpers({
 
     if (cont) {
       return cont.forename + ' ' + cont.surname;
+    } else {
+      return null;
+    }
+  },
+  projectName: function() {
+    var po = this;
+    var proj = Projects.findOne({
+      _id: po.projectId
+    });
+
+    if (proj) {
+      return proj.description;
     } else {
       return null;
     }
