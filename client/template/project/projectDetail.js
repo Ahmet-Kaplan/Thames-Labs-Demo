@@ -6,15 +6,15 @@ Template.projectDetail.onRendered(function() {
       top: sidebar.offset().top
     }
   });
-});
-
-Template.projectDetail.rendered = function(){
   document.title = "Project - " + this.data.description;
   SetRouteDetails(document.title);
-};
-
+});
 
 Template.projectDetail.helpers({
+  projectData: function() {
+    var projectId = FlowRouter.getParam('id');
+    return Projects.findOne(projectId);
+  },
   managerName: function() {
     return Meteor.users.find({
       _id: this.userId

@@ -39,7 +39,7 @@ AutoForm.hooks({
           return false;
         }
 
-        Router.go('/companies/' + result);
+        FlowRouter.go('/companies/' + result);
       }
     }
   },
@@ -109,7 +109,7 @@ AutoForm.hooks({
           return false;
         }
 
-        Router.go('/companies/' + result);
+        FlowRouter.go('/companies/' + result);
         $(".modal-backdrop").remove();
         $("body").removeClass('modal-open');
       }
@@ -119,7 +119,7 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide();
       toastr.success('Company removed.');
-      Router.go('/companies');
+      FlowRouter.go('/companies');
     }
   },
   feedbackForm: {

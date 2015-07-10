@@ -152,7 +152,7 @@ SetRouteDetails = function(title) {
     if (profile) {
       profile.lastActivity = {
         page: title,
-        url: Router.current().url
+        url: FlowRouter.current().path
       };
 
       Meteor.users.update(user._id, {

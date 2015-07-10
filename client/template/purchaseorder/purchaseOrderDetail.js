@@ -15,12 +15,10 @@ Template.purchaseOrderDetail.onRendered(function() {
       top: sidebar.offset().top
     }
   });
-});
 
-Template.purchaseOrderDetail.rendered = function(){
   document.title = "Purchase Order - " + this.data.description;
   SetRouteDetails(document.title);
-};
+});
 
 Template.purchaseOrderDetail.events({
   'click #add-item': function() {
@@ -56,6 +54,10 @@ Template.purchaseOrderItem.helpers({
 });
 
 Template.purchaseOrderDetail.helpers({
+  purchaseOrderData: function() {
+    var purchaseOrderId = FlowRouter.getParam('id');
+    return PurchaseOrders.findOne(purchaseOrderId);
+  },
   hasItems: function() {
     return PurchaseOrderItems.find({
       purchaseOrderId: this._id

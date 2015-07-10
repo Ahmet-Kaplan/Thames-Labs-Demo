@@ -86,7 +86,7 @@ module.exports = function () {
 
   this.Then(/^I should see the dashboard$/, function(callback) {
     this.client
-      .waitForExist('#id-view-content h1')
+      .waitForVisible('h1')
       .getText('#id-view-content h1', function(err, text) {
         expect(text).to.contain('Dashboard');
       });

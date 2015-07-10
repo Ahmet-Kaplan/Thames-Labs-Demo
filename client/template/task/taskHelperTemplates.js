@@ -67,10 +67,10 @@ Template.insertNewTask.events({
 
 Template.taskDisplay.helpers({
   isDashboard: function() {
-    return (Router.current().route.getName() === "dashboard" ? true : false);
+    return (FlowRouter.getRouteName() === "dashboard" ? true : false);
   },
   tasks: function() {
-    if (Router.current().route.getName() === "dashboard") {
+    if (FlowRouter.getRouteName() === "dashboard" === "dashboard") {
       return Tasks.find({
         completed: false
       });
@@ -91,7 +91,7 @@ Template.taskDisplay.events({
 
 Template.taskDisplayItem.helpers({
   isDashboard: function() {
-    return (Router.current().route.getName() === "dashboard" ? true : false);
+    return (FlowRouter.getRouteName() === "dashboard" ? true : false);
   },
   entityDetails: function() {
     var dataString = "";
@@ -140,10 +140,3 @@ Template.taskDisplayItem.events({
     Tasks.remove(this._id);
   }
 });
-
-Template.taskDisplayItem.rendered = function() {
-  if (handle.ready()) {
-    console.log('ready');
-    console.log(FeedHits.find().fetch());
-  }
-};

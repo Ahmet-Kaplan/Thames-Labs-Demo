@@ -1,6 +1,5 @@
 <template name="contactDetail">
-
-
+  {{#with contactData}}
   <div class="row">
     <div class="col-md-2 hidden-xs hidden-sm">
       <div class="sidebar">
@@ -26,7 +25,7 @@
           </div>
           Contact details</div>
         <ul class="list-group">
-          <a href="{{pathFor route='company' data=company}}" class="list-group-item">
+          <a href="{{pathFor route='company' id=company._id}}" class="list-group-item">
             <i class="fa fa-fw fa-building"></i> {{company.name}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
@@ -75,4 +74,5 @@
 
   {{> autoformModals}}
 
+  {{/with}}
 </template>

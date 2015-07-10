@@ -1,4 +1,5 @@
 Template.companyDetail.onRendered(function() {
+
   // Affix sidebar
   var sidebar = $('.sidebar');
   sidebar.affix({
@@ -6,17 +7,20 @@ Template.companyDetail.onRendered(function() {
       top: sidebar.offset().top
     }
   });
+
   // Load docxgen
   $.getScript('/vendor/docxgen.min.js');
 
-});
-
-Template.companyDetail.rendered = function() {
+  // set page title
   if (this.data) {
     document.title = "Company - " + this.data.name;
     SetRouteDetails(document.title);
   }
-};
+
+  // Load google maps
+  GoogleMaps.load();
+
+});
 
 Template.companyDetail.events({
   'change #template-upload': function(event) {
@@ -66,6 +70,10 @@ Template.companyDetail.events({
 });
 
 Template.companyDetail.helpers({
+  companyData: function() {
+    var companyId = FlowRouter.getParam('id');
+    return Companies.findOne({_id: companyId});
+  },
   addressString: function() {
     return encodeURIComponent([
       this.address,

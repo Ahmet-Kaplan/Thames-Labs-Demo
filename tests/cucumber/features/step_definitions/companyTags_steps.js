@@ -12,7 +12,7 @@ module.exports = function() {
 
   this.Then(/^I should see a tag on the company$/, function(callback) {
     this.client
-      .waitForVisible('#mchCompanyList > a:first-child .badge')
+      .waitForExist('div#company-list', 5000)
       .getText('#mchCompanyList > a:first-child .badge', function(err, text) {
         expect(text).to.contain('test tag');
       })

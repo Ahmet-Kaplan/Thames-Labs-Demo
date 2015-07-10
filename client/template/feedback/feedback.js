@@ -14,6 +14,6 @@ Template.feedbackModal.helpers({
     return eAdd;
   },
   'currentUrl': function() {
-    return Router.current().url;
+    return FlowRouter.current().path;
   }
 });
