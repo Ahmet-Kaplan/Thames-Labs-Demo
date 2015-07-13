@@ -1,18 +1,3 @@
-Template.insertNewTask.rendered = function() {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35
-  });
-};
-
-Template.updateTask.rendered = function() {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35
-  });
-};
 
 Template.insertNewTask.helpers({
   usersAsOptions: function() {
@@ -91,7 +76,7 @@ Template.taskDisplay.events({
 
 Template.taskDisplayItem.helpers({
   friendlyDate:function(){
-    return moment(this.dueDate).format('MMMM Do YYYY');
+    return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
   },
   isDashboard: function() {
     return (Router.current().route.getName() === "dashboard" ? true : false);
@@ -141,5 +126,8 @@ Template.taskDisplayItem.events({
   },
   'click #btnDeleteEntityTask': function() {
     Tasks.remove(this._id);
+  },
+  'click .displayedTaskHeading': function(){
+      $('.displayedTaskBody').scrollTop($('.displayedTaskBody').prop("scrollHeight"));
   }
 });

@@ -1,5 +1,14 @@
 #taskContainer{
-  max-height: 180px;
+  /*max-height: 180px;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: scroll;*/
+  padding-top:3px;
+}
+
+#displayedTaskHeading{
+  cursor: pointer;
+}
+
+#taskContainer > .panel{
+  margin:3px;
 }
