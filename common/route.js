@@ -55,8 +55,8 @@ Router.onBeforeAction(function() {
 });
 
 Router.configure({
-  progressSpinner : false,
-  progressDelay : 100,
+  progressSpinner: false,
+  progressDelay: 100,
   loadingTemplate: 'loading'
 });
 
@@ -435,10 +435,10 @@ Router.route('/invoices', {
 Router.route('/tasks', {
   name: 'tasks',
   template: 'taskList',
-  waitOn:function(){
+  waitOn: function() {
     return [
-    subs.subscribe('allUserTasks', Meteor.userId())
-  ];
+      subs.subscribe('allUserTasks', Meteor.userId())
+    ];
   }
 });
 
@@ -446,4 +446,16 @@ Router.route('/tasks', {
 Router.route('/profile', {
   name: 'profile',
   template: 'userProfile'
+});
+
+
+Router.route('/datamanagement', {
+  name: 'datamanagement',
+  template: 'datamanagement',
+  waitOn: function() {
+    return [
+      subs.subscribe('allCompanies', Meteor.userId()),
+      subs.subscribe('allContacts', Meteor.userId())
+    ];
+  }
 });

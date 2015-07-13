@@ -10,28 +10,6 @@
         {{> esInput index="contacts" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
         <div class="btn-group-vertical">
           <a href="#" id="add-contact" class="btn btn-primary addContactToCompany">Add contact</a>
-
-          <div class="btn-group" style="margin-top:5px;">
-            <div class="btn-group">
-              <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
-                Import Contacts
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#" id="template-download-link">Download import template</a></li>
-                <li class="divider"></li>
-                <li><a href="#" id="data-upload-link">Import from CSV...</a></li>
-                <li class="divider"></li>
-                <li><a href="#" id="template-help">How does this work?</a></li>
-              </ul>
-            </div>
-            <div class="btn-group">
-              <button type="button" id='exportContactList' class="btn btn-info btn-xs">
-                Export Contacts
-              </button>
-              <input type="file" id="data-upload" style="display:none;">
-            </div>
-          </div>
         </div>
       </div>
     </div>
