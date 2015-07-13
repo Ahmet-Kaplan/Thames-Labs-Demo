@@ -42,7 +42,7 @@
           name="supplierContactId" id="companyContacts" options=contactsAsOptions }} {{/if}} {{> afQuickField name="projectId" options=projectsAsOptions }} {{> afQuickField name="supplierReference" }} {{> afQuickField name="status" options="allowed"}}
           {{> afQuickField name="paymentMethod" options="allowed"}}
 
-          <button type="submit" class="btn btn-success">Update</button>
+          <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
         </div>
 
@@ -64,7 +64,7 @@
           {{#autoForm collection="PurchaseOrderItems" id="addPurchaseOrderItem" type="insert"}} {{> afQuickField name="purchaseOrderId" type="hidden" value=project._id}} {{> afQuickField name="description"}} {{> afQuickField name="productCode" }} {{> afQuickField
           name="currency" options="allowed"}} {{> afQuickField name="value" id="itemValue"}} {{> afQuickField name="quantity" id="currQuant"}} {{> afQuickField name="totalPrice" readonly=true id="activePrice" }} {{> afQuickField name="createdBy" value=currentUser
           }}
-          <button type="submit" class="btn btn-success">Add</button>
+          <button type="submit" class="btn btn-primary">Add</button>
           {{/autoForm}}
         </div>
 
@@ -85,7 +85,7 @@
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrderItems" id="editPurchaseOrderItem" type="update" doc=this}} {{> afQuickField name="description"}} {{> afQuickField name="productCode" }} {{> afQuickField name="currency" options="allowed"}} {{> afQuickField name="value"
           id="itemValue"}} {{> afQuickField name="quantity" id="currQuant"}} {{> afQuickField name="totalPrice" readonly=true id="activePrice"}}
-          <button type="submit" class="btn btn-success">Update</button>
+          <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
         </div>
 
