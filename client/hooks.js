@@ -23,6 +23,9 @@ Accounts.onLogin(function(cb) {
       });
     }
   }
+
+  FlowRouter.redirect('/#');
+  
 });
 
 AutoForm.hooks({
