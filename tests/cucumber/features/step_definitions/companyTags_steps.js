@@ -13,7 +13,7 @@ module.exports = function() {
   this.Then(/^I should see a tag on the company$/, function(callback) {
     this.client
       // .waitForExist('#loading-page', 5000, true)
-      // .waitForExist('#company-list')
+      .waitForExist('#company-list')
       .execute(function(){
         Meteor.call('addTagToCompany');
       })
