@@ -24,8 +24,8 @@ Accounts.onLogin(function(cb) {
     }
   }
 
-  FlowRouter.redirect('/#');
-  
+  // FlowRouter.redirect('/#');
+
 });
 
 AutoForm.hooks({
