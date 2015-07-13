@@ -1,0 +1,88 @@
+@import "../../bootstrap/custom.bootstrap.import.less";
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-weight: 300;
+  font-style: normal;
+  src: url('/fonts/Source-Sans-Pro-300/Source-Sans-Pro-300.eot');
+  src: url('/fonts/Source-Sans-Pro-300/Source-Sans-Pro-300.eot?#iefix') format('embedded-opentype'),
+       local('Source Sans Pro Light'),
+       local('Source-Sans-Pro-300'),
+       url('/fonts/Source-Sans-Pro-300/Source-Sans-Pro-300.woff2') format('woff2'),
+       url('/fonts/Source-Sans-Pro-300/Source-Sans-Pro-300.woff') format('woff'),
+       url('/fonts/Source-Sans-Pro-300/Source-Sans-Pro-300.ttf') format('truetype'),
+       url('/fonts/Source-Sans-Pro-300/Source-Sans-Pro-300.svg#SourceSansPro') format('svg');
+}
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-weight: 400;
+  font-style: normal;
+  src: url('/fonts/Source-Sans-Pro-regular/Source-Sans-Pro-regular.eot');
+  src: url('/fonts/Source-Sans-Pro-regular/Source-Sans-Pro-regular.eot?#iefix') format('embedded-opentype'),
+       local('Source Sans Pro'),
+       local('Source-Sans-Pro-regular'),
+       url('/fonts/Source-Sans-Pro-regular/Source-Sans-Pro-regular.woff2') format('woff2'),
+       url('/fonts/Source-Sans-Pro-regular/Source-Sans-Pro-regular.woff') format('woff'),
+       url('/fonts/Source-Sans-Pro-regular/Source-Sans-Pro-regular.ttf') format('truetype'),
+       url('/fonts/Source-Sans-Pro-regular/Source-Sans-Pro-regular.svg#SourceSansPro') format('svg');
+}
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-weight: 700;
+  font-style: normal;
+  src: url('/fonts/Source-Sans-Pro-700/Source-Sans-Pro-700.eot');
+  src: url('/fonts/Source-Sans-Pro-700/Source-Sans-Pro-700.eot?#iefix') format('embedded-opentype'),
+       local('Source Sans Pro Bold'),
+       local('Source-Sans-Pro-700'),
+       url('/fonts/Source-Sans-Pro-700/Source-Sans-Pro-700.woff2') format('woff2'),
+       url('/fonts/Source-Sans-Pro-700/Source-Sans-Pro-700.woff') format('woff'),
+       url('/fonts/Source-Sans-Pro-700/Source-Sans-Pro-700.ttf') format('truetype'),
+       url('/fonts/Source-Sans-Pro-700/Source-Sans-Pro-700.svg#SourceSansPro') format('svg');
+}
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  padding-top:50px;
+}
+
+blockquote {
+  margin-bottom:0;
+}
+
+#id-view-content {
+  position:absolute;
+  left: @sidebar-width + 10px;
+  right:10px;
+  overflow-x:hidden;
+  padding: 4px 12px 30px;
+  transition: all 0.15s ease-in-out;
+  box-sizing: border-box;
+  top: @navbar-height;
+  bottom: 0;
+}
+
+#id-view-content.no-menu {
+  left:0;
+}
+
+@media only screen and (max-width: 768px) {
+  #id-view-content {
+    left:0;
+    padding: 4px 8px;
+  }
+}
+
+.at-title > h3 {
+  font-weight:lighter;
+  font-size: 2.2em;
+}
+
+.sidebar.affix {
+  top: 50px;
+}
+
+#iron-router-progress {
+    background-color: lighten(@brand-primary, 35%);
+    box-shadow: none;
+}

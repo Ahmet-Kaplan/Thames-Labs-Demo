@@ -1,9 +1,17 @@
 
 .footer {
   position: fixed;
-  left: 0px;
   bottom: 0px;
+  left: inherit;
   height: 30px;
-  width: 100%;
+  line-height: 30px;
+  right:0;
   background-color: #ffffff;
+  padding: 0 15px;
+}
+
+@media only screen and (max-width: 768px) {
+  .footer{
+     display:none;
+   }
 }

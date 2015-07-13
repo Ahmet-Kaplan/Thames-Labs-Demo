@@ -21,13 +21,7 @@ Router.onAfterAction(function() {
 
     } else {
 
-      if (Router.current().route.getName() === 'company') {
-
-        GoogleMaps.load();
-
-      }
-
-    if (Router.current().route.getName() === 'tenants' || Router.current().route.getName() === 'notifications') {
+      if (Router.current().route.getName() === 'tenants' || Router.current().route.getName() === 'notifications') {
 
         this.redirect('/');
 
@@ -47,42 +41,24 @@ Router.onAfterAction(function() {
     }
   }
 
+  //Remove modal if still exist
+  $(".modal-backdrop").remove();
+  $("body").removeClass('modal-open');
+
 });
 
-// Router.onBeforeAction(function() {
-//   if (Meteor.user()) {
-//     this.next();
-//   } else {
-//     this.render('login');
-//   }
-// });
-//
-// Router.onBeforeAction(function() {
-//   if (Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
-//     this.next();
-//   } else {
-//     this.redirect('/');
-//   }
-// }, {
-//   only: ['tenants', 'notifications']
-// });
-//
-// Router.onBeforeAction(function() {
-//   if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
-//     this.next();
-//   } else {
-//     this.redirect('/tenants');
-//   }
-// }, {
-//   only: ['dashboard']
-// });
-//
-// Router.onBeforeAction(function() {
-//   GoogleMaps.load();
-//   this.next();
-// }, {
-//   only: ['company']
-// });
+Router.onBeforeAction(function() {
+  GoogleMaps.load();
+  this.next();
+}, {
+  only: ['company']
+});
+
+Router.configure({
+  progressSpinner: false,
+  progressDelay: 100,
+  loadingTemplate: 'loading'
+});
 
 Router.route('/tenants', {
   name: 'tenants',
@@ -112,7 +88,8 @@ Router.route('/', {
     if (Meteor.user()) {
       return [
         subs.subscribe('currentTenantUserData', group),
-        subs.subscribe('allChatter')
+        subs.subscribe('allChatter'),
+        subs.subscribe('allUserTasks', Meteor.userId()),
       ];
     }
   }
@@ -146,11 +123,18 @@ Router.route('/companies/:_id', {
       subs.subscribe("contactsByCompanyId", this.params._id),
       subs.subscribe("projectsByCompanyId", this.params._id),
       subs.subscribe('activityByCompanyId', this.params._id),
-      subs.subscribe('purchaseOrdersByCompanyId', this.params._id)
+      subs.subscribe('purchaseOrdersByCompanyId', this.params._id),
+      subs.subscribe('companyTags'),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
-    return Companies.findOne(this.params._id);
+    var result = Companies.findOne(this.params._id);
+    if (result === undefined) {
+      Router.go('/companies');
+    }
+    return result;
   },
   action: function() {
     this.render();
@@ -177,7 +161,9 @@ Router.route('/customers/:_id', {
       subs.subscribe("contactsByCompanyId", this.params._id),
       subs.subscribe("projectsByCompanyId", this.params._id),
       subs.subscribe('activityByCompanyId', this.params._id),
-      subs.subscribe('purchaseOrdersByCompanyId', this.params._id)
+      subs.subscribe('purchaseOrdersByCompanyId', this.params._id),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
@@ -205,7 +191,9 @@ Router.route('/suppliers/:_id', {
       subs.subscribe("contactsByCompanyId", this.params._id),
       subs.subscribe("projectsByCompanyId", this.params._id),
       subs.subscribe('activityByCompanyId', this.params._id),
-      subs.subscribe('purchaseOrdersByCompanyId', this.params._id)
+      subs.subscribe('purchaseOrdersByCompanyId', this.params._id),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
@@ -237,11 +225,17 @@ Router.route('/contacts/:_id', {
     return [
       subs.subscribe("contactById", this.params._id),
       subs.subscribe('companyById', Contacts.findOne(this.params._id).companyId),
-      subs.subscribe('activityByContactId', this.params._id)
+      subs.subscribe('activityByContactId', this.params._id),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
-    return Contacts.findOne(this.params._id);
+    var result = Contacts.findOne(this.params._id);
+    if (result === undefined) {
+      Router.go('/contacts');
+    }
+    return result;
   }
 });
 
@@ -271,11 +265,17 @@ Router.route('/opportunities/:_id', {
       subs.subscribe("projectById", this.params._id),
       subs.subscribe('companyById', Projects.findOne(this.params._id).companyId),
       subs.subscribe('activityByProjectId', this.params._id),
-      subs.subscribe('contactsByCompanyId', Projects.findOne(this.params._id).companyId)
+      subs.subscribe('contactsByCompanyId', Projects.findOne(this.params._id).companyId),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
-    return Projects.findOne(this.params._id);
+    var result = Projects.findOne(this.params._id);
+    if (result === undefined) {
+      Router.go('/opportunities');
+    }
+    return result;
   }
 });
 Router.route('/projects', {
@@ -304,11 +304,17 @@ Router.route('/projects/:_id', {
       subs.subscribe("projectById", this.params._id),
       subs.subscribe('companyById', Projects.findOne(this.params._id).companyId),
       subs.subscribe('activityByProjectId', this.params._id),
-      subs.subscribe('contactsByCompanyId', Projects.findOne(this.params._id).companyId)
+      subs.subscribe('contactsByCompanyId', Projects.findOne(this.params._id).companyId),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
-    return Projects.findOne(this.params._id);
+    var result = Projects.findOne(this.params._id);
+    if (result === undefined) {
+      Router.go('/projects');
+    }
+    return result;
   }
 });
 
@@ -344,11 +350,17 @@ Router.route('/purchaseorders/:_id', {
       subs.subscribe('activityByPurchaseOrderId', this.params._id),
       subs.subscribe('contactById', PurchaseOrders.findOne(this.params._id).supplierContactId),
       subs.subscribe('purchaseOrderById', this.params._id),
-      subs.subscribe('allPurchaseOrderItems', this.params._id)
+      subs.subscribe('allPurchaseOrderItems', this.params._id),
+      subs.subscribe('tasksByEntityId', this.params._id),
+      subs.subscribe('currentTenantUserData', group)
     ];
   },
   data: function() {
-    return PurchaseOrders.findOne(this.params._id);
+    var result = PurchaseOrders.findOne(this.params._id);
+    if (result === undefined) {
+      Router.go('/purchaseorders');
+    }
+    return result;
   }
 });
 
@@ -422,11 +434,28 @@ Router.route('/invoices', {
 
 Router.route('/tasks', {
   name: 'tasks',
-  template: 'taskList'
+  template: 'taskList',
+  waitOn: function() {
+    return [
+      subs.subscribe('allUserTasks', Meteor.userId())
+    ];
+  }
 });
 
 
 Router.route('/profile', {
   name: 'profile',
   template: 'userProfile'
+});
+
+
+Router.route('/datamanagement', {
+  name: 'datamanagement',
+  template: 'datamanagement',
+  waitOn: function() {
+    return [
+      subs.subscribe('allCompanies', Meteor.userId()),
+      subs.subscribe('allContacts', Meteor.userId())
+    ];
+  }
 });

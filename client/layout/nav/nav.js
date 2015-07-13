@@ -58,6 +58,29 @@ Template.nav.helpers({
         createdAt: -1
       }
     }).count();
+  },
+  favourites: function() {
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+    if (!profile.favourites) {
+      return null;
+    } else {
+      favList = profile.favourites;
+      return favList;
+      // var list = new ReactiveArray();
+      // _.each(favList, function(f) {
+      //   list.push(f);
+      // });
+      // console.log(list);
+      // return list;
+    }
+  },
+  shouldDisplayMenu: function() {
+    var isUserAdmin = Roles.userIsInRole(Meteor.user(), ['superadmin']);
+    if (isUserAdmin) {
+      return "visible-xs";
+    } else {
+      return "";
+    }
   }
 });
 
@@ -84,18 +107,83 @@ Template.notice.helpers({
   }
 });
 
+Template.menuNotice.helpers({
+  shortText: function() {
+    var c = this.title;
+    var s = c.substr(0, 40);
+    if (s.length > 37) {
+      return s + "...";
+    } else {
+      return s;
+    }
+  },
+  recentNote: function() {
+    var today = new Date();
+    var yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    if (this.createdAt >= yesterday) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+});
+
+//NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
-  "click #tenancy-one": function() {
-    Meteor.call('switchTenancy', Meteor.userId(), 'JsdTxQCWWoDxNFnbf');
-    window.location.reload();
+  'click #mnuAddToFavourites': function() {
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+
+    if (profile.favourites) {
+      var favList = profile.favourites;
+      var exists = false;
+
+      _.each(favList, function(y) {
+        if (y.url === Router.current().url) {
+          exists = true;
+        }
+      });
+
+      if (exists) {
+        toastr.info('Page already favourited.');
+        return;
+      }
+      else {
+        var x = {
+          name: document.title,
+          url: Router.current().url
+        }
+        favList.push(x);
+        profile.favourites = favList;
+      }
+    } else {
+      var fav = [];
+      var x = {
+        name: document.title,
+        url: Router.current().url
+      }
+      fav.push(x);
+      profile.favourites = fav;
+    }
+
+    Meteor.users.update(Meteor.userId(), {
+      $set: {
+        profile: profile
+      }
+    });
   },
-  "click #tenancy-two": function() {
-    Meteor.call('switchTenancy', Meteor.userId(), 'PBXf8D4FLTZaPsJjg');
-    window.location.reload();
+  'click #qckCreateCompany': function() {
+    Modal.show('insertNewCompanyModal', this);
   },
-  "click #tenancy-three": function() {
-    Meteor.call('switchTenancy', Meteor.userId(), '5yzHfQ96PuhuETdho');
-    window.location.reload();
+  'click #qckCreateContact': function() {
+    Modal.show('insertCompanyContactModal', this);
+  },
+  'click #qckCreateProject': function() {
+    Modal.show('newProjectForm', this);
+  },
+  'click #qckCreatePurchaseOrder': function() {
+    Modal.show('newPurchaseOrderForm', this);
   },
   'click #feedback-link': function() {
     Modal.show('feedbackModal');
@@ -105,11 +193,37 @@ Template.nav.events({
   },
   'click #sign-out': function() {
     Meteor.logout();
+  },
+  'click #id-menu-button': function() {
+    if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
+      document.getElementById("id-view-sidemenu").className =
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
+    } else {
+      document.getElementById("id-view-sidemenu").className = "active";
+    }
+  },
+  'click .panel-body > table > tr > td > a': function() {
+    if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
+      document.getElementById("id-view-sidemenu").className =
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
+    }
+  },
+  'click .dismiss-on-click': function() {
+    if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
+      document.getElementById("id-view-sidemenu").className =
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
+    }
   }
 });
 
 Template.notice.events({
-  'click #btnOpenNotice': function() {
+  'click .btnOpenNotice': function() {
+    Modal.show('notificationModal', this);
+  }
+});
+
+Template.menuNotice.events({
+  'click .btnOpenNotice': function() {
     Modal.show('notificationModal', this);
   }
 });

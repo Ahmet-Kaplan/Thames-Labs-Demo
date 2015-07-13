@@ -1,33 +1,25 @@
 <template name="nav">
   <div id="id-nav-bar">
-    {{#unless isPhone}}
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
-          <button class="navbar-toggle collapsed" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+          {{#if loggedIn}}
+          <button id="id-menu-button" class="navbar-toggle collapsed pull-left" type="button">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
+          {{/if}}
           <a class="navbar-brand" href="/">
-            <!-- <img alt="RealtimeCRM" src="elite-32x32.png"> -->
-            RealtimeCRM
+            <img alt="" src="/icon.svg">RealTime
+            <span>CRM</span>
             <small>alpha</small>
           </a>
         </div>
         {{#if loggedIn}}
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
-
-            <!--<li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tenancies <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li id="tenancy-one"><a href="#">Test</a></li>
-                <li id="tenancy-two"><a href="#">Example</a></li>
-                <li id="tenancy-three"><a href="#">Third</a></li>
-              </ul>
-            </li>-->
 
             {{#if isInRole 'superadmin'}}
             <li>
@@ -47,11 +39,26 @@
             {{/if}} {{#unless isInRole 'superadmin'}}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-fw fa-plus"></i> Quick Menu
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="#" id="qckCreateCompany"><i class="fa fa-fw fa-building"></i> New Company</a></li>
+                <li><a href="#" id="qckCreateContact"><i class="fa fa-fw fa-user"></i> New Contact</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#" id="qckCreateProject"><i class="fa fa-fw fa-files-o"></i> New Project</a></li>
+                <li><a href="#" id="qckCreatePurchaseOrder"><i class="fa fa-fw fa-shopping-cart"></i> New Purchase Order</a></li>
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-fw fa-user"></i> {{userName}}
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="#" id="feedback-link">Give Feedback</a></li>
+                <li><a href="http://realtimecrm.co.uk/roadmap.html" id="roadmap-link" target="_blank">Feature Roadmap</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#" id="btnChangePassword">Change Password</a></li>
                 <li role="separator" class="divider"></li>
@@ -62,7 +69,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 {{#if recentNote}}
-                <i class="fa fa-fw fa-bell text-primary"></i> {{recentNoteCount}}
+                <i class="fa fa-fw fa-bell"></i> {{recentNoteCount}}
                 {{else}}
                 <i class="fa fa-fw fa-bell"></i>
                 {{/if}}
@@ -91,17 +98,451 @@
         {{/if}}
       </div>
     </nav>
-    {{/unless}} {{#if isPhone}} {{> phoneNav}} {{/if}}
   </div>
 
-  <!--<div id="id-nav-main-view">-->
-  {{> view}}
-  <!--</div>-->
+  {{#if loggedIn}}
+  <div id="id-view-sidemenu" class={{shouldDisplayMenu}}>
+    <div class="panel-group" id="accordion">
+      {{#unless isInRole 'superadmin'}}
+      <div class="panel panel-default accordion-links">
+        <table class="table">
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title" id="id-dashboard">
+                <a href='/' class="dismiss-on-click {{#if isActiveRoute 'companies'}}active{{/if}}">
+                  <i class="fa fa-fw fa-home"></i> Dashboard
+                </a>
+              </h4>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseFavourites">
+              <i class="fa fa-fw fa-star"></i> Favourites
+              <i class="fa fa-angle-down pull-right"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseFavourites">
+          <div class="panel-body">
+            <div class="btn-group btn-group-justified">
+              <div class="btn-group">
+                <button class="btn btn-xs btn-primary" role="button" id="mnuAddToFavourites">Add to favourites</button>
+              </div>
+            </div>
+            <table class="table">
+              {{#each favourites}} {{>favourite}} {{else}}
+              <tr>
+                <td>
+                  <em>No favourites</em>
+                </td>
+              </tr>
+              {{/each}}
+
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="panel panel-default accordion-links">
+        <table class="table">
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
+                  <i class="fa fa-fw fa-building"></i> Companies
+                </a>
+              </h4>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
+                  <i class="fa fa-fw fa-user"></i> Contacts
+                </a>
+              </h4>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <i class="fa fa-fw fa-check"></i>
+                <a href='/tasks' class="{{#if isActiveRoute 'tasks'}}active{{/if}}">Tasks
+                  </a>
+              </h4>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseMarketing">
+              <i class="fa fa-fw fa-camera"></i> Marketing
+              <i class="fa fa-angle-down pull-right"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseMarketing">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <a href='/campaigns' class="not-active {{#if isActiveRoute 'campaigns'}}active{{/if}}">
+                    <i class="fa fa-fw fa-flag"></i> Campaigns</a>
+                </td>
+              </tr>
+
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseSales">
+              <i class="fa fa-fw fa-money"></i> Sales
+              <i class="fa fa-angle-down pull-right"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseSales">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <a href='/opportunities' class="not-active {{#if isActiveRoute 'opportunities'}}active{{/if}}">
+                    <i class="fa fa-fw fa-files-o"></i> Opportunities</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseOperations">
+              <i class="fa fa-fw fa-files-o"></i> Operations
+              <i class="fa fa-angle-down pull-right"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseOperations">
+          <div class="panel-body">
+            <table class="table">
+              <!-- <tr>
+                <td>
+                  <a href='/customers' class="not-active {{#if isActiveRoute 'customers'}}active{{/if}}">
+                    <i class="fa fa-fw fa-building"></i> Customers</a>
+                </td>
+              </tr> -->
+              <tr>
+                <td>
+                  <a href='/projects' class="{{#if isActiveRoute 'projects'}}active{{/if}}">
+                    <i class="fa fa-fw fa-files-o"></i> Projects</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapsePurchasing">
+              <i class="fa fa-fw fa-shopping-cart"></i> Purchasing
+              <i class="fa fa-angle-down pull-right"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapsePurchasing">
+          <div class="panel-body">
+            <table class="table">
+              <!-- <tr>
+                <td>
+                  <a href='/suppliers' class="not-active {{#if isActiveRoute 'suppliers'}}active{{/if}}">
+                    <i class="fa fa-fw fa-building"></i> Suppliers</a>
+                </td>
+              </tr> -->
+              <tr>
+                <td>
+                  <a href='/procurements' class="not-active {{#if isActiveRoute 'procurements'}}active{{/if}}">
+                    <i class="fa fa-fw fa-list"></i> Procurements</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href='/purchaseorders' class="{{#if isActiveRoute 'purchase-orders'}}active{{/if}}">
+                    <i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href='/contracts' class="not-active {{#if isActiveRoute 'contracts'}}active{{/if}}">
+                    <i class="fa fa-fw fa-pencil"></i> Contracts</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href='/invoices' class="not-active {{#if isActiveRoute 'invoices'}}active{{/if}}">
+                    <i class="fa fa-fw fa-money"></i> Invoices</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseSupport">
+              <i class="fa fa-fw fa-question"></i> Support
+              <i class="fa fa-angle-down pull-right"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseSupport">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <a href='/tickets' class="not-active {{#if isActiveRoute 'tickets'}}active{{/if}}">
+                    <i class="fa fa-fw fa-ticket"></i> Tickets</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseReporting">
+              <i class="fa fa-fw fa-book"></i> Reporting
+              <i class="fa fa-angle-down pull-right"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseReporting">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <a href='/auditlog' class="not-active {{#if isActiveRoute 'auditlog'}}active{{/if}}">
+                    <i class="fa fa-fw fa-bookmark"></i> Audit Log</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseHR">
+              <i class="fa fa-fw fa-users"></i> HR
+              <i class="fa fa-angle-down pull-right"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseHR">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <a href='/employees' class="not-active {{#if isActiveRoute 'employees'}}active{{/if}}">
+                    <i class="fa fa-fw fa-users"></i> Employees</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href='/holidays' class="not-active {{#if isActiveRoute 'holidays'}}active{{/if}}">
+                    <i class="fa fa-fw fa-plane"></i> Holidays</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href='/absences' class="not-active {{#if isActiveRoute 'absences'}}active{{/if}}">
+                    <i class="fa fa-fw fa-user-md"></i> Absences</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href='/timesheets' class="not-active {{#if isActiveRoute 'timesheets'}}active{{/if}}">
+                    <i class="fa fa-fw fa-clock-o"></i> Timesheets</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseGeneral">
+              <i class="fa fa-fw fa-briefcase"></i> General
+              <i class="fa fa-angle-down pull-right"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseGeneral">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <a href='/templates' class="not-active {{#if isActiveRoute 'templates'}}active{{/if}}">
+                    <i class="fa fa-fw fa-file-text"></i> Templates</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href='/products' class="not-active {{#if isActiveRoute 'products'}}active{{/if}}">
+                    <i class="fa fa-fw fa-wrench"></i> Products</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href='/components' class="not-active {{#if isActiveRoute 'components'}}active{{/if}}">
+                    <i class="fa fa-fw fa-cogs"></i> Components</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href='/datamanagement' class="{{#if isActiveRoute 'datamanagement'}}active{{/if}}">
+                    <i class="fa fa-fw fa-upload"></i> Data Management</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      {{/unless}}
+
+      <div class="visible-xs">
+        <h5>Menu items</h5>
+
+        {{#if isInRole 'superadmin'}}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a href="/tenants" class="dismiss-on-click">
+                <i class="fa fa-fw fa-archive"></i> Tenants
+                <span class="sr-only">(current)</span>
+              </a>
+            </h4>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a href="/notifications" class="dismiss-on-click">
+                <i class="fa fa-fw fa-envelope"></i> Notifications
+                <span class="sr-only">(current)</span>
+              </a>
+            </h4>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a href="#" id="feedback-link" class="dismiss-on-click">Feedback</a>
+            </h4>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a id="sign-out" class="dismiss-on-click" href="#">
+                    Sign out
+                    </a>
+            </h4>
+          </div>
+        </div>
+        {{/if}} {{#unless isInRole 'superadmin'}}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-parent="#accordion" data-toggle="collapse" href="#collapseUserName">
+                <i class="fa fa-fw fa-user"></i> {{userName}}
+              </a>
+            </h4>
+          </div>
+          <div class="panel-collapse collapse" id="collapseUserName">
+            <div class="panel-body">
+              <table class="table">
+                <tr>
+                  <td>
+                    <a href="#" id="feedback-link">Give Feedback</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="#" id="btnChangePassword">Change Password</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="#" id="sign-out">Sign Out</a>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-parent="#accordion" data-toggle="collapse" href="#collapseNotifications">
+                    {{#if recentNote}}
+                    {{recentNoteCount}}
+                    <i class="fa fa-fw fa-bell text-primary"></i>
+                    {{else}}
+                    <i class="fa fa-fw fa-bell"></i>
+                    {{/if}}
+                    Notifications
+                    </a>
+            </h4>
+          </div>
+          <div class="panel-collapse collapse" id="collapseNotifications">
+            <div class="panel-body">
+              <table class="table">
+                {{#each notifications}} {{> menuNotice}} {{/each}}
+              </table>
+            </div>
+          </div>
+        </div>
+        {{/unless}}
+      </div>
+    </div>
+  </div>
+  {{/if}}
 </template>
 
 <template name="notice">
   <li class="list-item">
-  <a href="#" id="btnOpenNotice" class="shortText">
+    <a href="#" class="btnOpenNotice shortText">
     {{#if recentNote}}
       <i class="fa fa-fw fa-star text-primary"></i>
     {{else}}
@@ -109,6 +550,20 @@
     {{/if}}
     {{shortText}}</a>
   </li>
+</template>
+
+<template name="menuNotice">
+  <tr>
+    <td>
+      <a href="#" class="btnOpenNotice shortText">
+        {{#if recentNote}}
+          <i class="fa fa-fw fa-star text-primary"></i>
+        {{else}}
+          <i class="fa fa-fw fa-star-o"></i>
+        {{/if}}
+        {{shortText}}</a>
+    </td>
+  </tr>
 </template>
 
 <template name="notificationModal">

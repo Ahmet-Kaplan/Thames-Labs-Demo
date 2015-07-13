@@ -21,9 +21,10 @@ Companies.helpers({
     return PurchaseOrders.find({ supplierCompanyId: this._id }, { sort: { createdAt: -1 } });
   }
 });
-Companies.initEasySearch('name', {
+Companies.initEasySearch(['name', 'tags'], {
   limit: 50
 });
+Tags.TagsMixin(Companies);
 
 Contacts = new Mongo.Collection('contacts');
 Partitioner.partitionCollection(Contacts);
@@ -115,3 +116,7 @@ Notifications = new Mongo.Collection('notifications');
 
 Chatterbox = new Mongo.Collection('chatterbox');
 Partitioner.partitionCollection(Chatterbox);
+
+// The tags package introduces Meteor.tags as a collection
+Partitioner.partitionCollection(Meteor.tags);
+Tasks = new Mongo.Collection('tasks');

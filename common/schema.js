@@ -36,6 +36,9 @@ Schemas.Feedback = new SimpleSchema({
   name: {
     type: String
   },
+  email: {
+    type: String
+  },
   message: {
     type: String
   },
@@ -269,6 +272,15 @@ Schemas.PurchaseOrder = new SimpleSchema({
     type: String,
     label: "Requestor"
   },
+  orderNumber:{
+    label: "Purchase Order Number",
+    type: String,
+    // unique: true,
+    autoform: {
+      type: "hidden"
+    },
+    optional: true
+  },
   supplierCompanyId: {
     type: String
   },
@@ -296,7 +308,9 @@ Schemas.PurchaseOrder = new SimpleSchema({
       'Approved',
       'Rejected',
       'Ordered',
-      'Arrived'
+      'Arrived',
+      'Closed',
+      'Cancelled'
     ]
   },
   orderDate: {
@@ -413,3 +427,39 @@ Schemas.Chatter = new SimpleSchema({
   }
 });
 Chatterbox.attachSchema(Schemas.Chatter);
+
+
+Schemas.Task = new SimpleSchema({
+  title: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  dueDate: {
+    type: Date,
+    optional: true
+  },
+  assigneeId: {
+    type: String
+  },
+  completed: {
+    type: Boolean,
+    defaultValue: false
+  },
+  entityType: {
+    type: String,
+    optional: true
+  },
+  entityId: {
+    type: String,
+    optional: true
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  }
+});
+Tasks.attachSchema(Schemas.Task);

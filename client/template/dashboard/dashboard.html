@@ -12,9 +12,7 @@
         <div class="panel-body" style="margin-bottom:5px;">
           <div class="chatWindow">
             <ul class="list-unstyled">
-              {{#each chatMessages}}
-                {{> message}}
-              {{else}}
+              {{#each chatMessages}} {{> message}} {{else}}
               <li>
                 No chat messages
               </li>
@@ -23,7 +21,7 @@
           </div>
         </div>
         <div class="panel-footer">
-          <div class="input-group" >
+          <div class="input-group">
             <input type="text" class="form-control chatMessage" placeholder="Enter message (be nice!)...">
             <span class="input-group-btn">
               <button class="btn btn-default sendMessage" type="button">OK</button>
@@ -34,7 +32,7 @@
     </div>
     <div class="col-md-4">
 
-      <div  class="panel panel-default">
+      <div class="panel panel-default">
         <div class="panel-heading">
           <h5 id="quote-box" class="panel-title">Quotation of the day</h5>
         </div>
@@ -50,30 +48,52 @@
     <div class="col-md-4">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h5 class="panel-title">Users Online</h5>
+          <h5 class="panel-title">Online Users</h5>
         </div>
         <div class="panel-body">
           <ul class="list-group">
 
-          {{#each onlineColleagues}}
-            {{> colleagueData}}
-          {{/each}}
+            {{#each onlineColleagues}} {{> colleagueData}} {{/each}}
 
-        </ul>
+          </ul>
+        </div>
+        <div class="panel-footer" style="margin:0;">
+          <small>Offline Users:<br />
+          <p>
+            {{{offlineColleagues}}}
+          </p>
+          </small>
         </div>
       </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      {{> taskDisplay entity_type="user" entity_id=getCurrentUserId}}
     </div>
   </div>
 </template>
 
 <template name="colleagueData">
   <li class="list-group-item">
-    <i class="fa fa-fw fa-circle text-success"></i> {{user}} {{#if last}} <br /><small>Currently viewing: <em><span class="activeUserLink">{{last}}</span></em></small>{{/if}}
+    <i class="fa fa-fw fa-circle text-success"></i> {{user}} {{#if last}}
+    <br />
+    <small>Currently viewing:
+      <em>
+        <span class="activeUserLink">{{last}}</span>
+      </em>
+    </small>{{/if}}
   </li>
 </template>
 
 <template name="message">
   <li>
-    <p><em class="chatUserName">{{user}}</em> <em class="chatTimestamp">{{niceTime}}<br /></em>{{message}}</p>
+    <p>
+      <em class="chatUserName">{{user}}</em>
+      <em class="chatTimestamp">{{niceTime}}
+        <br />
+      </em>{{message}}</p>
   </li>
 </template>

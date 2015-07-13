@@ -24,7 +24,7 @@
             {{> afQuickField name="userId"  type="hidden" value=currentUser}}
 
             {{> afQuickField name="status" options="allowed"}}
-            {{> afQuickField name="orderDate" type="hidden" value=currentDateTime }}
+            {{> afQuickField name="orderDate" type="hidden" type="bootstrap-datetimepicker" value=currentDateTime }}
             {{> afQuickField name="paymentMethod" options="allowed"}}
 
             {{> afQuickField name="notes"}}
@@ -66,7 +66,6 @@
             {{> afQuickField name="supplierReference" }}
 
             {{> afQuickField name="status" options="allowed"}}
-            {{> afQuickField name="deliveryDate" }}
             {{> afQuickField name="paymentMethod" options="allowed"}}
 
             {{> afQuickField name="notes"}}

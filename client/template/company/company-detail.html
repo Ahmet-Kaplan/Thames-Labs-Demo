@@ -32,10 +32,12 @@
     <div class="col-md-6">
       <h1 id="company-details">{{name}}</h1>
 
+      {{> tagInput}}
+
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#afModal class="btn btn-info btn-xs" collection="Companies" doc=_id operation="update" formId="updateCompanyForm"}} Edit company details {{/afModal}}
+            {{#afModal class="btn btn-info btn-xs" collection="Companies" doc=_id operation="update" formId="updateCompanyForm" omitFields="tags, tagGroups"}} Edit company details {{/afModal}}
             {{#afModal class="btn btn-danger btn-xs" collection="Companies" doc=_id operation="remove" formId="removeCompanyForm" }} Delete company {{/afModal}}
           </div>
           Company details
@@ -68,7 +70,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="contacts">
           Contacts
-          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right">Add contact</a>
+          <a href="#" id="add-contact" class="btn btn-success btn-xs pull-right">Add contact</a>
         </div>
         <ul class="list-group">
           {{#each contacts}}
@@ -102,7 +104,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
           Purchase Orders
-          <a href="#" id="add-project" class="btn btn-success btn-xs pull-right" disabled="disabled">Add purchase order</a>
+          <a href="#" id="add-purchase-order" class="btn btn-success btn-xs pull-right" disabled="disabled">Add purchase order</a>
         </div>
         <ul class="list-group">
           {{#each purchaseOrders}}
@@ -115,6 +117,10 @@
           {{/each}}
         </ul>
       </div>
+
+      {{#with this}}
+        {{> taskDisplay entity_type="company" entity_id=_id}}
+      {{/with}}
 
     </div>
 
