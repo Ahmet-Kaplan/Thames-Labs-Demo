@@ -12,11 +12,12 @@ module.exports = function() {
 
   this.Then(/^I should see a tag on the company$/, function(callback) {
     this.client
-      .waitForExist('div#company-list', 5000)
-      .getText('#mchCompanyList > a:first-child .badge', function(err, text) {
+      // .waitForExist('#loading-page', 5000, true)
+      // .waitForExist('#company-list')
+      .getText('#company-list', function(err, text) {
         expect(text).to.contain('test tag');
       })
       .call(callback);
   });
 
-}
+};

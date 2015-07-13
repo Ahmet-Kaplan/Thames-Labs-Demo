@@ -6,4 +6,4 @@ Feature: Company routes
   @dev
   Scenario: A user can see a list of all companies
     When I navigate to "/companies"
-    Then I should see the title "Companies"
+    Then I should see the Companies list

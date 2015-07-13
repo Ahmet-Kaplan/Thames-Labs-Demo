@@ -3,7 +3,7 @@ module.exports = function () {
   var url = require('url');
 
   var login = function(done) {
-    Meteor.loginWithPassword("test@domain.com", "goodpassword", done)
+    Meteor.loginWithPassword("test@domain.com", "goodpassword", done);
   };
 
   var logout = function(done) {
@@ -24,6 +24,9 @@ module.exports = function () {
   this.When(/^I navigate to "([^"]*)"$/, function (relativePath, callback) {
     this.client
       .url(url.resolve(process.env.ROOT_URL, relativePath))
+      .execute(function() {
+        console.log(Meteor.user(), document.URL);
+      })
       .call(callback);
   });
 
@@ -94,7 +97,8 @@ module.exports = function () {
 
   this.Given(/^I am a logged in user$/, function (callback) {
     this.client
-      .url(url.resolve(process.env.ROOT_URL, '/'))
+      .url(process.env.ROOT_URL)
+      .executeAsync(logout)
       .executeAsync(login)
       .call(callback);
   });

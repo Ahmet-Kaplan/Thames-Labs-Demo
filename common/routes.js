@@ -41,6 +41,12 @@ router.subscriptions = function() {
     this.register('allNotifications', Meteor.subscribe('allNotifications'));
 };
 
+router.notFound = {
+  action: function() {
+    layout.render('appLayout', { main: 'placeholder' });
+  }
+};
+
 // ADMIN only route
 router.route('/tenants', {
   name: 'tenants',
