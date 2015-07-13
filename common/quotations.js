@@ -533,6 +533,10 @@ quotations = [{
         "Quote": "Live in each season as it passes; breathe the air, drink the drink, taste the fruit, and resign yourself to the influences of each.",
         "Person": "Henry David Thoreau"
      },
+     {
+         "Quote": "To be a great leader you must first learn to serve others",
+         "Person": "Philip Mashinchi"
+      },
     {
         "Quote": "The art of leadership is saying no, not yes. It is very easy to say yes.",
         "Person": "Tony Blair"
@@ -647,6 +651,10 @@ quotations = [{
         "Quote": "The virtue lies in the struggle, not in the prize.",
         "Person": "Richard Monckton Milnes"
      },
+     {
+         "Quote": "If you believe you can do it, then you can. If believe that you can't, then you are right.",
+         "Person": "Philip Mashinchi"
+      },
     {
         "Quote": "To reach a port, we must sail- sail, not tie at anchor- sail, not drift.",
         "Person": "Franklin Roosevelt"
@@ -682,6 +690,10 @@ quotations = [{
         "Quote": "The only medicine for suffering, crime, and all the other woes of mankind, is wisdom.",
         "Person": "Thomas Huxley"
      },
+     {
+         "Quote": "It is fine to start at the bottom. The only way is up!",
+         "Person": "Philip Mashinchi"
+      },
     {
         "Quote": "The art of being wise is knowing what to overlook.",
         "Person": "William James"
@@ -729,6 +741,10 @@ quotations = [{
         "Quote": "The best way out is always through.",
         "Person": "Robert Frost"
      },
+      {
+         "Quote": "To become successful, focus on what you are good at and become great at it.",
+         "Person": "Philip Mashinchi"
+      },
     {
         "Quote": "You miss 100 percent of the shots you don't take.",
         "Person": "Wayne Gretzky"
