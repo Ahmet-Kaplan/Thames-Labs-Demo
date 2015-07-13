@@ -3,16 +3,16 @@ quotations = [{
         "Person": "William Shakespeare "
       },
     {
-        "Quote ": "Man is a goal seeking animal.His life only has meaning if he is reaching out and striving for his goals.",
-        "Person ": "Aristotle "
+        "Quote": "Man is a goal seeking animal.His life only has meaning if he is reaching out and striving for his goals.",
+        "Person": "Aristotle "
       },
     {
-        "Quote ": "Believe in yourself.Never bend your head.Hold it high.Look the world straight in the eye. ",
-        "Person ": "Helen Keller "
+        "Quote": "Believe in yourself.Never bend your head.Hold it high.Look the world straight in the eye. ",
+        "Person": "Helen Keller "
       },
     {
-        "Quote ": "If you would win a man to your cause, first convince him that you are his sincere friend.",
-        "Person ": "Abraham Lincoln "
+        "Quote": "If you would win a man to your cause, first convince him that you are his sincere friend.",
+        "Person": "Abraham Lincoln "
       },  
     {
         "Quote": "Most folks are about as happy as they make up their minds to be.",
@@ -603,7 +603,9 @@ quotations = [{
      },
     {
         "Quote": "Follow your honest convictions, and stay strong.",
-        "Person": "William ThackerayThe happiness of your life depends upon the quality of your thoughts; therefore guard accordingly.",
+        "Person": "William Thackeray"
+    } { 
+        "Quote":"The happiness of your life depends upon the quality of your thoughts; therefore guard accordingly.",
         "Person": "Marcus Aurelius"
      },
     {
