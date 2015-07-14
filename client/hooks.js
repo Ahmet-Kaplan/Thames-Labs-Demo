@@ -40,6 +40,12 @@ Accounts.onLogin(function(cb) {
 });
 
 AutoForm.hooks({
+  updateActivityForm:{
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Activity updated.');
+    }
+  },
   updatePurchaseOrderForm: {
     onSuccess: function() {
       Modal.hide();

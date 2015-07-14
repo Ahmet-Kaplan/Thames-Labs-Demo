@@ -1,4 +1,3 @@
-
 Template.insertNewTask.helpers({
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
@@ -75,7 +74,7 @@ Template.taskDisplay.events({
 });
 
 Template.taskDisplayItem.helpers({
-  friendlyDate:function(){
+  friendlyDate: function() {
     return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
   },
   isDashboard: function() {
@@ -125,9 +124,9 @@ Template.taskDisplayItem.events({
     Modal.show('updateTask', this);
   },
   'click #btnDeleteEntityTask': function() {
-    Tasks.remove(this._id);
+        Tasks.remove(this._id);
   },
-  'click .displayedTaskHeading': function(){
-      $('.displayedTaskBody').scrollTop($('.displayedTaskBody').prop("scrollHeight"));
+  'click .displayedTaskHeading': function() {
+    $('.displayedTaskBody').scrollTop($('.displayedTaskBody').prop("scrollHeight"));
   }
 });

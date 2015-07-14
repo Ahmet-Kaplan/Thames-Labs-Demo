@@ -24,6 +24,7 @@ Template.taskList.events({
     }
   },
   'click #tskDeleteAllCompleted': function() {
+
     var ct = Tasks.find({
       completed: true
     }).fetch();
@@ -35,7 +36,7 @@ Template.taskList.events({
 });
 
 Template.taskListEntry.helpers({
-  friendlyDate:function(){
+  friendlyDate: function() {
     return moment(this.dueDate).format('MMMM Do YYYY');
   },
   isCompleted: function() {
