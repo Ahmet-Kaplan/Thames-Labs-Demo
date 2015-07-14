@@ -18,6 +18,12 @@ Template.activityTimeline.helpers({
   }
 });
 
+Template.activityTimeline.events({
+  'click #edit-activity': function(){
+    Modal.show('updateActivityModal', this);
+  }
+})
+
 Template.activityTimeline.onRendered(function() {
   $('[data-toggle="tooltip"]').tooltip();
 });

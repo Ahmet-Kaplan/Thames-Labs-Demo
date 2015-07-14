@@ -191,6 +191,11 @@ Schemas.Activity = new SimpleSchema({
   createdAt: {
     type: Date
   },
+  activityTimestamp: {
+    type: Date,
+    optional: true,
+    label: "Activity Date/Time"
+  },
   companyId: {
     type: String,
     optional: true
