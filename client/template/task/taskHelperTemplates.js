@@ -1,18 +1,3 @@
-Template.insertNewTask.rendered = function() {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35
-  });
-};
-
-Template.updateTask.rendered = function() {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35
-  });
-};
 
 Template.insertNewTask.helpers({
   usersAsOptions: function() {
@@ -90,6 +75,9 @@ Template.taskDisplay.events({
 });
 
 Template.taskDisplayItem.helpers({
+  friendlyDate:function(){
+    return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
+  },
   isDashboard: function() {
     return (FlowRouter.getRouteName() === "dashboard" ? true : false);
   },
@@ -103,7 +91,7 @@ Template.taskDisplayItem.helpers({
       case 'company':
         dataString = "Company task";
         var handle = Meteor.subscribe("companyById", this.entityId);
-        if (handle.ready()) {
+        if (handle && handle.ready()) {
           var c = Companies.find({}).fetch()[0];
           dataString += ": " + c.name;
         }
@@ -111,7 +99,7 @@ Template.taskDisplayItem.helpers({
       case 'contact':
         dataString = "Contact task";
         var handle = Meteor.subscribe("contactById", this.entityId);
-        if (handle.ready()) {
+        if (handle && handle.ready()) {
           var c = Contacts.find({}).fetch()[0];
           dataString += ": " + c.title + " " + c.forename + " " + c.surname;
         }
@@ -119,7 +107,7 @@ Template.taskDisplayItem.helpers({
       case 'project':
         dataString = "Project task";
         var handle = Meteor.subscribe("projectById", this.entityId);
-        if (handle.ready()) {
+        if (handle && handle.ready()) {
           var p = Projects.find({}).fetch()[0];
           dataString += ": " + p.description;
         }
@@ -138,5 +126,8 @@ Template.taskDisplayItem.events({
   },
   'click #btnDeleteEntityTask': function() {
     Tasks.remove(this._id);
+  },
+  'click .displayedTaskHeading': function(){
+      $('.displayedTaskBody').scrollTop($('.displayedTaskBody').prop("scrollHeight"));
   }
 });

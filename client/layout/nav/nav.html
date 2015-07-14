@@ -12,8 +12,7 @@
           </button>
           {{/if}}
           <a class="navbar-brand" href="/">
-            <img alt="" src="/icon.svg">RealTime
-            <span>CRM</span>
+            <img alt="" src="/icon.svg">RealTime<span>CRM</span>
             <small>alpha</small>
           </a>
         </div>
@@ -43,11 +42,11 @@
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <li><a href="#" id="qckCreateCompany"><i class="fa fa-fw fa-building"></i> New Company</a></li>
-                <li><a href="#" id="qckCreateContact"><i class="fa fa-fw fa-user"></i> New Contact</a></li>
+                <li><a href="#" id="qckCreateCompany"><i class="fa fa-fw fa-building"></i> Add Company</a></li>
+                <li><a href="#" id="qckCreateContact"><i class="fa fa-fw fa-user"></i> Add Contact</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="#" id="qckCreateProject"><i class="fa fa-fw fa-files-o"></i> New Project</a></li>
-                <li><a href="#" id="qckCreatePurchaseOrder"><i class="fa fa-fw fa-shopping-cart"></i> New Purchase Order</a></li>
+                <li><a href="#" id="qckCreateProject"><i class="fa fa-fw fa-files-o"></i> Add Project</a></li>
+                <li><a href="#" id="qckCreatePurchaseOrder"><i class="fa fa-fw fa-shopping-cart"></i> Add Purchase Order</a></li>
               </ul>
             </li>
 
@@ -58,6 +57,7 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a href="#" id="feedback-link">Give Feedback</a></li>
+                <li><a href="http://realtimecrm.co.uk/roadmap.html" id="roadmap-link" target="_blank">Feature Roadmap</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#" id="btnChangePassword">Change Password</a></li>
                 <li role="separator" class="divider"></li>
@@ -173,7 +173,7 @@
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
-                <i class="fa fa-fw fa-tasks"></i>
+                <i class="fa fa-fw fa-check"></i>
                 <a href='/tasks' class="{{#if isActiveRoute 'tasks'}}active{{/if}}">Tasks
                   </a>
               </h4>
@@ -421,6 +421,12 @@
                 <td>
                   <a href='/components' class="not-active {{#if isActiveRoute 'components'}}active{{/if}}">
                     <i class="fa fa-fw fa-cogs"></i> Components</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href='/datamanagement' class="{{#if isActiveRoute 'datamanagement'}}active{{/if}}">
+                    <i class="fa fa-fw fa-upload"></i> Data Management</a>
                 </td>
               </tr>
             </table>

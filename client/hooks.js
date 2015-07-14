@@ -40,7 +40,13 @@ Accounts.onLogin(function(cb) {
 });
 
 AutoForm.hooks({
-  insertNewCompanyForm:{
+  updatePurchaseOrderForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Purchase Order updated.');
+    }
+  },
+  insertNewCompanyForm: {
     onSuccess: function() {
       Modal.hide();
       $('[data-toggle="tooltip"]').tooltip();
@@ -174,6 +180,59 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide('');
       toastr.success('Task updated.');
+    }
+  },
+  newPurchaseOrderForm: {
+    before: {
+      insert: function(doc) {
+        var t = Tenants.find({}).fetch()[0];
+        if (t) {
+          doc.orderNumber = String(t.settings['PurchaseOrderPrefix']) + "" + String(t.settings['PurchaseOrderStartingValue']);
+          return doc;
+        }
+      }
+    },
+    onError: function(formType, error) {
+      console.log(error);
+    },
+    onSuccess: function() {
+      var t = Tenants.find({}).fetch()[0];
+      if (t) {
+        var val = t.settings['PurchaseOrderStartingValue'];
+        var newVal = Number(val) + 1;
+
+        var o = {
+          PurchaseOrderPrefix: t.settings['PurchaseOrderPrefix'],
+          PurchaseOrderStartingValue: newVal
+        };
+
+        Tenants.update(t._id, {
+          $set: {
+            settings: o
+          }
+        });
+      }
+
+      Modal.hide();
+      toastr.success('Purchase Order raised.');
+    }
+  },
+  addPurchaseOrderItem: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Item added.');
+    }
+  },
+  editPurchaseOrderItem: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Item edited.');
+    }
+  },
+  insertPurchaseOrderActivityForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Activity added.');
     }
   }
 });

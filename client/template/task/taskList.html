@@ -1,6 +1,6 @@
 <template name="taskList">
   {{setPageTitle 'Tasks'}}
-  <h1><i class="fa fa-fw fa-tasks"></i> Tasks</h1>
+  <h1><i class="fa fa-fw fa-check"></i> Tasks</h1>
 
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
@@ -28,11 +28,14 @@
 <template name="taskListEntry">
   <li class="list-group-item" id='tskListEntry'>
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-2">
         <i class="fa fa-fw fa-tasks"></i> {{title}}
       </div>
-      <div class="col-md-5 userDataDisplay">
+      <div class="col-md-4 userDataDisplay">
         {{entityDetails}}
+      </div>
+      <div class="col-md-2 userDataDisplay">
+        Due: {{friendlyDate}}
       </div>
       <div class="col-md-2 ">
         {{#if isCompleted}}<i class="fa fa-fw fa-check text-success"></i> Completed {{else}}<i class="fa fa-fw fa-times text-danger"></i> Not yet completed {{/if}}

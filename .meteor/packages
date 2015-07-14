@@ -53,9 +53,9 @@ blaze
 meteorhacks:ssr
 harrison:papa-parse
 matdutour:popup-confirm
-aldeed:autoform-bs-datepicker
-rajit:bootstrap3-datepicker
 meteorhacks:flow-router
 meteorhacks:flow-layout
 useraccounts:bootstrap
 arillo:flow-router-helpers
+aldeed:autoform-bs-datetimepicker
+tsega:bootstrap3-datetimepicker@=3.1.3_3

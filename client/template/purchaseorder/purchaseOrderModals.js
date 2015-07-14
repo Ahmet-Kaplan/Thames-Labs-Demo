@@ -1,33 +1,9 @@
-AutoForm.hooks({
-  newPurchaseOrderForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Purchase Order raised.');
-    }
-  },
-  addPurchaseOrderItem: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Item added.');
-    }
-  },
-  editPurchaseOrderItem: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Item edited.');
-    }
-  },
-  insertProjectActivityForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Activity added.');
-    }
-  }
-});
-
 Session.set('posc', null);
 
 Template.newPurchaseOrderForm.onRendered(function() {
+  var groupId = Meteor.users.findOne(Meteor.userId()).group;
+  var handle = Meteor.subscribe("myTenant", groupId);
+
   var c = this.data.supplierCompanyId;
   if (c)
     Session.set('posc', c);
@@ -36,6 +12,9 @@ Template.newPurchaseOrderForm.onRendered(function() {
 });
 
 Template.updatePurchaseOrderFormModal.onRendered(function() {
+  var groupId = Meteor.users.findOne(Meteor.userId()).group;
+  var handle = Meteor.subscribe("myTenant", groupId);
+
   var c = this.data.supplierCompanyId;
   if (c)
     Session.set('posc', c);
@@ -46,20 +25,27 @@ Template.updatePurchaseOrderFormModal.onRendered(function() {
 Template.newPurchaseOrderForm.events({
   'change #selectedSupplier': function() {
     var c = $('select#selectedSupplier').val();
-    if (c)
+    if (c){
       Session.set('posc', c);
-    else
+      Meteor.subscribe('contactsByCompanyId', c);
+      Meteor.subscribe('projectsByCompanyId', c);
+    }
+    else{
       Session.set('posc', null);
+    }
   }
 });
 
 Template.updatePurchaseOrderFormModal.events({
   'change #selectedSupplier': function() {
     var c = $('select#selectedSupplier').val();
-    if (c)
+    if (c) {
       Session.set('posc', c);
-    else
+      Meteor.subscribe('contactsByCompanyId', c);
+      Meteor.subscribe('projectsByCompanyId', c);
+    } else {
       Session.set('posc', null);
+    }
   }
 });
 
@@ -71,7 +57,7 @@ Template.newPurchaseOrderForm.helpers({
       return true;
     }
   },
-  currentUser: function(){
+  currentUser: function() {
     return Meteor.userId();
   },
   currentDateTime: function() {
@@ -125,7 +111,7 @@ Template.updatePurchaseOrderFormModal.helpers({
       return true;
     }
   },
-  currentUser: function(){
+  currentUser: function() {
     return Meteor.userId();
   },
   currentDateTime: function() {
@@ -174,18 +160,17 @@ Template.addPurchaseOrderItemModal.onRendered(function() {
   var v = $('#itemValue').val();
   var q = $('#currQuant').val();
 
-  Meteor.call("calculatePurchaseOrderItemTotalValue", v,q, function(error, result){
-    if(error){
+  Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
+    if (error) {
 
-    }
-    else{
+    } else {
       $('#activePrice').prop('value', result);
     }
   });
 });
 
 Template.addPurchaseOrderItemModal.helpers({
-  currentUser: function(){
+  currentUser: function() {
     return Meteor.userId();
   }
 });
@@ -196,11 +181,10 @@ Template.addPurchaseOrderItemModal.events({
     var v = $('#itemValue').val();
     var q = $('#currQuant').val();
 
-    Meteor.call("calculatePurchaseOrderItemTotalValue", v,q, function(error, result){
-      if(error){
+    Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
+      if (error) {
 
-      }
-      else{
+      } else {
         $('#activePrice').prop('value', result);
       }
     });
@@ -210,11 +194,10 @@ Template.addPurchaseOrderItemModal.events({
     var v = $('#itemValue').val();
     var q = $('#currQuant').val();
 
-    Meteor.call("calculatePurchaseOrderItemTotalValue", v,q, function(error, result){
-      if(error){
+    Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
+      if (error) {
 
-      }
-      else{
+      } else {
         $('#activePrice').prop('value', result);
       }
     });
@@ -227,11 +210,10 @@ Template.editPurchaseOrderItemModal.events({
     var v = $('#itemValue').val();
     var q = $('#currQuant').val();
 
-    Meteor.call("calculatePurchaseOrderItemTotalValue", v,q, function(error, result){
-      if(error){
+    Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
+      if (error) {
 
-      }
-      else{
+      } else {
         $('#activePrice').prop('value', result);
       }
     });
@@ -241,11 +223,10 @@ Template.editPurchaseOrderItemModal.events({
     var v = $('#itemValue').val();
     var q = $('#currQuant').val();
 
-    Meteor.call("calculatePurchaseOrderItemTotalValue", v,q, function(error, result){
-      if(error){
-        
-      }
-      else{
+    Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
+      if (error) {
+
+      } else {
         $('#activePrice').prop('value', result);
       }
     });

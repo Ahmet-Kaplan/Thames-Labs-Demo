@@ -197,3 +197,14 @@ router.route('/tasks', {
     layout.render('appLayout', { main: 'taskList' });
   }
 });
+
+router.route('/datamanagement', {
+  name: 'datamanagement',
+  subscriptions: function() {
+    this.register('allCompanies', subs.subscribe('allCompanies', Meteor.userId()));
+    this.register('allContacts', subs.subscribe('allContacts', Meteor.userId()));
+  },
+  action: function() {
+    layout.render('appLayout', { main: 'datamanagement' });
+  }
+});

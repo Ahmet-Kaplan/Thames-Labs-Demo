@@ -1,0 +1,86 @@
+<template name="datamanagement">
+
+  {{setPageTitle 'Data Management'}}
+  <h1><i class="fa fa-fw fa-upload"></i> Data Management</h1>
+
+  <div class="row">
+
+    <div class="col-md-4">
+
+      <div class="panel panel-primary">
+        <div class="panel-heading ">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#colCompanyDataManager">Company Data</a>
+          </h4>
+        </div>
+        <div id="colCompanyDataManager" class="panel-collapse collapse">
+          <div class="panel-body" id="companyDataManagement">
+            <div class="btn-group btn-group-justified">
+              <div class="btn-group">
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                  Import Companies
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#" id="company-template-download-link">Download import template</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#" id="company-data-upload-link">Import from CSV...</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#" id="company-template-help">How does this work?</a></li>
+                </ul>
+              </div>
+
+              <div class="btn-group">
+                <button type="button" id='exportCompanyList' class="btn btn-info">
+                  Export Companies
+                </button>
+                <input type="file" id="company-data-upload" style="display:none;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+      <div class="panel panel-primary">
+        <div class="panel-heading ">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#colContactDataManager">Contact Data</a>
+          </h4>
+        </div>
+        <div id="colContactDataManager" class="panel-collapse collapse">
+          <div class="panel-body" id="contactDataManagement">
+            <div class="btn-group btn-group-justified">
+              <div class="btn-group">
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                  Import Contacts
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#" id="contact-template-download-link">Download import template</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#" id="contact-data-upload-link">Import from CSV...</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#" id="contact-template-help">How does this work?</a></li>
+                </ul>
+              </div>
+
+              <div class="btn-group">
+                <button type="button" id='exportContactList' class="btn btn-info">
+                  Export Contacts
+                </button>
+                <input type="file" id="contact-data-upload" style="display:none;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</template>

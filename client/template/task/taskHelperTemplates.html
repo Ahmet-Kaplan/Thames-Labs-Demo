@@ -9,10 +9,10 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="newTaskModal" type="insert"}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datepicker"}} {{#if
+          {{#autoForm collection="Tasks" id="newTaskModal" type="insert"}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}} {{#if
           isUserTask}} {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}} {{else}} {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}} {{/if}} {{> afQuickField name="entityType" value=getEntityType
           type='hidden' }} {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
-          <button type="submit" class="btn btn-primary">Submit</button> {{/autoForm}}
+          <button type="submit" class="btn btn-primary">Create</button> {{/autoForm}}
         </div>
 
       </div>
@@ -31,7 +31,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="editTaskModal" type="update" doc=this}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datepicker"}}
+          {{#autoForm collection="Tasks" id="editTaskModal" type="update" doc=this}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           <!-- {{> afQuickField name="assigneeId"          id="taskUserList" options=usersAsOptions}}  -->
 
           {{#if isUserTask}} {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}} {{else}} {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}} {{/if}} {{> afQuickField name="completed" id="taskCompleted"}}
@@ -48,7 +48,7 @@
   <div class="panel panel-default" id='entityTaskList'>
     <div class="panel-heading" id="tasks">
       {{#if isDashboard}}My {{/if}}Tasks
-      <a href="#" id="btnAddTaskToEntity" class="btn btn-success btn-xs pull-right">Add {{#if isDashboard}}personal {{/if}}task</a>
+      <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right">Add {{#if isDashboard}}personal {{/if}}task</a>
     </div>
     <ul class="list-group" id='taskContainer'>
       {{#each tasks}} {{> taskDisplayItem}} {{else}}
@@ -59,48 +59,43 @@
 </template>
 
 <template name="taskDisplayItem">
-  <li class="list-group-item" id='displayedTask'>
-    {{#if isDashboard}}
-    <div class="row">
-      <div class="col-md-3">
-        <i class="fa fa-fw fa-tasks"></i> {{title}}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+              <i class="fa fa-fw fa-check"></i>
+              <span data-toggle="collapse" data-parent="#accordion" href="#collapseTask{{_id}}" id="displayedTaskHeading">{{title}}</span>
+              <div class="btn-group pull-right">
+                <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
+                  Edit task
+                </button>
+                <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button">
+                  Delete task
+                </button>
+              </div>
       </div>
-      <div class="col-md-4 userDataDisplay">
-        {{entityDetails}}
-      </div>
-      <div class="col-md-2 userDataDisplay">
-        Due: {{dueDate}}
-      </div>
-      <div class="col-md-3">
-        <div class="btn-group pull-right">
-          <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
-            Edit task
-          </button>
-          <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button">
-            Delete task
-          </button>
+      <div id="collapseTask{{_id}}" class="panel-collapse collapse displayedTaskBody">
+        <div class="panel-body">
+          <div class="row">
+            {{#if isDashboard}}
+            <div class="col-md-9 userDataDisplay">
+              {{entityDetails}}
+            </div>
+            <div class="col-md-3 userDataDisplay">
+              Due: {{friendlyDate}}
+            </div>
+            {{else}}
+            <div class="col-md-12 userDataDisplay">
+              Due: {{friendlyDate}}
+            </div>
+            {{/if}}
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <p>
+                {{description}}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    {{else}}
-    <div class="row">
-      <div class="col-md-3">
-        <i class="fa fa-fw fa-tasks"></i> {{title}}
-      </div>
-      <div class="col-md-6 userDataDisplay">
-        Due: {{dueDate}}
-      </div>
-      <div class="col-md-3">
-        <div class="btn-group pull-right">
-          <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
-            Edit task
-          </button>
-          <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button">
-            Delete task
-          </button>
-        </div>
-      </div>
-    </div>
-    {{/if}}
-  </li>
 </template>
