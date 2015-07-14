@@ -121,4 +121,4 @@ Partitioner.partitionCollection(Chatterbox);
 Partitioner.partitionCollection(Meteor.tags);
 
 Tasks = new Mongo.Collection('tasks');
-Partitioner.partitionCollection(Tasks);
+//Partitioner.partitionCollection(Tasks);
