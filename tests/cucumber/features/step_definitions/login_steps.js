@@ -32,13 +32,13 @@ module.exports = function () {
 
   this.When(/^I should see the title "([^"]*)"$/, function (expectedTitle, callback) {
     this.client
-      .waitFor('div.at-form')
+      .waitForExist('div.at-form')
       .getTitle().should.become(expectedTitle).and.notify(callback);
   });
 
   this.When(/^I enter good authentication information$/, function (callback) {
     this.client
-      .waitFor('#at-pwd-form')
+      .waitForExist('#at-pwd-form')
       .setValue('input#at-field-email', 'test@domain.com')
       .setValue('input#at-field-password', 'goodpassword')
       .submitForm('#at-pwd-form')
@@ -47,7 +47,7 @@ module.exports = function () {
 
   this.When(/^I enter bad authentication information$/, function (callback) {
     this.client
-      .waitFor('#at-pwd-form')
+      .waitForExist('#at-pwd-form')
       .setValue('input#at-field-email', 'test@domain.com')
       .setValue('input#at-field-password', 'badpassword')
       .submitForm('#at-pwd-form')
