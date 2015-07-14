@@ -8,6 +8,7 @@ Feature: Allow users to login and logout
     Given I am a new user
     And I navigate to "/"
 
+  @dev
   Scenario: A user can view the login screen
     Then I should see the title "RealtimeCRM - Login"
 
@@ -23,7 +24,6 @@ Feature: Allow users to login and logout
     When I enter good authentication information
     Then I should not see superadmin stuff
 
-  # think this is related to routing which will be fixed in another branch
   @ignore
   Scenario: A normal user should be redirected to the dashboard on login from '/'
     When I enter good authentication information

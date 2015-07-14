@@ -43,7 +43,7 @@
 
   {{#if hasProjectsForCompany}}
     <div class="list-group">
-      <a class="list-group-item" href="{{pathFor route='company'}}">
+      <a class="list-group-item" href="{{pathFor route='company' id=_id}}">
         <h4 class="list-group-item-heading"><i class="fa fa-building"></i> {{name}} <small>({{projectCount}} project{{#if multipleProjects}}s{{/if}})</small></h4>
       </a>
 
@@ -56,7 +56,7 @@
 </template>
 
 <template name="projectListItem">
-  <a class="list-group-item" href="{{pathFor route='project'}}">
+  <a class="list-group-item" href="{{pathFor route='project' id=_id}}">
     <h5 class="list-group-item-heading" style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;vertical-align:top;"><i class="fa fa-files-o"></i> {{description}}<i class="fa fa-fw fa-chevron-right pull-right"></i></h5>
   </a>
 </template>

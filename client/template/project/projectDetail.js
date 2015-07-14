@@ -1,3 +1,12 @@
+Template.projectDetail.onCreated(function() {
+  // Redirect if data doesn't exist
+  this.autorun(function(){
+     var project = Projects.findOne(FlowRouter.getParam('id'));
+     if (project) return
+     FlowRouter.go('projects');
+  });
+});
+
 Template.projectDetail.onRendered(function() {
   // Affix sidebar
   var sidebar = $('.sidebar');
@@ -8,13 +17,11 @@ Template.projectDetail.onRendered(function() {
   });
 });
 
-Template.projectDetail.rendered = function(){
-  document.title = "Project - " + this.data.description;
-  SetRouteDetails(document.title);
-};
-
-
 Template.projectDetail.helpers({
+  projectData: function() {
+    var projectId = FlowRouter.getParam('id');
+    return Projects.findOne(projectId);
+  },
   managerName: function() {
     return Meteor.users.find({
       _id: this.userId

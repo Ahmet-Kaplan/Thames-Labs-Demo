@@ -15,6 +15,7 @@ Template.dashboard.events({
     if (user) {
       if (user.profile) {
         var m = $('.chatMessage').val();
+        if (!m) return;
         Chatterbox.insert({
           user: user.profile.name,
           message: m,

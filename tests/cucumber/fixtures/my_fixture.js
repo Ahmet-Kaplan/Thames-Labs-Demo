@@ -7,7 +7,7 @@ Meteor.methods({
       Meteor.tags.remove({});
     });
   },
-  'createCompany': function() {
+  'createCompany': function(done) {
     Partitioner.bindGroup('tenant 1', function() {
       Companies.insert({
         name: 'test',
@@ -15,14 +15,15 @@ Meteor.methods({
         city: 'test',
         postcode: 'test',
         country: 'test',
-        createdBy: 'xxx'
-      });
+        createdBy: 'xxx',
+        tags: ['test']
+      }, done);
     });
   },
   'addTagToCompany': function() {
     Partitioner.bindGroup('tenant 1', function() {
-      var companyId = Companies.findOne();
-      Companies.addTag('test tag', {_id: companyId});
+      var company = Companies.findOne({name: 'test'});
+      Companies.addTag('test tag', {_id: company._id});
     });
   }
 });

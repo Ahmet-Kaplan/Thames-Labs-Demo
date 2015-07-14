@@ -140,7 +140,7 @@ Template.nav.events({
       var exists = false;
 
       _.each(favList, function(y) {
-        if (y.url === Router.current().url) {
+        if (y.url === FlowRouter.current().path) {
           exists = true;
         }
       });
@@ -152,7 +152,7 @@ Template.nav.events({
       else {
         var x = {
           name: document.title,
-          url: Router.current().url
+          url: FlowRouter.current().path
         }
         favList.push(x);
         profile.favourites = favList;
@@ -161,7 +161,7 @@ Template.nav.events({
       var fav = [];
       var x = {
         name: document.title,
-        url: Router.current().url
+        url: FlowRouter.current().path
       }
       fav.push(x);
       profile.favourites = fav;

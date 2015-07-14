@@ -52,10 +52,10 @@ Template.insertNewTask.events({
 
 Template.taskDisplay.helpers({
   isDashboard: function() {
-    return (Router.current().route.getName() === "dashboard" ? true : false);
+    return (FlowRouter.getRouteName() === "dashboard" ? true : false);
   },
   tasks: function() {
-    if (Router.current().route.getName() === "dashboard") {
+    if (FlowRouter.getRouteName() === "dashboard" === "dashboard") {
       return Tasks.find({
         completed: false
       });
@@ -79,7 +79,7 @@ Template.taskDisplayItem.helpers({
     return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
   },
   isDashboard: function() {
-    return (Router.current().route.getName() === "dashboard" ? true : false);
+    return (FlowRouter.getRouteName() === "dashboard" ? true : false);
   },
   entityDetails: function() {
     var dataString = "";

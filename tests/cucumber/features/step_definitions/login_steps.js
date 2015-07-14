@@ -3,7 +3,7 @@ module.exports = function () {
   var url = require('url');
 
   var login = function(done) {
-    Meteor.loginWithPassword("test@domain.com", "goodpassword", done)
+    Meteor.loginWithPassword("test@domain.com", "goodpassword", done);
   };
 
   var logout = function(done) {
@@ -24,18 +24,21 @@ module.exports = function () {
   this.When(/^I navigate to "([^"]*)"$/, function (relativePath, callback) {
     this.client
       .url(url.resolve(process.env.ROOT_URL, relativePath))
+      .execute(function() {
+        console.log(Meteor.user(), document.URL);
+      })
       .call(callback);
   });
 
   this.When(/^I should see the title "([^"]*)"$/, function (expectedTitle, callback) {
     this.client
-      .waitFor('div.at-form')
+      .waitForExist('div.at-form')
       .getTitle().should.become(expectedTitle).and.notify(callback);
   });
 
   this.When(/^I enter good authentication information$/, function (callback) {
     this.client
-      .waitFor('#at-pwd-form')
+      .waitForExist('#at-pwd-form')
       .setValue('input#at-field-email', 'test@domain.com')
       .setValue('input#at-field-password', 'goodpassword')
       .submitForm('#at-pwd-form')
@@ -44,7 +47,7 @@ module.exports = function () {
 
   this.When(/^I enter bad authentication information$/, function (callback) {
     this.client
-      .waitFor('#at-pwd-form')
+      .waitForExist('#at-pwd-form')
       .setValue('input#at-field-email', 'test@domain.com')
       .setValue('input#at-field-password', 'badpassword')
       .submitForm('#at-pwd-form')
@@ -86,7 +89,7 @@ module.exports = function () {
 
   this.Then(/^I should see the dashboard$/, function(callback) {
     this.client
-      .waitForExist('#id-view-content h1')
+      .waitForVisible('h1')
       .getText('#id-view-content h1', function(err, text) {
         expect(text).to.contain('Dashboard');
       });
@@ -94,7 +97,8 @@ module.exports = function () {
 
   this.Given(/^I am a logged in user$/, function (callback) {
     this.client
-      .url(url.resolve(process.env.ROOT_URL, '/'))
+      .url(process.env.ROOT_URL)
+      .executeAsync(logout)
       .executeAsync(login)
       .call(callback);
   });

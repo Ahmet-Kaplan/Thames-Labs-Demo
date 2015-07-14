@@ -1,11 +1,10 @@
-UI.registerHelper("setPageTitle", function(title) {
-    if(title) {
-        document.title = title;
-    } else {
-        document.title = "RealtimeCRM";
-    }
-
-    SetRouteDetails(document.title);
+UI.registerHelper("setPageTitle", function() {
+  var title = "";
+  for (var i = 0; i<arguments.length - 1; i++) {
+    title += arguments[i];
+  }
+  document.title = title;
+  SetRouteDetails(title);
 });
 
 toastr.options = {

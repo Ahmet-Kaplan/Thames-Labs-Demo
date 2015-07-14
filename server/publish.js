@@ -13,6 +13,7 @@ Meteor.publish('userPresence', function() {
   });
 });
 
+
 Meteor.publish("allTenants", function() {
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
     return Tenants.find({});
@@ -36,9 +37,7 @@ Meteor.publish("currentTenantUserData", function(groupId) {
     }
   });
 });
-
 Meteor.publish("allUserData", function() {
-
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
     return Meteor.users.find({}, {
       fields: {
@@ -52,10 +51,11 @@ Meteor.publish("allUserData", function() {
     // User not superadmin, do not publish
     this.ready();
   }
-
 });
 
+
 Meteor.publish("allCompanies", function() {
+  if (!this.userId) return this.ready();
   return Companies.find({});
 });
 Meteor.publish("companyById", function(companyId) {
@@ -63,16 +63,24 @@ Meteor.publish("companyById", function(companyId) {
     _id: companyId
   });
 });
-Meteor.publish("contactsByCompanyId", function(companyId) {
-  return Contacts.find({
-    companyId: companyId
-  });
+Meteor.publish("companyByContactId", function(contactId) {
+  var contact = Contacts.findOne(contactId);
+  return Companies.find(contact.companyId);
+});
+Meteor.publish("companyByProjectId", function(projectId) {
+  var project = Projects.findOne(projectId);
+  return Companies.find(project.companyId);
+});
+Meteor.publish("companyByPurchaseOrderId", function(purchaseOrderId) {
+  var purchaseOrder = PurchaseOrders.findOne(purchaseOrder);
+  return Companies.find(purchaseOrder.companyId);
 });
 Meteor.publish("companyTags", function() {
   return Meteor.tags.find({
     collection: 'companies'
   });
 });
+
 
 Meteor.publish("allContacts", function() {
   return Contacts.find({});
@@ -82,6 +90,19 @@ Meteor.publish("contactById", function(contactId) {
     _id: contactId
   });
 });
+Meteor.publish("contactsByCompanyId", function(companyId) {
+  return Contacts.find({
+    companyId: companyId
+  });
+});
+Meteor.publish("contactsByProjectId", function(projectId) {
+  var project = Projects.findOne(projectId);
+  return Contacts.find(projectId.contactId);
+});
+Meteor.publish("contactByPurchaseOrderId", function(purchaseOrderId) {
+  var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);
+  return Contacts.find(purchaseOrder.contactId);
+})
 
 
 Meteor.publish("allActivities", function() {
@@ -122,6 +143,10 @@ Meteor.publish("projectById", function(projectId) {
     _id: projectId
   });
 });
+Meteor.publish("projectByPurchaseOrderId", function(purchaseOrderId) {
+  var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);
+  return Projects.find(purchaseOrder.projectId);
+});
 
 
 Meteor.publish("allPurchaseOrders", function() {
@@ -147,8 +172,6 @@ Meteor.publish("purchaseOrderById", function(purchaseOrderId) {
     _id: purchaseOrderId
   });
 });
-
-
 Meteor.publish("allPurchaseOrderItems", function(purchaseOrderId) {
   return PurchaseOrderItems.find({
     purchaseOrderId: purchaseOrderId
@@ -169,16 +192,15 @@ Meteor.publish("allChatter", function() {
   return Chatterbox.find({});
 });
 
+
 Meteor.publish("allTasks", function() {
   return Tasks.find({});
 });
-
 Meteor.publish("tasksByEntityId", function(entityId) {
   return Tasks.find({
     entityId: entityId
   });
 });
-
 Meteor.publish("allUserTasks", function(userId) {
   return Tasks.find({
     createdBy: userId

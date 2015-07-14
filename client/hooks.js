@@ -23,6 +23,20 @@ Accounts.onLogin(function(cb) {
       });
     }
   }
+
+  //Hack to fix infinite load on login.
+  var path = FlowRouter.current().path + "/#";
+  if (FlowRouter.current().path == '/') {
+    path = "/#";
+  }
+  else if (FlowRouter.current().path.slice(-2) == "/#"){
+    path = FlowRouter.current().path.substr(0, FlowRouter.current().path.length - 2)
+  }
+  else if (FlowRouter.current().path.slice(-1) == "/"){
+    path = FlowRouter.current().path + "#";
+  }
+  FlowRouter.redirect(path);
+
 });
 
 AutoForm.hooks({
@@ -45,7 +59,7 @@ AutoForm.hooks({
           return false;
         }
 
-        Router.go('/companies/' + result);
+        FlowRouter.go('/companies/' + result);
       }
     }
   },
@@ -115,7 +129,7 @@ AutoForm.hooks({
           return false;
         }
 
-        Router.go('/companies/' + result);
+        FlowRouter.go('/companies/' + result);
         $(".modal-backdrop").remove();
         $("body").removeClass('modal-open');
       }
@@ -125,7 +139,7 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide();
       toastr.success('Company removed.');
-      Router.go('/companies');
+      FlowRouter.go('/companies');
     }
   },
   feedbackForm: {

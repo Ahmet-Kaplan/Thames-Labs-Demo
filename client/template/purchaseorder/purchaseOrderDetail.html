@@ -1,5 +1,6 @@
 <template name="purchaseOrderDetail">
-
+  {{#with purchaseOrderData}}
+  {{setPageTitle "Purchase order - " description}}
   <div class="row">
     <div class="col-md-2 hidden-xs hidden-sm">
       <div class="sidebar">
@@ -33,15 +34,15 @@
           </div>
           Details</div>
         <ul class="list-group">
-          <a class="list-group-item" href="{{pathFor route='company' data=company}}">
+          <a class="list-group-item" href="{{pathFor route='company' id=company._id}}">
             <i class="fa fa-fw fa-building"></i> Company: {{company.name}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
-          <a class="list-group-item" href="{{pathFor route='contact' data=contact}}">
+          <a class="list-group-item" href="{{pathFor route='contact' id=contact._id}}">
             <i class="fa fa-fw fa-user"></i> Contact: {{contact.forename}} {{contact.surname}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
-          <a class="list-group-item" href="{{pathFor route='project' data=project}}">
+          <a class="list-group-item" href="{{pathFor route='project' id=project._id}}">
             <i class="fa fa-fw fa-files-o"></i> Project: {{project.description}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
@@ -95,6 +96,7 @@
     </div>
   </div>
   {{> autoformModals}}
+  {{/with}}
 </template>
 
 <template name="purchaseOrderItem">

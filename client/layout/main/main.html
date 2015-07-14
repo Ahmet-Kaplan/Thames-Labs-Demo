@@ -17,21 +17,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="/favicon.ico" rel="icon" sizes="16x16 32x32">
 </head>
-<template name="AppLayout">
 
-  {{#if maintenanceMode}} {{> maintenance}} {{else}}
+<template name="appLayout">
 
-  <div class="container-fluid">
-    {{> nav}} {{#if hasMenu}}
-    <div id="id-view-content">
-      {{> yield}} {{> footer}}
+  {{#if maintenanceMode}}
+    {{> maintenance}}
+  {{else}}
+
+    <div class="container-fluid">
+      {{> nav}}
+      {{#if currentUser}}
+        <div id="id-view-content" class="{{hasMenuClass}}">
+          {{#if subsReady}}
+            {{> Template.dynamic template=main}}
+          {{else}}
+            {{> loading}}
+          {{/if}}
+          {{> footer}}
+        </div>
+      {{else}}
+        {{>login}}
+      {{/if}}
     </div>
-    {{else}}
-    <div id="id-view-content" class="no-menu">
-      {{> yield}} {{> footer}}
-    </div>
-    {{/if}}
-  </div>
 
   {{/if}}
+
 </template>
