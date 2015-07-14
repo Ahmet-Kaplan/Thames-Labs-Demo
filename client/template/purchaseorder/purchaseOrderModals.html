@@ -21,6 +21,7 @@
             {{> afQuickField name="status" options="allowed"}}
             {{> afQuickField name="orderDate" type="hidden" type="bootstrap-datetimepicker" value=currentDateTime }}
             {{> afQuickField name="paymentMethod" options="allowed"}}
+            {{> afQuickField name="notes"}}
             {{> afQuickField name="createdBy" value=currentUser }}
 
             <h4>
@@ -58,8 +59,8 @@
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="status" options="allowed"}}
             {{> afQuickField name="paymentMethod" options="allowed"}}
-
-            <button type="submit" class="btn btn-primary">Update</button>
+            {{> afQuickField name="notes"}}
+            <button type="submit" class="btn btn-success">Update</button>
           {{/autoForm}}
         </div>
 
