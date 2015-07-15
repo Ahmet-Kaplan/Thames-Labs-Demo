@@ -6,4 +6,10 @@ module.exports = function () {
       .notify(callback);
   });
 
+  this.Then(/^I should see the heading "([^"]*)"$/, function (expectedHeading, callback) {
+    this.client
+      .getText('h1*=' + expectedHeading)
+      .call(callback);
+  });
+
 };
