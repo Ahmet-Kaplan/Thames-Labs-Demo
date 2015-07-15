@@ -47,6 +47,49 @@ Schemas.Feedback = new SimpleSchema({
   }
 });
 
+
+Schemas.UserSignUp = new SimpleSchema({
+  name: {
+    type: String
+  },
+  email: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Email,
+    unique: true,
+    autoValue: function() {
+      if (this.isSet && typeof this.value === "string") {
+        return this.value.toLowerCase();
+      }
+    },
+    custom: function() {
+      var user = Meteor.users.findOne({emails: {$elemMatch: {address: this.value}}});
+			if (user !== undefined) {
+				return "emailTaken";
+			}
+    }
+  },
+  password: {
+    type: String,
+    min: 6
+  },
+  confirmPassword: {
+    type: String,
+    custom: function() {
+       if (this.value !== this.field('password').value) {
+          return "passwordMissmatch";
+        }
+    }
+  },
+  companyName: {
+    type: String
+  }
+});
+
+Schemas.UserSignUp.messages({
+  passwordMissmatch: "Passwords must match",
+  emailTaken: "This email address is already registered with RealTimeCRM"
+});
+
 // ** --------- Non-attachment schemas --------- ** //
 
 Schemas.Tenant = new SimpleSchema({
