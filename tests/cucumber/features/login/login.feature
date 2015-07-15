@@ -5,20 +5,17 @@ Feature: Allow users to login and logout
   So that I can prove my identity and work with my data
 
   Background:
-    Given I am logged out
+    Given I am a logged out user
 
-  @dev
   Scenario: A user can view the login screen
     Then I should see the title "RealtimeCRM - Login"
 
-  @dev
   Scenario: A user can login with good credentials
     Given I can see the login form
-    When I login with good credentials
+    When I enter good credentials into the login form
     Then I am logged in
 
-  @dev
   Scenario: A user can't login with bad credentials
     Given I can see the login form
-    When I login with bad credentials
+    When I enter bad credentials into the login form
     Then I am not logged in

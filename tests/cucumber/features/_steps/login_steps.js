@@ -1,28 +1,14 @@
 module.exports = function () {
 
-  var url = require('url');
-
   var logout = function(done) {
     Meteor.logout(done);
   };
 
-  this.Given(/^I am logged out$/, function (callback) {
+  this.Given(/^I am a logged out user$/, function (callback) {
     this.client
       .url(process.env.ROOT_URL)
       .executeAsync(logout)
       .call(callback);
-  });
-
-  this.When(/^I navigate to "([^"]*)"$/, function (relativePath, callback) {
-    this.client
-      .url(url.resolve(process.env.ROOT_URL, relativePath))
-      .call(callback);
-  });
-
-  this.Then(/^I should see the title "([^"]*)"$/, function (expectedTitle, callback) {
-    this.client
-      .getTitle().should.become(expectedTitle)
-      .notify(callback);
   });
 
   this.Given(/^I can see the login form$/, function(callback) {
@@ -31,16 +17,18 @@ module.exports = function () {
       .call(callback);
   });
 
-  this.When(/^I login with good credentials$/, function(callback) {
+  this.When(/^I enter good credentials into the login form$/, function(callback) {
     this.client
+      .waitForExist('#at-pwd-form', 2000)
       .setValue('#at-field-email', 'test@domain.com')
       .setValue('#at-field-password', 'goodpassword')
       .submitForm('form#at-pwd-form')
       .call(callback);
   });
 
-  this.When(/^I login with bad credentials$/, function(callback) {
+  this.When(/^I enter bad credentials into the login form$/, function(callback) {
     this.client
+      .waitForExist('#at-pwd-form', 2000)
       .setValue('#at-field-email', 'test@domain.com')
       .setValue('#at-field-password', 'badpassword')
       .submitForm('form#at-pwd-form')
