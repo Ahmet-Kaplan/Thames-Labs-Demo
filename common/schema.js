@@ -52,8 +52,7 @@ Schemas.Feedback = new SimpleSchema({
 Schemas.Tenant = new SimpleSchema({
   name: {
     type: String,
-    label: "Name",
-    unique: true
+    label: "Name"
   },
   settings: {
     type: Object,

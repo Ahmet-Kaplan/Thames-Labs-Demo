@@ -1,0 +1,58 @@
+<template name="signUpLayout">
+    <div class="container">
+      {{> nav}}
+        <div id="id-view-content" class="no-menu">
+          {{> Template.dynamic template=main}}
+          {{> footer}}
+        </div>
+    </div>
+</template>
+
+<template name="signUp">
+  {{setPageTitle 'RealTimeCRM - Sign Up'}}
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3" style="padding-top:50px">
+      <div class="panel panel-default" style="background: #f5f5f5">
+        <div class="panel-body">
+          <h1 style="margin-top:0; text-align:center">Sign Up</h1>
+          <p class="text-danger" id="error-message"></p>
+          <div class="form-group">
+              <label for="name" class="control-label">Full Name</label>
+              <br>
+              <input type="text" class="form-control" id="name" name="name">
+          </div>
+          <div class="form-group">
+              <label for="email" class="control-label">Email Address</label>
+              <br>
+              <input type="text" class="form-control" id="email" name="email">
+          </div>
+          <div class="form-group">
+              <label for="company-name" class="control-label">Company Name</label>
+              <br>
+              <input type="text" class="form-control" id="company-name" name="company-name">
+          </div>
+          <div class="form-group">
+              <label for="password" class="control-label">Password</label>
+              <br>
+              <input type="password" class="form-control" id="password" name="password">
+          </div>
+          <div class="form-group">
+              <label for="confirm-password" class="control-label">Confirm Password</label>
+              <br>
+              <input type="password" class="form-control" id="confirm-password" name="confirm-password">
+          </div>
+          <div class="form-group">
+                <input id="terms" type="checkbox" name="terms" value="terms"> Agree to the product <a href="http://www.realtimecrm.co.uk/terms" target="_blank">Terms &amp; Conditions</a>
+          </div>
+          <div class="form-group">
+              <div class="col-sm-12 text-right">
+                  <button type="button" class="btn btn-primary" id="sign-up-btn">
+                      Sign Up <span class="glyphicon glyphicon-chevron-right"></span>
+                  </button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

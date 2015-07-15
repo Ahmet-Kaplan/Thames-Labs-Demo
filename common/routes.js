@@ -70,6 +70,17 @@ router.route('/notifications', {
   }
 });
 
+// NO USER route
+router.route('/sign-up', {
+  name: 'sign-up',
+  action: function() {
+    if (Meteor.userId()) {
+      redirect('dashboard');
+    }
+    layout.render('signUpLayout', { main: "signUp" });
+  }
+});
+
 // NORMAL USER routes follow
 
 router.route('/', {
