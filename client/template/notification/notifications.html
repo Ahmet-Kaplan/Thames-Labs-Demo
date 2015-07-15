@@ -1,7 +1,6 @@
 <template name="notificationAdmin">
   {{setPageTitle 'Notifications'}}
-  <h1>
-    <i class="fa fa-fw fa-envelope"></i> Notifications</h1>
+  <h1><i class="fa fa-fw fa-envelope"></i> Notifications</h1>
   <div class="well well-sm">
     <div class="row">
       <div class="col-md-3">
@@ -23,8 +22,28 @@
     </div>
     {{/each}}
   </ul>
-
-
+  <h1><i class="fa fa-fw fa-envelope"></i>New features</h1>
+   <div class="well well-sm">
+      <div class="row">
+        <div class="col-md-7">
+          <input type="text" class="form-control" placeholder="Feature description..." id="txtFeatureDesc" style="margin-bottom:4px;">
+        </div>
+        <div class="col-md-3">
+          <input type="text" class="form-control" placeholder="Feature icon..." id="txtFeatureIcon" style="margin-bottom:4px;">
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary" id="btnAddFeature" type="button">Add feature</button>
+        </div>
+      </div>
+   </div>
+   <p> Use <a href="http://fortawesome.github.io/Font-Awesome/icons/">Font Awesome</a> to select an icon. You only need to include the icon name, not the css class.</p>
+   <ul class="list-group">
+      {{#each features}} {{> feature}} {{else}}
+        <div class="list-group-item ">
+          <em>No new features</em>
+        </div>
+      {{/each}}
+  </ul>
 </template>
 
 <template name="notification">
@@ -39,6 +58,25 @@
       <div class="col-md-2">
         <button class="btn btn-danger pull-right btn-xs" id="btnDeleteNotification" type="button">
           <i class="fa fa-fw fa-times"></i> Remove notification
+        </button>
+      </div>
+
+    </div>
+  </div>
+</template>
+
+<template name="feature">
+  <div class="list-group-item">
+    <div class="row">
+
+      <div class="col-md-10">
+        <b>Description:</b> {{description}}
+        <br />
+        <b>Icon:</b><i class="fa fa-fw fa-{{icon}}"></i>  {{icon}}
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-danger pull-right btn-xs" id="btnDeleteFeature" type="button">
+          <i class="fa fa-fw fa-times"></i> Remove feature
         </button>
       </div>
 
