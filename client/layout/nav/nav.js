@@ -192,7 +192,9 @@ Template.nav.events({
     Modal.show('changePassword');
   },
   'click #sign-out': function() {
-    Meteor.logout();
+    Meteor.logout(function(err) {
+      FlowRouter.reload();
+    });
   },
   'click #id-menu-button': function() {
     if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
