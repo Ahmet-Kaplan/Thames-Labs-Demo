@@ -39,7 +39,6 @@ erasaur:notification-badge
 tmeasday:presence
 manuel:reactivearray
 panphora:environment-template-helpers
-xolvio:cucumber
 local:partitioner
 nemo64:bootstrap@=3.3.4_2
 less
@@ -59,3 +58,4 @@ useraccounts:bootstrap
 arillo:flow-router-helpers
 aldeed:autoform-bs-datetimepicker
 tsega:bootstrap3-datetimepicker@=3.1.3_3
+xolvio:cucumber
