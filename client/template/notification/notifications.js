@@ -1,6 +1,10 @@
 Template.notificationAdmin.helpers({
   notifications: function() {
     return Notifications.find({}, {sort: {createdAt: -1}});
+  },
+  features: function() {
+    return Features.find({});
+
   }
 });
 
@@ -16,11 +20,27 @@ Template.notificationAdmin.events({
     });
     $('#txtNotification').val("");
     $('#txtNotificationTitle').val("");
-  }
+  },
+
+  "click #btnAddFeature": function(event, template) {
+    console.log("hi10");
+      var desc = $('#txtFeatureDesc').val();
+      var icon = $('#txtFeatureIcon').val();
+      Features.insert({
+        description: desc,
+        icon: icon
+      });
+    }
 });
 
 Template.notification.events({
   "click #btnDeleteNotification": function(event, template) {
     Notifications.remove(this._id);
+  }
+});
+
+Template.feature.events({
+  "click #btnDeleteFeature": function(event, template) {
+    Features.remove(this._id);
   }
 });
