@@ -11,9 +11,7 @@ Feature: Superuser can access special parts of the site
     When I navigate to "/tenants"
     Then I should see the heading "Tenants"
     And I should see the title "Tenants"
-
-  # JC - I think this is actually hanging, perhaps due to a partitioning issue
-  @ignore
+  
   Scenario: A superadmin can visit the notifications screen
     When I navigate to "/notifications"
     Then I should see the heading "Notifications"

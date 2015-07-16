@@ -7,7 +7,6 @@ Feature: Allow users to provide feedback
   Background:
     Given I am a logged in user
 
-  @dev
   Scenario: A user can see the feedback modal
     When I navigate to "/"
     And I click "#general-dropdown"
