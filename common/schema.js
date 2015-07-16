@@ -468,3 +468,14 @@ Schemas.Task = new SimpleSchema({
   }
 });
 Tasks.attachSchema(Schemas.Task);
+
+//Features
+Schemas.Feature = new SimpleSchema({
+  icon: {
+    type: String
+  },
+  description: {
+    type: String
+  }
+});
+Features.attachSchema(Schemas.Feature);
