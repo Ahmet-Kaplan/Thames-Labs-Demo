@@ -19,14 +19,11 @@ module.exports = function () {
       .call(callback);
   });
   
-  this.Then(/^I should see a modal with text "([^"]*)"$/, function(expectedText, callback) {
+  this.Then(/^I should see a modal with title "([^"]*)"$/, function(expectedText, callback) {
     this.client
-      .waitForExist('.modal-dialog', 2000)
-      .getText('.modal-dialog')
-      .then(function (text) {
-          expect(text).to.contain(expectedText);
-      })
-      .call(callback);
+      .waitForExist('.modal-header', 5000)
+      .getText('.modal-header > h4').should.become(expectedText)
+      .and.notify(callback);
   });
 
   this.When(/^I click "([^"]*)"$/, function (id, callback) {

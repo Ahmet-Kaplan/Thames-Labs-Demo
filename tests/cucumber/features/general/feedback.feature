@@ -6,9 +6,11 @@ Feature: Allow users to provide feedback
   
   Background:
     Given I am a logged in user
-
+   
+   
+  @dev
   Scenario: A user can see the feedback modal
     When I navigate to "/"
     And I click "#general-dropdown"
     And I click "#feedback-link"
-    Then I should see a modal with text "Feedback"
+    Then I should see a modal with title "Feedback"
