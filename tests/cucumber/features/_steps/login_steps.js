@@ -36,7 +36,7 @@ module.exports = function () {
       .waitForExist('form#at-pwd-form')
       .call(callback);
   });
-  
+
   this.When(/^I can see the login form$/, function(callback) {
     this.client
       .waitForExist('form#at-pwd-form')
@@ -64,9 +64,9 @@ module.exports = function () {
   this.Then(/^I am logged in$/, function(callback) {
     this.client
       .waitForExist('#at-pwd-form', 2000, true)
-      .execute(function() {
+      .executeAsync(function(done) {
         // browser context
-        return Meteor.userId();
+        done(Meteor.userId());
       }).then(function(ret) {
         // in node.js context
         ret.value.should.exist; // chai should syntax
