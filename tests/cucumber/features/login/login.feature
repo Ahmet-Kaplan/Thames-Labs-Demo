@@ -20,7 +20,6 @@ Feature: Allow users to login and logout
     When I enter bad credentials into the login form
     Then I am not logged in
     
-  @dev
   Scenario: A user can logout with the logout button
     Given I am a logged in user
     When I navigate to "/"
