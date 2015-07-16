@@ -22,8 +22,8 @@ module.exports = function () {
   this.Then(/^I should see a modal with title "([^"]*)"$/, function(expectedText, callback) {
     this.client
       .waitForExist('.modal-header', 5000)
-      .getText('.modal-header > h4').should.become(expectedText)
-      .and.notify(callback);
+      .getText('h4=' + expectedText)
+      .call(callback);
   });
 
   this.When(/^I click "([^"]*)"$/, function (id, callback) {

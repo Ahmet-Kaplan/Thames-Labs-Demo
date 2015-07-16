@@ -8,7 +8,6 @@ var subs = new SubsManager(),
 var superAdminOnly = function(context, redirect) {
   var user = Meteor.user();
   if (user !== undefined && !Roles.userIsInRole(user, 'superadmin') ) {
-    console.log("redirect to dashboard");
     redirect('dashboard');
   }
 };
@@ -16,8 +15,6 @@ var superAdminOnly = function(context, redirect) {
 var normalUserOnly = function(context, redirect) {
   var user = Meteor.user();
   if (user !== undefined && Roles.userIsInRole(user, 'superadmin')) {
-    console.log(context);
-    console.log("redirect to tenants");
     redirect('tenants');
   }
 };
