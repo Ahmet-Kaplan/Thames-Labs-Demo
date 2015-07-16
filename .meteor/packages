@@ -59,4 +59,3 @@ arillo:flow-router-helpers
 aldeed:autoform-bs-datetimepicker
 tsega:bootstrap3-datetimepicker@=3.1.3_3
 xolvio:cucumber
-velocity:console-reporter

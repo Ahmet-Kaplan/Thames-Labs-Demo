@@ -23,14 +23,13 @@ Template.notificationAdmin.events({
   },
 
   "click #btnAddFeature": function(event, template) {
-    console.log("hi10");
       var desc = $('#txtFeatureDesc').val();
       var icon = $('#txtFeatureIcon').val();
       Features.insert({
         description: desc,
         icon: icon
       });
-    }
+   }
 });
 
 Template.notification.events({

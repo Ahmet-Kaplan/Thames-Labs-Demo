@@ -19,3 +19,11 @@ Feature: Allow users to login and logout
     Given I can see the login form
     When I enter bad credentials into the login form
     Then I am not logged in
+    
+  @dev
+  Scenario: A user can logout with the logout button
+    Given I am a logged in user
+    When I navigate to "/"
+    And I click "#general-dropdown"
+    And I click "#sign-out"
+    Then I can see the login form 

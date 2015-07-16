@@ -36,6 +36,12 @@ module.exports = function () {
       .waitForExist('form#at-pwd-form')
       .call(callback);
   });
+  
+  this.When(/^I can see the login form$/, function(callback) {
+    this.client
+      .waitForExist('form#at-pwd-form')
+      .call(callback);
+  });
 
   this.When(/^I enter good credentials into the login form$/, function(callback) {
     this.client

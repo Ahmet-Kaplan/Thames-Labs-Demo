@@ -124,7 +124,6 @@ url@1.0.4
 useraccounts:bootstrap@1.10.0
 useraccounts:core@1.10.0
 velocity:chokidar@1.0.3_1
-velocity:console-reporter@0.1.2
 velocity:core@0.7.1
 velocity:html-reporter@0.6.2
 velocity:meteor-internals@1.1.0_7

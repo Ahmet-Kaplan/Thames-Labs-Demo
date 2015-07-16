@@ -13,4 +13,12 @@ module.exports = function () {
       .call(callback);
   });
 
+  this.When(/^I click "([^"]*)"$/, function (id, callback) {
+    this.client
+      .waitForExist(id, 2000)
+      .click(id)
+      .then(function() {
+      })
+      .call(callback);
+  });
 };
