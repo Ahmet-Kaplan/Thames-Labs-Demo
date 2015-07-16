@@ -15,7 +15,7 @@ Feature: Allow users to login and logout
     Given I can see the login form
     When I enter good credentials into the login form
     Then I am logged in
-
+@dev
   Scenario: A user can't login with bad credentials
     Given I can see the login form
     When I enter bad credentials into the login form

@@ -77,9 +77,9 @@ module.exports = function () {
 
   this.Then(/^I am not logged in$/, function(callback) {
     this.client
-      .execute(function() {
+      .executeAsync(function(done) {
         // browser context
-        return Meteor.userId();
+        done(Meteor.userId());
       }).then(function(ret) {
         // in node.js context
         expect(ret.value).to.not.exist; // chai expect syntax
