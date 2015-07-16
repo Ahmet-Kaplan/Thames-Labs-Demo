@@ -13,12 +13,18 @@ module.exports = function () {
       .call(callback);
   });
   
-  this.Then(/^I should see a modal with heading "([^"]*)"$/, function(expectedHeading, callback) {
+  this.Then(/^I should see a modal$/, function(callback) {
     this.client
       .waitForExist('.modal-dialog', 2000)
-      .getText('.modal-header')
+      .call(callback);
+  });
+  
+  this.Then(/^I should see a modal with text "([^"]*)"$/, function(expectedHeading, callback) {
+    this.client
+      .waitForExist('.modal-dialog', 2000)
+      .getText('.modal-dialog')
       .then(function (text) {
-        text.should.contain(expectedHeading);
+          expect(text).to.contain(expectedHeading);
       })
       .call(callback);
   });
