@@ -148,8 +148,7 @@ Template.nav.events({
       if (exists) {
         toastr.info('Page already favourited.');
         return;
-      }
-      else {
+      } else {
         var x = {
           name: document.title,
           url: FlowRouter.current().path
