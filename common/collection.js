@@ -122,3 +122,5 @@ Partitioner.partitionCollection(Meteor.tags);
 
 Tasks = new Mongo.Collection('tasks');
 //Partitioner.partitionCollection(Tasks);
+
+Features = new Mongo.Collection('features');

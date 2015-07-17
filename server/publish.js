@@ -206,3 +206,7 @@ Meteor.publish("allUserTasks", function(userId) {
     createdBy: userId
   });
 });
+
+Meteor.publish("allFeatures", function() {
+  return Features.find({});
+});

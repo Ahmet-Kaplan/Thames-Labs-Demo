@@ -7,14 +7,14 @@ var subs = new SubsManager(),
 // They're used for before / after actions on routes
 var superAdminOnly = function(context, redirect) {
   var user = Meteor.user();
-  if (!Roles.userIsInRole(user, 'superadmin')) {
+  if (user !== undefined && !Roles.userIsInRole(user, 'superadmin') ) {
     redirect('dashboard');
   }
 };
 
 var normalUserOnly = function(context, redirect) {
   var user = Meteor.user();
-  if (Roles.userIsInRole(user, 'superadmin')) {
+  if (user !== undefined && Roles.userIsInRole(user, 'superadmin')) {
     redirect('tenants');
   }
 };
@@ -39,6 +39,7 @@ router.triggers.exit(tidyUpModals);
 router.subscriptions = function() {
     this.register('userPresence', Meteor.subscribe('userPresence'));
     this.register('allNotifications', Meteor.subscribe('allNotifications'));
+    this.register('allFeatures', Meteor.subscribe('allFeatures'));
 };
 
 router.notFound = {
@@ -64,6 +65,7 @@ router.route('/notifications', {
   name: 'notifications',
   subscriptions: function() {
     this.register('allNotifications', subs.subscribe('allNotifications'));
+    this.register('allFeatures', subs.subscribe('allFeatures'));
   },
   action: function() {
     layout.render('appLayout', { main: "notificationAdmin" });
