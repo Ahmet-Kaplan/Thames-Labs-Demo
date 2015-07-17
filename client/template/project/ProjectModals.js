@@ -18,19 +18,21 @@ Session.set('sc', null);
 Template.newProjectForm.events({
   'change #selectedCompany': function() {
     var c = $('select#selectedCompany').val();
-    if (c)
+    if (c) {
       Session.set('sc', c);
-    else
+    } else {
       Session.set('sc', null);
+    }
   }
 });
 
 Template.updateProjectForm.onRendered(function() {
   var c = this.data.companyId;
-  if (c)
+  if (c) {
     Session.set('sc', c);
-  else
+  } else {
     Session.set('sc', null);
+  }
 });
 
 Template.updateProjectForm.helpers({
