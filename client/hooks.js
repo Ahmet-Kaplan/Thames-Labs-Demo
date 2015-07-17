@@ -1,7 +1,7 @@
 Accounts.onLogin(function(cb) {
 
   if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
-    Meteor.logoutOtherClients();
+   // Meteor.logoutOtherClients();
   }
 
   var user = Meteor.users.find({
@@ -24,18 +24,7 @@ Accounts.onLogin(function(cb) {
     }
   }
 
-  //Hack to fix infinite load on login.
-  var path = FlowRouter.current().path + "/#";
-  if (FlowRouter.current().path == '/') {
-    path = "/#";
-  }
-  else if (FlowRouter.current().path.slice(-2) == "/#"){
-    path = FlowRouter.current().path.substr(0, FlowRouter.current().path.length - 2)
-  }
-  else if (FlowRouter.current().path.slice(-1) == "/"){
-    path = FlowRouter.current().path + "#";
-  }
-  FlowRouter.redirect(path);
+  FlowRouter.reload();
 
 });
 

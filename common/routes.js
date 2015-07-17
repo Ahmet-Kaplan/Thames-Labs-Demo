@@ -7,14 +7,14 @@ var subs = new SubsManager(),
 // They're used for before / after actions on routes
 var superAdminOnly = function(context, redirect) {
   var user = Meteor.user();
-  if (!Roles.userIsInRole(user, 'superadmin')) {
+  if (user !== undefined && !Roles.userIsInRole(user, 'superadmin') ) {
     redirect('dashboard');
   }
 };
 
 var normalUserOnly = function(context, redirect) {
   var user = Meteor.user();
-  if (Roles.userIsInRole(user, 'superadmin')) {
+  if (user !== undefined && Roles.userIsInRole(user, 'superadmin')) {
     redirect('tenants');
   }
 };

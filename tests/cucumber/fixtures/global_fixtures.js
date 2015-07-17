@@ -6,25 +6,6 @@ Meteor.methods({
       Companies.remove({});
       Meteor.tags.remove({});
     });
-  },
-  'createCompany': function(done) {
-    Partitioner.bindGroup('tenant 1', function() {
-      Companies.insert({
-        name: 'test',
-        address: 'test',
-        city: 'test',
-        postcode: 'test',
-        country: 'test',
-        createdBy: 'xxx',
-        tags: ['test']
-      }, done);
-    });
-  },
-  'addTagToCompany': function() {
-    Partitioner.bindGroup('tenant 1', function() {
-      var company = Companies.findOne({name: 'test'});
-      Companies.addTag('test tag', {_id: company._id});
-    });
   }
 });
 

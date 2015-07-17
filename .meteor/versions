@@ -62,7 +62,7 @@ meteor@1.1.6
 meteor-platform@1.2.2
 meteorhacks:aggregate@1.2.1
 meteorhacks:collection-utils@1.2.0
-meteorhacks:flow-layout@1.4.1
+meteorhacks:flow-layout@1.4.2
 meteorhacks:flow-router@1.18.0
 meteorhacks:kadira@2.22.0
 meteorhacks:kadira-binary-deps@1.4.0
@@ -124,12 +124,13 @@ url@1.0.4
 useraccounts:bootstrap@1.10.0
 useraccounts:core@1.10.0
 velocity:chokidar@1.0.3_1
+velocity:console-reporter@0.1.2
 velocity:core@0.7.1
 velocity:html-reporter@0.6.2
 velocity:meteor-internals@1.1.0_7
 velocity:shim@0.1.0
 webapp@1.2.0
 webapp-hashing@1.0.3
-xolvio:cucumber@0.10.0
+xolvio:cucumber@0.11.1
 yogiben:autoform-modals@0.3.6
 zimme:active-route@2.2.0
