@@ -6,10 +6,18 @@ Template.taskList.helpers({
   },
   tasks: function() {
     if (Session.get('showCompleted') === 1) {
-      return Tasks.find({});
+      return Tasks.find({}, {
+        sort: {
+          dueDate: 1
+        }
+      });
     } else {
       return Tasks.find({
         completed: false
+      }, {
+        sort: {
+          dueDate: 1
+        }
       });
     }
   }

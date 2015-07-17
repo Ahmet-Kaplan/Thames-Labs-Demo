@@ -439,7 +439,8 @@ Schemas.Task = new SimpleSchema({
     type: String
   },
   description: {
-    type: String
+    type: String,
+    optional: true
   },
   dueDate: {
     type: Date,
