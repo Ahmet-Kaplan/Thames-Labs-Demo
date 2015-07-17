@@ -1,0 +1,11 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "meteor": true,
+  },
+  "rules": {
+    space-before-function-paren: [2, "never"],
+    curly: [2, "multi-line"]
+  },
+}

@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = function( ) {
 
   // called before each scenario
   // analogous to a router onBeforeAction
