@@ -1,6 +1,6 @@
-module.exports = function () {
+module.exports = function() {
 
-  this.When(/^I sign up with good details$/, function (callback) {
+  this.When(/^I sign up with good details$/, function(callback) {
     this.client
       .waitForExist('form#signUpForm', 2000)
       .setValue('#company-name-field', 'Company Name')
@@ -11,8 +11,8 @@ module.exports = function () {
       .submitForm('form#signUpForm')
       .call(callback);
   });
-  
-   this.When(/^I sign up with bad details$/, function (callback) {
+
+  this.When(/^I sign up with bad details$/, function(callback) {
     this.client
       .waitForExist('form#signUpForm', 2000)
       .setValue('#company-name-field', '')
@@ -23,11 +23,11 @@ module.exports = function () {
       .submitForm('form#signUpForm')
       .call(callback);
   });
-  
-  this.Then(/^I should see a sign up error$/, function (callback) {
+
+  this.Then(/^I should see a sign up error$/, function(callback) {
     call(callback);
   });
-  
+
   this.Then(/^I am signed up$/, function(callback) {
     this.client
       .executeAsync(function(done) {
@@ -41,7 +41,7 @@ module.exports = function () {
       })
       .call(callback);
   });
-  
+
   this.Then(/^I am not signed up$/, function(callback) {
     this.client
       .executeAsync(function(done) {

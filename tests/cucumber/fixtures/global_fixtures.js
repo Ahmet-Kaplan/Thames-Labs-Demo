@@ -6,7 +6,7 @@ Meteor.methods({
       Companies.remove({});
       Meteor.tags.remove({});
     });
-    
+
     Meteor.users.remove({ emails: { $elemMatch: { address: "test3@domain.com"}}});
     Tenants.remove({name:"Company Name"});
   },
@@ -52,5 +52,5 @@ Meteor.startup(function() {
   Roles.addUsersToRoles(superadminId, 'superadmin');
 
   //Disable sending emails
-  Email.send = function (options) {};
+  Email.send = function(options) {};
 });
