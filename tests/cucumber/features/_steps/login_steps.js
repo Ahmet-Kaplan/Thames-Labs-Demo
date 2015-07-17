@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = function() {
 
   var logout = function(done) {
     Meteor.logout(done);
@@ -8,14 +8,14 @@ module.exports = function () {
     Meteor.loginWithPassword(email, password, done);
   };
 
-  this.Given(/^I am a logged out user$/, function (callback) {
+  this.Given(/^I am a logged out user$/, function(callback) {
     this.client
       .url(process.env.ROOT_URL)
       .executeAsync(logout)
       .call(callback);
   });
 
-  this.Given(/^I am a logged in user$/, function (callback) {
+  this.Given(/^I am a logged in user$/, function(callback) {
     this.client
       .url(process.env.ROOT_URL)
       .executeAsync(logout)
@@ -23,7 +23,7 @@ module.exports = function () {
       .call(callback);
   });
 
-  this.Given(/^I am a logged in superadmin user$/, function (callback) {
+  this.Given(/^I am a logged in superadmin user$/, function(callback) {
     this.client
       .url(process.env.ROOT_URL)
       .executeAsync(logout)

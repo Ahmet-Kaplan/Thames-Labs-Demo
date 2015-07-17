@@ -1,4 +1,4 @@
-Template.tagInput.rendered = function () {
+Template.tagInput.rendered = function() {
   var that = this;
   this.$('.tag-input').selectize({
     placeholder: 'Click here to add a tag ...',
