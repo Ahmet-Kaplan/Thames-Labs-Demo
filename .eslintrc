@@ -5,7 +5,17 @@
     "meteor": true,
   },
   "rules": {
+    // best practices
+    curly: [2, "multi-line"],
+
+    // style
+    camelcase: 2,
     space-before-function-paren: [2, "never"],
-    curly: [2, "multi-line"]
+    no-trailing-spaces: 2,
+    comma-style: [2, "last"],
+    brace-style: [2, "1tbs"],
+    no-inline-comments: 2,
+    no-mixed-spaces-and-tabs: 2,
+
   },
 }

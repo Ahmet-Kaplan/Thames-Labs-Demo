@@ -31,8 +31,7 @@ Template.newPurchaseOrderForm.events({
       Session.set('posc', c);
       Meteor.subscribe('contactsByCompanyId', c);
       Meteor.subscribe('projectsByCompanyId', c);
-    }
-    else{
+    } else {
       Session.set('posc', null);
     }
   }

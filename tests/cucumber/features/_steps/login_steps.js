@@ -69,8 +69,8 @@ module.exports = function() {
         done(Meteor.userId());
       }).then(function(ret) {
         // in node.js context
-        ret.value.should.exist; // chai should syntax
-        expect(ret.value).to.exist; // chai expect syntax
+        ret.value.should.exist;
+        expect(ret.value).to.exist;
       })
       .call(callback);
   });
@@ -82,7 +82,7 @@ module.exports = function() {
         done(Meteor.userId());
       }).then(function(ret) {
         // in node.js context
-        expect(ret.value).to.not.exist; // chai expect syntax
+        expect(ret.value).to.not.exist;
       })
       .call(callback);
   });
