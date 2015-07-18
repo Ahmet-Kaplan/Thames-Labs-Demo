@@ -37,7 +37,7 @@ module.exports = function() {
         });
       })
       .then(function(data) {
-        expect(data).to.exist;
+        expect(data.value).to.exist;
       })
       .call(callback);
   });
@@ -45,7 +45,7 @@ module.exports = function() {
   this.Then(/^I am not signed up$/, function(callback) {
     this.client
       .executeAsync(function(done) {
-        Meteor.call('getUserByEmail', 'testdomaincom', function(data) {
+        Meteor.call('getUserByEmail', 'testdomaincom', function(err, data) {
           done(data);
         });
       })
