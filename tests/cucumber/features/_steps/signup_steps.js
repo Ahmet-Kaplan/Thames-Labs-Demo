@@ -32,7 +32,6 @@ module.exports = function() {
     this.client
       .executeAsync(function(done) {
         Meteor.call('getUserByEmail', 'test3@domain.com', function(err, data) {
-          console.log(data);
           done(data);
         });
       })
