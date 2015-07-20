@@ -70,7 +70,7 @@ Meteor.publish("companyByProjectId", function(projectId) {
   return Companies.find(project.companyId);
 });
 Meteor.publish("companyByPurchaseOrderId", function(purchaseOrderId) {
-  var purchaseOrder = PurchaseOrders.findOne(purchaseOrder);
+  var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);
   return Companies.find(purchaseOrder.companyId);
 });
 Meteor.publish("companyTags", function() {
@@ -94,7 +94,7 @@ Meteor.publish("contactsByCompanyId", function(companyId) {
 });
 Meteor.publish("contactsByProjectId", function(projectId) {
   var project = Projects.findOne(projectId);
-  return Contacts.find(projectId.contactId);
+  return Contacts.find(project.contactId);
 });
 Meteor.publish("contactByPurchaseOrderId", function(purchaseOrderId) {
   var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);

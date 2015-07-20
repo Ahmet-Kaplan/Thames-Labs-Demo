@@ -17,7 +17,7 @@ Meteor.methods({
           notes: doc.message + '\n\nurl: ' + doc.url + '\nname: ' + doc.name + '\nemail: ' + doc.email
         }
       }
-    }, function(error, result) {
+    }, function(error) {
       if (error) console.log(error);
     });
   },
