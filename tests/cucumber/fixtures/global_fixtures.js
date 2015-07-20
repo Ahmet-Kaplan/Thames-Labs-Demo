@@ -6,6 +6,12 @@ Meteor.methods({
       Companies.remove({});
       Meteor.tags.remove({});
     });
+
+    Meteor.users.remove({ emails: { $elemMatch: { address: "test3@domain.com"}}});
+    Tenants.remove({name:"Company Name"});
+  },
+  'getUserByEmail': function(email) {
+      return Meteor.users.findOne({ emails: { $elemMatch: { address: email } } });
   }
 });
 
@@ -44,5 +50,4 @@ Meteor.startup(function() {
     admin: true
   });
   Roles.addUsersToRoles(superadminId, 'superadmin');
-
 });
