@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = function() {
 
   var logout = function(done) {
     Meteor.logout(done);
@@ -8,14 +8,14 @@ module.exports = function () {
     Meteor.loginWithPassword(email, password, done);
   };
 
-  this.Given(/^I am a logged out user$/, function (callback) {
+  this.Given(/^I am a logged out user$/, function(callback) {
     this.client
       .url(process.env.ROOT_URL)
       .executeAsync(logout)
       .call(callback);
   });
 
-  this.Given(/^I am a logged in user$/, function (callback) {
+  this.Given(/^I am a logged in user$/, function(callback) {
     this.client
       .url(process.env.ROOT_URL)
       .executeAsync(logout)
@@ -23,7 +23,7 @@ module.exports = function () {
       .call(callback);
   });
 
-  this.Given(/^I am a logged in superadmin user$/, function (callback) {
+  this.Given(/^I am a logged in superadmin user$/, function(callback) {
     this.client
       .url(process.env.ROOT_URL)
       .executeAsync(logout)
@@ -69,8 +69,8 @@ module.exports = function () {
         done(Meteor.userId());
       }).then(function(ret) {
         // in node.js context
-        ret.value.should.exist; // chai should syntax
-        expect(ret.value).to.exist; // chai expect syntax
+        ret.value.should.exist;
+        expect(ret.value).to.exist;
       })
       .call(callback);
   });
@@ -82,7 +82,7 @@ module.exports = function () {
         done(Meteor.userId());
       }).then(function(ret) {
         // in node.js context
-        expect(ret.value).to.not.exist; // chai expect syntax
+        expect(ret.value).to.not.exist;
       })
       .call(callback);
   });

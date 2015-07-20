@@ -114,8 +114,8 @@ Template.contactList.events({
       var data = reader.result;
 
       var options = {
-        delimiter: "", // auto-detect
-        newline: "", // auto-detect
+        delimiter: "",
+        newline: "",
         header: true,
         skipEmptyLines: true
       };
