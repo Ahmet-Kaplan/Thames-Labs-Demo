@@ -29,7 +29,7 @@ Accounts.onLogin(function(cb) {
 });
 
 AutoForm.hooks({
-  updateActivityForm:{
+  updateActivityForm: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Activity updated.');

@@ -9,7 +9,7 @@ AutoForm.hooks({
 
 Template.purchaseOrderDetail.onCreated(function() {
   // Redirect if data doesn't exist
-  this.autorun(function(){
+  this.autorun(function() {
      var purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
      if (purchaseOrder) return;
      FlowRouter.go('purchaseOrders');
@@ -61,9 +61,9 @@ Template.purchaseOrderDetail.events({
       _.each(orderItems, function(oi) {
         var obj = {
           name: oi.description,
-          count:oi.quantity,
-          value:oi.value,
-          total:oi.totalPrice,
+          count: oi.quantity,
+          value: oi.value,
+          total: oi.totalPrice,
         }
 
         running = running + parseFloat(oi.totalPrice);
@@ -147,10 +147,10 @@ Template.purchaseOrderDetail.helpers({
       purchaseOrderId: this._id
     });
   },
-  isOpen:function(){
+  isOpen: function() {
     return(this.status !=="Closed" ? true : false);
   },
-  canAddMoreItems:function(){
+  canAddMoreItems: function() {
     return(this.status ==="Requested" ? true : false);
   }
 });

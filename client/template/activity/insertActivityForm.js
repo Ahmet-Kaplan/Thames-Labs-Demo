@@ -1,4 +1,4 @@
-Template.insertActivityModal.rendered = function(){
+Template.insertActivityModal.rendered = function() {
 
 };
 
@@ -14,7 +14,7 @@ Template.insertActivityModal.helpers({
       };
     });
   },
-  currentUser: function(){
+  currentUser: function() {
     return Meteor.userId();
   },
 });
@@ -32,7 +32,7 @@ Template.insertProjectActivityModal.helpers({
   currentDateTime: function() {
   return moment();
   },
-  currentUser: function(){
+  currentUser: function() {
     return Meteor.userId();
   },
 });
@@ -41,7 +41,7 @@ Template.insertPurchaseOrderActivityModal.helpers({
   currentDateTime: function() {
   return moment();
   },
-  currentUser: function(){
+  currentUser: function() {
     return Meteor.userId();
   },
 });
