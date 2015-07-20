@@ -52,5 +52,5 @@ Meteor.startup(function() {
   Roles.addUsersToRoles(superadminId, 'superadmin');
 
   //Disable sending emails
-  Email.send = function(options) {};
+  Email.send = function() {};
 });

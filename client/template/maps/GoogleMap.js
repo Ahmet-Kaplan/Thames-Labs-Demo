@@ -29,7 +29,7 @@ Template.map.onCreated(function() {
     if (loadSwitch === false) {
 
       gc = new google.maps.Geocoder();
-      var geocoded = gc.geocode({
+      gc.geocode({
         'address': companyData.postcode
       }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {

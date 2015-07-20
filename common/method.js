@@ -18,7 +18,6 @@ Meteor.methods({
         var randomIndex = Math.floor(Math.random() * usersArray.length);
         var randomUser = usersArray[randomIndex];
 
-        var randomName = faker.company.companyName();
         var companyId = Companies.insert({
           name: faker.company.companyName(),
           address: faker.address.streetAddress(),
@@ -48,7 +47,7 @@ Meteor.methods({
           contacts.push(contactId);
 
           _.each(_.range(_.random(0, 2)), function() {
-            var activityId = Activities.insert({
+            Activities.insert({
               type: _.sample(Schemas.Activity._schema.type.allowedValues),
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
@@ -80,7 +79,7 @@ Meteor.methods({
           projects.push(projectId);
 
           _.each(_.range(_.random(0, 2)), function() {
-            var activityId = Activities.insert({
+            Activities.insert({
               type: _.sample(Schemas.Activity._schema.type.allowedValues),
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
@@ -107,7 +106,7 @@ Meteor.methods({
           });
 
           _.each(_.range(_.random(0, 2)), function() {
-            var activityId = Activities.insert({
+            Activities.insert({
               type: _.sample(Schemas.Activity._schema.type.allowedValues),
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
@@ -117,7 +116,7 @@ Meteor.methods({
           });
 
           _.each(_.range(_.random(0, 2)), function() {
-            var PurchaseOrderItemId = PurchaseOrderItems.insert({
+            PurchaseOrderItems.insert({
               purchaseOrderId: purchaseOrderId,
               description: faker.lorem.sentence(),
               productCode: faker.random.uuid(),

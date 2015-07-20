@@ -84,7 +84,7 @@ MochaWeb.testOnly(function() {
         callback();
       });
 
-      Meteor.loginWithPassword('demo@demo.co.uk', 'demo123', function(err) {
+      Meteor.loginWithPassword('demo@demo.co.uk', 'demo123', function() {
 
       });
 
@@ -152,7 +152,7 @@ MochaWeb.testOnly(function() {
     it('should allow a company\'s details page to be loaded', function(done) {
 
       expect($('#mchCompany')).to.exist;
-      var url = $('#mchCompany').eq(0).prop('href');
+      // var url = $('#mchCompany').eq(0).prop('href');
 
       $('#mchCompany').eq(0).trigger('click');
 
