@@ -27,11 +27,12 @@
           </div>
           Project details</div>
         <ul class="list-group">
+          {{#if company}}
           <a href="{{pathFor route='company' id=company._id}}" class="list-group-item">
             <i class="fa fa-fw fa-building"></i> Company: {{company.name}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
-          {{#if contactId}}
+          {{/if}} {{#if contactId}}
           <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item">
             <i class="fa fa-fw fa-user"></i> Contact: {{contactName}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>

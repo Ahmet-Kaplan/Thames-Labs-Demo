@@ -228,7 +228,8 @@ Schemas.Project = new SimpleSchema({
     label: "Description"
   },
   companyId: {
-    type: String
+    type: String,
+    optional: true
   },
   contactId: {
     type: String,
@@ -288,7 +289,8 @@ Schemas.PurchaseOrder = new SimpleSchema({
     optional: true
   },
   supplierCompanyId: {
-    type: String
+    type: String,
+    optional: true
   },
   supplierContactId: {
     type: String,

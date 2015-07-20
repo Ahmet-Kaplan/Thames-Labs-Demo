@@ -133,6 +133,11 @@ Meteor.publish("projectsByCompanyId", function(companyId) {
     companyId: companyId
   });
 });
+Meteor.publish("projectsByContactId", function(contactId) {
+  return Projects.find({
+    contactId: contactId
+  });
+});
 Meteor.publish("projectById", function(projectId) {
   return Projects.find({
     _id: projectId

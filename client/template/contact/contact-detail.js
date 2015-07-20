@@ -17,6 +17,10 @@ Template.contactDetail.helpers({
   'contactData': function() {
     var contactId = FlowRouter.getParam('id');
     return Contacts.findOne({_id: contactId});
+  },
+  'projects': function() {
+    var contactId = FlowRouter.getParam('id');
+    return Projects.find({contactId: contactId}, {sort: {description:1}});
   }
 });
 
@@ -26,5 +30,20 @@ Template.contactDetail.events({
       company: this.company(),
       contact: this
     });
+  },
+  'click #add-project': function() {
+    var company = this.company();
+    if (company === undefined) {
+      //no company present
+      Modal.show('newContactProjectForm', {
+        contactId: this._id
+      });
+    }
+    else {
+      Modal.show('newProjectForm', {
+        companyId: company._id,
+        contactId: this._id
+      });
+    }
   }
 });

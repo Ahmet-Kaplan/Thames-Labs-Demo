@@ -50,16 +50,47 @@
           {{/if}}
         </ul>
       </div>
-    </div>
+      
+      <div class="panel panel-default">
+        <div class="panel-heading" id="projects">
+          Projects
+          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right">Add project</a>
+        </div>
+        <ul class="list-group">
+          {{#each projects}}
+          <a href="{{pathFor route='project' id=_id}}" class="list-group-item">
+            <i class="fa fa-fw fa-files-o"></i> {{description}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
+          {{else}}
+          <li class="list-group-item">No projects</li>
+          {{/each}}
+        </ul>
+      </div>
 
-
-    <div class="col-md-3">
-    </div>
-
-  </div>
-  <div class="row">
-    <div class="col-md-10 col-md-offset-2">
-      {{#with this}} {{> taskDisplay entity_type="contact" entity_id=_id}} {{/with}}
+      <div class="panel panel-default">
+        <div class="panel-heading" id="purchase-orders">
+          Purchase Orders
+          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" disabled="disabled">Add purchase order</a>
+        </div>
+        <ul class="list-group">
+          {{#each purchaseOrders}}
+          <a href="{{pathFor route='purchaseOrder' id=_id}}" class="list-group-item">
+            <i class="fa fa-fw fa-shopping-cart"></i> {{description}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
+          {{else}}
+          <li class="list-group-item">No purchase orders</li>
+          {{/each}}
+        </ul>
+      </div>
+      
+      
+      {{#with this}} 
+        {{> taskDisplay entity_type="contact" entity_id=_id}} 
+      {{/with}}
+      
+      
     </div>
   </div>
 
