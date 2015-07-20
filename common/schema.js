@@ -104,6 +104,9 @@ Schemas.Tenant = new SimpleSchema({
       type: "hidden"
     },
     optional: true
+  },
+  createdAt: {
+    type: Date
   }
 });
 Tenants.attachSchema(Schemas.Tenant);

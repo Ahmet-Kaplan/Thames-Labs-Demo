@@ -7,6 +7,10 @@ Tenants.helpers({
   }
 });
 
+Tenants.before.insert(function(userId, doc) {
+  doc.createdAt = new Date();
+});
+
 Companies = new Mongo.Collection('companies');
 Partitioner.partitionCollection(Companies);
 Companies.helpers({
