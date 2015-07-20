@@ -42,8 +42,7 @@ Template.contactDetail.events({
       Modal.show('newContactProjectForm', {
         contactId: this._id
       });
-    }
-    else {
+    } else{
       Modal.show('newProjectForm', {
         companyId: company._id,
         contactId: this._id
@@ -57,8 +56,7 @@ Template.contactDetail.events({
       Modal.show('newContactPurchaseOrderForm', {
         supplierContactId: this._id
       });
-    }
-    else {
+    } else {
       Modal.show('newContactPurchaseOrderForm', {
         supplierCompanyId: company._id,
         supplierContactId: this._id

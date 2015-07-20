@@ -14,8 +14,6 @@ Template.newPurchaseOrderForm.onRendered(function() {
 
 Template.newCompanyPurchaseOrderForm.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  var handle = Meteor.subscribe("myTenant", groupId);
-
   var c = this.data.supplierCompanyId;
   if (c) {
     Session.set('posc', c);
@@ -26,8 +24,6 @@ Template.newCompanyPurchaseOrderForm.onRendered(function() {
 
 Template.newContactPurchaseOrderForm.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  var handle = Meteor.subscribe("myTenant", groupId);
-
   var c = this.data.supplierCompanyId;
   if (c) {
     Session.set('posc', c);
