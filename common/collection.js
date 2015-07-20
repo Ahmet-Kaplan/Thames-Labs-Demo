@@ -12,7 +12,7 @@ Companies.helpers({
     return Contacts.find({ companyId: this._id });
   },
   activities: function() {
-    return Activities.find({ companyId: this._id }, { sort: { activityTimestamp: 1 } });
+    return Activities.find({ companyId: this._id }, { sort: { activityTimestamp: -1 } });
   },
   projects: function() {
     return Projects.find({ companyId: this._id }, { sort: { createdAt: -1 } });
@@ -36,7 +36,7 @@ Contacts.helpers({
     return Companies.findOne(this.companyId);
   },
   activities: function() {
-    return Activities.find({ contactId: this._id }, { sort: { activityTimestamp: 1 } });
+    return Activities.find({ contactId: this._id }, { sort: { activityTimestamp: -1 } });
   },
   purchaseOrders: function() {
     return PurchaseOrders.find({ supplierContactId: this._id }, { sort: { createdAt: -1 } });
@@ -73,7 +73,7 @@ Projects.helpers({
     return Companies.findOne(this.companyId);
   },
   activities: function() {
-    return Activities.find({ projectId: this._id }, { sort: { activityTimestamp: 1 } });
+    return Activities.find({ projectId: this._id }, { sort: { activityTimestamp: -1 } });
   },
   contact: function() {
     return Contacts.findOne(this.contactId);
@@ -93,7 +93,7 @@ PurchaseOrders.helpers({
     return Companies.findOne(this.supplierCompanyId);
   },
   activities: function() {
-    return Activities.find({ purchaseOrderId: this._id }, { sort: { activityTimestamp: 1 } });
+    return Activities.find({ purchaseOrderId: this._id }, { sort: { activityTimestamp: -1 } });
   },
   contact: function() {
     return Contacts.findOne(this.supplierContactId);
