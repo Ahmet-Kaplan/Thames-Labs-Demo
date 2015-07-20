@@ -1,3 +1,5 @@
+Collections = {}
+
 Tenants = new Mongo.Collection('tenants');
 Tenants.helpers({
   users: function() {
@@ -25,6 +27,7 @@ Companies.initEasySearch(['name', 'tags'], {
   limit: 50
 });
 Tags.TagsMixin(Companies);
+Collections.companies = Companies;
 
 Contacts = new Mongo.Collection('contacts');
 Partitioner.partitionCollection(Contacts);
@@ -45,6 +48,8 @@ Contacts.helpers({
 Contacts.initEasySearch(['forename', 'surname'], {
   limit: 50
 });
+Tags.TagsMixin(Contacts);
+Collections.contacts = Contacts;
 
 Activities = new Mongo.Collection('activities');
 Partitioner.partitionCollection(Activities);
@@ -85,6 +90,8 @@ Projects.helpers({
 Projects.initEasySearch('description', {
   limit: 50
 });
+Tags.TagsMixin(Projects);
+Collections.projects = Projects;
 
 PurchaseOrders = new Mongo.Collection('purchaseorders');
 Partitioner.partitionCollection(PurchaseOrders);
@@ -105,6 +112,7 @@ PurchaseOrders.helpers({
 PurchaseOrders.initEasySearch('description', {
   limit: 50
 });
+Collections.purchaseOrders = PurchaseOrders;
 
 PurchaseOrderItems = new Mongo.Collection('purchaseorderitems');
 Partitioner.partitionCollection(PurchaseOrderItems);

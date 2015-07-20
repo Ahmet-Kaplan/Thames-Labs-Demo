@@ -5,6 +5,17 @@ Template.projectsList.onRendered(function() {
       top: sidebar.offset().top
     }
   });
+
+  // Watch for session variable setting search
+  Session.set('projectListSearchQuery', null);
+  Tracker.autorun(function() {
+    var searchQuery = Session.get('projectListSearchQuery');
+    var easySearchInstance = EasySearch.getComponentInstance({index: 'projects'});
+    if (searchQuery) {
+      easySearchInstance.search(searchQuery);
+      $('.sidebar input').val(searchQuery);
+    }
+  });
 });
 
 

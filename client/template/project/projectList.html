@@ -57,6 +57,7 @@
 
 <template name="projectListItem">
   <a class="list-group-item" href="{{pathFor route='project' id=_id}}">
-    <h5 class="list-group-item-heading" style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;vertical-align:top;"><i class="fa fa-files-o"></i> {{description}}<i class="fa fa-fw fa-chevron-right pull-right"></i></h5>
+    <span class="pull-right">{{> tagBadges}}</span>
+    <h5 class="list-group-item-heading" style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;vertical-align:top;"><i class="fa fa-files-o"></i> {{description}}</h5>
   </a>
 </template>
