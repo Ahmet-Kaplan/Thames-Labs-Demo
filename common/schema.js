@@ -235,7 +235,6 @@ Schemas.Activity = new SimpleSchema({
   },
   activityTimestamp: {
     type: Date,
-    optional: true,
     label: "Activity Date/Time"
   },
   companyId: {
