@@ -17,8 +17,7 @@ Template.adminStatistics.rendered = function() {
     var index = _.indexOf(weeksWithData, i.toString())
     if (index >= 0) {
       dataPoints[i] = signUpsPerWeek[index];
-    }
-    else {
+    } else {
       dataPoints[i] = 0;
     }
   }
@@ -56,7 +55,8 @@ Template.adminStatistics.rendered = function() {
   };
 
   var ctx = $("#signUpChart").get(0).getContext("2d");
-  var myLineChart = new Chart(ctx).Line(data, options);
+  var signUpChart = new Chart(ctx).Line(data, options);
+  signUpChart.update();
 };
 
 Template.adminStatistics.helpers({

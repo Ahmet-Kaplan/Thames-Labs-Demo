@@ -125,6 +125,6 @@ Tasks = new Mongo.Collection('tasks');
 
 Features = new Mongo.Collection('features');
 
-Meteor.users.before.insert(function (userId, doc) {
+Meteor.users.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
 });
