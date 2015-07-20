@@ -34,10 +34,12 @@
           </div>
           Details</div>
         <ul class="list-group">
-          <a class="list-group-item" href="{{pathFor route='company' id=company._id}}">
-            <i class="fa fa-fw fa-building"></i> Company: {{company.name}}
-            <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          </a>
+          {{#if company}}
+            <a class="list-group-item" href="{{pathFor route='company' id=company._id}}">
+              <i class="fa fa-fw fa-building"></i> Company: {{company.name}}
+              <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            </a>
+          {{/if}}
           <a class="list-group-item" href="{{pathFor route='contact' id=contact._id}}">
             <i class="fa fa-fw fa-user"></i> Contact: {{contact.forename}} {{contact.surname}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>

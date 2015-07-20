@@ -21,6 +21,10 @@ Template.contactDetail.helpers({
   'projects': function() {
     var contactId = FlowRouter.getParam('id');
     return Projects.find({contactId: contactId}, {sort: {description:1}});
+  },
+  'purchaseOrders': function() {
+    var contactId = FlowRouter.getParam('id');
+    return PurchaseOrders.find({supplierContactId: contactId}, {sort: {description:1}});
   }
 });
 
@@ -45,5 +49,10 @@ Template.contactDetail.events({
         contactId: this._id
       });
     }
+  },
+  'click #add-purchase-order': function() {
+    Modal.show('newContactPurchaseOrderForm', {
+      supplierContactId: this._id
+    });
   }
 });

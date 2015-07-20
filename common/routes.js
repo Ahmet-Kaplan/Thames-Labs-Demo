@@ -132,6 +132,7 @@ router.route('/contacts/:id', {
     this.register('activityByContactId', subs.subscribe('activityByContactId', params.id));
     this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
     this.register('projectsByContactId', subs.subscribe('projectsByContactId', params.id));
+    this.register('purchaseOrdersByContactId', subs.subscribe('purchaseOrdersByContactId', params.id));
   },
   action: function() {
     layout.render('appLayout', { main: 'contactDetail' });

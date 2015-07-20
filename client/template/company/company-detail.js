@@ -67,6 +67,11 @@ Template.companyDetail.events({
     Modal.show('newProjectForm', {
       companyId: this._id
     });
+  },
+  'click #add-purchase-order': function() {
+    Modal.show('newCompanyPurchaseOrderForm', {
+      supplierCompanyId: this._id
+    });
   }
 });
 
