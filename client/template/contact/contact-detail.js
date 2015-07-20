@@ -51,8 +51,18 @@ Template.contactDetail.events({
     }
   },
   'click #add-purchase-order': function() {
-    Modal.show('newContactPurchaseOrderForm', {
-      supplierContactId: this._id
-    });
+    var company = this.company();
+    if (company === undefined) {
+      //no company present
+      Modal.show('newContactPurchaseOrderForm', {
+        supplierContactId: this._id
+      });
+    }
+    else {
+      Modal.show('newContactPurchaseOrderForm', {
+        supplierCompanyId: company._id,
+        supplierContactId: this._id
+      });
+    }
   }
 });
