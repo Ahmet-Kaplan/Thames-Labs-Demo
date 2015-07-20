@@ -49,28 +49,25 @@ Template.insertNewTask.events({
 
 });
 
+var isDashboard = function() {
+  return FlowRouter.getRouteName() === "dashboard";
+};
+
 Template.taskDisplay.helpers({
   isDashboard: function() {
-    return (FlowRouter.getRouteName() === "dashboard" ? true : false);
+    return isDashboard();
   },
   tasks: function() {
-    if (FlowRouter.getRouteName() === "dashboard" === "dashboard") {
-      return Tasks.find({
-        completed: false
-      }, {
-        sort: {
-          dueDate: 1
-        }
-      });
+    if (isDashboard()) {
+      return Tasks.find(
+        { completed: false },
+        { sort: { dueDate: 1 } }
+      );
     } else {
-      return Tasks.find({
-        entityId: this.entity_id,
-        completed: false
-      }, {
-        sort: {
-          dueDate: 1
-        }
-      });
+      return Tasks.find(
+        { entityId: this.entity_id, completed: false },
+        { sort: { dueDate: 1 } }
+      );
     }
   }
 });

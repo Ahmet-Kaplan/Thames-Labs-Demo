@@ -8,7 +8,7 @@ Meteor.methods({
     });
 
     Meteor.users.remove({ emails: { $elemMatch: { address: "test3@domain.com"}}});
-    Tenants.remove({name:"Company Name"});
+    Tenants.remove({name: "Company Name"});
   },
   'getUserByEmail': function(email) {
       return Meteor.users.findOne({ emails: { $elemMatch: { address: email } } });

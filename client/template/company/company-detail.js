@@ -1,6 +1,6 @@
 Template.companyDetail.onCreated(function() {
   // Redirect if data doesn't exist
-  this.autorun(function(){
+  this.autorun(function() {
     var company = Companies.findOne(FlowRouter.getParam('id'));
     if (company) return;
     FlowRouter.go('companies');

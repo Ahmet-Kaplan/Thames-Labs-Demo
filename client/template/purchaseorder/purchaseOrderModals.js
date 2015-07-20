@@ -27,7 +27,7 @@ Template.updatePurchaseOrderFormModal.onRendered(function() {
 Template.newPurchaseOrderForm.events({
   'change #selectedSupplier': function() {
     var c = $('select#selectedSupplier').val();
-    if (c){
+    if (c) {
       Session.set('posc', c);
       Meteor.subscribe('contactsByCompanyId', c);
       Meteor.subscribe('projectsByCompanyId', c);

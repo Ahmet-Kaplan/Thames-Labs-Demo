@@ -318,7 +318,7 @@ Schemas.PurchaseOrder = new SimpleSchema({
     type: String,
     label: "Requestor"
   },
-  orderNumber:{
+  orderNumber: {
     label: "Purchase Order Number",
     type: String,
     // unique: true,

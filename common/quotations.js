@@ -609,7 +609,7 @@ quotations = [{
         "Quote": "Follow your honest convictions, and stay strong.",
         "Person": "William Thackeray"
     }, {
-        "Quote":"The happiness of your life depends upon the quality of your thoughts; therefore guard accordingly.",
+        "Quote": "The happiness of your life depends upon the quality of your thoughts; therefore guard accordingly.",
         "Person": "Marcus Aurelius"
      },
     {

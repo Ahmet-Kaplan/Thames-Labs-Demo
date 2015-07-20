@@ -1,6 +1,6 @@
 Template.contactDetail.onCreated(function() {
   // Redirect if data doesn't exist
-  this.autorun(function(){
+  this.autorun(function() {
     var contact = Contacts.findOne(FlowRouter.getParam('id'));
     if (contact) return;
     FlowRouter.go('contacts');
