@@ -1,6 +1,5 @@
 <template name="contactDetail">
-  {{#with contactData}}
-  {{setPageTitle "Contact - " name }}
+  {{#with contactData}} {{setPageTitle "Contact - " name }}
   <div class="row">
     <div class="col-md-2 hidden-xs hidden-sm">
       <div class="sidebar">
@@ -16,6 +15,8 @@
 
     <div class="col-md-10">
       <h1 id="contact-details">{{name}}</h1>
+
+      {{> tagInput}}
 
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -73,7 +74,5 @@
     </div>
   </div>
 
-  {{> autoformModals}}
-
-  {{/with}}
+  {{> autoformModals}} {{/with}}
 </template>

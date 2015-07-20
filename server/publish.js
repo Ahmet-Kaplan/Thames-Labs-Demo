@@ -99,7 +99,12 @@ Meteor.publish("contactsByProjectId", function(projectId) {
 Meteor.publish("contactByPurchaseOrderId", function(purchaseOrderId) {
   var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);
   return Contacts.find(purchaseOrder.contactId);
-})
+});
+Meteor.publish("contactTags", function() {
+  return Meteor.tags.find({
+    collection: 'contacts'
+  });
+});
 
 Meteor.publish("allActivities", function() {
   return Activities.find({});
@@ -142,6 +147,11 @@ Meteor.publish("projectByPurchaseOrderId", function(purchaseOrderId) {
   var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);
   return Projects.find(purchaseOrder.projectId);
 });
+Meteor.publish("projectTags", function() {
+  return Meteor.tags.find({
+    collection: 'projects'
+  });
+});
 
 Meteor.publish("allPurchaseOrders", function() {
   return PurchaseOrders.find({});
@@ -166,6 +176,13 @@ Meteor.publish("purchaseOrderById", function(purchaseOrderId) {
     _id: purchaseOrderId
   });
 });
+// Meteor.publish("purchaseOrderTags", function() {
+//   return Meteor.tags.find({
+//     collection: 'purchaseOrders'
+//   });
+// });
+
+
 Meteor.publish("allPurchaseOrderItems", function(purchaseOrderId) {
   return PurchaseOrderItems.find({
     purchaseOrderId: purchaseOrderId
