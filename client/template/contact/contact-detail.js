@@ -38,7 +38,6 @@ Template.contactDetail.events({
   'click #add-project': function() {
     var company = this.company();
     if (company === undefined) {
-      //no company present
       Modal.show('newContactProjectForm', {
         contactId: this._id
       });
@@ -52,7 +51,6 @@ Template.contactDetail.events({
   'click #add-purchase-order': function() {
     var company = this.company();
     if (company === undefined) {
-      //no company present
       Modal.show('newContactPurchaseOrderForm', {
         supplierContactId: this._id
       });
