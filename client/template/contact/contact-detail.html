@@ -1,6 +1,5 @@
 <template name="contactDetail">
-  {{#with contactData}}
-  {{setPageTitle "Contact - " name }}
+  {{#with contactData}} {{setPageTitle "Contact - " name }}
   <div class="row">
     <div class="col-md-2 hidden-xs hidden-sm">
       <div class="sidebar">
@@ -16,6 +15,8 @@
 
     <div class="col-md-10">
       <h1 id="contact-details">{{name}}</h1>
+
+      {{> tagInput}}
 
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -67,13 +68,11 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a href="#" class="btn btn-primary pull-right" id="add-activity">Add activity</a>
+        <a href="#" class="btn btn-primary pull-right" id="add-activity"><i class="fa fa-plus"></i> Add activity</a>
       </h1>
       {{> activityTimeline activities=activities}}
     </div>
   </div>
 
-  {{> autoformModals}}
-
-  {{/with}}
+  {{> autoformModals}} {{/with}}
 </template>

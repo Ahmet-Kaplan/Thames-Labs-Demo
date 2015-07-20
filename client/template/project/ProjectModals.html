@@ -5,7 +5,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5>New Project</h5>
+          <h5><i class="fa fa-plus"></i> Add project</h5>
         </div>
 
         <div class="modal-body">
@@ -20,12 +20,8 @@
 
             {{> afQuickField name="userId" options=usersAsOptions}}
 
-            {{> afQuickField name="status" options="allowed"}}
             {{> afQuickField name="value"}}
-            {{> afQuickField name="probability"}}
-            {{> afQuickField name="lastActionDate" type="hidden" value=currentDateTime }}
 
-            {{> afQuickField name="nextActionBy" options=usersAsOptions}}
                         {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
@@ -51,11 +47,7 @@
             {{> afQuickField name="description"}}
             {{> afQuickField name="contactId" id="companyContacts" options=contactsAsOptions }}
             {{> afQuickField name="userId" options=usersAsOptions}}
-            {{> afQuickField name="status" options="allowed"}}
             {{> afQuickField name="value"}}
-            {{> afQuickField name="probability"}}
-            {{> afQuickField name="lastActionDate" readonly=true }}
-            {{> afQuickField name="nextActionBy" options=usersAsOptions}}
             <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
         </div>

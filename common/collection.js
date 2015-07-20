@@ -1,3 +1,5 @@
+Collections = {}
+
 Tenants = new Mongo.Collection('tenants');
 Tenants.helpers({
   users: function() {
@@ -12,7 +14,7 @@ Companies.helpers({
     return Contacts.find({ companyId: this._id });
   },
   activities: function() {
-    return Activities.find({ companyId: this._id }, { sort: { createdAt: -1 } });
+    return Activities.find({ companyId: this._id }, { sort: { activityTimestamp: -1 } });
   },
   projects: function() {
     return Projects.find({ companyId: this._id }, { sort: { createdAt: -1 } });
@@ -25,6 +27,7 @@ Companies.initEasySearch(['name', 'tags'], {
   limit: 50
 });
 Tags.TagsMixin(Companies);
+Collections.companies = Companies;
 
 Contacts = new Mongo.Collection('contacts');
 Partitioner.partitionCollection(Contacts);
@@ -36,15 +39,17 @@ Contacts.helpers({
     return Companies.findOne(this.companyId);
   },
   activities: function() {
-    return Activities.find({ contactId: this._id }, { sort: { createdAt: -1 } });
+    return Activities.find({ contactId: this._id }, { sort: { activityTimestamp: -1 } });
   },
   purchaseOrders: function() {
     return PurchaseOrders.find({ supplierContactId: this._id }, { sort: { createdAt: -1 } });
   }
 });
-Contacts.initEasySearch(['forename', 'surname'], {
+Contacts.initEasySearch(['forename', 'surname', 'tags'], {
   limit: 50
 });
+Tags.TagsMixin(Contacts);
+Collections.contacts = Contacts;
 
 Activities = new Mongo.Collection('activities');
 Partitioner.partitionCollection(Activities);
@@ -73,7 +78,7 @@ Projects.helpers({
     return Companies.findOne(this.companyId);
   },
   activities: function() {
-    return Activities.find({ projectId: this._id }, { sort: { createdAt: -1 } });
+    return Activities.find({ projectId: this._id }, { sort: { activityTimestamp: -1 } });
   },
   contact: function() {
     return Contacts.findOne(this.contactId);
@@ -82,9 +87,11 @@ Projects.helpers({
     return PurchaseOrders.find({ projectId: this._id }, { sort: { createdAt: -1 } });
   }
 });
-Projects.initEasySearch('description', {
+Projects.initEasySearch(['description', 'tags'], {
   limit: 50
 });
+Tags.TagsMixin(Projects);
+Collections.projects = Projects;
 
 PurchaseOrders = new Mongo.Collection('purchaseorders');
 Partitioner.partitionCollection(PurchaseOrders);
@@ -93,7 +100,7 @@ PurchaseOrders.helpers({
     return Companies.findOne(this.supplierCompanyId);
   },
   activities: function() {
-    return Activities.find({ purchaseOrderId: this._id }, { sort: { createdAt: -1 } });
+    return Activities.find({ purchaseOrderId: this._id }, { sort: { activityTimestamp: -1 } });
   },
   contact: function() {
     return Contacts.findOne(this.supplierContactId);
@@ -105,6 +112,7 @@ PurchaseOrders.helpers({
 PurchaseOrders.initEasySearch('description', {
   limit: 50
 });
+Collections.purchaseOrders = PurchaseOrders;
 
 PurchaseOrderItems = new Mongo.Collection('purchaseorderitems');
 Partitioner.partitionCollection(PurchaseOrderItems);

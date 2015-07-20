@@ -62,3 +62,4 @@ xolvio:cucumber
 velocity:console-reporter
 chart:chart
 underscore
+percolate:migrations

@@ -154,6 +154,7 @@ router.route('/contacts/:id', {
     this.register('companyByContactId', subs.subscribe('companyByContactId', params.id));
     this.register('activityByContactId', subs.subscribe('activityByContactId', params.id));
     this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
+    this.register('contactTags', subs.subscribe('contactTags'));
   },
   action: function() {
     layout.render('appLayout', { main: 'contactDetail' });
@@ -180,6 +181,7 @@ router.route('/projects/:id', {
     this.register('activityByProjectId', subs.subscribe('activityByProjectId', params.id));
     this.register('contactsByProjectId', subs.subscribe('contactsByProjectId', params.id));
     this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
+    this.register('projectTags', subs.subscribe('projectTags'));
   },
   action: function() {
     layout.render('appLayout', { main: 'projectDetail' });
@@ -207,6 +209,7 @@ router.route('/purchaseorders/:id', {
     this.register('activityByPurchaseOrderId', subs.subscribe('activityByPurchaseOrderId', params.id));
     this.register('contactByPurchaseOrderId', subs.subscribe('contactByPurchaseOrderId', params.id));
     this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
+    // this.register('purchaseOrderTags', subs.subscribe('purchaseOrderTags'));
   },
   action: function() {
     layout.render('appLayout', { main: 'purchaseOrderDetail' });

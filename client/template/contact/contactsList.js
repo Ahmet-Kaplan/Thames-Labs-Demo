@@ -5,6 +5,17 @@ Template.contactList.onRendered(function() {
       top: sidebar.offset().top
     }
   });
+
+    // Watch for session variable setting search
+    Session.set('contactListSearchQuery', null);
+    Tracker.autorun(function() {
+      var searchQuery = Session.get('contactListSearchQuery');
+      var easySearchInstance = EasySearch.getComponentInstance({index: 'contacts'});
+      if (searchQuery) {
+        easySearchInstance.search(searchQuery);
+        $('.sidebar input').val(searchQuery);
+      }
+    });
 });
 
 
