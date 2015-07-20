@@ -45,7 +45,7 @@ Contacts.helpers({
     return PurchaseOrders.find({ supplierContactId: this._id }, { sort: { createdAt: -1 } });
   }
 });
-Contacts.initEasySearch(['forename', 'surname'], {
+Contacts.initEasySearch(['forename', 'surname', 'tags'], {
   limit: 50
 });
 Tags.TagsMixin(Contacts);
@@ -87,7 +87,7 @@ Projects.helpers({
     return PurchaseOrders.find({ projectId: this._id }, { sort: { createdAt: -1 } });
   }
 });
-Projects.initEasySearch('description', {
+Projects.initEasySearch(['description', 'tags'], {
   limit: 50
 });
 Tags.TagsMixin(Projects);
