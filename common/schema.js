@@ -165,7 +165,8 @@ Schemas.Contact = new SimpleSchema({
     optional: true
   },
   companyId: {
-    type: String
+    type: String,
+    optional: true
   },
   createdBy: {
     type: String,
