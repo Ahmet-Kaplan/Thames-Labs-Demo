@@ -57,11 +57,19 @@ Template.taskDisplay.helpers({
     if (FlowRouter.getRouteName() === "dashboard" === "dashboard") {
       return Tasks.find({
         completed: false
+      }, {
+        sort: {
+          dueDate: 1
+        }
       });
     } else {
       return Tasks.find({
         entityId: this.entity_id,
         completed: false
+      }, {
+        sort: {
+          dueDate: 1
+        }
       });
     }
   }
@@ -124,7 +132,7 @@ Template.taskDisplayItem.events({
     Modal.show('updateTask', this);
   },
   'click #btnDeleteEntityTask': function() {
-        Tasks.remove(this._id);
+    Tasks.remove(this._id);
   },
   'click .displayedTaskHeading': function() {
     $('.displayedTaskBody').scrollTop($('.displayedTaskBody').prop("scrollHeight"));

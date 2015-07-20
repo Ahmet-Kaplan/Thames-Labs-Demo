@@ -5,6 +5,19 @@ Template.purchaseOrderList.onRendered(function() {
       top: sidebar.offset().top
     }
   });
+
+
+  // // Watch for session variable setting search
+  // Session.set('purchaseOrderListSearchQuery', null);
+  // Tracker.autorun(function() {
+  //   var searchQuery = Session.get('purchaseOrderListSearchQuery');
+  //   var easySearchInstance = EasySearch.getComponentInstance({index: 'purchaseorders'});
+  //   if (searchQuery) {
+  //     easySearchInstance.search(searchQuery);
+  //     $('.sidebar input').val(searchQuery);
+  //   }
+  // });
+
   if (this.supplierContactId) {
     Meteor.subscribe("contactById", this.supplierContactId);
   }

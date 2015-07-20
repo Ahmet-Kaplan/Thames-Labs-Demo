@@ -9,7 +9,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="newTaskModal" type="insert"}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
+          {{#autoForm collection="Tasks" id="newTaskModal" type="insert"}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" rows=5 id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           {{#if isUserTask}} {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}} {{else}} {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}} {{/if}} {{> afQuickField name="entityType"
           value=getEntityType type='hidden' }} {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
           <button type="submit" class="btn btn-primary">Create</button> {{/autoForm}}
@@ -31,7 +31,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="editTaskModal" type="update" doc=this}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
+          {{#autoForm collection="Tasks" id="editTaskModal" type="update" doc=this}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" rows=5 id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           <!-- {{> afQuickField name="assigneeId"          id="taskUserList" options=usersAsOptions}}  -->
 
           {{#if isUserTask}} {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}} {{else}} {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}} {{/if}} {{> afQuickField name="completed" id="taskCompleted"}}
@@ -48,7 +48,7 @@
   <div class="panel panel-default" id='entityTaskList'>
     <div class="panel-heading" id="tasks">
       {{#if isDashboard}}My {{/if}}Tasks
-      <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right">Add {{#if isDashboard}}personal {{/if}}task</a>
+      <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right"><i class="fa fa-plus"></i> Add {{#if isDashboard}} personal {{/if}} task</a>
     </div>
     <ul class="list-group" id='taskContainer'>
       {{#each tasks}} {{> taskDisplayItem}} {{else}}
@@ -90,11 +90,20 @@
           {{/if}}
         </div>
         <div class="row">
+          {{#if description}}
           <div class="col-md-12">
             <p>
               {{description}}
             </p>
           </div>
+
+          {{else}}
+          <div class="col-md-12 userDataDisplay">
+            <p>
+              No description provided.
+            </p>
+          </div>
+          {{/if}}
         </div>
       </div>
     </div>
