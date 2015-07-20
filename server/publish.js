@@ -13,7 +13,6 @@ Meteor.publish('userPresence', function() {
   });
 });
 
-
 Meteor.publish("allTenants", function() {
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
     return Tenants.find({});
@@ -53,7 +52,6 @@ Meteor.publish("allUserData", function() {
   }
 });
 
-
 Meteor.publish("allCompanies", function() {
   if (!this.userId) return this.ready();
   return Companies.find({});
@@ -72,7 +70,7 @@ Meteor.publish("companyByProjectId", function(projectId) {
   return Companies.find(project.companyId);
 });
 Meteor.publish("companyByPurchaseOrderId", function(purchaseOrderId) {
-  var purchaseOrder = PurchaseOrders.findOne(purchaseOrder);
+  var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);
   return Companies.find(purchaseOrder.companyId);
 });
 Meteor.publish("companyTags", function() {
@@ -80,7 +78,6 @@ Meteor.publish("companyTags", function() {
     collection: 'companies'
   });
 });
-
 
 Meteor.publish("allContacts", function() {
   return Contacts.find({});
@@ -97,13 +94,12 @@ Meteor.publish("contactsByCompanyId", function(companyId) {
 });
 Meteor.publish("contactsByProjectId", function(projectId) {
   var project = Projects.findOne(projectId);
-  return Contacts.find(projectId.contactId);
+  return Contacts.find(project.contactId);
 });
 Meteor.publish("contactByPurchaseOrderId", function(purchaseOrderId) {
   var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);
   return Contacts.find(purchaseOrder.contactId);
 })
-
 
 Meteor.publish("allActivities", function() {
   return Activities.find({});
@@ -129,7 +125,6 @@ Meteor.publish("activityByPurchaseOrderId", function(purchaseOrderId) {
   });
 });
 
-
 Meteor.publish("allProjects", function() {
   return Projects.find({});
 });
@@ -147,7 +142,6 @@ Meteor.publish("projectByPurchaseOrderId", function(purchaseOrderId) {
   var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);
   return Projects.find(purchaseOrder.projectId);
 });
-
 
 Meteor.publish("allPurchaseOrders", function() {
   return PurchaseOrders.find({});
@@ -178,7 +172,6 @@ Meteor.publish("allPurchaseOrderItems", function(purchaseOrderId) {
   });
 });
 
-
 Meteor.publish("allNotifications", function() {
   return Notifications.find({}, {
     sort: {
@@ -187,11 +180,9 @@ Meteor.publish("allNotifications", function() {
   });
 });
 
-
 Meteor.publish("allChatter", function() {
   return Chatterbox.find({});
 });
-
 
 Meteor.publish("allTasks", function() {
   return Tasks.find({});

@@ -18,7 +18,6 @@ Meteor.methods({
         var randomIndex = Math.floor(Math.random() * usersArray.length);
         var randomUser = usersArray[randomIndex];
 
-        var randomName = faker.company.companyName();
         var companyId = Companies.insert({
           name: faker.company.companyName(),
           address: faker.address.streetAddress(),
@@ -48,7 +47,7 @@ Meteor.methods({
           contacts.push(contactId);
 
           _.each(_.range(_.random(0, 2)), function() {
-            var activityId = Activities.insert({
+            Activities.insert({
               type: _.sample(Schemas.Activity._schema.type.allowedValues),
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
@@ -80,7 +79,7 @@ Meteor.methods({
           projects.push(projectId);
 
           _.each(_.range(_.random(0, 2)), function() {
-            var activityId = Activities.insert({
+            Activities.insert({
               type: _.sample(Schemas.Activity._schema.type.allowedValues),
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
@@ -107,7 +106,7 @@ Meteor.methods({
           });
 
           _.each(_.range(_.random(0, 2)), function() {
-            var activityId = Activities.insert({
+            Activities.insert({
               type: _.sample(Schemas.Activity._schema.type.allowedValues),
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
@@ -117,7 +116,7 @@ Meteor.methods({
           });
 
           _.each(_.range(_.random(0, 2)), function() {
-            var PurchaseOrderItemId = PurchaseOrderItems.insert({
+            PurchaseOrderItems.insert({
               purchaseOrderId: purchaseOrderId,
               description: faker.lorem.sentence(),
               productCode: faker.random.uuid(),
@@ -133,6 +132,85 @@ Meteor.methods({
 
     });
 
+  },
+
+  signUp: function(userDetails) {
+
+    check(userDetails, Schemas.UserSignUp);
+
+    var user = {
+      email: userDetails.email,
+      password: userDetails.password,
+      roles: [],
+      group: "",
+      name: userDetails.name
+    };
+
+    check(user, Schemas.User);
+
+    var userId = Accounts.createUser({
+      email: userDetails.email,
+      password: userDetails.password,
+      profile: {
+        name: userDetails.name,
+        lastLogin: null,
+        lastActivity: {
+          page: null,
+          url: null
+        }
+      }
+    });
+
+    //This needs to be run on the server, otherwise client errors occur
+    if (Meteor.isServer) {
+      var tenantId = Tenants.insert({
+          name: userDetails.companyName,
+          settings: {
+            "PurchaseOrderPrefix": "",
+            "PurchaseOrderStartingValue": 0
+          }
+        },
+        function(error, result) {
+          if (error) {
+            //Remove user account as signup wasn't successful
+            Meteor.users.remove(userId);
+            return "The tenant could not be created. Please contact support";
+          }
+        }
+      );
+
+      Partitioner.setUserGroup(userId, tenantId);
+
+      SSR.compileTemplate('emailText', Assets.getText('emailtemplate.html'));
+      Template.emailText.helpers({
+        getDoctype: function() {
+          return '!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+        },
+        subject: function() {
+          return 'Your RealTimeCRM details';
+        },
+        name: function() {
+          return userDetails.name;
+        },
+        email: function() {
+          return userDetails.email;
+        },
+        password: function() {
+          return userDetails.password;
+        }
+      });
+      var html = '<' + SSR.render("emailText");
+
+      // See server/startup.js for MAIL_URL environment variable
+
+      Email.send({
+        to: userDetails.email,
+        from: 'admin@realtimecrm.co.uk',
+        subject: 'Your RealTimeCRM details',
+        html: html
+      });
+    }
+    return true;
   }
 
 });

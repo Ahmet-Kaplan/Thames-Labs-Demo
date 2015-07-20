@@ -4,11 +4,9 @@ Template.appLayout.helpers({
     var isUserAdmin = Roles.userIsInRole(Meteor.user(), ['superadmin']);
     if (isUserAdmin){
       return 'no-menu';
-    }
-    else if(!loggedIn) {
+    } else if(!loggedIn) {
       return 'no-menu';
-    }
-    else {
+    } else {
       return;
     }
   },

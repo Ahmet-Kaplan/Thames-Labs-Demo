@@ -1,0 +1,5 @@
+.meteor
+.git
+packages/
+public/vendor/
+tests/cucumber/node_modules/

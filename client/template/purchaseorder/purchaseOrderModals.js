@@ -2,24 +2,26 @@ Session.set('posc', null);
 
 Template.newPurchaseOrderForm.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  var handle = Meteor.subscribe("myTenant", groupId);
+  Meteor.subscribe("myTenant", groupId);
 
   var c = this.data.supplierCompanyId;
-  if (c)
+  if (c) {
     Session.set('posc', c);
-  else
+  } else {
     Session.set('posc', null);
+  }
 });
 
 Template.updatePurchaseOrderFormModal.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  var handle = Meteor.subscribe("myTenant", groupId);
+  Meteor.subscribe("myTenant", groupId);
 
   var c = this.data.supplierCompanyId;
-  if (c)
+  if (c) {
     Session.set('posc', c);
-  else
+  } else {
     Session.set('posc', null);
+  }
 });
 
 Template.newPurchaseOrderForm.events({
@@ -29,8 +31,7 @@ Template.newPurchaseOrderForm.events({
       Session.set('posc', c);
       Meteor.subscribe('contactsByCompanyId', c);
       Meteor.subscribe('projectsByCompanyId', c);
-    }
-    else{
+    } else {
       Session.set('posc', null);
     }
   }
