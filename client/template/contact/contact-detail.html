@@ -26,12 +26,12 @@
           </div>
           Contact details</div>
         <ul class="list-group">
+          {{#if company}}
           <a href="{{pathFor route='company' id=company._id}}" class="list-group-item">
             <i class="fa fa-fw fa-building"></i> {{company.name}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
-
-          {{#if jobtitle}}
+          {{/if}} {{#if jobtitle}}
           <li class="list-group-item">
             <i class="fa fa-fw fa-graduation-cap"></i> {{jobtitle}}
           </li>
