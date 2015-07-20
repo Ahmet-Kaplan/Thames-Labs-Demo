@@ -21,7 +21,7 @@
             </h4>
             <p>
               <small class="text-muted">
-                <span data-toggle="tooltip" title="{{createdAt}}"><i class="fa fa-clock-o"></i> {{fromNow createdAt}}</span>
+                <span data-toggle="tooltip" title="{{createdAt}}"><i class="fa fa-clock-o"></i> {{fromNow activityTimestamp}}</span>
                 {{#if contact}}
                 | <a href="{{pathFor route="contact" id=contact._id}}">{{contact.name}}</a>
                 {{/if}}

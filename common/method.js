@@ -51,6 +51,7 @@ Meteor.methods({
               type: _.sample(Schemas.Activity._schema.type.allowedValues),
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
+              activityTimestamp: faker.date.recent(100),
               companyId: companyId,
               contactId: contactId,
               createdBy: randomUser._id
@@ -83,6 +84,7 @@ Meteor.methods({
               type: _.sample(Schemas.Activity._schema.type.allowedValues),
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
+              activityTimestamp: faker.date.recent(100),
               projectId: projectId,
               createdBy: randomUser._id
             });
@@ -110,6 +112,7 @@ Meteor.methods({
               type: _.sample(Schemas.Activity._schema.type.allowedValues),
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
+              activityTimestamp: faker.date.recent(100),
               purchaseOrderId: purchaseOrderId,
               createdBy: randomUser._id
             });
