@@ -52,7 +52,6 @@ Feature: Superuser can access special parts of the site
     Then I should see the heading "Tenants"
     And I should see the title "Tenants"
 
-  @dev
   Scenario: A superadmin can visit the statistics screen
     When I navigate to "/statistics"
     Then I should see the heading "Statistics"

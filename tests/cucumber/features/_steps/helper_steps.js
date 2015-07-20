@@ -12,6 +12,13 @@ module.exports = function() {
       .getText('h1*=' + expectedHeading)
       .call(callback);
   });
+  
+  this.Then(/^I should see element with id "([^"]*)"$/, function(id, callback) {
+    this.client
+      .waitForExist(id, 5000)
+      .call(callback);
+  });
+
 
   this.Then(/^I should see a modal$/, function(callback) {
     this.client

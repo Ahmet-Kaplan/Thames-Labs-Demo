@@ -76,6 +76,7 @@ router.route('/notifications', {
 router.route('/statistics', {
   name: 'statistics',
   subscriptions: function() {
+    this.register('allTenants', subs.subscribe('allTenants'));
     this.register('allUserData', subs.subscribe('allUserData'));
   },
   action: function() {

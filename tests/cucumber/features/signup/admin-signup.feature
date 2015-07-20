@@ -7,7 +7,6 @@ Feature: Allow administrators to view new user signups
   Background:
     Given I am a logged in superadmin user
     
-  @dev
   Scenario: A superadmin can see a signup chart
     When I navigate to "/statistics"
-    Then I should see a signup chart
+    Then I should see element with id "#signUpChart"

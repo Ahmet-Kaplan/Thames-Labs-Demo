@@ -58,3 +58,12 @@ Template.adminStatistics.rendered = function() {
   var ctx = $("#signUpChart").get(0).getContext("2d");
   var myLineChart = new Chart(ctx).Line(data, options);
 };
+
+Template.adminStatistics.helpers({
+  totalUsers: function() {
+    return Meteor.users.find({}).count();
+  },
+  totalTenants: function() {
+    return Tenants.find({}).count();
+  }
+});
