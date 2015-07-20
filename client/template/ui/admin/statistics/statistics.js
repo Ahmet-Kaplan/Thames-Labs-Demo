@@ -37,6 +37,7 @@ Template.adminStatistics.rendered = function() {
     ]
   };
   var options = {
+    responsive: true,
     scaleShowGridLines : true,
     scaleGridLineColor : "rgba(0,0,0,.05)",
     scaleGridLineWidth : 1,
@@ -65,5 +66,41 @@ Template.adminStatistics.helpers({
   },
   totalTenants: function() {
     return Tenants.find({}).count();
+  },
+  loggedInThisWeek: function() {
+    var currentDate = new Date();
+    var dateWeekAgo = new Date();
+    dateWeekAgo.setDate(currentDate.getDate() - 7);
+
+    return Meteor.users.find({
+      "profile.lastLogin": {
+        $gte: dateWeekAgo,
+        $lt: currentDate
+      }
+    }).count();
+  },
+  loggedInTwoWeek: function() {
+    var currentDate = new Date();
+    var dateWeekAgo = new Date();
+    dateWeekAgo.setDate(currentDate.getDate() - 14);
+
+    return Meteor.users.find({
+      "profile.lastLogin": {
+        $gte: dateWeekAgo,
+        $lt: currentDate
+      }
+    }).count();
+  },
+  loggedInMonth: function() {
+    var currentDate = new Date();
+    var dateWeekAgo = new Date();
+    dateWeekAgo.setDate(currentDate.getDate() - 28);
+
+    return Meteor.users.find({
+      "profile.lastLogin": {
+        $gte: dateWeekAgo,
+        $lt: currentDate
+      }
+    }).count();
   }
 });

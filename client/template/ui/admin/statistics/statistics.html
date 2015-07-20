@@ -5,13 +5,13 @@
         <h1>Statistics</h1>
         <div class="panel panel-default">
           <div class="panel-heading">User account creation this year</div>
-          <div class="panel-body">
-            <canvas id="signUpChart" width="900" height="400"></canvas>
-            <p style="text-align:right">Week number</p>
+          <div class="panel-body" style="padding: 0">
+            <canvas id="signUpChart"></canvas>
+            <p style="text-align:right; padding: 2px 5px;">Week number</p>
           </div>
         </div>
       </div>
-      <div class="col-md-2 col-md-offset-1">
+      <div class="col-sm-2 col-md-offset-1">
         <div class="panel panel-default">
           <div class="panel-heading">Total user accounts</div>
           <div class="panel-body">
@@ -19,11 +19,35 @@
           </div>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-sm-2">
         <div class="panel panel-default">
           <div class="panel-heading">Total tenants</div>
           <div class="panel-body">
             <h1 class="stat">{{totalTenants}}</h1>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">Active users (7 days)</div>
+          <div class="panel-body">
+            <h1 class="stat">{{loggedInThisWeek}}</h1>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">Active users (14 days)</div>
+          <div class="panel-body">
+            <h1 class="stat">{{loggedInTwoWeek}}</h1>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">Active users (4 weeks)</div>
+          <div class="panel-body">
+            <h1 class="stat">{{loggedInMonth}}</h1>
           </div>
         </div>
       </div>
