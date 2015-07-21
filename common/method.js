@@ -171,7 +171,8 @@ Meteor.methods({
           settings: {
             "PurchaseOrderPrefix": "",
             "PurchaseOrderStartingValue": 0
-          }
+          },
+          createdAt: new Date()
         },
         function(error, result) {
           if (error) {

@@ -43,7 +43,8 @@ Meteor.publish("allUserData", function() {
         'group': true,
         'username': true,
         'emails': true,
-        'profile': true
+        'profile': true,
+        'createdAt': true
       }
     });
   } else {
@@ -136,6 +137,11 @@ Meteor.publish("allProjects", function() {
 Meteor.publish("projectsByCompanyId", function(companyId) {
   return Projects.find({
     companyId: companyId
+  });
+});
+Meteor.publish("projectsByContactId", function(contactId) {
+  return Projects.find({
+    contactId: contactId
   });
 });
 Meteor.publish("projectById", function(projectId) {

@@ -33,6 +33,12 @@
                 <span class="sr-only">(current)</span>
               </a>
             </li>
+            <li>
+              <a href="/statistics">
+                <i class="fa fa-fw fa-bar-chart"></i> Statistics
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
             <li><a href="#" id="feedback-link">Feedback</a></li>
             <li>{{> atNavButton}}</li>
             {{/if}} {{#unless isInRole 'superadmin'}}
@@ -455,6 +461,17 @@
             <h4 class="panel-title">
               <a href="/notifications" class="dismiss-on-click">
                 <i class="fa fa-fw fa-envelope"></i> Notifications
+                <span class="sr-only">(current)</span>
+              </a>
+            </h4>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a href="/statistics" class="dismiss-on-click">
+                <i class="fa fa-fw fa-bar-chart"></i> Statistics
                 <span class="sr-only">(current)</span>
               </a>
             </h4>

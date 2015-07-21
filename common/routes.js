@@ -25,7 +25,7 @@ var tidyUpModals = function(context) {
 };
 
 // These functions add the triggers to routes globally
-var adminRoutes = ['tenants', 'notifications'];
+var adminRoutes = ['tenants', 'notifications', 'statistics'];
 router.triggers.enter(superAdminOnly, {
   only: adminRoutes
 });
@@ -69,6 +69,18 @@ router.route('/notifications', {
   },
   action: function() {
     layout.render('appLayout', { main: "notificationAdmin" });
+  }
+});
+
+// ADMIN only route
+router.route('/statistics', {
+  name: 'statistics',
+  subscriptions: function() {
+    this.register('allTenants', subs.subscribe('allTenants'));
+    this.register('allUserData', subs.subscribe('allUserData'));
+  },
+  action: function() {
+    layout.render('appLayout', { main: "adminStatistics" });
   }
 });
 
@@ -142,6 +154,8 @@ router.route('/contacts/:id', {
     this.register('companyByContactId', subs.subscribe('companyByContactId', params.id));
     this.register('activityByContactId', subs.subscribe('activityByContactId', params.id));
     this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
+    this.register('projectsByContactId', subs.subscribe('projectsByContactId', params.id));
+    this.register('purchaseOrdersByContactId', subs.subscribe('purchaseOrdersByContactId', params.id));
     this.register('contactTags', subs.subscribe('contactTags'));
   },
   action: function() {

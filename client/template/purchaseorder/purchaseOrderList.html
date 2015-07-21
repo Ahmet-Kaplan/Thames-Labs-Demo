@@ -34,11 +34,12 @@
   <a class="list-group-item" href="{{pathFor route='purchaseOrder' id=_id}}">
     <!-- <span class="pull-right">{{> tagBadges}}</span> -->
     <h4 class="list-group-item-heading"><i class="fa fa-fw fa-shopping-cart"></i> {{description}}</h4>
+    {{#if companyName}}
     <p class="list-group-item-text"><i class="fa fa-fw fa-building"></i> {{companyName}}</p>
-    {{#if contactName}}
+    {{/if}} {{#if contactName}}
     <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> {{contactName}}</p>
     {{/if}} {{#if project}}
-    <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> {{projectName}}</p>
+    <p class="list-group-item-text"><i class="fa fa-fw fa-files-o"></i> {{projectName}}</p>
     {{/if}}
     <p class="list-group-item-text"><i class="fa fa-fw fa-question"></i> Status: {{status}}</p>
   </a>

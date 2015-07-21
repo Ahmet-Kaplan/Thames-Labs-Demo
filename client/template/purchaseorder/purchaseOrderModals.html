@@ -23,6 +23,81 @@
             {{> afQuickField name="paymentMethod" options="allowed"}}
             {{> afQuickField name="notes"}}
             {{> afQuickField name="createdBy" value=currentUser }}
+            <p>Items can be added on the purchase order details page</p>
+            <br />
+            <button type="submit" class="btn btn-primary">Create</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="newCompanyPurchaseOrderForm">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>New Purchase Order</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
+            {{> afQuickField name="description"}}
+            {{> afQuickField name="supplierCompanyId" id="selectedSupplier" options=companiesAsOptions value=supplierCompanyId type="hidden"}}
+            {{#if showContacts}}
+              {{> afQuickField name="supplierContactId" id="companyContacts" options=contactsAsOptions }}
+            {{/if}}
+            {{> afQuickField name="projectId" options=projectsAsOptions }}
+            {{> afQuickField name="supplierReference" }}
+            {{> afQuickField name="userId" type="hidden" value=currentUser}}
+            {{> afQuickField name="status" options="allowed"}}
+            {{> afQuickField name="orderDate" type="hidden" type="bootstrap-datetimepicker" value=currentDateTime }}
+            {{> afQuickField name="paymentMethod" options="allowed"}}
+            {{> afQuickField name="notes"}}
+            {{> afQuickField name="createdBy" value=currentUser }}
+
+            <h4>
+              <span class="label label-success center-block">Items can be added in the Purchase Order Details screen </span>
+            </h4>
+            <br />
+
+            <button type="submit" class="btn btn-primary">Create</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+
+<template name="newContactPurchaseOrderForm">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>New Purchase Order</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
+            {{> afQuickField name="description"}}
+            {{> afQuickField name="supplierCompanyId" type="hidden"}}
+            {{> afQuickField name="supplierContactId" id="companyContacts" value=supplierContactId type="hidden" }}
+            {{> afQuickField name="projectId" options=projectsAsOptions }}
+            {{> afQuickField name="supplierReference" }}
+            {{> afQuickField name="userId" type="hidden" value=currentUser}}
+            {{> afQuickField name="status" options="allowed"}}
+            {{> afQuickField name="orderDate" type="hidden" type="bootstrap-datetimepicker" value=currentDateTime }}
+            {{> afQuickField name="paymentMethod" options="allowed"}}
+            {{> afQuickField name="notes"}}
+            {{> afQuickField name="createdBy" value=currentUser }}
 
             <h4>
               <span class="label label-success center-block">Items can be added in the Purchase Order Details screen </span>
