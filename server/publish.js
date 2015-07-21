@@ -43,7 +43,8 @@ Meteor.publish("allUserData", function() {
         'group': true,
         'username': true,
         'emails': true,
-        'profile': true
+        'profile': true,
+        'createdAt': true
       }
     });
   } else {

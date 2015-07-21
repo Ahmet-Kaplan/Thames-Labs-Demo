@@ -25,7 +25,7 @@ var tidyUpModals = function(context) {
 };
 
 // These functions add the triggers to routes globally
-var adminRoutes = ['tenants', 'notifications'];
+var adminRoutes = ['tenants', 'notifications', 'statistics'];
 router.triggers.enter(superAdminOnly, {
   only: adminRoutes
 });
@@ -69,6 +69,18 @@ router.route('/notifications', {
   },
   action: function() {
     layout.render('appLayout', { main: "notificationAdmin" });
+  }
+});
+
+// ADMIN only route
+router.route('/statistics', {
+  name: 'statistics',
+  subscriptions: function() {
+    this.register('allTenants', subs.subscribe('allTenants'));
+    this.register('allUserData', subs.subscribe('allUserData'));
+  },
+  action: function() {
+    layout.render('appLayout', { main: "adminStatistics" });
   }
 });
 

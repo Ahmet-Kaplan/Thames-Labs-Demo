@@ -11,7 +11,7 @@ Feature: Superuser can access special parts of the site
     When I navigate to "/tenants"
     Then I should see the heading "Tenants"
     And I should see the title "Tenants"
-  
+
   Scenario: A superadmin can visit the notifications screen
     When I navigate to "/notifications"
     Then I should see the heading "Notifications"
@@ -51,3 +51,8 @@ Feature: Superuser can access special parts of the site
     When I navigate to "/datamanagement"
     Then I should see the heading "Tenants"
     And I should see the title "Tenants"
+
+  Scenario: A superadmin can visit the statistics screen
+    When I navigate to "/statistics"
+    Then I should see the heading "Statistics"
+    And I should see the title "Statistics"

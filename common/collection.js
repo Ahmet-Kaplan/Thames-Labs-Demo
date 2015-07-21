@@ -7,6 +7,10 @@ Tenants.helpers({
   }
 });
 
+Tenants.before.insert(function(userId, doc) {
+  doc.createdAt = new Date();
+});
+
 Companies = new Mongo.Collection('companies');
 Partitioner.partitionCollection(Companies);
 Companies.helpers({
@@ -132,3 +136,7 @@ Tasks = new Mongo.Collection('tasks');
 //Partitioner.partitionCollection(Tasks);
 
 Features = new Mongo.Collection('features');
+
+Meteor.users.before.insert(function(userId, doc) {
+  doc.createdAt = new Date();
+});
