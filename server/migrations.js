@@ -36,3 +36,24 @@ Migrations.add({
      ServerSession.set('maintenance', false);
    }
 });
+
+Migrations.add({
+  version: 3,
+  name: "Adds _groupId to tasks created before collection was partitioned",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+      Tasks.find( { _groupId: { $exists: false } } ).forEach(
+        function(doc) {
+          var userGroup = Partitioner.getUserGroup(doc.createdBy);
+          Tasks.update(
+            doc._id,
+            {$set: {_groupId: userGroup}},
+            {filter: false, validate: false}
+          );
+        }
+      );
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
