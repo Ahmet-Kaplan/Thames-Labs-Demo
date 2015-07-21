@@ -1,6 +1,5 @@
 <template name="companyDetail">
-  {{#with companyData}}
-  {{setPageTitle "Company - " name }}
+  {{#with companyData}} {{setPageTitle "Company - " name }}
   <div class="row">
     <div class="col-md-2 hidden-sm hidden-xs">
       <div class="sidebar">
@@ -38,8 +37,8 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#afModal class="btn btn-info btn-xs" collection="Companies" doc=_id operation="update" formId="updateCompanyForm" omitFields="tags, tagGroups"}} Edit company details {{/afModal}}
-            {{#afModal class="btn btn-danger btn-xs" collection="Companies" doc=_id operation="remove" formId="removeCompanyForm" }} Delete company {{/afModal}}
+            {{#afModal class="btn btn-info btn-xs" collection="Companies" doc=_id operation="update" formId="updateCompanyForm" omitFields="tags, tagGroups"}} Edit company details {{/afModal}} {{#afModal class="btn btn-danger btn-xs" collection="Companies" doc=_id
+            operation="remove" formId="removeCompanyForm" }} Delete company {{/afModal}}
           </div>
           Company details
         </div>
@@ -109,9 +108,11 @@
         </ul>
       </div>
 
-      {{#with this}}
-        {{> taskDisplay entity_type="company" entity_id=_id}}
-      {{/with}}
+      {{#with this}} {{> taskDisplay entity_type="company" entity_id=_id}} {{/with}}
+
+      <div>
+        {{#with this}} {{> customFieldDisplay}} {{/with}}
+      </div>
 
     </div>
 
@@ -147,6 +148,5 @@
     </div>
   </div>
 
-  {{> autoformModals}}
-  {{/with}}
+  {{> autoformModals}} {{/with}}
 </template>
