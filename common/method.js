@@ -213,6 +213,14 @@ Meteor.methods({
         subject: 'Your RealTimeCRM details',
         html: html
       });
+
+      var txt = 'New sign up from ' + userDetails.name + ' at company ' + userDetails.companyName;
+      Email.send({
+        to: 'david.mcleary@cambridgesoftware.co.uk',
+        from: 'admin@realtimecrm.co.uk',
+        subject: 'New RealTimeCRM sign up!',
+        text: txt
+      });
     }
     return true;
   }
