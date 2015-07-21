@@ -7,11 +7,60 @@ Meteor.methods({
       Meteor.tags.remove({});
     });
 
-    Meteor.users.remove({ emails: { $elemMatch: { address: "test3@domain.com"}}});
-    Tenants.remove({name: "Company Name"});
+    Meteor.users.remove({
+      emails: {
+        $elemMatch: {
+          address: "test3@domain.com"
+        }
+      }
+    });
+    Tenants.remove({
+      name: "Company Name"
+    });
   },
   'getUserByEmail': function(email) {
-      return Meteor.users.findOne({ emails: { $elemMatch: { address: email } } });
+    return Meteor.users.findOne({
+      emails: {
+        $elemMatch: {
+          address: email
+        }
+      }
+    });
+  },
+  'createTestCompany': function() {
+    var data = "";
+    Companies.insert({
+      name: 'test company',
+      address: 'test address',
+      city: 'test city',
+      country: 'test country',
+      postcode: 'test postcode',
+      createdBy: Meteor.userId()
+    }, function(err, id) {
+      if (err) {
+        data = err;
+      } else {
+        data = id;
+      }
+    });
+    return data;
+  },
+  'createTestCustomField': function() {
+    var cfName = 'velocity';
+    var cfValue = 'cucumber';
+    var cfMaster = {};
+    var company = Companies.findOne({
+      name: 'test company'
+    });
+
+    cfMaster[cfName] = cfValue;
+
+    Companies.update(company._id, {
+      $set: {
+        customFields: cfMaster
+      }
+    });
+
   }
 });
 
@@ -50,4 +99,5 @@ Meteor.startup(function() {
     admin: true
   });
   Roles.addUsersToRoles(superadminId, 'superadmin');
+
 });

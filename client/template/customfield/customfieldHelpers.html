@@ -1,0 +1,89 @@
+<template name="customFieldDisplay">
+  <div class="panel panel-default">
+    <div class="panel-heading" id="entity-custom-fields">
+      <div class="btn-group pull-right">
+        <button id='add-custom-field' class="btn btn-primary btn-xs " role='button'><i class="fa fa-plus"></i> Add Custom Field</button>
+      </div>
+      <h5 class="panel-title">Custom Fields</h5>
+    </div>
+    <ul class="list-group" id='custom-field-container'>
+      {{#each customFields}} {{> cfDisplay}} {{else}}
+      <li class="list-group-item">No custom fields</li>
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="cfDisplay">
+  <li class="list-group-item custom-field-display-item">
+    <div class="btn-group pull-right">
+      <button id='edit-custom-field' class="btn btn-info btn-xs " role='button'>Edit</button>
+      <button id='delete-custom-field' class="btn btn-danger btn-xs " role='button'>Delete</button>
+    </div>
+      <strong>{{name}}: </strong>{{value}} {{parentHelper ..}}
+  </li>
+</template>
+
+<template name="addCustomField">
+  <div class="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Add Custom Field</h5>
+        </div>
+
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="custom-field-name">Name</label>
+              <input type="text" class="form-control" placeholder="Custom field name" id="custom-field-name" >
+            </div>
+            <div class="form-group">
+              <label for="custom-field-value">Value</label>
+              <input type="text" class="form-control" placeholder="Custom field value" id="custom-field-value">
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button id="submit-custom-field" role="button" class="btn btn-primary">Create</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="updateCustomField">
+  <div class="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Update Custom Field</h5>
+        </div>
+
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="custom-field-name">Name</label>
+              <input type="text" class="form-control" placeholder="Custom field name" id="custom-field-name" value={{name}} readonly="readonly">
+            </div>
+            <div class="form-group">
+              <label for="custom-field-value">Value</label>
+              <input type="text" class="form-control" placeholder="Custom field value" id="custom-field-value" value={{value}}>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button id="submit-custom-field" role="button" class="btn btn-primary">Update</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
