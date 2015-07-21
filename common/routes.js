@@ -154,6 +154,8 @@ router.route('/contacts/:id', {
     this.register('companyByContactId', subs.subscribe('companyByContactId', params.id));
     this.register('activityByContactId', subs.subscribe('activityByContactId', params.id));
     this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
+    this.register('projectsByContactId', subs.subscribe('projectsByContactId', params.id));
+    this.register('purchaseOrdersByContactId', subs.subscribe('purchaseOrdersByContactId', params.id));
     this.register('contactTags', subs.subscribe('contactTags'));
   },
   action: function() {
