@@ -1,6 +1,5 @@
 <template name="purchaseOrderDetail">
-  {{#with purchaseOrderData}}
-  {{setPageTitle "Purchase order - " description}}
+  {{#with purchaseOrderData}} {{setPageTitle "Purchase order - " description}}
   <div class="row">
     <div class="col-md-2 hidden-xs hidden-sm">
       <div class="sidebar">
@@ -26,18 +25,23 @@
     </div>
     <div class="col-md-10">
       <h1 id="purchase-order-details">{{description}}</h1>
+
+      <!-- {{> tagInput}} -->
+
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            <a class="btn btn-info btn-xs" disabled="{{#unless isOpen}}disabled{{/unless}}" href="#" id="edit-purchase-order">Edit purchase order details</a>
-            {{#afModal class="btn btn-danger btn-xs" collection="PurchaseOrders" doc=_id operation="remove" formId="removePurchaseOrderForm"}} Delete purchase order {{/afModal}}
+            <a class="btn btn-info btn-xs" disabled="{{#unless isOpen}}disabled{{/unless}}" href="#" id="edit-purchase-order">Edit purchase order details</a> {{#afModal class="btn btn-danger btn-xs" collection="PurchaseOrders" doc=_id operation="remove"
+            formId="removePurchaseOrderForm"}} Delete purchase order {{/afModal}}
           </div>
           Details</div>
         <ul class="list-group">
-          <a class="list-group-item" href="{{pathFor route='company' id=company._id}}">
-            <i class="fa fa-fw fa-building"></i> Company: {{company.name}}
-            <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          </a>
+          {{#if company}}
+            <a class="list-group-item" href="{{pathFor route='company' id=company._id}}">
+              <i class="fa fa-fw fa-building"></i> Company: {{company.name}}
+              <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            </a>
+          {{/if}}
           <a class="list-group-item" href="{{pathFor route='contact' id=contact._id}}">
             <i class="fa fa-fw fa-user"></i> Contact: {{contact.forename}} {{contact.surname}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
@@ -95,8 +99,7 @@
       {{> activityTimeline activities=activities}}
     </div>
   </div>
-  {{> autoformModals}}
-  {{/with}}
+  {{> autoformModals}} {{/with}}
 </template>
 
 <template name="purchaseOrderItem">
@@ -159,15 +162,13 @@
           <blockquote>
             {#items} {name} {count} {value} {total} {/items}
           </blockquote>
-          <br />
-          We can also handle cost displays through the following tags:
+          <br /> We can also handle cost displays through the following tags:
           <ul>
             <li>{running} - The purchase order total value before VAT</li>
             <li>{vat} - The amount of VAT to pay on this purchase order </li>
             <li>{total} - The total purchase order cost</li>
           </ul>
-          <br />
-          All calculations are carried out by RealTime, so you don't need to do anything extra to generate a Purchase Order.
+          <br /> All calculations are carried out by RealTime, so you don't need to do anything extra to generate a Purchase Order.
         </div>
       </div>
     </div>

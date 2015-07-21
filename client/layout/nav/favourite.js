@@ -7,7 +7,7 @@ Template.favourite.events({
     var index;
 
     for (i = 0; i < favList.length; i++) {
-      if(favList[i].url===this.url){
+      if(favList[i].url===this.url) {
         index = i;
         break;
       }

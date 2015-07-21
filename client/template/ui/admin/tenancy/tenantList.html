@@ -65,7 +65,10 @@
     <div class="list-group-item">
         <div class="row">
             <div class="col-md-3">
-                <small data-toggle="tooltip" title="{{emailAddress}}"> {{profile.name}}</small>
+              <a class="btn btn-warning pull-left btn-xs" id="email-user" href="mailto:{{emailAddress}}" type="button" data-toggle="tooltip" title="Send an email to this user: {{emailAddress}}">
+                  <i class="fa fa-fw fa-envelope"></i>
+              </a>
+              <small>&nbsp; {{profile.name}}</small>
             </div>
             <div class="col-md-7">
                 <small class="userDataDisplay" data-toggle="tooltip" title="{{profile.lastLogin}}"> {{friendlyLastLogin}}</small>

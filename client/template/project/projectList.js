@@ -5,6 +5,17 @@ Template.projectsList.onRendered(function() {
       top: sidebar.offset().top
     }
   });
+
+  // Watch for session variable setting search
+  Session.set('projectListSearchQuery', null);
+  Tracker.autorun(function() {
+    var searchQuery = Session.get('projectListSearchQuery');
+    var easySearchInstance = EasySearch.getComponentInstance({index: 'projects'});
+    if (searchQuery) {
+      easySearchInstance.search(searchQuery);
+      $('.sidebar input').val(searchQuery);
+    }
+  });
 });
 
 
@@ -21,19 +32,19 @@ Template.projectsList.events({
 });
 
 Template.projectCompanyListItem.helpers({
-  hasProjectsForCompany: function(){
+  hasProjectsForCompany: function() {
      var c = this;
      return Projects.find({companyId: c._id}).count() > 0;
   },
-  projectCount: function(){
+  projectCount: function() {
      var c = this;
      return Projects.find({companyId: c._id}).count();
   },
-  multipleProjects: function(){
+  multipleProjects: function() {
      var c = this;
      return Projects.find({companyId: c._id}).count()> 1;
   },
-  companyProjects: function(){
+  companyProjects: function() {
      var c = this;
      return Projects.find({companyId: c._id});
   }

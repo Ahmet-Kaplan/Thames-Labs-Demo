@@ -1,6 +1,6 @@
 Template.companyDetail.onCreated(function() {
   // Redirect if data doesn't exist
-  this.autorun(function(){
+  this.autorun(function() {
     var company = Companies.findOne(FlowRouter.getParam('id'));
     if (company) return;
     FlowRouter.go('companies');
@@ -66,6 +66,11 @@ Template.companyDetail.events({
   'click #add-project': function() {
     Modal.show('newProjectForm', {
       companyId: this._id
+    });
+  },
+  'click #add-purchase-order': function() {
+    Modal.show('newCompanyPurchaseOrderForm', {
+      supplierCompanyId: this._id
     });
   }
 });

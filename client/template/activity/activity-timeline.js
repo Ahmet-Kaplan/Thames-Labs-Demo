@@ -1,6 +1,10 @@
 Template.activityTimeline.helpers({
   fromNow: function(date) {
-    return moment(date).fromNow();
+    if (date) {
+      return moment(date).fromNow();
+    } else {
+      return "Date/time not specified";
+    }
   },
   timelineClass: function(index) {
     return index % 2 == 0 ? 'timeline-inverted' : '';
@@ -19,7 +23,7 @@ Template.activityTimeline.helpers({
 });
 
 Template.activityTimeline.events({
-  'click #edit-activity': function(){
+  'click #edit-activity': function() {
     Modal.show('updateActivityModal', this);
   }
 })

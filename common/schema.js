@@ -104,6 +104,9 @@ Schemas.Tenant = new SimpleSchema({
       type: "hidden"
     },
     optional: true
+  },
+  createdAt: {
+    type: Date
   }
 });
 Tenants.attachSchema(Schemas.Tenant);
@@ -215,7 +218,8 @@ Schemas.Contact = new SimpleSchema({
     optional: true
   },
   companyId: {
-    type: String
+    type: String,
+    optional: true
   },
   createdBy: {
     type: String,
@@ -243,7 +247,6 @@ Schemas.Activity = new SimpleSchema({
   },
   activityTimestamp: {
     type: Date,
-    optional: true,
     label: "Activity Date/Time"
   },
   companyId: {
@@ -277,7 +280,8 @@ Schemas.Project = new SimpleSchema({
     label: "Description"
   },
   companyId: {
-    type: String
+    type: String,
+    optional: true
   },
   contactId: {
     type: String,
@@ -327,7 +331,7 @@ Schemas.PurchaseOrder = new SimpleSchema({
     type: String,
     label: "Requestor"
   },
-  orderNumber:{
+  orderNumber: {
     label: "Purchase Order Number",
     type: String,
     // unique: true,
@@ -337,7 +341,8 @@ Schemas.PurchaseOrder = new SimpleSchema({
     optional: true
   },
   supplierCompanyId: {
-    type: String
+    type: String,
+    optional: true
   },
   supplierContactId: {
     type: String,
@@ -489,7 +494,8 @@ Schemas.Task = new SimpleSchema({
     type: String
   },
   description: {
-    type: String
+    type: String,
+    optional: true
   },
   dueDate: {
     type: Date,

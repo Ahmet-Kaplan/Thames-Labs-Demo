@@ -5,6 +5,12 @@ AutoForm.hooks({
       toastr.success('Project created.');
     }
   },
+  newContactProjectForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Project created.');
+    }
+  },
   updateProjectForm: {
     onSuccess: function() {
       Modal.hide();
@@ -101,6 +107,29 @@ Template.newProjectForm.helpers({
         'value': contact._id
       };
     });
+  },
+  usersAsOptions: function() {
+    return Meteor.users.find({}).map(function(user) {
+      return {
+        'label': user.profile.name,
+        'value': user._id
+      };
+    });
+  }
+});
+
+
+Template.newContactProjectForm.helpers({
+  currentDateTime: function() {
+  return moment();
+  },
+  currentUser: function() {
+  return Meteor.userId();
+  },
+  datePlusOneWeek: function() {
+    var now = new Date();
+    now.setDate(now.getDate() + 7);
+    return now;
   },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
