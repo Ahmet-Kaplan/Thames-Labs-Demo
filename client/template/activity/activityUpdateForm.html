@@ -11,7 +11,7 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="updateActivityForm" type="update" doc=this}}
             {{> afQuickField name="type" options="allowed"}}
-            {{> afQuickField name="notes" rows=10}}
+            {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
