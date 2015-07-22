@@ -9,9 +9,20 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Companies" id="insertNewCompanyForm" type="insert"}}
+         {{#autoForm collection="Companies" id="insertNewCompanyForm" type="insert"}}
             {{> afQuickField name="name"}}
-            {{> afQuickField name="address" id="geo"}}
+            <div class="form-group">
+              <label for="geo" class="control-label">Search for Location</label>
+              <input type="text" id="geo" class="form-control" autocomplete="off" />
+            </div>
+            <div id="address_details" style="display:none;">
+              {{> afQuickField name="address" data-geo="name"}}
+              {{> afQuickField name="address2"}}
+              {{> afQuickField name="city" data-geo="locality"}}
+              {{> afQuickField name="county" data-geo="administrative_area_level_2"}}
+              {{> afQuickField name="postcode" data-geo="postal_code"}}
+              {{> afQuickField name="country" data-geo="country"}}
+            </div>
             {{> afQuickField name="website"}}
             {{> afQuickField name="phone"}}
             {{> afQuickField name="createdBy" value=currentUser }}

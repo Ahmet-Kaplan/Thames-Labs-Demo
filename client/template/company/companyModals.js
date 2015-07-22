@@ -14,9 +14,13 @@ Template.insertNewCompanyModal.onRendered(function () {
 
   this.autorun(function () {
     if(GoogleMaps.loaded()) {
-      $("#geo").geocomplete()
-      .bind("geocode:result", function(event, result) {
-        console.log("Result: " + result.formatted_address);
+      $("#geo").geocomplete({
+        details: "#insertNewCompanyForm",
+        detailsAttribute: "data-geo"
+      }).bind("geocode:result", function(event, result) {
+        $("#address_details").show();
+      }).bind("geocode:error", function(event, result) {
+        $("#address_details").show();
       });
     }
   });
