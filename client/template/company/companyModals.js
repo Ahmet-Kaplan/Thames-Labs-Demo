@@ -9,7 +9,7 @@ Template.insertNewCompanyModal.onRendered(function () {
   $('#draggableModal').draggable({
     grid: [50, 50],
     handle: '.modal-header',
-    opacity: 0.35
+    opacity: 0.35,
   });
 
   this.autorun(function () {
