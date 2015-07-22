@@ -11,15 +11,10 @@
         <div class="modal-body">
           {{#autoForm collection="Companies" id="insertNewCompanyForm" type="insert"}}
             {{> afQuickField name="name"}}
-            {{> afQuickField name="address"}}
-            {{> afQuickField name="address2"}}
-            {{> afQuickField name="city"}}
-            {{> afQuickField name="county" }}
-            {{> afQuickField name="postcode"}}
-            {{> afQuickField name="country"}}
+            {{> afQuickField name="address" id="geo" autocomplete="on"}}
             {{> afQuickField name="website"}}
             {{> afQuickField name="phone"}}
-                        {{> afQuickField name="createdBy" value=currentUser }}
+            {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
         </div>

@@ -118,7 +118,12 @@ Schemas.Company = new SimpleSchema({
   },
   address: {
     type: String,
-    label: "Address"
+    label: "Address",
+    autoform: {
+      afFieldInput: {
+        type: "search"
+      }
+    }
   },
   address2: {
     type: String,

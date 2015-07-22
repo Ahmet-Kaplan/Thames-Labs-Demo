@@ -63,3 +63,4 @@ velocity:console-reporter
 chart:chart
 underscore
 percolate:migrations
+jeremy:geocomplete
