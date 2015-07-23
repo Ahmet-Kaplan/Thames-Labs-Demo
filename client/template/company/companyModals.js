@@ -18,8 +18,29 @@ Template.insertNewCompanyModal.onRendered(function() {
         details: "#insertNewCompanyForm",
         detailsAttribute: "data-geo"
       }).bind("geocode:result", function(event, result) {
+        var address = "";
+        
+        var strNumber = _.find(result.address_components, function(elt) {
+          return elt.types[0] == "street_number";
+        });
+
+        if(typeof(strNumber) !== 'undefined') {
+          strNumber = strNumber.long_name;
+          address += strNumber + " ";
+        }
+
+        var route = _.find(result.address_components, function(elt) {
+          return elt.types[0] == "route";
+        });
+
+        if(typeof(route) !== 'undefined') {
+          route = route.long_name;
+          address += route;
+        }
+
+        $("#formatted_address").val(address);
         $("#address_details").show();
-      }).bind("geocode:error", function(event, result) {
+      }).bind("geocode:error", function(event) {
         $("#address_details").show();
       });
     }
