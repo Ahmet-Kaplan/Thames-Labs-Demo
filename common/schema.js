@@ -226,6 +226,14 @@ Schemas.Contact = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  customFields: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
   }
 });
 Contacts.attachSchema(Schemas.Contact);

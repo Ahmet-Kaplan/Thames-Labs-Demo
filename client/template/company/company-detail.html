@@ -111,7 +111,7 @@
       {{#with this}} {{> taskDisplay entity_type="company" entity_id=_id}} {{/with}}
 
       <div>
-        {{#with this}} {{> customFieldDisplay}} {{/with}}
+        {{#with this}} {{> customFieldDisplay entity_data=this entity_type='company'}} {{/with}}
       </div>
 
     </div>
