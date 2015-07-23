@@ -499,7 +499,16 @@ Schemas.Task = new SimpleSchema({
   },
   dueDate: {
     type: Date,
-    optional: true
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          useCurrent: true,
+          sideBySide: true
+        }
+      }
+    }
   },
   assigneeId: {
     type: String
