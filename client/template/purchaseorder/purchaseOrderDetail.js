@@ -90,9 +90,28 @@ Template.purchaseOrderDetail.events({
       var docDataUri = doc.getZip().generate({
         type: 'blob'
       });
-      saveAs(docDataUri, file.name);
+      docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+
+      var blob = new Blob([docDataUri], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+      var data = new FormData();
+      data.append('ApiKey', Meteor.settings.public.docxToPdfKey);
+      data.append('File', blob, 'purchase-order.docx');
+      data.append('AlternativeParser', false);
+      data.append('StoreFile', true);
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://do.convertapi.com/Word2Pdf');
+    //  xhr.responseType = 'blob';
+      xhr.onload = function(r) {
+        //Hack to allow browser to open new tab, because window.open is classed as popup
+        $('<iframe>', {id: 'idown', src: this.getResponseHeader('FileUrl')}).hide().appendTo('#id-view-content');
+        Meteor.call('DocxToPdfKey', this.getResponseHeader('CreditsLeft'), function() {});
+
+        toastr.clear();
+      };
+      xhr.send(data);
+      toastr.success("Your file will be downloaded shortly", "Processing...");
     }.bind(this);
-    reader.readAsBinaryString(file);
+    reader.readAsArrayBuffer(file);
   },
   'click #template-upload-link': function() {
     document.getElementById('template-upload').click();

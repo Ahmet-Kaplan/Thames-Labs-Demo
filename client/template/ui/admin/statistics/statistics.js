@@ -21,7 +21,7 @@ Template.adminStatistics.rendered = function() {
       dataPoints[i] = 0;
     }
   }
-  console.log(dataPoints);
+
   var data = {
     labels: _.range(0, moment().week() + 1),
     datasets: [
@@ -102,5 +102,8 @@ Template.adminStatistics.helpers({
         $lt: currentDate
       }
     }).count();
+  },
+  remainingPdfCount: function() {
+    return ServerSession.get('DocxToPdfRemaining');
   }
 });
