@@ -9,10 +9,25 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="newTaskModal" type="insert"}} {{> afQuickField name="title" id="taskTitle"}} {{> afQuickField name="description" rows=5 id="taskDescription"}} {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
-          {{#if isUserTask}} {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}} {{else}} {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}} {{/if}} {{> afQuickField name="entityType"
-          value=getEntityType type='hidden' }} {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
-          <button type="submit" class="btn btn-primary">Create</button> {{/autoForm}}
+          {{#autoForm collection="Tasks" id="newTaskModal" type="insert"}} 
+            {{> afQuickField name="title" id="taskTitle"}} 
+            {{> afQuickField name="description" rows=5 id="taskDescription"}} 
+            {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
+            <div class='input-group date' id='datetimepicker1'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            {{#if isUserTask}} 
+              {{> afQuickField name="assigneeId" id="taskUserList" type="hidden" value=getCurrentUserId}} 
+            {{else}} 
+              {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}} 
+            {{/if}} 
+            {{> afQuickField name="entityType" value=getEntityType type='hidden' }} 
+            {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
+            <button type="submit" class="btn btn-primary">Create</button> 
+          {{/autoForm}}
         </div>
 
       </div>

@@ -21,6 +21,12 @@ Template.insertNewTask.helpers({
   }
 });
 
+Template.insertNewTask.onRendered(function() {
+  $("#datetimepicker1").datetimepicker({
+    local: 'ru'
+  });
+});
+
 Template.insertNewTask.events({
 
 });
