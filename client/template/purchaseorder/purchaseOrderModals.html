@@ -158,7 +158,7 @@
             {{> afQuickField name="purchaseOrderId" type="hidden" value=project._id}}
             {{> afQuickField name="description"}}
             {{> afQuickField name="productCode" }}
-            {{> afQuickField name="currency" options="allowed"}}
+            {{> afQuickField name="status" options="allowed"}}
             {{> afQuickField name="value" id="itemValue"}}
             {{> afQuickField name="quantity" id="currQuant"}}
             {{> afQuickField name="totalPrice" readonly=true id="activePrice" }}
@@ -185,7 +185,7 @@
           {{#autoForm collection="PurchaseOrderItems" id="editPurchaseOrderItem" type="update" doc=this}}
             {{> afQuickField name="description"}}
             {{> afQuickField name="productCode" }}
-            {{> afQuickField name="currency" options="allowed"}}
+            {{> afQuickField name="status" options="allowed"}}
             {{> afQuickField name="value" id="itemValue"}}
             {{> afQuickField name="quantity" id="currQuant"}}
             {{> afQuickField name="totalPrice" readonly=true id="activePrice"}}

@@ -1,18 +1,10 @@
-AutoForm.hooks({
-  updatePurchaseOrderForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Purchase Order updated.');
-    }
-  }
-});
 
 Template.purchaseOrderDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
-     var purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
-     if (purchaseOrder) return;
-     FlowRouter.go('purchaseOrders');
+    var purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
+    if (purchaseOrder) return;
+    FlowRouter.go('purchaseOrders');
   });
 });
 
@@ -129,6 +121,29 @@ Template.purchaseOrderItem.helpers({
     if (this.currency === "GBP") return "£";
     if (this.currency === "USD") return "$";
     if (this.currency === "EUR") return "€";
+  },
+  canAddMoreItems: function(parentContext) {
+    this.parentContext = parentContext;
+    return (this.parentContext.status === "Requested" ? true : false);
+  },
+  orderItemStatus: function() {
+    if (this.status === undefined) {
+      return "No status set.";
+    } else {
+      return this.status;
+    }
+  },
+  statusIcon: function() {
+    switch (this.status) {
+      case 'Dispatched':
+        return "fa fa-fw fa-truck text-warning";
+      case 'Delivered':
+        return "fa fa-fw fa-check text-success";
+      case 'Cancelled':
+        return "fa fa-fw fa-times text-danger";
+      default:
+        return "";
+    }
   }
 });
 
@@ -148,9 +163,9 @@ Template.purchaseOrderDetail.helpers({
     });
   },
   isOpen: function() {
-    return(this.status !=="Closed" ? true : false);
+    return (this.status !== "Closed" ? true : false);
   },
   canAddMoreItems: function() {
-    return(this.status ==="Requested" ? true : false);
+    return (this.status === "Requested" ? true : false);
   }
 });
