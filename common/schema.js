@@ -569,6 +569,14 @@ Schemas.Audit = new SimpleSchema({
   user: {
     type: String,
     optional: true
+  },
+  entityType: {
+    type: String,
+    optional: true
+  },
+  entityId: {
+    type: String,
+    optional: true
   }
 });
 AuditLog.attachSchema(Schemas.Audit);

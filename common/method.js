@@ -135,6 +135,8 @@ Meteor.methods({
 
     });
 
+    LogEvent('debug', 'Demo data generated');
+
   },
 
   signUp: function(userDetails) {
@@ -227,12 +229,17 @@ Meteor.methods({
 
 });
 
-LogEvent = function(logLevel, logMessage) {
+LogEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
+  logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
+  logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
+
   AuditLog.insert({
     source: 'client',
     level: logLevel,
     message: logMessage,
-    user: Meteor.userId()
+    user: (Meteor.userId() ? Meteor.userId() : undefined),
+    entityType: logEntityType,
+    entityId: logEntityId
   });
 }
 

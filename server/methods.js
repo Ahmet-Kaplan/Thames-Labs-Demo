@@ -1,5 +1,9 @@
 // Super secret server only methods
 Meteor.methods({
+
+  clearAuditLog: function() {
+    AuditLog.remove({});
+  },
   sendFeedback: function(doc) {
     check(doc, Schemas.Feedback);
     this.unblock();
@@ -31,6 +35,8 @@ Meteor.methods({
     Grouping.remove({
       _id: userId
     });
+
+    LogServerEvent('warning', 'User removed', 'user', userId);
   },
 
   addUser: function(doc) {
@@ -59,7 +65,7 @@ Meteor.methods({
       Partitioner.setUserGroup(userId, doc.group);
     }
 
-
+    LogServerEvent('verbose', 'User created', 'user', userId);
 
     SSR.compileTemplate('emailText', Assets.getText('emailtemplate.html'));
     Template.emailText.helpers({
@@ -96,6 +102,24 @@ Meteor.methods({
       return;
     }
     ServerSession.set('maintenance', val);
+    if (val === true) {
+      LogServerEvent('warning', 'Maintenance mode enabled');
+    } else {
+      LogServerEvent('info', 'Maintenance mode disabled');
+    }
   }
-
 });
+
+LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
+  logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
+  logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
+
+  AuditLog.insert({
+    source: 'server',
+    level: logLevel,
+    message: logMessage,
+    user: undefined,
+    entityType: logEntityType,
+    entityId: logEntityId
+  });
+}

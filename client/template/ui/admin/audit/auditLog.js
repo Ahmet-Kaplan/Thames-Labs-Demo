@@ -1,3 +1,15 @@
+Template.auditLog.events({
+  'click #clear-audit-log': function() {
+    Meteor.call('clearAuditLog', function(error, result) {
+      if (error) {
+        LogEvent('fatal', 'Could not clear the audit log: ' + error);
+      } else {
+        LogEvent('verbose', 'Audit log cleared.');
+      }
+    });
+  }
+});
+
 Template.auditLog.helpers({
   auditLogs: function() {
     return AuditLog.find({});
@@ -5,13 +17,16 @@ Template.auditLog.helpers({
 });
 
 Template.auditLogEntry.helpers({
+  friendlyDate: function(){
+    return new moment(this.date).format("Do MMMM YYYY, HH:mm:ss");
+  },
   userName: function() {
     if (this.user !== undefined) {
 
       var u = Meteor.users.findOne(this.user);
       if (u) {
         console.log(u);
-        return u.profile.name;
+        return u.profile.name + " [" + Tenants.findOne(u.group).name + "]";
       }
     }
   },

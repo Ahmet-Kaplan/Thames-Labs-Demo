@@ -97,6 +97,7 @@ router.route('/statistics', {
 router.route('/audit', {
   name: 'audit',
   subscriptions: function() {
+    this.register('allTenants', subs.subscribe('allTenants'));
     this.register('allUserData', subs.subscribe('allUserData'));
   },
   action: function() {
