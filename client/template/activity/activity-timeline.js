@@ -19,6 +19,9 @@ Template.activityTimeline.helpers({
       'Call': 'phone'
     };
     return icons[type];
+  },
+  content: function() {
+    return UniHTML.purify(this.notes);
   }
 });
 
