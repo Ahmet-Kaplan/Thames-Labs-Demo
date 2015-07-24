@@ -19,7 +19,6 @@ Template.insertNewCompanyModal.onRendered(function() {
         detailsAttribute: "data-geo"
       }).bind("geocode:result", function(event, result) {
         var address = "";
-        
         var strNumber = _.find(result.address_components, function(elt) {
           return elt.types[0] == "street_number";
         });
