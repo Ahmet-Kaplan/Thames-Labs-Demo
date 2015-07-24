@@ -1,10 +1,20 @@
 Template.auditLog.helpers({
-  auditLogs: function() {    
+  auditLogs: function() {
     return AuditLog.find({});
   }
 });
 
 Template.auditLogEntry.helpers({
+  userName: function() {
+    if (this.user !== undefined) {
+
+      var u = Meteor.users.findOne(this.user);
+      if (u) {
+        console.log(u);
+        return u.profile.name;
+      }
+    }
+  },
   displayLevel: function() {
     var returnedData;
 

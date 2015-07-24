@@ -231,7 +231,8 @@ LogEvent = function(logLevel, logMessage) {
   AuditLog.insert({
     source: 'client',
     level: logLevel,
-    message: logMessage
+    message: logMessage,
+    user: Meteor.userId()
   });
 }
 

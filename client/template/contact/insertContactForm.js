@@ -1,10 +1,3 @@
-AutoForm.hooks({
-  insertContactForm: {
-    onSuccess: function() {
-      Modal.hide();
-    }
-  }
-});
 
 Template.insertCompanyContactModal.helpers({
   companiesAsOptions: function() {

@@ -1,11 +1,3 @@
-AutoForm.hooks({
-  updatePurchaseOrderForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Purchase Order updated.');
-    }
-  }
-});
 
 Template.purchaseOrderDetail.onCreated(function() {
   // Redirect if data doesn't exist

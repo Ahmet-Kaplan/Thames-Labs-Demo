@@ -565,6 +565,10 @@ Schemas.Audit = new SimpleSchema({
   },
   message: {
     type: String
+  },
+  user: {
+    type: String,
+    optional: true
   }
 });
 AuditLog.attachSchema(Schemas.Audit);
