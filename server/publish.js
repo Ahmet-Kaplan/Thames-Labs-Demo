@@ -217,7 +217,7 @@ Meteor.publish("tasksByEntityId", function(entityId) {
 });
 Meteor.publish("allUserTasks", function(userId) {
   return Tasks.find({
-    createdBy: userId
+    assigneeId: userId
   });
 });
 
