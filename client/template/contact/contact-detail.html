@@ -14,7 +14,7 @@
     </div>
 
     <div class="col-md-10">
-      <h1 id="contact-details">{{name}}</h1>
+      <h1 id="contact-details">Contact: {{name}}</h1>
 
       {{> tagInput}}
 
@@ -51,7 +51,7 @@
           {{/if}}
         </ul>
       </div>
-      
+
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
           Projects
@@ -85,13 +85,13 @@
           {{/each}}
         </ul>
       </div>
-      
-      
-      {{#with this}} 
-        {{> taskDisplay entity_type="contact" entity_id=_id}} 
+
+
+      {{#with this}}
+        {{> taskDisplay entity_type="contact" entity_id=_id}}
       {{/with}}
-      
-      
+
+
     </div>
   </div>
 
