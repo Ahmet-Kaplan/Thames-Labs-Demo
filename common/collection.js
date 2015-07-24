@@ -1,9 +1,11 @@
-Collections = {}
+Collections = {};
 
 Tenants = new Mongo.Collection('tenants');
 Tenants.helpers({
   users: function() {
-    return Meteor.users.find({ group: this._id });
+    return Meteor.users.find({
+      group: this._id
+    });
   }
 });
 
@@ -15,20 +17,45 @@ Companies = new Mongo.Collection('companies');
 Partitioner.partitionCollection(Companies);
 Companies.helpers({
   contacts: function() {
-    return Contacts.find({ companyId: this._id });
+    return Contacts.find({
+      companyId: this._id
+    });
   },
   activities: function() {
-    return Activities.find({ companyId: this._id }, { sort: { activityTimestamp: -1 } });
+    return Activities.find({
+      companyId: this._id
+    }, {
+      sort: {
+        activityTimestamp: -1
+      }
+    });
   },
   projects: function() {
-    return Projects.find({ companyId: this._id }, { sort: { createdAt: -1 } });
+    return Projects.find({
+      companyId: this._id
+    }, {
+      sort: {
+        createdAt: -1
+      }
+    });
   },
   purchaseOrders: function() {
-    return PurchaseOrders.find({ supplierCompanyId: this._id }, { sort: { createdAt: -1 } });
+    return PurchaseOrders.find({
+      supplierCompanyId: this._id
+    }, {
+      sort: {
+        createdAt: -1
+      }
+    });
   }
 });
 Companies.initEasySearch(['name', 'tags'], {
-  limit: 50
+  limit: 50,
+  sort: function() {
+    return {
+      'name': 1
+    };
+  }
 });
 Tags.TagsMixin(Companies);
 Collections.companies = Companies;
@@ -43,14 +70,31 @@ Contacts.helpers({
     return Companies.findOne(this.companyId);
   },
   activities: function() {
-    return Activities.find({ contactId: this._id }, { sort: { activityTimestamp: -1 } });
+    return Activities.find({
+      contactId: this._id
+    }, {
+      sort: {
+        activityTimestamp: -1
+      }
+    });
   },
   purchaseOrders: function() {
-    return PurchaseOrders.find({ supplierContactId: this._id }, { sort: { createdAt: -1 } });
+    return PurchaseOrders.find({
+      supplierContactId: this._id
+    }, {
+      sort: {
+        createdAt: -1
+      }
+    });
   }
 });
 Contacts.initEasySearch(['forename', 'surname', 'tags'], {
-  limit: 50
+  limit: 50,
+  sort: function() {
+    return {
+      'surname': 1
+    };
+  }
 });
 Tags.TagsMixin(Contacts);
 Collections.contacts = Contacts;
@@ -65,7 +109,7 @@ Activities.helpers({
     return Contacts.findOne(this.contactId);
   },
   project: function() {
-    return Projects.findOne(this.projectId );
+    return Projects.findOne(this.projectId);
   },
   purchaseOrder: function() {
     return PurchaseOrders.findOne(this.purchaseOrderId);
@@ -82,13 +126,25 @@ Projects.helpers({
     return Companies.findOne(this.companyId);
   },
   activities: function() {
-    return Activities.find({ projectId: this._id }, { sort: { activityTimestamp: -1 } });
+    return Activities.find({
+      projectId: this._id
+    }, {
+      sort: {
+        activityTimestamp: -1
+      }
+    });
   },
   contact: function() {
     return Contacts.findOne(this.contactId);
   },
   purchaseOrders: function() {
-    return PurchaseOrders.find({ projectId: this._id }, { sort: { createdAt: -1 } });
+    return PurchaseOrders.find({
+      projectId: this._id
+    }, {
+      sort: {
+        createdAt: -1
+      }
+    });
   }
 });
 Projects.initEasySearch(['description', 'tags'], {
@@ -104,7 +160,13 @@ PurchaseOrders.helpers({
     return Companies.findOne(this.supplierCompanyId);
   },
   activities: function() {
-    return Activities.find({ purchaseOrderId: this._id }, { sort: { activityTimestamp: -1 } });
+    return Activities.find({
+      purchaseOrderId: this._id
+    }, {
+      sort: {
+        activityTimestamp: -1
+      }
+    });
   },
   contact: function() {
     return Contacts.findOne(this.supplierContactId);
