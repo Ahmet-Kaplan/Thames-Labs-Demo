@@ -64,7 +64,7 @@ Template.companyDetail.events({
     });
   },
   'click #add-project': function() {
-    Modal.show('newProjectForm', {
+    Modal.show('newCompanyProjectForm', {
       companyId: this._id
     });
   },

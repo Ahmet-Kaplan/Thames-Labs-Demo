@@ -1,7 +1,7 @@
 Accounts.onLogin(function(cb) {
 
   if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
-   // Meteor.logoutOtherClients();
+    // Meteor.logoutOtherClients();
   }
 
   var user = Meteor.users.find({
@@ -228,6 +228,18 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide();
       toastr.success('Activity added.');
+    }
+  },
+  insertContactForm: {
+    onSuccess: function() {
+      toastr.success('Contact created.');
+      Modal.hide();
+    }
+  },
+  insertCompanyContactForm: {
+    onSuccess: function() {
+      toastr.success('Contact created.');
+      Modal.hide();
     }
   }
 });
