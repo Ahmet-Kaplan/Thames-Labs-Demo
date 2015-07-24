@@ -92,7 +92,6 @@ Template.purchaseOrderDetail.events({
       });
       docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
-      // set process.env.METEOR_SETTINGS.public.DocxToPdfKey = 452328735;
       var blob = new Blob([docDataUri], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
       var data = new FormData();
       data.append('ApiKey', Meteor.settings.public.docxToPdfKey);
