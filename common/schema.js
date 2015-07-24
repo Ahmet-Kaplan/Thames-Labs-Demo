@@ -253,8 +253,19 @@ Schemas.Activity = new SimpleSchema({
   },
   activityTimestamp: {
     type: Date,
-    defaultValue: new Date(),
-    label: "Activity Date/Time"
+    label: "Activity Date/Time",
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          useCurrent: true,
+          sideBySide: true,
+          widgetPositioning: {
+            vertical: "top"
+          }
+        }
+      }
+    }
   },
   companyId: {
     type: String,
@@ -515,7 +526,10 @@ Schemas.Task = new SimpleSchema({
         dateTimePickerOptions: {
           format: 'DD/MM/YYYY HH:mm',
           useCurrent: true,
-          sideBySide: true
+          sideBySide: true,
+          widgetPositioning: {
+            vertical: 'top'
+          }
         }
       }
     }
