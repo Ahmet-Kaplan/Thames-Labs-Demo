@@ -62,10 +62,16 @@ Schemas.UserSignUp = new SimpleSchema({
       }
     },
     custom: function() {
-      var user = Meteor.users.findOne({emails: {$elemMatch: {address: this.value}}});
-			if (user !== undefined) {
-				return "emailTaken";
-			}
+      var user = Meteor.users.findOne({
+        emails: {
+          $elemMatch: {
+            address: this.value
+          }
+        }
+      });
+      if (user !== undefined) {
+        return "emailTaken";
+      }
     }
   },
   password: {
@@ -75,9 +81,9 @@ Schemas.UserSignUp = new SimpleSchema({
   confirmPassword: {
     type: String,
     custom: function() {
-       if (this.value !== this.field('password').value) {
-          return "passwordMissmatch";
-        }
+      if (this.value !== this.field('password').value) {
+        return "passwordMissmatch";
+      }
     }
   },
   companyName: {
@@ -247,6 +253,7 @@ Schemas.Activity = new SimpleSchema({
   },
   activityTimestamp: {
     type: Date,
+    defaultValue: new Date(),
     label: "Activity Date/Time"
   },
   companyId: {
@@ -426,14 +433,17 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
     label: "Product Code",
     optional: true
   },
-  // currency: {
-  //   type: String,
-  //   allowedValues: [
-  //     'GBP',
-  //     'USD',
-  //     'EUR'
-  //   ]
-  // },
+  status: {
+    type: String,
+    allowedValues: [
+      "",
+      "Dispatched",
+      "Delivered",
+      "Cancelled"
+    ],
+    defaultValue: "",
+    optional: true
+  },
   value: {
     type: String,
     defaultValue: "0.00"
@@ -499,7 +509,16 @@ Schemas.Task = new SimpleSchema({
   },
   dueDate: {
     type: Date,
-    optional: true
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          useCurrent: true,
+          sideBySide: true
+        }
+      }
+    }
   },
   assigneeId: {
     type: String

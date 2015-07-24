@@ -33,6 +33,9 @@ Template.companyList.helpers({
 
 Template.companyList.events({
 
+  'click #createCompany': function() {
+    Modal.show('insertNewCompanyModal', this);
+  },
   'click #template-help': function() {
     Modal.show('importCompanyHelpModal');
   },

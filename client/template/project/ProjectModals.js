@@ -118,6 +118,44 @@ Template.newProjectForm.helpers({
   }
 });
 
+Template.newCompanyProjectForm.helpers({
+  showContacts: function() {
+    if (Session.get('sc') === null) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+  currentDateTime: function() {
+  return moment();
+  },
+  currentUser: function() {
+  return Meteor.userId();
+  },
+  datePlusOneWeek: function() {
+    var now = new Date();
+    now.setDate(now.getDate() + 7);
+    return now;
+  },
+  contactsAsOptions: function() {
+    return Contacts.find({
+      companyId: Session.get('sc')
+    }).map(function(contact) {
+      return {
+        'label': contact.forename + " " + contact.surname,
+        'value': contact._id
+      };
+    });
+  },
+  usersAsOptions: function() {
+    return Meteor.users.find({}).map(function(user) {
+      return {
+        'label': user.profile.name,
+        'value': user._id
+      };
+    });
+  }
+});
 
 Template.newContactProjectForm.helpers({
   currentDateTime: function() {

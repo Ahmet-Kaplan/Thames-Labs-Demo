@@ -63,5 +63,9 @@ velocity:console-reporter
 chart:chart
 underscore
 percolate:migrations
+<<<<<<< HEAD
 gildaspk:autoform-medium
 vazco:universe-html-purifier
+=======
+jeremy:geocomplete
+>>>>>>> master
