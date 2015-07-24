@@ -62,10 +62,16 @@ Schemas.UserSignUp = new SimpleSchema({
       }
     },
     custom: function() {
-      var user = Meteor.users.findOne({emails: {$elemMatch: {address: this.value}}});
-			if (user !== undefined) {
-				return "emailTaken";
-			}
+      var user = Meteor.users.findOne({
+        emails: {
+          $elemMatch: {
+            address: this.value
+          }
+        }
+      });
+      if (user !== undefined) {
+        return "emailTaken";
+      }
     }
   },
   password: {
@@ -75,9 +81,9 @@ Schemas.UserSignUp = new SimpleSchema({
   confirmPassword: {
     type: String,
     custom: function() {
-       if (this.value !== this.field('password').value) {
-          return "passwordMissmatch";
-        }
+      if (this.value !== this.field('password').value) {
+        return "passwordMissmatch";
+      }
     }
   },
   companyName: {
@@ -544,3 +550,21 @@ Schemas.Feature = new SimpleSchema({
   }
 });
 Features.attachSchema(Schemas.Feature);
+
+Schemas.Audit = new SimpleSchema({
+  date: {
+    type: Date,
+    defaultValue: new Date()
+  },
+  source: {
+    type: String,
+    defaultValue: 'client'
+  },
+  level: {
+    type: String
+  },
+  message: {
+    type: String
+  }
+});
+AuditLog.attachSchema(Schemas.Audit);

@@ -227,6 +227,14 @@ Meteor.methods({
 
 });
 
+LogEvent = function(logLevel, logMessage) {
+  AuditLog.insert({
+    source: 'client',
+    level: logLevel,
+    message: logMessage
+  });
+}
+
 GetRoutedPageTitle = function(currentName) {
   var title = currentName;
   return title.charAt(0).toUpperCase() + title.slice(1);

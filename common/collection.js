@@ -140,3 +140,6 @@ Features = new Mongo.Collection('features');
 Meteor.users.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
 });
+
+
+AuditLog = new Mongo.Collection('audit');

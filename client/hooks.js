@@ -22,6 +22,13 @@ Accounts.onLogin(function(cb) {
         }
       });
     }
+
+    LogEvent("fatal", profile.name + " logged in.")
+    LogEvent("error", profile.name + " logged in.")
+    LogEvent("warning", profile.name + " logged in.")
+    LogEvent("info", profile.name + " logged in.")
+    LogEvent("verbose", profile.name + " logged in.")
+    LogEvent("debug", profile.name + " logged in.")
   }
 
   FlowRouter.reload();

@@ -1,0 +1,122 @@
+<template name="auditLog">
+
+  <h1><i class="fa fa-fw fa-book"></i>Audit Log</h1>
+
+  {{setPageTitle 'Audit Log'}}
+
+  <div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <a data-parent="#accordion" data-toggle="collapse" href="#coll-filters">
+            Filters
+            <i class="fa fa-angle-down pull-right"></i>
+          </a>
+      </div>
+      <div class="panel-collapse collapse" id="coll-filters">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-2">
+
+              <div class="panel panel-default">
+                <div class="panel-heading"> Source:
+                </div>
+                <div class="panel-body">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" id="filter-source-client" checked> Client
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" id="filter-source-server" checked> Server
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-2">
+
+              <div class="panel panel-default">
+                <div class="panel-heading"> Level:
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" id="filter-level-fatal" checked> Fatal
+                        </label>
+                      </div>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" id="filter-level-error" checked> Error
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" id="filter-level-warning" checked> Warning
+                        </label>
+                      </div>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" id="filter-level-info" checked> Info
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" id="filter-level-verbose" checked> Verbose
+                        </label>
+                      </div>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" id="filter-level-debug" checked> Debug
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ul class="list-group">
+    {{#each auditLogs}} {{> auditLogEntry}} {{else}}
+    <li class="list-group-item">
+      <em>No audit logs</em>
+    </li>
+    {{/each}}
+  </ul>
+
+</template>
+
+<template name="auditLogEntry">
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-md-2">
+        {{date}}
+      </div>
+      <div class="col-md-1">
+        <span class="badge">{{source}}</span>
+      </div>
+      <div class="col-md-1">
+        {{{displayLevel}}}
+      </div>
+      <div class="col-md-8">
+        {{message}}
+      </div>
+    </div>
+  </li>
+</template>
