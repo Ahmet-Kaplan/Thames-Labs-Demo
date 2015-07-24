@@ -66,7 +66,7 @@ Template.taskDisplay.helpers({
   tasks: function() {
     if (isDashboard()) {
       return Tasks.find(
-        { assigneeId:Meteor.userId(), completed: false },
+        { assigneeId: Meteor.userId(), completed: false },
         { sort: { dueDate: 1 } }
       );
     } else {
