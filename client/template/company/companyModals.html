@@ -12,11 +12,11 @@
          {{#autoForm collection="Companies" id="insertNewCompanyForm" type="insert"}}
             {{> afQuickField name="name"}}
             <div class="form-group">
-              <label for="geo" class="control-label">Search for Location</label>
+              <label for="geo" class="control-label">Search for Address, City, etc.</label>
               <input type="text" id="geo" class="form-control" autocomplete="off" />
             </div>
             <div id="address_details" style="display:none;">
-              {{> afQuickField name="address" data-geo="name"}}
+              {{> afQuickField name="address" id="formatted_address"}}
               {{> afQuickField name="address2"}}
               {{> afQuickField name="city" data-geo="locality"}}
               {{> afQuickField name="county" data-geo="administrative_area_level_2"}}
