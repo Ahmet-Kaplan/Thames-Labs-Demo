@@ -98,11 +98,10 @@ Meteor.methods({
     ServerSession.set('maintenance', val);
   },
 
-
-  DocxToPdfKey: function(count) {
+  remainingConversions: function(count) {
     ServerSession.set('DocxToPdfRemaining', count);
 
-    if (count == 100 || count < 25) {
+    if (count == 100 || count == 50 || count == 25 || count < 15) {
       var txt = 'Running out of doc to pdf conversions. We have '+ count +' left';
       Email.send({
         to: 'jason.mashinchi@cambridgesoftware.co.uk',

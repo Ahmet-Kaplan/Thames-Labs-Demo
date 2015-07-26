@@ -90,26 +90,58 @@ Template.purchaseOrderDetail.events({
       var docDataUri = doc.getZip().generate({
         type: 'blob'
       });
+
       docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
+      //Convert data into a blob format for sending to api
       var blob = new Blob([docDataUri], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
       var data = new FormData();
-      data.append('ApiKey', Meteor.settings.public.docxToPdfKey);
-      data.append('File', blob, 'purchase-order.docx');
-      data.append('AlternativeParser', false);
-      data.append('StoreFile', true);
+      data.append('file', blob, 'purchaseorder.docx');
+      data.append('type', 'pdf');
+      data.append('assign', 'connection_number@&@30@&@connection_duration@&@30 sec');
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://do.convertapi.com/Word2Pdf');
-    //  xhr.responseType = 'blob';
-      xhr.onload = function(r) {
-        //Hack to allow browser to open new tab, because window.open is classed as popup
-        $('<iframe>', {id: 'idown', src: this.getResponseHeader('FileUrl')}).hide().appendTo('#id-view-content');
-        Meteor.call('DocxToPdfKey', this.getResponseHeader('CreditsLeft'), function() {});
+      xhr.open('POST', 'https://gybra-swissknifedocs.p.mashape.com/docs');
+      xhr.setRequestHeader('X-Mashape-Key', 'lkiGJfIdcNmshokW0VQBWvDBxzg4p12J1UEjsnBhpOquVKzczR');
 
-        toastr.clear();
+      xhr.onload = function(r) {
+        var fileName = JSON.parse(r.srcElement.response)['file_name'];
+        var filePath = 'https://gybra-swissknifedocs.p.mashape.com/download/' + fileName;
+        HTTP.get(filePath, {
+          headers: {
+            'X-Mashape-Key': 'lkiGJfIdcNmshokW0VQBWvDBxzg4p12J1UEjsnBhpOquVKzczR'
+          }
+        }, function(err, res) {
+
+          function base64toBlob(base64Data, contentType) {
+            contentType = contentType || '';
+            var sliceSize = 1024;
+            var byteCharacters = atob(base64Data);
+            var bytesLength = byteCharacters.length;
+            var slicesCount = Math.ceil(bytesLength / sliceSize);
+            var byteArrays = new Array(slicesCount);
+
+            for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+                var begin = sliceIndex * sliceSize;
+                var end = Math.min(begin + sliceSize, bytesLength);
+
+                var bytes = new Array(end - begin);
+                var i, offset;
+                for (offset = begin, i = 0; offset < end; ++i, ++offset) {
+                    bytes[i] = byteCharacters[offset].charCodeAt(0);
+                }
+                byteArrays[sliceIndex] = new Uint8Array(bytes);
+            }
+            return new Blob(byteArrays, { type: contentType });
+          }
+
+          //Convert returned base64 string into blob for download
+          var data = base64toBlob(res.data.file, 'application/pdf');
+          saveAs(data);
+          Meteor.call('remainingConversions', res.headers['X-RateLimit-Requests-Remaining'], function(err, res) { });
+        });
       };
-      xhr.send(data);
       toastr.success("Your file will be downloaded shortly", "Processing...");
+      xhr.send(data);
     }.bind(this);
     reader.readAsArrayBuffer(file);
   },
