@@ -1,11 +1,11 @@
 <template name="dashboard">
 
   {{setPageTitle 'Dashboard'}}
-  <h1><i class="fa fa-fw fa-home"></i> Dashboard</h1>
+  <h1 id="dashboard-page-header"><i class="fa fa-fw fa-home"></i> Dashboard</h1>
 
   <div class="row">
     <div class="col-md-4">
-      <div class="panel panel-default">
+      <div class="panel panel-default" id='chatBox'>
         <div class="panel-heading">
           <h5 class="panel-title">Chatter</h5>
         </div>
@@ -32,7 +32,7 @@
     </div>
     <div class="col-md-4">
 
-      <div class="panel panel-default">
+      <div class="panel panel-default" id='quoteBox'>
         <div class="panel-heading">
           <h5 id="quote-box" class="panel-title">Quotation of the day</h5>
         </div>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="col-md-4">
-      <div class="panel panel-default">
+      <div class="panel panel-default" id='onlineUsersBox'>
         <div class="panel-heading">
           <h5 class="panel-title">Online Users</h5>
         </div>

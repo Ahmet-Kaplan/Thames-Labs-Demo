@@ -136,6 +136,11 @@ Template.menuNotice.helpers({
 
 //NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
+  'click #tour-this-page': function() {
+    var currentPageName = FlowRouter.getRouteName();
+
+    $.getScript('/vendor/hopscotch/tours/' + currentPageName + '_tour.js');
+  },
   'click #mnuAddToFavourites': function() {
     var profile = Meteor.users.findOne(Meteor.userId()).profile;
 

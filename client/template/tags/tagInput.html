@@ -1,10 +1,12 @@
 <!-- Context should be object with tags property -->
 <template name="tagInput">
-  <select class="tag-input" name='tags[]' multiple="multiple">
-    {{#each tags}}
+  <div id="tag-list-display">
+    <select class="tag-input" name='tags[]' multiple="multiple">
+      {{#each tags}}
       <option value="{{this}}" selected="true">{{this}}</option>
-    {{else}}
+      {{else}}
       <!-- intentionally left blank to prevent blaze error -->
-    {{/each}}
-  </select>
+      {{/each}}
+    </select>
+  </div>
 </template>

@@ -595,7 +595,7 @@
     prevBtn: 'Back',
     doneBtn: 'Done',
     skipBtn: 'Skip',
-    closeTooltip: 'Close'
+    closeTooltip: 'X'
   };
 
   customI18N = {}; // Developer's custom i18n strings goes here.

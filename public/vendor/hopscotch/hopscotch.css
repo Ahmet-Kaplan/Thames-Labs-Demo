@@ -405,13 +405,13 @@ div.hopscotch-bubble .hopscotch-bubble-close {
   -moz-appearance: none;
   appearance: none;
   border: 0;
-  color: #000;
+  color: #858585;
   background: transparent url(../img/sprite-green.png) -192px -92px no-repeat;
   display: block;
   padding: 8px;
   position: absolute;
   text-decoration: none;
-  text-indent: -9999px;
+  text-indent: -5px;
   width: 8px;
   height: 8px;
   top: 0;
