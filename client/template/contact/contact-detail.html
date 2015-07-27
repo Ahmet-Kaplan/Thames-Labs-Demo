@@ -86,11 +86,13 @@
         </ul>
       </div>
 
-
       {{#with this}}
         {{> taskDisplay entity_type="contact" entity_id=_id}}
       {{/with}}
 
+      <div>
+        {{#with this}} {{> customFieldDisplay entity_data=this entity_type='contact'}} {{/with}}
+      </div>
 
     </div>
   </div>
