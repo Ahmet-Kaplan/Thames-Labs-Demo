@@ -93,7 +93,7 @@ Template.purchaseOrderDetail.events({
       docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
       //Convert data into a blob format for sending to api
       var blob = new Blob([docDataUri], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
-      saveAs(blob);
+      saveAs(blob, file.name);
     }.bind(this);
     reader.readAsArrayBuffer(file);
   },
@@ -205,7 +205,7 @@ Template.purchaseOrderDetail.events({
           //Convert returned base64 string into blob for download
           var data = base64toBlob(res.data.file, 'application/pdf');
           Meteor.call('remainingConversions', res.headers['x-ratelimit-requests-remaining'], function(err, res) { });
-          saveAs(data);
+          saveAs(data, file.name.replace(".docx", ".pdf"));
         });
       };
       toastr.success("Your file will be downloaded shortly", "Processing...");
