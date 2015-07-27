@@ -17,10 +17,10 @@ Template.insertNewCompanyModal.onRendered(function() {
       $("#geo").geocomplete({
         details: "#insertNewCompanyForm",
         detailsAttribute: "data-geo"
-      }).bind("geocode:result", function(event, result) {
-        $("#address_details").show();
-      }).bind("geocode:error", function(event, result) {
-        $("#address_details").show();
+      }).keypress(function(event) {
+        if(event.keyCode == 13) {
+          $("#address_details").show();
+        }
       });
     }
   });
