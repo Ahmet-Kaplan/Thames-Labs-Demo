@@ -73,7 +73,7 @@ Meteor.methods({
             value: _.random(100, 3000),
             probability: _.random(0, 100),
             lastActionDate: faker.date.past(100),
-            nextActionBy: element._id,
+            // nextActionBy: element._id,
             createdBy: randomUser._id
           });
 
@@ -233,11 +233,14 @@ LogEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
   logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
   logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
 
+  var group = Meteor.users.findOne(Meteor.userId()).group;
+
   AuditLog.insert({
     source: 'client',
     level: logLevel,
     message: logMessage,
     user: (Meteor.userId() ? Meteor.userId() : undefined),
+    groupId: group,
     entityType: logEntityType,
     entityId: logEntityId
   });

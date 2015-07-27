@@ -21,6 +21,12 @@ Meteor.publish("auditData", function() {
   }
 });
 
+Meteor.publish("groupdedAuditData", function(groupId) {
+  return AuditLog.find({
+    groupId: groupId
+  });
+});
+
 Meteor.publish("allTenants", function() {
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
     return Tenants.find({});

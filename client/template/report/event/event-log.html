@@ -1,0 +1,40 @@
+<template name="events">
+
+  <h1><i class="fa fa-fw fa-book"></i>Event Log</h1>
+
+  {{setPageTitle 'Event Log'}}
+
+  <ul class="list-group">
+    {{#each events}} {{> eventEntry}} {{else}}
+    <li class="list-group-item">
+      <em>No event logs</em>
+    </li>
+    {{/each}}
+  </ul>
+
+</template>
+
+<template name="eventEntry">
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-md-2">
+        {{friendlyDate}}
+      </div>
+      <div class="col-md-1">
+        <span class="badge">{{source}}</span>
+      </div>
+      <div class="col-md-1">
+        {{{displayLevel}}}
+      </div>
+      <div class="col-md-4">
+        {{message}}
+      </div>
+      <div class="col-md-2 userDataDisplay">
+        {{#if entityType}} {{{entityName}}} {{/if}}
+      </div>
+      <div class="col-md-2 userDataDisplay">
+        {{#if user}} {{userName}} {{/if}}
+      </div>
+    </div>
+  </li>
+</template>

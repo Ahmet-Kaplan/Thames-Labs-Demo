@@ -285,3 +285,20 @@ router.route('/datamanagement', {
     });
   }
 });
+
+router.route('/events', {
+  name: 'events',
+  subscriptions: function() {
+    this.register('allUserData', subs.subscribe('allUserData'));
+    this.register('groupdedAuditData', subs.subscribe('groupdedAuditData', group));
+      this.register('allProjects', subs.subscribe('allProjects'));
+      this.register('allContacts', subs.subscribe('allContacts'));
+      this.register('allCompanies', subs.subscribe('allCompanies'));
+        this.register('allPurchaseOrders', subs.subscribe('allPurchaseOrders'));
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: "events"
+    });
+  }
+});
