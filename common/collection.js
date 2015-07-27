@@ -176,7 +176,12 @@ PurchaseOrders.helpers({
   }
 });
 PurchaseOrders.initEasySearch('description', {
-  limit: 50
+  limit: 50,
+  sort: function() {
+    return {
+      'orderNumber': 1
+    };
+  }
 });
 Collections.purchaseOrders = PurchaseOrders;
 
