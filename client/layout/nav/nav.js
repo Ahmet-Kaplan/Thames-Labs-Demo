@@ -1,3 +1,7 @@
+Template.nav.onRendered(function() {
+  // $.getScript('/vendor/hopscotch/tours/nav_tour.js');
+});
+
 Template.nav.helpers({
   loggedIn: function() {
     return (Meteor.userId() ? true : false);
