@@ -79,6 +79,13 @@ Template.cfDisplay.events({
     Modal.show('updateCustomField', this);
   },
   'click #delete-custom-field': function() {
+
+    bootbox.confirm("Are you sure you wish to delete this custom field?", function(result) {
+      if (result === false) {
+        return;
+      }
+    });
+
     switch (this.parentEntity.entity_type) {
       case "company":
         var parentCompany = Companies.findOne(this.parentEntity.entity_data._id);

@@ -37,8 +37,12 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#afModal class="btn btn-info btn-xs" collection="Companies" doc=_id operation="update" formId="updateCompanyForm" omitFields="tags, tagGroups"}} Edit company details {{/afModal}} {{#afModal class="btn btn-danger btn-xs" collection="Companies" doc=_id
-            operation="remove" formId="removeCompanyForm" }} Delete company {{/afModal}}
+            {{#afModal class="btn btn-info btn-xs" collection="Companies" doc=_id operation="update" formId="updateCompanyForm" omitFields="tags, tagGroups"}} Edit company details {{/afModal}}
+
+            <a href="#" id="remove-company" class="btn btn-danger btn-xs">Delete company</a>
+
+            <!-- {{#afModal class="btn btn-danger btn-xs" collection="Companies" doc=_id
+            operation="remove" formId="removeCompanyForm" }} Delete company {{/afModal}} -->
           </div>
           Company details
         </div>

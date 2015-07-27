@@ -58,7 +58,6 @@ localstorage@1.0.3
 logging@1.0.7
 manuel:reactivearray@1.0.5
 matb33:collection-hooks@0.7.13
-matdutour:popup-confirm@0.1.25
 matteodem:easy-search@1.5.7
 matteodem:server-session@0.4.2
 mediumeditor:mediumeditor@5.2.0
@@ -77,6 +76,7 @@ meteorhacks:subs-manager@1.5.2
 meteortoys:toykit@0.8.2
 minifiers@1.1.5
 minimongo@1.0.8
+mizzao:bootboxjs@4.4.0
 mobile-status-bar@1.0.3
 momentjs:moment@2.10.3
 mongo@1.1.0
