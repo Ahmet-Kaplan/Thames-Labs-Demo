@@ -104,6 +104,15 @@ Template.purchaseOrderDetail.events({
   },
   'click #edit-purchase-order': function() {
     Modal.show('updatePurchaseOrderFormModal', this);
+  },
+  'click #remove-purchase-order': function() {
+    var poId = this._id;
+
+    bootbox.confirm("Are you sure you wish to delete this purchase order?", function(result) {
+      if (result === true) {
+        PurchaseOrders.remove(poId);
+      }
+    });
   }
 });
 
