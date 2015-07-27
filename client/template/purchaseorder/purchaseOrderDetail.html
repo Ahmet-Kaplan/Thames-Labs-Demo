@@ -10,17 +10,18 @@
         </ul>
         <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            Generate Template
+            Export purchase order
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#" id="template-upload-link">Select template</a></li>
+            <li><a href="#" id="template-upload-link-docx">Word document (.docx)</a></li>
+            <li><a href="#" id="template-upload-link">PDF (.pdf)</a></li>
             <li class="divider"></li>
             <li><a href="#" id="po-template-help">How does this work?</a></li>
           </ul>
         </div>
-        <input type="file" id="template-upload" style="display:none;">
-
+        <input type="file" id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px">
+        <input type="file" id="template-upload" style="height:0; width: 0; margin-left: -9999px">
       </div>
     </div>
     <div class="col-md-10">
