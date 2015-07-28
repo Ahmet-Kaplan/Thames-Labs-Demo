@@ -40,20 +40,35 @@
           </div>
           Details</div>
         <ul class="list-group">
-          {{#if company}}
-            <a class="list-group-item" href="{{pathFor route='company' id=company._id}}">
-              <i class="fa fa-fw fa-building"></i> Company: {{company.name}}
-              <i class="fa fa-fw fa-chevron-right pull-right"></i>
-            </a>
-          {{/if}}
-          <a class="list-group-item" href="{{pathFor route='contact' id=contact._id}}">
-            <i class="fa fa-fw fa-user"></i> Contact: {{contact.forename}} {{contact.surname}}
+          {{#if supplierCompany}}
+          <a class="list-group-item" href="{{pathFor route='company' id=supplierCompany._id}}">
+            <i class="fa fa-fw fa-building"></i> Supplier: {{supplierCompany.name}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
+          {{/if}} {{#if supplierContact}}
+          <a class="list-group-item" href="{{pathFor route='contact' id=supplierContact._id}}">
+            <i class="fa fa-fw fa-user"></i> Supplier Contact: {{supplierContact.forename}} {{supplierContact.surname}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
+          {{/if}}
+          
+          {{#if customerCompany}}
+          <a class="list-group-item" href="{{pathFor route='company' id=customerCompany._id}}">
+            <i class="fa fa-fw fa-building"></i> Customer: {{customerCompany.name}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
+          {{/if}} {{#if customerContact}}
+          <a class="list-group-item" href="{{pathFor route='contact' id=customerContact._id}}">
+            <i class="fa fa-fw fa-user"></i> Customer Contact: {{customerContact.forename}} {{customerContact.surname}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
+          {{/if}}
+          {{#if project}}
           <a class="list-group-item" href="{{pathFor route='project' id=project._id}}">
             <i class="fa fa-fw fa-files-o"></i> Project: {{project.description}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
+          {{/if}}
           <li class="list-group-item">
             <i class="fa fa-fw fa-bullseye"></i> Order Number: {{orderNumber}}
           </li>

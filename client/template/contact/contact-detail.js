@@ -52,12 +52,12 @@ Template.contactDetail.events({
     var company = this.company();
     if (company === undefined) {
       Modal.show('newContactPurchaseOrderForm', {
-        supplierContactId: this._id
+        customerContactId: this._id
       });
     } else {
       Modal.show('newContactPurchaseOrderForm', {
-        supplierCompanyId: company._id,
-        supplierContactId: this._id
+        customerCompanyId: company._id,
+        customerContactId: this._id
       });
     }
   },

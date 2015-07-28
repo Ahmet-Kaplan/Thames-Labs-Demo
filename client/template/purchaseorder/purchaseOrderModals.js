@@ -1,32 +1,55 @@
 Session.set('posc', null);
+Session.set('pocc', null);
 
 Template.newPurchaseOrderForm.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
   Meteor.subscribe("myTenant", groupId);
+  Session.set('posc', null);
+  Session.set('pocc', null);
 
   var c = this.data.supplierCompanyId;
   if (c) {
     Session.set('posc', c);
   } else {
     Session.set('posc', null);
+  }
+
+  var cc = this.data.customerCompanyId;
+  if (cc) {
+    Session.set('pocc', cc);
+  } else {
+    Session.set('pocc', null);
   }
 });
 
 Template.newCompanyPurchaseOrderForm.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
   Meteor.subscribe("myTenant", groupId);
+  Meteor.subscribe("allCompanies");
+  Session.set('posc', null);
+  Session.set('pocc', null);
 
   var c = this.data.supplierCompanyId;
   if (c) {
     Session.set('posc', c);
   } else {
     Session.set('posc', null);
+  }
+
+  var cc = this.data.customerCompanyId;
+  if (cc) {
+    Session.set('pocc', cc);
+  } else {
+    Session.set('pocc', null);
   }
 });
 
 Template.newContactPurchaseOrderForm.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
   Meteor.subscribe("myTenant", groupId);
+  Meteor.subscribe("allCompanies");
+  Session.set('posc', null);
+  Session.set('pocc', null);
 
   var c = this.data.supplierCompanyId;
   if (c) {
@@ -34,17 +57,33 @@ Template.newContactPurchaseOrderForm.onRendered(function() {
   } else {
     Session.set('posc', null);
   }
+
+  var cc = this.data.customerCompanyId;
+  if (cc) {
+    Session.set('pocc', cc);
+  } else {
+    Session.set('pocc', null);
+  }
 });
 
 Template.updatePurchaseOrderFormModal.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
   Meteor.subscribe("myTenant", groupId);
+  Session.set('posc', null);
+  Session.set('pocc', null);
 
   var c = this.data.supplierCompanyId;
   if (c) {
     Session.set('posc', c);
   } else {
     Session.set('posc', null);
+  }
+
+  var cc = this.data.customerCompanyId;
+  if (cc) {
+    Session.set('pocc', cc);
+  } else {
+    Session.set('pocc', null);
   }
 });
 
@@ -57,6 +96,65 @@ Template.newPurchaseOrderForm.events({
       Meteor.subscribe('projectsByCompanyId', c);
     } else {
       Session.set('posc', null);
+    }
+  },
+  'change #selectedCustomer': function() {
+    var c = $('select#selectedCustomer').val();
+    if (c) {
+      Session.set('pocc', c);
+      Meteor.subscribe('contactsByCompanyId', c);
+      Meteor.subscribe('projectsByCompanyId', c);
+    } else {
+      Meteor.subscribe('allContacts', c);
+      Session.set('pocc', null);
+    }
+  }
+});
+
+Template.newCompanyPurchaseOrderForm.events({
+  'change #selectedSupplier': function() {
+    var c = $('select#selectedSupplier').val();
+    if (c) {
+      Session.set('posc', c);
+      Meteor.subscribe('contactsByCompanyId', c);
+      Meteor.subscribe('projectsByCompanyId', c);
+    } else {
+      Session.set('posc', null);
+    }
+  },
+  'change #selectedCustomer': function() {
+    var c = $('select#selectedCustomer').val();
+    if (c) {
+      Session.set('pocc', c);
+      Meteor.subscribe('contactsByCompanyId', c);
+      Meteor.subscribe('projectsByCompanyId', c);
+    } else {
+      Meteor.subscribe('allContacts', c);
+      Session.set('pocc', null);
+    }
+  }
+});
+
+Template.newContactPurchaseOrderForm.events({
+  'change #selectedSupplier': function() {
+    var c = $('select#selectedSupplier').val();
+    if (c) {
+      Session.set('posc', c);
+      Meteor.subscribe('contactsByCompanyId', c);
+      Meteor.subscribe('projectsByCompanyId', c);
+    } else {
+      Session.set('posc', null);
+    }
+  },
+  'change #selectedCustomer': function() {
+    var c = $('select#selectedCustomer').val();
+    if (c) {
+      Session.set('pocc', c);
+      Meteor.subscribe('contactsByCompanyId', c);
+      Meteor.subscribe('projectsByCompanyId', c);
+    } else {
+      Meteor.subscribe('allContacts', c);
+      Session.set('pocc', null);
     }
   }
 });
@@ -71,12 +169,36 @@ Template.updatePurchaseOrderFormModal.events({
     } else {
       Session.set('posc', null);
     }
+  },
+  'change #selectedCustomer': function() {
+    var c = $('select#selectedCustomer').val();
+    if (c) {
+      Session.set('pocc', c);
+      Meteor.subscribe('contactsByCompanyId', c);
+      Meteor.subscribe('projectsByCompanyId', c);
+    } else {
+      Session.set('pocc', null);
+    }
   }
 });
 
 Template.newPurchaseOrderForm.helpers({
   showContacts: function() {
+    if (Session.get('pocc') === null) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+  showSupplierContacts: function() {
     if (Session.get('posc') === null) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+  showProjects: function() {
+    if (Session.get('pocc') === null) {
       return false;
     } else {
       return true;
@@ -98,6 +220,27 @@ Template.newPurchaseOrderForm.helpers({
     });
   },
   contactsAsOptions: function() {
+    if (Session.get('pocc') !== null) {
+      return Contacts.find({
+        companyId: Session.get('pocc')
+      }).map(function(contact) {
+        return {
+          'label': contact.forename + " " + contact.surname,
+          'value': contact._id
+        };
+      });
+    } else {
+      return Contacts.find({
+        companyId: undefined
+      }).map(function(contact) {
+        return {
+          'label': contact.forename + " " + contact.surname,
+          'value': contact._id
+        };
+      });
+    }
+  },
+  supplierContactsAsOptions: function() {
     return Contacts.find({
       companyId: Session.get('posc')
     }).map(function(contact) {
@@ -109,7 +252,7 @@ Template.newPurchaseOrderForm.helpers({
   },
   projectsAsOptions: function() {
     return Projects.find({
-      companyId: Session.get('posc')
+      companyId: Session.get('pocc')
     }).map(function(project) {
       return {
         'label': project.description,
@@ -129,12 +272,37 @@ Template.newPurchaseOrderForm.helpers({
 
 
 Template.newCompanyPurchaseOrderForm.helpers({
+  companiesAsOptions: function() {
+    return Companies.find({}).map(function(company) {
+      return {
+        'label': company.name,
+        'value': company._id
+      };
+    });
+  },
   showContacts: function() {
+    if (Session.get('pocc') === null) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+  showSupplierContacts: function() {
     if (Session.get('posc') === null) {
       return false;
     } else {
       return true;
     }
+  },
+  supplierContactsAsOptions: function() {
+    return Contacts.find({
+      companyId: Session.get('posc')
+    }).map(function(contact) {
+      return {
+        'label': contact.forename + " " + contact.surname,
+        'value': contact._id
+      };
+    });
   },
   currentUser: function() {
     return Meteor.userId();
@@ -145,7 +313,7 @@ Template.newCompanyPurchaseOrderForm.helpers({
   },
   contactsAsOptions: function() {
     return Contacts.find({
-      companyId: Session.get('posc')
+      companyId: Session.get('pocc')
     }).map(function(contact) {
       return {
         'label': contact.forename + " " + contact.surname,
@@ -155,7 +323,7 @@ Template.newCompanyPurchaseOrderForm.helpers({
   },
   projectsAsOptions: function() {
     return Projects.find({
-      companyId: Session.get('posc')
+      companyId: Session.get('pocc')
     }).map(function(project) {
       return {
         'label': project.description,
@@ -184,7 +352,8 @@ Template.newContactPurchaseOrderForm.helpers({
   },
   projectsAsOptions: function() {
     return Projects.find({
-      contactId: this.supplierContactId
+      contactId: this.customerContactId,
+      companyId: undefined
     }).map(function(project) {
       return {
         'label': project.description,
@@ -199,17 +368,69 @@ Template.newContactPurchaseOrderForm.helpers({
         'value': user._id
       };
     });
+  },
+  showSupplierContacts: function() {
+    if (Session.get('posc') === null) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+  supplierContactsAsOptions: function() {
+    return Contacts.find({
+      companyId: Session.get('posc')
+    }).map(function(contact) {
+      return {
+        'label': contact.forename + " " + contact.surname,
+        'value': contact._id
+      };
+    });
+  },
+  companiesAsOptions: function() {
+    return Companies.find({}).map(function(company) {
+      return {
+        'label': company.name,
+        'value': company._id
+      };
+    });
+  },
+  contactsAsOptions: function() {
+    return Contacts.find({
+      companyId: undefined
+    }).map(function(contact) {
+      return {
+        'label': contact.forename + " " + contact.surname,
+        'value': contact._id
+      };
+    });
   }
 });
 
 
 Template.updatePurchaseOrderFormModal.helpers({
   showContacts: function() {
+    if (Session.get('pocc') === null) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+  showSupplierContacts: function() {
     if (Session.get('posc') === null) {
       return false;
     } else {
       return true;
     }
+  },
+  supplierContactsAsOptions: function() {
+    return Contacts.find({
+      companyId: Session.get('posc')
+    }).map(function(contact) {
+      return {
+        'label': contact.forename + " " + contact.surname,
+        'value': contact._id
+      };
+    });
   },
   currentUser: function() {
     return Meteor.userId();
@@ -228,7 +449,7 @@ Template.updatePurchaseOrderFormModal.helpers({
   },
   contactsAsOptions: function() {
     return Contacts.find({
-      companyId: Session.get('posc')
+      companyId: Session.get('pocc')
     }).map(function(contact) {
       return {
         'label': contact.forename + " " + contact.surname,
@@ -238,7 +459,7 @@ Template.updatePurchaseOrderFormModal.helpers({
   },
   projectsAsOptions: function() {
     return Projects.find({
-      companyId: Session.get('posc')
+      companyId: Session.get('pocc')
     }).map(function(project) {
       return {
         'label': project.description,

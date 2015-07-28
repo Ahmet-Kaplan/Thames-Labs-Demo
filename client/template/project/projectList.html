@@ -1,63 +1,44 @@
 <template name="projectsList">
 
-    {{setPageTitle 'Projects'}}
-  <div class="row">
+  {{setPageTitle 'Projects'}}
 
-    <div class="col-md-3">
+  <div class="row">
+    <div class="col-md-2">
       <div class="sidebar">
         <h1>Actions</h1>
-        {{> esInput index="companies" placeholder="search projects..." allDocsOnEmpty=true reactive=false class="form-control"}}
+        {{> esInput index="projects" placeholder="search projects..." allDocsOnEmpty=true reactive=false class="form-control"}}
         <div class="btn-group-vertical">
-          <div class="panel-heading" id="contacts">
-            <a href="#" id="add-project" class="btn btn-primary"><i class="fa fa-plus"></i> Add project</a>
-          </div>
+          <a href="#" id="add-project" class="btn btn-primary"><i class="fa fa-plus"></i> Add project</a>
         </div>
       </div>
     </div>
 
-    <div class="col-md-9">
-
+    <div class="col-md-10" id="project-list">
       <h1><i class="fa fa-files-o"></i> Projects</h1>
-      {{#if hasProjects}}
-        {{#ifEsIsSearching index="companies"}}
-          {{> spinner}}
+
+      <div class="col-md-10">
+        {{#if hasProjects}}
+        <div class="list-group">
+          {{#ifEsIsSearching index="projects"}} {{> spinner}} {{else}} {{#esEach index="projects"}} {{> projectListItem}} {{/esEach}} {{> esLoadMoreButton index="projects" class="btn btn-default"}} {{/ifEsIsSearching}}
+        </div>
         {{else}}
-          {{#esEach index="companies"}}
-
-            {{> projectCompanyListItem}}
-
-          {{/esEach}}
-          {{> esLoadMoreButton index="companies" class="btn btn-default"}}
-        {{/ifEsIsSearching}}
-      {{else}}
-      <br /> <h4 style="color:gray;">No projects</h4>
-      {{/if}}
+        <br />
+        <h4 style="color:gray;">No projects</h4>
+        {{/if}}
+      </div>
     </div>
   </div>
-
-  {{> autoformModals}}
-
-</template>
-
-<template name="projectCompanyListItem">
-
-  {{#if hasProjectsForCompany}}
-    <div class="list-group">
-      <a class="list-group-item" href="{{pathFor route='company' id=_id}}">
-        <h4 class="list-group-item-heading"><i class="fa fa-building"></i> {{name}} <small>({{projectCount}} project{{#if multipleProjects}}s{{/if}})</small></h4>
-      </a>
-
-      {{#each companyProjects}}
-        {{> projectListItem}}
-      {{/each}}
-    </div>
-  {{/if}}
-
 </template>
 
 <template name="projectListItem">
   <a class="list-group-item" href="{{pathFor route='project' id=_id}}">
     <span class="pull-right">{{> tagBadges}}</span>
-    <h5 class="list-group-item-heading" style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;vertical-align:top;"><i class="fa fa-files-o"></i> {{description}}</h5>
+    <h4 class="list-group-item-heading"><i class="fa fa-fw fa-files-o"></i> {{description}}</h4>
+    {{#if companyName}}
+    <p class="list-group-item-text"><i class="fa fa-fw fa-building"></i> {{companyName}}</p>
+    {{/if}} {{#if contactName}}
+    <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> {{contactName}}</p>
+    {{/if}}
+    <p class="list-group-item-text"><i class="fa fa-fw fa-money"></i> Value: £{{decimal value}}</p>
   </a>
 </template>

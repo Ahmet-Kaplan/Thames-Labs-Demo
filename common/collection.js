@@ -156,8 +156,11 @@ Collections.projects = Projects;
 PurchaseOrders = new Mongo.Collection('purchaseorders');
 Partitioner.partitionCollection(PurchaseOrders);
 PurchaseOrders.helpers({
-  company: function() {
+  supplierCompany: function() {
     return Companies.findOne(this.supplierCompanyId);
+  },
+  customerCompany: function() {
+    return Companies.findOne(this.customerCompanyId);
   },
   activities: function() {
     return Activities.find({
@@ -168,8 +171,11 @@ PurchaseOrders.helpers({
       }
     });
   },
-  contact: function() {
+  supplierContact: function() {
     return Contacts.findOne(this.supplierContactId);
+  },
+  customerContact: function() {
+    return Contacts.findOne(this.customerContactId);
   },
   project: function() {
     return Projects.findOne(this.projectId);

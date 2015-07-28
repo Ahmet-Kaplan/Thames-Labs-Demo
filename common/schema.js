@@ -368,15 +368,27 @@ Schemas.PurchaseOrder = new SimpleSchema({
   },
   supplierCompanyId: {
     type: String,
-    optional: true
+    label: 'Supplier Company'
   },
   supplierContactId: {
     type: String,
-    optional: true
+    optional: true,
+    label: 'Supplier Contact'
+  },
+  customerCompanyId: {
+    type: String,
+    optional: true,
+    label: 'Customer Company (optional)'
+  },
+  customerContactId: {
+    type: String,
+    optional: true,
+    label: 'Customer Contact'
   },
   projectId: {
     type: String,
-    optional: true
+    optional: true,
+    label: 'Project'
   },
   description: {
     type: String,
@@ -400,7 +412,8 @@ Schemas.PurchaseOrder = new SimpleSchema({
     ]
   },
   orderDate: {
-    type: Date
+    type: Date,
+    defaultValue: new Date()
   },
   // deliveryDate: {
   //   type: Date,
