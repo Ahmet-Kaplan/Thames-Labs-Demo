@@ -159,16 +159,6 @@ Schemas.Company = new SimpleSchema({
     label: "Phone number",
     optional: true
   },
-  // source: {
-  //   type: String,
-  //   label: "Source",
-  //   optional: true
-  // },
-  // industry: {
-  //   type: String,
-  //   label: "Industry",
-  //   optional: true
-  // },
   createdBy: {
     type: String,
     autoform: {
@@ -297,32 +287,9 @@ Schemas.Project = new SimpleSchema({
     type: String,
     label: "Account Manager"
   },
-  // status: {
-  //   type: String,
-  //   allowedValues: [
-  //     'Proposed',
-  //     'Quoted',
-  //     'Accepted',
-  //     'Lost',
-  //     'Ordered',
-  //     'Incomplete',
-  //     'Completed'
-  //   ]
-  // },
   value: {
     type: Number
   },
-  // probability: {
-  //   type: Number
-  // },
-  // lastActionDate: {
-  //   type: Date,
-  //   optional: true
-  // },
-  // nextActionBy: {
-  //   type: String,
-  //   optional: true
-  // },
   createdBy: {
     type: String,
     autoform: {
@@ -382,10 +349,6 @@ Schemas.PurchaseOrder = new SimpleSchema({
   orderDate: {
     type: Date
   },
-  // deliveryDate: {
-  //   type: Date,
-  //   optional: true
-  // },
   paymentMethod: {
     type: String,
     optional: true,
@@ -396,14 +359,6 @@ Schemas.PurchaseOrder = new SimpleSchema({
       'Company Account'
     ]
   },
-  // currency: {
-  //   type: String,
-  //   allowedValues: [
-  //     'GBP',
-  //     'USD',
-  //     'EUR'
-  //   ]
-  // },
   notes: {
     type: String,
     label: "Notes",
@@ -432,14 +387,6 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
     label: "Product Code",
     optional: true
   },
-  // currency: {
-  //   type: String,
-  //   allowedValues: [
-  //     'GBP',
-  //     'USD',
-  //     'EUR'
-  //   ]
-  // },
   value: {
     type: String,
     defaultValue: "0.00"
