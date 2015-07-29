@@ -576,3 +576,21 @@ Schemas.Feature = new SimpleSchema({
   }
 });
 Features.attachSchema(Schemas.Feature);
+
+//Products
+Schemas.Product = new SimpleSchema({
+  name: {
+    type: String
+  },
+  description: {
+    type: String,
+    label: "Description"
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  }
+});
+Products.attachSchema(Schemas.Product);
