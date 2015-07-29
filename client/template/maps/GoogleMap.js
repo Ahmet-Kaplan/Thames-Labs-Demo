@@ -59,8 +59,15 @@ Template.map.onCreated(function() {
           if (status == google.maps.GeocoderStatus.OK) {
             pin = results[0].geometry.location;
             if (pin !== null) {
+              var marker = new google.maps.Marker( {
+                map: map.instance,
+                position: pin,
+                title: companyData.name
+              });
+              marker.setMap(map.instance);
+              infowindow.setContent(companyData.name);
+              infowindow.open(map.instance, marker);
               var point = new google.maps.LatLng(pin.G, pin.K);
-
               map.instance.panTo(point);
               map.instance.setZoom(16);
 
