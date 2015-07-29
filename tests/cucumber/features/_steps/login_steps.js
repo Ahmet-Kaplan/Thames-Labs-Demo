@@ -63,7 +63,7 @@ module.exports = function() {
 
   this.Then(/^I am logged in$/, function(callback) {
     this.client
-      .waitForExist('#at-pwd-form', 2000, true)
+      .waitForExist('#id-dashboard', 2000)
       .executeAsync(function(done) {
         // browser context
         done(Meteor.userId());
