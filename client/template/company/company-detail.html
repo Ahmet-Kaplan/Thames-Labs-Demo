@@ -123,7 +123,6 @@
     <div class="col-md-4">
       <h1>Address</h1>
       <div class="thumbnail">
-        <!-- {{#if isDesktop}} {{> map data=this}} {{/if}}  -->
         {{#if isDesktop}} {{> map data=this}} {{/if}} 
         {{#if isPhone}}
         <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}" /> {{/if}}
