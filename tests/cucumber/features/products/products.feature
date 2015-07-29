@@ -24,7 +24,7 @@ Feature: Allow users to manage their Products
     When I navigate to "/products"
     And I click "#add-product"
     And I enter product details
-    Then I a new product should exist
+    Then a new product should exist
 
   @dev
   Scenario: A user can edit a product
@@ -36,5 +36,5 @@ Feature: Allow users to manage their Products
   @dev
   Scenario: A user can delete a product
     When I navigate to a product page
-    And I click "#delete-product"
+    And I delete a product
     Then the product should not exist

@@ -10,8 +10,10 @@
 
         <div class="modal-body">
           {{#autoForm collection="Products" id="insertProductForm" type="insert"}}
-            {{> afQuickField name="name"}}
-            {{> afQuickField name="description" type="medium" class="form-control medium-editor"}}
+            {{> afQuickField name="name" id="name-field"}}
+            {{> afQuickField name="description" type="medium" class="form-control medium-editor" id="desc-field"}}
+            {{> afQuickField name="price"}}
+            {{> afQuickField name="cost"}}
             {{> afQuickField name="createdBy" value=currentUser type="hidden"}}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}

@@ -5,6 +5,7 @@ Meteor.methods({
       Tasks.remove({});
       Companies.remove({});
       Meteor.tags.remove({});
+      Products.remove({});
     });
 
     Meteor.users.remove({
@@ -64,7 +65,7 @@ Meteor.methods({
   'createTestProduct': function() {
     var data = "";
     Products.insert({
-      name: 'test company',
+      name: 'test product',
       description: 'test description',
       createdBy: Meteor.userId()
     }, function(err, id) {
