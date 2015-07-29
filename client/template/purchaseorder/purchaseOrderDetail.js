@@ -1,18 +1,10 @@
-AutoForm.hooks({
-  updatePurchaseOrderForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Purchase Order updated.');
-    }
-  }
-});
 
 Template.purchaseOrderDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
-     var purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
-     if (purchaseOrder) return;
-     FlowRouter.go('purchaseOrders');
+    var purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
+    if (purchaseOrder) return;
+    FlowRouter.go('purchaseOrders');
   });
 });
 
@@ -93,7 +85,7 @@ Template.purchaseOrderDetail.events({
       docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
       //Convert data into a blob format for sending to api
       var blob = new Blob([docDataUri], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
-      saveAs(blob);
+      saveAs(blob, file.name);
     }.bind(this);
     reader.readAsArrayBuffer(file);
   },
@@ -205,7 +197,7 @@ Template.purchaseOrderDetail.events({
           //Convert returned base64 string into blob for download
           var data = base64toBlob(res.data.file, 'application/pdf');
           Meteor.call('remainingConversions', res.headers['x-ratelimit-requests-remaining'], function(err, res) { });
-          saveAs(data);
+          saveAs(data, file.name.replace(".docx", ".pdf"));
         });
       };
       toastr.success("Your file will be downloaded shortly", "Processing...");
@@ -234,6 +226,15 @@ Template.purchaseOrderDetail.events({
   },
   'click #edit-purchase-order': function() {
     Modal.show('updatePurchaseOrderFormModal', this);
+  },
+  'click #remove-purchase-order': function() {
+    var poId = this._id;
+
+    bootbox.confirm("Are you sure you wish to delete this purchase order?", function(result) {
+      if (result === true) {
+        PurchaseOrders.remove(poId);
+      }
+    });
   }
 });
 
@@ -251,6 +252,29 @@ Template.purchaseOrderItem.helpers({
     if (this.currency === "GBP") return "£";
     if (this.currency === "USD") return "$";
     if (this.currency === "EUR") return "€";
+  },
+  canAddMoreItems: function(parentContext) {
+    this.parentContext = parentContext;
+    return (this.parentContext.status === "Requested" ? true : false);
+  },
+  orderItemStatus: function() {
+    if (this.status === undefined) {
+      return "No status set.";
+    } else {
+      return this.status;
+    }
+  },
+  statusIcon: function() {
+    switch (this.status) {
+      case 'Dispatched':
+        return "fa fa-fw fa-truck text-warning";
+      case 'Delivered':
+        return "fa fa-fw fa-check text-success";
+      case 'Cancelled':
+        return "fa fa-fw fa-times text-danger";
+      default:
+        return "";
+    }
   }
 });
 
@@ -270,9 +294,9 @@ Template.purchaseOrderDetail.helpers({
     });
   },
   isOpen: function() {
-    return(this.status !=="Closed" ? true : false);
+    return (this.status !== "Closed" ? true : false);
   },
   canAddMoreItems: function() {
-    return(this.status ==="Requested" ? true : false);
+    return (this.status === "Requested" ? true : false);
   }
 });

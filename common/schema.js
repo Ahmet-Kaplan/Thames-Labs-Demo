@@ -62,10 +62,16 @@ Schemas.UserSignUp = new SimpleSchema({
       }
     },
     custom: function() {
-      var user = Meteor.users.findOne({emails: {$elemMatch: {address: this.value}}});
-			if (user !== undefined) {
-				return "emailTaken";
-			}
+      var user = Meteor.users.findOne({
+        emails: {
+          $elemMatch: {
+            address: this.value
+          }
+        }
+      });
+      if (user !== undefined) {
+        return "emailTaken";
+      }
     }
   },
   password: {
@@ -75,9 +81,9 @@ Schemas.UserSignUp = new SimpleSchema({
   confirmPassword: {
     type: String,
     custom: function() {
-       if (this.value !== this.field('password').value) {
-          return "passwordMissmatch";
-        }
+      if (this.value !== this.field('password').value) {
+        return "passwordMissmatch";
+      }
     }
   },
   companyName: {
@@ -226,6 +232,14 @@ Schemas.Contact = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  customFields: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
   }
 });
 Contacts.attachSchema(Schemas.Contact);
@@ -247,7 +261,19 @@ Schemas.Activity = new SimpleSchema({
   },
   activityTimestamp: {
     type: Date,
-    label: "Activity Date/Time"
+    label: "Activity Date/Time",
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          useCurrent: true,
+          sideBySide: true,
+          widgetPositioning: {
+            vertical: "top"
+          }
+        }
+      }
+    }
   },
   companyId: {
     type: String,
@@ -426,14 +452,17 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
     label: "Product Code",
     optional: true
   },
-  // currency: {
-  //   type: String,
-  //   allowedValues: [
-  //     'GBP',
-  //     'USD',
-  //     'EUR'
-  //   ]
-  // },
+  status: {
+    type: String,
+    allowedValues: [
+      "",
+      "Dispatched",
+      "Delivered",
+      "Cancelled"
+    ],
+    defaultValue: "",
+    optional: true
+  },
   value: {
     type: String,
     defaultValue: "0.00"
@@ -505,7 +534,10 @@ Schemas.Task = new SimpleSchema({
         dateTimePickerOptions: {
           format: 'DD/MM/YYYY HH:mm',
           useCurrent: true,
-          sideBySide: true
+          sideBySide: true,
+          widgetPositioning: {
+            vertical: 'top'
+          }
         }
       }
     }

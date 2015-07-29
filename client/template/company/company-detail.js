@@ -64,13 +64,22 @@ Template.companyDetail.events({
     });
   },
   'click #add-project': function() {
-    Modal.show('newProjectForm', {
+    Modal.show('newCompanyProjectForm', {
       companyId: this._id
     });
   },
   'click #add-purchase-order': function() {
     Modal.show('newCompanyPurchaseOrderForm', {
       supplierCompanyId: this._id
+    });
+  },
+  'click #remove-company': function() {
+    var companyId = this._id;
+
+    bootbox.confirm("Are you sure you wish to delete this company?", function(result) {
+      if (result === true) {
+        Companies.remove(companyId);
+      }
     });
   }
 });

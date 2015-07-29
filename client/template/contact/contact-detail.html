@@ -14,15 +14,19 @@
     </div>
 
     <div class="col-md-10">
-      <h1 id="contact-details">{{name}}</h1>
+      <h1 id="contact-details">Contact: {{name}}</h1>
 
       {{> tagInput}}
 
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#afModal class="btn btn-info btn-xs" collection="Contacts" doc=_id operation="update" formId="updateContactForm" omitFields="companyId"}} Edit contact details {{/afModal}} {{#afModal class="btn btn-danger btn-xs" collection="Contacts" doc=_id operation="remove"
-            formId="removeContactForm" onSuccess="onContactRemove"}} Delete contact {{/afModal}}
+            {{#afModal class="btn btn-info btn-xs" collection="Contacts" doc=_id operation="update" formId="updateContactForm" omitFields="companyId"}} Edit contact details {{/afModal}}
+
+
+            <a href="#" id="remove-contact" class="btn btn-danger btn-xs">Delete contact</a>
+             <!-- {{#afModal class="btn btn-danger btn-xs" collection="Contacts" doc=_id operation="remove"
+            formId="removeContactForm" onSuccess="onContactRemove"}} Delete contact {{/afModal}} -->
 
           </div>
           Contact details</div>
@@ -51,7 +55,7 @@
           {{/if}}
         </ul>
       </div>
-      
+
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
           Projects
@@ -85,13 +89,15 @@
           {{/each}}
         </ul>
       </div>
-      
-      
-      {{#with this}} 
-        {{> taskDisplay entity_type="contact" entity_id=_id}} 
+
+      {{#with this}}
+        {{> taskDisplay entity_type="contact" entity_id=_id}}
       {{/with}}
-      
-      
+
+      <div>
+        {{#with this}} {{> customFieldDisplay entity_data=this entity_type='contact'}} {{/with}}
+      </div>
+
     </div>
   </div>
 

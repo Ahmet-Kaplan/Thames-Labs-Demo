@@ -136,15 +136,8 @@ Template.datamanagement.events({
 
         } else {
 
-          new Confirmation({
-            message: "A contact with the name '" + de.title + ' ' + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?",
-            title: "Contact Already Exists",
-            cancelText: "Cancel",
-            okText: "Overwrite",
-            success: true
-          }, function(ok) {
-
-            if (ok) {
+          bootbox.confirm("A contact with the name '" + de.title + ' ' + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?", function(result) {
+            if (result === true) {
 
               var record = Contacts.find({
                 title: de.title,
@@ -284,16 +277,8 @@ Template.datamanagement.events({
 
         } else {
 
-          new Confirmation({
-            message: "A company with the name ''" + de.name + "'' already exists. Overwrite the existing data with the data stored in the CSV file?",
-            title: "Company Already Exists",
-            cancelText: "Cancel",
-            okText: "Overwrite",
-            success: true
-          }, function(ok) {
-
-            if (ok) {
-
+          bootbox.confirm("A company with the name ''" + de.name + "'' already exists. Overwrite the existing data with the data stored in the CSV file?", function(result) {
+            if (result === true) {
               var record = Companies.find({
                 name: de.name
               }).fetch()[0];

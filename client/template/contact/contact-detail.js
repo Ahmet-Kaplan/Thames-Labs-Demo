@@ -60,5 +60,14 @@ Template.contactDetail.events({
         supplierContactId: this._id
       });
     }
+  },
+  'click #remove-contact': function() {
+    var contactId = this._id;
+
+    bootbox.confirm("Are you sure you wish to delete this contact?", function(result) {
+      if (result === true) {
+        Contacts.remove(contactId);
+      }
+    });
   }
 });
