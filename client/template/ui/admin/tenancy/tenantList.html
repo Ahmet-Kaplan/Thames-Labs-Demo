@@ -24,10 +24,7 @@
 <template name="tenant">
     <div class="panel panel-primary">
         <div class="panel-heading ">
-            <h4 class="panel-title">
-        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a><small> (Users: {{userCount}})</small>
-
-      </h4>
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a><small> (Users: {{userCount}})</small>
         </div>
         <div id="collapse{{_id}}" class="panel-collapse collapse">
             <div class="panel-body" id="listOfTenantUsers">
