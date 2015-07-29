@@ -60,8 +60,22 @@ Meteor.methods({
         customFields: cfMaster
       }
     });
-
-  }
+  },
+  'createTestProduct': function() {
+    var data = "";
+    Products.insert({
+      name: 'test company',
+      description: 'test description',
+      createdBy: Meteor.userId()
+    }, function(err, id) {
+      if (err) {
+        data = err;
+      } else {
+        data = id;
+      }
+    });
+    return data;
+  },
 });
 
 Meteor.startup(function() {
