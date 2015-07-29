@@ -54,7 +54,7 @@ Template.map.onCreated(function() {
         });
       }else {
         gc.geocode({
-          'address': companyData.postcode
+          'address': companyData.address + companyData.postcode + companyData.city + companyData.country
         }, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             pin = results[0].geometry.location;
