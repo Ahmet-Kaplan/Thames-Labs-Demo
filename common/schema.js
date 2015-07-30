@@ -167,16 +167,6 @@ Schemas.Company = new SimpleSchema({
     label: "Phone number",
     optional: true
   },
-  // source: {
-  //   type: String,
-  //   label: "Source",
-  //   optional: true
-  // },
-  // industry: {
-  //   type: String,
-  //   label: "Industry",
-  //   optional: true
-  // },
   createdBy: {
     type: String,
     autoform: {
@@ -325,32 +315,9 @@ Schemas.Project = new SimpleSchema({
     type: String,
     label: "Account Manager"
   },
-  // status: {
-  //   type: String,
-  //   allowedValues: [
-  //     'Proposed',
-  //     'Quoted',
-  //     'Accepted',
-  //     'Lost',
-  //     'Ordered',
-  //     'Incomplete',
-  //     'Completed'
-  //   ]
-  // },
   value: {
     type: Number
   },
-  // probability: {
-  //   type: Number
-  // },
-  // lastActionDate: {
-  //   type: Date,
-  //   optional: true
-  // },
-  // nextActionBy: {
-  //   type: String,
-  //   optional: true
-  // },
   createdBy: {
     type: String,
     autoform: {
@@ -423,10 +390,6 @@ Schemas.PurchaseOrder = new SimpleSchema({
     type: Date,
     defaultValue: new Date()
   },
-  // deliveryDate: {
-  //   type: Date,
-  //   optional: true
-  // },
   paymentMethod: {
     type: String,
     optional: true,
@@ -437,14 +400,6 @@ Schemas.PurchaseOrder = new SimpleSchema({
       'Company Account'
     ]
   },
-  // currency: {
-  //   type: String,
-  //   allowedValues: [
-  //     'GBP',
-  //     'USD',
-  //     'EUR'
-  //   ]
-  // },
   notes: {
     type: String,
     label: "Notes",
@@ -624,3 +579,36 @@ Schemas.Product = new SimpleSchema({
   }
 });
 Products.attachSchema(Schemas.Product);
+
+Schemas.Audit = new SimpleSchema({
+  date: {
+    type: Date
+  },
+  source: {
+    type: String,
+    defaultValue: 'client'
+  },
+  level: {
+    type: String
+  },
+  message: {
+    type: String
+  },
+  user: {
+    type: String,
+    optional: true
+  },
+  entityType: {
+    type: String,
+    optional: true
+  },
+  entityId: {
+    type: String,
+    optional: true
+  },
+  groupId: {
+    type: String,
+    optional: true
+  }
+});
+AuditLog.attachSchema(Schemas.Audit);

@@ -13,6 +13,30 @@ Meteor.publish('userPresence', function() {
   });
 });
 
+Meteor.publish("auditData", function() {
+  if (Roles.userIsInRole(this.userId, ['superadmin'])) {
+    return AuditLog.find({});
+  } else {
+    this.ready();
+  }
+});
+
+Meteor.publish("groupedAuditData", function(userId) {
+  var group = null;
+
+  var ux = Meteor.users.find({
+    _id: userId
+  }).fetch()[0];
+  if (ux) {
+    group = ux.group;
+  }
+
+  console.log("Group: " + group);
+  return AuditLog.find({
+    groupId: group
+  });
+});
+
 Meteor.publish("allTenants", function() {
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
     return Tenants.find({});

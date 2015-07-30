@@ -1,3 +1,4 @@
+
 Template.insertCompanyContactModal.helpers({
   companiesAsOptions: function() {
 

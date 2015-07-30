@@ -27,11 +27,11 @@ Template.projectDetail.helpers({
       _id: this.userId
     }).fetch()[0].profile.name;
   },
-  nextActionName: function() {
-    return Meteor.users.find({
-      _id: this.nextActionBy
-    }).fetch()[0].profile.name;
-  },
+  // nextActionName: function() {
+  //   return Meteor.users.find({
+  //     _id: this.nextActionBy
+  //   }).fetch()[0].profile.name;
+  // },
   contactName: function() {
     var c = Contacts.find({
       _id: this.contactId

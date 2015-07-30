@@ -25,7 +25,7 @@ var tidyUpModals = function(context) {
 };
 
 // These functions add the triggers to routes globally
-var adminRoutes = ['tenants', 'notifications', 'statistics'];
+var adminRoutes = ['tenants', 'notifications', 'statistics', 'audit'];
 router.triggers.enter(superAdminOnly, {
   only: adminRoutes
 });
@@ -40,6 +40,7 @@ router.subscriptions = function() {
   this.register('userPresence', Meteor.subscribe('userPresence'));
   this.register('allNotifications', Meteor.subscribe('allNotifications'));
   this.register('allFeatures', Meteor.subscribe('allFeatures'));
+  this.register('auditData', Meteor.subscribe('auditData'));
 };
 
 router.notFound = {
@@ -88,6 +89,20 @@ router.route('/statistics', {
   action: function() {
     layout.render('appLayout', {
       main: "adminStatistics"
+    });
+  }
+});
+
+// ADMIN only route
+router.route('/audit', {
+  name: 'audit',
+  subscriptions: function() {
+    this.register('allTenants', subs.subscribe('allTenants'));
+    this.register('allUserData', subs.subscribe('allUserData'));
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: "auditLog"
     });
   }
 });
@@ -273,13 +288,32 @@ router.route('/datamanagement', {
   }
 });
 
+router.route('/events', {
+  name: 'events',
+  subscriptions: function() {
+    this.register('allUserData', subs.subscribe('allUserData'));
+    this.register('groupedAuditData', subs.subscribe('groupedAuditData', Meteor.userId()));
+    this.register('allProjects', subs.subscribe('allProjects'));
+    this.register('allContacts', subs.subscribe('allContacts'));
+    this.register('allCompanies', subs.subscribe('allCompanies'));
+    this.register('allPurchaseOrders', subs.subscribe('allPurchaseOrders'));
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: "events"
+    });
+  }
+});
+
 router.route('/products', {
   name: 'products',
   subscriptions: function() {
     this.register('allProducts', subs.subscribe('allProducts'));
   },
   action: function() {
-    layout.render('appLayout', { main: 'productList' });
+    layout.render('appLayout', {
+      main: 'productList'
+    });
   }
 });
 
@@ -289,6 +323,8 @@ router.route('/products/:id', {
     this.register('productById', subs.subscribe('productById', params.id));
   },
   action: function() {
-    layout.render('appLayout', { main: 'productDetail' });
+    layout.render('appLayout', {
+      main: 'productDetail'
+    });
   }
 });

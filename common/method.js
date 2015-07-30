@@ -60,9 +60,9 @@ Meteor.methods({
         });
 
         _.each(_.range(_.random(0, 2)), function() {
-          var array = Meteor.users.find({}).fetch();
-          var randomIndex = Math.floor(Math.random() * array.length);
-          var element = array[randomIndex];
+          // var array = Meteor.users.find({}).fetch();
+          // var randomIndex = Math.floor(Math.random() * array.length);
+          // var element = array[randomIndex];
 
           var projectId = Projects.insert({
             description: faker.lorem.sentence(),
@@ -73,7 +73,7 @@ Meteor.methods({
             value: _.random(100, 3000),
             probability: _.random(0, 100),
             lastActionDate: faker.date.past(100),
-            nextActionBy: element._id,
+            // nextActionBy: element._id,
             createdBy: randomUser._id
           });
 
@@ -134,6 +134,8 @@ Meteor.methods({
       });
 
     });
+
+    LogEvent('debug', 'Demo data generated');
 
   },
 
@@ -241,6 +243,26 @@ Meteor.methods({
   }
 
 });
+
+LogEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
+  if (Meteor.isServer) {
+    logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
+    logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
+
+    var group = (Meteor.userId() ? Meteor.users.findOne(Meteor.userId()).group : undefined);
+
+    AuditLog.insert({
+      date: new Date(),
+      source: 'client',
+      level: logLevel,
+      message: logMessage,
+      user: (Meteor.userId() ? Meteor.userId() : undefined),
+      groupId: group,
+      entityType: logEntityType,
+      entityId: logEntityId
+    });
+  }
+}
 
 GetRoutedPageTitle = function(currentName) {
   var title = currentName;

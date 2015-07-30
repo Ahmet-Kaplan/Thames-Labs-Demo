@@ -1,24 +1,3 @@
-AutoForm.hooks({
-  newProjectForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Project created.');
-    }
-  },
-  newContactProjectForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Project created.');
-    }
-  },
-  updateProjectForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Project updated.');
-    }
-  }
-});
-
 Session.set('sc', null);
 
 Template.newProjectForm.events({
