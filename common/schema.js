@@ -158,7 +158,8 @@ Schemas.Company = new SimpleSchema({
   website: {
     type: String,
     label: "Website",
-    optional: true,
+    // optional: true,
+    defaultValue: "http://",
     regEx: SimpleSchema.RegEx.Url
   },
   phone: {

@@ -1,3 +1,7 @@
+Template.nav.onRendered(function() {
+  // $.getScript('/vendor/hopscotch/tours/nav_tour.js');
+});
+
 Template.nav.helpers({
   loggedIn: function() {
     return (Meteor.userId() ? true : false);
@@ -60,18 +64,16 @@ Template.nav.helpers({
     }).count();
   },
   favourites: function() {
-    var profile = Meteor.users.findOne(Meteor.userId()).profile;
-    if (!profile.favourites) {
-      return null;
-    } else {
-      favList = profile.favourites;
-      return favList;
-      // var list = new ReactiveArray();
-      // _.each(favList, function(f) {
-      //   list.push(f);
-      // });
-      // console.log(list);
-      // return list;
+    var ux = Meteor.users.findOne(Meteor.userId());
+
+    if (ux) {
+      var profile = ux.profile;
+      if (!profile.favourites) {
+        return null;
+      } else {
+        favList = profile.favourites;
+        return favList;
+      }
     }
   },
   shouldDisplayMenu: function() {
@@ -132,6 +134,11 @@ Template.menuNotice.helpers({
 
 //NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
+  'click #tour-this-page': function() {
+    var currentPageName = FlowRouter.getRouteName();
+
+    $.getScript('/vendor/hopscotch/tours/' + currentPageName + '_tour.js');
+  },
   'click #mnuAddToFavourites': function() {
     var profile = Meteor.users.findOne(Meteor.userId()).profile;
 
