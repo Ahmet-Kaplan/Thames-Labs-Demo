@@ -21,7 +21,6 @@ alanning:roles
 mrt:moment
 dburles:collection-helpers
 peppelg:bootstrap-3-modal
-digilord:faker
 matteodem:easy-search
 lbee:lunr
 sacha:spin
@@ -67,3 +66,4 @@ vazco:universe-html-purifier
 jeremy:geocomplete
 matb33:collection-hooks
 mizzao:bootboxjs
+gbit:faker
