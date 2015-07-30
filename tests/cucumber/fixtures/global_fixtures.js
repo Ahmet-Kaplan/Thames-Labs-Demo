@@ -35,6 +35,7 @@ Meteor.methods({
       city: 'test city',
       country: 'test country',
       postcode: 'test postcode',
+      website: 'http://www.test-company.test',
       createdBy: Meteor.userId()
     }, function(err, id) {
       if (err) {

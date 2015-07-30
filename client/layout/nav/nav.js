@@ -64,18 +64,16 @@ Template.nav.helpers({
     }).count();
   },
   favourites: function() {
-    var profile = Meteor.users.findOne(Meteor.userId()).profile;
-    if (!profile.favourites) {
-      return null;
-    } else {
-      favList = profile.favourites;
-      return favList;
-      // var list = new ReactiveArray();
-      // _.each(favList, function(f) {
-      //   list.push(f);
-      // });
-      // console.log(list);
-      // return list;
+    var ux = Meteor.users.findOne(Meteor.userId());
+
+    if (ux) {
+      var profile = ux.profile;
+      if (!profile.favourites) {
+        return null;
+      } else {
+        favList = profile.favourites;
+        return favList;
+      }
     }
   },
   shouldDisplayMenu: function() {
