@@ -39,8 +39,10 @@ Template.insertNewCompanyModal.onRendered(function() {
 
         $("#formatted_address").val(address);
         $("#address_details").show();
-      }).bind("geocode:error", function(event) {
-        $("#address_details").show();
+      }).keypress(function(event) {
+        if(event.keyCode == 13) {
+          $("#address_details").show();
+        }
       });
     }
   });
