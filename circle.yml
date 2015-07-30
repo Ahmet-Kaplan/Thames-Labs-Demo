@@ -1,0 +1,14 @@
+machine:
+  environment:
+    CUCUMBER_TAIL: 1
+    SELENIUM_BROWSER: chrome
+    VELOCITY_CI: 1
+
+dependencies:
+  pre:
+    - env
+
+  override:
+    - npm install -g eslint
+    - cd tests/cucumber && npm install
+    - curl https://install.meteor.com/ | sh
