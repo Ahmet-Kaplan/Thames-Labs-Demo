@@ -158,7 +158,8 @@ Schemas.Company = new SimpleSchema({
   website: {
     type: String,
     label: "Website",
-    optional: true,
+    // optional: true,
+    defaultValue: "http://",
     regEx: SimpleSchema.RegEx.Url
   },
   phone: {
@@ -342,15 +343,27 @@ Schemas.PurchaseOrder = new SimpleSchema({
   },
   supplierCompanyId: {
     type: String,
-    optional: true
+    label: 'Supplier Company'
   },
   supplierContactId: {
     type: String,
-    optional: true
+    optional: true,
+    label: 'Supplier Contact'
+  },
+  customerCompanyId: {
+    type: String,
+    optional: true,
+    label: 'Customer Company (optional)'
+  },
+  customerContactId: {
+    type: String,
+    optional: true,
+    label: 'Customer Contact'
   },
   projectId: {
     type: String,
-    optional: true
+    optional: true,
+    label: 'Project'
   },
   description: {
     type: String,
@@ -374,7 +387,8 @@ Schemas.PurchaseOrder = new SimpleSchema({
     ]
   },
   orderDate: {
-    type: Date
+    type: Date,
+    defaultValue: new Date()
   },
   paymentMethod: {
     type: String,
@@ -538,6 +552,33 @@ Schemas.Feature = new SimpleSchema({
   }
 });
 Features.attachSchema(Schemas.Feature);
+
+//Products
+Schemas.Product = new SimpleSchema({
+  name: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  price: {
+    type: Number,
+    optional: true,
+    label: "Sales Price"
+  },
+  cost: {
+    type: Number,
+    optional: true,
+    label: "Cost Price"
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  }
+});
+Products.attachSchema(Schemas.Product);
 
 Schemas.Audit = new SimpleSchema({
   date: {

@@ -234,6 +234,8 @@ router.route('/purchaseorders', {
   subscriptions: function() {
     this.register('allPurchaseOrders', subs.subscribe('allPurchaseOrders'));
     this.register('allCompanies', subs.subscribe('allCompanies'));
+    this.register('allProjects', subs.subscribe('allProjects'));
+    this.register('allContacts', subs.subscribe('allContacts'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -299,6 +301,30 @@ router.route('/events', {
   action: function() {
     layout.render('appLayout', {
       main: "events"
+    });
+  }
+});
+
+router.route('/products', {
+  name: 'products',
+  subscriptions: function() {
+    this.register('allProducts', subs.subscribe('allProducts'));
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: 'productList'
+    });
+  }
+});
+
+router.route('/products/:id', {
+  name: 'product',
+  subscriptions: function(params) {
+    this.register('productById', subs.subscribe('productById', params.id));
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: 'productDetail'
     });
   }
 });

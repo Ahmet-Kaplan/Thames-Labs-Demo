@@ -152,8 +152,11 @@ Collections.projects = Projects;
 PurchaseOrders = new Mongo.Collection('purchaseorders');
 Partitioner.partitionCollection(PurchaseOrders);
 PurchaseOrders.helpers({
-  company: function() {
+  supplierCompany: function() {
     return Companies.findOne(this.supplierCompanyId);
+  },
+  customerCompany: function() {
+    return Companies.findOne(this.customerCompanyId);
   },
   activities: function() {
     return Activities.find({
@@ -164,15 +167,23 @@ PurchaseOrders.helpers({
       }
     });
   },
-  contact: function() {
+  supplierContact: function() {
     return Contacts.findOne(this.supplierContactId);
+  },
+  customerContact: function() {
+    return Contacts.findOne(this.customerContactId);
   },
   project: function() {
     return Projects.findOne(this.projectId);
   }
 });
 PurchaseOrders.initEasySearch('description', {
-  limit: 50
+  limit: 50,
+  sort: function() {
+    return {
+      'orderNumber': 1
+    };
+  }
 });
 Collections.purchaseOrders = PurchaseOrders;
 
@@ -601,3 +612,11 @@ Tasks.after.remove(function(userId, doc) {
 
   LogEvent('info', 'An existing task has been deleted: ' + doc.title + '(' + entityName + ")");
 });
+
+//Products
+Products = new Mongo.Collection('products');
+Partitioner.partitionCollection(Products);
+Products.initEasySearch(['name'], {
+  limit: 50
+});
+Collections.products = Products;

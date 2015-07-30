@@ -15,7 +15,7 @@ Feature: Allow users to specify their own data fields/values against an entity
   Scenario: A user can open the "Add Custom Fields" modal
     When I navigate to a company page
     And I click the "Add Custom Field" button
-    Then I should see a modal with header "Add Custom Field"
+    Then I should see a modal with header "Add new custom field"
 
   Scenario: A user can add a custom field
     When I navigate to a company page

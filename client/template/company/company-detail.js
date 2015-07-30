@@ -70,7 +70,7 @@ Template.companyDetail.events({
   },
   'click #add-purchase-order': function() {
     Modal.show('newCompanyPurchaseOrderForm', {
-      supplierCompanyId: this._id
+      customerCompanyId: this._id
     });
   },
   'click #remove-company': function() {

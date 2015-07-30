@@ -16,13 +16,14 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="/favicon.ico" rel="icon" sizes="16x16 32x32">
+
+  <link rel="stylesheet" href="/vendor/hopscotch/hopscotch.css"></link>
+  <script src="/vendor/hopscotch/hopscotch.js"></script>
 </head>
 
 <template name="appLayout">
 
-  {{#if maintenanceMode}}
-    {{> maintenance}}
-  {{else}}
+  {{#if maintenanceMode}} {{> maintenance}} {{else}}
 
     <div class="container-fluid">
       <div id="id-view-content" class="{{hasMenuClass}}">
@@ -41,7 +42,7 @@
             {{>login}}
           {{/if}}
         {{/if}}
-        
+
         {{> footer}}
       </div>
     </div>
