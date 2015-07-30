@@ -541,8 +541,7 @@ Features.attachSchema(Schemas.Feature);
 
 Schemas.Audit = new SimpleSchema({
   date: {
-    type: Date,
-    defaultValue: new Date()
+    type: Date
   },
   source: {
     type: String,

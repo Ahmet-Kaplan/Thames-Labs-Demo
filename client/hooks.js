@@ -145,14 +145,14 @@ AutoForm.hooks({
       //LogEvent('info', 'Project activity created.', 'Project', this.docId);
     }
   },
-  insertPurchaseOrderActivityForm: {
-    onSuccess: function() {
-      Modal.hide();
-      $('[data-toggle="tooltip"]').tooltip();
-      toastr.success('Purchase order activity created.');
-      //LogEvent('info', 'Purchase order activity created.', 'Purchase Order', this.docId);
-    }
-  },
+  // insertPurchaseOrderActivityForm: {
+  //   onSuccess: function() {
+  //     Modal.hide();
+  //     $('[data-toggle="tooltip"]').tooltip();
+  //     toastr.success('Purchase order activity created.');
+  //     //LogEvent('info', 'Purchase order activity created.', 'Purchase Order', this.docId);
+  //   }
+  // },
   insertContactActivityForm: {
     onSuccess: function() {
       Modal.hide();

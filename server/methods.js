@@ -113,7 +113,7 @@ Meteor.methods({
     ServerSession.set('DocxToPdfRemaining', count);
 
     if (count == 100 || count == 50 || count == 25 || count < 15) {
-      var txt = 'Running out of doc to pdf conversions. We have '+ count +' left';
+      var txt = 'Running out of doc to pdf conversions. We have ' + count + ' left';
       Email.send({
         to: 'jason.mashinchi@cambridgesoftware.co.uk',
         from: 'admin@realtimecrm.co.uk',
@@ -129,6 +129,7 @@ LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
   logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
 
   AuditLog.insert({
+    date: new Date(),
     source: 'server',
     level: logLevel,
     message: logMessage,

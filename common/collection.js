@@ -235,6 +235,7 @@ Companies.after.insert(function(userId, doc) {
   LogEvent('info', 'A new company has been created: ' + doc.name);
 });
 Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
+
   if (doc.name !== this.previous.name) {
     LogEvent('info', 'An existing company has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
   }
@@ -262,6 +263,8 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.phone !== this.previous.phone) {
     LogEvent('info', 'An existing company has been updated: The value of "phone" was changed from ' + this.previous.phone + " to " + doc.phone);
   }
+}, {
+  fetchPrevious: true
 });
 Companies.after.remove(function(userId, doc) {
   LogEvent('info', 'A company has been deleted: ' + doc.name);
@@ -436,11 +439,11 @@ Activities.after.insert(function(userId, doc) {
     entityName = "Project: " + entity.description;
   }
   if (doc.purchaseOrderId) {
-    entity = Projects.findOne(doc.purchaseOrderId);
+    entity = PurchaseOrders.findOne(doc.purchaseOrderId);
     entityName = "Purchase Order: " + entity.description;
   }
 
-  LogEvent('info', 'A new activity has been created: ' + doc.name + ' (' + entityName + ")");
+  LogEvent('info', 'A new activity has been created: ' + doc.notes + ' (' + entityName + ")");
 });
 Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
   var entity;
@@ -474,7 +477,7 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 Activities.after.remove(function(userId, doc) {
   var currentPurchaseOrder = PurchaseOrders.findOne(doc.purchaseOrderId);
-  LogEvent('info', 'An existing activity has been deleted: ' + doc.name + ' (' + currentPurchaseOrder.description + ")");
+  LogEvent('info', 'An existing activity has been deleted: ' + doc.notes + ' (' + currentPurchaseOrder.description + ")");
 });
 
 

@@ -230,20 +230,23 @@ Meteor.methods({
 });
 
 LogEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
-  logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
+  if (Meteor.isServer) {
+    logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
+    logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
 
-  var group = (Meteor.userId() ? Meteor.users.findOne(Meteor.userId()).group : undefined);
+    var group = (Meteor.userId() ? Meteor.users.findOne(Meteor.userId()).group : undefined);
 
-  AuditLog.insert({
-    source: 'client',
-    level: logLevel,
-    message: logMessage,
-    user: (Meteor.userId() ? Meteor.userId() : undefined),
-    groupId: group,
-    entityType: logEntityType,
-    entityId: logEntityId
-  });
+    AuditLog.insert({
+      date: new Date(),
+      source: 'client',
+      level: logLevel,
+      message: logMessage,
+      user: (Meteor.userId() ? Meteor.userId() : undefined),
+      groupId: group,
+      entityType: logEntityType,
+      entityId: logEntityId
+    });
+  }
 }
 
 GetRoutedPageTitle = function(currentName) {
