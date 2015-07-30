@@ -17,7 +17,7 @@ Template.auditLog.helpers({
 });
 
 Template.auditLogEntry.helpers({
-  friendlyDate: function(){
+  friendlyDate: function() {
     return new moment(this.date).format("Do MMMM YYYY, HH:mm:ss");
   },
   userName: function() {

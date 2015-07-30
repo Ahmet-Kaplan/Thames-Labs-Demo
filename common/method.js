@@ -60,9 +60,9 @@ Meteor.methods({
         });
 
         _.each(_.range(_.random(0, 2)), function() {
-          var array = Meteor.users.find({}).fetch();
-          var randomIndex = Math.floor(Math.random() * array.length);
-          var element = array[randomIndex];
+          // var array = Meteor.users.find({}).fetch();
+          // var randomIndex = Math.floor(Math.random() * array.length);
+          // var element = array[randomIndex];
 
           var projectId = Projects.insert({
             description: faker.lorem.sentence(),
