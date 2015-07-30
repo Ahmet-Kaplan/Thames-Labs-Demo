@@ -5,6 +5,7 @@ Meteor.methods({
       Tasks.remove({});
       Companies.remove({});
       Meteor.tags.remove({});
+      Products.remove({});
     });
 
     Meteor.users.remove({
@@ -61,8 +62,26 @@ Meteor.methods({
         customFields: cfMaster
       }
     });
-
-  }
+  },
+  'createTestProduct': function() {
+    var data = "";
+    Products.remove({});
+    Products.insert({
+      name: 'test product',
+      description: 'test description',
+      createdBy: Meteor.userId()
+    }, function(err, id) {
+      if (err) {
+        data = err;
+      } else {
+        data = id;
+      }
+    });
+    return data;
+  },
+  'getProductByName': function(name) {
+    return Products.findOne({name: name});
+  },
 });
 
 Meteor.startup(function() {

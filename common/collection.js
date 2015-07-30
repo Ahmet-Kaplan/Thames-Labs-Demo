@@ -207,3 +207,11 @@ Features = new Mongo.Collection('features');
 Meteor.users.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
 });
+
+//Products
+Products = new Mongo.Collection('products');
+Partitioner.partitionCollection(Products);
+Products.initEasySearch(['name'], {
+  limit: 50
+});
+Collections.products = Products;

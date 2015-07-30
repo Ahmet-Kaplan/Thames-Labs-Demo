@@ -238,3 +238,23 @@ router.route('/datamanagement', {
     layout.render('appLayout', { main: 'datamanagement' });
   }
 });
+
+router.route('/products', {
+  name: 'products',
+  subscriptions: function() {
+    this.register('allProducts', subs.subscribe('allProducts'));
+  },
+  action: function() {
+    layout.render('appLayout', { main: 'productList' });
+  }
+});
+
+router.route('/products/:id', {
+  name: 'product',
+  subscriptions: function(params) {
+    this.register('productById', subs.subscribe('productById', params.id));
+  },
+  action: function() {
+    layout.render('appLayout', { main: 'productDetail' });
+  }
+});
