@@ -1,4 +1,4 @@
-Collections = {}
+Collections = {};
 
 Tenants = new Mongo.Collection('tenants');
 Tenants.helpers({
@@ -46,7 +46,12 @@ Companies.helpers({
   }
 });
 Companies.initEasySearch(['name', 'tags'], {
-  limit: 50
+  limit: 50,
+  sort: function() {
+    return {
+      'name': 1
+    };
+  }
 });
 Tags.TagsMixin(Companies);
 Collections.companies = Companies;
@@ -80,7 +85,12 @@ Contacts.helpers({
   }
 });
 Contacts.initEasySearch(['forename', 'surname', 'tags'], {
-  limit: 50
+  limit: 50,
+  sort: function() {
+    return {
+      'surname': 1
+    };
+  }
 });
 Tags.TagsMixin(Contacts);
 Collections.contacts = Contacts;

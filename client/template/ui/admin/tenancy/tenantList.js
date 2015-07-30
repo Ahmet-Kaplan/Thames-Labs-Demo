@@ -39,8 +39,13 @@ Template.tenant.events({
     Modal.show('addTenantUser', this);
   },
   "click #btnDeleteTenant": function(event, template) {
-    Tenants.remove({
-      _id: this._id
+
+    var tenantId = this._id;
+
+    bootbox.confirm("Are you sure you wish to delete this tenant?", function(result) {
+      if (result === true) {
+        Tenants.remove(tenantId);
+      }
     });
   },
   "click #btnEditSettings": function(event, template) {
@@ -66,9 +71,13 @@ Template.user.helpers({
 
 Template.user.events({
   "click #btnDeleteTenantUser": function(event, template) {
-    Meteor.call('removeUser', this._id);
-    Meteor.users.remove({
-      _id: this._id
+    var userId = this._id;
+
+    bootbox.confirm("Are you sure you wish to delete this user?", function(result) {
+      if (result === true) {
+        Meteor.call('removeUser', userId);
+        Meteor.users.remove(userId);
+      }
     });
   }
 });

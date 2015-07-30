@@ -51,7 +51,6 @@ patrickleet:tags
 blaze
 meteorhacks:ssr
 harrison:papa-parse
-matdutour:popup-confirm
 meteorhacks:flow-router
 meteorhacks:flow-layout
 useraccounts:bootstrap
@@ -63,5 +62,8 @@ velocity:console-reporter
 chart:chart
 underscore
 percolate:migrations
+gildaspk:autoform-medium
+vazco:universe-html-purifier
 jeremy:geocomplete
 matb33:collection-hooks
+mizzao:bootboxjs

@@ -67,6 +67,18 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide();
       toastr.success('Contact created.');
+    }
+  },
+  updateContactForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Contact updated.');
+    }
+  },
+  updatePurchaseOrderForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Contact created.');
       //LogEvent('info', 'Contact created.', 'Contact', this.docId);
     }
   },
@@ -317,6 +329,18 @@ AutoForm.hooks({
       Modal.hide();
       toastr.success('Purchase order activity added.');
       //LogEvent('info', 'Purchase order activity added.');
+    }
+  },
+  insertContactForm: {
+    onSuccess: function() {
+      toastr.success('Contact created.');
+      Modal.hide();
+    }
+  },
+  insertCompanyContactForm: {
+    onSuccess: function() {
+      toastr.success('Contact created.');
+      Modal.hide();
     }
   }
 });

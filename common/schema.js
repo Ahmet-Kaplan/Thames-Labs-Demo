@@ -148,6 +148,13 @@ Schemas.Company = new SimpleSchema({
     type: String,
     label: "Country"
   },
+  placeid: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
   website: {
     type: String,
     label: "Website",
@@ -222,6 +229,14 @@ Schemas.Contact = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  customFields: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
   }
 });
 Contacts.attachSchema(Schemas.Contact);
@@ -243,7 +258,19 @@ Schemas.Activity = new SimpleSchema({
   },
   activityTimestamp: {
     type: Date,
-    label: "Activity Date/Time"
+    label: "Activity Date/Time",
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          useCurrent: true,
+          sideBySide: true,
+          widgetPositioning: {
+            vertical: "top"
+          }
+        }
+      }
+    }
   },
   companyId: {
     type: String,
@@ -387,6 +414,17 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
     label: "Product Code",
     optional: true
   },
+  status: {
+    type: String,
+    allowedValues: [
+      "",
+      "Dispatched",
+      "Delivered",
+      "Cancelled"
+    ],
+    defaultValue: "",
+    optional: true
+  },
   value: {
     type: String,
     defaultValue: "0.00"
@@ -458,7 +496,10 @@ Schemas.Task = new SimpleSchema({
         dateTimePickerOptions: {
           format: 'DD/MM/YYYY HH:mm',
           useCurrent: true,
-          sideBySide: true
+          sideBySide: true,
+          widgetPositioning: {
+            vertical: 'top'
+          }
         }
       }
     }

@@ -26,7 +26,7 @@ module.exports = function() {
   this.Then(/^I should see a panel with title "([^"]*)"$/, function(panelTitle, callback) {
     this.client
       .waitForExist('#entity-custom-fields', 2000)
-      .getText('h5.panel-title=' + panelTitle)
+      .getText('.panel-heading*=' + panelTitle)
       .call(callback);
   });
 

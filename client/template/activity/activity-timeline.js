@@ -19,12 +19,24 @@ Template.activityTimeline.helpers({
       'Call': 'phone'
     };
     return icons[type];
+  },
+  content: function() {
+    return UniHTML.purify(this.notes);
   }
 });
 
 Template.activityTimeline.events({
   'click #edit-activity': function() {
     Modal.show('updateActivityModal', this);
+  },
+  'click #remove-activity': function() {
+    var activityId = this._id;
+
+    bootbox.confirm("Are you sure you wish to delete this activity?", function(result) {
+      if (result === true) {
+        Activities.remove(activityId);
+      }
+    });
   }
 })
 

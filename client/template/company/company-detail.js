@@ -72,6 +72,15 @@ Template.companyDetail.events({
     Modal.show('newCompanyPurchaseOrderForm', {
       supplierCompanyId: this._id
     });
+  },
+  'click #remove-company': function() {
+    var companyId = this._id;
+
+    bootbox.confirm("Are you sure you wish to delete this company?", function(result) {
+      if (result === true) {
+        Companies.remove(companyId);
+      }
+    });
   }
 });
 

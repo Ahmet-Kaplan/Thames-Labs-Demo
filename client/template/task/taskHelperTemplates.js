@@ -65,15 +65,23 @@ Template.taskDisplay.helpers({
   },
   tasks: function() {
     if (isDashboard()) {
-      return Tasks.find(
-        { completed: false },
-        { sort: { dueDate: 1 } }
-      );
+      return Tasks.find({
+        assigneeId: Meteor.userId(),
+        completed: false
+      }, {
+        sort: {
+          dueDate: 1
+        }
+      });
     } else {
-      return Tasks.find(
-        { entityId: this.entity_id, completed: false },
-        { sort: { dueDate: 1 } }
-      );
+      return Tasks.find({
+        entityId: this.entity_id,
+        completed: false
+      }, {
+        sort: {
+          dueDate: 1
+        }
+      });
     }
   }
 });
@@ -135,7 +143,13 @@ Template.taskDisplayItem.events({
     Modal.show('updateTask', this);
   },
   'click #btnDeleteEntityTask': function() {
-    Tasks.remove(this._id);
+    var taskId = this._id;
+
+    bootbox.confirm("Are you sure you wish to delete this task?", function(result) {
+      if (result === true) {
+        Tasks.remove(taskId);
+      }
+    });
   },
   'click .displayedTaskHeading': function() {
     $('.displayedTaskBody').scrollTop($('.displayedTaskBody').prop("scrollHeight"));
