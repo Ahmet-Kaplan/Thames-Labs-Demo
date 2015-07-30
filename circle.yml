@@ -12,3 +12,8 @@ dependencies:
     - npm install -g eslint
     - cd tests/cucumber && npm install
     - curl https://install.meteor.com/ | sh
+
+test:
+  override:
+    - eslint .
+    - meteor --test

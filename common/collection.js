@@ -630,13 +630,13 @@ Products.after.update(function(userId, doc, fieldNames, modifier, options) {
     LogEvent('info', 'An existing product has been updated: The value of "description" was changed');
   }
   if (doc.name !== this.previous.name) {
-    LogEvent('info', 'An existing project has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
+    LogEvent('info', 'An existing product has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
   }
   if (doc.cost !== this.previous.cost) {
-    LogEvent('info', 'An existing project has been updated: The value of "cost price" was changed from ' + this.previous.cost + " to " + doc.cost);
+    LogEvent('info', 'An existing product has been updated: The value of "cost price" was changed from ' + this.previous.cost + " to " + doc.cost);
   }
   if (doc.price !== this.previous.price) {
-    LogEvent('info', 'An existing project has been updated: The value of "sales price" was changed from ' + this.previous.price + " to " + doc.price);
+    LogEvent('info', 'An existing product has been updated: The value of "sales price" was changed from ' + this.previous.price + " to " + doc.price);
   }
 });
 Products.after.remove(function(userId, doc) {

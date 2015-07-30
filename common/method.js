@@ -245,7 +245,7 @@ Meteor.methods({
 });
 
 LogEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  if (Meteor.isClient) {
+  if (Meteor.isServer) {
     logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
     logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
 
