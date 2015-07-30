@@ -29,9 +29,13 @@ Template.map.onCreated(function() {
     if (loadSwitch === false) {
       var gc = new google.maps.Geocoder();
       var infowindow = new google.maps.InfoWindow();
-      if(companyData.placeid !== undefined) {
+      console.log(parseFloat(companyData.lat) + ', ' + parseFloat(companyData.lng));
+      if(companyData.lat !== undefined && companyData.lng !== undefined) {
         gc.geocode({
-          'placeId': companyData.placeid
+          'location': {
+            lat: parseFloat(companyData.lat),
+            lng: parseFloat(companyData.lng)
+          }
         }, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             pin = results[0].geometry.location;
