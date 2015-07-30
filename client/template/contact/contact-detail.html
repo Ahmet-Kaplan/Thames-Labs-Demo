@@ -25,7 +25,7 @@
 
 
             <a href="#" id="remove-contact" class="btn btn-danger btn-xs">Delete contact</a>
-             <!-- {{#afModal class="btn btn-danger btn-xs" collection="Contacts" doc=_id operation="remove"
+            <!-- {{#afModal class="btn btn-danger btn-xs" collection="Contacts" doc=_id operation="remove"
             formId="removeContactForm" onSuccess="onContactRemove"}} Delete contact {{/afModal}} -->
 
           </div>
@@ -59,15 +59,10 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
           Projects
-          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right">Add project</a>
+          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add project</a>
         </div>
         <ul class="list-group">
-          {{#each projects}}
-          <a href="{{pathFor route='project' id=_id}}" class="list-group-item">
-            <i class="fa fa-fw fa-files-o"></i> {{description}}
-            <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          </a>
-          {{else}}
+          {{#each projects}} {{> ContactProjectListItem}} {{else}}
           <li class="list-group-item">No projects</li>
           {{/each}}
         </ul>
@@ -76,7 +71,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
           Purchase Orders
-          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right">Add purchase order</a>
+          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add purchase order</a>
         </div>
         <ul class="list-group">
           {{#each purchaseOrders}}
@@ -90,9 +85,7 @@
         </ul>
       </div>
 
-      {{#with this}}
-        {{> taskDisplay entity_type="contact" entity_id=_id}}
-      {{/with}}
+      {{#with this}} {{> taskDisplay entity_type="contact" entity_id=_id}} {{/with}}
 
       <div>
         {{#with this}} {{> customFieldDisplay entity_data=this entity_type='contact'}} {{/with}}
@@ -105,11 +98,27 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a href="#" class="btn btn-primary pull-right" id="add-activity"><i class="fa fa-plus"></i> Add activity</a>
+        <a href="#" class="btn btn-primary pull-right" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
       </h1>
       {{> activityTimeline activities=activities}}
     </div>
   </div>
 
   {{> autoformModals}} {{/with}}
+</template>
+
+<template name="ContactProjectListItem">
+  <a href="{{pathFor route='project' id=_id}}" class="list-group-item">
+    <div class="row">
+      <div class="col-md-8">
+        <i class="fa fa-fw fa-files-o"></i> {{description}}
+      </div>
+      <div class="col-md-3 userDataDisplay">
+        {{#if companyProject}}<i class="fa fa-fw fa-building"></i> {{projectCompanyName}}{{/if}}
+      </div>
+      <div class="col-md-1">
+        <i class="fa fa-fw fa-chevron-right pull-right"></i>
+      </div>
+    </div>
+  </a>
 </template>

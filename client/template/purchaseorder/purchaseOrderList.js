@@ -6,9 +6,19 @@ Template.purchaseOrderList.onRendered(function() {
     }
   });
 
-  if (this.supplierContactId) {
-    Meteor.subscribe("contactById", this.supplierContactId);
-  }
+
+  // // Watch for session variable setting search
+  // Session.set('purchaseOrderListSearchQuery', null);
+  // Tracker.autorun(function() {
+  //   var searchQuery = Session.get('purchaseOrderListSearchQuery');
+  //   var easySearchInstance = EasySearch.getComponentInstance({index: 'purchaseorders'});
+  //   if (searchQuery) {
+  //     easySearchInstance.search(searchQuery);
+  //     $('.sidebar input').val(searchQuery);
+  //   }
+  // });
+
+  Meteor.subscribe("allContacts");
 });
 
 Template.purchaseOrderList.events({
@@ -24,7 +34,7 @@ Template.purchaseOrderList.helpers({
 });
 
 Template.purchaseOrderListItem.helpers({
-  companyName: function() {
+  supplierCompanyName: function() {
     var po = this;
     var comp = Companies.findOne({
       _id: po.supplierCompanyId
@@ -36,10 +46,34 @@ Template.purchaseOrderListItem.helpers({
       return null;
     }
   },
-  contactName: function() {
+  supplierContactName: function() {
     var po = this;
     var cont = Contacts.findOne({
       _id: po.supplierContactId
+    });
+
+    if (cont) {
+      return cont.forename + ' ' + cont.surname;
+    } else {
+      return null;
+    }
+  },
+  customerCompanyName: function() {
+    var po = this;
+    var comp = Companies.findOne({
+      _id: po.customerCompanyId
+    });
+
+    if (comp) {
+      return comp.name;
+    } else {
+      return null;
+    }
+  },
+  customerContactName: function() {
+    var po = this;
+    var cont = Contacts.findOne({
+      _id: po.customerContactId
     });
 
     if (cont) {

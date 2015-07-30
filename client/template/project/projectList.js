@@ -10,7 +10,9 @@ Template.projectsList.onRendered(function() {
   Session.set('projectListSearchQuery', null);
   Tracker.autorun(function() {
     var searchQuery = Session.get('projectListSearchQuery');
-    var easySearchInstance = EasySearch.getComponentInstance({index: 'projects'});
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'projects'
+    });
     if (searchQuery) {
       easySearchInstance.search(searchQuery);
       $('.sidebar input').val(searchQuery);
@@ -31,26 +33,6 @@ Template.projectsList.events({
   }
 });
 
-Template.projectCompanyListItem.helpers({
-  hasProjectsForCompany: function() {
-     var c = this;
-     return Projects.find({companyId: c._id}).count() > 0;
-  },
-  projectCount: function() {
-     var c = this;
-     return Projects.find({companyId: c._id}).count();
-  },
-  multipleProjects: function() {
-     var c = this;
-     return Projects.find({companyId: c._id}).count()> 1;
-  },
-  companyProjects: function() {
-     var c = this;
-     return Projects.find({companyId: c._id});
-  }
-});
-
-
 Template.projectListItem.helpers({
   companyName: function() {
     var project = this;
@@ -60,6 +42,18 @@ Template.projectListItem.helpers({
 
     if (comp) {
       return comp.name;
+    } else {
+      return null;
+    }
+  },
+  contactName: function() {
+    var project = this;
+    var cont = Contacts.findOne({
+      _id: project.contactId
+    });
+
+    if (cont) {
+      return cont.title + " " + cont.forename + " " + cont.surname;
     } else {
       return null;
     }

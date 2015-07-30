@@ -10,21 +10,39 @@ Template.contactDetail.onCreated(function() {
 Template.contactDetail.onRendered(function() {
   // Affix sidebar
   var sidebar = $('.sidebar');
-  sidebar.affix({offset: {top: sidebar.offset().top}});
+  sidebar.affix({
+    offset: {
+      top: sidebar.offset().top
+    }
+  });
 });
 
 Template.contactDetail.helpers({
   'contactData': function() {
     var contactId = FlowRouter.getParam('id');
-    return Contacts.findOne({_id: contactId});
+    return Contacts.findOne({
+      _id: contactId
+    });
   },
   'projects': function() {
     var contactId = FlowRouter.getParam('id');
-    return Projects.find({contactId: contactId}, {sort: {description: 1}});
+    return Projects.find({
+      contactId: contactId
+    }, {
+      sort: {
+        description: 1
+      }
+    });
   },
   'purchaseOrders': function() {
     var contactId = FlowRouter.getParam('id');
-    return PurchaseOrders.find({supplierContactId: contactId}, {sort: {description: 1}});
+    return PurchaseOrders.find({
+      supplierContactId: contactId
+    }, {
+      sort: {
+        description: 1
+      }
+    });
   }
 });
 
@@ -52,12 +70,12 @@ Template.contactDetail.events({
     var company = this.company();
     if (company === undefined) {
       Modal.show('newContactPurchaseOrderForm', {
-        supplierContactId: this._id
+        customerContactId: this._id
       });
     } else {
       Modal.show('newContactPurchaseOrderForm', {
-        supplierCompanyId: company._id,
-        supplierContactId: this._id
+        customerCompanyId: company._id,
+        customerContactId: this._id
       });
     }
   },
@@ -69,5 +87,15 @@ Template.contactDetail.events({
         Contacts.remove(contactId);
       }
     });
+  }
+});
+
+Template.ContactProjectListItem.helpers({
+  companyProject: function() {
+    return (this.companyId ? true : false);
+  },
+  projectCompanyName: function() {
+    var company = Companies.findOne(this.companyId);
+    return company.name;
   }
 });

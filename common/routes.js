@@ -1,13 +1,13 @@
 var subs = new SubsManager(),
-    group = Partitioner.group(),
-    router = FlowRouter,
-    layout = FlowLayout;
+  group = Partitioner.group(),
+  router = FlowRouter,
+  layout = FlowLayout;
 
 // These are route trigger functions
 // They're used for before / after actions on routes
 var superAdminOnly = function(context, redirect) {
   var user = Meteor.user();
-  if (user !== undefined && !Roles.userIsInRole(user, 'superadmin') ) {
+  if (user !== undefined && !Roles.userIsInRole(user, 'superadmin')) {
     redirect('dashboard');
   }
 };
@@ -37,14 +37,16 @@ router.triggers.exit(tidyUpModals);
 // These are global subscriptions
 // Since they're global there's no need to use SubsManager
 router.subscriptions = function() {
-    this.register('userPresence', Meteor.subscribe('userPresence'));
-    this.register('allNotifications', Meteor.subscribe('allNotifications'));
-    this.register('allFeatures', Meteor.subscribe('allFeatures'));
+  this.register('userPresence', Meteor.subscribe('userPresence'));
+  this.register('allNotifications', Meteor.subscribe('allNotifications'));
+  this.register('allFeatures', Meteor.subscribe('allFeatures'));
 };
 
 router.notFound = {
   action: function() {
-    layout.render('appLayout', { main: 'placeholder' });
+    layout.render('appLayout', {
+      main: 'placeholder'
+    });
   }
 };
 
@@ -56,7 +58,9 @@ router.route('/tenants', {
     this.register('allUserData', subs.subscribe('allUserData'));
   },
   action: function() {
-    layout.render('appLayout', { main: "tenantList" });
+    layout.render('appLayout', {
+      main: "tenantList"
+    });
   }
 });
 
@@ -68,7 +72,9 @@ router.route('/notifications', {
     this.register('allFeatures', subs.subscribe('allFeatures'));
   },
   action: function() {
-    layout.render('appLayout', { main: "notificationAdmin" });
+    layout.render('appLayout', {
+      main: "notificationAdmin"
+    });
   }
 });
 
@@ -80,7 +86,9 @@ router.route('/statistics', {
     this.register('allUserData', subs.subscribe('allUserData'));
   },
   action: function() {
-    layout.render('appLayout', { main: "adminStatistics" });
+    layout.render('appLayout', {
+      main: "adminStatistics"
+    });
   }
 });
 
@@ -91,7 +99,9 @@ router.route('/sign-up', {
     if (Meteor.userId()) {
       redirect('dashboard');
     }
-    layout.render('signUpLayout', { main: "signUp" });
+    layout.render('signUpLayout', {
+      main: "signUp"
+    });
   }
 });
 
@@ -105,7 +115,9 @@ router.route('/', {
     this.register('allUserTasks', subs.subscribe('allUserTasks', Meteor.userId()));
   },
   action: function() {
-    layout.render('appLayout', { main: "dashboard" });
+    layout.render('appLayout', {
+      main: "dashboard"
+    });
   }
 });
 
@@ -115,7 +127,9 @@ router.route('/companies', {
     this.register('allCompanies', subs.subscribe('allCompanies'));
   },
   action: function() {
-    layout.render('appLayout', { main: 'companyList' });
+    layout.render('appLayout', {
+      main: 'companyList'
+    });
   }
 });
 
@@ -132,7 +146,9 @@ router.route('/companies/:id', {
     this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
   },
   action: function() {
-    layout.render('appLayout', { main: 'companyDetail' });
+    layout.render('appLayout', {
+      main: 'companyDetail'
+    });
   }
 });
 
@@ -143,7 +159,9 @@ router.route('/contacts', {
     this.register('allCompanies', subs.subscribe('allCompanies'));
   },
   action: function() {
-    layout.render('appLayout', { main: 'contactList' });
+    layout.render('appLayout', {
+      main: 'contactList'
+    });
   }
 });
 
@@ -159,7 +177,9 @@ router.route('/contacts/:id', {
     this.register('contactTags', subs.subscribe('contactTags'));
   },
   action: function() {
-    layout.render('appLayout', { main: 'contactDetail' });
+    layout.render('appLayout', {
+      main: 'contactDetail'
+    });
   }
 });
 
@@ -171,7 +191,9 @@ router.route('/projects', {
     this.register('allCompanies', subs.subscribe('allCompanies'));
   },
   action: function() {
-    layout.render('appLayout', { main: 'projectsList' });
+    layout.render('appLayout', {
+      main: 'projectsList'
+    });
   }
 });
 
@@ -186,7 +208,9 @@ router.route('/projects/:id', {
     this.register('projectTags', subs.subscribe('projectTags'));
   },
   action: function() {
-    layout.render('appLayout', { main: 'projectDetail' });
+    layout.render('appLayout', {
+      main: 'projectDetail'
+    });
   }
 });
 
@@ -195,9 +219,13 @@ router.route('/purchaseorders', {
   subscriptions: function() {
     this.register('allPurchaseOrders', subs.subscribe('allPurchaseOrders'));
     this.register('allCompanies', subs.subscribe('allCompanies'));
+    this.register('allProjects', subs.subscribe('allProjects'));
+    this.register('allContacts', subs.subscribe('allContacts'));
   },
   action: function() {
-    layout.render('appLayout', { main: 'purchaseOrderList' });
+    layout.render('appLayout', {
+      main: 'purchaseOrderList'
+    });
   }
 });
 
@@ -214,7 +242,9 @@ router.route('/purchaseorders/:id', {
     // this.register('purchaseOrderTags', subs.subscribe('purchaseOrderTags'));
   },
   action: function() {
-    layout.render('appLayout', { main: 'purchaseOrderDetail' });
+    layout.render('appLayout', {
+      main: 'purchaseOrderDetail'
+    });
   }
 });
 
@@ -224,7 +254,9 @@ router.route('/tasks', {
     this.register('allUserTasks', subs.subscribe('allUserTasks', Meteor.userId()));
   },
   action: function() {
-    layout.render('appLayout', { main: 'taskList' });
+    layout.render('appLayout', {
+      main: 'taskList'
+    });
   }
 });
 
@@ -235,7 +267,9 @@ router.route('/datamanagement', {
     this.register('allContacts', subs.subscribe('allContacts', Meteor.userId()));
   },
   action: function() {
-    layout.render('appLayout', { main: 'datamanagement' });
+    layout.render('appLayout', {
+      main: 'datamanagement'
+    });
   }
 });
 

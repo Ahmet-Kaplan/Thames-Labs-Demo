@@ -12,10 +12,14 @@
           {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description"}}
             {{> afQuickField name="supplierCompanyId" id="selectedSupplier" options=companiesAsOptions}}
-            {{#if showContacts}}
-              {{> afQuickField name="supplierContactId" id="companyContacts" options=contactsAsOptions }}
+            {{#if showSupplierContacts}}
+              {{> afQuickField name="supplierContactId" id="selectedSupplierContact" options=supplierContactsAsOptions }}
             {{/if}}
-            {{> afQuickField name="projectId" options=projectsAsOptions }}
+            {{> afQuickField name="customerCompanyId" id="selectedCustomer" options=companiesAsOptions}}
+            {{> afQuickField name="customerContactId" id="companyContacts" options=contactsAsOptions }}
+            {{#if showProjects}}
+              {{> afQuickField name="projectId" options=projectsAsOptions }}
+            {{/if}}
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed"}}
@@ -47,11 +51,15 @@
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description"}}
-            {{> afQuickField name="supplierCompanyId" id="selectedSupplier" options=companiesAsOptions value=supplierCompanyId type="hidden"}}
-            {{#if showContacts}}
-              {{> afQuickField name="supplierContactId" id="companyContacts" options=contactsAsOptions }}
+            {{> afQuickField name="supplierCompanyId" id="selectedSupplier" options=companiesAsOptions }}
+            {{#if showSupplierContacts}}
+              {{> afQuickField name="supplierContactId" id="selectedSupplierContact" options=supplierContactsAsOptions }}
             {{/if}}
+            {{> afQuickField name="customerCompanyId" id="selectedCustomer" options=companiesAsOptions value=customerCompanyId type="hidden"}}
+
+            {{> afQuickField name="customerContactId" id="companyContacts" options=contactsAsOptions }}
             {{> afQuickField name="projectId" options=projectsAsOptions }}
+
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed"}}
@@ -60,9 +68,7 @@
             {{> afQuickField name="notes"}}
             {{> afQuickField name="createdBy" value=currentUser }}
 
-            <h4>
-              <span class="label label-success center-block">Items can be added in the Purchase Order Details screen </span>
-            </h4>
+            <p>Items can be added on the purchase order details page</p>
             <br />
 
             <button type="submit" class="btn btn-primary">Create</button>
@@ -88,8 +94,13 @@
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description"}}
-            {{> afQuickField name="supplierCompanyId" type="hidden"}}
-            {{> afQuickField name="supplierContactId" id="companyContacts" value=supplierContactId type="hidden" }}
+            <!-- {{> afQuickField name="supplierCompanyId" type="hidden"}} -->
+            {{> afQuickField name="supplierCompanyId" id="selectedSupplier" options=companiesAsOptions }}
+            {{#if showSupplierContacts}}
+              {{> afQuickField name="supplierContactId" id="selectedSupplierContact" options=supplierContactsAsOptions }}
+            {{/if}}
+            {{> afQuickField name="customerCompanyId" type="hidden"}}
+            {{> afQuickField name="customerContactId" id="companyContacts" value=customerContactId type="hidden" }}
             {{> afQuickField name="projectId" options=projectsAsOptions }}
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
@@ -99,9 +110,7 @@
             {{> afQuickField name="notes"}}
             {{> afQuickField name="createdBy" value=currentUser }}
 
-            <h4>
-              <span class="label label-success center-block">Items can be added in the Purchase Order Details screen </span>
-            </h4>
+            <p>Items can be added on the purchase order details page</p>
             <br />
 
             <button type="submit" class="btn btn-primary">Create</button>
@@ -126,11 +135,15 @@
           {{#autoForm collection="PurchaseOrders" id="updatePurchaseOrderForm" type="update" doc=this}}
 
             {{> afQuickField name="description"}}
-            {{> afQuickField name="supplierCompanyId" id="selectedSupplier" options=companiesAsOptions}}
-            {{#if showContacts}}
-              {{> afQuickField  name="supplierContactId" id="companyContacts" options=contactsAsOptions }}
+            {{> afQuickField name="supplierCompanyId" id="selectedSupplier" options=companiesAsOptions value=supplierCompanyId }}
+            {{#if showSupplierContacts}}
+              {{> afQuickField name="supplierContactId" id="selectedSupplierContact" options=supplierContactsAsOptions }}
             {{/if}}
-            {{> afQuickField name="projectId" options=projectsAsOptions }}
+            {{> afQuickField name="customerCompanyId" id="selectedCustomer" options=companiesAsOptions}}
+            {{#if showContacts}}
+              {{> afQuickField  name="customerContactId" id="companyContacts" options=contactsAsOptions }}
+              {{> afQuickField name="projectId" options=projectsAsOptions }}
+            {{/if}}
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="status" options="allowed"}}
             {{> afQuickField name="paymentMethod" options="allowed"}}
