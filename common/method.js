@@ -233,7 +233,7 @@ LogEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
   logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
   logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
 
-  var group = Meteor.users.findOne(Meteor.userId()).group;
+  var group = (Meteor.userId() ? Meteor.users.findOne(Meteor.userId()).group : undefined);
 
   AuditLog.insert({
     source: 'client',
