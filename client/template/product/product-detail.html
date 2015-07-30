@@ -66,8 +66,8 @@
 
         <div class="modal-body">
           {{#autoForm collection="Products" id="updateProductForm" type="update" doc=this}}
-            {{> afQuickField name="name"}}
-            {{> afQuickField name="description" type="medium" class="form-control medium-editor"}}
+            {{> afQuickField name="name" id="name-field"}}
+            {{> afQuickField name="description" id="desc-field" type="medium" class="form-control medium-editor"}}
             {{> afQuickField name="price"}}
             {{> afQuickField name="cost"}}
             <button type="submit" class="btn btn-primary">Update</button>

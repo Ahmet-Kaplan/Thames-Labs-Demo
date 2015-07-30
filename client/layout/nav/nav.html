@@ -159,7 +159,7 @@
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
-                <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
+                <a href='/companies' class="dismiss-on-click {{#if isActiveRoute 'companies'}}active{{/if}}">
                   <i class="fa fa-fw fa-building"></i> Companies
                 </a>
               </h4>
@@ -169,7 +169,7 @@
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
-                <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
+                <a href='/contacts' class="dismiss-on-click {{#if isActiveRoute 'contacts'}}active{{/if}}">
                   <i class="fa fa-fw fa-user"></i> Contacts
                 </a>
               </h4>
@@ -180,7 +180,8 @@
             <td class="panel-heading">
               <h4 class="panel-title">
                 <i class="fa fa-fw fa-check"></i>
-                <a href='/tasks' class="{{#if isActiveRoute 'tasks'}}active{{/if}}">Tasks
+                <a href='/tasks' class="dismiss-on-click {{#if isActiveRoute 'tasks'}}active{{/if}}">
+                  Tasks
                   </a>
               </h4>
             </td>

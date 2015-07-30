@@ -14,12 +14,6 @@ Feature: Allow users to manage their Products
     Then I should see the heading "Products"
 
   @dev
-  Scenario: A user can open the "Add Product" modal
-    When I navigate to "/products"
-    And I click "#add-product"
-    Then I should see a modal
-
-  @dev
   Scenario: A user can add a product
     When I navigate to "/products"
     And I click "#add-product"

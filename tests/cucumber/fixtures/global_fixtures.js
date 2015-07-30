@@ -64,6 +64,7 @@ Meteor.methods({
   },
   'createTestProduct': function() {
     var data = "";
+    Products.remove({});
     Products.insert({
       name: 'test product',
       description: 'test description',
@@ -76,6 +77,9 @@ Meteor.methods({
       }
     });
     return data;
+  },
+  'getProductByName': function(name) {
+    return Products.findOne({name: name});
   },
 });
 
