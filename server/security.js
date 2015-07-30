@@ -33,3 +33,5 @@ Tasks.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 Chatterbox.permit(['insert']).ifLoggedIn().apply();
 
 Features.permit(['insert', 'update', 'remove']).ifHasRole('superadmin').apply();
+
+Products.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();

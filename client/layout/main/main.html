@@ -16,30 +16,36 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="/favicon.ico" rel="icon" sizes="16x16 32x32">
+
+  <link rel="stylesheet" href="/vendor/hopscotch/hopscotch.css"></link>
+  <script src="/vendor/hopscotch/hopscotch.js"></script>
 </head>
 
 <template name="appLayout">
 
-  {{#if maintenanceMode}}
-    {{> maintenance}}
-  {{else}}
+  {{#if maintenanceMode}} {{> maintenance}} {{else}}
 
     <div class="container-fluid">
-      {{> nav}}
-      {{#if currentUser}}
-        <div id="id-view-content" class="{{hasMenuClass}}">
+      <div id="id-view-content" class="{{hasMenuClass}}">
+        {{> nav}}
+
+        {{#if currentUser}}
           {{#if subsReady}}
             {{> Template.dynamic template=main}}
           {{else}}
             {{> loading}}
           {{/if}}
-          {{> footer}}
-        </div>
-      {{else}}
-        {{>login}}
-      {{/if}}
-    </div>
+        {{else}}
+          {{#if loggingIn}}
+            {{> loading}}
+          {{else}}
+            {{>login}}
+          {{/if}}
+        {{/if}}
 
+        {{> footer}}
+      </div>
+    </div>
   {{/if}}
 
 </template>

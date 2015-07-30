@@ -13,7 +13,6 @@
           {{/if}}
           <a class="navbar-brand" href="/">
             <img alt="" src="/icon.svg">RealTime<span>CRM</span>
-            <small>alpha</small>
           </a>
         </div>
         {{#if loggedIn}}
@@ -43,7 +42,7 @@
             <li>{{> atNavButton}}</li>
             {{/if}} {{#unless isInRole 'superadmin'}}
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="quick-create-menu">
                 <i class="fa fa-fw fa-plus"></i> Quick Menu
                 <span class="caret"></span>
               </a>
@@ -67,12 +66,14 @@
                 <li role="separator" class="divider"></li>
                 <li><a href="#" id="btnChangePassword">Change Password</a></li>
                 <li role="separator" class="divider"></li>
+                <li><a href="#" id="tour-this-page">Tell me about this page</a></li>
+                <li role="separator" class="divider"></li>
                 <li><a href="#" id="sign-out">Sign Out</a></li>
               </ul>
             </li>
 
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="notifications-menu">
                 {{#if recentNote}}
                 <i class="fa fa-fw fa-bell"></i> {{recentNoteCount}}
                 {{else}}
@@ -159,7 +160,7 @@
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
-                <a href='/companies' class="{{#if isActiveRoute 'companies'}}active{{/if}}">
+                <a href='/companies' class="dismiss-on-click {{#if isActiveRoute 'companies'}}active{{/if}}">
                   <i class="fa fa-fw fa-building"></i> Companies
                 </a>
               </h4>
@@ -169,7 +170,7 @@
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
-                <a href='/contacts' class="{{#if isActiveRoute 'contacts'}}active{{/if}}">
+                <a href='/contacts' class="dismiss-on-click {{#if isActiveRoute 'contacts'}}active{{/if}}">
                   <i class="fa fa-fw fa-user"></i> Contacts
                 </a>
               </h4>
@@ -180,7 +181,8 @@
             <td class="panel-heading">
               <h4 class="panel-title">
                 <i class="fa fa-fw fa-check"></i>
-                <a href='/tasks' class="{{#if isActiveRoute 'tasks'}}active{{/if}}">Tasks
+                <a href='/tasks' class="dismiss-on-click {{#if isActiveRoute 'tasks'}}active{{/if}}">
+                  Tasks
                   </a>
               </h4>
             </td>
@@ -203,7 +205,7 @@
             <table class="table">
               <tr>
                 <td>
-                  <a href='/campaigns' class="not-active {{#if isActiveRoute 'campaigns'}}active{{/if}}">
+                  <a class="not-active {{#if isActiveRoute 'campaigns'}}active{{/if}}">
                     <i class="fa fa-fw fa-flag"></i> Campaigns</a>
                 </td>
               </tr>
@@ -227,7 +229,7 @@
             <table class="table">
               <tr>
                 <td>
-                  <a href='/opportunities' class="not-active {{#if isActiveRoute 'opportunities'}}active{{/if}}">
+                  <a class="not-active {{#if isActiveRoute 'opportunities'}}active{{/if}}">
                     <i class="fa fa-fw fa-files-o"></i> Opportunities</a>
                 </td>
               </tr>
@@ -285,7 +287,7 @@
               </tr> -->
               <tr>
                 <td>
-                  <a href='/procurements' class="not-active {{#if isActiveRoute 'procurements'}}active{{/if}}">
+                  <a class="not-active {{#if isActiveRoute 'procurements'}}active{{/if}}">
                     <i class="fa fa-fw fa-list"></i> Procurements</a>
                 </td>
               </tr>
@@ -297,13 +299,13 @@
               </tr>
               <tr>
                 <td>
-                  <a href='/contracts' class="not-active {{#if isActiveRoute 'contracts'}}active{{/if}}">
+                  <a class="not-active {{#if isActiveRoute 'contracts'}}active{{/if}}">
                     <i class="fa fa-fw fa-pencil"></i> Contracts</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <a href='/invoices' class="not-active {{#if isActiveRoute 'invoices'}}active{{/if}}">
+                  <a class="not-active {{#if isActiveRoute 'invoices'}}active{{/if}}">
                     <i class="fa fa-fw fa-money"></i> Invoices</a>
                 </td>
               </tr>
@@ -326,7 +328,7 @@
             <table class="table">
               <tr>
                 <td>
-                  <a href='/tickets' class="not-active {{#if isActiveRoute 'tickets'}}active{{/if}}">
+                  <a class="not-active {{#if isActiveRoute 'tickets'}}active{{/if}}">
                     <i class="fa fa-fw fa-ticket"></i> Tickets</a>
                 </td>
               </tr>
@@ -349,7 +351,7 @@
             <table class="table">
               <tr>
                 <td>
-                  <a href='/auditlog' class="not-active {{#if isActiveRoute 'auditlog'}}active{{/if}}">
+                  <a class="not-active {{#if isActiveRoute 'auditlog'}}active{{/if}}">
                     <i class="fa fa-fw fa-bookmark"></i> Audit Log</a>
                 </td>
               </tr>
@@ -372,25 +374,25 @@
             <table class="table">
               <tr>
                 <td>
-                  <a href='/employees' class="not-active {{#if isActiveRoute 'employees'}}active{{/if}}">
+                  <a class="not-active {{#if isActiveRoute 'employees'}}active{{/if}}">
                     <i class="fa fa-fw fa-users"></i> Employees</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <a href='/holidays' class="not-active {{#if isActiveRoute 'holidays'}}active{{/if}}">
+                  <a class="not-active {{#if isActiveRoute 'holidays'}}active{{/if}}">
                     <i class="fa fa-fw fa-plane"></i> Holidays</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <a href='/absences' class="not-active {{#if isActiveRoute 'absences'}}active{{/if}}">
+                  <a class="not-active {{#if isActiveRoute 'absences'}}active{{/if}}">
                     <i class="fa fa-fw fa-user-md"></i> Absences</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <a href='/timesheets' class="not-active {{#if isActiveRoute 'timesheets'}}active{{/if}}">
+                  <a class="not-active {{#if isActiveRoute 'timesheets'}}active{{/if}}">
                     <i class="fa fa-fw fa-clock-o"></i> Timesheets</a>
                 </td>
               </tr>
@@ -413,20 +415,14 @@
             <table class="table">
               <tr>
                 <td>
-                  <a href='/templates' class="not-active {{#if isActiveRoute 'templates'}}active{{/if}}">
+                  <a class="not-active {{#if isActiveRoute 'templates'}}active{{/if}}">
                     <i class="fa fa-fw fa-file-text"></i> Templates</a>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <a href='/products' class="not-active {{#if isActiveRoute 'products'}}active{{/if}}">
+                  <a href='/products' class="{{#if isActiveRoute 'products'}}active{{/if}}">
                     <i class="fa fa-fw fa-wrench"></i> Products</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a href='/components' class="not-active {{#if isActiveRoute 'components'}}active{{/if}}">
-                    <i class="fa fa-fw fa-cogs"></i> Components</a>
                 </td>
               </tr>
               <tr>

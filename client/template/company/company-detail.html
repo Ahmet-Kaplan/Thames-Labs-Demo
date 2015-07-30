@@ -4,7 +4,7 @@
     <div class="col-md-2 hidden-sm hidden-xs">
       <div class="sidebar">
 
-        <h1>Actions</h1>
+        <h1 id="action-side-bar">Actions</h1>
 
         <ul class="nav nav-stacked">
           <li><a href="#company-details">Company details</a></li>
@@ -31,10 +31,10 @@
 
     <div class="col-md-6">
       <h1 id="company-details">Company: {{name}}</h1>
-
+      
       {{> tagInput}}
 
-      <div class="panel panel-default">
+      <div class="panel panel-default" id="company-details-panel">
         <div class="panel-heading">
           <div class="btn-group pull-right">
             {{#afModal class="btn btn-info btn-xs" collection="Companies" doc=_id operation="update" formId="updateCompanyForm" omitFields="tags, tagGroups"}} Edit company details {{/afModal}}
@@ -123,15 +123,16 @@
     <div class="col-md-4">
       <h1>Address</h1>
       <div class="thumbnail">
-        {{#if isDesktop}} {{> map data=this}} {{/if}} {{#if isPhone}}
-        <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}"> {{/if}}
+        {{#if isDesktop}} {{> map data=this}} {{/if}} 
+        {{#if isPhone}}
+        <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}" /> {{/if}}
         <div class="caption">
           <address>
             <strong>{{name}}</strong>
             <br /> {{address}}
-            <br /> {{#if address2}}{{address2}}
-            <br />{{/if}} {{city}}
-            <br /> {{county}}
+            {{#if address2}} <br /> {{address2}} {{/if}}
+            <br /> {{city}}
+            {{#if county}} <br /> {{county}} {{/if}}
             <br /> {{postcode}}
             <br /> {{country}}
           </address>

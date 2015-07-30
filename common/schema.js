@@ -148,10 +148,18 @@ Schemas.Company = new SimpleSchema({
     type: String,
     label: "Country"
   },
+  placeid: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
   website: {
     type: String,
     label: "Website",
-    optional: true,
+    // optional: true,
+    defaultValue: "http://",
     regEx: SimpleSchema.RegEx.Url
   },
   phone: {
@@ -589,3 +597,30 @@ Schemas.Feature = new SimpleSchema({
   }
 });
 Features.attachSchema(Schemas.Feature);
+
+//Products
+Schemas.Product = new SimpleSchema({
+  name: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  price: {
+    type: Number,
+    optional: true,
+    label: "Sales Price"
+  },
+  cost: {
+    type: Number,
+    optional: true,
+    label: "Cost Price"
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  }
+});
+Products.attachSchema(Schemas.Product);

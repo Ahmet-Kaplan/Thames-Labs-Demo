@@ -185,6 +185,21 @@ Meteor.methods({
 
       Partitioner.setUserGroup(userId, tenantId);
 
+      Partitioner.bindGroup(tenantId, function() {
+        Companies.insert({
+          name: "Cambridge Software Ltd.",
+          address: "St. John's Innovation Centre",
+          address2: "Cowley Road",
+          city: "Cambridge",
+          county: "Cambridgeshire",
+          postcode: "CB4 0WS",
+          country: "United Kingdom",
+          website: 'http://www.cambridgesoftware.co.uk',
+          phone: '01223 802 900',
+          createdBy: userId
+        });
+      });
+
       SSR.compileTemplate('emailText', Assets.getText('emailtemplate.html'));
       Template.emailText.helpers({
         getDoctype: function() {
