@@ -15,7 +15,7 @@
               <label for="geo" class="control-label">Search for Address, City, etc.</label>
               <input type="text" id="geo" class="form-control" autocomplete="off" />
             </div>
-            <div id="address_details" style="display:none;">
+            <div id="address_details" style="display: none;">
               {{> afQuickField name="address" id="formatted_address"}}
               {{> afQuickField name="address2"}}
               {{> afQuickField name="city" data-geo="locality"}}
@@ -24,7 +24,13 @@
               {{> afQuickField name="country" data-geo="country"}}
               {{> afQuickField name="lat" data-geo="lat"}}
               {{> afQuickField name="lng" data-geo="lng"}}
-              <div id="map_canvas"></div>
+              {{#if isDesktop}} 
+              <div id="map_wrapper" class="form-group" style="display: none;">
+                <label class="control-label">Map (drag marker to adjust position)</label>
+                <div id="map_canvas"></div>
+                <span class="help-block"></span>
+              </div>
+              {{/if}}
             </div>
             {{> afQuickField name="website"}}
             {{> afQuickField name="phone"}}

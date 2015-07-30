@@ -38,21 +38,24 @@ Template.insertNewCompanyModal.onRendered(function() {
         }
         $("#formatted_address").val(address);
         $("#address_details").show();
-        $("#map_canvas").height("400px");
-        // updateMap(result.geometry.location);
-        var map = new google.maps.Map(document.getElementById("map_canvas"), {
-          zoom: 16,
-          center: result.geometry.location
-        });
-        var marker = new google.maps.Marker({
-          map: map,
-          position: result.geometry.location,
-          draggable: true
-        });
-        google.maps.event.addListener(marker, "dragend", function(event) {
-          $("input[name=lat]").val(marker.getPosition().G);
-          $("input[name=lng]").val(marker.getPosition().K);
-        });
+        if(Meteor.Device.isDesktop()) {
+          $("#map_wrapper").show();
+          $("#map_canvas").height("400px");
+          var map = new google.maps.Map(document.getElementById("map_canvas"), {
+            zoom: 16,
+            center: result.geometry.location,
+            scrollwheel: false
+          });
+          var marker = new google.maps.Marker({
+            map: map,
+            position: result.geometry.location,
+            draggable: true
+          });
+          google.maps.event.addListener(marker, "dragend", function(event) {
+            $("input[name=lat]").val(marker.getPosition().G);
+            $("input[name=lng]").val(marker.getPosition().K);
+          });
+        }
       }).bind("geocode:error", function(event) {
         $("#address_details").show();
       });
