@@ -595,12 +595,12 @@ Schemas.Product = new SimpleSchema({
   price: {
     type: Number,
     optional: true,
-    label: "Price"
+    label: "Sales Price"
   },
   cost: {
     type: Number,
     optional: true,
-    label: "Cost"
+    label: "Cost Price"
   },
   createdBy: {
     type: String,

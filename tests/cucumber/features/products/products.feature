@@ -8,26 +8,22 @@ Feature: Allow users to manage their Products
     Given I am a logged in user
     And a product has been created
 
-  @dev
   Scenario: A user can see the products list
     When I navigate to "/products"
     Then I should see the heading "Products"
 
-  @dev
   Scenario: A user can add a product
     When I navigate to "/products"
     And I click "#add-product"
     And I enter product details
     Then a new product should exist
 
-  @dev
   Scenario: A user can edit a product
     When I navigate to a product page
     And I click "#edit-product"
     And I enter updated product details
     Then I should see the updated product
 
-  @dev
   Scenario: A user can delete a product
     When I navigate to a product page
     And I delete a product
