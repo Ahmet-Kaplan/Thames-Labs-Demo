@@ -27,19 +27,32 @@ Template.map.onCreated(function() {
     // google.maps.event.addListener(map.instance, 'idle', function(event) {
 
     if (loadSwitch === false) {
-      var gc = new google.maps.Geocoder();
       var infowindow = new google.maps.InfoWindow();
-      console.log(parseFloat(companyData.lat) + ', ' + parseFloat(companyData.lng));
       if(companyData.lat !== undefined && companyData.lng !== undefined) {
+        var location = {
+              lat: parseFloat(companyData.lat),
+              lng: parseFloat(companyData.lng)
+            }
+        var marker = new google.maps.Marker( {
+          map: map.instance,
+          position: location,
+          title: companyData.name
+        });
+        marker.setMap(map.instance);
+        infowindow.setContent(companyData.name);
+        infowindow.open(map.instance, marker);
+        map.instance.panTo(location);
+        map.instance.setZoom(16);
+        loadSwitch = true;
+      }else {
+        var gc = new google.maps.Geocoder();
         gc.geocode({
-          'location': {
-            lat: parseFloat(companyData.lat),
-            lng: parseFloat(companyData.lng)
-          }
+          'address': companyData.address + companyData.postcode + companyData.city + companyData.country
         }, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             pin = results[0].geometry.location;
             if (pin !== null) {
+              var point = new google.maps.LatLng(pin.G, pin.K);
               var marker = new google.maps.Marker( {
                 map: map.instance,
                 position: pin,
@@ -48,26 +61,8 @@ Template.map.onCreated(function() {
               marker.setMap(map.instance);
               infowindow.setContent(companyData.name);
               infowindow.open(map.instance, marker);
-              var point = new google.maps.LatLng(pin.G, pin.K);
               map.instance.panTo(point);
               map.instance.setZoom(16);
-
-              loadSwitch = true;
-            }
-          }
-        });
-      }else {
-        gc.geocode({
-          'address': companyData.address + companyData.postcode + companyData.city + companyData.country
-        }, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            pin = results[0].geometry.location;
-            if (pin !== null) {
-              var point = new google.maps.LatLng(pin.G, pin.K);
-
-              map.instance.panTo(point);
-              map.instance.setZoom(16);
-
               loadSwitch = true;
             }
           }

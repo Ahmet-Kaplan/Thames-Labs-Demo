@@ -81,9 +81,6 @@ Template.companyDetail.events({
         Companies.remove(companyId);
       }
     });
-  },
-  'click #update-company': function() {
-    Modal.show('updateCompanyModal', this);
   }
 });
 
