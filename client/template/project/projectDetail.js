@@ -49,4 +49,13 @@ Template.projectDetail.events({
   'click #edit-project': function() {
     Modal.show('updateProjectForm', this);
   },
+  'click #remove-project': function() {
+    var projectId = this._id;
+
+    bootbox.confirm("Are you sure you wish to delete this project?", function(result) {
+      if (result === true) {
+        Projects.remove(projectId);
+      }
+    });
+  }
 });

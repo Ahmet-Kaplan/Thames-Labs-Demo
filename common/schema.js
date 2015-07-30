@@ -148,6 +148,13 @@ Schemas.Company = new SimpleSchema({
     type: String,
     label: "Country"
   },
+  placeid: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
   website: {
     type: String,
     label: "Website",
@@ -230,6 +237,14 @@ Schemas.Contact = new SimpleSchema({
   },
   createdBy: {
     type: String,
+    autoform: {
+      type: "hidden"
+    }
+  },
+  customFields: {
+    type: Object,
+    blackbox: true,
+    optional: true,
     autoform: {
       type: "hidden"
     }

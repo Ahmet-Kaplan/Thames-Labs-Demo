@@ -35,6 +35,12 @@ AutoForm.hooks({
       toastr.success('Activity updated.');
     }
   },
+  updateContactForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Contact updated.');
+    }
+  },
   updatePurchaseOrderForm: {
     onSuccess: function() {
       Modal.hide();
