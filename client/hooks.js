@@ -21,9 +21,9 @@ Accounts.onLogin(function(cb) {
           profile: profile
         }
       });
-    }
 
-    LogEvent("info", profile.name + " logged in.");
+      LogEvent("info", profile.name + " logged in.");
+    }
   }
 
   FlowRouter.reload();

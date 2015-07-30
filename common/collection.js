@@ -443,7 +443,9 @@ Activities.after.insert(function(userId, doc) {
     entityName = "Purchase Order: " + entity.description;
   }
 
-  LogEvent('info', 'A new activity has been created: ' + doc.notes + ' (' + entityName + ")");
+  var content = UniHTML.purify(doc.notes);
+
+  LogEvent('info', 'A new activity has been created: ' + content + ' (' + entityName + ")");
 });
 Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
   var entity;
@@ -469,7 +471,9 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
     LogEvent('info', 'An existing activity has been updated: The value of "type" was changed from ' + this.previous.type + " to " + doc.type + ' (' + entityName + ")");
   }
   if (doc.notes !== this.previous.notes) {
-    LogEvent('info', 'An existing activity has been updated: The value of "notes" was changed from ' + this.previous.notes + " to " + doc.notes + ' (' + entityName + ")");
+    var content = UniHTML.purify(doc.notes);
+    var oldContent = UniHTML.purify(this.previous.notes);
+    LogEvent('info', 'An existing activity has been updated: The value of "notes" was changed. (' + entityName + ")");
   }
   if (doc.activityTimestamp !== this.previous.activityTimestamp) {
     LogEvent('info', 'An existing activity has been updated: The value of "activityTimestamp" was changed from ' + this.previous.activityTimestamp + " to " + doc.activityTimestamp + ' (' + entityName + ")");
@@ -477,7 +481,8 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 Activities.after.remove(function(userId, doc) {
   var currentPurchaseOrder = PurchaseOrders.findOne(doc.purchaseOrderId);
-  LogEvent('info', 'An existing activity has been deleted: ' + doc.notes + ' (' + currentPurchaseOrder.description + ")");
+  var content = UniHTML.purify(doc.notes);
+  LogEvent('info', 'An existing activity has been deleted: ' + content + ' (' + currentPurchaseOrder.description + ")");
 });
 
 

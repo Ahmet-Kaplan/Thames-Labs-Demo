@@ -25,7 +25,6 @@ Template.auditLogEntry.helpers({
 
       var u = Meteor.users.findOne(this.user);
       if (u) {
-        console.log(u);
         return u.profile.name + " [" + Tenants.findOne(u.group).name + "]";
       }
     }

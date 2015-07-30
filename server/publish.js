@@ -21,9 +21,19 @@ Meteor.publish("auditData", function() {
   }
 });
 
-Meteor.publish("groupdedAuditData", function(groupId) {
+Meteor.publish("groupedAuditData", function(userId) {
+  var group = null;
+
+  var ux = Meteor.users.find({
+    _id: userId
+  }).fetch()[0];
+  if (ux) {
+    group = ux.group;
+  }
+
+  console.log("Group: " + group);
   return AuditLog.find({
-    groupId: groupId
+    groupId: group
   });
 });
 
