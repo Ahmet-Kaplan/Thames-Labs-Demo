@@ -471,8 +471,6 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
     LogEvent('info', 'An existing activity has been updated: The value of "type" was changed from ' + this.previous.type + " to " + doc.type + ' (' + entityName + ")");
   }
   if (doc.notes !== this.previous.notes) {
-    var content = UniHTML.purify(doc.notes);
-    var oldContent = UniHTML.purify(this.previous.notes);
     LogEvent('info', 'An existing activity has been updated: The value of "notes" was changed. (' + entityName + ")");
   }
   if (doc.activityTimestamp !== this.previous.activityTimestamp) {
