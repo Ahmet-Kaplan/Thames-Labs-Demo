@@ -49,7 +49,7 @@ Meteor.methods({
     check(doc, Schemas.User);
     // Create user account
     var userId = Accounts.createUser({
-      email: doc.email,
+      email: doc.email.toLowerCase(),
       password: doc.password,
       profile: {
         name: doc.name,
