@@ -38,13 +38,13 @@
           {{#if price}}
           <li class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-credit-card"></i> Sales Price</h4>
-            {{price}}
+            {{decimal price}}
           </li>
           {{/if}}
           {{#if cost}}
           <li class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-gbp"></i> Cost Price</h4>
-            {{cost}}
+            {{decimal cost}}
           </li>
           {{/if}}
         </ul>
