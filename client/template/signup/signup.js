@@ -31,7 +31,7 @@ AutoForm.hooks({
       });
     },
     beginSubmit: function() {
-      details.email = $("#email-field").val();
+      details.email = $("#email-field").val().toLowerCase();
       details.password = $("#password-field").val();
     },
   }
