@@ -8,12 +8,22 @@ dependencies:
   pre:
     - env
 
+  cache_directories:
+    - "~/.meteor"
+    - "~/.npm"
+
   override:
     - npm install -g eslint
     - cd tests/cucumber && npm install
-    - curl https://install.meteor.com/ | sh
 
+    # -- CACHE METEOR --
+    # Restore the meteor symlink
+    - if [ -d ~/.meteor ]; then sudo ln -s ~/.meteor/meteor /usr/local/bin/meteor; fi
+    # Install Meteor if the cache didn't restore it
+    - if [ ! -e ~/.meteor/meteor ]; then curl https://install.meteor.com | sh; fi
+
+    # Build version of app here to cache packages
+    - meteor --test
 test:
   override:
     - eslint .
-    - meteor --test
