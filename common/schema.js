@@ -11,7 +11,7 @@ Schemas.User = new SimpleSchema({
   },
   email: {
     type: String,
-    regEx: SimpleSchema.RegEx.Email,
+    regEx: /^[a-z]+@[a-z0-9-]+\.[a-z0-9-.]+$/,
     unique: true,
     autoValue: function() {
       if (this.isSet && typeof this.value === "string") {
