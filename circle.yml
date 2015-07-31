@@ -22,7 +22,7 @@ dependencies:
     # Install Meteor if the cache didn't restore it
     - if [ ! -e ~/.meteor/meteor ]; then curl https://install.meteor.com | sh; fi
 
-    # Build version of app to download packages so they can be cached
+    # Build version of app here to cache packages
     - meteor --test
 test:
   override:
