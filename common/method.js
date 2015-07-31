@@ -31,7 +31,7 @@ Meteor.methods({
           });
 
           Products.insert({
-            name: faker.commerce.productName(),
+            name: faker.company.companyName(),
             description: faker.lorem.sentence(),
             cost: _.random(1, 300),
             price: _.random(1, 300),
