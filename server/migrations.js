@@ -57,3 +57,13 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 4,
+  name: "Merge features and notifications",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Notifications.remove({});
+    ServerSession.set('maintenance', false);
+  }
+});
