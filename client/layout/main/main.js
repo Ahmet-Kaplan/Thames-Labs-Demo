@@ -17,3 +17,7 @@ Template.appLayout.helpers({
     return FlowRouter.subsReady();
   }
 });
+
+Template.appLayout.onRendered(function() {
+  $.getScript('/vendor/bowser.min.js');
+})
