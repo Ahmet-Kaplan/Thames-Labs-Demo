@@ -5,8 +5,8 @@
       <div class="sidebar">
         <h1>Actions</h1>
         <ul class="nav nav-stacked">
-          <li><a href="#purchase-order-details">Purchase Order details</a></li>
-          <li><a href="#activity-timeline">Activity timeline</a></li>
+          <li><a href="#purchase-order-details" data-toggle="tooltip" data-placement="bottom" title="Click here to see the purcahse order details">Purchase Order details</a></li>
+          <li><a href="#activity-timeline" data-toggle="tooltip" data-placement="bottom" title="Click here to see the activity timeline">Activity timeline</a></li>
         </ul>
         <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -14,10 +14,10 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#" id="template-upload-link-docx">Word document (.docx)</a></li>
-            <li><a href="#" id="template-upload-link">PDF (.pdf)</a></li>
+            <li><a href="#" id="template-upload-link-docx" data-toggle="tooltip" data-placement="bottom" title="Export purchase order into a word document">Word document (.docx)</a></li>
+            <li><a href="#" id="template-upload-link" data-toggle="tooltip" data-placement="bottom" title="Export purchase order into a PDF">PDF (.pdf)</a></li>
             <li class="divider"></li>
-            <li><a href="#" id="po-template-help">How does this work?</a></li>
+            <li><a href="#" id="po-template-help" data-toggle="tooltip" data-placement="bottom" title="Click here to find out">How does this work?</a></li>
           </ul>
         </div>
         <input type="file" id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px">
@@ -32,11 +32,11 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            <a class="btn btn-info btn-xs" disabled="{{#unless isOpen}}disabled{{/unless}}" href="#" id="edit-purchase-order">Edit purchase order details</a>
+            <a class="btn btn-info btn-xs" disabled="{{#unless isOpen}}disabled{{/unless}}" href="#" id="edit-purchase-order" data-toggle="tooltip" data-placement="bottom" title="Click here to edit the purchase order details">Edit purchase order details</a>
             <!-- {{#afModal class="btn btn-danger btn-xs" collection="PurchaseOrders" doc=_id operation="remove"
             formId="removePurchaseOrderForm"}} Delete purchase order {{/afModal}} -->
 
-            <a href="#" id="remove-purchase-order" class="btn btn-danger btn-xs">Delete purchase order</a>
+            <a href="#" id="remove-purchase-order" class="btn btn-danger btn-xs"  data-toggle="tooltip" data-placement="bottom" title="Click here to delete the purchase order">Delete purchase order</a>
           </div>
           Details</div>
         <ul class="list-group">
@@ -92,7 +92,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            <a class="btn btn-primary btn-xs" href="#" disabled="{{#unless canAddMoreItems}}disabled{{/unless}}" id="add-item"><i class="fa fa-fw fa-plus"></i> Add item</a></div>
+            <a class="btn btn-primary btn-xs"  data-toggle="tooltip" data-placement="bottom" title="Click here to add a task for the purchase order" href="#" disabled="{{#unless canAddMoreItems}}disabled{{/unless}}" id="add-item"><i class="fa fa-fw fa-plus"></i> Add item</a></div>
           Items</div>
         <div class="panel-body">
           <ul class="list-group">
@@ -111,7 +111,7 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a class="btn btn-primary pull-right" href="#" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add
+        <a class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="Click here to add an activity" href="#" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add
 
             activity</a>
       </h1>

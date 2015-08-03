@@ -6,8 +6,8 @@
         <h1>Actions</h1>
 
         <ul class="nav nav-stacked">
-          <li><a href="#project-details">Project details</a></li>
-          <li><a href="#activity-timeline">Activity timeline</a></li>
+          <li><a href="#project-details" data-toggle="tooltip" data-placement="bottom" title="Click here to see the project details">Project details</a></li>
+          <li><a href="#activity-timeline" data-toggle="tooltip" data-placement="bottom" title="Click here to see the activity timeline">Activity timeline</a></li>
         </ul>
 
       </div>
@@ -22,10 +22,10 @@
         <div class="panel-heading">
           <div class="btn-group pull-right">
             <!-- {{#afModal class="btn btn-info btn-xs" collection="Projects" doc=_id operation="update" formId="updateProjectForm" omitFields="projectId, companyId"}} Edit project details {{/afModal}} -->
-            <a href="#" id="edit-project" class="btn btn-info btn-xs">Edit project details</a>
+            <a href="#" id="edit-project" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="bottom" title="Click here to edit the project details">Edit project details</a>
             <!-- {{#afModal class="btn btn-danger btn-xs" collection="Projects" doc=_id operation="remove" formId="removeProjectForm"}} Delete project {{/afModal}} -->
 
-            <a href="#" id="remove-project" class="btn btn-danger btn-xs">Delete project</a>
+            <a href="#" id="remove-project" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="bottom" title="Click here to remove project details">Delete project</a>
 
           </div>
           Project details</div>
@@ -68,7 +68,7 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a href="#" class="btn btn-primary pull-right" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
+        <a href="#" class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="Click here to add an activity" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
       </h1>
       {{> activityTimeline activities=activities}}
     </div>

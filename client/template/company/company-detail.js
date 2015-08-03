@@ -5,6 +5,7 @@ Template.companyDetail.onCreated(function() {
     if (company) return;
     FlowRouter.go('companies');
   });
+  $('[data-toggle="tooltip"]').tooltip()
 });
 
 Template.companyDetail.onRendered(function() {

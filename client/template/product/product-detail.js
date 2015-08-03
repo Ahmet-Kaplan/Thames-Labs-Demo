@@ -5,6 +5,7 @@ Template.productDetail.onCreated(function() {
     if (product) return;
     FlowRouter.go('products');
   });
+  $('[data-toggle="tooltip"]').tooltip()
 });
 
 Template.productDetail.helpers({

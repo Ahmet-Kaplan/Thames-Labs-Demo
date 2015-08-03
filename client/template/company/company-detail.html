@@ -7,10 +7,10 @@
         <h1 id="action-side-bar">Actions</h1>
 
         <ul class="nav nav-stacked">
-          <li><a href="#company-details">Company details</a></li>
-          <li><a href="#contacts">Contacts</a></li>
-          <li><a href="#projects">Current Projects</a></li>
-          <li><a href="#activity-timeline">Activity timeline</a></li>
+          <li><a href="#company-details" data-toggle="tooltip" data-placement="bottom" title="Click here to go to Company Details">Company details</a></li>
+          <li><a href="#contacts" data-toggle="tooltip" data-placement="bottom" title="Click here to go to Company Contacts">Contacts</a></li>
+          <li><a href="#projects" data-toggle="tooltip" data-placement="bottom" title="Click here to see the Current Projects">Current Projects</a></li>
+          <li><a href="#activity-timeline" data-toggle="tooltip" data-placement="bottom" title="Click here to see the Activity Timeline">Activity timeline</a></li>
         </ul>
 
         <div class="btn-group">
@@ -19,9 +19,9 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#" id="template-upload-link">Select word template</a></li>
+            <li><a href="#" id="template-upload-link" data-toggle="tooltip" data-placement="bottom" title="Import your data">Select word template</a></li>
             <li class="divider"></li>
-            <li><a href="#" id="template-help">How does this work?</a></li>
+            <li><a href="#" id="template-help" data-toggle="tooltip" data-placement="bottom" title="Click here to find out">How does this work?</a></li>
           </ul>
         </div>
         <input type="file" id="template-upload" style="display:none;">
@@ -31,7 +31,7 @@
 
     <div class="col-md-6">
       <h1 id="company-details">Company: {{name}}</h1>
-      
+
       {{> tagInput}}
 
       <div class="panel panel-default" id="company-details-panel">
@@ -39,7 +39,7 @@
           <div class="btn-group pull-right">
             {{#afModal class="btn btn-info btn-xs" collection="Companies" doc=_id operation="update" formId="updateCompanyForm" omitFields="tags, tagGroups"}} Edit company details {{/afModal}}
 
-            <a href="#" id="remove-company" class="btn btn-danger btn-xs">Delete company</a>
+            <a href="#" id="remove-company"  class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="bottom" title="This will delete this company">Delete company</a>
 
             <!-- {{#afModal class="btn btn-danger btn-xs" collection="Companies" doc=_id
             operation="remove" formId="removeCompanyForm" }} Delete company {{/afModal}} -->
@@ -64,7 +64,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="contacts">
           Contacts
-          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add contact</a>
+          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="Click here to add a contact"><i class="fa fa-fw fa-plus"></i>Add contact</a>
         </div>
         <ul class="list-group">
           {{#each contacts}}
@@ -81,7 +81,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
           Projects
-          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add project</a>
+          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="Click here to add a project"><i class="fa fa-fw fa-plus"></i> Add project</a>
         </div>
         <ul class="list-group">
           {{#each projects}}
@@ -98,7 +98,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
           Purchase Orders
-          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add purchase order</a>
+          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="Click here to add a purchase order"><i class="fa fa-fw fa-plus"></i> Add purchase order</a>
         </div>
         <ul class="list-group">
           {{#each purchaseOrders}}
@@ -123,7 +123,7 @@
     <div class="col-md-4">
       <h1>Address</h1>
       <div class="thumbnail">
-        {{#if isDesktop}} {{> map data=this}} {{/if}} 
+        {{#if isDesktop}} {{> map data=this}} {{/if}}
         {{#if isPhone}}
         <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}" /> {{/if}}
         <div class="caption">
@@ -146,7 +146,7 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a href="#" class="btn btn-primary pull-right" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
+        <a href="#" class="btn btn-primary pull-right" id="add-activity" data-toggle="tooltip" data-placement="bottom" title="Click here to add an activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
       </h1>
 
       {{> activityTimeline activities=activities}}

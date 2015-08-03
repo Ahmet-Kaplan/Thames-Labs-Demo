@@ -5,6 +5,7 @@ Template.contactDetail.onCreated(function() {
     if (contact) return;
     FlowRouter.go('contacts');
   });
+  $('[data-toggle="tooltip"]').tooltip()
 });
 
 Template.contactDetail.onRendered(function() {
