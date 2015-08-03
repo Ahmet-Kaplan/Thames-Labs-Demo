@@ -464,6 +464,9 @@ Schemas.Notification = new SimpleSchema({
   title: {
     type: String
   },
+  shortDescription: {
+    type: String
+  },
   detail: {
     type: String
   },
@@ -475,7 +478,11 @@ Schemas.Notification = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
-  }
+  },
+  icon: {
+    type: String,
+    optional: true
+  },
 });
 Notifications.attachSchema(Schemas.Notification);
 
@@ -541,17 +548,6 @@ Schemas.Task = new SimpleSchema({
   }
 });
 Tasks.attachSchema(Schemas.Task);
-
-//Features
-Schemas.Feature = new SimpleSchema({
-  icon: {
-    type: String
-  },
-  description: {
-    type: String
-  }
-});
-Features.attachSchema(Schemas.Feature);
 
 //Products
 Schemas.Product = new SimpleSchema({

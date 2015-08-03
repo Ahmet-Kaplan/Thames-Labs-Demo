@@ -253,10 +253,6 @@ Meteor.publish("allUserTasks", function(userId) {
   });
 });
 
-Meteor.publish("allFeatures", function() {
-  return Features.find({});
-});
-
 //Products
 Meteor.publish("allProducts", function() {
   return Products.find({});

@@ -10,7 +10,10 @@ Template.login.helpers({
     }
     return quoteObject;
   },
-  features: function() {
-    return Features.find({});
+  notifications: function() {
+    return Notifications.find({});
+  },
+  hasNotifications: function() {
+    return Notifications.find({}).count() > 0;
   }
 });
