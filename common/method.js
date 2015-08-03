@@ -149,7 +149,7 @@ Meteor.methods({
   },
 
   signUp: function(userDetails) {
-
+    userDetails.email = userDetails.email.toLowerCase();
     check(userDetails, Schemas.UserSignUp);
 
     var user = {
