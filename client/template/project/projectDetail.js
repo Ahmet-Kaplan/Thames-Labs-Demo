@@ -2,8 +2,9 @@ Template.projectDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
      var project = Projects.findOne(FlowRouter.getParam('id'));
-     if (project) return
-     FlowRouter.go('projects');
+     if (FlowRouter.subsReady() && project === undefined) {
+       FlowRouter.go('projects');
+     }
   });
 });
 

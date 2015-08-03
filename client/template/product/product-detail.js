@@ -1,9 +1,10 @@
 Template.productDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
-    var product = Products.findOne(FlowRouter.getParam('id'));
-    if (product) return;
-    FlowRouter.go('products');
+    var product = Companies.findOne(FlowRouter.getParam('id'));
+    if (FlowRouter.subsReady() && product === undefined) {
+      FlowRouter.go('products');
+    }
   });
 });
 
