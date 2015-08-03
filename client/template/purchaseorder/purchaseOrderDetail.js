@@ -304,5 +304,12 @@ Template.purchaseOrderDetail.helpers({
   },
   canAddMoreItems: function() {
     return (this.status === "Requested" ? true : false);
+  },
+  canExportDocx: function() {
+    if (bowser.safari) {
+      return false
+    } else {
+      return true;
+    }
   }
 });

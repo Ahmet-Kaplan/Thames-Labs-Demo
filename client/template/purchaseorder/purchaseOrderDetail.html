@@ -14,7 +14,9 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
+            {{#if canExportDocx}}
             <li><a href="#" id="template-upload-link-docx">Word document (.docx)</a></li>
+            {{/if}}
             <li><a href="#" id="template-upload-link">PDF (.pdf)</a></li>
             <li class="divider"></li>
             <li><a href="#" id="po-template-help">How does this work?</a></li>
