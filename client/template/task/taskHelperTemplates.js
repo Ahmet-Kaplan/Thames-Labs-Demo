@@ -1,3 +1,6 @@
+Template.contactList.onRendered(function() {
+  $('[data-toggle="tooltip"]').tooltip();
+});
 Template.insertNewTask.helpers({
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
