@@ -148,14 +148,7 @@ Schemas.Company = new SimpleSchema({
     type: String,
     label: "Country"
   },
-  lat: {
-    type: String,
-    optional: true,
-    autoform: {
-      type: "hidden"
-    }
-  },
-  lng: {
+  placeid: {
     type: String,
     optional: true,
     autoform: {
