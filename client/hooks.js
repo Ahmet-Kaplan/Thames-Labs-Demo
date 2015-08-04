@@ -227,13 +227,6 @@ AutoForm.hooks({
       toastr.success('Feedback submitted.');
     }
   },
-  updateCompanyForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Company updated.');
-      //LogEvent('info', 'Company updated.', 'Company', this.docId);
-    }
-  },
   updateTenantSettingsModal: {
     onSuccess: function() {
       Modal.hide();
