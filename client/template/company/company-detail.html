@@ -38,12 +38,8 @@
       <div class="panel panel-default" id="company-details-panel">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#afModal class="btn btn-info btn-xs" collection="Companies" doc=_id operation="update" formId="updateCompanyForm" omitFields="tags, tagGroups"}} Edit company details {{/afModal}}
-
+            <a href="#" id="edit-company" class="btn btn-info btn-xs">Edit company details</a>
             <a href="#" id="remove-company" class="btn btn-danger btn-xs">Delete company</a>
-
-            <!-- {{#afModal class="btn btn-danger btn-xs" collection="Companies" doc=_id
-            operation="remove" formId="removeCompanyForm" }} Delete company {{/afModal}} -->
           </div>
           Company details
         </div>
@@ -124,7 +120,7 @@
     <div class="col-md-4">
       <h1>Address</h1>
       <div class="thumbnail">
-        {{#if isDesktop}} {{> map data=this}} {{/if}}
+        {{#if isDesktop}} <div id="map-wrapper">{{> map data=this}}</div> {{/if}} 
         {{#if isPhone}}
         <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}" /> {{/if}}
         <div class="caption">
