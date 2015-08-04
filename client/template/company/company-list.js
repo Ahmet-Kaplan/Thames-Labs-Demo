@@ -18,7 +18,7 @@ Template.companyList.onRendered(function() {
       $('.sidebar input').val(searchQuery);
     }
   });
-  $('[data-toggle="tooltip"]').tooltip();    
+  $('[data-toggle="tooltip"]').tooltip();
 });
 
 Template.companyList.helpers({
