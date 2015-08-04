@@ -55,8 +55,6 @@
         </div>
 
         <div class="modal-body">
-         {{#autoForm collection="Companies" id="editCompanyForm" type="update" doc=this}}
-            {{> afQuickField name="name"}}
               {{#if isDesktop}} 
               <div ><a href="#" id="show-map">New location search</a></div>
               <div id="map_wrapper" class="form-group" style="display: none;">
@@ -69,6 +67,8 @@
                 <span class="help-block"></span>
               </div>
               {{/if}}
+         {{#autoForm collection="Companies" id="editCompanyForm" type="update" doc=this}}
+            {{> afQuickField name="name"}}
             {{> afQuickField name="address" id="formatted_address"}}
             {{> afQuickField name="address2"}}
             {{> afQuickField name="city" data-geo="locality"}}

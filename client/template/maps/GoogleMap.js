@@ -10,7 +10,8 @@ Template.map.helpers({
       center: {
         lat: 52.234744,
         lng: 0.153752
-      }
+      },
+      scrollwheel: false
     };
 
     return options;
@@ -19,13 +20,11 @@ Template.map.helpers({
 
 Template.map.onDestroyed(function() {
   loadSwitch = false;
-})
+});
 
 Template.map.onCreated(function() {
+
   GoogleMaps.ready('map', function(map) {
-
-    // google.maps.event.addListener(map.instance, 'idle', function(event) {
-
     if (loadSwitch === false) {
       var infowindow = new google.maps.InfoWindow();
       if(companyData.lat !== undefined && companyData.lng !== undefined) {
@@ -52,7 +51,6 @@ Template.map.onCreated(function() {
           if (status == google.maps.GeocoderStatus.OK) {
             pin = results[0].geometry.location;
             if (pin !== null) {
-              var point = new google.maps.LatLng(pin.G, pin.K);
               var marker = new google.maps.Marker( {
                 map: map.instance,
                 position: pin,
@@ -61,19 +59,14 @@ Template.map.onCreated(function() {
               marker.setMap(map.instance);
               infowindow.setContent(companyData.name);
               infowindow.open(map.instance, marker);
-              map.instance.panTo(point);
+              map.instance.panTo(pin);
               map.instance.setZoom(16);
               loadSwitch = true;
             }
           }
         });
       }
-
     }
-
-    // });
-
-
   });
 
 });

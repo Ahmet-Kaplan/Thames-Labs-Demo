@@ -20,7 +20,9 @@ Template.companyDetail.onRendered(function() {
   $.getScript('/vendor/docxgen.min.js');
 
   // Load google maps
-  GoogleMaps.load();
+  GoogleMaps.load({
+    libraries: 'places'
+  });
 });
 
 Template.companyDetail.events({
