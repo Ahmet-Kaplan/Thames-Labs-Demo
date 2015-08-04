@@ -3,6 +3,18 @@ Template.nav.onRendered(function() {
 });
 
 Template.nav.helpers({
+  showTourOption: function() {
+    var currRoute = FlowRouter.getRouteName();
+    var show = false;
+
+    _.each(availableTours, function(at) {
+      if (at === currRoute) {
+        show = true;
+      }
+    });
+
+    return show;
+  },
   loggedIn: function() {
     return (Meteor.userId() ? true : false);
   },
