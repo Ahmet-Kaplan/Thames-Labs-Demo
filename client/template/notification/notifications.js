@@ -11,35 +11,24 @@ Template.notificationAdmin.helpers({
 Template.notificationAdmin.events({
   "click #btnRaiseNotification": function(event, template) {
     var title = $('#txtNotificationTitle').val();
-    var text = $('#txtNotification').val();
+    var desc = $('#txtDesc').val();
+    var details = $('#txtDetails').val();
+    var icon = $('#txtIcon').val();
     Notifications.insert({
       title: title,
-      detail: text,
+      shortDescription: desc,
+      detail: details,
+      icon: icon,
       createdAt: new Date(),
       createdBy: Meteor.userId()
     });
     $('#txtNotification').val("");
     $('#txtNotificationTitle').val("");
-  },
-
-  "click #btnAddFeature": function(event, template) {
-      var desc = $('#txtFeatureDesc').val();
-      var icon = $('#txtFeatureIcon').val();
-      Features.insert({
-        description: desc,
-        icon: icon
-      });
-   }
+  }
 });
 
 Template.notification.events({
   "click #btnDeleteNotification": function(event, template) {
     Notifications.remove(this._id);
-  }
-});
-
-Template.feature.events({
-  "click #btnDeleteFeature": function(event, template) {
-    Features.remove(this._id);
   }
 });
