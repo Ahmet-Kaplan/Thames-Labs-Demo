@@ -5,8 +5,8 @@
       <div class="sidebar">
         <h1>Actions</h1>
         <ul class="nav nav-stacked">
-          <li><a href="#purchase-order-details" data-toggle="tooltip" data-placement="bottom" title="Click here to see the purcahse order details">Purchase Order details</a></li>
-          <li><a href="#activity-timeline" data-toggle="tooltip" data-placement="bottom" title="Click here to see the activity timeline">Activity timeline</a></li>
+          <li><a href="#purchase-order-details" data-toggle="tooltip" data-placement="bottom" title="Click here to quickly navigate to the purchase order details">Purchase Order details</a></li>
+          <li><a href="#activity-timeline" data-toggle="tooltip" data-placement="bottom" title="Click here to quickly navigate to the activity timeline">Activity timeline</a></li>
         </ul>
         <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -92,7 +92,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            <a class="btn btn-primary btn-xs"  data-toggle="tooltip" data-placement="bottom" title="Click here to add a task for the purchase order" href="#" disabled="{{#unless canAddMoreItems}}disabled{{/unless}}" id="add-item"><i class="fa fa-fw fa-plus"></i> Add item</a></div>
+            <a class="btn btn-primary btn-xs"  data-toggle="tooltip" data-placement="bottom" title="Click here to add a task which relates to this purchase order" href="#" disabled="{{#unless canAddMoreItems}}disabled{{/unless}}" id="add-item"><i class="fa fa-fw fa-plus"></i> Add item</a></div>
           Items</div>
         <div class="panel-body">
           <ul class="list-group">
@@ -111,7 +111,7 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="Click here to add an activity" href="#" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add
+        <a class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="Click here to add an activity which relates to this purchase order" href="#" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add
 
             activity</a>
       </h1>
@@ -140,10 +140,10 @@
       <div class="col-md-2">
         <div class="btn-group btn-group-justified" role="group">
           <div class="btn-group " role="group">
-            <button class="btn btn-xs btn-info" id="edit-po-item" disabled="{{#unless canAddMoreItems ..}}disabled{{/unless}}" role="button">Edit</button>
+            <button class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="bottom" title="Click here to edit the item" id="edit-po-item" disabled="{{#unless canAddMoreItems ..}}disabled{{/unless}}" role="button">Edit</button>
           </div>
           <div class="btn-group" role="group">
-            <button class="btn btn-xs btn-danger" id="removePurchaseOrderItem" disabled="{{#unless canAddMoreItems ..}}disabled{{/unless}}" role="button">Delete</button>
+            <button class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="bottom" title="Click here to delete the item" id="removePurchaseOrderItem" disabled="{{#unless canAddMoreItems ..}}disabled{{/unless}}" role="button">Delete</button>
           </div>
         </div>
       </div>
