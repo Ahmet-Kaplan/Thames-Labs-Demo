@@ -1,4 +1,4 @@
-Template.insertNewTask.onRendered(function() {
+Template.taskDisplay.onRendered(function() {
    $('[data-toggle="tooltip"]').tooltip();
  });
 Template.insertNewTask.helpers({
