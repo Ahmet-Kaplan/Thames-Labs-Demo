@@ -20,7 +20,7 @@
       <button id='edit-custom-field' class="btn btn-info btn-xs " role='button'>Edit</button>
       <button id='delete-custom-field' class="btn btn-danger btn-xs " role='button'>Delete</button>
     </div>
-      <strong>{{name}}: </strong>{{value}} {{parentHelper ..}}
+    <strong>{{name}}: </strong>{{value}} {{parentHelper ..}}
   </li>
 </template>
 
@@ -38,11 +38,41 @@
           <form>
             <div class="form-group">
               <label for="custom-field-name">Name</label>
-              <input type="text" class="form-control" placeholder="Custom field name" id="custom-field-name" >
+              <input type="text" class="form-control" placeholder="Custom field name" id="custom-field-name">
             </div>
-            <div class="form-group">
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="cfType" id="typeText" checked>Text</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="cfType" id="typeCheckbox">Checkbox</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="cfType" id="typeDate">Date/Time</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" id="text-input-area">
               <label for="custom-field-value">Value</label>
               <input type="text" class="form-control" placeholder="Custom field value" id="custom-field-value">
+            </div>
+            <div class="form-group" id="check-input-area">
+              <label for="custom-field-value">Value</label>
+              <input type="checkbox" class="form-control" placeholder="Custom field value" id="custom-field-value">
+            </div>
+            <div class="form-group" id="date-input-area">
+              <label for="custom-field-value">Value</label>
+              <input type="bootstrap-datetimepicker" class="form-control" placeholder="Custom field value" id="custom-field-value">
             </div>
           </form>
         </div>

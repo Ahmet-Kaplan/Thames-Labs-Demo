@@ -20,7 +20,32 @@ Template.customFieldDisplay.helpers({
   }
 });
 
+Template.addCustomField.onRendered(function() {
+  $('#typeText').prop('checked', true);
+  $('#typeCheckbox').prop('checked', false);
+  $('#typeDate').prop('checked', false);
+
+  $('#text-input-area').show();
+  $('#check-input-area').hide();
+  $('#date-input-area').hide();
+});
+
 Template.addCustomField.events({
+  'click #typeText': function() {
+    $('#text-input-area').show();
+    $('#check-input-area').hide();
+    $('#date-input-area').hide();
+  },
+  'click #typeCheckbox': function() {
+    $('#text-input-area').hide();
+    $('#check-input-area').show();
+    $('#date-input-area').hide();
+  },
+  'click #typeDate': function() {
+    $('#text-input-area').hide();
+    $('#check-input-area').hide();
+    $('#date-input-area').show();
+  },
   'click #submit-custom-field': function() {
     var cfName = $('#custom-field-name').val();
     var cfValue = $('#custom-field-value').val();
