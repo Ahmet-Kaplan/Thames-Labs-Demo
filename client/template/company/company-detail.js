@@ -2,8 +2,9 @@ Template.companyDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
     var company = Companies.findOne(FlowRouter.getParam('id'));
-    if (company) return;
-    FlowRouter.go('companies');
+    if (FlowRouter.subsReady() && company === undefined) {
+      FlowRouter.go('companies');
+    }
   });
   $('[data-toggle="tooltip"]').tooltip()
 });

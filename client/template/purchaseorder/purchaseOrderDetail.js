@@ -2,8 +2,9 @@ Template.purchaseOrderDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
     var purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
-    if (purchaseOrder) return;
-    FlowRouter.go('purchaseOrders');
+    if (FlowRouter.subsReady() && purchaseOrder === undefined) {
+      FlowRouter.go('purchaseOrders');
+    }
   });
   $('[data-toggle="tooltip"]').tooltip()
 });
@@ -305,5 +306,12 @@ Template.purchaseOrderDetail.helpers({
   },
   canAddMoreItems: function() {
     return (this.status === "Requested" ? true : false);
+  },
+  canExportDocx: function() {
+    if (bowser.safari) {
+      return false
+    } else {
+      return true;
+    }
   }
 });

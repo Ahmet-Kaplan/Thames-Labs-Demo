@@ -1,9 +1,11 @@
 Template.contactDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
-    var contact = Contacts.findOne(FlowRouter.getParam('id'));
-    if (contact) return;
-    FlowRouter.go('contacts');
+    var contactId = FlowRouter.getParam('id');
+    var contact = Contacts.findOne(contactId);
+    if (FlowRouter.subsReady() && contact === undefined) {
+      FlowRouter.go('contacts');
+    }
   });
   $('[data-toggle="tooltip"]').tooltip()
 });

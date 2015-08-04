@@ -14,7 +14,9 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
+            {{#if canExportDocx}}
             <li><a href="#" id="template-upload-link-docx" data-toggle="tooltip" data-placement="bottom" title="Export purchase order into a word document">Word document (.docx)</a></li>
+            {{/if}}
             <li><a href="#" id="template-upload-link" data-toggle="tooltip" data-placement="bottom" title="Export purchase order into a PDF">PDF (.pdf)</a></li>
             <li class="divider"></li>
             <li><a href="#" id="po-template-help" data-toggle="tooltip" data-placement="bottom" title="Click here to find out">How does this work?</a></li>
@@ -25,7 +27,8 @@
       </div>
     </div>
     <div class="col-md-10">
-      <h1 id="purchase-order-details">Purchase Order: {{description}}</h1>
+      <h4 class="entity-title">Purchase Order</h4>
+      <h1 id="purchase-order-details" class="entity-name">{{description}}</h1>
 
       <!-- {{> tagInput}} -->
 

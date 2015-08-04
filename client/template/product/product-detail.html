@@ -12,8 +12,8 @@
       </div>
     </div>
     <div class="col-md-10">
-      <h4 style="color: grey; margin: 20px 0 0;"><i class="fa fa-fw fa-wrench"></i> Product</h4>
-      <h1 id="product-details" style="margin: 5px 0 20px">{{name}}</h1>
+      <h4 class="entity-title">Product</h4>
+      <h1 id="product-details" class="entity-name">{{name}}</h1>
 
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -38,13 +38,13 @@
           {{#if price}}
           <li class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-credit-card"></i> Sales Price</h4>
-            {{price}}
+            {{decimal price}}
           </li>
           {{/if}}
           {{#if cost}}
           <li class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-gbp"></i> Cost Price</h4>
-            {{cost}}
+            {{decimal cost}}
           </li>
           {{/if}}
         </ul>
