@@ -1,6 +1,6 @@
 <!-- Context should be object with tags property -->
 <template name="tagBadges">
-  {{#each tags}}
+  {{#each sortedTags}}
     {{> tagBadge}}
   {{else}}
     <!-- intentionally left blank to prevent blaze error -->

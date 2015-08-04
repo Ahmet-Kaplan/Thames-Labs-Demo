@@ -88,7 +88,11 @@ Template.companyDetail.events({
 Template.companyDetail.helpers({
   companyData: function() {
     var companyId = FlowRouter.getParam('id');
-    return Companies.findOne({_id: companyId});
+    var company = Companies.findOne({_id: companyId});
+    if (company.tags !== undefined) {
+      company.tags.sort();
+    }
+    return company;
   },
   addressString: function() {
     return encodeURIComponent([
