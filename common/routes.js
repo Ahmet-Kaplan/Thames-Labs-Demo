@@ -1,7 +1,7 @@
 var subs = new SubsManager(),
   group = Partitioner.group(),
   router = FlowRouter,
-  layout = FlowLayout;
+  layout = BlazeLayout;
 
 // These are route trigger functions
 // They're used for before / after actions on routes

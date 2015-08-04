@@ -144,7 +144,7 @@ var ensureSignedIn = function(context) {
       var contentRegion = (options && options.contentRegion) || defaultContentRegion;
 
       layoutRegions[contentRegion] = template;
-      FlowLayout.render(layoutTemplate, layoutRegions);
+      BlazeLayout.render(layoutTemplate, layoutRegions);
   }
 };
 

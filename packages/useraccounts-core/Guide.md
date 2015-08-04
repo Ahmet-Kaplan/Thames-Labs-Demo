@@ -1423,7 +1423,7 @@ As a replacement for the IR plugin `ensureSignedIn` you can use `AccountsTemplat
 ```javascript
 FlowRouter.route('/private', {
     action: function() {
-        // FlowLayout.render(...)
+        // BlazeLayout.render(...)
     },
     middlewares: [AccountsTemplates.ensureSignedIn]
 });
