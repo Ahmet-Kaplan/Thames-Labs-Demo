@@ -171,6 +171,10 @@ Template.editCompanyModal.onRendered(function() {
           $("input[name=lat]").val(marker.getPosition().G);
           $("input[name=lng]").val(marker.getPosition().K);
         });
+      }).keypress(function(event) {
+        if(event.keyCode == 13) {
+          $("#address_details").show();
+        }
       });
     }
   });

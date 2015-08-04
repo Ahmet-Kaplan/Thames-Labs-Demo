@@ -13,6 +13,30 @@ Meteor.publish('userPresence', function() {
   });
 });
 
+Meteor.publish("auditData", function() {
+  if (Roles.userIsInRole(this.userId, ['superadmin'])) {
+    return AuditLog.find({});
+  } else {
+    this.ready();
+  }
+});
+
+Meteor.publish("groupedAuditData", function(userId) {
+  var group = null;
+
+  var ux = Meteor.users.find({
+    _id: userId
+  }).fetch()[0];
+  if (ux) {
+    group = ux.group;
+  }
+
+  console.log("Group: " + group);
+  return AuditLog.find({
+    groupId: group
+  });
+});
+
 Meteor.publish("allTenants", function() {
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
     return Tenants.find({});
@@ -74,6 +98,10 @@ Meteor.publish("companyByPurchaseOrderId", function(purchaseOrderId) {
   var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);
   return Companies.find(purchaseOrder.companyId);
 });
+Meteor.publish("companyByProductId", function(productId) {
+  var p = Products.findOne(productId);
+  return Companies.find(p.companyId);
+});
 Meteor.publish("companyTags", function() {
   return Meteor.tags.find({
     collection: 'companies'
@@ -100,6 +128,10 @@ Meteor.publish("contactsByProjectId", function(projectId) {
 Meteor.publish("contactByPurchaseOrderId", function(purchaseOrderId) {
   var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);
   return Contacts.find(purchaseOrder.contactId);
+});
+Meteor.publish("contactByProductId", function(productId) {
+  var p = Products.findOne(productId);
+  return Contacts.find(p.companyId);
 });
 Meteor.publish("contactTags", function() {
   return Meteor.tags.find({
@@ -223,4 +255,14 @@ Meteor.publish("allUserTasks", function(userId) {
 
 Meteor.publish("allFeatures", function() {
   return Features.find({});
+});
+
+//Products
+Meteor.publish("allProducts", function() {
+  return Products.find({});
+});
+Meteor.publish("productById", function(productId) {
+  return Products.find({
+    _id: productId
+  });
 });

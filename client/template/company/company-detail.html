@@ -4,7 +4,7 @@
     <div class="col-md-2 hidden-sm hidden-xs">
       <div class="sidebar">
 
-        <h1>Actions</h1>
+        <h1 id="action-side-bar">Actions</h1>
 
         <ul class="nav nav-stacked">
           <li><a href="#company-details">Company details</a></li>
@@ -30,11 +30,12 @@
     </div>
 
     <div class="col-md-6">
-      <h1 id="company-details">Company: {{name}}</h1>
+      <h4 class="entity-title">Company</h4>
+      <h1 id="company-details" class="entity-name">{{name}}</h1>
 
       {{> tagInput}}
 
-      <div class="panel panel-default">
+      <div class="panel panel-default" id="company-details-panel">
         <div class="panel-heading">
           <div class="btn-group pull-right">
             <a href="#" id="edit-company" class="btn btn-info btn-xs">Edit company details</a>
@@ -60,7 +61,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="contacts">
           Contacts
-          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right"><i class="fa fa-plus"></i> Add contact</a>
+          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add contact</a>
         </div>
         <ul class="list-group">
           {{#each contacts}}
@@ -77,7 +78,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
           Projects
-          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right"><i class="fa fa-plus"></i> Add project</a>
+          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add project</a>
         </div>
         <ul class="list-group">
           {{#each projects}}
@@ -94,7 +95,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
           Purchase Orders
-          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right"><i class="fa fa-plus"></i> Add purchase order</a>
+          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add purchase order</a>
         </div>
         <ul class="list-group">
           {{#each purchaseOrders}}
@@ -119,7 +120,11 @@
     <div class="col-md-4">
       <h1>Address</h1>
       <div class="thumbnail">
+<<<<<<< HEAD
         {{#if isDesktop}} <div id="map-wrapper">{{> map data=this}}</div> {{/if}} 
+=======
+        {{#if isDesktop}} {{> map data=this}} {{/if}}
+>>>>>>> origin/master
         {{#if isPhone}}
         <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}" /> {{/if}}
         <div class="caption">
@@ -142,7 +147,7 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a href="#" class="btn btn-primary pull-right" id="add-activity"><i class="fa fa-plus"></i> Add activity</a>
+        <a href="#" class="btn btn-primary pull-right" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
       </h1>
 
       {{> activityTimeline activities=activities}}

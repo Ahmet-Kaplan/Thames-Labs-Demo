@@ -52,14 +52,14 @@ blockquote {
 
 #id-view-content {
   position:absolute;
-  left: @sidebar-width + 10px;
-  right:10px;
+  left: @sidebar-width;
+  right:0;
   overflow-x:hidden;
-  padding: 4px 12px 30px;
+  padding: 4px 22px 30px;
   transition: all 0.15s ease-in-out;
   box-sizing: border-box;
   top: @navbar-height;
-  bottom: 0;
+  bottom: 30px;
 }
 
 #id-view-content.no-menu {
@@ -84,4 +84,13 @@ blockquote {
 
 .pac-container {
   z-index: 1050;
+}
+
+.entity-title {
+  color: grey;
+  margin: 20px 0 0;
+}
+
+.entity-name {
+  margin: 5px 0 20px;
 }

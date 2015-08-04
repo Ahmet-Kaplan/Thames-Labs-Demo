@@ -14,7 +14,8 @@
     </div>
 
     <div class="col-md-10">
-      <h1 id="project-details">Project: {{description}}</h1>
+      <h4 class="entity-title">Project</h4>
+      <h1 id="project-details" class="entity-name">{{description}}</h1>
 
       {{> tagInput}}
 
@@ -68,7 +69,7 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a href="#" class="btn btn-primary pull-right" id="add-activity"><i class="fa fa-plus"></i> Add activity</a>
+        <a href="#" class="btn btn-primary pull-right" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
       </h1>
       {{> activityTimeline activities=activities}}
     </div>

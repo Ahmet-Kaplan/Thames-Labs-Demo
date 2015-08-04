@@ -9,136 +9,147 @@ Meteor.methods({
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       return;
     }
+    if (Meteor.isServer) {
+      faker.locale = "en";
+      Partitioner.bindGroup(id, function() {
+        // generate fake customer data
+        _.each(_.range(100), function() {
+          var usersArray = Meteor.users.find({}).fetch();
+          var randomIndex = Math.floor(Math.random() * usersArray.length);
+          var randomUser = usersArray[randomIndex];
 
-    Partitioner.bindGroup(id, function() {
-
-      // generate fake customer data
-      _.each(_.range(100), function() {
-        var usersArray = Meteor.users.find({}).fetch();
-        var randomIndex = Math.floor(Math.random() * usersArray.length);
-        var randomUser = usersArray[randomIndex];
-
-        var companyId = Companies.insert({
-          name: faker.company.companyName(),
-          address: faker.address.streetAddress(),
-          city: faker.address.city(),
-          county: faker.address.county(),
-          postcode: faker.address.zipCode(),
-          country: faker.address.country(),
-          website: 'http://' + faker.internet.domainName(),
-          phone: faker.phone.phoneNumber(),
-          createdBy: randomUser._id
-        });
-
-        contacts = [];
-        projects = [];
-
-        _.each(_.range(_.random(1, 10)), function() {
-          var contactId = Contacts.insert({
-            title: _.sample(Schemas.Contact._schema.title.allowedValues),
-            forename: faker.name.firstName(),
-            surname: faker.name.lastName(),
+          var companyId = Companies.insert({
+            name: faker.company.companyName(),
+            address: faker.address.streetAddress(),
+            city: faker.address.city(),
+            county: faker.address.county(),
+            postcode: faker.address.zipCode(),
+            country: faker.address.country(),
+            website: 'http://' + faker.internet.domainName(),
             phone: faker.phone.phoneNumber(),
-            mobile: faker.phone.phoneNumber(),
-            companyId: companyId,
             createdBy: randomUser._id
           });
 
-          contacts.push(contactId);
+          Products.insert({
+            name: faker.company.companyName(),
+            description: faker.lorem.sentence(),
+            cost: _.random(1, 300),
+            price: _.random(1, 300),
+            createdBy: randomUser._id
+          });
 
-          _.each(_.range(_.random(0, 2)), function() {
-            Activities.insert({
-              type: _.sample(Schemas.Activity._schema.type.allowedValues),
-              notes: faker.lorem.paragraphs(_.random(1, 3)),
-              createdAt: faker.date.recent(100),
-              activityTimestamp: faker.date.recent(100),
+          contacts = [];
+          projects = [];
+
+          _.each(_.range(_.random(1, 10)), function() {
+            var contactId = Contacts.insert({
+              title: _.sample(Schemas.Contact._schema.title.allowedValues),
+              forename: faker.name.firstName(),
+              surname: faker.name.lastName(),
+              phone: faker.phone.phoneNumber(),
+              mobile: faker.phone.phoneNumber(),
               companyId: companyId,
-              contactId: contactId,
               createdBy: randomUser._id
             });
-          });
-        });
 
-        _.each(_.range(_.random(0, 2)), function() {
-          var array = Meteor.users.find({}).fetch();
-          var randomIndex = Math.floor(Math.random() * array.length);
-          var element = array[randomIndex];
+            contacts.push(contactId);
 
-          var projectId = Projects.insert({
-            description: faker.lorem.sentence(),
-            companyId: companyId,
-            contactId: contacts[Math.floor(Math.random() * contacts.length)],
-            userId: randomUser._id,
-            //  status: _.sample(Schemas.Project._schema.status.allowedValues),
-            value: _.random(100, 3000),
-            probability: _.random(0, 100),
-            lastActionDate: faker.date.past(100),
-            nextActionBy: element._id,
-            createdBy: randomUser._id
-          });
-
-          projects.push(projectId);
-
-          _.each(_.range(_.random(0, 2)), function() {
-            Activities.insert({
-              type: _.sample(Schemas.Activity._schema.type.allowedValues),
-              notes: faker.lorem.paragraphs(_.random(1, 3)),
-              createdAt: faker.date.recent(100),
-              activityTimestamp: faker.date.recent(100),
-              projectId: projectId,
-              createdBy: randomUser._id
-            });
-          });
-        });
-
-        _.each(_.range(_.random(0, 3)), function() {
-          var purchaseOrderId = PurchaseOrders.insert({
-            userId: randomUser._id,
-            supplierCompanyId: companyId,
-            supplierContactId: contacts[Math.floor(Math.random() * contacts.length)],
-            projectId: projects[Math.floor(Math.random() * projects.length)],
-            description: faker.lorem.sentence(),
-            supplierReference: faker.random.uuid(),
-            status: _.sample(Schemas.PurchaseOrder._schema.status.allowedValues),
-            orderDate: faker.date.past(100),
-            deliveryDate: faker.date.past(100),
-            paymentMethod: _.sample(Schemas.PurchaseOrder._schema.paymentMethod.allowedValues),
-            //   currency: _.sample(Schemas.PurchaseOrder._schema.currency.allowedValues),
-            createdBy: randomUser._id
-          });
-
-          _.each(_.range(_.random(0, 2)), function() {
-            Activities.insert({
-              type: _.sample(Schemas.Activity._schema.type.allowedValues),
-              notes: faker.lorem.paragraphs(_.random(1, 3)),
-              createdAt: faker.date.recent(100),
-              activityTimestamp: faker.date.recent(100),
-              purchaseOrderId: purchaseOrderId,
-              createdBy: randomUser._id
+            _.each(_.range(_.random(0, 2)), function() {
+              Activities.insert({
+                type: _.sample(Schemas.Activity._schema.type.allowedValues),
+                notes: faker.lorem.paragraphs(_.random(1, 3)),
+                createdAt: faker.date.recent(100),
+                activityTimestamp: faker.date.recent(100),
+                companyId: companyId,
+                contactId: contactId,
+                createdBy: randomUser._id
+              });
             });
           });
 
           _.each(_.range(_.random(0, 2)), function() {
-            PurchaseOrderItems.insert({
-              purchaseOrderId: purchaseOrderId,
+            // var array = Meteor.users.find({}).fetch();
+            // var randomIndex = Math.floor(Math.random() * array.length);
+            // var element = array[randomIndex];
+
+            var projectId = Projects.insert({
               description: faker.lorem.sentence(),
-              productCode: faker.random.uuid(),
-              //     currency: _.sample(Schemas.PurchaseOrderItem._schema.currency.allowedValues),
-              value: parseFloat(_.random(1, 35)).toFixed(2),
-              quantity: _.random(1, 65),
-              totalPrice: "0.00",
+              companyId: companyId,
+              contactId: contacts[Math.floor(Math.random() * contacts.length)],
+              userId: randomUser._id,
+              //  status: _.sample(Schemas.Project._schema.status.allowedValues),
+              value: _.random(100, 3000),
+              probability: _.random(0, 100),
+              lastActionDate: faker.date.past(100),
+              // nextActionBy: element._id,
               createdBy: randomUser._id
+            });
+
+            projects.push(projectId);
+
+            _.each(_.range(_.random(0, 2)), function() {
+              Activities.insert({
+                type: _.sample(Schemas.Activity._schema.type.allowedValues),
+                notes: faker.lorem.paragraphs(_.random(1, 3)),
+                createdAt: faker.date.recent(100),
+                activityTimestamp: faker.date.recent(100),
+                projectId: projectId,
+                createdBy: randomUser._id
+              });
+            });
+          });
+
+          _.each(_.range(_.random(0, 3)), function() {
+            var purchaseOrderId = PurchaseOrders.insert({
+              userId: randomUser._id,
+              supplierCompanyId: companyId,
+              supplierContactId: contacts[Math.floor(Math.random() * contacts.length)],
+              projectId: projects[Math.floor(Math.random() * projects.length)],
+              description: faker.lorem.sentence(),
+              supplierReference: faker.random.uuid(),
+              status: _.sample(Schemas.PurchaseOrder._schema.status.allowedValues),
+              orderDate: faker.date.past(100),
+              deliveryDate: faker.date.past(100),
+              paymentMethod: _.sample(Schemas.PurchaseOrder._schema.paymentMethod.allowedValues),
+              //   currency: _.sample(Schemas.PurchaseOrder._schema.currency.allowedValues),
+              createdBy: randomUser._id
+            });
+
+            _.each(_.range(_.random(0, 2)), function() {
+              Activities.insert({
+                type: _.sample(Schemas.Activity._schema.type.allowedValues),
+                notes: faker.lorem.paragraphs(_.random(1, 3)),
+                createdAt: faker.date.recent(100),
+                activityTimestamp: faker.date.recent(100),
+                purchaseOrderId: purchaseOrderId,
+                createdBy: randomUser._id
+              });
+            });
+
+            _.each(_.range(_.random(0, 2)), function() {
+              PurchaseOrderItems.insert({
+                purchaseOrderId: purchaseOrderId,
+                description: faker.lorem.sentence(),
+                productCode: faker.random.uuid(),
+                //     currency: _.sample(Schemas.PurchaseOrderItem._schema.currency.allowedValues),
+                value: parseFloat(_.random(1, 35)).toFixed(2),
+                quantity: _.random(1, 65),
+                totalPrice: "0.00",
+                createdBy: randomUser._id
+              });
             });
           });
         });
-      });
 
-    });
+      });
+    }
+
+    LogEvent('debug', 'Demo data generated');
 
   },
 
   signUp: function(userDetails) {
-
+    userDetails.email = userDetails.email.toLowerCase();
     check(userDetails, Schemas.UserSignUp);
 
     var user = {
@@ -185,6 +196,21 @@ Meteor.methods({
 
       Partitioner.setUserGroup(userId, tenantId);
 
+      Partitioner.bindGroup(tenantId, function() {
+        Companies.insert({
+          name: "Cambridge Software Ltd.",
+          address: "St. John's Innovation Centre",
+          address2: "Cowley Road",
+          city: "Cambridge",
+          county: "Cambridgeshire",
+          postcode: "CB4 0WS",
+          country: "United Kingdom",
+          website: 'http://www.cambridgesoftware.co.uk',
+          phone: '01223 802 900',
+          createdBy: userId
+        });
+      });
+
       SSR.compileTemplate('emailText', Assets.getText('emailtemplate.html'));
       Template.emailText.helpers({
         getDoctype: function() {
@@ -226,6 +252,26 @@ Meteor.methods({
   }
 
 });
+
+LogEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
+  if (Meteor.isServer) {
+    logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
+    logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
+
+    var group = (Meteor.userId() ? Meteor.users.findOne(Meteor.userId()).group : undefined);
+
+    AuditLog.insert({
+      date: new Date(),
+      source: 'client',
+      level: logLevel,
+      message: logMessage,
+      user: (Meteor.userId() ? Meteor.userId() : undefined),
+      groupId: group,
+      entityType: logEntityType,
+      entityId: logEntityId
+    });
+  }
+}
 
 GetRoutedPageTitle = function(currentName) {
   var title = currentName;

@@ -2,8 +2,9 @@ Template.projectDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
      var project = Projects.findOne(FlowRouter.getParam('id'));
-     if (project) return
-     FlowRouter.go('projects');
+     if (FlowRouter.subsReady() && project === undefined) {
+       FlowRouter.go('projects');
+     }
   });
 });
 
@@ -27,11 +28,11 @@ Template.projectDetail.helpers({
       _id: this.userId
     }).fetch()[0].profile.name;
   },
-  nextActionName: function() {
-    return Meteor.users.find({
-      _id: this.nextActionBy
-    }).fetch()[0].profile.name;
-  },
+  // nextActionName: function() {
+  //   return Meteor.users.find({
+  //     _id: this.nextActionBy
+  //   }).fetch()[0].profile.name;
+  // },
   contactName: function() {
     var c = Contacts.find({
       _id: this.contactId

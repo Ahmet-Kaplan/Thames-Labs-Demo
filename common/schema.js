@@ -165,7 +165,8 @@ Schemas.Company = new SimpleSchema({
   website: {
     type: String,
     label: "Website",
-    optional: true,
+    // optional: true,
+    defaultValue: "http://",
     regEx: SimpleSchema.RegEx.Url
   },
   phone: {
@@ -173,16 +174,6 @@ Schemas.Company = new SimpleSchema({
     label: "Phone number",
     optional: true
   },
-  // source: {
-  //   type: String,
-  //   label: "Source",
-  //   optional: true
-  // },
-  // industry: {
-  //   type: String,
-  //   label: "Industry",
-  //   optional: true
-  // },
   createdBy: {
     type: String,
     autoform: {
@@ -331,32 +322,9 @@ Schemas.Project = new SimpleSchema({
     type: String,
     label: "Account Manager"
   },
-  // status: {
-  //   type: String,
-  //   allowedValues: [
-  //     'Proposed',
-  //     'Quoted',
-  //     'Accepted',
-  //     'Lost',
-  //     'Ordered',
-  //     'Incomplete',
-  //     'Completed'
-  //   ]
-  // },
   value: {
     type: Number
   },
-  // probability: {
-  //   type: Number
-  // },
-  // lastActionDate: {
-  //   type: Date,
-  //   optional: true
-  // },
-  // nextActionBy: {
-  //   type: String,
-  //   optional: true
-  // },
   createdBy: {
     type: String,
     autoform: {
@@ -382,15 +350,27 @@ Schemas.PurchaseOrder = new SimpleSchema({
   },
   supplierCompanyId: {
     type: String,
-    optional: true
+    label: 'Supplier Company'
   },
   supplierContactId: {
     type: String,
-    optional: true
+    optional: true,
+    label: 'Supplier Contact'
+  },
+  customerCompanyId: {
+    type: String,
+    optional: true,
+    label: 'Customer Company (optional)'
+  },
+  customerContactId: {
+    type: String,
+    optional: true,
+    label: 'Customer Contact'
   },
   projectId: {
     type: String,
-    optional: true
+    optional: true,
+    label: 'Project'
   },
   description: {
     type: String,
@@ -414,12 +394,9 @@ Schemas.PurchaseOrder = new SimpleSchema({
     ]
   },
   orderDate: {
-    type: Date
+    type: Date,
+    defaultValue: new Date()
   },
-  // deliveryDate: {
-  //   type: Date,
-  //   optional: true
-  // },
   paymentMethod: {
     type: String,
     optional: true,
@@ -430,14 +407,6 @@ Schemas.PurchaseOrder = new SimpleSchema({
       'Company Account'
     ]
   },
-  // currency: {
-  //   type: String,
-  //   allowedValues: [
-  //     'GBP',
-  //     'USD',
-  //     'EUR'
-  //   ]
-  // },
   notes: {
     type: String,
     label: "Notes",
@@ -590,3 +559,65 @@ Schemas.Feature = new SimpleSchema({
   }
 });
 Features.attachSchema(Schemas.Feature);
+
+//Products
+Schemas.Product = new SimpleSchema({
+  name: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  price: {
+    type: Number,
+    optional: true,
+    label: "Sales Price",
+    decimal: true
+  },
+  cost: {
+    type: Number,
+    optional: true,
+    label: "Cost Price",
+    decimal: true
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  }
+});
+Products.attachSchema(Schemas.Product);
+
+Schemas.Audit = new SimpleSchema({
+  date: {
+    type: Date
+  },
+  source: {
+    type: String,
+    defaultValue: 'client'
+  },
+  level: {
+    type: String
+  },
+  message: {
+    type: String
+  },
+  user: {
+    type: String,
+    optional: true
+  },
+  entityType: {
+    type: String,
+    optional: true
+  },
+  entityId: {
+    type: String,
+    optional: true
+  },
+  groupId: {
+    type: String,
+    optional: true
+  }
+});
+AuditLog.attachSchema(Schemas.Audit);

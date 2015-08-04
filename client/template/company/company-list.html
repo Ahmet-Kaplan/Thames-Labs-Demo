@@ -9,7 +9,7 @@
         {{> esInput index="companies" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
         <a href="#" id="createCompany">
           <div class="btn-group-vertical">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Add new company</button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add new company</button>
           </div>
         </a>
       </div>
@@ -17,7 +17,7 @@
 
     <div class="col-md-9">
 
-      <h1><i class="fa fa-building"></i> Companies</h1><small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
+      <h1 id="companies-page-header"><i class="fa fa-building"></i> Companies</h1><small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
 
       {{#if hasCompanies}}
       <div class="list-group" id="mchCompanyList">
