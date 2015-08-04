@@ -1,0 +1,43 @@
+<template name="productList">
+  {{setPageTitle 'Products'}}
+
+  <div class="row">
+    <div class="col-md-3 sidebar">
+      <h1>Actions</h1>
+      {{> esInput index="products" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
+      <div class="btn-group-vertical">
+        <a class="btn btn-primary" id="add-product">
+          <i class="fa fa-plus"></i>
+          Add product
+        </a>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <h1><i class="fa fa-fw fa-wrench"></i> Products</h1>
+      <small>{{productCount}} record{{#if hasMultipleProducts}}s{{/if}}</small>
+      {{#if hasProducts}}
+        <div class="list-group">
+          {{#ifEsIsSearching index="products"}}
+            {{> spinner}}
+            {{else}}
+            {{#esEach index="products"}}
+              {{> productListItem}}
+            {{/esEach}}
+            {{> esLoadMoreButton index="products" class="btn btn-default"}}
+          {{/ifEsIsSearching}}
+        </div>
+      {{else}}
+        <br>
+        <h4 style="color: gray;">No products</h4>
+      {{/if}}
+    </div>
+  </div>
+
+  {{> autoformModals}}
+</template>
+
+<template name="productListItem">
+  <a class="list-group-item product-item" href="{{pathFor route='product' id=_id}}">
+    <h4 class="list-group-item-heading">{{name}}</h4>
+  </a>
+</template>

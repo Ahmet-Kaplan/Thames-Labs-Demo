@@ -1,0 +1,80 @@
+<template name="productDetail">
+  {{#with productData}} {{setPageTitle "Product - " name}}
+  <div class="row">
+    <div class="col-md-2 hidden-xs hidden-sm">
+      <div class="sidebar">
+        <h1>Actions</h1>
+
+        <ul class="nav nav-stacked">
+          <li><a href="#product-details">Product details</a></li>
+        </ul>
+
+      </div>
+    </div>
+    <div class="col-md-10">
+      <h4 class="entity-title">Product</h4>
+      <h1 id="product-details" class="entity-name">{{name}}</h1>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="btn-group pull-right">
+            <a href="#" id="edit-product" class="btn btn-info btn-xs">Edit</a>
+            <a href="#" id="delete-product" class="btn btn-danger btn-xs">Delete</a>
+          </div>
+          Product details</div>
+        <ul class="list-group">
+          {{#if name}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-file-o"></i> Name</h4>
+            {{name}}
+          </li>
+          {{/if}}
+          {{#if desc}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
+            {{{desc}}}
+          </li>
+          {{/if}}
+          {{#if price}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-credit-card"></i> Sales Price</h4>
+            {{decimal price}}
+          </li>
+          {{/if}}
+          {{#if cost}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-gbp"></i> Cost Price</h4>
+            {{decimal cost}}
+          </li>
+          {{/if}}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {{/with}}
+</template>
+
+<template name="updateProductModal">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Update product</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Products" id="updateProductForm" type="update" doc=this}}
+            {{> afQuickField name="name" id="name-field"}}
+            {{> afQuickField name="description" id="desc-field" type="medium" class="form-control medium-editor"}}
+            {{> afQuickField name="price"}}
+            {{> afQuickField name="cost"}}
+            <button type="submit" class="btn btn-primary">Update</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

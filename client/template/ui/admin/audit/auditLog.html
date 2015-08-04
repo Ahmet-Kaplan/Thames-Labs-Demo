@@ -1,0 +1,45 @@
+<template name="auditLog">
+
+  <h1><i class="fa fa-fw fa-book"></i>Audit Log</h1>
+
+  {{setPageTitle 'Audit Log'}}
+  <div class="well well-sm">
+    <div class="btn-group">
+      <button id="clear-audit-log" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Clear audit log</button>
+    </div>
+  </div>
+
+  <ul class="list-group">
+    {{#each auditLogs}} {{> auditLogEntry}} {{else}}
+    <li class="list-group-item">
+      <em>No audit logs</em>
+    </li>
+    {{/each}}
+  </ul>
+
+</template>
+
+<template name="auditLogEntry">
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-md-2">
+        {{friendlyDate}}
+      </div>
+      <div class="col-md-1">
+        <span class="badge">{{source}}</span>
+      </div>
+      <div class="col-md-1">
+        {{{displayLevel}}}
+      </div>
+      <div class="col-md-4">
+        {{message}}
+      </div>
+      <div class="col-md-2 userDataDisplay">
+        {{#if entityType}} {{entityType}}: {{entityId}} {{/if}}
+      </div>
+      <div class="col-md-2 userDataDisplay">
+        {{#if user}} {{userName}} {{/if}}
+      </div>
+    </div>
+  </li>
+</template>
