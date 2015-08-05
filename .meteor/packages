@@ -50,8 +50,6 @@ patrickleet:tags
 blaze
 meteorhacks:ssr
 harrison:papa-parse
-meteorhacks:flow-router
-meteorhacks:flow-layout
 useraccounts:bootstrap
 arillo:flow-router-helpers
 aldeed:autoform-bs-datetimepicker
@@ -67,3 +65,5 @@ jeremy:geocomplete
 matb33:collection-hooks
 mizzao:bootboxjs
 digilord:faker
+kadira:flow-router
+kadira:blaze-layout

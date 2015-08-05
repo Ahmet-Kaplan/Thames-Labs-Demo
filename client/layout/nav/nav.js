@@ -1,11 +1,26 @@
 Template.nav.onRendered(function() {
   // $.getScript('/vendor/hopscotch/tours/nav_tour.js');
+<<<<<<< HEAD
   $('[data-toggle="tooltip"]').tooltip({
     delay: {"show": 1000, "hide": 100}
   });
+=======
+>>>>>>> master
 });
 
 Template.nav.helpers({
+  showTourOption: function() {
+    var currRoute = FlowRouter.getRouteName();
+    var show = false;
+
+    _.each(availableTours, function(at) {
+      if (at === currRoute) {
+        show = true;
+      }
+    });
+
+    return show;
+  },
   loggedIn: function() {
     return (Meteor.userId() ? true : false);
   },

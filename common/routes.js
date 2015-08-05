@@ -1,7 +1,7 @@
 var subs = new SubsManager(),
   group = Partitioner.group(),
   router = FlowRouter,
-  layout = FlowLayout;
+  layout = BlazeLayout;
 
 // These are route trigger functions
 // They're used for before / after actions on routes
@@ -22,6 +22,17 @@ var normalUserOnly = function(context, redirect) {
 var tidyUpModals = function(context) {
   $(".modal-backdrop").remove();
   $("body").removeClass('modal-open');
+
+  //cancel any active tours (might need updating to prevent closing the Welcome Tour, should it actively switch between pages)
+  //we can do this using the following code (comparison might need changing)
+  if (hopscotch.getCurrTour()) {
+    // var tourName = hopscotch.getCurrTour();
+    // if (tourName !== "welcome") {
+
+    //For now, let's just brute-force cancel the tour
+    hopscotch.endTour();
+    // }
+  }
 };
 
 // These functions add the triggers to routes globally
@@ -39,7 +50,6 @@ router.triggers.exit(tidyUpModals);
 router.subscriptions = function() {
   this.register('userPresence', Meteor.subscribe('userPresence'));
   this.register('allNotifications', Meteor.subscribe('allNotifications'));
-  this.register('allFeatures', Meteor.subscribe('allFeatures'));
   this.register('auditData', Meteor.subscribe('auditData'));
 };
 
@@ -70,7 +80,6 @@ router.route('/notifications', {
   name: 'notifications',
   subscriptions: function() {
     this.register('allNotifications', subs.subscribe('allNotifications'));
-    this.register('allFeatures', subs.subscribe('allFeatures'));
   },
   action: function() {
     layout.render('appLayout', {

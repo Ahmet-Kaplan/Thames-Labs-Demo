@@ -15,9 +15,9 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             {{#if canExportDocx}}
-            <li><a href="#" id="template-upload-link-docx" data-toggle="tooltip" data-placement="bottom" title="Export purchase order into a word document">Word document (.docx)</a></li>
+            <li><a href="#" id="template-upload-link-docx">Word document (.docx)</a></li>
             {{/if}}
-            <li><a href="#" id="template-upload-link" data-toggle="tooltip" data-placement="bottom" title="Export purchase order into a PDF">PDF (.pdf)</a></li>
+            <li><a href="#" id="template-upload-link">PDF (.pdf)</a></li>
             <li class="divider"></li>
             <li><a href="#" id="po-template-help">How does this work?</a></li>
           </ul>
@@ -115,7 +115,6 @@
       <h1 id="activity-timeline">
         Activity Timeline
         <a class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="New activity for this purchase order" href="#" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add
-
             activity</a>
       </h1>
       {{> activityTimeline activities=activities}}

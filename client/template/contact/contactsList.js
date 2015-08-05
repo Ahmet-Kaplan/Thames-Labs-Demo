@@ -5,6 +5,7 @@ Template.contactList.onRendered(function() {
       top: sidebar.offset().top
     }
   });
+
   // Watch for session variable setting search
   Session.set('contactListSearchQuery', null);
   Tracker.autorun(function() {
