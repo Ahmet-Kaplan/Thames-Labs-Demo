@@ -13,12 +13,18 @@
         <div class="panel-body">
           <p>This is where stages are configured for your sales pipeline.</p>
           <ul>
-            <li>Stage</li>
-            <li>Stage</li>
-            <li>Stage</li>
+            {{#each stages}}
+              {{> opportunityAdminStage}}
+            {{/each}}
           </ul>
         </div>
       </div>
     </div>
   </div>
+</template>
+<template name="opportunityAdminStage">
+  <li>
+    <h4>{{title}}</h4>
+    <p>{{description}}</p>
+  </li>
 </template>

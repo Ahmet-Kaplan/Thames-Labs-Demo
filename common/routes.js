@@ -365,7 +365,7 @@ router.route('/opportunities/:id', {
 router.route('/admin/opportunities', {
   name: 'opportunitiesAdmin',
   subscriptions: function() {
-    //this.register('allProducts', subs.subscribe('allProducts'));
+    this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
     layout.render('appLayout', {

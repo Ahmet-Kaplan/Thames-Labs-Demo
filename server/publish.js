@@ -262,3 +262,11 @@ Meteor.publish("productById", function(productId) {
     _id: productId
   });
 });
+
+//Opportunities
+Meteor.publish("allOpportunities", function() {
+  return Products.find({});
+});
+Meteor.publish("opportunityStages", function() {
+  return OpportunityStages.find({});
+});

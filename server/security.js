@@ -35,3 +35,6 @@ Chatterbox.permit(['insert']).ifLoggedIn().apply();
 AuditLog.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 
 Products.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+
+OpportunityStages.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+Opportunities.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
