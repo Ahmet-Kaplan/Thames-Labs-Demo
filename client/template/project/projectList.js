@@ -18,7 +18,6 @@ Template.projectsList.onRendered(function() {
       $('.sidebar input').val(searchQuery);
     }
   });
-  $('[data-toggle="tooltip"]').tooltip()
 });
 
 

@@ -1,6 +1,3 @@
-Template.datamanagement.onRendered(function() {
-   $('[data-toggle="tooltip"]').tooltip();
- });
 Template.datamanagement.events({
 
 
