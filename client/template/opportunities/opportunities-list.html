@@ -1,0 +1,40 @@
+<template name="opportunityList">
+
+  {{setPageTitle 'Opportunities'}}
+
+  <div class="row" id="opportunity-list">
+    <div class="col-md-3">
+      <div class="sidebar">
+        <h1>Actions</h1>
+      <!--  {{> esInput index="companies" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}} -->
+        <a href="#" id="createOpportunity">
+          <div class="btn-group-vertical">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add new opportunity</button>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+
+      <h1 id="companies-page-header"><i class="fa fa-files-o"></i> Opportunities</h1><small>{{opportunityCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
+
+      {{#if hasOpportunities}}
+      <div class="list-group" id="mchOpportunityList">
+      </div>
+
+      {{else}}
+      <br />
+      <h4 style="color:gray;" id="mchNoOpportunityPlaceholder">No opportunities</h4>
+      {{/if}}
+
+    </div>
+  </div>
+
+</template>
+
+<template name="companyListItem">
+  <a class="list-group-item" href="{{pathFor route='company' id=_id}}">
+    <h4 class="list-group-item-heading">{{name}}</h4>
+  </a>
+</template>

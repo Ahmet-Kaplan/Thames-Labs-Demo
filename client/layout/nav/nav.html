@@ -237,8 +237,15 @@
             <table class="table">
               <tr>
                 <td>
-                  <a class="not-active {{#if isActiveRoute 'opportunities'}}active{{/if}}">
+                  <a href="/opportunities" class="{{#if isActiveRoute 'opportunities'}}active{{/if}}">
                     <i class="fa fa-fw fa-files-o"></i> Opportunities</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="/admin/opportunities" class="{{#if isActiveRoute 'opportunitiesAdmin'}}active{{/if}}">
+                    <i class="fa fa-fw fa-files-o"></i> Opportunities Config
+                  </a>
                 </td>
               </tr>
             </table>

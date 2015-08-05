@@ -337,3 +337,39 @@ router.route('/products/:id', {
     });
   }
 });
+
+router.route('/opportunities', {
+  name: 'opportunities',
+  subscriptions: function() {
+    //this.register('allProducts', subs.subscribe('allProducts'));
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: 'opportunityList'
+    });
+  }
+});
+
+router.route('/opportunities/:id', {
+  name: 'opportunity',
+  subscriptions: function(params) {
+    //this.register('productById', subs.subscribe('productById', params.id));
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: 'opportunityDetail'
+    });
+  }
+});
+
+router.route('/admin/opportunities', {
+  name: 'opportunitiesAdmin',
+  subscriptions: function() {
+    //this.register('allProducts', subs.subscribe('allProducts'));
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: 'opportunityAdmin'
+    });
+  }
+});

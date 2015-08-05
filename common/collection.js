@@ -206,6 +206,11 @@ Partitioner.partitionCollection(Tasks);
 
 AuditLog = new Mongo.Collection('audit');
 
+Opportunities = new Mongo.Collection('opportunities');
+Partitioner.partitionCollection(Opportunities);
+
+OpportunityStages = new Mongo.Collection('opportunitystages');
+Partitioner.partitionCollection(OpportunityStages);
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////

@@ -617,3 +617,78 @@ Schemas.Audit = new SimpleSchema({
   }
 });
 AuditLog.attachSchema(Schemas.Audit);
+
+//Opportunities
+Schemas.OpportunityStage = new SimpleSchema({
+  title: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  sortOrder: {
+    type: Number
+  }
+});
+OpportunityStages.attachSchema(Schemas.OpportunityStage);
+
+Schemas.OpportunityLine = new SimpleSchema({
+  name: {
+    type: String
+  },
+  description: {
+    type: String,
+    optional: true
+  },
+  quantity: {
+    type: Number,
+    optional: true
+  },
+  pricePerUnit: {
+    type: Number,
+    optional: true
+  },
+  productId: {
+    type: String,
+    optional: true
+  }
+});
+
+Schemas.Opportunity = new SimpleSchema({
+  title: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  date: {
+    type: Date
+  },
+  opportunityNumber: {
+    type: Number
+  },
+  lines: {
+    type: [Schemas.OpportunityLine]
+  },
+  isAccepted: {
+    type: Boolean,
+    optional: true
+  },
+  isArchived: {
+    type: Boolean,
+    optional: true
+  },
+  currentStageId: {
+    type: String
+  },
+  createdAt: {
+    type: Date
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  }
+});
+Opportunities.attachSchema(Schemas.Opportunity);
