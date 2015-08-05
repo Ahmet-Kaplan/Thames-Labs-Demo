@@ -265,8 +265,8 @@ Meteor.publish("productById", function(productId) {
 
 //Opportunities
 Meteor.publish("allOpportunities", function() {
-  return Products.find({});
+  return Opportunities.find({});
 });
 Meteor.publish("opportunityStages", function() {
-  return OpportunityStages.find({});
+  return OpportunityStages.find({}, {sort: {sortOrder: 1}});
 });

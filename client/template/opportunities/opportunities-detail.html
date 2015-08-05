@@ -1,3 +1,71 @@
 <template name="opportunityDetail">
-
+  {{setPageTitle "Opportunity -"}}
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <h4 class="entity-title">Opportunity</h4>
+      <div class="pull-right">
+        <button class="btn btn-default"><i class="fa fa-fw fa-chevron-left"></i> Back to previous step</button>
+        <button class="btn btn-primary">Move to next step <i class="fa fa-fw fa-chevron-right"></i></button>
+      </div>
+      <h1 class="entity-name">Opportunities</h1>
+      <div class="stepwizard hidden-xs">
+        <div class="stepwizard-row">
+          {{#each stages}}
+            {{> opportunityStage}}
+          {{/each}}
+        </div>
+      </div>
+      <br>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Opportunity details
+          <div class="pull-right">
+            <button class="btn btn-default btn-xs">Edit</button>
+          </div>
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-file-o"></i> Title</h4>
+            {{title}}T
+          </li>
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
+            {{{description}}}D
+          </li>
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-align-left"></i> Opportunity Number</h4>
+            {{{opportunityNumber}}}N
+          </li>
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-align-left"></i> Date</h4>
+            {{{date}}}D
+          </li>
+        </ul>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Lines
+          <div class="pull-right">
+            <button class="btn btn-default btn-xs">Add</button>
+          </div>
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-file-o"></i> Product</h4>
+            Product 1
+          </li>
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-align-left"></i> Product</h4>
+            Product 2
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+<template name="opportunityStage">
+  <div class="stepwizard-step">
+    <button type="button" class="btn btn-default btn-circle {{#if isCurrentStep}}active-step{{/if}}" disabled="disabled">{{sortOrder}}</button>
+    <p>{{title}}</p>
+  </div>
 </template>

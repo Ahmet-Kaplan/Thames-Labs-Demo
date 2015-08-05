@@ -1,4 +1,5 @@
 <template name="opportunityAdmin">
+  {{setPageTitle "Opportunity Configuration"}}
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
       <h4 class="entity-title">Admin</h4>
@@ -12,18 +13,23 @@
         </div>
         <div class="panel-body">
           <p>This is where stages are configured for your sales pipeline.</p>
-          <ul>
-            {{#each stages}}
+          <div class="opportunity-stage-container">
+            {{#sortable items=stages sortField="sortOrder" ghostClass="opportunity-stage-ghost" options=options handle=".handle"}}
               {{> opportunityAdminStage}}
-            {{/each}}
-          </ul>
+            {{/sortable}}
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <template name="opportunityAdminStage">
-  <li>
+  <li class="opportunity-stage">
+    <div class="pull-right handle">
+      <button class="btn btn-info btn-xs">Edit</button>
+      <button class="btn btn-danger btn-xs">Delete</button>
+      <i class="fa fa-fw fa-bars"></i>
+    </div>
     <h4>{{title}}</h4>
     <p>{{description}}</p>
   </li>

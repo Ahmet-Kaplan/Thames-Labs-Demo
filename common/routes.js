@@ -341,7 +341,7 @@ router.route('/products/:id', {
 router.route('/opportunities', {
   name: 'opportunities',
   subscriptions: function() {
-    //this.register('allProducts', subs.subscribe('allProducts'));
+    this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -353,7 +353,7 @@ router.route('/opportunities', {
 router.route('/opportunities/:id', {
   name: 'opportunity',
   subscriptions: function(params) {
-    //this.register('productById', subs.subscribe('productById', params.id));
+    this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
     layout.render('appLayout', {

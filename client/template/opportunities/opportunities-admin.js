@@ -6,5 +6,10 @@ Template.opportunityAdmin.helpers({
       sortOrder: 0
     }); */
     return OpportunityStages.find({});
+  },
+  options: function() {
+    return {
+        sort: true
+    };
   }
 });
