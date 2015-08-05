@@ -1,6 +1,3 @@
-Template.taskList.onRendered(function() {
-  $('[data-toggle="tooltip"]').tooltip();
-  });
 Session.set('showCompleted', 1);
 
 Template.taskList.helpers({

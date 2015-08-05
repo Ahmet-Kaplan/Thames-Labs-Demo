@@ -6,7 +6,6 @@ Template.companyDetail.onCreated(function() {
       FlowRouter.go('companies');
     }
   });
-  $('[data-toggle="tooltip"]').tooltip()
 });
 
 Template.companyDetail.onRendered(function() {

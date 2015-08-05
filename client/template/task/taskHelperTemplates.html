@@ -61,7 +61,7 @@
   <div class="panel panel-default" id='entityTaskList'>
     <div class="panel-heading" id="tasks">
       {{#if isDashboard}}My {{/if}}Tasks
-      <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="Click here to add a task which needs to be completed"><i class="fa fa-fw fa-plus"></i> Add {{#if isDashboard}} personal {{/if}} task</a>
+      <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add {{#if isDashboard}} personal {{/if}} task</a>
     </div>
     <ul class="list-group" id='taskContainer'>
       {{#each tasks}} {{> taskDisplayItem}} {{else}}
@@ -77,10 +77,10 @@
       <i class="fa fa-fw fa-check"></i>
       <span data-toggle="collapse" data-parent="#accordion" href="#collapseTask{{_id}}" id="displayedTaskHeading">{{title}}</span>
       <div class="btn-group pull-right">
-        <button class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="bottom" title="Click here to edit the task" id="btnEditEntityTask" type="button">
+        <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
           Edit task
         </button>
-        <button class="btn btn-danger  btn-xs" data-toggle="tooltip" data-placement="bottom" title="Click here to delete this task" id="btnDeleteEntityTask" type="button">
+        <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button">
           Delete task
         </button>
         <!-- {{#afModal class="btn btn-danger btn-xs" collection="Tasks" doc=_id operation="remove" formId="removeTaskForm" onSuccess="onTaskRemove"}} Delete task {{/afModal}} -->

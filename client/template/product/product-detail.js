@@ -1,6 +1,3 @@
-Template.productDetail.onRendered(function() {
-    $('[data-toggle="tooltip"]').tooltip()
-});
 Template.productDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
