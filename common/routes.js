@@ -25,13 +25,14 @@ var tidyUpModals = function(context) {
 
   //cancel any active tours (might need updating to prevent closing the Welcome Tour, should it actively switch between pages)
   //we can do this using the following code (comparison might need changing)
-  // var tourName = hopscotch.getCurrTour();
-  // if (tourName !== "welcome") {
-  //   hopscotch.endTour();
-  // }
+  if (hopscotch.getCurrTour()) {
+    // var tourName = hopscotch.getCurrTour();
+    // if (tourName !== "welcome") {
 
-  //For now, let's just brute-force cancel the tour
-  hopscotch.endTour();
+    //For now, let's just brute-force cancel the tour
+    hopscotch.endTour();
+    // }
+  }
 };
 
 // These functions add the triggers to routes globally

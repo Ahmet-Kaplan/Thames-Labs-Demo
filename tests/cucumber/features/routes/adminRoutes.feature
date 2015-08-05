@@ -17,6 +17,7 @@ Feature: Superuser can access special parts of the site
     Then I should see the heading "Notifications"
     And I should see the title "Notifications"
 
+  @dev
   Scenario: A superadmin user can't visit the dashboard
     When I navigate to "/"
     Then I should see the heading "Tenants"
