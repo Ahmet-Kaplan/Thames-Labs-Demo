@@ -50,12 +50,18 @@ Meteor.methods({
   'createTestCustomField': function() {
     var cfName = 'velocity';
     var cfValue = 'cucumber';
+    var cfType = 'text';
     var cfMaster = {};
     var company = Companies.findOne({
       name: 'test company'
     });
 
-    cfMaster[cfName] = cfValue;
+    var settings = {
+      "dataValue": cfValue,
+      "dataType": cfType
+    }
+
+    cfMaster[cfName] = settings;
 
     Companies.update(company._id, {
       $set: {
@@ -80,7 +86,9 @@ Meteor.methods({
     return data;
   },
   'getProductByName': function(name) {
-    return Products.findOne({name: name});
+    return Products.findOne({
+      name: name
+    });
   },
 });
 
