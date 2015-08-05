@@ -7,6 +7,7 @@ Template.contactDetail.onCreated(function() {
       FlowRouter.go('contacts');
     }
   });
+  $('[data-toggle="tooltip"]').tooltip()
 });
 
 Template.contactDetail.onRendered(function() {
@@ -22,9 +23,13 @@ Template.contactDetail.onRendered(function() {
 Template.contactDetail.helpers({
   'contactData': function() {
     var contactId = FlowRouter.getParam('id');
-    return Contacts.findOne({
+    var contact = Contacts.findOne({
       _id: contactId
     });
+    if (contact.tags !== undefined) {
+      contact.tags.sort();
+    }
+    return contact;
   },
   'projects': function() {
     var contactId = FlowRouter.getParam('id');

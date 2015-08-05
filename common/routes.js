@@ -39,7 +39,6 @@ router.triggers.exit(tidyUpModals);
 router.subscriptions = function() {
   this.register('userPresence', Meteor.subscribe('userPresence'));
   this.register('allNotifications', Meteor.subscribe('allNotifications'));
-  this.register('allFeatures', Meteor.subscribe('allFeatures'));
   this.register('auditData', Meteor.subscribe('auditData'));
 };
 
@@ -70,7 +69,6 @@ router.route('/notifications', {
   name: 'notifications',
   subscriptions: function() {
     this.register('allNotifications', subs.subscribe('allNotifications'));
-    this.register('allFeatures', subs.subscribe('allFeatures'));
   },
   action: function() {
     layout.render('appLayout', {

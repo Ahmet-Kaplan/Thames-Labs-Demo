@@ -21,7 +21,11 @@ Template.projectDetail.onRendered(function() {
 Template.projectDetail.helpers({
   projectData: function() {
     var projectId = FlowRouter.getParam('id');
-    return Projects.findOne(projectId);
+    var project = Projects.findOne(projectId);
+    if (project.tags !== undefined) {
+      project.tags.sort();
+    }
+    return project;
   },
   managerName: function() {
     return Meteor.users.find({

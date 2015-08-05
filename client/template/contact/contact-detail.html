@@ -6,8 +6,8 @@
         <h1>Actions</h1>
 
         <ul class="nav nav-stacked">
-          <li><a href="#contact-details">Contact details</a></li>
-          <li><a href="#activity-timeline">Activity timeline</a></li>
+          <li><a href="#contact-details" data-toggle="tooltip" data-placement="bottom" title="Click here to see the contact details">Contact details</a></li>
+          <li><a href="#activity-timeline" data-toggle="tooltip" data-placement="bottom" title="Click here to see the activity timeline">Activity timeline</a></li>
         </ul>
 
       </div>
@@ -22,7 +22,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#afModal class="btn btn-info btn-xs" collection="Contacts" doc=_id operation="update" formId="updateContactForm" omitFields="companyId"}} Edit contact details {{/afModal}}
+            {{#afModal class="btn btn-info btn-xs" data-toggle="tooltip" collection="Contacts" doc=_id operation="update" formId="updateContactForm" omitFields="companyId"}} Edit contact details {{/afModal}}
 
 
             <a href="#" id="remove-contact" class="btn btn-danger btn-xs">Delete contact</a>
@@ -60,7 +60,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
           Projects
-          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add project</a>
+          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="Click here to add a project"><i class="fa fa-fw fa-plus"></i> Add project</a>
         </div>
         <ul class="list-group">
           {{#each projects}} {{> ContactProjectListItem}} {{else}}
@@ -72,7 +72,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
           Purchase Orders
-          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add purchase order</a>
+          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="Click here to create a purchase order"><i class="fa fa-fw fa-plus"></i> Add purchase order</a>
         </div>
         <ul class="list-group">
           {{#each purchaseOrders}}
@@ -99,7 +99,7 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a href="#" class="btn btn-primary pull-right" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
+        <a href="#" class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="Click here to add an activity" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
       </h1>
       {{> activityTimeline activities=activities}}
     </div>

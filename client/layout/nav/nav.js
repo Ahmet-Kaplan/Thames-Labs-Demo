@@ -1,5 +1,6 @@
 Template.nav.onRendered(function() {
   // $.getScript('/vendor/hopscotch/tours/nav_tour.js');
+$('[data-toggle="tooltip"]').tooltip();
 });
 
 Template.nav.helpers({

@@ -6,6 +6,7 @@ Template.purchaseOrderDetail.onCreated(function() {
       FlowRouter.go('purchaseOrders');
     }
   });
+  $('[data-toggle="tooltip"]').tooltip()
 });
 
 Template.purchaseOrderDetail.onRendered(function() {
