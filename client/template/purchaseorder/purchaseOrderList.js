@@ -19,6 +19,7 @@ Template.purchaseOrderList.onRendered(function() {
   // });
 
   Meteor.subscribe("allContacts");
+  $('[data-toggle="tooltip"]').tooltip()
 });
 
 Template.purchaseOrderList.events({
