@@ -112,10 +112,10 @@ AT.prototype.clearMessage = function() {
     form.set("message", null);
 };
 
-var ensureSignedIn = function(context) {
+var ensureSignedIn = function(path, next) {
   if (!Meteor.userId()) {
       // Tracker.nonreactive(function () {
-        AccountsTemplates.setPrevPath(context.path);
+        AccountsTemplates.setPrevPath(path);
       // });
       AccountsTemplates.setState(AccountsTemplates.options.defaultState, function(){
           var err = AccountsTemplates.texts.errors.mustBeLoggedIn;
@@ -144,12 +144,14 @@ var ensureSignedIn = function(context) {
       var contentRegion = (options && options.contentRegion) || defaultContentRegion;
 
       layoutRegions[contentRegion] = template;
-      FlowLayout.render(layoutTemplate, layoutRegions);
+      BlazeLayout.render(layoutTemplate, layoutRegions);
+  } else {
+    next()
   }
 };
 
-AT.prototype.ensureSignedIn = function(context) {
-  ensureSignedIn(context);
+AT.prototype.ensureSignedIn = function(context, redirect) {
+  ensureSignedIn(context, redirect);
 };
 
 
@@ -539,6 +541,13 @@ AccountsTemplates = new AT();
 
 
 // Initialization
-Meteor.startup(function(){
+if (FlowRouter && FlowRouter.initialize) {
+  // In order for ensureSignIn triggers to work, AccountsTemplates must be initialized before FlowRouter
+  var parent = FlowRouter.initialize;
+  FlowRouter.initialize = function() {
     AccountsTemplates._init();
-});
+    parent.apply(this, arguments)
+  }
+} else {
+  Meteor.startup(AccountsTemplates._init);
+}
