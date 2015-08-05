@@ -1,11 +1,8 @@
 Template.nav.onRendered(function() {
   // $.getScript('/vendor/hopscotch/tours/nav_tour.js');
-<<<<<<< HEAD
   $('[data-toggle="tooltip"]').tooltip({
     delay: {"show": 1000, "hide": 100}
   });
-=======
->>>>>>> master
 });
 
 Template.nav.helpers({
