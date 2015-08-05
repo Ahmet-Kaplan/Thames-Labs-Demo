@@ -6,7 +6,9 @@ Template.purchaseOrderDetail.onCreated(function() {
       FlowRouter.go('purchaseOrders');
     }
   });
-  $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="tooltip"]').tooltip({
+    delay: {"show": 1000, "hide": 100}
+  });
 });
 
 Template.purchaseOrderDetail.onRendered(function() {

@@ -7,7 +7,9 @@ Template.contactDetail.onCreated(function() {
       FlowRouter.go('contacts');
     }
   });
-  $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="tooltip"]').tooltip({
+    delay: {"show": 1000, "hide": 100}
+  });
 });
 
 Template.contactDetail.onRendered(function() {

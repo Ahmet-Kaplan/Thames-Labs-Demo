@@ -1,5 +1,6 @@
 Template.taskList.onRendered(function() {
-  $('[data-toggle="tooltip"]').tooltip();
+  $('[data-toggle="tooltip"]').tooltip({
+    delay: {"show": 1000, "hide": 100}
   });
 Session.set('showCompleted', 1);
 
@@ -99,4 +100,5 @@ Template.taskListEntry.events({
   'click #tskDeleteTaskListEntry': function() {
     Tasks.remove(this._id);
   }
+})
 });
