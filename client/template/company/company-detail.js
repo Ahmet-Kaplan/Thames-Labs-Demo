@@ -21,7 +21,9 @@ Template.companyDetail.onRendered(function() {
   $.getScript('/vendor/docxgen.min.js');
 
   // Load google maps
-  GoogleMaps.load();
+  GoogleMaps.load({
+    libraries: 'places'
+  });
 });
 
 Template.companyDetail.events({
@@ -82,6 +84,9 @@ Template.companyDetail.events({
         Companies.remove(companyId);
       }
     });
+  },
+  'click #edit-company': function() {
+    Modal.show('editCompanyModal', this);
   }
 });
 
