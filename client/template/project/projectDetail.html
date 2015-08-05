@@ -6,8 +6,8 @@
         <h1>Actions</h1>
 
         <ul class="nav nav-stacked">
-          <li><a href="#project-details" data-toggle="tooltip" data-placement="bottom" title="Click here to quickly navigate to the project details">Project details</a></li>
-          <li><a href="#activity-timeline" data-toggle="tooltip" data-placement="bottom" title="Click here to quickly navigate to the activity timeline">Activity timeline</a></li>
+          <li><a href="#project-details">Project details</a></li>
+          <li><a href="#activity-timeline">Activity timeline</a></li>
         </ul>
 
       </div>
@@ -23,21 +23,21 @@
         <div class="panel-heading">
           <div class="btn-group pull-right">
             <!-- {{#afModal class="btn btn-info btn-xs" collection="Projects" doc=_id operation="update" formId="updateProjectForm" omitFields="projectId, companyId"}} Edit project details {{/afModal}} -->
-            <a href="#" id="edit-project" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="bottom" title="Click here to edit the project details">Edit project details</a>
+            <a href="#" id="edit-project" class="btn btn-info btn-xs">Edit project details</a>
             <!-- {{#afModal class="btn btn-danger btn-xs" collection="Projects" doc=_id operation="remove" formId="removeProjectForm"}} Delete project {{/afModal}} -->
 
-            <a href="#" id="remove-project" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="bottom" title="Click here to remove project details">Delete project</a>
+            <a href="#" id="remove-project" class="btn btn-danger btn-xs">Delete project</a>
 
           </div>
           Project details</div>
         <ul class="list-group">
           {{#if company}}
-          <a href="{{pathFor route='company' id=company._id}}" class="list-group-item">
+          <a href="{{pathFor route='company' id=company._id}}" class="list-group-item" data-toggle="tooltip" data-placement="bottom" title="Navigate to company details">
             <i class="fa fa-fw fa-building"></i> Company: {{company.name}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
           {{/if}} {{#if contactId}}
-          <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item">
+          <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item" data-toggle="tooltip" data-placement="bottom" title="Navigate to contact details">
             <i class="fa fa-fw fa-user"></i> Contact: {{contactName}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
@@ -69,7 +69,7 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a href="#" class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="Click here to add an activity which relates to this project" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
+        <a href="#" class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="New activity for this project" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
       </h1>
       {{> activityTimeline activities=activities}}
     </div>
