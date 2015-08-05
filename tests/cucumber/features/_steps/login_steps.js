@@ -17,6 +17,10 @@ module.exports = function() {
 
   this.Given(/^I am a logged in user$/, function(callback) {
     this.client
+      .setViewportSize({
+        width: 1000,
+        height: 900
+      })
       .url(process.env.ROOT_URL)
       .executeAsync(logout)
       .executeAsync(login, 'test@domain.com', 'goodpassword')
