@@ -55,23 +55,28 @@ Template.companyDetail.events({
   'click #template-upload-link': function() {
     document.getElementById('template-upload').click();
   },
-  'click #template-help': function() {
+  'click #template-help': function(event) {
+    event.preventDefault();
     Modal.show('wordHelpModal');
   },
-  'click #add-contact': function() {
+  'click #add-contact': function(event) {
+    event.preventDefault();
     Modal.show('insertContactModal', this);
   },
-  'click #add-activity': function() {
+  'click #add-activity': function(event) {
+    event.preventDefault();
     Modal.show('insertActivityModal', {
       company: this
     });
   },
-  'click #add-project': function() {
+  'click #add-project': function(event) {
+    event.preventDefault();
     Modal.show('newCompanyProjectForm', {
       companyId: this._id
     });
   },
-  'click #add-purchase-order': function() {
+  'click #add-purchase-order': function(event) {
+    event.preventDefault();
     Modal.show('newCompanyPurchaseOrderForm', {
       customerCompanyId: this._id
     });

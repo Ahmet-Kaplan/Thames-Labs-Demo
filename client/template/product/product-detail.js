@@ -29,7 +29,8 @@ Template.productDetail.events({
     });
   },
 
-  'click #edit-product': function() {
+  'click #edit-product': function(event) {
+    event.preventDefault();
     Modal.show('updateProductModal', this);
   },
 });

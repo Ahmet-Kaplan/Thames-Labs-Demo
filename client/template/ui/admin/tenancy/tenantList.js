@@ -30,12 +30,14 @@ Template.tenant.helpers({
 
 Template.tenantList.events({
   "click #btnAddNewTenant": function(event, template) {
+      event.preventDefault();
     Modal.show('addTenant');
   }
 });
 
 Template.tenant.events({
   "click #btnAddNewTenantUser": function(event, template) {
+      event.preventDefault();
     Modal.show('addTenantUser', this);
   },
   "click #btnDeleteTenant": function(event, template) {

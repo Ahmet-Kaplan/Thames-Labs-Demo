@@ -191,22 +191,28 @@ Template.nav.events({
       }
     });
   },
-  'click #qckCreateCompany': function() {
+  'click #qckCreateCompany': function(event) {
+    event.preventDefault();
     Modal.show('insertNewCompanyModal', this);
   },
-  'click #qckCreateContact': function() {
+  'click #qckCreateContact': function(event) {
+    event.preventDefault();
     Modal.show('insertCompanyContactModal', this);
   },
-  'click #qckCreateProject': function() {
+  'click #qckCreateProject': function(event) {
+    event.preventDefault();
     Modal.show('newProjectForm', this);
   },
-  'click #qckCreatePurchaseOrder': function() {
+  'click #qckCreatePurchaseOrder': function(event) {
+    event.preventDefault();
     Modal.show('newPurchaseOrderForm', this);
   },
-  'click #feedback-link': function() {
+  'click #feedback-link': function(event) {
+    event.preventDefault();
     Modal.show('feedbackModal');
   },
-  'click #btnChangePassword': function() {
+  'click #btnChangePassword': function(event) {
+    event.preventDefault();
     Modal.show('changePassword');
   },
   'click #sign-out': function() {

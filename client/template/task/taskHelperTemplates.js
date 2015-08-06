@@ -87,7 +87,8 @@ Template.taskDisplay.helpers({
 });
 
 Template.taskDisplay.events({
-  'click #btnAddTaskToEntity': function() {
+  'click #btnAddTaskToEntity': function(event) {
+    event.preventDefault();
     Modal.show('insertNewTask', this);
   }
 });
@@ -139,7 +140,8 @@ Template.taskDisplayItem.helpers({
 });
 
 Template.taskDisplayItem.events({
-  'click #btnEditEntityTask': function() {
+  'click #btnEditEntityTask': function(event) {
+    event.preventDefault();
     Modal.show('updateTask', this);
   },
   'click #btnDeleteEntityTask': function() {

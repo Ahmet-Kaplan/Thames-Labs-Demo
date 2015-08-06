@@ -1,5 +1,6 @@
 Template.customFieldDisplay.events({
-  'click #add-custom-field': function() {
+  'click #add-custom-field': function(event) {
+    event.preventDefault();
     Modal.show('addCustomField', this);
   }
 });
@@ -75,7 +76,8 @@ Template.cfDisplay.helpers({
 });
 
 Template.cfDisplay.events({
-  'click #edit-custom-field': function() {
+  'click #edit-custom-field': function(event) {
+    event.preventDefault();
     Modal.show('updateCustomField', this);
   },
   'click #delete-custom-field': function() {

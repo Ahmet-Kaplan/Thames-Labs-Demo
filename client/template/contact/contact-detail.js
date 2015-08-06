@@ -53,13 +53,15 @@ Template.contactDetail.helpers({
 });
 
 Template.contactDetail.events({
-  'click #add-activity': function() {
+  'click #add-activity': function(event) {
+    event.preventDefault();
     Modal.show('insertContactActivityModal', {
       company: this.company(),
       contact: this
     });
   },
-  'click #add-project': function() {
+  'click #add-project': function(event) {
+    event.preventDefault();
     var company = this.company();
     if (company === undefined) {
       Modal.show('newContactProjectForm', {
@@ -72,7 +74,8 @@ Template.contactDetail.events({
       });
     }
   },
-  'click #add-purchase-order': function() {
+  'click #add-purchase-order': function(event) {
+    event.preventDefault();
     var company = this.company();
     if (company === undefined) {
       Modal.show('newContactPurchaseOrderForm', {

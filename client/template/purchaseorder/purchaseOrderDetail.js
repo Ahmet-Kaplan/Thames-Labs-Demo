@@ -218,20 +218,24 @@ Template.purchaseOrderDetail.events({
   'click #template-upload-link-docx': function() {
     document.getElementById('template-upload-docx').click();
   },
-  'click #po-template-help': function() {
+  'click #po-template-help': function(event) {
+    event.preventDefault();
     Modal.show('poHelpModal');
   },
-  'click #add-item': function() {
+  'click #add-item': function(event) {
+    event.preventDefault();
     Modal.show('addPurchaseOrderItemModal', {
       project: this
     });
   },
-  'click #add-activity': function() {
+  'click #add-activity': function(event) {
+    event.preventDefault();
     Modal.show('insertPurchaseOrderActivityModal', {
       purchaseOrder: this
     });
   },
-  'click #edit-purchase-order': function() {
+  'click #edit-purchase-order': function(event) {
+    event.preventDefault();
     Modal.show('updatePurchaseOrderFormModal', this);
   },
   'click #remove-purchase-order': function() {
@@ -249,7 +253,8 @@ Template.purchaseOrderItem.events({
   'click #removePurchaseOrderItem': function() {
     PurchaseOrderItems.remove(this._id);
   },
-  'click #edit-po-item': function() {
+  'click #edit-po-item': function(event) {
+    event.preventDefault();
     Modal.show('editPurchaseOrderItemModal', this);
   }
 });

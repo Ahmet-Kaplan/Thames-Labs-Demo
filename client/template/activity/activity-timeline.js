@@ -26,7 +26,8 @@ Template.activityTimeline.helpers({
 });
 
 Template.activityTimeline.events({
-  'click #edit-activity': function() {
+  'click #edit-activity': function(event) {
+    event.preventDefault();
     Modal.show('updateActivityModal', this);
   },
   'click #remove-activity': function() {
