@@ -51,6 +51,7 @@ Template.tenant.events({
     });
   },
   "click #btnEditSettings": function(event, template) {
+      event.prventDefault();
     Modal.show('updateTenantSettings', this);
   },
   'click #btnDemoData': function() {
