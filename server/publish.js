@@ -62,16 +62,17 @@ Meteor.publish("currentTenantUserData", function(groupId) {
   });
 });
 Meteor.publish("allUserData", function() {
-  if (!Partitioner.getUserGroup(this.userId)) return this.ready();
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
-    return Meteor.users.find({}, {
-      fields: {
-        'group': true,
-        'username': true,
-        'emails': true,
-        'profile': true,
-        'createdAt': true
-      }
+    return Partitioner.directOperation(function() {
+      return Meteor.users.find({}, {
+        fields: {
+          'group': true,
+          'username': true,
+          'emails': true,
+          'profile': true,
+          'createdAt': true
+        }
+      });
     });
   } else {
     // User not superadmin, do not publish
