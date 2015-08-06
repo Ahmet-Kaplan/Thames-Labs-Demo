@@ -41,7 +41,7 @@ Template.tenant.events({
     Modal.show('addTenantUser', this);
   },
   "click #btnDeleteTenant": function(event, template) {
-
+      event.preventDefault();
     var tenantId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this tenant?", function(result) {
@@ -51,7 +51,7 @@ Template.tenant.events({
     });
   },
   "click #btnEditSettings": function(event, template) {
-      event.prventDefault();
+      event.preventDefault();
     Modal.show('updateTenantSettings', this);
   },
   'click #btnDemoData': function() {
