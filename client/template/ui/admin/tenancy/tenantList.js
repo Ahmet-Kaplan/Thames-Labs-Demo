@@ -74,6 +74,7 @@ Template.user.helpers({
 
 Template.user.events({
   "click #btnDeleteTenantUser": function(event, template) {
+     var userId = this._id;
         event.preventDefault();
 
     bootbox.confirm("Are you sure you wish to delete this user?", function(result) {
