@@ -30,7 +30,8 @@ Template.activityTimeline.events({
     event.preventDefault();
     Modal.show('updateActivityModal', this);
   },
-  'click #remove-activity': function() {
+  'click #remove-activity': function(event) {
+      event.preventDefault();
     var activityId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this activity?", function(result) {

@@ -80,7 +80,8 @@ Template.cfDisplay.events({
     event.preventDefault();
     Modal.show('updateCustomField', this);
   },
-  'click #delete-custom-field': function() {
+  'click #delete-custom-field': function(event) {
+      event.preventDefault();
 
     bootbox.confirm("Are you sure you wish to delete this custom field?", function(result) {
       if (result === false) {

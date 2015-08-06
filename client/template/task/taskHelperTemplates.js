@@ -144,7 +144,8 @@ Template.taskDisplayItem.events({
     event.preventDefault();
     Modal.show('updateTask', this);
   },
-  'click #btnDeleteEntityTask': function() {
+  'click #btnDeleteEntityTask': function(event) {
+      event.preventDefault();
     var taskId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this task?", function(result) {

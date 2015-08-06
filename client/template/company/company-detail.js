@@ -81,7 +81,8 @@ Template.companyDetail.events({
       customerCompanyId: this._id
     });
   },
-  'click #remove-company': function() {
+  'click #remove-company': function(event) {
+      event.preventDefault();
     var companyId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this company?", function(result) {
@@ -90,7 +91,8 @@ Template.companyDetail.events({
       }
     });
   },
-  'click #edit-company': function() {
+  'click #edit-company': function(event) {
+    event.preventDefault();
     Modal.show('editCompanyModal', this);
   }
 });

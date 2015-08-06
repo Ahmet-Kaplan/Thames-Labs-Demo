@@ -88,7 +88,8 @@ Template.contactDetail.events({
       });
     }
   },
-  'click #remove-contact': function() {
+  'click #remove-contact': function(event) {
+      event.preventDefault();
     var contactId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this contact?", function(result) {
