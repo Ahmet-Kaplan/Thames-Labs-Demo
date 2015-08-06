@@ -134,11 +134,9 @@ router.route('/sign-up', {
 router.route('/', {
   name: 'dashboard',
   subscriptions: function() {
-    if (!Roles.userIsInRole(user, 'superadmin')) {
-      this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
-      this.register('allChatter', subs.subscribe('allChatter'));
-      this.register('allUserTasks', subs.subscribe('allUserTasks', Meteor.userId()));
-    }
+    this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
+    this.register('allChatter', subs.subscribe('allChatter'));
+    this.register('allUserTasks', subs.subscribe('allUserTasks', Meteor.userId()));
   },
   action: function() {
     layout.render('appLayout', {
