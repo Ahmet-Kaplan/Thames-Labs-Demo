@@ -1,31 +1,34 @@
 <template name="opportunityDetail">
-  {{#with oppData}} {{setPageTitle "Opportunity -"}}
+  {{#with oppData}} {{setPageTitle "Opportunity - " name}}
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-
       <div class="pull-right">
-        <br>
-        {{#if isNotFirstStage}}
-        <button class="btn btn-default" id="btnPrevStage"><i class="fa fa-fw fa-chevron-left"></i> Back to previous stage</button>
+        {{#if isActive}}
+          <br>
+          {{#if isNotFirstStage}}
+            <button class="btn btn-default" id="btnPrevStage"><i class="fa fa-fw fa-chevron-left"></i> Back to previous stage</button>
+          {{/if}}
+          {{#if isLastStage}}
+            <button class="btn btn-success">Opportunity won</button>
+          {{else}}
+            <button class="btn btn-primary" id="btnNextStage">Move to next stage <i class="fa fa-fw fa-chevron-right"></i></button>
+          {{/if}}
+          <br><br>
+          <a href="#" id="btnLostOpportunity" class="pull-right text-danger" style="text-decoration:underline">Opportunity lost</a>
         {{/if}}
-        {{#if isLastStage}}
-        <button class="btn btn-success">Opportunity won</button>
-        {{else}}
-        <button class="btn btn-primary" id="btnNextStage">Move to next stage <i class="fa fa-fw fa-chevron-right"></i></button>
-        {{/if}}
-        <br><br>
-        <a href="#" class="pull-right text-danger" style="text-decoration:underline">Opportunity lost</a>
       </div>
       <h4 class="entity-title">Opportunity</h4>
-      <h1 class="entity-name">Opportunities</h1>
-      <div class="stepwizard hidden-xs">
-        <div class="stepwizard-row">
-          {{#each stages}}
-            {{> opportunityStage}}
-          {{/each}}
+      <h1 class="entity-name {{#if isArchived}}opp-archived{{/if}}">{{name}}</h1>
+      {{#if isActive}}
+        <div class="stepwizard hidden-xs">
+          <div class="stepwizard-row">
+            {{#each stages}}
+              {{> opportunityStage}}
+            {{/each}}
+          </div>
         </div>
-      </div>
-      <br>
+        <br>
+      {{/if}}
       <div class="panel panel-default">
         <div class="panel-heading">
           Opportunity details

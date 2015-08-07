@@ -24,15 +24,21 @@ Template.opportunityDetail.helpers({
   isLastStage: function() {
     var currentStage = this.currentStageId;
     var finalStageOrder = OpportunityStages.find({}).count() - 1;
-    var stageId = OpportunityStages.findOne({$query:{},$orderby:{order:-1}})._id;
+    var stageId = OpportunityStages.findOne({},{sort:{order:-1}})._id;
     if (currentStage == stageId) return true;
     return false;
+  },
+  isActive: function() {
+    return !this.isArchived;
   }
 });
 
 Template.opportunityDetail.events({
-  'click #btnNextStage': function() {
-    
+  'click #btnLostOpportunity': function() {
+    Opportunities.update(this._id, { $set: {
+      isArchived: true,
+      isAccepted: false
+    }});
   }
 });
 
