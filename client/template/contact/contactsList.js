@@ -36,7 +36,8 @@ Template.contactListItem.helpers({
 });
 
 Template.contactList.events({
-  'click #add-contact': function() {
+  'click #add-contact': function(event) {
+    event.preventDefault();
     Modal.show('insertCompanyContactModal', this);
   }
 });

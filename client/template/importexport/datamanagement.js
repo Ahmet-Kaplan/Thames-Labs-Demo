@@ -1,7 +1,8 @@
 Template.datamanagement.events({
 
 
-  'click #contact-template-help': function() {
+  'click #contact-template-help': function(event) {
+    event.preventDefault();
     Modal.show('importContactHelpModal');
   },
   'click #exportContactList': function() {
@@ -176,7 +177,8 @@ Template.datamanagement.events({
     reader.readAsText(file);
 
   },
-  'click #company-template-help': function() {
+  'click #company-template-help': function(event) {
+    event.preventDefault();
     Modal.show('importCompanyHelpModal');
   },
   'click #exportCompanyList': function() {

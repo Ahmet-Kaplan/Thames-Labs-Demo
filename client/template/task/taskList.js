@@ -90,7 +90,8 @@ Template.taskListEntry.helpers({
 });
 
 Template.taskListEntry.events({
-  'click #tskEditTaskListEntry': function() {
+  'click #tskEditTaskListEntry': function(event) {
+    event.preventDefault();
     Modal.show('updateTask', this);
   },
   'click #tskDeleteTaskListEntry': function() {
