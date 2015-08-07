@@ -307,5 +307,5 @@ Meteor.publish("allOpportunities", function() {
   return Opportunities.find({});
 });
 Meteor.publish("opportunityStages", function() {
-  return OpportunityStages.find({}, {sort: {sortOrder: 1}});
+  return OpportunityStages.find({}, {sort: {order: 1}});
 });

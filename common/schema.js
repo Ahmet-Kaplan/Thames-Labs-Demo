@@ -626,7 +626,7 @@ Schemas.OpportunityStage = new SimpleSchema({
   description: {
     type: String
   },
-  sortOrder: {
+  order: {
     type: Number
   }
 });

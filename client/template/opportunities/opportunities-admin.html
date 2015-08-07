@@ -14,7 +14,7 @@
         <div class="panel-body">
           <p>This is where stages are configured for your sales pipeline.</p>
           <div class="opportunity-stage-container">
-            {{#sortable items=stages sortField="sortOrder" ghostClass="opportunity-stage-ghost" options=options handle=".handle"}}
+            {{#sortable items=stages ghostClass="opportunity-stage-ghost" options=options handle=".handle"}}
               {{> opportunityAdminStage}}
             {{/sortable}}
           </div>
