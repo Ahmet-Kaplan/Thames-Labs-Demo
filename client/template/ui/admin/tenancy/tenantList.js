@@ -30,16 +30,18 @@ Template.tenant.helpers({
 
 Template.tenantList.events({
   "click #btnAddNewTenant": function(event, template) {
+    event.preventDefault();
     Modal.show('addTenant');
   }
 });
 
 Template.tenant.events({
   "click #btnAddNewTenantUser": function(event, template) {
+    event.preventDefault();
     Modal.show('addTenantUser', this);
   },
   "click #btnDeleteTenant": function(event, template) {
-
+    event.preventDefault();
     var tenantId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this tenant?", function(result) {
@@ -49,6 +51,7 @@ Template.tenant.events({
     });
   },
   "click #btnEditSettings": function(event, template) {
+    event.preventDefault();
     Modal.show('updateTenantSettings', this);
   },
   'click #btnDemoData': function() {
@@ -72,6 +75,7 @@ Template.user.helpers({
 Template.user.events({
   "click #btnDeleteTenantUser": function(event, template) {
     var userId = this._id;
+    event.preventDefault();
 
     bootbox.confirm("Are you sure you wish to delete this user?", function(result) {
       if (result === true) {

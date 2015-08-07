@@ -55,28 +55,34 @@ Template.companyDetail.events({
   'click #template-upload-link': function() {
     document.getElementById('template-upload').click();
   },
-  'click #template-help': function() {
+  'click #template-help': function(event) {
+    event.preventDefault();
     Modal.show('wordHelpModal');
   },
-  'click #add-contact': function() {
+  'click #add-contact': function(event) {
+    event.preventDefault();
     Modal.show('insertContactModal', this);
   },
-  'click #add-activity': function() {
+  'click #add-activity': function(event) {
+    event.preventDefault();
     Modal.show('insertActivityModal', {
       company: this
     });
   },
-  'click #add-project': function() {
+  'click #add-project': function(event) {
+    event.preventDefault();
     Modal.show('newCompanyProjectForm', {
       companyId: this._id
     });
   },
-  'click #add-purchase-order': function() {
+  'click #add-purchase-order': function(event) {
+    event.preventDefault();
     Modal.show('newCompanyPurchaseOrderForm', {
       customerCompanyId: this._id
     });
   },
-  'click #remove-company': function() {
+  'click #remove-company': function(event) {
+    event.preventDefault();
     var companyId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this company?", function(result) {
@@ -85,7 +91,8 @@ Template.companyDetail.events({
       }
     });
   },
-  'click #edit-company': function() {
+  'click #edit-company': function(event) {
+    event.preventDefault();
     Modal.show('editCompanyModal', this);
   }
 });

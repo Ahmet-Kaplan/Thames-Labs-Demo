@@ -29,7 +29,7 @@ var toLowercaseUsername = function(value){
 AT.prototype.atPwdFormEvents = {
     // Form submit
     "submit #at-pwd-form": function(event, t) {
-        event.preventDefault();
+      event.preventDefault();
         t.$("#at-btn").blur();
 
         AccountsTemplates.setDisabled(true);
