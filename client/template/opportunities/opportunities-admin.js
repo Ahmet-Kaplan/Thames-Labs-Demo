@@ -27,18 +27,16 @@ Template.opportunityAdminStage.events({
     event.preventDefault();
     Modal.show('editStageModal', this);
   },
-    
-  'click #btnDelete': function(event) {
-    event.preventDefault();    
-    var id = this._id;
 
+  'click #btnDelete': function(event) {
+    event.preventDefault();
+    var id = this._id;
     bootbox.confirm("Are you sure you wish to delete this stage?", function(result) {
       if (result === true) {
         OpportunityStages.remove(id);
       }
     });
   }
-  
 });
 
 Template.insertNewStageModal.helpers({

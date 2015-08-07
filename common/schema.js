@@ -655,7 +655,7 @@ Schemas.OpportunityLine = new SimpleSchema({
 });
 
 Schemas.Opportunity = new SimpleSchema({
-  title: {
+  name: {
     type: String
   },
   description: {
@@ -664,11 +664,9 @@ Schemas.Opportunity = new SimpleSchema({
   date: {
     type: Date
   },
-  opportunityNumber: {
-    type: Number
-  },
   lines: {
-    type: [Schemas.OpportunityLine]
+    type: [Schemas.OpportunityLine],
+    optional: true
   },
   isAccepted: {
     type: Boolean,
@@ -680,9 +678,6 @@ Schemas.Opportunity = new SimpleSchema({
   },
   currentStageId: {
     type: String
-  },
-  createdAt: {
-    type: Date
   },
   createdBy: {
     type: String,

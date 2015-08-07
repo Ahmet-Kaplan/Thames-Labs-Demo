@@ -75,13 +75,6 @@ AutoForm.hooks({
       toastr.success('Contact updated.');
     }
   },
-  updatePurchaseOrderForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Contact created.');
-      //LogEvent('info', 'Contact created.', 'Contact', this.docId);
-    }
-  },
   newProjectForm: {
     onSuccess: function() {
       Modal.hide();
@@ -324,12 +317,6 @@ AutoForm.hooks({
       //LogEvent('info', 'Purchase order activity added.');
     }
   },
-  insertContactForm: {
-    onSuccess: function() {
-      toastr.success('Contact created.');
-      Modal.hide();
-    }
-  },
   insertCompanyContactForm: {
     onSuccess: function() {
       toastr.success('Contact created.');
@@ -345,6 +332,18 @@ AutoForm.hooks({
   editStageModal: {
     onSuccess: function() {
       toastr.success('Stage edited.');
+      Modal.hide();
+    }
+  },
+  insertOpportunityForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity added.');
+      Modal.hide();
+    }
+  },
+  insertOpportunityModal: {
+    onSuccess: function() {
+      toastr.success('Opportunity added.');
       Modal.hide();
     }
   }

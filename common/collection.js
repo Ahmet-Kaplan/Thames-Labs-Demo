@@ -208,6 +208,11 @@ AuditLog = new Mongo.Collection('audit');
 
 Opportunities = new Mongo.Collection('opportunities');
 Partitioner.partitionCollection(Opportunities);
+Opportunities.initEasySearch(['name'], {
+  limit: 50
+});
+Collections.opportunities = Opportunities;
+
 
 OpportunityStages = new Mongo.Collection('opportunitystages');
 Partitioner.partitionCollection(OpportunityStages);

@@ -6,8 +6,8 @@
     <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
-      <!--  {{> esInput index="companies" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}} -->
-        <a href="#" id="createOpportunity">
+        {{> esInput index="opportunities" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}} 
+        <a href="#" id="create-opportunity">
           <div class="btn-group-vertical">
             <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add new opportunity</button>
           </div>
@@ -21,6 +21,14 @@
 
       {{#if hasOpportunities}}
       <div class="list-group" id="mchOpportunityList">
+        {{#ifEsIsSearching index="opportunities"}}
+          {{> spinner}}
+        {{else}}
+          {{#esEach index="opportunities"}}
+            {{> opportunityListItem}}
+          {{/esEach}}
+          {{> esLoadMoreButton index="opportunities" class="btn btn-default"}}
+        {{/ifEsIsSearching}}
       </div>
 
       {{else}}
@@ -30,5 +38,35 @@
 
     </div>
   </div>
+</template>
 
+<template name="opportunityListItem">
+  <a class="list-group-item" href="{{pathFor route='opportunity' id=_id}}">
+    <h4 class="list-group-item-heading">{{name}}</h4>
+  </a>
+</template>
+
+<template name="insertOpportunityModal">
+  <div class="modal fade" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5> Add new opportunity</h5>
+        </div>
+        <div class="modal-body">
+         {{#autoForm collection="Opportunities" id="insertOpportunityForm" type="insert"}}
+            {{> afQuickField name="name"}}
+            {{> afQuickField name="description"}}
+            {{> afQuickField name="date"}}
+            {{> afQuickField name="isAccepted" value=false type="hidden"}}
+            {{> afQuickField name="isArchived" value=false type="hidden"}}
+            {{> afQuickField name="currentStageId" value=firstStageId type="hidden"}}
+            {{> afQuickField name="createdBy" value=createdBy }}
+            <button type="submit" class="btn btn-primary">Create</button>
+          {{/autoForm}}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
