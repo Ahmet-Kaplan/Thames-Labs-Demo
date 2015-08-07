@@ -141,7 +141,7 @@ Template.taskDisplayItem.helpers({
 
 Template.taskDisplayItem.events({
   'click #btnEditEntityTask': function(event) {
-    event.preventDefault();
+      event.preventDefault();
     Modal.show('updateTask', this);
   },
   'click #btnDeleteEntityTask': function(event) {
