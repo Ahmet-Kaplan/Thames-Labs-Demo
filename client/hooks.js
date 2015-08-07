@@ -120,6 +120,7 @@ AutoForm.hooks({
     after: {
       insert: function(error, result) {
         if (error) {
+          $("#address_details").show();
           toastr.error('An error occurred: Company not created.');
           //LogEvent('error', 'Company not created: ' + error, 'Company', this.docId);
           return false;
