@@ -7,3 +7,40 @@ Template.opportunityAdmin.helpers({
     sortField: 'order'
   }
 });
+
+Template.opportunityAdmin.events({
+  'click #btnAddStage': function(event) {
+    event.preventDefault();
+    Modal.show('insertNewStageModal', this);
+  }
+});
+
+Template.opportunityAdminStage.helpers({
+  isFirstStage: function() {
+    if (this.order == 0) return true;
+    return false;
+  }
+});
+
+Template.opportunityAdminStage.events({
+  'click #btnEdit': function() {
+  },
+    
+  'click #btnDelete': function(event) {
+    event.preventDefault();    
+    var id = this._id;
+
+    bootbox.confirm("Are you sure you wish to delete this stage?", function(result) {
+      if (result === true) {
+        OpportunityStages.remove(id);
+      }
+    });
+  }
+  
+});
+
+Template.insertNewStageModal.helpers({
+  orderValue: function() {
+    return OpportunityStages.find().count();
+  }
+});

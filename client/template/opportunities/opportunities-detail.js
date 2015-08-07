@@ -1,5 +1,5 @@
 Template.opportunityDetail.helpers({
   stages: function() {
-    return OpportunityStages.find({});
+    return OpportunityStages.find({}, {sort: {order: 1}});
   }
 });

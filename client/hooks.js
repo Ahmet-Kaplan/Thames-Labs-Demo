@@ -335,5 +335,11 @@ AutoForm.hooks({
       toastr.success('Contact created.');
       Modal.hide();
     }
-  }
+  },
+  insertNewStageForm: {
+    onSuccess: function() {
+      toastr.success('Contact created.');
+      Modal.hide();
+    }
+  },
 });
