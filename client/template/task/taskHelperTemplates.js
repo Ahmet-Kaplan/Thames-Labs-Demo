@@ -141,11 +141,11 @@ Template.taskDisplayItem.helpers({
 
 Template.taskDisplayItem.events({
   'click #btnEditEntityTask': function(event) {
-      event.preventDefault();
+    event.preventDefault();
     Modal.show('updateTask', this);
   },
   'click #btnDeleteEntityTask': function(event) {
-      event.preventDefault();
+    event.preventDefault();
     var taskId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this task?", function(result) {

@@ -192,15 +192,15 @@ Template.nav.events({
     });
   },
   'click #qckCreateCompany': function(event) {
-      event.preventDefault();
+    event.preventDefault();
     Modal.show('insertNewCompanyModal', this);
   },
   'click #qckCreateContact': function(event) {
-      event.preventDefault();
+    event.preventDefault();
     Modal.show('insertCompanyContactModal', this);
   },
   'click #qckCreateProject': function(event) {
-      event.preventDefault();
+    event.preventDefault();
     Modal.show('newProjectForm', this);
   },
   'click #qckCreatePurchaseOrder': function(event) {
@@ -208,11 +208,11 @@ Template.nav.events({
     Modal.show('newPurchaseOrderForm', this);
   },
   'click #feedback-link': function(event) {
-      event.preventDefault();
+    event.preventDefault();
     Modal.show('feedbackModal');
   },
   'click #btnChangePassword': function(event) {
-      event.preventDefault();
+    event.preventDefault();
     Modal.show('changePassword');
   },
   'click #sign-out': function() {
@@ -244,14 +244,14 @@ Template.nav.events({
 
 Template.notice.events({
   'click .btnOpenNotice': function(event) {
-      event.preventDefault();
+    event.preventDefault();
     Modal.show('notificationModal', this);
   }
 });
 
 Template.menuNotice.events({
   'click .btnOpenNotice': function(event) {
-      event.preventDefault();
+    event.preventDefault();
     Modal.show('notificationModal', this);
   }
 });

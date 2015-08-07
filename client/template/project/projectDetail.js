@@ -57,7 +57,7 @@ Template.projectDetail.events({
     Modal.show('updateProjectForm', this);
   },
   'click #remove-project': function(event) {
-      event.preventDefault();
+    event.preventDefault();
     var projectId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this project?", function(result) {

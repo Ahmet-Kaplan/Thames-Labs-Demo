@@ -82,7 +82,7 @@ Template.companyDetail.events({
     });
   },
   'click #remove-company': function(event) {
-      event.preventDefault();
+    event.preventDefault();
     var companyId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this company?", function(result) {

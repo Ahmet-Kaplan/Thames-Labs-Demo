@@ -20,7 +20,7 @@ Template.productDetail.helpers({
 
 Template.productDetail.events({
   'click #delete-product': function(event) {
-      event.preventDefault();
+    event.preventDefault();
     var productId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this product?", function(result) {
