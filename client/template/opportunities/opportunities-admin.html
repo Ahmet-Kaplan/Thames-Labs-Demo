@@ -11,13 +11,11 @@
             <button class="btn btn-primary btn-xs" id="btnAddStage"><i class="fa fa-fw fa-plus"></i> Add stage</button>
           </div>
         </div>
-        <div class="panel-body">
-          <p>These are the stages that your opportunities will progress through, these can be configured below to match your sales pipeline.</p>
-          <div class="opportunity-stage-container">
-            {{#sortable items=stages ghostClass="opportunity-stage-ghost" options=options handle=".handle"}}
-              {{> opportunityAdminStage}}
-            {{/sortable}}
-          </div>
+        <p style="padding: 15px">These are the stages that your opportunities will progress through, these can be configured below to match your sales pipeline.</p>
+        <div class="opportunity-stage-container">
+          {{#sortable items=stages ghostClass="opportunity-stage-ghost" options=options handle=".handle"}}
+            {{> opportunityAdminStage}}
+          {{/sortable}}
         </div>
       </div>
     </div>
@@ -42,7 +40,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5> Add new stage</h5>
+          <h5>Add new stage</h5>
         </div>
 
         <div class="modal-body">
@@ -54,6 +52,29 @@
           {{/autoForm}}
         </div>
 
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="editStageModal">
+  <div class="modal fade" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Edit stage</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="OpportunityStages" id="editStageModal" type="update" doc=this}}
+            {{> afQuickField name="title"}}
+            {{> afQuickField name="description"}}
+            {{> afQuickField name="order" type="hidden" value=order}}
+            <button type="submit" class="btn btn-primary">Update</button>
+          {{/autoForm}}
+        </div>
       </div>
     </div>
   </div>

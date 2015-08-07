@@ -338,8 +338,14 @@ AutoForm.hooks({
   },
   insertNewStageForm: {
     onSuccess: function() {
-      toastr.success('Contact created.');
+      toastr.success('Stage created.');
       Modal.hide();
     }
   },
+  editStageModal: {
+    onSuccess: function() {
+      toastr.success('Stage edited.');
+      Modal.hide();
+    }
+  }
 });

@@ -24,6 +24,8 @@ Template.opportunityAdminStage.helpers({
 
 Template.opportunityAdminStage.events({
   'click #btnEdit': function() {
+    event.preventDefault();
+    Modal.show('editStageModal', this);
   },
     
   'click #btnDelete': function(event) {
