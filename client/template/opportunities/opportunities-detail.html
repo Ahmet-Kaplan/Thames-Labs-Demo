@@ -1,14 +1,20 @@
 <template name="opportunityDetail">
-  {{setPageTitle "Opportunity -"}}
+  {{#with oppData}} {{setPageTitle "Opportunity -"}}
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
 
       <div class="pull-right">
         <br>
-        <button class="btn btn-default"><i class="fa fa-fw fa-chevron-left"></i> Back to previous step</button>
-        <button class="btn btn-primary">Move to next step <i class="fa fa-fw fa-chevron-right"></i></button>
+        {{#if isNotFirstStage}}
+        <button class="btn btn-default" id="btnPrevStage"><i class="fa fa-fw fa-chevron-left"></i> Back to previous stage</button>
+        {{/if}}
+        {{#if isLastStage}}
+        <button class="btn btn-success">Opportunity won</button>
+        {{else}}
+        <button class="btn btn-primary" id="btnNextStage">Move to next stage <i class="fa fa-fw fa-chevron-right"></i></button>
+        {{/if}}
         <br><br>
-        <a href="#" class="pull-right text-danger">Lost opportunity</a>
+        <a href="#" class="pull-right text-danger" style="text-decoration:underline">Opportunity lost</a>
       </div>
       <h4 class="entity-title">Opportunity</h4>
       <h1 class="entity-name">Opportunities</h1>
@@ -29,20 +35,16 @@
         </div>
         <ul class="list-group">
           <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-file-o"></i> Title</h4>
-            {{title}}T
+            <h4><i class="fa fa-fw fa-file-o"></i> Name</h4>
+            {{name}}
           </li>
           <li class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
-            {{{description}}}D
+            {{{description}}}
           </li>
           <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-align-left"></i> Opportunity Number</h4>
-            {{{opportunityNumber}}}N
-          </li>
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-align-left"></i> Date</h4>
-            {{{date}}}D
+            <h4><i class="fa fa-fw fa-calendar"></i> Date</h4>
+            {{{date}}}
           </li>
         </ul>
       </div>
@@ -66,10 +68,11 @@
       </div>
     </div>
   </div>
+  {{/with}}
 </template>
 <template name="opportunityStage">
-  <div class="stepwizard-step">
-    <button type="button" class="btn btn-default btn-circle {{#if isCurrentStep}}active-step{{/if}}" disabled="disabled"></button>
+  <div class="stepwizard-step {{#if isCurrentStep}}active-step{{/if}}">
+    <button type="button" class="btn btn-default btn-circle" disabled="disabled"></button>
     <p>{{title}}</p>
   </div>
 </template>

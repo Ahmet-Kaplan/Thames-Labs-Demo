@@ -3,7 +3,8 @@
 @import "../../bootstrap/custom.bootstrap.import.less";
 
 .stepwizard-step p {
-  margin-top: 10px;
+  margin-top: 5px;
+  color: #999;
 }
 
 .stepwizard-row {
@@ -47,7 +48,12 @@
   border-radius: 15px !important;
 }
 
-.active-step {
+.stepwizard-step.active-step > .btn-circle {
   background: @brand-primary !important;
+  border-color: @brand-primary;
   color: #fff !important;
+}
+
+.stepwizard-step.active-step > p {
+  color: darken(@brand-primary, 5%);
 }

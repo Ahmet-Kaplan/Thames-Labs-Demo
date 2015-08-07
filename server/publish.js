@@ -309,3 +309,6 @@ Meteor.publish("allOpportunities", function() {
 Meteor.publish("opportunityStages", function() {
   return OpportunityStages.find({}, {sort: {order: 1}});
 });
+Meteor.publish("opportunityById", function(oppId) {
+  return Opportunities.find({ _id: oppId});
+});
