@@ -34,10 +34,6 @@ Template.companyDetail.events({
     var reader = new FileReader();
     reader.onload = function() {
       var doc = new Docxgen(reader.result);
-      var formattedWebsite = this.website;
-      if(formattedWebsite != '' && formattedWebsite.substr(0, 4) != 'http') {
-        formattedWebsite = 'http://' + formattedWebsite;
-      }
       doc.setData({
         "name": this.name,
         "address": this.address,
@@ -45,7 +41,7 @@ Template.companyDetail.events({
         "county": this.county,
         "postcode": this.postcode,
         "country": this.country,
-        "website": formattedWebsite,
+        "website": this.website,
         "phone": this.phone
       });
       doc.render();
@@ -108,9 +104,6 @@ Template.companyDetail.helpers({
     if (company.tags !== undefined) {
       company.tags.sort();
     }
-    if(company.website !== undefined && company.website.substr(0, 4) != 'http') {
-      company.website = 'http://' + company.website;
-    };
     return company;
   },
   addressString: function() {

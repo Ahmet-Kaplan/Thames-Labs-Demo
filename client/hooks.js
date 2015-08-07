@@ -111,6 +111,14 @@ AutoForm.hooks({
     }
   },
   insertNewCompanyForm: {
+    before: {
+      insert: function(doc) {
+        if(doc.website !== undefined && doc.website.length < 8) {
+          doc.website = '';
+        }
+        return doc;
+      }
+    },
     onSuccess: function() {
       Modal.hide();
       $('[data-toggle="tooltip"]').tooltip();
