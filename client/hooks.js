@@ -113,7 +113,6 @@ AutoForm.hooks({
   insertNewCompanyForm: {
     onSuccess: function() {
       Modal.hide();
-      $('[data-toggle="tooltip"]').tooltip();
       toastr.success('Company created.');
       //LogEvent('info', 'Company created.', 'Company', this.docId);
     },
@@ -132,7 +131,6 @@ AutoForm.hooks({
   insertActivityForm: {
     onSuccess: function() {
       Modal.hide();
-      $('[data-toggle="tooltip"]').tooltip();
       toastr.success('Activity created.');
       //LogEvent('info', 'Activity created.');
     }
@@ -140,7 +138,6 @@ AutoForm.hooks({
   insertProjectActivityForm: {
     onSuccess: function() {
       Modal.hide();
-      $('[data-toggle="tooltip"]').tooltip();
       toastr.success('Project activity created.');
       //LogEvent('info', 'Project activity created.', 'Project', this.docId);
     }
@@ -148,7 +145,6 @@ AutoForm.hooks({
   // insertPurchaseOrderActivityForm: {
   //   onSuccess: function() {
   //     Modal.hide();
-  //     $('[data-toggle="tooltip"]').tooltip();
   //     toastr.success('Purchase order activity created.');
   //     //LogEvent('info', 'Purchase order activity created.', 'Purchase Order', this.docId);
   //   }
@@ -156,7 +152,6 @@ AutoForm.hooks({
   insertContactActivityForm: {
     onSuccess: function() {
       Modal.hide();
-      $('[data-toggle="tooltip"]').tooltip();
       toastr.success('Contact activity created.');
       //LogEvent('info', 'Contact activity created.');
     }
