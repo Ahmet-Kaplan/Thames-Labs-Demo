@@ -11,3 +11,12 @@ UI.registerHelper('decimal', function(number) {
   if (!number) number = 0;
   return parseFloat(number).toFixed(2);
 });
+
+UI.registerHelper("setPageTitle", function() {
+  var title = "";
+  for (var i = 0; i<arguments.length - 1; i++) {
+    title += arguments[i];
+  }
+  document.title = title;
+  SetRouteDetails(title);
+});
