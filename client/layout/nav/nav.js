@@ -1,10 +1,3 @@
-Template.nav.onRendered(function() {
-  // $.getScript('/vendor/hopscotch/tours/nav_tour.js');
-  $('[data-toggle="tooltip"]').tooltip({
-    delay: {"show": 1000, "hide": 100}
-  });
-});
-
 Template.nav.helpers({
   showTourOption: function() {
     var currRoute = FlowRouter.getRouteName();

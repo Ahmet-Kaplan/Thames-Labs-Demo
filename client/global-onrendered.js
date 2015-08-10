@@ -4,6 +4,6 @@
 Template.onRendered(function() {
   // Initialise all tooltips whenever a template is rendered
   this.$('[data-toggle="tooltip"]').tooltip({
-    delay: {"show": 1000, "hide": 100}
+    delay: {"show": 500, "hide": 100}
   });
 });

@@ -1,7 +1,3 @@
-Template.user.onRendered(function() {
-  $('[data-toggle="tooltip"]').tooltip();
-});
-
 Template.tenantList.helpers({
   tenants: function() {
     return Tenants.find({});

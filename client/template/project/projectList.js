@@ -18,11 +18,7 @@ Template.projectsList.onRendered(function() {
       $('.sidebar input').val(searchQuery);
     }
   });
-  $('[data-toggle="tooltip"]').tooltip({
-    delay: {"show": 1000, "hide": 100}
-  });
 });
-
 
 Template.projectsList.helpers({
   hasProjects: function() {

@@ -61,7 +61,7 @@
   <div class="panel panel-default" id='entityTaskList'>
     <div class="panel-heading" id="tasks">
       {{#if isDashboard}}My {{/if}}Tasks
-      <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New relevant task"><i class="fa fa-fw fa-plus"></i> Add {{#if isDashboard}} personal {{/if}} task</a>
+      <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New task to be completed"><i class="fa fa-fw fa-plus"></i> Add {{#if isDashboard}} personal {{/if}} task</a>
     </div>
     <ul class="list-group" id='taskContainer'>
       {{#each tasks}} {{> taskDisplayItem}} {{else}}

@@ -1,11 +1,4 @@
-Template.datamanagement.onRendered(function() {
-  $('[data-toggle="tooltip"]').tooltip({
-    delay: {"show": 1000, "hide": 100}
-  });
- });
 Template.datamanagement.events({
-
-
   'click #contact-template-help': function() {
     Modal.show('importContactHelpModal');
   },
