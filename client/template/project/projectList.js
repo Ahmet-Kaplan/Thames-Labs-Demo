@@ -27,7 +27,8 @@ Template.projectsList.helpers({
 });
 
 Template.projectsList.events({
-  'click #add-project': function() {
+  'click #add-project': function(event) {
+    event.preventDefault();
     Modal.show('newProjectForm', this);
   }
 });

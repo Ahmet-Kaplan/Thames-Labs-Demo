@@ -20,7 +20,8 @@ Template.purchaseOrderList.onRendered(function() {
 });
 
 Template.purchaseOrderList.events({
-  'click #add-purchase-order': function() {
+  'click #add-purchase-order': function(event) {
+    event.preventDefault();
     Modal.show('newPurchaseOrderForm', this);
   },
 });

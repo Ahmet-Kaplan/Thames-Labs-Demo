@@ -33,7 +33,8 @@ Template.productList.helpers({
 });
 
 Template.productList.events({
-  'click #add-product': function() {
+  'click #add-product': function(event) {
+    event.preventDefault();
     Modal.show('insertProductModal', this);
   }
 });

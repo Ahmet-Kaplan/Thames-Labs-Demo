@@ -7,7 +7,7 @@ AT.prototype.atNavButtonHelpers = {
 
 AT.prototype.atNavButtonEvents = {
     'click #at-nav-button': function(event){
-        event.preventDefault();
+      event.preventDefault();
         if (Meteor.userId())
             AccountsTemplates.logout();
         else

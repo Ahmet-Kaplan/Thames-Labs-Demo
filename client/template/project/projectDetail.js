@@ -46,15 +46,18 @@ Template.projectDetail.helpers({
 });
 
 Template.projectDetail.events({
-  'click #add-activity': function() {
+  'click #add-activity': function(event) {
+    event.preventDefault();
     Modal.show('insertProjectActivityModal', {
       project: this
     });
   },
-  'click #edit-project': function() {
+  'click #edit-project': function(event) {
+    event.preventDefault();
     Modal.show('updateProjectForm', this);
   },
-  'click #remove-project': function() {
+  'click #remove-project': function(event) {
+    event.preventDefault();
     var projectId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this project?", function(result) {
