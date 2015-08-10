@@ -19,7 +19,7 @@
             {{#if Template.subscriptionsReady}}
             {{> afQuickField name="companyId" id="companyId" options=companiesAsOptions firstOption="No company selected"}}
             {{/if}}
-            <div id="addressWrapper" style="display: block;">
+            <div id="addressWrapper" style="display: none;">
               <div><a href="#" id="show-map">New location search</a></div>
               {{#if isDesktop}}
               <div id="map_wrapper" class="form-group" style="display: none;">

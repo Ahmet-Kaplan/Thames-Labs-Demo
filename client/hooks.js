@@ -66,8 +66,8 @@ AutoForm.hooks({
   editContactForm: {
     onSuccess: function() {
       Modal.hide();
+      FlowRouter.go('/contacts');
       FlowRouter.go('/contacts/' + this.docId);
-      console.log('updated');
       toastr.success('Contact details updated.');
     }
   },
@@ -303,6 +303,7 @@ AutoForm.hooks({
   insertContactForm: {
     onSuccess: function() {
       toastr.success('Contact created.');
+      FlowRouter.go('/contacts/' + this.docId);
       Modal.hide();
     }
   }

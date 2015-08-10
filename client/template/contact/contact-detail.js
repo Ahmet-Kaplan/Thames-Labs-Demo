@@ -10,6 +10,7 @@ Template.contactDetail.onCreated(function() {
 });
 
 Template.contactDetail.onRendered(function() {
+  console.log(this);
   // Affix sidebar
   var sidebar = $('.sidebar');
   sidebar.affix({
