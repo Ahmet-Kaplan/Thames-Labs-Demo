@@ -1,7 +1,3 @@
-Template.nav.onRendered(function() {
-  // $.getScript('/vendor/hopscotch/tours/nav_tour.js');
-});
-
 Template.nav.helpers({
   showTourOption: function() {
     var currRoute = FlowRouter.getRouteName();

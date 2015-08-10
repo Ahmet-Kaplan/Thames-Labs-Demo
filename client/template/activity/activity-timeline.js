@@ -41,7 +41,3 @@ Template.activityTimeline.events({
     });
   }
 })
-
-Template.activityTimeline.onRendered(function() {
-  $('[data-toggle="tooltip"]').tooltip();
-});

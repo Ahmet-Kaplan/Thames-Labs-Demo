@@ -17,8 +17,6 @@ Template.purchaseOrderList.onRendered(function() {
   //     $('.sidebar input').val(searchQuery);
   //   }
   // });
-
-  Meteor.subscribe("allContacts");
 });
 
 Template.purchaseOrderList.events({

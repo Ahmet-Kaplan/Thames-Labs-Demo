@@ -1,6 +1,4 @@
 Template.datamanagement.events({
-
-
   'click #contact-template-help': function(event) {
     event.preventDefault();
     Modal.show('importContactHelpModal');
