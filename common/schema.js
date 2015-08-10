@@ -232,6 +232,50 @@ Schemas.Contact = new SimpleSchema({
     type: String,
     optional: true
   },
+  address: {
+    type: String,
+    optional: true,
+    label: "Address"
+  },
+  address2: {
+    type: String,
+    optional: true,
+    label: "Address Line 2"
+  },
+  city: {
+    type: String,
+    optional: true,
+    label: "City/Town"
+  },
+  county: {
+    type: String,
+    optional: true,
+    label: "County/State"
+  },
+  postcode: {
+    type: String,
+    optional: true,
+    label: "PostCode/Zip"
+  },
+  country: {
+    type: String,
+    optional: true,
+    label: "Country"
+  },
+  lat: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
+  lng: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
   createdBy: {
     type: String,
     autoform: {

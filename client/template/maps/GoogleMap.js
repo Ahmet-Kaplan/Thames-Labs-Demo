@@ -1,9 +1,9 @@
-companyData = null;
-loadSwitch = false;
+var mapData = null;
+var loadSwitch = false;
 
 Template.map.helpers({
   mapOptions: function() {
-    companyData = this.data;
+    mapData = this.data;
 
     var options = {
       zoom: 8,
@@ -22,22 +22,24 @@ Template.map.onDestroyed(function() {
 })
 
 Template.map.onCreated(function() {
-
   GoogleMaps.ready('map', function(map) {
-    if (loadSwitch === false) {
+  if(mapData !== null && mapData.title !== undefined) {
+    mapData.name = mapData.title + ' ' + mapData.forename + ' ' + mapData.surname;
+  }
+    if (loadSwitch === false && mapData.address !== undefined) {
       var infowindow = new google.maps.InfoWindow();
-      if(companyData.lat !== undefined && companyData.lng !== undefined) {
+      if(mapData.lat !== undefined && mapData.lng !== undefined) {
         var location = {
-              lat: parseFloat(companyData.lat),
-              lng: parseFloat(companyData.lng)
+              lat: parseFloat(mapData.lat),
+              lng: parseFloat(mapData.lng)
             }
         var marker = new google.maps.Marker( {
           map: map.instance,
           position: location,
-          title: companyData.name
+          title: mapData.name
         });
         marker.setMap(map.instance);
-        infowindow.setContent(companyData.name);
+        infowindow.setContent(mapData.name);
         infowindow.open(map.instance, marker);
         map.instance.panTo(location);
         map.instance.setZoom(16);
@@ -45,7 +47,7 @@ Template.map.onCreated(function() {
       }else {
         var gc = new google.maps.Geocoder();
         gc.geocode({
-          'address': companyData.address + companyData.postcode + companyData.city + companyData.country
+          'address': mapData.address + mapData.postcode + mapData.city + mapData.country
         }, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             pin = results[0].geometry.location;
@@ -53,10 +55,10 @@ Template.map.onCreated(function() {
               var marker = new google.maps.Marker( {
                 map: map.instance,
                 position: pin,
-                title: companyData.name
+                title: mapData.name
               });
               marker.setMap(map.instance);
-              infowindow.setContent(companyData.name);
+              infowindow.setContent(mapData.name);
               infowindow.open(map.instance, marker);
               map.instance.panTo(pin);
               map.instance.setZoom(16);

@@ -63,16 +63,12 @@ AutoForm.hooks({
       //LogEvent('info', 'Purchase order updated.', 'Purchase Order', this.docId);
     }
   },
-  insertContactForm: {
+  editContactForm: {
     onSuccess: function() {
       Modal.hide();
-      toastr.success('Contact created.');
-    }
-  },
-  updateContactForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Contact updated.');
+      FlowRouter.go('/contacts/' + this.docId);
+      console.log('updated');
+      toastr.success('Contact details updated.');
     }
   },
   updatePurchaseOrderForm: {
@@ -187,32 +183,6 @@ AutoForm.hooks({
       //LogEvent('verbose', 'A new tenant has been created.', 'Tenant', this.docId);
     }
   },
-  insertCompanyForm: {
-    before: {
-      insert: function(doc) {
-        doc.createdBy = Meteor.userId();
-        return doc;
-      }
-    },
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Company created.');
-      //LogEvent('info', 'Company created.', 'Company', this.docId);
-    },
-    after: {
-      insert: function(error, result) {
-        if (error) {
-          toastr.error('An error occurred: Company not created.');
-          //LogEvent('error', 'Company not created: ' + error, 'Company', this.docId);
-          return false;
-        }
-
-        FlowRouter.go('/companies/' + result);
-        $(".modal-backdrop").remove();
-        $("body").removeClass('modal-open');
-      }
-    }
-  },
   removeCompanyForm: {
     onSuccess: function() {
       Modal.hide();
@@ -324,13 +294,13 @@ AutoForm.hooks({
       //LogEvent('info', 'Purchase order activity added.');
     }
   },
-  insertContactForm: {
+  insertCompanyContactForm: {
     onSuccess: function() {
       toastr.success('Contact created.');
       Modal.hide();
     }
   },
-  insertCompanyContactForm: {
+  insertContactForm: {
     onSuccess: function() {
       toastr.success('Contact created.');
       Modal.hide();

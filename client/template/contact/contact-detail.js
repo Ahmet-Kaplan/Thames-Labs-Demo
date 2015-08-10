@@ -17,6 +17,11 @@ Template.contactDetail.onRendered(function() {
       top: sidebar.offset().top
     }
   });
+
+  // Load google maps
+  GoogleMaps.load({
+    libraries: 'places'
+  });
 });
 
 Template.contactDetail.helpers({
@@ -49,6 +54,17 @@ Template.contactDetail.helpers({
         description: 1
       }
     });
+  },
+  addressString: function() {
+    return encodeURIComponent([
+      this.address,
+      this.city,
+      this.country,
+      this.postcode
+    ].join(', '));
+  },
+  companyDetails: function() {
+    return this.company();
   }
 });
 
@@ -87,6 +103,10 @@ Template.contactDetail.events({
         customerContactId: this._id
       });
     }
+  },
+  'click #edit-contact': function(event) {
+    event.preventDefault();
+    Modal.show('editContactModal', this);
   },
   'click #remove-contact': function(event) {
     event.preventDefault();

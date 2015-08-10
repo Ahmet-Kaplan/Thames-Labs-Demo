@@ -61,7 +61,7 @@ Template.companyDetail.events({
   },
   'click #add-contact': function(event) {
     event.preventDefault();
-    Modal.show('insertContactModal', this);
+    Modal.show('insertCompanyContactModal', this);
   },
   'click #add-activity': function(event) {
     event.preventDefault();

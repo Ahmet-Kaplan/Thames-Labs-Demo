@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class="col-md-10">
+    <div class="col-md-6">
       <h4 class="entity-title">Contact</h4>
       <h1 id="contact-details" class="entity-name">{{name}}</h1>
 
@@ -22,13 +22,8 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#afModal class="btn btn-info btn-xs" collection="Contacts" doc=_id operation="update" formId="updateContactForm" omitFields="companyId"}} Edit contact details {{/afModal}}
-
-
+            <a href="#" id="edit-contact" class="btn btn-info btn-xs">Edit contact details</a>
             <a href="#" id="remove-contact" class="btn btn-danger btn-xs">Delete contact</a>
-            <!-- {{#afModal class="btn btn-danger btn-xs" collection="Contacts" doc=_id operation="remove"
-            formId="removeContactForm" onSuccess="onContactRemove"}} Delete contact {{/afModal}} -->
-
           </div>
           Contact details</div>
         <ul class="list-group">
@@ -92,6 +87,46 @@
         {{#with this}} {{> customFieldDisplay entity_data=this entity_type='contact'}} {{/with}}
       </div>
 
+    </div>
+
+  <div class="col-md-4">
+      <h1>Address</h1>
+      <div class="thumbnail">
+      {{#if companyId}}
+        {{#if isDesktop}} <div id="map-wrapper">{{> map data=companyDetails}}</div> {{/if}}
+        {{#if isPhone}}
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}" /> {{/if}}
+          <div class="caption">
+            <address>
+              <strong>{{name}}</strong>
+              {{#with companyDetails}}
+                <br /><strong>{{name}}</strong>
+                <br /> {{address}}
+                {{#if address2}} <br /> {{address2}} {{/if}}
+                <br /> {{city}}
+                {{#if county}} <br /> {{county}} {{/if}}
+                <br /> {{postcode}}
+                <br /> {{country}}
+              {{/with}}
+            </address>
+          </div>
+      {{else}}
+        {{#if isDesktop}} <div id="map-wrapper">{{> map data=this}}</div> {{/if}}
+        {{#if isPhone}}
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}" /> {{/if}}
+          <div class="caption">
+            <address>
+              <strong>{{name}}</strong>
+              <br /> {{address}}
+              {{#if address2}} <br /> {{address2}} {{/if}}
+              <br /> {{city}}
+              {{#if county}} <br /> {{county}} {{/if}}
+              <br /> {{postcode}}
+              <br /> {{country}}
+            </address>
+          </div>
+      {{/if}}
+      </div>
     </div>
   </div>
 
