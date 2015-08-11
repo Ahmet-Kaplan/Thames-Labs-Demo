@@ -1,9 +1,8 @@
-var mapData = null;
-var loadSwitch = false;
+mapData = null;
+loadSwitch = false;
 
 Template.map.helpers({
   mapOptions: function() {
-    mapData = this.data;
 
     var options = {
       zoom: 8,
@@ -19,55 +18,50 @@ Template.map.helpers({
 
 Template.map.onDestroyed(function() {
   loadSwitch = false;
-})
+});
+
+function updateMap(map, mapData) {
+  var marker = new google.maps.Marker( {
+        map: map,
+        position: mapData.coordinates,
+        title: mapData.name
+  });
+  var infowindow = new google.maps.InfoWindow();
+  marker.setMap(map);
+  infowindow.setContent(mapData.name);
+  infowindow.open(map, marker);
+  map.panTo(mapData.coordinates);
+  map.setZoom(16);
+}
 
 Template.map.onCreated(function() {
+  GoogleMaps.load({
+      libraries: 'places'
+    });
+
+  var self = this;
+
   GoogleMaps.ready('map', function(map) {
-  if(mapData !== null && mapData.title !== undefined) {
-    mapData.name = mapData.title + ' ' + mapData.forename + ' ' + mapData.surname;
-  }
-    if (loadSwitch === false && mapData.address !== undefined) {
-      var infowindow = new google.maps.InfoWindow();
-      if(mapData.lat !== undefined && mapData.lng !== undefined) {
-        var location = {
-              lat: parseFloat(mapData.lat),
-              lng: parseFloat(mapData.lng)
-            }
-        var marker = new google.maps.Marker( {
-          map: map.instance,
-          position: location,
-          title: mapData.name
-        });
-        marker.setMap(map.instance);
-        infowindow.setContent(mapData.name);
-        infowindow.open(map.instance, marker);
-        map.instance.panTo(location);
-        map.instance.setZoom(16);
-        loadSwitch = true;
-      }else {
+    self.autorun(function() {
+      var mapData = self.data.data;
+      if(mapData.coordinates) {
+        updateMap(map.instance, mapData);
+      } else {
         var gc = new google.maps.Geocoder();
         gc.geocode({
-          'address': mapData.address + mapData.postcode + mapData.city + mapData.country
+          'address': mapData.address
         }, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
-            pin = results[0].geometry.location;
-            if (pin !== null) {
-              var marker = new google.maps.Marker( {
-                map: map.instance,
-                position: pin,
-                title: mapData.name
-              });
-              marker.setMap(map.instance);
-              infowindow.setContent(mapData.name);
-              infowindow.open(map.instance, marker);
-              map.instance.panTo(pin);
-              map.instance.setZoom(16);
-              loadSwitch = true;
+            mapData.coordinates = {
+              lat: results[0].geometry.location.G,
+              lng: results[0].geometry.location.K
             }
+            updateMap(map.instance, mapData);
           }
         });
       }
-    }
+    });
   });
 
 });
+

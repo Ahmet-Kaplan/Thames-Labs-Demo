@@ -93,9 +93,9 @@
       <h1>Address</h1>
       <div class="thumbnail">
       {{#if companyId}}
-        {{#if isDesktop}} <div id="map-wrapper">{{> map data=companyDetails}}</div> {{/if}}
+        {{#if isDesktop}} <div id="map-wrapper">{{> map data=companyMapData}}</div> {{/if}}
         {{#if isPhone}}
-          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}" /> {{/if}}
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{companyAddressString}}" /> {{/if}}
           <div class="caption">
             <address>
               <strong>{{name}}</strong>
@@ -111,9 +111,9 @@
             </address>
           </div>
       {{else}}
-        {{#if isDesktop}} <div id="map-wrapper">{{> map data=this}}</div> {{/if}}
+        {{#if isDesktop}} <div id="map-wrapper">{{> map data=contactMapData}}</div> {{/if}}
         {{#if isPhone}}
-          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}" /> {{/if}}
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{contactAddressString}}" /> {{/if}}
           <div class="caption">
             <address>
               <strong>{{name}}</strong>

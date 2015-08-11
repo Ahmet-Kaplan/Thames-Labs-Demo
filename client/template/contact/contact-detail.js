@@ -10,7 +10,6 @@ Template.contactDetail.onCreated(function() {
 });
 
 Template.contactDetail.onRendered(function() {
-  console.log(this);
   // Affix sidebar
   var sidebar = $('.sidebar');
   sidebar.affix({
@@ -56,13 +55,42 @@ Template.contactDetail.helpers({
       }
     });
   },
-  addressString: function() {
+  companyAddressString: function() {
+    var company = this.company();
+    return encodeURIComponent([
+      company.address,
+      company.city,
+      company.country,
+      company.postcode
+    ].join(', '));
+  },
+  contactAddressString: function() {
     return encodeURIComponent([
       this.address,
       this.city,
       this.country,
       this.postcode
     ].join(', '));
+  },
+  companyMapData: function() {
+    var company = this.company();
+    var coordinates = ((company.lat !== undefined) && (company.lng !== undefined)) ? {lat: parseFloat(company.lat), lng: parseFloat(company.lng)} : null;
+    var address = company.address + ', ' + company.postcode + ', ' + company.city + ', ' + company.country;
+    return {
+      name: company.name,
+      coordinates: coordinates,
+      address: address
+    }
+  },
+  contactMapData: function() {
+    var contactData = this;
+    var coordinates = ((contactData.lat !== undefined) && (contactData.lng !== undefined)) ? {lat: parseFloat(contactData.lat), lng: parseFloat(contactData.lng)} : null;
+    var address = contactData.address + ', ' + contactData.postcode + ', ' + contactData.city + ', ' + contactData.country;
+    return {
+      name: contactData.title + ' ' + contactData.forename + ' ' + contactData.surname,
+      coordinates: coordinates,
+      address: address
+    }
   },
   companyDetails: function() {
     return this.company();
