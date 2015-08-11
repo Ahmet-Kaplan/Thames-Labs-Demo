@@ -1,6 +1,10 @@
-Template.insertActivityModal.rendered = function() {
-
-};
+Template.insertActivityModal.onRendered(function() {
+  $('#draggableModal').draggable({
+    grid: [50, 50],
+    handle: '.modal-header',
+    opacity: 0.35,
+  });
+});
 
 Template.insertActivityModal.helpers({
   currentDateTime: function() {
@@ -19,6 +23,14 @@ Template.insertActivityModal.helpers({
   },
 });
 
+Template.insertContactActivityModal.onRendered(function() {
+  $('#draggableModal').draggable({
+    grid: [50, 50],
+    handle: '.modal-header',
+    opacity: 0.35,
+  });
+});
+
 Template.insertContactActivityModal.helpers({
   currentDateTime: function() {
     return moment();
@@ -28,6 +40,14 @@ Template.insertContactActivityModal.helpers({
   },
 });
 
+Template.insertProjectActivityModal.onRendered(function() {
+  $('#draggableModal').draggable({
+    grid: [50, 50],
+    handle: '.modal-header',
+    opacity: 0.35,
+  });
+});
+
 Template.insertProjectActivityModal.helpers({
   currentDateTime: function() {
   return moment();
@@ -35,6 +55,14 @@ Template.insertProjectActivityModal.helpers({
   currentUser: function() {
     return Meteor.userId();
   },
+});
+
+Template.insertPurchaseOrderActivityModal.onRendered(function() {
+  $('#draggableModal').draggable({
+    grid: [50, 50],
+    handle: '.modal-header',
+    opacity: 0.35,
+  });
 });
 
 Template.insertPurchaseOrderActivityModal.helpers({

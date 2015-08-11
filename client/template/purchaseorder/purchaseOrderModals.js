@@ -2,6 +2,12 @@ Session.set('posc', null);
 Session.set('pocc', null);
 
 Template.newPurchaseOrderForm.onRendered(function() {
+  $('#draggableModal').draggable({
+    grid: [50, 50],
+    handle: '.modal-header',
+    opacity: 0.35,
+  });
+
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
   Meteor.subscribe("myTenant", groupId);
   Session.set('posc', null);
@@ -23,6 +29,12 @@ Template.newPurchaseOrderForm.onRendered(function() {
 });
 
 Template.newCompanyPurchaseOrderForm.onRendered(function() {
+  $('#draggableModal').draggable({
+    grid: [50, 50],
+    handle: '.modal-header',
+    opacity: 0.35,
+  });
+
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
   Meteor.subscribe("myTenant", groupId);
   Meteor.subscribe("allCompanies");
@@ -45,6 +57,12 @@ Template.newCompanyPurchaseOrderForm.onRendered(function() {
 });
 
 Template.newContactPurchaseOrderForm.onRendered(function() {
+  $('#draggableModal').draggable({
+    grid: [50, 50],
+    handle: '.modal-header',
+    opacity: 0.35,
+  });
+
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
   Meteor.subscribe("myTenant", groupId);
   Meteor.subscribe("allCompanies");
@@ -67,6 +85,12 @@ Template.newContactPurchaseOrderForm.onRendered(function() {
 });
 
 Template.updatePurchaseOrderFormModal.onRendered(function() {
+  $('#draggableModal').draggable({
+    grid: [50, 50],
+    handle: '.modal-header',
+    opacity: 0.35,
+  });
+
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
   Meteor.subscribe("myTenant", groupId);
   Session.set('posc', null);
@@ -478,6 +502,12 @@ Template.updatePurchaseOrderFormModal.helpers({
 });
 
 Template.addPurchaseOrderItemModal.onRendered(function() {
+  $('#draggableModal').draggable({
+    grid: [50, 50],
+    handle: '.modal-header',
+    opacity: 0.35,
+  });
+
   var v = $('#itemValue').val();
   var q = $('#currQuant').val();
 
@@ -553,3 +583,11 @@ Template.editPurchaseOrderItemModal.events({
     });
   }
 });
+
+Template.editPurchaseOrderItemModal.onRendered(function() {
+  $('#draggableModal').draggable({
+    grid: [50, 50],
+    handle: '.modal-header',
+    opacity: 0.35,
+  });
+})

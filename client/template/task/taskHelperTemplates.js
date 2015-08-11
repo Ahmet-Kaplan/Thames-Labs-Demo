@@ -22,6 +22,12 @@ Template.insertNewTask.helpers({
 });
 
 Template.insertNewTask.onRendered(function() {
+  $('#draggableModal').draggable({
+    grid: [50, 50],
+    handle: '.modal-header',
+    opacity: 0.35,
+  });
+
   $("#datetimepicker1").datetimepicker({
     local: 'ru'
   });
@@ -50,6 +56,14 @@ Template.updateTask.helpers({
 });
 
 Template.updateTask.events({});
+
+Template.updateTask.onRendered(function() {
+  $('#draggableModal').draggable({
+    grid: [50, 50],
+    handle: '.modal-header',
+    opacity: 0.35,
+  });
+});
 
 Template.insertNewTask.events({
 
