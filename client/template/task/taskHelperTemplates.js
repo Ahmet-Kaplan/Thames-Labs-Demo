@@ -21,22 +21,6 @@ Template.insertNewTask.helpers({
   }
 });
 
-Template.insertNewTask.onRendered(function() {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35,
-  });
-
-  $("#datetimepicker1").datetimepicker({
-    local: 'ru'
-  });
-});
-
-Template.insertNewTask.events({
-
-});
-
 Template.updateTask.helpers({
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
@@ -53,20 +37,6 @@ Template.updateTask.helpers({
   getCurrentUserId: function() {
     return Meteor.userId();
   }
-});
-
-Template.updateTask.events({});
-
-Template.updateTask.onRendered(function() {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35,
-  });
-});
-
-Template.insertNewTask.events({
-
 });
 
 var isDashboard = function() {

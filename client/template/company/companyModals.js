@@ -6,12 +6,6 @@ Template.insertNewCompanyModal.onCreated(function() {
 });
 
 Template.insertNewCompanyModal.onRendered(function() {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35,
-  });
-
   this.autorun(function() {
     if(GoogleMaps.loaded()) {
       $("#geo").geocomplete({
@@ -72,7 +66,6 @@ Template.editCompanyModal.onCreated(function() {
 });
 
 Template.editCompanyModal.onRendered(function() {
-
   this.autorun(function() {
     if(GoogleMaps.loaded()) {
       $("#geo").geocomplete({

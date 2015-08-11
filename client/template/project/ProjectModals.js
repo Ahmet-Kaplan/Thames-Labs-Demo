@@ -1,13 +1,5 @@
 Session.set('sc', null);
 
-Template.newProjectForm.onRendered(function() {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35,
-  });
-});
-
 Template.newProjectForm.events({
   'change #selectedCompany': function() {
     var c = $('select#selectedCompany').val();
@@ -20,12 +12,6 @@ Template.newProjectForm.events({
 });
 
 Template.updateProjectForm.onRendered(function() {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35,
-  });
-
   var c = this.data.companyId;
   if (c) {
     Session.set('sc', c);
@@ -111,14 +97,6 @@ Template.newProjectForm.helpers({
   }
 });
 
-Template.newCompanyProjectForm.onRendered(function()  {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35,
-  });
-});
-
 Template.newCompanyProjectForm.helpers({
   showContacts: function() {
     if (Session.get('sc') === null) {
@@ -156,13 +134,6 @@ Template.newCompanyProjectForm.helpers({
       };
     });
   }
-});
-Template.newContactProjectForm.onRendered(function() {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35,
-  });
 });
 
 Template.newContactProjectForm.helpers({

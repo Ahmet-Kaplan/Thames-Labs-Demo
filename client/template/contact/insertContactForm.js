@@ -1,11 +1,3 @@
-Template.insertCompanyContactModal.onRendered(function() {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35,
-  });
-});
-
 Template.insertCompanyContactModal.helpers({
   companiesAsOptions: function() {
 
@@ -23,14 +15,6 @@ Template.insertCompanyContactModal.helpers({
   currentUser: function() {
     return Meteor.userId();
   }
-});
-
-Template.insertContactModal.onRendered(function() {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35,
-  });
 });
 
 Template.insertContactModal.helpers({
