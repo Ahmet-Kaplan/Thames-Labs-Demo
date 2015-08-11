@@ -19,11 +19,6 @@ Template.companyDetail.onRendered(function() {
 
   // Load docxgen
   $.getScript('/vendor/docxgen.min.js');
-
-  // Load google maps
-  GoogleMaps.load({
-    libraries: 'places'
-  });
 });
 
 Template.companyDetail.events({
@@ -106,19 +101,17 @@ Template.companyDetail.helpers({
     }
     return company;
   },
-  addressString: function() {
-    return encodeURIComponent([
-      this.address,
-      this.city,
-      this.country,
-      this.postcode
-    ].join(', '));
-  },
   phoneHref: function(number) {
     return 'tel:' + number;
   },
   onCompanyRemove: function() {
     $(".modal-backdrop").remove();
     $("body").removeClass('modal-open');
+  },
+  mapTitle: function() {
+    return this.name;
+  },
+  mapAddress: function() {
+    return this;
   }
 });

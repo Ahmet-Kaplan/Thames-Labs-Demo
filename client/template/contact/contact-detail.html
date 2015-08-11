@@ -89,45 +89,11 @@
 
     </div>
 
-  <div class="col-md-4">
+    <div class="col-md-4">
       <h1>Address</h1>
-      <div class="thumbnail">
-      {{#if companyId}}
-        {{#if isDesktop}} <div id="map-wrapper">{{> map data=companyMapData}}</div> {{/if}}
-        {{#if isPhone}}
-          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{companyAddressString}}" /> {{/if}}
-          <div class="caption">
-            <address>
-              <strong>{{name}}</strong>
-              {{#with companyDetails}}
-                <br /><strong>{{name}}</strong>
-                <br /> {{address}}
-                {{#if address2}} <br /> {{address2}} {{/if}}
-                <br /> {{city}}
-                {{#if county}} <br /> {{county}} {{/if}}
-                <br /> {{postcode}}
-                <br /> {{country}}
-              {{/with}}
-            </address>
-          </div>
-      {{else}}
-        {{#if isDesktop}} <div id="map-wrapper">{{> map data=contactMapData}}</div> {{/if}}
-        {{#if isPhone}}
-          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{contactAddressString}}" /> {{/if}}
-          <div class="caption">
-            <address>
-              <strong>{{name}}</strong>
-              <br /> {{address}}
-              {{#if address2}} <br /> {{address2}} {{/if}}
-              <br /> {{city}}
-              {{#if county}} <br /> {{county}} {{/if}}
-              <br /> {{postcode}}
-              <br /> {{country}}
-            </address>
-          </div>
-      {{/if}}
-      </div>
+      {{> map title=mapTitle address=mapAddress}}
     </div>
+
   </div>
 
   <div class="row">
