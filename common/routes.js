@@ -121,7 +121,7 @@ router.route('/sign-up', {
   name: 'sign-up',
   action: function() {
     if (Meteor.userId()) {
-      redirect('dashboard');
+      router.go('dashboard');
     }
     layout.render('signUpLayout', {
       main: "signUp"
