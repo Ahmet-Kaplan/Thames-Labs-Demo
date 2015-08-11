@@ -22,13 +22,11 @@ Template.insertNewTask.helpers({
 });
 
 Template.insertNewTask.onRendered(function() {
-  $("#datetimepicker1").datetimepicker({
-    local: 'ru'
-  });
+  Meteor.subscribe('currentTenantUserData', Partitioner.group());
 });
 
-Template.insertNewTask.events({
-
+Template.updateTask.onRendered(function() {
+  Meteor.subscribe('currentTenantUserData', Partitioner.group());
 });
 
 Template.updateTask.helpers({
