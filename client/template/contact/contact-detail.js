@@ -58,7 +58,7 @@ Template.contactDetail.helpers({
   },
   mapTitle: function() {
     if (this.companyId) {
-      var company = Companies.findOne();
+      var company = Companies.findOne({_id: this.companyId});
       if (company) {
         return company.name;
       }
@@ -68,7 +68,7 @@ Template.contactDetail.helpers({
   },
   mapAddress: function() {
     if (this.companyId) {
-      var company = Companies.findOne();
+      var company = Companies.findOne({_id: this.companyId});
       return company;
     } else {
       return this
