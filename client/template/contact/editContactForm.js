@@ -61,7 +61,6 @@ Template.editContactModal.onRendered(function() {
 
 Template.editContactModal.helpers({
   noCompany: function() {
-    console.log(this.companyId);
     return this.companyId === undefined;
   }
 });
