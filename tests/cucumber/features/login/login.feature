@@ -26,7 +26,3 @@ Feature: Allow users to login and logout
     And I click "#general-dropdown"
     And I click "#sign-out"
     Then I can see the login form
-
-  Scenario: A user going to /sign-up sees the form
-    When I navigate to "/sign-up"
-    Then I should see the title "RealTimeCRM - Sign Up"

@@ -535,12 +535,8 @@ quotations = [{
      },
      {
          "Quote": "To be a great leader you must first learn to serve others",
-         "Person": "Philip Mashinchi"
+         "Person": "Jesus"
       },
-    {
-        "Quote": "The art of leadership is saying no, not yes. It is very easy to say yes.",
-        "Person": "Tony Blair"
-     },
     {
         "Quote": "A leader is a dealer in hope.",
         "Person": "Napoleon Bonaparte"
@@ -652,8 +648,8 @@ quotations = [{
         "Person": "Richard Monckton Milnes"
      },
      {
-         "Quote": "If you believe you can do it, then you can. If believe that you can't, then you are right.",
-         "Person": "Philip Mashinchi"
+         "Quote": "Whether you think you can, or you think you can't - you're right.",
+         "Person": "Henry Ford"
       },
     {
         "Quote": "To reach a port, we must sail- sail, not tie at anchor- sail, not drift.",
