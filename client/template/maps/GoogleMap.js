@@ -9,6 +9,7 @@ var updateMap = function(map, title, address) {
     });
   } else {
     marker.setPosition(newPosition);
+    marker.setMap(map);
   }
 
   if (!infowindow) {

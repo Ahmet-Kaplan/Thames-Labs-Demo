@@ -34,7 +34,7 @@ Template.contactDetail.helpers({
     return contact;
   },
   company: function() {
-    return Companies.findOne();
+    return Companies.findOne({_id: this.companyId});
   },
   projects: function() {
     var contactId = FlowRouter.getParam('id');

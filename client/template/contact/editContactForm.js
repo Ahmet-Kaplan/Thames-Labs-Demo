@@ -3,7 +3,6 @@ Template.editContactModal.onCreated(function() {
   GoogleMaps.load({
     libraries: 'places'
   });
-  this.subscribe('allCompanies');
 });
 
 Template.editContactModal.onRendered(function() {
