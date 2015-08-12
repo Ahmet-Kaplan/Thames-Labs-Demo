@@ -8,7 +8,6 @@ Feature: Allow users to sign up to the app
 		Given I am a logged out user
 		And I navigate to "/sign-up"
 
-	@dev
 	Scenario: A user can view the sign up screen
 		Then I should see the title "RealTimeCRM - Sign Up"
 
