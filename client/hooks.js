@@ -79,7 +79,6 @@ AutoForm.hooks({
       }
     },
     onSuccess: function() {
-      console.log(this);
       Modal.hide();
       toastr.success('Contact details updated.');
     }
