@@ -47,12 +47,6 @@ Template.updateTask.helpers({
   }
 });
 
-Template.updateTask.events({});
-
-Template.insertNewTask.events({
-
-});
-
 var isDashboard = function() {
   return FlowRouter.getRouteName() === "dashboard";
 };
