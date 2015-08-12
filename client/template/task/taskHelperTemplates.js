@@ -21,8 +21,6 @@ Template.insertNewTask.helpers({
   }
 });
 
-<<<<<<< HEAD
-=======
 Template.insertNewTask.onRendered(function() {
   Meteor.subscribe('currentTenantUserData', Partitioner.group());
 });
@@ -31,7 +29,6 @@ Template.updateTask.onRendered(function() {
   Meteor.subscribe('currentTenantUserData', Partitioner.group());
 });
 
->>>>>>> master
 Template.updateTask.helpers({
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
