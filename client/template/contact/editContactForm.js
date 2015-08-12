@@ -60,30 +60,13 @@ Template.editContactModal.onRendered(function() {
 });
 
 Template.editContactModal.helpers({
-  companiesAsOptions: function() {
-
-    return Companies.find({}, {
-      sort: {
-        name: 1
-      }
-    }).map(function(company) {
-      return {
-        'label': company.name,
-        'value': company._id
-      };
-    });
+  noCompany: function() {
+    console.log(this.companyId);
+    return this.companyId === undefined;
   }
 });
 
 Template.editContactModal.events({
-  'change #companyId': function() {
-    if($('#companyId').val() != '') {
-      $('#addressWrapper').hide();
-    }else {
-      $('#addressWrapper').show();
-    }
-  },
-
   'click #show-map': function() {
     $("#show-map").hide();
     var mapData = this;

@@ -16,7 +16,7 @@
             {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
             {{> afQuickField name="jobtitle"}}
-            <div id="addressWrapper" style="display: none;">
+            {{#if noCompany}}
               <div><a href="#" id="show-map">New location search</a></div>
               {{#if isDesktop}}
               <div id="map_wrapper" class="form-group" style="display: none;">
@@ -37,7 +37,7 @@
               {{> afQuickField name="country" data-geo="country"}}
               {{> afQuickField name="lat" data-geo="lat"}}
               {{> afQuickField name="lng" data-geo="lng"}}
-            </div>
+            {{/if}}
             <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
         </div>
