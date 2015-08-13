@@ -8,6 +8,8 @@ Feature: Allow users to see maps
     And a company has been created
     And a contact has been created
 
+###################### Maps for Company ######################
+
   Scenario: A user can do a location search and see the map when creating a company
     When I navigate to "/companies"
     And I click "#createCompany"
@@ -20,14 +22,15 @@ Feature: Allow users to see maps
     Then I should see the heading "Address"
     And I should see a map
 
-@ignore
   Scenario: A user can do a location search and see the map when editing a company's details
     When I navigate to a company page
     And I click "#edit-company"
-    And I click "#show-map"
-    And I search for Cowley Road
+    And I leftclick "#new-location-search"
+    When I search for Cowley Road
     Then the field "postcode" should contain "CB4"
-    And I should see a map
+    #And I should see a map
+
+###################### Maps for Contacts ######################
 
   Scenario: A user can see the map on a contact's page
     When I navigate to a contact page

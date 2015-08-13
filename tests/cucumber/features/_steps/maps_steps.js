@@ -33,7 +33,7 @@ module.exports = function() {
   this.When(/^I search for Cowley Road$/, function(callback) {
     this.client
       .waitForVisible('#geo', 2000)
-      .setValue('#geo', 'Cowley Road')
+      .setValue('#geo', 'Cowley Road, Cambridge')
       .waitForVisible('.pac-item')
       .click('.pac-item')
       .call(callback);
@@ -57,9 +57,19 @@ module.exports = function() {
       .setValue('input[name=surname]', 'Surname')
       .selectByIndex('#companyId', 1)
       .getCssProperty('#addressWrapper', 'display').then(function(display) {
-        return (display == 'none');
+        expect(display.value).to.equal('none');
       })
       .submitForm('#insertContactForm')
+      .call(callback);
+  });
+
+  this.Then(/^I leftclick "#new-location-search"$/, function(callback) {
+    this.client
+      .waitForVisible('#new-location-search', 2000)
+      .click('#new-location-search')
+      .getCssProperty('#show-map', 'display').then(function(display) {
+        expect(display.value).to.equal('none');
+      })
       .call(callback);
   });
 
@@ -67,7 +77,7 @@ module.exports = function() {
     this.client
       .waitForVisible('#editContactForm', 2000)
       .isExisting('#formatted_address').then(function(isExisting) {
-        return !isExisting
+        expect(isExisting).to.be.false;
       })
       .call(callback);
   });
@@ -76,7 +86,7 @@ module.exports = function() {
     this.client
       .waitForVisible('#editContactForm', 2000)
       .isExisting('#formatted_address').then(function(isExisting) {
-        return isExisting
+        expect(isExisting).to.be.true;
       })
       .call(callback);
   });
@@ -84,6 +94,7 @@ module.exports = function() {
   this.Then(/^the field "([^"]*)" should contain "([^"]*)"$/, function(fieldName, fieldValue, callback) {
     this.client
       .waitForVisible('input[name=' + fieldName +']', 2000)
+      .timeoutsImplicitWait(2000)
       .getValue('input[name=' + fieldName +']').then(function(text) {
         expect(text).to.contain(fieldValue);
       })
