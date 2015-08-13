@@ -193,7 +193,7 @@ Template.nav.events({
   },
   'click #qckCreateContact': function(event) {
     event.preventDefault();
-    Modal.show('insertCompanyContactModal', this);
+    Modal.show('insertContactModal', this);
   },
   'click #qckCreateProject': function(event) {
     event.preventDefault();

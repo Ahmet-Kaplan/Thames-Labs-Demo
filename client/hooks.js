@@ -63,22 +63,50 @@ AutoForm.hooks({
       //LogEvent('info', 'Purchase order updated.', 'Purchase Order', this.docId);
     }
   },
-  insertContactForm: {
+  editContactForm: {
+    before: {
+      update: function(doc) {
+        var oldValues = this.currentDoc, modifications = true;
+        $.each(['address', 'address2', 'city', 'country', 'county', 'postcode'], function(i, field) {
+          modifications =  (oldValues[field] === doc.$set[field]);
+          return modifications;
+        });
+        if(!modifications) {
+          doc.$set.lat = '';
+          doc.$set.lng = '';
+        }
+        return doc;
+      }
+    },
     onSuccess: function() {
       Modal.hide();
-      toastr.success('Contact created.');
+      toastr.success('Contact details updated.');
     }
   },
-  updateContactForm: {
+  editCompanyForm: {
+    before: {
+      update: function(doc) {
+        var oldValues = this.currentDoc, modifications = true;
+        $.each(['address', 'address2', 'city', 'country', 'county', 'postcode'], function(i, field) {
+          modifications =  (oldValues[field] === doc.$set[field]);
+          return modifications;
+        });
+        if(!modifications) {
+          doc.$set.lat = '';
+          doc.$set.lng = '';
+        }
+        return doc;
+      }
+    },
     onSuccess: function() {
       Modal.hide();
-      toastr.success('Contact updated.');
+      toastr.success('Company details updated.');
     }
   },
   updatePurchaseOrderForm: {
     onSuccess: function() {
       Modal.hide();
-      toastr.success('Contact created.');
+      toastr.success('Purchase details updated.');
       //LogEvent('info', 'Contact created.', 'Contact', this.docId);
     }
   },
@@ -189,95 +217,6 @@ AutoForm.hooks({
       Modal.hide();
       toastr.success('Tenant created.');
       //LogEvent('verbose', 'A new tenant has been created.', 'Tenant', this.docId);
-    }
-  },
-  insertCompanyForm: {
-    before: {
-      insert: function(doc) {
-        doc.createdBy = Meteor.userId();
-        return doc;
-      }
-    },
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Company created.');
-      //LogEvent('info', 'Company created.', 'Company', this.docId);
-    },
-    after: {
-      insert: function(error, result) {
-        if (error) {
-          toastr.error('An error occurred: Company not created.');
-          //LogEvent('error', 'Company not created: ' + error, 'Company', this.docId);
-          return false;
-        }
-
-        FlowRouter.go('/companies/' + result);
-        $(".modal-backdrop").remove();
-        $("body").removeClass('modal-open');
-      }
-    }
-  },
-  editCompanyForm: {
-    before: {
-      update: function(doc) {
-        if(doc.$set.website !== undefined && doc.$set.website.length < 8) {
-          doc.$set.website = '';
-        }
-        return doc;
-      }
-    },
-    onSuccess: function() {
-      Modal.hide();
-      var companyData = this.updateDoc.$set;
-      var location = 0;
-      $("#map-wrapper").empty();
-      $("#map-wrapper").height("400px");
-      var map = new google.maps.Map(document.getElementById("map-wrapper"), {
-        center: {lat: 52.234744, lng: 0.153752},
-        scrollwheel: false,
-        zoom: 10
-      });
-      if(companyData.lat !== undefined && companyData.lng !== undefined) {
-        location = {
-              lat: parseFloat(companyData.lat),
-              lng: parseFloat(companyData.lng)
-            };
-        map.panTo(location);
-        map.setZoom(16);
-        var marker = new google.maps.Marker( {
-          map: map,
-          position: location,
-          title: companyData.name
-        });
-        marker.setMap(map);
-        var infowindow = new google.maps.InfoWindow();
-        infowindow.setContent(companyData.name);
-        infowindow.open(map, marker);
-      }else {
-        var gc = new google.maps.Geocoder();
-        gc.geocode({
-            'address': companyData.address + companyData.postcode + companyData.city + companyData.country
-          }, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            location = {
-              lat: results[0].geometry.location.G,
-              lng: results[0].geometry.location.K
-            };
-            map.panTo(location);
-            map.setZoom(16);
-            var marker = new google.maps.Marker( {
-              map: map,
-              position: location,
-              title: companyData.name
-            });
-            marker.setMap(map);
-            var infowindow = new google.maps.InfoWindow();
-            infowindow.setContent(companyData.name);
-            infowindow.open(map, marker);
-          }
-        });
-      }
-      toastr.success('Company details updated.');
     }
   },
   removeCompanyForm: {
@@ -391,15 +330,16 @@ AutoForm.hooks({
       //LogEvent('info', 'Purchase order activity added.');
     }
   },
-  insertContactForm: {
+  insertCompanyContactForm: {
     onSuccess: function() {
       toastr.success('Contact created.');
       Modal.hide();
     }
   },
-  insertCompanyContactForm: {
+  insertContactForm: {
     onSuccess: function() {
       toastr.success('Contact created.');
+      FlowRouter.go('/contacts/' + this.docId);
       Modal.hide();
     }
   }

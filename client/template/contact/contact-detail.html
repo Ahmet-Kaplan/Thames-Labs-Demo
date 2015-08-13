@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class="col-md-10">
+    <div class="col-md-6">
       <h4 class="entity-title">Contact</h4>
       <h1 id="contact-details" class="entity-name">{{name}}</h1>
 
@@ -22,13 +22,8 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#afModal class="btn btn-info btn-xs" collection="Contacts" doc=_id operation="update" formId="updateContactForm" omitFields="companyId"}} Edit contact details {{/afModal}}
-
-
+            <a href="#" id="edit-contact" class="btn btn-info btn-xs">Edit contact details</a>
             <a href="#" id="remove-contact" class="btn btn-danger btn-xs">Delete contact</a>
-            <!-- {{#afModal class="btn btn-danger btn-xs" collection="Contacts" doc=_id operation="remove"
-            formId="removeContactForm" onSuccess="onContactRemove"}} Delete contact {{/afModal}} -->
-
           </div>
           Contact details</div>
         <ul class="list-group">
@@ -93,6 +88,12 @@
       </div>
 
     </div>
+
+    <div class="col-md-4">
+      <h1>Address</h1>
+      {{> map title=mapTitle address=mapAddress}}
+    </div>
+
   </div>
 
   <div class="row">

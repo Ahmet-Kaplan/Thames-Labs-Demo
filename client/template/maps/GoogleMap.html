@@ -1,5 +1,43 @@
+<!--
+This component expects to be called with two parameters:
+  title: sets the title of the google maps infowindow
+  address: an object containing our usual address fields, optionally including lat and lng
+-->
+
 <template name="map">
-  <div class="map-container">
-    {{> googleMap name="map" options=mapOptions}}
+  <div class="thumbnail">
+    {{#if isDesktop}}
+      <div class="map-container">
+        {{> googleMap name="map" options=mapOptions}}
+      </div>
+    {{/if}}
+    {{#if isPhone}}
+      <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}" />
+    {{/if}}
+    <div class="caption">
+      <address>
+        <b>{{title}}</b>
+        {{#with address}}
+          {{#if address}}
+            <br /> {{address}}
+          {{/if}}
+          {{#if address2}}
+            <br /> {{address2}}
+          {{/if}}
+          {{#if city}}
+            <br /> {{city}}
+          {{/if}}
+          {{#if county}}
+            <br /> {{county}}
+          {{/if}}
+          {{#if postcode}}
+            <br /> {{postcode}}
+          {{/if}}
+          {{#if country}}
+            <br /> {{country}}
+          {{/if}}
+        {{/with}}
+      </address>
+    </div>
   </div>
 </template>
