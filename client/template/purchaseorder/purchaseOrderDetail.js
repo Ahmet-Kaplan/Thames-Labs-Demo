@@ -9,7 +9,6 @@ Template.purchaseOrderDetail.onCreated(function() {
 });
 
 Template.purchaseOrderDetail.onRendered(function() {
-
   // Affix sidebar
   var sidebar = $('.sidebar');
   sidebar.affix({

@@ -20,7 +20,6 @@ Template.projectsList.onRendered(function() {
   });
 });
 
-
 Template.projectsList.helpers({
   hasProjects: function() {
     return Projects.find({}).count() > 0;

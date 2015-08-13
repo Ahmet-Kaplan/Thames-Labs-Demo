@@ -19,6 +19,14 @@ var normalUserOnly = function(context, redirect) {
   }
 };
 
+var loggedOutUserOnly = function(context, redirect) {
+  var user = Meteor.user();
+  console.log('check for logged out user - user is ', user);
+  if (user) {
+    redirect('dashboard');
+  }
+};
+
 var tidyUpModals = function(context) {
   $(".modal-backdrop").remove();
   $("body").removeClass('modal-open');
@@ -37,11 +45,15 @@ var tidyUpModals = function(context) {
 
 // These functions add the triggers to routes globally
 var adminRoutes = ['tenants', 'notifications', 'statistics', 'audit'];
+var loggedOutRoutes = ['sign-up'];
 router.triggers.enter(superAdminOnly, {
   only: adminRoutes
 });
 router.triggers.enter(normalUserOnly, {
   except: adminRoutes
+});
+router.triggers.enter(loggedOutUserOnly, {
+  only: loggedOutRoutes
 });
 router.triggers.exit(tidyUpModals);
 
@@ -116,16 +128,11 @@ router.route('/audit', {
   }
 });
 
-// NO USER route
+// LOGGED OUT USER ONLY route
 router.route('/sign-up', {
   name: 'sign-up',
   action: function() {
-    if (Meteor.userId()) {
-      redirect('dashboard');
-    }
-    layout.render('signUpLayout', {
-      main: "signUp"
-    });
+    layout.render('signUpLayout', { main: "signUp" });
   }
 });
 

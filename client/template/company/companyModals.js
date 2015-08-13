@@ -1,61 +1,3 @@
-AutoForm.hooks({
-  editCompanyForm: {
-    onSuccess: function() {
-      Modal.hide();
-      var companyData = this.updateDoc.$set;
-      var location = 0;
-      $("#map-wrapper").empty();
-      $("#map-wrapper").height("400px");
-      var map = new google.maps.Map(document.getElementById("map-wrapper"), {
-        center: {lat: 52.234744, lng: 0.153752},
-        scrollwheel: false,
-        zoom: 10
-      });
-      if(companyData.lat !== undefined && companyData.lng !== undefined) {
-        location = {
-              lat: parseFloat(companyData.lat),
-              lng: parseFloat(companyData.lng)
-            };
-        map.panTo(location);
-        map.setZoom(16);
-        var marker = new google.maps.Marker( {
-          map: map,
-          position: location,
-          title: companyData.name
-        });
-        marker.setMap(map);
-        var infowindow = new google.maps.InfoWindow();
-        infowindow.setContent(companyData.name);
-        infowindow.open(map, marker);
-      }else {
-        var gc = new google.maps.Geocoder();
-        gc.geocode({
-            'address': companyData.address + companyData.postcode + companyData.city + companyData.country
-          }, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            location = {
-              lat: results[0].geometry.location.G,
-              lng: results[0].geometry.location.K
-            };
-            map.panTo(location);
-            map.setZoom(16);
-            var marker = new google.maps.Marker( {
-              map: map,
-              position: location,
-              title: companyData.name
-            });
-            marker.setMap(map);
-            var infowindow = new google.maps.InfoWindow();
-            infowindow.setContent(companyData.name);
-            infowindow.open(map, marker);
-          }
-        });
-      }
-      toastr.success('Company details updated.');
-    }
-  }
-});
-
 Template.insertNewCompanyModal.onCreated(function() {
   // Load google maps
   GoogleMaps.load({
@@ -64,12 +6,6 @@ Template.insertNewCompanyModal.onCreated(function() {
 });
 
 Template.insertNewCompanyModal.onRendered(function() {
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35,
-  });
-
   this.autorun(function() {
     if(GoogleMaps.loaded()) {
       $("#geo").geocomplete({
@@ -130,7 +66,6 @@ Template.editCompanyModal.onCreated(function() {
 });
 
 Template.editCompanyModal.onRendered(function() {
-
   this.autorun(function() {
     if(GoogleMaps.loaded()) {
       $("#geo").geocomplete({
