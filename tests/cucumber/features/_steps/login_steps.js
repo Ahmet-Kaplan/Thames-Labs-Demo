@@ -27,6 +27,18 @@ module.exports = function() {
       .call(callback);
   });
 
+  this.Given(/^I am a logged in Administrator user$/, function(callback) {
+    this.client
+      .setViewportSize({
+        width: 1000,
+        height: 800
+      })
+      .url(process.env.ROOT_URL)
+      .executeAsync(logout)
+      .executeAsync(login, 'admin@domain.com', 'administrator')
+      .call(callback);
+  });
+
   this.Given(/^I am a logged in superadmin user$/, function(callback) {
     this.client
       .setViewportSize({

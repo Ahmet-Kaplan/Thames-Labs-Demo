@@ -16,6 +16,13 @@ Meteor.methods({
         }
       }
     });
+    Meteor.users.remove({
+      emails: {
+        $elemMatch: {
+          address: "newuser@domain.com"
+        }
+      }
+    });
     Tenants.remove({
       name: "Company Name"
     });
@@ -129,6 +136,17 @@ Meteor.startup(function() {
     }
   });
   Partitioner.setUserGroup(userId2, 'tenant 2');
+
+  var adminId = Accounts.createUser({
+    username: 'administrator',
+    email: 'admin@domain.com',
+    password: 'administrator',
+    profile: {
+      name: 'administrator'
+    }
+  });
+  Partitioner.setUserGroup(adminId, 'tenant 1');
+  Roles.addUsersToRoles(adminId, 'Administrator');
 
   var superadminId = Accounts.createUser({
     username: 'superadmin',
