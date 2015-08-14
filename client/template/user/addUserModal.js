@@ -2,7 +2,7 @@ AutoForm.hooks({
     addNewUserForm: {
       onSuccess: function() {
         Modal.hide();
-        toastr.success('New user created<br />An email containing the password has been sent.');
+        toastr.success('New user created<br />An email containing a link to create the password has been sent.');
       },
       onError: function(formType, error) {
         if(error.reason === "Email already exists.") {
