@@ -1,12 +1,34 @@
-Template.dashboard.rendered = function() {
-  $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
-};
+Template.dashboard.onRendered(function() {
+  $('.grid-stack').gridstack({
+    cell_height: 150,
+    vertical_margin: 10,
+    animate: true
+  })
 
-Template.message.rendered = function() {
   $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
-};
+});
+
+Template.message.onRendered(function() {
+  $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
+});
 
 Template.dashboard.events({
+  'change .grid-stack': function(e, items) {
+      var elts = $('.grid-stack > .grid-stack-item:visible');
+      _.each(elts, function(elt) {
+        var id = elt.id;
+        elt = $(elt);
+        attributes = {
+          id: id,
+          x: elt.attr('data-gs-x'),
+          y: elt.attr('data-gs-y'),
+          height: elt.attr('data-gs-height'),
+          width: elt.attr('data-gs-width')
+        }
+        console.log(attributes);
+      });
+      // var attributes = item.el.data();
+  },
   'click .sendMessage': function() {
     var user = Meteor.users.find({
       _id: Meteor.userId()

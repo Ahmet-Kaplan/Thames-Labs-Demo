@@ -54,6 +54,7 @@ lai:collection-extensions@0.1.4
 launch-screen@1.0.2
 lbee:lunr@0.5.9
 less@1.0.14
+linto:jquery-ui@1.0.0
 livedata@1.0.13
 local:partitioner@0.5.5
 localstorage@1.0.3
@@ -61,6 +62,7 @@ logging@1.0.7
 manuel:reactivearray@1.0.5
 matb33:collection-hooks@0.7.13
 matteodem:easy-search@1.6.2
+matteodem:gridster@0.0.1
 matteodem:server-session@0.4.2
 mediumeditor:mediumeditor@5.2.0
 meteor@1.1.6
@@ -120,6 +122,7 @@ spacebars@1.0.6
 spacebars-compiler@1.0.6
 srp@1.0.3
 stevezhu:lodash@3.10.0
+tarzak:gridstackjs@0.2.3
 templating@1.1.1
 tmeasday:presence@1.0.6
 tracker@1.0.7
