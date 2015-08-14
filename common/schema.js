@@ -113,6 +113,11 @@ Schemas.Tenant = new SimpleSchema({
   },
   createdAt: {
     type: Date
+  },
+  paying: {
+    type: Boolean,
+    label: "Paying tenant",
+    defaultValue: false
   }
 });
 Tenants.attachSchema(Schemas.Tenant);

@@ -6,8 +6,7 @@
   {{> maintenanceModeButton}}
 
     {{setPageTitle 'Tenants'}}
-    <h1>
-    <i class="fa fa-fw fa-archive"></i> Current Tenants</h1>
+    <h1><i class="fa fa-fw fa-archive"></i> Current Tenants</h1>
     <div class="well well-sm">
         <div class="btn-group" role="group">
             <button class="btn btn-primary pull-right btn-xs" id="btnAddNewTenant" type="button">
@@ -17,32 +16,48 @@
         <span class="pull-right">Total Tenants: {{tenantCount}} &nbsp;&nbsp;&nbsp;&nbsp; Total Users: {{userCount}}</span>
     </div>
 
-    {{#each tenants}} {{> tenant}} {{/each}}
+    <h2><i class="fa fa-fw fa-plane"></i> Paying Tenants</h2>
+    {{#each tenants "true"}} {{> tenant}} {{/each}}
+
+    <h2><i class="fa fa-fw fa-paper-plane"></i> Free Tenants</h2>
+    {{#each tenants "false"}} {{> tenant}} {{/each}}
 
 </template>
 
 <template name="tenant">
     <div class="panel panel-primary">
         <div class="panel-heading ">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a><small> (Users: {{userCount}})</small>
-        </div>
+          
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a><small> (Users: {{userCount}})</small>
+          </div>
         <div id="collapse{{_id}}" class="panel-collapse collapse">
             <div class="panel-body" id="listOfTenantUsers">
-                <div class="well well-sm">
+                <div class="btn-toolbar" role="toolbar">
                     <button class="btn btn-primary btn-xs" id="btnAddNewTenantUser" type="button">
                         <i class="fa fa-fw fa-user"></i> Add a new user
                     </button>
-                    <button class="btn btn-danger pull-right btn-xs" id="btnDeleteTenant" type="button">
-                        <i class="fa fa-fw fa-archive"></i> Delete this tenant
-                    </button>
-                    <button class="btn btn-info pull-right btn-xs" id="btnEditSettings" type="button">
-                        <i class="fa fa-fw fa-wrench"></i> Edit settings
-                    </button>
-                    {{#if isDevEnvironment}}
-                    <button class="btn btn-xs pull-right" id="btnDemoData" type="button">
-                        <i class="fa fa-fw fa-wrench"></i> Populate with demo data
-                    </button>
-                    {{/if}}
+                        <div class="btn-group pull-right" role="group">
+                        {{#if isDevEnvironment}}
+                        <button class="btn btn-xs" id="btnDemoData" type="button">
+                            <i class="fa fa-fw fa-wrench"></i> Populate with demo data
+                        </button>
+                        {{/if}}
+                        <button class="btn btn-info btn-xs" id="btnEditSettings" type="button">
+                            <i class="fa fa-fw fa-wrench"></i> Edit settings
+                        </button>
+                        
+                        <button class="btn btn-success btn-xs" id="btnPaidTenant" type="button">
+                          <i class="fa fa-fw fa-credit-card"></i> 
+                          {{#if isPaidTenant}} 
+                            Paying scheme
+                          {{else}}
+                            Free scheme
+                          {{/if}}
+                        </button>
+                        <button class="btn btn-danger btn-xs" id="btnDeleteTenant" type="button">
+                            <i class="fa fa-fw fa-archive"></i> Delete this tenant
+                        </button>
+                    </div>
                 </div>
 
                 <ul class="list-group">

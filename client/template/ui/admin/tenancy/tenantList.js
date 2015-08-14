@@ -1,6 +1,7 @@
 Template.tenantList.helpers({
-  tenants: function() {
-    return Tenants.find({});
+  tenants: function(paying) {
+    var payingTenant = (paying === "true") ? true : false;
+    return Tenants.find({ paying: payingTenant });
   },
   tenantCount: function() {
     return Tenants.find({}).count();
@@ -21,6 +22,9 @@ Template.tenant.helpers({
     return Meteor.users.find({
       group: this._id
     }).count();
+  },
+  isPaidTenant: function() {
+    return this.paying;
   }
 });
 
@@ -52,6 +56,18 @@ Template.tenant.events({
   },
   'click #btnDemoData': function() {
     Meteor.call('generateDemoData', this._id);
+  },
+  'click #btnPaidTenant': function(event) {
+    event.preventDefault();
+    var tenantId = this._id;
+    var scheme = (this.paying) ? 'Free' : 'Paying';
+    var currentScheme = this.paying
+
+    bootbox.confirm("Are you sure you wish to set this tenant to the " + scheme + " scheme?", function(result) {
+      if (result === true) {
+        Tenants.update(tenantId, {$set: {paying: !currentScheme}});
+      }
+    });
   }
 });
 
