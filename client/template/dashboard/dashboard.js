@@ -1,5 +1,5 @@
 Template.dashboard.onRendered(function() {
-  $('.grid-stack').gridstack({
+  gridstack = $('.grid-stack').gridstack({
     cell_height: 150,
     vertical_margin: 10,
     animate: true
@@ -15,6 +15,7 @@ Template.message.onRendered(function() {
 Template.dashboard.events({
   'change .grid-stack': function(e, items) {
       var elts = $('.grid-stack > .grid-stack-item:visible');
+      var userWidgets = new Array();
       _.each(elts, function(elt) {
         var id = elt.id;
         elt = $(elt);
@@ -24,11 +25,29 @@ Template.dashboard.events({
           y: elt.attr('data-gs-y'),
           height: elt.attr('data-gs-height'),
           width: elt.attr('data-gs-width')
-        }
-        console.log(attributes);
+        };
+        userWidgets.push(attributes);
       });
-      // var attributes = item.el.data();
   },
+
+  'click .addWidget': function(e) {
+    var grid = $('.grid-stack').data('gridstack');
+    var newWidgetName = e.target.id;
+    var newWidget;
+    switch(newWidgetName) {
+      case('testWidget'):
+        newWidget = Blaze.toHTML(Template.testWidget);
+      break;
+    }
+    grid.add_widget(newWidget, 0, 0, 4, 2, true);
+  },
+
+  'click .close': function(e) {
+    var widget = e.target.id.split('close_')[1];
+    var gridstack = $('.grid-stack').data('gridstack');
+    gridstack.remove_widget($('#' + widget), true);
+  },
+
   'click .sendMessage': function() {
     var user = Meteor.users.find({
       _id: Meteor.userId()

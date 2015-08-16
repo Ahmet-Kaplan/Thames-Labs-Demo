@@ -1,15 +1,27 @@
 <template name="dashboard">
 
   {{setPageTitle 'Dashboard'}}
-  <h1 id="dashboard-page-header"><i class="fa fa-fw fa-home"></i> Dashboard</h1>
-  
-  <div class="grid-stack">
+  <h1 id="dashboard-page-header"><i class="fa fa-fw fa-home"></i> Dashboard
+  <div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+      Add Widget
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="#" class="addWidget" id="testWidget">Wiget 1</a></li>
+      <li><a href="#" id="template-help">Widget 2</a></li>
+    </ul>
+  </div> 
+  </h1>
+
+  <div class="grid-stack" id="gridstack">
     <div class="grid-stack-item" id="chatWidget"
       data-gs-x="0" data-gs-y="1"
       data-gs-width="4" data-gs-height="2">
       <div class="grid-stack-item-content">
         <div class="panel panel-default" id='chatBox'>
           <div class="panel-heading">
+            <button type="button" class="close" id="close_chatWidget" aria-hidden="true">×</button>
             Chatter
           </div>
           <div class="panel-body" style="margin-bottom:5px;">
@@ -41,6 +53,7 @@
         <div class="grid-stack-item-content">
           <div class="panel panel-default">
             <div class="panel-heading" id="quote-box">
+              <button type="button" class="close" id="close_quotationWidget" aria-hidden="true">×</button>
               Quotation of the day
             </div>
             <div class="panel-body" style="padding:0">
@@ -59,6 +72,7 @@
           <div class="grid-stack-item-content">
             <div class="panel panel-default" id='onlineUsersBox'>
               <div class="panel-heading">
+                <button type="button" class="close" id="close_onlineWidget" aria-hidden="true">×</button>
                 Online Users
               </div>
               <div class="panel-body">
