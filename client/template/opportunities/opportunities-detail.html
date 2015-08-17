@@ -70,6 +70,20 @@
             <h4><i class="fa fa-fw fa-calendar"></i> Date</h4>
             {{{date}}}
           </li>
+          {{#if company}}
+          <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-building"></i> Company</h4>
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+             {{company.name}}
+          </a>
+          {{/if}}
+          {{#if contact}}
+          <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-user"></i> Contact</h4>
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+             {{contact.name}}
+          </a>
+          {{/if}}
         </ul>
       </div>
       <div class="panel panel-default" id="lines">

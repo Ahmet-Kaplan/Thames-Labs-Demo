@@ -366,6 +366,8 @@ router.route('/opportunities/:id', {
   subscriptions: function(params) {
     this.register('opportunityStages', subs.subscribe('opportunityStages'));
     this.register('opportunityById', subs.subscribe('opportunityById', params.id));
+    this.register('companyByOpportunityId', subs.subscribe('companyByOpportunityId', params.id));
+    this.register('contactByOpportunityId', subs.subscribe('contactByOpportunityId', params.id));
   },
   action: function() {
     layout.render('appLayout', {

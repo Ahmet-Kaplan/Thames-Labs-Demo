@@ -110,6 +110,11 @@ Meteor.publish("companyByProductId", function(productId) {
   var p = Products.findOne(productId);
   return Companies.find(p.companyId);
 });
+Meteor.publish("companyByOpportunityId", function(id) {
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  var opp = Opportunities.findOne(id);
+  return Companies.find(opp.companyId);
+});
 Meteor.publish("companyTags", function() {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Meteor.tags.find({
@@ -147,6 +152,11 @@ Meteor.publish("contactByProductId", function(productId) {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   var p = Products.findOne(productId);
   return Contacts.find(p.companyId);
+});
+Meteor.publish("contactByOpportunityId", function(id) {
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  var opp = Opportunities.findOne(id);
+  return Contacts.find(opp.contactId);
 });
 Meteor.publish("contactTags", function() {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();

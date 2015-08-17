@@ -42,6 +42,12 @@ Template.opportunityDetail.helpers({
       items.push(item);
     }
     return items;
+  },
+  company: function() {
+    return Companies.findOne({_id: this.companyId});
+  },
+  contact: function() {
+    return Contacts.findOne({_id: this.contactId});
   }
 });
 
