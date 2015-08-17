@@ -115,6 +115,12 @@ Template.opportunityStage.helpers({
   }
 });
 
+Template.opportunityItem.helpers({
+  isActive: function() {
+    return !Opportunities.findOne(this.oppId).isArchived;
+  }
+});
+
 Template.opportunityItem.events({
   'click .btnEditOppItem': function(event) {
     event.preventDefault();

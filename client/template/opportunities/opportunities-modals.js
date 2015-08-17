@@ -38,3 +38,16 @@ Template.insertCompanyOpportunityModal.helpers({
     return Meteor.userId();
   }
 });
+
+Template.insertContactOpportunityModal.helpers({
+  emptyArray: function() {
+    return [];
+  },
+	firstStageId: function() {
+    var id = OpportunityStages.findOne({"order": 0})._id;
+    return id;
+  },
+  createdBy: function() {
+    return Meteor.userId();
+  }
+});

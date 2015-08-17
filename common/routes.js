@@ -207,6 +207,8 @@ router.route('/contacts/:id', {
     this.register('projectsByContactId', subs.subscribe('projectsByContactId', params.id));
     this.register('purchaseOrdersByContactId', subs.subscribe('purchaseOrdersByContactId', params.id));
     this.register('contactTags', subs.subscribe('contactTags'));
+    this.register('opportunitiesByContactId', subs.subscribe('opportunitiesByContactId', params.id));
+    this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
     layout.render('appLayout', {
