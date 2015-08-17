@@ -56,23 +56,51 @@ AutoForm.hooks({
   //     //LogEvent("debug", "Submitting sign-up application...");
   //   },
   // },
+  editContactForm: {
+    before: {
+      update: function(doc) {
+        var oldValues = this.currentDoc, modifications = true;
+        $.each(['address', 'address2', 'city', 'country', 'county', 'postcode'], function(i, field) {
+          modifications =  (oldValues[field] === doc.$set[field]);
+          return modifications;
+        });
+        if(!modifications) {
+          doc.$set.lat = '';
+          doc.$set.lng = '';
+        }
+        return doc;
+      }
+    },
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Contact details updated.');
+    }
+  },
+  editCompanyForm: {
+    before: {
+      update: function(doc) {
+        var oldValues = this.currentDoc, modifications = true;
+        $.each(['address', 'address2', 'city', 'country', 'county', 'postcode'], function(i, field) {
+          modifications =  (oldValues[field] === doc.$set[field]);
+          return modifications;
+        });
+        if(!modifications) {
+          doc.$set.lat = '';
+          doc.$set.lng = '';
+        }
+        return doc;
+      }
+    },
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Company details updated.');
+    }
+  },
   updatePurchaseOrderForm: {
     onSuccess: function() {
       Modal.hide();
-      toastr.success('Purchase Order updated.');
-      //LogEvent('info', 'Purchase order updated.', 'Purchase Order', this.docId);
-    }
-  },
-  insertContactForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Contact created.');
-    }
-  },
-  updateContactForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Contact updated.');
+      toastr.success('Purchase details updated.');
+      //LogEvent('info', 'Contact created.', 'Contact', this.docId);
     }
   },
   newProjectForm: {
@@ -104,15 +132,23 @@ AutoForm.hooks({
     }
   },
   insertNewCompanyForm: {
+    before: {
+      insert: function(doc) {
+        if(doc.website !== undefined && doc.website.length < 8) {
+          doc.website = '';
+        }
+        return doc;
+      }
+    },
     onSuccess: function() {
       Modal.hide();
-      $('[data-toggle="tooltip"]').tooltip();
       toastr.success('Company created.');
       //LogEvent('info', 'Company created.', 'Company', this.docId);
     },
     after: {
       insert: function(error, result) {
         if (error) {
+          $("#address_details").show();
           toastr.error('An error occurred: Company not created.');
           //LogEvent('error', 'Company not created: ' + error, 'Company', this.docId);
           return false;
@@ -125,7 +161,6 @@ AutoForm.hooks({
   insertActivityForm: {
     onSuccess: function() {
       Modal.hide();
-      $('[data-toggle="tooltip"]').tooltip();
       toastr.success('Activity created.');
       //LogEvent('info', 'Activity created.');
     }
@@ -133,7 +168,6 @@ AutoForm.hooks({
   insertProjectActivityForm: {
     onSuccess: function() {
       Modal.hide();
-      $('[data-toggle="tooltip"]').tooltip();
       toastr.success('Project activity created.');
       //LogEvent('info', 'Project activity created.', 'Project', this.docId);
     }
@@ -141,7 +175,6 @@ AutoForm.hooks({
   // insertPurchaseOrderActivityForm: {
   //   onSuccess: function() {
   //     Modal.hide();
-  //     $('[data-toggle="tooltip"]').tooltip();
   //     toastr.success('Purchase order activity created.');
   //     //LogEvent('info', 'Purchase order activity created.', 'Purchase Order', this.docId);
   //   }
@@ -149,7 +182,6 @@ AutoForm.hooks({
   insertContactActivityForm: {
     onSuccess: function() {
       Modal.hide();
-      $('[data-toggle="tooltip"]').tooltip();
       toastr.success('Contact activity created.');
       //LogEvent('info', 'Contact activity created.');
     }
@@ -178,32 +210,6 @@ AutoForm.hooks({
       Modal.hide();
       toastr.success('Tenant created.');
       //LogEvent('verbose', 'A new tenant has been created.', 'Tenant', this.docId);
-    }
-  },
-  insertCompanyForm: {
-    before: {
-      insert: function(doc) {
-        doc.createdBy = Meteor.userId();
-        return doc;
-      }
-    },
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Company created.');
-      //LogEvent('info', 'Company created.', 'Company', this.docId);
-    },
-    after: {
-      insert: function(error, result) {
-        if (error) {
-          toastr.error('An error occurred: Company not created.');
-          //LogEvent('error', 'Company not created: ' + error, 'Company', this.docId);
-          return false;
-        }
-
-        FlowRouter.go('/companies/' + result);
-        $(".modal-backdrop").remove();
-        $("body").removeClass('modal-open');
-      }
     }
   },
   removeCompanyForm: {

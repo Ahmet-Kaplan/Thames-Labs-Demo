@@ -44,12 +44,12 @@
           Details</div>
         <ul class="list-group">
           {{#if supplierCompany}}
-          <a class="list-group-item" href="{{pathFor route='company' id=supplierCompany._id}}">
+          <a class="list-group-item" href="{{pathFor route='company' id=supplierCompany._id}}" data-toggle="tooltip" data-placement="bottom" title="Navigate to supplier company details">
             <i class="fa fa-fw fa-building"></i> Supplier: {{supplierCompany.name}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
           {{/if}} {{#if supplierContact}}
-          <a class="list-group-item" href="{{pathFor route='contact' id=supplierContact._id}}">
+          <a class="list-group-item" href="{{pathFor route='contact' id=supplierContact._id}}" data-toggle="tooltip" data-placement="bottom" title="Navigate to supplier contact details">
             <i class="fa fa-fw fa-user"></i> Supplier Contact: {{supplierContact.forename}} {{supplierContact.surname}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
@@ -95,7 +95,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            <a class="btn btn-primary btn-xs" href="#" disabled="{{#unless canAddMoreItems}}disabled{{/unless}}" id="add-item"><i class="fa fa-fw fa-plus"></i> Add item</a></div>
+            <a class="btn btn-primary btn-xs"  data-toggle="tooltip" data-placement="bottom" title="New task for this purchase order" href="#" disabled="{{#unless canAddMoreItems}}disabled{{/unless}}" id="add-item"><i class="fa fa-fw fa-plus"></i> Add item</a></div>
           Items</div>
         <div class="panel-body">
           <ul class="list-group">
@@ -114,8 +114,7 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a class="btn btn-primary pull-right" href="#" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add
-
+        <a class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="New activity for this purchase order" href="#" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add
             activity</a>
       </h1>
       {{> activityTimeline activities=activities}}

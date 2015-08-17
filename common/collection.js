@@ -318,6 +318,16 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.companyId !== this.previous.companyId) {
     var prevComp = Companies.findOne(this.previous.companyId);
     var newComp = Companies.findOne(doc.companyId);
+    if(prevComp === undefined) {
+      var prevComp = {
+        name: 'None'
+      }
+    }
+    if(newComp === undefined) {
+      var newComp = {
+        name: 'None'
+      }
+    }
     LogEvent('info', 'An existing contact has been updated: The value of "companyId" was changed from ' + this.previous.companyId + '(' + prevComp.name + ") to " + doc.companyId + ' (' + newComp.name + ')');
   }
 });

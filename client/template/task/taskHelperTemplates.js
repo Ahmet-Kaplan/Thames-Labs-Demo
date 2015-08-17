@@ -22,13 +22,11 @@ Template.insertNewTask.helpers({
 });
 
 Template.insertNewTask.onRendered(function() {
-  $("#datetimepicker1").datetimepicker({
-    local: 'ru'
-  });
+  Meteor.subscribe('currentTenantUserData', Partitioner.group());
 });
 
-Template.insertNewTask.events({
-
+Template.updateTask.onRendered(function() {
+  Meteor.subscribe('currentTenantUserData', Partitioner.group());
 });
 
 Template.updateTask.helpers({
@@ -47,12 +45,6 @@ Template.updateTask.helpers({
   getCurrentUserId: function() {
     return Meteor.userId();
   }
-});
-
-Template.updateTask.events({});
-
-Template.insertNewTask.events({
-
 });
 
 var isDashboard = function() {

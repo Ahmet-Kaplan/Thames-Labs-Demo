@@ -6,6 +6,7 @@ Meteor.methods({
       Companies.remove({});
       Meteor.tags.remove({});
       Products.remove({});
+      Contacts.remove({});
     });
 
     Meteor.users.remove({
@@ -37,6 +38,26 @@ Meteor.methods({
       country: 'test country',
       postcode: 'test postcode',
       website: 'http://www.test-company.test',
+      createdBy: Meteor.userId()
+    }, function(err, id) {
+      if (err) {
+        data = err;
+      } else {
+        data = id;
+      }
+    });
+    return data;
+  },
+  'createTestContact': function() {
+    var data = "";
+    Contacts.insert({
+      title: 'Dr',
+      forename: 'test forename',
+      surname: 'test surname',
+      address: 'Cowley Road',
+      city: 'Cambridge',
+      postcode: 'CB4 0WS',
+      country: 'England',
       createdBy: Meteor.userId()
     }, function(err, id) {
       if (err) {

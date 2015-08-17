@@ -1,7 +1,3 @@
-Template.nav.onRendered(function() {
-  // $.getScript('/vendor/hopscotch/tours/nav_tour.js');
-});
-
 Template.nav.helpers({
   showTourOption: function() {
     var currRoute = FlowRouter.getRouteName();
@@ -197,7 +193,7 @@ Template.nav.events({
   },
   'click #qckCreateContact': function(event) {
     event.preventDefault();
-    Modal.show('insertCompanyContactModal', this);
+    Modal.show('insertContactModal', this);
   },
   'click #qckCreateProject': function(event) {
     event.preventDefault();

@@ -1,71 +1,97 @@
-companyData = null;
-loadSwitch = false;
+var marker, infowindow;
+
+var updateMap = function(map, title, address) {
+  var newPosition = new google.maps.LatLng(address.lat, address.lng);
+  if (!marker) {
+    marker = new google.maps.Marker({
+      position: newPosition,
+      map: map
+    });
+  } else {
+    marker.setPosition(newPosition);
+    marker.setMap(map);
+  }
+
+  if (!infowindow) {
+    infowindow = new google.maps.InfoWindow();
+  }
+  infowindow.open(map, marker);
+  infowindow.setContent(title);
+
+  map.setCenter(marker.getPosition());
+  map.setZoom(14);
+}
+
+Template.map.onCreated(function() {
+  GoogleMaps.load({
+    libraries: 'places'
+  });
+});
+
+Template.map.onRendered(function() {
+
+  var self = this;
+
+  GoogleMaps.ready('map', function(map) {
+
+    self.autorun(function() {
+      // Reactively get current data context
+      // n.b. self.data isn't reactive
+      var data = Template.currentData(),
+          address = data.address,
+          title = data.title;
+
+      if (!address || !title) {
+        return;
+      }
+
+      // Geocode if location not explicitly set
+      var isGeocoded = ('lat' in address && 'lng' in address);
+      if (!isGeocoded) {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({
+          'address': [address.address, address.postcode, address.city, address.country].join(', ')
+        }, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            var location = results[0].geometry.location;
+            address.lat = location.G;
+            address.lng = location.K;
+          } else {
+            address.lat = 0,
+            address.lng = 0,
+            title = "Location not found"
+          }
+          updateMap(map.instance, title, address);
+        })
+      } else {
+        // Location already known so no need to geocode
+        updateMap(map.instance, title, address);
+      }
+
+    });
+
+  });
+
+});
 
 Template.map.helpers({
   mapOptions: function() {
-    companyData = this.data;
-
-    var options = {
+    return {
       zoom: 8,
       center: {
         lat: 52.234744,
         lng: 0.153752
-      }
+      },
+      scrollwheel: false
     };
-
-    return options;
+  },
+  addressString: function() {
+    var address = this.address;
+    return encodeURIComponent([
+      address.address,
+      address.city,
+      address.country,
+      address.postcode
+    ].join(', '));
   }
-});
-
-Template.map.onDestroyed(function() {
-  loadSwitch = false;
-})
-
-Template.map.onCreated(function() {
-
-  GoogleMaps.ready('map', function(map) {
-    if (loadSwitch === false) {
-      var infowindow = new google.maps.InfoWindow();
-      if(companyData.lat !== undefined && companyData.lng !== undefined) {
-        var location = {
-              lat: parseFloat(companyData.lat),
-              lng: parseFloat(companyData.lng)
-            }
-        var marker = new google.maps.Marker( {
-          map: map.instance,
-          position: location,
-          title: companyData.name
-        });
-        marker.setMap(map.instance);
-        infowindow.setContent(companyData.name);
-        infowindow.open(map.instance, marker);
-        map.instance.panTo(location);
-        map.instance.setZoom(16);
-        loadSwitch = true;
-      }else {
-        var gc = new google.maps.Geocoder();
-        gc.geocode({
-          'address': companyData.address + companyData.postcode + companyData.city + companyData.country
-        }, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            pin = results[0].geometry.location;
-            if (pin !== null) {
-              var marker = new google.maps.Marker( {
-                map: map.instance,
-                position: pin,
-                title: companyData.name
-              });
-              marker.setMap(map.instance);
-              infowindow.setContent(companyData.name);
-              infowindow.open(map.instance, marker);
-              map.instance.panTo(pin);
-              map.instance.setZoom(16);
-              loadSwitch = true;
-            }
-          }
-        });
-      }
-    }
-  });
-
 });

@@ -45,12 +45,12 @@
         </div>
         <ul class="list-group">
           {{#if website}}
-          <a href="{{website}}" target="_blank" class="list-group-item">
+          <a href="{{website}}" data-toggle="tooltip" data-placement="bottom" title="Navigate to this website" target="_blank" class="list-group-item">
             <i class="fa fa-fw fa-laptop"></i> {{website}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
           {{/if}} {{#if phone}}
-          <a href="{{phoneHref phone}}" class="list-group-item">
+          <a href="{{phoneHref phone}}" class="list-group-item" data-toggle="tooltip" data-placement="bottom" title="">
             <i class="fa fa-fw fa-phone"></i> {{phone}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
@@ -61,11 +61,11 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="contacts">
           Contacts
-          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add contact</a>
+          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New contact for this company"><i class="fa fa-fw fa-plus"></i>Add contact</a>
         </div>
         <ul class="list-group">
           {{#each contacts}}
-          <a href="{{pathFor route='contact' id=_id}}" class="list-group-item">
+          <a href="{{pathFor route='contact' id=_id}}" class="list-group-item" data-toggle="tooltip" data-placement="bottom" title="Navigate to this contact">
             <i class="fa fa-fw fa-user"></i> {{title}} {{forename}} {{surname}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
@@ -78,7 +78,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
           Projects
-          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add project</a>
+          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this company"><i class="fa fa-fw fa-plus"></i> Add project</a>
         </div>
         <ul class="list-group">
           {{#each projects}}
@@ -95,7 +95,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
           Purchase Orders
-          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right"><i class="fa fa-fw fa-plus"></i> Add purchase order</a>
+          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i> Add purchase order</a>
         </div>
         <ul class="list-group">
           {{#each purchaseOrders}}
@@ -119,22 +119,7 @@
 
     <div class="col-md-4">
       <h1>Address</h1>
-      <div class="thumbnail">
-        {{#if isDesktop}} <div id="map-wrapper">{{> map data=this}}</div> {{/if}}
-        {{#if isPhone}}
-        <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}" /> {{/if}}
-        <div class="caption">
-          <address>
-            <strong>{{name}}</strong>
-            <br /> {{address}}
-            {{#if address2}} <br /> {{address2}} {{/if}}
-            <br /> {{city}}
-            {{#if county}} <br /> {{county}} {{/if}}
-            <br /> {{postcode}}
-            <br /> {{country}}
-          </address>
-        </div>
-      </div>
+      {{> map title=mapTitle address=mapAddress}}
     </div>
 
   </div>
@@ -143,7 +128,7 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a href="#" class="btn btn-primary pull-right" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
+        <a href="#" class="btn btn-primary pull-right" id="add-activity" data-toggle="tooltip" data-placement="bottom" title="New activity for this company"><i class="fa fa-fw fa-plus"></i> Add activity</a>
       </h1>
 
       {{> activityTimeline activities=activities}}

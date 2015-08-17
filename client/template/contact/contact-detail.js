@@ -1,11 +1,14 @@
 Template.contactDetail.onCreated(function() {
-  // Redirect if data doesn't exist
+  var self = this;
   this.autorun(function() {
     var contactId = FlowRouter.getParam('id');
     var contact = Contacts.findOne(contactId);
+    // Redirect if data doesn't exist
     if (FlowRouter.subsReady() && contact === undefined) {
       FlowRouter.go('contacts');
     }
+    // Update company subscription if contact record changes (e.g. we change company)
+    self.subscribe('companyById', contact.companyId);
   });
 });
 
@@ -20,7 +23,7 @@ Template.contactDetail.onRendered(function() {
 });
 
 Template.contactDetail.helpers({
-  'contactData': function() {
+  contactData: function() {
     var contactId = FlowRouter.getParam('id');
     var contact = Contacts.findOne({
       _id: contactId
@@ -30,7 +33,10 @@ Template.contactDetail.helpers({
     }
     return contact;
   },
-  'projects': function() {
+  company: function() {
+    return Companies.findOne({_id: this.companyId});
+  },
+  projects: function() {
     var contactId = FlowRouter.getParam('id');
     return Projects.find({
       contactId: contactId
@@ -40,7 +46,7 @@ Template.contactDetail.helpers({
       }
     });
   },
-  'purchaseOrders': function() {
+  purchaseOrders: function() {
     var contactId = FlowRouter.getParam('id');
     return PurchaseOrders.find({
       supplierContactId: contactId
@@ -49,6 +55,24 @@ Template.contactDetail.helpers({
         description: 1
       }
     });
+  },
+  mapTitle: function() {
+    if (this.companyId) {
+      var company = Companies.findOne({_id: this.companyId});
+      if (company) {
+        return company.name;
+      }
+    } else {
+      return this.title + ' ' + this.forename + ' ' + this.surname;
+    }
+  },
+  mapAddress: function() {
+    if (this.companyId) {
+      var company = Companies.findOne({_id: this.companyId});
+      return company;
+    } else {
+      return this
+    }
   }
 });
 
@@ -87,6 +111,10 @@ Template.contactDetail.events({
         customerContactId: this._id
       });
     }
+  },
+  'click #edit-contact': function(event) {
+    event.preventDefault();
+    Modal.show('editContactModal', this);
   },
   'click #remove-contact': function(event) {
     event.preventDefault();
