@@ -69,7 +69,6 @@ function saveMyWidgets() {
       profile: profile
     }
   });
-  console.log(profile);
 }
 
 Template.dashboard.onRendered(function() {
@@ -83,7 +82,6 @@ Template.dashboard.onRendered(function() {
 
   //Retrieve list of widgets from db if exists
   var savedWidgets = Meteor.users.findOne(Meteor.userId()).profile.myWidgets;
-  console.log(savedWidgets);
 
   //For each widget, check if defined in db otherwise use default display value
   _.each(widgets, function(widget, key) {

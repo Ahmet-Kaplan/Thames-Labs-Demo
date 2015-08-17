@@ -2,25 +2,34 @@ Template.chatWidget.onRendered(function() {
   $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
 });
 
+function sendMessage() {
+  var user = Meteor.users.find({
+    _id: Meteor.userId()
+  }).fetch()[0];
+
+  if (user) {
+    if (user.profile) {
+      var m = $('.chatMessage').val();
+      if (!m) return;
+      Chatterbox.insert({
+        user: user.profile.name,
+        message: m,
+        createdAt: new Date()
+      });
+
+      $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
+      $('.chatMessage').val("");
+    }
+  }
+}
+
 Template.chatWidget.events({
   'click .sendMessage': function() {
-    var user = Meteor.users.find({
-      _id: Meteor.userId()
-    }).fetch()[0];
-
-    if (user) {
-      if (user.profile) {
-        var m = $('.chatMessage').val();
-        if (!m) return;
-        Chatterbox.insert({
-          user: user.profile.name,
-          message: m,
-          createdAt: new Date()
-        });
-
-        $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
-        $('.chatMessage').val("");
-      }
+    sendMessage();
+  },
+  'keypress .chatMessage': function(e) {
+    if(e.keyCode == 13) {
+      sendMessage();
     }
   }
 });
