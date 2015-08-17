@@ -1,3 +1,48 @@
+//List of all the available widets
+widgets = [
+    {
+      id: 'chat',
+      x: 0,
+      y: 0,
+      w: 4,
+      h: 2,
+      displayed: true,
+      name: 'Chatter'
+    },
+    {
+      id: 'quotation',
+      x: 4,
+      y: 0,
+      w: 4,
+      h: 2,
+      displayed: true,
+      name: 'Quotation of the day'
+    },
+    {
+      id: 'online',
+      x: 8,
+      y: 0,
+      w: 4,
+      h: 2,
+      displayed: true,
+      name: 'Online users'
+    },
+    {
+      id: 'task',
+      x: 0,
+      y: 2,
+      w: 12,
+      h: 1,
+      displayed: true,
+      name: 'My tasks'
+    }
+  ];
+
+//List of widgets used by the user
+myWidgets = [];
+//List of widget views
+dashboardWidgets = [];
+
 Template.dashboard.onRendered(function() {
   $('.grid-stack').gridstack({
     cell_height: 150,
@@ -7,17 +52,19 @@ Template.dashboard.onRendered(function() {
 
   grid = $('.grid-stack').data('gridstack');
 
-  grid.add_widget('<div id="chatWidget"></div>', 0, 0, 4, 2, true);
-  Blaze.render(Template.chatWidget, document.getElementById("chatWidget"));
+  if(Meteor.users.findOne(Meteor.userId()).dashboardWidgets) {
+    myWidgets = Meteor.users.findOne(Meteor.userId()).dashboardWidgets;
+  } else {
+    myWidgets = widgets;
+  }
 
-  grid.add_widget('<div id="quotationWidget"></div>', 4, 0, 4, 2, true);
-  Blaze.render(Template.quotationWidget, document.getElementById("quotationWidget"));
-
-  grid.add_widget('<div id="onlineWidget"></div>', 8, 0, 4, 2, true);
-  Blaze.render(Template.onlineWidget, document.getElementById("onlineWidget"));
-
-  grid.add_widget('<div id="taskWidget"></div>', 0, 2, 12, 1, true);
-  Blaze.render(Template.taskWidget, document.getElementById("taskWidget"));
+  _.each(myWidgets, function(widget) {
+    if(widget.displayed) {
+      grid.add_widget('<div id="' + widget.id + 'Widget"></div>', widget.x, widget.y, widget.w, widget.h, true);
+      newWidget = Blaze.render(Template[widget.id + 'Widget'], document.getElementById(widget.id + "Widget"));
+      dashboardWidgets[widget.id + "Widget"] = newWidget;
+    }
+  });
 });
 
 Template.dashboard.events({
@@ -41,96 +88,40 @@ Template.dashboard.events({
   'click .addWidget': function(e) {
     var newWidgetName = e.target.id;
     if($('#' + newWidgetName + 'Widget').length) {
-      alert('This widget is already displayed.');
-      return ;
+      toastr.error('This widget is already displayed.');
+      return;
     }
     var grid = $('.grid-stack').data('gridstack');
-    var newWidgetProperties = document.getElementById(newWidgetName).dataset;
-    grid.add_widget('<div id="' + newWidgetName + 'Widget"></div>', 0, 0, newWidgetProperties.w, newWidgetProperties.h, true);
+    var newWidget = $.grep(widgets, function(widget) {
+      if(widget.id == newWidgetName) {
+        return widget;
+      }
+    });
 
-    switch(newWidgetName) {
-      case('test'):
-        Blaze.render(Template['testWidget'], document.getElementById(newWidgetName + 'Widget'));
-      break;
-
-      case('chat'):
-        Blaze.render(Template.chatWidget, document.getElementById(newWidgetName + 'Widget'));
-      break;
-
-      case('quotation'):
-        Blaze.render(Template.quotationWidget, document.getElementById(newWidgetName + 'Widget'));
-      break;
-
-      case('online'):
-        Blaze.render(Template.onlineWidget, document.getElementById(newWidgetName + 'Widget'));
-      break;
-
-      case('task'):
-        Blaze.render(Template.taskWidget, document.getElementById(newWidgetName + 'Widget'));
-      break;
+    if(newWidget.length == 1) {
+      newWidget = newWidget[0];
+      console.log(newWidget);
+      grid.add_widget('<div id="' + newWidget.id + 'Widget"></div>', newWidget.x, newWidget.y, newWidget.w, newWidget.h, true);
+      addedWidget = Blaze.render(Template[newWidget.id + 'Widget'], document.getElementById(newWidget.id + 'Widget'));
+      dashboardWidgets[newWidget.id + 'Widget'] = addedWidget;
+      console.log(dashboardWidgets);
+    } else {
+      toastr.error('Unable to add widget.');
     }
   },
 
   'click .close': function(e) {
-    var widget = e.target.id.split('close_')[1];
+    var widgetName = e.target.id.split('close_')[1];
     var gridstack = $('.grid-stack').data('gridstack');
-    gridstack.remove_widget($('#' + widget), true);
-    switch(widget) {
-      case('test'):
-        Blaze.remove(Template.testWidget);
-      break;
-
-      case('chat'):
-        Blaze.remove(Template.chatWidget);
-      break;
-
-      case('quotation'):
-        Blaze.remove(Template.quotationWidget);
-      break;
-
-      case('online'):
-        Blaze.remove(Template.onlineWidget);
-      break;
-
-      case('task'):
-        Blaze.remove(Template.taskWidget);
-      break;
-    }
+    gridstack.remove_widget($('#' + widgetName), true);
+    Blaze.remove(dashboardWidgets[widgetName]);
+    delete dashboardWidgets[widgetName];
   }
 
 });
 
 Template.dashboard.helpers({
-  widgetList: [
-    {
-      id: 'test',
-      w: 4,
-      h: 2,
-      name: 'Test Widget'
-    },
-    {
-      id: 'chat',
-      w: 4,
-      h: 2,
-      name: 'Chatter'
-    },
-    {
-      id: 'quotation',
-      w: 4,
-      h: 2,
-      name: 'Quotation of the day'
-    },
-    {
-      id: 'online',
-      w: 4,
-      h: 2,
-      name: 'Online users'
-    },
-    {
-      id: 'task',
-      w: 12,
-      h: 1,
-      name: 'My tasks'
-    }
-  ]
+  widgetList: function() {
+    return widgets;
+  }
 });
