@@ -312,3 +312,6 @@ Meteor.publish("opportunityStages", function() {
 Meteor.publish("opportunityById", function(oppId) {
   return Opportunities.find({ _id: oppId});
 });
+Meteor.publish("opportunitiesByCompanyId", function(id) {
+  return Opportunities.find({companyId: id});
+});

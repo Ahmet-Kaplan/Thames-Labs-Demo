@@ -175,6 +175,8 @@ router.route('/companies/:id', {
     this.register('companyTags', subs.subscribe('companyTags'));
     this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
     this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
+    this.register('opportunitiesByCompanyId', subs.subscribe('opportunitiesByCompanyId', params.id));
+    this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
     layout.render('appLayout', {

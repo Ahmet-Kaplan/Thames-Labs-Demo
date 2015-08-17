@@ -710,6 +710,14 @@ Schemas.Opportunity = new SimpleSchema({
       type: "hidden"
     }
   },
+  companyId: {
+    type: String,
+    optional: true
+  },
+  contactId: {
+    type: String,
+    optional: true
+  },
   'items.$': {
     type: Object
   },

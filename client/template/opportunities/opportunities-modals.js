@@ -25,3 +25,16 @@ Template.editOpportunityItemModal.helpers({
     return "items." + this.index + ".value";
   }
 })
+
+Template.insertCompanyOpportunityModal.helpers({
+  emptyArray: function() {
+    return [];
+  },
+	firstStageId: function() {
+    var id = OpportunityStages.findOne({"order": 0})._id;
+    return id;
+  },
+  createdBy: function() {
+    return Meteor.userId();
+  }
+});

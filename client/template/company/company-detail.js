@@ -89,6 +89,12 @@ Template.companyDetail.events({
   'click #edit-company': function(event) {
     event.preventDefault();
     Modal.show('editCompanyModal', this);
+  },
+  'click #add-opportunity': function(event) {
+    event.preventDefault();
+    Modal.show('insertCompanyOpportunityModal', {
+      companyId: this._id
+    });
   }
 });
 
@@ -113,5 +119,8 @@ Template.companyDetail.helpers({
   },
   mapAddress: function() {
     return this;
+  },
+  opportunities: function() {
+    return Opportunities.find({companyId: this._id});
   }
 });
