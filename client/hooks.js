@@ -345,12 +345,17 @@ AutoForm.hooks({
     onSuccess: function() {
       toastr.success('Opportunity added.');
       Modal.hide();
-    }
-  },
-  insertOpportunityModal: {
-    onSuccess: function() {
-      toastr.success('Opportunity added.');
-      Modal.hide();
+    },
+    after: {
+      insert: function(error, result) {
+        if (error) {
+          toastr.error('An error occurred: Opportunity not created.');
+          //LogEvent('error', 'Company not created: ' + error, 'Company', this.docId);
+          return false;
+        }
+
+        FlowRouter.go('/opportunities/' + result);
+      }
     }
   }
 });

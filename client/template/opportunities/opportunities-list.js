@@ -49,6 +49,10 @@ Template.opportunityList.helpers({
 Template.opportunityList.events({
 	'click #create-opportunity': function() {
 		event.preventDefault();
-    Modal.show('insertOpportunityModal');
+    if (!OpportunityStages.find().count() > 0) {
+      bootbox.alert("The sales pipeline for your company must be setup before you can use opportunities.")
+    } else {
+      Modal.show('insertOpportunityModal');
+    }
 	}
 });

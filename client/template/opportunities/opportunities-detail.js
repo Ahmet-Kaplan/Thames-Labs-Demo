@@ -23,9 +23,9 @@ Template.opportunityDetail.helpers({
   },
   isLastStage: function() {
     var currentStage = this.currentStageId;
-    var finalStageOrder = OpportunityStages.find({}).count() - 1;
-    var stageId = OpportunityStages.findOne({},{sort:{order:-1}})._id;
-    if (currentStage == stageId) return true;
+  //  var finalStageOrder = OpportunityStages.find({}).count() - 1;
+    var lastStageId = OpportunityStages.findOne({},{ sort: { order: -1}})._id;
+    if (currentStage == lastStageId) return true;
     return false;
   },
   isActive: function() {
@@ -34,11 +34,32 @@ Template.opportunityDetail.helpers({
 });
 
 Template.opportunityDetail.events({
-  'click #btnLostOpportunity': function() {
+  'click #btnNextStage': function() {
+    var currentStage = OpportunityStages.findOne(this.currentStageId);
+    var nextStageIndex = currentStage.order + 1;
+    var nextStageId = OpportunityStages.findOne({ order: nextStageIndex })._id;
     Opportunities.update(this._id, { $set: {
-      isArchived: true,
-      isAccepted: false
+      currentStageId: nextStageId
     }});
+  },
+  'click #btnPrevStage': function() {
+    var currentStage = OpportunityStages.findOne(this.currentStageId);
+    var nextStageIndex = currentStage.order - 1;
+    var nextStageId = OpportunityStages.findOne({ order: nextStageIndex })._id;
+    Opportunities.update(this._id, { $set: {
+      currentStageId: nextStageId
+    }});
+  },
+  'click #btnLostOpportunity': function() {
+    var oppId = this._id;
+    bootbox.confirm("Are you sure you wish to mark this opportunity as lost? This action is not reversible.", function(result) {
+      if (result === true) {
+        Opportunities.update(oppId, { $set: {
+          isArchived: true,
+          isAccepted: false
+        }});
+      }
+    });
   }
 });
 
