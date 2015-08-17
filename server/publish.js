@@ -313,8 +313,8 @@ Meteor.publish("opportunityById", function(oppId) {
   return Opportunities.find({ _id: oppId});
 });
 Meteor.publish("opportunitiesByCompanyId", function(id) {
-  return Opportunities.find({companyId: id, isArchived: false});
+  return Opportunities.find({companyId: id, isArchived: { $ne: true }});
 });
 Meteor.publish("opportunitiesByContactId", function(id) {
-  return Opportunities.find({contactId: id, isArchived: false});
+  return Opportunities.find({contactId: id, isArchived: { $ne: true }});
 });

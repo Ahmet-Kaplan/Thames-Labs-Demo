@@ -56,6 +56,12 @@ AutoForm.hooks({
   //     //LogEvent("debug", "Submitting sign-up application...");
   //   },
   // },
+  insertContactForm: {
+    onSuccess: function() {
+     toastr.success('Contact created.');
+     FlowRouter.go('/contacts/' + this.docId);
+   }
+ },
   editContactForm: {
     before: {
       update: function(doc) {
