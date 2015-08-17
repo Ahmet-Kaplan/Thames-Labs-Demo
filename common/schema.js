@@ -29,10 +29,6 @@ Schemas.User = new SimpleSchema({
   },
   group: {
     type: String
-  },
-  dashboardWidgets: {
-    type: [Object],
-    optional: true
   }
 });
 
