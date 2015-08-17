@@ -30,6 +30,14 @@ Template.opportunityDetail.helpers({
   },
   isActive: function() {
     return !this.isArchived;
+  },
+  getItems: function() {
+    var items = this.items;
+    for(var i = 0; i < items.length; i++) {
+      items[i].index = i;
+      items[i].oppId = this._id;
+    }
+    return items;
   }
 });
 
@@ -57,16 +65,28 @@ Template.opportunityDetail.events({
       if (result === true) {
         Opportunities.update(oppId, { $set: {
           isArchived: true,
-          isAccepted: false
+          hasBeenWon: false
         }});
       }
     });
   },
-  'click #edit-opportunity': function(event) {
+  'click #btnWonOpp': function(event) {
+    event.preventDefault();
+    var oppId = this._id;
+    bootbox.confirm("Are you sure you wish to mark this opportunity as won? This action is not reversible.", function(result) {
+      if (result === true) {
+        Opportunities.update(oppId, { $set: {
+          isArchived: true,
+          hasBeenWon: true
+        }});
+      }
+    });
+  },
+  'click #editOpportunity': function(event) {
     event.preventDefault();
     Modal.show('editOpportunityModal', this);
   },
-  'click #remove-opportunity': function(event) {
+  'click #removeOpportunity': function(event) {
     event.preventDefault();
     var oppId = this._id;
 
@@ -75,6 +95,10 @@ Template.opportunityDetail.events({
         Opportunities.remove(oppId);
       }
     });
+  },
+  'click #btnAddLine': function(event) {
+    event.preventDefault();
+    Modal.show('insertOpportunityItemModal', this);
   }
 });
 
@@ -85,4 +109,15 @@ Template.opportunityStage.helpers({
     if (stepId == this._id) return true;
     return false;
   }
-})
+});
+
+Template.opportunityItem.events({
+  'click .btnEditOppItem': function(event) {
+    event.preventDefault();
+    Modal.show('editOpportunityItemModal', this);
+  },
+  'click .btnDeleteOppItem': function(event) {
+    event.preventDefault();
+    Modal.show('editOpportunityModal', this);
+  }
+});

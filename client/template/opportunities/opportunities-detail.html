@@ -1,24 +1,42 @@
 <template name="opportunityDetail">
   {{#with oppData}} {{setPageTitle "Opportunity - " name}}
   <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-      <div class="pull-right">
+    <div class="col-md-2 hidden-sm hidden-xs">
+      <div class="sidebar">
+
+        <h1 id="action-side-bar">Actions</h1>
+
+        <ul class="nav nav-stacked">
+          <li><a href="#opportunity-details">Opportunity details</a></li>
+          <li><a href="#lines">Line items</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-10">
+      <div class="pull-right hidden-xs">
         {{#if isActive}}
           <br>
           {{#if isNotFirstStage}}
             <button class="btn btn-default" id="btnPrevStage"><i class="fa fa-fw fa-chevron-left"></i> Back to previous stage</button>
           {{/if}}
           {{#if isLastStage}}
-            <button class="btn btn-success">Opportunity won</button>
+            <button class="btn btn-success" id="btnWonOpp">Opportunity won</button>
           {{else}}
             <button class="btn btn-primary" id="btnNextStage">Move to next stage <i class="fa fa-fw fa-chevron-right"></i></button>
           {{/if}}
           <br><br>
           <a href="#" id="btnLostOpportunity" class="pull-right text-danger" style="text-decoration:underline">Mark opportunity as lost</a>
+        {{else}}
+          <br>
+          {{#if hasBeenWon}}
+            <h3 class="text-success">Opportunity won</h3>
+          {{else}}
+            <h3 class="text-danger">Opportunity lost</h3>
+          {{/if}}
         {{/if}}
       </div>
       <h4 class="entity-title">Opportunity</h4>
-      <h1 class="entity-name {{#if isArchived}}opp-archived{{/if}}">{{name}}</h1>
+      <h1 class="entity-name">{{name}}</h1>
       {{#if isActive}}
         <div class="stepwizard hidden-xs">
           <div class="stepwizard-row">
@@ -29,13 +47,15 @@
         </div>
         <br>
       {{/if}}
-      <div class="panel panel-default">
+      <div class="panel panel-default" id="opportunity-details">
         <div class="panel-heading">
           Opportunity details
+          {{#if isActive}}
           <div class="btn-group pull-right">
-            <a href="#" id="edit-opportunity" class="btn btn-info btn-xs">Edit opportunity</a>
-            <a href="#" id="remove-opportunity" class="btn btn-danger btn-xs">Delete opportunity</a>
+            <a href="#" id="editOpportunity" class="btn btn-info btn-xs">Edit opportunity</a>
+            <a href="#" id="removeOpportunity" class="btn btn-danger btn-xs">Delete opportunity</a>
           </div>
+          {{/if}}
         </div>
         <ul class="list-group">
           <li class="list-group-item panel-item-header">
@@ -52,31 +72,45 @@
           </li>
         </ul>
       </div>
-      <div class="panel panel-default">
+      <div class="panel panel-default" id="lines">
         <div class="panel-heading">
-          Lines
+          Line items
+          {{#if isActive}}
           <div class="pull-right">
-            <button class="btn btn-default btn-xs">Add</button>
+            <button class="btn btn-primary btn-xs" id="btnAddLine"><i class="fa fa-fw fa-plus"></i> Add line item</button>
           </div>
+          {{/if}}
         </div>
         <ul class="list-group">
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-file-o"></i> Product</h4>
-            Product 1
-          </li>
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-align-left"></i> Product</h4>
-            Product 2
-          </li>
+          {{#if items}}
+            {{#each getItems}}
+              {{> opportunityItem}}
+            {{/each}}
+          {{else}}
+            <li class="list-group-item">
+              No line items
+            </li>
+          {{/if}}
         </ul>
       </div>
     </div>
   </div>
   {{/with}}
 </template>
+
 <template name="opportunityStage">
   <div class="stepwizard-step {{#if isCurrentStep}}active-step{{/if}}" data-toggle="tooltip" data-placement="bottom" title="{{description}}">
     <button type="button" class="btn btn-default btn-circle" disabled="disabled"></button>
     <p>{{title}}</p>
   </div>
+</template>
+
+<template name="opportunityItem">
+  <li class="list-group-item">
+    <button class="btn btn-danger btn-xs btnDeleteOppItem pull-right">Delete</button>
+    <button class="btn btn-info btn-xs btnEditOppItem pull-right">Edit</button>
+    <h4 style="margin: 0 0 4px">{{name}}</h4>
+    {{description}}<br>
+    <b>Value:</b> {{value}}
+  </li>
 </template>

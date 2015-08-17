@@ -679,28 +679,6 @@ Schemas.OpportunityStage = new SimpleSchema({
 });
 OpportunityStages.attachSchema(Schemas.OpportunityStage);
 
-Schemas.OpportunityLine = new SimpleSchema({
-  name: {
-    type: String
-  },
-  description: {
-    type: String,
-    optional: true
-  },
-  quantity: {
-    type: Number,
-    optional: true
-  },
-  pricePerUnit: {
-    type: Number,
-    optional: true
-  },
-  productId: {
-    type: String,
-    optional: true
-  }
-});
-
 Schemas.Opportunity = new SimpleSchema({
   name: {
     type: String
@@ -711,11 +689,11 @@ Schemas.Opportunity = new SimpleSchema({
   date: {
     type: Date
   },
-  lines: {
-    type: [Schemas.OpportunityLine],
+  items: {
+    type: Array,
     optional: true
   },
-  isAccepted: {
+  hasBeenWon: {
     type: Boolean,
     optional: true
   },
@@ -731,6 +709,20 @@ Schemas.Opportunity = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  'items.$': {
+    type: Object
+  },
+  'items.$.name': {
+    type: String
+  },
+  'items.$.description': {
+    type: String,
+    optional: true
+  },
+  'items.$.value': {
+    type: Number,
+    optional: true
   }
 });
 Opportunities.attachSchema(Schemas.Opportunity);

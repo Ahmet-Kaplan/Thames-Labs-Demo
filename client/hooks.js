@@ -364,4 +364,16 @@ AutoForm.hooks({
       Modal.hide();
     }
   },
+  insertOpportunityItemForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity line item added.');
+      Modal.hide();
+    }
+  },
+  editOpportunityItemForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity line item edited.');
+      Modal.hide();
+    }
+  }
 });
