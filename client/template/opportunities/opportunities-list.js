@@ -1,17 +1,3 @@
-Template.insertOpportunityModal.helpers({
-  emptyArray: function() {
-    return [];
-  },
-	firstStageId: function() {
-    var id = OpportunityStages.findOne({"order": 0})._id;
-    console.log(id);
-    return id;
-  },
-  createdBy: function() {
-    return Meteor.userId();
-  }
-});
-
 Template.opportunityList.onRendered(function() {
   var sidebar = $('.sidebar');
   sidebar.affix({
@@ -47,7 +33,7 @@ Template.opportunityList.helpers({
 });
 
 Template.opportunityList.events({
-	'click #create-opportunity': function() {
+	'click #create-opportunity': function(event) {
 		event.preventDefault();
     if (!OpportunityStages.find().count() > 0) {
       bootbox.alert("The sales pipeline for your company must be setup before you can use opportunities.")

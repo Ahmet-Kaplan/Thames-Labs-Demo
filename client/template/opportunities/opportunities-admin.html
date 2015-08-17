@@ -68,7 +68,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="OpportunityStages" id="editStageModal" type="update" doc=this}}
+          {{#autoForm collection="OpportunityStages" id="editStageForm" type="update" doc=this}}
             {{> afQuickField name="title"}}
             {{> afQuickField name="description"}}
             {{> afQuickField name="order" type="hidden" value=order}}

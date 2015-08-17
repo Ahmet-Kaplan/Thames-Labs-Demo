@@ -50,7 +50,7 @@ Template.opportunityDetail.events({
       currentStageId: nextStageId
     }});
   },
-  'click #btnLostOpportunity': function() {
+  'click #btnLostOpportunity': function(event) {
     event.preventDefault();
     var oppId = this._id;
     bootbox.confirm("Are you sure you wish to mark this opportunity as lost? This action is not reversible.", function(result) {
@@ -62,10 +62,11 @@ Template.opportunityDetail.events({
       }
     });
   },
-  'click #edit-opportunity': function() {
+  'click #edit-opportunity': function(event) {
     event.preventDefault();
+    Modal.show('editOpportunityModal', this);
   },
-  'click #remove-opportunity': function() {
+  'click #remove-opportunity': function(event) {
     event.preventDefault();
     var oppId = this._id;
 

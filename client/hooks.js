@@ -335,7 +335,7 @@ AutoForm.hooks({
       Modal.hide();
     }
   },
-  editStageModal: {
+  editStageForm: {
     onSuccess: function() {
       toastr.success('Stage edited.');
       Modal.hide();
@@ -357,5 +357,11 @@ AutoForm.hooks({
         FlowRouter.go('/opportunities/' + result);
       }
     }
-  }
+  },
+  editOpportunityForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity edited.');
+      Modal.hide();
+    }
+  },
 });
