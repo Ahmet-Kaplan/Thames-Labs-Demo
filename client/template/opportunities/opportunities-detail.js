@@ -32,10 +32,14 @@ Template.opportunityDetail.helpers({
     return !this.isArchived;
   },
   getItems: function() {
-    var items = this.items;
-    for(var i = 0; i < items.length; i++) {
-      items[i].index = i;
-      items[i].oppId = this._id;
+    var items = [];
+    for(var i = 0; i < this.items.length; i++) {
+      var item = {
+        index: i,
+        oppId: this._id,
+        data: this.items[i]
+      };
+      items.push(item);
     }
     return items;
   }
@@ -118,6 +122,17 @@ Template.opportunityItem.events({
   },
   'click .btnDeleteOppItem': function(event) {
     event.preventDefault();
-    Modal.show('editOpportunityModal', this);
+    var oppId = this.oppId;
+    var item = this.data;
+
+    bootbox.confirm("Are you sure you wish to delete this opportunity line item?", function(result) {
+      if (result === true) {
+        Opportunities.update(oppId, {
+          "$pull": {
+            "items": item
+          }
+        });
+      }
+    });
   }
 });

@@ -109,8 +109,12 @@
   <li class="list-group-item">
     <button class="btn btn-danger btn-xs btnDeleteOppItem pull-right">Delete</button>
     <button class="btn btn-info btn-xs btnEditOppItem pull-right">Edit</button>
-    <h4 style="margin: 0 0 4px">{{name}}</h4>
-    {{description}}<br>
-    <b>Value:</b> {{value}}
+    <h4 style="margin: 0 0 4px">{{data.name}}</h4>
+    {{#if data.description}}
+      {{data.description}}<br>
+    {{/if}}
+    {{#if data.value}}
+    <b>Value:</b> {{data.value}}
+    {{/if}}
   </li>
 </template>
