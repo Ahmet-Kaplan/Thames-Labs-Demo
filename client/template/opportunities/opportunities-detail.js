@@ -51,6 +51,7 @@ Template.opportunityDetail.events({
     }});
   },
   'click #btnLostOpportunity': function() {
+    event.preventDefault();
     var oppId = this._id;
     bootbox.confirm("Are you sure you wish to mark this opportunity as lost? This action is not reversible.", function(result) {
       if (result === true) {
@@ -58,6 +59,19 @@ Template.opportunityDetail.events({
           isArchived: true,
           isAccepted: false
         }});
+      }
+    });
+  },
+  'click #edit-opportunity': function() {
+    event.preventDefault();
+  },
+  'click #remove-opportunity': function() {
+    event.preventDefault();
+    var oppId = this._id;
+
+    bootbox.confirm("Are you sure you wish to delete this opportunity?", function(result) {
+      if (result === true) {
+        Opportunities.remove(oppId);
       }
     });
   }
