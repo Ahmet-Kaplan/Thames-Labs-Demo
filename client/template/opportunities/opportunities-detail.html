@@ -10,6 +10,22 @@
           <li><a href="#opportunity-details">Opportunity details</a></li>
           <li><a href="#lines">Line items</a></li>
         </ul>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Export quotation
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            {{#if canExportDocx}}
+            <li><a href="#" id="template-upload-link-docx">Word document (.docx)</a></li>
+            {{/if}}
+            <li><a href="#" id="template-upload-link">PDF (.pdf)</a></li>
+            <li class="divider"></li>
+            <li><a href="#" id="opp-template-help">How does this work?</a></li>
+          </ul>
+        </div>
+        <input type="file" id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px">
+        <input type="file" id="template-upload" style="height:0; width: 0; margin-left: -9999px">
       </div>
     </div>
     <div class="col-md-10">
@@ -133,4 +149,44 @@
     <b>Value:</b> {{data.value}}
     {{/if}}
   </li>
+</template>
+
+<template name="oppHelpModal">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Help on templates</h4>
+        </div>
+        <div class="modal-body">
+          <p>You can create a template by using Word, creating a new document, populating it with your content and include Keywords that RealTime recognises which will allow RealTime to personalise and fill your template for you. You can then upload your
+            template whenever you need to use it and save time.</p>
+          <p>Keywords which are recognised by RealTime:</p>
+          <ul>
+            <li>{opportunityName} - Opportunity name</li>
+            <li>{opportunityDescription} - Opportunity description</li>
+
+            <li>{companyName} - Company name (if provided)</li>
+            <li>{companyAddress} - Address of company (if provided)</li>
+            <li>{contactName} - Company contact name (if provided)</li>
+
+            <li>{date} - The date that the template is generated on</li>
+          </ul>
+
+          For each line item, you can specify the following tags:
+          <ul>
+            <li>{name} - The name of a purchase order item</li>
+            <li>{description} - The number of a purchase order items ordered</li>
+            <li>{value} - The value of a purchase order item</li>
+          </ul>
+          You can loop through multiple items in your template by wrapping them as follows:
+          <blockquote>
+            {#lineItems} {name} {count} {value} {total} {/lineItems}
+          </blockquote>
+          <br /> All calculations are carried out by RealTime, so you don't need to do anything extra to generate a quotation.
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
