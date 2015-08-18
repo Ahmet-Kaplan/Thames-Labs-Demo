@@ -8,6 +8,7 @@ Template.opportunityList.onRendered(function() {
 
   // Watch for session variable setting search
   Session.set('opportunitySearchQuery', null);
+  Session.set('opportunitySearchShowArchived', false);
   Tracker.autorun(function() {
     var searchQuery = Session.get('opportunitySearchQuery');
     var easySearchInstance = EasySearch.getComponentInstance({
@@ -29,16 +30,29 @@ Template.opportunityList.helpers({
   },
   hasMultipleOpportunities: function() {
     return Opportunities.find({}).count() !== 1;
+  },
+  archivedShown: function() {
+    return Session.get('opportunitySearchShowArchived');
   }
 });
 
 Template.opportunityList.events({
 	'click #create-opportunity': function(event) {
 		event.preventDefault();
-    if (!OpportunityStages.find().count() > 0) {
-      bootbox.alert("The sales pipeline for your company must be setup before you can use opportunities.")
+    Modal.show('insertOpportunityModal');
+	},
+  'click #toggle-archived': function(event) {
+    event.preventDefault();
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'opportunities'
+    });
+    if (EasySearch.getIndex('opportunities').props.showArchived) {
+      Session.set('opportunitySearchShowArchived', false);
+      EasySearch.changeProperty('opportunities', 'showArchived', false);
     } else {
-      Modal.show('insertOpportunityModal');
+      Session.set('opportunitySearchShowArchived', true);
+      EasySearch.changeProperty('opportunities', 'showArchived', true);
     }
-	}
+    easySearchInstance.triggerSearch();
+  }
 });

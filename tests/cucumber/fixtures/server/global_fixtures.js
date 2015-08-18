@@ -103,6 +103,50 @@ Meteor.methods({
   'getProductByName': function(name) {
     return Products.findOne({name: name});
   },
+  'createTestOpportunityStages': function(stage) {
+    var data = "";
+    OpportunityStages.remove({});
+    OpportunityStages.insert({
+      title: 'Stage 1',
+      description: 'test description',
+      order: 0
+    });
+    OpportunityStages.insert({
+      title: 'Stage 2',
+      description: 'test description',
+      order: 1
+    }, function(err, id) {
+      if (err) {
+        data = err;
+      } else {
+        data = id;
+      }
+    });
+    return data;
+  },
+  'createTestOpportunity': function() {
+    var stage = OpportunityStages.findOne({order: 0});
+    var data = "";
+    var date = new Date();
+    Opportunities.remove({});
+    Opportunities.insert({
+      name: 'test opportunity',
+      description: 'test description',
+      date: date,
+      currentStageId: stage._id,
+      createdBy: Meteor.userId()
+    }, function(err, id) {
+      if (err) {
+        data = err;
+      } else {
+        data = id;
+      }
+    });
+    return data;
+  },
+  'getOpportunityByName': function(name) {
+    return Opportunities.findOne({name: name});
+  },
 });
 
 Meteor.startup(function() {
