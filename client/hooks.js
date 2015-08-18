@@ -30,6 +30,15 @@ Accounts.onLogin(function(cb) {
 
 });
 
+function checkRecordsNumber() {
+  var totalRecords = Contacts.find({}).count() + Companies.find({}).count();
+  var limitRecords = (Tenants.findOne({}) === undefined) ? Schemas.Tenant._autoValues.limit(0) : Tenants.findOne({}).limit;
+  if(limitRecords !== 0 && totalRecords > limitRecords) {
+    toastr.error('You have reached the maximum number of records.<br />Please consider upgrading.')
+    Meteor.call('tenantLimitReached');
+  }
+}
+
 AutoForm.hooks({
   // signUpForm: {
   //   onError: function(formType, error) {
@@ -148,6 +157,7 @@ AutoForm.hooks({
       }
     },
     onSuccess: function() {
+      checkRecordsNumber();
       Modal.hide();
       toastr.success('Company created.');
       //LogEvent('info', 'Company created.', 'Company', this.docId);
@@ -332,12 +342,14 @@ AutoForm.hooks({
   },
   insertCompanyContactForm: {
     onSuccess: function() {
+      checkRecordsNumber();
       toastr.success('Contact created.');
       Modal.hide();
     }
   },
   insertContactForm: {
     onSuccess: function() {
+      checkRecordsNumber();
       toastr.success('Contact created.');
       FlowRouter.go('/contacts/' + this.docId);
       Modal.hide();

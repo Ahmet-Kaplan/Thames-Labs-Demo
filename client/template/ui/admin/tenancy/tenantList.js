@@ -65,7 +65,13 @@ Template.tenant.events({
 
     bootbox.confirm("Are you sure you wish to set this tenant to the " + scheme + " scheme?", function(result) {
       if (result === true) {
-        Tenants.update(tenantId, {$set: {paying: !currentScheme}});
+        var limit = (!currentScheme) ? 0 : null;
+        Tenants.update(tenantId, {
+          $set: {
+            paying: !currentScheme,
+            limit: limit
+          }
+        });
       }
     });
   }

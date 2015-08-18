@@ -1,5 +1,5 @@
 Tenants.permit(['insert', 'update', 'remove']).ifHasRole('superadmin').apply();
-Tenants.permit('update').ifLoggedIn().exceptProps(['name']).apply();
+Tenants.permit('update').ifLoggedIn().onlyProps(['settings']).apply();
 
 Notifications.permit(['insert', 'update', 'remove']).ifHasRole('superadmin').apply();
 
