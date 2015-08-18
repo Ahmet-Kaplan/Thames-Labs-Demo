@@ -37,6 +37,7 @@ Template.insertContactModal.onRendered(function() {
           address += route;
         }
         $("#formatted_address").val(address);
+        $("#address_details").show();
         $("#map_wrapper").show();
         $("#map_canvas").height("400px");
         var map = new google.maps.Map(document.getElementById("map_canvas"), {
@@ -53,7 +54,11 @@ Template.insertContactModal.onRendered(function() {
           $("input[name=lat]").val(marker.getPosition().G);
           $("input[name=lng]").val(marker.getPosition().K);
         });
-      })
+      }).keypress(function(event) {
+        if(event.which == 13) {
+          $("#address_details").show();
+        }
+      });
     }
   });
 
