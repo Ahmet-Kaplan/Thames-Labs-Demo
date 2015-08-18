@@ -60,8 +60,16 @@
 <template name="taskDisplay">
   <div class="panel panel-default" id='entityTaskList'>
     <div class="panel-heading" id="tasks">
-      {{#if isDashboard}}<button type="button" class="close" id="close_taskWidget" aria-hidden="true">×</button>My {{/if}}Tasks
-      <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New task to be completed"><i class="fa fa-fw fa-plus"></i> Add {{#if isDashboard}} personal {{/if}} task</a>
+      {{#if isDashboard}}
+        My tasks
+        <div class="btn-group pull-right" role="group">
+          <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="New task to be completed"><i class="fa fa-fw fa-plus"></i> Add personal task</a>
+          <a class="btn btn-xs"><button type="button" class="close" id="close_taskWidget" aria-hidden="true">×</button></a>
+        </div>
+      {{else}}
+        Tasks
+        <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New task to be completed"><i class="fa fa-fw fa-plus"></i> Add task</a>
+      {{/if}}
     </div>
     <ul class="list-group" id='taskContainer'>
       {{#each tasks}} {{> taskDisplayItem}} {{else}}
