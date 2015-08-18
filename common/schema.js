@@ -123,7 +123,11 @@ Schemas.Tenant = new SimpleSchema({
     type: Number,
     label: "Records limit",
     autoValue: function() {
-      return ((this.value === 0) ? 0 : 42);
+      if(this.value === 0 || this.value === -1) {
+        return this.value;
+      } else {
+        return 45;
+      }
     }
   }
 });
