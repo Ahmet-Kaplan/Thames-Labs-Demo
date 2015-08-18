@@ -25,7 +25,7 @@ Feature: Allow users to see maps
   Scenario: A user can do a location search and see the map when editing a company's details
     When I navigate to a company page
     And I click "#edit-company"
-    And I leftclick "#new-location-search"
+    And I leftclick "#show-map"
     When I search for Cowley Road
     Then the field "postcode" should contain "CB4"
     #And I should see a map
