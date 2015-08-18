@@ -5,7 +5,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 4,
-    h: 6,
+    h: 7,
     displayed: true,
     name: 'Chatter'
   },
@@ -14,7 +14,7 @@ widgets = {
     x: 4,
     y: 0,
     w: 4,
-    h: 6,
+    h: 4,
     displayed: true,
     name: 'Quotation of the day'
   },
@@ -23,14 +23,14 @@ widgets = {
     x: 8,
     y: 0,
     w: 4,
-    h: 6,
+    h: 8,
     displayed: true,
     name: 'Online users'
   },
   'task':  {
     id: 'task',
     x: 0,
-    y: 6,
+    y: 2,
     w: 12,
     h: 3,
     displayed: true,
@@ -73,7 +73,7 @@ function saveMyWidgets() {
 
 Template.dashboard.onRendered(function() {
   $('.grid-stack').gridstack({
-    cell_height: 50,
+    cell_height: 40,
     vertical_margin: 10,
     animate: true,
     height: 0
