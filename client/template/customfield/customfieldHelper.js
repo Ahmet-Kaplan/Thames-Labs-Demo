@@ -82,50 +82,45 @@ Template.cfDisplay.events({
   },
   'click #delete-custom-field': function(event) {
     event.preventDefault();
-
+    var self = this;
     bootbox.confirm("Are you sure you wish to delete this custom field?", function(result) {
-      if (result === false) {
+      if (result === true) {
+
+        switch (self.parentEntity.entity_type) {
+          case "company":
+            var parentCompany = Companies.findOne(self.parentEntity.entity_data._id);
+            var cfMaster = {};
+            for (var cf in parentCompany.customFields) {
+              if (cf !== self.name) {
+                cfMaster[cf] = parentCompany.customFields[cf];
+              }
+            }
+            Companies.update(parentCompany._id, {
+              $set: {
+                customFields: cfMaster
+              }
+            });
+            break;
+          case "contact":
+            var parentContact = Contacts.findOne(self.parentEntity.entity_data._id);
+            var cfMaster = {};
+            for (var cf in parentContact.customFields) {
+              if (cf !== self.name) {
+                cfMaster[cf] = parentContact.customFields[cf];
+              }
+            }
+            Contacts.update(parentContact._id, {
+              $set: {
+                customFields: cfMaster
+              }
+            });
+            break;
+        }
+            toastr.success('Custom field removed.');
+      } else {
         return;
       }
     });
-
-    switch (this.parentEntity.entity_type) {
-      case "company":
-        var parentCompany = Companies.findOne(this.parentEntity.entity_data._id);
-
-        var cfMaster = {};
-
-        for (var cf in parentCompany.customFields) {
-          if (cf !== this.name) {
-            cfMaster[cf] = parentCompany.customFields[cf];
-          }
-        }
-
-        Companies.update(parentCompany._id, {
-          $set: {
-            customFields: cfMaster
-          }
-        });
-        break;
-      case "contact":
-        var parentContact = Contacts.findOne(this.parentEntity.entity_data._id);
-
-        var cfMaster = {};
-
-        for (var cf in parentContact.customFields) {
-          if (cf !== this.name) {
-            cfMaster[cf] = parentContact.customFields[cf];
-          }
-        }
-
-        Contacts.update(parentContact._id, {
-          $set: {
-            customFields: cfMaster
-          }
-        });
-        break;
-    }
-    toastr.success('Custom field removed.');
   }
 });
 
