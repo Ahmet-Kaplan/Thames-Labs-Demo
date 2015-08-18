@@ -26,10 +26,12 @@ Template.activityTimeline.helpers({
 });
 
 Template.activityTimeline.events({
-  'click #edit-activity': function() {
+  'click #edit-activity': function(event) {
+    event.preventDefault();
     Modal.show('updateActivityModal', this);
   },
-  'click #remove-activity': function() {
+  'click #remove-activity': function(event) {
+    event.preventDefault();
     var activityId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this activity?", function(result) {
@@ -39,7 +41,3 @@ Template.activityTimeline.events({
     });
   }
 })
-
-Template.activityTimeline.onRendered(function() {
-  $('[data-toggle="tooltip"]').tooltip();
-});

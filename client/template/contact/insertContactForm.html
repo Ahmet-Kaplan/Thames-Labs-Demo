@@ -1,6 +1,6 @@
 <!-- Expects to be called in companyDetail context -->
-<template name="insertContactModal">
-  <div class="modal fade">
+<template name="insertCompanyContactModal">
+  <div class="modal fade" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -10,7 +10,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Contacts" id="insertContactForm" type="insert"}}
+          {{#autoForm collection="Contacts" id="insertCompanyContactForm" type="insert"}}
             {{> afQuickField name="title" options="allowed"}}
             {{> afQuickField name="forename"}}
             {{> afQuickField name="surname"}}
@@ -29,8 +29,8 @@
   </div>
 </template>
 
-<template name="insertCompanyContactModal">
-  <div class="modal fade">
+<template name="insertContactModal">
+  <div class="modal fade" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -40,14 +40,37 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Contacts" id="insertCompanyContactForm" type="insert"}}
+          {{#autoForm collection="Contacts" id="insertContactForm" type="insert"}}
             {{> afQuickField name="title" options="allowed"}}
             {{> afQuickField name="forename"}}
             {{> afQuickField name="surname"}}
             {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
             {{> afQuickField name="jobtitle"}}
-            {{> afQuickField name="companyId" options=companiesAsOptions firstOption="No company selected"}}
+            {{> afQuickField name="companyId" id="companyId" options=companiesAsOptions firstOption="No company selected"}}
+            <div id="addressWrapper">
+              <div class="form-group">
+                <label for="geo" class="control-label">Search for Address, City, etc.</label>
+                <input type="text" id="geo" class="form-control" autocomplete="off" />
+              </div>
+              <div id="address_details" style="display:none;">
+                {{> afQuickField name="address" id="formatted_address"}}
+                {{> afQuickField name="address2"}}
+                {{> afQuickField name="city" data-geo="locality"}}
+                {{> afQuickField name="county" data-geo="administrative_area_level_2"}}
+                {{> afQuickField name="postcode" data-geo="postal_code"}}
+                {{> afQuickField name="country" data-geo="country"}}
+                {{> afQuickField name="lat" data-geo="lat"}}
+                {{> afQuickField name="lng" data-geo="lng"}} 
+                {{#if isDesktop}} 
+                  <div id="map_wrapper" class="form-group" style="display: none;">
+                    <label class="control-label">Map (drag marker to adjust position)</label>
+                    <div id="map_canvas"></div>
+                    <span class="help-block"></span>
+                  </div>
+                {{/if}}
+              </div>
+            </div>
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}

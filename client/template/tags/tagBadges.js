@@ -38,3 +38,9 @@ Template.tagBadge.events({
     }
   }
 });
+
+Template.tagBadges.helpers({
+  sortedTags: function() {
+    return this.tags.sort();
+  }
+});

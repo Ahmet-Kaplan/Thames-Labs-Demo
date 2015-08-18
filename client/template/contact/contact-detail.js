@@ -1,11 +1,14 @@
 Template.contactDetail.onCreated(function() {
-  // Redirect if data doesn't exist
+  var self = this;
   this.autorun(function() {
     var contactId = FlowRouter.getParam('id');
     var contact = Contacts.findOne(contactId);
+    // Redirect if data doesn't exist
     if (FlowRouter.subsReady() && contact === undefined) {
       FlowRouter.go('contacts');
     }
+    // Update company subscription if contact record changes (e.g. we change company)
+    self.subscribe('companyById', contact.companyId);
   });
 });
 
@@ -20,13 +23,20 @@ Template.contactDetail.onRendered(function() {
 });
 
 Template.contactDetail.helpers({
-  'contactData': function() {
+  contactData: function() {
     var contactId = FlowRouter.getParam('id');
-    return Contacts.findOne({
+    var contact = Contacts.findOne({
       _id: contactId
     });
+    if (contact.tags !== undefined) {
+      contact.tags.sort();
+    }
+    return contact;
   },
-  'projects': function() {
+  company: function() {
+    return Companies.findOne({_id: this.companyId});
+  },
+  projects: function() {
     var contactId = FlowRouter.getParam('id');
     return Projects.find({
       contactId: contactId
@@ -36,7 +46,7 @@ Template.contactDetail.helpers({
       }
     });
   },
-  'purchaseOrders': function() {
+  purchaseOrders: function() {
     var contactId = FlowRouter.getParam('id');
     return PurchaseOrders.find({
       supplierContactId: contactId
@@ -45,17 +55,37 @@ Template.contactDetail.helpers({
         description: 1
       }
     });
+  },
+  mapTitle: function() {
+    if (this.companyId) {
+      var company = Companies.findOne({_id: this.companyId});
+      if (company) {
+        return company.name;
+      }
+    } else {
+      return this.title + ' ' + this.forename + ' ' + this.surname;
+    }
+  },
+  mapAddress: function() {
+    if (this.companyId) {
+      var company = Companies.findOne({_id: this.companyId});
+      return company;
+    } else {
+      return this
+    }
   }
 });
 
 Template.contactDetail.events({
-  'click #add-activity': function() {
+  'click #add-activity': function(event) {
+    event.preventDefault();
     Modal.show('insertContactActivityModal', {
       company: this.company(),
       contact: this
     });
   },
-  'click #add-project': function() {
+  'click #add-project': function(event) {
+    event.preventDefault();
     var company = this.company();
     if (company === undefined) {
       Modal.show('newContactProjectForm', {
@@ -68,7 +98,8 @@ Template.contactDetail.events({
       });
     }
   },
-  'click #add-purchase-order': function() {
+  'click #add-purchase-order': function(event) {
+    event.preventDefault();
     var company = this.company();
     if (company === undefined) {
       Modal.show('newContactPurchaseOrderForm', {
@@ -81,7 +112,12 @@ Template.contactDetail.events({
       });
     }
   },
-  'click #remove-contact': function() {
+  'click #edit-contact': function(event) {
+    event.preventDefault();
+    Modal.show('editContactModal', this);
+  },
+  'click #remove-contact': function(event) {
+    event.preventDefault();
     var contactId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this contact?", function(result) {

@@ -20,7 +20,6 @@ Template.projectsList.onRendered(function() {
   });
 });
 
-
 Template.projectsList.helpers({
   hasProjects: function() {
     return Projects.find({}).count() > 0;
@@ -28,7 +27,8 @@ Template.projectsList.helpers({
 });
 
 Template.projectsList.events({
-  'click #add-project': function() {
+  'click #add-project': function(event) {
+    event.preventDefault();
     Modal.show('newProjectForm', this);
   }
 });

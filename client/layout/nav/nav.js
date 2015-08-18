@@ -1,8 +1,16 @@
-Template.nav.onRendered(function() {
-  // $.getScript('/vendor/hopscotch/tours/nav_tour.js');
-});
-
 Template.nav.helpers({
+  showTourOption: function() {
+    var currRoute = FlowRouter.getRouteName();
+    var show = false;
+
+    _.each(availableTours, function(at) {
+      if (at === currRoute) {
+        show = true;
+      }
+    });
+
+    return show;
+  },
   loggedIn: function() {
     return (Meteor.userId() ? true : false);
   },
@@ -179,22 +187,28 @@ Template.nav.events({
       }
     });
   },
-  'click #qckCreateCompany': function() {
+  'click #qckCreateCompany': function(event) {
+    event.preventDefault();
     Modal.show('insertNewCompanyModal', this);
   },
-  'click #qckCreateContact': function() {
-    Modal.show('insertCompanyContactModal', this);
+  'click #qckCreateContact': function(event) {
+    event.preventDefault();
+    Modal.show('insertContactModal', this);
   },
-  'click #qckCreateProject': function() {
+  'click #qckCreateProject': function(event) {
+    event.preventDefault();
     Modal.show('newProjectForm', this);
   },
-  'click #qckCreatePurchaseOrder': function() {
+  'click #qckCreatePurchaseOrder': function(event) {
+      event.preventDefault();
     Modal.show('newPurchaseOrderForm', this);
   },
-  'click #feedback-link': function() {
+  'click #feedback-link': function(event) {
+    event.preventDefault();
     Modal.show('feedbackModal');
   },
-  'click #btnChangePassword': function() {
+  'click #btnChangePassword': function(event) {
+    event.preventDefault();
     Modal.show('changePassword');
   },
   'click #sign-out': function() {
@@ -225,13 +239,15 @@ Template.nav.events({
 });
 
 Template.notice.events({
-  'click .btnOpenNotice': function() {
+  'click .btnOpenNotice': function(event) {
+    event.preventDefault();
     Modal.show('notificationModal', this);
   }
 });
 
 Template.menuNotice.events({
-  'click .btnOpenNotice': function() {
+  'click .btnOpenNotice': function(event) {
+    event.preventDefault();
     Modal.show('notificationModal', this);
   }
 });

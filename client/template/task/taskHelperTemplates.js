@@ -22,13 +22,11 @@ Template.insertNewTask.helpers({
 });
 
 Template.insertNewTask.onRendered(function() {
-  $("#datetimepicker1").datetimepicker({
-    local: 'ru'
-  });
+  Meteor.subscribe('currentTenantUserData', Partitioner.group());
 });
 
-Template.insertNewTask.events({
-
+Template.updateTask.onRendered(function() {
+  Meteor.subscribe('currentTenantUserData', Partitioner.group());
 });
 
 Template.updateTask.helpers({
@@ -47,12 +45,6 @@ Template.updateTask.helpers({
   getCurrentUserId: function() {
     return Meteor.userId();
   }
-});
-
-Template.updateTask.events({});
-
-Template.insertNewTask.events({
-
 });
 
 var isDashboard = function() {
@@ -87,7 +79,8 @@ Template.taskDisplay.helpers({
 });
 
 Template.taskDisplay.events({
-  'click #btnAddTaskToEntity': function() {
+  'click #btnAddTaskToEntity': function(event) {
+    event.preventDefault();
     Modal.show('insertNewTask', this);
   }
 });
@@ -139,10 +132,12 @@ Template.taskDisplayItem.helpers({
 });
 
 Template.taskDisplayItem.events({
-  'click #btnEditEntityTask': function() {
+  'click #btnEditEntityTask': function(event) {
+    event.preventDefault();
     Modal.show('updateTask', this);
   },
-  'click #btnDeleteEntityTask': function() {
+  'click #btnDeleteEntityTask': function(event) {
+    event.preventDefault();
     var taskId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this task?", function(result) {

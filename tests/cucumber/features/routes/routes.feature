@@ -51,3 +51,8 @@ Feature: Users can access different parts of the app via urls
     When I navigate to "/notifications"
     Then I should see the heading "Dashboard"
     And I should see the title "Dashboard"
+
+  Scenario: A normal user is redirected from the sign-up page to dashboard
+    When I navigate to "/sign-up"
+    Then I should see the heading "Dashboard"
+    And I should see the title "Dashboard"

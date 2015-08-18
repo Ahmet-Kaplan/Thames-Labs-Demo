@@ -2,7 +2,7 @@
   <div class="panel panel-default">
     <div class="panel-heading" id="entity-custom-fields">
       <div class="btn-group pull-right">
-        <button id='add-custom-field' class="btn btn-primary btn-xs " role='button'><i class="fa fa-fw fa-plus"></i> Add Custom Field</button>
+        <button id='add-custom-field' class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="New field to store custom information" role='button'><i class="fa fa-fw fa-plus"></i> Add Custom Field</button>
       </div>
       Custom Fields
     </div>
@@ -17,15 +17,15 @@
 <template name="cfDisplay">
   <li class="list-group-item custom-field-display-item">
     <div class="btn-group pull-right">
-      <button id='edit-custom-field' class="btn btn-info btn-xs " role='button'>Edit</button>
-      <button id='delete-custom-field' class="btn btn-danger btn-xs " role='button'>Delete</button>
+      <button id='edit-custom-field' class="btn btn-info btn-xs " type="button">Edit</button>
+      <button id='delete-custom-field' class="btn btn-danger btn-xs " type="button">Delete</button>
     </div>
     <strong>{{name}}: </strong>{{displayValue}} {{parentHelper ..}}
   </li>
 </template>
 
 <template name="addCustomField">
-  <div class="modal">
+  <div class="modal" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -87,7 +87,7 @@
 </template>
 
 <template name="updateCustomField">
-  <div class="modal">
+  <div class="modal" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
 

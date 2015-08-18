@@ -10,33 +10,36 @@
       </div>
     </div>
     <div class="col-md-4 hidden-xs">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-              Quotation of the day
-          </div>
-          <div class="panel-body" style="padding:0">
-            <blockquote>
-              <p>{{quotationOfDay.Quote}}</p>
-              <footer>{{quotationOfDay.Person}}</footer>
-            </blockquote>
-          </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Quotation of the day
         </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-              New features
-          </div>
-          <div class="new-features-panel-body">
-            <ul class="list-group">
-              {{#each features}}
-                <li class="list-group-item">
-                  <div class="feature-icon"><i class="fa fa-fw fa-{{icon}}"></i></div>
-                  <p>{{description}}</p>
-                </li>
-              {{/each}}
-            </ul>
-            <a target="_blank" href="http://www.realtimecrm.co.uk/roadmap">See feature roadmap</a>
-          </div>
+        <div class="panel-body" style="padding:0">
+          <blockquote>
+            <p>{{quotationOfDay.Quote}}</p>
+            <footer>{{quotationOfDay.Person}}</footer>
+          </blockquote>
+        </div>
       </div>
+      {{#if hasNotifications}}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          New features
+        </div>
+        <div class="new-features-panel-body">
+          <ul class="list-group">
+            {{#each notifications}}
+            <li class="list-group-item">
+              <div class="feature-icon"><i class="fa fa-fw fa-{{icon}}"></i></div>
+              <h4>{{title}}</h4>
+              <p>{{shortDescription}}</p>
+            </li>
+            {{/each}}
+          </ul>
+          <a target="_blank" href="http://www.realtimecrm.co.uk/roadmap">See feature roadmap</a>
+        </div>
+      </div>
+      {{/if}}
     </div>
   </div>
 </template>

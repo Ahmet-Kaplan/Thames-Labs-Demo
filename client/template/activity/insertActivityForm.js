@@ -1,7 +1,3 @@
-Template.insertActivityModal.rendered = function() {
-
-};
-
 Template.insertActivityModal.helpers({
   currentDateTime: function() {
   return moment();

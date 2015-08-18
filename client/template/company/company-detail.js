@@ -19,9 +19,6 @@ Template.companyDetail.onRendered(function() {
 
   // Load docxgen
   $.getScript('/vendor/docxgen.min.js');
-
-  // Load google maps
-  GoogleMaps.load();
 });
 
 Template.companyDetail.events({
@@ -53,28 +50,34 @@ Template.companyDetail.events({
   'click #template-upload-link': function() {
     document.getElementById('template-upload').click();
   },
-  'click #template-help': function() {
+  'click #template-help': function(event) {
+    event.preventDefault();
     Modal.show('wordHelpModal');
   },
-  'click #add-contact': function() {
-    Modal.show('insertContactModal', this);
+  'click #add-contact': function(event) {
+    event.preventDefault();
+    Modal.show('insertCompanyContactModal', this);
   },
-  'click #add-activity': function() {
+  'click #add-activity': function(event) {
+    event.preventDefault();
     Modal.show('insertActivityModal', {
       company: this
     });
   },
-  'click #add-project': function() {
+  'click #add-project': function(event) {
+    event.preventDefault();
     Modal.show('newCompanyProjectForm', {
       companyId: this._id
     });
   },
-  'click #add-purchase-order': function() {
+  'click #add-purchase-order': function(event) {
+    event.preventDefault();
     Modal.show('newCompanyPurchaseOrderForm', {
       customerCompanyId: this._id
     });
   },
-  'click #remove-company': function() {
+  'click #remove-company': function(event) {
+    event.preventDefault();
     var companyId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this company?", function(result) {
@@ -82,21 +85,21 @@ Template.companyDetail.events({
         Companies.remove(companyId);
       }
     });
+  },
+  'click #edit-company': function(event) {
+    event.preventDefault();
+    Modal.show('editCompanyModal', this);
   }
 });
 
 Template.companyDetail.helpers({
   companyData: function() {
     var companyId = FlowRouter.getParam('id');
-    return Companies.findOne({_id: companyId});
-  },
-  addressString: function() {
-    return encodeURIComponent([
-      this.address,
-      this.city,
-      this.country,
-      this.postcode
-    ].join(', '));
+    var company = Companies.findOne({_id: companyId});
+    if (company.tags !== undefined) {
+      company.tags.sort();
+    }
+    return company;
   },
   phoneHref: function(number) {
     return 'tel:' + number;
@@ -104,5 +107,11 @@ Template.companyDetail.helpers({
   onCompanyRemove: function() {
     $(".modal-backdrop").remove();
     $("body").removeClass('modal-open');
+  },
+  mapTitle: function() {
+    return this.name;
+  },
+  mapAddress: function() {
+    return this;
   }
 });
