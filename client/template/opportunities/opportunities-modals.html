@@ -139,7 +139,7 @@
 
         <div class="modal-body">
           {{#autoForm collection="Opportunities" id="editOpportunityItemForm" type="update" doc=opportunity setArrayItems=true}}
-             {{> afQuickField name=fieldName value=this.data.name}}
+             {{> afQuickField name=fieldName value=this.data.name id="name-field"}}
              {{> afQuickField name=fieldDesc value=this.data.description}}
              {{> afQuickField name=fieldVal value=this.data.value}}
             <button type="submit" class="btn btn-primary">Update</button>

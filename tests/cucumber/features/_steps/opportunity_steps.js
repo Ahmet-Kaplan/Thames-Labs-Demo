@@ -161,4 +161,69 @@ module.exports = function() {
       .getText('h3*=won')
       .call(callback);
   });
+
+  this.When(/^I enter line item details for an opportunity$/, function(callback) {
+    this.client
+      .waitForVisible("#insertOpportunityItemForm")
+      .setValue('input[name=name]', 'testItem')
+      .setValue('input[name=description]', 'test item description')
+      .setValue('input[name=value]', 1)
+      .submitForm("#insertOpportunityItemForm")
+      .call(callback);
+  });
+
+  this.Then(/^I should see a new line item in an opportunity$/, function(callback) {
+    this.client
+      .waitForVisible(".btnEditOppItem")
+      .getText('h4*=testItem')
+      .call(callback);
+  });
+
+  this.When(/^I create a new line item for an opportunity$/, function(callback) {
+    this.client
+      .waitForVisible("#btnAddLine", 2000)
+      .click("#btnAddLine")
+      .waitForVisible("#insertOpportunityItemForm")
+      .setValue('input[name=name]', 'testItem')
+      .setValue('input[name=description]', 'test item description')
+      .setValue('input[name=value]', 1)
+      .submitForm("#insertOpportunityItemForm")
+      .call(callback);
+  });
+
+  this.When(/^I enter updated line item details for an opportunity$/, function(callback) {
+    this.client
+      //Wait for modal to disappear
+      .pause(250)
+      .waitForVisible(".btnEditOppItem", 2000)
+      .click(".btnEditOppItem")
+      .waitForVisible("#editOpportunityItemForm")
+      .setValue('#name-field', 'testItem2')
+      .submitForm("#editOpportunityItemForm")
+      .call(callback);
+  });
+
+  this.Then(/^I should see an updated line item in an opportunity$/, function(callback) {
+    this.client
+      .waitForVisible(".btnEditOppItem")
+      .getText('h4*=testItem2')
+      .call(callback);
+  });
+
+  this.When(/^I delete a line item from an opportunity$/, function(callback) {
+    this.client
+      //Wait for modal to disappear
+      .pause(250)
+      .waitForVisible(".btnDeleteOppItem", 2000)
+      .click(".btnDeleteOppItem")
+      .waitForVisible(".modal-content", 2000)
+      .click(".modal-footer .btn-primary")
+      .call(callback);
+  });
+
+  this.Then(/^I should not see a line item in an opportunity$/, function(callback) {
+    this.client
+    //  .getText('h4*=testItem')
+      .call(callback);
+  });
 };

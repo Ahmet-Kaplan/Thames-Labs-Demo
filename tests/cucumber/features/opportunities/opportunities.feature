@@ -49,3 +49,21 @@ Feature: Allow users to manage their sales opportunities
     Then I should be on the next opportunity stage
     And I win an opportunity
     Then I should see that the opportunity has been won
+
+  Scenario: A user can add a line item to an opportunity
+    When I navigate to an opportunity page
+    And I click "#btnAddLine"
+    And I enter line item details for an opportunity
+    Then I should see a new line item in an opportunity
+
+  Scenario: A user can edit a line item in an opportunity
+    When I navigate to an opportunity page
+    And I create a new line item for an opportunity
+    And I enter updated line item details for an opportunity
+    Then I should see an updated line item in an opportunity
+
+  Scenario: A user can remove a line item from an opportunity
+    When I navigate to an opportunity page
+    And I create a new line item for an opportunity
+    And I delete a line item from an opportunity
+    Then I should not see a line item in an opportunity
