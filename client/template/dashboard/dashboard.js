@@ -1,6 +1,6 @@
 //List of all the available widets
 widgets = {
-  'chat': { 
+  'chat': {
     id: 'chat',
     x: 0,
     y: 0,
@@ -18,7 +18,7 @@ widgets = {
     displayed: true,
     name: 'Quotation of the day'
   },
-  'online':  {
+  'online': {
     id: 'online',
     x: 8,
     y: 0,
@@ -27,7 +27,7 @@ widgets = {
     displayed: true,
     name: 'Online users'
   },
-  'task':  {
+  'task': {
     id: 'task',
     x: 0,
     y: 2,
@@ -36,7 +36,7 @@ widgets = {
     displayed: true,
     name: 'My tasks'
   },
-  'test':  {
+  'test': {
     id: 'test',
     x: 0,
     y: 0,
@@ -82,7 +82,7 @@ Template.dashboard.onRendered(function() {
   grid = $('.grid-stack').data('gridstack');
 
   //Retrieve list of widgets from db if exists
-  var savedWidgets = Meteor.users.findOne(Meteor.userId()).profile.myWidgets;
+  var savedWidgets = Meteor.user().profile.myWidgets;
 
   //For each widget, check if defined in db otherwise use default display value
   _.each(widgets, function(widget, key) {
@@ -97,7 +97,7 @@ Template.dashboard.onRendered(function() {
   var organizedWidgets = _.sortBy(myWidgets, 'y');
   _.each(organizedWidgets, function(widget) {
     if(widget.displayed) {
-      grid.add_widget('<div id="' + widget.id + 'Widget"></div>', widget.x, widget.y, widget.w, widget.h, true);
+      grid.add_widget('<div id="' + widget.id + 'Widget"></div>', widget.x, widget.y, widget.w, widget.h, false);
       newWidget = Blaze.render(Template[widget.id + 'Widget'], document.getElementById(widget.id + "Widget"));
       dashboardWidgets[widget.id + "Widget"] = newWidget;
     }
@@ -144,8 +144,8 @@ Template.dashboard.events({
 
 Template.dashboard.helpers({
   widgetList: function() {
-    return _.map(widgets, function(widget) { 
-      return widget ;
+    return _.map(widgets, function(widget) {
+      return widget;
     });
   }
 });
