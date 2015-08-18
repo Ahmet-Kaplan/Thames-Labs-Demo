@@ -59,6 +59,7 @@ AutoForm.hooks({
   insertContactForm: {
     onSuccess: function() {
      toastr.success('Contact created.');
+     Modal.hide();
      FlowRouter.go('/contacts/' + this.docId);
    }
  },

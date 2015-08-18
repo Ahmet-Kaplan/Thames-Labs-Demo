@@ -1,4 +1,37 @@
+Template.insertOpportunityModal.onRendered(function() {
+  Session.set('oppComp', null);
+});
+
 Template.insertOpportunityModal.helpers({
+  companiesAsOptions: function() {
+    return Companies.find({}).map(function(company) {
+      return {
+        'label': company.name,
+        'value': company._id
+      };
+    });
+  },
+  contactsAsOptions: function() {
+    if (Session.get('oppComp') !== null) {
+      return Contacts.find({
+        companyId: Session.get('oppComp')
+      }).map(function(contact) {
+        return {
+          'label': contact.forename + " " + contact.surname,
+          'value': contact._id
+        };
+      });
+    } else {
+      return Contacts.find({
+        companyId: undefined
+      }).map(function(contact) {
+        return {
+          'label': contact.forename + " " + contact.surname,
+          'value': contact._id
+        };
+      });
+    }
+  },
   emptyArray: function() {
     return [];
   },
@@ -8,6 +41,19 @@ Template.insertOpportunityModal.helpers({
   },
   createdBy: function() {
     return Meteor.userId();
+  }
+});
+
+Template.insertOpportunityModal.events({
+  'change #selectedCompany': function() {
+    var c = $('select#selectedCompany').val();
+    if (c) {
+      Session.set('oppComp', c);
+      Meteor.subscribe('contactsByCompanyId', c);
+    } else {
+      Meteor.subscribe('allContacts', c);
+      Session.set('oppComp', null);
+    }
   }
 });
 
@@ -36,6 +82,16 @@ Template.insertCompanyOpportunityModal.helpers({
   },
   createdBy: function() {
     return Meteor.userId();
+  },
+  contactsAsOptions: function() {
+    return Contacts.find({
+      companyId: this.companyId
+    }).map(function(contact) {
+      return {
+        'label': contact.forename + " " + contact.surname,
+        'value': contact._id
+      };
+    });
   }
 });
 

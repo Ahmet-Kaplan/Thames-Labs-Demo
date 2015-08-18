@@ -352,6 +352,8 @@ router.route('/opportunities', {
   name: 'opportunities',
   subscriptions: function() {
     this.register('allOpportunities', subs.subscribe('allOpportunities'));
+    this.register('allContacts', subs.subscribe('allContacts'));
+    this.register('allCompanies', subs.subscribe('allCompanies'));
     this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
