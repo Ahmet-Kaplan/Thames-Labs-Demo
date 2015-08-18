@@ -129,4 +129,36 @@ module.exports = function() {
       })
       .call(callback);
   });
+
+  this.When(/^I lose an opportunity$/, function(callback) {
+    this.client
+      .waitForVisible("#btnLostOpportunity", 2000)
+      .click("#btnLostOpportunity")
+      .waitForVisible(".modal-content", 2000)
+      .click(".modal-footer .btn-primary")
+      .call(callback);
+  });
+
+  this.Then(/^I should see that the opportunity has been lost$/, function(callback) {
+    this.client
+      .waitForVisible('h3*=lost', 2000)
+      .getText('h3*=lost')
+      .call(callback);
+  });
+
+  this.When(/^I win an opportunity$/, function(callback) {
+    this.client
+      .waitForVisible("#btnWonOpp", 2000)
+      .click("#btnWonOpp")
+      .waitForVisible(".modal-content", 2000)
+      .click(".modal-footer .btn-primary")
+      .call(callback);
+  });
+
+  this.Then(/^I should see that the opportunity has been won$/, function(callback) {
+    this.client
+      .waitForVisible('h3*=won', 2000)
+      .getText('h3*=won')
+      .call(callback);
+  });
 };

@@ -37,3 +37,15 @@ Feature: Allow users to manage their sales opportunities
     Then I should be on the next opportunity stage
     When I click "#btnPrevStage"
     Then I should be on the first opportunity stage
+
+  Scenario: A user can mark an opportunity as lost
+    When I navigate to an opportunity page
+    And I lose an opportunity
+    Then I should see that the opportunity has been lost
+
+  Scenario: A user can mark an opportunity as won
+    When I navigate to an opportunity page
+    And I click "#btnNextStage"
+    Then I should be on the next opportunity stage
+    And I win an opportunity
+    Then I should see that the opportunity has been won
