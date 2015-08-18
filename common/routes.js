@@ -377,15 +377,3 @@ router.route('/opportunities/:id', {
     });
   }
 });
-
-router.route('/admin/opportunities', {
-  name: 'opportunitiesAdmin',
-  subscriptions: function() {
-    this.register('opportunityStages', subs.subscribe('opportunityStages'));
-  },
-  action: function() {
-    layout.render('appLayout', {
-      main: 'opportunityAdmin'
-    });
-  }
-});
