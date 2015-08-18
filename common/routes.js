@@ -63,6 +63,7 @@ router.subscriptions = function() {
   this.register('userPresence', Meteor.subscribe('userPresence'));
   this.register('allNotifications', Meteor.subscribe('allNotifications'));
   this.register('auditData', Meteor.subscribe('auditData'));
+  this.register('myTenant', Meteor.subscribe('myTenant'));
 };
 
 router.notFound = {

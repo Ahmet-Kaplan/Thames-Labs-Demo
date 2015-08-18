@@ -2,8 +2,6 @@ Session.set('posc', null);
 Session.set('pocc', null);
 
 Template.newPurchaseOrderForm.onRendered(function() {
-  var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  Meteor.subscribe("myTenant", groupId);
   Session.set('posc', null);
   Session.set('pocc', null);
 
@@ -23,8 +21,6 @@ Template.newPurchaseOrderForm.onRendered(function() {
 });
 
 Template.newCompanyPurchaseOrderForm.onRendered(function() {
-  var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  Meteor.subscribe("myTenant", groupId);
   Meteor.subscribe("allCompanies");
   Session.set('posc', null);
   Session.set('pocc', null);
@@ -45,8 +41,6 @@ Template.newCompanyPurchaseOrderForm.onRendered(function() {
 });
 
 Template.newContactPurchaseOrderForm.onRendered(function() {
-  var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  Meteor.subscribe("myTenant", groupId);
   Meteor.subscribe("allCompanies");
   Session.set('posc', null);
   Session.set('pocc', null);
@@ -67,8 +61,6 @@ Template.newContactPurchaseOrderForm.onRendered(function() {
 });
 
 Template.updatePurchaseOrderFormModal.onRendered(function() {
-  var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  Meteor.subscribe("myTenant", groupId);
   Session.set('posc', null);
   Session.set('pocc', null);
 

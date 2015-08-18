@@ -121,6 +121,21 @@ Meteor.methods({
         text: txt
       });
     }
+  },
+
+  tenantLimitReached: function() {
+    var theTenantId = Partitioner.getUserGroup(this.userId);
+    var theTenant = Tenants.findOne({_id: theTenantId});
+    var totalRecords = Contacts.find({}).count() + Companies.find({}).count();
+    var textMessage = "Dear administrator,\n\n"
+                    + "The tenant " + theTenant.name + " (id " + theTenantId + ") has reached the limit of records (currently " + totalRecords + ").\n\n"
+                    + "Please consider contacting them or blocking their ability to create records.";
+    Email.send({
+      to: 'david.mcleary@cambridgesoftware.co.uk',
+      from: 'admin@realtimecrm.co.uk',
+      subject: 'Tenant ' + theTenant.name + ' has reached the records limit',
+      text: textMessage
+    });
   }
 });
 

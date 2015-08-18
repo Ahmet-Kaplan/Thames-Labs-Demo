@@ -96,7 +96,7 @@ Schemas.UserSignUp.messages({
   emailTaken: "This email address is already registered with RealTimeCRM"
 });
 
-// ** --------- Non-attachment schemas --------- ** //
+// ** --------- End Non-attachment schemas --------- ** //
 
 Schemas.Tenant = new SimpleSchema({
   name: {
@@ -118,6 +118,13 @@ Schemas.Tenant = new SimpleSchema({
     type: Boolean,
     label: "Paying tenant",
     defaultValue: false
+  },
+  limit: {
+    type: Number,
+    label: "Records limit",
+    autoValue: function() {
+      return ((this.value === 0) ? 0 : 42);
+    }
   }
 });
 Tenants.attachSchema(Schemas.Tenant);
