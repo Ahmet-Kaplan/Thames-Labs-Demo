@@ -4,46 +4,37 @@ widgets = {
     id: 'chat',
     x: 0,
     y: 0,
-    w: 4,
+    w: 1,
     h: 7,
     displayed: true,
     name: 'Chatter'
   },
   'quotation': {
     id: 'quotation',
-    x: 4,
+    x: 1,
     y: 0,
-    w: 4,
+    w: 1,
     h: 4,
     displayed: true,
     name: 'Quotation of the day'
   },
   'online': {
     id: 'online',
-    x: 8,
+    x: 2,
     y: 0,
-    w: 4,
-    h: 8,
+    w: 1,
+    h: 7,
     displayed: true,
     name: 'Online users'
   },
   'task': {
     id: 'task',
     x: 0,
-    y: 2,
-    w: 12,
+    y: 8,
+    w: 3,
     h: 3,
     displayed: true,
     name: 'My tasks'
-  },
-  'test': {
-    id: 'test',
-    x: 0,
-    y: 0,
-    w: 4,
-    h: 4,
-    displayed: false,
-    name: 'Test Widget'
   }
 };
 //List of widgets used by the user
@@ -71,18 +62,10 @@ function saveMyWidgets() {
   });
 }
 
-Template.dashboard.onRendered(function() {
-  $('.grid-stack').gridstack({
-    cell_height: 40,
-    vertical_margin: 10,
-    animate: true,
-    height: 0
-  });
+function instanciateDashboard(savedWidgets) {
 
   grid = $('.grid-stack').data('gridstack');
-
-  //Retrieve list of widgets from db if exists
-  var savedWidgets = Meteor.user().profile.myWidgets;
+  grid.remove_all();
 
   //For each widget, check if defined in db otherwise use default display value
   _.each(widgets, function(widget, key) {
@@ -102,6 +85,20 @@ Template.dashboard.onRendered(function() {
       dashboardWidgets[widget.id + "Widget"] = newWidget;
     }
   });
+}
+
+Template.dashboard.onRendered(function() {
+  $('.grid-stack').gridstack({
+    cell_height: 40,
+    vertical_margin: 10,
+    animate: true,
+    height: 0,
+    width: 3
+  });
+
+  //Retrieve list of widgets from db if exists
+  var savedWidgets = Meteor.user().profile.myWidgets;
+  instanciateDashboard(savedWidgets);
 });
 
 Template.dashboard.events({
@@ -137,6 +134,12 @@ Template.dashboard.events({
     delete dashboardWidgets[widgetName];
     var widgetId = widgetName.split('Widget')[0];
     myWidgets[widgetId].displayed = false;
+    saveMyWidgets();
+  },
+
+  'click #resetDashboard': function() {
+    myWidgets = {};
+    instanciateDashboard(myWidgets);
     saveMyWidgets();
   }
 
