@@ -17,21 +17,19 @@ Feature: Allow users to specify their own data fields/values against an entity
     And I click the "Add Custom Field" button
     Then I should see a modal with header "Add new custom field"
 
-  @dev
   Scenario: A user can add a custom field
     When I navigate to a company page
     And I click the "Add Custom Field" button
     And I add a new custom field
     Then I should see the custom field "velocity" in the list
-  
-  @dev
+
   Scenario: A user can edit a custom field
     When I navigate to a company page
     And I can see the "velocity" custom field
     And I click the "Edit" button
     And I make a change
     Then I should see the updated custom field "velocity" in the list
-    
+
   Scenario: A user can delete a custom field
     When I navigate to a company page
     And I can see the "velocity" custom field
