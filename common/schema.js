@@ -1,4 +1,5 @@
 Schemas = {};
+MAX_RECORDS = 45;
 
 // ** --------- Non-attachment schemas --------- ** //
 Schemas.User = new SimpleSchema({
@@ -126,7 +127,7 @@ Schemas.Tenant = new SimpleSchema({
       if(this.value === 0 || this.value === -1) {
         return this.value;
       } else {
-        return 45;
+        return MAX_RECORDS;
       }
     }
   }
