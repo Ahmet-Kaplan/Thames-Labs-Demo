@@ -132,7 +132,9 @@ router.route('/audit', {
 router.route('/sign-up', {
   name: 'sign-up',
   action: function() {
-    layout.render('signUpLayout', { main: "signUp" });
+    layout.render('signUpLayout', {
+      main: "signUp"
+    });
   }
 });
 
@@ -150,6 +152,23 @@ router.route('/', {
       main: "dashboard"
     });
   }
+});
+
+router.route('/admin', {
+  name: 'administration',
+  subscriptions: function() {
+    this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: "tenancyAdminPage"
+    });
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), 'Administrator')) {
+      redirect('dashboard');
+    }
+  }],
 });
 
 router.route('/companies', {

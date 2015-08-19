@@ -1,6 +1,27 @@
 // Super secret server only methods
 Meteor.methods({
+  checkUserRole: function(userId, roleName) {
+    var user = Meteor.users.findOne(userId);
+    if (user) {
+      if (Roles.userIsInRole(userId, roleName)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
+  setUserRole: function(userId, roleName, value) {
+    var user = Meteor.users.findOne(userId);
+    if (user) {
+      if (value === true && !Roles.userIsInRole(userId, roleName)) {
+        Roles.addUsersToRoles(userId, roleName);
+      }
 
+      if (value === false && Roles.userIsInRole(userId, roleName)) {
+        Roles.removeUsersFromRoles(userId, roleName);
+      }
+    }
+  },
   clearAuditLog: function() {
     AuditLog.remove({});
   },

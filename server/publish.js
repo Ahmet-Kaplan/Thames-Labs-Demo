@@ -45,7 +45,7 @@ Meteor.publish("allTenants", function() {
   }
 });
 
-Meteor.publish("myTenant", function(groupId) {
+Meteor.publish("activeTenantData", function(groupId) {
   return Tenants.find({
     _id: groupId
   });
