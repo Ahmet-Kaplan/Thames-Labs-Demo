@@ -1,0 +1,81 @@
+<template name="opportunityAdmin">
+  {{setPageTitle "Opportunities Configuration"}}
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <h4 class="entity-title">Admin</h4>
+      <h1 class="entity-name">Sales Pipeline Configuration</h1>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Opportunity stages
+          <div class="pull-right">
+            <button class="btn btn-primary btn-xs" id="btnAddStage"><i class="fa fa-fw fa-plus"></i> Add stage</button>
+          </div>
+        </div>
+        <p style="padding: 15px">These are the stages that your opportunities will progress through, these can be configured below to match your sales pipeline.</p>
+        <div class="opportunity-stage-container">
+          {{#sortable items=stages ghostClass="opportunity-stage-ghost" options=options handle=".handle"}}
+            {{> opportunityAdminStage}}
+          {{/sortable}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<template name="opportunityAdminStage">
+  <li class="opportunity-stage">
+    <div class="pull-right handle">
+      <button class="btn btn-info btn-xs" id="btnEdit">Edit</button>
+      <button class="btn btn-danger btn-xs" id="btnDelete">Delete</button>
+      <i class="fa fa-fw fa-bars"></i>
+    </div>
+    <h4>{{title}} {{#if isFirstStage}} <small>(first stage)</small>{{/if}}</h4>
+    <p>{{description}}</p>
+  </li>
+</template>
+
+<template name="insertNewStageModal">
+  <div class="modal fade" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Add new stage</h5>
+        </div>
+
+        <div class="modal-body">
+         {{#autoForm collection="OpportunityStages" id="insertNewStageForm" type="insert"}}
+            {{> afQuickField name="title"}}
+            {{> afQuickField name="description"}}
+            {{> afQuickField name="order" type="hidden" value=orderValue}}
+            <button type="submit" class="btn btn-primary">Create</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="editStageModal">
+  <div class="modal fade" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Edit stage</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="OpportunityStages" id="editStageForm" type="update" doc=this}}
+            {{> afQuickField name="title"}}
+            {{> afQuickField name="description"}}
+            {{> afQuickField name="order" type="hidden" value=order}}
+            <button type="submit" class="btn btn-primary">Update</button>
+          {{/autoForm}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
