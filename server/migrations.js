@@ -67,3 +67,25 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+var updateCustomFields = function(collection) {
+  Partitioner.directOperation(function() {
+    Collections[collection].find( { customFields: { $exists: true } } ).forEach(function(doc) {
+      var customFields = doc.customFields;
+      customFields = lodash.mapValues(customFields, function(value) {
+        return typeof value === 'object' ? value : { 'dataValue': value, 'dataType': 'text' };
+      });
+      Collections[collection].update(doc._id, { $set: { 'customFields': customFields }});
+    });
+  });
+};
+Migrations.add({
+  version: 5,
+  name: "Add type to existing custom fields",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    updateCustomFields('contacts');
+    updateCustomFields('companies');
+    ServerSession.set('maintenance', false);
+  }
+});
