@@ -94,7 +94,7 @@ Template.cfDisplay.events({
             });
             break;
         }
-            toastr.success('Custom field removed.');
+        toastr.success('Custom field removed.');
       } else {
         return;
       }
@@ -104,6 +104,8 @@ Template.cfDisplay.events({
 
 
 Template.addCustomField.onRendered(function() {
+  this.$('.datetimepicker').datetimepicker();
+
   $('#typeText').prop('checked', true);
   $('#typeCheckbox').prop('checked', false);
   $('#typeDate').prop('checked', false);
@@ -114,6 +116,8 @@ Template.addCustomField.onRendered(function() {
 });
 
 Template.updateCustomField.onRendered(function() {
+
+  this.$('.datetimepicker').datetimepicker();
 
   switch (this.data.type) {
     case 'text':
