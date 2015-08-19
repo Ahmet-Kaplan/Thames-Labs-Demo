@@ -20,7 +20,7 @@
       <button id='edit-custom-field' class="btn btn-info btn-xs " type="button">Edit</button>
       <button id='delete-custom-field' class="btn btn-danger btn-xs " type="button">Delete</button>
     </div>
-      <strong>{{name}}: </strong>{{value}} {{parentHelper ..}}
+    <strong>{{name}}: </strong>{{displayValue}} {{parentHelper ..}}
   </li>
 </template>
 
@@ -38,11 +38,43 @@
           <form>
             <div class="form-group">
               <label for="custom-field-name">Name</label>
-              <input type="text" class="form-control" placeholder="Custom field name" id="custom-field-name" >
+              <input type="text" class="form-control" placeholder="Custom field name" id="custom-field-name">
             </div>
-            <div class="form-group">
-              <label for="custom-field-value">Value</label>
-              <input type="text" class="form-control" placeholder="Custom field value" id="custom-field-value">
+
+            <label>Type</label>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="cfType" id="typeText" checked>Text</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="cfType" id="typeCheckbox">Checkbox</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="cfType" id="typeDate">Date/Time</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" id="text-input-area">
+              <label for="custom-field-value">Text Value</label>
+              <input type="text" class="form-control" placeholder="Custom field value" id="custom-field-text-value">
+            </div>
+            <div class="form-group" id="check-input-area">
+              <label for="custom-field-value">Boolean Value</label>
+              <br />
+              <input type="checkbox" placeholder="Custom field value" id="custom-field-check-value"> Check this box to set the value of this custom field to true. Leave it blank for false values.
+            </div>
+            <div class="form-group datetimepicker" id="date-input-area">
+              <label for="custom-field-value">Date Value</label>
+              <input class="form-control" placeholder="Custom field value" id="custom-field-date-value">
             </div>
           </form>
         </div>
@@ -72,9 +104,41 @@
               <label for="custom-field-name">Name</label>
               <input type="text" class="form-control" placeholder="Custom field name" id="custom-field-name" value={{name}} readonly="readonly">
             </div>
-            <div class="form-group">
-              <label for="custom-field-value">Value</label>
-              <input type="text" class="form-control" placeholder="Custom field value" id="custom-field-value" value={{value}}>
+
+            <label>Type</label>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="cfType" id="typeText" checked>Text</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="cfType" id="typeCheckbox">Checkbox</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="cfType" id="typeDate">Date/Time</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" id="text-input-area">
+              <label for="custom-field-value">Text Value</label>
+              <input type="text" class="form-control" placeholder="Custom field value" id="custom-field-text-value">
+            </div>
+            <div class="form-group" id="check-input-area">
+              <label for="custom-field-value">Boolean Value</label>
+              <br />
+              <input type="checkbox" placeholder="Custom field value" id="custom-field-check-value"> Check this box to set the value of this custom field to true. Leave it blank for false values.
+            </div>
+            <div class="form-group datetimepicker" id="date-input-area">
+              <label for="custom-field-value">Date Value</label>
+              <input class="form-control" placeholder="Custom field value" id="custom-field-date-value">
             </div>
           </form>
         </div>
