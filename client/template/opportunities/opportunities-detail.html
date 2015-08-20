@@ -129,8 +129,10 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="New activity for this opportunity" href="#" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add
+        {{#if isActive}}
+          <a class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="New activity for this opportunity" href="#" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add
             activity</a>
+        {{/if}}
       </h1>
       {{> activityTimeline activities=activities}}
     </div>
