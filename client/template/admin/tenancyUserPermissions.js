@@ -46,7 +46,6 @@ Template.editTenantUserPermissions.events({
       _.each(permissions, function(p) {
         var selectorName = p.value + "PermissionSelector";
         var selectorValue = $('#' + selectorName).val();
-        console.log(selectorValue + p.value);
 
         switch (selectorValue) {
           case 'CanRead':

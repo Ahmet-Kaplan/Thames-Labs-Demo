@@ -21,7 +21,7 @@ var normalUserOnly = function(context, redirect) {
 
 var loggedOutUserOnly = function(context, redirect) {
   var user = Meteor.user();
-  console.log('check for logged out user - user is ', user);
+
   if (user) {
     redirect('dashboard');
   }
@@ -168,7 +168,7 @@ router.route('/admin', {
     if (!Roles.userIsInRole(Meteor.userId(), 'Administrator')) {
       redirect('dashboard');
     }
-  }],
+  }]
 });
 
 router.route('/companies', {
@@ -180,7 +180,12 @@ router.route('/companies', {
     layout.render('appLayout', {
       main: 'companyList'
     });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadCompanies'])) {
+      redirect('dashboard');
+    }
+  }]
 });
 
 router.route('/companies/:id', {
@@ -199,7 +204,12 @@ router.route('/companies/:id', {
     layout.render('appLayout', {
       main: 'companyDetail'
     });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadCompanies'])) {
+      redirect('dashboard');
+    }
+  }]
 });
 
 router.route('/contacts', {
@@ -212,7 +222,12 @@ router.route('/contacts', {
     layout.render('appLayout', {
       main: 'contactList'
     });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadContacts'])) {
+      redirect('dashboard');
+    }
+  }]
 });
 
 router.route('/contacts/:id', {
@@ -229,7 +244,12 @@ router.route('/contacts/:id', {
     layout.render('appLayout', {
       main: 'contactDetail'
     });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadContacts'])) {
+      redirect('dashboard');
+    }
+  }]
 });
 
 router.route('/projects', {
@@ -243,7 +263,12 @@ router.route('/projects', {
     layout.render('appLayout', {
       main: 'projectsList'
     });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProjects'])) {
+      redirect('dashboard');
+    }
+  }]
 });
 
 router.route('/projects/:id', {
@@ -260,7 +285,12 @@ router.route('/projects/:id', {
     layout.render('appLayout', {
       main: 'projectDetail'
     });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProjects'])) {
+      redirect('dashboard');
+    }
+  }]
 });
 
 router.route('/purchaseorders', {
@@ -275,7 +305,12 @@ router.route('/purchaseorders', {
     layout.render('appLayout', {
       main: 'purchaseOrderList'
     });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadPurchaseOrders'])) {
+      redirect('dashboard');
+    }
+  }]
 });
 
 router.route('/purchaseorders/:id', {
@@ -294,7 +329,12 @@ router.route('/purchaseorders/:id', {
     layout.render('appLayout', {
       main: 'purchaseOrderDetail'
     });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadPurchaseOrders'])) {
+      redirect('dashboard');
+    }
+  }]
 });
 
 router.route('/tasks', {
@@ -306,7 +346,12 @@ router.route('/tasks', {
     layout.render('appLayout', {
       main: 'taskList'
     });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadTasks'])) {
+      redirect('dashboard');
+    }
+  }]
 });
 
 router.route('/datamanagement', {
@@ -319,7 +364,12 @@ router.route('/datamanagement', {
     layout.render('appLayout', {
       main: 'datamanagement'
     });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadDataManagement'])) {
+      redirect('dashboard');
+    }
+  }]
 });
 
 router.route('/events', {
@@ -336,7 +386,12 @@ router.route('/events', {
     layout.render('appLayout', {
       main: "events"
     });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadEventLog'])) {
+      redirect('dashboard');
+    }
+  }]
 });
 
 router.route('/products', {
@@ -348,7 +403,12 @@ router.route('/products', {
     layout.render('appLayout', {
       main: 'productList'
     });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProducts'])) {
+      redirect('dashboard');
+    }
+  }]
 });
 
 router.route('/products/:id', {
@@ -360,5 +420,10 @@ router.route('/products/:id', {
     layout.render('appLayout', {
       main: 'productDetail'
     });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProducts'])) {
+      redirect('dashboard');
+    }
+  }]
 });
