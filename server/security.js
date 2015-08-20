@@ -38,3 +38,6 @@ Products.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 
 OpportunityStages.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 Opportunities.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+Opportunities.allowTags(function(userId) {
+  return !!userId;
+});

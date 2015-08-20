@@ -14,6 +14,9 @@ Template.tagInput.rendered = function() {
     case "project":
       entityType = "projects";
       break;
+    case "opportunity":
+      entityType = "opportunities";
+      break;
     default:
       throw new Meteor.Error("unspecified-tag-route-type", "Could not determine route type for tags");
   }

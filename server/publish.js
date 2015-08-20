@@ -337,3 +337,9 @@ Meteor.publish("opportunitiesByCompanyId", function(id) {
 Meteor.publish("opportunitiesByContactId", function(id) {
   return Opportunities.find({contactId: id, isArchived: { $ne: true }});
 });
+Meteor.publish("opportunityTags", function() {
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Meteor.tags.find({
+    collection: 'opportunities'
+  });
+});

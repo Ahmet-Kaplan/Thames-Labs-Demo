@@ -668,8 +668,8 @@ Opportunities.initEasySearch(['name'], {
     return query;
   }
 });
+Tags.TagsMixin(Opportunities);
 Collections.opportunities = Opportunities;
-
 
 OpportunityStages = new Mongo.Collection('opportunitystages');
 Partitioner.partitionCollection(OpportunityStages);
