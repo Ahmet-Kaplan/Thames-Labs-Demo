@@ -33,10 +33,4 @@ permissions = [{
 }, {
   displayName: 'Event Log',
   value: 'EventLog'
-}, {
-  displayName: 'Tags',
-  value: 'Tags'
-}, {
-  displayName: 'Activities',
-  value: 'Activities'
 }];

@@ -170,6 +170,7 @@
 
       <div class="panel panel-default accordion-links">
         <table class="table">
+          {{#if isInRole 'Administrator,CanReadCompanies'}}
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
@@ -179,7 +180,7 @@
               </h4>
             </td>
           </tr>
-
+          {{/if}} {{#if isInRole 'Administrator,CanReadContacts'}}
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
@@ -189,8 +190,7 @@
               </h4>
             </td>
           </tr>
-
-
+          {{/if}} {{#if isInRole 'Administrator,CanReadProjects'}}
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
@@ -201,6 +201,7 @@
               </h4>
             </td>
           </tr>
+          {{/if}} {{#if isInRole 'Administrator,CanReadProducts'}}
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
@@ -210,7 +211,7 @@
               </h4>
             </td>
           </tr>
-
+          {{/if}} {{#if isInRole 'Administrator,CanReadTasks'}}
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
@@ -221,7 +222,7 @@
               </h4>
             </td>
           </tr>
-
+          {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
@@ -232,8 +233,7 @@
               </h4>
             </td>
           </tr>
-
-
+          {{/if}} {{#if isInRole 'Administrator,CanReadDataManagement'}}
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
@@ -243,7 +243,7 @@
               </h4>
             </td>
           </tr>
-
+          {{/if}} {{#if isInRole 'Administrator,CanReadEventLog'}}
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
@@ -253,6 +253,7 @@
               </h4>
             </td>
           </tr>
+          {{/if}}
 
         </table>
       </div>
