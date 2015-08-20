@@ -731,6 +731,10 @@ Schemas.Opportunity = new SimpleSchema({
   'items.$.value': {
     type: Number,
     optional: true
+  },
+  'items.$.quantity': {
+    type: Number,
+    optional: true
   }
 });
 Opportunities.attachSchema(Schemas.Opportunity);

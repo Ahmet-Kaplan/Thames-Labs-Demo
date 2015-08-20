@@ -119,6 +119,7 @@
             {{> afQuickField name="name" value=""}}
             {{> afQuickField name="description" value=""}}
             {{> afQuickField name="value" value=""}}
+            {{> afQuickField name="quantity" value=""}}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
         </div>
@@ -142,6 +143,7 @@
              {{> afQuickField name=fieldName value=this.data.name id="name-field"}}
              {{> afQuickField name=fieldDesc value=this.data.description}}
              {{> afQuickField name=fieldVal value=this.data.value}}
+             {{> afQuickField name=fieldQuantity value=this.data.quantity}}
             <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
         </div>

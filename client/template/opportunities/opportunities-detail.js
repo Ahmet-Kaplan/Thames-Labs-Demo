@@ -152,7 +152,8 @@ Template.opportunityDetail.events({
         var obj = {
           name: oi.name,
           description: oi.description,
-          value: oi.value
+          value: oi.value,
+          quantity: oi.quantity
         }
         items.push(obj);
       });

@@ -103,6 +103,9 @@ Template.editOpportunityItemModal.helpers({
   },
   fieldVal: function() {
     return "items." + this.index + ".value";
+  },
+  fieldQuantity: function() {
+    return "items." + this.index + ".quantity";
   }
 });
 

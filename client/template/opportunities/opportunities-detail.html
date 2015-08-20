@@ -148,6 +148,10 @@
     {{#if data.value}}
     <b>Value:</b> {{data.value}}
     {{/if}}
+    {{#if data.quantity}}
+    <br>
+    <b>Quantity:</b> {{data.quantity}}
+    {{/if}}
   </li>
 </template>
 
@@ -179,6 +183,7 @@
             <li>{name} - The name of a purchase order item</li>
             <li>{description} - The number of a purchase order items ordered</li>
             <li>{value} - The value of a purchase order item</li>
+            <li>{quantity} - The quantity of a purchase order item</li>
           </ul>
           You can loop through multiple items in your template by wrapping them as follows:
           <blockquote>
