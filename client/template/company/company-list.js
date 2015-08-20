@@ -9,6 +9,17 @@ Template.companyList.onRendered(function() {
   // Watch for session variable setting search
   Session.set('companyListSearchQuery', null);
   Tracker.autorun(function() {
+    // Meteor.call('checkUserRole', this.data._id, 'CanReadCompanies', function(err, data) {
+    //   if (err) {
+    //     toastr.error('An error occurred whilst checking permissions: ' + err);
+    //     return;
+    //   }
+    //   if (data === false) {
+    //     FlowRouter.go('dashboard');
+    //     toastr.warning('You do not have permission to read companies. Please contact your system administrator.');
+    //   }
+    // });
+
     var searchQuery = Session.get('companyListSearchQuery');
     var easySearchInstance = EasySearch.getComponentInstance({
       index: 'companies'
@@ -18,6 +29,7 @@ Template.companyList.onRendered(function() {
       $('.sidebar input').val(searchQuery);
     }
   });
+
 });
 
 Template.companyList.helpers({

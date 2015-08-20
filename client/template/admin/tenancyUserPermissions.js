@@ -1,5 +1,6 @@
 Template.editTenantUserPermissions.onRendered(function() {
-  Meteor.call('checkUserRole', this.data._id, 'Administrator', function(err, data) {
+  var selectedUserId = this.data._id;
+  Meteor.call('checkUserRole', selectedUserId, 'Administrator', function(err, data) {
     if (err) {
       toastr.error('An error occurred whilst determining Administrator status: ' + err);
       return;
@@ -12,6 +13,34 @@ Template.editTenantUserPermissions.onRendered(function() {
       $('#nonAdminOptions').hide();
     } else {
       $('#nonAdminOptions').show();
+
+      _.each(permissions, function(p) {
+        var permissionName = p.value;
+        var selectorName = '#' + permissionName + "PermissionSelector";
+
+        Meteor.call('getMaxPermission', selectedUserId, permissionName, function(err, status) {
+          var val = '';
+
+          if (status.indexOf('Restricted') > -1) {
+            val = 'Restricted';
+          }
+          if (status.indexOf('CanRead') > -1) {
+            val = 'CanRead';
+          }
+          if (status.indexOf('CanCreate') > -1) {
+            val = 'CanCreate';
+          }
+          if (status.indexOf('CanEdit') > -1) {
+            val = 'CanEdit';
+          }
+          if (status.indexOf('CanDelete') > -1) {
+            val = 'CanDelete';
+          }
+
+          $(selectorName).val(val);
+
+        });
+      });
     }
   });
 
@@ -48,6 +77,12 @@ Template.editTenantUserPermissions.events({
         var selectorValue = $('#' + selectorName).val();
 
         switch (selectorValue) {
+          case 'Restricted':
+            Meteor.call('setUserRole', userId, 'CanRead' + p.value, false);
+            Meteor.call('setUserRole', userId, 'CanCreate' + p.value, false);
+            Meteor.call('setUserRole', userId, 'CanEdit' + p.value, false);
+            Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
+            break;
           case 'CanRead':
             Meteor.call('setUserRole', userId, 'CanRead' + p.value, true);
             Meteor.call('setUserRole', userId, 'CanCreate' + p.value, false);
