@@ -22,6 +22,9 @@ Template.opportunityDetail.helpers({
   oppData: function() {
     return Opportunities.findOne({_id: FlowRouter.getParam('id')})
   },
+  activities: function() {
+    return Activities.find({opportunityId: FlowRouter.getParam('id')}, {sort: {activityTimestamp: -1}});
+  },
   isNotFirstStage: function() {
     var currentStage = this.currentStageId;
     var firstId = OpportunityStages.findOne({"order": 0})._id;
@@ -69,18 +72,40 @@ Template.opportunityDetail.events({
   'click #btnNextStage': function() {
     var currentStage = OpportunityStages.findOne(this.currentStageId);
     var nextStageIndex = currentStage.order + 1;
-    var nextStageId = OpportunityStages.findOne({ order: nextStageIndex })._id;
+    var nextStage = OpportunityStages.findOne({ order: nextStageIndex });
     Opportunities.update(this._id, { $set: {
-      currentStageId: nextStageId
+      currentStageId: nextStage._id
     }});
+    var user = Meteor.user();
+    var note = user.profile.name + ' moved this opportunity forward from stage "' + currentStage.title + '" to stage "' + nextStage.title + '"';
+    var date = new Date();
+    Activities.insert({
+      type: 'Note',
+      notes: note,
+      createdAt: date,
+      activityTimestamp: date,
+      opportunityId: this._id,
+      createdBy: user._id
+    });
   },
   'click #btnPrevStage': function() {
     var currentStage = OpportunityStages.findOne(this.currentStageId);
     var nextStageIndex = currentStage.order - 1;
-    var nextStageId = OpportunityStages.findOne({ order: nextStageIndex })._id;
+    var nextStage = OpportunityStages.findOne({ order: nextStageIndex });
     Opportunities.update(this._id, { $set: {
-      currentStageId: nextStageId
+      currentStageId: nextStage._id
     }});
+    var user = Meteor.user();
+    var note = user.profile.name + ' moved this opportunity back from stage "' + currentStage.title + '" to stage "' + nextStage.title + '"';
+    var date = new Date();
+    Activities.insert({
+      type: 'Note',
+      notes: note,
+      createdAt: date,
+      activityTimestamp: date,
+      opportunityId: this._id,
+      createdBy: user._id
+    });
   },
   'click #btnLostOpportunity': function(event) {
     event.preventDefault();
@@ -91,6 +116,17 @@ Template.opportunityDetail.events({
           isArchived: true,
           hasBeenWon: false
         }});
+        var user = Meteor.user();
+        var note = user.profile.name + ' marked this opportunity as lost';
+        var date = new Date();
+        Activities.insert({
+          type: 'Note',
+          notes: note,
+          createdAt: date,
+          activityTimestamp: date,
+          opportunityId: oppId,
+          createdBy: user._id
+        });
       }
     });
   },
@@ -103,6 +139,17 @@ Template.opportunityDetail.events({
           isArchived: true,
           hasBeenWon: true
         }});
+        var user = Meteor.user();
+        var note = user.profile.name + ' marked this opportunity as won';
+        var date = new Date();
+        Activities.insert({
+          type: 'Note',
+          notes: note,
+          createdAt: date,
+          activityTimestamp: date,
+          opportunityId: oppId,
+          createdBy: user._id
+        });
       }
     });
   },
@@ -301,6 +348,12 @@ Template.opportunityDetail.events({
   'click #opp-template-help': function(event) {
     event.preventDefault();
     Modal.show('oppHelpModal');
+  },
+  'click #add-activity': function(event) {
+    event.preventDefault();
+    Modal.show('insertOpportunityActivityModal', {
+      opportunity: this
+    });
   }
 });
 

@@ -370,6 +370,7 @@ router.route('/opportunities/:id', {
     this.register('opportunityById', subs.subscribe('opportunityById', params.id));
     this.register('companyByOpportunityId', subs.subscribe('companyByOpportunityId', params.id));
     this.register('contactByOpportunityId', subs.subscribe('contactByOpportunityId', params.id));
+    this.register('activityByOpportunityId', subs.subscribe('activityByOpportunityId', params.id));
   },
   action: function() {
     layout.render('appLayout', {

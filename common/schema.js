@@ -343,6 +343,10 @@ Schemas.Activity = new SimpleSchema({
     type: String,
     optional: true
   },
+  opportunityId: {
+    type: String,
+    optional: true
+  },
   createdBy: {
     type: String,
     autoform: {
@@ -687,7 +691,19 @@ Schemas.Opportunity = new SimpleSchema({
     type: String
   },
   date: {
-    type: Date
+    type: Date,
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          useCurrent: true,
+          sideBySide: true,
+          widgetPositioning: {
+            vertical: "top"
+          }
+        }
+      }
+    }
   },
   items: {
     type: Array,

@@ -193,6 +193,12 @@ Meteor.publish("activityByPurchaseOrderId", function(purchaseOrderId) {
     purchaseOrderId: purchaseOrderId
   });
 });
+Meteor.publish("activityByOpportunityId", function(opportunityId) {
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Activities.find({
+    opportunityId: opportunityId
+  });
+});
 
 Meteor.publish("allProjects", function() {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
