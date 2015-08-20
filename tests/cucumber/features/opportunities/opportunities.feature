@@ -59,12 +59,10 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: A user can edit a line item in an opportunity
     When I navigate to an opportunity page
-    And I create a new line item for an opportunity
     And I enter updated line item details for an opportunity
     Then I should see an updated line item in an opportunity
 
   Scenario: A user can remove a line item from an opportunity
     When I navigate to an opportunity page
-    And I create a new line item for an opportunity
     And I delete a line item from an opportunity
     Then I should not see a line item in an opportunity

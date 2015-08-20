@@ -144,7 +144,13 @@ Meteor.methods({
       date: date,
       currentStageId: stage._id,
       companyId: companyId,
-      createdBy: Meteor.userId()
+      createdBy: Meteor.userId(),
+      items: [
+        {
+          name: "testLine",
+          description: "testDescription"
+        }
+      ]
     }, function(err, id) {
       if (err) {
         data = err;
@@ -156,7 +162,7 @@ Meteor.methods({
   },
   'getOpportunityByName': function(name) {
     return Opportunities.findOne({name: name});
-  },
+  }
 });
 
 Meteor.startup(function() {

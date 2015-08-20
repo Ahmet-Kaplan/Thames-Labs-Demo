@@ -195,7 +195,6 @@ module.exports = function() {
 
   this.When(/^I enter updated line item details for an opportunity$/, function(callback) {
     this.client
-      .waitForVisible('.modal-backdrop', 2000, true)
       .waitForVisible(".btnEditOppItem", 2000)
       .click(".btnEditOppItem")
       .waitForVisible("#editOpportunityItemForm")
@@ -213,7 +212,6 @@ module.exports = function() {
 
   this.When(/^I delete a line item from an opportunity$/, function(callback) {
     this.client
-      .waitForVisible('.modal-backdrop', 2000, true)
       .waitForVisible(".btnDeleteOppItem", 2000)
       .click(".btnDeleteOppItem")
       .waitForVisible(".modal-content", 2000)
@@ -223,7 +221,14 @@ module.exports = function() {
 
   this.Then(/^I should not see a line item in an opportunity$/, function(callback) {
     this.client
-    //  .getText('h4*=testItem')
+      .executeAsync(function(done) {
+        Meteor.call('getOpportunityByName', 'test opportunity', function(err, data) {
+          done(data);
+        });
+      })
+      .then(function(data) {
+        expect(data.value.items[0]).to.not.exist;
+      })
       .call(callback);
   });
 };
