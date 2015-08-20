@@ -61,8 +61,8 @@
 
       <div class="panel panel-default">
         <div class="panel-heading" id="contacts">
-          Contacts
-          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New contact for this company"><i class="fa fa-fw fa-plus"></i>Add contact</a>
+          Contacts {{#if isInRole 'Administrator,CanCreateContacts'}}
+          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New contact for this company"><i class="fa fa-fw fa-plus"></i>Add contact</a> {{/if}}
         </div>
         <ul class="list-group">
           {{#each contacts}} {{#if isInRole 'Administrator,CanReadContacts'}}
@@ -82,8 +82,8 @@
 
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
-          Projects
-          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this company"><i class="fa fa-fw fa-plus"></i> Add project</a>
+          Projects {{#if isInRole 'Administrator,CanCreateProjects'}}
+          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this company"><i class="fa fa-fw fa-plus"></i> Add project</a> {{/if}}
         </div>
         <ul class="list-group">
           {{#each projects}} {{#if isInRole 'Administrator,CanReadProjects'}}
@@ -103,25 +103,29 @@
 
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
-          Purchase Orders
-          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i> Add purchase order</a>
+          Purchase Orders {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i> Add purchase order</a> {{/if}}
         </div>
         <ul class="list-group">
-          {{#each purchaseOrders}}
+          {{#each purchaseOrders}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
           <a href="{{pathFor route='purchaseOrder' id=_id}}" class="list-group-item">
             <i class="fa fa-fw fa-shopping-cart"></i> {{description}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
           {{else}}
+          <a href="#" class="list-group-item">
+            <i class="fa fa-fw fa-shopping-cart"></i> {{description}}
+          </a>
+          {{/if}}{{else}}
           <li class="list-group-item">No purchase orders</li>
           {{/each}}
         </ul>
       </div>
 
-      {{#with this}} {{> taskDisplay entity_type="company" entity_id=_id}} {{/with}}
+      {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="company" entity_id=_id}} {{/with}} {{/if}}
 
       <div>
-        {{#with this}} {{> customFieldDisplay entity_data=this entity_type='company'}} {{/with}}
+        {{#if isInRole 'Administrator,CanEditCompanies'}} {{#with this}} {{> customFieldDisplay entity_data=this entity_type='company'}} {{/with}} {{/if}}
       </div>
 
     </div>

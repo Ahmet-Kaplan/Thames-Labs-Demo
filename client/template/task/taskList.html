@@ -42,12 +42,16 @@
       </div>
       <div class="col-md-2">
         <div class="btn-group pull-right">
+          {{#if isInRole 'Administrator,CanEditTasks'}}
           <button class="btn btn-info btn-xs" id="tskEditTaskListEntry" type="button" data-toggle="tooltip" data-placement="bottom" title="Change task details or mark it complete">
             Edit task
           </button>
+          {{/if}}
+          {{#if isInRole 'Administrator,CanDeleteTasks'}}
           <button class="btn btn-danger  btn-xs" id="tskDeleteTaskListEntry" type="button">
             Delete task
           </button>
+          {{/if}}
         </div>
       </div>
     </div>
