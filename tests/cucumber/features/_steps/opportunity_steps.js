@@ -115,18 +115,20 @@ module.exports = function() {
 
   this.Then(/^I should be on the next opportunity stage$/, function(callback) {
     this.client
+      .waitForVisible("#btnPrevStage", 2000)
       .isExisting("#btnPrevStage")
       .then(function(isExisting) {
-        isExisting.should.equal(true);
+        expect(isExisting).to.equal(true);
       })
       .call(callback);
   });
 
   this.Then(/^I should be on the first opportunity stage$/, function(callback) {
     this.client
+      .waitForVisible("#btnPrevStage", 2000, true)
       .isExisting("#btnPrevStage")
       .then(function(isExisting) {
-        isExisting.should.equal(false);
+        expect(isExisting).to.equal(false);
       })
       .call(callback);
   });
@@ -156,10 +158,10 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Then(/^I should see that the opportunity has been won$/, function(callback) {
+  this.Then(/^I should see that an project has been created from the opportunity$/, function(callback) {
     this.client
-      .waitForVisible('h3*=won', 2000)
-      .getText('h3*=won')
+      .waitForVisible('a*=opportunity', 2000)
+      .getText('a*=opportunity')
       .call(callback);
   });
 

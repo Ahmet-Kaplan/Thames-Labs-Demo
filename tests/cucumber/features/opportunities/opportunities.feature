@@ -49,7 +49,7 @@ Feature: Allow users to manage their sales opportunities
     And I click "#btnNextStage"
     Then I should be on the next opportunity stage
     And I win an opportunity
-    Then I should see that the opportunity has been won
+    Then I should see that an project has been created from the opportunity
 
   Scenario: A user can add a line item to an opportunity
     When I navigate to an opportunity page
