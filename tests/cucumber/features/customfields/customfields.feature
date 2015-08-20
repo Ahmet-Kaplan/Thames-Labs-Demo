@@ -33,5 +33,7 @@ Feature: Allow users to specify their own data fields/values against an entity
   Scenario: A user can delete a custom field
     When I navigate to a company page
     And I can see the "velocity" custom field
-    And I click the "Delete" button
+    Then I click the "Delete" button
+    Then I should see a modal
+    Then I click ".bootbox-confirm button.btn-primary"
     Then I should no longer see the custom field "velocity" in the list
