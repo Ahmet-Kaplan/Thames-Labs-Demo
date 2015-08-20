@@ -729,7 +729,7 @@ Schemas.Opportunity = new SimpleSchema({
   companyId: {
     type: String,
     optional: true,
-    custom: function () {
+    custom: function() {
       if (!this.isSet && !this.field('contactId').isSet) {
         return "needsRelatedEntity";
       }
@@ -738,7 +738,7 @@ Schemas.Opportunity = new SimpleSchema({
   contactId: {
     type: String,
     optional: true,
-    custom: function () {
+    custom: function() {
       if (!this.isSet && !this.field('companyId').isSet) {
         return "needsRelatedEntity";
       }

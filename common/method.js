@@ -250,10 +250,10 @@ Meteor.methods({
     }
     return true;
   },
-  
+
   winOpportunity: function(opp) {
     var user = Meteor.user();
-    
+
     var projId = Projects.insert({
       description: opp.name,
       companyId: opp.companyId,
@@ -262,7 +262,7 @@ Meteor.methods({
       value: 0,
       createdBy: user._id
     });
-    
+
     if (opp.items) {
       for (var i = 0; i < opp.items.length; i++) {
         var title = opp.items[i].name;
@@ -277,13 +277,13 @@ Meteor.methods({
         });
       }
     }
-    
+
     Opportunities.update(opp._id, { $set: {
       isArchived: true,
       hasBeenWon: true,
       projectId: projId
     }});
-    
+
     var note = user.profile.name + ' marked this opportunity as won';
     var date = new Date();
     Activities.insert({
