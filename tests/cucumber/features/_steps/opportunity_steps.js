@@ -125,7 +125,10 @@ module.exports = function() {
 
   this.Then(/^I should be on the first opportunity stage$/, function(callback) {
     this.client
-      .waitForVisible("#btnPrevStage", 2000, true)
+      .isExisting("#btnPrevStage")
+      .then(function(isExisting) {
+        expect(isExisting).to.equal(false);
+      })
       .call(callback);
   });
 
