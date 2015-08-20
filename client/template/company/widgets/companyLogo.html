@@ -1,0 +1,11 @@
+<!-- Expects @url parameter -->
+
+<template name="companyLogo">
+  {{#if imageUrl}}
+    <img class="company-logo img-responsive {{additionalClasses}}" src="{{imageUrl}}" height="128" width="128">
+  {{else}}
+    {{#if showPlaceholder}}
+      <img class="company-logo img-responsive {{additionalClasses}}" src="/img/building-o_bababa_128.png" height="128" width="128">
+    {{/if}}
+  {{/if}}
+</template>
