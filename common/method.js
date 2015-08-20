@@ -249,6 +249,52 @@ Meteor.methods({
       });
     }
     return true;
+  },
+  
+  winOpportunity: function(opp) {
+    var user = Meteor.user();
+    
+    var projId = Projects.insert({
+      description: opp.name,
+      companyId: opp.companyId,
+      contactId: opp.contactId,
+      userId: user._id,
+      value: 0,
+      createdBy: user._id
+    });
+    
+    if (opp.items) {
+      for (var i = 0; i < opp.items.length; i++) {
+        var title = opp.items[i].name;
+        var description = opp.items[i].description + " Value: " + opp.items[i].value + " Quantity: " + opp.items[i].quantity;
+        Tasks.insert({
+          title: title,
+          description: description,
+          assigneeId: user._id,
+          createdBy: user._id,
+          entityType: 'project',
+          entityId: projId
+        });
+      }
+    }
+    
+    Opportunities.update(opp._id, { $set: {
+      isArchived: true,
+      hasBeenWon: true,
+      projectId: projId
+    }});
+    
+    var note = user.profile.name + ' marked this opportunity as won';
+    var date = new Date();
+    Activities.insert({
+      type: 'Note',
+      notes: note,
+      createdAt: date,
+      activityTimestamp: date,
+      opportunityId: opp._id,
+      createdBy: user._id
+    });
+    return projId;
   }
 
 });

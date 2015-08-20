@@ -761,6 +761,10 @@ Schemas.Opportunity = new SimpleSchema({
   'items.$.quantity': {
     type: Number,
     optional: true
+  },
+  projectId: {
+    type: String,
+    optional: true
   }
 });
 Opportunities.attachSchema(Schemas.Opportunity);

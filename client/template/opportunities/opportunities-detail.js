@@ -132,23 +132,11 @@ Template.opportunityDetail.events({
   },
   'click #btnWonOpp': function(event) {
     event.preventDefault();
-    var oppId = this._id;
-    bootbox.confirm("Are you sure you wish to mark this opportunity as won? This action is not reversible.", function(result) {
+    var opp = this;
+    bootbox.confirm("Are you sure you wish to mark this opportunity as won? This action will create a new project, and is not reversible.", function(result) {
       if (result === true) {
-        Opportunities.update(oppId, { $set: {
-          isArchived: true,
-          hasBeenWon: true
-        }});
-        var user = Meteor.user();
-        var note = user.profile.name + ' marked this opportunity as won';
-        var date = new Date();
-        Activities.insert({
-          type: 'Note',
-          notes: note,
-          createdAt: date,
-          activityTimestamp: date,
-          opportunityId: oppId,
-          createdBy: user._id
+        Meteor.call('winOpportunity', opp, function(err, id) {          
+          FlowRouter.go('/projects/'+id);
         });
       }
     });
