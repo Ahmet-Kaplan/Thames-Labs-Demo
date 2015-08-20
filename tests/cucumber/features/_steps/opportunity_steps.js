@@ -36,6 +36,7 @@ module.exports = function() {
       .setValue('input[name=date]','08/08/2008 8:08 PM')
       //So that the date picker loses focus
       .click('input[name=name]')
+      .selectByIndex('select[name=companyId]', 1)
       .submitForm('#insertOpportunityForm')
       .call(callback);
   });
@@ -193,8 +194,7 @@ module.exports = function() {
 
   this.When(/^I enter updated line item details for an opportunity$/, function(callback) {
     this.client
-      //Wait for modal to disappear
-      .pause(250)
+      .waitForVisible('.modal-backdrop', 2000, true)
       .waitForVisible(".btnEditOppItem", 2000)
       .click(".btnEditOppItem")
       .waitForVisible("#editOpportunityItemForm")
@@ -212,8 +212,7 @@ module.exports = function() {
 
   this.When(/^I delete a line item from an opportunity$/, function(callback) {
     this.client
-      //Wait for modal to disappear
-      .pause(250)
+      .waitForVisible('.modal-backdrop', 2000, true)
       .waitForVisible(".btnDeleteOppItem", 2000)
       .click(".btnDeleteOppItem")
       .waitForVisible(".modal-content", 2000)

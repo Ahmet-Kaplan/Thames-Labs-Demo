@@ -136,12 +136,14 @@ Meteor.methods({
     var stage = OpportunityStages.findOne({order: 0});
     var data = "";
     var date = new Date();
+    var companyId = Companies.findOne({})._id;
     Opportunities.remove({});
     Opportunities.insert({
       name: 'test opportunity',
       description: 'test description',
       date: date,
       currentStageId: stage._id,
+      companyId: companyId,
       createdBy: Meteor.userId()
     }, function(err, id) {
       if (err) {
