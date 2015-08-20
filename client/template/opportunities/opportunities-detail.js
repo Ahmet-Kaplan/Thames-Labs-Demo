@@ -13,6 +13,9 @@ Template.opportunityDetail.onRendered(function() {
 });
 
 Template.opportunityDetail.helpers({
+  friendlyDate: function() {
+    return moment(this.date).format('MMMM Do YYYY, h:mma');
+  },
   stages: function() {
     return OpportunityStages.find({}, {sort: {order: 1}});
   },
