@@ -328,6 +328,9 @@ Meteor.publish("opportunityStages", function() {
 Meteor.publish("opportunityById", function(oppId) {
   return Opportunities.find({ _id: oppId});
 });
+Meteor.publish("opportunityByProjectId", function(id) {
+  return Opportunities.find({ projectId: id});
+});
 Meteor.publish("opportunitiesByCompanyId", function(id) {
   return Opportunities.find({companyId: id, isArchived: { $ne: true }});
 });

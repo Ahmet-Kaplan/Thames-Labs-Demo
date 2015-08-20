@@ -240,6 +240,7 @@ router.route('/projects/:id', {
     this.register('contactsByProjectId', subs.subscribe('contactsByProjectId', params.id));
     this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
     this.register('projectTags', subs.subscribe('projectTags'));
+    this.register('opportunityByProjectId', subs.subscribe('opportunityByProjectId', params.id));
   },
   action: function() {
     layout.render('appLayout', {

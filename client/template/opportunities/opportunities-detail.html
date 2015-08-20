@@ -43,10 +43,13 @@
           <br><br>
           <a href="#" id="btnLostOpportunity" class="pull-right text-danger" style="text-decoration:underline">Mark opportunity as lost</a>
         {{else}}
-          <br>
           {{#if hasBeenWon}}
-            <h3 class="text-success">Opportunity won</h3>
+            <h3 class="text-success" style="margin-top: 25px;">Opportunity won</h3>
+            {{#if projectId}}
+              <p style="text-align:right;"><a href="{{pathFor route='project' id=projectId}}">View project</a></p>
+            {{/if}}
           {{else}}
+            <br>
             <h3 class="text-danger">Opportunity lost</h3>
           {{/if}}
         {{/if}}
