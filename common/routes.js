@@ -394,3 +394,14 @@ router.route('/admin/opportunities', {
     });
   }
 });
+
+router.route('/salespipeline', {
+  name: 'salespipeline',
+  subscriptions: function() {
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: 'salesPipeline'
+    });
+  }
+});
