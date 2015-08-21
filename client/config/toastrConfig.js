@@ -4,7 +4,7 @@ toastr.options = {
   "newestOnTop": true,
   "progressBar": true,
   "positionClass": "toast-bottom-right",
-  "preventDuplicates": false,
+  "preventDuplicates": true,
   "onclick": null,
   "showDuration": "300",
   "hideDuration": "1000",
@@ -14,4 +14,4 @@ toastr.options = {
   "hideEasing": "linear",
   "showMethod": "fadeIn",
   "hideMethod": "fadeOut"
-};
+};
