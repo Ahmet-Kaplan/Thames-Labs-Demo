@@ -1,5 +1,5 @@
 Schemas = {};
-MAX_RECORDS = 45;
+MAX_RECORDS = 50;
 
 // ** --------- Non-attachment schemas --------- ** //
 Schemas.User = new SimpleSchema({
@@ -130,6 +130,10 @@ Schemas.Tenant = new SimpleSchema({
         return MAX_RECORDS;
       }
     }
+  },
+  totalRecords: {
+    type: Number,
+    defaultValue: 0
   }
 });
 Tenants.attachSchema(Schemas.Tenant);

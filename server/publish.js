@@ -31,7 +31,6 @@ Meteor.publish("groupedAuditData", function(userId) {
     group = ux.group;
   }
 
-  console.log("Group: " + group);
   return AuditLog.find({
     groupId: group
   });

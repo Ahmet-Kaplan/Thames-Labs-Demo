@@ -30,19 +30,6 @@ Accounts.onLogin(function(cb) {
 
 });
 
-function checkRecordsNumber() {
-  var totalRecords = Contacts.find({}).count() + Companies.find({}).count();
-  var limitRecords = (Tenants.findOne({}) === undefined) ? Schemas.Tenant._autoValues.limit(0) : Tenants.findOne({}).limit;
-  if(limitRecords !== 0 && totalRecords > limitRecords) {
-    toastr.error('You have reached the maximum number of records.<br />Please consider upgrading.');
-    Meteor.call('tenantLimitReached');
-  } else if(limitRecords === -1) {
-    toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br />Please upgrade to enjoy the full functionalities of RealitmeCRM.');
-    return false;
-  }
-  return true;
-}
-
 AutoForm.hooks({
   // signUpForm: {
   //   onError: function(formType, error) {
@@ -154,9 +141,6 @@ AutoForm.hooks({
   insertNewCompanyForm: {
     before: {
       insert: function(doc) {
-        if(!checkRecordsNumber()) {
-          return false;
-        }
         if(doc.website !== undefined && doc.website.length < 8) {
           doc.website = '';
         }
@@ -348,14 +332,12 @@ AutoForm.hooks({
   },
   insertCompanyContactForm: {
     onSuccess: function() {
-      checkRecordsNumber();
       toastr.success('Contact created.');
       Modal.hide();
     }
   },
   insertContactForm: {
     onSuccess: function() {
-      checkRecordsNumber();
       toastr.success('Contact created.');
       FlowRouter.go('/contacts/' + this.docId);
       Modal.hide();
