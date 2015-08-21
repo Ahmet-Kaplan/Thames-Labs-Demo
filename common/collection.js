@@ -227,10 +227,10 @@ var checkRecordsNumber = function() {
     }
 
     if(Meteor.isClient) {
-      if(limitRecords === -1 && totalRecords > limitRecords) {
+      if(limitRecords === -1 && totalRecords >= limitRecords) {
         toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br />Please upgrade to enjoy the full functionalities of RealitmeCRM.');
         return false;
-      } else if(limitRecords !== 0 && totalRecords > limitRecords) {
+      } else if(limitRecords !== 0 && totalRecords >= limitRecords) {
         toastr.warning('You have reached the maximum number of records.<br />Please consider upgrading.');
       }
       return true;
