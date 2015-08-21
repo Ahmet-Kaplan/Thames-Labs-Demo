@@ -122,9 +122,7 @@ Meteor.startup(function() {
       PurchaseOrderPrefix: 'T',
       PurchaseOrderStartingValue: 1
     },
-    createdAt: Date(),
-    paying: false,
-    limit: 10
+    createdAt: new Date()
   });
 
   var userId = Accounts.createUser({
