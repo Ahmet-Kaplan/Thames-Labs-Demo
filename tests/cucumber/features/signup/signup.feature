@@ -10,7 +10,7 @@ Feature: Allow users to sign up to the app
 
 	Scenario: A user can view the sign up screen
 		Then I should see the title "RealTimeCRM - Sign Up"
-
+@dev
 	Scenario: A user should sign up with good details
 		When I sign up with good details
 		Then I am signed up

@@ -1,0 +1,14 @@
+img.logo-large {
+  max-height: 64px;
+  max-width: 64px;
+}
+
+img.logo-small {
+  max-height: 32px;
+  max-width: 32px;
+}
+
+img.logo-xs {
+  max-height: 24px;
+  max-width: 24px;
+}

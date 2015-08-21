@@ -28,7 +28,7 @@
     <div class="panel panel-primary">
         <div class="panel-heading ">
           
-        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a><small> (Users: {{userCount}})</small>
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}">{{#if isBlocked}}<i class="fa fa-ban"></i> {{/if}}{{name}}</a><small> (Users: {{userCount}}, Records: {{recordsCount}})</small>
           </div>
         <div id="collapse{{_id}}" class="panel-collapse collapse">
             <div class="panel-body" id="listOfTenantUsers">
@@ -54,6 +54,16 @@
                             Free scheme
                           {{/if}}
                         </button>
+                        {{#unless isPaidTenant}}
+                          <button class="btn btn-warning btn-xs" id="btnBlockTenant" type="button">
+                            <i class="fa fa-fw fa-ban"></i> 
+                            {{#if isBlocked}}
+                              Unblock this tenant
+                            {{else}}
+                              Block this tenant
+                            {{/if}}
+                          </button>
+                        {{/unless}}
                         <button class="btn btn-danger btn-xs" id="btnDeleteTenant" type="button">
                             <i class="fa fa-fw fa-archive"></i> Delete this tenant
                         </button>

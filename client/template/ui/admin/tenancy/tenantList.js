@@ -23,8 +23,14 @@ Template.tenant.helpers({
       group: this._id
     }).count();
   },
+  recordsCount: function() {
+    return this.totalRecords;
+  },
   isPaidTenant: function() {
     return this.paying;
+  },
+  isBlocked: function() {
+    return this.limit == -1;
   }
 });
 
@@ -70,6 +76,22 @@ Template.tenant.events({
           $set: {
             paying: !currentScheme,
             limit: limit
+          }
+        });
+      }
+    });
+  },
+  'click #btnBlockTenant': function(event) {
+    event.preventDefault();
+    var tenantId = this._id;
+    var blocked = (this.limit == -1) ? 'un' : '';
+    var newLimit = (this.limit == -1) ? null : -1;
+
+    bootbox.confirm("Are you sure you wish to " + blocked + "block this tenant?", function(result) {
+      if (result === true) {
+        Tenants.update(tenantId, {
+          $set: {
+            limit: newLimit
           }
         });
       }

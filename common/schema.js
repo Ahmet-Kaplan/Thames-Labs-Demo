@@ -1,4 +1,5 @@
 Schemas = {};
+MAX_RECORDS = 50;
 
 // ** --------- Non-attachment schemas --------- ** //
 Schemas.User = new SimpleSchema({
@@ -123,8 +124,18 @@ Schemas.Tenant = new SimpleSchema({
     type: Number,
     label: "Records limit",
     autoValue: function() {
-      return ((this.value === 0) ? 0 : 42);
+      if(this.field('paying').value) {
+        return 0;
+      } else if(this.value === -1) {
+        return this.value;
+      } else {
+        return MAX_RECORDS;
+      }
     }
+  },
+  totalRecords: {
+    type: Number,
+    defaultValue: 0
   }
 });
 Tenants.attachSchema(Schemas.Tenant);

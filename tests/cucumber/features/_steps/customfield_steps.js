@@ -52,7 +52,7 @@ module.exports = function() {
     this.client
       .waitForExist('.modal-dialog', 5000)
       .setValue('#custom-field-name', 'velocity')
-      .setValue('#custom-field-value', 'cucumber')
+      .setValue('#custom-field-text-value', 'cucumber')
       .click('#submit-custom-field')
       .call(callback);
   });
@@ -90,7 +90,7 @@ module.exports = function() {
   this.When(/^I make a change$/, function(callback) {
     this.client
       .waitForExist('.modal-dialog', 5000)
-      .setValue('#custom-field-value', 'cucumber test')
+      .setValue('#custom-field-text-value', 'cucumber test')
       .click('#submit-custom-field')
       .call(callback);
   });

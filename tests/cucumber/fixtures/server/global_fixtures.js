@@ -71,12 +71,18 @@ Meteor.methods({
   'createTestCustomField': function() {
     var cfName = 'velocity';
     var cfValue = 'cucumber';
+    var cfType = 'text';
     var cfMaster = {};
     var company = Companies.findOne({
       name: 'test company'
     });
 
-    cfMaster[cfName] = cfValue;
+    var settings = {
+      "dataValue": cfValue,
+      "dataType": cfType
+    }
+
+    cfMaster[cfName] = settings;
 
     Companies.update(company._id, {
       $set: {
@@ -101,12 +107,23 @@ Meteor.methods({
     return data;
   },
   'getProductByName': function(name) {
-    return Products.findOne({name: name});
+    return Products.findOne({
+      name: name
+    });
   },
 });
 
 Meteor.startup(function() {
   Meteor.users.remove({});
+
+  var tenantId = Tenants.insert({
+    name: 'Test Ltd',
+    settings: {
+      PurchaseOrderPrefix: 'T',
+      PurchaseOrderStartingValue: 1
+    },
+    createdAt: new Date()
+  });
 
   var userId = Accounts.createUser({
     username: "test user",
@@ -118,7 +135,7 @@ Meteor.startup(function() {
   });
 
   // Important! Otherwise subs manager fails to load things and you get a lot of "loading..." screens
-  Partitioner.setUserGroup(userId, 'tenant 1');
+  Partitioner.setUserGroup(userId, tenantId);
 
   var userId2 = Accounts.createUser({
     username: "test user 2",
