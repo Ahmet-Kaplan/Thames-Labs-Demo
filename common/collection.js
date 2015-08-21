@@ -240,7 +240,7 @@ var checkRecordsNumber = function() {
 
 var updateTotalRecords = function(modifier) {
   if(Meteor.isServer) {
-    var tenantId = Partitioner.getUserGroup(Meteor.userId());
+    var tenantId = Tenants.findOne({})._id;
     Tenants.update(tenantId, {
             $inc: {
               totalRecords: modifier
@@ -252,6 +252,7 @@ var updateTotalRecords = function(modifier) {
 
 Tenants.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
+  doc.limit = (doc.paying) ? 0 : MAX_RECORDS;
 });
 Tenants.after.insert(function(userId, doc) {
   LogEvent('info', 'A new tenant has been created: ' + doc.name);
@@ -262,10 +263,12 @@ Tenants.after.update(function(userId, doc, fieldNames, modifier, options) {
   }
   var prevdoc = this.previous;
   var key;
-  for (key in doc.settings) {
-    if (doc.settings.hasOwnProperty(key)) {
-      if (doc.settings[key] !== prevdoc.settings[key]) {
-        LogEvent('info', 'An existing tenant has been updated: The value of tenant setting "' + key + '" was changed from ' + prevdoc.settings[key] + " to " + doc.settings[key]);
+  if(doc.settings !== undefined) {
+    for (key in doc.settings) {
+      if (doc.settings.hasOwnProperty(key)) {
+        if (doc.settings[key] !== prevdoc.settings[key]) {
+          LogEvent('info', 'An existing tenant has been updated: The value of tenant setting "' + key + '" was changed from ' + prevdoc.settings[key] + " to " + doc.settings[key]);
+        }
       }
     }
   }
@@ -286,7 +289,7 @@ Companies.before.insert(function(userId, doc) {
   return true;
 })
 Companies.after.insert(function(userId, doc) {
-  updateTotalRecords(1)
+  updateTotalRecords(1);
   LogEvent('info', 'A new company has been created: ' + doc.name);
 });
 Companies.after.update(function(userId, doc, fieldNames, modifier, options) {

@@ -1,5 +1,5 @@
 Schemas = {};
-var MAX_RECORDS = 3;
+MAX_RECORDS = 3;
 
 // ** --------- Non-attachment schemas --------- ** //
 Schemas.User = new SimpleSchema({

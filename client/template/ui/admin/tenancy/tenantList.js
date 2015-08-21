@@ -23,6 +23,9 @@ Template.tenant.helpers({
       group: this._id
     }).count();
   },
+  recordsCount: function() {
+    return this.totalRecords;
+  },
   isPaidTenant: function() {
     return this.paying;
   },
