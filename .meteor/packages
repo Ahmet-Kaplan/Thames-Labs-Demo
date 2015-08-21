@@ -69,3 +69,7 @@ kadira:flow-router
 kadira:blaze-layout
 aldeed:template-extension
 reactive-var
+meteorhacks:npm
+
+
+npm-container

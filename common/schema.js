@@ -190,6 +190,14 @@ Schemas.Company = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  metadata: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
   }
 });
 Companies.attachSchema(Schemas.Company);

@@ -4,6 +4,7 @@ Meteor.methods({
   clearAuditLog: function() {
     AuditLog.remove({});
   },
+
   sendFeedback: function(doc) {
     check(doc, Schemas.Feedback);
     this.unblock();
@@ -121,6 +122,30 @@ Meteor.methods({
         text: txt
       });
     }
+  },
+
+  getClearbitData: function(companyId) {
+    var clearbitApiKey = process.env.CLEARBITAPIKEY;
+    if (typeof(clearbitApiKey) == 'undefined') {
+      return 'No clearbit API key set';
+    }
+    var clearbit = Meteor.npmRequire('clearbit')(clearbitApiKey);
+    var url = Meteor.npmRequire('url');
+    var company = Companies.findOne(companyId);
+    var domain = url.parse(company.website).hostname;
+
+    var data = Async.runSync(function(done) {
+      clearbit.Company.find({domain: domain, stream: true})
+        .then(function(company) {
+          done(null, company);
+        })
+    });
+
+    var clearbitData = _.clone(data.result, true);
+    Companies.update(
+      companyId,
+      { $set: { 'metadata.clearbit': clearbitData }}
+    );
   }
 });
 
@@ -137,4 +162,4 @@ LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
     entityType: logEntityType,
     entityId: logEntityId
   });
-}
+};

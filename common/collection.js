@@ -245,6 +245,10 @@ Companies.after.insert(function(userId, doc) {
 });
 Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
 
+  if (this.previous.website !== doc.website && doc.website !== '') {
+    Meteor.call('getClearbitData', doc._id);
+  }
+
   if (doc.name !== this.previous.name) {
     LogEvent('info', 'An existing company has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
   }
