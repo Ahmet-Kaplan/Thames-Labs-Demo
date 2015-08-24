@@ -1,4 +1,9 @@
-//List of all the available widets
+// List of all the available widets
+// To add a new widget, complete the object below
+// Be careful to give the same name to your object and to its id
+// The x, y, w, h are relative to the grid size
+// The 'displayed' property indicate whether or not the widget is to be displayed by default
+// 'name' if for the drop-down menu
 widgets = {
   'chat': {
     id: 'chat',
