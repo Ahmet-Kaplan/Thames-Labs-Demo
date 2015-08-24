@@ -718,7 +718,8 @@ Schemas.Opportunity = new SimpleSchema({
     optional: true
   },
   currentStageId: {
-    type: String
+    type: String,
+    optional: true
   },
   createdBy: {
     type: String,

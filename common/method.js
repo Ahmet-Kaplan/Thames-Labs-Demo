@@ -281,7 +281,8 @@ Meteor.methods({
     Opportunities.update(opp._id, { $set: {
       isArchived: true,
       hasBeenWon: true,
-      projectId: projId
+      projectId: projId,
+      currentStageId: null
     }});
 
     var note = user.profile.name + ' marked this opportunity as won';
@@ -295,8 +296,29 @@ Meteor.methods({
       createdBy: user._id
     });
     return projId;
-  }
+  },
 
+  deleteOpportunityStage: function(stageId) {
+    //This method ensures that opportunities on a deleted stage are moved to a stage
+    var opportunitiesAtStage = Opportunities.find({currentStageId: stageId}).fetch();
+    var firstOppStageId = OpportunityStages.findOne({order: 0})._id;
+    if (firstOppStageId == stageId) {
+      firstOppStageId = OpportunityStages.findOne({order: 1})._id;
+    }
+    for (var i = 0; i < opportunitiesAtStage.length; i++) {
+      Opportunities.update(opportunitiesAtStage[i]._id, { $set: {
+        currentStageId: firstOppStageId
+      }});
+    }
+    OpportunityStages.remove(stageId);
+    //Orders the remaining stages
+    var oppStages = OpportunityStages.find({}, { sort: {order: 1}}).fetch();
+    for (var i = 0; i < oppStages.length; i++) {
+      OpportunityStages.update(oppStages[i]._id, { $set: {
+        order: i
+      }});
+    }
+  }
 });
 
 LogEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
