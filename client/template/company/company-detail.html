@@ -124,7 +124,7 @@
 
       {{#if metadata.clearbit}}
         {{#with metadata.clearbit}}
-          <h1>Extra information</h1>
+          <h1>Public information</h1>
           <ul class="list-group">
             {{#if description}}
             <li class="list-group-item">
@@ -138,19 +138,19 @@
               <p class="list-group-item-text">{{category.sector}}{{#if category.industryGroup}}/{{category.industryGroup}}{{/if}}{{#if category.industry}}/{{category.industry}}{{/if}}{{#if category.subIndustry}}/{{category.subIndustry}}{{/if}}</p>
             </li>
             {{/if}}
-            {{#if linkedin}}
+            {{#if linkedin.handle}}
             <a href="http://linkedin.com/{{linkedin.handle}}" title="View linkedin page" target="_blank" class="list-group-item">
               <i class="fa fa-fw fa-linkedin"></i> View on LinkedIn
               <i class="fa fa-fw fa-chevron-right pull-right"></i>
             </a>
             {{/if}}
-            {{#if twitter}}
+            {{#if twitter.handle}}
             <a href="http://twitter.com/{{twitter.handle}}" title="View twitter page" target="_blank" class="list-group-item">
               <i class="fa fa-fw fa-twitter"></i> View on Twitter | {{twitter.followers}} followers | {{twitter.following}} following
               <i class="fa fa-fw fa-chevron-right pull-right"></i>
             </a>
             {{/if}}
-            {{#if facebook}}
+            {{#if facebook.handle}}
             <a href="http://facebook.com/{{facebook.handle}}" title="View facebook page" target="_blank" class="list-group-item">
               <i class="fa fa-fw fa-facebook"></i> View on Facebook
               <i class="fa fa-fw fa-chevron-right pull-right"></i>

@@ -246,7 +246,7 @@ Companies.after.insert(function(userId, doc) {
 Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
 
   if (this.previous.website !== doc.website && doc.website !== '') {
-    Meteor.call('getClearbitData', doc._id);
+    Meteor.call('getClearbitData', 'company', doc._id);
   }
 
   if (doc.name !== this.previous.name) {
