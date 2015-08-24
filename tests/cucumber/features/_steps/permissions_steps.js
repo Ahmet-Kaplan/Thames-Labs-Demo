@@ -22,19 +22,28 @@ module.exports = function() {
 
   this.When(/^I open the tenancy user settings form$/, function(callback) {
     this.client
+      .waitForVisible('.accordion-toggle', 2000)
+      .click('.accordion-toggle')
       .waitForVisible('#btnEditTenantUser', 2000)
       .click('#btnEditTenantUser')
+      .call(callback);
+  });
+
+  this.When(/^I set the user as an administrator$/, function(callback) {
+    this.client
       .waitForVisible('#cbUserIsTenantAdministrator', 2000)
       .click('#cbUserIsTenantAdministrator')
       .click('#btnUpdateTenantUser')
-      .executeAsync(function(done) {
-        Meteor.call('checkUserHasPermission', 'Administrator', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value).to.equal(true);
-      })
       .call(callback);
-  })
+  });
+
+  this.Then(/^the user will have the role$/, function(callback) {
+    this.client.executeAsync(function(done) {
+      Meteor.call('checkUserHasPermission', 'Administrator', function(err, data) {
+        done(data);
+      });
+    }).then(function(data) {
+      expect(data.value).to.equal(true);
+    }).call(callback);
+  });
 };

@@ -24,7 +24,7 @@ Meteor.methods({
     var user = Meteor.users.findOne({
       username: "test user"
     });
-    if (userIsInRole(user, permissionName)) {
+    if (Roles.userIsInRole(user, permissionName)) {
       return true;
     } else {
       return false;
@@ -118,7 +118,17 @@ Meteor.methods({
 });
 
 Meteor.startup(function() {
+  Tenants.remove({});
   Meteor.users.remove({});
+
+  var tenantId = Tenants.insert({
+    name: 'Test Ltd',
+    settings: {
+      PurchaseOrderPrefix: 'T',
+      PurchaseOrderStartingValue: 1
+    },
+    createdAt: new Date()
+  });
 
   var userId = Accounts.createUser({
     username: "test user",
@@ -130,7 +140,7 @@ Meteor.startup(function() {
   });
 
   // Important! Otherwise subs manager fails to load things and you get a lot of "loading..." screens
-  Partitioner.setUserGroup(userId, 'tenant 1');
+  Partitioner.setUserGroup(userId, tenantId);
 
   var userId2 = Accounts.createUser({
     username: "test user 2",

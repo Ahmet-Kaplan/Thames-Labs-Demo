@@ -11,5 +11,5 @@ Feature: Allow users to perform actions based on a set of pre-defined permission
   Scenario: The super-admin can set a user as an administrator for their tenant
     Given I am a logged in superadmin user
     When I open the tenancy user settings form
-    And set the user as an administrator
-    Then the user will have the "Administrator" role
+    And I set the user as an administrator
+    Then the user will have the role
