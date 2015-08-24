@@ -773,6 +773,13 @@ Schemas.Opportunity = new SimpleSchema({
   projectId: {
     type: String,
     optional: true
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
   }
 });
 Opportunities.attachSchema(Schemas.Opportunity);
