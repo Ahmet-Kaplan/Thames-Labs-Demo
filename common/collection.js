@@ -220,7 +220,7 @@ var checkRecordsNumber = function() {
     if(Meteor.isServer) {
       if(limitRecords !== 0 && totalRecords == limitRecords) {
         Meteor.call('tenantLimitReached');
-      } else if(limitRecords === -1 && totalRecords > limitRecords) {
+      } else if(limitRecords === -1 && totalRecords >= limitRecords) {
         return false;
       }
       return true;
