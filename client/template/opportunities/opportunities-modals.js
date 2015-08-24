@@ -91,6 +91,12 @@ Template.insertOpportunityModal.events({
   }
 });
 
+Template.insertOpportunityItemModal.helpers({
+  generatedId: function() {
+    return Random.id();
+  }
+});
+
 Template.editOpportunityItemModal.helpers({
   opportunity: function() {
     return Opportunities.findOne(this.oppId);

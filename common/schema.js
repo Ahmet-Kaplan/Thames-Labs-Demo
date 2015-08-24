@@ -748,6 +748,9 @@ Schemas.Opportunity = new SimpleSchema({
   'items.$': {
     type: Object
   },
+  'items.$._id': {
+    type: String
+  },
   'items.$.name': {
     type: String
   },
