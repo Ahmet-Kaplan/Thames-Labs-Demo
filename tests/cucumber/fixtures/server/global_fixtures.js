@@ -20,6 +20,16 @@ Meteor.methods({
       name: "Company Name"
     });
   },
+  'checkUserHasPermission': function(permissionName) {
+    var user = Meteor.users.findOne({
+      username: "test user"
+    });
+    if (userIsInRole(user, permissionName)) {
+      return true;
+    } else {
+      return false;
+    }
+  },
   'getUserByEmail': function(email) {
     return Meteor.users.findOne({
       emails: {
@@ -101,7 +111,9 @@ Meteor.methods({
     return data;
   },
   'getProductByName': function(name) {
-    return Products.findOne({name: name});
+    return Products.findOne({
+      name: name
+    });
   },
 });
 
