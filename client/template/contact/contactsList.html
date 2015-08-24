@@ -39,7 +39,6 @@
 
 <template name="contactListItem">
 
-    {{#if isInRole 'Administrator,CanReadContacts'}}
   <a class="list-group-item" href="{{pathFor route='contact' id=_id}}">
     <!-- <span class="badge">&gt;</span> -->
     <span class="pull-right">{{> tagBadges}}</span>
@@ -50,18 +49,6 @@
     </p>
     {{/if}}
   </a>
-  {{else}}
-  <a class="list-group-item" href="#">
-    <!-- <span class="badge">&gt;</span> -->
-    <span class="pull-right">{{> tagBadges}}</span>
-    <h4 class="list-group-item-heading">{{name}}</h4>
-    {{#if companyName}}
-    <p class="list-group-item-text">
-      <i class="fa fa-building"></i> {{companyName}}
-    </p>
-    {{/if}}
-  </a>
-  {{/if}}
 </template>
 
 <template name="importContactHelpModal">

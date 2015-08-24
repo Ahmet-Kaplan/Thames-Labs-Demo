@@ -30,12 +30,7 @@
 </template>
 
 <template name="productListItem">
-  {{#if isInRole 'Administrator,CanReadProducts'}}
   <a class="list-group-item product-item" href="{{pathFor route='product' id=_id}}">
     <h4 class="list-group-item-heading">{{name}}</h4>
-  </a>{{else}}
-  <a class="list-group-item product-item" href="#">
-    <h4 class="list-group-item-heading">{{name}}</h4>
   </a>
-  {{/if}}
 </template>

@@ -33,10 +33,6 @@
             <i class="fa fa-fw fa-building"></i> {{company.name}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
-          {{else}}
-          <a href="#" class="list-group-item">
-            <i class="fa fa-fw fa-building"></i> {{company.name}}
-          </a>
           {{/if}} {{/if}} {{#if jobtitle}}
           <li class="list-group-item">
             <i class="fa fa-fw fa-graduation-cap"></i> {{jobtitle}}
@@ -57,6 +53,8 @@
         </ul>
       </div>
 
+
+      {{#if isInRole 'Administrator,CanReadProjects'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
           Projects {{#if isInRole 'Administrator,CanCreateProjects'}}
@@ -68,29 +66,23 @@
           {{/each}}
         </ul>
       </div>
-
+      {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
           Purchase Orders {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
           <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this contact"><i class="fa fa-fw fa-plus"></i> Add purchase order</a> {{/if}}
         </div>
         <ul class="list-group">
-          {{#each purchaseOrders}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
+          {{#each purchaseOrders}}
           <a href="{{pathFor route='purchaseOrder' id=_id}}" class="list-group-item">
             <i class="fa fa-fw fa-shopping-cart"></i> {{description}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          </a>
-          {{else}}
-          <a href="#" class="list-group-item">
-            <i class="fa fa-fw fa-shopping-cart"></i> {{description}}
-          </a>
-          {{/if}} {{else}}
+          </a> {{else}}
           <li class="list-group-item">No purchase orders</li>
           {{/each}}
         </ul>
       </div>
-
-      {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="contact" entity_id=_id}} {{/with}}{{/if}}
+      {{/if}} {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="contact" entity_id=_id}} {{/with}}{{/if}}
 
       <div>
         {{#if isInRole 'Administrator,CanEditContacts'}}{{#with this}} {{> customFieldDisplay entity_data=this entity_type='contact'}} {{/with}}{{/if}}
@@ -119,7 +111,6 @@
 </template>
 
 <template name="ContactProjectListItem">
-  {{#if isInRole 'Administrator,CanReadProjects'}}
   <a href="{{pathFor route='project' id=_id}}" class="list-group-item">
     <div class="row">
       <div class="col-md-8">
@@ -133,16 +124,4 @@
       </div>
     </div>
   </a>
-  {{else}}
-  <a href="#" class="list-group-item">
-    <div class="row">
-      <div class="col-md-8">
-        <i class="fa fa-fw fa-files-o"></i> {{description}}
-      </div>
-      <div class="col-md-3 userDataDisplay">
-        {{#if companyProject}}<i class="fa fa-fw fa-building"></i> {{projectCompanyName}}{{/if}}
-      </div>
-    </div>
-  </a>
-  {{/if}}
 </template>

@@ -50,20 +50,12 @@
               <i class="fa fa-fw fa-building"></i> Supplier: {{supplierCompany.name}}
               <i class="fa fa-fw fa-chevron-right pull-right"></i>
             </a>
-            {{else}}
-            <a class="list-group-item" href="#">
-              <i class="fa fa-fw fa-building"></i> Supplier: {{supplierCompany.name}}
-            </a>
             {{/if}}
           {{/if}} {{#if supplierContact}}
             {{#if isInRole 'Administrator,CanReadContacts'}}
           <a class="list-group-item" href="{{pathFor route='contact' id=supplierContact._id}}" data-toggle="tooltip" data-placement="bottom" title="Navigate to supplier contact details">
             <i class="fa fa-fw fa-user"></i> Supplier Contact: {{supplierContact.forename}} {{supplierContact.surname}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          </a>
-          {{else}}
-          <a class="list-group-item" href="#">
-            <i class="fa fa-fw fa-user"></i> Supplier Contact: {{supplierContact.forename}} {{supplierContact.surname}}
           </a>
           {{/if}}
           {{/if}}
@@ -74,20 +66,12 @@
               <i class="fa fa-fw fa-building"></i> Customer: {{customerCompany.name}}
               <i class="fa fa-fw fa-chevron-right pull-right"></i>
             </a>
-            {{else}}
-            <a class="list-group-item" href="#">
-              <i class="fa fa-fw fa-building"></i> Customer: {{customerCompany.name}}
-            </a>
             {{/if}}
           {{/if}} {{#if customerContact}}
           {{#if isInRole 'Administrator,CanReadContacts'}}
           <a class="list-group-item" href="{{pathFor route='contact' id=customerContact._id}}">
             <i class="fa fa-fw fa-user"></i> Customer Contact: {{customerContact.forename}} {{customerContact.surname}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          </a>
-          {{else}}
-          <a class="list-group-item" href="#">
-            <i class="fa fa-fw fa-user"></i> Customer Contact: {{customerContact.forename}} {{customerContact.surname}}
           </a>
           {{/if}}
           {{/if}}
@@ -96,10 +80,6 @@
           <a class="list-group-item" href="{{pathFor route='project' id=project._id}}">
             <i class="fa fa-fw fa-files-o"></i> Project: {{project.description}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          </a>
-          {{else}}
-          <a class="list-group-item" href="#">
-            <i class="fa fa-fw fa-files-o"></i> Project: {{project.description}}
           </a>
           {{/if}}
           {{/if}}

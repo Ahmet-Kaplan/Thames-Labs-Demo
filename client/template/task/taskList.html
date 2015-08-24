@@ -5,9 +5,11 @@
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
       <div class="well well-sm">
+        {{#if isInRole 'Administrator,CanDeleteTasks'}}
         <div class="btn-group">
           <button class="btn btn-danger btn-xs" id="tskDeleteAllCompleted">Delete all completed</button>
         </div>
+        {{/if}}
 
         <div class="btn-group pull-right">
           <button type="button" class="btn btn-primary btn-xs" id="tskToggleCompleted" >
