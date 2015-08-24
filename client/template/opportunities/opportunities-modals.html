@@ -120,7 +120,7 @@
         </div>
         <div class="modal-body">
            {{#autoForm collection="Opportunities" id="insertOpportunityItemForm" type="update-pushArray" doc=this scope="items"}}
-            {{> afQuickField name="_id" value=generatedId type="hidden"}}
+            {{> afQuickField name="id" value=generatedId type="hidden"}}
             {{> afQuickField name="name" value=""}}
             {{> afQuickField name="description" value=""}}
             {{> afQuickField name="value" value=""}}

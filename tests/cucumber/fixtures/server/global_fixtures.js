@@ -137,6 +137,7 @@ Meteor.methods({
     var data = "";
     var date = new Date();
     var companyId = Companies.findOne({})._id;
+    var itemId = Random.id();
     Opportunities.remove({});
     Opportunities.insert({
       name: 'test opportunity',
@@ -149,7 +150,8 @@ Meteor.methods({
       items: [
         {
           name: "testLine",
-          description: "testDescription"
+          description: "testDescription",
+          id: itemId
         }
       ]
     }, function(err, id) {
