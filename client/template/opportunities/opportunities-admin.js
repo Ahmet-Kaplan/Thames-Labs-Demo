@@ -33,7 +33,7 @@ Template.opportunityAdminStage.events({
     var id = this._id;
     bootbox.confirm("Are you sure you wish to delete this stage?", function(result) {
       if (result === true) {
-        OpportunityStages.remove(id);
+        Meteor.call('deleteOpportunityStage', id);
       }
     });
   }

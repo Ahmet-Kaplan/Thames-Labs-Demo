@@ -342,6 +342,9 @@ Template.opportunityDetail.events({
     Modal.show('insertOpportunityActivityModal', {
       opportunity: this
     });
+  },
+  'click .nav-link': function(event) {
+    event.preventDefault();
   }
 });
 

@@ -718,7 +718,8 @@ Schemas.Opportunity = new SimpleSchema({
     optional: true
   },
   currentStageId: {
-    type: String
+    type: String,
+    optional: true
   },
   createdBy: {
     type: String,
@@ -746,6 +747,9 @@ Schemas.Opportunity = new SimpleSchema({
   },
   'items.$': {
     type: Object
+  },
+  'items.$._id': {
+    type: String
   },
   'items.$.name': {
     type: String

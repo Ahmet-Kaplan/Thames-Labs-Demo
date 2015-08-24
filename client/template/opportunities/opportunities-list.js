@@ -9,6 +9,7 @@ Template.opportunityList.onRendered(function() {
   // Watch for session variable setting search
   Session.set('opportunitySearchQuery', null);
   Session.set('opportunitySearchShowArchived', false);
+  EasySearch.changeProperty('opportunities', 'showArchived', false);
   Tracker.autorun(function() {
     var searchQuery = Session.get('opportunitySearchQuery');
     var easySearchInstance = EasySearch.getComponentInstance({
