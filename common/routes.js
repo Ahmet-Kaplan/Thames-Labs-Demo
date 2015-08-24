@@ -398,6 +398,8 @@ router.route('/admin/opportunities', {
 router.route('/salespipeline', {
   name: 'salespipeline',
   subscriptions: function() {
+    this.register('allOpportunities', subs.subscribe('allOpportunities'));
+    this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
     layout.render('appLayout', {
