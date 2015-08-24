@@ -20,9 +20,9 @@ Meteor.methods({
       name: "Company Name"
     });
   },
-  'checkUserHasPermission': function(permissionName) {
+  'checkUserHasPermission': function(username, permissionName) {
     var user = Meteor.users.findOne({
-      username: "test user"
+      username: username
     });
     if (Roles.userIsInRole(user, permissionName)) {
       return true;
@@ -141,6 +141,7 @@ Meteor.startup(function() {
 
   // Important! Otherwise subs manager fails to load things and you get a lot of "loading..." screens
   Partitioner.setUserGroup(userId, tenantId);
+  Roles.removeUserFromRoles(userId, 'Administrator');
 
   var userId2 = Accounts.createUser({
     username: "test user 2",

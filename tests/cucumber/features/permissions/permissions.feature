@@ -13,3 +13,23 @@ Feature: Allow users to perform actions based on a set of pre-defined permission
     When I open the tenancy user settings form
     And I set the user as an administrator
     Then the user will have the role
+
+  @dev
+  Scenario: An administrator can see the correct menu items
+    Given I am a logged in user
+    When I open the user menu
+    Then I see the Administration menu option
+
+  @dev
+  Scenario: An administrator can access the Administration page
+    Given I am a logged in user
+    And I have the "Administrator" role
+    When I click the Administration menu option
+    Then I navigate to "/admin"
+
+  @dev
+  Scenario: An normal user cannot access the Administration page
+    Given I am a normal user
+    And I do not have the "Administrator" role
+    When I open the user menu
+    Then I cannot see the Administration menu option
