@@ -143,6 +143,7 @@ Meteor.methods({
       name: 'test opportunity',
       description: 'test description',
       date: date,
+      value: 0,
       currentStageId: stage._id,
       companyId: companyId,
       createdBy: Meteor.userId(),

@@ -705,6 +705,10 @@ Schemas.Opportunity = new SimpleSchema({
       }
     }
   },
+  value: {
+    type: Number,
+    optional: true
+  },
   items: {
     type: Array,
     optional: true

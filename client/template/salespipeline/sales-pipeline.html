@@ -1,0 +1,39 @@
+<template name="salesPipeline">
+  {{setPageTitle "Sales Pipeline"}}
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Sales Pipeline</h1>
+      <br>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel-default panel">
+        <div class="panel-heading">
+          Sales pipeline
+        </div>
+        <div class="panel-body" id="funnel-container">
+          <div id="funnel"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel-default panel">
+        {{#if selectedStage}}
+          <div class="panel-heading">
+            Opportunities: {{selectedStage.title}}
+          </div>
+          <ul class="list-group">
+            {{#each opportunities}}
+              <a class="list-group-item" href="{{pathFor route='opportunity' id=_id}}">{{name}}</a>
+            {{/each}}
+          </ul>
+        {{else}}
+          <div class="panel-body">
+            <h4>Select a stage to view the corrisponding opportunities</h4>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</template>

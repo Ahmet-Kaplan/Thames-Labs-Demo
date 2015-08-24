@@ -12,6 +12,18 @@ Meteor.methods({
     if (Meteor.isServer) {
       faker.locale = "en";
       Partitioner.bindGroup(id, function() {
+
+        //Setup opportunity stages
+        var oppStageIds = [];
+        for (var i = 0; i < 4; i++) {
+          var id = OpportunityStages.insert({
+            title: faker.company.companyName(),
+            description: faker.lorem.sentence(),
+            order: i
+          });
+          oppStageIds.push(id);
+        }
+
         // generate fake customer data
         _.each(_.range(100), function() {
           var usersArray = Meteor.users.find({}).fetch();
@@ -37,6 +49,17 @@ Meteor.methods({
             price: _.random(1, 300),
             createdBy: randomUser._id
           });
+
+          Opportunities.insert({
+            name: faker.company.companyName(),
+            description: faker.lorem.sentence(),
+            currentStageId: oppStageIds[Math.floor(Math.random()*oppStageIds.length)],
+            createdBy: randomUser._id,
+            items: [],
+            companyId: companyId,
+            date: faker.date.recent(100)
+          });
+
 
           contacts = [];
           projects = [];
@@ -253,13 +276,16 @@ Meteor.methods({
 
   winOpportunity: function(opp) {
     var user = Meteor.user();
-
+    var val = opp.value;
+    if (!val) {
+      val = 0;
+    }
     var projId = Projects.insert({
       description: opp.name,
       companyId: opp.companyId,
       contactId: opp.contactId,
       userId: user._id,
-      value: 0,
+      value: val,
       createdBy: user._id
     });
 
