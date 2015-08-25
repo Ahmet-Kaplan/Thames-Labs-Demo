@@ -52,3 +52,7 @@ Template.salesPipeline.helpers({
     return Opportunities.find({currentStageId: id}).fetch();
   }
 });
+
+Template.salesPipeline.onDestroyed(function() {
+  $(window).unbind('resize');
+});
