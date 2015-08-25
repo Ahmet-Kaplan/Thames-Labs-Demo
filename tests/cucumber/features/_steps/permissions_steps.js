@@ -183,17 +183,19 @@ module.exports = function() {
 
   this.Then(/^I can see the "([^"]*)" button$/, function(buttonId, callback) {
     this.client
-      .isExisting(buttonId).then(function(isExisting) {
-        expect(isExisting).to.equal(true);
-      })
+      // .isExisting(buttonId).then(function(isExisting) {
+      //   expect(isExisting).to.equal(true);
+      // })
+      .waitForVisible(buttonId, 2000)
       .call(callback);
   });
 
   this.Then(/^I cannot see the "([^"]*)" button$/, function(buttonId, callback) {
     this.client
-      .isExisting(buttonId).then(function(isExisting) {
-        expect(isExisting).to.equal(false);
-      })
+      // .isExisting(buttonId).then(function(isExisting) {
+      //   expect(isExisting).to.equal(false);
+      // })
+      .waitForVisible(buttonId, 2000, true)
       .call(callback);
   });
 
@@ -209,7 +211,7 @@ module.exports = function() {
     this.client
       .url(process.env.ROOT_URL)
       .click('#menuLinkCompanies')
-      .waitForExist('#mchCompany', 2000)
+      .waitForVisible('#mchCompany', 2000)
       .click('#mchCompany')
       .call(callback);
   });
