@@ -175,40 +175,7 @@ Meteor.methods({
       }
     });
 
-    Roles.addUsersToRoles(userId, [
-      "CanReadContacts",
-      "CanReadCompanies",
-      "CanCreateCompanies",
-      "CanEditCompanies",
-      "CanDeleteCompanies",
-      "CanCreateContacts",
-      "CanEditContacts",
-      "CanDeleteContacts",
-      "CanReadProjects",
-      "CanCreateProjects",
-      "CanEditProjects",
-      "CanDeleteProjects",
-      "CanReadProducts",
-      "CanCreateProducts",
-      "CanEditProducts",
-      "CanDeleteProducts",
-      "CanReadTasks",
-      "CanCreateTasks",
-      "CanEditTasks",
-      "CanDeleteTasks",
-      "CanReadPurchaseOrders",
-      "CanCreatePurchaseOrders",
-      "CanEditPurchaseOrders",
-      "CanDeletePurchaseOrders",
-      "CanReadDataManagement",
-      "CanCreateDataManagement",
-      "CanEditDataManagement",
-      "CanDeleteDataManagement",
-      "CanReadEventLog",
-      "CanCreateEventLog",
-      "CanEditEventLog",
-      "CanDeleteEventLog"
-    ]);
+    Roles.addUsersToRoles(userId, ["Administrator"]);
 
     //This needs to be run on the server, otherwise client errors occur
     if (Meteor.isServer) {
