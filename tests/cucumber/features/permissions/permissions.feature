@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to perform actions based on a set of pre-defined permissions
   As an administrator
   I want to assign permissions to my users

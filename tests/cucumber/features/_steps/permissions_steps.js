@@ -25,11 +25,6 @@ module.exports = function() {
 
   this.Given(/^I am a logged in superadmin user$/, function(callback) {
     this.client
-      .setViewportSize({
-        width: 1000,
-        height: 800
-      })
-      .url(process.env.ROOT_URL)
       .executeAsync(logout)
       .executeAsync(login, 'admin@cambridgesoftware.co.uk', 'admin')
       .call(callback);
@@ -43,7 +38,7 @@ module.exports = function() {
       })
       .url(process.env.ROOT_URL)
       .executeAsync(logout)
-      .executeAsync(login, 'test@domain.com', 'goodpassword')
+      .executeAsync(login, 'santa@domain.com', 'hohoho')
       .call(callback);
   });
 
@@ -73,7 +68,7 @@ module.exports = function() {
 
   this.Then(/^the standard user will have the "([^"]*)" role$/, function(role, callback) {
     this.client.executeAsync(function(role, done) {
-      Meteor.call('checkUserHasPermission', 'test user', role, function(err, data) {
+      Meteor.call('checkUserHasPermission', 'Chris Cringle', role, function(err, data) {
         done(data);
       });
     }, role).then(function(data) {
@@ -83,7 +78,7 @@ module.exports = function() {
 
   this.Then(/^the standard user will not have the "([^"]*)" role$/, function(role, callback) {
     this.client.executeAsync(function(role, done) {
-      Meteor.call('checkUserHasPermission', 'test user', role, function(err, data) {
+      Meteor.call('checkUserHasPermission', 'Chris Cringle', role, function(err, data) {
         done(data);
       });
     }, role).then(function(data) {
@@ -129,7 +124,7 @@ module.exports = function() {
   this.Given(/^I have the "([^"]*)" role$/, function(role, callback) {
     this.client
       .executeAsync(function(role, done) {
-        Meteor.call('checkUserHasPermission', 'test user', role, function(err, data) {
+        Meteor.call('checkUserHasPermission', 'Chris Cringle', role, function(err, data) {
           done(data);
         });
       }, role).then(function(data) {
