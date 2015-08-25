@@ -13,7 +13,11 @@
           Sales pipeline
         </div>
         <div class="panel-body" id="funnel-container">
+          {{#if hasData}}
           <div id="funnel"></div>
+          {{else}}
+          <p>Add some opportunities to get started!</p>
+          {{/if}}
         </div>
       </div>
     </div>

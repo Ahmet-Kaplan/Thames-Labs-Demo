@@ -11,29 +11,35 @@ Template.salesPipeline.onRendered(function() {
           var item = [stages[i].title, count];
           data.push(item);
         }
-        var options = {
-          dynamicArea: true,
-          hoverEffects: true,
-          onItemClick: function(e) {
-            Session.set('currentStageId', OpportunityStages.findOne({title: e.label})._id);
-          }
-        };
-        options.width = $("#funnel-container").width();
 
-        var chart = new D3Funnel('#funnel');
-        chart.draw(data, options);
+        if (data.length > 0) {
+          var options = {
+            dynamicArea: true,
+            hoverEffects: true,
+            onItemClick: function(e) {
+              Session.set('currentStageId', OpportunityStages.findOne({title: e.label})._id);
+            }
+          };
+          options.width = $("#funnel-container").width();
 
-        $(window).on("resize", function() {
-            options.width = $("#funnel-container").width();
-            var chart = new D3Funnel('#funnel');
-            chart.draw(data, options);
-        });
+          var chart = new D3Funnel('#funnel');
+          chart.draw(data, options);
+
+          $(window).on("resize", function() {
+              options.width = $("#funnel-container").width();
+              var chart = new D3Funnel('#funnel');
+              chart.draw(data, options);
+          });
+        }
       });
     }
   });
 });
 
 Template.salesPipeline.helpers({
+  hasData: function() {
+    return (Opportunities.find({}).count() > 0);
+  },
   stages: function() {
     return OpportunityStages.find({}, {sort: { order: 1}}).fetch();
   },
