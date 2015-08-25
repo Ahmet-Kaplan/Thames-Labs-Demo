@@ -288,6 +288,10 @@ Contacts.after.insert(function(userId, doc) {
   LogEvent('info', 'A new contact has been created: ' + doc.title + " " + doc.forename + " " + doc.surname);
 });
 Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
+  if (this.previous.email !== doc.email && doc.email !== '' && doc.email !== undefined) {
+    Meteor.call('getClearbitData', 'contact', doc._id);
+  }
+
   if (doc.title !== this.previous.title) {
     LogEvent('info', 'An existing contact has been updated: The value of "title" was changed from ' + this.previous.title + " to " + doc.title);
   }
