@@ -10,18 +10,18 @@ module.exports = function() {
     Meteor.loginWithPassword(email, password, done);
   };
 
-  // this.Given(/^a company has been created$/, function(callback) {
-  //   this.client
-  //     .executeAsync(function(done) {
-  //       Meteor.call('createTestCompany', function(err, data) {
-  //         done(data);
-  //       });
-  //     })
-  //     .then(function(data) {
-  //       expect(data.value).to.exist;
-  //     })
-  //     .call(callback);
-  // });
+  this.Given(/^a company has been created$/, function(callback) {
+    this.client
+      .executeAsync(function(done) {
+        Meteor.call('createTestCompany', function(err, data) {
+          done(data);
+        });
+      })
+      .then(function(data) {
+        expect(data.value).to.exist;
+      })
+      .call(callback);
+  });
 
   this.Given(/^I am a logged in superadmin user$/, function(callback) {
     this.client

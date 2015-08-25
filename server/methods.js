@@ -113,6 +113,42 @@ Meteor.methods({
         }
       }
     });
+
+    Roles.addUsersToRoles(userId, [
+      "CanReadContacts",
+      "CanReadCompanies",
+      "CanCreateCompanies",
+      "CanEditCompanies",
+      "CanDeleteCompanies",
+      "CanCreateContacts",
+      "CanEditContacts",
+      "CanDeleteContacts",
+      "CanReadProjects",
+      "CanCreateProjects",
+      "CanEditProjects",
+      "CanDeleteProjects",
+      "CanReadProducts",
+      "CanCreateProducts",
+      "CanEditProducts",
+      "CanDeleteProducts",
+      "CanReadTasks",
+      "CanCreateTasks",
+      "CanEditTasks",
+      "CanDeleteTasks",
+      "CanReadPurchaseOrders",
+      "CanCreatePurchaseOrders",
+      "CanEditPurchaseOrders",
+      "CanDeletePurchaseOrders",
+      "CanReadDataManagement",
+      "CanCreateDataManagement",
+      "CanEditDataManagement",
+      "CanDeleteDataManagement",
+      "CanReadEventLog",
+      "CanCreateEventLog",
+      "CanEditEventLog",
+      "CanDeleteEventLog"
+    ]);
+
     // Add user to a group (partition) based on customer id
     if (doc.group) {
       Partitioner.setUserGroup(userId, doc.group);

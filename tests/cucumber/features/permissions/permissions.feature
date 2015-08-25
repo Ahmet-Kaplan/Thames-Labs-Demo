@@ -7,6 +7,9 @@ Feature: Allow users to perform actions based on a set of pre-defined permission
   I want to view content that is relevant to me
   So that I can work efficiently
 
+  Background:
+    Given a company has been created
+
   @dev
   Scenario: The super-admin can set a user as an administrator for their tenant
     Given I am a logged in superadmin user
