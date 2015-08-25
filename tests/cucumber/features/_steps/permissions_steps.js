@@ -1,5 +1,7 @@
 module.exports = function() {
 
+  var url = require('url');
+
   var logout = function(done) {
     Meteor.logout(done);
   };
@@ -7,6 +9,19 @@ module.exports = function() {
   var login = function(email, password, done) {
     Meteor.loginWithPassword(email, password, done);
   };
+
+  // this.Given(/^a company has been created$/, function(callback) {
+  //   this.client
+  //     .executeAsync(function(done) {
+  //       Meteor.call('createTestCompany', function(err, data) {
+  //         done(data);
+  //       });
+  //     })
+  //     .then(function(data) {
+  //       expect(data.value).to.exist;
+  //     })
+  //     .call(callback);
+  // });
 
   this.Given(/^I am a logged in superadmin user$/, function(callback) {
     this.client
@@ -37,9 +52,9 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Then(/^the user will have the role$/, function(callback) {
+  this.Then(/^the user will have the "([^"]*)" role$/, function(role, callback) {
     this.client.executeAsync(function(done) {
-      Meteor.call('checkUserHasPermission', 'test user', 'Administrator', function(err, data) {
+      Meteor.call('checkUserHasPermission', 'test user', role, function(err, data) {
         done(data);
       });
     }).then(function(data) {
@@ -62,10 +77,10 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Given(/^I have the "([^"]*)" role$/, function(callback) {
+  this.Given(/^I have the "([^"]*)" role$/, function(role, callback) {
     this.client
       .executeAsync(function(done) {
-        Meteor.call('checkUserHasPermission', 'test user', 'Administrator', function(err, data) {
+        Meteor.call('checkUserHasPermission', 'test user', role, function(err, data) {
           done(data);
         });
       }).then(function(data) {
@@ -73,10 +88,10 @@ module.exports = function() {
       }).call(callback);
   });
 
-  this.Given(/^I do not have the "([^"]*)" role$/, function(callback) {
+  this.Given(/^I do not have the "([^"]*)" role$/, function(role, callback) {
     this.client
       .executeAsync(function(done) {
-        Meteor.call('checkUserHasPermission', 'test user 2', 'Administrator', function(err, data) {
+        Meteor.call('checkUserHasPermission', 'test user 2', role, function(err, data) {
           done(data);
         });
       }).then(function(data) {
@@ -105,6 +120,46 @@ module.exports = function() {
       .isExisting('#Administration').then(function(isExisting) {
         expect(isExisting).to.equal(false);
       })
+      .call(callback);
+  });
+
+  this.Then(/^the "([^"]*)" menu item is shown$/, function(menuText, callback) {
+    this.client
+      .isExisting('#menuLink' + menuText).then(function(isExisting) {
+        expect(isExisting).to.equal(true);
+      })
+      .call(callback);
+  });
+
+  this.Then(/^the "([^"]*)" menu item is not shown$/, function(menuText, callback) {
+    this.client
+      .isExisting('#menuLink' + menuText).then(function(isExisting) {
+        expect(isExisting).to.equal(false);
+      })
+      .call(callback);
+  });
+
+  this.Then(/^I can see the "([^"]*)" button$/, function(buttonId, callback) {
+    this.client
+      .isExisting('#' + buttonId).then(function(isExisting) {
+        expect(isExisting).to.equal(true);
+      })
+      .call(callback);
+  });
+
+  this.Then(/^I cannot see the "([^"]*)" button$/, function(buttonId, callback) {
+    this.client
+      .isExisting('#' + buttonId).then(function(isExisting) {
+        expect(isExisting).to.equal(false);
+      })
+      .call(callback);
+  });
+
+  this.When(/^I navigate to a company detail page$/, function(callback) {
+    this.client
+      .url(url.resolve(process.env.ROOT_URL, '/companies'))
+      .waitForExist('#mchCompany', 2000)
+      .click('#mchCompany')
       .call(callback);
   });
 };

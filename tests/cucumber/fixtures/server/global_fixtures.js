@@ -141,7 +141,7 @@ Meteor.startup(function() {
 
   // Important! Otherwise subs manager fails to load things and you get a lot of "loading..." screens
   Partitioner.setUserGroup(userId, tenantId);
-  Roles.removeUserFromRoles(userId, 'Administrator');
+  Roles.removeUsersFromRoles(userId, 'Administrator');
 
   var userId2 = Accounts.createUser({
     username: "test user 2",
@@ -152,6 +152,7 @@ Meteor.startup(function() {
     }
   });
   Partitioner.setUserGroup(userId2, 'tenant 2');
+  Roles.addUsersToRoles(userId2, 'CanReadCompanies');
 
   var superadminId = Accounts.createUser({
     username: 'superadmin',
