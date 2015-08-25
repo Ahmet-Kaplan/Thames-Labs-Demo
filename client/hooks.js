@@ -382,5 +382,11 @@ AutoForm.hooks({
       toastr.success('Opportunity line item edited.');
       Modal.hide();
     }
-  }
+  },
+  insertOpportunityActivityForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Opportunity activity created.');
+    }
+  },
 });
