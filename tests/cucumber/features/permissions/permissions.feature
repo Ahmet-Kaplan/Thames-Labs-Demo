@@ -29,20 +29,20 @@ Feature: Allow users to perform actions based on a set of pre-defined permission
     Then I navigate to "/admin"
 
   @dev
-  Scenario: An normal user cannot access the Administration page
+  Scenario: An restricted user cannot access the Administration page
     Given I am a restricted user
     And I do not have the "Administrator" role
     When I open the user menu
     Then I cannot see the Administration menu option
 
   @dev
-  Scenario: A normal user cannot see the Companies menu item without the correct permission
+  Scenario: A restricted user cannot see the Companies menu item without the correct permission
     Given I am a restricted user
     And I do not have the "CanReadCompanies" role
     Then the "Companies" menu item is not shown
 
   @dev
-  Scenario: A normal user can see the Companies menu item with the correct permission
+  Scenario: A user can see the Companies menu item with the correct permission
     Given I am a user
     And I have the "CanReadCompanies" role
     Then the "Companies" menu item is shown
@@ -63,24 +63,24 @@ Feature: Allow users to perform actions based on a set of pre-defined permission
     Then the user will have the "CanReadCompanies" role
 
   @dev
-  Scenario: A normal user cannot see the Add Company button without the correct permission
+  Scenario: A restricted user cannot see the Add Company button without the correct permission
     Given I am a restricted user
     And I do not have the "CanCreateCompanies" role
-    And I navigate to "/companies"
+    And I navigate to the companies list
     Then I cannot see the "#createCompany" button
 
   @dev
-  Scenario: A normal user can see the Add Company button with the correct permission
+  Scenario: A user can see the Add Company button with the correct permission
     Given I am a user
     And I have the "CanCreateCompanies" role
-    And I navigate to "/companies"
+    And I navigate to the companies list
     Then I can see the "#createCompany" button
 
   @dev
   Scenario: An administrator can see the Add Company button
     Given I am a user
     And I have the "Administrator" role
-    And I navigate to "/companies"
+    And I navigate to the companies list
     Then I can see the "#createCompany" button
 
   @dev
@@ -93,7 +93,7 @@ Feature: Allow users to perform actions based on a set of pre-defined permission
     Then the user will have the "CanCreateCompanies" role
 
   @dev
-  Scenario: A normal user cannot see the Edit Company button without the correct permission
+  Scenario: A restricted user cannot see the Edit Company button without the correct permission
     Given I am a restricted user
     And I do not have the "CanEditCompanies" role
     And a company has been created
@@ -101,7 +101,7 @@ Feature: Allow users to perform actions based on a set of pre-defined permission
     Then I cannot see the "#edit-company" button
 
   @dev
-  Scenario: A normal user can see the Edit Company button with the correct permission
+  Scenario: A user can see the Edit Company button with the correct permission
     Given I am a user
     And I have the "CanEditCompanies" role
     And a company has been created
@@ -126,7 +126,7 @@ Feature: Allow users to perform actions based on a set of pre-defined permission
     Then the user will have the "CanEditCompanies" role
 
   @dev
-  Scenario: A normal user cannot see the Delete Company button without the correct permission
+  Scenario: A restricted user cannot see the Delete Company button without the correct permission
     Given I am a restricted user
     And I do not have the "CanDeleteCompanies" role
     And a company has been created

@@ -197,6 +197,14 @@ module.exports = function() {
       .call(callback);
   });
 
+  this.Given(/^I navigate to the companies list$/, function(callback) {
+    this.client
+      .url(process.env.ROOT_URL)
+      .click('#menuLinkCompanies')
+      .waitForExist('#companies-page-header', 2000)
+      .call(callback);
+  });
+
   this.When(/^I navigate to a company detail page$/, function(callback) {
     this.client
       .url(process.env.ROOT_URL)
