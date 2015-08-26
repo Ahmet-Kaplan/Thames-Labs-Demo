@@ -194,7 +194,7 @@ module.exports = function() {
     this.client
       .url(process.env.ROOT_URL)
       .click('#menuLinkCompanies')
-      .waitForExist('#companies-page-header', 2000)
+      .waitForVisible('#companies-page-header', 2000)
       .call(callback);
   });
 

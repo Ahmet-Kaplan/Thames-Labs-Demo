@@ -18,21 +18,21 @@ module.exports = function() {
   this.When(/^I navigate to a company page$/, function(callback) {
     this.client
       .url(url.resolve(process.env.ROOT_URL, '/companies'))
-      .waitForExist('#mchCompany', 2000)
+      .waitForVisible('#mchCompany', 2000)
       .click('#mchCompany')
       .call(callback);
   });
 
   this.Then(/^I should see a panel with title "([^"]*)"$/, function(panelTitle, callback) {
     this.client
-      .waitForExist('#entity-custom-fields', 2000)
+      .waitForVisible('#entity-custom-fields', 2000)
       .getText('.panel-heading*=' + panelTitle)
       .call(callback);
   });
 
   this.When(/^I click the "Add Custom Field" button$/, function(callback) {
     this.client
-      .waitForExist('#add-custom-field', 2000)
+      .waitForVisible('#add-custom-field', 2000)
       .scroll('#add-custom-field')
       .click('#add-custom-field')
       .call(callback);
@@ -40,7 +40,7 @@ module.exports = function() {
 
   this.Then(/^I should see a modal with header "([^"]*)"$/, function(expectedTitle, callback) {
     this.client
-      .waitForExist('.modal', 5000)
+      .waitForVisible('.modal', 5000)
       .getText('h5').then(function(text) {
         expect(text).to.contain(expectedTitle);
       })
@@ -49,7 +49,7 @@ module.exports = function() {
 
   this.When(/^I add a new custom field$/, function(callback) {
     this.client
-      .waitForExist('.modal-dialog', 5000)
+      .waitForVisible('.modal-dialog', 5000)
       .setValue('#custom-field-name', 'velocity')
       .setValue('#custom-field-text-value', 'cucumber')
       .click('#submit-custom-field')
@@ -58,7 +58,7 @@ module.exports = function() {
 
   this.Then(/^I should see the custom field "([^"]*)" in the list$/, function(expectedText, callback) {
     this.client
-      .waitForExist('.custom-field-display-item', 2000)
+      .waitForVisible('.custom-field-display-item', 2000)
       .getText('.custom-field-display-item').then(function(text) {
         expect(text).to.contain(expectedText);
       })
@@ -72,7 +72,7 @@ module.exports = function() {
           done(data);
         });
       })
-      .waitForExist('.custom-field-display-item', 2000)
+      .waitForVisible('.custom-field-display-item', 2000)
       .getText('.custom-field-display-item').then(function(text) {
         expect(text).to.contain(expectedText);
       })
@@ -81,14 +81,14 @@ module.exports = function() {
 
   this.When(/^I click the "Edit" button$/, function(callback) {
     this.client
-      .waitForExist('#edit-custom-field', 2000)
+      .waitForVisible('#edit-custom-field', 2000)
       .click('#edit-custom-field')
       .call(callback);
   });
 
   this.When(/^I make a change$/, function(callback) {
     this.client
-      .waitForExist('.modal-dialog', 5000)
+      .waitForVisible('.modal-dialog', 5000)
       .setValue('#custom-field-text-value', 'cucumber test')
       .click('#submit-custom-field')
       .call(callback);
@@ -96,7 +96,7 @@ module.exports = function() {
 
   this.Then(/^I should see the updated custom field "([^"]*)" in the list$/, function(expectedText, callback) {
     this.client
-      .waitForExist('.custom-field-display-item', 2000)
+      .waitForVisible('.custom-field-display-item', 2000)
       .getText('.custom-field-display-item').then(function(text) {
         expect(text).to.contain(expectedText);
       })
@@ -105,14 +105,16 @@ module.exports = function() {
 
   this.When(/^I click the "Delete" button$/, function(callback) {
     this.client
-      .waitForExist('#delete-custom-field', 2000)
+      .waitForVisible('#delete-custom-field', 2000)
       .click('#delete-custom-field')
       .call(callback);
   });
 
   this.Then(/^I should no longer see the custom field "([^"]*)" in the list$/, function(expectedText, callback) {
     this.client
-      .waitForExist('.custom-field-display-item', 2000, true)
+      .isExisting('.custom-field-display-item').then(function(isExisting) {
+        expect(isExisting).to.be.false;
+      })
       .call(callback);
   })
 };

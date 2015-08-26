@@ -30,7 +30,7 @@ Feature: Allow users to perform actions based on a set of pre-defined permission
     And I do not have the "Administrator" role
     When I open the user menu
     Then I cannot see the Administration menu option
-
+@dev
   Scenario: A restricted user cannot see the Companies menu item without the correct permission
     Given I am a restricted user
     And I do not have the "CanReadCompanies" role
