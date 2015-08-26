@@ -1,133 +1,159 @@
-Template.dashboard.rendered = function() {
-  $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
+// List of all the available widets
+// To add a new widget, complete the object below
+// Be careful to give the same name to your object and to its id
+// The x, y, w, h are relative to the grid size
+// The 'displayed' property indicate whether or not the widget is to be displayed by default
+// 'name' if for the drop-down menu
+widgets = {
+  'chat': {
+    id: 'chat',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 7,
+    displayed: true,
+    name: 'Chatter'
+  },
+  'quotation': {
+    id: 'quotation',
+    x: 1,
+    y: 0,
+    w: 1,
+    h: 4,
+    displayed: true,
+    name: 'Quotation of the day'
+  },
+  'online': {
+    id: 'online',
+    x: 2,
+    y: 0,
+    w: 1,
+    h: 7,
+    displayed: true,
+    name: 'Online users'
+  },
+  'task': {
+    id: 'task',
+    x: 0,
+    y: 8,
+    w: 3,
+    h: 3,
+    displayed: true,
+    name: 'My tasks'
+  }
 };
+//List of widgets used by the user
+myWidgets = {};
+//List of widget views
+dashboardWidgets = [];
 
-Template.message.rendered = function() {
-  $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
-};
+function saveMyWidgets() {
+  var elts = $('.grid-stack > .grid-stack-item:visible');
+  _.each(elts, function(elt) {
+    var id = elt.id.split('Widget')[0];
+    var data = elt.dataset;
+    myWidgets[id].x = data.gsX;
+    myWidgets[id].y = data.gsY;
+    myWidgets[id].w = data.gsWidth;
+    myWidgets[id].h = data.gsHeight;
+  });
+
+  var profile = Meteor.users.findOne(Meteor.userId()).profile;
+  profile.myWidgets = myWidgets;
+  Meteor.users.update(Meteor.userId(), {
+    $set: {
+      profile: profile
+    }
+  });
+}
+
+function instanciateDashboard(savedWidgets) {
+
+  grid = $('.grid-stack').data('gridstack');
+  grid.remove_all();
+
+  //For each widget, check if defined in db otherwise use default display value
+  _.each(widgets, function(widget, key) {
+    if(savedWidgets !== undefined && savedWidgets[key] !== undefined) {
+      myWidgets[key] = savedWidgets[key];
+    } else {
+      myWidgets[key] = widget;
+    }
+  });
+
+  //Create the actual widgets table
+  var organizedWidgets = _.sortBy(myWidgets, 'y');
+  _.each(organizedWidgets, function(widget) {
+    if(widget.displayed) {
+      grid.add_widget('<div id="' + widget.id + 'Widget"></div>', widget.x, widget.y, widget.w, widget.h, false);
+      newWidget = Blaze.render(Template[widget.id + 'Widget'], document.getElementById(widget.id + "Widget"));
+      dashboardWidgets[widget.id + "Widget"] = newWidget;
+    }
+  });
+}
+
+Template.dashboard.onRendered(function() {
+  $('.grid-stack').gridstack({
+    cell_height: 40,
+    vertical_margin: 10,
+    animate: true,
+    height: 0,
+    width: 3
+  });
+
+  //Retrieve list of widgets from db if exists
+  var savedWidgets = Meteor.user().profile.myWidgets;
+  instanciateDashboard(savedWidgets);
+});
 
 Template.dashboard.events({
-  'click .sendMessage': function() {
-    var user = Meteor.users.find({
-      _id: Meteor.userId()
-    }).fetch()[0];
+  'change .grid-stack': function() {
+    saveMyWidgets()
+  },
 
-    if (user) {
-      if (user.profile) {
-        var m = $('.chatMessage').val();
-        if (!m) return;
-        Chatterbox.insert({
-          user: user.profile.name,
-          message: m,
-          createdAt: new Date()
-        });
-
-        $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
-        $('.chatMessage').val("");
-      }
+  'click .addWidget': function(e) {
+    var newWidgetName = e.target.id;
+    if($('#' + newWidgetName + 'Widget').length) {
+      toastr.error('This widget is already displayed.');
+      return;
     }
+    var grid = $('.grid-stack').data('gridstack');
+    var newWidget = (myWidgets[newWidgetName] !== undefined) ? myWidgets[newWidgetName] : widgets[newWidgetName];
+
+    if(newWidget !== undefined) {
+      grid.add_widget('<div id="' + newWidget.id + 'Widget"></div>', newWidget.x, newWidget.y, newWidget.w, newWidget.h, true);
+      addedWidget = Blaze.render(Template[newWidget.id + 'Widget'], document.getElementById(newWidget.id + 'Widget'));
+      dashboardWidgets[newWidget.id + 'Widget'] = addedWidget;
+      myWidgets[newWidget.id].displayed = true;
+      saveMyWidgets();
+    } else {
+      toastr.error('Unable to add widget.');
+    }
+  },
+
+  'click .close': function(e) {
+    var widgetName = e.target.id.split('close_')[1];
+    var gridstack = $('.grid-stack').data('gridstack');
+    gridstack.remove_widget($('#' + widgetName), true);
+    Blaze.remove(dashboardWidgets[widgetName]);
+    delete dashboardWidgets[widgetName];
+    var widgetId = widgetName.split('Widget')[0];
+    myWidgets[widgetId].displayed = false;
+    saveMyWidgets();
+  },
+
+  'click #resetDashboard': function() {
+    myWidgets = {};
+    instanciateDashboard(myWidgets);
+    saveMyWidgets();
   }
+
 });
 
 Template.dashboard.helpers({
-  chatMessages: function() {
-    var user = Meteor.users.find({
-      _id: Meteor.userId()
-    }).fetch()[0];
-    if (user) {
-      if (user.profile) {
-        var arr = [];
-        var filter = new Date(user.profile.lastLogin);
-        var msgs = Chatterbox.find({}).fetch();
-        _.each(msgs, function(x) {
-          var thisDate = new Date(x.createdAt);
-          if (thisDate >= filter) {
-            arr.push(x);
-          }
-        });
-        return arr;
-      }
-    }
-  },
-  onlineColleagues: function() {
-    var users = Meteor.users.find({
-      "group": Partitioner.group()
-    }).fetch();
-    var onlineUsers = new ReactiveArray();
-
-    _.each(users, function(u) {
-      var online = Presences.find({
-        userId: u._id
-      }).fetch()[0];
-
-      if (online) {
-        var data = {
-          user: u.profile.name,
-          state: online.state,
-          last: u.profile.lastActivity.page,
-          url: u.profile.lastActivity.url
-        };
-        onlineUsers.push(data);
-      }
+  widgetList: function() {
+    return _.map(widgets, function(widget) {
+      return widget;
     });
-
-    return onlineUsers.array();
-  },
-  offlineColleagues: function() {
-    var users = Meteor.users.find({
-      "group": Partitioner.group()
-    }).fetch();
-    var offlineUsers = new ReactiveArray();
-
-    _.each(users, function(u) {
-      var online = Presences.find({
-        userId: u._id
-      }).fetch()[0];
-
-      if (!online) {
-        var loginStatus;
-        if (u.profile.lastLogin === null) {
-          loginStatus = "Never logged in.";
-        } else {
-          loginStatus = "Last seen " + moment(u.profile.lastLogin).fromNow();
-        }
-
-        var data = "<small><i class='fa fa-fw fa-circle text-danger'></i>" + u.profile.name + " (<em>" + loginStatus + "</em>)</small>";
-        offlineUsers.push(data);
-      };
-    });
-
-    return offlineUsers.array().join(', ');
-  },
-
-  quotationOfDay: function() {
-    var date = new Date();
-    date.setMonth(0, 0);
-    var i = Math.round((new Date() - date) / 8.64e7) % quotations.length;
-    var quoteObject = quotations[i];
-
-    if (quoteObject.Person === undefined) {
-      quoteObject.Person = "Anonymous"
-    }
-    return quoteObject;
-  },
-  getCurrentUserId: function() {
-    return Meteor.userId();
-  }
-});
-
-Template.colleagueData.events({
-
-});
-
-Template.colleagueData.helpers({
-  isOnline: function() {
-    return (this.state === "online" ? true : false);
-  }
-});
-
-Template.message.helpers({
-  niceTime: function() {
-    return moment(this.createdAt).fromNow();
   }
 });
