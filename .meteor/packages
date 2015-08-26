@@ -70,6 +70,5 @@ kadira:blaze-layout
 aldeed:template-extension
 reactive-var
 meteorhacks:npm
-
-
 npm-container
+csauer:accounts-phony

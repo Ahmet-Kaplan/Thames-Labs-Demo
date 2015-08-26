@@ -1,6 +1,59 @@
 // Super secret server only methods
 Meteor.methods({
+  checkUserRole: function(userId, roleName) {
+    var user = Meteor.users.findOne(userId);
+    if (user) {
+      if (Roles.userIsInRole(userId, "Administrator")) {
+        return true;
+      }
 
+      if (Roles.userIsInRole(userId, roleName)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
+  getMaxPermission: function(userId, permissionName) {
+    var user = Meteor.users.findOne(userId);
+    if (user) {
+      var returnedValue = 'Restricted';
+
+      if (Roles.userIsInRole(userId, "Administrator")) {
+        return 'CanDelete' + permissionName;
+      }
+
+      if (Roles.userIsInRole(userId, 'CanRead' + permissionName)) {
+        returnedValue = 'CanRead' + permissionName;
+      }
+
+      if (Roles.userIsInRole(userId, 'CanCreate' + permissionName)) {
+        returnedValue = 'CanCreate' + permissionName;
+      }
+
+      if (Roles.userIsInRole(userId, 'CanEdit' + permissionName)) {
+        returnedValue = 'CanEdit' + permissionName;
+      }
+
+      if (Roles.userIsInRole(userId, 'CanDelete' + permissionName)) {
+        returnedValue = 'CanDelete' + permissionName;
+      }
+
+      return returnedValue;
+    }
+  },
+  setUserRole: function(userId, roleName, value) {
+    var user = Meteor.users.findOne(userId);
+    if (user) {
+      if (value === true && !Roles.userIsInRole(userId, roleName)) {
+        Roles.addUsersToRoles(userId, roleName);
+      }
+
+      if (value === false && Roles.userIsInRole(userId, roleName)) {
+        Roles.removeUsersFromRoles(userId, roleName);
+      }
+    }
+  },
   clearAuditLog: function() {
     AuditLog.remove({});
   },
@@ -61,6 +114,42 @@ Meteor.methods({
         }
       }
     });
+
+    Roles.addUsersToRoles(userId, [
+      "CanReadContacts",
+      "CanReadCompanies",
+      "CanCreateCompanies",
+      "CanEditCompanies",
+      "CanDeleteCompanies",
+      "CanCreateContacts",
+      "CanEditContacts",
+      "CanDeleteContacts",
+      "CanReadProjects",
+      "CanCreateProjects",
+      "CanEditProjects",
+      "CanDeleteProjects",
+      "CanReadProducts",
+      "CanCreateProducts",
+      "CanEditProducts",
+      "CanDeleteProducts",
+      "CanReadTasks",
+      "CanCreateTasks",
+      "CanEditTasks",
+      "CanDeleteTasks",
+      "CanReadPurchaseOrders",
+      "CanCreatePurchaseOrders",
+      "CanEditPurchaseOrders",
+      "CanDeletePurchaseOrders",
+      "CanReadDataManagement",
+      "CanCreateDataManagement",
+      "CanEditDataManagement",
+      "CanDeleteDataManagement",
+      "CanReadEventLog",
+      "CanCreateEventLog",
+      "CanEditEventLog",
+      "CanDeleteEventLog"
+    ]);
+
     // Add user to a group (partition) based on customer id
     if (doc.group) {
       Partitioner.setUserGroup(userId, doc.group);

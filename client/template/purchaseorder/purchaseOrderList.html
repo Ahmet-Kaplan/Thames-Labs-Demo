@@ -7,9 +7,11 @@
       <div class="sidebar">
         <h1>Actions</h1>
         {{> esInput index="purchaseorders" placeholder="search purchase orders..." allDocsOnEmpty=true reactive=false class="form-control"}}
+        {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
         <div class="btn-group-vertical">
           <a href="#" id="add-purchase-order" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
         </div>
+        {{/if}}
       </div>
     </div>
 

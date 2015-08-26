@@ -24,6 +24,7 @@ chhib:selectize-bootstrap-3@0.0.1
 chrismbeckett:toastr@2.1.0
 coffeescript@1.0.6
 cosmos:browserify@0.5.0
+csauer:accounts-phony@0.0.5
 dbernhard:jquery-ui-draggable@0.1.2
 dburles:collection-helpers@1.0.3
 dburles:google-maps@1.1.1

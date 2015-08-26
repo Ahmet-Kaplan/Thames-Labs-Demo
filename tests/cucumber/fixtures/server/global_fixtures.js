@@ -20,6 +20,13 @@ Meteor.methods({
       name: "Company Name"
     });
   },
+  'checkUserHasPermission': function(username, permissionName) {
+    var user = Meteor.users.findOne({
+      username: username
+    });
+
+    return Roles.userIsInRole(user, permissionName);
+  },
   'getUserByEmail': function(email) {
     return Meteor.users.findOne({
       emails: {
@@ -30,8 +37,7 @@ Meteor.methods({
     });
   },
   'createTestCompany': function() {
-    var data = "";
-    Companies.insert({
+    var id = Companies.insert({
       name: 'test company',
       address: 'test address',
       city: 'test city',
@@ -39,14 +45,9 @@ Meteor.methods({
       postcode: 'test postcode',
       website: 'http://www.test-company.test',
       createdBy: Meteor.userId()
-    }, function(err, id) {
-      if (err) {
-        data = err;
-      } else {
-        data = id;
-      }
     });
-    return data;
+
+    return id;
   },
   'createTestContact': function() {
     var data = "";
@@ -114,7 +115,52 @@ Meteor.methods({
 });
 
 Meteor.startup(function() {
+  Tenants.remove({});
   Meteor.users.remove({});
+
+  //****************   USER PERMISSION TEST ITEMS   ****************//
+  var tenantId = Tenants.insert({
+    name: 'Test Ltd',
+    settings: {
+      PurchaseOrderPrefix: 'T',
+      PurchaseOrderStartingValue: 1
+    },
+    createdAt: new Date()
+  });
+
+
+  var santaClaus = Accounts.createUser({
+    username: "Chris Cringle",
+    email: "santa@domain.com",
+    password: "hohoho",
+    profile: {
+      name: "Chris Cringle"
+    }
+  });
+  Partitioner.setUserGroup(santaClaus, tenantId);
+  Roles.removeUsersFromRoles(santaClaus, 'Administrator');
+  Roles.addUsersToRoles(santaClaus, ['CanReadCompanies', 'CanCreateCompanies', 'CanEditCompanies', 'CanDeleteCompanies']);
+
+  var userId3 = Accounts.createUser({
+    username: "dummy",
+    email: "dummy@domain.com",
+    password: "goodpassword",
+    profile: {
+      name: "dummy"
+    }
+  });
+  Partitioner.setUserGroup(userId3, tenantId);
+  //Roles.removeUsersFromRoles(userId3, ['Administrator', 'CanReadCompanies', 'CanCreateCompanies', 'CanEditCompanies', 'CanDeleteCompanies']);
+  //**************** END USER PERMISSION TEST ITEMS ****************//
+
+  var tenantId2 = Tenants.insert({
+    name: 'Zulu Ltd',
+    settings: {
+      PurchaseOrderPrefix: 'Z',
+      PurchaseOrderStartingValue: 1
+    },
+    createdAt: new Date()
+  });
 
   var userId = Accounts.createUser({
     username: "test user",
@@ -126,7 +172,8 @@ Meteor.startup(function() {
   });
 
   // Important! Otherwise subs manager fails to load things and you get a lot of "loading..." screens
-  Partitioner.setUserGroup(userId, 'tenant 1');
+  Partitioner.setUserGroup(userId, tenantId2);
+  Roles.addUsersToRoles(userId, ['Administrator']);
 
   var userId2 = Accounts.createUser({
     username: "test user 2",
@@ -137,6 +184,8 @@ Meteor.startup(function() {
     }
   });
   Partitioner.setUserGroup(userId2, 'tenant 2');
+  Roles.addUsersToRoles(userId2, ['Administrator']);
+
 
   var superadminId = Accounts.createUser({
     username: 'superadmin',
