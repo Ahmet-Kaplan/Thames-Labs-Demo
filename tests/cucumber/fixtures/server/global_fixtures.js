@@ -25,11 +25,12 @@ Meteor.methods({
       username: username
     });
 
-    if (Roles.userIsInRole(user, permissionName)) {
+    return Roles.userIsInRole(user, permissionName);
+    /*if (Roles.userIsInRole(user, permissionName)) {
       return true;
     } else {
       return false;
-    }
+    }*/
   },
   'getUserByEmail': function(email) {
     return Meteor.users.findOne({
