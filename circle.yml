@@ -29,7 +29,7 @@ dependencies:
 
     # Copy logs to artifacts DIR
     - mkdir -p $CIRCLE_ARTIFACTS/chrome
-    - cp app/.meteor/local/log/*.log $CIRCLE_ARTIFACTS/chrome
+    - cp .meteor/local/log/*.log $CIRCLE_ARTIFACTS/chrome
 
 test:
   override:
