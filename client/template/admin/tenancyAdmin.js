@@ -11,5 +11,8 @@ Template.tenancyAdminPage.helpers({
 Template.tenancyAdminPage.events({
   'click #btnEditTenantUserPermissions': function() {
     Modal.show('editTenantUserPermissions', this);
+  },
+  'click #addNewUserAccount': function() {
+    Modal.show('addNewUser', this);
   }
 });

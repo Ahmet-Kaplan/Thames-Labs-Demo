@@ -256,9 +256,6 @@ Template.nav.events({
       document.getElementById("id-view-sidemenu").className =
         document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
     }
-  },
-  'click #add-user': function() {
-    Modal.show('addNewUser', this);
   }
 });
 

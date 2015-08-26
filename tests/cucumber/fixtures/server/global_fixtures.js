@@ -34,6 +34,13 @@ Meteor.methods({
 
     return Roles.userIsInRole(user, permissionName);
   },
+  'setUserPermission': function(username, permissionName) {
+    var user = Meteor.users.findOne({
+      username: username
+    });
+    Roles.addUsersToRoles(user, permissionName);
+    return true;
+  },
   'getUserByEmail': function(email) {
     return Meteor.users.findOne({
       emails: {

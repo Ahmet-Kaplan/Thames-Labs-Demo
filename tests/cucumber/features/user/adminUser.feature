@@ -1,3 +1,4 @@
+@ignore
 Feature: Allow Administrators to add users
 
   As a basic user of the app
@@ -10,7 +11,7 @@ Feature: Allow Administrators to add users
   Scenario: An administrator can see the 'Administration' button
     When I navigate to "/"
     Then I should see the "#administration" button
-@dev
+
   Scenario: An administrator can add a new user
     When I click "#administration"
     And I click "#add-user"
