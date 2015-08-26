@@ -149,6 +149,7 @@ module.exports = function() {
           done(data);
         });
       }, role).then(function(data) {
+        console.log(role, data, data.value);
         expect(data.value).to.equal(false);
       }).call(callback);
   });
