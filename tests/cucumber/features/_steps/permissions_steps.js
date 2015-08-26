@@ -178,19 +178,15 @@ module.exports = function() {
 
   this.Then(/^I can see the "([^"]*)" button$/, function(buttonId, callback) {
     this.client
-      // .isExisting(buttonId).then(function(isExisting) {
-      //   expect(isExisting).to.equal(true);
-      // })
       .waitForVisible(buttonId, 2000)
       .call(callback);
   });
 
   this.Then(/^I cannot see the "([^"]*)" button$/, function(buttonId, callback) {
     this.client
-      // .isExisting(buttonId).then(function(isExisting) {
-      //   expect(isExisting).to.equal(false);
-      // })
-      .waitForVisible(buttonId, 2000, true)
+      .isVisible(buttonId).then(function(isVisible) {
+        expect(isVisible).to.equal(false);
+      })
       .call(callback);
   });
 

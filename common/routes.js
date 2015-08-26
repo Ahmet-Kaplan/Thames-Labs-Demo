@@ -28,6 +28,7 @@ var loggedOutUserOnly = function(context, redirect) {
 };
 
 var tidyUpModals = function(context) {
+  Modal.hide();
   $(".modal-backdrop").remove();
   $("body").removeClass('modal-open');
 

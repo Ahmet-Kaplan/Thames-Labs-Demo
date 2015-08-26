@@ -121,14 +121,16 @@ Meteor.methods({
 Meteor.startup(function() {
   Tenants.remove({});
   Meteor.users.remove({});
-var tenantId = Tenants.insert({
-  name: 'Test Ltd',
-  settings: {
-    PurchaseOrderPrefix: 'T',
-    PurchaseOrderStartingValue: 1
-  },
-  createdAt: new Date()
-});
+
+  //****************   USER PERMISSION TEST ITEMS   ****************//
+  var tenantId = Tenants.insert({
+    name: 'Test Ltd',
+    settings: {
+      PurchaseOrderPrefix: 'T',
+      PurchaseOrderStartingValue: 1
+    },
+    createdAt: new Date()
+  });
 
 
   var santaClaus = Accounts.createUser({
@@ -143,26 +145,26 @@ var tenantId = Tenants.insert({
   Roles.removeUsersFromRoles(santaClaus, 'Administrator');
   Roles.addUsersToRoles(santaClaus, ['CanReadCompanies', 'CanCreateCompanies', 'CanEditCompanies', 'CanDeleteCompanies']);
 
-    var userId3 = Accounts.createUser({
-      username: "dummy",
-      email: "dummy@domain.com",
-      password: "goodpassword",
-      profile: {
-        name: "dummy"
-      }
-    });
-    Partitioner.setUserGroup(userId3, tenantId);
-    Roles.removeUsersFromRoles(userId3, ['Administrator', 'CanReadCompanies', 'CanCreateCompanies', 'CanEditCompanies', 'CanDeleteCompanies']);
+  var userId3 = Accounts.createUser({
+    username: "dummy",
+    email: "dummy@domain.com",
+    password: "goodpassword",
+    profile: {
+      name: "dummy"
+    }
+  });
+  Partitioner.setUserGroup(userId3, tenantId);
+  Roles.removeUsersFromRoles(userId3, ['Administrator', 'CanReadCompanies', 'CanCreateCompanies', 'CanEditCompanies', 'CanDeleteCompanies']);
+  //**************** END USER PERMISSION TEST ITEMS ****************//
 
-
-      var tenantId2 = Tenants.insert({
-        name: 'Zulu Ltd',
-        settings: {
-          PurchaseOrderPrefix: 'Z',
-          PurchaseOrderStartingValue: 1
-        },
-        createdAt: new Date()
-      });
+  var tenantId2 = Tenants.insert({
+    name: 'Zulu Ltd',
+    settings: {
+      PurchaseOrderPrefix: 'Z',
+      PurchaseOrderStartingValue: 1
+    },
+    createdAt: new Date()
+  });
 
   var userId = Accounts.createUser({
     username: "test user",
@@ -175,6 +177,7 @@ var tenantId = Tenants.insert({
 
   // Important! Otherwise subs manager fails to load things and you get a lot of "loading..." screens
   Partitioner.setUserGroup(userId, tenantId2);
+  Roles.addUsersToRoles(userId, ['Administrator']);
 
   var userId2 = Accounts.createUser({
     username: "test user 2",
@@ -185,6 +188,7 @@ var tenantId = Tenants.insert({
     }
   });
   Partitioner.setUserGroup(userId2, 'tenant 2');
+  Roles.addUsersToRoles(userId2, ['Administrator']);
 
 
   var superadminId = Accounts.createUser({
