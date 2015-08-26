@@ -4,6 +4,8 @@ Template.companyDetail.onCreated(function() {
     var company = Companies.findOne(FlowRouter.getParam('id'));
     if (FlowRouter.subsReady() && company === undefined) {
       FlowRouter.go('companies');
+    } else if (FlowRouter.subsReady() && company.website !== '' && company.website !== undefined) {
+      Meteor.call('getClearbitData', 'company', company._id);
     }
   });
 });
