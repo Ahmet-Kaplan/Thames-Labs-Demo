@@ -6,7 +6,6 @@ module.exports = function() {
     this.client
       .executeAsync(function(done) {
         Meteor.call('createTestCompany', function(err, data) {
-          if (err) console.log(err);
           done(data);
         });
       })
@@ -20,7 +19,6 @@ module.exports = function() {
     this.client
       .executeAsync(function(done) {
         Meteor.call('createTestContact', function(err, data) {
-          if (err) console.log(err);
           done(data);
         });
       })

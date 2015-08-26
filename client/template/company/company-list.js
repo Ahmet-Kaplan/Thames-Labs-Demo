@@ -18,6 +18,7 @@ Template.companyList.onRendered(function() {
       $('.sidebar input').val(searchQuery);
     }
   });
+
 });
 
 Template.companyList.helpers({
