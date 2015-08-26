@@ -6,7 +6,6 @@ module.exports = function() {
     this.client
       .executeAsync(function(done) {
         Meteor.call('createTestCompany', function(err, data) {
-          if (err) console.log(err);
           done(data);
         });
       })
@@ -20,7 +19,6 @@ module.exports = function() {
     this.client
       .executeAsync(function(done) {
         Meteor.call('createTestContact', function(err, data) {
-          if (err) console.log(err);
           done(data);
         });
       })
@@ -63,10 +61,10 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Then(/^I leftclick "#new-location-search"$/, function(callback) {
+  this.Then(/^I leftclick "#show-map"$/, function(callback) {
     this.client
-      .waitForVisible('#new-location-search', 2000)
-      .click('#new-location-search')
+      .waitForVisible('#show-map', 2000)
+      .click('#show-map')
       .getCssProperty('#show-map', 'display').then(function(display) {
         expect(display.value).to.equal('none');
       })

@@ -12,7 +12,8 @@
           </button>
           {{/if}}
           <a class="navbar-brand" href="/">
-            <img alt="" src="/icon.svg">RealTime<span>CRM</span>
+            <img alt="" src="/icon.svg">RealTime
+            <span>CRM</span>
           </a>
         </div>
         {{#if loggedIn}}
@@ -81,6 +82,10 @@
               <ul class="dropdown-menu">
                 <li><a href="#" id="feedback-link">Give Feedback</a></li>
                 <li><a href="http://www.realtimecrm.co.uk/roadmap" id="roadmap-link" target="_blank">Feature Roadmap</a></li>
+                {{#if isInRole 'Administrator'}}
+                <li role="separator" class="divider"></li>
+                <li><a href="/admin" id="Administration">Administration</a></li>
+                {{/if}}
                 <li role="separator" class="divider"></li>
                 <li><a href="#" id="btnChangePassword">Change Password</a></li>
                 {{#if showTourOption}}
@@ -177,291 +182,94 @@
 
       <div class="panel panel-default accordion-links">
         <table class="table">
+          {{#if isInRole 'Administrator,CanReadCompanies'}}
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
-                <a href='/companies' class="dismiss-on-click {{#if isActiveRoute 'companies'}}active{{/if}}">
+                <a href='/companies' class="dismiss-on-click {{#if isActiveRoute 'companies'}}active{{/if}}" id="menuLinkCompanies">
                   <i class="fa fa-fw fa-building"></i> Companies
                 </a>
               </h4>
             </td>
           </tr>
-
+          {{/if}} {{#if isInRole 'Administrator,CanReadContacts'}}
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
-                <a href='/contacts' class="dismiss-on-click {{#if isActiveRoute 'contacts'}}active{{/if}}">
+                <a href='/contacts' class="dismiss-on-click {{#if isActiveRoute 'contacts'}}active{{/if}}" id="menuLinkContacts">
                   <i class="fa fa-fw fa-user"></i> Contacts
                 </a>
               </h4>
             </td>
           </tr>
-
+          {{/if}} {{#if isInRole 'Administrator,CanReadProjects'}}
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <i class="fa fa-fw fa-files-o"></i>
+                <a href='/projects' class="{{#if isActiveRoute 'projects'}}active{{/if}}" id="menuLinkProjects">
+                  Projects
+                </a>
+              </h4>
+            </td>
+          </tr>
+          {{/if}} {{#if isInRole 'Administrator,CanReadProducts'}}
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <i class="fa fa-fw fa-wrench"></i>
+                <a href='/products' class="{{#if isActiveRoute 'products'}}active{{/if}}" id="menuLinkProducts">
+                  Products</a>
+              </h4>
+            </td>
+          </tr>
+          {{/if}} {{#if isInRole 'Administrator,CanReadTasks'}}
           <tr>
             <td class="panel-heading">
               <h4 class="panel-title">
                 <i class="fa fa-fw fa-check"></i>
-                <a href='/tasks' class="dismiss-on-click {{#if isActiveRoute 'tasks'}}active{{/if}}">
+                <a href='/tasks' class="dismiss-on-click {{#if isActiveRoute 'tasks'}}active{{/if}}" id="menuLinkTasks">
                   Tasks
                   </a>
               </h4>
             </td>
           </tr>
+          {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <i class="fa fa-fw fa-shopping-cart"></i>
+                <a href='/purchaseorders' class="{{#if isActiveRoute 'purchaseOrders'}}active{{/if}}" id="menuLinkPurchaseOrders">
+                  Purchase Orders
+                </a>
+              </h4>
+            </td>
+          </tr>
+          {{/if}} {{#if isInRole 'Administrator,CanReadDataManagement'}}
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <i class="fa fa-fw fa-upload"></i>
+                <a href='/datamanagement' class="{{#if isActiveRoute 'datamanagement'}}active{{/if}}" id="menuLinkDataManagement">
+                 Data Management</a>
+              </h4>
+            </td>
+          </tr>
+          {{/if}} {{#if isInRole 'Administrator,CanReadEventLog'}}
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <i class="fa fa-fw fa-book"></i>
+                <a href='/events' class="{{#if isActiveRoute 'events'}}active{{/if}}" id="menuLinkEventLog">
+                  Event Log</a>
+              </h4>
+            </td>
+          </tr>
+          {{/if}}
+
         </table>
       </div>
 
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-parent="#accordion" data-toggle="collapse" href="#collapseMarketing">
-              <i class="fa fa-fw fa-camera"></i> Marketing
-              <i class="fa fa-angle-down pull-right"></i>
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse collapse" id="collapseMarketing">
-          <div class="panel-body">
-            <table class="table">
-              <tr>
-                <td>
-                  <a class="not-active {{#if isActiveRoute 'campaigns'}}active{{/if}}">
-                    <i class="fa fa-fw fa-flag"></i> Campaigns</a>
-                </td>
-              </tr>
-
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-parent="#accordion" data-toggle="collapse" href="#collapseSales">
-              <i class="fa fa-fw fa-money"></i> Sales
-              <i class="fa fa-angle-down pull-right"></i>
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse collapse" id="collapseSales">
-          <div class="panel-body">
-            <table class="table">
-              <tr>
-                <td>
-                  <a class="not-active {{#if isActiveRoute 'opportunities'}}active{{/if}}">
-                    <i class="fa fa-fw fa-files-o"></i> Opportunities</a>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-parent="#accordion" data-toggle="collapse" href="#collapseOperations">
-              <i class="fa fa-fw fa-files-o"></i> Operations
-              <i class="fa fa-angle-down pull-right"></i>
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse collapse" id="collapseOperations">
-          <div class="panel-body">
-            <table class="table">
-              <!-- <tr>
-                <td>
-                  <a href='/customers' class="not-active {{#if isActiveRoute 'customers'}}active{{/if}}">
-                    <i class="fa fa-fw fa-building"></i> Customers</a>
-                </td>
-              </tr> -->
-              <tr>
-                <td>
-                  <a href='/projects' class="{{#if isActiveRoute 'projects'}}active{{/if}}">
-                    <i class="fa fa-fw fa-files-o"></i> Projects</a>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-parent="#accordion" data-toggle="collapse" href="#collapsePurchasing">
-              <i class="fa fa-fw fa-shopping-cart"></i> Purchasing
-              <i class="fa fa-angle-down pull-right"></i>
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse collapse" id="collapsePurchasing">
-          <div class="panel-body">
-            <table class="table">
-              <!-- <tr>
-                <td>
-                  <a href='/suppliers' class="not-active {{#if isActiveRoute 'suppliers'}}active{{/if}}">
-                    <i class="fa fa-fw fa-building"></i> Suppliers</a>
-                </td>
-              </tr> -->
-              <tr>
-                <td>
-                  <a class="not-active {{#if isActiveRoute 'procurements'}}active{{/if}}">
-                    <i class="fa fa-fw fa-list"></i> Procurements</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a href='/purchaseorders' class="{{#if isActiveRoute 'purchaseOrders'}}active{{/if}}">
-                    <i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a class="not-active {{#if isActiveRoute 'contracts'}}active{{/if}}">
-                    <i class="fa fa-fw fa-pencil"></i> Contracts</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a class="not-active {{#if isActiveRoute 'invoices'}}active{{/if}}">
-                    <i class="fa fa-fw fa-money"></i> Invoices</a>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-parent="#accordion" data-toggle="collapse" href="#collapseSupport">
-              <i class="fa fa-fw fa-question"></i> Support
-              <i class="fa fa-angle-down pull-right"></i>
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse collapse" id="collapseSupport">
-          <div class="panel-body">
-            <table class="table">
-              <tr>
-                <td>
-                  <a class="not-active {{#if isActiveRoute 'tickets'}}active{{/if}}">
-                    <i class="fa fa-fw fa-ticket"></i> Tickets</a>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-parent="#accordion" data-toggle="collapse" href="#collapseReporting">
-              <i class="fa fa-fw fa-book"></i> Reporting
-              <i class="fa fa-angle-down pull-right"></i>
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse collapse" id="collapseReporting">
-          <div class="panel-body">
-            <table class="table">
-              <tr>
-                <td>
-                  <a class="not-active {{#if isActiveRoute 'auditlog'}}active{{/if}}">
-                    <i class="fa fa-fw fa-bookmark"></i> Audit Log</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a href='/events' class="{{#if isActiveRoute 'events'}}active{{/if}}">
-                    <i class="fa fa-fw fa-book"></i> Event Log</a>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-parent="#accordion" data-toggle="collapse" href="#collapseHR">
-              <i class="fa fa-fw fa-users"></i> HR
-              <i class="fa fa-angle-down pull-right"></i>
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse collapse" id="collapseHR">
-          <div class="panel-body">
-            <table class="table">
-              <tr>
-                <td>
-                  <a class="not-active {{#if isActiveRoute 'employees'}}active{{/if}}">
-                    <i class="fa fa-fw fa-users"></i> Employees</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a class="not-active {{#if isActiveRoute 'holidays'}}active{{/if}}">
-                    <i class="fa fa-fw fa-plane"></i> Holidays</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a class="not-active {{#if isActiveRoute 'absences'}}active{{/if}}">
-                    <i class="fa fa-fw fa-user-md"></i> Absences</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a class="not-active {{#if isActiveRoute 'timesheets'}}active{{/if}}">
-                    <i class="fa fa-fw fa-clock-o"></i> Timesheets</a>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-parent="#accordion" data-toggle="collapse" href="#collapseGeneral">
-              <i class="fa fa-fw fa-briefcase"></i> General
-              <i class="fa fa-angle-down pull-right"></i>
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse collapse" id="collapseGeneral">
-          <div class="panel-body">
-            <table class="table">
-              <tr>
-                <td>
-                  <a class="not-active {{#if isActiveRoute 'templates'}}active{{/if}}">
-                    <i class="fa fa-fw fa-file-text"></i> Templates</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a href='/products' class="{{#if isActiveRoute 'products'}}active{{/if}}">
-                    <i class="fa fa-fw fa-wrench"></i> Products</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a href='/datamanagement' class="{{#if isActiveRoute 'datamanagement'}}active{{/if}}">
-                    <i class="fa fa-fw fa-upload"></i> Data Management</a>
-                </td>
-              </tr>
-
-            </table>
-          </div>
-        </div>
-      </div>
       {{/unless}}
 
       <div class="visible-xs">

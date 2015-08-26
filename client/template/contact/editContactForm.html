@@ -13,11 +13,12 @@
             {{> afQuickField name="title" options="allowed"}}
             {{> afQuickField name="forename"}}
             {{> afQuickField name="surname"}}
+            {{> afQuickField name="email"}}
             {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
             {{> afQuickField name="jobtitle"}}
             {{#if noCompany}}
-              <div><a href="#" id="show-map">New location search</a></div>
+              <div class="form-group"><a href="#" class="btn btn-default btn-sm" id="show-map">New location search</a></div>
               {{#if isDesktop}}
               <div id="map_wrapper" class="form-group" style="display: none;">
                 <div class="form-group">

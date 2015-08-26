@@ -190,6 +190,21 @@ Schemas.Company = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  metadata: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    },
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
   }
 });
 Companies.attachSchema(Schemas.Company);
@@ -292,6 +307,21 @@ Schemas.Contact = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  metadata: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
   }
 });
 Contacts.attachSchema(Schemas.Contact);
@@ -376,6 +406,13 @@ Schemas.Project = new SimpleSchema({
     type: String,
     autoform: {
       type: "hidden"
+    }
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
     }
   }
 });

@@ -30,7 +30,10 @@
     </div>
 
     <div class="col-md-6">
-      <h4 class="entity-title">Company</h4>
+      <h4 class="entity-title">
+        <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
+        Company
+      </h4>
       <h1 id="company-details" class="entity-name">{{name}}</h1>
 
       {{> tagInput}}
@@ -38,8 +41,9 @@
       <div class="panel panel-default" id="company-details-panel">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            <a href="#" id="edit-company" class="btn btn-info btn-xs">Edit company details</a>
-            <a href="#" id="remove-company" class="btn btn-danger btn-xs">Delete company</a>
+            {{#if isInRole 'Administrator,CanEditCompanies'}}
+            <a href="#" id="edit-company" class="btn btn-info btn-xs">Edit company details</a>{{/if}} {{#if isInRole 'Administrator,CanDeleteCompanies'}}
+            <a href="#" id="remove-company" class="btn btn-danger btn-xs">Delete company</a>{{/if}}
           </div>
           Company details
         </div>
@@ -58,10 +62,11 @@
         </ul>
       </div>
 
+      {{#if isInRole 'Administrator,CanReadContacts'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="contacts">
-          Contacts
-          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New contact for this company"><i class="fa fa-fw fa-plus"></i>Add contact</a>
+          Contacts {{#if isInRole 'Administrator,CanCreateContacts'}}
+          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New contact for this company"><i class="fa fa-fw fa-plus"></i>Add contact</a> {{/if}}
         </div>
         <ul class="list-group">
           {{#each contacts}}
@@ -74,50 +79,48 @@
           {{/each}}
         </ul>
       </div>
-
+      {{/if}} {{#if isInRole 'Administrator,CanReadProjects'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
-          Projects
-          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this company"><i class="fa fa-fw fa-plus"></i> Add project</a>
+          Projects {{#if isInRole 'Administrator,CanCreateProjects'}}
+          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this company"><i class="fa fa-fw fa-plus"></i> Add project</a> {{/if}}
         </div>
         <ul class="list-group">
           {{#each projects}}
           <a href="{{pathFor route='project' id=_id}}" class="list-group-item">
             <i class="fa fa-fw fa-files-o"></i> {{description}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          </a>
-          {{else}}
+          </a> {{else}}
           <li class="list-group-item">No projects</li>
           {{/each}}
         </ul>
       </div>
-
+      {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
-          Purchase Orders
-          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i> Add purchase order</a>
+          Purchase Orders {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i> Add purchase order</a> {{/if}}
         </div>
         <ul class="list-group">
           {{#each purchaseOrders}}
           <a href="{{pathFor route='purchaseOrder' id=_id}}" class="list-group-item">
             <i class="fa fa-fw fa-shopping-cart"></i> {{description}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          </a>
-          {{else}}
+          </a>{{else}}
           <li class="list-group-item">No purchase orders</li>
           {{/each}}
         </ul>
       </div>
-
-      {{#with this}} {{> taskDisplay entity_type="company" entity_id=_id}} {{/with}}
+      {{/if}} {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="company" entity_id=_id}} {{/with}} {{/if}}
 
       <div>
-        {{#with this}} {{> customFieldDisplay entity_data=this entity_type='company'}} {{/with}}
+        {{#if isInRole 'Administrator,CanEditCompanies'}} {{#with this}} {{> customFieldDisplay entity_data=this entity_type='company'}} {{/with}} {{/if}}
       </div>
 
     </div>
 
     <div class="col-md-4">
+      {{> publicCompanyInformation}}
       <h1>Address</h1>
       {{> map title=mapTitle address=mapAddress}}
     </div>

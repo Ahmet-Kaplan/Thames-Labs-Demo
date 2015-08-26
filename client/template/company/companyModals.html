@@ -55,20 +55,20 @@
         </div>
 
         <div class="modal-body">
-          {{#if isDesktop}} 
-          <div class="form-group" id="show-map"><a href="#"><button class="btn btn-default btn-sm" id="new-location-search">New location search</button></a></div>
-          <div id="map_wrapper" class="form-group" style="display: none;">
-            <div class="form-group">
-              <label for="geo" class="control-label">Search for Address, City, etc.</label>
-              <input type="text" id="geo" class="form-control" autocomplete="off" />
-            </div>
-            <label class="control-label">Map (drag marker to adjust position)</label>
-            <div id="mapModal_canvas"></div>
-            <span class="help-block"></span>
-          </div>
-          {{/if}}
           {{#autoForm collection="Companies" id="editCompanyForm" type="update" doc=this}}
             {{> afQuickField name="name"}}
+            {{#if isDesktop}} 
+            <div class="form-group"><a href="#" class="btn btn-default btn-sm" id="show-map">New location search</a></div>
+            <div id="map_wrapper" class="form-group" style="display: none;">
+              <div class="form-group">
+                <label for="geo" class="control-label">Search for Address, City, etc.</label>
+                <input type="text" id="geo" class="form-control" autocomplete="off" />
+              </div>
+              <label class="control-label">Map (drag marker to adjust position)</label>
+              <div id="mapModal_canvas"></div>
+              <span class="help-block"></span>
+            </div>
+            {{/if}}
             {{> afQuickField name="address" id="formatted_address"}}
             {{> afQuickField name="address2"}}
             {{> afQuickField name="city" data-geo="locality"}}
