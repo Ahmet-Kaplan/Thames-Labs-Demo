@@ -229,7 +229,7 @@ Migrations.add({
     updateUserPermissions();
     ServerSession.set('maintenance', false);
   },
-  down: function(){
+  down: function() {
     ServerSession.set('maintenance', true);
     revertUserPermissions();
     ServerSession.set('maintenance', false);
