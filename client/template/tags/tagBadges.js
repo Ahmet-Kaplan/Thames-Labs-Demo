@@ -41,6 +41,9 @@ Template.tagBadge.events({
 
 Template.tagBadges.helpers({
   sortedTags: function() {
-    return this.tags.sort();
+    if (this.tags) {
+      this.tags.sort();
+    }
+    return this.tags;
   }
 });
