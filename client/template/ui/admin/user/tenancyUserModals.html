@@ -4,17 +4,46 @@
       <div class="modal-content">
 
         <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h5>Add new user</h5>
         </div>
 
         <div class="modal-body">
-          {{#autoForm schema="Schemas.User" id="addTenantUserModal" type="method" meteormethod="addUser"}}
-            {{> afQuickField name="name"}}
-            {{> afQuickField name="email"}}
-            {{> afQuickField name="password" type="password"}}
-            {{> afQuickField name="group" type="hidden" value=_id}}
-            <button type="submit" class="btn btn-primary">Create</button>
+          {{#autoForm schema="Schemas.User" id="addTenantUserModal" type="method" meteormethod="addUser"}} {{> afQuickField name="name"}} {{> afQuickField name="email"}} {{> afQuickField name="password" type="password"}} {{> afQuickField name="group" type="hidden"
+          value=_id}}
+          <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="editTenantUser">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Edit user</h5>
+        </div>
+
+        <div class="modal-body">
+          <form>
+
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="cbUserIsTenantAdministrator"> Tenant Administrator
+              </label>
+            </div>
+
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <a id="btnUpdateTenantUser" class="btn btn-primary" style="margin-top:5px;">Update</a>
         </div>
 
       </div>

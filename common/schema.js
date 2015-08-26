@@ -147,6 +147,7 @@ Schemas.Company = new SimpleSchema({
   },
   address: {
     type: String,
+    optional: true,
     label: "Address"
   },
   address2: {
@@ -156,6 +157,7 @@ Schemas.Company = new SimpleSchema({
   },
   city: {
     type: String,
+    optional: true,
     label: "City/Town"
   },
   county: {
@@ -165,10 +167,12 @@ Schemas.Company = new SimpleSchema({
   },
   postcode: {
     type: String,
+    optional: true,
     label: "PostCode/Zip"
   },
   country: {
     type: String,
+    optional: true,
     label: "Country"
   },
   lat: {
@@ -212,6 +216,21 @@ Schemas.Company = new SimpleSchema({
     optional: true,
     autoform: {
       type: "hidden"
+    }
+  },
+  metadata: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    },
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
     }
   }
 });
@@ -315,6 +334,21 @@ Schemas.Contact = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  metadata: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
   }
 });
 Contacts.attachSchema(Schemas.Contact);
@@ -399,6 +433,13 @@ Schemas.Project = new SimpleSchema({
     type: String,
     autoform: {
       type: "hidden"
+    }
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
     }
   }
 });

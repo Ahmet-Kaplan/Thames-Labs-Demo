@@ -175,6 +175,8 @@ Meteor.methods({
       }
     });
 
+    Roles.addUsersToRoles(userId, ["Administrator"]);
+
     //This needs to be run on the server, otherwise client errors occur
     if (Meteor.isServer) {
       var tenantId = Tenants.insert({

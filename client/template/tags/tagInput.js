@@ -1,6 +1,6 @@
 "use strict";
 
-Template.tagInput.rendered = function() {
+Template.tagInput.onRendered(function() {
 
   var entityType = "";
   var routeName = FlowRouter.getRouteName();
@@ -69,4 +69,4 @@ Template.tagInput.rendered = function() {
       });
     }
   });
-};
+});

@@ -123,5 +123,9 @@ Template.user.events({
         Meteor.users.remove(userId);
       }
     });
+  },
+  "click #btnEditTenantUser": function(event, template) {
+    event.preventDefault();
+    Modal.show('editTenantUser', this);
   }
 });

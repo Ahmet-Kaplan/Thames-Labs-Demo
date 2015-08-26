@@ -5,9 +5,11 @@
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
       <div class="well well-sm">
+        {{#if isInRole 'Administrator,CanDeleteTasks'}}
         <div class="btn-group">
           <button class="btn btn-danger btn-xs" id="tskDeleteAllCompleted">Delete all completed</button>
         </div>
+        {{/if}}
 
         <div class="btn-group pull-right">
           <button type="button" class="btn btn-primary btn-xs" id="tskToggleCompleted" >
@@ -42,12 +44,16 @@
       </div>
       <div class="col-md-2">
         <div class="btn-group pull-right">
+          {{#if isInRole 'Administrator,CanEditTasks'}}
           <button class="btn btn-info btn-xs" id="tskEditTaskListEntry" type="button" data-toggle="tooltip" data-placement="bottom" title="Change task details or mark it complete">
             Edit task
           </button>
+          {{/if}}
+          {{#if isInRole 'Administrator,CanDeleteTasks'}}
           <button class="btn btn-danger  btn-xs" id="tskDeleteTaskListEntry" type="button">
             Delete task
           </button>
+          {{/if}}
         </div>
       </div>
     </div>
