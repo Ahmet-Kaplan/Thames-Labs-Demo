@@ -191,6 +191,14 @@ Schemas.Company = new SimpleSchema({
       type: "hidden"
     }
   },
+  metadata: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    },
+  },
   tags: {
     type: [String],
     optional: true,
@@ -293,6 +301,14 @@ Schemas.Contact = new SimpleSchema({
     }
   },
   customFields: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
+  metadata: {
     type: Object,
     blackbox: true,
     optional: true,

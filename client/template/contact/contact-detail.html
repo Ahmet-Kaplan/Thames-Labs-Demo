@@ -14,6 +14,10 @@
     </div>
 
     <div class="col-md-6">
+      {{#if metadata.clearbit.avatar}}
+        <img class="img-circle avatar pull-right" src="{{metadata.clearbit.avatar}}"/>
+      {{/if}}
+
       <h4 class="entity-title">Contact</h4>
       <h1 id="contact-details" class="entity-name">{{name}}</h1>
 
@@ -92,6 +96,9 @@
     </div>
 
     <div class="col-md-4">
+
+      {{> publicContactInformation}}
+
       <h1>Address</h1>
       {{> map title=mapTitle address=mapAddress}}
     </div>

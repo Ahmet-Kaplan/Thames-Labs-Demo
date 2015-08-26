@@ -70,4 +70,6 @@ kadira:blaze-layout
 aldeed:template-extension
 tarzak:gridstackjs
 reactive-var
+meteorhacks:npm
+npm-container
 csauer:accounts-phony

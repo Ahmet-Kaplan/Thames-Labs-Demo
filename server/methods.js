@@ -57,6 +57,7 @@ Meteor.methods({
   clearAuditLog: function() {
     AuditLog.remove({});
   },
+
   sendFeedback: function(doc) {
     check(doc, Schemas.Feedback);
     this.unblock();
@@ -210,6 +211,61 @@ Meteor.methods({
         text: txt
       });
     }
+  },
+
+  getClearbitData: function(entityName, entityId) {
+
+    var clearbitApiKey = process.env.CLEARBITAPIKEY;
+    if (typeof(clearbitApiKey) == 'undefined') {
+      throw new Meteor.Error('No-clearbit-api-key', 'Error 500: Not found', 'No clearbit API key set');
+    }
+
+    if (entityName === 'company') {
+      var url = Meteor.npmRequire('url');
+      var company = Companies.findOne(entityId);
+      var domain = url.parse(company.website).hostname;
+      var requestUrl = 'https://company-stream.clearbit.com/v1/companies/domain/' + domain;
+      var authToken = "Bearer " + clearbitApiKey;
+      Meteor.http.get(requestUrl, {
+         headers: {
+            "Authorization": authToken
+         }
+      }, function(err, res) {
+        if (err) {
+          Companies.update(entityId, { $unset: { 'metadata.clearbit': "" }});
+        } else {
+          var clearbitData = _.clone(res.data, true);
+          Companies.update(
+            entityId,
+            { $set: { 'metadata.clearbit': clearbitData }}
+          );
+        }
+      });
+
+    } else if (entityName === 'contact') {
+        var url = Meteor.npmRequire('url');
+        var contact = Contacts.findOne(entityId);
+        var requestUrl = 'https://person-stream.clearbit.com/v1/people/email/' + contact.email;
+        var authToken = "Bearer " + clearbitApiKey;
+        Meteor.http.get(requestUrl, {
+           headers: {
+              "Authorization": authToken
+           }
+        }, function(err, res) {
+          if (err) {
+            Contacts.update(entityId, { $unset: { 'metadata.clearbit': "" }});
+          } else {
+            var clearbitData = _.clone(res.data, true);
+            Contacts.update(
+              entityId,
+              { $set: { 'metadata.clearbit': clearbitData }}
+            );
+          }
+        });
+
+    } else {
+      throw new Meteor.Error('Not-supported', 'Error 500: Not found', 'Only company or contact lookup supported');
+    }
   }
 });
 
@@ -226,4 +282,4 @@ LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
     entityType: logEntityType,
     entityId: logEntityId
   });
-}
+};
