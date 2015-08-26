@@ -2,7 +2,9 @@ Meteor.startup(function() {
 
   // Perform any migrations specified in migrations.js
   // See https://github.com/percolatestudio/meteor-migrations
-  Migrations.migrateTo('latest');
+  if (!process.env.IS_MIRROR) {
+    Migrations.migrateTo('latest');
+  }
 
   //Keep tenant information sync'ed
   var tenants = Tenants.find({
