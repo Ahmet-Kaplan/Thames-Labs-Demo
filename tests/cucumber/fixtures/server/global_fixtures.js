@@ -25,7 +25,11 @@ Meteor.methods({
       username: username
     });
 
-   return Roles.userIsInRole(user, permissionName);
+    console.log(Roles.getRolesForUser(user));
+
+    var returnedValue = false;
+    returnedValue = Roles.userIsInRole(user, permissionName);
+    return returnedValue;
   },
   'getUserByEmail': function(email) {
     return Meteor.users.findOne({
