@@ -1,3 +1,4 @@
+@ignore
 Feature: Allow users to specify their own data fields/values against an entity
 
   As a user of the app
