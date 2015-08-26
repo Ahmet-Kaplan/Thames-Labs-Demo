@@ -1,6 +1,16 @@
-module.exports = function() {
+module.exports = function Hooks() {
+  this.BeforeFeature(function(event, callback) {
+    console.log('Resetting permissions for Chris Cringle...');
+    var user = Meteor.users.findOne({
+      username: "Chris Cringle"
+    });
+    Roles.removeUsersFromRoles(user, 'Administrator');
+    callback();
+  });
+};
 
-  var url = require('url');
+
+module.exports = function() {
 
   var logout = function(done) {
     Meteor.logout(done);
