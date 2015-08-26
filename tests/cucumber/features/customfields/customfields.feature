@@ -1,5 +1,4 @@
 Feature: Allow users to specify their own data fields/values against an entity
-
   As a user of the app
   I want to store non-specific data against an entity
   So that all the information I require is in a single place
@@ -30,6 +29,7 @@ Feature: Allow users to specify their own data fields/values against an entity
     And I make a change
     Then I should see the updated custom field "velocity" in the list
 
+  @ignore
   Scenario: A user can delete a custom field
     When I navigate to a company page
     And I can see the "velocity" custom field
