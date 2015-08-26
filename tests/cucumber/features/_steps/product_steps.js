@@ -44,7 +44,7 @@ module.exports = function() {
   this.When(/^I navigate to a product page$/, function(callback) {
     this.client
       .url(url.resolve(process.env.ROOT_URL, '/products'))
-      .waitForVisible('.product-item', 2000)
+      .waitForExist('.product-item', 2000)
       .click('.product-item')
       .call(callback);
   });
@@ -93,7 +93,7 @@ module.exports = function() {
 
   this.When(/^I delete a product$/, function(callback) {
     this.client
-      .waitForVisible("#delete-product", 2000)
+      .waitForExist("#delete-product", 2000)
       .click("#delete-product")
       .waitForVisible(".modal-content", 2000)
       .click(".modal-footer .btn-primary")

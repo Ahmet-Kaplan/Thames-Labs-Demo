@@ -41,19 +41,19 @@ module.exports = function() {
 
   this.Given(/^I can see the login form$/, function(callback) {
     this.client
-      .waitForVisible('form#at-pwd-form')
+      .waitForExist('form#at-pwd-form')
       .call(callback);
   });
 
   this.When(/^I can see the login form$/, function(callback) {
     this.client
-      .waitForVisible('form#at-pwd-form')
+      .waitForExist('form#at-pwd-form')
       .call(callback);
   });
 
   this.When(/^I enter good credentials into the login form$/, function(callback) {
     this.client
-      .waitForVisible('#at-pwd-form', 2000)
+      .waitForExist('#at-pwd-form', 2000)
       .setValue('#at-field-email', 'test@domain.com')
       .setValue('#at-field-password', 'goodpassword')
       .submitForm('form#at-pwd-form')
@@ -62,7 +62,7 @@ module.exports = function() {
 
   this.When(/^I enter bad credentials into the login form$/, function(callback) {
     this.client
-      .waitForVisible('#at-pwd-form', 2000)
+      .waitForExist('#at-pwd-form', 2000)
       .setValue('#at-field-email', 'test@domain.com')
       .setValue('#at-field-password', 'badpassword')
       .submitForm('form#at-pwd-form')
@@ -71,7 +71,7 @@ module.exports = function() {
 
   this.Then(/^I am logged in$/, function(callback) {
     this.client
-      .waitForVisible('#id-dashboard', 2000)
+      .waitForExist('#id-dashboard', 2000)
       .executeAsync(function(done) {
         // browser context
         done(Meteor.userId());

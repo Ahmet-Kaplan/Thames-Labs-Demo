@@ -2,7 +2,7 @@ module.exports = function() {
 
   this.When(/^I sign up with good details$/, function(callback) {
     this.client
-      .waitForVisible('form#signUpForm', 2000)
+      .waitForExist('form#signUpForm', 2000)
       .setValue('#company-name-field', 'Company Name')
       .setValue('#name-field', 'test user')
       .setValue('#email-field', 'test3@domain.com')
@@ -14,7 +14,7 @@ module.exports = function() {
 
   this.When(/^I sign up with bad details$/, function(callback) {
     this.client
-      .waitForVisible('form#signUpForm', 2000)
+      .waitForExist('form#signUpForm', 2000)
       .setValue('#company-name-field', '')
       .setValue('#name-field', '')
       .setValue('#email-field', 'testdomaincom')

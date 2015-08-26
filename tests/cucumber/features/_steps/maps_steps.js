@@ -40,7 +40,7 @@ module.exports = function() {
   this.When(/^I navigate to a contact page$/, function(callback) {
     this.client
       .url(url.resolve(process.env.ROOT_URL, '/contacts'))
-      .waitForVisible('.list-group-item', 2000)
+      .waitForExist('.list-group-item', 2000)
       .click('.list-group-item')
       .call(callback);
   });
