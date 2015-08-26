@@ -112,7 +112,10 @@ module.exports = function() {
 
   this.Then(/^I should no longer see the custom field "([^"]*)" in the list$/, function(expectedText, callback) {
     this.client
-      .waitForExist('.custom-field-display-item', 2000, true)
+      .waitForExist('#custom-field-container', 2000)
+      .getText('#custom-field-container').then(function(text) {
+        expect(text).to.contain('No custom fields');
+      })
       .call(callback);
   })
 };

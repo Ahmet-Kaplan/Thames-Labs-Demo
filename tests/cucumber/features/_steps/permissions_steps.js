@@ -1,6 +1,5 @@
 module.exports = function Hooks() {
   this.BeforeFeature(function(event, callback) {
-    console.log('Resetting permissions for Chris Cringle...');
     var user = Meteor.users.findOne({
       username: "Chris Cringle"
     });
@@ -149,7 +148,6 @@ module.exports = function() {
           done(data);
         });
       }, role).then(function(data) {
-        console.log(role, data, data.value);
         expect(data.value).to.equal(false);
       }).call(callback);
   });
