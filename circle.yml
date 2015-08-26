@@ -3,6 +3,8 @@ machine:
     CUCUMBER_TAIL: 1
     SELENIUM_BROWSER: chrome
     VELOCITY_CI: 1
+    CUCUMBER_SCREENSHOTS_DIR: $CIRCLE_ARTIFACTS/screenshots/chrome
+    CUCUMBER_JSON_OUTPUT: $CIRCLE_TEST_REPORTS/chrome.cucumber
 
 dependencies:
   pre:
@@ -24,6 +26,11 @@ dependencies:
 
     # Build version of app here to cache packages
     - meteor --test
+
+    # Copy logs to artifacts DIR
+    - mkdir -p $CIRCLE_ARTIFACTS/chrome
+    - cp app/.meteor/local/log/*.log $CIRCLE_ARTIFACTS/chrome
+
 test:
   override:
     - eslint .
