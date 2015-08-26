@@ -175,6 +175,8 @@ Meteor.methods({
       }
     });
 
+    Roles.addUsersToRoles(userId, ["Administrator"]);
+
     //This needs to be run on the server, otherwise client errors occur
     if (Meteor.isServer) {
       var tenantId = Tenants.insert({
@@ -254,7 +256,7 @@ Meteor.methods({
 });
 
 LogEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  if (Meteor.isServer) {
+  if (Meteor.isServer && this.userId !== undefined) {
     logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
     logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
 
