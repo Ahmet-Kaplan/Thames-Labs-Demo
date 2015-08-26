@@ -128,7 +128,7 @@ Meteor.methods({
 
     var clearbitApiKey = process.env.CLEARBITAPIKEY;
     if (typeof(clearbitApiKey) == 'undefined') {
-      return 'No clearbit API key set';
+      throw new Meteor.Error('No-clearbit-api-key', 'Error 500: Not found', 'No clearbit API key set');
     }
 
     if (entityName === 'company') {
@@ -175,7 +175,7 @@ Meteor.methods({
         });
 
     } else {
-      return 'Only company or contact lookup supported';
+      throw new Meteor.Error('Not-supported', 'Error 500: Not found', 'Only company or contact lookup supported');
     }
   }
 });
