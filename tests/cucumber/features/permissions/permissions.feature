@@ -33,7 +33,7 @@ Feature: Allow users to perform actions based on a set of pre-defined permission
 
   Scenario: A restricted user cannot see the Companies menu item without the correct permission
     Given I am a restricted user
-    And I do not have the "testrole" role
+    And I do not have the "CanReadCompanies" role
     Then the "Companies" menu item is not shown
 
   Scenario: A user can see the Companies menu item with the correct permission

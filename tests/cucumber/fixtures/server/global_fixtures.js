@@ -150,7 +150,7 @@ Meteor.startup(function() {
     }
   });
   Partitioner.setUserGroup(userId3, tenantId);
-  Roles.removeUsersFromRoles(userId3, ['Administrator', 'CanReadCompanies', 'CanCreateCompanies', 'CanEditCompanies', 'CanDeleteCompanies']);
+  //Roles.removeUsersFromRoles(userId3, ['Administrator', 'CanReadCompanies', 'CanCreateCompanies', 'CanEditCompanies', 'CanDeleteCompanies']);
   //**************** END USER PERMISSION TEST ITEMS ****************//
 
   var tenantId2 = Tenants.insert({
