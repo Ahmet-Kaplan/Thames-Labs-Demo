@@ -5,6 +5,12 @@ Template.tenancyAdminPage.helpers({
         $ne: Meteor.userId()
       }
     });
+  },
+  payingScheme: function() {
+    return Tenants.findOne({}).paying;
+  },
+  lockedUser: function() {
+    return Tenants.findOne({}).limit === -1;
   }
 });
 
