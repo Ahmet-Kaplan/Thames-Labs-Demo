@@ -8,7 +8,7 @@
     <div class="col-md-10 col-md-offset-1">
 
       <div class="panel panel-primary" id="userAdminPanel">
-        <div class="panel-heading ">
+        <div class="panel-heading">
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#colUsers"  id="userAdminPanelExpander">Users</a>
         </div>
         <div id="colUsers" class="panel-collapse collapse">
@@ -25,6 +25,14 @@
             </ul>
 
           </div>
+        </div>
+      </div>
+      <div class="panel panel-primary" id="opportunityStagePanel">
+        <div class="panel-heading ">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#oppStages"  id="oppStagesExpander">Sales pipeline stages</a>
+        </div>
+        <div id="oppStages" class="panel-collapse collapse">
+          {{> opportunityAdmin}}
         </div>
       </div>
     </div>
