@@ -82,6 +82,7 @@ module.exports = function() {
   this.When(/^I click the "Edit" button$/, function(callback) {
     this.client
       .waitForVisible('#edit-custom-field', 2000)
+      .scroll('#edit-custom-field', 100, 100)
       .click('#edit-custom-field')
       .call(callback);
   });
@@ -90,6 +91,7 @@ module.exports = function() {
     this.client
       .waitForVisible('.modal-dialog', 5000)
       .setValue('#custom-field-text-value', 'cucumber test')
+      .scroll('#submit-custom-field', 100, 100)
       .click('#submit-custom-field')
       .call(callback);
   });
@@ -106,6 +108,7 @@ module.exports = function() {
   this.When(/^I click the "Delete" button$/, function(callback) {
     this.client
       .waitForVisible('#delete-custom-field', 2000)
+      .scroll('#delete-custom-field', 100, 100)
       .click('#delete-custom-field')
       .call(callback);
   });
