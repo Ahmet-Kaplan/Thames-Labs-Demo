@@ -505,9 +505,27 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
   }
 });
 Activities.after.remove(function(userId, doc) {
-  var currentPurchaseOrder = PurchaseOrders.findOne(doc.purchaseOrderId);
+  var entity;
+  var entityName;
+  if (doc.companyId) {
+    entity = Companies.findOne(doc.companyId);
+    entityName = "Company: " + entity.name;
+  }
+  if (doc.contactId) {
+    entity = Contacts.findOne(doc.contactId);
+    entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+  }
+  if (doc.projectId) {
+    entity = Projects.findOne(doc.projectId);
+    entityName = "Project: " + entity.description;
+  }
+  if (doc.purchaseOrderId) {
+    entity = Projects.findOne(doc.purchaseOrderId);
+    entityName = "Purchase Order: " + entity.description;
+  }
+
   var content = UniHTML.purify(doc.notes);
-  LogEvent('info', 'An existing activity has been deleted: ' + content + ' (' + currentPurchaseOrder.description + ")");
+  LogEvent('info', 'An existing activity has been deleted: ' + content + ' (' + entityName + ")");
 });
 
 
