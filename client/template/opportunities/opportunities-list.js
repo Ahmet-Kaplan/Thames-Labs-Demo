@@ -1,3 +1,9 @@
+Template.opportunityList.onDestroyed(function() {
+  Session.set('opportunitySearchQuery', null);
+  Session.set('opportunitySearchShowArchived', false);
+  EasySearch.changeProperty('opportunities', 'showArchived', false);
+});
+
 Template.opportunityList.onRendered(function() {
   var sidebar = $('.sidebar');
   sidebar.affix({
@@ -38,10 +44,10 @@ Template.opportunityList.helpers({
 });
 
 Template.opportunityList.events({
-	'click #create-opportunity': function(event) {
-		event.preventDefault();
+  'click #create-opportunity': function(event) {
+    event.preventDefault();
     Modal.show('insertOpportunityModal');
-	},
+  },
   'click #toggle-archived': function(event) {
     event.preventDefault();
     var easySearchInstance = EasySearch.getComponentInstance({
