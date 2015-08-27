@@ -18,8 +18,12 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
+            {{#if isInRole 'Administrator,CanEditProducts'}}
             <a href="#" id="edit-product" class="btn btn-info btn-xs">Edit</a>
+            {{/if}}
+              {{#if isInRole 'Administrator,CanDeleteProducts'}}
             <a href="#" id="delete-product" class="btn btn-danger btn-xs">Delete</a>
+            {{/if}}
           </div>
           Product details</div>
         <ul class="list-group">

@@ -136,6 +136,7 @@ Template.opportunityDetail.events({
     bootbox.confirm("Are you sure you wish to mark this opportunity as won? This action will create a new project, and is not reversible.", function(result) {
       if (result === true) {
         Meteor.call('winOpportunity', opp, function(err, id) {
+          if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadProjects'])) return;
           FlowRouter.go('/projects/'+id);
         });
       }

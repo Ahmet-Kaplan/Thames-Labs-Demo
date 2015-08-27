@@ -69,4 +69,8 @@ kadira:flow-router
 kadira:blaze-layout
 rubaxa:sortable
 aldeed:template-extension
+tarzak:gridstackjs
 reactive-var
+meteorhacks:npm
+npm-container
+csauer:accounts-phony

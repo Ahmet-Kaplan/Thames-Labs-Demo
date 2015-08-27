@@ -6,6 +6,8 @@ Template.contactDetail.onCreated(function() {
     // Redirect if data doesn't exist
     if (FlowRouter.subsReady() && contact === undefined) {
       FlowRouter.go('contacts');
+    } else if (FlowRouter.subsReady() && contact.email !== '' && contact.email !== undefined) {
+      Meteor.call('getClearbitData', 'contact', contact._id);
     }
     // Update company subscription if contact record changes (e.g. we change company)
     self.subscribe('companyById', contact.companyId);

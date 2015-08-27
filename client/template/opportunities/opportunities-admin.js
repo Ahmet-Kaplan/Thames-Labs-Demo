@@ -1,6 +1,6 @@
 Template.opportunityAdmin.helpers({
   stages: function() {
-    return OpportunityStages.find({});
+    return OpportunityStages.find({}, {sort: { order: 1}});
   },
   options: {
     sort: true,

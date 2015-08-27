@@ -124,6 +124,7 @@ Schemas.Company = new SimpleSchema({
   },
   address: {
     type: String,
+    optional: true,
     label: "Address"
   },
   address2: {
@@ -133,6 +134,7 @@ Schemas.Company = new SimpleSchema({
   },
   city: {
     type: String,
+    optional: true,
     label: "City/Town"
   },
   county: {
@@ -142,10 +144,12 @@ Schemas.Company = new SimpleSchema({
   },
   postcode: {
     type: String,
+    optional: true,
     label: "PostCode/Zip"
   },
   country: {
     type: String,
+    optional: true,
     label: "Country"
   },
   lat: {
@@ -190,6 +194,14 @@ Schemas.Company = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  metadata: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    },
   },
   tags: {
     type: [String],
@@ -293,6 +305,14 @@ Schemas.Contact = new SimpleSchema({
     }
   },
   customFields: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
+  metadata: {
     type: Object,
     blackbox: true,
     optional: true,

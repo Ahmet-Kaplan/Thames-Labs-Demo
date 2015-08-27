@@ -1,9 +1,63 @@
 // Super secret server only methods
 Meteor.methods({
+  checkUserRole: function(userId, roleName) {
+    var user = Meteor.users.findOne(userId);
+    if (user) {
+      if (Roles.userIsInRole(userId, "Administrator")) {
+        return true;
+      }
 
+      if (Roles.userIsInRole(userId, roleName)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
+  getMaxPermission: function(userId, permissionName) {
+    var user = Meteor.users.findOne(userId);
+    if (user) {
+      var returnedValue = 'Restricted';
+
+      if (Roles.userIsInRole(userId, "Administrator")) {
+        return 'CanDelete' + permissionName;
+      }
+
+      if (Roles.userIsInRole(userId, 'CanRead' + permissionName)) {
+        returnedValue = 'CanRead' + permissionName;
+      }
+
+      if (Roles.userIsInRole(userId, 'CanCreate' + permissionName)) {
+        returnedValue = 'CanCreate' + permissionName;
+      }
+
+      if (Roles.userIsInRole(userId, 'CanEdit' + permissionName)) {
+        returnedValue = 'CanEdit' + permissionName;
+      }
+
+      if (Roles.userIsInRole(userId, 'CanDelete' + permissionName)) {
+        returnedValue = 'CanDelete' + permissionName;
+      }
+
+      return returnedValue;
+    }
+  },
+  setUserRole: function(userId, roleName, value) {
+    var user = Meteor.users.findOne(userId);
+    if (user) {
+      if (value === true && !Roles.userIsInRole(userId, roleName)) {
+        Roles.addUsersToRoles(userId, roleName);
+      }
+
+      if (value === false && Roles.userIsInRole(userId, roleName)) {
+        Roles.removeUsersFromRoles(userId, roleName);
+      }
+    }
+  },
   clearAuditLog: function() {
     AuditLog.remove({});
   },
+
   sendFeedback: function(doc) {
     check(doc, Schemas.Feedback);
     this.unblock();
@@ -60,6 +114,42 @@ Meteor.methods({
         }
       }
     });
+
+    Roles.addUsersToRoles(userId, [
+      "CanReadContacts",
+      "CanReadCompanies",
+      "CanCreateCompanies",
+      "CanEditCompanies",
+      "CanDeleteCompanies",
+      "CanCreateContacts",
+      "CanEditContacts",
+      "CanDeleteContacts",
+      "CanReadProjects",
+      "CanCreateProjects",
+      "CanEditProjects",
+      "CanDeleteProjects",
+      "CanReadProducts",
+      "CanCreateProducts",
+      "CanEditProducts",
+      "CanDeleteProducts",
+      "CanReadTasks",
+      "CanCreateTasks",
+      "CanEditTasks",
+      "CanDeleteTasks",
+      "CanReadPurchaseOrders",
+      "CanCreatePurchaseOrders",
+      "CanEditPurchaseOrders",
+      "CanDeletePurchaseOrders",
+      "CanReadDataManagement",
+      "CanCreateDataManagement",
+      "CanEditDataManagement",
+      "CanDeleteDataManagement",
+      "CanReadEventLog",
+      "CanCreateEventLog",
+      "CanEditEventLog",
+      "CanDeleteEventLog"
+    ]);
+
     // Add user to a group (partition) based on customer id
     if (doc.group) {
       Partitioner.setUserGroup(userId, doc.group);
@@ -121,6 +211,61 @@ Meteor.methods({
         text: txt
       });
     }
+  },
+
+  getClearbitData: function(entityName, entityId) {
+
+    var clearbitApiKey = process.env.CLEARBITAPIKEY;
+    if (typeof(clearbitApiKey) == 'undefined') {
+      throw new Meteor.Error('No-clearbit-api-key', 'Error 500: Not found', 'No clearbit API key set');
+    }
+
+    if (entityName === 'company') {
+      var url = Meteor.npmRequire('url');
+      var company = Companies.findOne(entityId);
+      var domain = url.parse(company.website).hostname;
+      var requestUrl = 'https://company-stream.clearbit.com/v1/companies/domain/' + domain;
+      var authToken = "Bearer " + clearbitApiKey;
+      Meteor.http.get(requestUrl, {
+         headers: {
+            "Authorization": authToken
+         }
+      }, function(err, res) {
+        if (err) {
+          Companies.update(entityId, { $unset: { 'metadata.clearbit': "" }});
+        } else {
+          var clearbitData = _.clone(res.data, true);
+          Companies.update(
+            entityId,
+            { $set: { 'metadata.clearbit': clearbitData }}
+          );
+        }
+      });
+
+    } else if (entityName === 'contact') {
+        var url = Meteor.npmRequire('url');
+        var contact = Contacts.findOne(entityId);
+        var requestUrl = 'https://person-stream.clearbit.com/v1/people/email/' + contact.email;
+        var authToken = "Bearer " + clearbitApiKey;
+        Meteor.http.get(requestUrl, {
+           headers: {
+              "Authorization": authToken
+           }
+        }, function(err, res) {
+          if (err) {
+            Contacts.update(entityId, { $unset: { 'metadata.clearbit': "" }});
+          } else {
+            var clearbitData = _.clone(res.data, true);
+            Contacts.update(
+              entityId,
+              { $set: { 'metadata.clearbit': clearbitData }}
+            );
+          }
+        });
+
+    } else {
+      throw new Meteor.Error('Not-supported', 'Error 500: Not found', 'Only company or contact lookup supported');
+    }
   }
 });
 
@@ -137,4 +282,4 @@ LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
     entityType: logEntityType,
     entityId: logEntityId
   });
-}
+};

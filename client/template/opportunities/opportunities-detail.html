@@ -32,6 +32,7 @@
       <div class="pull-right hidden-xs">
         {{#if isActive}}
           <br>
+          {{#if isInRole 'Administrator,CanEditOpportunities'}}
           {{#if isNotFirstStage}}
             <button class="btn btn-default" id="btnPrevStage"><i class="fa fa-fw fa-chevron-left"></i> Back to previous stage</button>
           {{/if}}
@@ -42,12 +43,13 @@
           {{/if}}
           <br><br>
           <a href="#" id="btnLostOpportunity" class="pull-right text-danger" style="text-decoration:underline">Mark opportunity as lost</a>
+          {{/if}}
         {{else}}
           {{#if hasBeenWon}}
             <h3 class="text-success" style="margin-top: 25px;">Opportunity won</h3>
-            {{#if projectId}}
+            {{#if isInRole 'Administrator,CanReadProjects'}}{{#if projectId}}
               <p style="text-align:right;"><a href="{{pathFor route='project' id=projectId}}">View project</a></p>
-            {{/if}}
+            {{/if}}{{/if}}
           {{else}}
             <br>
             <h3 class="text-danger">Opportunity lost</h3>
@@ -74,8 +76,11 @@
           Opportunity details
           {{#if isActive}}
           <div class="btn-group pull-right">
+            {{#if isInRole 'Administrator,CanEditOpportunities'}}
             <a href="#" id="editOpportunity" class="btn btn-info btn-xs">Edit opportunity</a>
+            {{/if}} {{#if isInRole 'Administrator,CanDeleteOpportunities'}}
             <a href="#" id="removeOpportunity" class="btn btn-danger btn-xs">Delete opportunity</a>
+            {{/if}}
           </div>
           {{/if}}
         </div>
@@ -98,20 +103,22 @@
             {{value}}
           </li>
           {{/if}}
-          {{#if company}}
+          
+          {{#if isInRole 'Administrator,CanReadCompanies'}}{{#if company}}
           <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-building"></i> Company</h4>
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
              {{company.name}}
           </a>
-          {{/if}}
-          {{#if contact}}
+          {{/if}} {{/if}}
+          
+          {{#if isInRole 'Administrator,CanReadContacts'}}{{#if contact}}
           <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-user"></i> Contact</h4>
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
              {{contact.name}}
           </a>
-          {{/if}}
+          {{/if}} {{/if}}
         </ul>
       </div>
       <div class="panel panel-default" id="lines">
@@ -119,7 +126,10 @@
           Line items
           {{#if isActive}}
           <div class="pull-right">
+            
+            {{#if isInRole 'Administrator,CanEditOpportunities'}}
             <button class="btn btn-primary btn-xs" id="btnAddLine"><i class="fa fa-fw fa-plus"></i> Add line item</button>
+            {{/if}}
           </div>
           {{/if}}
         </div>

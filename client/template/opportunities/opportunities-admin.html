@@ -1,23 +1,16 @@
 <template name="opportunityAdmin">
-  {{setPageTitle "Opportunities Configuration"}}
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-      <h4 class="entity-title">Admin</h4>
-      <h1 class="entity-name">Sales Pipeline Configuration</h1>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          Opportunity stages
-          <div class="pull-right">
-            <button class="btn btn-primary btn-xs" id="btnAddStage"><i class="fa fa-fw fa-plus"></i> Add stage</button>
-          </div>
-        </div>
-        <p style="padding: 15px">These are the stages that your opportunities will progress through, these can be configured below to match your sales pipeline.</p>
-        <div class="opportunity-stage-container">
-          {{#sortable items=stages ghostClass="opportunity-stage-ghost" options=options handle=".handle"}}
-            {{> opportunityAdminStage}}
-          {{/sortable}}
-        </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Stage configuration
+      <div class="pull-right">
+        <button class="btn btn-primary btn-xs" id="btnAddStage"><i class="fa fa-fw fa-plus"></i> Add stage</button>
       </div>
+    </div>
+    <p style="padding: 15px">These are the stages that your opportunities will progress through, these can be configured below to match your sales pipeline.</p>
+    <div class="opportunity-stage-container">
+      {{#sortable items=stages ghostClass="opportunity-stage-ghost" options=options handle=".handle"}}
+        {{> opportunityAdminStage}}
+      {{/sortable}}
     </div>
   </div>
 </template>
