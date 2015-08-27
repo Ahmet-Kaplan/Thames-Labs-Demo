@@ -8,9 +8,18 @@ module.exports = function() {
     Meteor.loginWithPassword(email, password, done);
   };
 
-  this.Given(/^I am a logged out user$/, function(callback) {
+  this.Given(/^a user exists$/, function(callback) {
     this.server.call('createTestTenant');
     this.server.call('createTestUser');
+    this.client.call(callback);
+  });
+
+  this.Given(/^a superuser exists$/, function(callback) {
+    this.server.call('createTestSuperUser');
+    this.client.call(callback);
+  });
+
+  this.Given(/^I am a logged out user$/, function(callback) {
     this.client
       .url(process.env.ROOT_URL)
       .executeAsync(logout)
@@ -24,7 +33,6 @@ module.exports = function() {
         height: 800
       })
       .url(process.env.ROOT_URL)
-      .executeAsync(logout)
       .executeAsync(login, 'test@domain.com', 'goodpassword')
       .call(callback);
   });
@@ -36,7 +44,6 @@ module.exports = function() {
         height: 800
       })
       .url(process.env.ROOT_URL)
-      .executeAsync(logout)
       .executeAsync(login, 'admin@cambridgesoftware.co.uk', 'admin')
       .call(callback);
   });

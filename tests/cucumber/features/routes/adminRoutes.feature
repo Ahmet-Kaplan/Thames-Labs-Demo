@@ -5,7 +5,8 @@ Feature: Superuser can access special parts of the site
   So that I can bookmark important features in my browser
 
   Background:
-    Given I am a logged in superadmin user
+    Given a superuser exists
+    And I am a logged in superadmin user
 
   Scenario: A superadmin can visit the tenants screen
     When I navigate to "/tenants"

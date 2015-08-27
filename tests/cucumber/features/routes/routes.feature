@@ -1,3 +1,4 @@
+@dev
 Feature: Users can access different parts of the app via urls
 
   As a user of the app
@@ -5,6 +6,7 @@ Feature: Users can access different parts of the app via urls
   So that I can bookmark important features in my browser
 
   Background:
+    Given a user exists
     Given I am a logged in user
 
   Scenario: A user can visit the dashboard

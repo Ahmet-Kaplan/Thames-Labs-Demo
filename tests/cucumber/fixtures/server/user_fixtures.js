@@ -29,6 +29,20 @@ Meteor.methods({
 
     var tenantId = Tenants.findOne({name: tenantName})._id;
     Partitioner.setUserGroup(userId, tenantId);
+  },
+
+  createTestSuperUser: function() {
+    var superadminId = Accounts.createUser({
+      username: 'superadmin',
+      email: 'admin@cambridgesoftware.co.uk',
+      password: 'admin',
+      profile: {
+        name: 'superadmin'
+      },
+      // This is necessary for partitioner to work correctly
+      admin: true
+    });
+    Roles.addUsersToRoles(superadminId, 'superadmin');
   }
 
 });
