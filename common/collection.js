@@ -505,9 +505,27 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
   }
 });
 Activities.after.remove(function(userId, doc) {
-  var currentPurchaseOrder = PurchaseOrders.findOne(doc.purchaseOrderId);
+  var entity;
+  var entityName;
+  if (doc.companyId) {
+    entity = Companies.findOne(doc.companyId);
+    entityName = "Company: " + entity.name;
+  }
+  if (doc.contactId) {
+    entity = Contacts.findOne(doc.contactId);
+    entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+  }
+  if (doc.projectId) {
+    entity = Projects.findOne(doc.projectId);
+    entityName = "Project: " + entity.description;
+  }
+  if (doc.purchaseOrderId) {
+    entity = Projects.findOne(doc.purchaseOrderId);
+    entityName = "Purchase Order: " + entity.description;
+  }
+
   var content = UniHTML.purify(doc.notes);
-  LogEvent('info', 'An existing activity has been deleted: ' + content + ' (' + currentPurchaseOrder.description + ")");
+  LogEvent('info', 'An existing activity has been deleted: ' + content + ' (' + entityName + ")");
 });
 
 
@@ -629,6 +647,7 @@ Tasks.after.remove(function(userId, doc) {
   LogEvent('info', 'An existing task has been deleted: ' + doc.title + '(' + entityName + ")");
 });
 
+
 //Products
 Products = new Mongo.Collection('products');
 Partitioner.partitionCollection(Products);
@@ -636,7 +655,6 @@ Products.initEasySearch(['name'], {
   limit: 50
 });
 Collections.products = Products;
-
 
 Products.after.insert(function(userId, doc) {
   LogEvent('info', 'A new product has been created: ' + doc.name);
@@ -657,4 +675,43 @@ Products.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 Products.after.remove(function(userId, doc) {
   LogEvent('info', 'A product has been deleted: ' + doc.name);
+});
+
+
+//Opportunities
+Opportunities = new Mongo.Collection('opportunities');
+Partitioner.partitionCollection(Opportunities);
+Opportunities.initEasySearch(['name'], {
+  limit: 50,
+  props: {
+    showArchived: false
+  },
+  query: function(searchString) {
+    var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
+    if (!this.props.showArchived) {
+      query.isArchived = {$ne: true};
+    }
+    return query;
+  }
+});
+Tags.TagsMixin(Opportunities);
+Collections.opportunities = Opportunities;
+
+OpportunityStages = new Mongo.Collection('opportunitystages');
+Partitioner.partitionCollection(OpportunityStages);
+
+
+Opportunities.after.insert(function(userId, doc) {
+  LogEvent('info', 'A new opportunity has been created: ' + doc.name);
+});
+Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) {
+  if (doc.description !== this.previous.description) {
+    LogEvent('info', 'An existing opportunity has been updated: The value of "description" was changed');
+  }
+  if (doc.name !== this.previous.name) {
+    LogEvent('info', 'An existing opportunity has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
+  }
+});
+Opportunities.after.remove(function(userId, doc) {
+  LogEvent('info', 'An opportunity has been deleted: ' + doc.name);
 });

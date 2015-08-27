@@ -161,7 +161,11 @@ var updateUserPermissions = function() {
     "CanReadEventLog",
     "CanCreateEventLog",
     "CanEditEventLog",
-    "CanDeleteEventLog"
+    "CanDeleteEventLog",
+    "CanReadOpportunities",
+    "CanCreateOpportunities",
+    "CanEditOpportunities",
+    "CanDeleteOpportunities"
   ];
 
   Meteor.users.find({}).forEach(
@@ -207,7 +211,11 @@ var revertUserPermissions = function() {
     "CanReadEventLog",
     "CanCreateEventLog",
     "CanEditEventLog",
-    "CanDeleteEventLog"
+    "CanDeleteEventLog",
+    "CanReadOpportunities",
+    "CanCreateOpportunities",
+    "CanEditOpportunities",
+    "CanDeleteOpportunities"
   ];
 
   Meteor.users.find({}).forEach(

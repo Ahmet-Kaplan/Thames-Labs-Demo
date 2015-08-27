@@ -12,8 +12,7 @@
           </button>
           {{/if}}
           <a class="navbar-brand" href="/">
-            <img alt="" src="/icon.svg">RealTime
-            <span>CRM</span>
+            <img alt="" src="/icon.svg">RealTime<span>CRM</span>
           </a>
         </div>
         {{#if loggedIn}}
@@ -233,6 +232,17 @@
               </h4>
             </td>
           </tr>
+          {{/if}} {{#if isInRole 'Administrator,CanReadOpportunities'}}
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <i class="fa fa-fw fa-files-o"></i>
+                <a href='/opportunities' class="{{#if isActiveRoute 'opportunities'}}active{{/if}}" id="menuLinkOpportunities">
+                  Opportunities
+                </a>
+              </h4>
+            </td>
+          </tr>
           {{/if}} {{#if isInRole 'Administrator,CanReadDataManagement'}}
           <tr>
             <td class="panel-heading">
@@ -254,7 +264,6 @@
             </td>
           </tr>
           {{/if}}
-
         </table>
       </div>
 

@@ -56,13 +56,13 @@ AutoForm.hooks({
   //     //LogEvent("debug", "Submitting sign-up application...");
   //   },
   // },
-  updatePurchaseOrderForm: {
+  insertContactForm: {
     onSuccess: function() {
-      Modal.hide();
-      toastr.success('Purchase Order updated.');
-      //LogEvent('info', 'Purchase order updated.', 'Purchase Order', this.docId);
-    }
-  },
+     toastr.success('Contact created.');
+     Modal.hide();
+     FlowRouter.go('/contacts/' + this.docId);
+   }
+ },
   editContactForm: {
     before: {
       update: function(doc) {
@@ -336,11 +336,57 @@ AutoForm.hooks({
       Modal.hide();
     }
   },
-  insertContactForm: {
+  insertNewStageForm: {
     onSuccess: function() {
-      toastr.success('Contact created.');
-      FlowRouter.go('/contacts/' + this.docId);
+      toastr.success('Stage created.');
       Modal.hide();
     }
-  }
+  },
+  editStageForm: {
+    onSuccess: function() {
+      toastr.success('Stage edited.');
+      Modal.hide();
+    }
+  },
+  insertOpportunityForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity added.');
+      Modal.hide();
+    },
+    after: {
+      insert: function(error, result) {
+        if (error) {
+          toastr.error('An error occurred: Opportunity not created.');
+          //LogEvent('error', 'Company not created: ' + error, 'Company', this.docId);
+          return false;
+        }
+
+        FlowRouter.go('/opportunities/' + result);
+      }
+    }
+  },
+  editOpportunityForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity edited.');
+      Modal.hide();
+    }
+  },
+  insertOpportunityItemForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity line item added.');
+      Modal.hide();
+    }
+  },
+  editOpportunityItemForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity line item edited.');
+      Modal.hide();
+    }
+  },
+  insertOpportunityActivityForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Opportunity activity created.');
+    }
+  },
 });

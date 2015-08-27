@@ -42,6 +42,9 @@ Template.projectDetail.helpers({
       _id: this.contactId
     }).fetch()[0];
     return c.forename + " " + c.surname;
+  },
+  opportunityId: function() {
+    return Opportunities.findOne({projectId: this._id})._id;
   }
 });
 

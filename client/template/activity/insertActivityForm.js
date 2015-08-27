@@ -41,3 +41,12 @@ Template.insertPurchaseOrderActivityModal.helpers({
     return Meteor.userId();
   },
 });
+
+Template.insertOpportunityActivityModal.helpers({
+  currentDateTime: function() {
+  return moment();
+  },
+  currentUser: function() {
+    return Meteor.userId();
+  },
+});
