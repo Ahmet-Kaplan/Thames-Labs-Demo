@@ -9,7 +9,8 @@ module.exports = function() {
   };
 
   this.Given(/^I am a logged out user$/, function(callback) {
-    this.server.call('createTenantAndUser');
+    this.server.call('createTestTenant');
+    this.server.call('createTestUser');
     this.client
       .url(process.env.ROOT_URL)
       .executeAsync(logout)
