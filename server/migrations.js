@@ -161,7 +161,11 @@ var updateUserPermissions = function() {
     "CanReadEventLog",
     "CanCreateEventLog",
     "CanEditEventLog",
-    "CanDeleteEventLog"
+    "CanDeleteEventLog",
+    "CanReadOpportunities",
+    "CanCreateOpportunities",
+    "CanEditOpportunities",
+    "CanDeleteOpportunities"
   ];
 
   Meteor.users.find({}).forEach(
@@ -207,7 +211,11 @@ var revertUserPermissions = function() {
     "CanReadEventLog",
     "CanCreateEventLog",
     "CanEditEventLog",
-    "CanDeleteEventLog"
+    "CanDeleteEventLog",
+    "CanReadOpportunities",
+    "CanCreateOpportunities",
+    "CanEditOpportunities",
+    "CanDeleteOpportunities"
   ];
 
   Meteor.users.find({}).forEach(
@@ -232,32 +240,6 @@ Migrations.add({
   down: function() {
     ServerSession.set('maintenance', true);
     revertUserPermissions();
-    ServerSession.set('maintenance', false);
-  }
-});
-
-Migrations.add({
-  version: 7,
-  name: "Add opportunities permissions",
-  up: function() {
-    ServerSession.set('maintenance', true);
-    var permissions = [
-      "CanReadOpportunities",
-      "CanCreateOpportunities",
-      "CanEditOpportunities",
-      "CanDeleteOpportunities"
-    ];
-
-    Meteor.users.find({}).forEach(
-      function(u) {
-        lodash.each(permissions, function(p) {
-          if (!Roles.userIsInRole(u, p)) {
-            Roles.addUsersToRoles(u, p);
-          }
-        });
-      }
-    );
-
     ServerSession.set('maintenance', false);
   }
 });
