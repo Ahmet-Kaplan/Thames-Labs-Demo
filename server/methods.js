@@ -115,44 +115,7 @@ Meteor.methods({
       }
     });
 
-    Roles.addUsersToRoles(userId, [
-      "CanReadContacts",
-      "CanReadCompanies",
-      "CanCreateCompanies",
-      "CanEditCompanies",
-      "CanDeleteCompanies",
-      "CanCreateContacts",
-      "CanEditContacts",
-      "CanDeleteContacts",
-      "CanReadProjects",
-      "CanCreateProjects",
-      "CanEditProjects",
-      "CanDeleteProjects",
-      "CanReadProducts",
-      "CanCreateProducts",
-      "CanEditProducts",
-      "CanDeleteProducts",
-      "CanReadTasks",
-      "CanCreateTasks",
-      "CanEditTasks",
-      "CanDeleteTasks",
-      "CanReadPurchaseOrders",
-      "CanCreatePurchaseOrders",
-      "CanEditPurchaseOrders",
-      "CanDeletePurchaseOrders",
-      "CanReadDataManagement",
-      "CanCreateDataManagement",
-      "CanEditDataManagement",
-      "CanDeleteDataManagement",
-      "CanReadEventLog",
-      "CanCreateEventLog",
-      "CanEditEventLog",
-      "CanDeleteEventLog",
-      "CanReadOpportunities",
-      "CanCreateOpportunities",
-      "CanEditOpportunities",
-      "CanDeleteOpportunities"
-    ]);
+    Roles.addUsersToRoles(userId, ALL_PERMISSIONS);
 
     // Add user to a group (partition) based on customer id
     if (doc.group) {
@@ -214,40 +177,7 @@ Meteor.methods({
       }
     });
 
-    Roles.addUsersToRoles(userId, [
-      "CanReadContacts",
-      "CanReadCompanies",
-      "CanCreateCompanies",
-      "CanEditCompanies",
-      "CanDeleteCompanies",
-      "CanCreateContacts",
-      "CanEditContacts",
-      "CanDeleteContacts",
-      "CanReadProjects",
-      "CanCreateProjects",
-      "CanEditProjects",
-      "CanDeleteProjects",
-      "CanReadProducts",
-      "CanCreateProducts",
-      "CanEditProducts",
-      "CanDeleteProducts",
-      "CanReadTasks",
-      "CanCreateTasks",
-      "CanEditTasks",
-      "CanDeleteTasks",
-      "CanReadPurchaseOrders",
-      "CanCreatePurchaseOrders",
-      "CanEditPurchaseOrders",
-      "CanDeletePurchaseOrders",
-      "CanReadDataManagement",
-      "CanCreateDataManagement",
-      "CanEditDataManagement",
-      "CanDeleteDataManagement",
-      "CanReadEventLog",
-      "CanCreateEventLog",
-      "CanEditEventLog",
-      "CanDeleteEventLog"
-    ]);
+    Roles.addUsersToRoles(userId, ALL_PERMISSIONS);
 
     // Add user to a group (partition) based on customer id
     Partitioner.setUserGroup(userId, Partitioner.getUserGroup(adminId));
