@@ -14,6 +14,5 @@ module.exports = function() {
 
     this.server.call('reset', callback);
   });
-  });
 
 };
