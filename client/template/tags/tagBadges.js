@@ -11,6 +11,9 @@ Template.tagBadge.helpers({
       case "projects":
         return "projects";
         break;
+      case "opportunities":
+        entityType = "opportunities";
+        break;
       default:
         throw new Meteor.Error("unspecified-tag-badge-route-type", "Could not determine route type for tag badges");
     }
@@ -32,6 +35,9 @@ Template.tagBadge.events({
         break;
       case "projects":
         Session.set('projectListSearchQuery', tagName);
+        break;
+      case "opportunities":
+        Session.set('opportunitiesListSearchQuery', tagName);
         break;
       default:
         throw new Meteor.Error("unspecified-tag-badge-route-type", "Could not determine route type for tag badges");

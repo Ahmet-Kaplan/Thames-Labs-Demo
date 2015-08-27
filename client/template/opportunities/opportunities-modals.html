@@ -1,0 +1,159 @@
+<template name="insertOpportunityModal">
+  <div class="modal fade" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5> Add new opportunity</h5>
+        </div>
+        <div class="modal-body">
+         {{#autoForm collection="Opportunities" id="insertOpportunityForm" type="insert"}}
+            {{> afQuickField name="name"}}
+            {{> afQuickField name="description"}}
+            {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="value"}}
+
+            {{> afQuickField name="companyId" id="selectedCompany" options=companiesAsOptions firstOption="No company selected"}}
+
+            {{> afQuickField name="contactId" id="selectedContact" options=contactsAsOptions  firstOption="No contact selected"}}
+
+            {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
+            {{> afQuickField name="isArchived" value=false type="hidden"}}
+            {{> afQuickField name="currentStageId" value=firstStageId type="hidden"}}
+            {{> afQuickField name="createdBy" value=createdBy }}
+            <button type="submit" class="btn btn-primary">Create</button>
+          {{/autoForm}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="insertCompanyOpportunityModal">
+  <div class="modal fade" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5> Add new opportunity</h5>
+        </div>
+        <div class="modal-body">
+         {{#autoForm collection="Opportunities" id="insertOpportunityForm" type="insert"}}
+            {{> afQuickField name="name"}}
+            {{> afQuickField name="description"}}
+            {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="value"}}
+            {{> afQuickField name="contactId" id="selectedContact" options=contactsAsOptions  firstOption="No contact selected"}}
+            {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
+            {{> afQuickField name="isArchived" value=false type="hidden"}}
+            {{> afQuickField name="currentStageId" value=firstStageId type="hidden"}}
+            {{> afQuickField name="createdBy" value=createdBy }}
+            {{> afQuickField name="companyId" value=companyId type="hidden"}}
+            <button type="submit" class="btn btn-primary">Create</button>
+          {{/autoForm}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="insertContactOpportunityModal">
+  <div class="modal fade" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5> Add new opportunity</h5>
+        </div>
+        <div class="modal-body">
+         {{#autoForm collection="Opportunities" id="insertOpportunityForm" type="insert"}}
+            {{> afQuickField name="name"}}
+            {{> afQuickField name="description"}}
+            {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="value"}}
+            {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
+            {{> afQuickField name="isArchived" value=false type="hidden"}}
+            {{> afQuickField name="currentStageId" value=firstStageId type="hidden"}}
+            {{> afQuickField name="createdBy" value=createdBy }}
+            {{> afQuickField name="companyId" value=companyId type="hidden"}}
+            {{> afQuickField name="contactId" value=contactId type="hidden"}}
+            <button type="submit" class="btn btn-primary">Create</button>
+          {{/autoForm}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="editOpportunityModal">
+  <div class="modal fade" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Edit opportunity</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Opportunities" id="editOpportunityForm" type="update" doc=this}}
+             {{> afQuickField name="name"}}
+             {{> afQuickField name="description"}}
+             {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
+             {{> afQuickField name="value"}}
+            <button type="submit" class="btn btn-primary">Update</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="insertOpportunityItemModal">
+  <div class="modal fade" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5> Add new line item</h5>
+        </div>
+        <div class="modal-body">
+           {{#autoForm collection="Opportunities" id="insertOpportunityItemForm" type="update-pushArray" doc=this scope="items"}}
+            {{> afQuickField name="id" value=generatedId type="hidden"}}
+            {{> afQuickField name="name" value=""}}
+            {{> afQuickField name="description" value=""}}
+            {{> afQuickField name="value" value=""}}
+            {{> afQuickField name="quantity" value=""}}
+            <button type="submit" class="btn btn-primary">Create</button>
+          {{/autoForm}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="editOpportunityItemModal">
+  <div class="modal fade" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Edit opportunity line item</h5>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Opportunities" id="editOpportunityItemForm" type="update" doc=opportunity setArrayItems=true}}
+             {{> afQuickField name=fieldName value=this.data.name id="name-field"}}
+             {{> afQuickField name=fieldDesc value=this.data.description}}
+             {{> afQuickField name=fieldVal value=this.data.value}}
+             {{> afQuickField name=fieldQuantity value=this.data.quantity}}
+            <button type="submit" class="btn btn-primary">Update</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
