@@ -8,8 +8,10 @@ Template.salesPipeline.onRendered(function() {
         var data = [];
         for (var i=0; i < stages.length; i++) {
           var count = Opportunities.find({currentStageId: stages[i]._id}).count();
-          var item = [stages[i].title, count];
-          data.push(item);
+          if (count > 0) {
+            var item = [stages[i].title, count];
+            data.push(item);
+          }
         }
 
         if (data.length > 0) {
