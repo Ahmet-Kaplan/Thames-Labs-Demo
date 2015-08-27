@@ -235,3 +235,29 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 7,
+  name: "Add opportunities permissions",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    var permissions = [
+      "CanReadOpportunities",
+      "CanCreateOpportunities",
+      "CanEditOpportunities",
+      "CanDeleteOpportunities"
+    ];
+
+    Meteor.users.find({}).forEach(
+      function(u) {
+        lodash.each(permissions, function(p) {
+          if (!Roles.userIsInRole(u, p)) {
+            Roles.addUsersToRoles(u, p);
+          }
+        });
+      }
+    );
+
+    ServerSession.set('maintenance', false);
+  }
+});
