@@ -8,9 +8,11 @@
     </div>
     <p style="padding: 15px">These are the stages that your opportunities will progress through, these can be configured below to match your sales pipeline.</p>
     <div class="opportunity-stage-container">
+      {{#if hasStages}}
       {{#sortable items=stages ghostClass="opportunity-stage-ghost" options=options handle=".handle"}}
         {{> opportunityAdminStage}}
       {{/sortable}}
+      {{/if}}
     </div>
   </div>
 </template>

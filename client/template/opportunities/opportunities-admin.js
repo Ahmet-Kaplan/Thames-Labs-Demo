@@ -2,6 +2,9 @@ Template.opportunityAdmin.helpers({
   stages: function() {
     return OpportunityStages.find({}, {sort: { order: 1}});
   },
+  hasStages: function() {
+    return OpportunityStages.find({}).count() > 0;
+  },
   options: {
     sort: true,
     sortField: 'order'
