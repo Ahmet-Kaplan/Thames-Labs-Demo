@@ -33,6 +33,11 @@ Template.opportunityAdminStage.events({
 
   'click #btnDelete': function(event) {
     event.preventDefault();
+    var count = OpportunityStages.find({}).count();
+    if (count == 1) {
+      bootbox.alert("You must have at least one opportunity stage.")
+      return;
+    }
     var id = this._id;
     bootbox.confirm("Are you sure you wish to delete this stage?", function(result) {
       if (result === true) {
