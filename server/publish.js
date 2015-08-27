@@ -188,35 +188,35 @@ Meteor.publish("allActivities", function() {
   return Activities.find({});
 });
 Meteor.publish("activityByContactId", function(contactId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadActivities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     contactId: contactId
   });
 });
 Meteor.publish("activityByCompanyId", function(companyId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadActivities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     companyId: companyId
   });
 });
 Meteor.publish("activityByProjectId", function(projectId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadActivities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadProjects'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     projectId: projectId
   });
 });
 Meteor.publish("activityByPurchaseOrderId", function(purchaseOrderId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadActivities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     purchaseOrderId: purchaseOrderId
   });
 });
 Meteor.publish("activityByOpportunityId", function(opportunityId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadActivities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     opportunityId: opportunityId

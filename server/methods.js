@@ -147,7 +147,11 @@ Meteor.methods({
       "CanReadEventLog",
       "CanCreateEventLog",
       "CanEditEventLog",
-      "CanDeleteEventLog"
+      "CanDeleteEventLog",
+      "CanReadOpportunities",
+      "CanCreateOpportunities",
+      "CanEditOpportunities",
+      "CanDeleteOpportunities"
     ]);
 
     // Add user to a group (partition) based on customer id
