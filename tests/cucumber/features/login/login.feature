@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to login and logout
 
   As a user of the app

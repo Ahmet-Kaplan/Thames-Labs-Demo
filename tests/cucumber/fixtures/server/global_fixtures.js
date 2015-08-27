@@ -1,7 +1,7 @@
 Meteor.methods({
 
   // We call this before EVERY test scenario - it should completely reset the app
-  'reset': function() {
+  reset: function() {
 
     // Reset unpartitioned collections
     Tenants.remove({});
