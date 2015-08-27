@@ -70,3 +70,14 @@ Products.permit(['update']).ifLoggedIn().ifHasRole('Administrator').apply();
 Products.permit(['update']).ifLoggedIn().ifHasRole('CanEditProducts').apply();
 Products.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 Products.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteProducts').apply();
+
+OpportunityStages.permit(['insert', 'update', 'remove']).ifLoggedIn().ifHasRole('Administrator').apply();
+Opportunities.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
+Opportunities.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateOpportunities').apply();
+Opportunities.permit(['update']).ifLoggedIn().ifHasRole('Administrator').apply();
+Opportunities.permit(['update']).ifLoggedIn().ifHasRole('CanEditOpportunities').apply();
+Opportunities.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
+Opportunities.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteOpportunities').apply();
+Opportunities.allowTags(function(userId) {
+  return !!userId;
+});

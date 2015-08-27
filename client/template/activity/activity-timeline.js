@@ -37,6 +37,7 @@ Template.activityTimeline.events({
     bootbox.confirm("Are you sure you wish to delete this activity?", function(result) {
       if (result === true) {
         Activities.remove(activityId);
+        bootbox.hideAll();
       }
     });
   }
