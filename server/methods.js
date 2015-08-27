@@ -89,7 +89,7 @@ Meteor.methods({
     Grouping.remove({
       _id: userId
     });
-
+    Meteor.users.remove({_id: userId});
     LogServerEvent('warning', 'User removed', 'user', userId);
   },
 

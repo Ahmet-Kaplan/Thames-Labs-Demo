@@ -14,5 +14,15 @@ Template.tenancyAdminPage.events({
   },
   'click #addNewUserAccount': function() {
     Modal.show('addNewUser', this);
+  },
+  'click #tenantRemoveUser': function() {
+    event.preventDefault();
+    self = this;
+
+    bootbox.confirm("Are you sure you wish to remove the user" + this.name + "?<br />This action is not reversible.", function(result) {
+      if (result === true) {
+        Meteor.call('removeUser', self._id);
+      }
+    });
   }
 });
