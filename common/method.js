@@ -352,11 +352,9 @@ Meteor.methods({
 });
 
 LogEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  if (Meteor.isClient) {
+  if (Meteor.isClient && !Roles.userIsInRole(Meteor.userId(), 'superadmin')) {
     logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
     logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
-
-    var group = (Meteor.userId() ? Meteor.users.findOne(Meteor.userId()).group : undefined);
 
     AuditLog.insert({
       date: new Date(),

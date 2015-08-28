@@ -279,18 +279,3 @@ Meteor.methods({
     }
   }
 });
-
-LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
-  logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
-
-  AuditLog.insert({
-    date: new Date(),
-    source: 'server',
-    level: logLevel,
-    message: logMessage,
-    user: undefined,
-    entityType: logEntityType,
-    entityId: logEntityId
-  });
-};
