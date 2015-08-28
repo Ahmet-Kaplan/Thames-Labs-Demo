@@ -45,6 +45,9 @@ Template.projectDetail.helpers({
   },
   opportunityId: function() {
     return Opportunities.findOne({projectId: this._id})._id;
+  },
+  friendlyDueDate: function() {
+    return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
   }
 });
 

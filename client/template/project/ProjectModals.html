@@ -22,6 +22,7 @@
 
             {{> afQuickField name="value"}}
 
+            {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
             <!-- {{> afQuickField name="nextActionBy" options=usersAsOptions}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Create</button>
@@ -57,6 +58,7 @@
 
             {{> afQuickField name="value"}}
 
+            {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
             <!-- {{> afQuickField name="nextActionBy" options=usersAsOptions}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Create</button>
@@ -90,6 +92,7 @@
 
             {{> afQuickField name="status" options="allowed"}}
             {{> afQuickField name="value"}}
+            {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="probability"}}
             {{> afQuickField name="lastActionDate" type="hidden" value=currentDateTime }}
 
@@ -120,6 +123,7 @@
             {{> afQuickField name="contactId" id="companyContacts" options=contactsAsOptions }}
             {{> afQuickField name="userId" options=usersAsOptions}}
             {{> afQuickField name="value"}}
+            {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
             <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
         </div>
