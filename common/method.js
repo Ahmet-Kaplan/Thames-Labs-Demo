@@ -167,7 +167,7 @@ Meteor.methods({
       });
     }
 
-    LogEvent('debug', 'Demo data generated');
+    logEvent('debug', 'Demo data generated');
 
   },
 
@@ -351,7 +351,7 @@ Meteor.methods({
   }
 });
 
-LogEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
+logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
   if (Meteor.isClient && !Roles.userIsInRole(Meteor.userId(), 'superadmin')) {
     logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
     logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
@@ -365,34 +365,5 @@ LogEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
       entityType: logEntityType,
       entityId: logEntityId
     });
-  }
-}
-
-GetRoutedPageTitle = function(currentName) {
-  var title = currentName;
-  return title.charAt(0).toUpperCase() + title.slice(1);
-};
-
-SetRouteDetails = function(title) {
-  var user = Meteor.users.find({
-    _id: Meteor.userId()
-  }).fetch()[0];
-
-  if (user) {
-
-    var profile = user.profile;
-    if (profile) {
-      profile.lastActivity = {
-        page: title,
-        url: FlowRouter.current().path
-      };
-
-      Meteor.users.update(user._id, {
-        $set: {
-          profile: profile
-        }
-      });
-    }
-
   }
 };
