@@ -14,7 +14,6 @@ Meteor.methods({
   },
 
   addUser: function(doc) {
-
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       return;
     }
@@ -75,7 +74,6 @@ Meteor.methods({
   },
 
   addTenantUser: function(doc) {
-
     var adminId = this.userId;
     if (!Roles.userIsInRole(adminId, ['Administrator'])) {
       return '';
@@ -141,118 +139,6 @@ Meteor.methods({
     };
 
     Accounts.sendEnrollmentEmail(userId);
-
-    // See server/startup.js for MAIL_URL environment variable
-  },
-
-  setMaintenanceMode: function(val) {
-    if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
-      return;
-    }
-    ServerSession.set('maintenance', val);
-    if (val === true) {
-      LogServerEvent('warning', 'Maintenance mode enabled');
-    } else {
-      LogServerEvent('info', 'Maintenance mode disabled');
-    }
-  },
-
-  remainingConversions: function(count) {
-    ServerSession.set('DocxToPdfRemaining', count);
-
-    if (count == 100 || count == 50 || count == 25 || count < 15) {
-      var txt = 'Running out of doc to pdf conversions. We have ' + count + ' left';
-      Email.send({
-        to: 'jason.mashinchi@cambridgesoftware.co.uk',
-        from: 'admin@realtimecrm.co.uk',
-        subject: 'Running out of doc to pdf conversions...',
-        text: txt
-      });
-    }
-  },
-
-  getClearbitData: function(entityName, entityId) {
-
-    var clearbitApiKey = process.env.CLEARBIT_API_KEY;
-    if (typeof clearbitApiKey == 'undefined') {
-      throw new Meteor.Error(500, 'No clearbit API key set');
-    }
-
-    if (entityName === 'company') {
-      var url = Meteor.npmRequire('url');
-      var company = Companies.findOne(entityId);
-      var domain = url.parse(company.website).hostname;
-      var requestUrl = 'https://company-stream.clearbit.com/v1/companies/domain/' + domain;
-      var authToken = "Bearer " + clearbitApiKey;
-      Meteor.http.get(requestUrl, {
-         headers: {
-            "Authorization": authToken
-         }
-      }, function(err, res) {
-        if (err) {
-          Companies.update(entityId, { $unset: { 'metadata.clearbit': "" }});
-        } else {
-          var clearbitData = _.clone(res.data, true);
-          Companies.update(
-            entityId,
-            { $set: { 'metadata.clearbit': clearbitData }}
-          );
-        }
-      });
-
-    } else if (entityName === 'contact') {
-        var url = Meteor.npmRequire('url');
-        var contact = Contacts.findOne(entityId);
-        var requestUrl = 'https://person-stream.clearbit.com/v1/people/email/' + contact.email;
-        var authToken = "Bearer " + clearbitApiKey;
-        Meteor.http.get(requestUrl, {
-           headers: {
-              "Authorization": authToken
-           }
-        }, function(err, res) {
-          if (err) {
-            Contacts.update(entityId, { $unset: { 'metadata.clearbit': "" }});
-          } else {
-            var clearbitData = _.clone(res.data, true);
-            Contacts.update(
-              entityId,
-              { $set: { 'metadata.clearbit': clearbitData }}
-            );
-          }
-        });
-
-    } else {
-      throw new Meteor.Error('Not-supported', 'Error 500: Not found', 'Only company or contact lookup supported');
-    }
-  },
-  createOpportunityStages: function() {
-    var count = OpportunityStages.find({}).count();
-    if (count == 0) {
-      OpportunityStages.insert({
-        title: "Exploration",
-        description: "Exploring whether there is a need that your product or service can fulfill",
-        order: 0
-      });
-      OpportunityStages.insert({
-        title: "Fact finding",
-        description: "Finding the key people, whether a budget exists, timescales, competitors pitching",
-        order: 1
-      });
-      OpportunityStages.insert({
-        title: "Solution",
-        description: "Preparing your solution based on what you know from your fact finding",
-        order: 2
-      });
-      OpportunityStages.insert({
-        title: "Negotiation",
-        description: "Negotiating the sale of the solution, confirming price, delivery and other out-of-contract aspects",
-        order: 3
-      });
-      OpportunityStages.insert({
-        title: "Objections",
-        description: "Dealing with any objections to the negotiated solution in order to win the business",
-        order: 4
-      });
-    }
   }
+
 });
