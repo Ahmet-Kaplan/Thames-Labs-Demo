@@ -8,7 +8,6 @@ Feature: Allow users to see maps
     Given I am a logged in user
 
 ###################### Maps for Company ######################
-@dev
   Scenario: A user can do a location search and see the map when creating a company
     Given I have the "CanReadCompanies" permission
     Given I have the "CanCreateCompanies" permission
@@ -17,8 +16,11 @@ Feature: Allow users to see maps
     And I search for Cowley Road
     Then the field "postcode" should contain "CB4"
     And I should see a map
-
+@dev
   Scenario: A user can see the map on a company's page
+    Given I have the "CanReadCompanies" permission
+    Given I have the "CanCreateCompanies" permission
+    Given a company has been created
     When I navigate to a company page
     Then I should see the heading "Address"
     And I should see a map

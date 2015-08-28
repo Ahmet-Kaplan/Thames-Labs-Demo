@@ -2,41 +2,6 @@ module.exports = function() {
 
   var url = require('url');
 
-  this.Given(/^a company has been created$/, function(callback) {
-    this.client
-      .executeAsync(function(done) {
-        Meteor.call('createTestCompany', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value).to.exist;
-      })
-      .call(callback);
-  });
-
-  this.Given(/^a contact has been created$/, function(callback) {
-    this.client
-      .executeAsync(function(done) {
-        Meteor.call('createTestContact', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value).to.exist;
-      })
-      .call(callback);
-  });
-
-  this.When(/^I search for Cowley Road$/, function(callback) {
-    this.client
-      .waitForVisible('#geo', 2000)
-      .setValue('#geo', 'Cowley Road, Cambridge')
-      .waitForVisible('.pac-item')
-      .click('.pac-item')
-      .call(callback);
-  });
-
   this.When(/^I navigate to a contact page$/, function(callback) {
     this.client
       .url(url.resolve(process.env.ROOT_URL, '/contacts'))

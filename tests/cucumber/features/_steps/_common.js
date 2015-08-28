@@ -10,6 +10,9 @@ module.exports = function() {
 
   var url = require('url');
 
+/***************************************************
+                        GIVEN
+***************************************************/
   this.Given(/^a user exists$/, function(callback) {
     this.server.call('createTestTenant');
     this.server.call('createTestUser');
@@ -51,9 +54,24 @@ module.exports = function() {
   });
 
   this.Given(/^I have the "([^"]*)" permission$/, function(permissionName, callback) {
-    this.server.call('setPermission', permissionName);
+    this.server.call('setPermission', permissionName, true);
     this.client.call(callback);
   });
+
+
+  this.Given(/^I DO NOT have the "([^"]*)" permission$/, function(permissionName, callback) {
+    this.server.call('setPermission', permissionName, false);
+    this.client.call(callback);
+  });
+
+  this.Given(/^a company has been created$/, function(callback) {
+    this.server.call('addCompany', 'Test Ltd');
+    this.client.call(callback);
+  });
+
+/***************************************************
+                        WHEN
+***************************************************/
 
   this.When(/^I navigate to "([^"]*)"$/, function(relativePath, callback) {
     this.client

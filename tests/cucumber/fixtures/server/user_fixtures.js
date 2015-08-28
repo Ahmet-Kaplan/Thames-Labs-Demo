@@ -45,10 +45,13 @@ Meteor.methods({
     Roles.addUsersToRoles(superadminId, 'superadmin');
   },
 
-  setPermission: function(permission) {
+  setPermission: function(permission, statement) {
     var userId = Meteor.users.findOne({})._id;
-
-    Roles.addUsersToRoles(userId, permission);
+    if(statement) {
+      Roles.addUsersToRoles(userId, permission);
+    } else {
+      Roles.removeUsersFromRoles(userId, permission);
+    }
   }
 
 });
