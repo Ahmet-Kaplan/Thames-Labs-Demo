@@ -68,6 +68,11 @@
             <h4><i class="fa fa-fw fa-calendar"></i> Due Date</h4>
             {{friendlyDueDate}}
           </li>
+          {{/if}} {{#if staff}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-users"></i> Staff</h4>
+            {{staffList}}
+          </li>
           {{/if}}
         </ul>
       </div>

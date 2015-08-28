@@ -438,6 +438,10 @@ Schemas.Project = new SimpleSchema({
         }
       }
     }
+  },
+  staff: {
+    type: [String],
+    optional: true
   }
 });
 Projects.attachSchema(Schemas.Project);
