@@ -1,11 +1,15 @@
 Meteor.methods({
 
-  switchTenancy: function(user, target) {
-    Partitioner.clearUserGroup(user);
-    Partitioner.setUserGroup(user, target);
-  },
-
   removeUser: function(userId) {
+    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may remove users');
+    }
+    if (Roles.userIsInRole(this.userId, 'Administrator')) {
+      // Check user is in same tenant as admin
+      if (Partitioner.getUserGroup(userId) !== Partitioner.getUserGroup(this.userId)) {
+        throw new Meteor.Error(403, 'Admins may only remove users from their company');
+      }
+    }
     Grouping.remove({
       _id: userId
     });
@@ -15,7 +19,7 @@ Meteor.methods({
 
   addUser: function(doc) {
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
-      return;
+      throw new Meteor.Error(403, 'Only admins may create users');
     }
 
     // Important - do server side schema check
@@ -76,7 +80,7 @@ Meteor.methods({
   addTenantUser: function(doc) {
     var adminId = this.userId;
     if (!Roles.userIsInRole(adminId, ['Administrator'])) {
-      return '';
+      throw new Meteor.Error(403, 'Only admins may create users');
     }
 
     // Important - do server side schema check
