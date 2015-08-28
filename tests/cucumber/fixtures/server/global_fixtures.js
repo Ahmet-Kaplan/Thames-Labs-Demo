@@ -11,15 +11,17 @@ Meteor.methods({
 
     // Reset partitioned collections
     Partitioner.directOperation(function() {
+      //Entities dependent on other entities should be first
+      Tasks.remove({});
+      Activities.remove({});
+      Meteor.tags.remove({});
+
       Companies.remove({});
       Contacts.remove({});
-      Activities.remove({});
       Projects.remove({});
       PurchaseOrders.remove({});
       PurchaseOrderItems.remove({});
       Chatterbox.remove({});
-      Meteor.tags.remove({});
-      Tasks.remove({});
       Products.remove({});
     });
 

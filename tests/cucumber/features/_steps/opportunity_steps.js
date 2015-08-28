@@ -5,7 +5,7 @@ module.exports = function() {
   this.Given(/^opportunity stages have been created$/, function(callback) {
     this.client
       .executeAsync(function(done) {
-        Meteor.call('createTestOpportunityStages', function(err, data) {
+        Meteor.call('addOpportunityStages', function(err, data) {
           done(data);
         });
       })
@@ -18,7 +18,7 @@ module.exports = function() {
   this.Given(/^an opportunity has been created$/, function(callback) {
     this.client
       .executeAsync(function(done) {
-        Meteor.call('createTestOpportunity', function(err, data) {
+        Meteor.call('addOpportunity', function(err, data) {
           done(data);
         });
       })
@@ -41,19 +41,6 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Then(/^a new opportunity should exist$/, function(callback) {
-    this.client
-      .executeAsync(function(done) {
-        Meteor.call('getOpportunityByName', 'test opportunity 2', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value).to.exist;
-      })
-      .call(callback);
-  });
-
   this.When(/^I navigate to an opportunity page$/, function(callback) {
     this.client
       .url(url.resolve(process.env.ROOT_URL, '/opportunities'))
@@ -65,42 +52,8 @@ module.exports = function() {
   this.When(/^I enter updated opportunity details$/, function(callback) {
     this.client
       .waitForVisible('#editOpportunityForm', 2000)
-      .setValue('input[name=name]', 'test opportunity 2')
+      .setValue('input[name=name]', 'updated opportunity')
       .submitForm('#editOpportunityForm')
-      .call(callback);
-  });
-
-  this.Then(/^I should see the updated opportunity$/, function(callback) {
-    this.client
-      .executeAsync(function(done) {
-        Meteor.call('getOpportunityByName', 'test opportunity 2', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value).to.exist;
-      })
-      .executeAsync(function(done) {
-        Meteor.call('getOpportunityByName', 'test opportunity', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value).to.not.exist;
-      })
-      .call(callback);
-  });
-
-  this.Then(/^the opportunity should not exist$/, function(callback) {
-    this.client
-      .executeAsync(function(done) {
-        Meteor.call('getOpportunityByName', 'test opportunity', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value).to.not.exist;
-      })
       .call(callback);
   });
 
@@ -110,6 +63,12 @@ module.exports = function() {
       .click("#removeOpportunity")
       .waitForVisible(".modal-content", 2000)
       .click(".modal-footer .btn-primary")
+      .call(callback);
+  });
+
+  this.Then(/^the opportunity should not exist$/, function(callback) {
+    this.client
+      .waitForVisible('#mchNoOpportunityPlaceholder', 2000)
       .call(callback);
   });
 
@@ -166,6 +125,9 @@ module.exports = function() {
 
   this.When(/^I enter line item details for an opportunity$/, function(callback) {
     this.client
+      .waitForVisible("#btnAddLine", 2000)
+      .scroll("#btnAddLine", 50, 50)
+      .click("#btnAddLine")
       .waitForVisible("#insertOpportunityItemForm")
       .setValue('input[name=name]', 'testItem')
       .setValue('input[name=description]', 'test item description')
@@ -181,21 +143,10 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.When(/^I create a new line item for an opportunity$/, function(callback) {
-    this.client
-      .waitForVisible("#btnAddLine", 2000)
-      .click("#btnAddLine")
-      .waitForVisible("#insertOpportunityItemForm")
-      .setValue('input[name=name]', 'testItem')
-      .setValue('input[name=description]', 'test item description')
-      .setValue('input[name=value]', 1)
-      .submitForm("#insertOpportunityItemForm")
-      .call(callback);
-  });
-
   this.When(/^I enter updated line item details for an opportunity$/, function(callback) {
     this.client
       .waitForVisible(".btnEditOppItem", 2000)
+      .scroll(".btnEditOppItem", 50, 50)
       .click(".btnEditOppItem")
       .waitForVisible("#editOpportunityItemForm")
       .setValue('#name-field', 'testItem2')
@@ -213,6 +164,7 @@ module.exports = function() {
   this.When(/^I delete a line item from an opportunity$/, function(callback) {
     this.client
       .waitForVisible(".btnDeleteOppItem", 2000)
+      .scroll(".btnDeleteOppItem", 50, 50)
       .click(".btnDeleteOppItem")
       .waitForVisible(".modal-content", 2000)
       .click(".modal-footer .btn-primary")
@@ -221,14 +173,7 @@ module.exports = function() {
 
   this.Then(/^I should not see a line item in an opportunity$/, function(callback) {
     this.client
-      .executeAsync(function(done) {
-        Meteor.call('getOpportunityByName', 'test opportunity', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value.items[0]).to.not.exist;
-      })
+      .waitForVisible('#opp-no-line-items', 2000)
       .call(callback);
   });
 };
