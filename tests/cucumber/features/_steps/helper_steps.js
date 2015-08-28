@@ -44,11 +44,4 @@ module.exports = function() {
       .getText('h4=' + expectedText)
       .call(callback);
   });
-
-  this.When(/^I click "([^"]*)"$/, function(id, callback) {
-    this.client
-      .waitForVisible(id, 2000)
-      .click(id)
-      .call(callback);
-  });
 };

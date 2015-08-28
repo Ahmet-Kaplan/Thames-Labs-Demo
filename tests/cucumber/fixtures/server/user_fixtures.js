@@ -43,6 +43,12 @@ Meteor.methods({
       admin: true
     });
     Roles.addUsersToRoles(superadminId, 'superadmin');
+  },
+
+  setPermission: function(permission) {
+    var userId = Meteor.users.findOne({})._id;
+
+    Roles.addUsersToRoles(userId, permission);
   }
 
 });

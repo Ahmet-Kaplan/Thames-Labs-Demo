@@ -4,13 +4,14 @@ Feature: Allow users to see maps
   I should see the maps when I go to contacts or company
 
   Background:
+    Given a user exists
     Given I am a logged in user
-    And a company has been created
-    And a contact has been created
 
 ###################### Maps for Company ######################
-
+@dev
   Scenario: A user can do a location search and see the map when creating a company
+    Given I have the "CanReadCompanies" permission
+    Given I have the "CanCreateCompanies" permission
     When I navigate to "/companies"
     And I click "#createCompany"
     And I search for Cowley Road

@@ -1,4 +1,4 @@
-@dev
+
 Feature: Users can access different parts of the app via urls
 
   As a user of the app
