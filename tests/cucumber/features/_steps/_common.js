@@ -82,7 +82,24 @@ module.exports = function() {
   this.When(/^I click "([^"]*)"$/, function(id, callback) {
   this.client
     .waitForVisible(id, 2000)
+    .scroll(id)
     .click(id)
+    .call(callback);
+  });
+
+
+  /***************************************************
+                          THEN
+  ***************************************************/
+  this.Then(/^I should see "([^"]*)"$/, function(id, callback) {
+  this.client
+    .waitForVisible(id, 2000)
+    .call(callback);
+  });
+
+  this.Then(/^I should not see "([^"]*)"$/, function(id, callback) {
+  this.client
+    .waitForVisible(id, 2000, true)
     .call(callback);
   });
 };

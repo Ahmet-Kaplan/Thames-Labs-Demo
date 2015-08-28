@@ -1,6 +1,6 @@
 module.exports = function() {
 
-  this.Given(/^I am a logged in user$/, function(callback) {
+/*  this.Given(/^I am a logged in user$/, function(callback) {
     this.client
       .setViewportSize({
         width: 1000,
@@ -11,7 +11,7 @@ module.exports = function() {
       .executeAsync(login, 'test@domain.com', 'goodpassword')
       .call(callback);
   });
-
+*/
   this.Then(/^I should see the title "([^"]*)"$/, function(expectedTitle, callback) {
     this.client
       .getTitle().should.become(expectedTitle)

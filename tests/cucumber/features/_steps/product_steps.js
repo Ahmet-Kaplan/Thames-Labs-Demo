@@ -28,19 +28,6 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Then(/^a new product should exist$/, function(callback) {
-    this.client
-      .executeAsync(function(done) {
-        Meteor.call('getProductByName', 'test product 2', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value).to.exist;
-      })
-      .call(callback);
-  });
-
   this.When(/^I navigate to a product page$/, function(callback) {
     this.client
       .url(url.resolve(process.env.ROOT_URL, '/products'))
@@ -52,42 +39,23 @@ module.exports = function() {
   this.When(/^I enter updated product details$/, function(callback) {
     this.client
       .waitForVisible('#updateProductForm', 2000)
-      .setValue('#name-field', 'test product 2')
+      .setValue('#name-field', 'updated product')
       .submitForm('#updateProductForm')
       .call(callback);
   });
 
   this.Then(/^I should see the updated product$/, function(callback) {
     this.client
-      .executeAsync(function(done) {
-        Meteor.call('getProductByName', 'test product 2', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value).to.exist;
-      })
-      .executeAsync(function(done) {
-        Meteor.call('getProductByName', 'test product', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value).to.not.exist;
+      .getText('.entity-name')
+      .then(function(text) {
+        expect(text).to.equal('updated product');
       })
       .call(callback);
   });
 
   this.Then(/^the product should not exist$/, function(callback) {
     this.client
-      .executeAsync(function(done) {
-        Meteor.call('getProductByName', 'test product', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value).to.not.exist;
-      })
+      .getText('h4*=No products')
       .call(callback);
   });
 
