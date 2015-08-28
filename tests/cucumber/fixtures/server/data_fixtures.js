@@ -6,7 +6,7 @@ Meteor.methods({
         city = 'Cambridge',
         postcode = 'CB4',
         country = 'United Kingdom',
-        userId = Meteor.users.findOne({})._id;
+        userId = Meteor.userId();
 
     return Companies.insert({
       name: companyName,
