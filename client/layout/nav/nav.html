@@ -12,7 +12,8 @@
           </button>
           {{/if}}
           <a class="navbar-brand" href="/">
-            <img alt="" src="/icon.svg">RealTime<span>CRM</span>
+            <img alt="" src="/icon.svg">RealTime
+            <span>CRM</span>
           </a>
         </div>
         {{#if loggedIn}}
@@ -60,7 +61,7 @@
                 <li><a href="#" id="qckCreatePurchaseOrder"><i class="fa fa-fw fa-shopping-cart"></i> Add Purchase Order</a></li>
               </ul>
             </li>
-            
+
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" id="general-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-fw fa-user"></i> {{userName}}
@@ -165,8 +166,18 @@
           </div>
         </div>
       </div>
-
-
+      {{#if isInRole 'Administrator,CanReadTasks'}}
+      <tr>
+        <td class="panel-heading">
+          <h4 class="panel-title">
+            <i class="fa fa-fw fa-check"></i>
+            <a href='/tasks' class="dismiss-on-click {{#if isActiveRoute 'tasks'}}active{{/if}}" id="menuLinkTasks">
+              Tasks
+              </a>
+          </h4>
+        </td>
+      </tr>
+      {{/if}}
       <div class="panel panel-default accordion-links">
         <table class="table">
           {{#if isInRole 'Administrator,CanReadCompanies'}}
@@ -185,6 +196,17 @@
               <h4 class="panel-title">
                 <a href='/contacts' class="dismiss-on-click {{#if isActiveRoute 'contacts'}}active{{/if}}" id="menuLinkContacts">
                   <i class="fa fa-fw fa-user"></i> Contacts
+                </a>
+              </h4>
+            </td>
+          </tr>
+          {{/if}} {{#if isInRole 'Administrator,CanReadOpportunities'}}
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <i class="fa fa-fw fa-files-o"></i>
+                <a href='/opportunities' class="{{#if isActiveRoute 'opportunities'}}active{{/if}}" id="menuLinkOpportunities">
+                  Opportunities
                 </a>
               </h4>
             </td>
@@ -210,17 +232,6 @@
               </h4>
             </td>
           </tr>
-          {{/if}} {{#if isInRole 'Administrator,CanReadTasks'}}
-          <tr>
-            <td class="panel-heading">
-              <h4 class="panel-title">
-                <i class="fa fa-fw fa-check"></i>
-                <a href='/tasks' class="dismiss-on-click {{#if isActiveRoute 'tasks'}}active{{/if}}" id="menuLinkTasks">
-                  Tasks
-                  </a>
-              </h4>
-            </td>
-          </tr>
           {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
           <tr>
             <td class="panel-heading">
@@ -228,17 +239,6 @@
                 <i class="fa fa-fw fa-shopping-cart"></i>
                 <a href='/purchaseorders' class="{{#if isActiveRoute 'purchaseOrders'}}active{{/if}}" id="menuLinkPurchaseOrders">
                   Purchase Orders
-                </a>
-              </h4>
-            </td>
-          </tr>
-          {{/if}} {{#if isInRole 'Administrator,CanReadOpportunities'}}
-          <tr>
-            <td class="panel-heading">
-              <h4 class="panel-title">
-                <i class="fa fa-fw fa-files-o"></i>
-                <a href='/opportunities' class="{{#if isActiveRoute 'opportunities'}}active{{/if}}" id="menuLinkOpportunities">
-                  Opportunities
                 </a>
               </h4>
             </td>
