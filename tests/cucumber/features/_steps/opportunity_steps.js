@@ -118,6 +118,7 @@ module.exports = function() {
 
   this.Then(/^I should see that an project has been created from the opportunity$/, function(callback) {
     this.client
+      .waitForVisible('.entity-title*=Project', 2000)
       .waitForVisible('a*=opportunity', 2000)
       .getText('a*=opportunity')
       .call(callback);
