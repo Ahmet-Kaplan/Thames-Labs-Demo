@@ -21,14 +21,6 @@ Template.insertNewTask.helpers({
   }
 });
 
-Template.insertNewTask.onRendered(function() {
-  Meteor.subscribe('currentTenantUserData', Partitioner.group());
-});
-
-Template.updateTask.onRendered(function() {
-  Meteor.subscribe('currentTenantUserData', Partitioner.group());
-});
-
 Template.updateTask.helpers({
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {

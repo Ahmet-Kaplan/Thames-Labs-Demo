@@ -317,12 +317,12 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.companyId !== this.previous.companyId) {
     var prevComp = Companies.findOne(this.previous.companyId);
     var newComp = Companies.findOne(doc.companyId);
-    if(prevComp === undefined) {
+    if (prevComp === undefined) {
       var prevComp = {
         name: 'None'
       }
     }
-    if(newComp === undefined) {
+    if (newComp === undefined) {
       var newComp = {
         name: 'None'
       }
@@ -471,7 +471,7 @@ Activities.after.insert(function(userId, doc) {
     entityName = "Purchase Order: " + entity.description;
   }
 
-  var content = UniHTML.purify(doc.notes);
+  var content = TagStripper.strip(doc.notes, "", "", false);
 
   logEvent('info', 'A new activity has been created: ' + content + ' (' + entityName + ")");
 });
@@ -525,8 +525,8 @@ Activities.after.remove(function(userId, doc) {
     entityName = "Purchase Order: " + entity.description;
   }
 
-  var content = UniHTML.purify(doc.notes);
-  logEvent('info', 'An existing activity has been deleted: ' + content + ' (' + entityName + ")");
+  var content = TagStripper.strip(doc.notes, "", "", false);
+  LogEvent('info', 'An existing activity has been deleted: ' + content + ' (' + entityName + ")");
 });
 
 
@@ -690,7 +690,9 @@ Opportunities.initEasySearch(['name'], {
   query: function(searchString) {
     var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
     if (!this.props.showArchived) {
-      query.isArchived = {$ne: true};
+      query.isArchived = {
+        $ne: true
+      };
     }
     return query;
   }

@@ -53,7 +53,7 @@ Meteor.methods({
           Opportunities.insert({
             name: faker.company.companyName(),
             description: faker.lorem.sentence(),
-            currentStageId: oppStageIds[Math.floor(Math.random()*oppStageIds.length)],
+            currentStageId: oppStageIds[Math.floor(Math.random() * oppStageIds.length)],
             createdBy: randomUser._id,
             items: [],
             companyId: companyId,
@@ -306,12 +306,14 @@ Meteor.methods({
       }
     }
 
-    Opportunities.update(opp._id, { $set: {
-      isArchived: true,
-      hasBeenWon: true,
-      projectId: projId,
-      currentStageId: null
-    }});
+    Opportunities.update(opp._id, {
+      $set: {
+        isArchived: true,
+        hasBeenWon: true,
+        projectId: projId,
+        currentStageId: null
+      }
+    });
 
     var note = user.profile.name + ' marked this opportunity as won';
     var date = new Date();
@@ -328,24 +330,38 @@ Meteor.methods({
 
   deleteOpportunityStage: function(stageId) {
     //This method ensures that opportunities on a deleted stage are moved to a stage
-    var opportunitiesAtStage = Opportunities.find({currentStageId: stageId}).fetch();
+    var opportunitiesAtStage = Opportunities.find({
+      currentStageId: stageId
+    }).fetch();
     if (!!opportunitiesAtStage) {
-      var firstOppStageId = OpportunityStages.findOne({order: 0})._id;
+      var firstOppStageId = OpportunityStages.findOne({
+        order: 0
+      })._id;
       if (firstOppStageId == stageId) {
-        firstOppStageId = OpportunityStages.findOne({order: 1})._id;
+        firstOppStageId = OpportunityStages.findOne({
+          order: 1
+        })._id;
       }
       for (var i = 0; i < opportunitiesAtStage.length; i++) {
-        Opportunities.update(opportunitiesAtStage[i]._id, { $set: {
-          currentStageId: firstOppStageId
-        }});
+        Opportunities.update(opportunitiesAtStage[i]._id, {
+          $set: {
+            currentStageId: firstOppStageId
+          }
+        });
       }
       OpportunityStages.remove(stageId);
       //Orders the remaining stages
-      var oppStages = OpportunityStages.find({}, { sort: {order: 1}}).fetch();
+      var oppStages = OpportunityStages.find({}, {
+        sort: {
+          order: 1
+        }
+      }).fetch();
       for (var i = 0; i < oppStages.length; i++) {
-        OpportunityStages.update(oppStages[i]._id, { $set: {
-          order: i
-        }});
+        OpportunityStages.update(oppStages[i]._id, {
+          $set: {
+            order: i
+          }
+        });
       }
     }
   }
@@ -361,9 +377,9 @@ logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
       source: 'client',
       level: logLevel,
       message: logMessage,
-      user: (Meteor.userId() ? Meteor.userId() : undefined),
+      user: Meteor.userId(),
       entityType: logEntityType,
       entityId: logEntityId
     });
   }
-};
+}

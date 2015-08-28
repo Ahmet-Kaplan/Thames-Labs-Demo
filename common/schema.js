@@ -422,6 +422,26 @@ Schemas.Project = new SimpleSchema({
     autoform: {
       type: 'hidden'
     }
+  },
+  dueDate: {
+    type: Date,
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          useCurrent: true,
+          sideBySide: true,
+          widgetPositioning: {
+            vertical: "top"
+          }
+        }
+      }
+    }
+  },
+  staff: {
+    type: [String],
+    optional: true
   }
 });
 Projects.attachSchema(Schemas.Project);
