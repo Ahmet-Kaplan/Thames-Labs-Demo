@@ -243,3 +243,15 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 7,
+  name: "Clear existing audit log",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+      AuditLog.remove({});
+    });
+    ServerSession.set('maintenance', false);
+  }
+});

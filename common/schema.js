@@ -702,10 +702,6 @@ Schemas.Audit = new SimpleSchema({
   entityId: {
     type: String,
     optional: true
-  },
-  groupId: {
-    type: String,
-    optional: true
   }
 });
 AuditLog.attachSchema(Schemas.Audit);

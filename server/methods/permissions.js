@@ -45,7 +45,7 @@ Meteor.methods({
   },
 
   setUserRole: function(userId, roleName, value) {
-    if (!Roles.userIsInRole(userId, 'Administrator')) {
+    if (!Roles.userIsInRole(this.userId, ['Administrator', 'superadmin'])) {
       throw new Meteor.Error(403, 'Only administrators can set user roles');
     }
 

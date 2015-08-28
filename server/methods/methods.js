@@ -1,8 +1,5 @@
 Meteor.methods({
 
-  clearAuditLog: function() {
-    AuditLog.remove({});
-  },
 
   sendFeedback: function(doc) {
     check(doc, Schemas.Feedback);

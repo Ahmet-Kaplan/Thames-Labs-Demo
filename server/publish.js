@@ -15,25 +15,17 @@ Meteor.publish('userPresence', function() {
 
 Meteor.publish("auditData", function() {
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
-    return AuditLog.find({});
+    return Partitioner.directOperation(function() {
+      return AuditLog.find({});
+    });
   } else {
-    this.ready();
+    return this.ready();
   }
 });
 
-Meteor.publish("groupedAuditData", function(userId) {
-  var group = null;
-
-  var ux = Meteor.users.find({
-    _id: userId
-  }).fetch()[0];
-  if (ux) {
-    group = ux.group;
-  }
-
-  return AuditLog.find({
-    groupId: group
-  });
+Meteor.publish("eventLogData", function(userId) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadEventLog'])) return this.ready();
+  return AuditLog.find({});
 });
 
 Meteor.publish("allTenants", function() {

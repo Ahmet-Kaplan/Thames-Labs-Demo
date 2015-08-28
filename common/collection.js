@@ -205,6 +205,7 @@ Tasks = new Mongo.Collection('tasks');
 Partitioner.partitionCollection(Tasks);
 
 AuditLog = new Mongo.Collection('audit');
+Partitioner.partitionCollection(AuditLog);
 
 //////////////////////
 // COLLECTION HOOKS //
