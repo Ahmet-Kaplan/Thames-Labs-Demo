@@ -64,6 +64,7 @@ router.subscriptions = function() {
   this.register('userPresence', Meteor.subscribe('userPresence'));
   this.register('allNotifications', Meteor.subscribe('allNotifications'));
   this.register('auditData', Meteor.subscribe('auditData'));
+  this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
 };
 
 router.notFound = {
@@ -144,7 +145,6 @@ router.route('/sign-up', {
 router.route('/', {
   name: 'dashboard',
   subscriptions: function() {
-    this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
     this.register('allChatter', subs.subscribe('allChatter'));
     this.register('allUserTasks', subs.subscribe('allUserTasks', Meteor.userId()));
   },
@@ -158,7 +158,6 @@ router.route('/', {
 router.route('/admin', {
   name: 'administration',
   subscriptions: function() {
-    this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
     this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
@@ -200,7 +199,6 @@ router.route('/companies/:id', {
     this.register('purchaseOrdersByCompanyId', subs.subscribe('purchaseOrdersByCompanyId', params.id));
     this.register('companyTags', subs.subscribe('companyTags'));
     this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
-    this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
     this.register('opportunitiesByCompanyId', subs.subscribe('opportunitiesByCompanyId', params.id));
     this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
