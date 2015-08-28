@@ -16,3 +16,42 @@ LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
     });
   });
 };
+
+defaultPermissionsList = [
+  "CanReadContacts",
+  "CanReadCompanies",
+  "CanCreateCompanies",
+  "CanEditCompanies",
+  "CanDeleteCompanies",
+  "CanCreateContacts",
+  "CanEditContacts",
+  "CanDeleteContacts",
+  "CanReadProjects",
+  "CanCreateProjects",
+  "CanEditProjects",
+  "CanDeleteProjects",
+  "CanReadProducts",
+  "CanCreateProducts",
+  "CanEditProducts",
+  "CanDeleteProducts",
+  "CanReadTasks",
+  "CanCreateTasks",
+  "CanEditTasks",
+  "CanDeleteTasks",
+  "CanReadPurchaseOrders",
+  "CanCreatePurchaseOrders",
+  "CanEditPurchaseOrders",
+  "CanDeletePurchaseOrders",
+  "CanReadDataManagement",
+  "CanCreateDataManagement",
+  "CanEditDataManagement",
+  "CanDeleteDataManagement",
+  "CanReadEventLog",
+  "CanCreateEventLog",
+  "CanEditEventLog",
+  "CanDeleteEventLog",
+  "CanReadOpportunities",
+  "CanCreateOpportunities",
+  "CanEditOpportunities",
+  "CanDeleteOpportunities"
+];
