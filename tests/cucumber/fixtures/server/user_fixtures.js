@@ -52,13 +52,6 @@ Meteor.methods({
     } else {
       Roles.removeUsersFromRoles(userId, permission);
     }
-  },
-  createTestProduct: function() {
-    var data = Products.insert({
-      name: 'test product',
-      description: 'test description',
-      createdBy: Meteor.userId()
-    });
-    return data;
   }
+  
 });

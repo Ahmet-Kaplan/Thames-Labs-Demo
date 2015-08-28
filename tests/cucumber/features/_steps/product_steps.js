@@ -5,7 +5,7 @@ module.exports = function() {
   this.Given(/^a product has been created$/, function(callback) {
     this.client
       .executeAsync(function(done) {
-        Meteor.call('createTestProduct', function(err, data) {
+        Meteor.call('addProduct', function(err, data) {
           done(data);
         });
       })

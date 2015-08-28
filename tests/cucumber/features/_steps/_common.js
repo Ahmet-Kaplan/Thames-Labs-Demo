@@ -92,14 +92,64 @@ module.exports = function() {
                           THEN
   ***************************************************/
   this.Then(/^I should see "([^"]*)"$/, function(id, callback) {
-  this.client
-    .waitForVisible(id, 2000)
-    .call(callback);
+    this.client
+      .waitForVisible(id, 2000)
+      .call(callback);
   });
 
   this.Then(/^I should not see "([^"]*)"$/, function(id, callback) {
-  this.client
-    .waitForVisible(id, 2000, true)
-    .call(callback);
+    this.client
+      .waitForVisible(id, 2000, true)
+      .call(callback);
+  });
+
+  this.Then(/^I should see the title "([^"]*)"$/, function(expectedTitle, callback) {
+    this.client
+      .getTitle().should.become(expectedTitle)
+      .notify(callback);
+  });
+
+  this.Then(/^I should see the heading "([^"]*)"$/, function(expectedHeading, callback) {
+    this.client
+      .waitForVisible('h1*=' + expectedHeading, 2000)
+      .getText('h1*=' + expectedHeading)
+      .call(callback);
+  });
+
+  this.Then(/^I should see a modal$/, function(callback) {
+    this.client
+      .waitForVisible('.modal-dialog', 5000)
+      .call(callback);
+  });
+
+  this.Then(/^I should not see a modal$/, function(callback) {
+    this.client
+      .waitForVisible('.modal-dialog', 5000, true)
+      .call(callback);
+  });
+
+  this.Then(/^I should see a modal with title "([^"]*)"$/, function(expectedText, callback) {
+    this.client
+      .waitForVisible('.modal-header', 5000)
+      .getText('h4=' + expectedText)
+      .call(callback);
+  });
+
+  this.Then(/^the "([^"]*)" menu item is shown$/, function(menuText, callback) {
+    this.client
+      .isExisting('#menuLink' + menuText)
+      .then(function(isExisting) {
+        expect(isExisting).to.equal(true);
+      })
+      .call(callback);
+  });
+
+  this.Then(/^the "([^"]*)" menu item is not shown$/, function(menuText, callback) {
+    this.client
+      .isExisting('#menuLink' + menuText)
+      .then(function(isExisting) {
+        expect(isExisting).to.equal(false);
+      })
+      .call(callback);
   });
 };

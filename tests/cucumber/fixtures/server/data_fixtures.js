@@ -20,6 +20,14 @@ Meteor.methods({
         console.log(err)
       }
     });
-  }
+  },
 
+  addProduct: function() {
+    var data = Products.insert({
+      name: 'test product',
+      description: 'test description',
+      createdBy: Meteor.userId()
+    });
+    return data;
+  }
 });

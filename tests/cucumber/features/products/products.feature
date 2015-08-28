@@ -9,16 +9,25 @@ Feature: Allow users to manage their Products
     And I am a logged in user
     And I have the "CanReadProducts" permission
 
+
+
   Scenario: A user can see the products list
     When I navigate to "/products"
     Then I should see the heading "Products"
-    
+
   Scenario: A user without permission cannot see the products list
     Given I DO NOT have the "CanReadProducts" permission
     When I navigate to "/products"
     Then I should not see the heading "Products"
 
-  Scenario: A user can add a product
+  Scenario: A user with read permissions can see a product
+    Given a product has been created
+    When I navigate to a product page
+    Then I should see the heading "test product"
+
+
+
+  Scenario: A user can create a product
     Given I have the "CanCreateProducts" permission
     When I navigate to "/products"
     And I click "#add-product"
@@ -26,10 +35,11 @@ Feature: Allow users to manage their Products
     And I navigate to a product page
     Then I should see the heading "test product 2"
 
-  Scenario: A user without permission cannot add a products
+  Scenario: A user without permission cannot create a products
     Given I DO NOT have the "CanCreateProducts" permission
     When I navigate to "/products"
     Then I should not see "#add-product"
+
 
 
   Scenario: A user can edit a product
@@ -47,6 +57,7 @@ Feature: Allow users to manage their Products
     Then I should not see "#edit-product"
 
 
+
   Scenario: A user can delete a product
     Given I have the "CanDeleteProducts" permission
     And a product has been created
@@ -59,3 +70,14 @@ Feature: Allow users to manage their Products
     And a product has been created
     When I navigate to a product page
     Then I should not see "#delete-product"
+
+
+
+  Scenario: A restricted user cannot see the Products menu item without the correct permission
+    Given I DO NOT have the "CanReadProducts" permission
+    Then the "Products" menu item is not shown
+
+  Scenario: A user can see the Products menu item with the correct permission
+    Given I have the "CanReadProducts" permission
+    Then the "Products" menu item is shown
+    
