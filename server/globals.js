@@ -1,3 +1,5 @@
+Sortable.collections = ['opportunitystages'];
+
 LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
   logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
   logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
