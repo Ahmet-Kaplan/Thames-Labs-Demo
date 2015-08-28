@@ -1,28 +1,5 @@
 Meteor.methods({
 
-
-  sendFeedback: function(doc) {
-    check(doc, Schemas.Feedback);
-    this.unblock();
-    var asanaApiKey = '7U5d5HNS.9gBvXvNdFeaiNoajrOvchS7',
-      asanaWorkspace = '20585633191816',
-      asanaProject = '36900399110512';
-
-    HTTP.post('https://app.asana.com/api/1.0/tasks', {
-      auth: asanaApiKey + ':',
-      data: {
-        data: {
-          name: _.trunc(doc.message),
-          projects: asanaProject,
-          workspace: asanaWorkspace,
-          notes: doc.message + '\n\nurl: ' + doc.url + '\nname: ' + doc.name + '\nemail: ' + doc.email
-        }
-      }
-    }, function(error) {
-      if (error) console.log(error);
-    });
-  },
-
   switchTenancy: function(user, target) {
     Partitioner.clearUserGroup(user);
     Partitioner.setUserGroup(user, target);
@@ -196,9 +173,9 @@ Meteor.methods({
 
   getClearbitData: function(entityName, entityId) {
 
-    var clearbitApiKey = process.env.CLEARBITAPIKEY;
-    if (typeof(clearbitApiKey) == 'undefined') {
-      throw new Meteor.Error('No-clearbit-api-key', 'Error 500: Not found', 'No clearbit API key set');
+    var clearbitApiKey = process.env.CLEARBIT_API_KEY;
+    if (typeof clearbitApiKey == 'undefined') {
+      throw new Meteor.Error(500, 'No clearbit API key set');
     }
 
     if (entityName === 'company') {
