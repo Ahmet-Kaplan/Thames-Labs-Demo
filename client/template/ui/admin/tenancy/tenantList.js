@@ -11,7 +11,7 @@ Template.tenantList.helpers({
     });
   },
   userCount: function() {
-    return Meteor.users.find({}).count();
+    return Meteor.users.find({ group: {$ne: undefined} }).count();
   }
 });
 
@@ -76,7 +76,6 @@ Template.user.events({
     bootbox.confirm("Are you sure you wish to delete this user?", function(result) {
       if (result === true) {
         Meteor.call('removeUser', userId);
-        Meteor.users.remove(userId);
       }
     });
   },

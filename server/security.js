@@ -4,6 +4,7 @@ Tenants.permit('update').ifLoggedIn().exceptProps(['name']).apply();
 Notifications.permit(['insert', 'update', 'remove']).ifHasRole('superadmin').apply();
 
 Meteor.users.permit(['insert', 'remove']).ifHasRole('superadmin').apply();
+Meteor.users.permit(['insert', 'remove']).ifHasRole('Administrator').apply();
 
 Companies.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
 Companies.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateCompanies').apply();
