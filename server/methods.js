@@ -1,3 +1,5 @@
+STRIPE_SK = 'sk_test_CEgjj8xNKSrQMUrqC4puiHxA';
+
 // Super secret server only methods
 Meteor.methods({
   checkUserRole: function(userId, roleName) {
@@ -280,7 +282,44 @@ Meteor.methods({
     } else {
       throw new Meteor.Error('Not-supported', 'Error 500: Not found', 'Only company or contact lookup supported');
     }
+  },
+
+  tenantSubscription: function(token) {
+    var stripe = StripeAPI(STRIPE_SK);
+    var stripeId;
+    var tenantId = Partitioner.getUserGroup(this.userId);
+    var theTenant = Tenants.findOne({_id: theTenantId});
+    var userId = this.userId;
+    Payments.insert({
+      token: token.id,
+      tenantId: tenantId,
+      createdBy: userId,
+      date: token.created,
+      cardType: token.card.brand,
+      cardCountry: token.card.country,
+      last4: token.card.last4,
+      email: token.email
+    });
+
+    if(theTenant.stripeId === undefined) {
+      stripe.customers.create({
+        account_balance: 0,
+        description: theTenant.name
+      }, function(err, customer) {
+        stripeId = customer.id,
+        Tenants.update({
+          $set: {
+            stripeId: customer.id
+          }
+        })
+      });
+    } else {
+      stripeId = theTenant.stripeId;
+    }
+
+    stripe.customers.createSubscription(stripeId, '')
   }
+
 });
 
 LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {

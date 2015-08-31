@@ -120,6 +120,9 @@ Schemas.Tenant = new SimpleSchema({
     label: "Paying tenant",
     defaultValue: false
   },
+  stripeId: {
+    type: String
+  },
   limit: {
     type: Number,
     label: "Records limit",
@@ -697,6 +700,9 @@ Schemas.Product = new SimpleSchema({
 Products.attachSchema(Schemas.Product);
 
 Schemas.Audit = new SimpleSchema({
+  token: {
+    type: String
+  },
   date: {
     type: Date
   },
@@ -728,3 +734,31 @@ Schemas.Audit = new SimpleSchema({
   }
 });
 AuditLog.attachSchema(Schemas.Audit);
+
+Schemas.Payment = new SimpleSchema({
+  token: {
+    type: String
+  },
+  tenantId: {
+    type: String
+  },
+  date: {
+    type: Number
+  },
+  createdBy: {
+    type: String
+  },
+  cardType: {
+    type: String
+  },
+  cardCountry: {
+    type: String
+  },
+  last4: {
+    type: String
+  },
+  email: {
+    type: String
+  }
+})
+Payments.attachSchema(Schemas.Payment)
