@@ -32,13 +32,6 @@ Template.tenancyAdminPage.events({
   },
 
   'click #upScheme': function(e) {
-    e.preventDefault();
-    handler.open({
-      name: 'RealtimeCRM',
-      description: 'Subscription to the Premier Scheme',
-      amount: 2000,
-      currency: 'GBP',
-      allowRememberMe: false
-    });
+    Modal.show('stripeSubscribe', this);
   }
 });
