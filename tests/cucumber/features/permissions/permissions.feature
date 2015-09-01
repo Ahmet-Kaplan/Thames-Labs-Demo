@@ -7,11 +7,10 @@ Feature: Allow administrators to give users permissions
   I want to view content that is relevant to me
   So that I can work efficiently
 
-  Background:
-    Given a user exists
-
   Scenario: The super admin can set a user as an administrator for their tenant
     Given a superadmin exists
+    And a tenant exists
+    And a restricted user exists
     And I am a logged in superadmin user
     When I navigate to "/tenants"
     And I click ".accordion-toggle"
@@ -21,13 +20,15 @@ Feature: Allow administrators to give users permissions
     Then the user should have the "Administrator" permission
 
   Scenario: An administrator can see the correct menu items
+    Given a user exists
     Given I am a logged in user
     And I have the "Administrator" permission
     When I click "#general-dropdown"
     Then I should see "#Administration"
 
   Scenario: An administrator can access the Administration page
-    Given I am a logged in user
+    Given a user exists
+    And I am a logged in user
     And I have the "Administrator" permission
     When I click "#general-dropdown"
     Then I should see "#Administration"
@@ -35,7 +36,8 @@ Feature: Allow administrators to give users permissions
     Then I should see the heading "Administration"
 
   Scenario: An restricted user cannot access the Administration page
-    Given I am a logged in user
+    Given a user exists
+    And I am a logged in user
     And I do not have the "Administrator" permission
     When I click "#general-dropdown"
     Then I should not see "#Administration"

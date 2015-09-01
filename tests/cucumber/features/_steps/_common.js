@@ -24,6 +24,11 @@ module.exports = function() {
     this.client.call(callback);
   });
 
+  this.Given(/^a tenant exists$/, function(callback) {
+    this.server.call('createTestTenant');
+    this.client.call(callback);
+  });
+
   this.Given(/^I am a logged out user$/, function(callback) {
     this.client
       .url(process.env.ROOT_URL)

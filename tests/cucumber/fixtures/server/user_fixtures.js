@@ -54,11 +54,36 @@ Meteor.methods({
     }
   },
 
+  setPermissionForUsername: function(permission, username, statement) {
+    var userId = Meteor.users.findOne({username: username})._id;
+    if(statement) {
+      Roles.addUsersToRoles(userId, permission);
+    } else {
+      Roles.removeUsersFromRoles(userId, permission);
+    }
+  },
+
   'checkUserHasPermission': function(username, permissionName) {
     var user = Meteor.users.findOne({
       username: username
     });
     return Roles.userIsInRole(user, permissionName);
-  }
+  },
 
+  createTestRestrictedUser: function() {
+    var tenantName = 'Acme Corp';
+
+    var userId = Accounts.createUser({
+      username: "restricted user",
+      email: "restricted@domain.com",
+      password: "goodpassword",
+      profile: {
+        name: "restricted user"
+      }
+    });
+
+    var tenantId = Tenants.findOne({name: tenantName})._id;
+    Partitioner.setUserGroup(userId, tenantId);
+    Roles.setUserRoles(userId, []);
+  },
 });

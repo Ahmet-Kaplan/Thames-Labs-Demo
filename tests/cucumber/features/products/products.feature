@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to manage their Products
 
   As a user of the app
@@ -9,7 +10,8 @@ Feature: Allow users to manage their Products
     And I am a logged in user
     And I have the "CanReadProducts" permission
 
-  #Navigation
+
+  #Reading
   Scenario: A user can see the products list
     When I navigate to "/products"
     Then I should see the heading "Products"
@@ -24,12 +26,25 @@ Feature: Allow users to manage their Products
     When I navigate to a product page
     Then I should see the heading "test product"
 
+  Scenario: An administrator can add CanReadProducts permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I add permission "CanRead" on "Products" to a restricted user
+    Then the restricted user should have the "CanReadProducts" permission
+
+  Scenario: An administrator can remove CanReadProducts permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I remove permissions on "Products" from a restricted user
+    Then the restricted user should not have the "CanReadProducts" permission
+
   Scenario: A superadmin user can't visit the products list
     Given a superadmin exists
     And I am a logged out user
     And I am a logged in superadmin user
     When I navigate to "/products"
     Then I should see the heading "Tenants"
+
 
   #Adding
   Scenario: A user can create a product
@@ -44,6 +59,19 @@ Feature: Allow users to manage their Products
     Given I do not have the "CanCreateProducts" permission
     When I navigate to "/products"
     Then I should not see "#add-product"
+
+  Scenario: An administrator can add CanCreateProducts permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I add permission "CanCreate" on "Products" to a restricted user
+    Then the restricted user should have the "CanCreateProducts" permission
+
+  Scenario: An administrator can remove CanCreateProducts permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I remove permissions on "Products" from a restricted user
+    Then the restricted user should not have the "CanCreateProducts" permission
+
 
   #Editing
   Scenario: A user can edit a product
@@ -60,6 +88,19 @@ Feature: Allow users to manage their Products
     When I navigate to a product page
     Then I should not see "#edit-product"
 
+  Scenario: An administrator can add CanEditProducts permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I add permission "CanEdit" on "Products" to a restricted user
+    Then the restricted user should have the "CanEditProducts" permission
+
+  Scenario: An administrator can remove CanEditProducts permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I remove permissions on "Products" from a restricted user
+    Then the restricted user should not have the "CanEditProducts" permission
+
+
   #Deleting
   Scenario: A user can delete a product
     Given I have the "CanDeleteProducts" permission
@@ -73,6 +114,19 @@ Feature: Allow users to manage their Products
     And a product has been created
     When I navigate to a product page
     Then I should not see "#delete-product"
+
+  Scenario: An administrator can add CanDeleteProducts permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I add permission "CanDelete" on "Products" to a restricted user
+    Then the restricted user should have the "CanDeleteProducts" permission
+
+  Scenario: An administrator can remove CanDeleteProducts permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I remove permissions on "Products" from a restricted user
+    Then the restricted user should not have the "CanDeleteProducts" permission
+
 
   #Menu item permissions
   Scenario: A restricted user cannot see the Products menu item without the correct permission
