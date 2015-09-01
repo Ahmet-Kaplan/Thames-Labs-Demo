@@ -19,8 +19,8 @@ module.exports = function() {
     this.client.call(callback);
   });
 
-  this.Given(/^a superuser exists$/, function(callback) {
-    this.server.call('createTestSuperUser');
+  this.Given(/^a superadmin exists$/, function(callback) {
+    this.server.call('createTestSuperAdmin');
     this.client.call(callback);
   });
 

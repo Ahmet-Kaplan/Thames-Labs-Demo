@@ -24,7 +24,7 @@ Feature: Allow users to manage their sales opportunities
     Then I should not see the heading "Opportunities"
 
   Scenario: A superadmin user can't visit the opportunities list
-    Given a superuser exists
+    Given a superadmin exists
     And I am a logged out user
     And I am a logged in superadmin user
     When I navigate to "/opportunities"

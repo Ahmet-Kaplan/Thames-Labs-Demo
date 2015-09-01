@@ -31,7 +31,7 @@ Meteor.methods({
     Partitioner.setUserGroup(userId, tenantId);
   },
 
-  createTestSuperUser: function() {
+  createTestSuperAdmin: function() {
     var superadminId = Accounts.createUser({
       username: 'superadmin',
       email: 'admin@cambridgesoftware.co.uk',
@@ -53,5 +53,5 @@ Meteor.methods({
       Roles.removeUsersFromRoles(userId, permission);
     }
   }
-  
+
 });

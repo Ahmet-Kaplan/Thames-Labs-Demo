@@ -25,7 +25,7 @@ Feature: Allow users to manage their Products
     Then I should see the heading "test product"
 
   Scenario: A superadmin user can't visit the products list
-    Given a superuser exists
+    Given a superadmin exists
     And I am a logged out user
     And I am a logged in superadmin user
     When I navigate to "/products"
