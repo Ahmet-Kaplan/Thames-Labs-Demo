@@ -13,7 +13,7 @@ Feature: Allow users to manage their sales opportunities
     And opportunity stages have been created
     And an opportunity has been created
 
-
+  #Navigation
   Scenario: A user can see the opportunities list
     When I navigate to "/opportunities"
     Then I should see the heading "Opportunities"
@@ -24,7 +24,7 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to "/opportunities"
     Then I should not see the heading "Opportunities"
 
-
+  #Adding
   Scenario: A user can add an opportunity
     And I have the "CanCreateOpportunities" permission
     When I navigate to "/opportunities"
@@ -32,12 +32,12 @@ Feature: Allow users to manage their sales opportunities
     And I enter opportunity details
     Then I should see the heading "test opportunity 2"
 
-  Scenario: A user without permission cannot create a products
+  Scenario: A user without permission cannot create a opportunties
     Given I DO NOT have the "CanReadOpportunities" permission
     When I navigate to "/opportunities"
     Then I should not see "#create-opportunity"
 
-
+  #Editing
   Scenario: A user can edit an opportunity
     Given I have the "CanEditOpportunities" permission
     And I navigate to an opportunity page
@@ -50,7 +50,7 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     Then I should not see "#editOpportunity"
 
-
+  #Deleting
   Scenario: A user can delete an opportunity
     Given I have the "CanDeleteOpportunities" permission
     When I navigate to an opportunity page
@@ -62,8 +62,7 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     Then I should not see "#removeOpportunity"
 
-
-
+  #Menu items
   Scenario: A restricted user cannot see the Opportunities menu item without the correct permission
     Given I DO NOT have the "CanReadOpportunities" permission
     Then the "Opportunities" menu item is not shown
@@ -72,7 +71,7 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "CanReadOpportunities" permission
     Then the "Opportunities" menu item is shown
 
-
+  #Opportunity Stages
   Scenario: A user can change opportunity stage
     Given I have the "CanEditOpportunities" permission
     When I navigate to an opportunity page
@@ -96,7 +95,7 @@ Feature: Allow users to manage their sales opportunities
     And I win an opportunity
     Then I should see that an project has been created from the opportunity
 
-
+  #Opportunity Line Items
   Scenario: A user can add a line item to an opportunity
     Given I have the "CanEditOpportunities" permission
     When I navigate to an opportunity page

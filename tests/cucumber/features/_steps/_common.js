@@ -143,6 +143,7 @@ module.exports = function() {
 
   this.Then(/^the "([^"]*)" menu item is shown$/, function(menuText, callback) {
     this.client
+      .waitForExist('#menuLink' + menuText, 5000)
       .isExisting('#menuLink' + menuText)
       .then(function(isExisting) {
         expect(isExisting).to.equal(true);
@@ -152,6 +153,7 @@ module.exports = function() {
 
   this.Then(/^the "([^"]*)" menu item is not shown$/, function(menuText, callback) {
     this.client
+      .waitForExist('#menuLink' + menuText, 5000, true)
       .isExisting('#menuLink' + menuText)
       .then(function(isExisting) {
         expect(isExisting).to.equal(false);
