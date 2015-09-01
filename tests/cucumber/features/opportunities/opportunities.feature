@@ -23,6 +23,13 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to "/opportunities"
     Then I should not see the heading "Opportunities"
 
+  Scenario: A superadmin user can't visit the opportunities list
+    Given a superuser exists
+    And I am a logged out user
+    And I am a logged in superadmin user
+    When I navigate to "/opportunities"
+    Then I should see the heading "Tenants"
+
   #Adding
   Scenario: A user can add an opportunity
     And I have the "CanCreateOpportunities" permission
@@ -61,7 +68,7 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     Then I should not see "#removeOpportunity"
 
-  #Menu items
+  #Menu item permissions
   Scenario: A restricted user cannot see the Opportunities menu item without the correct permission
     Given I DO NOT have the "CanReadOpportunities" permission
     Then the "Opportunities" menu item is not shown

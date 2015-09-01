@@ -9,8 +9,7 @@ Feature: Allow users to manage their Products
     And I am a logged in user
     And I have the "CanReadProducts" permission
 
-
-
+  #Navigation
   Scenario: A user can see the products list
     When I navigate to "/products"
     Then I should see the heading "Products"
@@ -25,8 +24,14 @@ Feature: Allow users to manage their Products
     When I navigate to a product page
     Then I should see the heading "test product"
 
+  Scenario: A superadmin user can't visit the products list
+    Given a superuser exists
+    And I am a logged out user
+    And I am a logged in superadmin user
+    When I navigate to "/products"
+    Then I should see the heading "Tenants"
 
-
+  #Adding
   Scenario: A user can create a product
     Given I have the "CanCreateProducts" permission
     When I navigate to "/products"
@@ -40,8 +45,7 @@ Feature: Allow users to manage their Products
     When I navigate to "/products"
     Then I should not see "#add-product"
 
-
-
+  #Editing
   Scenario: A user can edit a product
     Given I have the "CanEditProducts" permission
     And a product has been created
@@ -56,8 +60,7 @@ Feature: Allow users to manage their Products
     When I navigate to a product page
     Then I should not see "#edit-product"
 
-
-
+  #Deleting
   Scenario: A user can delete a product
     Given I have the "CanDeleteProducts" permission
     And a product has been created
@@ -71,8 +74,7 @@ Feature: Allow users to manage their Products
     When I navigate to a product page
     Then I should not see "#delete-product"
 
-
-
+  #Menu item permissions
   Scenario: A restricted user cannot see the Products menu item without the correct permission
     Given I DO NOT have the "CanReadProducts" permission
     Then the "Products" menu item is not shown
@@ -80,4 +82,3 @@ Feature: Allow users to manage their Products
   Scenario: A user can see the Products menu item with the correct permission
     Given I have the "CanReadProducts" permission
     Then the "Products" menu item is shown
-    
