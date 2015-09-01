@@ -130,7 +130,7 @@ module.exports = function() {
       .scroll("#btnAddLine", 50, 50)
       .click("#btnAddLine")
       .waitForVisible("#insertOpportunityItemForm")
-      .setValue('input[name=name]', 'testItem')
+      .setValue('input[name=name]', 'testItem1')
       .setValue('input[name=description]', 'test item description')
       .setValue('input[name=value]', 1)
       .submitForm("#insertOpportunityItemForm")
@@ -140,7 +140,7 @@ module.exports = function() {
   this.Then(/^I should see a new line item in an opportunity$/, function(callback) {
     this.client
       .waitForVisible(".btnEditOppItem")
-      .getText('h4*=testItem')
+      .getText('h4*=testItem1')
       .call(callback);
   });
 

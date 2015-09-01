@@ -56,7 +56,7 @@ Meteor.methods({
       country: "country",
       createdBy: Meteor.userId()
     });
-    var itemId = Random.id();
+  //  var itemId = Random.id();
     var data = Opportunities.insert({
       name: 'test opportunity',
       description: 'test description',
@@ -65,13 +65,7 @@ Meteor.methods({
       currentStageId: stage._id,
       companyId: companyId,
       createdBy: Meteor.userId(),
-      items: [
-        {
-          name: "testLine",
-          description: "testDescription",
-          id: itemId
-        }
-      ]
+      items: []
     });
     return data;
   }
