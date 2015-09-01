@@ -58,7 +58,6 @@ Meteor.methods({
     var user = Meteor.users.findOne({
       username: username
     });
-
     return Roles.userIsInRole(user, permissionName);
   }
 

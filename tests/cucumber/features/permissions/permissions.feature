@@ -10,6 +10,16 @@ Feature: Allow administrators to give users permissions
   Background:
     Given a user exists
 
+  Scenario: The super admin can set a user as an administrator for their tenant
+    Given a superadmin exists
+    And I am a logged in superadmin user
+    When I navigate to "/tenants"
+    And I click ".accordion-toggle"
+    And I click "#btnEditTenantUser"
+    And I click "#cbUserIsTenantAdministrator"
+    And I click "#btnUpdateTenantUser"
+    Then the user should have the "Administrator" permission
+
   Scenario: An administrator can see the correct menu items
     Given I am a logged in user
     And I have the "Administrator" permission
@@ -31,13 +41,3 @@ Feature: Allow administrators to give users permissions
     Then I should not see "#Administration"
     When I navigate to "/admin"
     Then I should not see the heading "Administration"
-
-  Scenario: The super admin can set a user as an administrator for their tenant
-    Given a superadmin exists
-    And I am a logged in superadmin user
-    When I navigate to "/tenants"
-    And I click ".accordion-toggle"
-    And I click "#btnEditTenantUser"
-    And I click "#cbUserIsTenantAdministrator"
-    And I click "#btnUpdateTenantUser"
-    Then the user should have the "Administrator" permission

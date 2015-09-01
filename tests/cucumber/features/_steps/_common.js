@@ -45,17 +45,6 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Given(/^I have the "([^"]*)" permission$/, function(permissionName, callback) {
-    this.server.call('setPermission', permissionName, true);
-    this.client.call(callback);
-  });
-
-
-  this.Given(/^I do not have the "([^"]*)" permission$/, function(permissionName, callback) {
-    this.server.call('setPermission', permissionName, false);
-    this.client.call(callback);
-  });
-
   this.Given(/^a company has been created$/, function(callback) {
     this.server.call('addCompany', 'Test Ltd');
     this.client.call(callback);
@@ -141,49 +130,9 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Then(/^the "([^"]*)" menu item is shown$/, function(menuText, callback) {
-    this.client
-      .waitForExist('#menuLink' + menuText, 5000)
-      .isExisting('#menuLink' + menuText)
-      .then(function(isExisting) {
-        expect(isExisting).to.equal(true);
-      })
-      .call(callback);
-  });
-
-  this.Then(/^the "([^"]*)" menu item is not shown$/, function(menuText, callback) {
-    this.client
-      .waitForExist('#menuLink' + menuText, 5000, true)
-      .isExisting('#menuLink' + menuText)
-      .then(function(isExisting) {
-        expect(isExisting).to.equal(false);
-      })
-      .call(callback);
-  });
-
   this.Then(/^debug$/, function(menuText, callback) {
     this.client
       .debug()
       .call(callback);
-  });
-
-  this.Then(/^(I|the user) should have the "([^"]*)" permission$/, function(permissionName, callback) {
-    this.client.executeAsync(function(permissionName, done) {
-      Meteor.call('checkUserHasPermission', 'test user', permissionName, function(err, data) {
-        done(data);
-      });
-    }, permissionName).then(function(data) {
-      expect(data.value).to.equal(true);
-    }).call(callback);
-  });
-
-  this.Then(/^(I|the user) should not have the "([^"]*)" permission$/, function(permissionName, callback) {
-    this.client.executeAsync(function(permissionName, done) {
-      Meteor.call('checkUserHasPermission', 'test user', permissionName, function(err, data) {
-        done(data);
-      });
-    }, permissionName).then(function(data) {
-      expect(data.value).to.equal(false);
-    }).call(callback);
   });
 };
