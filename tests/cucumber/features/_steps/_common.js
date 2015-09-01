@@ -51,7 +51,7 @@ module.exports = function() {
   });
 
 
-  this.Given(/^I DO NOT have the "([^"]*)" permission$/, function(permissionName, callback) {
+  this.Given(/^I do not have the "([^"]*)" permission$/, function(permissionName, callback) {
     this.server.call('setPermission', permissionName, false);
     this.client.call(callback);
   });
@@ -165,5 +165,25 @@ module.exports = function() {
     this.client
       .debug()
       .call(callback);
+  });
+
+  this.Then(/^(I|the user) should have the "([^"]*)" permission$/, function(permissionName, callback) {
+    this.client.executeAsync(function(permissionName, done) {
+      Meteor.call('checkUserHasPermission', 'test user', permissionName, function(err, data) {
+        done(data);
+      });
+    }, permissionName).then(function(data) {
+      expect(data.value).to.equal(true);
+    }).call(callback);
+  });
+
+  this.Then(/^(I|the user) should not have the "([^"]*)" permission$/, function(permissionName, callback) {
+    this.client.executeAsync(function(permissionName, done) {
+      Meteor.call('checkUserHasPermission', 'test user', permissionName, function(err, data) {
+        done(data);
+      });
+    }, permissionName).then(function(data) {
+      expect(data.value).to.equal(false);
+    }).call(callback);
   });
 };

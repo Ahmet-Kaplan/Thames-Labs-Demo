@@ -15,7 +15,7 @@ Feature: Allow users to manage their Products
     Then I should see the heading "Products"
 
   Scenario: A user without permission cannot see the products list
-    Given I DO NOT have the "CanReadProducts" permission
+    Given I do not have the "CanReadProducts" permission
     When I navigate to "/products"
     Then I should not see the heading "Products"
 
@@ -41,7 +41,7 @@ Feature: Allow users to manage their Products
     Then I should see the heading "test product 2"
 
   Scenario: A user without permission cannot create a products
-    Given I DO NOT have the "CanCreateProducts" permission
+    Given I do not have the "CanCreateProducts" permission
     When I navigate to "/products"
     Then I should not see "#add-product"
 
@@ -55,7 +55,7 @@ Feature: Allow users to manage their Products
     Then I should see the updated product
 
   Scenario: A user without permission cannot edit a product
-    Given I DO NOT have the "CanEditProducts" permission
+    Given I do not have the "CanEditProducts" permission
     And a product has been created
     When I navigate to a product page
     Then I should not see "#edit-product"
@@ -69,14 +69,14 @@ Feature: Allow users to manage their Products
     Then the product should not exist
 
   Scenario: A user without permission cannot delete a product
-    Given I DO NOT have the "CanDeleteProducts" permission
+    Given I do not have the "CanDeleteProducts" permission
     And a product has been created
     When I navigate to a product page
     Then I should not see "#delete-product"
 
   #Menu item permissions
   Scenario: A restricted user cannot see the Products menu item without the correct permission
-    Given I DO NOT have the "CanReadProducts" permission
+    Given I do not have the "CanReadProducts" permission
     Then the "Products" menu item is not shown
 
   Scenario: A user can see the Products menu item with the correct permission

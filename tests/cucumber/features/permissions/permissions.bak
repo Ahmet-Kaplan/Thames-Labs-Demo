@@ -1,0 +1,141 @@
+
+
+
+  Scenario: A restricted user cannot see the Companies menu item without the correct permission
+    Given I am a logged in user
+    And I do not have the "CanReadCompanies" permission
+    Then the "Companies" menu item is not shown
+
+  Scenario: A user can see the Companies menu item with the correct permission
+    Given I am a logged in user
+    And I have the "CanReadCompanies" permission
+    Then the "Companies" menu item is shown
+
+  Scenario: An administrator can see the Companies menu
+    Given I am a logged in user
+    And I have the "Administrator" permission
+    Then the "Companies" menu item is shown
+
+  Scenario: An administrator can add user permissions
+    Given I am a logged in user
+    And I have the "Administrator" permission
+    When I open the user settings modal
+    And I add the "CanReadCompanies" permission to a user
+    And I save the form
+    Then the user will have the "CanReadCompanies" permission
+
+  Scenario: A restricted user cannot see the Add Company button without the correct permission
+    Given I am a logged in user
+    And I do not have the "CanCreateCompanies" permission
+    And I navigate to the companies list
+    Then I cannot see the "#createCompany" button
+
+  Scenario: A user can see the Add Company button with the correct permission
+    Given I am a logged in user
+    And I have the "CanCreateCompanies" permission
+    And I navigate to the companies list
+    Then I can see the "#createCompany" button
+
+  Scenario: An administrator can see the Add Company button
+    Given I am a logged in user
+    And I have the "Administrator" permission
+    And I navigate to the companies list
+    Then I can see the "#createCompany" button
+
+  Scenario: An administrator can add user permissions
+    Given I am a logged in user
+    And I have the "Administrator" permission
+    When I open the user settings modal
+    And I add the "CanCreateCompanies" permission to a user
+    And I save the form
+    Then the user will have the "CanCreateCompanies" permission
+
+  Scenario: A restricted user cannot see the Edit Company button without the correct permission
+    Given I am a logged in user
+    And I do not have the "CanEditCompanies" permission
+    And a company has been created
+    When I navigate to a company detail page
+    Then I cannot see the "#edit-company" button
+
+  Scenario: A user can see the Edit Company button with the correct permission
+    Given I am a logged in user
+    And I have the "CanEditCompanies" permission
+    And a company has been created
+    When I navigate to a company detail page
+    Then I can see the "#edit-company" button
+
+  Scenario: An administrator can see the Edit Company button
+    Given I am a logged in user
+    And I have the "Administrator" permission
+    And a company has been created
+    When I navigate to a company detail page
+    Then I can see the "#edit-company" button
+
+  Scenario: An administrator can add user permissions
+    Given I am a logged in user
+    And I have the "Administrator" permission
+    When I open the user settings modal
+    And I add the "CanEditCompanies" permission to a user
+    And I save the form
+    Then the user will have the "CanEditCompanies" permission
+
+  Scenario: A restricted user cannot see the Delete Company button without the correct permission
+    Given I am a logged in user
+    And I do not have the "CanDeleteCompanies" permission
+    And a company has been created
+    When I navigate to a company detail page
+    Then I cannot see the "#remove-company" button
+
+  Scenario: A normal user can see the Delete Company button with the correct permission
+    Given I am a logged in user
+    And I have the "CanDeleteCompanies" permission
+    And a company has been created
+    When I navigate to a company detail page
+    Then I can see the "#remove-company" button
+
+  Scenario: An administrator can see the Delete Company button
+    Given I am a logged in user
+    And I have the "Administrator" permission
+    And a company has been created
+    When I navigate to a company detail page
+    Then I can see the "#remove-company" button
+
+  Scenario: An administrator can add user permissions
+    Given I am a logged in user
+    And I have the "Administrator" permission
+    When I open the user settings modal
+    And I add the "CanDeleteCompanies" permission to a user
+    And I save the form
+    Then the user will have the "CanDeleteCompanies" permission
+
+  Scenario: An administrator can revoke user permissions
+    Given I am a logged in user
+    And I have the "Administrator" permission
+    When I open the user settings modal
+    And I remove the "CanDeleteCompanies" permission from a user
+    And I save the form
+    Then the user will not have the "CanDeleteCompanies" permission
+
+  Scenario: An administrator can revoke user permissions
+    Given I am a logged in user
+    And I have the "Administrator" permission
+    When I open the user settings modal
+    And I remove the "CanEditCompanies" permission from a user
+    And I save the form
+    Then the user will not have the "CanEditCompanies" permission
+
+  Scenario: An administrator can revoke user permissions
+    Given I am a logged in user
+    And I have the "Administrator" permission
+    When I open the user settings modal
+    And I remove the "CanCreateCompanies" permission from a user
+    And I save the form
+    Then the user will not have the "CanCreateCompanies" role
+
+  Scenario: An administrator can revoke user permissions
+    Given I am a logged in user
+    And I have the "Administrator" permission
+    When I open the user settings modal
+    And I remove the "CanReadCompanies" permission from a user
+    And I save the form
+    Then the user will not have the "CanReadCompanies" permission

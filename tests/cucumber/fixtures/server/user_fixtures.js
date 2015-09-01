@@ -52,6 +52,14 @@ Meteor.methods({
     } else {
       Roles.removeUsersFromRoles(userId, permission);
     }
+  },
+
+  'checkUserHasPermission': function(username, permissionName) {
+    var user = Meteor.users.findOne({
+      username: username
+    });
+
+    return Roles.userIsInRole(user, permissionName);
   }
 
 });

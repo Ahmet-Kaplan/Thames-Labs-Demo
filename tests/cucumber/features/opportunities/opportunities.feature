@@ -19,7 +19,7 @@ Feature: Allow users to manage their sales opportunities
     And I should see the title "Opportunities"
 
   Scenario: A user without permission cannot see the opportunities list
-    Given I DO NOT have the "CanReadOpportunities" permission
+    Given I do not have the "CanReadOpportunities" permission
     When I navigate to "/opportunities"
     Then I should not see the heading "Opportunities"
 
@@ -39,7 +39,7 @@ Feature: Allow users to manage their sales opportunities
     Then I should see the heading "test opportunity 2"
 
   Scenario: A user without permission cannot create a opportunties
-    Given I DO NOT have the "CanReadOpportunities" permission
+    Given I do not have the "CanReadOpportunities" permission
     When I navigate to "/opportunities"
     Then I should not see "#create-opportunity"
 
@@ -52,7 +52,7 @@ Feature: Allow users to manage their sales opportunities
     Then I should see the heading "updated opportunity"
 
   Scenario: A user without permission cannot edit an opportunity
-    Given I DO NOT have the "CanEditOpportunities" permission
+    Given I do not have the "CanEditOpportunities" permission
     When I navigate to an opportunity page
     Then I should not see "#editOpportunity"
 
@@ -64,13 +64,13 @@ Feature: Allow users to manage their sales opportunities
     Then the opportunity should not exist
 
   Scenario: A user without permission cannot delete a opportunity
-    Given I DO NOT have the "CanDeleteOpportunities" permission
+    Given I do not have the "CanDeleteOpportunities" permission
     When I navigate to an opportunity page
     Then I should not see "#removeOpportunity"
 
   #Menu item permissions
   Scenario: A restricted user cannot see the Opportunities menu item without the correct permission
-    Given I DO NOT have the "CanReadOpportunities" permission
+    Given I do not have the "CanReadOpportunities" permission
     Then the "Opportunities" menu item is not shown
 
   Scenario: A user can see the Opportunities menu item with the correct permission
