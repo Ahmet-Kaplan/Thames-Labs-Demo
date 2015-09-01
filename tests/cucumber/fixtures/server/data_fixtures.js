@@ -68,5 +68,15 @@ Meteor.methods({
       items: []
     });
     return data;
+  },
+
+  'getUserByEmail': function(email) {
+    return Meteor.users.findOne({
+      emails: {
+        $elemMatch: {
+          address: email
+        }
+      }
+    });
   }
 });
