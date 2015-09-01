@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to manage their sales opportunities
 
   As a user of the app
@@ -13,7 +14,6 @@ Feature: Allow users to manage their sales opportunities
     And an opportunity has been created
 
 
-
   Scenario: A user can see the opportunities list
     When I navigate to "/opportunities"
     Then I should see the heading "Opportunities"
@@ -23,7 +23,6 @@ Feature: Allow users to manage their sales opportunities
     Given I DO NOT have the "CanReadOpportunities" permission
     When I navigate to "/opportunities"
     Then I should not see the heading "Opportunities"
-
 
 
   Scenario: A user can add an opportunity
@@ -36,8 +35,7 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user without permission cannot create a products
     Given I DO NOT have the "CanReadOpportunities" permission
     When I navigate to "/opportunities"
-    Then I should not see "#create-opportunities"
-
+    Then I should not see "#create-opportunity"
 
 
   Scenario: A user can edit an opportunity
@@ -50,8 +48,7 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user without permission cannot edit an opportunity
     Given I DO NOT have the "CanEditOpportunities" permission
     When I navigate to an opportunity page
-    Then I should not see "#edit-opportunity"
-
+    Then I should not see "#editOpportunity"
 
 
   Scenario: A user can delete an opportunity
@@ -63,7 +60,7 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user without permission cannot delete a opportunity
     Given I DO NOT have the "CanDeleteOpportunities" permission
     When I navigate to an opportunity page
-    Then I should not see "#delete-opportunity"
+    Then I should not see "#removeOpportunity"
 
 
 
@@ -74,7 +71,6 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user can see the Opportunities menu item with the correct permission
     Given I have the "CanReadOpportunities" permission
     Then the "Opportunities" menu item is shown
-
 
 
   Scenario: A user can change opportunity stage
@@ -99,7 +95,6 @@ Feature: Allow users to manage their sales opportunities
     Then I should be on the next opportunity stage
     And I win an opportunity
     Then I should see that an project has been created from the opportunity
-
 
 
   Scenario: A user can add a line item to an opportunity

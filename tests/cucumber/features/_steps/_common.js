@@ -33,10 +33,6 @@ module.exports = function() {
 
   this.Given(/^I am a logged in user$/, function(callback) {
     this.client
-      .setViewportSize({
-        width: 1000,
-        height: 800
-      })
       .url(process.env.ROOT_URL)
       .executeAsync(login, 'test@domain.com', 'goodpassword')
       .call(callback);
@@ -44,10 +40,6 @@ module.exports = function() {
 
   this.Given(/^I am a logged in superadmin user$/, function(callback) {
     this.client
-      .setViewportSize({
-        width: 1000,
-        height: 800
-      })
       .url(process.env.ROOT_URL)
       .executeAsync(login, 'admin@cambridgesoftware.co.uk', 'admin')
       .call(callback);
@@ -93,13 +85,19 @@ module.exports = function() {
   ***************************************************/
   this.Then(/^I should see "([^"]*)"$/, function(id, callback) {
     this.client
-      .waitForVisible(id, 2000)
+      .isExisting(id)
+      .then(function(isExisting) {
+          expect(isExisting).to.equal(true);
+      })
       .call(callback);
   });
 
   this.Then(/^I should not see "([^"]*)"$/, function(id, callback) {
     this.client
-      .waitForVisible(id, 2000, true)
+      .isExisting(id)
+      .then(function(isExisting) {
+          expect(isExisting).to.equal(false);
+      })
       .call(callback);
   });
 
@@ -118,13 +116,21 @@ module.exports = function() {
 
   this.Then(/^I should see a modal$/, function(callback) {
     this.client
-      .waitForVisible('.modal-dialog', 5000)
+      //.waitForVisible('.modal-dialog', 5000)
+      .isExisting('.modal-dialog')
+      .then(function(isExisting) {
+          expect(isExisting).to.equal(true);
+      })
       .call(callback);
   });
 
   this.Then(/^I should not see a modal$/, function(callback) {
     this.client
-      .waitForVisible('.modal-dialog', 5000, true)
+      .waitForExist('.modal-dialog', 5000, true)
+      .isExisting('.modal-dialog')
+      .then(function(isExisting) {
+          expect(isExisting).to.equal(false);
+      })
       .call(callback);
   });
 
@@ -150,6 +156,12 @@ module.exports = function() {
       .then(function(isExisting) {
         expect(isExisting).to.equal(false);
       })
+      .call(callback);
+  });
+
+  this.Then(/^debug$/, function(menuText, callback) {
+    this.client
+      .debug()
       .call(callback);
   });
 };

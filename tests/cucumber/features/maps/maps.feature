@@ -16,7 +16,7 @@ Feature: Allow users to see maps
     And I search for Cowley Road
     Then the field "postcode" should contain "CB4"
     And I should see a map
-@dev
+
   Scenario: A user can see the map on a company's page
     Given I have the "CanReadCompanies" permission
     Given I have the "CanCreateCompanies" permission
