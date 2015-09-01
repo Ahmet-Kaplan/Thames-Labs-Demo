@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to sign up to the app
 
 	As a potential user of the app
@@ -19,3 +20,9 @@ Feature: Allow users to sign up to the app
 	Scenario: A user cannot sign up with bad details
 		When I sign up with bad details
 		Then I am not signed up
+
+	Scenario: A superadmin can see a signup chart
+    Given a superuser exists
+		And I am a logged in superadmin user
+		When I navigate to "/statistics"
+		Then I should see "#signUpChart"
