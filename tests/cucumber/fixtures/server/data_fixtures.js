@@ -15,10 +15,6 @@ Meteor.methods({
       postcode: postcode,
       country: country,
       createdBy: userId
-    }, function(err) {
-      if(err) {
-        console.log(err)
-      }
     });
   },
 
@@ -77,15 +73,5 @@ Meteor.methods({
       name: "lineItem1"
     }}});
     return opp;
-  },
-
-  'getUserByEmail': function(email) {
-    return Meteor.users.findOne({
-      emails: {
-        $elemMatch: {
-          address: email
-        }
-      }
-    });
   }
 });

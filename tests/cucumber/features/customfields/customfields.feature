@@ -6,7 +6,7 @@ Feature: Allow users to specify their own data fields/values against an entity
 
   Background:
     Given I am a logged in user
-    And a company has been created
+    And a "Company" has been created
 
   Scenario: A user can see the custom field display against a company
     When I navigate to a company page

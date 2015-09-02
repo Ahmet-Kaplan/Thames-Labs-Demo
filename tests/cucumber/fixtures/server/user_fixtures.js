@@ -63,7 +63,7 @@ Meteor.methods({
     }
   },
 
-  'checkUserHasPermission': function(username, permissionName) {
+  checkUserHasPermission: function(username, permissionName) {
     var user = Meteor.users.findOne({
       username: username
     });
@@ -86,4 +86,14 @@ Meteor.methods({
     Partitioner.setUserGroup(userId, tenantId);
     Roles.setUserRoles(userId, []);
   },
+
+  'getUserByEmail': function(email) {
+    return Meteor.users.findOne({
+      emails: {
+        $elemMatch: {
+          address: email
+        }
+      }
+    });
+  }
 });

@@ -10,7 +10,7 @@ Feature: Allow users to manage their sales opportunities
     And I have the "CanReadCompanies" permission
     And I have the "CanReadOpportunities" permission
     And opportunity stages have been created
-    And an opportunity has been created
+    And an "Opportunity" has been created
 
   #Reading
   Scenario: A user can see the opportunities list
@@ -24,7 +24,6 @@ Feature: Allow users to manage their sales opportunities
     Then I should not see the heading "Opportunities"
 
   Scenario: A user with read permissions can see a opportunity
-    Given an opportunity has been created
     When I navigate to an opportunity page
     Then I should see the heading "test opportunity"
 

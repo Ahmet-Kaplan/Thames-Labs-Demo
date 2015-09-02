@@ -21,7 +21,7 @@ Feature: Allow users to manage their Products
     Then I should not see the heading "Products"
 
   Scenario: A user with read permissions can see a product
-    Given a product has been created
+    Given a "Product" has been created
     When I navigate to a product page
     Then I should see the heading "test product"
 
@@ -77,7 +77,7 @@ Feature: Allow users to manage their Products
   #Editing
   Scenario: A user can edit a product
     Given I have the "CanEditProducts" permission
-    And a product has been created
+    And a "Product" has been created
     When I navigate to a product page
     And I click "#edit-product"
     And I set text field "name" to "updated product name"
@@ -86,7 +86,7 @@ Feature: Allow users to manage their Products
 
   Scenario: A user without permission cannot edit a product
     Given I do not have the "CanEditProducts" permission
-    And a product has been created
+    And a "Product" has been created
     When I navigate to a product page
     Then I should not see "#edit-product"
 
@@ -106,7 +106,7 @@ Feature: Allow users to manage their Products
   #Deleting
   Scenario: A user can delete a product
     Given I have the "CanDeleteProducts" permission
-    And a product has been created
+    And a "Product" has been created
     When I navigate to a product page
     And I click "#delete-product"
     And I click confirm on the modal
@@ -114,7 +114,7 @@ Feature: Allow users to manage their Products
 
   Scenario: A user without permission cannot delete a product
     Given I do not have the "CanDeleteProducts" permission
-    And a product has been created
+    And a "Product" has been created
     When I navigate to a product page
     Then I should not see "#delete-product"
 

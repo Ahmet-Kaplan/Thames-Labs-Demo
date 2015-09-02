@@ -20,7 +20,7 @@ Feature: Allow users to see maps
   Scenario: A user can see the map on a company's page
     Given I have the "CanReadCompanies" permission
     Given I have the "CanCreateCompanies" permission
-    Given a company has been created
+    Given a "Company" has been created
     When I navigate to a company page
     Then I should see the heading "Address"
     And I should see a map

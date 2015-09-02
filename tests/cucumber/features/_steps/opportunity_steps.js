@@ -16,19 +16,6 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Given(/^an opportunity has been created$/, function(callback) {
-    this.client
-      .executeAsync(function(done) {
-        Meteor.call('addOpportunity', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value).to.exist;
-      })
-      .call(callback);
-  });
-
   this.When(/^I navigate to an opportunity page$/, function(callback) {
     this.client
       .url(url.resolve(process.env.ROOT_URL, '/opportunities'))

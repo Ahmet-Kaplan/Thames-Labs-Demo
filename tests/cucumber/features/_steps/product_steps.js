@@ -11,20 +11,6 @@ module.exports = function() {
       .call(callback);
   });
 
-//Creating
-  this.Given(/^a product has been created$/, function(callback) {
-    this.client
-      .executeAsync(function(done) {
-        Meteor.call('addProduct', function(err, data) {
-          done(data);
-        });
-      })
-      .then(function(data) {
-        expect(data.value).to.exist;
-      })
-      .call(callback);
-  });
-
 //Deleting
   this.Then(/^the product should not exist$/, function(callback) {
     this.client

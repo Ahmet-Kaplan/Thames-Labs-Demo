@@ -50,9 +50,30 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Given(/^a company has been created$/, function(callback) {
-    this.server.call('addCompany', 'Test Ltd');
-    this.client.call(callback);
+  this.Given(/^a "([^"]*)" has been created$/, function(entity, callback) {
+    this.client
+      .executeAsync(function(entity, done) {
+        Meteor.call('add' + entity, function(err, data) {
+          done(data);
+        });
+      }, entity)
+      .then(function(data) {
+        expect(data.value).to.exist;
+      })
+      .call(callback);
+  });
+
+  this.Given(/^an "([^"]*)" has been created$/, function(entity, callback) {
+    this.client
+      .executeAsync(function(entity, done) {
+        Meteor.call('add' + entity, function(err, data) {
+          done(data);
+        });
+      }, entity)
+      .then(function(data) {
+        expect(data.value).to.exist;
+      })
+      .call(callback);
   });
 
 /***************************************************
