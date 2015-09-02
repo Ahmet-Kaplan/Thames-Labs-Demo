@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to manage their Companies
 
   As a user of the app
@@ -79,7 +80,7 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     And I click "#edit-company"
     And I set text field "name" to "updated company name"
-    And I submit the "updateCompany" form
+    And I submit the "editCompany" form
     Then "company-name" should say "updated company name"
 
   Scenario: A user without permission cannot edit a company

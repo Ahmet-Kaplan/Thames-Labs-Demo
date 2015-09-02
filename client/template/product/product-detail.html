@@ -58,7 +58,7 @@
   {{/with}}
 </template>
 
-<template name="updateProductModal">
+<template name="editProductModal">
   <div class="modal fade" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -69,7 +69,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Products" id="updateProductForm" type="update" doc=this}}
+          {{#autoForm collection="Products" id="editProductForm" type="update" doc=this}}
             {{> afQuickField name="name" id="name-field"}}
             {{> afQuickField name="description" id="desc-field" type="medium" class="form-control medium-editor"}}
             {{> afQuickField name="price"}}

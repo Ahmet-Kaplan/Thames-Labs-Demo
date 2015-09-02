@@ -32,12 +32,12 @@ Template.productDetail.events({
 
   'click #edit-product': function(event) {
     event.preventDefault();
-    Modal.show('updateProductModal', this);
+    Modal.show('editProductModal', this);
   },
 });
 
 AutoForm.hooks({
-  updateProductForm: {
+  editProductForm: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Product updated.');

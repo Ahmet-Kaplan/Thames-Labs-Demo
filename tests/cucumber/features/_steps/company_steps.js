@@ -8,6 +8,8 @@ var url = require('url');
       .url(url.resolve(process.env.ROOT_URL, '/companies'))
       .waitForExist('.list-group-item', 2000)
       .click('.list-group-item')
+      .pause(200)
+      .refresh()
       .call(callback);
   });
 
