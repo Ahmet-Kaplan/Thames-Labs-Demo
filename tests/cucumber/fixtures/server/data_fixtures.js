@@ -14,7 +14,13 @@ Meteor.methods({
       city: city,
       postcode: postcode,
       country: country,
-      createdBy: userId
+      createdBy: userId,
+      customFields: {
+        test: {
+          dataValue: "velocity",
+          dataType: "text"
+        }
+      }
     });
   },
 

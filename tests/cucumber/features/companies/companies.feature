@@ -1,4 +1,3 @@
-@dev
 Feature: Allow users to manage their Companies
 
   As a user of the app
@@ -138,3 +137,39 @@ Feature: Allow users to manage their Companies
   Scenario: A user can see the Companies menu item with the correct permission
     Given I have the "CanReadCompanies" permission
     Then the "Companies" menu item is shown
+
+  #Custom fields
+@dev
+  Scenario: A user can open the "Add Custom Fields" modal
+    Given I have the "CanEditCompanies" permission
+    And a "Company" has been created
+    When I navigate to a company page
+    And I click "#add-custom-field"
+    Then I should see a modal
+@dev
+  Scenario: A user can add a custom field
+    Given I have the "CanEditCompanies" permission
+    And a "Company" has been created
+    When I navigate to a company page
+    And I click "#add-custom-field"
+    And I set text field with id "custom-field-name" to "velocity2"
+    And I set text field with id "custom-field-text-value" to "velocity"
+    And I click "#submit-custom-field"
+    Then I should see ".custom-field-display-item"
+@dev
+  Scenario: A user can edit a custom field
+    Given I have the "CanEditCompanies" permission
+    And a "Company" has been created
+    When I navigate to a company page
+    And I click "#edit-custom-field"
+    And I set text field with id "custom-field-text-value" to "velocity2"
+    And I click "#submit-custom-field"
+    Then "custom-field-test" should say "velocity2"
+@dev
+  Scenario: A user can delete a custom field
+    Given I have the "CanEditCompanies" permission
+    And a "Company" has been created
+    When I navigate to a company page
+    Then I click "#delete-custom-field"
+    Then I click confirm on the modal
+    Then I should not see ".custom-field-display-item"

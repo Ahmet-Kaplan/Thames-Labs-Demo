@@ -10,5 +10,4 @@ var url = require('url');
       .click('.list-group-item')
       .call(callback);
   });
-
 };
