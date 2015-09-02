@@ -7,7 +7,6 @@ Meteor.methods({
     Tenants.remove({});
     Meteor.users.remove({});
     Notifications.remove({});
-    AuditLog.remove({});
 
     // Reset partitioned collections
     Partitioner.directOperation(function() {
@@ -15,6 +14,7 @@ Meteor.methods({
       Tasks.remove({});
       Activities.remove({});
       Meteor.tags.remove({});
+      AuditLog.remove({});
 
       Companies.remove({});
       Contacts.remove({});

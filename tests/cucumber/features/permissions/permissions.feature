@@ -1,4 +1,3 @@
-@dev
 Feature: Allow administrators to give users permissions
   As an administrator
   I want to assign permissions to my users
