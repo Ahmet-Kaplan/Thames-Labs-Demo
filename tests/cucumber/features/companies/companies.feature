@@ -81,7 +81,7 @@ Feature: Allow users to manage their Companies
     And I click "#edit-company"
     And I set text field "name" to "updated company name"
     And I submit the "editCompany" form
-    Then "company-name" should say "updated company name"
+    Then "company-details" should say "updated company name"
 
   Scenario: A user without permission cannot edit a company
     Given I do not have the "CanEditCompanies" permission
@@ -107,7 +107,7 @@ Feature: Allow users to manage their Companies
     Given I have the "CanDeleteCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
-    And I click "#delete-company"
+    And I click "#remove-company"
     And I click confirm on the modal
     Then the company should not exist
 
@@ -115,7 +115,7 @@ Feature: Allow users to manage their Companies
     Given I do not have the "CanDeleteCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
-    Then I should not see "#delete-company"
+    Then I should not see "#remove-company"
 
   Scenario: An administrator can add CanDeleteCompanies permission
     Given I have the "Administrator" permission
