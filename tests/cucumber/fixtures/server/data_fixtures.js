@@ -49,7 +49,7 @@ Meteor.methods({
     var stage = OpportunityStages.findOne({order: 0});
     var date = new Date();
     var companyId = Companies.insert({
-      name: "companyName",
+      name: "Test Ltd",
       address: "address",
       city: "city",
       postcode: "postcode",
@@ -68,6 +68,15 @@ Meteor.methods({
       items: []
     });
     return data;
+  },
+
+  'addOpportunityLineItem': function() {
+    var opp = Opportunities.findOne({});
+    Opportunities.update(opp._id, {$push: {items: {
+      id: Random.id(),
+      name: "lineItem1"
+    }}});
+    return opp;
   },
 
   'getUserByEmail': function(email) {

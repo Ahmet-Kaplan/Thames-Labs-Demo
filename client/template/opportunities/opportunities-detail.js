@@ -69,7 +69,7 @@ Template.opportunityDetail.helpers({
 });
 
 Template.opportunityDetail.events({
-  'click #btnNextStage': function() {
+  'click #next-stage': function() {
     var currentStage = OpportunityStages.findOne(this.currentStageId);
     var nextStageIndex = currentStage.order + 1;
     var nextStage = OpportunityStages.findOne({ order: nextStageIndex });
@@ -88,7 +88,7 @@ Template.opportunityDetail.events({
       createdBy: user._id
     });
   },
-  'click #btnPrevStage': function() {
+  'click #previous-stage': function() {
     var currentStage = OpportunityStages.findOne(this.currentStageId);
     var nextStageIndex = currentStage.order - 1;
     var nextStage = OpportunityStages.findOne({ order: nextStageIndex });
@@ -107,7 +107,7 @@ Template.opportunityDetail.events({
       createdBy: user._id
     });
   },
-  'click #btnLostOpportunity': function(event) {
+  'click #lost-opportunity': function(event) {
     event.preventDefault();
     var oppId = this._id;
     bootbox.confirm("Are you sure you wish to mark this opportunity as lost? This action is not reversible.", function(result) {
@@ -130,7 +130,7 @@ Template.opportunityDetail.events({
       }
     });
   },
-  'click #btnWonOpp': function(event) {
+  'click #won-opportunity': function(event) {
     event.preventDefault();
     var opp = this;
     bootbox.confirm("Are you sure you wish to mark this opportunity as won? This action will create a new project, and is not reversible.", function(result) {
@@ -143,11 +143,11 @@ Template.opportunityDetail.events({
       }
     });
   },
-  'click #editOpportunity': function(event) {
+  'click #edit-opportunity': function(event) {
     event.preventDefault();
     Modal.show('editOpportunityModal', this);
   },
-  'click #removeOpportunity': function(event) {
+  'click #remove-opportunity': function(event) {
     event.preventDefault();
     var oppId = this._id;
 
@@ -157,7 +157,7 @@ Template.opportunityDetail.events({
       }
     });
   },
-  'click #btnAddLine': function(event) {
+  'click #add-line-item': function(event) {
     event.preventDefault();
     Modal.show('insertOpportunityItemModal', this);
   },
@@ -366,11 +366,11 @@ Template.opportunityItem.helpers({
 });
 
 Template.opportunityItem.events({
-  'click .btnEditOppItem': function(event) {
+  'click .edit-line-item': function(event) {
     event.preventDefault();
     Modal.show('editOpportunityItemModal', this);
   },
-  'click .btnDeleteOppItem': function(event) {
+  'click .delete-line-item': function(event) {
     event.preventDefault();
     var oppId = this.oppId;
     var item = this.data;

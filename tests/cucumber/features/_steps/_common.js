@@ -90,6 +90,21 @@ module.exports = function() {
       .setValue('input[data-schema-key='+ fieldName + ']', value)
       .call(callback);
   });
+  //This step is necessary when editing fields within an array (eg Opportunites, field items.0.name)
+  this.When(/^I set text field with id "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
+    this.client
+      .waitForVisible('#'+ fieldName, 2000)
+      .setValue('#'+ fieldName, value)
+      .call(callback);
+  });
+
+  this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName, callback) {
+    this.client
+      .waitForVisible('select[data-schema-key='+ fieldName + ']', 5000)
+      .click('select[data-schema-key='+ fieldName + ']')
+      .selectByVisibleText('select[data-schema-key='+ fieldName + ']', value)
+      .call(callback);
+  });
 
   this.When(/^I submit the "([^"]*)" form$/, function(formName, callback) {
     this.client
