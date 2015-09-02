@@ -75,6 +75,9 @@ Template.contactDetail.helpers({
     } else {
       return this
     }
+  },
+  opportunities: function() {
+    return Opportunities.find({contactId: this._id});
   }
 });
 
@@ -127,6 +130,20 @@ Template.contactDetail.events({
         Contacts.remove(contactId);
       }
     });
+  },
+  'click #add-opportunity': function(event) {
+    event.preventDefault();
+    var company = this.company();
+    if (company === undefined) {
+      Modal.show('insertContactOpportunityModal', {
+        contactId: this._id
+      });
+    } else {
+      Modal.show('insertContactOpportunityModal', {
+        companyId: company._id,
+        contactId: this._id
+      });
+    }
   }
 });
 

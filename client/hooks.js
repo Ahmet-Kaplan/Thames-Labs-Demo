@@ -22,7 +22,7 @@ Accounts.onLogin(function(cb) {
         }
       });
 
-      LogEvent("info", profile.name + " logged in.");
+      logEvent("info", profile.name + " logged in.");
     }
   }
 
@@ -39,7 +39,7 @@ AutoForm.hooks({
   //         //because the server is the only place that can verify this
   //         this.addStickyValidationError('email', 'emailTaken');
   //         AutoForm.validateField(this.formId, 'email');
-  //         //LogEvent("warning", "Attempted sign-up with in-use email.");
+  //         //logEvent("warning", "Attempted sign-up with in-use email.");
   //       }
   //     }
   //   },
@@ -47,22 +47,22 @@ AutoForm.hooks({
   //     Meteor.loginWithPassword(details.email, details.password, function() {
   //       FlowRouter.redirect('/');
   //       FlowRouter.reload();
-  //       //LogEvent("verbose", details.email + " successfully signed up and logged in.");
+  //       //logEvent("verbose", details.email + " successfully signed up and logged in.");
   //     });
   //   },
   //   beginSubmit: function() {
   //     details.email = $("#email-field").val();
   //     details.password = $("#password-field").val();
-  //     //LogEvent("debug", "Submitting sign-up application...");
+  //     //logEvent("debug", "Submitting sign-up application...");
   //   },
   // },
-  updatePurchaseOrderForm: {
+  insertContactForm: {
     onSuccess: function() {
-      Modal.hide();
-      toastr.success('Purchase Order updated.');
-      //LogEvent('info', 'Purchase order updated.', 'Purchase Order', this.docId);
-    }
-  },
+     toastr.success('Contact created.');
+     Modal.hide();
+     FlowRouter.go('/contacts/' + this.docId);
+   }
+ },
   editContactForm: {
     before: {
       update: function(doc) {
@@ -107,35 +107,35 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide();
       toastr.success('Purchase details updated.');
-      //LogEvent('info', 'Contact created.', 'Contact', this.docId);
+      //logEvent('info', 'Contact created.', 'Contact', this.docId);
     }
   },
   newProjectForm: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Project created.');
-      //LogEvent('info', 'Project created.', 'Project', this.docId);
+      //logEvent('info', 'Project created.', 'Project', this.docId);
     }
   },
   newContactProjectForm: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Project created.');
-      //LogEvent('info', 'Contact project created.', 'Contact', this.docId);
+      //logEvent('info', 'Contact project created.', 'Contact', this.docId);
     }
   },
   updateProjectForm: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Project updated.');
-      //LogEvent('info', 'Project updated.', 'Project', this.docId);
+      //logEvent('info', 'Project updated.', 'Project', this.docId);
     }
   },
   updateActivityForm: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Activity updated.');
-      //LogEvent('info', 'Activity updated.');
+      //logEvent('info', 'Activity updated.');
     }
   },
   insertNewCompanyForm: {
@@ -150,14 +150,14 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide();
       toastr.success('Company created.');
-      //LogEvent('info', 'Company created.', 'Company', this.docId);
+      //logEvent('info', 'Company created.', 'Company', this.docId);
     },
     after: {
       insert: function(error, result) {
         if (error) {
           $("#address_details").show();
           toastr.error('An error occurred: Company not created.');
-          //LogEvent('error', 'Company not created: ' + error, 'Company', this.docId);
+          //logEvent('error', 'Company not created: ' + error, 'Company', this.docId);
           return false;
         }
 
@@ -169,28 +169,28 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide();
       toastr.success('Activity created.');
-      //LogEvent('info', 'Activity created.');
+      //logEvent('info', 'Activity created.');
     }
   },
   insertProjectActivityForm: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Project activity created.');
-      //LogEvent('info', 'Project activity created.', 'Project', this.docId);
+      //logEvent('info', 'Project activity created.', 'Project', this.docId);
     }
   },
   // insertPurchaseOrderActivityForm: {
   //   onSuccess: function() {
   //     Modal.hide();
   //     toastr.success('Purchase order activity created.');
-  //     //LogEvent('info', 'Purchase order activity created.', 'Purchase Order', this.docId);
+  //     //logEvent('info', 'Purchase order activity created.', 'Purchase Order', this.docId);
   //   }
   // },
   insertContactActivityForm: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Contact activity created.');
-      //LogEvent('info', 'Contact activity created.');
+      //logEvent('info', 'Contact activity created.');
     }
   },
   addTenantUserModal: {
@@ -203,7 +203,7 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide();
       toastr.success('User created.');
-      //LogEvent('verbose', 'A new tenant user has been created.', 'User', this.docId);
+      //logEvent('verbose', 'A new tenant user has been created.', 'User', this.docId);
     }
   },
   addTenantModal: {
@@ -216,14 +216,14 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide();
       toastr.success('Tenant created.');
-      //LogEvent('verbose', 'A new tenant has been created.', 'Tenant', this.docId);
+      //logEvent('verbose', 'A new tenant has been created.', 'Tenant', this.docId);
     }
   },
   removeCompanyForm: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Company removed.');
-      //LogEvent('warning', 'Company deleted.', 'Company', this.docId);
+      //logEvent('warning', 'Company deleted.', 'Company', this.docId);
       FlowRouter.go('/companies');
     }
   },
@@ -237,7 +237,7 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide();
       toastr.success('Settings saved.');
-      //LogEvent('info', 'Tenant settings updated.', 'Tenant', this.docId);
+      //logEvent('info', 'Tenant settings updated.', 'Tenant', this.docId);
     }
   },
   newTaskModal: {
@@ -250,26 +250,26 @@ AutoForm.hooks({
     onError: function(formType, error) {
       if (error) {
         toastr.error('An error occurred: Task not created.');
-        //LogEvent('error', 'Task not created: ' + error);
+        //logEvent('error', 'Task not created: ' + error);
       }
     },
     onSuccess: function() {
       Modal.hide('');
       toastr.success('Task created.');
-      //LogEvent('info', 'Task created.');
+      //logEvent('info', 'Task created.');
     }
   },
   editTaskModal: {
     onError: function(formType, error) {
       if (error) {
         toastr.error('An error occurred: Task not updated.');
-        //LogEvent('error', 'Task not updated: ' + error);
+        //logEvent('error', 'Task not updated: ' + error);
       }
     },
     onSuccess: function() {
       Modal.hide('');
       toastr.success('Task updated.');
-      //LogEvent('info', 'Task updated.');
+      //logEvent('info', 'Task updated.');
     }
   },
   newPurchaseOrderForm: {
@@ -284,7 +284,7 @@ AutoForm.hooks({
     },
     onError: function(formType, error) {
       toastr.error('An error occurred: Purchase order not created.');
-      //LogEvent('error', 'Purchase order not created: ' + error, 'Purchase Order', this.docId);
+      //logEvent('error', 'Purchase order not created: ' + error, 'Purchase Order', this.docId);
     },
     onSuccess: function() {
       var t = Tenants.find({}).fetch()[0];
@@ -306,28 +306,28 @@ AutoForm.hooks({
 
       Modal.hide();
       toastr.success('Purchase Order raised.');
-      //LogEvent('info', 'Purchase order created.', 'Purchase Order', this.docId);
+      //logEvent('info', 'Purchase order created.', 'Purchase Order', this.docId);
     }
   },
   addPurchaseOrderItem: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Item added.');
-      //LogEvent('info', 'Purchase order item added.');
+      //logEvent('info', 'Purchase order item added.');
     }
   },
   editPurchaseOrderItem: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Item edited.');
-      //LogEvent('info', 'Purchase order item edited.');
+      //logEvent('info', 'Purchase order item edited.');
     }
   },
   insertPurchaseOrderActivityForm: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Purchase order activity added.');
-      //LogEvent('info', 'Purchase order activity added.');
+      //logEvent('info', 'Purchase order activity added.');
     }
   },
   insertCompanyContactForm: {
@@ -336,11 +336,57 @@ AutoForm.hooks({
       Modal.hide();
     }
   },
-  insertContactForm: {
+  insertNewStageForm: {
     onSuccess: function() {
-      toastr.success('Contact created.');
-      FlowRouter.go('/contacts/' + this.docId);
+      toastr.success('Stage created.');
       Modal.hide();
     }
-  }
+  },
+  editStageForm: {
+    onSuccess: function() {
+      toastr.success('Stage edited.');
+      Modal.hide();
+    }
+  },
+  insertOpportunityForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity added.');
+      Modal.hide();
+    },
+    after: {
+      insert: function(error, result) {
+        if (error) {
+          toastr.error('An error occurred: Opportunity not created.');
+          //logEvent('error', 'Company not created: ' + error, 'Company', this.docId);
+          return false;
+        }
+
+        FlowRouter.go('/opportunities/' + result);
+      }
+    }
+  },
+  editOpportunityForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity edited.');
+      Modal.hide();
+    }
+  },
+  insertOpportunityItemForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity line item added.');
+      Modal.hide();
+    }
+  },
+  editOpportunityItemForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity line item edited.');
+      Modal.hide();
+    }
+  },
+  insertOpportunityActivityForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Opportunity activity created.');
+    }
+  },
 });

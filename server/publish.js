@@ -15,25 +15,17 @@ Meteor.publish('userPresence', function() {
 
 Meteor.publish("auditData", function() {
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
-    return AuditLog.find({});
+    return Partitioner.directOperation(function() {
+      return AuditLog.find({});
+    });
   } else {
-    this.ready();
+    return this.ready();
   }
 });
 
-Meteor.publish("groupedAuditData", function(userId) {
-  var group = null;
-
-  var ux = Meteor.users.find({
-    _id: userId
-  }).fetch()[0];
-  if (ux) {
-    group = ux.group;
-  }
-
-  return AuditLog.find({
-    groupId: group
-  });
+Meteor.publish("eventLogData", function(userId) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadEventLog'])) return this.ready();
+  return AuditLog.find({});
 });
 
 Meteor.publish("allTenants", function() {
@@ -44,9 +36,11 @@ Meteor.publish("allTenants", function() {
   }
 });
 
-Meteor.publish("myTenant", function() {
+Meteor.publish("activeTenantData", function(groupId) {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Tenants.find({_id: Partitioner.getUserGroup(this.userId)});
+  return Tenants.find({
+    _id: groupId
+  });
 });
 
 Meteor.publish("currentTenantUserData", function(groupId) {
@@ -114,6 +108,12 @@ Meteor.publish("companyByProductId", function(productId) {
   var p = Products.findOne(productId);
   return Companies.find(p.companyId);
 });
+Meteor.publish("companyByOpportunityId", function(id) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  var opp = Opportunities.findOne(id);
+  return Companies.find(opp.companyId);
+});
 Meteor.publish("companyTags", function() {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTags'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
@@ -160,6 +160,12 @@ Meteor.publish("contactByProductId", function(productId) {
   var p = Products.findOne(productId);
   return Contacts.find(p.companyId);
 });
+Meteor.publish("contactByOpportunityId", function(id) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  var opp = Opportunities.findOne(id);
+  return Contacts.find(opp.contactId);
+});
 Meteor.publish("contactTags", function() {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTags'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
@@ -175,31 +181,38 @@ Meteor.publish("allActivities", function() {
   return Activities.find({});
 });
 Meteor.publish("activityByContactId", function(contactId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadActivities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     contactId: contactId
   });
 });
 Meteor.publish("activityByCompanyId", function(companyId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadActivities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     companyId: companyId
   });
 });
 Meteor.publish("activityByProjectId", function(projectId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadActivities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadProjects'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     projectId: projectId
   });
 });
 Meteor.publish("activityByPurchaseOrderId", function(purchaseOrderId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadActivities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     purchaseOrderId: purchaseOrderId
+  });
+});
+Meteor.publish("activityByOpportunityId", function(opportunityId) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Activities.find({
+    opportunityId: opportunityId
   });
 });
 
@@ -334,5 +347,45 @@ Meteor.publish("productById", function(productId) {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Products.find({
     _id: productId
+  });
+});
+
+//Opportunities
+Meteor.publish("allOpportunities", function() {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Opportunities.find();
+});
+Meteor.publish("opportunityStages", function() {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return OpportunityStages.find({}, {sort: {order: 1}});
+});
+Meteor.publish("opportunityById", function(oppId) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Opportunities.find({ _id: oppId});
+});
+Meteor.publish("opportunityByProjectId", function(id) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Opportunities.find({ projectId: id});
+});
+Meteor.publish("opportunitiesByCompanyId", function(id) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Opportunities.find({companyId: id, isArchived: { $ne: true }});
+});
+Meteor.publish("opportunitiesByContactId", function(id) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Opportunities.find({contactId: id, isArchived: { $ne: true }});
+});
+Meteor.publish("opportunityTags", function() {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTags'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Meteor.tags.find({
+    collection: 'opportunities'
   });
 });

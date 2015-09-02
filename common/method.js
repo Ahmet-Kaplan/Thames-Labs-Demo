@@ -12,6 +12,18 @@ Meteor.methods({
     if (Meteor.isServer) {
       faker.locale = "en";
       Partitioner.bindGroup(id, function() {
+
+        //Setup opportunity stages
+        var oppStageIds = [];
+        for (var i = 0; i < 4; i++) {
+          var id = OpportunityStages.insert({
+            title: faker.company.companyName(),
+            description: faker.lorem.sentence(),
+            order: i
+          });
+          oppStageIds.push(id);
+        }
+
         // generate fake customer data
         _.each(_.range(100), function() {
           var usersArray = Meteor.users.find({}).fetch();
@@ -37,6 +49,17 @@ Meteor.methods({
             price: _.random(1, 300),
             createdBy: randomUser._id
           });
+
+          Opportunities.insert({
+            name: faker.company.companyName(),
+            description: faker.lorem.sentence(),
+            currentStageId: oppStageIds[Math.floor(Math.random() * oppStageIds.length)],
+            createdBy: randomUser._id,
+            items: [],
+            companyId: companyId,
+            date: faker.date.recent(100)
+          });
+
 
           contacts = [];
           projects = [];
@@ -144,7 +167,7 @@ Meteor.methods({
       });
     }
 
-    LogEvent('debug', 'Demo data generated');
+    logEvent('debug', 'Demo data generated');
 
   },
 
@@ -251,55 +274,112 @@ Meteor.methods({
       });
     }
     return true;
-  }
+  },
 
+  winOpportunity: function(opp) {
+    var user = Meteor.user();
+    var val = opp.value;
+    if (!val) {
+      val = 0;
+    }
+    var projId = Projects.insert({
+      description: opp.name,
+      companyId: opp.companyId,
+      contactId: opp.contactId,
+      userId: user._id,
+      value: val,
+      createdBy: user._id
+    });
+
+    if (opp.items) {
+      for (var i = 0; i < opp.items.length; i++) {
+        var title = opp.items[i].name;
+        var description = opp.items[i].description + " Value: " + opp.items[i].value + " Quantity: " + opp.items[i].quantity;
+        Tasks.insert({
+          title: title,
+          description: description,
+          assigneeId: user._id,
+          createdBy: user._id,
+          entityType: 'project',
+          entityId: projId
+        });
+      }
+    }
+
+    Opportunities.update(opp._id, {
+      $set: {
+        isArchived: true,
+        hasBeenWon: true,
+        projectId: projId,
+        currentStageId: null
+      }
+    });
+
+    var note = user.profile.name + ' marked this opportunity as won';
+    var date = new Date();
+    Activities.insert({
+      type: 'Note',
+      notes: note,
+      createdAt: date,
+      activityTimestamp: date,
+      opportunityId: opp._id,
+      createdBy: user._id
+    });
+    return projId;
+  },
+
+  deleteOpportunityStage: function(stageId) {
+    //This method ensures that opportunities on a deleted stage are moved to a stage
+    var opportunitiesAtStage = Opportunities.find({
+      currentStageId: stageId
+    }).fetch();
+    if (!!opportunitiesAtStage) {
+      var firstOppStageId = OpportunityStages.findOne({
+        order: 0
+      })._id;
+      if (firstOppStageId == stageId) {
+        firstOppStageId = OpportunityStages.findOne({
+          order: 1
+        })._id;
+      }
+      for (var i = 0; i < opportunitiesAtStage.length; i++) {
+        Opportunities.update(opportunitiesAtStage[i]._id, {
+          $set: {
+            currentStageId: firstOppStageId
+          }
+        });
+      }
+      OpportunityStages.remove(stageId);
+      //Orders the remaining stages
+      var oppStages = OpportunityStages.find({}, {
+        sort: {
+          order: 1
+        }
+      }).fetch();
+      for (var i = 0; i < oppStages.length; i++) {
+        OpportunityStages.update(oppStages[i]._id, {
+          $set: {
+            order: i
+          }
+        });
+      }
+    }
+  }
 });
 
-LogEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  if (Meteor.isServer && this.userId !== undefined) {
+logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
+  if (Meteor.isClient && !Roles.userIsInRole(Meteor.userId(), 'superadmin')) {
     logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
     logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
-
-    var group = (Meteor.userId() ? Meteor.users.findOne(Meteor.userId()).group : undefined);
 
     AuditLog.insert({
       date: new Date(),
       source: 'client',
       level: logLevel,
       message: logMessage,
-      user: (Meteor.userId() ? Meteor.userId() : undefined),
-      groupId: group,
+      user: Meteor.userId(),
       entityType: logEntityType,
       entityId: logEntityId
     });
   }
 }
-
-GetRoutedPageTitle = function(currentName) {
-  var title = currentName;
-  return title.charAt(0).toUpperCase() + title.slice(1);
-};
-
-SetRouteDetails = function(title) {
-  var user = Meteor.users.find({
-    _id: Meteor.userId()
-  }).fetch()[0];
-
-  if (user) {
-
-    var profile = user.profile;
-    if (profile) {
-      profile.lastActivity = {
-        page: title,
-        url: FlowRouter.current().path
-      };
-
-      Meteor.users.update(user._id, {
-        $set: {
-          profile: profile
-        }
-      });
-    }
-
-  }
-};

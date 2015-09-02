@@ -64,7 +64,8 @@ router.subscriptions = function() {
   this.register('userPresence', Meteor.subscribe('userPresence'));
   this.register('allNotifications', Meteor.subscribe('allNotifications'));
   this.register('auditData', Meteor.subscribe('auditData'));
-  this.register('myTenant', Meteor.subscribe('myTenant'));
+  this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
+  this.register('activeTenantData', subs.subscribe('activeTenantData', group));
 };
 
 router.notFound = {
@@ -145,7 +146,6 @@ router.route('/sign-up', {
 router.route('/', {
   name: 'dashboard',
   subscriptions: function() {
-    this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
     this.register('allChatter', subs.subscribe('allChatter'));
     this.register('allUserTasks', subs.subscribe('allUserTasks', Meteor.userId()));
   },
@@ -159,18 +159,18 @@ router.route('/', {
 router.route('/admin', {
   name: 'administration',
   subscriptions: function() {
-    this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
+    this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
     layout.render('appLayout', {
       main: "tenancyAdminPage"
     });
   },
-  triggersEnter: [function(context, redirect) {
+  /*triggersEnter: [function(context, redirect) {
     if (!Roles.userIsInRole(Meteor.userId(), 'Administrator')) {
       redirect('dashboard');
     }
-  }]
+  }] */
 });
 
 router.route('/companies', {
@@ -200,7 +200,8 @@ router.route('/companies/:id', {
     this.register('purchaseOrdersByCompanyId', subs.subscribe('purchaseOrdersByCompanyId', params.id));
     this.register('companyTags', subs.subscribe('companyTags'));
     this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
-    this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
+    this.register('opportunitiesByCompanyId', subs.subscribe('opportunitiesByCompanyId', params.id));
+    this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -241,6 +242,8 @@ router.route('/contacts/:id', {
     this.register('projectsByContactId', subs.subscribe('projectsByContactId', params.id));
     this.register('purchaseOrdersByContactId', subs.subscribe('purchaseOrdersByContactId', params.id));
     this.register('contactTags', subs.subscribe('contactTags'));
+    this.register('opportunitiesByContactId', subs.subscribe('opportunitiesByContactId', params.id));
+    this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -282,6 +285,7 @@ router.route('/projects/:id', {
     this.register('contactsByProjectId', subs.subscribe('contactsByProjectId', params.id));
     this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
     this.register('projectTags', subs.subscribe('projectTags'));
+    this.register('opportunityByProjectId', subs.subscribe('opportunityByProjectId', params.id));
   },
   action: function() {
     layout.render('appLayout', {
@@ -378,7 +382,7 @@ router.route('/events', {
   name: 'events',
   subscriptions: function() {
     this.register('allUserData', subs.subscribe('allUserData'));
-    this.register('groupedAuditData', subs.subscribe('groupedAuditData', Meteor.userId()));
+    this.register('eventLogData', subs.subscribe('eventLogData', Meteor.userId()));
     this.register('allProjects', subs.subscribe('allProjects'));
     this.register('allContacts', subs.subscribe('allContacts'));
     this.register('allCompanies', subs.subscribe('allCompanies'));
@@ -428,4 +432,51 @@ router.route('/products/:id', {
   //     redirect('dashboard');
   //   }
   // }]
+});
+
+router.route('/opportunities', {
+  name: 'opportunities',
+  subscriptions: function() {
+    this.register('allOpportunities', subs.subscribe('allOpportunities'));
+    this.register('allContacts', subs.subscribe('allContacts'));
+    this.register('allCompanies', subs.subscribe('allCompanies'));
+    this.register('opportunityStages', subs.subscribe('opportunityStages'));
+    this.register('opportunityTags', subs.subscribe('opportunityTags'));
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: 'opportunityList'
+    });
+  }
+});
+
+router.route('/opportunities/:id', {
+  name: 'opportunity',
+  subscriptions: function(params) {
+    this.register('opportunityStages', subs.subscribe('opportunityStages'));
+    this.register('opportunityById', subs.subscribe('opportunityById', params.id));
+    this.register('companyByOpportunityId', subs.subscribe('companyByOpportunityId', params.id));
+    this.register('contactByOpportunityId', subs.subscribe('contactByOpportunityId', params.id));
+    this.register('activityByOpportunityId', subs.subscribe('activityByOpportunityId', params.id));
+    this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
+    this.register('opportunityTags', subs.subscribe('opportunityTags'));
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: 'opportunityDetail'
+    });
+  }
+});
+
+router.route('/salespipeline', {
+  name: 'salespipeline',
+  subscriptions: function() {
+    this.register('allOpportunities', subs.subscribe('allOpportunities'));
+    this.register('opportunityStages', subs.subscribe('opportunityStages'));
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: 'salesPipeline'
+    });
+  }
 });

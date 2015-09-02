@@ -42,6 +42,24 @@ Template.projectDetail.helpers({
       _id: this.contactId
     }).fetch()[0];
     return c.forename + " " + c.surname;
+  },
+  opportunityId: function() {
+    var opp = Opportunities.findOne({projectId: this._id});
+    if (opp) return opp._id;
+  },
+  friendlyDueDate: function() {
+    return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
+  },
+  staffList: function() {
+    var staffList = "";
+    for (var i = 0; i < this.staff.length; i++) {
+      var name = Meteor.users.find({
+        _id: this.staff[i]
+      }).fetch()[0].profile.name;
+      staffList = staffList + name + ", ";
+    }
+    staffList = staffList.substring(0, staffList.length - 2);
+    return staffList;
   }
 });
 

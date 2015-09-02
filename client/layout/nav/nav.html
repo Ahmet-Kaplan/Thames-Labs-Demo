@@ -12,8 +12,7 @@
           </button>
           {{/if}}
           <a class="navbar-brand" href="/">
-            <img alt="" src="/icon.svg">RealTime
-            <span>CRM</span>
+            <img alt="" src="/icon.svg">RealTime<span>CRM</span>
           </a>
         </div>
         {{#if loggedIn}}
@@ -166,8 +165,18 @@
           </div>
         </div>
       </div>
-
-
+      {{#if isInRole 'Administrator,CanReadTasks'}}
+      <tr>
+        <td class="panel-heading">
+          <h4 class="panel-title">
+            <i class="fa fa-fw fa-check"></i>
+            <a href='/tasks' class="dismiss-on-click {{#if isActiveRoute 'tasks'}}active{{/if}}" id="menuLinkTasks">
+              Tasks
+              </a>
+          </h4>
+        </td>
+      </tr>
+      {{/if}}
       <div class="panel panel-default accordion-links">
         <table class="table">
           {{#if isInRole 'Administrator,CanReadCompanies'}}
@@ -190,6 +199,17 @@
               </h4>
             </td>
           </tr>
+          {{/if}} {{#if isInRole 'Administrator,CanReadOpportunities'}}
+          <tr>
+            <td class="panel-heading">
+              <h4 class="panel-title">
+                <i class="fa fa-fw fa-files-o"></i>
+                <a href='/opportunities' class="{{#if isActiveRoute 'opportunities'}}active{{/if}}" id="menuLinkOpportunities">
+                  Opportunities
+                </a>
+              </h4>
+            </td>
+          </tr>
           {{/if}} {{#if isInRole 'Administrator,CanReadProjects'}}
           <tr>
             <td class="panel-heading">
@@ -208,17 +228,6 @@
                 <i class="fa fa-fw fa-wrench"></i>
                 <a href='/products' class="{{#if isActiveRoute 'products'}}active{{/if}}" id="menuLinkProducts">
                   Products</a>
-              </h4>
-            </td>
-          </tr>
-          {{/if}} {{#if isInRole 'Administrator,CanReadTasks'}}
-          <tr>
-            <td class="panel-heading">
-              <h4 class="panel-title">
-                <i class="fa fa-fw fa-check"></i>
-                <a href='/tasks' class="dismiss-on-click {{#if isActiveRoute 'tasks'}}active{{/if}}" id="menuLinkTasks">
-                  Tasks
-                  </a>
               </h4>
             </td>
           </tr>
@@ -254,7 +263,6 @@
             </td>
           </tr>
           {{/if}}
-
         </table>
       </div>
 

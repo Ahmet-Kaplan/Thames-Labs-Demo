@@ -131,6 +131,7 @@ module.exports = function() {
   });
 
   this.Given(/^I have the "([^"]*)" role$/, function(role, callback) {
+    this.server.call('setUserPermission', 'Chris Cringle', role);
     this.client
       .executeAsync(function(role, done) {
         Meteor.call('checkUserHasPermission', 'Chris Cringle', role, function(err, data) {
