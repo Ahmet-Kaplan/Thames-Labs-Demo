@@ -1,4 +1,3 @@
-@dev
 Feature: Allow users to manage their Products
 
   As a user of the app
@@ -51,7 +50,9 @@ Feature: Allow users to manage their Products
     Given I have the "CanCreateProducts" permission
     When I navigate to "/products"
     And I click "#add-product"
-    And I enter product details
+    And I set text field "name" to "test product 2"
+    And I set rich text field "description" to "test description"
+    And I submit the "insertProduct" form
     And I navigate to a product page
     Then I should see the heading "test product 2"
 
@@ -79,8 +80,9 @@ Feature: Allow users to manage their Products
     And a product has been created
     When I navigate to a product page
     And I click "#edit-product"
-    And I enter updated product details
-    Then I should see the updated product
+    And I set text field "name" to "updated product name"
+    And I submit the "updateProduct" form
+    Then "product-name" should say "updated product name"
 
   Scenario: A user without permission cannot edit a product
     Given I do not have the "CanEditProducts" permission
@@ -106,7 +108,8 @@ Feature: Allow users to manage their Products
     Given I have the "CanDeleteProducts" permission
     And a product has been created
     When I navigate to a product page
-    And I delete a product
+    And I click "#delete-product"
+    And I click confirm on the modal
     Then the product should not exist
 
   Scenario: A user without permission cannot delete a product

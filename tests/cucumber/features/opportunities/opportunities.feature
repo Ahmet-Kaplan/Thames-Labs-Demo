@@ -94,7 +94,7 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: A user can mark an opportunity as won
     Given I have the "CanEditOpportunities" permission
-    Given I have the "CanReadProjects" permission
+    And I have the "CanReadProjects" permission
     When I navigate to an opportunity page
     And I click "#btnNextStage"
     Then I should be on the next opportunity stage

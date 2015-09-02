@@ -73,6 +73,37 @@ module.exports = function() {
     .call(callback);
   });
 
+  this.When(/^I set rich text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
+    this.client
+      .waitForVisible('div[data-schema-key='+ fieldName + ']', 2000)
+      .executeAsync(function(fieldName, value, done) {
+        //Set value for medium text editor because it isn't a standard input
+        $('div[data-schema-key='+ fieldName + ']').html(value);
+        done();
+      }, fieldName, value)
+      .call(callback);
+  });
+
+  this.When(/^I set text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
+    this.client
+      .waitForVisible('input[data-schema-key='+ fieldName + ']', 2000)
+      .setValue('input[data-schema-key='+ fieldName + ']', value)
+      .call(callback);
+  });
+
+  this.When(/^I submit the "([^"]*)" form$/, function(formName, callback) {
+    this.client
+      .waitForVisible('#' + formName + "Form", 2000)
+      .submitForm('#' + formName + "Form")
+      .call(callback);
+  });
+
+  this.When(/^I click confirm on the modal$/, function(callback) {
+    this.client
+      .waitForVisible(".modal-content", 2000)
+      .click(".modal-footer .btn-primary")
+      .call(callback);
+  });
 
   /***************************************************
                           THEN
@@ -127,6 +158,15 @@ module.exports = function() {
       })
       .call(callback);
   });
+
+  this.Then(/^"([^"]*)" should say "([^"]*)"$/, function(selector, desiredText, callback) {
+    this.client
+      .getText("#" + selector)
+      .then(function(text) {
+        expect(text).to.equal(desiredText);
+      })
+      .call(callback);
+  })
 
   this.Then(/^I should see a modal with title "([^"]*)"$/, function(expectedText, callback) {
     this.client
