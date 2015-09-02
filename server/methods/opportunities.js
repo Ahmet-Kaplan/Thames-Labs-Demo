@@ -1,6 +1,6 @@
 Meteor.methods({
 
-  createOpportunityStages: function() {
+  createDefaultOpportunityStages: function() {
     var count = OpportunityStages.find({}).count();
     if (count == 0) {
       OpportunityStages.insert({
