@@ -382,7 +382,7 @@ router.route('/events', {
   name: 'events',
   subscriptions: function() {
     this.register('allUserData', subs.subscribe('allUserData'));
-    this.register('groupedAuditData', subs.subscribe('groupedAuditData', Meteor.userId()));
+    this.register('eventLogData', subs.subscribe('eventLogData', Meteor.userId()));
     this.register('allProjects', subs.subscribe('allProjects'));
     this.register('allContacts', subs.subscribe('allContacts'));
     this.register('allCompanies', subs.subscribe('allCompanies'));
