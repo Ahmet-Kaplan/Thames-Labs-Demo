@@ -2,7 +2,7 @@ var verfiyOpportunityStagesExist = function() {
   if (FlowRouter.subsReady()) {
     var count = OpportunityStages.find({}).count();
     if (count == 0) {
-      Meteor.call("createOpportunityStages");
+      Meteor.call("createDefaultOpportunityStages");
     }
   }
 }
