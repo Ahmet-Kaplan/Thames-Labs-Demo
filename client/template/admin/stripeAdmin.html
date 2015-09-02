@@ -7,42 +7,63 @@
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h5>Subscribe to Premier Scheme</h5>
         </div>
+        
+        <form id="subscribe">
+          <div class="modal-body">
+            Subscribing to the <em>Premier Scheme</em> allows you to add as many records as you want.
+            <br />The cost will be calculated on the pro rata of the actual users number.
+            <br />For more information see our Terms and Condition of use. 
+            
+            <br /><br />For your subscription to become active, you must provide your card details.
+            <br />Please note that none of the card information is stored by us. Instead we use the secure and recognized <a href="https://www.stripe.com" target="_blank">Stripe</a> system.
 
-        <div class="modal-body">
-          Subscribing to the <em>Premier Scheme</em> allows you to add as many records as you want.
-          <br />The cost will be calculated on the pro rata of the actual users number.
-          <br />For more information see our Terms and Condition of use. 
-          {{#unless hasCardRegistered}}
-          <br /><br />For your subscription to become active, you must provide your card details.
-          <br />Please note that none of the card information is stored by us. Instead we use the secure and recognized <a href="https://www.stripe.com" target="_blank">Stripe</a> system.
-
-          <form>
-            <div class="form-group">
-              <label for="cardNumber">Card Number</label>
-              <input type="text" id="cardNumber" size="20" class="form-control" data-stripe="number" placeholder="1234567890123456" />
-            </div>
-            <div class="form-group">
-              <label for="cardCVC">CVC</label>
-              <div class="row">
-                <div class="col-xs-2"><input type="text" id="cardCVC" size="4" class="form-control" data-stripe="cvc" placeholder="123" /></div>
+              <div class="row form-group">
+                <div class="col-xs-6">
+                  <label for="cardNumber" class="control-label">Card Number</label>
+                  <input type="text" id="cardNumber" size="20" class="form-control" data-stripe="number" placeholder="0123456789012345" />
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="expMonth">Expiration (MM/YYYY)</label>
-              <div class="row">
-                <div class="col-xs-2"><input type="text" size="2" class="form-control" data-stripe="exp-month" placeholder="01" /></div>
-                <div class="col-xs-1"> / </div>
-                <div class="col-xs-2"><input type="text" size="4" class="form-control" data-stripe="exp-year" placeholder="2016" /></div>
+              <div class="row form-group">
+                <div class="col-xs-2">
+                  <label for="cardCVC" class="control-label">CVC</label>
+                  <input type="text" id="cardCVC" size="4" class="form-control" data-stripe="cvc" placeholder="123" />
+                </div>
+                <div class="col-xs-4">
+                  <label for="expMonth" class="control-label">Expiration (MM/YYYY)</label>
+                  <div class="col-xs-6"><input type="text" size="2" class="form-control" data-stripe="exp-month" placeholder="01" /></div>
+                  <div class="col-xs-6"><input type="text" size="4" class="form-control" data-stripe="exp-year" placeholder="2016" /></div>
+                </div>
               </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Card</button>
-          </form>
-          {{/unless}}
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" id="submit" class="btn btn-primary">Subscribe</button>
+          </div>
+      </form>
+         
 
-        <div class="modal-footer">
-          <a id="btnUpdateTenantUserPermissions" class="btn btn-primary" style="margin-top:5px;">Update</a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="stripeSubscriptionInProgress">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Subscription in progress</h5>
         </div>
+        
+        <form id="subscribe">
+          <div class="modal-body">
+            <div class="well well-sm">
+              Please wait while we process your subscription...
+            </div>
+          </div>
+      </form>
+         
 
       </div>
     </div>

@@ -121,7 +121,12 @@ Schemas.Tenant = new SimpleSchema({
     defaultValue: false
   },
   stripeId: {
-    type: String
+    type: String,
+    optional: true
+  },
+  stripeSubs: {
+    type: String,
+    optional: true
   },
   limit: {
     type: Number,
