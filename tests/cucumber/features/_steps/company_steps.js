@@ -11,11 +11,4 @@ var url = require('url');
       .call(callback);
   });
 
-//Deleting
-  this.Then(/^the company should not exist$/, function(callback) {
-    this.client
-      .getText('h4*=No companies')
-      .call(callback);
-  });
-
 };
