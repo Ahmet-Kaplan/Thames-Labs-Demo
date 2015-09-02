@@ -1,7 +1,5 @@
 module.exports = function() {
 
-  var url = require('url');
-
 //Reading
   this.When(/^I navigate to a product page$/, function(callback) {
     this.client
@@ -17,4 +15,5 @@ module.exports = function() {
       .getText('h4*=No products')
       .call(callback);
   });
+
 };

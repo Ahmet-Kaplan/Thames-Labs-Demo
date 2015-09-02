@@ -1,3 +1,4 @@
+@dev
 Feature: Allow administrators to give users permissions
   As an administrator
   I want to assign permissions to my users
@@ -17,7 +18,7 @@ Feature: Allow administrators to give users permissions
     And I click "#btnEditTenantUser"
     And I click "#cbUserIsTenantAdministrator"
     And I click "#btnUpdateTenantUser"
-    Then the user should have the "Administrator" permission
+    Then the restricted user should have the "Administrator" permission
 
   Scenario: An administrator can see the correct menu items
     Given a user exists
