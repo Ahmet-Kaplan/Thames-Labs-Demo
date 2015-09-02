@@ -45,6 +45,7 @@ Meteor.publish("allTenants", function() {
 });
 
 Meteor.publish("activeTenantData", function(groupId) {
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Tenants.find({
     _id: groupId
   });
