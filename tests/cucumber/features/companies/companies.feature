@@ -139,14 +139,13 @@ Feature: Allow users to manage their Companies
     Then the "Companies" menu item is shown
 
   #Custom fields
-@dev
   Scenario: A user can open the "Add Custom Fields" modal
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
     And I click "#add-custom-field"
     Then I should see a modal
-@dev
+
   Scenario: A user can add a custom field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
@@ -156,7 +155,7 @@ Feature: Allow users to manage their Companies
     And I set text field with id "custom-field-text-value" to "velocity"
     And I click "#submit-custom-field"
     Then I should see ".custom-field-display-item"
-@dev
+
   Scenario: A user can edit a custom field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
@@ -165,7 +164,7 @@ Feature: Allow users to manage their Companies
     And I set text field with id "custom-field-text-value" to "velocity2"
     And I click "#submit-custom-field"
     Then "custom-field-test" should say "velocity2"
-@dev
+
   Scenario: A user can delete a custom field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
