@@ -27,21 +27,17 @@ Meteor.methods({
     return data;
   },
 
-  'addOpportunityStages': function(stage) {
-    OpportunityStages.insert({
+  'addOpportunity': function() {
+    var stage = OpportunityStages.insert({
       title: 'Stage 1',
       description: 'test description',
       order: 0
     });
-    var data = OpportunityStages.insert({
+    OpportunityStages.insert({
       title: 'Stage 2',
       description: 'test description',
       order: 1
     });
-    return data;
-  },
-
-  'addOpportunity': function() {
     var stage = OpportunityStages.findOne({order: 0});
     var date = new Date();
     var companyId = Companies.insert({

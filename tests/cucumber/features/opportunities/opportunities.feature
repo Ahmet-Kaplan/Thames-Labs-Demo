@@ -9,8 +9,6 @@ Feature: Allow users to manage their sales opportunities
     And I am a logged in user
     And I have the "CanReadCompanies" permission
     And I have the "CanReadOpportunities" permission
-    And opportunity stages have been created
-    And an "Opportunity" has been created
 
   #Reading
   Scenario: A user can see the opportunities list
@@ -24,6 +22,7 @@ Feature: Allow users to manage their sales opportunities
     Then I should not see the heading "Opportunities"
 
   Scenario: A user with read permissions can see a opportunity
+    Given an "Opportunity" has been created
     When I navigate to an opportunity page
     Then I should see the heading "test opportunity"
 
@@ -50,6 +49,7 @@ Feature: Allow users to manage their sales opportunities
   #Adding
   Scenario: A user can add an opportunity
     Given I have the "CanCreateOpportunities" permission
+    And a "Company" has been created
     When I navigate to "/opportunities"
     And I click "#create-opportunity"
     And I set text field "name" to "test opportunity 2"
@@ -81,6 +81,7 @@ Feature: Allow users to manage their sales opportunities
   #Editing
   Scenario: A user can edit an opportunity
     Given I have the "CanEditOpportunities" permission
+    And an "Opportunity" has been created
     And I navigate to an opportunity page
     And I click "#edit-opportunity"
     And I set text field "name" to "updated opportunity 2"
@@ -89,6 +90,7 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: A user without permission cannot edit an opportunity
     Given I do not have the "CanEditOpportunities" permission
+    And an "Opportunity" has been created
     When I navigate to an opportunity page
     Then I should not see "#edit-opportunity"
 
@@ -108,6 +110,7 @@ Feature: Allow users to manage their sales opportunities
   #Deleting
   Scenario: A user can delete an opportunity
     Given I have the "CanDeleteOpportunities" permission
+    And an "Opportunity" has been created
     When I navigate to an opportunity page
     And I click "#remove-opportunity"
     And I click confirm on the modal
@@ -115,6 +118,7 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: A user without permission cannot delete a opportunity
     Given I do not have the "CanDeleteOpportunities" permission
+    And an "Opportunity" has been created
     When I navigate to an opportunity page
     Then I should not see "#remove-opportunity"
 
@@ -144,6 +148,7 @@ Feature: Allow users to manage their sales opportunities
   #Opportunity Stages
   Scenario: A user can change opportunity stage
     Given I have the "CanEditOpportunities" permission
+    And an "Opportunity" has been created
     When I navigate to an opportunity page
     And I click "#next-stage"
     Then I should see "#previous-stage"
@@ -152,6 +157,7 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: A user can mark an opportunity as lost
     Given I have the "CanEditOpportunities" permission
+    And an "Opportunity" has been created
     When I navigate to an opportunity page
     And I click "#lost-opportunity"
     And I click confirm on the modal
@@ -160,6 +166,7 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user can mark an opportunity as won
     Given I have the "CanEditOpportunities" permission
     And I have the "CanReadProjects" permission
+    And an "Opportunity" has been created
     When I navigate to an opportunity page
     And I click "#next-stage"
     Then I should see "#previous-stage"
@@ -171,6 +178,7 @@ Feature: Allow users to manage their sales opportunities
   #Opportunity Line Items
   Scenario: A user can add a line item to an opportunity
     Given I have the "CanEditOpportunities" permission
+    And an "Opportunity" has been created
     When I navigate to an opportunity page
     And I click "#add-line-item"
     And I set text field "name" to "testItem1"
@@ -181,6 +189,7 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: A user can edit a line item in an opportunity
     Given I have the "CanEditOpportunities" permission
+    And an "Opportunity" has been created
     And the opportunity has a line item
     When I navigate to an opportunity page
     When I click ".edit-line-item"
@@ -190,6 +199,7 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: A user can remove a line item from an opportunity
     Given I have the "CanEditOpportunities" permission
+    And an "Opportunity" has been created
     And the opportunity has a line item
     When I navigate to an opportunity page
     When I click ".delete-line-item"
