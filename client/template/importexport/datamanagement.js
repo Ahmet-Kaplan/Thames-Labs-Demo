@@ -1,3 +1,10 @@
+Template.datamanagement.onCreated(function() {
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadDataManagement');
+  });
+});
+
 Template.datamanagement.events({
   'click #contact-template-help': function(event) {
     event.preventDefault();

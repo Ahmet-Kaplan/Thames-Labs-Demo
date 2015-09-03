@@ -1,3 +1,10 @@
+Template.events.onCreated(function() {
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadEventLog');
+  });
+});
+
 Template.events.helpers({
   events: function() {
     return AuditLog.find({});

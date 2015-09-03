@@ -236,7 +236,7 @@ Meteor.methods({
         });
       });
 
-      SSR.compileTemplate('emailText', Assets.getText('emailtemplate.html'));
+      SSR.compileTemplate('emailText', Assets.getText('email-template.html'));
       Template.emailText.helpers({
         getDoctype: function() {
           return '!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';

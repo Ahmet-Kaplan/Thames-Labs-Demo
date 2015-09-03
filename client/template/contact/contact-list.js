@@ -1,3 +1,10 @@
+Template.contactList.onCreated(function() {
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadContacts');
+  });
+});
+
 Template.contactList.onRendered(function() {
   var sidebar = $('.sidebar');
   sidebar.affix({
@@ -26,7 +33,6 @@ Template.contactListItem.helpers({
     var comp = Companies.findOne({
       _id: contact.companyId
     });
-
     if (comp) {
       return comp.name;
     } else {

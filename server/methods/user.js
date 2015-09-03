@@ -47,7 +47,7 @@ Meteor.methods({
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 
-    SSR.compileTemplate('emailText', Assets.getText('emailtemplate.html'));
+    SSR.compileTemplate('emailText', Assets.getText('email-template.html'));
     Template.emailText.helpers({
       getDoctype: function() {
         return '!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
@@ -123,7 +123,7 @@ Meteor.methods({
              + "The RealtimeCRM Team";
     };
     Accounts.emailTemplates.enrollAccount.html = function(user, url) {
-      SSR.compileTemplate('emailText', Assets.getText('emailenrolltemplate.html'));
+      SSR.compileTemplate('emailText', Assets.getText('email-enroll-template.html'));
       Template.emailText.helpers({
         getDoctype: function() {
           return '!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
