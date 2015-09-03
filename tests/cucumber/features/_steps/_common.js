@@ -89,10 +89,7 @@ module.exports = function() {
   this.When(/^I click "([^"]*)"$/, function(id, callback) {
   this.client
     .waitForVisible(id, 2000)
-    .execute(function(id) {
-      var y = $(id).offset().top - 60;
-      $("body").scrollTop(y);
-    }, id)
+    .scroll(id, 0, -60)
     .click(id)
     .call(callback);
   });
@@ -200,6 +197,7 @@ module.exports = function() {
 
   this.Then(/^"([^"]*)" should say "([^"]*)"$/, function(selector, desiredText, callback) {
     this.client
+      .scroll("#" + selector, 0, -60)
       .getText("#" + selector)
       .then(function(text) {
         expect(text).to.equal(desiredText);
