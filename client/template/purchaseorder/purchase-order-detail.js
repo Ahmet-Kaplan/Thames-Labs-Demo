@@ -14,13 +14,16 @@ Template.purchaseOrderDetail.onCreated(function() {
 });
 
 Template.purchaseOrderDetail.onRendered(function() {
-  // Affix sidebar
   var sidebar = $('.sidebar');
-  sidebar.affix({
-    offset: {
-      top: sidebar.offset().top
+  if (sidebar) {
+    if (!bowser.mobile && !bowser.tablet) {
+      sidebar.affix({
+        offset: {
+          top: sidebar.offset().top
+        }
+      });
     }
-  });
+  }
 
   $.getScript('/vendor/docxgen.min.js');
 });

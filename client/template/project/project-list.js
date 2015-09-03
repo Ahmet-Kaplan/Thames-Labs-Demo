@@ -7,11 +7,15 @@ Template.projectsList.onCreated(function() {
 
 Template.projectsList.onRendered(function() {
   var sidebar = $('.sidebar');
-  sidebar.affix({
-    offset: {
-      top: sidebar.offset().top
+  if (sidebar) {
+    if (!bowser.mobile && !bowser.tablet) {
+      sidebar.affix({
+        offset: {
+          top: sidebar.offset().top
+        }
+      });
     }
-  });
+  }
 
   // Watch for session variable setting search
   Session.set('projectListSearchQuery', null);

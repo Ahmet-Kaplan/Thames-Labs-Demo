@@ -13,11 +13,15 @@ Template.opportunityList.onDestroyed(function() {
 
 Template.opportunityList.onRendered(function() {
   var sidebar = $('.sidebar');
-  sidebar.affix({
-    offset: {
-      top: sidebar.offset().top
+  if (sidebar) {
+    if (!bowser.mobile && !bowser.tablet) {
+      sidebar.affix({
+        offset: {
+          top: sidebar.offset().top
+        }
+      });
     }
-  });
+  }
 
   // Watch for session variable setting search
   Session.set('opportunitySearchQuery', null);
