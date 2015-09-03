@@ -12,13 +12,37 @@ Template.registerHelper('decimal', function(number) {
   return parseFloat(number).toFixed(2);
 });
 
+setRouteDetails = function(title) {
+  var user = Meteor.users.find({
+    _id: Meteor.userId()
+  }).fetch()[0];
+
+  if (user) {
+
+    var profile = user.profile;
+    if (profile) {
+      profile.lastActivity = {
+        page: title,
+        url: FlowRouter.current().path
+      };
+
+      Meteor.users.update(user._id, {
+        $set: {
+          profile: profile
+        }
+      });
+    }
+
+  }
+};
+
 Template.registerHelper("setPageTitle", function() {
   var title = "";
   for (var i = 0; i<arguments.length - 1; i++) {
     title += arguments[i];
   }
   document.title = title;
-  SetRouteDetails(title);
+  setRouteDetails(title);
 });
 
 Template.registerHelper("getDomainFromUrl", function(url) {

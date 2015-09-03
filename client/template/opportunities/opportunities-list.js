@@ -1,3 +1,10 @@
+Template.opportunityList.onCreated(function() {
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
+  });
+});
+
 Template.opportunityList.onDestroyed(function() {
   Session.set('opportunitySearchQuery', null);
   Session.set('opportunitySearchShowArchived', false);

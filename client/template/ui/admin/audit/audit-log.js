@@ -2,9 +2,9 @@ Template.auditLog.events({
   'click #clear-audit-log': function() {
     Meteor.call('clearAuditLog', function(error, result) {
       if (error) {
-        LogEvent('fatal', 'Could not clear the audit log: ' + error);
+        logEvent('fatal', 'Could not clear the audit log: ' + error);
       } else {
-        LogEvent('verbose', 'Audit log cleared.');
+        logEvent('verbose', 'Audit log cleared.');
       }
     });
   }

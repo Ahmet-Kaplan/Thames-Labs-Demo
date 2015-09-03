@@ -6,6 +6,11 @@ Template.projectDetail.onCreated(function() {
        FlowRouter.go('projects');
      }
   });
+
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadProjects');
+  });
 });
 
 Template.projectDetail.onRendered(function() {
@@ -44,7 +49,22 @@ Template.projectDetail.helpers({
     return c.forename + " " + c.surname;
   },
   opportunityId: function() {
-    return Opportunities.findOne({projectId: this._id})._id;
+    var opp = Opportunities.findOne({projectId: this._id});
+    if (opp) return opp._id;
+  },
+  friendlyDueDate: function() {
+    return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
+  },
+  staffList: function() {
+    var staffList = "";
+    for (var i = 0; i < this.staff.length; i++) {
+      var name = Meteor.users.find({
+        _id: this.staff[i]
+      }).fetch()[0].profile.name;
+      staffList = staffList + name + ", ";
+    }
+    staffList = staffList.substring(0, staffList.length - 2);
+    return staffList;
   }
 });
 

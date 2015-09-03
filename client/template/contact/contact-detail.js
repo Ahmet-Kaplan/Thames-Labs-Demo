@@ -12,6 +12,11 @@ Template.contactDetail.onCreated(function() {
     // Update company subscription if contact record changes (e.g. we change company)
     self.subscribe('companyById', contact.companyId);
   });
+
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadContacts');
+  });
 });
 
 Template.contactDetail.onRendered(function() {
