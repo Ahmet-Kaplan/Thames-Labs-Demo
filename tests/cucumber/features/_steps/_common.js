@@ -89,7 +89,10 @@ module.exports = function() {
   this.When(/^I click "([^"]*)"$/, function(id, callback) {
   this.client
     .waitForVisible(id, 2000)
-    .scroll(id)
+    .execute(function(id) {
+      var y = $(id).offset().top - 60;
+      $("body").scrollTop(y);
+    }, id)
     .click(id)
     .call(callback);
   });
