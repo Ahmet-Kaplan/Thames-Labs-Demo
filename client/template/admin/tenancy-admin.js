@@ -1,3 +1,10 @@
+Template.tenancyAdminPage.onCreated(function() {
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'Administrator');
+  });
+});
+
 Template.tenancyAdminPage.helpers({
   tenantUsers: function() {
     return Meteor.users.find({

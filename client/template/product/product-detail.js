@@ -6,6 +6,11 @@ Template.productDetail.onCreated(function() {
       FlowRouter.go('products');
     }
   });
+
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadProducts');
+  });
 });
 
 Template.productDetail.helpers({
@@ -32,12 +37,12 @@ Template.productDetail.events({
 
   'click #edit-product': function(event) {
     event.preventDefault();
-    Modal.show('updateProductModal', this);
+    Modal.show('editProductModal', this);
   },
 });
 
 AutoForm.hooks({
-  updateProductForm: {
+  editProductForm: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Product updated.');

@@ -49,6 +49,10 @@ Meteor.methods({
       throw new Meteor.Error(403, 'Only administrators can set user roles');
     }
 
+    if(roleName == 'superadmin') {
+      throw new Meteor.Error(403, 'Not allowed to set permission to superadmin');
+    }
+
     var user = Meteor.users.findOne(userId);
     if (user) {
       if (value === true && !Roles.userIsInRole(userId, roleName)) {
