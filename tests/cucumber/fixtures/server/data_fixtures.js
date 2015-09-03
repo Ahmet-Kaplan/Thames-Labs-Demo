@@ -24,6 +24,43 @@ Meteor.methods({
     });
   },
 
+  addContact: function() {
+    var userId = Meteor.userId();
+    return Contacts.insert({
+      "title": "Mr",
+      "forename": "Testy",
+      "surname": "Surname",
+      "email": "testy@surname.com",
+      "createdBy": userId,
+      "customFields": {
+        test: {
+          dataValue: "velocity",
+          dataType: "text"
+        }
+      }
+    });
+  },
+
+  addContactForCompany: function() {
+    var companyId = Companies.insert({
+      name: "Test Ltd",
+      address: "address",
+      city: "city",
+      postcode: "postcode",
+      country: "country",
+      createdBy: Meteor.userId()
+    });
+    console.log(companyId);
+    return Contacts.insert({
+      title: "Mr",
+      forename: "Testy",
+      surname: "Surname",
+      email: "testy@surname.com",
+      createdBy: Meteor.userId(),
+      companyId: companyId
+    });
+  },
+
   addProduct: function() {
     var data = Products.insert({
       name: 'test product',
