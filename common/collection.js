@@ -264,23 +264,11 @@ Tenants.before.update(function(userId, doc, fieldNames, modifier, options) {
   if(!Roles.userIsInRole(userId, ['superadmin', 'Administrator'])) {
     throw new Meteor.Error(403, 'Only admin users can do updates.');
   }
-  /*if(doc.paying === true) {
-    if(Meteor.isServer) {
-      var Stripe = StripeAPI(process.env.STRIPE_SK);
-      Stripe.customers.retrieve(doc.stripeId, function(err, customer) {
-        if(err) {
-          throw new Meteor.Error('Error', err);
-        }
-        Stripe.customers.retrieveSubscription(doc.stripeId, doc.stripeSubs, function(err, subs) {
-          if(err) {
-            throw new Meteor.Error('Error', err);
-          } else if(subs.status != "active") {
-            throw new Meteor.Error('invalid', 'Your subscription seems to be invalid.');
-          }
-        });
-      });
+  if(modifier.$set !== undefined && modifier.$set.paying === true) {
+    if(modifier.$set.stripeSubs === undefined && doc.stripeSubs === undefined) {
+      throw new Meteor.Error('Missing', 'The subscription ID is missing.');
     }
-  }*/
+  }
 })
 Tenants.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.name !== this.previous.name) {

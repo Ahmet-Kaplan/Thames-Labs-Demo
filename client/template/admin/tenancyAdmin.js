@@ -1,15 +1,3 @@
-Template.tenancyAdminPage.onRendered(function() {
-  handler = StripeCheckout.configure({
-    key: 'pk_test_W7Cx4LDFStOIaJ2g5DufAIaE',
-    locale: 'auto',
-    token: function(token) {
-      Meteor.call('tenantSubscription', token)
-      // Use the token to create the charge with a server-side script.
-      // You can access the token ID with `token.id`
-    }
-  });
-});
-
 Template.tenancyAdminPage.helpers({
   tenantUsers: function() {
     return Meteor.users.find({
@@ -21,8 +9,14 @@ Template.tenancyAdminPage.helpers({
   payingScheme: function() {
     return Tenants.findOne({}).paying;
   },
+  hasStripeAccount: function() {
+    return !(Tenants.findOne({}).stripeId === undefined || Tenants.findOne({}).stripeId === '');
+  },
   lockedUser: function() {
     return Tenants.findOne({}).limit === -1;
+  },
+  tenantFound: function() {
+    return !!Tenants.findOne({});
   }
 });
 
@@ -34,9 +28,19 @@ Template.tenancyAdminPage.events({
   'click #upScheme': function(e) {
     Modal.show('stripeSubscribe', this);
   },
+
+  'click #reUpScheme': function(e) {
+    Modal.show('stripeResubscribe', this);
+  },
+
+  'click #downScheme': function(e) {
+    Modal.show('stripeUnsubscribe', this);
+  },
+
   'click #addNewUserAccount': function() {
     Modal.show('addNewUser', this);
   },
+
   'click #tenantRemoveUser': function() {
     event.preventDefault();
     self = this;
