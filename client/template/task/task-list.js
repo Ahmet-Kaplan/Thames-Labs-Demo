@@ -1,5 +1,12 @@
 Session.set('showCompleted', 1);
 
+Template.taskList.onCreated(function() {
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadTasks');
+  });
+});
+
 Template.taskList.helpers({
   showComp: function() {
     return (Session.get('showCompleted') === 1 ? true : false);

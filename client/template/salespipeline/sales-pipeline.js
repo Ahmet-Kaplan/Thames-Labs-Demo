@@ -1,3 +1,10 @@
+Template.salesPipeline.onCreated(function() {
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
+  });
+});
+
 Template.salesPipeline.onRendered(function() {
   Session.set('currentStageId', null);
   $.getScript('/vendor/d3-funnel.js', function(data, textStatus, jqxhr) {
@@ -38,6 +45,10 @@ Template.salesPipeline.onRendered(function() {
   });
 });
 
+Template.salesPipeline.onDestroyed(function() {
+  $(window).unbind('resize');
+});
+
 Template.salesPipeline.helpers({
   hasData: function() {
     return (Opportunities.find({}).count() > 0);
@@ -53,8 +64,4 @@ Template.salesPipeline.helpers({
     var id = Session.get('currentStageId');
     return Opportunities.find({currentStageId: id}).fetch();
   }
-});
-
-Template.salesPipeline.onDestroyed(function() {
-  $(window).unbind('resize');
 });

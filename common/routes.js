@@ -21,7 +21,6 @@ var normalUserOnly = function(context, redirect) {
 
 var loggedOutUserOnly = function(context, redirect) {
   var user = Meteor.user();
-
   if (user) {
     redirect('dashboard');
   }
@@ -31,7 +30,7 @@ var permissionRequired = function() {
   // Returns a function which tests for the permissions given as arguments
   var args = _.toArray(arguments);
   return function(context, redirect) {
-    if (!Roles.userIsInRole(Meteor.userId(), args)) {
+    if (Meteor.user() && !Roles.userIsInRole(Meteor.userId(), args)) {
       redirect('dashboard');
     }
   };

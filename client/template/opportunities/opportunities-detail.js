@@ -6,6 +6,11 @@ Template.opportunityDetail.onCreated(function() {
       FlowRouter.go('opportunities');
     }
   });
+
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
+  });
 });
 
 Template.opportunityDetail.onRendered(function() {
