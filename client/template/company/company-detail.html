@@ -36,7 +36,7 @@
       </h4>
       <h1 id="company-details" class="entity-name">{{name}}</h1>
 
-      {{> tagInput}}
+      {{> tagInput tags=tags collection='companies' entityId=_id permissionToEdit='CanCreateCompanies'}}
 
       <div class="panel panel-default" id="company-details-panel">
         <div class="panel-heading">
@@ -118,7 +118,7 @@
         {{#if isInRole 'Administrator,CanEditCompanies'}} {{#with this}} {{> customFieldDisplay entity_data=this entity_type='company'}} {{/with}} {{/if}}
       </div>
 
-      
+
       {{#if isInRole 'Administrator,CanReadOpportunities'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="opportunities">
