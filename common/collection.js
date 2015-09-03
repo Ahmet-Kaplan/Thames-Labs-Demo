@@ -526,7 +526,7 @@ Activities.after.remove(function(userId, doc) {
   }
 
   var content = TagStripper.strip(doc.notes, "", "", false);
-  LogEvent('info', 'An existing activity has been deleted: ' + content + ' (' + entityName + ")");
+  logEvent('info', 'An existing activity has been deleted: ' + content + ' (' + entityName + ")");
 });
 
 

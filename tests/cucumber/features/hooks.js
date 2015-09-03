@@ -1,9 +1,12 @@
-module.exports = function() {
+module.exports = function( ) {
 
   // called before each scenario
-  // analogous to a router onBeforeAction
   this.Before(function(event, callback) {
-     this.server.call('reset', callback);
-    // do things
+    this.client.setViewportSize({
+      width: 1000,
+      height: 750
+    })
+    this.server.call('reset', callback);
   });
+
 };
