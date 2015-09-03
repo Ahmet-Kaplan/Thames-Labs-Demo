@@ -138,6 +138,7 @@ Feature: Allow users to manage their Companies
     Given I have the "CanReadCompanies" permission
     Then the "Companies" menu item is shown
 
+
   #Custom fields
   Scenario: A user can open the "Add Custom Fields" modal
     Given I have the "CanEditCompanies" permission
@@ -172,3 +173,29 @@ Feature: Allow users to manage their Companies
     Then I click "#delete-custom-field"
     Then I click confirm on the modal
     Then I should not see ".custom-field-display-item"
+
+  #Maps
+  Scenario: A user can do a location search and see the map when creating a company
+    Given I have the "CanCreateCompanies" permission
+    When I navigate to "/companies"
+    And I click "#add-company"
+    And I search for Cowley Road
+    Then the field "postcode" should contain "CB4"
+    And I should see a map
+
+  Scenario: A user can see the map on a company's page
+    Given I have the "CanCreateCompanies" permission
+    Given a "Company" has been created
+    When I navigate to a company page
+    Then I should see the heading "Address"
+    And I should see a map
+
+  Scenario: A user can do a location search and see the map when editing a company's details
+    Given I have the "CanEditCompanies" permission
+    And a "Company" has been created
+    When I navigate to a company page
+    And I click "#edit-company"
+    And I click "#show-map"
+    When I search for Cowley Road
+    Then the field "postcode" should contain "CB4"
+    And I should see a map

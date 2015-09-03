@@ -211,6 +211,16 @@ module.exports = function() {
       .call(callback);
   });
 
+  this.Then(/^the field "([^"]*)" should contain "([^"]*)"$/, function(fieldName, fieldValue, callback) {
+    this.client
+      .waitForVisible('input[name=' + fieldName +']', 2000)
+      .timeoutsImplicitWait(2000)
+      .getValue('input[name=' + fieldName +']').then(function(text) {
+        expect(text).to.contain(fieldValue);
+      })
+      .call(callback);
+  });
+
   this.Then(/^debug$/, function(menuText, callback) {
     this.client
       .debug()
