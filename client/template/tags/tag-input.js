@@ -58,7 +58,7 @@ Template.tagInput.onRendered(function() {
           permissionToEdit = self.data.permissionToEdit;
       self.autorun(function() {
         var userId = Meteor.userId();
-        if (permissionToEdit && !Roles.userIsInRole(userId, permissionToEdit)) {
+        if (permissionToEdit && !Roles.userIsInRole(userId, ['Administrator', permissionToEdit])) {
           tagInput.lock();
         } else {
           tagInput.unlock();
