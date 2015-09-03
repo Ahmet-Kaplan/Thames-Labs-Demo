@@ -6,6 +6,11 @@ Template.projectDetail.onCreated(function() {
        FlowRouter.go('projects');
      }
   });
+
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadProjects');
+  });
 });
 
 Template.projectDetail.onRendered(function() {

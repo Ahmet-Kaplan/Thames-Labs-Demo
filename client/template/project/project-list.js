@@ -1,3 +1,10 @@
+Template.projectsList.onCreated(function() {
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadProjects');
+  });
+});
+
 Template.projectsList.onRendered(function() {
   var sidebar = $('.sidebar');
   sidebar.affix({

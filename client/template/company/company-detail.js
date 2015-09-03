@@ -8,6 +8,11 @@ Template.companyDetail.onCreated(function() {
       Meteor.call('getClearbitData', 'company', company._id);
     }
   });
+
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
+  });
 });
 
 Template.companyDetail.onRendered(function() {

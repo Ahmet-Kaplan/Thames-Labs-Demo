@@ -1,5 +1,6 @@
 Template.footer.helpers({
   tenantName: function() {
-    return Tenants.findOne({}).name;
+    var tenant = Tenants.findOne({});
+    return !!tenant ? tenant.name : null;
   }
 });

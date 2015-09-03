@@ -21,10 +21,19 @@ var normalUserOnly = function(context, redirect) {
 
 var loggedOutUserOnly = function(context, redirect) {
   var user = Meteor.user();
-
   if (user) {
     redirect('dashboard');
   }
+};
+
+var permissionRequired = function() {
+  // Returns a function which tests for the permissions given as arguments
+  var args = _.toArray(arguments);
+  return function(context, redirect) {
+    if (Meteor.user() && !Roles.userIsInRole(Meteor.userId(), args)) {
+      redirect('dashboard');
+    }
+  };
 };
 
 var tidyUpModals = function(context) {
@@ -45,13 +54,13 @@ var tidyUpModals = function(context) {
 };
 
 // These functions add the triggers to routes globally
-var adminRoutes = ['tenants', 'notifications', 'statistics', 'audit'];
+var superAdminRoutes = ['tenants', 'notifications', 'statistics', 'audit'];
 var loggedOutRoutes = ['sign-up'];
 router.triggers.enter(superAdminOnly, {
-  only: adminRoutes
+  only: superAdminRoutes
 });
 router.triggers.enter(normalUserOnly, {
-  except: adminRoutes
+  except: superAdminRoutes
 });
 router.triggers.enter(loggedOutUserOnly, {
   only: loggedOutRoutes
@@ -64,8 +73,8 @@ router.subscriptions = function() {
   this.register('userPresence', Meteor.subscribe('userPresence'));
   this.register('allNotifications', Meteor.subscribe('allNotifications'));
   this.register('auditData', Meteor.subscribe('auditData'));
-  this.register('currentTenantUserData', subs.subscribe('currentTenantUserData', group));
-  this.register('activeTenantData', subs.subscribe('activeTenantData', group));
+  this.register('currentTenantUserData', Meteor.subscribe('currentTenantUserData', group));
+  this.register('activeTenantData', Meteor.subscribe('activeTenantData', group));
 };
 
 router.notFound = {
@@ -76,7 +85,7 @@ router.notFound = {
   }
 };
 
-// ADMIN only route
+// SUPERADMIN only route
 router.route('/tenants', {
   name: 'tenants',
   subscriptions: function() {
@@ -90,7 +99,7 @@ router.route('/tenants', {
   }
 });
 
-// ADMIN only route
+// SUPERADMIN only route
 router.route('/notifications', {
   name: 'notifications',
   subscriptions: function() {
@@ -103,7 +112,7 @@ router.route('/notifications', {
   }
 });
 
-// ADMIN only route
+// SUPERADMIN only route
 router.route('/statistics', {
   name: 'statistics',
   subscriptions: function() {
@@ -117,7 +126,7 @@ router.route('/statistics', {
   }
 });
 
-// ADMIN only route
+// SUPERADMIN only route
 router.route('/audit', {
   name: 'audit',
   subscriptions: function() {
@@ -166,11 +175,7 @@ router.route('/admin', {
       main: "tenancyAdminPage"
     });
   },
-  /*triggersEnter: [function(context, redirect) {
-    if (!Roles.userIsInRole(Meteor.userId(), 'Administrator')) {
-      redirect('dashboard');
-    }
-  }] */
+  triggersEnter: [permissionRequired('Administrator')]
 });
 
 router.route('/companies', {
@@ -183,11 +188,7 @@ router.route('/companies', {
       main: 'companyList'
     });
   },
-  // triggersEnter: [function(context, redirect) {
-  //   if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadCompanies'])) {
-  //     redirect('dashboard');
-  //   }
-  // }]
+  triggersEnter: [permissionRequired('Administrator', 'CanReadCompanies')]
 });
 
 router.route('/companies/:id', {
@@ -208,11 +209,7 @@ router.route('/companies/:id', {
       main: 'companyDetail'
     });
   },
-  // triggersEnter: [function(context, redirect) {
-  //   if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadCompanies'])) {
-  //     redirect('dashboard');
-  //   }
-  // }]
+  triggersEnter: [permissionRequired('Administrator', 'CanReadCompanies')]
 });
 
 router.route('/contacts', {
@@ -226,11 +223,7 @@ router.route('/contacts', {
       main: 'contactList'
     });
   },
-  // triggersEnter: [function(context, redirect) {
-  //   if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadContacts'])) {
-  //     redirect('dashboard');
-  //   }
-  // }]
+  triggersEnter: [permissionRequired('Administrator', 'CanReadContacts')]
 });
 
 router.route('/contacts/:id', {
@@ -250,11 +243,7 @@ router.route('/contacts/:id', {
       main: 'contactDetail'
     });
   },
-  // triggersEnter: [function(context, redirect) {
-  //   if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadContacts'])) {
-  //     redirect('dashboard');
-  //   }
-  // }]
+  triggersEnter: [permissionRequired('Administrator', 'CanReadContacts')]
 });
 
 router.route('/projects', {
@@ -269,11 +258,7 @@ router.route('/projects', {
       main: 'projectsList'
     });
   },
-  // triggersEnter: [function(context, redirect) {
-  //   if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProjects'])) {
-  //     redirect('dashboard');
-  //   }
-  // }]
+  triggersEnter: [permissionRequired('Administrator', 'CanReadProjects')]
 });
 
 router.route('/projects/:id', {
@@ -292,11 +277,7 @@ router.route('/projects/:id', {
       main: 'projectDetail'
     });
   },
-  // triggersEnter: [function(context, redirect) {
-  //   if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProjects'])) {
-  //     redirect('dashboard');
-  //   }
-  // }]
+  triggersEnter: [permissionRequired('Administrator', 'CanReadProjects')]
 });
 
 router.route('/purchaseorders', {
@@ -312,11 +293,7 @@ router.route('/purchaseorders', {
       main: 'purchaseOrderList'
     });
   },
-  // triggersEnter: [function(context, redirect) {
-  //   if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadPurchaseOrders'])) {
-  //     redirect('dashboard');
-  //   }
-  // }]
+  triggersEnter: [permissionRequired('Administrator', 'CanReadPurchaseOrders')]
 });
 
 router.route('/purchaseorders/:id', {
@@ -336,11 +313,7 @@ router.route('/purchaseorders/:id', {
       main: 'purchaseOrderDetail'
     });
   },
-  // triggersEnter: [function(context, redirect) {
-  //   if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadPurchaseOrders'])) {
-  //     redirect('dashboard');
-  //   }
-  // }]
+  triggersEnter: [permissionRequired('Administrator', 'CanReadPurchaseOrders')]
 });
 
 router.route('/tasks', {
@@ -353,11 +326,7 @@ router.route('/tasks', {
       main: 'taskList'
     });
   },
-  // triggersEnter: [function(context, redirect) {
-  //   if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadTasks'])) {
-  //     redirect('dashboard');
-  //   }
-  // }]
+  triggersEnter: [permissionRequired('Administrator', 'CanReadTasks')]
 });
 
 router.route('/datamanagement', {
@@ -371,11 +340,7 @@ router.route('/datamanagement', {
       main: 'datamanagement'
     });
   },
-  // triggersEnter: [function(context, redirect) {
-  //   if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadDataManagement'])) {
-  //     redirect('dashboard');
-  //   }
-  // }]
+  triggersEnter: [permissionRequired('Administrator', 'CanReadDataManagement')]
 });
 
 router.route('/events', {
@@ -393,11 +358,7 @@ router.route('/events', {
       main: "events"
     });
   },
-  // triggersEnter: [function(context, redirect) {
-  //   if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadEventLog'])) {
-  //     redirect('dashboard');
-  //   }
-  // }]
+  triggersEnter: [permissionRequired('Administrator', 'CanReadEventLog')]
 });
 
 router.route('/products', {
@@ -410,11 +371,7 @@ router.route('/products', {
       main: 'productList'
     });
   },
-  // triggersEnter: [function(context, redirect) {
-  //   if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProducts'])) {
-  //     redirect('dashboard');
-  //   }
-  // }]
+  triggersEnter: [permissionRequired('Administrator', 'CanReadProducts')]
 });
 
 router.route('/products/:id', {
@@ -427,11 +384,7 @@ router.route('/products/:id', {
       main: 'productDetail'
     });
   },
-  // triggersEnter: [function(context, redirect) {
-  //   if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProducts'])) {
-  //     redirect('dashboard');
-  //   }
-  // }]
+  triggersEnter: [permissionRequired('Administrator', 'CanReadProducts')]
 });
 
 router.route('/opportunities', {
@@ -447,7 +400,8 @@ router.route('/opportunities', {
     layout.render('appLayout', {
       main: 'opportunityList'
     });
-  }
+  },
+  triggersEnter: [permissionRequired('Administrator', 'CanReadOpportunities')]
 });
 
 router.route('/opportunities/:id', {
@@ -465,7 +419,8 @@ router.route('/opportunities/:id', {
     layout.render('appLayout', {
       main: 'opportunityDetail'
     });
-  }
+  },
+  triggersEnter: [permissionRequired('Administrator', 'CanReadOpportunities')]
 });
 
 router.route('/salespipeline', {
@@ -478,5 +433,6 @@ router.route('/salespipeline', {
     layout.render('appLayout', {
       main: 'salesPipeline'
     });
-  }
+  },
+  triggersEnter: [permissionRequired('Administrator', 'CanReadOpportunities')]
 });

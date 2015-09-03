@@ -6,6 +6,11 @@ Template.purchaseOrderDetail.onCreated(function() {
       FlowRouter.go('purchaseOrders');
     }
   });
+
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
+  });
 });
 
 Template.purchaseOrderDetail.onRendered(function() {
