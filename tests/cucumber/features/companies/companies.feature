@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to manage their Companies
 
   As a user of the app
@@ -108,7 +109,7 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     And I click "#remove-company"
     And I click confirm on the modal
-    Then I should see "#mchNoCompaniesPlaceholder"
+    Then I should see the heading "Companies"
 
   Scenario: A user without permission cannot delete a company
     Given I do not have the "CanDeleteCompanies" permission
