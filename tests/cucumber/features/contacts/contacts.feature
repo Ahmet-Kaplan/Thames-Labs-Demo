@@ -18,7 +18,7 @@ Feature: Allow users to manage their Contacts
   Scenario: A user without permission cannot see the contacts list
     Given I do not have the "CanReadContacts" permission
     When I navigate to "/contacts"
-    Then I should not see the heading "Contacts"
+    Then I should see the heading "Dashboard"
 
   Scenario: A user with read permissions can see a contact
     Given a "Contact" has been created

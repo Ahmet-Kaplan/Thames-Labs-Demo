@@ -1,4 +1,3 @@
-@dev
 Feature: Allow users to manage their Companies
 
   As a user of the app
@@ -19,7 +18,7 @@ Feature: Allow users to manage their Companies
   Scenario: A user without permission cannot see the companies list
     Given I do not have the "CanReadCompanies" permission
     When I navigate to "/companies"
-    Then I should not see the heading "Companies"
+    Then I should see the heading "Dashboard"
 
   Scenario: A user with read permissions can see a company
     Given a "Company" has been created

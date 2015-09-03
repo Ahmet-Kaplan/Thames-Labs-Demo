@@ -19,7 +19,7 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user without permission cannot see the opportunities list
     Given I do not have the "CanReadOpportunities" permission
     When I navigate to "/opportunities"
-    Then I should not see the heading "Opportunities"
+    Then I should see the heading "Dashboard"
 
   Scenario: A user with read permissions can see a opportunity
     Given an "Opportunity" has been created

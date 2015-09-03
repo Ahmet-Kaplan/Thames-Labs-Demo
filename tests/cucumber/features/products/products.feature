@@ -18,7 +18,7 @@ Feature: Allow users to manage their Products
   Scenario: A user without permission cannot see the products list
     Given I do not have the "CanReadProducts" permission
     When I navigate to "/products"
-    Then I should not see the heading "Products"
+    Then I should see the heading "Dashboard"
 
   Scenario: A user with read permissions can see a product
     Given a "Product" has been created

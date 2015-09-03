@@ -42,4 +42,33 @@ Feature: Allow administrators to give users permissions
     When I click "#general-dropdown"
     Then I should not see "#Administration"
     When I navigate to "/admin"
-    Then I should not see the heading "Administration"
+    Then I should see the heading "Dashboard"
+
+  Scenario: An administrator can see the 'Administration' button
+    Given a user exists
+    And I am a logged in user
+    And I have the "Administrator" permission
+    When I navigate to "/"
+    And I click "#general-dropdown"
+    Then I should see the "#Administration" button
+
+  Scenario: An administrator can add a new user
+    Given a user exists
+    And I am a logged in user
+    And I have the "Administrator" permission
+    When I click "#general-dropdown"
+    And I click "#Administration"
+    And I click "#userAdminPanelExpander"
+    And I click "#addNewUserAccount"
+    And I set text field "name" to "User Name"
+    And I set text field "email" to "user.name@domain.com"
+    And I submit the "addNewUser" form
+    Then I should see a success toastr
+
+  Scenario: A normal user can't see the 'Administration' button
+    Given a user exists
+    And I am a logged in user
+    And I do not have the "Administrator" permission
+    When I navigate to "/"
+    And I click "#general-dropdown"
+    Then I should not see the "#Administration" button
