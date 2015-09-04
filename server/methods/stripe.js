@@ -145,7 +145,7 @@ Meteor.methods({
       if(err) {
         throw new Meteor.Error('Card', 'Unable to add new card');
       }
-      newStripeCard.return(customer);
+      newStripeCard.return(customer.sources.data[0]);
     });
 
     return newStripeCard.wait();

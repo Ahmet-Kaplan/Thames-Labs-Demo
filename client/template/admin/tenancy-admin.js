@@ -3,6 +3,7 @@ Template.tenancyAdminPage.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'Administrator');
   });
+  Meteor.subscribe('activeTenantData', Meteor.user().group);
 });
 
 Template.tenancyAdminPage.helpers({
@@ -54,7 +55,14 @@ Template.tenancyAdminPage.events({
 
     bootbox.confirm("Are you sure you wish to remove the user" + this.name + "?<br />This action is not reversible.", function(result) {
       if (result === true) {
-        Meteor.call('removeUser', self._id);
+        Meteor.call('removeUser', self._id, function(error, response) {
+          if(error) {
+            toastr.error('Unable to remove user. ' + error);
+            throw new Meteor.Error('User', 'Unable to remove user.');
+          }
+
+          toastr.success('User has been removed.');
+        });
       }
     });
   }

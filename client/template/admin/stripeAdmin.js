@@ -36,6 +36,7 @@ Template.stripeSubscribe.events({
                 throw new Meteor.Error('Undefined', 'Unable to create stripe subscription, ' + error);
               }
               Modal.hide();
+              toastr.clear();
               toastr.success('Your subscription has been successful.');
             });
           });
@@ -78,6 +79,7 @@ Template.stripeResubscribe.events({
         throw new Meteor.Error('Undefined', 'Unable to create stripe subscription, ' + error);
       }
       Modal.hide();
+      toastr.clear();
       toastr.success('Your subscription has been successful.');
     });
   },
@@ -115,7 +117,7 @@ Template.stripeResubscribe.events({
               toastr.error('Unable to update card details');
               throw new Meteor.Error('Card error', 'Unable to update card details.')
             }
-            Modal.hide();
+            toastr.clear();
             toastr.success('Your card details have been updated.');
             $('#cardDetails').empty();
             $('.modal-footer').show();
@@ -144,6 +146,7 @@ Template.stripeUnsubscribe.events({
         throw new Meteor.Error('Undefined', 'Unable to cancel stripe subscription, ' + error);
       }
       Modal.hide();
+      toastr.clear();
       toastr.success('Your subscription has successfully been cancelled.');
     });
   }

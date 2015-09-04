@@ -45,8 +45,6 @@ Meteor.methods({
       Partitioner.setUserGroup(userId, doc.group);
     }
 
-    LogServerEvent('verbose', 'User created', 'user', userId);
-
     SSR.compileTemplate('emailText', Assets.getText('email-template.html'));
     Template.emailText.helpers({
       getDoctype: function() {
@@ -75,6 +73,8 @@ Meteor.methods({
       subject: 'Your RealTimeCRM details',
       html: html
     });
+
+    LogServerEvent('verbose', 'User created', 'user', userId);
   },
 
   addTenantUser: function(doc) {
@@ -103,8 +103,6 @@ Meteor.methods({
 
     // Add user to a group (partition) based on customer id
     Partitioner.setUserGroup(userId, Partitioner.getUserGroup(adminId));
-
-    LogServerEvent('verbose', 'User created', 'user', userId);
 
     Accounts.emailTemplates.from = "RealTimeCRM Team <admin@realtimecrm.co.uk>";
     Accounts.emailTemplates.siteName = "RealtimeCRM";
@@ -143,6 +141,8 @@ Meteor.methods({
     };
 
     Accounts.sendEnrollmentEmail(userId);
+
+    LogServerEvent('verbose', 'User created', 'user', userId);
   }
 
 });
