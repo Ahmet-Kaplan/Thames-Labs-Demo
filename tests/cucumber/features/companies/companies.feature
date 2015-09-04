@@ -216,3 +216,11 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     And I set text field with selector ".tag-input input" to "test tag"
     Then the field with selector ".tag-input input" should not contain "test tag"
+
+  @dev
+  Scenario: A user with the Administrator permission can edit tags
+    Given I have the "Administrator" permission
+    And a "Company" has been created
+    When I navigate to a company page
+    And I set text field with selector ".tag-input input" to "test tag"
+    Then the field with selector ".tag-input input" should contain "test tag"

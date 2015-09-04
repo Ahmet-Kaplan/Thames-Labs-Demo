@@ -226,3 +226,29 @@ Feature: Allow users to manage their Contacts
     And I submit the "insertContact" form
     And I click "#edit-contact"
     Then I should not see "#formatted_address"
+
+
+  #Tags
+  @dev
+  Scenario: A user with the CanCreateContacts permission can edit tags
+    Given I have the "CanCreateContacts" permission
+    And a "Contact" has been created
+    When I navigate to a contact page
+    And I set text field with selector ".tag-input input" to "test tag"
+    Then the field with selector ".tag-input input" should contain "test tag"
+
+  @dev
+  Scenario: A user without the CanCreateContacts permission cannot edit tags
+    Given I have the "CanReadContacts" permission
+    And a "Contact" has been created
+    When I navigate to a contact page
+    And I set text field with selector ".tag-input input" to "test tag"
+    Then the field with selector ".tag-input input" should not contain "test tag"
+
+  @dev
+  Scenario: A user with the Administrator permission can edit tags
+    Given I have the "Administrator" permission
+    And a "Contact" has been created
+    When I navigate to a contact page
+    And I set text field with selector ".tag-input input" to "test tag"
+    Then the field with selector ".tag-input input" should contain "test tag"
