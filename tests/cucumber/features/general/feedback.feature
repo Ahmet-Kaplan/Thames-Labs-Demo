@@ -5,7 +5,8 @@ Feature: Allow users to provide feedback
   So that they can make the app better
 
   Background:
-    Given I am a logged in user
+    Given a user exists
+    And I am a logged in user
 
   Scenario: A user can see the feedback modal
     When I navigate to "/"

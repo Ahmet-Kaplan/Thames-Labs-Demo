@@ -50,6 +50,9 @@ Template.customFieldDisplay.helpers({
 Template.cfDisplay.helpers({
   parentHelper: function(parentContext) {
     this.parentEntity = parentContext;
+  },
+  trimmedName: function() {
+    return this.name.replace(/\s/g, '');
   }
 });
 
