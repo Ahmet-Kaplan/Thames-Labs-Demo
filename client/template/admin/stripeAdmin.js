@@ -35,9 +35,9 @@ Template.stripeSubscribe.events({
                 toastr.error('Unable to create subscription');
                 throw new Meteor.Error('Undefined', 'Unable to create stripe subscription, ' + error);
               }
-              Modal.hide();
               toastr.clear();
-              toastr.success('Your subscription has been successful.');
+              Modal.hide();
+              bootbox.alert('Your subscription has been successful.<br />Thank you for using RealtimeCRM!');
             });
           });
         }
@@ -80,7 +80,7 @@ Template.stripeResubscribe.events({
       }
       Modal.hide();
       toastr.clear();
-      toastr.success('Your subscription has been successful.');
+      bootbox.alert('Your subscription has been successful.<br />We\'re glad to have you back!');
     });
   },
 
@@ -110,7 +110,7 @@ Template.stripeResubscribe.events({
           $('#submit').prop('disabled', false);
           return;
         } else {
-          toastr.info('Please wait while we process your subscription...');
+          toastr.info('Please wait while we renew your subscription...');
           Meteor.call('updateStripeCard', oldCardId, response.id, function(error, response) {
             if(error) {
               Modal.hide();
@@ -147,7 +147,7 @@ Template.stripeUnsubscribe.events({
       }
       Modal.hide();
       toastr.clear();
-      toastr.success('Your subscription has successfully been cancelled.');
+      bootbox.alert('Your subscription has successfully been cancelled.<br />We welcome any feedback on RealtimeCRM.');
     });
   }
 });
