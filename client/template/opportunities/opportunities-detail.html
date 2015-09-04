@@ -69,7 +69,7 @@
         <br>
       {{/if}}
 
-      {{> tagInput}}
+      {{> tagInput tags=tags collection='opportunities' entityId=_id permissionToEdit='CanCreateOpportunities'}}
 
       <div class="panel panel-default" id="opportunity-details">
         <div class="panel-heading">
@@ -103,7 +103,7 @@
             {{value}}
           </li>
           {{/if}}
-          
+
           {{#if isInRole 'Administrator,CanReadCompanies'}}{{#if company}}
           <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-building"></i> Company</h4>
@@ -111,7 +111,7 @@
              {{company.name}}
           </a>
           {{/if}} {{/if}}
-          
+
           {{#if isInRole 'Administrator,CanReadContacts'}}{{#if contact}}
           <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-user"></i> Contact</h4>
@@ -126,7 +126,7 @@
           Line items
           {{#if isActive}}
           <div class="pull-right">
-            
+
             {{#if isInRole 'Administrator,CanEditOpportunities'}}
             <button class="btn btn-primary btn-xs" id="btnAddLine"><i class="fa fa-fw fa-plus"></i> Add line item</button>
             {{/if}}

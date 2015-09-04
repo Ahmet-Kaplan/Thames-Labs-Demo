@@ -22,7 +22,7 @@
       {{/if}}
       <h1 id="project-details" class="entity-name">{{description}}</h1>
 
-      {{> tagInput}}
+      {{> tagInput tags=tags collection='projects' entityId=_id permissionToEdit='CanCreateProjects'}}
 
       <div class="panel panel-default">
         <div class="panel-heading">
