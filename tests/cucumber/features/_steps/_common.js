@@ -195,14 +195,20 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Then(/^"([^"]*)" should say "([^"]*)"$/, function(selector, desiredText, callback) {
+  this.Then(/^"([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(selector, option, desiredText, callback) {
     this.client
       .getText("#" + selector)
       .then(function(text) {
-        expect(text).to.equal(desiredText);
+        if (option === 'say') {
+          expect(text).to.equal(desiredText);
+        } else if (option === 'contain') {
+          expect(text).to.contain(desiredText);
+        } else if (option === 'not contain') {
+          expect(text).to.not.contain(desiredText);
+        }
       })
       .call(callback);
-  })
+  });
 
   this.Then(/^I should see a modal with title "([^"]*)"$/, function(expectedText, callback) {
     this.client
