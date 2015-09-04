@@ -205,3 +205,24 @@ Feature: Allow users to manage their sales opportunities
     When I click ".delete-line-item"
     And I click confirm on the modal
     Then I should see "#no-line-items"
+
+  #Tags
+  Scenario: A user with the CanCreateOpportunities permission can edit tags
+    Given I have the "CanCreateOpportunities" permission
+    And a "Opportunity" has been created
+    When I navigate to an opportunity page
+    And I set text field with selector ".tag-input input" to "test tag"
+    Then the field with selector ".tag-input input" should contain "test tag"
+
+  Scenario: A user without the CanCreateContacts permission cannot edit tags
+    And an "Opportunity" has been created
+    When I navigate to an opportunity page
+    And I set text field with selector ".tag-input input" to "test tag"
+    Then the field with selector ".tag-input input" should not contain "test tag"
+
+  Scenario: A user with the Administrator permission can edit tags
+    Given I have the "Administrator" permission
+    And an "Opportunity" has been created
+    When I navigate to an opportunity page
+    And I set text field with selector ".tag-input input" to "test tag"
+    Then the field with selector ".tag-input input" should contain "test tag"
