@@ -13,4 +13,14 @@ Template.onRendered(function() {
     handle: '.modal-header',
     opacity: 0.35,
   });
+
+  var sidebar = $('.sidebar');
+  //sidebar.length is the number of elements matching '.sidebar'
+  if (sidebar.length > 0 && !bowser.mobile && !bowser.tablet) {
+    sidebar.affix({
+      offset: {
+        top: sidebar.offset().top
+      }
+    });
+  }
 });

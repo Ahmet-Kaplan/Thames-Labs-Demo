@@ -6,13 +6,6 @@ Template.productList.onCreated(function() {
 });
 
 Template.productList.onRendered(function() {
-  var sidebar = $('.sidebar');
-  sidebar.affix({
-    offset: {
-      top: sidebar.offset().top
-    }
-  });
-
   // Watch for session variable setting search
   Session.set('productListSearchQuery', null);
   Tracker.autorun(function() {
