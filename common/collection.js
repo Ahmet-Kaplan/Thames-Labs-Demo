@@ -214,26 +214,27 @@ Payments = new Mongo.Collection('payments');
 //////////////////////
 
 var checkRecordsNumber = function() {
-  var limitRecords = (Tenants.findOne({}) === undefined) ? Schemas.Tenant._autoValues.limit() : Tenants.findOne({}).limit;
+  var payingTenant = Tenants.findOne({}).paying;
+  var blockedTenant = Tenants.findone({}).blocked;
   var totalRecords = (Tenants.findOne({}) === undefined) ? 0 : Tenants.findOne({}).totalRecords;
   totalRecords += 1;
-  if(limitRecords === 0) {
+  if(payingTenant) {
     return true;
   } else {
     if(Meteor.isServer) {
-      if(limitRecords !== 0 && totalRecords == limitRecords) {
+      if(totalRecords == MAX_RECORDS) {
         Meteor.call('tenantLimitReached');
-      } else if(limitRecords === -1 && totalRecords >= limitRecords) {
+      } else if(blockedTenant && totalRecords >= MAX_RECORDS) {
         return false;
       }
       return true;
     }
 
     if(Meteor.isClient) {
-      if(limitRecords === -1 && totalRecords >= limitRecords) {
+      if(blockedTenant && totalRecords >= MAX_RECORDS) {
         toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br />Please upgrade to enjoy the full functionalities of RealitmeCRM.');
         return false;
-      } else if(limitRecords !== 0 && totalRecords >= limitRecords) {
+      } else if(totalRecords >= MAX_RECORDS) {
         toastr.warning('You have reached the maximum number of records.<br />Please consider upgrading.');
       }
       return true;
@@ -265,7 +266,6 @@ var updateTotalUsers = function() {
 
 Tenants.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
-  doc.limit = (doc.paying) ? 0 : MAX_RECORDS;
 });
 Tenants.after.insert(function(userId, doc) {
   logEvent('info', 'A new tenant has been created: ' + doc.name);
@@ -274,9 +274,13 @@ Tenants.before.update(function(userId, doc, fieldNames, modifier, options) {
   if(!Roles.userIsInRole(userId, ['superadmin', 'Administrator'])) {
     throw new Meteor.Error(403, 'Only admin users can do updates.');
   }
-  if(modifier.$set !== undefined && modifier.$set.paying === true) {
-    if(modifier.$set.stripeSubs === undefined && doc.stripeSubs === undefined) {
-      throw new Meteor.Error('Missing', 'The subscription ID is missing.');
+  if(modifier.$set !== undefined) {
+    if(modifier.$set.paying === true && modifier.$set.stripeSubs === undefined) {
+      console.log('Missing', 'The subscription ID is missing.');
+      return false;
+    } else if(modifier.$set.paying === true && modifier.$set.stripeSubs !== undefined && Meteor.isServer) {
+      var isValidSubs = Meteor.call('checkStripeSubscription', doc.stripeId, modifier.$set.stripeSubs);
+      return isValidSubs;
     }
   }
 })

@@ -1,5 +1,12 @@
 Meteor.startup(function() {
-  Stripe.setPublishableKey('pk_test_W7Cx4LDFStOIaJ2g5DufAIaE');
+  Meteor.call('getStripePK', function(error, result) {
+    if(error) {
+      console.log('Unable to retrieve Stripe Public Key.');
+      return false;
+    }
+    Session.set('STRIPE_PK', result);
+  })
+  Stripe.setPublishableKey(Session.get('STRIPE_PK'));
 });
 
 Template.stripeSubscribe.events({
@@ -84,7 +91,7 @@ Template.stripeResubscribe.events({
         Modal.hide();
         bootbox.alert({
           title: 'Error',
-          message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></iUnable to create subscription.<br />Please contact us if the problem remains.</div>'
+          message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription.<br />Please contact us if the problem remains.</div>'
         });
         throw new Meteor.Error('Undefined', 'Unable to create stripe subscription, ' + error);
       }
@@ -123,7 +130,6 @@ Template.stripeResubscribe.events({
           $('#submit').prop('disabled', false);
           return;
         } else {
-          toastr.info('Please wait while we renew your subscription...');
           Meteor.call('updateStripeCard', oldCardId, response.id, function(error, response) {
             if(error) {
               Modal.hide();
@@ -157,7 +163,7 @@ Template.stripeUnsubscribe.events({
         Modal.hide();
         bootbox.alert({
           title: 'Error',
-          message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></iUnable to cancel subscription.<br />Please contact us if the problem remains.</div>'
+          message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to cancel subscription.<br />Please contact us if the problem remains.</div>'
         });
         throw new Meteor.Error('Undefined', 'Unable to cancel stripe subscription, ' + error);
       }

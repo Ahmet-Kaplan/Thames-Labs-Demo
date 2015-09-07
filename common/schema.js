@@ -120,6 +120,10 @@ Schemas.Tenant = new SimpleSchema({
     label: "Paying tenant",
     defaultValue: false
   },
+  blocked: {
+    type: Boolean,
+    defaultValue: false
+  },
   stripeId: {
     type: String,
     optional: true
@@ -127,19 +131,6 @@ Schemas.Tenant = new SimpleSchema({
   stripeSubs: {
     type: String,
     optional: true
-  },
-  limit: {
-    type: Number,
-    label: "Records limit",
-    autoValue: function() {
-      if(this.field('paying').value) {
-        return 0;
-      } else if(this.value === -1) {
-        return this.value;
-      } else {
-        return MAX_RECORDS;
-      }
-    }
   },
   totalRecords: {
     type: Number,

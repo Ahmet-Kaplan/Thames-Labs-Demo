@@ -10,7 +10,6 @@
         <div class="modal-body">
           {{#autoForm collection="Tenants" id="addTenantModal" type="insert"}}
             {{> afQuickField name="name"}}
-            {{> afQuickField name="paying"}}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
         </div>
@@ -44,8 +43,17 @@
 </template>
 
 <template name="setting">
-<div class="form-group">
+  <div class="form-group">
     <label for="obj-{{name}}">{{name}}</label>
     <input type="text" class="form-control" id="val-{{name}}" placeholder="Enter value..." value="{{value}}">
   </div>
+</template>
+
+<template name="setPayingTenant">
+  {{#if hasStripeAccount}}
+    <div class="form-group">
+      <label for="stripeSubsNumber" class="control-label">Stripe Subscription Number</label>
+      <input type="text" id="stripeSubsNumber" class="form-control" data-stripe="number" value="sub_" />
+    </div>
+  {{/if}}
 </template>

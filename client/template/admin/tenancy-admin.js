@@ -20,8 +20,8 @@ Template.tenancyAdminPage.helpers({
   hasStripeAccount: function() {
     return !(Tenants.findOne({}).stripeId === undefined || Tenants.findOne({}).stripeId === '');
   },
-  lockedUser: function() {
-    return Tenants.findOne({}).limit === -1;
+  blockedUser: function() {
+    return Tenants.findOne({}).blocked;
   },
   tenantFound: function() {
     return !!Tenants.findOne({});
@@ -34,6 +34,9 @@ Template.tenancyAdminPage.helpers({
   },
   totalUsers: function() {
     return Meteor.users.find({group: Meteor.user().group}).count();
+  },
+  limitReached: function() {
+    return ((Tenants.findOne({}).totalRecords > MAX_RECORDS) && (!Tenants.findOne({}).paying));
   }
 });
 

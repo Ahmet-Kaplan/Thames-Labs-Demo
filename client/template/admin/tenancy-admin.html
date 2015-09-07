@@ -24,10 +24,10 @@
             </div>
             <div class="row">
               <div class="col-xs-2"><strong>Records</strong>: </div>
-              <div class="col-xs-2">{{totalRecords}} of {{limitRecords}}</div>
+              <div class="col-xs-2{{#if limitReached}} text-danger{{/if}}">{{totalRecords}} of {{limitRecords}}</div>
             </div>
 
-            {{#if lockedUser}}
+            {{#if blockedUser}}
               <br />You have reach the maximum number of records and your account is now locked. 
               Please upgrade to enjoy the full functionalities of RealtimeCRM
             {{/if}}

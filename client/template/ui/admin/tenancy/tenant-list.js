@@ -26,11 +26,11 @@ Template.tenant.helpers({
   recordsCount: function() {
     return this.totalRecords;
   },
-  isPaidTenant: function() {
+  isPayingTenant: function() {
     return this.paying;
   },
   isBlocked: function() {
-    return this.limit == -1;
+    return this.blocked;
   }
 });
 
@@ -63,35 +63,76 @@ Template.tenant.events({
   'click #btnDemoData': function() {
     Meteor.call('generateDemoData', this._id);
   },
-  'click #btnPaidTenant': function(event) {
+  'click #btnSwitchToFree': function(event) {
     event.preventDefault();
     var tenantId = this._id;
-    var scheme = (this.paying) ? 'Free' : 'Paying';
-    var currentScheme = this.paying
 
-    bootbox.confirm("Are you sure you wish to set this tenant to the " + scheme + " scheme?", function(result) {
+    bootbox.confirm("Are you sure you wish to set this tenant to the <strong>Free Scheme</strong><br />This will cancel any ongoing subscription?", function(result) {
       if (result === true) {
-        var limit = (!currentScheme) ? 0 : null;
-        Tenants.update(tenantId, {
-          $set: {
-            paying: !currentScheme,
-            limit: limit
+        toastr.info('Processing the update...');
+        Meteor.call('cancelStripeSubscription', tenantId, function(error, response) {
+          if(error) {
+            bootbox.alert({
+              title: 'Error',
+              message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to cancel subscription.<br />See Stripe dashboard to cancel manually.</div>'
+            });
+            throw new Meteor.Error('Undefined', 'Unable to cancel stripe subscription, ' + error);
           }
+          bootbox.alert({
+            title: 'Subscription updated',
+            message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>The subscription has been cancelled successfully.<br />Switched to Free Scheme.</div>'
+          });
         });
       }
     });
   },
+  'click #btnSwitchToPaying': function(event) {
+    event.preventDefault();
+    var tenantId = this._id;
+    if(this.stripeId) {
+      bootbox.prompt({
+        title: 'Enter Stripe Subscription Number',
+        value: 'sub_',
+        callback: function(result) {
+          Tenants.update(tenantId, {
+            $set: {
+              paying: true,
+              stripeSubs: result
+            }
+          }, function(error, nUpdated) {
+            if(error) {
+              bootbox.alert({
+              title: 'Error' + nUpdated,
+              message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Subscription number seems valid. Check connexion with database.</div>'
+              });
+            } else if(nUpdated === false) {
+              bootbox.alert({
+              title: 'Error' + nUpdated,
+              message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Check the validity of the subscription number.</div>'
+              });
+            } else {
+              bootbox.alert({
+                title: 'Subscription complete ' + nUpdated,
+                message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />Switched to Paying Scheme.'
+              });
+            }
+          });
+        }
+      })
+    } else {
+      Modal.show('setPayingTenant', this);
+    }
+  },
   'click #btnBlockTenant': function(event) {
     event.preventDefault();
     var tenantId = this._id;
-    var blocked = (this.limit == -1) ? 'un' : '';
-    var newLimit = (this.limit == -1) ? null : -1;
+    var blocked = (this.blocked == true) ? 'un' : '';
 
     bootbox.confirm("Are you sure you wish to " + blocked + "block this tenant?", function(result) {
       if (result === true) {
         Tenants.update(tenantId, {
           $set: {
-            limit: newLimit
+            blocked: !blocked
           }
         });
       }
@@ -126,5 +167,11 @@ Template.user.events({
   "click #btnEditTenantUser": function(event, template) {
     event.preventDefault();
     Modal.show('editTenantUser', this);
+  }
+});
+
+Template.setPayingTenant.helpers({
+  hasStripeAccount: function() {
+    return (this.stripeId !== undefined);
   }
 });

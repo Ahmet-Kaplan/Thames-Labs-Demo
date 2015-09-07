@@ -47,15 +47,10 @@
                             <i class="fa fa-fw fa-wrench"></i> Edit settings
                         </button>
                         
-                        <button class="btn btn-success btn-xs" id="btnPaidTenant" type="button">
-                          <i class="fa fa-fw fa-credit-card"></i> 
-                          {{#if isPaidTenant}} 
-                            Paying scheme
-                          {{else}}
-                            Free scheme
-                          {{/if}}
+                        <button class="btn btn-success btn-xs" id="{{#if isPayingTenant}}btnSwitchToFree{{else}}btnSwitchToPaying{{/if}}" type="button">
+                          <i class="fa fa-fw fa-credit-card"></i> Change Scheme
                         </button>
-                        {{#unless isPaidTenant}}
+                        {{#unless isPayingTenant}}
                           <button class="btn btn-warning btn-xs" id="btnBlockTenant" type="button">
                             <i class="fa fa-fw fa-ban"></i> 
                             {{#if isBlocked}}

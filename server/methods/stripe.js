@@ -1,7 +1,8 @@
 var Future = Npm.require('fibers/future');
 
 Meteor.methods({
-  stripePublicKey: function() {
+  getStripePK: function() {
+    //pk_test_W7Cx4LDFStOIaJ2g5DufAIaE
     return process.env.STRIPE_PK;
   },
   createStripeCustomer: function(token) {
@@ -63,7 +64,8 @@ Meteor.methods({
       Tenants.update(tenantId, {
         $set: {
           stripeSubs: subscription.id,
-          paying: true
+          paying: true,
+          blocked: false
         }
       });
       stripeSubscription.return(subscription);
@@ -174,6 +176,26 @@ Meteor.methods({
     });
 
     return newStripeCard.wait();
-  }
+  },
 
+  checkStripeSubscription: function(stripeId, stripeSubs) {
+    var Stripe = StripeAPI(process.env.STRIPE_SK);
+    var isValidSubscription = new Future();
+
+    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
+      throw new Meteor.Error(403, 'You do not have the rights to update this.');
+    } else if (!stripeId || !stripeSubs) {
+      throw new Meteor.Error('Missing info', 'The Stripe user or subscription is missing.');
+    }
+
+    Stripe.customers.retrieveSubscription(stripeId, stripeSubs, function(err, subscription) {
+      if(err) {
+        // throw new Meteor.Error(400, 'Invalid subscription data.');
+        isValidSubscription.return(false);
+      } else {
+        isValidSubscription.return(true);
+      }
+    });
+    return isValidSubscription.wait();
+  }
 });
