@@ -14,17 +14,6 @@ Template.purchaseOrderDetail.onCreated(function() {
 });
 
 Template.purchaseOrderDetail.onRendered(function() {
-  var sidebar = $('.sidebar');
-  if (sidebar) {
-    if (!bowser.mobile && !bowser.tablet) {
-      sidebar.affix({
-        offset: {
-          top: sidebar.offset().top
-        }
-      });
-    }
-  }
-
   $.getScript('/vendor/docxgen.min.js');
 });
 

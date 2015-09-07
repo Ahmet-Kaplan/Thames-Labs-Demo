@@ -19,19 +19,6 @@ Template.contactDetail.onCreated(function() {
   });
 });
 
-Template.contactDetail.onRendered(function() {
-  var sidebar = $('.sidebar');
-  if (sidebar) {
-    if (!bowser.mobile && !bowser.tablet) {
-      sidebar.affix({
-        offset: {
-          top: sidebar.offset().top
-        }
-      });
-    }
-  }
-});
-
 Template.contactDetail.helpers({
   contactData: function() {
     var contactId = FlowRouter.getParam('id');

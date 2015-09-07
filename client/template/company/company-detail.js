@@ -16,18 +16,6 @@ Template.companyDetail.onCreated(function() {
 });
 
 Template.companyDetail.onRendered(function() {
-  // Affix sidebar
-  var sidebar = $('.sidebar');
-  if (sidebar) {
-    if (!bowser.mobile && !bowser.tablet) {
-      sidebar.affix({
-        offset: {
-          top: sidebar.offset().top
-        }
-      });
-    }
-  }
-
   // Load docxgen
   $.getScript('/vendor/docxgen.min.js');
 });

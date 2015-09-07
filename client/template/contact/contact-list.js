@@ -6,16 +6,6 @@ Template.contactList.onCreated(function() {
 });
 
 Template.contactList.onRendered(function() {
-  var sidebar = $('.sidebar');
-  if (sidebar) {
-    if (!bowser.mobile && !bowser.tablet) {
-      sidebar.affix({
-        offset: {
-          top: sidebar.offset().top
-        }
-      });
-    }
-  }
   // Watch for session variable setting search
   Session.set('contactListSearchQuery', null);
   Tracker.autorun(function() {
