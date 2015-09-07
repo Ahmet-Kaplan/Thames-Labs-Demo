@@ -9,7 +9,7 @@
 
       <div class="panel panel-primary" id="userAdminPanel">
         <div class="panel-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#colUsers"  id="userAdminPanelExpander">Users</a>
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#colUsers" id="userAdminPanelExpander">Users</a>
         </div>
         <div id="colUsers" class="panel-collapse collapse">
           <div class="panel-body" id="tenancyUsers">
@@ -27,12 +27,38 @@
           </div>
         </div>
       </div>
+
       <div class="panel panel-primary" id="opportunityStagePanel">
         <div class="panel-heading ">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#oppStages"  id="oppStagesExpander">Sales pipeline stages</a>
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#oppStages" id="oppStagesExpander">Sales pipeline stages</a>
         </div>
         <div id="oppStages" class="panel-collapse collapse">
           {{> opportunityAdmin}}
+        </div>
+      </div>
+
+      <div class="panel panel-primary" id="globalCustomFieldsPanel">
+        <div class="panel-heading ">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#globCustFields" id="globCustomFieldsExpander">Global Custom Fields</a>
+        </div>
+        <div id="globCustFields" class="panel-collapse collapse">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="well well-sm">
+                <button type="button" class="btn btn-xs btn-primary" role="button" id="addGlobalCustomField">
+                  <i class="fa fa-fw fa-plus"></i> Add
+                </button>
+              </div>
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <span>Companies</span>
+                </div>
+                <div class="panel-body">
+                  xyz
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

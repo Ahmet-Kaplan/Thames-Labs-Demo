@@ -718,3 +718,8 @@ Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) 
 Opportunities.after.remove(function(userId, doc) {
   logEvent('info', 'An opportunity has been deleted: ' + doc.name);
 });
+
+//Global Custom Fields
+GlobalCustomFields = new Mongo.Collection('globalCustomFields');
+Partitioner.partitionCollection(GlobalCustomFields);
+Collections.globalCustomFields = GlobalCustomFields;

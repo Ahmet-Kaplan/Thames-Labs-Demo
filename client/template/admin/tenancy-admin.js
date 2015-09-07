@@ -31,5 +31,8 @@ Template.tenancyAdminPage.events({
         Meteor.call('removeUser', self._id);
       }
     });
+  },
+  'click #addGlobalCustomField': function() {
+    Modal.show('addNewGlobalCustomField');
   }
 });

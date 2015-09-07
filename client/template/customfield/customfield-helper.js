@@ -208,7 +208,8 @@ Template.addCustomField.events({
     if (!nameExists) {
       var settings = {
         "dataValue": cfValue,
-        "dataType": cfType
+        "dataType": cfType,
+        "isGlobal": false
       }
       cfMaster[cfName] = settings;
 
@@ -277,7 +278,8 @@ Template.updateCustomField.events({
 
     var settings = {
       "dataValue": cfValue,
-      "dataType": cfType
+      "dataType": cfType,
+      "isGlobal": false
     }
 
     var cfMaster = {};

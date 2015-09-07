@@ -81,3 +81,8 @@ Opportunities.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteOpportunities'
 Opportunities.allowTags(function(userId) {
   return !!userId;
 });
+
+
+GlobalCustomFields.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
+GlobalCustomFields.permit(['update']).ifLoggedIn().ifHasRole('Administrator').apply();
+GlobalCustomFields.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();

@@ -844,3 +844,30 @@ Opportunities.attachSchema(Schemas.Opportunity);
 Schemas.Opportunity.messages({
   needsRelatedEntity: "A company or a contact is required"
 });
+
+//Global custom fields
+Schemas.GlobalCustomField = new SimpleSchema({
+  name: {
+    type: String
+  },
+  type: {
+    type: String,
+    allowedValues: [
+      'text',
+      'checkbox',
+      'date'
+    ]
+  },
+  defaultValue: {
+    type: String,
+    optional: true
+  },
+  targetEntity: {
+    type: String,
+    allowedValues: [
+      'company',
+      'contact'
+    ]
+  }
+});
+GlobalCustomFields.attachSchema(Schemas.GlobalCustomField);

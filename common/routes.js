@@ -169,6 +169,7 @@ router.route('/admin', {
   name: 'administration',
   subscriptions: function() {
     this.register('opportunityStages', subs.subscribe('opportunityStages'));
+      this.register('allGlobalCustomFields', subs.subscribe('allGlobalCustomFields'));
   },
   action: function() {
     layout.render('appLayout', {

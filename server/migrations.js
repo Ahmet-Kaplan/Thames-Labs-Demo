@@ -255,3 +255,36 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+var defineGlobalCustomFields = function(collection) {
+  Partitioner.directOperation(function() {
+    Collections[collection].find({
+      customFields: {
+        $exists: true
+      }
+    }).forEach(function(doc) {
+      var customFields = doc.customFields;
+
+      var cfMaster = {};
+      for (var cf in customFields) {
+        cfMaster[cf] = customFields[cf];
+        cfMaster[cf]['isGlobal'] = false;
+      }
+
+      Collections[collection].update(doc._id, {
+        $set: {
+          'customFields': cfMaster
+        }
+      });
+    });
+  });
+};
+Migrations.add({
+  version: 8,
+  name: "Update custom fields to flag globals",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    defineGlobalCustomFields('companies');
+    ServerSession.set('maintenance', false);
+  }
+});
