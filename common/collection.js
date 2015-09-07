@@ -723,3 +723,54 @@ Opportunities.after.remove(function(userId, doc) {
 GlobalCustomFields = new Mongo.Collection('globalCustomFields');
 Partitioner.partitionCollection(GlobalCustomFields);
 Collections.globalCustomFields = GlobalCustomFields;
+
+GlobalCustomFields.after.insert(function(userId, doc) {
+  var targetType = doc.targetEntity;
+  var cfName = doc.name;
+
+  var collName = '';
+  switch (targetType) {
+    case 'company':
+      collName = 'companies';
+      break;
+    case 'contact':
+      collName = 'contacts';
+      break;
+  }
+
+  var targets = Collections[collName].find({}).fetch();
+
+  _.each(targets, function(tx) {
+    var nameExists = false;
+    var cfMaster = {};
+
+    if (tx.customFields) {
+      for (var cf in tx.customFields) {
+        if (cf === cfName) {
+          nameExists = true;
+          break;
+        }
+        cfMaster[cf] = tx.customFields[cf];
+      }
+    }
+
+    if (!nameExists) {
+
+      var settings = {
+        "dataValue": doc.defaultValue,
+        "dataType": doc.type,
+        "isGlobal": true
+      }
+      cfMaster[cfName] = settings;
+
+      if (collName === 'companies') {
+        Companies.update(tx._id, {
+          $set: {
+            customFields: cfMaster
+          }
+        });
+      }
+    }
+  });
+
+});

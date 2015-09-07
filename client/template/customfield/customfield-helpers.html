@@ -18,9 +18,12 @@
   <li class="list-group-item custom-field-display-item">
     <div class="btn-group pull-right">
       <button id='edit-custom-field' class="btn btn-info btn-xs " type="button">Edit</button>
-      <button id='delete-custom-field' class="btn btn-danger btn-xs " type="button">Delete</button>
+      {{#unless isGlobal}}<button id='delete-custom-field' class="btn btn-danger btn-xs " type="button">Delete</button>{{/unless}}
     </div>
-    <strong>{{name}}: </strong><span id="custom-field-{{trimmedName}}">{{displayValue}}</span> {{parentHelper ..}}
+    {{#if isGlobal}}<i class="fa fa-fw fa-globe" data-toggle="tooltip" data-placement="bottom" title="This custom field has been globally defined by your administrator. You may change the value held against it, but not it's type, nor may you delete it."></i>
+    {{else}}<i class="fa fa-fw fa-thumb-tack" data-toggle="tooltip" data-placement="bottom" title="This is a standard custom field. You can change its value and type, and you can delete it."></i>{{/if}}
+       {{name}}: <span id="custom-field-{{trimmedName}}">{{displayValue}}</span> {{parentHelper ..}}
+
   </li>
 </template>
 
@@ -110,19 +113,19 @@
               <div class="col-md-4">
                 <div class="radio">
                   <label>
-                    <input type="radio" name="cfType" id="typeText" checked>Text</label>
+                    <input type="radio" name="cfType" id="typeText" checked disabled="{{#if isGlobal}}disabled{{/if}}">Text</label>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="radio">
                   <label>
-                    <input type="radio" name="cfType" id="typeCheckbox">Checkbox</label>
+                    <input type="radio" name="cfType" id="typeCheckbox" disabled="{{#if isGlobal}}disabled{{/if}}">Checkbox</label>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="radio">
                   <label>
-                    <input type="radio" name="cfType" id="typeDate">Date/Time</label>
+                    <input type="radio" name="cfType" id="typeDate" disabled="{{#if isGlobal}}disabled{{/if}}">Date/Time</label>
                 </div>
               </div>
             </div>

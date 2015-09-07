@@ -12,8 +12,12 @@ Template.tenancyAdminPage.helpers({
         $ne: Meteor.userId()
       }
     });
+  },
+  globalCustomFields: function() {
+    return GlobalCustomFields.find({});
   }
 });
+
 
 Template.tenancyAdminPage.events({
   'click #btnEditTenantUserPermissions': function() {
@@ -34,5 +38,100 @@ Template.tenancyAdminPage.events({
   },
   'click #addGlobalCustomField': function() {
     Modal.show('addNewGlobalCustomField');
+  }
+});
+
+Template.gcf_display.helpers({
+  niceEntity: function() {
+    var retVal = "";
+
+    switch (this.targetEntity) {
+      case 'company':
+        retVal = 'Companies';
+        break;
+      case 'contact':
+        retVal = 'Contacts';
+        break;
+    }
+
+    return retVal;
+  },
+  niceType: function() {
+    var retVal = "";
+
+    switch (this.type) {
+      case 'text':
+        retVal = 'Text';
+        break;
+        case 'checkbox':
+          retVal = 'Checkbox';
+          break;
+          case 'date':
+            retVal = 'Date/Time';
+            break;
+    }
+
+    return retVal;
+  }
+});
+Template.gcf_display.events({
+  'click #delete-global-custom-field': function() {
+
+    var self = this;
+
+    bootbox.confirm("Are you sure you wish to delete this global custom field?", function(result) {
+      if (result === true) {
+        switch (self.targetEntity) {
+
+          case "company":
+            var targets = Companies.find({}).fetch();
+
+            _.each(targets, function(cx) {
+
+              var cfMaster = {};
+
+              if (cx.customFields) {
+                for (var cf in cx.customFields) {
+                  if (cf !== self.name) {
+                    cfMaster[cf] = cx.customFields[cf];
+                  }
+                }
+                Companies.update(cx._id, {
+                  $set: {
+                    customFields: cfMaster
+                  }
+                });
+              }
+            });
+            break;
+
+            case "contact":
+              var targets = Contacts.find({}).fetch();
+
+              _.each(targets, function(cx) {
+
+                var cfMaster = {};
+
+                if (cx.customFields) {
+                  for (var cf in cx.customFields) {
+                    if (cf !== self.name) {
+                      cfMaster[cf] = cx.customFields[cf];
+                    }
+                  }
+                  Contacts.update(cx._id, {
+                    $set: {
+                      customFields: cfMaster
+                    }
+                  });
+                }
+              });
+              break;
+        }
+
+        GlobalCustomFields.remove(self._id);
+
+        bootbox.hideAll();
+      }
+    });
   }
 });

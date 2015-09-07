@@ -17,7 +17,8 @@ Template.customFieldDisplay.helpers({
             name: cf,
             value: this.entity_data.customFields[cf].dataValue,
             type: this.entity_data.customFields[cf].dataType,
-            displayValue: this.entity_data.customFields[cf].dataValue
+            displayValue: this.entity_data.customFields[cf].dataValue,
+            isGlobal: this.entity_data.customFields[cf].isGlobal
           };
           ret.push(cfObj);
           break;
@@ -26,7 +27,8 @@ Template.customFieldDisplay.helpers({
             name: cf,
             value: this.entity_data.customFields[cf].dataValue,
             type: this.entity_data.customFields[cf].dataType,
-            displayValue: (this.entity_data.customFields[cf].dataValue ? this.entity_data.customFields[cf].dataValue : "false")
+            displayValue: (this.entity_data.customFields[cf].dataValue ? this.entity_data.customFields[cf].dataValue : "false"),
+            isGlobal: this.entity_data.customFields[cf].isGlobal
           };
           ret.push(cfObj);
           break;
@@ -35,14 +37,23 @@ Template.customFieldDisplay.helpers({
             name: cf,
             value: this.entity_data.customFields[cf].dataValue,
             type: this.entity_data.customFields[cf].dataType,
-            displayValue: new moment(this.entity_data.customFields[cf].dataValue).format('MMMM Do YYYY')
+            displayValue: new moment(this.entity_data.customFields[cf].dataValue).format('MMMM Do YYYY'),
+            isGlobal: this.entity_data.customFields[cf].isGlobal
           };
           ret.push(cfObj);
           break;
       }
     }
 
-    return ret;
+    return ret.sort(function(a, b) {
+      if (a.isGlobal && !b.isGlobal) {
+        return -1;
+      }
+      if (!a.isGlobal && b.isGlobal) {
+        return 1;
+      }
+      return 0;
+    });
   }
 });
 
@@ -259,6 +270,8 @@ Template.updateCustomField.events({
     $('#date-input-area').show();
   },
   'click #submit-custom-field': function() {
+    console.log(this);
+
     var cfName = $('#custom-field-name').val();
     var cfValue = "value";
     var cfType = "text";
@@ -279,7 +292,7 @@ Template.updateCustomField.events({
     var settings = {
       "dataValue": cfValue,
       "dataType": cfType,
-      "isGlobal": false
+      "isGlobal": this.isGlobal
     }
 
     var cfMaster = {};

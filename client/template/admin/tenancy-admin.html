@@ -42,28 +42,42 @@
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#globCustFields" id="globCustomFieldsExpander">Global Custom Fields</a>
         </div>
         <div id="globCustFields" class="panel-collapse collapse">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="well well-sm">
-                <button type="button" class="btn btn-xs btn-primary" role="button" id="addGlobalCustomField">
-                  <i class="fa fa-fw fa-plus"></i> Add
-                </button>
-              </div>
-              <div class="panel panel-info">
-                <div class="panel-heading">
-                  <span>Companies</span>
-                </div>
-                <div class="panel-body">
-                  xyz
+          <div class="panel-body">
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="well well-sm">
+                  <button type="button" class="btn btn-xs btn-primary" role="button" id="addGlobalCustomField">
+                    <i class="fa fa-fw fa-plus"></i> Add
+                  </button>
                 </div>
               </div>
             </div>
+
+            <div class="list-group">
+              {{#each globalCustomFields}} {{> gcf_display}} {{/each}}
+            </div>
+
           </div>
         </div>
       </div>
     </div>
   </div>
 
+</template>
+
+<template name="gcf_display">
+  <div class="list-group-item">
+    <div class="btn-group pull-right">
+      <button id='delete-global-custom-field' class="btn btn-danger btn-xs " type="button"><i class="fa fa-fw fa-times"></i> Delete</button>
+    </div>
+    <ul style="list-style-type: none;">
+      <li>Name: {{name}}</li>
+      <li>Type: {{niceType}}</li>
+      <li>Default Value: {{defaultValue}}</li>
+      <li>Target Entity: {{niceEntity}}</li>
+    </ul>
+  </div>
 </template>
 
 <template name="adminAreaUser">

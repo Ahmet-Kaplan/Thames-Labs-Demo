@@ -22,6 +22,17 @@ Template.addNewGlobalCustomField.helpers({
 });
 
 Template.addNewGlobalCustomField.events({
+  // 'change #select-entity': function() {
+  //   var cfEntity = $('#select-entity').val();
+  //   switch (cfEntity) {
+  //     case 'company':
+  //       Meteor.subscribe('allCompanies');
+  //       break;
+  //     case 'contact':
+  //       Meteor.subscribe('allContacts');
+  //       break;
+  //   }
+  // },
   'click #typeText': function() {
     $('#text-input-area').show();
     $('#check-input-area').hide();
@@ -42,6 +53,15 @@ Template.addNewGlobalCustomField.events({
     var cfValue = "value";
     var cfType = "text";
     var cfEntity = $('#select-entity').val();
+
+    if (cfName === "") {
+      toastr.warning('Please provide a name.');
+      return;
+    }
+    if (cfEntity === "") {
+      toastr.warning('Please select an entity.');
+      return;
+    }
 
     if ($('#typeText').prop('checked')) {
       cfType = "text";
