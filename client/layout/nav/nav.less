@@ -107,7 +107,7 @@
 #collapseFavourites > div,
 #collapseNotifications > div,
 #collapseUserName > div {
-  background: rgba(0,0,0,0.05);
+  background: rgba(255, 255, 255,0.75);
   color: #000;
   border: none;
 }
@@ -170,4 +170,36 @@
 
 .dropdown-menu > em {
   padding: 0 0 0 10px;
+}
+
+#favourites .panel-body {
+  padding: 0;
+}
+
+#favourites-links {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+#favourites-links > li > a {
+  transition: all 0.1s ease-in-out;
+  text-decoration: none;
+  padding: 5px 15px 5px 50px;
+  width: 100%;
+  display: block;
+  color: black;
+}
+#favourites-links > li > a:hover {
+  background: rgba(0,0,0,0.1);
+}
+#favourites-links > li > a:active {
+  background: rgba(0,0,0,0.15);
+}
+.add-favourite > a {
+  padding-left: 20px !important;
+  color: darken(@brand-primary, 10%) !important;
+}
+.remove-favourite {
+  margin-top: 4px;
+  cursor: pointer;
 }

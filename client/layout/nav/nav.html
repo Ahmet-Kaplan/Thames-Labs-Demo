@@ -102,16 +102,14 @@
         </div>
         <div class="panel-collapse collapse" id="collapseFavourites">
           <div class="panel-body">
-            <ul class="table">
+            <ul id="favourites-links">
               {{#each favourites}} {{>favourite}} {{else}}
               <li>No favourites</li>
               {{/each}}
+              <li class="add-favourite">
+                <a data-toggle="tooltip" data-placement="bottom" title="Add this page to your favourites for easy access" id="mnuAddToFavourites"><i class="fa fa-fw fa-plus"></i>  Add to favourites</a>
+              </li>
             </ul>
-            <div class="btn-group btn-group-justified">
-              <div class="btn-group">
-                <button class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="bottom" title="Add this page to your favourites for easy access" role="button" id="mnuAddToFavourites"><i class="fa fa-fw fa-plus"></i> Add to favourites</button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -196,7 +194,7 @@
       </li>
       {{/if}}
 
-      <h5 class="visible-xs">Menu items</h5>
+      <h5 class="visible-xs" style="padding-left: 20px;">Menu items</h5>
 
       {{#if isInRole 'superadmin'}}
 
