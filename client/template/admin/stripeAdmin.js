@@ -32,12 +32,18 @@ Template.stripeSubscribe.events({
             Meteor.call('createStripeSubscription', result, function(error, response) {
               if(error) {
                 Modal.hide();
-                toastr.error('Unable to create subscription');
+                bootbox.alert({
+                  title: 'Error',
+                  message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription.</div>'
+                });
                 throw new Meteor.Error('Undefined', 'Unable to create stripe subscription, ' + error);
               }
               toastr.clear();
               Modal.hide();
-              bootbox.alert('Your subscription has been successful.<br />Thank you for using RealtimeCRM!');
+              bootbox.alert({
+                title: 'Subscription complete',
+                message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />Thank you for using RealtimeCRM!</div>'
+              });
             });
           });
         }
@@ -66,6 +72,7 @@ Template.stripeResubscribe.onRendered(function() {
 Template.stripeResubscribe.events({
   'click #resubscribe': function() {
     event.preventDefault;
+    toastr.info('Processing your subscription.');
     stripeId = Tenants.findOne({}).stripeId;
     if(!stripeId) {
       toastr.error('Missing stripe account.');
@@ -75,12 +82,18 @@ Template.stripeResubscribe.events({
     Meteor.call('createStripeSubscription', stripeId, function(error, response) {
       if(error) {
         Modal.hide();
-        toastr.error('Unable to create subscription');
+        bootbox.alert({
+          title: 'Error',
+          message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></iUnable to create subscription.<br />Please contact us if the problem remains.</div>'
+        });
         throw new Meteor.Error('Undefined', 'Unable to create stripe subscription, ' + error);
       }
       Modal.hide();
       toastr.clear();
-      bootbox.alert('Your subscription has been successful.<br />We\'re glad to have you back!');
+      bootbox.alert({
+        title: 'Subscription complete',
+        message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />We\'re glad to have you back!'
+      });
     });
   },
 
@@ -142,12 +155,28 @@ Template.stripeUnsubscribe.events({
     Meteor.call('cancelStripeSubscription', Tenants.findOne({})._id, function(error, response) {
       if(error) {
         Modal.hide();
-        toastr.error('Unable to cancel subscription');
+        bootbox.alert({
+          title: 'Error',
+          message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></iUnable to cancel subscription.<br />Please contact us if the problem remains.</div>'
+        });
         throw new Meteor.Error('Undefined', 'Unable to cancel stripe subscription, ' + error);
       }
       Modal.hide();
       toastr.clear();
-      bootbox.alert('Your subscription has successfully been cancelled.<br />We welcome any feedback on RealtimeCRM.');
+      bootbox.alert({
+        title: 'Subscription updated',
+        message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been cancelled successfully.<br />We welcome any feedback on RealtimeCRM.</div>'
+      });
     });
+  },
+
+  sendErrorEmail: function(tenantName, tenantId, error) {
+    Email.send({
+      to: 'david.mcleary@cambridgesoftware.co.uk',
+      from: 'RealtimeCRM admin <admin@realtimecrm.co.uk',
+      subject: 'Error on updating subscription',
+      text: "Error on updating the stripe subscription for tenant " + tenantName + ", id " + tenantId + ".\n"
+            + "Error: " + error
+    })
   }
 });

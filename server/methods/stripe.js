@@ -44,6 +44,7 @@ Meteor.methods({
     var theTenant = Tenants.findOne({_id: tenantId});
     var Stripe = StripeAPI(process.env.STRIPE_SK);
     var stripeSubscription = new Future();
+    var numberUsers = Meteor.users.find({group: tenantId}).count();
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may subscribe.');
@@ -52,7 +53,8 @@ Meteor.methods({
     }
 
     Stripe.customers.createSubscription(customerId, {
-      plan: "premier"
+      plan: "premier",
+      quantity: numberUsers
     }, Meteor.bindEnvironment(function(err, subscription) {
       if(err) {
         throw new Meteor.Error('Error', err);
@@ -68,6 +70,29 @@ Meteor.methods({
     }));
 
     return stripeSubscription.wait();
+  },
+
+  updateStripeQuantity: function() {
+    var tenantId = Partitioner.getUserGroup(this.userId);
+    var theTenant = Tenants.findOne({_id: tenantId});
+    var stripeId = theTenant.stripeId;
+    var stripeSubs = theTenant.stripeSubs;
+    var numberUsers = Meteor.users.find({group: tenantId}).count();
+    var Stripe = StripeAPI(process.env.STRIPE_SK);
+
+    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may add or remove users.');
+    } else if (!stripeId) {
+      throw new Meteor.Error('Missing subscription', 'It appears you do not have an account.');
+    }
+
+    Stripe.customers.updateSubscription(stripeId, stripeSubs,{
+      quantity: numberUsers
+    }, function(err, subscription) {
+      if(err) {
+        throw new Meteor.Error('Error', err);
+      }
+    });
   },
 
   cancelStripeSubscription: function(tenantId) {

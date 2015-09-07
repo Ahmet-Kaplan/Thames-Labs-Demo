@@ -251,6 +251,16 @@ var updateTotalRecords = function(modifier) {
     });
   }
   return true;
+};
+
+var updateTotalUsers = function() {
+  if(Meteor.isServer) {
+    Meteor.call('updateStripeQuantity', function(error, response) {
+      if(error) {
+        Meteor.call('sendErrorEmail',Tenants.findOne({}).name ,Tenants.findOne({})._id, error);
+      }
+    });
+  }
 }
 
 Tenants.before.insert(function(userId, doc) {
@@ -293,6 +303,17 @@ Tenants.after.remove(function(userId, doc) {
 
 Meteor.users.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
+});
+
+Meteor.users.after.insert(function(userId, doc) {
+  logEvent('info', 'A user has been created: ' + doc.name);
+});
+
+Meteor.users.after.remove(function(userId, doc) {
+  logEvent('info', 'A user has been removed: ' + doc.name);
+  if(Meteor.isServer) {
+    updateTotalUsers();
+  }
 });
 
 Companies.before.insert(function(userId, doc) {

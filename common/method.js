@@ -373,6 +373,7 @@ logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
     logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
 
     AuditLog.insert({
+      token: 'token',
       date: new Date(),
       source: 'client',
       level: logLevel,

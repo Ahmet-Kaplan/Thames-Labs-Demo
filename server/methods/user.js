@@ -142,6 +142,12 @@ Meteor.methods({
 
     Accounts.sendEnrollmentEmail(userId);
 
+    Meteor.call('updateStripeQuantity', function(error, response) {
+      if(error) {
+        Meteor.call('sendErrorEmail',Tenants.findOne({}).name ,Tenants.findOne({})._id, error);
+      }
+    });
+
     LogServerEvent('verbose', 'User created', 'user', userId);
   }
 
