@@ -66,44 +66,6 @@
   background: rgba(0,0,0,0.1) !important;
 }
 
-.table{
-  margin-bottom: 0 !important;
-}
-
-tr > td > a {
-  color: black;
-}
-
-tr > td > a:hover {
-  text-decoration: none;
-}
-.panel-body {
-  padding-bottom:0;
-}
-.not-active {
-  pointer-events: none;
-  cursor: default;
-  color: #9d9d9d;
-}
-
-#accordion {
-  margin-bottom:0;
-  padding-top: 5px;
-}
-
-#accordion > .panel, #accordion > div > .panel {
-  box-shadow:none;
-  border:none;
-  border-radius:0;
-  margin-top:0;
-}
-
-#accordion > div > h5 {
-  padding: 10px 15px 10px;
-  margin-bottom: 0;
-  border-bottom: 1px solid #ddd;
-}
-
 @media only screen and (max-width: 768px) {
   #id-view-sidemenu {
     left: -@sidebar-width-mobile;
@@ -117,28 +79,13 @@ tr > td > a:hover {
   }
 }
 
-#accordion .panel-heading {
-  padding: 10px 15px;
-}
 
-#accordion .panel-body {
-  border-bottom: 1px solid #ddd;
-}
-
-.parent-title > a {
-  font-size: 1.5em;
-}
-
-.parent-title > a > i {
-  font-size: 1.5em;
-  margin-left: -5px;
-  padding-right: 10px;
-}
-
-
-
-
-#favourites, #favourites > div{
+#favourites,
+#favourites > div,
+#notifications,
+#notifications > div,
+#user-menu,
+#user-menu > div {
   background: transparent;
   color: white;
   border: none;
@@ -148,17 +95,22 @@ tr > td > a:hover {
   box-shadow: none;
 }
 
-#favourites, #favourites > div a{
+#collapseUserName > div a,
+#collapseNotifications > div a,
+#collapseFavourites > div a {
   text-decoration: none;
 }
 
-#collapseFavourites {
+#collapseFavourites,
+#collapseUserName,
+#collapseNotifications {
   overflow: hidden;
 }
 
-#collapseFavourites > div {
+#collapseFavourites > div,
+#collapseNotifications > div,
+#collapseUserName > div {
   background: rgba(0,0,0,0.05);
-  //box-shadow: inset -17px -5px 5px -17px rgba(0,0,0,0.7);
   color: #000;
   border: none;
 }
@@ -174,7 +126,10 @@ tr > td > a:hover {
   width: 100%;
 }
 
-#menu > li > a, #favourites > div > h4 > a {
+#menu > li > a,
+#user-menu h4 > a,
+#notifications h4 > a,
+#favourites > div > h4 > a {
   transition: all 0.1s ease-in-out;
   text-decoration: none;
   padding: 8px 15px 8px 17px;
@@ -183,15 +138,23 @@ tr > td > a:hover {
   color: rgba(0,0,0,0.8);
 }
 
-#favourites > div > h4 > a {
+#favourites > div > h4 > a,
+#user-menu h4 > a,
+#notifications h4 > a {
   padding: 11px 10px 10px 18px;
 }
 
-#menu > li > a:hover, #favourites > div > h4 > a:hover {
+#menu > li > a:hover,
+#user-menu h4 > a:hover,
+#notifications h4 > a:hover,
+#favourites > div > h4 > a:hover {
   background: rgba(0,0,0,0.1);
 }
 
-#menu > li > a:active, #favourites > div > h4 > a:active {
+#menu > li > a:active,
+#user-menu h4 > a:active,
+#notifications h4 > a:active,
+#favourites > div > h4 > a:active {
   background: rgba(0,0,0,0.15);
 }
 
@@ -201,6 +164,13 @@ tr > td > a:hover {
   color: #000;
 }
 
-#menu > li > a > i, #favourites > div i {
+#menu > li > a > i,
+#user-menu a > i,
+#notifications a > i,
+#favourites > div i {
   margin-right: 9px;
+}
+
+.dropdown-menu > em {
+  padding: 0 0 0 10px;
 }
