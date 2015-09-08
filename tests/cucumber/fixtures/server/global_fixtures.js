@@ -32,5 +32,4 @@ Meteor.methods({
     ServerSession.set('maintenance', false);
 
   }
-
 });

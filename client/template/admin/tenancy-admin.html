@@ -7,11 +7,52 @@
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
 
+      {{#if tenantFound}}
       <div class="panel panel-primary" id="userAdminPanel">
-        <div class="panel-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#colUsers"  id="userAdminPanelExpander">Users</a>
+        <div class="panel-heading ">Scheme</div>
+        <div class="panel-body" id="tenancyUsers">
+          
+          <div class="well well-sm">
+            Here are the details of your current status:
+            <div class="row">
+              <div class="col-xs-2"><strong>Plan</strong>: </div>
+              <div class="col-xs-2">{{#if payingScheme}}Paying{{else}}Free{{/if}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-2"><strong>Users</strong>: </div>
+              <div class="col-xs-2">{{totalUsers}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-2"><strong>Records</strong>: </div>
+              <div class="col-xs-2{{#if limitReached}} text-danger{{/if}}">{{totalRecords}} of {{limitRecords}}</div>
+            </div>
+
+            {{#if blockedUser}}
+              <br />You have reach the maximum number of records and your account is now locked. 
+              Please upgrade to enjoy the full functionalities of RealtimeCRM
+            {{/if}}
+          </div>
+          
+          {{#if payingScheme}}
+            <button type="button" class="btn btn-info " role="button" id="downScheme">Downgrade to Free Plan</button>
+          {{else}}
+            {{#if hasStripeAccount}}
+              <button type="button" class="btn btn-info" role="button" id="reUpScheme">Upgrade to Paying Scheme</button>
+            {{else}}
+              <button type="button" class="btn btn-info" role="button" id="upScheme">Upgrade to Paying Scheme</button>
+            {{/if}}
+              <div><i class="fa fa-lock"></i> Payments are made securely with <a href="http://www.stripe.com">Stripe</a>.</div>
+          {{/if}}
+
         </div>
-        <div id="colUsers" class="panel-collapse collapse">
+      </div>
+      {{/if}}
+
+      <div class="panel panel-primary" id="userAdminPanel">
+        <div class="panel-heading accordion-toggle" id="colUsers">
+          Users<span class="glyphicon glyphicon-chevron-down pull-right"></span>
+        </div>
+        <div id="collapsecolUsers" class="panel-collapse collapse">
           <div class="panel-body" id="tenancyUsers">
 
             <div class="well well-sm">
@@ -27,7 +68,6 @@
           </div>
         </div>
       </div>
-<<<<<<< HEAD:client/template/admin/tenancyAdmin.html
 
       <div class="panel panel-primary" id="userAdminPanel">
         <div class="panel-heading ">
@@ -55,16 +95,15 @@
         </div>
       </div>
 
-=======
       <div class="panel panel-primary" id="opportunityStagePanel">
-        <div class="panel-heading ">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#oppStages"  id="oppStagesExpander">Sales pipeline stages</a>
+        <div class="panel-heading accordion-toggle" id="oppStages">
+          Sales pipeline stages<span class="glyphicon glyphicon-chevron-down pull-right"></span>
         </div>
-        <div id="oppStages" class="panel-collapse collapse">
+        <div id="collapseoppStages" class="panel-collapse collapse">
           {{> opportunityAdmin}}
         </div>
       </div>
->>>>>>> master:client/template/admin/tenancy-admin.html
+      
     </div>
   </div>
 

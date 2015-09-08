@@ -26,11 +26,11 @@ Template.tenant.helpers({
   recordsCount: function() {
     return this.totalRecords;
   },
-  isPaidTenant: function() {
+  isPayingTenant: function() {
     return this.paying;
   },
   isBlocked: function() {
-    return this.limit == -1;
+    return this.blocked;
   }
 });
 
@@ -63,35 +63,41 @@ Template.tenant.events({
   'click #btnDemoData': function() {
     Meteor.call('generateDemoData', this._id);
   },
-  'click #btnPaidTenant': function(event) {
+  'click #btnSwitchToFree': function(event) {
     event.preventDefault();
     var tenantId = this._id;
-    var scheme = (this.paying) ? 'Free' : 'Paying';
-    var currentScheme = this.paying
 
-    bootbox.confirm("Are you sure you wish to set this tenant to the " + scheme + " scheme?", function(result) {
+    bootbox.confirm("Are you sure you wish to set this tenant to the <strong>Free Scheme</strong><br />This will cancel any ongoing subscription?", function(result) {
       if (result === true) {
-        var limit = (!currentScheme) ? 0 : null;
-        Tenants.update(tenantId, {
-          $set: {
-            paying: !currentScheme,
-            limit: limit
+        toastr.info('Processing the update...');
+        Meteor.call('cancelStripeSubscription', tenantId, function(error, response) {
+          if(error) {
+            console.log(error)
+            bootbox.alert({
+              title: 'Error',
+              message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to cancel subscription.<br />See Stripe dashboard to cancel manually.</div>'
+            });
+            return false;
           }
+            toastr.success('The subscription has been cancelled successfully.<br />Switched to Free Scheme.');
         });
       }
     });
   },
+  'click #btnSwitchToPaying': function(event) {
+    event.preventDefault();
+      Modal.show('setPayingTenant', this);
+  },
   'click #btnBlockTenant': function(event) {
     event.preventDefault();
     var tenantId = this._id;
-    var blocked = (this.limit == -1) ? 'un' : '';
-    var newLimit = (this.limit == -1) ? null : -1;
+    var blocked = (this.blocked == true) ? 'un' : '';
 
     bootbox.confirm("Are you sure you wish to " + blocked + "block this tenant?", function(result) {
       if (result === true) {
         Tenants.update(tenantId, {
           $set: {
-            limit: newLimit
+            blocked: !blocked
           }
         });
       }
@@ -115,11 +121,18 @@ Template.user.helpers({
 Template.user.events({
   "click #btnDeleteTenantUser": function(event, template) {
     var userId = this._id;
+    var userName = this.profile.name;
     event.preventDefault();
 
-    bootbox.confirm("Are you sure you wish to delete this user?", function(result) {
+    bootbox.confirm("Are you sure you wish to delete the user " + userName + "?", function(result) {
       if (result === true) {
-        Meteor.call('removeUser', userId);
+        Meteor.call('removeUser', userId, function(error, response) {
+          if(error) {
+            toastr.error('Unable to remove user. ', error);
+            return false;
+          }
+          toastr.success('User ' + userName + ' successfully removed.');
+        });
       }
     });
   },

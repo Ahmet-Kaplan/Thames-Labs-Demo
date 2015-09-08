@@ -207,32 +207,36 @@ Partitioner.partitionCollection(Tasks);
 AuditLog = new Mongo.Collection('audit');
 Partitioner.partitionCollection(AuditLog);
 
+Payments = new Mongo.Collection('payments');
+
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
 
 var checkRecordsNumber = function() {
-  var limitRecords = (Tenants.findOne({}) === undefined) ? Schemas.Tenant._autoValues.limit() : Tenants.findOne({}).limit;
+  var payingTenant = Tenants.findOne({}).paying;
+  var blockedTenant = Tenants.findOne({}).blocked;
   var totalRecords = (Tenants.findOne({}) === undefined) ? 0 : Tenants.findOne({}).totalRecords;
   totalRecords += 1;
-  if(limitRecords === 0) {
+  if(payingTenant) {
     return true;
   } else {
     if(Meteor.isServer) {
-      if(limitRecords !== 0 && totalRecords == limitRecords) {
+      if(totalRecords == MAX_RECORDS) {
         Meteor.call('tenantLimitReached');
-      } else if(limitRecords === -1 && totalRecords >= limitRecords) {
+      } else if(blockedTenant && totalRecords >= MAX_RECORDS) {
         return false;
       }
       return true;
     }
 
     if(Meteor.isClient) {
-      if(limitRecords === -1 && totalRecords >= limitRecords) {
-        toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br />Please upgrade to enjoy the full functionalities of RealitmeCRM.');
+      if(blockedTenant && totalRecords >= MAX_RECORDS) {
+        toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br />Please upgrade to enjoy the full functionalities of RealitmeCRM.', 'Account Locked', {preventDuplicates: true});
         return false;
-      } else if(limitRecords !== 0 && totalRecords >= limitRecords) {
-        toastr.warning('You have reached the maximum number of records.<br />Please consider upgrading.');
+      } else if(totalRecords >= MAX_RECORDS) {
+        toastr.options.preventDuplicates = true;
+        toastr.warning('You have reached the maximum number of records.<br />Please consider upgrading.', 'Limit Reached');
       }
       return true;
     }
@@ -249,15 +253,39 @@ var updateTotalRecords = function(modifier) {
     });
   }
   return true;
+};
+
+var updateTotalUsers = function(tenantId) {
+  if(Meteor.isServer) {
+    Meteor.call('updateStripeQuantity', tenantId, function(error, response) {
+      if(error) {
+        Meteor.call('sendErrorEmail',Tenants.findOne({_id: tenantId}).name ,tenantId, error);
+        return false;
+      }
+    });
+  }
 }
 
 Tenants.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
-  doc.limit = (doc.paying) ? 0 : MAX_RECORDS;
 });
 Tenants.after.insert(function(userId, doc) {
   logEvent('info', 'A new tenant has been created: ' + doc.name);
 });
+Tenants.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(!Roles.userIsInRole(userId, ['superadmin', 'Administrator'])) {
+    throw new Meteor.Error(403, 'Only admin users can do updates.');
+  }
+  if(modifier.$set !== undefined) {
+    if(modifier.$set.paying === true && modifier.$set.stripeSubs === undefined) {
+      console.log('Missing', 'The subscription ID is missing.');
+      return false;
+    } else if(modifier.$set.paying === true && modifier.$set.stripeSubs !== undefined && Meteor.isServer) {
+      var isValidSubs = Meteor.call('checkStripeSubscription', doc.stripeId, modifier.$set.stripeSubs);
+      return isValidSubs;
+    }
+  }
+})
 Tenants.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.name !== this.previous.name) {
     logEvent('info', 'An existing tenant has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
@@ -268,9 +296,8 @@ Tenants.after.update(function(userId, doc, fieldNames, modifier, options) {
     for (key in doc.settings) {
       if (doc.settings.hasOwnProperty(key)) {
         if (doc.settings[key] !== prevdoc.settings[key]) {
-          LogEvent('info', 'An existing tenant has been updated: The value of tenant setting "' + key + '" was changed from ' + prevdoc.settings[key] + " to " + doc.settings[key]);
+          logEvent('info', 'An existing tenant has been updated: The value of tenant setting "' + key + '" was changed from ' + prevdoc.settings[key] + " to " + doc.settings[key]);
         }
-
       }
     }
   }
@@ -279,9 +306,28 @@ Tenants.after.remove(function(userId, doc) {
   logEvent('info', 'A tenant has been deleted: ' + doc.name);
 });
 
-
 Meteor.users.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
+});
+
+Meteor.users.after.insert(function(userId, doc) {
+  logEvent('info', 'A user has been created: ' + doc.name);
+  if(Meteor.isServer) {
+    var tenant = Tenants.findOne({_id: doc.group});
+    if(tenant && tenant.paying) {
+      updateTotalUsers(doc.group);
+    }
+  }
+});
+
+Meteor.users.after.remove(function(userId, doc) {
+  logEvent('info', 'A user has been removed: ' + doc.name);
+  if(Meteor.isServer) {
+    var tenant = Tenants.findOne({_id: doc.group});
+    if(tenant && tenant.paying) {
+      updateTotalUsers(doc.group);
+    }
+  }
 });
 
 Companies.before.insert(function(userId, doc) {
@@ -334,7 +380,6 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
 Companies.after.remove(function(userId, doc) {
   updateTotalRecords(-1);
   logEvent('info', 'A company has been deleted: ' + doc.name);
-
 });
 
 Contacts.before.insert(function(userId, doc) {

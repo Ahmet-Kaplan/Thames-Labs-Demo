@@ -120,18 +120,17 @@ Schemas.Tenant = new SimpleSchema({
     label: "Paying tenant",
     defaultValue: false
   },
-  limit: {
-    type: Number,
-    label: "Records limit",
-    autoValue: function() {
-      if(this.field('paying').value) {
-        return 0;
-      } else if(this.value === -1) {
-        return this.value;
-      } else {
-        return MAX_RECORDS;
-      }
-    }
+  blocked: {
+    type: Boolean,
+    defaultValue: false
+  },
+  stripeId: {
+    type: String,
+    optional: true
+  },
+  stripeSubs: {
+    type: String,
+    optional: true
   },
   totalRecords: {
     type: Number,
@@ -721,6 +720,9 @@ Schemas.Product = new SimpleSchema({
 Products.attachSchema(Schemas.Product);
 
 Schemas.Audit = new SimpleSchema({
+  token: {
+    type: String
+  },
   date: {
     type: Date
   },
@@ -862,6 +864,36 @@ Schemas.Opportunity = new SimpleSchema({
     }
   }
 });
+AuditLog.attachSchema(Schemas.Audit);
+
+Schemas.Payment = new SimpleSchema({
+  token: {
+    type: String
+  },
+  tenantId: {
+    type: String
+  },
+  date: {
+    type: Number
+  },
+  createdBy: {
+    type: String
+  },
+  cardType: {
+    type: String
+  },
+  cardCountry: {
+    type: String
+  },
+  last4: {
+    type: String
+  },
+  email: {
+    type: String
+  }
+})
+Payments.attachSchema(Schemas.Payment)
+
 Opportunities.attachSchema(Schemas.Opportunity);
 
 Schemas.Opportunity.messages({

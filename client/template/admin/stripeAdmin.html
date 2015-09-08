@@ -1,0 +1,119 @@
+<template name="stripeSubscribe">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Subscribe to Paying Scheme</h5>
+        </div>
+        
+        <div class="modal-body">
+          Subscribing to the <em>Paying Scheme</em> allows you to add as many records as you want.
+          <br />The cost will be calculated on the pro rata of the actual users number.
+          <br />For more information see our Terms and Condition of use. 
+          
+          <br /><br />For your subscription to become active, you must provide your card details.
+          <br />Please note that none of the card information is stored by us.
+        </div>
+        {{>cardForm buttonText="Subscribe"}}
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="cardForm">
+<form id="subscribe">
+  <div class="modal-body">
+    <div class="row form-group">
+      <div class="col-xs-4">
+        <label for="cardNumber" class="control-label">Card Number</label>
+        <input type="text" id="cardNumber" size="20" class="form-control" data-stripe="number" placeholder="0123456789012345" value="4242424242424242" />
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-xs-2">
+        <label for="cardCVC" class="control-label">CVC</label>
+        <input type="text" id="cardCVC" size="4" class="form-control" data-stripe="cvc" placeholder="123" value="123" />
+      </div>
+      <div class="col-xs-6">
+        <div class="col-xs-12"><label for="expMonth" class="control-label">Expiration (MM/YYYY)</label></div>
+        <div class="col-xs-6"><input type="text" size="2" class="form-control" data-stripe="exp-month" placeholder="01" value="01" /></div>
+        <div class="col-xs-6"><input type="text" size="4" class="form-control" data-stripe="exp-year" placeholder="2016" /></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" id="submit" class="btn btn-primary"><i class="fa fa-lock"></i> {{buttonText}}</button>
+  </div>
+</form>
+</template>
+
+<template name="stripeResubscribe">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5><i class="fa fa-lock"></i> Upgrade to Paying Scheme</h5>
+        </div>
+        
+        <div class="modal-body">
+            You previously subscribed to the <em>Paying Scheme</em> and already have an account with us.
+            <br />Here are the details of the card that you use:
+          <div id='loadingCard' class="well well-sm"><em>Loading card details...</em></div>
+          <div id='cardDetails' class="well well-sm" style="display: none;"></div>
+          For more information see our Terms and Condition of use. 
+        </div>
+        <div class="modal-footer">
+          <button id="resubscribe" class="btn btn-primary"><i class="fa fa-lock"></i> Resume subscription</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="cardDetails">
+  <div class="row">
+    <div class="col-xs-3">Type:</div><div class="col-xs-2">{{brand}}</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3">Last four number:</div><div class="col-xs-2">{{last4}}</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3">Exp Month:</div><div class="col-xs-2">{{exp_month}}</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3">Exp Year:</div><div class="col-xs-2">{{exp_year}}</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12"><button id="updateCardDetails" class="btn btn-xs btn-primary">Update Card Details</button></div>
+  </div>
+</template>
+
+<template name="stripeUnsubscribe">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Downgrade to Free Plan</h5>
+        </div>
+        
+        <div class="modal-body">
+          By downgrading to the <em>Free Plan</em> you will only have 50 records (contacts + companies).
+          {{#if limitReached}}<br />Since you have already reached this limit, you will not be able to add new records.{{/if}}
+          <br />For more information see our Terms and Condition of use.
+        </div>
+        <div class="modal-footer">
+          <button id="unsubscribe" class="btn btn-primary">Unsubscribe</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
