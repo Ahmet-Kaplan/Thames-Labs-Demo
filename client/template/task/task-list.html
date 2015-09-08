@@ -13,13 +13,13 @@
 
         <div class="btn-group pull-right">
           <button type="button" class="btn btn-primary btn-xs" id="tskToggleCompleted" >
-            {{#if showComp}}Hide{{else}}Show{{/if}} Completed
+            {{#if showComp}}Hide{{else}}Show{{/if}} all completed
           </button>
         </div>
       </div>
 
       <ul class="list-group" id='tskEntryContainer'>
-        {{#each tasks}} {{> taskListEntry}} {{else}}
+        {{#each tasks}} {{> task}} {{else}}
         <li class="list-group-item">No tasks added</li>
         {{/each}}
       </ul>

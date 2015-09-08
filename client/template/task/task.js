@@ -17,23 +17,39 @@ Template.task.events({
     });
   },
   'click .task-completed': function(event, template) {
-    var id = this._id
-    var isComplete = $('#task-completed-' + id + ' > input').is(':checked');
-    Tasks.update(id, { $set: {
-      completed: isComplete
-    }});
+    if (Roles.userIsInRole(Meteor.userId(), ['Administrator','CanEditTasks'])) {
+      var id = this._id
+      var isComplete = $('#task-completed-' + id + ' > input').is(':checked');
+      if (isComplete) {
+        Tasks.update(id, { $set: {
+          completed: isComplete,
+          completedAt: new Date()
+        }});
+      } else {
+        Tasks.update(id, { $set: {
+          completed: isComplete
+        }, $unset: {
+          completedAt: null
+        }});
+      }
+    }
   }
 });
 
 Template.task.helpers({
   formattedDueDate: function() {
-    var dateToDisplay = moment(new Date()).add(3, 'days');
-    if (moment(this.dueDate).isBefore(dateToDisplay)) {
-      return moment(this.dueDate).fromNow();
+//Below code allows for only showing the due date if it is within 3 days of now.
+//    var dateToDisplay = moment(new Date()).add(3, 'days');
+//    if (moment(this.dueDate).isBefore(dateToDisplay)) {
+    if (this.completedAt) {
+      return moment(this.completedAt).fromNow();
     }
+    return moment(this.dueDate).fromNow();
+//    }
   },
-  isDashboard: function() {
-    return (FlowRouter.getRouteName() === "dashboard" ? true : false);
+  showEntityDetail: function() {
+    if (FlowRouter.getRouteName() === "dashboard" ? true : false) return true;
+    if (FlowRouter.getRouteName() === "tasks" ? true : false) return true;
   },
   entityDetails: function() {
     var dataString = "";

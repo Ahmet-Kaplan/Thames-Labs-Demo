@@ -8,10 +8,11 @@
       {{/if}}
     </div>
     <div class="pull-right task-date">
-      {{#if formattedDueDate}}Due {{formattedDueDate}}{{/if}}
+      {{#if formattedDueDate}}{{#if completed}}Completed{{else}}Due{{/if}} {{formattedDueDate}}{{/if}}
     </div>
     <span class="pull-right task-tags">{{> tagBadges doc=this type="companies"}}</span>
     <div>
+      {{#if isInRole 'Administrator,CanEditTasks'}}
       <div class="task-completed" id="task-completed-{{_id}}">
         {{#if completed}}
           <input type="checkbox" checked>
@@ -19,8 +20,17 @@
           <input type="checkbox">
         {{/if}}
       </div>
+      {{else}}
+      <div class="task-completed" id="task-completed-{{_id}}">
+        {{#if completed}}
+          <input disabled="disabled" type="checkbox" checked>
+        {{else}}
+          <input disabled="disabled" type="checkbox">
+        {{/if}}
+      </div>
+      {{/if}}
       <a class="{{#if isInRole 'Administrator,CanEditTasks'}}task-title{{/if}}">{{title}}</a>
-      {{#if isDashboard}} <span class="task-entity">{{entityDetails}}</span> {{/if}}
+      {{#if showEntityDetail}} <span class="task-entity">{{entityDetails}}</span> {{/if}}
     </div>
   </li>
 </template>

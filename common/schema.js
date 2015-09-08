@@ -651,6 +651,10 @@ Schemas.Task = new SimpleSchema({
     type: Boolean,
     defaultValue: false
   },
+  completedAt: {
+    type: Date,
+    optional: true
+  },
   entityType: {
     type: String,
     optional: true
