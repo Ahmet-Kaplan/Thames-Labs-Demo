@@ -161,7 +161,11 @@ var updateUserPermissions = function() {
     "CanReadEventLog",
     "CanCreateEventLog",
     "CanEditEventLog",
-    "CanDeleteEventLog"
+    "CanDeleteEventLog",
+    "CanReadOpportunities",
+    "CanCreateOpportunities",
+    "CanEditOpportunities",
+    "CanDeleteOpportunities"
   ];
 
   Meteor.users.find({}).forEach(
@@ -207,7 +211,11 @@ var revertUserPermissions = function() {
     "CanReadEventLog",
     "CanCreateEventLog",
     "CanEditEventLog",
-    "CanDeleteEventLog"
+    "CanDeleteEventLog",
+    "CanReadOpportunities",
+    "CanCreateOpportunities",
+    "CanEditOpportunities",
+    "CanDeleteOpportunities"
   ];
 
   Meteor.users.find({}).forEach(
@@ -232,6 +240,18 @@ Migrations.add({
   down: function() {
     ServerSession.set('maintenance', true);
     revertUserPermissions();
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 7,
+  name: "Clear existing audit log",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+      AuditLog.remove({});
+    });
     ServerSession.set('maintenance', false);
   }
 });

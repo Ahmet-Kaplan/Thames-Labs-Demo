@@ -8,17 +8,14 @@ Template.companyDetail.onCreated(function() {
       Meteor.call('getClearbitData', 'company', company._id);
     }
   });
+
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
+  });
 });
 
 Template.companyDetail.onRendered(function() {
-  // Affix sidebar
-  var sidebar = $('.sidebar');
-  sidebar.affix({
-    offset: {
-      top: sidebar.offset().top
-    }
-  });
-
   // Load docxgen
   $.getScript('/vendor/docxgen.min.js');
 });
@@ -91,6 +88,12 @@ Template.companyDetail.events({
   'click #edit-company': function(event) {
     event.preventDefault();
     Modal.show('editCompanyModal', this);
+  },
+  'click #add-opportunity': function(event) {
+    event.preventDefault();
+    Modal.show('insertCompanyOpportunityModal', {
+      companyId: this._id
+    });
   }
 });
 
@@ -115,5 +118,8 @@ Template.companyDetail.helpers({
   },
   mapAddress: function() {
     return this;
+  },
+  opportunities: function() {
+    return Opportunities.find({companyId: this._id});
   }
 });

@@ -1,0 +1,230 @@
+<template name="opportunityDetail">
+  {{#with oppData}} {{setPageTitle "Opportunity - " name}}
+  <div class="row">
+    <div class="col-md-2 hidden-sm hidden-xs">
+      <div class="sidebar">
+
+        <h1 id="action-side-bar">Actions</h1>
+
+        <ul class="nav nav-stacked">
+          <li><a class="nav-link" href="#opportunity-details">Opportunity details</a></li>
+          <li><a class="nav-link" href="#lines">Line items</a></li>
+        </ul>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Export quotation
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            {{#if canExportDocx}}
+            <li><a href="#" id="template-upload-link-docx">Word document (.docx)</a></li>
+            {{/if}}
+            <li><a href="#" id="template-upload-link">PDF (.pdf)</a></li>
+            <li class="divider"></li>
+            <li><a href="#" id="opp-template-help">How does this work?</a></li>
+          </ul>
+        </div>
+        <input type="file" id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px">
+        <input type="file" id="template-upload" style="height:0; width: 0; margin-left: -9999px">
+      </div>
+    </div>
+    <div class="col-md-10">
+      <div class="pull-right hidden-xs">
+        {{#if isActive}}
+          <br>
+          {{#if isInRole 'Administrator,CanEditOpportunities'}}
+          {{#if isNotFirstStage}}
+            <button class="btn btn-default" id="previous-stage"><i class="fa fa-fw fa-chevron-left"></i> Back to previous stage</button>
+          {{/if}}
+          {{#if isLastStage}}
+            <button class="btn btn-success" id="won-opportunity">Opportunity won</button>
+          {{else}}
+            <button class="btn btn-primary" id="next-stage">Move to next stage <i class="fa fa-fw fa-chevron-right"></i></button>
+          {{/if}}
+          <br><br>
+          <a href="#" id="lost-opportunity" class="pull-right text-danger" style="text-decoration:underline">Mark opportunity as lost</a>
+          {{/if}}
+        {{else}}
+          {{#if hasBeenWon}}
+            <h3 class="text-success" style="margin-top: 25px;">Opportunity won</h3>
+            {{#if isInRole 'Administrator,CanReadProjects'}}{{#if projectId}}
+              <p style="text-align:right;"><a href="{{pathFor route='project' id=projectId}}">View project</a></p>
+            {{/if}}{{/if}}
+          {{else}}
+            <br>
+            <h3 class="text-danger">Opportunity lost</h3>
+          {{/if}}
+        {{/if}}
+      </div>
+      <h4 class="entity-title">Opportunity</h4>
+      <h1 class="entity-name">{{name}}</h1>
+      {{#if isActive}}
+        <div class="stepwizard hidden-xs">
+          <div class="stepwizard-row">
+            {{#each stages}}
+              {{> opportunityStage}}
+            {{/each}}
+          </div>
+        </div>
+        <br>
+      {{/if}}
+
+      {{> tagInput}}
+
+      <div class="panel panel-default" id="opportunity-details">
+        <div class="panel-heading">
+          Opportunity details
+          {{#if isActive}}
+          <div class="btn-group pull-right">
+            {{#if isInRole 'Administrator,CanEditOpportunities'}}
+            <a href="#" id="edit-opportunity" class="btn btn-info btn-xs">Edit opportunity</a>
+            {{/if}} {{#if isInRole 'Administrator,CanDeleteOpportunities'}}
+            <a href="#" id="remove-opportunity" class="btn btn-danger btn-xs">Delete opportunity</a>
+            {{/if}}
+          </div>
+          {{/if}}
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-file-o"></i> Name</h4>
+            {{name}}
+          </li>
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
+            {{description}}
+          </li>
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-calendar"></i> Date</h4>
+            {{friendlyDate}}
+          </li>
+          {{#if value}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-money"></i> Value</h4>
+            {{value}}
+          </li>
+          {{/if}}
+
+          {{#if isInRole 'Administrator,CanReadCompanies'}}{{#if company}}
+          <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-building"></i> Company</h4>
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+             {{company.name}}
+          </a>
+          {{/if}} {{/if}}
+
+          {{#if isInRole 'Administrator,CanReadContacts'}}{{#if contact}}
+          <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-user"></i> Contact</h4>
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+             {{contact.name}}
+          </a>
+          {{/if}} {{/if}}
+        </ul>
+      </div>
+      <div class="panel panel-default" id="lines">
+        <div class="panel-heading">
+          Line items
+          {{#if isActive}}
+          <div class="pull-right">
+
+            {{#if isInRole 'Administrator,CanEditOpportunities'}}
+            <button class="btn btn-primary btn-xs" id="add-line-item"><i class="fa fa-fw fa-plus"></i> Add line item</button>
+            {{/if}}
+          </div>
+          {{/if}}
+        </div>
+        <ul class="list-group">
+          {{#if items}}
+            {{#each getItems}}
+              {{> opportunityItem}}
+            {{/each}}
+          {{else}}
+            <li class="list-group-item" id="no-line-items">
+              No line items
+            </li>
+          {{/if}}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-2">
+      <h1 id="activity-timeline">
+        Activity Timeline
+        {{#if isActive}}
+          <a class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="New activity for this opportunity" href="#" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add
+            activity</a>
+        {{/if}}
+      </h1>
+      {{> activityTimeline activities=activities}}
+    </div>
+  </div>
+  {{/with}}
+</template>
+
+<template name="opportunityStage">
+  <div class="stepwizard-step {{#if isCurrentStep}}active-step{{/if}}" data-toggle="tooltip" data-placement="bottom" title="{{description}}">
+    <button type="button" class="btn btn-default btn-circle" disabled="disabled"></button>
+    <p>{{title}}</p>
+  </div>
+</template>
+
+<template name="opportunityItem">
+  <li class="list-group-item">
+    {{#if isActive}}
+    <button class="btn btn-danger btn-xs delete-line-item pull-right">Delete</button>
+    <button class="btn btn-info btn-xs edit-line-item pull-right">Edit</button>
+    {{/if}}
+    <h4 style="margin: 0 0 4px">{{data.name}}</h4>
+    {{#if data.description}}
+      {{data.description}}<br>
+    {{/if}}
+    {{#if data.value}}
+    <b>Value:</b> {{data.value}}<br>
+    {{/if}}
+    {{#if data.quantity}}
+    <b>Quantity:</b> {{data.quantity}}
+    {{/if}}
+  </li>
+</template>
+
+<template name="oppHelpModal">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Help on templates</h4>
+        </div>
+        <div class="modal-body">
+          <p>You can create a template by using Word, creating a new document, populating it with your content and include Keywords that RealTime recognises which will allow RealTime to personalise and fill your template for you. You can then upload your
+            template whenever you need to use it and save time.</p>
+          <p>Keywords which are recognised by RealTime:</p>
+          <ul>
+            <li>{opportunityName} - Opportunity name</li>
+            <li>{opportunityDescription} - Opportunity description</li>
+
+            <li>{companyName} - Company name (if provided)</li>
+            <li>{companyAddress} - Address of company (if provided)</li>
+            <li>{contactName} - Company contact name (if provided)</li>
+
+            <li>{date} - The date that the template is generated on</li>
+          </ul>
+
+          For each line item, you can specify the following tags:
+          <ul>
+            <li>{name} - The name of a purchase order item</li>
+            <li>{description} - The number of a purchase order items ordered</li>
+            <li>{value} - The value of a purchase order item</li>
+            <li>{quantity} - The quantity of a purchase order item</li>
+          </ul>
+          You can loop through multiple items in your template by wrapping them as follows:
+          <blockquote>
+            {#lineItems} {name} {count} {value} {total} {/lineItems}
+          </blockquote>
+          <br /> All calculations are carried out by RealTime, so you don't need to do anything extra to generate a quotation.
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

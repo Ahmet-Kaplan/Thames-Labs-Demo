@@ -93,6 +93,26 @@
         {{#if isInRole 'Administrator,CanEditContacts'}}{{#with this}} {{> customFieldDisplay entity_data=this entity_type='contact'}} {{/with}}{{/if}}
       </div>
 
+      {{#if isInRole 'Administrator,CanReadOpportunities'}}
+      <div class="panel panel-default">
+        <div class="panel-heading" id="opportunities">
+          Opportunities
+          {{#if isInRole 'Administrator,CanCreateOpportunities'}}
+          <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add opportunity</a>
+          {{/if}}
+        </div>
+        <ul class="list-group">
+          {{#each opportunities}}
+          <a href="{{pathFor route='opportunity' id=_id}}" class="list-group-item">
+            <i class="fa fa-fw fa-files-o"></i> {{name}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
+          {{else}}
+          <li class="list-group-item">No opportunities</li>
+          {{/each}}
+        </ul>
+      </div>
+      {{/if}}
     </div>
 
     <div class="col-md-4">

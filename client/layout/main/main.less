@@ -55,18 +55,19 @@ blockquote {
   left: @sidebar-width;
   right:0;
   overflow-x:hidden;
+  overflow-y:visible;
+  min-height: 90%;
   padding: 4px 22px 30px;
   transition: all 0.15s ease-in-out;
   box-sizing: border-box;
   top: @navbar-height;
-  bottom: 30px;
 }
 
 #id-view-content.no-menu {
   left:0;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   #id-view-content {
     left:0;
     padding: 4px 8px;

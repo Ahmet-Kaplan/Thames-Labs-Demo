@@ -1,11 +1,11 @@
-Template.productList.onRendered(function() {
-  var sidebar = $('.sidebar');
-  sidebar.affix({
-    offset: {
-      top: sidebar.offset().top
-    }
+Template.productList.onCreated(function() {
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadProducts');
   });
+});
 
+Template.productList.onRendered(function() {
   // Watch for session variable setting search
   Session.set('productListSearchQuery', null);
   Tracker.autorun(function() {

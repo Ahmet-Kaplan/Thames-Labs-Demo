@@ -400,6 +400,10 @@ Schemas.Activity = new SimpleSchema({
     type: String,
     optional: true
   },
+  opportunityId: {
+    type: String,
+    optional: true
+  },
   createdBy: {
     type: String,
     autoform: {
@@ -441,6 +445,26 @@ Schemas.Project = new SimpleSchema({
     autoform: {
       type: 'hidden'
     }
+  },
+  dueDate: {
+    type: Date,
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          useCurrent: true,
+          sideBySide: true,
+          widgetPositioning: {
+            vertical: "top"
+          }
+        }
+      }
+    }
+  },
+  staff: {
+    type: [String],
+    optional: true
   }
 });
 Projects.attachSchema(Schemas.Project);
@@ -721,10 +745,125 @@ Schemas.Audit = new SimpleSchema({
   entityId: {
     type: String,
     optional: true
-  },
-  groupId: {
-    type: String,
-    optional: true
   }
 });
 AuditLog.attachSchema(Schemas.Audit);
+
+//Opportunities
+Schemas.OpportunityStage = new SimpleSchema({
+  title: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  order: {
+    type: Number
+  }
+});
+OpportunityStages.attachSchema(Schemas.OpportunityStage);
+
+Schemas.Opportunity = new SimpleSchema({
+  name: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  date: {
+    type: Date,
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          useCurrent: true,
+          sideBySide: true,
+          widgetPositioning: {
+            vertical: "top"
+          }
+        }
+      }
+    }
+  },
+  value: {
+    type: Number,
+    optional: true
+  },
+  items: {
+    type: Array,
+    optional: true
+  },
+  hasBeenWon: {
+    type: Boolean,
+    optional: true
+  },
+  isArchived: {
+    type: Boolean,
+    optional: true
+  },
+  currentStageId: {
+    type: String,
+    optional: true
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  },
+  companyId: {
+    type: String,
+    optional: true,
+    custom: function() {
+      if (!this.isSet && !this.field('contactId').isSet) {
+        return "needsRelatedEntity";
+      }
+    }
+  },
+  contactId: {
+    type: String,
+    optional: true,
+    custom: function() {
+      if (!this.isSet && !this.field('companyId').isSet) {
+        return "needsRelatedEntity";
+      }
+    }
+  },
+  'items.$': {
+    type: Object
+  },
+  'items.$.id': {
+    type: String
+  },
+  'items.$.name': {
+    type: String
+  },
+  'items.$.description': {
+    type: String,
+    optional: true
+  },
+  'items.$.value': {
+    type: Number,
+    optional: true
+  },
+  'items.$.quantity': {
+    type: Number,
+    optional: true
+  },
+  projectId: {
+    type: String,
+    optional: true
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
+  }
+});
+Opportunities.attachSchema(Schemas.Opportunity);
+
+Schemas.Opportunity.messages({
+  needsRelatedEntity: "A company or a contact is required"
+});

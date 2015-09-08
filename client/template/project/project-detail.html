@@ -1,0 +1,105 @@
+<template name="projectDetail">
+  {{#with projectData}} {{setPageTitle "Project - " description }}
+  <div class="row">
+    <div class="col-md-2 hidden-xs hidden-sm">
+      <div class="sidebar">
+        <h1>Actions</h1>
+
+        <ul class="nav nav-stacked">
+          <li><a href="#project-details">Project details</a></li>
+          <li><a href="#activity-timeline">Activity timeline</a></li>
+        </ul>
+
+      </div>
+    </div>
+
+    <div class="col-md-10">
+      <h4 class="entity-title">Project</h4>
+      {{#if opportunityId}}
+      <div class="pull-right hidden-xs">
+        <p style="text-align:right;"><a href="{{pathFor route='opportunity' id=opportunityId}}">View opportunity</a></p>
+      </div>
+      {{/if}}
+      <h1 id="project-details" class="entity-name">{{description}}</h1>
+
+      {{> tagInput}}
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="btn-group pull-right">
+            <!-- {{#afModal class="btn btn-info btn-xs" collection="Projects" doc=_id operation="update" formId="updateProjectForm" omitFields="projectId, companyId"}} Edit project details {{/afModal}} -->
+            {{#if isInRole 'Administrator,CanEditProjects'}}
+            <a href="#" id="edit-project" class="btn btn-info btn-xs">Edit project details</a>{{/if}}
+
+            <!-- {{#afModal class="btn btn-danger btn-xs" collection="Projects" doc=_id operation="remove" formId="removeProjectForm"}} Delete project {{/afModal}} -->
+{{#if isInRole 'Administrator,CanDeleteProjects'}}
+            <a href="#" id="remove-project" class="btn btn-danger btn-xs">Delete project</a>{{/if}}
+
+          </div>
+          Project details</div>
+        <ul class="list-group">
+          {{#if company}}
+            {{#if isInRole 'Administrator,CanReadCompanies'}}
+            <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to company details">
+              <h4><i class="fa fa-fw fa-building"></i> Company</h4>
+              {{company.name}}
+              <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            </a>
+            {{/if}}
+          {{/if}} {{#if contactId}}
+          {{#if isInRole 'Administrator,CanReadContacts'}}
+          <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to contact details">
+            <h4><i class="fa fa-fw fa-user"></i> Contact</h4>
+            {{contactName}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
+          {{/if}}   {{/if}} {{#if userId}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-user"></i> Account Manager</h4>
+            {{managerName}}
+          </li>
+          {{/if}} {{#if value}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-money"></i> Value</h4>
+            £{{decimal value}}
+          </li>
+          {{/if}} {{#if dueDate}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-calendar"></i> Due Date</h4>
+            {{friendlyDueDate}}
+          </li>
+          {{/if}} {{#if staff}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-users"></i> Staff</h4>
+            {{staffList}}
+          </li>
+          {{/if}}
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+    </div>
+
+  </div>
+
+{{#if isInRole 'Administrator,CanReadTasks'}}
+  <div class="row">
+    <div class="col-md-10 col-md-offset-2">
+      {{#with this}} {{> taskDisplay entity_type="project" entity_id=_id}} {{/with}}
+    </div>
+  </div>
+  {{/if}}
+
+  <div class="row">
+    <div class="col-md-10 col-md-offset-2">
+      <h1 id="activity-timeline">
+        Activity Timeline
+        <a href="#" class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="New activity for this project" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
+      </h1>
+      {{> activityTimeline activities=activities}}
+    </div>
+  </div>
+
+  {{> autoformModals}} {{/with}}
+</template>

@@ -1,3 +1,10 @@
+Template.datamanagement.onCreated(function() {
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadDataManagement');
+  });
+});
+
 Template.datamanagement.events({
   'click #contact-template-help': function(event) {
     event.preventDefault();
@@ -83,93 +90,160 @@ Template.datamanagement.events({
         totalToImport = 0,
         totalUpdated = 0,
         totalErrors = 0;
+      var errorList = [];
 
       _.each(unprocessed.data, function(de) {
         totalToImport += 1;
 
         if (de.company === "") {
-          toastr.error('Could not import contact ' + de.title + ' ' + de.forename + ' ' + de.surname + ': no company provided (orphaned contacts not yet supported)');
-          totalErrors += 1;
-          return;
-        }
 
-        var companyExists = Companies.find({
-          name: de.company
-        }).count();
+          var existing = Contacts.find({
+            title: de.title,
+            forename: de.forename,
+            surname: de.surname
+          }).count();
 
-        var companyId = "";
+          if (existing === 0) {
 
-        if (companyExists === 0) {
-          toastr.error('Contact ' + de.title + ' ' + de.forename + ' ' + de.surname + ' not added: given company could not be found? Have you checked your spelling?');
-          totalErrors += 1;
-          return;
+            de.createdBy = Meteor.userId();
+
+            Contacts.insert(de, function(e, i) {
+              if (e) {
+                errorList.push(e);
+                totalErrors += 1;
+              }
+            });
+
+            totalImported += 1;
+
+          } else {
+
+            bootbox.confirm("A contact with the name '" + de.title + ' ' + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?", function(result) {
+              if (result === true) {
+
+                var record = Contacts.find({
+                  title: de.title,
+                  forename: de.forename,
+                  surname: de.surname
+                }).fetch()[0];
+
+                Contacts.update(
+                  record._id, {
+                    $set: {
+                      title: de.title,
+                      forename: de.forename,
+                      surname: de.surname,
+                      email: de.email,
+                      phone: de.phone,
+                      mobile: de.mobile,
+                      jobtitle: de.jobtitle
+                    }
+                  },
+                  function(e, i) {
+                    if (e) {
+                      errorList.push(e);
+                      totalErrors += 1;
+                    }
+                  });
+
+                totalUpdated += 1;
+
+              }
+
+            });
+
+          }
         } else {
-          var company = Companies.find({
+
+          var companyExists = Companies.find({
             name: de.company
-          }).fetch()[0];
+          }).count();
 
-          companyId = company._id;
-        }
+          var companyId = "";
 
-        var existing = Contacts.find({
-          title: de.title,
-          forename: de.forename,
-          surname: de.surname,
-          companyId: companyId
-        }).count();
+          if (companyExists === 0) {
+            // toastr.error('Contact ' + de.title + ' ' + de.forename + ' ' + de.surname + ' not added: given company could not be found? Have you checked your spelling?');
+            errorList.push('Contact ' + de.title + ' ' + de.forename + ' ' + de.surname + ' not added: given company could not be found? Have you checked your spelling?');
+            totalErrors += 1;
+            return;
+          } else {
+            var company = Companies.find({
+              name: de.company
+            }).fetch()[0];
 
-        if (existing === 0) {
+            companyId = company._id;
+          }
 
-          de.createdBy = Meteor.userId();
-          de.companyId = companyId;
-          delete de.company;
+          var existing = Contacts.find({
+            title: de.title,
+            forename: de.forename,
+            surname: de.surname,
+            companyId: companyId
+          }).count();
 
-          Contacts.insert(de, function(e, i) {
-            if (e) {
-              toastr.error(e);
-              totalErrors += 1;
-            }
-          });
+          if (existing === 0) {
 
-          totalImported += 1;
+            de.createdBy = Meteor.userId();
+            de.companyId = companyId;
+            delete de.company;
 
-        } else {
+            Contacts.insert(de, function(e, i) {
+              if (e) {
+                // toastr.error(e);
+                errorList.push(e);
+                totalErrors += 1;
+              }
+            });
 
-          bootbox.confirm("A contact with the name '" + de.title + ' ' + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?", function(result) {
-            if (result === true) {
+            totalImported += 1;
 
-              var record = Contacts.find({
-                title: de.title,
-                forename: de.forename,
-                surname: de.surname
-              }).fetch()[0];
+          } else {
 
-              Contacts.update(
-                record._id, {
-                  $set: {
-                    title: de.title,
-                    forename: de.forename,
-                    surname: de.surname,
-                    email: de.email,
-                    phone: de.phone,
-                    mobile: de.mobile,
-                    jobtitle: de.jobtitle
-                  }
-                },
-                function(e, i) {
-                  if (e) totalErrors += 1;
-                });
+            bootbox.confirm("A contact with the name '" + de.title + ' ' + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?", function(result) {
+              if (result === true) {
 
-              totalUpdated += 1;
+                var record = Contacts.find({
+                  title: de.title,
+                  forename: de.forename,
+                  surname: de.surname
+                }).fetch()[0];
 
-            }
+                Contacts.update(
+                  record._id, {
+                    $set: {
+                      title: de.title,
+                      forename: de.forename,
+                      surname: de.surname,
+                      email: de.email,
+                      phone: de.phone,
+                      mobile: de.mobile,
+                      jobtitle: de.jobtitle
+                    }
+                  },
+                  function(e, i) {
+                    if (e) {
+                      errorList.push(e);
+                      totalErrors += 1;
+                    }
+                  });
 
-          });
+                totalUpdated += 1;
 
+              }
+
+            });
+
+          }
         }
       });
 
       // toastr.info("Import completed.\r\nNew: " + totalImported + "\r\nUpdated: " + totalUpdated + "\r\nErrors: " + totalErrors);
+
+      if (errorList.length > 0) {
+        Modal.show('dataWarnings', errorList);
+      } else {
+        toastr.success('Import succeeded.');
+      }
     }
 
     reader.readAsText(file);
@@ -257,6 +331,7 @@ Template.datamanagement.events({
         totalToImport = 0,
         totalUpdated = 0,
         totalErrors = 0;
+      var errorList = [];
 
       _.each(unprocessed.data, function(de) {
         totalToImport += 1;
@@ -269,7 +344,8 @@ Template.datamanagement.events({
           de.createdBy = Meteor.userId();
           Companies.insert(de, function(e, i) {
             if (e) {
-              toastr.error(e);
+              // toastr.error(e);
+              errorList.push(e);
               totalErrors += 1;
             }
           });
@@ -298,7 +374,10 @@ Template.datamanagement.events({
                   }
                 },
                 function(e, i) {
-                  if (e) totalErrors += 1;
+                  if (e) {
+                    errorList.push(e);
+                    totalErrors += 1;
+                  }
                 });
               totalUpdated += 1;
             }
@@ -309,6 +388,11 @@ Template.datamanagement.events({
       });
 
       // toastr.info("Import completed.\r\nNew: " + totalImported + "\r\nUpdated: " + totalUpdated + "\r\nErrors: " + totalErrors);
+      if (errorList.length > 0) {
+        Modal.show('dataWarnings', errorList);
+      } else {
+        toastr.success('Import succeeded.');
+      }
     }
 
     reader.readAsText(file);

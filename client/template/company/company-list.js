@@ -1,14 +1,14 @@
-Template.companyList.onRendered(function() {
-  var sidebar = $('.sidebar');
-  sidebar.affix({
-    offset: {
-      top: sidebar.offset().top
-    }
+Template.companyList.onCreated(function() {
+  // Redirect if read permission changed - we also check the initial load in the router
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
   });
+});
 
+Template.companyList.onRendered(function() {
   // Watch for session variable setting search
   Session.set('companyListSearchQuery', null);
-  Tracker.autorun(function() {
+  this.autorun(function() {
     var searchQuery = Session.get('companyListSearchQuery');
     var easySearchInstance = EasySearch.getComponentInstance({
       index: 'companies'
@@ -18,7 +18,6 @@ Template.companyList.onRendered(function() {
       $('.sidebar input').val(searchQuery);
     }
   });
-
 });
 
 Template.companyList.helpers({
@@ -34,7 +33,7 @@ Template.companyList.helpers({
 });
 
 Template.companyList.events({
-  'click #createCompany': function(event) {
+  'click #add-company': function(event) {
     event.preventDefault();
     Modal.show('insertNewCompanyModal', this);
   }

@@ -1,44 +1,5 @@
 module.exports = function() {
 
-  var logout = function(done) {
-    Meteor.logout(done);
-  };
-
-  var login = function(email, password, done) {
-    Meteor.loginWithPassword(email, password, done);
-  };
-
-  this.Given(/^I am a logged out user$/, function(callback) {
-    this.client
-      .url(process.env.ROOT_URL)
-      .executeAsync(logout)
-      .call(callback);
-  });
-
-  this.Given(/^I am a logged in user$/, function(callback) {
-    this.client
-      .setViewportSize({
-        width: 1000,
-        height: 800
-      })
-      .url(process.env.ROOT_URL)
-      .executeAsync(logout)
-      .executeAsync(login, 'test@domain.com', 'goodpassword')
-      .call(callback);
-  });
-
-  this.Given(/^I am a logged in superadmin user$/, function(callback) {
-    this.client
-      .setViewportSize({
-        width: 1000,
-        height: 800
-      })
-      .url(process.env.ROOT_URL)
-      .executeAsync(logout)
-      .executeAsync(login, 'admin@cambridgesoftware.co.uk', 'admin')
-      .call(callback);
-  });
-
   this.Given(/^I can see the login form$/, function(callback) {
     this.client
       .waitForExist('form#at-pwd-form')
