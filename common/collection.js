@@ -202,6 +202,8 @@ Partitioner.partitionCollection(Chatterbox);
 Partitioner.partitionCollection(Meteor.tags);
 
 Tasks = new Mongo.Collection('tasks');
+Tags.TagsMixin(Tasks);
+Collections.tasks = Tasks;
 Partitioner.partitionCollection(Tasks);
 
 AuditLog = new Mongo.Collection('audit');

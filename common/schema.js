@@ -664,6 +664,13 @@ Schemas.Task = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
   }
 });
 Tasks.attachSchema(Schemas.Task);

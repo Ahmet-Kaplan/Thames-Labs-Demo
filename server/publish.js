@@ -334,7 +334,13 @@ Meteor.publish("allUserTasks", function(userId) {
     assigneeId: userId
   });
 });
-
+Meteor.publish("taskTags", function() {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTags'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Meteor.tags.find({
+    collection: 'tasks'
+  });
+});
 
 //Products
 Meteor.publish("allProducts", function() {

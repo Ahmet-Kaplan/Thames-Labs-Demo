@@ -1,0 +1,26 @@
+<template name="task">
+  <li class="list-group-item task">
+    <div class="btn-group pull-right">
+      {{#if isInRole 'Administrator,CanDeleteTasks'}}
+      <button class="btn btn-danger btn-xs delete-task" type="button">
+        Delete
+      </button>
+      {{/if}}
+    </div>
+    <div class="pull-right task-date">
+      {{#if formattedDueDate}}Due {{formattedDueDate}}{{/if}}
+    </div>
+    <span class="pull-right task-tags">{{> tagBadges doc=this type="companies"}}</span>
+    <div>
+      <div class="task-completed" id="task-completed-{{_id}}">
+        {{#if completed}}
+          <input type="checkbox" checked>
+        {{else}}
+          <input type="checkbox">
+        {{/if}}
+      </div>
+      <a class="{{#if isInRole 'Administrator,CanEditTasks'}}task-title{{/if}}">{{title}}</a>
+      {{#if isDashboard}} <span class="task-entity">{{entityDetails}}</span> {{/if}}
+    </div>
+  </li>
+</template>

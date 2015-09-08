@@ -45,9 +45,11 @@
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           <!-- {{> afQuickField name="assigneeId"          id="taskUserList" options=usersAsOptions}}  -->
 
-            {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}}
+          {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}}
 
           {{> afQuickField name="completed" id="taskCompleted"}}
+
+          {{> tagInput doc=this type="tasks"}}
           <button type="submit" class="btn btn-primary ">Update</button>
           {{/autoForm}}
         </div>
@@ -71,7 +73,7 @@
       {{/if}}
     </div>
     <ul class="list-group" id='taskContainer'>
-      {{#each tasks}} {{> taskDisplayItem}} {{else}}
+      {{#each tasks}} {{> task}} {{else}}
       <li class="list-group-item">No tasks added</li>
       {{/each}}
     </ul>
@@ -94,7 +96,7 @@
           Delete task
         </button>
         {{/if}}
-        
+
       </div>
     </div>
     <div id="collapseTask{{_id}}" class="panel-collapse collapse displayedTaskBody">
