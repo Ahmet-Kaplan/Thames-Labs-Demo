@@ -15,6 +15,8 @@ Template.taskList.helpers({
     if (Session.get('showCompleted') === 1) {
       return Tasks.find({}, {
         sort: {
+          completed: 1,
+          completedAt: -1,
           dueDate: 1
         }
       });
@@ -23,6 +25,8 @@ Template.taskList.helpers({
         completed: false
       }, {
         sort: {
+          completed: 1,
+          completedAt: -1,
           dueDate: 1
         }
       });
