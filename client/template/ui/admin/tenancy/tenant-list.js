@@ -72,56 +72,21 @@ Template.tenant.events({
         toastr.info('Processing the update...');
         Meteor.call('cancelStripeSubscription', tenantId, function(error, response) {
           if(error) {
+            console.log(error)
             bootbox.alert({
               title: 'Error',
               message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to cancel subscription.<br />See Stripe dashboard to cancel manually.</div>'
             });
-            throw new Meteor.Error('Undefined', 'Unable to cancel stripe subscription, ' + error);
+            return false;
           }
-          bootbox.alert({
-            title: 'Subscription updated',
-            message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>The subscription has been cancelled successfully.<br />Switched to Free Scheme.</div>'
-          });
+            toastr.success('The subscription has been cancelled successfully.<br />Switched to Free Scheme.');
         });
       }
     });
   },
   'click #btnSwitchToPaying': function(event) {
     event.preventDefault();
-    var tenantId = this._id;
-    if(this.stripeId) {
-      bootbox.prompt({
-        title: 'Enter Stripe Subscription Number',
-        value: 'sub_',
-        callback: function(result) {
-          Tenants.update(tenantId, {
-            $set: {
-              paying: true,
-              stripeSubs: result
-            }
-          }, function(error, nUpdated) {
-            if(error) {
-              bootbox.alert({
-              title: 'Error' + nUpdated,
-              message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Subscription number seems valid. Check connexion with database.</div>'
-              });
-            } else if(nUpdated === false) {
-              bootbox.alert({
-              title: 'Error' + nUpdated,
-              message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Check the validity of the subscription number.</div>'
-              });
-            } else {
-              bootbox.alert({
-                title: 'Subscription complete ' + nUpdated,
-                message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />Switched to Paying Scheme.'
-              });
-            }
-          });
-        }
-      })
-    } else {
       Modal.show('setPayingTenant', this);
-    }
   },
   'click #btnBlockTenant': function(event) {
     event.preventDefault();
@@ -156,22 +121,23 @@ Template.user.helpers({
 Template.user.events({
   "click #btnDeleteTenantUser": function(event, template) {
     var userId = this._id;
+    var userName = this.profile.name;
     event.preventDefault();
 
-    bootbox.confirm("Are you sure you wish to delete this user?", function(result) {
+    bootbox.confirm("Are you sure you wish to delete the user " + userName + "?", function(result) {
       if (result === true) {
-        Meteor.call('removeUser', userId);
+        Meteor.call('removeUser', userId, function(error, response) {
+          if(error) {
+            toastr.error('Unable to remove user. ', error);
+            return false;
+          }
+          toastr.success('User ' + userName + ' successfully removed.');
+        });
       }
     });
   },
   "click #btnEditTenantUser": function(event, template) {
     event.preventDefault();
     Modal.show('editTenantUser', this);
-  }
-});
-
-Template.setPayingTenant.helpers({
-  hasStripeAccount: function() {
-    return (this.stripeId !== undefined);
   }
 });

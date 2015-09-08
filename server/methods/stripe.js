@@ -1,8 +1,10 @@
-var Future = Npm.require('fibers/future');
+//set STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE
+//set STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxAvar
+
+Future = Npm.require('fibers/future');
 
 Meteor.methods({
   getStripePK: function() {
-    //pk_test_W7Cx4LDFStOIaJ2g5DufAIaE
     return process.env.STRIPE_PK;
   },
   createStripeCustomer: function(token) {
@@ -40,8 +42,8 @@ Meteor.methods({
     return newStripeId.wait();
   },
 
-  createStripeSubscription: function(customerId) {
-    var tenantId = Partitioner.getUserGroup(this.userId);
+  createStripeSubscription: function(customerId, adminTenantId) {
+    var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? adminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
     var Stripe = StripeAPI(process.env.STRIPE_SK);
     var stripeSubscription = new Future();
@@ -49,7 +51,7 @@ Meteor.methods({
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may subscribe.');
-    } else if (theTenant.stripeSubs) {
+    } else if (!Roles.userIsInRole(this.userId, ['superadmin']) && theTenant.stripeSubs) {
       throw new Meteor.Error('Existing subscription', 'It appears you have already subsribed.');
     }
 
@@ -74,8 +76,8 @@ Meteor.methods({
     return stripeSubscription.wait();
   },
 
-  updateStripeQuantity: function() {
-    var tenantId = Partitioner.getUserGroup(this.userId);
+  updateStripeQuantity: function(adminTenantId) {
+    var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? adminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
     var stripeId = theTenant.stripeId;
     var stripeSubs = theTenant.stripeSubs;
@@ -97,7 +99,8 @@ Meteor.methods({
     });
   },
 
-  cancelStripeSubscription: function(tenantId) {
+  cancelStripeSubscription: function(adminTenantId) {
+    var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? adminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
     var Stripe = StripeAPI(process.env.STRIPE_SK);
     var stripeConfirmation = new Future();
@@ -155,7 +158,7 @@ Meteor.methods({
     return stripeCardDetails.wait();
   },
 
-  updateStripeCard: function(oldCardId, token) {
+  updateStripeCard: function(token) {
     var tenantId = Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
     var stripeId = theTenant.stripeId;

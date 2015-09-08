@@ -5,8 +5,8 @@ Meteor.startup(function() {
       return false;
     }
     Session.set('STRIPE_PK', result);
+    Stripe.setPublishableKey(result);
   })
-  Stripe.setPublishableKey(Session.get('STRIPE_PK'));
 });
 
 Template.stripeSubscribe.events({
@@ -32,8 +32,8 @@ Template.stripeSubscribe.events({
           Meteor.call('createStripeCustomer', response.id, function(error, result) {
             if(error) {
               Modal.hide();
-              toastr.error('Unable to create subscription');
-              throw new Meteor.Error('Undefined', 'Unable to create stripe customer, ' + error);
+              toastr.error('Unable to create customer');
+              return false;
             }
 
             Meteor.call('createStripeSubscription', result, function(error, response) {
@@ -43,7 +43,7 @@ Template.stripeSubscribe.events({
                   title: 'Error',
                   message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription.</div>'
                 });
-                throw new Meteor.Error('Undefined', 'Unable to create stripe subscription, ' + error);
+                return false;
               }
               toastr.clear();
               Modal.hide();
@@ -71,7 +71,6 @@ Template.stripeResubscribe.onRendered(function() {
     }
 
     Meteor.call('getStripeCardDetails', stripeId, function(error, response) {
-      Session.set('cardDetails', response);
       displayCardDetails(response);
     });
 });
@@ -84,7 +83,7 @@ Template.stripeResubscribe.events({
     if(!stripeId) {
       toastr.error('Missing stripe account.');
       Modal.hide();
-      throw new Meteor.Error(400, 'No stripe account could be found.');
+      return false;
     }
     Meteor.call('createStripeSubscription', stripeId, function(error, response) {
       if(error) {
@@ -93,7 +92,7 @@ Template.stripeResubscribe.events({
           title: 'Error',
           message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription.<br />Please contact us if the problem remains.</div>'
         });
-        throw new Meteor.Error('Undefined', 'Unable to create stripe subscription, ' + error);
+        return false;
       }
       Modal.hide();
       toastr.clear();
@@ -113,7 +112,6 @@ Template.stripeResubscribe.events({
 
   'submit #subscribe': function() {
     event.preventDefault();
-    var oldCardId = Session.get('cardDetails').id;
 
     //Disable the submit button to prevent repeated clicks
     $('#submit').prop('disabled', true);
@@ -130,11 +128,11 @@ Template.stripeResubscribe.events({
           $('#submit').prop('disabled', false);
           return;
         } else {
-          Meteor.call('updateStripeCard', oldCardId, response.id, function(error, response) {
+          Meteor.call('updateStripeCard', response.id, function(error, response) {
             if(error) {
               Modal.hide();
               toastr.error('Unable to update card details');
-              throw new Meteor.Error('Card error', 'Unable to update card details.')
+              return false;
             }
             toastr.clear();
             toastr.success('Your card details have been updated.');
@@ -158,14 +156,14 @@ Template.stripeUnsubscribe.events({
     event.preventDefault();
     $('#unsubscribe').prop('disabled', true);
     toastr.info('Processing your changes...');
-    Meteor.call('cancelStripeSubscription', Tenants.findOne({})._id, function(error, response) {
+    Meteor.call('cancelStripeSubscription', function(error, response) {
       if(error) {
         Modal.hide();
         bootbox.alert({
           title: 'Error',
           message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to cancel subscription.<br />Please contact us if the problem remains.</div>'
         });
-        throw new Meteor.Error('Undefined', 'Unable to cancel stripe subscription, ' + error);
+        return false;
       }
       Modal.hide();
       toastr.clear();

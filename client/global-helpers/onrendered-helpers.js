@@ -13,4 +13,9 @@ Template.onRendered(function() {
     handle: '.modal-header',
     opacity: 0.35,
   });
+
+  //Triggers collapsing and expanding accordions
+  $('.accordion-toggle').on('click', function() {
+    $('#collapse' + this.id).collapse('toggle');
+  })
 });

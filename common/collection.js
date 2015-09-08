@@ -215,7 +215,7 @@ Payments = new Mongo.Collection('payments');
 
 var checkRecordsNumber = function() {
   var payingTenant = Tenants.findOne({}).paying;
-  var blockedTenant = Tenants.findone({}).blocked;
+  var blockedTenant = Tenants.findOne({}).blocked;
   var totalRecords = (Tenants.findOne({}) === undefined) ? 0 : Tenants.findOne({}).totalRecords;
   totalRecords += 1;
   if(payingTenant) {
@@ -232,10 +232,11 @@ var checkRecordsNumber = function() {
 
     if(Meteor.isClient) {
       if(blockedTenant && totalRecords >= MAX_RECORDS) {
-        toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br />Please upgrade to enjoy the full functionalities of RealitmeCRM.');
+        toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br />Please upgrade to enjoy the full functionalities of RealitmeCRM.', 'Account Locked', {preventDuplicates: true});
         return false;
       } else if(totalRecords >= MAX_RECORDS) {
-        toastr.warning('You have reached the maximum number of records.<br />Please consider upgrading.');
+        toastr.options.preventDuplicates = true;
+        toastr.warning('You have reached the maximum number of records.<br />Please consider upgrading.', 'Limit Reached');
       }
       return true;
     }
@@ -254,11 +255,12 @@ var updateTotalRecords = function(modifier) {
   return true;
 };
 
-var updateTotalUsers = function() {
+var updateTotalUsers = function(tenantId) {
   if(Meteor.isServer) {
-    Meteor.call('updateStripeQuantity', function(error, response) {
+    Meteor.call('updateStripeQuantity', tenantId, function(error, response) {
       if(error) {
-        Meteor.call('sendErrorEmail',Tenants.findOne({}).name ,Tenants.findOne({})._id, error);
+        Meteor.call('sendErrorEmail',Tenants.findOne({_id: tenantId}).name ,tenantId, error);
+        return false;
       }
     });
   }
@@ -304,19 +306,27 @@ Tenants.after.remove(function(userId, doc) {
   logEvent('info', 'A tenant has been deleted: ' + doc.name);
 });
 
-
 Meteor.users.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
 });
 
 Meteor.users.after.insert(function(userId, doc) {
   logEvent('info', 'A user has been created: ' + doc.name);
+  if(Meteor.isServer) {
+    var tenant = Tenants.findOne({_id: doc.group});
+    if(tenant && tenant.paying) {
+      updateTotalUsers(doc.group);
+    }
+  }
 });
 
 Meteor.users.after.remove(function(userId, doc) {
   logEvent('info', 'A user has been removed: ' + doc.name);
   if(Meteor.isServer) {
-    updateTotalUsers();
+    var tenant = Tenants.findOne({_id: doc.group});
+    if(tenant && tenant.paying) {
+      updateTotalUsers(doc.group);
+    }
   }
 });
 
