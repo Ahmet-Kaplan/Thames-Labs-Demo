@@ -111,6 +111,14 @@ module.exports = function() {
       .setValue('input[data-schema-key='+ fieldName + ']', value)
       .call(callback);
   });
+
+  this.When(/^I set select field "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
+    this.client
+      .waitForVisible('select[data-schema-key='+ fieldName + ']', 2000)
+      .selectByValue('input[data-schema-key='+ fieldName + ']', value)
+      .call(callback);
+  });
+
   //This step is necessary when editing fields within an array (eg Opportunites, field items.0.name)
   this.When(/^I set text field with id "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
     this.client
