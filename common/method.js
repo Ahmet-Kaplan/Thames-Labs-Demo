@@ -194,7 +194,8 @@ Meteor.methods({
         lastActivity: {
           page: null,
           url: null
-        }
+        },
+        poAuthLevel: 100000
       }
     });
 

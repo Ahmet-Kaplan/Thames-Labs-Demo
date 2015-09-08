@@ -52,6 +52,16 @@ Meteor.startup(function() {
         });
 
       }
+
+      if (typeof u.profile.poAuthLevel === "undefined") {
+
+        Meteor.users.update(u._id, {
+          $set: {
+            "profile.poAuthLevel": 100000
+          }
+        });
+
+      }
     }
   });
 
