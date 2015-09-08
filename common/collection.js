@@ -391,7 +391,6 @@ Contacts.before.insert(function(userId, doc) {
 Contacts.after.insert(function(userId, doc) {
   updateTotalRecords(1);
   logEvent('info', 'A new contact has been created: ' + doc.title + " " + doc.forename + " " + doc.surname);
-
 });
 Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (this.previous.email !== doc.email && doc.email !== '' && doc.email !== undefined) {

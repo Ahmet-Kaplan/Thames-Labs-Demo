@@ -5,7 +5,6 @@ module.exports = function() {
     .waitForVisible('#geo', 2000)
     .execute(function() {
       var y = $(".modal").height();
-      console.log(y);
       $(".modal").scrollTop(y);
     })
     .setValue('#geo', 'Cowley Road, Cambridge')

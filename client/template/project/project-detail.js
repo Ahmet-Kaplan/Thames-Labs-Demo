@@ -13,16 +13,6 @@ Template.projectDetail.onCreated(function() {
   });
 });
 
-Template.projectDetail.onRendered(function() {
-  // Affix sidebar
-  var sidebar = $('.sidebar');
-  sidebar.affix({
-    offset: {
-      top: sidebar.offset().top
-    }
-  });
-});
-
 Template.projectDetail.helpers({
   projectData: function() {
     var projectId = FlowRouter.getParam('id');

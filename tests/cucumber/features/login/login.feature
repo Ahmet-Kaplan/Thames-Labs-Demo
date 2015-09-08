@@ -9,7 +9,7 @@ Feature: Allow users to login and logout
     And I am a logged out user
 
   Scenario: A user can view the login screen
-    Then I should see the title "RealtimeCRM - Login"
+    Then I should see the title "RealTimeCRM - Login"
 
   Scenario: A user can login with good credentials
     Given I can see the login form

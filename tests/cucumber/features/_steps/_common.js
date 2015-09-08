@@ -89,7 +89,7 @@ module.exports = function() {
   this.When(/^I click "([^"]*)"$/, function(id, callback) {
   this.client
     .waitForVisible(id, 2000)
-    .scroll(id)
+    .scroll(id, 0, -60)
     .click(id)
     .call(callback);
   });
@@ -195,14 +195,21 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Then(/^"([^"]*)" should say "([^"]*)"$/, function(selector, desiredText, callback) {
+  this.Then(/^"([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(selector, option, desiredText, callback) {
     this.client
+      .scroll("#" + selector, 0, -60)
       .getText("#" + selector)
       .then(function(text) {
-        expect(text).to.equal(desiredText);
+        if (option === 'say') {
+          expect(text).to.equal(desiredText);
+        } else if (option === 'contain') {
+          expect(text).to.contain(desiredText);
+        } else if (option === 'not contain') {
+          expect(text).to.not.contain(desiredText);
+        }
       })
       .call(callback);
-  })
+  });
 
   this.Then(/^I should see a modal with title "([^"]*)"$/, function(expectedText, callback) {
     this.client
