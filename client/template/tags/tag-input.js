@@ -1,26 +1,6 @@
 "use strict";
 
 Template.tagInput.onRendered(function() {
-
-  var entityType = "";
-  var routeName = FlowRouter.getRouteName();
-  switch (routeName) {
-    case "company":
-      entityType = "companies";
-      break;
-    case "contact":
-      entityType = "contacts";
-      break;
-    case "project":
-      entityType = "projects";
-      break;
-    case "opportunity":
-      entityType = "opportunities";
-      break;
-    default:
-      throw new Meteor.Error("unspecified-tag-route-type", "Could not determine route type for tags");
-  }
-
   var that = this;
   this.$('.tag-input').selectize({
     placeholder: 'Click here to add a tag ...',
@@ -28,12 +8,12 @@ Template.tagInput.onRendered(function() {
     labelField: 'name',
     searchField: ['name'],
     create: function(input, cb) {
-      Collections[entityType].addTag(input, {
-        _id: that.data._id
+      Collections[that.data.type].addTag(input, {
+        _id: that.data.doc._id
       });
 
       var tag = Meteor.tags.findOne({
-        collection: entityType,
+        collection: that.data.type,
         name: input
       });
 
@@ -44,7 +24,7 @@ Template.tagInput.onRendered(function() {
       return tag;
     },
     options: Meteor.tags.find({
-      collection: entityType,
+      collection: that.data.type,
     }).fetch(),
     render: {
       item: function(item, escape) {
@@ -62,13 +42,13 @@ Template.tagInput.onRendered(function() {
       }
     },
     onItemAdd: function(value, $item) {
-      Collections[entityType].addTag(value, {
-        _id: that.data._id
+      Collections[that.data.type].addTag(value, {
+        _id: that.data.doc._id
       });
     },
     onItemRemove: function(value) {
-      Collections[entityType].removeTag(value, {
-        _id: that.data._id
+      Collections[that.data.type].removeTag(value, {
+        _id: that.data.doc._id
       });
     }
   });

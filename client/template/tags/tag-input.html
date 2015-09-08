@@ -2,7 +2,7 @@
 <template name="tagInput">
   <div id="tag-list-display">
     <select class="tag-input" name='tags[]' multiple="multiple">
-      {{#each tags}}
+      {{#each doc.tags}}
       <option value="{{this}}" selected="true">{{this}}</option>
       {{else}}
       <!-- intentionally left blank to prevent blaze error -->
