@@ -635,14 +635,21 @@ Schemas.Task = new SimpleSchema({
       afFieldInput: {
         dateTimePickerOptions: {
           format: 'DD/MM/YYYY HH:mm',
-          useCurrent: true,
-          sideBySide: true,
+          useCurrent: false,
+          defaultValue: false,
+          sideBySide: false,
           widgetPositioning: {
             vertical: 'top'
           }
         }
       }
     }
+  },
+  isAllDay: {
+    type: Boolean,
+    defaultValue: true,
+    optional: true,
+    label: 'All day'
   },
   assigneeId: {
     type: String

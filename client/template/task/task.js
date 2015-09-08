@@ -38,14 +38,19 @@ Template.task.events({
 
 Template.task.helpers({
   formattedDueDate: function() {
-//Below code allows for only showing the due date if it is within 3 days of now.
-//    var dateToDisplay = moment(new Date()).add(3, 'days');
-//    if (moment(this.dueDate).isBefore(dateToDisplay)) {
-    if (this.completedAt) {
-      return moment(this.completedAt).fromNow();
+    if (this.isAllDay) {
+      var a = moment(new Date());
+      a.hour(0);
+      a.minute(0);
+
+      var b = moment(this.dueDate);
+      if (b.dayOfYear() == a.dayOfYear()) return 'today';
+      if (b.dayOfYear() == a.dayOfYear() - 1) return 'yesterday';
+      if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
+      return b.from(a);
+    } else {
+      return moment(this.dueDate).fromNow();
     }
-    return moment(this.dueDate).fromNow();
-//    }
   },
   showEntityDetail: function() {
     if (FlowRouter.getRouteName() === "dashboard" ? true : false) return true;

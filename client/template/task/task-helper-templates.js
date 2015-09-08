@@ -43,6 +43,10 @@ var isDashboard = function() {
   return FlowRouter.getRouteName() === "dashboard";
 };
 
+Template.taskDisplay.onRendered(function() {
+  Session.set('showCompleted', 0);
+})
+
 Template.taskDisplay.helpers({
   showComp: function() {
     return (Session.get('showCompleted') === 1 ? true : false);

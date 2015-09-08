@@ -7,9 +7,15 @@
       </button>
       {{/if}}
     </div>
+    {{#if completed}}
     <div class="pull-right task-date">
-      {{#if formattedDueDate}}{{#if completed}}Completed{{else}}Due{{/if}} {{formattedDueDate}}{{/if}}
+      Completed
     </div>
+    {{else}}
+    <div class="pull-right task-date">
+      {{#if formattedDueDate}}Due {{formattedDueDate}}{{/if}}
+    </div>
+    {{/if}}
     <span class="pull-right task-tags">{{> tagBadges doc=this type="companies"}}</span>
     <div>
       {{#if isInRole 'Administrator,CanEditTasks'}}
