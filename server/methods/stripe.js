@@ -1,7 +1,7 @@
 //set STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE
-//set STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxAvar
+//set STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA
 
-Future = Npm.require('fibers/future');
+var Future = Npm.require('fibers/future');
 
 Meteor.methods({
   getStripePK: function() {

@@ -69,32 +69,6 @@
         </div>
       </div>
 
-      <div class="panel panel-primary" id="userAdminPanel">
-        <div class="panel-heading ">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#colScheme"  id="schemeAdminPanelExpander">Scheme</a>
-        </div>
-        <div id="colScheme" class="panel-collapse collapse">
-          <div class="panel-body" id="tenancyUsers">
-            
-            <div class="well well-sm">
-              You are currently on the <strong>{{#if payingScheme}}Premier{{else}}Starter{{/if}} Scheme</strong>. {{#if payingScheme}}Thanks for your confidence in RealtimeCRM.{{/if}}
-              <br />You can have <strong>{{#if payingScheme}}unlimited{{else}}50{{/if}}</strong> records (contacts + companies).
-              {{#if lockedUser}}
-                <br />You have reach the maximum number of records and your account is now locked. 
-                Please upgrade to enjoy the full functionalities of RealtimeCRM
-              {{/if}}
-            </div>
-            
-            {{#if payingScheme}}
-            <button type="button" class="btn btn-sm btn-info " role="button" id="downScheme">Downgrade to Starter Scheme</button>
-            {{else}}
-            <button type="button" class="btn btn-sm btn-info" role="button" id="upScheme">Upgrade to Premier Scheme</button>
-            {{/if}}
-
-          </div>
-        </div>
-      </div>
-
       <div class="panel panel-primary" id="opportunityStagePanel">
         <div class="panel-heading accordion-toggle" id="oppStages">
           Sales pipeline stages<span class="glyphicon glyphicon-chevron-down pull-right"></span>

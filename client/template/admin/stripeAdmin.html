@@ -26,21 +26,26 @@
 <template name="cardForm">
 <form id="subscribe">
   <div class="modal-body">
+    <div class="card-wrapper"></div>
     <div class="row form-group">
-      <div class="col-xs-4">
+      <div class="col-xs-6">
         <label for="cardNumber" class="control-label">Card Number</label>
-        <input type="text" id="cardNumber" size="20" class="form-control" data-stripe="number" placeholder="0123456789012345" value="4242424242424242" />
-      </div>
-    </div>
-    <div class="row form-group">
-      <div class="col-xs-2">
-        <label for="cardCVC" class="control-label">CVC</label>
-        <input type="text" id="cardCVC" size="4" class="form-control" data-stripe="cvc" placeholder="123" value="123" />
+        <input type="text" id="cardNumber" size="20" class="form-control" data-stripe="number" placeholder="**** **** **** ****" />
       </div>
       <div class="col-xs-6">
-        <div class="col-xs-12"><label for="expMonth" class="control-label">Expiration (MM/YYYY)</label></div>
-        <div class="col-xs-6"><input type="text" size="2" class="form-control" data-stripe="exp-month" placeholder="01" value="01" /></div>
-        <div class="col-xs-6"><input type="text" size="4" class="form-control" data-stripe="exp-year" placeholder="2016" /></div>
+        <label for="cardName" class="control-label">Name</label>
+        <input type="text" id="cardName" size="20" class="form-control" data-stripe="name" />
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-xs-6"><label for="expMonth" class="control-label">Expiration (MM/YYYY)</label></div>
+        <div class="col-xs-6"><label for="cardCVC" class="control-label">CVC</label></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3"><input type="text" id="expMonth" size="2" class="form-control" data-stripe="exp-month" placeholder="01" /></div>
+        <div class="col-xs-3"><input type="text" id="expYear" size="4" class="form-control" data-stripe="exp-year" placeholder="2016" /></div>
+        <div class="col-xs-3"><input type="text" id="cardCVC" size="4" class="form-control" data-stripe="cvc" placeholder="***" /></div>
       </div>
     </div>
   </div>
