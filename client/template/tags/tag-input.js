@@ -1,19 +1,20 @@
-"use strict";
-
 Template.tagInput.onRendered(function() {
-  var that = this;
+  var collectionName = this.data.collection,
+      entityId = this.data.entityId,
+      self = this;
+
   this.$('.tag-input').selectize({
     placeholder: 'Click here to add a tag ...',
     valueField: 'name',
     labelField: 'name',
     searchField: ['name'],
     create: function(input, cb) {
-      Collections[that.data.type].addTag(input, {
-        _id: that.data.doc._id
+      Collections[collectionName].addTag(input, {
+        _id: entityId
       });
 
       var tag = Meteor.tags.findOne({
-        collection: that.data.type,
+        collection: collectionName,
         name: input
       });
 
@@ -24,7 +25,7 @@ Template.tagInput.onRendered(function() {
       return tag;
     },
     options: Meteor.tags.find({
-      collection: that.data.type,
+      collection: collectionName,
     }).fetch(),
     render: {
       item: function(item, escape) {
@@ -42,13 +43,26 @@ Template.tagInput.onRendered(function() {
       }
     },
     onItemAdd: function(value, $item) {
-      Collections[that.data.type].addTag(value, {
-        _id: that.data.doc._id
+      Collections[collectionName].addTag(value, {
+        _id: entityId
       });
     },
     onItemRemove: function(value) {
-      Collections[that.data.type].removeTag(value, {
-        _id: that.data.doc._id
+      Collections[collectionName].removeTag(value, {
+        _id: entityId
+      });
+    },
+    onInitialize: function() {
+      // N.B. self refers to Template.tagInput
+      var tagInput = this,
+          permissionToEdit = self.data.permissionToEdit;
+      self.autorun(function() {
+        var userId = Meteor.userId();
+        if (permissionToEdit && !Roles.userIsInRole(userId, ['Administrator', permissionToEdit])) {
+          tagInput.lock();
+        } else {
+          tagInput.unlock();
+        }
       });
     }
   });

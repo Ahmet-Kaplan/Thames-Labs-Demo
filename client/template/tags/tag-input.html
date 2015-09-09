@@ -1,4 +1,9 @@
-<!-- Context should be object with tags property -->
+<!-- Takes parameters:
+  tags: the tags collection on the entity instance
+  collection: the mongo name of the collection in question
+  entityId: the _id of the instance of the collection
+  permissionToEdit: the name of the permission required to edit the tags
+ -->
 <template name="tagInput">
   <div id="tag-list-display">
     <select class="tag-input" name='tags[]' multiple="multiple">

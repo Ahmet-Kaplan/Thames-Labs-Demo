@@ -53,7 +53,7 @@
 
           {{> afQuickField name="completed" id="taskCompleted"}}
 
-          {{> tagInput doc=this type="tasks"}}
+          {{> tagInput tags=tags collection='tasks' entityId=_id permissionToEdit='CanEditTasks'}}
           <button type="submit" class="btn btn-primary ">Update</button>
           {{/autoForm}}
         </div>

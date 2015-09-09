@@ -50,20 +50,7 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Given(/^a "([^"]*)" has been created$/, function(entity, callback) {
-    this.client
-      .executeAsync(function(entity, done) {
-        Meteor.call('add' + entity, function(err, data) {
-          done(data);
-        });
-      }, entity)
-      .then(function(data) {
-        expect(data.value).to.exist;
-      })
-      .call(callback);
-  });
-
-  this.Given(/^an "([^"]*)" has been created$/, function(entity, callback) {
+  this.Given(/^an? "([^"]*)" has been created$/, function(entity, callback) {
     this.client
       .executeAsync(function(entity, done) {
         Meteor.call('add' + entity, function(err, data) {
@@ -111,11 +98,20 @@ module.exports = function() {
       .setValue('input[data-schema-key='+ fieldName + ']', value)
       .call(callback);
   });
+
   //This step is necessary when editing fields within an array (eg Opportunites, field items.0.name)
   this.When(/^I set text field with id "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
     this.client
       .waitForVisible('#'+ fieldName, 2000)
       .setValue('#'+ fieldName, value)
+      .call(callback);
+  });
+
+  //This step is necessary when editing fields where maximum selection flexibility is required (e.g. tags)
+  this.When(/^I set text field with selector "([^"]*)" to "([^"]*)"$/, function(selector, value, callback) {
+    this.client
+      .waitForVisible(selector, 2000)
+      .setValue(selector, value)
       .call(callback);
   });
 
@@ -224,6 +220,21 @@ module.exports = function() {
       .timeoutsImplicitWait(2000)
       .getValue('input[name=' + fieldName +']').then(function(text) {
         expect(text).to.contain(fieldValue);
+      })
+      .call(callback);
+  });
+
+  // For steps which require max flexibility (e.g. tags)
+  this.Then(/^the field with selector "([^"]*)" should (not )?contain "([^"]*)"$/, function(selector, negate, fieldValue, callback) {
+    this.client
+      .waitForVisible(selector, 2000)
+      .timeoutsImplicitWait(2000)
+      .getValue(selector).then(function(text) {
+        if (negate) {
+          expect(text).to.not.contain(fieldValue);
+        } else {
+          expect(text).to.contain(fieldValue);
+        }
       })
       .call(callback);
   });
