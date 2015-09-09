@@ -3,10 +3,10 @@
   {{setPageTitle 'Purchase Orders'}}
 
   <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
-        {{> esInput index="purchaseorders" placeholder="search purchase orders..." allDocsOnEmpty=true reactive=false class="form-control"}}
+        {{> esInput index="purchaseorders" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
         {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
         <div class="btn-group-vertical">
           <a href="#" id="add-purchase-order" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="col-md-10" id="purchase-order-list">
+    <div class="col-md-9" id="purchase-order-list">
       <h1><i class="fa fa-shopping-cart"></i> Purchase Orders</h1>
 
       <div class="col-md-10">
