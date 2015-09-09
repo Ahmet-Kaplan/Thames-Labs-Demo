@@ -115,7 +115,7 @@ Meteor.publish("companyByOpportunityId", function(id) {
   return Companies.find(opp.companyId);
 });
 Meteor.publish("companyTags", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTags'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Meteor.tags.find({
     collection: 'companies'
@@ -167,7 +167,7 @@ Meteor.publish("contactByOpportunityId", function(id) {
   return Contacts.find(opp.contactId);
 });
 Meteor.publish("contactTags", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTags'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Meteor.tags.find({
     collection: 'contacts'
@@ -250,7 +250,7 @@ Meteor.publish("projectByPurchaseOrderId", function(purchaseOrderId) {
   return Projects.find(purchaseOrder.projectId);
 });
 Meteor.publish("projectTags", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTags'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadProjects'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Meteor.tags.find({
     collection: 'projects'
@@ -382,8 +382,7 @@ Meteor.publish("opportunitiesByContactId", function(id) {
   return Opportunities.find({contactId: id, isArchived: { $ne: true }});
 });
 Meteor.publish("opportunityTags", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTags'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Meteor.tags.find({
     collection: 'opportunities'
