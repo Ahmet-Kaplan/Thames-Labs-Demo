@@ -14,6 +14,7 @@
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           {{> afQuickField name="isAllDay"}}
+          {{> afQuickField name="duration" type="duration-picker"}}
           {{#if isUserTask}}
             {{> afQuickField name="assigneeId" id="taskUserList"  value=getCurrentUserId options=usersAsOptions}}
           {{else}}
@@ -45,6 +46,7 @@
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           {{> afQuickField name="isAllDay"}}
+          {{> afQuickField name="duration" type="duration-picker"}}
           <!-- {{> afQuickField name="assigneeId"          id="taskUserList" options=usersAsOptions}}  -->
 
           {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}}

@@ -649,7 +649,7 @@ Schemas.Task = new SimpleSchema({
     type: Boolean,
     defaultValue: true,
     optional: true,
-    label: 'All day'
+    label: 'Due all day'
   },
   assigneeId: {
     type: String
@@ -682,6 +682,18 @@ Schemas.Task = new SimpleSchema({
     autoform: {
       type: 'hidden'
     }
+  },
+  duration: {
+    type: Object,
+    optional: true
+  },
+  'duration.hours': {
+    type: Number,
+    optional: true
+  },
+  'duration.minutes': {
+    type: Number,
+    optional: true
   }
 });
 Tasks.attachSchema(Schemas.Task);
