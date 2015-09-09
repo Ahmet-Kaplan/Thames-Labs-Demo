@@ -493,7 +493,15 @@ Template.addPurchaseOrderItemModal.onRendered(function() {
 Template.addPurchaseOrderItemModal.helpers({
   currentUser: function() {
     return Meteor.userId();
-  }
+  },
+  projectsAsOptions: function() {
+    return Projects.find({}).map(function(project) {
+      return {
+        'label': project.description,
+        'value': project._id
+      };
+    });
+  },
 });
 
 Template.addPurchaseOrderItemModal.events({
@@ -522,6 +530,26 @@ Template.addPurchaseOrderItemModal.events({
         $('#activePrice').prop('value', result);
       }
     });
+  }
+});
+
+Template.editPurchaseOrderItemModal.helpers({
+  projectsAsOptions: function() {
+    return Projects.find({}).map(function(project) {
+      return {
+        'label': project.description,
+        'value': project._id
+      };
+    });
+  },
+});
+
+Template.editPurchaseOrderItemModal.onRendered(function() {
+  var pid = this.data.projectId;
+  Meteor.subscribe('allProjects');
+
+  if (pid) {
+    $('#currProj').val(pid);
   }
 });
 

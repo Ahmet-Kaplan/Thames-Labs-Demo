@@ -175,6 +175,7 @@
             {{> afQuickField name="value" id="itemValue"}}
             {{> afQuickField name="quantity" id="currQuant"}}
             {{> afQuickField name="totalPrice" readonly=true id="activePrice" }}
+            {{> afQuickField name="projectId" options=projectsAsOptions }}
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
@@ -202,6 +203,7 @@
             {{> afQuickField name="value" id="itemValue"}}
             {{> afQuickField name="quantity" id="currQuant"}}
             {{> afQuickField name="totalPrice" readonly=true id="activePrice"}}
+            {{> afQuickField name="projectId" id="currProj" options=projectsAsOptions }}
             <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
         </div>

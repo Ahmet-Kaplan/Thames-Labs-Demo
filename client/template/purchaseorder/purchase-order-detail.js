@@ -284,6 +284,11 @@ Template.purchaseOrderItem.helpers({
       default:
         return "";
     }
+  },
+  projectName: function() {
+    var project = Projects.findOne(this.projectId);
+    if(project) return project.description;
+    return "No project";
   }
 });
 

@@ -570,6 +570,11 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
     type: String,
     defaultValue: "0.00"
   },
+  projectId: {
+    type: String,
+    optional: true,
+    label: 'Project'
+  },
   createdBy: {
     type: String,
     autoform: {
