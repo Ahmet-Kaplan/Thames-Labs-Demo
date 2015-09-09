@@ -9,14 +9,42 @@
         </div>
         
         <div class="modal-body">
-          Subscribing to the <em>Paying Scheme</em> allows you to add as many records as you want.
-          <br />The cost will be calculated on the pro rata of the actual users number.
-          <br />For more information see our Terms and Condition of use. 
+          <br />Please find below the details of your subscription:
+          
+          <div class="well well-sm">
+          {{#if planDetails.name}}
+          {{#with planDetails}}
+            <div class="row">
+              <div class="col-xs-6"><em>Plan</em></div>
+              <div class="col-xs-4">{{name}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"><em>Price</em></div>
+              <div class="col-xs-4">£{{amount}} /user/{{interval}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"><em>Number of users</em></div>
+              <div class="col-xs-4">{{quantity}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-10"><hr /></div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"><strong>Total Price of Subscription</strong></div>
+              <div class="col-xs-4">£{{total}} /{{interval}}</div>
+            </div>
+          {{/with}}
+          {{else}}
+            {{> loadingSmall}}
+          {{/if}}
+          </div>
           
           <br /><br />For your subscription to become active, you must provide your card details.
           <br />Please note that none of the card information is stored by us.
         </div>
+        <div class="well well-sm">
         {{>cardForm buttonText="Subscribe"}}
+        </div>
 
       </div>
     </div>
@@ -68,9 +96,46 @@
         <div class="modal-body">
             You previously subscribed to the <em>Paying Scheme</em> and already have an account with us.
             <br />Here are the details of the card that you use:
-          <div id='loadingCard' class="well well-sm"><em>Loading card details...</em></div>
-          <div id='cardDetails' class="well well-sm" style="display: none;"></div>
-          For more information see our Terms and Condition of use. 
+          <div id='cardDetails' class="well well-sm">
+            {{#if cardDetails.last4}}
+              {{#with cardDetails}} 
+                {{> cardDetailsTemplate }}
+              {{/with}}
+            {{else}}
+              {{> loadingSmall}}
+            {{/if}}
+          </div>
+
+          <div id="plan-details">
+            <br />Please find below the details of your subscription:
+            <div class="well well-sm">
+            {{#if planDetails.id}}
+            {{#with planDetails}}
+              <div class="row">
+                <div class="col-xs-6"><em>Plan</em></div>
+                <div class="col-xs-4">{{name}}</div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6"><em>Price</em></div>
+                <div class="col-xs-4">£{{amount}} /user/{{interval}}</div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6"><em>Number of users</em></div>
+                <div class="col-xs-4">{{quantity}}</div>
+              </div>
+              <div class="row">
+                <div class="col-xs-10"><hr /></div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6"><strong>Total Price of Subscription</strong></div>
+                <div class="col-xs-4">£{{total}} /{{interval}}</div>
+              </div>
+            {{/with}}
+            {{else}}
+              {{ > loadingSmall}}
+            {{/if}}
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button id="resubscribe" class="btn btn-primary"><i class="fa fa-lock"></i> Resume subscription</button>
@@ -81,18 +146,18 @@
   </div>
 </template>
 
-<template name="cardDetails">
+<template name="cardDetailsTemplate">
   <div class="row">
-    <div class="col-xs-3">Type:</div><div class="col-xs-2">{{brand}}</div>
+    <div class="col-xs-4">Type:</div><div class="col-xs-3">{{brand}}</div>
   </div>
   <div class="row">
-    <div class="col-xs-3">Last four number:</div><div class="col-xs-2">{{last4}}</div>
+    <div class="col-xs-4">Last four number:</div><div class="col-xs-3">{{last4}}</div>
   </div>
   <div class="row">
-    <div class="col-xs-3">Exp Month:</div><div class="col-xs-2">{{exp_month}}</div>
+    <div class="col-xs-4">Exp Month:</div><div class="col-xs-3">{{exp_month}}</div>
   </div>
   <div class="row">
-    <div class="col-xs-3">Exp Year:</div><div class="col-xs-2">{{exp_year}}</div>
+    <div class="col-xs-4">Exp Year:</div><div class="col-xs-3">{{exp_year}}</div>
   </div>
   <div class="row">
     <div class="col-xs-12"><button id="updateCardDetails" class="btn btn-xs btn-primary">Update Card Details</button></div>

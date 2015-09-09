@@ -27,7 +27,7 @@ Template.tenancyAdminPage.helpers({
     return !!Tenants.findOne({});
   },
   totalRecords: function() {
-    return Tenants.findOne({}).totalRecords;
+    return Tenants.findOne({}).totalRecords || 0;
   },
   limitRecords: function() {
     return (Tenants.findOne({}).paying === true ? 'unlimited' : MAX_RECORDS);

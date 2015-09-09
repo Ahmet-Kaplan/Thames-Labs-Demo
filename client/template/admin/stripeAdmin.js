@@ -9,6 +9,32 @@ Meteor.startup(function() {
   })
 });
 
+var planDetailsDep = new Tracker.Dependency();
+var planDetails = {};
+
+Template.stripeSubscribe.onRendered(function() {
+  Meteor.call('getStripePlan', 'premier', function(error, result) {
+    if(error) {
+      toastr.error('Unable to retrieve scheme details.');
+      return false;
+    }
+    planDetails = result;
+    planDetails.quantity = Meteor.users.find({group: Meteor.user().group}).count();
+    planDetails.amount /= 100;
+    planDetails.total = planDetails.quantity * planDetails.amount;
+    planDetails.amount = planDetails.amount.toString();
+    planDetails.total = planDetails.total.toString();
+    planDetailsDep.changed();
+    });
+});
+
+Template.stripeSubscribe.helpers({
+  planDetails: function() {
+    planDetailsDep.depend();
+    return planDetails;
+  }
+});
+
 Template.stripeSubscribe.events({
   'submit #subscribe': function() {
     event.preventDefault();
@@ -73,11 +99,8 @@ Template.cardForm.onRendered(function() {
   });
 });
 
-function displayCardDetails(data) {
-  $('#loadingCard').hide();
-  $('#cardDetails').show();
-  Blaze.renderWithData(Template.cardDetails, data, document.getElementById('cardDetails'))
-}
+var cardDetailsDep = new Tracker.Dependency();
+var cardDetails = {};
 
 Template.stripeResubscribe.onRendered(function() {
     var stripeId = Tenants.findOne({}).stripeId;
@@ -86,9 +109,35 @@ Template.stripeResubscribe.onRendered(function() {
     }
 
     Meteor.call('getStripeCardDetails', stripeId, function(error, response) {
-      displayCardDetails(response);
+      cardDetails = response;
+      cardDetailsDep.changed();
+    });
+
+    Meteor.call('getStripePlan', 'premier', function(error, result) {
+    if(error) {
+      toastr.error('Unable to retrieve scheme details.');
+      return false;
+    }
+    planDetails = result;
+    planDetails.quantity = Meteor.users.find({group: Meteor.user().group}).count();
+    planDetails.amount /= 100;
+    planDetails.total = planDetails.quantity * planDetails.amount;
+    planDetails.amount = planDetails.amount.toString();
+    planDetails.total = planDetails.total.toString();
+    planDetailsDep.changed();
     });
 });
+
+Template.stripeResubscribe.helpers({
+  planDetails: function() {
+    planDetailsDep.depend();
+    return planDetails;
+  },
+  cardDetails: function() {
+    cardDetailsDep.depend();
+    return cardDetails;
+  }
+})
 
 Template.stripeResubscribe.events({
   'click #resubscribe': function() {
@@ -122,6 +171,7 @@ Template.stripeResubscribe.events({
     event.preventDefault;
     $('#cardDetails').empty();
     $('.modal-footer').hide();
+    $('#plan-details').hide();
     Blaze.renderWithData(Template.cardForm, {buttonText: 'Update'}, document.getElementById('cardDetails'));
   },
 
@@ -153,7 +203,8 @@ Template.stripeResubscribe.events({
             toastr.success('Your card details have been updated.');
             $('#cardDetails').empty();
             $('.modal-footer').show();
-            Blaze.renderWithData(Template.cardDetails, response, document.getElementById('cardDetails'));
+            $('#plan-details').show();
+            Blaze.renderWithData(Template.cardDetailsTemplate, response, document.getElementById('cardDetails'));
           });
         }
     });

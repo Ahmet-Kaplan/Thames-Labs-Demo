@@ -200,5 +200,23 @@ Meteor.methods({
       }
     });
     return isValidSubscription.wait();
+  },
+
+  getStripePlan: function(planId) {
+    var Stripe = StripeAPI(process.env.STRIPE_SK);
+    var planDetails = new Future();
+
+    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
+      throw new Meteor.Error(403, 'You do not have the rights to access this information.');
+    }
+
+    Stripe.plans.retrieve(planId, function(err, plan) {
+      if(err) {
+        throw new Meteor.Error(400, err);
+      }
+      
+      planDetails.return(plan);
+    });
+    return planDetails.wait();
   }
 });
