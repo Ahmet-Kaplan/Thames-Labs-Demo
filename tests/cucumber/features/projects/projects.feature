@@ -142,7 +142,6 @@ Feature: Allow users to manage their Projects
 
 
   #Tags
-@dev
   Scenario: A user with the CanEditProjects permission can edit tags
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
@@ -150,7 +149,6 @@ Feature: Allow users to manage their Projects
     And I set text field with selector ".tag-input input" to "test tag"
     Then the field with selector ".tag-input input" should contain "test tag"
 
-@dev
   Scenario: A user without the CanEditProjects permission cannot edit tags
     Given I do not have the "CanEditProjects" permission
     And a "Project" has been created
@@ -158,7 +156,6 @@ Feature: Allow users to manage their Projects
     And I set text field with selector ".tag-input input" to "test tag"
     Then the field with selector ".tag-input input" should not contain "test tag"
 
-@dev
   Scenario: A user with the Administrator permission can edit tags
     Given I have the "Administrator" permission
     And a "Project" has been created
