@@ -214,6 +214,9 @@ Payments = new Mongo.Collection('payments');
 //////////////////////
 
 var checkRecordsNumber = function() {
+  if(!Tenants.findOne({})) {
+    return true;
+  }
   var payingTenant = Tenants.findOne({}).paying;
   var blockedTenant = Tenants.findOne({}).blocked;
   var totalRecords = (Tenants.findOne({}) === undefined) ? 0 : Tenants.findOne({}).totalRecords;
@@ -224,14 +227,14 @@ var checkRecordsNumber = function() {
     if(Meteor.isServer) {
       if(totalRecords == MAX_RECORDS) {
         Meteor.call('tenantLimitReached');
-      } else if(blockedTenant && totalRecords >= MAX_RECORDS) {
+      } else if(blockedTenant && totalRecords > MAX_RECORDS) {
         return false;
       }
       return true;
     }
 
     if(Meteor.isClient) {
-      if(blockedTenant && totalRecords >= MAX_RECORDS) {
+      if(blockedTenant && totalRecords > MAX_RECORDS) {
         toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br />Please upgrade to enjoy the full functionalities of RealitmeCRM.', 'Account Locked', {preventDuplicates: true});
         return false;
       } else if(totalRecords >= MAX_RECORDS) {
