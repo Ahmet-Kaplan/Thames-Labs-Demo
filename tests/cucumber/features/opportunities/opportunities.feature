@@ -207,14 +207,15 @@ Feature: Allow users to manage their sales opportunities
     Then I should see "#no-line-items"
 
   #Tags
-  Scenario: A user with the CanCreateOpportunities permission can edit tags
-    Given I have the "CanCreateOpportunities" permission
+  Scenario: A user with the CanEditOpportunities permission can edit tags
+    Given I have the "CanEditOpportunities" permission
     And a "Opportunity" has been created
     When I navigate to an opportunity page
     And I set text field with selector ".tag-input input" to "test tag"
     Then the field with selector ".tag-input input" should contain "test tag"
 
-  Scenario: A user without the CanCreateContacts permission cannot edit tags
+  Scenario: A user without the CanEditOpportunities permission cannot edit tags
+    Given I do not have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
     When I navigate to an opportunity page
     And I set text field with selector ".tag-input input" to "test tag"

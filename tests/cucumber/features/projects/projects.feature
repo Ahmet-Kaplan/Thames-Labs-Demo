@@ -142,19 +142,23 @@ Feature: Allow users to manage their Projects
 
 
   #Tags
-  Scenario: A user with the CanCreateProjects permission can edit tags
-    Given I have the "CanCreateProjects" permission
+@dev
+  Scenario: A user with the CanEditProjects permission can edit tags
+    Given I have the "CanEditProjects" permission
     And a "Project" has been created
     When I navigate to a project page
     And I set text field with selector ".tag-input input" to "test tag"
     Then the field with selector ".tag-input input" should contain "test tag"
 
-  Scenario: A user without the CanCreateProjects permission cannot edit tags
-    Given a "Project" has been created
+@dev
+  Scenario: A user without the CanEditProjects permission cannot edit tags
+    Given I do not have the "CanEditProjects" permission
+    And a "Project" has been created
     When I navigate to a project page
     And I set text field with selector ".tag-input input" to "test tag"
     Then the field with selector ".tag-input input" should not contain "test tag"
 
+@dev
   Scenario: A user with the Administrator permission can edit tags
     Given I have the "Administrator" permission
     And a "Project" has been created
