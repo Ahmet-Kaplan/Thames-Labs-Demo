@@ -92,6 +92,14 @@ Template.taskListEntry.helpers({
           dataString += ": " + p.description;
         }
         break;
+      case 'opportunity':
+        dataString = "Opportunity task";
+        var handle = Meteor.subscribe("opportunityById", this.entityId);
+        if (handle.ready()) {
+          var p = Opportunities.find({}).fetch()[0];
+          dataString += ": " + p.description;
+        }
+        break;
       default:
         dataString = "Misc. task";
     }

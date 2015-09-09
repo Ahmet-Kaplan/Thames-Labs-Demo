@@ -145,6 +145,8 @@
           {{/if}}
         </ul>
       </div>
+
+      {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="opportunity" entity_id=_id}} {{/with}} {{/if}}
     </div>
   </div>
   <div class="row">

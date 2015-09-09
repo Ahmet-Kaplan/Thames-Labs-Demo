@@ -137,6 +137,14 @@ Template.taskDisplayItem.helpers({
           dataString += ": " + p.description;
         }
         break;
+      case 'opportunity':
+        dataString = "Opportunity";
+        var handle = Meteor.subscribe("opportunityById", this.entityId);
+        if (handle && handle.ready()) {
+          var p = Opportunities.find({}).fetch()[0];
+          dataString += ": " + p.description;
+        }
+        break;
       default:
         dataString = "Misc. task";
     }
