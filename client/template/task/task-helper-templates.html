@@ -67,11 +67,15 @@
       {{#if isDashboard}}
         My tasks
         <a class="btn btn-xs pull-right"><button type="button" class="close" id="close_taskWidget" aria-hidden="true">×</button></a>
+        {{#if isInRole 'Administrator,CanCreateTasks'}}
         <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New task to be completed"><i class="fa fa-fw fa-plus"></i> Add personal task</a>
+        {{/if}}
         <a href="#" id="btnRecentlyCompleted" class="btn btn-primary btn-xs pull-right">{{#if showComp}}Hide{{else}}Show{{/if}} recently completed</a>
       {{else}}
         Tasks
+        {{#if isInRole 'Administrator,CanCreateTasks'}}
         <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New task to be completed"><i class="fa fa-fw fa-plus"></i> Add task</a>
+        {{/if}}
         <a href="#" id="btnRecentlyCompleted" class="btn btn-primary btn-xs pull-right">{{#if showComp}}Hide{{else}}Show{{/if}} recently completed</a>
 
       {{/if}}
