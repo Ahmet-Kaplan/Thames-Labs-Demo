@@ -1,6 +1,5 @@
 @dev
 Feature: Allow users to manage general tenancy data
-
   As an administrator
   I want to manage the general tenancy data and settings
   So that I can improve the effectiveness and usability of the app
@@ -8,15 +7,17 @@ Feature: Allow users to manage general tenancy data
   Background:
     Given a user exists
     And I am a logged in user
-    And I have the "Administrator" permission
 
   #Access
   Scenario: An administrator can access the Administration area
-    When I navigate to "/admin"
+    Given I have the "Administrator" permission
+    When I click "#general-dropdown"
+    And I click "#Administration"
     Then I should see the heading "Administration"
 
   #Global Fields
   Scenario: An administrator can add a global field
+    Given I have the "Administrator" permission
     When I click "#globCustomFieldsExpander"
     And I click "#addGlobalCustomField"
     And I set text field "custom-field-name" to "velocity"
