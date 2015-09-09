@@ -369,7 +369,57 @@ Projects.after.remove(function(userId, doc) {
 PurchaseOrders.after.insert(function(userId, doc) {
   logEvent('info', 'A new purchase order has been created: ' + doc.description);
 });
+
+PurchaseOrders.before.update(function(userId, doc) {
+  if (userId) {
+    // if (doc.status) {
+
+    // if (doc.status === "Requested" && doc.locked) {
+    //   //can't return to requested once above it - cancel update
+    //   toastr.warning('The status of this purchase order cannot be set to "Requested" - it has already been submitted.');
+    //   return false;
+    // }
+
+    // if (doc.status !== "" && doc.status !== "Requested" && doc.status !== "Cancelled") {
+
+    var user = Meteor.users.findOne(userId);
+    var level = parseFloat(user.profile.poAuthLevel);
+
+    // if (level === 0) {
+    //   toastr.warning('Your current authorisation level restricts you to requests and cancellations only. Please contact your system administrator.');
+    //   Modal.hide();
+    //   return false;
+    // } else {
+
+    var items = PurchaseOrderItems.find({
+      purchaseOrderId: doc._id
+    }).fetch();
+
+    var total = 0;
+    _.each(items, function(i) {
+      total += parseFloat(i.totalPrice);
+    });
+
+    if (total > level) {
+      toastr.warning('The value of this purchase order is currently higher than your current authorisation level allows. Please contact your system administrator.');
+      Modal.hide();
+      return false;
+    }
+    // }
+    // }
+    // }
+  }
+});
+
 PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options) {
+  // if (doc.status !== "Requested" || doc.status !== "") {
+  //   PurchaseOrders.update(doc._id, {
+  //     $set: {
+  //       locked: true
+  //     }
+  //   });
+  // }
+
   if (doc.description !== this.previous.description) {
     logEvent('info', 'An existing purchase order has been updated: The value of "description" was changed from ' + this.previous.description + " to " + doc.description);
   }

@@ -65,4 +65,20 @@ Meteor.startup(function() {
     }
   });
 
+  //Keep purchase order information sync'ed
+  Partitioner.directOperation(function() {
+    var pos = PurchaseOrders.find({}).fetch();
+
+    _.forEach(pos, function(po) {
+
+      if (typeof po.locked === "undefined") {
+        PurchaseOrders.update(po._id, {
+          $set: {
+            locked: false
+          }
+        });
+      }
+    });
+  });
+
 });

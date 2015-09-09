@@ -1,5 +1,7 @@
 Session.set('posc', null);
 Session.set('pocc', null);
+Session.set('poStat', null);
+Session.set('poIsLocked', null);
 
 Template.newPurchaseOrderForm.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
@@ -66,11 +68,29 @@ Template.newContactPurchaseOrderForm.onRendered(function() {
   }
 });
 
+Template.updatePurchaseOrderFormModal.onDestroyed(function() {
+  Session.set('posc', null);
+  Session.set('pocc', null);
+  Session.set('poStat', null);
+  Session.set('poIsLocked', null);
+});
+
 Template.updatePurchaseOrderFormModal.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
   Meteor.subscribe("myTenant", groupId);
   Session.set('posc', null);
   Session.set('pocc', null);
+  Session.set('poStat', this.data.status);
+  Session.set('poIsLocked', this.data.locked);
+
+  if (this.data.status !== "Requested" && this.data.status !== "Requested" && this.data.status !== "Cancelled") {
+    PurchaseOrders.update(this.data._id, {
+      $set: {
+        locked: true
+      }
+    });
+    Session.set('poIsLocked', true);
+  }
 
   var c = this.data.supplierCompanyId;
   if (c) {
@@ -178,6 +198,29 @@ Template.updatePurchaseOrderFormModal.events({
       Meteor.subscribe('projectsByCompanyId', c);
     } else {
       Session.set('pocc', null);
+    }
+  },
+  'change #poStatus': function() {
+    var user = Meteor.users.findOne(Meteor.userId());
+    var level = parseFloat(user.profile.poAuthLevel);
+    var selected = $('#poStatus').val();
+
+    if (level === 0) {
+      if (selected !== "Requested" && selected !== "Cancelled") {
+        var origVal = Session.get('poStat');
+        $('#poStatus').val(origVal);
+        toastr.warning('Your authorisation level only permits you to set order status to "Requested" or "Cancelled".');
+        return false;
+      }
+    }
+
+    if (Session.get('poIsLocked')) {
+      if (selected === "Requested") {
+        var origVal = Session.get('poStat');
+        $('#poStatus').val(origVal);
+        toastr.warning('You cannot set the order status to "Requested" - it has already been submitted for authorisation.');
+        return false;
+      }
     }
   }
 });

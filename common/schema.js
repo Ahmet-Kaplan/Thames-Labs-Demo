@@ -505,6 +505,10 @@ Schemas.PurchaseOrder = new SimpleSchema({
       'Cancelled'
     ]
   },
+  locked: {
+    type: Boolean,
+    defaultValue: false
+  },
   orderDate: {
     type: Date,
     defaultValue: new Date()

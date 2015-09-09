@@ -22,7 +22,7 @@
             {{/if}}
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
-            {{> afQuickField name="status" options="allowed"}}
+            {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}
             {{> afQuickField name="orderDate" type="hidden" type="bootstrap-datetimepicker" value=currentDateTime }}
             {{> afQuickField name="paymentMethod" options="allowed"}}
             {{> afQuickField name="notes"}}
@@ -62,7 +62,7 @@
 
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
-            {{> afQuickField name="status" options="allowed"}}
+            {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}
             {{> afQuickField name="orderDate" type="hidden" type="bootstrap-datetimepicker" value=currentDateTime }}
             {{> afQuickField name="paymentMethod" options="allowed"}}
             {{> afQuickField name="notes"}}
@@ -104,7 +104,7 @@
             {{> afQuickField name="projectId" options=projectsAsOptions }}
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
-            {{> afQuickField name="status" options="allowed"}}
+            {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}
             {{> afQuickField name="orderDate" type="hidden" type="bootstrap-datetimepicker" value=currentDateTime }}
             {{> afQuickField name="paymentMethod" options="allowed"}}
             {{> afQuickField name="notes"}}
@@ -145,7 +145,7 @@
               {{> afQuickField name="projectId" options=projectsAsOptions }}
             {{/if}}
             {{> afQuickField name="supplierReference" }}
-            {{> afQuickField name="status" options="allowed"}}
+            {{> afQuickField name="status" options="allowed" id="poStatus" firstOption=false}}
             {{> afQuickField name="paymentMethod" options="allowed"}}
             {{> afQuickField name="notes"}}
             <button type="submit" class="btn btn-success">Update</button>
