@@ -2,26 +2,31 @@
 
   {{setPageTitle "Administration" }}
 
-  <h1 id="admin-header"> <i class="fa fa-fw fa-cogs"></i> Administration</h1>
+  <h1 id="admin-header">
+    <i class="fa fa-fw fa-cogs"></i>
+    Administration</h1>
 
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
 
       <div class="panel panel-primary" id="userAdminPanel">
         <div class="panel-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#colUsers"  id="userAdminPanelExpander">Users</a>
+          <a class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#colUsers" id="userAdminPanelExpander">Users</a>
         </div>
-        <div id="colUsers" class="panel-collapse collapse">
+        <div class="panel-collapse collapse" id="colUsers">
           <div class="panel-body" id="tenancyUsers">
 
             <div class="well well-sm">
-              <button type="button" class="btn btn-xs btn-primary" role="button" id="addNewUserAccount">
-                <i class="fa fa-fw fa-plus"></i> Add new user
+              <button class="btn btn-xs btn-primary" id="addNewUserAccount" role="button" type="button">
+                <i class="fa fa-fw fa-plus"></i>
+                Add new user
               </button>
             </div>
 
             <ul class="list-group">
-              {{#each tenantUsers}} {{> adminAreaUser}} {{/each}}
+              {{#each tenantUsers}}
+                {{> adminAreaUser}}
+              {{/each}}
             </ul>
 
           </div>
@@ -29,9 +34,9 @@
       </div>
       <div class="panel panel-primary" id="opportunityStagePanel">
         <div class="panel-heading ">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#oppStages"  id="oppStagesExpander">Sales pipeline stages</a>
+          <a class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#oppStages" id="oppStagesExpander">Sales pipeline stages</a>
         </div>
-        <div id="oppStages" class="panel-collapse collapse">
+        <div class="panel-collapse collapse" id="oppStages">
           {{> opportunityAdmin}}
         </div>
       </div>
@@ -45,17 +50,28 @@
     <div class="row">
       <div class="col-md-3">{{profile.name}}
       </div>
-      <div class="col-md-5">
-
-      </div>
+      <div class="col-md-5"></div>
       <div class="col-md-4">
-        <div class="btn-group pull-right" role="group">
-          <button class="btn btn-info btn-xs" id="btnEditTenantUserPermissions" type="button">
-            <i class="fa fa-fw fa-wrench"></i> Edit user permissions
-          </button>
-          <button class="btn btn-danger btn-xs" id="tenantRemoveUser" type="button">
-            <i class="fa fa-fw fa-times"></i> Remove user
-          </button>
+        <div class="btn-group btn-group-justified pull-right" role="group">
+
+          <div class="btn-group" role="group">
+            <button class="btn btn-primary btn-xs" id="btnEditTenantUserGeneralSettings" type="button">
+              <i class="fa fa-fw fa-cogs"></i>
+              Settings
+            </button>
+          </div>
+          <div class="btn-group" role="group">
+            <button class="btn btn-info btn-xs" id="btnEditTenantUserPermissions" type="button">
+              <i class="fa fa-fw fa-pencil"></i>
+              Permissions
+            </button>
+          </div>
+          <div class="btn-group" role="group">
+            <button class="btn btn-danger btn-xs" id="tenantRemoveUser" type="button">
+              <i class="fa fa-fw fa-times"></i>
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>

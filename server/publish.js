@@ -292,6 +292,11 @@ Meteor.publish("purchaseOrderById", function(purchaseOrderId) {
   });
 });
 
+Meteor.publish("allPurchaseOrderItemsNoPOID", function() {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return PurchaseOrderItems.find({});
+});
 
 Meteor.publish("allPurchaseOrderItems", function(purchaseOrderId) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
@@ -359,27 +364,45 @@ Meteor.publish("allOpportunities", function() {
 Meteor.publish("opportunityStages", function() {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return OpportunityStages.find({}, {sort: {order: 1}});
+  return OpportunityStages.find({}, {
+    sort: {
+      order: 1
+    }
+  });
 });
 Meteor.publish("opportunityById", function(oppId) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Opportunities.find({ _id: oppId});
+  return Opportunities.find({
+    _id: oppId
+  });
 });
 Meteor.publish("opportunityByProjectId", function(id) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Opportunities.find({ projectId: id});
+  return Opportunities.find({
+    projectId: id
+  });
 });
 Meteor.publish("opportunitiesByCompanyId", function(id) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Opportunities.find({companyId: id, isArchived: { $ne: true }});
+  return Opportunities.find({
+    companyId: id,
+    isArchived: {
+      $ne: true
+    }
+  });
 });
 Meteor.publish("opportunitiesByContactId", function(id) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Opportunities.find({contactId: id, isArchived: { $ne: true }});
+  return Opportunities.find({
+    contactId: id,
+    isArchived: {
+      $ne: true
+    }
+  });
 });
 Meteor.publish("opportunityTags", function() {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTags'])) return this.ready();

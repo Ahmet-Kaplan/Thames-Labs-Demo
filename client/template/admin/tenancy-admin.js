@@ -16,6 +16,9 @@ Template.tenancyAdminPage.helpers({
 });
 
 Template.tenancyAdminPage.events({
+  'click #btnEditTenantUserGeneralSettings': function() {
+    Modal.show('editTenantUserGeneralSettings', this);
+  },
   'click #btnEditTenantUserPermissions': function() {
     Modal.show('editTenantUserPermissions', this);
   },

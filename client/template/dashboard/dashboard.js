@@ -40,6 +40,15 @@ widgets = {
     h: 3,
     displayed: true,
     name: 'My tasks'
+  },
+  'openPo': {
+    id: 'openPo',
+    x: 0,
+    y: 0,
+    w: 3,
+    h: 7,
+    displayed: false,
+    name: 'Requested Purchase Orders'
   }
 };
 //List of widgets used by the user
@@ -74,7 +83,7 @@ function instanciateDashboard(savedWidgets) {
 
   //For each widget, check if defined in db otherwise use default display value
   _.each(widgets, function(widget, key) {
-    if(savedWidgets !== undefined && savedWidgets[key] !== undefined) {
+    if (savedWidgets !== undefined && savedWidgets[key] !== undefined) {
       myWidgets[key] = savedWidgets[key];
     } else {
       myWidgets[key] = widget;
@@ -84,7 +93,7 @@ function instanciateDashboard(savedWidgets) {
   //Create the actual widgets table
   var organizedWidgets = _.sortBy(myWidgets, 'y');
   _.each(organizedWidgets, function(widget) {
-    if(widget.displayed) {
+    if (widget.displayed) {
       grid.add_widget('<div id="' + widget.id + 'Widget"></div>', widget.x, widget.y, widget.w, widget.h, false);
       newWidget = Blaze.render(Template[widget.id + 'Widget'], document.getElementById(widget.id + "Widget"));
       dashboardWidgets[widget.id + "Widget"] = newWidget;
@@ -113,14 +122,14 @@ Template.dashboard.events({
 
   'click .addWidget': function(e) {
     var newWidgetName = e.target.id;
-    if($('#' + newWidgetName + 'Widget').length) {
+    if ($('#' + newWidgetName + 'Widget').length) {
       toastr.error('This widget is already displayed.');
       return;
     }
     var grid = $('.grid-stack').data('gridstack');
     var newWidget = (myWidgets[newWidgetName] !== undefined) ? myWidgets[newWidgetName] : widgets[newWidgetName];
 
-    if(newWidget !== undefined) {
+    if (newWidget !== undefined) {
       grid.add_widget('<div id="' + newWidget.id + 'Widget"></div>', newWidget.x, newWidget.y, newWidget.w, newWidget.h, true);
       addedWidget = Blaze.render(Template[newWidget.id + 'Widget'], document.getElementById(newWidget.id + 'Widget'));
       dashboardWidgets[newWidget.id + 'Widget'] = addedWidget;
