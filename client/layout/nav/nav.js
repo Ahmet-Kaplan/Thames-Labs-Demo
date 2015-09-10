@@ -1,3 +1,7 @@
+Template.nav.onCreated(function() {
+  this.subscribe('allNotifications');
+});
+
 Template.nav.helpers({
 
   showTourOption: function() {
