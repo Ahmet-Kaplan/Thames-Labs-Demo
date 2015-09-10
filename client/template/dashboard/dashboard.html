@@ -2,19 +2,19 @@
 
   {{setPageTitle 'Dashboard'}}
   <h1 id="dashboard-page-header"><i class="fa fa-fw fa-home"></i> Dashboard
-  <div class="btn-group">
+  <div class="btn-group pull-right">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
       Add Widget
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">
-      {{#each widgetList}}   
+      {{#each widgetList}}
         <li><a href="#" class="addWidget" data-w="{{w}}" data-h="{{h}}" id="{{id}}">{{name}}</a></li>
       {{/each}}
       <li role="separator" class="divider"></li>
       <li><a href="#" id="resetDashboard">Reset Dashboard</a></li>
     </ul>
-  </div> 
+  </div>
   </h1>
 
   <div class="grid-stack" id="gridstack"></div>

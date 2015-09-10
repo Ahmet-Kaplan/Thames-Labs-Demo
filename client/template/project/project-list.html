@@ -3,10 +3,10 @@
   {{setPageTitle 'Projects'}}
 
   <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
-        {{> esInput index="projects" placeholder="search projects..." allDocsOnEmpty=true reactive=false class="form-control"}} {{#if isInRole 'Administrator,CanCreateProjects'}}
+        {{> esInput index="projects" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}} {{#if isInRole 'Administrator,CanCreateProjects'}}
         <div class="btn-group-vertical">
           <a href="#" id="add-project" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add project</a>
         </div>
@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="col-md-10" id="project-list">
+    <div class="col-md-9" id="project-list">
       <h1><i class="fa fa-files-o"></i> Projects</h1>
 
       <div class="col-md-10">

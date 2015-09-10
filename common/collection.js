@@ -682,7 +682,7 @@ Products.after.remove(function(userId, doc) {
 //Opportunities
 Opportunities = new Mongo.Collection('opportunities');
 Partitioner.partitionCollection(Opportunities);
-Opportunities.initEasySearch(['name'], {
+Opportunities.initEasySearch(['name', 'tags'], {
   limit: 50,
   props: {
     showArchived: false
