@@ -1,7 +1,7 @@
 <!-- thanks to http://bootsnipp.com/snippets/featured/timeline-responsive -->
 
 <template name="activityTimeline">
-  <ul class="timeline">
+  <ul id="timeline" class="timeline">
     {{#each indexedArray activities}}
       <li class="{{timelineClass _index}}">
         <div class="timeline-badge"><i class="fa fa-{{timelineIcon type}}"></i></div>
