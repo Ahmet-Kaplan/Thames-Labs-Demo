@@ -214,7 +214,7 @@ Meteor.methods({
       if(err) {
         throw new Meteor.Error(400, err);
       }
-      
+
       planDetails.return(plan);
     });
     return planDetails.wait();
