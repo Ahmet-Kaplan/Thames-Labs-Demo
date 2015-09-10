@@ -141,7 +141,7 @@ Template.stripeResubscribe.helpers({
 
 Template.stripeResubscribe.events({
   'click #resubscribe': function() {
-    event.preventDefault;
+    event.preventDefault();
     toastr.info('Processing your subscription.');
     stripeId = Tenants.findOne({}).stripeId;
     if(!stripeId) {

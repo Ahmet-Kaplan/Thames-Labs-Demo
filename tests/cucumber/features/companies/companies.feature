@@ -19,7 +19,7 @@ Feature: Allow users to manage their Companies
     Given I do not have the "CanReadCompanies" permission
     When I navigate to "/companies"
     Then I should see the heading "Dashboard"
-@dev
+
   Scenario: A user with read permissions can see a company
     Given a "Company" has been created
     When I navigate to a company page

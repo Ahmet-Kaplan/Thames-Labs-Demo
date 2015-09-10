@@ -5,7 +5,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5>Subscribe to Paying Scheme</h5>
+          <h4>Subscribe to Paying Scheme</h4>
         </div>
         
         <div class="modal-body">
@@ -42,9 +42,8 @@
           <br /><br />For your subscription to become active, you must provide your card details.
           <br />Please note that none of the card information is stored by us.
         </div>
-        <div class="well well-sm">
+        
         {{>cardForm buttonText="Subscribe"}}
-        </div>
 
       </div>
     </div>
@@ -54,26 +53,28 @@
 <template name="cardForm">
 <form id="subscribe">
   <div class="modal-body">
-    <div class="card-wrapper"></div>
-    <div class="row form-group">
-      <div class="col-xs-6">
-        <label for="cardNumber" class="control-label">Card Number</label>
-        <input type="text" id="cardNumber" size="20" class="form-control" data-stripe="number" placeholder="**** **** **** ****" />
+    <div class="well well-sm">
+      <div class="card-wrapper"></div>
+      <div class="row form-group">
+        <div class="col-xs-6">
+          <label for="cardNumber" class="control-label">Card Number</label>
+          <input type="text" id="cardNumber" size="20" class="form-control" data-stripe="number" placeholder="**** **** **** ****" />
+        </div>
+        <div class="col-xs-6">
+          <label for="cardName" class="control-label">Name</label>
+          <input type="text" id="cardName" size="20" class="form-control" data-stripe="name" />
+        </div>
       </div>
-      <div class="col-xs-6">
-        <label for="cardName" class="control-label">Name</label>
-        <input type="text" id="cardName" size="20" class="form-control" data-stripe="name" />
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="row">
-        <div class="col-xs-6"><label for="expMonth" class="control-label">Expiration (MM/YYYY)</label></div>
-        <div class="col-xs-6"><label for="cardCVC" class="control-label">CVC</label></div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3"><input type="text" id="expMonth" size="2" class="form-control" data-stripe="exp-month" placeholder="01" /></div>
-        <div class="col-xs-3"><input type="text" id="expYear" size="4" class="form-control" data-stripe="exp-year" placeholder="2016" /></div>
-        <div class="col-xs-3"><input type="text" id="cardCVC" size="4" class="form-control" data-stripe="cvc" placeholder="***" /></div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-xs-6"><label for="expMonth" class="control-label">Expiration (MM/YYYY)</label></div>
+          <div class="col-xs-6"><label for="cardCVC" class="control-label">CVC</label></div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3"><input type="text" id="expMonth" size="2" class="form-control" data-stripe="exp-month" placeholder="01" /></div>
+          <div class="col-xs-3"><input type="text" id="expYear" size="4" class="form-control" data-stripe="exp-year" placeholder="2016" /></div>
+          <div class="col-xs-3"><input type="text" id="cardCVC" size="4" class="form-control" data-stripe="cvc" placeholder="***" /></div>
+        </div>
       </div>
     </div>
   </div>
@@ -90,19 +91,23 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5><i class="fa fa-lock"></i> Upgrade to Paying Scheme</h5>
+          <h4><i class="fa fa-lock"></i> Upgrade to Paying Scheme</h4>
         </div>
         
         <div class="modal-body">
             You previously subscribed to the <em>Paying Scheme</em> and already have an account with us.
             <br />Here are the details of the card that you use:
-          <div id='cardDetails' class="well well-sm">
+          <div id='cardDetails'>
             {{#if cardDetails.last4}}
               {{#with cardDetails}} 
+                <div class="well well-sm">
                 {{> cardDetailsTemplate }}
+                </div>
               {{/with}}
             {{else}}
+              <div class="well well-sm">
               {{> loadingSmall}}
+              </div>
             {{/if}}
           </div>
 
@@ -171,7 +176,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5>Downgrade to Free Plan</h5>
+          <h4>Downgrade to Free Plan</h4>
         </div>
         
         <div class="modal-body">

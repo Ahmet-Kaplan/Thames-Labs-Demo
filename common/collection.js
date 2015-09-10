@@ -247,6 +247,7 @@ var checkRecordsNumber = function() {
 };
 
 var updateTotalRecords = function(tenantId, modifier) {
+  return true;
   if(Meteor.isServer) {
     Tenants.update(tenantId, {
             $inc: {
@@ -254,7 +255,6 @@ var updateTotalRecords = function(tenantId, modifier) {
             }
     });
   }
-  return true;
 };
 
 var updateTotalUsers = function(tenantId) {
