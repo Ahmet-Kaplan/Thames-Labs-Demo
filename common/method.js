@@ -326,6 +326,18 @@ Meteor.methods({
       opportunityId: opp._id,
       createdBy: user._id
     });
+
+    var note = 'Converted from won opportunity "' + opp.name + '"';
+    var date = new Date();
+    Activities.insert({
+      type: 'Note',
+      notes: note,
+      createdAt: date,
+      activityTimestamp: date,
+      projectId: projId,
+      createdBy: user._id
+    });
+
     return projId;
   },
 
