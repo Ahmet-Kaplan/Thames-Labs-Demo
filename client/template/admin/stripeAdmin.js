@@ -6,7 +6,7 @@ Meteor.startup(function() {
     }
     Session.set('STRIPE_PK', result);
     Stripe.setPublishableKey(result);
-  })
+  });
 });
 
 var planDetailsDep = new Tracker.Dependency();
@@ -42,7 +42,7 @@ Template.stripeSubscribe.events({
     //Disable the submit button to prevent repeated clicks
     $('#submit').prop('disabled', true);
 
-    toastr.info('Validating your card details...')
+    toastr.info('Validating your card details...');
     Stripe.card.createToken({
       number: $('[data-stripe=number]').val(),
       exp_month: $('[data-stripe=exp-month]').val(),
@@ -137,7 +137,7 @@ Template.stripeResubscribe.helpers({
     cardDetailsDep.depend();
     return cardDetails;
   }
-})
+});
 
 Template.stripeResubscribe.events({
   'click #resubscribe': function() {
@@ -168,7 +168,7 @@ Template.stripeResubscribe.events({
   },
 
   'click #updateCardDetails': function() {
-    event.preventDefault;
+    event.preventDefault();
     $('#cardDetails').empty();
     $('.modal-footer').hide();
     $('#plan-details').hide();
@@ -181,7 +181,7 @@ Template.stripeResubscribe.events({
     //Disable the submit button to prevent repeated clicks
     $('#submit').prop('disabled', true);
 
-    toastr.info('Validating your card details...')
+    toastr.info('Validating your card details...');
     Stripe.card.createToken({
       number: $('[data-stripe=number]').val(),
       exp_month: $('[data-stripe=exp-month]').val(),
@@ -209,7 +209,7 @@ Template.stripeResubscribe.events({
         }
     });
   }
-})
+});
 
 Template.stripeUnsubscribe.helpers({
   limitReached: function() {
@@ -245,8 +245,8 @@ Template.stripeUnsubscribe.events({
       to: 'david.mcleary@cambridgesoftware.co.uk',
       from: 'RealtimeCRM admin <admin@realtimecrm.co.uk',
       subject: 'Error on updating subscription',
-      text: "Error on updating the stripe subscription for tenant " + tenantName + ", id " + tenantId + ".\n"
-            + "Error: " + error
-    })
+      text: "Error on updating the stripe subscription for tenant " + tenantName + ", id " + tenantId + ".\n" +
+            "Error: " + error
+    });
   }
 });

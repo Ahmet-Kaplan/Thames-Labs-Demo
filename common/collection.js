@@ -246,9 +246,8 @@ var checkRecordsNumber = function() {
   }
 };
 
-var updateTotalRecords = function(modifier) {
+var updateTotalRecords = function(tenantId, modifier) {
   if(Meteor.isServer) {
-    var tenantId = Tenants.findOne({})._id;
     Tenants.update(tenantId, {
             $inc: {
               totalRecords: modifier
@@ -267,7 +266,7 @@ var updateTotalUsers = function(tenantId) {
       }
     });
   }
-}
+};
 
 Tenants.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
@@ -288,7 +287,7 @@ Tenants.before.update(function(userId, doc, fieldNames, modifier, options) {
       return isValidSubs;
     }
   }
-})
+});
 Tenants.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.name !== this.previous.name) {
     logEvent('info', 'An existing tenant has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
@@ -338,9 +337,9 @@ Companies.before.insert(function(userId, doc) {
     return false;
   }
   return true;
-})
+});
 Companies.after.insert(function(userId, doc) {
-  updateTotalRecords(1);
+  updateTotalRecords(doc._groupId, 1);
   logEvent('info', 'A new company has been created: ' + doc.name);
 
 });
@@ -381,7 +380,7 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
   fetchPrevious: true
 });
 Companies.after.remove(function(userId, doc) {
-  updateTotalRecords(-1);
+  updateTotalRecords(doc._groupId, -1);
   logEvent('info', 'A company has been deleted: ' + doc.name);
 });
 
@@ -392,7 +391,7 @@ Contacts.before.insert(function(userId, doc) {
   return true;
 });
 Contacts.after.insert(function(userId, doc) {
-  updateTotalRecords(1);
+  updateTotalRecords(doc._groupId, 1);
   logEvent('info', 'A new contact has been created: ' + doc.title + " " + doc.forename + " " + doc.surname);
 });
 Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
@@ -427,18 +426,18 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
     if (prevComp === undefined) {
       var prevComp = {
         name: 'None'
-      }
+      };
     }
     if (newComp === undefined) {
       var newComp = {
         name: 'None'
-      }
+      };
     }
     logEvent('info', 'An existing contact has been updated: The value of "companyId" was changed from ' + this.previous.companyId + '(' + prevComp.name + ") to " + doc.companyId + ' (' + newComp.name + ')');
   }
 });
 Contacts.after.remove(function(userId, doc) {
-  updateTotalRecords(-1);
+  updateTotalRecords(doc._groupId, -1);
   logEvent('info', 'A contact has been deleted: ' + doc.title + " " + doc.forename + " " + doc.surname);
 });
 
