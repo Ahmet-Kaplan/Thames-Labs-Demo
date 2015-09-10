@@ -70,7 +70,6 @@ router.triggers.exit(tidyUpModals);
 // These are global subscriptions
 // Since they're global there's no need to use SubsManager
 router.subscriptions = function() {
-  this.register('allNotifications', Meteor.subscribe('allNotifications'));
   this.register('currentTenantUserData', Meteor.subscribe('currentTenantUserData', group));
   this.register('activeTenantData', Meteor.subscribe('activeTenantData', group));
 };
