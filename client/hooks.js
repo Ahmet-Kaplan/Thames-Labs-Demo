@@ -115,6 +115,15 @@ AutoForm.hooks({
       Modal.hide();
       toastr.success('Project created.');
       //logEvent('info', 'Project created.', 'Project', this.docId);
+    },
+    after: {
+      insert: function(error, result) {
+        if (error) {
+          toastr.error('An error occurred: Project not created.');
+          return false;
+        }
+        FlowRouter.go('/projects/' + result);
+      }
     }
   },
   newContactProjectForm: {
