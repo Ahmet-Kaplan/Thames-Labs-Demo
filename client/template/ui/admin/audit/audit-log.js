@@ -12,7 +12,7 @@ Template.auditLog.events({
 
 Template.auditLog.helpers({
   auditLogs: function() {
-    return AuditLog.find({});
+    return AuditLog.find({}, {sort: {date: -1}});
   }
 });
 
