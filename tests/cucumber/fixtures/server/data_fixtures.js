@@ -122,5 +122,123 @@ Meteor.methods({
       name: "lineItem1"
     }}});
     return opp;
+  },
+
+  addCompanyTask: function() {
+    var companyId = Companies.insert({
+      name: "Test Ltd",
+      address: "address",
+      city: "city",
+      postcode: "postcode",
+      country: "country",
+      createdBy: Meteor.userId()
+    });
+
+    var taskId = Tasks.insert({
+      title: 'test task',
+      description: 'test description',
+      assigneeId: Meteor.userId(),
+      isAllDay: true,
+      dueDate: new Date(),
+      entityType: 'company',
+      entityId: companyId,
+      createdBy: Meteor.userId()
+    });
+    return taskId;
+  },
+
+  addContactTask: function() {
+    var contactId = Contacts.insert({
+      "title": "Mr",
+      "forename": "Testy",
+      "surname": "Surname",
+      "email": "testy@surname.com",
+      "createdBy": Meteor.userId(),
+      "customFields": {
+        test: {
+          dataValue: "velocity",
+          dataType: "text"
+        }
+      }
+    });
+
+    var taskId = Tasks.insert({
+      title: 'test task',
+      description: 'test description',
+      assigneeId: Meteor.userId(),
+      isAllDay: true,
+      dueDate: new Date(),
+      entityType: 'contact',
+      entityId: contactId,
+      createdBy: Meteor.userId()
+    });
+    return taskId;
+  },
+
+  addOpportunityTask: function() {
+    var stage = OpportunityStages.insert({
+      title: 'Stage 1',
+      description: 'test description',
+      order: 0
+    });
+    OpportunityStages.insert({
+      title: 'Stage 2',
+      description: 'test description',
+      order: 1
+    });
+    var stage = OpportunityStages.findOne({order: 0});
+    var date = new Date();
+    var companyId = Companies.insert({
+      name: "Test Ltd",
+      address: "address",
+      city: "city",
+      postcode: "postcode",
+      country: "country",
+      createdBy: Meteor.userId()
+    });
+
+    var oppId = Opportunities.insert({
+      name: 'test opportunity',
+      description: 'test description',
+      date: date,
+      value: 0,
+      currentStageId: stage._id,
+      companyId: companyId,
+      createdBy: Meteor.userId(),
+      items: []
+    });
+
+    var taskId = Tasks.insert({
+      title: 'test task',
+      description: 'test description',
+      assigneeId: Meteor.userId(),
+      isAllDay: true,
+      dueDate: new Date(),
+      entityType: 'opportunity',
+      entityId: oppId,
+      createdBy: Meteor.userId()
+    });
+    return taskId;
+  },
+
+  addProjectTask: function() {
+    var projectId = Projects.insert({
+      description: 'test project',
+      userId: Meteor.userId(),
+      value: 100,
+      createdBy: Meteor.userId()
+    });
+
+    var taskId = Tasks.insert({
+      title: 'test task',
+      description: 'test description',
+      assigneeId: Meteor.userId(),
+      isAllDay: true,
+      dueDate: new Date(),
+      entityType: 'project',
+      entityId: projectId,
+      createdBy: Meteor.userId()
+    });
+    return taskId;
   }
 });

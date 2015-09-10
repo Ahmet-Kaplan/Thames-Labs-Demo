@@ -9,7 +9,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="newTaskModal" type="insert"}}
+          {{#autoForm collection="Tasks" id="newTaskForm" type="insert"}}
           {{> afQuickField name="title" id="taskTitle"}}
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
@@ -41,7 +41,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="editTaskModal" type="update" doc=this}}
+          {{#autoForm collection="Tasks" id="editTaskForm" type="update" doc=this}}
           {{> afQuickField name="title" id="taskTitle"}}
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}

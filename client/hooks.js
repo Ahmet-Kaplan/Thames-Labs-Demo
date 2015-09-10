@@ -249,7 +249,7 @@ AutoForm.hooks({
       //logEvent('info', 'Tenant settings updated.', 'Tenant', this.docId);
     }
   },
-  newTaskModal: {
+  newTaskForm: {
     before: {
       insert: function(doc) {
         doc.createdBy = Meteor.userId();
@@ -268,7 +268,7 @@ AutoForm.hooks({
       //logEvent('info', 'Task created.');
     }
   },
-  editTaskModal: {
+  editTaskForm: {
     onError: function(formType, error) {
       if (error) {
         toastr.error('An error occurred: Task not updated.');

@@ -142,6 +142,7 @@ module.exports = function() {
   ***************************************************/
   this.Then(/^I should see "([^"]*)"$/, function(id, callback) {
     this.client
+      .waitForExist(id, 5000)
       .isExisting(id)
       .then(function(isExisting) {
           expect(isExisting).to.equal(true);
@@ -151,6 +152,7 @@ module.exports = function() {
 
   this.Then(/^I should not see "([^"]*)"$/, function(id, callback) {
     this.client
+      .waitForExist(id, 5000, true)
       .isExisting(id)
       .then(function(isExisting) {
           expect(isExisting).to.equal(false);

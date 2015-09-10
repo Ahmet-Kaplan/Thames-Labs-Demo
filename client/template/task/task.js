@@ -9,7 +9,7 @@ Template.task.events({
   },
   'click .delete-task': function(event) {
     event.preventDefault();
-
+    var taskId = this._id;
     bootbox.confirm("Are you sure you wish to delete this task?", function(result) {
       if (result === true) {
         Tasks.remove(taskId);
