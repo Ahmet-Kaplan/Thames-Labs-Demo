@@ -1,5 +1,5 @@
 Tenants.permit(['insert', 'update', 'remove']).ifHasRole('superadmin').apply();
-Tenants.permit('update').onlyProps(['settings', 'stripeId', 'stripeSubs', 'paying']).ifHasRole('Administrator').apply();
+Tenants.permit('update').onlyProps(['settings']).ifHasRole('Administrator').apply();
 
 Notifications.permit(['insert', 'update', 'remove']).ifHasRole('superadmin').apply();
 

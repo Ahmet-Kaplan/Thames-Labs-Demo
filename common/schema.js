@@ -89,6 +89,10 @@ Schemas.UserSignUp = new SimpleSchema({
   },
   companyName: {
     type: String
+  },
+  coupon: {
+    type: String,
+    optional: true
   }
 });
 
@@ -135,6 +139,10 @@ Schemas.Tenant = new SimpleSchema({
   totalRecords: {
     type: Number,
     defaultValue: 0
+  },
+  coupon: {
+    type: String,
+    optional: true
   }
 });
 Tenants.attachSchema(Schemas.Tenant);

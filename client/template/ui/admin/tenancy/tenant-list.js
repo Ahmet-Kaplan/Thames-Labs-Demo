@@ -52,6 +52,10 @@ Template.tenant.events({
 
     bootbox.confirm("Are you sure you wish to delete this tenant?", function(result) {
       if (result === true) {
+        tenantUsers = Meteor.users.find({group: tenantId});
+        tenantUsers.forEach(function(user) {
+          Meteor.users.remove(user._id);
+        });
         Tenants.remove(tenantId);
       }
     });
@@ -72,7 +76,7 @@ Template.tenant.events({
         toastr.info('Processing the update...');
         Meteor.call('cancelStripeSubscription', tenantId, function(error, response) {
           if(error) {
-            console.log(error)
+            console.log(error);
             bootbox.alert({
               title: 'Error',
               message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to cancel subscription.<br />See Stripe dashboard to cancel manually.</div>'

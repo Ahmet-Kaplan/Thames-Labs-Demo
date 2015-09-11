@@ -11,39 +11,7 @@
       <div class="panel panel-primary" id="stripeAdminPanel">
         <div class="panel-heading ">Scheme</div>
         <div class="panel-body" id="tenancyStripe">
-          
-          <div class="well well-sm">
-            Here are the details of your current status:
-            <div class="row">
-              <div class="col-xs-2"><strong>Plan</strong></div>
-              <div class="col-xs-10" id="planName">{{#if payingScheme}}Paying{{else}}Free{{/if}}</div>
-            </div>
-            <div class="row">
-              <div class="col-xs-2"><strong>Users</strong></div>
-              <div class="col-xs-10">{{totalUsers}}</div>
-            </div>
-            <div class="row">
-              <div class="col-xs-2"><strong>Records</strong></div>
-              <div class="col-xs-10{{#if limitReached}} text-danger{{/if}}">{{totalRecords}} of {{limitRecords}}</div>
-            </div>
-
-            {{#if blockedUser}}
-              <br />You have reach the maximum number of records and your account is now locked. 
-              Please upgrade to enjoy the full functionalities of RealtimeCRM
-            {{/if}}
-          </div>
-          
-          {{#if payingScheme}}
-            <button type="button" class="btn btn-info " role="button" id="downScheme">Downgrade to Free Plan</button>
-          {{else}}
-            {{#if hasStripeAccount}}
-              <button type="button" class="btn btn-info" role="button" id="reUpScheme">Upgrade to Paying Scheme</button>
-            {{else}}
-              <button type="button" class="btn btn-info" role="button" id="upScheme">Upgrade to Paying Scheme</button>
-            {{/if}}
-              <div><i class="fa fa-lock"></i> Payments are made securely with <a href="http://www.stripe.com">Stripe</a>.</div>
-          {{/if}}
-
+          {{> stripeAdmin}}
         </div>
       </div>
       {{/if}}

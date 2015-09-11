@@ -246,28 +246,6 @@ var checkRecordsNumber = function() {
   }
 };
 
-var updateTotalRecords = function(tenantId, modifier) {
-  return true;
-  if(Meteor.isServer) {
-    Tenants.update(tenantId, {
-            $inc: {
-              totalRecords: modifier
-            }
-    });
-  }
-};
-
-var updateTotalUsers = function(tenantId) {
-  if(Meteor.isServer) {
-    Meteor.call('updateStripeQuantity', tenantId, function(error, response) {
-      if(error) {
-        Meteor.call('sendErrorEmail',Tenants.findOne({_id: tenantId}).name ,tenantId, error);
-        return false;
-      }
-    });
-  }
-};
-
 Tenants.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
 });
@@ -275,18 +253,16 @@ Tenants.after.insert(function(userId, doc) {
   logEvent('info', 'A new tenant has been created: ' + doc.name);
 });
 Tenants.before.update(function(userId, doc, fieldNames, modifier, options) {
-  if(!Roles.userIsInRole(userId, ['superadmin', 'Administrator'])) {
-    throw new Meteor.Error(403, 'Only admin users can do updates.');
-  }
-  if(modifier.$set !== undefined) {
-    if(modifier.$set.paying === true && modifier.$set.stripeSubs === undefined) {
+  /*if(modifier.$set !== undefined && modifier.$set.paying === true) {
+    if(modifier.$set.stripeSubs === undefined) {
       console.log('Missing', 'The subscription ID is missing.');
       return false;
     } else if(modifier.$set.paying === true && modifier.$set.stripeSubs !== undefined && Meteor.isServer) {
-      var isValidSubs = Meteor.call('checkStripeSubscription', doc.stripeId, modifier.$set.stripeSubs);
+      var stripeId = (modifier.$set.stripeId !== undefined) ? modifier.$set.stripeId : doc.stripeId;
+      var isValidSubs = Meteor.call('checkStripeSubscription', stripeId, modifier.$set.stripeSubs);
       return isValidSubs;
     }
-  }
+  }*/
 });
 Tenants.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.name !== this.previous.name) {
@@ -314,22 +290,11 @@ Meteor.users.before.insert(function(userId, doc) {
 
 Meteor.users.after.insert(function(userId, doc) {
   logEvent('info', 'A user has been created: ' + doc.name);
-  if(Meteor.isServer) {
-    var tenant = Tenants.findOne({_id: doc.group});
-    if(tenant && tenant.paying) {
-      updateTotalUsers(doc.group);
-    }
-  }
 });
 
 Meteor.users.after.remove(function(userId, doc) {
   logEvent('info', 'A user has been removed: ' + doc.name);
-  if(Meteor.isServer) {
-    var tenant = Tenants.findOne({_id: doc.group});
-    if(tenant && tenant.paying) {
-      updateTotalUsers(doc.group);
-    }
-  }
+  Meteor.call('updateStripeQuantity');
 });
 
 Companies.before.insert(function(userId, doc) {
@@ -339,7 +304,7 @@ Companies.before.insert(function(userId, doc) {
   return true;
 });
 Companies.after.insert(function(userId, doc) {
-  updateTotalRecords(doc._groupId, 1);
+  Meteor.call('updateTotalRecords');
   logEvent('info', 'A new company has been created: ' + doc.name);
 
 });
@@ -380,7 +345,7 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
   fetchPrevious: true
 });
 Companies.after.remove(function(userId, doc) {
-  updateTotalRecords(doc._groupId, -1);
+  Meteor.call('updateTotalRecords');
   logEvent('info', 'A company has been deleted: ' + doc.name);
 });
 
@@ -391,7 +356,7 @@ Contacts.before.insert(function(userId, doc) {
   return true;
 });
 Contacts.after.insert(function(userId, doc) {
-  updateTotalRecords(doc._groupId, 1);
+  Meteor.call('updateTotalRecords');
   logEvent('info', 'A new contact has been created: ' + doc.title + " " + doc.forename + " " + doc.surname);
 });
 Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
@@ -424,12 +389,12 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
     var prevComp = Companies.findOne(this.previous.companyId);
     var newComp = Companies.findOne(doc.companyId);
     if (prevComp === undefined) {
-      var prevComp = {
+      prevComp = {
         name: 'None'
       };
     }
     if (newComp === undefined) {
-      var newComp = {
+      newComp = {
         name: 'None'
       };
     }
@@ -437,7 +402,7 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
   }
 });
 Contacts.after.remove(function(userId, doc) {
-  updateTotalRecords(doc._groupId, -1);
+  Meteor.call('updateTotalRecords');
   logEvent('info', 'A contact has been deleted: ' + doc.title + " " + doc.forename + " " + doc.surname);
 });
 

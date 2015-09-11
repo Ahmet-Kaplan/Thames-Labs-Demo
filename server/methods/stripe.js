@@ -10,8 +10,10 @@ Meteor.methods({
   createStripeCustomer: function(token) {
     var tenantId = Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
+    var coupon = theTenant.coupon;
+    var numberUsers = Meteor.users.find({group: tenantId}).count();
     var Stripe = StripeAPI(process.env.STRIPE_SK);
-    var newStripeId = new Future();
+    var status = new Future();
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may subscribe.');
@@ -19,32 +21,48 @@ Meteor.methods({
       throw new Meteor.Error('Existing user', 'It appears you already have an account.');
     }
 
-    Stripe.customers.create({
+    var parameters = {
       description: theTenant.name,
       source: token,
+      plan: "premier",
+      coupon: coupon,
+      quantity: numberUsers,
       metadata: {
         tenantId: tenantId,
         createdBy: this.userId
       }
-    }, Meteor.bindEnvironment(function(err, customer) {
+    };
+
+    if(coupon) {
+      parameters.coupon = coupon;
+    }
+
+    Stripe.customers.create(parameters, Meteor.bindEnvironment(function(err, customer) {
       if(err) {
         throw new Meteor.Error('Error', err);
       }
 
       Tenants.update(tenantId, {
         $set: {
-          stripeId: customer.id
+          stripeId: customer.id,
+          stripeSubs: customer.subscriptions.data[0].id,
+          paying: true,
+          blocked: false
         }
       });
-      newStripeId.return(customer.id);
+
+      status.return('OK');
     }));
 
-    return newStripeId.wait();
+    return status.wait();
   },
 
-  createStripeSubscription: function(customerId, adminTenantId) {
+  createStripeSubscription: function( adminTenantId) {
+    /*adminTenantId is used when the method is called by the superadmin
+    In which case the tenantId cannot be retrieved via Partitioner */
     var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? adminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
+    var stripeId = theTenant.stripeId;
     var Stripe = StripeAPI(process.env.STRIPE_SK);
     var stripeSubscription = new Future();
     var numberUsers = Meteor.users.find({group: tenantId}).count();
@@ -55,7 +73,7 @@ Meteor.methods({
       throw new Meteor.Error('Existing subscription', 'It appears you have already subsribed.');
     }
 
-    Stripe.customers.createSubscription(customerId, {
+    Stripe.customers.createSubscription(stripeId, {
       plan: "premier",
       quantity: numberUsers
     }, Meteor.bindEnvironment(function(err, subscription) {
@@ -77,8 +95,14 @@ Meteor.methods({
   },
 
   updateStripeQuantity: function(adminTenantId) {
+    /*adminTenantId is used when the method is called by the superadmin
+    In which case the tenantId cannot be retrieved via Partitioner */
     var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? adminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
+    if(theTenant.paying === false) {
+      return true;
+    }
+
     var stripeId = theTenant.stripeId;
     var stripeSubs = theTenant.stripeSubs;
     var numberUsers = Meteor.users.find({group: tenantId}).count();
@@ -94,6 +118,7 @@ Meteor.methods({
       quantity: numberUsers
     }, function(err, subscription) {
       if(err) {
+        Meteor.call('sendErrorEmail', theTenant.name, tenantId , err);
         throw new Meteor.Error('Error', err);
       }
     });
@@ -181,7 +206,7 @@ Meteor.methods({
     return newStripeCard.wait();
   },
 
-  checkStripeSubscription: function(stripeId, stripeSubs) {
+  /*checkStripeSubscription: function(stripeId, stripeSubs) {
     var Stripe = StripeAPI(process.env.STRIPE_SK);
     var isValidSubscription = new Future();
 
@@ -200,7 +225,7 @@ Meteor.methods({
       }
     });
     return isValidSubscription.wait();
-  },
+  },*/
 
   getStripePlan: function(planId) {
     var Stripe = StripeAPI(process.env.STRIPE_SK);
@@ -218,5 +243,46 @@ Meteor.methods({
       planDetails.return(plan);
     });
     return planDetails.wait();
+  },
+
+  getStripeUpcomingInvoice: function() {
+    var tenantId = Partitioner.getUserGroup(this.userId);
+    var theTenant = Tenants.findOne({_id: tenantId});
+    var stripeId = theTenant.stripeId;
+    var Stripe = StripeAPI(process.env.STRIPE_SK);
+    var upcomingInvoice = new Future();
+
+    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
+      throw new Meteor.Error(403, 'You do not have the rights to access this information.');
+    }
+
+    Stripe.invoices.retrieveUpcoming(stripeId, function(err, upcoming) {
+      if(err) {
+        throw new Meteor.Error(400, err);
+      }
+
+      upcomingInvoice.return(upcoming);
+    });
+
+    return upcomingInvoice.wait();
+  },
+
+  getStripeCoupon: function() {
+    var tenantId = Partitioner.getUserGroup(this.userId);
+    var theTenant = Tenants.findOne({_id: tenantId});
+    var Stripe = StripeAPI(process.env.STRIPE_SK);
+    var coupon = new Future();
+
+    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
+      throw new Meteor.Error(403, 'You do not have the rights to access this information.');
+    }
+
+    Stripe.coupons.retrieve(theTenant.coupon, function(err, result) {
+      if(!err) {
+        coupon.return(result);
+      }
+    });
+
+    return coupon.wait();
   }
 });

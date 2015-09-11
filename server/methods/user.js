@@ -110,15 +110,15 @@ Meteor.methods({
       return 'Your RealTimeCRM details';
     };
     Accounts.emailTemplates.enrollAccount.text = function(user, url) {
-      return "Dear " + user.profile.name + "\n\n"
-             + "Thank you for choosing to use RealTimeCRM.\n\n"
-             + "We hope you will enjoy the simple yet powerful functionality of the system."
-             + " To set your password and login please go to:\n\n"
-             + url
-             + "\n\nShould you have any questions or comments please use the \"Give Feedback\" link just above Change Password.\n\n"
-             + "We hope that you enjoy your RealTimeCRM experience.\n\n"
-             + "Yours sincerely,\n"
-             + "The RealtimeCRM Team";
+      return "Dear " + user.profile.name + "\n\n" +
+             "Thank you for choosing to use RealTimeCRM.\n\n" +
+             "We hope you will enjoy the simple yet powerful functionality of the system." +
+             " To set your password and login please go to:\n\n" +
+             url +
+             "\n\nShould you have any questions or comments please use the \"Give Feedback\" link just above Change Password.\n\n" +
+             "We hope that you enjoy your RealTimeCRM experience.\n\n" +
+             "Yours sincerely,\n" +
+             "The RealtimeCRM Team";
     };
     Accounts.emailTemplates.enrollAccount.html = function(user, url) {
       SSR.compileTemplate('emailText', Assets.getText('email-enroll-template.html'));
@@ -143,6 +143,9 @@ Meteor.methods({
     Accounts.sendEnrollmentEmail(userId);
 
     LogServerEvent('verbose', 'User created', 'user', userId);
+
+    Meteor.call('updateStripeQuantity');
+    return true;
   }
 
 });

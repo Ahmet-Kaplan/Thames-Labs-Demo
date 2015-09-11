@@ -1,3 +1,4 @@
+
 Feature: Allow users to subscribe/unsubscribe to Stripe
 
   As a potential user of the app

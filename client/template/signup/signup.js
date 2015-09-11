@@ -1,7 +1,14 @@
 function removeSignUpEmailValidationError(key) {
   delete AutoForm.templateInstanceForForm("signUpForm")._stickyErrors[key];
   AutoForm.validateForm("signUpForm");
-};
+}
+
+Template.signUp.helpers({
+  coupon: function() {
+    var coupon = FlowRouter.getQueryParam("coupon");
+    return coupon || false;
+  }
+});
 
 Template.signUp.events({
   'click #email-field': function() {
@@ -14,6 +21,12 @@ var details = {
 };
 AutoForm.hooks({
   signUpForm: {
+    before: {
+      method: function(doc) {
+        doc.coupon = FlowRouter.getQueryParam("coupon");
+        return doc;
+      }
+    },
     onError: function(formType, error) {
       if (typeof error.reason === 'string') {
         if (error.reason.indexOf('email') !== -1) {

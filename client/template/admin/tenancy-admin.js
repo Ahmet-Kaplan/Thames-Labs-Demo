@@ -14,47 +14,14 @@ Template.tenancyAdminPage.helpers({
       }
     });
   },
-  payingScheme: function() {
-    return Tenants.findOne({}).paying;
-  },
-  hasStripeAccount: function() {
-    return !(Tenants.findOne({}).stripeId === undefined || Tenants.findOne({}).stripeId === '');
-  },
-  blockedUser: function() {
-    return Tenants.findOne({}).blocked;
-  },
   tenantFound: function() {
     return !!Tenants.findOne({});
-  },
-  totalRecords: function() {
-    return Tenants.findOne({}).totalRecords || 0;
-  },
-  limitRecords: function() {
-    return (Tenants.findOne({}).paying === true ? 'unlimited' : MAX_RECORDS);
-  },
-  totalUsers: function() {
-    return Meteor.users.find({group: Meteor.user().group}).count();
-  },
-  limitReached: function() {
-    return ((Tenants.findOne({}).totalRecords > MAX_RECORDS) && (!Tenants.findOne({}).paying));
   }
 });
 
 Template.tenancyAdminPage.events({
   'click #btnEditTenantUserPermissions': function() {
     Modal.show('editTenantUserPermissions', this);
-  },
-
-  'click #upScheme': function(e) {
-    Modal.show('stripeSubscribe', this);
-  },
-
-  'click #reUpScheme': function(e) {
-    Modal.show('stripeResubscribe', this);
-  },
-
-  'click #downScheme': function(e) {
-    Modal.show('stripeUnsubscribe', this);
   },
 
   'click #addNewUserAccount': function() {
@@ -77,6 +44,7 @@ Template.tenancyAdminPage.events({
             title: 'User removed',
             message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>User ' + name + ' has been removed.<br />Please note that your subscription has been updated accordingly.</div>'
           });
+          upcomingInvoiceDep.changed();
         });
       }
     });

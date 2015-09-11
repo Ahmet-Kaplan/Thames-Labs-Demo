@@ -1,0 +1,194 @@
+<template name="stripeSubscribe">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Subscribe to Paying Scheme</h4>
+        </div>
+        
+        <div class="modal-body">
+          <br />Please find below the details of your subscription:
+          
+          <div class="well well-sm">
+          {{#if planDetails.name}}
+          {{#with planDetails}}
+            <div class="row">
+              <div class="col-xs-6"><em>Plan</em></div>
+              <div class="col-xs-4">{{name}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"><em>Price</em></div>
+              <div class="col-xs-4">£{{amount}} /user/{{interval}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"><em>Number of users</em></div>
+              <div class="col-xs-4">{{quantity}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-10"><hr /></div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"><strong>Total Price of Subscription</strong></div>
+              <div class="col-xs-4">£{{total}} /{{interval}}</div>
+            </div>
+          {{/with}}
+          {{else}}
+            {{> loadingSmall}}
+          {{/if}}
+          </div>
+          
+          <br /><br />For your subscription to become active, you must provide your card details.
+          <br />Please note that none of the card information is stored by us.
+        </div>
+        
+        {{>cardForm buttonText="Subscribe"}}
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="cardForm">
+<form id="subscribe">
+  <div class="modal-body">
+    <div class="well well-sm">
+      <div class="card-wrapper"></div>
+      <div class="row form-group">
+        <div class="col-xs-6">
+          <label for="cardNumber" class="control-label">Card Number</label>
+          <input type="text" id="cardNumber" size="20" class="form-control" data-stripe="number" placeholder="**** **** **** ****" />
+        </div>
+        <div class="col-xs-6">
+          <label for="cardName" class="control-label">Name</label>
+          <input type="text" id="cardName" size="20" class="form-control" data-stripe="name" />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-xs-6"><label for="expMonth" class="control-label">Expiration (MM/YYYY)</label></div>
+          <div class="col-xs-6"><label for="cardCVC" class="control-label">CVC</label></div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3"><input type="text" id="expMonth" size="2" class="form-control" data-stripe="exp-month" placeholder="01" /></div>
+          <div class="col-xs-3"><input type="text" id="expYear" size="4" class="form-control" data-stripe="exp-year" placeholder="2016" /></div>
+          <div class="col-xs-3"><input type="text" id="cardCVC" size="4" class="form-control" data-stripe="cvc" placeholder="***" /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" id="submit" class="btn btn-primary"><i class="fa fa-lock"></i> {{buttonText}}</button>
+  </div>
+</form>
+</template>
+
+<template name="stripeResubscribe">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4><i class="fa fa-lock"></i> Upgrade to Paying Scheme</h4>
+        </div>
+        
+        <div class="modal-body">
+            You previously subscribed to the <em>Paying Scheme</em> and already have an account with us.
+            <br />Here are the details of the card that you use:
+          <div id='cardDetails'>
+            {{#if cardDetails.last4}}
+              {{#with cardDetails}} 
+                {{> cardDetailsTemplate }}
+              {{/with}}
+            {{else}}
+              <div class="well well-sm">
+              {{> loadingSmall}}
+              </div>
+            {{/if}}
+          </div>
+
+          <div id="plan-details">
+            <br />Please find below the details of your subscription:
+            <div class="well well-sm">
+            {{#if planDetails.id}}
+            {{#with planDetails}}
+              <div class="row">
+                <div class="col-xs-6"><em>Plan</em></div>
+                <div class="col-xs-4">{{name}}</div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6"><em>Price</em></div>
+                <div class="col-xs-4">£{{amount}} /user/{{interval}}</div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6"><em>Number of users</em></div>
+                <div class="col-xs-4">{{quantity}}</div>
+              </div>
+              <div class="row">
+                <div class="col-xs-10"><hr /></div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6"><strong>Total Price of Subscription</strong></div>
+                <div class="col-xs-4">£{{total}} /{{interval}}</div>
+              </div>
+            {{/with}}
+            {{else}}
+              {{ > loadingSmall}}
+            {{/if}}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="resubscribe" class="btn btn-primary"><i class="fa fa-lock"></i> Resume subscription</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="cardDetailsTemplate">
+  <div class="well well-sm">
+    <div class="row">
+      <div class="col-xs-4">Type:</div><div class="col-xs-3">{{brand}}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-4">Last four number:</div><div class="col-xs-3">{{last4}}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-4">Exp Month:</div><div class="col-xs-3">{{exp_month}}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-4">Exp Year:</div><div class="col-xs-3">{{exp_year}}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12"><button id="updateCardDetails" class="btn btn-xs btn-primary">Update Card Details</button></div>
+    </div>
+  </div>
+</template>
+
+<template name="stripeUnsubscribe">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Downgrade to Free Plan</h4>
+        </div>
+        
+        <div class="modal-body">
+          By downgrading to the <em>Free Plan</em> you will only have 50 records (contacts + companies).
+          {{#if limitReached}}<br />Since you have already reached this limit, you will not be able to add new records.{{/if}}
+          <br />For more information see our Terms and Condition of use.
+        </div>
+        <div class="modal-footer">
+          <button id="unsubscribe" class="btn btn-primary">Unsubscribe</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
