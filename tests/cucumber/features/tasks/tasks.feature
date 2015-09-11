@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to manage their Tasks
 
   As a user of the app
@@ -21,7 +22,7 @@ Feature: Allow users to manage their Tasks
     Then I should see the heading "Dashboard"
 
   Scenario: A user with read permissions can see a task
-    Given a "Task" has been created
+    Given a "Company" task has been created
     And I have the "CanEditTasks" permission
     When I navigate to "/tasks"
     Then I should see ".task"
