@@ -39,7 +39,8 @@ widgets = {
     w: 3,
     h: 3,
     displayed: true,
-    name: 'My tasks'
+    name: 'My tasks',
+    requiredPermission: 'CanReadTasks'
   }
 };
 //List of widgets used by the user
@@ -84,6 +85,13 @@ function instanciateDashboard(savedWidgets) {
   //Create the actual widgets table
   var organizedWidgets = _.sortBy(myWidgets, 'y');
   _.each(organizedWidgets, function(widget) {
+    if (!!widget.requiredPermission) {
+      var requiredPermission = widget.requiredPermission,
+      userId = Meteor.userId();
+      if (!Roles.userIsInRole(userId, ['Administrator', requiredPermission])) {
+        return;
+      }
+    }
     if(widget.displayed) {
       grid.add_widget('<div id="' + widget.id + 'Widget"></div>', widget.x, widget.y, widget.w, widget.h, false);
       newWidget = Blaze.render(Template[widget.id + 'Widget'], document.getElementById(widget.id + "Widget"));
@@ -154,6 +162,13 @@ Template.dashboard.helpers({
   widgetList: function() {
     return _.map(widgets, function(widget) {
       return widget;
+    }).filter(function(widget) {
+      if (!!widget.requiredPermission) {
+        var requiredPermission = widget.requiredPermission,
+            userId = Meteor.userId();
+        return Roles.userIsInRole(userId, ['Administrator', requiredPermission])
+      }
+      return true;
     });
   }
 });
