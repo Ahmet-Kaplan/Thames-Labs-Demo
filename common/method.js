@@ -209,6 +209,7 @@ Meteor.methods({
             "PurchaseOrderPrefix": "",
             "PurchaseOrderStartingValue": 0
           },
+          totalRecords: 0,
           createdAt: new Date()
         },
         function(error, result) {
