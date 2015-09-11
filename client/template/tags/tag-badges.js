@@ -14,7 +14,7 @@ Template.tagBadge.events({
         Session.set('projectListSearchQuery', tagName);
         break;
       case "opportunities":
-        Session.set('opportunitiesListSearchQuery', tagName);
+        Session.set('opportunitySearchQuery', tagName);
         break;
       default:
         break;

@@ -198,10 +198,11 @@ Meteor.methods({
       }
     });
 
-    Roles.addUsersToRoles(userId, ["Administrator"]);
-
     //This needs to be run on the server, otherwise client errors occur
     if (Meteor.isServer) {
+
+      Roles.addUsersToRoles(userId, ["Administrator"]);
+
       var tenantId = Tenants.insert({
           name: userDetails.companyName,
           settings: {
@@ -325,6 +326,18 @@ Meteor.methods({
       opportunityId: opp._id,
       createdBy: user._id
     });
+
+    var note = 'Converted from won opportunity "' + opp.name + '"';
+    var date = new Date();
+    Activities.insert({
+      type: 'Note',
+      notes: note,
+      createdAt: date,
+      activityTimestamp: date,
+      projectId: projId,
+      createdBy: user._id
+    });
+
     return projId;
   },
 

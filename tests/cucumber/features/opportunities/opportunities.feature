@@ -173,6 +173,7 @@ Feature: Allow users to manage their sales opportunities
     And I click "#won-opportunity"
     And I click confirm on the modal
     Then I should see that an project has been created from the opportunity
+    And "timeline" should contain "Converted from won opportunity"
 
 
   #Opportunity Line Items
