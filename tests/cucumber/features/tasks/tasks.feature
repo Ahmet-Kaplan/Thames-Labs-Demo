@@ -1,4 +1,3 @@
-@dev
 Feature: Allow users to manage their Tasks
 
   As a user of the app
