@@ -1,5 +1,4 @@
 var subs = new SubsManager(),
-  group = Partitioner.group(),
   router = FlowRouter,
   layout = BlazeLayout;
 
@@ -70,8 +69,8 @@ router.triggers.exit(tidyUpModals);
 // These are global subscriptions
 // Since they're global there's no need to use SubsManager
 router.subscriptions = function() {
-  this.register('currentTenantUserData', Meteor.subscribe('currentTenantUserData', group));
-  this.register('activeTenantData', Meteor.subscribe('activeTenantData', group));
+  this.register('currentTenantUserData', Meteor.subscribe('currentTenantUserData'));
+  this.register('activeTenantData', Meteor.subscribe('activeTenantData'));
 };
 
 router.notFound = {
