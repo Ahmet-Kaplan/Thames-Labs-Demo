@@ -66,7 +66,6 @@ Meteor.methods({
 
           _.each(_.range(_.random(1, 10)), function() {
             var contactId = Contacts.insert({
-              title: _.sample(Schemas.Contact._schema.title.allowedValues),
               forename: faker.name.firstName(),
               surname: faker.name.lastName(),
               phone: faker.phone.phoneNumber(),

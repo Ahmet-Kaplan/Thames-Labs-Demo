@@ -52,7 +52,6 @@ Feature: Allow users to manage their Contacts
     And I click "#add-contact"
     And I set text field "forename" to "test"
     And I set text field "surname" to "surname"
-    And I select "Mr" from dropdown field "title"
     And I submit the "insertContact" form
     Then I should see the heading "Mr test surname"
 
@@ -64,7 +63,6 @@ Feature: Allow users to manage their Contacts
     And I click "#add-contact"
     And I set text field "forename" to "test"
     And I set text field "surname" to "surname"
-    And I select "Mr" from dropdown field "title"
     And I select "Test Ltd" from dropdown field "companyId"
     And I submit the "insertContact" form
     Then I should see the heading "Mr test surname"
@@ -221,7 +219,6 @@ Feature: Allow users to manage their Contacts
     And I click "#add-contact"
     And I set text field "forename" to "test"
     And I set text field "surname" to "surname"
-    And I select "Mr" from dropdown field "title"
     And I select "Test Ltd" from dropdown field "companyId"
     And I submit the "insertContact" form
     And I click "#edit-contact"
