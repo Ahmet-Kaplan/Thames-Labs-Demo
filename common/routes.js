@@ -285,6 +285,7 @@ router.route('/purchaseorders', {
     this.register('allCompanies', subs.subscribe('allCompanies'));
     this.register('allProjects', subs.subscribe('allProjects'));
     this.register('allContacts', subs.subscribe('allContacts'));
+    this.register('activeTenantData', subs.subscribe('activeTenantData'));
   },
   action: function() {
     layout.render('appLayout', {
