@@ -16,7 +16,7 @@
       {{#if formattedDueDate}}Due {{formattedDueDate}}{{/if}}
     </div>
     {{/if}}
-    <span class="pull-right task-tags">{{> tagBadges doc=this type="companies"}}</span>
+    <span class="pull-right task-tags">{{> tagBadges}}</span>
     <div>
       {{#if isInRole 'Administrator,CanEditTasks'}}
       <div class="task-completed" id="task-completed-{{_id}}">

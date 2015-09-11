@@ -24,9 +24,9 @@ Template.tagBadge.events({
 
 Template.tagBadges.helpers({
   sortedTags: function() {
-    if (this.doc.tags) {
-      this.doc.tags.sort();
+    if (this.tags) {
+      this.tags.sort();
     }
-    return this.doc.tags;
+    return this.tags;
   }
 });
