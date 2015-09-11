@@ -53,7 +53,7 @@ Feature: Allow users to manage their Contacts
     And I set text field "forename" to "test"
     And I set text field "surname" to "surname"
     And I submit the "insertContact" form
-    Then I should see the heading "Mr test surname"
+    Then I should see the heading "test surname"
 
   Scenario: A user can create a contact belonging to a company
     Given I have the "CanCreateContacts" permission
@@ -65,7 +65,7 @@ Feature: Allow users to manage their Contacts
     And I set text field "surname" to "surname"
     And I select "Test Ltd" from dropdown field "companyId"
     And I submit the "insertContact" form
-    Then I should see the heading "Mr test surname"
+    Then I should see the heading "test surname"
 
   Scenario: A user without permission cannot create a contacts
     Given I do not have the "CanCreateContacts" permission
