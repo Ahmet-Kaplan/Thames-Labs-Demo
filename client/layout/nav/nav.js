@@ -88,14 +88,6 @@ Template.nav.helpers({
         return favList;
       }
     }
-  },
-  shouldDisplayMenu: function() {
-    var isUserAdmin = Roles.userIsInRole(Meteor.user(), ['superadmin']);
-    if (isUserAdmin) {
-      return "visible-xs";
-    } else {
-      return "";
-    }
   }
 });
 
