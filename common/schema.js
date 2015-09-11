@@ -684,15 +684,7 @@ Schemas.Task = new SimpleSchema({
     }
   },
   duration: {
-    type: Object,
-    optional: true
-  },
-  'duration.hours': {
-    type: Number,
-    optional: true
-  },
-  'duration.minutes': {
-    type: Number,
+    type: String,
     optional: true
   }
 });

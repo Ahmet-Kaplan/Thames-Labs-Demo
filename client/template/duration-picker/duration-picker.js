@@ -2,8 +2,7 @@ AutoForm.addInputType('duration-picker', {
   template: 'DurationPicker',
   valueOut: function() {
     var val = this.val();
-    if (val == "") return;
-    return JSON.parse(val);
+    return val;
   }
 });
 
@@ -27,9 +26,10 @@ Template.DurationPicker.events({
     if (hours[0].valueAsNumber < 0) hours.val(0);
 
     var input = target.find("input[type=hidden]");
-    var value = JSON.stringify({
+    var value = moment.duration({
       hours: hours[0].valueAsNumber,
-      minutes: minutes[0].valueAsNumber
+      minutes: minutes[0].valueAsNumber,
+      second: 0
     });
     input.val(value);
     input.trigger('change');
@@ -41,7 +41,13 @@ Template.DurationPicker.onRendered(function() {
     $("input[name=hours]").val(0);
     $("input[name=minutes]").val(0);
   } else {
-    $("input[name=hours]").val(this.data.value.hours);
-    $("input[name=minutes]").val(this.data.value.minutes);
+    var val = moment.duration(this.data.value);
+    //Display hours over 23
+    var mins = moment.duration({
+      minutes: val.minutes()
+    })
+    var hours = val.subtract(mins);
+    $("input[name=hours]").val(hours.asHours());
+    $("input[name=minutes]").val(mins.get('minutes'));
   }
 })
