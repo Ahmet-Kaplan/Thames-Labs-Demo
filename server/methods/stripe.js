@@ -152,31 +152,37 @@ Meteor.methods({
     // Stripe.customers.cancelSubscription(theTenant.stripeId, theTenant.stripeSubs,
     Stripe.customers.updateSubscription(theTenant.stripeId, theTenant.stripeSubs,{
       quantity: 0
-    }, Meteor.bindEnvironment(function(err, confirmation) {
-        if(err) {
-          throw new Meteor.Error('Error', err);
-        }
-
-        Tenants.update(tenantId, {
-          $unset: {
-            stripeSubs: ''
-          },
-          $set: {
-            paying: false
-          }
-        });
-        /*Meteor.call('getStripeCardDetails', function(err, card) {
+    }, Meteor.bindEnvironment(function(err, updatedSubs) {
+      if(err) {
+        throw new Meteor.Error('Error', err);
+      }
+      Stripe.customers.cancelSubscription(theTenant.stripeId, theTenant.stripeSubs, {at_period_end: true},
+        Meteor.bindEnvironment(function(err, confirmation) {
           if(err) {
-            LogServerEvent('error', 'Unable to get card for deletion for ' + theTenant.name + ' (' + theTenant.id + ')');
-          } else {
-            Stripe.customers.deleteCard(theTenant.stripeId, card.id, function(err, response) {
-              if(err) {
-              LogServerEvent('error', 'Unable to delete card for ' + theTenant.name + ' (' + theTenant.id + ')');
-              }
-            });
+            throw new Meteor.Error('Error', err);
           }
-        });*/
-        stripeConfirmation.return(confirmation);
+
+          Tenants.update(tenantId, {
+            $unset: {
+              stripeSubs: ''
+            },
+            $set: {
+              paying: false
+            }
+          });
+          /*Meteor.call('getStripeCardDetails', function(err, card) {
+            if(err) {
+              LogServerEvent('error', 'Unable to get card for deletion for ' + theTenant.name + ' (' + theTenant.id + ')');
+            } else {
+              Stripe.customers.deleteCard(theTenant.stripeId, card.id, function(err, response) {
+                if(err) {
+                LogServerEvent('error', 'Unable to delete card for ' + theTenant.name + ' (' + theTenant.id + ')');
+                }
+              });
+            }
+          });*/
+          stripeConfirmation.return(confirmation);
+        }));
     }));
 
     return stripeConfirmation.wait();

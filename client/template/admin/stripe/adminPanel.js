@@ -38,19 +38,27 @@ function updateUpcomingInvoice() {
         for(i = 0; i < tot-1; i++) {
               correctionAmount += upcomingInvoice.lines.data[i].amount;
         }
+      }
+
+      if(upcomingInvoice.lines.data[tot-1].description) {
+        correctionAmount += upcomingInvoice.lines.data[tot-1].amount;
         newData.push({
           amount: correctionAmount/100,
           description: 'Correction for this period\'s subscription'
         });
+      } else {
+        newData.push({
+          amount: correctionAmount/100,
+          description: 'Correction for this period\'s subscription'
+        });
+        var periodStart = new Date(upcomingInvoice.lines.data[tot-1].period.start*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
+        var periodEnd = new Date(upcomingInvoice.lines.data[tot-1].period.end*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
+        newData.push({
+          amount: upcomingInvoice.lines.data[tot-1].amount/100,
+          description: 'Subscription for next period (' + periodStart + ' - ' + periodEnd + ')'
+        });
       }
-      periodStart = new Date(invoice.period_start*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
-      periodEnd = new Date(invoice.period_end*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
-      newData.push({
-        amount: upcomingInvoice.lines.data[tot-1].amount/100,
-        description: 'Subscription for next period (' + periodStart + ' - ' + periodEnd + ')'
-      });
       upcomingInvoice.lines.data = newData;
-      console.log('upcoming', upcomingInvoice);
       upcomingInvoiceDep.changed();
     });
   }
