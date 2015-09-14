@@ -733,9 +733,9 @@ GlobalCustomFields.after.insert(function(userId, doc) {
     case 'company':
       collName = 'companies';
       break;
-    case 'contact':
-      collName = 'contacts';
-      break;
+    // case 'contact':
+    //   collName = 'contacts';
+    //   break;
   }
 
   var targets = Collections[collName].find({}).fetch();

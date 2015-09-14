@@ -50,7 +50,7 @@ Meteor.methods({
       country: "country",
       createdBy: Meteor.userId()
     });
-    console.log(companyId);
+    // console.log(companyId);
     return Contacts.insert({
       title: "Mr",
       forename: "Testy",

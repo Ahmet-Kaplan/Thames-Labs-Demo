@@ -89,20 +89,20 @@ Template.cfDisplay.events({
               }
             });
             break;
-          case "contact":
-            var parentContact = Contacts.findOne(self.parentEntity.entity_data._id);
-            var cfMaster = {};
-            for (var cf in parentContact.customFields) {
-              if (cf !== self.name) {
-                cfMaster[cf] = parentContact.customFields[cf];
-              }
-            }
-            Contacts.update(parentContact._id, {
-              $set: {
-                customFields: cfMaster
-              }
-            });
-            break;
+            // case "contact":
+            //   var parentContact = Contacts.findOne(self.parentEntity.entity_data._id);
+            //   var cfMaster = {};
+            //   for (var cf in parentContact.customFields) {
+            //     if (cf !== self.name) {
+            //       cfMaster[cf] = parentContact.customFields[cf];
+            //     }
+            //   }
+            //   Contacts.update(parentContact._id, {
+            //     $set: {
+            //       customFields: cfMaster
+            //     }
+            //   });
+            //   break;
         }
         toastr.success('Custom field removed.');
       } else {
@@ -186,13 +186,6 @@ Template.addCustomField.events({
             }
           });
           break;
-        case 'contact':
-          Contacts.update(this.entity_data._id, {
-            $set: {
-              customFields: cfMaster
-            }
-          });
-          break;
         default:
           toastr.error('Custom field not added: custom field entity type not recognised.');
           Modal.hide();
@@ -208,7 +201,85 @@ Template.addCustomField.events({
 });
 
 Template.updateCustomField.events({
-  'click #submit-custom-field': function() {
+  'click #submit-ext-info': function() {
+
+    //Master object to contain all custom fields
+    var cfMaster = {};
+
+    var cfObject = this.entity_data.customFields;
+    for (var index in cfObject) {
+      if (cfObject.hasOwnProperty(index)) {
+
+        //get prettified name
+        var name = index.replace(' ', '');
+        var safeName = '#extInfos' + name;
+
+        //get current (old) settings
+        var attr = cfObject[index];
+
+        var newValue = undefined;
+
+        if (attr.isGlobal) {
+          switch (attr.dataType) {
+            case 'text':
+              newValue = $(safeName + "TextValue").val();
+              break;
+            case 'checkbox':
+              newValue = $(safeName + "BooleanValue").prop('checked');
+              break;
+            case 'date':
+              newValue = $(safeName + "DateValue").val();
+              break;
+          }
+
+          var settings = {
+            "dataValue": newValue,
+            "dataType": attr.dataType,
+            isGlobal: true
+          }
+          cfMaster[index] = settings;
+
+        } else {
+          var selectorName = "#extInfosTypeOptions";
+          var newType = $(selectorName).val();
+
+          switch (newType) {
+            case 'text':
+              newValue = $(safeName + "TextValue").val();
+              break;
+            case 'checkbox':
+              newValue = $(safeName + "BooleanValue").prop('checked');
+              break;
+            case 'date':
+              newValue = $(safeName + "DateValue").val();
+              break;
+          }
+
+          var settings = {
+            "dataValue": newValue,
+            "dataType": newType,
+            isGlobal: false
+          }
+          cfMaster[index] = settings;
+
+        }
+      }
+    }
+
+    switch (this.entity_type) {
+      case 'company':
+        Companies.update(this.entity_data._id, {
+          $set: {
+            customFields: cfMaster
+          }
+        });
+        break;
+      default:
+        toastr.error('Custom field not added: custom field entity type not recognised.');
+        Modal.hide();
+        return;
+    }
+
     Modal.hide();
   }
 });
@@ -282,27 +353,27 @@ Template.extInfo.onRendered(function() {
 
   switch (attr.dataType) {
     case 'text':
-      if (attr.isGlobal) {
+      // if (attr.isGlobal) {
         $(selectorName).val('text');
-      };
+      // };
       $(safeName + "TextValue").val(attr.dataValue);
       $(safeName + "TextInputArea").show();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").hide();
       break;
     case 'checkbox':
-      if (attr.isGlobal) {
+      // if (attr.isGlobal) {
         $(selectorName).val('checkbox');
-      };
+      // };
       $(safeName + "BooleanValue").prop('checked', attr.dataValue);
       $(safeName + "TextInputArea").hide();
       $(safeName + "BooleanInputArea").show();
       $(safeName + "DateInputArea").hide();
       break;
     case 'date':
-      if (attr.isGlobal) {
+      // if (attr.isGlobal) {
         $(selectorName).val('date');
-      };
+      // };
       $(safeName + "DateValue").val(attr.dataValue);
       $(safeName + "TextInputArea").hide();
       $(safeName + "BooleanInputArea").hide();

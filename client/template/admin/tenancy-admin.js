@@ -49,9 +49,9 @@ Template.gcf_display.helpers({
       case 'company':
         retVal = 'Companies';
         break;
-      case 'contact':
-        retVal = 'Contacts';
-        break;
+      // case 'contact':
+      //   retVal = 'Contacts';
+      //   break;
     }
 
     return retVal;
@@ -105,27 +105,27 @@ Template.gcf_display.events({
             });
             break;
 
-            case "contact":
-              var targets = Contacts.find({}).fetch();
-
-              _.each(targets, function(cx) {
-
-                var cfMaster = {};
-
-                if (cx.customFields) {
-                  for (var cf in cx.customFields) {
-                    if (cf !== self.name) {
-                      cfMaster[cf] = cx.customFields[cf];
-                    }
-                  }
-                  Contacts.update(cx._id, {
-                    $set: {
-                      customFields: cfMaster
-                    }
-                  });
-                }
-              });
-              break;
+            // case "contact":
+            //   var targets = Contacts.find({}).fetch();
+            //
+            //   _.each(targets, function(cx) {
+            //
+            //     var cfMaster = {};
+            //
+            //     if (cx.customFields) {
+            //       for (var cf in cx.customFields) {
+            //         if (cf !== self.name) {
+            //           cfMaster[cf] = cx.customFields[cf];
+            //         }
+            //       }
+            //       Contacts.update(cx._id, {
+            //         $set: {
+            //           customFields: cfMaster
+            //         }
+            //       });
+            //     }
+            //   });
+            //   break;
         }
 
         GlobalCustomFields.remove(self._id);
