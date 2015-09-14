@@ -2,7 +2,11 @@ Template.customFieldDisplay.events({
   'click #add-custom-field': function(event) {
     event.preventDefault();
     Modal.show('addCustomField', this);
-  }
+  },
+  'click #edit-custom-fields': function(event) {
+    event.preventDefault();
+    Modal.show('updateCustomField', this);
+  },
 });
 
 Template.customFieldDisplay.helpers({
@@ -46,12 +50,8 @@ Template.customFieldDisplay.helpers({
     }
 
     return ret.sort(function(a, b) {
-      if (a.isGlobal && !b.isGlobal) {
-        return -1;
-      }
-      if (!a.isGlobal && b.isGlobal) {
-        return 1;
-      }
+      if (a.isGlobal === false && b.isGlobal === true) return -1;
+      if (a.isGlobal === true && b.isGlobal === false) return 1;
       return 0;
     });
   }
@@ -68,10 +68,6 @@ Template.cfDisplay.helpers({
 });
 
 Template.cfDisplay.events({
-  'click #edit-custom-field': function(event) {
-    event.preventDefault();
-    Modal.show('updateCustomField', this);
-  },
   'click #delete-custom-field': function(event) {
     event.preventDefault();
     var self = this;
@@ -220,7 +216,7 @@ Template.addCustomField.events({
       var settings = {
         "dataValue": cfValue,
         "dataType": cfType,
-        "isGlobal": false
+        isGlobal: false
       }
       cfMaster[cfName] = settings;
 
@@ -270,8 +266,6 @@ Template.updateCustomField.events({
     $('#date-input-area').show();
   },
   'click #submit-custom-field': function() {
-    console.log(this);
-
     var cfName = $('#custom-field-name').val();
     var cfValue = "value";
     var cfType = "text";
@@ -291,8 +285,7 @@ Template.updateCustomField.events({
 
     var settings = {
       "dataValue": cfValue,
-      "dataType": cfType,
-      "isGlobal": this.isGlobal
+      "dataType": cfType
     }
 
     var cfMaster = {};
