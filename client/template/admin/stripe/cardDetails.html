@@ -1,0 +1,19 @@
+<template name="cardDetailsTemplate">
+{{#with cardDetails}}
+  <div class="row">
+    <div class="col-xs-8">Type:</div><div class="col-xs-3">{{brand}}</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-8">Last four number:</div><div class="col-xs-3">{{last4}}</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-8">Exp Month:</div><div class="col-xs-3">{{exp_month}}</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-8">Exp Year:</div><div class="col-xs-3">{{exp_year}}</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12"><button id="updateCardDetails" class="btn btn-xs btn-primary">Update Card Details</button></div>
+  </div>
+{{/with}}
+</template>

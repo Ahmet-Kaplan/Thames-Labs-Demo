@@ -1,0 +1,23 @@
+<template name="stripeUnsubscribe">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Downgrade to Free Plan</h4>
+        </div>
+        
+        <div class="modal-body">
+          By downgrading to the <em>Free Plan</em> you will only have 50 records (contacts + companies).
+          {{#if limitReached}}<br />Since you have already reached this limit, you will not be able to add new records.{{/if}}
+          <br />For more information see our Terms and Condition of use.
+        </div>
+        <div class="modal-footer">
+          <button id="unsubscribe" class="btn btn-primary">Unsubscribe</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

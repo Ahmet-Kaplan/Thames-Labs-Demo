@@ -1,0 +1,97 @@
+<template name="stripeAdmin">  
+  
+    <div class="col-xs-12">
+      <h3>Here are the details of your current status</h3>
+    </div>
+
+    <div class="col-xs-4">
+      <div class="well well-sm">
+      <div class="row">
+        <div class="col-xs-5"><strong>Plan</strong></div>
+        <div class="col-xs-7" id="planName">{{#if payingScheme}}Paying{{else}}Free{{/if}}</div>
+      </div>
+      {{#if hasCoupon}}
+      <div class="row">
+        <div class="col-xs-5"><strong>Discount</strong></div>
+        <div class="col-xs-7" id="planName">{{hasCoupon}}</div>
+      </div>
+      {{/if}}
+      <div class="row">
+        <div class="col-xs-5"><strong>Users</strong></div>
+        <div class="col-xs-7" id="numberOfUsers">{{totalUsers}}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-5"><strong>Records</strong></div>
+        <div class="col-xs-7{{#if limitReached}} text-danger{{/if}}">{{totalRecords}} of {{limitRecords}}</div>
+      </div>
+        {{#if blockedUser}}
+          <br />You have reach the maximum number of records and your account is now locked. 
+          Please upgrade to enjoy the full functionalities of RealtimeCRM
+        {{/if}}
+      </div>
+      {{#if payingScheme}}
+      <div class="well well-sm">
+        {{> cardDetailsTemplate}}
+      </div>
+      {{/if}}
+    </div>
+
+    {{#if hasStripeAccount}}
+    <div class="col-xs-8">
+      <div class="well well-sm">
+        <div class="row">
+          <div class="col-xs-12"><strong>Last Invoice details</strong></div>
+        </div>
+        <div class="row">
+          <div class="col-xs-2" id="planName"><strong>Amount</strong></div>
+          <div class="col-xs-10" id="planName">£{{lastInvoice.amount_due}}</div>
+        </div>
+        <div class="row">
+          <div class="col-xs-2" id="planName"><strong>Date</strong></div>
+          <div class="col-xs-10" id="planName">{{lastInvoice.date}}</div>
+        </div>
+        <div class="row">
+          <div class="col-xs-2" id="planName"><strong>Period</strong></div>
+          <div class="col-xs-10" id="planName">{{lastInvoice.start}} - {{lastInvoice.end}}</div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+          <div class="col-xs-12"><strong>Upcoming Invoice details</strong></div>
+        </div>
+        <div class="row">
+          <div class="col-xs-2" id="planName"><strong>Amount</strong></div>
+          <div class="col-xs-10" id="planName">£{{upcomingInvoice.total}}</div>
+        </div>
+        {{#each upcomingInvoice.lines.data}}
+          {{> lineDetails}}
+        {{/each}}
+        <div class="row">
+          <div class="col-xs-2" id="planName"><strong>Date Due</strong></div>
+          <div class="col-xs-10" id="planName">{{upcomingInvoice.date}}</div>
+        </div>
+
+      </div>
+    </div>
+    {{/if}}
+  
+  <div class="col-xs-12">
+  {{#if payingScheme}}
+    <button type="button" class="btn btn-danger " role="button" id="downScheme">Downgrade to Free Plan</button>
+  {{else}}
+    <button type="button" class="btn btn-info" role="button" id="upScheme">Upgrade to Paying Scheme</button>
+    <div><i class="fa fa-lock"></i> Payments are made securely with <a href="http://www.stripe.com">Stripe</a>.</div>
+  {{/if}}
+  </div>
+</template>
+
+<template name="lineDetails">
+{{#if amount}}
+  <div class="row">
+    <div class="col-xs-2" id="planName"></div>
+    <div class="col-xs-1" id="planName"><em>£{{amount}}</em></div>
+    <div class="col-xs-9" id="planName"><em>{{#if description}}{{description}}{{else}}Subscription for next period ({{period.start}} - {{period.end}}){{/if}}</em></div>
+  </div>
+{{/if}}
+</template>
