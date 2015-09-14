@@ -2,25 +2,31 @@
   <div class="panel panel-default">
     <div class="panel-heading" id="entity-custom-fields">
       <div class="btn-group pull-right">
-        <button id='add-custom-field' class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="New field to store custom information" role='button'><i class="fa fa-fw fa-plus"></i> Add Custom Field</button>
+        <button id='add-custom-field' class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="New field to store custom information" role='button'><i class="fa fa-fw fa-plus"></i> Add</button>
+        <button id='edit-custom-fields' class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="bottom" title="Update existing custom information" role='button'><i class="fa fa-fw fa-pencil"></i> Edit</button>
       </div>
-      Custom Fields
+      Extended Information
     </div>
     <ul class="list-group" id='custom-field-container'>
-      {{#each customFields}} {{> cfDisplay}} {{else}}
-      <li class="list-group-item">No custom fields</li>
-      {{/each}}
+      <div id="global-fields">
+        {{#each customFields}} {{#if isGlobal}}{{> cfDisplay}}{{/if}} {{/each}}
+      </div>
+      <div id="local-fields">
+        {{#each customFields}} {{#unless isGlobal}}{{> cfDisplay}}{{/unless}} {{/each}}
+      </div>
     </ul>
   </div>
 </template>
 
 <template name="cfDisplay">
   <li class="list-group-item custom-field-display-item">
-    <div class="btn-group pull-right">
-      <button id='edit-custom-field' class="btn btn-info btn-xs " type="button">Edit</button>
-      <button id='delete-custom-field' class="btn btn-danger btn-xs " type="button">Delete</button>
-    </div>
-    <strong>{{name}}: </strong><span id="custom-field-{{trimmedName}}">{{displayValue}}</span> {{parentHelper ..}}
+    {{#if isGlobal}}
+    <strong>
+      {{name}}: <span id="custom-field-{{trimmedName}}">{{displayValue}}</span> {{parentHelper ..}}
+    </strong>
+    {{else}}
+      {{name}}: <span id="custom-field-{{trimmedName}}">{{displayValue}}</span> {{parentHelper ..}}
+    {{/if}}
   </li>
 </template>
 
@@ -110,19 +116,19 @@
               <div class="col-md-4">
                 <div class="radio">
                   <label>
-                    <input type="radio" name="cfType" id="typeText" checked>Text</label>
+                    <input type="radio" name="cfType" id="typeText" checked disabled="{{#if isGlobal}}disabled{{/if}}">Text</label>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="radio">
                   <label>
-                    <input type="radio" name="cfType" id="typeCheckbox">Checkbox</label>
+                    <input type="radio" name="cfType" id="typeCheckbox" disabled="{{#if isGlobal}}disabled{{/if}}">Checkbox</label>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="radio">
                   <label>
-                    <input type="radio" name="cfType" id="typeDate">Date/Time</label>
+                    <input type="radio" name="cfType" id="typeDate" disabled="{{#if isGlobal}}disabled{{/if}}">Date/Time</label>
                 </div>
               </div>
             </div>

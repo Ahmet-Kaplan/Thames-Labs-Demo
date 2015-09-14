@@ -1,0 +1,6 @@
+#global-fields li:last-child{
+  border-bottom: 2px solid #dddddd;
+}
+#custom-field-container .list-group-item{
+  border-style: none;
+}

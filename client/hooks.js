@@ -58,20 +58,21 @@ AutoForm.hooks({
   // },
   insertContactForm: {
     onSuccess: function() {
-     toastr.success('Contact created.');
-     Modal.hide();
-     FlowRouter.go('/contacts/' + this.docId);
-   }
- },
+      toastr.success('Contact created.');
+      Modal.hide();
+      FlowRouter.go('/contacts/' + this.docId);
+    }
+  },
   editContactForm: {
     before: {
       update: function(doc) {
-        var oldValues = this.currentDoc, modifications = true;
+        var oldValues = this.currentDoc,
+          modifications = true;
         $.each(['address', 'address2', 'city', 'country', 'county', 'postcode'], function(i, field) {
-          modifications =  (oldValues[field] === doc.$set[field]);
+          modifications = (oldValues[field] === doc.$set[field]);
           return modifications;
         });
-        if(!modifications) {
+        if (!modifications) {
           doc.$set.lat = '';
           doc.$set.lng = '';
         }
@@ -86,12 +87,13 @@ AutoForm.hooks({
   editCompanyForm: {
     before: {
       update: function(doc) {
-        var oldValues = this.currentDoc, modifications = true;
+        var oldValues = this.currentDoc,
+          modifications = true;
         $.each(['address', 'address2', 'city', 'country', 'county', 'postcode'], function(i, field) {
-          modifications =  (oldValues[field] === doc.$set[field]);
+          modifications = (oldValues[field] === doc.$set[field]);
           return modifications;
         });
-        if(!modifications) {
+        if (!modifications) {
           doc.$set.lat = '';
           doc.$set.lng = '';
         }
@@ -141,7 +143,7 @@ AutoForm.hooks({
   insertNewCompanyForm: {
     before: {
       insert: function(doc) {
-        if(doc.website !== undefined && doc.website.length < 8) {
+        if (doc.website !== undefined && doc.website.length < 8) {
           doc.website = '';
         }
         return doc;
