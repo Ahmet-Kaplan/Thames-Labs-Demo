@@ -14,16 +14,23 @@
       Extended Information
     </div>
     <ul class="list-group" id='custom-field-container'>
-      <div id="global-fields">
-        {{#each customFields}}
-          {{#if isGlobal}}{{> cfDisplay}}{{/if}}
-        {{/each}}
-      </div>
-      <div id="local-fields">
-        {{#each customFields}}
-          {{#unless isGlobal}}{{> cfDisplay}}{{/unless}}
-        {{/each}}
-      </div>
+      {{#if customFields}}
+
+        <div id="global-fields">
+          {{#each customFields}}
+            {{#if isGlobal}}{{> cfDisplay}}{{/if}}
+          {{/each}}
+        </div>
+        <div id="local-fields">
+          {{#each customFields}}
+            {{#unless isGlobal}}{{> cfDisplay}}{{/unless}}
+          {{/each}}
+        </div>
+
+      {{else}}
+        <li class="list-group-item">No extended information</li>
+
+      {{/if}}
     </ul>
   </div>
 </template>
@@ -136,14 +143,18 @@
 </template>
 
 <template name="extInfo">
-<div id="extInfos{{extInfoId}}DisplayItem" style="{{#if props.isGlobal}}background: #fafafa;{{/if}}">
-  <label for="extInfos{{extInfoId}}Information">{{name}}</label>
+<div id="extInfos{{extInfoId}}DisplayItem" style="{{#if props.isGlobal}}background: #fafafa;{{/if}}padding-top:5px;">
+<!-- <label for="extInfos{{extInfoId}}Information">{{name}}</label> -->
   <div id="extInfos{{extInfoId}}Information">
     <div class="row">
 
+      <div class="col-md-3 modMyPosition">
+        {{name}}
+      </div>
+
       {{#unless props.isGlobal}}
-        <div class="col-md-1 modMyPosition">Type:
-        </div>
+<!-- <div class="col-md-1 modMyPosition">Type:
+        </div> -->
 
         <div class="col-md-2 modMyPosition">
           <select id="extInfosTypeOptions">
@@ -154,10 +165,7 @@
         </div>
       {{/unless}}
 
-      <div class="col-md-1 modMyPosition">Value:
-      </div>
-
-      <div class="{{#if props.isGlobal}}col-md-11{{else}}col-md-8{{/if}}">
+      <div class="{{#if props.isGlobal}}col-md-8{{else}}col-md-6{{/if}}">
         <div class="form-group" id="extInfos{{extInfoId}}TextInputArea">
           <input class="form-control" id="extInfos{{extInfoId}}TextValue" placeholder="Enter value" type="text">
         </div>
