@@ -4,10 +4,12 @@
       <div class="btn-group pull-right">
         <button class="btn btn-primary btn-xs" data-placement="bottom" data-toggle="tooltip" id='add-custom-field' role='button' title="Add an extended information field">
           <i class="fa fa-fw fa-plus"></i>
-          Add</button>
+<!-- Add</button> -->
+        </button>
         <button class="btn btn-info btn-xs" data-placement="bottom" data-toggle="tooltip" id='edit-custom-fields' role='button' title="Update the existing extended information fields">
           <i class="fa fa-fw fa-pencil"></i>
-          Edit</button>
+<!-- Edit</button> -->
+        </button>
       </div>
       Extended Information
     </div>
@@ -91,7 +93,7 @@
             Check this box to set the value of this custom field to true. Leave it blank for false values.
           </div>
           <div class="form-group datetimepicker" id="date-input-area">
-            <label for="custom-field-value">Date Value</label>
+            <label for="custom-field-date-value">Date Value</label>
             <input class="form-control" id="custom-field-date-value" placeholder="Custom field value">
           </div>
         </form>
@@ -118,12 +120,56 @@
 
       <div class="modal-body">
         <div class="extinfo-scroll">
-
+          {{#each extInfos}}
+            {{> extInfo}}
+          {{/each}}
         </div>
       </div>
 
       <div class="modal-footer">
         <button class="btn btn-primary" id="submit-ext-info" role="button">Update</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+</template>
+
+<template name="extInfo">
+<div id="extInfos{{extInfoId}}DisplayItem" style="{{#if props.isGlobal}}background: #fafafa;{{/if}}">
+  <label for="extInfos{{extInfoId}}Information">{{name}}</label>
+  <div id="extInfos{{extInfoId}}Information">
+    <div class="row">
+
+      {{#unless props.isGlobal}}
+        <div class="col-md-1 modMyPosition">Type:
+        </div>
+
+        <div class="col-md-2 modMyPosition">
+          <select id="extInfosTypeOptions">
+            <option value="text">Text</option>
+            <option value="checkbox">Checkbox</option>
+            <option value="date">Date/Time</option>
+          </select>
+        </div>
+      {{/unless}}
+
+      <div class="col-md-1 modMyPosition">Value:
+      </div>
+
+      <div class="{{#if props.isGlobal}}col-md-11{{else}}col-md-8{{/if}}">
+        <div class="form-group" id="extInfos{{extInfoId}}TextInputArea">
+          <input class="form-control" id="extInfos{{extInfoId}}TextValue" placeholder="Enter value" type="text">
+        </div>
+
+        <div class="form-group" id="extInfos{{extInfoId}}BooleanInputArea">
+          <input class="form-control" id="extInfos{{extInfoId}}BooleanValue" style="height:20px;width:20px;margin-top:7px;" type="checkbox">
+        </div>
+
+        <div class="form-group datetimepicker" id="extInfos{{extInfoId}}DateInputArea">
+          <input class="form-control" id="extInfos{{extInfoId}}DateValue" placeholder="Enter date" type="text">
+        </div>
+
       </div>
 
     </div>

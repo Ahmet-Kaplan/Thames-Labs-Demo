@@ -125,48 +125,6 @@ Template.addCustomField.onRendered(function() {
   $('#date-input-area').hide();
 });
 
-Template.updateCustomField.onRendered(function() {
-
-  this.$('.datetimepicker').datetimepicker();
-
-  switch (this.data.type) {
-    case 'text':
-      $('#typeText').prop('checked', true);
-      $('#typeCheckbox').prop('checked', false);
-      $('#typeDate').prop('checked', false);
-
-      $('#text-input-area').show();
-      $('#check-input-area').hide();
-      $('#date-input-area').hide();
-
-      $('#custom-field-text-value').val(this.data.value);
-      break;
-    case 'checkbox':
-      $('#typeText').prop('checked', false);
-      $('#typeCheckbox').prop('checked', true);
-      $('#typeDate').prop('checked', false);
-
-      $('#text-input-area').hide();
-      $('#check-input-area').show();
-      $('#date-input-area').hide();
-
-      $('#custom-field-check-value').prop('checked', this.data.value);
-      break;
-    case 'date':
-      $('#typeText').prop('checked', false);
-      $('#typeCheckbox').prop('checked', false);
-      $('#typeDate').prop('checked', true);
-
-      $('#text-input-area').hide();
-      $('#check-input-area').hide();
-      $('#date-input-area').show();
-
-      $('#custom-field-date-value').val(this.data.value);
-      break;
-  }
-
-});
-
 Template.addCustomField.events({
   'click #typeText': function() {
     $('#text-input-area').show();
@@ -250,84 +208,106 @@ Template.addCustomField.events({
 });
 
 Template.updateCustomField.events({
-  'click #typeText': function() {
-    $('#text-input-area').show();
-    $('#check-input-area').hide();
-    $('#date-input-area').hide();
-  },
-  'click #typeCheckbox': function() {
-    $('#text-input-area').hide();
-    $('#check-input-area').show();
-    $('#date-input-area').hide();
-  },
-  'click #typeDate': function() {
-    $('#text-input-area').hide();
-    $('#check-input-area').hide();
-    $('#date-input-area').show();
-  },
   'click #submit-custom-field': function() {
-    var cfName = $('#custom-field-name').val();
-    var cfValue = "value";
-    var cfType = "text";
-
-    if ($('#typeText').prop('checked')) {
-      cfType = "text";
-      cfValue = $('#custom-field-text-value').val();
-    }
-    if ($('#typeCheckbox').prop('checked')) {
-      cfType = "checkbox";
-      cfValue = $('#custom-field-check-value').prop('checked');
-    }
-    if ($('#typeDate').prop('checked')) {
-      cfType = "date";
-      cfValue = $('#custom-field-date-value').val();
-    }
-
-    var settings = {
-      "dataValue": cfValue,
-      "dataType": cfType
-    }
-
-    var cfMaster = {};
-
-    switch (this.parentEntity.entity_type) {
-      case 'company':
-        var parentCompany = Companies.findOne(this.parentEntity.entity_data._id);
-
-        for (var cf in parentCompany.customFields) {
-          if (cf === cfName) {
-            cfMaster[cf] = settings;
-          } else {
-            cfMaster[cf] = parentCompany.customFields[cf];
-          }
-        }
-
-        Companies.update(parentCompany._id, {
-          $set: {
-            customFields: cfMaster
-          }
-        });
-        break;
-      case 'contact':
-        var parentContact = Contacts.findOne(this.parentEntity.entity_data._id);
-
-        for (var cf in parentContact.customFields) {
-          if (cf === cfName) {
-            cfMaster[cf] = settings;
-          } else {
-            cfMaster[cf] = parentContact.customFields[cf];
-          }
-        }
-
-        Contacts.update(parentContact._id, {
-          $set: {
-            customFields: cfMaster
-          }
-        });
-        break;
-    }
-    toastr.success('Custom field updated.');
-
     Modal.hide();
   }
+});
+
+Template.updateCustomField.helpers({
+  extInfos: function() {
+    var data = [];
+
+    cfObject = this.entity_data.customFields;
+    for (var index in cfObject) {
+      if (cfObject.hasOwnProperty(index)) {
+        var attr = cfObject[index];
+        var ei = {
+          name: index,
+          props: attr
+        };
+        data.push(ei);
+      }
+    }
+
+    return data.sort(function(a, b) {
+      if (!a.props.isGlobal && b.props.isGlobal) return 1;
+      if (a.props.isGlobal && !b.props.isGlobal) return -1;
+      return 0;
+    });
+  }
+});
+
+Template.extInfo.helpers({
+  extInfoId: function() {
+    return this.name.replace(' ', '');
+  }
+});
+
+Template.extInfo.events({
+  'change #extInfosTypeOptions': function() {
+    var index = this.name;
+    var safeName = '#extInfos' + index.replace(' ', '');
+    var selectorName = "#extInfosTypeOptions";
+    var newType = $(selectorName).val();
+
+    switch (newType) {
+      case 'text':
+        $(safeName + "TextInputArea").show();
+        $(safeName + "BooleanInputArea").hide();
+        $(safeName + "DateInputArea").hide();
+        break;
+      case 'checkbox':
+        $(safeName + "TextInputArea").hide();
+        $(safeName + "BooleanInputArea").show();
+        $(safeName + "DateInputArea").hide();
+        break;
+      case 'date':
+        $(safeName + "TextInputArea").hide();
+        $(safeName + "BooleanInputArea").hide();
+        $(safeName + "DateInputArea").show();
+        break;
+    }
+  }
+});
+
+Template.extInfo.onRendered(function() {
+
+  this.$('.datetimepicker').datetimepicker();
+  var index = this.data.name;
+  var attr = this.data.props;
+
+  var safeName = '#extInfos' + index.replace(' ', '');
+  var selectorName = "#extInfosTypeOptions";
+  $(selectorName).val('text');
+
+  switch (attr.dataType) {
+    case 'text':
+      if (attr.isGlobal) {
+        $(selectorName).val('text');
+      };
+      $(safeName + "TextValue").val(attr.dataValue);
+      $(safeName + "TextInputArea").show();
+      $(safeName + "BooleanInputArea").hide();
+      $(safeName + "DateInputArea").hide();
+      break;
+    case 'checkbox':
+      if (attr.isGlobal) {
+        $(selectorName).val('checkbox');
+      };
+      $(safeName + "BooleanValue").prop('checked', attr.dataValue);
+      $(safeName + "TextInputArea").hide();
+      $(safeName + "BooleanInputArea").show();
+      $(safeName + "DateInputArea").hide();
+      break;
+    case 'date':
+      if (attr.isGlobal) {
+        $(selectorName).val('date');
+      };
+      $(safeName + "DateValue").val(attr.dataValue);
+      $(safeName + "TextInputArea").hide();
+      $(safeName + "BooleanInputArea").hide();
+      $(safeName + "DateInputArea").show();
+      break;
+  }
+
 });
