@@ -6,12 +6,6 @@ Template.companyList.onCreated(function() {
 });
 
 Template.companyList.onRendered(function() {
-  var sidebar = $('.sidebar');
-  sidebar.affix({
-    offset: {
-      top: sidebar.offset().top
-    }
-  });
   // Watch for session variable setting search
   Session.set('companyListSearchQuery', null);
   this.autorun(function() {

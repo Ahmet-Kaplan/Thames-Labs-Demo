@@ -1,25 +1,3 @@
-Template.tagBadge.helpers({
-  getRoutedType: function() {
-    var routeName = FlowRouter.getRouteName();
-    switch (routeName) {
-      case "companies":
-        return "companies";
-        break;
-      case "contacts":
-        return "contacts";
-        break;
-      case "projects":
-        return "projects";
-        break;
-      case "opportunities":
-        entityType = "opportunities";
-        break;
-      default:
-        throw new Meteor.Error("unspecified-tag-badge-route-type", "Could not determine route type for tag badges");
-    }
-  }
-});
-
 Template.tagBadge.events({
   'click a': function() {
     // turn this into a string
@@ -37,7 +15,7 @@ Template.tagBadge.events({
         Session.set('projectListSearchQuery', tagName);
         break;
       case "opportunities":
-        Session.set('opportunitiesListSearchQuery', tagName);
+        Session.set('opportunitySearchQuery', tagName);
         break;
       default:
         throw new Meteor.Error("unspecified-tag-badge-route-type", "Could not determine route type for tag badges");

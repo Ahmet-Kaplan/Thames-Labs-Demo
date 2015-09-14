@@ -19,16 +19,6 @@ Template.contactDetail.onCreated(function() {
   });
 });
 
-Template.contactDetail.onRendered(function() {
-  // Affix sidebar
-  var sidebar = $('.sidebar');
-  sidebar.affix({
-    offset: {
-      top: sidebar.offset().top
-    }
-  });
-});
-
 Template.contactDetail.helpers({
   contactData: function() {
     var contactId = FlowRouter.getParam('id');
