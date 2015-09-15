@@ -48,7 +48,7 @@ Template.addNewGlobalCustomField.events({
     $('#check-input-area').hide();
     $('#date-input-area').show();
   },
-  'click #submit-custom-field': function() {
+  'click #createCustomField': function() {
     var cfName = $('#custom-field-name').val();
     var cfValue = "value";
     var cfType = "text";

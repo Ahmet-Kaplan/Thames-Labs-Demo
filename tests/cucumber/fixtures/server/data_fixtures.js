@@ -15,12 +15,7 @@ Meteor.methods({
       postcode: postcode,
       country: country,
       createdBy: userId,
-      customFields: {
-        test: {
-          dataValue: "velocity",
-          dataType: "text"
-        }
-      }
+      customFields: {}
     });
   },
 
@@ -32,12 +27,7 @@ Meteor.methods({
       "surname": "Surname",
       "email": "testy@surname.com",
       "createdBy": userId,
-      "customFields": {
-        test: {
-          dataValue: "velocity",
-          dataType: "text"
-        }
-      }
+      "customFields": {}
     });
   },
 

@@ -10,9 +10,9 @@ module.exports = function() {
 
   var url = require('url');
 
-/***************************************************
-                        GIVEN
-***************************************************/
+  /***************************************************
+                          GIVEN
+  ***************************************************/
   this.Given(/^a user exists$/, function(callback) {
     this.server.call('createTestTenant');
     this.server.call('createTestUser');
@@ -63,9 +63,9 @@ module.exports = function() {
       .call(callback);
   });
 
-/***************************************************
-                        WHEN
-***************************************************/
+  /***************************************************
+                          WHEN
+  ***************************************************/
 
   this.When(/^I navigate to "([^"]*)"$/, function(relativePath, callback) {
     this.client
@@ -74,19 +74,19 @@ module.exports = function() {
   });
 
   this.When(/^I click "([^"]*)"$/, function(id, callback) {
-  this.client
-    .waitForVisible(id, 2000)
-    .scroll(id, 0, -60)
-    .click(id)
-    .call(callback);
+    this.client
+      .waitForVisible(id, 2000)
+      .scroll(id, 0, -60)
+      .click(id)
+      .call(callback);
   });
 
   this.When(/^I set rich text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
     this.client
-      .waitForVisible('div[data-schema-key='+ fieldName + ']', 2000)
+      .waitForVisible('div[data-schema-key=' + fieldName + ']', 2000)
       .executeAsync(function(fieldName, value, done) {
         //Set value for medium text editor because it isn't a standard input
-        $('div[data-schema-key='+ fieldName + ']').html(value);
+        $('div[data-schema-key=' + fieldName + ']').html(value);
         done();
       }, fieldName, value)
       .call(callback);
@@ -94,23 +94,24 @@ module.exports = function() {
 
   this.When(/^I set text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
     this.client
-      .waitForVisible('input[data-schema-key='+ fieldName + ']', 2000)
-      .setValue('input[data-schema-key='+ fieldName + ']', value)
+      .waitForVisible('input[data-schema-key=' + fieldName + ']', 2000)
+      .setValue('input[data-schema-key=' + fieldName + ']', value)
       .call(callback);
   });
 
-  this.When(/^I set select field "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
+  this.When(/^I set selectize field to "([^"]*)"$/, function(value, callback) {
     this.client
-      .waitForVisible('select[data-schema-key='+ fieldName + ']', 2000)
-      .selectByValue('input[data-schema-key='+ fieldName + ']', value)
+      .waitForVisible(".selectize-control .selectize-input input", 2000)
+      .setValue(".selectize-control .selectize-input input", value)
+      .keys(['Return'])
       .call(callback);
   });
 
   //This step is necessary when editing fields within an array (eg Opportunites, field items.0.name)
   this.When(/^I set text field with id "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
     this.client
-      .waitForVisible('#'+ fieldName, 2000)
-      .setValue('#'+ fieldName, value)
+      .waitForVisible('#' + fieldName, 2000)
+      .setValue('#' + fieldName, value)
       .call(callback);
   });
 
@@ -124,9 +125,9 @@ module.exports = function() {
 
   this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName, callback) {
     this.client
-      .waitForVisible('select[data-schema-key='+ fieldName + ']', 5000)
-      .click('select[data-schema-key='+ fieldName + ']')
-      .selectByVisibleText('select[data-schema-key='+ fieldName + ']', value)
+      .waitForVisible('select[data-schema-key=' + fieldName + ']', 5000)
+      .click('select[data-schema-key=' + fieldName + ']')
+      .selectByVisibleText('select[data-schema-key=' + fieldName + ']', value)
       .call(callback);
   });
 
@@ -149,10 +150,11 @@ module.exports = function() {
   ***************************************************/
   this.Then(/^I should see "([^"]*)"$/, function(id, callback) {
     this.client
-      .isExisting(id)
-      .then(function(isExisting) {
-          expect(isExisting).to.equal(true);
-      })
+      // .isExisting(id)
+      // .then(function(isExisting) {
+      //   expect(isExisting).to.equal(true);
+      // })
+      .waitForVisible(id, 2000)
       .call(callback);
   });
 
@@ -160,7 +162,7 @@ module.exports = function() {
     this.client
       .isExisting(id)
       .then(function(isExisting) {
-          expect(isExisting).to.equal(false);
+        expect(isExisting).to.equal(false);
       })
       .call(callback);
   });
@@ -183,7 +185,7 @@ module.exports = function() {
       //.waitForVisible('.modal-dialog', 5000)
       .isExisting('.modal-dialog')
       .then(function(isExisting) {
-          expect(isExisting).to.equal(true);
+        expect(isExisting).to.equal(true);
       })
       .call(callback);
   });
@@ -193,7 +195,7 @@ module.exports = function() {
       .waitForExist('.modal-dialog', 5000, true)
       .isExisting('.modal-dialog')
       .then(function(isExisting) {
-          expect(isExisting).to.equal(false);
+        expect(isExisting).to.equal(false);
       })
       .call(callback);
   });
@@ -223,9 +225,9 @@ module.exports = function() {
 
   this.Then(/^the field "([^"]*)" should contain "([^"]*)"$/, function(fieldName, fieldValue, callback) {
     this.client
-      .waitForVisible('input[name=' + fieldName +']', 2000)
+      .waitForVisible('input[name=' + fieldName + ']', 2000)
       .timeoutsImplicitWait(2000)
-      .getValue('input[name=' + fieldName +']').then(function(text) {
+      .getValue('input[name=' + fieldName + ']').then(function(text) {
         expect(text).to.contain(fieldValue);
       })
       .call(callback);
