@@ -4,10 +4,12 @@ Meteor.startup(function() {
       console.log('Unable to retrieve Stripe Public Key.');
       return false;
     }
-    Session.set('STRIPE_PK', result);
     Stripe.setPublishableKey(result);
   });
 });
+
+stripeCustomerDep = new Tracker.Dependency();
+var stripeCustomer = {};
 
 upcomingInvoiceDep = new Tracker.Dependency();
 var upcomingInvoice = {};
@@ -17,6 +19,20 @@ var lastInvoice = {};
 
 var couponDep = new Tracker.Dependency();
 var coupon = {};
+
+function updateStripeCustomer() {
+  var tenant = Tenants.findOne({});
+  if(tenant.stripeId) {
+    Meteor.call('getStripeCustomerDetails', function(error, customer) {
+      if(error) {
+        toastr.error('Unable to retrieve your customer details');
+        return false;
+      }
+      stripeCustomer = customer;
+      stripeCustomerDep.changed();
+    });
+  }
+}
 
 function updateUpcomingInvoice() {
   var tenant = Tenants.findOne({});
@@ -83,7 +99,10 @@ function updateLastInvoice() {
         lastInvoice.end = new Date(invoice.period_end*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
       }
       lastInvoiceDep.changed();
+      $('#switchButtons').show();
     });
+  } else {
+    $('#switchButtons').show();
   }
 }
 
@@ -92,6 +111,7 @@ Template.stripeAdmin.onRendered(function() {
     var tenant = Tenants.findOne({});
     var numberOfUsers = Meteor.users.find({group: tenant._id}).count();
     if(tenant.stripeId && numberOfUsers) {
+      updateStripeCustomer();
       updateLastInvoice();
       updateUpcomingInvoice();
     }
@@ -115,6 +135,14 @@ Template.stripeAdmin.helpers({
   },
   hasStripeAccount: function() {
     return !(Tenants.findOne({}).stripeId === undefined || Tenants.findOne({}).stripeId === '');
+  },
+  stripeCustomer: function() {
+    stripeCustomerDep.depend();
+    return stripeCustomer;
+  },
+  subscriptionCancelled: function() {
+    stripeCustomerDep.depend();
+    return stripeCustomer.subscriptions.data[0].cancel_at_period_end;
   },
   blockedUser: function() {
     return Tenants.findOne({}).blocked;
@@ -152,13 +180,32 @@ Template.stripeAdmin.events({
     Modal.show('stripeSubscribe', this);
   },
 
-  'click #reUpScheme': function(e) {
-    e.preventDefault();
-    Modal.show('stripeResubscribe', this);
-  },
-
   'click #downScheme': function(e) {
     e.preventDefault();
     Modal.show('stripeUnsubscribe', this);
+  },
+
+  'click #resumeSubs': function(e) {
+    e.preventDefault();
+    bootbox.confirm('Do you wish to resume your subscription to RealtimeCRM?', function(result) {
+      if(result === true) {
+        Meteor.call('resumeStripeSubscription', function(error, result) {
+          if(error) {
+            bootbox.alert({
+              title: 'Error',
+              message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to resume your subscription.<br />Please contact us if the problem remains.</div>'
+            });
+          } else {
+            bootbox.alert({
+              title: 'Subscription complete',
+              message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />We\'re glad to have you back!'
+            });
+          }
+          stripeCustomerDep.changed();
+          lastInvoiceDep.changed();
+          upcomingInvoiceDep.changed();
+        });
+      }
+    });
   }
 });

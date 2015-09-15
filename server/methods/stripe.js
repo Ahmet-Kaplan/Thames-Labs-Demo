@@ -11,6 +11,7 @@ Meteor.methods({
   getStripePK: function() {
     return process.env.STRIPE_PK;
   },
+
   createStripeCustomer: function(token, userEmail) {
     var tenantId = Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
@@ -126,8 +127,7 @@ Meteor.methods({
     }
 
     Stripe.customers.updateSubscription(stripeId, stripeSubs,{
-      quantity: numberUsers,
-      prorate: true
+      quantity: numberUsers
     }, function(err, subscription) {
       if(err) {
         Meteor.call('sendErrorEmail', theTenant.name, tenantId , err);
@@ -149,43 +149,60 @@ Meteor.methods({
       throw new Meteor.Error(400, 'It appears you are not subscribed.');
     }
 
-    // Stripe.customers.cancelSubscription(theTenant.stripeId, theTenant.stripeSubs,
-    Stripe.customers.updateSubscription(theTenant.stripeId, theTenant.stripeSubs,{
-      quantity: 0
-    }, Meteor.bindEnvironment(function(err, updatedSubs) {
-      if(err) {
-        throw new Meteor.Error('Error', err);
-      }
-      Stripe.customers.cancelSubscription(theTenant.stripeId, theTenant.stripeSubs, {at_period_end: true},
-        Meteor.bindEnvironment(function(err, confirmation) {
-          if(err) {
-            throw new Meteor.Error('Error', err);
-          }
-
-          Tenants.update(tenantId, {
-            $unset: {
-              stripeSubs: ''
-            },
-            $set: {
-              paying: false
-            }
-          });
-          /*Meteor.call('getStripeCardDetails', function(err, card) {
-            if(err) {
-              LogServerEvent('error', 'Unable to get card for deletion for ' + theTenant.name + ' (' + theTenant.id + ')');
-            } else {
-              Stripe.customers.deleteCard(theTenant.stripeId, card.id, function(err, response) {
-                if(err) {
-                LogServerEvent('error', 'Unable to delete card for ' + theTenant.name + ' (' + theTenant.id + ')');
-                }
-              });
-            }
-          });*/
-          stripeConfirmation.return(confirmation);
-        }));
-    }));
+    Stripe.customers.cancelSubscription(theTenant.stripeId, theTenant.stripeSubs, {at_period_end: true},
+      Meteor.bindEnvironment(function(err, confirmation) {
+        if(err) {
+          throw new Meteor.Error('Error', err);
+        }
+        stripeConfirmation.return(confirmation);
+      }));
 
     return stripeConfirmation.wait();
+  },
+
+  resumeStripeSubscription: function() {
+    var tenantId = Partitioner.getUserGroup(this.userId);
+    var theTenant = Tenants.findOne({_id: tenantId});
+    var stripeId = theTenant.stripeId;
+    var stripeSubs = theTenant.stripeSubs;
+    var stripeResume = new Future();
+
+    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may resume subscriptions.');
+    }
+
+    Stripe.customers.updateSubscription(stripeId, stripeSubs, {
+      plan: 'premier'
+    }, function(err, subs) {
+      if(err) {
+        throw new Meteor.Error('Unable to resume subscription', err);
+      }
+
+      stripeResume.return(subs);
+    });
+
+    return stripeResume.wait();
+  },
+
+  getStripeCustomerDetails: function() {
+    var tenantId = Partitioner.getUserGroup(this.userId);
+    var theTenant = Tenants.findOne({_id: tenantId});
+    var stripeId = theTenant.stripeId;
+    var stripeCustomerDetails = new Future();
+
+    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may access this data.');
+    }
+
+    Stripe.customers.retrieve(stripeId, function(err, customer) {
+      if(err) {
+        throw new Meteor.Error('Stripe Error', err);
+      }
+
+      stripeCustomerDetails.return(customer);
+    });
+
+    return stripeCustomerDetails.wait();
   },
 
   getStripeCardDetails: function() {

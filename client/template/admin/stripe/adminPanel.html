@@ -1,10 +1,13 @@
 <template name="stripeAdmin">  
   
     <div class="col-xs-12">
-      <h3>Here are the details of your current status</h3>
+      <h4>Here are the details of your current status</h4>
+      {{#if subscriptionCancelled}}
+        <p class="text-danger"><i class="fa fa-fw fa-exclamation-triangle"></i> Your subscription has been cancelled and will terminate at the end of this period.</p>
+      {{/if}}
     </div>
 
-    <div class="col-xs-4">
+    <div class="col-xs-5">
       <div class="well well-sm">
       <div class="row">
         <div class="col-xs-5"><strong>Plan</strong></div>
@@ -29,7 +32,7 @@
           Please upgrade to enjoy the full functionalities of RealtimeCRM
         {{/if}}
       </div>
-      {{#if payingScheme}}
+      {{#if hasStripeAccount}}
       <div class="well well-sm">
         {{> cardDetailsTemplate}}
       </div>
@@ -37,7 +40,7 @@
     </div>
 
     {{#if hasStripeAccount}}
-    <div class="col-xs-8">
+    <div class="col-xs-7">
       <div class="well well-sm">
         <div class="row">
           <div class="col-xs-12"><strong>Last Invoice details</strong></div>
@@ -54,7 +57,7 @@
           <div class="col-xs-2" id="planName"><strong>Period</strong></div>
           <div class="col-xs-10" id="planName">{{lastInvoice.start}} - {{lastInvoice.end}}</div>
         </div>
-
+        {{#if upcomingInvoice}}
         <hr />
 
         <div class="row">
@@ -62,7 +65,7 @@
         </div>
         <div class="row">
           <div class="col-xs-2" id="planName"><strong>Amount</strong></div>
-          <div class="col-xs-10" id="planName">£{{upcomingInvoice.total}}</div>
+          <div class="col-xs-10" id="planName">£{{upcomingInvoice.amount_due}}</div>
         </div>
         {{#each upcomingInvoice.lines.data}}
           {{> lineDetails}}
@@ -71,14 +74,19 @@
           <div class="col-xs-2" id="planName"><strong>Date Due</strong></div>
           <div class="col-xs-10" id="planName">{{upcomingInvoice.date}}</div>
         </div>
+        {{/if}}
 
       </div>
     </div>
     {{/if}}
   
-  <div class="col-xs-12">
+  <div class="col-xs-12" id="switchButtons" style="display: none">
   {{#if payingScheme}}
-    <button type="button" class="btn btn-danger " role="button" id="downScheme">Downgrade to Free Plan</button>
+    {{#if subscriptionCancelled}}
+      <button type="button" class="btn btn-success" role="button" id="resumeSubs">Resume Subscription</button>
+    {{else}}
+      <button type="button" class="btn btn-danger" role="button" id="downScheme">Downgrade to Free Plan</button>
+    {{/if}}
   {{else}}
     <button type="button" class="btn btn-info" role="button" id="upScheme">Upgrade to Paying Scheme</button>
     <div><i class="fa fa-lock"></i> Payments are made securely with <a href="http://www.stripe.com">Stripe</a>.</div>

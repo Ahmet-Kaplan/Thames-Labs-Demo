@@ -45,6 +45,7 @@ Template.stripeSubscribe.events({
           $('#submit').prop('disabled', false);
           return;
         } else {
+          toastr.info('Processing your subscription...');
 
           //If has stripeId, update card details and call subscription method
           if(tenantDetails.stripeId) {

@@ -1,19 +1,21 @@
 <template name="cardDetailsTemplate">
 {{#with cardDetails}}
+  <p>This card will be use for your payments</p>
   <div class="row">
-    <div class="col-xs-8">Type:</div><div class="col-xs-3">{{brand}}</div>
+    <div class="col-xs-6"><strong>Name</strong></div><div class="col-xs-6">{{name}}</div>
   </div>
   <div class="row">
-    <div class="col-xs-8">Last four number:</div><div class="col-xs-3">{{last4}}</div>
+    <div class="col-xs-6"><strong>Brand</strong></div><div class="col-xs-6">{{brand}}</div>
   </div>
   <div class="row">
-    <div class="col-xs-8">Exp Month:</div><div class="col-xs-3">{{exp_month}}</div>
+    <div class="col-xs-6"><strong>Last four number</strong></div><div class="col-xs-6">{{last4}}</div>
   </div>
   <div class="row">
-    <div class="col-xs-8">Exp Year:</div><div class="col-xs-3">{{exp_year}}</div>
+    <div class="col-xs-6"><strong>Exp Month</strong></div><div class="col-xs-6">{{exp_month}}</div>
   </div>
   <div class="row">
-    <div class="col-xs-12"><button id="updateCardDetails" class="btn btn-xs btn-primary">Update Card Details</button></div>
+    <div class="col-xs-6"><strong>Exp Year</strong></div><div class="col-xs-6">{{exp_year}}</div>
   </div>
+  <button id="updateCardDetails" class="btn btn-xs btn-primary">Update Card Details</button>
 {{/with}}
 </template>
