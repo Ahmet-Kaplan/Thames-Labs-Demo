@@ -89,20 +89,20 @@ Template.cfDisplay.events({
               }
             });
             break;
-            // case "contact":
-            //   var parentContact = Contacts.findOne(self.parentEntity.entity_data._id);
-            //   var cfMaster = {};
-            //   for (var cf in parentContact.customFields) {
-            //     if (cf !== self.name) {
-            //       cfMaster[cf] = parentContact.customFields[cf];
-            //     }
-            //   }
-            //   Contacts.update(parentContact._id, {
-            //     $set: {
-            //       customFields: cfMaster
-            //     }
-            //   });
-            //   break;
+          case "contact":
+            var parentContact = Contacts.findOne(self.parentEntity.entity_data._id);
+            var cfMaster = {};
+            for (var cf in parentContact.customFields) {
+              if (cf !== self.name) {
+                cfMaster[cf] = parentContact.customFields[cf];
+              }
+            }
+            Contacts.update(parentContact._id, {
+              $set: {
+                customFields: cfMaster
+              }
+            });
+            break;
         }
         toastr.success('Custom field removed.');
       } else {
@@ -181,6 +181,13 @@ Template.addCustomField.events({
       switch (this.entity_type) {
         case 'company':
           Companies.update(this.entity_data._id, {
+            $set: {
+              customFields: cfMaster
+            }
+          });
+          break;
+        case 'contact':
+          Contacts.update(this.entity_data._id, {
             $set: {
               customFields: cfMaster
             }
@@ -274,6 +281,13 @@ Template.updateCustomField.events({
           }
         });
         break;
+      case 'contact':
+        Contacts.update(this.entity_data._id, {
+          $set: {
+            customFields: cfMaster
+          }
+        });
+        break;
       default:
         toastr.error('Custom field not added: custom field entity type not recognised.');
         Modal.hide();
@@ -354,7 +368,7 @@ Template.extInfo.onRendered(function() {
   switch (attr.dataType) {
     case 'text':
       // if (attr.isGlobal) {
-        $(selectorName).val('text');
+      $(selectorName).val('text');
       // };
       $(safeName + "TextValue").val(attr.dataValue);
       $(safeName + "TextInputArea").show();
@@ -363,7 +377,7 @@ Template.extInfo.onRendered(function() {
       break;
     case 'checkbox':
       // if (attr.isGlobal) {
-        $(selectorName).val('checkbox');
+      $(selectorName).val('checkbox');
       // };
       $(safeName + "BooleanValue").prop('checked', attr.dataValue);
       $(safeName + "TextInputArea").hide();
@@ -372,7 +386,7 @@ Template.extInfo.onRendered(function() {
       break;
     case 'date':
       // if (attr.isGlobal) {
-        $(selectorName).val('date');
+      $(selectorName).val('date');
       // };
       $(safeName + "DateValue").val(attr.dataValue);
       $(safeName + "TextInputArea").hide();

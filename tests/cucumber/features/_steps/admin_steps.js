@@ -17,7 +17,10 @@ module.exports = function() {
 
   this.Then(/^the global field should no longer be visible$/, function(callback) {
     this.client
-      .waitForVisible('#glob-cust-field-display', 2000, true)
+      .isExisting('#glob-cust-field-display')
+      .then(function(isExisting) {
+        expect(isExisting).to.equal(false);
+      })
       .call(callback);
   });
 
