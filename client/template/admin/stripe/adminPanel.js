@@ -20,7 +20,7 @@ var lastInvoice = {};
 var couponDep = new Tracker.Dependency();
 var coupon = {};
 
-function updateStripeCustomer() {
+var updateStripeCustomer = function() {
   var tenant = Tenants.findOne({});
   if(tenant.stripeId) {
     Meteor.call('getStripeCustomerDetails', function(error, customer) {
@@ -32,9 +32,9 @@ function updateStripeCustomer() {
       stripeCustomerDep.changed();
     });
   }
-}
+};
 
-function updateUpcomingInvoice() {
+var updateUpcomingInvoice = function() {
   var tenant = Tenants.findOne({});
   if(tenant.stripeId) {
     Meteor.call('getStripeUpcomingInvoice', function(error, invoice) {
@@ -78,9 +78,9 @@ function updateUpcomingInvoice() {
       upcomingInvoiceDep.changed();
     });
   }
-}
+};
 
-function updateLastInvoice() {
+var updateLastInvoice = function() {
   var tenant = Tenants.findOne({});
   if(tenant.stripeId) {
     Meteor.call('getStripeLastInvoice', function(error, invoice) {
@@ -99,17 +99,17 @@ function updateLastInvoice() {
         lastInvoice.end = new Date(invoice.period_end*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
       }
       lastInvoiceDep.changed();
-      $('#switchButtons').show();
     });
-  } else {
-    $('#switchButtons').show();
   }
-}
+};
 
-Template.stripeAdmin.onRendered(function() {
+Template.stripeAdmin.onCreated(function() {
+  Session.set('stripeUpdateListener', 0);
   this.autorun(function() {
     var tenant = Tenants.findOne({});
+    var listener = Session.get('stripeUpdateListener');
     var numberOfUsers = Meteor.users.find({group: tenant._id}).count();
+    listener += 1;
     if(tenant.stripeId && numberOfUsers) {
       updateStripeCustomer();
       updateLastInvoice();
@@ -142,7 +142,7 @@ Template.stripeAdmin.helpers({
   },
   subscriptionCancelled: function() {
     stripeCustomerDep.depend();
-    return stripeCustomer.subscriptions.data[0].cancel_at_period_end;
+    return (stripeCustomer && Tenants.findOne({}).stripeId) ? stripeCustomer.subscriptions.data[0].cancel_at_period_end : false;
   },
   blockedUser: function() {
     return Tenants.findOne({}).blocked;
@@ -201,9 +201,7 @@ Template.stripeAdmin.events({
               message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />We\'re glad to have you back!'
             });
           }
-          stripeCustomerDep.changed();
-          lastInvoiceDep.changed();
-          upcomingInvoiceDep.changed();
+          Session.set('stripeUpdateListener', Session.get('stripeUpdateListener') + 1);
         });
       }
     });

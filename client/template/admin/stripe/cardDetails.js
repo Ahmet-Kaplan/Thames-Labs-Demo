@@ -1,19 +1,23 @@
 cardDetailsDep = new Tracker.Dependency();
 var cardDetails = {};
 
-function updateCardDetails() {
+var updateCardDetails = function() {
   Meteor.call('getStripeCardDetails', function(error, response) {
     cardDetails = response;
     cardDetailsDep.changed();
   });
-}
+};
 
 Template.cardDetailsTemplate.onRendered(function() {
   var stripeId = Tenants.findOne({}).stripeId;
   if(!stripeId) {
     throw new Meteor.Error(400, 'No stripe account could be found.');
   }
-  updateCardDetails();
+  this.autorun(function() {
+    var updateListener = Session.get('listenCardUpdate');
+    updateListener += 1;
+    updateCardDetails();
+  });
 });
 
 Template.cardDetailsTemplate.helpers({

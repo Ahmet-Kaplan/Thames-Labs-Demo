@@ -14,7 +14,10 @@ Template.cardForm.onRendered(function() {
 
 Template.cardForm.helpers({
   emailRegistered: function() {
-      return !!Tenants.findOne().stripeId;
+    return !!Tenants.findOne().stripeId;
+  },
+  userEmail: function() {
+    return Meteor.user().emails[0].address;
   }
 });
 
@@ -47,6 +50,7 @@ Template.cardFormModal.events({
             toastr.clear();
             toastr.success('Your card details have been updated.');
             Modal.hide();
+            Session.set('listenCardUpdate', Session.get('listenCardUpdate') + 1);
           });
         }
     });

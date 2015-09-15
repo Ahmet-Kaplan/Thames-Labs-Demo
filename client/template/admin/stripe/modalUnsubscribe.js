@@ -24,17 +24,7 @@ Template.stripeUnsubscribe.events({
         title: 'Subscription updated',
         message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been cancelled successfully.<br />We welcome any feedback on RealtimeCRM.</div>'
       });
-      upcomingInvoiceDep.changed();
-    });
-  },
-
-  sendErrorEmail: function(tenantName, tenantId, error) {
-    Email.send({
-      to: 'david.mcleary@cambridgesoftware.co.uk',
-      from: 'RealtimeCRM admin <admin@realtimecrm.co.uk',
-      subject: 'Error on updating subscription',
-      text: "Error on updating the stripe subscription for tenant " + tenantName + ", id " + tenantId + ".\n" +
-            "Error: " + error
+      Session.set('stripeUpdateListener', Session.get('stripeUpdateListener') + 1);
     });
   }
 });

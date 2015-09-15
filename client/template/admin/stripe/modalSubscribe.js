@@ -45,7 +45,7 @@ Template.stripeSubscribe.events({
           $('#submit').prop('disabled', false);
           return;
         } else {
-          toastr.info('Processing your subscription...');
+          toastr.info('Please wait while we process your subscription...');
 
           //If has stripeId, update card details and call subscription method
           if(tenantDetails.stripeId) {
@@ -74,14 +74,13 @@ Template.stripeSubscribe.events({
                   title: 'Subscription complete',
                   message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />We\'re glad to have you back!'
                 });
-                upcomingInvoiceDep.changed();
+                Session.set('stripeUpdateListener', Session.get('stripeUpdateListener') + 1);
               });
             });
 
           //If doesn't have stripeId, creates it and proceed subscription
           } else {
             var userEmail = $('#email').val();
-            toastr.info('Please wait while we process your subscription...');
             Meteor.call('createStripeCustomer', response.id, userEmail, function(error, result) {
               if(error || !result) {
                 Modal.hide();
@@ -99,7 +98,7 @@ Template.stripeSubscribe.events({
                 title: 'Subscription complete',
                 message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.' + noCoupon + '<br />Thank you for using RealtimeCRM!</div>'
               });
-              upcomingInvoiceDep.changed();
+              Session.set('stripeUpdateListener', Session.get('stripeUpdateListener') + 1);
             });
           }
         }
