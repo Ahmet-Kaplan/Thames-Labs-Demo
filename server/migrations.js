@@ -280,7 +280,7 @@ var defineGlobalCustomFields = function(collection) {
   });
 };
 Migrations.add({
-  version: 8,
+  version: 9,
   name: "Update custom fields to flag globals",
   up: function() {
     ServerSession.set('maintenance', true);
