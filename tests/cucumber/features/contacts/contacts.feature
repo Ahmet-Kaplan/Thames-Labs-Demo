@@ -23,7 +23,7 @@ Feature: Allow users to manage their Contacts
   Scenario: A user with read permissions can see a contact
     Given a "Contact" has been created
     When I navigate to a contact page
-    Then I should see the heading "Mr Testy Surname"
+    Then I should see the heading "Testy Surname"
 
   Scenario: An administrator can add CanReadContacts permission
     Given I have the "Administrator" permission
@@ -52,9 +52,8 @@ Feature: Allow users to manage their Contacts
     And I click "#add-contact"
     And I set text field "forename" to "test"
     And I set text field "surname" to "surname"
-    And I select "Mr" from dropdown field "title"
     And I submit the "insertContact" form
-    Then I should see the heading "Mr test surname"
+    Then I should see the heading "test surname"
 
   Scenario: A user can create a contact belonging to a company
     Given I have the "CanCreateContacts" permission
@@ -64,10 +63,9 @@ Feature: Allow users to manage their Contacts
     And I click "#add-contact"
     And I set text field "forename" to "test"
     And I set text field "surname" to "surname"
-    And I select "Mr" from dropdown field "title"
     And I select "Test Ltd" from dropdown field "companyId"
     And I submit the "insertContact" form
-    Then I should see the heading "Mr test surname"
+    Then I should see the heading "test surname"
 
   Scenario: A user without permission cannot create a contacts
     Given I do not have the "CanCreateContacts" permission
@@ -95,7 +93,7 @@ Feature: Allow users to manage their Contacts
     And I click "#edit-contact"
     And I set text field "forename" to "Forename"
     And I submit the "editContact" form
-    Then "contact-details" should say "Mr Forename Surname"
+    Then "contact-details" should say "Forename Surname"
 
   Scenario: A user without permission cannot edit a contact
     Given I do not have the "CanEditContacts" permission
@@ -221,7 +219,6 @@ Feature: Allow users to manage their Contacts
     And I click "#add-contact"
     And I set text field "forename" to "test"
     And I set text field "surname" to "surname"
-    And I select "Mr" from dropdown field "title"
     And I select "Test Ltd" from dropdown field "companyId"
     And I submit the "insertContact" form
     And I click "#edit-contact"
