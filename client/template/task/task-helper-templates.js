@@ -104,7 +104,7 @@ Template.taskDisplayItem.helpers({
         var handle = Meteor.subscribe("contactById", this.entityId);
         if (handle && handle.ready()) {
           var c = Contacts.find({}).fetch()[0];
-          dataString += ": " + c.title + " " + c.forename + " " + c.surname;
+          dataString += ": " + c.forename + " " + c.surname;
         }
         break;
       case 'project':

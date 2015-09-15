@@ -256,6 +256,25 @@ Migrations.add({
   }
 });
 
+Migrations.add({
+  version: 8,
+  name: "Remove title field on contacts",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+      Contacts.update({}, {
+        $unset: {
+          title: ''
+        }
+      }, {
+        multi: true,
+        validate: false
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
 var defineGlobalCustomFields = function(collection) {
   Partitioner.directOperation(function() {
     Collections[collection].find({

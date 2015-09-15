@@ -22,7 +22,6 @@ Meteor.methods({
   addContact: function() {
     var userId = Meteor.userId();
     return Contacts.insert({
-      "title": "Mr",
       "forename": "Testy",
       "surname": "Surname",
       "email": "testy@surname.com",
@@ -42,7 +41,6 @@ Meteor.methods({
     });
     // console.log(companyId);
     return Contacts.insert({
-      title: "Mr",
       forename: "Testy",
       surname: "Surname",
       email: "testy@surname.com",

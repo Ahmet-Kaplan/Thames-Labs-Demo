@@ -60,7 +60,7 @@ Contacts = new Mongo.Collection('contacts');
 Partitioner.partitionCollection(Contacts);
 Contacts.helpers({
   name: function() {
-    return [this.title, this.forename, this.surname].join(' ');
+    return [this.forename, this.surname].join(' ');
   },
   company: function() {
     return Companies.findOne(this.companyId);
@@ -286,16 +286,13 @@ Companies.after.remove(function(userId, doc) {
 
 
 Contacts.after.insert(function(userId, doc) {
-  logEvent('info', 'A new contact has been created: ' + doc.title + " " + doc.forename + " " + doc.surname);
+  logEvent('info', 'A new contact has been created: ' + doc.forename + " " + doc.surname);
 });
 Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (this.previous.email !== doc.email && doc.email !== '' && doc.email !== undefined) {
     Meteor.call('getClearbitData', 'contact', doc._id);
   }
 
-  if (doc.title !== this.previous.title) {
-    logEvent('info', 'An existing contact has been updated: The value of "title" was changed from ' + this.previous.title + " to " + doc.title);
-  }
   if (doc.forename !== this.previous.forename) {
     logEvent('info', 'An existing contact has been updated: The value of "forename" was changed from ' + this.previous.forename + " to " + doc.forename);
   }
@@ -331,7 +328,7 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
   }
 });
 Contacts.after.remove(function(userId, doc) {
-  logEvent('info', 'A contact has been deleted: ' + doc.title + " " + doc.forename + " " + doc.surname);
+  logEvent('info', 'A contact has been deleted: ' + doc.forename + " " + doc.surname);
 });
 
 
@@ -350,7 +347,7 @@ Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.contactId !== this.previous.contactId) {
     var prevCont = Contacts.findOne(this.previous.contactId);
     var newCont = Contacts.findOne(doc.contactId);
-    logEvent('info', 'An existing project has been updated: The value of "contactId" was changed from ' + this.previous.contactId + '(' + prevCont.title + " " + prevCont.forename + " " + prevCont.surname + ") to " + doc.contactId + ' (' + newCont.title + " " + newCont.forename + " " + newCont.surname + ')');
+    logEvent('info', 'An existing project has been updated: The value of "contactId" was changed from ' + this.previous.contactId + '(' + prevCont.forename + " " + prevCont.surname + ") to " + doc.contactId + ' (' + newCont.forename + " " + newCont.surname + ')');
   }
   if (doc.userId !== this.previous.userId) {
     var prevUser = Meteor.users.findOne(this.previous.userId);
@@ -404,7 +401,7 @@ PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options)
   if (doc.supplierContactId !== this.previous.supplierContactId) {
     var prevCont = Contacts.findOne(this.previous.supplierContactId);
     var newCont = Contacts.findOne(doc.supplierContactId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "supplierContactId" was changed from ' + this.previous.supplierContactId + '(' + prevCont.title + " " + prevCont.forename + " " + prevCont.surname + ") to " + doc.supplierContactId + ' (' + newCont.title + " " + newCont.forename + " " + newCont.surname + ')');
+    logEvent('info', 'An existing purchase order has been updated: The value of "supplierContactId" was changed from ' + this.previous.supplierContactId + '(' + prevCont.forename + " " + prevCont.surname + ") to " + doc.supplierContactId + ' (' + newCont.forename + " " + newCont.surname + ')');
   }
   if (doc.projectId !== this.previous.projectId) {
     var prevProj = Projects.findOne(this.previous.projectId);
@@ -460,7 +457,7 @@ Activities.after.insert(function(userId, doc) {
   }
   if (doc.contactId) {
     entity = Contacts.findOne(doc.contactId);
-    entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+    entityName = "Contact: " + entity.forename + " " + entity.surname;
   }
   if (doc.projectId) {
     entity = Projects.findOne(doc.projectId);
@@ -484,7 +481,7 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
   }
   if (doc.contactId) {
     entity = Contacts.findOne(doc.contactId);
-    entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+    entityName = "Contact: " + entity.forename + " " + entity.surname;
   }
   if (doc.projectId) {
     entity = Projects.findOne(doc.projectId);
@@ -514,7 +511,7 @@ Activities.after.remove(function(userId, doc) {
   }
   if (doc.contactId) {
     entity = Contacts.findOne(doc.contactId);
-    entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+    entityName = "Contact: " + entity.forename + " " + entity.surname;
   }
   if (doc.projectId) {
     entity = Projects.findOne(doc.projectId);
@@ -540,7 +537,7 @@ Tasks.after.insert(function(userId, doc) {
       break;
     case 'contact':
       entity = Contacts.findOne(doc.entityId);
-      entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+      entityName = "Contact: " + entity.forename + " " + entity.surname;
       break;
     case 'project':
       entity = Projects.findOne(doc.entityId);
@@ -565,7 +562,7 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
       break;
     case 'contact':
       entity = Contacts.findOne(doc.entityId);
-      entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+      entityName = "Contact: " + entity.forename + " " + entity.surname;
       break;
     case 'project':
       entity = Projects.findOne(doc.entityId);
@@ -603,7 +600,7 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
         break;
       case 'contact':
         prevEntity = Contacts.findOne(this.previous.entityId);
-        prevEntityName = "Contact: " + prevEntity.title + " " + prevEntity.forename + " " + prevEntity.surname;
+        prevEntityName = "Contact: " + prevEntity.forename + " " + prevEntity.surname;
         break;
       case 'project':
         prevEntity = Projects.findOne(this.previous.entityId);
@@ -633,7 +630,7 @@ Tasks.after.remove(function(userId, doc) {
       break;
     case 'contact':
       entity = Contacts.findOne(doc.entityId);
-      entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+      entityName = "Contact: " + entity.forename + " " + entity.surname;
       break;
     case 'project':
       entity = Projects.findOne(doc.entityId);
