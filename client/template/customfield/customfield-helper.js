@@ -218,7 +218,7 @@ Template.updateCustomField.events({
       if (cfObject.hasOwnProperty(index)) {
 
         //get prettified name
-        var name = index.replace(' ', '');
+        var name = index.replace(/ /g, '');
         var safeName = '#extInfos' + name;
 
         //get current (old) settings
@@ -324,14 +324,14 @@ Template.updateCustomField.helpers({
 
 Template.extInfo.helpers({
   extInfoId: function() {
-    return this.name.replace(' ', '');
+    return this.name.replace(/ /g, '');
   }
 });
 
 Template.extInfo.events({
   'change #extInfosTypeOptions': function() {
     var index = this.name;
-    var safeName = '#extInfos' + index.replace(' ', '');
+    var safeName = '#extInfos' + index.replace(/ /g, '');
     var selectorName = "#extInfosTypeOptions";
     var newType = $(selectorName).val();
 
@@ -361,7 +361,7 @@ Template.extInfo.onRendered(function() {
   var index = this.data.name;
   var attr = this.data.props;
 
-  var safeName = '#extInfos' + index.replace(' ', '');
+  var safeName = '#extInfos' + index.replace(/ /g, '');
   var selectorName = "#extInfosTypeOptions";
   $(selectorName).val('text');
 

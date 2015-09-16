@@ -240,6 +240,25 @@ Meteor.users.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
 });
 
+Companies.before.insert(function(userId, doc) {
+  var companyCustomFields = GlobalCustomFields.find({
+    targetEntity: 'company'
+  }).fetch();
+
+  var cfMaster = {};
+  _.each(companyCustomFields, function(cf) {
+
+    var field = {
+      dataValue: cf.defaultValue,
+      dataType: cf.type,
+      isGlobal: true
+    };
+
+    cfMaster[cf.name] = field;
+  });
+
+  doc.customFields = cfMaster;
+});
 
 Companies.after.insert(function(userId, doc) {
   logEvent('info', 'A new company has been created: ' + doc.name);
@@ -762,6 +781,14 @@ GlobalCustomFields.after.insert(function(userId, doc) {
 
       if (collName === 'companies') {
         Companies.update(tx._id, {
+          $set: {
+            customFields: cfMaster
+          }
+        });
+      }
+
+      if (collName === 'contacts') {
+        Contacts.update(tx._id, {
           $set: {
             customFields: cfMaster
           }
