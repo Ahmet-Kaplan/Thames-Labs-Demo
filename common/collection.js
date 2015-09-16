@@ -304,6 +304,26 @@ Companies.after.remove(function(userId, doc) {
 });
 
 
+Contacts.before.insert(function(userId, doc) {
+  var contactCustomFields = GlobalCustomFields.find({
+    targetEntity: 'contact'
+  }).fetch();
+
+  var cfMaster = {};
+  _.each(contactCustomFields, function(cf) {
+
+    var field = {
+      dataValue: cf.defaultValue,
+      dataType: cf.type,
+      isGlobal: true
+    };
+
+    cfMaster[cf.name] = field;
+  });
+
+  doc.customFields = cfMaster;
+});
+
 Contacts.after.insert(function(userId, doc) {
   logEvent('info', 'A new contact has been created: ' + doc.forename + " " + doc.surname);
 });
