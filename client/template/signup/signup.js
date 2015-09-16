@@ -3,13 +3,6 @@ function removeSignUpEmailValidationError(key) {
   AutoForm.validateForm("signUpForm");
 }
 
-Template.signUp.helpers({
-  coupon: function() {
-    var coupon = FlowRouter.getQueryParam("coupon");
-    return coupon || false;
-  }
-});
-
 Template.signUp.events({
   'click #email-field': function() {
     removeSignUpEmailValidationError('email');

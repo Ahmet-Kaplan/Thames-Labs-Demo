@@ -8,17 +8,20 @@ Meteor.startup(function() {
   });
 });
 
-stripeCustomerDep = new Tracker.Dependency();
+var stripeCustomerDep = new Tracker.Dependency();
 var stripeCustomer = {};
 
-upcomingInvoiceDep = new Tracker.Dependency();
-var upcomingInvoice = {};
+var upcomingInvoiceDep = new Tracker.Dependency();
+var upcomingInvoice;
 
-lastInvoiceDep = new Tracker.Dependency();
+var lastInvoiceDep = new Tracker.Dependency();
 var lastInvoice = {};
 
 var couponDep = new Tracker.Dependency();
 var coupon = {};
+
+var cardDetailsDep = new Tracker.Dependency();
+var cardDetails = {};
 
 var updateStripeCustomer = function() {
   var tenant = Tenants.findOne({});
@@ -40,6 +43,10 @@ var updateUpcomingInvoice = function() {
     Meteor.call('getStripeUpcomingInvoice', function(error, invoice) {
       if(error) {
         toastr.error('Unable to retrieve upcoming invoice.');
+        return false;
+      } else if(invoice === false) {
+        upcomingInvoice = false;
+        upcomingInvoiceDep.changed();
         return false;
       }
       upcomingInvoice = invoice;
@@ -103,6 +110,17 @@ var updateLastInvoice = function() {
   }
 };
 
+var updateCardDetails = function() {
+  var tenant = Tenants.findOne({});
+  if(!tenant.stripeId) {
+    return false;
+  }
+  Meteor.call('getStripeCardDetails', function(error, response) {
+    cardDetails = response;
+    cardDetailsDep.changed();
+  });
+};
+
 Template.stripeAdmin.onCreated(function() {
   Session.set('stripeUpdateListener', 0);
   this.autorun(function() {
@@ -115,6 +133,12 @@ Template.stripeAdmin.onCreated(function() {
       updateLastInvoice();
       updateUpcomingInvoice();
     }
+  });
+
+  this.autorun(function() {
+    var updateListener = Session.get('listenCardUpdate');
+    updateListener += 1;
+    updateCardDetails();
   });
 
   if(Tenants.findOne({}).coupon) {
@@ -136,13 +160,12 @@ Template.stripeAdmin.helpers({
   hasStripeAccount: function() {
     return !(Tenants.findOne({}).stripeId === undefined || Tenants.findOne({}).stripeId === '');
   },
+  hasStripeSubs: function() {
+    return Tenants.findOne({}).stripeSubs;
+  },
   stripeCustomer: function() {
     stripeCustomerDep.depend();
     return stripeCustomer;
-  },
-  subscriptionCancelled: function() {
-    stripeCustomerDep.depend();
-    return (stripeCustomer && Tenants.findOne({}).stripeId) ? stripeCustomer.subscriptions.data[0].cancel_at_period_end : false;
   },
   blockedUser: function() {
     return Tenants.findOne({}).blocked;
@@ -171,6 +194,10 @@ Template.stripeAdmin.helpers({
     couponDep.depend();
     details = (!Tenants.findOne({}).coupon) ? false : ((coupon.percent_off) ? coupon.percent_off + ' % off' : '£' + coupon.amount_off + ' off');
     return details;
+  },
+  cardDetails: function() {
+    cardDetailsDep.depend();
+    return cardDetails;
   }
 });
 
@@ -201,6 +228,38 @@ Template.stripeAdmin.events({
               message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />We\'re glad to have you back!'
             });
           }
+          Session.set('stripeUpdateListener', Session.get('stripeUpdateListener') + 1);
+        });
+      }
+    });
+  },
+
+  'click #updateCardDetails': function(event) {
+    event.preventDefault();
+    Modal.show('cardFormModal');
+  },
+
+  "click #updateEmail": function(event) {
+    event.preventDefault();
+    bootbox.prompt("Please enter the new email for your invoices.", function(result) {
+      if(!result) {
+        return true;
+      }
+      var emailRegex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+      if(!emailRegex.test(result)) {
+        $('.bootbox-form').addClass('has-error');
+        toastr.error('Please enter a valid email address');
+        return false;
+      } else {
+        toastr.clear();
+        toastr.info('Processing your email update');
+        Meteor.call('updateStripeEmail', result, function(error, response) {
+          if(error) {
+            toastr.error('Unable to update email address');
+            return false;
+          }
+          toastr.clear();
+          toastr.success('Your email hase been changed: ' + result);
           Session.set('stripeUpdateListener', Session.get('stripeUpdateListener') + 1);
         });
       }

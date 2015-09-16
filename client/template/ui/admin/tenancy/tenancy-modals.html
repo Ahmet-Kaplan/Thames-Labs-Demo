@@ -75,6 +75,19 @@
             </div>
           </div>
 
+          {{#if stripeSubs}}
+          <div class="form-group">
+            <label for="stripeSubsNumber" class="control-label">Stripe Subscription Number</label>
+            <div class="row">
+              <div class="col-xs-6">
+                <input type="text" id="stripeSubsNumber" class="form-control " value= "{{stripeSubs}}" />
+              </div>
+              <div class="col-xs-6">
+                <button id="btnResumeStripeSubs" class="btn btn-sm btn-primary">Resume Subscription</button>
+              </div>
+            </div>
+          </div>
+          {{else}}
           <div class="form-group" id="showSubsNumberForm" style="{{#unless hasStripeAccount}}display: none;{{/unless}}">
             <label for="stripeSubsNumber" class="control-label">Stripe Subscription Number</label>
             <div class="row">
@@ -87,6 +100,7 @@
               </div>
             </div>
           </div>
+          {{/if}}
 
         </div>
       </div>

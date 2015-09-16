@@ -35,10 +35,13 @@ Template.updateTenantSettings.events({
 
 Template.setPayingTenant.helpers({
   hasStripeAccount: function() {
-    return (this.stripeId !== undefined);
+    return (this.stripeId !== undefined && this.stripeId !== '');
   },
   stripeId: function() {
     return (this.stripeId !== undefined) ? this.stripeId : '';
+  },
+  stripeSubs: function() {
+    return this.stripeSubs;
   }
 });
 
@@ -55,10 +58,10 @@ Template.setPayingTenant.events({
     var tenantId = this._id;
     var stripeId = $('#stripeAccountNumber').val();
     bootbox.confirm({
-      message: '<div class="bg-warning"><i class="fa fa-exclamation fa-3x pull-left text-warning"></i>'
-             + 'The account number will be saved directly to the database. '
-             + 'No verification will be made with Stripe. '
-             + 'Are you sure you wish to save this account number?</div>',
+      message: '<div class="bg-warning"><i class="fa fa-exclamation fa-3x pull-left text-warning"></i>' +
+               'The account number will be saved directly to the database. ' +
+               'No verification will be made with Stripe. ' +
+               'Are you sure you wish to save this account number?</div>',
       callback: function(result) {
         if(result === true) {
           Tenants.update(tenantId, {
@@ -72,12 +75,26 @@ Template.setPayingTenant.events({
               message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Check connexion with database.</div>'
               });
             } else {
-              toastr.success('Account Number has been set successfully. You may now enter Subscription details.')
+              toastr.success('Account Number has been set successfully. You may now enter Subscription details.');
             }
           });
         }
       }
-    })
+    });
+  },
+
+  'click #btnResumeStripeSubs': function() {
+    toastr.info('Processing update...');
+    Meteor.call('resumeStripeSubscription', this._id, function(error, response) {
+      if(error) {
+        Modal.hide();
+        toastr.error('Unable to resume subscription.');
+        return false;
+      }
+      toastr.clear();
+      Modal.hide();
+      toastr.success('Subscription has been resumed.<br />Switched to Paying Scheme.');
+    });
   },
 
   'click #btnSaveStripeSubs': function() {
@@ -102,11 +119,10 @@ Template.setPayingTenant.events({
   },
 
   'click #btnCreateStripeSubs': function() {
-    var stripeId = $('#stripeAccountNumber').val();
     toastr.info('Processing subscription');
     $('#btnSaveStripeSubs').prop('disabled', true);
     $('#btnCreateStripeSubs').prop('disabled', true);
-    Meteor.call('createStripeSubscription', stripeId, this._id, function(error, response) {
+    Meteor.call('createStripeSubscription', this._id, function(error, response) {
       if(error) {
         Modal.hide();
         toastr.error('Unable to create subscription. Check that the customer has a card set up.');
@@ -114,6 +130,6 @@ Template.setPayingTenant.events({
       }
       Modal.hide();
       toastr.success('Subscription has been successful.<br />Switched to Paying Scheme.');
-    })
+    });
   }
-})
+});

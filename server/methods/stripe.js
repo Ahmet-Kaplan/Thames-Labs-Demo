@@ -30,6 +30,7 @@ Meteor.methods({
       source: token,
       plan: "premier",
       quantity: numberUsers,
+      email: userEmail,
       metadata: {
         tenantId: tenantId,
         createdBy: this.userId
@@ -38,10 +39,6 @@ Meteor.methods({
 
     if(coupon) {
       customerParameters.coupon = coupon;
-    }
-
-    if(userEmail) {
-      customerParameters.email = userEmail;
     }
 
     Stripe.customers.create(customerParameters, Meteor.bindEnvironment(function(err, customer) {
@@ -64,7 +61,7 @@ Meteor.methods({
     return status.wait();
   },
 
-  createStripeSubscription: function( superadminTenantId) {
+  createStripeSubscription: function(superadminTenantId) {
     /*superadminTenantId is used when the method is called by the superadmin
     In which case the tenantId cannot be retrieved via Partitioner */
     var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
@@ -141,6 +138,8 @@ Meteor.methods({
     In which case the tenantId cannot be retrieved via Partitioner */
     var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
+    var stripeId = theTenant.stripeId;
+    var stripeSubs = theTenant.stripeSubs;
     var stripeConfirmation = new Future();
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
@@ -149,22 +148,35 @@ Meteor.methods({
       throw new Meteor.Error(400, 'It appears you are not subscribed.');
     }
 
-    Stripe.customers.cancelSubscription(theTenant.stripeId, theTenant.stripeSubs, {at_period_end: true},
-      Meteor.bindEnvironment(function(err, confirmation) {
-        if(err) {
-          throw new Meteor.Error('Error', err);
-        }
-        stripeConfirmation.return(confirmation);
-      }));
+    Stripe.customers.updateSubscription(stripeId, stripeSubs, {
+      quantity: 0
+    }, Meteor.bindEnvironment(function(err, subs) {
+      if(err) {
+        throw new Meteor.Error('Error', err);
+      }
+      Stripe.customers.cancelSubscription(theTenant.stripeId, theTenant.stripeSubs, {at_period_end: true},
+        Meteor.bindEnvironment(function(err, confirmation) {
+          if(err) {
+            throw new Meteor.Error('Error', err);
+          }
+          Tenants.update(tenantId, {
+            $set: {paying: false}
+          });
+          stripeConfirmation.return(confirmation);
+        })
+      );
+    }));
+
 
     return stripeConfirmation.wait();
   },
 
-  resumeStripeSubscription: function() {
-    var tenantId = Partitioner.getUserGroup(this.userId);
+  resumeStripeSubscription: function(superadminTenantId) {
+    var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
     var stripeId = theTenant.stripeId;
     var stripeSubs = theTenant.stripeSubs;
+    var numberUsers = Meteor.users.find({group: tenantId}).count();
     var stripeResume = new Future();
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
@@ -172,14 +184,22 @@ Meteor.methods({
     }
 
     Stripe.customers.updateSubscription(stripeId, stripeSubs, {
-      plan: 'premier'
-    }, function(err, subs) {
+      plan: 'premier',
+      quantity: numberUsers
+    }, Meteor.bindEnvironment(function(err, subs) {
       if(err) {
         throw new Meteor.Error('Unable to resume subscription', err);
       }
 
+      Tenants.update(tenantId, {
+        $set: {
+          paying: true,
+          blocked: false
+        }
+      });
+
       stripeResume.return(subs);
-    });
+    }));
 
     return stripeResume.wait();
   },
@@ -256,6 +276,29 @@ Meteor.methods({
     return newStripeCard.wait();
   },
 
+  updateStripeEmail: function(email) {
+    var tenantId = Partitioner.getUserGroup(this.userId);
+    var theTenant = Tenants.findOne({_id: tenantId});
+    var stripeId = theTenant.stripeId;
+    var emailUpdated = new Future();
+
+    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may update Email Details.');
+    }
+    var emailRegex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+    if(!emailRegex.test(email)) {
+      throw new meteor.Error(400, 'Invalid Email address');
+    }
+    Stripe.customers.update(stripeId, {email: email}, function(err, customer) {
+      if(err) {
+        throw new Meteor.Error('Unable to update email.');
+      }
+      emailUpdated.return(true);
+    });
+
+    return emailUpdated.wait();
+  },
+
   getStripePlan: function(planId) {
     var planDetails = new Future();
 
@@ -284,7 +327,12 @@ Meteor.methods({
     }
     Stripe.invoices.retrieveUpcoming(stripeId, function(err, upcoming) {
       if(err) {
-        throw new Meteor.Error(400, err);
+        if(err.message.indexOf('No upcoming invoices') !== -1) {
+          upcomingInvoice.return(false);
+          return false;
+        } else {
+          throw new Meteor.Error(400, err);
+        }
       }
 
       upcomingInvoice.return(upcoming);
