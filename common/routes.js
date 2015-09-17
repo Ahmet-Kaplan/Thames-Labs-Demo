@@ -151,10 +151,6 @@ router.route('/sign-up', {
 
 router.route('/', {
   name: 'dashboard',
-  subscriptions: function() {
-    this.register('allChatter', subs.subscribe('allChatter'));
-    this.register('allUserTasks', subs.subscribe('allUserTasks', Meteor.userId()));
-  },
   action: function() {
     layout.render('appLayout', {
       main: "dashboard"
