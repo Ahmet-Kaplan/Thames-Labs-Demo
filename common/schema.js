@@ -247,16 +247,6 @@ Schemas.Company = new SimpleSchema({
 Companies.attachSchema(Schemas.Company);
 
 Schemas.Contact = new SimpleSchema({
-  title: {
-    type: String,
-    allowedValues: [
-      "Mr",
-      "Mrs",
-      "Miss",
-      "Ms",
-      "Dr"
-    ]
-  },
   forename: {
     type: String
   },

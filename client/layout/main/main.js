@@ -1,10 +1,7 @@
 Template.appLayout.helpers({
   hasMenuClass: function() {
     var loggedIn = (Meteor.userId() ? true : false);
-    var isUserAdmin = Roles.userIsInRole(Meteor.user(), ['superadmin']);
-    if (isUserAdmin) {
-      return 'no-menu';
-    } else if(!loggedIn) {
+    if(!loggedIn) {
       return 'no-menu';
     } else {
       return;
