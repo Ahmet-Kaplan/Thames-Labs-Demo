@@ -293,8 +293,13 @@ Meteor.users.after.insert(function(userId, doc) {
 });
 
 Meteor.users.after.remove(function(userId, doc) {
+  console.log(doc);
+  if(Roles.userIsInRole(Meteor.userId(), ['superadmin'])) {
+    Meteor.call('updateStripeQuantity', doc.group);
+  } else {
+    Meteor.call('updateStripeQuantity');
+  }
   logEvent('info', 'A user has been removed: ' + doc.name);
-  Meteor.call('updateStripeQuantity');
 });
 
 Companies.before.insert(function(userId, doc) {

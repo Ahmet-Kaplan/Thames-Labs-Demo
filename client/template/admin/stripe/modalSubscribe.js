@@ -13,14 +13,35 @@ Template.stripeSubscribe.onRendered(function() {
     planDetails.total = planDetails.quantity * planDetails.amount;
     planDetails.amount = planDetails.amount.toString();
     planDetails.total = planDetails.total.toString();
-    planDetailsDep.changed();
-    });
+
+    if(Tenants.findOne().coupon) {
+      Meteor.call('getStripeCoupon', Tenants.findOne().coupon, function(error, response) {
+        if(error || !response) {
+          planDetails.couponName = 'invalid: The coupon you have registered is invalid or has been cancelled and will not be applied.';
+          planDetailsDep.changed();
+        } else {
+          planDetails.couponName = response.id;
+          planDetails.couponDetails = (response.percent_off) ? response.percent_off + ' % off' : '£' + response.amount_off + ' off';
+          var percentCorrection = (response.percent_off) ? 1 - (response.percent_off / 100) : 1;
+          var amountCorrection = (response.amount_off) ? - response.amount_off : 0;
+          planDetails.total = planDetails.total * percentCorrection + amountCorrection * planDetails.quantity;
+          planDetailsDep.changed();
+        }
+      });
+    } else {
+      planDetailsDep.changed();
+    }
+  });
+
 });
 
 Template.stripeSubscribe.helpers({
   planDetails: function() {
     planDetailsDep.depend();
     return planDetails;
+  },
+  hasCoupon: function() {
+    return !!Tenants.findOne().coupon;
   }
 });
 

@@ -52,11 +52,13 @@ Template.tenant.events({
 
     bootbox.confirm("Are you sure you wish to delete this tenant?", function(result) {
       if (result === true) {
-        tenantUsers = Meteor.users.find({group: tenantId});
-        tenantUsers.forEach(function(user) {
-          Meteor.users.remove(user._id);
+        Meteor.call('deleteAllTenantUsers', tenantId, function(error, response) {
+          if(error) {
+            toastr.error('Unable to delete all the users for this tenant.');
+            return false;
+          }
+          Tenants.remove(tenantId);
         });
-        Tenants.remove(tenantId);
       }
     });
   },
@@ -132,7 +134,7 @@ Template.user.events({
       if (result === true) {
         Meteor.call('removeUser', userId, function(error, response) {
           if(error) {
-            toastr.error('Unable to remove user. ', error);
+            toastr.error('Unable to remove user.');
             return false;
           }
           toastr.success('User ' + userName + ' successfully removed.');

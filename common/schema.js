@@ -92,6 +92,9 @@ Schemas.UserSignUp = new SimpleSchema({
   },
   coupon: {
     type: String,
+    autoform: {
+      type: "hidden"
+    },
     optional: true
   }
 });

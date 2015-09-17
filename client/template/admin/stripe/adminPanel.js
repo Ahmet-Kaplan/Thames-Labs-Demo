@@ -17,11 +17,11 @@ var upcomingInvoice;
 var lastInvoiceDep = new Tracker.Dependency();
 var lastInvoice = {};
 
-var couponDep = new Tracker.Dependency();
-var coupon = {};
-
 var cardDetailsDep = new Tracker.Dependency();
 var cardDetails = {};
+
+var couponDep = new Tracker.Dependency();
+var couponDetails = {};
 
 var updateStripeCustomer = function() {
   var tenant = Tenants.findOne({});
@@ -32,6 +32,7 @@ var updateStripeCustomer = function() {
         return false;
       }
       stripeCustomer = customer;
+      console.log(stripeCustomer);
       stripeCustomerDep.changed();
     });
   }
@@ -50,6 +51,10 @@ var updateUpcomingInvoice = function() {
         return false;
       }
       upcomingInvoice = invoice;
+      var discountCorrection = 1;
+      if(upcomingInvoice.discount) {
+        discountCorrection = (upcomingInvoice.discount.coupon.percent_off) ? 1 - (upcomingInvoice.discount.coupon.percent_off / 100) : 1;
+      }
       upcomingInvoice.amount_due = invoice.amount_due/100;
       upcomingInvoice.total = invoice.total/100;
       upcomingInvoice.date = new Date(invoice.date*1000).toLocaleString('en-GB', {year: 'numeric', month: 'long', day: 'numeric'});
@@ -77,7 +82,7 @@ var updateUpcomingInvoice = function() {
         var periodStart = new Date(upcomingInvoice.lines.data[tot-1].period.start*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
         var periodEnd = new Date(upcomingInvoice.lines.data[tot-1].period.end*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
         newData.push({
-          amount: upcomingInvoice.lines.data[tot-1].amount/100,
+          amount: (upcomingInvoice.lines.data[tot-1].amount/100) * discountCorrection,
           description: 'Subscription for next period (' + periodStart + ' - ' + periodEnd + ')'
         });
       }
@@ -121,6 +126,22 @@ var updateCardDetails = function() {
   });
 };
 
+var updateCouponDetails = function() {
+  var tenant = Tenants.findOne({});
+  if(!tenant.coupon) {
+    couponDetails = false;
+    return false;
+  }
+  Meteor.call('getStripeCoupon', tenant.coupon, function(error, response) {
+    if(!couponDetails || error) {
+      couponDetails = false;
+    } else {
+      couponDetails = response;
+    }
+    couponDep.changed();
+  });
+};
+
 Template.stripeAdmin.onCreated(function() {
   Session.set('stripeUpdateListener', 0);
   this.autorun(function() {
@@ -128,6 +149,7 @@ Template.stripeAdmin.onCreated(function() {
     var listener = Session.get('stripeUpdateListener');
     var numberOfUsers = Meteor.users.find({group: tenant._id}).count();
     listener += 1;
+    updateCouponDetails();
     if(tenant.stripeId && numberOfUsers) {
       updateStripeCustomer();
       updateLastInvoice();
@@ -140,22 +162,14 @@ Template.stripeAdmin.onCreated(function() {
     updateListener += 1;
     updateCardDetails();
   });
-
-  if(Tenants.findOne({}).coupon) {
-    Meteor.call('getStripeCoupon', function(error, returnedCoupon) {
-      if(error) {
-        toastr.error('Unable to retrieve coupon\'s details');
-        return false;
-      }
-      coupon = returnedCoupon;
-      couponDep.changed();
-    });
-  }
 });
 
 Template.stripeAdmin.helpers({
   payingScheme: function() {
     return Tenants.findOne({}).paying;
+  },
+  currentSubscription: function() {
+    return (stripeCustomer.id) ? ((stripeCustomer.subscriptions.total_count) ? stripeCustomer.subscriptions.data[0] : "Free Plan") : "Free Plan";
   },
   hasStripeAccount: function() {
     return !(Tenants.findOne({}).stripeId === undefined || Tenants.findOne({}).stripeId === '');
@@ -192,7 +206,7 @@ Template.stripeAdmin.helpers({
   },
   hasCoupon: function() {
     couponDep.depend();
-    details = (!Tenants.findOne({}).coupon) ? false : ((coupon.percent_off) ? coupon.percent_off + ' % off' : '£' + coupon.amount_off + ' off');
+    details = (!couponDetails) ? false : ((couponDetails.percent_off) ? couponDetails.percent_off + ' % off' : '£' + couponDetails.amount_off + ' off');
     return details;
   },
   cardDetails: function() {
@@ -239,7 +253,7 @@ Template.stripeAdmin.events({
     Modal.show('cardFormModal');
   },
 
-  "click #updateEmail": function(event) {
+  'click #updateEmail': function(event) {
     event.preventDefault();
     bootbox.prompt("Please enter the new email for your invoices.", function(result) {
       if(!result) {
@@ -264,5 +278,10 @@ Template.stripeAdmin.events({
         });
       }
     });
+  },
+
+  'click #showStripeHow': function(event) {
+    event.preventDefault();
+    Modal.show('stripeHow');
   }
 });

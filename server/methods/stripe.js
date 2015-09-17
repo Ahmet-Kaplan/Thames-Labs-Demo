@@ -38,7 +38,14 @@ Meteor.methods({
     };
 
     if(coupon) {
-      customerParameters.coupon = coupon;
+      Meteor.call('getStripeCoupon', coupon, function(err, response) {
+        if(err || !response) {
+          return false;
+        } else {
+          customerParameters.coupon = coupon;
+          return true;
+        }
+      });
     }
 
     Stripe.customers.create(customerParameters, Meteor.bindEnvironment(function(err, customer) {
@@ -67,7 +74,6 @@ Meteor.methods({
     var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
     var stripeId = theTenant.stripeId;
-    var coupon = theTenant.coupon;
     var stripeSubscription = new Future();
     var numberUsers = Meteor.users.find({group: tenantId}).count();
 
@@ -81,10 +87,6 @@ Meteor.methods({
       plan: "premier",
       quantity: numberUsers
     };
-
-    if(coupon) {
-      // parameters.coupon = coupon;
-    }
 
     Stripe.customers.createSubscription(stripeId, subsParameters, Meteor.bindEnvironment(function(err, subscription) {
       if(err) {
@@ -109,6 +111,10 @@ Meteor.methods({
     In which case the tenantId cannot be retrieved via Partitioner */
     var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
+    if(!theTenant) {
+      LogServerEvent('error', 'Unable to update Stripe Quantity for tenant of user ' + superadminUserId + '/tenant ' + tenantId);
+      return false;
+    }
     if(theTenant.paying === false) {
       return true;
     }
@@ -123,9 +129,11 @@ Meteor.methods({
       throw new Meteor.Error('Missing subscription', 'It appears you do not have an account.');
     }
 
-    Stripe.customers.updateSubscription(stripeId, stripeSubs,{
+    var subsParameters = {
       quantity: numberUsers
-    }, function(err, subscription) {
+    };
+
+    Stripe.customers.updateSubscription(stripeId, stripeSubs, subsParameters, function(err, subscription) {
       if(err) {
         Meteor.call('sendErrorEmail', theTenant.name, tenantId , err);
         throw new Meteor.Error('Error', err);
@@ -365,21 +373,20 @@ Meteor.methods({
     return lastInvoice.wait();
   },
 
-  getStripeCoupon: function() {
-    var tenantId = Partitioner.getUserGroup(this.userId);
-    var theTenant = Tenants.findOne({_id: tenantId});
-    var coupon = new Future();
+  getStripeCoupon: function(couponId) {
+    /* The control on permission is not applied for this method
+    ** Since it can be called from the sign-up page */
+    var couponDetails = new Future();
 
-    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
-      throw new Meteor.Error(403, 'You do not have the rights to access this information.');
-    }
-
-    Stripe.coupons.retrieve(theTenant.coupon, function(err, result) {
-      if(!err) {
-        coupon.return(result);
+    Stripe.coupons.retrieve(couponId, function(err, coupon) {
+      if(err) {
+        couponDetails.return(false);
+        return false;
       }
+
+      couponDetails.return(coupon);
     });
 
-    return coupon.wait();
+    return couponDetails.wait();
   }
 });

@@ -75,6 +75,8 @@ Meteor.methods({
     });
 
     LogServerEvent('verbose', 'User created', 'user', userId);
+
+    Meteor.call('updateStripeQuantity', doc.group);
   },
 
   addTenantUser: function(doc) {
