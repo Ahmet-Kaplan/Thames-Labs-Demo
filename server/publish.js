@@ -45,31 +45,25 @@ Meteor.publish("activeTenantData", function() {
 
 Meteor.publish("currentTenantUserData", function() {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Meteor.users.find({
-    group: Partitioner.getUserGroup(this.userId)
-  }, {
+  return Meteor.users.find({}, {
     fields: {
       services: false
     }
   });
 });
 Meteor.publish("allUserData", function() {
-  if (Roles.userIsInRole(this.userId, ['superadmin'])) {
-    return Partitioner.directOperation(function() {
-      return Meteor.users.find({}, {
-        fields: {
-          'group': true,
-          'username': true,
-          'emails': true,
-          'profile': true,
-          'createdAt': true
-        }
-      });
+  if (!Roles.userIsInRole(this.userId, ['superadmin'])) return this.ready();
+  return Partitioner.directOperation(function() {
+    return Meteor.users.find({}, {
+      fields: {
+        'group': true,
+        'username': true,
+        'emails': true,
+        'profile': true,
+        'createdAt': true
+      }
     });
-  } else {
-    // User not superadmin, do not publish
-    this.ready();
-  }
+  });
 });
 
 Meteor.publish("allCompanies", function() {
