@@ -15,11 +15,11 @@
             {{#if showSupplierContacts}}
               {{> afQuickField name="supplierContactId" id="selectedSupplierContact" options=supplierContactsAsOptions }}
             {{/if}}
-            {{> afQuickField name="customerCompanyId" id="selectedCustomer" options=companiesAsOptions}}
+            <!-- {{> afQuickField name="customerCompanyId" id="selectedCustomer" options=companiesAsOptions}}
             {{> afQuickField name="customerContactId" id="companyContacts" options=contactsAsOptions }}
             {{#if showProjects}}
               {{> afQuickField name="projectId" options=projectsAsOptions }}
-            {{/if}}
+            {{/if}} -->
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}
@@ -55,11 +55,9 @@
             {{#if showSupplierContacts}}
               {{> afQuickField name="supplierContactId" id="selectedSupplierContact" options=supplierContactsAsOptions }}
             {{/if}}
-            {{> afQuickField name="customerCompanyId" id="selectedCustomer" options=companiesAsOptions value=customerCompanyId type="hidden"}}
-
+            <!-- {{> afQuickField name="customerCompanyId" id="selectedCustomer" options=companiesAsOptions value=customerCompanyId type="hidden"}}
             {{> afQuickField name="customerContactId" id="companyContacts" options=contactsAsOptions }}
-            {{> afQuickField name="projectId" options=projectsAsOptions }}
-
+            {{> afQuickField name="projectId" options=projectsAsOptions }} -->
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}
@@ -99,9 +97,9 @@
             {{#if showSupplierContacts}}
               {{> afQuickField name="supplierContactId" id="selectedSupplierContact" options=supplierContactsAsOptions }}
             {{/if}}
-            {{> afQuickField name="customerCompanyId" type="hidden"}}
+            <!-- {{> afQuickField name="customerCompanyId" type="hidden"}}
             {{> afQuickField name="customerContactId" id="companyContacts" value=customerContactId type="hidden" }}
-            {{> afQuickField name="projectId" options=projectsAsOptions }}
+            {{> afQuickField name="projectId" options=projectsAsOptions }} -->
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}
@@ -139,11 +137,11 @@
             {{#if showSupplierContacts}}
               {{> afQuickField name="supplierContactId" id="selectedSupplierContact" options=supplierContactsAsOptions }}
             {{/if}}
-            {{> afQuickField name="customerCompanyId" id="selectedCustomer" options=companiesAsOptions}}
+            <!-- {{> afQuickField name="customerCompanyId" id="selectedCustomer" options=companiesAsOptions}}
             {{#if showContacts}}
               {{> afQuickField  name="customerContactId" id="companyContacts" options=contactsAsOptions }}
               {{> afQuickField name="projectId" options=projectsAsOptions }}
-            {{/if}}
+            {{/if}} -->
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="status" options="allowed" id="poStatus" firstOption=false}}
             {{> afQuickField name="paymentMethod" options="allowed"}}

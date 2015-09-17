@@ -43,16 +43,6 @@ Template.contactDetail.helpers({
       }
     });
   },
-  purchaseOrders: function() {
-    var contactId = FlowRouter.getParam('id');
-    return PurchaseOrders.find({
-      supplierContactId: contactId
-    }, {
-      sort: {
-        description: 1
-      }
-    });
-  },
   mapTitle: function() {
     if (this.companyId) {
       var company = Companies.findOne({_id: this.companyId});

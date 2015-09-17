@@ -36,13 +36,36 @@ Companies.helpers({
     });
   },
   purchaseOrders: function() {
-    return PurchaseOrders.find({
-      supplierCompanyId: this._id
-    }, {
-      sort: {
-        createdAt: -1
-      }
-    });
+    var data = [];
+    var projects = Projects.find({
+      companyId: this._id
+    }).fetch();
+
+    if (projects) {
+      _.each(projects, function(p) {
+        Meteor.subscribe('allPurchaseOrderItemsByProject', p._id);
+
+        var items = PurchaseOrderItems.find({
+          projectId: p._id
+        }).fetch();
+
+        if (items) {
+          _.each(items, function(i) {
+            Meteor.subscribe('purchaseOrderById', i.purchaseOrderId);
+            var purchaseOrder = PurchaseOrders.findOne({
+              _id: i.purchaseOrderId
+            });
+            if (purchaseOrder) {
+              if (_.findWhere(data, purchaseOrder) === undefined) {
+                data.push(purchaseOrder);
+              }
+            }
+          });
+        }
+      })
+    };
+
+    return data;
   }
 });
 Companies.initEasySearch(['name', 'tags'], {
@@ -75,13 +98,36 @@ Contacts.helpers({
     });
   },
   purchaseOrders: function() {
-    return PurchaseOrders.find({
-      supplierContactId: this._id
-    }, {
-      sort: {
-        createdAt: -1
-      }
-    });
+    var data = [];
+    var projects = Projects.find({
+      contactId: this._id
+    }).fetch();
+
+    if (projects) {
+      _.each(projects, function(p) {
+        Meteor.subscribe('allPurchaseOrderItemsByProject', p._id);
+
+        var items = PurchaseOrderItems.find({
+          projectId: p._id
+        }).fetch();
+
+        if (items) {
+          _.each(items, function(i) {
+            Meteor.subscribe('purchaseOrderById', i.purchaseOrderId);
+            var purchaseOrder = PurchaseOrders.findOne({
+              _id: i.purchaseOrderId
+            });
+            if (purchaseOrder) {
+              if (_.findWhere(data, purchaseOrder) === undefined) {
+                data.push(purchaseOrder);
+              }
+            }
+          });
+        }
+      })
+    };
+
+    return data;
   }
 });
 Contacts.initEasySearch(['forename', 'surname', 'tags'], {
@@ -155,9 +201,9 @@ PurchaseOrders.helpers({
   supplierCompany: function() {
     return Companies.findOne(this.supplierCompanyId);
   },
-  customerCompany: function() {
-    return Companies.findOne(this.customerCompanyId);
-  },
+  // customerCompany: function() {
+  //   return Companies.findOne(this.customerCompanyId);
+  // },
   activities: function() {
     return Activities.find({
       purchaseOrderId: this._id
@@ -170,12 +216,12 @@ PurchaseOrders.helpers({
   supplierContact: function() {
     return Contacts.findOne(this.supplierContactId);
   },
-  customerContact: function() {
-    return Contacts.findOne(this.customerContactId);
-  },
-  project: function() {
-    return Projects.findOne(this.projectId);
-  }
+  // customerContact: function() {
+  //   return Contacts.findOne(this.customerContactId);
+  // },
+  // project: function() {
+  //   return Projects.findOne(this.projectId);
+  // }
 });
 PurchaseOrders.initEasySearch('description', {
   limit: 50,
@@ -456,11 +502,11 @@ PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options)
     var newCont = Contacts.findOne(doc.supplierContactId);
     logEvent('info', 'An existing purchase order has been updated: The value of "supplierContactId" was changed from ' + this.previous.supplierContactId + '(' + prevCont.title + " " + prevCont.forename + " " + prevCont.surname + ") to " + doc.supplierContactId + ' (' + newCont.title + " " + newCont.forename + " " + newCont.surname + ')');
   }
-  if (doc.projectId !== this.previous.projectId) {
-    var prevProj = Projects.findOne(this.previous.projectId);
-    var newProj = Projects.findOne(doc.projectId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "projectId" was changed from ' + this.previous.projectId + '(' + prevProj.description + ") to " + doc.projectId + ' (' + newProj.description + ')');
-  }
+  // if (doc.projectId !== this.previous.projectId) {
+  //   var prevProj = Projects.findOne(this.previous.projectId);
+  //   var newProj = Projects.findOne(doc.projectId);
+  //   logEvent('info', 'An existing purchase order has been updated: The value of "projectId" was changed from ' + this.previous.projectId + '(' + prevProj.description + ") to " + doc.projectId + ' (' + newProj.description + ')');
+  // }
 });
 PurchaseOrders.after.remove(function(userId, doc) {
   logEvent('info', 'A purchase order has been deleted: ' + doc.description);

@@ -306,6 +306,14 @@ Meteor.publish("allPurchaseOrderItems", function(purchaseOrderId) {
   });
 });
 
+Meteor.publish("allPurchaseOrderItemsByProject", function(projectId) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return PurchaseOrderItems.find({
+    projectId: projectId
+  });
+});
+
 Meteor.publish("allNotifications", function() {
   return Notifications.find({}, {
     sort: {
