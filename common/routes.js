@@ -173,9 +173,6 @@ router.route('/admin', {
 
 router.route('/companies', {
   name: 'companies',
-  subscriptions: function() {
-    this.register('allCompanies', subs.subscribe('allCompanies'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'companyList'

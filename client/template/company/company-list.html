@@ -6,10 +6,11 @@
     <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
-        {{> esInput index="companies" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}} {{#if isInRole 'Administrator,CanCreateCompanies'}}
-        <div class="btn-group-vertical">
-          <button type="submit" class="btn btn-primary" id="add-company"><i class="fa fa-fw fa-plus"></i> Add company</button>
-        </div>
+        {{> esInput index="companies" placeholder="search..." timeout=1000 allDocsOnEmpty=true reactive=false class="form-control"}}
+        {{#if isInRole 'Administrator,CanCreateCompanies'}}
+          <div class="btn-group-vertical">
+            <button type="submit" class="btn btn-primary" id="add-company"><i class="fa fa-fw fa-plus"></i> Add company</button>
+          </div>
         {{/if}}
       </div>
     </div>
@@ -17,17 +18,28 @@
     <div class="col-md-9">
 
       <h1 id="companies-page-header"><i class="fa fa-building"></i> Companies</h1>
+      <div class="pull-right">
+        {{> esPagination index="companies"}}
+      </div>
       <small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
 
-      {{#if hasCompanies}}
       <div class="list-group" id="mchCompanyList">
-        {{#ifEsIsSearching index="companies"}} {{> spinner}} {{else}} {{#esEach index="companies"}} {{> companyListItem}} {{/esEach}} {{> esLoadMoreButton index="companies" class="btn btn-default"}} {{/ifEsIsSearching}}
+        {{#esEach index="companies"}}
+          {{> companyListItem}}
+        {{/esEach}}
+
+        {{#ifEsHasNoResults index="companies"}}
+          <h4 style="color:gray;" id="mchNoCompaniesPlaceholder">No companies found</h4>
+        {{/ifEsHasNoResults}}
+
+        {{#ifEsIsSearching index="companies"}}
+          {{> spinner}}
+        {{/ifEsIsSearching}}
+      </div>
+      <div class="pull-right">
+        {{> esPagination index="companies"}}
       </div>
 
-      {{else}}
-      <br />
-      <h4 style="color:gray;" id="mchNoCompaniesPlaceholder">No companies</h4>
-      {{/if}}
     </div>
   </div>
 

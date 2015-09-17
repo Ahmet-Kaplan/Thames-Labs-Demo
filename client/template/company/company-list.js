@@ -21,14 +21,17 @@ Template.companyList.onRendered(function() {
 });
 
 Template.companyList.helpers({
-  hasCompanies: function() {
-    return Companies.find({}).count() > 0;
-  },
   companyCount: function() {
-    return Companies.find({}).count();
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'companies'
+    });
+    return easySearchInstance.get('total');
   },
   hasMultipleCompanies: function() {
-    return Companies.find({}).count() !== 1;
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'companies'
+    });
+    return easySearchInstance.get('total') !== 0;
   }
 });
 
