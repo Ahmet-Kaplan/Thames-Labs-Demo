@@ -11,6 +11,10 @@ Template.updateTenantSettings.helpers({
     }
 
     return ret;
+  },
+
+  coupon: function() {
+    return this.coupon;
   }
 });
 
@@ -22,9 +26,12 @@ Template.updateTenantSettings.events({
       o[p] = $('#val-' + p).val();
     }
 
+    var coupon = $('#coupon').val();
+
     Tenants.update(this._id, {
       $set: {
-        settings: o
+        settings: o,
+        coupon: coupon
       }
     });
 
