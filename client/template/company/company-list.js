@@ -31,7 +31,7 @@ Template.companyList.helpers({
     var easySearchInstance = EasySearch.getComponentInstance({
       index: 'companies'
     });
-    return easySearchInstance.get('total') !== 0;
+    return easySearchInstance.get('total') !== 1;
   }
 });
 
