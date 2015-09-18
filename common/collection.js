@@ -737,6 +737,14 @@ Products.after.remove(function(userId, doc) {
 
 //Opportunities
 Opportunities = new Mongo.Collection('opportunities');
+Opportunities.helpers({
+  company: function() {
+    return Companies.findOne(this.companyId);
+  },
+  contact: function() {
+    return Contacts.findOne(this.contactId);
+  }
+});
 Partitioner.partitionCollection(Opportunities);
 Opportunities.initEasySearch(['name', 'tags'], {
   limit: 50,
