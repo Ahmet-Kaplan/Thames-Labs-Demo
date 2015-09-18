@@ -295,7 +295,7 @@ Meteor.methods({
     }
     var emailRegex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
     if(!emailRegex.test(email)) {
-      throw new meteor.Error(400, 'Invalid Email address');
+      throw new Meteor.Error(400, 'Invalid Email address');
     }
     Stripe.customers.update(stripeId, {email: email}, function(err, customer) {
       if(err) {

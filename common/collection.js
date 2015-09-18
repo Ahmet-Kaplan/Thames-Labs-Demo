@@ -252,18 +252,6 @@ Tenants.before.insert(function(userId, doc) {
 Tenants.after.insert(function(userId, doc) {
   logEvent('info', 'A new tenant has been created: ' + doc.name);
 });
-Tenants.before.update(function(userId, doc, fieldNames, modifier, options) {
-  /*if(modifier.$set !== undefined && modifier.$set.paying === true) {
-    if(modifier.$set.stripeSubs === undefined) {
-      console.log('Missing', 'The subscription ID is missing.');
-      return false;
-    } else if(modifier.$set.paying === true && modifier.$set.stripeSubs !== undefined && Meteor.isServer) {
-      var stripeId = (modifier.$set.stripeId !== undefined) ? modifier.$set.stripeId : doc.stripeId;
-      var isValidSubs = Meteor.call('checkStripeSubscription', stripeId, modifier.$set.stripeSubs);
-      return isValidSubs;
-    }
-  }*/
-});
 Tenants.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.name !== this.previous.name) {
     logEvent('info', 'An existing tenant has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
@@ -293,12 +281,6 @@ Meteor.users.after.insert(function(userId, doc) {
 });
 
 Meteor.users.after.remove(function(userId, doc) {
-  console.log(doc);
-  if(Roles.userIsInRole(Meteor.userId(), ['superadmin'])) {
-    Meteor.call('updateStripeQuantity', doc.group);
-  } else {
-    Meteor.call('updateStripeQuantity');
-  }
   logEvent('info', 'A user has been removed: ' + doc.name);
 });
 

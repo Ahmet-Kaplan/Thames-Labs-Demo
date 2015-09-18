@@ -14,7 +14,26 @@ Meteor.methods({
       _id: userId
     });
     Meteor.users.remove({_id: userId});
+
+    if (Roles.userIsInRole(this.userId, 'Administrator')) {
+      Meteor.call('updateStripeQuantity');
+    } else if (Roles.userIsInRole(this.userId, 'superadmin')) {
+      Meteor.call('updateStripeQuantity', Partitioner.getUserGroup(this.userId));
+    }
     LogServerEvent('warning', 'User removed', 'user', userId);
+  },
+
+  deleteAllTenantUsers: function(tenantId) {
+    if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
+      throw new Meteor.Error(403, 'Only superadmins may delete all users');
+    }
+    Metor.users.find({group: tenantId}).forEach(function(user) {
+      Meteor.call(removeUser, user.id, function(err, result) {
+        if(err) {
+          LogServerEvent('error', 'Unable to remove user while calling \'deleteAllTenantUsers\'', 'user', user.id);
+        }
+      });
+    });
   },
 
   addUser: function(doc) {

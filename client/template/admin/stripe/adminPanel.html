@@ -57,13 +57,13 @@
           <div class="row">
             <div class="col-xs-12"><button id="updateCardDetails" class="btn btn-xs btn-primary pull-right">Update Card Details</button></div>
           </div>
+          <hr />
         {{/if}}
         {{/with}}
 
-         <p>Email used for your invoices:</p>
-        <div class="row">
-          <div class="col-xs-6">{{stripeCustomer.email}}</div><div class="col-xs-6"><button id="updateEmail" class="btn btn-xs btn-primary pull-right">Update Email</button></div>
-        </div>
+        <p>Email used for your invoices:</p>
+        <div class="row"><div class="col-xs-12">{{stripeCustomer.email}}</div></div>
+        <div class="row"><div class="col-xs-12"><button id="updateEmail" class="btn btn-xs btn-primary pull-right">Update Email</button></div></div>
       </div>
       {{/if}}
     </div>
@@ -117,18 +117,18 @@
         <button type="button" class="btn btn-success" role="button" id="resumeSubs">Resume Subscription</button>
       {{else}}
         <button type="button" class="btn btn-info" role="button" id="upScheme">Upgrade to Paying Scheme</button>
-        <div><i class="fa fa-lock"></i> <a href="#" id="showStripeHow">Payments are made securely with Stripe.</a></div>
     {{/if}}
   {{/if}}
+  <div><i class="fa fa-lock"></i> <a href="#" id="showStripeHow">Payments are made securely with Stripe.</a></div>
   </div>
 </template>
 
 <template name="lineDetails">
 {{#if amount}}
   <div class="row">
-    <div class="col-xs-3" id="planName"></div>
-    <div class="col-xs-1" id="planName"><em>£{{amount}}</em></div>
-    <div class="col-xs-8" id="planName"><em>{{#if description}}{{description}}{{else}}Subscription for next period ({{period.start}} - {{period.end}}){{/if}}</em></div>
+    <div class="col-xs-3"></div>
+    <div class="col-xs-2"><em>£{{amount}}</em></div>
+    <div class="col-xs-7"><em>{{#if description}}{{description}}{{else}}Subscription for next period ({{period.start}} - {{period.end}}){{/if}}</em></div>
   </div>
 {{/if}}
 </template>

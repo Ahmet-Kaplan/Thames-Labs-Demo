@@ -97,13 +97,14 @@ Template.tenant.events({
   'click #btnBlockTenant': function(event) {
     event.preventDefault();
     var tenantId = this._id;
-    var blocked = (this.blocked == true) ? 'un' : '';
+    var blocked = (this.blocked === true) ? 'un' : '';
+    var isCurrentlyBlocked = this.blocked;
 
     bootbox.confirm("Are you sure you wish to " + blocked + "block this tenant?", function(result) {
       if (result === true) {
         Tenants.update(tenantId, {
           $set: {
-            blocked: !blocked
+            blocked: !isCurrentlyBlocked
           }
         });
       }

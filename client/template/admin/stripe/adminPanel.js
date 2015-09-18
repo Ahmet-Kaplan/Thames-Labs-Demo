@@ -1,10 +1,13 @@
 Meteor.startup(function() {
   Meteor.call('getStripePK', function(error, result) {
-    if(error) {
-      console.log('Unable to retrieve Stripe Public Key.');
+    if(error && !Meteor.isDevelopment) {
+      toastr.error('Unable to retrieve Stripe Public Key.');
       return false;
+    } else if(error && Meteor.isDevelopment) {
+      toastr.error('The Stripe environment variable have not been set. Stripe is not active.');
+    } else {
+      Stripe.setPublishableKey(result);
     }
-    Stripe.setPublishableKey(result);
   });
 });
 
@@ -32,7 +35,6 @@ var updateStripeCustomer = function() {
         return false;
       }
       stripeCustomer = customer;
-      console.log(stripeCustomer);
       stripeCustomerDep.changed();
     });
   }
@@ -176,6 +178,14 @@ Template.stripeAdmin.helpers({
   },
   hasStripeSubs: function() {
     return Tenants.findOne({}).stripeSubs;
+  },
+  subscriptionCancelled: function() {
+    stripeCustomerDep.depend();
+    if(stripeCustomer.id && stripeCustomer.subscriptions.total_count) {
+      return stripeCustomer.subscriptions.data[0].cancel_at_period_end;
+    } else {
+      return false;
+    }
   },
   stripeCustomer: function() {
     stripeCustomerDep.depend();
