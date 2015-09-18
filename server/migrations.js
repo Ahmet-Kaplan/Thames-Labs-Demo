@@ -272,3 +272,26 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 9,
+  name: "Add default parameters to Tenants to enable Stripe implementation",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Tenants.find({}).forEach(function(tenant) {
+      if(tenant.totalRecords === undefined && tenant.paying === undefined && tenant.blocked === undefined) {
+        var totalRecordsNumber = Partitioner.bindGroup(tenant._id, function() {
+          return Companies.find().count() + Contacts.find().count();
+        });
+        Tenants.update(tenant._id, {
+          $set: {
+            totalRecords: totalRecordsNumber,
+            paying: false,
+            blocked: false
+          }
+        });
+      }
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
