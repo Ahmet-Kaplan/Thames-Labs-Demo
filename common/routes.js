@@ -185,14 +185,7 @@ router.route('/companies/:id', {
   name: 'company',
   subscriptions: function(params) {
     this.register('companyById', subs.subscribe('companyById', params.id));
-    this.register('contactsByCompanyId', subs.subscribe('contactsByCompanyId', params.id));
-    this.register('projectsByCompanyId', subs.subscribe('projectsByCompanyId', params.id));
-    this.register('activityByCompanyId', subs.subscribe('activityByCompanyId', params.id));
-    this.register('purchaseOrdersByCompanyId', subs.subscribe('purchaseOrdersByCompanyId', params.id));
     this.register('companyTags', subs.subscribe('companyTags'));
-    this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
-    this.register('opportunitiesByCompanyId', subs.subscribe('opportunitiesByCompanyId', params.id));
-    this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -205,8 +198,8 @@ router.route('/companies/:id', {
 router.route('/contacts', {
   name: 'contacts',
   subscriptions: function() {
-    this.register('allContacts', subs.subscribe('allContacts'));
-    this.register('allCompanies', subs.subscribe('allCompanies'));
+    this.register('allContacts', Meteor.subscribe('allContacts'));
+    this.register('allCompanies', Meteor.subscribe('allCompanies'));
   },
   action: function() {
     layout.render('appLayout', {

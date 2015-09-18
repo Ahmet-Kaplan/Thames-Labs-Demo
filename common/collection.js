@@ -52,7 +52,14 @@ Companies.initEasySearch(['name', 'tags'], {
     return {
       'name': 1
     };
-  }
+  },
+  returnFields: [
+    'name',
+    'city',
+    'country',
+    'website',
+    'tags'
+  ]
 });
 Tags.TagsMixin(Companies);
 Collections.companies = Companies;
