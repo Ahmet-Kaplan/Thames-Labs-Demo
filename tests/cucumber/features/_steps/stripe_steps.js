@@ -14,17 +14,21 @@ module.exports = function() {
       .setValue('#expYear', 2018)
       .setValue('#cardCVC', 789)
       .click(".modal-footer .btn-primary")
+      .waitForExist('.toast-message', 10000, true)
       .waitForVisible('.bootbox-body', 20000)
       .isExisting('.modal-dialog')
       .then(function(isExisting) {
           expect(isExisting).to.equal(true);
       })
-      .keys(['27'])
-      .waitForVisible("#planName", 5000)
-      .getText("#planName")
-      .then(function(text) {
-        expect(text).to.equal("Paying");
-      })
+      .waitForVisible(".modal-footer .btn-primary", 5000)
+      .click(".modal-footer .btn-primary")
+      .waitForVisible('.modal-dialog', 2000, true)
+      .waitForVisible('#planName', 5000)
+      .waitUntil(function() {
+        return this.getText('#planName').then(function(text) {
+          return expect(text).to.not.contain('Free');
+        });
+      }, 10000)
       .call(callback);
   });
 
@@ -36,17 +40,27 @@ module.exports = function() {
       .click('#downScheme')
       .waitForVisible('.modal-content', 5000)
       .click(".modal-footer .btn-primary")
+      .waitForExist('.toast-message', 10000, true)
       .waitForVisible('.bootbox-body', 20000)
       .isExisting('.modal-dialog')
       .then(function(isExisting) {
           expect(isExisting).to.equal(true);
       })
-      .keys(['27'])
-      .waitForVisible("#planName", 5000)
-      .getText("#planName")
-      .then(function(text) {
-        expect(text).to.equal("Free");
-      })
+      .waitForVisible(".modal-footer .btn-primary", 5000)
+      .click(".modal-footer .btn-primary")
+      .waitForVisible('.modal-dialog', 5000, true)
+      .waitForVisible('#planName', 5000)
+      .waitUntil(function() {
+        return this.getText('#planName').then(function(text) {
+          return expect(text).to.contain('Free');
+        });
+      }, 10000)
+      .call(callback);
+  });
+
+  this.Then(/^the toastr disappears$/, function(callback) {
+    this.client
+      .waitForExist('.toast-message', 10000, true)
       .call(callback);
   });
 
@@ -60,9 +74,41 @@ module.exports = function() {
       .call(callback);
   });
 
+  this.Then(/^I should see a bootbox with title "([^"]*)"$/, function(expectedText, callback) {
+    this.client
+      .waitForExist('.bootbox-body', 20000)
+      .isExisting('.modal-dialog')
+      .then(function(isExisting) {
+          expect(isExisting).to.equal(true);
+      })
+      .waitForVisible('.modal-header', 1000)
+      .getText('h4=' + expectedText)
+      .call(callback);
+  });
+
   this.Then(/^I quit the bootbox$/, function(callback) {
     this.client
-      .keys(['27'])
+      .waitForVisible('.close', 2000)
+      .click('.bootbox-close-button')
+      .timeoutsImplicitWait(1000)
+      .waitForVisible('.modal-dialog', 2000, true)
+      .call(callback);
+  });
+
+  this.Then(/^the Stripe field "([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(field, option, desiredText, callback) {
+    this.client
+      .waitForVisible(field, 5000)
+      .waitUntil(function() {
+        return this.getText(field).then(function(text) {
+          if (option === 'say') {
+            return expect(text).to.equal(desiredText);
+          } else if (option === 'contain') {
+            return expect(text).to.contain(desiredText);
+          } else if (option === 'not contain') {
+            return expect(text).to.not.contain(desiredText);
+          }
+        });
+      }, 10000)
       .call(callback);
   });
 };

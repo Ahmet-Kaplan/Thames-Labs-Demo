@@ -26,10 +26,11 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "cardCVC" to "123"
     When I click confirm on the modal
     Then I should see a toastr with the message "Validating your card details..."
+    Then the toastr disappears
     Then I should see a bootbox
     Then I should see a modal with title "Subscription complete"
-    Then I quit the bootbox
-    Then "planName" should say "Paying"
+    When I click confirm on the modal
+    Then the Stripe field "#planName" should not contain "Free"
 
   Scenario: An administrator can unsubscribe from the Paying scheme
     Given I have subscribed to the paying plan
@@ -39,32 +40,29 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a modal
     When I click confirm on the modal
     Then I should see a toastr with the message "Processing your changes..."
+    Then the toastr disappears
     Then I should see a bootbox
     Then I should see a modal with title "Subscription updated"
     Then I quit the bootbox
-    Then "planName" should say "Free"
+    Then the Stripe field "#planName" should say "Free Plan"
 
-  Scenario: An administrator can resubscribe to the Paying scheme
+  Scenario: An administrator can resume to the Paying scheme
     Given I have subscribed to the paying plan
     Given I have unsubscribed from the paying plan
     When I navigate to "/admin"
-    Then I should see "#reUpScheme"
-    When I click "#reUpScheme"
+    Then I should see "#resumeSubs"
+    When I click "#resumeSubs"
     Then I should see a modal
     When I click confirm on the modal
-    Then I should see a toastr with the message "Processing your subscription."
-    Then I should see a bootbox
-    Then I should see a modal with title "Subscription complete"
+    Then I should see a toastr with the message "Resuming your subscription..."
+    Then the toastr disappears
+    Then I should see a bootbox with title "Subscription complete"
     Then I quit the bootbox
-    Then "planName" should say "Paying"
+    Then the Stripe field "#planName" should not contain "Free"
 
-  Scenario: An administrator can update its card details and resubscribe to the Paying scheme
+  Scenario: An administrator can update its card details
     Given I have subscribed to the paying plan
-    Given I have unsubscribed from the paying plan
     When I navigate to "/admin"
-    Then I should see "#reUpScheme"
-    When I click "#reUpScheme"
-    Then I should see a modal
     Then I should see "#updateCardDetails"
     When I click "#updateCardDetails"
     When I set text field with id "cardNumber" to "4242424242424242"
@@ -73,13 +71,21 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "cardCVC" to "741"
     When I click confirm on the modal
     Then I should see a toastr with the message "Validating your card details..."
-    Then I should see "#resubscribe"
-    When I click "#resubscribe"
-    Then I should see a toastr with the message "Processing your subscription."
-    Then I should see a bootbox
-    Then I should see a modal with title "Subscription complete"
-    Then I quit the bootbox
-    Then "planName" should say "Paying"
+    Then I should see a "success" toastr with the message "Your card details have been updated."
+    Then the toastr disappears
+    Then the Stripe field "#cardExpYear" should say "2022"
+
+  Scenario: An administrator can update its email for invoices
+    Given I have subscribed to the paying plan
+    When I navigate to "/admin"
+    Then I should see "#updateEmail"
+    When I click "#updateEmail"
+    When I set text field with selector ".bootbox-input-text" to "newemail@domain.com"
+    When I click confirm on the modal
+    Then I should see a toastr with the message "Processing your email update"
+    Then I should see a "success" toastr with the message "Your email hase been changed: newemail@domain.com"
+    Then the toastr disappears
+    Then the Stripe field "#stripeEmail" should say "newemail@domain.com"
 
   Scenario: An administrator cannot subscribe with incorrect card Number
     When I navigate to "/admin"
@@ -90,7 +96,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "expYear" to "2021"
     When I set text field with id "cardCVC" to "123"
     When I click confirm on the modal
-    Then I should see an error toastr with the message "Your card number is incorrect."
+    Then I should see an "error" toastr with the message "Your card number is incorrect."
 
   Scenario: An administrator cannot subscribe with incorrect expiry month
     When I navigate to "/admin"
@@ -101,7 +107,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "expYear" to "2021"
     When I set text field with id "cardCVC" to "123"
     When I click confirm on the modal
-    Then I should see an error toastr with the message "Your card's expiration month is invalid."
+    Then I should see an "error" toastr with the message "Your card's expiration month is invalid."
 
   Scenario: An administrator cannot subscribe with incorrect expiry year
     When I navigate to "/admin"
@@ -112,15 +118,4 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "expYear" to "1987"
     When I set text field with id "cardCVC" to "123"
     When I click confirm on the modal
-    Then I should see an error toastr with the message "Your card's expiration year is invalid."
-
-  Scenario: An administrator cannot subscribe with incorrect CVC
-    When I navigate to "/admin"
-    When I click "#upScheme"
-    Then I should see a modal
-    When I set text field with id "cardNumber" to "4242424242424242"
-    When I set text field with id "expMonth" to "01"
-    When I set text field with id "expYear" to "2020"
-    When I set text field with id "cardCVC" to "abc"
-    When I click confirm on the modal
-    Then I should see an error toastr with the message "Your card's security code is invalid."
+    Then I should see an "error" toastr with the message "Your card's expiration year is invalid."

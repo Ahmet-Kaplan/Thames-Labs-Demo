@@ -18,7 +18,7 @@
       {{#if hasCoupon}}
       <div class="row">
         <div class="col-xs-5"><strong>Discount</strong></div>
-        <div class="col-xs-7" id="planName">{{hasCoupon}}</div>
+        <div class="col-xs-7">{{hasCoupon}}</div>
       </div>
       {{/if}}
       <div class="row">
@@ -52,7 +52,7 @@
             <div class="col-xs-6"><strong>Exp Month</strong></div><div class="col-xs-6">{{exp_month}}</div>
           </div>
           <div class="row">
-            <div class="col-xs-6"><strong>Exp Year</strong></div><div class="col-xs-6">{{exp_year}}</div>
+            <div class="col-xs-6"><strong>Exp Year</strong></div><div class="col-xs-6" id="cardExpYear">{{exp_year}}</div>
           </div>
           <div class="row">
             <div class="col-xs-12"><button id="updateCardDetails" class="btn btn-xs btn-primary pull-right">Update Card Details</button></div>
@@ -62,7 +62,7 @@
         {{/with}}
 
         <p>Email used for your invoices:</p>
-        <div class="row"><div class="col-xs-12">{{stripeCustomer.email}}</div></div>
+        <div class="row"><div class="col-xs-12" id="stripeEmail">{{stripeCustomer.email}}</div></div>
         <div class="row"><div class="col-xs-12"><button id="updateEmail" class="btn btn-xs btn-primary pull-right">Update Email</button></div></div>
       </div>
       {{/if}}
@@ -75,16 +75,16 @@
           <div class="col-xs-12"><strong>Last Invoice details</strong></div>
         </div>
         <div class="row">
-          <div class="col-xs-3" id="planName"><strong>Amount</strong></div>
-          <div class="col-xs-9" id="planName">£{{lastInvoice.amount_due}}</div>
+          <div class="col-xs-3"><strong>Amount</strong></div>
+          <div class="col-xs-9">£{{lastInvoice.amount_due}}</div>
         </div>
         <div class="row">
-          <div class="col-xs-3" id="planName"><strong>Date</strong></div>
-          <div class="col-xs-9" id="planName">{{lastInvoice.date}}</div>
+          <div class="col-xs-3"><strong>Date</strong></div>
+          <div class="col-xs-9">{{lastInvoice.date}}</div>
         </div>
         <div class="row">
-          <div class="col-xs-3" id="planName"><strong>Period</strong></div>
-          <div class="col-xs-9" id="planName">{{lastInvoice.start}} - {{lastInvoice.end}}</div>
+          <div class="col-xs-3"><strong>Period</strong></div>
+          <div class="col-xs-9">{{lastInvoice.start}} - {{lastInvoice.end}}</div>
         </div>
         {{#if upcomingInvoice}}
         <hr />
@@ -93,15 +93,15 @@
           <div class="col-xs-12"><strong>Upcoming Invoice details</strong></div>
         </div>
         <div class="row">
-          <div class="col-xs-3" id="planName"><strong>Amount</strong></div>
-          <div class="col-xs-9" id="planName">£{{upcomingInvoice.amount_due}}</div>
+          <div class="col-xs-3"><strong>Amount</strong></div>
+          <div class="col-xs-9">£{{upcomingInvoice.amount_due}}</div>
         </div>
         {{#each upcomingInvoice.lines.data}}
           {{> lineDetails}}
         {{/each}}
         <div class="row">
-          <div class="col-xs-3" id="planName"><strong>Date Due</strong></div>
-          <div class="col-xs-9" id="planName">{{upcomingInvoice.date}}</div>
+          <div class="col-xs-3"><strong>Date Due</strong></div>
+          <div class="col-xs-9">{{upcomingInvoice.date}}</div>
         </div>
         {{/if}}
 

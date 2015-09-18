@@ -234,10 +234,10 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Then(/^I should see an error toastr with the message "([^"]*)"$/, function(expectedText, callback) {
+  this.Then(/^I should see an? "([^"]*)" toastr with the message "([^"]*)"$/, function(toastrType, expectedText, callback) {
     this.client
-      .waitForVisible('.toast-error .toast-message', 5000)
-      .getText('.toast-error .toast-message').then(function(text) {
+      .waitForVisible('.toast-' + toastrType + ' .toast-message', 5000)
+      .getText('.toast-' + toastrType + ' .toast-message').then(function(text) {
         expect(text).to.contain(expectedText);
       })
       .call(callback);

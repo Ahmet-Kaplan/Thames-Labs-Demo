@@ -171,7 +171,8 @@ Template.stripeAdmin.helpers({
     return Tenants.findOne({}).paying;
   },
   currentSubscription: function() {
-    return (stripeCustomer.id) ? ((stripeCustomer.subscriptions.total_count) ? stripeCustomer.subscriptions.data[0] : "Free Plan") : "Free Plan";
+    stripeCustomerDep.depend();
+    return (stripeCustomer.id) ? ((stripeCustomer.subscriptions.total_count && !stripeCustomer.subscriptions.data[0].cancel_at_period_end) ? stripeCustomer.subscriptions.data[0].plan.name : "Free Plan") : "Free Plan";
   },
   hasStripeAccount: function() {
     return !(Tenants.findOne({}).stripeId === undefined || Tenants.findOne({}).stripeId === '');
@@ -240,6 +241,7 @@ Template.stripeAdmin.events({
     e.preventDefault();
     bootbox.confirm('Do you wish to resume your subscription to RealtimeCRM?', function(result) {
       if(result === true) {
+        toastr.info('Resuming your subscription...');
         Meteor.call('resumeStripeSubscription', function(error, result) {
           if(error) {
             bootbox.alert({
