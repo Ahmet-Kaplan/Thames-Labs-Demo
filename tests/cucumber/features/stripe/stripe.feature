@@ -1,4 +1,3 @@
-@dev
 Feature: Allow users to subscribe/unsubscribe to Stripe
 
   As a potential user of the app
@@ -44,7 +43,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then the toastr disappears
     Then I should see a bootbox
     Then I should see a modal with title "Subscription updated"
-    Then I quit the bootbox
+    When I click confirm on the modal
     Then the Stripe field "#planName" should say "Free Plan"
 
   Scenario: An administrator can resume to the Paying scheme
