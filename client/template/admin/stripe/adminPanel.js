@@ -160,9 +160,12 @@ Template.stripeAdmin.onCreated(function() {
   });
 
   this.autorun(function() {
+    var tenant = Tenants.findOne({});
     var updateListener = Session.get('listenCardUpdate');
     updateListener += 1;
-    updateCardDetails();
+    if(tenant.stripeId) {
+      updateCardDetails();
+    }
   });
 });
 

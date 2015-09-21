@@ -234,6 +234,9 @@ Meteor.methods({
   },
 
   getStripeCardDetails: function() {
+    if(!this.userId) {
+      return false;
+    }
     var tenantId = Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
     var stripeId = theTenant.stripeId;
