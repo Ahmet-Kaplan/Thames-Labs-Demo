@@ -21,6 +21,7 @@ module.exports = function() {
           expect(isExisting).to.equal(true);
       })
       .waitForVisible('.bootbox-close-button', 2000)
+      .scroll('.bootbox-close-button', 0, -60)
       .click('.bootbox-close-button')
       .timeoutsImplicitWait(2000)
       .waitForVisible('.modal-dialog', 5000, true)
@@ -39,7 +40,8 @@ module.exports = function() {
       .waitForVisible('#downScheme', 2000)
       .scroll('#downScheme', 0, -60)
       .click('#downScheme')
-      .waitForVisible('.modal-content', 5000)
+      .waitForVisible('.modal-footer .btn-primary', 5000)
+      .scroll('.modal-footer .btn-primary', 0, -60)
       .click(".modal-footer .btn-primary")
       .waitForExist('.toast-message', 10000, true)
       .waitForVisible('.bootbox-body', 20000)
@@ -48,6 +50,7 @@ module.exports = function() {
           expect(isExisting).to.equal(true);
       })
       .waitForVisible('.bootbox-close-button', 2000)
+      .scroll('.bootbox-close-button', 0, -60)
       .click('.bootbox-close-button')
       .timeoutsImplicitWait(2000)
       .waitForVisible('.modal-dialog', 5000, true)
