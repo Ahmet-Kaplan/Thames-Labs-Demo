@@ -30,7 +30,15 @@ Projects.helpers({
 });
 
 Projects.initEasySearch(['description', 'tags'], {
-  limit: 50
+  limit: 20,
+  use: 'mongo-db',
+  returnFields: [
+    'description',
+    'value',
+    'tags',
+    'companyId',
+    'contactId'
+  ]
 });
 
 Tags.TagsMixin(Projects);

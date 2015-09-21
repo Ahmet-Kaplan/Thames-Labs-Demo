@@ -221,11 +221,6 @@ router.route('/contacts/:id', {
 
 router.route('/projects', {
   name: 'projects',
-  subscriptions: function() {
-    this.register('allProjects', subs.subscribe('allProjects'));
-    this.register('allContacts', subs.subscribe('allContacts'));
-    this.register('allCompanies', subs.subscribe('allCompanies'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'projectsList'
@@ -238,11 +233,11 @@ router.route('/projects/:id', {
   name: 'project',
   subscriptions: function(params) {
     this.register('projectById', subs.subscribe('projectById', params.id));
+    this.register('projectTags', subs.subscribe('projectTags'));
     this.register('companyByProjectId', subs.subscribe('companyByProjectId', params.id));
     this.register('activityByProjectId', subs.subscribe('activityByProjectId', params.id));
     this.register('contactsByProjectId', subs.subscribe('contactsByProjectId', params.id));
     this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
-    this.register('projectTags', subs.subscribe('projectTags'));
     this.register('opportunityByProjectId', subs.subscribe('opportunityByProjectId', params.id));
   },
   action: function() {
