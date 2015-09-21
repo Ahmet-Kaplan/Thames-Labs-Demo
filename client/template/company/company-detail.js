@@ -22,7 +22,6 @@ Template.companyDetail.onCreated(function() {
   this.subscribe('purchaseOrdersByCompanyId', companyId);
   this.subscribe('tasksByEntityId', companyId);
   this.subscribe('opportunitiesByCompanyId', companyId);
-  // Is this needed?
   this.subscribe('opportunityStages');
 });
 

@@ -209,13 +209,7 @@ router.route('/contacts/:id', {
   name: 'contact',
   subscriptions: function(params) {
     this.register('contactById', subs.subscribe('contactById', params.id));
-    this.register('activityByContactId', subs.subscribe('activityByContactId', params.id));
-    this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
-    this.register('projectsByContactId', subs.subscribe('projectsByContactId', params.id));
-    this.register('purchaseOrdersByContactId', subs.subscribe('purchaseOrdersByContactId', params.id));
     this.register('contactTags', subs.subscribe('contactTags'));
-    this.register('opportunitiesByContactId', subs.subscribe('opportunitiesByContactId', params.id));
-    this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
     layout.render('appLayout', {

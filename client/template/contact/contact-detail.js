@@ -17,6 +17,15 @@ Template.contactDetail.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadContacts');
   });
+
+  // Subscribe to necessary data
+  var contactId = FlowRouter.getParam('id');
+  this.subscribe('activityByContactId', contactId);
+  this.subscribe('tasksByEntityId', contactId);
+  this.subscribe('projectsByContactId', contactId);
+  this.subscribe('purchaseOrdersByContactId', contactId);
+  this.subscribe('opportunitiesByContactId', contactId);
+  this.subscribe('opportunityStages');
 });
 
 Template.contactDetail.helpers({
