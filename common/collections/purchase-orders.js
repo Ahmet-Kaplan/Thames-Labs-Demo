@@ -30,12 +30,23 @@ PurchaseOrders.helpers({
 });
 
 PurchaseOrders.initEasySearch('description', {
-  limit: 50,
+  limit: 20,
+  use: 'mongo-db',
   sort: function() {
     return {
       'orderNumber': 1
     };
-  }
+  },
+  returnFields: [
+    'description',
+    'status',
+    'orderNumber',
+    'supplierCompanyId',
+    'supplierContactId',
+    'customerCompanyId',
+    'customerContactId',
+    'projectId'
+  ]
 });
 
 //////////////////////

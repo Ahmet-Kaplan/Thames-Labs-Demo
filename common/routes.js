@@ -245,12 +245,6 @@ router.route('/projects/:id', {
 
 router.route('/purchaseorders', {
   name: 'purchaseOrders',
-  subscriptions: function() {
-    this.register('allPurchaseOrders', subs.subscribe('allPurchaseOrders'));
-    this.register('allCompanies', subs.subscribe('allCompanies'));
-    this.register('allProjects', subs.subscribe('allProjects'));
-    this.register('allContacts', subs.subscribe('allContacts'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'purchaseOrderList'
