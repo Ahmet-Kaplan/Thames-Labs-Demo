@@ -36,7 +36,13 @@ Contacts.initEasySearch(['forename', 'surname', 'tags'], {
     return {
       'surname': 1
     };
-  }
+  },
+  returnFields: [
+    'forename',
+    'surname',
+    'tags',
+    'companyId'
+  ]
 });
 
 Tags.TagsMixin(Contacts);

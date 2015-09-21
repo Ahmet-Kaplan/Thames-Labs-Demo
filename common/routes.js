@@ -197,10 +197,6 @@ router.route('/companies/:id', {
 
 router.route('/contacts', {
   name: 'contacts',
-  subscriptions: function() {
-    this.register('allContacts', Meteor.subscribe('allContacts'));
-    this.register('allCompanies', Meteor.subscribe('allCompanies'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'contactList'
