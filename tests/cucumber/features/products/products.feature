@@ -1,3 +1,4 @@
+@ignore
 Feature: Allow users to manage their Products
 
   As a user of the app

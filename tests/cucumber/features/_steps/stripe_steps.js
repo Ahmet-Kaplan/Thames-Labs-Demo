@@ -13,7 +13,7 @@ module.exports = function() {
       .setValue('#expMonth', 01)
       .setValue('#expYear', 2018)
       .setValue('#cardCVC', 789)
-      .click(".modal-footer .btn-primary")
+      .submitForm('#subscribe')
       .waitForExist('.toast-message', 10000, true)
       .waitForVisible('.bootbox-body', 20000)
       .isExisting('.modal-dialog')
@@ -88,7 +88,7 @@ module.exports = function() {
 
   this.Then(/^I quit the bootbox$/, function(callback) {
     this.client
-      .waitForVisible('.close', 2000)
+      .waitForVisible('.bootbox-close-button', 2000)
       .click('.bootbox-close-button')
       .timeoutsImplicitWait(1000)
       .waitForVisible('.modal-dialog', 2000, true)

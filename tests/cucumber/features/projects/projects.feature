@@ -1,3 +1,4 @@
+@ignore
 Feature: Allow users to manage their Projects
 
   As a user of the app
