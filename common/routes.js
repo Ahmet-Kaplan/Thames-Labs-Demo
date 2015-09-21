@@ -234,11 +234,6 @@ router.route('/projects/:id', {
   subscriptions: function(params) {
     this.register('projectById', subs.subscribe('projectById', params.id));
     this.register('projectTags', subs.subscribe('projectTags'));
-    this.register('companyByProjectId', subs.subscribe('companyByProjectId', params.id));
-    this.register('activityByProjectId', subs.subscribe('activityByProjectId', params.id));
-    this.register('contactsByProjectId', subs.subscribe('contactsByProjectId', params.id));
-    this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
-    this.register('opportunityByProjectId', subs.subscribe('opportunityByProjectId', params.id));
   },
   action: function() {
     layout.render('appLayout', {

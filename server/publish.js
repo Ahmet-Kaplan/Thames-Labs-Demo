@@ -78,18 +78,6 @@ Meteor.publish("companyById", function(companyId) {
     _id: companyId
   });
 });
-Meteor.publish("companyByContactId", function(contactId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  var contact = Contacts.findOne(contactId);
-  return Companies.find(contact.companyId);
-});
-Meteor.publish("companyByProjectId", function(projectId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  var project = Projects.findOne(projectId);
-  return Companies.find(project.companyId);
-});
 Meteor.publish("companyByPurchaseOrderId", function(purchaseOrderId) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
@@ -135,12 +123,6 @@ Meteor.publish("contactsByCompanyId", function(companyId) {
   return Contacts.find({
     companyId: companyId
   });
-});
-Meteor.publish("contactsByProjectId", function(projectId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  var project = Projects.findOne(projectId);
-  return Contacts.find(project.contactId);
 });
 Meteor.publish("contactByPurchaseOrderId", function(purchaseOrderId) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
@@ -360,7 +342,7 @@ Meteor.publish("opportunityById", function(oppId) {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Opportunities.find({ _id: oppId});
 });
-Meteor.publish("opportunityByProjectId", function(id) {
+Meteor.publish("opportunitiesByProjectId", function(id) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Opportunities.find({ projectId: id});

@@ -1,3 +1,3 @@
 Template.contactListItem.onRendered(function() {
-  this.subscribe('companyByContactId', this.data._id);
+  this.subscribe('companyById', this.data.companyId);
 });
