@@ -1,16 +1,3 @@
-Meteor.startup(function() {
-  Meteor.call('getStripePK', function(error, result) {
-    if(error && !Meteor.isDevelopment) {
-      toastr.error('Unable to retrieve Stripe Public Key.');
-      return false;
-    } else if(error && Meteor.isDevelopment) {
-      toastr.error('The Stripe environment variable have not been set. Stripe is not active.');
-    } else {
-      Stripe.setPublishableKey(result);
-    }
-  });
-});
-
 var stripeCustomerDep = new Tracker.Dependency();
 var stripeCustomer = {};
 

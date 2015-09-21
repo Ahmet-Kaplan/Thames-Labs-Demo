@@ -1,14 +1,11 @@
-//set STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE
-//set STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA
-
 var Future = Npm.require('fibers/future');
-if(!process.env.STRIPE_PK || !process.env.STRIPE_SK) {
-  throw new Meteor.Error(404, 'Stripe Key missing');
-}
 var Stripe = StripeAPI(process.env.STRIPE_SK);
 
 Meteor.methods({
   getStripePK: function() {
+    if (!process.env.STRIPE_PK) {
+      throw new Meteor.Error(404, 'Stripe public key missing - please set STRIPE_PK');
+    }
     return process.env.STRIPE_PK;
   },
 
