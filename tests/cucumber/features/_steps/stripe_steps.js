@@ -6,9 +6,11 @@ module.exports = function() {
     this.client
       .url(url.resolve(process.env.ROOT_URL, '/admin'))
       .waitForVisible('#upScheme', 2000)
+      .timeoutsImplicitWait(2000)
       .scroll('#upScheme', 0, -60)
       .click('#upScheme')
       .waitForVisible('#cardNumber', 5000)
+      .timeoutsImplicitWait(2000)
       .setValue('#cardNumber', 4242424242424242)
       .setValue('#expMonth', 01)
       .setValue('#expYear', 2018)
@@ -16,11 +18,13 @@ module.exports = function() {
       .submitForm('#subscribe')
       .waitForExist('.toast-message', 10000, true)
       .waitForVisible('.bootbox-body', 20000)
+      .timeoutsImplicitWait(2000)
       .isExisting('.modal-dialog')
       .then(function(isExisting) {
           expect(isExisting).to.equal(true);
       })
       .waitForVisible('.bootbox-close-button', 2000)
+      .timeoutsImplicitWait(2000)
       .scroll('.bootbox-close-button', 0, -60)
       .click('.bootbox-close-button')
       .timeoutsImplicitWait(2000)
@@ -38,18 +42,22 @@ module.exports = function() {
     this.client
       .url(url.resolve(process.env.ROOT_URL, '/admin'))
       .waitForVisible('#downScheme', 2000)
+      .timeoutsImplicitWait(2000)
       .scroll('#downScheme', 0, -60)
       .click('#downScheme')
       .waitForVisible('.modal-footer .btn-primary', 5000)
+      .timeoutsImplicitWait(2000)
       .scroll('.modal-footer .btn-primary', 0, -60)
       .click(".modal-footer .btn-primary")
       .waitForExist('.toast-message', 10000, true)
       .waitForVisible('.bootbox-body', 20000)
+      .timeoutsImplicitWait(2000)
       .isExisting('.modal-dialog')
       .then(function(isExisting) {
           expect(isExisting).to.equal(true);
       })
       .waitForVisible('.bootbox-close-button', 2000)
+      .timeoutsImplicitWait(2000)
       .scroll('.bootbox-close-button', 0, -60)
       .click('.bootbox-close-button')
       .timeoutsImplicitWait(2000)
