@@ -20,9 +20,10 @@ module.exports = function() {
       .then(function(isExisting) {
           expect(isExisting).to.equal(true);
       })
-      .waitForVisible(".modal-footer .btn-primary", 5000)
-      .click(".modal-footer .btn-primary")
-      .waitForVisible('.modal-dialog', 2000, true)
+      .waitForVisible('.bootbox-close-button', 2000)
+      .click('.bootbox-close-button')
+      .timeoutsImplicitWait(2000)
+      .waitForVisible('.modal-dialog', 5000, true)
       .waitForVisible('#planName', 5000)
       .waitUntil(function() {
         return this.getText('#planName').then(function(text) {
@@ -46,8 +47,9 @@ module.exports = function() {
       .then(function(isExisting) {
           expect(isExisting).to.equal(true);
       })
-      .waitForVisible(".modal-footer .btn-primary", 5000)
-      .click(".modal-footer .btn-primary")
+      .waitForVisible('.bootbox-close-button', 2000)
+      .click('.bootbox-close-button')
+      .timeoutsImplicitWait(2000)
       .waitForVisible('.modal-dialog', 5000, true)
       .waitForVisible('#planName', 5000)
       .waitUntil(function() {
@@ -90,7 +92,7 @@ module.exports = function() {
     this.client
       .waitForVisible('.bootbox-close-button', 2000)
       .click('.bootbox-close-button')
-      .timeoutsImplicitWait(1000)
+      .timeoutsImplicitWait(2000)
       .waitForVisible('.modal-dialog', 2000, true)
       .call(callback);
   });
