@@ -10,14 +10,15 @@
 .sk-spinner-rt .sk-rt-light-inner-circle {
   display: block;
   background-color: none;
-  width: 40px;
-  height: 40px;
+  width: 43px;
+  height: 43px;
   position: absolute;
   border-radius: 40px;
   border: 4px solid #C3DFFF;
   right: 9px;
-  -webkit-animation: sk-rt-light 1.2s infinite ease-in-out;
-  animation: sk-rt-light 1.2s infinite ease-in-out;
+  top: -1px;
+  -webkit-animation: sk-rt-light 2s infinite ease-in-out;
+  animation: sk-rt-light 2s infinite ease-in-out;
 }
 
 .sk-spinner-rt .sk-rt-medium-inner-circle {
@@ -28,21 +29,22 @@
   position: absolute;
   border-radius: 40px;
   border: 4px solid #4FA0DB;
-  -webkit-animation: sk-rt-medium 1.2s infinite ease-in-out;
-  animation: sk-rt-medium 1.2s infinite ease-in-out;
+  -webkit-animation: sk-rt-medium 2s infinite ease-in-out;
+  animation: sk-rt-medium 2s infinite ease-in-out;
 }
 
 .sk-spinner-rt .sk-rt-dark-inner-circle {
   display: block;
   background-color: none;
-  width: 40px;
-  height: 40px;
+  width: 37px;
+  height: 37px;
   position: absolute;
   border-radius: 40px;
   border: 4px solid #1B4982;
-  left: 9px;
-  -webkit-animation: sk-rt-dark 1.2s infinite ease-in-out;
-  animation: sk-rt-dark 1.2s infinite ease-in-out;
+  left: 12px;
+  top: 1px;
+  -webkit-animation: sk-rt-dark 2s infinite ease-in-out;
+  animation: sk-rt-dark 2s infinite ease-in-out;
 }
 
 @-webkit-keyframes sk-rt-light {
@@ -50,8 +52,12 @@
     -webkit-transform: perspective(40) translate3d(0, 0, 0);
   }
 
-  40%, 50% {
+  20% {
     -webkit-transform: perspective(40) translate3d(-10px, 0, 10px);
+  }
+
+  60% {
+    -webkit-transform: perspective(40) translate3d(-18px, 0, 10px);
   }
 }
 
@@ -60,8 +66,12 @@
     -webkit-transform: perspective(40) translate3d(0, 0, 0);
   }
 
-  40%, 50% {
+  20% {
     -webkit-transform: perspective(40) translate3d(10px, 0, -10px);
+  }
+
+  60% {
+    -webkit-transform: perspective(40) translate3d(18px, 0, -10px);
   }
 }
 
