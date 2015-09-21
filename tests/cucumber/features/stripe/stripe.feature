@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to subscribe/unsubscribe to Stripe
 
   As a potential user of the app
@@ -26,7 +27,6 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "cardCVC" to "123"
     When I click confirm on the modal
     Then I should see a toastr with the message "Validating your card details..."
-    Then the toastr disappears
     Then I should see a bootbox
     Then I should see a modal with title "Subscription complete"
     When I click confirm on the modal
@@ -40,7 +40,6 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a modal
     When I click confirm on the modal
     Then I should see a toastr with the message "Processing your changes..."
-    Then the toastr disappears
     Then I should see a bootbox
     Then I should see a modal with title "Subscription updated"
     When I click confirm on the modal
@@ -55,9 +54,8 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a modal
     When I click confirm on the modal
     Then I should see a toastr with the message "Resuming your subscription..."
-    Then the toastr disappears
-    Then I should see a bootbox with title "Subscription complete"
-    Then I quit the bootbox
+    Then I should see a bootbox
+    When I click confirm on the modal
     Then the Stripe field "#planName" should not contain "Free"
 
   Scenario: An administrator can update its card details
@@ -72,7 +70,6 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I click confirm on the modal
     Then I should see a toastr with the message "Validating your card details..."
     Then I should see a "success" toastr with the message "Your card details have been updated."
-    Then the toastr disappears
     Then the Stripe field "#cardExpYear" should say "2022"
 
   Scenario: An administrator can update its email for invoices
@@ -84,7 +81,6 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I click confirm on the modal
     Then I should see a toastr with the message "Processing your email update"
     Then I should see a "success" toastr with the message "Your email hase been changed: newemail@domain.com"
-    Then the toastr disappears
     Then the Stripe field "#stripeEmail" should say "newemail@domain.com"
 
   Scenario: An administrator cannot subscribe with incorrect card Number
