@@ -27,6 +27,7 @@ Meteor.methods({
       source: token,
       plan: "premier",
       quantity: numberUsers,
+      tax_percent: 20.0,
       email: userEmail,
       metadata: {
         tenantId: tenantId,
@@ -82,7 +83,8 @@ Meteor.methods({
 
     var subsParameters = {
       plan: "premier",
-      quantity: numberUsers
+      quantity: numberUsers,
+      tax_percent: 20.0
     };
 
     Stripe.customers.createSubscription(stripeId, subsParameters, Meteor.bindEnvironment(function(err, subscription) {
