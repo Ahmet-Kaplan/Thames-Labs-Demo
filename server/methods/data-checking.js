@@ -17,7 +17,7 @@ Meteor.methods({
 
     Tenants.update(tenantId, {
             $set: {
-              totalRecords: totalRecords
+              "stripe.totalRecords": totalRecords
             }
     });
 }

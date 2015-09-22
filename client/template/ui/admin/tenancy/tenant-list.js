@@ -1,7 +1,7 @@
 Template.tenantList.helpers({
   tenants: function(paying) {
     var payingTenant = (paying === "true") ? true : false;
-    return Tenants.find({ paying: payingTenant });
+    return Tenants.find({ "stripe.paying": payingTenant });
   },
   tenantCount: function() {
     return Tenants.find({}).count();
@@ -24,13 +24,13 @@ Template.tenant.helpers({
     }).count();
   },
   recordsCount: function() {
-    return this.totalRecords;
+    return this.stripe.totalRecords;
   },
   isPayingTenant: function() {
-    return this.paying;
+    return this.stripe.paying;
   },
   isBlocked: function() {
-    return this.blocked;
+    return this.stripe.blocked;
   }
 });
 
@@ -97,14 +97,14 @@ Template.tenant.events({
   'click #btnBlockTenant': function(event) {
     event.preventDefault();
     var tenantId = this._id;
-    var blocked = (this.blocked === true) ? 'un' : '';
-    var isCurrentlyBlocked = this.blocked;
+    var blocked = (this.stripe.blocked === true) ? 'un' : '';
+    var isCurrentlyBlocked = this.stripe.blocked;
 
     bootbox.confirm("Are you sure you wish to " + blocked + "block this tenant?", function(result) {
       if (result === true) {
         Tenants.update(tenantId, {
           $set: {
-            blocked: !isCurrentlyBlocked
+            "stripe.blocked": !isCurrentlyBlocked
           }
         });
       }

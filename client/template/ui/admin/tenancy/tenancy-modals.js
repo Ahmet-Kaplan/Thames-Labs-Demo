@@ -14,7 +14,7 @@ Template.updateTenantSettings.helpers({
   },
 
   coupon: function() {
-    return this.coupon;
+    return this.stripe.coupon;
   }
 });
 
@@ -31,7 +31,7 @@ Template.updateTenantSettings.events({
     Tenants.update(this._id, {
       $set: {
         settings: o,
-        coupon: coupon
+        "stripe.coupon": coupon
       }
     });
 
@@ -42,13 +42,13 @@ Template.updateTenantSettings.events({
 
 Template.setPayingTenant.helpers({
   hasStripeAccount: function() {
-    return (this.stripeId !== undefined && this.stripeId !== '');
+    return (this.stripe.stripeId !== undefined && this.stripe.stripeId !== '');
   },
   stripeId: function() {
-    return (this.stripeId !== undefined) ? this.stripeId : '';
+    return (this.stripe.stripeId !== undefined) ? this.stripe.stripeId : '';
   },
   stripeSubs: function() {
-    return this.stripeSubs;
+    return this.stripe.stripeSubs;
   }
 });
 
@@ -73,7 +73,7 @@ Template.setPayingTenant.events({
         if(result === true) {
           Tenants.update(tenantId, {
             $set: {
-              stripeId: stripeId
+              "stripe.stripeId": stripeId
             }
           }, function(error, nUpdated) {
             if(error || nUpdated === false) {
@@ -108,8 +108,8 @@ Template.setPayingTenant.events({
     var newStripeSubs = $('#stripeSubsNumber').val();
     Tenants.update(this._id, {
       $set: {
-        paying: true,
-        stripeSubs: newStripeSubs
+        "stripe.paying": true,
+        "stripe.stripeSubs": newStripeSubs
       }
     }, function(error, nUpdated) {
       Modal.hide();

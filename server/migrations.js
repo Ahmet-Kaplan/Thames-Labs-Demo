@@ -279,15 +279,15 @@ Migrations.add({
   up: function() {
     ServerSession.set('maintenance', true);
     Tenants.find({}).forEach(function(tenant) {
-      if(tenant.totalRecords === undefined && tenant.paying === undefined && tenant.blocked === undefined) {
+      if(tenant.stripe.totalRecords === undefined && tenant.stripe.paying === undefined && tenant.stripe.blocked === undefined) {
         var totalRecordsNumber = Partitioner.bindGroup(tenant._id, function() {
           return Companies.find().count() + Contacts.find().count();
         });
         Tenants.update(tenant._id, {
           $set: {
-            totalRecords: totalRecordsNumber,
-            paying: false,
-            blocked: false
+            "stripe.totalRecords": totalRecordsNumber,
+            "stripe.paying": false,
+            "stripe.blocked": false
           }
         });
       }

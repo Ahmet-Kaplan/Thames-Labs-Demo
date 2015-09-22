@@ -11,7 +11,11 @@ Meteor.methods({
         PurchaseOrderPrefix: PurchaseOrderPrefix,
         PurchaseOrderStartingValue: PurchaseOrderStartingValue
       },
-      totalRecords: 0,
+      stripe: {
+            "totalRecords": 0,
+            "paying": false,
+            "blocked": false
+          },
       createdAt: new Date()
     });
   },
