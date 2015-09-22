@@ -27,8 +27,8 @@ Meteor.methods({
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       throw new Meteor.Error(403, 'Only superadmins may delete all users');
     }
-    Metor.users.find({group: tenantId}).forEach(function(user) {
-      Meteor.call(removeUser, user.id, function(err, result) {
+    Meteor.users.find({group: tenantId}).forEach(function(user) {
+      Meteor.call('removeUser', user.id, function(err, result) {
         if(err) {
           LogServerEvent('error', 'Unable to remove user while calling \'deleteAllTenantUsers\'', 'user', user.id);
         }
