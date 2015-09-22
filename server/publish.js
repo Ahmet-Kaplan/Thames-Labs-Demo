@@ -388,10 +388,3 @@ Meteor.publish("opportunityTags", function() {
     collection: 'opportunities'
   });
 });
-
-//Global custom fields
-Meteor.publish("allGlobalCustomFields", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return GlobalCustomFields.find();
-});

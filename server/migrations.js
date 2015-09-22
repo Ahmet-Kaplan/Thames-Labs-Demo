@@ -299,11 +299,12 @@ var defineGlobalCustomFields = function(collection) {
   });
 };
 Migrations.add({
-  version: 9,
+  version: 10,
   name: "Update custom fields to flag globals",
   up: function() {
     ServerSession.set('maintenance', true);
     defineGlobalCustomFields('companies');
+    defineGlobalCustomFields('contacts');
     ServerSession.set('maintenance', false);
   }
 });

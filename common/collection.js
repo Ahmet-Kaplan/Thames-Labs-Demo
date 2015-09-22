@@ -241,9 +241,9 @@ Meteor.users.before.insert(function(userId, doc) {
 });
 
 Companies.before.insert(function(userId, doc) {
-  var companyCustomFields = GlobalCustomFields.find({
-    targetEntity: 'company'
-  }).fetch();
+  var user = Meteor.users.findOne(Meteor.userId());
+  var tenant = Tenants.findOne(user.group);
+  var companyCustomFields = tenant.settings.extInfo.company;
 
   var cfMaster = {};
   _.each(companyCustomFields, function(cf) {
@@ -305,9 +305,9 @@ Companies.after.remove(function(userId, doc) {
 
 
 Contacts.before.insert(function(userId, doc) {
-  var contactCustomFields = GlobalCustomFields.find({
-    targetEntity: 'contact'
-  }).fetch();
+  var user = Meteor.users.findOne(Meteor.userId());
+  var tenant = Tenants.findOne(user.group);
+  var contactCustomFields = tenant.settings.extInfo.contact;
 
   var cfMaster = {};
   _.each(contactCustomFields, function(cf) {
@@ -753,68 +753,4 @@ Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) 
 });
 Opportunities.after.remove(function(userId, doc) {
   logEvent('info', 'An opportunity has been deleted: ' + doc.name);
-});
-
-//Global Custom Fields
-GlobalCustomFields = new Mongo.Collection('globalCustomFields');
-Partitioner.partitionCollection(GlobalCustomFields);
-Collections.globalCustomFields = GlobalCustomFields;
-
-GlobalCustomFields.after.insert(function(userId, doc) {
-  var targetType = doc.targetEntity;
-  var cfName = doc.name;
-
-  var collName = '';
-  switch (targetType) {
-    case 'company':
-      collName = 'companies';
-      break;
-    case 'contact':
-      collName = 'contacts';
-      break;
-  }
-
-  var targets = Collections[collName].find({}).fetch();
-
-  _.each(targets, function(tx) {
-    var nameExists = false;
-    var cfMaster = {};
-
-    if (tx.customFields) {
-      for (var cf in tx.customFields) {
-        if (cf === cfName) {
-          nameExists = true;
-          break;
-        }
-        cfMaster[cf] = tx.customFields[cf];
-      }
-    }
-
-    if (!nameExists) {
-
-      var settings = {
-        "dataValue": doc.defaultValue,
-        "dataType": doc.type,
-        "isGlobal": true
-      }
-      cfMaster[cfName] = settings;
-
-      if (collName === 'companies') {
-        Companies.update(tx._id, {
-          $set: {
-            customFields: cfMaster
-          }
-        });
-      }
-
-      if (collName === 'contacts') {
-        Contacts.update(tx._id, {
-          $set: {
-            customFields: cfMaster
-          }
-        });
-      }
-    }
-  });
-
 });

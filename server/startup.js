@@ -8,11 +8,7 @@ Meteor.startup(function() {
   }
 
   //Keep tenant information sync'ed
-  var tenants = Tenants.find({
-    settings: {
-      $exists: 0
-    }
-  }).fetch();
+  var tenants = Tenants.find({}).fetch();
 
   _.forEach(tenants, function(t) {
 
@@ -20,6 +16,17 @@ Meteor.startup(function() {
       Tenants.update(t._id, {
         $set: {
           settings: tenancyDefaultSettings
+        }
+      });
+    }
+
+    if (typeof t.settings.extInfo === "undefined") {
+      Tenants.update(t._id, {
+        $set: {
+          "settings.extInfo": {
+            company: [],
+            contact: []
+          }
         }
       });
     }

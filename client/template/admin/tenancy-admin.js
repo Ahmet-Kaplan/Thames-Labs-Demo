@@ -14,7 +14,22 @@ Template.tenancyAdminPage.helpers({
     });
   },
   globalCustomFields: function() {
-    return GlobalCustomFields.find({});
+    var data = [];
+    var user = Meteor.users.findOne(Meteor.userId());
+    var tenant = Tenants.findOne(user.group);
+
+    var fields = tenant.settings.extInfo.company;
+    var data = [];
+
+    _.each(fields, function(f) {
+      data.push(f);
+    });
+    fields = tenant.settings.extInfo.contact;
+    _.each(fields, function(f) {
+      data.push(f);
+    });
+
+    return data;
   }
 });
 
@@ -63,12 +78,12 @@ Template.gcf_display.helpers({
       case 'text':
         retVal = 'Text';
         break;
-        case 'checkbox':
-          retVal = 'Checkbox';
-          break;
-          case 'date':
-            retVal = 'Date/Time';
-            break;
+      case 'checkbox':
+        retVal = 'Checkbox';
+        break;
+      case 'date':
+        retVal = 'Date/Time';
+        break;
     }
 
     return retVal;
@@ -105,30 +120,65 @@ Template.gcf_display.events({
             });
             break;
 
-            case "contact":
-              var targets = Contacts.find({}).fetch();
+          case "contact":
+            var targets = Contacts.find({}).fetch();
 
-              _.each(targets, function(cx) {
+            _.each(targets, function(cx) {
 
-                var cfMaster = {};
+              var cfMaster = {};
 
-                if (cx.customFields) {
-                  for (var cf in cx.customFields) {
-                    if (cf !== self.name) {
-                      cfMaster[cf] = cx.customFields[cf];
-                    }
+              if (cx.customFields) {
+                for (var cf in cx.customFields) {
+                  if (cf !== self.name) {
+                    cfMaster[cf] = cx.customFields[cf];
                   }
-                  Contacts.update(cx._id, {
-                    $set: {
-                      customFields: cfMaster
-                    }
-                  });
                 }
-              });
-              break;
+                Contacts.update(cx._id, {
+                  $set: {
+                    customFields: cfMaster
+                  }
+                });
+              }
+            });
+            break;
         }
 
-        GlobalCustomFields.remove(self._id);
+        var user = Meteor.users.findOne(Meteor.userId());
+        var tenant = Tenants.findOne(user.group);
+        var fields = null;
+
+        switch (self.targetEntity) {
+          case 'company':
+            fields = tenant.settings.extInfo.company;
+            break;
+          case 'contact':
+            fields = tenant.settings.extInfo.contact;
+            break;
+        }
+
+        var data = [];
+        _.each(fields, function(f) {
+          if (f.name !== self.name) {
+            data.push(f);
+          }
+        });
+
+        switch (self.targetEntity) {
+          case 'company':
+            Tenants.update(user.group, {
+              $set: {
+                'settings.extInfo.company': data
+              }
+            });
+            break;
+          case 'contact':
+            Tenants.update(user.group, {
+              $set: {
+                'settings.extInfo.contact': data
+              }
+            });
+            break;
+        }
 
         bootbox.hideAll();
       }

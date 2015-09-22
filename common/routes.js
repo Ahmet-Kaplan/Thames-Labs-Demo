@@ -166,7 +166,6 @@ router.route('/admin', {
   name: 'administration',
   subscriptions: function() {
     this.register('opportunityStages', subs.subscribe('opportunityStages'));
-    this.register('allGlobalCustomFields', subs.subscribe('allGlobalCustomFields'));
     this.register('allCompanies', subs.subscribe('allCompanies'));
     this.register('allContacts', subs.subscribe('allContacts'));
   },
