@@ -1,7 +1,7 @@
-<template name="stripeAdmin">  
-  
+<template name="stripeAdmin">
+
     <div class="col-md-12">
-      <h4>Here are the details of your current status</h4>
+      <h4>Here are the details of your subscription status</h4>
       {{#if subscriptionCancelled}}
         <p class="text-danger">
         <i class="fa fa-fw fa-exclamation-triangle"></i> Your subscription has been cancelled. You can resume it until the end of that period.
@@ -30,8 +30,8 @@
         <div class="col-xs-7{{#if limitReached}} text-danger{{/if}}">{{totalRecords}} of {{limitRecords}}</div>
       </div>
         {{#if blockedUser}}
-          <br />You have reach the maximum number of records and your account is now locked. 
-          Please upgrade to enjoy the full functionalities of RealtimeCRM
+          <br />You have reach the maximum number of records and your account is now locked.
+          Please upgrade to enjoy the full functionalities of RealTimeCRM
         {{/if}}
       </div>
       {{#if hasStripeAccount}}
@@ -108,7 +108,7 @@
       </div>
     </div>
     {{/if}}
-  
+
   <div class="col-xs-12" id="switchButtons">
   {{#if payingScheme}}
     <button type="button" class="btn btn-danger" role="button" id="downScheme">Downgrade to Free Plan</button>
@@ -116,10 +116,10 @@
     {{#if hasStripeSubs}}
         <button type="button" class="btn btn-success" role="button" id="resumeSubs">Resume Subscription</button>
       {{else}}
-        <button type="button" class="btn btn-info" role="button" id="upScheme">Upgrade to Paying Scheme</button>
+        <button type="button" class="btn btn-info" role="button" id="upScheme">Upgrade to Paid Plan</button>
     {{/if}}
   {{/if}}
-  <div><i class="fa fa-lock"></i> <a href="#" id="showStripeHow">Payments are made securely with Stripe.</a></div>
+  <div><i class="fa fa-lock"></i> <a href="#" id="showStripeHow">All payments are securely processed by Stripe, our payment partner</a></div>
   </div>
 </template>
 
