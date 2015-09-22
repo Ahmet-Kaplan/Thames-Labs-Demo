@@ -14,8 +14,8 @@ Template.stripeSubscribe.onRendered(function() {
     planDetails.amount = planDetails.amount.toString();
     planDetails.total = planDetails.total.toString();
 
-    if(Tenants.findOne().coupon) {
-      Meteor.call('getStripeCoupon', Tenants.findOne().coupon, function(error, response) {
+    if(Tenants.findOne().stripe.coupon) {
+      Meteor.call('getStripeCoupon', Tenants.findOne().stripe.coupon, function(error, response) {
         if(error || !response) {
           planDetails.couponName = 'invalid: The coupon you have registered is invalid or has been cancelled and will not be applied.';
           planDetailsDep.changed();
@@ -41,7 +41,7 @@ Template.stripeSubscribe.helpers({
     return planDetails;
   },
   hasCoupon: function() {
-    return !!Tenants.findOne().coupon;
+    return !!Tenants.findOne().stripe.coupon;
   }
 });
 
@@ -76,7 +76,7 @@ Template.stripeSubscribe.events({
           toastr.info('Please wait while we process your subscription...');
 
           //If has stripeId, update card details and call subscription method
-          if(tenantDetails.stripeId) {
+          if(tenantDetails.stripe.stripeId) {
             Meteor.call('updateStripeCard', response.id, function(error, response) {
               if(error) {
                 Modal.hide();

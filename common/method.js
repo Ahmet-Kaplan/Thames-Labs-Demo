@@ -209,10 +209,12 @@ Meteor.methods({
             "PurchaseOrderPrefix": "",
             "PurchaseOrderStartingValue": 0
           },
-          totalRecords: 0,
-          paying: false,
-          blocked: false,
-          coupon: userDetails.coupon,
+          stripe: {
+            "totalRecords": 0,
+            "paying": false,
+            "blocked": false,
+            "coupon": userDetails.coupon
+          },
           createdAt: new Date()
         },
         function(error, result) {

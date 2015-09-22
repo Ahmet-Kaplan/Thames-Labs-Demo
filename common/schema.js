@@ -119,33 +119,39 @@ Schemas.Tenant = new SimpleSchema({
     },
     optional: true
   },
-  createdAt: {
-    type: Date
+  stripe: {
+    type: Object,
+    autoform: {
+      type: "hidden"
+    }
   },
-  paying: {
+  "stripe.paying": {
     type: Boolean,
     label: "Paying tenant",
     defaultValue: false
   },
-  blocked: {
+  "stripe.blocked": {
     type: Boolean,
     defaultValue: false
   },
-  stripeId: {
+  "stripe.stripeId": {
     type: String,
     optional: true
   },
-  stripeSubs: {
+  "stripe.stripeSubs": {
     type: String,
     optional: true
   },
-  totalRecords: {
+  "stripe.totalRecords": {
     type: Number,
     defaultValue: 0
   },
-  coupon: {
+  "stripe.coupon": {
     type: String,
     optional: true
+  },
+  createdAt: {
+    type: Date
   }
 });
 Tenants.attachSchema(Schemas.Tenant);

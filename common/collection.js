@@ -217,9 +217,9 @@ var checkRecordsNumber = function() {
   if(!Tenants.findOne({})) {
     return true;
   }
-  var payingTenant = Tenants.findOne({}).paying;
-  var blockedTenant = Tenants.findOne({}).blocked;
-  var totalRecords = (Tenants.findOne({}) === undefined) ? 0 : Tenants.findOne({}).totalRecords;
+  var payingTenant = Tenants.findOne({}).stripe.paying;
+  var blockedTenant = Tenants.findOne({}).stripe.blocked;
+  var totalRecords = (Tenants.findOne({}) === undefined) ? 0 : Tenants.findOne({}).stripe.totalRecords;
   totalRecords += 1;
   if(payingTenant) {
     return true;

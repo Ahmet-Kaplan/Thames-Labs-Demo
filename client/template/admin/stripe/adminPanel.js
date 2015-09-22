@@ -15,7 +15,7 @@ var couponDetails = {};
 
 var updateStripeCustomer = function() {
   var tenant = Tenants.findOne({});
-  if(tenant.stripeId) {
+  if(tenant.stripe.stripeId) {
     Meteor.call('getStripeCustomerDetails', function(error, customer) {
       if(error) {
         toastr.error('Unable to retrieve your customer details');
@@ -29,7 +29,7 @@ var updateStripeCustomer = function() {
 
 var updateUpcomingInvoice = function() {
   var tenant = Tenants.findOne({});
-  if(tenant.stripeId) {
+  if(tenant.stripe.stripeId) {
     Meteor.call('getStripeUpcomingInvoice', function(error, invoice) {
       if(error) {
         toastr.error('Unable to retrieve upcoming invoice.');
@@ -83,7 +83,7 @@ var updateUpcomingInvoice = function() {
 
 var updateLastInvoice = function() {
   var tenant = Tenants.findOne({});
-  if(tenant.stripeId) {
+  if(tenant.stripe.stripeId) {
     Meteor.call('getStripeLastInvoice', function(error, invoice) {
       if(error) {
         toastr.error('Unable to retrieve last invoice');
@@ -106,7 +106,7 @@ var updateLastInvoice = function() {
 
 var updateCardDetails = function() {
   var tenant = Tenants.findOne({});
-  if(!tenant.stripeId) {
+  if(!tenant.stripe.stripeId) {
     return false;
   }
   Meteor.call('getStripeCardDetails', function(error, response) {
@@ -117,11 +117,11 @@ var updateCardDetails = function() {
 
 var updateCouponDetails = function() {
   var tenant = Tenants.findOne({});
-  if(!tenant.coupon) {
+  if(!tenant.stripe.coupon) {
     couponDetails = false;
     return false;
   }
-  Meteor.call('getStripeCoupon', tenant.coupon, function(error, response) {
+  Meteor.call('getStripeCoupon', tenant.stripe.coupon, function(error, response) {
     if(!couponDetails || error) {
       couponDetails = false;
     } else {
@@ -139,7 +139,7 @@ Template.stripeAdmin.onCreated(function() {
     var numberOfUsers = Meteor.users.find({group: tenant._id}).count();
     listener += 1;
     updateCouponDetails();
-    if(tenant.stripeId && numberOfUsers) {
+    if(tenant.stripe.stripeId && numberOfUsers) {
       updateStripeCustomer();
       updateLastInvoice();
       updateUpcomingInvoice();
@@ -150,7 +150,7 @@ Template.stripeAdmin.onCreated(function() {
     var tenant = Tenants.findOne({});
     var updateListener = Session.get('listenCardUpdate');
     updateListener += 1;
-    if(tenant.stripeId) {
+    if(tenant.stripe.stripeId) {
       updateCardDetails();
     }
   });
@@ -158,17 +158,17 @@ Template.stripeAdmin.onCreated(function() {
 
 Template.stripeAdmin.helpers({
   payingScheme: function() {
-    return Tenants.findOne({}).paying;
+    return Tenants.findOne({}).stripe.paying;
   },
   currentSubscription: function() {
     stripeCustomerDep.depend();
     return (stripeCustomer.id) ? ((stripeCustomer.subscriptions.total_count && !stripeCustomer.subscriptions.data[0].cancel_at_period_end) ? stripeCustomer.subscriptions.data[0].plan.name : "Free Plan") : "Free Plan";
   },
   hasStripeAccount: function() {
-    return !(Tenants.findOne({}).stripeId === undefined || Tenants.findOne({}).stripeId === '');
+    return !(Tenants.findOne({}).stripe.stripeId === undefined || Tenants.findOne({}).stripe.stripeId === '');
   },
   hasStripeSubs: function() {
-    return Tenants.findOne({}).stripeSubs;
+    return Tenants.findOne({}).stripe.stripeSubs;
   },
   subscriptionCancelled: function() {
     stripeCustomerDep.depend();
@@ -183,19 +183,19 @@ Template.stripeAdmin.helpers({
     return stripeCustomer;
   },
   blockedUser: function() {
-    return Tenants.findOne({}).blocked;
+    return Tenants.findOne({}).stripe.blocked;
   },
   totalRecords: function() {
-    return Tenants.findOne({}).totalRecords || 0;
+    return Tenants.findOne({}).stripe.totalRecords || 0;
   },
   limitRecords: function() {
-    return (Tenants.findOne({}).paying === true ? 'unlimited' : MAX_RECORDS);
+    return (Tenants.findOne({}).stripe.paying === true ? 'unlimited' : MAX_RECORDS);
   },
   totalUsers: function() {
     return Meteor.users.find({group: Meteor.user().group}).count();
   },
   limitReached: function() {
-    return ((Tenants.findOne({}).totalRecords > MAX_RECORDS) && (!Tenants.findOne({}).paying));
+    return ((Tenants.findOne({}).stripe.totalRecords > MAX_RECORDS) && (!Tenants.findOne({}).stripe.paying));
   },
   upcomingInvoice: function() {
     upcomingInvoiceDep.depend();

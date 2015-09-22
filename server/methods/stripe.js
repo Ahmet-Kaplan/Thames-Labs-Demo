@@ -12,13 +12,13 @@ Meteor.methods({
   createStripeCustomer: function(token, userEmail) {
     var tenantId = Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
-    var coupon = theTenant.coupon;
+    var coupon = theTenant.stripe.coupon;
     var numberUsers = Meteor.users.find({group: tenantId}).count();
     var status = new Future();
 
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may subscribe.');
-    } else if (theTenant.stripeId) {
+    } else if (theTenant.stripe.stripeId) {
       throw new Meteor.Error('Existing user', 'It appears you already have an account.');
     }
 
@@ -52,10 +52,10 @@ Meteor.methods({
 
       Tenants.update(tenantId, {
         $set: {
-          stripeId: customer.id,
-          stripeSubs: customer.subscriptions.data[0].id,
-          paying: true,
-          blocked: false
+          "stripe.stripeId": customer.id,
+          "stripe.stripeSubs": customer.subscriptions.data[0].id,
+          "stripe.paying": true,
+          "stripe.blocked": false
         }
       });
 
@@ -70,13 +70,13 @@ Meteor.methods({
     In which case the tenantId cannot be retrieved via Partitioner */
     var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
-    var stripeId = theTenant.stripeId;
+    var stripeId = theTenant.stripe.stripeId;
     var stripeSubscription = new Future();
     var numberUsers = Meteor.users.find({group: tenantId}).count();
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may subscribe.');
-    } else if (!Roles.userIsInRole(this.userId, ['superadmin']) && theTenant.stripeSubs) {
+    } else if (!Roles.userIsInRole(this.userId, ['superadmin']) && theTenant.stripe.stripeSubs) {
       throw new Meteor.Error('Existing subscription', 'It appears you have already subsribed.');
     }
 
@@ -92,9 +92,9 @@ Meteor.methods({
 
       Tenants.update(tenantId, {
         $set: {
-          stripeSubs: subscription.id,
-          paying: true,
-          blocked: false
+          "stripe.stripeSubs": subscription.id,
+          "stripe.paying": true,
+          "stripe.blocked": false
         }
       });
       stripeSubscription.return(subscription);
@@ -112,12 +112,12 @@ Meteor.methods({
       LogServerEvent('error', 'Unable to update Stripe Quantity for tenant of user ' + superadminUserId + '/tenant ' + tenantId);
       return false;
     }
-    if(theTenant.paying === false) {
+    if(theTenant.stripe.paying === false) {
       return true;
     }
 
-    var stripeId = theTenant.stripeId;
-    var stripeSubs = theTenant.stripeSubs;
+    var stripeId = theTenant.stripe.stripeId;
+    var stripeSubs = theTenant.stripe.stripeSubs;
     var numberUsers = Meteor.users.find({group: tenantId}).count();
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
@@ -143,13 +143,13 @@ Meteor.methods({
     In which case the tenantId cannot be retrieved via Partitioner */
     var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
-    var stripeId = theTenant.stripeId;
-    var stripeSubs = theTenant.stripeSubs;
+    var stripeId = theTenant.stripe.stripeId;
+    var stripeSubs = theTenant.stripe.stripeSubs;
     var stripeConfirmation = new Future();
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may subscribe.');
-    } else if (theTenant.stripeId === undefined || theTenant.stripeSubs === undefined) {
+    } else if (stripeId === undefined || stripeSubs === undefined) {
       throw new Meteor.Error(400, 'It appears you are not subscribed.');
     }
 
@@ -159,13 +159,13 @@ Meteor.methods({
       if(err) {
         throw new Meteor.Error('Error', err);
       }
-      Stripe.customers.cancelSubscription(theTenant.stripeId, theTenant.stripeSubs, {at_period_end: true},
+      Stripe.customers.cancelSubscription(stripeId, stripeSubs, {at_period_end: true},
         Meteor.bindEnvironment(function(err, confirmation) {
           if(err) {
             throw new Meteor.Error('Error', err);
           }
           Tenants.update(tenantId, {
-            $set: {paying: false}
+            $set: {"stripe.paying": false}
           });
           stripeConfirmation.return(confirmation);
         })
@@ -179,8 +179,8 @@ Meteor.methods({
   resumeStripeSubscription: function(superadminTenantId) {
     var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
-    var stripeId = theTenant.stripeId;
-    var stripeSubs = theTenant.stripeSubs;
+    var stripeId = theTenant.stripe.stripeId;
+    var stripeSubs = theTenant.stripe.stripeSubs;
     var numberUsers = Meteor.users.find({group: tenantId}).count();
     var stripeResume = new Future();
 
@@ -198,8 +198,8 @@ Meteor.methods({
 
       Tenants.update(tenantId, {
         $set: {
-          paying: true,
-          blocked: false
+          "stripe.paying": true,
+          "stripe.blocked": false
         }
       });
 
@@ -212,7 +212,7 @@ Meteor.methods({
   getStripeCustomerDetails: function() {
     var tenantId = Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
-    var stripeId = theTenant.stripeId;
+    var stripeId = theTenant.stripe.stripeId;
     var stripeCustomerDetails = new Future();
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
@@ -236,7 +236,7 @@ Meteor.methods({
     }
     var tenantId = Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
-    var stripeId = theTenant.stripeId;
+    var stripeId = theTenant.stripe.stripeId;
     var stripeCardDetails = new Future();
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
@@ -265,7 +265,7 @@ Meteor.methods({
   updateStripeCard: function(token) {
     var tenantId = Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
-    var stripeId = theTenant.stripeId;
+    var stripeId = theTenant.stripe.stripeId;
     var newStripeCard = new Future();
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
@@ -287,7 +287,7 @@ Meteor.methods({
   updateStripeEmail: function(email) {
     var tenantId = Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
-    var stripeId = theTenant.stripeId;
+    var stripeId = theTenant.stripe.stripeId;
     var emailUpdated = new Future();
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
@@ -327,7 +327,7 @@ Meteor.methods({
   getStripeUpcomingInvoice: function() {
     var tenantId = Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
-    var stripeId = theTenant.stripeId;
+    var stripeId = theTenant.stripe.stripeId;
     var upcomingInvoice = new Future();
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
@@ -352,7 +352,7 @@ Meteor.methods({
   getStripeLastInvoice: function() {
     var tenantId = Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
-    var stripeId = theTenant.stripeId;
+    var stripeId = theTenant.stripe.stripeId;
     var lastInvoice = new Future();
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
