@@ -57,14 +57,14 @@
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
+                {{#if isInRole 'Administrator'}}
+                <li><a href="/admin" id="Administration">Administration</a></li>
+                <li role="separator" class="divider"></li>
+                {{/if}}
+                <li><a href="#" id="btnChangePassword">Change Password</a></li>
+                <li role="separator" class="divider"></li>
                 <li><a href="#" id="feedback-link">Give Feedback</a></li>
                 <li><a href="http://www.realtimecrm.co.uk/roadmap" id="roadmap-link" target="_blank">Feature Roadmap</a></li>
-                {{#if isInRole 'Administrator'}}
-                <li role="separator" class="divider"></li>
-                <li><a href="/admin" id="Administration">Administration</a></li>
-                {{/if}}
-                <li role="separator" class="divider"></li>
-                <li><a href="#" id="btnChangePassword">Change Password</a></li>
                 {{#if showTourOption}}
                 <li role="separator" class="divider"></li>
                 <li><a href="#" id="tour-this-page">Tell me about this page</a></li>

@@ -4,12 +4,14 @@
       <div class="modal-content">
 
         <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h5>Add new tenant</h5>
         </div>
 
         <div class="modal-body">
           {{#autoForm collection="Tenants" id="addTenantModal" type="insert"}}
             {{> afQuickField name="name"}}
+            {{> afQuickField name="coupon" type="text"}}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
         </div>
@@ -25,6 +27,7 @@
       <div class="modal-content">
 
         <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h5>Edit tenant settings</h5>
         </div>
 
@@ -32,6 +35,10 @@
           {{#each settings}}
            {{> setting}}
           {{/each}}
+          <div class="form-group">
+            <label for="coupon">Coupon</label>
+            <input type="text" class="form-control" id="coupon" value="{{coupon}}">
+          </div>
         </div>
 
         <div class="modal-footer">
@@ -43,8 +50,65 @@
 </template>
 
 <template name="setting">
-<div class="form-group">
+  <div class="form-group">
     <label for="obj-{{name}}">{{name}}</label>
     <input type="text" class="form-control" id="val-{{name}}" placeholder="Enter value..." value="{{value}}">
+  </div>
+</template>
+
+<template name="setPayingTenant">
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h5>Manually Create Stripe Account</h5>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label for="stripeAccountNumber" class="control-label">Stripe Account Number</label>
+            <div class="row">
+              <div class="col-xs-6">
+                <input type="text" id="stripeAccountNumber" class="form-control" placeholder="cus_" value="{{stripeId}}" />
+              </div>
+              <div class="col-xs-6">
+                <button id="btnSaveStripeAccount" class="btn btn-sm btn-primary">Save Account #</button>
+              </div>
+            </div>
+          </div>
+
+          {{#if stripeSubs}}
+          <div class="form-group">
+            <label for="stripeSubsNumber" class="control-label">Stripe Subscription Number</label>
+            <div class="row">
+              <div class="col-xs-6">
+                <input type="text" id="stripeSubsNumber" class="form-control " value= "{{stripeSubs}}" />
+              </div>
+              <div class="col-xs-6">
+                <button id="btnResumeStripeSubs" class="btn btn-sm btn-primary">Resume Subscription</button>
+              </div>
+            </div>
+          </div>
+          {{else}}
+          <div class="form-group" id="showSubsNumberForm" style="{{#unless hasStripeAccount}}display: none;{{/unless}}">
+            <label for="stripeSubsNumber" class="control-label">Stripe Subscription Number</label>
+            <div class="row">
+              <div class="col-xs-6">
+                <input type="text" id="stripeSubsNumber" class="form-control " placeholder="sub_"/>
+              </div>
+              <div class="col-xs-6">
+                <button id="btnSaveStripeSubs" class="btn btn-sm btn-primary">Save Subscription #</button>
+                <button id="btnCreateStripeSubs" class="btn btn-sm btn-info">Create Subscription #</button>
+              </div>
+            </div>
+          </div>
+          {{/if}}
+
+        </div>
+      </div>
+    </div>
   </div>
 </template>
