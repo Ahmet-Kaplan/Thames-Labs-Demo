@@ -63,6 +63,15 @@ module.exports = function() {
       .call(callback);
   });
 
+  this.Given(/^toastr are cleared$/, function(callback) {
+    this.client
+      .executeAsync(function(done) {
+        toastr.clear();
+        done()
+      })
+      .call(callback);
+  });
+
 /***************************************************
                         WHEN
 ***************************************************/
@@ -240,6 +249,12 @@ module.exports = function() {
       .getText('.toast-' + toastrType + ' .toast-message').then(function(text) {
         expect(text).to.contain(expectedText);
       })
+      .call(callback);
+  });
+
+  this.Then(/^I should see an? "([^"]*)" toastr$/, function(toastrType, callback) {
+    this.client
+      .waitForVisible('.toast-' + toastrType + ' .toast-message', 5000)
       .call(callback);
   });
 

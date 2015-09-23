@@ -239,7 +239,11 @@ var checkRecordsNumber = function() {
         return false;
       } else if(totalRecords >= MAX_RECORDS) {
         toastr.options.preventDuplicates = true;
-        toastr.warning('You have reached the maximum number of records.<br />Please consider upgrading.', 'Limit Reached');
+        if(blockedTenant) {
+          toastr.warning('You have reached the maximum number of records and will not be able to add new ones.<br />Please upgrade to enjoy the full functionalities of RealitmeCRM.', 'Account Locked', {preventDuplicates: true});
+        } else {
+          toastr.warning('You have reached the maximum number of records.<br />Please consider upgrading.', 'Limit Reached');
+        }
       }
       return true;
     }
