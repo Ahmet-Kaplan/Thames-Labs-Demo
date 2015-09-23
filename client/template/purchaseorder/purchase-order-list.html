@@ -33,7 +33,7 @@
 </template>
 
 <template name="purchaseOrderListItem">
-  <a class="list-group-item" href="{{pathFor route='purchaseOrder' id=_id}}">
+  <a class="list-group-item purchase-order-item" href="{{pathFor route='purchaseOrder' id=_id}}">
     <!-- <span class="pull-right">{{> tagBadges}}</span> -->
     <h4 class="list-group-item-heading"><i class="fa fa-fw fa-shopping-cart"></i> {{description}}</h4>
     <p class="list-group-item-text"><i class="fa fa-fw fa-square-o"></i> PO Number: {{orderNumber}}</p>

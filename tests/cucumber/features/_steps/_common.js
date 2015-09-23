@@ -111,11 +111,28 @@ module.exports = function() {
       .setValue('input[data-schema-key='+ fieldName + ']', value)
       .call(callback);
   });
+
+  this.When(/^I set selectize field to "([^"]*)"$/, function(value, callback) {
+      this.client
+        .waitForVisible(".selectize-control .selectize-input input", 2000)
+        .setValue(".selectize-control .selectize-input input", value)
+        .keys(['Return'])
+        .call(callback);
+    });
+
   //This step is necessary when editing fields within an array (eg Opportunites, field items.0.name)
   this.When(/^I set text field with id "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
     this.client
       .waitForVisible('#'+ fieldName, 2000)
       .setValue('#'+ fieldName, value)
+      .call(callback);
+  });
+
+  //This step is necessary when editing fields where maximum selection flexibility is required (e.g. tags)
+  this.When(/^I set text field with selector "([^"]*)" to "([^"]*)"$/, function(selector, value, callback) {
+    this.client
+      .waitForVisible(selector, 2000)
+      .setValue(selector, value)
       .call(callback);
   });
 
