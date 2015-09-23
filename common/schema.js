@@ -397,11 +397,21 @@ Schemas.Project = new SimpleSchema({
   },
   companyId: {
     type: String,
-    optional: true
+    optional: true,
+    custom: function() {
+      if (!this.isSet && !this.field('contactId').isSet) {
+        return "needsRelatedEntity";
+      }
+    }
   },
   contactId: {
     type: String,
-    optional: true
+    optional: true,
+    custom: function() {
+      if (!this.isSet && !this.field('companyId').isSet) {
+        return "needsRelatedEntity";
+      }
+    }
   },
   userId: {
     type: String,
@@ -851,5 +861,9 @@ Schemas.Opportunity = new SimpleSchema({
 Opportunities.attachSchema(Schemas.Opportunity);
 
 Schemas.Opportunity.messages({
+  needsRelatedEntity: "A company or a contact is required"
+});
+
+Schemas.Project.messages({
   needsRelatedEntity: "A company or a contact is required"
 });
