@@ -43,10 +43,10 @@
           <div class="btn-group pull-right">
             {{#if isInRole 'Administrator,CanEditCompanies'}}
             <!-- <button id="edit-company" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i> Edit company details</button>{{/if}} -->
-            <button id="edit-company" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i></button>{{/if}}
+            <button id="edit-company" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i> Edit</button>{{/if}}
             {{#if isInRole 'Administrator,CanDeleteCompanies'}}
             <!-- <a href="#" id="remove-company" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete company</a>{{/if}} -->
-            <a href="#" id="remove-company" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i></a>{{/if}}
+            <a href="#" id="remove-company" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Delete</a>{{/if}}
           </div>
           Company details
         </div>
@@ -70,7 +70,7 @@
         <div class="panel-heading" id="contacts">
           Contacts {{#if isInRole 'Administrator,CanCreateContacts'}}
           <!-- <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New contact for this company"><i class="fa fa-fw fa-plus"></i>Add contact</a> {{/if}} -->
-          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New contact for this company"><i class="fa fa-fw fa-plus"></i></a> {{/if}}
+          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New contact for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
           {{#each contacts}}
@@ -88,7 +88,7 @@
         <div class="panel-heading" id="projects">
           Projects {{#if isInRole 'Administrator,CanCreateProjects'}}
           <!-- <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this company"><i class="fa fa-fw fa-plus"></i> Add project</a> {{/if}} -->
-          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this company"><i class="fa fa-fw fa-plus"></i></a> {{/if}}
+          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
           {{#each projects}}
@@ -105,7 +105,7 @@
         <div class="panel-heading" id="purchase-orders">
           Purchase Orders {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
           <!-- <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i> Add purchase order</a> {{/if}} -->
-          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i></a> {{/if}}
+          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
           {{#each purchaseOrders}}
@@ -130,7 +130,7 @@
           Opportunities
           {{#if isInRole 'Administrator,CanCreateOpportunities'}}
           <!-- <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add opportunity</a> -->
-          <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i></a>
+          <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add</a>
           {{/if}}
         </div>
         <ul class="list-group">
@@ -159,7 +159,7 @@
     <div class="col-md-10 col-md-offset-2">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a href="#" class="btn btn-primary pull-right" id="add-activity" data-toggle="tooltip" data-placement="bottom" title="New activity for this company"><i class="fa fa-fw fa-plus"></i> Add activity</a>
+        <a href="#" class="btn btn-primary pull-right" id="add-activity" data-toggle="tooltip" data-placement="bottom" title="New activity for this company"><i class="fa fa-fw fa-plus"></i> Add</a>
       </h1>
 
       {{> activityTimeline activities=activities}}
