@@ -71,7 +71,7 @@ Template.cfDisplay.events({
   'click #delete-custom-field': function(event) {
     event.preventDefault();
     var self = this;
-    bootbox.confirm("Are you sure you wish to delete this custom field?", function(result) {
+    bootbox.confirm("Are you sure you wish to delete this extended information field?", function(result) {
       if (result === true) {
 
         switch (self.parentEntity.entity_type) {
@@ -104,7 +104,7 @@ Template.cfDisplay.events({
             });
             break;
         }
-        toastr.success('Custom field removed.');
+        toastr.success('Extended information field removed.');
       } else {
         return;
       }
@@ -194,13 +194,13 @@ Template.addCustomField.events({
           });
           break;
         default:
-          toastr.error('Custom field not added: custom field entity type not recognised.');
+          toastr.error('Extended information field not added: entity type not recognised.');
           Modal.hide();
           return;
       }
-      toastr.success('Custom field added.');
+      toastr.success('Extended information field added.');
     } else {
-      toastr.error('A custom field with that name has already been added.');
+      toastr.error('An extended information field with that name has already been added.');
     }
 
     Modal.hide();
@@ -210,7 +210,7 @@ Template.addCustomField.events({
 Template.updateCustomField.events({
   'click #submit-ext-info': function() {
 
-    //Master object to contain all custom fields
+    //Master object to contain all extended information fields
     var cfMaster = {};
 
     var cfObject = this.entity_data.customFields;
@@ -289,7 +289,7 @@ Template.updateCustomField.events({
         });
         break;
       default:
-        toastr.error('Custom field not added: custom field entity type not recognised.');
+        toastr.error('Extended information field not added: entity type not recognised.');
         Modal.hide();
         return;
     }

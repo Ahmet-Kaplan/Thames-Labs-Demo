@@ -132,15 +132,15 @@ Feature: Allow users to manage their Companies
     Given I have the "CanReadCompanies" permission
     Then the "Companies" menu item is shown
 
-  #Custom fields
-  Scenario: A user can open the "Add Custom Fields" modal
+  #Extended information fields
+  Scenario: A user can open the "Add Extended information fields" modal
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
     And I click "#add-custom-field"
     Then I should see a modal
 
-  Scenario: A user can add a custom field
+  Scenario: A user can add an extended information field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
@@ -150,7 +150,7 @@ Feature: Allow users to manage their Companies
     And I click "#submit-custom-field"
     Then I should see ".custom-field-display-item"
 
-  Scenario: A user can delete a custom field
+  Scenario: A user can delete an extended information field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
@@ -162,7 +162,7 @@ Feature: Allow users to manage their Companies
     And I click confirm on the modal
     Then I should not see ".custom-field-display-item"
 
-  Scenario: A user can edit a custom field
+  Scenario: A user can edit an extended information field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page

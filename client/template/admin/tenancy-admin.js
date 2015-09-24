@@ -94,7 +94,7 @@ Template.gcf_display.events({
 
     var self = this;
 
-    bootbox.confirm("Are you sure you wish to delete this global custom field?", function(result) {
+    bootbox.confirm("Are you sure you wish to delete this extended information field?", function(result) {
       if (result === true) {
         switch (self.targetEntity) {
 

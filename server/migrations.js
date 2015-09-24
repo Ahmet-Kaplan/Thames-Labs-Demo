@@ -119,7 +119,7 @@ var updateCustomFields = function(collection) {
 };
 Migrations.add({
   version: 5,
-  name: "Add type to existing custom fields",
+  name: "Add type to existing extended information fields",
   up: function() {
     ServerSession.set('maintenance', true);
     updateCustomFields('contacts');
@@ -300,7 +300,7 @@ var defineGlobalCustomFields = function(collection) {
 };
 Migrations.add({
   version: 10,
-  name: "Update custom fields to flag globals",
+  name: "Update extended information fields to flag globals",
   up: function() {
     ServerSession.set('maintenance', true);
     defineGlobalCustomFields('companies');
