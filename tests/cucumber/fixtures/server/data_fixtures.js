@@ -2,26 +2,25 @@ Meteor.methods({
 
   addCompany: function(name) {
     var companyName = name || 'Test Ltd',
-        address = 'Cowley Road',
-        city = 'Cambridge',
-        postcode = 'CB4',
-        country = 'United Kingdom',
-        userId = Meteor.userId();
+      address = 'Cowley Road',
+      city = 'Cambridge',
+      postcode = 'CB4',
+      country = 'United Kingdom',
+      userId = Meteor.userId();
 
-    return Companies.insert({
+    var data = Companies.insert({
       name: companyName,
       address: address,
       city: city,
       postcode: postcode,
       country: country,
       createdBy: userId,
-      customFields: {
-        test: {
-          dataValue: "velocity",
-          dataType: "text"
-        }
-      }
+      customFields: {}
     });
+
+    console.log(data);
+    return data;
+
   },
 
   addContact: function() {
@@ -32,12 +31,7 @@ Meteor.methods({
       "surname": "Surname",
       "email": "testy@surname.com",
       "createdBy": userId,
-      "customFields": {
-        test: {
-          dataValue: "velocity",
-          dataType: "text"
-        }
-      }
+      "customFields": {}
     });
   },
 
@@ -81,7 +75,9 @@ Meteor.methods({
       description: 'test description',
       order: 1
     });
-    var stage = OpportunityStages.findOne({order: 0});
+    var stage = OpportunityStages.findOne({
+      order: 0
+    });
     var date = new Date();
     var companyId = Companies.insert({
       name: "Test Ltd",
@@ -91,7 +87,7 @@ Meteor.methods({
       country: "country",
       createdBy: Meteor.userId()
     });
-  //  var itemId = Random.id();
+    //  var itemId = Random.id();
     var data = Opportunities.insert({
       name: 'test opportunity',
       description: 'test description',
@@ -107,10 +103,14 @@ Meteor.methods({
 
   'addOpportunityLineItem': function() {
     var opp = Opportunities.findOne({});
-    Opportunities.update(opp._id, {$push: {items: {
-      id: Random.id(),
-      name: "lineItem1"
-    }}});
+    Opportunities.update(opp._id, {
+      $push: {
+        items: {
+          id: Random.id(),
+          name: "lineItem1"
+        }
+      }
+    });
     return opp;
   }
 });

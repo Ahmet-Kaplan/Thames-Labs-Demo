@@ -167,15 +167,15 @@
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrderItems" id="addPurchaseOrderItem" type="insert"}}
             {{> afQuickField name="purchaseOrderId" type="hidden" value=project._id}}
-            {{> afQuickField name="description"}}
-            {{> afQuickField name="productCode" }}
-            {{> afQuickField name="status" options="allowed"}}
-            {{> afQuickField name="value" id="itemValue"}}
+            {{> afQuickField name="description" id="description"}}
+            {{> afQuickField name="productCode" id="code"}}
+            {{> afQuickField name="status" options="allowed" id="status"}}
+            {{> afQuickField name="value" id="itemValue" }}
             {{> afQuickField name="quantity" id="currQuant"}}
             {{> afQuickField name="totalPrice" readonly=true id="activePrice" }}
-            {{> afQuickField name="projectId" options=projectsAsOptions }}
+            {{> afQuickField name="projectId" options=projectsAsOptions id="project"}}
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" id="add-item-to-po">Create</button>
           {{/autoForm}}
         </div>
 

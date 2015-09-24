@@ -79,7 +79,7 @@ Template.newPurchaseOrderForm.events({
     if (c) {
       Session.set('posc', c);
       Meteor.subscribe('contactsByCompanyId', c);
-      Meteor.subscribe('projectsByCompanyId', c);
+      // Meteor.subscribe('projectsByCompanyId', c);
     } else {
       Session.set('posc', null);
     }
@@ -92,7 +92,7 @@ Template.newCompanyPurchaseOrderForm.events({
     if (c) {
       Session.set('posc', c);
       Meteor.subscribe('contactsByCompanyId', c);
-      Meteor.subscribe('projectsByCompanyId', c);
+      // Meteor.subscribe('projectsByCompanyId', c);
     } else {
       Session.set('posc', null);
     }
@@ -105,7 +105,7 @@ Template.newContactPurchaseOrderForm.events({
     if (c) {
       Session.set('posc', c);
       Meteor.subscribe('contactsByCompanyId', c);
-      Meteor.subscribe('projectsByCompanyId', c);
+      // Meteor.subscribe('projectsByCompanyId', c);
     } else {
       Session.set('posc', null);
     }
@@ -118,7 +118,7 @@ Template.updatePurchaseOrderFormModal.events({
     if (c) {
       Session.set('posc', c);
       Meteor.subscribe('contactsByCompanyId', c);
-      Meteor.subscribe('projectsByCompanyId', c);
+      // Meteor.subscribe('projectsByCompanyId', c);
     } else {
       Session.set('posc', null);
     }
