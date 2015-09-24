@@ -34,22 +34,22 @@ Feature: Allow users to manage their Purchase Orders
     And I navigate to a purchase order page
     Then I should see the heading "test purchase order"
 
-    Scenario: A user can add a new items to a purchase order
-      Given I am a logged in user
-      And a "Company" has been created
-      And I have the "CanReadCompanies" permission
-      And I have the "CanReadPurchaseOrders" permission
-      And I have the "CanCreatePurchaseOrders" permission
-      And I have the "CanEditPurchaseOrders" permission
-      When I navigate to "/purchaseorders"
-      And I click "#add-purchase-order"
-      And I set text field "description" to "test purchase order"
-      And I click "#selectedSupplier" and select the option "Test Ltd"
-      And I click "#create-purchase-order"
-      And I navigate to a purchase order page
-      And I click "#add-item"
-      And I set text field "description" to "test item"
-      And I set text field "code" to "test00001"
-      And I set text field "itemValue" to "4.00"
-      And I set text field "currQuant" to "4.00"
-      And I click "#add-item-to-po"
+	Scenario: A user can add a new items to a purchase order
+		Given I am a logged in user
+		And a "Company" has been created
+		And I have the "CanReadCompanies" permission
+		And I have the "CanReadPurchaseOrders" permission
+		And I have the "CanCreatePurchaseOrders" permission
+		And I have the "CanEditPurchaseOrders" permission
+		When I navigate to "/purchaseorders"
+		And I click "#add-purchase-order"
+		And I set text field "description" to "test purchase order"
+		And I click "#selectedSupplier" and select the option "Test Ltd"
+		And I click "#create-purchase-order"
+		And I navigate to a purchase order page
+		And I click "#add-item"
+		And I set text field "description" to "test item"
+		And I set text field "code" to "test00001"
+		And I set text field "itemValue" to "4.00"
+		And I set text field "currQuant" to "4.00"
+		And I click "#add-item-to-po"
