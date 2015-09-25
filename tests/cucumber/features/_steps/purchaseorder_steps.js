@@ -14,7 +14,7 @@ module.exports = function() {
   this.When(/^I navigate to a purchase order page$/, function(callback) {
     this.client
       .url(url.resolve(process.env.ROOT_URL, '/purchaseorders'))
-      .waitForVisible('.purchase-order-item', 2000)
+      .waitForVisible('.purchase-order-item', 50000)
       .click('.purchase-order-item')
       .call(callback);
   });

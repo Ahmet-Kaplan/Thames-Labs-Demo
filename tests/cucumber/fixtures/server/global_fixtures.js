@@ -16,13 +16,15 @@ Meteor.methods({
       Meteor.tags.remove({});
       AuditLog.remove({});
 
-      Companies.remove({});
-      Contacts.remove({});
       Projects.remove({});
       PurchaseOrders.remove({});
       PurchaseOrderItems.remove({});
-      Chatterbox.remove({});
       Products.remove({});
+
+      Contacts.remove({});
+      Companies.remove({});
+
+      Chatterbox.remove({});
     });
 
     // Reset server session variables. At the moment (annoyingly)

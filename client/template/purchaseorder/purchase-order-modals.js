@@ -4,7 +4,7 @@ Session.set('poIsLocked', null);
 
 Template.newPurchaseOrderForm.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  Meteor.subscribe("myTenant", groupId);
+  Meteor.subscribe("activeTenantData", groupId);
   Session.set('posc', null);
 
   var c = this.data.supplierCompanyId;
@@ -17,7 +17,7 @@ Template.newPurchaseOrderForm.onRendered(function() {
 
 Template.newCompanyPurchaseOrderForm.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  Meteor.subscribe("myTenant", groupId);
+  Meteor.subscribe("activeTenantData", groupId);
   Meteor.subscribe("allCompanies");
   Session.set('posc', null);
 
@@ -31,7 +31,7 @@ Template.newCompanyPurchaseOrderForm.onRendered(function() {
 
 Template.newContactPurchaseOrderForm.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  Meteor.subscribe("myTenant", groupId);
+  Meteor.subscribe("activeTenantData", groupId);
   Meteor.subscribe("allCompanies");
   Session.set('posc', null);
 
@@ -51,7 +51,7 @@ Template.updatePurchaseOrderFormModal.onDestroyed(function() {
 
 Template.updatePurchaseOrderFormModal.onRendered(function() {
   var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  Meteor.subscribe("myTenant", groupId);
+  Meteor.subscribe("activeTenantData", groupId);
   Session.set('posc', null);
   Session.set('poStat', this.data.status);
   Session.set('poIsLocked', this.data.locked);

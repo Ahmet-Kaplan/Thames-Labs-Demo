@@ -146,7 +146,7 @@
             {{> afQuickField name="status" options="allowed" id="poStatus" firstOption=false}}
             {{> afQuickField name="paymentMethod" options="allowed"}}
             {{> afQuickField name="notes"}}
-            <button type="submit" class="btn btn-success">Update</button>
+            <button type="submit" class="btn btn-success" id="update-purchase-order">Update</button>
           {{/autoForm}}
         </div>
 
@@ -195,14 +195,14 @@
 
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrderItems" id="editPurchaseOrderItem" type="update" doc=this}}
-            {{> afQuickField name="description"}}
-            {{> afQuickField name="productCode" }}
-            {{> afQuickField name="status" options="allowed"}}
+            {{> afQuickField name="description" id="description"}}
+            {{> afQuickField name="productCode" id="code"}}
+            {{> afQuickField name="status" options="allowed" id="status"}}
             {{> afQuickField name="value" id="itemValue"}}
             {{> afQuickField name="quantity" id="currQuant"}}
             {{> afQuickField name="totalPrice" readonly=true id="activePrice"}}
             {{> afQuickField name="projectId" id="currProj" options=projectsAsOptions }}
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary" id="update-po-item">Update</button>
           {{/autoForm}}
         </div>
 
