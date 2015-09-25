@@ -12,10 +12,12 @@
           {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
             {{> afQuickField name="description"}}
 
-            {{> afQuickField name="companyId" id="selectedCompany" options=companiesAsOptions}}
+            <!-- {{> afQuickField name="companyId" id="selectedCompany" options=companiesAsOptions}} -->
+            {{> esSelectize name="companyId" index="autosuggestCompany"}}
 
             {{#if showContacts}}
-              {{> afQuickField name="contactId" id="companyContacts" options=contactsAsOptions }}
+              <!-- {{> afQuickField name="contactId" id="companyContacts" options=contactsAsOptions }} -->
+              {{> esSelectize name="contactId" index="autosuggestContact" filter=selectedCompany}}
             {{/if}}
 
             {{> afQuickField name="userId" options=usersAsOptions}}

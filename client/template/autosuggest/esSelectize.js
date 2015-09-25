@@ -1,9 +1,12 @@
-var optionsList = new ReactiveVar({});
-
-function getOptions(index, search) {
-  EasySearch.search('autosuggestCompany', '', function(err, data) {
+function searchOptions(index, search, optionsList) {
+  if(index === undefined) {
+    //No search index set up
+    return false;
+  }
+  var searchInput = search || '';
+  EasySearch.search(index, searchInput, function(err, data) {
     if(err) {
-      toastr.error('Unable to retrieve list of companies');
+      toastr.error('Unable to retrieve list');
       return false;
     }
     optionsList.set(data.results);
@@ -12,19 +15,42 @@ function getOptions(index, search) {
 }
 
 Template.esSelectize.onRendered(function() {
-    getOptions();
-})
+  this.optionsList = new ReactiveVar([]);
+  this.selectize = new ReactiveVar({});
+  var index = Template.instance().data.index;
+  searchOptions(index, '', Template.instance().optionsList);
+
+  this.autorun(function() {
+    var optionsList = Template.instance().optionsList.get();
+    var selectizer = Template.instance().data.name;
+    var selectize = $('#' + selectizer)[0].selectize;
+    Template.instance().selectize.set(selectize);
+    if(optionsList) {
+      selectize.clearOptions();
+      selectize.addOption(optionsList);
+      selectize.refreshOptions(false);
+    }
+  });
+});
 
 Template.esSelectize.helpers({
-  getCompanies: function() {
-    console.log('options, ', optionsList.get());
+  initialize: function() {
     return {
-      options: optionsList.get(),
       create: false,
       closeAfterSelect: true,
       valueField: "_id",
       labelField: "name",
       searchField: "name"
-    }
+    };
+  }
+});
+
+Template.esSelectize.events({
+  'keyup input': function() {
+    var index = Template.instance().data.index;
+    var optionsList = Template.instance().optionsList;
+    var selectize = Template.instance().selectize.get();
+    var search = selectize.lastQuery;
+    searchOptions(index, search, optionsList);
   }
 });

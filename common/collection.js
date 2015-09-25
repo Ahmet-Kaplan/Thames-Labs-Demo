@@ -100,6 +100,22 @@ Contacts.initEasySearch(['forename', 'surname', 'tags'], {
     };
   }
 });
+EasySearch.createSearchIndex('autosuggestContact', {
+  field: ['surname', 'forename'],
+  collection: Contacts,
+  limit: 10,
+  use: 'mongo-db',
+  returnFields: ['_id', 'forename', 'surname'],
+  changeResults: function(data) {
+    data.results = _.map(data.results, function(result) {
+      return {
+        _id: result._id,
+        name: result.forename + ' ' + result.surname
+      };
+    });
+    return data;
+  }
+});
 Tags.TagsMixin(Contacts);
 Collections.contacts = Contacts;
 

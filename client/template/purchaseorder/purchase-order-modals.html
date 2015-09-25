@@ -16,7 +16,8 @@
               {{> afQuickField name="supplierContactId" id="selectedSupplierContact" options=supplierContactsAsOptions }}
             {{/if}}
             {{> afQuickField name="customerCompanyId" id="selectedCustomer" options=companiesAsOptions}}
-            {{> afQuickField name="customerContactId" id="companyContacts" options=contactsAsOptions }}
+            <!-- {{> afQuickField name="customerContactId" id="companyContacts" options=contactsAsOptions }} -->
+            {{> esSelectize name="customerContactId" index="autosuggestContact"}}
             {{#if showProjects}}
               {{> afQuickField name="projectId" options=projectsAsOptions }}
             {{/if}}
