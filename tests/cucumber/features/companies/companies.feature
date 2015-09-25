@@ -199,3 +199,25 @@ Feature: Allow users to manage their Companies
     When I search for Cowley Road
     Then the field "postcode" should contain "CB4"
     And I should see a map
+
+  #Tags
+  Scenario: A user with the CanEditCompanies permission can edit tags
+    Given I have the "CanEditCompanies" permission
+    And a "Company" has been created
+    When I navigate to a company page
+    And I set text field with selector ".tag-input input" to "test tag"
+    Then the field with selector ".tag-input input" should contain "test tag"
+
+  Scenario: A user without the CanEditCompanies permission cannot edit tags
+    Given I do not have the "CanEditCompanies" permission
+    Given a "Company" has been created
+    When I navigate to a company page
+    And I set text field with selector ".tag-input input" to "test tag"
+    Then the field with selector ".tag-input input" should not contain "test tag"
+
+  Scenario: A user with the Administrator permission can edit tags
+    Given I have the "Administrator" permission
+    And a "Company" has been created
+    When I navigate to a company page
+    And I set text field with selector ".tag-input input" to "test tag"
+    Then the field with selector ".tag-input input" should contain "test tag"

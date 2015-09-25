@@ -1,3 +1,7 @@
+Template.login.onCreated(function() {
+  this.subscribe('allNotifications');
+});
+
 Template.login.helpers({
   quotationOfDay: function() {
     var date = new Date();

@@ -7,7 +7,7 @@ Template.events.onCreated(function() {
 
 Template.events.helpers({
   events: function() {
-    return AuditLog.find({});
+    return AuditLog.find({}, {sort: {date: -1}});
   }
 });
 

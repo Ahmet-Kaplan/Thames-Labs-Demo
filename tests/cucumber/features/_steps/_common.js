@@ -50,20 +50,7 @@ module.exports = function() {
       .call(callback);
   });
 
-  this.Given(/^a "([^"]*)" has been created$/, function(entity, callback) {
-    this.client
-      .executeAsync(function(entity, done) {
-        Meteor.call('add' + entity, function(err, data) {
-          done(data);
-        });
-      }, entity)
-      .then(function(data) {
-        expect(data.value).to.exist;
-      })
-      .call(callback);
-  });
-
-  this.Given(/^an "([^"]*)" has been created$/, function(entity, callback) {
+  this.Given(/^an? "([^"]*)" has been created$/, function(entity, callback) {
     this.client
       .executeAsync(function(entity, done) {
         Meteor.call('add' + entity, function(err, data) {
@@ -136,6 +123,14 @@ module.exports = function() {
       .call(callback);
   });
 
+  //This step is necessary when editing fields where maximum selection flexibility is required (e.g. tags)
+  this.When(/^I set text field with selector "([^"]*)" to "([^"]*)"$/, function(selector, value, callback) {
+    this.client
+      .waitForVisible(selector, 2000)
+      .setValue(selector, value)
+      .call(callback);
+  });
+
   this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName, callback) {
     this.client
       .waitForVisible('select[data-schema-key=' + fieldName + ']', 5000)
@@ -153,7 +148,7 @@ module.exports = function() {
 
   this.When(/^I click confirm on the modal$/, function(callback) {
     this.client
-      .waitForVisible(".modal-content", 2000)
+      .waitForVisible(".modal-footer .btn-primary", 5000)
       .click(".modal-footer .btn-primary")
       .call(callback);
   });
@@ -163,6 +158,7 @@ module.exports = function() {
   ***************************************************/
   this.Then(/^I should see "([^"]*)"$/, function(id, callback) {
     this.client
+      .waitForVisible(id, 5000)
       .isExisting(id)
       .then(function(isExisting) {
         expect(isExisting).to.equal(true);
@@ -230,7 +226,7 @@ module.exports = function() {
 
   this.Then(/^I should see a modal with title "([^"]*)"$/, function(expectedText, callback) {
     this.client
-      .waitForVisible('.modal-header', 5000)
+      .waitForVisible('.modal-header', 1000)
       .getText('h4=' + expectedText)
       .call(callback);
   });
@@ -241,6 +237,39 @@ module.exports = function() {
       .timeoutsImplicitWait(2000)
       .getValue('input[name=' + fieldName + ']').then(function(text) {
         expect(text).to.contain(fieldValue);
+      })
+      .call(callback);
+  });
+
+  this.Then(/^I should see a toastr with the message "([^"]*)"$/, function(expectedText, callback) {
+    this.client
+      .waitForVisible('.toast-message', 5000)
+      .getText('.toast-message').then(function(text) {
+        expect(text).to.contain(expectedText);
+      })
+      .call(callback);
+  });
+
+  this.Then(/^I should see an? "([^"]*)" toastr with the message "([^"]*)"$/, function(toastrType, expectedText, callback) {
+    this.client
+      .waitForVisible('.toast-' + toastrType + ' .toast-message', 5000)
+      .getText('.toast-' + toastrType + ' .toast-message').then(function(text) {
+        expect(text).to.contain(expectedText);
+      })
+      .call(callback);
+  });
+
+  // For steps which require max flexibility (e.g. tags)
+  this.Then(/^the field with selector "([^"]*)" should (not )?contain "([^"]*)"$/, function(selector, negate, fieldValue, callback) {
+    this.client
+      .waitForVisible(selector, 2000)
+      .timeoutsImplicitWait(2000)
+      .getValue(selector).then(function(text) {
+        if (negate) {
+          expect(text).to.not.contain(fieldValue);
+        } else {
+          expect(text).to.contain(fieldValue);
+        }
       })
       .call(callback);
   });

@@ -22,10 +22,27 @@ Meteor.methods({
     Grouping.remove({
       _id: userId
     });
-    Meteor.users.remove({
-      _id: userId
-    });
+    Meteor.users.remove({_id: userId});
+
+    if (Roles.userIsInRole(this.userId, 'Administrator')) {
+      Meteor.call('updateStripeQuantity');
+    } else if (Roles.userIsInRole(this.userId, 'superadmin')) {
+      Meteor.call('updateStripeQuantity', Partitioner.getUserGroup(this.userId));
+    }
     LogServerEvent('warning', 'User removed', 'user', userId);
+  },
+
+  deleteAllTenantUsers: function(tenantId) {
+    if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
+      throw new Meteor.Error(403, 'Only superadmins may delete all users');
+    }
+    Meteor.users.find({group: tenantId}).forEach(function(user) {
+      Meteor.call('removeUser', user.id, function(err, result) {
+        if(err) {
+          LogServerEvent('error', 'Unable to remove user while calling \'deleteAllTenantUsers\'', 'user', user.id);
+        }
+      });
+    });
   },
 
   addUser: function(doc) {
@@ -57,8 +74,6 @@ Meteor.methods({
       Partitioner.setUserGroup(userId, doc.group);
     }
 
-    LogServerEvent('verbose', 'User created', 'user', userId);
-
     SSR.compileTemplate('emailText', Assets.getText('email-template.html'));
     Template.emailText.helpers({
       getDoctype: function() {
@@ -87,6 +102,10 @@ Meteor.methods({
       subject: 'Your RealTimeCRM details',
       html: html
     });
+
+    LogServerEvent('verbose', 'User created', 'user', userId);
+
+    Meteor.call('updateStripeQuantity', doc.group);
   },
 
   addTenantUser: function(doc) {
@@ -116,15 +135,21 @@ Meteor.methods({
     // Add user to a group (partition) based on customer id
     Partitioner.setUserGroup(userId, Partitioner.getUserGroup(adminId));
 
-    LogServerEvent('verbose', 'User created', 'user', userId);
-
     Accounts.emailTemplates.from = "RealTimeCRM Team <admin@realtimecrm.co.uk>";
     Accounts.emailTemplates.siteName = "RealtimeCRM";
     Accounts.emailTemplates.enrollAccount.subject = function(user) {
       return 'Your RealTimeCRM details';
     };
     Accounts.emailTemplates.enrollAccount.text = function(user, url) {
-      return "Dear " + user.profile.name + "\n\n" + "Thank you for choosing to use RealTimeCRM.\n\n" + "We hope you will enjoy the simple yet powerful functionality of the system." + " To set your password and login please go to:\n\n" + url + "\n\nShould you have any questions or comments please use the \"Give Feedback\" link just above Change Password.\n\n" + "We hope that you enjoy your RealTimeCRM experience.\n\n" + "Yours sincerely,\n" + "The RealtimeCRM Team";
+      return "Dear " + user.profile.name + "\n\n" +
+             "Thank you for choosing to use RealTimeCRM.\n\n" +
+             "We hope you will enjoy the simple yet powerful functionality of the system." +
+             " To set your password and login please go to:\n\n" +
+             url +
+             "\n\nShould you have any questions or comments please use the \"Give Feedback\" link just above Change Password.\n\n" +
+             "We hope that you enjoy your RealTimeCRM experience.\n\n" +
+             "Yours sincerely,\n" +
+             "The RealtimeCRM Team";
     };
     Accounts.emailTemplates.enrollAccount.html = function(user, url) {
       SSR.compileTemplate('emailText', Assets.getText('email-enroll-template.html'));
@@ -147,6 +172,11 @@ Meteor.methods({
     };
 
     Accounts.sendEnrollmentEmail(userId);
+
+    LogServerEvent('verbose', 'User created', 'user', userId);
+
+    Meteor.call('updateStripeQuantity');
+    return true;
   }
 
 });

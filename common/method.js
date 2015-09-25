@@ -66,7 +66,6 @@ Meteor.methods({
 
           _.each(_.range(_.random(1, 10)), function() {
             var contactId = Contacts.insert({
-              title: _.sample(Schemas.Contact._schema.title.allowedValues),
               forename: faker.name.firstName(),
               surname: faker.name.lastName(),
               phone: faker.phone.phoneNumber(),
@@ -172,6 +171,7 @@ Meteor.methods({
   },
 
   signUp: function(userDetails) {
+
     userDetails.email = userDetails.email.toLowerCase();
     check(userDetails, Schemas.UserSignUp);
 
@@ -199,15 +199,22 @@ Meteor.methods({
       }
     });
 
-    Roles.addUsersToRoles(userId, ["Administrator"]);
-
     //This needs to be run on the server, otherwise client errors occur
     if (Meteor.isServer) {
+
+      Roles.addUsersToRoles(userId, ["Administrator"]);
+
       var tenantId = Tenants.insert({
           name: userDetails.companyName,
           settings: {
             "PurchaseOrderPrefix": "",
             "PurchaseOrderStartingValue": 0
+          },
+          stripe: {
+            "totalRecords": 0,
+            "paying": false,
+            "blocked": false,
+            "coupon": userDetails.coupon
           },
           createdAt: new Date()
         },
@@ -221,21 +228,6 @@ Meteor.methods({
       );
 
       Partitioner.setUserGroup(userId, tenantId);
-
-      Partitioner.bindGroup(tenantId, function() {
-        Companies.insert({
-          name: "Cambridge Software Ltd.",
-          address: "St. John's Innovation Centre",
-          address2: "Cowley Road",
-          city: "Cambridge",
-          county: "Cambridgeshire",
-          postcode: "CB4 0WS",
-          country: "United Kingdom",
-          website: 'http://www.cambridgesoftware.co.uk',
-          phone: '01223 802 900',
-          createdBy: userId
-        });
-      });
 
       SSR.compileTemplate('emailText', Assets.getText('email-template.html'));
       Template.emailText.helpers({
@@ -326,6 +318,18 @@ Meteor.methods({
       opportunityId: opp._id,
       createdBy: user._id
     });
+
+    var note = 'Converted from won opportunity "' + opp.name + '"';
+    var date = new Date();
+    Activities.insert({
+      type: 'Note',
+      notes: note,
+      createdAt: date,
+      activityTimestamp: date,
+      projectId: projId,
+      createdBy: user._id
+    });
+
     return projId;
   },
 
@@ -374,6 +378,7 @@ logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
     logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
 
     AuditLog.insert({
+      token: 'token',
       date: new Date(),
       source: 'client',
       level: logLevel,

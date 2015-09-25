@@ -50,7 +50,7 @@ Template.contactDetail.helpers({
         return company.name;
       }
     } else {
-      return this.title + ' ' + this.forename + ' ' + this.surname;
+      return this.forename + ' ' + this.surname;
     }
   },
   mapAddress: function() {

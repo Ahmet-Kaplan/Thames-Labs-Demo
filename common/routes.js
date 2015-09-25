@@ -1,5 +1,4 @@
 var subs = new SubsManager(),
-  group = Partitioner.group(),
   router = FlowRouter,
   layout = BlazeLayout;
 
@@ -70,11 +69,8 @@ router.triggers.exit(tidyUpModals);
 // These are global subscriptions
 // Since they're global there's no need to use SubsManager
 router.subscriptions = function() {
-  this.register('userPresence', Meteor.subscribe('userPresence'));
-  this.register('allNotifications', Meteor.subscribe('allNotifications'));
-  this.register('auditData', Meteor.subscribe('auditData'));
-  this.register('currentTenantUserData', Meteor.subscribe('currentTenantUserData', group));
-  this.register('activeTenantData', Meteor.subscribe('activeTenantData', group));
+  this.register('currentTenantUserData', Meteor.subscribe('currentTenantUserData'));
+  this.register('activeTenantData', Meteor.subscribe('activeTenantData'));
 };
 
 router.notFound = {
@@ -132,6 +128,7 @@ router.route('/audit', {
   subscriptions: function() {
     this.register('allTenants', subs.subscribe('allTenants'));
     this.register('allUserData', subs.subscribe('allUserData'));
+    this.register('auditData', subs.subscribe('auditData'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -146,6 +143,16 @@ router.route('/sign-up', {
   action: function() {
     layout.render('signUpLayout', {
       main: "signUp"
+    });
+  }
+});
+
+router.route('/sign-up/:coupon', {
+  name: 'sign-up',
+  action: function(params) {
+    layout.render('signUpLayout', {
+      main: "signUp",
+      coupon: params.coupon
     });
   }
 });

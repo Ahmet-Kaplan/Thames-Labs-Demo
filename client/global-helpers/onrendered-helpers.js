@@ -14,6 +14,11 @@ Template.onRendered(function() {
     opacity: 0.35,
   });
 
+  //Triggers collapsing and expanding accordions
+  $('.accordion-toggle').on('click', function() {
+    $('#collapse' + this.id).collapse('toggle');
+  });
+
   var sidebar = $('.sidebar');
   //sidebar.length is the number of elements matching '.sidebar'
   if (sidebar.length > 0 && !bowser.mobile && !bowser.tablet) {

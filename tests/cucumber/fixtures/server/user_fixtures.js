@@ -11,6 +11,11 @@ Meteor.methods({
         PurchaseOrderPrefix: PurchaseOrderPrefix,
         PurchaseOrderStartingValue: PurchaseOrderStartingValue
       },
+      stripe: {
+            "totalRecords": 0,
+            "paying": false,
+            "blocked": false
+          },
       createdAt: new Date()
     });
   },
@@ -82,7 +87,7 @@ Meteor.methods({
       }
     });
 
-    var tenantId = Tenants.findOne({name: tenantName})._id;
+    tenantId = Tenants.findOne({name: tenantName})._id;
     Partitioner.setUserGroup(userId, tenantId);
     Roles.setUserRoles(userId, []);
   },

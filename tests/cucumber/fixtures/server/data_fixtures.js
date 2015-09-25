@@ -25,7 +25,6 @@ Meteor.methods({
   addContact: function() {
     var userId = Meteor.userId();
     return Contacts.insert({
-      "title": "Mr",
       "forename": "Testy",
       "surname": "Surname",
       "email": "testy@surname.com",
@@ -45,7 +44,6 @@ Meteor.methods({
     });
 
     return Contacts.insert({
-      title: "Mr",
       forename: "Testy",
       surname: "Surname",
       email: "testy@surname.com",
@@ -55,15 +53,25 @@ Meteor.methods({
   },
 
   addProduct: function() {
-    var data = Products.insert({
+    var productId = Products.insert({
       name: 'test product',
       description: 'test description',
       createdBy: Meteor.userId()
     });
-    return data;
+    return productId;
   },
 
-  'addOpportunity': function() {
+  addProject: function() {
+    var projectId = Projects.insert({
+      description: 'test project',
+      userId: Meteor.userId(),
+      value: 100,
+      createdBy: Meteor.userId()
+    });
+    return projectId;
+  },
+
+  addOpportunity: function() {
     var stage = OpportunityStages.insert({
       title: 'Stage 1',
       description: 'test description',
@@ -100,7 +108,7 @@ Meteor.methods({
     return data;
   },
 
-  'addOpportunityLineItem': function() {
+  addOpportunityLineItem: function() {
     var opp = Opportunities.findOne({});
     Opportunities.update(opp._id, {
       $push: {

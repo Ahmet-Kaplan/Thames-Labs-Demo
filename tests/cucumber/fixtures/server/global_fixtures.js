@@ -4,27 +4,25 @@ Meteor.methods({
   reset: function() {
 
     // Reset unpartitioned collections
-    Tenants.remove({});
-    Meteor.users.remove({});
-    Notifications.remove({});
+    Tenants.direct.remove({});
+    Meteor.users.direct.remove({});
+    Notifications.direct.remove({});
 
     // Reset partitioned collections
     Partitioner.directOperation(function() {
       //Entities dependent on other entities should be first
-      Tasks.remove({});
-      Activities.remove({});
-      Meteor.tags.remove({});
-      AuditLog.remove({});
+      Tasks.direct.remove({});
+      Activities.direct.remove({});
+      Meteor.tags.direct.remove({});
+      AuditLog.direct.remove({});
 
-      Projects.remove({});
-      PurchaseOrders.remove({});
-      PurchaseOrderItems.remove({});
-      Products.remove({});
-
-      Contacts.remove({});
-      Companies.remove({});
-
-      Chatterbox.remove({});
+      Companies.direct.remove({});
+      Contacts.direct.remove({});
+      Projects.direct.remove({});
+      PurchaseOrders.direct.remove({});
+      PurchaseOrderItems.direct.remove({});
+      Chatterbox.direct.remove({});
+      Products.direct.remove({});
     });
 
     // Reset server session variables. At the moment (annoyingly)
@@ -34,5 +32,4 @@ Meteor.methods({
     ServerSession.set('maintenance', false);
 
   }
-
 });
