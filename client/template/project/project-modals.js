@@ -31,8 +31,8 @@ Template.newProjectForm.helpers({
     return now;
   },
   selectedCompany: function() {
-    console.log(AutoForm.getFieldValue('companyId', 'newProjectForm'))
-    return AutoForm.getFieldValue('companyId', 'newProjectForm')
+    console.log(AutoForm.getFieldValue('companyId', 'newProjectForm'));
+    return AutoForm.getFieldValue('companyId', 'newProjectForm');
   },
   contactsAsOptions: function() {
     return Contacts.find({

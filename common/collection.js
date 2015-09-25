@@ -105,6 +105,19 @@ EasySearch.createSearchIndex('autosuggestContact', {
   collection: Contacts,
   limit: 10,
   use: 'mongo-db',
+  props: {
+    filterCompanyId: ''
+  },
+  query: function(searchString) {
+    console.log(this.props)
+    var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
+
+    if(this.props.filterCompanyId.length > 0) {
+      query.companyId = {$eq: this.props.filterCompanyId};
+    }
+
+    return query;
+  },
   returnFields: ['_id', 'forename', 'surname'],
   changeResults: function(data) {
     data.results = _.map(data.results, function(result) {

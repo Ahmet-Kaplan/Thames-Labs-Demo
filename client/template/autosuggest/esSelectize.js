@@ -1,8 +1,14 @@
-function searchOptions(index, search, optionsList) {
+function searchOptions(index, search, optionsList, filter) {
   if(index === undefined) {
     //No search index set up
     return false;
   }
+
+  if(filter) {
+    console.log('filter in search:',  filter);
+    EasySearch.changeProperty(index, 'filterCompanyId', filter)
+  }
+
   var searchInput = search || '';
   EasySearch.search(index, searchInput, function(err, data) {
     if(err) {
@@ -47,10 +53,11 @@ Template.esSelectize.helpers({
 
 Template.esSelectize.events({
   'keyup input': function() {
-    var index = Template.instance().data.index;
-    var optionsList = Template.instance().optionsList;
-    var selectize = Template.instance().selectize.get();
-    var search = selectize.lastQuery;
-    searchOptions(index, search, optionsList);
+    var index = Template.instance().data.index,
+        filter = Template.instance().data.filter,
+        optionsList = Template.instance().optionsList,
+        selectize = Template.instance().selectize.get(),
+        search = selectize.lastQuery;
+    searchOptions(index, search, optionsList, filter);
   }
 });
