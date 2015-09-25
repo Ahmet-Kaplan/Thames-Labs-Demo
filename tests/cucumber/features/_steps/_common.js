@@ -140,7 +140,7 @@ module.exports = function() {
 
   this.When(/^I click confirm on the modal$/, function(callback) {
     this.client
-      .waitForVisible(".modal-content", 2000)
+      .waitForVisible(".modal-footer .btn-primary", 5000)
       .click(".modal-footer .btn-primary")
       .call(callback);
   });
@@ -150,11 +150,11 @@ module.exports = function() {
   ***************************************************/
   this.Then(/^I should see "([^"]*)"$/, function(id, callback) {
     this.client
-      // .isExisting(id)
-      // .then(function(isExisting) {
-      //   expect(isExisting).to.equal(true);
-      // })
-      .waitForVisible(id, 2000)
+      .waitForVisible(id, 5000)
+      .isExisting(id)
+      .then(function(isExisting) {
+          expect(isExisting).to.equal(true);
+      })
       .call(callback);
   });
 
@@ -218,7 +218,7 @@ module.exports = function() {
 
   this.Then(/^I should see a modal with title "([^"]*)"$/, function(expectedText, callback) {
     this.client
-      .waitForVisible('.modal-header', 5000)
+      .waitForVisible('.modal-header', 1000)
       .getText('h4=' + expectedText)
       .call(callback);
   });
@@ -229,6 +229,24 @@ module.exports = function() {
       .timeoutsImplicitWait(2000)
       .getValue('input[name=' + fieldName + ']').then(function(text) {
         expect(text).to.contain(fieldValue);
+      })
+      .call(callback);
+  });
+
+  this.Then(/^I should see a toastr with the message "([^"]*)"$/, function(expectedText, callback) {
+    this.client
+      .waitForVisible('.toast-message', 5000)
+      .getText('.toast-message').then(function(text) {
+        expect(text).to.contain(expectedText);
+      })
+      .call(callback);
+  });
+
+  this.Then(/^I should see an? "([^"]*)" toastr with the message "([^"]*)"$/, function(toastrType, expectedText, callback) {
+    this.client
+      .waitForVisible('.toast-' + toastrType + ' .toast-message', 5000)
+      .getText('.toast-' + toastrType + ' .toast-message').then(function(text) {
+        expect(text).to.contain(expectedText);
       })
       .call(callback);
   });

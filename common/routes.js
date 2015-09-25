@@ -147,6 +147,16 @@ router.route('/sign-up', {
   }
 });
 
+router.route('/sign-up/:coupon', {
+  name: 'sign-up',
+  action: function(params) {
+    layout.render('signUpLayout', {
+      main: "signUp",
+      coupon: params.coupon
+    });
+  }
+});
+
 // NORMAL USER routes follow
 
 router.route('/', {

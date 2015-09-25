@@ -58,7 +58,7 @@ Feature: Allow administrators to give users permissions
     And I have the "Administrator" permission
     When I click "#general-dropdown"
     And I click "#Administration"
-    And I click "#userAdminPanelExpander"
+    And I click "#tenantUsers"
     And I click "#addNewUserAccount"
     And I set text field "name" to "User Name"
     And I set text field "email" to "user.name@domain.com"

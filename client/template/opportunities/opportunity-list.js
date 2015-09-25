@@ -5,12 +5,6 @@ Template.opportunityList.onCreated(function() {
   });
 });
 
-Template.opportunityList.onDestroyed(function() {
-  Session.set('opportunitySearchQuery', null);
-  Session.set('opportunitySearchShowArchived', false);
-  EasySearch.changeProperty('opportunities', 'showArchived', false);
-});
-
 Template.opportunityList.onRendered(function() {
   // Watch for session variable setting search
   Session.set('opportunitySearchQuery', null);
@@ -26,6 +20,12 @@ Template.opportunityList.onRendered(function() {
       $('.sidebar input').val(searchQuery);
     }
   });
+});
+
+Template.opportunityList.onDestroyed(function() {
+  Session.set('opportunitySearchQuery', null);
+  Session.set('opportunitySearchShowArchived', false);
+  EasySearch.changeProperty('opportunities', 'showArchived', false);
 });
 
 Template.opportunityList.helpers({

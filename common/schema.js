@@ -1,4 +1,5 @@
 Schemas = {};
+MAX_RECORDS = 50;
 
 // ** --------- Non-attachment schemas --------- ** //
 Schemas.User = new SimpleSchema({
@@ -88,6 +89,13 @@ Schemas.UserSignUp = new SimpleSchema({
   },
   companyName: {
     type: String
+  },
+  coupon: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    },
+    optional: true
   }
 });
 
@@ -96,7 +104,7 @@ Schemas.UserSignUp.messages({
   emailTaken: "This email address is already registered with RealTimeCRM"
 });
 
-// ** --------- Non-attachment schemas --------- ** //
+// ** --------- End Non-attachment schemas --------- ** //
 
 Schemas.Tenant = new SimpleSchema({
   name: {
@@ -109,6 +117,37 @@ Schemas.Tenant = new SimpleSchema({
     autoform: {
       type: "hidden"
     },
+    optional: true
+  },
+  stripe: {
+    type: Object,
+    autoform: {
+      type: "hidden"
+    }
+  },
+  "stripe.paying": {
+    type: Boolean,
+    label: "Paying tenant",
+    defaultValue: false
+  },
+  "stripe.blocked": {
+    type: Boolean,
+    defaultValue: false
+  },
+  "stripe.stripeId": {
+    type: String,
+    optional: true
+  },
+  "stripe.stripeSubs": {
+    type: String,
+    optional: true
+  },
+  "stripe.totalRecords": {
+    type: Number,
+    defaultValue: 0
+  },
+  "stripe.coupon": {
+    type: String,
     optional: true
   },
   createdAt: {
@@ -688,6 +727,9 @@ Schemas.Product = new SimpleSchema({
 Products.attachSchema(Schemas.Product);
 
 Schemas.Audit = new SimpleSchema({
+  token: {
+    type: String
+  },
   date: {
     type: Date
   },
@@ -829,6 +871,36 @@ Schemas.Opportunity = new SimpleSchema({
     }
   }
 });
+AuditLog.attachSchema(Schemas.Audit);
+
+Schemas.Payment = new SimpleSchema({
+  token: {
+    type: String
+  },
+  tenantId: {
+    type: String
+  },
+  date: {
+    type: Number
+  },
+  createdBy: {
+    type: String
+  },
+  cardType: {
+    type: String
+  },
+  cardCountry: {
+    type: String
+  },
+  last4: {
+    type: String
+  },
+  email: {
+    type: String
+  }
+})
+Payments.attachSchema(Schemas.Payment)
+
 Opportunities.attachSchema(Schemas.Opportunity);
 
 Schemas.Opportunity.messages({
