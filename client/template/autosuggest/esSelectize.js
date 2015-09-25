@@ -1,17 +1,30 @@
-Template.esSelectize.onRendered(function() {
-  $('#selectizer').selectize({
-    create: false,
-    closeAfterSelect: true,
-    labelField: "id",
-    valueField: "name",
-    sortField: "name"
-  });
-});
+var optionsList = new ReactiveVar({});
 
-Template.insertContactModal.events({
-  'keyup input': function() {
-    var selectize = $('#selectizer')[0].selectize;
-    selectize.addOption({id: '111', name: 'Cambridge Software Ltd'});
-    console.warn('keyup', selectize)
+function getOptions(index, search) {
+  EasySearch.search('autosuggestCompany', '', function(err, data) {
+    if(err) {
+      toastr.error('Unable to retrieve list of companies');
+      return false;
+    }
+    optionsList.set(data.results);
+    return true;
+  });
+}
+
+Template.esSelectize.onRendered(function() {
+    getOptions();
+})
+
+Template.esSelectize.helpers({
+  getCompanies: function() {
+    console.log('options, ', optionsList.get());
+    return {
+      options: optionsList.get(),
+      create: false,
+      closeAfterSelect: true,
+      valueField: "_id",
+      labelField: "name",
+      searchField: "name"
+    }
   }
 });
