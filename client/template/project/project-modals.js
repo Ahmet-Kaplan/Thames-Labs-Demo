@@ -30,20 +30,6 @@ Template.newProjectForm.helpers({
     now.setDate(now.getDate() + 7);
     return now;
   },
-  selectedCompany: function() {
-    console.log(AutoForm.getFieldValue('companyId', 'newProjectForm'));
-    return AutoForm.getFieldValue('companyId', 'newProjectForm');
-  },
-  contactsAsOptions: function() {
-    return Contacts.find({
-      companyId: Session.get('sc')
-    }).map(function(contact) {
-      return {
-        'label': contact.forename + " " + contact.surname,
-        'value': contact._id
-      };
-    });
-  },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
       return {

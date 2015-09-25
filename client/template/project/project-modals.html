@@ -17,10 +17,11 @@
 
             {{#if showContacts}}
               <!-- {{> afQuickField name="contactId" id="companyContacts" options=contactsAsOptions }} -->
-              {{> esSelectize name="contactId" index="autosuggestContact" filter=selectedCompany}}
+              {{> esSelectize name="contactId" index="autosuggestContact" parent="companyId"}}
             {{/if}}
 
-            {{> afQuickField name="userId" options=usersAsOptions}}
+            <!-- {{> afQuickField name="userId" options=usersAsOptions}} -->
+            {{> esSelectize name="userId" index="autosuggestUser"}}
 
             {{> afQuickField name="value"}}
 
