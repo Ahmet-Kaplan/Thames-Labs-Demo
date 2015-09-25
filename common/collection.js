@@ -542,8 +542,7 @@ PurchaseOrderItems.after.update(function(userId, doc, fieldNames, modifier, opti
   }
 });
 PurchaseOrderItems.after.remove(function(userId, doc) {
-  var currentPurchaseOrder = PurchaseOrders.findOne(doc.purchaseOrderId);
-  logEvent('info', 'A purchase order item has been deleted: ' + doc.name + ' (' + currentPurchaseOrder.description + ")");
+  logEvent('info', 'A purchase order item has been deleted: ' + doc.name);
 });
 
 
