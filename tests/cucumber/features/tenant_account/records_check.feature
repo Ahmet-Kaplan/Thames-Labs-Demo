@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to subscribe/unsubscribe to Stripe
 
   As a user of the app
