@@ -9,13 +9,17 @@ Meteor.methods({
       name: tenantName,
       settings: {
         PurchaseOrderPrefix: PurchaseOrderPrefix,
-        PurchaseOrderStartingValue: PurchaseOrderStartingValue
+        PurchaseOrderStartingValue: PurchaseOrderStartingValue,
+        extInfo: {
+          company: [],
+          contact: []
+        }
       },
       stripe: {
-            "totalRecords": 0,
-            "paying": false,
-            "blocked": false
-          },
+        "totalRecords": 0,
+        "paying": false,
+        "blocked": false
+      },
       createdAt: new Date()
     });
   },

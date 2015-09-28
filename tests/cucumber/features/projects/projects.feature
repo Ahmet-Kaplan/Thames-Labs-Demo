@@ -48,10 +48,12 @@ Feature: Allow users to manage their Projects
   #Creating
   Scenario: A user can create a project
     Given I have the "CanCreateProjects" permission
+    And a "Company" has been created
     When I navigate to "/projects"
     And I click "#add-project"
     And I set text field "description" to "test project 2"
     And I select "test user" from dropdown field "userId"
+    And I click "#selectedCompany" and select the option "Test Ltd"
     And I set text field "value" to "999"
     And I submit the "newProject" form
     Then I should see the heading "test project 2"

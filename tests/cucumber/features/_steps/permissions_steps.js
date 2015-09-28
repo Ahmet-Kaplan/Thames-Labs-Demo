@@ -93,8 +93,8 @@ module.exports = function() {
   this.When(/^I add permission "([^"]*)" on "([^"]*)" to a restricted user$/, function(permissionName, entityName, callback) {
     this.client
       .url(url.resolve(process.env.ROOT_URL, "/admin"))
-      .waitForExist("#tenantUsers", 5000)
-      .click("#tenantUsers")
+      .waitForExist("#userAdminPanelExpander", 5000)
+      .click("#userAdminPanelExpander")
       .waitForVisible("#btnEditTenantUserPermissions", 5000)
       .click("#btnEditTenantUserPermissions")
       .waitForExist(".modal-dialog", 5000)
@@ -108,8 +108,8 @@ module.exports = function() {
   this.When(/^I remove permissions on "([^"]*)" from a restricted user$/, function(entityName, callback) {
     this.client
       .url(url.resolve(process.env.ROOT_URL, "/admin"))
-      .waitForExist("#tenantUsers", 5000)
-      .click("#tenantUsers")
+      .waitForExist("#userAdminPanelExpander", 5000)
+      .click("#userAdminPanelExpander")
       .waitForVisible("#btnEditTenantUserPermissions", 5000)
       .click("#btnEditTenantUserPermissions")
       .waitForExist(".modal-dialog", 5000)

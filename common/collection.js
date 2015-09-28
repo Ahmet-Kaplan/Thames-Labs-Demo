@@ -347,9 +347,7 @@ Companies.before.insert(function(userId, doc) {
   });
 
   doc.customFields = cfMaster;
-});
-
-Companies.before.insert(function(userId, doc) {
+  
   if(!checkRecordsNumber()) {
     return false;
   }
@@ -407,7 +405,7 @@ Contacts.before.insert(function(userId, doc) {
     return false;
   }
   return true;
-  
+
   var user = Meteor.users.findOne(Meteor.userId());
   var tenant = Tenants.findOne(user.group);
   var contactCustomFields = tenant.settings.extInfo.contact;
