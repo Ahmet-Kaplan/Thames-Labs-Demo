@@ -2,8 +2,8 @@ Meteor.methods({
 
   createTestTenant: function() {
     var tenantName = 'Acme Corp',
-        PurchaseOrderPrefix = 'A',
-        PurchaseOrderStartingValue = 1;
+      PurchaseOrderPrefix = 'A',
+      PurchaseOrderStartingValue = 1;
 
     Tenants.insert({
       name: tenantName,
@@ -32,7 +32,9 @@ Meteor.methods({
       }
     });
 
-    var tenantId = Tenants.findOne({name: tenantName})._id;
+    var tenantId = Tenants.findOne({
+      name: tenantName
+    })._id;
     Partitioner.setUserGroup(userId, tenantId);
   },
 
@@ -52,16 +54,22 @@ Meteor.methods({
 
   setPermission: function(permission, statement) {
     var userId = Meteor.users.findOne({})._id;
-    if(statement) {
-      Roles.addUsersToRoles(userId, permission);
+    if (statement) {
+      if (!Roles.userIsInRole(userId, permission)) {
+        Roles.addUsersToRoles(userId, permission);
+      }
     } else {
-      Roles.removeUsersFromRoles(userId, permission);
+      if (Roles.userIsInRole(userId, permission)) {
+        Roles.removeUsersFromRoles(userId, permission);
+      }
     }
   },
 
   setPermissionForUsername: function(permission, username, statement) {
-    var userId = Meteor.users.findOne({username: username})._id;
-    if(statement) {
+    var userId = Meteor.users.findOne({
+      username: username
+    })._id;
+    if (statement) {
       Roles.addUsersToRoles(userId, permission);
     } else {
       Roles.removeUsersFromRoles(userId, permission);
@@ -87,7 +95,9 @@ Meteor.methods({
       }
     });
 
-    tenantId = Tenants.findOne({name: tenantName})._id;
+    var tenantId = Tenants.findOne({
+      name: tenantName
+    })._id;
     Partitioner.setUserGroup(userId, tenantId);
     Roles.setUserRoles(userId, []);
   },

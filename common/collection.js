@@ -321,13 +321,32 @@ Tenants.after.remove(function(userId, doc) {
 Meteor.users.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
 });
-
 Meteor.users.after.insert(function(userId, doc) {
   logEvent('info', 'A user has been created: ' + doc.name);
 });
 
 Meteor.users.after.remove(function(userId, doc) {
   logEvent('info', 'A user has been removed: ' + doc.name);
+});
+
+Companies.before.insert(function(userId, doc) {
+  var user = Meteor.users.findOne(Meteor.userId());
+  var tenant = Tenants.findOne(user.group);
+  var companyCustomFields = tenant.settings.extInfo.company;
+
+  var cfMaster = {};
+  _.each(companyCustomFields, function(cf) {
+
+    var field = {
+      dataValue: cf.defaultValue,
+      dataType: cf.type,
+      isGlobal: true
+    };
+
+    cfMaster[cf.name] = field;
+  });
+
+  doc.customFields = cfMaster;
 });
 
 Companies.before.insert(function(userId, doc) {
@@ -382,12 +401,32 @@ Companies.after.remove(function(userId, doc) {
   logEvent('info', 'A company has been deleted: ' + doc.name);
 });
 
+
 Contacts.before.insert(function(userId, doc) {
   if(!checkRecordsNumber()) {
     return false;
   }
   return true;
+  
+  var user = Meteor.users.findOne(Meteor.userId());
+  var tenant = Tenants.findOne(user.group);
+  var contactCustomFields = tenant.settings.extInfo.contact;
+
+  var cfMaster = {};
+  _.each(contactCustomFields, function(cf) {
+
+    var field = {
+      dataValue: cf.defaultValue,
+      dataType: cf.type,
+      isGlobal: true
+    };
+
+    cfMaster[cf.name] = field;
+  });
+
+  doc.customFields = cfMaster;
 });
+
 Contacts.after.insert(function(userId, doc) {
   Meteor.call('updateTotalRecords');
   logEvent('info', 'A new contact has been created: ' + doc.forename + " " + doc.surname);
