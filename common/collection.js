@@ -75,7 +75,7 @@ Companies.helpers({
   }
 });
 Companies.initEasySearch(['name', 'tags'], {
-  limit: 10,
+  limit: 50,
   use: "mongo-db",
   sort: function() {
     return {
