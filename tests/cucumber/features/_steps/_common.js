@@ -115,6 +115,18 @@ module.exports = function() {
       .call(callback);
   });
 
+  this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value, callback) {
+    this.client
+      .waitForExist(selector + '>.selectize-input', 2000)
+      .click(selector + '>.selectize-input')
+      .keys([value])
+      .waitForVisible(selector + '>.selectize-dropdown>.selectize-dropdown-content', 3000)
+      .then(function() {
+          this.click(selector + '>.selectize-dropdown>.selectize-dropdown-content>.active');
+        })
+      .call(callback);
+  });
+
   this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName, callback) {
     this.client
       .waitForVisible('select[data-schema-key='+ fieldName + ']', 5000)

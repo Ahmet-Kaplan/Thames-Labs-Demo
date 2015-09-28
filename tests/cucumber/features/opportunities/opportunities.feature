@@ -61,7 +61,7 @@ Feature: Allow users to manage their sales opportunities
     And I set text field "description" to "test description"
     And I set text field "date" to "05/05/2015 05:05"
     And I set text field "value" to "500"
-    And I select "Test Ltd" from dropdown field "companyId"
+    And I selectize "select#companyId + .selectize-control" to "Test Ltd"
     Then I submit the "insertOpportunity" form
     Then I should see the heading "test opportunity 2"
 

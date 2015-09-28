@@ -74,9 +74,12 @@ Template.esSelectize.helpers({
 });
 
 Template.esSelectize.events({
-  'keyup input': function() {
+  'keyup input': function(e) {
     var selectize = Template.instance().selectize.get();
     var name = Template.instance().data.name;
+    if(e.keyCode === 13 || e.keyCode === 9) {
+      return;
+    }
     Session.set('search' + name , selectize.lastQuery);
   }
 });

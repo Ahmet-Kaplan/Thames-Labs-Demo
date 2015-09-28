@@ -51,7 +51,7 @@ Feature: Allow users to manage their Projects
     When I navigate to "/projects"
     And I click "#add-project"
     And I set text field "description" to "test project 2"
-    And I select "test user" from dropdown field "userId"
+    And I selectize "select#userId + .selectize-control" to "test user"
     And I set text field "value" to "999"
     And I submit the "newProject" form
     Then I should see the heading "test project 2"
