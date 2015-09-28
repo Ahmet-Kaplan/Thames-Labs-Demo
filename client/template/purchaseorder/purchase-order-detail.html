@@ -120,7 +120,7 @@
             {{/if}}
             Items</div>
           <div class="panel-body">
-            <ul class="list-group" id="purchase-order-items">
+            <ul class="list-group">
               {{#if hasItems}}
                 {{#each purchaseOrderItems}}
                   {{> purchaseOrderItem}}
@@ -152,10 +152,10 @@
 </template>
 
 <template name="purchaseOrderItem">
-<li class="list-group-item" id="po-item">
+<li class="list-group-item .po-item">
   <div class="row">
 
-    <div class="col-md-3">
+    <div class="col-md-4">
       <i class="fa fa-fw fa-archive"></i>
       {{description}}
     </div>
@@ -175,7 +175,7 @@
       <i class="fa fa-fw fa-money"></i>
       {{decimal totalPrice}}
     </div>
-    <div class="col-md-2">
+    <div class="col-md-1">
       <div class="btn-group btn-group-justified" role="group">
         <div class="btn-group " role="group">
           <button class="btn btn-xs btn-info" data-placement="bottom" data-toggle="tooltip" disabled="{{#unless canAddMoreItems ..}}disabled{{/unless}}" id="edit-po-item" role="button" title="Edit purchase order item">

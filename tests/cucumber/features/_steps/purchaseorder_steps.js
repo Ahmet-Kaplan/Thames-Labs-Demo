@@ -24,14 +24,4 @@ module.exports = function() {
       .selectByVisibleText(menu, option)
       .call(callback);
   });
-
-  this.Then(/^element "([^"]*)" should contain the text "([^"]*)"$/, function(element, desiredText, callback) {
-    this.client
-      .waitForVisible(element, 2000)
-      .getText(element)
-      .then(function(text) {
-        expect(text).to.contain(desiredText);
-      })
-      .call(callback);
-  });
 };

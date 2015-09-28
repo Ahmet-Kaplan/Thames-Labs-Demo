@@ -18,6 +18,7 @@ Meteor.methods({
       customFields: {}
     });
 
+    console.log(data);
     return data;
 
   },
@@ -42,7 +43,7 @@ Meteor.methods({
       country: "country",
       createdBy: Meteor.userId()
     });
-
+    console.log(companyId);
     return Contacts.insert({
       forename: "Testy",
       surname: "Surname",
