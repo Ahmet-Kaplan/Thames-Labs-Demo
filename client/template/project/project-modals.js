@@ -19,16 +19,8 @@ Template.newProjectForm.helpers({
       return true;
     }
   },
-  currentDateTime: function() {
-  return moment();
-  },
   currentUser: function() {
   return Meteor.userId();
-  },
-  datePlusOneWeek: function() {
-    var now = new Date();
-    now.setDate(now.getDate() + 7);
-    return now;
   },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
@@ -50,24 +42,6 @@ Template.updateProjectForm.onRendered(function() {
 });
 
 Template.updateProjectForm.helpers({
-  companiesAsOptions: function() {
-    return Companies.find({}).map(function(company) {
-      return {
-        'label': company.name,
-        'value': company._id
-      };
-    });
-  },
-  contactsAsOptions: function() {
-    return Contacts.find({
-      companyId: Session.get('sc')
-    }).map(function(contact) {
-      return {
-        'label': contact.forename + " " + contact.surname,
-        'value': contact._id
-      };
-    });
-  },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
       return {
@@ -86,26 +60,8 @@ Template.newCompanyProjectForm.helpers({
       return true;
     }
   },
-  currentDateTime: function() {
-  return moment();
-  },
   currentUser: function() {
   return Meteor.userId();
-  },
-  datePlusOneWeek: function() {
-    var now = new Date();
-    now.setDate(now.getDate() + 7);
-    return now;
-  },
-  contactsAsOptions: function() {
-    return Contacts.find({
-      companyId: Session.get('sc')
-    }).map(function(contact) {
-      return {
-        'label': contact.forename + " " + contact.surname,
-        'value': contact._id
-      };
-    });
   },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
@@ -123,11 +79,6 @@ Template.newContactProjectForm.helpers({
   },
   currentUser: function() {
   return Meteor.userId();
-  },
-  datePlusOneWeek: function() {
-    var now = new Date();
-    now.setDate(now.getDate() + 7);
-    return now;
   },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {

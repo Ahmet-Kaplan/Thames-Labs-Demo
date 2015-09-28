@@ -1,13 +1,11 @@
-var parent;
-
-function searchOptions(index, search, optionsList, filter) {
+function searchOptions(index, search, optionsList, parent, filter) {
   if(index === undefined) {
     //No search index set up
     return false;
   }
 
-  if(filter) {
-    EasySearch.changeProperty(index, 'filterCompanyId', filter);
+  if(parent !== undefined && filter !== undefined) {
+    EasySearch.changeProperty(index, filter, parent);
   }
 
   var searchInput = search || '';
@@ -27,24 +25,28 @@ Template.esSelectize.onRendered(function() {
 
   var name = Template.instance().data.name;
   var parent = Template.instance().data.parent;
+  var selectizer = Template.instance().data.name;
+  var selectize = $('#' + selectizer)[0].selectize;
+  var defaultValue = this.data.value;
+  var index = Template.instance().data.index;
+  var filter = Template.instance().data.filter;
 
   if(parent) {
     var parentElt = $('#' + parent);
-    Session.set('filter' + name, parentElt.val());
+    Session.set('parent' + name, parentElt.val());
     parentElt.change(function() {
-      Session.set('filter' + name, parentElt.val());
+      Session.set('parent' + name, parentElt.val());
     });
   }
 
+  //search update listener
   this.autorun(function() {
-    var index = Template.instance().data.index;
-    var filter = Session.get('filter' + name);
+    var parent = Session.get('parent' + name);
     var search = Session.get('search' + name) || '';
-    searchOptions(index, search, Template.instance().optionsList, filter);
+    searchOptions(index, search, Template.instance().optionsList, parent, filter);
   });
 
-  var selectizer = Template.instance().data.name;
-  var selectize = $('#' + selectizer)[0].selectize;
+  //display update listener
   this.autorun(function() {
     var optionsList = Template.instance().optionsList.get();
     Template.instance().selectize.set(selectize);
@@ -52,6 +54,9 @@ Template.esSelectize.onRendered(function() {
       selectize.clearOptions();
       selectize.addOption(optionsList);
       selectize.refreshOptions(false);
+    }
+    if(defaultValue) {
+      selectize.setValue(defaultValue);
     }
   });
 });

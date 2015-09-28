@@ -13,9 +13,9 @@
             {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="value"}}
 
-            {{> afQuickField name="companyId" id="selectedCompany" options=companiesAsOptions firstOption="No company selected"}}
+            {{> esSelectize name="companyId" index="autosuggestCompany"}}
 
-            {{> afQuickField name="contactId" id="selectedContact" options=contactsAsOptions  firstOption="No contact selected"}}
+            {{> esSelectize name="contactId" index="autosuggestContact" parent="companyId" filter="filterCompanyId"}}
 
             {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
             {{> afQuickField name="isArchived" value=false type="hidden"}}
@@ -43,12 +43,12 @@
             {{> afQuickField name="description"}}
             {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="value"}}
-            {{> afQuickField name="contactId" id="selectedContact" options=contactsAsOptions  firstOption="No contact selected"}}
+            {{> afQuickField name="companyId" id="companyId" value=companyId type="hidden"}}
+            {{> esSelectize name="contactId" index="autosuggestContact" parent="companyId" filter="filterCompanyId"}}
             {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
             {{> afQuickField name="isArchived" value=false type="hidden"}}
             {{> afQuickField name="currentStageId" value=firstStageId type="hidden"}}
             {{> afQuickField name="createdBy" value=createdBy }}
-            {{> afQuickField name="companyId" value=companyId type="hidden"}}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
         </div>
