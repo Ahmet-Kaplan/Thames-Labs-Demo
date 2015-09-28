@@ -63,7 +63,7 @@ Feature: Allow users to manage their Contacts
     And I click "#add-contact"
     And I set text field "forename" to "test"
     And I set text field "surname" to "surname"
-    And I selectize "select#companyId + .selectize-control" to "Test Ltd"
+    And I selectize "companyId" to "Test Ltd"
     And I submit the "insertContact" form
     Then I should see the heading "test surname"
 
@@ -219,7 +219,7 @@ Feature: Allow users to manage their Contacts
     And I click "#add-contact"
     And I set text field "forename" to "test"
     And I set text field "surname" to "surname"
-    And I selectize "select#companyId + .selectize-control" to "Test Ltd"
+    And I selectize "companyId" to "Test Ltd"
     And I submit the "insertContact" form
     And I click "#edit-contact"
     Then I should not see "#formatted_address"

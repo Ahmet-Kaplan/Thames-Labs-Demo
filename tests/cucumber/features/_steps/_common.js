@@ -117,12 +117,12 @@ module.exports = function() {
 
   this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value, callback) {
     this.client
-      .waitForExist(selector + '>.selectize-input', 2000)
-      .click(selector + '>.selectize-input')
+      .waitForExist('select#' + selector + ' + .selectize-control>.selectize-input', 2000)
+      .click('select#' + selector + ' + .selectize-control>.selectize-input')
       .keys([value])
-      .waitForVisible(selector + '>.selectize-dropdown>.selectize-dropdown-content', 3000)
+      .waitForVisible('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content', 3000)
       .then(function() {
-          this.click(selector + '>.selectize-dropdown>.selectize-dropdown-content>.active');
+          this.click('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>.active');
         })
       .call(callback);
   });
