@@ -9,6 +9,7 @@
 //   });
 // };
 
+
 Template.maintenance.destroyed = function() {
   if (this.loading) {
     this.loading.finish();

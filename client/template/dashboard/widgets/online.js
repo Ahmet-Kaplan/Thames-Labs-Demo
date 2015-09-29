@@ -1,3 +1,7 @@
+Template.onlineWidget.onCreated(function() {
+  this.subscribe('userPresence');
+});
+
 Template.onlineWidget.helpers({
   onlineColleagues: function() {
     var users = Meteor.users.find({

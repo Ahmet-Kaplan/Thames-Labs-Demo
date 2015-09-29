@@ -255,3 +255,43 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 8,
+  name: "Remove title field on contacts",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+      Contacts.update({}, {
+        $unset: { title: '' }
+      }, {
+        multi: true,
+        validate: false
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 9,
+  name: "Add default parameters to Tenants to enable Stripe implementation",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Tenants.find({}).forEach(function(tenant) {
+      if(tenant.stripe === undefined || (tenant.stripe.totalRecords === undefined && tenant.stripe.paying === undefined && tenant.stripe.blocked === undefined)) {
+        var totalRecordsNumber = Partitioner.bindGroup(tenant._id, function() {
+          return Companies.find().count() + Contacts.find().count();
+        });
+        Tenants.update(tenant._id, {
+          $set: {
+            "stripe.totalRecords": totalRecordsNumber,
+            "stripe.paying": false,
+            "stripe.blocked": false
+          }
+        });
+      }
+    });
+    ServerSession.set('maintenance', false);
+  }
+});

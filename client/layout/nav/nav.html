@@ -12,45 +12,20 @@
           </button>
           {{/if}}
           <a class="navbar-brand" href="/">
-            <img alt="" src="/icon.svg">RealTime<span>CRM</span>
+            <img class="hidden-xs" alt="" src="/lighter-icon.svg"><img class="visible-xs" alt="" src="/icon.svg">
+            RealTime<span>CRM</span>
           </a>
         </div>
         {{#if loggedIn}}
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
-
             {{#if isInRole 'superadmin'}}
-            <li>
-              <a href="/tenants">
-                <i class="fa fa-fw fa-archive"></i> Tenants
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li>
-              <a href="/notifications">
-                <i class="fa fa-fw fa-envelope"></i> Notifications
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li>
-              <a href="/statistics">
-                <i class="fa fa-fw fa-bar-chart"></i> Statistics
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li>
-              <a href="/audit">
-                <i class="fa fa-fw fa-book"></i> Audit Log
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
             <li><a href="#" id="feedback-link">Feedback</a></li>
             <li>{{> atNavButton}}</li>
             {{/if}} {{#unless isInRole 'superadmin'}}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="quick-create-menu">
-                <i class="fa fa-fw fa-plus"></i> Quick Menu
-                <span class="caret"></span>
+                <i class="fa fa-fw fa-plus"></i>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="#" id="qckCreateCompany"><i class="fa fa-fw fa-building"></i> Add Company</a></li>
@@ -58,29 +33,6 @@
                 <li role="separator" class="divider"></li>
                 <li><a href="#" id="qckCreateProject"><i class="fa fa-fw fa-files-o"></i> Add Project</a></li>
                 <li><a href="#" id="qckCreatePurchaseOrder"><i class="fa fa-fw fa-shopping-cart"></i> Add Purchase Order</a></li>
-              </ul>
-            </li>
-
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" id="general-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-fw fa-user"></i> {{userName}}
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="#" id="feedback-link">Give Feedback</a></li>
-                <li><a href="http://www.realtimecrm.co.uk/roadmap" id="roadmap-link" target="_blank">Feature Roadmap</a></li>
-                {{#if isInRole 'Administrator'}}
-                <li role="separator" class="divider"></li>
-                <li><a href="/admin" id="Administration">Administration</a></li>
-                {{/if}}
-                <li role="separator" class="divider"></li>
-                <li><a href="#" id="btnChangePassword">Change Password</a></li>
-                {{#if showTourOption}}
-                <li role="separator" class="divider"></li>
-                <li><a href="#" id="tour-this-page">Tell me about this page</a></li>
-                {{/if}}
-                <li role="separator" class="divider"></li>
-                <li><a href="#" id="sign-out">Sign Out</a></li>
               </ul>
             </li>
 
@@ -93,23 +45,34 @@
                 {{/if}}
                 </a>
               <ul class="dropdown-menu">
-                {{#each notifications}} {{> notice}} {{/each}}
+                {{#each notifications}} {{> notice}} {{else}}
+                <em>No notifications</em>
+                {{/each}}
               </ul>
             </li>
 
-            <!--<li>
-              <a href="/profile">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" id="general-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-fw fa-user"></i> {{userName}}
-                <span class="sr-only">(current)</span>
+                <span class="caret"></span>
               </a>
+              <ul class="dropdown-menu">
+                {{#if isInRole 'Administrator'}}
+                <li><a href="/admin" id="Administration">Administration</a></li>
+                <li role="separator" class="divider"></li>
+                {{/if}}
+                <li><a href="#" id="btnChangePassword">Change Password</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#" id="feedback-link">Give Feedback</a></li>
+                <li><a href="http://www.realtimecrm.co.uk/roadmap" id="roadmap-link" target="_blank">Feature Roadmap</a></li>
+                {{#if showTourOption}}
+                <li role="separator" class="divider"></li>
+                <li><a href="#" id="tour-this-page">Tell me about this page</a></li>
+                {{/if}}
+                <li role="separator" class="divider"></li>
+                <li><a href="#" id="sign-out">Sign Out</a></li>
+              </ul>
             </li>
-
-            <li>
-              <a href="#">
-                <i class="fa fa-fw fa-building"></i> {{currentTenant}}
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>-->
             {{/unless}}
           </ul>
         </div>
@@ -119,24 +82,16 @@
   </div>
 
   {{#if loggedIn}}
-  <div id="id-view-sidemenu" class={{shouldDisplayMenu}}>
-    <div class="panel-group" id="accordion">
+  <div id="id-view-sidemenu">
+    <ul class="panel-group" id="menu">
       {{#unless isInRole 'superadmin'}}
-      <div class="panel panel-default accordion-links">
-        <table class="table">
-          <tr>
-            <td class="panel-heading">
-              <h4 class="panel-title" id="id-dashboard">
-                <a href='/' class="dismiss-on-click {{#if isActiveRoute 'companies'}}active{{/if}}">
-                  <i class="fa fa-fw fa-home"></i> Dashboard
-                </a>
-              </h4>
-            </td>
-          </tr>
-        </table>
-      </div>
+      <li class="panel-title">
+        <a href='/' class="dismiss-on-click {{isActiveRoute 'dashboard'}}" id="menuLinkDashboard">
+          <i class="fa fa-fw fa-home"></i> Dashboard
+        </a>
+      </li>
 
-      <div class="panel panel-default">
+      <div class="panel panel-default" id="favourites">
         <div class="panel-heading">
           <h4 class="panel-title">
             <a id="collapseFavouritesButton" data-parent="#accordion" data-toggle="collapse" href="#collapseFavourites">
@@ -147,238 +102,181 @@
         </div>
         <div class="panel-collapse collapse" id="collapseFavourites">
           <div class="panel-body">
-            <div class="btn-group btn-group-justified">
-              <div class="btn-group">
-                <button class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="bottom" title="Add this page to your favourites for easy access" role="button" id="mnuAddToFavourites"><i class="fa fa-fw fa-plus"></i> Add to favourites</button>
-              </div>
-            </div>
-            <table class="table">
+            <ul id="favourites-links">
               {{#each favourites}} {{>favourite}} {{else}}
-              <tr>
-                <td>
-                  <em>No favourites</em>
-                </td>
-              </tr>
+              <li>No favourites</li>
               {{/each}}
-
-            </table>
+              <li class="add-favourite">
+                <a data-toggle="tooltip" data-placement="bottom" title="Add this page to your favourites for easy access" id="mnuAddToFavourites"><i class="fa fa-fw fa-plus"></i>  Add to favourites</a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
       {{#if isInRole 'Administrator,CanReadTasks'}}
-      <tr>
-        <td class="panel-heading">
-          <h4 class="panel-title">
-            <i class="fa fa-fw fa-check"></i>
-            <a href='/tasks' class="dismiss-on-click {{#if isActiveRoute 'tasks'}}active{{/if}}" id="menuLinkTasks">
-              Tasks
-              </a>
-          </h4>
-        </td>
-      </tr>
+      <li class="panel-title">
+        <a href='/tasks' class="dismiss-on-click {{isActiveRoute 'tasks'}}" id="menuLinkTasks">
+          <i class="fa fa-fw fa-check"></i> Tasks
+        </a>
+      </li>
+      {{/if}} {{#if isInRole 'Administrator,CanReadCompanies'}}
+      <li class="panel-title">
+        <a href='/companies' class="dismiss-on-click {{isActiveRoute regex='companies|company'}}" id="menuLinkCompanies">
+          <i class="fa fa-fw fa-building"></i> Companies
+        </a>
+      </li>
+      {{/if}} {{#if isInRole 'Administrator,CanReadContacts'}}
+      <li class="panel-title">
+        <a href='/contacts' class="dismiss-on-click {{isActiveRoute regex='contacts|contact'}}" id="menuLinkContacts">
+          <i class="fa fa-fw fa-user"></i> Contacts
+        </a>
+      </li>
+      {{/if}} {{#if isInRole 'Administrator,CanReadOpportunities'}}
+      <li class="panel-title">
+        <a href='/opportunities' class="dismiss-on-click {{isActiveRoute regex='opportunities|opportunity|salespipeline'}}" id="menuLinkOpportunities">
+          <i class="fa fa-fw fa-files-o"></i> Opportunities
+        </a>
+      </li>
+      {{/if}} {{#if isInRole 'Administrator,CanReadProjects'}}
+      <li class="panel-title">
+        <a href='/projects' class="dismiss-on-click {{isActiveRoute regex='projects|project'}}" id="menuLinkProjects">
+          <i class="fa fa-fw fa-files-o"></i> Projects
+        </a>
+      </li>
+      {{/if}} {{#if isInRole 'Administrator,CanReadProducts'}}
+      <li class="panel-title">
+        <a href='/products' class="dismiss-on-click {{isActiveRoute regex='products|product'}}" id="menuLinkProducts">
+          <i class="fa fa-fw fa-wrench"></i> Products
+        </a>
+      </li>
+      {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
+      <li class="panel-title">
+        <a href='/purchaseorders' class="dismiss-on-click {{isActiveRoute regex='purchaseOrders|purchaseOrder'}}" id="menuLinkPurchaseOrders">
+          <i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders
+        </a>
+      </li>
+      {{/if}} {{#if isInRole 'Administrator,CanReadDataManagement'}}
+      <li class="panel-title">
+        <a href='/datamanagement' class="dismiss-on-click {{isActiveRoute 'datamanagement'}}" id="menuLinkDataManagement">
+          <i class="fa fa-fw fa-upload"></i> Data Management
+        </a>
+      </li>
+      {{/if}} {{#if isInRole 'Administrator,CanReadEventLog'}}
+      <li class="panel-title">
+        <a href='/events' class="dismiss-on-click {{isActiveRoute 'events'}}" id="menuLinkEventLog">
+          <i class="fa fa-fw fa-book"></i> Event Log
+        </a>
+      </li>
+      {{/if}} {{/unless}} {{#if isInRole 'superadmin'}}
+      <li class="panel-title">
+        <a href="/tenants" class="dismiss-on-click {{isActiveRoute 'tenants'}}">
+          <i class="fa fa-fw fa-archive"></i> Tenants
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="panel-title">
+        <a href="/notifications" class="dismiss-on-click {{isActiveRoute 'notifications'}}">
+          <i class="fa fa-fw fa-envelope"></i> Notifications
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="panel-title">
+        <a href="/statistics" class="dismiss-on-click {{isActiveRoute 'statistics'}}">
+          <i class="fa fa-fw fa-bar-chart"></i> Statistics
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="panel-title">
+        <a href="/audit" class="dismiss-on-click {{isActiveRoute 'audit'}}">
+          <i class="fa fa-fw fa-book"></i> Audit Log
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
       {{/if}}
-      <div class="panel panel-default accordion-links">
-        <table class="table">
-          {{#if isInRole 'Administrator,CanReadCompanies'}}
-          <tr>
-            <td class="panel-heading">
-              <h4 class="panel-title">
-                <a href='/companies' class="dismiss-on-click {{#if isActiveRoute 'companies'}}active{{/if}}" id="menuLinkCompanies">
-                  <i class="fa fa-fw fa-building"></i> Companies
-                </a>
-              </h4>
-            </td>
-          </tr>
-          {{/if}} {{#if isInRole 'Administrator,CanReadContacts'}}
-          <tr>
-            <td class="panel-heading">
-              <h4 class="panel-title">
-                <a href='/contacts' class="dismiss-on-click {{#if isActiveRoute 'contacts'}}active{{/if}}" id="menuLinkContacts">
-                  <i class="fa fa-fw fa-user"></i> Contacts
-                </a>
-              </h4>
-            </td>
-          </tr>
-          {{/if}} {{#if isInRole 'Administrator,CanReadOpportunities'}}
-          <tr>
-            <td class="panel-heading">
-              <h4 class="panel-title">
-                <i class="fa fa-fw fa-files-o"></i>
-                <a href='/opportunities' class="{{#if isActiveRoute 'opportunities'}}active{{/if}}" id="menuLinkOpportunities">
-                  Opportunities
-                </a>
-              </h4>
-            </td>
-          </tr>
-          {{/if}} {{#if isInRole 'Administrator,CanReadProjects'}}
-          <tr>
-            <td class="panel-heading">
-              <h4 class="panel-title">
-                <i class="fa fa-fw fa-files-o"></i>
-                <a href='/projects' class="{{#if isActiveRoute 'projects'}}active{{/if}}" id="menuLinkProjects">
-                  Projects
-                </a>
-              </h4>
-            </td>
-          </tr>
-          {{/if}} {{#if isInRole 'Administrator,CanReadProducts'}}
-          <tr>
-            <td class="panel-heading">
-              <h4 class="panel-title">
-                <i class="fa fa-fw fa-wrench"></i>
-                <a href='/products' class="{{#if isActiveRoute 'products'}}active{{/if}}" id="menuLinkProducts">
-                  Products</a>
-              </h4>
-            </td>
-          </tr>
-          {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
-          <tr>
-            <td class="panel-heading">
-              <h4 class="panel-title">
-                <i class="fa fa-fw fa-shopping-cart"></i>
-                <a href='/purchaseorders' class="{{#if isActiveRoute 'purchaseOrders'}}active{{/if}}" id="menuLinkPurchaseOrders">
-                  Purchase Orders
-                </a>
-              </h4>
-            </td>
-          </tr>
-          {{/if}} {{#if isInRole 'Administrator,CanReadDataManagement'}}
-          <tr>
-            <td class="panel-heading">
-              <h4 class="panel-title">
-                <i class="fa fa-fw fa-upload"></i>
-                <a href='/datamanagement' class="{{#if isActiveRoute 'datamanagement'}}active{{/if}}" id="menuLinkDataManagement">
-                 Data Management</a>
-              </h4>
-            </td>
-          </tr>
-          {{/if}} {{#if isInRole 'Administrator,CanReadEventLog'}}
-          <tr>
-            <td class="panel-heading">
-              <h4 class="panel-title">
-                <i class="fa fa-fw fa-book"></i>
-                <a href='/events' class="{{#if isActiveRoute 'events'}}active{{/if}}" id="menuLinkEventLog">
-                  Event Log</a>
-              </h4>
-            </td>
-          </tr>
-          {{/if}}
-        </table>
+
+      <h5 class="visible-xs" style="padding-left: 20px;">Menu items</h5>
+
+      {{#if isInRole 'superadmin'}}
+
+      <li class="panel-title visible-xs">
+        <a href="#" id="feedback-link" class="dismiss-on-click">
+            Feedback
+          </a>
+      </li>
+
+      <li class="panel-title visible-xs">
+        <a href="#" id="sign-out" class="dismiss-on-click">
+            Sign out
+          </a>
+      </li>
+
+      {{/if}} {{#unless isInRole 'superadmin'}}
+      <div class="panel panel-default visible-xs" id="user-menu">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseUserName">
+              <i class="fa fa-fw fa-user"></i> {{userName}}
+              <i class="fa fa-angle-down pull-right"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseUserName">
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <a href="#" id="feedback-link">Give Feedback</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="#" id="btnChangePassword">Change Password</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
+
+      <div class="panel panel-default visible-xs" id="notifications">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseNotifications">
+              {{#if recentNote}}
+              {{recentNoteCount}}
+              <i class="fa fa-fw fa-bell text-primary"></i>
+              {{else}}
+              <i class="fa fa-fw fa-bell"></i>
+              {{/if}}
+              Notifications
+              <i class="fa fa-angle-down pull-right"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseNotifications">
+          <div class="panel-body">
+            <table class="table">
+              {{#each notifications}} {{> menuNotice}} {{else}}
+              <tr>
+                <td>
+                  <em>No notifications</em>
+                </td>
+              </tr>
+              {{/each}}
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <li class="panel-title visible-xs">
+        <a href="#" id="sign-out" class="dismiss-on-click">
+            Sign out
+          </a>
+      </li>
 
       {{/unless}}
+    </ul>
 
-      <div class="visible-xs">
-        <h5>Menu items</h5>
-
-        {{#if isInRole 'superadmin'}}
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a href="/tenants" class="dismiss-on-click">
-                <i class="fa fa-fw fa-archive"></i> Tenants
-                <span class="sr-only">(current)</span>
-              </a>
-            </h4>
-          </div>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a href="/notifications" class="dismiss-on-click">
-                <i class="fa fa-fw fa-envelope"></i> Notifications
-                <span class="sr-only">(current)</span>
-              </a>
-            </h4>
-          </div>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a href="/statistics" class="dismiss-on-click">
-                <i class="fa fa-fw fa-bar-chart"></i> Statistics
-                <span class="sr-only">(current)</span>
-              </a>
-            </h4>
-          </div>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a href="#" id="feedback-link" class="dismiss-on-click">Feedback</a>
-            </h4>
-          </div>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a id="sign-out" class="dismiss-on-click" href="#">
-                    Sign out
-                    </a>
-            </h4>
-          </div>
-        </div>
-        {{/if}} {{#unless isInRole 'superadmin'}}
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-parent="#accordion" data-toggle="collapse" href="#collapseUserName">
-                <i class="fa fa-fw fa-user"></i> {{userName}}
-              </a>
-            </h4>
-          </div>
-          <div class="panel-collapse collapse" id="collapseUserName">
-            <div class="panel-body">
-              <table class="table">
-                <tr>
-                  <td>
-                    <a href="#" id="feedback-link">Give Feedback</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="#" id="btnChangePassword">Change Password</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="#" id="sign-out">Sign Out</a>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-parent="#accordion" data-toggle="collapse" href="#collapseNotifications">
-                    {{#if recentNote}}
-                    {{recentNoteCount}}
-                    <i class="fa fa-fw fa-bell text-primary"></i>
-                    {{else}}
-                    <i class="fa fa-fw fa-bell"></i>
-                    {{/if}}
-                    Notifications
-                    </a>
-            </h4>
-          </div>
-          <div class="panel-collapse collapse" id="collapseNotifications">
-            <div class="panel-body">
-              <table class="table">
-                {{#each notifications}} {{> menuNotice}} {{/each}}
-              </table>
-            </div>
-          </div>
-        </div>
-        {{/unless}}
-      </div>
-    </div>
   </div>
   {{/if}}
 </template>

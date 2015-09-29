@@ -2,8 +2,6 @@ Session.set('posc', null);
 Session.set('pocc', null);
 
 Template.newPurchaseOrderForm.onRendered(function() {
-  var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  Meteor.subscribe("myTenant", groupId);
   Session.set('posc', null);
   Session.set('pocc', null);
 
@@ -23,8 +21,6 @@ Template.newPurchaseOrderForm.onRendered(function() {
 });
 
 Template.newCompanyPurchaseOrderForm.onRendered(function() {
-  var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  Meteor.subscribe("myTenant", groupId);
   Meteor.subscribe("allCompanies");
   Session.set('posc', null);
   Session.set('pocc', null);
@@ -45,8 +41,6 @@ Template.newCompanyPurchaseOrderForm.onRendered(function() {
 });
 
 Template.newContactPurchaseOrderForm.onRendered(function() {
-  var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  Meteor.subscribe("myTenant", groupId);
   Meteor.subscribe("allCompanies");
   Session.set('posc', null);
   Session.set('pocc', null);
@@ -67,8 +61,6 @@ Template.newContactPurchaseOrderForm.onRendered(function() {
 });
 
 Template.updatePurchaseOrderFormModal.onRendered(function() {
-  var groupId = Meteor.users.findOne(Meteor.userId()).group;
-  Meteor.subscribe("myTenant", groupId);
   Session.set('posc', null);
   Session.set('pocc', null);
 
@@ -212,7 +204,7 @@ Template.newPurchaseOrderForm.helpers({
     return moment();
   },
   companiesAsOptions: function() {
-    return Companies.find({}).map(function(company) {
+    return Companies.find({}, {sort: {name: 1}}).map(function(company) {
       return {
         'label': company.name,
         'value': company._id
@@ -223,7 +215,7 @@ Template.newPurchaseOrderForm.helpers({
     if (Session.get('pocc') !== null) {
       return Contacts.find({
         companyId: Session.get('pocc')
-      }).map(function(contact) {
+      }, {sort: {forename: 1}}).map(function(contact) {
         return {
           'label': contact.forename + " " + contact.surname,
           'value': contact._id
@@ -232,7 +224,7 @@ Template.newPurchaseOrderForm.helpers({
     } else {
       return Contacts.find({
         companyId: undefined
-      }).map(function(contact) {
+      }, {sort: {forename: 1}}).map(function(contact) {
         return {
           'label': contact.forename + " " + contact.surname,
           'value': contact._id
@@ -243,7 +235,7 @@ Template.newPurchaseOrderForm.helpers({
   supplierContactsAsOptions: function() {
     return Contacts.find({
       companyId: Session.get('posc')
-    }).map(function(contact) {
+    }, {sort: {forename: 1}}).map(function(contact) {
       return {
         'label': contact.forename + " " + contact.surname,
         'value': contact._id
@@ -273,7 +265,7 @@ Template.newPurchaseOrderForm.helpers({
 
 Template.newCompanyPurchaseOrderForm.helpers({
   companiesAsOptions: function() {
-    return Companies.find({}).map(function(company) {
+    return Companies.find({}, {sort: {name: 1}}).map(function(company) {
       return {
         'label': company.name,
         'value': company._id
@@ -297,7 +289,7 @@ Template.newCompanyPurchaseOrderForm.helpers({
   supplierContactsAsOptions: function() {
     return Contacts.find({
       companyId: Session.get('posc')
-    }).map(function(contact) {
+    }, {sort: {forename: 1}}).map(function(contact) {
       return {
         'label': contact.forename + " " + contact.surname,
         'value': contact._id
@@ -440,7 +432,7 @@ Template.updatePurchaseOrderFormModal.helpers({
     return moment();
   },
   companiesAsOptions: function() {
-    return Companies.find({}).map(function(company) {
+    return Companies.find({}, {sort: {name: 1}}).map(function(company) {
       return {
         'label': company.name,
         'value': company._id
@@ -450,7 +442,7 @@ Template.updatePurchaseOrderFormModal.helpers({
   contactsAsOptions: function() {
     return Contacts.find({
       companyId: Session.get('pocc')
-    }).map(function(contact) {
+    }, {sort: {forename: 1}}).map(function(contact) {
       return {
         'label': contact.forename + " " + contact.surname,
         'value': contact._id

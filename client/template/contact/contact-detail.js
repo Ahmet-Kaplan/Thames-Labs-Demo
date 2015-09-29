@@ -31,7 +31,12 @@ Template.contactDetail.helpers({
     return contact;
   },
   company: function() {
-    return Companies.findOne({_id: this.companyId});
+    return Companies.findOne({
+      _id: this.companyId
+    });
+  },
+  phoneHref: function(number) {
+    return 'tel:' + number;
   },
   projects: function() {
     var contactId = FlowRouter.getParam('id');
@@ -55,24 +60,30 @@ Template.contactDetail.helpers({
   },
   mapTitle: function() {
     if (this.companyId) {
-      var company = Companies.findOne({_id: this.companyId});
+      var company = Companies.findOne({
+        _id: this.companyId
+      });
       if (company) {
         return company.name;
       }
     } else {
-      return this.title + ' ' + this.forename + ' ' + this.surname;
+      return this.forename + ' ' + this.surname;
     }
   },
   mapAddress: function() {
     if (this.companyId) {
-      var company = Companies.findOne({_id: this.companyId});
+      var company = Companies.findOne({
+        _id: this.companyId
+      });
       return company;
     } else {
       return this
     }
   },
   opportunities: function() {
-    return Opportunities.find({contactId: this._id});
+    return Opportunities.find({
+      contactId: this._id
+    });
   }
 });
 

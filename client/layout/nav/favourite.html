@@ -1,11 +1,10 @@
 <template name="favourite">
-  <tr>
-    <td>
-      <small><i class="fa fa-fw fa-star-o"></i><a href="{{url}}">{{name}}</a>
-        <div class="pull-right text-danger " id="mnuRemoveFavourite">
-          <i class="fa fa-fw fa-times"></i>
-        </div>
-      </small>
-    </td>
-  </tr>
+  <li>
+    <div class="pull-right text-danger remove-favourite" id="mnuRemoveFavourite">
+      <i class="fa fa-fw fa-times"></i>
+    </div>
+    <a href="{{url}}">
+      <i class="fa fa-fw fa-star-o"></i>{{name}}
+    </a>
+  </li>
 </template>

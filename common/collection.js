@@ -60,7 +60,7 @@ Contacts = new Mongo.Collection('contacts');
 Partitioner.partitionCollection(Contacts);
 Contacts.helpers({
   name: function() {
-    return [this.title, this.forename, this.surname].join(' ');
+    return [this.forename, this.surname].join(' ');
   },
   company: function() {
     return Companies.findOne(this.companyId);
@@ -207,9 +207,44 @@ Partitioner.partitionCollection(Tasks);
 AuditLog = new Mongo.Collection('audit');
 Partitioner.partitionCollection(AuditLog);
 
+Payments = new Mongo.Collection('payments');
+
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
+
+var checkRecordsNumber = function() {
+  if(!Tenants.findOne({})) {
+    return true;
+  }
+  var payingTenant = Tenants.findOne({}).stripe.paying;
+  var blockedTenant = Tenants.findOne({}).stripe.blocked;
+  var totalRecords = (Tenants.findOne({}) === undefined) ? 0 : Tenants.findOne({}).stripe.totalRecords;
+  totalRecords += 1;
+  if(payingTenant) {
+    return true;
+  } else {
+    if(Meteor.isServer) {
+      if(totalRecords == MAX_RECORDS) {
+        Meteor.call('tenantLimitReached');
+      } else if(blockedTenant && totalRecords > MAX_RECORDS) {
+        return false;
+      }
+      return true;
+    }
+
+    if(Meteor.isClient) {
+      if(blockedTenant && totalRecords > MAX_RECORDS) {
+        toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br />Please upgrade to enjoy the full functionalities of RealitmeCRM.', 'Account Locked', {preventDuplicates: true});
+        return false;
+      } else if(totalRecords >= MAX_RECORDS) {
+        toastr.options.preventDuplicates = true;
+        toastr.warning('You have reached the maximum number of records.<br />Please consider upgrading.', 'Limit Reached');
+      }
+      return true;
+    }
+  }
+};
 
 Tenants.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
@@ -223,10 +258,12 @@ Tenants.after.update(function(userId, doc, fieldNames, modifier, options) {
   }
   var prevdoc = this.previous;
   var key;
-  for (key in doc.settings) {
-    if (doc.settings.hasOwnProperty(key)) {
-      if (doc.settings[key] !== prevdoc.settings[key]) {
-        logEvent('info', 'An existing tenant has been updated: The value of tenant setting "' + key + '" was changed from ' + prevdoc.settings[key] + " to " + doc.settings[key]);
+  if(doc.settings !== undefined) {
+    for (key in doc.settings) {
+      if (doc.settings.hasOwnProperty(key)) {
+        if (doc.settings[key] !== prevdoc.settings[key]) {
+          logEvent('info', 'An existing tenant has been updated: The value of tenant setting "' + key + '" was changed from ' + prevdoc.settings[key] + " to " + doc.settings[key]);
+        }
       }
     }
   }
@@ -235,14 +272,28 @@ Tenants.after.remove(function(userId, doc) {
   logEvent('info', 'A tenant has been deleted: ' + doc.name);
 });
 
-
 Meteor.users.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
 });
 
+Meteor.users.after.insert(function(userId, doc) {
+  logEvent('info', 'A user has been created: ' + doc.name);
+});
 
+Meteor.users.after.remove(function(userId, doc) {
+  logEvent('info', 'A user has been removed: ' + doc.name);
+});
+
+Companies.before.insert(function(userId, doc) {
+  if(!checkRecordsNumber()) {
+    return false;
+  }
+  return true;
+});
 Companies.after.insert(function(userId, doc) {
+  Meteor.call('updateTotalRecords');
   logEvent('info', 'A new company has been created: ' + doc.name);
+
 });
 Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
 
@@ -281,21 +332,25 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
   fetchPrevious: true
 });
 Companies.after.remove(function(userId, doc) {
+  Meteor.call('updateTotalRecords');
   logEvent('info', 'A company has been deleted: ' + doc.name);
 });
 
-
+Contacts.before.insert(function(userId, doc) {
+  if(!checkRecordsNumber()) {
+    return false;
+  }
+  return true;
+});
 Contacts.after.insert(function(userId, doc) {
-  logEvent('info', 'A new contact has been created: ' + doc.title + " " + doc.forename + " " + doc.surname);
+  Meteor.call('updateTotalRecords');
+  logEvent('info', 'A new contact has been created: ' + doc.forename + " " + doc.surname);
 });
 Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (this.previous.email !== doc.email && doc.email !== '' && doc.email !== undefined) {
     Meteor.call('getClearbitData', 'contact', doc._id);
   }
 
-  if (doc.title !== this.previous.title) {
-    logEvent('info', 'An existing contact has been updated: The value of "title" was changed from ' + this.previous.title + " to " + doc.title);
-  }
   if (doc.forename !== this.previous.forename) {
     logEvent('info', 'An existing contact has been updated: The value of "forename" was changed from ' + this.previous.forename + " to " + doc.forename);
   }
@@ -318,20 +373,21 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
     var prevComp = Companies.findOne(this.previous.companyId);
     var newComp = Companies.findOne(doc.companyId);
     if (prevComp === undefined) {
-      var prevComp = {
+      prevComp = {
         name: 'None'
-      }
+      };
     }
     if (newComp === undefined) {
-      var newComp = {
+      newComp = {
         name: 'None'
-      }
+      };
     }
     logEvent('info', 'An existing contact has been updated: The value of "companyId" was changed from ' + this.previous.companyId + '(' + prevComp.name + ") to " + doc.companyId + ' (' + newComp.name + ')');
   }
 });
 Contacts.after.remove(function(userId, doc) {
-  logEvent('info', 'A contact has been deleted: ' + doc.title + " " + doc.forename + " " + doc.surname);
+  Meteor.call('updateTotalRecords');
+  logEvent('info', 'A contact has been deleted: ' + doc.forename + " " + doc.surname);
 });
 
 
@@ -350,7 +406,7 @@ Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.contactId !== this.previous.contactId) {
     var prevCont = Contacts.findOne(this.previous.contactId);
     var newCont = Contacts.findOne(doc.contactId);
-    logEvent('info', 'An existing project has been updated: The value of "contactId" was changed from ' + this.previous.contactId + '(' + prevCont.title + " " + prevCont.forename + " " + prevCont.surname + ") to " + doc.contactId + ' (' + newCont.title + " " + newCont.forename + " " + newCont.surname + ')');
+    logEvent('info', 'An existing project has been updated: The value of "contactId" was changed from ' + this.previous.contactId + '(' + prevCont.forename + " " + prevCont.surname + ") to " + doc.contactId + ' (' + newCont.forename + " " + newCont.surname + ')');
   }
   if (doc.userId !== this.previous.userId) {
     var prevUser = Meteor.users.findOne(this.previous.userId);
@@ -404,7 +460,7 @@ PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options)
   if (doc.supplierContactId !== this.previous.supplierContactId) {
     var prevCont = Contacts.findOne(this.previous.supplierContactId);
     var newCont = Contacts.findOne(doc.supplierContactId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "supplierContactId" was changed from ' + this.previous.supplierContactId + '(' + prevCont.title + " " + prevCont.forename + " " + prevCont.surname + ") to " + doc.supplierContactId + ' (' + newCont.title + " " + newCont.forename + " " + newCont.surname + ')');
+    logEvent('info', 'An existing purchase order has been updated: The value of "supplierContactId" was changed from ' + this.previous.supplierContactId + '(' + prevCont.forename + " " + prevCont.surname + ") to " + doc.supplierContactId + ' (' + newCont.forename + " " + newCont.surname + ')');
   }
   if (doc.projectId !== this.previous.projectId) {
     var prevProj = Projects.findOne(this.previous.projectId);
@@ -460,7 +516,7 @@ Activities.after.insert(function(userId, doc) {
   }
   if (doc.contactId) {
     entity = Contacts.findOne(doc.contactId);
-    entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+    entityName = "Contact: " + entity.forename + " " + entity.surname;
   }
   if (doc.projectId) {
     entity = Projects.findOne(doc.projectId);
@@ -484,7 +540,7 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
   }
   if (doc.contactId) {
     entity = Contacts.findOne(doc.contactId);
-    entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+    entityName = "Contact: " + entity.forename + " " + entity.surname;
   }
   if (doc.projectId) {
     entity = Projects.findOne(doc.projectId);
@@ -514,7 +570,7 @@ Activities.after.remove(function(userId, doc) {
   }
   if (doc.contactId) {
     entity = Contacts.findOne(doc.contactId);
-    entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+    entityName = "Contact: " + entity.forename + " " + entity.surname;
   }
   if (doc.projectId) {
     entity = Projects.findOne(doc.projectId);
@@ -540,7 +596,7 @@ Tasks.after.insert(function(userId, doc) {
       break;
     case 'contact':
       entity = Contacts.findOne(doc.entityId);
-      entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+      entityName = "Contact: " + entity.forename + " " + entity.surname;
       break;
     case 'project':
       entity = Projects.findOne(doc.entityId);
@@ -565,7 +621,7 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
       break;
     case 'contact':
       entity = Contacts.findOne(doc.entityId);
-      entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+      entityName = "Contact: " + entity.forename + " " + entity.surname;
       break;
     case 'project':
       entity = Projects.findOne(doc.entityId);
@@ -603,7 +659,7 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
         break;
       case 'contact':
         prevEntity = Contacts.findOne(this.previous.entityId);
-        prevEntityName = "Contact: " + prevEntity.title + " " + prevEntity.forename + " " + prevEntity.surname;
+        prevEntityName = "Contact: " + prevEntity.forename + " " + prevEntity.surname;
         break;
       case 'project':
         prevEntity = Projects.findOne(this.previous.entityId);
@@ -633,7 +689,7 @@ Tasks.after.remove(function(userId, doc) {
       break;
     case 'contact':
       entity = Contacts.findOne(doc.entityId);
-      entityName = "Contact: " + entity.title + " " + entity.forename + " " + entity.surname;
+      entityName = "Contact: " + entity.forename + " " + entity.surname;
       break;
     case 'project':
       entity = Projects.findOne(doc.entityId);
@@ -681,6 +737,14 @@ Products.after.remove(function(userId, doc) {
 
 //Opportunities
 Opportunities = new Mongo.Collection('opportunities');
+Opportunities.helpers({
+  company: function() {
+    return Companies.findOne(this.companyId);
+  },
+  contact: function() {
+    return Contacts.findOne(this.contactId);
+  }
+});
 Partitioner.partitionCollection(Opportunities);
 Opportunities.initEasySearch(['name', 'tags'], {
   limit: 50,

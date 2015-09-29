@@ -36,17 +36,17 @@ Meteor.publish("allTenants", function() {
   }
 });
 
-Meteor.publish("activeTenantData", function(groupId) {
+Meteor.publish("activeTenantData", function() {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Tenants.find({
-    _id: groupId
+    _id: Partitioner.getUserGroup(this.userId)
   });
 });
 
-Meteor.publish("currentTenantUserData", function(groupId) {
+Meteor.publish("currentTenantUserData", function() {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Meteor.users.find({
-    group: groupId
+    group: Partitioner.getUserGroup(this.userId)
   }, {
     fields: {
       services: false

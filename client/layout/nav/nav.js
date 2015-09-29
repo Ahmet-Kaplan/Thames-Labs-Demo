@@ -1,3 +1,7 @@
+Template.nav.onCreated(function() {
+  this.subscribe('allNotifications');
+});
+
 Template.nav.helpers({
 
   showTourOption: function() {
@@ -83,14 +87,6 @@ Template.nav.helpers({
         favList = profile.favourites;
         return favList;
       }
-    }
-  },
-  shouldDisplayMenu: function() {
-    var isUserAdmin = Roles.userIsInRole(Meteor.user(), ['superadmin']);
-    if (isUserAdmin) {
-      return "visible-xs";
-    } else {
-      return "";
     }
   }
 });
