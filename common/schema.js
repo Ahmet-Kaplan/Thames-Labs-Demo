@@ -422,7 +422,7 @@ Activities.attachSchema(Schemas.Activity);
 Schemas.Project = new SimpleSchema({
   name: {
     type: String,
-    label: "name"
+    label: "Name"
   },
   description: {
     type: String,
