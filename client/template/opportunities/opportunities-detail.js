@@ -115,14 +115,17 @@ Template.opportunityDetail.events({
   'click #lost-opportunity': function(event) {
     event.preventDefault();
     var oppId = this._id;
-    bootbox.confirm("Are you sure you wish to mark this opportunity as lost? This action is not reversible.", function(result) {
-      if (result === true) {
+    bootbox.prompt("Are you sure you wish to mark this opportunity as lost? This action is not reversible. If so, you can enter the reason hereafter", function(result) {
+      if (result !== null) {
         Opportunities.update(oppId, { $set: {
           isArchived: true,
           hasBeenWon: false
         }});
         var user = Meteor.user();
         var note = user.profile.name + ' marked this opportunity as lost';
+        if(result) {
+          note += ": <br />" + result;
+        }
         var date = new Date();
         Activities.insert({
           type: 'Note',
