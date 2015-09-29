@@ -4,7 +4,7 @@
   width: 40px;
   height: 40px;
   position: relative;
-  margin: 0 auto;
+  margin: 10px auto;
 }
 
 .sk-spinner-rt .sk-rt-light-inner-circle {
@@ -17,8 +17,8 @@
   border: 4px solid #C3DFFF;
   right: 9px;
   top: -1px;
-  -webkit-animation: sk-rt-light 2s ease-in-out 0s infinite alternate-reverse both running;
-  animation: sk-rt-light 2s ease-in-out 0s infinite alternate-reverse both running;
+  -webkit-animation: sk-rt-light 2s cubic-bezier(0.49, 0.1, 0.29, 1.29) infinite 0s;
+  animation: sk-rt-light 2s cubic-bezier(0.49, 0.1, 0.29, 1.29) infinite 0s;
 }
 
 .sk-spinner-rt .sk-rt-medium-inner-circle {
@@ -41,97 +41,58 @@
   border: 4px solid #1B4982;
   left: 12px;
   top: 1px;
-  -webkit-animation: sk-rt-dark 2s ease-in-out 0s infinite alternate-reverse both running;
-  animation: sk-rt-dark 2s ease-in-out 0s infinite alternate-reverse both running;
+  -webkit-animation: sk-rt-dark 2s cubic-bezier(0.49, 0.1, 0.29, 1.29) infinite 0s;
+  animation: sk-rt-dark 2s cubic-bezier(0.49, 0.1, 0.29, 1.29) infinite 0s;
 }
 
 @-webkit-keyframes sk-rt-light {
-  0%, 20% {
+  0%, 20%, 80%, 100% {
     -webkit-transform: perspective(40) translate3d(0, 0, 0);
     transform: perspective(40) translate3d(0, 0, 0);
   }
 
-  40% {
+  45%, 55% {
     -webkit-transform: perspective(40) translate3d(-15px, 0, 10px);
     transform: perspective(40) translate3d(-15px, 0, 10px);
-  }
-
-  60% {
-    -webkit-transform: perspective(40) translate3d(30px, 0, 10px);
-    transform: perspective(40) translate3d(30px, 0, 10px);
-  }
-
-  80%, 100% {
-    -webkit-transform: perspective(40) translate3d(24px, 0, 0);
-    transform: perspective(40) translate3d(24px, 0, 0);
   }
 }
 
 @-webkit-keyframes sk-rt-dark {
-  0%, 20% {
+  0%, 20%, 80%, 100% {
     -webkit-transform: perspective(40) translate3d(0, 0, 0);
     transform: perspective(40) translate3d(0, 0, 0);
   }
 
-  40%{
+  45%, 55%{
     -webkit-transform: perspective(40) translate3d(15px, 0, -10px);
     transform: perspective(40) translate3d(15px, 0, -10px);
-  }
-
-  60% {
-    -webkit-transform: perspective(40) translate3d(-35px, 0, -10px);
-    transform: perspective(40) translate3d(-35px, 0, -10px);
-  }
-
-  80%, 100% {
-    -webkit-transform: perspective(40) translate3d(-25px, 0, 0);
-    transform: perspective(40) translate3d(-25px, 0, 0);
   }
 }
 
 @keyframes sk-rt-light {
-  0%, 20% {
+  0%, 20%, 80%, 100% {
     -webkit-transform: perspective(40) translate3d(0, 0, 0);
     transform: perspective(40) translate3d(0, 0, 0);
   }
 
-  40% {
+  50% {
     -webkit-transform: perspective(40) translate3d(-15px, 0, 10px);
     transform: perspective(40) translate3d(-15px, 0, 10px);
-  }
-
-  60% {
-    -webkit-transform: perspective(40) translate3d(30px, 0, 10px);
-    transform: perspective(40) translate3d(3px, 0, 10px);
-  }
-
-  80%, 100% {
-    -webkit-transform: perspective(40) translate3d(24px, 0, 0);
-    transform: perspective(40) translate3d(24px, 0, 0);
   }
 }
 
 @keyframes sk-rt-dark {
-  0%, 20% {
+  0%, 20%, 80%, 100% {
     -webkit-transform: perspective(40) translate3d(0, 0, 0);
     transform: perspective(40) translate3d(0, 0, 0);
   }
 
-  40%{
+  50%{
     -webkit-transform: perspective(40) translate3d(15px, 0, -10px);
     transform: perspective(40) translate3d(15px, 0, -10px);
   }
-
-  60% {
-    -webkit-transform: perspective(40) translate3d(-35px, 0, -10px);
-    transform: perspective(40) translate3d(-35px, 0, -10px);
-  }
-
-  80%, 100% {
-    -webkit-transform: perspective(40) translate3d(-25px, 0, 0);
-    transform: perspective(40) translate3d(-25px, 0, 0);
-  }
 }
+
 
 
 /* Slide and rotate
