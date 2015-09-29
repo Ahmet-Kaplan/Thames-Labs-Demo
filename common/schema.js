@@ -420,9 +420,14 @@ Schemas.Activity = new SimpleSchema({
 Activities.attachSchema(Schemas.Activity);
 
 Schemas.Project = new SimpleSchema({
+  name: {
+    type: String,
+    label: "name"
+  },
   description: {
     type: String,
-    label: "Description"
+    label: "Description",
+    optional: true
   },
   companyId: {
     type: String,

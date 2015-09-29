@@ -143,7 +143,7 @@ Projects.helpers({
     });
   }
 });
-Projects.initEasySearch(['description', 'tags'], {
+Projects.initEasySearch(['name', 'tags'], {
   limit: 50
 });
 Tags.TagsMixin(Projects);
