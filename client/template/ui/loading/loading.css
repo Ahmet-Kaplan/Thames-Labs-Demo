@@ -17,8 +17,8 @@
   border: 4px solid #C3DFFF;
   right: 9px;
   top: -1px;
-  -webkit-animation: sk-rt-light 2s cubic-bezier(0.49, 0.1, 0.29, 1.29) infinite 0s;
-  animation: sk-rt-light 2s cubic-bezier(0.49, 0.1, 0.29, 1.29) infinite 0s;
+  -webkit-animation: sk-rt-light 2s cubic-bezier(0.5, 0.1, 0.5, 1.5) infinite 0s;
+  animation: sk-rt-light 2s cubic-bezier(0.5, 0.1, 0.5, 1.5) infinite 0s;
 }
 
 .sk-spinner-rt .sk-rt-medium-inner-circle {
@@ -41,8 +41,8 @@
   border: 4px solid #1B4982;
   left: 12px;
   top: 1px;
-  -webkit-animation: sk-rt-dark 2s cubic-bezier(0.49, 0.1, 0.29, 1.29) infinite 0s;
-  animation: sk-rt-dark 2s cubic-bezier(0.49, 0.1, 0.29, 1.29) infinite 0s;
+  -webkit-animation: sk-rt-dark 2s cubic-bezier(0.5, 0.1, 0.5, 1.5) infinite 0s;
+  animation: sk-rt-dark 2s cubic-bezier(0.5, 0.1, 0.5, 1.5) infinite 0s;
 }
 
 @-webkit-keyframes sk-rt-light {
@@ -51,7 +51,7 @@
     transform: perspective(40) translate3d(0, 0, 0);
   }
 
-  45%, 55% {
+  40%, 60% {
     -webkit-transform: perspective(40) translate3d(-15px, 0, 10px);
     transform: perspective(40) translate3d(-15px, 0, 10px);
   }
@@ -63,7 +63,7 @@
     transform: perspective(40) translate3d(0, 0, 0);
   }
 
-  45%, 55%{
+  40%, 60%{
     -webkit-transform: perspective(40) translate3d(15px, 0, -10px);
     transform: perspective(40) translate3d(15px, 0, -10px);
   }
@@ -75,7 +75,7 @@
     transform: perspective(40) translate3d(0, 0, 0);
   }
 
-  50% {
+  40%, 60% {
     -webkit-transform: perspective(40) translate3d(-15px, 0, 10px);
     transform: perspective(40) translate3d(-15px, 0, 10px);
   }
@@ -87,7 +87,7 @@
     transform: perspective(40) translate3d(0, 0, 0);
   }
 
-  50%{
+  40%, 60%{
     -webkit-transform: perspective(40) translate3d(15px, 0, -10px);
     transform: perspective(40) translate3d(15px, 0, -10px);
   }
