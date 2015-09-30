@@ -64,7 +64,8 @@ Meteor.methods({
   addProject: function() {
     var companyId = Companies.findOne({})._id;
     var projectId = Projects.insert({
-      description: 'test project',
+      name: 'test project',
+      description: 'The purpose of this project is only to serve as an example for the tests.',
       companyId: companyId,
       userId: Meteor.userId(),
       value: 100,

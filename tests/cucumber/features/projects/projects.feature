@@ -54,7 +54,8 @@ Feature: Allow users to manage their Projects
     And a "Company" has been created
     When I navigate to "/projects"
     And I click "#add-project"
-    And I set text field "description" to "test project 2"
+    And I set text field "name" to "test project 2"
+    And I set text field "description" to "This is another test project."
     And I select "test user" from dropdown field "userId"
     And I click "#selectedCompany" and select the option "Test Ltd"
     And I set text field "value" to "999"
@@ -86,7 +87,7 @@ Feature: Allow users to manage their Projects
     And a "Project" has been created
     When I navigate to a project page
     And I click "#edit-project"
-    And I set text field "description" to "updated project name"
+    And I set text field "name" to "updated project name"
     And I submit the "updateProject" form
     Then "project-details" should say "updated project name"
 

@@ -420,9 +420,14 @@ Schemas.Activity = new SimpleSchema({
 Activities.attachSchema(Schemas.Activity);
 
 Schemas.Project = new SimpleSchema({
+  name: {
+    type: String,
+    label: "Name"
+  },
   description: {
     type: String,
-    label: "Description"
+    label: "Description",
+    optional: true
   },
   companyId: {
     type: String,
@@ -824,6 +829,13 @@ Schemas.Opportunity = new SimpleSchema({
   hasBeenWon: {
     type: Boolean,
     optional: true
+  },
+  reasonLost: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
   },
   isArchived: {
     type: Boolean,

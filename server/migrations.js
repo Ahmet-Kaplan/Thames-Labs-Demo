@@ -298,6 +298,27 @@ Migrations.add({
   }
 });
 
+Migrations.add({
+  version: 10,
+  name: "Transfer project description to project name to allow the implementation of an actual project description",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+        Projects.find({}).forEach(function(project) {
+        if(project.name === undefined) {
+          Projects.update(project._id, {
+            $set: {
+              name: project.description,
+              description: ''
+            }
+          });
+        }
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
 var defineGlobalCustomFields = function(collection) {
   Partitioner.directOperation(function() {
     Collections[collection].find({
@@ -322,7 +343,7 @@ var defineGlobalCustomFields = function(collection) {
   });
 };
 Migrations.add({
-  version: 10,
+  version: 11,
   name: "Update extended information fields to flag globals",
   up: function() {
     ServerSession.set('maintenance', true);
