@@ -811,6 +811,13 @@ Schemas.Opportunity = new SimpleSchema({
     type: Boolean,
     optional: true
   },
+  reasonLost: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
+  },
   isArchived: {
     type: Boolean,
     optional: true

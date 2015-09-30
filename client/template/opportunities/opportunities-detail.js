@@ -119,7 +119,8 @@ Template.opportunityDetail.events({
       if (result !== null) {
         Opportunities.update(oppId, { $set: {
           isArchived: true,
-          hasBeenWon: false
+          hasBeenWon: false,
+          reasonLost: result
         }});
         var user = Meteor.user();
         var note = user.profile.name + ' marked this opportunity as lost';
