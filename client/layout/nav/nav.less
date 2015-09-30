@@ -66,6 +66,26 @@
   background: rgba(0,0,0,0.1) !important;
 }
 
+.nav-btn-info {
+  background-color: @brand-info;
+  color: #fff !important;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.nav-btn-info:hover {
+  background-color: darken(@brand-info, 10%) !important;
+}
+
+.nav-btn-info:focus {
+  background-color: @brand-info !important;
+}
+
+.nav-btn-info:active {
+  background-color: darken(@brand-info, 10%) !important;
+}
+
 @media only screen and (max-width: 768px) {
   #id-view-sidemenu {
     left: -@sidebar-width-mobile;
