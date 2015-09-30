@@ -30,11 +30,11 @@
         {{> nav}}
 
         {{#if currentUser}}
-          <!-- {{#if subsReady}} -->
-            <!-- {{> Template.dynamic template=main}} -->
-          <!-- {{else}} -->
+          {{#if subsReady}}
+            {{> Template.dynamic template=main}}
+          {{else}}
             {{> loading}}
-          <!-- {{/if}} -->
+          {{/if}}
         {{else}}
           {{#if loggingIn}}
             {{> loading}}
