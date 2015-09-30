@@ -70,7 +70,8 @@ Meteor.methods({
 
   addProject: function() {
     var projectId = Projects.insert({
-      description: 'test project',
+      name: 'test project',
+      description: 'The purpose of this project is only to serve as an example for the tests.',
       userId: Meteor.userId(),
       value: 100,
       createdBy: Meteor.userId()

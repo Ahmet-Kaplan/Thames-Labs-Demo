@@ -275,7 +275,8 @@ Meteor.methods({
       val = 0;
     }
     var projId = Projects.insert({
-      description: opp.name,
+      name: opp.name,
+      description: opp.description,
       companyId: opp.companyId,
       contactId: opp.contactId,
       userId: user._id,
@@ -318,8 +319,8 @@ Meteor.methods({
       createdBy: user._id
     });
 
-    var note = 'Converted from won opportunity "' + opp.name + '"';
-    var date = new Date();
+    note = 'Converted from won opportunity "' + opp.name + '"';
+    date = new Date();
     Activities.insert({
       type: 'Note',
       notes: note,

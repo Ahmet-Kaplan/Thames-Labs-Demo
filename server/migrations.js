@@ -295,3 +295,24 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 10,
+  name: "Transfer project description to project name to allow the implementation of an actual project description",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+        Projects.find({}).forEach(function(project) {
+        if(project.name === undefined) {
+          Projects.update(project._id, {
+            $set: {
+              name: project.description,
+              description: ''
+            }
+          });
+        }
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
