@@ -753,7 +753,11 @@ Opportunities.initEasySearch(['name', 'tags'], {
   },
   query: function(searchString) {
     var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
-    if (!this.props.showArchived) {
+    if (this.props.showArchived) {
+      query.isArchived = {
+        $in: [true]
+      };
+    } else {
       query.isArchived = {
         $ne: true
       };
