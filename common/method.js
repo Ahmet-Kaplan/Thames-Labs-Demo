@@ -208,7 +208,11 @@ Meteor.methods({
           name: userDetails.companyName,
           settings: {
             "PurchaseOrderPrefix": "",
-            "PurchaseOrderStartingValue": 0
+            "PurchaseOrderStartingValue": 0,
+            extInfo: {
+              company: [],
+              contact: []
+            }
           },
           stripe: {
             "totalRecords": 0,
