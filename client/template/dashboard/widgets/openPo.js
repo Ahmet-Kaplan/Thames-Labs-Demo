@@ -13,8 +13,6 @@ Template.openPoWidget.helpers({
       status: 'Requested'
     }).fetch();
 
-    console.log(list);
-
     var user = Meteor.users.findOne(Meteor.userId());
     var level = parseFloat(user.profile.poAuthLevel);
 

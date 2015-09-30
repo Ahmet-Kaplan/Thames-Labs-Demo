@@ -168,6 +168,7 @@ module.exports = function() {
 
   this.Then(/^I should not see "([^"]*)"$/, function(id, callback) {
     this.client
+      .waitForVisible(id, 5000, true)
       .isExisting(id)
       .then(function(isExisting) {
         expect(isExisting).to.equal(false);

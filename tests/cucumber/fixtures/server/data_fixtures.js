@@ -18,7 +18,6 @@ Meteor.methods({
       customFields: {}
     });
 
-    console.log(data);
     return data;
 
   },
@@ -43,7 +42,7 @@ Meteor.methods({
       country: "country",
       createdBy: Meteor.userId()
     });
-    // console.log(companyId);
+
     return Contacts.insert({
       forename: "Testy",
       surname: "Surname",
@@ -63,8 +62,10 @@ Meteor.methods({
   },
 
   addProject: function() {
+    var companyId = Companies.findOne({})._id;
     var projectId = Projects.insert({
       description: 'test project',
+      companyId: companyId,
       userId: Meteor.userId(),
       value: 100,
       createdBy: Meteor.userId()
