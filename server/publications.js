@@ -146,9 +146,7 @@ Meteor.publish("contactsByProjectId", function(projectId) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   var project = Projects.findOne(projectId);
-  if (project.contactId) {
-    return Contacts.find(project.contactId);
-  }
+  return Contacts.find(project.contactId);
 });
 Meteor.publish("contactByPurchaseOrderId", function(purchaseOrderId) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
