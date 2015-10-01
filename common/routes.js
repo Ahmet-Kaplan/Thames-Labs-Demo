@@ -341,6 +341,9 @@ router.route('/datamanagement', {
   subscriptions: function() {
     this.register('allCompanies', subs.subscribe('allCompanies', Meteor.userId()));
     this.register('allContacts', subs.subscribe('allContacts', Meteor.userId()));
+    this.register('allOpportunities', subs.subscribe('allOpportunities', Meteor.userId()));
+    this.register('allPurchaseOrders', subs.subscribe('allPurchaseOrders', Meteor.userId()));
+    this.register('allProjects', subs.subscribe('allProjects', Meteor.userId()));
   },
   action: function() {
     layout.render('appLayout', {

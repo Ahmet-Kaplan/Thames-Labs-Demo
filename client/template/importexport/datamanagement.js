@@ -388,5 +388,80 @@ Template.datamanagement.events({
 
     reader.readAsText(file);
 
-  }
-})
+  },
+  'click #exportOpportunityList': function() {
+    var tempFile = [];
+
+    var opps = Opportunities.find({}).fetch();
+    _.each(opps, function(o) {
+
+      var companyEntry, contactEntry;
+
+      if (o.companyId) {
+        companyEntry = Companies.find({
+          _id: o.companyId
+        }).fetch()[0];
+      }
+
+      if (o.contactId) {
+        contactEntry = Contacts.find({
+          _id: o.contactId
+        }).fetch()[0];
+      }
+
+      var stageEntry = OpportunityStages.find({
+        _id: o.currentStageId
+      }).fetch()[0];
+
+      var companyName = (companyEntry ? companyEntry.name : "");
+      var contactName = (contactEntry ? contactEntry.forename + " " + contactEntry.surname : "");
+      var stageName = (stageEntry ? stageEntry.title : "");
+
+      var entry = {
+        name: o.name,
+        description: o.description,
+        date: o.date,
+        estCloseDate: o.estCloseDate,
+        value: (value ? parseFloat(o.value).toFixed(2) : "N/A"),
+        company: (companyName !== "" ? companyName : ""),
+        contact: (contactName !== "" ? contactName : ""),
+        stage: (stageName !== "" ? stageName : "")
+      }
+      tempFile.push(entry);
+    });
+
+    var filename = 'realtimecrm-opps-export_' + moment().format("MMM-Do-YY") + '.csv';
+    var fileData = Papa.unparse(tempFile);
+
+    var blob = new Blob([fileData], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(blob, filename);
+  },
+  'click #exportProjectList': function() {
+    var tempFile = [];
+
+
+
+    var filename = 'realtimecrm-project-export_' + moment().format("MMM-Do-YY") + '.csv';
+    var fileData = Papa.unparse(tempFile);
+
+    var blob = new Blob([fileData], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(blob, filename);
+  },
+  'click #exportPurchaseOrderList': function() {
+    var tempFile = [];
+
+
+
+    var filename = 'realtimecrm-purchase-order-export_' + moment().format("MMM-Do-YY") + '.csv';
+    var fileData = Papa.unparse(tempFile);
+
+    var blob = new Blob([fileData], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(blob, filename);
+  },
+});
