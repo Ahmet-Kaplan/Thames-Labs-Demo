@@ -194,7 +194,8 @@ Meteor.methods({
         lastActivity: {
           page: null,
           url: null
-        }
+        },
+        poAuthLevel: 100000
       }
     });
 
@@ -207,7 +208,11 @@ Meteor.methods({
           name: userDetails.companyName,
           settings: {
             "PurchaseOrderPrefix": "",
-            "PurchaseOrderStartingValue": 0
+            "PurchaseOrderStartingValue": 0,
+            extInfo: {
+              company: [],
+              contact: []
+            }
           },
           stripe: {
             "totalRecords": 0,
