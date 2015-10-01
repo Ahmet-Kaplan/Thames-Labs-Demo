@@ -284,7 +284,7 @@ Template.purchaseOrderItem.helpers({
   },
   projectName: function() {
     var project = Projects.findOne(this.projectId);
-    if(project) return project.description;
+    if(project) return project.name;
     return "No project";
   }
 });

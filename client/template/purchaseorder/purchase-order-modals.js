@@ -357,7 +357,7 @@ Template.addPurchaseOrderItemModal.helpers({
       if (project.companyId) {
         var company = Companies.findOne(project.companyId);
         var info = {
-          'label': project.description + " (" + company.name + ")",
+          'label': project.name + " (" + company.name + ")",
           'value': project._id
         };
 
@@ -365,7 +365,7 @@ Template.addPurchaseOrderItemModal.helpers({
       } else {
         var contact = Contacts.findOne(project.contactId);
         var info = {
-          'label': project.description + " (" + contact.forename + " " + contact.surname + ")",
+          'label': project.name + " (" + contact.forename + " " + contact.surname + ")",
           'value': project._id
         };
 
@@ -415,7 +415,7 @@ Template.editPurchaseOrderItemModal.helpers({
       if (project.companyId) {
         var company = Companies.findOne(project.companyId);
         var info = {
-          'label': project.description + " (" + company.name + ")",
+          'label': project.name + " (" + company.name + ")",
           'value': project._id
         };
 
@@ -423,7 +423,7 @@ Template.editPurchaseOrderItemModal.helpers({
       } else {
         var contact = Contacts.findOne(project.contactId);
         var info = {
-          'label': project.description + " (" + contact.forename + " " + contact.surname + ")",
+          'label': project.name + " (" + contact.forename + " " + contact.surname + ")",
           'value': project._id
         };
 
