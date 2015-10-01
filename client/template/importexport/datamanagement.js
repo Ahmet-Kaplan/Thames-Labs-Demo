@@ -422,7 +422,7 @@ Template.datamanagement.events({
         description: o.description,
         date: o.date,
         estCloseDate: o.estCloseDate,
-        value: (value ? parseFloat(o.value).toFixed(2) : "N/A"),
+        value: (o.value ? parseFloat(o.value).toFixed(2) : "0.00"),
         company: (companyName !== "" ? companyName : ""),
         contact: (contactName !== "" ? contactName : ""),
         stage: (stageName !== "" ? stageName : "")
@@ -441,7 +441,42 @@ Template.datamanagement.events({
   'click #exportProjectList': function() {
     var tempFile = [];
 
+    var projects = Projects.find({}).fetch();
+    _.each(projects, function(o) {
 
+      var companyEntry, contactEntry;
+
+      if (o.companyId) {
+        companyEntry = Companies.find({
+          _id: o.companyId
+        }).fetch()[0];
+      }
+
+      if (o.contactId) {
+        contactEntry = Contacts.find({
+          _id: o.contactId
+        }).fetch()[0];
+      }
+
+      var accMgrEntry = Meteor.users.find({
+        _id: o.userId
+      }).fetch()[0];
+
+      var companyName = (companyEntry ? companyEntry.name : "");
+      var contactName = (contactEntry ? contactEntry.forename + " " + contactEntry.surname : "");
+      var mgrName = (accMgrEntry ? accMgrEntry.profile.name : "");
+
+      var entry = {
+        name: o.name,
+        description: o.description,
+        dueDate: o.dueDate,
+        value: (o.value ? parseFloat(o.value).toFixed(2) : "0.00"),
+        company: (companyName !== "" ? companyName : ""),
+        contact: (contactName !== "" ? contactName : ""),
+        accMgr: (mgrName !== "" ? mgrName : "")
+      }
+      tempFile.push(entry);
+    });
 
     var filename = 'realtimecrm-project-export_' + moment().format("MMM-Do-YY") + '.csv';
     var fileData = Papa.unparse(tempFile);
@@ -454,7 +489,45 @@ Template.datamanagement.events({
   'click #exportPurchaseOrderList': function() {
     var tempFile = [];
 
+    var pos = PurchaseOrders.find({}).fetch();
+    _.each(pos, function(o) {
 
+      var companyEntry, contactEntry;
+
+      if (o.supplierCompanyId) {
+        companyEntry = Companies.find({
+          _id: o.supplierCompanyId
+        }).fetch()[0];
+      }
+
+      if (o.supplierContactId) {
+        contactEntry = Contacts.find({
+          _id: o.supplierContactId
+        }).fetch()[0];
+      }
+
+      var requestorEntry = Meteor.users.find({
+        _id: o.userId
+      }).fetch()[0];
+
+      var companyName = (companyEntry ? companyEntry.name : "");
+      var contactName = (contactEntry ? contactEntry.forename + " " + contactEntry.surname : "");
+      var requestorName = (requestorEntry ? requestorEntry.profile.name : "");
+
+      var entry = {
+        requestor: (requestorName !== "" ? requestorName : ""),
+        orderNumber: o.orderNumber,
+        supplierCompany: (companyName !== "" ? companyName : ""),
+        supplierContact: (contactName !== "" ? contactName : ""),
+        description: o.description,
+        reference: o.supplierReference,
+        status: o.status,
+        orderDate: o.orderDate,
+        payment: o.paymentMethod,
+        notes: o.notes
+      }
+      tempFile.push(entry);
+    });
 
     var filename = 'realtimecrm-purchase-order-export_' + moment().format("MMM-Do-YY") + '.csv';
     var fileData = Papa.unparse(tempFile);
