@@ -95,6 +95,7 @@ Meteor.methods({
             // var element = array[randomIndex];
 
             var projectId = Projects.insert({
+              name: faker.lorem.words(),
               description: faker.lorem.sentence(),
               companyId: companyId,
               contactId: contacts[Math.floor(Math.random() * contacts.length)],
