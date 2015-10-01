@@ -74,8 +74,8 @@
       {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
-          Purchase Orders {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
-          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this contact"><i class="fa fa-fw fa-plus"></i> Add purchase order</a> {{/if}}
+          Purchase Orders<!-- {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+           <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this contact"><i class="fa fa-fw fa-plus"></i> Add purchase order</a> {{/if}} -->
         </div>
         <ul class="list-group">
           {{#each purchaseOrders}}

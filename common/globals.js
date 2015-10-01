@@ -1,6 +1,10 @@
 tenancyDefaultSettings = {
   PurchaseOrderPrefix: "",
-  PurchaseOrderStartingValue: 0
+  PurchaseOrderStartingValue: 0,
+  extInfo: {
+    company: [],
+    contact: []
+  }
 };
 
 availableTours = [

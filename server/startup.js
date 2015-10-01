@@ -4,14 +4,11 @@ Meteor.startup(function() {
   // See https://github.com/percolatestudio/meteor-migrations
   if (!process.env.IS_MIRROR) {
     Migrations.migrateTo('latest');
+    // Migrations.migrateTo(7);
   }
 
   //Keep tenant information sync'ed
-  var tenants = Tenants.find({
-    settings: {
-      $exists: 0
-    }
-  }).fetch();
+  var tenants = Tenants.find({}).fetch();
 
   _.forEach(tenants, function(t) {
 
@@ -19,6 +16,17 @@ Meteor.startup(function() {
       Tenants.update(t._id, {
         $set: {
           settings: tenancyDefaultSettings
+        }
+      });
+    }
+
+    if (typeof t.settings.extInfo === "undefined") {
+      Tenants.update(t._id, {
+        $set: {
+          "settings.extInfo": {
+            company: [],
+            contact: []
+          }
         }
       });
     }
@@ -52,7 +60,33 @@ Meteor.startup(function() {
         });
 
       }
+
+      if (typeof u.profile.poAuthLevel === "undefined") {
+
+        Meteor.users.update(u._id, {
+          $set: {
+            "profile.poAuthLevel": 100000
+          }
+        });
+
+      }
     }
+  });
+
+  //Keep purchase order information sync'ed
+  Partitioner.directOperation(function() {
+    var pos = PurchaseOrders.find({}).fetch();
+
+    _.forEach(pos, function(po) {
+
+      if (typeof po.locked === "undefined") {
+        PurchaseOrders.update(po._id, {
+          $set: {
+            locked: false
+          }
+        });
+      }
+    });
   });
 
 });

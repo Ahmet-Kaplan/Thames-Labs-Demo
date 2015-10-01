@@ -1,0 +1,18 @@
+#global-fields li:last-child {
+  border-bottom: 2px solid #dddddd;
+}
+#custom-field-container .list-group-item {
+  border-style: none;
+}
+.extinfo-scroll {
+  max-height: 450px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#extInfosDisplayItem {
+  padding: 3px 0 2px 0;
+}
+.modMyPosition {
+  padding-top: 7px;
+  margin-left: 4px;
+}
