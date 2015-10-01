@@ -1,4 +1,3 @@
-@dev
 Feature: Allow users to subscribe/unsubscribe to Stripe
 
   As a user of the app
@@ -40,7 +39,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     And I click "#add-company"
     And I set text field "name" to "Limit Reached Ltd"
     When I submit the "insertNewCompany" form
-    Then I should see a "error" toastr with the message "You have reached the maximum number of records and you are not able to add new ones."
+    Then I should see an "error" toastr with the message "You have reached the maximum number of records and you are not able to add new ones."
     And I should see a modal
 
   Scenario: When a user has reached the maximum number of subscriptions and they are blocked they can't add new records
