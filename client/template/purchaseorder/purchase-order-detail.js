@@ -36,7 +36,7 @@ Template.purchaseOrderDetail.events({
       customerAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
       if (this.customerContactId) {
         var contact = Contacts.findOne(this.customerContactId);
-        customerContact = contact.title + " " + contact.forename + " " + contact.surname;
+        customerContact = contact.forename + " " + contact.surname;
       }
       orderNumber = this.orderNumber;
       var orderDate = moment().format("MMM Do YYYY");
@@ -106,7 +106,7 @@ Template.purchaseOrderDetail.events({
       customerAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
       if (this.customerContactId) {
         var contact = Contacts.findOne(this.customerContactId);
-        customerContact = contact.title + " " + contact.forename + " " + contact.surname;
+        customerContact = contact.forename + " " + contact.surname;
       }
       orderNumber = this.orderNumber;
       var orderDate = moment().format("MMM Do YYYY");

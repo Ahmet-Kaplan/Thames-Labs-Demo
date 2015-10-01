@@ -21,7 +21,6 @@ Template.datamanagement.events({
       var companyName = (companyEntry ? companyEntry.name : "");
 
       var entry = {
-        title: c.title,
         forename: c.forename,
         surname: c.surname,
         email: c.email,
@@ -44,7 +43,6 @@ Template.datamanagement.events({
   'click #contact-template-download-link': function() {
     var tempFile = [];
     var entry = {
-      title: "Mr",
       forename: "Fredd",
       surname: "Bloggs",
       email: "fred.bloggs@sample.co.uk",
@@ -98,7 +96,6 @@ Template.datamanagement.events({
         if (de.company === "") {
 
           var existing = Contacts.find({
-            title: de.title,
             forename: de.forename,
             surname: de.surname
           }).count();
@@ -118,11 +115,10 @@ Template.datamanagement.events({
 
           } else {
 
-            bootbox.confirm("A contact with the name '" + de.title + ' ' + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?", function(result) {
+            bootbox.confirm("A contact with the name '" + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?", function(result) {
               if (result === true) {
 
                 var record = Contacts.find({
-                  title: de.title,
                   forename: de.forename,
                   surname: de.surname
                 }).fetch()[0];
@@ -130,7 +126,6 @@ Template.datamanagement.events({
                 Contacts.update(
                   record._id, {
                     $set: {
-                      title: de.title,
                       forename: de.forename,
                       surname: de.surname,
                       email: de.email,
@@ -162,8 +157,7 @@ Template.datamanagement.events({
           var companyId = "";
 
           if (companyExists === 0) {
-            // toastr.error('Contact ' + de.title + ' ' + de.forename + ' ' + de.surname + ' not added: given company could not be found? Have you checked your spelling?');
-            errorList.push('Contact ' + de.title + ' ' + de.forename + ' ' + de.surname + ' not added: given company could not be found? Have you checked your spelling?');
+            errorList.push('Contact ' + de.forename + ' ' + de.surname + ' not added: given company could not be found? Have you checked your spelling?');
             totalErrors += 1;
             return;
           } else {
@@ -175,7 +169,6 @@ Template.datamanagement.events({
           }
 
           var existing = Contacts.find({
-            title: de.title,
             forename: de.forename,
             surname: de.surname,
             companyId: companyId
@@ -199,11 +192,10 @@ Template.datamanagement.events({
 
           } else {
 
-            bootbox.confirm("A contact with the name '" + de.title + ' ' + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?", function(result) {
+            bootbox.confirm("A contact with the name '" + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?", function(result) {
               if (result === true) {
 
                 var record = Contacts.find({
-                  title: de.title,
                   forename: de.forename,
                   surname: de.surname
                 }).fetch()[0];
@@ -211,7 +203,6 @@ Template.datamanagement.events({
                 Contacts.update(
                   record._id, {
                     $set: {
-                      title: de.title,
                       forename: de.forename,
                       surname: de.surname,
                       email: de.email,

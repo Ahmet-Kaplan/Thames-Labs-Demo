@@ -11,6 +11,7 @@
             {{> afQuickField name="name"}}
             {{> afQuickField name="description"}}
             {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="value"}}
 
             {{> afQuickField name="companyId" id="selectedCompany" options=companiesAsOptions firstOption="No company selected"}}
@@ -42,6 +43,7 @@
             {{> afQuickField name="name"}}
             {{> afQuickField name="description"}}
             {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="value"}}
             {{> afQuickField name="contactId" id="selectedContact" options=contactsAsOptions  firstOption="No contact selected"}}
             {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
@@ -70,6 +72,7 @@
             {{> afQuickField name="name"}}
             {{> afQuickField name="description"}}
             {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="value"}}
             {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
             {{> afQuickField name="isArchived" value=false type="hidden"}}
@@ -100,6 +103,7 @@
              {{> afQuickField name="name"}}
              {{> afQuickField name="description"}}
              {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
+             {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
              {{> afQuickField name="value"}}
             <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
