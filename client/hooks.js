@@ -318,6 +318,17 @@ AutoForm.hooks({
       Modal.hide();
       toastr.success('Purchase Order raised.');
       //logEvent('info', 'Purchase order created.', 'Purchase Order', this.docId);
+    },
+    after: {
+      insert: function(error, result) {
+        if(error) {
+          toastr.error('An error has occured, purchase order not raised.');
+          return false;
+        }
+
+        FlowRouter.go('/purchaseorders/' + result);
+
+      }
     }
   },
   addPurchaseOrderItem: {
