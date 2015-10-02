@@ -74,11 +74,15 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
   Scenario: A user can create a project even if blocked
     Given I have the "CanReadProjects" permission
     Given I have the "CanCreateProjects" permission
+    Given I have the "CanReadCompanies" permission
     Given I am a blocked user
     Given toastr are cleared
+    Given a "Company" has been created
     When I navigate to "/projects"
     And I click "#add-project"
-    And I set text field "description" to "test project 2"
+    And I set text field "name" to "test project 2"
+    And I set text field "description" to "description of test project 2"
+    And I select "Test Ltd" from dropdown field "companyId"
     And I select "test user" from dropdown field "userId"
     And I set text field "value" to "999"
     And I submit the "newProject" form
