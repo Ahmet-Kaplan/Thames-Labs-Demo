@@ -1,5 +1,5 @@
 <template name="projectDetail">
-  {{#with projectData}} {{setPageTitle "Project - " description }}
+  {{#with projectData}} {{setPageTitle "Project - " name }}
   <div class="row">
     <div class="col-md-2 hidden-xs hidden-sm">
       <div class="sidebar">
@@ -20,7 +20,7 @@
         <p style="text-align:right;"><a href="{{pathFor route='opportunity' id=opportunityId}}">View opportunity</a></p>
       </div>
       {{/if}}
-      <h1 id="project-details" class="entity-name">{{description}}</h1>
+      <h1 id="project-details" class="entity-name">{{name}}</h1>
 
       {{> tagInput tags=tags collection='projects' entityId=_id permissionToEdit='CanEditProjects'}}
 
@@ -38,6 +38,14 @@
           </div>
           Project details</div>
         <ul class="list-group">
+          {{#if description}}
+            {{#if isInRole 'Administrator,CanReadCompanies'}}
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
+              {{description}}
+            </li>
+            {{/if}}
+          {{/if}}
           {{#if company}}
             {{#if isInRole 'Administrator,CanReadCompanies'}}
             <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to company details">

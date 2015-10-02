@@ -119,7 +119,7 @@ var updateCustomFields = function(collection) {
 };
 Migrations.add({
   version: 5,
-  name: "Add type to existing custom fields",
+  name: "Add type to existing extended information fields",
   up: function() {
     ServerSession.set('maintenance', true);
     updateCustomFields('contacts');
@@ -263,7 +263,9 @@ Migrations.add({
     ServerSession.set('maintenance', true);
     Partitioner.directOperation(function() {
       Contacts.update({}, {
-        $unset: { title: '' }
+        $unset: {
+          title: ''
+        }
       }, {
         multi: true,
         validate: false
@@ -279,7 +281,7 @@ Migrations.add({
   up: function() {
     ServerSession.set('maintenance', true);
     Tenants.find({}).forEach(function(tenant) {
-      if(tenant.stripe === undefined || (tenant.stripe.totalRecords === undefined && tenant.stripe.paying === undefined && tenant.stripe.blocked === undefined)) {
+      if (tenant.stripe === undefined || (tenant.stripe.totalRecords === undefined && tenant.stripe.paying === undefined && tenant.stripe.blocked === undefined)) {
         var totalRecordsNumber = Partitioner.bindGroup(tenant._id, function() {
           return Companies.find().count() + Contacts.find().count();
         });
@@ -292,6 +294,61 @@ Migrations.add({
         });
       }
     });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 10,
+  name: "Transfer project description to project name to allow the implementation of an actual project description",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+        Projects.find({}).forEach(function(project) {
+        if(project.name === undefined) {
+          Projects.update(project._id, {
+            $set: {
+              name: project.description,
+              description: ''
+            }
+          });
+        }
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+var defineGlobalCustomFields = function(collection) {
+  Partitioner.directOperation(function() {
+    Collections[collection].find({
+      customFields: {
+        $exists: true
+      }
+    }).forEach(function(doc) {
+      var customFields = doc.customFields;
+
+      var cfMaster = {};
+      for (var cf in customFields) {
+        cfMaster[cf] = customFields[cf];
+        cfMaster[cf]['isGlobal'] = false;
+      }
+
+      Collections[collection].update(doc._id, {
+        $set: {
+          'customFields': cfMaster
+        }
+      });
+    });
+  });
+};
+Migrations.add({
+  version: 11,
+  name: "Update extended information fields to flag globals",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    defineGlobalCustomFields('companies');
+    defineGlobalCustomFields('contacts');
     ServerSession.set('maintenance', false);
   }
 });

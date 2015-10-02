@@ -13,14 +13,17 @@ Template.newProjectForm.events({
 
 Template.newProjectForm.helpers({
   showContacts: function() {
-    if (Session.get('sc') === null) {
-      return false;
-    } else {
-      return true;
-    }
+    // if (Session.get('sc') === null) {
+    //   return false;
+    // } else {
+    return true;
+    // }
+  },
+  currentDateTime: function() {
+    return moment();
   },
   currentUser: function() {
-  return Meteor.userId();
+    return Meteor.userId();
   },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
@@ -42,6 +45,42 @@ Template.updateProjectForm.onRendered(function() {
 });
 
 Template.updateProjectForm.helpers({
+  datePlusOneWeek: function() {
+    var now = new Date();
+    now.setDate(now.getDate() + 7);
+    return now;
+  },
+  companiesAsOptions: function() {
+    return Companies.find({}).map(function(company) {
+      return {
+        'label': company.name,
+        'value': company._id
+      };
+    });
+  },
+  contactsAsOptions: function() {
+    if (Session.get('sc') === null) {
+      return Contacts.find({
+        companyId: {
+          $exists: 0
+        }
+      }).map(function(contact) {
+        return {
+          'label': contact.forename + " " + contact.surname,
+          'value': contact._id
+        };
+      });
+    } else {
+      return Contacts.find({
+        companyId: Session.get('sc')
+      }).map(function(contact) {
+        return {
+          'label': contact.forename + " " + contact.surname,
+          'value': contact._id
+        };
+      });
+    }
+  },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
       return {
@@ -60,8 +99,11 @@ Template.newCompanyProjectForm.helpers({
       return true;
     }
   },
+  currentDateTime: function() {
+    return moment();
+  },
   currentUser: function() {
-  return Meteor.userId();
+    return Meteor.userId();
   },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
@@ -75,10 +117,10 @@ Template.newCompanyProjectForm.helpers({
 
 Template.newContactProjectForm.helpers({
   currentDateTime: function() {
-  return moment();
+    return moment();
   },
   currentUser: function() {
-  return Meteor.userId();
+    return Meteor.userId();
   },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {

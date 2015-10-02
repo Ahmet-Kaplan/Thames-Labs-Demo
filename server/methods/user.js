@@ -1,4 +1,13 @@
 Meteor.methods({
+  setUserAuthLevel: function(userId, level) {
+
+    Meteor.users.update(userId, {
+      $set: {
+        'profile.poAuthLevel': parseFloat(level)
+      }
+    });
+
+  },
 
   removeUser: function(userId) {
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
@@ -53,7 +62,8 @@ Meteor.methods({
         lastActivity: {
           page: null,
           url: null
-        }
+        },
+        poAuthLevel: 100000
       }
     });
 
