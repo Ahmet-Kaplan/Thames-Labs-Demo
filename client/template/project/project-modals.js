@@ -52,17 +52,17 @@ Template.updateProjectForm.helpers({
 
 Template.newProjectForm.helpers({
   showContacts: function() {
-    if (Session.get('sc') === null) {
-      return false;
-    } else {
-      return true;
-    }
+    // if (Session.get('sc') === null) {
+    //   return false;
+    // } else {
+    return true;
+    // }
   },
   currentDateTime: function() {
-  return moment();
+    return moment();
   },
   currentUser: function() {
-  return Meteor.userId();
+    return Meteor.userId();
   },
   datePlusOneWeek: function() {
     var now = new Date();
@@ -78,14 +78,27 @@ Template.newProjectForm.helpers({
     });
   },
   contactsAsOptions: function() {
-    return Contacts.find({
-      companyId: Session.get('sc')
-    }).map(function(contact) {
-      return {
-        'label': contact.forename + " " + contact.surname,
-        'value': contact._id
-      };
-    });
+    if (Session.get('sc') === null) {
+      return Contacts.find({
+        companyId: {
+          $exists: 0
+        }
+      }).map(function(contact) {
+        return {
+          'label': contact.forename + " " + contact.surname,
+          'value': contact._id
+        };
+      });
+    } else {
+      return Contacts.find({
+        companyId: Session.get('sc')
+      }).map(function(contact) {
+        return {
+          'label': contact.forename + " " + contact.surname,
+          'value': contact._id
+        };
+      });
+    }
   },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
@@ -106,10 +119,10 @@ Template.newCompanyProjectForm.helpers({
     }
   },
   currentDateTime: function() {
-  return moment();
+    return moment();
   },
   currentUser: function() {
-  return Meteor.userId();
+    return Meteor.userId();
   },
   datePlusOneWeek: function() {
     var now = new Date();
@@ -138,10 +151,10 @@ Template.newCompanyProjectForm.helpers({
 
 Template.newContactProjectForm.helpers({
   currentDateTime: function() {
-  return moment();
+    return moment();
   },
   currentUser: function() {
-  return Meteor.userId();
+    return Meteor.userId();
   },
   datePlusOneWeek: function() {
     var now = new Date();

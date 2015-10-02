@@ -10,6 +10,8 @@
 
         <div class="modal-body">
           {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
+            {{> afQuickField name="name"}}
+
             {{> afQuickField name="description"}}
 
             {{> afQuickField name="companyId" id="selectedCompany" options=companiesAsOptions}}
@@ -48,6 +50,8 @@
 
         <div class="modal-body">
           {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
+            {{> afQuickField name="name"}}
+
             {{> afQuickField name="description"}}
 
             {{> afQuickField name="companyId" id="selectedCompany" value=companyId type="hidden"}}
@@ -86,6 +90,8 @@
 
         <div class="modal-body">
           {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
+            {{> afQuickField name="name"}}
+
             {{> afQuickField name="description"}}
 
             {{> afQuickField name="companyId" id="selectedCompany" type="hidden" }}
@@ -125,6 +131,7 @@
 
         <div class="modal-body">
           {{#autoForm collection="Projects" id="updateProjectForm" type="update" doc=this}}
+            {{> afQuickField name="name"}}
             {{> afQuickField name="description"}}
             {{> afQuickField name="contactId" id="companyContacts" options=contactsAsOptions }}
             {{> afQuickField name="userId" options=usersAsOptions}}
