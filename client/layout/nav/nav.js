@@ -88,6 +88,10 @@ Template.nav.helpers({
         return favList;
       }
     }
+  },
+  limitReached: function() {
+    var totalRecords = Tenants.findOne({}).stripe.totalRecords;
+    return totalRecords >= MAX_RECORDS;
   }
 });
 
