@@ -8,7 +8,9 @@ Feature: Allow users to manage their Projects
     Given a user exists
     And I am a logged in user
     And I have the "CanReadProjects" permission
-
+    And I have the "CanReadCompanies" permission
+    And I have the "CanCreateCompanies" permission
+    And a "Company" has been created
 
   #Reading
   Scenario: A user can see the projects list
@@ -48,10 +50,14 @@ Feature: Allow users to manage their Projects
   #Creating
   Scenario: A user can create a project
     Given I have the "CanCreateProjects" permission
+    And I have the "CanReadCompanies" permission
+    And a "Company" has been created
     When I navigate to "/projects"
     And I click "#add-project"
-    And I set text field "description" to "test project 2"
+    And I set text field "name" to "test project 2"
+    And I set text field "description" to "This is another test project."
     And I selectize "userId" to "test user"
+    And I selectize "companyId" to "Test Ltd"
     And I set text field "value" to "999"
     And I submit the "newProject" form
     Then I should see the heading "test project 2"
@@ -77,15 +83,17 @@ Feature: Allow users to manage their Projects
   #Editing
   Scenario: A user can edit a project
     Given I have the "CanEditProjects" permission
+    And I have the "CanReadCompanies" permission
     And a "Project" has been created
     When I navigate to a project page
     And I click "#edit-project"
-    And I set text field "description" to "updated project name"
+    And I set text field "name" to "updated project name"
     And I submit the "updateProject" form
     Then "project-details" should say "updated project name"
 
   Scenario: A user without permission cannot edit a project
     Given I do not have the "CanEditProjects" permission
+    And I have the "CanReadCompanies" permission
     And a "Project" has been created
     When I navigate to a project page
     Then I should not see "#edit-project"
@@ -106,6 +114,7 @@ Feature: Allow users to manage their Projects
   #Deleting
   Scenario: A user can delete a project
     Given I have the "CanDeleteProjects" permission
+    And I have the "CanReadCompanies" permission
     And a "Project" has been created
     When I navigate to a project page
     And I click "#remove-project"
@@ -114,6 +123,7 @@ Feature: Allow users to manage their Projects
 
   Scenario: A user without permission cannot delete a project
     Given I do not have the "CanDeleteProjects" permission
+    And I have the "CanReadCompanies" permission
     And a "Project" has been created
     When I navigate to a project page
     Then I should not see "#remove-project"
@@ -144,6 +154,7 @@ Feature: Allow users to manage their Projects
   #Tags
   Scenario: A user with the CanEditProjects permission can edit tags
     Given I have the "CanEditProjects" permission
+    And I have the "CanReadCompanies" permission
     And a "Project" has been created
     When I navigate to a project page
     And I set text field with selector ".tag-input input" to "test tag"
@@ -151,6 +162,7 @@ Feature: Allow users to manage their Projects
 
   Scenario: A user without the CanEditProjects permission cannot edit tags
     Given I do not have the "CanEditProjects" permission
+    And I have the "CanReadCompanies" permission
     And a "Project" has been created
     When I navigate to a project page
     And I set text field with selector ".tag-input input" to "test tag"

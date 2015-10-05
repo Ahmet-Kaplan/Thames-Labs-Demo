@@ -419,17 +419,32 @@ Schemas.Activity = new SimpleSchema({
 Activities.attachSchema(Schemas.Activity);
 
 Schemas.Project = new SimpleSchema({
+  name: {
+    type: String,
+    label: "Name"
+  },
   description: {
     type: String,
-    label: "Description"
+    label: "Description",
+    optional: true
   },
   companyId: {
     type: String,
-    optional: true
+    optional: true,
+    custom: function() {
+      if (!this.isSet && !this.field('contactId').isSet) {
+        return "needsRelatedEntity";
+      }
+    }
   },
   contactId: {
     type: String,
-    optional: true
+    optional: true,
+    custom: function() {
+      if (!this.isSet && !this.field('companyId').isSet) {
+        return "needsRelatedEntity";
+      }
+    }
   },
   userId: {
     type: String,
@@ -497,21 +512,21 @@ Schemas.PurchaseOrder = new SimpleSchema({
     optional: true,
     label: 'Supplier Contact'
   },
-  customerCompanyId: {
-    type: String,
-    optional: true,
-    label: 'Customer Company (optional)'
-  },
-  customerContactId: {
-    type: String,
-    optional: true,
-    label: 'Customer Contact'
-  },
-  projectId: {
-    type: String,
-    optional: true,
-    label: 'Project'
-  },
+  // customerCompanyId: {
+  //   type: String,
+  //   optional: true,
+  //   label: 'Customer Company (optional)'
+  // },
+  // customerContactId: {
+  //   type: String,
+  //   optional: true,
+  //   label: 'Customer Contact'
+  // },
+  // projectId: {
+  //   type: String,
+  //   optional: true,
+  //   label: 'Project'
+  // },
   description: {
     type: String,
     label: "Description"
@@ -532,6 +547,10 @@ Schemas.PurchaseOrder = new SimpleSchema({
       'Closed',
       'Cancelled'
     ]
+  },
+  locked: {
+    type: Boolean,
+    defaultValue: false
   },
   orderDate: {
     type: Date,
@@ -597,6 +616,11 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
   totalPrice: {
     type: String,
     defaultValue: "0.00"
+  },
+  projectId: {
+    type: String,
+    optional: true,
+    label: 'Project'
   },
   createdBy: {
     type: String,
@@ -805,6 +829,13 @@ Schemas.Opportunity = new SimpleSchema({
     type: Boolean,
     optional: true
   },
+  reasonLost: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
+  },
   isArchived: {
     type: Boolean,
     optional: true
@@ -903,5 +934,9 @@ Payments.attachSchema(Schemas.Payment)
 Opportunities.attachSchema(Schemas.Opportunity);
 
 Schemas.Opportunity.messages({
+  needsRelatedEntity: "A company or a contact is required"
+});
+
+Schemas.Project.messages({
   needsRelatedEntity: "A company or a contact is required"
 });

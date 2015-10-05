@@ -65,13 +65,36 @@ Companies.helpers({
     });
   },
   purchaseOrders: function() {
-    return PurchaseOrders.find({
-      supplierCompanyId: this._id
-    }, {
-      sort: {
-        createdAt: -1
-      }
-    });
+    var data = [];
+    var projects = Projects.find({
+      companyId: this._id
+    }).fetch();
+
+    if (projects) {
+      _.each(projects, function(p) {
+        Meteor.subscribe('allPurchaseOrderItemsByProject', p._id);
+
+        var items = PurchaseOrderItems.find({
+          projectId: p._id
+        }).fetch();
+
+        if (items) {
+          _.each(items, function(i) {
+            Meteor.subscribe('purchaseOrderById', i.purchaseOrderId);
+            var purchaseOrder = PurchaseOrders.findOne({
+              _id: i.purchaseOrderId
+            });
+            if (purchaseOrder) {
+              if (_.findWhere(data, purchaseOrder) === undefined) {
+                data.push(purchaseOrder);
+              }
+            }
+          });
+        }
+      })
+    };
+
+    return data;
   }
 });
 Companies.initEasySearch(['name', 'tags'], {
@@ -112,13 +135,36 @@ Contacts.helpers({
     });
   },
   purchaseOrders: function() {
-    return PurchaseOrders.find({
-      supplierContactId: this._id
-    }, {
-      sort: {
-        createdAt: -1
-      }
-    });
+    var data = [];
+    var projects = Projects.find({
+      contactId: this._id
+    }).fetch();
+
+    if (projects) {
+      _.each(projects, function(p) {
+        Meteor.subscribe('allPurchaseOrderItemsByProject', p._id);
+
+        var items = PurchaseOrderItems.find({
+          projectId: p._id
+        }).fetch();
+
+        if (items) {
+          _.each(items, function(i) {
+            Meteor.subscribe('purchaseOrderById', i.purchaseOrderId);
+            var purchaseOrder = PurchaseOrders.findOne({
+              _id: i.purchaseOrderId
+            });
+            if (purchaseOrder) {
+              if (_.findWhere(data, purchaseOrder) === undefined) {
+                data.push(purchaseOrder);
+              }
+            }
+          });
+        }
+      })
+    };
+
+    return data;
   }
 });
 Contacts.initEasySearch(['forename', 'surname', 'tags'], {
@@ -208,7 +254,7 @@ Projects.helpers({
     });
   }
 });
-Projects.initEasySearch(['description', 'tags'], {
+Projects.initEasySearch(['name', 'tags'], {
   limit: 50
 });
 Tags.TagsMixin(Projects);
@@ -220,9 +266,9 @@ PurchaseOrders.helpers({
   supplierCompany: function() {
     return Companies.findOne(this.supplierCompanyId);
   },
-  customerCompany: function() {
-    return Companies.findOne(this.customerCompanyId);
-  },
+  // customerCompany: function() {
+  //   return Companies.findOne(this.customerCompanyId);
+  // },
   activities: function() {
     return Activities.find({
       purchaseOrderId: this._id
@@ -235,12 +281,12 @@ PurchaseOrders.helpers({
   supplierContact: function() {
     return Contacts.findOne(this.supplierContactId);
   },
-  customerContact: function() {
-    return Contacts.findOne(this.customerContactId);
-  },
-  project: function() {
-    return Projects.findOne(this.projectId);
-  }
+  // customerContact: function() {
+  //   return Contacts.findOne(this.customerContactId);
+  // },
+  // project: function() {
+  //   return Projects.findOne(this.projectId);
+  // }
 });
 PurchaseOrders.initEasySearch('description', {
   limit: 50,
@@ -299,12 +345,14 @@ var checkRecordsNumber = function() {
     }
 
     if(Meteor.isClient) {
+      var upgradeMessage = '';
       if(blockedTenant && totalRecords > MAX_RECORDS) {
-        toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br />Please upgrade to enjoy the full functionalities of RealitmeCRM.', 'Account Locked', {preventDuplicates: true});
+        upgradeMessage = (Roles.userIsInRole(Meteor.userId(), ['Administrator'])) ? 'Upgrade to enjoy the full functionalities of RealTimeCRM!':  'If you wish to upgrade, contact your administrator.';
+        toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br>' + upgradeMessage, 'Account Locked');
         return false;
       } else if(totalRecords >= MAX_RECORDS) {
-        toastr.options.preventDuplicates = true;
-        toastr.warning('You have reached the maximum number of records.<br />Please consider upgrading.', 'Limit Reached');
+        upgradeMessage += (Roles.userIsInRole(Meteor.userId(), ['Administrator'])) ? 'Upgrade to enjoy the full functionalities of RealTimeCRM' : 'If you wish to upgrade, contact your administrator.';
+        toastr.warning('You have reached the maximum number of records.<br>' + upgradeMessage, 'Limit Reached');
       }
       return true;
     }
@@ -340,7 +388,6 @@ Tenants.after.remove(function(userId, doc) {
 Meteor.users.before.insert(function(userId, doc) {
   doc.createdAt = new Date();
 });
-
 Meteor.users.after.insert(function(userId, doc) {
   logEvent('info', 'A user has been created: ' + doc.name);
 });
@@ -350,6 +397,24 @@ Meteor.users.after.remove(function(userId, doc) {
 });
 
 Companies.before.insert(function(userId, doc) {
+  var user = Meteor.users.findOne(Meteor.userId());
+  var tenant = Tenants.findOne(user.group);
+  var companyCustomFields = tenant.settings.extInfo.company;
+
+  var cfMaster = {};
+  _.each(companyCustomFields, function(cf) {
+
+    var field = {
+      dataValue: cf.defaultValue,
+      dataType: cf.type,
+      isGlobal: true
+    };
+
+    cfMaster[cf.name] = field;
+  });
+
+  doc.customFields = cfMaster;
+
   if(!checkRecordsNumber()) {
     return false;
   }
@@ -401,12 +466,32 @@ Companies.after.remove(function(userId, doc) {
   logEvent('info', 'A company has been deleted: ' + doc.name);
 });
 
+
 Contacts.before.insert(function(userId, doc) {
   if(!checkRecordsNumber()) {
     return false;
   }
   return true;
+
+  var user = Meteor.users.findOne(Meteor.userId());
+  var tenant = Tenants.findOne(user.group);
+  var contactCustomFields = tenant.settings.extInfo.contact;
+
+  var cfMaster = {};
+  _.each(contactCustomFields, function(cf) {
+
+    var field = {
+      dataValue: cf.defaultValue,
+      dataType: cf.type,
+      isGlobal: true
+    };
+
+    cfMaster[cf.name] = field;
+  });
+
+  doc.customFields = cfMaster;
 });
+
 Contacts.after.insert(function(userId, doc) {
   Meteor.call('updateTotalRecords');
   logEvent('info', 'A new contact has been created: ' + doc.forename + " " + doc.surname);
@@ -490,7 +575,57 @@ Projects.after.remove(function(userId, doc) {
 PurchaseOrders.after.insert(function(userId, doc) {
   logEvent('info', 'A new purchase order has been created: ' + doc.description);
 });
+
+PurchaseOrders.before.update(function(userId, doc) {
+  if (userId) {
+    // if (doc.status) {
+
+    // if (doc.status === "Requested" && doc.locked) {
+    //   //can't return to requested once above it - cancel update
+    //   toastr.warning('The status of this purchase order cannot be set to "Requested" - it has already been submitted.');
+    //   return false;
+    // }
+
+    // if (doc.status !== "" && doc.status !== "Requested" && doc.status !== "Cancelled") {
+
+    var user = Meteor.users.findOne(userId);
+    var level = parseFloat(user.profile.poAuthLevel);
+
+    // if (level === 0) {
+    //   toastr.warning('Your current authorisation level restricts you to requests and cancellations only. Please contact your system administrator.');
+    //   Modal.hide();
+    //   return false;
+    // } else {
+
+    var items = PurchaseOrderItems.find({
+      purchaseOrderId: doc._id
+    }).fetch();
+
+    var total = 0;
+    _.each(items, function(i) {
+      total += parseFloat(i.totalPrice);
+    });
+
+    if (total > level) {
+      toastr.warning('The value of this purchase order is currently higher than your current authorisation level allows. Please contact your system administrator.');
+      Modal.hide();
+      return false;
+    }
+    // }
+    // }
+    // }
+  }
+});
+
 PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options) {
+  // if (doc.status !== "Requested" || doc.status !== "") {
+  //   PurchaseOrders.update(doc._id, {
+  //     $set: {
+  //       locked: true
+  //     }
+  //   });
+  // }
+
   if (doc.description !== this.previous.description) {
     logEvent('info', 'An existing purchase order has been updated: The value of "description" was changed from ' + this.previous.description + " to " + doc.description);
   }
@@ -527,11 +662,11 @@ PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options)
     var newCont = Contacts.findOne(doc.supplierContactId);
     logEvent('info', 'An existing purchase order has been updated: The value of "supplierContactId" was changed from ' + this.previous.supplierContactId + '(' + prevCont.forename + " " + prevCont.surname + ") to " + doc.supplierContactId + ' (' + newCont.forename + " " + newCont.surname + ')');
   }
-  if (doc.projectId !== this.previous.projectId) {
-    var prevProj = Projects.findOne(this.previous.projectId);
-    var newProj = Projects.findOne(doc.projectId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "projectId" was changed from ' + this.previous.projectId + '(' + prevProj.description + ") to " + doc.projectId + ' (' + newProj.description + ')');
-  }
+  // if (doc.projectId !== this.previous.projectId) {
+  //   var prevProj = Projects.findOne(this.previous.projectId);
+  //   var newProj = Projects.findOne(doc.projectId);
+  //   logEvent('info', 'An existing purchase order has been updated: The value of "projectId" was changed from ' + this.previous.projectId + '(' + prevProj.description + ") to " + doc.projectId + ' (' + newProj.description + ')');
+  // }
 });
 PurchaseOrders.after.remove(function(userId, doc) {
   logEvent('info', 'A purchase order has been deleted: ' + doc.description);
@@ -567,10 +702,8 @@ PurchaseOrderItems.after.update(function(userId, doc, fieldNames, modifier, opti
   }
 });
 PurchaseOrderItems.after.remove(function(userId, doc) {
-  var currentPurchaseOrder = PurchaseOrders.findOne(doc.purchaseOrderId);
-  logEvent('info', 'A purchase order item has been deleted: ' + doc.name + ' (' + currentPurchaseOrder.description + ")");
+  logEvent('info', 'A purchase order item has been deleted: ' + doc.name);
 });
-
 
 Activities.after.insert(function(userId, doc) {
   var entity;
@@ -818,7 +951,11 @@ Opportunities.initEasySearch(['name', 'tags'], {
   },
   query: function(searchString) {
     var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
-    if (!this.props.showArchived) {
+    if (this.props.showArchived) {
+      query.isArchived = {
+        $in: [true]
+      };
+    } else {
       query.isArchived = {
         $ne: true
       };

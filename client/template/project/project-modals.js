@@ -13,14 +13,14 @@ Template.newProjectForm.events({
 
 Template.newProjectForm.helpers({
   showContacts: function() {
-    if (Session.get('sc') === null) {
-      return false;
-    } else {
-      return true;
-    }
+    // if (Session.get('sc') === null) {
+    //   return false;
+    // } else {
+    return true;
+    // }
   },
   currentUser: function() {
-  return Meteor.userId();
+    return Meteor.userId();
   },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
@@ -61,7 +61,7 @@ Template.newCompanyProjectForm.helpers({
     }
   },
   currentUser: function() {
-  return Meteor.userId();
+    return Meteor.userId();
   },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
@@ -75,10 +75,10 @@ Template.newCompanyProjectForm.helpers({
 
 Template.newContactProjectForm.helpers({
   currentDateTime: function() {
-  return moment();
+    return moment();
   },
   currentUser: function() {
-  return Meteor.userId();
+    return Meteor.userId();
   },
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {

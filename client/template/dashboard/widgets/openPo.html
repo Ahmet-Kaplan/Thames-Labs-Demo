@@ -1,0 +1,32 @@
+<template name="openPoWidget">
+  <div class="grid-stack-item-content">
+    <div class="panel panel-default" id='openPoBox'>
+      <div class="panel-heading">
+        <button aria-hidden="true" class="close" id="close_openPoWidget" type="button">×</button>
+        Requested Purchase Orders
+      </div>
+      <div class="panel-body" style="margin-bottom:5px;">
+        <div class="openPoList">
+          <ul class="list-unstyled">
+            {{#each openPos}}
+              {{>openPoEntry}}
+              {{else}}
+              <li>
+                No requested purchase orders
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="openPoEntry">
+<li>
+  <i class="fa fa-fw fa-shopping-cart"></i>
+  <a href="{{pathFor route='purchaseOrder' id=_id}}">
+    {{description}}</a>
+  <span class="pull-right" style="color:#BABABA;">£{{decimal totalValue}}</span>
+</li>
+</template>

@@ -1,5 +1,4 @@
 Feature: Allow users to manage their Contacts
-
   As a user of the app
   I want to manage my Contacts
   So that I can effectively manage the contacts that my business communicates with
@@ -8,7 +7,6 @@ Feature: Allow users to manage their Contacts
     Given a user exists
     And I am a logged in user
     And I have the "CanReadContacts" permission
-
 
   #Reading
   Scenario: A user can see the contacts list
@@ -43,7 +41,6 @@ Feature: Allow users to manage their Contacts
     And I am a logged in superadmin user
     When I navigate to "/contacts"
     Then I should see the heading "Tenants"
-
 
   #Adding
   Scenario: A user can create a contact
@@ -84,7 +81,6 @@ Feature: Allow users to manage their Contacts
     When I remove permissions on "Contacts" from a restricted user
     Then the restricted user should not have the "CanCreateContacts" permission
 
-
   #Editing
   Scenario: A user can edit a contact
     Given I have the "CanEditContacts" permission
@@ -113,7 +109,6 @@ Feature: Allow users to manage their Contacts
     When I remove permissions on "Contacts" from a restricted user
     Then the restricted user should not have the "CanEditContacts" permission
 
-
   #Deleting
   Scenario: A user can delete a contact
     Given I have the "CanDeleteContacts" permission
@@ -141,7 +136,6 @@ Feature: Allow users to manage their Contacts
     When I remove permissions on "Contacts" from a restricted user
     Then the restricted user should not have the "CanDeleteContacts" permission
 
-
   #Menu item permissions
   Scenario: A restricted user cannot see the Contacts menu item without the correct permission
     Given I do not have the "CanReadContacts" permission
@@ -150,7 +144,6 @@ Feature: Allow users to manage their Contacts
   Scenario: A user can see the Contacts menu item with the correct permission
     Given I have the "CanReadContacts" permission
     Then the "Contacts" menu item is shown
-
 
   #Custom fields
   Scenario: A user can open the "Add Custom Fields" modal
@@ -170,22 +163,30 @@ Feature: Allow users to manage their Contacts
     And I click "#submit-custom-field"
     Then I should see ".custom-field-display-item"
 
-  Scenario: A user can edit a custom field
-    Given I have the "CanEditContacts" permission
-    And a "Contact" has been created
-    When I navigate to a contact page
-    And I click "#edit-custom-field"
-    And I set text field with id "custom-field-text-value" to "velocity2"
-    And I click "#submit-custom-field"
-    Then "custom-field-test" should say "velocity2"
-
   Scenario: A user can delete a custom field
     Given I have the "CanEditContacts" permission
     And a "Contact" has been created
     When I navigate to a contact page
+    And I click "#add-custom-field"
+    And I set text field with id "custom-field-name" to "velocity2"
+    And I set text field with id "custom-field-text-value" to "velocity"
+    And I click "#submit-custom-field"
     Then I click "#delete-custom-field"
     Then I click confirm on the modal
     Then I should not see ".custom-field-display-item"
+
+  Scenario: A user can edit a custom field
+    Given I have the "CanEditContacts" permission
+    And a "Contact" has been created
+    When I navigate to a contact page
+    And I click "#add-custom-field"
+    And I set text field with id "custom-field-name" to "velocity2"
+    And I set text field with id "custom-field-text-value" to "velocity"
+    And I click "#submit-custom-field"
+    And I click "#edit-custom-fields"
+    And I set text field with id "extInfosvelocity2TextValue" to "velocity"
+    And I click "#submit-ext-info"
+    Then I see a field with the name "velocity" in the extended information list
 
   #Maps
   Scenario: A user can see the map on a contact's page
@@ -223,7 +224,6 @@ Feature: Allow users to manage their Contacts
     And I submit the "insertContact" form
     And I click "#edit-contact"
     Then I should not see "#formatted_address"
-
 
   #Tags
   Scenario: A user with the CanEditContacts permission can edit tags

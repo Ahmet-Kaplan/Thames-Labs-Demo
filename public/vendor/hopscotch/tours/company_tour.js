@@ -46,8 +46,8 @@ var tour = {
     target: document.querySelector('#tasks'),
     placement: "right"
   }, {
-    title: "RealTimeCRM Company Details - Custom Fields",
-    content: "Need to store data against a company, but we haven't provided a section for it? Use a custom field! All existing custom fields are displayed in this section.",
+    title: "RealTimeCRM Company Details - Extended information fields",
+    content: "Need to store data against a company, but we haven't provided a section for it? Use an extended information field! All existing fields are displayed in this section.",
     target: document.querySelector('#custom-fields'),
     placement: "top"
   }, {
