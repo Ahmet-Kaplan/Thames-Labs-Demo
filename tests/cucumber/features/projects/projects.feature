@@ -1,5 +1,4 @@
 Feature: Allow users to manage their Projects
-
   As a user of the app
   I want to manage my Projects
   So that I know what my project is working on and with whom
@@ -46,7 +45,6 @@ Feature: Allow users to manage their Projects
     When I navigate to "/projects"
     Then I should see the heading "Tenants"
 
-
   #Creating
   Scenario: A user can create a project
     Given I have the "CanCreateProjects" permission
@@ -79,7 +77,6 @@ Feature: Allow users to manage their Projects
     When I remove permissions on "Projects" from a restricted user
     Then the restricted user should not have the "CanCreateProjects" permission
 
-
   #Editing
   Scenario: A user can edit a project
     Given I have the "CanEditProjects" permission
@@ -110,7 +107,6 @@ Feature: Allow users to manage their Projects
     When I remove permissions on "Projects" from a restricted user
     Then the restricted user should not have the "CanEditProjects" permission
 
-
   #Deleting
   Scenario: A user can delete a project
     Given I have the "CanDeleteProjects" permission
@@ -140,7 +136,6 @@ Feature: Allow users to manage their Projects
     When I remove permissions on "Projects" from a restricted user
     Then the restricted user should not have the "CanDeleteProjects" permission
 
-
   #Menu item permissions
   Scenario: A restricted user cannot see the Projects menu item without the correct permission
     Given I do not have the "CanReadProjects" permission
@@ -149,7 +144,6 @@ Feature: Allow users to manage their Projects
   Scenario: A user can see the Projects menu item with the correct permission
     Given I have the "CanReadProjects" permission
     Then the "Projects" menu item is shown
-
 
   #Tags
   Scenario: A user with the CanEditProjects permission can edit tags
