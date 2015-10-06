@@ -42,7 +42,6 @@ Template.esSelectize.onRendered(function() {
   this.autorun(function() {
     var parent = Session.get('parent' + name);
     var search = Session.get('search' + name) || '';
-    console.log('reset to: ', parent, search);
     searchOptions(index, search, Template.instance().optionsList, parent, filter);
   });
 

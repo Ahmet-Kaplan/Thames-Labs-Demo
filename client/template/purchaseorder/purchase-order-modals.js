@@ -90,9 +90,6 @@ Template.newCompanyPurchaseOrderForm.events({
 /*******************************************************
               newContactPurchaseOrderForm
 *******************************************************/
-Template.newContactPurchaseOrderForm.onRendered(function() {
-  console.log(this.data)
-})
 
 Template.newContactPurchaseOrderForm.helpers({
   currentUser: function() {
