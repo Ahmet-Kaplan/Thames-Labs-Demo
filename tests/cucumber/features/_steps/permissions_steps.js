@@ -31,53 +31,45 @@ module.exports = function() {
   });
 
   this.Then(/^I should have the "([^"]*)" permission$/, function(permissionName) {
-    client
+    var result = client
       .executeAsync(function(permissionName, done) {
         var user = Meteor.user();
         Meteor.call('checkUserHasPermission', user.username, permissionName, function(err, res) {
           done(res);
         });
-      }, permissionName)
-      .then(function(res) {
-        expect(res.value).toEqual(true);
-      });
+      }, permissionName);
+    expect(result.value).toBe(true);
   });
 
   this.Then(/^I should not have the "([^"]*)" permission$/, function(permissionName) {
-    client
+    var result = client
       .executeAsync(function(permissionName, done) {
         var user = Meteor.user();
         Meteor.call('checkUserHasPermission', user.username, permissionName, function(err, res) {
           done(res);
         });
-      }, permissionName)
-      .then(function(res) {
-        expect(res.value).toEqual(false);
-      });
+      }, permissionName);
+    expect(result.value).toBe(false);
   });
 
   this.Then(/^the restricted user should have the "([^"]*)" permission$/, function(permissionName) {
-    client
+    var result = client
       .executeAsync(function(permissionName, done) {
         Meteor.call('checkUserHasPermission', 'restricted user', permissionName, function(err, res) {
           done(res);
         });
-      }, permissionName)
-      .then(function(res) {
-        expect(res.value).toBe(true);
-      });
+      }, permissionName);
+    expect(result.value).toBe(true);
   });
 
   this.Then(/^the restricted user should not have the "([^"]*)" permission$/, function(permissionName) {
-    client
+    var result = client
       .executeAsync(function(permissionName, done) {
         Meteor.call('checkUserHasPermission', 'restricted user', permissionName, function(err, res) {
           done(res);
         });
-      }, permissionName)
-      .then(function(res) {
-        expect(res.value).toBe(false);
-      });
+      }, permissionName);
+    expect(result.value).toBe(false);
   });
 
   this.When(/^I add permission "([^"]*)" on "([^"]*)" to a restricted user$/, function(permissionName, entityName) {

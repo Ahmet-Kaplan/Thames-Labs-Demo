@@ -21,26 +21,22 @@ module.exports = function() {
   });
 
   this.Then(/^I am signed up$/, function() {
-    client
+    var userId = client
       .executeAsync(function(done) {
         Meteor.call('getUserByEmail', 'test3@domain.com', function(err, data) {
           done(data);
         });
-      })
-      .then(function(ret) {
-        expect(ret.value).not.toBe(null);
-      });
+      }).value;
+    expect(userId).not.toBe(null);
   });
 
   this.Then(/^I am not signed up$/, function() {
-    client
+    var userId = client
       .executeAsync(function(done) {
-        Meteor.call('getUserByEmail', 'testdomaincom', function(err, data) {
+        Meteor.call('getUserByEmail', 'test3@domain.com', function(err, data) {
           done(data);
         });
-      })
-      .then(function(ret) {
-        expect(ret.value).toBe(null);
-      });
+      }).value;
+    expect(userId).toBe(null);
   });
 };
