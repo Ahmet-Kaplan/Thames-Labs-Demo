@@ -13,11 +13,11 @@ Template.newProjectForm.events({
 
 Template.newProjectForm.helpers({
   showContacts: function() {
-    // if (Session.get('sc') === null) {
-    //   return false;
-    // } else {
+    if (Session.get('sc') === null) {
+      return false;
+    } else {
     return true;
-    // }
+    }
   },
   currentUser: function() {
     return Meteor.userId();

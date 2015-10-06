@@ -505,12 +505,23 @@ Schemas.PurchaseOrder = new SimpleSchema({
   },
   supplierCompanyId: {
     type: String,
-    label: 'Supplier Company'
+    label: 'Supplier Company',
+    optional: true,
+    custom: function() {
+      if (!this.isSet && !this.field('supplierContactId').isSet) {
+        return "needsRelatedEntity";
+      }
+    }
   },
   supplierContactId: {
     type: String,
+    label: 'Supplier Contact',
     optional: true,
-    label: 'Supplier Contact'
+    custom: function() {
+      if (!this.isSet && !this.field('supplierCompanyId').isSet) {
+        return "needsRelatedEntity";
+      }
+    }
   },
   // customerCompanyId: {
   //   type: String,
@@ -928,10 +939,14 @@ Schemas.Payment = new SimpleSchema({
   email: {
     type: String
   }
-})
-Payments.attachSchema(Schemas.Payment)
+});
+Payments.attachSchema(Schemas.Payment);
 
 Opportunities.attachSchema(Schemas.Opportunity);
+
+Schemas.PurchaseOrder.messages({
+  needsRelatedEntity: "A company or a contact is required"
+});
 
 Schemas.Opportunity.messages({
   needsRelatedEntity: "A company or a contact is required"

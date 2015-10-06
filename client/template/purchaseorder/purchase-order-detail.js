@@ -218,7 +218,7 @@ Template.purchaseOrderDetail.events({
   'click #add-item': function(event) {
     event.preventDefault();
     Modal.show('addPurchaseOrderItemModal', {
-      project: this
+      purchaseOrder: this
     });
   },
   'click #add-activity': function(event) {
@@ -249,7 +249,10 @@ Template.purchaseOrderItem.events({
   },
   'click #edit-po-item': function(event) {
     event.preventDefault();
-    Modal.show('editPurchaseOrderItemModal', this);
+    Modal.show('editPurchaseOrderItemModal', {
+      purchaseOrder: Template.parentData(),
+      purchaseOrderItem: this
+    });
   }
 });
 

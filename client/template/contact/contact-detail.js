@@ -74,6 +74,11 @@ Template.contactDetail.helpers({
     return Opportunities.find({
       contactId: this._id
     });
+  },
+  purchaseOrders: function() {
+    return PurchaseOrders.find({
+      supplierContactId: this._id
+    })
   }
 });
 
@@ -104,12 +109,12 @@ Template.contactDetail.events({
     var company = this.company();
     if (company === undefined) {
       Modal.show('newContactPurchaseOrderForm', {
-        customerContactId: this._id
+        supplierContactId: this._id
       });
     } else {
       Modal.show('newContactPurchaseOrderForm', {
-        customerCompanyId: company._id,
-        customerContactId: this._id
+        supplierCompanyId: company._id,
+        supplierContactId: this._id
       });
     }
   },

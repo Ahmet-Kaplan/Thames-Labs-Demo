@@ -133,8 +133,12 @@
           {{#autoForm collection="Projects" id="updateProjectForm" type="update" doc=this}}
             {{> afQuickField name="name"}}
             {{> afQuickField name="description"}}
-            {{> afQuickField name="companyId" id="selectedCompany" value=companyId type="hidden"}}
-            {{> esSelectize name="contactId" index="autosuggestContact" parent="companyId" filter="filterCompanyId" value=contactId}}
+            {{#if companyId}}
+              {{> esSelectize index="autosuggestCompany" name="companyId" value=companyId readonly=true}}
+            {{/if}}
+            {{#if contactId}}
+              {{> esSelectize name="contactId" index="autosuggestContact" value=contactId  readonly=true}}
+            {{/if}}
             {{> esSelectize name="userId" index="autosuggestUser" value=userId}}
             {{> afQuickField name="value"}}
             {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
