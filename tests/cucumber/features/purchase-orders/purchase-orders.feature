@@ -28,7 +28,7 @@ Feature: Allow users to manage their Purchase Orders
     When I navigate to "/purchaseorders"
     And I click "#add-purchase-order"
     And I set text field with selector "#description" to "test purchase order"
-    And I click "#selectedSupplier" and select the option "Test Ltd"
+    And I selectize "supplierCompanyId" to "Test Ltd"
     And I click "#create-purchase-order"
     And I navigate to a purchase order page
     Then I should see the heading "test purchase order"
@@ -43,7 +43,7 @@ Feature: Allow users to manage their Purchase Orders
     When I navigate to "/purchaseorders"
     And I click "#add-purchase-order"
     And I set text field with selector "#description" to "test purchase order"
-    And I click "#selectedSupplier" and select the option "Test Ltd"
+    And I selectize "supplierCompanyId" to "Test Ltd"
     And I click "#create-purchase-order"
     And I navigate to a purchase order page
     And I click "#edit-purchase-order"
@@ -62,7 +62,7 @@ Feature: Allow users to manage their Purchase Orders
     When I navigate to "/purchaseorders"
     And I click "#add-purchase-order"
     And I set text field with selector "#description" to "test purchase order"
-    And I click "#selectedSupplier" and select the option "Test Ltd"
+    And I selectize "supplierCompanyId" to "Test Ltd"
     And I click "#create-purchase-order"
     And I navigate to a purchase order page
     And I click "#remove-purchase-order"
@@ -79,7 +79,7 @@ Feature: Allow users to manage their Purchase Orders
     When I navigate to "/purchaseorders"
     And I click "#add-purchase-order"
     And I set text field with selector "#description" to "test purchase order"
-    And I click "#selectedSupplier" and select the option "Test Ltd"
+    And I selectize "supplierCompanyId" to "Test Ltd"
     And I click "#create-purchase-order"
     And I navigate to a purchase order page
     And I click "#add-item"
@@ -100,7 +100,7 @@ Feature: Allow users to manage their Purchase Orders
     When I navigate to "/purchaseorders"
     And I click "#add-purchase-order"
     And I set text field with selector "#description" to "test purchase order"
-    And I click "#selectedSupplier" and select the option "Test Ltd"
+    And I selectize "supplierCompanyId" to "Test Ltd"
     And I click "#create-purchase-order"
     And I navigate to a purchase order page
     And I click "#add-item"
@@ -124,7 +124,7 @@ Feature: Allow users to manage their Purchase Orders
     When I navigate to "/purchaseorders"
     And I click "#add-purchase-order"
     And I set text field with selector "#description" to "test purchase order"
-    And I click "#selectedSupplier" and select the option "Test Ltd"
+    And I selectize "supplierCompanyId" to "Test Ltd"
     And I click "#create-purchase-order"
     And I navigate to a purchase order page
     And I click "#add-item"
