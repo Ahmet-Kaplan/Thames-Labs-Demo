@@ -59,13 +59,9 @@ Meteor.methods({
   setPermission: function(permission, statement) {
     var userId = Meteor.users.findOne({})._id;
     if (statement) {
-      if (!Roles.userIsInRole(userId, permission)) {
-        Roles.addUsersToRoles(userId, permission);
-      }
+      Roles.addUsersToRoles(userId, permission);
     } else {
-      if (Roles.userIsInRole(userId, permission)) {
-        Roles.removeUsersFromRoles(userId, permission);
-      }
+      Roles.removeUsersFromRoles(userId, permission);
     }
   },
 

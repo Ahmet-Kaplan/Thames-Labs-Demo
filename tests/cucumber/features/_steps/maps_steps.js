@@ -1,23 +1,19 @@
 module.exports = function() {
 
-  this.When(/^I search for Cowley Road$/, function(callback) {
-    this.client
-    .waitForVisible('#geo', 2000)
-    .execute(function() {
+  this.When(/^I search for Cowley Road$/, function() {
+    client.waitForVisible('#geo', 2000);
+    client.execute(function() {
       var y = $(".modal").height();
       $(".modal").scrollTop(y);
     })
-    .setValue('#geo', 'Cowley Road, Cambridge')
-    .waitForVisible('.pac-item')
-    .click('.pac-item')
-    .call(callback);
+    client.setValue('#geo', 'Cowley Road, Cambridge');
+    client.waitForVisible('.pac-item');
+    client.click('.pac-item');
   });
 
-  this.Then(/^I should see a map$/, function(callback) {
-    this.client
-      .waitForVisible('.gm-style', 2000)
-      .waitForVisible('.gm-style-mtc', 2000)
-      .call(callback);
+  this.Then(/^I should see a map$/, function() {
+    client.waitForVisible('.gm-style', 2000);
+    client.waitForVisible('.gm-style-mtc', 2000);
   });
 
 };
