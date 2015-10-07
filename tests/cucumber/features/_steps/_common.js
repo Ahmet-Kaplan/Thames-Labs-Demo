@@ -13,283 +13,207 @@ module.exports = function() {
   /***************************************************
                           GIVEN
   ***************************************************/
-  this.Given(/^a user exists$/, function(callback) {
-    this.server.call('createTestTenant');
-    this.server.call('createTestUser');
-    this.client.call(callback);
+  this.Given(/^a user exists$/, function() {
+    client
+      .executeAsync(function(done) {
+        Meteor.call('createTestTenant', done);
+      });
+    client
+      .executeAsync(function(done) {
+        Meteor.call('createTestUser', done);
+      });
   });
 
-  this.Given(/^a superadmin exists$/, function(callback) {
-    this.server.call('createTestSuperAdmin');
-    this.client.call(callback);
+  this.Given(/^a superadmin exists$/, function() {
+    client
+      .executeAsync(function(done) {
+        Meteor.call('createTestSuperAdmin', done);
+      });
   });
 
-  this.Given(/^a tenant exists$/, function(callback) {
-    this.server.call('createTestTenant');
-    this.client.call(callback);
+  this.Given(/^a tenant exists$/, function() {
+    client
+      .executeAsync(function(done) {
+        Meteor.call('createTestTenant', done);
+      });
   });
 
-  this.Given(/^I am a logged out user$/, function(callback) {
-    this.client
-      .url(process.env.ROOT_URL)
-      .executeAsync(logout)
-      .call(callback);
+  this.Given(/^I am a logged out user$/, function() {
+    client.executeAsync(logout);
   });
 
-  this.Given(/^I am a logged in user$/, function(callback) {
-    this.client
-      .url(process.env.ROOT_URL)
-      .executeAsync(login, 'test@domain.com', 'goodpassword')
-      .call(callback);
+  this.Given(/^I am a logged in user$/, function() {
+    client.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
 
-  this.Given(/^I am a logged in superadmin user$/, function(callback) {
-    this.client
-      .url(process.env.ROOT_URL)
-      .executeAsync(login, 'admin@cambridgesoftware.co.uk', 'admin')
-      .call(callback);
+  this.Given(/^I am a logged in superadmin user$/, function() {
+    client.executeAsync(login, 'admin@cambridgesoftware.co.uk', 'admin');
   });
 
-  this.Given(/^an? "([^"]*)" has been created$/, function(entity, callback) {
-    this.client
+  this.Given(/^an? "([^"]*)" has been created$/, function(entity) {
+    client
       .executeAsync(function(entity, done) {
-        Meteor.call('add' + entity, function(err, data) {
-          done(data);
+        Meteor.call('add' + entity, function() {
+          done();
         });
-      }, entity)
-      .then(function(data) {
-        expect(data.value).to.exist;
-      })
-      .call(callback);
+      }, entity);
   });
 
   /***************************************************
                           WHEN
   ***************************************************/
 
-  this.When(/^I navigate to "([^"]*)"$/, function(relativePath, callback) {
-    this.client
-      .url(url.resolve(process.env.ROOT_URL, relativePath))
-      .call(callback);
+  this.When(/^I navigate to "([^"]*)"$/, function(relativePath) {
+    var path = url.resolve(process.env.ROOT_URL, relativePath);
+    client.url(path);
   });
 
-  this.When(/^I click "([^"]*)"$/, function(id, callback) {
-    this.client
-      .waitForVisible(id, 2000)
-      .scroll(id, 0, -60)
-      .click(id)
-      .call(callback);
+  this.When(/^I click "([^"]*)"$/, function(id) {
+    client.waitForVisible(id, 10000);
+    client.scroll(id, 0, -60);
+    client.click(id);
   });
 
-  this.When(/^I set rich text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
-    this.client
-      .waitForVisible('div[data-schema-key=' + fieldName + ']', 2000)
+  this.When(/^I set rich text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
+    client.waitForVisible('div[data-schema-key=' + fieldName + ']', 2000);
+    client
       .executeAsync(function(fieldName, value, done) {
         //Set value for medium text editor because it isn't a standard input
         $('div[data-schema-key=' + fieldName + ']').html(value);
         done();
-      }, fieldName, value)
-      .call(callback);
+      }, fieldName, value);
   });
 
-  this.When(/^I set text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
-    this.client
-      .waitForVisible('input[data-schema-key=' + fieldName + ']', 2000)
-      .setValue('input[data-schema-key=' + fieldName + ']', value)
-      .call(callback);
+  this.When(/^I set text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
+    client.waitForVisible('input[data-schema-key=' + fieldName + ']', 2000);
+    client.setValue('input[data-schema-key=' + fieldName + ']', value);
   });
 
-  this.When(/^I set selectize field to "([^"]*)"$/, function(value, callback) {
-    this.client
-      .waitForVisible(".selectize-control .selectize-input input", 2000)
-      .setValue(".selectize-control .selectize-input input", value)
-      .keys(['Return'])
-      .call(callback);
+  this.When(/^I set selectize field to "([^"]*)"$/, function(value) {
+    client.waitForVisible(".selectize-control .selectize-input input", 2000);
+    client.setValue(".selectize-control .selectize-input input", value);
+    client.keys(['Return']);
   });
 
   //This step is necessary when editing fields within an array (eg Opportunites, field items.0.name)
-  this.When(/^I set text field with id "([^"]*)" to "([^"]*)"$/, function(fieldName, value, callback) {
-    this.client
-      .waitForVisible('#' + fieldName, 2000)
-      .setValue('#' + fieldName, value)
-      .call(callback);
+  this.When(/^I set text field with id "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
+    client.waitForVisible('#' + fieldName, 2000);
+    client.setValue('#' + fieldName, value);
   });
 
   //This step is necessary when editing fields where maximum selection flexibility is required (e.g. tags)
-  this.When(/^I set text field with selector "([^"]*)" to "([^"]*)"$/, function(selector, value, callback) {
-    this.client
-      .waitForVisible(selector, 2000)
-      .setValue(selector, value)
-      .call(callback);
+  this.When(/^I set text field with selector "([^"]*)" to "([^"]*)"$/, function(selector, value) {
+    client.waitForVisible(selector, 2000);
+    client.setValue(selector, value);
   });
 
   //This step is necessary when editing fields where maximum selection flexibility is required (e.g. tags)
-  this.When(/^I set text field with selector "([^"]*)" to "([^"]*)"$/, function(selector, value, callback) {
-    this.client
-      .waitForVisible(selector, 2000)
-      .setValue(selector, value)
-      .call(callback);
+  this.When(/^I set text field with selector "([^"]*)" to "([^"]*)"$/, function(selector, value) {
+    client.waitForVisible(selector, 2000);
+    client.setValue(selector, value);
   });
 
-  this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value, callback) {
-    this.client
-      .waitForExist('select#' + selector + ' + .selectize-control>.selectize-input', 2000)
-      .click('select#' + selector + ' + .selectize-control>.selectize-input')
-      .keys([value])
-      .waitForVisible('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content', 3000)
-      .then(function() {
-          this.click('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>.active');
-        })
-      .call(callback);
+  this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value) {
+    client.waitForExist('select#' + selector + ' + .selectize-control>.selectize-input', 2000);
+    client.click('select#' + selector + ' + .selectize-control>.selectize-input');
+    client.keys([value]);
+    client.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content', 3000);
+    client.click('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>.active');
+  });
+  this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName) {
+    client.waitForVisible('select[data-schema-key=' + fieldName + ']', 5000);
+    client.click('select[data-schema-key=' + fieldName + ']');
+    client.selectByVisibleText('select[data-schema-key=' + fieldName + ']', value);
   });
 
-  this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName, callback) {
-    this.client
-      .waitForVisible('select[data-schema-key=' + fieldName + ']', 5000)
-      .click('select[data-schema-key=' + fieldName + ']')
-      .selectByVisibleText('select[data-schema-key=' + fieldName + ']', value)
-      .call(callback);
+  this.When(/^I submit the "([^"]*)" form$/, function(formName) {
+    client.waitForVisible('#' + formName + "Form", 2000);
+    client.submitForm('#' + formName + "Form");
   });
 
-  this.When(/^I submit the "([^"]*)" form$/, function(formName, callback) {
-    this.client
-      .waitForVisible('#' + formName + "Form", 2000)
-      .submitForm('#' + formName + "Form")
-      .call(callback);
-  });
-
-  this.When(/^I click confirm on the modal$/, function(callback) {
-    this.client
-      .waitForVisible(".modal-footer .btn-primary", 5000)
-      .click(".modal-footer .btn-primary")
-      .call(callback);
+  this.When(/^I click confirm on the modal$/, function() {
+    client.waitForVisible(".modal-footer .btn-primary", 5000);
+    client.scroll(".modal-footer .btn-primary", 0, -60);
+    client.click(".modal-footer .btn-primary");
   });
 
   /***************************************************
                           THEN
   ***************************************************/
-  this.Then(/^I should see "([^"]*)"$/, function(id, callback) {
-    this.client
-      .waitForVisible(id, 5000)
-      .isExisting(id)
-      .then(function(isExisting) {
-        expect(isExisting).to.equal(true);
-      })
-      .call(callback);
+  this.Then(/^I should see "([^"]*)"$/, function(id) {
+    client.waitForVisible(id, 5000);
+    expect(client.isExisting(id)).toEqual(true);
   });
 
-  this.Then(/^I should not see "([^"]*)"$/, function(id, callback) {
-    this.client
-      .waitForVisible(id, 5000, true)
-      .isExisting(id)
-      .then(function(isExisting) {
-        expect(isExisting).to.equal(false);
-      })
-      .call(callback);
+  this.Then(/^I should not see "([^"]*)"$/, function(id) {
+    client.waitForVisible(id, 5000, true);
+    expect(client.isExisting(id)).toEqual(false);
   });
 
-  this.Then(/^I should see the title "([^"]*)"$/, function(expectedTitle, callback) {
-    this.client
-      .getTitle().should.become(expectedTitle)
-      .notify(callback);
+  this.Then(/^I should see the title "([^"]*)"$/, function(expectedTitle) {
+    expect(client.getTitle()).toBe(expectedTitle);
   });
 
-  this.Then(/^I should see the heading "([^"]*)"$/, function(expectedHeading, callback) {
-    this.client
-      .waitForVisible('h1*=' + expectedHeading, 2000)
-      .getText('h1*=' + expectedHeading)
-      .call(callback);
+  this.Then(/^I should see the heading "([^"]*)"$/, function(expectedHeading) {
+    client.waitForVisible('h1*=' + expectedHeading, 2000);
   });
 
-  this.Then(/^I should see a modal$/, function(callback) {
-    this.client
-      //.waitForVisible('.modal-dialog', 5000)
-      .isExisting('.modal-dialog')
-      .then(function(isExisting) {
-        expect(isExisting).to.equal(true);
-      })
-      .call(callback);
+  this.Then(/^I should see a modal$/, function() {
+    expect(client.isExisting('.modal-dialog')).toEqual(true);
   });
 
-  this.Then(/^I should not see a modal$/, function(callback) {
-    this.client
-      .waitForExist('.modal-dialog', 5000, true)
-      .isExisting('.modal-dialog')
-      .then(function(isExisting) {
-        expect(isExisting).to.equal(false);
-      })
-      .call(callback);
+  this.Then(/^I should not see a modal$/, function() {
+    client.waitForExist('.modal-dialog', 5000, true);
+    expect(client.isExisting('.modal-dialog')).toEqual(false);
   });
 
-  this.Then(/^"([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(selector, option, desiredText, callback) {
-    this.client
-      .scroll("#" + selector, 0, -60)
-      .getText("#" + selector)
-      .then(function(text) {
-        if (option === 'say') {
-          expect(text).to.equal(desiredText);
-        } else if (option === 'contain') {
-          expect(text).to.contain(desiredText);
-        } else if (option === 'not contain') {
-          expect(text).to.not.contain(desiredText);
-        }
-      })
-      .call(callback);
+  this.Then(/^"([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(selector, option, desiredText) {
+    client.scroll("#" + selector, 0, -60);
+    var fieldValue = client.getText("#" + selector);
+    if (option === 'say') {
+      expect(fieldValue).toEqual(desiredText);
+    } else if (option === 'contain') {
+      expect(fieldValue).toContain(desiredText);
+    } else if (option === 'not contain') {
+      expect(fieldValue).not.toContain(desiredText);
+    }
   });
 
-  this.Then(/^I should see a modal with title "([^"]*)"$/, function(expectedText, callback) {
-    this.client
-      .waitForVisible('.modal-header', 1000)
-      .getText('h4=' + expectedText)
-      .call(callback);
+  this.Then(/^I should see a modal with title "([^"]*)"$/, function(expectedText) {
+    client.waitForVisible('.modal-header', 1000);
+    client.getText('h4=' + expectedText);
   });
 
-  this.Then(/^the field "([^"]*)" should contain "([^"]*)"$/, function(fieldName, fieldValue, callback) {
-    this.client
-      .waitForVisible('input[name=' + fieldName + ']', 2000)
-      .timeoutsImplicitWait(2000)
-      .getValue('input[name=' + fieldName + ']').then(function(text) {
-        expect(text).to.contain(fieldValue);
-      })
-      .call(callback);
+  this.Then(/^the field "([^"]*)" should contain "([^"]*)"$/, function(fieldName, fieldValue) {
+    client.waitForVisible('input[name=' + fieldName + ']', 2000);
+    client.timeoutsImplicitWait(2000);
+    expect(client.getValue('input[name=' + fieldName + ']')).toContain(fieldValue);
   });
 
-  this.Then(/^I should see a toastr with the message "([^"]*)"$/, function(expectedText, callback) {
-    this.client
-      .waitForVisible('.toast-message', 5000)
-      .getText('.toast-message').then(function(text) {
-        expect(text).to.contain(expectedText);
-      })
-      .call(callback);
+  this.Then(/^I should see a toastr with the message "([^"]*)"$/, function(expectedText) {
+    client.waitForVisible('.toast-message', 5000);
+    expect(client.getText('.toast-message')).toContain(expectedText);
   });
 
-  this.Then(/^I should see an? "([^"]*)" toastr with the message "([^"]*)"$/, function(toastrType, expectedText, callback) {
-    this.client
-      .waitForVisible('.toast-' + toastrType + ' .toast-message', 5000)
-      .getText('.toast-' + toastrType + ' .toast-message').then(function(text) {
-        expect(text).to.contain(expectedText);
-      })
-      .call(callback);
+  this.Then(/^I should see an? "([^"]*)" toastr with the message "([^"]*)"$/, function(toastrType, expectedText) {
+    client.waitForVisible('.toast-' + toastrType + ' .toast-message', 5000);
+    expect(client.getText('.toast-' + toastrType + ' .toast-message'))
+      .toContain(expectedText);
   });
 
   // For steps which require max flexibility (e.g. tags)
-  this.Then(/^the field with selector "([^"]*)" should (not )?contain "([^"]*)"$/, function(selector, negate, fieldValue, callback) {
-    this.client
-      .waitForVisible(selector, 2000)
-      .timeoutsImplicitWait(2000)
-      .getValue(selector).then(function(text) {
-        if (negate) {
-          expect(text).to.not.contain(fieldValue);
-        } else {
-          expect(text).to.contain(fieldValue);
-        }
-      })
-      .call(callback);
+  this.Then(/^the field with selector "([^"]*)" should (not )?contain "([^"]*)"$/, function(selector, negate, expectedValue) {
+    client.waitForVisible(selector, 2000);
+    client.timeoutsImplicitWait(2000);
+    var actualValue = client.getValue(selector);
+    if (negate) {
+      expect(actualValue).not.toContain(expectedValue);
+    } else {
+      expect(actualValue).toContain(expectedValue);
+    }
   });
 
-  this.Then(/^debug$/, function(menuText, callback) {
-    this.client
-      .debug()
-      .call(callback);
+  this.Then(/^debug$/, function(menuText) {
+    client.debug();
   });
 };

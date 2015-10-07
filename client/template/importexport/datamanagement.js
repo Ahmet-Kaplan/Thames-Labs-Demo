@@ -21,7 +21,6 @@ Template.datamanagement.events({
       var companyName = (companyEntry ? companyEntry.name : "");
 
       var entry = {
-        title: c.title,
         forename: c.forename,
         surname: c.surname,
         email: c.email,
@@ -44,7 +43,6 @@ Template.datamanagement.events({
   'click #contact-template-download-link': function() {
     var tempFile = [];
     var entry = {
-      title: "Mr",
       forename: "Fredd",
       surname: "Bloggs",
       email: "fred.bloggs@sample.co.uk",
@@ -98,7 +96,6 @@ Template.datamanagement.events({
         if (de.company === "") {
 
           var existing = Contacts.find({
-            title: de.title,
             forename: de.forename,
             surname: de.surname
           }).count();
@@ -118,11 +115,10 @@ Template.datamanagement.events({
 
           } else {
 
-            bootbox.confirm("A contact with the name '" + de.title + ' ' + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?", function(result) {
+            bootbox.confirm("A contact with the name '" + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?", function(result) {
               if (result === true) {
 
                 var record = Contacts.find({
-                  title: de.title,
                   forename: de.forename,
                   surname: de.surname
                 }).fetch()[0];
@@ -130,7 +126,6 @@ Template.datamanagement.events({
                 Contacts.update(
                   record._id, {
                     $set: {
-                      title: de.title,
                       forename: de.forename,
                       surname: de.surname,
                       email: de.email,
@@ -162,8 +157,7 @@ Template.datamanagement.events({
           var companyId = "";
 
           if (companyExists === 0) {
-            // toastr.error('Contact ' + de.title + ' ' + de.forename + ' ' + de.surname + ' not added: given company could not be found? Have you checked your spelling?');
-            errorList.push('Contact ' + de.title + ' ' + de.forename + ' ' + de.surname + ' not added: given company could not be found? Have you checked your spelling?');
+            errorList.push('Contact ' + de.forename + ' ' + de.surname + ' not added: given company could not be found? Have you checked your spelling?');
             totalErrors += 1;
             return;
           } else {
@@ -175,7 +169,6 @@ Template.datamanagement.events({
           }
 
           var existing = Contacts.find({
-            title: de.title,
             forename: de.forename,
             surname: de.surname,
             companyId: companyId
@@ -199,11 +192,10 @@ Template.datamanagement.events({
 
           } else {
 
-            bootbox.confirm("A contact with the name '" + de.title + ' ' + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?", function(result) {
+            bootbox.confirm("A contact with the name '" + de.forename + ' ' + de.surname + "'' already exists. Overwrite the existing data with the data stored in the CSV file?", function(result) {
               if (result === true) {
 
                 var record = Contacts.find({
-                  title: de.title,
                   forename: de.forename,
                   surname: de.surname
                 }).fetch()[0];
@@ -211,7 +203,6 @@ Template.datamanagement.events({
                 Contacts.update(
                   record._id, {
                     $set: {
-                      title: de.title,
                       forename: de.forename,
                       surname: de.surname,
                       email: de.email,
@@ -397,5 +388,153 @@ Template.datamanagement.events({
 
     reader.readAsText(file);
 
-  }
-})
+  },
+  'click #exportOpportunityList': function() {
+    var tempFile = [];
+
+    var opps = Opportunities.find({}).fetch();
+    _.each(opps, function(o) {
+
+      var companyEntry, contactEntry;
+
+      if (o.companyId) {
+        companyEntry = Companies.find({
+          _id: o.companyId
+        }).fetch()[0];
+      }
+
+      if (o.contactId) {
+        contactEntry = Contacts.find({
+          _id: o.contactId
+        }).fetch()[0];
+      }
+
+      var stageEntry = OpportunityStages.find({
+        _id: o.currentStageId
+      }).fetch()[0];
+
+      var companyName = (companyEntry ? companyEntry.name : "");
+      var contactName = (contactEntry ? contactEntry.forename + " " + contactEntry.surname : "");
+      var stageName = (stageEntry ? stageEntry.title : "");
+
+      var entry = {
+        name: o.name,
+        description: o.description,
+        date: o.date,
+        estCloseDate: o.estCloseDate,
+        value: (o.value ? parseFloat(o.value).toFixed(2) : "0.00"),
+        company: (companyName !== "" ? companyName : ""),
+        contact: (contactName !== "" ? contactName : ""),
+        stage: (stageName !== "" ? stageName : "")
+      }
+      tempFile.push(entry);
+    });
+
+    var filename = 'realtimecrm-opps-export_' + moment().format("MMM-Do-YY") + '.csv';
+    var fileData = Papa.unparse(tempFile);
+
+    var blob = new Blob([fileData], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(blob, filename);
+  },
+  'click #exportProjectList': function() {
+    var tempFile = [];
+
+    var projects = Projects.find({}).fetch();
+    _.each(projects, function(o) {
+
+      var companyEntry, contactEntry;
+
+      if (o.companyId) {
+        companyEntry = Companies.find({
+          _id: o.companyId
+        }).fetch()[0];
+      }
+
+      if (o.contactId) {
+        contactEntry = Contacts.find({
+          _id: o.contactId
+        }).fetch()[0];
+      }
+
+      var accMgrEntry = Meteor.users.find({
+        _id: o.userId
+      }).fetch()[0];
+
+      var companyName = (companyEntry ? companyEntry.name : "");
+      var contactName = (contactEntry ? contactEntry.forename + " " + contactEntry.surname : "");
+      var mgrName = (accMgrEntry ? accMgrEntry.profile.name : "");
+
+      var entry = {
+        name: o.name,
+        description: o.description,
+        dueDate: o.dueDate,
+        value: (o.value ? parseFloat(o.value).toFixed(2) : "0.00"),
+        company: (companyName !== "" ? companyName : ""),
+        contact: (contactName !== "" ? contactName : ""),
+        accMgr: (mgrName !== "" ? mgrName : "")
+      }
+      tempFile.push(entry);
+    });
+
+    var filename = 'realtimecrm-project-export_' + moment().format("MMM-Do-YY") + '.csv';
+    var fileData = Papa.unparse(tempFile);
+
+    var blob = new Blob([fileData], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(blob, filename);
+  },
+  'click #exportPurchaseOrderList': function() {
+    var tempFile = [];
+
+    var pos = PurchaseOrders.find({}).fetch();
+    _.each(pos, function(o) {
+
+      var companyEntry, contactEntry;
+
+      if (o.supplierCompanyId) {
+        companyEntry = Companies.find({
+          _id: o.supplierCompanyId
+        }).fetch()[0];
+      }
+
+      if (o.supplierContactId) {
+        contactEntry = Contacts.find({
+          _id: o.supplierContactId
+        }).fetch()[0];
+      }
+
+      var requestorEntry = Meteor.users.find({
+        _id: o.userId
+      }).fetch()[0];
+
+      var companyName = (companyEntry ? companyEntry.name : "");
+      var contactName = (contactEntry ? contactEntry.forename + " " + contactEntry.surname : "");
+      var requestorName = (requestorEntry ? requestorEntry.profile.name : "");
+
+      var entry = {
+        requestor: (requestorName !== "" ? requestorName : ""),
+        orderNumber: o.orderNumber,
+        supplierCompany: (companyName !== "" ? companyName : ""),
+        supplierContact: (contactName !== "" ? contactName : ""),
+        description: o.description,
+        reference: o.supplierReference,
+        status: o.status,
+        orderDate: o.orderDate,
+        payment: o.paymentMethod,
+        notes: o.notes
+      }
+      tempFile.push(entry);
+    });
+
+    var filename = 'realtimecrm-purchase-order-export_' + moment().format("MMM-Do-YY") + '.csv';
+    var fileData = Papa.unparse(tempFile);
+
+    var blob = new Blob([fileData], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(blob, filename);
+  },
+});

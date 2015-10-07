@@ -41,7 +41,7 @@
                 <li><a href="#" id="qckCreateCompany"><i class="fa fa-fw fa-building"></i> Add Company</a></li>
                 <li><a href="#" id="qckCreateContact"><i class="fa fa-fw fa-user"></i> Add Contact</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="#" id="qckCreateProject"><i class="fa fa-fw fa-files-o"></i> Add Project</a></li>
+                <li><a href="#" id="qckCreateProject"><i class="fa fa-fw fa-sitemap"></i> Add Project</a></li>
                 <li><a href="#" id="qckCreatePurchaseOrder"><i class="fa fa-fw fa-shopping-cart"></i> Add Purchase Order</a></li>
               </ul>
             </li>
@@ -153,19 +153,19 @@
       {{/if}} {{#if isInRole 'Administrator,CanReadOpportunities'}}
       <li class="panel-title">
         <a href='/opportunities' class="dismiss-on-click {{isActiveRoute regex='opportunities|opportunity|salespipeline'}}" id="menuLinkOpportunities">
-          <i class="fa fa-fw fa-files-o"></i> Opportunities
+          <i class="fa fa-fw fa-lightbulb-o"></i> Opportunities
         </a>
       </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadProjects'}}
       <li class="panel-title">
         <a href='/projects' class="dismiss-on-click {{isActiveRoute regex='projects|project'}}" id="menuLinkProjects">
-          <i class="fa fa-fw fa-files-o"></i> Projects
+          <i class="fa fa-fw fa-sitemap"></i> Projects
         </a>
       </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadProducts'}}
       <li class="panel-title">
         <a href='/products' class="dismiss-on-click {{isActiveRoute regex='products|product'}}" id="menuLinkProducts">
-          <i class="fa fa-fw fa-wrench"></i> Products
+          <i class="fa fa-fw fa-barcode"></i> Products
         </a>
       </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}

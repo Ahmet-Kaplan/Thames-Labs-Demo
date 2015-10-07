@@ -25,16 +25,6 @@ var loggedOutUserOnly = function(context, redirect) {
   }
 };
 
-var permissionRequired = function() {
-  // Returns a function which tests for the permissions given as arguments
-  var args = _.toArray(arguments);
-  return function(context, redirect) {
-    if (Meteor.user() && !Roles.userIsInRole(Meteor.userId(), args)) {
-      redirect('dashboard');
-    }
-  };
-};
-
 var tidyUpModals = function(context) {
   Modal.hide();
   $(".modal-backdrop").remove();
@@ -183,8 +173,7 @@ router.route('/admin', {
     layout.render('appLayout', {
       main: "tenancyAdminPage"
     });
-  },
-  triggersEnter: [permissionRequired('Administrator')]
+  }
 });
 
 router.route('/companies', {
@@ -197,7 +186,6 @@ router.route('/companies', {
       main: 'companyList'
     });
   },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadCompanies')]
 });
 
 router.route('/companies/:id', {
@@ -217,8 +205,7 @@ router.route('/companies/:id', {
     layout.render('appLayout', {
       main: 'companyDetail'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadCompanies')]
+  }
 });
 
 router.route('/contacts', {
@@ -231,8 +218,7 @@ router.route('/contacts', {
     layout.render('appLayout', {
       main: 'contactList'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadContacts')]
+  }
 });
 
 router.route('/contacts/:id', {
@@ -251,8 +237,7 @@ router.route('/contacts/:id', {
     layout.render('appLayout', {
       main: 'contactDetail'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadContacts')]
+  }
 });
 
 router.route('/projects', {
@@ -266,8 +251,7 @@ router.route('/projects', {
     layout.render('appLayout', {
       main: 'projectsList'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadProjects')]
+  }
 });
 
 router.route('/projects/:id', {
@@ -285,8 +269,7 @@ router.route('/projects/:id', {
     layout.render('appLayout', {
       main: 'projectDetail'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadProjects')]
+  }
 });
 
 router.route('/purchaseorders', {
@@ -301,8 +284,7 @@ router.route('/purchaseorders', {
     layout.render('appLayout', {
       main: 'purchaseOrderList'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadPurchaseOrders')]
+  }
 });
 
 router.route('/purchaseorders/:id', {
@@ -321,8 +303,7 @@ router.route('/purchaseorders/:id', {
     layout.render('appLayout', {
       main: 'purchaseOrderDetail'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadPurchaseOrders')]
+  }
 });
 
 router.route('/tasks', {
@@ -334,8 +315,7 @@ router.route('/tasks', {
     layout.render('appLayout', {
       main: 'taskList'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadTasks')]
+  }
 });
 
 router.route('/datamanagement', {
@@ -343,13 +323,16 @@ router.route('/datamanagement', {
   subscriptions: function() {
     this.register('allCompanies', subs.subscribe('allCompanies', Meteor.userId()));
     this.register('allContacts', subs.subscribe('allContacts', Meteor.userId()));
+    this.register('allOpportunities', subs.subscribe('allOpportunities', Meteor.userId()));
+    this.register('allPurchaseOrders', subs.subscribe('allPurchaseOrders', Meteor.userId()));
+    this.register('allProjects', subs.subscribe('allProjects', Meteor.userId()));
+    this.register('allUserData', subs.subscribe('allUserData', Meteor.userId()));
   },
   action: function() {
     layout.render('appLayout', {
       main: 'datamanagement'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadDataManagement')]
+  }
 });
 
 router.route('/events', {
@@ -366,8 +349,7 @@ router.route('/events', {
     layout.render('appLayout', {
       main: "events"
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadEventLog')]
+  }
 });
 
 router.route('/products', {
@@ -379,8 +361,7 @@ router.route('/products', {
     layout.render('appLayout', {
       main: 'productList'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadProducts')]
+  }
 });
 
 router.route('/products/:id', {
@@ -392,8 +373,7 @@ router.route('/products/:id', {
     layout.render('appLayout', {
       main: 'productDetail'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadProducts')]
+  }
 });
 
 router.route('/opportunities', {
@@ -409,8 +389,7 @@ router.route('/opportunities', {
     layout.render('appLayout', {
       main: 'opportunityList'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadOpportunities')]
+  }
 });
 
 router.route('/opportunities/:id', {
@@ -428,8 +407,7 @@ router.route('/opportunities/:id', {
     layout.render('appLayout', {
       main: 'opportunityDetail'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadOpportunities')]
+  }
 });
 
 router.route('/salespipeline', {
@@ -442,6 +420,5 @@ router.route('/salespipeline', {
     layout.render('appLayout', {
       main: 'salesPipeline'
     });
-  },
-  triggersEnter: [permissionRequired('Administrator', 'CanReadOpportunities')]
+  }
 });
