@@ -1,36 +1,21 @@
 module.exports = function() {
 
-  this.When(/^I see a global field with the name "([^"]*)" in the list "([^"]*)"$/, function(gfName, listName, callback) {
-    this.client
-      .waitForExist(listName, 2000)
-      .getText('#glob-cust-field-display', 2000).then(function(text) {
-        expect(text).to.contain(gfName);
-      })
-      .call(callback);
+  this.When(/^I see a global field with the name "([^"]*)" in the list "([^"]*)"$/, function(gfName, listName) {
+    client.waitForExist(listName, 2000);
+    expect(client.getText('#glob-cust-field-display', 2000)).toContain(gfName);
   });
 
-  this.When(/^I click the button "([^"]*)"$/, function(button, callback) {
-    this.client
-      .leftClick(button)
-      .call(callback);
+  this.When(/^I click the button "([^"]*)"$/, function(button) {
+    client.leftClick(button);
   });
 
-  this.Then(/^the global field should no longer be visible$/, function(callback) {
-    this.client
-      .isExisting('#glob-cust-field-display')
-      .then(function(isExisting) {
-        expect(isExisting).to.equal(false);
-      })
-      .call(callback);
+  this.Then(/^the global field should no longer be visible$/, function() {
+    expect(client.isExisting('#glob-cust-field-display')).toEqual(false);
   });
 
-  this.Then(/^I see a field with the name "([^"]*)" in the extended information list$/, function(name, callback) {
-    this.client
-      .waitForVisible('#entity-custom-fields', 2000)
-      .waitForVisible('#global-fields', 2000)
-      .getText('.custom-field-display-item', 2000).then(function(text) {
-        expect(text).to.contain(name);
-      })
-      .call(callback);
+  this.Then(/^I see a field with the name "([^"]*)" in the extended information list$/, function(name) {
+    client.waitForVisible('#entity-custom-fields', 2000);
+    client.waitForVisible('#global-fields', 2000);
+    expect(client.getText('.custom-field-display-item', 2000)).toContain(name);
   });
 };

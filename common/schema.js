@@ -822,6 +822,23 @@ Schemas.Opportunity = new SimpleSchema({
     type: Number,
     optional: true
   },
+  estCloseDate: {
+    type: Date,
+    optional: true,
+    label: "Estimated Close Date",
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          useCurrent: true,
+          sideBySide: true,
+          widgetPositioning: {
+            vertical: "top"
+          }
+        }
+      }
+    }
+  },
   items: {
     type: Array,
     optional: true

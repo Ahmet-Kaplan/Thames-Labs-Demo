@@ -93,7 +93,7 @@
         <ul class="list-group">
           {{#each projects}}
           <a href="{{pathFor route='project' id=_id}}" class="list-group-item">
-            <i class="fa fa-fw fa-files-o"></i> {{description}}
+            <i class="fa fa-fw fa-sitemap"></i> {{name}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a> {{else}}
           <li class="list-group-item">No projects</li>
@@ -135,7 +135,7 @@
         <ul class="list-group">
           {{#each opportunities}}
           <a href="{{pathFor route='opportunity' id=_id}}" class="list-group-item">
-            <i class="fa fa-fw fa-files-o"></i> {{name}}
+            <i class="fa fa-fw fa-lightbulb-o"></i> {{name}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
           {{else}}

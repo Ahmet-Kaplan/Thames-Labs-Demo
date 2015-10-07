@@ -260,36 +260,34 @@ Payments = new Mongo.Collection('payments');
 //////////////////////
 
 var checkRecordsNumber = function() {
-  if(!Tenants.findOne({})) {
+  if (!Tenants.findOne({})) {
     return true;
   }
   var payingTenant = Tenants.findOne({}).stripe.paying;
   var blockedTenant = Tenants.findOne({}).stripe.blocked;
   var totalRecords = (Tenants.findOne({}) === undefined) ? 0 : Tenants.findOne({}).stripe.totalRecords;
   totalRecords += 1;
-  if(payingTenant) {
+  if (payingTenant) {
     return true;
   } else {
-    if(Meteor.isServer) {
-      if(totalRecords == MAX_RECORDS) {
+    if (Meteor.isServer) {
+      if (totalRecords == MAX_RECORDS) {
         Meteor.call('tenantLimitReached');
-      } else if(blockedTenant && totalRecords > MAX_RECORDS) {
+      } else if (blockedTenant && totalRecords > MAX_RECORDS) {
         return false;
       }
       return true;
     }
 
     if(Meteor.isClient) {
+      var upgradeMessage = '';
       if(blockedTenant && totalRecords > MAX_RECORDS) {
-        toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br />Please upgrade to enjoy the full functionalities of RealTimeCRM.', 'Account Locked', {preventDuplicates: true});
+        upgradeMessage = (Roles.userIsInRole(Meteor.userId(), ['Administrator'])) ? 'Upgrade to enjoy the full functionalities of RealTimeCRM!':  'If you wish to upgrade, contact your administrator.';
+        toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br>' + upgradeMessage, 'Account Locked');
         return false;
       } else if(totalRecords >= MAX_RECORDS) {
-        toastr.options.preventDuplicates = true;
-        if(blockedTenant) {
-          toastr.warning('You have reached the maximum number of records and will not be able to add new ones.<br />Please upgrade to enjoy the full functionalities of RealTimeCRM.', 'Account Locked', {preventDuplicates: true});
-        } else {
-          toastr.warning('You have reached the maximum number of records.<br />Please consider upgrading.', 'Limit Reached');
-        }
+        upgradeMessage += (Roles.userIsInRole(Meteor.userId(), ['Administrator'])) ? 'Upgrade to enjoy the full functionalities of RealTimeCRM' : 'If you wish to upgrade, contact your administrator.';
+        toastr.warning('You have reached the maximum number of records.<br>' + upgradeMessage, 'Limit Reached');
       }
       return true;
     }
@@ -308,7 +306,7 @@ Tenants.after.update(function(userId, doc, fieldNames, modifier, options) {
   }
   var prevdoc = this.previous;
   var key;
-  if(doc.settings !== undefined) {
+  if (doc.settings !== undefined) {
     for (key in doc.settings) {
       if (doc.settings.hasOwnProperty(key)) {
         if (doc.settings[key] !== prevdoc.settings[key]) {
@@ -405,7 +403,7 @@ Companies.after.remove(function(userId, doc) {
 
 
 Contacts.before.insert(function(userId, doc) {
-  if(!checkRecordsNumber()) {
+  if (!checkRecordsNumber()) {
     return false;
   }
   return true;
@@ -916,6 +914,10 @@ Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) 
   }
   if (doc.name !== this.previous.name) {
     logEvent('info', 'An existing opportunity has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
+  }
+
+  if (doc.estCloseDate !== this.previous.estCloseDate) {
+    logEvent('info', 'An existing opportunity has been updated: The value of "estCloseDate" was changed from ' + this.previous.estCloseDate + " to " + doc.estCloseDate);
   }
 });
 Opportunities.after.remove(function(userId, doc) {

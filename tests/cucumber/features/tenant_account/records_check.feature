@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to subscribe/unsubscribe to Stripe
 
   As a user of the app
@@ -68,7 +69,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     And I set text field "forename" to "Limit"
     And I set text field "surname" to "Reached"
     When I submit the "insertContact" form
-    Then I should see a "warning" toastr with the message "You have reached the maximum number of records and will not be able to add new ones."
+    Then I should see a "warning" toastr with the message "You have reached the maximum number of records."
     Then I should see the heading "Limit Reached"
 
   Scenario: A user can create a project even if blocked
