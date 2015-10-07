@@ -1,10 +1,10 @@
 machine:
   environment:
     CUCUMBER_TAIL: 1
-    SELENIUM_BROWSER: firefox
+    SELENIUM_BROWSER: chrome
     VELOCITY_CI: 1
-    CUCUMBER_SCREENSHOTS_DIR: $CIRCLE_ARTIFACTS/screenshots/firefox
-    CUCUMBER_JSON_OUTPUT: $CIRCLE_TEST_REPORTS/firefox.cucumber
+    CUCUMBER_SCREENSHOTS_DIR: $CIRCLE_ARTIFACTS/screenshots/chrome
+    CUCUMBER_JSON_OUTPUT: $CIRCLE_TEST_REPORTS/chrome.cucumber
     STRIPE_PK: pk_test_W7Cx4LDFStOIaJ2g5DufAIaE
     STRIPE_SK: sk_test_CEgjj8xNKSrQMUrqC4puiHxA
 
@@ -30,8 +30,8 @@ dependencies:
     - meteor --test
 
     # Copy logs to artifacts DIR
-    - mkdir -p $CIRCLE_ARTIFACTS/firefox
-    - cp .meteor/local/log/*.log $CIRCLE_ARTIFACTS/firefox
+    - mkdir -p $CIRCLE_ARTIFACTS/chrome
+    - cp .meteor/local/log/*.log $CIRCLE_ARTIFACTS/chrome
 
 test:
   override:
