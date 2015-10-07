@@ -260,20 +260,20 @@ Payments = new Mongo.Collection('payments');
 //////////////////////
 
 var checkRecordsNumber = function() {
-  if(!Tenants.findOne({})) {
+  if (!Tenants.findOne({})) {
     return true;
   }
   var payingTenant = Tenants.findOne({}).stripe.paying;
   var blockedTenant = Tenants.findOne({}).stripe.blocked;
   var totalRecords = (Tenants.findOne({}) === undefined) ? 0 : Tenants.findOne({}).stripe.totalRecords;
   totalRecords += 1;
-  if(payingTenant) {
+  if (payingTenant) {
     return true;
   } else {
-    if(Meteor.isServer) {
-      if(totalRecords == MAX_RECORDS) {
+    if (Meteor.isServer) {
+      if (totalRecords == MAX_RECORDS) {
         Meteor.call('tenantLimitReached');
-      } else if(blockedTenant && totalRecords > MAX_RECORDS) {
+      } else if (blockedTenant && totalRecords > MAX_RECORDS) {
         return false;
       }
       return true;
@@ -306,7 +306,7 @@ Tenants.after.update(function(userId, doc, fieldNames, modifier, options) {
   }
   var prevdoc = this.previous;
   var key;
-  if(doc.settings !== undefined) {
+  if (doc.settings !== undefined) {
     for (key in doc.settings) {
       if (doc.settings.hasOwnProperty(key)) {
         if (doc.settings[key] !== prevdoc.settings[key]) {
@@ -403,7 +403,7 @@ Companies.after.remove(function(userId, doc) {
 
 
 Contacts.before.insert(function(userId, doc) {
-  if(!checkRecordsNumber()) {
+  if (!checkRecordsNumber()) {
     return false;
   }
   return true;
@@ -914,6 +914,10 @@ Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) 
   }
   if (doc.name !== this.previous.name) {
     logEvent('info', 'An existing opportunity has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
+  }
+
+  if (doc.estCloseDate !== this.previous.estCloseDate) {
+    logEvent('info', 'An existing opportunity has been updated: The value of "estCloseDate" was changed from ' + this.previous.estCloseDate + " to " + doc.estCloseDate);
   }
 });
 Opportunities.after.remove(function(userId, doc) {

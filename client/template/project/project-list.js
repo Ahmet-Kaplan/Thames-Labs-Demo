@@ -53,7 +53,7 @@ Template.projectListItem.helpers({
     });
 
     if (cont) {
-      return cont.title + " " + cont.forename + " " + cont.surname;
+      return cont.forename + " " + cont.surname;
     } else {
       return null;
     }

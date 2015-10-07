@@ -21,6 +21,9 @@ Template.opportunityDetail.helpers({
   friendlyDate: function() {
     return moment(this.date).format('MMMM Do YYYY, h:mma');
   },
+  friendlyClose: function() {
+    return moment(this.estCloseDate).format('MMMM Do YYYY, h:mma');
+  },
   stages: function() {
     return OpportunityStages.find({}, {sort: {order: 1}});
   },
@@ -190,7 +193,7 @@ Template.opportunityDetail.events({
       }
       if (this.contactId) {
         var contact = Contacts.findOne(this.contactId);
-        contactName = contact.title + " " + contact.forename + " " + contact.surname;
+        contactName = contact.forename + " " + contact.surname;
       }
 
       var date = moment().format("MMM Do YYYY");
@@ -249,7 +252,7 @@ Template.opportunityDetail.events({
       }
       if (this.contactId) {
         var contact = Contacts.findOne(this.contactId);
-        contactName = contact.title + " " + contact.forename + " " + contact.surname;
+        contactName = contact.forename + " " + contact.surname;
       }
 
       var date = moment().format("MMM Do YYYY");
