@@ -28,7 +28,6 @@ momentjs:moment
 meteorhacks:subs-manager
 http
 mystor:device-detection
-dburles:google-maps
 meteorhacks:kadira
 meteorhacks:kadira-profiler
 zimme:active-route

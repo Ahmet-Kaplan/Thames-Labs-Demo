@@ -47,7 +47,7 @@ module.exports = function() {
   });
 
   this.Given(/^I am a logged in superadmin user$/, function() {
-    client.executeAsync(login, 'admin@cambridgesoftware.co.uk', 'admin')
+    client.executeAsync(login, 'admin@cambridgesoftware.co.uk', 'admin');
   });
 
   this.Given(/^an? "([^"]*)" has been created$/, function(entity) {
@@ -69,7 +69,7 @@ module.exports = function() {
   });
 
   this.When(/^I click "([^"]*)"$/, function(id) {
-    client.waitForExist(id, 10000);
+    client.waitForVisible(id, 10000);
     client.scroll(id, 0, -60);
     client.click(id);
   });
@@ -126,6 +126,7 @@ module.exports = function() {
 
   this.When(/^I click confirm on the modal$/, function() {
     client.waitForVisible(".modal-footer .btn-primary", 5000);
+    client.scroll(".modal-footer .btn-primary", 0, -60);
     client.click(".modal-footer .btn-primary");
   });
 
@@ -194,14 +195,14 @@ module.exports = function() {
   });
 
   // For steps which require max flexibility (e.g. tags)
-  this.Then(/^the field with selector "([^"]*)" should (not )?contain "([^"]*)"$/, function(selector, negate, fieldValue) {
+  this.Then(/^the field with selector "([^"]*)" should (not )?contain "([^"]*)"$/, function(selector, negate, expectedValue) {
     client.waitForVisible(selector, 2000);
     client.timeoutsImplicitWait(2000);
-    var fieldValue = client.getValue(selector);
+    var actualValue = client.getValue(selector);
     if (negate) {
-      expect(fieldValue).not.toContain(fieldValue);
+      expect(actualValue).not.toContain(expectedValue);
     } else {
-      expect(fieldValue).toContain(fieldValue);
+      expect(actualValue).toContain(expectedValue);
     }
   });
 
