@@ -4,7 +4,6 @@ Meteor.startup(function() {
   // See https://github.com/percolatestudio/meteor-migrations
   if (!process.env.IS_MIRROR) {
     Migrations.migrateTo('latest');
-    // Migrations.migrateTo(7);
   }
 
   //Keep tenant information sync'ed

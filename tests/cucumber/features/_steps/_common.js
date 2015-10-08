@@ -59,9 +59,16 @@ module.exports = function() {
       }, entity);
   });
 
-  /***************************************************
-                          WHEN
-  ***************************************************/
+  this.Given(/^toastr are cleared$/, function() {
+    client.executeAsync(function(done) {
+      toastr.clear();
+      done();
+    });
+  });
+
+/***************************************************
+                        WHEN
+***************************************************/
 
   this.When(/^I navigate to "([^"]*)"$/, function(relativePath) {
     var path = url.resolve(process.env.ROOT_URL, relativePath);
@@ -199,6 +206,10 @@ module.exports = function() {
     client.waitForVisible('.toast-' + toastrType + ' .toast-message', 5000);
     expect(client.getText('.toast-' + toastrType + ' .toast-message'))
       .toContain(expectedText);
+  });
+
+  this.Then(/^I should see an? "([^"]*)" toastr$/, function(toastrType) {
+    client.waitForVisible('.toast-' + toastrType + ' .toast-message', 5000);
   });
 
   // For steps which require max flexibility (e.g. tags)

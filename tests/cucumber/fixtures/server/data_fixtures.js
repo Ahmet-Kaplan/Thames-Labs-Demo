@@ -22,11 +22,13 @@ Meteor.methods({
 
   },
 
-  addContact: function() {
-    var userId = Meteor.userId();
+  addContact: function(forename, surname) {
+    var contactForename = forename || 'Testy',
+        contactSurname = surname || 'Surname',
+        userId = Meteor.userId();
     return Contacts.insert({
-      "forename": "Testy",
-      "surname": "Surname",
+      "forename": contactForename,
+      "surname": contactSurname,
       "email": "testy@surname.com",
       "createdBy": userId,
       "customFields": {}

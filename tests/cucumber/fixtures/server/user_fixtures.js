@@ -102,12 +102,21 @@ Meteor.methods({
     Roles.setUserRoles(userId, []);
   },
 
-  'getUserByEmail': function(email) {
+  getUserByEmail: function(email) {
     return Meteor.users.findOne({
       emails: {
         $elemMatch: {
           address: email
         }
+      }
+    });
+  },
+
+  setBlockedTenant: function() {
+    var tenantId = Tenants.findOne({name: 'Acme Corp'})._id;
+    Tenants.update(tenantId, {
+      $set: {
+        "stripe.blocked": true
       }
     });
   }

@@ -31,6 +31,23 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I click confirm on the modal
     Then the Stripe field "#planName" should not contain "Free"
 
+  Scenario: An administrator with a blocked account can subscribe by entering the correct card details
+    Given I have reached the limit of records
+    Given I am a blocked user
+    When I navigate to "/admin"
+    When I click "#upScheme"
+    Then I should see a modal
+    When I set text field with id "cardNumber" to "4242424242424242"
+    When I set text field with id "expMonth" to "01"
+    When I set text field with id "expYear" to "2021"
+    When I set text field with id "cardCVC" to "123"
+    When I click confirm on the modal
+    Then I should see a toastr with the message "Validating your card details..."
+    Then I should see a bootbox
+    Then I should see a modal with title "Subscription complete"
+    When I click confirm on the modal
+    Then the Stripe field "#planName" should not contain "Free"
+
   Scenario: An administrator can unsubscribe from the Paying scheme
     Given I have subscribed to the paying plan
     When I navigate to "/admin"
