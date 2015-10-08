@@ -41,3 +41,6 @@ permissions = [{
   displayName: 'Opportunities',
   value: 'Opportunities'
 }];
+
+//Soft limit for records
+MAX_RECORDS = 50;

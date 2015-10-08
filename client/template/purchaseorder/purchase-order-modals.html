@@ -11,10 +11,8 @@
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description" id="description"}}
-            {{> afQuickField name="supplierCompanyId" id="selectedSupplier" options=companiesAsOptions}}
-            {{#if showSupplierContacts}}
-              {{> afQuickField name="supplierContactId" id="selectedSupplierContact" options=supplierContactsAsOptions }}
-            {{/if}}
+            {{> esSelectize name="supplierCompanyId" index="autosuggestCompany"}}
+            {{> esSelectize name="supplierContactId" index="autosuggestContact" parent="supplierCompanyId" filter="filterCompanyId"}}
             {{> afQuickField name="supplierReference" id="supRef"}}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}
@@ -23,7 +21,7 @@
             {{> afQuickField name="notes" id="notes"}}
             {{> afQuickField name="createdBy" value=currentUser }}
             <p>Items can be added on the purchase order details page</p>
-            <br />
+            <br>
             <button type="submit" class="btn btn-primary" id="create-purchase-order">Create</button>
           {{/autoForm}}
         </div>
@@ -45,23 +43,19 @@
 
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
-            {{> afQuickField name="description"}}
-            {{> afQuickField name="supplierCompanyId" id="selectedSupplier" options=companiesAsOptions }}
-            {{#if showSupplierContacts}}
-              {{> afQuickField name="supplierContactId" id="selectedSupplierContact" options=supplierContactsAsOptions }}
-            {{/if}}
-            {{> afQuickField name="supplierReference" }}
+            {{> afQuickField name="description" id="description"}}
+            {{> esSelectize name="supplierCompanyId" index="autosuggestCompany" value=supplierCompanyId readonly=true}}
+            {{> esSelectize name="supplierContactId" index="autosuggestContact" parent="supplierCompanyId" filter="filterCompanyId"}}
+            {{> afQuickField name="supplierReference" id="supRef"}}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}
             {{> afQuickField name="orderDate" type="hidden" type="bootstrap-datetimepicker" value=currentDateTime }}
-            {{> afQuickField name="paymentMethod" options="allowed"}}
-            {{> afQuickField name="notes"}}
+            {{> afQuickField name="paymentMethod" options="allowed" id="payMethod"}}
+            {{> afQuickField name="notes" id="notes"}}
             {{> afQuickField name="createdBy" value=currentUser }}
-
             <p>Items can be added on the purchase order details page</p>
             <br />
-
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" id="create-purchase-order">Create</button>
           {{/autoForm}}
         </div>
 
@@ -84,10 +78,10 @@
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description"}}
-            {{> afQuickField name="supplierCompanyId" id="selectedSupplier" options=companiesAsOptions }}
-            {{#if showSupplierContacts}}
-              {{> afQuickField name="supplierContactId" id="selectedSupplierContact" options=supplierContactsAsOptions }}
+            {{#if supplierCompanyId}}
+              {{> esSelectize name="supplierCompanyId" index="autosuggestCompany" value=supplierCompanyId readonly=true}}
             {{/if}}
+            {{> esSelectize name="supplierContactId" index="autosuggestContact" value=supplierContactId readonly=true}}
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}
@@ -121,9 +115,11 @@
           {{#autoForm collection="PurchaseOrders" id="updatePurchaseOrderForm" type="update" doc=this}}
 
             {{> afQuickField name="description"}}
-            {{> afQuickField name="supplierCompanyId" id="selectedSupplier" options=companiesAsOptions value=supplierCompanyId }}
-            {{#if showSupplierContacts}}
-              {{> afQuickField name="supplierContactId" id="selectedSupplierContact" options=supplierContactsAsOptions }}
+            {{#if supplierCompanyId}}
+              {{> esSelectize name="supplierCompanyId" index="autosuggestCompany" value=supplierCompanyId readonly=true}}
+            {{/if}}
+            {{#if supplierContactId}}
+              {{> esSelectize name="supplierContactId" index="autosuggestContact" parent="supplierCompanyId" filter="filterCompanyId" value=supplierContactId readonly=true}}
             {{/if}}
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="status" options="allowed" id="poStatus" firstOption=false}}
@@ -149,15 +145,21 @@
 
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrderItems" id="addPurchaseOrderItem" type="insert"}}
-            {{> afQuickField name="purchaseOrderId" type="hidden" value=project._id}}
+            {{> afQuickField name="purchaseOrderId" type="hidden" value=purchaseOrder._id}}
             {{> afQuickField name="description" id="description"}}
             {{> afQuickField name="productCode" id="code"}}
             {{> afQuickField name="status" options="allowed" id="status"}}
             {{> afQuickField name="value" id="itemValue" }}
             {{> afQuickField name="quantity" id="currQuant"}}
             {{> afQuickField name="totalPrice" readonly=true id="activePrice" }}
-            {{> afQuickField name="projectId" options=projectsAsOptions id="project"}}
-            {{> afQuickField name="createdBy" value=currentUser }}
+            {{#if purchaseOrder.supplierCompanyId}}
+              <input type="hidden" id="supplierCompanyId" value="{{purchaseOrder.supplierCompanyId}}">
+              {{> esSelectize name="projectId" index="autosuggestProject" parent="supplierCompanyId" filter="supplierCompanyId"}}
+            {{else}}
+              <input type="hidden" id="supplierContactId" value="{{purchaseOrder.supplierContactId}}">
+              {{> esSelectize name="projectId" index="autosuggestProject" parent="supplierContactId" filter="supplierContactId"}}
+            {{/if}}
+            {{> afQuickField name="createdBy" value=currentUser}}
             <button type="submit" class="btn btn-primary" id="add-item-to-po">Create</button>
           {{/autoForm}}
         </div>
@@ -177,14 +179,20 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="PurchaseOrderItems" id="editPurchaseOrderItem" type="update" doc=this}}
+          {{#autoForm collection="PurchaseOrderItems" id="editPurchaseOrderItem" type="update" doc=purchaseOrderItem}}
             {{> afQuickField name="description" id="description"}}
             {{> afQuickField name="productCode" id="code"}}
             {{> afQuickField name="status" options="allowed" id="status"}}
             {{> afQuickField name="value" id="itemValue"}}
             {{> afQuickField name="quantity" id="currQuant"}}
             {{> afQuickField name="totalPrice" readonly=true id="activePrice"}}
-            {{> afQuickField name="projectId" id="currProj" options=projectsAsOptions }}
+            {{#if purchaseOrder.supplierCompanyId}}
+              <input type="hidden" id="supplierCompanyId" value="{{purchaseOrder.supplierCompanyId}}">
+              {{> esSelectize name="projectId" index="autosuggestProject" parent="supplierCompanyId" filter="supplierCompanyId" value=purchaseOrderItem.projectId}}
+            {{else}}
+              <input type="hidden" id="supplierContactId" value="{{purchaseOrder.supplierContactId}}">
+              {{> esSelectize name="projectId" index="autosuggestProject" parent="supplierContactId" filter="supplierContactId" value=purchaseOrderItem.projectId}}
+            {{/if}}
             <button type="submit" class="btn btn-primary" id="update-po-item">Update</button>
           {{/autoForm}}
         </div>

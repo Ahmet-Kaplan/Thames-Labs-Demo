@@ -73,6 +73,7 @@ csauer:accounts-phony
 mrgalaxy:stripe
 copleykj:tagstripper
 flowkey:bowser
+mologie:autoform-selectize
 standard-minifiers
 meteor-base
 mobile-experience
@@ -89,3 +90,4 @@ spacebars
 check
 npm-container
 dburles:google-maps
+ecmascript

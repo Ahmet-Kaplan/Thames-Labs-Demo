@@ -95,6 +95,9 @@ minimongo@1.0.10
 mizzao:bootboxjs@4.4.0
 mobile-experience@1.0.1
 mobile-status-bar@1.0.6
+mologie:autoform-selectize@0.0.5
+mologie:computation-observer@1.0.1
+mologie:reactive-selectize@0.1.5
 momentjs:moment@2.10.6
 mongo@1.1.2
 mongo-id@1.0.1

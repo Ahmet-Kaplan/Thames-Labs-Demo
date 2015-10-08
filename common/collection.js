@@ -1,5 +1,34 @@
 Collections = {};
 
+EasySearch.createSearchIndex('autosuggestUser', {
+  field: ['_id','profile.name'],
+  collection: Meteor.users,
+  limit: 10,
+  use: 'mongo-db',
+  query: function(searchString) {
+    var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
+    var tenantId = Meteor.users.findOne({}).group;
+
+    if(tenantId) {
+      query.group = {$eq: tenantId};
+    } else {
+      return false;
+    }
+
+    return query;
+  },
+  returnFields: ['_id', 'profile.name'],
+  changeResults: function(data) {
+    data.results = _.map(data.results, function(result) {
+      return {
+        _id: result._id,
+        name: result.profile.name
+      };
+    });
+    return data;
+  }
+});
+
 Tenants = new Mongo.Collection('tenants');
 Tenants.helpers({
   users: function() {
@@ -70,11 +99,19 @@ Companies.helpers({
 });
 Companies.initEasySearch(['name', 'tags'], {
   limit: 50,
+  use: "mongo-db",
   sort: function() {
     return {
       'name': 1
     };
   }
+});
+EasySearch.createSearchIndex('autosuggestCompany', {
+  field: ['_id', 'name'],
+  collection: Companies,
+  limit: 10,
+  use: 'mongo-db',
+  returnFields: ['_id', 'name']
 });
 Tags.TagsMixin(Companies);
 Collections.companies = Companies;
@@ -138,6 +175,34 @@ Contacts.initEasySearch(['forename', 'surname', 'tags'], {
     };
   }
 });
+EasySearch.createSearchIndex('autosuggestContact', {
+  field: ['_id', 'surname', 'forename'],
+  collection: Contacts,
+  limit: 10,
+  use: 'mongo-db',
+  props: {
+    filterCompanyId: ''
+  },
+  query: function(searchString) {
+    var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
+
+    if(this.props.filterCompanyId.length > 0) {
+      query.companyId = {$eq: this.props.filterCompanyId};
+    }
+
+    return query;
+  },
+  returnFields: ['_id', 'forename', 'surname'],
+  changeResults: function(data) {
+    data.results = _.map(data.results, function(result) {
+      return {
+        _id: result._id,
+        name: result.forename + ' ' + result.surname
+      };
+    });
+    return data;
+  }
+});
 Tags.TagsMixin(Contacts);
 Collections.contacts = Contacts;
 
@@ -192,6 +257,28 @@ Projects.helpers({
 Projects.initEasySearch(['name', 'tags'], {
   limit: 50
 });
+EasySearch.createSearchIndex('autosuggestProject', {
+  field: ['_id', 'name'],
+  collection: Projects,
+  limit: 10,
+  use: 'mongo-db',
+  props: {
+    supplierCompanyId: '',
+    supplierContactId: ''
+  },
+  query: function(searchString) {
+    var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
+
+    if(this.props.supplierCompanyId.length > 0) {
+      query.companyId = {$eq: this.props.supplierCompanyId};
+    } else {
+      query.contactId = {$eq: this.props.supplierContactId};
+    }
+    return query;
+  },
+  returnFields: ['_id', 'name']
+});
+
 Tags.TagsMixin(Projects);
 Collections.projects = Projects;
 
@@ -610,30 +697,33 @@ PurchaseOrders.after.remove(function(userId, doc) {
 
 PurchaseOrderItems.after.insert(function(userId, doc) {
   var currentPurchaseOrder = PurchaseOrders.findOne(doc.purchaseOrderId);
-  logEvent('info', 'A new purchase order item has been created: ' + doc.name + '(' + currentPurchaseOrder.description + ")");
+  logEvent('info', 'A new purchase order item has been created: ' + doc.name + '(' + currentPurchaseOrder.name + ")");
 });
 PurchaseOrderItems.after.update(function(userId, doc, fieldNames, modifier, options) {
   var currentPurchaseOrder = PurchaseOrders.findOne(doc.purchaseOrderId);
 
+  if (doc.name !== this.previous.name) {
+    logEvent('info', 'An existing purchase order item has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
+  }
   if (doc.description !== this.previous.description) {
-    logEvent('info', 'An existing purchase order item has been updated: The value of "description" was changed from ' + this.previous.description + " to " + doc.description + '(' + currentPurchaseOrder.description + ")");
+    logEvent('info', 'An existing purchase order item has been updated: The value of "description" was changed from ' + this.previous.description + " to " + doc.description + '(' + currentPurchaseOrder.name + ")");
   }
   if (doc.productCode !== this.previous.productCode) {
-    logEvent('info', 'An existing purchase order item has been updated: The value of "productCode" was changed from ' + this.previous.productCode + " to " + doc.productCode + '(' + currentPurchaseOrder.description + ")");
+    logEvent('info', 'An existing purchase order item has been updated: The value of "productCode" was changed from ' + this.previous.productCode + " to " + doc.productCode + '(' + currentPurchaseOrder.name + ")");
   }
   if (doc.value !== this.previous.value) {
-    logEvent('info', 'An existing purchase order item has been updated: The value of "value" was changed from ' + this.previous.value + " to " + doc.value + '(' + currentPurchaseOrder.description + ")");
+    logEvent('info', 'An existing purchase order item has been updated: The value of "value" was changed from ' + this.previous.value + " to " + doc.value + '(' + currentPurchaseOrder.name + ")");
   }
   if (doc.quantity !== this.previous.quantity) {
-    logEvent('info', 'An existing purchase order item has been updated: The value of "quantity" was changed from ' + this.previous.quantity + " to " + doc.quantity + '(' + currentPurchaseOrder.description + ")");
+    logEvent('info', 'An existing purchase order item has been updated: The value of "quantity" was changed from ' + this.previous.quantity + " to " + doc.quantity + '(' + currentPurchaseOrder.name + ")");
   }
   if (doc.totalPrice !== this.previous.totalPrice) {
-    logEvent('info', 'An existing purchase order item has been updated: The value of "totalPrice" was changed from ' + this.previous.totalPrice + " to " + doc.totalPrice + '(' + currentPurchaseOrder.description + ")");
+    logEvent('info', 'An existing purchase order item has been updated: The value of "totalPrice" was changed from ' + this.previous.totalPrice + " to " + doc.totalPrice + '(' + currentPurchaseOrder.name + ")");
   }
   if (doc.purchaseOrderId !== this.previous.purchaseOrderId) {
     var prevPO = Projects.findOne(this.previous.purchaseOrderId);
     var newPO = Projects.findOne(doc.purchaseOrderId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "purchaseOrderId" was changed from ' + this.previous.purchaseOrderId + '(' + prevPO.description + ") to " + doc.purchaseOrderId + ' (' + newPO.description + ')');
+    logEvent('info', 'An existing purchase order has been updated: The value of "purchaseOrderId" was changed from ' + this.previous.purchaseOrderId + '(' + prevPO.name + ") to " + doc.purchaseOrderId + ' (' + newPO.name + ')');
   }
 });
 PurchaseOrderItems.after.remove(function(userId, doc) {

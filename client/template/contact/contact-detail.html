@@ -63,7 +63,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
           Projects {{#if isInRole 'Administrator,CanCreateProjects'}}
-          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this contact"><i class="fa fa-fw fa-plus"></i> Add project</a> {{/if}}
+          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this contact"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
           {{#each projects}} {{> ContactProjectListItem}} {{else}}
@@ -74,8 +74,8 @@
       {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
-          Purchase Orders<!-- {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
-           <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this contact"><i class="fa fa-fw fa-plus"></i> Add purchase order</a> {{/if}} -->
+          Purchase Orders{{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+           <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this contact"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
           {{#each purchaseOrders}}
@@ -97,7 +97,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="opportunities">
           Opportunities {{#if isInRole 'Administrator,CanCreateOpportunities'}}
-          <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add opportunity</a> {{/if}}
+          <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
           {{#each opportunities}}
