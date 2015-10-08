@@ -18,6 +18,23 @@ function searchOptions(index, search, optionsList, parent, filter) {
   });
 }
 
+function newRecord(name) {
+  bootbox.dialog({
+    title: 'Create new entry',
+    message: Blaze.toHTML(Template.insertNewCompanyOnEntity),
+    closeButton: true,
+    buttons: {
+      create: {
+        label: 'create',
+        className: 'btn-primary',
+        callback: function() {
+          toastr.success('record added');
+        }
+      }
+    }
+  });
+}
+
 Template.esSelectize.onRendered(function() {
   this.optionsList = new ReactiveVar([]);
   this.selectize = new ReactiveVar({});
@@ -67,11 +84,20 @@ Template.esSelectize.onRendered(function() {
 Template.esSelectize.helpers({
   initialize: function() {
     return {
-      create: false,
       closeAfterSelect: true,
       valueField: "_id",
       labelField: "name",
-      searchField: "name"
+      searchField: "name",
+      createOnBlur: false,
+      render: {
+        option_create: function(data, escape) {
+          return '<div data-selectable>This will create a new Company' + escape(data.input) + '</div>';
+        },
+      },
+      create: function(input, callback) {
+        console.log(input);
+        return input;
+      }
     };
   }
 });
