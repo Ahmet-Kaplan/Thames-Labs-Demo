@@ -21,8 +21,9 @@ function searchOptions(index, search, optionsList, parent, filter) {
 Template.esSelectize.onRendered(function() {
   this.optionsList = new ReactiveVar([]);
   this.selectize = new ReactiveVar({});
+  this.parent = new ReactiveVar('');
+  this.search = new ReactiveVar('');
 
-  var name = this.data.name;
   var parent = this.data.parent;
   var selectizer = this.data.name;
   var selectize = $('#' + selectizer)[0].selectize;
@@ -31,17 +32,17 @@ Template.esSelectize.onRendered(function() {
   var filter = this.data.filter;
   if(parent) {
     var parentElt = $('#' + parent);
-    Session.set('parent' + name, parentElt.val());
-    parentElt.change(function() {
-      Session.set('parent' + name, parentElt.val());
+    this.parent.set(parentElt.val());
+    parentElt.change( () => {
+      this.parent.set(parentElt.val());
     });
   }
   var readonly = this.data.readonly;
 
   //search update listener
   this.autorun(function() {
-    var parent = Session.get('parent' + name);
-    var search = Session.get('search' + name) || '';
+    var parent = Template.instance().parent.get();
+    var search = Template.instance().search.get() || '';
     searchOptions(index, search, Template.instance().optionsList, parent, filter);
   });
 
@@ -55,7 +56,7 @@ Template.esSelectize.onRendered(function() {
       selectize.refreshOptions(false);
     }
     if(defaultValue) {
-      Session.set('search' + name , defaultValue);
+      Template.instance().search.set(defaultValue);
       selectize.setValue(defaultValue);
     }
     if(readonly) {
@@ -79,16 +80,9 @@ Template.esSelectize.helpers({
 Template.esSelectize.events({
   'keyup input': function(e) {
     var selectize = Template.instance().selectize.get();
-    var name = Template.instance().data.name;
     if(e.keyCode === 13 || e.keyCode === 9) {
       return;
     }
-    Session.set('search' + name , selectize.lastQuery);
+    Template.instance().search.set(selectize.lastQuery);
   }
-});
-
-Template.esSelectize.onDestroyed(function() {
-  var name = this.data.name;
-  Session.set('search' + name , '');
-  Session.set('parent' + name , '');
 });

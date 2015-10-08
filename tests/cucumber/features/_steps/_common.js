@@ -75,7 +75,7 @@ module.exports = function() {
   });
 
   this.When(/^I set rich text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
-    client.waitForVisible('div[data-schema-key=' + fieldName + ']', 2000);
+    client.waitForVisible('div[data-schema-key=' + fieldName + ']', 5000);
     client
       .executeAsync(function(fieldName, value, done) {
         //Set value for medium text editor because it isn't a standard input
@@ -85,36 +85,36 @@ module.exports = function() {
   });
 
   this.When(/^I set text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
-    client.waitForVisible('input[data-schema-key=' + fieldName + ']', 2000);
+    client.waitForVisible('input[data-schema-key=' + fieldName + ']', 5000);
     client.setValue('input[data-schema-key=' + fieldName + ']', value);
   });
 
   this.When(/^I set selectize field to "([^"]*)"$/, function(value) {
-    client.waitForVisible(".selectize-control .selectize-input input", 2000);
+    client.waitForVisible(".selectize-control .selectize-input input", 5000);
     client.setValue(".selectize-control .selectize-input input", value);
     client.keys(['Return']);
   });
 
   //This step is necessary when editing fields within an array (eg Opportunites, field items.0.name)
   this.When(/^I set text field with id "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
-    client.waitForVisible('#' + fieldName, 2000);
+    client.waitForVisible('#' + fieldName, 5000);
     client.setValue('#' + fieldName, value);
   });
 
   //This step is necessary when editing fields where maximum selection flexibility is required (e.g. tags)
   this.When(/^I set text field with selector "([^"]*)" to "([^"]*)"$/, function(selector, value) {
-    client.waitForVisible(selector, 2000);
+    client.waitForVisible(selector, 5000);
     client.setValue(selector, value);
   });
 
   //This step is necessary when editing fields where maximum selection flexibility is required (e.g. tags)
   this.When(/^I set text field with selector "([^"]*)" to "([^"]*)"$/, function(selector, value) {
-    client.waitForVisible(selector, 2000);
+    client.waitForVisible(selector, 5000);
     client.setValue(selector, value);
   });
 
   this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value) {
-    client.waitForExist('select#' + selector + ' + .selectize-control>.selectize-input', 2000);
+    client.waitForExist('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
     client.click('select#' + selector + ' + .selectize-control>.selectize-input');
     client.keys([value]);
     client.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content', 3000);
@@ -127,7 +127,7 @@ module.exports = function() {
   });
 
   this.When(/^I submit the "([^"]*)" form$/, function(formName) {
-    client.waitForVisible('#' + formName + "Form", 2000);
+    client.waitForVisible('#' + formName + "Form", 5000);
     client.submitForm('#' + formName + "Form");
   });
 
@@ -155,7 +155,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the heading "([^"]*)"$/, function(expectedHeading) {
-    client.waitForVisible('h1*=' + expectedHeading, 2000);
+    client.waitForVisible('h1*=' + expectedHeading, 5000);
   });
 
   this.Then(/^I should see a modal$/, function() {
@@ -185,8 +185,8 @@ module.exports = function() {
   });
 
   this.Then(/^the field "([^"]*)" should contain "([^"]*)"$/, function(fieldName, fieldValue) {
-    client.waitForVisible('input[name=' + fieldName + ']', 2000);
-    client.timeoutsImplicitWait(2000);
+    client.waitForVisible('input[name=' + fieldName + ']', 5000);
+    client.timeoutsImplicitWait(5000);
     expect(client.getValue('input[name=' + fieldName + ']')).toContain(fieldValue);
   });
 
@@ -203,8 +203,8 @@ module.exports = function() {
 
   // For steps which require max flexibility (e.g. tags)
   this.Then(/^the field with selector "([^"]*)" should (not )?contain "([^"]*)"$/, function(selector, negate, expectedValue) {
-    client.waitForVisible(selector, 2000);
-    client.timeoutsImplicitWait(2000);
+    client.waitForVisible(selector, 5000);
+    client.timeoutsImplicitWait(5000);
     var actualValue = client.getValue(selector);
     if (negate) {
       expect(actualValue).not.toContain(expectedValue);
