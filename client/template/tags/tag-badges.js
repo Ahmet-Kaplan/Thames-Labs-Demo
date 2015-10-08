@@ -1,5 +1,7 @@
 Template.tagBadge.events({
-  'click a': function() {
+  'click a': function(event) {
+    event.preventDefault();
+
     // turn this into a string
     var tagName = '' + this;
 

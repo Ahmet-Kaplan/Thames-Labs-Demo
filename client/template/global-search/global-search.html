@@ -1,0 +1,53 @@
+<template name="globalSearch">
+  <div class="modal fade" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+          <span style="width:100%;">{{> esInput index=indexes placeholder="Search..." allDocsOnEmpty=false}}</span>
+        </div>
+
+        <div class="modal-body">
+          <div class="results-wrapper">
+            {{>companyResults}}
+            {{>contactResults}}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<template name="companyResults">
+  <div class="company-results">
+    <div id="gsCompanyResultsList">
+      {{#esEach index='gsCompaniesIndex'}} {{>companyResult}} {{/esEach}}
+    </div>
+  </div>
+</template>
+
+<template name="companyResult">
+  <i class="fa fa-fw fa-building"></i> <a href="{{pathFor route='company' id=_id}}" id='gsCompanyResult'>
+    {{name}}
+  </a>
+  <br />
+</template>
+
+<template name="contactResults">
+  <div class="contact-results">
+    <div id="gsContactResultsList">
+      {{#esEach index='gsContactsIndex'}} {{>contactResult}} {{/esEach}}
+    </div>
+  </div>
+</template>
+
+<template name="contactResult">
+  <i class="fa fa-fw fa-user"></i> <a href="{{pathFor route='contact' id=_id}}" id='gsContactResult'>
+    {{forename}} {{surname}}
+  </a>
+  <br />
+</template>
