@@ -23,7 +23,7 @@ Template.onRendered(function() {
   });
 
   //IE fix: prevent all default actions and handle the hashlinks correctly
-  $(".nav li a").on('click', function(event) {
+  $(".sidebar .nav li a").on('click', function(event) {
     event.preventDefault();
     console.log('clicked ' + $(this).attr('href'));
     window.location.hash = $(this).attr('href');
