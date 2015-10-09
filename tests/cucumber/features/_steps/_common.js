@@ -76,7 +76,8 @@ module.exports = function() {
   });
 
   this.When(/^I click "([^"]*)"$/, function(id) {
-    client.waitForExist(id, 10000);
+    client.waitForExist(id, 5000);
+    client.waitForVisible(id, 5000);
     client.scroll(id, 0, -60);
     client.click(id);
   });
@@ -93,6 +94,7 @@ module.exports = function() {
 
   this.When(/^I set text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
     client.waitForExist('input[data-schema-key=' + fieldName + ']', 5000);
+    client.waitForVisible('input[data-schema-key=' + fieldName + ']', 5000);
     client.setValue('input[data-schema-key=' + fieldName + ']', value);
   });
 
