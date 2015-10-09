@@ -47,7 +47,7 @@ module.exports = function() {
   });
 
   this.Then(/^the Stripe field "([^"]*)" should say "([^"]*)"$/, function(field, desiredText) {
-    client.waitForVisible(field, 5000);
+    client.waitForExist(field, 5000);
     client
       .waitUntilSync(function() {
         return this.getText(field).then(function(text) {
@@ -57,7 +57,7 @@ module.exports = function() {
   });
 
   this.Then(/^the Stripe field "([^"]*)" should not contain "([^"]*)"$/, function(field, desiredText) {
-    client.waitForVisible(field, 5000);
+    client.waitForExist(field, 5000);
     client
       .waitUntilSync(function() {
         return this.getText(field).then(function(text) {

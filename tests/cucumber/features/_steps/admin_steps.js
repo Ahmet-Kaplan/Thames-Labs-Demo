@@ -14,8 +14,8 @@ module.exports = function() {
   });
 
   this.Then(/^I see a field with the name "([^"]*)" in the extended information list$/, function(name) {
-    client.waitForVisible('#entity-custom-fields', 2000);
-    client.waitForVisible('#global-fields', 2000);
+    client.waitForExist('#entity-custom-fields', 2000);
+    client.waitForExist('#global-fields', 2000);
     expect(client.getText('.custom-field-display-item', 2000)).toContain(name);
   });
 };
