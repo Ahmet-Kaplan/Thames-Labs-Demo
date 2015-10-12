@@ -379,19 +379,5 @@ Meteor.methods({
 });
 
 logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  if (Meteor.isClient && !Roles.userIsInRole(Meteor.userId(), 'superadmin')) {
-    logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
-    logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
-
-    AuditLog.insert({
-      token: 'token',
-      date: new Date(),
-      source: 'client',
-      level: logLevel,
-      message: logMessage,
-      user: Meteor.userId(),
-      entityType: logEntityType,
-      entityId: logEntityId
-    });
-  }
+  Meteor.call('addEventToAuditLog', logLevel, logMessage, ((typeof logEntityType === 'undefined') ? undefined : logEntityType), ((typeof logEntityId === 'undefined') ? undefined : logEntityId), 'client', Guid.raw());
 }

@@ -445,7 +445,6 @@ Companies.before.insert(function(userId, doc) {
 Companies.after.insert(function(userId, doc) {
   Meteor.call('updateTotalRecords');
   logEvent('info', 'A new company has been created: ' + doc.name);
-
 });
 Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
 
