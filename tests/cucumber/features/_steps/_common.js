@@ -179,7 +179,9 @@ module.exports = function() {
   });
 
   this.Then(/^I should not see a modal$/, function() {
-    client.waitForVisible('.modal-dialog', 5000, true);
+    client.executeAsync(function(done) {
+      setTimeout(done, 1000);
+    });
     expect(client.isVisible('.modal-dialog')).toEqual(false);
   });
 

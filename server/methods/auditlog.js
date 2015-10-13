@@ -28,18 +28,21 @@ Meteor.methods({
         _id: this.userId
       });
 
-      Partitioner.bindGroup(user.group, function() {
-        AuditLog.insert({
-          token: auditGuid,
-          date: new Date(),
-          source: logSource,
-          level: logLevel,
-          message: logMessage,
-          user: user._id,
-          entityType: logEntityType,
-          entityId: logEntityId
+      if(user) {
+        Partitioner.bindGroup(user.group, function() {
+          AuditLog.insert({
+            token: auditGuid,
+            date: new Date(),
+            source: logSource,
+            level: logLevel,
+            message: logMessage,
+            user: user._id,
+            entityType: logEntityType,
+            entityId: logEntityId
+          });
         });
-      });
+      }
+
     } else {
       Partitioner.directOperation(function() {
         AuditLog.direct.insert({
