@@ -8,7 +8,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see a success toastr$/, function() {
-    client.waitForExist('.toast-success', 2000);
+    client.waitForExist('.toast-success', 5000);
   });
 
   this.Then(/^I should see the "([^"]*)" button$/, function(id) {
@@ -16,6 +16,6 @@ module.exports = function() {
   });
 
   this.Then(/^I should not see the "([^"]*)" button$/, function(id) {
-    client.waitForExist(id, 5000, true);
+    expect(client.isExisting(id)).toEqual(false);
   });
 };

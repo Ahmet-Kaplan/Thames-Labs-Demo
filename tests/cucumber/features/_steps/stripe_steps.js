@@ -43,6 +43,7 @@ module.exports = function() {
         Modal.hide();
       });
     client.waitForExist('.bootbox-body', 20000);
+    client.waitForVisible('.bootbox-body', 5000);
     expect(client.isExisting('.modal-dialog')).toEqual(true);
   });
 

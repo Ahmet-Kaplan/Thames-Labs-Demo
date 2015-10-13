@@ -107,6 +107,7 @@ module.exports = function() {
   //This step is necessary when editing fields within an array (eg Opportunites, field items.0.name)
   this.When(/^I set text field with id "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
     client.waitForExist('#' + fieldName, 5000);
+    client.waitForVisible('#' + fieldName, 5000);
     client.setValue('#' + fieldName, value);
   });
 
@@ -119,6 +120,7 @@ module.exports = function() {
   //This step is necessary when editing fields where maximum selection flexibility is required (e.g. tags)
   this.When(/^I set text field with selector "([^"]*)" to "([^"]*)"$/, function(selector, value) {
     client.waitForExist(selector, 5000);
+    client.waitForVisible(selector, 5000);
     client.setValue(selector, value);
   });
 
@@ -129,8 +131,10 @@ module.exports = function() {
     client.waitForExist('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content', 3000);
     client.click('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>.active');
   });
+
   this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName) {
     client.waitForExist('select[data-schema-key=' + fieldName + ']', 5000);
+    client.waitForVisible('select[data-schema-key=' + fieldName + ']', 5000);
     client.click('select[data-schema-key=' + fieldName + ']');
     client.selectByVisibleText('select[data-schema-key=' + fieldName + ']', value);
   });
@@ -142,6 +146,7 @@ module.exports = function() {
 
   this.When(/^I click confirm on the modal$/, function() {
     client.waitForExist(".modal-footer .btn-primary", 5000);
+    client.waitForVisible(".modal-footer .btn-primary", 5000);
     client.scroll(".modal-footer .btn-primary", 0, -60);
     client.click(".modal-footer .btn-primary");
   });
@@ -151,6 +156,7 @@ module.exports = function() {
   ***************************************************/
   this.Then(/^I should see "([^"]*)"$/, function(id) {
     client.waitForExist(id, 5000);
+    client.waitForVisible(id, 5000);
     expect(client.isExisting(id)).toEqual(true);
   });
 
@@ -167,12 +173,14 @@ module.exports = function() {
   });
 
   this.Then(/^I should see a modal$/, function() {
+    client.waitForExist('.modal-dialog', 5000);
+    client.waitForVisible('.modal-dialog', 5000);
     expect(client.isExisting('.modal-dialog')).toEqual(true);
   });
 
   this.Then(/^I should not see a modal$/, function() {
-    client.waitForExist('.modal-dialog', 5000, true);
-    expect(client.isExisting('.modal-dialog')).toEqual(false);
+    client.waitForVisible('.modal-dialog', 5000, true);
+    expect(client.isVisible('.modal-dialog')).toEqual(false);
   });
 
   this.Then(/^"([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(selector, option, desiredText) {
