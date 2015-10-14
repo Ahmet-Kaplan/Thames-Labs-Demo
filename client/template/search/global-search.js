@@ -13,28 +13,6 @@ Template.globalSearch.helpers({
     return {
       position: "bottom",
       limit: 5,
-      // rules: [{
-      //   token: '@',
-      //   // collection: 'globalCompanyRecords',
-      //   subscription: "globalCompanyRecords",
-      //   field: "name",
-      //   template: Template.companyPill,
-      //   matchAll: true
-      // }, {
-      //   token: '!',
-      //   // collection: 'globalContactRecords',
-      //   subscription: "globalContactRecords",
-      //   field: "forename",
-      //   template: Template.contactPill,
-      //   matchAll: true
-      // }, {
-      //   token: '#',
-      //   // collection: 'globalContactRecords',
-      //   subscription: "globalContactRecords",
-      //   field: "surname",
-      //   template: Template.contactPill,
-      //   matchAll: true
-      // }]
       rules: [{
         subscription: "allRecords",
         field: ["name", "forename", "surname"],
@@ -59,9 +37,9 @@ Template.globalSearch.events({
 Template.resultPill.helpers({
   parsedData: function() {
     if (this.hasOwnProperty('name')) {
-      return '<span class="label label-primary"><i class="fa fa-fw fa-building"></i></span>' + this.name;
+      return '<span class="label label-primary"><i class="fa fa-fw fa-building"></i></span> <a href="/companies/' + this._id + '">' + this.name + '</a>';
     } else if (this.hasOwnProperty('forename') && this.hasOwnProperty('surname')) {
-      return "<span class='label label-info'><i class='fa fa-fw fa-user'></i></span> " + this.forename + " " + this.surname;
+      return '<span class="label label-info"><i class="fa fa-fw fa-user"></i></span> <a href="/contacts/' + this._id + '">' + this.forename + ' ' + this.surname + '</a>';
     }
   }
 })
