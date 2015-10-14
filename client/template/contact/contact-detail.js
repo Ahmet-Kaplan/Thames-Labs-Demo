@@ -42,7 +42,12 @@ Template.contactDetail.helpers({
     return contact;
   },
   company: function() {
-    return Companies.findOne({_id: this.companyId});
+    return Companies.findOne({
+      _id: this.companyId
+    });
+  },
+  phoneHref: function(number) {
+    return 'tel:' + number;
   },
   projects: function() {
     var contactId = FlowRouter.getParam('id');
@@ -54,19 +59,11 @@ Template.contactDetail.helpers({
       }
     });
   },
-  purchaseOrders: function() {
-    var contactId = FlowRouter.getParam('id');
-    return PurchaseOrders.find({
-      supplierContactId: contactId
-    }, {
-      sort: {
-        description: 1
-      }
-    });
-  },
   mapTitle: function() {
     if (this.companyId) {
-      var company = Companies.findOne({_id: this.companyId});
+      var company = Companies.findOne({
+        _id: this.companyId
+      });
       if (company) {
         return company.name;
       }
@@ -76,14 +73,23 @@ Template.contactDetail.helpers({
   },
   mapAddress: function() {
     if (this.companyId) {
-      var company = Companies.findOne({_id: this.companyId});
+      var company = Companies.findOne({
+        _id: this.companyId
+      });
       return company;
     } else {
       return this
     }
   },
   opportunities: function() {
-    return Opportunities.find({contactId: this._id});
+    return Opportunities.find({
+      contactId: this._id
+    });
+  },
+  purchaseOrders: function() {
+    return PurchaseOrders.find({
+      supplierContactId: this._id
+    })
   }
 });
 
@@ -114,12 +120,12 @@ Template.contactDetail.events({
     var company = this.company();
     if (company === undefined) {
       Modal.show('newContactPurchaseOrderForm', {
-        customerContactId: this._id
+        supplierContactId: this._id
       });
     } else {
       Modal.show('newContactPurchaseOrderForm', {
-        customerCompanyId: company._id,
-        customerContactId: this._id
+        supplierCompanyId: company._id,
+        supplierContactId: this._id
       });
     }
   },

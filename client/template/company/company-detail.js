@@ -82,7 +82,7 @@ Template.companyDetail.events({
   'click #add-purchase-order': function(event) {
     event.preventDefault();
     Modal.show('newCompanyPurchaseOrderForm', {
-      customerCompanyId: this._id
+      supplierCompanyId: this._id
     });
   },
   'click #remove-company': function(event) {

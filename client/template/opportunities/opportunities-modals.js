@@ -5,7 +5,7 @@ var verfiyOpportunityStagesExist = function() {
       Meteor.call("createDefaultOpportunityStages");
     }
   }
-}
+};
 
 Template.insertOpportunityModal.onRendered(function() {
   Session.set('oppComp', null);
@@ -13,40 +13,6 @@ Template.insertOpportunityModal.onRendered(function() {
 });
 
 Template.insertOpportunityModal.helpers({
-  companiesAsOptions: function() {
-    return Companies.find({}, {
-      sort: { name: 1 }
-    }).map(function(company) {
-      return {
-        'label': company.name,
-        'value': company._id
-      };
-    });
-  },
-  contactsAsOptions: function() {
-    if (Session.get('oppComp') !== null) {
-      return Contacts.find({
-        companyId: Session.get('oppComp')
-      }).map(function(contact) {
-        return {
-          'label': contact.forename + " " + contact.surname,
-          'value': contact._id
-        };
-      });
-    } else {
-      return Contacts.find({
-        companyId: undefined
-      }).map(function(contact) {
-        return {
-          'label': contact.forename + " " + contact.surname,
-          'value': contact._id
-        };
-      });
-    }
-  },
-  emptyArray: function() {
-    return [];
-  },
 	firstStageId: function() {
     var count = OpportunityStages.find({}).count();
     if (count == 0) return null;
@@ -100,9 +66,6 @@ Template.insertCompanyOpportunityModal.onRendered(function() {
 });
 
 Template.insertCompanyOpportunityModal.helpers({
-  emptyArray: function() {
-    return [];
-  },
 	firstStageId: function() {
     var count = OpportunityStages.find({}).count();
     if (count == 0) return null;
@@ -111,16 +74,6 @@ Template.insertCompanyOpportunityModal.helpers({
   },
   createdBy: function() {
     return Meteor.userId();
-  },
-  contactsAsOptions: function() {
-    return Contacts.find({
-      companyId: this.companyId
-    }).map(function(contact) {
-      return {
-        'label': contact.forename + " " + contact.surname,
-        'value': contact._id
-      };
-    });
   }
 });
 
@@ -129,9 +82,6 @@ Template.insertContactOpportunityModal.onRendered(function() {
 });
 
 Template.insertContactOpportunityModal.helpers({
-  emptyArray: function() {
-    return [];
-  },
 	firstStageId: function() {
     var count = OpportunityStages.find({}).count();
     if (count == 0) return null;

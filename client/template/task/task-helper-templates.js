@@ -1,12 +1,4 @@
 Template.insertNewTask.helpers({
-  usersAsOptions: function() {
-    return Meteor.users.find({}).map(function(user) {
-      return {
-        'label': user.profile.name,
-        'value': user._id
-      };
-    });
-  },
   getEntityType: function() {
     return this.entity_type;
   },
@@ -15,24 +7,6 @@ Template.insertNewTask.helpers({
   },
   isUserTask: function() {
     return (this.entity_type === "user" ? true : false);
-  },
-  getCurrentUserId: function() {
-    return Meteor.userId();
-  }
-});
-
-Template.updateTask.helpers({
-  usersAsOptions: function() {
-    return Meteor.users.find({}).map(function(user) {
-
-      return {
-        'label': user.profile.name,
-        'value': user._id
-      };
-    });
-  },
-  isUserTask: function() {
-    return (this.entityType === "user" ? true : false);
   },
   getCurrentUserId: function() {
     return Meteor.userId();

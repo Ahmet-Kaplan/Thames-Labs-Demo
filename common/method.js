@@ -95,6 +95,7 @@ Meteor.methods({
             // var element = array[randomIndex];
 
             var projectId = Projects.insert({
+              name: faker.lorem.words(),
               description: faker.lorem.sentence(),
               companyId: companyId,
               contactId: contacts[Math.floor(Math.random() * contacts.length)],
@@ -171,6 +172,7 @@ Meteor.methods({
   },
 
   signUp: function(userDetails) {
+
     userDetails.email = userDetails.email.toLowerCase();
     check(userDetails, Schemas.UserSignUp);
 
@@ -193,7 +195,8 @@ Meteor.methods({
         lastActivity: {
           page: null,
           url: null
-        }
+        },
+        poAuthLevel: 100000
       }
     });
 
@@ -206,7 +209,17 @@ Meteor.methods({
           name: userDetails.companyName,
           settings: {
             "PurchaseOrderPrefix": "",
-            "PurchaseOrderStartingValue": 0
+            "PurchaseOrderStartingValue": 0,
+            extInfo: {
+              company: [],
+              contact: []
+            }
+          },
+          stripe: {
+            "totalRecords": 0,
+            "paying": false,
+            "blocked": false,
+            "coupon": userDetails.coupon
           },
           createdAt: new Date()
         },
@@ -220,21 +233,6 @@ Meteor.methods({
       );
 
       Partitioner.setUserGroup(userId, tenantId);
-
-      Partitioner.bindGroup(tenantId, function() {
-        Companies.insert({
-          name: "Cambridge Software Ltd.",
-          address: "St. John's Innovation Centre",
-          address2: "Cowley Road",
-          city: "Cambridge",
-          county: "Cambridgeshire",
-          postcode: "CB4 0WS",
-          country: "United Kingdom",
-          website: 'http://www.cambridgesoftware.co.uk',
-          phone: '01223 802 900',
-          createdBy: userId
-        });
-      });
 
       SSR.compileTemplate('emailText', Assets.getText('email-template.html'));
       Template.emailText.helpers({
@@ -283,7 +281,8 @@ Meteor.methods({
       val = 0;
     }
     var projId = Projects.insert({
-      description: opp.name,
+      name: opp.name,
+      description: opp.description,
       companyId: opp.companyId,
       contactId: opp.contactId,
       userId: user._id,
@@ -326,8 +325,8 @@ Meteor.methods({
       createdBy: user._id
     });
 
-    var note = 'Converted from won opportunity "' + opp.name + '"';
-    var date = new Date();
+    note = 'Converted from won opportunity "' + opp.name + '"';
+    date = new Date();
     Activities.insert({
       type: 'Note',
       notes: note,
@@ -385,6 +384,7 @@ logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
     logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
 
     AuditLog.insert({
+      token: 'token',
       date: new Date(),
       source: 'client',
       level: logLevel,

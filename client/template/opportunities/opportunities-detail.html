@@ -53,6 +53,7 @@
           {{else}}
             <br>
             <h3 class="text-danger">Opportunity lost</h3>
+            <p>{{reasonLost}}</p>
           {{/if}}
         {{/if}}
       </div>
@@ -96,6 +97,10 @@
           <li class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-calendar"></i> Date</h4>
             {{friendlyDate}}
+          </li>
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-calendar"></i> Estimated Close</h4>
+            {{friendlyClose}}
           </li>
           {{#if value}}
           <li class="list-group-item panel-item-header">

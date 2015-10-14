@@ -35,17 +35,14 @@ Template.purchaseOrderDetail.events({
       var doc = new Docxgen(reader.result);
 
       var customerName = "",
-        customerContact = "",
+        // customerContact = "",
         customerAddress = "",
         orderNumber = "";
 
       var company = Companies.findOne(this.customerCompanyId);
       customerName = company.name;
       customerAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
-      if (this.customerContactId) {
-        var contact = Contacts.findOne(this.customerContactId);
-        customerContact = contact.title + " " + contact.forename + " " + contact.surname;
-      }
+
       orderNumber = this.orderNumber;
       var orderDate = moment().format("MMM Do YYYY");
 
@@ -73,7 +70,7 @@ Template.purchaseOrderDetail.events({
 
       doc.setData({
         "customerName": customerName,
-        "customerContact": customerContact,
+        // "customerContact": customerContact,
         "customerAddress": customerAddress,
         "orderNumber": orderNumber,
         "orderDate": orderDate,
@@ -105,17 +102,17 @@ Template.purchaseOrderDetail.events({
       var doc = new Docxgen(reader.result);
 
       var customerName = "",
-        customerContact = "",
+        // customerContact = "",
         customerAddress = "",
         orderNumber = "";
 
       var company = Companies.findOne(this.customerCompanyId);
       customerName = company.name;
       customerAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
-      if (this.customerContactId) {
-        var contact = Contacts.findOne(this.customerContactId);
-        customerContact = contact.title + " " + contact.forename + " " + contact.surname;
-      }
+      // if (this.customerContactId) {
+      //   var contact = Contacts.findOne(this.customerContactId);
+      //   customerContact = contact.title + " " + contact.forename + " " + contact.surname;
+      // }
       orderNumber = this.orderNumber;
       var orderDate = moment().format("MMM Do YYYY");
 
@@ -143,7 +140,7 @@ Template.purchaseOrderDetail.events({
 
       doc.setData({
         "customerName": customerName,
-        "customerContact": customerContact,
+        // "customerContact": customerContact,
         "customerAddress": customerAddress,
         "orderNumber": orderNumber,
         "orderDate": orderDate,
@@ -229,7 +226,7 @@ Template.purchaseOrderDetail.events({
   'click #add-item': function(event) {
     event.preventDefault();
     Modal.show('addPurchaseOrderItemModal', {
-      project: this
+      purchaseOrder: this
     });
   },
   'click #add-activity': function(event) {
@@ -260,7 +257,10 @@ Template.purchaseOrderItem.events({
   },
   'click #edit-po-item': function(event) {
     event.preventDefault();
-    Modal.show('editPurchaseOrderItemModal', this);
+    Modal.show('editPurchaseOrderItemModal', {
+      purchaseOrder: Template.parentData(),
+      purchaseOrderItem: this
+    });
   }
 });
 
@@ -292,6 +292,11 @@ Template.purchaseOrderItem.helpers({
       default:
         return "";
     }
+  },
+  projectName: function() {
+    var project = Projects.findOne(this.projectId);
+    if(project) return project.name;
+    return "No project";
   }
 });
 

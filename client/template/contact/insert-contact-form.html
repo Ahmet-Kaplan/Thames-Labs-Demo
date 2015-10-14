@@ -46,7 +46,7 @@
             {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
             {{> afQuickField name="jobtitle"}}
-            {{> afQuickField name="companyId" id="companyId" options=companiesAsOptions firstOption="No company selected"}}
+            {{> esSelectize name="companyId" index="autosuggestCompany"}}
             <div id="addressWrapper">
               <div class="form-group">
                 <label for="geo" class="control-label">Search for Address, City, etc.</label>

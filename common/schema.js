@@ -88,6 +88,13 @@ Schemas.UserSignUp = new SimpleSchema({
   },
   companyName: {
     type: String
+  },
+  coupon: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    },
+    optional: true
   }
 });
 
@@ -96,7 +103,7 @@ Schemas.UserSignUp.messages({
   emailTaken: "This email address is already registered with RealTimeCRM"
 });
 
-// ** --------- Non-attachment schemas --------- ** //
+// ** --------- End Non-attachment schemas --------- ** //
 
 Schemas.Tenant = new SimpleSchema({
   name: {
@@ -109,6 +116,37 @@ Schemas.Tenant = new SimpleSchema({
     autoform: {
       type: "hidden"
     },
+    optional: true
+  },
+  stripe: {
+    type: Object,
+    autoform: {
+      type: "hidden"
+    }
+  },
+  "stripe.paying": {
+    type: Boolean,
+    label: "Paying tenant",
+    defaultValue: false
+  },
+  "stripe.blocked": {
+    type: Boolean,
+    defaultValue: false
+  },
+  "stripe.stripeId": {
+    type: String,
+    optional: true
+  },
+  "stripe.stripeSubs": {
+    type: String,
+    optional: true
+  },
+  "stripe.totalRecords": {
+    type: Number,
+    defaultValue: 0
+  },
+  "stripe.coupon": {
+    type: String,
     optional: true
   },
   createdAt: {
@@ -381,17 +419,32 @@ Schemas.Activity = new SimpleSchema({
 Activities.attachSchema(Schemas.Activity);
 
 Schemas.Project = new SimpleSchema({
+  name: {
+    type: String,
+    label: "Name"
+  },
   description: {
     type: String,
-    label: "Description"
+    label: "Description",
+    optional: true
   },
   companyId: {
     type: String,
-    optional: true
+    optional: true,
+    custom: function() {
+      if (!this.isSet && !this.field('contactId').isSet) {
+        return "needsRelatedEntity";
+      }
+    }
   },
   contactId: {
     type: String,
-    optional: true
+    optional: true,
+    custom: function() {
+      if (!this.isSet && !this.field('companyId').isSet) {
+        return "needsRelatedEntity";
+      }
+    }
   },
   userId: {
     type: String,
@@ -452,28 +505,39 @@ Schemas.PurchaseOrder = new SimpleSchema({
   },
   supplierCompanyId: {
     type: String,
-    label: 'Supplier Company'
+    label: 'Supplier Company',
+    optional: true,
+    custom: function() {
+      if (!this.isSet && !this.field('supplierContactId').isSet) {
+        return "needsRelatedEntity";
+      }
+    }
   },
   supplierContactId: {
     type: String,
+    label: 'Supplier Contact',
     optional: true,
-    label: 'Supplier Contact'
+    custom: function() {
+      if (!this.isSet && !this.field('supplierCompanyId').isSet) {
+        return "needsRelatedEntity";
+      }
+    }
   },
-  customerCompanyId: {
-    type: String,
-    optional: true,
-    label: 'Customer Company (optional)'
-  },
-  customerContactId: {
-    type: String,
-    optional: true,
-    label: 'Customer Contact'
-  },
-  projectId: {
-    type: String,
-    optional: true,
-    label: 'Project'
-  },
+  // customerCompanyId: {
+  //   type: String,
+  //   optional: true,
+  //   label: 'Customer Company (optional)'
+  // },
+  // customerContactId: {
+  //   type: String,
+  //   optional: true,
+  //   label: 'Customer Contact'
+  // },
+  // projectId: {
+  //   type: String,
+  //   optional: true,
+  //   label: 'Project'
+  // },
   description: {
     type: String,
     label: "Description"
@@ -494,6 +558,10 @@ Schemas.PurchaseOrder = new SimpleSchema({
       'Closed',
       'Cancelled'
     ]
+  },
+  locked: {
+    type: Boolean,
+    defaultValue: false
   },
   orderDate: {
     type: Date,
@@ -559,6 +627,11 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
   totalPrice: {
     type: String,
     defaultValue: "0.00"
+  },
+  projectId: {
+    type: String,
+    optional: true,
+    label: 'Project'
   },
   createdBy: {
     type: String,
@@ -688,6 +761,9 @@ Schemas.Product = new SimpleSchema({
 Products.attachSchema(Schemas.Product);
 
 Schemas.Audit = new SimpleSchema({
+  token: {
+    type: String
+  },
   date: {
     type: Date
   },
@@ -756,6 +832,23 @@ Schemas.Opportunity = new SimpleSchema({
     type: Number,
     optional: true
   },
+  estCloseDate: {
+    type: Date,
+    optional: true,
+    label: "Estimated Close Date",
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          useCurrent: true,
+          sideBySide: true,
+          widgetPositioning: {
+            vertical: "top"
+          }
+        }
+      }
+    }
+  },
   items: {
     type: Array,
     optional: true
@@ -763,6 +856,13 @@ Schemas.Opportunity = new SimpleSchema({
   hasBeenWon: {
     type: Boolean,
     optional: true
+  },
+  reasonLost: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
   },
   isArchived: {
     type: Boolean,
@@ -829,8 +929,46 @@ Schemas.Opportunity = new SimpleSchema({
     }
   }
 });
+AuditLog.attachSchema(Schemas.Audit);
+
+Schemas.Payment = new SimpleSchema({
+  token: {
+    type: String
+  },
+  tenantId: {
+    type: String
+  },
+  date: {
+    type: Number
+  },
+  createdBy: {
+    type: String
+  },
+  cardType: {
+    type: String
+  },
+  cardCountry: {
+    type: String
+  },
+  last4: {
+    type: String
+  },
+  email: {
+    type: String
+  }
+});
+Payments.attachSchema(Schemas.Payment);
+
 Opportunities.attachSchema(Schemas.Opportunity);
 
+Schemas.PurchaseOrder.messages({
+  needsRelatedEntity: "A company or a contact is required"
+});
+
 Schemas.Opportunity.messages({
+  needsRelatedEntity: "A company or a contact is required"
+});
+
+Schemas.Project.messages({
   needsRelatedEntity: "A company or a contact is required"
 });

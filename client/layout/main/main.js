@@ -1,7 +1,7 @@
 Template.appLayout.helpers({
   hasMenuClass: function() {
     var loggedIn = (Meteor.userId() ? true : false);
-    if(!loggedIn) {
+    if (!loggedIn) {
       return 'no-menu';
     } else {
       return;

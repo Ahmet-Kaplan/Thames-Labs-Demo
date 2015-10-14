@@ -8,6 +8,7 @@ LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
   // and don't have a tenant
   Partitioner.directOperation(function() {
     AuditLog.insert({
+      token: 'token',
       date: new Date(),
       source: 'server',
       level: logLevel,

@@ -40,7 +40,17 @@ widgets = {
     h: 3,
     displayed: true,
     name: 'My tasks',
-    requiredPermission: 'CanReadTasks'
+    requiredPermission: "CanReadTasks"
+  },
+  'openPo': {
+    id: 'openPo',
+    x: 0,
+    y: 0,
+    w: 3,
+    h: 7,
+    displayed: false,
+    name: 'Requested Purchase Orders',
+    requiredPermission: "CanReadPurchaseOrders"
   }
 };
 //List of widgets used by the user
@@ -75,7 +85,7 @@ function instanciateDashboard(savedWidgets) {
 
   //For each widget, check if defined in db otherwise use default display value
   _.each(widgets, function(widget, key) {
-    if(savedWidgets !== undefined && savedWidgets[key] !== undefined) {
+    if (savedWidgets !== undefined && savedWidgets[key] !== undefined) {
       myWidgets[key] = savedWidgets[key];
     } else {
       myWidgets[key] = widget;
@@ -121,14 +131,14 @@ Template.dashboard.events({
 
   'click .addWidget': function(e) {
     var newWidgetName = e.target.id;
-    if($('#' + newWidgetName + 'Widget').length) {
+    if ($('#' + newWidgetName + 'Widget').length) {
       toastr.error('This widget is already displayed.');
       return;
     }
     var grid = $('.grid-stack').data('gridstack');
     var newWidget = (myWidgets[newWidgetName] !== undefined) ? myWidgets[newWidgetName] : widgets[newWidgetName];
 
-    if(newWidget !== undefined) {
+    if (newWidget !== undefined) {
       grid.add_widget('<div id="' + newWidget.id + 'Widget"></div>', newWidget.x, newWidget.y, newWidget.w, newWidget.h, true);
       addedWidget = Blaze.render(Template[newWidget.id + 'Widget'], document.getElementById(newWidget.id + 'Widget'));
       dashboardWidgets[newWidget.id + 'Widget'] = addedWidget;
