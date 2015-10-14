@@ -257,13 +257,6 @@ router.route('/purchaseorders/:id', {
   name: 'purchaseOrder',
   subscriptions: function(params) {
     this.register('purchaseOrderById', subs.subscribe('purchaseOrderById', params.id));
-    this.register('allPurchaseOrderItems', subs.subscribe('allPurchaseOrderItems', params.id));
-    this.register('companyByPurchaseOrderId', subs.subscribe('companyByPurchaseOrderId', params.id));
-    this.register('projectByPurchaseOrderId', subs.subscribe('projectByPurchaseOrderId', params.id));
-    this.register('activityByPurchaseOrderId', subs.subscribe('activityByPurchaseOrderId', params.id));
-    this.register('contactByPurchaseOrderId', subs.subscribe('contactByPurchaseOrderId', params.id));
-    this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
-    // this.register('purchaseOrderTags', subs.subscribe('purchaseOrderTags'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -346,13 +339,6 @@ router.route('/products/:id', {
 
 router.route('/opportunities', {
   name: 'opportunities',
-  subscriptions: function() {
-    this.register('allOpportunities', subs.subscribe('allOpportunities'));
-    this.register('allContacts', subs.subscribe('allContacts'));
-    this.register('allCompanies', subs.subscribe('allCompanies'));
-    this.register('opportunityStages', subs.subscribe('opportunityStages'));
-    this.register('opportunityTags', subs.subscribe('opportunityTags'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'opportunityList'

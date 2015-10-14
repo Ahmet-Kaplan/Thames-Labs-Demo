@@ -7,6 +7,14 @@ Template.purchaseOrderDetail.onCreated(function() {
     }
   });
 
+  var purchaseOrderId = FlowRouter.getParam('id');
+  this.subscribe('allPurchaseOrderItems', purchaseOrderId);
+  this.subscribe('companyByPurchaseOrderId', purchaseOrderId);
+  this.subscribe('projectByPurchaseOrderId', purchaseOrderId);
+  this.subscribe('activityByPurchaseOrderId', purchaseOrderId);
+  this.subscribe('contactByPurchaseOrderId', purchaseOrderId);
+  this.subscribe('tasksByEntityId', purchaseOrderId);
+
   // Redirect if read permission changed - we also check the initial load in the router
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');

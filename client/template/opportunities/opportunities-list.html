@@ -11,7 +11,7 @@
           {{#if isInRole 'Administrator,CanCreateOpportunities'}}
           <button id="create-opportunity" type="submit" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add opportunity</button>
           {{/if}}
-          <button id="toggle-archived" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Archived opportunities are opportunities that have been marked as won or lost." >{{#if archivedShown}}Hide{{else}}Show{{/if}} archived opportunities</button>
+          <button id="toggle-archived" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Archived opportunities are opportunities that have been marked as won or lost.">{{#if archivedShown}}Hide{{else}}Show{{/if}} archived opportunities</button>
           <a href="{{pathFor route='salespipeline'}}" class="btn btn-default">Sales pipeline</a>
         </div>
       </div>
@@ -19,31 +19,23 @@
 
     <div class="col-md-9">
 
-      <h1 id="companies-page-header"><i class="fa fa-files-o"></i> Opportunities</h1>
+      <h1 id="opportunities-page-header"><i class="fa fa-files-o"></i> Opportunities</h1>
 
-      {{#if hasOpportunities}}
-      <div class="list-group" id="mchOpportunityList">
-        {{#ifEsIsSearching index="opportunities"}}
-          {{> spinner}}
-        {{else}}
-          {{#esEach index="opportunities"}}
-            {{> opportunityListItem}}
-          {{/esEach}}
-          {{> esLoadMoreButton index="opportunities" class="btn btn-default"}}
-        {{/ifEsIsSearching}}
+      <div class="pull-right">
+        {{> esPagination index="companies"}}
       </div>
-      {{else}}
-      <br />
-      <h4 style="color:gray;" id="mchNoOpportunityPlaceholder">No opportunities</h4>
-      {{/if}}
+
+      <!-- {{#if hasOpportunities}} -->
+      <div class="list-group" id="mchOpportunityList">
+        {{#esEach index="opportunities"}} {{> opportunityListItem}} {{/esEach}} {{#ifEsHasNoResults index="opportunities"}}
+        <h4 style="color:gray;" id="mchNoOpportunityPlaceholder">No opportunities</h4>
+        {{/ifEsHasNoResults}} {{#ifEsIsSearching index="opportunities"}} {{> spinner}} {{/ifEsIsSearching}}
+
+      </div>
+      <div class="pull-right">
+        {{> esPagination index="companies"}}
+      </div>
 
     </div>
   </div>
-</template>
-
-<template name="opportunityListItem">
-  <a class="list-group-item" href="{{pathFor route='opportunity' id=_id}}">
-    <span class="pull-right">{{> tagBadges}}</span>
-    <h4 class="list-group-item-heading">{{name}}</h4>
-  </a>
 </template>
