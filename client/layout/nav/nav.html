@@ -22,7 +22,7 @@
             {{#if isInRole 'superadmin'}}
             <li><a href="#" id="feedback-link">Feedback</a></li>
             <li>{{> atNavButton}}</li>
-            {{/if}} 
+            {{/if}}
             {{#unless isInRole 'superadmin'}}
               {{#if isInRole 'Administrator'}}
               {{#if limitReached}}
@@ -329,7 +329,7 @@
 </template>
 
 <template name="notificationModal">
-  <div class="modal fade">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body">

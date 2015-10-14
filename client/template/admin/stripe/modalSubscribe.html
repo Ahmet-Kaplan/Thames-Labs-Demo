@@ -1,5 +1,5 @@
 <template name="stripeSubscribe">
-  <div class="modal fade">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -7,10 +7,10 @@
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h4>Subscribe to Paying Scheme</h4>
         </div>
-        
+
         <div class="modal-body">
           <br />Please find below the details of your subscription:
-          
+
           <div class="well well-sm">
           {{#if planDetails.name}}
           {{#with planDetails}}
@@ -44,11 +44,11 @@
             {{> loadingSmall}}
           {{/if}}
           </div>
-          
+
           <br /><br />For your subscription to become active, you must provide your card details.
           <br />Please note that none of the card information is stored by us.
         </div>
-        
+
         {{>cardForm buttonText="Subscribe" showEmail=true}}
 
       </div>
