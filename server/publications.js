@@ -77,6 +77,7 @@ Meteor.publish("allCompanies", function() {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Companies.find({});
 });
+
 Meteor.publish("companyById", function(companyId) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
@@ -419,3 +420,22 @@ Meteor.publish("opportunityTags", function() {
     collection: 'opportunities'
   });
 });
+////////////////////////////////////////////////////////////////////
+// Global search publications
+////////////////////////////////////////////////////////////////////
+Meteor.publish("globalCompanyRecords", function(selector, options) {
+  Autocomplete.publishCursor(Companies.find(selector, options), this);
+  this.ready();
+});
+Meteor.publish("globalContactRecords", function(selector, options) {
+  Autocomplete.publishCursor(Contacts.find(selector, options), this);
+  this.read
+});
+Meteor.publish("allRecords", function(selector, options) {
+
+  Autocomplete.publishCursor(Companies.find(selector, options), this);
+  Autocomplete.publishCursor(Contacts.find(selector, options), this);
+
+  this.ready();
+});
+////////////////////////////////////////////////////////////////////

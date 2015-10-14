@@ -90,7 +90,7 @@ Template.nav.helpers({
     }
   },
   limitReached: function() {
-    if(!Tenants.findOne({}) || Tenants.findOne({}).stripe.paying) {
+    if (!Tenants.findOne({}) || Tenants.findOne({}).stripe.paying) {
       return false;
     }
     var totalRecords = Tenants.findOne({}).stripe.totalRecords;

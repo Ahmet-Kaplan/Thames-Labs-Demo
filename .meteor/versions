@@ -30,6 +30,7 @@ coffeescript@1.0.10
 copleykj:tagstripper@1.0.0
 cosmos:browserify@0.5.1
 csauer:accounts-phony@0.0.5
+dandv:caret-position@2.1.1
 dbernhard:jquery-ui-draggable@0.1.2
 dburles:collection-helpers@1.0.3
 dburles:google-maps@1.1.4
@@ -49,6 +50,7 @@ email@1.0.7
 erasaur:notification-badge@0.0.6
 fastclick@1.0.7
 flowkey:bowser@1.0.2
+flowkey:hotkeys@1.1.1
 fortawesome:fontawesome@4.4.0
 geojson-utils@1.0.4
 gildaspk:autoform-medium@0.0.5
@@ -92,6 +94,7 @@ meteorhacks:ssr@2.1.2
 meteorhacks:subs-manager@1.6.2
 minifiers@1.1.7
 minimongo@1.0.10
+mizzao:autocomplete@0.5.1
 mizzao:bootboxjs@4.4.0
 mobile-experience@1.0.1
 mobile-status-bar@1.0.6
@@ -102,6 +105,7 @@ momentjs:moment@2.10.6
 mongo@1.1.2
 mongo-id@1.0.1
 mongo-livedata@1.0.9
+mousetrap:mousetrap@1.4.6_1
 mpowaga:string-template@0.1.0
 mrgalaxy:stripe@2.1.0
 mrt:moment@2.8.1

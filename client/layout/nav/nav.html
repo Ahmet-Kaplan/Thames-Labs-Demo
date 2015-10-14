@@ -12,8 +12,9 @@
           </button>
           {{/if}}
           <a class="navbar-brand" href="/">
-            <img class="hidden-xs" alt="" src="/lighter-icon.svg"><img class="visible-xs" alt="" src="/icon.svg">
-            RealTime<span>CRM</span>
+            <img class="hidden-xs" alt="" src="/lighter-icon.svg">
+            <img class="visible-xs" alt="" src="/icon.svg"> RealTime
+            <span>CRM</span>
           </a>
         </div>
         {{#if loggedIn}}
@@ -22,17 +23,14 @@
             {{#if isInRole 'superadmin'}}
             <li><a href="#" id="feedback-link">Feedback</a></li>
             <li>{{> atNavButton}}</li>
-            {{/if}} 
-            {{#unless isInRole 'superadmin'}}
-              {{#if isInRole 'Administrator'}}
-              {{#if limitReached}}
-              <li>
-                <a href="{{pathFor route='administration'}}">
-                  <span class="nav-btn-info">Limit reached, Upgrade now!</span>
-                </a>
-              </li>
-              {{/if}}
-              {{/if}}
+            {{/if}} {{#unless isInRole 'superadmin'}} {{#if isInRole 'Administrator'}} {{#if limitReached}}
+            <li>
+              <a href="{{pathFor route='administration'}}">
+                <span class="nav-btn-info">Limit reached, Upgrade now!</span>
+              </a>
+            </li>
+            {{/if}} {{/if}}
+
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="quick-create-menu">
                 <i class="fa fa-fw fa-plus"></i>
@@ -83,6 +81,7 @@
                 <li><a href="#" id="sign-out">Sign Out</a></li>
               </ul>
             </li>
+
             {{/unless}}
           </ul>
         </div>
@@ -94,16 +93,13 @@
   {{#if loggedIn}}
   <div id="id-view-sidemenu">
     <ul class="panel-group" id="menu">
-      {{#unless isInRole 'superadmin'}}
-        {{#if isInRole 'Administrator'}}
-        {{#if limitReached}}
-        <li class="panel-title nav-btn-info visible-xs">
-          <a href="{{pathFor route='administration'}}" class="dismiss-on-click">
+      {{#unless isInRole 'superadmin'}} {{#if isInRole 'Administrator'}} {{#if limitReached}}
+      <li class="panel-title nav-btn-info visible-xs">
+        <a href="{{pathFor route='administration'}}" class="dismiss-on-click">
             Limit reached, Upgrade now!
           </a>
-        </li>
-        {{/if}}
-        {{/if}}
+      </li>
+      {{/if}} {{/if}}
       <li class="panel-title">
         <a href='/' class="dismiss-on-click {{isActiveRoute 'dashboard'}}" id="menuLinkDashboard">
           <i class="fa fa-fw fa-home"></i> Dashboard
