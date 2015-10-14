@@ -204,6 +204,7 @@ module.exports = function() {
 
   this.Then(/^the field "([^"]*)" should contain "([^"]*)"$/, function(fieldName, fieldValue) {
     client.waitForExist('input[name=' + fieldName + ']', 5000);
+    client.waitForValue('input[name=' + fieldName + ']', 5000);
     client.timeoutsImplicitWait(5000);
     expect(client.getValue('input[name=' + fieldName + ']')).toContain(fieldValue);
   });
@@ -215,6 +216,7 @@ module.exports = function() {
 
   this.Then(/^I should see an? "([^"]*)" toastr with the message "([^"]*)"$/, function(toastrType, expectedText) {
     client.waitForExist('.toast-' + toastrType + ' .toast-message', 5000);
+    client.waitForVisible('.toast-' + toastrType + ' .toast-message', 5000);
     expect(client.getText('.toast-' + toastrType + ' .toast-message'))
       .toContain(expectedText);
   });

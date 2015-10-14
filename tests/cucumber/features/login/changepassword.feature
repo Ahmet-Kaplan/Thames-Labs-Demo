@@ -7,7 +7,7 @@ Feature: Allow users to change their password
   Background:
     Given a user exists
     And I am a logged in user
-@dev
+
   Scenario: A user can change their password
     When I click "#general-dropdown"
     And I click "#btnChangePassword"
