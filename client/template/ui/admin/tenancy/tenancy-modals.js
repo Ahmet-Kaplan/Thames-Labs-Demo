@@ -53,6 +53,34 @@ Template.setPayingTenant.helpers({
 });
 
 Template.setPayingTenant.events({
+  'click #setFreeUnlimited': function() {
+    var tenantId = this._id;
+    var setTo = !Tenants.findOne(tenantId).stripe.freeUnlimited;
+    bootbox.confirm({
+      message: 'Are you really really sure you want to do that? I mean, come on, that\'s a big deal!',
+      callback: function(result) {
+        if(result === true) {
+          Tenants.update(tenantId, {
+            $set: {
+              "stripe.freeUnlimited": setTo
+            }
+          }, function(error, nUpdated) {
+            if(error || nUpdated === false) {
+              Modal.hide();
+              bootbox.alert({
+              title: 'Error',
+              message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Check connexion with database.</div>'
+              });
+            } else {
+              Modal.hide();
+              toastr.success('Tenant status updated.');
+            }
+          });
+        }
+      }
+    })
+  },
+
   'keyup #stripeAccountNumber': function() {
     if($('#stripeAccountNumber').val() != '') {
       $('#showSubsNumberForm').show();
