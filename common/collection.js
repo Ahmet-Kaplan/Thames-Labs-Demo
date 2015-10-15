@@ -504,7 +504,6 @@ Contacts.before.insert(function(userId, doc) {
     if(Meteor.isClient) {
       toastr.info('A new company <a href="/companies/' + newCompanyId + '"><strong>' + name + '</strong></a> has been created.');
     }
-    console.log(doc);
   }
 
   var user = Meteor.users.findOne(Meteor.userId());
