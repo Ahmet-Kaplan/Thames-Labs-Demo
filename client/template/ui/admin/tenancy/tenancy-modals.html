@@ -63,11 +63,19 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5>Manually Create Stripe Account</h5>
+          <h4>Switch to Paying Plan</h4>
         </div>
 
         <div class="modal-body">
 
+          <h5><strong>Free Unlimited</strong></h5>
+          <div class="form-group">
+            <label class="control-label">Using this option will set this tenant's limit to unlimited without paying, use with care!</label>
+            <button id="setFreeUnlimited" class="btn btn-sm btn-warning">{{#if stripe.freeUnlimited}}Uns{{else}}S{{/if}}et tenant to Free Unlimited</button>
+          </div>
+
+          <hr>
+          <h5><strong>Manually Create Stripe Account</strong></h5>
           <div class="form-group">
             <label for="stripeAccountNumber" class="control-label">Stripe Account Number</label>
             <div class="row">

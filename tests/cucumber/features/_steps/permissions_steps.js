@@ -26,7 +26,6 @@ module.exports = function() {
   });
 
   this.Then(/^the "([^"]*)" menu item is not shown$/, function(menuText) {
-    client.waitForExist('#menuLink' + menuText, 5000, true);
     expect(client.isExisting('#menuLink' + menuText)).toEqual(false);
   });
 
@@ -76,9 +75,11 @@ module.exports = function() {
     client.url(url.resolve(process.env.ROOT_URL, "/admin"));
     client.waitForExist("#userAdminPanelExpander", 5000);
     client.click("#userAdminPanelExpander");
+    client.waitForExist("#btnEditTenantUserPermissions", 5000);
     client.waitForVisible("#btnEditTenantUserPermissions", 5000);
     client.click("#btnEditTenantUserPermissions");
     client.waitForExist(".modal-dialog", 5000);
+    client.waitForExist("#"+ entityName + "PermissionSelector", 5000);
     client.waitForVisible("#"+ entityName + "PermissionSelector", 5000);
     client.click("#"+ entityName + "PermissionSelector");
     client.selectByValue("#"+ entityName + "PermissionSelector", permissionName);
@@ -89,9 +90,11 @@ module.exports = function() {
     client.url(url.resolve(process.env.ROOT_URL, "/admin"));
     client.waitForExist("#userAdminPanelExpander", 5000);
     client.click("#userAdminPanelExpander");
+    client.waitForExist("#btnEditTenantUserPermissions", 5000);
     client.waitForVisible("#btnEditTenantUserPermissions", 5000);
     client.click("#btnEditTenantUserPermissions");
     client.waitForExist(".modal-dialog", 5000);
+    client.waitForExist("#"+ entityName + "PermissionSelector", 5000);
     client.waitForVisible("#"+ entityName + "PermissionSelector", 5000);
     client.click("#"+ entityName + "PermissionSelector");
     client.selectByValue("#"+ entityName + "PermissionSelector", "Restricted");
