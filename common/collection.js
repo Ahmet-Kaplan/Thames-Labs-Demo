@@ -493,7 +493,18 @@ Contacts.before.insert(function(userId, doc) {
   if (!checkRecordsNumber()) {
     return false;
   }
-  return true;
+
+  if(doc.companyId.indexOf('newRecord') !== -1) {
+    var name = doc.companyId.substr(9);
+    var newCompanyId = Companies.insert({
+      name: name,
+      createdBy: Meteor.userId()
+    });
+    doc.companyId = newCompanyId;
+    if(Meteor.isClient) {
+      toastr.info('A new company <a href="/companies/' + newCompanyId + '"><strong>' + name + '</strong></a> has been created.');
+    }
+  }
 
   var user = Meteor.users.findOne(Meteor.userId());
   var tenant = Tenants.findOne(user.group);

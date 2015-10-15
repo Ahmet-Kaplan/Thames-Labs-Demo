@@ -67,13 +67,29 @@ Template.esSelectize.onRendered(function() {
 
 Template.esSelectize.helpers({
   initialize: function() {
-    return {
-      create: false,
+    var options = {
       closeAfterSelect: true,
       valueField: "_id",
       labelField: "name",
-      searchField: "name"
+      searchField: "name",
+      createOnBlur: false,
     };
+    if(this.allowCreate) {
+      options.render = {
+        option_create: function(data, escape) {
+          return '<div data-selectable class="create">This will create a new Company <strong>' + escape(data.input) + '</strong></div>';
+        },
+      };
+      options.create = function(input, callback) {
+        return {
+          _id: 'newRecord' + input,
+          name: input
+        };
+      };
+    } else {
+      options.create = false;
+    }
+    return options;
   }
 });
 
