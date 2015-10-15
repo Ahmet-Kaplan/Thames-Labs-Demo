@@ -20,18 +20,18 @@ module.exports = function() {
 
   //Deleting
   this.Then(/^the opportunity should not exist$/, function() {
-    client.waitForVisible('#mchNoOpportunityPlaceholder', 2000);
+    client.waitForExist('#mchNoOpportunityPlaceholder', 2000);
   });
 
   //Stages
   this.Then(/^I should see that the opportunity has been lost$/, function() {
-    client.waitForVisible('h3*=lost', 2000);
+    client.waitForExist('h3*=lost', 2000);
     client.getText('h3*=lost');
   });
 
   this.Then(/^I should see that an project has been created from the opportunity$/, function() {
-    client.waitForVisible('.entity-title*=Project', 2000);
-    client.waitForVisible('a*=opportunity', 2000)
+    client.waitForExist('.entity-title*=Project', 2000);
+    client.waitForExist('a*=opportunity', 2000)
     client.getText('a*=opportunity');
   });
 
@@ -46,12 +46,12 @@ module.exports = function() {
   });
 
   this.Then(/^I should see a new line item in an opportunity$/, function() {
-    client.waitForVisible(".edit-line-item");
+    client.waitForExist(".edit-line-item");
     client.getText('h4*=testItem1');
   });
 
   this.Then(/^I should see an updated line item in an opportunity$/, function() {
-    client.waitForVisible(".edit-line-item");
+    client.waitForExist(".edit-line-item");
     client.getText('h4*=testItem2');
   });
 };
