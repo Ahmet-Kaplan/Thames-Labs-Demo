@@ -423,14 +423,6 @@ Meteor.publish("opportunityTags", function() {
 ////////////////////////////////////////////////////////////////////
 // Global search publications
 ////////////////////////////////////////////////////////////////////
-Meteor.publish("globalCompanyRecords", function(selector, options) {
-  Autocomplete.publishCursor(Companies.find(selector, options), this);
-  this.ready();
-});
-Meteor.publish("globalContactRecords", function(selector, options) {
-  Autocomplete.publishCursor(Contacts.find(selector, options), this);
-  this.read
-});
 Meteor.publish("allRecords", function(selector, options) {
 
   Autocomplete.publishCursor(Companies.find(selector, options), this);
