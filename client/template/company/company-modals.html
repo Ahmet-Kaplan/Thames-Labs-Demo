@@ -1,5 +1,5 @@
 <template name="insertNewCompanyModal">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -24,7 +24,7 @@
               {{> afQuickField name="country" data-geo="country"}}
               {{> afQuickField name="lat" data-geo="lat"}}
               {{> afQuickField name="lng" data-geo="lng"}}
-              {{#if isDesktop}} 
+              {{#if isDesktop}}
                 <div id="map_wrapper" class="form-group" style="display: none;">
                   <label class="control-label">Map (drag marker to adjust position)</label>
                   <div id="map_canvas"></div>
@@ -45,7 +45,7 @@
 </template>
 
 <template name="editCompanyModal">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -57,7 +57,7 @@
         <div class="modal-body">
           {{#autoForm collection="Companies" id="editCompanyForm" type="update" doc=this}}
             {{> afQuickField name="name"}}
-            {{#if isDesktop}} 
+            {{#if isDesktop}}
             <div class="form-group"><a href="#" class="btn btn-default btn-sm" id="show-map">New location search</a></div>
             <div id="map_wrapper" class="form-group" style="display: none;">
               <div class="form-group">
