@@ -762,7 +762,8 @@ Products.attachSchema(Schemas.Product);
 
 Schemas.Audit = new SimpleSchema({
   token: {
-    type: String
+    type: String,
+    unique: true
   },
   date: {
     type: Date

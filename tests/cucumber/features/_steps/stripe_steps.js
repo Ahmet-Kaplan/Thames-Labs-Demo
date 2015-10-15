@@ -43,11 +43,12 @@ module.exports = function() {
         Modal.hide();
       });
     client.waitForExist('.bootbox-body', 20000);
+    client.waitForVisible('.bootbox-body', 5000);
     expect(client.isExisting('.modal-dialog')).toEqual(true);
   });
 
   this.Then(/^the Stripe field "([^"]*)" should say "([^"]*)"$/, function(field, desiredText) {
-    client.waitForVisible(field, 5000);
+    client.waitForExist(field, 5000);
     client
       .waitUntilSync(function() {
         return this.getText(field).then(function(text) {
@@ -57,7 +58,7 @@ module.exports = function() {
   });
 
   this.Then(/^the Stripe field "([^"]*)" should not contain "([^"]*)"$/, function(field, desiredText) {
-    client.waitForVisible(field, 5000);
+    client.waitForExist(field, 5000);
     client
       .waitUntilSync(function() {
         return this.getText(field).then(function(text) {
