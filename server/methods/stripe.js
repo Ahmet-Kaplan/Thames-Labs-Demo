@@ -114,7 +114,7 @@ Meteor.methods({
       LogServerEvent('error', 'Unable to update Stripe Quantity for tenant of user ' + superadminUserId + '/tenant ' + tenantId);
       return false;
     }
-    if(theTenant.stripe.paying === false) {
+    if(theTenant.stripe.paying === false || theTenant.stripe.freeUnlimited) {
       return true;
     }
 

@@ -129,6 +129,11 @@ Schemas.Tenant = new SimpleSchema({
     label: "Paying tenant",
     defaultValue: false
   },
+  "stripe.freeUnlimited": {
+    type: Boolean,
+    label: "Free unlimited",
+    defaultValue: false
+  },
   "stripe.blocked": {
     type: Boolean,
     defaultValue: false

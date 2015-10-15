@@ -351,10 +351,11 @@ var checkRecordsNumber = function() {
     return true;
   }
   var payingTenant = Tenants.findOne({}).stripe.paying;
+  var freeUnlimited = Tenants.findOne({}).stripe.freeUnlimited;
   var blockedTenant = Tenants.findOne({}).stripe.blocked;
   var totalRecords = (Tenants.findOne({}) === undefined) ? 0 : Tenants.findOne({}).stripe.totalRecords;
   totalRecords += 1;
-  if (payingTenant) {
+  if (payingTenant || freeUnlimited) {
     return true;
   } else {
     if (Meteor.isServer) {

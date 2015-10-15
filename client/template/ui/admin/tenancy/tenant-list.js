@@ -78,7 +78,7 @@ Template.tenant.events({
         toastr.info('Processing the update...');
         Meteor.call('cancelStripeSubscription', tenantId, function(error, response) {
           if(error) {
-            console.log(error);
+            console.error(error);
             bootbox.alert({
               title: 'Error',
               message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to cancel subscription.<br />See Stripe dashboard to cancel manually.</div>'
