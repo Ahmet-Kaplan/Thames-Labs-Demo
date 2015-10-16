@@ -86,13 +86,13 @@
       <span data-toggle="collapse" data-parent="#accordion" href="#collapseTask{{_id}}" id="displayedTaskHeading">{{title}}</span>
       <div class="btn-group pull-right">
         {{#if isInRole 'Administrator,CanEditTasks'}}
-        <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
-          Edit task
+        <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button"><i class="fa fa-fw fa-pencil"></i>
+          Edit
         </button>
         {{/if}}
         {{#if isInRole 'Administrator,CanDeleteTasks'}}
-        <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button">
-          Delete task
+        <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button"><i class="fa fa-fw fa-times"></i>
+          Delete
         </button>
         {{/if}}
 

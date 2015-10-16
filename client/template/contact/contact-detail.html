@@ -26,8 +26,8 @@
         <div class="panel-heading">
           <div class="btn-group pull-right">
             {{#if isInRole 'Administrator,CanEditContacts'}}
-            <a href="#" id="edit-contact" class="btn btn-info btn-xs">Edit contact details</a>{{/if}} {{#if isInRole 'Administrator,CanDeleteContacts'}}
-            <a href="#" id="remove-contact" class="btn btn-danger btn-xs">Delete contact</a>{{/if}}
+            <a href="#" id="edit-contact" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>{{/if}} {{#if isInRole 'Administrator,CanDeleteContacts'}}
+            <a href="#" id="remove-contact" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>{{/if}}
           </div>
           Contact details</div>
         <ul class="list-group">

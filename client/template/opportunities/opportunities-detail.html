@@ -78,9 +78,9 @@
           {{#if isActive}}
           <div class="btn-group pull-right">
             {{#if isInRole 'Administrator,CanEditOpportunities'}}
-            <a href="#" id="edit-opportunity" class="btn btn-info btn-xs">Edit opportunity</a>
+            <a href="#" id="edit-opportunity" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
             {{/if}} {{#if isInRole 'Administrator,CanDeleteOpportunities'}}
-            <a href="#" id="remove-opportunity" class="btn btn-danger btn-xs">Delete opportunity</a>
+            <a href="#" id="remove-opportunity" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
             {{/if}}
           </div>
           {{/if}}
@@ -177,8 +177,8 @@
 <template name="opportunityItem">
   <li class="list-group-item">
     {{#if isActive}}
-    <button class="btn btn-danger btn-xs delete-line-item pull-right">Delete</button>
-    <button class="btn btn-info btn-xs edit-line-item pull-right">Edit</button>
+    <button class="btn btn-danger btn-xs delete-line-item pull-right"><i class="fa fa-fw fa-times"></i> Delete</button>
+    <button class="btn btn-info btn-xs edit-line-item pull-right"><i class="fa fa-fw fa-pencil"></i> Edit</button>
     {{/if}}
     <h4 style="margin: 0 0 4px">{{data.name}}</h4>
     {{#if data.description}}
