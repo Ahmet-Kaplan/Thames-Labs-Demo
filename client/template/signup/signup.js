@@ -3,6 +3,13 @@ function removeSignUpEmailValidationError(key) {
   AutoForm.validateForm("signUpForm");
 }
 
+Template.signUp.onCreated(function() {
+  // Redirect if logged in
+  this.autorun(function() {
+    if (Meteor.user()) FlowRouter.go('dashboard');
+  });
+});
+
 Template.signUp.onRendered(function() {
   var coupon = Template.currentData().coupon();
   if(coupon) {

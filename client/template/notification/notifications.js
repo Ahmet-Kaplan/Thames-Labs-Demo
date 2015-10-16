@@ -1,3 +1,10 @@
+Template.notificationAdmin.onCreated(function() {
+  // Redirect if not superadmin
+  this.autorun(function() {
+    superAdminOnly(Meteor.userId());
+  });
+});
+
 Template.notificationAdmin.helpers({
   notifications: function() {
     return Notifications.find({}, {sort: {createdAt: -1}});

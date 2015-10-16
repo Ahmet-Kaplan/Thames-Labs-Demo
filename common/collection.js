@@ -494,7 +494,7 @@ Contacts.before.insert(function(userId, doc) {
     return false;
   }
 
-  if(doc.companyId.indexOf('newRecord') !== -1) {
+  if(doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
     var name = doc.companyId.substr(9);
     var newCompanyId = Companies.insert({
       name: name,

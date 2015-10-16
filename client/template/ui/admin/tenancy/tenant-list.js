@@ -1,3 +1,10 @@
+Template.tenantList.onCreated(function() {
+  // Redirect if not superadmin
+  this.autorun(function() {
+    superAdminOnly(Meteor.userId());
+  });
+});
+
 Template.tenantList.helpers({
   tenants: function(paying) {
     var payingTenant = (paying === "true") ? true : false;
