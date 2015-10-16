@@ -12,8 +12,9 @@
           </button>
           {{/if}}
           <a class="navbar-brand" href="/">
-            <img class="hidden-xs" alt="" src="/lighter-icon.svg"><img class="visible-xs" alt="" src="/icon.svg">
-            RealTime<span>CRM</span>
+            <img class="hidden-xs" alt="" src="/lighter-icon.svg">
+            <img class="visible-xs" alt="" src="/icon.svg"> RealTime
+            <span>CRM</span>
           </a>
         </div>
         {{#if loggedIn}}
@@ -83,6 +84,7 @@
                 <li><a href="#" id="sign-out">Sign Out</a></li>
               </ul>
             </li>
+
             {{/unless}}
           </ul>
         </div>
@@ -94,16 +96,13 @@
   {{#if loggedIn}}
   <div id="id-view-sidemenu">
     <ul class="panel-group" id="menu">
-      {{#unless isInRole 'superadmin'}}
-        {{#if isInRole 'Administrator'}}
-        {{#if limitReached}}
-        <li class="panel-title nav-btn-info visible-xs">
-          <a href="{{pathFor route='administration'}}" class="dismiss-on-click">
+      {{#unless isInRole 'superadmin'}} {{#if isInRole 'Administrator'}} {{#if limitReached}}
+      <li class="panel-title nav-btn-info visible-xs">
+        <a href="{{pathFor route='administration'}}" class="dismiss-on-click">
             Limit reached, Upgrade now!
           </a>
-        </li>
-        {{/if}}
-        {{/if}}
+      </li>
+      {{/if}} {{/if}}
       <li class="panel-title">
         <a href='/' class="dismiss-on-click {{isActiveRoute 'dashboard'}}" id="menuLinkDashboard">
           <i class="fa fa-fw fa-home"></i> Dashboard
