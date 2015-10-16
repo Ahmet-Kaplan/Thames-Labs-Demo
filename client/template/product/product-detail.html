@@ -71,7 +71,11 @@
         <div class="modal-body">
           {{#autoForm collection="Products" id="editProductForm" type="update" doc=this}}
             {{> afQuickField name="name" id="name-field"}}
-            {{> afQuickField name="description" id="desc-field" type="medium" class="form-control medium-editor"}}
+            {{#if IsIEAnd10OrGreater}}
+              {{> afQuickField name="description"}}
+            {{else}}
+              {{> afQuickField name="description" type="medium" class="form-control medium-editor" id="desc-field"}}
+            {{/if}}
             {{> afQuickField name="price"}}
             {{> afQuickField name="cost"}}
             <button type="submit" class="btn btn-primary">Update</button>

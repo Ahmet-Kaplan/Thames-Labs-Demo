@@ -41,6 +41,16 @@ Template.productDetail.events({
   },
 });
 
+Template.editProductModal.helpers({
+  IsIEAnd10OrGreater: function() {
+    if (bowser.msie && bowser.version > 9) {
+      return true;
+    }
+
+    return false;
+  }
+});
+
 AutoForm.hooks({
   editProductForm: {
     onSuccess: function() {

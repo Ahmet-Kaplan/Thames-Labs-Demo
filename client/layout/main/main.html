@@ -25,27 +25,11 @@
 
   {{#if maintenanceMode}} {{> maintenance}} {{else}}
 
-    <div class="container-fluid">
-      <div id="id-view-content" class="{{hasMenuClass}}">
-        {{> nav}}
-
-        {{#if currentUser}}
-          {{#if subsReady}}
-            {{> Template.dynamic template=main}}
-          {{else}}
-            {{> loading}}
-          {{/if}}
-        {{else}}
-          {{#if loggingIn}}
-            {{> loading}}
-          {{else}}
-            {{>login}}
-          {{/if}}
-        {{/if}}
-
-        {{> footer}}
-      </div>
+  <div class="container-fluid">
+    <div id="id-view-content" class="{{hasMenuClass}}">
+      {{> nav}} {{#if currentUser}} {{#if subsReady}} {{> Template.dynamic template=main}} {{else}} {{> loading}} {{/if}} {{else}} {{#if loggingIn}} {{> loading}} {{else}} {{>login}} {{/if}} {{/if}} {{> footer}}
     </div>
+  </div>
   {{/if}}
 
 </template>

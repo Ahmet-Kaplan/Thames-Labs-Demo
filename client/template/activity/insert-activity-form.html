@@ -12,7 +12,11 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
-            {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
+            {{#if IsIEAnd10OrGreater}}
+              {{> afQuickField name="notes"}}
+            {{else}}
+              {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
+            {{/if}}
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="companyId" type="hidden" value=company._id}}
@@ -40,7 +44,11 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertContactActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
-            {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
+            {{#if IsIEAnd10OrGreater}}
+              {{> afQuickField name="notes"}}
+            {{else}}
+              {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
+            {{/if}}
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="companyId" type="hidden" value=company._id}}
@@ -68,7 +76,11 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertProjectActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
-            {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
+            {{#if IsIEAnd10OrGreater}}
+              {{> afQuickField name="notes"}}
+            {{else}}
+              {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
+            {{/if}}
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="projectId" type="hidden" value=project._id}}
@@ -95,7 +107,11 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertPurchaseOrderActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
-            {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
+            {{#if IsIEAnd10OrGreater}}
+              {{> afQuickField name="notes"}}
+            {{else}}
+              {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
+            {{/if}}
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="purchaseOrderId" type="hidden" value=purchaseOrder._id}}
@@ -122,7 +138,11 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertOpportunityActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
-            {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
+            {{#if IsIEAnd10OrGreater}}
+              {{> afQuickField name="notes"}}
+            {{else}}
+              {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
+            {{/if}}
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="opportunityId" type="hidden" value=opportunity._id}}
