@@ -124,5 +124,12 @@ Meteor.methods({
       }
     });
     return opp;
+  },
+
+  addRecordsToLimit: function() {
+  for(var i = 0; i < MAX_RECORDS / 2 + 1; i++) {
+      Meteor.call('addContact', 'Test ' + i, 'Surnamer');
+      Meteor.call('addCompany', 'Test ' + i + ' Ltd');
+    }
   }
 });
