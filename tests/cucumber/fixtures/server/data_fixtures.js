@@ -127,7 +127,7 @@ Meteor.methods({
   },
 
   addRecordsToLimit: function() {
-  for(var i = 0; i < MAX_RECORDS / 2 + 1; i++) {
+  for(var i = 0; i < MAX_RECORDS / 2; i++) {
       Meteor.call('addContact', 'Test ' + i, 'Surnamer');
       Meteor.call('addCompany', 'Test ' + i + ' Ltd');
     }
