@@ -4,26 +4,6 @@ var subs = new SubsManager(),
 
 // These are route trigger functions
 // They're used for before / after actions on routes
-var superAdminOnly = function(context, redirect) {
-  var user = Meteor.user();
-  if (user !== undefined && !Roles.userIsInRole(user, 'superadmin')) {
-    redirect('dashboard');
-  }
-};
-
-var normalUserOnly = function(context, redirect) {
-  var user = Meteor.user();
-  if (user !== undefined && Roles.userIsInRole(user, 'superadmin')) {
-    redirect('tenants');
-  }
-};
-
-var loggedOutUserOnly = function(context, redirect) {
-  var user = Meteor.user();
-  if (user) {
-    redirect('dashboard');
-  }
-};
 
 var tidyUpModals = function(context) {
   Modal.hide();
@@ -43,17 +23,6 @@ var tidyUpModals = function(context) {
 };
 
 // These functions add the triggers to routes globally
-var superAdminRoutes = ['tenants', 'notifications', 'statistics', 'audit'];
-var loggedOutRoutes = ['sign-up'];
-router.triggers.enter(superAdminOnly, {
-  only: superAdminRoutes
-});
-router.triggers.enter(normalUserOnly, {
-  except: superAdminRoutes
-});
-router.triggers.enter(loggedOutUserOnly, {
-  only: loggedOutRoutes
-});
 router.triggers.exit(tidyUpModals);
 
 // These are global subscriptions

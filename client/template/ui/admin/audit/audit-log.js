@@ -1,3 +1,10 @@
+Template.auditLog.onCreated(function() {
+  // Redirect if not superadmin
+  this.autorun(function() {
+    superAdminOnly(Meteor.userId());
+  });
+});
+
 Template.auditLog.events({
   'click #clear-audit-log': function() {
     Meteor.call('clearAuditLog', function(error, result) {

@@ -13,7 +13,7 @@ Template.contactDetail.onCreated(function() {
     self.subscribe('companyById', contact.companyId);
   });
 
-  // Redirect if read permission changed - we also check the initial load in the router
+  // Redirect if read permission changed
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadContacts');
   });
