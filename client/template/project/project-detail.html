@@ -29,11 +29,11 @@
           <div class="btn-group pull-right">
             <!-- {{#afModal class="btn btn-info btn-xs" collection="Projects" doc=_id operation="update" formId="updateProjectForm" omitFields="projectId, companyId"}} Edit project details {{/afModal}} -->
             {{#if isInRole 'Administrator,CanEditProjects'}}
-            <a href="#" id="edit-project" class="btn btn-info btn-xs">Edit project details</a>{{/if}}
+            <a href="#" id="edit-project" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>{{/if}}
 
             <!-- {{#afModal class="btn btn-danger btn-xs" collection="Projects" doc=_id operation="remove" formId="removeProjectForm"}} Delete project {{/afModal}} -->
           {{#if isInRole 'Administrator,CanDeleteProjects'}}
-            <a href="#" id="remove-project" class="btn btn-danger btn-xs">Delete project</a>{{/if}}
+            <a href="#" id="remove-project" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>{{/if}}
 
           </div>
           Project details</div>

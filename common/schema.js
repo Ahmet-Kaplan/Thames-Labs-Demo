@@ -94,7 +94,8 @@ Schemas.UserSignUp = new SimpleSchema({
     autoform: {
       type: "hidden"
     },
-    optional: true
+    optional: true,
+    label: "Coupon code"
   }
 });
 
@@ -129,6 +130,11 @@ Schemas.Tenant = new SimpleSchema({
     label: "Paying tenant",
     defaultValue: false
   },
+  "stripe.freeUnlimited": {
+    type: Boolean,
+    label: "Free unlimited",
+    defaultValue: false
+  },
   "stripe.blocked": {
     type: Boolean,
     defaultValue: false
@@ -147,7 +153,8 @@ Schemas.Tenant = new SimpleSchema({
   },
   "stripe.coupon": {
     type: String,
-    optional: true
+    optional: true,
+    label: "Coupon code"
   },
   createdAt: {
     type: Date
@@ -762,7 +769,8 @@ Products.attachSchema(Schemas.Product);
 
 Schemas.Audit = new SimpleSchema({
   token: {
-    type: String
+    type: String,
+    unique: true
   },
   date: {
     type: Date

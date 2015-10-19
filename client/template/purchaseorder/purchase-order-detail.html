@@ -47,10 +47,10 @@
           <div class="panel-heading">
             <div class="btn-group pull-right">
               {{#if isInRole 'Administrator,CanEditPurchaseOrders'}}
-                <a class="btn btn-info btn-xs" disabled="{{#unless isOpen}}disabled{{/unless}}" href="#" id="edit-purchase-order">Edit purchase order details</a>
+                <a class="btn btn-info btn-xs" disabled="{{#unless isOpen}}disabled{{/unless}}" href="#" id="edit-purchase-order"><i class="fa fa-fw fa-pencil"></i>Edit</a>
               {{/if}}
               {{#if isInRole 'Administrator,CanDeletePurchaseOrders'}}
-                <a class="btn btn-danger btn-xs" href="#" id="remove-purchase-order">Delete purchase order</a>
+                <a class="btn btn-danger btn-xs" href="#" id="remove-purchase-order"><i class="fa fa-fw fa-times"></i>Delete</a>
               {{/if}}
             </div>
             Details</div>
@@ -175,12 +175,12 @@
       <div class="btn-group btn-group-justified" role="group">
         <div class="btn-group " role="group">
           <button class="btn btn-xs btn-info" data-placement="bottom" data-toggle="tooltip" disabled="{{#unless canAddMoreItems ..}}disabled{{/unless}}" id="edit-po-item" role="button" title="Edit purchase order item">
-            <i class="fa fa-fw fa-pencil"></i>
+            <i class="fa fa-fw fa-pencil"></i>Edit
           </button>
         </div>
         <div class="btn-group" role="group">
           <button class="btn btn-xs btn-danger" data-placement="bottom" data-toggle="tooltip" disabled="{{#unless canAddMoreItems ..}}disabled{{/unless}}" id="removePurchaseOrderItem" role="button" title="Delete purchase order item">
-            <i class="fa fa-fw fa-times"></i>
+            <i class="fa fa-fw fa-times"></i>Delete
           </button>
         </div>
       </div>

@@ -19,10 +19,10 @@
         <div class="panel-heading">
           <div class="btn-group pull-right">
             {{#if isInRole 'Administrator,CanEditProducts'}}
-            <a href="#" id="edit-product" class="btn btn-info btn-xs">Edit</a>
+            <a href="#" id="edit-product" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
             {{/if}}
               {{#if isInRole 'Administrator,CanDeleteProducts'}}
-            <a href="#" id="delete-product" class="btn btn-danger btn-xs">Delete</a>
+            <a href="#" id="delete-product" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
             {{/if}}
           </div>
           Product details</div>
@@ -59,7 +59,7 @@
 </template>
 
 <template name="editProductModal">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -71,7 +71,11 @@
         <div class="modal-body">
           {{#autoForm collection="Products" id="editProductForm" type="update" doc=this}}
             {{> afQuickField name="name" id="name-field"}}
-            {{> afQuickField name="description" id="desc-field" type="medium" class="form-control medium-editor"}}
+            {{#if IsIEAnd10OrGreater}}
+              {{> afQuickField name="description"}}
+            {{else}}
+              {{> afQuickField name="description" type="medium" class="form-control medium-editor" id="desc-field"}}
+            {{/if}}
             {{> afQuickField name="price"}}
             {{> afQuickField name="cost"}}
             <button type="submit" class="btn btn-primary">Update</button>

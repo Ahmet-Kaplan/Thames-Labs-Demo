@@ -11,6 +11,10 @@
           <li><a href="#contacts">Contacts</a></li>
           <li><a href="#projects">Current Projects</a></li>
           <li><a href="#activity-timeline">Activity timeline</a></li>
+          <!-- <li onclick="location.href='#company-details';" style="cursor:pointer;">Company details</li>
+          <li onclick="location.href='#contacts';" style="cursor:pointer;">Contacts</li>
+          <li onclick="location.href='#projects';" style="cursor:pointer;">Projects</li>
+          <li onclick="location.href='#activity-timeline';" style="cursor:pointer;">Activities</li> -->
         </ul>
 
         <div class="btn-group">
@@ -34,6 +38,7 @@
         <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
         Company
       </h4>
+
       <h1 id="company-details" class="entity-name">{{name}}</h1>
 
       {{> tagInput tags=tags collection='companies' entityId=_id permissionToEdit='CanEditCompanies'}}
@@ -100,7 +105,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
           Purchase Orders {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
-           <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}} 
+           <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
           {{#each purchaseOrders}}

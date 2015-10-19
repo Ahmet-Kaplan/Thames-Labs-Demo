@@ -4,31 +4,68 @@ Meteor.methods({
     return parseFloat(price * quantity).toFixed(2);
   },
 
-  generateDemoData: function(id) {
+  generateDemoData: function(groupId) {
 
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       return;
     }
+
     if (Meteor.isServer) {
+      Meteor.call('setDemoDataFlag', true);
+
       faker.locale = "en";
-      Partitioner.bindGroup(id, function() {
+      Partitioner.bindGroup(groupId, function() {
+
+        var companies = [];
+        var contacts = [];
+        var projects = [];
+        var purchaseOrders = [];
+        var purchaseOrderItems = [];
+        var opportunities = [];
+        var oppStageIds = [];
+        var products = [];
 
         //Setup opportunity stages
-        var oppStageIds = [];
         for (var i = 0; i < 4; i++) {
           var id = OpportunityStages.insert({
-            title: faker.company.companyName(),
+            title: faker.commerce.color(),
             description: faker.lorem.sentence(),
             order: i
           });
           oppStageIds.push(id);
         }
 
+        for (var i = 0; i < 8; i++) {
+          var userId = Accounts.createUser({
+            email: faker.internet.email(),
+            password: 'password',
+            profile: {
+              name: faker.name.findName(),
+              lastLogin: faker.date.past(),
+              lastActivity: {
+                page: null,
+                url: null
+              },
+              poAuthLevel: 100000
+            }
+          });
+
+          Roles.addUsersToRoles(userId, defaultPermissionsList);
+          Partitioner.setUserGroup(userId, groupId);
+        }
+
         // generate fake customer data
         _.each(_.range(100), function() {
+
           var usersArray = Meteor.users.find({}).fetch();
           var randomIndex = Math.floor(Math.random() * usersArray.length);
           var randomUser = usersArray[randomIndex];
+
+          do {
+            randomIndex = Math.floor(Math.random() * usersArray.length);
+            randomUser = usersArray[randomIndex];
+          }
+          while (randomUser === undefined);
 
           var companyId = Companies.insert({
             name: faker.company.companyName(),
@@ -42,16 +79,20 @@ Meteor.methods({
             createdBy: randomUser._id
           });
 
-          Products.insert({
-            name: faker.company.companyName(),
+          companies.push(companyId);
+
+          var productId = Products.insert({
+            name: faker.commerce.productName(),
             description: faker.lorem.sentence(),
-            cost: _.random(1, 300),
-            price: _.random(1, 300),
+            cost: parseInt(faker.finance.amount()),
+            price: parseInt(faker.commerce.price()),
             createdBy: randomUser._id
           });
 
-          Opportunities.insert({
-            name: faker.company.companyName(),
+          products.push(productId);
+
+          var oppId = Opportunities.insert({
+            name: faker.company.bs(),
             description: faker.lorem.sentence(),
             currentStageId: oppStageIds[Math.floor(Math.random() * oppStageIds.length)],
             createdBy: randomUser._id,
@@ -60,9 +101,7 @@ Meteor.methods({
             date: faker.date.recent(100)
           });
 
-
-          contacts = [];
-          projects = [];
+          opportunities.push(oppId);
 
           _.each(_.range(_.random(1, 10)), function() {
             var contactId = Contacts.insert({
@@ -90,21 +129,16 @@ Meteor.methods({
           });
 
           _.each(_.range(_.random(0, 2)), function() {
-            // var array = Meteor.users.find({}).fetch();
-            // var randomIndex = Math.floor(Math.random() * array.length);
-            // var element = array[randomIndex];
 
             var projectId = Projects.insert({
-              name: faker.lorem.words(),
+              name: faker.company.bs(),
               description: faker.lorem.sentence(),
               companyId: companyId,
               contactId: contacts[Math.floor(Math.random() * contacts.length)],
               userId: randomUser._id,
-              //  status: _.sample(Schemas.Project._schema.status.allowedValues),
-              value: _.random(100, 3000),
+              value: parseInt(faker.commerce.price()),
               probability: _.random(0, 100),
               lastActionDate: faker.date.past(100),
-              // nextActionBy: element._id,
               createdBy: randomUser._id
             });
 
@@ -128,15 +162,16 @@ Meteor.methods({
               supplierCompanyId: companyId,
               supplierContactId: contacts[Math.floor(Math.random() * contacts.length)],
               projectId: projects[Math.floor(Math.random() * projects.length)],
-              description: faker.lorem.sentence(),
-              supplierReference: faker.random.uuid(),
+              description: faker.commerce.product(),
+              supplierReference: faker.finance.account(),
               status: _.sample(Schemas.PurchaseOrder._schema.status.allowedValues),
               orderDate: faker.date.past(100),
               deliveryDate: faker.date.past(100),
               paymentMethod: _.sample(Schemas.PurchaseOrder._schema.paymentMethod.allowedValues),
-              //   currency: _.sample(Schemas.PurchaseOrder._schema.currency.allowedValues),
               createdBy: randomUser._id
             });
+
+            purchaseOrders.push(purchaseOrderId);
 
             _.each(_.range(_.random(0, 2)), function() {
               Activities.insert({
@@ -150,22 +185,26 @@ Meteor.methods({
             });
 
             _.each(_.range(_.random(0, 2)), function() {
-              PurchaseOrderItems.insert({
+              var poi = PurchaseOrderItems.insert({
                 purchaseOrderId: purchaseOrderId,
-                description: faker.lorem.sentence(),
-                productCode: faker.random.uuid(),
-                //     currency: _.sample(Schemas.PurchaseOrderItem._schema.currency.allowedValues),
-                value: parseFloat(_.random(1, 35)).toFixed(2),
+                description: faker.commerce.productName(),
+                productCode: faker.finance.account(),
+                value: faker.commerce.price(),
                 quantity: _.random(1, 65),
                 totalPrice: "0.00",
                 createdBy: randomUser._id
               });
+
+              purchaseOrderItems.push(poi);
             });
           });
         });
 
       });
+
     }
+
+    Meteor.call('setDemoDataFlag', false);
 
     logEvent('debug', 'Demo data generated');
 
@@ -379,19 +418,5 @@ Meteor.methods({
 });
 
 logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  if (Meteor.isClient && !Roles.userIsInRole(Meteor.userId(), 'superadmin')) {
-    logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
-    logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
-
-    AuditLog.insert({
-      token: 'token',
-      date: new Date(),
-      source: 'client',
-      level: logLevel,
-      message: logMessage,
-      user: Meteor.userId(),
-      entityType: logEntityType,
-      entityId: logEntityId
-    });
-  }
+  Meteor.call('addEventToAuditLog', logLevel, logMessage, ((typeof logEntityType === 'undefined') ? undefined : logEntityType), ((typeof logEntityId === 'undefined') ? undefined : logEntityId), 'client', Guid.raw());
 }

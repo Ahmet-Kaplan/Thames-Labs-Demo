@@ -1,0 +1,20 @@
+<template name="globalSearch">
+
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" id="globalSearchPopup">
+      <div class="modal-content">
+
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          {{> inputAutocomplete settings=settings id="globalSearchBox" class="input" placeholder="Search for something..."}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<template name="resultPill">
+  {{{parsedData}}}  
+</template>

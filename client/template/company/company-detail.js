@@ -9,7 +9,7 @@ Template.companyDetail.onCreated(function() {
     }
   });
 
-  // Redirect if read permission changed - we also check the initial load in the router
+  // Redirect if read permission changed
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
   });
@@ -110,7 +110,9 @@ Template.companyDetail.events({
 Template.companyDetail.helpers({
   companyData: function() {
     var companyId = FlowRouter.getParam('id');
-    var company = Companies.findOne({_id: companyId});
+    var company = Companies.findOne({
+      _id: companyId
+    });
     if (company.tags !== undefined) {
       company.tags.sort();
     }
@@ -130,6 +132,8 @@ Template.companyDetail.helpers({
     return this;
   },
   opportunities: function() {
-    return Opportunities.find({companyId: this._id});
+    return Opportunities.find({
+      companyId: this._id
+    });
   }
 });

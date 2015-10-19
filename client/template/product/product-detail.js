@@ -7,7 +7,7 @@ Template.productDetail.onCreated(function() {
     }
   });
 
-  // Redirect if read permission changed - we also check the initial load in the router
+  // Redirect if read permission changed
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadProducts');
   });
@@ -39,6 +39,16 @@ Template.productDetail.events({
     event.preventDefault();
     Modal.show('editProductModal', this);
   },
+});
+
+Template.editProductModal.helpers({
+  IsIEAnd10OrGreater: function() {
+    if (bowser.msie && bowser.version > 9) {
+      return true;
+    }
+
+    return false;
+  }
 });
 
 AutoForm.hooks({

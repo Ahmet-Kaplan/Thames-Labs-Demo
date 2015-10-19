@@ -40,9 +40,15 @@ var updateUpcomingInvoice = function() {
         return false;
       }
       upcomingInvoice = invoice;
+
       var discountCorrection = 1;
       if(upcomingInvoice.discount) {
         discountCorrection = (upcomingInvoice.discount.coupon.percent_off) ? 1 - (upcomingInvoice.discount.coupon.percent_off / 100) : 1;
+      }
+
+      var taxCorrection = 1;
+      if(upcomingInvoice.tax_percent) {
+        taxCorrection = 1 + upcomingInvoice.tax_percent/100;
       }
       upcomingInvoice.amount_due = invoice.amount_due/100;
       upcomingInvoice.total = invoice.total/100;
@@ -60,18 +66,18 @@ var updateUpcomingInvoice = function() {
       if(upcomingInvoice.lines.data[tot-1].description) {
         correctionAmount += upcomingInvoice.lines.data[tot-1].amount;
         newData.push({
-          amount: correctionAmount/100,
+          amount: (correctionAmount/100 * taxCorrection).toFixed(2),
           description: 'Correction for this period\'s subscription'
         });
       } else {
         newData.push({
-          amount: correctionAmount/100,
+          amount: (correctionAmount/100 * taxCorrection).toFixed(2),
           description: 'Correction for this period\'s subscription'
         });
         var periodStart = new Date(upcomingInvoice.lines.data[tot-1].period.start*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
         var periodEnd = new Date(upcomingInvoice.lines.data[tot-1].period.end*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
         newData.push({
-          amount: (upcomingInvoice.lines.data[tot-1].amount/100) * discountCorrection,
+          amount: ((upcomingInvoice.lines.data[tot-1].amount/100) * discountCorrection * taxCorrection).toFixed(2),
           description: 'Subscription for next period (' + periodStart + ' - ' + periodEnd + ')'
         });
       }

@@ -12,8 +12,9 @@
           </button>
           {{/if}}
           <a class="navbar-brand" href="/">
-            <img class="hidden-xs" alt="" src="/lighter-icon.svg"><img class="visible-xs" alt="" src="/icon.svg">
-            RealTime<span>CRM</span>
+            <img class="hidden-xs" alt="" src="/lighter-icon.svg">
+            <img class="visible-xs" alt="" src="/icon.svg"> RealTime
+            <span>CRM</span>
           </a>
         </div>
         {{#if loggedIn}}
@@ -22,7 +23,7 @@
             {{#if isInRole 'superadmin'}}
             <li><a href="#" id="feedback-link">Feedback</a></li>
             <li>{{> atNavButton}}</li>
-            {{/if}} 
+            {{/if}}
             {{#unless isInRole 'superadmin'}}
               {{#if isInRole 'Administrator'}}
               {{#if limitReached}}
@@ -83,6 +84,7 @@
                 <li><a href="#" id="sign-out">Sign Out</a></li>
               </ul>
             </li>
+
             {{/unless}}
           </ul>
         </div>
@@ -94,16 +96,13 @@
   {{#if loggedIn}}
   <div id="id-view-sidemenu">
     <ul class="panel-group" id="menu">
-      {{#unless isInRole 'superadmin'}}
-        {{#if isInRole 'Administrator'}}
-        {{#if limitReached}}
-        <li class="panel-title nav-btn-info visible-xs">
-          <a href="{{pathFor route='administration'}}" class="dismiss-on-click">
+      {{#unless isInRole 'superadmin'}} {{#if isInRole 'Administrator'}} {{#if limitReached}}
+      <li class="panel-title nav-btn-info visible-xs">
+        <a href="{{pathFor route='administration'}}" class="dismiss-on-click">
             Limit reached, Upgrade now!
           </a>
-        </li>
-        {{/if}}
-        {{/if}}
+      </li>
+      {{/if}} {{/if}}
       <li class="panel-title">
         <a href='/' class="dismiss-on-click {{isActiveRoute 'dashboard'}}" id="menuLinkDashboard">
           <i class="fa fa-fw fa-home"></i> Dashboard
@@ -126,7 +125,7 @@
               <li>No favourites</li>
               {{/each}}
               <li class="add-favourite">
-                <a data-toggle="tooltip" data-placement="bottom" title="Add this page to your favourites for easy access" id="mnuAddToFavourites"><i class="fa fa-fw fa-plus"></i>  Add to favourites</a>
+                <a data-toggle="tooltip" data-placement="bottom" title="Add this page to your favourites for easy access" id="mnuAddToFavourites"><i class="fa fa-fw fa-plus"></i>  Add</a>
               </li>
             </ul>
           </div>
@@ -329,7 +328,7 @@
 </template>
 
 <template name="notificationModal">
-  <div class="modal fade">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body">

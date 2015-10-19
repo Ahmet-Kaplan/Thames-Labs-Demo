@@ -1,6 +1,6 @@
 <!-- Expects to be called in companyDetail context -->
 <template name="insertCompanyContactModal">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -29,7 +29,7 @@
 </template>
 
 <template name="insertContactModal">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -46,7 +46,7 @@
             {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
             {{> afQuickField name="jobtitle"}}
-            {{> esSelectize name="companyId" index="autosuggestCompany"}}
+            {{> esSelectize name="companyId" index="autosuggestCompany" allowCreate=true}}
             <div id="addressWrapper">
               <div class="form-group">
                 <label for="geo" class="control-label">Search for Address, City, etc.</label>

@@ -114,7 +114,7 @@ Meteor.methods({
       LogServerEvent('error', 'Unable to update Stripe Quantity for tenant of user ' + superadminUserId + '/tenant ' + tenantId);
       return false;
     }
-    if(theTenant.stripe.paying === false) {
+    if(theTenant.stripe.paying === false || theTenant.stripe.freeUnlimited) {
       return true;
     }
 
@@ -143,6 +143,7 @@ Meteor.methods({
   cancelStripeSubscription: function(superadminTenantId) {
     /*superadminTenantId is used when the method is called by the superadmin
     In which case the tenantId cannot be retrieved via Partitioner */
+    var userId = this.userId;
     var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({_id: tenantId});
     var stripeId = theTenant.stripe.stripeId;
@@ -169,6 +170,40 @@ Meteor.methods({
           Tenants.update(tenantId, {
             $set: {"stripe.paying": false}
           });
+
+          //Send confirmation email if Admin but not superadmin
+          if(Roles.userIsInRole(userId, ['Administrator'])) {
+            var user = Meteor.users.findOne(userId);
+            SSR.compileTemplate('emailText', Assets.getText('email-stripe-cancel-subs.html'));
+            Template.emailText.helpers({
+              getDoctype: function() {
+                return '!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+              },
+              subject: function() {
+                return 'Cancellation of your RealTimeCRM Subscription';
+              },
+              name: function() {
+                return user.profile.name;
+              }
+            });
+
+            var html = '<' + SSR.render("emailText");
+
+            var text = "Dear " + user.profile.name + ",\n\n" +
+                       "Your subscription to RealTimeCRM has now been cancelled.\n" +
+                       "Would you have any feed back, please give us a call on 01223 802 900, or email us at team@realtimecrm.co.uk.\n\n" +
+                       "Yours sincerely,\n" +
+                       "The RealtimeCRM Team";
+
+            Email.send({
+              to: user.emails[0].address,
+              from: 'admin@realtimecrm.co.uk',
+              subject: 'Cancellation of your RealTimeCRM Subscription',
+              html: html,
+              text: text
+            });
+          }
+
           stripeConfirmation.return(confirmation);
         })
       );

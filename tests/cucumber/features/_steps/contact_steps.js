@@ -4,7 +4,8 @@ module.exports = function() {
 
   this.When(/^I navigate to a contact page$/, function() {
     client.url(url.resolve(process.env.ROOT_URL, '/contacts'));
-    client.waitForExist('.list-group-item', 2000);
+    client.waitForExist('.list-group-item', 10000);
+    client.waitForVisible('.list-group-item', 10000);
     client.click('.list-group-item');
   });
 

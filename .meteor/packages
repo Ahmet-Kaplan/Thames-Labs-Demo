@@ -91,3 +91,6 @@ check
 npm-container
 dburles:google-maps
 ecmascript
+flowkey:hotkeys
+mizzao:autocomplete
+adain:meteor-guid

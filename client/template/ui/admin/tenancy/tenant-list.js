@@ -1,7 +1,17 @@
+Template.tenantList.onCreated(function() {
+  Meteor.call('setDemoDataFlag', false);
+  // Redirect if not superadmin
+  this.autorun(function() {
+    superAdminOnly(Meteor.userId());
+  });
+});
+
 Template.tenantList.helpers({
   tenants: function(paying) {
     var payingTenant = (paying === "true") ? true : false;
-    return Tenants.find({ "stripe.paying": payingTenant });
+    return Tenants.find({
+      "stripe.paying": payingTenant
+    });
   },
   tenantCount: function() {
     return Tenants.find({}).count();
@@ -12,7 +22,11 @@ Template.tenantList.helpers({
     });
   },
   userCount: function() {
-    return Meteor.users.find({ group: {$ne: undefined} }).count();
+    return Meteor.users.find({
+      group: {
+        $ne: undefined
+      }
+    }).count();
   }
 });
 
@@ -31,6 +45,9 @@ Template.tenant.helpers({
   },
   isBlocked: function() {
     return this.stripe.blocked;
+  },
+  generationInProgress: function() {
+    return ServerSession.get('populatingDemoData');
   }
 });
 
@@ -53,7 +70,7 @@ Template.tenant.events({
     bootbox.confirm("Are you sure you wish to delete this tenant?", function(result) {
       if (result === true) {
         Meteor.call('deleteAllTenantUsers', tenantId, function(error, response) {
-          if(error) {
+          if (error) {
             toastr.error('Unable to delete all the users for this tenant.');
             return false;
           }
@@ -77,22 +94,21 @@ Template.tenant.events({
       if (result === true) {
         toastr.info('Processing the update...');
         Meteor.call('cancelStripeSubscription', tenantId, function(error, response) {
-          if(error) {
-            console.log(error);
+          if (error) {
             bootbox.alert({
               title: 'Error',
               message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to cancel subscription.<br />See Stripe dashboard to cancel manually.</div>'
             });
             return false;
           }
-            toastr.success('The subscription has been cancelled successfully.<br />Switched to Free Scheme.');
+          toastr.success('The subscription has been cancelled successfully.<br />Switched to Free Scheme.');
         });
       }
     });
   },
   'click #btnSwitchToPaying': function(event) {
     event.preventDefault();
-      Modal.show('setPayingTenant', this);
+    Modal.show('setPayingTenant', this);
   },
   'click #btnBlockTenant': function(event) {
     event.preventDefault();
@@ -134,7 +150,7 @@ Template.user.events({
     bootbox.confirm("Are you sure you wish to delete the user " + userName + "?", function(result) {
       if (result === true) {
         Meteor.call('removeUser', userId, function(error, response) {
-          if(error) {
+          if (error) {
             toastr.error('Unable to remove user.');
             return false;
           }
