@@ -203,7 +203,7 @@ Meteor.methods({
       });
 
     }
-    
+
     Meteor.call('setDemoDataFlag', false);
 
     logEvent('debug', 'Demo data generated');
