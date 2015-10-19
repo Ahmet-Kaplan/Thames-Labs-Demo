@@ -79,12 +79,6 @@ Meteor.publish("companyById", function(companyId) {
     _id: companyId
   });
 });
-Meteor.publish("companyByPurchaseOrderId", function(purchaseOrderId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);
-  return Companies.find(purchaseOrder.companyId);
-});
 Meteor.publish("companyByProductId", function(productId) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
@@ -219,12 +213,6 @@ Meteor.publish("projectById", function(projectId) {
   return Projects.find({
     _id: projectId
   });
-});
-Meteor.publish("projectByPurchaseOrderId", function(purchaseOrderId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadProjects'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);
-  return Projects.find(purchaseOrder.projectId);
 });
 Meteor.publish("projectTags", function() {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadProjects'])) return this.ready();

@@ -93,6 +93,7 @@ meteorhacks:meteorx@1.4.1
 meteorhacks:npm@1.5.0
 meteorhacks:ssr@2.1.2
 meteorhacks:subs-manager@1.6.2
+meteortoys:toykit@2.1.2
 minifiers@1.1.7
 minimongo@1.0.10
 mizzao:autocomplete@0.5.1
@@ -110,6 +111,7 @@ mousetrap:mousetrap@1.4.6_1
 mpowaga:string-template@0.1.0
 mrgalaxy:stripe@2.1.0
 mrt:moment@2.8.1
+msavin:mongol@1.5.0
 mystor:device-detection@0.2.0
 nemo64:bootstrap@3.3.4_2
 nemo64:bootstrap-data@3.3.5
