@@ -6,7 +6,7 @@
     <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
-        {{> esInput index="projects" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}} {{#if isInRole 'Administrator,CanCreateProjects'}}
+        {{> esInput index="projects" placeholder="search..." allDocsOnEmpty=true class="form-control"}} {{#if isInRole 'Administrator,CanCreateProjects'}}
         <div class="btn-group-vertical">
           <a href="#" id="add-project" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add project</a>
         </div>

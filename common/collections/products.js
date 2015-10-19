@@ -2,8 +2,21 @@ Collections.products = Products = new Mongo.Collection('products');
 
 Partitioner.partitionCollection(Products);
 
+////////////////////
+// SEARCH INDICES //
+////////////////////
+
 Products.initEasySearch(['name'], {
-  limit: 50
+  limit: 20,
+  use: 'mongo-db',
+  sort: function() {
+    return {
+      'name': 1
+    };
+  },
+  returnFields: [
+    'name',
+  ]
 });
 
 //////////////////////

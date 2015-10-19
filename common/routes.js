@@ -267,9 +267,6 @@ router.route('/events', {
 
 router.route('/products', {
   name: 'products',
-  subscriptions: function() {
-    this.register('allProducts', subs.subscribe('allProducts'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'productList'
