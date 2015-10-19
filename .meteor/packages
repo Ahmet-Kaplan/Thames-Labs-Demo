@@ -94,3 +94,5 @@ ecmascript
 flowkey:hotkeys
 mizzao:autocomplete
 adain:meteor-guid
+ostrio:loggerfile
+ostrio:loggerconsole
