@@ -116,7 +116,7 @@ Feature: Allow users to manage their Contacts
     When I navigate to a contact page
     And I click "#remove-contact"
     And I click confirm on the modal
-    Then I should see "#no-contact-placeholder"
+    Then I should see the heading "Contacts"
 
   Scenario: A user without permission cannot delete a contact
     Given I do not have the "CanDeleteContacts" permission
