@@ -1,0 +1,57 @@
+<template name="stripeSubscribe">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Subscribe to Paying Scheme</h4>
+        </div>
+
+        <div class="modal-body">
+          <br />Please find below the details of your subscription:
+
+          <div class="well well-sm">
+          {{#if planDetails.name}}
+          {{#with planDetails}}
+            <div class="row">
+              <div class="col-xs-6"><em>Plan</em></div>
+              <div class="col-xs-4">{{name}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"><em>Price</em></div>
+              <div class="col-xs-4">£{{amount}} /user/{{interval}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"><em>Number of users</em></div>
+              <div class="col-xs-4">{{quantity}}</div>
+            </div>
+            {{#if hasCoupon}}
+            <div class="row">
+              <div class="col-xs-6" id="couponInfo"><em>Coupon {{couponName}}</em></div>
+              <div class="col-xs-4">{{couponDetails}}</div>
+            </div>
+            {{/if}}
+            <div class="row">
+              <div class="col-xs-10"><hr /></div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"><strong>Total Price of Subscription</strong></div>
+              <div class="col-xs-4">£{{total}} /{{interval}} + VAT (20%)</div>
+            </div>
+          {{/with}}
+          {{else}}
+            {{> loadingSmall}}
+          {{/if}}
+          </div>
+
+          <br /><br />For your subscription to become active, you must provide your card details.
+          <br />Please note that none of the card information is stored by us.
+        </div>
+
+        {{>cardForm buttonText="Subscribe" showEmail=true}}
+
+      </div>
+    </div>
+  </div>
+</template>

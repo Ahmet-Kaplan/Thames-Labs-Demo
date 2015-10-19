@@ -2,42 +2,36 @@ Meteor.methods({
 
   addCompany: function(name) {
     var companyName = name || 'Test Ltd',
-        address = 'Cowley Road',
-        city = 'Cambridge',
-        postcode = 'CB4',
-        country = 'United Kingdom',
-        userId = Meteor.userId();
+      address = 'Cowley Road',
+      city = 'Cambridge',
+      postcode = 'CB4',
+      country = 'United Kingdom',
+      userId = this.userId;
 
-    return Companies.insert({
+    var data = Companies.insert({
       name: companyName,
       address: address,
       city: city,
       postcode: postcode,
       country: country,
       createdBy: userId,
-      customFields: {
-        test: {
-          dataValue: "velocity",
-          dataType: "text"
-        }
-      }
+      customFields: {}
     });
+
+    return data;
+
   },
 
-  addContact: function() {
-    var userId = Meteor.userId();
+  addContact: function(forename, surname) {
+    var contactForename = forename || 'Testy',
+        contactSurname = surname || 'Surname',
+        userId = Meteor.userId();
     return Contacts.insert({
-      "title": "Mr",
-      "forename": "Testy",
-      "surname": "Surname",
+      "forename": contactForename,
+      "surname": contactSurname,
       "email": "testy@surname.com",
       "createdBy": userId,
-      "customFields": {
-        test: {
-          dataValue: "velocity",
-          dataType: "text"
-        }
-      }
+      "customFields": {}
     });
   },
 
@@ -50,9 +44,8 @@ Meteor.methods({
       country: "country",
       createdBy: Meteor.userId()
     });
-    console.log(companyId);
+
     return Contacts.insert({
-      title: "Mr",
       forename: "Testy",
       surname: "Surname",
       email: "testy@surname.com",
@@ -71,8 +64,11 @@ Meteor.methods({
   },
 
   addProject: function() {
+    var companyId = Companies.findOne({})._id;
     var projectId = Projects.insert({
-      description: 'test project',
+      name: 'test project',
+      description: 'The purpose of this project is only to serve as an example for the tests.',
+      companyId: companyId,
       userId: Meteor.userId(),
       value: 100,
       createdBy: Meteor.userId()
@@ -91,7 +87,9 @@ Meteor.methods({
       description: 'test description',
       order: 1
     });
-    var stage = OpportunityStages.findOne({order: 0});
+    var stage = OpportunityStages.findOne({
+      order: 0
+    });
     var date = new Date();
     var companyId = Companies.insert({
       name: "Test Ltd",
@@ -101,7 +99,7 @@ Meteor.methods({
       country: "country",
       createdBy: Meteor.userId()
     });
-  //  var itemId = Random.id();
+    //  var itemId = Random.id();
     var data = Opportunities.insert({
       name: 'test opportunity',
       description: 'test description',
@@ -117,128 +115,22 @@ Meteor.methods({
 
   addOpportunityLineItem: function() {
     var opp = Opportunities.findOne({});
-    Opportunities.update(opp._id, {$push: {items: {
-      id: Random.id(),
-      name: "lineItem1"
-    }}});
-    return opp;
-  },
-
-  addCompanyTask: function() {
-    var companyId = Companies.insert({
-      name: "Test Ltd",
-      address: "address",
-      city: "city",
-      postcode: "postcode",
-      country: "country",
-      createdBy: Meteor.userId()
-    });
-
-    var taskId = Tasks.insert({
-      title: 'test task',
-      description: 'test description',
-      assigneeId: Meteor.userId(),
-      isAllDay: true,
-      dueDate: new Date(),
-      entityType: 'company',
-      entityId: companyId,
-      createdBy: Meteor.userId()
-    });
-    return taskId;
-  },
-
-  addContactTask: function() {
-    var contactId = Contacts.insert({
-      "title": "Mr",
-      "forename": "Testy",
-      "surname": "Surname",
-      "email": "testy@surname.com",
-      "createdBy": Meteor.userId(),
-      "customFields": {
-        test: {
-          dataValue: "velocity",
-          dataType: "text"
+    Opportunities.update(opp._id, {
+      $push: {
+        items: {
+          id: Random.id(),
+          name: "lineItem1"
         }
       }
     });
-
-    var taskId = Tasks.insert({
-      title: 'test task',
-      description: 'test description',
-      assigneeId: Meteor.userId(),
-      isAllDay: true,
-      dueDate: new Date(),
-      entityType: 'contact',
-      entityId: contactId,
-      createdBy: Meteor.userId()
-    });
-    return taskId;
+    return opp;
   },
 
-  addOpportunityTask: function() {
-    var stage = OpportunityStages.insert({
-      title: 'Stage 1',
-      description: 'test description',
-      order: 0
-    });
-    OpportunityStages.insert({
-      title: 'Stage 2',
-      description: 'test description',
-      order: 1
-    });
-    var stage = OpportunityStages.findOne({order: 0});
-    var date = new Date();
-    var companyId = Companies.insert({
-      name: "Test Ltd",
-      address: "address",
-      city: "city",
-      postcode: "postcode",
-      country: "country",
-      createdBy: Meteor.userId()
-    });
+  addRecordsToLimit: function() {
+  for(var i = 0; i < MAX_RECORDS / 2; i++) {
+      Meteor.call('addContact', 'Test ' + i, 'Surnamer');
+      Meteor.call('addCompany', 'Test ' + i + ' Ltd');
+    }
 
-    var oppId = Opportunities.insert({
-      name: 'test opportunity',
-      description: 'test description',
-      date: date,
-      value: 0,
-      currentStageId: stage._id,
-      companyId: companyId,
-      createdBy: Meteor.userId(),
-      items: []
-    });
-
-    var taskId = Tasks.insert({
-      title: 'test task',
-      description: 'test description',
-      assigneeId: Meteor.userId(),
-      isAllDay: true,
-      dueDate: new Date(),
-      entityType: 'opportunity',
-      entityId: oppId,
-      createdBy: Meteor.userId()
-    });
-    return taskId;
-  },
-
-  addProjectTask: function() {
-    var projectId = Projects.insert({
-      description: 'test project',
-      userId: Meteor.userId(),
-      value: 100,
-      createdBy: Meteor.userId()
-    });
-
-    var taskId = Tasks.insert({
-      title: 'test task',
-      description: 'test description',
-      assigneeId: Meteor.userId(),
-      isAllDay: true,
-      dueDate: new Date(),
-      entityType: 'project',
-      entityId: projectId,
-      createdBy: Meteor.userId()
-    });
-    return taskId;
   }
 });

@@ -1,5 +1,5 @@
 <template name="editContactModal">
-  <div class="modal fade">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -10,7 +10,6 @@
 
         <div class="modal-body">
           {{#autoForm collection="Contacts" id="editContactForm" type="update" doc=this}}
-            {{> afQuickField name="title" options="allowed"}}
             {{> afQuickField name="forename"}}
             {{> afQuickField name="surname"}}
             {{> afQuickField name="email"}}

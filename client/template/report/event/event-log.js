@@ -1,5 +1,5 @@
 Template.events.onCreated(function() {
-  // Redirect if read permission changed - we also check the initial load in the router
+  // Redirect if read permission changed
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadEventLog');
   });
@@ -60,11 +60,11 @@ Template.eventEntry.helpers({
         break;
       case 'Contact':
         entity = Contacts.findOne(this.entityId);
-        returnedData = "<div><i class='fa fa-fw fa-user'></i>" + entity.title + " " + entity.forename + " " + entity.surname + "</div>";
+        returnedData = "<div><i class='fa fa-fw fa-user'></i>" + entity.forename + " " + entity.surname + "</div>";
         break;
       case 'Project':
         entity = Projects.findOne(this.entityId);
-        returnedData = "<div><i class='fa fa-fw fa-files-o'></i>" + entity.description + "</div>";
+        returnedData = "<div><i class='fa fa-fw fa-sitemap'></i>" + entity.description + "</div>";
         break;
       case 'Purchase Order':
         entity = PurchaseOrders.findOne(this.entityId);

@@ -1,7 +1,26 @@
 function removeSignUpEmailValidationError(key) {
   delete AutoForm.templateInstanceForForm("signUpForm")._stickyErrors[key];
   AutoForm.validateForm("signUpForm");
-};
+}
+
+Template.signUp.onCreated(function() {
+  // Redirect if logged in
+  this.autorun(function() {
+    if (Meteor.user()) FlowRouter.go('dashboard');
+  });
+});
+
+Template.signUp.onRendered(function() {
+  var coupon = Template.currentData().coupon();
+  if(coupon) {
+    Meteor.call('getStripeCoupon', coupon,  function(err, response) {
+      if(err || !response) {
+        $('input[name=coupon]').val('');
+        $('h1').after('<div class="alert alert-info">The coupon you have provided is not valid. Please contact us to activate it before upgrading.</div>');
+      }
+    });
+  }
+});
 
 Template.signUp.events({
   'click #email-field': function() {
@@ -13,6 +32,20 @@ var details = {
   password: ""
 };
 AutoForm.hooks({
+  before: {
+    method: function(doc) {
+      if(!doc.coupon) {
+        return doc;
+      }
+      Meteor.call('getStripeCoupon', function(err, response) {
+        if(err || !response) {
+          doc.coupon = '';
+          toastr.error('The coupon you have provided is not valid.<br />Please contact us to activate it before upgrading.');
+        }
+        return doc;
+      });
+    }
+  },
   signUpForm: {
     onError: function(formType, error) {
       if (typeof error.reason === 'string') {

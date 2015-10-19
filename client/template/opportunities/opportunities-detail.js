@@ -7,7 +7,7 @@ Template.opportunityDetail.onCreated(function() {
     }
   });
 
-  // Redirect if read permission changed - we also check the initial load in the router
+  // Redirect if read permission changed
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
   });
@@ -20,6 +20,9 @@ Template.opportunityDetail.onRendered(function() {
 Template.opportunityDetail.helpers({
   friendlyDate: function() {
     return moment(this.date).format('MMMM Do YYYY, h:mma');
+  },
+  friendlyClose: function() {
+    return moment(this.estCloseDate).format('MMMM Do YYYY, h:mma');
   },
   stages: function() {
     return OpportunityStages.find({}, {sort: {order: 1}});
@@ -115,14 +118,18 @@ Template.opportunityDetail.events({
   'click #lost-opportunity': function(event) {
     event.preventDefault();
     var oppId = this._id;
-    bootbox.confirm("Are you sure you wish to mark this opportunity as lost? This action is not reversible.", function(result) {
-      if (result === true) {
+    bootbox.prompt("Are you sure you wish to mark this opportunity as lost? This action is not reversible. If so, you can enter the reason hereafter", function(result) {
+      if (result !== null) {
         Opportunities.update(oppId, { $set: {
           isArchived: true,
-          hasBeenWon: false
+          hasBeenWon: false,
+          reasonLost: result
         }});
         var user = Meteor.user();
         var note = user.profile.name + ' marked this opportunity as lost';
+        if(result) {
+          note += ": <br />" + result;
+        }
         var date = new Date();
         Activities.insert({
           type: 'Note',
@@ -186,7 +193,7 @@ Template.opportunityDetail.events({
       }
       if (this.contactId) {
         var contact = Contacts.findOne(this.contactId);
-        contactName = contact.title + " " + contact.forename + " " + contact.surname;
+        contactName = contact.forename + " " + contact.surname;
       }
 
       var date = moment().format("MMM Do YYYY");
@@ -245,7 +252,7 @@ Template.opportunityDetail.events({
       }
       if (this.contactId) {
         var contact = Contacts.findOne(this.contactId);
-        contactName = contact.title + " " + contact.forename + " " + contact.surname;
+        contactName = contact.forename + " " + contact.surname;
       }
 
       var date = moment().format("MMM Do YYYY");

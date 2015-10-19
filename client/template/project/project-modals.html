@@ -1,5 +1,5 @@
 <template name="newProjectForm">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -10,15 +10,17 @@
 
         <div class="modal-body">
           {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
+            {{> afQuickField name="name"}}
+
             {{> afQuickField name="description"}}
 
-            {{> afQuickField name="companyId" id="selectedCompany" options=companiesAsOptions}}
+            {{> esSelectize name="companyId" index="autosuggestCompany"}}
 
             {{#if showContacts}}
-              {{> afQuickField name="contactId" id="companyContacts" options=contactsAsOptions }}
+              {{> esSelectize name="contactId" index="autosuggestContact" parent="companyId" filter="filterCompanyId"}}
             {{/if}}
 
-            {{> afQuickField name="userId" options=usersAsOptions}}
+            {{> esSelectize name="userId" index="autosuggestUser"}}
 
             {{> afQuickField name="value"}}
 
@@ -37,7 +39,7 @@
 </template>
 
 <template name="newCompanyProjectForm">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -48,15 +50,17 @@
 
         <div class="modal-body">
           {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
+            {{> afQuickField name="name"}}
+
             {{> afQuickField name="description"}}
 
             {{> afQuickField name="companyId" id="selectedCompany" value=companyId type="hidden"}}
 
             {{#if showContacts}}
-              {{> afQuickField name="contactId" id="companyContacts" options=contactsAsOptions }}
+              {{> esSelectize name="contactId" index="autosuggestContact" parent="companyId" filter="filterCompanyId"}}
             {{/if}}
 
-            {{> afQuickField name="userId" options=usersAsOptions}}
+            {{> esSelectize name="userId" index="autosuggestUser"}}
 
             {{> afQuickField name="value"}}
 
@@ -75,7 +79,7 @@
 </template>
 
 <template name="newContactProjectForm">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -86,13 +90,15 @@
 
         <div class="modal-body">
           {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
+            {{> afQuickField name="name"}}
+
             {{> afQuickField name="description"}}
 
             {{> afQuickField name="companyId" id="selectedCompany" type="hidden" }}
 
             {{> afQuickField name="contactId" id="companyContacts" type="hidden" value=contactId}}
 
-            {{> afQuickField name="userId" options=usersAsOptions}}
+            {{> esSelectize name="userId" index="autosuggestUser"}}
 
             {{> afQuickField name="status" options="allowed"}}
             {{> afQuickField name="value"}}
@@ -114,7 +120,7 @@
 </template>
 
 <template name="updateProjectForm">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -125,9 +131,15 @@
 
         <div class="modal-body">
           {{#autoForm collection="Projects" id="updateProjectForm" type="update" doc=this}}
+            {{> afQuickField name="name"}}
             {{> afQuickField name="description"}}
-            {{> afQuickField name="contactId" id="companyContacts" options=contactsAsOptions }}
-            {{> afQuickField name="userId" options=usersAsOptions}}
+            {{#if companyId}}
+              {{> esSelectize index="autosuggestCompany" name="companyId" value=companyId readonly=true}}
+            {{/if}}
+            {{#if contactId}}
+              {{> esSelectize name="contactId" index="autosuggestContact" value=contactId  readonly=true}}
+            {{/if}}
+            {{> esSelectize name="userId" index="autosuggestUser" value=userId}}
             {{> afQuickField name="value"}}
             {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}

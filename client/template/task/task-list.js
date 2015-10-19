@@ -1,7 +1,7 @@
 Session.set('showCompleted', 1);
 
 Template.taskList.onCreated(function() {
-  // Redirect if read permission changed - we also check the initial load in the router
+  // Redirect if read permission changed
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadTasks');
   });
@@ -81,7 +81,7 @@ Template.taskListEntry.helpers({
         var handle = Meteor.subscribe("contactById", this.entityId);
         if (handle.ready()) {
           var c = Contacts.find({}).fetch()[0];
-          dataString += ": " + c.title + " " + c.forename + " " + c.surname;
+          dataString += ": " + c.forename + " " + c.surname;
         }
         break;
       case 'project':

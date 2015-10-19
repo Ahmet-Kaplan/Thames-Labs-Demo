@@ -1,0 +1,26 @@
+<template name="editTenantUserGeneralSettings">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+          <h5>Settings:
+            {{profile.name}}</h5>
+        </div>
+
+        <div class="modal-body">
+          <div class="input-group">
+            <label for="user-po-auth-level">Purchase Order Authorisation Level (£)</label>
+            <input id="user-po-auth-level" class="form-control" placeholder="Purchase Order Authorisation level" type="number" data-placement="bottom" data-toggle="tooltip" title="The maximum value of a purchase order that this user can authorise. If set to 0, the user can only request or cancel purchase orders.">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <a class="btn btn-primary" id="btnUpdateTenantUserSettings" style="margin-top:5px;">Update</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,3 +1,10 @@
+Template.adminStatistics.onCreated(function() {
+  // Redirect if not superadmin
+  this.autorun(function() {
+    superAdminOnly(Meteor.userId());
+  });
+});
+
 Template.adminStatistics.rendered = function() {
 
   var users = Meteor.users.find({}).map(function(user) {

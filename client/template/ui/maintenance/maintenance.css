@@ -1,8 +1,54 @@
 .maintenance-message {
+  margin: 20px auto;
+  text-align: center;
   color: #fff;
   font-size: 24px;
 }
 
-.sk-spinner-rotating-plane.sk-spinner {
-  background-color: #fff;
+.sk-spinner-maint {
+  background-color: none;
+  width: 160px;
+  height: 160px;
+  position: relative;
+  margin: 50px auto 20px auto;
+}
+
+.sk-spinner-maint .sk-rt-light-inner-circle-maint {
+  display: block;
+  background-color: none;
+  width: 172px;
+  height: 172px;
+  position: absolute;
+  border-radius: 160px;
+  border: 16px solid #C3DFFF;
+  right: 43px;
+  top: -4px;
+  -webkit-animation: sk-rt-rotate 2s ease-in-out infinite 0s;
+  animation: sk-rt-rotate 2s ease-in-out infinite 0s;
+}
+
+.sk-spinner-maint .sk-rt-medium-inner-circle-maint {
+  display: block;
+  background-color: none;
+  width: 160px;
+  height: 160px;
+  position: absolute;
+  border-radius: 160px;
+  border: 16px solid #4FA0DB;
+  -webkit-animation: sk-rt-rotate 2s ease-in-out infinite 0.5s;
+  animation: sk-rt-rotate 2s ease-in-out infinite 0.5s;
+}
+
+.sk-spinner-maint .sk-rt-dark-inner-circle-maint {
+  display: block;
+  background-color: none;
+  width: 148px;
+  height: 148px;
+  position: absolute;
+  border-radius: 160px;
+  border: 16px solid #1B4982;
+  left: 48px;
+  top: 4px;
+  -webkit-animation: sk-rt-rotate 2s ease-in-out infinite 1s;
+  animation: sk-rt-rotate 2s ease-in-out infinite 1s;
 }

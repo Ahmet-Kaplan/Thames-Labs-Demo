@@ -81,7 +81,7 @@ Template.editContactModal.events({
       scrollwheel: false
     });
     if(mapData !== null && mapData.title !== undefined) {
-      mapData.name = mapData.title + ' ' + mapData.forename + ' ' + mapData.surname;
+      mapData.name = mapData.forename + ' ' + mapData.surname;
     }
     //Set map to the current location
     var infowindow = new google.maps.InfoWindow();

@@ -2,37 +2,77 @@
 
   {{setPageTitle "Administration" }}
 
-  <h1 id="admin-header"> <i class="fa fa-fw fa-cogs"></i> Administration</h1>
+  <h1 id="admin-header">
+    <i class="fa fa-fw fa-cogs"></i>
+    Administration</h1>
 
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
 
+      {{#if tenantFound}}
+      <div class="panel panel-primary" id="stripeAdminPanel">
+        <div class="panel-heading ">Plan</div>
+        <div class="panel-body" id="tenancyStripe">
+          {{> stripeAdmin}}
+        </div>
+      </div>
+      {{/if}}
+
       <div class="panel panel-primary" id="userAdminPanel">
         <div class="panel-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#colUsers"  id="userAdminPanelExpander">Users</a>
+          <a class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#colUsers" id="userAdminPanelExpander">Users</a>
         </div>
-        <div id="colUsers" class="panel-collapse collapse">
+        <div class="panel-collapse collapse" id="colUsers">
           <div class="panel-body" id="tenancyUsers">
 
             <div class="well well-sm">
-              <button type="button" class="btn btn-xs btn-primary" role="button" id="addNewUserAccount">
-                <i class="fa fa-fw fa-plus"></i> Add new user
+              <button class="btn btn-xs btn-primary" id="addNewUserAccount" role="button" type="button">
+                <i class="fa fa-fw fa-plus"></i>
+                Add new user
               </button>
             </div>
 
             <ul class="list-group">
-              {{#each tenantUsers}} {{> adminAreaUser}} {{/each}}
+              {{#each tenantUsers}}
+                {{> adminAreaUser}}
+              {{/each}}
             </ul>
 
           </div>
         </div>
       </div>
+
       <div class="panel panel-primary" id="opportunityStagePanel">
         <div class="panel-heading ">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#oppStages"  id="oppStagesExpander">Sales pipeline stages</a>
+          <a class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#oppStages" id="oppStagesExpander">Sales pipeline stages</a>
         </div>
-        <div id="oppStages" class="panel-collapse collapse">
+        <div class="panel-collapse collapse" id="oppStages">
           {{> opportunityAdmin}}
+        </div>
+      </div>
+
+      <div class="panel panel-primary" id="globalCustomFieldsPanel">
+        <div class="panel-heading ">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#globCustFields" id="globCustomFieldsExpander">Global extended information</a>
+        </div>
+        <div id="globCustFields" class="panel-collapse collapse">
+          <div class="panel-body">
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="well well-sm">
+                  <button type="button" class="btn btn-xs btn-primary" role="button" id="addGlobalCustomField">
+                    <i class="fa fa-fw fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="list-group" id="custom-field-list">
+              {{#each globalCustomFields}} {{> gcf_display}} {{/each}}
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
@@ -40,22 +80,47 @@
 
 </template>
 
+<template name="gcf_display">
+  <div class="list-group-item" id="glob-cust-field-display">
+    <div class="btn-group pull-right">
+      <button id='delete-global-custom-field' class="btn btn-danger btn-xs " type="button"><i class="fa fa-fw fa-times"></i></button>
+    </div>
+    <ul style="list-style-type: none;">
+      <li>Name: {{name}}</li>
+      <li>Type: {{niceType}}</li>
+      <li>Default Value: {{defaultValue}}</li>
+      <li>Target Entity: {{niceEntity}}</li>
+    </ul>
+  </div>
+</template>
+
 <template name="adminAreaUser">
   <div class="list-group-item">
     <div class="row">
       <div class="col-md-3">{{profile.name}}
       </div>
-      <div class="col-md-5">
-
-      </div>
+      <div class="col-md-5"></div>
       <div class="col-md-4">
-        <div class="btn-group pull-right" role="group">
-          <button class="btn btn-info btn-xs" id="btnEditTenantUserPermissions" type="button">
-            <i class="fa fa-fw fa-wrench"></i> Edit user permissions
-          </button>
-          <button class="btn btn-danger btn-xs" id="tenantRemoveUser" type="button">
-            <i class="fa fa-fw fa-times"></i> Remove user
-          </button>
+        <div class="btn-group btn-group-justified pull-right" role="group">
+
+          <div class="btn-group" role="group">
+            <button class="btn btn-primary btn-xs" id="btnEditTenantUserGeneralSettings" type="button">
+              <i class="fa fa-fw fa-cogs"></i>
+              Settings
+            </button>
+          </div>
+          <div class="btn-group" role="group">
+            <button class="btn btn-info btn-xs" id="btnEditTenantUserPermissions" type="button">
+              <i class="fa fa-fw fa-pencil"></i>
+              Permissions
+            </button>
+          </div>
+          <div class="btn-group" role="group">
+            <button class="btn btn-danger btn-xs" id="tenantRemoveUser" type="button">
+              <i class="fa fa-fw fa-times"></i>
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>

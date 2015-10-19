@@ -16,6 +16,11 @@ Feature: Allow users to manage their sales opportunities
     Then I should see the heading "Opportunities"
     And I should see the title "Opportunities"
 
+  Scenario: The opportunities list contains company / contact name
+    Given an "Opportunity" has been created
+    When I navigate to "/opportunities"
+    Then "mchOpportunityList" should contain "Test Ltd"
+
   Scenario: A user without permission cannot see the opportunities list
     Given I do not have the "CanReadOpportunities" permission
     When I navigate to "/opportunities"
@@ -56,7 +61,7 @@ Feature: Allow users to manage their sales opportunities
     And I set text field "description" to "test description"
     And I set text field "date" to "05/05/2015 05:05"
     And I set text field "value" to "500"
-    And I select "Test Ltd" from dropdown field "companyId"
+    And I selectize "companyId" to "Test Ltd"
     Then I submit the "insertOpportunity" form
     Then I should see the heading "test opportunity 2"
 

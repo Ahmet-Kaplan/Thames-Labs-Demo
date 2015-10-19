@@ -1,5 +1,5 @@
 Template.purchaseOrderList.onCreated(function() {
-  // Redirect if read permission changed - we also check the initial load in the router
+  // Redirect if read permission changed
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
   });
@@ -52,42 +52,6 @@ Template.purchaseOrderListItem.helpers({
 
     if (cont) {
       return cont.forename + ' ' + cont.surname;
-    } else {
-      return null;
-    }
-  },
-  customerCompanyName: function() {
-    var po = this;
-    var comp = Companies.findOne({
-      _id: po.customerCompanyId
-    });
-
-    if (comp) {
-      return comp.name;
-    } else {
-      return null;
-    }
-  },
-  customerContactName: function() {
-    var po = this;
-    var cont = Contacts.findOne({
-      _id: po.customerContactId
-    });
-
-    if (cont) {
-      return cont.forename + ' ' + cont.surname;
-    } else {
-      return null;
-    }
-  },
-  projectName: function() {
-    var po = this;
-    var proj = Projects.findOne({
-      _id: po.projectId
-    });
-
-    if (proj) {
-      return proj.description;
     } else {
       return null;
     }

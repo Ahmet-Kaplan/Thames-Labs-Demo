@@ -1,6 +1,10 @@
 tenancyDefaultSettings = {
   PurchaseOrderPrefix: "",
-  PurchaseOrderStartingValue: 0
+  PurchaseOrderStartingValue: 0,
+  extInfo: {
+    company: [],
+    contact: []
+  }
 };
 
 availableTours = [
@@ -37,3 +41,6 @@ permissions = [{
   displayName: 'Opportunities',
   value: 'Opportunities'
 }];
+
+//Soft limit for records
+MAX_RECORDS = 50;

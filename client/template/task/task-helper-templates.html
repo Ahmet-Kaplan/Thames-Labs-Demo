@@ -1,5 +1,5 @@
 <template name="insertNewTask">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -9,16 +9,16 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="newTaskForm" type="insert"}}
+          {{#autoForm collection="Tasks" id="newTaskModal" type="insert" preserveForm=true resetOnSuccess=true}}
           {{> afQuickField name="title" id="taskTitle"}}
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           {{> afQuickField name="isAllDay"}}
           {{> afQuickField name="duration" type="duration-picker"}}
           {{#if isUserTask}}
-            {{> afQuickField name="assigneeId" id="taskUserList"  value=getCurrentUserId options=usersAsOptions}}
+            {{> esSelectize name="assigneeId" index="autosuggestUser" value=getCurrentUserId}}
           {{else}}
-            {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}}
+            {{> esSelectize name="assigneeId" index="autosuggestUser"}}
           {{/if}}
           {{> afQuickField name="entityType" value=getEntityType type='hidden' }}
           {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
@@ -31,7 +31,7 @@
 </template>
 
 <template name="updateTask">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -47,10 +47,7 @@
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           {{> afQuickField name="isAllDay"}}
           {{> afQuickField name="duration" type="duration-picker"}}
-          <!-- {{> afQuickField name="assigneeId"          id="taskUserList" options=usersAsOptions}}  -->
-
-          {{> afQuickField name="assigneeId" id="taskUserList" options=usersAsOptions}}
-
+          {{> esSelectize name="assigneeId" index="autosuggestUser" value=assigneeId}}
           {{> afQuickField name="completed" id="taskCompleted"}}
 
           {{> tagInput tags=tags collection='tasks' entityId=_id permissionToEdit='CanEditTasks'}}
@@ -70,13 +67,13 @@
         My tasks
         <a class="btn btn-xs pull-right"><button type="button" class="close" id="close_taskWidget" aria-hidden="true">×</button></a>
         {{#if isInRole 'Administrator,CanCreateTasks'}}
-        <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New task to be completed"><i class="fa fa-fw fa-plus"></i> Add personal task</a>
+          <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New task to be completed"><i class="fa fa-fw fa-plus"></i> Add</a>
         {{/if}}
         <a href="#" id="btnRecentlyCompleted" class="btn btn-primary btn-xs pull-right">{{#if showComp}}Hide{{else}}Show{{/if}} recently completed</a>
       {{else}}
         Tasks
         {{#if isInRole 'Administrator,CanCreateTasks'}}
-        <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New task to be completed"><i class="fa fa-fw fa-plus"></i> Add task</a>
+          <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New task to be completed"><i class="fa fa-fw fa-plus"></i> Add</a>
         {{/if}}
         <a href="#" id="btnRecentlyCompleted" class="btn btn-primary btn-xs pull-right">{{#if showComp}}Hide{{else}}Show{{/if}} recently completed</a>
 
@@ -97,13 +94,13 @@
       <span data-toggle="collapse" data-parent="#accordion" href="#collapseTask{{_id}}" id="displayedTaskHeading">{{title}}</span>
       <div class="btn-group pull-right">
         {{#if isInRole 'Administrator,CanEditTasks'}}
-        <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button">
-          Edit task
+        <button class="btn btn-info btn-xs" id="btnEditEntityTask" type="button"><i class="fa fa-fw fa-pencil"></i>
+          Edit
         </button>
         {{/if}}
         {{#if isInRole 'Administrator,CanDeleteTasks'}}
-        <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button">
-          Delete task
+        <button class="btn btn-danger  btn-xs" id="btnDeleteEntityTask" type="button"><i class="fa fa-fw fa-times"></i>
+          Delete
         </button>
         {{/if}}
 

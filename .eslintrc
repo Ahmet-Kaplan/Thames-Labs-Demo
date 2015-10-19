@@ -2,6 +2,7 @@
   // http://eslint.org/docs/rules/
 
   "ecmaFeatures": {
+    "arrowFunctions": true,                     // enable ES6 arrow functions
     "binaryLiterals": false,                    // enable binary literals
     "blockBindings": false,                     // enable let and const (aka block bindings)
     "defaultParams": false,                     // enable default function parameters

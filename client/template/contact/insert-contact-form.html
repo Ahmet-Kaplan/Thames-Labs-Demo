@@ -1,6 +1,6 @@
 <!-- Expects to be called in companyDetail context -->
 <template name="insertCompanyContactModal">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -11,7 +11,6 @@
 
         <div class="modal-body">
           {{#autoForm collection="Contacts" id="insertCompanyContactForm" type="insert"}}
-            {{> afQuickField name="title" options="allowed"}}
             {{> afQuickField name="forename"}}
             {{> afQuickField name="surname"}}
             {{> afQuickField name="email"}}
@@ -30,7 +29,7 @@
 </template>
 
 <template name="insertContactModal">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -41,14 +40,13 @@
 
         <div class="modal-body">
           {{#autoForm collection="Contacts" id="insertContactForm" type="insert"}}
-            {{> afQuickField name="title" options="allowed"}}
             {{> afQuickField name="forename"}}
             {{> afQuickField name="surname"}}
             {{> afQuickField name="email"}}
             {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
             {{> afQuickField name="jobtitle"}}
-            {{> afQuickField name="companyId" id="companyId" options=companiesAsOptions firstOption="No company selected"}}
+            {{> esSelectize name="companyId" index="autosuggestCompany" allowCreate=true}}
             <div id="addressWrapper">
               <div class="form-group">
                 <label for="geo" class="control-label">Search for Address, City, etc.</label>

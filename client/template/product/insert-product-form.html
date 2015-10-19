@@ -1,5 +1,5 @@
 <template name="insertProductModal">
-  <div class="modal fade" id="draggableModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -11,7 +11,11 @@
         <div class="modal-body">
           {{#autoForm collection="Products" id="insertProductForm" type="insert"}}
             {{> afQuickField name="name" id="name-field"}}
-            {{> afQuickField name="description" type="medium" class="form-control medium-editor" id="desc-field"}}
+            {{#if IsIEAnd10OrGreater}}
+              {{> afQuickField name="description"}}
+            {{else}}
+              {{> afQuickField name="description" type="medium" class="form-control medium-editor" id="desc-field"}}
+            {{/if}}
             {{> afQuickField name="price"}}
             {{> afQuickField name="cost"}}
             {{> afQuickField name="createdBy" value=currentUser type="hidden"}}

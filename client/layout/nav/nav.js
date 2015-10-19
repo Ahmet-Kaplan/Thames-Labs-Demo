@@ -88,6 +88,13 @@ Template.nav.helpers({
         return favList;
       }
     }
+  },
+  limitReached: function() {
+    if(!Tenants.findOne({}) || Tenants.findOne({}).stripe.paying || Tenants.findOne({}).stripe.freeUnlimited) {
+      return false;
+    }
+    var totalRecords = Tenants.findOne({}).stripe.totalRecords;
+    return totalRecords >= MAX_RECORDS;
   }
 });
 

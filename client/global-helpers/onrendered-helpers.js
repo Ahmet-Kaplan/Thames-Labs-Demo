@@ -4,7 +4,10 @@
 Template.onRendered(function() {
   // Initialise all tooltips whenever a template is rendered
   this.$('[data-toggle="tooltip"]').tooltip({
-    delay: {"show": 500, "hide": 100}
+    delay: {
+      "show": 500,
+      "hide": 100
+    }
   });
 
   // Initialise all draggable modals
@@ -12,6 +15,17 @@ Template.onRendered(function() {
     grid: [50, 50],
     handle: '.modal-header',
     opacity: 0.35,
+  });
+
+  //Triggers collapsing and expanding accordions
+  $('.accordion-toggle').on('click', function() {
+    $('#collapse' + this.id).collapse('toggle');
+  });
+
+  //IE fix: prevent all default actions and handle the hashlinks correctly
+  $(".sidebar .nav li a").on('click', function(event) {
+    event.preventDefault();
+    window.location.hash = $(this).attr('href');
   });
 
   var sidebar = $('.sidebar');

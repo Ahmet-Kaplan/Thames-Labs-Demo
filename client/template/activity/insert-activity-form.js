@@ -1,18 +1,19 @@
+
+
 Template.insertActivityModal.helpers({
   currentDateTime: function() {
   return moment();
   },
-  contactsAsOptions: function() {
-    return this.company.contacts().map(function(contact) {
-      return {
-        'label': contact.name(),
-        'value': contact._id
-      };
-    });
-  },
   currentUser: function() {
     return Meteor.userId();
   },
+  IsIEAnd10OrGreater: function() {
+    if (bowser.msie && bowser.version > 9) {
+      return true;
+    }
+
+    return false;
+  }
 });
 
 Template.insertContactActivityModal.helpers({
@@ -22,6 +23,13 @@ Template.insertContactActivityModal.helpers({
   currentUser: function() {
     return Meteor.userId();
   },
+  IsIEAnd10OrGreater: function() {
+    if (bowser.msie && bowser.version > 9) {
+      return true;
+    }
+
+    return false;
+  }
 });
 
 Template.insertProjectActivityModal.helpers({
@@ -31,6 +39,13 @@ Template.insertProjectActivityModal.helpers({
   currentUser: function() {
     return Meteor.userId();
   },
+  IsIEAnd10OrGreater: function() {
+    if (bowser.msie && bowser.version > 9) {
+      return true;
+    }
+
+    return false;
+  }
 });
 
 Template.insertPurchaseOrderActivityModal.helpers({
@@ -40,6 +55,13 @@ Template.insertPurchaseOrderActivityModal.helpers({
   currentUser: function() {
     return Meteor.userId();
   },
+  IsIEAnd10OrGreater: function() {
+    if (bowser.msie && bowser.version > 9) {
+      return true;
+    }
+
+    return false;
+  }
 });
 
 Template.insertOpportunityActivityModal.helpers({
@@ -49,4 +71,11 @@ Template.insertOpportunityActivityModal.helpers({
   currentUser: function() {
     return Meteor.userId();
   },
+  IsIEAnd10OrGreater: function() {
+    if (bowser.msie && bowser.version > 9) {
+      return true;
+    }
+
+    return false;
+  }
 });
