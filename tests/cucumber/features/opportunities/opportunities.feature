@@ -119,7 +119,7 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     And I click "#remove-opportunity"
     And I click confirm on the modal
-    Then the opportunity should not exist
+    Then I should see the heading "Opportunities"
 
   Scenario: A user without permission cannot delete a opportunity
     Given I do not have the "CanDeleteOpportunities" permission
