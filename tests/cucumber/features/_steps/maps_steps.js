@@ -1,8 +1,8 @@
 module.exports = function() {
 
   this.When(/^I search for Cowley Road$/, function() {
-    client.waitForExist('#geo', 5000);
-    client.waitForVisible('#geo', 5000);
+    client.waitForExist('#geo', 10000);
+    client.waitForVisible('#geo', 10000);
     client.execute(function() {
       var y = $(".modal").height();
       $(".modal").scrollTop(y);

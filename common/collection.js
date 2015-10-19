@@ -1,7 +1,7 @@
 Collections = {};
 
 EasySearch.createSearchIndex('autosuggestUser', {
-  field: ['_id','profile.name'],
+  field: ['_id', 'profile.name'],
   collection: Meteor.users,
   limit: 10,
   use: 'mongo-db',
@@ -9,8 +9,10 @@ EasySearch.createSearchIndex('autosuggestUser', {
     var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
     var tenantId = Meteor.users.findOne({}).group;
 
-    if(tenantId) {
-      query.group = {$eq: tenantId};
+    if (tenantId) {
+      query.group = {
+        $eq: tenantId
+      };
     } else {
       return false;
     }
@@ -186,8 +188,10 @@ EasySearch.createSearchIndex('autosuggestContact', {
   query: function(searchString) {
     var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
 
-    if(this.props.filterCompanyId.length > 0) {
-      query.companyId = {$eq: this.props.filterCompanyId};
+    if (this.props.filterCompanyId.length > 0) {
+      query.companyId = {
+        $eq: this.props.filterCompanyId
+      };
     }
 
     return query;
@@ -269,10 +273,14 @@ EasySearch.createSearchIndex('autosuggestProject', {
   query: function(searchString) {
     var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
 
-    if(this.props.supplierCompanyId.length > 0) {
-      query.companyId = {$eq: this.props.supplierCompanyId};
+    if (this.props.supplierCompanyId.length > 0) {
+      query.companyId = {
+        $eq: this.props.supplierCompanyId
+      };
     } else {
-      query.contactId = {$eq: this.props.supplierContactId};
+      query.contactId = {
+        $eq: this.props.supplierContactId
+      };
     }
     return query;
   },
@@ -367,13 +375,13 @@ var checkRecordsNumber = function() {
       return true;
     }
 
-    if(Meteor.isClient) {
+    if (Meteor.isClient) {
       var upgradeMessage = '';
-      if(blockedTenant && totalRecords > MAX_RECORDS) {
-        upgradeMessage = (Roles.userIsInRole(Meteor.userId(), ['Administrator'])) ? 'Upgrade to enjoy the full functionalities of RealTimeCRM!':  'If you wish to upgrade, contact your administrator.';
+      if (blockedTenant && totalRecords > MAX_RECORDS) {
+        upgradeMessage = (Roles.userIsInRole(Meteor.userId(), ['Administrator'])) ? 'Upgrade to enjoy the full functionalities of RealTimeCRM!' : 'If you wish to upgrade, contact your administrator.';
         toastr.error('You have reached the maximum number of records and you are not able to add new ones.<br>' + upgradeMessage, 'Account Locked');
         return false;
-      } else if(totalRecords >= MAX_RECORDS) {
+      } else if (totalRecords >= MAX_RECORDS) {
         upgradeMessage += (Roles.userIsInRole(Meteor.userId(), ['Administrator'])) ? 'Upgrade to enjoy the full functionalities of RealTimeCRM' : 'If you wish to upgrade, contact your administrator.';
         toastr.warning('You have reached the maximum number of records.<br>' + upgradeMessage, 'Limit Reached');
       }
@@ -383,6 +391,8 @@ var checkRecordsNumber = function() {
 };
 
 Tenants.before.insert(function(userId, doc) {
+  doc.settings.extInfo.company = [];
+  doc.settings.extInfo.contact = [];
   doc.createdAt = new Date();
 });
 Tenants.after.insert(function(userId, doc) {
@@ -420,25 +430,26 @@ Meteor.users.after.remove(function(userId, doc) {
 });
 
 Companies.before.insert(function(userId, doc) {
-  var user = Meteor.users.findOne(Meteor.userId());
-  var tenant = Tenants.findOne(user.group);
-  var companyCustomFields = tenant.settings.extInfo.company;
+  if (!Roles.userIsInRole(userId, ['superadmin'])) {
+    var user = Meteor.users.findOne(userId);
+    var tenant = Tenants.findOne(user.group);
+    var companyCustomFields = tenant.settings.extInfo.company;
 
-  var cfMaster = {};
-  _.each(companyCustomFields, function(cf) {
+    var cfMaster = {};
+    _.each(companyCustomFields, function(cf) {
 
-    var field = {
-      dataValue: cf.defaultValue,
-      dataType: cf.type,
-      isGlobal: true
-    };
+      var field = {
+        dataValue: cf.defaultValue,
+        dataType: cf.type,
+        isGlobal: true
+      };
 
-    cfMaster[cf.name] = field;
-  });
+      cfMaster[cf.name] = field;
+    });
+    doc.customFields = cfMaster;
+  }
 
-  doc.customFields = cfMaster;
-
-  if(!checkRecordsNumber()) {
+  if (!checkRecordsNumber()) {
     return false;
   }
   return true;
@@ -494,35 +505,37 @@ Contacts.before.insert(function(userId, doc) {
     return false;
   }
 
-  if(doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
+  if (doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
     var name = doc.companyId.substr(9);
     var newCompanyId = Companies.insert({
       name: name,
       createdBy: Meteor.userId()
     });
     doc.companyId = newCompanyId;
-    if(Meteor.isClient) {
+    if (Meteor.isClient) {
       toastr.info('A new company <a href="/companies/' + newCompanyId + '"><strong>' + name + '</strong></a> has been created.');
     }
   }
 
-  var user = Meteor.users.findOne(Meteor.userId());
-  var tenant = Tenants.findOne(user.group);
-  var contactCustomFields = tenant.settings.extInfo.contact;
+  if (!Roles.userIsInRole(userId, ['superadmin'])) {
+    var user = Meteor.users.findOne(userId);
+    var tenant = Tenants.findOne(user.group);
+    var contactCustomFields = tenant.settings.extInfo.contact;
 
-  var cfMaster = {};
-  _.each(contactCustomFields, function(cf) {
+    var cfMaster = {};
+    _.each(contactCustomFields, function(cf) {
 
-    var field = {
-      dataValue: cf.defaultValue,
-      dataType: cf.type,
-      isGlobal: true
-    };
+      var field = {
+        dataValue: cf.defaultValue,
+        dataType: cf.type,
+        isGlobal: true
+      };
 
-    cfMaster[cf.name] = field;
-  });
+      cfMaster[cf.name] = field;
+    });
 
-  doc.customFields = cfMaster;
+    doc.customFields = cfMaster;
+  }
 });
 
 Contacts.after.insert(function(userId, doc) {
