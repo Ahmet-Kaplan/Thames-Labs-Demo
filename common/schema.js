@@ -94,7 +94,8 @@ Schemas.UserSignUp = new SimpleSchema({
     autoform: {
       type: "hidden"
     },
-    optional: true
+    optional: true,
+    label: "Coupon code"
   }
 });
 
@@ -152,7 +153,8 @@ Schemas.Tenant = new SimpleSchema({
   },
   "stripe.coupon": {
     type: String,
-    optional: true
+    optional: true,
+    label: "Coupon code"
   },
   createdAt: {
     type: Date
