@@ -248,7 +248,6 @@ router.route('/datamanagement', {
     this.register('allOpportunities', subs.subscribe('allOpportunities', Meteor.userId()));
     this.register('allPurchaseOrders', subs.subscribe('allPurchaseOrders', Meteor.userId()));
     this.register('allProjects', subs.subscribe('allProjects', Meteor.userId()));
-    this.register('allUserData', subs.subscribe('allUserData', Meteor.userId()));
   },
   action: function() {
     layout.render('appLayout', {
@@ -259,14 +258,6 @@ router.route('/datamanagement', {
 
 router.route('/events', {
   name: 'events',
-  subscriptions: function() {
-    this.register('allUserData', subs.subscribe('allUserData'));
-    this.register('eventLogData', subs.subscribe('eventLogData', Meteor.userId()));
-    this.register('allProjects', subs.subscribe('allProjects'));
-    this.register('allContacts', subs.subscribe('allContacts'));
-    this.register('allCompanies', subs.subscribe('allCompanies'));
-    this.register('allPurchaseOrders', subs.subscribe('allPurchaseOrders'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: "events"

@@ -14,18 +14,10 @@ Meteor.publish('userPresence', function() {
 });
 
 Meteor.publish("auditData", function() {
-  if (Roles.userIsInRole(this.userId, ['superadmin'])) {
-    return Partitioner.directOperation(function() {
-      return AuditLog.find({});
-    });
-  } else {
-    return this.ready();
-  }
-});
-
-Meteor.publish("eventLogData", function(userId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadEventLog'])) return this.ready();
-  return AuditLog.find({});
+  if (!Roles.userIsInRole(this.userId, ['superadmin'])) return this.ready();
+  return Partitioner.directOperation(function() {
+    return AuditLog.find({});
+  });
 });
 
 Meteor.publish("allTenants", function() {
