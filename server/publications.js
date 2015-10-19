@@ -71,18 +71,6 @@ Meteor.publish("companyById", function(companyId) {
     _id: companyId
   });
 });
-Meteor.publish("companyByProductId", function(productId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  var p = Products.findOne(productId);
-  return Companies.find(p.companyId);
-});
-Meteor.publish("companyByOpportunityId", function(id) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  var opp = Opportunities.findOne(id);
-  return Companies.find(opp.companyId);
-});
 Meteor.publish("companyTags", function() {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
@@ -110,24 +98,6 @@ Meteor.publish("contactsByCompanyId", function(companyId) {
   return Contacts.find({
     companyId: companyId
   });
-});
-Meteor.publish("contactByPurchaseOrderId", function(purchaseOrderId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  var purchaseOrder = PurchaseOrders.findOne(purchaseOrderId);
-  return Contacts.find(purchaseOrder.contactId);
-});
-Meteor.publish("contactByProductId", function(productId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  var p = Products.findOne(productId);
-  return Contacts.find(p.companyId);
-});
-Meteor.publish("contactByOpportunityId", function(id) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  var opp = Opportunities.findOne(id);
-  return Contacts.find(opp.contactId);
 });
 Meteor.publish("contactTags", function() {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();

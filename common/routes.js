@@ -298,12 +298,7 @@ router.route('/opportunities', {
 router.route('/opportunities/:id', {
   name: 'opportunity',
   subscriptions: function(params) {
-    this.register('opportunityStages', subs.subscribe('opportunityStages'));
     this.register('opportunityById', subs.subscribe('opportunityById', params.id));
-    this.register('companyByOpportunityId', subs.subscribe('companyByOpportunityId', params.id));
-    this.register('contactByOpportunityId', subs.subscribe('contactByOpportunityId', params.id));
-    this.register('activityByOpportunityId', subs.subscribe('activityByOpportunityId', params.id));
-    this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
     this.register('opportunityTags', subs.subscribe('opportunityTags'));
   },
   action: function() {
