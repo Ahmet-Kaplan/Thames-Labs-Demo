@@ -29,6 +29,12 @@ Contacts.helpers({
   }
 });
 
+Tags.TagsMixin(Contacts);
+
+////////////////////
+// SEARCH INDICES //
+////////////////////
+
 Contacts.initEasySearch(['forename', 'surname', 'tags'], {
   limit: 20,
   use: 'mongo-db',
@@ -45,7 +51,36 @@ Contacts.initEasySearch(['forename', 'surname', 'tags'], {
   ]
 });
 
-Tags.TagsMixin(Contacts);
+EasySearch.createSearchIndex('autosuggestContact', {
+  field: ['_id', 'surname', 'forename'],
+  collection: Contacts,
+  limit: 10,
+  use: 'mongo-db',
+  props: {
+    filterCompanyId: ''
+  },
+  query: function(searchString) {
+    var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
+
+    if (this.props.filterCompanyId.length > 0) {
+      query.companyId = {
+        $eq: this.props.filterCompanyId
+      };
+    }
+
+    return query;
+  },
+  returnFields: ['_id', 'forename', 'surname'],
+  changeResults: function(data) {
+    data.results = _.map(data.results, function(result) {
+      return {
+        _id: result._id,
+        name: result.forename + ' ' + result.surname
+      };
+    });
+    return data;
+  }
+});
 
 //////////////////////
 // COLLECTION HOOKS //

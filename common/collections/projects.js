@@ -29,6 +29,12 @@ Projects.helpers({
   }
 });
 
+Tags.TagsMixin(Projects);
+
+////////////////////
+// SEARCH INDICES //
+////////////////////
+
 Projects.initEasySearch(['description', 'tags'], {
   limit: 20,
   use: 'mongo-db',
@@ -41,7 +47,31 @@ Projects.initEasySearch(['description', 'tags'], {
   ]
 });
 
-Tags.TagsMixin(Projects);
+EasySearch.createSearchIndex('autosuggestProject', {
+  field: ['_id', 'name'],
+  collection: Projects,
+  limit: 10,
+  use: 'mongo-db',
+  props: {
+    supplierCompanyId: '',
+    supplierContactId: ''
+  },
+  query: function(searchString) {
+    var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
+
+    if (this.props.supplierCompanyId.length > 0) {
+      query.companyId = {
+        $eq: this.props.supplierCompanyId
+      };
+    } else {
+      query.contactId = {
+        $eq: this.props.supplierContactId
+      };
+    }
+    return query;
+  },
+  returnFields: ['_id', 'name']
+});
 
 //////////////////////
 // COLLECTION HOOKS //

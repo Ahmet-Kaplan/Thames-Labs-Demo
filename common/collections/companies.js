@@ -37,6 +37,12 @@ Companies.helpers({
   }
 });
 
+Tags.TagsMixin(Companies);
+
+////////////////////
+// SEARCH INDICES //
+////////////////////
+
 Companies.initEasySearch(['name', 'tags'], {
   limit: 20,
   use: 'mongo-db',
@@ -54,7 +60,13 @@ Companies.initEasySearch(['name', 'tags'], {
   ]
 });
 
-Tags.TagsMixin(Companies);
+EasySearch.createSearchIndex('autosuggestCompany', {
+  field: ['_id', 'name'],
+  collection: Companies,
+  limit: 10,
+  use: 'mongo-db',
+  returnFields: ['_id', 'name']
+});
 
 //////////////////////
 // COLLECTION HOOKS //
