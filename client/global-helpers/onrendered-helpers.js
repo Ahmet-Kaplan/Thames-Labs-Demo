@@ -37,4 +37,16 @@ Template.onRendered(function() {
       }
     });
   }
+
+  var stickBar = $('.stick-bar');
+  if (stickBar.length > 0 && !bowser.mobile && !bowser.tablet) {
+    stickBar.affix({
+      offset: {
+        top: $('.navbar-header').height()
+      }
+    });
+    stickBar.on('affixed.bs.affix', function(){
+      stickBar.css('top', $('.navbar-header').height());
+    })
+  }
 });
