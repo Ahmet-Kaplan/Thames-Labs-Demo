@@ -1,8 +1,6 @@
 Template.opportunityListItem.onCreated(function() {
-  this.subscribe('allContacts');
-  this.subscribe('allCompanies');
-  this.subscribe('opportunityStages');
-  this.subscribe('opportunityTags');
+  this.subscribe('companyById', this.data.companyId);
+  this.subscribe('contactById', this.data.contactId);
 });
 
 Template.opportunityListItem.helpers({
