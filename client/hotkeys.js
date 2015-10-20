@@ -94,7 +94,7 @@ globalHotkeys.add({
   callback: function() {
     bootbox.alert({
       title: "Congratulations!!!",
-      message: "You have found the secret pop up. This is of no use at all but well done!"
+      message: 'You have found the secret pop up. This is of no use at all but well done!<br>Still, here is a nice gif for you.<iframe src="//giphy.com/embed/wNJOehuKsF84M" width="480" height="202" frameBorder="0" allowFullScreen></iframe>'
     })
   }
 });
