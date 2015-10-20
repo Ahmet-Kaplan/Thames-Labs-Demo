@@ -13,7 +13,7 @@ Template.purchaseOrderList.onRendered(function() {
   //   var easySearchInstance = EasySearch.getComponentInstance({index: 'purchaseorders'});
   //   if (searchQuery) {
   //     easySearchInstance.search(searchQuery);
-  //     $('.sidebar input').val(searchQuery);
+  //     $('.stick-bar input').val(searchQuery);
   //   }
   // });
 });

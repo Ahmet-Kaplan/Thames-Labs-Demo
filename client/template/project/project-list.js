@@ -15,7 +15,7 @@ Template.projectsList.onRendered(function() {
     });
     if (searchQuery) {
       easySearchInstance.search(searchQuery);
-      $('.sidebar input').val(searchQuery);
+      $('.stick-bar input').val(searchQuery);
     }
   });
 });

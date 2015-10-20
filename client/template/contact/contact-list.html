@@ -4,22 +4,22 @@
 
   <div class="row">
 
-    <div class="col-md-3">
-      <div class="sidebar">
-        <h1>Actions</h1>
-        {{> esInput index="contacts" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}} {{#if isInRole 'Administrator,CanCreateContacts'}}
-        <div class="btn-group-vertical">
-          <a class="btn btn-primary addContactToCompany" href="#" id="add-contact">
-            <i class="fa fa-fw fa-plus"></i> Add contact</a>
-        </div>{{/if}}
-      </div>
-    </div>
-
-    <div class="col-md-9">
+    <div class="col-md-12">
 
       <h1><i class="fa fa-users"></i> Contacts</h1>
-      <small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}
-      </small>
+      <small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</small>
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-3">
+            {{> esInput index="contacts" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}} 
+          </div>
+          <div class="col-md-3">
+          {{#if isInRole 'Administrator,CanCreateContacts'}}
+            <a class="btn btn-primary addContactToCompany" href="#" id="add-contact"><i class="fa fa-fw fa-plus"></i> Add contact</a>
+          {{/if}}
+          </div>
+        </div>
+      </div>
 
       {{#if hasContacts}}
       <div class="list-group">

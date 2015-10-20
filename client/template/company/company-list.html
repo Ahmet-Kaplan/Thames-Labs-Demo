@@ -7,6 +7,7 @@
     <div class="col-md-12">
 
       <h1 id="companies-page-header"><i class="fa fa-building"></i> Companies</h1>
+      <small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
       <div class="stick-bar">
         <div class="row">
           <div class="col-md-3">
@@ -19,7 +20,6 @@
           </div>
         </div>
       </div>
-      <small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
 
       {{#if hasCompanies}}
       <div class="list-group" id="mchCompanyList">

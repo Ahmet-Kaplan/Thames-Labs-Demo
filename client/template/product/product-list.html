@@ -2,19 +2,21 @@
   {{setPageTitle 'Products'}}
 
   <div class="row">
-    <div class="col-md-3 sidebar">
-      <h1>Actions</h1>
-      {{> esInput index="products" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
-      <div class="btn-group-vertical">{{#if isInRole 'Administrator,CanCreateProducts'}}
-        <a class="btn btn-primary" id="add-product">
-          <i class="fa fa-plus"></i> Add product
-        </a>
-        {{/if}}
-      </div>
-    </div>
-    <div class="col-md-9">
+    <div class="col-md-12">
       <h1><i class="fa fa-fw fa-barcode"></i> Products</h1>
       <small>{{productCount}} record{{#if hasMultipleProducts}}s{{/if}}</small>
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-3">
+            {{> esInput index="products" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
+          </div>
+          {{#if isInRole 'Administrator,CanCreateProducts'}}
+          <div class="col-md-3">
+            <a class="btn btn-primary" id="add-product"><i class="fa fa-plus"></i> Add product</a>
+          </div>
+          {{/if}}
+        </div>
+      </div>
       {{#if hasProducts}}
       <div class="list-group">
         {{#ifEsIsSearching index="products"}} {{> spinner}} {{else}} {{#esEach index="products"}} {{> productListItem}} {{/esEach}} {{> esLoadMoreButton index="products" class="btn btn-default"}} {{/ifEsIsSearching}}

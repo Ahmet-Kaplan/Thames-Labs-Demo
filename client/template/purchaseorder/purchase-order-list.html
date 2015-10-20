@@ -3,31 +3,30 @@
   {{setPageTitle 'Purchase Orders'}}
 
   <div class="row">
-    <div class="col-md-3">
-      <div class="sidebar">
-        <h1>Actions</h1>
-        {{> esInput index="purchaseorders" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
-        {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
-        <div class="btn-group-vertical">
-          <a href="#" id="add-purchase-order" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
-        </div>
-        {{/if}}
-      </div>
-    </div>
 
-    <div class="col-md-9" id="purchase-order-list">
+    <div class="col-md-12" id="purchase-order-list">
       <h1><i class="fa fa-shopping-cart"></i> Purchase Orders</h1>
-
-      <div class="col-md-10">
-        {{#if hasPurchaseOrders}}
-        <div class="list-group">
-          {{#ifEsIsSearching index="purchaseorders"}} {{> spinner}} {{else}} {{#esEach index="purchaseorders"}} {{> purchaseOrderListItem}} {{/esEach}} {{> esLoadMoreButton index="purchaseorders" class="btn btn-default"}} {{/ifEsIsSearching}}
-        </div>
-        {{else}}
-        <br />
-        <h4 style="color:gray;">No purchase orders</h4>
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-3">
+            {{> esInput index="purchaseorders" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
+          </div>
+        {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+          <div class="col-md-3">
+            <a href="#" id="add-purchase-order" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
+          </div>
         {{/if}}
+        </div>
       </div>
+
+      {{#if hasPurchaseOrders}}
+      <div class="list-group">
+        {{#ifEsIsSearching index="purchaseorders"}} {{> spinner}} {{else}} {{#esEach index="purchaseorders"}} {{> purchaseOrderListItem}} {{/esEach}} {{> esLoadMoreButton index="purchaseorders" class="btn btn-default"}} {{/ifEsIsSearching}}
+      </div>
+      {{else}}
+      <br />
+      <h4 style="color:gray;">No purchase orders</h4>
+      {{/if}}
     </div>
   </div>
 </template>

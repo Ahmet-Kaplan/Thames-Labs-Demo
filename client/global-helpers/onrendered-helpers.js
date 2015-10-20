@@ -38,6 +38,12 @@ Template.onRendered(function() {
     });
   }
 
+  //IE fix: prevent all default actions and handle the hashlinks correctly
+  $(".stick-bar .nav li a").on('click', function(event) {
+    event.preventDefault();
+    window.location.hash = $(this).attr('href');
+  });
+
   var stickBar = $('.stick-bar');
   if (stickBar.length > 0 && !bowser.mobile && !bowser.tablet) {
     stickBar.affix({
