@@ -1,6 +1,6 @@
 Meteor.log.rule('Console', {
   enable: true,
   filter: ['*'],
-  client: true,
+  client: false,
   server: true
 });
