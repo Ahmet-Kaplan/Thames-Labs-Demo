@@ -13,6 +13,16 @@ Template.companyDetail.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
   });
+
+  // Subscribe to necessary data
+  var companyId = FlowRouter.getParam('id');
+  this.subscribe('contactsByCompanyId', companyId);
+  this.subscribe('projectsByCompanyId', companyId);
+  this.subscribe('activityByCompanyId', companyId);
+  this.subscribe('purchaseOrdersByCompanyId', companyId);
+  this.subscribe('tasksByEntityId', companyId);
+  this.subscribe('opportunitiesByCompanyId', companyId);
+  this.subscribe('opportunityStages');
 });
 
 Template.companyDetail.onRendered(function() {

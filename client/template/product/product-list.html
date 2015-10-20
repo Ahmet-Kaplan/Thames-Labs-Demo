@@ -4,7 +4,6 @@
   <div class="row">
     <div class="col-md-12">
       <h1><i class="fa fa-fw fa-barcode"></i> Products</h1>
-      <small>{{productCount}} record{{#if hasMultipleProducts}}s{{/if}}</small>
       <div class="stick-bar">
         <div class="row">
           <div class="col-md-3">
@@ -17,14 +16,26 @@
           {{/if}}
         </div>
       </div>
-      {{#if hasProducts}}
-      <div class="list-group">
-        {{#ifEsIsSearching index="products"}} {{> spinner}} {{else}} {{#esEach index="products"}} {{> productListItem}} {{/esEach}} {{> esLoadMoreButton index="products" class="btn btn-default"}} {{/ifEsIsSearching}}
+      <div class="pull-right">
+        {{> esPagination index="products"}}
       </div>
-      {{else}}
-      <br>
-      <h4 style="color: gray;">No products</h4>
-      {{/if}}
+      <small>{{productCount}} record{{#if hasMultipleProducts}}s{{/if}}</small>
+      <div class="list-group">
+        {{#esEach index="products"}}
+          {{> productListItem}}
+        {{/esEach}}
+
+        {{#ifEsHasNoResults index="products"}}
+          <h4>No products found</h4>
+        {{/ifEsHasNoResults}}
+
+        {{#ifEsIsSearching index="products"}}
+          {{> spinner}}
+        {{/ifEsIsSearching}}
+      </div>
+      <div class="pull-right">
+        {{> esPagination index="products"}}
+      </div>
     </div>
   </div>
 

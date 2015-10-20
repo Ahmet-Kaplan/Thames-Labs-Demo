@@ -3,43 +3,41 @@
   {{setPageTitle 'Purchase Orders'}}
 
   <div class="row">
-
     <div class="col-md-12" id="purchase-order-list">
       <h1><i class="fa fa-shopping-cart"></i> Purchase Orders</h1>
       <div class="stick-bar">
         <div class="row">
           <div class="col-md-3">
-            {{> esInput index="purchaseorders" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
+            {{> esInput index="purchaseorders" placeholder="search..." allDocsOnEmpty=true class="form-control"}}
           </div>
-        {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+          {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
           <div class="col-md-3">
             <a href="#" id="add-purchase-order" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
           </div>
-        {{/if}}
+          {{/if}}
         </div>
       </div>
-
-      {{#if hasPurchaseOrders}}
-      <div class="list-group">
-        {{#ifEsIsSearching index="purchaseorders"}} {{> spinner}} {{else}} {{#esEach index="purchaseorders"}} {{> purchaseOrderListItem}} {{/esEach}} {{> esLoadMoreButton index="purchaseorders" class="btn btn-default"}} {{/ifEsIsSearching}}
+      <div class="pull-right">
+        {{> esPagination index="purchaseorders"}}
       </div>
-      {{else}}
-      <br />
-      <h4 style="color:gray;">No purchase orders</h4>
-      {{/if}}
+      <small>{{purchaseOrderCount}} record{{#if hasMultiplePurchaseOrders}}s{{/if}}</small>
+
+      <div class="list-group">
+        {{#esEach index="purchaseorders"}}
+          {{> purchaseOrderListItem}}
+        {{/esEach}}
+
+        {{#ifEsHasNoResults index="purchaseorders"}}
+          <h4>No purchase orders found</h4>
+        {{/ifEsHasNoResults}}
+
+        {{#ifEsIsSearching index="purchaseorders"}}
+          {{> spinner}}
+        {{/ifEsIsSearching}}
+      </div>
+      <div class="pull-right">
+        {{> esPagination index="purchaseorders"}}
+      </div>
     </div>
   </div>
-</template>
-
-<template name="purchaseOrderListItem">
-  <a class="list-group-item purchase-order-item" href="{{pathFor route='purchaseOrder' id=_id}}">
-    <h4 class="list-group-item-heading"><i class="fa fa-fw fa-shopping-cart"></i> {{description}}</h4>
-    <p class="list-group-item-text"><i class="fa fa-fw fa-square-o"></i> PO Number: {{orderNumber}}</p>
-    {{#if supplierCompanyName}}
-    <p class="list-group-item-text"><i class="fa fa-fw fa-building"></i>Supplier: {{supplierCompanyName}}</p>
-    {{/if}} {{#if supplierContactName}}
-    <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> Supplier Contact: {{supplierContactName}}</p>
-    {{/if}}
-    <p class="list-group-item-text"><i class="fa fa-fw fa-question"></i> Status: {{status}}</p>
-  </a>
 </template>

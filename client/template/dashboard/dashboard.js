@@ -110,6 +110,13 @@ function instanciateDashboard(savedWidgets) {
   });
 }
 
+Template.dashboard.onCreated(function() {
+  this.autorun( () => {
+    // Redirect superadmin
+    if (Roles.userIsInRole(Meteor.userId(), 'superadmin')) FlowRouter.go('tenants');
+  });
+});
+
 Template.dashboard.onRendered(function() {
   $('.grid-stack').gridstack({
     cell_height: 40,

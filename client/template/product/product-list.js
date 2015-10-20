@@ -21,14 +21,17 @@ Template.productList.onRendered(function() {
 });
 
 Template.productList.helpers({
-  hasProducts: function() {
-    return Products.find({}).count();
-  },
   productCount: function() {
-    return Products.find({}).count();
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'products'
+    });
+    return easySearchInstance.get('total');
   },
   hasMultipleProducts: function() {
-    return Products.find({}).count() !== 1;
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'products'
+    });
+    return easySearchInstance.get('total') !== 1;
   }
 });
 

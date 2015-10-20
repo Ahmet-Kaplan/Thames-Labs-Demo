@@ -3,11 +3,8 @@
   {{setPageTitle 'Contacts'}}
 
   <div class="row">
-
     <div class="col-md-12">
-
       <h1><i class="fa fa-users"></i> Contacts</h1>
-      <small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</small>
       <div class="stick-bar">
         <div class="row">
           <div class="col-md-3">
@@ -20,35 +17,32 @@
           </div>
         </div>
       </div>
-
-      {{#if hasContacts}}
-      <div class="list-group">
-        {{#ifEsIsSearching index="contacts"}} {{> spinner}} {{else}} {{#esEach index="contacts"}} {{> contactListItem}} {{/esEach}} {{> esLoadMoreButton index="contacts" class="btn btn-default"}} {{/ifEsIsSearching}}
+      <div class="pull-right">
+        {{> esPagination index="contacts"}}
       </div>
-      {{else}}
-      <br/>
-      <h4 style="color:gray;" id="no-contact-placeholder">No contacts</h4>
-      {{/if}}
+      <small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</small>
 
+      <div class="list-group">
+        {{#esEach index="contacts"}}
+          {{> contactListItem}}
+        {{/esEach}}
+
+        {{#ifEsHasNoResults index="contacts"}}
+          <h4>No contacts found</h4>
+        {{/ifEsHasNoResults}}
+
+        {{#ifEsIsSearching index="contacts"}}
+          {{> spinner}}
+        {{/ifEsIsSearching}}
+      </div>
+      <div class="pull-right">
+        {{> esPagination index="contacts"}}
+      </div>
     </div>
   </div>
 
   {{> autoformModals}}
 
-</template>
-
-<template name="contactListItem">
-
-  <a class="list-group-item" href="{{pathFor route='contact' id=_id}}">
-    <!-- <span class="badge">&gt;</span> -->
-    <span class="pull-right">{{> tagBadges}}</span>
-    <h4 class="list-group-item-heading">{{name}}</h4>
-    {{#if companyName}}
-    <p class="list-group-item-text">
-      <i class="fa fa-building"></i> {{companyName}}
-    </p>
-    {{/if}}
-  </a>
 </template>
 
 <template name="importContactHelpModal">

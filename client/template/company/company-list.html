@@ -3,11 +3,8 @@
   {{setPageTitle 'Companies'}}
 
   <div class="row" id="company-list">
-
     <div class="col-md-12">
-
       <h1 id="companies-page-header"><i class="fa fa-building"></i> Companies</h1>
-      <small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
       <div class="stick-bar">
         <div class="row">
           <div class="col-md-3">
@@ -20,16 +17,28 @@
           </div>
         </div>
       </div>
+      <div class="pull-right">
+        {{> esPagination index="companies"}}
+      </div>
+      <small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
 
-      {{#if hasCompanies}}
       <div class="list-group" id="mchCompanyList">
-        {{#ifEsIsSearching index="companies"}} {{> spinner}} {{else}} {{#esEach index="companies"}} {{> companyListItem}} {{/esEach}} {{> esLoadMoreButton index="companies" class="btn btn-default"}} {{/ifEsIsSearching}}
+        {{#esEach index="companies"}}
+          {{> companyListItem}}
+        {{/esEach}}
+
+        {{#ifEsHasNoResults index="companies"}}
+          <h4 id="mchNoCompaniesPlaceholder">No companies found</h4>
+        {{/ifEsHasNoResults}}
+
+        {{#ifEsIsSearching index="companies"}}
+          {{> spinner}}
+        {{/ifEsIsSearching}}
+      </div>
+      <div class="pull-right">
+        {{> esPagination index="companies"}}
       </div>
 
-      {{else}}
-      <br />
-      <h4 style="color:gray;" id="mchNoCompaniesPlaceholder">No companies</h4>
-      {{/if}}
     </div>
   </div>
 

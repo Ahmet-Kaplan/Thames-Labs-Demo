@@ -1,16 +1,29 @@
 Template.opportunityDetail.onCreated(function() {
-  // Redirect if data doesn't exist
-  this.autorun(function() {
-    var opp = Opportunities.findOne(FlowRouter.getParam('id'));
-    if (FlowRouter.subsReady() && opp === undefined) {
+  var id = FlowRouter.getParam('id');
+
+  // Subscribe to fixed data sources
+  this.subscribe('opportunityStages');
+  this.subscribe('activityByOpportunityId', id);
+  this.subscribe('tasksByEntityId', id);
+
+  this.autorun( () => {
+    var opportunity = Opportunities.findOne(id);
+
+    // Subscribe to reactive data sources
+    if (opportunity) {
+      this.subscribe('companyById', opportunity.companyId);
+      this.subscribe('contactById', opportunity.contactId);
+    }
+
+    // Redirect if data doesn't exist
+    if (FlowRouter.subsReady() && opportunity === undefined) {
       FlowRouter.go('opportunities');
     }
-  });
 
-  // Redirect if read permission changed
-  this.autorun(function() {
+    // Redirect if read permission changed
     redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
   });
+
 });
 
 Template.opportunityDetail.onRendered(function() {
@@ -34,16 +47,17 @@ Template.opportunityDetail.helpers({
     return Activities.find({opportunityId: FlowRouter.getParam('id')}, {sort: {activityTimestamp: -1}});
   },
   isNotFirstStage: function() {
-    var currentStage = this.currentStageId;
-    var firstId = OpportunityStages.findOne({"order": 0})._id;
-    if (currentStage == firstId) return false;
+    var currentStageId = this.currentStageId;
+    var firstStage = OpportunityStages.findOne({"order": 0})
+    if (!firstStage) return false;
+    if (currentStageId == firstStage._id) return false;
     return true;
   },
   isLastStage: function() {
-    var currentStage = this.currentStageId;
-  //  var finalStageOrder = OpportunityStages.find({}).count() - 1;
-    var lastStageId = OpportunityStages.findOne({},{ sort: { order: -1}})._id;
-    if (currentStage == lastStageId) return true;
+    var currentStageId = this.currentStageId;
+    var lastStage = OpportunityStages.findOne({},{ sort: { order: -1}});
+    if (!lastStage) return false;
+    if (currentStageId == lastStage._id) return true;
     return false;
   },
   isActive: function() {

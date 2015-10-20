@@ -82,7 +82,7 @@ Feature: Allow users to manage their Products
     And I click "#edit-product"
     And I set text field "name" to "updated product name"
     And I submit the "editProduct" form
-    Then "product-name" should say "updated product name"
+    Then "#product-name" should say "updated product name"
 
   Scenario: A user without permission cannot edit a product
     Given I do not have the "CanEditProducts" permission
@@ -110,7 +110,7 @@ Feature: Allow users to manage their Products
     When I navigate to a product page
     And I click "#delete-product"
     And I click confirm on the modal
-    Then the product should not exist
+    Then ".list-group" should not contain "test product"
 
   Scenario: A user without permission cannot delete a product
     Given I do not have the "CanDeleteProducts" permission
