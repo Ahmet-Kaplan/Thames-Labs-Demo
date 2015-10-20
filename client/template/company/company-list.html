@@ -12,13 +12,10 @@
           </div>
           <div class="col-md-3">
           {{#if isInRole 'Administrator,CanCreateCompanies'}}
-            <button type="submit" class="btn btn-primary" id="add-company"><i class="fa fa-fw fa-plus"></i> Add company</button>
+            <button type="submit" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" id="add-company"><i class="fa fa-fw fa-plus"></i> Add company</button>
           {{/if}}
           </div>
         </div>
-      </div>
-      <div class="pull-right">
-        {{> esPagination index="companies"}}
       </div>
       <small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
 
@@ -47,18 +44,18 @@
 <template name="companyListItem">
   <a class="list-group-item clearfix" href="{{pathFor route='company' id=_id}}" id='mchCompany'>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-5">
         <span class="pull-left">
           {{> companyLogo url=website class="img-circle logo-small" showPlaceholder=true}}
         </span>
         <h4 class="list-group-item-heading">{{name}}</h4> <p class="list-group-item-text"><i class="fa fa-fw fa-map-marker"></i> {{city}}, {{country}}</p>
       </div>
-      <div class="col-md-6 hidden-xs hidden-sm">
-        <p>
-          <span class="pull-right">{{> tagBadges}}</span>
-          {{#if website}}<i class="fa fa-fw fa-globe"></i> {{website}}<br>{{/if}}
-          {{#if phone}}<i class="fa fa-fw fa-phone"></i> {{phone}}{{/if}}
-        </p>
+      <div class="col-md-4 hidden-xs hidden-sm">
+        {{#if website}}<i class="fa fa-fw fa-globe"></i> <a href="{{website}}" target="_blank">{{website}}</a><br>{{/if}}
+        {{#if phone}}<i class="fa fa-fw fa-phone"></i> {{phone}}{{/if}}
+      </div>
+      <div class="col-md-3">
+        <span class="pull-right">{{> tagBadges}}</span>
       </div>
     </div>
   </a>

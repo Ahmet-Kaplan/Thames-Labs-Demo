@@ -12,13 +12,10 @@
           </div>
           <div class="col-md-3">
           {{#if isInRole 'Administrator,CanCreateContacts'}}
-            <a class="btn btn-primary addContactToCompany" href="#" id="add-contact"><i class="fa fa-fw fa-plus"></i> Add contact</a>
+            <a class="btn btn-primary addContactToCompany {{#if isMobile}}btn-fullWidth{{/if}}" href="#" id="add-contact"><i class="fa fa-fw fa-plus"></i> Add contact</a>
           {{/if}}
           </div>
         </div>
-      </div>
-      <div class="pull-right">
-        {{> esPagination index="contacts"}}
       </div>
       <small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</small>
 

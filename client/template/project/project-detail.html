@@ -1,12 +1,3 @@
-<template name="menuProjectExtension">
-  <div class="sidebar hidden-xs">
-    <ul>
-      <li><a href="#project-details">Project details</a></li>
-      <li><a href="#activity-timeline">Activity timeline</a></li>
-    </ul>
-  </div>
-</template>
-
 <template name="projectDetail">
   {{#with projectData}} {{setPageTitle "Project - " name }}
   <div class="row">
@@ -101,7 +92,7 @@
     <div class="col-md-12">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a href="#" class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="New activity for this project" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
+        <a href="#" class="btn btn-primary{{#unless isMobile}} pull-right{{/unless}}" data-toggle="tooltip" data-placement="bottom" title="New activity for this project" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
       </h1>
       {{> activityTimeline activities=activities}}
     </div>

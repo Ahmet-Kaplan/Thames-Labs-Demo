@@ -1,3 +1,15 @@
+/*
+** Available combinations:
+**  - ctrl+shift+f: search box
+**  - ctrl+alt+c:   new company
+**  - ctrl+alt+x:   new contact
+**  - ctrl+alt+j:   new project
+**  - ctrl+alt+p:   new purchase order
+**  - ctrl+alt+r:   new product
+**  - ctrl+alt+o:   new opportunity
+**  - ctrl+alt+w:   close any open modal
+*/
+
 globalHotkeys = new Hotkeys();
 
 globalHotkeys.add({
@@ -48,7 +60,7 @@ globalHotkeys.add({
 });
 
 globalHotkeys.add({
-  combo: "ctrl+alt+p ctrl+alt+o",
+  combo: "ctrl+alt+p",
   callback: function() {
     if(!$('.modal-header h4').text()) {
       Modal.show('newPurchaseOrderForm');
@@ -59,7 +71,7 @@ globalHotkeys.add({
 });
 
 globalHotkeys.add({
-  combo: "ctrl+alt+p ctrl+alt+r",
+  combo: "ctrl+alt+r",
   callback: function() {
     if(!$('.modal-header h4').text()) {
       Modal.show('insertProductModal');
@@ -86,15 +98,5 @@ globalHotkeys.add({
     if($('.modal-header h4').text()) {
       Modal.hide();
     }
-  }
-});
-
-globalHotkeys.add({
-  combo: "r e a l t i m e",
-  callback: function() {
-    bootbox.alert({
-      title: "Congratulations!!!",
-      message: 'You have found the secret pop up. This is of no use at all but well done!<br>Still, here is a nice gif for you.<iframe src="//giphy.com/embed/Ov5NiLVXT8JEc" width="480" height="202" frameBorder="0" allowFullScreen></iframe>'
-    })
   }
 });

@@ -5,6 +5,7 @@ Template.globalSearch.onDestroyed(function() {
 });
 
 Template.globalSearch.onRendered(function() {
+  $('#globalSearchBox').addClass('form-control');
   $('#globalSearchBox').focus();
 });
 

@@ -19,7 +19,7 @@
             {{/if}}
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
-            {{> afQuickField name="companyId" type="hidden" value=company._id}}
+            {{> afQuickField name="companyId" id="companyId" type="hidden" value=company._id}}
             {{> esSelectize name="contactId" index="autosuggestContact" parent="companyId" filter="filterCompanyId" value=contactId}}
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Create</button>

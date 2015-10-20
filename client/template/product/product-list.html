@@ -11,13 +11,10 @@
           </div>
           {{#if isInRole 'Administrator,CanCreateProducts'}}
           <div class="col-md-3">
-            <a class="btn btn-primary" id="add-product"><i class="fa fa-plus"></i> Add product</a>
+            <a class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" id="add-product"><i class="fa fa-plus"></i> Add product</a>
           </div>
           {{/if}}
         </div>
-      </div>
-      <div class="pull-right">
-        {{> esPagination index="products"}}
       </div>
       <small>{{productCount}} record{{#if hasMultipleProducts}}s{{/if}}</small>
       <div class="list-group">

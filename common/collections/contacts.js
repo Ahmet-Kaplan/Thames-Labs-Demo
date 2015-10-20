@@ -47,6 +47,9 @@ Contacts.initEasySearch(['forename', 'surname', 'tags'], {
     'forename',
     'surname',
     'tags',
+    'phone',
+    'mobile',
+    'email',
     'companyId'
   ]
 });

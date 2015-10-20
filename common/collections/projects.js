@@ -39,7 +39,7 @@ Projects.initEasySearch(['description', 'tags'], {
   limit: 20,
   use: 'mongo-db',
   returnFields: [
-    'description',
+    'name',
     'value',
     'tags',
     'companyId',

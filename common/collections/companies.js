@@ -56,6 +56,7 @@ Companies.initEasySearch(['name', 'tags'], {
     'city',
     'country',
     'website',
+    'phone',
     'tags'
   ]
 });

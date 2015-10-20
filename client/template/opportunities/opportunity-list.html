@@ -5,14 +5,14 @@
   <div class="row" id="opportunity-list">
     <div class="col-md-12">
 
-      <h1 id="opportunities-page-header"><i class="fa fa-files-o"></i> Opportunities{{#if archivedShown}} - <i>archived</i>{{/if}}</h1>
+      <h1 id="opportunities-page-header"><i class="fa fa-lightbulb-o"></i> Opportunities{{#if archivedShown}} - <i>archived</i>{{/if}}</h1>
       <div class="stick-bar">
         <div class="row">
           <div class="col-md-3">
             {{> esInput index="opportunities" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
           </div>
           <div class="col-md-6">
-            <div class="btn-group">
+            <div class="btn-group{{#if isMobile}}-vertical btn-fullWidth{{/if}}">
               {{#if isInRole 'Administrator,CanCreateOpportunities'}}
               <button id="create-opportunity" type="submit" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add opportunity</button>
               {{/if}}
@@ -23,10 +23,7 @@
         </div>
       </div>
       <small>{{opportunityCount}} record{{#if hasMultipleOpportunities}}s{{/if}}</small>
-      <div class="pull-right">
-        {{> esPagination index="opportunities"}}
-      </div>
-
+      
       <div class="list-group">
         {{#esEach index="opportunities"}}
           {{> opportunityListItem}}

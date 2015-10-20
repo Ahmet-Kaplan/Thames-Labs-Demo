@@ -1,12 +1,22 @@
 <template name="contactListItem">
   <a class="list-group-item" href="{{pathFor route='contact' id=_id}}">
-    <!-- <span class="badge">&gt;</span> -->
-    <span class="pull-right">{{> tagBadges}}</span>
-    <h4 class="list-group-item-heading">{{name}}</h4>
-    {{#if company}}
-    <p class="list-group-item-text">
-      <i class="fa fa-building"></i> {{company.name}}
-    </p>
-    {{/if}}
+    <div class="row">
+      <div class="col-md-5">
+        <h4 class="list-group-item-heading">{{name}}</h4>
+        {{#if company}}
+        <p class="list-group-item-text">
+          <i class="fa fa-building"></i> {{company.name}}
+        </p>
+        {{/if}}
+      </div>
+      <div class="col-md-4 hidden-xs hidden-sm">
+        {{#if email}}<i class="fa fa-fw fa-envelope"></i> <a href="mailto:{{email}}">{{email}}</a><br>{{/if}}
+        {{#if phone}}<i class="fa fa-fw fa-phone"></i>{{phone}}<br>{{/if}}
+        {{#if mobile}}<i class="fa fa-fw fa-mobile"></i>{{mobile}}{{/if}}
+      </div>
+      <div class="col-md-3">
+        <span class="pull-right">{{> tagBadges}}</span>
+      </div>
+    </div>
   </a>
 </template>

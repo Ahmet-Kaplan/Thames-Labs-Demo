@@ -50,3 +50,7 @@ Template.registerHelper("getDomainFromUrl", function(url) {
   a.href = url;
   return a.hostname;
 });
+
+Template.registerHelper("isMobile", function() {
+  return bowser.mobile || bowser.tablet;
+});
