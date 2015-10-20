@@ -9,9 +9,4 @@ module.exports = function() {
     client.click('.product-item');
   });
 
-  //Deleting
-  this.Then(/^the product should not exist$/, function() {
-    client.getText('h4*=No products');
-  });
-
 };

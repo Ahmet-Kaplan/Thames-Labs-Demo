@@ -89,7 +89,7 @@ Feature: Allow users to manage their Contacts
     And I click "#edit-contact"
     And I set text field "forename" to "Forename"
     And I submit the "editContact" form
-    Then "contact-details" should say "Forename Surname"
+    Then "#contact-details" should say "Forename Surname"
 
   Scenario: A user without permission cannot edit a contact
     Given I do not have the "CanEditContacts" permission

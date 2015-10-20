@@ -19,7 +19,7 @@ Feature: Allow users to manage their sales opportunities
   Scenario: The opportunities list contains company / contact name
     Given an "Opportunity" has been created
     When I navigate to "/opportunities"
-    Then "mchOpportunityList" should contain "Test Ltd"
+    Then ".list-group" should contain "Test Ltd"
 
   Scenario: A user without permission cannot see the opportunities list
     Given I do not have the "CanReadOpportunities" permission
@@ -178,7 +178,7 @@ Feature: Allow users to manage their sales opportunities
     And I click "#won-opportunity"
     And I click confirm on the modal
     Then I should see that an project has been created from the opportunity
-    And "timeline" should contain "Converted from won opportunity"
+    And "#timeline" should contain "Converted from won opportunity"
 
 
   #Opportunity Line Items

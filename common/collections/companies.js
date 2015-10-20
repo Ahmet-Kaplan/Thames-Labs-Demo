@@ -72,7 +72,36 @@ EasySearch.createSearchIndex('autosuggestCompany', {
 // COLLECTION HOOKS //
 //////////////////////
 
+var checkRecordsNumber = Collections.helpers.checkRecordsNumber;
+
+Companies.before.insert(function(userId, doc) {
+  if (!Roles.userIsInRole(userId, ['superadmin'])) {
+    var user = Meteor.users.findOne(userId);
+    var tenant = Tenants.findOne(user.group);
+    var companyCustomFields = tenant.settings.extInfo.company;
+
+    var cfMaster = {};
+    _.each(companyCustomFields, function(cf) {
+
+      var field = {
+        dataValue: cf.defaultValue,
+        dataType: cf.type,
+        isGlobal: true
+      };
+
+      cfMaster[cf.name] = field;
+    });
+    doc.customFields = cfMaster;
+  }
+
+  if (!checkRecordsNumber()) {
+    return false;
+  }
+  return true;
+});
+
 Companies.after.insert(function(userId, doc) {
+  Meteor.call('updateTotalRecords');
   logEvent('info', 'A new company has been created: ' + doc.name);
 });
 
@@ -112,5 +141,6 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Companies.after.remove(function(userId, doc) {
+  Meteor.call('updateTotalRecords');
   logEvent('info', 'A company has been deleted: ' + doc.name);
 });

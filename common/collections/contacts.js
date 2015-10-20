@@ -86,7 +86,48 @@ EasySearch.createSearchIndex('autosuggestContact', {
 // COLLECTION HOOKS //
 //////////////////////
 
+var checkRecordsNumber = Collections.helpers.checkRecordsNumber;
+
+Contacts.before.insert(function(userId, doc) {
+  if (!checkRecordsNumber()) {
+    return false;
+  }
+
+  if (doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
+    var name = doc.companyId.substr(9);
+    var newCompanyId = Companies.insert({
+      name: name,
+      createdBy: Meteor.userId()
+    });
+    doc.companyId = newCompanyId;
+    if (Meteor.isClient) {
+      toastr.info('A new company <a href="/companies/' + newCompanyId + '"><strong>' + name + '</strong></a> has been created.');
+    }
+  }
+
+  if (!Roles.userIsInRole(userId, ['superadmin'])) {
+    var user = Meteor.users.findOne(userId);
+    var tenant = Tenants.findOne(user.group);
+    var contactCustomFields = tenant.settings.extInfo.contact;
+
+    var cfMaster = {};
+    _.each(contactCustomFields, function(cf) {
+
+      var field = {
+        dataValue: cf.defaultValue,
+        dataType: cf.type,
+        isGlobal: true
+      };
+
+      cfMaster[cf.name] = field;
+    });
+
+    doc.customFields = cfMaster;
+  }
+});
+
 Contacts.after.insert(function(userId, doc) {
+  Meteor.call('updateTotalRecords');
   logEvent('info', 'A new contact has been created: ' + doc.forename + " " + doc.surname);
 });
 
@@ -130,5 +171,6 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Contacts.after.remove(function(userId, doc) {
+  Meteor.call('updateTotalRecords');
   logEvent('info', 'A contact has been deleted: ' + doc.forename + " " + doc.surname);
 });
