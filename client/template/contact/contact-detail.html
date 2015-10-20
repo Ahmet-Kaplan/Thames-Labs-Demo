@@ -1,19 +1,16 @@
+<template name="menuContactExtension">
+  <div class="sidebar hidden-xs">
+    <ul>
+      <li><a href="#contact-details">Contact details</a></li>
+      <li><a href="#activity-timeline">Activity timeline</a></li>
+    </ul>
+  </div>
+</template>
+
 <template name="contactDetail">
   {{#with contactData}} {{setPageTitle "Contact - " name }}
   <div class="row">
-    <div class="col-md-2 hidden-xs hidden-sm">
-      <div class="sidebar">
-        <h1>Actions</h1>
-
-        <ul class="nav nav-stacked">
-          <li><a href="#contact-details">Contact details</a></li>
-          <li><a href="#activity-timeline">Activity timeline</a></li>
-        </ul>
-
-      </div>
-    </div>
-
-    <div class="col-md-6">
+    <div class="col-md-8">
       {{#if metadata.clearbit.avatar}}
       <img class="img-circle avatar pull-right" src="{{metadata.clearbit.avatar}}" /> {{/if}}
 
@@ -124,7 +121,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-10 col-md-offset-2">
+    <div class="col-md-12">
       <h1 id="activity-timeline">
         Activity Timeline
         <a href="#" class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="New activity for this contact" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>

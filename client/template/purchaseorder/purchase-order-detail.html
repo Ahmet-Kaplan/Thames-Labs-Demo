@@ -1,43 +1,39 @@
+<template name="menuPOExtension">
+  <div class="sidebar hidden-xs">
+    <ul>
+      <li><a href="#purchase-order-details">Purchase Order details</a></li>
+      <li><a href="#activity-timeline">Activity timeline</a></li>
+    </ul>
+    <div class="btn-group">
+      <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
+        Export purchase order
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        {{#if canExportDocx}}
+          <li>
+            <a href="#" id="template-upload-link-docx">Word document (.docx)</a>
+          </li>
+        {{/if}}
+        <li>
+          <a href="#" id="template-upload-link">PDF (.pdf)</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="#" id="po-template-help">How does this work?</a>
+        </li>
+      </ul>
+    </div>
+    <input id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px" type="file">
+    <input id="template-upload" style="height:0; width: 0; margin-left: -9999px" type="file">
+  </div>
+</template>
+
 <template name="purchaseOrderDetail">
   {{#with purchaseOrderData}}
     {{setPageTitle "Purchase order - " description}}
     <div class="row">
-      <div class="col-md-2 hidden-xs hidden-sm">
-        <div class="sidebar">
-          <h1>Actions</h1>
-          <ul class="nav nav-stacked">
-            <li>
-              <a href="#purchase-order-details">Purchase Order details</a>
-            </li>
-            <li>
-              <a href="#activity-timeline">Activity timeline</a>
-            </li>
-          </ul>
-          <div class="btn-group">
-            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
-              Export purchase order
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              {{#if canExportDocx}}
-                <li>
-                  <a href="#" id="template-upload-link-docx">Word document (.docx)</a>
-                </li>
-              {{/if}}
-              <li>
-                <a href="#" id="template-upload-link">PDF (.pdf)</a>
-              </li>
-              <li class="divider"></li>
-              <li>
-                <a href="#" id="po-template-help">How does this work?</a>
-              </li>
-            </ul>
-          </div>
-          <input id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px" type="file">
-          <input id="template-upload" style="height:0; width: 0; margin-left: -9999px" type="file">
-        </div>
-      </div>
-      <div class="col-md-10">
+      <div class="col-md-12">
         <h4 class="entity-title">Purchase Order</h4>
         <h1 class="entity-name" id="purchase-order-details">{{description}}</h1>
 
@@ -137,7 +133,7 @@
       <div class="col-md-3"></div>
     </div>
     <div class="row">
-      <div class="col-md-10 col-md-offset-2">
+      <div class="col-md-12">
         <h1 id="activity-timeline">
           Activity Timeline
           <a class="btn btn-primary pull-right" data-placement="bottom" data-toggle="tooltip" href="#" id="add-activity" title="New activity for this purchase order">

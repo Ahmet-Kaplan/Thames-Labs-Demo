@@ -23,7 +23,7 @@ Template.onRendered(function() {
   });
 
   //IE fix: prevent all default actions and handle the hashlinks correctly
-  $(".sidebar .nav li a").on('click', function(event) {
+  /*$(".sidebar .nav li a").on('click', function(event) {
     event.preventDefault();
     window.location.hash = $(this).attr('href');
   });
@@ -36,7 +36,7 @@ Template.onRendered(function() {
         top: sidebar.offset().top
       }
     });
-  }
+  }*/
 
   //IE fix: prevent all default actions and handle the hashlinks correctly
   $(".stick-bar .nav li a").on('click', function(event) {

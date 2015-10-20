@@ -1,24 +1,13 @@
-<template name="companyDetail">
-  {{#with companyData}} {{setPageTitle "Company - " name }}
-  <div class="row">
-    <div class="col-md-2 hidden-sm hidden-xs">
-      <div class="sidebar">
-
-        <h1 id="action-side-bar">Actions</h1>
-
-        <ul class="nav nav-stacked">
-          <li><a href="#company-details">Company details</a></li>
-          <li><a href="#contacts">Contacts</a></li>
-          <li><a href="#projects">Current Projects</a></li>
-          <li><a href="#activity-timeline">Activity timeline</a></li>
-          <!-- <li onclick="location.href='#company-details';" style="cursor:pointer;">Company details</li>
-          <li onclick="location.href='#contacts';" style="cursor:pointer;">Contacts</li>
-          <li onclick="location.href='#projects';" style="cursor:pointer;">Projects</li>
-          <li onclick="location.href='#activity-timeline';" style="cursor:pointer;">Activities</li> -->
-        </ul>
-
+<template name="menuCompanyExtension">
+  <div class="sidebar hidden-xs">
+    <ul>
+      <li><a href="#company-details">Company details</a></li>
+      <li><a href="#contacts">Contacts</a></li>
+      <li><a href="#projects">Current Projects</a></li>
+      <li><a href="#activity-timeline">Activity timeline</a></li>
+      <li>
         <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
             Use Word template
             <span class="caret"></span>
           </button>
@@ -28,12 +17,17 @@
             <li><a href="#" id="template-help">How does this work?</a></li>
           </ul>
         </div>
-        <input type="file" id="template-upload" style="display:none;">
+      </li>
+    </ul>
+    <input type="file" id="template-upload" style="display:none;">
+  </div>
+</template>
 
-      </div>
-    </div>
+<template name="companyDetail">
+  {{#with companyData}} {{setPageTitle "Company - " name }}
+  <div class="row">
 
-    <div class="col-md-6">
+    <div class="col-md-8">
       <h4 class="entity-title">
         <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
         Company
@@ -155,7 +149,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-10 col-md-offset-2">
+    <div class="col-md-12">
       <h1 id="activity-timeline">
         Activity Timeline
         <a href="#" class="btn btn-primary pull-right" id="add-activity" data-toggle="tooltip" data-placement="bottom" title="New activity for this company"><i class="fa fa-fw fa-plus"></i> Add</a>

@@ -1,34 +1,32 @@
+<template name="menuOpportunityExtension">
+  <div class="sidebar hidden-xs">
+    <ul>
+      <li><a class="nav-link" href="#opportunity-details">Opportunity details</a></li>
+      <li><a class="nav-link" href="#lines">Line items</a></li>
+    </ul>
+    <div class="btn-group">
+      <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+        Export quotation
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        {{#if canExportDocx}}
+        <li><a href="#" id="template-upload-link-docx">Word document (.docx)</a></li>
+        {{/if}}
+        <li><a href="#" id="template-upload-link">PDF (.pdf)</a></li>
+        <li class="divider"></li>
+        <li><a href="#" id="opp-template-help">How does this work?</a></li>
+      </ul>
+    </div>
+    <input type="file" id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px">
+    <input type="file" id="template-upload" style="height:0; width: 0; margin-left: -9999px">
+  </div>
+</template>
+
 <template name="opportunityDetail">
   {{#with oppData}} {{setPageTitle "Opportunity - " name}}
   <div class="row">
-    <div class="col-md-2 hidden-sm hidden-xs">
-      <div class="sidebar">
-
-        <h1 id="action-side-bar">Actions</h1>
-
-        <ul class="nav nav-stacked">
-          <li><a class="nav-link" href="#opportunity-details">Opportunity details</a></li>
-          <li><a class="nav-link" href="#lines">Line items</a></li>
-        </ul>
-        <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            Export quotation
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            {{#if canExportDocx}}
-            <li><a href="#" id="template-upload-link-docx">Word document (.docx)</a></li>
-            {{/if}}
-            <li><a href="#" id="template-upload-link">PDF (.pdf)</a></li>
-            <li class="divider"></li>
-            <li><a href="#" id="opp-template-help">How does this work?</a></li>
-          </ul>
-        </div>
-        <input type="file" id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px">
-        <input type="file" id="template-upload" style="height:0; width: 0; margin-left: -9999px">
-      </div>
-    </div>
-    <div class="col-md-10">
+    <div class="col-md-12">
       <div class="pull-right hidden-xs">
         {{#if isActive}}
           <br>
@@ -153,7 +151,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-10 col-md-offset-2">
+    <div class="col-md-12">
       <h1 id="activity-timeline">
         Activity Timeline
         {{#if isActive}}
