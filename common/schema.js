@@ -937,7 +937,7 @@ Schemas.Opportunity = new SimpleSchema({
     }
   }
 });
-AuditLog.attachSchema(Schemas.Audit);
+Opportunities.attachSchema(Schemas.Opportunity);
 
 Schemas.Payment = new SimpleSchema({
   token: {
@@ -967,7 +967,6 @@ Schemas.Payment = new SimpleSchema({
 });
 Payments.attachSchema(Schemas.Payment);
 
-Opportunities.attachSchema(Schemas.Opportunity);
 
 Schemas.PurchaseOrder.messages({
   needsRelatedEntity: "A company or a contact is required"

@@ -86,7 +86,7 @@ Feature: Allow users to manage their Projects
     And I click "#edit-project"
     And I set text field "name" to "updated project name"
     And I submit the "updateProject" form
-    Then "project-details" should say "updated project name"
+    Then "#project-details" should say "updated project name"
 
   Scenario: A user without permission cannot edit a project
     Given I do not have the "CanEditProjects" permission

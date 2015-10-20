@@ -11,6 +11,6 @@ Feature: Allow users to favourite pages by URL
   Scenario: A user can add and delete favourites
     When I click "#collapseFavouritesButton"
     And I click "#mnuAddToFavourites"
-    Then "collapseFavourites" should contain "Dashboard"
+    Then "#collapseFavourites" should contain "Dashboard"
     Then I click "#mnuRemoveFavourite"
-    Then "collapseFavourites" should not contain "Dashboard"
+    Then "#collapseFavourites" should not contain "Dashboard"

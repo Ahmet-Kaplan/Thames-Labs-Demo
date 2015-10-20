@@ -21,8 +21,17 @@ Template.projectsList.onRendered(function() {
 });
 
 Template.projectsList.helpers({
-  hasProjects: function() {
-    return Projects.find({}).count() > 0;
+  projectCount: function() {
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'projects'
+    });
+    return easySearchInstance.get('total');
+  },
+  hasMultipleProjects: function() {
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'projects'
+    });
+    return easySearchInstance.get('total') !== 1;
   }
 });
 
@@ -30,32 +39,5 @@ Template.projectsList.events({
   'click #add-project': function(event) {
     event.preventDefault();
     Modal.show('newProjectForm', this);
-  }
-});
-
-Template.projectListItem.helpers({
-  companyName: function() {
-    var project = this;
-    var comp = Companies.findOne({
-      _id: project.companyId
-    });
-
-    if (comp) {
-      return comp.name;
-    } else {
-      return null;
-    }
-  },
-  contactName: function() {
-    var project = this;
-    var cont = Contacts.findOne({
-      _id: project.contactId
-    });
-
-    if (cont) {
-      return cont.forename + " " + cont.surname;
-    } else {
-      return null;
-    }
   }
 });

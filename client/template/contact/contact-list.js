@@ -20,20 +20,6 @@ Template.contactList.onRendered(function() {
   });
 });
 
-Template.contactListItem.helpers({
-  companyName: function() {
-    var contact = this;
-    var comp = Companies.findOne({
-      _id: contact.companyId
-    });
-    if (comp) {
-      return comp.name;
-    } else {
-      return null;
-    }
-  }
-});
-
 Template.contactList.events({
   'click #add-contact': function(event) {
     event.preventDefault();
@@ -46,9 +32,15 @@ Template.contactList.helpers({
     return Contacts.find({}).count() > 0;
   },
   contactCount: function() {
-    return Contacts.find({}).count();
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'contacts'
+    });
+    return easySearchInstance.get('total');
   },
   hasMultipleContacts: function() {
-    return Contacts.find({}).count() !== 1;
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'contacts'
+    });
+    return easySearchInstance.get('total') !== 1;
   }
 });

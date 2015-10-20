@@ -1,11 +1,18 @@
 Template.purchaseOrderDetail.onCreated(function() {
-  // Redirect if data doesn't exist
-  this.autorun(function() {
+  this.autorun( () => {
     var purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
+    this.subscribe('companyById', purchaseOrder.supplierCompanyId);
+    this.subscribe('contactById', purchaseOrder.supplierContactId);
+    // Redirect if data doesn't exist
     if (FlowRouter.subsReady() && purchaseOrder === undefined) {
       FlowRouter.go('purchaseOrders');
     }
   });
+
+  var purchaseOrderId = FlowRouter.getParam('id');
+  this.subscribe('allPurchaseOrderItems', purchaseOrderId);
+  this.subscribe('activityByPurchaseOrderId', purchaseOrderId);
+  this.subscribe('tasksByEntityId', purchaseOrderId);
 
   // Redirect if read permission changed
   this.autorun(function() {
