@@ -1,26 +1,36 @@
 var Future = Npm.require('fibers/future');
 var Stripe = StripeAPI(process.env.STRIPE_SK);
 
-//Routly: route for webhooks
+//respondly:router-server: route for webhooks
 Server.post('/webhook/stripe', function(req, res) {
-  Meteor.log._(req.body);
-
   if (req.body.object !== 'event') {
-    //throw away (HTTP 400)
     return res.send(400);
   }
-  Stripe.events.retrieve(req.body.id, function(err, event) {
-    if (err || !event) {
-      return res.send(401);
-    }
-    req.modeled.stripeEvent = event;
-    next();
-  });
-}, function(req, res) {
-  //process the hook here, using req.modeled.stripeEvent to reference the
-  //returned data from above
 
-  res.send(200);
+  if (req.body.id === "evt_00000000000000") {
+    var event = req.body;
+    if (event.type === 'charge.succeeded') {
+      o = event.data.object;
+      Meteor.log._("Charge succeeded; charge ID returned: " + o.id);
+    }
+
+    res.send(200);
+  } else {
+    Stripe.events.retrieve(req.body.id, function(err, event) {
+      if (err || !event) {
+        Meteor.log._(err);
+        return res.send(401);
+      }
+      var o = null;
+
+      if (event.type === 'charge.succeeded') {
+        o = event.data.object;
+        Meteor.log._("Charge succeeded; charge ID returned: " + o.id);
+      }
+
+      res.send(200);
+    });
+  }
 });
 
 
