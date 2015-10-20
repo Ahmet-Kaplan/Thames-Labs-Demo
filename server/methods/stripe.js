@@ -9,11 +9,9 @@ Server.post('/webhook/stripe', function(req, res) {
 
   if (req.body.id === "evt_00000000000000") {
     var event = req.body;
-    if (event.type === 'charge.succeeded') {
-      o = event.data.object;
-      Meteor.log._("Charge succeeded; charge ID returned: " + o.id);
-    }
-
+    var o = event.data.object;
+    Meteor.log._("Stripe webhook received: " + event.type + ", data object follows.");
+    Meteor.log._(o);
     res.send(200);
   } else {
     Stripe.events.retrieve(req.body.id, function(err, event) {
@@ -21,13 +19,10 @@ Server.post('/webhook/stripe', function(req, res) {
         Meteor.log._(err);
         return res.send(401);
       }
-      var o = null;
 
-      if (event.type === 'charge.succeeded') {
-        o = event.data.object;
-        Meteor.log._("Charge succeeded; charge ID returned: " + o.id);
-      }
-
+      var o = event.data.object;
+      Meteor.log._("Stripe webhook received: " + event.type + ", data object follows.");
+      Meteor.log._(o);
       res.send(200);
     });
   }
