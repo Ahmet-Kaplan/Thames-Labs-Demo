@@ -187,8 +187,8 @@ module.exports = function() {
   });
 
   this.Then(/^"([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(selector, option, desiredText) {
-    client.scroll("#" + selector, 0, -60);
-    var fieldValue = client.getText("#" + selector);
+    client.scroll(selector, 0, -60);
+    var fieldValue = client.getText(selector);
     if (option === 'say') {
       expect(fieldValue).toEqual(desiredText);
     } else if (option === 'contain') {

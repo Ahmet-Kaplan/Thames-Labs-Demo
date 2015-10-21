@@ -120,11 +120,6 @@ router.route('/sign-up/:coupon', {
 
 router.route('/', {
   name: 'dashboard',
-  subscriptions: function() {
-    this.register('allChatter', subs.subscribe('allChatter'));
-    this.register('allUserTasks', subs.subscribe('allUserTasks', Meteor.userId()));
-    this.register('taskTags', subs.subscribe('taskTags'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: "dashboard"
@@ -148,9 +143,6 @@ router.route('/admin', {
 
 router.route('/companies', {
   name: 'companies',
-  subscriptions: function() {
-    this.register('allCompanies', subs.subscribe('allCompanies'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'companyList'
@@ -162,15 +154,7 @@ router.route('/companies/:id', {
   name: 'company',
   subscriptions: function(params) {
     this.register('companyById', subs.subscribe('companyById', params.id));
-    this.register('contactsByCompanyId', subs.subscribe('contactsByCompanyId', params.id));
-    this.register('projectsByCompanyId', subs.subscribe('projectsByCompanyId', params.id));
-    this.register('activityByCompanyId', subs.subscribe('activityByCompanyId', params.id));
-    this.register('purchaseOrdersByCompanyId', subs.subscribe('purchaseOrdersByCompanyId', params.id));
     this.register('companyTags', subs.subscribe('companyTags'));
-    this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
-    this.register('opportunitiesByCompanyId', subs.subscribe('opportunitiesByCompanyId', params.id));
-    this.register('opportunityStages', subs.subscribe('opportunityStages'));
-    this.register('taskTags', subs.subscribe('taskTags'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -181,10 +165,6 @@ router.route('/companies/:id', {
 
 router.route('/contacts', {
   name: 'contacts',
-  subscriptions: function() {
-    this.register('allContacts', subs.subscribe('allContacts'));
-    this.register('allCompanies', subs.subscribe('allCompanies'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'contactList'
@@ -196,14 +176,7 @@ router.route('/contacts/:id', {
   name: 'contact',
   subscriptions: function(params) {
     this.register('contactById', subs.subscribe('contactById', params.id));
-    this.register('activityByContactId', subs.subscribe('activityByContactId', params.id));
-    this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
-    this.register('projectsByContactId', subs.subscribe('projectsByContactId', params.id));
-    this.register('purchaseOrdersByContactId', subs.subscribe('purchaseOrdersByContactId', params.id));
     this.register('contactTags', subs.subscribe('contactTags'));
-    this.register('opportunitiesByContactId', subs.subscribe('opportunitiesByContactId', params.id));
-    this.register('opportunityStages', subs.subscribe('opportunityStages'));
-    this.register('taskTags', subs.subscribe('taskTags'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -214,11 +187,6 @@ router.route('/contacts/:id', {
 
 router.route('/projects', {
   name: 'projects',
-  subscriptions: function() {
-    this.register('allProjects', subs.subscribe('allProjects'));
-    this.register('allContacts', subs.subscribe('allContacts'));
-    this.register('allCompanies', subs.subscribe('allCompanies'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'projectsList'
@@ -230,13 +198,7 @@ router.route('/projects/:id', {
   name: 'project',
   subscriptions: function(params) {
     this.register('projectById', subs.subscribe('projectById', params.id));
-    this.register('companyByProjectId', subs.subscribe('companyByProjectId', params.id));
-    this.register('activityByProjectId', subs.subscribe('activityByProjectId', params.id));
-    this.register('contactsByProjectId', subs.subscribe('contactsByProjectId', params.id));
-    this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
     this.register('projectTags', subs.subscribe('projectTags'));
-    this.register('opportunityByProjectId', subs.subscribe('opportunityByProjectId', params.id));
-    this.register('taskTags', subs.subscribe('taskTags'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -247,12 +209,6 @@ router.route('/projects/:id', {
 
 router.route('/purchaseorders', {
   name: 'purchaseOrders',
-  subscriptions: function() {
-    this.register('allPurchaseOrders', subs.subscribe('allPurchaseOrders'));
-    this.register('allCompanies', subs.subscribe('allCompanies'));
-    this.register('allProjects', subs.subscribe('allProjects'));
-    this.register('allContacts', subs.subscribe('allContacts'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'purchaseOrderList'
@@ -264,14 +220,6 @@ router.route('/purchaseorders/:id', {
   name: 'purchaseOrder',
   subscriptions: function(params) {
     this.register('purchaseOrderById', subs.subscribe('purchaseOrderById', params.id));
-    this.register('allPurchaseOrderItems', subs.subscribe('allPurchaseOrderItems', params.id));
-    this.register('companyByPurchaseOrderId', subs.subscribe('companyByPurchaseOrderId', params.id));
-    this.register('projectByPurchaseOrderId', subs.subscribe('projectByPurchaseOrderId', params.id));
-    this.register('activityByPurchaseOrderId', subs.subscribe('activityByPurchaseOrderId', params.id));
-    this.register('contactByPurchaseOrderId', subs.subscribe('contactByPurchaseOrderId', params.id));
-    this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
-    this.register('taskTags', subs.subscribe('taskTags'));
-    // this.register('purchaseOrderTags', subs.subscribe('purchaseOrderTags'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -301,7 +249,6 @@ router.route('/datamanagement', {
     this.register('allOpportunities', subs.subscribe('allOpportunities', Meteor.userId()));
     this.register('allPurchaseOrders', subs.subscribe('allPurchaseOrders', Meteor.userId()));
     this.register('allProjects', subs.subscribe('allProjects', Meteor.userId()));
-    this.register('allUserData', subs.subscribe('allUserData', Meteor.userId()));
   },
   action: function() {
     layout.render('appLayout', {
@@ -312,14 +259,6 @@ router.route('/datamanagement', {
 
 router.route('/events', {
   name: 'events',
-  subscriptions: function() {
-    this.register('allUserData', subs.subscribe('allUserData'));
-    this.register('eventLogData', subs.subscribe('eventLogData', Meteor.userId()));
-    this.register('allProjects', subs.subscribe('allProjects'));
-    this.register('allContacts', subs.subscribe('allContacts'));
-    this.register('allCompanies', subs.subscribe('allCompanies'));
-    this.register('allPurchaseOrders', subs.subscribe('allPurchaseOrders'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: "events"
@@ -329,9 +268,6 @@ router.route('/events', {
 
 router.route('/products', {
   name: 'products',
-  subscriptions: function() {
-    this.register('allProducts', subs.subscribe('allProducts'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'productList'
@@ -353,13 +289,6 @@ router.route('/products/:id', {
 
 router.route('/opportunities', {
   name: 'opportunities',
-  subscriptions: function() {
-    this.register('allOpportunities', subs.subscribe('allOpportunities'));
-    this.register('allContacts', subs.subscribe('allContacts'));
-    this.register('allCompanies', subs.subscribe('allCompanies'));
-    this.register('opportunityStages', subs.subscribe('opportunityStages'));
-    this.register('opportunityTags', subs.subscribe('opportunityTags'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'opportunityList'
@@ -370,12 +299,7 @@ router.route('/opportunities', {
 router.route('/opportunities/:id', {
   name: 'opportunity',
   subscriptions: function(params) {
-    this.register('opportunityStages', subs.subscribe('opportunityStages'));
     this.register('opportunityById', subs.subscribe('opportunityById', params.id));
-    this.register('companyByOpportunityId', subs.subscribe('companyByOpportunityId', params.id));
-    this.register('contactByOpportunityId', subs.subscribe('contactByOpportunityId', params.id));
-    this.register('activityByOpportunityId', subs.subscribe('activityByOpportunityId', params.id));
-    this.register('tasksByEntityId', subs.subscribe('tasksByEntityId', params.id));
     this.register('opportunityTags', subs.subscribe('opportunityTags'));
     this.register('taskTags', subs.subscribe('taskTags'));
   },

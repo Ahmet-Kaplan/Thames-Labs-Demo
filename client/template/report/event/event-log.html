@@ -1,16 +1,34 @@
 <template name="events">
 
-  <h1><i class="fa fa-fw fa-book"></i>Event Log</h1>
-
   {{setPageTitle 'Event Log'}}
 
-  <ul class="list-group">
-    {{#each events}} {{> eventEntry}} {{else}}
-    <li class="list-group-item">
-      <em>No event logs</em>
-    </li>
-    {{/each}}
+  <h1><i class="fa fa-fw fa-book"></i>Event Log</h1>
+
+  {{> esInput index="audit" placeholder="search..." allDocsOnEmpty=true class="form-control"}}
+
+  <div class="pull-right">
+    {{> esPagination index="audit"}}
+  </div>
+  <small>{{eventLogCount}} event{{#if hasMultipleRecords}}s{{/if}}</small>
+
+  <div class="clearfix"></div>
+
+  <ul class="list-group" id="eventLogList">
+    {{#esEach index="audit"}}
+    {{> eventEntry}}
+    {{/esEach}}
+
+    {{#ifEsHasNoResults index="audit"}}
+    <h4>No event logs</h4>
+    {{/ifEsHasNoResults}}
+
+    {{#ifEsIsSearching index="audit"}}
+    {{> spinner}}
+    {{/ifEsIsSearching}}
   </ul>
+  <div class="pull-right">
+    {{> esPagination index="audit"}}
+  </div>
 
 </template>
 

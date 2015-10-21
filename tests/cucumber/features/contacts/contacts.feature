@@ -89,7 +89,7 @@ Feature: Allow users to manage their Contacts
     And I click "#edit-contact"
     And I set text field "forename" to "Forename"
     And I submit the "editContact" form
-    Then "contact-details" should say "Forename Surname"
+    Then "#contact-details" should say "Forename Surname"
 
   Scenario: A user without permission cannot edit a contact
     Given I do not have the "CanEditContacts" permission
@@ -116,7 +116,7 @@ Feature: Allow users to manage their Contacts
     When I navigate to a contact page
     And I click "#remove-contact"
     And I click confirm on the modal
-    Then I should see "#no-contact-placeholder"
+    Then I should see the heading "Contacts"
 
   Scenario: A user without permission cannot delete a contact
     Given I do not have the "CanDeleteContacts" permission

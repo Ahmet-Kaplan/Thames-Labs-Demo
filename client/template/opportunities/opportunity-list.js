@@ -29,14 +29,17 @@ Template.opportunityList.onDestroyed(function() {
 });
 
 Template.opportunityList.helpers({
-  hasOpportunities: function() {
-    return Opportunities.find({}).count() > 0;
-  },
   opportunityCount: function() {
-    return Opportunities.find({}).count();
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'opportunities'
+    });
+    return easySearchInstance.get('total');
   },
   hasMultipleOpportunities: function() {
-    return Opportunities.find({}).count() !== 1;
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'opportunities'
+    });
+    return easySearchInstance.get('total') != 1;
   },
   archivedShown: function() {
     return Session.get('opportunitySearchShowArchived');

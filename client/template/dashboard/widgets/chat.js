@@ -1,3 +1,7 @@
+Template.chatWidget.onCreated(function() {
+  this.subscribe('allChatter');
+});
+
 Template.chatWidget.onRendered(function() {
   $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
 });

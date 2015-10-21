@@ -30,7 +30,6 @@ Feature: Allow users to manage their Purchase Orders
     And I set text field with selector "#description" to "test purchase order"
     And I selectize "supplierCompanyId" to "Test Ltd"
     And I click "#create-purchase-order"
-    And I navigate to a purchase order page
     Then I should see the heading "test purchase order"
 
   Scenario: A user can edit a purchase order
@@ -45,7 +44,6 @@ Feature: Allow users to manage their Purchase Orders
     And I set text field with selector "#description" to "test purchase order"
     And I selectize "supplierCompanyId" to "Test Ltd"
     And I click "#create-purchase-order"
-    And I navigate to a purchase order page
     And I click "#edit-purchase-order"
     And I set text field "description" to "new purchase order"
     And I click "#update-purchase-order"
@@ -64,7 +62,6 @@ Feature: Allow users to manage their Purchase Orders
     And I set text field with selector "#description" to "test purchase order"
     And I selectize "supplierCompanyId" to "Test Ltd"
     And I click "#create-purchase-order"
-    And I navigate to a purchase order page
     And I click "#remove-purchase-order"
     And I click confirm on the modal
     Then I should not see "#po-item"
@@ -81,7 +78,6 @@ Feature: Allow users to manage their Purchase Orders
     And I set text field with selector "#description" to "test purchase order"
     And I selectize "supplierCompanyId" to "Test Ltd"
     And I click "#create-purchase-order"
-    And I navigate to a purchase order page
     And I click "#add-item"
     And I set text field with selector "#description" to "test item"
     And I set text field with selector "#code" to "test00001"
@@ -102,7 +98,6 @@ Feature: Allow users to manage their Purchase Orders
     And I set text field with selector "#description" to "test purchase order"
     And I selectize "supplierCompanyId" to "Test Ltd"
     And I click "#create-purchase-order"
-    And I navigate to a purchase order page
     And I click "#add-item"
     And I set text field with selector "#description" to "test item"
     And I set text field with selector "#code" to "test00001"
@@ -126,7 +121,6 @@ Feature: Allow users to manage their Purchase Orders
     And I set text field with selector "#description" to "test purchase order"
     And I selectize "supplierCompanyId" to "Test Ltd"
     And I click "#create-purchase-order"
-    And I navigate to a purchase order page
     And I click "#add-item"
     And I set text field with selector "#description" to "test item"
     And I set text field with selector "#code" to "test00001"
