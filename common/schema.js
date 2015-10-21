@@ -530,21 +530,6 @@ Schemas.PurchaseOrder = new SimpleSchema({
       }
     }
   },
-  // customerCompanyId: {
-  //   type: String,
-  //   optional: true,
-  //   label: 'Customer Company (optional)'
-  // },
-  // customerContactId: {
-  //   type: String,
-  //   optional: true,
-  //   label: 'Customer Contact'
-  // },
-  // projectId: {
-  //   type: String,
-  //   optional: true,
-  //   label: 'Project'
-  // },
   description: {
     type: String,
     label: "Description"
