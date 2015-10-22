@@ -13,6 +13,18 @@ Template.insertNewTask.helpers({
   }
 });
 
+Template.insertNewTask.events({
+  'change input[name=remindMe]': function(e) {
+    e.preventDefault();
+    var remindMe = $('input[name=remindMe]').prop('checked');
+    if(remindMe) {
+      $('#showRemindMeDate').show();
+    } else {
+      $('#showRemindMeDate').hide();
+    }
+  }
+})
+
 var isDashboard = function() {
   return FlowRouter.getRouteName() === "dashboard";
 };

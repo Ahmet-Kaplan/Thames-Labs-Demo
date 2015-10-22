@@ -255,6 +255,17 @@ AutoForm.hooks({
     before: {
       insert: function(doc) {
         doc.createdBy = Meteor.userId();
+        if(doc.remindMe && doc.reminder) { 
+          var reminderDate = moment(doc.reminder);
+          var dueDate = moment(doc.dueDate);
+          if(reminderDate.diff(moment()) < 0){
+            toastr.error('The reminder date is in the past.')
+            return false;
+          } else if(doc.dueDate && reminderDate.diff(dueDate) > 0) {
+            toastr.error('The reminder date is after the due Date.');
+            return false;
+          }
+        }
         return doc;
       }
     },
@@ -264,7 +275,7 @@ AutoForm.hooks({
         //logEvent('error', 'Task not created: ' + error);
       }
     },
-    onSuccess: function() {
+    onSuccess: function(formType, result) {
       Modal.hide('');
       toastr.success('Task created.');
       //logEvent('info', 'Task created.');

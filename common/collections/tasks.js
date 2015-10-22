@@ -8,6 +8,10 @@ Partitioner.partitionCollection(Tasks);
 //////////////////////
 
 Tasks.after.insert(function(userId, doc) {
+  if(doc.remindMe && doc.reminder && Meteor.isServer) {
+    Meteor.call('addTaskReminder', doc._id);
+  }
+
   var entity;
   var entityName;
   switch (doc.entityType) {
@@ -28,6 +32,7 @@ Tasks.after.insert(function(userId, doc) {
       entityName = "User: " + entity.profile.name;
       break;
   }
+
   logEvent('info', 'A new task has been created: ' + doc.title + ' (' + entityName + ")");
 });
 

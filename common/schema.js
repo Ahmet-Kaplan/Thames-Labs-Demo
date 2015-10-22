@@ -715,6 +715,36 @@ Schemas.Task = new SimpleSchema({
       }
     }
   },
+  remindMe: {
+    type: Boolean,
+    defaultValue: false,
+    label: 'Send reminder'
+  },
+  reminder: {
+    type: Date,
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          local: 'en-gb',
+          useCurrent: false,
+          defaultValue: false,
+          sideBySide: false,
+          widgetPositioning: {
+            vertical: 'top'
+          }
+        }
+      }
+    }
+  },
+  taskReminderJob: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
+  },
   isAllDay: {
     type: Boolean,
     defaultValue: true,
