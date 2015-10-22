@@ -23,6 +23,14 @@ Server.post('/webhook/stripe', function(req, res) {
       var o = event.data.object;
       Meteor.log._("Stripe webhook received: " + event.type + ", data object follows.");
       Meteor.log._(o);
+
+      Email.send({
+        to: 'david.mcleary@cambridgesoftware.co.uk',
+        from: 'stripe@realtimecrm.co.uk',
+        subject: 'RealtimeCRM received a webhook from Stripe! [' + event.type + ']',
+        text: o
+      });
+
       res.send(200);
     });
   }
