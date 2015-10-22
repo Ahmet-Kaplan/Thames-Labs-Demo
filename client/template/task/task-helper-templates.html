@@ -51,6 +51,10 @@
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           {{> afQuickField name="isAllDay"}}
+          {{> afQuickField name="remindMe"}}
+          <div id="showRemindMeDate" style="{{#unless remindMe}}display: none;{{/unless}}">
+          {{> afQuickField name="reminder" type="bootstrap-datetimepicker"}}
+          </div>
           {{> afQuickField name="duration" type="duration-picker"}}
           {{> esSelectize name="assigneeId" index="autosuggestUser" value=assigneeId}}
           {{> afQuickField name="completed" id="taskCompleted"}}

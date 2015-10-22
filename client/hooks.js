@@ -258,10 +258,10 @@ AutoForm.hooks({
         if(doc.remindMe && doc.reminder) { 
           var reminderDate = moment(doc.reminder);
           var dueDate = moment(doc.dueDate);
-          if(reminderDate.diff(moment()) < 0){
+          if(reminderDate.isBefore(moment())){
             toastr.error('The reminder date is in the past.')
             return false;
-          } else if(doc.dueDate && reminderDate.diff(dueDate) > 0) {
+          } else if(dueDate && reminderDate.isAfter(dueDate)) {
             toastr.error('The reminder date is after the due Date.');
             return false;
           }

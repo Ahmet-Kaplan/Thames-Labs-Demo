@@ -37,6 +37,10 @@ Tasks.after.insert(function(userId, doc) {
 });
 
 Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
+  if(doc.remindMe && doc.reminder && Meteor.isServer) {
+    Meteor.call('editTaskReminder', doc._id);
+  }
+
   var entity;
   var entityName;
 
