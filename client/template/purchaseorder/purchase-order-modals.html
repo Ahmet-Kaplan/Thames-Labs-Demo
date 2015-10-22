@@ -44,7 +44,8 @@
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description" id="description"}}
-            {{> esSelectize name="supplierCompanyId" index="autosuggestCompany" value=supplierCompanyId readonly=true}}
+            {{> afQuickField name="supplierCompanyId" type="hidden" value=supplierCompanyId}}
+            {{> afQuickField type="text" readonly=true label="Supplier Company" value=supplierCompanyName}}
             {{> esSelectize name="supplierContactId" index="autosuggestContact" parent="supplierCompanyId" filter="filterCompanyId"}}
             {{> afQuickField name="supplierReference" id="supRef"}}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
@@ -119,10 +120,12 @@
 
             {{> afQuickField name="description"}}
             {{#if supplierCompanyId}}
-              {{> esSelectize name="supplierCompanyId" index="autosuggestCompany" value=supplierCompanyId readonly=true}}
+              {{> afQuickField type="text" label="Supplier Company" readonly=true value=supplierCompanyName}}
+              {{> afQuickField name="supplierCompanyId" type="hidden" value=supplierCompanyId}}
             {{/if}}
             {{#if supplierContactId}}
-              {{> esSelectize name="supplierContactId" index="autosuggestContact" parent="supplierCompanyId" filter="filterCompanyId" value=supplierContactId readonly=true}}
+              {{> afQuickField type="text" label="Supplier Contact" readonly=true value=supplierContactName}}
+              {{> afQuickField name="supplierContactId" type="hidden" value=supplierContactId}}
             {{/if}}
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="status" options="allowed" id="poStatus" firstOption=false}}
