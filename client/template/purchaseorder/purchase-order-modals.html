@@ -79,9 +79,11 @@
           {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description"}}
             {{#if supplierCompanyId}}
-              {{> esSelectize name="supplierCompanyId" index="autosuggestCompany" value=supplierCompanyId readonly=true}}
+              {{> afQuickField type="text" label="Supplier Company" readonly=true value=supplierCompanyName}}
+              {{> afQuickField name="supplierCompanyId" type="hidden" value=supplierCompanyId}}
             {{/if}}
-            {{> esSelectize name="supplierContactId" index="autosuggestContact" value=supplierContactId readonly=true}}
+            {{> afQuickField type="text" label="Supplier Contact" readonly=true value=supplierContactName}}
+            {{> afQuickField name="supplierContactId" type="hidden" value=supplierContactId}}
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}

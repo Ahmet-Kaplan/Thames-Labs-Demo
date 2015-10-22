@@ -1,5 +1,5 @@
-#task-container {
-  padding-top: 0;
+.task-container {
+  margin-top: 10px;
 }
 
 li.list-group-item.task {
@@ -16,7 +16,7 @@ li.list-group-item.task {
 }
 
 .task-completed > input {
-  margin-top: -3px;
+  
   display: inline-block;
 }
 

@@ -1,39 +1,5 @@
-Template.task.events({
-  'click .edit-task': function(event) {
-    event.preventDefault();
-    Modal.show('updateTask', this);
-  },
-  'click .task-title': function(event) {
-    event.preventDefault();
-    Modal.show('updateTask', this);
-  },
-  'click .delete-task': function(event) {
-    event.preventDefault();
-    var taskId = this._id;
-    bootbox.confirm("Are you sure you wish to delete this task?", function(result) {
-      if (result === true) {
-        Tasks.remove(taskId);
-      }
-    });
-  },
-  'click .task-completed': function(event, template) {
-    if (Roles.userIsInRole(Meteor.userId(), ['Administrator','CanEditTasks'])) {
-      var id = this._id
-      var isComplete = $('#task-completed-' + id + ' > input').is(':checked');
-      if (isComplete) {
-        Tasks.update(id, { $set: {
-          completed: isComplete,
-          completedAt: new Date()
-        }});
-      } else {
-        Tasks.update(id, { $set: {
-          completed: isComplete
-        }, $unset: {
-          completedAt: null
-        }});
-      }
-    }
-  }
+Template.task.onCreated(function() {
+  this.subscribe('taskTags');
 });
 
 Template.task.helpers({
@@ -76,7 +42,7 @@ Template.task.helpers({
         var handle = Meteor.subscribe("contactById", this.entityId);
         if (handle && handle.ready()) {
           var c = Contacts.find({}).fetch()[0];
-          dataString += ": " + c.title + " " + c.forename + " " + c.surname;
+          dataString += ": " + c.forename + " " + c.surname;
         }
         break;
       case 'project':
@@ -84,7 +50,7 @@ Template.task.helpers({
         var handle = Meteor.subscribe("projectById", this.entityId);
         if (handle && handle.ready()) {
           var p = Projects.find({}).fetch()[0];
-          dataString += ": " + p.description;
+          dataString += ": " + p.name;
         }
         break;
       case 'opportunity':
@@ -92,7 +58,7 @@ Template.task.helpers({
         var handle = Meteor.subscribe("opportunityById", this.entityId);
         if (handle && handle.ready()) {
           var p = Opportunities.find({}).fetch()[0];
-          dataString += ": " + p.description;
+          dataString += ": " + p.name;
         }
         break;
       default:
@@ -100,5 +66,39 @@ Template.task.helpers({
     }
 
     return dataString;
+  }
+});
+
+Template.task.events({
+  'click .edit-task': function(event) {
+    event.preventDefault();
+    Modal.show('updateTask', this);
+  },
+  'click .delete-task': function(event) {
+    event.preventDefault();
+    var taskId = this._id;
+    bootbox.confirm("Are you sure you wish to delete this task?", function(result) {
+      if (result === true) {
+        Tasks.remove(taskId);
+      }
+    });
+  },
+  'click .task-completed': function(event, template) {
+    if (Roles.userIsInRole(Meteor.userId(), ['Administrator','CanEditTasks'])) {
+      var id = this._id
+      var isComplete = $('#task-completed-' + id + ' > input').is(':checked');
+      if (isComplete) {
+        Tasks.update(id, { $set: {
+          completed: isComplete,
+          completedAt: new Date()
+        }});
+      } else {
+        Tasks.update(id, { $set: {
+          completed: isComplete
+        }, $unset: {
+          completedAt: null
+        }});
+      }
+    }
   }
 });

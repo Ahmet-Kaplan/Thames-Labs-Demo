@@ -1,42 +1,70 @@
 <template name="task">
   <li class="list-group-item task">
-    <div class="btn-group pull-right">
-      {{#if isInRole 'Administrator,CanDeleteTasks'}}
-      <button class="btn btn-danger btn-xs delete-task" type="button">
-        Delete
-      </button>
-      {{/if}}
-    </div>
-    {{#if completed}}
-    <div class="pull-right task-date">
-      Completed
-    </div>
-    {{else}}
-    <div class="pull-right task-date">
-      {{#if formattedDueDate}}Due {{formattedDueDate}}{{/if}}
-    </div>
-    {{/if}}
-    <span class="pull-right task-tags">{{> tagBadges}}</span>
-    <div>
-      {{#if isInRole 'Administrator,CanEditTasks'}}
-      <div class="task-completed" id="task-completed-{{_id}}">
-        {{#if completed}}
-          <input type="checkbox" checked>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="pull-left">
+        {{#if isInRole 'Administrator,CanEditTasks'}}
+        <span class="task-completed" id="task-completed-{{_id}}">
+          {{#if completed}}
+            <input type="checkbox" checked>
+          {{else}}
+            <input type="checkbox">
+          {{/if}}
+        </span>
         {{else}}
-          <input type="checkbox">
+        <span class="task-completed" id="task-completed-{{_id}}">
+          {{#if completed}}
+            <input disabled="disabled" type="checkbox" checked>
+          {{else}}
+            <input disabled="disabled" type="checkbox">
+          {{/if}}
+        </span>
         {{/if}}
+        </div>
+        <div class="btn-group pull-right">
+          {{#if isInRole 'Administrator,CanEditTasks'}}
+          <button class="btn btn-info btn-xs edit-task" type="button">
+            <i class="fa fa-fw fa-pencil"></i> Edit
+          </button>
+          {{/if}}
+          {{#if isInRole 'Administrator,CanDeleteTasks'}}
+          <button class="btn btn-danger btn-xs delete-task" type="button">
+            <i class="fa fa-fw fa-times"></i> Delete
+          </button>
+          {{/if}}
+        </div>
+        <div data-toggle="collapse" data-parent="#accordion" href="#collapseTask{{_id}}" id="displayedTaskHeading">
+          <span>{{title}}</span>
+          {{#if showEntityDetail}} <span class="task-entity">{{entityDetails}}</span> {{/if}}
+          {{#if completed}}
+          <div class="pull-right task-date">
+            Completed
+          </div>
+          {{else}}
+          <span class="pull-right task-date">
+            {{#if formattedDueDate}}Due {{formattedDueDate}}{{/if}}
+          </span>
+          {{/if}}
+        </div>
       </div>
-      {{else}}
-      <div class="task-completed" id="task-completed-{{_id}}">
-        {{#if completed}}
-          <input disabled="disabled" type="checkbox" checked>
-        {{else}}
-          <input disabled="disabled" type="checkbox">
-        {{/if}}
-      </div>
-      {{/if}}
-      <a class="{{#if isInRole 'Administrator,CanEditTasks'}}task-title{{/if}}">{{title}}</a>
-      {{#if showEntityDetail}} <span class="task-entity">{{entityDetails}}</span> {{/if}}
     </div>
+      <div id="collapseTask{{_id}}" class="collapse">
+        <div class="row task-container">
+          <div class="col-md-12">
+          {{#if Template.subscriptionsReady}}
+            {{> tagInput tags=tags collection='tasks' entityId=_id permissionToEdit='CanEditTasks'}}
+          {{/if}}
+          {{#if description}}
+            <p>
+              {{description}}
+            </p>
+          {{else}}
+            <p>
+              No description provided.
+            </p>
+          {{/if}}
+          </div>
+        </div>
+      </div>
   </li>
 </template>

@@ -1,7 +1,7 @@
 Tasks = new Mongo.Collection('tasks');
-Tags.TagsMixin(Tasks);
 Collections.tasks = Tasks;
 Partitioner.partitionCollection(Tasks);
+Tags.TagsMixin(Tasks);
 
 //////////////////////
 // COLLECTION HOOKS //
@@ -37,7 +37,7 @@ Tasks.after.insert(function(userId, doc) {
 });
 
 Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
-  if(doc.remindMe && doc.reminder && Meteor.isServer) {
+  if(Meteor.isServer) {
     Meteor.call('editTaskReminder', doc._id);
   }
 
@@ -111,6 +111,10 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Tasks.after.remove(function(userId, doc) {
+  if(doc.taskReminderJob && Meteor.isServer) {
+    Meteor.call('deleteTaskReminder', doc.taskReminderJob);
+  }
+
   var entity;
   var entityName;
   switch (doc.entityType) {

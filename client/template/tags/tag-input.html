@@ -5,7 +5,7 @@
   permissionToEdit: the name of the permission required to edit the tags
  -->
 <template name="tagInput">
-  <div id="tag-list-display">
+  <div id="tag-list-display-{{entityId}}" style="display: none;">
     <select class="tag-input" name='tags[]' multiple="multiple">
       {{#each tags}}
       <option value="{{this}}" selected="true">{{this}}</option>
@@ -13,5 +13,9 @@
       <!-- intentionally left blank to prevent blaze error -->
       {{/each}}
     </select>
+  </div>
+  <div id="tagsBadges_{{entityId}}" class="topBadges">
+    {{> tagBadges}}&nbsp;
+    <span class="pull-right badge editTags" id="toggleTags_{{entityId}}"><i class="fa fa-fw fa-tag"></i></span>
   </div>
 </template>
