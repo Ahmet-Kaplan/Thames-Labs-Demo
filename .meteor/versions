@@ -75,6 +75,7 @@ livedata@1.0.15
 local:partitioner@0.5.5
 localstorage@1.0.5
 logging@1.0.8
+maazalik:highcharts@0.4.0
 manuel:reactivearray@1.0.5
 matb33:collection-hooks@0.8.1
 matteodem:easy-search@1.6.4

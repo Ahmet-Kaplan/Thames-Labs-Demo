@@ -115,7 +115,7 @@ Meteor.methods({
 
       _.each(projData, function(pd) {
         if (pd.value) {
-          value += parseFloat(od.value)
+          value += parseFloat(pd.value)
         }
       });
 
@@ -138,7 +138,7 @@ Meteor.methods({
 
       _.each(projData, function(pd) {
         if (pd.value) {
-          value += parseFloat(od.value)
+          value += parseFloat(pd.value)
         }
       });
 

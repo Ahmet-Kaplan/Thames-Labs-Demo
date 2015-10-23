@@ -87,7 +87,16 @@ widgets = {
     h: 4,
     displayed: false,
     name: 'Opportunity Overview'
-  }
+  },
+  'propagationPie': {
+    id: 'propagationPie',
+    x: 0,
+    y: 0,
+    w: 3,
+    h: 4,
+    displayed: false,
+    name: 'Propagation Overview (Pie Chart)'
+  },
 };
 //List of widgets used by the user
 myWidgets = {};

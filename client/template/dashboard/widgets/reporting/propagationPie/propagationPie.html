@@ -1,0 +1,14 @@
+<template name="propagationPieWidget">
+  <div class="grid-stack-item-content">
+    <div class="panel panel-default" id='propagationPieBox'>
+      <div class="panel-heading">
+        <button aria-hidden="true" class="close" id="close_propagationPieWidget" type="button">×</button>
+        Propagation Overview
+        <a href="#" id="ref_propagationPieWidget" class="pull-right" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
+      </div>
+      <div class="panel-body">
+        {{> highchartsHelper chartId="propagationPieChart" chartWidth="100%" charHeight="100%" chartObject=pieData}}
+      </div>
+    </div>
+  </div>
+</template>
