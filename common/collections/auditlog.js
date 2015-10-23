@@ -11,7 +11,7 @@ AuditLog.initEasySearch(['message'], {
   use: 'mongo-db',
   sort: function() {
     return {
-      'date': 1
+      'date': -1
     };
   }
 });
