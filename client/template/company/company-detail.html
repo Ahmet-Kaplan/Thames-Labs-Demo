@@ -1,22 +1,8 @@
 <template name="companyDetail">
   {{#with companyData}} {{setPageTitle "Company - " name }}
-  <div class="row">
-      <div>
-          <a href="#company-details" class="btn btn-default quick-menu quick-menu1">
-            <i class="quick-menu-icon fa fa-fw fa-file-text-o"></i><span class="legend">Company details</span>
-          </a>
-          <a href="#contacts" class="btn btn-default quick-menu quick-menu2">
-            <i class="quick-menu-icon fa fa-fw fa-user"></i><span class="legend">Contacts</span>
-          </a>
-          <a href="#projects" class="btn btn-default quick-menu quick-menu3">
-            <i class="quick-menu-icon fa fa-fw fa-sitemap"></i><span class="legend">Current Projects</span>
-          </a>
-          <a href="#activity-timeline" class="btn btn-default quick-menu quick-menu4">
-            <i class="quick-menu-icon fa fa-fw fa-list"></i><span class="legend">Activity timeline</span>
-          </a>
-        
-      </div>
-    <div class="col-md-1">
+  <div class="row" id="mainPage">
+    <div class="col-md-1 hidden-sm hidden-xs">
+      {{> jumplist list=linksList}}
     </div>
     <div class="col-md-7">
       <h4 class="entity-title">

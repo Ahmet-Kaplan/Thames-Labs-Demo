@@ -26,27 +26,6 @@ Template.companyDetail.onCreated(function() {
 });
 
 Template.companyDetail.onRendered(function() {
-  /*$('.quick-menu').on('mouseover', function() {
-    $(this).children('.legend').show();
-  });
-
-  $('.quick-menu').on('mouseout', function() {
-    $(this).children('.legend').hide();
-  });*/
-
-  $('.quick-menu').on('click', function(event) {
-    event.preventDefault();
-    var target = $(this).attr('href');
-
-    if(target.length) {
-      $('body').animate({
-        scrollTop: $(target).offset().top - $('.navbar-header').height() - 10
-      }, {
-        duration: 300,
-        easing: 'easeInOutCubic'
-      });
-    }
-  });
   // Load docxgen
   $.getScript('/vendor/docxgen.min.js');
 });
@@ -156,5 +135,49 @@ Template.companyDetail.helpers({
     return Opportunities.find({
       companyId: this._id
     });
+  },
+  linksList: function() {
+    return [
+      {
+        text: 'Company details',
+        anchor: 'company-details',
+        icon: 'fa-file-text-o'
+      },
+      {
+        text: 'Contacts',
+        anchor: 'contacts',
+        icon: 'fa-user'
+      },
+      {
+        text: 'Current Projects',
+        anchor: 'projects',
+        icon: 'fa-sitemap'
+      },
+      {
+        text: 'Purchase Orders',
+        anchor: 'purchase-orders',
+        icon: 'fa-shopping-cart'
+      },
+      {
+        text: 'Tasks',
+        anchor: 'tasks',
+        icon: 'fa-tasks'
+      },
+      {
+        text: 'Extended information',
+        anchor: 'entity-custom-fields',
+        icon: 'fa-bookmark'
+      },
+      {
+        text: 'Opportunities',
+        anchor: 'opportunities',
+        icon: 'fa-lightbulb-o'
+      },
+      {
+        text: 'Activity Timeline',
+        anchor: 'activity-timeline',
+        icon: 'fa-list'
+      }
+    ]
   }
 });

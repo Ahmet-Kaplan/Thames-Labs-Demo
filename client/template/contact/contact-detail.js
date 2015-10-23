@@ -90,6 +90,45 @@ Template.contactDetail.helpers({
     return PurchaseOrders.find({
       supplierContactId: this._id
     })
+  },
+  linksList: function() {
+    return [
+      {
+        text: 'Contacts details',
+        anchor: 'contact-details',
+        icon: 'fa-file-text-o'
+      },
+      {
+        text: 'Current projects',
+        anchor: 'projects',
+        icon: 'fa-sitemap'
+      },
+      {
+        text: 'Purchase Orders',
+        anchor: 'purchase-orders',
+        icon: 'fa-shopping-cart'
+      },
+      {
+        text: 'Tasks',
+        anchor: 'tasks',
+        icon: 'fa-tasks'
+      },
+      {
+        text: 'Extended information',
+        anchor: 'entity-custom-fields',
+        icon: 'fa-bookmark'
+      },
+      {
+        text: 'Opportunities',
+        anchor: 'opportunities',
+        icon: 'fa-lightbulb-o'
+      },
+      {
+        text: 'Activity Timeline',
+        anchor: 'activity-timeline',
+        icon: 'fa-list'
+      }
+    ]
   }
 });
 
@@ -164,6 +203,7 @@ Template.ContactProjectListItem.helpers({
     return (this.companyId ? true : false);
   },
   projectCompanyName: function() {
+    Meteor.subscribe('companyById', this.companyId)
     var company = Companies.findOne(this.companyId);
     return company.name;
   }
