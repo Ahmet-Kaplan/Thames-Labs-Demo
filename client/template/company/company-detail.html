@@ -1,8 +1,24 @@
 <template name="companyDetail">
   {{#with companyData}} {{setPageTitle "Company - " name }}
   <div class="row">
-
-    <div class="col-md-8">
+      <div>
+          <a href="#company-details" class="btn btn-default quick-menu quick-menu1">
+            <i class="quick-menu-icon fa fa-fw fa-file-text-o"></i><span class="legend">Company details</span>
+          </a>
+          <a href="#contacts" class="btn btn-default quick-menu quick-menu2">
+            <i class="quick-menu-icon fa fa-fw fa-user"></i><span class="legend">Contacts</span>
+          </a>
+          <a href="#projects" class="btn btn-default quick-menu quick-menu3">
+            <i class="quick-menu-icon fa fa-fw fa-sitemap"></i><span class="legend">Current Projects</span>
+          </a>
+          <a href="#activity-timeline" class="btn btn-default quick-menu quick-menu4">
+            <i class="quick-menu-icon fa fa-fw fa-list"></i><span class="legend">Activity timeline</span>
+          </a>
+        
+      </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-7">
       <h4 class="entity-title">
         <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
         Company
@@ -137,7 +153,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-11 col-md-offset-1">
       <h1 id="activity-timeline">
         Activity Timeline
         <a href="#" class="btn btn-primary{{#unless isMobile}} pull-right{{/unless}}" id="add-activity" data-toggle="tooltip" data-placement="bottom" title="New activity for this company"><i class="fa fa-fw fa-plus"></i> Add</a>

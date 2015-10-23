@@ -26,6 +26,27 @@ Template.companyDetail.onCreated(function() {
 });
 
 Template.companyDetail.onRendered(function() {
+  /*$('.quick-menu').on('mouseover', function() {
+    $(this).children('.legend').show();
+  });
+
+  $('.quick-menu').on('mouseout', function() {
+    $(this).children('.legend').hide();
+  });*/
+
+  $('.quick-menu').on('click', function(event) {
+    event.preventDefault();
+    var target = $(this).attr('href');
+
+    if(target.length) {
+      $('body').animate({
+        scrollTop: $(target).offset().top - $('.navbar-header').height() - 10
+      }, {
+        duration: 300,
+        easing: 'easeInOutCubic'
+      });
+    }
+  });
   // Load docxgen
   $.getScript('/vendor/docxgen.min.js');
 });
