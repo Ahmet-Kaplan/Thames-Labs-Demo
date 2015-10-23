@@ -51,6 +51,42 @@ widgets = {
     displayed: false,
     name: 'Requested Purchase Orders',
     requiredPermission: "CanReadPurchaseOrders"
+  },
+  'taskOverview': {
+    id: 'taskOverview',
+    x: 0,
+    y: 0,
+    w: 3,
+    h: 4,
+    displayed: false,
+    name: 'Task Overview'
+  },
+  'propagation': {
+    id: 'propagation',
+    x: 0,
+    y: 0,
+    w: 3,
+    h: 4,
+    displayed: false,
+    name: 'Propagation Overview'
+  },
+  'projectInformation': {
+    id: 'projectInformation',
+    x: 0,
+    y: 0,
+    w: 3,
+    h: 4,
+    displayed: false,
+    name: 'Project Overview'
+  },
+  'opportunityInformation': {
+    id: 'opportunityInformation',
+    x: 0,
+    y: 0,
+    w: 3,
+    h: 4,
+    displayed: false,
+    name: 'Opportunity Overview'
   }
 };
 //List of widgets used by the user
@@ -97,12 +133,12 @@ function instanciateDashboard(savedWidgets) {
   _.each(organizedWidgets, function(widget) {
     if (!!widget.requiredPermission) {
       var requiredPermission = widget.requiredPermission,
-      userId = Meteor.userId();
+        userId = Meteor.userId();
       if (!Roles.userIsInRole(userId, ['Administrator', requiredPermission])) {
         return;
       }
     }
-    if(widget.displayed) {
+    if (widget.displayed) {
       grid.add_widget('<div id="' + widget.id + 'Widget"></div>', widget.x, widget.y, widget.w, widget.h, false);
       newWidget = Blaze.render(Template[widget.id + 'Widget'], document.getElementById(widget.id + "Widget"));
       dashboardWidgets[widget.id + "Widget"] = newWidget;
@@ -111,7 +147,7 @@ function instanciateDashboard(savedWidgets) {
 }
 
 Template.dashboard.onCreated(function() {
-  this.autorun( () => {
+  this.autorun(() => {
     // Redirect superadmin
     if (Roles.userIsInRole(Meteor.userId(), 'superadmin')) FlowRouter.go('tenants');
   });
@@ -132,6 +168,12 @@ Template.dashboard.onRendered(function() {
 });
 
 Template.dashboard.events({
+  // 'click #test': function() {
+  //   Meteor.call('rptCompaniesStored', function(err, data) {
+  //     console.log(Meteor.isDevelopment);
+  //     console.log(err, data);
+  //   })
+  // },
   'change .grid-stack': function() {
     saveMyWidgets()
   },
@@ -182,7 +224,7 @@ Template.dashboard.helpers({
     }).filter(function(widget) {
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
-            userId = Meteor.userId();
+          userId = Meteor.userId();
         return Roles.userIsInRole(userId, ['Administrator', requiredPermission])
       }
       return true;

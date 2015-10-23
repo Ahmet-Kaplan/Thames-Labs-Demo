@@ -103,6 +103,9 @@ Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.value !== this.previous.value) {
     logEvent('info', 'An existing project has been updated: The value of "value" was changed from ' + this.previous.value + " to " + doc.value);
   }
+  if (doc.active !== this.previous.active) {
+    logEvent('info', 'An existing project has been updated: The value of "active" was changed from ' + this.previous.active + " to " + doc.active);
+  }
 });
 
 Projects.after.remove(function(userId, doc) {

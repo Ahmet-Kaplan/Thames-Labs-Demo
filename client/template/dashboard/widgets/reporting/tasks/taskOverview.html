@@ -1,0 +1,22 @@
+<template name="taskOverviewWidget">
+  <div class="grid-stack-item-content">
+    <div class="panel panel-default" id='taskOverviewBox'>
+      <div class="panel-heading">
+        <button aria-hidden="true" class="close" id="close_taskOverviewWidget" type="button">×</button>
+        Task Overview
+        <a href="#" id="ref_taskOverviewWidget" class="pull-right" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
+      </div>
+      <div class="panel-body">
+        <div class="taskOverviewList">
+          <ul class="list-unstyled">
+            <li id="tasksCreatedOverview">Tasks created: <span class="pull-right">{{createdTasks}}</span></li>
+            <li id="tasksCompletedOverview">Tasks completed: <span class="pull-right">{{completedTasks}}</span></li>
+            <li id="tasksDueSoonOverview">Tasks due soon: <span class="pull-right">{{dueTasks}}</span></li>
+            <li id="tasksOverdueOverview">Tasks overdue: <span class="pull-right">{{overdueTasks}}</span></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

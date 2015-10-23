@@ -1,0 +1,23 @@
+<template name="propagationWidget">
+  <div class="grid-stack-item-content">
+    <div class="panel panel-default" id='propagationBox'>
+      <div class="panel-heading">
+        <button aria-hidden="true" class="close" id="close_propagationWidget" type="button">×</button>
+         Propagation Overview
+        <a href="#" id="ref_propagationWidget" class="pull-right" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
+      </div>
+      <div class="panel-body">
+        <div class="propagationList">
+          <ul class="list-unstyled">
+            <li id="totalCompanyPropagation">Number of companies: <span class="pull-right">{{totalCompanies}}</span></li>
+            <li id="totalContactPropagation">Number of contacts: <span class="pull-right">{{totalContacts}}</span></li>
+            <li id="totalOpportunityPropagation">Number of opportunities: <span class="pull-right">{{totalOpportunities}}</span></li>
+            <li id="totalProjectPropagation">Number of projects: <span class="pull-right">{{totalProjects}}</span></li>
+            <li id="totalProductPropagation">Number of products: <span class="pull-right">{{totalProducts}}</span></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

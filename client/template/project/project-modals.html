@@ -141,6 +141,7 @@
             {{/if}}
             {{> esSelectize name="userId" index="autosuggestUser" value=userId}}
             {{> afQuickField name="value"}}
+            {{> afQuickField name="state"}}
             {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             <button type="submit" class="btn btn-primary">Update</button>

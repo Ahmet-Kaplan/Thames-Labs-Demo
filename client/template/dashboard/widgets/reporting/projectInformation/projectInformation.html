@@ -1,0 +1,22 @@
+<template name="projectInformationWidget">
+  <div class="grid-stack-item-content">
+    <div class="panel panel-default" id='projectInformationBox'>
+      <div class="panel-heading">
+        <button aria-hidden="true" class="close" id="close_projectInformationWidget" type="button">×</button>
+         Project Overview
+        <a href="#" id="ref_projectInformationWidget" class="pull-right" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
+      </div>
+      <div class="panel-body">
+        <div class="projectInformationList">
+          <ul class="list-unstyled">
+            <li id="totalProjects">Total number of projects: <span class="pull-right">{{totalProjects}}</span></li>
+            <li id="activeProjects">Number of active projects: <span class="pull-right">{{activeProjects}}</span></li>
+            <li id="activeProjectTotal">Active project total value: <span class="pull-right">£{{decimal activeProjectTotal}}</span></li>
+            <li id="activeProjectsAverage">Active project average value: <span class="pull-right">£{{decimal activeProjectsAverage}}</span></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
