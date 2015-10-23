@@ -7,14 +7,14 @@ Template.opportunityInformationWidget.onCreated(function() {
 Template.opportunityInformationWidget.onRendered(function() {
   var template = this;
 
-  Meteor.call('rptNumberOfOpportunities', function(err, data) {
+  Meteor.call('report.numberOfOpportunities', function(err, data) {
     template.totalOpps.set(data.Count);
   });
-  Meteor.call('rptValueOfOpportunities', function(err, data) {
+  Meteor.call('report.valueOfOpportunities', function(err, data) {
     console.log(data);
     template.totalOppValue.set(data.Value);
   });
-  Meteor.call('rptAverageOpportunityValue', function(err, data) {
+  Meteor.call('report.averageOpportunityValue', function(err, data) {
     console.log(data);
     template.averageOppValue.set(data.Value);
   });
@@ -23,13 +23,13 @@ Template.opportunityInformationWidget.onRendered(function() {
 Template.opportunityInformationWidget.events({
   'click #ref_opportunityInformationWidget': function(event, template) {
 
-      Meteor.call('rptNumberOfOpportunities', function(err, data) {
+      Meteor.call('report.numberOfOpportunities', function(err, data) {
         template.totalOpps.set(data.Count);
       });
-      Meteor.call('rptValueOfOpportunities', function(err, data) {
+      Meteor.call('report.valueOfOpportunities', function(err, data) {
         template.totalOppValue.set(data.Value);
       });
-      Meteor.call('rptAverageOpportunityValue', function(err, data) {
+      Meteor.call('report.averageOpportunityValue', function(err, data) {
         template.averageOppValue.set(data.Value);
       });
   }

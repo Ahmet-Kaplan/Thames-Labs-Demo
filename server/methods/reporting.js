@@ -1,5 +1,5 @@
 Meteor.methods({
-  rptTasksCreated: function() {
+  'report.tasksCreated': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var taskData = Tasks.find({}).fetch();
       var data = {
@@ -9,7 +9,7 @@ Meteor.methods({
       return data;
     });
   },
-  rptTasksCompleted: function() {
+  'report.tasksCompleted': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var taskData = Tasks.find({
         completed: {
@@ -23,7 +23,7 @@ Meteor.methods({
       return data;
     });
   },
-  rptTasksDueInTheNextWeek: function() {
+  'report.tasksDueInTheNextWeek': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var startDate = moment();
       var endDate = moment(startDate).add(7, 'days');
@@ -41,7 +41,7 @@ Meteor.methods({
       return data;
     });
   },
-  rptTasksOverdue: function() {
+  'report.tasksOverdue': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var startDate = moment();
 
@@ -60,7 +60,7 @@ Meteor.methods({
       return data;
     });
   },
-  rptCompaniesStored: function() {
+  'report.companiesStored': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var companyData = Companies.find({}).fetch();
       var data = {
@@ -70,7 +70,7 @@ Meteor.methods({
       return data;
     });
   },
-  rptContactsStored: function() {
+  'report.contactsStored': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var contactData = Contacts.find({}).fetch();
       var data = {
@@ -80,7 +80,7 @@ Meteor.methods({
       return data;
     });
   },
-  rptNumberOfProjects: function() {
+  'report.numberOfProjects': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var projectData = Projects.find({}).fetch();
       var data = {
@@ -90,7 +90,7 @@ Meteor.methods({
       return data;
     });
   },
-  rptActiveProjects: function() {
+  'report.activeProjects': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var projectData = Projects.find({
         active: {
@@ -104,7 +104,7 @@ Meteor.methods({
       return data;
     });
   },
-  rptActiveProjectsValue: function() {
+  'report.activeProjectsValue': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var projData = Projects.find({
         active: {
@@ -127,7 +127,7 @@ Meteor.methods({
       return data;
     });
   },
-  rptAverageActiveProjectValue: function() {
+  'report.activeProjects': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var projData = Projects.find({
         active: {
@@ -150,7 +150,7 @@ Meteor.methods({
       return data;
     });
   },
-  rptNumberOfOpportunities: function() {
+  'report.numberOfOpportunities': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var oppData = Opportunities.find({}).fetch();
       var data = {
@@ -160,7 +160,7 @@ Meteor.methods({
       return data;
     });
   },
-  rptValueOfOpportunities: function() {
+  'report.valueOfOpportunities': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var oppData = Opportunities.find({}).fetch();
       var value = 0;
@@ -179,7 +179,7 @@ Meteor.methods({
       return data;
     });
   },
-  rptAverageOpportunityValue: function() {
+  'report.averageOpportunityValue': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var oppData = Opportunities.find({}).fetch();
       var value = 0;
@@ -198,7 +198,7 @@ Meteor.methods({
       return data;
     });
   },
-  rptNumberOfProducts: function() {
+  'report.numberOfProducts': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var productData = Products.find({}).fetch();
       var data = {

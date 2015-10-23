@@ -9,19 +9,19 @@ Template.propagationPieWidget.onCreated(function() {
 Template.propagationPieWidget.onRendered(function() {
   var template = this;
 
-  Meteor.call('rptCompaniesStored', function(err, data) {
+  Meteor.call('report.companiesStored', function(err, data) {
     template.totalCompanies.set(data.Count);
   });
-  Meteor.call('rptContactsStored', function(err, data) {
+  Meteor.call('report.contactsStored', function(err, data) {
     template.totalContacts.set(data.Count);
   });
-  Meteor.call('rptNumberOfProjects', function(err, data) {
+  Meteor.call('report.numberOfProjects', function(err, data) {
     template.totalProjects.set(data.Count);
   });
-  Meteor.call('rptNumberOfOpportunities', function(err, data) {
+  Meteor.call('report.numberOfOpportunities', function(err, data) {
     template.totalOpportunities.set(data.Count);
   });
-  Meteor.call('rptNumberOfProducts', function(err, data) {
+  Meteor.call('report.numberOfProducts', function(err, data) {
     template.totalProducts.set(data.Count);
   });
 
@@ -29,19 +29,19 @@ Template.propagationPieWidget.onRendered(function() {
 
 Template.propagationPieWidget.events({
   'click #ref_propagationPieWidget': function(event, template) {
-    Meteor.call('rptCompaniesStored', function(err, data) {
+    Meteor.call('report.companiesStored', function(err, data) {
       template.totalCompanies.set(data.Count);
     });
-    Meteor.call('rptContactsStored', function(err, data) {
+    Meteor.call('report.contactsStored', function(err, data) {
       template.totalContacts.set(data.Count);
     });
-    Meteor.call('rptNumberOfProjects', function(err, data) {
+    Meteor.call('report.numberOfProjects', function(err, data) {
       template.totalProjects.set(data.Count);
     });
-    Meteor.call('rptNumberOfOpportunities', function(err, data) {
+    Meteor.call('report.numberOfOpportunities', function(err, data) {
       template.totalOpportunities.set(data.Count);
     });
-    Meteor.call('rptNumberOfProducts', function(err, data) {
+    Meteor.call('report.numberOfProducts', function(err, data) {
       template.totalProducts.set(data.Count);
     });
   }

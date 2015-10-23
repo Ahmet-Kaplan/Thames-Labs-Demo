@@ -178,7 +178,7 @@ Template.dashboard.onRendered(function() {
 
 Template.dashboard.events({
   // 'click #test': function() {
-  //   Meteor.call('rptCompaniesStored', function(err, data) {
+  //   Meteor.call('report.companiesStored', function(err, data) {
   //     console.log(Meteor.isDevelopment);
   //     console.log(err, data);
   //   })

@@ -8,16 +8,16 @@ Template.projectInformationWidget.onCreated(function() {
 Template.projectInformationWidget.onRendered(function() {
   var template = this;
 
-  Meteor.call('rptNumberOfProjects', function(err, data) {
+  Meteor.call('report.numberOfProjects', function(err, data) {
     template.totalProjects.set(data.Count);
   });
-  Meteor.call('rptActiveProjects', function(err, data) {
+  Meteor.call('report.activeProjects', function(err, data) {
     template.activeProjects.set(data.Count);
   });
-  Meteor.call('rptActiveProjectsValue', function(err, data) {
+  Meteor.call('report.activeProjectsValue', function(err, data) {
     template.activeProjectTotal.set(data.Count);
   });
-  Meteor.call('rptAverageActiveProjectValue', function(err, data) {
+  Meteor.call('report.activeProjects', function(err, data) {
     template.activeProjectsAverage.set(data.Count);
   });
 });
@@ -25,16 +25,16 @@ Template.projectInformationWidget.onRendered(function() {
 Template.projectInformationWidget.events({
   'click #ref_projectInformationWidget': function(event, template) {
 
-    Meteor.call('rptNumberOfProjects', function(err, data) {
+    Meteor.call('report.numberOfProjects', function(err, data) {
       template.totalProjects.set(data.Count);
     });
-    Meteor.call('rptActiveProjects', function(err, data) {
+    Meteor.call('report.activeProjects', function(err, data) {
       template.activeProjects.set(data.Count);
     });
-    Meteor.call('rptActiveProjectsValue', function(err, data) {
+    Meteor.call('report.activeProjectsValue', function(err, data) {
       template.activeProjectTotal.set(data.Value);
     });
-    Meteor.call('rptAverageActiveProjectValue', function(err, data) {
+    Meteor.call('report.activeProjects', function(err, data) {
       template.activeProjectsAverage.set(data.Value);
     });
   }

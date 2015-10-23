@@ -8,32 +8,32 @@ Template.taskOverviewWidget.onCreated(function() {
 Template.taskOverviewWidget.onRendered(function() {
   var template = this;
 
-  Meteor.call('rptTasksCreated', function(err, data) {
+  Meteor.call('report.tasksCreated', function(err, data) {
     template.createdTaskCount.set(data.Count);
   });
-  Meteor.call('rptTasksCompleted', function(err, data) {
+  Meteor.call('report.tasksCompleted', function(err, data) {
     template.completedTaskCount.set(data.Count);
   });
-  Meteor.call('rptTasksDueInTheNextWeek', function(err, data) {
+  Meteor.call('report.tasksDueInTheNextWeek', function(err, data) {
     template.dueTaskCount.set(data.Count);
   });
-  Meteor.call('rptTasksOverdue', function(err, data) {
+  Meteor.call('report.tasksOverdue', function(err, data) {
     template.overdueTaskCount.set(data.Count);
   });
 });
 
 Template.taskOverviewWidget.events({
   'click #ref_taskOverviewWidget': function(event, template) {
-    Meteor.call('rptTasksCreated', function(err, data) {
+    Meteor.call('report.tasksCreated', function(err, data) {
       template.createdTaskCount.set(data.Count);
     });
-    Meteor.call('rptTasksCompleted', function(err, data) {
+    Meteor.call('report.tasksCompleted', function(err, data) {
       template.completedTaskCount.set(data.Count);
     });
-    Meteor.call('rptTasksDueInTheNextWeek', function(err, data) {
+    Meteor.call('report.tasksDueInTheNextWeek', function(err, data) {
       template.dueTaskCount.set(data.Count);
     });
-    Meteor.call('rptTasksOverdue', function(err, data) {
+    Meteor.call('report.tasksOverdue', function(err, data) {
       template.overdueTaskCount.set(data.Count);
     });
   }
