@@ -88,14 +88,14 @@ widgets = {
     displayed: false,
     name: 'Opportunity Overview'
   },
-  'propagationPie': {
-    id: 'propagationPie',
+  'propagationChart': {
+    id: 'propagationChart',
     x: 0,
     y: 0,
     w: 3,
     h: 4,
     displayed: false,
-    name: 'Propagation Overview (Pie Chart)'
+    name: 'Propagation Overview (Chart)'
   },
 };
 //List of widgets used by the user

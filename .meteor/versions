@@ -63,6 +63,7 @@ http@1.1.1
 id-map@1.0.4
 jboulhous:dev@1.0.1
 jeremy:geocomplete@1.6.5_7
+jesperwe:bootstrap-select@1.7.4_4
 jquery@1.11.4
 kadira:blaze-layout@2.2.0
 kadira:flow-router@2.7.0
@@ -75,7 +76,6 @@ livedata@1.0.15
 local:partitioner@0.5.5
 localstorage@1.0.5
 logging@1.0.8
-maazalik:highcharts@0.4.0
 manuel:reactivearray@1.0.5
 matb33:collection-hooks@0.8.1
 matteodem:easy-search@1.6.4
