@@ -6,8 +6,17 @@ Template.events.onCreated(function() {
 });
 
 Template.events.helpers({
-  events: function() {
-    return AuditLog.find({}, {sort: {date: -1}});
+  eventLogCount: function() {
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'audit'
+    });
+    return easySearchInstance.get('total');
+  },
+  hasMultipleRecords: function() {
+    var easySearchInstance = EasySearch.getComponentInstance({
+      index: 'audit'
+    });
+    return easySearchInstance.get('total') != 1;
   }
 });
 

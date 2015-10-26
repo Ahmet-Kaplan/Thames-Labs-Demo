@@ -75,6 +75,14 @@ module.exports = function() {
     client.url(path);
   });
 
+  this.When(/^the page is loaded$/, function() {
+    client.executeAsync(function(done) {
+      //This is used to wait for the data to be loaded.
+      //Ideally this should look the the subscription instead.
+      setTimeout(done, 500);
+    })
+  })
+
   this.When(/^I click "([^"]*)"$/, function(id) {
     client.waitForExist(id, 5000);
     client.waitForVisible(id, 5000);
@@ -186,8 +194,8 @@ module.exports = function() {
   });
 
   this.Then(/^"([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(selector, option, desiredText) {
-    client.scroll("#" + selector, 0, -60);
-    var fieldValue = client.getText("#" + selector);
+    client.scroll(selector, 0, -60);
+    var fieldValue = client.getText(selector);
     if (option === 'say') {
       expect(fieldValue).toEqual(desiredText);
     } else if (option === 'contain') {

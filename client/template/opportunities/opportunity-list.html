@@ -6,7 +6,7 @@
     <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
-        {{> esInput index="opportunities" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
+        {{> esInput index="opportunities" placeholder="search..." allDocsOnEmpty=true class="form-control"}}
         <div class="btn-group-vertical">
           {{#if isInRole 'Administrator,CanCreateOpportunities'}}
           <button id="create-opportunity" type="submit" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add opportunity</button>
@@ -19,23 +19,29 @@
 
     <div class="col-md-9">
 
-      <h1 id="companies-page-header"><i class="fa fa-lightbulb-o"></i> Opportunities</h1>
+      <h1 id="opportunities-page-header"><i class="fa fa-lightbulb-o"></i> Opportunities{{#if archivedShown}} - <i>archived</i>{{/if}}</h1>
 
-      {{#if hasOpportunities}}
-      <div class="list-group" id="mchOpportunityList">
+      <div class="pull-right">
+        {{> esPagination index="opportunities"}}
+      </div>
+      <small>{{opportunityCount}} record{{#if hasMultipleOpportunities}}s{{/if}}</small>
+
+      <div class="list-group">
+        {{#esEach index="opportunities"}}
+          {{> opportunityListItem}}
+        {{/esEach}}
+
+        {{#ifEsHasNoResults index="opportunities"}}
+          <h4>No opportunities found</h4>
+        {{/ifEsHasNoResults}}
+
         {{#ifEsIsSearching index="opportunities"}}
           {{> spinner}}
-        {{else}}
-          {{#esEach index="opportunities"}}
-            {{> opportunityListItem}}
-          {{/esEach}}
-          {{> esLoadMoreButton index="opportunities" class="btn btn-default"}}
         {{/ifEsIsSearching}}
       </div>
-      {{else}}
-      <br>
-      <h4 style="color:gray;" id="mchNoOpportunityPlaceholder">No opportunities</h4>
-      {{/if}}
+      <div class="pull-right">
+        {{> esPagination index="opportunities"}}
+      </div>
 
     </div>
   </div>
