@@ -11,7 +11,7 @@
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description" id="description"}}
-            {{> esSelectize name="supplierCompanyId" index="autosuggestCompany"}}
+            {{> esSelectize name="supplierCompanyId" index=CompaniesIndex}}
             {{> esSelectize name="supplierContactId" index="autosuggestContact" parent="supplierCompanyId" filter="filterCompanyId"}}
             {{> afQuickField name="supplierReference" id="supRef"}}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
@@ -44,7 +44,7 @@
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description" id="description"}}
-            {{> esSelectize name="supplierCompanyId" index="autosuggestCompany" value=supplierCompanyId readonly=true}}
+            {{> esSelectize name="supplierCompanyId" index=CompaniesIndex value=supplierCompanyId readonly=true}}
             {{> esSelectize name="supplierContactId" index="autosuggestContact" parent="supplierCompanyId" filter="filterCompanyId"}}
             {{> afQuickField name="supplierReference" id="supRef"}}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
@@ -79,7 +79,7 @@
           {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description"}}
             {{#if supplierCompanyId}}
-              {{> esSelectize name="supplierCompanyId" index="autosuggestCompany" value=supplierCompanyId readonly=true}}
+              {{> esSelectize name="supplierCompanyId" index=CompaniesIndex value=supplierCompanyId readonly=true}}
             {{/if}}
             {{> esSelectize name="supplierContactId" index="autosuggestContact" value=supplierContactId readonly=true}}
             {{> afQuickField name="supplierReference" }}
@@ -117,7 +117,7 @@
 
             {{> afQuickField name="description"}}
             {{#if supplierCompanyId}}
-              {{> esSelectize name="supplierCompanyId" index="autosuggestCompany" value=supplierCompanyId readonly=true}}
+              {{> esSelectize name="supplierCompanyId" index=CompaniesIndex value=supplierCompanyId readonly=true}}
             {{/if}}
             {{#if supplierContactId}}
               {{> esSelectize name="supplierContactId" index="autosuggestContact" parent="supplierCompanyId" filter="filterCompanyId" value=supplierContactId readonly=true}}

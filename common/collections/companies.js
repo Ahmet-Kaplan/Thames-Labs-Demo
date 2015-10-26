@@ -50,7 +50,10 @@ CompaniesIndex = new EasySearch.Index({
     sort: () => {
       return { 'name': 1 }
     },
-    fields: () => {
+    fields: (searchObject, options) => {
+      if (options.search.props.autosuggest) {
+        return { 'name': 1 }
+      }
       return {
         'name': 1,
         'city': 1,
@@ -61,14 +64,6 @@ CompaniesIndex = new EasySearch.Index({
     }
   })
 });
-
-// EasySearch.createSearchIndex('autosuggestCompany', {
-//   field: ['_id', 'name'],
-//   collection: Companies,
-//   limit: 10,
-//   use: 'mongo-db',
-//   returnFields: ['_id', 'name']
-// });
 
 //////////////////////
 // COLLECTION HOOKS //

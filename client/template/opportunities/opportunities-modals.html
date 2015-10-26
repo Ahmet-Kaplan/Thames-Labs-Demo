@@ -14,7 +14,7 @@
             {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="value"}}
 
-            {{> esSelectize name="companyId" index="autosuggestCompany"}}
+            {{> esSelectize name="companyId" index=CompaniesIndex}}
 
             {{> esSelectize name="contactId" index="autosuggestContact" parent="companyId" filter="filterCompanyId"}}
 

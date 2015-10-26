@@ -14,7 +14,7 @@
 
             {{> afQuickField name="description"}}
 
-            {{> esSelectize name="companyId" index="autosuggestCompany"}}
+            {{> esSelectize name="companyId" index=CompaniesIndex}}
 
             {{#if showContacts}}
               {{> esSelectize name="contactId" index="autosuggestContact" parent="companyId" filter="filterCompanyId"}}
@@ -134,7 +134,7 @@
             {{> afQuickField name="name"}}
             {{> afQuickField name="description"}}
             {{#if companyId}}
-              {{> esSelectize index="autosuggestCompany" name="companyId" value=companyId readonly=true}}
+              {{> esSelectize index=CompaniesIndex name="companyId" value=companyId readonly=true}}
             {{/if}}
             {{#if contactId}}
               {{> esSelectize name="contactId" index="autosuggestContact" value=contactId  readonly=true}}

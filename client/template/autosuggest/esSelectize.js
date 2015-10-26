@@ -3,19 +3,20 @@ function searchOptions(index, search, optionsList, parent, filter) {
     //No search index set up
     return false;
   }
+
+  var searchOptions = {
+    props: {
+      autosuggest: true
+    }
+  };
+
   if(parent !== undefined && filter !== undefined) {
-    EasySearch.changeProperty(index, filter, parent);
+    searchOptions.props[filter] = parent;
   }
 
   var searchInput = search || '';
-  EasySearch.search(index, searchInput, function(err, data) {
-    if(err) {
-      toastr.error('Unable to retrieve list');
-      return false;
-    }
-    optionsList.set(data.results);
-    return true;
-  });
+  var results = index.search(searchInput, searchOptions).fetch();
+  optionsList.set(results);
 }
 
 Template.esSelectize.onRendered(function() {
