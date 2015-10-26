@@ -37,6 +37,16 @@ Meteor.startup(function() {
   _.forEach(users, function(u) {
     if (u.profile) {
 
+      if (typeof u.profile.welcomeTour === "undefined") {
+
+        Meteor.users.update(u._id, {
+          $set: {
+            "profile.welcomeTour": false
+          }
+        });
+
+      }
+
       if (typeof u.profile.lastLogin === "undefined") {
 
         Meteor.users.update(u._id, {

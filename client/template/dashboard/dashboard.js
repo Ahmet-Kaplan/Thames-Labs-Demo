@@ -97,12 +97,12 @@ function instanciateDashboard(savedWidgets) {
   _.each(organizedWidgets, function(widget) {
     if (!!widget.requiredPermission) {
       var requiredPermission = widget.requiredPermission,
-      userId = Meteor.userId();
+        userId = Meteor.userId();
       if (!Roles.userIsInRole(userId, ['Administrator', requiredPermission])) {
         return;
       }
     }
-    if(widget.displayed) {
+    if (widget.displayed) {
       grid.add_widget('<div id="' + widget.id + 'Widget"></div>', widget.x, widget.y, widget.w, widget.h, false);
       newWidget = Blaze.render(Template[widget.id + 'Widget'], document.getElementById(widget.id + "Widget"));
       dashboardWidgets[widget.id + "Widget"] = newWidget;
@@ -111,7 +111,7 @@ function instanciateDashboard(savedWidgets) {
 }
 
 Template.dashboard.onCreated(function() {
-  this.autorun( () => {
+  this.autorun(() => {
     // Redirect superadmin
     if (Roles.userIsInRole(Meteor.userId(), 'superadmin')) FlowRouter.go('tenants');
   });
@@ -129,6 +129,18 @@ Template.dashboard.onRendered(function() {
   //Retrieve list of widgets from db if exists
   var savedWidgets = Meteor.user().profile.myWidgets;
   instanciateDashboard(savedWidgets);
+
+  //Has user taken welcome tour yet?
+  if (Meteor.user().profile.welcomeTour === false) {
+    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
+    Meteor.users.update({
+      _id: Meteor.userId()
+    }, {
+      $set: {
+        "profile.welcomeTour": true
+      }
+    });
+  }
 });
 
 Template.dashboard.events({
@@ -182,7 +194,7 @@ Template.dashboard.helpers({
     }).filter(function(widget) {
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
-            userId = Meteor.userId();
+          userId = Meteor.userId();
         return Roles.userIsInRole(userId, ['Administrator', requiredPermission])
       }
       return true;
