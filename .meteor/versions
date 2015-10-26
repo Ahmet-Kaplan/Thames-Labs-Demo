@@ -45,8 +45,8 @@ deps@1.0.9
 diff-sequence@1.0.1
 digilord:faker@1.0.7
 easy:search@2.0.0
-easysearch:components@2.0.0
-easysearch:core@2.0.0
+easysearch:components@2.0.1
+easysearch:core@2.0.1
 ecmascript@0.1.5
 ecmascript-collections@0.1.6
 ejson@1.0.7
@@ -109,7 +109,7 @@ mongo-id@1.0.1
 mongo-livedata@1.0.9
 mousetrap:mousetrap@1.4.6_1
 mpowaga:string-template@0.1.0
-mrgalaxy:stripe@2.2.0
+mrgalaxy:stripe@2.2.1
 mrt:moment@2.8.1
 msavin:mongol@1.5.0
 mystor:device-detection@0.2.0
@@ -178,6 +178,6 @@ velocity:shim@0.1.0
 velocity:source-map-support@0.3.2_1
 webapp@1.2.2
 webapp-hashing@1.0.5
-xolvio:cucumber@0.19.3_1
+xolvio:cucumber@0.19.4_1
 yogiben:autoform-modals@0.3.8
 zimme:active-route@2.3.2

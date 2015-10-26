@@ -10,11 +10,8 @@ Template.productList.onRendered(function() {
   Session.set('productListSearchQuery', null);
   Tracker.autorun(function() {
     var searchQuery = Session.get('productListSearchQuery');
-    var easySearchInstance = EasySearch.getComponentInstance({
-      index: 'products'
-    });
     if (searchQuery) {
-      easySearchInstance.search(searchQuery);
+      ProductsIndex.getComponentMethods().search(searchQuery);
       $('.sidebar input').val(searchQuery);
     }
   });
@@ -22,16 +19,10 @@ Template.productList.onRendered(function() {
 
 Template.productList.helpers({
   productCount: function() {
-    var easySearchInstance = EasySearch.getComponentInstance({
-      index: 'products'
-    });
-    return easySearchInstance.get('total');
+    return ProductsIndex.getComponentDict().get('count');
   },
   hasMultipleProducts: function() {
-    var easySearchInstance = EasySearch.getComponentInstance({
-      index: 'products'
-    });
-    return easySearchInstance.get('total') !== 1;
+    return ProductsIndex.getComponentDict().get('count') !== 1;
   }
 });
 

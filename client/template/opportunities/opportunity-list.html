@@ -6,7 +6,7 @@
     <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
-        {{> esInput index="opportunities" placeholder="search..." allDocsOnEmpty=true class="form-control"}}
+        {{> EasySearch.Input index=OpportunitiesIndex attributes=searchInputAttributes}}
         <div class="btn-group-vertical">
           {{#if isInRole 'Administrator,CanCreateOpportunities'}}
           <button id="create-opportunity" type="submit" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add opportunity</button>
@@ -22,25 +22,25 @@
       <h1 id="opportunities-page-header"><i class="fa fa-lightbulb-o"></i> Opportunities{{#if archivedShown}} - <i>archived</i>{{/if}}</h1>
 
       <div class="pull-right">
-        {{> esPagination index="opportunities"}}
+        {{> EasySearch.Pagination index=OpportunitiesIndex}}
       </div>
       <small>{{opportunityCount}} record{{#if hasMultipleOpportunities}}s{{/if}}</small>
 
       <div class="list-group">
-        {{#esEach index="opportunities"}}
+        {{#EasySearch.Each index=OpportunitiesIndex}}
           {{> opportunityListItem}}
-        {{/esEach}}
+        {{/EasySearch.Each}}
 
-        {{#ifEsHasNoResults index="opportunities"}}
+        {{#EasySearch.IfNoResults index=OpportunitiesIndex}}
           <h4>No opportunities found</h4>
-        {{/ifEsHasNoResults}}
+        {{/EasySearch.IfNoResults}}
 
-        {{#ifEsIsSearching index="opportunities"}}
+        {{#EasySearch.IfSearching index=OpportunitiesIndex}}
           {{> spinner}}
-        {{/ifEsIsSearching}}
+        {{/EasySearch.IfSearching}}
       </div>
       <div class="pull-right">
-        {{> esPagination index="opportunities"}}
+        {{> EasySearch.Pagination index=OpportunitiesIndex}}
       </div>
 
     </div>

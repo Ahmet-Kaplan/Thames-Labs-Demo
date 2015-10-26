@@ -29,24 +29,28 @@ PurchaseOrders.helpers({
   }
 });
 
-PurchaseOrders.initEasySearch('description', {
-  limit: 20,
-  use: 'mongo-db',
-  sort: function() {
-    return {
-      'orderNumber': 1
-    };
-  },
-  returnFields: [
-    'description',
-    'status',
-    'orderNumber',
-    'supplierCompanyId',
-    'supplierContactId',
-    'customerCompanyId',
-    'customerContactId',
-    'projectId'
-  ]
+////////////////////
+// SEARCH INDICES //
+////////////////////
+
+PurchaseOrdersIndex = new EasySearch.Index({
+  collection: PurchaseOrders,
+  fields: ['description'],
+  engine: new EasySearch.MongoDB({
+    sort: () => {
+      return { 'orderNumber': 1 }
+    },
+    fields: () => {
+      return {
+        'description': 1,
+        'status': 1,
+        'orderNumber': 1,
+        'supplierCompanyId': 1,
+        'supplierContactId': 1,
+        'projectId': 1
+      }
+    }
+  })
 });
 
 //////////////////////

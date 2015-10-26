@@ -35,52 +35,54 @@ Tags.TagsMixin(Contacts);
 // SEARCH INDICES //
 ////////////////////
 
-Contacts.initEasySearch(['forename', 'surname', 'tags'], {
-  limit: 20,
-  use: 'mongo-db',
-  sort: function() {
-    return {
-      'surname': 1
-    };
-  },
-  returnFields: [
-    'forename',
-    'surname',
-    'tags',
-    'companyId'
-  ]
-});
-
-EasySearch.createSearchIndex('autosuggestContact', {
-  field: ['_id', 'surname', 'forename'],
+ContactsIndex = new EasySearch.Index({
   collection: Contacts,
-  limit: 10,
-  use: 'mongo-db',
-  props: {
-    filterCompanyId: ''
-  },
-  query: function(searchString) {
-    var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
-
-    if (this.props.filterCompanyId.length > 0) {
-      query.companyId = {
-        $eq: this.props.filterCompanyId
-      };
-    }
-
-    return query;
-  },
-  returnFields: ['_id', 'forename', 'surname'],
-  changeResults: function(data) {
-    data.results = _.map(data.results, function(result) {
+  fields: ['forename', 'surname', 'tags'],
+  engine: new EasySearch.MongoDB({
+    sort: () => {
+      return { 'surname': 1 }
+    },
+    fields: () => {
       return {
-        _id: result._id,
-        name: result.forename + ' ' + result.surname
-      };
-    });
-    return data;
-  }
+        'forename': 1,
+        'surname': 1,
+        'companyId': 1,
+        'tags': 1
+      }
+    }
+  })
 });
+
+// EasySearch.createSearchIndex('autosuggestContact', {
+//   field: ['_id', 'surname', 'forename'],
+//   collection: Contacts,
+//   limit: 10,
+//   use: 'mongo-db',
+//   props: {
+//     filterCompanyId: ''
+//   },
+//   query: function(searchString) {
+//     var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
+//
+//     if (this.props.filterCompanyId.length > 0) {
+//       query.companyId = {
+//         $eq: this.props.filterCompanyId
+//       };
+//     }
+//
+//     return query;
+//   },
+//   returnFields: ['_id', 'forename', 'surname'],
+//   changeResults: function(data) {
+//     data.results = _.map(data.results, function(result) {
+//       return {
+//         _id: result._id,
+//         name: result.forename + ' ' + result.surname
+//       };
+//     });
+//     return data;
+//   }
+// });
 
 //////////////////////
 // COLLECTION HOOKS //
