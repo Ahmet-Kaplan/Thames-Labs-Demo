@@ -659,6 +659,14 @@ Schemas.Notification = new SimpleSchema({
   detail: {
     type: String
   },
+  target: {
+    type: String,
+    defaultValue: 'all'
+  },
+  notified: {
+    type: Boolean,
+    defaultValue: false
+  },
   createdAt: {
     type: Date
   },
@@ -674,6 +682,32 @@ Schemas.Notification = new SimpleSchema({
   },
 });
 Notifications.attachSchema(Schemas.Notification);
+
+/*Schemas.UserNotification = new SimpleSchema({
+  title: {
+    type: String
+  },
+  shortDescription: {
+    type: String
+  },
+  detail: {
+    type: String
+  },
+  createdAt: {
+    type: Date
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  },
+  icon: {
+    type: String,
+    optional: true
+  },
+});
+UserNotifications.attachSchema(Schemas.UserNotification);*/
 
 
 Schemas.Chatter = new SimpleSchema({
@@ -729,11 +763,13 @@ Schemas.Task = new SimpleSchema({
           format: 'DD/MM/YYYY HH:mm',
           local: 'en-gb',
           useCurrent: false,
-          defaultValue: false,
+          defaultDate: new Date(),
           sideBySide: false,
+          keepOpen: false,
           widgetPositioning: {
             vertical: 'top'
-          }
+          },
+          minDate: new Date()
         }
       }
     }

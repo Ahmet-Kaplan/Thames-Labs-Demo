@@ -264,7 +264,10 @@ AutoForm.hooks({
           } else if(dueDate && reminderDate.isAfter(dueDate)) {
             toastr.error('The reminder date is after the due Date.');
             return false;
-          }
+          } 
+        } else if(doc.remindMe && !doc.reminder) {
+          toastr.error('No date has been specified for the reminder.');
+          return false;
         }
         return doc;
       }
@@ -282,6 +285,25 @@ AutoForm.hooks({
     }
   },
   editTaskForm: {
+    before: {
+      update: function(doc) {
+        if(doc.$set.remindMe && doc.$set.reminder) { 
+          var reminderDate = moment(doc.$set.reminder);
+          var dueDate = moment(doc.$set.dueDate);
+          if(reminderDate.isBefore(moment())){
+            toastr.error('The reminder date is in the past.')
+            return false;
+          } else if(dueDate && reminderDate.isAfter(dueDate)) {
+            toastr.error('The reminder date is after the due Date.');
+            return false;
+          } 
+        } else if(doc.$set.remindMe && !doc.$set.reminder) {
+          toastr.error('No date has been specified for the reminder.');
+          return false;
+        }
+        return doc;
+      }
+    },
     onError: function(formType, error) {
       if (error) {
         toastr.error('An error occurred: Task not updated.');

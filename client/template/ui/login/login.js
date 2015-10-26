@@ -15,7 +15,7 @@ Template.login.helpers({
     return quoteObject;
   },
   notifications: function() {
-    return Notifications.find({});
+    return Notifications.find({target: 'all'});
   },
   hasNotifications: function() {
     return Notifications.find({}).count() > 0;

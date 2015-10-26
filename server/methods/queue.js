@@ -33,6 +33,16 @@ Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
       text: text
     });
 
+    Notifications.insert({
+      title: 'RealtimeCRM Task Reminder',
+      shortDescription: task.title,
+      detail: task.description,
+      target: assigneeId,
+      createdAt: new Date(),
+      createdBy: task.createdBy,
+      icon: 'check'
+    })
+
     job.done();
     job.remove();
     Tasks.direct.update(job.data.taskId, {
@@ -92,6 +102,7 @@ Meteor.methods({
 
   editTaskReminder: function(taskId) {
     //Checking permission
+    console.log(Meteor.users.findOne(this.userId), Roles.userIsInRole(this.userId, ['Administrator', 'CanEditTasks']))
     if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanEditTasks'])) {
       throw new Meteor.Error(403, 'You do not have the permissions to edit Tasks');
     }
@@ -135,16 +146,13 @@ Meteor.methods({
 
       //Delete
       } else {
-        taskJob.remove(function(err, result) {
-          if(err) {
-            throw new Meteor.Error('JobError', 'Unable to cancel job')
-          } else {
-            Tasks.update(taskId, {
-              $unset: {
-                taskReminderJob: ''
-              }
-            })
-          }
+        Meteor.call('deleteTaskReminder', task.taskReminderJob)
+        Partitioner.directOperation(function() {
+          Tasks.direct.update(taskId, {
+            $unset: {
+              taskReminderJob: ''
+            }
+          });
         });
       }
 
