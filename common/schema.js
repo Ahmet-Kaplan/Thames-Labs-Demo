@@ -494,6 +494,9 @@ Schemas.Project = new SimpleSchema({
     optional: true
   }
 });
+Schemas.Project.messages({
+  needsRelatedEntity: "A company or a contact is required"
+});
 Projects.attachSchema(Schemas.Project);
 
 Schemas.PurchaseOrder = new SimpleSchema({
@@ -581,10 +584,12 @@ Schemas.PurchaseOrder = new SimpleSchema({
     }
   }
 });
+Schemas.PurchaseOrder.messages({
+  needsRelatedEntity: "A company or a contact is required"
+});
 PurchaseOrders.attachSchema(Schemas.PurchaseOrder);
 
 Schemas.PurchaseOrderItem = new SimpleSchema({
-
   purchaseOrderId: {
     type: String
   },
@@ -904,7 +909,13 @@ Schemas.Opportunity = new SimpleSchema({
   },
   'items.$.value': {
     type: Number,
-    optional: true
+    optional: true,
+    decimal: true,
+    custom: function() {
+      if (this.value !== Math.round(this.value * 100) / 100) {
+        return 'valueTo2DecimalPlaces';
+      }
+    }
   },
   'items.$.quantity': {
     type: Number,
@@ -921,6 +932,10 @@ Schemas.Opportunity = new SimpleSchema({
       type: 'hidden'
     }
   }
+});
+Schemas.Opportunity.messages({
+  needsRelatedEntity: "A company or a contact is required",
+  valueTo2DecimalPlaces: "Value must be entered to two decimal places"
 });
 Opportunities.attachSchema(Schemas.Opportunity);
 
@@ -951,16 +966,3 @@ Schemas.Payment = new SimpleSchema({
   }
 });
 Payments.attachSchema(Schemas.Payment);
-
-
-Schemas.PurchaseOrder.messages({
-  needsRelatedEntity: "A company or a contact is required"
-});
-
-Schemas.Opportunity.messages({
-  needsRelatedEntity: "A company or a contact is required"
-});
-
-Schemas.Project.messages({
-  needsRelatedEntity: "A company or a contact is required"
-});

@@ -52,7 +52,6 @@ Tags.TagsMixin(Opportunities);
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
-
 Opportunities.after.insert(function(userId, doc) {
   logEvent('info', 'A new opportunity has been created: ' + doc.name);
 });

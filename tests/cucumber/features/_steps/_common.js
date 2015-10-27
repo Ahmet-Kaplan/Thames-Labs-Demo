@@ -75,6 +75,14 @@ module.exports = function() {
     browser.url(path);
   });
 
+  this.When(/^the page is loaded$/, function() {
+    browser.executeAsync(function(done) {
+      //This is used to wait for the data to be loaded.
+      //Ideally this should look the the subscription instead.
+      setTimeout(done, 500);
+    })
+  })
+
   this.When(/^I click "([^"]*)"$/, function(id) {
     browser.waitForExist(id, 5000);
     browser.waitForVisible(id, 5000);
