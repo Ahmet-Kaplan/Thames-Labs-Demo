@@ -1,5 +1,5 @@
 <template name="opportunityListItem">
-  <a class="list-group-item" href="{{pathFor route='opportunity' id=_id}}">
+  <a class="list-group-item" href="{{pathFor route='opportunity' id=__originalId}}">
     <span class="pull-right">{{> tagBadges}}</span>
     <h4 class="list-group-item-heading">{{name}}</h4>
     {{#if companyId}}

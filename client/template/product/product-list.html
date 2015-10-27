@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-md-3 sidebar">
       <h1>Actions</h1>
-      {{> esInput index="products" placeholder="search..." allDocsOnEmpty=true class="form-control"}}
+      {{> EasySearch.Input index=ProductsIndex attributes=searchInputAttributes}}
       <div class="btn-group-vertical">{{#if isInRole 'Administrator,CanCreateProducts'}}
         <a class="btn btn-primary" id="add-product">
           <i class="fa fa-plus"></i> Add product
@@ -15,25 +15,25 @@
     <div class="col-md-9">
       <h1><i class="fa fa-fw fa-barcode"></i> Products</h1>
       <div class="pull-right">
-        {{> esPagination index="products"}}
+        {{> EasySearch.Pagination index=ProductsIndex}}
       </div>
       <small>{{productCount}} record{{#if hasMultipleProducts}}s{{/if}}</small>
 
       <div class="list-group">
-        {{#esEach index="products"}}
+        {{#EasySearch.Each index=ProductsIndex}}
           {{> productListItem}}
-        {{/esEach}}
+        {{/EasySearch.Each}}
 
-        {{#ifEsHasNoResults index="products"}}
+        {{#EasySearch.IfNoResults index=ProductsIndex}}
           <h4>No products found</h4>
-        {{/ifEsHasNoResults}}
+        {{/EasySearch.IfNoResults}}
 
-        {{#ifEsIsSearching index="products"}}
+        {{#EasySearch.IfSearching index=ProductsIndex}}
           {{> spinner}}
-        {{/ifEsIsSearching}}
+        {{/EasySearch.IfSearching}}
       </div>
       <div class="pull-right">
-        {{> esPagination index="products"}}
+        {{> EasySearch.Pagination index=ProductsIndex}}
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@
 </template>
 
 <template name="productListItem">
-  <a class="list-group-item product-item" href="{{pathFor route='product' id=_id}}">
+  <a class="list-group-item product-item" href="{{pathFor route='product' id=__originalId}}">
     <h4 class="list-group-item-heading">{{name}}</h4>
   </a>
 </template>

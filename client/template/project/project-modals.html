@@ -14,13 +14,13 @@
 
             {{> afQuickField name="description"}}
 
-            {{> esSelectize name="companyId" index="autosuggestCompany"}}
+            {{> esSelectize name="companyId" index=CompaniesIndex}}
 
             {{#if showContacts}}
-              {{> esSelectize name="contactId" index="autosuggestContact" parent="companyId" filter="filterCompanyId"}}
+              {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
             {{/if}}
 
-            {{> esSelectize name="userId" index="autosuggestUser"}}
+            {{> esSelectize name="userId" index=UsersIndex}}
 
             {{> afQuickField name="value"}}
 
@@ -57,10 +57,10 @@
             {{> afQuickField name="companyId" id="selectedCompany" value=companyId type="hidden"}}
 
             {{#if showContacts}}
-              {{> esSelectize name="contactId" index="autosuggestContact" parent="companyId" filter="filterCompanyId"}}
+              {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
             {{/if}}
 
-            {{> esSelectize name="userId" index="autosuggestUser"}}
+            {{> esSelectize name="userId" index=UsersIndex}}
 
             {{> afQuickField name="value"}}
 
@@ -98,7 +98,7 @@
 
             {{> afQuickField name="contactId" id="companyContacts" type="hidden" value=contactId}}
 
-            {{> esSelectize name="userId" index="autosuggestUser"}}
+            {{> esSelectize name="userId" index=UsersIndex}}
 
             {{> afQuickField name="status" options="allowed"}}
             {{> afQuickField name="value"}}
@@ -134,12 +134,12 @@
             {{> afQuickField name="name"}}
             {{> afQuickField name="description"}}
             {{#if companyId}}
-              {{> esSelectize index="autosuggestCompany" name="companyId" value=companyId readonly=true}}
+              {{> esSelectize index=CompaniesIndex name="companyId" value=companyId readonly=true}}
             {{/if}}
             {{#if contactId}}
-              {{> esSelectize name="contactId" index="autosuggestContact" value=contactId  readonly=true}}
+              {{> esSelectize name="contactId" index=ContactsIndex value=contactId  readonly=true}}
             {{/if}}
-            {{> esSelectize name="userId" index="autosuggestUser" value=userId}}
+            {{> esSelectize name="userId" index=UsersIndex value=userId}}
             {{> afQuickField name="value"}}
             {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}

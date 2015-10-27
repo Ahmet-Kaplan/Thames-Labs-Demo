@@ -6,5 +6,11 @@ Template.opportunityListItem.onCreated(function() {
 Template.opportunityListItem.helpers({
   friendlyEstClose: function() {
     return moment(this.estCloseDate).format('MMMM Do YYYY, h:mma');
+  },
+  company: function() {
+    return Companies.findOne(this.companyId);
+  },
+  contact: function() {
+    return Contacts.findOne(this.contactId);
   }
 });

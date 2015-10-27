@@ -1,27 +1,27 @@
 module.exports = function() {
 
   this.When(/^I sign up with good details$/, function() {
-    client.waitForExist('form#signUpForm', 2000);
-    client.setValue('#company-name-field', 'Company Name');
-    client.setValue('#name-field', 'test user');
-    client.setValue('#email-field', 'test3@domain.com');
-    client.setValue('#password-field', 'goodpassword');
-    client.setValue('#confirm-password-field', 'goodpassword');
-    client.submitForm('form#signUpForm');
+    browser.waitForExist('form#signUpForm', 2000);
+    browser.setValue('#company-name-field', 'Company Name');
+    browser.setValue('#name-field', 'test user');
+    browser.setValue('#email-field', 'test3@domain.com');
+    browser.setValue('#password-field', 'goodpassword');
+    browser.setValue('#confirm-password-field', 'goodpassword');
+    browser.submitForm('form#signUpForm');
   });
 
   this.When(/^I sign up with bad details$/, function() {
-    client.waitForExist('form#signUpForm', 2000);
-    client.setValue('#company-name-field', '');
-    client.setValue('#name-field', '');
-    client.setValue('#email-field', 'testdomaincom');
-    client.setValue('#password-field', 'short');
-    client.setValue('#confirm-password-field', 'notmatchingpassword');
-    client.submitForm('form#signUpForm');
+    browser.waitForExist('form#signUpForm', 2000);
+    browser.setValue('#company-name-field', '');
+    browser.setValue('#name-field', '');
+    browser.setValue('#email-field', 'testdomaincom');
+    browser.setValue('#password-field', 'short');
+    browser.setValue('#confirm-password-field', 'notmatchingpassword');
+    browser.submitForm('form#signUpForm');
   });
 
   this.Then(/^I am signed up$/, function() {
-    var userId = client
+    var userId = browser
       .executeAsync(function(done) {
         Meteor.call('getUserByEmail', 'test3@domain.com', function(err, data) {
           done(data);
@@ -31,7 +31,7 @@ module.exports = function() {
   });
 
   this.Then(/^I am not signed up$/, function() {
-    var userId = client
+    var userId = browser
       .executeAsync(function(done) {
         Meteor.call('getUserByEmail', 'test3@domain.com', function(err, data) {
           done(data);

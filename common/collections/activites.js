@@ -17,10 +17,6 @@ Activities.helpers({
   }
 });
 
-Activities.initEasySearch('notes', {
-  limit: 50
-});
-
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
