@@ -16,6 +16,8 @@ ProductsIndex = new EasySearch.Index({
     fields: () => {
       return {
         'name': 1,
+        'price': 1,
+        'cost': 1
       }
     }
   })

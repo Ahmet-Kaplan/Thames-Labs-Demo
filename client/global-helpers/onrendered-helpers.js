@@ -51,5 +51,5 @@ Template.onRendered(function() {
     stickBar.on('affixed.bs.affix', function(){
       stickBar.css('top', $('.navbar-header').height());
     })
-  }
+  } 
 });

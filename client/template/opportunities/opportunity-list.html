@@ -36,9 +36,8 @@
         {{#EasySearch.IfSearching index=OpportunitiesIndex}}
           {{> spinner}}
         {{/EasySearch.IfSearching}}
-      </div>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=OpportunitiesIndex}}
+
+        {{> loadMore index=OpportunitiesIndex}}
       </div>
 
     </div>

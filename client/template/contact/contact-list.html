@@ -31,9 +31,9 @@
         {{#EasySearch.IfSearching index=ContactsIndex}}
           {{> spinner}}
         {{/EasySearch.IfSearching}}
-      </div>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=ContactsIndex}}
+
+        {{> loadMore index=ContactsIndex}}
+
       </div>
     </div>
   </div>

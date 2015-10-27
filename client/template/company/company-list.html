@@ -31,6 +31,8 @@
         {{#EasySearch.IfSearching index=CompaniesIndex}}
           {{> spinner}}
         {{/EasySearch.IfSearching}}
+
+        {{> loadMore index=CompaniesIndex}}
       </div>
       <div class="pull-right">
         {{> EasySearch.Pagination index=CompaniesIndex}}

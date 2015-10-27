@@ -32,9 +32,8 @@
         {{#EasySearch.IfSearching index=ProjectsIndex}}
           {{> spinner}}
         {{/EasySearch.IfSearching}}
-      </div>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=ProjectsIndex}}
+
+        {{> loadMore index=ProjectsIndex}}
       </div>
     </div>
   </div>
