@@ -42,7 +42,12 @@ ProjectsIndex = new EasySearch.Index({
     sort: () => {
       return { 'name': 1 }
     },
-    fields: () => {
+    fields: (searchObject, options) => {
+      if (options.search.props.autosuggest) {
+        return {
+          'name': 1,
+        }
+      }
       return {
         'name': 1,
         'value': 1,
@@ -50,35 +55,18 @@ ProjectsIndex = new EasySearch.Index({
         'companyId': 1,
         'contactId': 1
       }
-    }
+    },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      if (options.search.props.supplierCompanyId) {
+        selector.companyId = options.search.props.supplierCompanyId;
+      } else if (options.search.props.supplierContactId) {
+        selector.contactId = options.search.props.supplierContactId;
+      }
+      return selector;
+    },
   })
 });
-
-// EasySearch.createSearchIndex('autosuggestProject', {
-//   field: ['_id', 'name'],
-//   collection: Projects,
-//   limit: 10,
-//   use: 'mongo-db',
-//   props: {
-//     supplierCompanyId: '',
-//     supplierContactId: ''
-//   },
-//   query: function(searchString) {
-//     var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
-//
-//     if (this.props.supplierCompanyId.length > 0) {
-//       query.companyId = {
-//         $eq: this.props.supplierCompanyId
-//       };
-//     } else {
-//       query.contactId = {
-//         $eq: this.props.supplierContactId
-//       };
-//     }
-//     return query;
-//   },
-//   returnFields: ['_id', 'name']
-// });
 
 //////////////////////
 // COLLECTION HOOKS //

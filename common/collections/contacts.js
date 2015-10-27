@@ -42,47 +42,33 @@ ContactsIndex = new EasySearch.Index({
     sort: () => {
       return { 'surname': 1 }
     },
-    fields: () => {
+    fields: (searchObject, options) => {
+      if (options.search.props.autosuggest) {
+        return {
+          'forename': 1,
+          'surname': 1
+        }
+      }
       return {
         'forename': 1,
         'surname': 1,
         'companyId': 1,
         'tags': 1
       }
+    },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      if (options.search.props.filterCompanyId) {
+        selector.companyId = options.search.props.filterCompanyId;
+      }
+      return selector;
+    },
+    transform: (doc) => {
+      doc.name = [doc.forename, doc.surname].join(' ');
+      return doc;
     }
   })
 });
-
-// EasySearch.createSearchIndex('autosuggestContact', {
-//   field: ['_id', 'surname', 'forename'],
-//   collection: Contacts,
-//   limit: 10,
-//   use: 'mongo-db',
-//   props: {
-//     filterCompanyId: ''
-//   },
-//   query: function(searchString) {
-//     var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
-//
-//     if (this.props.filterCompanyId.length > 0) {
-//       query.companyId = {
-//         $eq: this.props.filterCompanyId
-//       };
-//     }
-//
-//     return query;
-//   },
-//   returnFields: ['_id', 'forename', 'surname'],
-//   changeResults: function(data) {
-//     data.results = _.map(data.results, function(result) {
-//       return {
-//         _id: result._id,
-//         name: result.forename + ' ' + result.surname
-//       };
-//     });
-//     return data;
-//   }
-// });
 
 //////////////////////
 // COLLECTION HOOKS //

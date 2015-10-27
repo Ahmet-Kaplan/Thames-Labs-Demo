@@ -70,7 +70,7 @@ Template.esSelectize.helpers({
   initialize: function() {
     var options = {
       closeAfterSelect: true,
-      valueField: "_id",
+      valueField: "__originalId",
       labelField: "name",
       searchField: "name",
       createOnBlur: false,
