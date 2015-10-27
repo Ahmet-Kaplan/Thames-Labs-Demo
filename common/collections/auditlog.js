@@ -6,12 +6,12 @@ Partitioner.partitionCollection(AuditLog);
 // SEARCH INDICES //
 ////////////////////
 
-AuditLog.initEasySearch(['message'], {
-  limit: 20,
-  use: 'mongo-db',
-  sort: function() {
-    return {
-      'date': -1
-    };
-  }
+AuditLogIndex = new EasySearch.Index({
+  collection: AuditLog,
+  fields: ['message'],
+  engine: new EasySearch.MongoDB({
+    sort: () => {
+      return { 'date': -1 }
+    }
+  })
 });

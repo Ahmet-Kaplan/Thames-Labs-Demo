@@ -28,7 +28,7 @@ Template.projectDetail.helpers({
   projectData: function() {
     var projectId = FlowRouter.getParam('id');
     var project = Projects.findOne(projectId);
-    if (project.tags !== undefined) {
+    if (project & project.tags) {
       project.tags.sort();
     }
     return project;

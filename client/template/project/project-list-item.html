@@ -1,12 +1,12 @@
 <template name="projectListItem">
-  <a class="list-group-item" href="{{pathFor route='project' id=_id}}">
+  <a class="list-group-item" href="{{pathFor route='project' id=__originalId}}">
     <span class="pull-right">{{> tagBadges}}</span>
     <h4 class="list-group-item-heading"><i class="fa fa-fw fa-files-o"></i> {{name}}</h4>
-    {{#if company}}
-    <p class="list-group-item-text"><i class="fa fa-fw fa-building"></i> {{company.name}}</p>
+    {{#if companyId}}
+      <p class="list-group-item-text"><i class="fa fa-fw fa-building"></i> {{company.name}}</p>
     {{/if}}
-    {{#if contact}}
-    <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> {{contact.name}}</p>
+    {{#if contactId}}
+      <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> {{contact.name}}</p>
     {{/if}}
     <p class="list-group-item-text"><i class="fa fa-fw fa-money"></i> Value: £{{decimal value}}</p>
   </a>
