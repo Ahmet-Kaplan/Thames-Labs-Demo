@@ -1,20 +1,20 @@
 module.exports = function() {
 
   this.When(/^I search for Cowley Road$/, function() {
-    client.waitForExist('#geo', 10000);
-    client.waitForVisible('#geo', 10000);
-    client.execute(function() {
+    browser.waitForExist('#geo', 10000);
+    browser.waitForVisible('#geo', 10000);
+    browser.execute(function() {
       var y = $(".modal").height();
       $(".modal").scrollTop(y);
     })
-    client.setValue('#geo', 'Cowley Road, Cambridge');
-    client.waitForExist('.pac-item');
-    client.click('.pac-item');
+    browser.setValue('#geo', 'Cowley Road, Cambridge');
+    browser.waitForExist('.pac-item');
+    browser.click('.pac-item');
   });
 
   this.Then(/^I should see a map$/, function() {
-    client.waitForExist('.gm-style', 5000);
-    client.waitForExist('.gm-style-mtc', 5000);
+    browser.waitForExist('.gm-style', 5000);
+    browser.waitForExist('.gm-style-mtc', 5000);
   });
 
 };

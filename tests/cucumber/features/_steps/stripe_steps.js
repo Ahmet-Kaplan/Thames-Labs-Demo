@@ -1,7 +1,7 @@
 module.exports = function() {
 
   this.Given(/^I have subscribed to the paying plan$/, function() {
-    client
+    browser
       .executeAsync(function(done) {
         Stripe.card.createToken({
           number: '4242424242424242',
@@ -26,7 +26,7 @@ module.exports = function() {
   });
 
   this.Given(/^I have unsubscribed from the paying plan$/, function() {
-    client
+    browser
       .executeAsync(function(done) {
         Meteor.call('cancelStripeSubscription', function(error, result) {
           if(error) {
@@ -38,18 +38,18 @@ module.exports = function() {
   });
 
   this.Then(/^I should see a bootbox$/, function() {
-    client
+    browser
       .executeSync(function() {
         Modal.hide();
       });
-    client.waitForExist('.bootbox-body', 20000);
-    client.waitForVisible('.bootbox-body', 5000);
-    expect(client.isExisting('.modal-dialog')).toEqual(true);
+    browser.waitForExist('.bootbox-body', 20000);
+    browser.waitForVisible('.bootbox-body', 5000);
+    expect(browser.isExisting('.modal-dialog')).toEqual(true);
   });
 
   this.Then(/^the Stripe field "([^"]*)" should say "([^"]*)"$/, function(field, desiredText) {
-    client.waitForExist(field, 5000);
-    client
+    browser.waitForExist(field, 5000);
+    browser
       .waitUntilSync(function() {
         return this.getText(field).then(function(text) {
           return text === desiredText;
@@ -58,8 +58,8 @@ module.exports = function() {
   });
 
   this.Then(/^the Stripe field "([^"]*)" should not contain "([^"]*)"$/, function(field, desiredText) {
-    client.waitForExist(field, 5000);
-    client
+    browser.waitForExist(field, 5000);
+    browser
       .waitUntilSync(function() {
         return this.getText(field).then(function(text) {
             return text.indexOf(desiredText) === -1;
