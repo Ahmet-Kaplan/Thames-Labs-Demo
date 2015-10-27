@@ -47,8 +47,8 @@ Template.editContactModal.onRendered(function() {
           draggable: true
         });
         google.maps.event.addListener(marker, "dragend", function(event) {
-          $("input[name=lat]").val(marker.getPosition().G);
-          $("input[name=lng]").val(marker.getPosition().K);
+          $("input[name=lat]").val(marker.getPosition().lng());
+          $("input[name=lng]").val(marker.getPosition().lat());
         });
       }).keypress(function(event) {
         if(event.keyCode == 13) {
@@ -100,8 +100,8 @@ Template.editContactModal.events({
       });
       markerModal.setMap(mapModal);
       google.maps.event.addListener(markerModal, "dragend", function(event) {
-        $("input[name=lat]").val(markerModal.getPosition().G);
-        $("input[name=lng]").val(markerModal.getPosition().K);
+        $("input[name=lat]").val(markerModal.getPosition().lat());
+        $("input[name=lng]").val(markerModal.getPosition().lng());
       });
       var infowindow = new google.maps.InfoWindow();
       infowindow.setContent(mapData.name);
@@ -113,8 +113,8 @@ Template.editContactModal.events({
         }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           location = {
-            lat: results[0].geometry.location.G,
-            lng: results[0].geometry.location.K
+            lat: results[0].geometry.location.lat(),
+            lng: results[0].geometry.location.lng()
           };
           mapModal.panTo(location);
           mapModal.setZoom(16);
@@ -126,8 +126,8 @@ Template.editContactModal.events({
           });
           markerModal.setMap(mapModal);
           google.maps.event.addListener(markerModal, "dragend", function(event) {
-            $("input[name=lat]").val(markerModal.getPosition().G);
-            $("input[name=lng]").val(markerModal.getPosition().K);
+            $("input[name=lat]").val(markerModal.getPosition().lat());
+            $("input[name=lng]").val(markerModal.getPosition().lng());
           });
           var infowindow = new google.maps.InfoWindow();
           infowindow.setContent(mapData.name);

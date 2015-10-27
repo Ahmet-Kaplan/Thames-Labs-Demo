@@ -94,36 +94,43 @@ Template.contactDetail.helpers({
   linksList: function() {
     return [
       {
+        index: 0,
         text: 'Contacts details',
         anchor: 'contact-details',
         icon: 'fa-file-text-o'
       },
       {
+        index: 1,
         text: 'Current projects',
         anchor: 'projects',
         icon: 'fa-sitemap'
       },
       {
+        index: 2,
         text: 'Purchase Orders',
         anchor: 'purchase-orders',
         icon: 'fa-shopping-cart'
       },
       {
+        index: 3,
         text: 'Tasks',
         anchor: 'tasks',
         icon: 'fa-tasks'
       },
       {
+        index: 4,
         text: 'Extended information',
         anchor: 'entity-custom-fields',
         icon: 'fa-bookmark'
       },
       {
+        index: 5,
         text: 'Opportunities',
         anchor: 'opportunities',
         icon: 'fa-lightbulb-o'
       },
       {
+        index: 6,
         text: 'Activity Timeline',
         anchor: 'activity-timeline',
         icon: 'fa-list'

@@ -12,4 +12,5 @@ Template.jumplist.onRendered(function() {
       });
     }
   });
-})
+  Session.set('jumplist-index', 0);
+});
