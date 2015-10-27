@@ -15,17 +15,6 @@
   .footer{
     display:none;
   }
-
-  .search-triangle {
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 0 40px 40px;
-    border-color: transparent transparent #777 transparent;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-  }
 }
 
 #id-view-content.no-menu > .footer {
