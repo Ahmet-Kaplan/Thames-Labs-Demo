@@ -207,5 +207,53 @@ Meteor.methods({
       }
       return data;
     });
-  }
+  },
+  'report.costOfProducts': function() {
+    return Partitioner.bindUserGroup(this.userId, function() {
+      var productData = Products.find({}).fetch();
+      var value = 0;
+
+      _.each(productData, function(pd) {
+        if (pd.value) {
+          value += parseFloat(pd.value)
+        }
+      });
+
+      var data = {
+        "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
+        "Count": productData.length,
+        "Value": parseFloat(value).toFixed(2)
+      }
+      return data;
+    });
+  },
+  'report.averageProductsCost': function() {
+    return Partitioner.bindUserGroup(this.userId, function() {
+      var productData = Products.find({}).fetch();
+      var value = 0;
+
+      _.each(productData, function(pd) {
+        if (pd.value) {
+          value += parseFloat(pd.value)
+        }
+      });
+
+      var data = {
+        "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
+        "Count": productData.length,
+        "Value": parseFloat(value / productData.length).toFixed(2)
+      }
+      return data;
+    });
+  },
+  'report.numberOfPurchaseOrders': function() {
+    return Partitioner.bindUserGroup(this.userId, function() {
+      var purchaseData = Products.find({}).fetch();
+      var data = {
+        "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
+        "Count": purchaseData.length
+      }
+      return data;
+    });
+  },
 });

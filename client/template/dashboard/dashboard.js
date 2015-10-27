@@ -37,7 +37,7 @@ widgets = {
     x: 0,
     y: 8,
     w: 3,
-    h: 3,
+    h: 2,
     displayed: true,
     name: 'My tasks',
     requiredPermission: "CanReadTasks"
@@ -96,6 +96,24 @@ widgets = {
     h: 4,
     displayed: false,
     name: 'Propagation Overview (Chart)'
+  },
+  'productsOverview': {
+    id: 'productsOverview',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 4,
+    displayed: false,
+    name: 'Products Overview'
+  },
+  'poOverview': {
+    id: 'poOverview',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 1,
+    displayed: false,
+    name: 'Purchase Orders Overview',
   },
 };
 //List of widgets used by the user

@@ -2,23 +2,37 @@
   <div class="panel panel-default" id='oppsOverviewBox'>
 
     <div class="panel-heading">
-      Overview <a href="#" id="ref_oppsOverviewWidget" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
+      Opportunity Overview <a href="#" id="ref_oppsOverviewWidget" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
       <a href="#" data-target="#oppsOverviewBox" data-dismiss="alert" class="close pull-right" type="button"><i class="fa fa-fw fa-times grayscale"></i></a>
+      <button type="button" id="expandbutton" data-toggle="collapse" data-target="#collapse1" class="btn btn-primary btn-xs pull-right"><span class="fa fa-chevron-down"></span></button>
+
+      <script>
+        $(document).ready(function(){
+          $("#collapse1").on("hide.bs.collapse", function(){
+            $("#expandbutton").html('<span class="fa fa-chevron-down"></span>');
+          });
+          $("#collapse1").on("show.bs.collapse", function(){
+            $("#expandbutton").html('<span class="fa fa-chevron-up"></span>');
+          });
+        });
+      </script>
     </div>
 
-    <div class="panel-body">
-      <div class="oppsOverviewList">
-        <ul class="list-unstyled">
-          <li id="totalProjects">Total number of opportunities:
-            <span class="pull-right">{{totalOpps}}</span>
-          </li>
-          <li id="totalProjects">Total value of opportunities:
-            <span class="pull-right">£{{totalOppValue}}</span>
-          </li>
-          <li id="totalProjects">Average value of opportunities:
-            <span class="pull-right">£{{averageOppValue}}</span>
-          </li>
-        </ul>
+      <div class="panel-collapse collapse" id="collapse1" >
+        <div  class="panel-body">
+        <div class="oppsOverviewList">
+          <ul class="list-unstyled">
+            <li id="totalProjects"> Total number of opportunities:
+              <span class="pull-right">{{totalOpps}}</span>
+            </li>
+            <li id="totalProjects"> Total value of opportunities:
+              <span class="pull-right">£{{totalOppValue}}</span>
+            </li>
+            <li id="totalProjects"> Average value of opportunities:
+              <span class="pull-right">£{{averageOppValue}}</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
