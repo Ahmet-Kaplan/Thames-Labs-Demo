@@ -46,6 +46,7 @@ Contacts.initEasySearch(['forename', 'surname', 'tags'], {
   returnFields: [
     'forename',
     'surname',
+    'jobtitle',
     'tags',
     'phone',
     'mobile',

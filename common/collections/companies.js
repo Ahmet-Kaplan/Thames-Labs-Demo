@@ -53,7 +53,9 @@ Companies.initEasySearch(['name', 'tags'], {
   },
   returnFields: [
     'name',
+    'address',
     'city',
+    'postcode',
     'country',
     'website',
     'phone',

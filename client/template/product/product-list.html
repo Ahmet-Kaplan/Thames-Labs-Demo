@@ -11,7 +11,7 @@
           </div>
           {{#if isInRole 'Administrator,CanCreateProducts'}}
           <div class="col-md-3">
-            <a class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" id="add-product"><i class="fa fa-plus"></i> Add product</a>
+            <a class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" id="add-product" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-plus"></i> Add product</a>
           </div>
           {{/if}}
         </div>
