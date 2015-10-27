@@ -4,7 +4,16 @@ var welcomeTour = {
     title: "Welcome to RealTimeCRM!",
     content: "Welcome to RealTimeCRM, an easy-to-use, cross-platform CRM from Cambridge Software. If you're a new user, and would like to take our guided tour of the features available in RealTime, click the Next button. If you're already familiar with RealTime, or would prefer to find things out on your own, feel free to close this tour - we won't pester you with it again.",
     target: document.querySelector('.navbar-brand'),
-    placement: "right"
+    placement: "right",
+    onShow: function() {
+      Meteor.users.update({
+        _id: Meteor.userId()
+      }, {
+        $set: {
+          "profile.welcomeTour": true
+        }
+      });
+    }
   }, {
     title: "Navigation",
     content: "On the left-hand side of the screen, you'll find a sidebar containing a number of links, which will take you to the relevant sections. The sidebar is ever present, allowing you to navigate to anywhere, from anywhere.",
@@ -42,7 +51,7 @@ var welcomeTour = {
     placement: "left"
   }, {
     title: "Creating Companies",
-    content: "In order to make the most of your experience with RealTime, you'll need some companies to work with. Clicking on the Companies link here...",
+    content: "In order to make the most of your experience with RealTime, you'll need some companies to work with. Let's go there now - if we click this link here...",
     target: document.querySelector('#menuLinkCompanies'),
     placement: "right",
     multipage: true,
@@ -51,8 +60,18 @@ var welcomeTour = {
     }
   }, {
     title: "Creating Companies",
-    content: "...will bring you to the Company list.",
+    content: "...then we end up at the Company list.",
     target: document.querySelector('#menuLinkCompanies'),
+    placement: "right"
+  }, {
+    title: "Company Sidebar",
+    content: "This is the sidebar. From it, you can search your companies, and add new ones. By default, all of your companies are shown, but you can narrow the list by entering part of either the company name, or of an associated tag (more on tags later).",
+    target: document.querySelector('.sidebar'),
+    placement: "right"
+  }, {
+    title: "Creating a Company",
+    content: "To create a company, simply click this button, fill in the form that appears and then click the Create button.",
+    target: document.querySelector('.sidebar'),
     placement: "right"
   }],
   showPrevButton: true,

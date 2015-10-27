@@ -132,14 +132,7 @@ Template.dashboard.onRendered(function() {
 
   //Has user taken welcome tour yet?
   if (Meteor.user().profile.welcomeTour === false) {
-    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
-    Meteor.users.update({
-      _id: Meteor.userId()
-    }, {
-      $set: {
-        "profile.welcomeTour": true
-      }
-    });
+    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');    
   }
 });
 
