@@ -14,9 +14,9 @@
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           {{#if isUserTask}}
-            {{> esSelectize name="assigneeId" index="autosuggestUser" value=getCurrentUserId}}
+            {{> esSelectize name="assigneeId" index=UsersIndex value=getCurrentUserId}}
           {{else}}
-            {{> esSelectize name="assigneeId" index="autosuggestUser"}}
+            {{> esSelectize name="assigneeId" index=UsersIndex}}
           {{/if}}
           {{> afQuickField name="entityType" value=getEntityType type='hidden' }}
           {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
@@ -43,7 +43,7 @@
           {{> afQuickField name="title" id="taskTitle"}}
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
-          {{> esSelectize name="assigneeId" index="autosuggestUser" value=assigneeId}}
+          {{> esSelectize name="assigneeId" index=UsersIndex value=assigneeId}}
           {{> afQuickField name="completed" id="taskCompleted"}}
           <button type="submit" class="btn btn-primary ">Update</button>
           {{/autoForm}}

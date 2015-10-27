@@ -4,7 +4,7 @@ module.exports = function() {
 
   //Adding
   this.Given(/^opportunity stages have been created$/, function() {
-    client
+    browser
       .executeAsync(function(done) {
         Meteor.call('addOpportunityStages', function() {
           done();
@@ -13,31 +13,31 @@ module.exports = function() {
   });
 
   this.When(/^I navigate to an opportunity page$/, function() {
-    client.url(url.resolve(process.env.ROOT_URL, '/opportunities'));
-    client.waitForExist('.list-group-item', 2000);
-    client.click('.list-group-item');
+    browser.url(url.resolve(process.env.ROOT_URL, '/opportunities'));
+    browser.waitForExist('.list-group-item', 2000);
+    browser.click('.list-group-item');
   });
 
   //Deleting
   this.Then(/^the opportunity should not exist$/, function() {
-    client.waitForExist('#mchNoOpportunityPlaceholder', 2000);
+    browser.waitForExist('#mchNoOpportunityPlaceholder', 2000);
   });
 
   //Stages
   this.Then(/^I should see that the opportunity has been lost$/, function() {
-    client.waitForExist('h3*=lost', 2000);
-    client.getText('h3*=lost');
+    browser.waitForExist('h3*=lost', 2000);
+    browser.getText('h3*=lost');
   });
 
   this.Then(/^I should see that an project has been created from the opportunity$/, function() {
-    client.waitForExist('.entity-title*=Project', 2000);
-    client.waitForExist('a*=opportunity', 2000)
-    client.getText('a*=opportunity');
+    browser.waitForExist('.entity-title*=Project', 2000);
+    browser.waitForExist('a*=opportunity', 2000)
+    browser.getText('a*=opportunity');
   });
 
   //Line items
   this.Given(/^the opportunity has a line item$/, function() {
-    client
+    browser
       .executeAsync(function(done) {
         Meteor.call('addOpportunityLineItem', function() {
           done();
@@ -46,12 +46,12 @@ module.exports = function() {
   });
 
   this.Then(/^I should see a new line item in an opportunity$/, function() {
-    client.waitForExist(".edit-line-item");
-    client.getText('h4*=testItem1');
+    browser.waitForExist(".edit-line-item");
+    browser.getText('h4*=testItem1');
   });
 
   this.Then(/^I should see an updated line item in an opportunity$/, function() {
-    client.waitForExist(".edit-line-item");
-    client.getText('h4*=testItem2');
+    browser.waitForExist(".edit-line-item");
+    browser.getText('h4*=testItem2');
   });
 };

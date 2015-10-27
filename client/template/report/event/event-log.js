@@ -7,16 +7,10 @@ Template.events.onCreated(function() {
 
 Template.events.helpers({
   eventLogCount: function() {
-    var easySearchInstance = EasySearch.getComponentInstance({
-      index: 'audit'
-    });
-    return easySearchInstance.get('total');
+    return AuditLogIndex.getComponentDict().get('count');
   },
   hasMultipleRecords: function() {
-    var easySearchInstance = EasySearch.getComponentInstance({
-      index: 'audit'
-    });
-    return easySearchInstance.get('total') != 1;
+    return AuditLogIndex.getComponentDict().get('count') != 1;
   }
 });
 

@@ -36,7 +36,7 @@ Template.contactDetail.helpers({
     var contact = Contacts.findOne({
       _id: contactId
     });
-    if (contact.tags !== undefined) {
+    if (contact && contact.tags) {
       contact.tags.sort();
     }
     return contact;

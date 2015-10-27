@@ -9,7 +9,7 @@
       <div class="stick-bar">
         <div class="row">
           <div class="col-md-3">
-            {{> esInput index="projects" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
+            {{> EasySearch.Input index=ProjectsIndex attributes=searchInputAttributes}}
           </div>
         {{#if isInRole 'Administrator,CanCreateProjects'}}
           <div class="col-md-3">
@@ -21,20 +21,20 @@
       <small>{{projectCount}} record{{#if hasMultipleProjects}}s{{/if}}</small>
 
       <div class="list-group">
-        {{#esEach index="projects"}}
+        {{#EasySearch.Each index=ProjectsIndex}}
           {{> projectListItem}}
-        {{/esEach}}
+        {{/EasySearch.Each}}
 
-        {{#ifEsHasNoResults index="projects"}}
+        {{#EasySearch.IfNoResults index=ProjectsIndex}}
           <h4>No projects found</h4>
-        {{/ifEsHasNoResults}}
+        {{/EasySearch.IfNoResults}}
 
-        {{#ifEsIsSearching index="projects"}}
+        {{#EasySearch.IfSearching index=ProjectsIndex}}
           {{> spinner}}
-        {{/ifEsIsSearching}}
+        {{/EasySearch.IfSearching}}
       </div>
       <div class="pull-right">
-        {{> esPagination index="projects"}}
+        {{> EasySearch.Pagination index=ProjectsIndex}}
       </div>
     </div>
   </div>

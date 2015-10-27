@@ -15,37 +15,36 @@ Opportunities.helpers({
 // SEARCH INDICES //
 ////////////////////
 
-Opportunities.initEasySearch(['name', 'tags'], {
-  limit: 20,
-  use: 'mongo-db',
-  sort: function() {
-    return {
-      'name': 1
-    };
-  },
-  props: {
-    showArchived: false
-  },
-  query: function(searchString) {
-    var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
-    if (this.props.showArchived) {
-      query.isArchived = true;
-    } else {
-      query.isArchived = { $ne: true };
+OpportunitiesIndex = new EasySearch.Index({
+  collection: Opportunities,
+  fields: ['name', 'tags'],
+  engine: new EasySearch.MongoDB({
+    sort: () => {
+      return { 'name': 1 }
+    },
+    fields: () => {
+      return {
+        'name': 1,
+        'companyId': 1,
+        'contactId': 1,
+        'value': 1,
+        'estCloseDate': 1,
+        'isArchived': 1,
+        'hasBeenWon': 1,
+        'reasonLost': 1,
+        'tags': 1
+      }
+    },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      if (options.search.props.showArchived) {
+        selector.isArchived = true;
+      } else {
+        selector.isArchived = { $ne: true };
+      }
+      return selector;
     }
-    return query;
-  },
-  returnFields: [
-    'name',
-    'companyId',
-    'contactId',
-    'value',
-    'estCloseDate',
-    'isArchived',
-    'hasBeenWon',
-    'reasonLost',
-    'tags'
-  ]
+  })
 });
 
 Tags.TagsMixin(Opportunities);
@@ -53,7 +52,6 @@ Tags.TagsMixin(Opportunities);
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
-
 Opportunities.after.insert(function(userId, doc) {
   logEvent('info', 'A new opportunity has been created: ' + doc.name);
 });

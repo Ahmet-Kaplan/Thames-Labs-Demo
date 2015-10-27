@@ -43,32 +43,29 @@ Tags.TagsMixin(Companies);
 // SEARCH INDICES //
 ////////////////////
 
-Companies.initEasySearch(['name', 'tags'], {
-  limit: 20,
-  use: 'mongo-db',
-  sort: function() {
-    return {
-      'name': 1
-    };
-  },
-  returnFields: [
-    'name',
-    'address',
-    'city',
-    'postcode',
-    'country',
-    'website',
-    'phone',
-    'tags'
-  ]
-});
-
-EasySearch.createSearchIndex('autosuggestCompany', {
-  field: ['_id', 'name'],
+CompaniesIndex = new EasySearch.Index({
   collection: Companies,
-  limit: 10,
-  use: 'mongo-db',
-  returnFields: ['_id', 'name']
+  fields: ['name', 'tags'],
+  engine: new EasySearch.MongoDB({
+    sort: () => {
+      return { 'name': 1 }
+    },
+    fields: (searchObject, options) => {
+      if (options.search.props.autosuggest) {
+        return { 'name': 1 }
+      }
+      return {
+        'name': 1,
+        'address': 1,
+        'city': 1,
+        'postcode': 1,
+        'country': 1,
+        'website': 1,
+        'phone': 1,
+        'tags': 1
+      }
+    }
+  })
 });
 
 //////////////////////

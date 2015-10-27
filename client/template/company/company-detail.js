@@ -113,7 +113,7 @@ Template.companyDetail.helpers({
     var company = Companies.findOne({
       _id: companyId
     });
-    if (company.tags !== undefined) {
+    if (company && company.tags) {
       company.tags.sort();
     }
     return company;

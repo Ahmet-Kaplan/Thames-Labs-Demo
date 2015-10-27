@@ -9,7 +9,7 @@
       <div class="stick-bar">
         <div class="row">
           <div class="col-md-3">
-            {{> esInput index="opportunities" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}}
+            {{> EasySearch.Input index=OpportunitiesIndex attributes=searchInputAttributes}}
           </div>
           <div class="col-md-6">
             <div class="btn-group{{#if isMobile}}-vertical btn-fullWidth{{/if}}">
@@ -25,20 +25,20 @@
       <small>{{opportunityCount}} record{{#if hasMultipleOpportunities}}s{{/if}}</small>
       
       <div class="list-group">
-        {{#esEach index="opportunities"}}
+        {{#EasySearch.Each index=OpportunitiesIndex}}
           {{> opportunityListItem}}
-        {{/esEach}}
+        {{/EasySearch.Each}}
 
-        {{#ifEsHasNoResults index="opportunities"}}
+        {{#EasySearch.IfNoResults index=OpportunitiesIndex}}
           <h4>No opportunities found</h4>
-        {{/ifEsHasNoResults}}
+        {{/EasySearch.IfNoResults}}
 
-        {{#ifEsIsSearching index="opportunities"}}
+        {{#EasySearch.IfSearching index=OpportunitiesIndex}}
           {{> spinner}}
-        {{/ifEsIsSearching}}
+        {{/EasySearch.IfSearching}}
       </div>
       <div class="pull-right">
-        {{> esPagination index="opportunities"}}
+        {{> EasySearch.Pagination index=OpportunitiesIndex}}
       </div>
 
     </div>

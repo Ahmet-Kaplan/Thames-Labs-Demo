@@ -8,7 +8,7 @@
       <div class="stick-bar">
         <div class="row">
           <div class="col-md-3">
-            {{> esInput index="contacts" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}} 
+            {{> EasySearch.Input index=ContactsIndex attributes=searchInputAttributes}}
           </div>
           <div class="col-md-3">
           {{#if isInRole 'Administrator,CanCreateContacts'}}
@@ -20,20 +20,20 @@
       <small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</small>
 
       <div class="list-group">
-        {{#esEach index="contacts"}}
+        {{#EasySearch.Each index=ContactsIndex}}
           {{> contactListItem}}
-        {{/esEach}}
+        {{/EasySearch.Each}}
 
-        {{#ifEsHasNoResults index="contacts"}}
+        {{#EasySearch.IfNoResults index=ContactsIndex}}
           <h4>No contacts found</h4>
-        {{/ifEsHasNoResults}}
+        {{/EasySearch.IfNoResults}}
 
-        {{#ifEsIsSearching index="contacts"}}
+        {{#EasySearch.IfSearching index=ContactsIndex}}
           {{> spinner}}
-        {{/ifEsIsSearching}}
+        {{/EasySearch.IfSearching}}
       </div>
       <div class="pull-right">
-        {{> esPagination index="contacts"}}
+        {{> EasySearch.Pagination index=ContactsIndex}}
       </div>
     </div>
   </div>

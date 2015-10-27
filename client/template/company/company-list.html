@@ -8,7 +8,7 @@
       <div class="stick-bar">
         <div class="row">
           <div class="col-md-3">
-            {{> esInput index="companies" placeholder="search..." allDocsOnEmpty=true reactive=false class="form-control"}} 
+            {{> EasySearch.Input index=CompaniesIndex attributes=searchInputAttributes}}
           </div>
           <div class="col-md-3">
           {{#if isInRole 'Administrator,CanCreateCompanies'}}
@@ -20,20 +20,20 @@
       <small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
 
       <div class="list-group" id="mchCompanyList">
-        {{#esEach index="companies"}}
+        {{#EasySearch.Each index=CompaniesIndex}}
           {{> companyListItem}}
-        {{/esEach}}
+        {{/EasySearch.Each}}
 
-        {{#ifEsHasNoResults index="companies"}}
+        {{#EasySearch.IfNoResults index=CompaniesIndex}}
           <h4 id="mchNoCompaniesPlaceholder">No companies found</h4>
-        {{/ifEsHasNoResults}}
+        {{/EasySearch.IfNoResults}}
 
-        {{#ifEsIsSearching index="companies"}}
+        {{#EasySearch.IfSearching index=CompaniesIndex}}
           {{> spinner}}
-        {{/ifEsIsSearching}}
+        {{/EasySearch.IfSearching}}
       </div>
       <div class="pull-right">
-        {{> esPagination index="companies"}}
+        {{> EasySearch.Pagination index=CompaniesIndex}}
       </div>
 
     </div>
@@ -42,7 +42,7 @@
 </template>
 
 <template name="companyListItem">
-  <a class="list-group-item clearfix" href="{{pathFor route='company' id=_id}}" id='mchCompany'>
+  <a class="list-group-item clearfix" href="{{pathFor route='company' id=__originalId}}" id='mchCompany'>
     <div class="row">
       <div class="col-sm-12 col-md-5 col-lg-4">
         <span class="pull-left">
