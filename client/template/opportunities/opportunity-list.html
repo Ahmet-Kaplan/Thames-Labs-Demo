@@ -11,7 +11,7 @@
           <div class="col-md-3">
             {{> EasySearch.Input index=OpportunitiesIndex attributes=searchInputAttributes}}
           </div>
-          <div class="col-md-6">
+          <div class="col-md-9">
             <div class="btn-group{{#if isMobile}}-vertical btn-fullWidth{{/if}}">
               {{#if isInRole 'Administrator,CanCreateOpportunities'}}
               <button id="create-opportunity" type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+O"><i class="fa fa-fw fa-plus"></i> Add opportunity</button>
