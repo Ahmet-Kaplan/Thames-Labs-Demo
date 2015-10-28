@@ -14,6 +14,9 @@
             <a class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" id="add-product" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-plus"></i> Add product</a>
           </div>
           {{/if}}
+          <div class="col-md-6">
+            {{> productsOverviewWidget}}
+          </div>
         </div>
       </div>
       <small>{{productCount}} record{{#if hasMultipleProducts}}s{{/if}}</small>

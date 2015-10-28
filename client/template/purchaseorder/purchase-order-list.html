@@ -15,6 +15,9 @@
             <a href="#" id="add-purchase-order" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+P"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
           </div>
           {{/if}}
+          <div class="col-md-6">
+            {{> poOverviewWidget}}
+          </div>
         </div>
       </div>
       <small>{{purchaseOrderCount}} record{{#if hasMultiplePurchaseOrders}}s{{/if}}</small>

@@ -16,6 +16,9 @@
             <a href="#" id="add-project" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</a>
           </div>
         {{/if}}
+        <div class="col-md-6">
+          {{> projectOverviewWidget}}
+        </div>
         </div>
       </div>
       <small>{{projectCount}} record{{#if hasMultipleProjects}}s{{/if}}</small>

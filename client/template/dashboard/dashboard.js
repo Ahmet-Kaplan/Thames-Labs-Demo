@@ -111,7 +111,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 3,
-    h: 25,
+    h: 5,
     displayed: false,
     name: 'Propagation Overview (Chart)'
   },

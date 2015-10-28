@@ -11,15 +11,19 @@
           <div class="col-md-3">
             {{> EasySearch.Input index=OpportunitiesIndex attributes=searchInputAttributes}}
           </div>
-          <div class="col-md-9">
+          <div class="col-md-6">
             <div class="btn-group{{#if isMobile}}-vertical btn-fullWidth{{/if}}">
               {{#if isInRole 'Administrator,CanCreateOpportunities'}}
               <button id="create-opportunity" type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+O"><i class="fa fa-fw fa-plus"></i> Add opportunity</button>
               {{/if}}
               <button id="toggle-archived" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Archived opportunities are opportunities that have been marked as won or lost." >Show {{#if archivedShown}}Active{{else}}Archived{{/if}} opportunities</button>
               <a href="{{pathFor route='salespipeline'}}" class="btn btn-default">Sales pipeline</a>
+
             </div>
           </div>
+          <div class="col-md-3">
+          {{> oppsOverviewWidget}}
+        </div>
         </div>
       </div>
       <small>{{opportunityCount}} record{{#if hasMultipleOpportunities}}s{{/if}}</small>
