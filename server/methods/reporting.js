@@ -1,4 +1,5 @@
 Meteor.methods({
+  //Tasks
   'report.tasksCreated': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var taskData = Tasks.find({}).fetch();
@@ -60,6 +61,7 @@ Meteor.methods({
       return data;
     });
   },
+  //Companies
   'report.companiesStored': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var companyData = Companies.find({}).fetch();
@@ -70,6 +72,7 @@ Meteor.methods({
       return data;
     });
   },
+  //Contacts
   'report.contactsStored': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var contactData = Contacts.find({}).fetch();
@@ -80,6 +83,7 @@ Meteor.methods({
       return data;
     });
   },
+  //Projects
   'report.numberOfProjects': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var projectData = Projects.find({}).fetch();
@@ -150,6 +154,7 @@ Meteor.methods({
       return data;
     });
   },
+  //Opportunities
   'report.numberOfOpportunities': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var oppData = Opportunities.find({}).fetch();
@@ -198,6 +203,7 @@ Meteor.methods({
       return data;
     });
   },
+  //Products
   'report.numberOfProducts': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var productData = Products.find({}).fetch();
@@ -214,8 +220,8 @@ Meteor.methods({
       var value = 0;
 
       _.each(productData, function(pd) {
-        if (pd.value) {
-          value += parseFloat(pd.value)
+        if (pd.cost) {
+          value += parseFloat(pd.cost)
         }
       });
 
@@ -233,8 +239,8 @@ Meteor.methods({
       var value = 0;
 
       _.each(productData, function(pd) {
-        if (pd.value) {
-          value += parseFloat(pd.value)
+        if (pd.cost) {
+          value += parseFloat(pd.cost)
         }
       });
 
@@ -246,9 +252,80 @@ Meteor.methods({
       return data;
     });
   },
+  //Purchase Orders
   'report.numberOfPurchaseOrders': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
-      var purchaseData = Products.find({}).fetch();
+      var purchaseData = PurchaseOrders.find({}).fetch();
+      var data = {
+        "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
+        "Count": purchaseData.length
+      }
+      return data;
+    });
+  },
+  'report.ApprovedPo': function() {
+    return Partitioner.bindUserGroup(this.userId, function() {
+      var purchaseData = PurchaseOrders.find({
+        status: {
+          $eq: "Approved"
+        }
+      }).fetch();
+      var data = {
+        "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
+        "Count": purchaseData.length
+      }
+      return data;
+    });
+  },
+  'report.ArrivedPo': function() {
+    return Partitioner.bindUserGroup(this.userId, function() {
+      var purchaseData = PurchaseOrders.find({
+        status: {
+          $eq: "Arrived"
+        }
+      }).fetch();
+      var data = {
+        "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
+        "Count": purchaseData.length
+      }
+      return data;
+    });
+  },
+  'report.ClosedPo': function() {
+    return Partitioner.bindUserGroup(this.userId, function() {
+      var purchaseData = PurchaseOrders.find({
+        status: {
+          $eq: "Closed"
+        }
+      }).fetch();
+      var data = {
+        "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
+        "Count": purchaseData.length
+      }
+      return data;
+    });
+  },
+  'report.CancelledPo': function() {
+    return Partitioner.bindUserGroup(this.userId, function() {
+      var purchaseData = PurchaseOrders.find({
+        status: {
+          $eq: "Cancelled"
+        }
+      }).fetch();
+      var data = {
+        "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
+        "Count": purchaseData.length
+      }
+      return data;
+    });
+  },
+  'report.RejectedPo': function() {
+    return Partitioner.bindUserGroup(this.userId, function() {
+      var purchaseData = PurchaseOrders.find({
+        status: {
+          $eq: "Rejected"
+        }
+      }).fetch();
       var data = {
         "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
         "Count": purchaseData.length

@@ -4,15 +4,15 @@
     <div class="panel-heading">
       Opportunity Overview <a href="#" id="ref_oppsOverviewWidget" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
       <a href="#" data-target="#oppsOverviewBox" data-dismiss="alert" class="close pull-right" type="button"><i class="fa fa-fw fa-times grayscale"></i></a>
-      <button type="button" id="expandbutton" data-toggle="collapse" data-target="#collapse1" class="btn btn-primary btn-xs pull-right"><span class="fa fa-chevron-down"></span></button>
+      <a href="#" type="button" id="expandbutton" data-toggle="collapse" data-target="#collapse1" class="pull-right" style="padding-right: 10px"><i class="fa fa-chevron-down grayscale"></i></a>
 
       <script>
         $(document).ready(function(){
           $("#collapse1").on("hide.bs.collapse", function(){
-            $("#expandbutton").html('<span class="fa fa-chevron-down"></span>');
+            $("#expandbutton").html('<i class="fa fa-chevron-down grayscale"></i>');
           });
           $("#collapse1").on("show.bs.collapse", function(){
-            $("#expandbutton").html('<span class="fa fa-chevron-up"></span>');
+            $("#expandbutton").html('<i class="fa fa-chevron-up grayscale"></i>');
           });
         });
       </script>

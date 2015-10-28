@@ -37,7 +37,7 @@ widgets = {
     x: 0,
     y: 8,
     w: 3,
-    h: 2,
+    h: 4,
     displayed: true,
     name: 'My tasks',
     requiredPermission: "CanReadTasks"
@@ -52,53 +52,35 @@ widgets = {
     name: 'Requested Purchase Orders',
     requiredPermission: "CanReadPurchaseOrders"
   },
-  'taskOverview': {
-    id: 'taskOverview',
+  'taskInformation': {
+    id: 'taskInformation',
     x: 0,
     y: 0,
-    w: 3,
+    w: 1,
     h: 4,
     displayed: false,
     name: 'Task Overview'
-  },
-  'propagation': {
-    id: 'propagation',
-    x: 0,
-    y: 0,
-    w: 3,
-    h: 4,
-    displayed: false,
-    name: 'Propagation Overview'
-  },
-  'projectInformation': {
-    id: 'projectInformation',
-    x: 0,
-    y: 0,
-    w: 3,
-    h: 4,
-    displayed: false,
-    name: 'Project Overview'
   },
   'opportunityInformation': {
     id: 'opportunityInformation',
     x: 0,
     y: 0,
-    w: 3,
+    w: 1,
     h: 4,
     displayed: false,
     name: 'Opportunity Overview'
   },
-  'propagationChart': {
-    id: 'propagationChart',
+  'projectInformation': {
+    id: 'projectInformation',
     x: 0,
     y: 0,
-    w: 3,
+    w: 1,
     h: 4,
     displayed: false,
-    name: 'Propagation Overview (Chart)'
+    name: 'Project Overview'
   },
-  'productsOverview': {
-    id: 'productsOverview',
+  'productsInformation': {
+    id: 'productsInformation',
     x: 0,
     y: 0,
     w: 1,
@@ -106,14 +88,32 @@ widgets = {
     displayed: false,
     name: 'Products Overview'
   },
-  'poOverview': {
-    id: 'poOverview',
+  'poInformation': {
+    id: 'poInformation',
     x: 0,
     y: 0,
     w: 1,
-    h: 1,
+    h: 5,
     displayed: false,
     name: 'Purchase Orders Overview',
+  },
+  'propagation': {
+    id: 'propagation',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 4,
+    displayed: false,
+    name: 'Propagation Overview'
+  },
+  'propagationChart': {
+    id: 'propagationChart',
+    x: 0,
+    y: 0,
+    w: 3,
+    h: 25,
+    displayed: false,
+    name: 'Propagation Overview (Chart)'
   },
 };
 //List of widgets used by the user
