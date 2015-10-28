@@ -69,6 +69,7 @@ Template.registerHelper('UsersIndex', () => UsersIndex);
 Template.registerHelper('searchInputAttributes', () => {
   return {
     placeholder: 'Search...',
-    class: 'form-control'
+    class: 'form-control',
+    autofocus: true
   };
 });
