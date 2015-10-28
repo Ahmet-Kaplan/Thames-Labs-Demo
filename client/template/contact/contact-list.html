@@ -7,11 +7,14 @@
     <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
-        {{> esInput index="contacts" placeholder="search..." allDocsOnEmpty=true class="form-control"}} {{#if isInRole 'Administrator,CanCreateContacts'}}
-        <div class="btn-group-vertical">
-          <a class="btn btn-primary addContactToCompany" href="#" id="add-contact">
-            <i class="fa fa-fw fa-plus"></i> Add contact</a>
-        </div>{{/if}}
+        {{> EasySearch.Input index=ContactsIndex attributes=searchInputAttributes}}
+        {{#if isInRole 'Administrator,CanCreateContacts'}}
+          <div class="btn-group-vertical">
+            <a class="btn btn-primary addContactToCompany" href="#" id="add-contact">
+              <i class="fa fa-fw fa-plus"></i> Add contact
+            </a>
+          </div>
+        {{/if}}
       </div>
     </div>
 
@@ -19,25 +22,25 @@
 
       <h1><i class="fa fa-users"></i> Contacts</h1>
       <div class="pull-right">
-        {{> esPagination index="contacts"}}
+        {{> EasySearch.Pagination index=ContactsIndex}}
       </div>
       <small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</small>
 
       <div class="list-group">
-        {{#esEach index="contacts"}}
+        {{#EasySearch.Each index=ContactsIndex}}
           {{> contactListItem}}
-        {{/esEach}}
+        {{/EasySearch.Each}}
 
-        {{#ifEsHasNoResults index="contacts"}}
+        {{#EasySearch.IfNoResults index=ContactsIndex}}
           <h4>No contacts found</h4>
-        {{/ifEsHasNoResults}}
+        {{/EasySearch.IfNoResults}}
 
-        {{#ifEsIsSearching index="contacts"}}
+        {{#EasySearch.IfSearching index=ContactsIndex}}
           {{> spinner}}
-        {{/ifEsIsSearching}}
+        {{/EasySearch.IfSearching}}
       </div>
       <div class="pull-right">
-        {{> esPagination index="contacts"}}
+        {{> EasySearch.Pagination index=ContactsIndex}}
       </div>
 
     </div>

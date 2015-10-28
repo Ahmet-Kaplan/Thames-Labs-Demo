@@ -1,30 +1,30 @@
 module.exports = function() {
 
   this.Given(/^I can see the login form$/, function() {
-    client.waitForExist('form#at-pwd-form');
+    browser.waitForExist('form#at-pwd-form');
   });
 
   this.When(/^I can see the login form$/, function() {
-    client.waitForExist('form#at-pwd-form');
+    browser.waitForExist('form#at-pwd-form');
   });
 
   this.When(/^I enter good credentials into the login form$/, function() {
-    client.waitForExist('#at-pwd-form', 2000);
-    client.setValue('#at-field-email', 'test@domain.com');
-    client.setValue('#at-field-password', 'goodpassword');
-    client.submitForm('form#at-pwd-form');
+    browser.waitForExist('#at-pwd-form', 2000);
+    browser.setValue('#at-field-email', 'test@domain.com');
+    browser.setValue('#at-field-password', 'goodpassword');
+    browser.submitForm('form#at-pwd-form');
   });
 
   this.When(/^I enter bad credentials into the login form$/, function() {
-    client.waitForExist('#at-pwd-form', 2000);
-    client.setValue('#at-field-email', 'test@domain.com');
-    client.setValue('#at-field-password', 'badpassword');
-    client.submitForm('form#at-pwd-form');
+    browser.waitForExist('#at-pwd-form', 2000);
+    browser.setValue('#at-field-email', 'test@domain.com');
+    browser.setValue('#at-field-password', 'badpassword');
+    browser.submitForm('form#at-pwd-form');
   });
 
   this.Then(/^I am logged in$/, function() {
-    client.waitForExist('#menuLinkDashboard', 2000)
-    var userId = client
+    browser.waitForExist('#menuLinkDashboard', 2000)
+    var userId = browser
       .executeSync(function() {
         return Meteor.userId();
       }).value;
@@ -32,7 +32,7 @@ module.exports = function() {
   });
 
   this.Then(/^I am not logged in$/, function() {
-    var userId = client
+    var userId = browser
       .executeSync(function() {
         return Meteor.userId();
       }).value;

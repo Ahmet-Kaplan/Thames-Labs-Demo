@@ -10,11 +10,8 @@ Template.contactList.onRendered(function() {
   Session.set('contactListSearchQuery', null);
   Tracker.autorun(function() {
     var searchQuery = Session.get('contactListSearchQuery');
-    var easySearchInstance = EasySearch.getComponentInstance({
-      index: 'contacts'
-    });
     if (searchQuery) {
-      easySearchInstance.search(searchQuery);
+      ContactsIndex.getComponentMethods().search(searchQuery);
       $('.sidebar input').val(searchQuery);
     }
   });
@@ -28,19 +25,10 @@ Template.contactList.events({
 });
 
 Template.contactList.helpers({
-  hasContacts: function() {
-    return Contacts.find({}).count() > 0;
-  },
   contactCount: function() {
-    var easySearchInstance = EasySearch.getComponentInstance({
-      index: 'contacts'
-    });
-    return easySearchInstance.get('total');
+    return ContactsIndex.getComponentDict().get('count');
   },
   hasMultipleContacts: function() {
-    var easySearchInstance = EasySearch.getComponentInstance({
-      index: 'contacts'
-    });
-    return easySearchInstance.get('total') !== 1;
+    return ContactsIndex.getComponentDict().get('count') !== 1;
   }
 });

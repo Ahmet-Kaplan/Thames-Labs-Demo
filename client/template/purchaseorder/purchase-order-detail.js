@@ -1,8 +1,10 @@
 Template.purchaseOrderDetail.onCreated(function() {
   this.autorun( () => {
     var purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
-    this.subscribe('companyById', purchaseOrder.supplierCompanyId);
-    this.subscribe('contactById', purchaseOrder.supplierContactId);
+    if (purchaseOrder) {
+      this.subscribe('companyById', purchaseOrder.supplierCompanyId);
+      this.subscribe('contactById', purchaseOrder.supplierContactId);
+    }
     // Redirect if data doesn't exist
     if (FlowRouter.subsReady() && purchaseOrder === undefined) {
       FlowRouter.go('purchaseOrders');

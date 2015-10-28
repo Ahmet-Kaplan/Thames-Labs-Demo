@@ -1,7 +1,7 @@
 module.exports = function() {
 
   this.Given(/^I have reached the limit of records$/, function() {
-    client.executeAsync(function(done) {
+    browser.executeAsync(function(done) {
       Meteor.call('addRecordsToLimit', done);
     });
   });

@@ -4,9 +4,9 @@ module.exports = function() {
 
   //Reading
   this.When(/^I navigate to a product page$/, function() {
-    client.url(url.resolve(process.env.ROOT_URL, '/products'));
-    client.waitForExist('.product-item', 2000);
-    client.click('.product-item');
+    browser.url(url.resolve(process.env.ROOT_URL, '/products'));
+    browser.waitForExist('.product-item', 2000);
+    browser.click('.product-item');
   });
 
 };

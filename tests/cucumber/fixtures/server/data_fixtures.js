@@ -119,7 +119,8 @@ Meteor.methods({
       $push: {
         items: {
           id: Random.id(),
-          name: "lineItem1"
+          name: "lineItem1",
+          value: 42.0
         }
       }
     });

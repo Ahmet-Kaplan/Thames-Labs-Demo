@@ -11,8 +11,8 @@
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrders" id="newPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description" id="description"}}
-            {{> esSelectize name="supplierCompanyId" index="autosuggestCompany"}}
-            {{> esSelectize name="supplierContactId" index="autosuggestContact" parent="supplierCompanyId" filter="filterCompanyId"}}
+            {{> esSelectize name="supplierCompanyId" index=CompaniesIndex}}
+            {{> esSelectize name="supplierContactId" index=ContactsIndex parent="supplierCompanyId" filter="filterCompanyId"}}
             {{> afQuickField name="supplierReference" id="supRef"}}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}
@@ -46,7 +46,7 @@
             {{> afQuickField name="description" id="description"}}
             {{> afQuickField name="supplierCompanyId" type="hidden" value=supplierCompanyId}}
             {{> afQuickField type="text" readonly=true label="Supplier Company" value=supplierCompanyName}}
-            {{> esSelectize name="supplierContactId" index="autosuggestContact" parent="supplierCompanyId" filter="filterCompanyId"}}
+            {{> esSelectize name="supplierContactId" index=ContactsIndex parent="supplierCompanyId" filter="filterCompanyId"}}
             {{> afQuickField name="supplierReference" id="supRef"}}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}
@@ -161,10 +161,10 @@
             {{> afQuickField name="totalPrice" readonly=true id="activePrice" }}
             {{#if purchaseOrder.supplierCompanyId}}
               <input type="hidden" id="supplierCompanyId" value="{{purchaseOrder.supplierCompanyId}}">
-              {{> esSelectize name="projectId" index="autosuggestProject" parent="supplierCompanyId" filter="supplierCompanyId"}}
+              {{> esSelectize name="projectId" index=ProjectsIndex parent="supplierCompanyId" filter="supplierCompanyId"}}
             {{else}}
               <input type="hidden" id="supplierContactId" value="{{purchaseOrder.supplierContactId}}">
-              {{> esSelectize name="projectId" index="autosuggestProject" parent="supplierContactId" filter="supplierContactId"}}
+              {{> esSelectize name="projectId" index=ProjectsIndex parent="supplierContactId" filter="supplierContactId"}}
             {{/if}}
             {{> afQuickField name="createdBy" value=currentUser}}
             <button type="submit" class="btn btn-primary" id="add-item-to-po">Create</button>
@@ -196,10 +196,10 @@
             {{> afQuickField name="totalPrice" readonly=true id="activePrice"}}
             {{#if purchaseOrder.supplierCompanyId}}
               <input type="hidden" id="supplierCompanyId" value="{{purchaseOrder.supplierCompanyId}}">
-              {{> esSelectize name="projectId" index="autosuggestProject" parent="supplierCompanyId" filter="supplierCompanyId" value=purchaseOrderItem.projectId}}
+              {{> esSelectize name="projectId" index=ProjectsIndex parent="supplierCompanyId" filter="supplierCompanyId" value=purchaseOrderItem.projectId}}
             {{else}}
               <input type="hidden" id="supplierContactId" value="{{purchaseOrder.supplierContactId}}">
-              {{> esSelectize name="projectId" index="autosuggestProject" parent="supplierContactId" filter="supplierContactId" value=purchaseOrderItem.projectId}}
+              {{> esSelectize name="projectId" index=ProjectsIndex parent="supplierContactId" filter="supplierContactId" value=purchaseOrderItem.projectId}}
             {{/if}}
             <button type="submit" class="btn btn-primary" id="update-po-item">Update</button>
           {{/autoForm}}

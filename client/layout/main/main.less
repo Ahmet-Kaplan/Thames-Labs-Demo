@@ -96,6 +96,16 @@ blockquote {
   margin: 5px 0 20px;
 }
 
-ul.es-pagination > li {
-  cursor: pointer;
+ul.pagination {
+  margin: 0 0 10px 0;
+  li.page {
+    cursor: pointer;
+  }
+  li.page.disabled {
+    color: #908888;
+  }
+  li.page.current {
+    font-weight: bold;
+    color: inherit;
+  }
 }

@@ -6,7 +6,7 @@
     <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
-        {{> esInput index="projects" placeholder="search..." allDocsOnEmpty=true class="form-control"}} {{#if isInRole 'Administrator,CanCreateProjects'}}
+        {{> EasySearch.Input index=ProjectsIndex attributes=searchInputAttributes}} {{#if isInRole 'Administrator,CanCreateProjects'}}
         <div class="btn-group-vertical">
           <a href="#" id="add-project" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add project</a>
         </div>
@@ -15,27 +15,27 @@
     </div>
 
     <div class="col-md-9" id="project-list">
-      <h1><i class="fa fa-files-o"></i> Projects</h1>
+      <h1><i class="fa fa-sitemap"></i> Projects</h1>
       <div class="pull-right">
-        {{> esPagination index="projects"}}
+        {{> EasySearch.Pagination index=ProjectsIndex}}
       </div>
       <small>{{projectCount}} record{{#if hasMultipleProjects}}s{{/if}}</small>
 
       <div class="list-group">
-        {{#esEach index="projects"}}
+        {{#EasySearch.Each index=ProjectsIndex}}
           {{> projectListItem}}
-        {{/esEach}}
+        {{/EasySearch.Each}}
 
-        {{#ifEsHasNoResults index="projects"}}
+        {{#EasySearch.IfNoResults index=ProjectsIndex}}
           <h4>No projects found</h4>
-        {{/ifEsHasNoResults}}
+        {{/EasySearch.IfNoResults}}
 
-        {{#ifEsIsSearching index="projects"}}
+        {{#EasySearch.IfSearching index=ProjectsIndex}}
           {{> spinner}}
-        {{/ifEsIsSearching}}
+        {{/EasySearch.IfSearching}}
       </div>
       <div class="pull-right">
-        {{> esPagination index="projects"}}
+        {{> EasySearch.Pagination index=ProjectsIndex}}
       </div>
     </div>
   </div>

@@ -4,3 +4,6 @@
 #globalSearchBox {
   width: 95%;
 }
+.-autocomplete-container a {
+  display: block;
+}

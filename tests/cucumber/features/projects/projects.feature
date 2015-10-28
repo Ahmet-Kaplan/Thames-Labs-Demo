@@ -54,8 +54,8 @@ Feature: Allow users to manage their Projects
     And I click "#add-project"
     And I set text field "name" to "test project 2"
     And I set text field "description" to "This is another test project."
-    And I selectize "userId" to "test user"
     And I selectize "companyId" to "Test Ltd"
+    And I selectize "userId" to "test user"
     And I set text field "value" to "999"
     And I submit the "newProject" form
     Then I should see the heading "test project 2"

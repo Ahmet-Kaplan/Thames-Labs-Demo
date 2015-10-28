@@ -6,7 +6,7 @@
     <div class="col-md-3">
       <div class="sidebar">
         <h1>Actions</h1>
-        {{> esInput index="purchaseorders" placeholder="search..." allDocsOnEmpty=true class="form-control"}}
+        {{> EasySearch.Input index=PurchaseOrdersIndex attributes=searchInputAttributes}}
         {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
         <div class="btn-group-vertical">
           <a href="#" id="add-purchase-order" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
@@ -18,25 +18,25 @@
     <div class="col-md-9" id="purchase-order-list">
       <h1><i class="fa fa-shopping-cart"></i> Purchase Orders</h1>
       <div class="pull-right">
-        {{> esPagination index="purchaseorders"}}
+        {{> EasySearch.Pagination index=PurchaseOrdersIndex}}
       </div>
       <small>{{purchaseOrderCount}} record{{#if hasMultiplePurchaseOrders}}s{{/if}}</small>
 
       <div class="list-group">
-        {{#esEach index="purchaseorders"}}
+        {{#EasySearch.Each index=PurchaseOrdersIndex}}
           {{> purchaseOrderListItem}}
-        {{/esEach}}
+        {{/EasySearch.Each}}
 
-        {{#ifEsHasNoResults index="purchaseorders"}}
+        {{#EasySearch.IfNoResults index=PurchaseOrdersIndex}}
           <h4>No purchase orders found</h4>
-        {{/ifEsHasNoResults}}
+        {{/EasySearch.IfNoResults}}
 
-        {{#ifEsIsSearching index="purchaseorders"}}
+        {{#EasySearch.IfSearching index=PurchaseOrdersIndex}}
           {{> spinner}}
-        {{/ifEsIsSearching}}
+        {{/EasySearch.IfSearching}}
       </div>
       <div class="pull-right">
-        {{> esPagination index="purchaseorders"}}
+        {{> EasySearch.Pagination index=PurchaseOrdersIndex}}
       </div>
 
     </div>

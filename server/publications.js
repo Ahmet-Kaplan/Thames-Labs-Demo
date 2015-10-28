@@ -354,6 +354,10 @@ Meteor.publish("allRecords", function(selector, options) {
 
   Autocomplete.publishCursor(Companies.find(selector, options), this);
   Autocomplete.publishCursor(Contacts.find(selector, options), this);
+  Autocomplete.publishCursor(Opportunities.find(selector, options), this);
+  Autocomplete.publishCursor(Projects.find(selector, options), this);
+  Autocomplete.publishCursor(Products.find(selector, options), this);
+  Autocomplete.publishCursor(PurchaseOrders.find(selector, options), this);
 
   this.ready();
 });
