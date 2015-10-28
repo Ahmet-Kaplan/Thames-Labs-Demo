@@ -1,0 +1,38 @@
+<template name="poOverviewWidget">
+  <div class="grid-stack-item-content">
+    <div class="panel panel-default" id='projectOverviewBox'>
+      <div class="panel-heading">
+        <button aria-hidden="true" class="close" id="close_poOverviewWidget" type="button">×</button>
+         Purchase Orders Overview
+        <a href="#" id="ref_poOverviewWidget" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
+        <a type="button" href="#" id="expandbutton" data-toggle="collapse" data-target="#collapse1" class="pull-right" style="padding-right: 10px"><i class="fa fa-chevron-down grayscale"></i></a>
+
+        <script>
+          $(document).ready(function(){
+            $("#collapse1").on("hide.bs.collapse", function(){
+              $("#expandbutton").html('<i class="fa fa-chevron-down grayscale"></i>');
+            });
+            $("#collapse1").on("show.bs.collapse", function(){
+              $("#expandbutton").html('<i class="fa fa-chevron-up grayscale"></i>');
+            });
+          });
+        </script>
+      </div>
+      <div class="panel-collapse collapse" id="collapse1" >
+        <div class="panel-body">
+          <div class="poOverviewList">
+            <ul class="list-unstyled">
+              <li id="totalPurchaseOrders">Total number of purchase orders: <span class="pull-right">{{totalPurchaseOrders}}</span></li>
+              <li id="totalPurchaseOrders">Orders approved: <span class="pull-right">{{totalApprovedPo}}</span></li>
+              <li id="totalPurchaseOrders">Orders arrived: <span class="pull-right">{{totalArrivedPo}}</span></li>
+              <li id="totalPurchaseOrders">Orders closed: <span class="pull-right">{{totalClosedPo}}</span></li>
+              <li id="totalPurchaseOrders">Orders cancelled: <span class="pull-right">{{totalCancelledPo}}</span></li>
+              <li id="totalPurchaseOrders">Orders rejected: <span class="pull-right">{{totalRejectedPo}}</span></li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
