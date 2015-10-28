@@ -17,15 +17,6 @@ Template.productList.onRendered(function() {
   });
 });
 
-Template.productList.helpers({
-  productCount: function() {
-    return ProductsIndex.getComponentDict().get('count');
-  },
-  hasMultipleProducts: function() {
-    return ProductsIndex.getComponentDict().get('count') !== 1;
-  }
-});
-
 Template.productList.events({
   'click #add-product': function(event) {
     event.preventDefault();

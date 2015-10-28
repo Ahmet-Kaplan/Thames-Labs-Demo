@@ -17,24 +17,9 @@
           </div>
         </div>
       </div>
-      <small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</small>
 
-      <div class="list-group">
-        {{#EasySearch.Each index=ContactsIndex}}
-          {{> contactListItem}}
-        {{/EasySearch.Each}}
+      {{> searchResults index=ContactsIndex listItemTemplateName='contactListItem'}}
 
-        {{#EasySearch.IfNoResults index=ContactsIndex}}
-          <h4>No contacts found</h4>
-        {{/EasySearch.IfNoResults}}
-
-        {{#EasySearch.IfSearching index=ContactsIndex}}
-          {{> spinner}}
-        {{/EasySearch.IfSearching}}
-
-        {{> loadMore index=ContactsIndex}}
-
-      </div>
     </div>
   </div>
 

@@ -29,12 +29,6 @@ Template.opportunityList.onRendered(function() {
 });
 
 Template.opportunityList.helpers({
-  opportunityCount: function() {
-    return OpportunitiesIndex.getComponentDict().get('count');
-  },
-  hasMultipleOpportunities: function() {
-    return OpportunitiesIndex.getComponentDict().get('count') != 1;
-  },
   archivedShown: function() {
     return Template.instance().showArchived.get();
   }

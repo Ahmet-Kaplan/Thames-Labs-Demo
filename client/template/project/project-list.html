@@ -18,23 +18,9 @@
         {{/if}}
         </div>
       </div>
-      <small>{{projectCount}} record{{#if hasMultipleProjects}}s{{/if}}</small>
 
-      <div class="list-group">
-        {{#EasySearch.Each index=ProjectsIndex}}
-          {{> projectListItem}}
-        {{/EasySearch.Each}}
+      {{> searchResults index=ProjectsIndex listItemTemplateName='projectListItem'}}
 
-        {{#EasySearch.IfNoResults index=ProjectsIndex}}
-          <h4>No projects found</h4>
-        {{/EasySearch.IfNoResults}}
-
-        {{#EasySearch.IfSearching index=ProjectsIndex}}
-          {{> spinner}}
-        {{/EasySearch.IfSearching}}
-
-        {{> loadMore index=ProjectsIndex}}
-      </div>
     </div>
   </div>
 </template>

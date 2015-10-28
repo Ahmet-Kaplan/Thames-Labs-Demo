@@ -16,22 +16,9 @@
           {{/if}}
         </div>
       </div>
-      <small>{{productCount}} record{{#if hasMultipleProducts}}s{{/if}}</small>
-      <div class="list-group">
-        {{#EasySearch.Each index=ProductsIndex}}
-          {{> productListItem}}
-        {{/EasySearch.Each}}
 
-        {{#EasySearch.IfNoResults index=ProductsIndex}}
-          <h4>No products found</h4>
-        {{/EasySearch.IfNoResults}}
+      {{> searchResults index=ProductsIndex listItemTemplateName='productListItem'}}
 
-        {{#EasySearch.IfSearching index=ProductsIndex}}
-          {{> spinner}}
-        {{/EasySearch.IfSearching}}
-        
-        {{> loadMore index=ProductsIndex}}
-      </div>
     </div>
   </div>
 

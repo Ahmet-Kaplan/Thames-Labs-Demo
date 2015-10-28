@@ -23,12 +23,3 @@ Template.contactList.events({
     Modal.show('insertContactModal', this);
   }
 });
-
-Template.contactList.helpers({
-  contactCount: function() {
-    return ContactsIndex.getComponentDict().get('count');
-  },
-  hasMultipleContacts: function() {
-    return ContactsIndex.getComponentDict().get('count') !== 1;
-  }
-});

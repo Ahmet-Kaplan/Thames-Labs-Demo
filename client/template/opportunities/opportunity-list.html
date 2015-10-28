@@ -22,23 +22,8 @@
           </div>
         </div>
       </div>
-      <small>{{opportunityCount}} record{{#if hasMultipleOpportunities}}s{{/if}}</small>
-      
-      <div class="list-group">
-        {{#EasySearch.Each index=OpportunitiesIndex}}
-          {{> opportunityListItem}}
-        {{/EasySearch.Each}}
 
-        {{#EasySearch.IfNoResults index=OpportunitiesIndex}}
-          <h4>No opportunities found</h4>
-        {{/EasySearch.IfNoResults}}
-
-        {{#EasySearch.IfSearching index=OpportunitiesIndex}}
-          {{> spinner}}
-        {{/EasySearch.IfSearching}}
-
-        {{> loadMore index=OpportunitiesIndex}}
-      </div>
+      {{> searchResults index=OpportunitiesIndex listItemTemplateName='opportunityListItem'}}
 
     </div>
   </div>

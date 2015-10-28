@@ -11,12 +11,3 @@ Template.purchaseOrderList.events({
     Modal.show('newPurchaseOrderForm', this);
   },
 });
-
-Template.purchaseOrderList.helpers({
-  purchaseOrderCount: function() {
-    return PurchaseOrdersIndex.getComponentDict().get('count');
-  },
-  hasMultiplePurchaseOrders: function() {
-    return PurchaseOrdersIndex.getComponentDict().get('count') !== 1;
-  }
-});

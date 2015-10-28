@@ -17,23 +17,9 @@
           {{/if}}
         </div>
       </div>
-      <small>{{purchaseOrderCount}} record{{#if hasMultiplePurchaseOrders}}s{{/if}}</small>
 
-      <div class="list-group">
-        {{#EasySearch.Each index=PurchaseOrdersIndex}}
-          {{> purchaseOrderListItem}}
-        {{/EasySearch.Each}}
+      {{> searchResults index=PurchaseOrdersIndex listItemTemplateName='purchaseOrderListItem'}}
 
-        {{#EasySearch.IfNoResults index=PurchaseOrdersIndex}}
-          <h4>No purchase orders found</h4>
-        {{/EasySearch.IfNoResults}}
-
-        {{#EasySearch.IfSearching index=PurchaseOrdersIndex}}
-          {{> spinner}}
-        {{/EasySearch.IfSearching}}
-
-        {{> loadMore index=PurchaseOrdersIndex}}
-      </div>
     </div>
   </div>
 </template>
