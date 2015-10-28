@@ -102,7 +102,6 @@ Meteor.methods({
 
   editTaskReminder: function(taskId) {
     //Checking permission
-    console.log(Meteor.users.findOne(this.userId), Roles.userIsInRole(this.userId, ['Administrator', 'CanEditTasks']))
     if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanEditTasks'])) {
       throw new Meteor.Error(403, 'You do not have the permissions to edit Tasks');
     }
