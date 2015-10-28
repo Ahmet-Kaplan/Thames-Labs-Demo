@@ -33,12 +33,6 @@ Template.companyList.events({
   },
   'click #export-companies': function(event) {
     event.preventDefault();
-    var searchDefinition = CompaniesIndex.getComponentDict().get('searchDefinition'),
-        searchOptions = CompaniesIndex.getComponentDict().get('searchOptions');
-    Meteor.call('search.export', searchDefinition, searchOptions, (err, result) => {
-      result.forEach( (result) => {
-        console.log(result);
-      });
-    });
+    exportFromSearchToCSV('companies');
   }
 });
