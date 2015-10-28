@@ -4,6 +4,10 @@ Template.globalSearch.onDestroyed(function() {
   Session.set('globalSearchOpen', false);
 });
 
+Template.globalSearch.onRendered(function() {
+  $('#globalSearchBox').addClass('form-control');
+});
+
 Template.globalSearch.helpers({
   settings: function() {
     return {

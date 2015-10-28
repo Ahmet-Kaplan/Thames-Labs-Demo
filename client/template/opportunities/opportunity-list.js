@@ -14,7 +14,7 @@ Template.opportunityList.onRendered(function() {
     var searchQuery = Session.get('opportunitySearchQuery');
     if (searchQuery) {
       OpportunitiesIndex.getComponentMethods().search(searchQuery);
-      $('.sidebar input').val(searchQuery);
+      $('.stick-bar input').val(searchQuery);
     }
   });
   // Update search props if reactive vars changed

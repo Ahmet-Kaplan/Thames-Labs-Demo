@@ -9,12 +9,13 @@
   padding: 0 15px;
   transition: all 0.15s ease-in-out;
   text-align: center;
+  z-index: 101;
 }
 
 @media only screen and (max-width: 768px) {
   .footer{
-     display:none;
-   }
+    display:none;
+  }
 }
 
 #id-view-content.no-menu > .footer {

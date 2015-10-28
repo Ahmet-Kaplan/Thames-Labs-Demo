@@ -12,7 +12,7 @@ Template.projectsList.onRendered(function() {
     var searchQuery = Session.get('projectListSearchQuery');
     if (searchQuery) {
       ProjectsIndex.getComponentMethods().search(searchQuery);
-      $('.sidebar input').val(searchQuery);
+      $('.stick-bar input').val(searchQuery);
     }
   });
 });

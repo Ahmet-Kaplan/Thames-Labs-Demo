@@ -16,6 +16,7 @@
             <img class="visible-xs" alt="" src="/icon.svg"> RealTime
             <span>CRM</span>
           </a>
+          <button class="btn btn-primary pull-right visible-xs" id="toggle-search"><i class="fa fa-search"></i></button>
         </div>
         {{#if loggedIn}}
         <div class="collapse navbar-collapse">
@@ -35,15 +36,18 @@
               {{/if}}
               {{/if}}
             <li class="dropdown">
+              <a href="#" class="dropdown-toggle" id="toggle-search"><i class="fa fa-search"></i></a>
+            </li>
+            <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="quick-create-menu">
                 <i class="fa fa-fw fa-plus"></i>
               </a>
               <ul class="dropdown-menu">
-                <li><a href="#" id="qckCreateCompany"><i class="fa fa-fw fa-building"></i> Add Company</a></li>
-                <li><a href="#" id="qckCreateContact"><i class="fa fa-fw fa-user"></i> Add Contact</a></li>
+                <li><a href="#" id="qckCreateCompany"><i class="fa fa-fw fa-building"></i> Add Company <small>(Ctrl+Alt+C)</small></a></li>
+                <li><a href="#" id="qckCreateContact"><i class="fa fa-fw fa-user"></i> Add Contact <small>(Ctrl+Alt+X)</small></a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="#" id="qckCreateProject"><i class="fa fa-fw fa-sitemap"></i> Add Project</a></li>
-                <li><a href="#" id="qckCreatePurchaseOrder"><i class="fa fa-fw fa-shopping-cart"></i> Add Purchase Order</a></li>
+                <li><a href="#" id="qckCreateProject"><i class="fa fa-fw fa-sitemap"></i> Add Project <small>(Ctrl+Alt+J)</small></a></li>
+                <li><a href="#" id="qckCreatePurchaseOrder"><i class="fa fa-fw fa-shopping-cart"></i> Add Purchase Order <small>(Ctrl+Alt+P)</small></a></li>
               </ul>
             </li>
 
@@ -103,8 +107,8 @@
           </a>
       </li>
       {{/if}} {{/if}}
-      <li class="panel-title">
-        <a href='/' class="dismiss-on-click {{isActiveRoute 'dashboard'}}" id="menuLinkDashboard">
+      <li class="panel-title {{isActiveRoute 'dashboard'}}">
+        <a href='/' class="dismiss-on-click" id="menuLinkDashboard">
           <i class="fa fa-fw fa-home"></i> Dashboard
         </a>
       </li>
@@ -132,80 +136,80 @@
         </div>
       </div>
       {{#if isInRole 'Administrator,CanReadTasks'}}
-      <li class="panel-title">
-        <a href='/tasks' class="dismiss-on-click {{isActiveRoute 'tasks'}}" id="menuLinkTasks">
+      <li class="panel-title {{isActiveRoute 'tasks'}}">
+        <a href='/tasks' class="dismiss-on-click" id="menuLinkTasks">
           <i class="fa fa-fw fa-check"></i> Tasks
         </a>
       </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadCompanies'}}
-      <li class="panel-title">
-        <a href='/companies' class="dismiss-on-click {{isActiveRoute regex='companies|company'}}" id="menuLinkCompanies">
+      <li class="panel-title {{isActiveRoute regex='companies|company'}}">
+        <a href='/companies' class="dismiss-on-click" id="menuLinkCompanies">
           <i class="fa fa-fw fa-building"></i> Companies
         </a>
       </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadContacts'}}
-      <li class="panel-title">
-        <a href='/contacts' class="dismiss-on-click {{isActiveRoute regex='contacts|contact'}}" id="menuLinkContacts">
+      <li class="panel-title {{isActiveRoute regex='contacts|contact'}}">
+        <a href='/contacts' class="dismiss-on-click" id="menuLinkContacts">
           <i class="fa fa-fw fa-user"></i> Contacts
         </a>
       </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadOpportunities'}}
-      <li class="panel-title">
-        <a href='/opportunities' class="dismiss-on-click {{isActiveRoute regex='opportunities|opportunity|salespipeline'}}" id="menuLinkOpportunities">
+      <li class="panel-title {{isActiveRoute regex='opportunities|opportunity|salespipeline'}}">
+        <a href='/opportunities' class="dismiss-on-click" id="menuLinkOpportunities">
           <i class="fa fa-fw fa-lightbulb-o"></i> Opportunities
         </a>
       </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadProjects'}}
-      <li class="panel-title">
-        <a href='/projects' class="dismiss-on-click {{isActiveRoute regex='projects|project'}}" id="menuLinkProjects">
+      <li class="panel-title {{isActiveRoute regex='projects|project'}}">
+        <a href='/projects' class="dismiss-on-click" id="menuLinkProjects">
           <i class="fa fa-fw fa-sitemap"></i> Projects
         </a>
       </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadProducts'}}
-      <li class="panel-title">
-        <a href='/products' class="dismiss-on-click {{isActiveRoute regex='products|product'}}" id="menuLinkProducts">
+      <li class="panel-title {{isActiveRoute regex='products|product'}}">
+        <a href='/products' class="dismiss-on-click" id="menuLinkProducts">
           <i class="fa fa-fw fa-barcode"></i> Products
         </a>
       </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
-      <li class="panel-title">
-        <a href='/purchaseorders' class="dismiss-on-click {{isActiveRoute regex='purchaseOrders|purchaseOrder'}}" id="menuLinkPurchaseOrders">
+      <li class="panel-title {{isActiveRoute regex='purchaseOrders|purchaseOrder'}}">
+        <a href='/purchaseorders' class="dismiss-on-click" id="menuLinkPurchaseOrders">
           <i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders
         </a>
       </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadDataManagement'}}
-      <li class="panel-title">
-        <a href='/datamanagement' class="dismiss-on-click {{isActiveRoute 'datamanagement'}}" id="menuLinkDataManagement">
+      <li class="panel-title {{isActiveRoute 'datamanagement'}}">
+        <a href='/datamanagement' class="dismiss-on-click" id="menuLinkDataManagement">
           <i class="fa fa-fw fa-upload"></i> Data Management
         </a>
       </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadEventLog'}}
-      <li class="panel-title">
-        <a href='/events' class="dismiss-on-click {{isActiveRoute 'events'}}" id="menuLinkEventLog">
+      <li class="panel-title {{isActiveRoute 'events'}}">
+        <a href='/events' class="dismiss-on-click" id="menuLinkEventLog">
           <i class="fa fa-fw fa-book"></i> Event Log
         </a>
       </li>
       {{/if}} {{/unless}} {{#if isInRole 'superadmin'}}
-      <li class="panel-title">
-        <a href="/tenants" class="dismiss-on-click {{isActiveRoute 'tenants'}}">
+      <li class="panel-title {{isActiveRoute 'tenants'}}">
+        <a href="/tenants" class="dismiss-on-click">
           <i class="fa fa-fw fa-archive"></i> Tenants
           <span class="sr-only">(current)</span>
         </a>
       </li>
-      <li class="panel-title">
-        <a href="/notifications" class="dismiss-on-click {{isActiveRoute 'notifications'}}">
+      <li class="panel-title {{isActiveRoute 'notifications'}}">
+        <a href="/notifications" class="dismiss-on-click">
           <i class="fa fa-fw fa-envelope"></i> Notifications
           <span class="sr-only">(current)</span>
         </a>
       </li>
-      <li class="panel-title">
-        <a href="/statistics" class="dismiss-on-click {{isActiveRoute 'statistics'}}">
+      <li class="panel-title {{isActiveRoute 'statistics'}}">
+        <a href="/statistics" class="dismiss-on-click">
           <i class="fa fa-fw fa-bar-chart"></i> Statistics
           <span class="sr-only">(current)</span>
         </a>
       </li>
-      <li class="panel-title">
-        <a href="/audit" class="dismiss-on-click {{isActiveRoute 'audit'}}">
+      <li class="panel-title {{isActiveRoute 'audit'}}">
+        <a href="/audit" class="dismiss-on-click">
           <i class="fa fa-fw fa-book"></i> Audit Log
           <span class="sr-only">(current)</span>
         </a>

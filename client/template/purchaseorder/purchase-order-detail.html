@@ -2,42 +2,7 @@
   {{#with purchaseOrderData}}
     {{setPageTitle "Purchase order - " description}}
     <div class="row">
-      <div class="col-md-2 hidden-xs hidden-sm">
-        <div class="sidebar">
-          <h1>Actions</h1>
-          <ul class="nav nav-stacked">
-            <li>
-              <a href="#purchase-order-details">Purchase Order details</a>
-            </li>
-            <li>
-              <a href="#activity-timeline">Activity timeline</a>
-            </li>
-          </ul>
-          <div class="btn-group">
-            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
-              Export purchase order
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              {{#if canExportDocx}}
-                <li>
-                  <a href="#" id="template-upload-link-docx">Word document (.docx)</a>
-                </li>
-              {{/if}}
-              <li>
-                <a href="#" id="template-upload-link">PDF (.pdf)</a>
-              </li>
-              <li class="divider"></li>
-              <li>
-                <a href="#" id="po-template-help">How does this work?</a>
-              </li>
-            </ul>
-          </div>
-          <input id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px" type="file">
-          <input id="template-upload" style="height:0; width: 0; margin-left: -9999px" type="file">
-        </div>
-      </div>
-      <div class="col-md-10">
+      <div class="col-md-12">
         <h4 class="entity-title">Purchase Order</h4>
         <h1 class="entity-name" id="purchase-order-details">{{description}}</h1>
 
@@ -47,12 +12,33 @@
           <div class="panel-heading">
             <div class="btn-group pull-right">
               {{#if isInRole 'Administrator,CanEditPurchaseOrders'}}
+              <div class="btn-group">
+                <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
+                  <span class="caret"></span> Export
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  {{#if canExportDocx}}
+                    <li>
+                      <a href="#" id="template-upload-link-docx">Word document (.docx)</a>
+                    </li>
+                  {{/if}}
+                  <li>
+                    <a href="#" id="template-upload-link">PDF (.pdf)</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#" id="po-template-help">How does this work?</a>
+                  </li>
+                </ul>
+              </div>
                 <a class="btn btn-info btn-xs" disabled="{{#unless isOpen}}disabled{{/unless}}" href="#" id="edit-purchase-order"><i class="fa fa-fw fa-pencil"></i>Edit</a>
               {{/if}}
               {{#if isInRole 'Administrator,CanDeletePurchaseOrders'}}
                 <a class="btn btn-danger btn-xs" href="#" id="remove-purchase-order"><i class="fa fa-fw fa-times"></i>Delete</a>
               {{/if}}
             </div>
+            <input id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px" type="file">
+            <input id="template-upload" style="height:0; width: 0; margin-left: -9999px" type="file">
             Details</div>
           <ul class="list-group">
             {{#if supplierCompany}}
@@ -137,10 +123,10 @@
       <div class="col-md-3"></div>
     </div>
     <div class="row">
-      <div class="col-md-10 col-md-offset-2">
+      <div class="col-md-12">
         <h1 id="activity-timeline">
           Activity Timeline
-          <a class="btn btn-primary pull-right" data-placement="bottom" data-toggle="tooltip" href="#" id="add-activity" title="New activity for this purchase order">
+          <a class="btn btn-primary{{#unless isMobile}} pull-right{{/unless}}" data-placement="bottom" data-toggle="tooltip" href="#" id="add-activity" title="New activity for this purchase order">
             <i class="fa fa-fw fa-plus"></i>
             Add activity</a>
         </h1>

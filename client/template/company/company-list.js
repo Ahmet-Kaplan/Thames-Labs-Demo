@@ -12,7 +12,7 @@ Template.companyList.onRendered(function() {
     var searchQuery = Session.get('companyListSearchQuery');
     if (searchQuery) {
       CompaniesIndex.getComponentMethods().search(searchQuery);
-      $('.sidebar input').val(searchQuery);
+      $('.stick-bar input').val(searchQuery);
     }
   });
 });

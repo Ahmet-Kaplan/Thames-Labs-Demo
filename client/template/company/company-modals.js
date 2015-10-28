@@ -45,8 +45,8 @@ Template.insertNewCompanyModal.onRendered(function() {
           draggable: true
         });
         google.maps.event.addListener(marker, "dragend", function(event) {
-          $("input[name=lat]").val(marker.getPosition().G);
-          $("input[name=lng]").val(marker.getPosition().K);
+          $("input[name=lat]").val(marker.getPosition().lat());
+          $("input[name=lng]").val(marker.getPosition().lng());
         });
       }).keypress(function(event) {
         if(event.which == 13) {
@@ -103,8 +103,8 @@ Template.editCompanyModal.onRendered(function() {
           draggable: true
         });
         google.maps.event.addListener(marker, "dragend", function(event) {
-          $("input[name=lat]").val(marker.getPosition().G);
-          $("input[name=lng]").val(marker.getPosition().K);
+          $("input[name=lat]").val(marker.getPosition().lat());
+          $("input[name=lng]").val(marker.getPosition().lng());
         });
       }).keypress(function(event) {
         if(event.keyCode == 13) {
@@ -148,8 +148,8 @@ Template.editCompanyModal.events({
       });
       markerModal.setMap(mapModal);
       google.maps.event.addListener(markerModal, "dragend", function(event) {
-        $("input[name=lat]").val(markerModal.getPosition().G);
-        $("input[name=lng]").val(markerModal.getPosition().K);
+        $("input[name=lat]").val(markerModal.getPosition().lat());
+        $("input[name=lng]").val(markerModal.getPosition().lng());
       });
       var infowindow = new google.maps.InfoWindow();
       infowindow.setContent(companyData.name);
@@ -161,8 +161,8 @@ Template.editCompanyModal.events({
         }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           location = {
-            lat: results[0].geometry.location.G,
-            lng: results[0].geometry.location.K
+            lat: results[0].geometry.location.lat(),
+            lng: results[0].geometry.location.lng()
           };
           mapModal.panTo(location);
           mapModal.setZoom(16);
@@ -174,8 +174,8 @@ Template.editCompanyModal.events({
           });
           markerModal.setMap(mapModal);
           google.maps.event.addListener(markerModal, "dragend", function(event) {
-            $("input[name=lat]").val(markerModal.getPosition().G);
-            $("input[name=lng]").val(markerModal.getPosition().K);
+            $("input[name=lat]").val(markerModal.getPosition().lat());
+            $("input[name=lng]").val(markerModal.getPosition().lng());
           });
           var infowindow = new google.maps.InfoWindow();
           infowindow.setContent(companyData.name);
