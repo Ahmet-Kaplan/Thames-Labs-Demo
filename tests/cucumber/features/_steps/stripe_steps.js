@@ -67,9 +67,9 @@ module.exports = function() {
       }, 10000);
   });
 
-  this.Then(/^I unsubscribe$/, function() {
+  this.Then(/^delete stripe customer$/, function() {
     browser.executeAsync(function(done) {
-      Meteor.call('unsubscribeTestTenant');
+      Meteor.call('deleteStripeTestCustomer');
       done();
     })
   })

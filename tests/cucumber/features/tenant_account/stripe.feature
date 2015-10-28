@@ -16,7 +16,6 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I click "#upScheme"
     Then I should see a modal
 
-@dev
   Scenario: An administrator can subscribe by entering the correct card details
     When I navigate to "/admin"
     When I click "#upScheme"
@@ -31,7 +30,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a modal with title "Subscription complete"
     When I click confirm on the modal
     Then the Stripe field "#planName" should not contain "Free"
-    Then I unsubscribe
+    Then delete stripe customer
 
   Scenario: An administrator with a blocked account can subscribe by entering the correct card details
     Given I have reached the limit of records
@@ -49,6 +48,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a modal with title "Subscription complete"
     When I click confirm on the modal
     Then the Stripe field "#planName" should not contain "Free"
+    Then delete stripe customer
 
   Scenario: An administrator can unsubscribe from the Paying scheme
     Given I have subscribed to the paying plan
@@ -62,6 +62,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a modal with title "Subscription updated"
     When I click confirm on the modal
     Then the Stripe field "#planName" should say "Free Plan"
+    Then delete stripe customer
 
   Scenario: An administrator can resume to the Paying scheme
     Given I have subscribed to the paying plan
@@ -75,6 +76,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a bootbox
     When I click confirm on the modal
     Then the Stripe field "#planName" should not contain "Free"
+    Then delete stripe customer
 
   Scenario: An administrator can update its card details
     Given I have subscribed to the paying plan
@@ -89,6 +91,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a toastr with the message "Validating your card details..."
     Then I should see a "success" toastr with the message "Your card details have been updated."
     Then the Stripe field "#cardExpYear" should say "2022"
+    Then delete stripe customer
 
   Scenario: An administrator can update its email for invoices
     Given I have subscribed to the paying plan
@@ -100,6 +103,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a toastr with the message "Processing your email update"
     Then I should see a "success" toastr with the message "Your email hase been changed: newemail@domain.com"
     Then the Stripe field "#stripeEmail" should say "newemail@domain.com"
+    Then delete stripe customer
 
   Scenario: An administrator cannot subscribe with incorrect card Number
     When I navigate to "/admin"

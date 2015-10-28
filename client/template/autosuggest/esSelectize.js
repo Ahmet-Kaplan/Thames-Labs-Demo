@@ -74,6 +74,7 @@ Template.esSelectize.helpers({
       labelField: "name",
       searchField: "name",
       createOnBlur: false,
+      selectOnTab: true
     };
     if(this.allowCreate) {
       options.render = {
@@ -95,9 +96,14 @@ Template.esSelectize.helpers({
 });
 
 Template.esSelectize.events({
-  'keyup input': function(e) {
+  'keydown input': function(e) {
     var selectize = Template.instance().selectize.get();
     if(e.keyCode === 13 || e.keyCode === 9) {
+      e.preventDefault();
+      selectize.setValue(selectize.getValue());
+      var evt = $.Event('keypress');
+      evt.which = 13;
+      $(window).trigger(evt);
       return;
     }
     Template.instance().search.set(selectize.lastQuery);

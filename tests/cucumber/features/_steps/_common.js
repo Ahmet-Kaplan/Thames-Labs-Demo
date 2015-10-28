@@ -136,9 +136,8 @@ module.exports = function() {
     browser.waitForExist('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
     browser.click('select#' + selector + ' + .selectize-control>.selectize-input');
     browser.keys([value]);
-    browser.waitForExist('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content', 5000);
-    browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content', 5000);
-    browser.click('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>.active');
+    expect(browser.getValue('select#' + selector + ' + .selectize-control>.selectize-input input')).toContain(value);
+    browser.keys(['Enter']);
   });
 
   this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName) {
@@ -153,10 +152,10 @@ module.exports = function() {
       done(Collections[entity].findOne()._id);
     }, entity);
     browser.waitForExist('#toggleTags_' + theEntity.value, 5000);
+    browser.waitForVisible('#toggleTags_' + theEntity.value, 5000);
     browser.click('#toggleTags_' + theEntity.value);
     browser.keys([tagText]);
     browser.keys(['Return']);
-    browser.keys(['Escape']);
     browser.executeAsync(function(done) {
       $('.selectize-input').blur();
       done();
