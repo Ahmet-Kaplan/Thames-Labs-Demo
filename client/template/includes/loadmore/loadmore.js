@@ -19,7 +19,7 @@ var displayMore = function(myEvent, searchIndex) {
 }
 
 Template.loadMore.onRendered(function() {
-  var myEvent; // The custom event that will be created
+  var myEvent;
 
   if (document.createEvent) {
     myEvent = document.createEvent("HTMLEvents");

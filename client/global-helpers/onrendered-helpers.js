@@ -48,8 +48,8 @@ Template.onRendered(function() {
         top: $('.navbar-header').height()
       }
     });
-    stickBar.on('affixed.bs.affix', function(){
+    stickBar.on('affixed.bs.affix', function() {
       stickBar.css('top', $('.navbar-header').height());
     })
-  } 
+  }
 });
