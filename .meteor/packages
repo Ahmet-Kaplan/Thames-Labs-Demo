@@ -19,7 +19,6 @@ alanning:roles
 mrt:moment
 dburles:collection-helpers
 peppelg:bootstrap-3-modal
-matteodem:easy-search
 lbee:lunr
 sacha:spin
 pfafman:filesaver
@@ -94,5 +93,9 @@ ecmascript
 flowkey:hotkeys
 mizzao:autocomplete
 adain:meteor-guid
+ostrio:loggerfile
+ostrio:loggerconsole
+respondly:router-server
 msavin:mongol
 jesperwe:bootstrap-select
+easy:search

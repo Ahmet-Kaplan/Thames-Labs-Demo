@@ -3,46 +3,41 @@
   {{setPageTitle 'Opportunities'}}
 
   <div class="row" id="opportunity-list">
-    <div class="col-md-3">
-      <div class="sidebar">
-        <h1>Actions</h1>
-        {{> esInput index="opportunities" placeholder="search..." allDocsOnEmpty=true class="form-control"}}
-        <div class="btn-group-vertical">
-          {{#if isInRole 'Administrator,CanCreateOpportunities'}}
-          <button id="create-opportunity" type="submit" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add opportunity</button>
-          {{/if}}
-          <button id="toggle-archived" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Archived opportunities are opportunities that have been marked as won or lost." >Show {{#if archivedShown}}Active{{else}}Archived{{/if}} opportunities</button>
-          <a href="{{pathFor route='salespipeline'}}" class="btn btn-default">Sales pipeline</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-9">
+    <div class="col-md-12">
 
       <h1 id="opportunities-page-header"><i class="fa fa-lightbulb-o"></i> Opportunities{{#if archivedShown}} - <i>archived</i>{{/if}}</h1>
-
-      {{> oppsOverviewWidget}}
-
-      <div class="pull-right">
-        {{> esPagination index="opportunities"}}
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-3">
+            {{> EasySearch.Input index=OpportunitiesIndex attributes=searchInputAttributes}}
+          </div>
+          <div class="col-md-9">
+            <div class="btn-group{{#if isMobile}}-vertical btn-fullWidth{{/if}}">
+              {{#if isInRole 'Administrator,CanCreateOpportunities'}}
+              <button id="create-opportunity" type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+O"><i class="fa fa-fw fa-plus"></i> Add opportunity</button>
+              {{/if}}
+              <button id="toggle-archived" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Archived opportunities are opportunities that have been marked as won or lost." >Show {{#if archivedShown}}Active{{else}}Archived{{/if}} opportunities</button>
+              <a href="{{pathFor route='salespipeline'}}" class="btn btn-default">Sales pipeline</a>
+            </div>
+          </div>
+        </div>
       </div>
       <small>{{opportunityCount}} record{{#if hasMultipleOpportunities}}s{{/if}}</small>
 
       <div class="list-group">
-        {{#esEach index="opportunities"}}
+        {{#EasySearch.Each index=OpportunitiesIndex}}
           {{> opportunityListItem}}
-        {{/esEach}}
+        {{/EasySearch.Each}}
 
-        {{#ifEsHasNoResults index="opportunities"}}
+        {{#EasySearch.IfNoResults index=OpportunitiesIndex}}
           <h4>No opportunities found</h4>
-        {{/ifEsHasNoResults}}
+        {{/EasySearch.IfNoResults}}
 
-        {{#ifEsIsSearching index="opportunities"}}
+        {{#EasySearch.IfSearching index=OpportunitiesIndex}}
           {{> spinner}}
-        {{/ifEsIsSearching}}
-      </div>
-      <div class="pull-right">
-        {{> esPagination index="opportunities"}}
+        {{/EasySearch.IfSearching}}
+
+        {{> loadMore index=OpportunitiesIndex}}
       </div>
 
     </div>

@@ -3,43 +3,38 @@
   {{setPageTitle 'Contacts'}}
 
   <div class="row">
-
-    <div class="col-md-3">
-      <div class="sidebar">
-        <h1>Actions</h1>
-        {{> esInput index="contacts" placeholder="search..." allDocsOnEmpty=true class="form-control"}} {{#if isInRole 'Administrator,CanCreateContacts'}}
-        <div class="btn-group-vertical">
-          <a class="btn btn-primary addContactToCompany" href="#" id="add-contact">
-            <i class="fa fa-fw fa-plus"></i> Add contact</a>
-        </div>{{/if}}
-      </div>
-    </div>
-
-    <div class="col-md-9">
-
+    <div class="col-md-12">
       <h1><i class="fa fa-users"></i> Contacts</h1>
-      <div class="pull-right">
-        {{> esPagination index="contacts"}}
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-3">
+            {{> EasySearch.Input index=ContactsIndex attributes=searchInputAttributes}}
+          </div>
+          <div class="col-md-3">
+          {{#if isInRole 'Administrator,CanCreateContacts'}}
+            <a class="btn btn-primary addContactToCompany {{#if isMobile}}btn-fullWidth{{/if}}" href="#" id="add-contact" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+X"><i class="fa fa-fw fa-plus"></i> Add contact</a>
+          {{/if}}
+          </div>
+        </div>
       </div>
       <small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</small>
 
       <div class="list-group">
-        {{#esEach index="contacts"}}
+        {{#EasySearch.Each index=ContactsIndex}}
           {{> contactListItem}}
-        {{/esEach}}
+        {{/EasySearch.Each}}
 
-        {{#ifEsHasNoResults index="contacts"}}
+        {{#EasySearch.IfNoResults index=ContactsIndex}}
           <h4>No contacts found</h4>
-        {{/ifEsHasNoResults}}
+        {{/EasySearch.IfNoResults}}
 
-        {{#ifEsIsSearching index="contacts"}}
+        {{#EasySearch.IfSearching index=ContactsIndex}}
           {{> spinner}}
-        {{/ifEsIsSearching}}
-      </div>
-      <div class="pull-right">
-        {{> esPagination index="contacts"}}
-      </div>
+        {{/EasySearch.IfSearching}}
 
+        {{> loadMore index=ContactsIndex}}
+
+      </div>
     </div>
   </div>
 

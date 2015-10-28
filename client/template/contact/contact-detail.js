@@ -36,7 +36,7 @@ Template.contactDetail.helpers({
     var contact = Contacts.findOne({
       _id: contactId
     });
-    if (contact.tags !== undefined) {
+    if (contact && contact.tags) {
       contact.tags.sort();
     }
     return contact;
@@ -90,6 +90,52 @@ Template.contactDetail.helpers({
     return PurchaseOrders.find({
       supplierContactId: this._id
     })
+  },
+  linksList: function() {
+    return [
+      {
+        index: 0,
+        text: 'Contacts details',
+        anchor: 'contact-details',
+        icon: 'fa-file-text-o'
+      },
+      {
+        index: 1,
+        text: 'Current projects',
+        anchor: 'projects',
+        icon: 'fa-sitemap'
+      },
+      {
+        index: 2,
+        text: 'Purchase Orders',
+        anchor: 'purchase-orders',
+        icon: 'fa-shopping-cart'
+      },
+      {
+        index: 3,
+        text: 'Tasks',
+        anchor: 'tasks',
+        icon: 'fa-tasks'
+      },
+      {
+        index: 4,
+        text: 'Extended information',
+        anchor: 'entity-custom-fields',
+        icon: 'fa-bookmark'
+      },
+      {
+        index: 5,
+        text: 'Opportunities',
+        anchor: 'opportunities',
+        icon: 'fa-lightbulb-o'
+      },
+      {
+        index: 6,
+        text: 'Activity Timeline',
+        anchor: 'activity-timeline',
+        icon: 'fa-list'
+      }
+    ]
   }
 });
 
@@ -164,6 +210,7 @@ Template.ContactProjectListItem.helpers({
     return (this.companyId ? true : false);
   },
   projectCompanyName: function() {
+    Meteor.subscribe('companyById', this.companyId)
     var company = Companies.findOne(this.companyId);
     return company.name;
   }

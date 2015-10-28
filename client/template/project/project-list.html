@@ -3,40 +3,37 @@
   {{setPageTitle 'Projects'}}
 
   <div class="row">
-    <div class="col-md-3">
-      <div class="sidebar">
-        <h1>Actions</h1>
-        {{> esInput index="projects" placeholder="search..." allDocsOnEmpty=true class="form-control"}} {{#if isInRole 'Administrator,CanCreateProjects'}}
-        <div class="btn-group-vertical">
-          <a href="#" id="add-project" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add project</a>
-        </div>
-        {{/if}}
-      </div>
-    </div>
 
-    <div class="col-md-9" id="project-list">
+    <div class="col-md-12" id="project-list">
       <h1><i class="fa fa-sitemap"></i> Projects</h1>
-      {{> projectOverviewWidget}}
-      <div class="pull-right">
-        {{> esPagination index="projects"}}
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-3">
+            {{> EasySearch.Input index=ProjectsIndex attributes=searchInputAttributes}}
+          </div>
+        {{#if isInRole 'Administrator,CanCreateProjects'}}
+          <div class="col-md-3">
+            <a href="#" id="add-project" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</a>
+          </div>
+        {{/if}}
+        </div>
       </div>
       <small>{{projectCount}} record{{#if hasMultipleProjects}}s{{/if}}</small>
 
       <div class="list-group">
-        {{#esEach index="projects"}}
+        {{#EasySearch.Each index=ProjectsIndex}}
           {{> projectListItem}}
-        {{/esEach}}
+        {{/EasySearch.Each}}
 
-        {{#ifEsHasNoResults index="projects"}}
+        {{#EasySearch.IfNoResults index=ProjectsIndex}}
           <h4>No projects found</h4>
-        {{/ifEsHasNoResults}}
+        {{/EasySearch.IfNoResults}}
 
-        {{#ifEsIsSearching index="projects"}}
+        {{#EasySearch.IfSearching index=ProjectsIndex}}
           {{> spinner}}
-        {{/ifEsIsSearching}}
-      </div>
-      <div class="pull-right">
-        {{> esPagination index="projects"}}
+        {{/EasySearch.IfSearching}}
+
+        {{> loadMore index=ProjectsIndex}}
       </div>
     </div>
   </div>

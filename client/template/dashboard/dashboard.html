@@ -2,7 +2,7 @@
 
   {{setPageTitle 'Dashboard'}}
   <h1 id="dashboard-page-header"><i class="fa fa-fw fa-home"></i> Dashboard
-  <div class="btn-group pull-right">
+  <div class="btn-group{{#unless isMobile}} pull-right{{/unless}}">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
       Add Widget
       <span class="caret"></span>

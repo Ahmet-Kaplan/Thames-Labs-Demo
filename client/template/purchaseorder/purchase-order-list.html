@@ -3,43 +3,37 @@
   {{setPageTitle 'Purchase Orders'}}
 
   <div class="row">
-    <div class="col-md-3">
-      <div class="sidebar">
-        <h1>Actions</h1>
-        {{> esInput index="purchaseorders" placeholder="search..." allDocsOnEmpty=true class="form-control"}}
-        {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
-        <div class="btn-group-vertical">
-          <a href="#" id="add-purchase-order" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
-        </div>
-        {{/if}}
-      </div>
-    </div>
-
-    <div class="col-md-9" id="purchase-order-list">
+    <div class="col-md-12" id="purchase-order-list">
       <h1><i class="fa fa-shopping-cart"></i> Purchase Orders</h1>
-      {{> poOverviewWidget}}
-      <div class="pull-right">
-        {{> esPagination index="purchaseorders"}}
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-3">
+            {{> EasySearch.Input index=PurchaseOrdersIndex attributes=searchInputAttributes}}
+          </div>
+          {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+          <div class="col-md-3">
+            <a href="#" id="add-purchase-order" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+P"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
+          </div>
+          {{/if}}
+        </div>
       </div>
       <small>{{purchaseOrderCount}} record{{#if hasMultiplePurchaseOrders}}s{{/if}}</small>
 
       <div class="list-group">
-        {{#esEach index="purchaseorders"}}
+        {{#EasySearch.Each index=PurchaseOrdersIndex}}
           {{> purchaseOrderListItem}}
-        {{/esEach}}
+        {{/EasySearch.Each}}
 
-        {{#ifEsHasNoResults index="purchaseorders"}}
+        {{#EasySearch.IfNoResults index=PurchaseOrdersIndex}}
           <h4>No purchase orders found</h4>
-        {{/ifEsHasNoResults}}
+        {{/EasySearch.IfNoResults}}
 
-        {{#ifEsIsSearching index="purchaseorders"}}
+        {{#EasySearch.IfSearching index=PurchaseOrdersIndex}}
           {{> spinner}}
-        {{/ifEsIsSearching}}
-      </div>
-      <div class="pull-right">
-        {{> esPagination index="purchaseorders"}}
-      </div>
+        {{/EasySearch.IfSearching}}
 
+        {{> loadMore index=PurchaseOrdersIndex}}
+      </div>
     </div>
   </div>
 </template>

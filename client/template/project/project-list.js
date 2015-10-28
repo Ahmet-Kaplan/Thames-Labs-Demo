@@ -10,28 +10,19 @@ Template.projectsList.onRendered(function() {
   Session.set('projectListSearchQuery', null);
   Tracker.autorun(function() {
     var searchQuery = Session.get('projectListSearchQuery');
-    var easySearchInstance = EasySearch.getComponentInstance({
-      index: 'projects'
-    });
     if (searchQuery) {
-      easySearchInstance.search(searchQuery);
-      $('.sidebar input').val(searchQuery);
+      ProjectsIndex.getComponentMethods().search(searchQuery);
+      $('.stick-bar input').val(searchQuery);
     }
   });
 });
 
 Template.projectsList.helpers({
   projectCount: function() {
-    var easySearchInstance = EasySearch.getComponentInstance({
-      index: 'projects'
-    });
-    return easySearchInstance.get('total');
+    return ProjectsIndex.getComponentDict().get('count');
   },
   hasMultipleProjects: function() {
-    var easySearchInstance = EasySearch.getComponentInstance({
-      index: 'projects'
-    });
-    return easySearchInstance.get('total') !== 1;
+    return ProjectsIndex.getComponentDict().get('count') !== 1;
   }
 });
 

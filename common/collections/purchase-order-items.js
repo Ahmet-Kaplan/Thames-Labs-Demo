@@ -2,10 +2,6 @@ PurchaseOrderItems = new Mongo.Collection('purchaseorderitems');
 
 Partitioner.partitionCollection(PurchaseOrderItems);
 
-PurchaseOrderItems.initEasySearch('description', {
-  limit: 50
-});
-
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////

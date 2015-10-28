@@ -1,27 +1,25 @@
 <template name="purchaseOrderListItem">
-  <a class="list-group-item" href="{{pathFor route='purchaseOrder' id=_id}}">
-    <!-- <span class="pull-right">{{> tagBadges}}</span> -->
-    <h4 class="list-group-item-heading"><i class="fa fa-fw fa-shopping-cart"></i> {{description}}</h4>
-    {{#if orderNumber}}
-      <p class="list-group-item-text"><i class="fa fa-fw fa-square-o"></i> PO Number: {{orderNumber}}</p>
-    {{/if}}
-    {{#if supplierCompany}}
-    <p class="list-group-item-text"><i class="fa fa-fw fa-building"></i>Supplier: {{supplierCompany.name}}</p>
-    {{/if}}
-    {{#if supplierContact}}
-      <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> Supplier Contact: {{supplierContact.name}}</p>
-    {{/if}}
-    {{#if customerCompany}}
-      <p class="list-group-item-text"><i class="fa fa-fw fa-building"></i>Customer: {{customerCompany.name}}</p>
-    {{/if}}
-    {{#if customerContact}}
-      <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> Customer Contact: {{customerContact.name}}</p>
-    {{/if}}
-    {{#if project}}
-      <p class="list-group-item-text"><i class="fa fa-fw fa-files-o"></i> Project {{project.description}}</p>
-    {{/if}}
-    {{#if status}}
-      <p class="list-group-item-text"><i class="fa fa-fw fa-question"></i> Status: {{status}}</p>
-    {{/if}}
+  <a class="list-group-item" href="{{pathFor route='purchaseOrder' id=__originalId}}">
+    <div class="row">
+      <div class="col-md-4">
+        <h4 class="list-group-item-heading">{{description}}</h4>
+        {{#if orderNumber}}
+          <p class="list-group-item-text"><i class="fa fa-fw fa-square-o"></i> PO Number: {{orderNumber}}</p>
+        {{/if}}
+      </div>
+      <div class="col-md-4">
+        {{#if supplierCompany}}
+        <p class="list-group-item-text"><i class="fa fa-fw fa-building"></i>Supplier: {{supplierCompany.name}}</p>
+        {{/if}}
+        {{#if supplierContact}}
+          <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> Supplier Contact: {{supplierContact.name}}</p>
+        {{/if}}
+      </div>
+      <div class="col-md-4">
+        {{#if status}}
+          <p class="list-group-item-text"><i class="fa fa-fw fa-question"></i> Status: {{status}}</p>
+        {{/if}}
+      </div>
+    </div>
   </a>
 </template>

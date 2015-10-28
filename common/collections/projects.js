@@ -35,42 +35,37 @@ Tags.TagsMixin(Projects);
 // SEARCH INDICES //
 ////////////////////
 
-Projects.initEasySearch(['description', 'tags'], {
-  limit: 20,
-  use: 'mongo-db',
-  returnFields: [
-    'name',
-    'value',
-    'tags',
-    'companyId',
-    'contactId'
-  ]
-});
-
-EasySearch.createSearchIndex('autosuggestProject', {
-  field: ['_id', 'name'],
+ProjectsIndex = new EasySearch.Index({
   collection: Projects,
-  limit: 10,
-  use: 'mongo-db',
-  props: {
-    supplierCompanyId: '',
-    supplierContactId: ''
-  },
-  query: function(searchString) {
-    var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
-
-    if (this.props.supplierCompanyId.length > 0) {
-      query.companyId = {
-        $eq: this.props.supplierCompanyId
-      };
-    } else {
-      query.contactId = {
-        $eq: this.props.supplierContactId
-      };
-    }
-    return query;
-  },
-  returnFields: ['_id', 'name']
+  fields: ['name', 'tags'],
+  engine: new EasySearch.MongoDB({
+    sort: () => {
+      return { 'name': 1 }
+    },
+    fields: (searchObject, options) => {
+      if (options.search.props.autosuggest) {
+        return {
+          'name': 1,
+        }
+      }
+      return {
+        'name': 1,
+        'value': 1,
+        'tags': 1,
+        'companyId': 1,
+        'contactId': 1
+      }
+    },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      if (options.search.props.supplierCompanyId) {
+        selector.companyId = options.search.props.supplierCompanyId;
+      } else if (options.search.props.supplierContactId) {
+        selector.contactId = options.search.props.supplierContactId;
+      }
+      return selector;
+    },
+  })
 });
 
 //////////////////////

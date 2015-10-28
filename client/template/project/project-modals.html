@@ -5,7 +5,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5> Add new project</h5>
+          <h4> Add new project</h4>
         </div>
 
         <div class="modal-body">
@@ -14,13 +14,13 @@
 
             {{> afQuickField name="description"}}
 
-            {{> esSelectize name="companyId" index="autosuggestCompany"}}
+            {{> esSelectize name="companyId" index=CompaniesIndex}}
 
             {{#if showContacts}}
-              {{> esSelectize name="contactId" index="autosuggestContact" parent="companyId" filter="filterCompanyId"}}
+              {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
             {{/if}}
 
-            {{> esSelectize name="userId" index="autosuggestUser"}}
+            {{> esSelectize name="userId" index=UsersIndex}}
 
             {{> afQuickField name="value"}}
 
@@ -45,7 +45,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5>Add new project</h5>
+          <h4>Add new project</h4>
         </div>
 
         <div class="modal-body">
@@ -57,10 +57,10 @@
             {{> afQuickField name="companyId" id="selectedCompany" value=companyId type="hidden"}}
 
             {{#if showContacts}}
-              {{> esSelectize name="contactId" index="autosuggestContact" parent="companyId" filter="filterCompanyId"}}
+              {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
             {{/if}}
 
-            {{> esSelectize name="userId" index="autosuggestUser"}}
+            {{> esSelectize name="userId" index=UsersIndex}}
 
             {{> afQuickField name="value"}}
 
@@ -85,7 +85,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5>Add new project</h5>
+          <h4>Add new project</h4>
         </div>
 
         <div class="modal-body">
@@ -98,7 +98,7 @@
 
             {{> afQuickField name="contactId" id="companyContacts" type="hidden" value=contactId}}
 
-            {{> esSelectize name="userId" index="autosuggestUser"}}
+            {{> esSelectize name="userId" index=UsersIndex}}
 
             {{> afQuickField name="status" options="allowed"}}
             {{> afQuickField name="value"}}
@@ -126,7 +126,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5>Edit project</h5>
+          <h4>Edit project</h4>
         </div>
 
         <div class="modal-body">
@@ -134,12 +134,12 @@
             {{> afQuickField name="name"}}
             {{> afQuickField name="description"}}
             {{#if companyId}}
-              {{> esSelectize index="autosuggestCompany" name="companyId" value=companyId readonly=true}}
+              {{> esSelectize index=CompaniesIndex name="companyId" value=companyId readonly=true}}
             {{/if}}
             {{#if contactId}}
-              {{> esSelectize name="contactId" index="autosuggestContact" value=contactId  readonly=true}}
+              {{> esSelectize name="contactId" index=ContactsIndex value=contactId  readonly=true}}
             {{/if}}
-            {{> esSelectize name="userId" index="autosuggestUser" value=userId}}
+            {{> esSelectize name="userId" index=UsersIndex value=userId}}
             {{> afQuickField name="value"}}
             {{> afQuickField name="state"}}
             {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}

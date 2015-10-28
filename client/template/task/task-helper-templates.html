@@ -5,7 +5,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5>Add new task</h5>
+          <h4>Add new task</h4>
         </div>
 
         <div class="modal-body">
@@ -14,9 +14,9 @@
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           {{#if isUserTask}}
-            {{> esSelectize name="assigneeId" index="autosuggestUser" value=getCurrentUserId}}
+            {{> esSelectize name="assigneeId" index=UsersIndex value=getCurrentUserId}}
           {{else}}
-            {{> esSelectize name="assigneeId" index="autosuggestUser"}}
+            {{> esSelectize name="assigneeId" index=UsersIndex}}
           {{/if}}
           {{> afQuickField name="entityType" value=getEntityType type='hidden' }}
           {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
@@ -35,7 +35,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5>Edit task</h5>
+          <h4>Edit task</h4>
         </div>
 
         <div class="modal-body">
@@ -43,7 +43,7 @@
           {{> afQuickField name="title" id="taskTitle"}}
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
-          {{> esSelectize name="assigneeId" index="autosuggestUser" value=assigneeId}}
+          {{> esSelectize name="assigneeId" index=UsersIndex value=assigneeId}}
           {{> afQuickField name="completed" id="taskCompleted"}}
           <button type="submit" class="btn btn-primary ">Update</button>
           {{/autoForm}}

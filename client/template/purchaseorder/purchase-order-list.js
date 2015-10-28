@@ -14,15 +14,9 @@ Template.purchaseOrderList.events({
 
 Template.purchaseOrderList.helpers({
   purchaseOrderCount: function() {
-    var easySearchInstance = EasySearch.getComponentInstance({
-      index: 'purchaseorders'
-    });
-    return easySearchInstance.get('total');
+    return PurchaseOrdersIndex.getComponentDict().get('count');
   },
   hasMultiplePurchaseOrders: function() {
-    var easySearchInstance = EasySearch.getComponentInstance({
-      index: 'purchaseorders'
-    });
-    return easySearchInstance.get('total') !== 1;
+    return PurchaseOrdersIndex.getComponentDict().get('count') !== 1;
   }
 });

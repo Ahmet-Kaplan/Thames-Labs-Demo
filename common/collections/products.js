@@ -6,17 +6,21 @@ Partitioner.partitionCollection(Products);
 // SEARCH INDICES //
 ////////////////////
 
-Products.initEasySearch(['name'], {
-  limit: 20,
-  use: 'mongo-db',
-  sort: function() {
-    return {
-      'name': 1
-    };
-  },
-  returnFields: [
-    'name',
-  ]
+ProductsIndex = new EasySearch.Index({
+  collection: Products,
+  fields: ['name'],
+  engine: new EasySearch.MongoDB({
+    sort: () => {
+      return { 'name': 1 }
+    },
+    fields: () => {
+      return {
+        'name': 1,
+        'price': 1,
+        'cost': 1
+      }
+    }
+  })
 });
 
 //////////////////////

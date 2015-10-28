@@ -113,7 +113,7 @@ Template.companyDetail.helpers({
     var company = Companies.findOne({
       _id: companyId
     });
-    if (company.tags !== undefined) {
+    if (company && company.tags) {
       company.tags.sort();
     }
     return company;
@@ -135,5 +135,57 @@ Template.companyDetail.helpers({
     return Opportunities.find({
       companyId: this._id
     });
+  },
+  linksList: function() {
+    return [
+      {
+        index: 0,
+        text: 'Company details',
+        anchor: 'company-details',
+        icon: 'fa-file-text-o'
+      },
+      {
+        index: 1,
+        text: 'Contacts',
+        anchor: 'contacts',
+        icon: 'fa-user'
+      },
+      {
+        index: 2,
+        text: 'Current Projects',
+        anchor: 'projects',
+        icon: 'fa-sitemap'
+      },
+      {
+        index: 3,
+        text: 'Purchase Orders',
+        anchor: 'purchase-orders',
+        icon: 'fa-shopping-cart'
+      },
+      {
+        index: 4,
+        text: 'Tasks',
+        anchor: 'tasks',
+        icon: 'fa-tasks'
+      },
+      {
+        index: 5,
+        text: 'Extended information',
+        anchor: 'entity-custom-fields',
+        icon: 'fa-bookmark'
+      },
+      {
+        index: 6,
+        text: 'Opportunities',
+        anchor: 'opportunities',
+        icon: 'fa-lightbulb-o'
+      },
+      {
+        index: 7,
+        text: 'Activity Timeline',
+        anchor: 'activity-timeline',
+        icon: 'fa-list'
+      }
+    ]
   }
 });
