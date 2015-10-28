@@ -3,23 +3,19 @@
   {{setPageTitle 'Companies'}}
 
   <div class="row" id="company-list">
-    <div class="col-md-3">
-      <div class="sidebar">
-        <h1>Actions</h1>
-        {{> EasySearch.Input index=CompaniesIndex attributes=searchInputAttributes}}
-        {{#if isInRole 'Administrator,CanCreateCompanies'}}
-          <div class="btn-group-vertical">
-            <button type="submit" class="btn btn-primary" id="add-company"><i class="fa fa-fw fa-plus"></i> Add company</button>
-          </div>
-        {{/if}}
-      </div>
-    </div>
-
-    <div class="col-md-9">
-
+    <div class="col-md-12">
       <h1 id="companies-page-header"><i class="fa fa-building"></i> Companies</h1>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=CompaniesIndex}}
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-3">
+            {{> EasySearch.Input index=CompaniesIndex attributes=searchInputAttributes}}
+          </div>
+          <div class="col-md-3">
+          {{#if isInRole 'Administrator,CanCreateCompanies'}}
+            <button type="submit" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
+          {{/if}}
+          </div>
+        </div>
       </div>
       <small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
 
@@ -35,9 +31,8 @@
         {{#EasySearch.IfSearching index=CompaniesIndex}}
           {{> spinner}}
         {{/EasySearch.IfSearching}}
-      </div>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=CompaniesIndex}}
+
+        {{> loadMore index=CompaniesIndex}}
       </div>
 
     </div>
@@ -47,13 +42,25 @@
 
 <template name="companyListItem">
   <a class="list-group-item clearfix" href="{{pathFor route='company' id=__originalId}}" id='mchCompany'>
-    <span class="pull-left">
-      {{> companyLogo url=website class="img-circle logo-small" showPlaceholder=true}}
-    </span>
-    <span class="pull-right">{{> tagBadges}}</span>
-    <h4 class="list-group-item-heading">{{name}}</h4> <p class="list-group-item-text"><i class="fa fa-fw fa-map-marker"></i> {{city}}, {{country}}</p>
+    <div class="row">
+      <div class="col-sm-12 col-md-5 col-lg-4">
+        <span class="pull-left">
+          {{> companyLogo url=website class="img-circle logo-small" showPlaceholder=true}}
+        </span>
+        <h4 class="list-group-item-heading">{{name}}</h4> <p class="list-group-item-text"></p>
+      </div>
+      <div class="hidden-xs hidden-sm col-md-3 col-lg-3">
+        <i class="fa fa-fw fa-map-marker"></i> {{address}}, {{city}} {{postcode}}, {{country}}
+      </div>
+      <div class="hidden-xs hidden-sm hidden-md col-lg-2">
+        {{#if website}}<i class="fa fa-fw fa-globe"></i> <a href="{{website}}" target="_blank">{{shortWebsite}}</a><br>{{/if}}
+        {{#if phone}}<i class="fa fa-fw fa-phone"></i> {{phone}}{{/if}}
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-3">
+        <span class="pull-right">{{> tagBadges}}</span>
+      </div>
+    </div>
   </a>
-
 </template>
 
 <template name="wordHelpModal">

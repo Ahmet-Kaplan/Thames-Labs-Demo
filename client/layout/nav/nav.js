@@ -35,7 +35,6 @@ Template.nav.onCreated(function() {
 });
 
 Template.nav.helpers({
-
   showTourOption: function() {
     var currRoute = FlowRouter.getRouteName();
     var show = false;
@@ -136,52 +135,6 @@ Template.nav.helpers({
   }
 });
 
-Template.notice.helpers({
-  shortText: function() {
-    var c = this.title;
-    var s = c.substr(0, 40);
-    if (s.length > 37) {
-      return s + "...";
-    } else {
-      return s;
-    }
-  },
-  recentNote: function() {
-    var today = new Date();
-    var yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-
-    if (this.createdAt >= yesterday) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-});
-
-Template.menuNotice.helpers({
-  shortText: function() {
-    var c = this.title;
-    var s = c.substr(0, 40);
-    if (s.length > 37) {
-      return s + "...";
-    } else {
-      return s;
-    }
-  },
-  recentNote: function() {
-    var today = new Date();
-    var yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-
-    if (this.createdAt >= yesterday) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-});
-
 //NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
   'click #tour-this-page': function() {
@@ -228,6 +181,17 @@ Template.nav.events({
         profile: profile
       }
     });
+  },
+  'click #toggle-search': function(event) {
+    event.preventDefault();
+    var state = Session.get('globalSearchOpen');
+    if (state === false) {
+      Session.set('globalSearchOpen', true);
+      Modal.show('globalSearch');
+    } else {
+      Session.set('globalSearchOpen', false);
+      Modal.hide('globalSearch');
+    }
   },
   'click #qckCreateCompany': function(event) {
     if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateCompanies'])) {
@@ -300,10 +264,56 @@ Template.nav.events({
   }
 });
 
+Template.notice.helpers({
+  shortText: function() {
+    var c = this.title;
+    var s = c.substr(0, 40);
+    if (s.length > 37) {
+      return s + "...";
+    } else {
+      return s;
+    }
+  },
+  recentNote: function() {
+    var today = new Date();
+    var yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    if (this.createdAt >= yesterday) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+});
+
 Template.notice.events({
   'click .btnOpenNotice': function(event) {
     event.preventDefault();
     Modal.show('notificationModal', this);
+  }
+});
+
+Template.menuNotice.helpers({
+  shortText: function() {
+    var c = this.title;
+    var s = c.substr(0, 40);
+    if (s.length > 37) {
+      return s + "...";
+    } else {
+      return s;
+    }
+  },
+  recentNote: function() {
+    var today = new Date();
+    var yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    if (this.createdAt >= yesterday) {
+      return true;
+    } else {
+      return false;
+    }
   }
 });
 

@@ -6,14 +6,6 @@ This component expects to be called with two parameters:
 
 <template name="map">
   <div class="thumbnail">
-    {{#if isDesktop}}
-      <div class="map-container">
-        {{> googleMap name="map" options=mapOptions}}
-      </div>
-    {{/if}}
-    {{#if isPhone}}
-      <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}" />
-    {{/if}}
     <div class="caption">
       <address>
         <b>{{title}}</b>
@@ -39,5 +31,13 @@ This component expects to be called with two parameters:
         {{/with}}
       </address>
     </div>
+    {{#if isDesktop}}
+      <div class="map-container">
+        {{> googleMap name="map" options=mapOptions}}
+      </div>
+    {{/if}}
+    {{#if isPhone}}
+      <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x600&markers={{addressString}}" />
+    {{/if}}
   </div>
 </template>

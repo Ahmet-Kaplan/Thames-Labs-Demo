@@ -1,27 +1,37 @@
 <template name="opportunityListItem">
   <a class="list-group-item" href="{{pathFor route='opportunity' id=__originalId}}">
-    <span class="pull-right">{{> tagBadges}}</span>
-    <h4 class="list-group-item-heading">{{name}}</h4>
-    {{#if companyId}}
-      <p class="list-group-item-text"><i class="fa fa-fw fa-building"></i> {{company.name}}</p>
-    {{/if}}
-    {{#if contactId}}
-      <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> {{contact.name}}</p>
-    {{/if}}
-    {{#if value}}
-      <p class="list-group-item-text"><i class="fa fa-fw fa-money"></i> £{{decimal value}}</p>
-    {{/if}}
-    {{#if estCloseDate}}
-      <p class="list-group-item-text"><i class="fa fa-fw fa-calendar"></i> Est. Close: {{friendlyEstClose}}</p>
-    {{/if}}
-    {{#if isArchived}}
-      {{#if hasBeenWon}}
-        <p class="text-success">Opportunity Won</p>
-      {{else}}
-        <p>
-          <span class="text-danger">Opportunity Lost</span>{{#if reasonLost}}: {{reasonLost}}{{/if}}
-        </p>
-      {{/if}}
-    {{/if}}
+    <div class="row">
+      <div class="col-md-3">
+        <h4 class="list-group-item-heading">{{name}}</h4>
+      </div>
+      <div class="col-md-3">
+        {{#if companyId}}
+          <p class="list-group-item-text"><i class="fa fa-fw fa-building"></i> {{company.name}}</p>
+        {{/if}}
+        {{#if contactId}}
+          <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> {{contact.name}}</p>
+        {{/if}}
+      </div>
+      <div class="col-md-3">
+        {{#if value}}
+          <p class="list-group-item-text"><i class="fa fa-fw fa-money"></i> £{{decimal value}}</p>
+        {{/if}}
+        {{#if estCloseDate}}
+          <p class="list-group-item-text"><i class="fa fa-fw fa-calendar"></i> Est. Close: {{friendlyEstClose}}</p>
+        {{/if}}
+        {{#if isArchived}}
+          {{#if hasBeenWon}}
+            <p class="text-success">Opportunity Won</p>
+          {{else}}
+            <p>
+              <span class="text-danger">Opportunity Lost</span>{{#if reasonLost}}: {{reasonLost}}{{/if}}
+            </p>
+          {{/if}}
+        {{/if}}
+      </div>
+      <div class="col-md-3">
+        <span class="pull-right">{{> tagBadges}}</span>
+      </div>
+    </div>
   </a>
 </template>

@@ -3,26 +3,19 @@
   {{setPageTitle 'Contacts'}}
 
   <div class="row">
-
-    <div class="col-md-3">
-      <div class="sidebar">
-        <h1>Actions</h1>
-        {{> EasySearch.Input index=ContactsIndex attributes=searchInputAttributes}}
-        {{#if isInRole 'Administrator,CanCreateContacts'}}
-          <div class="btn-group-vertical">
-            <a class="btn btn-primary addContactToCompany" href="#" id="add-contact">
-              <i class="fa fa-fw fa-plus"></i> Add contact
-            </a>
-          </div>
-        {{/if}}
-      </div>
-    </div>
-
-    <div class="col-md-9">
-
+    <div class="col-md-12">
       <h1><i class="fa fa-users"></i> Contacts</h1>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=ContactsIndex}}
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-3">
+            {{> EasySearch.Input index=ContactsIndex attributes=searchInputAttributes}}
+          </div>
+          <div class="col-md-3">
+          {{#if isInRole 'Administrator,CanCreateContacts'}}
+            <a class="btn btn-primary addContactToCompany {{#if isMobile}}btn-fullWidth{{/if}}" href="#" id="add-contact" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+X"><i class="fa fa-fw fa-plus"></i> Add contact</a>
+          {{/if}}
+          </div>
+        </div>
       </div>
       <small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</small>
 
@@ -38,11 +31,10 @@
         {{#EasySearch.IfSearching index=ContactsIndex}}
           {{> spinner}}
         {{/EasySearch.IfSearching}}
-      </div>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=ContactsIndex}}
-      </div>
 
+        {{> loadMore index=ContactsIndex}}
+
+      </div>
     </div>
   </div>
 

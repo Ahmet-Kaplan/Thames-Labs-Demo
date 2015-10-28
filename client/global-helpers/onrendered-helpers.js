@@ -31,10 +31,25 @@ Template.onRendered(function() {
   var sidebar = $('.sidebar');
   //sidebar.length is the number of elements matching '.sidebar'
   if (sidebar.length > 0 && !bowser.mobile && !bowser.tablet) {
-    sidebar.affix({
+    sidebar.css('position', 'fixed');
+    sidebar.css('width', '18.315972%');
+  }
+
+  //IE fix: prevent all default actions and handle the hashlinks correctly
+  $(".stick-bar .nav li a").on('click', function(event) {
+    event.preventDefault();
+    window.location.hash = $(this).attr('href');
+  });
+
+  var stickBar = $('.stick-bar');
+  if (stickBar.length > 0 && !bowser.mobile && !bowser.tablet) {
+    stickBar.affix({
       offset: {
-        top: sidebar.offset().top
+        top: $('.navbar-header').height()
       }
     });
+    stickBar.on('affixed.bs.affix', function() {
+      stickBar.css('top', $('.navbar-header').height());
+    })
   }
 });
