@@ -83,7 +83,7 @@ Template.esSelectize.helpers({
       };
       options.create = function(input, callback) {
         return {
-          _id: 'newRecord' + input,
+          __originalId: 'newRecord' + input,
           name: input
         };
       };

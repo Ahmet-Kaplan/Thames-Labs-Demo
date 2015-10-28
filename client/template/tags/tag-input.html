@@ -16,6 +16,8 @@
   </div>
   <div id="tagsBadges_{{entityId}}" class="topBadges">
     {{> tagBadges}}&nbsp;
-    <span class="pull-right badge editTags" id="toggleTags_{{entityId}}"><i class="fa fa-fw fa-pencil"></i></span>
+    {{#if hasPermission}}
+      <span class="pull-right badge editTags" id="toggleTags_{{entityId}}"><i class="fa fa-fw fa-pencil"></i></span>
+    {{/if}}
   </div>
 </template>

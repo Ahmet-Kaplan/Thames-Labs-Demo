@@ -16,6 +16,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I click "#upScheme"
     Then I should see a modal
 
+@dev
   Scenario: An administrator can subscribe by entering the correct card details
     When I navigate to "/admin"
     When I click "#upScheme"
@@ -30,6 +31,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a modal with title "Subscription complete"
     When I click confirm on the modal
     Then the Stripe field "#planName" should not contain "Free"
+    Then I unsubscribe
 
   Scenario: An administrator with a blocked account can subscribe by entering the correct card details
     Given I have reached the limit of records

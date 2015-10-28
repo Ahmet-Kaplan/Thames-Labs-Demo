@@ -83,5 +83,8 @@ Template.insertContactModal.events({
 Template.insertCompanyContactModal.helpers({
   currentUser: function() {
     return Meteor.userId();
+  },
+  companyName: function() {
+    return this.name;
   }
 });

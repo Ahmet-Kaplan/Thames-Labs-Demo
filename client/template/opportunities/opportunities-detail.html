@@ -179,8 +179,10 @@
 <template name="opportunityItem">
   <li class="list-group-item">
     {{#if isActive}}
-    <button class="btn btn-danger btn-xs delete-line-item pull-right"><i class="fa fa-fw fa-times"></i> Delete</button>
-    <button class="btn btn-info btn-xs edit-line-item pull-right"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+    <div class="btn-group pull-right">
+      <button class="btn btn-info btn-xs edit-line-item"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+      <button class="btn btn-danger btn-xs delete-line-item"><i class="fa fa-fw fa-times"></i> Delete</button>
+    </div>
     {{/if}}
     <h4 style="margin: 0 0 4px">{{data.name}}</h4>
     {{#if data.description}}

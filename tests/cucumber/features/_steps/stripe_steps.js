@@ -66,4 +66,11 @@ module.exports = function() {
         });
       }, 10000);
   });
+
+  this.Then(/^I unsubscribe$/, function() {
+    browser.executeAsync(function(done) {
+      Meteor.call('unsubscribeTestTenant');
+      done();
+    })
+  })
 };

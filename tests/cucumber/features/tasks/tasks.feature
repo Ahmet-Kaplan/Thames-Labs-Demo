@@ -24,7 +24,7 @@ Feature: Allow users to manage their Tasks
     Given a "Company" task has been created
     And I have the "CanEditTasks" permission
     When I navigate to "/tasks"
-    Then I should see ".task"
+    And I should see the heading "Tasks"
 
   Scenario: An administrator can add CanReadTasks permission
     Given I have the "Administrator" permission
@@ -53,3 +53,29 @@ Feature: Allow users to manage their Tasks
   Scenario: A user can see the Tasks menu item with the correct permission
     Given I have the "CanReadTasks" permission
     Then the "Tasks" menu item is shown
+
+  #Tags
+  Scenario: A user with the CanEditTasks permission can edit tags
+    Given I have the "CanEditTasks" permission
+    And I have the "CanReadCompanies" permission
+    And a "Company" task has been created
+    When I navigate to a company page
+    And I click "#displayedTaskHeading"
+    And I add the tag "test-tag" to the "tasks"
+    Then the tag field for the "tasks" should contain "test-tag"
+
+  Scenario: A user without the CanEditTasks permission cannot edit tags
+    Given I have the "CanReadCompanies" permission
+    Given I do not have the "CanEditTasks" permission
+    Given a "Company" task has been created
+    When I navigate to a company page
+    And I click "#displayedTaskHeading"
+    Then I should not see the edit tag button for the "tasks"
+
+  Scenario: A user with the Administrator permission can edit tags
+    Given I have the "Administrator" permission
+    And a "Company" task has been created
+    When I navigate to a company page
+    And I click "#displayedTaskHeading"
+    And I add the tag "test-tag" to the "tasks"
+    Then the tag field for the "tasks" should contain "test-tag"

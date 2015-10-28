@@ -11,21 +11,14 @@
         <div class="modal-body">
           {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
             {{> afQuickField name="name"}}
-
             {{> afQuickField name="description"}}
-
             {{> esSelectize name="companyId" index=CompaniesIndex}}
-
             {{#if showContacts}}
               {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
             {{/if}}
-
             {{> esSelectize name="userId" index=UsersIndex}}
-
             {{> afQuickField name="value"}}
-
             {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
-
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             <!-- {{> afQuickField name="nextActionBy" options=usersAsOptions}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
@@ -51,21 +44,15 @@
         <div class="modal-body">
           {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
             {{> afQuickField name="name"}}
-
             {{> afQuickField name="description"}}
-
+            {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
             {{> afQuickField name="companyId" id="selectedCompany" value=companyId type="hidden"}}
-
             {{#if showContacts}}
               {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
             {{/if}}
-
             {{> esSelectize name="userId" index=UsersIndex}}
-
             {{> afQuickField name="value"}}
-
             {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
-
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             <!-- {{> afQuickField name="nextActionBy" options=usersAsOptions}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
@@ -91,24 +78,20 @@
         <div class="modal-body">
           {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
             {{> afQuickField name="name"}}
-
             {{> afQuickField name="description"}}
-
-            {{> afQuickField name="companyId" id="selectedCompany" type="hidden" }}
-
+            {{#if companyId}}
+              {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
+              {{> afQuickField name="companyId" id="selectedCompany" type="hidden" }}
+            {{/if}}
+            {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
             {{> afQuickField name="contactId" id="companyContacts" type="hidden" value=contactId}}
-
             {{> esSelectize name="userId" index=UsersIndex}}
-
             {{> afQuickField name="status" options="allowed"}}
             {{> afQuickField name="value"}}
             {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
-
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             {{> afQuickField name="probability"}}
             {{> afQuickField name="lastActionDate" type="hidden" value=currentDateTime }}
-
-            <!-- {{> afQuickField name="nextActionBy" options=usersAsOptions}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
@@ -134,10 +117,12 @@
             {{> afQuickField name="name"}}
             {{> afQuickField name="description"}}
             {{#if companyId}}
-              {{> esSelectize index=CompaniesIndex name="companyId" value=companyId readonly=true}}
+              {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
+              {{> afQuickField name="companyId" id="selectedCompany" type="hidden" }}
             {{/if}}
             {{#if contactId}}
-              {{> esSelectize name="contactId" index=ContactsIndex value=contactId  readonly=true}}
+              {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
+              {{> afQuickField name="contactId" id="companyContacts" type="hidden" value=contactId}}
             {{/if}}
             {{> esSelectize name="userId" index=UsersIndex value=userId}}
             {{> afQuickField name="value"}}

@@ -206,22 +206,21 @@ Feature: Allow users to manage their Companies
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
-    And I set text field with selector ".tag-input input" to "test tag"
-    Then the field with selector ".tag-input input" should contain "test tag"
+    And I add the tag "test-tag" to the "companies"
+    Then the tag field for the "companies" should contain "test-tag"
 
   Scenario: A user without the CanEditCompanies permission cannot edit tags
     Given I do not have the "CanEditCompanies" permission
     Given a "Company" has been created
     When I navigate to a company page
-    And I set text field with selector ".tag-input input" to "test tag"
-    Then the field with selector ".tag-input input" should not contain "test tag"
+    Then I should not see the edit tag button for the "companies"
 
   Scenario: A user with the Administrator permission can edit tags
     Given I have the "Administrator" permission
     And a "Company" has been created
     When I navigate to a company page
-    And I set text field with selector ".tag-input input" to "test tag"
-    Then the field with selector ".tag-input input" should contain "test tag"
+    And I add the tag "test-tag" to the "companies"
+    Then the tag field for the "companies" should contain "test-tag"
 
 
   #Tasks
@@ -232,7 +231,7 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     And I click "#btnAddTaskToEntity"
     Then I should see a modal
-    And I select "test user" from dropdown field "assigneeId"
+    And I selectize "assigneeId" to "test user"
     When I set text field "title" to "task title"
     And I submit the "newTask" form
     Then I should see ".task"
@@ -242,8 +241,8 @@ Feature: Allow users to manage their Companies
     And I have the "CanEditTasks" permission
     And a "Company" task has been created
     When I navigate to a company page
-    Then I should see ".task-title"
-    When I click ".task-title"
+    Then I should see ".edit-task"
+    When I click ".edit-task"
     Then I should see a modal
     When I set text field "title" to "updated title"
     And I submit the "editTask" form
@@ -277,7 +276,7 @@ Feature: Allow users to manage their Companies
     And I do not have the "CanEditTasks" permission
     And a "Company" task has been created
     When I navigate to a company page
-    Then I should not see "a.task-title"
+    Then I should not see ".edit-task"
 
   Scenario: A user without the CanDeleteTasks permission cannot delete a task in a company
     Given I have the "CanReadTasks" permission

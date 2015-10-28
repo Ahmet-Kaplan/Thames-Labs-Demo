@@ -230,22 +230,21 @@ Feature: Allow users to manage their Contacts
     Given I have the "CanEditContacts" permission
     And a "Contact" has been created
     When I navigate to a contact page
-    And I set text field with selector ".tag-input input" to "test tag"
-    Then the field with selector ".tag-input input" should contain "test tag"
+    And I add the tag "test-tag" to the "contacts"
+    Then the tag field for the "contacts" should contain "test-tag"
 
   Scenario: A user without the CanEditContacts permission cannot edit tags
     Given I do not have the "CanEditContacts" permission
     And a "Contact" has been created
     When I navigate to a contact page
-    And I set text field with selector ".tag-input input" to "test tag"
-    Then the field with selector ".tag-input input" should not contain "test tag"
+    Then I should not see the edit tag button for the "contacts"
 
   Scenario: A user with the Administrator permission can edit tags
     Given I have the "Administrator" permission
     And a "Contact" has been created
     When I navigate to a contact page
-    And I set text field with selector ".tag-input input" to "test tag"
-    Then the field with selector ".tag-input input" should contain "test tag"
+    And I add the tag "test-tag" to the "contacts"
+    Then the tag field for the "contacts" should contain "test-tag"
 
 
   #Tasks
@@ -256,7 +255,7 @@ Feature: Allow users to manage their Contacts
     When I navigate to a contact page
     And I click "#btnAddTaskToEntity"
     Then I should see a modal
-    And I select "test user" from dropdown field "assigneeId"
+    And I selectize "assigneeId" to "test user"
     When I set text field "title" to "task title"
     And I submit the "newTask" form
     Then I should see ".task"
@@ -266,8 +265,8 @@ Feature: Allow users to manage their Contacts
     And I have the "CanEditTasks" permission
     And a "Contact" task has been created
     When I navigate to a contact page
-    Then I should see ".task-title"
-    When I click ".task-title"
+    Then I should see ".edit-task"
+    When I click ".edit-task"
     Then I should see a modal
     When I set text field "title" to "updated title"
     And I submit the "editTask" form
@@ -301,7 +300,7 @@ Feature: Allow users to manage their Contacts
     And I do not have the "CanEditTasks" permission
     And a "Contact" task has been created
     When I navigate to a contact page
-    Then I should not see "a.task-title"
+    Then I should not see ".edit-task"
 
   Scenario: A user without the CanDeleteTasks permission cannot delete a task in a contact
     Given I have the "CanReadTasks" permission

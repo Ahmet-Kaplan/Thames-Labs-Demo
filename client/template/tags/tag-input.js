@@ -21,7 +21,6 @@ Template.tagInput.onRendered(function() {
       if (cb) {
         cb(tag);
       }
-      console.log(tag, input, collectionName);
       return tag;
     },
     options: Meteor.tags.find({
@@ -67,6 +66,12 @@ Template.tagInput.onRendered(function() {
     }
   });
 });
+
+Template.tagInput.helpers({
+  hasPermission: function() {
+    return Roles.userIsInRole(Meteor.userId(), ['Administrator', Template.currentData().permissionToEdit]);
+  }
+})
 
 Template.tagInput.events({
   'click .editTags': function() {

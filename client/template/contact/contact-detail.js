@@ -103,17 +103,10 @@ Template.contactDetail.events({
   },
   'click #add-project': function(event) {
     event.preventDefault();
-    var company = this.company();
-    if (company === undefined) {
-      Modal.show('newContactProjectForm', {
-        contactId: this._id
-      });
-    } else {
-      Modal.show('newProjectForm', {
-        companyId: company._id,
-        contactId: this._id
-      });
-    }
+    Modal.show('newContactProjectForm', {
+      contactId: this._id,
+      companyId: this.companyId
+    });
   },
   'click #add-purchase-order': function(event) {
     event.preventDefault();
