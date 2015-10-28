@@ -59,9 +59,12 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
       }
       return {
         'name': 1,
+        'address': 1,
         'city': 1,
+        'postcode': 1,
         'country': 1,
         'website': 1,
+        'phone': 1,
         'tags': 1
       }
     }

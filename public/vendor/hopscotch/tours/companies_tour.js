@@ -13,7 +13,7 @@ var tour = {
   }, {
     title: "RealTimeCRM Companies - List",
     content: "Your companies are listed here. If you have a lot of them, you can click the 'Show More' button at the bottom of the page to load them.",
-    target: document.querySelector('#mchCompanyList'),
+    target: document.querySelector('.list-group'),
     placement: "left"
   }, {
     title: "RealTimeCRM Companies - Add",

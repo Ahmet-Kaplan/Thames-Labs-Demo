@@ -6,9 +6,6 @@
 
   {{> EasySearch.Input index=AuditLogIndex attributes=searchInputAttributes}}
 
-  <div class="pull-right">
-    {{> EasySearch.Pagination index=AuditLogIndex }}
-  </div>
   <small>{{eventLogCount}} event{{#if hasMultipleRecords}}s{{/if}}</small>
 
   <div class="clearfix"></div>
@@ -25,10 +22,9 @@
     {{#EasySearch.IfSearching index=AuditLogIndex}}
     {{> spinner}}
     {{/EasySearch.IfSearching}}
+
+    {{> loadMore index=AuditLogIndex}}
   </ul>
-  <div class="pull-right">
-    {{> EasySearch.Pagination index=AuditLogIndex}}
-  </div>
 
 </template>
 

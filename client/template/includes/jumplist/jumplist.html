@@ -1,0 +1,20 @@
+<!-- 
+    To use the jumplist, pass it an array 'list' of objects.
+    Each object should contain the text to be displayed, the anchor and the fa icon as follow: 
+    [
+      {
+        index: 0, =>Added temporarily since @index doesn't work anymore as of Meteor 1.2.1
+        text: 'Text to show on hover',
+        anchor: 'name-of-the-anchor', (note, without the #)
+        icon: 'fa-icon'
+      },
+      ...
+    ]
+-->
+<template name="jumplist">
+  {{#each list}}
+  <a href="#{{anchor}}" class="btn btn-default quick-menu quick-menu{{index}}">
+    <i class="quick-menu-icon fa fa-fw {{icon}}"></i><span class="legend">{{text}}</span>
+  </a>  
+  {{/each}}
+</template>

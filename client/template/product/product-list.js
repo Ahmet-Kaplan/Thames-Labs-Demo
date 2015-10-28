@@ -12,7 +12,7 @@ Template.productList.onRendered(function() {
     var searchQuery = Session.get('productListSearchQuery');
     if (searchQuery) {
       ProductsIndex.getComponentMethods().search(searchQuery);
-      $('.sidebar input').val(searchQuery);
+      $('.stick-bar input').val(searchQuery);
     }
   });
 });

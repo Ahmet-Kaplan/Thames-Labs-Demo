@@ -52,7 +52,11 @@ ContactsIndex = new EasySearch.Index({
       return {
         'forename': 1,
         'surname': 1,
+        'jobtitle': 1,
         'companyId': 1,
+        'phone': 1,
+        'mobile': 1,
+        'email': 1,
         'tags': 1
       }
     },

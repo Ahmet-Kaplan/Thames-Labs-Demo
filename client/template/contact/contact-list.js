@@ -12,7 +12,7 @@ Template.contactList.onRendered(function() {
     var searchQuery = Session.get('contactListSearchQuery');
     if (searchQuery) {
       ContactsIndex.getComponentMethods().search(searchQuery);
-      $('.sidebar input').val(searchQuery);
+      $('.stick-bar input').val(searchQuery);
     }
   });
 });

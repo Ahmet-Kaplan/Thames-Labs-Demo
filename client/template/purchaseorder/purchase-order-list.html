@@ -3,22 +3,19 @@
   {{setPageTitle 'Purchase Orders'}}
 
   <div class="row">
-    <div class="col-md-3">
-      <div class="sidebar">
-        <h1>Actions</h1>
-        {{> EasySearch.Input index=PurchaseOrdersIndex attributes=searchInputAttributes}}
-        {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
-        <div class="btn-group-vertical">
-          <a href="#" id="add-purchase-order" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
-        </div>
-        {{/if}}
-      </div>
-    </div>
-
-    <div class="col-md-9" id="purchase-order-list">
+    <div class="col-md-12" id="purchase-order-list">
       <h1><i class="fa fa-shopping-cart"></i> Purchase Orders</h1>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=PurchaseOrdersIndex}}
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-3">
+            {{> EasySearch.Input index=PurchaseOrdersIndex attributes=searchInputAttributes}}
+          </div>
+          {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+          <div class="col-md-3">
+            <a href="#" id="add-purchase-order" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+P"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
+          </div>
+          {{/if}}
+        </div>
       </div>
       <small>{{purchaseOrderCount}} record{{#if hasMultiplePurchaseOrders}}s{{/if}}</small>
 
@@ -34,11 +31,9 @@
         {{#EasySearch.IfSearching index=PurchaseOrdersIndex}}
           {{> spinner}}
         {{/EasySearch.IfSearching}}
-      </div>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=PurchaseOrdersIndex}}
-      </div>
 
+        {{> loadMore index=PurchaseOrdersIndex}}
+      </div>
     </div>
   </div>
 </template>
