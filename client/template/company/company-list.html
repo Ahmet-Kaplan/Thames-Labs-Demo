@@ -11,7 +11,7 @@
             {{> EasySearch.Input index=CompaniesIndex attributes=searchInputAttributes}}
           </div>
           <div class="col-md-6">
-            <div class="btn-group {{#if isMobile}} btn-fullWidth{{/if}}" role="group">
+            <div class="btn-group" role="group">
               <button type="button" class="btn btn-primary" id="export-companies"><i class="fa fa-fw fa-download"></i> Export results to CSV</button>
               {{#if isInRole 'Administrator,CanCreateCompanies'}}
                 <button type="button" class="btn btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      {{> searchResults}}
+      {{> searchResults index=CompaniesIndex listItemTemplateName='companyListItem'}}
 
     </div>
   </div>
