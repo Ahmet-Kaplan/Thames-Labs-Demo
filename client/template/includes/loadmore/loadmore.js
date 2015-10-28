@@ -1,4 +1,4 @@
-var displayMore = function(myEvent, searchIndex) {
+var displayMore = function(searchIndex) {
   if(!$('#moar').offset() || !searchIndex.getComponentMethods().hasMoreDocuments()) {
     return;
   }
@@ -9,42 +9,21 @@ var displayMore = function(myEvent, searchIndex) {
   var elemBottom = elemTop + $('#moar').height();
 
   if(elemBottom <= docViewBottom && elemTop >= docViewTop) {
-    var element = document.getElementById('moar');
-    if (document.createEvent) {
-      element.dispatchEvent(myEvent);
-    } else {
-      element.fireEvent("on" + myEvent.eventType, myEvent);
-    }
+    searchIndex.getComponentMethods().loadMore(10);
   }
 }
 
+var setIntervalId;
+
 Template.loadMore.onRendered(function() {
-  var myEvent;
-
-  if (document.createEvent) {
-    myEvent = document.createEvent("HTMLEvents");
-    myEvent.initEvent("moarVisible", true, true);
-  } else {
-    myEvent = document.createEventObject();
-    myEvent.eventType = "moarVisible";
-  }
-
-  myEvent.eventName = "moarVisible";
-  var searchIndex = Template.instance().data.index;
-
-
-  $(window).load(function() {
-    displayMore(myEvent, searchIndex)
-  })
-
-  $(window).scroll(function() {
-    displayMore(myEvent, searchIndex)
-  });
+  setIntervalId = Meteor.setInterval( () => {
+    var searchIndex = this.data.index;
+    displayMore(searchIndex);
+  }, 200);
 });
 
 Template.loadMore.onDestroyed(function() {
-  //Clear event handler for performance
-  $(window).unbind("load scroll");
+  Meteor.clearInterval(setIntervalId)
 })
 
 Template.loadMore.helpers({
@@ -56,10 +35,6 @@ Template.loadMore.helpers({
 
 Template.loadMore.events({
   'click #moar': function() {
-    var searchIndex = Template.instance().data.index;
-    searchIndex.getComponentMethods().loadMore(10);
-  },
-  'moarVisible #moar': function() {
     var searchIndex = Template.instance().data.index;
     searchIndex.getComponentMethods().loadMore(10);
   }
