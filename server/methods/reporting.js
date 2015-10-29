@@ -108,24 +108,24 @@ Meteor.methods({
       return data;
     });
   },
-  'report.activeProjectsValue': function() {
+  'report.activeProjectValue': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
-      var projData = Projects.find({
+      var projectData = Projects.find({
         active: {
           $eq: true
         }
       }).fetch();
       var value = 0;
 
-      _.each(projData, function(pd) {
+      _.each(projectData, function(pd) {
         if (pd.value) {
           value += parseFloat(pd.value)
         }
       });
 
       var data = {
-        "ActiveProjects": (!Meteor.isDevelopment ? [] : projData),
-        "Count": projData.length,
+        "ActiveProjects": (!Meteor.isDevelopment ? [] : projectData),
+        "Count": projectData.length,
         "Value": parseFloat(value).toFixed(2)
       }
       return data;

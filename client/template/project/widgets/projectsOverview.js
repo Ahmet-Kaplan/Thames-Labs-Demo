@@ -14,11 +14,11 @@ Template.projectOverviewWidget.onRendered(function() {
   Meteor.call('report.activeProjects', function(err, data) {
     template.activeProjects.set(data.Count);
   });
-  Meteor.call('report.activeProjectsValue', function(err, data) {
-    template.activeProjectTotal.set(data.Count);
+  Meteor.call('report.activeProjectValue', function(err, data) {
+    template.activeProjectTotal.set(data.Value);
   });
   Meteor.call('report.activeProjects', function(err, data) {
-    template.activeProjectsAverage.set(data.Count);
+    template.activeProjectsAverage.set(data.Value);
   });
 });
 
@@ -31,7 +31,7 @@ Template.projectOverviewWidget.events({
     Meteor.call('report.activeProjects', function(err, data) {
       template.activeProjects.set(data.Count);
     });
-    Meteor.call('report.activeProjectsValue', function(err, data) {
+    Meteor.call('report.activeProjectValue', function(err, data) {
       template.activeProjectTotal.set(data.Value);
     });
     Meteor.call('report.activeProjects', function(err, data) {
