@@ -10,13 +10,8 @@ Template.purchaseOrderList.events({
     event.preventDefault();
     Modal.show('newPurchaseOrderForm', this);
   },
-});
-
-Template.purchaseOrderList.helpers({
-  purchaseOrderCount: function() {
-    return PurchaseOrdersIndex.getComponentDict().get('count');
-  },
-  hasMultiplePurchaseOrders: function() {
-    return PurchaseOrdersIndex.getComponentDict().get('count') !== 1;
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('purchaseorders');
   }
 });

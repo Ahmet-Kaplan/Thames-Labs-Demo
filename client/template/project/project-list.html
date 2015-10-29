@@ -6,35 +6,26 @@
 
     <div class="col-md-12" id="project-list">
       <h1><i class="fa fa-sitemap"></i> Projects</h1>
+
+      <!-- This should probably be refactored into a "search toolbar" template -->
       <div class="stick-bar">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-6">
             {{> EasySearch.Input index=ProjectsIndex attributes=searchInputAttributes}}
           </div>
-        {{#if isInRole 'Administrator,CanCreateProjects'}}
-          <div class="col-md-3">
+          <div class="col-md-6">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default" id="export"><i class="fa fa-fw fa-download"></i> Export results to CSV</button>
+              {{#if isInRole 'Administrator,CanCreateProjects'}}
             <a href="#" id="add-project" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</a>
+              {{/if}}
+            </div>
           </div>
-        {{/if}}
         </div>
       </div>
-      <small>{{projectCount}} record{{#if hasMultipleProjects}}s{{/if}}</small>
 
-      <div class="list-group">
-        {{#EasySearch.Each index=ProjectsIndex}}
-          {{> projectListItem}}
-        {{/EasySearch.Each}}
+      {{> searchResults index=ProjectsIndex listItemTemplateName='projectListItem'}}
 
-        {{#EasySearch.IfNoResults index=ProjectsIndex}}
-          <h4>No projects found</h4>
-        {{/EasySearch.IfNoResults}}
-
-        {{#EasySearch.IfSearching index=ProjectsIndex}}
-          {{> spinner}}
-        {{/EasySearch.IfSearching}}
-
-        {{> loadMore index=ProjectsIndex}}
-      </div>
     </div>
   </div>
 </template>

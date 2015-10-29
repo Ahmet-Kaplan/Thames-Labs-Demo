@@ -43,7 +43,7 @@ Tags.TagsMixin(Companies);
 // SEARCH INDICES //
 ////////////////////
 
-CompaniesIndex = new EasySearch.Index({
+Collections.companies.index = CompaniesIndex = new EasySearch.Index({
   collection: Companies,
   fields: ['name', 'tags'],
   engine: new EasySearch.MongoDB({
@@ -51,6 +51,9 @@ CompaniesIndex = new EasySearch.Index({
       return { 'name': 1 }
     },
     fields: (searchObject, options) => {
+      if (options.search.props.export) {
+        return {}
+      }
       if (options.search.props.autosuggest) {
         return { 'name': 1 }
       }
