@@ -6,7 +6,7 @@ exportFromSearchToCSV = function(collectionName) {
       searchDefinition = index.getComponentDict().get('searchDefinition'),
       searchOptions = index.getComponentDict().get('searchOptions');
 
-  Meteor.call('search.export', collectionName, searchDefinition, searchOptions, (err, result) => {
+  Meteor.call('search.export', collectionName, searchDefinition, searchOptions, (err, results) => {
     if (err) {
       throw new Meteor.Error('500', err);
     }
@@ -17,7 +17,20 @@ exportFromSearchToCSV = function(collectionName) {
       moment().format("MMM-Do-YY"),
       '.csv'
     ].join('');
-    var fileData = Papa.unparse(result);
+    var cleanedResults = results.map( (record) => {
+      return _.omit(record, [
+        '_id',
+        'createdBy',
+        'companyId',
+        'currentStageId',
+        'items',
+        'contactId',
+        'userId',
+        'supplierCompanyId',
+        'supplierContactId',
+      ]);
+    });
+    var fileData = Papa.unparse(cleanedResults);
     var blob = new Blob([fileData], {
       type: "text/csv;charset=utf-8"
     });
