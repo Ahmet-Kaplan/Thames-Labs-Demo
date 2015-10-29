@@ -68,7 +68,8 @@ widgets = {
     w: 1,
     h: 4,
     displayed: false,
-    name: 'Opportunity Overview'
+    name: 'Opportunity Overview',
+    requiredPermission: "CanReadOpportunities"
   },
   'projectInformation': {
     id: 'projectInformation',
@@ -77,7 +78,8 @@ widgets = {
     w: 1,
     h: 4,
     displayed: false,
-    name: 'Project Overview'
+    name: 'Project Overview',
+    requiredPermission: "CanReadProjects"
   },
   'productsInformation': {
     id: 'productsInformation',
@@ -86,7 +88,8 @@ widgets = {
     w: 1,
     h: 4,
     displayed: false,
-    name: 'Products Overview'
+    name: 'Products Overview',
+    requiredPermission: "CanReadProducts"
   },
   'poInformation': {
     id: 'poInformation',
@@ -96,13 +99,14 @@ widgets = {
     h: 5,
     displayed: false,
     name: 'Purchase Orders Overview',
+    requiredPermission: "CanReadPrurchaseOrders"
   },
   'propagation': {
     id: 'propagation',
     x: 0,
     y: 0,
     w: 1,
-    h: 4,
+    h: 6,
     displayed: false,
     name: 'Propagation Overview'
   },

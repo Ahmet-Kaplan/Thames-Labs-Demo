@@ -1,14 +1,19 @@
 Template.propagationWidget.onCreated(function() {
+  this.totalTasks = new ReactiveVar(0);
   this.totalCompanies = new ReactiveVar(0);
   this.totalContacts = new ReactiveVar(0);
   this.totalProjects = new ReactiveVar(0);
   this.totalOpportunities = new ReactiveVar(0);
   this.totalProducts = new ReactiveVar(0);
+  this.totalPo = new ReactiveVar(0);
 });
 
 Template.propagationWidget.onRendered(function() {
   var template = this;
 
+  Meteor.call('report.tasksCreated', function(err, data) {
+    template.totalTasks.set(data.Count);
+  });
   Meteor.call('report.companiesStored', function(err, data) {
     template.totalCompanies.set(data.Count);
   });
@@ -24,10 +29,16 @@ Template.propagationWidget.onRendered(function() {
   Meteor.call('report.numberOfProducts', function(err, data) {
     template.totalProducts.set(data.Count);
   });
+  Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
+    template.totalPo.set(data.Count);
+  });
 });
 
 Template.propagationWidget.events({
   'click #ref_propagationWidget': function(event, template) {
+    Meteor.call('report.tasksCreated', function(err, data) {
+      template.totalTasks.set(data.Count);
+    });
     Meteor.call('report.companiesStored', function(err, data) {
       template.totalCompanies.set(data.Count);
     });
@@ -43,10 +54,16 @@ Template.propagationWidget.events({
     Meteor.call('report.numberOfProducts', function(err, data) {
       template.totalProducts.set(data.Count);
     });
+    Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
+      template.totalPo.set(data.Count);
+    });
   }
 });
 
 Template.propagationWidget.helpers({
+  totalTasks: function() {
+    return Template.instance().totalTasks.get();
+  },
   totalCompanies: function() {
     return Template.instance().totalCompanies.get();
   },
@@ -61,5 +78,8 @@ Template.propagationWidget.helpers({
   },
   totalProducts: function() {
     return Template.instance().totalProducts.get();
-  }
-});
+  },
+  totalPo: function() {
+    return Template.instance().totalPo.get();
+  },
+}); 
