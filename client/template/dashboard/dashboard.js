@@ -59,7 +59,7 @@ widgets = {
     w: 1,
     h: 4,
     displayed: false,
-    name: 'Task Overview'
+    name: 'Tasks Overview'
   },
   'opportunityInformation': {
     id: 'opportunityInformation',
@@ -68,7 +68,7 @@ widgets = {
     w: 1,
     h: 4,
     displayed: false,
-    name: 'Opportunity Overview',
+    name: 'Opportunities Overview',
     requiredPermission: "CanReadOpportunities"
   },
   'projectInformation': {
@@ -78,7 +78,7 @@ widgets = {
     w: 1,
     h: 4,
     displayed: false,
-    name: 'Project Overview',
+    name: 'Projects Overview',
     requiredPermission: "CanReadProjects"
   },
   'productsInformation': {
