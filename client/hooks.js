@@ -269,6 +269,10 @@ AutoForm.hooks({
           toastr.error('No date has been specified for the reminder.');
           return false;
         }
+
+        if(doc.entityId === undefined || doc.entityType === undefined || doc.assigneeId === undefined) {
+          return new Error();
+        }
         return doc;
       }
     },

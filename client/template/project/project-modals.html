@@ -11,7 +11,7 @@
         <div class="modal-body">
           {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
             {{> afQuickField name="name"}}
-            {{> afQuickField name="description"}}
+            {{> afQuickField name="description" rows=3}}
             {{> esSelectize name="companyId" index=CompaniesIndex}}
             {{#if showContacts}}
               {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
@@ -44,7 +44,7 @@
         <div class="modal-body">
           {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
             {{> afQuickField name="name"}}
-            {{> afQuickField name="description"}}
+            {{> afQuickField name="description" rows=3}}
             {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
             {{> afQuickField name="companyId" id="selectedCompany" value=companyId type="hidden"}}
             {{#if showContacts}}
@@ -78,7 +78,7 @@
         <div class="modal-body">
           {{#autoForm collection="Projects" id="newProjectForm" type="insert"}}
             {{> afQuickField name="name"}}
-            {{> afQuickField name="description"}}
+            {{> afQuickField name="description" rows=3}}
             {{#if companyId}}
               {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
               {{> afQuickField name="companyId" id="selectedCompany" type="hidden" }}
@@ -115,7 +115,7 @@
         <div class="modal-body">
           {{#autoForm collection="Projects" id="updateProjectForm" type="update" doc=this}}
             {{> afQuickField name="name"}}
-            {{> afQuickField name="description"}}
+            {{> afQuickField name="description" rows=3}}
             {{#if companyId}}
               {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
               {{> afQuickField name="companyId" id="selectedCompany" type="hidden" }}

@@ -94,46 +94,46 @@ Template.contactDetail.helpers({
   linksList: function() {
     return [
       {
-        index: 0,
         text: 'Contacts details',
         anchor: 'contact-details',
-        icon: 'fa-file-text-o'
+        icon: 'fa-file-text-o',
+        permission: 'CanReadContacts'
       },
       {
-        index: 1,
         text: 'Current projects',
         anchor: 'projects',
-        icon: 'fa-sitemap'
+        icon: 'fa-sitemap',
+        permission: 'CanReadProjects'
       },
       {
-        index: 2,
         text: 'Purchase Orders',
         anchor: 'purchase-orders',
-        icon: 'fa-shopping-cart'
+        icon: 'fa-shopping-cart',
+        permission: 'CanReadPurchaseOrders'
       },
       {
-        index: 3,
         text: 'Tasks',
         anchor: 'tasks',
-        icon: 'fa-tasks'
+        icon: 'fa-tasks',
+        permission: 'CanReadTasks'
       },
       {
-        index: 4,
         text: 'Extended information',
         anchor: 'entity-custom-fields',
-        icon: 'fa-bookmark'
+        icon: 'fa-bookmark',
+        permission: 'CanEditContacts'
       },
       {
-        index: 5,
         text: 'Opportunities',
         anchor: 'opportunities',
-        icon: 'fa-lightbulb-o'
+        icon: 'fa-lightbulb-o',
+        permission: 'CanReadOpportunities'
       },
       {
-        index: 6,
         text: 'Activity Timeline',
         anchor: 'activity-timeline',
-        icon: 'fa-list'
+        icon: 'fa-list',
+        permission: 'CanReadContacts'
       }
     ]
   }

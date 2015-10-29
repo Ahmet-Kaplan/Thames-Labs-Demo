@@ -139,52 +139,52 @@ Template.companyDetail.helpers({
   linksList: function() {
     return [
       {
-        index: 0,
         text: 'Company details',
         anchor: 'company-details',
-        icon: 'fa-file-text-o'
+        icon: 'fa-file-text-o',
+        permission: 'CanReadCompanies'
       },
       {
-        index: 1,
         text: 'Contacts',
         anchor: 'contacts',
-        icon: 'fa-user'
+        icon: 'fa-user',
+        permission: 'CanReadContacts'
       },
       {
-        index: 2,
         text: 'Current Projects',
         anchor: 'projects',
-        icon: 'fa-sitemap'
+        icon: 'fa-sitemap',
+        permission: 'CanReadProjects'
       },
       {
-        index: 3,
         text: 'Purchase Orders',
         anchor: 'purchase-orders',
-        icon: 'fa-shopping-cart'
+        icon: 'fa-shopping-cart',
+        permission: 'CanReadPurchaseOrders'
       },
       {
-        index: 4,
         text: 'Tasks',
         anchor: 'tasks',
-        icon: 'fa-tasks'
+        icon: 'fa-tasks',
+        permission: 'CanReadTasks'
       },
       {
-        index: 5,
         text: 'Extended information',
         anchor: 'entity-custom-fields',
-        icon: 'fa-bookmark'
+        icon: 'fa-bookmark',
+        permission: 'CanReadCompanies'
       },
       {
-        index: 6,
         text: 'Opportunities',
         anchor: 'opportunities',
-        icon: 'fa-lightbulb-o'
+        icon: 'fa-lightbulb-o',
+        permission: 'CanReadOpportunities'
       },
       {
-        index: 7,
         text: 'Activity Timeline',
         anchor: 'activity-timeline',
-        icon: 'fa-list'
+        icon: 'fa-list',
+        permission: 'CanReadCompanies'
       }
     ]
   }

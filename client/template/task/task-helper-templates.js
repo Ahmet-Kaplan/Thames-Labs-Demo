@@ -1,55 +1,10 @@
-Template.insertNewTask.helpers({
-  getEntityType: function() {
-    return this.entity_type;
-  },
-  getEntityId: function() {
-    return this.entity_id;
-  },
-  isUserTask: function() {
-    return (this.entity_type === "user" ? true : false);
-  },
-  getCurrentUserId: function() {
-    return Meteor.userId();
-  }
-});
-
-Template.insertNewTask.events({
-  'change input[name=remindMe]': function(e) {
-    e.preventDefault();
-    var remindMe = $('input[name=remindMe]').prop('checked');
-    if(remindMe) {
-      $('#showRemindMeDate').show();
-    } else {
-      $('#showRemindMeDate').hide();
-    }
-  }
-});
-
-Template.updateTask.helpers({
-  remindMe: function() {
-    return this.remindMe === true;
-  }
-})
-
-Template.updateTask.events({
-  'change input[name=remindMe]': function(e) {
-    e.preventDefault();
-    var remindMe = $('input[name=remindMe]').prop('checked');
-    if(remindMe) {
-      $('#showRemindMeDate').show();
-    } else {
-      $('#showRemindMeDate').hide();
-    }
-  }
-});
-
 var isDashboard = function() {
   return FlowRouter.getRouteName() === "dashboard";
 };
 
 Template.taskDisplay.onRendered(function() {
   Session.set('showCompleted', 0);
-})
+});
 
 Template.taskDisplay.helpers({
   showComp: function() {

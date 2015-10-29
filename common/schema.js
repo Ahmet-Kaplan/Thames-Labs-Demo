@@ -789,12 +789,10 @@ Schemas.Task = new SimpleSchema({
     optional: true
   },
   entityType: {
-    type: String,
-    optional: true
+    type: String
   },
   entityId: {
-    type: String,
-    optional: true
+    type: String
   },
   createdBy: {
     type: String,

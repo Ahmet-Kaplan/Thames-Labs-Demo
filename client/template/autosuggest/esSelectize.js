@@ -57,7 +57,6 @@ Template.esSelectize.onRendered(function() {
       selectize.refreshOptions(false);
     }
     if(defaultValue) {
-      Template.instance().search.set(defaultValue);
       selectize.setValue(defaultValue);
     }
     if(readonly) {
@@ -74,7 +73,6 @@ Template.esSelectize.helpers({
       labelField: "name",
       searchField: "name",
       createOnBlur: false,
-      selectOnTab: true
     };
     if(this.allowCreate) {
       options.render = {
@@ -99,11 +97,6 @@ Template.esSelectize.events({
   'keydown input': function(e) {
     var selectize = Template.instance().selectize.get();
     if(e.keyCode === 13 || e.keyCode === 9) {
-      e.preventDefault();
-      selectize.setValue(selectize.getValue());
-      var evt = $.Event('keypress');
-      evt.which = 13;
-      $(window).trigger(evt);
       return;
     }
     Template.instance().search.set(selectize.lastQuery);

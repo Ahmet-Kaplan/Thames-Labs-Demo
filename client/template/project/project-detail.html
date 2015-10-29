@@ -39,16 +39,16 @@
             {{#if isInRole 'Administrator,CanReadCompanies'}}
             <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to company details">
               <h4><i class="fa fa-fw fa-building"></i> Company</h4>
-              {{company.name}}
               <i class="fa fa-fw fa-chevron-right pull-right"></i>
+              {{company.name}}
             </a>
             {{/if}}
           {{/if}} {{#if contactId}}
           {{#if isInRole 'Administrator,CanReadContacts'}}
           <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to contact details">
             <h4><i class="fa fa-fw fa-user"></i> Contact</h4>
-            {{contact.name}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            {{contact.name}}
           </a>
           {{/if}}   {{/if}} {{#if userId}}
           <li class="list-group-item panel-item-header">

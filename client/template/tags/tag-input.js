@@ -81,6 +81,11 @@ Template.tagInput.events({
       $('#tag-list-display-' + this.entityId + ' input').focus();
     }
   },
+  'keyup .selectize-input>input': function(e) {
+    if(e.keyCode === 27) {
+      $('.selectize-input').blur();
+    }
+  },
   'blur .selectize-input': function() {
     $('#tagsBadges_' + this.entityId).show()
     $('#tag-list-display-' + this.entityId).hide()

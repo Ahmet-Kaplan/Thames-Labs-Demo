@@ -1,10 +1,12 @@
+var jumplistIndex = -1;
+
 Template.jumplist.onRendered(function() {
-  this.$('.quick-menu').on('click', function(event) {
+  this.$('.jumplist-elt a').on('click', function(event) {
     event.preventDefault();
     var target = $(this).attr('href');
 
     if(target.length) {
-      $('body').animate({
+      $('html, body').animate({
         scrollTop: $(target).offset().top - $('.navbar-header').height() - 10
       }, {
         duration: 300,
@@ -12,5 +14,15 @@ Template.jumplist.onRendered(function() {
       });
     }
   });
-  Session.set('jumplist-index', 0);
+  jumplist = -1;
 });
+
+Template.jumplist.helpers({
+  hasPermission: function() {
+    return Roles.userIsInRole(Meteor.userId(), ['Administrator', this.permission])
+  },
+  index: function() {
+    jumplistIndex++;
+    return jumplistIndex;
+  }
+})

@@ -6,7 +6,6 @@ Tags.TagsMixin(Tasks);
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
-
 Tasks.after.insert(function(userId, doc) {
   if(doc.remindMe && doc.reminder && Meteor.isServer) {
     Meteor.call('addTaskReminder', doc._id);
@@ -22,6 +21,10 @@ Tasks.after.insert(function(userId, doc) {
     case 'contact':
       entity = Contacts.findOne(doc.entityId);
       entityName = "Contact: " + entity.forename + " " + entity.surname;
+      break;
+    case 'opportunity':
+      entity = Opportunities.findOne(doc.entityId);
+      entityName = "Opportunity: " + entity.name;
       break;
     case 'project':
       entity = Projects.findOne(doc.entityId);
@@ -52,6 +55,10 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
     case 'contact':
       entity = Contacts.findOne(doc.entityId);
       entityName = "Contact: " + entity.forename + " " + entity.surname;
+      break;
+    case 'opportunity':
+      entity = Opportunities.findOne(doc.entityId);
+      entityName = "Opportunity: " + entity.name;
       break;
     case 'project':
       entity = Projects.findOne(doc.entityId);
@@ -91,6 +98,10 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
         prevEntity = Contacts.findOne(this.previous.entityId);
         prevEntityName = "Contact: " + prevEntity.forename + " " + prevEntity.surname;
         break;
+      case 'opportunity':
+        prevEntity = Opportunities.findOne(this.previous.entityId);
+        prevEntityName = "Opportunity: " + prevEntity.name;
+        break;
       case 'project':
         prevEntity = Projects.findOne(this.previous.entityId);
         prevEntityName = "Project: " + prevEntity.description;
@@ -125,6 +136,10 @@ Tasks.after.remove(function(userId, doc) {
     case 'contact':
       entity = Contacts.findOne(doc.entityId);
       entityName = "Contact: " + entity.forename + " " + entity.surname;
+      break;
+    case 'opportunity':
+      entity = Opportunities.findOne(doc.entityId);
+      entityName = "Opportunity: " + entity.name;
       break;
     case 'project':
       entity = Projects.findOne(doc.entityId);
