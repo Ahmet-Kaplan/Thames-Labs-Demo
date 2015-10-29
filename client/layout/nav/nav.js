@@ -14,7 +14,7 @@ Template.nav.onCreated(function() {
 
         var options = {
           body: getNotification.shortDescription + ": " + getNotification.detail,
-          icon: '/home/max/Projects/RealtimeCRM/public/dark-icon.svg'
+          icon: '/dark-icon.svg'
         }
 
         if(Notification.permission === "granted") {
