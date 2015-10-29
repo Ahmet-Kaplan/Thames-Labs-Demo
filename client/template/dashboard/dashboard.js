@@ -28,7 +28,7 @@ widgets = {
     x: 2,
     y: 0,
     w: 1,
-    h: 7,
+    h: 10,
     displayed: true,
     name: 'Online users'
   },
@@ -36,8 +36,8 @@ widgets = {
     id: 'task',
     x: 0,
     y: 8,
-    w: 3,
-    h: 4,
+    w: 2,
+    h: 3,
     displayed: true,
     name: 'My tasks',
     requiredPermission: "CanReadTasks"
@@ -46,8 +46,8 @@ widgets = {
     id: 'openPo',
     x: 0,
     y: 0,
-    w: 3,
-    h: 7,
+    w: 2,
+    h: 5,
     displayed: false,
     name: 'Requested Purchase Orders',
     requiredPermission: "CanReadPurchaseOrders"
