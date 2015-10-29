@@ -46,7 +46,7 @@ Feature: Allow users to manage their Purchase Orders
     And I click "#create-purchase-order"
     When the page is loaded
     Then I click "#edit-purchase-order"
-    And I set text field "description" to "new purchase order"
+    And I set textarea "description" to "new purchase order"
     And I click "#update-purchase-order"
     Then I should see the heading "new purchase order"
 
@@ -108,7 +108,7 @@ Feature: Allow users to manage their Purchase Orders
     And I set text field with selector "#currQuant" to "4.00"
     And I click "#add-item-to-po"
     And I click "#edit-po-item"
-    And I set text field "description" to "test purchase order item"
+    And I set textarea "description" to "test purchase order item"
     And I click "#update-po-item"
     Then element "#po-item" should contain the text "test purchase order item"
 

@@ -106,6 +106,12 @@ module.exports = function() {
     browser.setValue('input[data-schema-key=' + fieldName + ']', value);
   });
 
+  this.When(/^I set textarea "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
+    browser.waitForExist('textarea[data-schema-key=' + fieldName + ']', 5000);
+    browser.waitForVisible('textarea[data-schema-key=' + fieldName + ']', 5000);
+    browser.setValue('textarea[data-schema-key=' + fieldName + ']', value);
+  });
+
   this.When(/^I set selectize field to "([^"]*)"$/, function(value) {
     browser.waitForExist(".selectize-control .selectize-input input", 5000);
     browser.setValue(".selectize-control .selectize-input input", value);

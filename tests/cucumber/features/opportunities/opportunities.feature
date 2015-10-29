@@ -58,7 +58,7 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to "/opportunities"
     And I click "#create-opportunity"
     And I set text field "name" to "test opportunity 2"
-    And I set text field "description" to "test description"
+    And I set textarea "description" to "test description"
     And I set text field "date" to "05/05/2015 05:05"
     And I set text field "value" to "500"
     And I selectize "companyId" to "Test Ltd"
@@ -188,7 +188,7 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     And I click "#add-line-item"
     And I set text field "name" to "testItem1"
-    And I set text field "description" to "test item description"
+    And I set textarea "description" to "test item description"
     And I set text field "value" to "1"
     And I submit the "insertOpportunityItem" form
     Then I should see a new line item in an opportunity
