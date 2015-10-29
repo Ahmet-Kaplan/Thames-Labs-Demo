@@ -5,7 +5,7 @@ Meteor.methods({
       var taskData = Tasks.find({}).fetch();
       var data = {
         "CreatedTasks": (!Meteor.isDevelopment ? [] : taskData),
-        "Count": taskData.length
+        "Count": (taskData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -19,7 +19,7 @@ Meteor.methods({
       }).fetch();
       var data = {
         "CompletedTasks": (!Meteor.isDevelopment ? [] : taskData),
-        "Count": taskData.length
+        "Count": (taskData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -37,7 +37,7 @@ Meteor.methods({
       }).fetch();
       var data = {
         "DueTasks": (!Meteor.isDevelopment ? [] : taskData),
-        "Count": taskData.length
+        "Count": (taskData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -56,7 +56,7 @@ Meteor.methods({
       }).fetch();
       var data = {
         "OverdueTasks": (!Meteor.isDevelopment ? [] : taskData),
-        "Count": taskData.length
+        "Count": (taskData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -67,7 +67,7 @@ Meteor.methods({
       var companyData = Companies.find({}).fetch();
       var data = {
         "StoredCompanies": (!Meteor.isDevelopment ? [] : companyData),
-        "Count": companyData.length
+        "Count": (companyData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -78,7 +78,7 @@ Meteor.methods({
       var contactData = Contacts.find({}).fetch();
       var data = {
         "StoredContacts": (!Meteor.isDevelopment ? [] : contactData),
-        "Count": contactData.length
+        "Count": (contactData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -89,7 +89,7 @@ Meteor.methods({
       var projectData = Projects.find({}).fetch();
       var data = {
         "StoredProjects": (!Meteor.isDevelopment ? [] : projectData),
-        "Count": projectData.length
+        "Count": (projectData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -103,7 +103,7 @@ Meteor.methods({
       }).fetch();
       var data = {
         "ActiveProjects": (!Meteor.isDevelopment ? [] : projectData),
-        "Count": projectData.length
+        "Count": (projectData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -125,8 +125,8 @@ Meteor.methods({
 
       var data = {
         "ActiveProjects": (!Meteor.isDevelopment ? [] : projectData),
-        "Count": projectData.length,
-        "Value": parseFloat(value).toFixed(2)
+        "Count": (projectData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+        "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -148,8 +148,8 @@ Meteor.methods({
 
       var data = {
         "ActiveProjects": (!Meteor.isDevelopment ? [] : projData),
-        "Count": projData.length,
-        "Value": parseFloat(value / projData.length).toFixed(2)
+        "Count": (projData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+        "Value": (value / projData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -160,7 +160,7 @@ Meteor.methods({
       var oppData = Opportunities.find({}).fetch();
       var data = {
         "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
-        "Count": oppData.length
+        "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -172,14 +172,14 @@ Meteor.methods({
 
       _.each(oppData, function(od) {
         if (od.value) {
-          value += parseFloat(od.value)
+          value += parseFloat(od.value);
         }
       });
-
+      parseFloat(value).toFixed(2)
       var data = {
         "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
-        "Count": oppData.length,
-        "Value": parseFloat(value).toFixed(2)
+        "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+        "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -197,8 +197,8 @@ Meteor.methods({
 
       var data = {
         "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
-        "Count": oppData.length,
-        "Value": parseFloat(value / oppData.length).toFixed(2)
+        "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+        "Value": (value / oppData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -209,7 +209,7 @@ Meteor.methods({
       var productData = Products.find({}).fetch();
       var data = {
         "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
-        "Count": productData.length
+        "Count": productData.length.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -227,8 +227,8 @@ Meteor.methods({
 
       var data = {
         "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
-        "Count": productData.length,
-        "Value": parseFloat(value).toFixed(2)
+        "Count": (productData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+        "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -246,8 +246,8 @@ Meteor.methods({
 
       var data = {
         "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
-        "Count": productData.length,
-        "Value": parseFloat(value / productData.length).toFixed(2)
+        "Count": (productData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+        "Value": (value / productData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -258,7 +258,7 @@ Meteor.methods({
       var purchaseData = PurchaseOrders.find({}).fetch();
       var data = {
         "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
-        "Count": purchaseData.length
+        "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -272,7 +272,7 @@ Meteor.methods({
       }).fetch();
       var data = {
         "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
-        "Count": purchaseData.length
+        "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -286,7 +286,7 @@ Meteor.methods({
       }).fetch();
       var data = {
         "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
-        "Count": purchaseData.length
+        "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -300,7 +300,7 @@ Meteor.methods({
       }).fetch();
       var data = {
         "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
-        "Count": purchaseData.length
+        "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -314,7 +314,7 @@ Meteor.methods({
       }).fetch();
       var data = {
         "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
-        "Count": purchaseData.length
+        "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
@@ -328,7 +328,7 @@ Meteor.methods({
       }).fetch();
       var data = {
         "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
-        "Count": purchaseData.length
+        "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
     });
