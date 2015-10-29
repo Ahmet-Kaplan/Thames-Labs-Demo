@@ -7,7 +7,7 @@ Template.jumplist.onRendered(function() {
 
     if(target.length) {
       $('html, body').animate({
-        scrollTop: $(target).offset().top - $('.navbar-header').height() - 10
+        scrollTop: $(target).offset().top - $('.navbar-header').height() - 40
       }, {
         duration: 300,
         easing: 'easeInOutCubic'

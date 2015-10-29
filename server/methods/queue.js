@@ -1,4 +1,4 @@
-var jobsList = JobCollection('jobsQueue');
+jobsList = JobCollection('jobsQueue');
 
 
 Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
@@ -179,5 +179,13 @@ Meteor.methods({
       taskJob.cancel();
     }
     taskJob.remove();
+  },
+
+  getJobsList: function() {
+    if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
+      throw new Meteor.Error(403, 'You do not have the permissions to access this data');
+    }
+
+    return jobsList.find({}).fetch();
   }
 })
