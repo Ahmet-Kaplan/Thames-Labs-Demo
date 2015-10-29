@@ -21,5 +21,9 @@ Template.contactList.events({
   'click #add-contact': function(event) {
     event.preventDefault();
     Modal.show('insertContactModal', this);
+  },
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('contacts');
   }
 });

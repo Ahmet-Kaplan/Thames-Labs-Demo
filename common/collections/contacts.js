@@ -35,7 +35,7 @@ Tags.TagsMixin(Contacts);
 // SEARCH INDICES //
 ////////////////////
 
-ContactsIndex = new EasySearch.Index({
+Collections.contacts.index = ContactsIndex = new EasySearch.Index({
   collection: Contacts,
   fields: ['forename', 'surname', 'tags'],
   engine: new EasySearch.MongoDB({
@@ -43,6 +43,9 @@ ContactsIndex = new EasySearch.Index({
       return { 'surname': 1 }
     },
     fields: (searchObject, options) => {
+      if (options.search.props.export) {
+        return {}
+      }
       if (options.search.props.autosuggest) {
         return {
           'forename': 1,

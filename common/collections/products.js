@@ -6,14 +6,17 @@ Partitioner.partitionCollection(Products);
 // SEARCH INDICES //
 ////////////////////
 
-ProductsIndex = new EasySearch.Index({
+Collections.products.index = ProductsIndex = new EasySearch.Index({
   collection: Products,
   fields: ['name'],
   engine: new EasySearch.MongoDB({
     sort: () => {
       return { 'name': 1 }
     },
-    fields: () => {
+    fields: (searchObject, options) => {
+      if (options.search.props.export) {
+        return {}
+      }
       return {
         'name': 1,
         'price': 1,

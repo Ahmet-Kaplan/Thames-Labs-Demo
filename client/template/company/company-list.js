@@ -22,7 +22,7 @@ Template.companyList.events({
     event.preventDefault();
     Modal.show('insertNewCompanyModal', this);
   },
-  'click #export-companies': function(event) {
+  'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('companies');
   }

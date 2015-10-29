@@ -10,4 +10,8 @@ Template.purchaseOrderList.events({
     event.preventDefault();
     Modal.show('newPurchaseOrderForm', this);
   },
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('purchaseorders');
+  }
 });

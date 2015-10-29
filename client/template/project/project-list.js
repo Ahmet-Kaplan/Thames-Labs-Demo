@@ -21,5 +21,9 @@ Template.projectsList.events({
   'click #add-project': function(event) {
     event.preventDefault();
     Modal.show('newProjectForm', this);
+  },
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('projects');
   }
 });

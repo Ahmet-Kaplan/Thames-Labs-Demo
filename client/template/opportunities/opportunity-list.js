@@ -43,5 +43,9 @@ Template.opportunityList.events({
     event.preventDefault();
     var showArchived = Template.instance().showArchived.get();
     Template.instance().showArchived.set(!showArchived);
+  },
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('opportunities');
   }
 });
