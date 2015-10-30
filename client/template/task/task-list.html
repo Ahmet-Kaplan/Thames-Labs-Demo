@@ -1,10 +1,7 @@
 <template name="taskList">
   {{setPageTitle 'Tasks'}}
   <h1><i class="fa fa-fw fa-check"></i> Tasks</h1>
-<<<<<<< HEAD
-    {{> tasksOverviewWidget}}
-
-=======
+  {{> tasksOverviewWidget}}
   <div class="stick-bar">
     <div class="row">
       {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
@@ -25,7 +22,6 @@
       {{/if}}
     </div>
   </div>
->>>>>>> master
 
   <div class="row">
     <div class="col-md-12">
