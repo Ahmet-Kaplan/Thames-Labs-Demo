@@ -21,14 +21,9 @@ Template.contactList.events({
   'click #add-contact': function(event) {
     event.preventDefault();
     Modal.show('insertContactModal', this);
-  }
-});
-
-Template.contactList.helpers({
-  contactCount: function() {
-    return ContactsIndex.getComponentDict().get('count');
   },
-  hasMultipleContacts: function() {
-    return ContactsIndex.getComponentDict().get('count') !== 1;
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('contacts');
   }
 });

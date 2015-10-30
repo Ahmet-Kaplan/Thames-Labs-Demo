@@ -5,36 +5,26 @@
   <div class="row">
     <div class="col-md-12">
       <h1><i class="fa fa-users"></i> Contacts</h1>
+
+      <!-- This should probably be refactored into a "search toolbar" template -->
       <div class="stick-bar">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-6">
             {{> EasySearch.Input index=ContactsIndex attributes=searchInputAttributes}}
           </div>
-          <div class="col-md-3">
-          {{#if isInRole 'Administrator,CanCreateContacts'}}
+          <div class="col-md-6">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default" id="export"><i class="fa fa-fw fa-download"></i> Export results to CSV</button>
+              {{#if isInRole 'Administrator,CanCreateContacts'}}
             <a class="btn btn-primary addContactToCompany {{#if isMobile}}btn-fullWidth{{/if}}" href="#" id="add-contact" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+X"><i class="fa fa-fw fa-plus"></i> Add contact</a>
-          {{/if}}
+              {{/if}}
+            </div>
           </div>
         </div>
       </div>
-      <small>{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</small>
 
-      <div class="list-group">
-        {{#EasySearch.Each index=ContactsIndex}}
-          {{> contactListItem}}
-        {{/EasySearch.Each}}
+      {{> searchResults index=ContactsIndex listItemTemplateName='contactListItem'}}
 
-        {{#EasySearch.IfNoResults index=ContactsIndex}}
-          <h4>No contacts found</h4>
-        {{/EasySearch.IfNoResults}}
-
-        {{#EasySearch.IfSearching index=ContactsIndex}}
-          {{> spinner}}
-        {{/EasySearch.IfSearching}}
-
-        {{> loadMore index=ContactsIndex}}
-
-      </div>
     </div>
   </div>
 

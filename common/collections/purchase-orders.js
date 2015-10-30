@@ -33,14 +33,17 @@ PurchaseOrders.helpers({
 // SEARCH INDICES //
 ////////////////////
 
-PurchaseOrdersIndex = new EasySearch.Index({
+Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
   collection: PurchaseOrders,
   fields: ['description'],
   engine: new EasySearch.MongoDB({
     sort: () => {
       return { 'orderNumber': 1 }
     },
-    fields: () => {
+    fields: (searchObject, options) => {
+      if (options.search.props.export) {
+        return {}
+      }
       return {
         'description': 1,
         'status': 1,

@@ -17,18 +17,13 @@ Template.productList.onRendered(function() {
   });
 });
 
-Template.productList.helpers({
-  productCount: function() {
-    return ProductsIndex.getComponentDict().get('count');
-  },
-  hasMultipleProducts: function() {
-    return ProductsIndex.getComponentDict().get('count') !== 1;
-  }
-});
-
 Template.productList.events({
   'click #add-product': function(event) {
     event.preventDefault();
     Modal.show('insertProductModal', this);
+  },
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('products');
   }
 });

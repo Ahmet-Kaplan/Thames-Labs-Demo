@@ -4,34 +4,26 @@
   <div class="row">
     <div class="col-md-12">
       <h1><i class="fa fa-fw fa-barcode"></i> Products</h1>
+
+      <!-- This should probably be refactored into a "search toolbar" template -->
       <div class="stick-bar">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-6">
             {{> EasySearch.Input index=ProductsIndex attributes=searchInputAttributes}}
           </div>
-          {{#if isInRole 'Administrator,CanCreateProducts'}}
-          <div class="col-md-3">
-            <a class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" id="add-product" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-plus"></i> Add product</a>
+          <div class="col-md-6">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default" id="export"><i class="fa fa-fw fa-download"></i> Export results to CSV</button>
+              {{#if isInRole 'Administrator,CanCreateProducts'}}
+                <a class="btn btn-primary" id="add-product" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-plus"></i> Add product</a>
+              {{/if}}
+            </div>
           </div>
-          {{/if}}
         </div>
       </div>
-      <small>{{productCount}} record{{#if hasMultipleProducts}}s{{/if}}</small>
-      <div class="list-group">
-        {{#EasySearch.Each index=ProductsIndex}}
-          {{> productListItem}}
-        {{/EasySearch.Each}}
 
-        {{#EasySearch.IfNoResults index=ProductsIndex}}
-          <h4>No products found</h4>
-        {{/EasySearch.IfNoResults}}
+      {{> searchResults index=ProductsIndex listItemTemplateName='productListItem'}}
 
-        {{#EasySearch.IfSearching index=ProductsIndex}}
-          {{> spinner}}
-        {{/EasySearch.IfSearching}}
-        
-        {{> loadMore index=ProductsIndex}}
-      </div>
     </div>
   </div>
 
