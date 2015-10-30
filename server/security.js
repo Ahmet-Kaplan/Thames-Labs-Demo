@@ -58,6 +58,9 @@ Tasks.permit(['update']).ifLoggedIn().ifHasRole('Administrator').apply();
 Tasks.permit(['update']).ifLoggedIn().ifHasRole('CanEditTasks').apply();
 Tasks.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 Tasks.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteTasks').apply();
+Tasks.allowTags(function(userId) {
+  return !!userId;
+});
 
 Chatterbox.permit(['insert']).ifLoggedIn().apply();
 

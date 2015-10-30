@@ -29,12 +29,6 @@ Template.opportunityList.onRendered(function() {
 });
 
 Template.opportunityList.helpers({
-  opportunityCount: function() {
-    return OpportunitiesIndex.getComponentDict().get('count');
-  },
-  hasMultipleOpportunities: function() {
-    return OpportunitiesIndex.getComponentDict().get('count') != 1;
-  },
   archivedShown: function() {
     return Template.instance().showArchived.get();
   }
@@ -49,5 +43,9 @@ Template.opportunityList.events({
     event.preventDefault();
     var showArchived = Template.instance().showArchived.get();
     Template.instance().showArchived.set(!showArchived);
+  },
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('opportunities');
   }
 });

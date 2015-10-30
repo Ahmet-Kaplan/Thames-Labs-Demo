@@ -1,5 +1,37 @@
 Template.nav.onCreated(function() {
   this.subscribe('allNotifications');
+
+  this.autorun(function() {
+    var getNotification = Notifications.findOne({
+      target: Meteor.userId()
+    }, {
+      sort: {
+        createdAt: -1
+      }
+    });
+    if(getNotification && !getNotification.notified) {
+      if("Notification" in window) {
+
+        var options = {
+          body: getNotification.shortDescription + ": " + getNotification.detail,
+          icon: '/dark-icon.svg'
+        }
+
+        if(Notification.permission === "granted") {
+          new Notification(getNotification.title, options);
+
+        } else if (Notification.permission !== "denied") {
+          Notification.requestPermission(function(permission) {
+            if(permission === "granted") {
+              new Notification(getNotification.title, options);
+            }
+          })
+        }
+
+      }
+      Meteor.call('setNotified', getNotification._id);
+    }
+  });
 });
 
 Template.nav.helpers({
@@ -37,7 +69,12 @@ Template.nav.helpers({
     return sName;
   },
   notifications: function() {
-    return Notifications.find({}, {
+    return Notifications.find({
+      $or: [
+        {target: 'all'},
+        {target: Meteor.userId()}
+      ]
+    }, {
       sort: {
         createdAt: -1
       },
@@ -69,10 +106,11 @@ Template.nav.helpers({
     var yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    return Notifications.find({}, {
-      sort: {
-        createdAt: -1
-      }
+    return Notifications.find({
+      $or: [
+        {target: 'all'},
+        {target: Meteor.userId()}
+      ]
     }).count();
   },
   favourites: function() {
@@ -285,3 +323,16 @@ Template.menuNotice.events({
     Modal.show('notificationModal', this);
   }
 });
+
+Template.notificationModal.helpers({
+  isPersonalNotification: function() {
+    return this.target === Meteor.userId();
+  }
+});
+
+Template.notificationModal.events({
+  'click #removeNotification': function() {
+    Meteor.call('removeNotification', this._id);
+    Modal.hide();
+  }
+})

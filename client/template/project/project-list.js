@@ -17,18 +17,13 @@ Template.projectsList.onRendered(function() {
   });
 });
 
-Template.projectsList.helpers({
-  projectCount: function() {
-    return ProjectsIndex.getComponentDict().get('count');
-  },
-  hasMultipleProjects: function() {
-    return ProjectsIndex.getComponentDict().get('count') !== 1;
-  }
-});
-
 Template.projectsList.events({
   'click #add-project': function(event) {
     event.preventDefault();
     Modal.show('newProjectForm', this);
+  },
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('projects');
   }
 });

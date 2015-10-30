@@ -4,68 +4,38 @@
 
 .quick-menu {
   position: fixed;
-  z-index: 1000;
+  z-index: 101;
   width: 45px;
+  top: 75px;
   left: 260px;
   overflow: hidden;
-  text-align: left !important;
-  -webkit-transition: All 0.5s ease;
-  -moz-transition: All 0.5s ease;
-  -o-transition: All 0.5s ease;
-  -ms-transition: All 0.5s ease;
-  transition: All 0.5s ease;
-}
-
-.quick-menu:hover {
   width: 200px;
 }
 
-.quick-menu0 { 
-  top: 75px;
+.jumplist-elt {
+  z-index: 102;
+  margin-bottom: 5px;
 }
 
-.quick-menu1 { 
-  top: 115px;
+.jumplist-elt a {
+  -webkit-transition: All 0.3s ease;
+  -moz-transition: All 0.3s ease;
+  -o-transition: All 0.3s ease;
+  -ms-transition: All 0.3s ease;
+  transition: All 0.3s ease;
 }
 
-.quick-menu2 { 
-  top: 155px;
-}
-
-.quick-menu3 { 
-  top: 195px;
-}
-
-.quick-menu4 { 
-  top: 235px;
-}
-
-.quick-menu5 { 
-  top: 275px;
-}
-
-.quick-menu6 { 
-  top: 315px;
-}
-
-.quick-menu7 { 
-  top: 355px;
-}
-
-.quick-menu8 { 
-  top: 395px;
-}
-
-.quick-menu9 { 
-  top: 435px;
+.jumplist-elt a:hover {
+  text-align: left !important;
+  width: 200px;
 }
 
 .legend {
   display: none;
 }
 
-.quick-menu:hover .legend {
-  z-index: 1001;
+.jumplist-elt a:hover .legend {
+  z-index: 102;
   margin-left: 20px;
   display: inline-block;
 }

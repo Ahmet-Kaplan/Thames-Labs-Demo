@@ -653,6 +653,14 @@ Schemas.Notification = new SimpleSchema({
   detail: {
     type: String
   },
+  target: {
+    type: String,
+    defaultValue: 'all'
+  },
+  notified: {
+    type: Boolean,
+    defaultValue: false
+  },
   createdAt: {
     type: Date
   },
@@ -668,6 +676,32 @@ Schemas.Notification = new SimpleSchema({
   },
 });
 Notifications.attachSchema(Schemas.Notification);
+
+/*Schemas.UserNotification = new SimpleSchema({
+  title: {
+    type: String
+  },
+  shortDescription: {
+    type: String
+  },
+  detail: {
+    type: String
+  },
+  createdAt: {
+    type: Date
+  },
+  createdBy: {
+    type: String,
+    autoform: {
+      type: "hidden"
+    }
+  },
+  icon: {
+    type: String,
+    optional: true
+  },
+});
+UserNotifications.attachSchema(Schemas.UserNotification);*/
 
 
 Schemas.Chatter = new SimpleSchema({
@@ -699,14 +733,53 @@ Schemas.Task = new SimpleSchema({
       afFieldInput: {
         dateTimePickerOptions: {
           format: 'DD/MM/YYYY HH:mm',
-          useCurrent: true,
-          sideBySide: true,
+          useCurrent: false,
+          defaultValue: false,
+          sideBySide: false,
           widgetPositioning: {
             vertical: 'top'
           }
         }
       }
     }
+  },
+  remindMe: {
+    type: Boolean,
+    defaultValue: false,
+    label: 'Send reminder'
+  },
+  reminder: {
+    type: Date,
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          local: 'en-gb',
+          useCurrent: false,
+          defaultDate: new Date(),
+          sideBySide: false,
+          keepOpen: false,
+          widgetPositioning: {
+            vertical: 'top'
+          },
+          minDate: new Date()
+        }
+      }
+    }
+  },
+  taskReminderJob: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
+  },
+  isAllDay: {
+    type: Boolean,
+    defaultValue: true,
+    optional: true,
+    label: 'Due all day'
   },
   assigneeId: {
     type: String
@@ -715,19 +788,32 @@ Schemas.Task = new SimpleSchema({
     type: Boolean,
     defaultValue: false
   },
-  entityType: {
-    type: String,
+  completedAt: {
+    type: Date,
     optional: true
   },
+  entityType: {
+    type: String
+  },
   entityId: {
-    type: String,
-    optional: true
+    type: String
   },
   createdBy: {
     type: String,
     autoform: {
       type: "hidden"
     }
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
+  },
+  duration: {
+    type: String,
+    optional: true
   }
 });
 Tasks.attachSchema(Schemas.Task);

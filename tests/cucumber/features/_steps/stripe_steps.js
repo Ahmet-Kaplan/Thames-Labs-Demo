@@ -66,4 +66,11 @@ module.exports = function() {
         });
       }, 10000);
   });
+
+  this.Then(/^delete stripe customer$/, function() {
+    browser.executeAsync(function(done) {
+      Meteor.call('deleteStripeTestCustomer');
+      done();
+    })
+  })
 };

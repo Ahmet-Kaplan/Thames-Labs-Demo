@@ -9,7 +9,7 @@
         <div class="modal-body">
          {{#autoForm collection="Opportunities" id="insertOpportunityForm" type="insert"}}
             {{> afQuickField name="name"}}
-            {{> afQuickField name="description"}}
+            {{> afQuickField name="description" rows=3}}
             {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="value"}}
@@ -41,10 +41,11 @@
         <div class="modal-body">
          {{#autoForm collection="Opportunities" id="insertOpportunityForm" type="insert"}}
             {{> afQuickField name="name"}}
-            {{> afQuickField name="description"}}
+            {{> afQuickField name="description" rows=3}}
             {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="value"}}
+            {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
             {{> afQuickField name="companyId" id="companyId" value=companyId type="hidden"}}
             {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
             {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
@@ -70,7 +71,7 @@
         <div class="modal-body">
          {{#autoForm collection="Opportunities" id="insertOpportunityForm" type="insert"}}
             {{> afQuickField name="name"}}
-            {{> afQuickField name="description"}}
+            {{> afQuickField name="description" rows=3}}
             {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="value"}}
@@ -78,7 +79,11 @@
             {{> afQuickField name="isArchived" value=false type="hidden"}}
             {{> afQuickField name="currentStageId" value=firstStageId type="hidden"}}
             {{> afQuickField name="createdBy" value=createdBy }}
-            {{> afQuickField name="companyId" value=companyId type="hidden"}}
+            {{#if companyId}}
+              {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
+              {{> afQuickField name="companyId" value=companyId type="hidden"}}
+            {{/if}}
+            {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
             {{> afQuickField name="contactId" value=contactId type="hidden"}}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
@@ -100,11 +105,19 @@
 
         <div class="modal-body">
           {{#autoForm collection="Opportunities" id="editOpportunityForm" type="update" doc=this}}
-             {{> afQuickField name="name"}}
-             {{> afQuickField name="description"}}
-             {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
-             {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
-             {{> afQuickField name="value"}}
+            {{> afQuickField name="name"}}
+            {{> afQuickField name="description" rows=3}}
+            {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="value"}}
+            {{#if companyId}}
+              {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
+              {{> afQuickField name="companyId" value=companyId type="hidden"}}
+            {{/if}}
+            {{#if contactId}}
+              {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
+              {{> afQuickField name="contactId" value=contactId type="hidden"}}
+            {{/if}}
             <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
         </div>
@@ -126,7 +139,7 @@
            {{#autoForm collection="Opportunities" id="insertOpportunityItemForm" type="update-pushArray" doc=this scope="items"}}
             {{> afQuickField name="id" value=generatedId type="hidden"}}
             {{> afQuickField name="name" value=""}}
-            {{> afQuickField name="description" value=""}}
+            {{> afQuickField name="description" value="" rows=3}}
             {{> afQuickField name="value" value=""}}
             {{> afQuickField name="quantity" value=""}}
             <button type="submit" class="btn btn-primary">Create</button>
@@ -150,7 +163,7 @@
         <div class="modal-body">
           {{#autoForm collection="Opportunities" id="editOpportunityItemForm" type="update" doc=opportunity setArrayItems=true}}
              {{> afQuickField name=fieldName value=this.data.name id="name-field"}}
-             {{> afQuickField name=fieldDesc value=this.data.description}}
+             {{> afQuickField name=fieldDesc value=this.data.description rows=3}}
              {{> afQuickField name=fieldVal value=this.data.value}}
              {{> afQuickField name=fieldQuantity value=this.data.quantity}}
             <button type="submit" class="btn btn-primary">Update</button>
