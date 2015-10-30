@@ -21,9 +21,9 @@ Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
       callback();
     }
 
-    var text = "Dear " + assignee.profile.name + ",\n\n" + 
-               "Reminder for the task: " + task.title + "\n" + 
-               "Description: " + task.description + "\n\n" + 
+    var text = "Dear " + assignee.profile.name + ",\n\n" +
+               "Reminder for the task: " + task.title + "\n" +
+               "Description: " + task.description + "\n\n" +
                "The RealTimeCRM team";
 
     Email.send({
@@ -76,18 +76,17 @@ Meteor.methods({
     var reminderDate = moment(task.reminder);
     var dueDate = moment(task.dueDate);
 
-    if(reminderDate.isBefore(moment())){
+    if (reminderDate.isBefore(moment())) {
       throw new Meteor.Error(400, 'The reminder date is in the past.');
     } else if(task.dueDate && reminderDate.isAfter(dueDate)) {
       throw new Meteor.error(400, 'The reminder date is after the due Date.');
-    }
-
-    //create job
-    else if(task.remindMe && task.reminder) {
+    } else if(task.remindMe && task.reminder) {
+      //create job
       var taskJob = new Job(jobsList, 'sendReminderEmail', {
         assigneeId: task.assigneeId,
         taskId: taskId
       });
+
       taskJob.priority('normal')
              .after(task.reminder)
              .save();
@@ -96,7 +95,7 @@ Meteor.methods({
         $set: {
           taskReminderJob: taskJob._doc._id
         }
-      })
+      });
     }
   },
 
@@ -125,7 +124,7 @@ Meteor.methods({
       //Update
       if(task.remindMe && task.reminder) {
         //Check date validity
-        if(reminderDate.isBefore(moment())){
+        if (reminderDate.isBefore(moment())) {
           throw new Meteor.Error(400, 'The reminder date is in the past.');
         } else if(task.dueDate && reminderDate.isAfter(dueDate)) {
           throw new Meteor.error(400, 'The reminder date is after the due Date.');
@@ -138,7 +137,7 @@ Meteor.methods({
           taskJob.save();
 
         //Else it means we have to create a new job
-        //Because the job ran and is now deleted  
+        //Because the job ran and is now deleted
         } else {
           Meteor.call('addTaskReminder', taskId)
         }

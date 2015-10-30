@@ -18,12 +18,12 @@ Template.nav.onCreated(function() {
         }
 
         if(Notification.permission === "granted") {
-          var notification = new Notification(getNotification.title, options);
+          new Notification(getNotification.title, options);
 
         } else if (Notification.permission !== "denied") {
-          Notification.requestPermission(function (permission) {
+          Notification.requestPermission(function(permission) {
             if(permission === "granted") {
-              var notification = new Notification(getNotification.title, options);
+              new Notification(getNotification.title, options);
             }
           })
         }

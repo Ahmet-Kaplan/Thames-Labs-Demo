@@ -255,16 +255,16 @@ AutoForm.hooks({
     before: {
       insert: function(doc) {
         doc.createdBy = Meteor.userId();
-        if(doc.remindMe && doc.reminder) { 
+        if (doc.remindMe && doc.reminder) {
           var reminderDate = moment(doc.reminder);
           var dueDate = moment(doc.dueDate);
-          if(reminderDate.isBefore(moment())){
+          if (reminderDate.isBefore(moment())) {
             toastr.error('The reminder date is in the past.')
             return false;
           } else if(dueDate && reminderDate.isAfter(dueDate)) {
             toastr.error('The reminder date is after the due Date.');
             return false;
-          } 
+          }
         } else if(doc.remindMe && !doc.reminder) {
           toastr.error('No date has been specified for the reminder.');
           return false;
@@ -291,17 +291,17 @@ AutoForm.hooks({
   editTaskForm: {
     before: {
       update: function(doc) {
-        if(doc.$set.remindMe && doc.$set.reminder) { 
+        if (doc.$set.remindMe && doc.$set.reminder) {
           var reminderDate = moment(doc.$set.reminder);
           var dueDate = moment(doc.$set.dueDate);
-          if(reminderDate.isBefore(moment())){
+          if (reminderDate.isBefore(moment())) {
             toastr.error('The reminder date is in the past.')
             return false;
           } else if(dueDate && reminderDate.isAfter(dueDate)) {
             toastr.error('The reminder date is after the due Date.');
             return false;
-          } 
-        } else if(doc.$set.remindMe && !doc.$set.reminder) {
+          }
+        } else if (doc.$set.remindMe && !doc.$set.reminder) {
           toastr.error('No date has been specified for the reminder.');
           return false;
         }
