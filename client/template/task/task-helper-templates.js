@@ -1,42 +1,41 @@
-Template.insertNewTask.helpers({
-  getEntityType: function() {
-    return this.entity_type;
-  },
-  getEntityId: function() {
-    return this.entity_id;
-  },
-  isUserTask: function() {
-    return (this.entity_type === "user" ? true : false);
-  },
-  getCurrentUserId: function() {
-    return Meteor.userId();
-  }
-});
-
 var isDashboard = function() {
   return FlowRouter.getRouteName() === "dashboard";
 };
 
+Template.taskDisplay.onRendered(function() {
+  Session.set('showCompleted', 0);
+});
+
 Template.taskDisplay.helpers({
+  showComp: function() {
+    return (Session.get('showCompleted') === 1 ? true : false);
+  },
   isDashboard: function() {
     return isDashboard();
   },
   tasks: function() {
+    var cutOffDate = moment(new Date()).subtract(1, 'hours').toDate();
+    if (Session.get('showCompleted') === 0) cutOffDate = new Date();
+
     if (isDashboard()) {
       return Tasks.find({
         assigneeId: Meteor.userId(),
-        completed: false
+        $or: [{ completed: false }, { completedAt: { $gt: cutOffDate }}]
       }, {
         sort: {
+          completed: 1,
+          completedAt: -1,
           dueDate: 1
         }
       });
     } else {
       return Tasks.find({
         entityId: this.entity_id,
-        completed: false
+        $or: [{ completed: false }, { completedAt: { $gt: cutOffDate }}]
       }, {
         sort: {
+          completed: 1,
+          completedAt: -1,
           dueDate: 1
         }
       });
@@ -48,6 +47,14 @@ Template.taskDisplay.events({
   'click #btnAddTaskToEntity': function(event) {
     event.preventDefault();
     Modal.show('insertNewTask', this);
+  },
+  'click #btnRecentlyCompleted': function(event) {
+    event.preventDefault();
+    if (Session.get('showCompleted') === 1) {
+      Session.set('showCompleted', 0);
+    } else {
+      Session.set('showCompleted', 1);
+    }
   }
 });
 
@@ -66,7 +73,7 @@ Template.taskDisplayItem.helpers({
         dataString = "Personal task"
         break;
       case 'company':
-        dataString = "Company task";
+        dataString = "Company";
         var handle = Meteor.subscribe("companyById", this.entityId);
         if (handle && handle.ready()) {
           var c = Companies.find({}).fetch()[0];
@@ -74,7 +81,7 @@ Template.taskDisplayItem.helpers({
         }
         break;
       case 'contact':
-        dataString = "Contact task";
+        dataString = "Contact";
         var handle = Meteor.subscribe("contactById", this.entityId);
         if (handle && handle.ready()) {
           var c = Contacts.find({}).fetch()[0];
@@ -82,10 +89,18 @@ Template.taskDisplayItem.helpers({
         }
         break;
       case 'project':
-        dataString = "Project task";
+        dataString = "Project";
         var handle = Meteor.subscribe("projectById", this.entityId);
         if (handle && handle.ready()) {
           var p = Projects.find({}).fetch()[0];
+          dataString += ": " + p.description;
+        }
+        break;
+      case 'opportunity':
+        dataString = "Opportunity";
+        var handle = Meteor.subscribe("opportunityById", this.entityId);
+        if (handle && handle.ready()) {
+          var p = Opportunities.find({}).fetch()[0];
           dataString += ": " + p.description;
         }
         break;

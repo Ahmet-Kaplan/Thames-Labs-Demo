@@ -1,6 +1,26 @@
 <template name="taskList">
   {{setPageTitle 'Tasks'}}
   <h1><i class="fa fa-fw fa-check"></i> Tasks</h1>
+  <div class="stick-bar">
+    <div class="row">
+      {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+      <div class="col-md-3">
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle{{#if isMobile}} btn-fullWidth{{/if}}" type="button" id="addTaskDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Add Task <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu{{#if isMobile}} btn-fullWidth{{/if}}" aria-labelledby="addTaskDropdown">
+            <li><a href="#" class="add-task" id="user">Personal Task</a></li>
+            <li><a href="#" class="add-task" id="company">Company Task</a></li>
+            <li><a href="#" class="add-task" id="contact">Contact Task</a></li>
+            <li><a href="#" class="add-task" id="opportunity">Opportunity Task</a></li>
+            <li><a href="#" class="add-task" id="project">Project Task</a></li>
+          </ul>
+        </div>
+      </div>
+      {{/if}}
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-md-12">
@@ -10,52 +30,19 @@
           <button class="btn btn-danger btn-xs" id="tskDeleteAllCompleted">Delete all completed</button>
         </div>
         {{/if}}
-
+        &nbsp;
         <div class="btn-group pull-right">
           <button type="button" class="btn btn-primary btn-xs" id="tskToggleCompleted" >
-            {{#if showComp}}Hide{{else}}Show{{/if}} Completed
+            {{#if showComp}}Hide{{else}}Show{{/if}} all completed
           </button>
         </div>
       </div>
 
       <ul class="list-group" id='tskEntryContainer'>
-        {{#each tasks}} {{> taskListEntry}} {{else}}
+        {{#each tasks}} {{> task}} {{else}}
         <li class="list-group-item">No tasks added</li>
         {{/each}}
       </ul>
     </div>
   </div>
-</template>
-
-<template name="taskListEntry">
-  <li class="list-group-item" id='tskListEntry'>
-    <div class="row">
-      <div class="col-md-2">
-        <i class="fa fa-fw fa-tasks"></i> {{title}}
-      </div>
-      <div class="col-md-4 userDataDisplay">
-        {{entityDetails}}
-      </div>
-      <div class="col-md-2 userDataDisplay">
-        Due: {{friendlyDate}}
-      </div>
-      <div class="col-md-2 ">
-        {{#if isCompleted}}<i class="fa fa-fw fa-check text-success"></i> Completed {{else}}<i class="fa fa-fw fa-times text-danger"></i> Not yet completed {{/if}}
-      </div>
-      <div class="col-md-2">
-        <div class="btn-group pull-right">
-          {{#if isInRole 'Administrator,CanEditTasks'}}
-          <button class="btn btn-info btn-xs" id="tskEditTaskListEntry" type="button" data-toggle="tooltip" data-placement="bottom" title="Change task details or mark it complete"><i class="fa fa-fw fa-pencil"></i>
-            Edit
-          </button>
-          {{/if}}
-          {{#if isInRole 'Administrator,CanDeleteTasks'}}
-          <button class="btn btn-danger  btn-xs" id="tskDeleteTaskListEntry" type="button"><i class="fa fa-fw fa-times"></i>
-            Delete
-          </button>
-          {{/if}}
-        </div>
-      </div>
-    </div>
-  </li>
 </template>

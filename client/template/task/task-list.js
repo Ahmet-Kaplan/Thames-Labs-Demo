@@ -15,6 +15,8 @@ Template.taskList.helpers({
     if (Session.get('showCompleted') === 1) {
       return Tasks.find({}, {
         sort: {
+          completed: 1,
+          completedAt: -1,
           dueDate: 1
         }
       });
@@ -23,6 +25,8 @@ Template.taskList.helpers({
         completed: false
       }, {
         sort: {
+          completed: 1,
+          completedAt: -1,
           dueDate: 1
         }
       });
@@ -47,61 +51,11 @@ Template.taskList.events({
     _.each(ct, function(t) {
       Tasks.remove(t._id);
     })
-  }
-});
-
-Template.taskListEntry.helpers({
-  friendlyDate: function() {
-    return moment(this.dueDate).format('MMMM Do YYYY');
   },
-  isCompleted: function() {
-    return this.completed;
-  },
-  entityDetails: function() {
-    var dataString = "";
-
-    switch (this.entityType) {
-      case 'user':
-        dataString = "Personal task"
-        break;
-      case 'company':
-        dataString = "Company task";
-        var handle = Meteor.subscribe("companyById", this.entityId);
-        if (handle.ready()) {
-          var c = Companies.find({}).fetch()[0];
-          dataString += ": " + c.name;
-        }
-        break;
-      case 'contact':
-        dataString = "Contact task";
-        var handle = Meteor.subscribe("contactById", this.entityId);
-        if (handle.ready()) {
-          var c = Contacts.find({}).fetch()[0];
-          dataString += ": " + c.forename + " " + c.surname;
-        }
-        break;
-      case 'project':
-        dataString = "Project task";
-        var handle = Meteor.subscribe("projectById", this.entityId);
-        if (handle.ready()) {
-          var p = Projects.find({}).fetch()[0];
-          dataString += ": " + p.description;
-        }
-        break;
-      default:
-        dataString = "Misc. task";
-    }
-
-    return dataString;
-  }
-});
-
-Template.taskListEntry.events({
-  'click #tskEditTaskListEntry': function(event) {
-    event.preventDefault();
-    Modal.show('updateTask', this);
-  },
-  'click #tskDeleteTaskListEntry': function() {
-    Tasks.remove(this._id);
+  'click .add-task': function(e) {
+    var entityType = $(e.target).attr('id');
+    Modal.show('insertNewTask', {
+      entity_type: entityType
+    })
   }
 });

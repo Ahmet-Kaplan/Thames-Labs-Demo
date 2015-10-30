@@ -101,7 +101,13 @@
           {{/each}}
         </ul>
       </div>
-      {{/if}} {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="company" entity_id=_id}} {{/with}} {{/if}}
+      {{/if}} 
+
+      {{#if isInRole 'Administrator,CanReadTasks'}} 
+      {{#with this}} 
+        {{> taskDisplay entity_type="company" entity_id=_id}} 
+      {{/with}} 
+      {{/if}}
 
       <div>
         {{#if isInRole 'Administrator,CanEditCompanies'}} {{#with this}} {{> customFieldDisplay entity_data=this entity_type='company'}} {{/with}} {{/if}}

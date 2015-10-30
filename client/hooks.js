@@ -251,10 +251,28 @@ AutoForm.hooks({
       //logEvent('info', 'Tenant settings updated.', 'Tenant', this.docId);
     }
   },
-  newTaskModal: {
+  newTaskForm: {
     before: {
       insert: function(doc) {
         doc.createdBy = Meteor.userId();
+        if (doc.remindMe && doc.reminder) {
+          var reminderDate = moment(doc.reminder);
+          var dueDate = moment(doc.dueDate);
+          if (reminderDate.isBefore(moment())) {
+            toastr.error('The reminder date is in the past.')
+            return false;
+          } else if(dueDate && reminderDate.isAfter(dueDate)) {
+            toastr.error('The reminder date is after the due Date.');
+            return false;
+          }
+        } else if(doc.remindMe && !doc.reminder) {
+          toastr.error('No date has been specified for the reminder.');
+          return false;
+        }
+
+        if(doc.entityId === undefined || doc.entityType === undefined || doc.assigneeId === undefined) {
+          return new Error();
+        }
         return doc;
       }
     },
@@ -264,13 +282,32 @@ AutoForm.hooks({
         //logEvent('error', 'Task not created: ' + error);
       }
     },
-    onSuccess: function() {
+    onSuccess: function(formType, result) {
       Modal.hide('');
       toastr.success('Task created.');
       //logEvent('info', 'Task created.');
     }
   },
-  editTaskModal: {
+  editTaskForm: {
+    before: {
+      update: function(doc) {
+        if (doc.$set.remindMe && doc.$set.reminder) {
+          var reminderDate = moment(doc.$set.reminder);
+          var dueDate = moment(doc.$set.dueDate);
+          if (reminderDate.isBefore(moment())) {
+            toastr.error('The reminder date is in the past.')
+            return false;
+          } else if(dueDate && reminderDate.isAfter(dueDate)) {
+            toastr.error('The reminder date is after the due Date.');
+            return false;
+          }
+        } else if (doc.$set.remindMe && !doc.$set.reminder) {
+          toastr.error('No date has been specified for the reminder.');
+          return false;
+        }
+        return doc;
+      }
+    },
     onError: function(formType, error) {
       if (error) {
         toastr.error('An error occurred: Task not updated.');
