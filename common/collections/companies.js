@@ -45,7 +45,7 @@ Tags.TagsMixin(Companies);
 
 Collections.companies.index = CompaniesIndex = new EasySearch.Index({
   collection: Companies,
-  fields: ['name', 'tags'],
+  fields: ['name'],
   engine: new EasySearch.MongoDB({
     sort: () => {
       return { 'name': 1 }
@@ -67,6 +67,14 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
         'phone': 1,
         'tags': 1
       }
+    },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = { $in: options.search.props.tags.split(',') };
+      }
+      return selector;
     }
   })
 });
