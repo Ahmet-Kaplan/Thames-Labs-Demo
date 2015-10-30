@@ -1,31 +1,8 @@
-.task-container {
-  margin-top: 10px;
-}
-
-li.list-group-item.task {
-  padding: 8px 15px;
-}
-
-.task-title {
-  cursor: pointer;
-}
-
 .task-completed {
   display: inline-block;
   margin-right: 5px;
 }
 
-.task-completed > input {
-  
-  display: inline-block;
-}
-
-.task-date, .task-tags {
-  margin-right: 10px;
-}
-
-.task-entity {
-  padding-left: 10px;
-  color: #555;
-  font-style: italic;
+.task-green {
+  color: #082;
 }

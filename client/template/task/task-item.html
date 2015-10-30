@@ -1,70 +1,55 @@
 <template name="task">
-  <li class="list-group-item task">
+  <a class="list-group-item" href="tasks/{{taskId}}">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-3">
         <div class="pull-left">
         {{#if isInRole 'Administrator,CanEditTasks'}}
-        <span class="task-completed" id="task-completed-{{_id}}">
+        <span class="task-completed" id="task-completed-{{taskId}}">
           {{#if completed}}
-            <input type="checkbox" checked>
+            <span class="fa-stack fa-1x task-green">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+            </span>
           {{else}}
-            <input type="checkbox">
+            <span class="fa-stack fa-1x">
+              <i class="fa fa-check fa-stack-1x"></i>
+              <i class="fa fa-circle-thin fa-stack-2x"></i>
+            </span>
           {{/if}}
         </span>
         {{else}}
-        <span class="task-completed" id="task-completed-{{_id}}">
+          <span>
           {{#if completed}}
-            <input disabled="disabled" type="checkbox" checked>
+            <span class="fa-stack fa-1x task-green">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+            </span>
           {{else}}
-            <input disabled="disabled" type="checkbox">
+            <span class="fa-stack fa-1x">
+              <i class="fa fa-check fa-stack-1x"></i>
+              <i class="fa fa-circle-thin fa-stack-2x"></i>
+            </span>
           {{/if}}
         </span>
         {{/if}}
         </div>
-        <div class="btn-group pull-right">
-          {{#if isInRole 'Administrator,CanEditTasks'}}
-          <button class="btn btn-info btn-xs edit-task" type="button">
-            <i class="fa fa-fw fa-pencil"></i> Edit
-          </button>
-          {{/if}}
-          {{#if isInRole 'Administrator,CanDeleteTasks'}}
-          <button class="btn btn-danger btn-xs delete-task" type="button">
-            <i class="fa fa-fw fa-times"></i> Delete
-          </button>
-          {{/if}}
-        </div>
-        <div data-toggle="collapse" data-parent="#accordion" href="#collapseTask{{_id}}" id="displayedTaskHeading">
-          <span>{{title}}</span>
-          {{#if showEntityDetail}} <span class="task-entity">{{entityDetails}}</span> {{/if}}
-          {{#if completed}}
-          <div class="pull-right task-date">
-            Completed
-          </div>
-          {{else}}
-          <span class="pull-right task-date">
-            {{#if formattedDueDate}}Due {{formattedDueDate}}{{/if}}
-          </span>
-          {{/if}}
-        </div>
+        <h4 class="list-group-item-heading">{{title}}</h4>
+      </div>
+      <div class="col-md-3">
+        {{#if showEntityDetail}} 
+          <span class="fa fa-fw fa-{{entityDetails.icon}}"></span> {{entityDetails.name}}
+        {{/if}}
+      </div>
+      <div class="col-md-3">
+        {{#if completed}}
+          Completed
+        {{else}}
+          {{#if formattedDueDate}}Due {{formattedDueDate}}{{/if}}
+        {{/if}}
+      </div>
+      <div class="col-md-3">
+        <span class="pull-right">{{> tagBadges}}</span>
       </div>
     </div>
-      <div id="collapseTask{{_id}}" class="collapse">
-        <div class="row task-container">
-          <div class="col-md-12">
-          {{#if Template.subscriptionsReady}}
-            {{> tagInput tags=tags collection='tasks' entityId=_id permissionToEdit='CanEditTasks'}}
-          {{/if}}
-          {{#if description}}
-            <p>
-              {{description}}
-            </p>
-          {{else}}
-            <p>
-              No description provided.
-            </p>
-          {{/if}}
-          </div>
-        </div>
-      </div>
-  </li>
+  </a>
 </template>
