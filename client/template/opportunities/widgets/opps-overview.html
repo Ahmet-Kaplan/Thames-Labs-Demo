@@ -1,41 +1,16 @@
 <template name="oppsOverviewWidget">
-  <div class="panel panel-default" id='oppsOverviewBox'>
-
-    <div class="panel-heading">
-      Opportunities Overview <a href="#" id="ref_oppsOverviewWidget" type="button"></a>
-      <a href="#" data-target="#oppsOverviewBox" data-dismiss="alert" class="close pull-right" type="button"><i class="fa fa-fw fa-times grayscale"></i></a>
-      <a href="#" type="button" id="expandbutton" data-toggle="collapse" data-target="#collapse1" class="pull-right" style="padding-right: 10px"><i class="fa fa-fw fa-chevron-down grayscale"></i></a>
-
-      <script>
-        $(document).ready(function(){
-          $("#collapse1").on("hide.bs.collapse", function(){
-            $("#expandbutton").html('<i class="fa fa-fw fa-chevron-down grayscale"></i>');
-            $("#ref_oppsOverviewWidget").html('');
-          });
-          $("#collapse1").on("show.bs.collapse", function(){
-            $("#expandbutton").html('<i class="fa fa-fw fa-chevron-up grayscale"></i>');
-            $("#ref_oppsOverviewWidget").html('<i class="fa fa-fw fa-refresh grayscale"</i>');
-          });
-        });
-      </script>
-    </div>
-
-      <div class="panel-collapse collapse" id="collapse1" >
-        <div  class="panel-body">
-        <div class="oppsOverviewList">
-          <ul class="list-unstyled">
-            <li id="totalProjects"> Total number of opportunities:
-              <span class="pull-right">{{totalOpps}}</span>
-            </li>
-            <li id="totalProjects"> Total value:
-              <span class="pull-right">£{{totalOppValue}}</span>
-            </li>
-            <li id="totalProjects"> Average value:
-              <span class="pull-right">£{{averageOppValue}}</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+  <div>
+    <span id="#ref_oppsOverviewWidget" data-toggle="popover" title="Opportunities Overview" data-content="
+    <div><ul class='list-unstyled'>
+      <li>Opportunities:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalOpps}}</span></li>
+      <li>Total Value:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>£{{totalOppValue}}</span></li>
+      <li>Average Value:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>£{{averageOppValue}}</span></li></ul>
+    </div>">
+    <button class="btn btn-md"><i class="fa fa-fw fa-tasks"></i>&nbsp;Overview</button></span>
   </div>
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="popover"]').popover({html : true, placement : "bottom"});
+    });
+  </script>
 </template>

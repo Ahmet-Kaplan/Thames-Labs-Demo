@@ -1,11 +1,10 @@
 <template name="taskList">
   {{setPageTitle 'Tasks'}}
   <h1><i class="fa fa-fw fa-check"></i> Tasks</h1>
-  {{> tasksOverviewWidget}}
   <div class="stick-bar">
     <div class="row">
       {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
-      <div class="col-md-3">
+      <div class="col-md-2">
         <div class="dropdown">
           <button class="btn btn-primary dropdown-toggle{{#if isMobile}} btn-fullWidth{{/if}}" type="button" id="addTaskDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             Add Task <span class="caret"></span>
@@ -20,6 +19,7 @@
         </div>
       </div>
       {{/if}}
+      {{> tasksOverviewWidget}}
     </div>
   </div>
 

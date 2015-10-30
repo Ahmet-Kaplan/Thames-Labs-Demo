@@ -10,10 +10,10 @@
       <!-- This should probably be refactored into a "search toolbar" template -->
       <div class="stick-bar">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-3">
             {{> EasySearch.Input index=OpportunitiesIndex attributes=searchInputAttributes}}
           </div>
-          <div class="col-md-8">
+          <div class="col-md-7">
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-default" id="export"><i class="fa fa-fw fa-download"></i> Export results to CSV</button>
               <button id="toggle-archived" class="btn btn-default">Show {{#if archivedShown}}Active{{else}}Archived{{/if}} opportunities</button>
@@ -23,9 +23,9 @@
               {{/if}}
             </div>
           </div>
-          <div class="col-md-3">
-          {{> oppsOverviewWidget}}
-        </div>
+          <div class="col-md-2">
+            {{> oppsOverviewWidget}}
+          </div>
         </div>
       </div>
 

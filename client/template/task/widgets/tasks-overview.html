@@ -1,38 +1,17 @@
 <template name="tasksOverviewWidget">
-  <div class="grid-stack-item-content">
-    <div class="panel panel-default" id='taskOverviewBox'>
-      <div class="panel-heading">
-        <button aria-hidden="true" class="close" id="close_tasksOverviewWidget" type="button">×</button>
-        Tasks Overview
-        <a href="#" id="ref_tasksOverviewWidget" type="button"></a>
-        <a href="#" type="button" id="expandbutton" data-toggle="collapse" data-target="#collapse1" class="pull-right" style="padding-right: 10px"><i class="fa fa-chevron-down grayscale"></i></a>
-
-        <script>
-          $(document).ready(function(){
-            $("#collapse1").on("hide.bs.collapse", function(){
-              $("#expandbutton").html('<i class="fa fa-chevron-down grayscale"></i>');
-              $("#ref_tasksOverviewWidget").html('');
-            });
-            $("#collapse1").on("show.bs.collapse", function(){
-              $("#expandbutton").html('<i class="fa fa-chevron-up grayscale"></i>');
-              $("#ref_tasksOverviewWidget").html('<i class="fa fa-fw fa-refresh grayscale"></i>');
-            });
-          });
-        </script>
-      </div>
-      <div class="panel-collapse collapse" id="collapse1" >
-        <div class="panel-body">
-          <div class="tasksOverviewList">
-            <ul class="list-unstyled">
-              <li id="tasksCreatedOverview">Tasks created: <span class="pull-right">{{createdTasks}}</span></li>
-              <li id="tasksCompletedOverview">Tasks completed: <span class="pull-right">{{completedTasks}}</span></li>
-              <li id="tasksDueSoonOverview">Tasks due soon: <span class="pull-right">{{dueTasks}}</span></li>
-              <li id="tasksOverdueOverview">Tasks overdue: <span class="pull-right">{{overdueTasks}}</span></li>
-            </ul>
-
-          </div>
-        </div>
-      </div>
-    </div>
+  <div>
+    <span id="#ref_poOverviewWidget" data-toggle="popover" title="Purchase Orders Overview" data-content="
+    <div><ul class='list-unstyled'>
+      <li>Created:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{createdTasks}}</span></li>
+      <li>Completed:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{completedTasks}}</span></li>
+      <li>Due soon:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{dueTasks}}</span></li>
+      <li>Overdue:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{overdueTasks}}</span></li>
+    </div>">
+    <button class="btn btn-md"><i class="fa fa-fw fa-tasks"></i>&nbsp;Overview</button></span>
   </div>
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="popover"]').popover({html : true, placement : "bottom"});
+    });
+  </script>
 </template>
