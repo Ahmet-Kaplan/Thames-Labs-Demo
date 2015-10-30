@@ -77,7 +77,7 @@ Template.tagInput.events({
   'click .editTags': function() {
     $('#tagsBadges_' + this.entityId).toggle()
     $('#tag-list-display-' + this.entityId).toggle()
-    if($('#tag-list-display-' + this.entityId).is(':visible')){
+    if ($('#tag-list-display-' + this.entityId).is(':visible')) {
       $('#tag-list-display-' + this.entityId + ' input').focus();
     }
   },
