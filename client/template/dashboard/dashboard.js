@@ -114,7 +114,7 @@ widgets = {
     id: 'propagationChart',
     x: 0,
     y: 0,
-    w: 3,
+    w: 5,
     h: 5,
     displayed: false,
     name: 'Propagation Overview (Chart)'
