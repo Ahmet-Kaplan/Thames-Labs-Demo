@@ -6,15 +6,22 @@ Template.tagSearch.onRendered(function() {
 
   // Function to update tags from easysearch
   this.updateTags = (query) => {
-    var newTags = TagsIndex.search(query, {
-      props: {
-        autosuggest: true,
-        collection: this.collectionName
-      }
-    });
-    console.log(query, this.collectionName, newTags);
-    this.tags.set(newTags.fetch());
+    Meteor.call(
+      'searchByCollection',
+      'tags',
+      query,
+      {
+        props: {
+          autosuggest: true,
+          collection: this.collectionName
+        }
+      },
+      (err, res) => {
+        if (err) return;
+        this.tags.set(res);
+      });
   }
+  this.updateTags('');
 
   // Initialise selectize
   this.$('.tag-input').selectize({
@@ -22,9 +29,6 @@ Template.tagSearch.onRendered(function() {
     valueField: 'name',
     labelField: 'name',
     searchField: ['name'],
-    initialize: () => {
-      this.updateTags('');
-    },
     load: (query) => {
       this.updateTags(query);
     },
@@ -42,7 +46,7 @@ Template.tagSearch.onRendered(function() {
   // Update selectize options whenever this.tags is updated
   this.autorun( () => {
     var newTags = this.tags.get()
-    this.selectize.clearOptions();
+    //this.selectize.clearOptions();
     this.selectize.addOption(newTags);
     this.selectize.refreshOptions();
   });
