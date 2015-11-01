@@ -21,7 +21,17 @@ Template.tagSearch.onRendered(function() {
         this.tags.set(res);
       });
   }
+  // Get initial tag suggestions
   this.updateTags('');
+
+  this.addTagToProps = (tag) => {
+    var searchOptions = this.index.getComponentDict().get('searchOptions');
+    var tags = searchOptions.props && searchOptions.props.tags ? searchOptions.props.tags : '';
+    tags = tags.split(',');
+    tags.push(tag);
+    tags = tags.join(',');
+    this.index.getComponentMethods().addProps('tags', tags);
+  }
 
   // Initialise selectize
   this.$('.tag-input').selectize({
@@ -33,11 +43,14 @@ Template.tagSearch.onRendered(function() {
       this.updateTags(query);
     },
     onItemAdd: (value, $item) => {
-      this.index.getComponentMethods().addProps('tags', value);
+      this.addTagToProps(value);
     },
     onItemRemove: (value) => {
       this.index.getComponentMethods().removeProps('tags');
     },
+    onChange: (value) => {
+      console.log(value);
+    }
   });
 
   // Store handle to selectize
@@ -46,8 +59,19 @@ Template.tagSearch.onRendered(function() {
   // Update selectize options whenever this.tags is updated
   this.autorun( () => {
     var newTags = this.tags.get()
-    //this.selectize.clearOptions();
     this.selectize.addOption(newTags);
-    this.selectize.refreshOptions();
+    this.selectize.refreshOptions(false);
+  });
+
+  // Update selectize items when index props are updated
+  this.autorun( () => {
+    var searchOptions = this.index.getComponentDict().get('searchOptions');
+    //this.selectize.clear();
+    if (searchOptions.props && searchOptions.props.tags) {
+      _.each(searchOptions.props.tags.split(','), (tag) => {
+        console.log(tag);
+        //this.selectize.addItem(tag);
+      });
+    }
   });
 });
