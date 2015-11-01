@@ -5,18 +5,6 @@ Template.companyList.onCreated(function() {
   });
 });
 
-Template.companyList.onRendered(function() {
-  // Watch for session variable setting search
-  Session.set('companyListSearchQuery', null);
-  this.autorun(function() {
-    var searchQuery = Session.get('companyListSearchQuery');
-    if (searchQuery) {
-      CompaniesIndex.getComponentMethods().search(searchQuery);
-      $('.stick-bar input').val(searchQuery);
-    }
-  });
-});
-
 Template.companyList.events({
   'click #add-company': function(event) {
     event.preventDefault();
