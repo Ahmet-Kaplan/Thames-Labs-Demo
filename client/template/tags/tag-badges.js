@@ -1,8 +1,53 @@
+var tagIsInList = function(tag, tagList) {
+  return _.some(tagList.split(','), (s) => {
+    return s === tag
+  });
+};
+
+var toggleTag = function(tag, index) {
+  var searchOptions = index.getComponentDict().get('searchOptions'),
+      tags = (searchOptions && searchOptions.props && searchOptions.props.tags) ? searchOptions.props.tags : '';
+
+  if (tags !== '' && tagIsInList(tag, tags)) {
+    // Remove tag from props or unset if last tag
+    if (tags === tag) {
+      index.getComponentMethods().removeProps('tags');
+    } else {
+      tags = tags.split(',');
+      tags = _.pull(tags, tag);
+      tags = tags.join(',');
+      index.getComponentMethods().addProps('tags', tags);
+    }
+  } else {
+    // Add to tags
+    if (tags === '') {
+      index.getComponentMethods().addProps('tags', tag);
+    } else {
+      tags = tags.split(',');
+      tags.push(tag);
+      tags = tags.join(',');
+      index.getComponentMethods().addProps('tags', tags);
+    }
+  }
+}
+
 Template.tagBadge.events({
   'click a': function(event) {
     event.preventDefault();
-    console.log(this);
-    CompaniesIndex.getComponentMethods().addProps('tags', this.tag);
+    if (this.index) {
+      toggleTag(this.tag, this.index);
+      //this.index.getComponentMethods().addProps('tags', this.tag);
+    }
+  }
+});
+
+Template.tagBadge.helpers({
+  'selected': function() {
+    if (!this.index) return ''
+    var searchOptions = this.index.getComponentDict().get('searchOptions');
+    if (searchOptions && searchOptions.props && searchOptions.props.tags) {
+      return tagIsInList(this.tag, searchOptions.props.tags) ? 'active' : ''
+    }
   }
 });
 

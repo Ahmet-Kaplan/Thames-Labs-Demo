@@ -74,3 +74,10 @@ Template.registerHelper('searchInputAttributes', () => {
     autofocus: true
   };
 });
+
+// Allow extended context without overwriting
+Template.registerHelper('extendContext', function(key, value) {
+  var result = _.clone(this);
+  result[key] = value;
+  return result;
+});
