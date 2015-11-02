@@ -36,7 +36,6 @@ Template.tagBadge.events({
     event.preventDefault();
     if (this.index) {
       toggleTag(this.tag, this.index);
-      //this.index.getComponentMethods().addProps('tags', this.tag);
     }
   }
 });
