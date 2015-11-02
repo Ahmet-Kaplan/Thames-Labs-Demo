@@ -1,30 +1,109 @@
 <template name="companyDataManagement">
-  <div class="col-md-4">
+  <button type="button" class="btn btn-default" data-toggle="dropdown">
+    <i class="fa fa-fw fa-upload"></i> Import from...
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="#" id="company-data-upload-link">CSV</a></li>
+    <li class="divider"></li>
+    <li><a href="#" id="company-template-help">How does this work?</a></li>
+    <input type="file" id="company-data-upload" style="display:none;">
+  </ul>
+</template>
 
-    <div class="panel panel-primary">
-      <div class="panel-heading accordion-toggle" id="CompanyDataManager">
-        Company Data
-        <span class="glyphicon glyphicon-chevron-down pull-right"></span>
-      </div>
-      <div id="collapseCompanyDataManager" class="panel-collapse collapse">
-        <div class="panel-body" id="companyDataManagement">
-          <div class="btn-group btn-group-justified">
-            <div class="btn-group">
-              <button type="button" class="btn btn-info" data-toggle="dropdown">
-                Import
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#" id="company-data-upload-link">Import from CSV...</a></li>
-                <li class="divider"></li>
-                <li><a href="#" id="company-template-help">How does this work?</a></li>
-                <input type="file" id="company-data-upload" style="display:none;">
-              </ul>
+<template name="importCompanyMapper">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4> Company data mappings</h4>
+        </div>
+
+        <div class="modal-body">
+          <div id='mapInputs'>
+            <div class="row" style="padding-bottom:2px;">
+              <div class="col-md-3">Name</div>
+              <div class="col-md-9">
+                <select class="selectpicker" id="nameColumn">
+                  <option value="" selected>Do not import</option>
+                  {{{requiredDataInputs}}}
+                </select>
+              </div>
+            </div>
+            <div class="row" style="padding-bottom:2px;">
+              <div class="col-md-3">Address</div>
+              <div class="col-md-9">
+                <select class="selectpicker" id="addressColumn">
+                  <option value="" selected>Do not import</option>
+                  {{{requiredDataInputs}}}
+                </select>
+              </div>
+            </div>
+            <div class="row" style="padding-bottom:2px;">
+              <div class="col-md-3">City</div>
+              <div class="col-md-9">
+                <select class="selectpicker" id="cityColumn">
+                  <option value="" selected>Do not import</option>
+                  {{{requiredDataInputs}}}
+                </select>
+              </div>
+            </div>
+            <div class="row" style="padding-bottom:2px;">
+              <div class="col-md-3">County</div>
+              <div class="col-md-9">
+                <select class="selectpicker" id="countyColumn">
+                  <option value="" selected>Do not import</option>
+                  {{{requiredDataInputs}}}
+                </select>
+              </div>
+            </div>
+            <div class="row" style="padding-bottom:2px;">
+              <div class="col-md-3">Postcode</div>
+              <div class="col-md-9">
+                <select class="selectpicker" id="postcodeColumn">
+                  <option value="" selected>Do not import</option>
+                  {{{requiredDataInputs}}}
+                </select>
+              </div>
+            </div>
+            <div class="row" style="padding-bottom:2px;">
+              <div class="col-md-3">Country</div>
+              <div class="col-md-9">
+                <select class="selectpicker" id="countryColumn">
+                  <option value="" selected>Do not import</option>
+                  {{{requiredDataInputs}}}
+                </select>
+              </div>
+            </div>
+            <div class="row" style="padding-bottom:2px;">
+              <div class="col-md-3">Website</div>
+              <div class="col-md-9">
+                <select class="selectpicker" id="websiteColumn">
+                  <option value="" selected>Do not import</option>
+                  {{{requiredDataInputs}}}
+                </select>
+              </div>
+            </div>
+            <div class="row" style="padding-bottom:2px;">
+              <div class="col-md-3">Phone</div>
+              <div class="col-md-9">
+                <select class="selectpicker" id="phoneColumn">
+                  <option value="" selected>Do not import</option>
+                  {{{requiredDataInputs}}}
+                </select>
+              </div>
             </div>
           </div>
+          The above fields will be read from your CSV file and used to build up a list of your companies.
         </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary pull-right" id="confirm-mapping">Proceed with import</button>
+        </div>
+
       </div>
     </div>
-
   </div>
 </template>
