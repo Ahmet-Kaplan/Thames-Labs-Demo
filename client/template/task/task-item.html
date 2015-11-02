@@ -4,21 +4,18 @@
       <div class="col-md-3">
         <div class="pull-left">
         {{#if isInRole 'Administrator,CanEditTasks'}}
-        <span class="task-completed" id="task-completed-{{taskId}}">
           {{#if completed}}
-            <span class="fa-stack fa-1x task-green">
+            <span class="fa-stack fa-1x task-green task-completed">
               <i class="fa fa-circle fa-stack-2x"></i>
               <i class="fa fa-check fa-stack-1x fa-inverse"></i>
             </span>
           {{else}}
-            <span class="fa-stack fa-1x">
+            <span class="fa-stack fa-1x task-completed">
               <i class="fa fa-check fa-stack-1x"></i>
               <i class="fa fa-circle-thin fa-stack-2x"></i>
             </span>
           {{/if}}
-        </span>
         {{else}}
-          <span>
           {{#if completed}}
             <span class="fa-stack fa-1x task-green">
               <i class="fa fa-circle fa-stack-2x"></i>
@@ -30,7 +27,6 @@
               <i class="fa fa-circle-thin fa-stack-2x"></i>
             </span>
           {{/if}}
-        </span>
         {{/if}}
         </div>
         <h4 class="list-group-item-heading">{{title}}</h4>
@@ -41,6 +37,7 @@
         {{/if}}
       </div>
       <div class="col-md-3">
+        Assignee: {{taskAssignee}}<br>
         {{#if completed}}
           Completed
         {{else}}

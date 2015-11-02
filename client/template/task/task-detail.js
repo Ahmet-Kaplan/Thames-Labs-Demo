@@ -1,14 +1,11 @@
-Template.task.onCreated(function() {
-  this.subscribe('taskTags');
-});
-
-Template.task.helpers({
-  taskId: function() {
-    if(FlowRouter.getRouteName() === "tasks") {
-      return this.__originalId
-    } else {
-      return this._id;
+Template.taskDetail.helpers({  
+  taskData: function() {
+    var taskId = FlowRouter.getParam('id');
+    var task = Tasks.findOne(taskId);
+    if (task && task.tags) {
+      task.tags.sort();
     }
+    return task;
   },
   formattedDueDate: function() {
     if (this.isAllDay) {
@@ -25,25 +22,16 @@ Template.task.helpers({
       return moment(this.dueDate).fromNow();
     }
   },
-  showEntityDetail: function() {
-    return (FlowRouter.getRouteName() === "dashboard" || FlowRouter.getRouteName() === "tasks");
-  },
   entityDetails: function() {
     var entityData = "";
 
     switch (this.entityType) {
-      case 'user':
-        Meteor.subscribe('currentTenantUserData');
-        entityData = {
-          icon: 'check',
-          name: "Personal task"
-        }
-        break;
       case 'company':
         var handle = Meteor.subscribe("companyById", this.entityId);
         if (handle && handle.ready()) {
           var c = Companies.find({}).fetch()[0];
           entityData = {
+            type: 'Company',
             icon: 'building',
             name: c.name
           };
@@ -54,6 +42,7 @@ Template.task.helpers({
         if (handle && handle.ready()) {
           var c = Contacts.find({}).fetch()[0];
           entityData = {
+            type: 'Contact',
             icon: 'user',
             name: c.forename + " " + c.surname
           };
@@ -64,6 +53,7 @@ Template.task.helpers({
         if (handle && handle.ready()) {
           var p = Projects.find({}).fetch()[0];
           entityData = {
+            type: 'Project',
             icon: 'sitemap',
             name: p.name
           };
@@ -74,6 +64,7 @@ Template.task.helpers({
         if (handle && handle.ready()) {
           var p = Opportunities.find({}).fetch()[0];
           entityData = {
+            type: 'Opportunity',
             icon: 'lightbulb-o',
             name: p.name
           };
@@ -81,43 +72,60 @@ Template.task.helpers({
         break;
       default:
         entityData = {
-          name: "Misc. task"
+          type: 'Misc. task',
+          icon: '',
+          name: "No associated entity"
         };
     }
 
     return entityData;
   },
+  isPersonalTask: function() {
+    return this.entityType === "user";
+  },
   taskAssignee: function() {
     Meteor.subscribe('currentTenantUserData');
-    return Meteor.users.findOne({_id: this.assigneeId}).profile.name;
+    var assignee = Meteor.users.findOne({_id: this.assigneeId});
+    return assignee.profile.name;
+  },
+  taskCreator: function() {
+    Meteor.subscribe('currentTenantUserData');
+    var creator = Meteor.users.findOne({_id: this.createdBy});
+    return creator.profile.name;
   }
 });
 
-Template.task.events({
+Template.taskDetail.events({
+  'click #edit-task': function(event) {
+    event.preventDefault();
+    Modal.show('updateTask', this);
+  },
+  'click #delete-task': function(event) {
+    event.preventDefault();
+    var taskId = this._id;
+    bootbox.confirm("Are you sure you wish to delete this task?", function(result) {
+      if (result === true) {
+        Tasks.remove(taskId);
+        FlowRouter.go('tasks');
+      }
+    });
+  },
   'click .task-completed': function(event) {
     event.preventDefault();
-    var self = this;
     if (Roles.userIsInRole(Meteor.userId(), ['Administrator','CanEditTasks'])) {
-      if(self.completed) {
-        $(event.target).parents('.task-completed').removeClass('task-green');
+      var taskId = FlowRouter.getRouteName() === 'tasks' ? this.__originalId : this._id;
+      if (this.completed) {
+        Tasks.update(taskId, { $set: {
+          completed: false
+        }, $unset: {
+          completedAt: null
+        }});
       } else {
-        $(event.target).parents('.task-completed').addClass('task-green');
-      }
-      $(event.target).parents('.list-group-item').fadeOut(1000, 'easeInQuart', function() {
-        var taskId = FlowRouter.getRouteName() === 'tasks' ? self.__originalId : self._id;
-        if (self.completed) {
-          Tasks.update(taskId, { $set: {
-            completed: false
-          }, $unset: {
-            completedAt: null
-          }});
-        } else {
-          Tasks.update(taskId, { $set: {
-            completed: true,
-            completedAt: new Date()
-          }});
-        } 
-      })
+        Tasks.update(taskId, { $set: {
+          completed: true,
+          completedAt: new Date()
+        }});
+      } 
     }
   }
-});
+})

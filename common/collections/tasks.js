@@ -17,15 +17,30 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
     fields: (searchObject, options) => {
       return {
         'title': 1,
-        'description': 1,
         'dueDate': 1,
         'reminder': 1,
-        'isAllDay': 1,
         'completed': 1,
         'entityType': 1,
         'entityId': 1,
+        'assigneeId': 1,
         'tags': 1
       }
+    },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      var userId = options.search.userId;
+      if (options.search.props.showCompleted) {
+        selector.completed = true;
+      } else {
+        selector.completed = { $ne: true };
+      }
+
+      if (options.search.props.showMine) {
+        selector.assigneeId = { $eq: userId};
+      } else {
+        selector.assigneeId = { $ne: ''};
+      }
+      return selector;
     }
   })
 });
