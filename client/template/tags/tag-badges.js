@@ -4,7 +4,6 @@ Template.tagBadge.events({
 
     // turn this into a string
     var tagName = '' + this;
-
     var routeName = FlowRouter.getRouteName();
     switch (routeName) {
       case "companies":
@@ -20,7 +19,7 @@ Template.tagBadge.events({
         Session.set('opportunitySearchQuery', tagName);
         break;
       default:
-        throw new Meteor.Error("unspecified-tag-badge-route-type", "Could not determine route type for tag badges");
+        break;
     }
   }
 });

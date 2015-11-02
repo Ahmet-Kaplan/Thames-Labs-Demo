@@ -1,0 +1,11 @@
+<template name="DurationPicker">
+  <div class="duration-picker form-group">
+    <input type="hidden" {{this.atts}} />
+    {{> DurationPickerNumber name="hours" min="0" step="1" label="Hours" value=this.value.hours}}
+    {{> DurationPickerNumber name="minutes" step="5" label="Minutes" value=this.value.minutes}}
+  </div>
+</template>
+<template name="DurationPickerNumber">
+  <input id="{{this.name}}" class="form-control duration-input" name="{{this.name}}" type="number" value="{{this.value}}" min="{{this.min}}" max="{{this.max}}" step="{{this.step}}"/>
+  <label for="{{this.name}}" class="duration-label">{{this.label}}</label>
+</template>

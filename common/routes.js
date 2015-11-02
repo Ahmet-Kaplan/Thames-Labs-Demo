@@ -96,6 +96,16 @@ router.route('/audit', {
   }
 });
 
+// SUPERADMIN only route
+router.route('/jobs', {
+  name: 'jobs-queue',
+  action: function() {
+    layout.render('appLayout', {
+      main: "jobsQueue"
+    });
+  }
+});
+
 // LOGGED OUT USER ONLY route
 router.route('/sign-up', {
   name: 'sign-up',
@@ -232,6 +242,7 @@ router.route('/tasks', {
   name: 'tasks',
   subscriptions: function() {
     this.register('allUserTasks', subs.subscribe('allUserTasks', Meteor.userId()));
+    this.register('taskTags', subs.subscribe('taskTags'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -284,6 +295,7 @@ router.route('/opportunities/:id', {
   subscriptions: function(params) {
     this.register('opportunityById', subs.subscribe('opportunityById', params.id));
     this.register('opportunityTags', subs.subscribe('opportunityTags'));
+    this.register('taskTags', subs.subscribe('taskTags'));
   },
   action: function() {
     layout.render('appLayout', {

@@ -21,7 +21,6 @@ Template.tagInput.onRendered(function() {
       if (cb) {
         cb(tag);
       }
-
       return tag;
     },
     options: Meteor.tags.find({
@@ -67,3 +66,28 @@ Template.tagInput.onRendered(function() {
     }
   });
 });
+
+Template.tagInput.helpers({
+  hasPermission: function() {
+    return Roles.userIsInRole(Meteor.userId(), ['Administrator', Template.currentData().permissionToEdit]);
+  }
+})
+
+Template.tagInput.events({
+  'click .editTags': function() {
+    $('#tagsBadges_' + this.entityId).toggle()
+    $('#tag-list-display-' + this.entityId).toggle()
+    if ($('#tag-list-display-' + this.entityId).is(':visible')) {
+      $('#tag-list-display-' + this.entityId + ' input').focus();
+    }
+  },
+  'keyup .selectize-input>input': function(e) {
+    if(e.keyCode === 27) {
+      $('.selectize-input').blur();
+    }
+  },
+  'blur .selectize-input': function() {
+    $('#tagsBadges_' + this.entityId).show()
+    $('#tag-list-display-' + this.entityId).hide()
+  }
+})

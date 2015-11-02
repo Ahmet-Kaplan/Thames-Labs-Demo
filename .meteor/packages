@@ -97,4 +97,5 @@ ostrio:loggerfile
 ostrio:loggerconsole
 respondly:router-server
 msavin:mongol
+vsivsi:job-collection
 easy:search

@@ -1,12 +1,16 @@
 Tasks = new Mongo.Collection('tasks');
-
+Collections.tasks = Tasks;
 Partitioner.partitionCollection(Tasks);
+Tags.TagsMixin(Tasks);
 
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
-
 Tasks.after.insert(function(userId, doc) {
+  if(doc.remindMe && doc.reminder && Meteor.isServer) {
+    Meteor.call('addTaskReminder', doc._id);
+  }
+
   var entity;
   var entityName;
   switch (doc.entityType) {
@@ -17,6 +21,10 @@ Tasks.after.insert(function(userId, doc) {
     case 'contact':
       entity = Contacts.findOne(doc.entityId);
       entityName = "Contact: " + entity.forename + " " + entity.surname;
+      break;
+    case 'opportunity':
+      entity = Opportunities.findOne(doc.entityId);
+      entityName = "Opportunity: " + entity.name;
       break;
     case 'project':
       entity = Projects.findOne(doc.entityId);
@@ -27,10 +35,15 @@ Tasks.after.insert(function(userId, doc) {
       entityName = "User: " + entity.profile.name;
       break;
   }
+
   logEvent('info', 'A new task has been created: ' + doc.title + ' (' + entityName + ")");
 });
 
 Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
+  if(Meteor.isServer) {
+    Meteor.call('editTaskReminder', doc._id);
+  }
+
   var entity;
   var entityName;
 
@@ -42,6 +55,10 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
     case 'contact':
       entity = Contacts.findOne(doc.entityId);
       entityName = "Contact: " + entity.forename + " " + entity.surname;
+      break;
+    case 'opportunity':
+      entity = Opportunities.findOne(doc.entityId);
+      entityName = "Opportunity: " + entity.name;
       break;
     case 'project':
       entity = Projects.findOne(doc.entityId);
@@ -81,6 +98,10 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
         prevEntity = Contacts.findOne(this.previous.entityId);
         prevEntityName = "Contact: " + prevEntity.forename + " " + prevEntity.surname;
         break;
+      case 'opportunity':
+        prevEntity = Opportunities.findOne(this.previous.entityId);
+        prevEntityName = "Opportunity: " + prevEntity.name;
+        break;
       case 'project':
         prevEntity = Projects.findOne(this.previous.entityId);
         prevEntityName = "Project: " + prevEntity.description;
@@ -101,6 +122,10 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Tasks.after.remove(function(userId, doc) {
+  if(doc.taskReminderJob && Meteor.isServer) {
+    Meteor.call('deleteTaskReminder', doc.taskReminderJob);
+  }
+
   var entity;
   var entityName;
   switch (doc.entityType) {
@@ -111,6 +136,10 @@ Tasks.after.remove(function(userId, doc) {
     case 'contact':
       entity = Contacts.findOne(doc.entityId);
       entityName = "Contact: " + entity.forename + " " + entity.surname;
+      break;
+    case 'opportunity':
+      entity = Opportunities.findOne(doc.entityId);
+      entityName = "Opportunity: " + entity.name;
       break;
     case 'project':
       entity = Projects.findOne(doc.entityId);

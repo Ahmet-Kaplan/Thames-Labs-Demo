@@ -81,7 +81,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I navigate to "/projects"
     And I click "#add-project"
     And I set text field "name" to "test project 2"
-    And I set text field "description" to "description of test project 2"
+    And I set textarea "description" to "description of test project 2"
     And I selectize "companyId" to "Test Ltd"
     And I selectize "userId" to "test user"
     And I set text field "value" to "999"

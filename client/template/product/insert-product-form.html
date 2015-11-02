@@ -12,7 +12,7 @@
           {{#autoForm collection="Products" id="insertProductForm" type="insert"}}
             {{> afQuickField name="name" id="name-field"}}
             {{#if IsIEAnd10OrGreater}}
-              {{> afQuickField name="description"}}
+              {{> afQuickField name="description" rows=3}}
             {{else}}
               {{> afQuickField name="description" type="medium" class="form-control medium-editor" id="desc-field"}}
             {{/if}}
