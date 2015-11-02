@@ -70,7 +70,7 @@ Template.registerHelper('TagsIndex', () => TagsIndex);
 Template.registerHelper('searchInputAttributes', () => {
   return {
     placeholder: 'Search...',
-    class: 'form-control',
+    class: 'form-control easysearch-input',
     autofocus: true
   };
 });
