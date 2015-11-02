@@ -5,18 +5,6 @@ Template.productList.onCreated(function() {
   });
 });
 
-Template.productList.onRendered(function() {
-  // Watch for session variable setting search
-  Session.set('productListSearchQuery', null);
-  Tracker.autorun(function() {
-    var searchQuery = Session.get('productListSearchQuery');
-    if (searchQuery) {
-      ProductsIndex.getComponentMethods().search(searchQuery);
-      $('.stick-bar input').val(searchQuery);
-    }
-  });
-});
-
 Template.productList.events({
   'click #add-product': function(event) {
     event.preventDefault();
