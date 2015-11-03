@@ -1,0 +1,52 @@
+<template name="task">
+  <a class="list-group-item" href="tasks/{{taskId}}">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="pull-left">
+        {{#if isInRole 'Administrator,CanEditTasks'}}
+          {{#if completed}}
+            <span class="fa-stack fa-1x task-green task-completed">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+            </span>
+          {{else}}
+            <span class="fa-stack fa-1x task-completed">
+              <i class="fa fa-check fa-stack-1x"></i>
+              <i class="fa fa-circle-thin fa-stack-2x"></i>
+            </span>
+          {{/if}}
+        {{else}}
+          {{#if completed}}
+            <span class="fa-stack fa-1x task-green">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+            </span>
+          {{else}}
+            <span class="fa-stack fa-1x">
+              <i class="fa fa-check fa-stack-1x"></i>
+              <i class="fa fa-circle-thin fa-stack-2x"></i>
+            </span>
+          {{/if}}
+        {{/if}}
+        </div>
+        <h4 class="list-group-item-heading">{{title}}</h4>
+      </div>
+      <div class="col-md-3">
+        {{#if showEntityDetail}} 
+          <span class="fa fa-fw fa-{{entityDetails.icon}}"></span> {{entityDetails.name}}
+        {{/if}}
+      </div>
+      <div class="col-md-3">
+        Assignee: {{taskAssignee}}<br>
+        {{#if completed}}
+          Completed
+        {{else}}
+          {{#if formattedDueDate}}Due {{formattedDueDate}}{{/if}}
+        {{/if}}
+      </div>
+      <div class="col-md-3">
+        <span class="pull-right">{{> tagBadges}}</span>
+      </div>
+    </div>
+  </a>
+</template>
