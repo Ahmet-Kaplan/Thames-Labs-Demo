@@ -140,6 +140,7 @@ module.exports = function() {
 
   this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value) {
     browser.waitForExist('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
+    browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
     browser.click('select#' + selector + ' + .selectize-control>.selectize-input');
     browser.keys([value]);
     expect(browser.getValue('select#' + selector + ' + .selectize-control>.selectize-input input')).toContain(value);

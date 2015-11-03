@@ -160,7 +160,6 @@ Feature: Allow users to manage their Tasks
     Given I do not have the "CanEditTasks" permission
     Given a "Company" task has been created
     When I navigate to a task page
-    And I click ".editTags"
     Then I should not see the edit tag button
 
   Scenario: A user with the Administrator permission can edit tags

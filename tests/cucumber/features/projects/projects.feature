@@ -151,6 +151,7 @@ Feature: Allow users to manage their Projects
     And I have the "CanReadCompanies" permission
     And a "Project" has been created
     When I navigate to a project page
+    And I click ".editTags"
     And I add the tag "test-tag"
     Then the tag field for the "projects" should contain "test-tag"
 
@@ -165,6 +166,7 @@ Feature: Allow users to manage their Projects
     Given I have the "Administrator" permission
     And a "Project" has been created
     When I navigate to a project page
+    And I click ".editTags"
     And I add the tag "test-tag"
     Then the tag field for the "projects" should contain "test-tag"
 
@@ -180,29 +182,7 @@ Feature: Allow users to manage their Projects
     And I selectize "assigneeId" to "test user"
     When I set text field "title" to "task title"
     And I submit the "newTask" form
-    Then I should see ".task"
-
-  Scenario: A user can edit a task in a project
-    Given I have the "CanReadTasks" permission
-    And I have the "CanEditTasks" permission
-    And a "Project" task has been created
-    When I navigate to a project page
-    Then I should see ".edit-task"
-    When I click ".edit-task"
-    Then I should see a modal
-    When I set text field "title" to "updated title"
-    And I submit the "editTask" form
-    Then the task title should contain "updated title"
-
-  Scenario: A user can delete a task in a project
-    Given I have the "CanReadTasks" permission
-    And I have the "CanDeleteTasks" permission
-    And a "Project" task has been created
-    When I navigate to a project page
-    And I click ".delete-task"
-    And I should see a modal
-    And I click confirm on the modal
-    Then I should not see ".task"
+    Then I should see the heading "task title"
 
   Scenario: A user without the CanReadTasks permission cannot see tasks in a project
     Given I do not have the "CanReadTasks" permission
@@ -216,17 +196,3 @@ Feature: Allow users to manage their Projects
     And a "Project" has been created
     When I navigate to a project page
     Then I should not see "#btnAddTaskToEntity"
-
-  Scenario: A user without the CanEditTasks permission cannot edit a task in a project
-    Given I have the "CanReadTasks" permission
-    And I do not have the "CanEditTasks" permission
-    And a "Project" task has been created
-    When I navigate to a project page
-    Then I should not see ".edit-task"
-
-  Scenario: A user without the CanDeleteTasks permission cannot delete a task in a project
-    Given I have the "CanReadTasks" permission
-    And I do not have the "CanDeleteTasks" permission
-    And a "Project" task has been created
-    When I navigate to a project page
-    Then I should not see ".delete-task"

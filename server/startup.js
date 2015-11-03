@@ -11,15 +11,21 @@ Meteor.startup(function() {
   if(process.env.IS_MIRROR) {
     Email = {
       send: function(options) {
-        console.log('---------- Sending Email ----------');
         if(options.text) {
-          console.log("From: \t\t" + options.from);
-          console.log("To: \t\t" + options.to);
-          console.log("Text: \t\t" + options.text);
+          console.log("\t---------- Sending Email ----------");
+          console.log("\tFrom: \t\t" + options.from);
+          console.log("\tTo: \t\t" + options.to);
+          console.log("\tSubject: \t\t" + options.subject);
+          console.log("\tText: \t\t" + options.text);
+          console.log("\t---------- Email end ----------");
         } else {
-          console.log("HTML email content not displayed");
+          console.log("\t---------- Sending Email ----------");
+          console.log("\tFrom: \t\t" + options.from);
+          console.log("\tTo: \t\t" + options.to);
+          console.log("\tSubject: \t" + options.subject);
+          console.log("\tHTML email content not displayed");
+          console.log("\t---------- Email end ----------");
         }
-        console.log('---------- Email end ----------');
       }
     }
   }
