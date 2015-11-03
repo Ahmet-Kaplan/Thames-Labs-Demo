@@ -8,12 +8,15 @@
         {{> EasySearch.Input index=TasksIndex attributes=searchInputAttributes}}
       </div>
       <div class="col-md-3">
+        {{> tagSearch collection='tasks' }}
+      </div>
+      <div class="col-md-3">
         <div class="btn-group">
           <button type="button" class="btn btn-{{#if showMine}}success{{else}}default{{/if}}" id="tskToggleMine" >
-            Show {{#if showMine}}all{{else}}my{{/if}} tasks
+            Show my tasks
           </button>
           <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
-            {{#if showComp}}Hide{{else}}Show{{/if}} completed
+            Show completed
           </button>
         </div>
       </div>

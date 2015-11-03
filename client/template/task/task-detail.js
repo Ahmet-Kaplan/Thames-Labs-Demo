@@ -96,6 +96,12 @@ Template.taskDetail.helpers({
 });
 
 Template.taskDetail.events({
+  'click #add-activity': function(event) {
+    event.preventDefault();
+    Modal.show('insertTaskActivityModal', {
+      task: this
+    });
+  },
   'click #edit-task': function(event) {
     event.preventDefault();
     Modal.show('updateTask', this);

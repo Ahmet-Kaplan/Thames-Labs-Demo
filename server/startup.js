@@ -6,6 +6,22 @@ Meteor.startup(function() {
     Migrations.migrateTo('latest');
   }
 
+  if(process.env.IS_MIRROR) {
+    Email = {
+      send: function(options) {
+        console.log('---------- Sending Email ----------');
+        if(options.text) {
+          console.log("From: \t\t" + options.from);
+          console.log("To: \t\t" + options.to);
+          console.log("Text: \t\t" + options.text);
+        } else {
+          console.log("HTML email content not displayed");
+        }
+        console.log('---------- Email end ----------');
+      }
+    }
+  }
+
   //Keep tenant information sync'ed
   var tenants = Tenants.find({}).fetch();
 
