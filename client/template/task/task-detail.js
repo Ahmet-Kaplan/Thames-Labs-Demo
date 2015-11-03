@@ -1,3 +1,8 @@
+Template.taskDetail.onCreated(function() {
+  var taskId = FlowRouter.getParam('id');
+  this.subscribe('activityByTaskId', taskId);
+})
+
 Template.taskDetail.helpers({  
   taskData: function() {
     var taskId = FlowRouter.getParam('id');

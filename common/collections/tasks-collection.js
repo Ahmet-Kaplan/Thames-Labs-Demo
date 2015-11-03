@@ -3,6 +3,18 @@ Collections.tasks = Tasks;
 Partitioner.partitionCollection(Tasks);
 Tags.TagsMixin(Tasks);
 
+Tasks.helpers({
+  activities: function() {
+    return Activities.find({
+      taskId: this._id
+    }, {
+      sort: {
+        activityTimestamp: -1
+      }
+    });
+  },
+})
+
 ////////////////////
 // SEARCH INDICES //
 ////////////////////

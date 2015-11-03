@@ -6,6 +6,8 @@ Meteor.startup(function() {
     Migrations.migrateTo('latest');
   }
 
+  //Rewrite Email.send function to avoid displaying
+  //the whole email in the console during tests
   if(process.env.IS_MIRROR) {
     Email = {
       send: function(options) {

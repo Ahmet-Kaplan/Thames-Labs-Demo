@@ -33,6 +33,12 @@ AutoForm.hooks({
       toastr.success('Opportunity activity created.');
     }
   },
+  insertTaskActivityForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Task activity created.');
+    }
+  },
   updateActivityForm: {
     onSuccess: function() {
       Modal.hide();

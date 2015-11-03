@@ -148,6 +148,13 @@ Meteor.publish("activityByOpportunityId", function(opportunityId) {
     opportunityId: opportunityId
   });
 });
+Meteor.publish("activityByTaskId", function(taskId) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTasks'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Activities.find({
+    taskId: taskId
+  });
+});
 
 
 Meteor.publish("allProjects", function() {

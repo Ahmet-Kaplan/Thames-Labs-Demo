@@ -50,7 +50,6 @@ Template.onRendered(function() {
       }
     });
     stickBar.on('affixed.bs.affix', function() {
-      console.log('affix')
       stickBar.css('width', percentWidth * 100 + '%');
       stickBar.css('top', $('.navbar-header').height());
     });
