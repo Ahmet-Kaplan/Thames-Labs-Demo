@@ -8,15 +8,6 @@ Template.opportunityList.onCreated(function() {
 });
 
 Template.opportunityList.onRendered(function() {
-  // Watch for session variable setting search
-  Session.set('opportunitySearchQuery', null);
-  this.autorun(function() {
-    var searchQuery = Session.get('opportunitySearchQuery');
-    if (searchQuery) {
-      OpportunitiesIndex.getComponentMethods().search(searchQuery);
-      $('.stick-bar input').val(searchQuery);
-    }
-  });
   // Update search props if reactive vars changed
   this.autorun( () => {
     var searchComponent = OpportunitiesIndex.getComponentMethods();

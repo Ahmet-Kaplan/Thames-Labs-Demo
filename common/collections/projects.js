@@ -66,6 +66,10 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
       } else if (options.search.props.supplierContactId) {
         selector.contactId = options.search.props.supplierContactId;
       }
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = { $in: options.search.props.tags.split(',') };
+      }
       return selector;
     },
   })
