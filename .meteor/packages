@@ -40,7 +40,6 @@ less
 matteodem:server-session
 pcel:loading
 jboulhous:dev
-chhib:selectize-bootstrap-3
 dbernhard:jquery-ui-draggable
 patrickleet:tags
 blaze
@@ -99,3 +98,4 @@ respondly:router-server
 msavin:mongol
 vsivsi:job-collection
 easy:search
+jamiecollinson:selectize-bootstrap

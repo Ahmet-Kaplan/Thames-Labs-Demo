@@ -9,8 +9,11 @@
       <!-- This should probably be refactored into a "search toolbar" template -->
       <div class="stick-bar">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-3">
             {{> EasySearch.Input index=CompaniesIndex attributes=searchInputAttributes}}
+          </div>
+          <div class="col-md-3">
+            {{> tagSearch collection='companies' }}
           </div>
           <div class="col-md-6">
             <div class="btn-group" role="group">
