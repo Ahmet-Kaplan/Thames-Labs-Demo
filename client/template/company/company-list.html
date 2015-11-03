@@ -3,56 +3,33 @@
   {{setPageTitle 'Companies'}}
 
   <div class="row" id="company-list">
-    <div class="col-md-3">
-      <div class="sidebar">
-        <h1>Actions</h1>
-        {{> EasySearch.Input index=CompaniesIndex attributes=searchInputAttributes}}
-        {{#if isInRole 'Administrator,CanCreateCompanies'}}
-          <div class="btn-group-vertical">
-            <button type="submit" class="btn btn-primary" id="add-company"><i class="fa fa-fw fa-plus"></i> Add company</button>
-          </div>
-        {{/if}}
-      </div>
-    </div>
-
-    <div class="col-md-9">
-
+    <div class="col-md-12">
       <h1 id="companies-page-header"><i class="fa fa-building"></i> Companies</h1>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=CompaniesIndex}}
-      </div>
-      <small>{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</small>
 
-      <div class="list-group" id="mchCompanyList">
-        {{#EasySearch.Each index=CompaniesIndex}}
-          {{> companyListItem}}
-        {{/EasySearch.Each}}
-
-        {{#EasySearch.IfNoResults index=CompaniesIndex}}
-          <h4 id="mchNoCompaniesPlaceholder">No companies found</h4>
-        {{/EasySearch.IfNoResults}}
-
-        {{#EasySearch.IfSearching index=CompaniesIndex}}
-          {{> spinner}}
-        {{/EasySearch.IfSearching}}
+      <!-- This should probably be refactored into a "search toolbar" template -->
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-3">
+            {{> EasySearch.Input index=CompaniesIndex attributes=searchInputAttributes}}
+          </div>
+          <div class="col-md-3">
+            {{> tagSearch collection='companies' }}
+          </div>
+          <div class="col-md-6">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default" id="export"><i class="fa fa-fw fa-download"></i> Export results to CSV</button>
+              {{#if isInRole 'Administrator,CanCreateCompanies'}}
+                <button type="button" class="btn btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
+              {{/if}}
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=CompaniesIndex}}
-      </div>
+
+      {{> searchResults index=CompaniesIndex listItemTemplateName='companyListItem'}}
 
     </div>
   </div>
-
-</template>
-
-<template name="companyListItem">
-  <a class="list-group-item clearfix" href="{{pathFor route='company' id=__originalId}}" id='mchCompany'>
-    <span class="pull-left">
-      {{> companyLogo url=website class="img-circle logo-small" showPlaceholder=true}}
-    </span>
-    <span class="pull-right">{{> tagBadges}}</span>
-    <h4 class="list-group-item-heading">{{name}}</h4> <p class="list-group-item-text"><i class="fa fa-fw fa-map-marker"></i> {{city}}, {{country}}</p>
-  </a>
 
 </template>
 

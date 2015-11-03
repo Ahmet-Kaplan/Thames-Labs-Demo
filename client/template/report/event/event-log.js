@@ -5,15 +5,6 @@ Template.events.onCreated(function() {
   });
 });
 
-Template.events.helpers({
-  eventLogCount: function() {
-    return AuditLogIndex.getComponentDict().get('count');
-  },
-  hasMultipleRecords: function() {
-    return AuditLogIndex.getComponentDict().get('count') != 1;
-  }
-});
-
 Template.eventEntry.helpers({
   friendlyDate: function() {
     return new moment(this.date).format("Do MMMM YYYY, HH:mm:ss");

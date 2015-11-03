@@ -135,5 +135,57 @@ Template.companyDetail.helpers({
     return Opportunities.find({
       companyId: this._id
     });
+  },
+  linksList: function() {
+    return [
+      {
+        text: 'Company details',
+        anchor: 'company-details',
+        icon: 'fa-file-text-o',
+        permission: 'CanReadCompanies'
+      },
+      {
+        text: 'Contacts',
+        anchor: 'contacts',
+        icon: 'fa-user',
+        permission: 'CanReadContacts'
+      },
+      {
+        text: 'Current Projects',
+        anchor: 'projects',
+        icon: 'fa-sitemap',
+        permission: 'CanReadProjects'
+      },
+      {
+        text: 'Purchase Orders',
+        anchor: 'purchase-orders',
+        icon: 'fa-shopping-cart',
+        permission: 'CanReadPurchaseOrders'
+      },
+      {
+        text: 'Tasks',
+        anchor: 'tasks',
+        icon: 'fa-tasks',
+        permission: 'CanReadTasks'
+      },
+      {
+        text: 'Extended information',
+        anchor: 'entity-custom-fields',
+        icon: 'fa-bookmark',
+        permission: 'CanReadCompanies'
+      },
+      {
+        text: 'Opportunities',
+        anchor: 'opportunities',
+        icon: 'fa-lightbulb-o',
+        permission: 'CanReadOpportunities'
+      },
+      {
+        text: 'Activity Timeline',
+        anchor: 'activity-timeline',
+        icon: 'fa-list',
+        permission: 'CanReadCompanies'
+      }
+    ]
   }
 });

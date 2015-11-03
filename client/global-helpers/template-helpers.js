@@ -51,6 +51,10 @@ Template.registerHelper("getDomainFromUrl", function(url) {
   return a.hostname;
 });
 
+Template.registerHelper("isMobile", function() {
+  return bowser.mobile || bowser.tablet;
+});
+
 // Make search indices available to templates - e.g. for EasySearch components
 Template.registerHelper('AuditLogIndex', () => AuditLogIndex);
 Template.registerHelper('CompaniesIndex', () => CompaniesIndex);
@@ -60,11 +64,19 @@ Template.registerHelper('ProductsIndex', () => ProductsIndex);
 Template.registerHelper('ProjectsIndex', () => ProjectsIndex);
 Template.registerHelper('PurchaseOrdersIndex', () => PurchaseOrdersIndex);
 Template.registerHelper('UsersIndex', () => UsersIndex);
+Template.registerHelper('TagsIndex', () => TagsIndex);
 
 // Return standard search input attributes for EasySearch
 Template.registerHelper('searchInputAttributes', () => {
   return {
     placeholder: 'Search...',
-    class: 'form-control'
+    class: 'form-control easysearch-input',
+    autofocus: true
   };
+});
+
+// Allow extended context without overwriting
+Template.registerHelper('extendContext', function(key, value) {
+  this[key] = value;
+  return this;
 });

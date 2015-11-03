@@ -35,14 +35,17 @@ Tags.TagsMixin(Contacts);
 // SEARCH INDICES //
 ////////////////////
 
-ContactsIndex = new EasySearch.Index({
+Collections.contacts.index = ContactsIndex = new EasySearch.Index({
   collection: Contacts,
-  fields: ['forename', 'surname', 'tags'],
+  fields: ['forename', 'surname'],
   engine: new EasySearch.MongoDB({
     sort: () => {
       return { 'surname': 1 }
     },
     fields: (searchObject, options) => {
+      if (options.search.props.export) {
+        return {}
+      }
       if (options.search.props.autosuggest) {
         return {
           'forename': 1,
@@ -52,7 +55,11 @@ ContactsIndex = new EasySearch.Index({
       return {
         'forename': 1,
         'surname': 1,
+        'jobtitle': 1,
         'companyId': 1,
+        'phone': 1,
+        'mobile': 1,
+        'email': 1,
         'tags': 1
       }
     },
@@ -60,6 +67,10 @@ ContactsIndex = new EasySearch.Index({
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
       if (options.search.props.filterCompanyId) {
         selector.companyId = options.search.props.filterCompanyId;
+      }
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = { $in: options.search.props.tags.split(',') };
       }
       return selector;
     },

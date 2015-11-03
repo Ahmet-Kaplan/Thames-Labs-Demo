@@ -35,7 +35,7 @@ Tags.TagsMixin(Projects);
 // SEARCH INDICES //
 ////////////////////
 
-ProjectsIndex = new EasySearch.Index({
+Collections.projects.index = ProjectsIndex = new EasySearch.Index({
   collection: Projects,
   fields: ['name', 'tags'],
   engine: new EasySearch.MongoDB({
@@ -43,6 +43,9 @@ ProjectsIndex = new EasySearch.Index({
       return { 'name': 1 }
     },
     fields: (searchObject, options) => {
+      if (options.search.props.export) {
+        return {}
+      }
       if (options.search.props.autosuggest) {
         return {
           'name': 1,
@@ -62,6 +65,10 @@ ProjectsIndex = new EasySearch.Index({
         selector.companyId = options.search.props.supplierCompanyId;
       } else if (options.search.props.supplierContactId) {
         selector.contactId = options.search.props.supplierContactId;
+      }
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = { $in: options.search.props.tags.split(',') };
       }
       return selector;
     },

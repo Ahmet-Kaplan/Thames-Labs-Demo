@@ -51,8 +51,8 @@ Template.insertContactModal.onRendered(function() {
           draggable: true
         });
         google.maps.event.addListener(marker, "dragend", function(event) {
-          $("input[name=lat]").val(marker.getPosition().G);
-          $("input[name=lng]").val(marker.getPosition().K);
+          $("input[name=lat]").val(marker.getPosition().lat());
+          $("input[name=lng]").val(marker.getPosition().lng());
         });
       }).keypress(function(event) {
         if(event.which == 13) {
@@ -83,5 +83,8 @@ Template.insertContactModal.events({
 Template.insertCompanyContactModal.helpers({
   currentUser: function() {
     return Meteor.userId();
+  },
+  companyName: function() {
+    return this.name;
   }
 });

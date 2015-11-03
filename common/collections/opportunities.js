@@ -15,14 +15,17 @@ Opportunities.helpers({
 // SEARCH INDICES //
 ////////////////////
 
-OpportunitiesIndex = new EasySearch.Index({
+Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
   collection: Opportunities,
   fields: ['name', 'tags'],
   engine: new EasySearch.MongoDB({
     sort: () => {
       return { 'name': 1 }
     },
-    fields: () => {
+    fields: (searchObject, options) => {
+      if (options.search.props.export) {
+        return {}
+      }
       return {
         'name': 1,
         'companyId': 1,
@@ -42,6 +45,10 @@ OpportunitiesIndex = new EasySearch.Index({
       } else {
         selector.isArchived = { $ne: true };
       }
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = { $in: options.search.props.tags.split(',') };
+      }
       return selector;
     }
   })
@@ -52,6 +59,7 @@ Tags.TagsMixin(Opportunities);
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
+
 Opportunities.after.insert(function(userId, doc) {
   logEvent('info', 'A new opportunity has been created: ' + doc.name);
 });

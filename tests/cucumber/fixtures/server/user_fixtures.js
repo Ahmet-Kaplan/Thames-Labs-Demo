@@ -119,5 +119,23 @@ Meteor.methods({
         "stripe.blocked": true
       }
     });
+  },
+
+  deleteStripeTestCustomer: function() {
+    var tenantId = Partitioner.getUserGroup(this.userId);
+    var theTenant = Tenants.findOne({
+      _id: tenantId
+    });
+    var stripeId = theTenant.stripe.stripeId;
+    var Stripe = StripeAPI(process.env.STRIPE_SK);
+    if(stripeId) {
+      Tenants.direct.update({
+        $unset: {
+          stripeId: '',
+          stripeSubs: ''
+        }
+      });
+      Stripe.customers.del(stripeId);
+    }
   }
 });

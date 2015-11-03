@@ -54,12 +54,12 @@ Template.map.onRendered(function() {
         }, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             var location = results[0].geometry.location;
-            address.lat = location.G;
-            address.lng = location.K;
+            address.lat = location.lat();
+            address.lng = location.lng();
           } else {
             address.lat = 0,
             address.lng = 0,
-            title = "Location not found"
+            title = "Location not found";
           }
           updateMap(map.instance, title, address);
         })

@@ -58,7 +58,7 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to "/opportunities"
     And I click "#create-opportunity"
     And I set text field "name" to "test opportunity 2"
-    And I set text field "description" to "test description"
+    And I set textarea "description" to "test description"
     And I set text field "date" to "05/05/2015 05:05"
     And I set text field "value" to "500"
     And I selectize "companyId" to "Test Ltd"
@@ -188,7 +188,7 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     And I click "#add-line-item"
     And I set text field "name" to "testItem1"
-    And I set text field "description" to "test item description"
+    And I set textarea "description" to "test item description"
     And I set text field "value" to "1"
     And I submit the "insertOpportunityItem" form
     Then I should see a new line item in an opportunity
@@ -217,19 +217,80 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "CanEditOpportunities" permission
     And a "Opportunity" has been created
     When I navigate to an opportunity page
-    And I set text field with selector ".tag-input input" to "test tag"
-    Then the field with selector ".tag-input input" should contain "test tag"
+    And I add the tag "test-tag" to the "opportunities"
+    Then the tag field for the "opportunities" should contain "test-tag"
 
   Scenario: A user without the CanEditOpportunities permission cannot edit tags
     Given I do not have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
     When I navigate to an opportunity page
-    And I set text field with selector ".tag-input input" to "test tag"
-    Then the field with selector ".tag-input input" should not contain "test tag"
+    Then I should not see the edit tag button for the "opportunities"
 
   Scenario: A user with the Administrator permission can edit tags
     Given I have the "Administrator" permission
     And an "Opportunity" has been created
     When I navigate to an opportunity page
-    And I set text field with selector ".tag-input input" to "test tag"
-    Then the field with selector ".tag-input input" should contain "test tag"
+    And I add the tag "test-tag" to the "opportunities"
+    Then the tag field for the "opportunities" should contain "test-tag"
+
+  #Tasks
+  Scenario: A user can add a task to a opportunity
+    Given I have the "CanReadTasks" permission
+    And I have the "CanCreateTasks" permission
+    And a "Opportunity" has been created
+    When I navigate to an opportunity page
+    And I click "#btnAddTaskToEntity"
+    Then I should see a modal
+    And I selectize "assigneeId" to "test user"
+    When I set text field "title" to "task title"
+    And I submit the "newTask" form
+    Then I should see ".task"
+
+  Scenario: A user can edit a task in a opportunity
+    Given I have the "CanReadTasks" permission
+    And I have the "CanEditTasks" permission
+    And a "Opportunity" task has been created
+    When I navigate to an opportunity page
+    Then I should see ".edit-task"
+    When I click ".edit-task"
+    Then I should see a modal
+    When I set text field "title" to "updated title"
+    And I submit the "editTask" form
+    Then the task title should contain "updated title"
+
+  Scenario: A user can delete a task in a opportunity
+    Given I have the "CanReadTasks" permission
+    And I have the "CanDeleteTasks" permission
+    And a "Opportunity" task has been created
+    When I navigate to an opportunity page
+    And I click ".delete-task"
+    And I should see a modal
+    And I click confirm on the modal
+    Then I should not see ".task"
+
+  Scenario: A user without the CanReadTasks permission cannot see tasks in a opportunity
+    Given I do not have the "CanReadTasks" permission
+    And a "Opportunity" task has been created
+    When I navigate to an opportunity page
+    Then I should not see "#entityTaskList"
+
+  Scenario: A user without the CanCreateTasks permission cannot add a task to a opportunity
+    Given I have the "CanReadTasks" permission
+    And I do not have the "CanCreateTasks" permission
+    And a "Opportunity" has been created
+    When I navigate to an opportunity page
+    Then I should not see "#btnAddTaskToEntity"
+
+  Scenario: A user without the CanEditTasks permission cannot edit a task in a opportunity
+    Given I have the "CanReadTasks" permission
+    And I do not have the "CanEditTasks" permission
+    And a "Opportunity" task has been created
+    When I navigate to an opportunity page
+    Then I should not see ".edit-task"
+
+  Scenario: A user without the CanDeleteTasks permission cannot delete a task in a opportunity
+    Given I have the "CanReadTasks" permission
+    And I do not have the "CanDeleteTasks" permission
+    And a "Opportunity" task has been created
+    When I navigate to an opportunity page
+    Then I should not see ".delete-task"

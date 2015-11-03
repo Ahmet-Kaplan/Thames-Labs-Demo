@@ -43,24 +43,38 @@ Tags.TagsMixin(Companies);
 // SEARCH INDICES //
 ////////////////////
 
-CompaniesIndex = new EasySearch.Index({
+Collections.companies.index = CompaniesIndex = new EasySearch.Index({
   collection: Companies,
-  fields: ['name', 'tags'],
+  fields: ['name'],
   engine: new EasySearch.MongoDB({
     sort: () => {
       return { 'name': 1 }
     },
     fields: (searchObject, options) => {
+      if (options.search.props.export) {
+        return {}
+      }
       if (options.search.props.autosuggest) {
         return { 'name': 1 }
       }
       return {
         'name': 1,
+        'address': 1,
         'city': 1,
+        'postcode': 1,
         'country': 1,
         'website': 1,
+        'phone': 1,
         'tags': 1
       }
+    },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = { $in: options.search.props.tags.split(',') };
+      }
+      return selector;
     }
   })
 });

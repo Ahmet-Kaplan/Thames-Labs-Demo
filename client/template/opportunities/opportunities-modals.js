@@ -24,6 +24,25 @@ Template.insertOpportunityModal.helpers({
   }
 });
 
+Template.insertCompanyOpportunityModal.onRendered(function() {
+  verfiyOpportunityStagesExist();
+});
+
+Template.insertCompanyOpportunityModal.helpers({
+	firstStageId: function() {
+    var count = OpportunityStages.find({}).count();
+    if (count == 0) return null;
+    var id = OpportunityStages.findOne({"order": 0})._id;
+    return id;
+  },
+  createdBy: function() {
+    return Meteor.userId();
+  },
+  companyName: function() {
+    return Companies.findOne().name;
+  }
+});
+
 Template.insertOpportunityModal.events({
   'change #selectedCompany': function() {
     var c = $('select#selectedCompany').val();
@@ -36,6 +55,39 @@ Template.insertOpportunityModal.events({
     }
   }
 });
+
+Template.insertContactOpportunityModal.onRendered(function() {
+  verfiyOpportunityStagesExist();
+});
+
+Template.insertContactOpportunityModal.helpers({
+	firstStageId: function() {
+    var count = OpportunityStages.find({}).count();
+    if (count == 0) return null;
+    var id = OpportunityStages.findOne({"order": 0})._id;
+    return id;
+  },
+  createdBy: function() {
+    return Meteor.userId();
+  },
+  companyName: function() {
+    return Companies.findOne().name;
+  },
+  contactName: function() {
+    var contact = Contacts.findOne();
+    return contact.forename + ' ' + contact.surname;
+  }
+});
+
+Template.editOpportunityModal.helpers({
+  companyName: function() {
+    return Companies.findOne().name
+  },
+  contactName: function() {
+    var contact = Contacts.findOne();
+    return contact.forename + ' ' + contact.surname;
+  }
+})
 
 Template.insertOpportunityItemModal.helpers({
   generatedId: function() {
@@ -58,37 +110,5 @@ Template.editOpportunityItemModal.helpers({
   },
   fieldQuantity: function() {
     return "items." + this.index + ".quantity";
-  }
-});
-
-Template.insertCompanyOpportunityModal.onRendered(function() {
-  verfiyOpportunityStagesExist();
-});
-
-Template.insertCompanyOpportunityModal.helpers({
-	firstStageId: function() {
-    var count = OpportunityStages.find({}).count();
-    if (count == 0) return null;
-    var id = OpportunityStages.findOne({"order": 0})._id;
-    return id;
-  },
-  createdBy: function() {
-    return Meteor.userId();
-  }
-});
-
-Template.insertContactOpportunityModal.onRendered(function() {
-  verfiyOpportunityStagesExist();
-});
-
-Template.insertContactOpportunityModal.helpers({
-	firstStageId: function() {
-    var count = OpportunityStages.find({}).count();
-    if (count == 0) return null;
-    var id = OpportunityStages.findOne({"order": 0})._id;
-    return id;
-  },
-  createdBy: function() {
-    return Meteor.userId();
   }
 });

@@ -2,39 +2,28 @@
   {{setPageTitle 'Products'}}
 
   <div class="row">
-    <div class="col-md-3 sidebar">
-      <h1>Actions</h1>
-      {{> EasySearch.Input index=ProductsIndex attributes=searchInputAttributes}}
-      <div class="btn-group-vertical">{{#if isInRole 'Administrator,CanCreateProducts'}}
-        <a class="btn btn-primary" id="add-product">
-          <i class="fa fa-plus"></i> Add product
-        </a>
-        {{/if}}
-      </div>
-    </div>
-    <div class="col-md-9">
+    <div class="col-md-12">
       <h1><i class="fa fa-fw fa-barcode"></i> Products</h1>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=ProductsIndex}}
-      </div>
-      <small>{{productCount}} record{{#if hasMultipleProducts}}s{{/if}}</small>
 
-      <div class="list-group">
-        {{#EasySearch.Each index=ProductsIndex}}
-          {{> productListItem}}
-        {{/EasySearch.Each}}
-
-        {{#EasySearch.IfNoResults index=ProductsIndex}}
-          <h4>No products found</h4>
-        {{/EasySearch.IfNoResults}}
-
-        {{#EasySearch.IfSearching index=ProductsIndex}}
-          {{> spinner}}
-        {{/EasySearch.IfSearching}}
+      <!-- This should probably be refactored into a "search toolbar" template -->
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-6">
+            {{> EasySearch.Input index=ProductsIndex attributes=searchInputAttributes}}
+          </div>
+          <div class="col-md-6">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default" id="export"><i class="fa fa-fw fa-download"></i> Export results to CSV</button>
+              {{#if isInRole 'Administrator,CanCreateProducts'}}
+                <a class="btn btn-primary" id="add-product" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-plus"></i> Add product</a>
+              {{/if}}
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=ProductsIndex}}
-      </div>
+
+      {{> searchResults index=ProductsIndex listItemTemplateName='productListItem'}}
+
     </div>
   </div>
 
@@ -43,6 +32,20 @@
 
 <template name="productListItem">
   <a class="list-group-item product-item" href="{{pathFor route='product' id=__originalId}}">
-    <h4 class="list-group-item-heading">{{name}}</h4>
+    <div class="row">
+      <div class="col-md-4">
+        <h4 class="list-group-item-heading">{{name}}</h4>
+      </div>
+      <div class="col-md-3">
+        {{#if price}}
+          <i class="fa fa-fw fa-credit-card"></i> Sales Price: £{{decimal price}}
+        {{/if}}
+      </div>
+      <div class="col-md-3">
+        {{#if cost}}
+          <i class="fa fa-fw fa-gbp"></i> Cost Price: £{{decimal cost}}
+        {{/if}}
+      </div>
+    </div>
   </a>
 </template>

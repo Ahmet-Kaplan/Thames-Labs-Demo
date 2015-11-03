@@ -1,39 +1,10 @@
 <template name="companyDetail">
   {{#with companyData}} {{setPageTitle "Company - " name }}
-  <div class="row">
-    <div class="col-md-2 hidden-sm hidden-xs">
-      <div class="sidebar">
-
-        <h1 id="action-side-bar">Actions</h1>
-
-        <ul class="nav nav-stacked">
-          <li><a href="#company-details">Company details</a></li>
-          <li><a href="#contacts">Contacts</a></li>
-          <li><a href="#projects">Current Projects</a></li>
-          <li><a href="#activity-timeline">Activity timeline</a></li>
-          <!-- <li onclick="location.href='#company-details';" style="cursor:pointer;">Company details</li>
-          <li onclick="location.href='#contacts';" style="cursor:pointer;">Contacts</li>
-          <li onclick="location.href='#projects';" style="cursor:pointer;">Projects</li>
-          <li onclick="location.href='#activity-timeline';" style="cursor:pointer;">Activities</li> -->
-        </ul>
-
-        <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            Use Word template
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#" id="template-upload-link">Select word template</a></li>
-            <li class="divider"></li>
-            <li><a href="#" id="template-help">How does this work?</a></li>
-          </ul>
-        </div>
-        <input type="file" id="template-upload" style="display:none;">
-
-      </div>
+  <div class="row" id="mainPage">
+    <div class="col-md-1 hidden-sm hidden-xs">
+      {{> jumplist list=linksList}}
     </div>
-
-    <div class="col-md-6">
+    <div class="col-md-7">
       <h4 class="entity-title">
         <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
         Company
@@ -47,7 +18,20 @@
         <div class="panel-heading">
           <div class="btn-group pull-right">
             {{#if isInRole 'Administrator,CanEditCompanies'}}
-            <button id="edit-company" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i> Edit</button>{{/if}}
+            <div class="btn-group">
+              <button type="button" class="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                Export
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#" id="template-upload-link">Select word template</a></li>
+                <li class="divider"></li>
+                <li><a href="#" id="template-help">How does this work?</a></li>
+              </ul>
+            </div>
+            <input type="file" id="template-upload" style="display:none;">
+            <button id="edit-company" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+            {{/if}}
             {{#if isInRole 'Administrator,CanDeleteCompanies'}}
             <a href="#" id="remove-company" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Delete</a>{{/if}}
           </div>
@@ -117,7 +101,13 @@
           {{/each}}
         </ul>
       </div>
-      {{/if}} {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="company" entity_id=_id}} {{/with}} {{/if}}
+      {{/if}} 
+
+      {{#if isInRole 'Administrator,CanReadTasks'}} 
+      {{#with this}} 
+        {{> taskDisplay entity_type="company" entity_id=_id}} 
+      {{/with}} 
+      {{/if}}
 
       <div>
         {{#if isInRole 'Administrator,CanEditCompanies'}} {{#with this}} {{> customFieldDisplay entity_data=this entity_type='company'}} {{/with}} {{/if}}
@@ -155,10 +145,10 @@
   </div>
 
   <div class="row">
-    <div class="col-md-10 col-md-offset-2">
+    <div class="col-md-11 col-md-offset-1">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a href="#" class="btn btn-primary pull-right" id="add-activity" data-toggle="tooltip" data-placement="bottom" title="New activity for this company"><i class="fa fa-fw fa-plus"></i> Add</a>
+        <a href="#" class="btn btn-primary{{#unless isMobile}} pull-right{{/unless}}" id="add-activity" data-toggle="tooltip" data-placement="bottom" title="New activity for this company"><i class="fa fa-fw fa-plus"></i> Add</a>
       </h1>
 
       {{> activityTimeline activities=activities}}

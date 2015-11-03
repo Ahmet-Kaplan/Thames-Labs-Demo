@@ -3,41 +3,27 @@
   {{setPageTitle 'Purchase Orders'}}
 
   <div class="row">
-    <div class="col-md-3">
-      <div class="sidebar">
-        <h1>Actions</h1>
-        {{> EasySearch.Input index=PurchaseOrdersIndex attributes=searchInputAttributes}}
-        {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
-        <div class="btn-group-vertical">
-          <a href="#" id="add-purchase-order" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
-        </div>
-        {{/if}}
-      </div>
-    </div>
-
-    <div class="col-md-9" id="purchase-order-list">
+    <div class="col-md-12" id="purchase-order-list">
       <h1><i class="fa fa-shopping-cart"></i> Purchase Orders</h1>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=PurchaseOrdersIndex}}
-      </div>
-      <small>{{purchaseOrderCount}} record{{#if hasMultiplePurchaseOrders}}s{{/if}}</small>
 
-      <div class="list-group">
-        {{#EasySearch.Each index=PurchaseOrdersIndex}}
-          {{> purchaseOrderListItem}}
-        {{/EasySearch.Each}}
-
-        {{#EasySearch.IfNoResults index=PurchaseOrdersIndex}}
-          <h4>No purchase orders found</h4>
-        {{/EasySearch.IfNoResults}}
-
-        {{#EasySearch.IfSearching index=PurchaseOrdersIndex}}
-          {{> spinner}}
-        {{/EasySearch.IfSearching}}
+      <!-- This should probably be refactored into a "search toolbar" template -->
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-6">
+            {{> EasySearch.Input index=PurchaseOrdersIndex attributes=searchInputAttributes}}
+          </div>
+          <div class="col-md-6">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default" id="export"><i class="fa fa-fw fa-download"></i> Export results to CSV</button>
+              {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+                <a href="#" id="add-purchase-order" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+P"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
+              {{/if}}
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=PurchaseOrdersIndex}}
-      </div>
+
+      {{> searchResults index=PurchaseOrdersIndex listItemTemplateName='purchaseOrderListItem'}}
 
     </div>
   </div>
