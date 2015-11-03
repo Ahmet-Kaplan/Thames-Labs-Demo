@@ -34,44 +34,48 @@ Template.taskDetail.helpers({
       case 'company':
         var handle = Meteor.subscribe("companyById", this.entityId);
         if (handle && handle.ready()) {
-          var c = Companies.find({}).fetch()[0];
+          var c = Companies.findOne({});
           entityData = {
             type: 'Company',
             icon: 'building',
-            name: c.name
+            name: c.name,
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadCompanies'])
           };
         }
         break;
       case 'contact':
         var handle = Meteor.subscribe("contactById", this.entityId);
         if (handle && handle.ready()) {
-          var c = Contacts.find({}).fetch()[0];
+          var c = Contacts.find({}).findOne({});
           entityData = {
             type: 'Contact',
             icon: 'user',
-            name: c.forename + " " + c.surname
+            name: c.forename + " " + c.surname,
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadContacts'])
           };
         }
         break;
       case 'project':
         var handle = Meteor.subscribe("projectById", this.entityId);
         if (handle && handle.ready()) {
-          var p = Projects.find({}).fetch()[0];
+          var p = Projects.find({}).findOne({});
           entityData = {
             type: 'Project',
             icon: 'sitemap',
-            name: p.name
+            name: p.name,
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProjects'])
           };
         }
         break;
       case 'opportunity':
         var handle = Meteor.subscribe("opportunityById", this.entityId);
         if (handle && handle.ready()) {
-          var p = Opportunities.find({}).fetch()[0];
+          var p = Opportunities.findOne({});
           entityData = {
             type: 'Opportunity',
             icon: 'lightbulb-o',
-            name: p.name
+            name: p.name,
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadOpportunities'])
           };
         }
         break;
@@ -79,7 +83,8 @@ Template.taskDetail.helpers({
         entityData = {
           type: 'Misc. task',
           icon: '',
-          name: "No associated entity"
+          name: "No associated entity",
+          permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadTasks'])
         };
     }
 
@@ -111,7 +116,7 @@ Template.taskDetail.events({
     event.preventDefault();
     Modal.show('updateTask', this);
   },
-  'click #delete-task': function(event) {
+  'click #remove-task': function(event) {
     event.preventDefault();
     var taskId = this._id;
     bootbox.confirm("Are you sure you wish to delete this task?", function(result) {

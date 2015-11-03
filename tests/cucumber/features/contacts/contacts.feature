@@ -230,20 +230,20 @@ Feature: Allow users to manage their Contacts
     Given I have the "CanEditContacts" permission
     And a "Contact" has been created
     When I navigate to a contact page
-    And I add the tag "test-tag" to the "contacts"
+    And I add the tag "test-tag"
     Then the tag field for the "contacts" should contain "test-tag"
 
   Scenario: A user without the CanEditContacts permission cannot edit tags
     Given I do not have the "CanEditContacts" permission
     And a "Contact" has been created
     When I navigate to a contact page
-    Then I should not see the edit tag button for the "contacts"
+    Then I should not see the edit tag button
 
   Scenario: A user with the Administrator permission can edit tags
     Given I have the "Administrator" permission
     And a "Contact" has been created
     When I navigate to a contact page
-    And I add the tag "test-tag" to the "contacts"
+    And I add the tag "test-tag"
     Then the tag field for the "contacts" should contain "test-tag"
 
 

@@ -8,7 +8,6 @@ Feature: Allow users to sign up to the app
     Given I am a logged out user
     And I navigate to "/sign-up"
 
-@dev
 	#Sign up process
 	Scenario: A user should sign up with good details
 		When I sign up with good details

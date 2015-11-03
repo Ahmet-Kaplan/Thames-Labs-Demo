@@ -217,20 +217,20 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "CanEditOpportunities" permission
     And a "Opportunity" has been created
     When I navigate to an opportunity page
-    And I add the tag "test-tag" to the "opportunities"
+    And I add the tag "test-tag"
     Then the tag field for the "opportunities" should contain "test-tag"
 
   Scenario: A user without the CanEditOpportunities permission cannot edit tags
     Given I do not have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
     When I navigate to an opportunity page
-    Then I should not see the edit tag button for the "opportunities"
+    Then I should not see the edit tag button
 
   Scenario: A user with the Administrator permission can edit tags
     Given I have the "Administrator" permission
     And an "Opportunity" has been created
     When I navigate to an opportunity page
-    And I add the tag "test-tag" to the "opportunities"
+    And I add the tag "test-tag"
     Then the tag field for the "opportunities" should contain "test-tag"
 
   #Tasks

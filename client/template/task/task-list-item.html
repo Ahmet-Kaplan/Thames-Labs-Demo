@@ -1,4 +1,5 @@
 <template name="task">
+{{#if entityDetails.permissionToRead}}
   <a class="list-group-item" href="tasks/{{taskId}}">
     <div class="row">
       <div class="col-md-3">
@@ -49,4 +50,5 @@
       </div>
     </div>
   </a>
+{{/if}}
 </template>

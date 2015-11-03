@@ -55,7 +55,7 @@
           {{/if}} 
           {{/if}} 
           {{#unless isPersonalTask}}
-          {{#if isInRole 'Administrator,CanReadTasks'}}
+          {{#if entityDetails.permissionToRead}}
             <a href="{{pathFor route=entityType id=entityId}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to {{entityType}} details">
               <h4><i class="fa fa-fw fa-{{entityDetails.icon}}"></i> {{entityDetails.type}}</h4>
               <i class="fa fa-fw fa-chevron-right pull-right"></i>

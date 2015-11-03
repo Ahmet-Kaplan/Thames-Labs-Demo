@@ -151,7 +151,7 @@ Feature: Allow users to manage their Projects
     And I have the "CanReadCompanies" permission
     And a "Project" has been created
     When I navigate to a project page
-    And I add the tag "test-tag" to the "projects"
+    And I add the tag "test-tag"
     Then the tag field for the "projects" should contain "test-tag"
 
   Scenario: A user without the CanEditProjects permission cannot edit tags
@@ -159,13 +159,13 @@ Feature: Allow users to manage their Projects
     And I have the "CanReadCompanies" permission
     And a "Project" has been created
     When I navigate to a project page
-    Then I should not see the edit tag button for the "projects"
+    Then I should not see the edit tag button
 
   Scenario: A user with the Administrator permission can edit tags
     Given I have the "Administrator" permission
     And a "Project" has been created
     When I navigate to a project page
-    And I add the tag "test-tag" to the "projects"
+    And I add the tag "test-tag"
     Then the tag field for the "projects" should contain "test-tag"
 
 

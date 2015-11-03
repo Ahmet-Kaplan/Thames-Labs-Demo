@@ -42,46 +42,52 @@ Template.task.helpers({
       case 'company':
         var handle = Meteor.subscribe("companyById", this.entityId);
         if (handle && handle.ready()) {
-          var c = Companies.find({}).fetch()[0];
+          var c = Companies.findOne({_id: this.entityId});
           entityData = {
             icon: 'building',
-            name: c.name
+            name: c.name,
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadCompanies'])
           };
         }
         break;
       case 'contact':
         var handle = Meteor.subscribe("contactById", this.entityId);
         if (handle && handle.ready()) {
-          var c = Contacts.find({}).fetch()[0];
+          var c = Contacts.findOne({_id: this.entityId});
           entityData = {
             icon: 'user',
-            name: c.forename + " " + c.surname
+            name: c.forename + " " + c.surname,
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadContacts'])
           };
         }
         break;
       case 'project':
         var handle = Meteor.subscribe("projectById", this.entityId);
         if (handle && handle.ready()) {
-          var p = Projects.find({}).fetch()[0];
+          var p = Projects.findOne({_id: this.entityId});
           entityData = {
             icon: 'sitemap',
-            name: p.name
+            name: p.name,
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProjects'])
           };
         }
         break;
       case 'opportunity':
         var handle = Meteor.subscribe("opportunityById", this.entityId);
         if (handle && handle.ready()) {
-          var p = Opportunities.find({}).fetch()[0];
+          var p = Opportunities.findOne({_id: this.entityId});
           entityData = {
             icon: 'lightbulb-o',
-            name: p.name
+            name: p.name,
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadOpportunities'])
           };
         }
         break;
       default:
         entityData = {
-          name: "Misc. task"
+          icon: "check",
+          name: "Misc. task",
+          permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadTasks'])
         };
     }
 

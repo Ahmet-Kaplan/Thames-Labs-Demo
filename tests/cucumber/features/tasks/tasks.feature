@@ -8,7 +8,7 @@ Feature: Allow users to manage their Tasks
     Given a user exists
     And I am a logged in user
     And I have the "CanReadTasks" permission
-    
+
 
   #Reading
   Scenario: A user can see the tasks list
@@ -22,9 +22,9 @@ Feature: Allow users to manage their Tasks
 
   Scenario: A user with read permissions can see a task
     Given a "Company" task has been created
-    And I have the "CanEditTasks" permission
-    When I navigate to "/tasks"
-    And I should see the heading "Tasks"
+    And I have the "CanReadCompanies" permission
+    When I navigate to a task page
+    And I should see the heading "test task"
 
   Scenario: An administrator can add CanReadTasks permission
     Given I have the "Administrator" permission
@@ -45,6 +45,97 @@ Feature: Allow users to manage their Tasks
     When I navigate to "/tasks"
     Then I should see the heading "Tenants"
 
+  #Creating
+  Scenario: A user can create a task
+    Given I have the "CanCreateTasks" permission
+    And I have the "CanReadCompanies" permission
+    And a "Company" task has been created
+    When I navigate to "/tasks"
+    And I click "#addTaskDropdown"
+    And I click "#company"
+    And I set text field "title" to "test task 2"
+    And I set textarea "description" to "This is another test task."
+    And I selectize "assigneeId" to "test user"
+    And I selectize "entityId" to "Test Ltd"
+    And I submit the "newTask" form
+    Then I should see the heading "test task 2"
+
+  Scenario: A user without permission cannot create a tasks
+    Given I do not have the "CanCreateTasks" permission
+    When I navigate to "/tasks"
+    Then I should not see "#addTaskDropdown"
+
+  Scenario: An administrator can add CanCreateTasks permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I add permission "CanCreate" on "Tasks" to a restricted user
+    Then the restricted user should have the "CanCreateTasks" permission
+
+  Scenario: An administrator can remove CanCreateTasks permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I remove permissions on "Tasks" from a restricted user
+    Then the restricted user should not have the "CanCreateTasks" permission
+
+  #Editing
+  Scenario: A user can edit a task
+    Given I have the "CanEditTasks" permission
+    And I have the "CanReadCompanies" permission
+    And a "Company" task has been created
+    When I navigate to a task page
+    And I click "#edit-task"
+    And I set text field "title" to "updated task title"
+    And I submit the "editTask" form
+    Then I should see the heading "updated task title"
+
+  Scenario: A user without permission cannot edit a task
+    Given I do not have the "CanEditTasks" permission
+    And I have the "CanReadCompanies" permission
+    And a "Company" task has been created
+    When I navigate to a task page
+    Then I should not see "#edit-task"
+
+  Scenario: An administrator can add CanEditTasks permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I add permission "CanEdit" on "Tasks" to a restricted user
+    Then the restricted user should have the "CanEditTasks" permission
+
+  Scenario: An administrator can remove CanEditTasks permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I remove permissions on "Tasks" from a restricted user
+    Then the restricted user should not have the "CanEditTasks" permission
+
+  #Deleting
+  Scenario: A user can delete a task
+    Given I have the "CanDeleteTasks" permission
+    And I have the "CanReadCompanies" permission
+    And a "Company" task has been created
+    When I navigate to a task page
+    And I click "#remove-task"
+    And I click confirm on the modal
+    Then I should see the heading "Tasks"
+
+  Scenario: A user without permission cannot delete a task
+    Given I do not have the "CanDeleteTasks" permission
+    And I have the "CanReadCompanies" permission
+    And a "Company" task has been created
+    When I navigate to a task page
+    Then I should not see "#remove-task"
+
+  Scenario: An administrator can add CanDeleteTasks permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I add permission "CanDelete" on "Tasks" to a restricted user
+    Then the restricted user should have the "CanDeleteTasks" permission
+
+  Scenario: An administrator can remove CanDeleteTasks permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I remove permissions on "Tasks" from a restricted user
+    Then the restricted user should not have the "CanDeleteTasks" permission
+
   #Menu item permissions
   Scenario: A restricted user cannot see the Tasks menu item without the correct permission
     Given I do not have the "CanReadTasks" permission
@@ -59,23 +150,23 @@ Feature: Allow users to manage their Tasks
     Given I have the "CanEditTasks" permission
     And I have the "CanReadCompanies" permission
     And a "Company" task has been created
-    When I navigate to a company page
-    And I click "#displayedTaskHeading"
-    And I add the tag "test-tag" to the "tasks"
+    When I navigate to a task page
+    And I click ".editTags"
+    And I add the tag "test-tag"
     Then the tag field for the "tasks" should contain "test-tag"
 
   Scenario: A user without the CanEditTasks permission cannot edit tags
     Given I have the "CanReadCompanies" permission
     Given I do not have the "CanEditTasks" permission
     Given a "Company" task has been created
-    When I navigate to a company page
-    And I click "#displayedTaskHeading"
-    Then I should not see the edit tag button for the "tasks"
+    When I navigate to a task page
+    And I click ".editTags"
+    Then I should not see the edit tag button
 
   Scenario: A user with the Administrator permission can edit tags
     Given I have the "Administrator" permission
     And a "Company" task has been created
-    When I navigate to a company page
-    And I click "#displayedTaskHeading"
-    And I add the tag "test-tag" to the "tasks"
+    When I navigate to a task page
+    And I click ".editTags"
+    And I add the tag "test-tag"
     Then the tag field for the "tasks" should contain "test-tag"

@@ -33,6 +33,7 @@ AutoForm.hooks({
     onSuccess: function(formType, result) {
       Modal.hide('');
       toastr.success('Task created.');
+      FlowRouter.go('/tasks/' + result)
       //logEvent('info', 'Task created.');
     }
   },
