@@ -103,15 +103,15 @@ Template.cfDisplay.events({
               }
             });
             break;
-          case "contact":
+          case "project":
             var parentProject = Projects.findOne(self.parentEntity.entity_data._id);
             var cfMaster = {};
-            for (var cf in parentContact.customFields) {
+            for (var cf in parentProject.customFields) {
               if (cf !== self.name) {
-                cfMaster[cf] = parentContact.customFields[cf];
+                cfMaster[cf] = parentProject.customFields[cf];
               }
             }
-            Projects.update(parentContact._id, {
+            Projects.update(parentProject._id, {
               $set: {
                 customFields: cfMaster
               }

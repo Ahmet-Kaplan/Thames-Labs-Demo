@@ -76,6 +76,26 @@ Template.importContactMapper.helpers({
       html += '<option>' + f + '</option>';
     });
     return html;
+  },
+  ExtInfoFields: function() {
+    var lnkData = this.dataSet;
+    var html = "";
+    _.each(lnkData.meta.fields, function(f) {
+      html += '<option>' + f + '</option>';
+    });
+
+    var user = Meteor.users.findOne({
+      _id: Meteor.userId()
+    });
+    var tenant = Tenants.findOne({
+      _id: user.group
+    });
+    return _.map(tenant.settings.extInfo.contact, function(cx) {
+      return {
+        "name": cx["name"].replace(/ /g, '-'),
+        "options": html
+      }
+    });
   }
 });
 
@@ -97,7 +117,20 @@ Template.importContactMapper.events({
 
 
     _.each(this.dataSet.data, function(row) {
-      Meteor.call('import.AddNewContact', row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn,  function(err, res) {
+      var cfArray = [];
+      var elems = $('#extInfoSpecifiers').find('.extInfoOption');
+      _.each(elems, function(ex) {
+        var refId = ex.getAttribute("id");
+        var cfValue = $('#' + refId).val();
+        var cfName = refId.replace(/-/g, ' ').replace(/EXCOL_/g, '');
+        var cfo = {
+          refName: cfName,
+          refVal: cfValue
+        }
+        cfArray.push(cfo);
+      });
+
+      Meteor.call('import.AddNewContact', row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, function(err, res) {
         if (err) throw new Meteor.Error(err);
         if (res !== "OK") throw new Meteor.Error(res);
       });

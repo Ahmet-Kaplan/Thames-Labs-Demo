@@ -1,6 +1,6 @@
 Meteor.methods({
 
-  'import.AddNewCompany': function(row, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn) {
+  'import.AddNewCompany': function(row, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray) {
 
     var user = Meteor.users.findOne({
       _id: this.userId
@@ -37,6 +37,41 @@ Meteor.methods({
                   return err;
                 }
 
+                if (inserted) {
+                  var company = Companies.findOne({
+                    _id: inserted
+                  });
+                  var customFields = company.customFields;
+                  var cfMaster = {};
+
+                  for (var index in customFields) {
+                    if (customFields.hasOwnProperty(index)) {
+
+                      var attr = customFields[index];
+
+                      if (attr.isGlobal) {
+                        for (var x in cfArray) {
+
+                          if (cfArray[x].refName === index) {
+                            var settings = {
+                              "dataValue": row[cfArray[x].refVal],
+                              "dataType": attr.dataType,
+                              isGlobal: true
+                            }
+                            cfMaster[index] = settings;
+                          }
+                        }
+                      }
+                    }
+                  }
+
+                  Companies.update(inserted, {
+                    $set: {
+                      customFields: cfMaster
+                    }
+                  });
+                }
+
               });
 
             return "OK";
@@ -52,7 +87,7 @@ Meteor.methods({
     }
   },
 
-  'import.AddNewContact': function(row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn) {
+  'import.AddNewContact': function(row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray) {
 
     var user = Meteor.users.findOne({
       _id: this.userId
@@ -95,6 +130,41 @@ Meteor.methods({
               function(err, inserted) {
                 if (err) {
                   return err;
+                }
+
+                if (inserted) {
+                  var contact = Contacts.findOne({
+                    _id: inserted
+                  });
+                  var customFields = contact.customFields;
+                  var cfMaster = {};
+
+                  for (var index in customFields) {
+                    if (customFields.hasOwnProperty(index)) {
+
+                      var attr = customFields[index];
+
+                      if (attr.isGlobal) {
+                        for (var x in cfArray) {
+
+                          if (cfArray[x].refName === index) {
+                            var settings = {
+                              "dataValue": row[cfArray[x].refVal],
+                              "dataType": attr.dataType,
+                              isGlobal: true
+                            }
+                            cfMaster[index] = settings;
+                          }
+                        }
+                      }
+                    }
+                  }
+
+                  Contacts.update(inserted, {
+                    $set: {
+                      customFields: cfMaster
+                    }
+                  });
                 }
 
               });
