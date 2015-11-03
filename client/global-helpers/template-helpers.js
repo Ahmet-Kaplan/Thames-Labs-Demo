@@ -64,12 +64,19 @@ Template.registerHelper('ProductsIndex', () => ProductsIndex);
 Template.registerHelper('ProjectsIndex', () => ProjectsIndex);
 Template.registerHelper('PurchaseOrdersIndex', () => PurchaseOrdersIndex);
 Template.registerHelper('UsersIndex', () => UsersIndex);
+Template.registerHelper('TagsIndex', () => TagsIndex);
 
 // Return standard search input attributes for EasySearch
 Template.registerHelper('searchInputAttributes', () => {
   return {
     placeholder: 'Search...',
-    class: 'form-control',
+    class: 'form-control easysearch-input',
     autofocus: true
   };
+});
+
+// Allow extended context without overwriting
+Template.registerHelper('extendContext', function(key, value) {
+  this[key] = value;
+  return this;
 });

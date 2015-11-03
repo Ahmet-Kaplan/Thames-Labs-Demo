@@ -45,6 +45,10 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
       } else {
         selector.isArchived = { $ne: true };
       }
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = { $in: options.search.props.tags.split(',') };
+      }
       return selector;
     }
   })

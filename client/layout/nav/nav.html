@@ -156,9 +156,14 @@
         </a>
       </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadOpportunities'}}
-      <li class="panel-title {{isActiveRoute regex='opportunities|opportunity|salespipeline'}}">
+      <li class="panel-title {{isActiveRoute regex='opportunities|opportunity'}}">
         <a href='/opportunities' class="dismiss-on-click" id="menuLinkOpportunities">
           <i class="fa fa-fw fa-lightbulb-o"></i> Opportunities
+        </a>
+      </li>
+      <li class="panel-title {{isActiveRoute regex='salespipeline'}}">
+        <a href="{{pathFor route='salespipeline'}}" class="dismiss-on-click" id="menuLinkSalespipeline">
+          <i class="fa fa-fw fa-filter"></i> Sales Pipeline
         </a>
       </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadProjects'}}
