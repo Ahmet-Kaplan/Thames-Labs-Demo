@@ -91,7 +91,7 @@ Template.taskDisplay.events({
           completed: true,
           completedAt: new Date()
         }});
-      } 
+      }
     }
       //Hack to artificially refresh display if completed are not showed
       if (Session.get('showCompleted') === 0) {

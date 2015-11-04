@@ -11,6 +11,9 @@ Template.task.helpers({
     }
   },
   formattedDueDate: function() {
+    if(!this.dueDate) {
+      return;
+    }
     if (this.isAllDay) {
       var a = moment(new Date());
       a.hour(0);
@@ -129,7 +132,7 @@ Template.task.events({
             completed: true,
             completedAt: new Date()
           }});
-        } 
+        }
       })
     }
   }
