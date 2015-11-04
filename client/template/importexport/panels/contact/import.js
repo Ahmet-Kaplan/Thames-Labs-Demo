@@ -3,9 +3,6 @@ Template.contactDataManagement.events({
     event.preventDefault();
     Modal.show('importContactHelpModal');
   },
-  'click #contact-template-download-link': function() {
-    generateCompanyImportTemplate();
-  },
   'click #contact-data-upload-link': function() {
     document.getElementById('contact-data-upload').click();
   },
@@ -39,34 +36,6 @@ Template.contactDataManagement.events({
     $('#contact-data-upload').val('');
   }
 });
-
-generateContactImportTemplate = function() {
-  var tempFile = [];
-  var entry = {
-    forename: "Fred",
-    surname: "Bloggs",
-    email: "fred.bloggs@sample.co.uk",
-    phone: "01234 567 890",
-    mobile: "07123456789",
-    jobtitle: "Director",
-    company: "Sample",
-    address: "123 Sample Street",
-    city: "Sampleton",
-    county: "Sampleford",
-    postcode: "SM13 0AB",
-    country: "United Kingdom"
-  };
-
-  tempFile.push(entry);
-
-  var filename = 'realtimecrm-contact-import-template.csv';
-  var fileData = Papa.unparse(tempFile);
-
-  var blob = new Blob([fileData], {
-    type: "text/csv;charset=utf-8"
-  });
-  saveAs(blob, filename);
-}
 
 Template.importContactMapper.helpers({
   requiredDataInputs: function() {

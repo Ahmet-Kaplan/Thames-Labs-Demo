@@ -3,9 +3,6 @@ Template.companyDataManagement.events({
     event.preventDefault();
     Modal.show('importCompanyHelpModal');
   },
-  'click #company-template-download-link': function() {
-    generateCompanyImportTemplate();
-  },
   'click #company-data-upload-link': function() {
     document.getElementById('company-data-upload').click();
   },
@@ -39,31 +36,6 @@ Template.companyDataManagement.events({
     $('#company-data-upload').val('');
   }
 });
-
-generateCompanyImportTemplate = function() {
-  var tempFile = [];
-  var entry = {
-    name: "Sample",
-    address: "123 Sample Street",
-    address2: "Samplesville",
-    city: "Sampleton",
-    county: "Sampleford",
-    postcode: "SM13 0AB",
-    country: "United Kingdom",
-    website: "http://www.sample.co.uk",
-    phone: "01234 567 890"
-  };
-
-  tempFile.push(entry);
-
-  var filename = 'realtimecrm-company-import-template.csv';
-  var fileData = Papa.unparse(tempFile);
-
-  var blob = new Blob([fileData], {
-    type: "text/csv;charset=utf-8"
-  });
-  saveAs(blob, filename);
-}
 
 Template.importCompanyMapper.helpers({
   requiredDataInputs: function() {
