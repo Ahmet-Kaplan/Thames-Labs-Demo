@@ -21,7 +21,7 @@ Tasks.helpers({
 
 Collections.tasks.index = TasksIndex = new EasySearch.Index({
   collection: Tasks,
-  fields: ['title', 'tags'],
+  fields: ['title'],
   engine: new EasySearch.MongoDB({
     sort: () => {
       return { 'title': 1 }
@@ -41,6 +41,17 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
       var userId = options.search.userId;
+      console.log(options.search.props)
+
+      if(options.search.props.searchInputs) {
+        var searchInputs = [new RegExp(options.search.props.searchInputs + '+')];
+        selector.title = {$in: searchInputs}
+      }
+
+      if(options.search.props.assigneeId) {
+        selector.assigneeId = {$eq: userId}
+      }
+
       if (options.search.props.showCompleted) {
         selector.completed = true;
       } else {
