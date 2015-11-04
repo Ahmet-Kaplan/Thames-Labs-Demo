@@ -157,3 +157,34 @@
     </div>
   </div>
 </template>
+
+<template name="insertTaskActivityModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4> Add new activity</h4>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Activities" id="insertTaskActivityForm" type="insert"}}
+            {{> afQuickField name="type" options="allowed"}}
+            {{#if IsIEAnd10OrGreater}}
+              {{> afQuickField name="notes"}}
+            {{else}}
+              {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
+            {{/if}}
+            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
+            {{> afQuickField name="taskId" type="hidden" value=task._id}}
+            {{> afQuickField name="createdBy" value=currentUser }}
+            <button type="submit" class="btn btn-primary">Create</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

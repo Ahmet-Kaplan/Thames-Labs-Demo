@@ -1,12 +1,12 @@
 Feature: Allow users to sign up to the app
 
-	As a potential user of the app
-	I want to sign up
-	So that I can utilise the app
+  As a potential user of the app
+  I want to sign up
+  So that I can utilise the app
 
-	Background:
-		Given I am a logged out user
-		And I navigate to "/sign-up"
+  Background:
+    Given I am a logged out user
+    And I navigate to "/sign-up"
 
 	#Sign up process
 	Scenario: A user should sign up with good details

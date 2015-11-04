@@ -206,20 +206,22 @@ Feature: Allow users to manage their Companies
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
-    And I add the tag "test-tag" to the "companies"
+    And I click ".editTags"
+    And I add the tag "test-tag"
     Then the tag field for the "companies" should contain "test-tag"
 
   Scenario: A user without the CanEditCompanies permission cannot edit tags
     Given I do not have the "CanEditCompanies" permission
     Given a "Company" has been created
     When I navigate to a company page
-    Then I should not see the edit tag button for the "companies"
+    Then I should not see the edit tag button
 
   Scenario: A user with the Administrator permission can edit tags
     Given I have the "Administrator" permission
     And a "Company" has been created
     When I navigate to a company page
-    And I add the tag "test-tag" to the "companies"
+    And I click ".editTags"
+    And I add the tag "test-tag"
     Then the tag field for the "companies" should contain "test-tag"
 
 
@@ -234,29 +236,7 @@ Feature: Allow users to manage their Companies
     And I selectize "assigneeId" to "test user"
     When I set text field "title" to "task title"
     And I submit the "newTask" form
-    Then I should see ".task"
-
-  Scenario: A user can edit a task in a company
-    Given I have the "CanReadTasks" permission
-    And I have the "CanEditTasks" permission
-    And a "Company" task has been created
-    When I navigate to a company page
-    Then I should see ".edit-task"
-    When I click ".edit-task"
-    Then I should see a modal
-    When I set text field "title" to "updated title"
-    And I submit the "editTask" form
-    Then the task title should contain "updated title"
-
-  Scenario: A user can delete a task in a company
-    Given I have the "CanReadTasks" permission
-    And I have the "CanDeleteTasks" permission
-    And a "Company" task has been created
-    When I navigate to a company page
-    And I click ".delete-task"
-    And I should see a modal
-    And I click confirm on the modal
-    Then I should not see ".task"
+    Then I should see the heading "task title"
 
   Scenario: A user without the CanReadTasks permission cannot see tasks in a company
     Given I do not have the "CanReadTasks" permission
@@ -270,17 +250,3 @@ Feature: Allow users to manage their Companies
     And a "Company" has been created
     When I navigate to a company page
     Then I should not see "#btnAddTaskToEntity"
-
-  Scenario: A user without the CanEditTasks permission cannot edit a task in a company
-    Given I have the "CanReadTasks" permission
-    And I do not have the "CanEditTasks" permission
-    And a "Company" task has been created
-    When I navigate to a company page
-    Then I should not see ".edit-task"
-
-  Scenario: A user without the CanDeleteTasks permission cannot delete a task in a company
-    Given I have the "CanReadTasks" permission
-    And I do not have the "CanDeleteTasks" permission
-    And a "Company" task has been created
-    When I navigate to a company page
-    Then I should not see ".delete-task"

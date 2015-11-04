@@ -64,6 +64,7 @@ Template.registerHelper('ProductsIndex', () => ProductsIndex);
 Template.registerHelper('ProjectsIndex', () => ProjectsIndex);
 Template.registerHelper('PurchaseOrdersIndex', () => PurchaseOrdersIndex);
 Template.registerHelper('UsersIndex', () => UsersIndex);
+Template.registerHelper('TasksIndex', () => TasksIndex);
 Template.registerHelper('TagsIndex', () => TagsIndex);
 
 // Return standard search input attributes for EasySearch
