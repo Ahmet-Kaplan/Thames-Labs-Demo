@@ -22,6 +22,14 @@ Template.activityTimeline.helpers({
   },
   content: function() {
     return UniHTML.purify(this.notes);
+  },
+  ownActivity: function(createdBy) {
+    return createdBy === Meteor.userId();
+  },
+  otherUser: function(createdBy) {
+    return Meteor.users.findOne({
+      _id: createdBy
+    }).profile.name;
   }
 });
 

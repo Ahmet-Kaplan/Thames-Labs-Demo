@@ -26,6 +26,9 @@
                 {{#if contact}}
                 | <a href="{{pathFor route="contact" id=contact._id}}">{{contact.name}}</a>
                 {{/if}}
+                {{#unless ownActivity createdBy}}
+                  <span class="pull-right" data-toggle="tooltip" title="{{otherUser createdBy}} created this activity">{{otherUser createdBy}}</span>
+                {{/unless}}
               </small>
             </p>
           </div>

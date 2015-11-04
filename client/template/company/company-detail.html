@@ -21,10 +21,10 @@
             <div class="btn-group">
               <button type="button" class="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
-                Export
+                Extract to...
               </button>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#" id="template-upload-link">Select word template</a></li>
+                <li><a href="#" id="template-upload-link">Microsoft Word template</a></li>
                 <li class="divider"></li>
                 <li><a href="#" id="template-help">How does this work?</a></li>
               </ul>
@@ -101,12 +101,12 @@
           {{/each}}
         </ul>
       </div>
-      {{/if}} 
+      {{/if}}
 
-      {{#if isInRole 'Administrator,CanReadTasks'}} 
-      {{#with this}} 
-        {{> taskDisplay entity_type="company" entity_id=_id}} 
-      {{/with}} 
+      {{#if isInRole 'Administrator,CanReadTasks'}}
+      {{#with this}}
+        {{> taskDisplay entity_type="company" entity_id=_id}}
+      {{/with}}
       {{/if}}
 
       <div>
