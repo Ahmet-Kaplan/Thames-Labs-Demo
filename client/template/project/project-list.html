@@ -10,23 +10,30 @@
       <!-- This should probably be refactored into a "search toolbar" template -->
       <div class="stick-bar">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-4">
             {{> EasySearch.Input index=ProjectsIndex attributes=searchInputAttributes}}
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             {{> tagSearch collection='projects' }}
           </div>
-          <div class="col-md-6">
+          <div class="col-md-2" id="btn-group" >
             <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default" id="export"><i class="fa fa-fw fa-download"></i> Export results to CSV</button>
-              {{#if isInRole 'Administrator,CanCreateProjects'}}
-            <a href="#" id="add-project" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</a>
-              {{/if}}
+              <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
+              <button id="#ref_projectOverviewWidget" class="btn btn-default" data-toggle="popover" title="Projects Overview" data-content="
+              <div><ul class='list-unstyled'>
+                <li>Projects:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalProjects}}</span></li>
+                <li>Active projects:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{activeProjects}}</span></li>
+                <li>Active projects total value:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>£{{activeProjectTotal}}</span></li>
+                <li>Active projects average value:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>£{{activeProjectsAverage}}</span></li></ul>
+              </div>">
+              <i class="fa fa-fw fa-tasks"></i></button>
             </div>
           </div>
-          <div class="col-md-3">
-            {{> projectOverviewWidget}}
-          </div>
+          <div class="col-md-2">
+          {{#if isInRole 'Administrator,CanCreateProjects'}}
+            <a href="#" id="add-project" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</a>
+          {{/if}}
+        </div>
         </div>
       </div>
 
@@ -34,4 +41,9 @@
 
     </div>
   </div>
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="popover"]').popover({html : true, placement : "bottom", container: '#btn-group'});
+    });
+  </script>
 </template>

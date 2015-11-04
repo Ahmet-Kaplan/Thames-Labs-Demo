@@ -10,27 +10,33 @@
       <!-- This should probably be refactored into a "search toolbar" template -->
       <div class="stick-bar">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-2">
             {{> EasySearch.Input index=OpportunitiesIndex attributes=searchInputAttributes}}
           </div>
           <div class="col-md-3">
             {{> tagSearch collection='opportunities' }}
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3" id="btn-group">
             <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default" id="export"><i class="fa fa-fw fa-download"></i> Export results to CSV</button>
-              <button id="toggle-archived" class="btn btn-default">Show {{#if archivedShown}}Active{{else}}Archived{{/if}}</button>
-              {{#if isInRole 'Administrator,CanCreateOpportunities'}}
-                <button id="create-opportunity" type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Add Opportunity (Ctrl+Alt+O)"><i class="fa fa-fw fa-plus"></i></button>
-              {{/if}}
+              <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" data-placement="bottom" title="Export results to CSV"><i class="fa fa-fw fa-download"></i></button>
               {{#if archivedShown}}
-              <button id="toggle-archived" class="btn btn-default" data-toggle="tooltip" title="Show Active Opportunities" data-placement="bottom"><i class="fa fa-fw fa-folder-open"></i></button>
+              <button id="toggle-archived" class="btn btn-default"><i class="fa fa-fw fa-folder-open"></i></button>
               {{else}}
-              <button id="toggle-archived" class="btn btn-default" data-toggle="tooltip" title="Show Archived Opportunities" data-placement="bottom"><i class="fa fa-fw fa-folder"></i></button>
+              <button id="toggle-archived" class="btn btn-default"><i class="fa fa-fw fa-folder"></i></button>
               {{/if}}
-              <a href="{{pathFor route='salespipeline'}}" class="btn btn-default">Sales pipeline</a>
-              {{> oppsOverviewWidget}}
+              <button id="#ref_oppsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Opportunities Overview" data-content="
+                <div><ul class='list-unstyled'>
+                  <li>Opportunities:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalOpps}}</span></li>
+                  <li>Total Value:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>£{{totalOppValue}}</span></li>
+                  <li>Average Value:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>£{{averageOppValue}}</span></li></ul>
+                </div>">
+              <i class="fa fa-fw fa-tasks"></i></button>
             </div>
+          </div>
+          <div class="col-md-3">
+            {{#if isInRole 'Administrator,CanCreateOpportunities'}}
+              <button id="create-opportunity" type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+O"><i class="fa fa-fw fa-plus"></i>Add Opportunity</button>
+            {{/if}}
           </div>
         </div>
       </div>
@@ -39,4 +45,9 @@
 
     </div>
   </div>
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="popover"]').popover({html : true, placement : "bottom", container: '#btn-group'});
+    });
+  </script>
 </template>

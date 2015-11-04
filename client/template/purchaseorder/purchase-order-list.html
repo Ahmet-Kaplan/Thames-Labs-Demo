@@ -12,16 +12,25 @@
           <div class="col-md-4">
             {{> EasySearch.Input index=PurchaseOrdersIndex attributes=searchInputAttributes}}
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2" id="btn-group">
             <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default" id="export"><i class="fa fa-fw fa-download"></i> Export results to CSV</button>
-              {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
-                <a href="#" id="add-purchase-order" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+P"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
-              {{/if}}
+              <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
+              <button id="#ref_poOverviewWidget" class="btn btn-default" data-toggle="popover" title="Purchase Orders Overview" data-content="
+              <div><ul class='list-unstyled'>
+                <li>Purchase Orders:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalPurchaseOrders}}</span></li>
+                <li>Approved:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalApprovedPo}}</span></li>
+                <li>Arrived:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalArrivedPo}}</span></li>
+                <li>Closed:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalClosedPo}}</span></li>
+                <li>Cancelled:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalCancelledPo}}</span></li>
+                <li>Rejected:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalRejectedPo}}</span></li>
+              </div>">
+              <i class="fa fa-fw fa-tasks"></i></button>
             </div>
           </div>
           <div class="col-md-3">
-            {{> poOverviewWidget}}
+            {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+              <a href="#" id="add-purchase-order" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+P"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
+            {{/if}}
           </div>
         </div>
       </div>
@@ -30,4 +39,9 @@
 
     </div>
   </div>
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="popover"]').popover({html : true, placement : "bottom", container: "#btn-group"});
+    });
+  </script>
 </template>
