@@ -4,12 +4,6 @@
 
   <div class="stick-bar">
     <div class="row">
-<<<<<<< HEAD
-      {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
-      <div class="col-md-2">
-        <div class="dropdown">
-          <button class="btn btn-primary dropdown-toggle{{#if isMobile}} btn-fullWidth{{/if}}" type="button" id="addTaskDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Add Task <span class="caret"></span>
       <div class="col-md-3">
         {{> EasySearch.Input index=TasksIndex attributes=searchInputAttributes}}
       </div>
@@ -23,7 +17,6 @@
           </button>
           <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
             Show completed
->>>>>>> master
           </button>
         </div>
       </div>
@@ -48,7 +41,6 @@
         </div>
       </div>
       {{/if}}
-      {{> tasksOverviewWidget}}
     </div>
   </div>
 
