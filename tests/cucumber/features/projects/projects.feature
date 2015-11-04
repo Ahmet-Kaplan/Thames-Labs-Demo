@@ -170,6 +170,7 @@ Feature: Allow users to manage their Projects
     And I add the tag "test-tag"
     Then the tag field for the "projects" should contain "test-tag"
 
+@dev
   #Extended information fields
   Scenario: A user can open the "Add Extended information fields" modal
     Given I have the "CanEditProjects" permission
@@ -178,6 +179,7 @@ Feature: Allow users to manage their Projects
     And I click "#add-custom-field"
     Then I should see a modal
 
+@dev
   Scenario: A user can add an extended information field
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
@@ -188,6 +190,7 @@ Feature: Allow users to manage their Projects
     And I click "#submit-custom-field"
     Then I should see ".custom-field-display-item"
 
+@dev
   Scenario: A user can delete an extended information field
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
@@ -200,6 +203,7 @@ Feature: Allow users to manage their Projects
     And I click confirm on the modal
     Then I should not see ".custom-field-display-item"
 
+@dev
   Scenario: A user can edit an extended information field
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
