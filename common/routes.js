@@ -84,11 +84,6 @@ router.route('/statistics', {
 // SUPERADMIN only route
 router.route('/audit', {
   name: 'audit',
-  subscriptions: function() {
-    this.register('allTenants', subs.subscribe('allTenants'));
-    this.register('allUserData', subs.subscribe('allUserData'));
-    this.register('auditData', subs.subscribe('auditData'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: "auditLog"
