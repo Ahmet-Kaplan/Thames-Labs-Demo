@@ -3,7 +3,7 @@ Template.taskDetail.onCreated(function() {
   this.subscribe('activityByTaskId', taskId);
 })
 
-Template.taskDetail.helpers({  
+Template.taskDetail.helpers({
   taskData: function() {
     var taskId = FlowRouter.getParam('id');
     var task = Tasks.findOne(taskId);
@@ -141,7 +141,7 @@ Template.taskDetail.events({
           completed: true,
           completedAt: new Date()
         }});
-      } 
+      }
     }
   }
 })
