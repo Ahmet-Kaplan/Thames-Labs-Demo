@@ -110,15 +110,15 @@ widgets = {
     displayed: false,
     name: 'Propagation Overview'
   },
-  'propagationChart': {
-    id: 'propagationChart',
-    x: 0,
-    y: 0,
-    w: 5,
-    h: 5,
-    displayed: false,
-    name: 'Propagation Overview (Chart)'
-  },
+  // 'propagationChart': {
+  //   id: 'propagationChart',
+  //   x: 0,
+  //   y: 0,
+  //   w: 5,
+  //   h: 10,
+  //   displayed: false,
+  //   name: 'Propagation Overview (Chart)'
+  // },
 };
 //List of widgets used by the user
 myWidgets = {};
