@@ -11,6 +11,9 @@ Template.task.helpers({
     }
   },
   formattedDueDate: function() {
+    if(!this.dueDate) {
+      return;
+    }
     if (this.isAllDay) {
       var a = moment(new Date());
       a.hour(0);
@@ -36,7 +39,8 @@ Template.task.helpers({
         Meteor.subscribe('currentTenantUserData');
         entityData = {
           icon: 'check',
-          name: "Personal task"
+          name: "Personal task",
+          permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadTasks'])
         }
         break;
       case 'company':
@@ -128,7 +132,7 @@ Template.task.events({
             completed: true,
             completedAt: new Date()
           }});
-        } 
+        }
       })
     }
   }
