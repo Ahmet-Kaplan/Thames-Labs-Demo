@@ -1,5 +1,13 @@
 module.exports = function() {
 
+  var url = require('url');
+
+  this.When(/^I navigate to a task page$/, function() {
+    browser.url(url.resolve(process.env.ROOT_URL, '/tasks'));
+    browser.waitForExist('.list-group-item', 2000);
+    browser.click('.list-group-item');
+  });
+
   this.Given(/^an? "([^"]*)" task has been created$/, function(entity) {
     browser.executeAsync(function(entity, done) {
         Meteor.call('add' + entity + 'Task', function(err, data) {
