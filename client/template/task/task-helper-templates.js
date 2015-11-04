@@ -8,7 +8,7 @@ Template.taskDisplay.onRendered(function() {
 
 Template.taskDisplay.helpers({
   showComp: function() {
-    return (Session.get('showCompleted') === 1 ? true : false);
+    return Session.get('showCompleted') === 1;
   },
   isDashboard: function() {
     return isDashboard();
@@ -40,7 +40,26 @@ Template.taskDisplay.helpers({
         }
       });
     }
-  }
+  },
+  taskAssignee: function() {
+    Meteor.subscribe('currentTenantUserData');
+    return Meteor.users.findOne({_id: this.assigneeId}).profile.name;
+  },
+  formattedDueDate: function() {
+    if (this.isAllDay) {
+      var a = moment(new Date());
+      a.hour(0);
+      a.minute(0);
+
+      var b = moment(this.dueDate);
+      if (b.dayOfYear() == a.dayOfYear()) return 'today';
+      if (b.dayOfYear() == a.dayOfYear() - 1) return 'yesterday';
+      if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
+      return b.from(a);
+    } else {
+      return moment(this.dueDate).fromNow();
+    }
+  },
 });
 
 Template.taskDisplay.events({
@@ -55,79 +74,31 @@ Template.taskDisplay.events({
     } else {
       Session.set('showCompleted', 1);
     }
-  }
-});
-
-Template.taskDisplayItem.helpers({
-  friendlyDate: function() {
-    return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
   },
-  isDashboard: function() {
-    return (FlowRouter.getRouteName() === "dashboard" ? true : false);
-  },
-  entityDetails: function() {
-    var dataString = "";
-
-    switch (this.entityType) {
-      case 'user':
-        dataString = "Personal task"
-        break;
-      case 'company':
-        dataString = "Company";
-        var handle = Meteor.subscribe("companyById", this.entityId);
-        if (handle && handle.ready()) {
-          var c = Companies.find({}).fetch()[0];
-          dataString += ": " + c.name;
-        }
-        break;
-      case 'contact':
-        dataString = "Contact";
-        var handle = Meteor.subscribe("contactById", this.entityId);
-        if (handle && handle.ready()) {
-          var c = Contacts.find({}).fetch()[0];
-          dataString += ": " + c.forename + " " + c.surname;
-        }
-        break;
-      case 'project':
-        dataString = "Project";
-        var handle = Meteor.subscribe("projectById", this.entityId);
-        if (handle && handle.ready()) {
-          var p = Projects.find({}).fetch()[0];
-          dataString += ": " + p.description;
-        }
-        break;
-      case 'opportunity':
-        dataString = "Opportunity";
-        var handle = Meteor.subscribe("opportunityById", this.entityId);
-        if (handle && handle.ready()) {
-          var p = Opportunities.find({}).fetch()[0];
-          dataString += ": " + p.description;
-        }
-        break;
-      default:
-        dataString = "Misc. task";
+  'click .task-completed': function(event) {
+    event.preventDefault();
+    var self = this;
+    if (Roles.userIsInRole(Meteor.userId(), ['Administrator','CanEditTasks'])) {
+      var taskId = self._id;
+      if (self.completed) {
+        Tasks.update(taskId, { $set: {
+          completed: false
+        }, $unset: {
+          completedAt: null
+        }});
+      } else {
+        Tasks.update(taskId, { $set: {
+          completed: true,
+          completedAt: new Date()
+        }});
+      } 
     }
-
-    return dataString;
-  }
-});
-
-Template.taskDisplayItem.events({
-  'click #btnEditEntityTask': function(event) {
-    event.preventDefault();
-    Modal.show('updateTask', this);
-  },
-  'click #btnDeleteEntityTask': function(event) {
-    event.preventDefault();
-    var taskId = this._id;
-
-    bootbox.confirm("Are you sure you wish to delete this task?", function(result) {
-      if (result === true) {
-        Tasks.remove(taskId);
+      //Hack to artificially refresh display if completed are not showed
+      if (Session.get('showCompleted') === 0) {
+        $(event.target).parents('.list-group-item').fadeOut(500, () => {
+          Session.set('showCompleted', 1);
+          Session.set('showCompleted', 0);
+        })
       }
-    });
-  },
-  'click .displayedTaskHeading': function() {
-    $('.displayedTaskBody').scrollTop($('.displayedTaskBody').prop("scrollHeight"));
   }
 });

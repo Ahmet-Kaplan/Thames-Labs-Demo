@@ -41,15 +41,20 @@ Template.onRendered(function() {
     window.location.hash = $(this).attr('href');
   });
 
-  var stickBar = $('.stick-bar');
+  var stickBar = this.$('.stick-bar');
   if (stickBar.length > 0 && !bowser.mobile && !bowser.tablet) {
+    var percentWidth = stickBar.width() / window.screen.width;
     stickBar.affix({
       offset: {
-        top: $('.navbar-header').height()
+        top: stickBar.offset().top
       }
     });
     stickBar.on('affixed.bs.affix', function() {
+      stickBar.css('width', percentWidth * 100 + '%');
       stickBar.css('top', $('.navbar-header').height());
+    });
+    stickBar.on('affixed-top.bs.affix', function() {
+      stickBar.css('width', '');
     })
   }
 });

@@ -201,7 +201,12 @@ Template.stripeAdmin.helpers({
     return Meteor.users.find({group: Meteor.user().group}).count();
   },
   limitReached: function() {
-    return ((Tenants.findOne({}).stripe.totalRecords > MAX_RECORDS) && (!Tenants.findOne({}).stripe.paying));
+    var tenantStripe = Tenants.findOne({}).stripe
+    if(tenantStripe.paying || tenantStripe.freeUnlimited) {
+      return false;
+    } else {
+      return tenantStripe.totalRecords > MAX_RECORDS;
+    }
   },
   upcomingInvoice: function() {
     upcomingInvoiceDep.depend();

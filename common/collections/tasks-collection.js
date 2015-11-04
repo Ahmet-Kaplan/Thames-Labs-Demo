@@ -3,6 +3,65 @@ Collections.tasks = Tasks;
 Partitioner.partitionCollection(Tasks);
 Tags.TagsMixin(Tasks);
 
+Tasks.helpers({
+  activities: function() {
+    return Activities.find({
+      taskId: this._id
+    }, {
+      sort: {
+        activityTimestamp: -1
+      }
+    });
+  },
+})
+
+////////////////////
+// SEARCH INDICES //
+////////////////////
+
+Collections.tasks.index = TasksIndex = new EasySearch.Index({
+  collection: Tasks,
+  fields: ['title', 'tags'],
+  engine: new EasySearch.MongoDB({
+    sort: () => {
+      return { 'title': 1 }
+    },
+    fields: (searchObject, options) => {
+      return {
+        'title': 1,
+        'dueDate': 1,
+        'reminder': 1,
+        'completed': 1,
+        'entityType': 1,
+        'entityId': 1,
+        'assigneeId': 1,
+        'tags': 1
+      }
+    },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      var userId = options.search.userId;
+      if (options.search.props.showCompleted) {
+        selector.completed = true;
+      } else {
+        selector.completed = { $ne: true };
+      }
+
+      if (options.search.props.showMine) {
+        selector.assigneeId = { $eq: userId};
+      } else {
+        selector.assigneeId = { $ne: ''};
+      }
+
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = { $in: options.search.props.tags.split(',') };
+      }
+      return selector;
+    }
+  })
+});
+
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////

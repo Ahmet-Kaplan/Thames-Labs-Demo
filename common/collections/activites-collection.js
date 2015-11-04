@@ -14,6 +14,9 @@ Activities.helpers({
   },
   purchaseOrder: function() {
     return PurchaseOrders.findOne(this.purchaseOrderId);
+  },
+  task: function() {
+    return Tasks.findOne(this.taskId)
   }
 });
 
@@ -40,6 +43,10 @@ Activities.after.insert(function(userId, doc) {
     entity = PurchaseOrders.findOne(doc.purchaseOrderId);
     entityName = "Purchase Order: " + entity.description;
   }
+  if (doc.taskId) {
+    entity = Tasks.findOne(doc.taskId);
+    entityName = "Task: " + entity.title;
+  }
 
   var content = TagStripper.strip(doc.notes, "", "", false);
 
@@ -64,6 +71,10 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.purchaseOrderId) {
     entity = Projects.findOne(doc.purchaseOrderId);
     entityName = "Purchase Order: " + entity.description;
+  }
+  if (doc.taskId) {
+    entity = Tasks.findOne(doc.taskId);
+    entityName = "Task: " + entity.title;
   }
 
   if (doc.type !== this.previous.type) {
@@ -95,6 +106,10 @@ Activities.after.remove(function(userId, doc) {
   if (doc.purchaseOrderId) {
     entity = Projects.findOne(doc.purchaseOrderId);
     entityName = "Purchase Order: " + entity.description;
+  }
+  if (doc.taskId) {
+    entity = Tasks.findOne(doc.taskId);
+    entityName = "Task: " + entity.title;
   }
 
   var content = TagStripper.strip(doc.notes, "", "", false);
