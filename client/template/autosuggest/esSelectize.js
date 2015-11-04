@@ -15,8 +15,14 @@ function searchOptions(index, search, optionsList, parent, filter) {
   }
 
   var searchInput = search || '';
-  var results = index.search(searchInput, searchOptions).fetch();
-  optionsList.set(results);
+
+  // Easysearch stores the collection name on the index.config object
+  var collectionName = index.config.name;
+  Meteor.call('searchByCollection', collectionName, searchInput, searchOptions, (err, res) => {
+    console.log(err, res);
+    if (err) return;
+    optionsList.set(res);
+  });
 }
 
 Template.esSelectize.onRendered(function() {
@@ -69,7 +75,7 @@ Template.esSelectize.helpers({
   initialize: function() {
     var options = {
       closeAfterSelect: true,
-      valueField: "__originalId",
+      valueField: "_id",
       labelField: "name",
       searchField: "name",
       createOnBlur: false,
@@ -82,7 +88,7 @@ Template.esSelectize.helpers({
       };
       options.create = function(input, callback) {
         return {
-          __originalId: 'newRecord' + input,
+          _id: 'newRecord' + input,
           name: input
         };
       };
