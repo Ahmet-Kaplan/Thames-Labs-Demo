@@ -81,6 +81,13 @@ Meteor.methods({
 
           companies.push(companyId);
 
+          _.each(_.range(_.random(0,5)), function() {
+            Companies.addTag(faker.company.catchPhraseAdjective(), {
+              _id: companyId
+            });
+          });
+
+
           var productId = Products.insert({
             name: faker.commerce.productName(),
             description: faker.lorem.sentence(),
@@ -103,10 +110,17 @@ Meteor.methods({
 
           opportunities.push(oppId);
 
+          _.each(_.range(_.random(0,5)), function() {
+            Opportunities.addTag(faker.hacker.noun(), {
+              _id: oppId
+            });
+          });
+
           _.each(_.range(_.random(1, 10)), function() {
             var contactId = Contacts.insert({
               forename: faker.name.firstName(),
               surname: faker.name.lastName(),
+              jobtitle: faker.name.jobTitle(),
               phone: faker.phone.phoneNumber(),
               mobile: faker.phone.phoneNumber(),
               companyId: companyId,
@@ -114,6 +128,12 @@ Meteor.methods({
             });
 
             contacts.push(contactId);
+
+            _.each(_.range(_.random(0,5)), function() {
+              Contacts.addTag(faker.name.jobType(), {
+                _id: contactId
+              });
+            });
 
             _.each(_.range(_.random(0, 2)), function() {
               Activities.insert({
@@ -143,6 +163,12 @@ Meteor.methods({
             });
 
             projects.push(projectId);
+
+            _.each(_.range(_.random(0,5)), function() {
+              Projects.addTag(faker.hacker.verb(), {
+                _id: projectId
+              });
+            });
 
             _.each(_.range(_.random(0, 2)), function() {
               Activities.insert({
