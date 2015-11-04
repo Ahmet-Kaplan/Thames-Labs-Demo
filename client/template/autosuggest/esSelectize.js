@@ -19,7 +19,6 @@ function searchOptions(index, search, optionsList, parent, filter) {
   // Easysearch stores the collection name on the index.config object
   var collectionName = index.config.name;
   Meteor.call('searchByCollection', collectionName, searchInput, searchOptions, (err, res) => {
-    console.log(err, res);
     if (err) return;
     optionsList.set(res);
   });
