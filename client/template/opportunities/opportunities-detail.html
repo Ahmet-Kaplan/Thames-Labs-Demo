@@ -4,7 +4,7 @@
       <li><a class="nav-link" href="#opportunity-details">Opportunity details</a></li>
       <li><a class="nav-link" href="#lines">Line items</a></li>
     </ul>
-    
+
   </div>
 </template>
 
@@ -62,11 +62,11 @@
             {{#if isInRole 'Administrator,CanEditOpportunities'}}
             <div class="btn-group">
               <button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span> Export
+                <span class="caret"></span> Extract to...
               </button>
               <ul class="dropdown-menu" role="menu">
                 {{#if canExportDocx}}
-                <li><a href="#" id="template-upload-link-docx">Word document (.docx)</a></li>
+                <li><a href="#" id="template-upload-link-docx">Microsoft Word (.docx)</a></li>
                 {{/if}}
                 <li><a href="#" id="template-upload-link">PDF (.pdf)</a></li>
                 <li class="divider"></li>
@@ -74,7 +74,7 @@
               </ul>
             </div>
             <button id="edit-opportunity" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i> Edit</button>
-            {{/if}} 
+            {{/if}}
             {{#if isInRole 'Administrator,CanDeleteOpportunities'}}
             <button id="remove-opportunity" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Delete</button>
             {{/if}}
