@@ -35,7 +35,6 @@ Template.esSelectize.onRendered(function() {
     }
     resultsCursor = this.data.index.search(searchInput, searchOptions);
     if (resultsCursor.isReady()) {
-      selectize.clearOptions();
       selectize.addOption(resultsCursor.fetch());
       selectize.refreshOptions(true);
     }
