@@ -1,29 +1,3 @@
-function searchOptions(index, search, optionsList, parent, filter) {
-  if(index === undefined) {
-    //No search index set up
-    return false;
-  }
-
-  var searchOptions = {
-    props: {
-      autosuggest: true
-    }
-  };
-
-  if(parent !== undefined && filter !== undefined) {
-    searchOptions.props[filter] = parent;
-  }
-
-  var searchInput = search || '';
-
-  // Easysearch stores the collection name on the index.config object
-  var collectionName = index.config.name;
-  Meteor.call('searchByCollection', collectionName, searchInput, searchOptions, (err, res) => {
-    if (err) return;
-    optionsList.set(res);
-  });
-}
-
 Template.esSelectize.onRendered(function() {
   this.optionsList = new ReactiveVar([]);
   this.selectize = new ReactiveVar({});
@@ -45,11 +19,22 @@ Template.esSelectize.onRendered(function() {
   }
   var readonly = this.data.readonly;
 
+  var searchOptions = {
+    props: {
+      autosuggest: true
+    }
+  };
+  if(parent !== undefined && filter !== undefined) {
+    searchOptions.props[filter] = parent;
+  }
+
   //search update listener
-  this.autorun(function() {
-    var parent = Template.instance().parent.get();
-    var search = Template.instance().search.get() || '';
-    searchOptions(index, search, Template.instance().optionsList, parent, filter);
+  this.autorun( () => {
+    var searchInput = Template.instance().search.get() || '';
+    var searchResult = index.search(searchInput, searchOptions);
+    if (searchResult._isReady) {
+      this.optionsList.set(searchResult.fetch());
+    }
   });
 
   //display update listener
@@ -74,7 +59,7 @@ Template.esSelectize.helpers({
   initialize: function() {
     var options = {
       closeAfterSelect: true,
-      valueField: "_id",
+      valueField: "__originalId",
       labelField: "name",
       searchField: "name",
       createOnBlur: false,
@@ -87,7 +72,7 @@ Template.esSelectize.helpers({
       };
       options.create = function(input, callback) {
         return {
-          _id: 'newRecord' + input,
+          __originalId: 'newRecord' + input,
           name: input
         };
       };

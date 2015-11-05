@@ -45,7 +45,7 @@ diff-sequence@1.0.1
 digilord:faker@1.0.7
 easy:search@2.0.0
 easysearch:components@2.0.1
-easysearch:core@2.0.1
+easysearch:core@2.0.2
 ecmascript@0.1.6
 ecmascript-runtime@0.2.6
 ejson@1.0.7
@@ -58,7 +58,7 @@ flowkey:hotkeys@1.1.1
 fortawesome:fontawesome@4.4.0
 geojson-utils@1.0.4
 gildaspk:autoform-medium@0.0.5
-harrison:papa-parse@1.1.0
+harrison:papa-parse@1.1.1
 hot-code-push@1.0.0
 html-tools@1.0.5
 htmljs@1.0.5
@@ -69,7 +69,7 @@ jboulhous:dev@1.0.1
 jeremy:geocomplete@1.6.5_7
 jquery@1.11.4
 kadira:blaze-layout@2.2.0
-kadira:flow-router@2.7.0
+kadira:flow-router@2.8.0
 lai:collection-extensions@0.1.4
 launch-screen@1.0.4
 lbee:lunr@0.5.12
@@ -125,7 +125,7 @@ ordered-dict@1.0.4
 ostrio:logger@1.0.0
 ostrio:loggerconsole@1.0.0
 ostrio:loggerfile@1.0.0
-ostrio:meteor-root@1.0.0
+ostrio:meteor-root@1.0.2
 package-version-parser@3.0.4
 panphora:environment-template-helpers@0.0.4
 patrickleet:tags@1.2.0
@@ -179,7 +179,7 @@ useraccounts:core@1.12.4
 vazco:universe-html-purifier@1.2.3
 velocity:chokidar@1.2.0_1
 velocity:console-reporter@0.1.4
-velocity:core@0.10.7
+velocity:core@0.10.8
 velocity:html-reporter@0.9.1
 velocity:meteor-internals@1.1.0_7
 velocity:shim@0.1.0
