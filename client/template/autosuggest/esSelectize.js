@@ -19,18 +19,17 @@ Template.esSelectize.onRendered(function() {
   }
   var readonly = this.data.readonly;
 
-  var searchOptions = {
-    props: {
-      autosuggest: true
-    }
-  };
-  if(parent !== undefined && filter !== undefined) {
-    searchOptions.props[filter] = parent;
-  }
-
   //search update listener
   this.autorun( () => {
     var searchInput = Template.instance().search.get() || '';
+    var searchOptions = {
+      props: {
+        autosuggest: true
+      }
+    };
+    if(this.parent.get() !== undefined && filter !== undefined) {
+      searchOptions.props[filter] = this.parent.get();
+    }
     var searchResult = index.search(searchInput, searchOptions);
     if (searchResult._isReady) {
       this.optionsList.set(searchResult.fetch());
