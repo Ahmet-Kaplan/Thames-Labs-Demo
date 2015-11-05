@@ -16,13 +16,20 @@
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
               <button id="#ref_poOverviewWidget" class="btn btn-default" data-toggle="popover" title="Purchase Orders Overview" data-content="
-              <div><ul class='list-unstyled'>
-                <li>Purchase Orders:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalPurchaseOrders}}</span></li>
-                <li>Approved:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalApprovedPo}}</span></li>
-                <li>Arrived:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalArrivedPo}}</span></li>
-                <li>Closed:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalClosedPo}}</span></li>
-                <li>Cancelled:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalCancelledPo}}</span></li>
-                <li>Rejected:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalRejectedPo}}</span></li>
+              <div><dl>
+                <dt>Purchase Orders:</dt>
+                  <dd>{{totalPurchaseOrders}}</dd>
+                <dt>Approved:</dt>
+                  <dd>{{totalApprovedPo}}</dd>
+                <dt>Arrived:</dt>
+                  <dd>{{totalArrivedPo}}</dd>
+                <dt>Closed:
+                  <dd>{{totalClosedPo}}</dd>
+                <dt>Cancelled:
+                  <dd>{{totalCancelledPo}}</dd>
+                <dt>Rejected:</dt>
+                  <dd>{{totalRejectedPo}}</dd>
+                <dl>
               </div>">
               <i class="fa fa-fw fa-tasks"></i></button>
             </div>

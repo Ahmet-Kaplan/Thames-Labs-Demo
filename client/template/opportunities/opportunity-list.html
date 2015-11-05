@@ -25,10 +25,14 @@
               <button id="toggle-archived" class="btn btn-default"><i class="fa fa-fw fa-folder"></i></button>
               {{/if}}
               <button id="#ref_oppsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Opportunities Overview" data-content="
-                <div><ul class='list-unstyled'>
-                  <li>Opportunities:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalOpps}}</span></li>
-                  <li>Total Value:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>£{{totalOppValue}}</span></li>
-                  <li>Average Value:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>£{{averageOppValue}}</span></li></ul>
+                <div><dl class='list-unstyled'>
+                  <dt>Opportunities:</dt>
+                  <dd>{{totalOpps}}</dd>
+                  <dt>Total Value:</dt>
+                  <dd>£{{totalOppValue}}</dd>
+                  <dt>Average Value:</dt>
+                  <dd>£{{averageOppValue}}</dd>
+                </dl>
                 </div>">
               <i class="fa fa-fw fa-tasks"></i></button>
             </div>

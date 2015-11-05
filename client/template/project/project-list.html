@@ -20,11 +20,16 @@
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
               <button id="#ref_projectOverviewWidget" class="btn btn-default" data-toggle="popover" title="Projects Overview" data-content="
-              <div><ul class='list-unstyled'>
-                <li>Projects:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalProjects}}</span></li>
-                <li>Active projects:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{activeProjects}}</span></li>
-                <li>Active projects total value:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>£{{activeProjectTotal}}</span></li>
-                <li>Active projects average value:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>£{{activeProjectsAverage}}</span></li></ul>
+              <div><dl class='list-unstyled'>
+                <dt>Projects:</dt>
+                <dd>{{totalProjects}}</dd>
+                <dt>Active projects:</dt>
+                <dd>{{activeProjects}}</dd>
+                <dt>Active projects total value:<dt>
+                <dd>£{{activeProjectTotal}}</dd>
+                <dt>Active projects average value:</dt>
+                <dd>£{{activeProjectsAverage}}</dd>
+              </dl>
               </div>">
               <i class="fa fa-fw fa-tasks"></i></button>
             </div>

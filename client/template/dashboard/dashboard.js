@@ -57,7 +57,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 4,
+    h: 6,
     displayed: false,
     name: 'Tasks Overview'
   },
@@ -66,7 +66,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 4,
+    h: 6,
     displayed: false,
     name: 'Opportunities Overview',
     requiredPermission: "CanReadOpportunities"
@@ -76,7 +76,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 4,
+    h: 6,
     displayed: false,
     name: 'Projects Overview',
     requiredPermission: "CanReadProjects"
@@ -86,7 +86,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 4,
+    h: 6,
     displayed: false,
     name: 'Products Overview',
     requiredPermission: "CanReadProducts"
@@ -96,26 +96,25 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 5,
+    h: 8,
     displayed: false,
     name: 'Purchase Orders Overview',
-    requiredPermission: "CanReadPrurchaseOrders"
   },
-  'propagation': {
-    id: 'propagation',
+  'companySummary': {
+    id: 'companySummary',
     x: 0,
     y: 0,
     w: 1,
-    h: 6,
+    h: 9,
     displayed: false,
-    name: 'Propagation Overview'
+    name: 'Company Summary'
   },
   // 'propagationChart': {
   //   id: 'propagationChart',
   //   x: 0,
   //   y: 0,
-  //   w: 5,
-  //   h: 10,
+  //   w: 4,
+  //   h: 13,
   //   displayed: false,
   //   name: 'Propagation Overview (Chart)'
   // },

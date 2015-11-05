@@ -1,5 +1,3 @@
-Schemas = {};
-
 // ** --------- Non-attachment schemas --------- ** //
 Schemas.User = new SimpleSchema({
   username: {

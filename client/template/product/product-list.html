@@ -15,10 +15,14 @@
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
               <button id="#ref_productsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Products Overview" data-content="
-              <div><ul class='list-unstyled'>
-                <li>Products:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>{{totalProducts}}</span></li>
-                <li>Total cost:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>£{{totalProductsCost}}</span></li>
-                <li>Average cost of products:&nbsp;&nbsp;&nbsp;&nbsp;<span class='pull-right'>£{{averageProductsCost}}</span></li>
+              <div><dl>
+                <dt>Products:</dt>
+                  <dd>{{totalProducts}}</dd>
+                <dt>Total cost:</dt>
+                  <dd>£{{totalProductsCost}}</dd>
+                <dt>Average cost of products:</dt>
+                  <dd>£{{averageProductsCost}}</dd>
+                <dl>
               </div>">
               <i class="fa fa-fw fa-tasks"></i></button>
             </div>

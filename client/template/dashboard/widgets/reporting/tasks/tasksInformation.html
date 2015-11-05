@@ -9,12 +9,16 @@
       </div>
       <div class="panel-body">
         <div class="taskInformationList">
-          <ul class="list-unstyled">
-            <li id="tasksCreatedInformation">Tasks created: <span class="pull-right">{{createdTasks}}</span></li>
-            <li id="tasksCompletedInformation">Tasks completed: <span class="pull-right">{{completedTasks}}</span></li>
-            <li id="tasksDueSoonInformation">Tasks due soon: <span class="pull-right">{{dueTasks}}</span></li>
-            <li id="tasksOverdueInformation">Tasks overdue: <span class="pull-right">{{overdueTasks}}</span></li>
-          </ul>
+          <dl>
+            <dt id="tasksCreatedInformation">Tasks created:</dt>
+              <dd class="text-right">{{createdTasks}}</dd>
+            <dt id="tasksCompletedInformation">Tasks completed:</dt>
+              <dd class="text-right">{{completedTasks}}</dd>
+            <dt id="tasksDueSoonInformation">Tasks due soon:</dt>
+              <dd class="text-right">{{dueTasks}}</dd>
+            <dt id="tasksOverdueInformation">Tasks overdue:</dt>
+              <dd class="text-right">{{overdueTasks}}</dd>
+          </dl>
 
         </div>
       </div>

@@ -9,12 +9,14 @@
       </div>
       <div class="panel-body">
         <div class="productsInformationList">
-          <ul class="list-unstyled">
-            <li id="totalProducts">Total number of products: <span class="pull-right">{{totalProducts}}</span></li>
-            <li id="totalProducts">Total cost of products: <span class="pull-right">£{{totalProductsCost}}</span></li>
-            <li id="totalProducts">Average cost of products: <span class="pull-right">£{{averageProductsCost}}</span></li>
-          </ul>
-
+          <dl>
+            <dt id="totalProducts">Total number of products:</dt>
+              <dd class="text-right">{{totalProducts}}</dd>
+            <dt id="totalProducts">Total cost of products:</dt>
+              <dd class="text-right">£{{totalProductsCost}}</dd>
+            <dt id="totalProducts">Average cost of products:</dt>
+              <dd class="text-right">£{{averageProductsCost}}</dd>
+          </dl>
         </div>
       </div>
     </div>
