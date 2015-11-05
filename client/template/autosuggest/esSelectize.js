@@ -1,67 +1,64 @@
 Template.esSelectize.onRendered(function() {
-  this.optionsList = new ReactiveVar([]);
-  this.selectize = new ReactiveVar({});
   this.parent = new ReactiveVar('');
-  this.search = new ReactiveVar('');
+  this.query = new ReactiveVar(null);
 
-  var parent = this.data.parent;
-  var selectizer = this.data.name;
-  var selectize = $('#' + selectizer)[0].selectize;
-  var defaultValue = this.data.value;
-  var index = this.data.index;
-  var filter = this.data.filter;
-  if(parent) {
-    var parentElt = $('#' + parent);
+  var selectize = $('#' + this.data.name)[0].selectize;
+
+  // Set defaults
+  if(this.data.value) {
+    selectize.setValue(this.data.value);
+  }
+  if(this.data.readonly) {
+    selectize.disable();
+  }
+
+  // If parent is set, listen for updates to it's value
+  if(this.data.parent) {
+    var parentElt = $('#' + this.data.parent);
     this.parent.set(parentElt.val());
     parentElt.change( () => {
       this.parent.set(parentElt.val());
     });
   }
-  var readonly = this.data.readonly;
 
-  //search update listener
+  // search update listener
   this.autorun( () => {
-    var searchInput = Template.instance().search.get() || '';
+    var searchInput = this.query.get();
+    if (searchInput == null) return;
     var searchOptions = {
       props: {
         autosuggest: true
       }
     };
-    if(this.parent.get() !== undefined && filter !== undefined) {
-      searchOptions.props[filter] = this.parent.get();
+    if(this.parent.get() !== undefined && this.data.filter !== undefined) {
+      searchOptions.props[this.data.filter] = this.parent.get();
     }
-    var searchResult = index.search(searchInput, searchOptions);
-    if (searchResult._isReady) {
-      this.optionsList.set(searchResult.fetch());
-    }
-  });
-
-  //display update listener
-  this.autorun(function() {
-    var optionsList = Template.instance().optionsList.get();
-    Template.instance().selectize.set(selectize);
-    if(optionsList) {
+    resultsCursor = this.data.index.search(searchInput, searchOptions);
+    if (resultsCursor.isReady()) {
       selectize.clearOptions();
-      selectize.addOption(optionsList);
-      selectize.refreshOptions(false);
-    }
-    if(defaultValue) {
-      selectize.setValue(defaultValue);
-    }
-    if(readonly) {
-      selectize.disable();
+      selectize.addOption(resultsCursor.fetch());
+      selectize.refreshOptions(true);
     }
   });
 });
 
 Template.esSelectize.helpers({
   initialize: function() {
+    var self = Template.instance();
     var options = {
       closeAfterSelect: true,
       valueField: "__originalId",
       labelField: "name",
       searchField: "name",
       createOnBlur: false,
+      load: (query) => {
+        self.query.set(query);
+      },
+      onFocus: () => {
+        if (!self.query.get()) {
+          self.query.set('');
+        }
+      }
     };
     if(this.allowCreate) {
       options.render = {
@@ -79,15 +76,5 @@ Template.esSelectize.helpers({
       options.create = false;
     }
     return options;
-  }
-});
-
-Template.esSelectize.events({
-  'keydown input': function(e) {
-    var selectize = Template.instance().selectize.get();
-    if(e.keyCode === 13 || e.keyCode === 9) {
-      return;
-    }
-    Template.instance().search.set(selectize.lastQuery);
   }
 });
