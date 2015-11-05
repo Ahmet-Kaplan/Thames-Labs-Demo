@@ -1,0 +1,33 @@
+<template name="companySummaryWidget">
+  <div class="grid-stack-item-content">
+    <div class="panel panel-default" id='companySummaryBox'>
+      <div class="panel-heading">
+        <i class="fa fa-fw fa-bar-chart"></i>
+        <button aria-hidden="true" class="close" id="close_companySummaryWidget" type="button">×</button>
+         Company Summary
+        <a href="#" id="ref_companySummaryWidget" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
+      </div>
+      <div class="panel-body">
+        <div class="companySummaryList">
+          <dl class="list-unstyled">
+            <dt id="totalTaskSummary">Tasks:</dt>
+              <dd class="text-right">{{totalTasks}}</dd>
+            <dt id="totalCompanySummary">Companies:</dt>
+              <dd class="text-right">{{totalCompanies}}</dd>
+            <dt id="totalContactSummary">Contacts:</dt>
+              <dd class="text-right">{{totalContacts}}</dd>
+            <dt id="totalOpportunitySummary">Opportunities:</dt>
+              <dd class="text-right">{{totalOpportunities}}</dd>
+            <dt id="totalProjectSummary">Projects:</dt>
+              <dd class="text-right">{{totalProjects}}</dd>
+            <dt id="totalProductSummary">Products:</dt>
+              <dd class="text-right">{{totalProducts}}</dd>
+            <dt id="totalPoSummary">Purchase Orders:</dt>
+              <dd class="text-right">{{totalPo}}</dd>
+          </dl>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
