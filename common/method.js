@@ -98,6 +98,7 @@ Meteor.methods({
             createdBy: randomUser._id,
             items: [],
             companyId: companyId,
+            value: parseInt(faker.commerce.price()),
             date: faker.date.recent(100)
           });
 

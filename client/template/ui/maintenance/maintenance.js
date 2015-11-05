@@ -12,9 +12,10 @@ Template.maintenance.onRendered(function() {
   $('body').css('background-color', '#3388c6');
 });
 
-Template.maintenance.destroyed = function() {
+Template.maintenance.onDestroyed(function() {
+  $('body').css('background-color', '#fff');
   if (this.loading) {
-    $('body').css('background-color', '#fff');
+    // $('body').css('background-color', '#fff');
     this.loading.finish();
   }
-};
+});

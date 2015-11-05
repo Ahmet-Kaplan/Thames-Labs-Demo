@@ -6,7 +6,7 @@ Template.opportunityDetail.onCreated(function() {
   this.subscribe('activityByOpportunityId', id);
   this.subscribe('tasksByEntityId', id);
 
-  this.autorun( () => {
+  this.autorun(() => {
     var opportunity = Opportunities.findOne(id);
 
     // Subscribe to reactive data sources
@@ -38,24 +38,42 @@ Template.opportunityDetail.helpers({
     return moment(this.estCloseDate).format('MMMM Do YYYY, h:mma');
   },
   stages: function() {
-    return OpportunityStages.find({}, {sort: {order: 1}});
+    return OpportunityStages.find({}, {
+      sort: {
+        order: 1
+      }
+    });
   },
   oppData: function() {
-    return Opportunities.findOne({_id: FlowRouter.getParam('id')})
+    return Opportunities.findOne({
+      _id: FlowRouter.getParam('id')
+    })
   },
   activities: function() {
-    return Activities.find({opportunityId: FlowRouter.getParam('id')}, {sort: {activityTimestamp: -1}});
+    return Activities.find({
+      opportunityId: FlowRouter.getParam('id')
+    }, {
+      sort: {
+        activityTimestamp: -1
+      }
+    });
   },
   isNotFirstStage: function() {
     var currentStageId = this.currentStageId;
-    var firstStage = OpportunityStages.findOne({"order": 0})
+    var firstStage = OpportunityStages.findOne({
+      "order": 0
+    })
     if (!firstStage) return false;
     if (currentStageId == firstStage._id) return false;
     return true;
   },
   isLastStage: function() {
     var currentStageId = this.currentStageId;
-    var lastStage = OpportunityStages.findOne({},{ sort: { order: -1}});
+    var lastStage = OpportunityStages.findOne({}, {
+      sort: {
+        order: -1
+      }
+    });
     if (!lastStage) return false;
     if (currentStageId == lastStage._id) return true;
     return false;
@@ -65,7 +83,7 @@ Template.opportunityDetail.helpers({
   },
   getItems: function() {
     var items = [];
-    for(var i = 0; i < this.items.length; i++) {
+    for (var i = 0; i < this.items.length; i++) {
       var item = {
         index: i,
         oppId: this._id,
@@ -76,10 +94,14 @@ Template.opportunityDetail.helpers({
     return items;
   },
   company: function() {
-    return Companies.findOne({_id: this.companyId});
+    return Companies.findOne({
+      _id: this.companyId
+    });
   },
   contact: function() {
-    return Contacts.findOne({_id: this.contactId});
+    return Contacts.findOne({
+      _id: this.contactId
+    });
   },
   canExportDocx: function() {
     if (bowser.safari) {
@@ -94,10 +116,14 @@ Template.opportunityDetail.events({
   'click #next-stage': function() {
     var currentStage = OpportunityStages.findOne(this.currentStageId);
     var nextStageIndex = currentStage.order + 1;
-    var nextStage = OpportunityStages.findOne({ order: nextStageIndex });
-    Opportunities.update(this._id, { $set: {
-      currentStageId: nextStage._id
-    }});
+    var nextStage = OpportunityStages.findOne({
+      order: nextStageIndex
+    });
+    Opportunities.update(this._id, {
+      $set: {
+        currentStageId: nextStage._id
+      }
+    });
     var user = Meteor.user();
     var note = user.profile.name + ' moved this opportunity forward from stage "' + currentStage.title + '" to stage "' + nextStage.title + '"';
     var date = new Date();
@@ -113,10 +139,14 @@ Template.opportunityDetail.events({
   'click #previous-stage': function() {
     var currentStage = OpportunityStages.findOne(this.currentStageId);
     var nextStageIndex = currentStage.order - 1;
-    var nextStage = OpportunityStages.findOne({ order: nextStageIndex });
-    Opportunities.update(this._id, { $set: {
-      currentStageId: nextStage._id
-    }});
+    var nextStage = OpportunityStages.findOne({
+      order: nextStageIndex
+    });
+    Opportunities.update(this._id, {
+      $set: {
+        currentStageId: nextStage._id
+      }
+    });
     var user = Meteor.user();
     var note = user.profile.name + ' moved this opportunity back from stage "' + currentStage.title + '" to stage "' + nextStage.title + '"';
     var date = new Date();
@@ -132,16 +162,18 @@ Template.opportunityDetail.events({
   'click #lost-opportunity': function(event) {
     event.preventDefault();
     var oppId = this._id;
-    bootbox.prompt("Are you sure you wish to mark this opportunity as lost? This action is not reversible. If so, you can enter the reason hereafter", function(result) {
+    bootbox.prompt("Are you sure you wish to mark this opportunity as lost? This action is not reversible. To continue, give a reason below and press OK, otherwise press Cancel.", function(result) {
       if (result !== null) {
-        Opportunities.update(oppId, { $set: {
-          isArchived: true,
-          hasBeenWon: false,
-          reasonLost: result
-        }});
+        Opportunities.update(oppId, {
+          $set: {
+            isArchived: true,
+            hasBeenWon: false,
+            reasonLost: result
+          }
+        });
         var user = Meteor.user();
         var note = user.profile.name + ' marked this opportunity as lost';
-        if(result) {
+        if (result) {
           note += ": <br />" + result;
         }
         var date = new Date();
@@ -212,7 +244,9 @@ Template.opportunityDetail.events({
 
       var date = moment().format("MMM Do YYYY");
 
-      var opp = Opportunities.findOne({_id: this._id});
+      var opp = Opportunities.findOne({
+        _id: this._id
+      });
       var items = [];
       _.each(opp.items, function(oi) {
         var obj = {
@@ -271,7 +305,9 @@ Template.opportunityDetail.events({
 
       var date = moment().format("MMM Do YYYY");
 
-      var opp = Opportunities.findOne({_id: this._id});
+      var opp = Opportunities.findOne({
+        _id: this._id
+      });
       var items = [];
       _.each(opp.items, function(oi) {
         var obj = {
@@ -379,7 +415,9 @@ Template.opportunityDetail.events({
 Template.opportunityStage.helpers({
   isCurrentStep: function() {
     var id = FlowRouter.getParam('id');
-    var stepId = Opportunities.findOne({_id: id}).currentStageId;
+    var stepId = Opportunities.findOne({
+      _id: id
+    }).currentStageId;
     if (stepId == this._id) return true;
     return false;
   }
