@@ -1,5 +1,3 @@
-Schemas = {};
-
 // ** --------- Non-attachment schemas --------- ** //
 Schemas.User = new SimpleSchema({
   username: {
@@ -459,6 +457,10 @@ Schemas.Project = new SimpleSchema({
   },
   value: {
     type: Number
+  },
+  active: {
+    type: Boolean,
+    defaultValue: true
   },
   createdBy: {
     type: String,

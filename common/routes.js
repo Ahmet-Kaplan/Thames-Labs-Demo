@@ -235,13 +235,21 @@ router.route('/purchaseorders/:id', {
 
 router.route('/tasks', {
   name: 'tasks',
-  subscriptions: function() {
-    this.register('allUserTasks', subs.subscribe('allUserTasks', Meteor.userId()));
-    this.register('taskTags', subs.subscribe('taskTags'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'taskList'
+    });
+  }
+});
+
+router.route('/tasks/:id', {
+  name: 'task',
+  subscriptions: function(params) {
+    this.register('taskById', subs.subscribe('taskById', params.id))
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: 'taskDetail'
     });
   }
 });

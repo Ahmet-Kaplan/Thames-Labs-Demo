@@ -1,0 +1,95 @@
+<template name="taskDetail">
+  {{#with taskData}} {{setPageTitle "Task - " title }}
+  <div class="row">
+    <div class="col-md-12">
+        <h4 class="pull-left">
+        <span class="task-completed">
+        {{#if completed}}
+          <span class="fa-stack task-green">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+          </span>
+        {{else}}
+          <span class="fa-stack">
+            <i class="fa fa-check fa-stack-1x"></i>
+            <i class="fa fa-circle-thin fa-stack-2x"></i>
+          </span>
+        {{/if}}
+        </span>
+        </h4>
+      <h1 class="entity-name">
+        {{title}}
+      </h1>
+
+      {{> tagInput tags=tags collection='tasks' entityId=_id permissionToEdit='CanEditTasks'}}
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="btn-group pull-right">
+            {{#if isInRole 'Administrator,CanEditTasks'}}
+              <a href="#" id="edit-task" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
+            {{/if}}
+            {{#if isInRole 'Administrator,CanDeleteTasks'}}
+              <a href="#" id="remove-task" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
+              {{/if}}
+          </div>
+ 
+        Task details
+        </div>
+
+        <ul class="list-group">
+          {{#if description}}
+          {{#if isInRole 'Administrator,CanReadTasks'}}
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
+              {{description}}
+            </li>
+          {{/if}}
+          {{/if}}
+          {{#if isInRole 'Administrator,CanReadTasks'}}
+          {{#if dueDate}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-calendar"></i> Due Date</h4>
+            {{formattedDueDate}}
+          </li>
+          {{/if}} 
+          {{/if}} 
+          {{#unless isPersonalTask}}
+          {{#if entityDetails.permissionToRead}}
+            <a href="{{pathFor route=entityType id=entityId}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to {{entityType}} details">
+              <h4><i class="fa fa-fw fa-{{entityDetails.icon}}"></i> {{entityDetails.type}}</h4>
+              <i class="fa fa-fw fa-chevron-right pull-right"></i>
+              {{entityDetails.name}}
+            </a>
+          {{/if}}
+          {{/unless}}
+          {{#if isInRole 'Administrator,CanReadTasks'}}
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-user"></i> Task assignee</h4>
+              {{taskAssignee}}
+            </li>
+          {{/if}}
+          {{#if isInRole 'Administrator,CanReadTasks'}}
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-user"></i> Created By</h4>
+              {{taskCreator}}
+            </li>
+          {{/if}}
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <h1 id="activity-timeline">
+        Activity Timeline
+        <a href="#" class="btn btn-primary{{#unless isMobile}} pull-right{{/unless}}" data-toggle="tooltip" data-placement="bottom" title="New activity for this task" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
+      </h1>
+      {{> activityTimeline activities=activities}}
+    </div>
+  </div>
+
+  {{/with}}
+</template>

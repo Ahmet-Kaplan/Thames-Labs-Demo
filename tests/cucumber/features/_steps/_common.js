@@ -140,6 +140,7 @@ module.exports = function() {
 
   this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value) {
     browser.waitForExist('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
+    browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
     browser.click('select#' + selector + ' + .selectize-control>.selectize-input');
     browser.keys([value]);
     expect(browser.getValue('select#' + selector + ' + .selectize-control>.selectize-input input')).toContain(value);
@@ -153,14 +154,9 @@ module.exports = function() {
     browser.selectByVisibleText('select[data-schema-key=' + fieldName + ']', value);
   });
 
-  this.When(/^I add the tag "([^"]*)" to the "([^"]*)"$/, function(tagText, entity) {
-    var theEntity = browser.executeAsync(function(entity, done) {
-      done(Collections[entity].findOne()._id);
-    }, entity);
-    browser.waitForExist('#toggleTags_' + theEntity.value, 5000);
-    browser.waitForVisible('#toggleTags_' + theEntity.value, 5000);
-    browser.click('#toggleTags_' + theEntity.value);
+  this.When(/^I add the tag "([^"]*)"$/, function(tagText) {
     browser.keys([tagText]);
+    expect(browser.getValue('.selectize-control>.selectize-input input')).toContain(tagText);
     browser.keys(['Return']);
     browser.executeAsync(function(done) {
       $('.selectize-input').blur();
@@ -275,11 +271,8 @@ module.exports = function() {
     expect(tagField).toContain(expectedText);
   });
 
-  this.Then(/^I should not see the edit tag button for the "([^"]*)"$/, function(entity) {
-    var theEntity = browser.executeAsync(function(entity, done) {
-      done(Collections[entity].findOne()._id);
-    }, entity);
-    expect(browser.isExisting('#toggleTags_' + theEntity.value)).toEqual(false);
+  this.Then(/^I should not see the edit tag button$/, function() {
+    expect(browser.isExisting('.editTags')).toEqual(false);
   });
 
   this.Then(/^debug$/, function(menuText) {

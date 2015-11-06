@@ -55,7 +55,7 @@ Meteor.methods({
         }
 
         // generate fake customer data
-        _.each(_.range(100), function() {
+        _.each(_.range(_.random(50, 100)), function() {
 
           var usersArray = Meteor.users.find({}).fetch();
           var randomIndex = Math.floor(Math.random() * usersArray.length);
@@ -97,7 +97,9 @@ Meteor.methods({
             currentStageId: oppStageIds[Math.floor(Math.random() * oppStageIds.length)],
             createdBy: randomUser._id,
             items: [],
+            value: parseInt(faker.commerce.price()),
             companyId: companyId,
+            value: parseInt(faker.commerce.price()),
             date: faker.date.recent(100)
           });
 

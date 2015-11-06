@@ -48,14 +48,18 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
   fields: ['name'],
   engine: new EasySearch.MongoDB({
     sort: () => {
-      return { 'name': 1 }
+      return {
+        'name': 1
+      }
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
         return {}
       }
       if (options.search.props.autosuggest) {
-        return { 'name': 1 }
+        return {
+          'name': 1
+        }
       }
       return {
         'name': 1,
@@ -72,7 +76,9 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
       if (options.search.props.tags) {
         // n.b. tags is a comma separated string
-        selector.tags = { $in: options.search.props.tags.split(',') };
+        selector.tags = {
+          $in: options.search.props.tags.split(',')
+        };
       }
       return selector;
     }
@@ -86,6 +92,15 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
 var checkRecordsNumber = Collections.helpers.checkRecordsNumber;
 
 Companies.before.insert(function(userId, doc) {
+  if (doc.website) {
+    var currentWebsite = doc.website;
+    if (currentWebsite.indexOf('http://') === -1) {
+      if (currentWebsite.indexOf('https://') === -1) {
+        doc.website = "http://" + currentWebsite;
+      }
+    }
+  }
+
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
     var user = Meteor.users.findOne(userId);
     var tenant = Tenants.findOne(user.group);

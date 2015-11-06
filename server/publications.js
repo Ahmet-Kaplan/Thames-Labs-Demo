@@ -153,6 +153,13 @@ Meteor.publish("activityByOpportunityId", function(opportunityId) {
     opportunityId: opportunityId
   });
 });
+Meteor.publish("activityByTaskId", function(taskId) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTasks'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Activities.find({
+    taskId: taskId
+  });
+});
 
 
 Meteor.publish("allProjects", function() {
@@ -264,6 +271,13 @@ Meteor.publish("allTasks", function() {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTasks'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Tasks.find({});
+});
+Meteor.publish("taskById", function(taskId) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTasks'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Tasks.find({
+    _id: taskId
+  });
 });
 Meteor.publish("tasksByEntityId", function(entityId) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTasks'])) return this.ready();

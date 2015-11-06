@@ -16,7 +16,9 @@
             <img class="visible-xs" alt="" src="/icon.svg"> RealTime
             <span>CRM</span>
           </a>
+          {{#if loggedIn}}
           <button class="btn btn-primary pull-right visible-xs" id="toggle-search"><i class="fa fa-search"></i></button>
+          {{/if}}
         </div>
         {{#if loggedIn}}
         <div class="collapse navbar-collapse">
@@ -136,7 +138,7 @@
         </div>
       </div>
       {{#if isInRole 'Administrator,CanReadTasks'}}
-      <li class="panel-title {{isActiveRoute 'tasks'}}">
+      <li class="panel-title {{isActiveRoute regex='tasks|task'}}">
         <a href='/tasks' class="dismiss-on-click" id="menuLinkTasks">
           <i class="fa fa-fw fa-check"></i> Tasks
         </a>

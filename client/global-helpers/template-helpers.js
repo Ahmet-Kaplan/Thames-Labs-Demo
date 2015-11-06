@@ -12,6 +12,18 @@ Template.registerHelper('decimal', function(number) {
   return parseFloat(number).toFixed(2);
 });
 
+Template.registerHelper('formatDateLocale', function(date, locale) {
+  if (!locale) locale = 'GMT';
+  if (date) {
+    switch (locale) {
+      case 'GMT':
+        return moment(date).format('MMMM Do YYYY, h:mma');
+        break;
+    }
+  }
+});
+
+
 setRouteDetails = function(title) {
   var user = Meteor.users.find({
     _id: Meteor.userId()
@@ -38,7 +50,7 @@ setRouteDetails = function(title) {
 
 Template.registerHelper("setPageTitle", function() {
   var title = "";
-  for (var i = 0; i<arguments.length - 1; i++) {
+  for (var i = 0; i < arguments.length - 1; i++) {
     title += arguments[i];
   }
   document.title = title;
@@ -65,6 +77,7 @@ Template.registerHelper('ProductsIndex', () => ProductsIndex);
 Template.registerHelper('ProjectsIndex', () => ProjectsIndex);
 Template.registerHelper('PurchaseOrdersIndex', () => PurchaseOrdersIndex);
 Template.registerHelper('UsersIndex', () => UsersIndex);
+Template.registerHelper('TasksIndex', () => TasksIndex);
 Template.registerHelper('TagsIndex', () => TagsIndex);
 
 // Return standard search input attributes for EasySearch

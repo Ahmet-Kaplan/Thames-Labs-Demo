@@ -5,6 +5,9 @@ Template.opportunityList.onCreated(function() {
   });
   // Search props
   this.showArchived = new ReactiveVar(false);
+  this.totalOpps = new ReactiveVar(0);
+  this.totalOppValue = new ReactiveVar(0);
+  this.averageOppValue = new ReactiveVar(0);
 });
 
 Template.opportunityList.onRendered(function() {
@@ -17,11 +20,32 @@ Template.opportunityList.onRendered(function() {
       searchComponent.removeProps('showArchived');
     }
   });
+
+  var template = this;
+
+  Meteor.call('report.numberOfOpportunities', function(err, data) {
+    template.totalOpps.set(data.Count);
+  });
+  Meteor.call('report.valueOfOpportunities', function(err, data) {
+    template.totalOppValue.set(data.Value);
+  });
+  Meteor.call('report.averageOpportunityValue', function(err, data) {
+    template.averageOppValue.set(data.Value);
+  });
 });
 
 Template.opportunityList.helpers({
   archivedShown: function() {
     return Template.instance().showArchived.get();
+  },
+  totalOpps: function() {
+    return Template.instance().totalOpps.get();
+  },
+  totalOppValue: function() {
+    return Template.instance().totalOppValue.get();
+  },
+  averageOppValue: function() {
+    return Template.instance().averageOppValue.get();
   }
 });
 
@@ -38,5 +62,17 @@ Template.opportunityList.events({
   'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('opportunities');
+  },
+  'click #ref_oppsOverviewWidget': function(event, template) {
+
+      Meteor.call('report.numberOfOpportunities', function(err, data) {
+        template.totalOpps.set(data.Count);
+      });
+      Meteor.call('report.valueOfOpportunities', function(err, data) {
+        template.totalOppValue.set(data.Value);
+      });
+      Meteor.call('report.averageOpportunityValue', function(err, data) {
+        template.averageOppValue.set(data.Value);
+      });
   }
 });
