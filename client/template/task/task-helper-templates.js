@@ -1,118 +1,104 @@
-Template.insertNewTask.helpers({
-  getEntityType: function() {
-    return this.entity_type;
-  },
-  getEntityId: function() {
-    return this.entity_id;
-  },
-  isUserTask: function() {
-    return (this.entity_type === "user" ? true : false);
-  },
-  getCurrentUserId: function() {
-    return Meteor.userId();
-  }
-});
-
 var isDashboard = function() {
   return FlowRouter.getRouteName() === "dashboard";
 };
 
+Template.taskDisplay.onRendered(function() {
+  Session.set('showCompleted', 0);
+});
+
 Template.taskDisplay.helpers({
+  showComp: function() {
+    return Session.get('showCompleted') === 1;
+  },
   isDashboard: function() {
     return isDashboard();
   },
   tasks: function() {
+    var cutOffDate = moment(new Date()).subtract(1, 'hours').toDate();
+    if (Session.get('showCompleted') === 0) cutOffDate = new Date();
+
     if (isDashboard()) {
       return Tasks.find({
         assigneeId: Meteor.userId(),
-        completed: false
+        $or: [{ completed: false }, { completedAt: { $gt: cutOffDate }}]
       }, {
         sort: {
+          completed: 1,
+          completedAt: -1,
           dueDate: 1
         }
       });
     } else {
       return Tasks.find({
         entityId: this.entity_id,
-        completed: false
+        $or: [{ completed: false }, { completedAt: { $gt: cutOffDate }}]
       }, {
         sort: {
+          completed: 1,
+          completedAt: -1,
           dueDate: 1
         }
       });
     }
-  }
+  },
+  taskAssignee: function() {
+    Meteor.subscribe('currentTenantUserData');
+    return Meteor.users.findOne({_id: this.assigneeId}).profile.name;
+  },
+  formattedDueDate: function() {
+    if (this.isAllDay) {
+      var a = moment(new Date());
+      a.hour(0);
+      a.minute(0);
+
+      var b = moment(this.dueDate);
+      if (b.dayOfYear() == a.dayOfYear()) return 'today';
+      if (b.dayOfYear() == a.dayOfYear() - 1) return 'yesterday';
+      if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
+      return b.from(a);
+    } else {
+      return moment(this.dueDate).fromNow();
+    }
+  },
 });
 
 Template.taskDisplay.events({
   'click #btnAddTaskToEntity': function(event) {
     event.preventDefault();
     Modal.show('insertNewTask', this);
-  }
-});
-
-Template.taskDisplayItem.helpers({
-  friendlyDate: function() {
-    return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
   },
-  isDashboard: function() {
-    return (FlowRouter.getRouteName() === "dashboard" ? true : false);
-  },
-  entityDetails: function() {
-    var dataString = "";
-
-    switch (this.entityType) {
-      case 'user':
-        dataString = "Personal task"
-        break;
-      case 'company':
-        dataString = "Company task";
-        var handle = Meteor.subscribe("companyById", this.entityId);
-        if (handle && handle.ready()) {
-          var c = Companies.find({}).fetch()[0];
-          dataString += ": " + c.name;
-        }
-        break;
-      case 'contact':
-        dataString = "Contact task";
-        var handle = Meteor.subscribe("contactById", this.entityId);
-        if (handle && handle.ready()) {
-          var c = Contacts.find({}).fetch()[0];
-          dataString += ": " + c.forename + " " + c.surname;
-        }
-        break;
-      case 'project':
-        dataString = "Project task";
-        var handle = Meteor.subscribe("projectById", this.entityId);
-        if (handle && handle.ready()) {
-          var p = Projects.find({}).fetch()[0];
-          dataString += ": " + p.description;
-        }
-        break;
-      default:
-        dataString = "Misc. task";
+  'click #btnRecentlyCompleted': function(event) {
+    event.preventDefault();
+    if (Session.get('showCompleted') === 1) {
+      Session.set('showCompleted', 0);
+    } else {
+      Session.set('showCompleted', 1);
     }
-
-    return dataString;
-  }
-});
-
-Template.taskDisplayItem.events({
-  'click #btnEditEntityTask': function(event) {
-    event.preventDefault();
-    Modal.show('updateTask', this);
   },
-  'click #btnDeleteEntityTask': function(event) {
+  'click .task-completed': function(event) {
     event.preventDefault();
-    var taskId = this._id;
-
-    bootbox.confirm("Are you sure you wish to delete this task?", function(result) {
-      if (result === true) {
-        Tasks.remove(taskId);
+    var self = this;
+    if (Roles.userIsInRole(Meteor.userId(), ['Administrator','CanEditTasks'])) {
+      var taskId = self._id;
+      if (self.completed) {
+        Tasks.update(taskId, { $set: {
+          completed: false
+        }, $unset: {
+          completedAt: null
+        }});
+      } else {
+        Tasks.update(taskId, { $set: {
+          completed: true,
+          completedAt: new Date()
+        }});
       }
-    });
-  },
-  'click .displayedTaskHeading': function() {
-    $('.displayedTaskBody').scrollTop($('.displayedTaskBody').prop("scrollHeight"));
+    }
+      //Hack to artificially refresh display if completed are not showed
+      if (Session.get('showCompleted') === 0) {
+        $(event.target).parents('.list-group-item').fadeOut(500, () => {
+          Session.set('showCompleted', 1);
+          Session.set('showCompleted', 0);
+        })
+      }
   }
 });

@@ -230,19 +230,47 @@ Feature: Allow users to manage their Contacts
     Given I have the "CanEditContacts" permission
     And a "Contact" has been created
     When I navigate to a contact page
-    And I set text field with selector ".tag-input input" to "test tag"
-    Then the field with selector ".tag-input input" should contain "test tag"
+    And I click ".editTags"
+    And I add the tag "test-tag"
+    Then the tag field for the "contacts" should contain "test-tag"
 
   Scenario: A user without the CanEditContacts permission cannot edit tags
     Given I do not have the "CanEditContacts" permission
     And a "Contact" has been created
     When I navigate to a contact page
-    And I set text field with selector ".tag-input input" to "test tag"
-    Then the field with selector ".tag-input input" should not contain "test tag"
+    Then I should not see the edit tag button
 
   Scenario: A user with the Administrator permission can edit tags
     Given I have the "Administrator" permission
     And a "Contact" has been created
     When I navigate to a contact page
-    And I set text field with selector ".tag-input input" to "test tag"
-    Then the field with selector ".tag-input input" should contain "test tag"
+    And I click ".editTags"
+    And I add the tag "test-tag"
+    Then the tag field for the "contacts" should contain "test-tag"
+
+
+  #Tasks
+  Scenario: A user can add a task to a contact
+    Given I have the "CanReadTasks" permission
+    And I have the "CanCreateTasks" permission
+    And a "Contact" has been created
+    When I navigate to a contact page
+    And I click "#btnAddTaskToEntity"
+    Then I should see a modal
+    And I selectize "assigneeId" to "test user"
+    When I set text field "title" to "task title"
+    And I submit the "newTask" form
+    Then I should see the heading "task title"
+
+  Scenario: A user without the CanReadTasks permission cannot see tasks in a contact
+    Given I do not have the "CanReadTasks" permission
+    And a "Contact" task has been created
+    When I navigate to a contact page
+    Then I should not see "#entityTaskList"
+
+  Scenario: A user without the CanCreateTasks permission cannot add a task to a contact
+    Given I have the "CanReadTasks" permission
+    And I do not have the "CanCreateTasks" permission
+    And a "Contact" has been created
+    When I navigate to a contact page
+    Then I should not see "#btnAddTaskToEntity"

@@ -90,6 +90,52 @@ Template.contactDetail.helpers({
     return PurchaseOrders.find({
       supplierContactId: this._id
     })
+  },
+  linksList: function() {
+    return [
+      {
+        text: 'Contacts details',
+        anchor: 'contact-details',
+        icon: 'fa-file-text-o',
+        permission: 'CanReadContacts'
+      },
+      {
+        text: 'Current projects',
+        anchor: 'projects',
+        icon: 'fa-sitemap',
+        permission: 'CanReadProjects'
+      },
+      {
+        text: 'Purchase Orders',
+        anchor: 'purchase-orders',
+        icon: 'fa-shopping-cart',
+        permission: 'CanReadPurchaseOrders'
+      },
+      {
+        text: 'Tasks',
+        anchor: 'tasks',
+        icon: 'fa-tasks',
+        permission: 'CanReadTasks'
+      },
+      {
+        text: 'Extended information',
+        anchor: 'entity-custom-fields',
+        icon: 'fa-bookmark',
+        permission: 'CanEditContacts'
+      },
+      {
+        text: 'Opportunities',
+        anchor: 'opportunities',
+        icon: 'fa-lightbulb-o',
+        permission: 'CanReadOpportunities'
+      },
+      {
+        text: 'Activity Timeline',
+        anchor: 'activity-timeline',
+        icon: 'fa-list',
+        permission: 'CanReadContacts'
+      }
+    ]
   }
 });
 
@@ -103,17 +149,10 @@ Template.contactDetail.events({
   },
   'click #add-project': function(event) {
     event.preventDefault();
-    var company = this.company();
-    if (company === undefined) {
-      Modal.show('newContactProjectForm', {
-        contactId: this._id
-      });
-    } else {
-      Modal.show('newProjectForm', {
-        companyId: company._id,
-        contactId: this._id
-      });
-    }
+    Modal.show('newContactProjectForm', {
+      contactId: this._id,
+      companyId: this.companyId
+    });
   },
   'click #add-purchase-order': function(event) {
     event.preventDefault();
@@ -164,6 +203,7 @@ Template.ContactProjectListItem.helpers({
     return (this.companyId ? true : false);
   },
   projectCompanyName: function() {
+    Meteor.subscribe('companyById', this.companyId)
     var company = Companies.findOne(this.companyId);
     return company.name;
   }

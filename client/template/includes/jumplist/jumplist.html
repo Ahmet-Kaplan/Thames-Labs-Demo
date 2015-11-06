@@ -1,0 +1,26 @@
+<!-- 
+    To use the jumplist, pass it an array 'list' of objects.
+    Each object should contain the text to be displayed, the anchor and the fa icon as follow: 
+    [
+      {
+        text: 'Text to show on hover',
+        anchor: 'name-of-the-anchor', (note, without the #)
+        icon: 'fa-icon',
+        permission: 'permissionToRead'
+      },
+      ...
+    ]
+-->
+<template name="jumplist">
+  <div class="quick-menu">
+  {{#each list}}
+    {{#if hasPermission}}
+    <div class=" jumplist-elt">
+      <a href="#{{anchor}}" class="btn btn-default">
+        <i class="quick-menu-icon fa fa-fw {{icon}}"></i><span class="legend">{{text}}</span>
+      </a>
+    </div>
+    {{/if}}
+  {{/each}}
+  </div>
+</template>

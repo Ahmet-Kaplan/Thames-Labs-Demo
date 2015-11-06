@@ -5,30 +5,13 @@ Template.contactList.onCreated(function() {
   });
 });
 
-Template.contactList.onRendered(function() {
-  // Watch for session variable setting search
-  Session.set('contactListSearchQuery', null);
-  Tracker.autorun(function() {
-    var searchQuery = Session.get('contactListSearchQuery');
-    if (searchQuery) {
-      ContactsIndex.getComponentMethods().search(searchQuery);
-      $('.sidebar input').val(searchQuery);
-    }
-  });
-});
-
 Template.contactList.events({
   'click #add-contact': function(event) {
     event.preventDefault();
     Modal.show('insertContactModal', this);
-  }
-});
-
-Template.contactList.helpers({
-  contactCount: function() {
-    return ContactsIndex.getComponentDict().get('count');
   },
-  hasMultipleContacts: function() {
-    return ContactsIndex.getComponentDict().get('count') !== 1;
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('contacts');
   }
 });

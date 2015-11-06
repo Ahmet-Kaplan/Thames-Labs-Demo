@@ -1,34 +1,17 @@
+<template name="menuOpportunityExtension">
+  <div class="sidebar hidden-xs">
+    <ul>
+      <li><a class="nav-link" href="#opportunity-details">Opportunity details</a></li>
+      <li><a class="nav-link" href="#lines">Line items</a></li>
+    </ul>
+
+  </div>
+</template>
+
 <template name="opportunityDetail">
   {{#with oppData}} {{setPageTitle "Opportunity - " name}}
   <div class="row">
-    <div class="col-md-2 hidden-sm hidden-xs">
-      <div class="sidebar">
-
-        <h1 id="action-side-bar">Actions</h1>
-
-        <ul class="nav nav-stacked">
-          <li><a class="nav-link" href="#opportunity-details">Opportunity details</a></li>
-          <li><a class="nav-link" href="#lines">Line items</a></li>
-        </ul>
-        <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            Export quotation
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            {{#if canExportDocx}}
-            <li><a href="#" id="template-upload-link-docx">Word document (.docx)</a></li>
-            {{/if}}
-            <li><a href="#" id="template-upload-link">PDF (.pdf)</a></li>
-            <li class="divider"></li>
-            <li><a href="#" id="opp-template-help">How does this work?</a></li>
-          </ul>
-        </div>
-        <input type="file" id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px">
-        <input type="file" id="template-upload" style="height:0; width: 0; margin-left: -9999px">
-      </div>
-    </div>
-    <div class="col-md-10">
+    <div class="col-md-12">
       <div class="pull-right hidden-xs">
         {{#if isActive}}
           <br>
@@ -74,16 +57,32 @@
 
       <div class="panel panel-default" id="opportunity-details">
         <div class="panel-heading">
-          Opportunity details
           {{#if isActive}}
           <div class="btn-group pull-right">
             {{#if isInRole 'Administrator,CanEditOpportunities'}}
-            <a href="#" id="edit-opportunity" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
-            {{/if}} {{#if isInRole 'Administrator,CanDeleteOpportunities'}}
-            <a href="#" id="remove-opportunity" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
+            <div class="btn-group">
+              <button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span> Extract to...
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                {{#if canExportDocx}}
+                <li><a href="#" id="template-upload-link-docx">Microsoft Word (.docx)</a></li>
+                {{/if}}
+                <li><a href="#" id="template-upload-link">PDF (.pdf)</a></li>
+                <li class="divider"></li>
+                <li><a href="#" id="opp-template-help">How does this work?</a></li>
+              </ul>
+            </div>
+            <button id="edit-opportunity" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+            {{/if}}
+            {{#if isInRole 'Administrator,CanDeleteOpportunities'}}
+            <button id="remove-opportunity" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Delete</button>
             {{/if}}
           </div>
+          <input type="file" id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px">
+          <input type="file" id="template-upload" style="height:0; width: 0; margin-left: -9999px">
           {{/if}}
+          Opportunity details
         </div>
         <ul class="list-group">
           <li class="list-group-item panel-item-header">
@@ -150,14 +149,16 @@
           {{/if}}
         </ul>
       </div>
+
+      {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="opportunity" entity_id=_id}} {{/with}} {{/if}}
     </div>
   </div>
   <div class="row">
-    <div class="col-md-10 col-md-offset-2">
+    <div class="col-md-12">
       <h1 id="activity-timeline">
         Activity Timeline
         {{#if isActive}}
-          <a class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="New activity for this opportunity" href="#" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add
+          <a class="btn btn-primary{{#unless isMobile}} pull-right{{/unless}}" data-toggle="tooltip" data-placement="bottom" title="New activity for this opportunity" href="#" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add
             activity</a>
         {{/if}}
       </h1>
@@ -177,8 +178,10 @@
 <template name="opportunityItem">
   <li class="list-group-item">
     {{#if isActive}}
-    <button class="btn btn-danger btn-xs delete-line-item pull-right"><i class="fa fa-fw fa-times"></i> Delete</button>
-    <button class="btn btn-info btn-xs edit-line-item pull-right"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+    <div class="btn-group pull-right">
+      <button class="btn btn-info btn-xs edit-line-item"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+      <button class="btn btn-danger btn-xs delete-line-item"><i class="fa fa-fw fa-times"></i> Delete</button>
+    </div>
     {{/if}}
     <h4 style="margin: 0 0 4px">{{data.name}}</h4>
     {{#if data.description}}
@@ -218,10 +221,10 @@
 
           For each line item, you can specify the following tags:
           <ul>
-            <li>{name} - The name of a purchase order item</li>
-            <li>{description} - The number of a purchase order items ordered</li>
-            <li>{value} - The value of a purchase order item</li>
-            <li>{quantity} - The quantity of a purchase order item</li>
+            <li>{name} - The name of the opportunity</li>
+            <li>{description} - The description of the opportunity</li>
+            <li>{value} - The value of the opportunity</li>
+            <li>{quantity} - The quantity of the opportunity</li>
           </ul>
           You can loop through multiple items in your template by wrapping them as follows:
           <blockquote>

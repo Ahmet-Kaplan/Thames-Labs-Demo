@@ -1,5 +1,3 @@
-
-
 Template.insertActivityModal.helpers({
   currentDateTime: function() {
   return moment();
@@ -65,6 +63,22 @@ Template.insertPurchaseOrderActivityModal.helpers({
 });
 
 Template.insertOpportunityActivityModal.helpers({
+  currentDateTime: function() {
+  return moment();
+  },
+  currentUser: function() {
+    return Meteor.userId();
+  },
+  IsIEAnd10OrGreater: function() {
+    if (bowser.msie && bowser.version > 9) {
+      return true;
+    }
+
+    return false;
+  }
+});
+
+Template.insertTaskActivityModal.helpers({
   currentDateTime: function() {
   return moment();
   },

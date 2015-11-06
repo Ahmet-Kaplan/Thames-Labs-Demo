@@ -1,9 +1,41 @@
 Template.nav.onCreated(function() {
   this.subscribe('allNotifications');
+
+  this.autorun(function() {
+    var getNotification = Notifications.findOne({
+      target: {$in: [Meteor.userId(), 'all']}
+    }, {
+      sort: {
+        createdAt: -1
+      }
+    });
+
+    if(getNotification && !getNotification.notified && getNotification.target === Meteor.userId()) {
+      if("Notification" in window) {
+
+        var options = {
+          body: getNotification.shortDescription + ": " + getNotification.detail,
+          icon: '/dark-icon.svg'
+        }
+
+        if(Notification.permission === "granted") {
+          new Notification(getNotification.title, options);
+
+        } else if (Notification.permission !== "denied") {
+          Notification.requestPermission(function(permission) {
+            if(permission === "granted") {
+              new Notification(getNotification.title, options);
+            }
+          })
+        }
+
+      }
+      Meteor.call('setNotified', getNotification._id);
+    }
+  });
 });
 
 Template.nav.helpers({
-
   showTourOption: function() {
     var currRoute = FlowRouter.getRouteName();
     var show = false;
@@ -38,7 +70,9 @@ Template.nav.helpers({
     return sName;
   },
   notifications: function() {
-    return Notifications.find({}, {
+    return Notifications.find({
+      target: {$in: [Meteor.userId(), 'all']}
+    }, {
       sort: {
         createdAt: -1
       },
@@ -50,7 +84,9 @@ Template.nav.helpers({
     var yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    var recent = Notifications.find({}, {
+    var recent = Notifications.find({
+      target: {$in: [Meteor.userId(), 'all']}
+    }, {
       sort: {
         createdAt: -1
       },
@@ -70,10 +106,8 @@ Template.nav.helpers({
     var yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    return Notifications.find({}, {
-      sort: {
-        createdAt: -1
-      }
+    return Notifications.find({
+      target: {$in: [Meteor.userId(), 'all']}
     }).count();
   },
   favourites: function() {
@@ -95,52 +129,6 @@ Template.nav.helpers({
     }
     var totalRecords = Tenants.findOne({}).stripe.totalRecords;
     return totalRecords >= MAX_RECORDS;
-  }
-});
-
-Template.notice.helpers({
-  shortText: function() {
-    var c = this.title;
-    var s = c.substr(0, 40);
-    if (s.length > 37) {
-      return s + "...";
-    } else {
-      return s;
-    }
-  },
-  recentNote: function() {
-    var today = new Date();
-    var yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-
-    if (this.createdAt >= yesterday) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-});
-
-Template.menuNotice.helpers({
-  shortText: function() {
-    var c = this.title;
-    var s = c.substr(0, 40);
-    if (s.length > 37) {
-      return s + "...";
-    } else {
-      return s;
-    }
-  },
-  recentNote: function() {
-    var today = new Date();
-    var yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-
-    if (this.createdAt >= yesterday) {
-      return true;
-    } else {
-      return false;
-    }
   }
 });
 
@@ -190,6 +178,17 @@ Template.nav.events({
         profile: profile
       }
     });
+  },
+  'click #toggle-search': function(event) {
+    event.preventDefault();
+    var state = Session.get('globalSearchOpen');
+    if (state === false) {
+      Session.set('globalSearchOpen', true);
+      Modal.show('globalSearch');
+    } else {
+      Session.set('globalSearchOpen', false);
+      Modal.hide('globalSearch');
+    }
   },
   'click #qckCreateCompany': function(event) {
     if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateCompanies'])) {
@@ -262,10 +261,56 @@ Template.nav.events({
   }
 });
 
+Template.notice.helpers({
+  shortText: function() {
+    var c = this.title;
+    var s = c.substr(0, 40);
+    if (s.length > 37) {
+      return s + "...";
+    } else {
+      return s;
+    }
+  },
+  recentNote: function() {
+    var today = new Date();
+    var yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    if (this.createdAt >= yesterday) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+});
+
 Template.notice.events({
   'click .btnOpenNotice': function(event) {
     event.preventDefault();
     Modal.show('notificationModal', this);
+  }
+});
+
+Template.menuNotice.helpers({
+  shortText: function() {
+    var c = this.title;
+    var s = c.substr(0, 40);
+    if (s.length > 37) {
+      return s + "...";
+    } else {
+      return s;
+    }
+  },
+  recentNote: function() {
+    var today = new Date();
+    var yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    if (this.createdAt >= yesterday) {
+      return true;
+    } else {
+      return false;
+    }
   }
 });
 
@@ -275,3 +320,16 @@ Template.menuNotice.events({
     Modal.show('notificationModal', this);
   }
 });
+
+Template.notificationModal.helpers({
+  isPersonalNotification: function() {
+    return this.target === Meteor.userId();
+  }
+});
+
+Template.notificationModal.events({
+  'click #removeNotification': function() {
+    Meteor.call('removeNotification', this._id);
+    Modal.hide();
+  }
+})

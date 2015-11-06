@@ -1,0 +1,99 @@
+<template name="insertNewTask">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Add new {{displayLabel}} task</h4>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Tasks" id="newTaskForm" type="insert" preserveForm=true resetOnSuccess=true}}
+          {{> afQuickField name="title" id="taskTitle"}}
+          {{> afQuickField name="description" rows=5 id="taskDescription"}}
+          {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
+          {{> afQuickField name="isAllDay"}}
+          {{#if hasDueDate}}
+            {{> afQuickField name="remindMe"}}
+            <div id="showRemindMeDate" style="{{#unless showRemindMe}}display: none;{{/unless}}">
+              {{> reminderSelector}}
+            </div>
+          {{/if}}
+          <!-- {{> afQuickField name="duration" type="duration-picker"}} -->
+          {{#if isUserTask}}
+            {{> esSelectize name="assigneeId" index=UsersIndex value=getCurrentUserId}}
+          {{else}}
+            {{> esSelectize name="assigneeId" index=UsersIndex}}
+          {{/if}}
+
+          {{> afQuickField name="entityType" value=getEntityType type='hidden'}}
+
+          {{#if getEntityId}}
+            {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
+          {{else}}
+            {{#if isUserTask}}
+              {{> afQuickField name="entityId" value=getCurrentUserId type='hidden'}}
+            {{else}}
+              {{> esSelectize name="entityId" label=displayLabel index=autosuggestIndex}}
+            {{/if}}
+          {{/if}}
+          <button type="submit" class="btn btn-primary">Create</button> 
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="updateTask">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Edit task</h4>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Tasks" id="editTaskForm" type="update" doc=this}}
+          {{> afQuickField name="title" id="taskTitle"}}
+          {{> afQuickField name="description" rows=5 id="taskDescription"}}
+          {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
+          {{> afQuickField name="isAllDay"}}
+          {{#if hasDueDate}}
+            {{> afQuickField name="remindMe"}}
+            <div id="showRemindMeDate" style="{{#unless showRemindMe}}display: none;{{/unless}}">
+              {{> reminderSelector}}
+            </div>
+          {{/if}}
+          <!-- {{> afQuickField name="duration" type="duration-picker"}} -->
+          {{> esSelectize name="assigneeId" index=UsersIndex value=assigneeId}}
+          <!-- {{> afQuickField name="completed" id="taskCompleted"}} -->
+          <button type="submit" class="btn btn-primary">Update</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="reminderSelector">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-3">
+        <input id="reminderValue" type="number" max="60" class="form-control" value="1">
+      </div>
+      <div class="col-md-6">
+        <select id="reminderUnit" class="form-control">
+          <option value="minutes">Minutes Before</option>
+          <option value="hours" selected>Hours Before</option>
+          <option value="days">Days Before</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</template>

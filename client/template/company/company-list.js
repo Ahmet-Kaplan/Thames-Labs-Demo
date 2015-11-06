@@ -18,7 +18,7 @@ Template.companyList.onRendered(function() {
       CompaniesIndex.getComponentMethods().search(searchQuery);
       $('.sidebar input').val(searchQuery);
     }
-  });  
+  });
 });
 
 Template.companyList.helpers({
@@ -34,5 +34,9 @@ Template.companyList.events({
   'click #add-company': function(event) {
     event.preventDefault();
     Modal.show('insertNewCompanyModal', this);
+  },
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('companies');
   }
 });

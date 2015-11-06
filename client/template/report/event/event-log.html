@@ -6,29 +6,7 @@
 
   {{> EasySearch.Input index=AuditLogIndex attributes=searchInputAttributes}}
 
-  <div class="pull-right">
-    {{> EasySearch.Pagination index=AuditLogIndex }}
-  </div>
-  <small>{{eventLogCount}} event{{#if hasMultipleRecords}}s{{/if}}</small>
-
-  <div class="clearfix"></div>
-
-  <ul class="list-group" id="eventLogList">
-    {{#EasySearch.Each index=AuditLogIndex}}
-    {{> eventEntry}}
-    {{/EasySearch.Each}}
-
-    {{#EasySearch.IfNoResults index=AuditLogIndex}}
-    <h4>No event logs</h4>
-    {{/EasySearch.IfNoResults}}
-
-    {{#EasySearch.IfSearching index=AuditLogIndex}}
-    {{> spinner}}
-    {{/EasySearch.IfSearching}}
-  </ul>
-  <div class="pull-right">
-    {{> EasySearch.Pagination index=AuditLogIndex}}
-  </div>
+  {{> searchResults index=AuditLogIndex listItemTemplateName='eventEntry'}}
 
 </template>
 

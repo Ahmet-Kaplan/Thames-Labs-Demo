@@ -3,32 +3,55 @@ Template.productList.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadProducts');
   });
+  this.totalProducts = new ReactiveVar(0);
+  this.totalProductsCost = new ReactiveVar(0);
+  this.averageProductsCost = new ReactiveVar(0);
 });
+Template.productList.onRendered(function(){
+  var template = this;
 
-Template.productList.onRendered(function() {
-  // Watch for session variable setting search
-  Session.set('productListSearchQuery', null);
-  Tracker.autorun(function() {
-    var searchQuery = Session.get('productListSearchQuery');
-    if (searchQuery) {
-      ProductsIndex.getComponentMethods().search(searchQuery);
-      $('.sidebar input').val(searchQuery);
-    }
+  Meteor.call('report.numberOfProducts', function(err, data) {
+    template.totalProducts.set(data.Count);
   });
-});
-
-Template.productList.helpers({
-  productCount: function() {
-    return ProductsIndex.getComponentDict().get('count');
-  },
-  hasMultipleProducts: function() {
-    return ProductsIndex.getComponentDict().get('count') !== 1;
-  }
+  Meteor.call('report.costOfProducts', function(err, data) {
+    template.totalProductsCost.set(data.Value);
+  });
+  Meteor.call('report.averageProductsCost', function(err, data) {
+    template.averageProductsCost.set(data.Value);
+  });
 });
 
 Template.productList.events({
   'click #add-product': function(event) {
     event.preventDefault();
     Modal.show('insertProductModal', this);
+  },
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('products');
+  },
+  'click #ref_productsOverviewWidget': function(event, template) {
+
+      Meteor.call('report.numberOfProducts', function(err, data) {
+        template.totalProducts.set(data.Count);
+      });
+      Meteor.call('report.costOfProducts', function(err, data) {
+        template.totalProductsCost.set(data.Value);
+      });
+      Meteor.call('report.averageProductsCost', function(err, data) {
+        template.averageProductsCost.set(data.Value);
+      });
+  }
+});
+
+Template.productList.helpers({
+  totalProducts: function() {
+    return Template.instance().totalProducts.get();
+  },
+  totalProductsCost: function() {
+    return Template.instance().totalProductsCost.get();
+  },
+  averageProductsCost: function() {
+    return Template.instance().averageProductsCost.get();
   }
 });

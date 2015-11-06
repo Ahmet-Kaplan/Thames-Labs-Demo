@@ -5,13 +5,13 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5>Add new tenant</h5>
+          <h4>Add new tenant</h4>
         </div>
 
         <div class="modal-body">
           {{#autoForm collection="Tenants" id="addTenantModal" type="insert"}}
             {{> afQuickField name="name"}}
-            {{> afQuickField name="coupon" type="text"}}
+            {{> afQuickField name="stripe.coupon"}}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
         </div>
@@ -28,7 +28,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h5>Edit tenant settings</h5>
+          <h4>Edit tenant settings</h4>
         </div>
 
         <div class="modal-body">

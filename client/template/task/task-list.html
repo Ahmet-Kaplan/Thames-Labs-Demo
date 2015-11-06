@@ -1,61 +1,49 @@
 <template name="taskList">
   {{setPageTitle 'Tasks'}}
-  <h1><i class="fa fa-fw fa-check"></i> Tasks</h1>
+  <h1><i class="fa fa-fw fa-check"></i>{{#if showMine}} My{{/if}} Tasks{{#if showComp}} - <em>Completed</em>{{/if}}</h1>
 
-  <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-      <div class="well well-sm">
-        {{#if isInRole 'Administrator,CanDeleteTasks'}}
+  <div class="stick-bar">
+    <div class="row">
+      <div class="col-md-3">
+        {{> EasySearch.Input index=TasksIndex attributes=searchInputAttributes}}
+      </div>
+      <div class="col-md-3">
+        {{> tagSearch collection='tasks' }}
+      </div>
+      <div class="col-md-3">
         <div class="btn-group">
-          <button class="btn btn-danger btn-xs" id="tskDeleteAllCompleted">Delete all completed</button>
-        </div>
-        {{/if}}
-
-        <div class="btn-group pull-right">
-          <button type="button" class="btn btn-primary btn-xs" id="tskToggleCompleted" >
-            {{#if showComp}}Hide{{else}}Show{{/if}} Completed
+          <button type="button" class="btn btn-{{#if showMine}}success{{else}}default{{/if}}" id="tskToggleMine" >
+            Show my tasks
+          </button>
+          <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
+            Show completed
           </button>
         </div>
       </div>
-
-      <ul class="list-group" id='tskEntryContainer'>
-        {{#each tasks}} {{> taskListEntry}} {{else}}
-        <li class="list-group-item">No tasks added</li>
-        {{/each}}
-      </ul>
+      {{#if isInRole 'Administrator,CanCreateTasks'}}
+      <div class="col-md-3">
+        <div class="btn-group" role="group">
+          <div class="btn-group" role="group">
+            <button class="btn btn-primary dropdown-toggle{{#if isMobile}} btn-fullWidth{{/if}}" type="button" id="addTaskDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              Add Task <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu{{#if isMobile}} btn-fullWidth{{/if}}" aria-labelledby="addTaskDropdown">
+              <li><a href="#" class="add-task" id="user">Personal Task</a></li>
+              <li><a href="#" class="add-task" id="company">Company Task</a></li>
+              <li><a href="#" class="add-task" id="contact">Contact Task</a></li>
+              <li><a href="#" class="add-task" id="opportunity">Opportunity Task</a></li>
+              <li><a href="#" class="add-task" id="project">Project Task</a></li>
+            </ul>
+          </div>
+          {{#if isInRole 'Administrator,CanDeleteTasks'}}
+            <button class="btn btn-danger" id="tskDeleteAllCompleted">Delete Tasks</button>
+          {{/if}}
+        </div>
+      </div>
+      {{/if}}
     </div>
   </div>
-</template>
 
-<template name="taskListEntry">
-  <li class="list-group-item" id='tskListEntry'>
-    <div class="row">
-      <div class="col-md-2">
-        <i class="fa fa-fw fa-tasks"></i> {{title}}
-      </div>
-      <div class="col-md-4 userDataDisplay">
-        {{entityDetails}}
-      </div>
-      <div class="col-md-2 userDataDisplay">
-        Due: {{friendlyDate}}
-      </div>
-      <div class="col-md-2 ">
-        {{#if isCompleted}}<i class="fa fa-fw fa-check text-success"></i> Completed {{else}}<i class="fa fa-fw fa-times text-danger"></i> Not yet completed {{/if}}
-      </div>
-      <div class="col-md-2">
-        <div class="btn-group pull-right">
-          {{#if isInRole 'Administrator,CanEditTasks'}}
-          <button class="btn btn-info btn-xs" id="tskEditTaskListEntry" type="button" data-toggle="tooltip" data-placement="bottom" title="Change task details or mark it complete"><i class="fa fa-fw fa-pencil"></i>
-            Edit
-          </button>
-          {{/if}}
-          {{#if isInRole 'Administrator,CanDeleteTasks'}}
-          <button class="btn btn-danger  btn-xs" id="tskDeleteTaskListEntry" type="button"><i class="fa fa-fw fa-times"></i>
-            Delete
-          </button>
-          {{/if}}
-        </div>
-      </div>
-    </div>
-  </li>
+  {{> searchResults index=TasksIndex listItemTemplateName='task'}}
+
 </template>

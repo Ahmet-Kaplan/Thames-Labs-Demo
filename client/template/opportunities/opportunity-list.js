@@ -5,18 +5,12 @@ Template.opportunityList.onCreated(function() {
   });
   // Search props
   this.showArchived = new ReactiveVar(false);
+  this.totalOpps = new ReactiveVar(0);
+  this.totalOppValue = new ReactiveVar(0);
+  this.averageOppValue = new ReactiveVar(0);
 });
 
 Template.opportunityList.onRendered(function() {
-  // Watch for session variable setting search
-  Session.set('opportunitySearchQuery', null);
-  this.autorun(function() {
-    var searchQuery = Session.get('opportunitySearchQuery');
-    if (searchQuery) {
-      OpportunitiesIndex.getComponentMethods().search(searchQuery);
-      $('.sidebar input').val(searchQuery);
-    }
-  });
   // Update search props if reactive vars changed
   this.autorun( () => {
     var searchComponent = OpportunitiesIndex.getComponentMethods();
@@ -26,17 +20,32 @@ Template.opportunityList.onRendered(function() {
       searchComponent.removeProps('showArchived');
     }
   });
+
+  var template = this;
+
+  Meteor.call('report.numberOfOpportunities', function(err, data) {
+    template.totalOpps.set(data.Count);
+  });
+  Meteor.call('report.valueOfOpportunities', function(err, data) {
+    template.totalOppValue.set(data.Value);
+  });
+  Meteor.call('report.averageOpportunityValue', function(err, data) {
+    template.averageOppValue.set(data.Value);
+  });
 });
 
 Template.opportunityList.helpers({
-  opportunityCount: function() {
-    return OpportunitiesIndex.getComponentDict().get('count');
-  },
-  hasMultipleOpportunities: function() {
-    return OpportunitiesIndex.getComponentDict().get('count') != 1;
-  },
   archivedShown: function() {
     return Template.instance().showArchived.get();
+  },
+  totalOpps: function() {
+    return Template.instance().totalOpps.get();
+  },
+  totalOppValue: function() {
+    return Template.instance().totalOppValue.get();
+  },
+  averageOppValue: function() {
+    return Template.instance().averageOppValue.get();
   }
 });
 
@@ -49,5 +58,21 @@ Template.opportunityList.events({
     event.preventDefault();
     var showArchived = Template.instance().showArchived.get();
     Template.instance().showArchived.set(!showArchived);
+  },
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('opportunities');
+  },
+  'click #ref_oppsOverviewWidget': function(event, template) {
+
+      Meteor.call('report.numberOfOpportunities', function(err, data) {
+        template.totalOpps.set(data.Count);
+      });
+      Meteor.call('report.valueOfOpportunities', function(err, data) {
+        template.totalOppValue.set(data.Value);
+      });
+      Meteor.call('report.averageOpportunityValue', function(err, data) {
+        template.averageOppValue.set(data.Value);
+      });
   }
 });

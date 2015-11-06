@@ -84,14 +84,19 @@ router.route('/statistics', {
 // SUPERADMIN only route
 router.route('/audit', {
   name: 'audit',
-  subscriptions: function() {
-    this.register('allTenants', subs.subscribe('allTenants'));
-    this.register('allUserData', subs.subscribe('allUserData'));
-    this.register('auditData', subs.subscribe('auditData'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: "auditLog"
+    });
+  }
+});
+
+// SUPERADMIN only route
+router.route('/jobs', {
+  name: 'jobs-queue',
+  action: function() {
+    layout.render('appLayout', {
+      main: "jobsQueue"
     });
   }
 });
@@ -230,12 +235,21 @@ router.route('/purchaseorders/:id', {
 
 router.route('/tasks', {
   name: 'tasks',
-  subscriptions: function() {
-    this.register('allUserTasks', subs.subscribe('allUserTasks', Meteor.userId()));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'taskList'
+    });
+  }
+});
+
+router.route('/tasks/:id', {
+  name: 'task',
+  subscriptions: function(params) {
+    this.register('taskById', subs.subscribe('taskById', params.id))
+  },
+  action: function() {
+    layout.render('appLayout', {
+      main: 'taskDetail'
     });
   }
 });
@@ -300,6 +314,7 @@ router.route('/opportunities/:id', {
   subscriptions: function(params) {
     this.register('opportunityById', subs.subscribe('opportunityById', params.id));
     this.register('opportunityTags', subs.subscribe('opportunityTags'));
+    this.register('taskTags', subs.subscribe('taskTags'));
   },
   action: function() {
     layout.render('appLayout', {

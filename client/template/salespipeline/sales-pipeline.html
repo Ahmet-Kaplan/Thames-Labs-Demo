@@ -24,18 +24,23 @@
     <div class="col-md-6">
       <div class="panel-default panel">
         {{#if selectedStage}}
-          <div class="panel-heading">
-            Opportunities: {{selectedStage.title}}
-          </div>
-          <ul class="list-group">
-            {{#each opportunities}}
-              <a class="list-group-item" href="{{pathFor route='opportunity' id=_id}}">{{name}}</a>
-            {{/each}}
-          </ul>
+        <div class="panel-heading">
+          Opportunities: {{selectedStage.title}}
+        </div>
+        <div class="panel-body">
+          Average Value:
+          <span class="pull-right">£{{stageValues.averageValue}}</span>
+          <br> Total Value:
+          <span class="pull-right">£{{stageValues.totalValue}}</span>
+        </div>
+        <ul class="list-group">
+          {{#each opportunities}}
+          <a class="list-group-item" href="{{pathFor route='opportunity' id=_id}}">{{name}}</a> {{/each}}
+        </ul>
         {{else}}
-          <div class="panel-body">
-            <h4>Select a stage to view the corresponding opportunities</h4>
-          </div>
+        <div class="panel-body">
+          <h4>Select a stage to view the corresponding opportunities</h4>
+        </div>
         {{/if}}
       </div>
     </div>

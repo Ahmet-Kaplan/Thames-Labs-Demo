@@ -1,21 +1,44 @@
 <template name="auditLog">
 
-  <h1><i class="fa fa-fw fa-book"></i>Audit Log</h1>
+  {{setPageTitle 'Global Audit Log'}}
 
-  {{setPageTitle 'Audit Log'}}
-  <div class="well well-sm">
-    <div class="btn-group">
-      <button id="clear-audit-log" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Clear audit log</button>
+  <div class="row" id="company-list">
+    <div class="col-md-12">
+      <h1><i class="fa fa-fw fa-user-secret"></i> Global Audit Log</h1>
+
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-9">
+            {{> EasySearch.Input index=GlobalAuditIndex attributes=searchInputAttributes}}
+          </div>
+          <div class="col-md-3">
+            <div class="btn-group" role="group">
+              <button type="button" id="clear-audit-log" class="btn btn-danger"><i class="fa fa-fw fa-times"></i> Clear audit log</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5 col-md-offset-7" style="text-align:right;">{{> EasySearch.Pagination index=GlobalAuditIndex prevAndNext=true maxPages=15}}</div></div>
+
+      <div class="list-group">
+        {{#EasySearch.Each index=GlobalAuditIndex}}
+          {{> auditLogEntry}}
+        {{/EasySearch.Each}}
+
+        {{#EasySearch.IfNoResults index=GlobalAuditIndex}}
+          <h4>No results found</h4>
+        {{/EasySearch.IfNoResults}}
+
+        {{#EasySearch.IfSearching index=GlobalAuditIndex}}
+          {{> spinner}}
+        <!-- {{else}}
+          {{> loadMore index=GlobalAuditIndex}} -->
+        {{/EasySearch.IfSearching}}
+      </div>
     </div>
   </div>
-
-  <ul class="list-group">
-    {{#each auditLogs}} {{> auditLogEntry}} {{else}}
-    <li class="list-group-item">
-      <em>No audit logs</em>
-    </li>
-    {{/each}}
-  </ul>
 
 </template>
 
@@ -35,10 +58,10 @@
         {{message}}
       </div>
       <div class="col-md-2 userDataDisplay">
-        {{#if entityType}} {{entityType}}: {{entityId}} {{/if}}
+        {{#if user}} {{user}} {{/if}}
       </div>
       <div class="col-md-2 userDataDisplay">
-        {{#if user}} {{userName}} {{/if}}
+        {{#if tenant}} {{tenant}} {{/if}}
       </div>
     </div>
   </li>

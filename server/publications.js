@@ -13,6 +13,11 @@ Meteor.publish('userPresence', function() {
   });
 });
 
+Meteor.publish("globalAuditData", function() {
+  if (!Roles.userIsInRole(this.userId, ['superadmin'])) return this.ready();
+  return GlobalAudit.find({});
+});
+
 Meteor.publish("auditData", function() {
   if (!Roles.userIsInRole(this.userId, ['superadmin'])) return this.ready();
   return Partitioner.directOperation(function() {
@@ -148,6 +153,13 @@ Meteor.publish("activityByOpportunityId", function(opportunityId) {
     opportunityId: opportunityId
   });
 });
+Meteor.publish("activityByTaskId", function(taskId) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTasks'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Activities.find({
+    taskId: taskId
+  });
+});
 
 
 Meteor.publish("allProjects", function() {
@@ -260,6 +272,13 @@ Meteor.publish("allTasks", function() {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Tasks.find({});
 });
+Meteor.publish("taskById", function(taskId) {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTasks'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Tasks.find({
+    _id: taskId
+  });
+});
 Meteor.publish("tasksByEntityId", function(entityId) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTasks'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
@@ -272,6 +291,13 @@ Meteor.publish("allUserTasks", function(userId) {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Tasks.find({
     assigneeId: userId
+  });
+});
+Meteor.publish("taskTags", function() {
+  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTags'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Meteor.tags.find({
+    collection: 'tasks'
   });
 });
 

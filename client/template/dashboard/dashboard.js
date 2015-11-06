@@ -28,7 +28,7 @@ widgets = {
     x: 2,
     y: 0,
     w: 1,
-    h: 7,
+    h: 10,
     displayed: true,
     name: 'Online users'
   },
@@ -36,7 +36,7 @@ widgets = {
     id: 'task',
     x: 0,
     y: 8,
-    w: 3,
+    w: 2,
     h: 3,
     displayed: true,
     name: 'My tasks',
@@ -46,12 +46,78 @@ widgets = {
     id: 'openPo',
     x: 0,
     y: 0,
-    w: 3,
-    h: 7,
+    w: 2,
+    h: 4,
     displayed: false,
     name: 'Requested Purchase Orders',
     requiredPermission: "CanReadPurchaseOrders"
-  }
+  },
+  'taskInformation': {
+    id: 'taskInformation',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 6,
+    displayed: false,
+    name: 'Tasks Overview'
+  },
+  'opportunityInformation': {
+    id: 'opportunityInformation',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 5,
+    displayed: false,
+    name: 'Opportunities Overview',
+    requiredPermission: "CanReadOpportunities"
+  },
+  'projectInformation': {
+    id: 'projectInformation',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 6,
+    displayed: false,
+    name: 'Projects Overview',
+    requiredPermission: "CanReadProjects"
+  },
+  'productsInformation': {
+    id: 'productsInformation',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 5,
+    displayed: false,
+    name: 'Products Overview',
+    requiredPermission: "CanReadProducts"
+  },
+  'poInformation': {
+    id: 'poInformation',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 7,
+    displayed: false,
+    name: 'Purchase Orders Overview',
+  },
+  'companySummary': {
+    id: 'companySummary',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 8,
+    displayed: false,
+    name: 'Company Summary'
+  },
+  // 'propagationChart': {
+  //   id: 'propagationChart',
+  //   x: 0,
+  //   y: 0,
+  //   w: 4,
+  //   h: 13,
+  //   displayed: false,
+  //   name: 'Propagation Overview (Chart)'
+  // },
 };
 //List of widgets used by the user
 myWidgets = {};
@@ -132,18 +198,18 @@ Template.dashboard.onRendered(function() {
 
   //Has user taken welcome tour yet?
   if (Meteor.user().profile.welcomeTour === false) {
-    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');    
+    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
   }
 });
 
 Template.dashboard.events({
-	'click #dashboard-icon':function(){
-		Meteor.users.update(Meteor.userId(), {
-			$set: {
-				"profile.welcomeTour": false
-     	}
+  'click #dashboard-icon': function() {
+    Meteor.users.update(Meteor.userId(), {
+      $set: {
+        "profile.welcomeTour": false
+      }
     });
-	},
+  },
   'change .grid-stack': function() {
     saveMyWidgets()
   },

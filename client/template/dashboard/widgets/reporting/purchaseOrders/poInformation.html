@@ -1,0 +1,45 @@
+<template name="poInformationWidget">
+  <div class="grid-stack-item-content">
+    <div class="panel panel-default" id='projectInformationBox'>
+      <div class="panel-heading">
+        <i class="fa fa-fw fa-shopping-cart"></i>
+        <button aria-hidden="true" class="close" id="close_poInformationWidget" type="button">×</button>
+         Purchase Orders Overview
+        <a href="#" id="ref_poInformationWidget" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
+
+      </div>
+      <div class="panel-body">
+        <div class="poInformationList">
+          <table class="table table-no-border">
+            <tbody>
+              <tr>
+                <td>Total number of purchase orders:</td>
+                <td class="text-right">{{totalPurchaseOrders}}</td>
+              </tr>
+              <tr>
+                <td>Orders approved:</td>
+                <td class="text-right">{{totalApprovedPo}}</td>
+              </tr>
+              <tr>
+                <td>Orders Arrived:</td>
+                <td class="text-right">{{totalArrivedPo}}</td>
+              </tr>
+              <tr>
+                <td>Orders closed:</td>
+                <td class="text-right">{{totalClosedPo}}</td>
+              </tr>
+              <tr>
+                <td>Orders Cancelled:</td>
+                <td class="text-right">{{totalCancelledPo}}</td>
+              </tr>
+              <tr>
+                <td>Orders Rejected:</td>
+                <td class="text-right">{{totalRejectedPo}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
