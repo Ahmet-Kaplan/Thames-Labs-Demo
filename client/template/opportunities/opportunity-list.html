@@ -25,15 +25,23 @@
               <button id="toggle-archived" class="btn btn-default"><i class="fa fa-fw fa-folder"></i></button>
               {{/if}}
               <button id="#ref_oppsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Opportunities Overview" data-content="
-                <div><dl class='list-unstyled'>
-                  <dt>Opportunities:</dt>
-                    <dd class='text-right'>{{totalOpps}}</dd>
-                  <dt>Total Value:</dt>
-                    <dd class='text-right'>£{{totalOppValue}}</dd>
-                  <dt>Average Value:</dt>
-                    <dd class='text-right'>£{{averageOppValue}}</dd>
-                </dl>
-                </div>">
+                <table class='table'>
+                  <tbody>
+                    <tr>
+                      <td>Opportunities:</td>
+                      <td class='text-right'>{{totalOpps}}</td>
+                    </tr>
+                    <tr>
+                      <td>Total Value:</td>
+                      <td class='text-right'>£{{totalOppValue}}</td>
+                    </tr>
+                    <tr>
+                      <td>Average Value:</td>
+                      <td class='text-right'>£{{averageOppValue}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                ">
               <i class="fa fa-fw fa-tasks"></i></button>
             </div>
           </div>
@@ -55,3 +63,13 @@
     });
   </script>
 </template>
+
+<!-- <div><dl class='list-unstyled'>
+  <dt>Opportunities:</dt>
+    <dd class='text-right'>{{totalOpps}}</dd>
+  <dt>Total Value:</dt>
+    <dd class='text-right'>£{{totalOppValue}}</dd>
+  <dt>Average Value:</dt>
+    <dd class='text-right'>£{{averageOppValue}}</dd>
+</dl>
+</div>"> -->

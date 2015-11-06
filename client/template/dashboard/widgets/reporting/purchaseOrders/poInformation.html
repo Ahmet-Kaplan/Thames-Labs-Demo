@@ -10,20 +10,34 @@
       </div>
       <div class="panel-body">
         <div class="poInformationList">
-          <dl>
-            <dt id="totalPurchaseOrders">Total number of purchase orders:</dt>
-              <dd class="text-right">{{totalPurchaseOrders}}</dd>
-            <dt id="totalPurchaseOrders">Orders approved:</dt>
-              <dd class="text-right">{{totalApprovedPo}}</dd>
-            <dt id="totalPurchaseOrders">Orders arrived:</dt>
-              <dd class="text-right">{{totalArrivedPo}}</dd>
-            <dt id="totalPurchaseOrders">Orders closed:</dt>
-              <dd class="text-right">{{totalClosedPo}}</dd>
-            <dt id="totalPurchaseOrders">Orders cancelled:</dt>
-              <dd class="text-right">{{totalCancelledPo}}</dd>
-            <dt id="totalPurchaseOrders">Orders rejected:</dt>
-              <dd class="text-right">{{totalRejectedPo}}</dd>
-          </dl>
+          <table class="table table-no-border">
+            <tbody>
+              <tr>
+                <td>Total number of purchase orders:</td>
+                <td class="text-right">{{totalPurchaseOrders}}</td>
+              </tr>
+              <tr>
+                <td>Orders approved:</td>
+                <td class="text-right">{{totalApprovedPo}}</td>
+              </tr>
+              <tr>
+                <td>Orders Arrived:</td>
+                <td class="text-right">{{totalArrivedPo}}</td>
+              </tr>
+              <tr>
+                <td>Orders closed:</td>
+                <td class="text-right">{{totalClosedPo}}</td>
+              </tr>
+              <tr>
+                <td>Orders Cancelled:</td>
+                <td class="text-right">{{totalCancelledPo}}</td>
+              </tr>
+              <tr>
+                <td>Orders Rejected:</td>
+                <td class="text-right">{{totalRejectedPo}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

@@ -79,7 +79,7 @@ Meteor.methods({
       var data = {
         "StoredContacts": (!Meteor.isDevelopment ? [] : contactData),
         // "Count": (contactData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-        "Count": (contactData.length)
+        "Count": (contactData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
 
       }
       return data;

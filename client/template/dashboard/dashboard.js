@@ -47,7 +47,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 2,
-    h: 5,
+    h: 4,
     displayed: false,
     name: 'Requested Purchase Orders',
     requiredPermission: "CanReadPurchaseOrders"
@@ -66,7 +66,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 6,
+    h: 5,
     displayed: false,
     name: 'Opportunities Overview',
     requiredPermission: "CanReadOpportunities"
@@ -86,7 +86,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 6,
+    h: 5,
     displayed: false,
     name: 'Products Overview',
     requiredPermission: "CanReadProducts"
@@ -96,7 +96,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 8,
+    h: 7,
     displayed: false,
     name: 'Purchase Orders Overview',
   },
@@ -105,7 +105,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 9,
+    h: 8,
     displayed: false,
     name: 'Company Summary'
   },

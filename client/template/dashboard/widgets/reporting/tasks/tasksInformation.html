@@ -9,16 +9,26 @@
       </div>
       <div class="panel-body">
         <div class="taskInformationList">
-          <dl>
-            <dt id="tasksCreatedInformation">Tasks created:</dt>
-              <dd class="text-right">{{createdTasks}}</dd>
-            <dt id="tasksCompletedInformation">Tasks completed:</dt>
-              <dd class="text-right">{{completedTasks}}</dd>
-            <dt id="tasksDueSoonInformation">Tasks due soon:</dt>
-              <dd class="text-right">{{dueTasks}}</dd>
-            <dt id="tasksOverdueInformation">Tasks overdue:</dt>
-              <dd class="text-right">{{overdueTasks}}</dd>
-          </dl>
+          <table class="table table-no-border">
+            <tbody>
+              <tr>
+                <td>Tasks created:</td>
+                <td class="text-right">{{createdTasks}}</td>
+              </tr>
+              <tr>
+                <td>Tasks completed:</td>
+                <td class="text-right">{{completedTasks}}</td>
+              </tr>
+              <tr>
+                <td>Tasks due soon:</td>
+                <td class="text-right">{{dueTasks}}</td>
+              </tr>
+              <tr>
+                <td>Tasks overdue:</td>
+                <td class="text-right">{{overdueTasks}}</td>
+              </tr>
+            </tbody>
+          </table>
 
         </div>
       </div>
