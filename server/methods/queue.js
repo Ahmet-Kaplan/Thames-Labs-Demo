@@ -7,7 +7,7 @@ Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
   if(assigneeId === undefined) {
     job.log('Unable to find user with _id: ' + job.data.assigneeId, {level: 'warning'});
     job.fail('User not found.');
-    callback;
+    callback();
   } else {
     var assignee = Meteor.users.findOne({_id: assigneeId});
   }
@@ -34,9 +34,9 @@ Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
     });
 
     Notifications.insert({
-      title: 'RealtimeCRM Task Reminder',
-      shortDescription: task.title,
-      detail: task.description,
+      title: task.title || 'RealtimeCRM Task Reminder',
+      shortDescription: 'RealtimeCRM Task Reminder',
+      detail: task.description || 'No description provided',
       target: assigneeId,
       createdAt: new Date(),
       createdBy: task.createdBy,
@@ -73,7 +73,9 @@ Meteor.methods({
     }
 
     //Checking validity of dates provided
-    var reminderDate = moment(task.reminder);
+    var reminderValue = parseInt(task.reminder.split('.')[0]);
+    var reminderUnit = task.reminder.split('.')[1];
+    var reminderDate = moment(task.dueDate).subtract(reminderValue, reminderUnit);
     var dueDate = moment(task.dueDate);
 
     if (reminderDate.isBefore(moment())) {
@@ -88,7 +90,7 @@ Meteor.methods({
       });
 
       taskJob.priority('normal')
-             .after(task.reminder)
+             .after(reminderDate.toDate())
              .save();
 
       Tasks.direct.update(task._id, {
@@ -112,12 +114,19 @@ Meteor.methods({
       throw new Meteor.Error(404, 'No task provided.');
     }
 
-    var reminderDate = moment(task.reminder);
-    var dueDate = moment(task.dueDate);
-    var taskJob;
+    if(task.completed && task.taskReminderJob) {
+      Meteor.call('deleteTaskReminder', task.taskReminderJob, task._id);
+      return true;
+    }
 
     //If reminder job exist, update or cancel it
     if(task.taskReminderJob) {
+
+      var reminderValue = parseInt(task.reminder.split('.')[0]);
+      var reminderUnit = task.reminder.split('.')[1];
+      var reminderDate = moment(task.dueDate).subtract(reminderValue, reminderUnit);
+      var dueDate = moment(task.dueDate);
+      var taskJob;
 
       taskJob = jobsList.getJob(task.taskReminderJob);
 
@@ -133,7 +142,7 @@ Meteor.methods({
         //Check if task can be paused
         if( taskJob._doc.status === 'ready' || taskJob._doc.status === 'waiting') {
           taskJob.pause();
-          taskJob.after(task.reminder);
+          taskJob.after(reminderDate.toDate());
           taskJob.save();
 
         //Else it means we have to create a new job
@@ -144,14 +153,7 @@ Meteor.methods({
 
       //Delete
       } else {
-        Meteor.call('deleteTaskReminder', task.taskReminderJob)
-        Partitioner.directOperation(function() {
-          Tasks.direct.update(taskId, {
-            $unset: {
-              taskReminderJob: ''
-            }
-          });
-        });
+        Meteor.call('deleteTaskReminder', task.taskReminderJob, task._id)
       }
 
     //If no job set, check if need to create one
@@ -160,7 +162,7 @@ Meteor.methods({
     }
   },
 
-  deleteTaskReminder: function(jobId) {
+  deleteTaskReminder: function(jobId, taskId) {
     //Checking permission
     if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanDeleteTasks'])) {
       throw new Meteor.Error(403, 'You do not have the permissions to remove Tasks');
@@ -178,6 +180,16 @@ Meteor.methods({
       taskJob.cancel();
     }
     taskJob.remove();
+
+    if(taskId) {
+      Partitioner.directOperation(function() {
+        Tasks.direct.update(taskId, {
+          $unset: {
+            taskReminderJob: ''
+          }
+        });
+      });
+    }
   },
 
   getJobsList: function() {
