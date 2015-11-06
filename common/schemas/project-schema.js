@@ -65,6 +65,14 @@ Schemas.Project = new SimpleSchema({
   staff: {
     type: [String],
     optional: true
+  },
+  customFields: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
   }
 });
 Schemas.Project.messages({
