@@ -1,13 +1,10 @@
-Template.productList.onCreated(function() {
-  // Redirect if read permission changed
-  this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadProducts');
-  });
+Template.productsInformationWidget.onCreated(function() {
   this.totalProducts = new ReactiveVar(0);
   this.totalProductsCost = new ReactiveVar(0);
   this.averageProductsCost = new ReactiveVar(0);
 });
-Template.productList.onRendered(function(){
+
+Template.productsInformationWidget.onRendered(function() {
   var template = this;
 
   Meteor.call('report.numberOfProducts', function(err, data) {
@@ -21,16 +18,8 @@ Template.productList.onRendered(function(){
   });
 });
 
-Template.productList.events({
-  'click #add-product': function(event) {
-    event.preventDefault();
-    Modal.show('insertProductModal', this);
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('products');
-  },
-  'click #ref_productsOverviewWidget': function(event, template) {
+Template.productsInformationWidget.events({
+  'click #ref_productsInformationWidget': function(event, template) {
 
       Meteor.call('report.numberOfProducts', function(err, data) {
         template.totalProducts.set(data.Count);
@@ -44,7 +33,7 @@ Template.productList.events({
   }
 });
 
-Template.productList.helpers({
+Template.productsInformationWidget.helpers({
   totalProducts: function() {
     return Template.instance().totalProducts.get();
   },

@@ -16,14 +16,39 @@
           <div class="col-md-3">
             {{> tagSearch collection='opportunities' }}
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3" id="btn-group">
             <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default" id="export"><i class="fa fa-fw fa-download"></i> Export results to CSV</button>
-              <button id="toggle-archived" class="btn btn-default">Show {{#if archivedShown}}Active{{else}}Archived{{/if}}</button>
-              {{#if isInRole 'Administrator,CanCreateOpportunities'}}
-                <button id="create-opportunity" type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+O"><i class="fa fa-fw fa-plus"></i> Add opportunity</button>
+              <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" data-placement="bottom" title="Export results to CSV"><i class="fa fa-fw fa-download"></i></button>
+              {{#if archivedShown}}
+              <button id="toggle-archived" class="btn btn-default"><i class="fa fa-fw fa-folder-open"></i></button>
+              {{else}}
+              <button id="toggle-archived" class="btn btn-default"><i class="fa fa-fw fa-folder"></i></button>
               {{/if}}
+              <button id="#ref_oppsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Opportunities Overview" data-content="
+                <table class='table'>
+                  <tbody>
+                    <tr>
+                      <td>Opportunities:</td>
+                      <td class='text-right'>{{totalOpps}}</td>
+                    </tr>
+                    <tr>
+                      <td>Total Value:</td>
+                      <td class='text-right'>£{{totalOppValue}}</td>
+                    </tr>
+                    <tr>
+                      <td>Average Value:</td>
+                      <td class='text-right'>£{{averageOppValue}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                ">
+              <i class="fa fa-fw fa-tasks"></i></button>
             </div>
+          </div>
+          <div class="col-md-3">
+            {{#if isInRole 'Administrator,CanCreateOpportunities'}}
+              <button id="create-opportunity" type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+O"><i class="fa fa-fw fa-plus"></i>Add Opportunity</button>
+            {{/if}}
           </div>
         </div>
       </div>
@@ -32,4 +57,19 @@
 
     </div>
   </div>
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="popover"]').popover({html : true, placement : "bottom", container: '#btn-group'});
+    });
+  </script>
 </template>
+
+<!-- <div><dl class='list-unstyled'>
+  <dt>Opportunities:</dt>
+    <dd class='text-right'>{{totalOpps}}</dd>
+  <dt>Total Value:</dt>
+    <dd class='text-right'>£{{totalOppValue}}</dd>
+  <dt>Average Value:</dt>
+    <dd class='text-right'>£{{averageOppValue}}</dd>
+</dl>
+</div>"> -->

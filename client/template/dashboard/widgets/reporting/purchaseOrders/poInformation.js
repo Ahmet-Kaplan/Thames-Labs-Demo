@@ -1,8 +1,4 @@
-Template.purchaseOrderList.onCreated(function() {
-  // Redirect if read permission changed
-  this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
-  });
+Template.poInformationWidget.onCreated(function() {
   this.totalPurchaseOrders = new ReactiveVar(0);
   this.totalApprovedPo = new ReactiveVar(0);
   this.totalArrivedPo = new ReactiveVar(0);
@@ -11,7 +7,7 @@ Template.purchaseOrderList.onCreated(function() {
   this.totalRejectedPo = new ReactiveVar(0);
 });
 
-Template.purchaseOrderList.onRendered(function() {
+Template.poInformationWidget.onRendered(function() {
   var template = this;
 
   Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
@@ -34,16 +30,8 @@ Template.purchaseOrderList.onRendered(function() {
   });
 });
 
-Template.purchaseOrderList.events({
-  'click #add-purchase-order': function(event) {
-    event.preventDefault();
-    Modal.show('newPurchaseOrderForm', this);
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('purchaseorders');
-  },
-  'click #ref_poOverviewWidget': function(event, template) {
+Template.poInformationWidget.events({
+  'click #ref_poInformationWidget': function(event, template) {
 
       Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
         template.totalPurchaseOrders.set(data.Count);
@@ -67,7 +55,7 @@ Template.purchaseOrderList.events({
     }
 });
 
-Template.purchaseOrderList.helpers({
+Template.poInformationWidget.helpers({
   totalPurchaseOrders: function() {
     return Template.instance().totalPurchaseOrders.get();
   },

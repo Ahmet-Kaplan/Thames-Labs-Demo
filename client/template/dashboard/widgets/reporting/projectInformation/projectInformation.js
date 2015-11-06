@@ -1,24 +1,11 @@
-Template.projectsList.onCreated(function() {
-  // Redirect if read permission changed
-  this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadProjects');
-  });
+Template.projectInformationWidget.onCreated(function() {
   this.totalProjects = new ReactiveVar(0);
   this.activeProjects = new ReactiveVar(0);
   this.activeProjectTotal = new ReactiveVar(0);
   this.activeProjectsAverage = new ReactiveVar(0);
 });
 
-Template.projectsList.onRendered(function() {
-  // Watch for session variable setting search
-  Session.set('projectListSearchQuery', null);
-  Tracker.autorun(function() {
-    var searchQuery = Session.get('projectListSearchQuery');
-    if (searchQuery) {
-      ProjectsIndex.getComponentMethods().search(searchQuery);
-      $('.stick-bar input').val(searchQuery);
-    }
-  });
+Template.projectInformationWidget.onRendered(function() {
   var template = this;
 
   Meteor.call('report.numberOfProjects', function(err, data) {
@@ -35,16 +22,8 @@ Template.projectsList.onRendered(function() {
   });
 });
 
-Template.projectsList.events({
-  'click #add-project': function(event) {
-    event.preventDefault();
-    Modal.show('newProjectForm', this);
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('projects');
-  },
-  'click #ref_projectOverviewWidget': function(event, template) {
+Template.projectInformationWidget.events({
+  'click #ref_projectInformationWidget': function(event, template) {
 
     Meteor.call('report.numberOfProjects', function(err, data) {
       template.totalProjects.set(data.Count);
@@ -61,7 +40,7 @@ Template.projectsList.events({
   }
 });
 
-Template.projectsList.helpers({
+Template.projectInformationWidget.helpers({
   totalProjects: function() {
     return Template.instance().totalProjects.get();
   },
