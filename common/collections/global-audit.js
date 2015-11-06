@@ -1,12 +1,8 @@
-Collections.auditLog = AuditLog = new Mongo.Collection('audit');
+Collections.globalAudit = GlobalAudit = new Mongo.Collection('globalAudit');
 
-////////////////////
-// SEARCH INDICES //
-////////////////////
-
-Collections.auditLog.index = AuditLogIndex = new EasySearch.Index({
-  collection: AuditLog,
-  fields: ['message', 'level'],
+Collections.globalAudit.index = GlobalAuditIndex = new EasySearch.Index({
+  collection: GlobalAudit,
+  fields: ['message', 'level', 'user', 'tenant'],
   engine: new EasySearch.MongoDB({
     sort: () => {
       return {
@@ -26,12 +22,13 @@ Collections.auditLog.index = AuditLogIndex = new EasySearch.Index({
         'date': 1,
         'level': 1,
         'source': 1,
-        'message': 1
+        'message': 1,
+        'user': 1,
+        'tenant': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
-      
       return selector;
     }
   })

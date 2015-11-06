@@ -13,6 +13,11 @@ Meteor.publish('userPresence', function() {
   });
 });
 
+Meteor.publish("globalAuditData", function() {
+  if (!Roles.userIsInRole(this.userId, ['superadmin'])) return this.ready();
+  return GlobalAudit.find({});
+});
+
 Meteor.publish("auditData", function() {
   if (!Roles.userIsInRole(this.userId, ['superadmin'])) return this.ready();
   return Partitioner.directOperation(function() {

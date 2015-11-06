@@ -12,7 +12,9 @@ Meteor.methods({
     } else if (Roles.userIsInRole(this.userId, 'superadmin')) {
       Partitioner.directOperation(function() {
         AuditLog.direct.remove({});
-      })
+        GlobalAudit.direct.remove({});
+      });
+
     } else {
       throw new Meteor.Error(403, 'Only administrators can clear the audit log');
     }
@@ -28,7 +30,13 @@ Meteor.methods({
         _id: this.userId
       });
 
-      if(user) {
+      var tenant = Partitioner.directOperation(function() {
+        return Tenants.findOne({
+          _id: user.group
+        });
+      })
+
+      if (user) {
         Partitioner.bindGroup(user.group, function() {
           AuditLog.insert({
             token: auditGuid,
@@ -40,6 +48,15 @@ Meteor.methods({
             entityType: logEntityType,
             entityId: logEntityId
           });
+        });
+
+        GlobalAudit.insert({
+          date: new Date(),
+          source: logSource,
+          level: logLevel,
+          message: logMessage,
+          user: user.profile.name,
+          tenant: tenant.name
         });
       }
 
@@ -56,6 +73,15 @@ Meteor.methods({
           entityId: logEntityId
         });
       });
+
+      GlobalAudit.insert({
+        date: new Date(),
+        source: logSource,
+        level: logLevel,
+        message: logMessage,
+        user: 'Cambridge Software Team',
+        tenant: 'Super Admin'
+      })
     }
 
   }
