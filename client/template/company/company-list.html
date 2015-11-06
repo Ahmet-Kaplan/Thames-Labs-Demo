@@ -15,15 +15,16 @@
           <div class="col-md-3">
             {{> tagSearch collection='companies' }}
           </div>
-          <div class="col-md-6">
+          <div class="col-md-1">
             <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default" id="export"><i class="fa fa-fw fa-download"></i> Export results to CSV</button>
-
-              {{#if isInRole 'Administrator,CanCreateCompanies'}}
+              <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
               {{> companyDataManagement}}
-              <button type="button" class="btn btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
-              {{/if}}
             </div>
+          </div>
+          <div class="col-md-2">
+            {{#if isInRole 'Administrator,CanCreateCompanies'}}
+              <button type="button" class="btn btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
+            {{/if}}
           </div>
         </div>
       </div>
