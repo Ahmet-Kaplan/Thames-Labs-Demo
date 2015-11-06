@@ -78,6 +78,7 @@ Feature: Allow users to manage their Projects
     Then the restricted user should not have the "CanCreateProjects" permission
 
   #Editing
+  @dev
   Scenario: A user can edit a project
     Given I have the "CanEditProjects" permission
     And I have the "CanReadCompanies" permission

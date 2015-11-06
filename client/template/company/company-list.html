@@ -15,13 +15,13 @@
           <div class="col-md-3">
             {{> tagSearch collection='companies' }}
           </div>
-          <div class="col-md-1">
+          <div class="col-md-3">
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
               {{> companyDataManagement}}
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
             {{#if isInRole 'Administrator,CanCreateCompanies'}}
               <button type="button" class="btn btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
             {{/if}}
@@ -34,30 +34,6 @@
     </div>
   </div>
 
-</template>
-
-<template name="companyListItem">
-  <a class="list-group-item clearfix" href="{{pathFor route='company' id=__originalId}}" id='mchCompany'>
-    <div class="row">
-      <div class="col-sm-12 col-md-5 col-lg-4">
-        <span class="pull-left">
-          {{> companyLogo url=website class="img-circle logo-small" showPlaceholder=true}}
-        </span>
-        <h4 class="list-group-item-heading">{{name}}</h4>
-        <p class="list-group-item-text"></p>
-      </div>
-      <div class="hidden-xs hidden-sm col-md-3 col-lg-3">
-        <i class="fa fa-fw fa-map-marker"></i> {{address}}, {{city}} {{postcode}}, {{country}}
-      </div>
-      <div class="hidden-xs hidden-sm hidden-md col-lg-2">
-        {{#if website}}<i class="fa fa-fw fa-globe"></i> <a href="{{website}}" target="_blank">{{shortWebsite}}</a>
-        <br>{{/if}} {{#if phone}}<i class="fa fa-fw fa-phone"></i> {{phone}}{{/if}}
-      </div>
-      <div class="col-sm-12 col-md-4 col-lg-3">
-        <span class="pull-right">{{> tagBadges}}</span>
-      </div>
-    </div>
-  </a>
 </template>
 
 <template name="wordHelpModal">
