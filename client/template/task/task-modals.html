@@ -14,10 +14,12 @@
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           {{> afQuickField name="isAllDay"}}
-          {{> afQuickField name="remindMe"}}
-          <div id="showRemindMeDate" style="display: none;">
-          {{> afQuickField name="reminder" type="bootstrap-datetimepicker"}}
-          </div>
+          {{#if hasDueDate}}
+            {{> afQuickField name="remindMe"}}
+            <div id="showRemindMeDate" style="{{#unless showRemindMe}}display: none;{{/unless}}">
+              {{> reminderSelector}}
+            </div>
+          {{/if}}
           <!-- {{> afQuickField name="duration" type="duration-picker"}} -->
           {{#if isUserTask}}
             {{> esSelectize name="assigneeId" index=UsersIndex value=getCurrentUserId}}
@@ -61,10 +63,12 @@
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
           {{> afQuickField name="isAllDay"}}
-          {{> afQuickField name="remindMe"}}
-          <div id="showRemindMeDate" style="{{#unless remindMe}}display: none;{{/unless}}">
-          {{> afQuickField name="reminder" type="bootstrap-datetimepicker"}}
-          </div>
+          {{#if hasDueDate}}
+            {{> afQuickField name="remindMe"}}
+            <div id="showRemindMeDate" style="{{#unless showRemindMe}}display: none;{{/unless}}">
+              {{> reminderSelector}}
+            </div>
+          {{/if}}
           <!-- {{> afQuickField name="duration" type="duration-picker"}} -->
           {{> esSelectize name="assigneeId" index=UsersIndex value=assigneeId}}
           <!-- {{> afQuickField name="completed" id="taskCompleted"}} -->
@@ -72,6 +76,23 @@
           {{/autoForm}}
         </div>
 
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="reminderSelector">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-3">
+        <input id="reminderValue" type="number" max="60" class="form-control" value="1">
+      </div>
+      <div class="col-md-6">
+        <select id="reminderUnit" class="form-control">
+          <option value="minutes">Minutes Before</option>
+          <option value="hours" selected>Hours Before</option>
+          <option value="days">Days Before</option>
+        </select>
       </div>
     </div>
   </div>

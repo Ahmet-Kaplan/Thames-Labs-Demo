@@ -46,7 +46,7 @@ Template.taskDetail.helpers({
       case 'contact':
         var handle = Meteor.subscribe("contactById", this.entityId);
         if (handle && handle.ready()) {
-          var c = Contacts.find({}).findOne({});
+          var c = Contacts.findOne({});
           entityData = {
             type: 'Contact',
             icon: 'user',
@@ -58,7 +58,7 @@ Template.taskDetail.helpers({
       case 'project':
         var handle = Meteor.subscribe("projectById", this.entityId);
         if (handle && handle.ready()) {
-          var p = Projects.find({}).findOne({});
+          var p = Projects.findOne({});
           entityData = {
             type: 'Project',
             icon: 'sitemap',
