@@ -203,7 +203,6 @@ Template.dashboard.onRendered(function() {
 });
 
 Template.dashboard.events({
-<<<<<<< HEAD
 	'click #dashboard-icon':function(){
 		Meteor.users.update(Meteor.userId(), {
 			$set: {
@@ -217,7 +216,6 @@ Template.dashboard.events({
   //     console.log(err, data);
   //   })
   // },
->>>>>>> master
   'change .grid-stack': function() {
     saveMyWidgets()
   },
