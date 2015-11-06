@@ -3,40 +3,61 @@
   {{setPageTitle 'Projects'}}
 
   <div class="row">
-    <div class="col-md-3">
-      <div class="sidebar">
-        <h1>Actions</h1>
-        {{> EasySearch.Input index=ProjectsIndex attributes=searchInputAttributes}} {{#if isInRole 'Administrator,CanCreateProjects'}}
-        <div class="btn-group-vertical">
-          <a href="#" id="add-project" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add project</a>
-        </div>
-        {{/if}}
-      </div>
-    </div>
 
-    <div class="col-md-9" id="project-list">
+    <div class="col-md-12" id="project-list">
       <h1><i class="fa fa-sitemap"></i> Projects</h1>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=ProjectsIndex}}
-      </div>
-      <small>{{projectCount}} record{{#if hasMultipleProjects}}s{{/if}}</small>
 
-      <div class="list-group">
-        {{#EasySearch.Each index=ProjectsIndex}}
-          {{> projectListItem}}
-        {{/EasySearch.Each}}
-
-        {{#EasySearch.IfNoResults index=ProjectsIndex}}
-          <h4>No projects found</h4>
-        {{/EasySearch.IfNoResults}}
-
-        {{#EasySearch.IfSearching index=ProjectsIndex}}
-          {{> spinner}}
-        {{/EasySearch.IfSearching}}
+      <!-- This should probably be refactored into a "search toolbar" template -->
+      <div class="stick-bar">
+        <div class="row">
+          <div class="col-md-4">
+            {{> EasySearch.Input index=ProjectsIndex attributes=searchInputAttributes}}
+          </div>
+          <div class="col-md-4">
+            {{> tagSearch collection='projects' }}
+          </div>
+          <div class="col-md-2" id="btn-group" >
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
+              <button id="#ref_projectOverviewWidget" class="btn btn-default" data-toggle="popover" title="Projects Overview" data-content="
+              <table class='table table-no-border'>
+                <tbody>
+                  <tr>
+                    <td>Projects:</td>
+                    <td class='text-right'>{{totalProjects}}</td>
+                  </tr>
+                  <tr>
+                    <td>Active projects:</td>
+                    <td class='text-right'>{{activeProjects}}</td>
+                  </tr>
+                  <tr>
+                    <td>Total value:</td>
+                    <td class='text-right'>£{{activeProjectTotal}}</td>
+                  </tr>
+                  <tr>
+                    <td>Average value:</td>
+                    <td class='text-right'>£{{activeProjectsAverage}}</td>
+                  </tr>
+                </tbody>
+              </table>">
+              <i class="fa fa-fw fa-tasks"></i></button>
+            </div>
+          </div>
+          <div class="col-md-2">
+          {{#if isInRole 'Administrator,CanCreateProjects'}}
+            <a href="#" id="add-project" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</a>
+          {{/if}}
+        </div>
+        </div>
       </div>
-      <div class="pull-right">
-        {{> EasySearch.Pagination index=ProjectsIndex}}
-      </div>
+
+      {{> searchResults index=ProjectsIndex listItemTemplateName='projectListItem'}}
+
     </div>
   </div>
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="popover"]').popover({html : true, placement : "bottom", container: '#btn-group'});
+    });
+  </script>
 </template>

@@ -1,0 +1,41 @@
+.quick-menu-icon {
+  margin-top: 4px;
+}
+
+.quick-menu {
+  position: fixed;
+  z-index: 101;
+  width: 45px;
+  top: 75px;
+  left: 260px;
+  overflow: hidden;
+  width: 200px;
+}
+
+.jumplist-elt {
+  z-index: 102;
+  margin-bottom: 5px;
+}
+
+.jumplist-elt a {
+  -webkit-transition: All 0.3s ease;
+  -moz-transition: All 0.3s ease;
+  -o-transition: All 0.3s ease;
+  -ms-transition: All 0.3s ease;
+  transition: All 0.3s ease;
+}
+
+.jumplist-elt a:hover {
+  text-align: left !important;
+  width: 200px;
+}
+
+.legend {
+  display: none;
+}
+
+.jumplist-elt a:hover .legend {
+  z-index: 102;
+  margin-left: 20px;
+  display: inline-block;
+}

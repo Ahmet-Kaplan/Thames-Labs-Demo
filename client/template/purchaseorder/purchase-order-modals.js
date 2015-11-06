@@ -73,6 +73,9 @@ Template.newCompanyPurchaseOrderForm.helpers({
   currentDateTime: function() {
     // return new Date();
     return moment();
+  },
+  supplierCompanyName: function() {
+    return Companies.findOne({_id: this.supplierCompanyId}).name
   }
 });
 
@@ -94,6 +97,13 @@ Template.newCompanyPurchaseOrderForm.events({
 Template.newContactPurchaseOrderForm.helpers({
   currentUser: function() {
     return Meteor.userId();
+  },
+  supplierCompanyName: function() {
+    return Companies.findOne({_id: this.supplierCompanyId}).name
+  },
+  supplierContactName: function() {
+    var contact = Contacts.findOne({_id: this.supplierContactId})
+    return contact.forename + " " + contact.surname;
   },
   currentDateTime: function() {
     // return new Date();
@@ -126,6 +136,16 @@ Template.updatePurchaseOrderFormModal.onRendered(function() {
     Session.set('posc', null);
   }
 });
+
+Template.updatePurchaseOrderFormModal.helpers({
+  supplierCompanyName: function() {
+    return Companies.findOne({_id: this.supplierCompanyId}).name
+  },
+  supplierContactName: function() {
+    var contact = Contacts.findOne({_id: this.supplierContactId})
+    return contact.forename + " " + contact.surname;
+  }
+})
 
 Template.updatePurchaseOrderFormModal.events({
   'change #poStatus': function() {

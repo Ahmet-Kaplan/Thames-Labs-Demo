@@ -1,0 +1,8 @@
+.grayscale {
+  color: #a7a7a7;
+  font-size: 0.75em;
+}
+
+.table > tbody > tr:first-child > td {
+  border: none;
+}

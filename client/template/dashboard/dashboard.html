@@ -1,9 +1,14 @@
 <template name="dashboard">
 
   {{setPageTitle 'Dashboard'}}
+<<<<<<< HEAD
   <h1 id="dashboard-page-header"><i class="fa fa-fw fa-home" id="dashboard-icon"></i> Dashboard
   <div class="btn-group pull-right">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="widget-dropdown">
+  <h1 id="dashboard-page-header"><i class="fa fa-fw fa-home"></i> Dashboard
+  <div class="btn-group{{#unless isMobile}} pull-right{{/unless}}">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+>>>>>>> master
       Add Widget
       <span class="caret"></span>
     </button>
@@ -17,5 +22,6 @@
   </div>
   </h1>
 
+  <!-- <button class="btn" id="test">Test</button> -->
   <div class="grid-stack" id="gridstack"></div>
 </template>

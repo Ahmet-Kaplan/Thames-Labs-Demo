@@ -7,7 +7,11 @@ Template.notificationAdmin.onCreated(function() {
 
 Template.notificationAdmin.helpers({
   notifications: function() {
-    return Notifications.find({}, {sort: {createdAt: -1}});
+    return Notifications.find({
+      target: 'all'
+    }, {
+      sort: {createdAt: -1}
+    });
   },
   features: function() {
     return Features.find({});

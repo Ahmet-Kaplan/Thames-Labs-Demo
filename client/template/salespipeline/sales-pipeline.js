@@ -10,11 +10,17 @@ Template.salesPipeline.onRendered(function() {
   $.getScript('/vendor/d3-funnel.js', function(data, textStatus, jqxhr) {
     if (jqxhr.status = 200) {
       Tracker.autorun(function() {
-        var stages = OpportunityStages.find({}, {sort: { order: 1}}).fetch();
+        var stages = OpportunityStages.find({}, {
+          sort: {
+            order: 1
+          }
+        }).fetch();
 
         var data = [];
-        for (var i=0; i < stages.length; i++) {
-          var count = Opportunities.find({currentStageId: stages[i]._id}).count();
+        for (var i = 0; i < stages.length; i++) {
+          var count = Opportunities.find({
+            currentStageId: stages[i]._id
+          }).count();
           if (count > 0) {
             var item = [stages[i].title, count];
             data.push(item);
@@ -26,7 +32,9 @@ Template.salesPipeline.onRendered(function() {
             dynamicArea: true,
             hoverEffects: true,
             onItemClick: function(e) {
-              Session.set('currentStageId', OpportunityStages.findOne({title: e.label})._id);
+              Session.set('currentStageId', OpportunityStages.findOne({
+                title: e.label
+              })._id);
             }
           };
           options.width = $("#funnel-container").width();
@@ -35,9 +43,9 @@ Template.salesPipeline.onRendered(function() {
           chart.draw(data, options);
 
           $(window).on("resize", function() {
-              options.width = $("#funnel-container").width();
-              var chart = new D3Funnel('#funnel');
-              chart.draw(data, options);
+            options.width = $("#funnel-container").width();
+            var chart = new D3Funnel('#funnel');
+            chart.draw(data, options);
           });
         }
       });
@@ -54,14 +62,46 @@ Template.salesPipeline.helpers({
     return (Opportunities.find({}).count() > 0);
   },
   stages: function() {
-    return OpportunityStages.find({}, {sort: { order: 1}}).fetch();
+    return OpportunityStages.find({}, {
+      sort: {
+        order: 1
+      }
+    }).fetch();
   },
   selectedStage: function() {
     var id = Session.get('currentStageId');
-    return OpportunityStages.findOne({_id: id});
+    return OpportunityStages.findOne({
+      _id: id
+    });
+  },
+  stageValues: function() {
+    var id = Session.get('currentStageId');
+    var total = 0;
+    var opps = Opportunities.find({
+      currentStageId: id
+    }).fetch();
+
+    _.each(opps, function(o) {
+      if (o.value) {
+        total += parseFloat(o.value);
+      }
+    });
+
+    return {
+      totalValue: parseFloat(total).toFixed(2),
+      averageValue: parseFloat(total / opps.length).toFixed(2)
+    }
   },
   opportunities: function() {
     var id = Session.get('currentStageId');
-    return Opportunities.find({currentStageId: id}).fetch();
+    return Opportunities.find({
+      currentStageId: id
+    }).fetch();
+  }
+});
+
+Template.salesPipeline.events({
+  'click path': function() {
+    console.log(this);
   }
 });

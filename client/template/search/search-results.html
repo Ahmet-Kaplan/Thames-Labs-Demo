@@ -1,0 +1,19 @@
+<template name="searchResults">
+  <small class="pull-right"><a href="#" class="reset-search">reset search</a></small>
+  <small>{{resultsCount}} record{{#if hasMultipleResults}}s{{/if}}</small>
+  <div class="list-group">
+    {{#EasySearch.Each index=index}}
+      {{> listItem extendContext 'index' ../index}}
+    {{/EasySearch.Each}}
+
+    {{#EasySearch.IfNoResults index=index}}
+      <h4>No results found</h4>
+    {{/EasySearch.IfNoResults}}
+
+    {{#EasySearch.IfSearching index=index}}
+      {{> spinner}}
+    {{else}}
+      {{> loadMore index=index}}
+    {{/EasySearch.IfSearching}}
+  </div>
+</template>

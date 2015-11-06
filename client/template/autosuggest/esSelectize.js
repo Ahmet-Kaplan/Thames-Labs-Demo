@@ -57,7 +57,6 @@ Template.esSelectize.onRendered(function() {
       selectize.refreshOptions(false);
     }
     if(defaultValue) {
-      Template.instance().search.set(defaultValue);
       selectize.setValue(defaultValue);
     }
     if(readonly) {
@@ -83,7 +82,7 @@ Template.esSelectize.helpers({
       };
       options.create = function(input, callback) {
         return {
-          _id: 'newRecord' + input,
+          __originalId: 'newRecord' + input,
           name: input
         };
       };
@@ -95,7 +94,7 @@ Template.esSelectize.helpers({
 });
 
 Template.esSelectize.events({
-  'keyup input': function(e) {
+  'keydown input': function(e) {
     var selectize = Template.instance().selectize.get();
     if(e.keyCode === 13 || e.keyCode === 9) {
       return;

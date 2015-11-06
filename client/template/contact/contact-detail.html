@@ -1,27 +1,17 @@
 <template name="contactDetail">
   {{#with contactData}} {{setPageTitle "Contact - " name }}
   <div class="row">
-    <div class="col-md-2 hidden-xs hidden-sm">
-      <div class="sidebar">
-        <h1>Actions</h1>
-
-        <ul class="nav nav-stacked">
-          <li><a href="#contact-details">Contact details</a></li>
-          <li><a href="#activity-timeline">Activity timeline</a></li>
-        </ul>
-
-      </div>
+    <div class="col-md-1 hidden-sm hidden-xs">
+      {{> jumplist list=linksList}}
     </div>
-
-    <div class="col-md-6">
-      {{#if metadata.clearbit.avatar}}
+    <div class="col-md-7">
+       {{#if metadata.clearbit.avatar}}
       <img class="img-circle avatar pull-right" src="{{metadata.clearbit.avatar}}" /> {{/if}}
+
 
       <h4 class="entity-title">Contact</h4>
       <h1 id="contact-details" class="entity-name">{{name}}</h1>
-
       {{> tagInput tags=tags collection='contacts' entityId=_id permissionToEdit='CanEditContacts'}}
-
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
@@ -29,7 +19,8 @@
             <a href="#" id="edit-contact" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>{{/if}} {{#if isInRole 'Administrator,CanDeleteContacts'}}
             <a href="#" id="remove-contact" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>{{/if}}
           </div>
-          Contact details</div>
+          Contact
+        </div>
         <ul class="list-group">
           {{#if company}} {{#if isInRole 'Administrator,CanReadCompanies'}}
           <a href="{{pathFor route='company' id=company._id}}" class="list-group-item" data-toggle="tooltip" data-placement="bottom" title="Navigate to company details">
@@ -57,7 +48,6 @@
           {{/if}}
         </ul>
       </div>
-
 
       {{#if isInRole 'Administrator,CanReadProjects'}}
       <div class="panel panel-default">
@@ -124,10 +114,10 @@
   </div>
 
   <div class="row">
-    <div class="col-md-10 col-md-offset-2">
+    <div class="col-md-11 col-md-offset-1">
       <h1 id="activity-timeline">
         Activity Timeline
-        <a href="#" class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="New activity for this contact" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
+        <a href="#" class="btn btn-primary{{#unless isMobile}} pull-right{{/unless}}" data-toggle="tooltip" data-placement="bottom" title="New activity for this contact" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
       </h1>
       {{> activityTimeline activities=activities}}
     </div>

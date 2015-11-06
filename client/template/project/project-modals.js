@@ -49,6 +49,13 @@ Template.updateProjectForm.helpers({
         'value': user._id
       };
     });
+  },
+  companyName: function() {
+    return Companies.findOne().name;
+  },
+  contactName: function() {
+    var contact = Contacts.findOne();
+    return contact.forename + ' ' + contact.surname;
   }
 });
 
@@ -70,6 +77,9 @@ Template.newCompanyProjectForm.helpers({
         'value': user._id
       };
     });
+  },
+  companyName: function() {
+    return Companies.findOne().name;
   }
 });
 
@@ -87,5 +97,12 @@ Template.newContactProjectForm.helpers({
         'value': user._id
       };
     });
+  },
+  companyName: function() {
+    return Companies.findOne().name;
+  },
+  contactName: function() {
+    var contact = Contacts.findOne();
+    return contact.forename + ' ' + contact.surname;
   }
 });

@@ -3,6 +3,7 @@
     <div class="grid-stack-item-content">
       <div class="panel panel-default" id='onlineUsersBox'>
         <div class="panel-heading">
+          <i class="fa fa-fw fa-users"></i>
           <button type="button" class="close" id="close_onlineWidget" aria-hidden="true">×</button>
           Online Users
         </div>
@@ -27,7 +28,7 @@
 
 <template name="colleagueData">
   <li class="list-group-item">
-    <i class="fa fa-fw fa-circle text-success"></i> {{user}} {{#if last}}
+    <i class="fa fa-fw fa-circle text-success grayscale" ></i> {{user}} {{#if last}}
     <br />
     <small>Currently viewing:
       <em>

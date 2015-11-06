@@ -106,6 +106,12 @@ module.exports = function() {
     browser.setValue('input[data-schema-key=' + fieldName + ']', value);
   });
 
+  this.When(/^I set textarea "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
+    browser.waitForExist('textarea[data-schema-key=' + fieldName + ']', 5000);
+    browser.waitForVisible('textarea[data-schema-key=' + fieldName + ']', 5000);
+    browser.setValue('textarea[data-schema-key=' + fieldName + ']', value);
+  });
+
   this.When(/^I set selectize field to "([^"]*)"$/, function(value) {
     browser.waitForExist(".selectize-control .selectize-input input", 5000);
     browser.setValue(".selectize-control .selectize-input input", value);
@@ -134,10 +140,11 @@ module.exports = function() {
 
   this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value) {
     browser.waitForExist('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
+    browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
     browser.click('select#' + selector + ' + .selectize-control>.selectize-input');
     browser.keys([value]);
-    browser.waitForExist('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content', 3000);
-    browser.click('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>.active');
+    expect(browser.getValue('select#' + selector + ' + .selectize-control>.selectize-input input')).toContain(value);
+    browser.keys(['Enter']);
   });
 
   this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName) {
@@ -145,6 +152,16 @@ module.exports = function() {
     browser.waitForVisible('select[data-schema-key=' + fieldName + ']', 5000);
     browser.click('select[data-schema-key=' + fieldName + ']');
     browser.selectByVisibleText('select[data-schema-key=' + fieldName + ']', value);
+  });
+
+  this.When(/^I add the tag "([^"]*)"$/, function(tagText) {
+    browser.keys([tagText]);
+    expect(browser.getValue('.selectize-control>.selectize-input input')).toContain(tagText);
+    browser.keys(['Return']);
+    browser.executeAsync(function(done) {
+      $('.selectize-input').blur();
+      done();
+    });
   });
 
   this.When(/^I submit the "([^"]*)" form$/, function(formName) {
@@ -162,6 +179,7 @@ module.exports = function() {
   /***************************************************
                           THEN
   ***************************************************/
+
   this.Then(/^I should see "([^"]*)"$/, function(id) {
     browser.waitForExist(id, 5000);
     browser.waitForVisible(id, 5000);
@@ -243,6 +261,18 @@ module.exports = function() {
     } else {
       expect(actualValue).toContain(expectedValue);
     }
+  });
+
+  this.Then(/^the tag field for the "([^"]*)" should contain "([^"]*)"$/, function(entity, expectedText) {
+    var theEntity = browser.executeAsync(function(entity, done) {
+      done(Collections[entity].findOne()._id);
+    }, entity);
+    var tagField = browser.getText('#tagsBadges_' + theEntity.value);
+    expect(tagField).toContain(expectedText);
+  });
+
+  this.Then(/^I should not see the edit tag button$/, function() {
+    expect(browser.isExisting('.editTags')).toEqual(false);
   });
 
   this.Then(/^debug$/, function(menuText) {

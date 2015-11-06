@@ -1,12 +1,12 @@
 <!-- Context should be object with tags property -->
 <template name="tagBadges">
   {{#each sortedTags}}
-    {{> tagBadge}}
+    {{> tagBadge tag=this index=../index}}
   {{else}}
     <!-- intentionally left blank to prevent blaze error -->
   {{/each}}
 </template>
 
 <template name="tagBadge">
-  <a href="#"><span class="badge">{{this}}</span></a>
+  <a href="#"><span class="badge {{selected}}">{{tag}}</span></a>
 </template>
