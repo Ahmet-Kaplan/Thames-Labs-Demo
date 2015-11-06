@@ -48,7 +48,8 @@ Meteor.startup(function() {
         $set: {
           "settings.extInfo": {
             company: [],
-            contact: []
+            contact: [],
+            project: []
           }
         }
       });

@@ -88,6 +88,11 @@
   </div>
   {{/if}}
 
+
+        <div>
+          {{#if isInRole 'Administrator,CanEditProjects'}} {{#with this}} {{> customFieldDisplay entity_data=this entity_type='project'}} {{/with}} {{/if}}
+        </div>
+
   <div class="row">
     <div class="col-md-12">
       <h1 id="activity-timeline">

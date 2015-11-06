@@ -20,12 +20,14 @@ Template.tenancyAdminPage.helpers({
     var tenant = Tenants.findOne(user.group);
 
     var fields = tenant.settings.extInfo.company;
-    var data = [];
-
     _.each(fields, function(f) {
       data.push(f);
     });
     fields = tenant.settings.extInfo.contact;
+    _.each(fields, function(f) {
+      data.push(f);
+    });
+    fields = tenant.settings.extInfo.project;
     _.each(fields, function(f) {
       data.push(f);
     });
@@ -86,6 +88,9 @@ Template.gcf_display.helpers({
         break;
       case 'contact':
         retVal = 'Contacts';
+        break;
+      case 'project':
+        retVal = 'Projects';
         break;
     }
 
@@ -161,6 +166,28 @@ Template.gcf_display.events({
               }
             });
             break;
+
+          case "project":
+            var targets = Projects.find({}).fetch();
+
+            _.each(targets, function(cx) {
+
+              var cfMaster = {};
+
+              if (cx.customFields) {
+                for (var cf in cx.customFields) {
+                  if (cf !== self.name) {
+                    cfMaster[cf] = cx.customFields[cf];
+                  }
+                }
+                Projects.update(cx._id, {
+                  $set: {
+                    customFields: cfMaster
+                  }
+                });
+              }
+            });
+            break;
         }
 
         var user = Meteor.users.findOne(Meteor.userId());
@@ -173,6 +200,9 @@ Template.gcf_display.events({
             break;
           case 'contact':
             fields = tenant.settings.extInfo.contact;
+            break;
+          case 'project':
+            fields = tenant.settings.extInfo.project;
             break;
         }
 
@@ -195,6 +225,13 @@ Template.gcf_display.events({
             Tenants.update(user.group, {
               $set: {
                 'settings.extInfo.contact': data
+              }
+            });
+            break;
+          case 'project':
+            Tenants.update(user.group, {
+              $set: {
+                'settings.extInfo.project': data
               }
             });
             break;

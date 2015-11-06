@@ -103,6 +103,20 @@ Template.cfDisplay.events({
               }
             });
             break;
+          case "project":
+            var parentProject = Projects.findOne(self.parentEntity.entity_data._id);
+            var cfMaster = {};
+            for (var cf in parentProject.customFields) {
+              if (cf !== self.name) {
+                cfMaster[cf] = parentProject.customFields[cf];
+              }
+            }
+            Projects.update(parentProject._id, {
+              $set: {
+                customFields: cfMaster
+              }
+            });
+            break;
         }
         toastr.success('Extended information field removed.');
       } else {
@@ -188,6 +202,13 @@ Template.addCustomField.events({
           break;
         case 'contact':
           Contacts.update(this.entity_data._id, {
+            $set: {
+              customFields: cfMaster
+            }
+          });
+          break;
+        case 'project':
+          Projects.update(this.entity_data._id, {
             $set: {
               customFields: cfMaster
             }
@@ -283,6 +304,13 @@ Template.updateCustomField.events({
         break;
       case 'contact':
         Contacts.update(this.entity_data._id, {
+          $set: {
+            customFields: cfMaster
+          }
+        });
+        break;
+      case 'project':
+        Projects.update(this.entity_data._id, {
           $set: {
             customFields: cfMaster
           }
