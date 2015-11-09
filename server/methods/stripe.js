@@ -15,7 +15,8 @@ Server.post('/webhook/stripe', function(req, res) {
     res.send(200);
   } else {
     Stripe.events.retrieve(req.body.id, function(err, event) {
-      if (err || !event) {
+      // if (err) { || !event) {
+      if (err) {
         Meteor.log._(err);
         return res.send(401);
       }

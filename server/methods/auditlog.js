@@ -30,13 +30,13 @@ Meteor.methods({
         _id: this.userId
       });
 
-      var tenant = Partitioner.directOperation(function() {
-        return Tenants.findOne({
-          _id: user.group
-        });
-      })
-
       if (user) {
+        var tenant = Partitioner.directOperation(function() {
+          return Tenants.findOne({
+            _id: user.group
+          });
+        })
+
         Partitioner.bindGroup(user.group, function() {
           AuditLog.insert({
             token: auditGuid,

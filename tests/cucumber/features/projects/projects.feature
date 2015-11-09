@@ -78,6 +78,7 @@ Feature: Allow users to manage their Projects
     Then the restricted user should not have the "CanCreateProjects" permission
 
   #Editing
+  @dev
   Scenario: A user can edit a project
     Given I have the "CanEditProjects" permission
     And I have the "CanReadCompanies" permission
@@ -170,6 +171,48 @@ Feature: Allow users to manage their Projects
     And I add the tag "test-tag"
     Then the tag field for the "projects" should contain "test-tag"
 
+  #Extended information fields
+  Scenario: A user can open the "Add Extended information fields" modal
+    Given I have the "CanEditProjects" permission
+    And a "Project" has been created
+    When I navigate to a project page
+    And I click "#add-custom-field"
+    Then I should see a modal
+
+  Scenario: A user can add an extended information field
+    Given I have the "CanEditProjects" permission
+    And a "Project" has been created
+    When I navigate to a project page
+    And I click "#add-custom-field"
+    And I set text field with id "custom-field-name" to "velocity2"
+    And I set text field with id "custom-field-text-value" to "velocity"
+    And I click "#submit-custom-field"
+    Then I should see ".custom-field-display-item"
+
+  Scenario: A user can delete an extended information field
+    Given I have the "CanEditProjects" permission
+    And a "Project" has been created
+    When I navigate to a project page
+    And I click "#add-custom-field"
+    And I set text field with id "custom-field-name" to "velocity2"
+    And I set text field with id "custom-field-text-value" to "velocity"
+    And I click "#submit-custom-field"
+    And I click "#delete-custom-field"
+    And I click confirm on the modal
+    Then I should not see ".custom-field-display-item"
+
+  Scenario: A user can edit an extended information field
+    Given I have the "CanEditProjects" permission
+    And a "Project" has been created
+    When I navigate to a project page
+    And I click "#add-custom-field"
+    And I set text field with id "custom-field-name" to "velocity2"
+    And I set text field with id "custom-field-text-value" to "velocity"
+    And I click "#submit-custom-field"
+    And I click "#edit-custom-fields"
+    And I set text field with id "extInfosvelocity2TextValue" to "velocity"
+    And I click "#submit-ext-info"
+    Then I see a field with the name "velocity" in the extended information list
 
   #Tasks
   Scenario: A user can add a task to a project
