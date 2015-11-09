@@ -4,14 +4,6 @@ Template.esSelectize.onRendered(function() {
 
   var selectize = $('#' + this.data.name)[0].selectize;
 
-  // Set defaults
-  if(this.data.value) {
-    selectize.setValue(this.data.value);
-  }
-  if(this.data.readonly) {
-    selectize.disable();
-  }
-
   // If parent is set, listen for updates to it's value
   if(this.data.parent) {
     var parentElt = $('#' + this.data.parent);
@@ -56,6 +48,15 @@ Template.esSelectize.helpers({
       onFocus: () => {
         if (!self.query.get()) {
           self.query.set('');
+        }
+      },
+      onInitialize: function() {
+        // Set defaults
+        if(self.data.value) {
+          this.setValue(self.data.value);
+        }
+        if(self.data.readonly) {
+          this.disable();
         }
       }
     };
