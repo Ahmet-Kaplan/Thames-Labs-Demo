@@ -28,7 +28,7 @@ widgets = {
     x: 2,
     y: 0,
     w: 1,
-    h: 7,
+    h: 10,
     displayed: true,
     name: 'Online users'
   },
@@ -36,7 +36,7 @@ widgets = {
     id: 'task',
     x: 0,
     y: 8,
-    w: 3,
+    w: 2,
     h: 3,
     displayed: true,
     name: 'My tasks',
@@ -46,12 +46,78 @@ widgets = {
     id: 'openPo',
     x: 0,
     y: 0,
-    w: 3,
-    h: 7,
+    w: 2,
+    h: 4,
     displayed: false,
     name: 'Requested Purchase Orders',
     requiredPermission: "CanReadPurchaseOrders"
-  }
+  },
+  'taskInformation': {
+    id: 'taskInformation',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 6,
+    displayed: false,
+    name: 'Tasks Overview'
+  },
+  'opportunityInformation': {
+    id: 'opportunityInformation',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 5,
+    displayed: false,
+    name: 'Opportunities Overview',
+    requiredPermission: "CanReadOpportunities"
+  },
+  'projectInformation': {
+    id: 'projectInformation',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 6,
+    displayed: false,
+    name: 'Projects Overview',
+    requiredPermission: "CanReadProjects"
+  },
+  'productsInformation': {
+    id: 'productsInformation',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 5,
+    displayed: false,
+    name: 'Products Overview',
+    requiredPermission: "CanReadProducts"
+  },
+  'poInformation': {
+    id: 'poInformation',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 7,
+    displayed: false,
+    name: 'Purchase Orders Overview',
+  },
+  'companySummary': {
+    id: 'companySummary',
+    x: 0,
+    y: 0,
+    w: 1,
+    h: 8,
+    displayed: false,
+    name: 'Company Summary'
+  },
+  // 'propagationChart': {
+  //   id: 'propagationChart',
+  //   x: 0,
+  //   y: 0,
+  //   w: 4,
+  //   h: 13,
+  //   displayed: false,
+  //   name: 'Propagation Overview (Chart)'
+  // },
 };
 //List of widgets used by the user
 myWidgets = {};
@@ -97,12 +163,12 @@ function instanciateDashboard(savedWidgets) {
   _.each(organizedWidgets, function(widget) {
     if (!!widget.requiredPermission) {
       var requiredPermission = widget.requiredPermission,
-      userId = Meteor.userId();
+        userId = Meteor.userId();
       if (!Roles.userIsInRole(userId, ['Administrator', requiredPermission])) {
         return;
       }
     }
-    if(widget.displayed) {
+    if (widget.displayed) {
       grid.add_widget('<div id="' + widget.id + 'Widget"></div>', widget.x, widget.y, widget.w, widget.h, false);
       newWidget = Blaze.render(Template[widget.id + 'Widget'], document.getElementById(widget.id + "Widget"));
       dashboardWidgets[widget.id + "Widget"] = newWidget;
@@ -111,7 +177,7 @@ function instanciateDashboard(savedWidgets) {
 }
 
 Template.dashboard.onCreated(function() {
-  this.autorun( () => {
+  this.autorun(() => {
     // Redirect superadmin
     if (Roles.userIsInRole(Meteor.userId(), 'superadmin')) FlowRouter.go('tenants');
   });
@@ -132,6 +198,12 @@ Template.dashboard.onRendered(function() {
 });
 
 Template.dashboard.events({
+  // 'click #test': function() {
+  //   Meteor.call('report.companiesStored', function(err, data) {
+  //     console.log(Meteor.isDevelopment);
+  //     console.log(err, data);
+  //   })
+  // },
   'change .grid-stack': function() {
     saveMyWidgets()
   },
@@ -182,7 +254,7 @@ Template.dashboard.helpers({
     }).filter(function(widget) {
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
-            userId = Meteor.userId();
+          userId = Meteor.userId();
         return Roles.userIsInRole(userId, ['Administrator', requiredPermission])
       }
       return true;

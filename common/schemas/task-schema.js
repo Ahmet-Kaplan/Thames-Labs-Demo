@@ -29,23 +29,10 @@ Schemas.Task = new SimpleSchema({
     label: 'Send reminder'
   },
   reminder: {
-    type: Date,
+    type: String,
     optional: true,
     autoform: {
-      afFieldInput: {
-        dateTimePickerOptions: {
-          format: 'DD/MM/YYYY HH:mm',
-          local: 'en-gb',
-          useCurrent: false,
-          defaultDate: new Date(),
-          sideBySide: false,
-          keepOpen: false,
-          widgetPositioning: {
-            vertical: 'top'
-          },
-          minDate: new Date()
-        }
-      }
+      type: 'hidden'
     }
   },
   taskReminderJob: {

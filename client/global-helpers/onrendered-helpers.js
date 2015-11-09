@@ -11,24 +11,24 @@ Template.onRendered(function() {
   });
 
   // Initialise all draggable modals
-  $('#draggableModal').draggable({
+  this.$('#draggableModal').draggable({
     grid: [50, 50],
     handle: '.modal-header',
     opacity: 0.35,
   });
 
   //Triggers collapsing and expanding accordions
-  $('.accordion-toggle').on('click', function() {
+  this.$('.accordion-toggle').on('click', function() {
     $('#collapse' + this.id).collapse('toggle');
   });
 
   //IE fix: prevent all default actions and handle the hashlinks correctly
-  $(".sidebar .nav li a").on('click', function(event) {
+  this.$(".sidebar .nav li a").on('click', function(event) {
     event.preventDefault();
     window.location.hash = $(this).attr('href');
   });
 
-  var sidebar = $('.sidebar');
+  var sidebar = this.$('.sidebar');
   //sidebar.length is the number of elements matching '.sidebar'
   if (sidebar.length > 0 && !bowser.mobile && !bowser.tablet) {
     sidebar.css('position', 'fixed');
@@ -36,21 +36,20 @@ Template.onRendered(function() {
   }
 
   //IE fix: prevent all default actions and handle the hashlinks correctly
-  $(".stick-bar .nav li a").on('click', function(event) {
+  this.$(".stick-bar .nav li a").on('click', function(event) {
     event.preventDefault();
     window.location.hash = $(this).attr('href');
   });
 
   var stickBar = this.$('.stick-bar');
   if (stickBar.length > 0 && !bowser.mobile && !bowser.tablet) {
-    var percentWidth = stickBar.width() / window.screen.width;
     stickBar.affix({
       offset: {
         top: stickBar.offset().top
       }
     });
     stickBar.on('affixed.bs.affix', function() {
-      stickBar.css('width', percentWidth * 100 + '%');
+      stickBar.css('width', stickBar.parent().width());
       stickBar.css('top', $('.navbar-header').height());
     });
     stickBar.on('affixed-top.bs.affix', function() {
