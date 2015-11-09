@@ -238,18 +238,6 @@ Feature: Allow users to manage their Companies
     And I submit the "newTask" form
     Then I should see the heading "task title"
 
-  Scenario: A user can add a task to a company
-    Given I have the "CanReadTasks" permission
-    And I have the "CanCreateTasks" permission
-    And a "Company" has been created
-    When I navigate to a company page
-    And I click "#btnAddTaskToEntity"
-    Then I should see a modal
-    When I set text field "title" to "task title"
-    And I selectize "assigneeId" to "test user"
-    And I submit the "newTask" form
-    Then I should see the heading "task title"
-
   Scenario: A user without the CanReadTasks permission cannot see tasks in a company
     Given I do not have the "CanReadTasks" permission
     And a "Company" task has been created
