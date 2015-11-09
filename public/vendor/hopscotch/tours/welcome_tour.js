@@ -76,8 +76,8 @@ var welcomeTour = {
     placement: "right",
     multipage: true,
     onNext: function() {
-    	Meteor.call('welcomeTour.createDemoCompany', function(err,data) {
-      	if(err) throw new Meteor.Error(err);
+      Meteor.call('welcomeTour.createDemoCompany', function(err, data) {
+        if (err) throw new Meteor.Error(err);
         window.location = "/companies/" + data;
       });
     }
