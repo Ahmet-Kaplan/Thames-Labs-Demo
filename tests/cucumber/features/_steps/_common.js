@@ -143,8 +143,9 @@ module.exports = function() {
     browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
     browser.click('select#' + selector + ' + .selectize-control>.selectize-input');
     browser.keys([value]);
-    expect(browser.getValue('select#' + selector + ' + .selectize-control>.selectize-input input')).toContain(value);
-    browser.keys(['Enter']);
+    browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-dropdown');
+    browser.click('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>div:first-child');
+    //browser.keys(['Enter', 'Tab']);
   });
 
   this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName) {
