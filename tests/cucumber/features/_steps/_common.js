@@ -145,7 +145,6 @@ module.exports = function() {
     browser.keys([value]);
     browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-dropdown');
     browser.click('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>div:first-child');
-    //browser.keys(['Enter', 'Tab']);
   });
 
   this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName) {
