@@ -2,18 +2,9 @@ var welcomeTour = {
   id: "welcome-tour",
   steps: [{
     title: "Welcome to RealTimeCRM!",
-    content: "Welcome to RealTimeCRM, an easy-to-use, cross-platform CRM from Cambridge Software. If you're a new user, and would like to take our guided tour of the features available in RealTime, click the Next button. If you're already familiar with RealTime, or would prefer to find things out on your own, feel free to close this tour - we won't pester you with it again.",
+    content: "Welcome to RealTimeCRM, an easy-to-use, cross-platform CRM from Cambridge Software. Click the Next button to start the tour.",
     target: document.querySelector('.navbar-brand'),
-    placement: "right",
-    onShow: function() {
-      Meteor.users.update({
-        _id: Meteor.userId()
-      }, {
-        $set: {
-          "profile.welcomeTour": true
-        }
-      });
-    }
+    placement: "right"
   }, {
     title: "Navigation",
     content: "On the left-hand side of the screen, you'll find a sidebar containing a number of links, which will take you to the relevant sections. The sidebar is ever present, allowing you to navigate to anywhere, from anywhere.",
@@ -86,7 +77,6 @@ var welcomeTour = {
     multipage: true,
     onNext: function() {
     	Meteor.call('welcomeTour.createDemoCompany', function(err,data) {
-    		console.log('Generating new company...');
       	if(err) throw new Meteor.Error(err);
         window.location = "/companies/" + data;
       });

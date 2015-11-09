@@ -198,7 +198,8 @@ Template.dashboard.onRendered(function() {
 
   //Has user taken welcome tour yet?
   if (Meteor.user().profile.welcomeTour === false) {
-    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
+    Modal.show("firstRun");
+    // $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
   }
 });
 
