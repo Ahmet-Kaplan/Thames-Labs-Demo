@@ -1,4 +1,15 @@
+Template.insertNewTask.onRendered(function() {
+  Session.set('showRemindMe', false);
+  Session.set('hasDueDate', false);
+});
+
 Template.insertNewTask.helpers({
+  hasDueDate: function() {
+    return Session.get('hasDueDate');
+  },
+  showRemindMe: function() {
+    return Session.get('showRemindMe');
+  },
   getEntityType: function() {
     return this.entity_type;
   },
@@ -43,31 +54,56 @@ Template.insertNewTask.helpers({
 });
 
 Template.insertNewTask.events({
+  'change input[name=dueDate]': function(e) {
+    e.preventDefault();
+    if($('input[name=dueDate]').val()) {
+      Session.set('hasDueDate', true);
+    } else {
+      Session.set('hasDueDate', false);
+    }
+  },
   'change input[name=remindMe]': function(e) {
     e.preventDefault();
     var remindMe = $('input[name=remindMe]').prop('checked');
-    if(remindMe) {
-      $('#showRemindMeDate').show();
-    } else {
-      $('#showRemindMeDate').hide();
-    }
+    Session.set('showRemindMe', remindMe);
   }
 });
 
+Template.updateTask.onRendered(function() {
+  Session.set('showRemindMe', this.data.remindMe);
+  Session.set('hasDueDate', this.data.dueDate !== undefined);
+})
+
 Template.updateTask.helpers({
-  remindMe: function() {
-    return this.remindMe === true;
+  hasDueDate: function() {
+    return Session.get('hasDueDate');
+  },
+  showRemindMe: function() {
+    return Session.get('showRemindMe');
   }
 })
 
 Template.updateTask.events({
+  'change input[name=dueDate]': function(e) {
+    e.preventDefault();
+    if($('input[name=dueDate]').val()) {
+      Session.set('hasDueDate', true);
+    } else {
+      Session.set('hasDueDate', false);
+    }
+  },
   'change input[name=remindMe]': function(e) {
     e.preventDefault();
     var remindMe = $('input[name=remindMe]').prop('checked');
-    if(remindMe) {
-      $('#showRemindMeDate').show();
-    } else {
-      $('#showRemindMeDate').hide();
-    }
+    Session.set('showRemindMe', remindMe);
+  }
+});
+
+Template.reminderSelector.onRendered(function() {
+  if(this.data.reminder) {
+    var reminderValue = this.data.reminder.split('.')[0];
+    var reminderUnit = this.data.reminder.split('.')[1];
+    $('#reminderValue').val(reminderValue);
+    $('#reminderUnit').val(reminderUnit);
   }
 });

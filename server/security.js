@@ -65,6 +65,7 @@ Tasks.allowTags(function(userId) {
 Chatterbox.permit(['insert']).ifLoggedIn().apply();
 
 AuditLog.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+GlobalAudit.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 
 Products.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
 Products.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateProducts').apply();

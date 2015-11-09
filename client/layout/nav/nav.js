@@ -3,13 +3,14 @@ Template.nav.onCreated(function() {
 
   this.autorun(function() {
     var getNotification = Notifications.findOne({
-      target: Meteor.userId()
+      target: {$in: [Meteor.userId(), 'all']}
     }, {
       sort: {
         createdAt: -1
       }
     });
-    if(getNotification && !getNotification.notified) {
+
+    if(getNotification && !getNotification.notified && getNotification.target === Meteor.userId()) {
       if("Notification" in window) {
 
         var options = {
@@ -70,10 +71,7 @@ Template.nav.helpers({
   },
   notifications: function() {
     return Notifications.find({
-      $or: [
-        {target: 'all'},
-        {target: Meteor.userId()}
-      ]
+      target: {$in: [Meteor.userId(), 'all']}
     }, {
       sort: {
         createdAt: -1
@@ -86,7 +84,9 @@ Template.nav.helpers({
     var yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    var recent = Notifications.find({}, {
+    var recent = Notifications.find({
+      target: {$in: [Meteor.userId(), 'all']}
+    }, {
       sort: {
         createdAt: -1
       },
@@ -107,10 +107,7 @@ Template.nav.helpers({
     yesterday.setDate(today.getDate() - 1);
 
     return Notifications.find({
-      $or: [
-        {target: 'all'},
-        {target: Meteor.userId()}
-      ]
+      target: {$in: [Meteor.userId(), 'all']}
     }).count();
   },
   favourites: function() {

@@ -16,7 +16,9 @@
             <img class="visible-xs" alt="" src="/icon.svg"> RealTime
             <span>CRM</span>
           </a>
+          {{#if loggedIn}}
           <button class="btn btn-primary pull-right visible-xs" id="toggle-search"><i class="fa fa-search"></i></button>
+          {{/if}}
         </div>
         {{#if loggedIn}}
         <div class="collapse navbar-collapse">
@@ -182,12 +184,6 @@
           <i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders
         </a>
       </li>
-      {{/if}} {{#if isInRole 'Administrator,CanReadDataManagement'}}
-      <li class="panel-title {{isActiveRoute 'datamanagement'}}">
-        <a href='/datamanagement' class="dismiss-on-click" id="menuLinkDataManagement">
-          <i class="fa fa-fw fa-upload"></i> Data Management
-        </a>
-      </li>
       {{/if}} {{#if isInRole 'Administrator,CanReadEventLog'}}
       <li class="panel-title {{isActiveRoute 'events'}}">
         <a href='/events' class="dismiss-on-click" id="menuLinkEventLog">
@@ -215,7 +211,7 @@
       </li>
       <li class="panel-title {{isActiveRoute 'audit'}}">
         <a href="/audit" class="dismiss-on-click">
-          <i class="fa fa-fw fa-book"></i> Audit Log
+          <i class="fa fa-fw fa-user-secret"></i> Global Audit Log
           <span class="sr-only">(current)</span>
         </a>
       </li>

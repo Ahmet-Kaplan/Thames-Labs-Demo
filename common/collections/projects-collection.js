@@ -80,6 +80,25 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
 //////////////////////
 
 Projects.after.insert(function(userId, doc) {
+  if (!Roles.userIsInRole(userId, ['superadmin'])) {
+    var user = Meteor.users.findOne(userId);
+    var tenant = Tenants.findOne(user.group);
+    var projectCustomFields = tenant.settings.extInfo.project;
+
+    var cfMaster = {};
+    _.each(projectCustomFields, function(cf) {
+
+      var field = {
+        dataValue: cf.defaultValue,
+        dataType: cf.type,
+        isGlobal: true
+      };
+
+      cfMaster[cf.name] = field;
+    });
+    doc.customFields = cfMaster;
+  }
+
   logEvent('info', 'A new project has been created: ' + doc.description);
 });
 
@@ -104,6 +123,9 @@ Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
   }
   if (doc.value !== this.previous.value) {
     logEvent('info', 'An existing project has been updated: The value of "value" was changed from ' + this.previous.value + " to " + doc.value);
+  }
+  if (doc.active !== this.previous.active) {
+    logEvent('info', 'An existing project has been updated: The value of "active" was changed from ' + this.previous.active + " to " + doc.active);
   }
 });
 

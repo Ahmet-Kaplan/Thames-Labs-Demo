@@ -12,6 +12,18 @@ Template.registerHelper('decimal', function(number) {
   return parseFloat(number).toFixed(2);
 });
 
+Template.registerHelper('formatDateLocale', function(date, locale) {
+  if (!locale) locale = 'GMT';
+  if (date) {
+    switch (locale) {
+      case 'GMT':
+        return moment(date).format('MMMM Do YYYY, h:mma');
+        break;
+    }
+  }
+});
+
+
 setRouteDetails = function(title) {
   var user = Meteor.users.find({
     _id: Meteor.userId()
@@ -38,7 +50,7 @@ setRouteDetails = function(title) {
 
 Template.registerHelper("setPageTitle", function() {
   var title = "";
-  for (var i = 0; i<arguments.length - 1; i++) {
+  for (var i = 0; i < arguments.length - 1; i++) {
     title += arguments[i];
   }
   document.title = title;
@@ -57,6 +69,7 @@ Template.registerHelper("isMobile", function() {
 
 // Make search indices available to templates - e.g. for EasySearch components
 Template.registerHelper('AuditLogIndex', () => AuditLogIndex);
+Template.registerHelper('GlobalAuditIndex', () => GlobalAuditIndex);
 Template.registerHelper('CompaniesIndex', () => CompaniesIndex);
 Template.registerHelper('ContactsIndex', () => ContactsIndex);
 Template.registerHelper('OpportunitiesIndex', () => OpportunitiesIndex);

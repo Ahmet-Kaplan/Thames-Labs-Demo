@@ -87,6 +87,9 @@ Template.addNewGlobalCustomField.events({
       case 'contact':
         fields = tenant.settings.extInfo.contact;
         break;
+      case 'project':
+        fields = tenant.settings.extInfo.project;
+        break;
     }
 
     var data = [];
@@ -120,6 +123,13 @@ Template.addNewGlobalCustomField.events({
           }
         });
         break;
+      case 'project':
+        Tenants.update(user.group, {
+          $set: {
+            'settings.extInfo.project': data
+          }
+        });
+        break;
     }
 
     var collName = '';
@@ -129,6 +139,9 @@ Template.addNewGlobalCustomField.events({
         break;
       case 'contact':
         collName = 'contacts';
+        break;
+      case 'project':
+        collName = 'projects';
         break;
     }
 
@@ -167,6 +180,14 @@ Template.addNewGlobalCustomField.events({
 
         if (collName === 'contacts') {
           Contacts.update(tx._id, {
+            $set: {
+              customFields: cfMaster
+            }
+          });
+        }
+
+        if (collName === 'projects') {
+          Projects.update(tx._id, {
             $set: {
               customFields: cfMaster
             }

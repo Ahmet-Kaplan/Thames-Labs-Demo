@@ -23,22 +23,22 @@ Template.eventEntry.helpers({
 
     switch (this.level) {
       case 'fatal':
-        returnedData = "<div><span class='label label-primary'>FATAL</span></div>";
+        returnedData = "<div id='logLevel'><span class='label label-primary'>fatal</span></div>";
         break;
       case 'error':
-        returnedData = "<div><span class='label label-danger'>ERROR</span></div>";
+        returnedData = "<div id='logLevel'><span class='label label-danger'>error</span></div>";
         break;
       case 'warning':
-        returnedData = "<div><span class='label label-warning'>WARNING</span></div>";
+        returnedData = "<div id='logLevel'><span class='label label-warning'>warning</span></div>";
         break;
       case 'info':
-        returnedData = "<div><span class='label label-info'>INFO</span></div>";
+        returnedData = "<div id='logLevel'><span class='label label-info'>info</span></div>";
         break;
       case 'verbose':
-        returnedData = "<div><span class='label label-success'>VERBOSE</span></div>";
+        returnedData = "<div id='logLevel'><span class='label label-success'>verbose</span></div>";
         break;
       case 'debug':
-        returnedData = "<div><span class='label label-default'>DEBUG</span></div>";
+        returnedData = "<div id='logLevel'><span class='label label-default'>debug</span></div>";
         break;
     }
 
