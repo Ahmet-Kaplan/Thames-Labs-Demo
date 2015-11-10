@@ -257,8 +257,8 @@ Feature: Allow users to manage their Contacts
     When I navigate to a contact page
     And I click "#btnAddTaskToEntity"
     Then I should see a modal
-    And I selectize "assigneeId" to "test user"
     When I set text field "title" to "task title"
+    And I selectize "assigneeId" to "test user"
     And I submit the "newTask" form
     Then I should see the heading "task title"
 

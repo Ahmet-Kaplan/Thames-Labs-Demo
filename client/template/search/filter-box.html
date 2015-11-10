@@ -1,0 +1,6 @@
+<template name="filterBox">
+  <input type="text" class="form-control" placeholder="Search..." id="filterBox">
+  {{#each filtersList}}
+    <span class="removeProp" id="{{prop}}_{{value}}">{{name}} ×</span>
+  {{/each}}
+</template>

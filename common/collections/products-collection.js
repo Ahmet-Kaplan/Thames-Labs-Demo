@@ -22,6 +22,13 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
         'price': 1,
         'cost': 1
       }
+    },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      if (options.search.props.searchById) {
+        selector._id = options.search.props.searchById;
+      }
+      return selector;
     }
   })
 });

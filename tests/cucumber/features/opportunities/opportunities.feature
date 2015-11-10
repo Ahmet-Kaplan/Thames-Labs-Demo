@@ -243,8 +243,8 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     And I click "#btnAddTaskToEntity"
     Then I should see a modal
-    And I selectize "assigneeId" to "test user"
     When I set text field "title" to "task title"
+    And I selectize "assigneeId" to "test user"
     And I submit the "newTask" form
     Then I should see the heading "task title"
 

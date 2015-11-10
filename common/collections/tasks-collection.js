@@ -19,6 +19,23 @@ Tasks.helpers({
 // SEARCH INDICES //
 ////////////////////
 
+Collections.tasks.filters = {
+  assigneeId: {
+    display: 'Assignee: ',  //String, The parameters to look for in the mongoDB of the collection. 
+                            //i.e. if you are on the tasks list page and want to select the assigneeId, put 'assigneeId'
+                            //Note that the corresponding rule must exist in the collection file
+    index: 'users'     //If search is needed to display a user friendly name
+  },
+  companyId: {
+    display: 'Company: ',
+    index: 'companies'
+  },
+  tags: {
+    display: 'Tag: ',
+    index: null
+  }
+};
+
 Collections.tasks.index = TasksIndex = new EasySearch.Index({
   collection: Tasks,
   fields: ['title'],
@@ -41,7 +58,6 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
       var userId = options.search.userId;
-      console.log(options.search.props)
 
       if(options.search.props.searchInputs) {
         var searchInputs = options.search.props.searchInputs;
@@ -68,7 +84,11 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         // n.b. tags is a comma separated string
         selector.tags = { $in: options.search.props.tags.split(',') };
       }
-      console.log(selector)
+
+      if (options.search.props.searchById) {
+        selector._id = options.search.props.searchById;
+      }
+
       return selector;
     }
   })

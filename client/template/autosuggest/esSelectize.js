@@ -1,78 +1,75 @@
-function searchOptions(index, search, optionsList, parent, filter) {
-  if(index === undefined) {
-    //No search index set up
-    return false;
-  }
-
-  var searchOptions = {
-    props: {
-      autosuggest: true
-    }
-  };
-
-  if(parent !== undefined && filter !== undefined) {
-    searchOptions.props[filter] = parent;
-  }
-
-  var searchInput = search || '';
-  var results = index.search(searchInput, searchOptions).fetch();
-  optionsList.set(results);
-}
-
 Template.esSelectize.onRendered(function() {
-  this.optionsList = new ReactiveVar([]);
-  this.selectize = new ReactiveVar({});
   this.parent = new ReactiveVar('');
-  this.search = new ReactiveVar('');
+  this.query = new ReactiveVar(null);
 
-  var parent = this.data.parent;
-  var selectizer = this.data.name;
-  var selectize = $('#' + selectizer)[0].selectize;
-  var defaultValue = this.data.value;
-  var index = this.data.index;
-  var filter = this.data.filter;
-  if(parent) {
-    var parentElt = $('#' + parent);
+  var selectize = $('#' + this.data.name)[0].selectize;
+
+  // If parent is set, listen for updates to it's value
+  if(this.data.parent) {
+    var parentElt = $('#' + this.data.parent);
     this.parent.set(parentElt.val());
     parentElt.change( () => {
       this.parent.set(parentElt.val());
     });
   }
-  var readonly = this.data.readonly;
 
-  //search update listener
-  this.autorun(function() {
-    var parent = Template.instance().parent.get();
-    var search = Template.instance().search.get() || '';
-    searchOptions(index, search, Template.instance().optionsList, parent, filter);
-  });
+  // search update listener
+  this.autorun( () => {
+    var searchOptions = {
+      props: {
+        autosuggest: true
+      }
+    };
+    var resultsCursor = null;
+    var searchInput = this.query.get();
 
-  //display update listener
-  this.autorun(function() {
-    var optionsList = Template.instance().optionsList.get();
-    Template.instance().selectize.set(selectize);
-    if(optionsList) {
-      selectize.clearOptions();
-      selectize.addOption(optionsList);
-      selectize.refreshOptions(false);
-    }
-    if(defaultValue) {
-      selectize.setValue(defaultValue);
-    }
-    if(readonly) {
-      selectize.disable();
+    if (searchInput == null && this.data.value) {
+      // First run and value set, so perform a searchById
+      searchOptions.props.searchById = this.data.value;
+      resultsCursor = this.data.index.search('', searchOptions);
+      if (resultsCursor.isReady()) {
+        selectize.addOption(resultsCursor.fetch());
+        selectize.setValue(this.data.value);
+      }
+    } else if (searchInput == null) {
+      // First run and no value set, so do nothing
+      return;
+    } else {
+      // Normal search
+      if(this.parent.get() !== undefined && this.data.filter !== undefined) {
+        searchOptions.props[this.data.filter] = this.parent.get();
+      }
+      resultsCursor = this.data.index.search(searchInput, searchOptions);
+      if (resultsCursor.isReady()) {
+        selectize.addOption(resultsCursor.fetch());
+        selectize.refreshOptions(true);
+      }
     }
   });
 });
 
 Template.esSelectize.helpers({
   initialize: function() {
+    var self = Template.instance();
     var options = {
       closeAfterSelect: true,
       valueField: "__originalId",
       labelField: "name",
       searchField: "name",
       createOnBlur: false,
+      load: (query) => {
+        self.query.set(query);
+      },
+      onFocus: () => {
+        if (!self.query.get()) {
+          self.query.set('');
+        }
+      },
+      onInitialize: function() {
+        if(self.data.readonly) {
+          this.disable();
+        }
+      }
     };
     if(this.allowCreate) {
       options.render = {
@@ -90,15 +87,5 @@ Template.esSelectize.helpers({
       options.create = false;
     }
     return options;
-  }
-});
-
-Template.esSelectize.events({
-  'keydown input': function(e) {
-    var selectize = Template.instance().selectize.get();
-    if(e.keyCode === 13 || e.keyCode === 9) {
-      return;
-    }
-    Template.instance().search.set(selectize.lastQuery);
   }
 });
