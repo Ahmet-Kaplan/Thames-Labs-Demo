@@ -120,10 +120,8 @@ Meteor.methods({
       var value = 0;
 
       _.each(projectData, function(pd) {
-        if (pd.value !== null) {
+        if (pd.value){
           value += parseFloat(pd.value)
-        }else{
-          value = 0
         }
       });
 
@@ -145,10 +143,8 @@ Meteor.methods({
       var value = 0;
 
       _.each(projData, function(pd) {
-        if (pd.value !== null) {
+        if (pd.value) {
           value += parseFloat(pd.value)
-        }else{
-          value = 0
         }
       });
       if (projData.length) {
@@ -199,10 +195,8 @@ Meteor.methods({
       var value = 0;
 
       _.each(oppData, function(od) {
-        if (od.value !== null) {
+        if (od.value) {
           value += parseFloat(od.value);
-        }else{
-          value = 0
         }
       });
       parseFloat(value).toFixed(2)
@@ -230,10 +224,8 @@ Meteor.methods({
       var value = 0;
 
       _.each(oppData, function(od) {
-        if (od.value !== null) {
+        if (od.value) {
           value += parseFloat(od.value)
-        }else{
-          value = 0
         }
       });
       if (oppData.length){
@@ -291,10 +283,8 @@ Meteor.methods({
       var value = 0;
 
       _.each(productData, function(pd) {
-        if (pd.cost !== 0) {
+        if (pd.cost) {
           value += parseFloat(pd.cost)
-        }else{
-          value = 0
         }
       });
       if (productData.length) {
