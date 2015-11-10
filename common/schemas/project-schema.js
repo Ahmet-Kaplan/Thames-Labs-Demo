@@ -32,10 +32,10 @@ Schemas.Project = new SimpleSchema({
   },
   value: {
     type: Number
-  },    
-  active: {    
-    type: Boolean,   
-    defaultValue: true   
+  },
+  active: {
+    type: Boolean,
+    defaultValue: true
   },
   createdBy: {
     type: String,

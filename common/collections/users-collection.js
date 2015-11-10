@@ -14,6 +14,13 @@ UsersIndex = new EasySearch.Index({
     transform: (doc) => {
       doc.name = doc.profile.name;
       return doc;
+    },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      if (options.search.props.searchById) {
+        selector._id = options.search.props.searchById;
+      }
+      return selector;
     }
   })
 });

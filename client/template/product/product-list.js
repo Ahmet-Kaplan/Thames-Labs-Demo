@@ -7,7 +7,8 @@ Template.productList.onCreated(function() {
   this.totalProductsCost = new ReactiveVar(0);
   this.averageProductsCost = new ReactiveVar(0);
 });
-Template.productList.onRendered(function(){
+
+Template.productList.onRendered(function() {
   var template = this;
 
   Meteor.call('report.numberOfProducts', function(err, data) {
