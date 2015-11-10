@@ -4,16 +4,12 @@
 
   <div class="stick-bar">
     <div class="row">
-      <div class="col-md-12">
-        {{> searchBox}}
-      </div>
-    </div>
-    <div class="row">
       <div class="col-md-3">
         {{> EasySearch.Input index=TasksIndex attributes=searchInputAttributes}}
       </div>
       <div class="col-md-3">
-        {{> tagSearch collection='tasks' }}
+        {{> filterBox filters=filters index=TasksIndex}}
+        <!-- {{> tagSearch collection='tasks' }} -->
       </div>
       <div class="col-md-3">
         <div class="btn-group">

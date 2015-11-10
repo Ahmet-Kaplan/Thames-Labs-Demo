@@ -1,3 +1,9 @@
+Meteor.users.helpers({
+  name: function() {
+    return Meteor.users.findOne(this._id).profile.name
+  }
+})
+
 ////////////////////
 // SEARCH INDICES //
 ////////////////////

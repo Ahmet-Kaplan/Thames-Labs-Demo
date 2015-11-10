@@ -44,12 +44,18 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
       console.log(options.search.props)
 
       if(options.search.props.searchInputs) {
-        var searchInputs = [new RegExp(options.search.props.searchInputs + '+')];
-        selector.title = {$in: searchInputs}
+        var searchInputs = options.search.props.searchInputs;
+        selector.title = {$in: [new RegExp(searchInputs)]}
       }
 
       if(options.search.props.assigneeId) {
-        selector.assigneeId = {$eq: userId}
+        selector.assigneeId = {$eq: options.search.props.assigneeId}
+      }
+
+      if (options.search.props.showMine) {
+        selector.assigneeId = { $eq: userId};
+      } else if(!options.search.props.assigneeId) {
+        selector.assigneeId = { $ne: ''};
       }
 
       if (options.search.props.showCompleted) {
@@ -58,16 +64,11 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         selector.completed = { $ne: true };
       }
 
-      if (options.search.props.showMine) {
-        selector.assigneeId = { $eq: userId};
-      } else {
-        selector.assigneeId = { $ne: ''};
-      }
-
       if (options.search.props.tags) {
         // n.b. tags is a comma separated string
         selector.tags = { $in: options.search.props.tags.split(',') };
       }
+      console.log(selector)
       return selector;
     }
   })

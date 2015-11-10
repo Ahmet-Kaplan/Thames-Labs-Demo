@@ -43,43 +43,29 @@ Template.taskList.helpers({
   showMine: function() {
     return Template.instance().showMine.get();
   },
-  tasks: function() {
-    if (Session.get('showCompleted') === 1) {
-      return Tasks.find({}, {
-        sort: {
-          completed: 1,
-          completedAt: -1,
-          dueDate: 1
-        }
-      });
-    } else {
-      return Tasks.find({
-        completed: false
-      }, {
-        sort: {
-          completed: 1,
-          completedAt: -1,
-          dueDate: 1
-        }
-      });
-    }
+  filters: function() {
+    return [{
+      regexp: /assignee:/i,
+      display: 'Assigned to ',
+      prop: 'assigneeId'
+    }]
   }
 });
 
 Template.taskList.events({
-  'click #tskToggleCompleted': function() {
+  'click #tskToggleCompleted': function(event) {
     event.preventDefault();
     var showCompleted = Template.instance().showCompleted.get();
     Template.instance().showCompleted.set(!showCompleted);
     $(event.target).blur();
   },
-  'click #tskToggleMine': function() {
+  'click #tskToggleMine': function(event) {
     event.preventDefault();
     var showMine = Template.instance().showMine.get();
     Template.instance().showMine.set(!showMine);
     $(event.target).blur();
   },
-  'click #tskDeleteAllCompleted': function() {
+  'click #tskDeleteAllCompleted': function(event) {
     var searchDefinition = TasksIndex.getComponentDict().get('searchDefinition');
     var searchOptions = TasksIndex.getComponentDict().get('searchOptions');
     $(event.target).blur();
