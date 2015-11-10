@@ -24,15 +24,15 @@ Collections.tasks.filters = {
     display: 'Assignee: ',  //String, The parameters to look for in the mongoDB of the collection. 
                             //i.e. if you are on the tasks list page and want to select the assigneeId, put 'assigneeId'
                             //Note that the corresponding rule must exist in the collection file
-    index: 'users'     //If search is needed to display a user friendly name
+    collectionName: 'users'     //If search is needed to display a user friendly name
   },
   companyId: {
     display: 'Company: ',
-    index: 'companies'
+    collectionName: 'companies'
   },
   tags: {
     display: 'Tag: ',
-    index: null
+    collectionName: null
   }
 };
 

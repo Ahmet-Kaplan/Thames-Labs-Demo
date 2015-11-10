@@ -134,22 +134,12 @@ Template.filterBox.helpers({
           var displayName = value;
 
           if(filter && filter.index) {
-            var searchOptions = {
-              props: {
-                autosuggest: true,
-                searchById: value
-              }
-            }
-            resultsCursor = Collections[filter.index].index.search('', searchOptions);
-            if (resultsCursor.isReady()) {
-              console.log(searchOptions, value, resultsCursor.fetch())
-              displayName = resultsCursor.fetch()[0].name
-            }
+
           }
 
           filtersList.push({
+            collectionName: filter.collectionName,
             prop: propIndex,
-            name: filter.display + displayName,
             value: propIndex + '_' + value
           });
 
@@ -160,7 +150,18 @@ Template.filterBox.helpers({
   }
 });
 
-Template.filterBox.events({
+Template.filterTag.onCreated(function() {
+  this.subscribe(Collections[this.data.collectionName].subscribeById, this.data.id);
+});
+
+Template.filterTag.helpers({
+  name: function() {
+    console.log(this.collectionName)
+    return Collections[this.collectionName].findOne().name;
+  }
+})
+
+Template.filterTag.events({
   'click .removeProp': function(e) {
     e.preventDefault();
     var id = e.target.id;

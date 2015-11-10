@@ -2,12 +2,15 @@ Meteor.users.helpers({
   name: function() {
     return Meteor.users.findOne(this._id).profile.name
   }
-})
+});
+
+Collections.users = Meteor.users;
+
+Collections.users.subscriptionById = 'allUserData';
 
 ////////////////////
 // SEARCH INDICES //
 ////////////////////
-Collections.users = {};
 Collections.users.index = UsersIndex = new EasySearch.Index({
   collection: Meteor.users,
   fields: ['profile.name', '_id'],
