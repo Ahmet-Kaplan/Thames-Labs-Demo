@@ -52,6 +52,13 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
         'supplierContactId': 1,
         'projectId': 1
       }
+    },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      if (options.search.props.searchById) {
+        selector._id = options.search.props.searchById;
+      }
+      return selector;
     }
   })
 });

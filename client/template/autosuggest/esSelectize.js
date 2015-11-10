@@ -15,20 +15,35 @@ Template.esSelectize.onRendered(function() {
 
   // search update listener
   this.autorun( () => {
-    var searchInput = this.query.get();
-    if (searchInput == null) return;
     var searchOptions = {
       props: {
         autosuggest: true
       }
     };
-    if(this.parent.get() !== undefined && this.data.filter !== undefined) {
-      searchOptions.props[this.data.filter] = this.parent.get();
-    }
-    resultsCursor = this.data.index.search(searchInput, searchOptions);
-    if (resultsCursor.isReady()) {
-      selectize.addOption(resultsCursor.fetch());
-      selectize.refreshOptions(true);
+    var resultsCursor = null;
+    var searchInput = this.query.get();
+
+    if (searchInput == null && this.data.value) {
+      // First run and value set, so perform a searchById
+      searchOptions.props.searchById = this.data.value;
+      resultsCursor = this.data.index.search('', searchOptions);
+      if (resultsCursor.isReady()) {
+        selectize.addOption(resultsCursor.fetch());
+        selectize.setValue(this.data.value);
+      }
+    } else if (searchInput == null) {
+      // First run and no value set, so do nothing
+      return;
+    } else {
+      // Normal search
+      if(this.parent.get() !== undefined && this.data.filter !== undefined) {
+        searchOptions.props[this.data.filter] = this.parent.get();
+      }
+      resultsCursor = this.data.index.search(searchInput, searchOptions);
+      if (resultsCursor.isReady()) {
+        selectize.addOption(resultsCursor.fetch());
+        selectize.refreshOptions(true);
+      }
     }
   });
 });
@@ -51,10 +66,6 @@ Template.esSelectize.helpers({
         }
       },
       onInitialize: function() {
-        // Set defaults
-        if(self.data.value) {
-          this.setValue(self.data.value);
-        }
         if(self.data.readonly) {
           this.disable();
         }
