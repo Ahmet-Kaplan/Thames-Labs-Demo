@@ -11,6 +11,18 @@ Meteor.methods({
         createdBy: user._id
       });
     });
+  },
+  
+  'welcomeTour.deleteTourData': function() {
+    var user = Meteor.users.findOne({
+      _id: this.userId
+    });
+
+    Partitioner.bindGroup(user.group, function() {
+      Companies.remove({
+        name: 'Realtime Tours, Inc.'
+      });
+    });
   }
 
 });

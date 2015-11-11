@@ -4,8 +4,12 @@ Template.companyList.onCreated(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
   });
 
-  if (hopscotch.getState() === "welcome-tour:9") {
-    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
+	console.log(hopscotch.getState());
+
+  if(hopscotch.getState() !== null){
+		if (hopscotch.getState().indexOf("welcome-tour:9") > -1) {
+		  $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
+		}
   }
 });
 
