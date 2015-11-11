@@ -1,11 +1,11 @@
-
-hopscotch.configure({
+var welcomeTour = {
 	onClose: function() {
 		hopscotch.endTour(true);
-  }
-});
-
-var welcomeTour = {
+		
+		Meteor.call('welcomeTour.deleteTourData', function(err,res){
+    	if(err) throw new Meteor.Error(err);    	
+    });
+  },
 	onEnd: function(){
   	Modal.show('tourEnd');
   },

@@ -123,7 +123,6 @@ Meteor.methods({
       email: doc.email.toLowerCase(),
       profile: {
         name: doc.name,
-        welcomeTour: false,
         lastLogin: null,
         lastActivity: {
           page: null,
