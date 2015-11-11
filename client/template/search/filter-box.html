@@ -1,10 +1,10 @@
 <template name="filterBox">
   <input type="text" class="form-control" placeholder="Search..." id="filterBox">
   {{#each filtersList}}
-    {{> filterTag prop=prop id=value collectionName=collectionName}}
+    {{> filterTag filter=filter id=id mainCollectionName=mainCollectionName}}
   {{/each}}
 </template>
     
 <template name="filterTag">
-  <span class="removeProp" id="{{prop}}_{{id}}">{{name}} ×</span>
+  <span class="removeProp" id="{{filter}}_{{id}}">{{name}} ×</span>
 </template>

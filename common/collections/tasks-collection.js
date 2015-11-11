@@ -16,25 +16,48 @@ Tasks.helpers({
 })
 
 ////////////////////
-// SEARCH INDICES //
+// SEARCH FILTERS //
 ////////////////////
 
 Collections.tasks.filters = {
-  assigneeId: {
-    display: 'Assignee: ',  //String, The parameters to look for in the mongoDB of the collection. 
-                            //i.e. if you are on the tasks list page and want to select the assigneeId, put 'assigneeId'
-                            //Note that the corresponding rule must exist in the collection file
-    collectionName: 'users'     //If search is needed to display a user friendly name
+  assignee: {
+    display: 'Assignee:',
+    prop: 'assignee',
+    collectionName: 'users',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'allUserData',
+    displayValue: function(user) {
+      if(user) {
+        return user.profile.name;
+      }
+    }
   },
-  companyId: {
-    display: 'Company: ',
-    collectionName: 'companies'
+  company: {
+    display: 'Company:',
+    prop: 'company',
+    collectionName: 'companies',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'companyById',
+    displayValue: function(company) {
+      if(company) {
+        return company.name;
+      }
+    }
   },
   tags: {
-    display: 'Tag: ',
-    collectionName: null
+    display: 'Tag:',
+    prop: 'tags',
+    collectionName: 'tags',
+    valueField: '__originalId',
+    nameField: 'name'
   }
 };
+
+////////////////////
+// SEARCH INDICES //
+////////////////////
 
 Collections.tasks.index = TasksIndex = new EasySearch.Index({
   collection: Tasks,
@@ -59,18 +82,19 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
       var userId = options.search.userId;
 
-      if(options.search.props.searchInputs) {
-        var searchInputs = options.search.props.searchInputs;
-        selector.title = {$in: [new RegExp(searchInputs)]}
+      if(options.search.props.assignee) {
+        // n.b. the array is passed as a comma separated string
+        selector.assigneeId = {$in: options.search.props.assignee.split(',')};
       }
 
-      if(options.search.props.assigneeId) {
-        selector.assigneeId = {$eq: options.search.props.assigneeId}
+      if(options.search.props.company) {
+        // n.b. the array is passed as a comma separated string
+        selector.entityId = {$in: options.search.props.company.split(',')};
       }
 
       if (options.search.props.showMine) {
         selector.assigneeId = { $eq: userId};
-      } else if(!options.search.props.assigneeId) {
+      } else if(!options.search.props.assignee) {
         selector.assigneeId = { $ne: ''};
       }
 

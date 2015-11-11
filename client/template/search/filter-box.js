@@ -1,98 +1,115 @@
-var filters = {
-  assignee: {
-    regexp: /assignee:/i,   //RexExp, The trigger regexp
-    display: 'Assignee:',   //String, So far needs to match the regexp
-    prop: 'assigneeId',     //String, The parameters to look for in the mongoDB of the collection. 
-                            //i.e. if you are on the tasks list page and want to select the assigneeId, put 'assigneeId'
-                            //Note that the corresponding rule must exist in the collection file
-    index: 'UsersIndex',    //String, Index to search in
-    value: '__originalId',  //String, The parameter from the index used as value in the select dropdown
-    name: 'name',            //String, The parameter from the index used as display in the select dropdown
-    allowMultiple: false
-  },
-  company: {
-    regexp: /company:/i,
-    display: 'Company:',
-    prop: 'entityId',
-    index: 'CompaniesIndex',
-    value: '__originalId',
-    name: 'name',
-    allowMultiple: false
+/*
+The filter box takes only one parameter which is the name of the collection on which the filters must be applied.
+This parameter must be passed as a string. For instance, {{> filterBox collectionName='tasks'}} will apply filters on the task list.
+
+The filters themselves are stored in the collection file as an object alongside the collection, index... as:
+  Collections.nameOfYourCollection.filters = { filter1, filter2, ... }
+
+The filter object itself is built as follow:
+
+  nameOfTheFilter: {                                      Name of the property on which the filter will work. Note that this must be the name of the prop in the easy search index
+    display: 'MyField:',              String              Text that will be used for triggering the dropdown (case insensitive) and to display the filter tag
+    prop: 'nameOfTheFilter',          String              The name of the prop in the easy search index. A corresponding rule must be defined in options.search.props.prop
+                                                          MUST be identical to the key to allow displaying in tags (dirty hack)
+    collectionName: 'myCollection',   String              The collection from which the dropdown list will be generated and looked for. 
+                                                          The code will look for Collections[collectionName].index so an index must be defined as well
+    valueField: '__originalId',       String              Name of the field returned by the search index that should be used as the value on the select <option value="valueField">nameField</option>
+    nameField: 'name',                String              Name of the field returned by the search index that should be used as the display on the select <option value="valueField">nameField</option>
+    subscriptionById: 'fieldById',    String (Optional)   Name of the subscription that must be used to fetch the object to display on the filter tag
+    displayValue: function(user) {    Function (Optional) Used to return the correct formatting of the field for the filter tag.
+      if(user) {                                          Takes one argument which is the unique object returned by the subscription
+        return user.profile.name;
+      }
+    }
   }
-};
 
-var filtersTags = new ReactiveVar([]);
+With each filter, a search prop must be defined with the same name (hence the reason for having the name of the field identical to the prop parameter).
+Note that between each filter, an 'AND' statement is applied while an 'OR' statement is applied inside a field. Since the search prop cannot be passed as an object,
+it is returned as a comma separated list. The list is then obtained by using the split(',') method.
+Here is what your rule should look like:
+if(options.search.props.nameOfTheFilter) {
+  selector.fieldToFilterBy = {$in: options.search.props.nameOfTheFilter.split(',')};
+}
+*/
+
 var currentFilter = new ReactiveVar({});
-var searchIndex = '';
 
-function displayFilter(search, selectize) {
-  var matchedFilters = 0;
-  _.each(filters, function(filter) {
+function displayFilter(search, mainCollectionName, selectize) {
+  var filters = Collections[mainCollectionName].filters;
+  var matchedFilters = _.some(filters, function(filter) {
 
-    if(filter.regexp.test(search)) {
+    var filterRegexp = new RegExp(filter.display.trim(), 'i')
+
+    if(filterRegexp.test(search)) {
 
       currentFilter.set(filter);
-      matchedFilters++;
+
       //Retrieve search input to update the filter's dropdown
-      var searchString = search.toLowerCase().split(filter.display.toLowerCase())[1].trim() || '';
-      var recordsCursor = this[filter.index].search(searchString, {props: {autosuggest: true}});
+      var searchString = search.toLowerCase().split(filter.display.toLowerCase())[1] ? search.toLowerCase().split(filter.display.toLowerCase())[1].trim() : '';
 
-      if(recordsCursor.isReady()){
-        records = recordsCursor.fetch();
+      Tracker.autorun(function() {
+      var recordsCursor = Collections[filter.collectionName].index.search(searchString, {props: {autosuggest: true}});
 
-        _.each(records, function(record) {
-          selectize.addOption({_id: record[filter.value], name: filter.display + ' ' + record[filter.name]});
-        });
+        if(recordsCursor.isReady()){
+          records = recordsCursor.fetch();
 
-        selectize.refreshOptions(true);
-      }
+          _.each(records, function(record) {
+            selectize.addOption({_id: record[filter.valueField], name: filter.display + ' ' + record[filter.nameField]});
+          });
 
+          selectize.refreshOptions(true);
+        }
+      })
+
+      return true;
     }
 
   })
 
-  //If no match, the user has erased the entry
+  //If no match, the user may have erased the entry
   //so the list is no longer valid
   if(!matchedFilters) {
     selectize.clearOptions()
   }
 }
 
-function applyFilter(text, value, selectize) {
+function applyFilter(text, value, mainCollectionName, selectize) {
   var filter = currentFilter.get();
-  var currentTags = filtersTags.get();
+  var filterRegexp = new RegExp(filter.display.trim(), 'i')
 
-  if(filter.regexp.test(text)) {
-    searchIndex.getComponentMethods().addProps(filter.prop, value);
-    currentTags.push({
-        prop: filter.prop,
-        name: text,
-        value: value
-      });
-    filtersTags.set(currentTags);
+  if(filterRegexp.test(text)) {
+    var searchOptions = Collections[mainCollectionName].index.getComponentDict().get('searchOptions');
+    
+    //If prop already exist, update corresponding list
+    if(searchOptions.props[filter.prop] !== undefined){
+      var updatedProp = searchOptions.props[filter.prop].split(',');
+      updatedProp.push(value);
+      //Note that only strings can be passed, the array is passed as a comma separated list
+      Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, updatedProp.join(','));
+    } else {
+      Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);
+    }
     selectize.clearOptions();
     return true;
   }
   return false;
 }
 
-function removeFilter(prop, val) {
-  var currentTags = filtersTags.get();
+function removeFilter(mainCollectionName, filter, val) {
+  var searchOptions = Collections[mainCollectionName].index.getComponentDict().get('searchOptions');
+  var currentProp = searchOptions.props[filter].split(',');
+  currentProp.splice(currentProp.indexOf(val), 1);
 
-  //For filter with unique value
-  searchIndex.getComponentMethods().removeProps(prop);
-  currentTags.some(function(tag, index) {
-    if(tag.prop === prop) {
-      currentTags.splice(index, 1);
-      filtersTags.set(currentTags);
-      return true;
-    }
-  })
+  //If still have values, update prop. Otherwise remove it
+  if(currentProp.length) {
+    Collections[mainCollectionName].index.getComponentMethods().addProps(filter, currentProp.join(','));
+  } else {
+    Collections[mainCollectionName].index.getComponentMethods().removeProps(filter);
+  }
 }
 
 Template.filterBox.onRendered(function() {
-  var searchInputs = [];
-  searchIndex = Template.instance().data.index;
+  var mainCollectionName = this.data.collectionName;
 
   $('#filterBox').selectize({
     placeholder: 'Apply filters...',
@@ -104,43 +121,41 @@ Template.filterBox.onRendered(function() {
     highlight: false,
     closeAfterSelect: true,
     allowEmptyOption: true,
-    create: true,
+    create: false,
     delimiter: ',',
     persist: false,
     load: function(query) {
-      displayFilter(query, this);
+      displayFilter(query, mainCollectionName, this);
     },
     onItemAdd: function(value, $item) {
       var text = $($item).text();
-      applyFilter(text, value, this)
-      TasksIndex.getComponentMethods().search('');
+      applyFilter(text, value, mainCollectionName, this)
     }
   });
 });
 
 Template.filterBox.helpers({
   filtersList: function() {
-    var searchIndex = Template.instance().data.index
+    var mainCollectionName = Template.instance().data.collectionName;
+    var searchIndex = Collections[mainCollectionName].index;
     var searchOptions = searchIndex.getComponentDict().get('searchOptions');
     var filtersList = [];
-    var self = this;
+
     if(searchOptions && searchOptions.props) {
       _.each(searchOptions.props, function(propValues, propIndex) {
         var values = propValues.split(',');
-        var filter = Collections.tasks.filters[propIndex];
+        var filter = Collections[mainCollectionName].filters[propIndex];
 
         _.each(values, function(value) {
-
-          var displayName = value;
 
           if(filter && filter.index) {
 
           }
 
           filtersList.push({
-            collectionName: filter.collectionName,
-            prop: propIndex,
-            value: propIndex + '_' + value
+            filter: propIndex,
+            mainCollectionName: mainCollectionName,
+            id: value
           });
 
         });
@@ -151,22 +166,30 @@ Template.filterBox.helpers({
 });
 
 Template.filterTag.onCreated(function() {
-  this.subscribe(Collections[this.data.collectionName].subscribeById, this.data.id);
+  if(Collections[this.data.mainCollectionName].filters[this.data.filter].subscriptionById) {
+    this.subscribe(Collections[this.data.mainCollectionName].filters[this.data.filter].subscriptionById, this.data.id);
+  }
 });
 
 Template.filterTag.helpers({
   name: function() {
-    console.log(this.collectionName)
-    return Collections[this.collectionName].findOne().name;
+    var filter = Collections[this.mainCollectionName].filters[this.filter];
+    if(filter.collectionName && filter.displayValue) {
+      var record = Collections[filter.collectionName].findOne({_id: this.id});
+      return filter.display + ' ' + filter.displayValue(record);
+    } else {
+      return filter.display + ' ' + this.id;
+    }
   }
 })
 
 Template.filterTag.events({
   'click .removeProp': function(e) {
     e.preventDefault();
+    var mainCollectionName = this.mainCollectionName;
     var id = e.target.id;
     var prop = id.split('_')[0];
     var val = id.split('_')[1];
-    removeFilter(prop, val);
+    removeFilter(mainCollectionName, prop, val);
   }
 });
