@@ -1,42 +1,40 @@
 <!-- thanks to http://bootsnipp.com/snippets/featured/timeline-responsive -->
 
 <template name="activityTimeline">
-  <ul id="timeline" class="timeline">
-    {{#each indexedArray activities}}
-      <li class="{{timelineClass _index}}">
-        <div class="timeline-badge"><i class="fa fa-{{timelineIcon type}}"></i></div>
-        <div class="timeline-panel">
-          <div class="timeline-heading">
-            <h4 class="timeline-title">
-              {{type}}
-              <div class="btn-group pull-right">
-                <!-- {{#afModal class="btn btn-xs btn-info" collection="Activities" doc=_id operation="update" formId="removeActivityForm" omitFields="companyId, contactId, createdAt, projectId, purchaseOrderId"}}
-                  Edit
-                {{/afModal}} -->
-                <a href="#" id="edit-activity" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
-                <a href="#" id="remove-activity" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
-                <!-- {{#afModal class="btn btn-xs btn-danger" collection="Activities" doc=_id operation="remove" formId="removeActivityForm"}}
-                  Delete
-                {{/afModal}} -->
+  {{#if activities.count}}
+    <ul id="timeline" class="timeline">
+      {{#each indexedArray activities}}
+        <li class="{{timelineClass _index}}">
+          <div class="timeline-badge"><i class="fa fa-{{timelineIcon type}}"></i></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">
+                {{type}}
+                <div class="btn-group pull-right">
+                  <a href="#" id="edit-activity" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
+                  <a href="#" id="remove-activity" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
+                </div>
+              </h4>
+              <p>
+                <small class="text-muted">
+                  <span data-toggle="tooltip" title="{{activityTimestamp}}"><i class="fa fa-clock-o"></i> {{fromNow activityTimestamp}}</span>
+                  {{#if contact}}
+                    | <a href="{{pathFor route="contact" id=contact._id}}">{{contact.name}}</a>
+                  {{/if}}
+                  {{#unless ownActivity createdBy}}
+                    <span class="pull-right" data-toggle="tooltip" title="{{otherUser createdBy}} created this activity">{{otherUser createdBy}}</span>
+                  {{/unless}}
+                </small>
+              </p>
             </div>
-            </h4>
-            <p>
-              <small class="text-muted">
-                <span data-toggle="tooltip" title="{{activityTimestamp}}"><i class="fa fa-clock-o"></i> {{fromNow activityTimestamp}}</span>
-                {{#if contact}}
-                | <a href="{{pathFor route="contact" id=contact._id}}">{{contact.name}}</a>
-                {{/if}}
-                {{#unless ownActivity createdBy}}
-                  <span class="pull-right" data-toggle="tooltip" title="{{otherUser createdBy}} created this activity">{{otherUser createdBy}}</span>
-                {{/unless}}
-              </small>
-            </p>
+            <div class="timeline-body">
+              {{{content}}}
+            </div>
           </div>
-          <div class="timeline-body">
-            {{{content}}}
-          </div>
-        </div>
-      </li>
-    {{/each}}
-  </ul>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <h4 class="text-muted">No activity has been recorded ...</h4>
+  {{/if}}
 </template>

@@ -1,8 +1,8 @@
 Template.projectInformationWidget.onCreated(function() {
   this.totalProjects = new ReactiveVar(0);
   this.activeProjects = new ReactiveVar(0);
-  this.activeProjectTotal = new ReactiveVar(0);
-  this.activeProjectsAverage = new ReactiveVar(0);
+  this.projectTotal = new ReactiveVar(0);
+  this.projectsAverage = new ReactiveVar(0);
 });
 
 Template.projectInformationWidget.onRendered(function() {
@@ -14,11 +14,11 @@ Template.projectInformationWidget.onRendered(function() {
   Meteor.call('report.activeProjects', function(err, data) {
     template.activeProjects.set(data.Count);
   });
-  Meteor.call('report.activeProjectValue', function(err, data) {
-    template.activeProjectTotal.set(data.Value);
+  Meteor.call('report.projectValue', function(err, data) {
+    template.projectTotal.set(data.Value);
   });
-  Meteor.call('report.activeProjects', function(err, data) {
-    template.activeProjectsAverage.set(data.Value);
+  Meteor.call('report.projectsAverage', function(err, data) {
+    template.projectsAverage.set(data.Value);
   });
 });
 
@@ -31,11 +31,11 @@ Template.projectInformationWidget.events({
     Meteor.call('report.activeProjects', function(err, data) {
       template.activeProjects.set(data.Count);
     });
-    Meteor.call('report.activeProjectValue', function(err, data) {
-      template.activeProjectTotal.set(data.Value);
+    Meteor.call('report.projectValue', function(err, data) {
+      template.projectTotal.set(data.Value);
     });
-    Meteor.call('report.activeProjects', function(err, data) {
-      template.activeProjectsAverage.set(data.Value);
+    Meteor.call('report.projectsAverage', function(err, data) {
+      template.projectsAverage.set(data.Value);
     });
   }
 });
@@ -47,10 +47,10 @@ Template.projectInformationWidget.helpers({
   activeProjects: function() {
     return Template.instance().activeProjects.get();
   },
-  activeProjectTotal: function() {
-    return Template.instance().activeProjectTotal.get();
+  projectTotal: function() {
+    return Template.instance().projectTotal.get();
   },
-  activeProjectsAverage: function() {
-    return Template.instance().activeProjectsAverage.get();
+  projectsAverage: function() {
+    return Template.instance().projectsAverage.get();
   }
 });

@@ -110,7 +110,7 @@ Meteor.methods({
       return data;
     });
   },
-  'report.activeProjectValue': function() {
+  'report.projectValue': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var projectData = Projects.find({
         active: {
@@ -120,7 +120,7 @@ Meteor.methods({
       var value = 0;
 
       _.each(projectData, function(pd) {
-        if (pd.value) {
+        if (pd.value){
           value += parseFloat(pd.value)
         }
       });
@@ -133,7 +133,7 @@ Meteor.methods({
       return data;
     });
   },
-  'report.activeProjects': function() {
+  'report.projectsAverage': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var projData = Projects.find({
         active: {
@@ -147,11 +147,19 @@ Meteor.methods({
           value += parseFloat(pd.value)
         }
       });
+      if (projData.length) {
 
-      var data = {
-        "ActiveProjects": (!Meteor.isDevelopment ? [] : projData),
-        "Count": (projData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-        "Value": (value / projData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        var data = {
+          "ActiveProjects": (!Meteor.isDevelopment ? [] : projData),
+          "Count": (projData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+          "Value": (value / projData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        }
+      }else{
+          var data = {
+            "ActiveProjects": (!Meteor.isDevelopment ? [] : projData),
+            "Count": (projData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+            "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          }
       }
       return data;
     });
@@ -160,6 +168,20 @@ Meteor.methods({
   'report.numberOfOpportunities': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
       var oppData = Opportunities.find({}).fetch();
+      var data = {
+        "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
+        "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+      }
+      return data;
+    });
+  },
+  'report.archivedOpportunities': function() {
+    return Partitioner.bindUserGroup(this.userId, function() {
+      var oppData = Opportunities.find({
+        isArchived: {
+          $eq: true
+        }
+      }).fetch();
       var data = {
         "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
         "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
@@ -178,10 +200,20 @@ Meteor.methods({
         }
       });
       parseFloat(value).toFixed(2)
-      var data = {
-        "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
-        "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-        "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+      if (oppData.length){
+
+        var data = {
+          "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
+          "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+          "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        }
+      }else{
+
+        var data = {
+          "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
+          "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+          "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        }
       }
       return data;
     });
@@ -196,15 +228,25 @@ Meteor.methods({
           value += parseFloat(od.value)
         }
       });
+      if (oppData.length){
+        var data = {
+          "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
+          "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+          "Value": (value / oppData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        }
+      }else{
+        var data = {
+          "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
+          "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+          "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
 
-      var data = {
-        "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
-        "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-        "Value": (value / oppData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        }
       }
       return data;
     });
   },
+
+
   //Products
   'report.numberOfProducts': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
@@ -245,12 +287,19 @@ Meteor.methods({
           value += parseFloat(pd.cost)
         }
       });
-
-      var data = {
-        "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
-        "Count": (productData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-        "Value": (value / productData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-      }
+      if (productData.length) {
+        var data = {
+          "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
+          "Count": (productData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+          "Value": (value / productData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        }
+      }else{
+        var data = {
+          "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
+          "Count": (productData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+          "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        }
+    }
       return data;
     });
   },
