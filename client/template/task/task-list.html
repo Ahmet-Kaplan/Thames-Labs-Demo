@@ -1,46 +1,47 @@
 <template name="taskList">
   {{setPageTitle 'Tasks'}}
-  <h1><i class="fa fa-fw fa-check"></i>{{#if showMine}} My{{/if}} Tasks{{#if showComp}} - <em>Completed</em>{{/if}}</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <h1><i class="fa fa-fw fa-check"></i>{{#if showMine}} My{{/if}} Tasks{{#if showComp}} - <em>Completed</em>{{/if}}</h1>
+    </div>
+    <div class="col-md-3">
+      <div class="btn-group">
+        <button type="button" class="btn btn-{{#if showMine}}success{{else}}default{{/if}}" id="tskToggleMine" >
+          Show my tasks
+        </button>
+        <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
+          Show completed
+        </button>
+      </div>
+    </div>
+    {{#if isInRole 'Administrator,CanCreateTasks'}}
+    <div class="col-md-3">
+      <div class="btn-group" role="group">
+        <div class="btn-group" role="group">
+          <button class="btn btn-primary dropdown-toggle{{#if isMobile}} btn-fullWidth{{/if}}" type="button" id="addTaskDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Add Task <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu{{#if isMobile}} btn-fullWidth{{/if}}" aria-labelledby="addTaskDropdown">
+            <li><a href="#" class="add-task" id="user">Personal Task</a></li>
+            <li><a href="#" class="add-task" id="company">Company Task</a></li>
+            <li><a href="#" class="add-task" id="contact">Contact Task</a></li>
+            <li><a href="#" class="add-task" id="opportunity">Opportunity Task</a></li>
+            <li><a href="#" class="add-task" id="project">Project Task</a></li>
+          </ul>
+        </div>
+        {{#if isInRole 'Administrator,CanDeleteTasks'}}
+          <button class="btn btn-danger" id="tskDeleteAllCompleted">Delete Tasks</button>
+        {{/if}}
+      </div>
+    </div>
+    {{/if}}
+  </div>
 
   <div class="stick-bar">
     <div class="row">
-      <div class="col-md-3">
-        {{> EasySearch.Input index=TasksIndex attributes=searchInputAttributes}}
+      <div class="col-md-12">
+        {{> searchBox collectionName='tasks'}}
       </div>
-      <div class="col-md-3">
-        {{> filterBox collectionName='tasks'}}
-      </div>
-      <div class="col-md-3">
-        <div class="btn-group">
-          <button type="button" class="btn btn-{{#if showMine}}success{{else}}default{{/if}}" id="tskToggleMine" >
-            Show my tasks
-          </button>
-          <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
-            Show completed
-          </button>
-        </div>
-      </div>
-      {{#if isInRole 'Administrator,CanCreateTasks'}}
-      <div class="col-md-3">
-        <div class="btn-group" role="group">
-          <div class="btn-group" role="group">
-            <button class="btn btn-primary dropdown-toggle{{#if isMobile}} btn-fullWidth{{/if}}" type="button" id="addTaskDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              Add Task <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu{{#if isMobile}} btn-fullWidth{{/if}}" aria-labelledby="addTaskDropdown">
-              <li><a href="#" class="add-task" id="user">Personal Task</a></li>
-              <li><a href="#" class="add-task" id="company">Company Task</a></li>
-              <li><a href="#" class="add-task" id="contact">Contact Task</a></li>
-              <li><a href="#" class="add-task" id="opportunity">Opportunity Task</a></li>
-              <li><a href="#" class="add-task" id="project">Project Task</a></li>
-            </ul>
-          </div>
-          {{#if isInRole 'Administrator,CanDeleteTasks'}}
-            <button class="btn btn-danger" id="tskDeleteAllCompleted">Delete Tasks</button>
-          {{/if}}
-        </div>
-      </div>
-      {{/if}}
     </div>
   </div>
 

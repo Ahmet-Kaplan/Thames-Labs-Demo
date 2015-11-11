@@ -33,6 +33,7 @@ if(options.search.props.nameOfTheFilter) {
 */
 
 var currentFilter = new ReactiveVar({});
+var handle = '';
 
 function displayFilter(search, mainCollectionName, selectize) {
   var filters = Collections[mainCollectionName].filters;
@@ -47,12 +48,12 @@ function displayFilter(search, mainCollectionName, selectize) {
       //Retrieve search input to update the filter's dropdown
       var searchString = search.toLowerCase().split(filter.display.toLowerCase())[1] ? search.toLowerCase().split(filter.display.toLowerCase())[1].trim() : '';
 
-      Tracker.autorun(function() {
+      handle = Tracker.autorun(function() {
       var recordsCursor = Collections[filter.collectionName].index.search(searchString, {props: {autosuggest: true}});
 
         if(recordsCursor.isReady()){
           records = recordsCursor.fetch();
-
+            selectize.clearOptions();
           _.each(records, function(record) {
             selectize.addOption({_id: record[filter.valueField], name: filter.display + ' ' + record[filter.nameField]});
           });
@@ -69,42 +70,40 @@ function displayFilter(search, mainCollectionName, selectize) {
   //If no match, the user may have erased the entry
   //so the list is no longer valid
   if(!matchedFilters) {
-    selectize.clearOptions()
+    selectize.clearOptions();
+
+    _.each(filters, function(filter) {
+      selectize.addOption({_id: 'setFilter' + '_' + filter.prop , name: filter.display});
+    });
+    selectize.refreshOptions(true);
   }
 }
 
 function applyFilter(text, value, mainCollectionName, selectize) {
-  var filter = currentFilter.get();
-  var filterRegexp = new RegExp(filter.display.trim(), 'i')
-
-  if(filterRegexp.test(text)) {
-    var searchOptions = Collections[mainCollectionName].index.getComponentDict().get('searchOptions');
-    
-    //If prop already exist, update corresponding list
-    if(searchOptions.props[filter.prop] !== undefined){
-      var updatedProp = searchOptions.props[filter.prop].split(',');
-      updatedProp.push(value);
-      //Note that only strings can be passed, the array is passed as a comma separated list
-      Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, updatedProp.join(','));
-    } else {
-      Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);
-    }
+  if(value.search('setFilter') !== -1) {
     selectize.clearOptions();
-    return true;
-  }
-  return false;
-}
-
-function removeFilter(mainCollectionName, filter, val) {
-  var searchOptions = Collections[mainCollectionName].index.getComponentDict().get('searchOptions');
-  var currentProp = searchOptions.props[filter].split(',');
-  currentProp.splice(currentProp.indexOf(val), 1);
-
-  //If still have values, update prop. Otherwise remove it
-  if(currentProp.length) {
-    Collections[mainCollectionName].index.getComponentMethods().addProps(filter, currentProp.join(','));
+    $('#filtersSearch input').val(text + ' ');
+    displayFilter(text + ' ', mainCollectionName, selectize)
   } else {
-    Collections[mainCollectionName].index.getComponentMethods().removeProps(filter);
+    var filter = currentFilter.get();
+    var filterRegexp = new RegExp(filter.display.trim(), 'i')
+
+    if(filterRegexp.test(text)) {
+      var searchOptions = Collections[mainCollectionName].index.getComponentDict().get('searchOptions');
+      
+      //If prop already exist, update corresponding list
+      if(searchOptions.props[filter.prop] !== undefined){
+        var updatedProp = searchOptions.props[filter.prop].split(',');
+        updatedProp.push(value);
+        //Note that only strings can be passed, the array is passed as a comma separated list
+        Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, updatedProp.join(','));
+      } else {
+        Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);
+      }
+      selectize.clearOptions();
+      return true;
+    }
+    return false;
   }
 }
 
@@ -124,6 +123,9 @@ Template.filterBox.onRendered(function() {
     create: false,
     delimiter: ',',
     persist: false,
+    onFocus: function() {
+      displayFilter('', mainCollectionName, this);
+    },
     load: function(query) {
       displayFilter(query, mainCollectionName, this);
     },
@@ -134,62 +136,6 @@ Template.filterBox.onRendered(function() {
   });
 });
 
-Template.filterBox.helpers({
-  filtersList: function() {
-    var mainCollectionName = Template.instance().data.collectionName;
-    var searchIndex = Collections[mainCollectionName].index;
-    var searchOptions = searchIndex.getComponentDict().get('searchOptions');
-    var filtersList = [];
-
-    if(searchOptions && searchOptions.props) {
-      _.each(searchOptions.props, function(propValues, propIndex) {
-        var values = propValues.split(',');
-        var filter = Collections[mainCollectionName].filters[propIndex];
-
-        _.each(values, function(value) {
-
-          if(filter && filter.index) {
-
-          }
-
-          filtersList.push({
-            filter: propIndex,
-            mainCollectionName: mainCollectionName,
-            id: value
-          });
-
-        });
-      });
-    }
-    return filtersList;
-  }
-});
-
-Template.filterTag.onCreated(function() {
-  if(Collections[this.data.mainCollectionName].filters[this.data.filter].subscriptionById) {
-    this.subscribe(Collections[this.data.mainCollectionName].filters[this.data.filter].subscriptionById, this.data.id);
-  }
-});
-
-Template.filterTag.helpers({
-  name: function() {
-    var filter = Collections[this.mainCollectionName].filters[this.filter];
-    if(filter.collectionName && filter.displayValue) {
-      var record = Collections[filter.collectionName].findOne({_id: this.id});
-      return filter.display + ' ' + filter.displayValue(record);
-    } else {
-      return filter.display + ' ' + this.id;
-    }
-  }
+Template.filterBox.onDestroyed(function() {
+  handle.stop();
 })
-
-Template.filterTag.events({
-  'click .removeProp': function(e) {
-    e.preventDefault();
-    var mainCollectionName = this.mainCollectionName;
-    var id = e.target.id;
-    var prop = id.split('_')[0];
-    var val = id.split('_')[1];
-    removeFilter(mainCollectionName, prop, val);
-  }
-});

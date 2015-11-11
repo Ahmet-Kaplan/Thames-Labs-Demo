@@ -46,6 +46,45 @@ Collections.tasks.filters = {
       }
     }
   },
+  contact: {
+    display: 'Contact:',
+    prop: 'contact',
+    collectionName: 'contacts',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'contactById',
+    displayValue: function(contact) {
+      if(contact) {
+        return contact.name();
+      }
+    }
+  },
+  opportunity: {
+    display: 'Opportunity:',
+    prop: 'opportunity',
+    collectionName: 'opportunities',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'opportunityById',
+    displayValue: function(opportunity) {
+      if(opportunity) {
+        return opportunity.name;
+      }
+    }
+  },
+  project: {
+    display: 'Project:',
+    prop: 'project',
+    collectionName: 'projects',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'projectById',
+    displayValue: function(project) {
+      if(project) {
+        return project.name;
+      }
+    }
+  },
   tags: {
     display: 'Tag:',
     prop: 'tags',
@@ -92,21 +131,30 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         selector.entityId = {$in: options.search.props.company.split(',')};
       }
 
-      if (options.search.props.showMine) {
-        selector.assigneeId = { $eq: userId};
-      } else if(!options.search.props.assignee) {
-        selector.assigneeId = { $ne: ''};
+      if(options.search.props.contact) {
+        // n.b. the array is passed as a comma separated string
+        selector.entityId = {$in: options.search.props.contact.split(',')};
+      }
+
+      if(options.search.props.opportunity) {
+        // n.b. the array is passed as a comma separated string
+        selector.entityId = {$in: options.search.props.opportunity.split(',')};
+      }
+
+      if(options.search.props.project) {
+        // n.b. the array is passed as a comma separated string
+        selector.entityId = {$in: options.search.props.project.split(',')};
+      }
+
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = { $in: options.search.props.tags.split(',') };
       }
 
       if (options.search.props.showCompleted) {
         selector.completed = true;
       } else {
         selector.completed = { $ne: true };
-      }
-
-      if (options.search.props.tags) {
-        // n.b. tags is a comma separated string
-        selector.tags = { $in: options.search.props.tags.split(',') };
       }
 
       if (options.search.props.searchById) {
