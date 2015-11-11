@@ -20,7 +20,7 @@ AutoForm.hooks({
   insertPurchaseOrderActivityForm: {
     onSuccess: function() {
       Modal.hide();
-      toastr.success('Purchase order activity added.');
+      toastr.success('Purchase order activity created.');
     }
   },
   insertOpportunityActivityForm: {
