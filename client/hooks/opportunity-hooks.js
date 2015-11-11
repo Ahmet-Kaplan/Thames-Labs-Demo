@@ -7,8 +7,7 @@ AutoForm.hooks({
     after: {
       insert: function(error, result) {
         if (error) {
-          toastr.error('An error occurred: Opportunity not created.');
-          //logEvent('error', 'Company not created: ' + error, 'Company', this.docId);
+          toastr.error('Opportunity creation error: ' + error);
           return false;
         }
 
@@ -18,7 +17,7 @@ AutoForm.hooks({
   },
   editOpportunityForm: {
     onSuccess: function() {
-      toastr.success('Opportunity edited.');
+      toastr.success('Opportunity details updated.');
       Modal.hide();
     }
   },

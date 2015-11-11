@@ -1,15 +1,32 @@
 AutoForm.hooks({
-  insertContactForm: {
+  insertContactForm: {  
     onSuccess: function() {
       toastr.success('Contact created.');
       Modal.hide();
-      FlowRouter.go('/contacts/' + this.docId);
+    },
+    after: {
+      insert: function(error, result) {
+        if (error) {
+          toastr.error('Contact creation error: ' + error);
+          return false;
+        }
+
+	      FlowRouter.go('/contacts/' + result);
+      }
     }
   },
   insertCompanyContactForm: {
     onSuccess: function() {
       toastr.success('Contact created.');
       Modal.hide();
+    },
+    after: {
+      insert: function(error, result) {
+        if (error) {
+          toastr.error('Contact creation error: ' + error);
+          return false;
+        }
+      }
     }
   },
   editContactForm: {
