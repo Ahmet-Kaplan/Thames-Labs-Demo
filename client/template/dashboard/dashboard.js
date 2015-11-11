@@ -203,13 +203,6 @@ Template.dashboard.onRendered(function() {
 });
 
 Template.dashboard.events({
-  'click #dashboard-icon': function() {
-    Meteor.users.update(Meteor.userId(), {
-      $set: {
-        "profile.welcomeTour": false
-      }
-    });
-  },
   'change .grid-stack': function() {
     saveMyWidgets()
   },
