@@ -162,7 +162,7 @@ Template.opportunityDetail.events({
   'click #lost-opportunity': function(event) {
     event.preventDefault();
     var oppId = this._id;
-    bootbox.prompt("Are you sure you wish to mark this opportunity as lost? This action is not reversible. To continue, give a reason below and press OK, otherwise press Cancel.", function(result) {
+    bootbox.prompt("Are you sure you wish to mark this opportunity as lost? To continue, give a reason below and press OK, otherwise press Cancel.", function(result) {
       if (result !== null) {
         Opportunities.update(oppId, {
           $set: {
