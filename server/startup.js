@@ -1,10 +1,9 @@
 Meteor.startup(function() {
 
-  if(process.env.IS_MIRROR || process.env.CI) {
+  if(process.env.IS_MIRROR) {
     // Things to do ONLY IN test environment
 
-    //Rewrite Email.send function to avoid displaying
-    //the whole email in the console during tests
+    // Rewrite Email.send function to avoid console overload during tests
     Email = {
       send: function(options) {
         if(options.text) {
