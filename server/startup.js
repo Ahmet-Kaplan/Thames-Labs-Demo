@@ -112,4 +112,27 @@ Meteor.startup(function() {
       }
     });
   });
+  
+  //create service configurations - Google
+  createServiceConfiguration('google', '329730007716-ru8vk3pa23l06vrr30opg8aoassndkr8.apps.googleusercontent.com', 'JSZnuR0SWLUxw_yzfJumkM8o')
 });
+
+createServiceConfiguration = function(service, clientId, secret){
+	ServiceConfiguration.configurations.remove({service: service});
+  
+  var config = {
+  	//common structure
+  	generic:{
+  		service: service,
+      clientId: clientId,
+      secret: secret
+  	}
+  	//add more here - facebook and twitter use different structures, for example
+  };
+  
+  switch(service){
+	  case 'google':
+	  	ServiceConfiguration.configurations.insert(config.generic)
+		  break;
+  }
+}

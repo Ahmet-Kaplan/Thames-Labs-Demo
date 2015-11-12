@@ -2,6 +2,11 @@ Template.login.onCreated(function() {
   this.subscribe('allNotifications');
 });
 
+Template.login.onRendered(function() {
+  $('.at-oauth').hide();
+  $('.at-sep').hide();
+});
+
 Template.login.helpers({
   quotationOfDay: function() {
     var date = new Date();
@@ -15,7 +20,9 @@ Template.login.helpers({
     return quoteObject;
   },
   notifications: function() {
-    return Notifications.find({target: 'all'});
+    return Notifications.find({
+      target: 'all'
+    });
   },
   hasNotifications: function() {
     return Notifications.find({}).count() > 0;

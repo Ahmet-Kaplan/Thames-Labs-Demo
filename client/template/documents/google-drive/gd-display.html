@@ -1,0 +1,25 @@
+
+<template name="googleDriveDisplay">
+	<div class="panel panel-default">
+		<div class="panel-heading" id="google-drive-documents">
+			<span class="fa-stack">
+				<i class="fa fa-square fa-stack-2x"></i>
+				<i class="fa fa-google fa-stack-1x fa-inverse"></i>
+			</span> Google Drive Documents
+			{{#if showGoogleSignInButton}}
+			<button type="button" class="btn btn-danger btn-xs pull-right btn-social-login btn-google"><i class="fa fa-google"></i> Sign in with Google</button>
+			{{else}}
+			<button id="add-drive-document" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="Add a document from Google Drive"><i class="fa fa-fw fa-plus"></i> Add</button>
+			{{/if}}
+		</div>
+		<ul class="list-group">
+			{{#each driveDocuments}}
+				<div class="list-group-item" >
+					<i class="fa fa-fw fa-file-o"></i> <a href="{{docPath}}" data-toggle="tooltip" data-placement="bottom" title="Open this document on Google Drive">{{docName}}</a>
+				</div>
+			{{else}}
+				<li class="list-group-item">No documents added</li>
+			{{/each}}
+		</ul>
+	</div>
+</template>
