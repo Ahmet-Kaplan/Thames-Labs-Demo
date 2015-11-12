@@ -1,13 +1,10 @@
-general:
-  artifacts:
-    - "~/.meteor/local/log"
 machine:
   environment:
     SELENIUM_BROWSER: chrome
     VELOCITY_CI: 1
     CUCUMBER_TAIL: 1
     CUCUMBER_SCREENSHOTS_DIR: $CIRCLE_ARTIFACTS/screenshots
-    CUCUMBER_JSON_OUTPUT: $CIRCLE_ARTIFACTS/chrome.cucumber
+    CUCUMBER_JSON_OUTPUT: $CIRCLE_TEST_REPORTS/chrome.cucumber
     STRIPE_PK: pk_test_W7Cx4LDFStOIaJ2g5DufAIaE
     STRIPE_SK: sk_test_CEgjj8xNKSrQMUrqC4puiHxA
   post:
@@ -26,3 +23,5 @@ test:
   override:
     - eslint .
     - meteor --test
+  post:
+    - cp ~/.meteor/local/log/*.log $CIRCLE_ARTIFACTS
