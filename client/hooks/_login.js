@@ -1,9 +1,5 @@
 Accounts.onLogin(function(cb) {
 
-  if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
-    // Meteor.logoutOtherClients();
-  }
-
   var user = Meteor.users.find({
     _id: Meteor.userId()
   }).fetch()[0];

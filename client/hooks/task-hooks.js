@@ -28,16 +28,14 @@ AutoForm.hooks({
     },
     onError: function(formType, error) {
       if (error) {
-        toastr.error('An error occurred: Task not created.');
-        //logEvent('error', 'Task not created: ' + error);
+        toastr.error('Task creation error: ' + error);
       }
     },
     onSuccess: function(formType, result) {
       $('input[name=dueDate]').data("DateTimePicker").hide();
       Modal.hide('');
       toastr.success('Task created.');
-      FlowRouter.go('/tasks/' + result)
-      //logEvent('info', 'Task created.');
+      FlowRouter.go('/tasks/' + result);
     }
   },
   editTaskForm: {
@@ -64,15 +62,13 @@ AutoForm.hooks({
     },
     onError: function(formType, error) {
       if (error) {
-        toastr.error('An error occurred: Task not updated.');
-        //logEvent('error', 'Task not updated: ' + error);
+                toastr.error('Task creation error: ' + error);
       }
     },
     onSuccess: function() {
       $('input[name=dueDate]').data("DateTimePicker").hide();
       Modal.hide('');
       toastr.success('Task updated.');
-      //logEvent('info', 'Task updated.');
     }
   }
 })
