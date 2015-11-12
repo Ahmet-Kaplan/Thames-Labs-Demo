@@ -162,7 +162,7 @@ Template.opportunityDetail.events({
   'click #lost-opportunity': function(event) {
     event.preventDefault();
     var oppId = this._id;
-    bootbox.prompt("Are you sure you wish to mark this opportunity as lost? This action is not reversible. To continue, give a reason below and press OK, otherwise press Cancel.", function(result) {
+    bootbox.prompt("Are you sure you wish to mark this opportunity as lost? To continue, give a reason below and press OK, otherwise press Cancel.", function(result) {
       if (result !== null) {
         Opportunities.update(oppId, {
           $set: {
@@ -204,6 +204,29 @@ Template.opportunityDetail.events({
   'click #edit-opportunity': function(event) {
     event.preventDefault();
     Modal.show('editOpportunityModal', this);
+  },
+  'click #reopen-opportunity': function(event) {
+    event.preventDefault();
+    bootbox.confirm("Are you sure you wish to reopen this opportunity?", (result) => {
+      if (result === false) return;
+
+      var user = Meteor.user(),
+          note = user.profile.name + ' reopened this opportunity',
+          today = new Date();
+
+      Opportunities.update(this._id, {
+        $unset: { isArchived: 1, hasBeenWon: 1, reasonLost: 1 }
+      });
+
+      Activities.insert({
+        type: 'Note',
+        notes: note,
+        createdAt: today,
+        activityTimestamp: today,
+        opportunityId: this._id,
+        createdBy: user._id
+      });
+    });
   },
   'click #remove-opportunity': function(event) {
     event.preventDefault();
