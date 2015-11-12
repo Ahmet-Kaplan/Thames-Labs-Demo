@@ -28,8 +28,12 @@ Schemas.Tenant = new SimpleSchema({
     defaultValue: false
   },
   "stripe.blocked": {
+    // TODO: remove stripe.blocked - it was marked optional and removed from
+    // all tenants in migration #12. Couldn't remove it at the time as the
+    // migration needed to be applied first. Thanks traveller from the future!
     type: Boolean,
-    defaultValue: false
+    defaultValue: false,
+    optional: true
   },
   "stripe.stripeId": {
     type: String,

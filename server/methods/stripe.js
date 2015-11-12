@@ -96,8 +96,7 @@ Meteor.methods({
         $set: {
           "stripe.stripeId": customer.id,
           "stripe.stripeSubs": customer.subscriptions.data[0].id,
-          "stripe.paying": true,
-          "stripe.blocked": false
+          "stripe.paying": true
         }
       });
 
@@ -140,8 +139,7 @@ Meteor.methods({
       Tenants.update(tenantId, {
         $set: {
           "stripe.stripeSubs": subscription.id,
-          "stripe.paying": true,
-          "stripe.blocked": false
+          "stripe.paying": true
         }
       });
       stripeSubscription.return(subscription);
@@ -294,8 +292,7 @@ Meteor.methods({
 
       Tenants.update(tenantId, {
         $set: {
-          "stripe.paying": true,
-          "stripe.blocked": false
+          "stripe.paying": true
         }
       });
 
