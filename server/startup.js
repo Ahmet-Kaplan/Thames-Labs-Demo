@@ -1,14 +1,10 @@
 Meteor.startup(function() {
 
-  // Perform any migrations specified in migrations.js
-  // See https://github.com/percolatestudio/meteor-migrations
-  if (!process.env.IS_MIRROR) {
-    Migrations.migrateTo('latest');
-  }
+  if(process.env.IS_MIRROR || process.env.CI) {
+    // Things to do ONLY IN test environment
 
-  //Rewrite Email.send function to avoid displaying
-  //the whole email in the console during tests
-  if(process.env.IS_MIRROR) {
+    //Rewrite Email.send function to avoid displaying
+    //the whole email in the console during tests
     Email = {
       send: function(options) {
         if(options.text) {
@@ -28,6 +24,12 @@ Meteor.startup(function() {
         }
       }
     }
+  } else {
+    // Things to do ONLY OUTSIDE of test environment
+
+    // Perform any migrations specified in migrations.js
+    // See https://github.com/percolatestudio/meteor-migrations
+    Migrations.migrateTo('latest');
   }
 
   //Keep tenant information sync'ed
