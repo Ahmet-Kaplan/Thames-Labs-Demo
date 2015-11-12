@@ -43,8 +43,8 @@ Template.tenant.helpers({
   isPayingTenant: function() {
     return this.stripe.paying;
   },
-  isBlocked: function() {
-    return this.stripe.blocked;
+  limitReached: function() {
+    return this.stripe.totalRecords > MAX_RECORDS;
   },
   generationInProgress: function() {
     return ServerSession.get('populatingDemoData');
@@ -109,22 +109,6 @@ Template.tenant.events({
   'click #btnSwitchToPaying': function(event) {
     event.preventDefault();
     Modal.show('setPayingTenant', this);
-  },
-  'click #btnBlockTenant': function(event) {
-    event.preventDefault();
-    var tenantId = this._id;
-    var blocked = (this.stripe.blocked === true) ? 'un' : '';
-    var isCurrentlyBlocked = this.stripe.blocked;
-
-    bootbox.confirm("Are you sure you wish to " + blocked + "block this tenant?", function(result) {
-      if (result === true) {
-        Tenants.update(tenantId, {
-          $set: {
-            "stripe.blocked": !isCurrentlyBlocked
-          }
-        });
-      }
-    });
   }
 });
 
