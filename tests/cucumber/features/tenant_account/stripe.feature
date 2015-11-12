@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to subscribe/unsubscribe to Stripe
 
   As a potential user of the app
@@ -32,9 +33,8 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then the Stripe field "#planName" should not contain "Free"
     Then delete stripe customer
 
-  Scenario: An administrator with a blocked account can subscribe by entering the correct card details
+  Scenario: An administrator who has reached the records limit can subscribe by entering the correct card details
     Given I have reached the limit of records
-    Given I am a blocked user
     When I navigate to "/admin"
     When I click "#upScheme"
     Then I should see a modal

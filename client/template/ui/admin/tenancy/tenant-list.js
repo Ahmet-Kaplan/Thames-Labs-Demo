@@ -44,6 +44,7 @@ Template.tenant.helpers({
     return this.stripe.paying;
   },
   limitReached: function() {
+    if(this.stripe.paying || this.stripe.freeUnlimited) return false;
     return this.stripe.totalRecords > MAX_RECORDS;
   },
   generationInProgress: function() {
