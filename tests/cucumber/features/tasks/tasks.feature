@@ -84,7 +84,8 @@ Feature: Allow users to manage their Tasks
     And a "Company" task has been created
     When I navigate to a task page
     And I click "#edit-task"
-    And I set text field "title" to "updated task title"
+    Then I should see a modal
+    When I set text field "title" to "updated task title"
     And I submit the "editTask" form
     Then I should see the heading "updated task title"
 
