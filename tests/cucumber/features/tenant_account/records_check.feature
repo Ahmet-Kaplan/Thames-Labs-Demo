@@ -55,8 +55,8 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     And I set text field "name" to "test project 2"
     And I set textarea "description" to "description of test project 2"
     And I set text field "value" to "999"
-    And I selectize "userId" to "test user"
     And I selectize "companyId" to "Test Ltd"
+    And I selectize "userId" to "test user"
     And I submit the "newProject" form
     Then I should see the heading "test project 2"
 
