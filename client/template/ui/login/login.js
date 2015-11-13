@@ -2,11 +2,6 @@ Template.login.onCreated(function() {
   this.subscribe('allNotifications');
 });
 
-Template.login.onRendered(function() {
-  $('.at-oauth').hide();
-  $('.at-sep').hide();
-});
-
 Template.login.helpers({
   quotationOfDay: function() {
     var date = new Date();
