@@ -98,7 +98,6 @@ meteorhacks:npm@1.5.0
 meteorhacks:ssr@2.2.0
 meteorhacks:subs-manager@1.6.2
 meteortoys:toykit@2.1.2
-mikael:accounts-merge@0.0.11
 minifiers@1.1.7
 minimongo@1.0.10
 mizzao:autocomplete@0.5.1
@@ -168,7 +167,6 @@ service-configuration@1.0.5
 session@1.1.1
 sha@1.0.4
 simple:json-routes@1.0.4
-simple:reactive-method@1.0.2
 softwarerero:accounts-t9n@1.1.4
 spacebars@1.0.7
 spacebars-compiler@1.0.7

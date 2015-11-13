@@ -1,17 +1,11 @@
 var MASTER_REF = null;
 
-Template.googleDriveDisplay.onRendered(function() {
+Template.documentContainer.onRendered(function() {
   MASTER_REF = this.data;
 });
 
-Template.googleDriveDisplay.helpers({
-  showGoogleSignInButton: function() {
-    return Meteor.call('accounts.checkGoogleService', function(err, res) {
-      if (err) throw new Meteor.Error(err);
-      return !res;
-    });
-  },
-  driveDocuments: function() {
+Template.documentContainer.helpers({
+  documents: function() {
     var entityRef = null;
 
     switch (this.entityType) {
@@ -26,24 +20,18 @@ Template.googleDriveDisplay.helpers({
       return {
         "docName": doc.docName,
         "docPath": doc.docPath,
-        "fileIcon": doc.fileIcon
+        "fileIcon": doc.fileIcon,
+        "service": doc.service
       }
     })
   }
 });
 
-Template.googleDriveDisplay.events({
-  'click .btn-google': function() {
-    Meteor.signInWithGoogle({}, function(error, mergedUserId) {
-      if (mergedUserId) {
-        //Do anything special here?
-      }
-    });
-  },
+Template.documentContainer.events({
   'click #add-drive-document': function() {
-    $.getScript('https://apis.google.com/js/api.js?onload=onApiLoad');
+      $.getScript('https://apis.google.com/js/api.js?onload=onApiLoad');
   },
-  'click #remove-drive-document': function(event, template) {
+  'click #remove-document': function(event, template) {
     removeDocumentFromEntity(template.data.entityType, template.data.entityData._id, this);
   }
 });
@@ -141,7 +129,8 @@ pickerCallback = function(data) {
     var data = {
       docPath: docUrl,
       docName: friendlyName,
-      fileIcon: fileIcon
+      fileIcon: fileIcon,
+      service: 'google-drive'
     };
 
     addDocumentToEntity(MASTER_REF.entityType, MASTER_REF.entityData._id, data);
