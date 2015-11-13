@@ -23,14 +23,6 @@ Template.registerHelper('formatDateLocale', function(date, locale) {
   }
 });
 
-
-Template.onRendered(function() {
-  if (!Meteor.user()) {
-    $('.at-oauth').remove();
-    $('.at-sep').remove();
-  }
-});
-
 setRouteDetails = function(title) {
   var user = Meteor.users.find({
     _id: Meteor.userId()

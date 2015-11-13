@@ -23,13 +23,15 @@ Template.documentContainer.helpers({
         "fileIcon": doc.fileIcon,
         "service": doc.service
       }
+    }).sort(function(a, b) {
+      return a.docName.localeCompare(b.docName);
     })
   }
 });
 
 Template.documentContainer.events({
   'click #add-drive-document': function() {
-      $.getScript('https://apis.google.com/js/api.js?onload=onApiLoad');
+    $.getScript('https://apis.google.com/js/api.js?onload=onApiLoad');
   },
   'click #remove-document': function(event, template) {
     removeDocumentFromEntity(template.data.entityType, template.data.entityData._id, this);
@@ -140,6 +142,7 @@ pickerCallback = function(data) {
 addDocumentToEntity = function(entityType, entityId, documentData) {
   var entityRef = null;
   var docAlreadyExists = false;
+  var docWasUpdated = false;
 
   switch (entityType) {
     case 'project':
@@ -150,9 +153,13 @@ addDocumentToEntity = function(entityType, entityId, documentData) {
       _.each(entityRef.documents, function(doc) {
         if ((doc.docName === documentData.docName) && (doc.docPath === documentData.docPath)) {
           docAlreadyExists = true;
+        } else if (doc.docPath === documentData.docPath) {
+          docWasUpdated = true;
+        } else {
+          currDocs.push(doc);
         }
-        currDocs.push(doc);
       });
+
       if (!docAlreadyExists) {
         currDocs.push(documentData);
         Projects.update({
@@ -169,6 +176,9 @@ addDocumentToEntity = function(entityType, entityId, documentData) {
   if (docAlreadyExists) {
     toastr.clear();
     toastr.warning('The selected document has already been added against this ' + entityType);
+  } else if (docWasUpdated) {
+    toastr.clear();
+    toastr.info('The selected document\'s URL was already referenced, but under a different name. We\'ve updated the list to show the new name.');
   } else {
     toastr.clear();
     toastr.success('The selected document has been added to this ' + entityType);

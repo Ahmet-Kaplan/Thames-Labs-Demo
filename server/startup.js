@@ -8,10 +8,10 @@ Meteor.startup(function() {
 
   //Rewrite Email.send function to avoid displaying
   //the whole email in the console during tests
-  if(process.env.IS_MIRROR) {
+  if (process.env.IS_MIRROR) {
     Email = {
       send: function(options) {
-        if(options.text) {
+        if (options.text) {
           console.log("\t---------- Sending Email ----------");
           console.log("\tFrom: \t\t" + options.from);
           console.log("\tTo: \t\t" + options.to);
@@ -112,27 +112,5 @@ Meteor.startup(function() {
       }
     });
   });
-  
-  //create service configurations - Google
-  createServiceConfiguration('google', '329730007716-ru8vk3pa23l06vrr30opg8aoassndkr8.apps.googleusercontent.com', 'JSZnuR0SWLUxw_yzfJumkM8o')
-});
 
-createServiceConfiguration = function(service, clientId, secret){
-	ServiceConfiguration.configurations.remove({service: service});
-  
-  var config = {
-  	//common structure
-  	generic:{
-  		service: service,
-      clientId: clientId,
-      secret: secret
-  	}
-  	//add more here - facebook and twitter use different structures, for example
-  };
-  
-  switch(service){
-	  case 'google':
-	  	ServiceConfiguration.configurations.insert(config.generic)
-		  break;
-  }
-}
+});
