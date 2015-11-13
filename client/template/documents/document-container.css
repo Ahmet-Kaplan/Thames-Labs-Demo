@@ -2,3 +2,17 @@
   padding-left: 10px;
   cursor: pointer;
 }
+.docData .serviceLogo {
+  display: none;
+  color: #9d9a9a;
+}
+.docData .fileTypeLogo {
+  display: inline;
+  color: #9d9a9a;
+}
+.docData:hover .serviceLogo {
+  display: inline;
+}
+.docData:hover .fileTypeLogo {
+  display: none;
+}

@@ -10,7 +10,9 @@
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
-          <li class="list-item" data-placement="bottom" data-toggle="tooltip" id="add-drive-document" title="Add a document from Google Drive"><small>Google Drive</small></li>
+          <li class="list-item" data-placement="bottom" data-toggle="tooltip" id="add-drive-document" title="Add a document from Google Drive">
+            <small>Google Drive</small>
+          </li>
         </ul>
       </div>
     </div>
@@ -18,11 +20,19 @@
     <ul class="list-group">
       {{#each documents}}
         <div class="list-group-item">
-          <i class="fa fa-fw fa-{{fileIcon}}"></i>
-          <a data-placement="bottom" data-toggle="tooltip" href="{{docPath}}" title="Open this document on Google Drive">{{docName}}</a>
-          <button class="btn btn-danger btn-xs pull-right" data-placement="bottom" data-toggle="tooltip" id="remove-document" title="Remove this document (it will not be deleted from your external folder)">
-            <i class="fa fa-fw fa-times"></i>
-          </button>
+          <div class="docData">
+            <div class="fileTypeLogo">
+              <small><i class="fa fa-fw fa-{{fileIcon}}"></i></small>
+            </div>
+            <div class="serviceLogo">
+              <small><i class="fa fa-fw fa-{{service}}"></i></small>
+            </div>
+            <a data-placement="right" data-toggle="tooltip" href="{{docPath}}" target="_blank" title="Open this document on Google Drive">{{docName}}</a>
+
+            <button class="btn btn-danger btn-xs pull-right" data-placement="bottom" data-toggle="tooltip" id="remove-document" title="Remove this document (it will not be deleted from your external folder)">
+              <i class="fa fa-fw fa-times"></i>
+            </button>
+          </div>
         </div>
         {{else}}
         <li class="list-group-item">No documents added</li>

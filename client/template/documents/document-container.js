@@ -132,7 +132,7 @@ pickerCallback = function(data) {
       docPath: docUrl,
       docName: friendlyName,
       fileIcon: fileIcon,
-      service: 'google-drive'
+      service: 'google'
     };
 
     addDocumentToEntity(MASTER_REF.entityType, MASTER_REF.entityData._id, data);
