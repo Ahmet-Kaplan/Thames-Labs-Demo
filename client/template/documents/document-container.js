@@ -33,6 +33,24 @@ Template.documentContainer.events({
   'click #add-drive-document': function() {
     $.getScript('https://apis.google.com/js/api.js?onload=onApiLoad');
   },
+  'click #add-dropbox-document': function() {
+    Dropbox.choose({
+      linkType: "direct",
+      multiselect: false,
+      success: function(files) {
+        _.each(files, function(file) {
+          var data = {
+            docPath: file.link,
+            docName: file.name,
+            fileIcon: 'file-o',
+            service: 'dropbox'
+          };
+          addDocumentToEntity(MASTER_REF.entityType, MASTER_REF.entityData._id, data);
+        });
+      },
+      cancel: function() {}
+    });
+  },
   'click #remove-document': function(event, template) {
     removeDocumentFromEntity(template.data.entityType, template.data.entityData._id, this);
   }
