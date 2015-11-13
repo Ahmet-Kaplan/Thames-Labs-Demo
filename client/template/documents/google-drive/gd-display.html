@@ -15,7 +15,8 @@
 		<ul class="list-group">
 			{{#each driveDocuments}}
 				<div class="list-group-item" >
-					<i class="fa fa-fw fa-file-o"></i> <a href="{{docPath}}" data-toggle="tooltip" data-placement="bottom" title="Open this document on Google Drive">{{docName}}</a>
+					<i class="fa fa-fw fa-{{fileIcon}}"></i> <a href="{{docPath}}" data-toggle="tooltip" data-placement="bottom" title="Open this document on Google Drive">{{docName}}</a>
+					<button id="remove-drive-document" class="btn btn-danger btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="Remove this document (it will not be deleted from your Google Drive)"><i class="fa fa-fw fa-times"></i></button>
 				</div>
 			{{else}}
 				<li class="list-group-item">No documents added</li>

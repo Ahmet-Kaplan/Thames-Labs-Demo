@@ -12,14 +12,21 @@ Template.googleDriveDisplay.helpers({
     });
   },
   driveDocuments: function() {
-    var projRef = Projects.findOne({
-      _id: this.entityData._id
-    });
+    var entityRef = null;
 
-    return _.map(projRef.documents, function(doc) {
+    switch (this.entityType) {
+      case 'project':
+        entityRef = Projects.findOne({
+          _id: this.entityData._id
+        });
+        break;
+    }
+
+    return _.map(entityRef.documents, function(doc) {
       return {
         "docName": doc.docName,
-        "docPath": doc.docPath
+        "docPath": doc.docPath,
+        "fileIcon": doc.fileIcon
       }
     })
   }
@@ -29,12 +36,15 @@ Template.googleDriveDisplay.events({
   'click .btn-google': function() {
     Meteor.signInWithGoogle({}, function(error, mergedUserId) {
       if (mergedUserId) {
-        console.log(mergedUserId, 'merged with', Meteor.userId());
+        //Do anything special here?
       }
     });
   },
   'click #add-drive-document': function() {
     $.getScript('https://apis.google.com/js/api.js?onload=onApiLoad');
+  },
+  'click #remove-drive-document': function(event, template) {
+    removeDocumentFromEntity(template.data.entityType, template.data.entityData._id, this);
   }
 });
 
@@ -85,7 +95,7 @@ handleAuthResult = function(authResult) {
 createPicker = function() {
   if (pickerApiLoaded && oauthToken) {
     var picker = new google.picker.PickerBuilder().
-    addView(google.picker.ViewId.DOCUMENTS).
+    addView(google.picker.ViewId.FOLDERS).
     setOAuthToken(oauthToken).
     setDeveloperKey(developerKey).
     setCallback(pickerCallback).
@@ -98,14 +108,40 @@ createPicker = function() {
 pickerCallback = function(data) {
   if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
     var docUrl = '',
-      friendlyName = '';
+      friendlyName = '',
+      mimeType = '';
     var doc = data[google.picker.Response.DOCUMENTS][0];
 
     docUrl = doc[google.picker.Document.URL];
     friendlyName = doc[google.picker.Document.NAME];
+    mimeType = doc[google.picker.Document.MIME_TYPE];
+
+    var fileIcon = "file";
+    switch (mimeType) {
+      case 'application/vnd.google-apps.document':
+        fileIcon = "file-o";
+        break;
+      case 'text/plain':
+        fileIcon = "file-text-o";
+        break;
+      case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        fileIcon = "file-word-o";
+        break;
+      case 'text/x-markdown':
+        fileIcon = "file-text";
+        break;
+      case 'application/vnd.google-apps.spreadsheet':
+        fileIcon = "file-excel-o";
+        break;
+      case 'application/zip':
+        fileIcon = "file-archive-o";
+        break;
+    }
+
     var data = {
       docPath: docUrl,
-      docName: friendlyName
+      docName: friendlyName,
+      fileIcon: fileIcon
     };
 
     addDocumentToEntity(MASTER_REF.entityType, MASTER_REF.entityData._id, data);
@@ -113,16 +149,55 @@ pickerCallback = function(data) {
 }
 
 addDocumentToEntity = function(entityType, entityId, documentData) {
+  var entityRef = null;
+  var docAlreadyExists = false;
+
+  switch (entityType) {
+    case 'project':
+      entityRef = Projects.findOne({
+        _id: entityId
+      });
+      var currDocs = [];
+      _.each(entityRef.documents, function(doc) {
+        if ((doc.docName === documentData.docName) && (doc.docPath === documentData.docPath)) {
+          docAlreadyExists = true;
+        }
+        currDocs.push(doc);
+      });
+      if (!docAlreadyExists) {
+        currDocs.push(documentData);
+        Projects.update({
+          _id: entityId
+        }, {
+          $set: {
+            documents: currDocs
+          }
+        });
+      }
+      break;
+  }
+
+  if (docAlreadyExists) {
+    toastr.clear();
+    toastr.warning('The selected document has already been added against this ' + entityType);
+  } else {
+    toastr.clear();
+    toastr.success('The selected document has been added to this ' + entityType);
+  }
+}
+
+removeDocumentFromEntity = function(entityType, entityId, documentData) {
   switch (entityType) {
     case 'project':
       var projRef = Projects.findOne({
         _id: entityId
       });
-      var currDocs = []
+      var currDocs = [];
       _.each(projRef.documents, function(doc) {
-        currDocs.push(doc);
+        if ((doc.docName !== documentData.docName) && (doc.docPath !== documentData.docPath)) {
+          currDocs.push(doc);
+        }
       });
-      currDocs.push(documentData);
       Projects.update({
         _id: entityId
       }, {
@@ -132,4 +207,7 @@ addDocumentToEntity = function(entityType, entityId, documentData) {
       });
       break;
   }
+
+  toastr.clear();
+  toastr.success('The selected document has been successfully removed from this ' + entityType);
 }
