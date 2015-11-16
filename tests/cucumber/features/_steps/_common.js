@@ -75,6 +75,10 @@ module.exports = function() {
     browser.url(path);
   });
 
+  this.When(/^I navigate backwards in the browser history$/, function() {
+    browser.back();
+  });
+
   this.When(/^the page is loaded$/, function() {
     browser.executeAsync(function(done) {
       //This is used to wait for the data to be loaded.

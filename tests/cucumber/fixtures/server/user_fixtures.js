@@ -112,15 +112,6 @@ Meteor.methods({
     });
   },
 
-  setBlockedTenant: function() {
-    var tenantId = Tenants.findOne({name: 'Acme Corp'})._id;
-    Tenants.update(tenantId, {
-      $set: {
-        "stripe.blocked": true
-      }
-    });
-  },
-
   deleteStripeTestCustomer: function() {
     var tenantId = Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({

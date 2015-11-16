@@ -188,9 +188,6 @@ Template.stripeAdmin.helpers({
     stripeCustomerDep.depend();
     return stripeCustomer;
   },
-  blockedUser: function() {
-    return Tenants.findOne({}).stripe.blocked;
-  },
   totalRecords: function() {
     return Tenants.findOne({}).stripe.totalRecords || 0;
   },
