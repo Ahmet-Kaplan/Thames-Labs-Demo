@@ -21,7 +21,8 @@ Template.documentContainer.helpers({
         "docName": doc.docName,
         "docPath": doc.docPath,
         "fileIcon": doc.fileIcon,
-        "service": doc.service
+        "service": doc.service,
+        "serviceIcon": doc.serviceIcon
       }
     }).sort(function(a, b) {
       return a.docName.localeCompare(b.docName);
@@ -33,6 +34,27 @@ Template.documentContainer.events({
   'click #add-drive-document': function() {
     $.getScript('https://apis.google.com/js/api.js?onload=onApiLoad');
   },
+  'click #add-onedrive-document': function() {
+    var pickerOptions = {
+      success: function(files) {
+        _.each(files, function(file) {
+          var data = {
+            docPath: file.link,
+            docName: file.fileName,
+            fileIcon: 'file-o',
+            service: 'onedrive',
+            serviceIcon: 'windows'
+          };
+          addDocumentToEntity(MASTER_REF.entityType, MASTER_REF.entityData._id, data);
+        });
+      },
+      cancel: function() {},
+      linkType: "webViewLink",
+      multiSelect: false
+    };
+
+    OneDrive.open(pickerOptions);
+  },
   'click #add-dropbox-document': function() {
     Dropbox.choose({
       linkType: "direct",
@@ -43,7 +65,8 @@ Template.documentContainer.events({
             docPath: file.link,
             docName: file.name,
             fileIcon: 'file-o',
-            service: 'dropbox'
+            service: 'dropbox',
+            serviceIcon: 'dropbox'
           };
           addDocumentToEntity(MASTER_REF.entityType, MASTER_REF.entityData._id, data);
         });
@@ -69,7 +92,8 @@ Template.documentContainer.events({
             docPath: file.url,
             docName: file.name,
             fileIcon: 'file-o',
-            service: 'box'
+            service: 'box',
+            serviceIcon: 'folder'
           };
           addDocumentToEntity(MASTER_REF.entityType, MASTER_REF.entityData._id, data);
         });
@@ -146,41 +170,18 @@ createPicker = function() {
 pickerCallback = function(data) {
   if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
     var docUrl = '',
-      friendlyName = '',
-      mimeType = '';
+      friendlyName = '';
     var doc = data[google.picker.Response.DOCUMENTS][0];
 
     docUrl = doc[google.picker.Document.URL];
     friendlyName = doc[google.picker.Document.NAME];
-    mimeType = doc[google.picker.Document.MIME_TYPE];
-
-    var fileIcon = "file";
-    switch (mimeType) {
-      case 'application/vnd.google-apps.document':
-        fileIcon = "file-o";
-        break;
-      case 'text/plain':
-        fileIcon = "file-text-o";
-        break;
-      case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        fileIcon = "file-word-o";
-        break;
-      case 'text/x-markdown':
-        fileIcon = "file-text";
-        break;
-      case 'application/vnd.google-apps.spreadsheet':
-        fileIcon = "file-excel-o";
-        break;
-      case 'application/zip':
-        fileIcon = "file-archive-o";
-        break;
-    }
 
     var data = {
       docPath: docUrl,
       docName: friendlyName,
-      fileIcon: fileIcon,
-      service: 'google'
+      fileIcon: 'file-o',
+      service: 'google',
+      serviceIcon: 'google'
     };
 
     addDocumentToEntity(MASTER_REF.entityType, MASTER_REF.entityData._id, data);

@@ -11,13 +11,16 @@
         </button>
         <ul class="dropdown-menu" role="menu">
           <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-drive-document" title="Add a document from Google Drive">
-            <small>Google Drive</small>
+            <small><i class="fa fa-fw fa-google"></i> Google Drive</small>
           </li>
+          <!-- <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-onedrive-document" title="Add a document from Box">
+            <small><i class="fa fa-fw fa-windows"></i> OneDrive</small>
+          </li> -->
           <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-dropbox-document" title="Add a document from Dropbox">
-            <small>Dropbox</small>
+            <small><i class="fa fa-fw fa-dropbox"></i> Dropbox</small>
           </li>
           <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-box-document" title="Add a document from Box">
-            <small>Box</small>
+            <small><i class="fa fa-fw fa-folder"></i> Box</small>
           </li>
         </ul>
       </div>
@@ -31,7 +34,7 @@
               <small><i class="fa fa-fw fa-{{fileIcon}}"></i></small>
             </div>
             <div class="serviceLogo">
-              <small><i class="fa fa-fw fa-{{service}}"></i></small>
+              <small><i class="fa fa-fw fa-{{serviceIcon}}"></i></small>
             </div>
             <a data-placement="right" data-toggle="tooltip" href="{{docPath}}" target="_blank" title="Open this document via your external provider">{{docName}}</a>
 
