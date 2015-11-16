@@ -34,27 +34,27 @@ Template.documentContainer.events({
   'click #add-drive-document': function() {
     $.getScript('https://apis.google.com/js/api.js?onload=onApiLoad');
   },
-  'click #add-onedrive-document': function() {
-    var pickerOptions = {
-      success: function(files) {
-        _.each(files, function(file) {
-          var data = {
-            docPath: file.link,
-            docName: file.fileName,
-            fileIcon: 'file-o',
-            service: 'onedrive',
-            serviceIcon: 'windows'
-          };
-          addDocumentToEntity(MASTER_REF.entityType, MASTER_REF.entityData._id, data);
-        });
-      },
-      cancel: function() {},
-      linkType: "webViewLink",
-      multiSelect: false
-    };
-
-    OneDrive.open(pickerOptions);
-  },
+  // 'click #add-onedrive-document': function() {
+  //   var pickerOptions = {
+  //     success: function(files) {
+  //       _.each(files, function(file) {
+  //         var data = {
+  //           docPath: file.link,
+  //           docName: file.fileName,
+  //           fileIcon: 'file-o',
+  //           service: 'onedrive',
+  //           serviceIcon: 'windows'
+  //         };
+  //         addDocumentToEntity(MASTER_REF.entityType, MASTER_REF.entityData._id, data);
+  //       });
+  //     },
+  //     cancel: function() {},
+  //     linkType: "webViewLink",
+  //     multiSelect: false
+  //   };
+  //
+  //   OneDrive.open(pickerOptions);
+  // },
   'click #add-dropbox-document': function() {
     Dropbox.choose({
       linkType: "direct",
