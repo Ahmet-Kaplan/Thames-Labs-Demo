@@ -44,6 +44,10 @@ Feature: Allow users to manage their Products
     When I navigate to "/products"
     Then I should see the heading "Tenants"
 
+  Scenario: A user can see the products overview
+    When I navigate to "/products"
+    And I click "#ref_productsOverviewWidget"
+    Then I should see "#productOverviewPop"
 
   #Adding
   Scenario: A user can create a product

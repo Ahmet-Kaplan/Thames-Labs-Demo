@@ -50,6 +50,11 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to "/opportunities"
     Then I should see the heading "Tenants"
 
+  Scenario: A user can see the opportunity overview
+    When I navigate to "/opportunities"
+    And I click "#oppsOverviewWidget"
+    Then I should see "#oppOverviewPop"
+
 
   #Adding
   Scenario: A user can add an opportunity

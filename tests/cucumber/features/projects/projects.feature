@@ -44,6 +44,11 @@ Feature: Allow users to manage their Projects
     And I am a logged in superadmin user
     When I navigate to "/projects"
     Then I should see the heading "Tenants"
+ 
+  Scenario: A user can see the projects overview
+    When I navigate to "/projects"
+    And I click "#ref_projectOverviewWidget"
+    Then I should see "#projectOverviewPop"
 
   #Creating
   Scenario: A user can create a project

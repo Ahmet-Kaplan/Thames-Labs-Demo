@@ -5,6 +5,8 @@ Feature: Allow users to manage their Purchase Orders
 
   Background:
     Given a user exists
+    And I am a logged in user
+    And I have the "CanReadPurchaseOrders" permission
 
   Scenario: A superadmin user can't visit the Purchase Orders list
     Given a superadmin exists
@@ -133,3 +135,8 @@ Feature: Allow users to manage their Purchase Orders
     And I click "#add-item-to-po"
     And I click "#removePurchaseOrderItem"
     Then element "#purchase-order-items" should contain the text "No items"
+
+  Scenario: A user can see the purchase orders overview
+    When I navigate to "/purchaseorders"
+    And I click "#ref_poOverviewWidget"
+    Then I should see "#poOverviewPop"
