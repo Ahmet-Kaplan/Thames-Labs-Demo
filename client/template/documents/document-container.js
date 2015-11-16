@@ -51,6 +51,36 @@ Template.documentContainer.events({
       cancel: function() {}
     });
   },
+  'click #add-box-document': function() {
+    var clientKey = 'ywjtfwl5r9j6k8jcl5pmf5tfdfo82eoq';
+    var options = {
+      clientId: clientKey,
+      linkType: 'shared',
+      multiselect: false
+    };
+    var boxSelect = new BoxSelect(options);
+    var isSupported = boxSelect.isBrowserSupported();
+
+    if (isSupported) {
+      boxSelect.success(function(response) {
+
+        _.each(response, function(file) {
+          var data = {
+            docPath: file.url,
+            docName: file.name,
+            fileIcon: 'file-o',
+            service: 'box'
+          };
+          addDocumentToEntity(MASTER_REF.entityType, MASTER_REF.entityData._id, data);
+        });
+
+        boxSelect.closePopup();
+      });
+      boxSelect.launchPopup();
+    } else {
+      toastr.error("The Box.com file selector does not support your current browser. You can see a list of supported browsers <a href='https://developers.box.com/the-box-file-picker/#browsersupport'>here</a>.")
+    }
+  },
   'click #remove-document': function(event, template) {
     removeDocumentFromEntity(template.data.entityType, template.data.entityData._id, this);
   }

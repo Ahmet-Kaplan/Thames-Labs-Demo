@@ -16,6 +16,9 @@
           <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-dropbox-document" title="Add a document from Dropbox">
             <small>Dropbox</small>
           </li>
+          <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-box-document" title="Add a document from Box">
+            <small>Box</small>
+          </li>
         </ul>
       </div>
     </div>
@@ -30,9 +33,9 @@
             <div class="serviceLogo">
               <small><i class="fa fa-fw fa-{{service}}"></i></small>
             </div>
-            <a data-placement="right" data-toggle="tooltip" href="{{docPath}}" target="_blank" title="Open this document on Google Drive">{{docName}}</a>
+            <a data-placement="right" data-toggle="tooltip" href="{{docPath}}" target="_blank" title="Open this document via your external provider">{{docName}}</a>
 
-            <button class="btn btn-danger btn-xs pull-right" data-placement="bottom" data-toggle="tooltip" id="remove-document" title="Remove this document (it will not be deleted from your external folder)">
+            <button class="btn btn-danger btn-xs pull-right" data-placement="bottom" data-toggle="tooltip" id="remove-document" title="Remove this document (it will not be deleted from your external provider)">
               <i class="fa fa-fw fa-times"></i>
             </button>
           </div>
