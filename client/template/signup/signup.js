@@ -11,7 +11,7 @@ Template.signUp.onCreated(function() {
 });
 
 Template.signUp.onRendered(function() {
-  var coupon = Template.currentData().coupon();
+  var coupon = Template.currentData().coupon;
   if(coupon) {
     Meteor.call('getStripeCoupon', coupon,  function(err, response) {
       if(err || !response || !response.valid) {
@@ -63,7 +63,6 @@ AutoForm.hooks({
     onSuccess: function(formType, result) {
       Meteor.loginWithPassword(details.email, details.password, function() {
         FlowRouter.redirect('/');
-        FlowRouter.reload();
       });
     },
     beginSubmit: function() {

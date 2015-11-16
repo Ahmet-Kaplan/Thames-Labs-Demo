@@ -8,7 +8,7 @@ Meteor.startup(function() {
 
   //Rewrite Email.send function to avoid displaying
   //the whole email in the console during tests
-  if(process.env.IS_MIRROR) {
+  if(process.env.IS_MIRROR || Meteor.isDevelopment) {
     Email = {
       send: function(options) {
         if(options.text) {
