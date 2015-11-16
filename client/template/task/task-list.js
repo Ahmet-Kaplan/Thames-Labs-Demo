@@ -66,6 +66,7 @@ Template.taskList.events({
     $(event.target).blur();
   },
   'click #tskDeleteAllCompleted': function(event) {
+    event.preventDefault();
     var searchDefinition = TasksIndex.getComponentDict().get('searchDefinition');
     var searchOptions = TasksIndex.getComponentDict().get('searchOptions');
     $(event.target).blur();

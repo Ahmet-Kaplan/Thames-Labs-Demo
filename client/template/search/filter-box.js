@@ -37,53 +37,52 @@ var handle = '';
 
 function displayFilter(search, mainCollectionName, selectize) {
   var filters = Collections[mainCollectionName].filters;
-  var matchedFilters = _.some(filters, function(filter) {
+  handle = Tracker.autorun(function() {
+    var matchedFilters = _.some(filters, function(filter) {
 
-    var filterRegexp = new RegExp(filter.display.trim(), 'i')
+      var filterRegexp = new RegExp(filter.display.trim(), 'i')
 
-    if(filterRegexp.test(search)) {
+      if(filterRegexp.test(search)) {
 
-      currentFilter.set(filter);
+        currentFilter.set(filter);
 
-      //Retrieve search input to update the filter's dropdown
-      var searchString = search.toLowerCase().split(filter.display.toLowerCase())[1] ? search.toLowerCase().split(filter.display.toLowerCase())[1].trim() : '';
+        //Retrieve search input to update the filter's dropdown
+        var searchString = search.toLowerCase().split(filter.display.toLowerCase())[1] ? search.toLowerCase().split(filter.display.toLowerCase())[1].trim() : '';
 
-      handle = Tracker.autorun(function() {
-      var recordsCursor = Collections[filter.collectionName].index.search(searchString, {props: {autosuggest: true}});
+        selectize.clearOptions();
+        var recordsCursor = Collections[filter.collectionName].index.search(searchString, {props: {autosuggest: true}});
 
-        if(recordsCursor.isReady()){
-          records = recordsCursor.fetch();
-            selectize.clearOptions();
-          _.each(records, function(record) {
-            selectize.addOption({_id: record[filter.valueField], name: filter.display + ' ' + record[filter.nameField]});
-          });
+          if(recordsCursor.isReady()){
+            var records = recordsCursor.fetch();
+            _.each(records, function(record) {
+              selectize.addOption({_id: record[filter.valueField], name: filter.display + ' ' + record[filter.nameField]});
+              selectize.refreshOptions(true);
+            });
 
-          selectize.refreshOptions(true);
-        }
-      })
+          }
 
-      return true;
-    }
+        return true;
+      }
 
-  })
-
-  //If no match, the user may have erased the entry
-  //so the list is no longer valid
-  if(!matchedFilters) {
-    selectize.clearOptions();
-
-    _.each(filters, function(filter) {
-      selectize.addOption({_id: 'setFilter' + '_' + filter.prop , name: filter.display});
     });
-    selectize.refreshOptions(true);
-  }
+
+    //If no match, the user may have erased the entry
+    //so the list is no longer valid
+    if(!matchedFilters) {
+
+      _.each(filters, function(filter) {
+        selectize.addOption({_id: 'setFilter' + '_' + filter.prop , name: filter.display});
+      });
+      selectize.refreshOptions(true);
+    }
+  });
 }
 
 function applyFilter(text, value, mainCollectionName, selectize) {
   if(value.search('setFilter') !== -1) {
     selectize.clearOptions();
     $('#filtersSearch input').val(text + ' ');
-    displayFilter(text + ' ', mainCollectionName, selectize)
+    displayFilter(text + ' ', mainCollectionName, selectize);
   } else {
     var filter = currentFilter.get();
     var filterRegexp = new RegExp(filter.display.trim(), 'i')
@@ -101,9 +100,7 @@ function applyFilter(text, value, mainCollectionName, selectize) {
         Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);
       }
       selectize.clearOptions();
-      return true;
     }
-    return false;
   }
 }
 
@@ -126,7 +123,11 @@ Template.filterBox.onRendered(function() {
     onFocus: function() {
       displayFilter('', mainCollectionName, this);
     },
+    onBlur: function() {
+      this.clearOptions();
+    },
     load: function(query) {
+      this.clearOptions();
       displayFilter(query, mainCollectionName, this);
     },
     onItemAdd: function(value, $item) {

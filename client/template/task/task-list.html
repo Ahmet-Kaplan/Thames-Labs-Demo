@@ -1,19 +1,7 @@
 <template name="taskList">
   {{setPageTitle 'Tasks'}}
+  <h1><i class="fa fa-fw fa-check"></i>{{#if showMine}} My{{/if}} Tasks{{#if showComp}} - <em>Completed</em>{{/if}}</h1>
   <div class="row">
-    <div class="col-md-6">
-      <h1><i class="fa fa-fw fa-check"></i>{{#if showMine}} My{{/if}} Tasks{{#if showComp}} - <em>Completed</em>{{/if}}</h1>
-    </div>
-    <div class="col-md-3">
-      <div class="btn-group">
-        <button type="button" class="btn btn-{{#if showMine}}success{{else}}default{{/if}}" id="tskToggleMine" >
-          Show my tasks
-        </button>
-        <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
-          Show completed
-        </button>
-      </div>
-    </div>
     {{#if isInRole 'Administrator,CanCreateTasks'}}
     <div class="col-md-3">
       <div class="btn-group" role="group">
@@ -35,6 +23,16 @@
       </div>
     </div>
     {{/if}}
+    <div class="col-md-3">
+      <div class="btn-group">
+        <button type="button" class="btn btn-{{#if showMine}}success{{else}}default{{/if}}" id="tskToggleMine" >
+          Show my tasks
+        </button>
+        <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
+          Show completed
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="stick-bar">

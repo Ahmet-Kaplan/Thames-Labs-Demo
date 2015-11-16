@@ -46,6 +46,9 @@ Template.searchBox.events({
       $('#generalSearch').removeClass('col-md-8').addClass('col-md-4');
       $('#filtersSearch').css('visibility', 'visible')
       $('#filtersSearch').removeClass('hidden-box').addClass('col-md-4');
+
+      var selectize = $('#filterBox')[0].selectize;
+      selectize.clearOptions();
       Meteor.setTimeout(function() {
         $('#filtersSearch input').focus();
       }, 300);
