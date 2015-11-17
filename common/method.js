@@ -235,7 +235,6 @@ Meteor.methods({
         password: userDetails.password,
         profile: {
           name: userDetails.name,
-          welcomeTour: false,
           lastLogin: null,
           lastActivity: {
             page: null,

@@ -6,23 +6,11 @@ Template.companyList.onCreated(function() {
 
 	console.log(hopscotch.getState());
 
-  if(hopscotch.getState() !== null){
+  if(hopscotch.getState() !== null) {
 		if (hopscotch.getState().indexOf("welcome-tour:9") > -1) {
-		  $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
+      $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
 		}
   }
-});
-
-Template.companyList.onRendered(function() {
-  // Watch for session variable setting search
-  Session.set('companyListSearchQuery', null);
-  this.autorun(function() {
-    var searchQuery = Session.get('companyListSearchQuery');
-    if (searchQuery) {
-      CompaniesIndex.getComponentMethods().search(searchQuery);
-      $('.sidebar input').val(searchQuery);
-    }
-  });
 });
 
 Template.companyList.helpers({
