@@ -1,4 +1,34 @@
+Accounts.validateLoginAttempt(function(parameters) {
+  if (!Roles.userIsInRole(parameters.user._id, ['superadmin'])) {
+    if (!parameters.user || !parameters.user.emails || !parameters.user.emails[0]) {
+      parameters.allowed = false;
+      parameters.error = new Meteor.Error("There seems to be a problem with your account. Please contact us on 01223 802 901.");
+    }
+
+    var emails = parameters.user.emails.length;
+    var canLogIn = false;
+    _.each(parameters.user.emails, function(e) {
+      if (e.verified === true) {
+        canLogIn = true;
+      }
+    })
+
+    if (canLogIn === false) {
+      parameters.allowed = false;
+      parameters.error = new Meteor.Error("The email address associated with your account has not been verified. You must validate it before you can login - check your email inbox.");
+      return false
+    }
+
+    return true;
+  } else {
+    return true;
+  }
+});
+
 Meteor.methods({
+  findUserByEmail: function(emailAddress) {
+    return Accounts.findUserByEmail(emailAddress);
+  },
   setUserAuthLevel: function(userId, level) {
 
     Meteor.users.update(userId, {
@@ -22,7 +52,9 @@ Meteor.methods({
     Grouping.remove({
       _id: userId
     });
-    Meteor.users.remove({_id: userId});
+    Meteor.users.remove({
+      _id: userId
+    });
 
     if (Roles.userIsInRole(this.userId, 'Administrator')) {
       Meteor.call('updateStripeQuantity');
@@ -36,9 +68,11 @@ Meteor.methods({
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       throw new Meteor.Error(403, 'Only superadmins may delete all users');
     }
-    Meteor.users.find({group: tenantId}).forEach(function(user) {
+    Meteor.users.find({
+      group: tenantId
+    }).forEach(function(user) {
       Meteor.call('removeUser', user.id, function(err, result) {
-        if(err) {
+        if (err) {
           LogServerEvent('error', 'Unable to remove user while calling \'deleteAllTenantUsers\'', 'user', user.id);
         }
       });
@@ -87,9 +121,6 @@ Meteor.methods({
       },
       email: function() {
         return doc.email;
-      },
-      password: function() {
-        return doc.password;
       }
     });
     var html = '<' + SSR.render("emailText");
@@ -102,6 +133,8 @@ Meteor.methods({
       subject: 'Your RealTimeCRM details',
       html: html
     });
+
+    Accounts.sendVerificationEmail(userId, doc.email);
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 
@@ -142,14 +175,14 @@ Meteor.methods({
     };
     Accounts.emailTemplates.enrollAccount.text = function(user, url) {
       return "Dear " + user.profile.name + "\n\n" +
-             "Thank you for choosing to use RealTimeCRM.\n\n" +
-             "We hope you will enjoy the simple yet powerful functionality of the system." +
-             " To set your password and login please go to:\n\n" +
-             url +
-             "\n\nShould you have any questions or comments please use the \"Give Feedback\" link just above Change Password.\n\n" +
-             "We hope that you enjoy your RealTimeCRM experience.\n\n" +
-             "Yours sincerely,\n" +
-             "The RealtimeCRM Team";
+        "Thank you for choosing to use RealTimeCRM.\n\n" +
+        "We hope you will enjoy the simple yet powerful functionality of the system." +
+        " To set your password and login please go to:\n\n" +
+        url +
+        "\n\nShould you have any questions or comments please use the \"Give Feedback\" link just above Change Password.\n\n" +
+        "We hope that you enjoy your RealTimeCRM experience.\n\n" +
+        "Yours sincerely,\n" +
+        "The RealtimeCRM Team";
     };
     Accounts.emailTemplates.enrollAccount.html = function(user, url) {
       SSR.compileTemplate('emailText', Assets.getText('email-enroll-template.html'));
@@ -172,6 +205,8 @@ Meteor.methods({
     };
 
     Accounts.sendEnrollmentEmail(userId);
+
+    Accounts.sendVerificationEmail(userId);
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 

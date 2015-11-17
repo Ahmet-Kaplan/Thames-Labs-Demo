@@ -274,7 +274,9 @@ Meteor.methods({
       );
 
       Partitioner.setUserGroup(userId, tenantId);
-
+      
+      Accounts.emailTemplates.from = "RealTimeCRM Team <admin@realtimecrm.co.uk>";
+      Accounts.emailTemplates.siteName = "RealtimeCRM";
       SSR.compileTemplate('emailText', Assets.getText('email-template.html'));
       Template.emailText.helpers({
         getDoctype: function() {
@@ -288,9 +290,6 @@ Meteor.methods({
         },
         email: function() {
           return userDetails.email;
-        },
-        password: function() {
-          return userDetails.password;
         }
       });
       var html = '<' + SSR.render("emailText");
@@ -304,13 +303,15 @@ Meteor.methods({
         html: html
       });
 
-      var txt = 'New sign up from ' + userDetails.name + ' at company ' + userDetails.companyName;
-      Email.send({
-        to: 'david.mcleary@cambridgesoftware.co.uk',
-        from: 'admin@realtimecrm.co.uk',
-        subject: 'New RealTimeCRM sign up!',
-        text: txt
-      });
+      Accounts.sendVerificationEmail(userId, userDetails.email);
+
+      // var txt = 'New sign up from ' + userDetails.name + ' at company ' + userDetails.companyName;
+      // Email.send({
+      //   to: 'david.mcleary@cambridgesoftware.co.uk',
+      //   from: 'admin@realtimecrm.co.uk',
+      //   subject: 'New RealTimeCRM sign up!',
+      //   text: txt
+      // });
     }
     return true;
   },

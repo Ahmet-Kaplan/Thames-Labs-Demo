@@ -12,9 +12,9 @@ Template.signUp.onCreated(function() {
 
 Template.signUp.onRendered(function() {
   var coupon = Template.currentData().coupon();
-  if(coupon) {
-    Meteor.call('getStripeCoupon', coupon,  function(err, response) {
-      if(err || !response || !response.valid) {
+  if (coupon) {
+    Meteor.call('getStripeCoupon', coupon, function(err, response) {
+      if (err || !response || !response.valid) {
         $('input[name=coupon]').val('');
         $('h1').after('<div class="alert alert-info">The coupon you have provided is not valid. Please contact us to activate it before upgrading.</div>');
       } else {
@@ -37,11 +37,11 @@ var details = {
 AutoForm.hooks({
   before: {
     method: function(doc) {
-      if(!doc.coupon) {
+      if (!doc.coupon) {
         return doc;
       }
       Meteor.call('getStripeCoupon', function(err, response) {
-        if(err || !response) {
+        if (err || !response) {
           doc.coupon = '';
           toastr.error('The coupon you have provided is not valid.<br />Please contact us to activate it before upgrading.');
         }
@@ -61,10 +61,9 @@ AutoForm.hooks({
       }
     },
     onSuccess: function(formType, result) {
-      Meteor.loginWithPassword(details.email, details.password, function() {
-        FlowRouter.redirect('/');
-        FlowRouter.reload();
-      });
+      toastr.success('Your sign-up was successfull - please confirm your email by clicking the link in the email we\'ve just sent you. Thank you for choosing RealTimeCRM.');
+      FlowRouter.redirect('/');
+      FlowRouter.reload();
     },
     beginSubmit: function() {
       details.email = $("#email-field").val().toLowerCase();
