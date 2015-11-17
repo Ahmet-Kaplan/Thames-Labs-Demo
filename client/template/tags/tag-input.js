@@ -1,7 +1,7 @@
 Template.tagInput.onRendered(function() {
   var collectionName = this.data.collection,
-      entityId = this.data.entityId,
-      self = this;
+    entityId = this.data.entityId,
+    self = this;
 
   this.$('.tag-input').selectize({
     placeholder: 'Click here to add a tag ...',
@@ -54,7 +54,7 @@ Template.tagInput.onRendered(function() {
     onInitialize: function() {
       // N.B. self refers to Template.tagInput
       var tagInput = this,
-          permissionToEdit = self.data.permissionToEdit;
+        permissionToEdit = self.data.permissionToEdit;
       self.autorun(function() {
         var userId = Meteor.userId();
         if (permissionToEdit && !Roles.userIsInRole(userId, ['Administrator', permissionToEdit])) {
@@ -82,7 +82,7 @@ Template.tagInput.events({
     }
   },
   'keyup .selectize-input>input': function(e) {
-    if(e.keyCode === 27) {
+    if (e.keyCode === 27) {
       $('.selectize-input').blur();
     }
   },

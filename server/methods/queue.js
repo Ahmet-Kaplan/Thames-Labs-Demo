@@ -28,7 +28,7 @@ Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
 
     Email.send({
       to: assignee.emails[0].address,
-      from: 'admin@realtimecrm.co.uk',
+      from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
       subject: 'Task reminder - ' + task.title,
       text: text
     });

@@ -1,0 +1,13 @@
+<template name="cfDisplay">
+  <li class="list-group-item custom-field-display-item" style="{{#if isGlobal}}background: #fafafa;{{/if}}">
+    {{#unless isGlobal}}
+    <div class="btn-group pull-right">
+      <button class="btn btn-danger btn-xs" data-placement="bottom" data-toggle="tooltip" id='delete-custom-field' role='button' title="Delete this extended field">
+        <i class="fa fa-fw fa-times"></i> Delete
+      </button>
+    </div>
+    {{/unless}} {{name}}:
+    <span id="custom-field-{{trimmedName}}">{{displayValue}}</span>
+    {{parentHelper ..}}
+  </li>
+</template>

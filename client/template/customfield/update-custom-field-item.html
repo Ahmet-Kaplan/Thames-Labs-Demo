@@ -1,0 +1,42 @@
+<template name="extInfo">
+  <div id="extInfos{{extInfoId}}DisplayItem" style="{{#if props.isGlobal}}background: #fafafa;{{/if}}padding-top:5px;">
+    <!-- <label for="extInfos{{extInfoId}}Information">{{name}}</label> -->
+    <div id="extInfos{{extInfoId}}Information">
+      <div class="row">
+
+        <div class="col-md-3 modMyPosition">
+          {{name}}
+        </div>
+
+        {{#unless props.isGlobal}}
+        <!-- <div class="col-md-1 modMyPosition">Type:
+        </div> -->
+
+        <div class="col-md-2 modMyPosition">
+          <select id="extInfosTypeOptions">
+            <option value="text">Text</option>
+            <option value="checkbox" type="hidden">Checkbox</option>
+            <option value="date" type="hidden">Date/Time</option>
+          </select>
+        </div>
+        {{/unless}}
+
+        <div class="{{#if props.isGlobal}}col-md-8{{else}}col-md-6{{/if}}">
+          <div class="form-group" id="extInfos{{extInfoId}}TextInputArea">
+            <input class="form-control" id="extInfos{{extInfoId}}TextValue" placeholder="Enter value" type="text">
+          </div>
+
+          <div class="form-group" id="extInfos{{extInfoId}}BooleanInputArea">
+            <input class="form-control" id="extInfos{{extInfoId}}BooleanValue" style="height:20px;width:20px;margin-top:7px;" type="checkbox">
+          </div>
+
+          <div class="form-group datetimepicker" id="extInfos{{extInfoId}}DateInputArea">
+            <input class="form-control" id="extInfos{{extInfoId}}DateValue" placeholder="Enter date" type="text">
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
