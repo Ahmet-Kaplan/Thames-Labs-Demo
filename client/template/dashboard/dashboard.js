@@ -197,7 +197,7 @@ Template.dashboard.onRendered(function() {
   instanciateDashboard(savedWidgets);
 
   //Has user taken welcome tour yet?
-  if (Meteor.user().profile.welcomeTour === false) {
+  if (!Meteor.user().profile.welcomeTour) {
     Modal.show("firstRun");
   }
 });

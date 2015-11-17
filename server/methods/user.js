@@ -58,8 +58,7 @@ Meteor.methods({
       password: doc.password,
       profile: {
         name: doc.name,
-        welcomeTour: false,
-        lastLogin: null,        
+        lastLogin: null,
         lastActivity: {
           page: null,
           url: null
@@ -123,7 +122,6 @@ Meteor.methods({
       email: doc.email.toLowerCase(),
       profile: {
         name: doc.name,
-        welcomeTour: false,
         lastLogin: null,
         lastActivity: {
           page: null,
