@@ -2,6 +2,7 @@ var MASTER_REF = null;
 
 Template.documentContainer.onRendered(function() {
   MASTER_REF = this.data;
+  documentAPI.loadScripts();
 });
 
 Template.documentContainer.helpers({
