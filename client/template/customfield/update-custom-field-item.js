@@ -1,3 +1,5 @@
+var editor = null;
+
 Template.extInfo.helpers({
   extInfoId: function() {
     return this.name.replace(/ /g, '');
@@ -17,6 +19,20 @@ Template.extInfo.events({
         $(safeName + "BooleanInputArea").hide();
         $(safeName + "DateInputArea").hide();
         break;
+      case 'advtext':
+        $(safeName + "TextInputArea").hide();
+        $(safeName + "AdvTextInputArea").show();
+        $(safeName + "BooleanInputArea").hide();
+        $(safeName + "DateInputArea").hide();
+
+        editor = new MediumEditor('.editable', {
+          placeholder: {
+            text: 'Type or paste your content here...'
+          },
+          toolbar: false,
+          autoLink: true
+        });
+        break;
       case 'checkbox':
         $(safeName + "TextInputArea").hide();
         $(safeName + "BooleanInputArea").show();
@@ -32,7 +48,6 @@ Template.extInfo.events({
 });
 
 Template.extInfo.onRendered(function() {
-
   this.$('.datetimepicker').datetimepicker();
   var index = this.data.name;
   var attr = this.data.props;
@@ -48,8 +63,28 @@ Template.extInfo.onRendered(function() {
       // };
       $(safeName + "TextValue").val(attr.dataValue);
       $(safeName + "TextInputArea").show();
+      $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").hide();
+      break;
+    case 'advtext':
+
+      // if (attr.isGlobal) {
+      $(selectorName).val('advtext');
+      // };
+      $(safeName + "AdvTextValue").html(attr.dataValue);
+      $(safeName + "TextInputArea").hide();
+      $(safeName + "AdvTextInputArea").show();
+      $(safeName + "BooleanInputArea").hide();
+      $(safeName + "DateInputArea").hide();
+      
+      editor = new MediumEditor('.editable', {
+        placeholder: {
+          text: 'Type or paste your content here...'
+        },
+        toolbar: false,
+        autoLink: true
+      });
       break;
     case 'checkbox':
       // if (attr.isGlobal) {
@@ -57,6 +92,7 @@ Template.extInfo.onRendered(function() {
       // };
       $(safeName + "BooleanValue").prop('checked', attr.dataValue);
       $(safeName + "TextInputArea").hide();
+      $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").show();
       $(safeName + "DateInputArea").hide();
       break;
@@ -66,6 +102,7 @@ Template.extInfo.onRendered(function() {
       // };
       $(safeName + "DateValue").val(attr.dataValue);
       $(safeName + "TextInputArea").hide();
+      $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").show();
       break;

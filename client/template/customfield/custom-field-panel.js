@@ -26,6 +26,16 @@ Template.customFieldDisplay.helpers({
           };
           ret.push(cfObj);
           break;
+        case 'advtext':
+          var cfObj = {
+            name: cf,
+            value: this.entity_data.customFields[cf].dataValue,
+            type: this.entity_data.customFields[cf].dataType,
+            displayValue: this.entity_data.customFields[cf].dataValue,
+            isGlobal: this.entity_data.customFields[cf].isGlobal
+          };
+          ret.push(cfObj);
+          break;
         case 'checkbox':
           var cfObj = {
             name: cf,

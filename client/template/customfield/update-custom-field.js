@@ -1,3 +1,7 @@
+Template.updateCustomField.onRendered(function() {
+  $.getScript('/vendor/medium/medium-editor.min.js');
+})
+
 Template.updateCustomField.events({
   'click #submit-ext-info': function() {
 
@@ -22,6 +26,9 @@ Template.updateCustomField.events({
             case 'text':
               newValue = $(safeName + "TextValue").val();
               break;
+            case 'advtext':
+              newValue = $(safeName + "AdvTextValue").html();
+              break;
             case 'checkbox':
               newValue = $(safeName + "BooleanValue").prop('checked');
               break;
@@ -44,6 +51,9 @@ Template.updateCustomField.events({
           switch (newType) {
             case 'text':
               newValue = $(safeName + "TextValue").val();
+              break;
+            case 'advtext':
+              newValue = $(safeName + "AdvTextValue").html();
               break;
             case 'checkbox':
               newValue = $(safeName + "BooleanValue").prop('checked');
