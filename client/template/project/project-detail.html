@@ -106,7 +106,7 @@
 
     </div>
 
-    {{> documentContainer entityType="project" entityData=this}}
+    {{> documentContainer collectionName="projects" id=this._id permissionRequired="CanEditProjects"}}
 
     {{#if isInRole 'Administrator,CanReadTasks'}}
       <div class="row">
