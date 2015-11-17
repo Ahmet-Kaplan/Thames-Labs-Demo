@@ -24,7 +24,7 @@
             {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId" value=contactId}}
 
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
         </div>
 
@@ -56,7 +56,7 @@
             {{> afQuickField name="companyId" type="hidden" value=company._id}}
             {{> afQuickField name="contactId" type="hidden" value=contact._id}}
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
         </div>
 
@@ -87,7 +87,7 @@
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="projectId" type="hidden" value=project._id}}
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
         </div>
 
@@ -118,7 +118,7 @@
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="purchaseOrderId" type="hidden" value=purchaseOrder._id}}
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
         </div>
 
@@ -149,7 +149,7 @@
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="opportunityId" type="hidden" value=opportunity._id}}
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
         </div>
 
@@ -180,7 +180,7 @@
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="taskId" type="hidden" value=task._id}}
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
         </div>
 

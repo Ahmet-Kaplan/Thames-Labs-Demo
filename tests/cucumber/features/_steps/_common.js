@@ -180,6 +180,10 @@ module.exports = function() {
     browser.click(".modal-footer .btn-primary");
   });
 
+  this.When(/^I wait$/, function() {
+    browser.pause(5000)
+  })
+
   /***************************************************
                           THEN
   ***************************************************/

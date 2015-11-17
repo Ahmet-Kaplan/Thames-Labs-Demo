@@ -55,7 +55,6 @@ Feature: Allow users to manage their sales opportunities
     And I click "#oppsOverviewWidget"
     Then I should see "#oppOverviewPop"
 
-
   #Adding
   Scenario: A user can add an opportunity
     Given I have the "CanCreateOpportunities" permission
@@ -285,3 +284,41 @@ Feature: Allow users to manage their sales opportunities
     And a "Opportunity" has been created
     When I navigate to an opportunity page
     Then I should not see "#btnAddTaskToEntity"
+
+#Activities
+  Scenario: A user can add an activity
+    Given a "Opportunity" has been created
+    When I navigate to an opportunity page
+    And I click "#add-activity"
+    And I set text field "activityTimestamp" to "05/05/2015 05:05"
+    And I set rich text field "notes" to "test activity"
+    And I select "Note" from dropdown field "type"
+    And I click "#confirm"
+    Then I should see the activity in the timeline
+
+  Scenario: A user can edit an activity
+    Given a "Opportunity" has been created
+    When I navigate to an opportunity page
+    And I click "#add-activity"
+    And I set text field "activityTimestamp" to "05/05/2015 05:05"
+    And I set rich text field "notes" to "test activity"
+    And I select "Note" from dropdown field "type"
+    And I click "#confirm"
+    And I wait
+    And I click "#edit-activity"
+    And I select "Email" from dropdown field "type"
+    And I click "#update"
+    Then I should see a toastr with the message "Activity updated."
+
+  Scenario: A user can delete an activity
+    Given an "Opportunity" has been created
+    When I navigate to an opportunity page
+    And I click "#add-activity"
+    And I set text field "activityTimestamp" to "05/05/2015 05:05"
+    And I set rich text field "notes" to "test activity"
+    And I select "Note" from dropdown field "type"
+    And I click "#confirm"
+    And I wait
+    And I click "#remove-activity"
+    And I click confirm on the modal
+    Then I should see "#no-activity"

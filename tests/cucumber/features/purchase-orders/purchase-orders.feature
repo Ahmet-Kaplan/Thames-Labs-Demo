@@ -140,3 +140,72 @@ Feature: Allow users to manage their Purchase Orders
     When I navigate to "/purchaseorders"
     And I click "#ref_poOverviewWidget"
     Then I should see "#poOverviewPop"
+
+
+  #Activities 
+    Scenario: A user can add an activity
+      Given I am a logged in user
+      And a "Company" has been created
+      And I have the "CanReadCompanies" permission
+      And I have the "CanReadPurchaseOrders" permission
+      And I have the "CanCreatePurchaseOrders" permission
+      And I have the "CanEditPurchaseOrders" permission
+      When I navigate to "/purchaseorders"
+      And I click "#add-purchase-order"
+      And I set text field with selector "#description" to "test purchase order"
+      And I selectize "supplierCompanyId" to "Test Ltd"
+      And I click "#create-purchase-order"
+      When the page is loaded
+      And I click "#add-activity"
+      And I set text field "activityTimestamp" to "05/05/2015 05:05"
+      And I set rich text field "notes" to "test activity"
+      And I select "Note" from dropdown field "type"
+      And I click "#confirm"
+      Then I should see the activity in the timeline
+
+    Scenario: A user can edit an activity
+      Given I am a logged in user
+      And a "Company" has been created
+      And I have the "CanReadCompanies" permission
+      And I have the "CanReadPurchaseOrders" permission
+      And I have the "CanCreatePurchaseOrders" permission
+      And I have the "CanEditPurchaseOrders" permission
+      When I navigate to "/purchaseorders"
+      And I click "#add-purchase-order"
+      And I set text field with selector "#description" to "test purchase order"
+      And I selectize "supplierCompanyId" to "Test Ltd"
+      And I click "#create-purchase-order"
+      When the page is loaded
+      And I click "#add-activity"
+      And I set text field "activityTimestamp" to "05/05/2015 05:05"
+      And I set rich text field "notes" to "test activity"
+      And I select "Note" from dropdown field "type"
+      And I click "#confirm"
+      And I wait
+      And I click "#edit-activity"
+      And I select "Email" from dropdown field "type"
+      And I click "#update"
+      Then I should see a toastr with the message "Activity updated."
+
+    Scenario: A user can delete an activity
+      Given I am a logged in user
+      And a "Company" has been created
+      And I have the "CanReadCompanies" permission
+      And I have the "CanReadPurchaseOrders" permission
+      And I have the "CanCreatePurchaseOrders" permission
+      And I have the "CanEditPurchaseOrders" permission
+      When I navigate to "/purchaseorders"
+      And I click "#add-purchase-order"
+      And I set text field with selector "#description" to "test purchase order"
+      And I selectize "supplierCompanyId" to "Test Ltd"
+      And I click "#create-purchase-order"
+      When the page is loaded
+      And I click "#add-activity"
+      And I set text field "activityTimestamp" to "05/05/2015 05:05"
+      And I set rich text field "notes" to "test activity"
+      And I select "Note" from dropdown field "type"
+      And I click "#confirm"
+      And I wait
+      And I click "#remove-activity"
+      And I click confirm on the modal
+      Then I should see "#no-activity"
