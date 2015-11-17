@@ -7,7 +7,7 @@ AutoForm.hooks({
   },
   editStageForm: {
     onSuccess: function() {
-      toastr.success('Stage edited.');
+      toastr.success('Stage updated.');
       Modal.hide();
     }
   }

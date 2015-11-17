@@ -6,7 +6,9 @@
 
   <div class="stick-bar">
     <div class="row">
-      {{> EasySearch.Input index=AuditLogIndex attributes=searchInputAttributes}}
+      <div class="col-md-12">
+        {{> EasySearch.Input index=AuditLogIndex attributes=searchInputAttributes}}
+      </div>
     </div>
   </div>
   {{> searchResults index=AuditLogIndex listItemTemplateName='eventEntry'}}

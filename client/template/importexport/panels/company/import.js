@@ -37,7 +37,21 @@ Template.companyDataManagement.events({
   }
 });
 
+Template.importCompanyMapper.onCreated(function() {
+  this.importInProgress = new ReactiveVar(false);
+  this.totalImported = new ReactiveVar(0);
+});
+
 Template.importCompanyMapper.helpers({
+  importStatus: function() {
+    return Template.instance().importInProgress.get();
+  },
+  totalToImport: function() {
+    return this.dataSet.data.length;
+  },
+  importedSoFar: function() {
+    return Template.instance().totalImported.get();
+  },
   requiredDataInputs: function() {
     var lnkData = this.dataSet;
     var html = "";
@@ -80,6 +94,11 @@ Template.importCompanyMapper.events({
     var websiteColumn = ($('#websiteColumn').val() === "" ? "" : $('#websiteColumn').val());
     var phoneColumn = ($('#phoneColumn').val() === "" ? "" : $('#phoneColumn').val());
 
+    var totalToImport = this.dataSet.data.length;
+    var imported = 0;
+    var errorData = [];
+
+    template.importInProgress.set(true);
 
     _.each(this.dataSet.data, function(row) {
       var cfArray = [];
@@ -96,11 +115,35 @@ Template.importCompanyMapper.events({
       });
 
       Meteor.call('import.AddNewCompany', row, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray, function(err, res) {
-        if (err) throw new Meteor.Error(err);
-        if (res !== "OK") throw new Meteor.Error(res);
+        imported += 1;
+        template.totalImported.set(imported);
+
+        if (err) errorData.push(err);
+        if (res !== "OK") errorData.push(res);
+
+        if ((imported === totalToImport) && errorData.length === 0) {
+          toastr.success('Import completed successfully.');
+          template.importInProgress.set(false);
+          Modal.hide();
+        }
+
+        if ((imported === totalToImport) && errorData.length !== 0) {
+          var errorString = "Error\n";
+
+          _.each(errorData, function(e) {
+            errorString += e + "\n";
+          })
+
+          var blob = new Blob([errorString], {
+            type: "text/csv;charset=utf-8"
+          });
+          saveAs(blob, 'realtimecrm_company_import_errors.csv');
+          toastr.warning('Import completed with errors; saving to CSV now...');
+          template.importInProgress.set(false);
+          Modal.hide();
+        }
+
       });
     });
-
-    Modal.hide();
   }
 });

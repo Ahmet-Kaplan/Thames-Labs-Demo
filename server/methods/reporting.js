@@ -120,7 +120,7 @@ Meteor.methods({
       var value = 0;
 
       _.each(projectData, function(pd) {
-        if (pd.value){
+        if (pd.value) {
           value += parseFloat(pd.value)
         }
       });
@@ -154,7 +154,7 @@ Meteor.methods({
           "Count": (projData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
           "Value": (value / projData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
         }
-      }else{
+      } else {
           var data = {
             "ActiveProjects": (!Meteor.isDevelopment ? [] : projData),
             "Count": (projData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
@@ -200,14 +200,14 @@ Meteor.methods({
         }
       });
       parseFloat(value).toFixed(2)
-      if (oppData.length){
+      if (oppData.length) {
 
         var data = {
           "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
           "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
           "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
         }
-      }else{
+      } else {
 
         var data = {
           "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
@@ -228,13 +228,13 @@ Meteor.methods({
           value += parseFloat(od.value)
         }
       });
-      if (oppData.length){
+      if (oppData.length) {
         var data = {
           "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
           "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
           "Value": (value / oppData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
         }
-      }else{
+      } else {
         var data = {
           "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
           "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
@@ -293,7 +293,7 @@ Meteor.methods({
           "Count": (productData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
           "Value": (value / productData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
         }
-      }else{
+      } else {
         var data = {
           "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
           "Count": (productData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),

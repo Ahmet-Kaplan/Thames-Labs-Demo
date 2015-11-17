@@ -28,7 +28,7 @@
 <template name="tenant">
     <div class="panel panel-primary">
       <div class="panel-heading accordion-toggle" id="{{_id}}">
-        {{#if isBlocked}}<i class="fa fa-ban"></i> {{/if}}
+        {{#if limitReached}}<i class="fa fa-ban"></i> {{/if}}
         {{#if stripe.freeUnlimited}}<i class="fa fa-unlock" data-toggle="tooltip" data-placement="bottom" title="Free unlimited tenant"></i> {{/if}}
         {{name}}<small> (Users: {{userCount}}, Records: {{recordsCount}})</small><span class="glyphicon glyphicon-chevron-down pull-right"></span>
       </div>
@@ -54,14 +54,6 @@
                           <i class="fa fa-fw fa-credit-card"></i> Change Scheme
                         </button>
                         {{#unless isPayingTenant}}
-                          <button class="btn btn-warning btn-xs" id="btnBlockTenant" type="button">
-                            <i class="fa fa-fw fa-ban"></i>
-                            {{#if isBlocked}}
-                              Unblock this tenant
-                            {{else}}
-                              Block this tenant
-                            {{/if}}
-                          </button>
                           <button class="btn btn-danger btn-xs" id="btnDeleteTenant" type="button">
                             <i class="fa fa-fw fa-archive"></i> Delete this tenant
                           </button>

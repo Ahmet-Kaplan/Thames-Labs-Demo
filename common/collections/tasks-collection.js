@@ -24,7 +24,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
   fields: ['title', 'tags'],
   engine: new EasySearch.MongoDB({
     sort: () => {
-      return { 'title': 1 }
+      return { 'dueDate': 1 }
     },
     fields: (searchObject, options) => {
       return {
