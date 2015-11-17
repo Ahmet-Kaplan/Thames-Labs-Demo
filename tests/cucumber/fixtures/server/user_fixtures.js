@@ -24,6 +24,30 @@ Meteor.methods({
     });
   },
 
+  createSecondTenant: function() {
+    var tenantName = 'Acme Corp Rivals',
+      PurchaseOrderPrefix = 'A',
+      PurchaseOrderStartingValue = 1;
+
+    Tenants.insert({
+      name: tenantName,
+      settings: {
+        PurchaseOrderPrefix: PurchaseOrderPrefix,
+        PurchaseOrderStartingValue: PurchaseOrderStartingValue,
+        extInfo: {
+          company: [],
+          contact: []
+        }
+      },
+      stripe: {
+        "totalRecords": 0,
+        "paying": false,
+        "blocked": false
+      },
+      createdAt: new Date()
+    });
+  },
+
   createTestUser: function() {
     var tenantName = 'Acme Corp';
 
@@ -33,6 +57,24 @@ Meteor.methods({
       password: "goodpassword",
       profile: {
         name: "test user"
+      }
+    });
+
+    var tenantId = Tenants.findOne({
+      name: tenantName
+    })._id;
+    Partitioner.setUserGroup(userId, tenantId);
+  },
+
+  createSecondUser: function() {
+    var tenantName = 'Acme Corp Rivals';
+
+    var userId = Accounts.createUser({
+      username: "test user two",
+      email: "test2@domain.com",
+      password: "goodpassword",
+      profile: {
+        name: "test user two"
       }
     });
 

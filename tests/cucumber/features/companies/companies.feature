@@ -23,6 +23,19 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     Then I should see the heading "Test Ltd"
 
+  Scenario: A user should not be able to see companies created by a user under another tenant
+    Given I have the "CanCreateCompanies" permission
+    And a "Company" has been created
+    And I navigate to "/companies"
+    Then I should see "#mchCompany"
+    Given a second tenant exists
+    And a second user exists
+    And I log out
+    And I log in as user 2
+    And I have the "CanReadCompanies" permission
+    And I navigate to "/companies"
+    Then I should not see "#mchCompany"
+
   Scenario: An administrator can add CanReadCompanies permission
     Given I have the "Administrator" permission
     And a restricted user exists

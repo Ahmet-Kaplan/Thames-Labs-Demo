@@ -21,6 +21,18 @@ Feature: Allow users to manage their Purchase Orders
     When I navigate to "/purchaseorders"
     Then I should see the heading "Purchase Orders"
 
+  Scenario: A user should not be able to see purchase orders created by a user under another tenant
+    Given a "PurchaseOrder" has been created
+    And I navigate to "/purchaseorders"
+    Then I should see "#list-item"
+    Given a second tenant exists
+    And a second user exists
+    And I log out
+    And I log in as user 2
+    And I have the "CanReadPurchaseOrders" permission
+    And I navigate to "/purchaseorders"
+    Then I should not see "#list-item"
+
   Scenario: A user can add a new purchase order to a company
     Given I am a logged in user
     And a "Company" has been created
@@ -42,11 +54,8 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanEditPurchaseOrders" permission
     And I have the "CanCreatePurchaseOrders" permission
     When I navigate to "/purchaseorders"
-    And I click "#add-purchase-order"
-    And I set text field with selector "#description" to "test purchase order"
-    And I selectize "supplierCompanyId" to "Test Ltd"
-    And I click "#create-purchase-order"
-    When the page is loaded
+    And a "PurchaseOrder" has been created
+    And I navigate to a purchase order page
     Then I click "#edit-purchase-order"
     And I set textarea "description" to "new purchase order"
     And I click "#update-purchase-order"
@@ -62,9 +71,8 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanDeletePurchaseOrders" permission
     When I navigate to "/purchaseorders"
     And I click "#add-purchase-order"
-    And I set text field with selector "#description" to "test purchase order"
-    And I selectize "supplierCompanyId" to "Test Ltd"
-    And I click "#create-purchase-order"
+    And a "PurchaseOrder" has been created
+    And I navigate to a purchase order page
     And I click "#remove-purchase-order"
     And I click confirm on the modal
     Then I should not see "#po-item"
@@ -77,11 +85,8 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanCreatePurchaseOrders" permission
     And I have the "CanEditPurchaseOrders" permission
     When I navigate to "/purchaseorders"
-    And I click "#add-purchase-order"
-    And I set text field with selector "#description" to "test purchase order"
-    And I selectize "supplierCompanyId" to "Test Ltd"
-    And I click "#create-purchase-order"
-    When the page is loaded
+    And a "PurchaseOrder" has been created
+    And I navigate to a purchase order page
     Then I click "#add-item"
     And I set text field with selector "#description" to "test item"
     And I set text field with selector "#code" to "test00001"
@@ -98,11 +103,8 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanCreatePurchaseOrders" permission
     And I have the "CanEditPurchaseOrders" permission
     When I navigate to "/purchaseorders"
-    And I click "#add-purchase-order"
-    And I set text field with selector "#description" to "test purchase order"
-    And I selectize "supplierCompanyId" to "Test Ltd"
-    And I click "#create-purchase-order"
-    When the page is loaded
+    And a "PurchaseOrder" has been created
+    And I navigate to a purchase order page
     Then I click "#add-item"
     And I set text field with selector "#description" to "test item"
     And I set text field with selector "#code" to "test00001"
@@ -122,11 +124,8 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanCreatePurchaseOrders" permission
     And I have the "CanEditPurchaseOrders" permission
     When I navigate to "/purchaseorders"
-    And I click "#add-purchase-order"
-    And I set text field with selector "#description" to "test purchase order"
-    And I selectize "supplierCompanyId" to "Test Ltd"
-    And I click "#create-purchase-order"
-    When the page is loaded
+    And a "PurchaseOrder" has been created
+    And I navigate to a purchase order page
     Then I click "#add-item"
     And I set text field with selector "#description" to "test item"
     And I set text field with selector "#code" to "test00001"
@@ -141,8 +140,7 @@ Feature: Allow users to manage their Purchase Orders
     And I click "#ref_poOverviewWidget"
     Then I should see "#poOverviewPop"
 
-
-  #Activities 
+  #Activities
     Scenario: A user can add an activity
       Given I am a logged in user
       And a "Company" has been created
@@ -151,11 +149,8 @@ Feature: Allow users to manage their Purchase Orders
       And I have the "CanCreatePurchaseOrders" permission
       And I have the "CanEditPurchaseOrders" permission
       When I navigate to "/purchaseorders"
-      And I click "#add-purchase-order"
-      And I set text field with selector "#description" to "test purchase order"
-      And I selectize "supplierCompanyId" to "Test Ltd"
-      And I click "#create-purchase-order"
-      When the page is loaded
+      And a "PurchaseOrder" has been created
+      And I navigate to a purchase order page
       And I click "#add-activity"
       And I set text field "activityTimestamp" to "05/05/2015 05:05"
       And I set rich text field "notes" to "test activity"
@@ -171,11 +166,8 @@ Feature: Allow users to manage their Purchase Orders
       And I have the "CanCreatePurchaseOrders" permission
       And I have the "CanEditPurchaseOrders" permission
       When I navigate to "/purchaseorders"
-      And I click "#add-purchase-order"
-      And I set text field with selector "#description" to "test purchase order"
-      And I selectize "supplierCompanyId" to "Test Ltd"
-      And I click "#create-purchase-order"
-      When the page is loaded
+      And a "PurchaseOrder" has been created
+      And I navigate to a purchase order page
       And I click "#add-activity"
       And I set text field "activityTimestamp" to "05/05/2015 05:05"
       And I set rich text field "notes" to "test activity"
@@ -195,11 +187,8 @@ Feature: Allow users to manage their Purchase Orders
       And I have the "CanCreatePurchaseOrders" permission
       And I have the "CanEditPurchaseOrders" permission
       When I navigate to "/purchaseorders"
-      And I click "#add-purchase-order"
-      And I set text field with selector "#description" to "test purchase order"
-      And I selectize "supplierCompanyId" to "Test Ltd"
-      And I click "#create-purchase-order"
-      When the page is loaded
+      And a "PurchaseOrder" has been created
+      And I navigate to a purchase order page
       And I click "#add-activity"
       And I set text field "activityTimestamp" to "05/05/2015 05:05"
       And I set rich text field "notes" to "test activity"

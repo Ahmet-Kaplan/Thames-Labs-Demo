@@ -31,6 +31,19 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     Then I should see the heading "test opportunity"
 
+  Scenario: A user should not be able to see Opportunites created by a user under another tenant
+    Given I have the "CanCreateOpportunities" permission
+    And an "Opportunity" has been created
+    And I navigate to "/opportunities"
+    Then I should see "#list-item"
+    Given a second tenant exists
+    And a second user exists
+    And I log out
+    And I log in as user 2
+    And I have the "CanReadOpportunities" permission
+    And I navigate to "/opportunities"
+    Then I should not see "#list-item"
+
   Scenario: An administrator can add CanReadOpportunities permission
     Given I have the "Administrator" permission
     And a restricted user exists

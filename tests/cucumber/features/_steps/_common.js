@@ -24,6 +24,13 @@ module.exports = function() {
       });
   });
 
+  this.Given(/^a second user exists$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('createSecondUser', done);
+      });
+  })
+
   this.Given(/^a superadmin exists$/, function() {
     browser
       .executeAsync(function(done) {
@@ -38,12 +45,23 @@ module.exports = function() {
       });
   });
 
-  this.Given(/^I am a logged out user$/, function() {
+  this.Given(/^a second tenant exists$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('createSecondTenant', done);
+      });
+  })
+
+  this.Given(/^I (am a logged out user|log out)$/, function() {
     browser.executeAsync(logout);
   });
 
   this.Given(/^I am a logged in user$/, function() {
     browser.executeAsync(login, 'test@domain.com', 'goodpassword');
+  });
+
+  this.Given(/^I log in as user 2$/, function() {
+    browser.executeAsync(login, 'test2@domain.com', 'goodpassword');
   });
 
   this.Given(/^I am a logged in superadmin user$/, function() {

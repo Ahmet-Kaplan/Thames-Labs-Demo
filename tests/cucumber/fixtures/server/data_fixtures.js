@@ -113,6 +113,20 @@ Meteor.methods({
     return data;
   },
 
+  addPurchaseOrder: function() {
+
+    var data = PurchaseOrders.insert({
+      userId: this.userId,
+      description: "Test Purchase Order",
+      supplierCompanyId: "Test Ltd",
+      status: "Requested",
+      createdBy: this.userId
+    });
+
+    return data;
+
+  },
+
   addOpportunityLineItem: function() {
     var opp = Opportunities.findOne({});
     Opportunities.update(opp._id, {

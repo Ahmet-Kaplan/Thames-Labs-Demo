@@ -23,6 +23,19 @@ Feature: Allow users to manage their Contacts
     When I navigate to a contact page
     Then I should see the heading "Testy Surname"
 
+  Scenario: A user should not be able to see contacts created by a user under another tenant
+    Given I have the "CanCreateContacts" permission
+    And a "Contact" has been created
+    And I navigate to "/contacts"
+    Then I should see "#list-item"
+    Given a second tenant exists
+    And a second user exists
+    And I log out
+    And I log in as user 2
+    And I have the "CanReadContacts" permission
+    And I navigate to "/contacts"
+    Then I should not see "#list-item"
+
   Scenario: An administrator can add CanReadContacts permission
     Given I have the "Administrator" permission
     And a restricted user exists
