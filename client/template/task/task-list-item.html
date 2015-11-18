@@ -3,7 +3,7 @@
   <a class="list-group-item" href="tasks/{{taskId}}" id="list-item">
     <div class="row">
       <div class="col-md-3">
-        <div class="pull-left">
+        <div class="pull-left" id="completed">
         {{#if isInRole 'Administrator,CanEditTasks'}}
           {{#if completed}}
             <span class="fa-stack fa-1x task-green task-completed">
