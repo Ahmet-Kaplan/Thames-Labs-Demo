@@ -1,9 +1,9 @@
 // See https://developers.google.com/picker/docs/ for details on this crazy!
 
 // The Browser API key obtained from the Google Developers Console.
-var developerKey = 'AIzaSyBl0OmrvqoSet20yP7sOirUExQ28lloVzo';
+var developerKey = Meteor.settings.public.googleDeveloperKey;
 // The Client ID obtained from the Google Developers Console. Replace with your own Client ID.
-var clientId = "329730007716-ru8vk3pa23l06vrr30opg8aoassndkr8.apps.googleusercontent.com"
+var clientId = Meteor.settings.public.googleClientKey;
 // Scope to use to access user's photos.
 var scope = ['https://www.googleapis.com/auth/drive.readonly'];
 // Callback to send results

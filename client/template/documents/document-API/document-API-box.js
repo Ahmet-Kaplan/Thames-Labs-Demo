@@ -1,5 +1,5 @@
 documentAPI.boxChooser = function(cb) {
-  var clientKey = 'ywjtfwl5r9j6k8jcl5pmf5tfdfo82eoq';
+  var clientKey = Meteor.settings.public.boxApiKey;
   var options = {
     clientId: clientKey,
     linkType: 'shared',

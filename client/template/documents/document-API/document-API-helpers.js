@@ -1,7 +1,7 @@
 documentAPI.loadScripts = function() {
   if (typeof Dropbox === 'undefined') {
     $.getScript('https://www.dropbox.com/static/api/2/dropins.js').then( () => {
-      Dropbox.appKey = 'cxpzllktv0grzai';
+      Dropbox.appKey = Meteor.settings.public.dropboxApiKey;
     });
   }
   if (typeof BoxSelect === 'undefined') {
