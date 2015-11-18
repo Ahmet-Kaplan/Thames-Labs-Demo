@@ -1,107 +1,143 @@
 <template name="projectDetail">
-  {{#with projectData}} {{setPageTitle "Project - " name }}
-  <div class="row">
+  {{#with projectData}}
+    {{setPageTitle "Project - " name }}
+    <div class="row">
 
-    <div class="col-md-12">
-      <h4 class="entity-title">Project</h4>
-      {{#if opportunityId}}
-      <div class="pull-right hidden-xs">
-        <p style="text-align:right;"><a href="{{pathFor route='opportunity' id=opportunityId}}">View opportunity</a></p>
-      </div>
-      {{/if}}
-      <h1 id="project-details" class="entity-name">{{name}}</h1>
-
-      {{> tagInput tags=tags collection='projects' entityId=_id permissionToEdit='CanEditProjects'}}
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class="btn-group pull-right">
-            <!-- {{#afModal class="btn btn-info btn-xs" collection="Projects" doc=_id operation="update" formId="updateProjectForm" omitFields="projectId, companyId"}} Edit project details {{/afModal}} -->
-            {{#if isInRole 'Administrator,CanEditProjects'}}
-            <a href="#" id="edit-project" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>{{/if}}
-
-            <!-- {{#afModal class="btn btn-danger btn-xs" collection="Projects" doc=_id operation="remove" formId="removeProjectForm"}} Delete project {{/afModal}} -->
-          {{#if isInRole 'Administrator,CanDeleteProjects'}}
-            <a href="#" id="remove-project" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>{{/if}}
-
+      <div class="col-md-12">
+        <h4 class="entity-title">Project</h4>
+        {{#if opportunityId}}
+          <div class="pull-right hidden-xs">
+            <p style="text-align:right;">
+              <a href="{{pathFor route='opportunity' id=opportunityId}}">View opportunity</a>
+            </p>
           </div>
-          Project details</div>
-        <ul class="list-group">
-          {{#if description}}
-            {{#if isInRole 'Administrator,CanReadCompanies'}}
-            <li class="list-group-item panel-item-header">
-              <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
-              {{description}}
-            </li>
+        {{/if}}
+        <h1 class="entity-name" id="project-details">{{name}}</h1>
+
+        {{> tagInput tags=tags collection='projects' entityId=_id permissionToEdit='CanEditProjects'}}
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="btn-group pull-right">
+              <!-- {{#afModal class="btn btn-info btn-xs" collection="Projects" doc=_id operation="update" formId="updateProjectForm" omitFields="projectId, companyId"}} Edit project details {{/afModal}} -->
+              {{#if isInRole 'Administrator,CanEditProjects'}}
+                <a class="btn btn-info btn-xs" href="#" id="edit-project">
+                  <i class="fa fa-fw fa-pencil"></i>Edit</a>
+              {{/if}}
+
+              <!-- {{#afModal class="btn btn-danger btn-xs" collection="Projects" doc=_id operation="remove" formId="removeProjectForm"}} Delete project {{/afModal}} -->
+              {{#if isInRole 'Administrator,CanDeleteProjects'}}
+                <a class="btn btn-danger btn-xs" href="#" id="remove-project">
+                  <i class="fa fa-fw fa-times"></i>Delete</a>
+              {{/if}}
+
+            </div>
+            Project details</div>
+          <ul class="list-group">
+            {{#if description}}
+              {{#if isInRole 'Administrator,CanReadCompanies'}}
+                <li class="list-group-item panel-item-header">
+                  <h4>
+                    <i class="fa fa-fw fa-align-left"></i>
+                    Description</h4>
+                  {{description}}
+                </li>
+              {{/if}}
             {{/if}}
-          {{/if}}
-          {{#if company}}
-            {{#if isInRole 'Administrator,CanReadCompanies'}}
-            <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to company details">
-              <h4><i class="fa fa-fw fa-building"></i> Company</h4>
-              <i class="fa fa-fw fa-chevron-right pull-right"></i>
-              {{company.name}}
-            </a>
+            {{#if company}}
+              {{#if isInRole 'Administrator,CanReadCompanies'}}
+                <a class="list-group-item panel-item-header" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='company' id=company._id}}" title="Navigate to company details">
+                  <h4>
+                    <i class="fa fa-fw fa-building"></i>
+                    Company</h4>
+                  <i class="fa fa-fw fa-chevron-right pull-right"></i>
+                  {{company.name}}
+                </a>
+              {{/if}}
             {{/if}}
-          {{/if}} {{#if contactId}}
-          {{#if isInRole 'Administrator,CanReadContacts'}}
-          <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to contact details">
-            <h4><i class="fa fa-fw fa-user"></i> Contact</h4>
-            <i class="fa fa-fw fa-chevron-right pull-right"></i>
-            {{contact.name}}
-          </a>
-          {{/if}}   {{/if}} {{#if userId}}
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-user"></i> Account Manager</h4>
-            {{managerName}}
-          </li>
-          {{/if}} {{#if value}}
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-money"></i> Value</h4>
-            £{{decimal value}}
-          </li>
-          {{/if}} {{#if dueDate}}
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-calendar"></i> Due Date</h4>
-            {{friendlyDueDate}}
-          </li>
-          {{/if}} {{#if staff}}
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-users"></i> Staff</h4>
-            {{staffList}}
-          </li>
-          {{/if}}
-        </ul>
+            {{#if contactId}}
+              {{#if isInRole 'Administrator,CanReadContacts'}}
+                <a class="list-group-item panel-item-header" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='contact' id=contact._id}}" title="Navigate to contact details">
+                  <h4>
+                    <i class="fa fa-fw fa-user"></i>
+                    Contact</h4>
+                  <i class="fa fa-fw fa-chevron-right pull-right"></i>
+                  {{contact.name}}
+                </a>
+              {{/if}}
+            {{/if}}
+            {{#if userId}}
+              <li class="list-group-item panel-item-header">
+                <h4>
+                  <i class="fa fa-fw fa-user"></i>
+                  Account Manager</h4>
+                {{managerName}}
+              </li>
+            {{/if}}
+            {{#if value}}
+              <li class="list-group-item panel-item-header">
+                <h4>
+                  <i class="fa fa-fw fa-money"></i>
+                  Value</h4>
+                £{{decimal value}}
+              </li>
+            {{/if}}
+            {{#if dueDate}}
+              <li class="list-group-item panel-item-header">
+                <h4>
+                  <i class="fa fa-fw fa-calendar"></i>
+                  Due Date</h4>
+                {{friendlyDueDate}}
+              </li>
+            {{/if}}
+            {{#if staff}}
+              <li class="list-group-item panel-item-header">
+                <h4>
+                  <i class="fa fa-fw fa-users"></i>
+                  Staff</h4>
+                {{staffList}}
+              </li>
+            {{/if}}
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-3"></div>
+
+    </div>
+
+    {{> documentContainer collectionName="projects" id=this._id permissionRequired="CanEditProjects"}}
+
+    {{#if isInRole 'Administrator,CanReadTasks'}}
+      <div class="row">
+        <div class="col-md-12">
+          {{#with this}}
+            {{> taskDisplay entity_type="project" entity_id=_id}}
+          {{/with}}
+        </div>
+      </div>
+    {{/if}}
+
+    <div>
+      {{#if isInRole 'Administrator,CanEditProjects'}}
+        {{#with this}}
+          {{> customFieldDisplay entity_data=this entity_type='project'}}
+        {{/with}}
+      {{/if}}
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h1 id="activity-timeline">
+          Activity Timeline
+          <a class="btn btn-primary{{#unless isMobile}} pull-right{{/unless}}" data-placement="bottom" data-toggle="tooltip" href="#" id="add-activity" title="New activity for this project">
+            <i class="fa fa-fw fa-plus"></i>
+            Add activity</a>
+        </h1>
+        {{> activityTimeline activities=activities}}
       </div>
     </div>
 
-    <div class="col-md-3">
-    </div>
-
-  </div>
-
-{{#if isInRole 'Administrator,CanReadTasks'}}
-  <div class="row">
-    <div class="col-md-12">
-      {{#with this}} {{> taskDisplay entity_type="project" entity_id=_id}} {{/with}}
-    </div>
-  </div>
-  {{/if}}
-
-
-        <div>
-          {{#if isInRole 'Administrator,CanEditProjects'}} {{#with this}} {{> customFieldDisplay entity_data=this entity_type='project'}} {{/with}} {{/if}}
-        </div>
-
-  <div class="row">
-    <div class="col-md-12">
-      <h1 id="activity-timeline">
-        Activity Timeline
-        <a href="#" class="btn btn-primary{{#unless isMobile}} pull-right{{/unless}}" data-toggle="tooltip" data-placement="bottom" title="New activity for this project" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add activity</a>
-      </h1>
-      {{> activityTimeline activities=activities}}
-    </div>
-  </div>
-
-  {{> autoformModals}} {{/with}}
+    {{> autoformModals}}
+  {{/with}}
 </template>

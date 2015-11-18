@@ -1,0 +1,55 @@
+<template name="documentContainer">
+  <div class="panel panel-default">
+    <div class="panel-heading" id="documents-container">
+      <i class="fa fa-fw fa-files-o"></i>
+      Documents
+
+      {{#if isInRole permissionRequired}}
+        <div class="btn-group pull-right">
+          <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" type="button">
+            Add from...
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-drive-document" title="Add a document from Google Drive">
+              <small><i class="fa fa-fw fa-google"></i> Google Drive</small>
+            </li>
+            <!-- <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-onedrive-document" title="Add a document from Box">
+              <small><i class="fa fa-fw fa-windows"></i> OneDrive</small>
+            </li> -->
+            <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-dropbox-document" title="Add a document from Dropbox">
+              <small><i class="fa fa-fw fa-dropbox"></i> Dropbox</small>
+            </li>
+            <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-box-document" title="Add a document from Box">
+              <small><i class="fa fa-fw fa-folder"></i> Box</small>
+            </li>
+          </ul>
+        </div>
+      {{/if}}
+    </div>
+
+    <ul class="list-group">
+      {{#each documents}}
+        <div class="list-group-item">
+          <div class="docData">
+            <div class="fileTypeLogo">
+              <small><i class="fa fa-fw fa-{{fileIcon}}"></i></small>
+            </div>
+            <div class="serviceLogo">
+              <small><i class="fa fa-fw fa-{{serviceIcon}}"></i></small>
+            </div>
+            <a data-placement="right" data-toggle="tooltip" href="{{docPath}}" target="_blank" title="Open this document via your external provider">{{docName}}</a>
+
+            {{#if isInRole ../permissionRequired}}
+              <button class="btn btn-danger btn-xs pull-right" data-placement="bottom" data-toggle="tooltip" id="remove-document" title="Remove this document (it will not be deleted from your external provider)">
+                <i class="fa fa-fw fa-times"></i>
+              </button>
+            {{/if}}
+          </div>
+        </div>
+        {{else}}
+        <li class="list-group-item">No documents added</li>
+      {{/each}}
+    </ul>
+  </div>
+</template>
