@@ -25,9 +25,10 @@ Feature: Allow users to manage their Tasks
     And I have the "CanReadCompanies" permission
     When I navigate to a task page
     And I should see the heading "test task"
-@dev
+
   Scenario: A user should not be able to see tasks created by a user under another tenant
     Given I have the "CanCreateTasks" permission
+    And I have the "CanReadCompanies" permission
     And a "Company" task has been created
     And I navigate to "/tasks"
     Then I should see "#list-item"
