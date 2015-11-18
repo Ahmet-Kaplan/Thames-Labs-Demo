@@ -1,13 +1,29 @@
+var sessionVar = 'hopscotch.welcomeTourStep';
+
+var updateSessionVar = function() {
+	Session.set(sessionVar, hopscotch.getCurrStepNum());
+};
+
 var welcomeTour = {
+	onShow: function() {
+		updateSessionVar();
+	},
 	onClose: function() {
+		// Clear sessionVar as we're actually done
+		Session.set(sessionVar);
 		hopscotch.endTour(true);
-		
-		Meteor.call('welcomeTour.deleteTourData', function(err,res){
-    	if(err) throw new Meteor.Error(err);    	
-    });
   },
 	onEnd: function(){
-  	Modal.show('tourEnd');
+		// onEnd fires on route changes, so check if we're actually finished and
+		// resume if not
+		if (Session.get(sessionVar)) {
+			$.getScript('/vendor/hopscotch/tours/welcome_tour.js');
+		} else {
+			Meteor.call('welcomeTour.deleteTourData', function(err,res){
+				if(err) throw new Meteor.Error(err);
+				Modal.show('tourEnd');
+			});
+		}
   },
   id: "welcome-tour",
   steps: [{
@@ -55,19 +71,14 @@ var welcomeTour = {
     content: "In order to make the most of your experience with RealTime, you'll need some companies to work with. Let's go there now - if we click this link here...",
     target: document.querySelector('#menuLinkCompanies'),
     placement: "right",
-    multipage: true,
     onNext: function() {
-      window.location = "/companies"
+			updateSessionVar();
+			FlowRouter.go('companies');
     }
   }, {
     title: "Creating Companies",
     content: "...then we end up at the Company list.",
     target: document.querySelector('#menuLinkCompanies'),
-    placement: "right"
-  }, {
-    title: "Company Sidebar",
-    content: "This is the sidebar. From it, you can search your companies, and add new ones. By default, all of your companies are shown, but you can narrow the list by entering part of either the company name, or of an associated tag (more on tags later).",
-    target: document.querySelector('.sidebar'),
     placement: "right"
   }, {
     title: "Creating a Company",
@@ -84,13 +95,21 @@ var welcomeTour = {
     content: "To continue this tour, we'll create a company for you - click the Next button to do this now. Once created, we'll take you to the company detail page for the new company.",
     target: document.querySelector('#add-company'),
     placement: "left",
-    multipage: true,
     onNext: function() {
+			updateSessionVar();
       Meteor.call('welcomeTour.createDemoCompany', function(err, data) {
         if (err) throw new Meteor.Error(err);
-        window.location = "/companies/" + data;
+				FlowRouter.go('company', {id: data});
       });
     }
+  }, {
+    title: "",
+    content: "",
+    target: document.querySelector('#menuLinkCompanies'),
+    placement: "right",
+		onShow: function() {
+			hopscotch.nextStep();
+		}
   }, {
     title: "Viewing Company Data",
     content: "Whenever you create a company record, you will automatically be taken to the detail page for it. Down the centre of the screen you'll find information about the company, as well as information regarding associated contacts, projects and other associated RealTime entities.",
@@ -155,11 +174,17 @@ var welcomeTour = {
     title: "More On Extended Information",
     content: "All extended information will appear here. You can delete extended information entries by clicking the Delete button next to the relevant entry. Note that only your organisation's administrators can delete global extended information.",
     target: document.querySelector('#custom-field-container'),
-    placement: "right"    
+    placement: "right",
+		onShow: function() {
+			Session.set(sessionVar);
+		}
   }],
-  showPrevButton: true,
   showCloseButton: true
 };
 
 // Start the tour!
-hopscotch.startTour(welcomeTour);
+if (Session.get(sessionVar)) {
+	hopscotch.startTour(welcomeTour, Session.get(sessionVar));
+} else {
+	hopscotch.startTour(welcomeTour);
+}

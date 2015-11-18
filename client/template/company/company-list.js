@@ -3,14 +3,6 @@ Template.companyList.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
   });
-
-	console.log(hopscotch.getState());
-
-  if(hopscotch.getState() !== null) {
-		if (hopscotch.getState().indexOf("welcome-tour:9") > -1) {
-      $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
-		}
-  }
 });
 
 Template.companyList.helpers({

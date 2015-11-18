@@ -143,8 +143,9 @@ Template.nav.helpers({
 //NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
   'click #start-welcome-tour': function() {
-    FlowRouter.go('dashboard');    
+    FlowRouter.go('dashboard');
 		hopscotch.endTour(true);
+    Session.set('hopscotch.welcomeTourStep');
     $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
   },
   'click #tour-this-page': function() {
