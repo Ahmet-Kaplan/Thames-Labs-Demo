@@ -367,7 +367,7 @@ Migrations.add({
 
     Meteor.users.update({}, {
       $set: {
-        "emails.$.verified": true
+        "emails.0.verified": true
       }
     }, {
       multi: true
