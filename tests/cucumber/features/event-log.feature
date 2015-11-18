@@ -17,7 +17,7 @@ Feature: Allow users to view event logs
     And an "Event" has been created
     And I navigate to "/events"
     Then I should see "#list-item"
-@dev
+
   Scenario: A user should not be able to see events created by a user under another tenant
     Given I have the "CanReadEventLog" permission
     And an "Event" has been created

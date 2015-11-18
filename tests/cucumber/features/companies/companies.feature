@@ -209,6 +209,7 @@ Feature: Allow users to manage their Companies
     And a "Company" has been created
     When I navigate to a company page
     And I click "#edit-company"
+    And I should see a modal
     And I click "#show-map"
     When I search for Cowley Road
     Then the field "postcode" should contain "CB4"

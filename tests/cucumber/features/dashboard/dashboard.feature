@@ -59,7 +59,6 @@ Feature: Allow users to see widgets
       And I click "#productsInformation"
       Then I should see "#productInformationBox"
 
-
     Scenario: A user can see the purchase orders Overview widget
       When I click "#addWidgetButton"
       And I click "#poInformation"
