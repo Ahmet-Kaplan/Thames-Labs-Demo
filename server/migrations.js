@@ -296,8 +296,8 @@ Migrations.add({
   up: function() {
     ServerSession.set('maintenance', true);
     Partitioner.directOperation(function() {
-        Projects.find({}).forEach(function(project) {
-        if(project.name === undefined) {
+      Projects.find({}).forEach(function(project) {
+        if (project.name === undefined) {
           Projects.update(project._id, {
             $set: {
               name: project.description,
@@ -350,9 +350,59 @@ Migrations.add({
   name: "Remove stripe.blocked from all tenants",
   up: function() {
     ServerSession.set('maintenance', true);
-    Tenants.update({},
-      { $unset: { 'stripe.blocked': '' } }
-    );
+    Tenants.update({}, {
+      $unset: {
+        'stripe.blocked': ''
+      }
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 13,
+  name: "Migrate opportunity stages from collection to tenant settings object",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    var tenants = Tenants.find({}).fetch();
+
+    _.forEach(tenants, function(t) {
+
+      Partitioner.bindGroup(t._id, function() {
+        var stages = [];
+        var currentStages = OpportunityStages.find({}).fetch();
+
+        _.each(currentStages, function(stage, i) {
+          var stageData = {
+            title: stage.title,
+            description: stage.description,
+            order: stage.order,
+            id: i
+          };
+
+          Opportunities.update({
+            currentStageId: stage._id
+          }, {
+            $set: {
+              currentStageId: i
+            }
+          }, {
+            multi: true
+          })
+
+          stages.push(stageData);
+        });
+
+        Tenants.update(t._id, {
+          $set: {
+            'settings.opportunity.stages': stages
+          }
+        });
+
+      });
+
+    });
+
     ServerSession.set('maintenance', false);
   }
 });

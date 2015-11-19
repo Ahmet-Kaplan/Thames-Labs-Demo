@@ -1,3 +1,4 @@
+// // ##MARKER##
 Schemas.OpportunityStage = new SimpleSchema({
   title: {
     type: String
@@ -73,6 +74,7 @@ Schemas.Opportunity = new SimpleSchema({
     type: Boolean,
     optional: true
   },
+  // ##MARKER##
   currentStageId: {
     type: String,
     optional: true
