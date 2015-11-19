@@ -1,4 +1,5 @@
 Schemas = {};
-if (Meteor.isClient) {
-  SimpleSchema.debug = false;
+
+if (Meteor.isDevelopment) {
+  SimpleSchema.debug = true;
 }
