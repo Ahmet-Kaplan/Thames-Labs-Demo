@@ -3,6 +3,10 @@ Template.tagInput.onRendered(function() {
     entityId = this.data.entityId,
     self = this;
 
+  // Subscribe to existing tags for autosuggest
+  this.subscribe('tagsByCollection', collectionName);
+
+  // Initialise selectize
   this.$('.tag-input').selectize({
     placeholder: 'Click here to add a tag ...',
     valueField: 'name',
@@ -23,9 +27,8 @@ Template.tagInput.onRendered(function() {
       }
       return tag;
     },
-    options: Meteor.tags.find({
-      collection: collectionName,
-    }).fetch(),
+    // options is empty initially but reactively updated based on tags subscription
+    options: [],
     render: {
       item: function(item, escape) {
         return '<div>' +
@@ -65,11 +68,24 @@ Template.tagInput.onRendered(function() {
       });
     }
   });
+
+  // Store handle to selectize
+  this.selectize = this.$('.tag-input')[0].selectize;
+
+  // Update tag suggestion based on subscription
+  this.autorun( () => {
+    var existingTags = Meteor.tags.find({
+      collection: collectionName,
+    }).fetch();
+    this.selectize.addOption(existingTags);
+  });
+
 });
 
 Template.tagInput.helpers({
   hasPermission: function() {
-    return Roles.userIsInRole(Meteor.userId(), ['Administrator', Template.currentData().permissionToEdit]);
+    if (!this.permissionToEdit) return true;
+    return Roles.userIsInRole(Meteor.userId(), ['Administrator', this.permissionToEdit]);
   }
 })
 

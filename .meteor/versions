@@ -29,7 +29,7 @@ chrismbeckett:toastr@2.1.2_1
 coffeescript@1.0.11
 copleykj:tagstripper@1.0.0
 cosmos:browserify@0.5.1
-csauer:accounts-phony@0.0.5
+csauer:accounts-phony@0.1.0
 dandv:caret-position@2.1.1
 dbernhard:jquery-ui-draggable@0.1.2
 dburles:collection-helpers@1.0.4
@@ -43,7 +43,7 @@ ddp-server@1.2.2
 deps@1.0.9
 diff-sequence@1.0.1
 digilord:faker@1.0.7
-easy:search@2.0.0
+easy:search@2.0.4
 easysearch:components@2.0.4
 easysearch:core@2.0.3
 ecmascript@0.1.6
