@@ -19,11 +19,11 @@ Meteor.methods({
         newStage.order = i;
       });
 
-      // Tenants.update(userTenant._id, {
-      //   $set: {
-      //     'settings.opportunity.stages': newStages
-      //   }
-      // });
+      Tenants.update(userTenant._id, {
+        $set: {
+          'settings.opportunity.stages': newStages
+        }
+      });
 
     });
   },
@@ -31,8 +31,6 @@ Meteor.methods({
   checkStageInUse: function(stageId) {
     var user = Meteor.users.find(this.userId);
     return Partitioner.bindGroup(user.group, function() {
-      console.log(Opportunities.find({}));
-      
       if (Opportunities.find({
           currentStageId: stageId
         }).count() > 0) {

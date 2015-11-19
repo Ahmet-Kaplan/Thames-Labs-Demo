@@ -76,7 +76,7 @@ Schemas.Opportunity = new SimpleSchema({
   },
   // ##MARKER##
   currentStageId: {
-    type: String,
+    type: Number,
     optional: true
   },
   createdBy: {

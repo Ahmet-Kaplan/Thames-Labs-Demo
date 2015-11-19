@@ -50,29 +50,18 @@ Template.opportunityAdminStage.events({
     }
 
     var id = this.id;
-    var inUse = false;
     Meteor.call('checkStageInUse', id, function(error, result) {
       if (error) throw new Meteor.Error(error);
-      inUse = result;
-    })
-
-    if (inUse === true) {
-      bootbox.alert("This opportunity stage is currently in use, and cannot be deleted.")
-      return;
-    }
-
-    bootbox.confirm("Are you sure you wish to delete this stage?", function(result) {
       if (result === true) {
-        Meteor.call('deleteOpportunityStage', id);
+        bootbox.alert("This opportunity stage is currently in use, and cannot be deleted.")
+        return;
+      } else {
+        bootbox.confirm("Are you sure you wish to delete this stage?", function(result) {
+          if (result === true) {
+            Meteor.call('deleteOpportunityStage', id);
+          }
+        });
       }
     });
-  }
-});
-
-Template.insertNewStageModal.helpers({
-  orderValue: function() {
-    var userTenant = Tenants.findOne({});
-    var stages = userTenant.settings.opportunity.stages;
-    return stages.length;
   }
 });
