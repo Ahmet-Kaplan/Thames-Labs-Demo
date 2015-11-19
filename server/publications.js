@@ -316,15 +316,6 @@ Meteor.publish("allOpportunities", function() {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Opportunities.find();
 });
-Meteor.publish("opportunityStages", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return OpportunityStages.find({}, {
-    sort: {
-      order: 1
-    }
-  });
-});
 Meteor.publish("opportunityById", function(oppId) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();

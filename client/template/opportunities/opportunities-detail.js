@@ -27,7 +27,6 @@ Template.opportunityDetail.onCreated(function() {
   var id = FlowRouter.getParam('id');
 
   // Subscribe to fixed data sources
-  this.subscribe('opportunityStages');
   this.subscribe('activityByOpportunityId', id);
   this.subscribe('tasksByEntityId', id);
 

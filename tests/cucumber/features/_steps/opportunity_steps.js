@@ -3,15 +3,6 @@ module.exports = function() {
   var url = require('url');
 
   //Adding
-  this.Given(/^opportunity stages have been created$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('addOpportunityStages', function() {
-          done();
-        });
-      })
-  });
-
   this.When(/^I navigate to an opportunity page$/, function() {
     browser.url(url.resolve(process.env.ROOT_URL, '/opportunities'));
     browser.waitForExist('.list-group-item', 2000);

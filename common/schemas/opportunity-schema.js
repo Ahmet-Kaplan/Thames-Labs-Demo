@@ -1,17 +1,3 @@
-// // ##MARKER##
-Schemas.OpportunityStage = new SimpleSchema({
-  title: {
-    type: String
-  },
-  description: {
-    type: String
-  },
-  order: {
-    type: Number
-  }
-});
-OpportunityStages.attachSchema(Schemas.OpportunityStage);
-
 Schemas.Opportunity = new SimpleSchema({
   name: {
     type: String

@@ -78,7 +78,6 @@ Meteor.methods({
   },
 
   createDefaultOpportunityStages: function() {
-    // ##MARKER##
 
     var user = Meteor.users.find(this.userId);
     if (user) {
