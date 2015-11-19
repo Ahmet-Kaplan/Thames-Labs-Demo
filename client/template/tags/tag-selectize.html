@@ -5,16 +5,12 @@
   permissionToEdit: the name of the permission required to edit the tags - if not
                     set then always show
  -->
-<template name="tagInput">
-  <div id="tag-list-display">
-    {{#if inputMode}}
-      {{> tagSelectize}}
+<template name="tagSelectize">
+  <select class="tag-input" name='tags[]' multiple="multiple">
+    {{#each tags}}
+      <option value="{{this}}" selected="true">{{this}}</option>
     {{else}}
-      {{#if hasPermission}}
-        <a href="#" class="pull-right badge editTags"><i class="fa fa-fw fa-tag"></i></a>
-      {{/if}}
-      {{> tagBadges}}
-    {{/if}}
-    <div class="clearfix"></div>
-  </div>
+      <!-- intentionally left blank to prevent blaze error -->
+    {{/each}}
+  </select>
 </template>
