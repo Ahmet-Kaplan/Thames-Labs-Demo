@@ -1,5 +1,42 @@
 Meteor.methods({
 
+  changeStageOrder: function(stageId, direction) {
+    var user = Meteor.users.find(this.userId);
+    Partitioner.bindGroup(user.group, function() {
+      var userTenant = Tenants.findOne({});
+      var currentStages = userTenant.settings.opportunity.stages.sort(function(a, b) {
+        if (a.order < b.order) return -1;
+        if (a.order > b.order) return 1;
+        return 0;
+      });
+      var step = (direction === "up" ? -1 : 1);
+      var orderKey = -1;
+
+      _.each(currentStages, function(stage) {
+        if (stage.id === stageId) {
+          stage.order = stage.order + step;
+          orderKey = stage.order;
+        }
+      });
+
+      _.each(currentStages, function(stage) {
+        if (stage.id !== stageId) {
+          if (stage.order === orderKey) {
+            stage.order = stage.order + (direction === "up" ? 1 : -1);
+          }
+        }
+      });
+
+      Tenants.update(userTenant._id, {
+        $set: {
+          'settings.opportunity.stages': currentStages
+        }
+      });
+
+    });
+
+  },
+
   deleteOpportunityStage: function(stageId) {
     var user = Meteor.users.find(this.userId);
     Partitioner.bindGroup(user.group, function() {

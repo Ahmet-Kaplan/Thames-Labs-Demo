@@ -8,11 +8,7 @@
     </div>
     <p style="padding: 15px">These are the stages through which your opportunities will progress. Configure them below to match your sales pipeline.</p>
     <div class="opportunity-stage-container">
-      {{#if hasStages}}
-      {{#sortable items=stages ghostClass="opportunity-stage-ghost" options=options handle=".handle"}}
-        {{> opportunityAdminStage}}
-      {{/sortable}}
-      {{/if}}
+      {{#if hasStages}} {{#each stages}} {{> opportunityAdminStage}} {{/each}} {{/if}}
     </div>
   </div>
 </template>
@@ -22,9 +18,23 @@
     <div class="pull-right handle">
       <button class="btn btn-info btn-xs" id="btnEdit">Edit</button>
       <button class="btn btn-danger btn-xs" id="btnDelete">Delete</button>
-      <i class="fa fa-fw fa-bars"></i>
+      <span>
+        {{#if isFirstStage}}
+          <i class="fa fa-fw fa-arrow-up orderDisabled" ></i>
+        {{else}}
+          <i class="fa fa-fw fa-arrow-up" id="orderUp"></i>
+        {{/if}}
+      </span>
+      <span>
+        {{#if isLastStage}}
+          <i class="fa fa-fw fa-arrow-down orderDisabled" ></i>
+        {{else}}
+          <i class="fa fa-fw fa-arrow-down" id="orderDown"></i>
+        {{/if}}
+      </span>
     </div>
-    <h4>{{title}} {{#if isFirstStage}} <small>(first stage)</small>{{/if}}</h4>
+    <h4>{{title}} {{#if isFirstStage}}
+      <small>(first stage)</small>{{/if}}</h4>
     <p>{{description}}</p>
   </li>
 </template>
