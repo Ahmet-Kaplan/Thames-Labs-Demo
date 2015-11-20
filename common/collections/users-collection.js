@@ -13,7 +13,7 @@ Collections.users.subscriptionById = 'allUserData';
 ////////////////////
 Collections.users.index = UsersIndex = new EasySearch.Index({
   collection: Meteor.users,
-  fields: ['profile.name', '_id'],
+  fields: ['profile.name'],
   engine: new EasySearch.MongoDB({
     fields: (searchObject, options) => {
       return {

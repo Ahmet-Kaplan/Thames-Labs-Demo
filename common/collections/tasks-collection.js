@@ -89,7 +89,8 @@ Collections.tasks.filters = {
     display: 'Tag:',
     prop: 'tags',
     collectionName: 'tags',
-    valueField: '__originalId',
+    autosuggestFilter: {collection: 'tasks'},
+    valueField: 'name',
     nameField: 'name'
   }
 };

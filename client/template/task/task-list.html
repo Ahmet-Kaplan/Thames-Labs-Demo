@@ -3,7 +3,7 @@
   <h1><i class="fa fa-fw fa-check"></i>{{#if showMine}} My{{/if}} Tasks{{#if showComp}} - <em>Completed</em>{{/if}}</h1>
   <div class="row">
     {{#if isInRole 'Administrator,CanCreateTasks'}}
-    <div class="col-md-3">
+    <div class="col-md-4">
       <div class="btn-group" role="group">
         <div class="btn-group" role="group">
           <button class="btn btn-primary dropdown-toggle{{#if isMobile}} btn-fullWidth{{/if}}" type="button" id="addTaskDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -23,15 +23,10 @@
       </div>
     </div>
     {{/if}}
-    <div class="col-md-3">
-      <div class="btn-group">
-        <button type="button" class="btn btn-{{#if showMine}}success{{else}}default{{/if}}" id="tskToggleMine" >
-          Show my tasks
-        </button>
-        <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
-          Show completed
-        </button>
-      </div>
+    <div class="col-md-8">
+      <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
+        Show completed
+      </button>
     </div>
   </div>
 

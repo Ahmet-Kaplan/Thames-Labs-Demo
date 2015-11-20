@@ -7,17 +7,19 @@ The filters themselves are stored in the collection file as an object alongside 
 
 The filter object itself is built as follow:
 
-  nameOfTheFilter: {                                      Name of the property on which the filter will work. Note that this must be the name of the prop in the easy search index
-    display: 'MyField:',              String              Text that will be used for triggering the dropdown (case insensitive) and to display the filter tag
-    prop: 'nameOfTheFilter',          String              The name of the prop in the easy search index. A corresponding rule must be defined in options.search.props.prop
-                                                          MUST be identical to the key to allow displaying in tags (dirty hack)
-    collectionName: 'myCollection',   String              The collection from which the dropdown list will be generated and looked for. 
-                                                          The code will look for Collections[collectionName].index so an index must be defined as well
-    valueField: '__originalId',       String              Name of the field returned by the search index that should be used as the value on the select <option value="valueField">nameField</option>
-    nameField: 'name',                String              Name of the field returned by the search index that should be used as the display on the select <option value="valueField">nameField</option>
-    subscriptionById: 'fieldById',    String (Optional)   Name of the subscription that must be used to fetch the object to display on the filter tag
-    displayValue: function(user) {    Function (Optional) Used to return the correct formatting of the field for the filter tag.
-      if(user) {                                          Takes one argument which is the unique object returned by the subscription
+  nameOfTheFilter: {                                          Name of the property on which the filter will work. Note that this must be the name of the prop in the easy search index
+    display: 'MyField:',                  String              Text that will be used for triggering the dropdown (case insensitive) and to display the filter tag
+    prop: 'nameOfTheFilter',              String              The name of the prop in the easy search index. A corresponding rule must be defined in options.search.props.prop
+                                                              MUST be identical to the key to allow displaying in tags (dirty hack)
+    collectionName: 'myCollection',       String              The collection from which the dropdown list will be generated and looked for. 
+                                                              The code will look for Collections[collectionName].index so an index must be defined as well
+    autosuggestFilter: {prop1: 'value'},  Object (Optional)   The props that must be applied to the collection before the autosuggest is rendered.
+                                                              For instance in the case of tags the filter could be {collection: 'tasks'} to restrict the autosuggest to only the tasks tags.
+    valueField: '__originalId',           String              Name of the field returned by the search index that should be used as the value on the select <option value="valueField">nameField</option>
+    nameField: 'name',                    String              Name of the field returned by the search index that should be used as the display on the select <option value="valueField">nameField</option>
+    subscriptionById: 'fieldById',        String (Optional)   Name of the subscription that must be used to fetch the object to display on the filter tag
+    displayValue: function(user) {        Function (Optional) Used to return the correct formatting of the field for the filter tag.
+      if(user) {                                              Takes one argument which is the unique object returned by the subscription
         return user.profile.name;
       }
     }
@@ -33,11 +35,13 @@ if(options.search.props.nameOfTheFilter) {
 */
 
 var currentFilter = new ReactiveVar({});
+var searchInput = new ReactiveVar('')
 var handle = '';
 
-function displayFilter(search, mainCollectionName, selectize) {
+function displayFilter(mainCollectionName, selectize) {
   var filters = Collections[mainCollectionName].filters;
   handle = Tracker.autorun(function() {
+    var search = searchInput.get();
     var matchedFilters = _.some(filters, function(filter) {
 
       var filterRegexp = new RegExp(filter.display.trim(), 'i')
@@ -48,16 +52,20 @@ function displayFilter(search, mainCollectionName, selectize) {
 
         //Retrieve search input to update the filter's dropdown
         var searchString = search.toLowerCase().split(filter.display.toLowerCase())[1] ? search.toLowerCase().split(filter.display.toLowerCase())[1].trim() : '';
+        //Defined additional props if needed (e.g. tags are restricted to the current collection)
+        var props = filter.autosuggestFilter || {};
+        props.autosuggest = true;
 
         selectize.clearOptions();
-        var recordsCursor = Collections[filter.collectionName].index.search(searchString, {props: {autosuggest: true}});
-
+        var recordsCursor = Collections[filter.collectionName].index.search(searchString, {
+          props: props
+        });
           if(recordsCursor.isReady()){
             var records = recordsCursor.fetch();
             _.each(records, function(record) {
               selectize.addOption({_id: record[filter.valueField], name: filter.display + ' ' + record[filter.nameField]});
-              selectize.refreshOptions(true);
             });
+            selectize.refreshOptions(true);
 
           }
 
@@ -79,10 +87,13 @@ function displayFilter(search, mainCollectionName, selectize) {
 }
 
 function applyFilter(text, value, mainCollectionName, selectize) {
+  //If user click on an item in the generated filters list, trigger filter display
   if(value.search('setFilter') !== -1) {
     selectize.clearOptions();
     $('#filtersSearch input').val(text + ' ');
-    displayFilter(text + ' ', mainCollectionName, selectize);
+    searchInput.set(text + ' ');
+
+  //Otherwise apply the said filter
   } else {
     var filter = currentFilter.get();
     var filterRegexp = new RegExp(filter.display.trim(), 'i')
@@ -100,6 +111,7 @@ function applyFilter(text, value, mainCollectionName, selectize) {
         Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);
       }
       selectize.clearOptions();
+      selectize.blur();
     }
   }
 }
@@ -121,18 +133,20 @@ Template.filterBox.onRendered(function() {
     delimiter: ',',
     persist: false,
     onFocus: function() {
-      displayFilter('', mainCollectionName, this);
+      searchInput.set('');
+      displayFilter(mainCollectionName, this);
     },
     onBlur: function() {
       this.clearOptions();
     },
     load: function(query) {
       this.clearOptions();
-      displayFilter(query, mainCollectionName, this);
+      searchInput.set(query);
+      displayFilter(mainCollectionName, this);
     },
     onItemAdd: function(value, $item) {
       var text = $($item).text();
-      applyFilter(text, value, mainCollectionName, this)
+      applyFilter(text, value, mainCollectionName, this);
     }
   });
 });
