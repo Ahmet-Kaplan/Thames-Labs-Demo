@@ -10,6 +10,7 @@ Feature: Allow users to manage their sales opportunities
     And I have the "CanReadCompanies" permission
     And I have the "CanReadOpportunities" permission
 
+
   #Reading
   Scenario: A user can see the opportunities list
     When I navigate to "/opportunities"
@@ -19,7 +20,7 @@ Feature: Allow users to manage their sales opportunities
   Scenario: The opportunities list contains company / contact name
     Given an "Opportunity" has been created
     When I navigate to "/opportunities"
-    Then I should see ".list-group-item"
+    Then I should see ".list-group-item:not(#moar)"
     And ".list-group-item-text" should contain "Test Ltd"
 
   Scenario: A user without permission cannot see the opportunities list

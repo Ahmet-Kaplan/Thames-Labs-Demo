@@ -9,7 +9,6 @@ Feature: Allow users to manage their Tasks
     And I am a logged in user
     And I have the "CanReadTasks" permission
 
-
   #Reading
   Scenario: A user can see the tasks list
     When I navigate to "/tasks"

@@ -14,8 +14,7 @@ module.exports = function() {
 
   this.When(/^I navigate to an opportunity page$/, function() {
     browser.url(url.resolve(process.env.ROOT_URL, '/opportunities'));
-    browser.waitForExist('.list-group-item', 5000);
-    browser.waitForVisible('.list-group-item', 5000);
+    browser.waitForExist('.list-group-item:not(#moar)', 2000);
     browser.click('.list-group-item');
   });
 
