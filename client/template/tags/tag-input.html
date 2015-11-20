@@ -13,7 +13,11 @@
       {{#if hasPermission}}
         <a href="#" class="pull-right badge editTags"><i class="fa fa-fw fa-tag"></i></a>
       {{/if}}
-      {{> tagBadges}}
+      {{#if tags}}
+        {{> tagBadges}}
+      {{else}}
+        <a href="#" class="text-muted"><small>Click to add tags ...</small></a>
+      {{/if}}
     {{/if}}
     <div class="clearfix"></div>
   </div>

@@ -8,7 +8,7 @@ Template.tagSelectize.onRendered(function() {
 
   // Initialise selectize
   this.$('.tag-input').selectize({
-    placeholder: 'Click here to add a tag ...',
+    placeholder: 'Add tags ...',
     valueField: 'name',
     labelField: 'name',
     searchField: ['name'],
