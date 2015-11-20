@@ -77,7 +77,7 @@ Template.extInfo.onRendered(function() {
       $(safeName + "AdvTextInputArea").show();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").hide();
-      
+
       editor = new MediumEditor('.editable', {
         placeholder: {
           text: 'Type or paste your content here...'

@@ -5,7 +5,7 @@ Template.cfDisplay.helpers({
   trimmedName: function() {
     return this.name.replace(/\s/g, '');
   },
-  isAdvancedText: function(){
+  isAdvancedText: function() {
     return this.type === "advtext";
   }
 });
