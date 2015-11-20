@@ -217,32 +217,32 @@ Meteor.methods({
     userDetails.email = userDetails.email.toLowerCase();
     check(userDetails, Schemas.UserSignUp);
 
-    var user = {
-      email: userDetails.email,
-      password: userDetails.password,
-      roles: [],
-      group: "",
-      name: userDetails.name
-    };
-
-    check(user, Schemas.User);
-
-    var userId = Accounts.createUser({
-      email: userDetails.email,
-      password: userDetails.password,
-      profile: {
-        name: userDetails.name,
-        lastLogin: null,
-        lastActivity: {
-          page: null,
-          url: null
-        },
-        poAuthLevel: 100000
-      }
-    });
-
     //This needs to be run on the server, otherwise client errors occur
     if (Meteor.isServer) {
+
+      var user = {
+        email: userDetails.email,
+        password: userDetails.password,
+        roles: [],
+        group: "",
+        name: userDetails.name
+      };
+
+      check(user, Schemas.User);
+
+      var userId = Accounts.createUser({
+        email: userDetails.email,
+        password: userDetails.password,
+        profile: {
+          name: userDetails.name,
+          lastLogin: null,
+          lastActivity: {
+            page: null,
+            url: null
+          },
+          poAuthLevel: 100000
+        }
+      });
 
       Roles.addUsersToRoles(userId, ["Administrator"]);
 

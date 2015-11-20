@@ -33,6 +33,10 @@ Schemas.Project = new SimpleSchema({
   value: {
     type: Number
   },
+  active: {
+    type: Boolean,
+    defaultValue: true
+  },
   createdBy: {
     type: String,
     autoform: {
@@ -65,6 +69,14 @@ Schemas.Project = new SimpleSchema({
   staff: {
     type: [String],
     optional: true
+  },
+  customFields: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
   }
 });
 Schemas.Project.messages({

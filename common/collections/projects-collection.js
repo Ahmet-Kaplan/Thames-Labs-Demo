@@ -70,6 +70,9 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
         // n.b. tags is a comma separated string
         selector.tags = { $in: options.search.props.tags.split(',') };
       }
+      if (options.search.props.searchById) {
+        selector._id = options.search.props.searchById;
+      }
       return selector;
     },
   })
@@ -80,6 +83,25 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
 //////////////////////
 
 Projects.after.insert(function(userId, doc) {
+  if (!Roles.userIsInRole(userId, ['superadmin'])) {
+    var user = Meteor.users.findOne(userId);
+    var tenant = Tenants.findOne(user.group);
+    var projectCustomFields = tenant.settings.extInfo.project;
+
+    var cfMaster = {};
+    _.each(projectCustomFields, function(cf) {
+
+      var field = {
+        dataValue: cf.defaultValue,
+        dataType: cf.type,
+        isGlobal: true
+      };
+
+      cfMaster[cf.name] = field;
+    });
+    doc.customFields = cfMaster;
+  }
+
   logEvent('info', 'A new project has been created: ' + doc.description);
 });
 

@@ -154,10 +154,6 @@ var updateUserPermissions = function() {
     "CanCreatePurchaseOrders",
     "CanEditPurchaseOrders",
     "CanDeletePurchaseOrders",
-    "CanReadDataManagement",
-    "CanCreateDataManagement",
-    "CanEditDataManagement",
-    "CanDeleteDataManagement",
     "CanReadEventLog",
     "CanCreateEventLog",
     "CanEditEventLog",
@@ -204,10 +200,6 @@ var revertUserPermissions = function() {
     "CanCreatePurchaseOrders",
     "CanEditPurchaseOrders",
     "CanDeletePurchaseOrders",
-    "CanReadDataManagement",
-    "CanCreateDataManagement",
-    "CanEditDataManagement",
-    "CanDeleteDataManagement",
     "CanReadEventLog",
     "CanCreateEventLog",
     "CanEditEventLog",
@@ -349,6 +341,18 @@ Migrations.add({
     ServerSession.set('maintenance', true);
     defineGlobalCustomFields('companies');
     defineGlobalCustomFields('contacts');
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 12,
+  name: "Remove stripe.blocked from all tenants",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Tenants.update({},
+      { $unset: { 'stripe.blocked': '' } }
+    );
     ServerSession.set('maintenance', false);
   }
 });

@@ -23,10 +23,6 @@ Template.companyDetail.onCreated(function() {
   this.subscribe('tasksByEntityId', companyId);
   this.subscribe('opportunitiesByCompanyId', companyId);
   this.subscribe('opportunityStages');
-  
-  if (hopscotch.getState() === "welcome-tour:14") {
-    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
-  }
 });
 
 Template.companyDetail.onRendered(function() {

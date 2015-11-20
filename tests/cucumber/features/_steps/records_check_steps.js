@@ -6,7 +6,4 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^I am a blocked user$/, function() {
-    server.call('setBlockedTenant');
-  });
 };

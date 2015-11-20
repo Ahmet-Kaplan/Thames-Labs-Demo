@@ -1,5 +1,7 @@
 Collections.auditLog = AuditLog = new Mongo.Collection('audit');
 
+Partitioner.partitionCollection(AuditLog);
+
 ////////////////////
 // SEARCH INDICES //
 ////////////////////
@@ -31,7 +33,9 @@ Collections.auditLog.index = AuditLogIndex = new EasySearch.Index({
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
-      
+      if (options.search.props.searchById) {
+        selector._id = options.search.props.searchById;
+      }
       return selector;
     }
   })

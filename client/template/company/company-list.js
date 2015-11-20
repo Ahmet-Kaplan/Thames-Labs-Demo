@@ -3,22 +3,6 @@ Template.companyList.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
   });
-
-  if (hopscotch.getState() === "welcome-tour:9") {
-    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
-  }
-});
-
-Template.companyList.onRendered(function() {
-  // Watch for session variable setting search
-  Session.set('companyListSearchQuery', null);
-  this.autorun(function() {
-    var searchQuery = Session.get('companyListSearchQuery');
-    if (searchQuery) {
-      CompaniesIndex.getComponentMethods().search(searchQuery);
-      $('.sidebar input').val(searchQuery);
-    }
-  });
 });
 
 Template.companyList.helpers({

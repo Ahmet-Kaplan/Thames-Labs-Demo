@@ -27,6 +27,9 @@ Collections.tags.index = TagsIndex = new EasySearch.Index({
       if (options.search.props.collection) {
         selector.collection = options.search.props.collection;
       }
+      if (options.search.props.searchById) {
+        selector._id = options.search.props.searchById;
+      }
       return selector;
     }
   })

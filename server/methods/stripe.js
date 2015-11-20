@@ -15,7 +15,8 @@ Server.post('/webhook/stripe', function(req, res) {
     res.send(200);
   } else {
     Stripe.events.retrieve(req.body.id, function(err, event) {
-      if (err || !event) {
+      // if (err) { || !event) {
+      if (err) {
         Meteor.log._(err);
         return res.send(401);
       }
@@ -95,8 +96,7 @@ Meteor.methods({
         $set: {
           "stripe.stripeId": customer.id,
           "stripe.stripeSubs": customer.subscriptions.data[0].id,
-          "stripe.paying": true,
-          "stripe.blocked": false
+          "stripe.paying": true
         }
       });
 
@@ -139,8 +139,7 @@ Meteor.methods({
       Tenants.update(tenantId, {
         $set: {
           "stripe.stripeSubs": subscription.id,
-          "stripe.paying": true,
-          "stripe.blocked": false
+          "stripe.paying": true
         }
       });
       stripeSubscription.return(subscription);
@@ -157,7 +156,7 @@ Meteor.methods({
       _id: tenantId
     });
     if (!theTenant) {
-      LogServerEvent('error', 'Unable to update Stripe Quantity for tenant of user ' + superadminUserId + '/tenant ' + tenantId);
+      LogServerEvent('error', 'Unable to update Stripe Quantity for tenant of user ' + superadminTenantId + '/tenant ' + tenantId);
       return false;
     }
     if (theTenant.stripe.paying === false || theTenant.stripe.freeUnlimited) {
@@ -293,8 +292,7 @@ Meteor.methods({
 
       Tenants.update(tenantId, {
         $set: {
-          "stripe.paying": true,
-          "stripe.blocked": false
+          "stripe.paying": true
         }
       });
 

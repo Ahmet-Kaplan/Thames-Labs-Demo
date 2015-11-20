@@ -1,28 +1,20 @@
-<template name="dataWarnings">
+<template name="importCompanyHelpModal">
   <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
-
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <i class="fa fa-fw fa-exclamation-triangle text-danger"></i> {{count}} error(s) occurred whilst attempting to import the data. Please verify and try again.
+          <h4>Importing with templates</h4>
         </div>
-
         <div class="modal-body">
-          <ol class="warning-display">
-            {{#each errors}}
-              {{> warnItem}}
-            {{/each}}
+          <p>Importing companies couldn't be simpler:</p>
+          <ol type="1">
+            <li>Export your data as a CSV, with the first row displaying the column headers you've used.</li>
+            <li>Click the Import option.</li>
+            <li>Select the completed file and press the Open button.</li>
           </ol>
         </div>
-
       </div>
     </div>
   </div>
-</template>
-
-<template name="warnItem">
-  <li>
-    {{message}}
-  </li>
 </template>

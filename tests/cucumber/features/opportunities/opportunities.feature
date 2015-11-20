@@ -157,18 +157,36 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     And I click "#next-stage"
     Then I should see "#previous-stage"
+    And "#timeline" should contain "test user moved this opportunity forward from stage"
     When I click "#previous-stage"
     Then I should not see "#previous-stage"
+    And "#timeline" should contain "test user moved this opportunity back from stage"
 
-  Scenario: A user can mark an opportunity as lost
+  Scenario: A user can mark an opportunity as lost and reopen it
     Given I have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
     When I navigate to an opportunity page
     And I click "#lost-opportunity"
     And I click confirm on the modal
     Then I should see that the opportunity has been lost
+    And "#timeline" should contain "test user marked this opportunity as lost"
+    And I should see "#reopen-opportunity"
+    When I click "#reopen-opportunity"
+    And I click confirm on the modal
+    Then I should see "#next-stage"
+    And "#timeline" should contain "test user reopened this opportunity"
 
-  Scenario: A user can mark an opportunity as won
+  Scenario: A user without edit permissions cannot reopen an opportunity
+    Given I have the "CanEditOpportunities" permission
+    And an "Opportunity" has been created
+    When I navigate to an opportunity page
+    And I click "#lost-opportunity"
+    And I click confirm on the modal
+    Then I should see that the opportunity has been lost
+    Given I do not have the "CanEditOpportunities" permission
+    Then I should not see "#reopen-opportunity"
+
+  Scenario: A user can mark an opportunity as won but not reopen it
     Given I have the "CanEditOpportunities" permission
     And I have the "CanReadProjects" permission
     And an "Opportunity" has been created
@@ -179,7 +197,9 @@ Feature: Allow users to manage their sales opportunities
     And I click confirm on the modal
     Then I should see that an project has been created from the opportunity
     And "#timeline" should contain "Converted from won opportunity"
-
+    When I navigate backwards in the browser history
+    And "#timeline" should contain "test user marked this opportunity as won"
+    And I should not see "#reopen-opportunity"
 
   #Opportunity Line Items
   Scenario: A user can add a line item to an opportunity
@@ -243,8 +263,8 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     And I click "#btnAddTaskToEntity"
     Then I should see a modal
-    And I selectize "assigneeId" to "test user"
     When I set text field "title" to "task title"
+    And I selectize "assigneeId" to "test user"
     And I submit the "newTask" form
     Then I should see the heading "task title"
 

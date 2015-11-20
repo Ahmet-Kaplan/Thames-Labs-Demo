@@ -10,7 +10,7 @@
 
         <div class="modal-body">
          {{#autoForm collection="Companies" id="insertNewCompanyForm" type="insert"}}
-            {{> afQuickField name="name"}}
+            {{> afQuickField name="name" id="addCompanyName"}}
             <div class="form-group">
               <label for="geo" class="control-label">Search for Address, City, etc.</label>
               <input type="text" id="geo" class="form-control" autocomplete="off" />
@@ -32,10 +32,10 @@
                 </div>
               {{/if}}
             </div>
-            {{> afQuickField name="website"}}
+            {{> afQuickField name="website" id="addCompanyWebsite"}}
             {{> afQuickField name="phone"}}
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" id="createCompany">Create</button>
           {{/autoForm}}
         </div>
 

@@ -24,7 +24,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
   fields: ['title', 'tags'],
   engine: new EasySearch.MongoDB({
     sort: () => {
-      return { 'title': 1 }
+      return { 'dueDate': 1 }
     },
     fields: (searchObject, options) => {
       return {
@@ -56,6 +56,9 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
       if (options.search.props.tags) {
         // n.b. tags is a comma separated string
         selector.tags = { $in: options.search.props.tags.split(',') };
+      }
+      if (options.search.props.searchById) {
+        selector._id = options.search.props.searchById;
       }
       return selector;
     }

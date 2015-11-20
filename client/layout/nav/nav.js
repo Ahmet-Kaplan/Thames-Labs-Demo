@@ -3,26 +3,29 @@ Template.nav.onCreated(function() {
 
   this.autorun(function() {
     var getNotification = Notifications.findOne({
-      target: Meteor.userId()
+      target: {
+        $in: [Meteor.userId(), 'all']
+      }
     }, {
       sort: {
         createdAt: -1
       }
     });
-    if(getNotification && !getNotification.notified) {
-      if("Notification" in window) {
+
+    if (getNotification && !getNotification.notified && getNotification.target === Meteor.userId()) {
+      if ("Notification" in window) {
 
         var options = {
           body: getNotification.shortDescription + ": " + getNotification.detail,
           icon: '/dark-icon.svg'
         }
 
-        if(Notification.permission === "granted") {
+        if (Notification.permission === "granted") {
           new Notification(getNotification.title, options);
 
         } else if (Notification.permission !== "denied") {
           Notification.requestPermission(function(permission) {
-            if(permission === "granted") {
+            if (permission === "granted") {
               new Notification(getNotification.title, options);
             }
           })
@@ -70,10 +73,9 @@ Template.nav.helpers({
   },
   notifications: function() {
     return Notifications.find({
-      $or: [
-        {target: 'all'},
-        {target: Meteor.userId()}
-      ]
+      target: {
+        $in: [Meteor.userId(), 'all']
+      }
     }, {
       sort: {
         createdAt: -1
@@ -86,7 +88,11 @@ Template.nav.helpers({
     var yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    var recent = Notifications.find({}, {
+    var recent = Notifications.find({
+      target: {
+        $in: [Meteor.userId(), 'all']
+      }
+    }, {
       sort: {
         createdAt: -1
       },
@@ -107,10 +113,9 @@ Template.nav.helpers({
     yesterday.setDate(today.getDate() - 1);
 
     return Notifications.find({
-      $or: [
-        {target: 'all'},
-        {target: Meteor.userId()}
-      ]
+      target: {
+        $in: [Meteor.userId(), 'all']
+      }
     }).count();
   },
   favourites: function() {
@@ -127,7 +132,7 @@ Template.nav.helpers({
     }
   },
   limitReached: function() {
-    if(!Tenants.findOne({}) || Tenants.findOne({}).stripe.paying || Tenants.findOne({}).stripe.freeUnlimited) {
+    if (!Tenants.findOne({}) || Tenants.findOne({}).stripe.paying || Tenants.findOne({}).stripe.freeUnlimited) {
       return false;
     }
     var totalRecords = Tenants.findOne({}).stripe.totalRecords;
@@ -137,6 +142,18 @@ Template.nav.helpers({
 
 //NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
+  'click #start-welcome-tour': function() {
+    FlowRouter.go('dashboard');
+		hopscotch.endTour(true);
+    Session.set('hopscotch.welcomeTourStep');
+    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
+  },
+  'click #start-company-tutorial': function() {
+    FlowRouter.go('dashboard');
+		hopscotch.endTour(true);
+    Session.set('hopscotch.companyTutorialStep');
+    $.getScript('/vendor/hopscotch/tours/companies-tutorial.js');
+  },
   'click #tour-this-page': function() {
     var currentPageName = FlowRouter.getRouteName();
 

@@ -8,7 +8,7 @@ Meteor.startup(function() {
 
   //Rewrite Email.send function to avoid displaying
   //the whole email in the console during tests
-  if(process.env.IS_MIRROR) {
+  if(process.env.IS_MIRROR || Meteor.isDevelopment) {
     Email = {
       send: function(options) {
         if(options.text) {
@@ -48,7 +48,8 @@ Meteor.startup(function() {
         $set: {
           "settings.extInfo": {
             company: [],
-            contact: []
+            contact: [],
+            project: []
           }
         }
       });
@@ -60,16 +61,6 @@ Meteor.startup(function() {
 
   _.forEach(users, function(u) {
     if (u.profile) {
-
-      if (typeof u.profile.welcomeTour === "undefined") {
-
-        Meteor.users.update(u._id, {
-          $set: {
-            "profile.welcomeTour": false
-          }
-        });
-
-      }
 
       if (typeof u.profile.lastLogin === "undefined") {
 

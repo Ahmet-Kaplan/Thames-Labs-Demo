@@ -80,6 +80,9 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
           $in: options.search.props.tags.split(',')
         };
       }
+      if (options.search.props.searchById) {
+        selector._id = options.search.props.searchById;
+      }
       return selector;
     }
   })

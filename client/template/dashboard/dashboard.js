@@ -197,25 +197,12 @@ Template.dashboard.onRendered(function() {
   instanciateDashboard(savedWidgets);
 
   //Has user taken welcome tour yet?
-  if (Meteor.user().profile.welcomeTour === false) {
-    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
+  if (!Meteor.user().profile.welcomeTour) {
+    Modal.show("firstRun");
   }
 });
 
 Template.dashboard.events({
-	'click #dashboard-icon':function(){
-		Meteor.users.update(Meteor.userId(), {
-			$set: {
-				"profile.welcomeTour": false
-     	}
-    });
-	},
-  // 'click #test': function() {
-  //   Meteor.call('report.companiesStored', function(err, data) {
-  //     console.log(Meteor.isDevelopment);
-  //     console.log(err, data);
-  //   })
-  // },
   'change .grid-stack': function() {
     saveMyWidgets()
   },

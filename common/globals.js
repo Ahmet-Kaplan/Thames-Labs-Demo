@@ -32,9 +32,6 @@ permissions = [{
   displayName: 'Purchase Orders',
   value: 'PurchaseOrders'
 }, {
-  displayName: 'Data Management',
-  value: 'DataManagement'
-}, {
   displayName: 'Event Log',
   value: 'EventLog'
 }, {

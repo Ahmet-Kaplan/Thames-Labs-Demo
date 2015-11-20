@@ -1,19 +1,36 @@
+var sessionVar = 'hopscotch.welcomeTourStep';
+
+var updateSessionVar = function() {
+	Session.set(sessionVar, hopscotch.getCurrStepNum());
+};
+
 var welcomeTour = {
+	onShow: function() {
+		updateSessionVar();
+	},
+	onClose: function() {
+		// Clear sessionVar as we're actually done
+		Session.set(sessionVar);
+		hopscotch.endTour(true);
+  },
+	onEnd: function(){
+		// onEnd fires on route changes, so check if we're actually finished and
+		// resume if not
+		if (Session.get(sessionVar)) {
+			$.getScript('/vendor/hopscotch/tours/welcome_tour.js');
+		} else {
+			Meteor.call('welcomeTour.deleteTourData', function(err,res){
+				if(err) throw new Meteor.Error(err);
+				Modal.show('tourEnd');
+			});
+		}
+  },
   id: "welcome-tour",
   steps: [{
     title: "Welcome to RealTimeCRM!",
-    content: "Welcome to RealTimeCRM, an easy-to-use, cross-platform CRM from Cambridge Software. If you're a new user, and would like to take our guided tour of the features available in RealTime, click the Next button. If you're already familiar with RealTime, or would prefer to find things out on your own, feel free to close this tour - we won't pester you with it again.",
+    content: "Welcome to RealTimeCRM, an easy-to-use, cross-platform CRM from Cambridge Software. Click the Next button to start the tour.",
     target: document.querySelector('.navbar-brand'),
-    placement: "right",
-    onShow: function() {
-      Meteor.users.update({
-        _id: Meteor.userId()
-      }, {
-        $set: {
-          "profile.welcomeTour": true
-        }
-      });
-    }
+    placement: "right"
   }, {
     title: "Navigation",
     content: "On the left-hand side of the screen, you'll find a sidebar containing a number of links, which will take you to the relevant sections. The sidebar is ever present, allowing you to navigate to anywhere, from anywhere.",
@@ -54,9 +71,9 @@ var welcomeTour = {
     content: "In order to make the most of your experience with RealTime, you'll need some companies to work with. Let's go there now - if we click this link here...",
     target: document.querySelector('#menuLinkCompanies'),
     placement: "right",
-    multipage: true,
     onNext: function() {
-      window.location = "/companies"
+			updateSessionVar();
+			FlowRouter.go('companies');
     }
   }, {
     title: "Creating Companies",
@@ -64,36 +81,38 @@ var welcomeTour = {
     target: document.querySelector('#menuLinkCompanies'),
     placement: "right"
   }, {
-    title: "Company Sidebar",
-    content: "This is the sidebar. From it, you can search your companies, and add new ones. By default, all of your companies are shown, but you can narrow the list by entering part of either the company name, or of an associated tag (more on tags later).",
-    target: document.querySelector('.sidebar'),
-    placement: "right"
-  }, {
     title: "Creating a Company",
     content: "To create a company, simply click this button, fill in the form that appears and then click the Create button. ",
     target: document.querySelector('#add-company'),
-    placement: "right"
+    placement: "left"
   }, {
     title: "Viewing Your Companies",
     content: "Any companies you or your colleagues create will be listed here. You can access further information by left-clicking an item in the list.",
-    target: document.querySelector('#mchCompanyList'),
-    placement: "left"
+    target: document.querySelector('#companySearchResults'),
+    placement: "top"
   }, {
     title: "Viewing Your Companies",
     content: "To continue this tour, we'll create a company for you - click the Next button to do this now. Once created, we'll take you to the company detail page for the new company.",
     target: document.querySelector('#add-company'),
-    placement: "right",
-    multipage: true,
+    placement: "left",
     onNext: function() {
-    	Meteor.call('welcomeTour.createDemoCompany', function(err,data) {
-    		console.log('Generating new company...');
-      	if(err) throw new Meteor.Error(err);
-        window.location = "/companies/" + data;
+			updateSessionVar();
+      Meteor.call('welcomeTour.createDemoCompany', function(err, data) {
+        if (err) throw new Meteor.Error(err);
+				FlowRouter.go('company', {id: data});
       });
     }
   }, {
+    title: "",
+    content: "",
+    target: document.querySelector('#menuLinkCompanies'),
+    placement: "right",
+		onShow: function() {
+			hopscotch.nextStep();
+		}
+  }, {
     title: "Viewing Company Data",
-    content: "Whenever you create a company record, you will automaticall be taken to the detail page for it. Down the centre of the screen you'll find information about the company, as well as information regarding associated contacts, projects and other associated RealTime entities.",
+    content: "Whenever you create a company record, you will automatically be taken to the detail page for it. Down the centre of the screen you'll find information about the company, as well as information regarding associated contacts, projects and other associated RealTime entities.",
     target: document.querySelector('#company-details'),
     placement: "right"
   }, {
@@ -104,12 +123,12 @@ var welcomeTour = {
   }, {
     title: "Tagging A Company",
     content: "You can add custom tags to your company by typing them into this box. As you type, a list of similar tags that already exist will appear - if you want to use one of those instead, simply left-click it. If the tag doesn't already exist, you can add it by pressing enter; it will then show up in subsequent tagging exercises. Tags will appear both here and in the company list - clicking them in the list will filter it to only companies who have that tag assigned.",
-    target: document.querySelector('.selectize-control'),
+    target: document.querySelector('#toggleTags'),
     placement: "right"
   }, {
     title: "Removing A Company Tag",
     content: "To remove a tag, place your cursor after it in the list and press the Backspace key. If you've used it in several places, then the tag will still appear in the list when you add new ones, otherwise, it will be fully removed. Tags are independent of entity - if you have the same tag for companies and contacts, removing all instances of it against companies will not affect the contact tags in any way.",
-    target: document.querySelector('.selectize-control'),
+    target: document.querySelector('#toggleTags'),
     placement: "right"
   }, {
     title: "Editing Details",
@@ -155,11 +174,17 @@ var welcomeTour = {
     title: "More On Extended Information",
     content: "All extended information will appear here. You can delete extended information entries by clicking the Delete button next to the relevant entry. Note that only your organisation's administrators can delete global extended information.",
     target: document.querySelector('#custom-field-container'),
-    placement: "right"
+    placement: "right",
+		onShow: function() {
+			Session.set(sessionVar);
+		}
   }],
-  showPrevButton: true,
   showCloseButton: true
 };
 
 // Start the tour!
-hopscotch.startTour(welcomeTour);
+if (Session.get(sessionVar)) {
+	hopscotch.startTour(welcomeTour, Session.get(sessionVar));
+} else {
+	hopscotch.startTour(welcomeTour);
+}

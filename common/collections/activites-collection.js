@@ -69,7 +69,7 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
     entityName = "Project: " + entity.description;
   }
   if (doc.purchaseOrderId) {
-    entity = Projects.findOne(doc.purchaseOrderId);
+    entity = PurchaseOrders.findOne(doc.purchaseOrderId);
     entityName = "Purchase Order: " + entity.description;
   }
   if (doc.taskId) {
@@ -104,7 +104,7 @@ Activities.after.remove(function(userId, doc) {
     entityName = "Project: " + entity.description;
   }
   if (doc.purchaseOrderId) {
-    entity = Projects.findOne(doc.purchaseOrderId);
+    entity = PurchaseOrders.findOne(doc.purchaseOrderId);
     entityName = "Purchase Order: " + entity.description;
   }
   if (doc.taskId) {

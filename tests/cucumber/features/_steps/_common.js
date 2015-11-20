@@ -75,6 +75,10 @@ module.exports = function() {
     browser.url(path);
   });
 
+  this.When(/^I navigate backwards in the browser history$/, function() {
+    browser.back();
+  });
+
   this.When(/^the page is loaded$/, function() {
     browser.executeAsync(function(done) {
       //This is used to wait for the data to be loaded.
@@ -143,8 +147,8 @@ module.exports = function() {
     browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
     browser.click('select#' + selector + ' + .selectize-control>.selectize-input');
     browser.keys([value]);
-    expect(browser.getValue('select#' + selector + ' + .selectize-control>.selectize-input input')).toContain(value);
-    browser.keys(['Enter']);
+    browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-dropdown');
+    browser.click('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>div:first-child');
   });
 
   this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName) {
