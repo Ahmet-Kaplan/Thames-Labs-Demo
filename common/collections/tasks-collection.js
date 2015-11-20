@@ -92,6 +92,20 @@ Collections.tasks.filters = {
     autosuggestFilter: {collection: 'tasks'},
     valueField: 'name',
     nameField: 'name'
+  },
+  dueDate: {
+    display: 'Due Date:',
+    prop: 'dueDate',
+    verify: function(dueDate) {
+      if(!moment(dueDate).isValid()) {
+        if(Meteor.isClient) {
+          toastr.error('Invalid date', 'Error', {preventDuplicates: true});
+        }
+        return false;
+      } else {
+        return true;
+      }
+    }
   }
 };
 
@@ -147,18 +161,29 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         selector.entityId = {$in: options.search.props.project.split(',')};
       }
 
-      if (options.search.props.tags) {
+      if(options.search.props.tags) {
         // n.b. tags is a comma separated string
         selector.tags = { $in: options.search.props.tags.split(',') };
       }
 
-      if (options.search.props.showCompleted) {
+      if(options.search.props.dueDate) {
+        var dueDate = options.search.props.dueDate;
+        if(moment(dueDate).isValid()) {
+          selector.dueDate = {
+            $gte: moment(dueDate).startOf('day').toDate(),
+            $lte: moment(dueDate).endOf('day').toDate()
+          }
+        }
+
+      }
+
+      if(options.search.props.showCompleted) {
         selector.completed = true;
       } else {
         selector.completed = { $ne: true };
       }
 
-      if (options.search.props.searchById) {
+      if(options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
 

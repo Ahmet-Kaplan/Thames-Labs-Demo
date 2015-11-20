@@ -22,6 +22,13 @@ The filter object itself is built as follow:
       if(user) {                                              Takes one argument which is the unique object returned by the subscription
         return user.profile.name;
       }
+    },
+    verify: function(value) {             Function (Optional) For filters that do not take a collection as input, you can use this function to check the validity of the input
+      if(value.isValid()) {                                   before the prop is defined. The function must return true if the input is valid, false otherwise.
+        return true;                                          In the latter case, the prop will not be set.
+      } else {                                                For example, if the input must be a date, we can check that the date is valid before actually setting it.
+        return false;
+      }
     }
   }
 
@@ -57,18 +64,23 @@ function displayFilter(mainCollectionName, selectize) {
         props.autosuggest = true;
 
         selectize.clearOptions();
-        var recordsCursor = Collections[filter.collectionName].index.search(searchString, {
-          props: props
-        });
+        //If filter is searchable, i.e. has a collection (unlike date, value...)
+        if(filter.collectionName) {
+          var recordsCursor = Collections[filter.collectionName].index.search(searchString, {
+            props: props
+          });
           if(recordsCursor.isReady()){
             var records = recordsCursor.fetch();
             _.each(records, function(record) {
               selectize.addOption({_id: record[filter.valueField], name: filter.display + ' ' + record[filter.nameField]});
             });
             selectize.refreshOptions(true);
-
           }
-
+        //If filter doesn't have collection, allow creation to handle the search
+        } else {
+          selectize.addOption({_id: 'setUnlistedFilter', name: 'Apply ' + search});
+          selectize.refreshOptions(true);
+        }
         return true;
       }
 
@@ -92,6 +104,25 @@ function applyFilter(text, value, mainCollectionName, selectize) {
     selectize.clearOptions();
     $('#filtersSearch input').val(text + ' ');
     searchInput.set(text + ' ');
+
+  //If the filter is not a predefined value (e.g. date)
+  } else if(value === "setUnlistedFilter") {
+    var filter = currentFilter.get();
+    text = text.split(filter.display);
+    value = text[text.length -1].trim();
+
+    console.log(filter.verify, filter.verify(value));
+
+    if(filter.verify && !filter.verify(value)) {
+      selectize.clearOptions();
+      selectize.blur();
+      return false;  
+    } else {
+      //Apply prop (no need to differenciate define/update since it's a unique value, not an array of values)
+      Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);    
+      selectize.clearOptions();
+      selectize.blur();
+    }
 
   //Otherwise apply the said filter
   } else {
