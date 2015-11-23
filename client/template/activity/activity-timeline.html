@@ -30,6 +30,10 @@
             <div class="timeline-body">
               {{{content}}}
             </div>
+            <div class="timeline-footer">
+              <br />
+              {{> tagInput tags=tags collection='activities' entityId=_id}}
+            </div>
           </div>
         </li>
       {{/each}}

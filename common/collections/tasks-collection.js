@@ -1,6 +1,5 @@
-Tasks = new Mongo.Collection('tasks');
-Collections.tasks = Tasks;
-Partitioner.partitionCollection(Tasks); 
+Collections.tasks = Tasks = new Mongo.Collection('tasks');
+Partitioner.partitionCollection(Tasks);
 Tags.TagsMixin(Tasks);
 
 Tasks.helpers({

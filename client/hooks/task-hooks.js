@@ -2,12 +2,12 @@ AutoForm.hooks({
   newTaskForm: {
     before: {
       insert: function(doc) {
-        doc.createdBy = Meteor.userId();
         if (doc.dueDate && doc.remindMe) {
           if (!$('#reminderValue').val()) {
             toastr.error('Invalid time for the reminder.');
             return false;
           }
+
           var reminderValue = $('#reminderValue').val();
           var reminderUnit = $('#reminderUnit').val();
           var reminderDate = moment(doc.dueDate).subtract(parseInt(reminderValue), reminderUnit);
@@ -20,20 +20,13 @@ AutoForm.hooks({
           doc.reminder = reminderValue + '.' + reminderUnit;
         }
 
-        if(doc.entityId === undefined || doc.entityType === undefined || doc.assigneeId === undefined) {
-          return new Error();
-        }
+        doc.createdBy = Meteor.userId();
         return doc;
-      }
-    },
-    onError: function(formType, error) {
-      if (error) {
-        toastr.error('Task creation error: ' + error);
       }
     },
     onSuccess: function(formType, result) {
       $('input[name=dueDate]').data("DateTimePicker").hide();
-      Modal.hide('');
+      Modal.hide();
       toastr.success('Task created.');
       FlowRouter.go('/tasks/' + result);
     }
@@ -60,14 +53,9 @@ AutoForm.hooks({
         return doc;
       }
     },
-    onError: function(formType, error) {
-      if (error) {
-                toastr.error('Task creation error: ' + error);
-      }
-    },
     onSuccess: function() {
       $('input[name=dueDate]').data("DateTimePicker").hide();
-      Modal.hide('');
+      Modal.hide();
       toastr.success('Task updated.');
     }
   }

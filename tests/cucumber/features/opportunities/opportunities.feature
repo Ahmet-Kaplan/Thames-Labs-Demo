@@ -10,6 +10,7 @@ Feature: Allow users to manage their sales opportunities
     And I have the "CanReadCompanies" permission
     And I have the "CanReadOpportunities" permission
 
+
   #Reading
   Scenario: A user can see the opportunities list
     When I navigate to "/opportunities"
@@ -19,7 +20,8 @@ Feature: Allow users to manage their sales opportunities
   Scenario: The opportunities list contains company / contact name
     Given an "Opportunity" has been created
     When I navigate to "/opportunities"
-    Then ".list-group" should contain "Test Ltd"
+    Then I should see ".list-group-item:not(#moar)"
+    And ".list-group-item-text" should contain "Test Ltd"
 
   Scenario: A user without permission cannot see the opportunities list
     Given I do not have the "CanReadOpportunities" permission
@@ -104,10 +106,12 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user can edit an opportunity
     Given I have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
-    And I navigate to an opportunity page
-    And I click "#edit-opportunity"
-    And I set text field "name" to "updated opportunity 2"
-    Then I submit the "editOpportunity" form
+    When I navigate to an opportunity page
+    Then I should see the heading "test opportunity"
+    When I click "#edit-opportunity"
+    Then I should see a modal
+    When I set text field "name" to "updated opportunity 2"
+    And I submit the "editOpportunity" form
     Then I should see the heading "updated opportunity 2"
 
   Scenario: A user without permission cannot edit an opportunity

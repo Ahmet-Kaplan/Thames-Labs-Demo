@@ -290,10 +290,7 @@ module.exports = function() {
   });
 
   this.Then(/^the tag field for the "([^"]*)" should contain "([^"]*)"$/, function(entity, expectedText) {
-    var theEntity = browser.executeAsync(function(entity, done) {
-      done(Collections[entity].findOne()._id);
-    }, entity);
-    var tagField = browser.getText('#tagsBadges_' + theEntity.value);
+    var tagField = browser.getText('#tag-list-display');
     expect(tagField).toContain(expectedText);
   });
 

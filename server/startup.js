@@ -3,10 +3,12 @@ Meteor.startup(function() {
   if(process.env.IS_MIRROR || process.env.CI) {
     // Things to do ONLY IN test environment
 
-    // Rewrite Email.send function to avoid console overload during tests
+  //Rewrite Email.send function to avoid displaying
+  //the whole email in the console during tests
+  if (process.env.IS_MIRROR) {
     Email = {
       send: function(options) {
-        if(options.text) {
+        if (options.text) {
           console.log("\t---------- Sending Email ----------");
           console.log("\tFrom: \t\t" + options.from);
           console.log("\tTo: \t\t" + options.to);
@@ -113,4 +115,5 @@ Meteor.startup(function() {
       }
     });
   });
+
 });

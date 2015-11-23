@@ -77,6 +77,14 @@ Schemas.Project = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  documents: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
   }
 });
 Schemas.Project.messages({

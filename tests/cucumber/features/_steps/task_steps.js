@@ -4,7 +4,7 @@ module.exports = function() {
 
   this.When(/^I navigate to a task page$/, function() {
     browser.url(url.resolve(process.env.ROOT_URL, '/tasks'));
-    browser.waitForExist('.list-group-item', 2000);
+    browser.waitForExist('.list-group-item:not(#moar)', 2000);
     browser.click('.list-group-item');
   });
 

@@ -1,0 +1,24 @@
+<template name="updateCustomField">
+  <div class="modal" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+          <h4>Edit extended information fields</h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="extinfo-scroll">
+            {{#each extInfos}} {{> extInfo}} {{/each}}
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="submit-ext-info" role="button">Update</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
