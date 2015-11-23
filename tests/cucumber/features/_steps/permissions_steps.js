@@ -74,6 +74,7 @@ module.exports = function() {
   this.When(/^I add permission "([^"]*)" on "([^"]*)" to a restricted user$/, function(permissionName, entityName) {
     browser.url(url.resolve(process.env.ROOT_URL, "/admin"));
     browser.waitForExist("#userAdminPanelExpander", 5000);
+    browser.waitForVisible("#userAdminPanelExpander", 5000);
     browser.click("#userAdminPanelExpander");
     browser.waitForExist("#btnEditTenantUserPermissions", 5000);
     browser.waitForVisible("#btnEditTenantUserPermissions", 5000);
