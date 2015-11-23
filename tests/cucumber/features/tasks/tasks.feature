@@ -69,8 +69,8 @@ Feature: Allow users to manage their Tasks
     And I click "#company"
     And I set text field "title" to "test task 2"
     And I set textarea "description" to "This is another test task."
-    And I selectize "assigneeId" to "test user"
     And I selectize "entityId" to "Test Ltd"
+    And I selectize "assigneeId" to "test user"
     And I submit the "newTask" form
     Then I should see the heading "test task 2"
 
