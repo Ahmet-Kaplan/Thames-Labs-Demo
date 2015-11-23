@@ -19,6 +19,54 @@ Tasks.helpers({
 // SEARCH FILTERS //
 ////////////////////
 
+var wordedTimes = [
+  {
+    expr: 'today',
+    start: moment().startOf('day'),
+    end: moment().endOf('day')
+  },
+  {
+    expr: 'tomorrow',
+    start: moment().add(1, 'day').startOf('day'),
+    end: moment().add(1, 'day').endOf('day')
+  },
+  {
+    expr: 'yesterday',
+    start: moment().subtract(1, 'day').startOf('day'),
+    end: moment().subtract(1, 'day').endOf('day')
+  },
+  {
+    expr: 'this week',
+    start: moment().startOf('week'),
+    end: moment().endOf('week')
+  },
+  {
+    expr: 'next week',
+    start: moment().add(1, 'week').startOf('week'),
+    end: moment().add(1, 'week').endOf('week')
+  },
+  {
+    expr: 'last week',
+    start: moment().subtract(1, 'week').startOf('week'),
+    end: moment().subtract(1, 'week').endOf('week')
+  },
+  {
+    expr: 'this month',
+    start: moment().startOf('month'),
+    end: moment().endOf('month')
+  },
+  {
+    expr: 'next month',
+    start: moment().add(1, 'month').startOf('month'),
+    end: moment().add(1, 'month').endOf('month')
+  },
+  {
+    expr: 'last month',
+    start: moment().subtract(1, 'month').startOf('month'),
+    end: moment().subtract(1, 'month').endOf('month')
+  }
+]
+
 Collections.tasks.filters = {
   assignee: {
     display: 'Assignee:',
@@ -97,7 +145,7 @@ Collections.tasks.filters = {
     display: 'Due Date:',
     prop: 'dueDate',
     verify: function(dueDate) {
-      if(!moment(dueDate).isValid()) {
+      if(!moment(dueDate).isValid() && !moment(dueDate, 'DD-MM-YYYY', false).isValid() && !_.some(wordedTimes, 'expr', dueDate.toLowerCase())) {
         if(Meteor.isClient) {
           toastr.error('Invalid date', 'Error', {preventDuplicates: true});
         }
@@ -135,7 +183,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
       var userId = options.search.userId;
-
+      
       if(options.search.props.assignee) {
         // n.b. the array is passed as a comma separated string
         selector.assigneeId = {$in: options.search.props.assignee.split(',')};
@@ -168,10 +216,25 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 
       if(options.search.props.dueDate) {
         var dueDate = options.search.props.dueDate;
+        var formattedStartDate = null;
+        var formattedEndDate = null;
+
         if(moment(dueDate).isValid()) {
+          formattedStartDate = moment(dueDate).startOf('day').toDate();
+          formattedEndDate = moment(dueDate).endOf('day').toDate();
+        } else if(moment(dueDate, 'DD-MM-YYYY', false).isValid()) {
+          formattedStartDate = moment(dueDate, 'DD-MM-YYYY', false).startOf('day').toDate();
+          formattedEndDate = moment(dueDate, 'DD-MM-YYYY', false).endOf('day').toDate();
+        } else if(_.some(wordedTimes, 'expr', dueDate.toLowerCase())) {
+          var index = _.findIndex(wordedTimes, 'expr', dueDate.toLowerCase());
+          formattedStartDate = wordedTimes[index].start.toDate();
+          formattedEndDate = wordedTimes[index].end.toDate();
+        }
+
+        if(formattedStartDate && formattedEndDate) {
           selector.dueDate = {
-            $gte: moment(dueDate).startOf('day').toDate(),
-            $lte: moment(dueDate).endOf('day').toDate()
+            $gte: formattedStartDate,
+            $lte: formattedEndDate
           }
         }
 
@@ -186,7 +249,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
       if(options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
-
+      console.log(selector)
       return selector;
     }
   })

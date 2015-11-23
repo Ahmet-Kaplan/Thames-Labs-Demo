@@ -111,8 +111,6 @@ function applyFilter(text, value, mainCollectionName, selectize) {
     text = text.split(filter.display);
     value = text[text.length -1].trim();
 
-    console.log(filter.verify, filter.verify(value));
-
     if(filter.verify && !filter.verify(value)) {
       selectize.clearOptions();
       selectize.blur();
