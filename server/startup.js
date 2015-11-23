@@ -1,27 +1,28 @@
 Meteor.startup(function() {
 
-  if(process.env.IS_MIRROR || process.env.CI) {
+  if (process.env.IS_MIRROR || process.env.CI) {
     // Things to do ONLY IN test environment
 
-  //Rewrite Email.send function to avoid displaying
-  //the whole email in the console during tests
-  if (process.env.IS_MIRROR) {
-    Email = {
-      send: function(options) {
-        if (options.text) {
-          console.log("\t---------- Sending Email ----------");
-          console.log("\tFrom: \t\t" + options.from);
-          console.log("\tTo: \t\t" + options.to);
-          console.log("\tSubject: \t\t" + options.subject);
-          console.log("\tText: \t\t" + options.text);
-          console.log("\t---------- Email end ----------");
-        } else {
-          console.log("\t---------- Sending Email ----------");
-          console.log("\tFrom: \t\t" + options.from);
-          console.log("\tTo: \t\t" + options.to);
-          console.log("\tSubject: \t" + options.subject);
-          console.log("\tHTML email content not displayed");
-          console.log("\t---------- Email end ----------");
+    //Rewrite Email.send function to avoid displaying
+    //the whole email in the console during tests
+    if (process.env.IS_MIRROR) {
+      Email = {
+        send: function(options) {
+          if (options.text) {
+            console.log("\t---------- Sending Email ----------");
+            console.log("\tFrom: \t\t" + options.from);
+            console.log("\tTo: \t\t" + options.to);
+            console.log("\tSubject: \t\t" + options.subject);
+            console.log("\tText: \t\t" + options.text);
+            console.log("\t---------- Email end ----------");
+          } else {
+            console.log("\t---------- Sending Email ----------");
+            console.log("\tFrom: \t\t" + options.from);
+            console.log("\tTo: \t\t" + options.to);
+            console.log("\tSubject: \t" + options.subject);
+            console.log("\tHTML email content not displayed");
+            console.log("\t---------- Email end ----------");
+          }
         }
       }
     }
