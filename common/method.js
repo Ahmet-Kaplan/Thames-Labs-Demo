@@ -299,7 +299,7 @@ Meteor.methods({
 
       Email.send({
         to: userDetails.email,
-        from: 'admin@realtimecrm.co.uk',
+        from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
         subject: 'Your RealTimeCRM details',
         html: html
       });
@@ -307,7 +307,7 @@ Meteor.methods({
       var txt = 'New sign up from ' + userDetails.name + ' at company ' + userDetails.companyName;
       Email.send({
         to: 'david.mcleary@cambridgesoftware.co.uk',
-        from: 'admin@realtimecrm.co.uk',
+        from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
         subject: 'New RealTimeCRM sign up!',
         text: txt
       });
