@@ -359,11 +359,14 @@ Migrations.add({
   }
 });
 
+
 Migrations.add({
   version: 13,
   name: "Migrate opportunity stages from collection to tenant settings object",
   up: function() {
     ServerSession.set('maintenance', true);
+    var OpportunityStages = new Mongo.Collection('opportunitystages');   
+    Partitioner.partitionCollection(OpportunityStages);
     var tenants = Tenants.find({}).fetch();
 
     _.forEach(tenants, function(t) {
@@ -402,6 +405,7 @@ Migrations.add({
       });
 
     });
+
 
     ServerSession.set('maintenance', false);
   }

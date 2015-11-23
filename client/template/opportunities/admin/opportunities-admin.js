@@ -42,11 +42,9 @@ Template.opportunityAdminStage.helpers({
 
 Template.opportunityAdminStage.events({
   'click #orderUp': function() {
-    console.log("Going up, sir?");
     Meteor.call('changeStageOrder', this.id, "up");
   },
   'click #orderDown': function() {
-    console.log("Going down, sir?");
     Meteor.call('changeStageOrder', this.id, "down");
   },
   'click #btnEdit': function() {
