@@ -82,12 +82,14 @@ Meteor.methods({
     stages.push({
       title: 'Stage 1',
       description: 'test description',
-      order: 0
+      order: 0,
+      id: 0
     });
     stages.push({
       title: 'Stage 2',
       description: 'test description',
-      order: 1
+      order: 1,
+      id: 1
     });
     var stage = stages[0];
     Tenants.update(userTenant._id, {
