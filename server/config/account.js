@@ -9,7 +9,7 @@ Accounts.emailTemplates.verifyEmail.subject = function(user) {
 };
 Accounts.emailTemplates.verifyEmail.text = function(user, url) {
   return "Hello, " + user.profile.name + "\n\n" +
-    "Click the link below to activate your RealTimeCRM account:\n\n" +
+    "Click the link below (or copy and paste it into your browser) to activate your RealTimeCRM account:\n\n" +
     url +
     "\n\nThe RealtimeCRM Team";
 };
