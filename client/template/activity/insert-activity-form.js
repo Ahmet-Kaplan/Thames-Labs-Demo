@@ -27,6 +27,9 @@ Template.insertContactActivityModal.helpers({
     }
 
     return false;
+  },
+  fullName: function() {
+    return this.contact.forename + " " + this.contact.surname;
   }
 });
 

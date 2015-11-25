@@ -22,6 +22,49 @@ Activities.helpers({
 
 Tags.TagsMixin(Activities);
 
+
+////////////////////
+// SEARCH INDICES //
+////////////////////
+
+Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
+  collection: Activities,
+  fields: ['type', 'notes'],
+  engine: new EasySearch.MongoDB({
+    sort: () => {
+      return {
+        'activityTimestamp': -1
+      }
+    },
+    // fields: (searchObject, options) => {
+    //   return {
+    //     'type': 1,
+    //     'notes': 1,
+    //     'activityTimestamp': 1,
+    //     'primaryEntityType': 1,
+    //     'primaryEntityId': 1,
+    //     'createdAt': 1,
+    //     'createdBy': 1,
+    //     'primaryEntityDisplayData': 1,
+    //     'tags': 1
+    //   }
+    // },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = {
+          $in: options.search.props.tags.split(',')
+        };
+      }
+      if (options.search.props.searchById) {
+        selector._id = options.search.props.searchById;
+      }
+      return selector;
+    }
+  })
+});
+
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////

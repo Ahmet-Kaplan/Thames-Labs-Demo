@@ -186,6 +186,6 @@ Template.companyDetail.helpers({
         icon: 'fa-list',
         permission: 'CanReadCompanies'
       }
-    ]
+    ];
   }
 });

@@ -62,7 +62,7 @@ Template.opportunityDetail.helpers({
     var currentStageId = this.currentStageId;
     var firstStage = OpportunityStages.findOne({
       "order": 0
-    })
+    });
     if (!firstStage) return false;
     if (currentStageId == firstStage._id) return false;
     return true;
@@ -105,7 +105,7 @@ Template.opportunityDetail.helpers({
   },
   canExportDocx: function() {
     if (bowser.safari) {
-      return false
+      return false;
     } else {
       return true;
     }
@@ -133,6 +133,8 @@ Template.opportunityDetail.events({
       createdAt: date,
       activityTimestamp: date,
       opportunityId: this._id,
+      primaryEntityId: this._id,
+      primaryEntityType: 'opportunity',
       createdBy: user._id
     });
   },
@@ -156,6 +158,8 @@ Template.opportunityDetail.events({
       createdAt: date,
       activityTimestamp: date,
       opportunityId: this._id,
+      primaryEntityId: this._id,
+      primaryEntityType: 'opportunity',
       createdBy: user._id
     });
   },

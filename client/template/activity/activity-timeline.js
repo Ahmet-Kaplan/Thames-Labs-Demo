@@ -33,6 +33,8 @@ Template.activityTimeline.helpers({
   },
   isPrimaryEntity: function() {
     if (!this.primaryEntityId || !this.primaryEntityType) return false;
+    if (this.taskId) return true;
+
     var urlString = FlowRouter.current().path;
     return urlString.indexOf(this.primaryEntityId) > -1;
   },

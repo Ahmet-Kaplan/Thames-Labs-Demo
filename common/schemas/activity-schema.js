@@ -57,6 +57,10 @@ Schemas.Activity = new SimpleSchema({
     type: String,
     optional: true
   },
+  primaryEntityDisplayData: {
+    type: String,
+    optional: true
+  },
   primaryEntityId: {
     type: String,
     optional: true

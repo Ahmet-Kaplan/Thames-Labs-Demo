@@ -1,0 +1,22 @@
+<template name="activityListItem">
+  <div class="list-group-item clearfix" id='activityDisplayItem'>
+    <div class="row">
+      <div class="col-md-1 text-muted">
+        {{type}}
+      </div>
+      <div class="col-md-3">
+        {{{notes}}}
+      </div>
+      <div class="col-md-3 text-muted">
+        {{{entityData}}}
+      </div>
+      <div class="col-md-2 text-muted">
+        <i class="fa fa-clock-o"></i>
+        {{fromNow activityTimestamp}}
+      </div>
+      <div class="col-md-3">
+        <span class="pull-right">{{> tagBadges tags=tags index=index}}</span>
+      </div>
+    </div>
+  </div>
+</template>

@@ -102,6 +102,6 @@ Template.salesPipeline.helpers({
 
 Template.salesPipeline.events({
   'click path': function() {
-    console.log(this);
+    
   }
 });

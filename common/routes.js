@@ -146,6 +146,15 @@ router.route('/admin', {
   }
 });
 
+router.route('/activities', {
+  name: 'activities',
+  action: function() {
+    layout.render('appLayout', {
+      main: 'activityList'
+    });
+  },
+});
+
 router.route('/companies', {
   name: 'companies',
   action: function() {
