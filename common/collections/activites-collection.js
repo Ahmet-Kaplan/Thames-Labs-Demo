@@ -16,7 +16,7 @@ Activities.helpers({
     return PurchaseOrders.findOne(this.purchaseOrderId);
   },
   task: function() {
-    return Tasks.findOne(this.taskId)
+    return Tasks.findOne(this.taskId);
   }
 });
 

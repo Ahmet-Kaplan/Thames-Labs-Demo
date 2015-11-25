@@ -53,6 +53,14 @@ Schemas.Activity = new SimpleSchema({
     type: String,
     optional: true
   },
+  primaryEntityType: {
+    type: String,
+    optional: true
+  },
+  primaryEntityId: {
+    type: String,
+    optional: true
+  },
   createdBy: {
     type: String,
     autoform: {
