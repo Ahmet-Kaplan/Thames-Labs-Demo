@@ -69,6 +69,24 @@
             </li>
 
             <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="help-menu">
+                <i class="fa fa-fw fa-question"></i>
+              </a>
+              <ul class="dropdown-menu">
+                {{#if showTourOption}}
+                  <li><a href="#" id="start-welcome-tour">Welcome Tour</a></li>
+                {{/if}}
+                <li role="separator" class="divider"></li>
+                {{#if isInRole 'Administrator, CanCreateCompanies'}}
+                  <li><a href="#" id="start-company-tutorial">Company Tutorial</a></li>
+                {{/if}}
+                {{#if isInRole 'Administrator, CanCreateContacts'}}
+                  <li><a href="#" id="start-contacts-tutorial">Contact Tutorial</a></li>
+                {{/if}}
+              </ul>
+            </li>
+
+            <li class="dropdown">
               <a href="#" class="dropdown-toggle" id="general-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-fw fa-user"></i> {{userName}}
                 <span class="caret"></span>
@@ -82,13 +100,6 @@
                 <li role="separator" class="divider"></li>
                 <li><a href="#" id="feedback-link">Give Feedback</a></li>
                 <li><a href="http://www.realtimecrm.co.uk/roadmap" id="roadmap-link" target="_blank">Feature Roadmap</a></li>
-                {{#if showTourOption}}
-                <li role="separator" class="divider"></li>
-                <li><a href="#" id="start-welcome-tour">Take the welcome tour</a></li>
-                <li><a href="#" id="start-company-tutorial">Take the company tutorial</a></li>
-                <li><a href="#" id="tour-this-page">Tell me about this page</a></li>
-                {{/if}}
-                <li role="separator" class="divider"></li>
                 <li><a href="#" id="sign-out">Sign Out</a></li>
               </ul>
             </li>

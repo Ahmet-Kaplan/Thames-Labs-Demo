@@ -13,7 +13,7 @@ var welcomeTour = {
 		Session.set(sessionVar);
 		hopscotch.endTour(true);
   },
-	onEnd: function(){
+	onEnd: function() {
 		// onEnd fires on route changes, so check if we're actually finished and
 		// resume if not
 		if (Session.get(sessionVar)) {

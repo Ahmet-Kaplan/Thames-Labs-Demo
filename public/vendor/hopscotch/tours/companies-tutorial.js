@@ -4,7 +4,7 @@ var updateSessionVar = function() {
 	Session.set(sessionVar, hopscotch.getCurrStepNum());
 };
 
-var welcomeTour = {
+var companiesTutorial = {
 	onShow: function() {
 		updateSessionVar();
 	},
@@ -13,21 +13,18 @@ var welcomeTour = {
 		Session.set(sessionVar);
 		hopscotch.endTour(true);
   },
-	onEnd: function(){
+	onEnd: function() {
 		// onEnd fires on route changes, so check if we're actually finished and
 		// resume if not
 		if (Session.get(sessionVar)) {
 			$.getScript('/vendor/hopscotch/tours/companies-tutorial.js');
 		} else {
-			Meteor.call('welcomeTour.deleteTourData', function(err,res){
-				if(err) throw new Meteor.Error(err);
-				Modal.show('tourEnd');
-			});
+				Modal.show('companyTutorialEnd');
 		}
   },
-  id: "welcome-tour",
+  id: "companies-tutorial",
   steps: [{
-    title: "Welcome to RealTimeCRM!",
+    title: "The Company Tutorial",
     content: "Welcome to RealTimeCRM, an easy-to-use, cross-platform CRM from Cambridge Software. This interactive tutorial will take you through the steps for adding a company, as well as some other nifty features.",
     target: document.querySelector('.navbar-brand'),
     placement: "right",
@@ -65,8 +62,7 @@ var welcomeTour = {
 		target: document.querySelector('#addCompanyName'),
 		placement: "right",
 		showNextButton: false,
-		delay: 400,
-		onShow: $("#addCompanyName").keyup(_.debounce(function(){
+		onShow: $("#addCompanyName").keyup(_.debounce(function() {
 			hopscotch.nextStep();
 			$(this).unbind('keyup');
 		}, 1500))
@@ -77,9 +73,11 @@ var welcomeTour = {
 		placement: "right",
 		showNextButton: false,
 		smoothScroll: false,
-		onShow: $("#geo").keyup(_.debounce(function(){
-			hopscotch.nextStep();
-			$(this).unbind('keyup');
+		onShow: $("#geo").keyup(_.debounce(function(e) {
+			if (e.keyCode != 9) {
+				hopscotch.nextStep();
+				$(this).unbind('keyup');
+			}
 		}, 2000)),
 		onNext: function() {
 			$('#draggableModal').animate({ scrollTop: $('#map_canvas').offset().top }, 500);
@@ -90,24 +88,40 @@ var welcomeTour = {
 		target: document.querySelector('#map_canvas'),
 		placement: "right",
 		smoothScroll: false,
-		delay: 600,
-		onShow: function() {
-			window.setTimeout(function() {
-				hopscotch.nextStep();
-			}, 3000))
+		delay: 600
 	}, {
 		title: "Adding a Company",
 		content: "You can also add a website or a phone number. Once you're done, just click 'Create'.",
 		target: document.querySelector('#createCompany'),
 		placement: "left",
-		arrowOffset: "50px"
+		nextOnTargetClick: true,
+		showNextButton: false,
+	}, {
+		title: "",
+		content: "",
+		target: document.querySelector('#menuLinkCompanies'),
+		placement: "right",
+		smoothScroll: false,
+		onShow: function() {
+			hopscotch.nextStep();
+		}
+	}, {
+		title: "Contact Details",
+		content: "This screen shows you the details about the selected company. From here, you can also edit and delete company information. This screen will show after creating a company and when a company is selected in the company list.",
+		target: document.querySelector('#company-details'),
+		yOffset: "centre",
+		placement: "bottom",
+		delay: 100,
+		onShow: function() {
+			Session.set(sessionVar);
+		}
 	}],
   showCloseButton: true
 };
 
 // Start the tour!
 if (Session.get(sessionVar)) {
-	hopscotch.startTour(welcomeTour, Session.get(sessionVar) + 1);
+	hopscotch.startTour(companiesTutorial, Session.get(sessionVar) + 1);
 } else {
-	hopscotch.startTour(welcomeTour);
+	hopscotch.startTour(companiesTutorial);
 }

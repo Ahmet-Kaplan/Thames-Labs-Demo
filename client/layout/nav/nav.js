@@ -154,6 +154,12 @@ Template.nav.events({
     Session.set('hopscotch.companyTutorialStep');
     $.getScript('/vendor/hopscotch/tours/companies-tutorial.js');
   },
+  'click #start-contacts-tutorial': function() {
+    FlowRouter.go('dashboard');
+		hopscotch.endTour(true);
+    Session.set('hopscotch.contactsTutorialStep');
+    $.getScript('/vendor/hopscotch/tours/contacts-tutorial.js');
+  },
   'click #tour-this-page': function() {
     var currentPageName = FlowRouter.getRouteName();
 
