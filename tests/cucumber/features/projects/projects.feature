@@ -238,3 +238,18 @@ Feature: Allow users to manage their Projects
     And a "Project" has been created
     When I navigate to a project page
     Then I should not see "#btnAddTaskToEntity"
+
+  #Documents
+  Scenario: A user without the CanEditProjects permission cannot add documents to a project
+    Given I do not have the "CanEditProjects" permission
+    And a "Project" task has been created
+    When I navigate to a project page
+    Then I should see "#documents-container"
+    Then I should not see "#documents-container button"
+
+  Scenario: A user without the CanEditProjects permission cannot add documents to a project
+    Given I have the "CanEditProjects" permission
+    And a "Project" task has been created
+    When I navigate to a project page
+    Then I should see "#documents-container"
+    Then I should see "#documents-container button"
