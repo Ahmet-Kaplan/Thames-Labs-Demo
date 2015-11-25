@@ -103,7 +103,7 @@ Meteor.methods({
 
     Email.send({
       to: doc.email,
-      from: 'admin@realtimecrm.co.uk',
+      from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
       subject: 'Your RealTimeCRM details',
       html: html
     });

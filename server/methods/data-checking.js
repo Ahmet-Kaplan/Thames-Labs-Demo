@@ -6,7 +6,7 @@ Meteor.methods({
                       "Please consider contacting them to discuss an upgrade.";
     Email.send({
       to: 'david.mcleary@cambridgesoftware.co.uk',
-      from: 'admin@realtimecrm.co.uk',
+      from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
       subject: 'Tenant ' + theTenant.name + ' has reached the records limit',
       text: textMessage
     });

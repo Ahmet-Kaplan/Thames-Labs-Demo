@@ -23,7 +23,6 @@ Template.registerHelper('formatDateLocale', function(date, locale) {
   }
 });
 
-
 setRouteDetails = function(title) {
   var user = Meteor.users.find({
     _id: Meteor.userId()

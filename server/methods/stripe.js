@@ -250,7 +250,7 @@ Meteor.methods({
 
             Email.send({
               to: user.emails[0].address,
-              from: 'admin@realtimecrm.co.uk',
+              from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
               subject: 'Cancellation of your RealTimeCRM Subscription',
               html: html,
               text: text

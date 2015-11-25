@@ -1,0 +1,16 @@
+<!-- Takes parameters:
+  tags: the tags collection on the entity instance
+  collection: the mongo name of the collection in question
+  entityId: the _id of the instance of the collection
+  permissionToEdit: the name of the permission required to edit the tags - if not
+                    set then always show
+ -->
+<template name="tagSelectize">
+  <select class="tag-input" name='tags[]' multiple="multiple">
+    {{#each tags}}
+      <option value="{{this}}" selected="true">{{this}}</option>
+    {{else}}
+      <!-- intentionally left blank to prevent blaze error -->
+    {{/each}}
+  </select>
+</template>
