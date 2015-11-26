@@ -2,23 +2,23 @@
   <div class="list-group-item clearfix" id='activityDisplayItem'>
     <div class="row">
       <div class="col-md-1 text-muted">
-        {{type}}
+        <i class="fa fa-fw fa-{{listIcon type}}"></i> {{type}}
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         {{{notes}}}
       </div>
       <div class="col-md-3 text-muted">
         {{#if taskId}}
-          | <a href="{{pathFor route='task' id=taskId}}" id='mchCompany'><i class="{{entityIcon}}"></i> {{entityName}}</a>
+          <a href="{{pathFor route='task' id=taskId}}" id='mchCompany'><i class="{{entityIcon}}"></i> {{entityName}}</a>
         {{else}}
-          | <a href="{{pathFor route=primaryEntityType id=primaryEntityId}}" id='mchCompany'><i class="{{entityIcon}}"></i> {{entityName}}</a>
+          <a href="{{pathFor route=primaryEntityType id=primaryEntityId}}" id='mchCompany'><i class="{{entityIcon}}"></i> {{entityName}}</a>
         {{/if}}
       </div>
       <div class="col-md-2 text-muted">
         <i class="fa fa-clock-o"></i>
         {{fromNow activityTimestamp}}
       </div>
-      <div class="col-md-3">
+      <div class="col-md-2">
         <span class="pull-right">{{> tagBadges tags=tags index=index}}</span>
       </div>
     </div>

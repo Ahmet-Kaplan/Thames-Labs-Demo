@@ -49,5 +49,16 @@ Template.activityListItem.helpers({
   },
   entityIcon: function() {
     return Template.instance().displayIcon.get();
-  }
+  },
+  listIcon: function(type) {
+    var icons = {
+      'note': 'file-text-o',
+      'email': 'envelope-o',
+      'call': 'phone',
+      'Note': 'file-text-o',
+      'Email': 'envelope-o',
+      'Call': 'phone'
+    };
+    return icons[type];
+  },
 });
