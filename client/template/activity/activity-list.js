@@ -6,5 +6,8 @@ Template.activityList.onCreated(function() {
 });
 
 Template.activityList.events({
-
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('activities');
+  }
 });

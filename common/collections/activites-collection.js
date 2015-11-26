@@ -29,7 +29,7 @@ Tags.TagsMixin(Activities);
 
 Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
   collection: Activities,
-  fields: ['type', 'notes'],
+  fields: ['type', 'notes', 'primaryEntityDisplayData'],
   engine: new EasySearch.MongoDB({
     sort: () => {
       return {
