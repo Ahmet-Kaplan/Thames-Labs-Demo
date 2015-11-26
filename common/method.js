@@ -214,22 +214,10 @@ Meteor.methods({
 
   signUp: function(userDetails) {
 
-    userDetails.email = userDetails.email.toLowerCase();
     check(userDetails, Schemas.UserSignUp);
-
-    var user = {
-      email: userDetails.email,
-      password: userDetails.password,
-      roles: [],
-      group: "",
-      name: userDetails.name
-    };
-
-    check(user, Schemas.User);
 
     var userId = Accounts.createUser({
       email: userDetails.email,
-      password: userDetails.password,
       profile: {
         name: userDetails.name,
         lastLogin: null,
@@ -240,10 +228,11 @@ Meteor.methods({
         poAuthLevel: 100000
       }
     });
+    console.log('on client');
 
-    //This needs to be run on the server, otherwise client errors occur
     if (Meteor.isServer) {
 
+      console.log('on server');
       Roles.addUsersToRoles(userId, ["Administrator"]);
 
       var tenantId = Tenants.insert({
@@ -274,36 +263,8 @@ Meteor.methods({
       );
 
       Partitioner.setUserGroup(userId, tenantId);
-      
-      Accounts.emailTemplates.from = "RealTimeCRM Team <admin@realtimecrm.co.uk>";
-      Accounts.emailTemplates.siteName = "RealtimeCRM";
-      SSR.compileTemplate('emailText', Assets.getText('email-template.html'));
-      Template.emailText.helpers({
-        getDoctype: function() {
-          return '!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-        },
-        subject: function() {
-          return 'Your RealTimeCRM details';
-        },
-        name: function() {
-          return userDetails.name;
-        },
-        email: function() {
-          return userDetails.email;
-        }
-      });
-      var html = '<' + SSR.render("emailText");
 
-      // See server/startup.js for MAIL_URL environment variable
-
-      Email.send({
-        to: userDetails.email,
-        from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
-        subject: 'Your RealTimeCRM details',
-        html: html
-      });
-
-      Accounts.sendVerificationEmail(userId, userDetails.email);
+      Accounts.sendEnrollmentEmail(userId, userDetails.email);
 
       var txt = 'New sign up from ' + userDetails.name + ' at company ' + userDetails.companyName;
       Email.send({

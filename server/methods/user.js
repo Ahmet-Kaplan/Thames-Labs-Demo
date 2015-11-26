@@ -1,16 +1,15 @@
-
 Meteor.methods({
-  // findUserByEmail: function(emailAddress) {
-  //   return Accounts.findUserByEmail(emailAddress);
-  // },
-  setUserAuthLevel: function(userId, level) {
 
+  isEmailAvailable: function(emailAddress) {
+    return !Accounts.findUserByEmail(emailAddress);
+  },
+
+  setUserAuthLevel: function(userId, level) {
     Meteor.users.update(userId, {
       $set: {
         'profile.poAuthLevel': parseFloat(level)
       }
     });
-
   },
 
   removeUser: function(userId) {

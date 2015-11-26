@@ -1,5 +1,5 @@
 Accounts.config({
-    sendVerificationEmail: true
+  sendVerificationEmail: true
 });
 
 Accounts.emailTemplates.from = "RealTimeCRM Team <admin@realtimecrm.co.uk>";
