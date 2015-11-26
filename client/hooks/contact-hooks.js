@@ -1,5 +1,5 @@
 AutoForm.hooks({
-  insertContactForm: {  
+  insertContactForm: {
     onSuccess: function() {
       toastr.success('Contact created.');
       Modal.hide();
@@ -11,7 +11,7 @@ AutoForm.hooks({
           return false;
         }
 
-	      FlowRouter.go('/contacts/' + result);
+        FlowRouter.go('/contacts/' + result);
       }
     }
   },

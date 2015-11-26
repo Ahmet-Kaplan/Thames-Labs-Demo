@@ -1,14 +1,15 @@
 var displayMore = function(searchIndex) {
-  if(!$('#moar').offset() || !searchIndex.getComponentMethods().hasMoreDocuments()) {
+  if (!$('#moar').offset() || !searchIndex.getComponentMethods().hasMoreDocuments()) {
     return;
   }
+
   var docViewTop = $(window).scrollTop();
   var docViewBottom = docViewTop + $(window).height();
 
   var elemTop = $('#moar').offset().top;
   var elemBottom = elemTop + $('#moar').height();
 
-  if(elemBottom <= docViewBottom && elemTop >= docViewTop) {
+  if (elemBottom <= docViewBottom && elemTop >= docViewTop) {
     searchIndex.getComponentMethods().loadMore(10);
   }
 }
@@ -16,7 +17,7 @@ var displayMore = function(searchIndex) {
 var setIntervalId;
 
 Template.loadMore.onRendered(function() {
-  setIntervalId = Meteor.setInterval( () => {
+  setIntervalId = Meteor.setInterval(() => {
     var searchIndex = this.data.index;
     displayMore(searchIndex);
   }, 200);

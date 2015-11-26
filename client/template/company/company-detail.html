@@ -33,8 +33,7 @@
             </div>
             <input type="file" id="template-upload" style="display:none;">
             <button id="edit-company" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i> Edit</button>
-            {{/if}}
-            {{#if isInRole 'Administrator,CanDeleteCompanies'}}
+            {{/if}} {{#if isInRole 'Administrator,CanDeleteCompanies'}}
             <a href="#" id="remove-company" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Delete</a>{{/if}}
           </div>
           Company details
@@ -54,6 +53,10 @@
         </ul>
       </div>
 
+      <div>
+        {{#if isInRole 'Administrator,CanEditCompanies'}} {{#with this}} {{> customFieldDisplay entity_data=this entity_type='company'}} {{/with}} {{/if}}
+      </div>
+
       {{#if isInRole 'Administrator,CanReadContacts'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="contacts">
@@ -68,6 +71,23 @@
           </a>
           {{else}}
           <li class="list-group-item">No contacts added</li>
+          {{/each}}
+        </ul>
+      </div>
+      {{/if}} {{#if isInRole 'Administrator,CanReadOpportunities'}}
+      <div class="panel panel-default">
+        <div class="panel-heading" id="opportunities">
+          Opportunities {{#if isInRole 'Administrator,CanCreateOpportunities'}}
+          <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
+        </div>
+        <ul class="list-group">
+          {{#each opportunities}}
+          <a href="{{pathFor route='opportunity' id=_id}}" class="list-group-item">
+            <i class="fa fa-fw fa-lightbulb-o"></i> {{name}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
+          {{else}}
+          <li class="list-group-item">No opportunities</li>
           {{/each}}
         </ul>
       </div>
@@ -91,7 +111,7 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
           Purchase Orders {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
-           <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
+          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
           {{#each purchaseOrders}}
@@ -103,39 +123,8 @@
           {{/each}}
         </ul>
       </div>
-      {{/if}}
+      {{/if}} {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="company" entity_id=_id}} {{/with}} {{/if}}
 
-      {{#if isInRole 'Administrator,CanReadTasks'}}
-      {{#with this}}
-        {{> taskDisplay entity_type="company" entity_id=_id}}
-      {{/with}}
-      {{/if}}
-
-      <div>
-        {{#if isInRole 'Administrator,CanEditCompanies'}} {{#with this}} {{> customFieldDisplay entity_data=this entity_type='company'}} {{/with}} {{/if}}
-      </div>
-
-
-      {{#if isInRole 'Administrator,CanReadOpportunities'}}
-      <div class="panel panel-default">
-        <div class="panel-heading" id="opportunities">
-          Opportunities
-          {{#if isInRole 'Administrator,CanCreateOpportunities'}}
-          <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add</a>
-          {{/if}}
-        </div>
-        <ul class="list-group">
-          {{#each opportunities}}
-          <a href="{{pathFor route='opportunity' id=_id}}" class="list-group-item">
-            <i class="fa fa-fw fa-lightbulb-o"></i> {{name}}
-            <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          </a>
-          {{else}}
-          <li class="list-group-item">No opportunities</li>
-          {{/each}}
-        </ul>
-      </div>
-      {{/if}}
     </div>
 
     <div class="col-md-4">
