@@ -9,26 +9,25 @@
           <div class="timeline-panel">
             <div class="timeline-heading">
               <h4 class="timeline-title">
-                {{#if isPrimaryEntity}}
                   {{type}}
                   <div class="btn-group pull-right">
                     <a href="#" id="edit-activity" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
                     <a href="#" id="remove-activity" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
                   </div>
-                {{else}}
-                  {{type}}
-                  <div class="btn-group pull-right">
-                    <a href="{{pathFor route=primaryEntityType id=primaryEntityId}}" data-toggle="tooltip" title="This activity is stored against a related item. Click here to view it." id="view-activity" class="btn btn-success btn-xs"><i class="fa fa-fw fa-{{entityIcon}}"></i> View {{friendlyEntity}}</a>
-                  </div>
-                {{/if}}
               </h4>
               <p>
                 <small class="text-muted">
                   <span data-toggle="tooltip" title="{{activityTimestamp}}"><i class="fa fa-clock-o"></i> {{fromNow activityTimestamp}}</span>
-                  {{#if isPrimaryEntity}}
-                    {{#if contact}}
-                      | <a href="{{pathFor route="contact" id=contact._id}}">{{contact.name}}</a>
-                    {{/if}}
+                  {{#if taskId}}
+                      <span >
+                        | <a href="{{pathFor route='task' id=taskId}}" data-toggle="tooltip" title="View {{friendlyEntity}}" id="view-activity"><i class="fa fa-fw fa-check"></i> {{primaryEntityDisplayData}}</a>
+                      </span >
+                  {{else}}
+                    {{#unless isPrimaryEntity}}
+                      <span >
+                        | <a href="{{pathFor route=primaryEntityType id=primaryEntityId}}" data-toggle="tooltip" title="View {{friendlyEntity}}" id="view-activity"><i class="fa fa-fw fa-{{entityIcon}}"></i> {{primaryEntityDisplayData}}</a>
+                      </span>
+                    {{/unless}}
                   {{/if}}
                   {{#unless ownActivity createdBy}}
                     <span class="pull-right" data-toggle="tooltip" title="{{otherUser createdBy}} created this activity">{{otherUser createdBy}}</span>
@@ -39,13 +38,10 @@
             <div class="timeline-body">
               {{{content}}}
             </div>
-
-            {{#if isPrimaryEntity}}
               <div class="timeline-footer">
                 <br />
                 {{> tagInput tags=tags collection='activities' entityId=_id}}
               </div>
-            {{/if}}
           </div>
         </li>
       {{/each}}

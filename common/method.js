@@ -67,8 +67,9 @@ Meteor.methods({
           }
           while (randomUser === undefined);
 
+          var cname = faker.company.companyName();
           var companyId = Companies.insert({
-            name: faker.company.companyName(),
+            name: cname,
             address: faker.address.streetAddress(),
             city: faker.address.city(),
             county: faker.address.county(),
@@ -81,6 +82,20 @@ Meteor.methods({
 
           companies.push(companyId);
 
+          _.each(_.range(_.random(0, 2)), function() {
+            Activities.insert({
+              type: _.sample(Schemas.Activity._schema.type.allowedValues),
+              notes: faker.lorem.paragraphs(_.random(1, 3)),
+              createdAt: faker.date.recent(100),
+              activityTimestamp: faker.date.recent(100),
+              primaryEntityId: companyId,
+              primaryEntityType: 'company',
+              primaryEntityDisplayData: cname,
+              companyId: companyId,
+              createdBy: randomUser._id
+            });
+          });
+
           var productId = Products.insert({
             name: faker.commerce.productName(),
             description: faker.lorem.sentence(),
@@ -91,24 +106,40 @@ Meteor.methods({
 
           products.push(productId);
 
+          var oname = faker.company.bs();
           var oppId = Opportunities.insert({
-            name: faker.company.bs(),
+            name: oname,
             description: faker.lorem.sentence(),
             currentStageId: oppStageIds[Math.floor(Math.random() * oppStageIds.length)],
             createdBy: randomUser._id,
             items: [],
             value: parseInt(faker.commerce.price()),
             companyId: companyId,
-            value: parseInt(faker.commerce.price()),
             date: faker.date.recent(100)
+          });
+
+          _.each(_.range(_.random(0, 2)), function() {
+            Activities.insert({
+              type: _.sample(Schemas.Activity._schema.type.allowedValues),
+              notes: faker.lorem.paragraphs(_.random(1, 3)),
+              createdAt: faker.date.recent(100),
+              activityTimestamp: faker.date.recent(100),
+              primaryEntityId: oppId,
+              primaryEntityType: 'opportunity',
+              primaryEntityDisplayData: oname,
+              opportunityId: oppId,
+              createdBy: randomUser._id
+            });
           });
 
           opportunities.push(oppId);
 
           _.each(_.range(_.random(1, 10)), function() {
+            var fname = faker.name.firstName();
+            var sname = faker.name.lastName();
             var contactId = Contacts.insert({
-              forename: faker.name.firstName(),
-              surname: faker.name.lastName(),
+              forename: fname,
+              surname: sname,
               phone: faker.phone.phoneNumber(),
               mobile: faker.phone.phoneNumber(),
               companyId: companyId,
@@ -125,15 +156,18 @@ Meteor.methods({
                 activityTimestamp: faker.date.recent(100),
                 companyId: companyId,
                 contactId: contactId,
+                primaryEntityId: contactId,
+                primaryEntityType: 'contact',
+                primaryEntityDisplayData: fname + " " + sname,
                 createdBy: randomUser._id
               });
             });
           });
 
           _.each(_.range(_.random(0, 2)), function() {
-
+            var pname = faker.company.bs();
             var projectId = Projects.insert({
-              name: faker.company.bs(),
+              name: pname,
               description: faker.lorem.sentence(),
               companyId: companyId,
               contactId: contacts[Math.floor(Math.random() * contacts.length)],
@@ -152,6 +186,9 @@ Meteor.methods({
                 notes: faker.lorem.paragraphs(_.random(1, 3)),
                 createdAt: faker.date.recent(100),
                 activityTimestamp: faker.date.recent(100),
+                primaryEntityId: projectId,
+                primaryEntityType: 'project',
+                primaryEntityDisplayData: pname,
                 projectId: projectId,
                 createdBy: randomUser._id
               });
@@ -159,12 +196,13 @@ Meteor.methods({
           });
 
           _.each(_.range(_.random(0, 3)), function() {
+            var poname = faker.commerce.product();
             var purchaseOrderId = PurchaseOrders.insert({
               userId: randomUser._id,
               supplierCompanyId: companyId,
               supplierContactId: contacts[Math.floor(Math.random() * contacts.length)],
               projectId: projects[Math.floor(Math.random() * projects.length)],
-              description: faker.commerce.product(),
+              description: poname,
               supplierReference: faker.finance.account(),
               status: _.sample(Schemas.PurchaseOrder._schema.status.allowedValues),
               orderDate: faker.date.past(100),
@@ -182,6 +220,9 @@ Meteor.methods({
                 createdAt: faker.date.recent(100),
                 activityTimestamp: faker.date.recent(100),
                 purchaseOrderId: purchaseOrderId,
+                primaryEntityId: purchaseOrderId,
+                primaryEntityType: 'purchaseOrder',
+                primaryEntityDisplayData: poname,
                 createdBy: randomUser._id
               });
             });
@@ -421,7 +462,7 @@ Meteor.methods({
 });
 
 logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  if(Meteor.isServer) {
+  if (Meteor.isServer) {
     Meteor.call('addEventToAuditLog', logLevel, logMessage, ((typeof logEntityType === 'undefined') ? undefined : logEntityType), ((typeof logEntityId === 'undefined') ? undefined : logEntityId), 'client', Guid.raw());
   }
 }

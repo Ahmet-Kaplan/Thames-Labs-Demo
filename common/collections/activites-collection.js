@@ -34,25 +34,11 @@ Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
     sort: () => {
       return {
         'activityTimestamp': -1
-      }
+      };
     },
-    // fields: (searchObject, options) => {
-    //   return {
-    //     'type': 1,
-    //     'notes': 1,
-    //     'activityTimestamp': 1,
-    //     'primaryEntityType': 1,
-    //     'primaryEntityId': 1,
-    //     'createdAt': 1,
-    //     'createdBy': 1,
-    //     'primaryEntityDisplayData': 1,
-    //     'tags': 1
-    //   }
-    // },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
       if (options.search.props.tags) {
-        // n.b. tags is a comma separated string
         selector.tags = {
           $in: options.search.props.tags.split(',')
         };

@@ -207,6 +207,23 @@
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="taskId" type="hidden" value=task._id}}
+
+            {{#if equals currentEntity 'company'}}
+              {{> afQuickField name="companyId" type="hidden" value=currentEntityId}}
+            {{/if}}
+            {{#if equals currentEntity 'contact'}}
+              {{> afQuickField name="contactId" type="hidden" value=currentEntityId}}
+            {{/if}}
+            {{#if equals currentEntity 'project'}}
+              {{> afQuickField name="projectId" type="hidden" value=currentEntityId}}
+            {{/if}}
+            {{#if equals currentEntity 'purchaseOrder'}}
+              {{> afQuickField name="purchaseOrderId" type="hidden" value=currentEntityId}}
+            {{/if}}
+            {{#if equals currentEntity 'opportunity'}}
+              {{> afQuickField name="opportunityId" type="hidden" value=currentEntityId}}
+            {{/if}}
+
             {{#unless equals currentEntity 'user'}}
               {{> afQuickField name="primaryEntityType" type="hidden" value=currentEntity}}
               {{> afQuickField name="primaryEntityId" type="hidden" value=currentEntityId}}

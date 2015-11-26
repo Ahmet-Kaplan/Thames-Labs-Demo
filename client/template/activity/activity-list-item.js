@@ -1,6 +1,7 @@
 Template.activityListItem.onCreated(function() {
   var templateRef = this;
-  this.displayData = new ReactiveVar("<blank>");
+  this.displayName = new ReactiveVar("<blank>");
+  this.displayIcon = new ReactiveVar("<blank>");
 
   this.autorun(function() {
     var ref = templateRef.data;
@@ -8,7 +9,8 @@ Template.activityListItem.onCreated(function() {
     var icon = "fa fa-fw fa-";
 
     if (ref.taskId) {
-      templateRef.displayData.set('<i class="fa fa-fw fa-check"></i> ' + ref.primaryEntityDisplayData);
+      templateRef.displayName.set(ref.primaryEntityDisplayData);
+      templateRef.displayIcon.set('fa fa-fw fa-check');
     } else {
       switch (ref.primaryEntityType) {
         case 'company':
@@ -28,7 +30,8 @@ Template.activityListItem.onCreated(function() {
           break;
       }
 
-      templateRef.displayData.set('<i class="' + icon + '"></i> ' + ref.primaryEntityDisplayData);
+      templateRef.displayName.set(ref.primaryEntityDisplayData);
+      templateRef.displayIcon.set(icon);
     }
   });
 });
@@ -41,7 +44,10 @@ Template.activityListItem.helpers({
       return "Date/time not specified";
     }
   },
-  entityData: function() {
-    return Template.instance().displayData.get();
+  entityName: function() {
+    return Template.instance().displayName.get();
+  },
+  entityIcon: function() {
+    return Template.instance().displayIcon.get();
   }
 });

@@ -8,7 +8,11 @@
         {{{notes}}}
       </div>
       <div class="col-md-3 text-muted">
-        {{{entityData}}}
+        {{#if taskId}}
+          <a href="{{pathFor route='task' id=taskId}}" id='mchCompany'><i class="{{entityIcon}}"></i> {{entityName}}</a>
+        {{else}}
+          <a href="{{pathFor route=primaryEntityType id=primaryEntityId}}" id='mchCompany'><i class="{{entityIcon}}"></i> {{entityName}}</a>
+        {{/if}}
       </div>
       <div class="col-md-2 text-muted">
         <i class="fa fa-clock-o"></i>
