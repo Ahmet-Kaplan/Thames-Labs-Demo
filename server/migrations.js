@@ -375,11 +375,12 @@ Migrations.add({
         var stages = [];
         var currentStages = OpportunityStages.find({}).fetch();
 
+        currentStages = _.sortBy(currentStages, 'order');
+
         _.each(currentStages, function(stage, i) {
           var stageData = {
             title: stage.title,
             description: stage.description,
-            order: stage.order,
             id: i
           };
 
