@@ -26,3 +26,7 @@ ul.icon li.companies::before {
 ul.icon li.contacts::before {
   content: "\f007";
 }
+
+ul.icon li.users::before {
+	content: "\f0c0";
+}

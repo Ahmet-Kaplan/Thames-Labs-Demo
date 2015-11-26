@@ -44,7 +44,7 @@ var contactsTutorial = {
 		arrowOffset: "-1px"
 	}, {
 		title: "Viewing your Contacts",
-		content: "This is your companies list. If you can't see any contacts yet, don't worry, we'll add one now.",
+		content: "This is your contacts list. If you can't see any contacts yet, don't worry, we'll add one now.",
 		target: document.querySelector('#contactSearchResults'),
 		placement: "top",
 		delay: 200

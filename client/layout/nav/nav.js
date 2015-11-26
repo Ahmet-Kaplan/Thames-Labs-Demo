@@ -160,6 +160,12 @@ Template.nav.events({
     Session.set('hopscotch.contactsTutorialStep');
     $.getScript('/vendor/hopscotch/tours/contacts-tutorial.js');
   },
+  'click #start-admin-tutorial': function() {
+    FlowRouter.go('dashboard');
+		hopscotch.endTour(true);
+    Session.set('hopscotch.adminTutorialStep');
+    $.getScript('/vendor/hopscotch/tours/admin-tutorial.js');
+  },
   'click #tour-this-page': function() {
     var currentPageName = FlowRouter.getRouteName();
 

@@ -45,14 +45,15 @@ var companiesTutorial = {
   }, {
 		title: "Viewing Your Companies",
 		content: "Here you can see a list of all the companies you have saved. If you dont have any yet don't worry, we'll add one now.",
-		target: document.querySelector('#companySearchResults'),
-		placement: "top",
+		target: document.querySelector('#companies-logo'),
+		placement: "bottom",
+
 		delay: 200
 	}, {
 		title: "Adding a Company",
 		content: "Click this button to add a company",
 		target: document.querySelector('#add-company'),
-		placement: "top",
+		placement: "bottom",
 		showNextButton: false,
 		nextOnTargetClick: true,
 		width: "200px"
