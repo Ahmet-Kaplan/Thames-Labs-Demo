@@ -64,7 +64,7 @@ var welcomeTour = {
     placement: "left"
   }, {
     title: "The Dashboard - Widgets",
-    content: "Your current set of widgets will appear in the centre of the dashboard. You can resize them as you like by grabbing the small arrow in the bottom right of each and dragging to the size you want. If you wish to return to the default layout, simply open the Widget menu and click the Reset Dashboard item.",
+    content: "Your current set of widgets will appear in the centre of the dashboard. If you wish to return to the default layout, simply open the Widget menu and click the Reset Dashboard item.",
     target: document.querySelector('#widget-dropdown'),
     placement: "left",
 		onShow: function() {
