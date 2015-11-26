@@ -1,0 +1,39 @@
+<template name="firstRun">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h2>Welcome to RealTimeCRM</h2>
+        </div>
+
+        <div class="modal-body">
+          You are now all set and ready to run your business in real-time.<br /><br />
+          <strong>What's next?</strong><br /><br />
+          <ul class="list-unstyled">
+            <li><i class="fa fa-fw fa-graduation-cap"></i>&nbsp;&nbsp;<a href="#" id="first-run-tour">Take the Welcome Tour</a></li>
+           {{#if isInRole 'Administrator, CanCreateCompanies'}}
+            <li><i class="fa fa-fw fa-building"></i>&nbsp;&nbsp;<a href="#" id="companies-tutorial">Add a Company</a></li>
+           {{/if}}
+           {{#if isInRole 'Administrator, CanCreateContacts'}}
+            <li><i class="fa fa-fw fa-user"></i>&nbsp;&nbsp;<a href="#" id="contacts-tutorial">Add a Contact</a></li>
+           {{/if}}
+         </ul>
+         <br />
+          If you have data to import from another CRM system then you can do that via the <strong><i class="fa fa-fw fa-upload"></i> Import</strong> buttons found throughout the platform.<br /><br />
+          You are on the free plan and have access to all of the functionality that RealTimeCRM has to offer, and we are adding more week by week.<br /><br />
+
+          {{#if isInRole 'Administrator'}}
+          Once you've checked out how good RealTimeCRM is you can remove your company and contact limitations by upgrading <a href="#" id="first-run-upgrade">here</a>.<br /><br />
+          {{/if}}
+
+          Finally, we'd love your feedback and suggestions at any time via the Feedback option in the menu.<br /><br />
+          Enjoy your RealTimeCRM experience!
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="close-first-run">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
