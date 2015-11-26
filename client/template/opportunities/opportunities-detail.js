@@ -1,28 +1,3 @@
-var findFirstStageId = function() {
-  var userTenant = Tenants.findOne({});
-  var stages = userTenant.settings.opportunity.stages;
-  if (!stages || stages.length == 0) return null;
-
-  var id = _.result(_.find(stages, function(stg) {
-    return stg.order === 0;
-  }), 'id');
-
-  return id;
-};
-
-var findLastStageId = function() {
-  var userTenant = Tenants.findOne({});
-  var stages = userTenant.settings.opportunity.stages;
-  if (!stages || stages.length == 0) return null;
-  var length = stages.length;
-
-  var id = _.result(_.find(stages, function(stg) {
-    return stg.order === length - 1;
-  }), 'id');
-
-  return id;
-};
-
 Template.opportunityDetail.onCreated(function() {
   var id = FlowRouter.getParam('id');
 
@@ -85,14 +60,16 @@ Template.opportunityDetail.helpers({
     });
   },
   isNotFirstStage: function() {
+    var stages = Tenants.findOne().settings.opportunity.stages;
     var currentStageId = this.currentStageId;
-    var firstStageId = findFirstStageId();
+    var firstStageId = stages[0].id;
     if (currentStageId == firstStageId) return false;
     return true;
   },
   isLastStage: function() {
+    var stages = Tenants.findOne().settings.opportunity.stages;
     var currentStageId = this.currentStageId;
-    var lastStageId = findLastStageId();
+    var lastStageId = stages[stages.length - 1].id;
     if (currentStageId == lastStageId) return true;
     return false;
   },
@@ -137,7 +114,7 @@ Template.opportunityDetail.events({
     var stages = userTenant.settings.opportunity.stages;
     var length = stages.length - 1;
     var currId = this.currentStageId;
-    var currOrder = stages[currId].order;
+    var currOrder = _.findIndex(stages, {id: currId});
     var nextId = stages[currOrder + 1].id;
 
     if (nextId > length) nextId = length;
@@ -163,7 +140,7 @@ Template.opportunityDetail.events({
     var userTenant = Tenants.findOne({});
     var stages = userTenant.settings.opportunity.stages;
     var currId = this.currentStageId;
-    var currOrder = stages[currId].order;
+    var currOrder = _.findIndex(stages, {id: currId});
     var nextId = stages[currOrder - 1].id;
 
     if (nextId < 0) nextId = 0;

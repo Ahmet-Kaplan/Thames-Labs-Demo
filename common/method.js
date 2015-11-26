@@ -33,7 +33,6 @@ Meteor.methods({
           var stageData = ({
             title: faker.commerce.color(),
             description: faker.lorem.sentence(),
-            order: i,
             id: i
           });
           stages.push(stageData)

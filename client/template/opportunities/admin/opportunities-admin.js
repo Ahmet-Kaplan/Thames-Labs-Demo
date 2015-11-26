@@ -1,12 +1,6 @@
 Template.opportunityAdmin.helpers({
   stages: function() {
-    var userTenant = Tenants.findOne({});
-    var stages = userTenant.settings.opportunity.stages;
-    return stages.sort(function(a, b) {
-      if (a.order < b.order) return -1;
-      if (a.order > b.order) return 1;
-      return 0;
-    })
+    return Tenants.findOne({}).settings.opportunity.stages;
   },
   hasStages: function() {
     var userTenant = Tenants.findOne({});
@@ -28,14 +22,14 @@ Template.opportunityAdmin.events({
 
 Template.opportunityAdminStage.helpers({
   isFirstStage: function() {
-    if (this.order == 0) return true;
+    var stages = Tenants.findOne({}).settings.opportunity.stages;
+    if (_.findIndex(stages, this) == 0) return true;
     return false;
   },
   isLastStage: function() {
-    var userTenant = Tenants.findOne({});
-    var stages = userTenant.settings.opportunity.stages;
+    var stages = Tenants.findOne({}).settings.opportunity.stages;
     var maxVal = stages.length - 1;
-    if (this.order == maxVal) return true;
+    if (_.findIndex(stages, this) == maxVal) return true;
     return false;
   }
 });

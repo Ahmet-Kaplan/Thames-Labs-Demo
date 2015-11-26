@@ -4,28 +4,16 @@ Meteor.methods({
     var user = Meteor.users.find(this.userId);
     Partitioner.bindGroup(user.group, function() {
       var userTenant = Tenants.findOne({});
-      var currentStages = userTenant.settings.opportunity.stages.sort(function(a, b) {
-        if (a.order < b.order) return -1;
-        if (a.order > b.order) return 1;
-        return 0;
-      });
+      var currentStages = userTenant.settings.opportunity.stages;
       var step = (direction === "up" ? -1 : 1);
-      var orderKey = -1;
+      var stageIndex = _.findIndex(currentStages, {id: stageId});
 
-      _.each(currentStages, function(stage) {
-        if (stage.id === stageId) {
-          stage.order = stage.order + step;
-          orderKey = stage.order;
-        }
-      });
+      if(stageIndex + step < 0 || stageIndex + step >= currentStages.length) {
+        throw new Meteor.Error('Incorrect Index', 'Incorrect index, the stage could not be moved.');
+      }
 
-      _.each(currentStages, function(stage) {
-        if (stage.id !== stageId) {
-          if (stage.order === orderKey) {
-            stage.order = stage.order + (direction === "up" ? 1 : -1);
-          }
-        }
-      });
+      var stageObject = _.pullAt(currentStages, stageIndex);
+      currentStages.splice(stageIndex + step, 0, stageObject[0])
 
       Tenants.update(userTenant._id, {
         $set: {
@@ -41,26 +29,17 @@ Meteor.methods({
     var user = Meteor.users.find(this.userId);
     Partitioner.bindGroup(user.group, function() {
       var userTenant = Tenants.findOne({});
-      var currentStages = userTenant.settings.opportunity.stages.sort(function(a, b) {
-        if (a.order < b.order) return -1;
-        if (a.order > b.order) return 1;
-        return 0;
-      });
+      var currentStages = userTenant.settings.opportunity.stages;
+      var stageIndex = _.findIndex(currentStages, {id: stageId});
 
-      var newStages = [];
-      _.each(currentStages, function(cs) {
-        if (cs.id !== stageId) newStages.push(cs);
-      });
-
-      _.each(newStages, function(newStage, i) {
-        newStage.order = i;
-      });
-
-      Tenants.update(userTenant._id, {
-        $set: {
-          'settings.opportunity.stages': newStages
-        }
-      });
+      if(stageIndex !== -1) {
+        _.pullAt(currentStages, stageIndex);
+        Tenants.update(userTenant._id, {
+          $set: {
+            'settings.opportunity.stages': currentStages
+          }
+        });
+      }
 
     });
   },
@@ -90,27 +69,22 @@ Meteor.methods({
           var defaultStages = [{
             title: "Exploration",
             description: "Exploring whether there is a need that your product or service can fulfill",
-            order: 0,
             id: 0
           }, {
             title: "Fact finding",
             description: "Finding the key people, whether a budget exists, timescales, competitors pitching",
-            order: 1,
             id: 1
           }, {
             title: "Solution",
             description: "Preparing your solution based on what you know from your fact finding",
-            order: 2,
             id: 2
           }, {
             title: "Negotiation",
             description: "Negotiating the sale of the solution, confirming price, delivery and other out-of-contract aspects",
-            order: 3,
             id: 3
           }, {
             title: "Objections",
             description: "Dealing with any objections to the negotiated solution in order to win the business",
-            order: 4,
             id: 4
           }];
 
