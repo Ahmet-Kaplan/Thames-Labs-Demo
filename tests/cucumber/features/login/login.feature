@@ -6,6 +6,7 @@ Feature: Allow users to login and logout
 
   Background:
     Given a user exists
+    And I am not a new user
     And I am a logged out user
 
   Scenario: A user can view the login screen

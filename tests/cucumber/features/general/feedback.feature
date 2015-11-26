@@ -6,6 +6,7 @@ Feature: Allow users to provide feedback
 
   Background:
     Given a user exists
+    And I am not a new user
     And I am a logged in user
 
   Scenario: A user can see the feedback modal

@@ -5,6 +5,7 @@ Feature: Allow users to manage general tenancy data
 
   Background:
     Given a user exists
+    And I am not a new user
     And I am a logged in user
     And I have the "Administrator" permission
     And I click "#general-dropdown"

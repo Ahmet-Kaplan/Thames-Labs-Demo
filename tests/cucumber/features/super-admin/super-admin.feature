@@ -7,6 +7,7 @@ Feature: Superadmin can access special parts of the site
   #Superadmin
   Scenario: A superadmin can visit the tenants screen
     Given a superadmin exists
+    And I am not a new user
     And I am a logged in superadmin user
     When I navigate to "/tenants"
     Then I should see the heading "Tenants"
@@ -14,6 +15,7 @@ Feature: Superadmin can access special parts of the site
 
   Scenario: A superadmin can visit the notifications screen
     Given a superadmin exists
+    And I am not a new user
     And I am a logged in superadmin user
     When I navigate to "/notifications"
     Then I should see the heading "Notifications"
@@ -21,6 +23,7 @@ Feature: Superadmin can access special parts of the site
 
   Scenario: A superadmin can visit the sign up statistics screen
     Given a superadmin exists
+    And I am not a new user
     And I am a logged in superadmin user
     When I navigate to "/statistics"
     Then I should see the heading "Statistics"
@@ -29,6 +32,7 @@ Feature: Superadmin can access special parts of the site
   #Normal user
   Scenario: A normal user can't visit the tenants screen
     Given a user exists
+    And I am not a new user
     And I am a logged in user
     When I navigate to "/tenants"
     Then I should see the heading "Dashboard"
@@ -36,6 +40,7 @@ Feature: Superadmin can access special parts of the site
 
   Scenario: A normal user can't visit the notifications screen
     Given a user exists
+    And I am not a new user
     And I am a logged in user
     When I navigate to "/notifications"
     Then I should see the heading "Dashboard"
@@ -43,6 +48,7 @@ Feature: Superadmin can access special parts of the site
 
 	Scenario: A normal user can't visit the sign up statistics screen
 		Given a user exists
+    And I am not a new user
 		And I am a logged in user
 		When I navigate to "/statistics"
 		Then I should see the heading "Dashboard"

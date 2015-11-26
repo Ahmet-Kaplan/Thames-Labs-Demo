@@ -6,6 +6,7 @@ Feature: Allow users to manage their Products
 
   Background:
     Given a user exists
+    And I am not a new user
     And I am a logged in user
     And I have the "CanReadProducts" permission
 

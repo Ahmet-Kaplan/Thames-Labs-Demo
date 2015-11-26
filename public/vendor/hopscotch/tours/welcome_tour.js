@@ -27,6 +27,7 @@ var welcomeTour = {
   },
   id: "welcome-tour",
   steps: [{
+		id: "welcome",
     title: "Welcome to RealTimeCRM!",
     content: "Welcome to RealTimeCRM, an easy-to-use, cross-platform CRM from Cambridge Software. Click the Next button to start the tour.",
     target: document.querySelector('.navbar-brand'),

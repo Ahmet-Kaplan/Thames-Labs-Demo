@@ -5,6 +5,7 @@ Feature: Allow users to manage their Purchase Orders
 
   Background:
     Given a user exists
+    And I am not a new user
 
   Scenario: A superadmin user can't visit the Purchase Orders list
     Given a superadmin exists

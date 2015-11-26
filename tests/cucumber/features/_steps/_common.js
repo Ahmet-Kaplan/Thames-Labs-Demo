@@ -50,6 +50,12 @@ module.exports = function() {
     browser.executeAsync(login, 'admin@cambridgesoftware.co.uk', 'admin');
   });
 
+  this.Given(/^I am not a new user$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('notNewUser', done);
+    });
+  })
   this.Given(/^an? "([^"]*)" has been created$/, function(entity) {
     browser
       .executeAsync(function(entity, done) {
@@ -92,6 +98,10 @@ module.exports = function() {
     browser.waitForVisible(id, 5000);
     browser.scroll(id, 0, -60);
     browser.click(id);
+  });
+
+  this.When(/^I click the selector "([^"]*)"$/, function(selector) {
+    browser.click(selector);
   });
 
   this.When(/^I set rich text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
@@ -213,6 +223,12 @@ module.exports = function() {
       setTimeout(done, 1000);
     });
     expect(browser.isVisible('.modal-dialog')).toEqual(false);
+  });
+
+  this.Then(/^I should see the (tour|tutorial)$/, function() {
+    browser.waitForExist('.hopscotch-bubble-container', 6000);
+    browser.waitForVisible('.hopscotch-bubble-container', 6000);
+    expect(browser.isExisting('.hopscotch-bubble-container', 6000))
   });
 
   this.Then(/^"([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(selector, option, desiredText) {
