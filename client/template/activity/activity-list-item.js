@@ -13,19 +13,19 @@ Template.activityListItem.onCreated(function() {
       templateRef.displayIcon.set('fa fa-fw fa-check');
     } else {
       switch (ref.primaryEntityType) {
-        case 'company':
+        case 'companies':
           icon = icon + 'building';
           break;
-        case 'contact':
+        case 'contacts':
           icon = icon + 'user';
           break;
-        case 'opportunity':
+        case 'opportunities':
           icon = icon + 'lightbulb-o';
           break;
-        case 'project':
+        case 'projects':
           icon = icon + 'sitemap';
           break;
-        case 'purchaseOrder':
+        case 'purchaseorders':
           icon = icon + 'shopping-cart';
           break;
       }
@@ -61,4 +61,18 @@ Template.activityListItem.helpers({
     };
     return icons[type];
   },
+  routeName: function() {
+    switch (this.primaryEntityType) {
+      case 'companies':
+        return 'company';
+      case 'contacts':
+        return 'contact';
+      case 'opportunities':
+        return 'opportunity';
+      case 'projects':
+        return 'project';
+      case 'purchaseorders':
+        return 'purchaseOrder';
+    }
+  }
 });

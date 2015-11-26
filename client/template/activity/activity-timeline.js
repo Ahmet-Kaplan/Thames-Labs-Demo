@@ -40,34 +40,48 @@ Template.activityTimeline.helpers({
   },
   entityIcon: function() {
     switch (this.primaryEntityType) {
-      case 'company':
+      case 'companies':
         return 'building';
-      case 'contact':
+      case 'contacts':
         return 'user';
-      case 'opportunity':
+      case 'opportunities':
         return 'lightbulb-o';
-      case 'project':
+      case 'projects':
         return 'sitemap';
-      case 'purchaseOrder':
+      case 'purchaseorders':
         return 'shopping-cart';
-      case 'task':
+      case 'tasks':
         return 'check';
     }
   },
   friendlyEntity: function() {
     switch (this.primaryEntityType) {
-      case 'company':
+      case 'companies':
         return 'company';
-      case 'contact':
+      case 'contacts':
         return 'contact';
-      case 'opportunity':
+      case 'opportunities':
         return 'opportunity';
-      case 'project':
+      case 'projects':
         return 'project';
-      case 'purchaseOrder':
+      case 'purchaseorders':
         return 'purchase order';
-      case 'task':
+      case 'tasks':
         return 'task';
+    }
+  },
+  routeName: function() {
+    switch (this.primaryEntityType) {
+      case 'companies':
+        return 'company';
+      case 'contacts':
+        return 'contact';
+      case 'opportunities':
+        return 'opportunity';
+      case 'projects':
+        return 'project';
+      case 'purchaseorders':
+        return 'purchaseOrder';
     }
   }
 });

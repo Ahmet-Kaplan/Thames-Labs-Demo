@@ -89,7 +89,7 @@ Meteor.methods({
               createdAt: faker.date.recent(100),
               activityTimestamp: faker.date.recent(100),
               primaryEntityId: companyId,
-              primaryEntityType: 'company',
+              primaryEntityType: 'companies',
               primaryEntityDisplayData: cname,
               companyId: companyId,
               createdBy: randomUser._id
@@ -125,7 +125,7 @@ Meteor.methods({
               createdAt: faker.date.recent(100),
               activityTimestamp: faker.date.recent(100),
               primaryEntityId: oppId,
-              primaryEntityType: 'opportunity',
+              primaryEntityType: 'opportunities',
               primaryEntityDisplayData: oname,
               opportunityId: oppId,
               createdBy: randomUser._id
@@ -157,7 +157,7 @@ Meteor.methods({
                 companyId: companyId,
                 contactId: contactId,
                 primaryEntityId: contactId,
-                primaryEntityType: 'contact',
+                primaryEntityType: 'contacts',
                 primaryEntityDisplayData: fname + " " + sname,
                 createdBy: randomUser._id
               });
@@ -187,7 +187,7 @@ Meteor.methods({
                 createdAt: faker.date.recent(100),
                 activityTimestamp: faker.date.recent(100),
                 primaryEntityId: projectId,
-                primaryEntityType: 'project',
+                primaryEntityType: 'projects',
                 primaryEntityDisplayData: pname,
                 projectId: projectId,
                 createdBy: randomUser._id
@@ -221,7 +221,7 @@ Meteor.methods({
                 activityTimestamp: faker.date.recent(100),
                 purchaseOrderId: purchaseOrderId,
                 primaryEntityId: purchaseOrderId,
-                primaryEntityType: 'purchaseOrder',
+                primaryEntityType: 'purchaseorders',
                 primaryEntityDisplayData: poname,
                 createdBy: randomUser._id
               });

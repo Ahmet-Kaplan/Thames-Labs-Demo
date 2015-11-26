@@ -23,7 +23,7 @@
             {{> afQuickField name="companyId" type="hidden" value=company._id id="companyId"}}
             {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId" value=contactId}}
 
-            {{> afQuickField name="primaryEntityType" type="hidden" value='company'}}
+            {{> afQuickField name="primaryEntityType" type="hidden" value='companies'}}
             {{> afQuickField name="primaryEntityId" type="hidden" value=company._id}}
             {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=company.name}}
 
@@ -59,7 +59,7 @@
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="companyId" type="hidden" value=company._id}}
             {{> afQuickField name="contactId" type="hidden" value=contact._id}}
-            {{> afQuickField name="primaryEntityType" type="hidden" value='contact'}}
+            {{> afQuickField name="primaryEntityType" type="hidden" value='contacts'}}
             {{> afQuickField name="primaryEntityId" type="hidden" value=contact._id}}
             {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=fullName}}
             {{> afQuickField name="createdBy" value=currentUser }}
@@ -97,7 +97,7 @@
             {{> afQuickField name="companyId" type="hidden" value=project.companyId}}
             {{> afQuickField name="contactId" type="hidden" value=project.contactId}}
             {{> afQuickField name="projectId" type="hidden" value=project._id}}
-            {{> afQuickField name="primaryEntityType" type="hidden" value='project'}}
+            {{> afQuickField name="primaryEntityType" type="hidden" value='projects'}}
             {{> afQuickField name="primaryEntityId" type="hidden" value=project._id}}
             {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=project.name}}
             {{> afQuickField name="createdBy" value=currentUser }}
@@ -135,7 +135,7 @@
             {{> afQuickField name="companyId" type="hidden" value=purchaseOrder.supplierCompanyId}}
             {{> afQuickField name="contactId" type="hidden" value=purchaseOrder.supplierContactId}}
             {{> afQuickField name="purchaseOrderId" type="hidden" value=purchaseOrder._id}}
-            {{> afQuickField name="primaryEntityType" type="hidden" value='purchaseOrder'}}
+            {{> afQuickField name="primaryEntityType" type="hidden" value='purchaseorders'}}
             {{> afQuickField name="primaryEntityId" type="hidden" value=purchaseOrder._id}}
             {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=purchaseOrder.description}}
             {{> afQuickField name="createdBy" value=currentUser }}
@@ -172,7 +172,7 @@
             {{> afQuickField name="companyId" type="hidden" value=opportunity.companyId}}
             {{> afQuickField name="contactId" type="hidden" value=opportunity.contactId}}
             {{> afQuickField name="opportunityId" type="hidden" value=opportunity._id}}
-            {{> afQuickField name="primaryEntityType" type="hidden" value='opportunity'}}
+            {{> afQuickField name="primaryEntityType" type="hidden" value='opportunities'}}
             {{> afQuickField name="primaryEntityId" type="hidden" value=opportunity._id}}
             {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=opportunity.name}}
             {{> afQuickField name="createdBy" value=currentUser }}
@@ -208,19 +208,19 @@
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="taskId" type="hidden" value=task._id}}
 
-            {{#if equals currentEntity 'company'}}
+            {{#if equals currentEntity 'companies'}}
               {{> afQuickField name="companyId" type="hidden" value=currentEntityId}}
             {{/if}}
-            {{#if equals currentEntity 'contact'}}
+            {{#if equals currentEntity 'contacts'}}
               {{> afQuickField name="contactId" type="hidden" value=currentEntityId}}
             {{/if}}
-            {{#if equals currentEntity 'project'}}
+            {{#if equals currentEntity 'projects'}}
               {{> afQuickField name="projectId" type="hidden" value=currentEntityId}}
             {{/if}}
-            {{#if equals currentEntity 'purchaseOrder'}}
+            {{#if equals currentEntity 'purchaseorders'}}
               {{> afQuickField name="purchaseOrderId" type="hidden" value=currentEntityId}}
             {{/if}}
-            {{#if equals currentEntity 'opportunity'}}
+            {{#if equals currentEntity 'opportunities'}}
               {{> afQuickField name="opportunityId" type="hidden" value=currentEntityId}}
             {{/if}}
 

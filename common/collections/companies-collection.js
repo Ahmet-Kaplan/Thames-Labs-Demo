@@ -46,6 +46,10 @@ Tags.TagsMixin(Companies);
 Collections.companies.index = CompaniesIndex = new EasySearch.Index({
   collection: Companies,
   fields: ['name'],
+  permission: function(options) {
+  var userId = options.userId;
+  return Roles.userIsInRole(userId, ['Administrator', 'CanReadCompanies']);
+},
   engine: new EasySearch.MongoDB({
     sort: () => {
       return {

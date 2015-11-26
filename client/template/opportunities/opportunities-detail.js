@@ -134,7 +134,7 @@ Template.opportunityDetail.events({
       activityTimestamp: date,
       opportunityId: this._id,
       primaryEntityId: this._id,
-      primaryEntityType: 'opportunity',
+      primaryEntityType: 'opportunities',
       createdBy: user._id
     });
   },
@@ -159,7 +159,7 @@ Template.opportunityDetail.events({
       activityTimestamp: date,
       opportunityId: this._id,
       primaryEntityId: this._id,
-      primaryEntityType: 'opportunity',
+      primaryEntityType: 'opportunities',
       createdBy: user._id
     });
   },

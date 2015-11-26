@@ -25,7 +25,7 @@
                   {{else}}
                     {{#unless isPrimaryEntity}}
                       <span >
-                        | <a href="{{pathFor route=primaryEntityType id=primaryEntityId}}" data-toggle="tooltip" title="View {{friendlyEntity}}" id="view-activity"><i class="fa fa-fw fa-{{entityIcon}}"></i> {{primaryEntityDisplayData}}</a>
+                        | <a href="{{pathFor route=routeName id=primaryEntityId}}" data-toggle="tooltip" title="View {{friendlyEntity}}" id="view-activity"><i class="fa fa-fw fa-{{entityIcon}}"></i> {{primaryEntityDisplayData}}</a>
                       </span>
                     {{/unless}}
                   {{/if}}

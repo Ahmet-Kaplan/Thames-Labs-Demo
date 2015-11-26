@@ -3,33 +3,33 @@ Meteor.methods({
     var result = "";
 
     switch (primaryEntityType) {
-      case 'company':
+      case 'companies':
         result = Companies.findOne({
           _id: primaryEntityId
         }).name;
         break;
-      case 'contact':
+      case 'contacts':
         var contact = Contacts.findOne({
           _id: primaryEntityId
         });
         result = contact.forename + " " + contact.surname;
         break;
-      case 'opportunity':
+      case 'opportunities':
         result = Opportunities.findOne({
           _id: primaryEntityId
         }).name;
         break;
-      case 'project':
+      case 'projects':
         result = Projects.findOne({
           _id: primaryEntityId
         }).name;
         break;
-      case 'purchaseOrder':
+      case 'purchaseorders':
         result = PurchaseOrders.findOne({
           _id: primaryEntityId
         }).description;
         break;
-      case 'task':
+      case 'tasks':
         result = Companies.findOne({
           _id: primaryEntityId
         }).title;

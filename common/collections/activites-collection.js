@@ -46,6 +46,19 @@ Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
+
+      // var collectionsToFilter = [];
+      // for (var collection in ['companies']) {
+      //   if (!Roles.userIsInRole(Meteor.userId(), permissionGenerator('read', collection))) {
+      //     collectionsToFilter.push(collection);
+      //   }
+      // }
+
+      selector.primaryEntityType = {
+        $nin: ['companies']
+        // $nin: collectionsToFilter
+      };
+
       return selector;
     }
   })

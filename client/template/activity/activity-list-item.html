@@ -11,7 +11,7 @@
         {{#if taskId}}
           <a href="{{pathFor route='task' id=taskId}}" id='mchCompany'><i class="{{entityIcon}}"></i> {{entityName}}</a>
         {{else}}
-          <a href="{{pathFor route=primaryEntityType id=primaryEntityId}}" id='mchCompany'><i class="{{entityIcon}}"></i> {{entityName}}</a>
+          <a href="{{pathFor route=routeName id=primaryEntityId}}" id='mchCompany'><i class="{{entityIcon}}"></i> {{entityName}}</a>
         {{/if}}
       </div>
       <div class="col-md-2 text-muted">
