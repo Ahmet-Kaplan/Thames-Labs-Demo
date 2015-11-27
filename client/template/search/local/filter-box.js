@@ -144,7 +144,6 @@ Template.filterBox.onRendered(function() {
     load: function(query) {
       this.clearOptions();
       searchInput.set(query);
-      displayFilter(mainCollectionName, this);
     },
     onItemAdd: function(value, $item) {
       var text = $($item).text();

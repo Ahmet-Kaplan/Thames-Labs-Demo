@@ -6,7 +6,6 @@ Template.taskList.onCreated(function() {
 
   // Search props
   this.showCompleted = new ReactiveVar(false);
-  this.showMine = new ReactiveVar(false);
 });
 
 Template.taskList.onRendered(function() {
@@ -27,28 +26,12 @@ Template.taskList.onRendered(function() {
     } else {
       searchComponent.removeProps('showCompleted');
     }
-
-    if (this.showMine.get()) {
-      searchComponent.addProps('showMine', 'true');
-    } else {
-      searchComponent.removeProps('showMine');
-    }
   });
 });
 
 Template.taskList.helpers({
   showComp: function() {
     return Template.instance().showCompleted.get();
-  },
-  showMine: function() {
-    return Template.instance().showMine.get();
-  },
-  filters: function() {
-    return [{
-      regexp: /assignee:/i,
-      display: 'Assigned to ',
-      prop: 'assigneeId'
-    }]
   }
 });
 
@@ -57,12 +40,6 @@ Template.taskList.events({
     event.preventDefault();
     var showCompleted = Template.instance().showCompleted.get();
     Template.instance().showCompleted.set(!showCompleted);
-    $(event.target).blur();
-  },
-  'click #tskToggleMine': function(event) {
-    event.preventDefault();
-    var showMine = Template.instance().showMine.get();
-    Template.instance().showMine.set(!showMine);
     $(event.target).blur();
   },
   'click #tskDeleteAllCompleted': function(event) {
