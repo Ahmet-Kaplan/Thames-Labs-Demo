@@ -62,6 +62,10 @@ Template.searchBox.events({
     indexMethods.removeProps();
     indexMethods.search('');
     $('input.easysearch-input').val('');
+  },
+  'click #searchHelp': function() {
+    var mainCollectionName = Template.instance().data.collectionName
+    Modal.show('searchHelp', {collection: mainCollectionName});
   }
 });
 

@@ -148,13 +148,23 @@ Collections.tasks.filters = {
       if(!moment(dueDate).isValid() && !moment(dueDate, 'DD-MM-YYYY', false).isValid() && !_.some(wordedTimes, 'expr', dueDate.toLowerCase())) {
         toastr.error('Invalid date', 'Error', {preventDuplicates: true});
         return false;
-      } else {
-        return true;
       }
-    }
+
+      //Edge case: to avoid conflict, remove dueDate if set
+      if(Collections.tasks.index.getComponentDict().get('searchOptions').props.after) {
+        Collections.tasks.index.getComponentMethods().removeProps('after');
+      }
+      if(Collections.tasks.index.getComponentDict().get('searchOptions').props.before) {
+        Collections.tasks.index.getComponentMethods().removeProps('before');
+      }
+      return true;
+    },
+    defaultOptions: _.map(wordedTimes, function(obj) {
+      return obj.expr;
+    })
   },
   before: {
-    display: 'Before:',
+    display: 'Due Before:',
     prop: 'before',
     verify: function(date) {
       var afterOption = Collections.tasks.index.getComponentDict().get('searchOptions').props.after;
@@ -173,7 +183,7 @@ Collections.tasks.filters = {
     }
   },
   after: {
-    display: 'After:',
+    display: 'Due After:',
     prop: 'after',
     verify: function(date) {
       var beforeOption = Collections.tasks.index.getComponentDict().get('searchOptions').props.before;
@@ -309,7 +319,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
       if(options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
-      console.log(selector)
+
       return selector;
     }
   })
