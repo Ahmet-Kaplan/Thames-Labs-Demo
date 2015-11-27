@@ -53,16 +53,17 @@ Meteor.methods({
   },
 
   addUser: function(doc) {
+    // This method is called by superadmins to create users
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       throw new Meteor.Error(403, 'Only admins may create users');
     }
 
     // Important - do server side schema check
     check(doc, Schemas.User);
+
     // Create user account
     var userId = Accounts.createUser({
       email: doc.email.toLowerCase(),
-      password: doc.password,
       profile: {
         name: doc.name,
         lastLogin: null,
@@ -81,33 +82,7 @@ Meteor.methods({
       Partitioner.setUserGroup(userId, doc.group);
     }
 
-    SSR.compileTemplate('emailText', Assets.getText('email-template.html'));
-    Template.emailText.helpers({
-      getDoctype: function() {
-        return '!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-      },
-      subject: function() {
-        return 'Your RealTimeCRM details';
-      },
-      name: function() {
-        return doc.name;
-      },
-      email: function() {
-        return doc.email;
-      }
-    });
-    var html = '<' + SSR.render("emailText");
-
-    // See server/startup.js for MAIL_URL environment variable
-
-    Email.send({
-      to: doc.email,
-      from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
-      subject: 'Your RealTimeCRM details',
-      html: html
-    });
-
-    Accounts.sendVerificationEmail(userId, doc.email);
+    Accounts.sendEnrollmentEmail(userId);
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 
@@ -115,6 +90,7 @@ Meteor.methods({
   },
 
   addTenantUser: function(doc) {
+    // This method is called by tenant admins to create users
     var adminId = this.userId;
     if (!Roles.userIsInRole(adminId, ['Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may create users');
@@ -146,7 +122,6 @@ Meteor.methods({
     LogServerEvent('verbose', 'User created', 'user', userId);
 
     Meteor.call('updateStripeQuantity');
-    return true;
   }
 
 });

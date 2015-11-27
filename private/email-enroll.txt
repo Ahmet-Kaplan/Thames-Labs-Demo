@@ -1,8 +1,12 @@
-Dear {{name}},\n\n
-Thank you for choosing to use RealTimeCRM. We hope you will enjoy the simple yet powerful functionality of the system.\n\n
-To set your password and login please go to:\n\n
-{{url}}\n\n
-Should you have any questions or comments please use the “Give Feedback” link just above Change Password.\n\n
-We hope that you enjoy your RealTimeCRM experience.\n\n
-Yours sincerely,\n
+Dear {{name}},
+
+Thank you for choosing RealTimeCRM. We hope you will enjoy the simple yet powerful functionality of the system. To set your password and login please go to:
+
+{{url}}
+
+Should you have any questions or comments please use the “Give Feedback” link just above Change Password.
+
+We hope that you enjoy your RealTimeCRM experience.
+
+Yours sincerely,
 The RealTimeCRM Team

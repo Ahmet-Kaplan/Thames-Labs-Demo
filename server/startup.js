@@ -1,33 +1,5 @@
 Meteor.startup(function() {
 
-  Accounts.validateLoginAttempt(function(parameters) {
-    if (parameters.user) {
-      if (!Roles.userIsInRole(parameters.user._id, ['superadmin'])) {
-        if (!parameters.user.emails || !parameters.user.emails[0]) {
-          parameters.allowed = false;
-          parameters.error = new Meteor.Error("There seems to be a problem with your account. Please contact us on 01223 802 901.");
-        }
-
-        var canLogIn = false;
-        _.each(parameters.user.emails, function(e) {
-          if (e.verified === true) {
-            canLogIn = true;
-          }
-        })
-
-        if (canLogIn === false) {
-          parameters.allowed = false;
-          parameters.error = new Meteor.Error("The email address associated with your account has not been verified. You must validate it before you can login - check your email inbox.");
-          return false
-        }
-
-        return true;
-      } else {
-        return true;
-      }
-    }
-  });
-
   // Perform any migrations specified in migrations.js
   // See https://github.com/percolatestudio/meteor-migrations
   if (!process.env.IS_MIRROR) {

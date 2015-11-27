@@ -14,6 +14,19 @@ Schemas.User = new SimpleSchema({
       if (this.isSet && typeof this.value === "string") {
         return this.value.toLowerCase();
       }
+    },
+    custom: function() {
+      // Do server side check for uniqueness as client doesn't have list of all users
+      if (Meteor.isClient && this.isSet) {
+        Meteor.call('isEmailAvailable', this.value, (error, result) => {
+          if (result === false) {
+            // Would be good to do this for any context, but unsure how to do this
+            Schemas.User.namedContext('addTenantUserModal').addInvalidKeys([
+              { name: 'email', type: 'emailTaken' }
+            ]);
+          }
+        });
+      }
     }
   },
   password: {
@@ -27,6 +40,10 @@ Schemas.User = new SimpleSchema({
   group: {
     type: String
   }
+});
+
+Schemas.User.messages({
+  emailTaken: "This email address is already registered with RealTimeCRM"
 });
 
 Schemas.Feedback = new SimpleSchema({

@@ -48,7 +48,7 @@ Meteor.methods({
 
     Partitioner.setUserGroup(userId, tenantId);
 
-    Accounts.sendEnrollmentEmail(userId, userDetails.email);
+    Accounts.sendEnrollmentEmail(userId);
 
     var txt = 'New sign up from ' + userDetails.name + ' at company ' + userDetails.companyName;
     Email.send({
