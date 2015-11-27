@@ -47,6 +47,8 @@ var handle = '';
 
 function displayFilter(mainCollectionName, selectize) {
   var filters = Collections[mainCollectionName].filters;
+  filters = _.sortBy(filters, 'display');
+
   handle = Tracker.autorun(function() {
     var search = searchInput.get();
     var matchedFilters = _.some(filters, function(filter) {
@@ -78,7 +80,7 @@ function displayFilter(mainCollectionName, selectize) {
           }
         //If filter doesn't have collection, allow creation to handle the search
         } else {
-          selectize.addOption({_id: 'setUnlistedFilter', name: 'Apply ' + search});
+          selectize.addOption({_id: 'setUnlistedFilter', name: search});
           selectize.refreshOptions(true);
         }
         return true;

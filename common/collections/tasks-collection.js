@@ -146,13 +146,43 @@ Collections.tasks.filters = {
     prop: 'dueDate',
     verify: function(dueDate) {
       if(!moment(dueDate).isValid() && !moment(dueDate, 'DD-MM-YYYY', false).isValid() && !_.some(wordedTimes, 'expr', dueDate.toLowerCase())) {
-        if(Meteor.isClient) {
-          toastr.error('Invalid date', 'Error', {preventDuplicates: true});
-        }
+        toastr.error('Invalid date', 'Error', {preventDuplicates: true});
         return false;
       } else {
         return true;
       }
+    }
+  },
+  before: {
+    display: 'Before:',
+    prop: 'before',
+    verify: function(date) {
+      var afterOption = Collections.tasks.index.getComponentDict().get('searchOptions').props.after;
+      if(!moment(date).isValid()) {
+        toastr.error('Invalid date', 'Error', {preventDuplicates: true});
+        return false;
+      }
+      if(afterOption && moment(date).isBefore(moment(afterOption))) {
+        toastr.error('The \'Before\' date is before the \'After\' date', 'Error', {preventDuplicates: true});
+        return false;
+      }
+      return true;
+    }
+  },
+  after: {
+    display: 'After:',
+    prop: 'after',
+    verify: function(date) {
+      var beforeOption = Collections.tasks.index.getComponentDict().get('searchOptions').props.before;
+      if(!moment(date).isValid()) {
+        toastr.error('Invalid date', 'Error', {preventDuplicates: true});
+        return false;
+      }
+      if(beforeOption && moment(date).isAfter(moment(beforeOption))) {
+        toastr.error('The \'After\' date is after the \'Before\' date', 'Error', {preventDuplicates: true});
+        return false;
+      }
+      return true;
     }
   }
 };
@@ -238,6 +268,24 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
           }
         }
 
+      }
+
+      if(options.search.props.after || options.search.props.before) {
+        var dueAfter = options.search.props.after;
+        var dueBefore = options.search.props.before;
+        var startDate = null;
+        var endDate = null;
+        selector.dueDate = {};
+
+        if(dueAfter && moment(dueAfter).isValid()) {
+          startDate = moment(dueAfter).startOf('day').toDate();
+          selector.dueDate.$gte = startDate;
+        }
+
+        if(dueBefore && moment(dueBefore).isValid()) {
+          endDate = moment(dueBefore).endOf('day').toDate();
+          selector.dueDate.$lte = endDate;
+        }
       }
 
       if(options.search.props.showCompleted) {
