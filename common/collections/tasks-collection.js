@@ -227,8 +227,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
-      var userId = options.search.userId;
-      
+
       if(options.search.props.assignee) {
         // n.b. the array is passed as a comma separated string
         selector.assigneeId = {$in: options.search.props.assignee.split(',')};

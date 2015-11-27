@@ -29,11 +29,11 @@ function displayFilter(mainCollectionName, selectize) {
           var recordsCursor = Collections[filter.collectionName].index.search(searchString, {
             props: props
           });
-          if(recordsCursor.isReady()){
+          if(recordsCursor.isReady()) {
             var records = recordsCursor.fetch();
             _.each(records, function(record) {
               selectize.addOption({
-                _id: record[filter.valueField], 
+                _id: record[filter.valueField],
                 name: filter.display + ' ' + record[filter.nameField]
               });
             });
@@ -46,7 +46,7 @@ function displayFilter(mainCollectionName, selectize) {
           if(filter.defaultOptions) {
             _.each(filter.defaultOptions, function(option, i) {
               selectize.addOption({
-                _id: 'setUnlistedFilter' + i, 
+                _id: 'setUnlistedFilter' + i,
                 name: filter.display + ' ' + option
               });
             });
@@ -87,10 +87,10 @@ function applyFilter(text, value, mainCollectionName, selectize) {
     if(filter.verify && !filter.verify(value)) {
       selectize.clearOptions();
       selectize.blur();
-      return false;  
+      return false;
     } else {
       //Apply prop (no need to differenciate define/update since it's a unique value, not an array of values)
-      Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);    
+      Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);
       selectize.clearOptions();
       selectize.blur();
     }
@@ -102,9 +102,9 @@ function applyFilter(text, value, mainCollectionName, selectize) {
 
     if(filterRegexp.test(text)) {
       var searchOptions = Collections[mainCollectionName].index.getComponentDict().get('searchOptions');
-      
+
       //If prop already exist, update corresponding list
-      if(searchOptions.props[filter.prop] !== undefined){
+      if(searchOptions.props[filter.prop] !== undefined) {
         var updatedProp = searchOptions.props[filter.prop].split(',');
         updatedProp.push(value);
         //Note that only strings can be passed, the array is passed as a comma separated list

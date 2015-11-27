@@ -56,7 +56,7 @@ Meteor.methods({
 
         //Function to add task since the entity type can vary
         var addTask = function(entityType, entityId, createdBy) {
-          if(faker.random.boolean()){
+          if(faker.random.boolean()) {
             return;
           }
           var usersArray = Meteor.users.find({}).fetch();
