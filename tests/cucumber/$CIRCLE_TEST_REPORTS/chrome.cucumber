@@ -39,7 +39,7 @@
             "keyword": "Before ",
             "hidden": true,
             "result": {
-              "duration": 7603868787,
+              "duration": 3407845118,
               "status": "passed"
             },
             "match": {}
@@ -49,7 +49,7 @@
             "line": 8,
             "keyword": "Given ",
             "result": {
-              "duration": 344204591,
+              "duration": 343459206,
               "status": "passed"
             },
             "match": {}
@@ -59,7 +59,7 @@
             "line": 9,
             "keyword": "And ",
             "result": {
-              "duration": 744168733,
+              "duration": 430725212,
               "status": "passed"
             },
             "match": {}
@@ -69,7 +69,7 @@
             "line": 13,
             "keyword": "Given ",
             "result": {
-              "duration": 140605680,
+              "duration": 124847416,
               "status": "passed"
             },
             "match": {}
@@ -79,7 +79,7 @@
             "line": 14,
             "keyword": "And ",
             "result": {
-              "duration": 118753029,
+              "duration": 124976048,
               "status": "passed"
             },
             "match": {}
@@ -89,7 +89,7 @@
             "line": 15,
             "keyword": "And ",
             "result": {
-              "duration": 124229506,
+              "duration": 122860809,
               "status": "passed"
             },
             "match": {}
@@ -99,7 +99,7 @@
             "line": 16,
             "keyword": "And ",
             "result": {
-              "duration": 536119301,
+              "duration": 420440626,
               "status": "passed"
             },
             "match": {}
@@ -109,7 +109,7 @@
             "line": 17,
             "keyword": "Then ",
             "result": {
-              "duration": 217129751,
+              "duration": 231722554,
               "status": "passed"
             },
             "match": {}
@@ -118,7 +118,7 @@
             "keyword": "After ",
             "hidden": true,
             "result": {
-              "duration": 184624,
+              "duration": 134546,
               "status": "passed"
             },
             "match": {}
@@ -137,7 +137,7 @@
             "keyword": "Before ",
             "hidden": true,
             "result": {
-              "duration": 4023621432,
+              "duration": 3375312155,
               "status": "passed"
             },
             "match": {}
@@ -147,7 +147,7 @@
             "line": 8,
             "keyword": "Given ",
             "result": {
-              "duration": 355538099,
+              "duration": 355657238,
               "status": "passed"
             },
             "match": {}
@@ -157,7 +157,7 @@
             "line": 9,
             "keyword": "And ",
             "result": {
-              "duration": 373436551,
+              "duration": 393658847,
               "status": "passed"
             },
             "match": {}
@@ -167,7 +167,7 @@
             "line": 20,
             "keyword": "Given ",
             "result": {
-              "duration": 241371280,
+              "duration": 149480242,
               "status": "passed"
             },
             "match": {}
@@ -177,7 +177,7 @@
             "line": 21,
             "keyword": "And ",
             "result": {
-              "duration": 116542156,
+              "duration": 120804670,
               "status": "passed"
             },
             "match": {}
@@ -187,7 +187,7 @@
             "line": 22,
             "keyword": "And ",
             "result": {
-              "duration": 377058983,
+              "duration": 357559705,
               "status": "passed"
             },
             "match": {}
@@ -197,7 +197,7 @@
             "line": 23,
             "keyword": "Then ",
             "result": {
-              "duration": 158797398,
+              "duration": 138334478,
               "status": "passed"
             },
             "match": {}
@@ -206,7 +206,1147 @@
             "keyword": "After ",
             "hidden": true,
             "result": {
-              "duration": 85682,
+              "duration": 169948,
+              "status": "passed"
+            },
+            "match": {}
+          }
+        ]
+      },
+      {
+        "name": "A user with Contact Read permission can see a contact activity in the list",
+        "id": "Allow-users-to-access-a-central-view-of-all-activities;a-user-with-contact-read-permission-can-see-a-contact-activity-in-the-list",
+        "line": 26,
+        "keyword": "Scenario",
+        "description": "",
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Before ",
+            "hidden": true,
+            "result": {
+              "duration": 3020731202,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a user exists",
+            "line": 8,
+            "keyword": "Given ",
+            "result": {
+              "duration": 339759508,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I am a logged in user",
+            "line": 9,
+            "keyword": "And ",
+            "result": {
+              "duration": 380891114,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a \"Contact\" has been created",
+            "line": 27,
+            "keyword": "Given ",
+            "result": {
+              "duration": 222171999,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I have the \"CanReadContacts\" permission",
+            "line": 28,
+            "keyword": "And ",
+            "result": {
+              "duration": 118153160,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "the contact has an activity",
+            "line": 29,
+            "keyword": "And ",
+            "result": {
+              "duration": 117767390,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#menuLinkActivities\"",
+            "line": 30,
+            "keyword": "And ",
+            "result": {
+              "duration": 345853473,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I see a \"contacts\" activity with the notes \"Test contact activity\" in the list \"#activity-list\"",
+            "line": 31,
+            "keyword": "Then ",
+            "result": {
+              "duration": 181326976,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "keyword": "After ",
+            "hidden": true,
+            "result": {
+              "duration": 345214,
+              "status": "passed"
+            },
+            "match": {}
+          }
+        ]
+      },
+      {
+        "name": "A user without Contact Read permission cannot see a company activity in the list",
+        "id": "Allow-users-to-access-a-central-view-of-all-activities;a-user-without-contact-read-permission-cannot-see-a-company-activity-in-the-list",
+        "line": 33,
+        "keyword": "Scenario",
+        "description": "",
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Before ",
+            "hidden": true,
+            "result": {
+              "duration": 2963034364,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a user exists",
+            "line": 8,
+            "keyword": "Given ",
+            "result": {
+              "duration": 340879969,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I am a logged in user",
+            "line": 9,
+            "keyword": "And ",
+            "result": {
+              "duration": 404506490,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a \"Contact\" has been created",
+            "line": 34,
+            "keyword": "Given ",
+            "result": {
+              "duration": 229822090,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "the contact has an activity",
+            "line": 35,
+            "keyword": "And ",
+            "result": {
+              "duration": 114819466,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#menuLinkActivities\"",
+            "line": 36,
+            "keyword": "And ",
+            "result": {
+              "duration": 318769598,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I do not see activities from \"contacts\" in the list \"#activity-list\"",
+            "line": 37,
+            "keyword": "Then ",
+            "result": {
+              "duration": 135538731,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "keyword": "After ",
+            "hidden": true,
+            "result": {
+              "duration": 122457,
+              "status": "passed"
+            },
+            "match": {}
+          }
+        ]
+      },
+      {
+        "name": "A user with Opportunity Read permission can see a opportunity activity in the list",
+        "id": "Allow-users-to-access-a-central-view-of-all-activities;a-user-with-opportunity-read-permission-can-see-a-opportunity-activity-in-the-list",
+        "line": 40,
+        "keyword": "Scenario",
+        "description": "",
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Before ",
+            "hidden": true,
+            "result": {
+              "duration": 2583939776,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a user exists",
+            "line": 8,
+            "keyword": "Given ",
+            "result": {
+              "duration": 356563871,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I am a logged in user",
+            "line": 9,
+            "keyword": "And ",
+            "result": {
+              "duration": 412153118,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a \"Opportunity\" has been created",
+            "line": 41,
+            "keyword": "Given ",
+            "result": {
+              "duration": 342520638,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I have the \"CanReadOpportunities\" permission",
+            "line": 42,
+            "keyword": "And ",
+            "result": {
+              "duration": 114851234,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "the opportunity has an activity",
+            "line": 43,
+            "keyword": "And ",
+            "result": {
+              "duration": 115380508,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#menuLinkActivities\"",
+            "line": 44,
+            "keyword": "And ",
+            "result": {
+              "duration": 326533021,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I see a \"opportunities\" activity with the notes \"Test opportunity activity\" in the list \"#activity-list\"",
+            "line": 45,
+            "keyword": "Then ",
+            "result": {
+              "duration": 173896867,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "keyword": "After ",
+            "hidden": true,
+            "result": {
+              "duration": 72720,
+              "status": "passed"
+            },
+            "match": {}
+          }
+        ]
+      },
+      {
+        "name": "A user without Opportunity Read permission cannot see a opportunity activity in the list",
+        "id": "Allow-users-to-access-a-central-view-of-all-activities;a-user-without-opportunity-read-permission-cannot-see-a-opportunity-activity-in-the-list",
+        "line": 47,
+        "keyword": "Scenario",
+        "description": "",
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Before ",
+            "hidden": true,
+            "result": {
+              "duration": 3044671547,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a user exists",
+            "line": 8,
+            "keyword": "Given ",
+            "result": {
+              "duration": 343840160,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I am a logged in user",
+            "line": 9,
+            "keyword": "And ",
+            "result": {
+              "duration": 362763208,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a \"Opportunity\" has been created",
+            "line": 48,
+            "keyword": "Given ",
+            "result": {
+              "duration": 243809498,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "the opportunity has an activity",
+            "line": 49,
+            "keyword": "And ",
+            "result": {
+              "duration": 118227946,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#menuLinkActivities\"",
+            "line": 50,
+            "keyword": "And ",
+            "result": {
+              "duration": 329567653,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I do not see activities from \"opportunities\" in the list \"#activity-list\"",
+            "line": 51,
+            "keyword": "Then ",
+            "result": {
+              "duration": 121867141,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "keyword": "After ",
+            "hidden": true,
+            "result": {
+              "duration": 90331,
+              "status": "passed"
+            },
+            "match": {}
+          }
+        ]
+      },
+      {
+        "name": "A user with Project Read permission can see a project activity in the list",
+        "id": "Allow-users-to-access-a-central-view-of-all-activities;a-user-with-project-read-permission-can-see-a-project-activity-in-the-list",
+        "line": 54,
+        "keyword": "Scenario",
+        "description": "",
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Before ",
+            "hidden": true,
+            "result": {
+              "duration": 3041869324,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a user exists",
+            "line": 8,
+            "keyword": "Given ",
+            "result": {
+              "duration": 337266379,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I am a logged in user",
+            "line": 9,
+            "keyword": "And ",
+            "result": {
+              "duration": 369355171,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a \"Company\" has been created",
+            "line": 55,
+            "keyword": "Given ",
+            "result": {
+              "duration": 129414756,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a \"Project\" has been created",
+            "line": 56,
+            "keyword": "And ",
+            "result": {
+              "duration": 427930704,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I have the \"CanReadProjects\" permission",
+            "line": 57,
+            "keyword": "And ",
+            "result": {
+              "duration": 116677270,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "the project has an activity",
+            "line": 58,
+            "keyword": "And ",
+            "result": {
+              "duration": 117313357,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#menuLinkActivities\"",
+            "line": 59,
+            "keyword": "And ",
+            "result": {
+              "duration": 334420923,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I see a \"projects\" activity with the notes \"Test project activity\" in the list \"#activity-list\"",
+            "line": 60,
+            "keyword": "Then ",
+            "result": {
+              "duration": 185074728,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "keyword": "After ",
+            "hidden": true,
+            "result": {
+              "duration": 142709,
+              "status": "passed"
+            },
+            "match": {}
+          }
+        ]
+      },
+      {
+        "name": "A user without Project Read permission cannot see a project activity in the list",
+        "id": "Allow-users-to-access-a-central-view-of-all-activities;a-user-without-project-read-permission-cannot-see-a-project-activity-in-the-list",
+        "line": 62,
+        "keyword": "Scenario",
+        "description": "",
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Before ",
+            "hidden": true,
+            "result": {
+              "duration": 2947728313,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a user exists",
+            "line": 8,
+            "keyword": "Given ",
+            "result": {
+              "duration": 343125321,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I am a logged in user",
+            "line": 9,
+            "keyword": "And ",
+            "result": {
+              "duration": 365758105,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a \"Company\" has been created",
+            "line": 63,
+            "keyword": "Given ",
+            "result": {
+              "duration": 138325908,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a \"Project\" has been created",
+            "line": 64,
+            "keyword": "And ",
+            "result": {
+              "duration": 124702056,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "the project has an activity",
+            "line": 65,
+            "keyword": "And ",
+            "result": {
+              "duration": 120022267,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#menuLinkActivities\"",
+            "line": 66,
+            "keyword": "And ",
+            "result": {
+              "duration": 324258988,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I do not see activities from \"projects\" in the list \"#activity-list\"",
+            "line": 67,
+            "keyword": "Then ",
+            "result": {
+              "duration": 143333727,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "keyword": "After ",
+            "hidden": true,
+            "result": {
+              "duration": 141169,
+              "status": "passed"
+            },
+            "match": {}
+          }
+        ]
+      },
+      {
+        "name": "A user with Purchase Order Read permission can see a purchase order activity in the list",
+        "id": "Allow-users-to-access-a-central-view-of-all-activities;a-user-with-purchase-order-read-permission-can-see-a-purchase-order-activity-in-the-list",
+        "line": 70,
+        "keyword": "Scenario",
+        "description": "",
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Before ",
+            "hidden": true,
+            "result": {
+              "duration": 2372763732,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a user exists",
+            "line": 8,
+            "keyword": "Given ",
+            "result": {
+              "duration": 356397001,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I am a logged in user",
+            "line": 9,
+            "keyword": "And ",
+            "result": {
+              "duration": 372686083,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a \"Company\" has been created",
+            "line": 71,
+            "keyword": "Given ",
+            "result": {
+              "duration": 122708506,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I have the \"CanReadCompanies\" permission",
+            "line": 72,
+            "keyword": "And ",
+            "result": {
+              "duration": 130796409,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I have the \"CanReadPurchaseOrders\" permission",
+            "line": 73,
+            "keyword": "And ",
+            "result": {
+              "duration": 117098164,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I have the \"CanCreatePurchaseOrders\" permission",
+            "line": 74,
+            "keyword": "And ",
+            "result": {
+              "duration": 117888678,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I navigate to \"/purchaseorders\"",
+            "line": 75,
+            "keyword": "And ",
+            "result": {
+              "duration": 1802912436,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#add-purchase-order\"",
+            "line": 76,
+            "keyword": "And ",
+            "result": {
+              "duration": 385223860,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I set text field with selector \"#description\" to \"test purchase order\"",
+            "line": 77,
+            "keyword": "And ",
+            "result": {
+              "duration": 837441678,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I selectize \"supplierCompanyId\" to \"Test Ltd\"",
+            "line": 78,
+            "keyword": "And ",
+            "result": {
+              "duration": 636719615,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#create-purchase-order\"",
+            "line": 79,
+            "keyword": "And ",
+            "result": {
+              "duration": 304187382,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I have the \"CanReadPurchaseOrders\" permission",
+            "line": 80,
+            "keyword": "And ",
+            "result": {
+              "duration": 287039974,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "the purchase order has an activity",
+            "line": 81,
+            "keyword": "And ",
+            "result": {
+              "duration": 305321653,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#menuLinkActivities\"",
+            "line": 82,
+            "keyword": "And ",
+            "result": {
+              "duration": 307890924,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I see a \"purchaseOrders\" activity with the notes \"Test purchase order activity\" in the list \"#activity-list\"",
+            "line": 83,
+            "keyword": "Then ",
+            "result": {
+              "duration": 400122799,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "keyword": "After ",
+            "hidden": true,
+            "result": {
+              "duration": 175861,
+              "status": "passed"
+            },
+            "match": {}
+          }
+        ]
+      },
+      {
+        "name": "A user without Purchase Order Read permission cannot see a purchase order activity in the list",
+        "id": "Allow-users-to-access-a-central-view-of-all-activities;a-user-without-purchase-order-read-permission-cannot-see-a-purchase-order-activity-in-the-list",
+        "line": 85,
+        "keyword": "Scenario",
+        "description": "",
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Before ",
+            "hidden": true,
+            "result": {
+              "duration": 2503505189,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a user exists",
+            "line": 8,
+            "keyword": "Given ",
+            "result": {
+              "duration": 336934088,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I am a logged in user",
+            "line": 9,
+            "keyword": "And ",
+            "result": {
+              "duration": 405369204,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a \"Company\" has been created",
+            "line": 86,
+            "keyword": "Given ",
+            "result": {
+              "duration": 136738183,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I have the \"CanReadCompanies\" permission",
+            "line": 87,
+            "keyword": "And ",
+            "result": {
+              "duration": 527996972,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I have the \"CanReadPurchaseOrders\" permission",
+            "line": 88,
+            "keyword": "And ",
+            "result": {
+              "duration": 116479610,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I have the \"CanCreatePurchaseOrders\" permission",
+            "line": 89,
+            "keyword": "And ",
+            "result": {
+              "duration": 118511498,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I navigate to \"/purchaseorders\"",
+            "line": 90,
+            "keyword": "And ",
+            "result": {
+              "duration": 1860415780,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#add-purchase-order\"",
+            "line": 91,
+            "keyword": "And ",
+            "result": {
+              "duration": 284232012,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I set text field with selector \"#description\" to \"test purchase order\"",
+            "line": 92,
+            "keyword": "And ",
+            "result": {
+              "duration": 530557890,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I selectize \"supplierCompanyId\" to \"Test Ltd\"",
+            "line": 93,
+            "keyword": "And ",
+            "result": {
+              "duration": 469087326,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#create-purchase-order\"",
+            "line": 94,
+            "keyword": "And ",
+            "result": {
+              "duration": 222466056,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "the purchase order has an activity",
+            "line": 95,
+            "keyword": "And ",
+            "result": {
+              "duration": 397599133,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I do not have the \"CanReadCompanies\" permission",
+            "line": 96,
+            "keyword": "And ",
+            "result": {
+              "duration": 310136948,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I do not have the \"CanReadPurchaseOrders\" permission",
+            "line": 97,
+            "keyword": "And ",
+            "result": {
+              "duration": 246764984,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I do not have the \"CanCreatePurchaseOrders\" permission",
+            "line": 98,
+            "keyword": "And ",
+            "result": {
+              "duration": 129850103,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#menuLinkActivities\"",
+            "line": 99,
+            "keyword": "And ",
+            "result": {
+              "duration": 331480152,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I do not see activities from \"purchase orders\" in the list \"#activity-list\"",
+            "line": 100,
+            "keyword": "Then ",
+            "result": {
+              "duration": 161312337,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "keyword": "After ",
+            "hidden": true,
+            "result": {
+              "duration": 75793,
+              "status": "passed"
+            },
+            "match": {}
+          }
+        ]
+      },
+      {
+        "name": "A user with Task Read permission can see a task activity in the list",
+        "id": "Allow-users-to-access-a-central-view-of-all-activities;a-user-with-task-read-permission-can-see-a-task-activity-in-the-list",
+        "line": 103,
+        "keyword": "Scenario",
+        "description": "",
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Before ",
+            "hidden": true,
+            "result": {
+              "duration": 2749697903,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a user exists",
+            "line": 8,
+            "keyword": "Given ",
+            "result": {
+              "duration": 341316355,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I am a logged in user",
+            "line": 9,
+            "keyword": "And ",
+            "result": {
+              "duration": 384517992,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a \"Company\" task has been created",
+            "line": 104,
+            "keyword": "Given ",
+            "result": {
+              "duration": 240970607,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I have the \"CanReadTasks\" permission",
+            "line": 105,
+            "keyword": "And ",
+            "result": {
+              "duration": 114029240,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "the task has an activity",
+            "line": 106,
+            "keyword": "And ",
+            "result": {
+              "duration": 116706666,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#menuLinkActivities\"",
+            "line": 107,
+            "keyword": "And ",
+            "result": {
+              "duration": 307045032,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I see a \"tasks\" activity with the notes \"Test task activity\" in the list \"#activity-list\"",
+            "line": 108,
+            "keyword": "Then ",
+            "result": {
+              "duration": 238021489,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "keyword": "After ",
+            "hidden": true,
+            "result": {
+              "duration": 65618,
+              "status": "passed"
+            },
+            "match": {}
+          }
+        ]
+      },
+      {
+        "name": "A user without Task Read permission cannot see a task activity in the list",
+        "id": "Allow-users-to-access-a-central-view-of-all-activities;a-user-without-task-read-permission-cannot-see-a-task-activity-in-the-list",
+        "line": 110,
+        "keyword": "Scenario",
+        "description": "",
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Before ",
+            "hidden": true,
+            "result": {
+              "duration": 3153599721,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a user exists",
+            "line": 8,
+            "keyword": "Given ",
+            "result": {
+              "duration": 342870314,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I am a logged in user",
+            "line": 9,
+            "keyword": "And ",
+            "result": {
+              "duration": 414490849,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "a \"Company\" task has been created",
+            "line": 111,
+            "keyword": "Given ",
+            "result": {
+              "duration": 230352193,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "the task has an activity",
+            "line": 112,
+            "keyword": "And ",
+            "result": {
+              "duration": 115742705,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I click \"#menuLinkActivities\"",
+            "line": 113,
+            "keyword": "And ",
+            "result": {
+              "duration": 348874309,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "name": "I do not see activities from \"tasks\" in the list \"#activity-list\"",
+            "line": 114,
+            "keyword": "Then ",
+            "result": {
+              "duration": 142441707,
+              "status": "passed"
+            },
+            "match": {}
+          },
+          {
+            "keyword": "After ",
+            "hidden": true,
+            "result": {
+              "duration": 61854,
               "status": "passed"
             },
             "match": {}

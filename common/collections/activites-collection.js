@@ -75,7 +75,7 @@ Activities.after.insert(function(userId, doc) {
   }
   if (doc.projectId) {
     entity = Projects.findOne(doc.projectId);
-    entityName = "Project: " + entity.description;
+    entityName = "Project: " + entity.name;
   }
   if (doc.purchaseOrderId) {
     entity = PurchaseOrders.findOne(doc.purchaseOrderId);
