@@ -58,6 +58,13 @@ Schemas.Activity = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
   }
 });
 Activities.attachSchema(Schemas.Activity);

@@ -1,0 +1,10 @@
+{
+  "public": {
+    "dropboxApiKey": "cxpzllktv0grzai",
+    "boxApiKey": "ywjtfwl5r9j6k8jcl5pmf5tfdfo82eoq",
+    "googleDeveloperKey": "AIzaSyBl0OmrvqoSet20yP7sOirUExQ28lloVzo",
+    "googleClientKey": "329730007716-ru8vk3pa23l06vrr30opg8aoassndkr8.apps.googleusercontent.com",
+    "oneDriveClientKey": "000000004017576E"
+  },
+  "private": {}
+}

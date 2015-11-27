@@ -8,6 +8,7 @@ Feature: Allow users to manage their Companies
     And I am a logged in user
     And I have the "CanReadCompanies" permission
 
+
   #Reading
   Scenario: A user can see the companies list
     When I navigate to "/companies"
@@ -42,6 +43,7 @@ Feature: Allow users to manage their Companies
     When I navigate to "/companies"
     Then I should see the heading "Tenants"
 
+
   #Adding
   Scenario: A user can create a company
     Given I have the "CanCreateCompanies" permission
@@ -67,6 +69,7 @@ Feature: Allow users to manage their Companies
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
     Then the restricted user should not have the "CanCreateCompanies" permission
+
 
   #Editing
   Scenario: A user can edit a company
@@ -95,6 +98,7 @@ Feature: Allow users to manage their Companies
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
     Then the restricted user should not have the "CanEditCompanies" permission
+
 
   #Deleting
   Scenario: A user can delete a company
@@ -131,6 +135,7 @@ Feature: Allow users to manage their Companies
   Scenario: A user can see the Companies menu item with the correct permission
     Given I have the "CanReadCompanies" permission
     Then the "Companies" menu item is shown
+
 
   #Extended information fields
   Scenario: A user can open the "Add Extended information fields" modal
@@ -175,6 +180,7 @@ Feature: Allow users to manage their Companies
     And I click "#submit-ext-info"
     Then I see a field with the name "velocity" in the extended information list
 
+
   #Maps
   Scenario: A user can do a location search and see the map when creating a company
     Given I have the "CanCreateCompanies" permission
@@ -200,6 +206,7 @@ Feature: Allow users to manage their Companies
     When I search for Cowley Road
     Then the field "postcode" should contain "CB4"
     And I should see a map
+
 
   #Tags
   Scenario: A user with the CanEditCompanies permission can edit tags
