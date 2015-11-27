@@ -1,12 +1,15 @@
 Meteor.methods({
-  setUserAuthLevel: function(userId, level) {
 
+  isEmailAvailable: function(emailAddress) {
+    return !Accounts.findUserByEmail(emailAddress);
+  },
+
+  setUserAuthLevel: function(userId, level) {
     Meteor.users.update(userId, {
       $set: {
         'profile.poAuthLevel': parseFloat(level)
       }
     });
-
   },
 
   removeUser: function(userId) {
@@ -22,7 +25,9 @@ Meteor.methods({
     Grouping.remove({
       _id: userId
     });
-    Meteor.users.remove({_id: userId});
+    Meteor.users.remove({
+      _id: userId
+    });
 
     if (Roles.userIsInRole(this.userId, 'Administrator')) {
       Meteor.call('updateStripeQuantity');
@@ -36,9 +41,11 @@ Meteor.methods({
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       throw new Meteor.Error(403, 'Only superadmins may delete all users');
     }
-    Meteor.users.find({group: tenantId}).forEach(function(user) {
+    Meteor.users.find({
+      group: tenantId
+    }).forEach(function(user) {
       Meteor.call('removeUser', user.id, function(err, result) {
-        if(err) {
+        if (err) {
           LogServerEvent('error', 'Unable to remove user while calling \'deleteAllTenantUsers\'', 'user', user.id);
         }
       });
@@ -46,16 +53,17 @@ Meteor.methods({
   },
 
   addUser: function(doc) {
+    // This method is called by superadmins to create users
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       throw new Meteor.Error(403, 'Only admins may create users');
     }
 
     // Important - do server side schema check
     check(doc, Schemas.User);
+
     // Create user account
     var userId = Accounts.createUser({
       email: doc.email.toLowerCase(),
-      password: doc.password,
       profile: {
         name: doc.name,
         lastLogin: null,
@@ -74,34 +82,7 @@ Meteor.methods({
       Partitioner.setUserGroup(userId, doc.group);
     }
 
-    SSR.compileTemplate('emailText', Assets.getText('email-template.html'));
-    Template.emailText.helpers({
-      getDoctype: function() {
-        return '!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-      },
-      subject: function() {
-        return 'Your RealTimeCRM details';
-      },
-      name: function() {
-        return doc.name;
-      },
-      email: function() {
-        return doc.email;
-      },
-      password: function() {
-        return doc.password;
-      }
-    });
-    var html = '<' + SSR.render("emailText");
-
-    // See server/startup.js for MAIL_URL environment variable
-
-    Email.send({
-      to: doc.email,
-      from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
-      subject: 'Your RealTimeCRM details',
-      html: html
-    });
+    Accounts.sendEnrollmentEmail(userId);
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 
@@ -109,6 +90,7 @@ Meteor.methods({
   },
 
   addTenantUser: function(doc) {
+    // This method is called by tenant admins to create users
     var adminId = this.userId;
     if (!Roles.userIsInRole(adminId, ['Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may create users');
@@ -135,48 +117,11 @@ Meteor.methods({
     // Add user to a group (partition) based on customer id
     Partitioner.setUserGroup(userId, Partitioner.getUserGroup(adminId));
 
-    Accounts.emailTemplates.from = "RealTimeCRM Team <admin@realtimecrm.co.uk>";
-    Accounts.emailTemplates.siteName = "RealtimeCRM";
-    Accounts.emailTemplates.enrollAccount.subject = function(user) {
-      return 'Your RealTimeCRM details';
-    };
-    Accounts.emailTemplates.enrollAccount.text = function(user, url) {
-      return "Dear " + user.profile.name + "\n\n" +
-             "Thank you for choosing to use RealTimeCRM.\n\n" +
-             "We hope you will enjoy the simple yet powerful functionality of the system." +
-             " To set your password and login please go to:\n\n" +
-             url +
-             "\n\nShould you have any questions or comments please use the \"Give Feedback\" link just above Change Password.\n\n" +
-             "We hope that you enjoy your RealTimeCRM experience.\n\n" +
-             "Yours sincerely,\n" +
-             "The RealtimeCRM Team";
-    };
-    Accounts.emailTemplates.enrollAccount.html = function(user, url) {
-      SSR.compileTemplate('emailText', Assets.getText('email-enroll-template.html'));
-      Template.emailText.helpers({
-        getDoctype: function() {
-          return '!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-        },
-        subject: function() {
-          return 'Your RealTimeCRM details';
-        },
-        url: function() {
-          return url;
-        },
-        name: function() {
-          return user.profile.name;
-        }
-      });
-      var html = '<' + SSR.render("emailText");
-      return html;
-    };
-
     Accounts.sendEnrollmentEmail(userId);
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 
     Meteor.call('updateStripeQuantity');
-    return true;
   }
 
 });

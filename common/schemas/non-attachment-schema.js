@@ -14,6 +14,19 @@ Schemas.User = new SimpleSchema({
       if (this.isSet && typeof this.value === "string") {
         return this.value.toLowerCase();
       }
+    },
+    custom: function() {
+      // Do server side check for uniqueness as client doesn't have list of all users
+      if (Meteor.isClient && this.isSet) {
+        Meteor.call('isEmailAvailable', this.value, (error, result) => {
+          if (result === false) {
+            // Would be good to do this for any context, but unsure how to do this
+            Schemas.User.namedContext('addTenantUserModal').addInvalidKeys([
+              { name: 'email', type: 'emailTaken' }
+            ]);
+          }
+        });
+      }
     }
   },
   password: {
@@ -27,6 +40,10 @@ Schemas.User = new SimpleSchema({
   group: {
     type: String
   }
+});
+
+Schemas.User.messages({
+  emailTaken: "This email address is already registered with RealTimeCRM"
 });
 
 Schemas.Feedback = new SimpleSchema({
@@ -44,10 +61,10 @@ Schemas.Feedback = new SimpleSchema({
   }
 });
 
-
 Schemas.UserSignUp = new SimpleSchema({
   name: {
-    type: String
+    type: String,
+    label: 'User name'
   },
   email: {
     type: String,
@@ -59,27 +76,16 @@ Schemas.UserSignUp = new SimpleSchema({
       }
     },
     custom: function() {
-      var user = Meteor.users.findOne({
-        emails: {
-          $elemMatch: {
-            address: this.value
+      // Do server side check for uniqueness as client doesn't have list of all users
+      if (Meteor.isClient && this.isSet) {
+        Meteor.call('isEmailAvailable', this.value, (error, result) => {
+          if (result === false) {
+            // Would be good to do this for any context, but unsure how to do this
+            Schemas.UserSignUp.namedContext('signUpForm').addInvalidKeys([
+              { name: 'email', type: 'emailTaken' }
+            ]);
           }
-        }
-      });
-      if (user !== undefined) {
-        return "emailTaken";
-      }
-    }
-  },
-  password: {
-    type: String,
-    min: 6
-  },
-  confirmPassword: {
-    type: String,
-    custom: function() {
-      if (this.value !== this.field('password').value) {
-        return "passwordMissmatch";
+        });
       }
     }
   },
@@ -97,6 +103,5 @@ Schemas.UserSignUp = new SimpleSchema({
 });
 
 Schemas.UserSignUp.messages({
-  passwordMissmatch: "Passwords must match",
   emailTaken: "This email address is already registered with RealTimeCRM"
 });
