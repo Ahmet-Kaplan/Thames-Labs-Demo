@@ -12,6 +12,83 @@
   z-index: 101;
 }
 
+.fixed-action-btn {
+  position: fixed;
+  right: 50px;
+  bottom: 60px;
+  padding-top: 15px;
+  margin-bottom: 0;
+  z-index: 900;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #0e5e98;
+  border: none;
+  box-shadow: 2px 2px 7px #888888;
+}
+
+.fixed-action-btn i {
+  color: #fff;
+  font-size: 20px;
+  padding-bottom: 15px;
+}
+
+.fixed-action-btn:hover {
+  background:#0a4169;
+}
+.fixed-action-btn:active {
+  outline: none;
+  border: none;
+}
+
+.fixed-action-btn:focus {
+  outline: 0;
+}
+
+.fab-menu {
+  position: fixed;
+  display: none;
+  right: 120px;
+  bottom: 64px;
+  z-index: 1500;
+}
+
+.fab-menu-companies {
+  padding-top: 10px;
+  margin-right: 5px;
+  margin-bottom: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #0e5e98;
+  border: none;
+  box-shadow: 2px 2px 7px #888888;
+
+}
+
+.fab-menu-companies i {
+  color: #fff;
+  font-size: 15px;
+  padding-bottom: 20px;
+}
+
+.fab-menu-contacts {
+  padding-top: 10px;
+  margin-bottom: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #0e5e98;
+  border: none;
+  box-shadow: 2px 2px 7px #888888;
+}
+
+.fab-menu-contacts i {
+  color: #fff;
+  font-size: 15px;
+  padding-bottom: 20px;
+}
+
 @media only screen and (max-width: 768px) {
   .footer{
     display:none;

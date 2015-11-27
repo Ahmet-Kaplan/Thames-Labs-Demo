@@ -47,7 +47,6 @@ var companiesTutorial = {
 		content: "Here you can see a list of all the companies you have saved. If you dont have any yet don't worry, we'll add one now.",
 		target: document.querySelector('#companies-logo'),
 		placement: "bottom",
-
 		delay: 200
 	}, {
 		title: "Adding a Company",

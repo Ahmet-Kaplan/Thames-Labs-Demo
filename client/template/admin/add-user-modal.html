@@ -10,11 +10,11 @@
 
         <div class="modal-body">
           {{#autoForm schema="Schemas.User" id="addNewUserForm" type="method" meteormethod="addTenantUser"}}
-            {{> afQuickField name="name" autocomplete="off"}}
-            {{> afQuickField name="email" autocomplete="off"}}
+            {{> afQuickField name="name" autocomplete="off" id="addUserName"}}
+            {{> afQuickField name="email" autocomplete="off" id="addUserEmail"}}
             {{> afQuickField name="password" type="hidden" value="default123"}}
             {{> afQuickField name="group" type="hidden" value="1"}}
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" id="createUser">Create</button>
           {{/autoForm}}
         </div>
 
