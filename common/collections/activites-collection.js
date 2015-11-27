@@ -47,16 +47,19 @@ Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
         selector._id = options.search.props.searchById;
       }
 
-      // var collectionsToFilter = [];
-      // for (var collection in ['companies']) {
-      //   if (!Roles.userIsInRole(Meteor.userId(), permissionGenerator('read', collection))) {
-      //     collectionsToFilter.push(collection);
-      //   }
-      // }
+      var collectionsToFilter = [];
+      var perms = ['companies', 'contacts', 'opportunities', 'projects', 'tasks', 'purchaseorders'];
+      var userId = options.search.userId;
+      for (var p in perms) {
+        var perm = permissionGenerator('read', perms[p]);
+
+        if (!Roles.userIsInRole(userId, perm)) {
+          collectionsToFilter.push(perms[p]);
+        }
+      }
 
       selector.primaryEntityType = {
-        $nin: ['companies']
-        // $nin: collectionsToFilter
+        $nin: collectionsToFilter
       };
 
       return selector;
