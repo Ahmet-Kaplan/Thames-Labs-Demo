@@ -1,5 +1,21 @@
 Meteor.methods({
 
+  addCompanyActivity: function() {
+    var entity = Companies.findOne({});
+    var data = entity.name;
+    Activities.insert({
+      type: "Note",
+      notes: "Test company activity",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      primaryEntityId: entity._id,
+      primaryEntityType: "companies",
+      primaryEntityDisplayData: data,
+      companyId: entity._id,
+      createdBy: this.userId
+    });
+  },
+
   addCompany: function(name) {
     var companyName = name || 'Test Ltd',
       address = 'Cowley Road',
@@ -24,8 +40,8 @@ Meteor.methods({
 
   addContact: function(forename, surname) {
     var contactForename = forename || 'Testy',
-        contactSurname = surname || 'Surname',
-        userId = Meteor.userId();
+      contactSurname = surname || 'Surname',
+      userId = Meteor.userId();
     return Contacts.insert({
       "forename": contactForename,
       "surname": contactSurname,
@@ -128,7 +144,7 @@ Meteor.methods({
   },
 
   addRecordsToLimit: function() {
-  for(var i = 0; i < MAX_RECORDS / 2; i++) {
+    for (var i = 0; i < MAX_RECORDS / 2; i++) {
       Meteor.call('addContact', 'Test ' + i, 'Surnamer');
       Meteor.call('addCompany', 'Test ' + i + ' Ltd');
     }
@@ -197,7 +213,9 @@ Meteor.methods({
       description: 'test description',
       order: 1
     });
-    var stage = OpportunityStages.findOne({order: 0});
+    var stage = OpportunityStages.findOne({
+      order: 0
+    });
     var date = new Date();
     var companyId = Companies.insert({
       name: "Test Ltd",
