@@ -10,8 +10,13 @@ PurchaseOrders.helpers({
     return Companies.findOne(this.customerCompanyId);
   },
   activities: function() {
+    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+
     return Activities.find({
-      purchaseOrderId: this._id
+      purchaseOrderId: this._id,
+      primaryEntityType: {
+        $nin: collectionsToFilter
+      }
     }, {
       sort: {
         activityTimestamp: -1

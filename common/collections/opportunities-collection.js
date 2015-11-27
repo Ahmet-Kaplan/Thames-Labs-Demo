@@ -8,7 +8,21 @@ Opportunities.helpers({
   },
   contact: function() {
     return Contacts.findOne(this.contactId);
-  }
+  },
+  activities: function() {
+    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+
+    return Activities.find({
+      opportunityId: this._id,
+      primaryEntityType: {
+        $nin: collectionsToFilter
+      }
+    }, {
+      sort: {
+        activityTimestamp: -1
+      }
+    });
+  },
 });
 
 ////////////////////

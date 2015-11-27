@@ -4,8 +4,13 @@ Tags.TagsMixin(Tasks);
 
 Tasks.helpers({
   activities: function() {
+    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+
     return Activities.find({
-      taskId: this._id
+      taskId: this._id,
+      primaryEntityType: {
+        $nin: collectionsToFilter
+      }
     }, {
       sort: {
         activityTimestamp: -1

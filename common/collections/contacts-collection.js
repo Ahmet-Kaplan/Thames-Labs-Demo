@@ -10,8 +10,13 @@ Contacts.helpers({
     return Companies.findOne(this.companyId);
   },
   activities: function() {
+    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+
     return Activities.find({
-      contactId: this._id
+      contactId: this._id,
+      primaryEntityType: {
+        $nin: collectionsToFilter
+      }
     }, {
       sort: {
         activityTimestamp: -1

@@ -47,16 +47,7 @@ Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
         selector._id = options.search.props.searchById;
       }
 
-      var collectionsToFilter = [];
-      var perms = ['companies', 'contacts', 'opportunities', 'projects', 'tasks', 'purchaseorders'];
-      var userId = options.search.userId;
-      for (var p in perms) {
-        var perm = permissionGenerator('read', perms[p]);
-
-        if (!Roles.userIsInRole(userId, perm)) {
-          collectionsToFilter.push(perms[p]);
-        }
-      }
+      var collectionsToFilter = GetDisallowedPermissions(options.search.userId);
 
       selector.primaryEntityType = {
         $nin: collectionsToFilter

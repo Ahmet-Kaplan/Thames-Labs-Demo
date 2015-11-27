@@ -7,8 +7,13 @@ Projects.helpers({
     return Companies.findOne(this.companyId);
   },
   activities: function() {
+    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+
     return Activities.find({
-      projectId: this._id
+      projectId: this._id,
+      primaryEntityType: {
+        $nin: collectionsToFilter
+      }
     }, {
       sort: {
         activityTimestamp: -1

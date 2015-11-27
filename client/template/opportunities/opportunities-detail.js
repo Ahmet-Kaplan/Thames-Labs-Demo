@@ -49,15 +49,15 @@ Template.opportunityDetail.helpers({
       _id: FlowRouter.getParam('id')
     })
   },
-  activities: function() {
-    return Activities.find({
-      opportunityId: FlowRouter.getParam('id')
-    }, {
-      sort: {
-        activityTimestamp: -1
-      }
-    });
-  },
+  // activities: function() {
+  //   return Activities.find({
+  //     opportunityId: FlowRouter.getParam('id')
+  //   }, {
+  //     sort: {
+  //       activityTimestamp: -1
+  //     }
+  //   });
+  // },
   isNotFirstStage: function() {
     var currentStageId = this.currentStageId;
     var firstStage = OpportunityStages.findOne({
