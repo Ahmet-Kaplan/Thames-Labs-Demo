@@ -58,6 +58,7 @@ Meteor.methods({
       password: doc.password,
       profile: {
         name: doc.name,
+        watchlist: [],
         lastLogin: null,
         lastActivity: {
           page: null,
@@ -122,6 +123,7 @@ Meteor.methods({
       email: doc.email.toLowerCase(),
       profile: {
         name: doc.name,
+        watchlist: [],
         lastLogin: null,
         lastActivity: {
           page: null,

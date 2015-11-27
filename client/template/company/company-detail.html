@@ -10,7 +10,7 @@
         Company
       </h4>
 
-      <h1 id="company-details" class="entity-name">{{name}}</h1>
+      <h1 id="company-details" class="entity-name">{{name}}</h1> {{> watchlistAdmin entityData=this collection="companies"}}
 
       {{> tagInput tags=tags collection='companies' entityId=_id permissionToEdit='CanEditCompanies'}}
 

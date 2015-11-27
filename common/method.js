@@ -232,6 +232,7 @@ Meteor.methods({
       password: userDetails.password,
       profile: {
         name: userDetails.name,
+        watchlist: [],
         lastLogin: null,
         lastActivity: {
           page: null,

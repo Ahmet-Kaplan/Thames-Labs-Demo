@@ -296,8 +296,8 @@ Migrations.add({
   up: function() {
     ServerSession.set('maintenance', true);
     Partitioner.directOperation(function() {
-        Projects.find({}).forEach(function(project) {
-        if(project.name === undefined) {
+      Projects.find({}).forEach(function(project) {
+        if (project.name === undefined) {
           Projects.update(project._id, {
             $set: {
               name: project.description,
@@ -350,9 +350,27 @@ Migrations.add({
   name: "Remove stripe.blocked from all tenants",
   up: function() {
     ServerSession.set('maintenance', true);
-    Tenants.update({},
-      { $unset: { 'stripe.blocked': '' } }
-    );
+    Tenants.update({}, {
+      $unset: {
+        'stripe.blocked': ''
+      }
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 13,
+  name: "Add watchlist capability to all users",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Meteor.users.update({}, {
+      $set: {
+        'profile.watchlist': []
+      }
+    }, {
+      multi: true
+    });
     ServerSession.set('maintenance', false);
   }
 });
