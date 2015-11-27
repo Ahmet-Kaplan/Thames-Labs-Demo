@@ -20,14 +20,12 @@
         {{#if isInRole 'Administrator,CanDeleteTasks'}}
           <button class="btn btn-danger" id="tskDeleteAllCompleted">Delete Tasks</button>
         {{/if}}
+        <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
+          Show completed
+        </button>
       </div>
     </div>
     {{/if}}
-    <div class="col-md-8">
-      <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
-        Show completed
-      </button>
-    </div>
   </div>
 
   <div class="stick-bar-placeholder"></div>

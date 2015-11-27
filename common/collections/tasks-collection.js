@@ -158,13 +158,16 @@ Collections.tasks.filters = {
     prop: 'before',
     verify: function(date) {
       var afterOption = Collections.tasks.index.getComponentDict().get('searchOptions').props.after;
-      if(!moment(date).isValid()) {
+      if(!moment(date).isValid() && !moment(date, 'DD-MM-YYYY', false).isValid()) {
         toastr.error('Invalid date', 'Error', {preventDuplicates: true});
         return false;
-      }
-      if(afterOption && moment(date).isBefore(moment(afterOption))) {
+      } else if(afterOption && moment(date).isBefore(moment(afterOption))) {
         toastr.error('The \'Before\' date is before the \'After\' date', 'Error', {preventDuplicates: true});
         return false;
+
+      //Edge case: to avoid conflict, remove dueDate if set
+      } else if(Collections.tasks.index.getComponentDict().get('searchOptions').props.dueDate) {
+        Collections.tasks.index.getComponentMethods().removeProps('dueDate');
       }
       return true;
     }
@@ -174,13 +177,16 @@ Collections.tasks.filters = {
     prop: 'after',
     verify: function(date) {
       var beforeOption = Collections.tasks.index.getComponentDict().get('searchOptions').props.before;
-      if(!moment(date).isValid()) {
+      if(!moment(date).isValid() && !moment(date, 'DD-MM-YYYY', false).isValid()) {
         toastr.error('Invalid date', 'Error', {preventDuplicates: true});
         return false;
-      }
-      if(beforeOption && moment(date).isAfter(moment(beforeOption))) {
+      } else if(beforeOption && moment(date).isAfter(moment(beforeOption))) {
         toastr.error('The \'After\' date is after the \'Before\' date', 'Error', {preventDuplicates: true});
         return false;
+
+      //Edge case: to avoid conflict, remove dueDate if set
+      } else if(Collections.tasks.index.getComponentDict().get('searchOptions').props.dueDate) {
+        Collections.tasks.index.getComponentMethods().removeProps('dueDate');
       }
       return true;
     }
@@ -280,10 +286,16 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         if(dueAfter && moment(dueAfter).isValid()) {
           startDate = moment(dueAfter).startOf('day').toDate();
           selector.dueDate.$gte = startDate;
+        } else if(dueAfter && moment(dueAfter, 'DD-MM-YYYY', false).isValid()) {
+          startDate = moment(dueAfter, 'DD-MM-YYYY', false).startOf('day').toDate();
+          selector.dueDate.$gte = startDate;
         }
 
         if(dueBefore && moment(dueBefore).isValid()) {
           endDate = moment(dueBefore).endOf('day').toDate();
+          selector.dueDate.$lte = endDate;
+        } else if(dueBefore && moment(dueBefore, 'DD-MM-YYYY', false).isValid()) {
+          endDate = moment(dueBefore, 'DD-MM-YYYY', false).endOf('day').toDate();
           selector.dueDate.$lte = endDate;
         }
       }
