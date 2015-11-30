@@ -9,17 +9,25 @@
           <div class="timeline-panel">
             <div class="timeline-heading">
               <h4 class="timeline-title">
-                {{type}}
-                <div class="btn-group pull-right">
-                  <a href="#" id="edit-activity" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
-                  <a href="#" id="remove-activity" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
-                </div>
+                  {{type}}
+                  <div class="btn-group pull-right">
+                    <a href="#" id="edit-activity" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
+                    <a href="#" id="remove-activity" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
+                  </div>
               </h4>
               <p>
                 <small class="text-muted">
                   <span data-toggle="tooltip" title="{{activityTimestamp}}"><i class="fa fa-clock-o"></i> {{fromNow activityTimestamp}}</span>
-                  {{#if contact}}
-                    | <a href="{{pathFor route="contact" id=contact._id}}">{{contact.name}}</a>
+                  {{#if taskId}}
+                      <span >
+                        | <a href="{{pathFor route='task' id=taskId}}" data-toggle="tooltip" title="View {{friendlyEntity}}" id="view-activity"><i class="fa fa-fw fa-check"></i> {{primaryEntityDisplayData}}</a>
+                      </span >
+                  {{else}}
+                    {{#unless isPrimaryEntity}}
+                      <span >
+                        | <a href="{{pathFor route=routeName id=primaryEntityId}}" data-toggle="tooltip" title="View {{friendlyEntity}}" id="view-activity"><i class="fa fa-fw fa-{{entityIcon}}"></i> {{primaryEntityDisplayData}}</a>
+                      </span>
+                    {{/unless}}
                   {{/if}}
                   {{#unless ownActivity createdBy}}
                     <span class="pull-right" data-toggle="tooltip" title="{{otherUser createdBy}} created this activity">{{otherUser createdBy}}</span>
@@ -30,10 +38,10 @@
             <div class="timeline-body">
               {{{content}}}
             </div>
-            <div class="timeline-footer">
-              <br />
-              {{> tagInput tags=tags collection='activities' entityId=_id}}
-            </div>
+              <div class="timeline-footer">
+                <br />
+                {{> tagInput tags=tags collection='activities' entityId=_id}}
+              </div>
           </div>
         </li>
       {{/each}}

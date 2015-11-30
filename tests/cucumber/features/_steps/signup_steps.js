@@ -5,8 +5,6 @@ module.exports = function() {
     browser.setValue('#company-name-field', 'Company Name');
     browser.setValue('#name-field', 'test user');
     browser.setValue('#email-field', 'test3@domain.com');
-    browser.setValue('#password-field', 'goodpassword');
-    browser.setValue('#confirm-password-field', 'goodpassword');
     browser.submitForm('form#signUpForm');
   });
 
@@ -15,8 +13,6 @@ module.exports = function() {
     browser.setValue('#company-name-field', '');
     browser.setValue('#name-field', '');
     browser.setValue('#email-field', 'testdomaincom');
-    browser.setValue('#password-field', 'short');
-    browser.setValue('#confirm-password-field', 'notmatchingpassword');
     browser.submitForm('form#signUpForm');
   });
 

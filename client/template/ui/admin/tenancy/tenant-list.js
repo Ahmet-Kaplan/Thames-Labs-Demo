@@ -44,7 +44,7 @@ Template.tenant.helpers({
     return this.stripe.paying;
   },
   limitReached: function() {
-    if(this.stripe.paying || this.stripe.freeUnlimited) return false;
+    if (this.stripe.paying || this.stripe.freeUnlimited) return false;
     return this.stripe.totalRecords > MAX_RECORDS;
   },
   generationInProgress: function() {
@@ -123,6 +123,13 @@ Template.user.helpers({
   },
   emailAddress: function() {
     return this.emails[0].address;
+  },
+  isAdmin: function() {
+    Meteor.call('checkUserRole', this._id, 'Administrator', function(err, data) {
+      if (err) throw new Meteor.Error(err);
+      console.log(data);
+      return data;
+    });
   }
 });
 

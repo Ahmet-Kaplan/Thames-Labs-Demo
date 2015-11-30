@@ -1,6 +1,6 @@
 Template.insertActivityModal.helpers({
   currentDateTime: function() {
-  return moment();
+    return moment();
   },
   currentUser: function() {
     return Meteor.userId();
@@ -27,12 +27,15 @@ Template.insertContactActivityModal.helpers({
     }
 
     return false;
+  },
+  fullName: function() {
+    return this.contact.forename + " " + this.contact.surname;
   }
 });
 
 Template.insertProjectActivityModal.helpers({
   currentDateTime: function() {
-  return moment();
+    return moment();
   },
   currentUser: function() {
     return Meteor.userId();
@@ -48,7 +51,7 @@ Template.insertProjectActivityModal.helpers({
 
 Template.insertPurchaseOrderActivityModal.helpers({
   currentDateTime: function() {
-  return moment();
+    return moment();
   },
   currentUser: function() {
     return Meteor.userId();
@@ -64,7 +67,7 @@ Template.insertPurchaseOrderActivityModal.helpers({
 
 Template.insertOpportunityActivityModal.helpers({
   currentDateTime: function() {
-  return moment();
+    return moment();
   },
   currentUser: function() {
     return Meteor.userId();
@@ -79,8 +82,14 @@ Template.insertOpportunityActivityModal.helpers({
 });
 
 Template.insertTaskActivityModal.helpers({
+  currentEntity: function() {
+    return this.task.entityType;
+  },
+  currentEntityId: function() {
+    return this.task.entityId;
+  },
   currentDateTime: function() {
-  return moment();
+    return moment();
   },
   currentUser: function() {
     return Meteor.userId();

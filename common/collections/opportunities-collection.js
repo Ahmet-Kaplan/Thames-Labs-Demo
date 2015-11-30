@@ -8,7 +8,21 @@ Opportunities.helpers({
   },
   contact: function() {
     return Contacts.findOne(this.contactId);
-  }
+  },
+  activities: function() {
+    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+
+    return Activities.find({
+      opportunityId: this._id,
+      primaryEntityType: {
+        $nin: collectionsToFilter
+      }
+    }, {
+      sort: {
+        activityTimestamp: -1
+      }
+    });
+  },
 });
 
 ////////////////////
@@ -18,9 +32,16 @@ Opportunities.helpers({
 Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
   collection: Opportunities,
   fields: ['name', 'tags'],
+
+  permission: function(options) {
+    var userId = options.userId;
+    return Roles.userIsInRole(userId, ['Administrator', 'CanReadOpportunities']);
+  },
   engine: new EasySearch.MongoDB({
     sort: () => {
-      return { 'name': 1 }
+      return {
+        'name': 1
+      }
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
@@ -43,11 +64,15 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
       if (options.search.props.showArchived) {
         selector.isArchived = true;
       } else {
-        selector.isArchived = { $ne: true };
+        selector.isArchived = {
+          $ne: true
+        };
       }
       if (options.search.props.tags) {
         // n.b. tags is a comma separated string
-        selector.tags = { $in: options.search.props.tags.split(',') };
+        selector.tags = {
+          $in: options.search.props.tags.split(',')
+        };
       }
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;

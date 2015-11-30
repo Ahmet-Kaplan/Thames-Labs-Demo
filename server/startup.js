@@ -47,6 +47,16 @@ Meteor.startup(function() {
       });
     }
 
+    if (typeof t.settings.opportunity === "undefined") {
+      Tenants.update(t._id, {
+        $set: {
+          "settings.opportunity": {
+            stages: []
+          }
+        }
+      });
+    }
+
     if (typeof t.settings.extInfo === "undefined") {
       Tenants.update(t._id, {
         $set: {

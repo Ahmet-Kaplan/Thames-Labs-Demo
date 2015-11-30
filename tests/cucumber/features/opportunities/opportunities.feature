@@ -181,7 +181,7 @@ Feature: Allow users to manage their sales opportunities
     And "#timeline" should contain "test user moved this opportunity forward from stage"
     When I click "#previous-stage"
     Then I should not see "#previous-stage"
-    And "#timeline" should contain "test user moved this opportunity back from stage"
+    And "#timeline" should contain "test user moved this opportunity from stage"
 
   Scenario: A user can mark an opportunity as lost and reopen it
     Given I have the "CanEditOpportunities" permission

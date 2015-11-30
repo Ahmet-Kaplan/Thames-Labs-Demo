@@ -11,11 +11,9 @@ Template.opportunityInformationWidget.onRendered(function() {
     template.totalOpps.set(data.Count);
   });
   Meteor.call('report.valueOfOpportunities', function(err, data) {
-    console.log(data);
     template.totalOppValue.set(data.Value);
   });
   Meteor.call('report.averageOpportunityValue', function(err, data) {
-    console.log(data);
     template.averageOppValue.set(data.Value);
   });
 });

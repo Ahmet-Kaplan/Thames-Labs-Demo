@@ -3,15 +3,6 @@ module.exports = function() {
   var url = require('url');
 
   //Adding
-  this.Given(/^opportunity stages have been created$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('addOpportunityStages', function() {
-          done();
-        });
-      })
-  });
-
   this.When(/^I navigate to an opportunity page$/, function() {
     browser.url(url.resolve(process.env.ROOT_URL, '/opportunities'));
     browser.waitForExist('.list-group-item:not(#moar)', 2000);
@@ -31,7 +22,7 @@ module.exports = function() {
 
   this.Then(/^I should see that an project has been created from the opportunity$/, function() {
     browser.waitForExist('.entity-title*=Project', 2000);
-    browser.waitForExist('a*=opportunity', 2000)
+    browser.waitForExist('a*=opportunity', 2000);
     browser.getText('a*=opportunity');
   });
 

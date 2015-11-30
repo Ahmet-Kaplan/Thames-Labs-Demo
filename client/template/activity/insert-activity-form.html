@@ -1,11 +1,11 @@
 <!-- Expects to have a Company object in context -->
 <template name="insertActivityModal">
-  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
           <h4>Add new activity</h4>
         </div>
 
@@ -14,7 +14,7 @@
             {{> afQuickField name="type" options="allowed"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
-            {{else}}
+              {{else}}
               {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
             {{/if}}
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
@@ -22,6 +22,10 @@
 
             {{> afQuickField name="companyId" type="hidden" value=company._id id="companyId"}}
             {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId" value=contactId}}
+
+            {{> afQuickField name="primaryEntityType" type="hidden" value='companies'}}
+            {{> afQuickField name="primaryEntityId" type="hidden" value=company._id}}
+            {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=company.name}}
 
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary" id="confirm">Create</button>
@@ -34,12 +38,12 @@
 </template>
 
 <template name="insertContactActivityModal">
-  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
           <h4>Add new activity</h4>
         </div>
 
@@ -48,13 +52,16 @@
             {{> afQuickField name="type" options="allowed"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
-            {{else}}
+              {{else}}
               {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
             {{/if}}
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="companyId" type="hidden" value=company._id}}
             {{> afQuickField name="contactId" type="hidden" value=contact._id}}
+            {{> afQuickField name="primaryEntityType" type="hidden" value='contacts'}}
+            {{> afQuickField name="primaryEntityId" type="hidden" value=contact._id}}
+            {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=fullName}}
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
@@ -66,13 +73,14 @@
 </template>
 
 <template name="insertProjectActivityModal">
-  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4> Add new activity</h4>
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+          <h4>
+            Add new activity</h4>
         </div>
 
         <div class="modal-body">
@@ -80,12 +88,18 @@
             {{> afQuickField name="type" options="allowed"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
-            {{else}}
+              {{else}}
               {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
             {{/if}}
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
+
+            {{> afQuickField name="companyId" type="hidden" value=project.companyId}}
+            {{> afQuickField name="contactId" type="hidden" value=project.contactId}}
             {{> afQuickField name="projectId" type="hidden" value=project._id}}
+            {{> afQuickField name="primaryEntityType" type="hidden" value='projects'}}
+            {{> afQuickField name="primaryEntityId" type="hidden" value=project._id}}
+            {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=project.name}}
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
@@ -97,13 +111,14 @@
 </template>
 
 <template name="insertPurchaseOrderActivityModal">
-  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4> Add new activity</h4>
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+          <h4>
+            Add new activity</h4>
         </div>
 
         <div class="modal-body">
@@ -111,12 +126,18 @@
             {{> afQuickField name="type" options="allowed"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
-            {{else}}
+              {{else}}
               {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
             {{/if}}
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
+
+            {{> afQuickField name="companyId" type="hidden" value=purchaseOrder.supplierCompanyId}}
+            {{> afQuickField name="contactId" type="hidden" value=purchaseOrder.supplierContactId}}
             {{> afQuickField name="purchaseOrderId" type="hidden" value=purchaseOrder._id}}
+            {{> afQuickField name="primaryEntityType" type="hidden" value='purchaseorders'}}
+            {{> afQuickField name="primaryEntityId" type="hidden" value=purchaseOrder._id}}
+            {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=purchaseOrder.description}}
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
@@ -128,13 +149,14 @@
 </template>
 
 <template name="insertOpportunityActivityModal">
-  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4> Add new activity</h4>
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+          <h4>
+            Add new activity</h4>
         </div>
 
         <div class="modal-body">
@@ -142,12 +164,17 @@
             {{> afQuickField name="type" options="allowed"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
-            {{else}}
+              {{else}}
               {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
             {{/if}}
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
+            {{> afQuickField name="companyId" type="hidden" value=opportunity.companyId}}
+            {{> afQuickField name="contactId" type="hidden" value=opportunity.contactId}}
             {{> afQuickField name="opportunityId" type="hidden" value=opportunity._id}}
+            {{> afQuickField name="primaryEntityType" type="hidden" value='opportunities'}}
+            {{> afQuickField name="primaryEntityId" type="hidden" value=opportunity._id}}
+            {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=opportunity.name}}
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
@@ -159,13 +186,14 @@
 </template>
 
 <template name="insertTaskActivityModal">
-  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4> Add new activity</h4>
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+          <h4>
+            Add new activity</h4>
         </div>
 
         <div class="modal-body">
@@ -173,12 +201,34 @@
             {{> afQuickField name="type" options="allowed"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
-            {{else}}
+              {{else}}
               {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
             {{/if}}
             {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="taskId" type="hidden" value=task._id}}
+
+            {{#if equals currentEntity 'companies'}}
+              {{> afQuickField name="companyId" type="hidden" value=currentEntityId}}
+            {{/if}}
+            {{#if equals currentEntity 'contacts'}}
+              {{> afQuickField name="contactId" type="hidden" value=currentEntityId}}
+            {{/if}}
+            {{#if equals currentEntity 'projects'}}
+              {{> afQuickField name="projectId" type="hidden" value=currentEntityId}}
+            {{/if}}
+            {{#if equals currentEntity 'purchaseorders'}}
+              {{> afQuickField name="purchaseOrderId" type="hidden" value=currentEntityId}}
+            {{/if}}
+            {{#if equals currentEntity 'opportunities'}}
+              {{> afQuickField name="opportunityId" type="hidden" value=currentEntityId}}
+            {{/if}}
+
+            {{#unless equals currentEntity 'user'}}
+              {{> afQuickField name="primaryEntityType" type="hidden" value=currentEntity}}
+              {{> afQuickField name="primaryEntityId" type="hidden" value=currentEntityId}}
+              {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=task.title}}
+            {{/unless}}
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
