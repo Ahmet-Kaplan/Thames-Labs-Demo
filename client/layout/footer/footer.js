@@ -12,20 +12,21 @@ Template.footer.events({
       })
   },
   'click #fabAddContacts': function(event) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateCompanies'])) {
-      toastr.warning('You do not have permission to create companies. Please contact your system administrator.');
-      return;
-    }
-    event.preventDefault();
-    Modal.show('insertNewCompanyModal', this);
-  },
-  'click #fabAddCompanies': function(event) {
     if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateContacts'])) {
       toastr.warning('You do not have permission to create contacts. Please contact your system administrator.');
       return;
     }
     event.preventDefault();
-    Modal.show('insertNewContactModal', this);
+    Modal.show('insertContactModal', this);
+  },
+  'click #fabAddCompanies': function(event) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateCompanies'])) {
+      toastr.warning('You do not have permission to create companies. Please contact your system administrator.');
+      return;
+    }
+
+    event.preventDefault();
+    Modal.show('insertNewCompanyModal', this);
   },
   'click #fabAddProject': function(event) {
     if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateProjects'])) {
