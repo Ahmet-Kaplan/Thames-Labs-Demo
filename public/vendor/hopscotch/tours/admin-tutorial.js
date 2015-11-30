@@ -127,6 +127,15 @@ var adminTutorial = {
 		placement: "left",
 		showNextButton: false,
 		nextOnTargetClick: true
+	}, {
+		title: "End",
+		content: "End",
+		target: document.querySelector('#userAdminPanelExpander'),
+		placement: "right",
+		smoothScroll: false,
+		onShow: function() {
+			Session.set(sessionVar);
+		}
 	}],
   showCloseButton: true
 };

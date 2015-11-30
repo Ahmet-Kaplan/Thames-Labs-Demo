@@ -6,7 +6,41 @@ Template.footer.helpers({
 });
 
 Template.footer.events({
-  'click #fab-help': function(event) {
-      $("#fab-menu").fadeToggle("fast")
+  'click #fab': function(event) {
+      $("#fab-menu").toggle(function() {
+        $("i", "#fab-btn").toggleClass("fa fw-fa fa-plus fa fw-fa fa-times")
+      })
+  },
+  'click #fabAddContacts': function(event) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateCompanies'])) {
+      toastr.warning('You do not have permission to create companies. Please contact your system administrator.');
+      return;
+    }
+    event.preventDefault();
+    Modal.show('insertNewCompanyModal', this);
+  },
+  'click #fabAddCompanies': function(event) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateContacts'])) {
+      toastr.warning('You do not have permission to create contacts. Please contact your system administrator.');
+      return;
+    }
+    event.preventDefault();
+    Modal.show('insertNewContactModal', this);
+  },
+  'click #fabAddProject': function(event) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateProjects'])) {
+      toastr.warning('You do not have permission to create projects. Please contact your system administrator.');
+      return;
+    }
+    event.preventDefault();
+    Modal.show('newProjectForm', this);
+  },
+  'click #fabAddPurchaseOrder': function(event) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreatePurchaseOrders'])) {
+      toastr.warning('You do not have permission to create purchase orders. Please contact your system administrator.');
+      return;
+    }
+    event.preventDefault();
+    Modal.show('newPurchaseOrderForm', this);
   }
 });

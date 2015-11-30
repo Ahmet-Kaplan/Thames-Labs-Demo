@@ -49,11 +49,11 @@
   position: fixed;
   display: none;
   right: 120px;
-  bottom: 64px;
-  z-index: 1500;
+  bottom: 65px;
+  z-index: 900;
 }
 
-.fab-menu-companies {
+.fab-menu-item {
   padding-top: 10px;
   margin-right: 5px;
   margin-bottom: 0;
@@ -66,27 +66,22 @@
 
 }
 
-.fab-menu-companies i {
+.fab-menu-item i {
   color: #fff;
   font-size: 15px;
   padding-bottom: 20px;
 }
 
-.fab-menu-contacts {
-  padding-top: 10px;
-  margin-bottom: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #0e5e98;
+.fab-menu-item:hover {
+  background:#0a4169;
+}
+.fab-menu-item:active {
+  outline: none;
   border: none;
-  box-shadow: 2px 2px 7px #888888;
 }
 
-.fab-menu-contacts i {
-  color: #fff;
-  font-size: 15px;
-  padding-bottom: 20px;
+.fab-menu-item:focus {
+  outline: 0;
 }
 
 @media only screen and (max-width: 768px) {
