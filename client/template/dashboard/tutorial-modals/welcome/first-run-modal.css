@@ -1,0 +1,35 @@
+/*ul.icon
+{
+	list-style-type: none;
+}
+
+ul.icon li
+{
+	text-indent: -1.4em;
+}
+
+ul.icon li::before
+{
+	font-family: 'FontAwesome';
+	float: left;
+	width: 1.4em;
+}
+
+ul.icon li.welcome::before {
+  content: "\f19d";
+}
+
+ul.icon li.companies::before {
+  content: "\f1ad";
+}
+
+ul.icon li.contacts::before {
+  content: "\f007";
+}
+
+ul.icon li.users::before {
+	content: "\f0c0";
+}*/
+.btn-huge {
+
+}

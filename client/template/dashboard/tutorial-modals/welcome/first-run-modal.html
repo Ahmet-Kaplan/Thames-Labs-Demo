@@ -1,0 +1,35 @@
+<template name="firstRun">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h2>Welcome to RealTimeCRM</h2>
+        </div>
+
+        <div class="modal-body">
+          You are now all set and ready to run your business in real-time.<br /><br />
+          <strong>What's next?</strong><br /><br />
+          <div class="welcome">
+            <button class="btn-huge"><i class="fa fa-fw fa-graduation-cap"></button>
+          </div>
+          <!-- <ul class="icon">
+            <li class="welcome"><a href="#" id="first-run-tour">Take the Welcome Tour</a></li>
+           {{#if isInRole 'Administrator, CanCreateCompanies'}}
+            <li class="companies"><a href="#" id="companies-tutorial">Add a Company</a></li>
+           {{/if}}
+           {{#if isInRole 'Administrator, CanCreateContacts'}}
+            <li class="contacts"><a href="#" id="contacts-tutorial">Add a Contact</a></li>
+           {{/if}}
+           {{#if isInRole 'Administrator'}}
+            <li class="users"><a href="#" id="admin-tutorial">Add users and set admin options</a></li>
+           {{/if}}
+         </ul> -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="close-first-run">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
