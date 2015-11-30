@@ -14,7 +14,7 @@
           <div class="col-md-2" id="btn-group">
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
-              <button id="#ref_productsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Products Overview" data-content="
+              <button id="ref_productsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Products Overview" data-content="<div id='productOverviewPop'>
               <table class='table table-no-border'>
                 <tbody>
                   <tr>
@@ -30,7 +30,8 @@
                     <td class='text-right'>£{{averageProductsCost}}</td>
                   </tr>
                 </tbody>
-              </table>">
+              </table>
+            </div>">
               <i class="fa fa-fw fa-tasks"></i></button>
             </div>
           </div>
@@ -55,7 +56,7 @@
 </template>
 
 <template name="productListItem">
-  <a class="list-group-item product-item" href="{{pathFor route='product' id=__originalId}}">
+  <a class="list-group-item product-item" href="{{pathFor route='product' id=__originalId}}" id="list-item">
     <div class="row">
       <div class="col-md-4">
         <h4 class="list-group-item-heading">{{name}}</h4>

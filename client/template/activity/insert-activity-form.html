@@ -28,7 +28,7 @@
             {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=company.name}}
 
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button class="btn btn-primary" type="submit">Create</button>
+            <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
         </div>
 
@@ -63,7 +63,7 @@
             {{> afQuickField name="primaryEntityId" type="hidden" value=contact._id}}
             {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=fullName}}
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button class="btn btn-primary" type="submit">Create</button>
+            <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
         </div>
 
@@ -101,7 +101,7 @@
             {{> afQuickField name="primaryEntityId" type="hidden" value=project._id}}
             {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=project.name}}
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button class="btn btn-primary" type="submit">Create</button>
+            <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
         </div>
 
@@ -139,7 +139,7 @@
             {{> afQuickField name="primaryEntityId" type="hidden" value=purchaseOrder._id}}
             {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=purchaseOrder.description}}
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button class="btn btn-primary" type="submit">Create</button>
+            <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
         </div>
 
@@ -176,7 +176,7 @@
             {{> afQuickField name="primaryEntityId" type="hidden" value=opportunity._id}}
             {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=opportunity.name}}
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button class="btn btn-primary" type="submit">Create</button>
+            <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
         </div>
 
@@ -230,7 +230,7 @@
               {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=task.title}}
             {{/unless}}
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button class="btn btn-primary" type="submit">Create</button>
+            <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
         </div>
 
