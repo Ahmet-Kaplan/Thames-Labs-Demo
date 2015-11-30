@@ -26,14 +26,22 @@ Meteor.methods({
         var products = [];
 
         //Setup opportunity stages
+        var userTenant = Tenants.findOne({});
+        var stages = [];
+
         for (var i = 0; i < 4; i++) {
-          var id = OpportunityStages.insert({
+          var stageData = ({
             title: faker.commerce.color(),
             description: faker.lorem.sentence(),
-            order: i
+            id: i
           });
-          oppStageIds.push(id);
+          stages.push(stageData)
         }
+        Tenants.update(userTenant._id, {
+          $set: {
+            'settings.opportunity.stages': stages
+          }
+        });
 
         for (var i = 0; i < 8; i++) {
           var userId = Accounts.createUser({
@@ -275,49 +283,11 @@ Meteor.methods({
     });
 
     return projId;
-  },
-
-  deleteOpportunityStage: function(stageId) {
-    //This method ensures that opportunities on a deleted stage are moved to a stage
-    var opportunitiesAtStage = Opportunities.find({
-      currentStageId: stageId
-    }).fetch();
-    if (!!opportunitiesAtStage) {
-      var firstOppStageId = OpportunityStages.findOne({
-        order: 0
-      })._id;
-      if (firstOppStageId == stageId) {
-        firstOppStageId = OpportunityStages.findOne({
-          order: 1
-        })._id;
-      }
-      for (var i = 0; i < opportunitiesAtStage.length; i++) {
-        Opportunities.update(opportunitiesAtStage[i]._id, {
-          $set: {
-            currentStageId: firstOppStageId
-          }
-        });
-      }
-      OpportunityStages.remove(stageId);
-      //Orders the remaining stages
-      var oppStages = OpportunityStages.find({}, {
-        sort: {
-          order: 1
-        }
-      }).fetch();
-      for (var i = 0; i < oppStages.length; i++) {
-        OpportunityStages.update(oppStages[i]._id, {
-          $set: {
-            order: i
-          }
-        });
-      }
-    }
   }
 });
 
 logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  if(Meteor.isServer) {
+  if (Meteor.isServer) {
     Meteor.call('addEventToAuditLog', logLevel, logMessage, ((typeof logEntityType === 'undefined') ? undefined : logEntityType), ((typeof logEntityId === 'undefined') ? undefined : logEntityId), 'client', Guid.raw());
   }
 }

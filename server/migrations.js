@@ -359,8 +359,61 @@ Migrations.add({
   }
 });
 
+
 Migrations.add({
   version: 13,
+  name: "Migrate opportunity stages from collection to tenant settings object",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    var OpportunityStages = new Mongo.Collection('opportunitystages');
+    Partitioner.partitionCollection(OpportunityStages);
+    var tenants = Tenants.find({}).fetch();
+
+    _.forEach(tenants, function(t) {
+
+      Partitioner.bindGroup(t._id, function() {
+        var stages = [];
+        var currentStages = OpportunityStages.find({}).fetch();
+
+        currentStages = _.sortBy(currentStages, 'order');
+
+        _.each(currentStages, function(stage, i) {
+          var stageData = {
+            title: stage.title,
+            description: stage.description,
+            id: i
+          };
+
+          Opportunities.update({
+            currentStageId: stage._id
+          }, {
+            $set: {
+              currentStageId: i
+            }
+          }, {
+            multi: true
+          });
+
+          stages.push(stageData);
+        });
+
+        Tenants.update(t._id, {
+          $set: {
+            'settings.opportunity.stages': stages
+          }
+        });
+
+      });
+
+    });
+
+
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 14,
   name: "Auto-verify existing user emails",
   up: function() {
     ServerSession.set('maintenance', true);
