@@ -3,7 +3,7 @@ Tenants.permit('update').onlyProps(['settings']).ifHasRole('Administrator').appl
 
 Notifications.permit(['insert', 'update', 'remove']).ifHasRole('superadmin').apply();
 
-Meteor.users.permit(['insert', 'remove']).ifHasRole('superadmin').apply();
+Meteor.users.permit(['insert', 'update', 'remove']).ifHasRole('superadmin').apply();
 
 Companies.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
 Companies.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateCompanies').apply();
