@@ -22,12 +22,18 @@ exportFromSearchToCSV = function(collectionName) {
         '_id',
         'createdBy',
         'companyId',
+        'contactId',
+        'opportunityId',
+        'projectId',
+        'purchaseOrderId',
+        'taskId',
+        'productId',
         'currentStageId',
         'items',
-        'contactId',
         'userId',
         'supplierCompanyId',
         'supplierContactId',
+        'primaryEntityId'
       ]);
     });
     var fileData = Papa.unparse(cleanedResults);

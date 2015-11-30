@@ -43,13 +43,14 @@ ddp-server@1.2.2
 deps@1.0.9
 diff-sequence@1.0.1
 digilord:faker@1.0.7
-easy:search@2.0.4
-easysearch:components@2.0.4
-easysearch:core@2.0.3
+easy:search@2.0.0
+easysearch:components@2.0.1
+easysearch:core@2.0.1
 ecmascript@0.1.6
 ecmascript-runtime@0.2.6
 ejson@1.0.7
 email@1.0.8
+erasaur:meteor-lodash@3.10.1_1
 erasaur:notification-badge@0.0.6
 fastclick@1.0.7
 flowkey:bowser@1.0.2

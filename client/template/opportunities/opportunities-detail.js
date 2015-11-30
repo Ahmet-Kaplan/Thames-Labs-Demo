@@ -50,15 +50,15 @@ Template.opportunityDetail.helpers({
       _id: FlowRouter.getParam('id')
     })
   },
-  activities: function() {
-    return Activities.find({
-      opportunityId: FlowRouter.getParam('id')
-    }, {
-      sort: {
-        activityTimestamp: -1
-      }
-    });
-  },
+  // activities: function() {
+  //   return Activities.find({
+  //     opportunityId: FlowRouter.getParam('id')
+  //   }, {
+  //     sort: {
+  //       activityTimestamp: -1
+  //     }
+  //   });
+  // },
   isNotFirstStage: function() {
     var stages = Tenants.findOne().settings.opportunity.stages;
     var currentStageId = this.currentStageId;
@@ -100,7 +100,7 @@ Template.opportunityDetail.helpers({
   },
   canExportDocx: function() {
     if (bowser.safari) {
-      return false
+      return false;
     } else {
       return true;
     }
@@ -133,6 +133,8 @@ Template.opportunityDetail.events({
       createdAt: date,
       activityTimestamp: date,
       opportunityId: this._id,
+      primaryEntityId: this._id,
+      primaryEntityType: 'opportunities',
       createdBy: user._id
     });
   },
@@ -159,6 +161,8 @@ Template.opportunityDetail.events({
       createdAt: date,
       activityTimestamp: date,
       opportunityId: this._id,
+      primaryEntityId: this._id,
+      primaryEntityType: 'opportunities',
       createdBy: user._id
     });
   },

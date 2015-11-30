@@ -1,5 +1,97 @@
 Meteor.methods({
 
+  addCompanyActivity: function() {
+    var entity = Companies.findOne({});
+    var data = entity.name;
+    Activities.insert({
+      type: "Note",
+      notes: "Test company activity",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      primaryEntityId: entity._id,
+      primaryEntityType: "companies",
+      primaryEntityDisplayData: data,
+      companyId: entity._id,
+      createdBy: this.userId
+    });
+  },
+  addContactActivity: function() {
+    var entity = Contacts.findOne({});
+    var data = entity.forename + " " + entity.surname;
+    Activities.insert({
+      type: "Note",
+      notes: "Test contact activity",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      primaryEntityId: entity._id,
+      primaryEntityType: "contacts",
+      primaryEntityDisplayData: data,
+      contactId: entity._id,
+      createdBy: this.userId
+    });
+  },
+  addOpportunityActivity: function() {
+    var entity = Opportunities.findOne({});
+    var data = entity.name;
+    Activities.insert({
+      type: "Note",
+      notes: "Test opportunity activity",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      primaryEntityId: entity._id,
+      primaryEntityType: "opportunities",
+      primaryEntityDisplayData: data,
+      opportunityId: entity._id,
+      createdBy: this.userId
+    });
+  },
+
+  addProjectActivity: function() {
+    var entity = Projects.findOne({});
+    var data = entity.name;
+    Activities.insert({
+      type: "Note",
+      notes: "Test project activity",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      primaryEntityId: entity._id,
+      primaryEntityType: "projects",
+      primaryEntityDisplayData: data,
+      projectId: entity._id,
+      createdBy: this.userId
+    });
+  },
+  addPurchaseOrderActivity: function() {
+    var entity = PurchaseOrders.findOne({});
+    var data = entity.description;
+    Activities.insert({
+      type: "Note",
+      notes: "Test purchase order activity",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      primaryEntityId: entity._id,
+      primaryEntityType: "purchaseOrders",
+      primaryEntityDisplayData: data,
+      purchaseOrderId: entity._id,
+      createdBy: this.userId
+    });
+  },
+  addTaskActivity: function() {
+    var entity = Tasks.findOne({});
+    var data = entity.title;
+    Activities.insert({
+      type: "Note",
+      notes: "Test task activity",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      primaryEntityId: entity._id,
+      primaryEntityType: "tasks",
+      primaryEntityDisplayData: data,
+      taskId: entity._id,
+      createdBy: this.userId
+    });
+  },
+
   addCompany: function(name) {
     var companyName = name || 'Test Ltd',
       address = 'Cowley Road',

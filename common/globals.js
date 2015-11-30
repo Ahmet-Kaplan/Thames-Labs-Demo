@@ -1,3 +1,16 @@
+GetDisallowedPermissions = function(userId){
+  var collectionsToFilter = [];
+  var perms = ['companies', 'contacts', 'opportunities', 'projects', 'tasks', 'purchaseorders'];
+  for (var p in perms) {
+    var perm = permissionGenerator('read', perms[p]);
+
+    if (!Roles.userIsInRole(userId, perm)) {
+      collectionsToFilter.push(perms[p]);
+    }
+  }
+  return collectionsToFilter;
+};
+
 tenancyDefaultSettings = {
   PurchaseOrderPrefix: "",
   PurchaseOrderStartingValue: 0,
