@@ -1,0 +1,9 @@
+/*#globalSearchPopup {
+  width: 30%;
+}*/
+#globalSearchBox {
+  width: 95%;
+}
+.-autocomplete-container a {
+  display: block;
+}

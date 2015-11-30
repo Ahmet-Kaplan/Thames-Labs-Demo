@@ -1,0 +1,27 @@
+<template name="globalSearch">
+
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Global Search</h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+          <label for="globalSearchBox">Search through all your Companies and Contacts records</label>
+            {{> inputAutocomplete settings=settings id="globalSearchBox" class="input" placeholder="Search for something..." autofocus=true}}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<template name="resultPill">
+  {{{parsedData}}}
+</template>
