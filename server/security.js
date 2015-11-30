@@ -26,6 +26,9 @@ Contacts.allowTags(function(userId) {
 });
 
 Activities.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+Activities.allowTags(function(userId) {
+  return !!userId;
+});
 
 Projects.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
 Projects.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateProjects').apply();

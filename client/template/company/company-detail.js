@@ -144,10 +144,22 @@ Template.companyDetail.helpers({
         permission: 'CanReadCompanies'
       },
       {
+        text: 'Extended information',
+        anchor: 'entity-custom-fields',
+        icon: 'fa-bookmark',
+        permission: 'CanReadCompanies'
+      },
+      {
         text: 'Contacts',
         anchor: 'contacts',
         icon: 'fa-user',
         permission: 'CanReadContacts'
+      },
+      {
+        text: 'Opportunities',
+        anchor: 'opportunities',
+        icon: 'fa-lightbulb-o',
+        permission: 'CanReadOpportunities'
       },
       {
         text: 'Current Projects',
@@ -166,18 +178,6 @@ Template.companyDetail.helpers({
         anchor: 'tasks',
         icon: 'fa-tasks',
         permission: 'CanReadTasks'
-      },
-      {
-        text: 'Extended information',
-        anchor: 'entity-custom-fields',
-        icon: 'fa-bookmark',
-        permission: 'CanReadCompanies'
-      },
-      {
-        text: 'Opportunities',
-        anchor: 'opportunities',
-        icon: 'fa-lightbulb-o',
-        permission: 'CanReadOpportunities'
       },
       {
         text: 'Activity Timeline',

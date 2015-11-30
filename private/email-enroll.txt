@@ -1,0 +1,12 @@
+Dear {{name}},
+
+Thank you for choosing RealTimeCRM. We hope you will enjoy the simple yet powerful functionality of the system. To set your password and login please go to:
+
+{{url}}
+
+Should you have any questions or comments please use the “Give Feedback” link just above Change Password.
+
+We hope that you enjoy your RealTimeCRM experience.
+
+Yours sincerely,
+The RealTimeCRM Team

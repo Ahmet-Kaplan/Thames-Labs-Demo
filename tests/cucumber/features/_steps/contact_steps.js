@@ -4,9 +4,8 @@ module.exports = function() {
 
   this.When(/^I navigate to a contact page$/, function() {
     browser.url(url.resolve(process.env.ROOT_URL, '/contacts'));
-    browser.waitForExist('.list-group-item', 10000);
-    browser.waitForVisible('.list-group-item', 10000);
-    browser.click('.list-group-item');
+    browser.waitForExist('.list-group-item:not(#moar)', 2000);
+    browser.click('.list-group');
   });
 
   this.Given(/^I create a new contact belonging to a company$/, function() {

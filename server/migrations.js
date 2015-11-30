@@ -365,7 +365,7 @@ Migrations.add({
   name: "Migrate opportunity stages from collection to tenant settings object",
   up: function() {
     ServerSession.set('maintenance', true);
-    var OpportunityStages = new Mongo.Collection('opportunitystages');   
+    var OpportunityStages = new Mongo.Collection('opportunitystages');
     Partitioner.partitionCollection(OpportunityStages);
     var tenants = Tenants.find({}).fetch();
 
@@ -392,7 +392,7 @@ Migrations.add({
             }
           }, {
             multi: true
-          })
+          });
 
           stages.push(stageData);
         });
@@ -408,6 +408,23 @@ Migrations.add({
     });
 
 
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 14,
+  name: "Auto-verify existing user emails",
+  up: function() {
+    ServerSession.set('maintenance', true);
+
+    Meteor.users.update({}, {
+      $set: {
+        "emails.0.verified": true
+      }
+    }, {
+      multi: true
+    });
     ServerSession.set('maintenance', false);
   }
 });

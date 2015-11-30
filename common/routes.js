@@ -158,7 +158,6 @@ router.route('/companies/:id', {
   name: 'company',
   subscriptions: function(params) {
     this.register('companyById', subs.subscribe('companyById', params.id));
-    this.register('companyTags', subs.subscribe('companyTags'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -180,7 +179,6 @@ router.route('/contacts/:id', {
   name: 'contact',
   subscriptions: function(params) {
     this.register('contactById', subs.subscribe('contactById', params.id));
-    this.register('contactTags', subs.subscribe('contactTags'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -202,7 +200,6 @@ router.route('/projects/:id', {
   name: 'project',
   subscriptions: function(params) {
     this.register('projectById', subs.subscribe('projectById', params.id));
-    this.register('projectTags', subs.subscribe('projectTags'));
   },
   action: function() {
     layout.render('appLayout', {
@@ -296,8 +293,6 @@ router.route('/opportunities/:id', {
   name: 'opportunity',
   subscriptions: function(params) {
     this.register('opportunityById', subs.subscribe('opportunityById', params.id));
-    this.register('opportunityTags', subs.subscribe('opportunityTags'));
-    this.register('taskTags', subs.subscribe('taskTags'));
   },
   action: function() {
     layout.render('appLayout', {

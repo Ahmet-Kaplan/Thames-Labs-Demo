@@ -1,4 +1,4 @@
-Activities = new Mongo.Collection('activities');
+Collections.activities = Activities = new Mongo.Collection('activities');
 
 Partitioner.partitionCollection(Activities);
 
@@ -19,6 +19,8 @@ Activities.helpers({
     return Tasks.findOne(this.taskId)
   }
 });
+
+Tags.TagsMixin(Activities);
 
 //////////////////////
 // COLLECTION HOOKS //
