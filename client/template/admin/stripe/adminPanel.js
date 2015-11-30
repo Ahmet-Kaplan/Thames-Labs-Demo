@@ -293,5 +293,10 @@ Template.stripeAdmin.events({
   'click #showStripeHow': function(event) {
     event.preventDefault();
     Modal.show('stripeHow');
+  },
+
+  'click #updateCoupon': function(event) {
+    event.preventDefault();
+    Modal.show('couponModal');
   }
 });

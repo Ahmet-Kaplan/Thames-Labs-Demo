@@ -15,12 +15,16 @@
         <div class="col-xs-5"><strong>Plan</strong></div>
         <div class="col-xs-7" id="planName">{{currentSubscription}}</div>
       </div>
-      {{#if hasCoupon}}
       <div class="row">
-        <div class="col-xs-5"><strong>Discount</strong></div>
-        <div class="col-xs-7">{{hasCoupon}}</div>
+        <div class="col-xs-5"><strong>Coupon</strong></div>
+        <div class="col-xs-7">
+          {{#if hasCoupon}}
+            {{hasCoupon}} <span class="btn btn-xs btn-info" id="updateCoupon"><i class="fa fa-fw fa-pencil"></i> Edit</span>
+          {{else}}
+            No active coupon <span class="btn btn-xs btn-primary" id="updateCoupon"><i class="fa fa-fw fa-plus"></i> Add</span>
+          {{/if}}
+        </div>
       </div>
-      {{/if}}
       <div class="row">
         <div class="col-xs-5"><strong>Users</strong></div>
         <div class="col-xs-7" id="numberOfUsers">{{totalUsers}}</div>
