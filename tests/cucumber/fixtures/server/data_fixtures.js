@@ -169,19 +169,25 @@ Meteor.methods({
   },
 
   addOpportunity: function() {
-    var stage = OpportunityStages.insert({
+    var userTenant = Tenants.findOne({});
+    var stages = [];
+    stages.push({
       title: 'Stage 1',
       description: 'test description',
-      order: 0
+      id: 0
     });
-    OpportunityStages.insert({
+    stages.push({
       title: 'Stage 2',
       description: 'test description',
-      order: 1
+      id: 1
     });
-    var stage = OpportunityStages.findOne({
-      order: 0
+    var stage = stages[0];
+    Tenants.update(userTenant._id, {
+      $set: {
+        'settings.opportunity.stages': stages
+      }
     });
+
     var date = new Date();
     var companyId = Companies.insert({
       name: "Test Ltd",
@@ -197,7 +203,7 @@ Meteor.methods({
       description: 'test description',
       date: date,
       value: 0,
-      currentStageId: stage._id,
+      currentStageId: stage.id,
       companyId: companyId,
       createdBy: Meteor.userId(),
       items: []
@@ -253,9 +259,9 @@ Meteor.methods({
   addContactTask: function() {
     var contactId = Contacts.insert({
       "title": "Mr",
-      "forename": "Testy",
-      "surname": "Surname",
-      "email": "testy@surname.com",
+      "forename": "Obi-Wan",
+      "surname": "Kenobi",
+      "email": "obiwan@screwthedarkside.com",
       "createdBy": Meteor.userId(),
       "customFields": {
         test: {
@@ -279,19 +285,25 @@ Meteor.methods({
   },
 
   addOpportunityTask: function() {
-    var stage = OpportunityStages.insert({
+    var userTenant = Tenants.findOne({});
+    var stages = [];
+    stages.push({
       title: 'Stage 1',
       description: 'test description',
-      order: 0
+      id: 0
     });
-    OpportunityStages.insert({
+    stages.push({
       title: 'Stage 2',
       description: 'test description',
-      order: 1
+      id: 1
     });
-    var stage = OpportunityStages.findOne({
-      order: 0
+    var stage = stages[0];
+    Tenants.update(userTenant._id, {
+      $set: {
+        'settings.opportunity.stages': stages
+      }
     });
+
     var date = new Date();
     var companyId = Companies.insert({
       name: "Test Ltd",
@@ -307,7 +319,7 @@ Meteor.methods({
       description: 'test description',
       date: date,
       value: 0,
-      currentStageId: stage._id,
+      currentStageId: stage.id,
       companyId: companyId,
       createdBy: Meteor.userId(),
       items: []

@@ -26,14 +26,22 @@ Meteor.methods({
         var products = [];
 
         //Setup opportunity stages
+        var userTenant = Tenants.findOne({});
+        var stages = [];
+
         for (var i = 0; i < 4; i++) {
-          var id = OpportunityStages.insert({
+          var stageData = ({
             title: faker.commerce.color(),
             description: faker.lorem.sentence(),
-            order: i
+            id: i
           });
-          oppStageIds.push(id);
+          stages.push(stageData)
         }
+        Tenants.update(userTenant._id, {
+          $set: {
+            'settings.opportunity.stages': stages
+          }
+        });
 
         for (var i = 0; i < 8; i++) {
           var userId = Accounts.createUser({
@@ -253,110 +261,6 @@ Meteor.methods({
 
   },
 
-  signUp: function(userDetails) {
-
-    userDetails.email = userDetails.email.toLowerCase();
-    check(userDetails, Schemas.UserSignUp);
-
-    var user = {
-      email: userDetails.email,
-      password: userDetails.password,
-      roles: [],
-      group: "",
-      name: userDetails.name
-    };
-
-    check(user, Schemas.User);
-
-    var userId = Accounts.createUser({
-      email: userDetails.email,
-      password: userDetails.password,
-      profile: {
-        name: userDetails.name,
-        lastLogin: null,
-        lastActivity: {
-          page: null,
-          url: null
-        },
-        poAuthLevel: 100000
-      }
-    });
-
-    //This needs to be run on the server, otherwise client errors occur
-    if (Meteor.isServer) {
-
-      Roles.addUsersToRoles(userId, ["Administrator"]);
-
-      var tenantId = Tenants.insert({
-          name: userDetails.companyName,
-          settings: {
-            "PurchaseOrderPrefix": "",
-            "PurchaseOrderStartingValue": 0,
-            extInfo: {
-              company: [],
-              contact: []
-            }
-          },
-          stripe: {
-            "totalRecords": 0,
-            "paying": false,
-            "blocked": false,
-            "coupon": userDetails.coupon
-          },
-          createdAt: new Date()
-        },
-        function(error, result) {
-          if (error) {
-            //Remove user account as signup wasn't successful
-            Meteor.users.remove(userId);
-            return "The tenant could not be created. Please contact support";
-          }
-        }
-      );
-
-      Partitioner.setUserGroup(userId, tenantId);
-
-      Accounts.emailTemplates.from = "RealTimeCRM Team <admin@realtimecrm.co.uk>";
-      Accounts.emailTemplates.siteName = "RealtimeCRM";
-      SSR.compileTemplate('emailText', Assets.getText('email-template.html'));
-      Template.emailText.helpers({
-        getDoctype: function() {
-          return '!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-        },
-        subject: function() {
-          return 'Your RealTimeCRM details';
-        },
-        name: function() {
-          return userDetails.name;
-        },
-        email: function() {
-          return userDetails.email;
-        }
-      });
-      var html = '<' + SSR.render("emailText");
-
-      // See server/startup.js for MAIL_URL environment variable
-
-      Email.send({
-        to: userDetails.email,
-        from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
-        subject: 'Your RealTimeCRM details',
-        html: html
-      });
-
-      Accounts.sendVerificationEmail(userId, userDetails.email);
-
-      var txt = 'New sign up from ' + userDetails.name + ' at company ' + userDetails.companyName;
-      Email.send({
-        to: 'david.mcleary@cambridgesoftware.co.uk',
-        from: 'admin@realtimecrm.co.uk',
-        subject: 'New RealTimeCRM sign up!',
-        text: txt
-      });
-    }
-    return true;
-  },
-
   winOpportunity: function(opp) {
     var user = Meteor.user();
     var val = opp.value;
@@ -420,44 +324,6 @@ Meteor.methods({
     });
 
     return projId;
-  },
-
-  deleteOpportunityStage: function(stageId) {
-    //This method ensures that opportunities on a deleted stage are moved to a stage
-    var opportunitiesAtStage = Opportunities.find({
-      currentStageId: stageId
-    }).fetch();
-    if (!!opportunitiesAtStage) {
-      var firstOppStageId = OpportunityStages.findOne({
-        order: 0
-      })._id;
-      if (firstOppStageId == stageId) {
-        firstOppStageId = OpportunityStages.findOne({
-          order: 1
-        })._id;
-      }
-      for (var i = 0; i < opportunitiesAtStage.length; i++) {
-        Opportunities.update(opportunitiesAtStage[i]._id, {
-          $set: {
-            currentStageId: firstOppStageId
-          }
-        });
-      }
-      OpportunityStages.remove(stageId);
-      //Orders the remaining stages
-      var oppStages = OpportunityStages.find({}, {
-        sort: {
-          order: 1
-        }
-      }).fetch();
-      for (var i = 0; i < oppStages.length; i++) {
-        OpportunityStages.update(oppStages[i]._id, {
-          $set: {
-            order: i
-          }
-        });
-      }
-    }
   }
 });
 

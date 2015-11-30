@@ -27,7 +27,6 @@ Template.contactDetail.onCreated(function() {
   this.subscribe('projectsByContactId', contactId);
   this.subscribe('purchaseOrdersByContactId', contactId);
   this.subscribe('opportunitiesByContactId', contactId);
-  this.subscribe('opportunityStages');
 });
 
 Template.contactDetail.helpers({
