@@ -1,30 +1,39 @@
 Template.watchlistAdmin.onCreated(function() {
-  this.isWatched = new ReactiveVar(false);
+  this.watchState = new ReactiveVar(false);
   var self = this;
   this.autorun(function() {
-    this.isWatched = isWatching(self.data.entityData._id);
-    console.log(this.isWatched);
+    var entityId = self.data.entityData._id;
+
+    var user = Meteor.users.findOne({
+      _id: Meteor.userId()
+    });
+    if (user) {
+      if (user.profile.watchlist) {
+        var found = false;
+        _.each(user.profile.watchlist, function(watch) {
+          if (watch.id === entityId) {
+            found = true;
+          }
+        });
+        self.watchState.set(found);
+      }
+    }
   });
 });
 
 Template.watchlistAdmin.helpers({
   controlData: function() {
-    if (Template.instance().isWatched.get()) {
-      return "<i class='text-warning fa fa-fw fa-star'></i> Unwatch";
-    }
-    return "<i class='fa fa-fw fa-star-o'></i> Watch";
+    return (Template.instance().watchState.get() === true ? "<i class='fa fa-fw fa-star'></i>" : "<i class='fa fa-fw fa-star-o'></i>");
   }
 });
 
 Template.watchlistAdmin.events({
   "click #watchlist-control": function(event, template) {
+    var watched = template.watchState.get();
     var entityId = template.data.entityData._id;
     var collectionName = template.data.collection;
 
-    var exists = isWatching(entityId);
-    template.isWatched.set(exists);
-
-    if (template.isWatched) {
+    if (watched) {
       unwatch(entityId);
     } else {
       watch(entityId, collectionName);
@@ -32,36 +41,15 @@ Template.watchlistAdmin.events({
   }
 });
 
-isWatching = function(entityId) {
-  var user = Meteor.user();
-  var state = false;
-  if (user) {
-    if (user.profile.watchlist) {
-      _.each(user.profile.watchlist, function(watch) {
-        if (watch._id === entityId) state = true;
-      });
-      state = false;
-    } else {
-      Meteor.users.update({
-        _id: user._id
-      }, {
-        $set: {
-          'profile.watchlist': []
-        }
-      });
-      state = false;
-    }
-  }
-  return state;
-};
-
 watch = function(entityId, collectionName) {
   var watchedItem = {
-    _id: entityId,
+    id: entityId,
     collection: collectionName
   };
 
-  var user = Meteor.user();
+  var user = Meteor.users.findOne({
+    _id: Meteor.userId()
+  });
   var watchlist = user.profile.watchlist;
   watchlist.push(watchedItem);
   Meteor.users.update({
@@ -74,7 +62,9 @@ watch = function(entityId, collectionName) {
 };
 
 unwatch = function(entityId) {
-  var user = Meteor.user();
+  var user = Meteor.users.findOne({
+    _id: Meteor.userId()
+  });
   var watchlist = user.profile.watchlist;
   for (var i = 0; i < watchlist.length; i++) {
     if (watchlist[i].id == entityId) {

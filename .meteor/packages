@@ -64,7 +64,6 @@ kadira:flow-router
 kadira:blaze-layout
 rubaxa:sortable
 aldeed:template-extension
-tarzak:gridstackjs
 reactive-var
 meteorhacks:npm
 csauer:accounts-phony
@@ -100,3 +99,6 @@ vsivsi:job-collection
 easy:search
 jamiecollinson:selectize-bootstrap
 jesperwe:bootstrap-select
+twbs:bootstrap
+tarzak:gridstackjs
+mizzao:jquery-ui

@@ -1,0 +1,62 @@
+<template name="watchedEntityWidget">
+  <div class="grid-stack-item-content">
+    <div class="panel panel-default" id='watchedEntityBox'>
+      <div class="panel-heading">
+        <i class="fa fa-fw fa-binoculars"></i>
+        <button aria-hidden="true" class="close" id="close_watchedEntityWidget" type="button">×</button>
+        Watched Items
+      </div>
+      <div class="panel-body" style="margin-bottom:5px;">
+
+        <div class="row">
+          <div class="col-md-11 col-md-offset-1">
+            <div class="watchedEntityList">
+              <ul class="list-unstyled">
+                <div class="row">
+                  {{#each items}}
+                    {{>watchedEntityEntry}}
+                    {{else}}
+                    <li>
+                      No watched items
+                    </li>
+                  {{/each}}
+                </div>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="watchedEntityEntry">
+  <div class=" col-md-5">
+
+    <div class="panel panel-default" id="{{id}}Panel">
+      <div class="panel-heading">
+        <a href="{{pathFor route=routeName id=id}}">{{{icon}}}
+          {{name}}</a>
+      </div>
+      <div style="overflow-x:none;overflow-y:auto;max-height:200px;">
+        {{#each activities}}
+          {{> activityEntryDisplay}}
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<template name="activityEntryDisplay">
+  <p style="padding-left: 5px;padding-bottom:3px;border-bottom: 1px solid #dbdbdb;">
+    <strong>{{user}}</strong>
+    <small>
+      <em style="color:#c6c6c6;">{{timestamp}}
+      </em>
+    </small><br>
+    <!-- <small><em style="color:#c6c6c6;">{{timestamp}}</em></small><br> -->
+    {{{notes}}}
+  </p>
+</template>

@@ -109,6 +109,16 @@ widgets = {
     displayed: false,
     name: 'Company Summary'
   },
+  'watchedEntity': {
+    id: 'watchedEntity',
+    x: 0,
+    y: 0,
+    w: 4,
+    h: 8,
+    displayed: false,
+    name: 'Watched Items'
+      // requiredPermission: "CanReadPurchaseOrders"
+  }
   // 'propagationChart': {
   //   id: 'propagationChart',
   //   x: 0,
@@ -189,23 +199,32 @@ Template.dashboard.onRendered(function() {
     vertical_margin: 10,
     animate: true,
     height: 0,
-    width: 3
+    width: 3,
+    resizable: {
+      autoHide: false,
+      handles: 'e, s, w'
+    }
   });
 
   //Retrieve list of widgets from db if exists
   var savedWidgets = Meteor.user().profile.myWidgets;
   instanciateDashboard(savedWidgets);
+
+  $('.grid-stack').on('resizestart', function(event, ui) {
+    var grid = this;
+    var element = event.target;
+    console.log("resize start");
+  });
+  $('.grid-stack').on('resizestop', function(event, ui) {
+    var grid = this;
+    var element = event.target;
+    console.log("resize stop");
+  });
 });
 
 Template.dashboard.events({
-  // 'click #test': function() {
-  //   Meteor.call('report.companiesStored', function(err, data) {
-  //     console.log(Meteor.isDevelopment);
-  //     console.log(err, data);
-  //   })
-  // },
   'change .grid-stack': function() {
-    saveMyWidgets()
+    saveMyWidgets();
   },
 
   'click .addWidget': function(e) {
@@ -255,7 +274,7 @@ Template.dashboard.helpers({
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
           userId = Meteor.userId();
-        return Roles.userIsInRole(userId, ['Administrator', requiredPermission])
+        return Roles.userIsInRole(userId, ['Administrator', requiredPermission]);
       }
       return true;
     });
