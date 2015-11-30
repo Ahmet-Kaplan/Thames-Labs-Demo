@@ -24,7 +24,7 @@
               {{else}}
               <button id="toggle-archived" class="btn btn-default"><i class="fa fa-fw fa-folder"></i></button>
               {{/if}}
-              <button id="#ref_oppsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Opportunities Overview" data-content="
+              <button id="oppsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Opportunities Overview" data-content="<div id='oppOverviewPop'>
                 <table class='table'>
                   <tbody>
                     <tr>
@@ -45,6 +45,7 @@
                     </tr>
                   </tbody>
                 </table>
+              </div>
                 ">
               <i class="fa fa-fw fa-tasks"></i></button>
             </div>
@@ -67,13 +68,3 @@
     });
   </script>
 </template>
-
-<!-- <div><dl class='list-unstyled'>
-  <dt>Opportunities:</dt>
-    <dd class='text-right'>{{totalOpps}}</dd>
-  <dt>Total Value:</dt>
-    <dd class='text-right'>£{{totalOppValue}}</dd>
-  <dt>Average Value:</dt>
-    <dd class='text-right'>£{{averageOppValue}}</dd>
-</dl>
-</div>"> -->

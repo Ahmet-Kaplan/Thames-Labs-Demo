@@ -1,5 +1,97 @@
 Meteor.methods({
 
+  addCompanyActivity: function() {
+    var entity = Companies.findOne({});
+    var data = entity.name;
+    Activities.insert({
+      type: "Note",
+      notes: "Test company activity",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      primaryEntityId: entity._id,
+      primaryEntityType: "companies",
+      primaryEntityDisplayData: data,
+      companyId: entity._id,
+      createdBy: this.userId
+    });
+  },
+  addContactActivity: function() {
+    var entity = Contacts.findOne({});
+    var data = entity.forename + " " + entity.surname;
+    Activities.insert({
+      type: "Note",
+      notes: "Test contact activity",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      primaryEntityId: entity._id,
+      primaryEntityType: "contacts",
+      primaryEntityDisplayData: data,
+      contactId: entity._id,
+      createdBy: this.userId
+    });
+  },
+  addOpportunityActivity: function() {
+    var entity = Opportunities.findOne({});
+    var data = entity.name;
+    Activities.insert({
+      type: "Note",
+      notes: "Test opportunity activity",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      primaryEntityId: entity._id,
+      primaryEntityType: "opportunities",
+      primaryEntityDisplayData: data,
+      opportunityId: entity._id,
+      createdBy: this.userId
+    });
+  },
+
+  addProjectActivity: function() {
+    var entity = Projects.findOne({});
+    var data = entity.name;
+    Activities.insert({
+      type: "Note",
+      notes: "Test project activity",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      primaryEntityId: entity._id,
+      primaryEntityType: "projects",
+      primaryEntityDisplayData: data,
+      projectId: entity._id,
+      createdBy: this.userId
+    });
+  },
+  addPurchaseOrderActivity: function() {
+    var entity = PurchaseOrders.findOne({});
+    var data = entity.description;
+    Activities.insert({
+      type: "Note",
+      notes: "Test purchase order activity",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      primaryEntityId: entity._id,
+      primaryEntityType: "purchaseOrders",
+      primaryEntityDisplayData: data,
+      purchaseOrderId: entity._id,
+      createdBy: this.userId
+    });
+  },
+  addTaskActivity: function() {
+    var entity = Tasks.findOne({});
+    var data = entity.title;
+    Activities.insert({
+      type: "Note",
+      notes: "Test task activity",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      primaryEntityId: entity._id,
+      primaryEntityType: "tasks",
+      primaryEntityDisplayData: data,
+      taskId: entity._id,
+      createdBy: this.userId
+    });
+  },
+
   addCompany: function(name) {
     var companyName = name || 'Test Ltd',
       address = 'Cowley Road',
@@ -24,8 +116,8 @@ Meteor.methods({
 
   addContact: function(forename, surname) {
     var contactForename = forename || 'Testy',
-        contactSurname = surname || 'Surname',
-        userId = Meteor.userId();
+      contactSurname = surname || 'Surname',
+      userId = Meteor.userId();
     return Contacts.insert({
       "forename": contactForename,
       "surname": contactSurname,
@@ -76,20 +168,28 @@ Meteor.methods({
     return projectId;
   },
 
+
+
   addOpportunity: function() {
-    var stage = OpportunityStages.insert({
+    var userTenant = Tenants.findOne({});
+    var stages = [];
+    stages.push({
       title: 'Stage 1',
       description: 'test description',
-      order: 0
+      id: 0
     });
-    OpportunityStages.insert({
+    stages.push({
       title: 'Stage 2',
       description: 'test description',
-      order: 1
+      id: 1
     });
-    var stage = OpportunityStages.findOne({
-      order: 0
+    var stage = stages[0];
+    Tenants.update(userTenant._id, {
+      $set: {
+        'settings.opportunity.stages': stages
+      }
     });
+
     var date = new Date();
     var companyId = Companies.insert({
       name: "Test Ltd",
@@ -105,11 +205,38 @@ Meteor.methods({
       description: 'test description',
       date: date,
       value: 0,
-      currentStageId: stage._id,
+      currentStageId: stage.id,
       companyId: companyId,
       createdBy: Meteor.userId(),
       items: []
     });
+    return data;
+  },
+
+  addPurchaseOrder: function() {
+
+    var data = PurchaseOrders.insert({
+      userId: this.userId,
+      description: "Test Purchase Order",
+      supplierCompanyId: "Test Ltd",
+      status: "Requested",
+      createdBy: this.userId
+    });
+
+    return data;
+
+  },
+
+  addEvent: function() {
+
+    var data = AuditLog.insert({
+      token: "P2vxnjD2fgyZvuFNc",
+      date: "2015-11-18T10:17:24.346Z",
+      source: "client",
+      level: "info",
+      message: "A new task has been created: test (Company: Test Ltd)",
+    });
+
     return data;
   },
 
@@ -128,7 +255,7 @@ Meteor.methods({
   },
 
   addRecordsToLimit: function() {
-  for(var i = 0; i < MAX_RECORDS / 2; i++) {
+    for (var i = 0; i < MAX_RECORDS / 2; i++) {
       Meteor.call('addContact', 'Test ' + i, 'Surnamer');
       Meteor.call('addCompany', 'Test ' + i + ' Ltd');
     }
@@ -161,9 +288,9 @@ Meteor.methods({
   addContactTask: function() {
     var contactId = Contacts.insert({
       "title": "Mr",
-      "forename": "Testy",
-      "surname": "Surname",
-      "email": "testy@surname.com",
+      "forename": "Obi-Wan",
+      "surname": "Kenobi",
+      "email": "obiwan@screwthedarkside.com",
       "createdBy": Meteor.userId(),
       "customFields": {
         test: {
@@ -187,17 +314,25 @@ Meteor.methods({
   },
 
   addOpportunityTask: function() {
-    var stage = OpportunityStages.insert({
+    var userTenant = Tenants.findOne({});
+    var stages = [];
+    stages.push({
       title: 'Stage 1',
       description: 'test description',
-      order: 0
+      id: 0
     });
-    OpportunityStages.insert({
+    stages.push({
       title: 'Stage 2',
       description: 'test description',
-      order: 1
+      id: 1
     });
-    var stage = OpportunityStages.findOne({order: 0});
+    var stage = stages[0];
+    Tenants.update(userTenant._id, {
+      $set: {
+        'settings.opportunity.stages': stages
+      }
+    });
+
     var date = new Date();
     var companyId = Companies.insert({
       name: "Test Ltd",
@@ -213,7 +348,7 @@ Meteor.methods({
       description: 'test description',
       date: date,
       value: 0,
-      currentStageId: stage._id,
+      currentStageId: stage.id,
       companyId: companyId,
       createdBy: Meteor.userId(),
       items: []

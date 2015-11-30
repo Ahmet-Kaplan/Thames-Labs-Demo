@@ -19,13 +19,11 @@
             {{> afQuickField name="companyName" id="company-name-field"}}
             {{> afQuickField name="name" id="name-field"}}
             {{> afQuickField name="email" id="email-field"}}
-            {{> afQuickField name="password" type="password" id="password-field"}}
-            {{> afQuickField name="confirmPassword" type="password" id="confirm-password-field"}}
             {{#if coupon}}
               {{> afQuickField name="coupon" value=coupon}}
             {{/if}}
             <div style="text-align:center; margin-bottom:5px"> By signing up, you agree to the product <a href='http://www.realtimecrm.co.uk/terms' target='_blank'>Terms &amp; Conditions</a></div>
-            <button type="submit" class="btn btn-primary"> Sign Up <span class="glyphicon glyphicon-chevron-right"></span></button>
+            <button type="submit" class="btn btn-primary pull-right"> Sign Up <span class="glyphicon glyphicon-chevron-right"></span></button>
           {{/autoForm}}
         </div>
       </div>

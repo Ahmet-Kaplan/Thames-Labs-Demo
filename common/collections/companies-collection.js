@@ -9,8 +9,13 @@ Companies.helpers({
     });
   },
   activities: function() {
+    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+
     return Activities.find({
-      companyId: this._id
+      companyId: this._id,
+      primaryEntityType: {
+        $nin: collectionsToFilter
+      }
     }, {
       sort: {
         activityTimestamp: -1
@@ -46,6 +51,10 @@ Tags.TagsMixin(Companies);
 Collections.companies.index = CompaniesIndex = new EasySearch.Index({
   collection: Companies,
   fields: ['name'],
+  permission: function(options) {
+    var userId = options.userId;
+    return Roles.userIsInRole(userId, ['Administrator', 'CanReadCompanies']);
+  },
   engine: new EasySearch.MongoDB({
     sort: () => {
       return {

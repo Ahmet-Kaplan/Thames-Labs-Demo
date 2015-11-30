@@ -25,6 +25,21 @@ Feature: Allow users to manage their Tasks
     When I navigate to a task page
     And I should see the heading "test task"
 
+  Scenario: A user should not be able to see tasks created by a user under another tenant
+    Given I have the "CanCreateTasks" permission
+    And I have the "CanReadCompanies" permission
+    And a "Company" task has been created
+    And I navigate to "/tasks"
+    Then I should see "#list-item"
+    Given a second tenant exists
+    And a second user exists
+    And I log out
+    And I log in as user 2
+    And I have the "CanReadTasks" permission
+    And I have the "CanReadCompanies" permission
+    And I navigate to "/tasks"
+    Then I should not see "#list-item"
+
   Scenario: An administrator can add CanReadTasks permission
     Given I have the "Administrator" permission
     And a restricted user exists
@@ -54,8 +69,8 @@ Feature: Allow users to manage their Tasks
     And I click "#company"
     And I set text field "title" to "test task 2"
     And I set textarea "description" to "This is another test task."
-    And I selectize "assigneeId" to "test user"
     And I selectize "entityId" to "Test Ltd"
+    And I selectize "assigneeId" to "test user"
     And I submit the "newTask" form
     Then I should see the heading "test task 2"
 
@@ -83,9 +98,20 @@ Feature: Allow users to manage their Tasks
     And a "Company" task has been created
     When I navigate to a task page
     And I click "#edit-task"
-    And I set text field "title" to "updated task title"
+    Then I should see a modal
+    When I set text field "title" to "updated task title"
     And I submit the "editTask" form
     Then I should see the heading "updated task title"
+
+  Scenario: A user can set a task as complete
+    Given I have the "CanEditTasks" permission
+    And I have the "CanReadCompanies" permission
+    And a "Company" task has been created
+    And I navigate to "/tasks"
+    And I click "#completed"
+    And I wait
+    And I click "#tskToggleCompleted"
+    Then I should see "#list-item"
 
   Scenario: A user without permission cannot edit a task
     Given I do not have the "CanEditTasks" permission

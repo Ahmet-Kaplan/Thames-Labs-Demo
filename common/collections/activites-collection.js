@@ -16,11 +16,47 @@ Activities.helpers({
     return PurchaseOrders.findOne(this.purchaseOrderId);
   },
   task: function() {
-    return Tasks.findOne(this.taskId)
+    return Tasks.findOne(this.taskId);
   }
 });
 
 Tags.TagsMixin(Activities);
+
+
+////////////////////
+// SEARCH INDICES //
+////////////////////
+
+Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
+  collection: Activities,
+  fields: ['type', 'notes', 'primaryEntityDisplayData'],
+  engine: new EasySearch.MongoDB({
+    sort: () => {
+      return {
+        'activityTimestamp': -1
+      };
+    },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      if (options.search.props.tags) {
+        selector.tags = {
+          $in: options.search.props.tags.split(',')
+        };
+      }
+      if (options.search.props.searchById) {
+        selector._id = options.search.props.searchById;
+      }
+
+      var collectionsToFilter = GetDisallowedPermissions(options.search.userId);
+
+      selector.primaryEntityType = {
+        $nin: collectionsToFilter
+      };
+
+      return selector;
+    }
+  })
+});
 
 //////////////////////
 // COLLECTION HOOKS //
@@ -39,7 +75,7 @@ Activities.after.insert(function(userId, doc) {
   }
   if (doc.projectId) {
     entity = Projects.findOne(doc.projectId);
-    entityName = "Project: " + entity.description;
+    entityName = "Project: " + entity.name;
   }
   if (doc.purchaseOrderId) {
     entity = PurchaseOrders.findOne(doc.purchaseOrderId);

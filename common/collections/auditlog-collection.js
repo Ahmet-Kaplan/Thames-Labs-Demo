@@ -9,6 +9,10 @@ Partitioner.partitionCollection(AuditLog);
 Collections.auditLog.index = AuditLogIndex = new EasySearch.Index({
   collection: AuditLog,
   fields: ['message', 'level'],
+  permission: function(options) {
+    var userId = options.userId;
+    return Roles.userIsInRole(userId, ['Administrator', 'CanReadEventLog']);
+  },
   engine: new EasySearch.MongoDB({
     sort: () => {
       return {
