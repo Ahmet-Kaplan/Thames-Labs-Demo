@@ -24,7 +24,7 @@
   border-radius: 50%;
   background: #0e5e98;
   border: none;
-  box-shadow: 2px 2px 7px #888888;
+  box-shadow: 2px 2px 7px #888;
 }
 
 .fixed-action-btn i {
@@ -62,7 +62,7 @@
   border-radius: 50%;
   background: #0e5e98;
   border: none;
-  box-shadow: 2px 2px 7px #888888;
+  box-shadow: 2px 2px 7px #888;
 
 }
 
@@ -81,6 +81,33 @@
 }
 
 .fab-menu-item:focus {
+  outline: 0;
+}
+
+.close-fab {
+  border-radius: 50%;
+  position: fixed;
+  width: 15px;
+  height: 15px;
+  right: 50px;
+  bottom: 95px;
+  border: none;
+  color: #fff;
+  font-size: 10px;
+  z-index: 910;
+}
+
+.close-fab i {
+  position: fixed;
+  margin: -6px -5px -5px -6px;
+}
+
+.close-fab:active {
+  outline: none;
+  border: none;
+}
+
+.close-fab:focus {
   outline: 0;
 }
 
