@@ -1,6 +1,13 @@
 var currentFilter = new ReactiveVar({});
 var searchInput = new ReactiveVar('')
+var activeSelection = new ReactiveVar(null);
 var handle = '';
+
+function updateSelection() {
+  if($('#filtersSearch').find('.active').length) {
+      activeSelection.set({text: $('#filtersSearch').find('.active').text(), value: $('#filtersSearch').find('.active').data('value')});
+    }
+}
 
 function displayFilter(mainCollectionName, selectize) {
   var filters = Collections[mainCollectionName].filters;
@@ -68,10 +75,18 @@ function displayFilter(mainCollectionName, selectize) {
       });
       selectize.refreshOptions(true);
     }
+
+    updateSelection();
   });
 }
 
-function applyFilter(text, value, mainCollectionName, selectize) {
+function applyFilter(mainCollectionName, selectize) {
+  var data = activeSelection.get();
+  console.log(data);
+  var text = data.text;
+  var value = data.value;
+
+
   //If user click on an item in the generated filters list, trigger filter display
   if(value.search('setFilter') !== -1) {
     selectize.clearOptions();
@@ -121,7 +136,7 @@ function applyFilter(text, value, mainCollectionName, selectize) {
 Template.filterBox.onRendered(function() {
   var mainCollectionName = this.data.collectionName;
 
-  $('#filterBox').selectize({
+  var $select = $('#filterBox').selectize({
     placeholder: 'Apply filters...',
     valueField: '_id',
     labelField: 'name',
@@ -134,6 +149,7 @@ Template.filterBox.onRendered(function() {
     create: false,
     delimiter: ',',
     persist: false,
+    maxItems: 2,
     onFocus: function() {
       searchInput.set('');
       displayFilter(mainCollectionName, this);
@@ -147,9 +163,18 @@ Template.filterBox.onRendered(function() {
     },
     onItemAdd: function(value, $item) {
       var text = $($item).text();
-      applyFilter(text, value, mainCollectionName, this);
+      applyFilter(mainCollectionName, this);
+      console.log('added Item', text, value)
     }
   });
+
+  //Trick to handle the use of enter key twice which is not taken care of by Selectize
+  $('#filtersSearch').on('keydown', function(evt){
+    if(evt.keyCode === 13) {
+      applyFilter(mainCollectionName, $($select)[0].selectize);
+    }
+    updateSelection();
+  })
 });
 
 Template.filterBox.onDestroyed(function() {
