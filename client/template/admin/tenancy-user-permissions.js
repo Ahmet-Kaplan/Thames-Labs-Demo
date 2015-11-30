@@ -1,5 +1,6 @@
 Template.editTenantUserPermissions.onRendered(function() {
   var selectedUserId = this.data._id;
+
   Meteor.call('checkUserRole', selectedUserId, 'Administrator', function(err, data) {
     if (err) {
       toastr.error('An error occurred whilst determining Administrator status: ' + err);
@@ -113,7 +114,7 @@ Template.editTenantUserPermissions.events({
             Meteor.call('setUserRole', userId, 'CanEdit' + p.value, false);
             Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
         }
-      })
+      });
     }
 
     toastr.success('User permissions updated.');
