@@ -1,4 +1,8 @@
 module.exports = function() {
+  this.Then(/^I should see the activity in the timeline$/, function() {
+    browser.waitForExist('.timeline-panel', 5000);
+  });
+
   this.Then(/^I see a "([^"]*)" activity with the notes "([^"]*)" in the list "([^"]*)"$/, function(type, notes, listName) {
     browser.waitForExist(listName, 5000);
     browser.waitForVisible(listName, 5000);
