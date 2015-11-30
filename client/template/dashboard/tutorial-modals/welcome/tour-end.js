@@ -3,23 +3,27 @@ Template.tourEnd.onRendered(function() {
 });
 
 Template.tourEnd.events({
-  "click #close-tour-end": function(event, template) {
+  "click #close-first-run": function(event, template) {
     Modal.hide();
-    FlowRouter.go('dashboard');
   },
-  "click #add-company": function(event, template) {
+  "click #first-run-tour": function(event, template) {
     Modal.hide();
-		hopscotch.endTour(true);
+    hopscotch.endTour(true);
+    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
+  },
+  "click #companies-tutorial": function(event, template) {
+    Modal.hide();
+    hopscotch.endTour(true);
     $.getScript('/vendor/hopscotch/tours/companies-tutorial.js');
   },
-  "click #add-contact": function(event, template) {
+  "click #contacts-tutorial": function(event, template) {
     Modal.hide();
-		hopscotch.endTour(true);
+    hopscotch.endTour(true);
     $.getScript('/vendor/hopscotch/tours/contacts-tutorial.js');
   },
-  "click #retake": function(event, template) {
+  "click #admin-tutorial": function(event, template) {
     Modal.hide();
-		hopscotch.endTour(true);
-    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
+    hopscotch.endTour(true);
+    $.getScript('/vendor/hopscotch/tours/admin-tutorial.js');
   }
 });

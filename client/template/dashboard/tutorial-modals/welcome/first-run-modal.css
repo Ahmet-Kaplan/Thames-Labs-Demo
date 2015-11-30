@@ -1,35 +1,17 @@
-/*ul.icon
-{
-	list-style-type: none;
-}
-
-ul.icon li
-{
-	text-indent: -1.4em;
-}
-
-ul.icon li::before
-{
-	font-family: 'FontAwesome';
-	float: left;
-	width: 1.4em;
-}
-
-ul.icon li.welcome::before {
-  content: "\f19d";
-}
-
-ul.icon li.companies::before {
-  content: "\f1ad";
-}
-
-ul.icon li.contacts::before {
-  content: "\f007";
-}
-
-ul.icon li.users::before {
-	content: "\f0c0";
-}*/
 .btn-huge {
+	width: 200px;
+	height: 200px;
+	white-space: normal !important;
+	margin-bottom: 10px !important;
+	margin-right: 10px !important;
+}
 
+.btn-huge i {
+	margin: 10px 10px 10px 10px;
+	font-size: 50px;
+}
+
+.tutorial-title{
+	font-family: Helvetica, sans-serif;
+	font-weight: bold;
 }
