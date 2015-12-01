@@ -292,7 +292,12 @@ Template.nav.events({
     }
   },
   'click #toggleFab': function() {
-    $("#fab-btn").toggle()
+    $("#fab-btn").toggle();
+    $("#closeFab").hide();
+    $("#fab-menu").hide();
+    if ($("i", "#fab-btn").hasClass("fa fw-fa fa-times")) {
+      $("i", "#fab-btn").toggleClass("fa fw-fa fa-times fa fw-fa fa-plus");
+    };
   }
 });
 

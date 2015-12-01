@@ -11,6 +11,23 @@ Template.footer.events({
         $("i", "#fab-btn").toggleClass("fa fw-fa fa-plus fa fw-fa fa-times")
       })
   },
+  'mouseenter #fab': function(event) {
+    $("#closeFab").show()
+  },
+  'mouseleave #fab': function(event) {
+    $("#closeFab").hide()
+  },
+  'mouseenter #closeFab': function(event) {
+    $("#closeFab").show()
+  },
+  'mouseleave #closeFab': function(event) {
+    $("#closeFab").hide()
+  },
+  'click #closeFab': function(event) {
+    $("#fab-btn").hide();
+    $("#closeFab").hide();
+    $("#fab-menu").hide();
+  },
   'click #fabAddContacts': function(event) {
     if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateContacts'])) {
       toastr.warning('You do not have permission to create contacts. Please contact your system administrator.');

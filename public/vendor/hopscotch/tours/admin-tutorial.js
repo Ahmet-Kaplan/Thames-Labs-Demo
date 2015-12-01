@@ -144,5 +144,5 @@ var adminTutorial = {
 if (Session.get(sessionVar)) {
 	hopscotch.startTour(adminTutorial, Session.get(sessionVar) + 1);
 } else {
-	hopscotch.startTour(adminTutorial, 2);
+	hopscotch.startTour(adminTutorial);
 }
