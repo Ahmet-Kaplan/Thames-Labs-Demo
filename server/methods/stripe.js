@@ -481,5 +481,40 @@ Meteor.methods({
     });
 
     return couponDetails.wait();
+  },
+
+  'stripe.updateCoupon': function(couponId) {
+    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
+      throw new Meteor.Error(403, 'You do not have the rights to update coupons.');
+    }
+
+    var couponValid = new Future();
+    var tenantId = Partitioner.getUserGroup(this.userId);
+
+    if(couponId === '') {
+      Tenants.update(tenantId, {
+        $unset: {
+          'stripe.coupon': ''
+        }
+      });
+      return true;
+    } else {
+      Stripe.coupons.retrieve(couponId, Meteor.bindEnvironment(function(err, coupon) {
+        if (err) {
+          couponValid.return(false);
+        } else if(coupon.valid === true) {
+          Tenants.update(tenantId, {
+            $set: {
+              'stripe.coupon': couponId
+            }
+          });
+          couponValid.return(true);
+        } else {
+          couponValid.return(false);
+        }
+      }));
+
+      return couponValid.wait();
+    }
   }
 });
