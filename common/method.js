@@ -398,6 +398,9 @@ Meteor.methods({
       createdAt: date,
       activityTimestamp: date,
       opportunityId: opp._id,
+      primaryEntityId: opp._id,
+      primaryEntityType: 'opportunities',
+      primaryEntityDisplayData: opp.name,
       createdBy: user._id
     });
 
@@ -409,6 +412,9 @@ Meteor.methods({
       createdAt: date,
       activityTimestamp: date,
       projectId: projId,
+      primaryEntityId: projId,
+      primaryEntityType: 'projects',
+      primaryEntityDisplayData: opp.name,
       createdBy: user._id
     });
 
