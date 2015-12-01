@@ -137,6 +137,13 @@
           </div>
         </div>
       </div>
+
+      <li class="panel-title {{isActiveRoute regex='activities|activity'}}">
+        <a href='/activities' class="dismiss-on-click" id="menuLinkActivities">
+          <i class="fa fa-fw fa-history"></i> Activities
+        </a>
+      </li>
+
       {{#if isInRole 'Administrator,CanReadTasks'}}
       <li class="panel-title {{isActiveRoute regex='tasks|task'}}">
         <a href='/tasks' class="dismiss-on-click" id="menuLinkTasks">

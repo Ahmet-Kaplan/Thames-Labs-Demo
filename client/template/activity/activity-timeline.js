@@ -7,7 +7,7 @@ Template.activityTimeline.helpers({
     }
   },
   timelineClass: function(index) {
-    return index % 2 == 0 ? 'timeline-inverted' : '';
+    return index % 2 === 0 ? 'timeline-inverted' : '';
   },
   timelineIcon: function(type) {
     var icons = {
@@ -30,6 +30,59 @@ Template.activityTimeline.helpers({
     return Meteor.users.findOne({
       _id: createdBy
     }).profile.name;
+  },
+  isPrimaryEntity: function() {
+    if (!this.primaryEntityId || !this.primaryEntityType) return false;
+    if (this.taskId) return true;
+
+    var urlString = FlowRouter.current().path;
+    return urlString.indexOf(this.primaryEntityId) > -1;
+  },
+  entityIcon: function() {
+    switch (this.primaryEntityType) {
+      case 'companies':
+        return 'building';
+      case 'contacts':
+        return 'user';
+      case 'opportunities':
+        return 'lightbulb-o';
+      case 'projects':
+        return 'sitemap';
+      case 'purchaseorders':
+        return 'shopping-cart';
+      case 'tasks':
+        return 'check';
+    }
+  },
+  friendlyEntity: function() {
+    switch (this.primaryEntityType) {
+      case 'companies':
+        return 'company';
+      case 'contacts':
+        return 'contact';
+      case 'opportunities':
+        return 'opportunity';
+      case 'projects':
+        return 'project';
+      case 'purchaseorders':
+        return 'purchase order';
+      case 'tasks':
+        return 'task';
+    }
+  },
+  routeName: function() {
+    switch (this.primaryEntityType) {
+      case 'companies':
+        return 'company';
+      case 'contacts':
+        return 'contact';
+      case 'opportunities':
+        return 'opportunity';
+      case 'projects':
+        return 'project';
+      case 'purchaseorders':
+        return 'purchaseOrder';
+    }
   }
 });
 
@@ -49,4 +102,4 @@ Template.activityTimeline.events({
       }
     });
   }
-})
+});

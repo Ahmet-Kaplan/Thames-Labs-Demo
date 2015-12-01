@@ -24,6 +24,30 @@ Meteor.methods({
     });
   },
 
+  createSecondTenant: function() {
+    var tenantName = 'Acme Corp Rivals',
+      PurchaseOrderPrefix = 'A',
+      PurchaseOrderStartingValue = 1;
+
+    Tenants.insert({
+      name: tenantName,
+      settings: {
+        PurchaseOrderPrefix: PurchaseOrderPrefix,
+        PurchaseOrderStartingValue: PurchaseOrderStartingValue,
+        extInfo: {
+          company: [],
+          contact: []
+        }
+      },
+      stripe: {
+        "totalRecords": 0,
+        "paying": false,
+        "blocked": false
+      },
+      createdAt: new Date()
+    });
+  },
+
   createTestUser: function() {
     var tenantName = 'Acme Corp';
 
@@ -33,6 +57,32 @@ Meteor.methods({
       password: "goodpassword",
       profile: {
         name: "test user"
+      }
+    });
+
+    var tenantId = Tenants.findOne({
+      name: tenantName
+    })._id;
+    Partitioner.setUserGroup(userId, tenantId);
+
+    Meteor.users.update({
+      _id: userId
+    }, {
+      $set: {
+        "emails.0.verified": true
+      }
+    });
+  },
+
+  createSecondUser: function() {
+    var tenantName = 'Acme Corp Rivals';
+
+    var userId = Accounts.createUser({
+      username: "test user two",
+      email: "test2@domain.com",
+      password: "goodpassword",
+      profile: {
+        name: "test user two"
       }
     });
 
@@ -54,6 +104,14 @@ Meteor.methods({
       admin: true
     });
     Roles.addUsersToRoles(superadminId, 'superadmin');
+
+    Meteor.users.update({
+      _id: superadminId
+    }, {
+      $set: {
+        "emails.0.verified": true
+      }
+    });
   },
 
   setPermission: function(permission, statement) {
@@ -100,6 +158,14 @@ Meteor.methods({
     })._id;
     Partitioner.setUserGroup(userId, tenantId);
     Roles.setUserRoles(userId, []);
+
+    Meteor.users.update({
+      _id: userId
+    }, {
+      $set: {
+        "emails.0.verified": true
+      }
+    });
   },
 
   getUserByEmail: function(email) {
@@ -119,7 +185,7 @@ Meteor.methods({
     });
     var stripeId = theTenant.stripe.stripeId;
     var Stripe = StripeAPI(process.env.STRIPE_SK);
-    if(stripeId) {
+    if (stripeId) {
       Tenants.direct.update({
         $unset: {
           stripeId: '',

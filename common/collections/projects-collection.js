@@ -7,8 +7,13 @@ Projects.helpers({
     return Companies.findOne(this.companyId);
   },
   activities: function() {
+    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+
     return Activities.find({
-      projectId: this._id
+      projectId: this._id,
+      primaryEntityType: {
+        $nin: collectionsToFilter
+      }
     }, {
       sort: {
         activityTimestamp: -1
@@ -38,9 +43,16 @@ Tags.TagsMixin(Projects);
 Collections.projects.index = ProjectsIndex = new EasySearch.Index({
   collection: Projects,
   fields: ['name', 'tags'],
+
+  permission: function(options) {
+    var userId = options.userId;
+    return Roles.userIsInRole(userId, ['Administrator', 'CanReadProjects']);
+  },
   engine: new EasySearch.MongoDB({
     sort: () => {
-      return { 'name': 1 }
+      return {
+        'name': 1
+      }
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
@@ -68,7 +80,9 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
       }
       if (options.search.props.tags) {
         // n.b. tags is a comma separated string
-        selector.tags = { $in: options.search.props.tags.split(',') };
+        selector.tags = {
+          $in: options.search.props.tags.split(',')
+        };
       }
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;

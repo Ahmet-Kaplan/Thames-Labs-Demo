@@ -1,3 +1,7 @@
+Template.registerHelper('equals', function(a, b) {
+  return a === b;
+});
+
 Template.registerHelper('indexedArray', function(context, options) {
   if (context) {
     return context.map(function(item, index) {
@@ -18,7 +22,6 @@ Template.registerHelper('formatDateLocale', function(date, locale) {
     switch (locale) {
       case 'GMT':
         return moment(date).format('MMMM Do YYYY, h:mma');
-        break;
     }
   }
 });
@@ -68,6 +71,7 @@ Template.registerHelper("isMobile", function() {
 
 // Make search indices available to templates - e.g. for EasySearch components
 Template.registerHelper('AuditLogIndex', () => AuditLogIndex);
+Template.registerHelper('ActivitiesIndex', () => ActivitiesIndex);
 Template.registerHelper('GlobalAuditIndex', () => GlobalAuditIndex);
 Template.registerHelper('CompaniesIndex', () => CompaniesIndex);
 Template.registerHelper('ContactsIndex', () => ContactsIndex);

@@ -1,38 +1,28 @@
 machine:
   environment:
-    CUCUMBER_TAIL: 1
     SELENIUM_BROWSER: chrome
     VELOCITY_CI: 1
-    CUCUMBER_SCREENSHOTS_DIR: $CIRCLE_ARTIFACTS/screenshots/chrome
-    CUCUMBER_JSON_OUTPUT: $CIRCLE_TEST_REPORTS/chrome.cucumber
+    CUCUMBER_TAIL: 1
+    CUCUMBER_SCREENSHOTS_DIR: $CIRCLE_ARTIFACTS/screenshots
+    CUCUMBER_JSON_OUTPUT: $CIRCLE_TEST_REPORTS/cucumber/tests.cucumber
     STRIPE_PK: pk_test_W7Cx4LDFStOIaJ2g5DufAIaE
     STRIPE_SK: sk_test_CEgjj8xNKSrQMUrqC4puiHxA
-
-dependencies:
-  pre:
+  post:
     - env
-
+    - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
+dependencies:
   cache_directories:
+    # Only caches folders available at end of dependencies stage, so ideally
+    # we would install the meteor packages during this stage
     - "~/.meteor"
     - "~/.npm"
-
   override:
+    - curl https://install.meteor.com | sh
     - npm install -g eslint
     - cd tests/cucumber && npm install
-
-    # -- CACHE METEOR --
-    # Restore the meteor symlink
-    - if [ -d ~/.meteor ]; then sudo ln -s ~/.meteor/meteor /usr/local/bin/meteor; fi
-    # Install Meteor if the cache didn't restore it
-    - if [ ! -e ~/.meteor/meteor ]; then curl https://install.meteor.com | sh; fi
-
-    # Build version of app here to cache packages
-    - meteor --test
-
-    # Copy logs to artifacts DIR
-    - mkdir -p $CIRCLE_ARTIFACTS/chrome
-    - cp .meteor/local/log/*.log $CIRCLE_ARTIFACTS/chrome
-
 test:
   override:
     - eslint .
+    - meteor --test
+  post:
+    - cp ~/.meteor/local/log/*.log $CIRCLE_ARTIFACTS

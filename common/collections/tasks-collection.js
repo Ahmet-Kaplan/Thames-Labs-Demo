@@ -4,8 +4,13 @@ Tags.TagsMixin(Tasks);
 
 Tasks.helpers({
   activities: function() {
+    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+
     return Activities.find({
-      taskId: this._id
+      taskId: this._id,
+      primaryEntityType: {
+        $nin: collectionsToFilter
+      }
     }, {
       sort: {
         activityTimestamp: -1
@@ -209,9 +214,15 @@ Collections.tasks.filters = {
 Collections.tasks.index = TasksIndex = new EasySearch.Index({
   collection: Tasks,
   fields: ['title'],
+  permission: function(options) {
+    var userId = options.userId;
+    return Roles.userIsInRole(userId, ['Administrator', 'CanReadTasks']);
+  },
   engine: new EasySearch.MongoDB({
     sort: () => {
-      return { 'dueDate': 1 }
+      return {
+        'dueDate': 1
+      }
     },
     fields: (searchObject, options) => {
       return {
@@ -255,7 +266,9 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 
       if(options.search.props.tags) {
         // n.b. tags is a comma separated string
-        selector.tags = { $in: options.search.props.tags.split(',') };
+        selector.tags = {
+          $in: options.search.props.tags.split(',')
+        };
       }
 
       if(options.search.props.dueDate) {
@@ -327,7 +340,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 Tasks.after.insert(function(userId, doc) {
-  if(doc.remindMe && doc.reminder && Meteor.isServer) {
+  if (doc.remindMe && doc.reminder && Meteor.isServer) {
     Meteor.call('addTaskReminder', doc._id);
   }
 
@@ -360,7 +373,7 @@ Tasks.after.insert(function(userId, doc) {
 });
 
 Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
-  if(Meteor.isServer) {
+  if (Meteor.isServer) {
     Meteor.call('editTaskReminder', doc._id);
   }
 
@@ -442,7 +455,7 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Tasks.after.remove(function(userId, doc) {
-  if(doc.taskReminderJob && Meteor.isServer) {
+  if (doc.taskReminderJob && Meteor.isServer) {
     Meteor.call('deleteTaskReminder', doc.taskReminderJob);
   }
 
