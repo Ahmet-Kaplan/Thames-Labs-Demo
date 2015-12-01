@@ -127,8 +127,7 @@
         <div class="panel-collapse collapse" id="collapseFavourites">
           <div class="panel-body">
             <ul id="favourites-links">
-              {{#each favourites}} {{>favourite}} {{else}}
-              <li>No favourites</li>
+              {{#each favourites}} {{>favourite}}
               {{/each}}
               <li class="add-favourite">
                 <a data-toggle="tooltip" data-placement="bottom" title="Add this page to your favourites for easy access" id="mnuAddToFavourites"><i class="fa fa-fw fa-plus"></i>  Add</a>
@@ -137,6 +136,13 @@
           </div>
         </div>
       </div>
+
+      <li class="panel-title {{isActiveRoute regex='activities|activity'}}">
+        <a href='/activities' class="dismiss-on-click" id="menuLinkActivities">
+          <i class="fa fa-fw fa-history"></i> Activities
+        </a>
+      </li>
+
       {{#if isInRole 'Administrator,CanReadTasks'}}
       <li class="panel-title {{isActiveRoute regex='tasks|task'}}">
         <a href='/tasks' class="dismiss-on-click" id="menuLinkTasks">

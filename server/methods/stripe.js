@@ -227,33 +227,17 @@ Meteor.methods({
           //Send confirmation email if Admin but not superadmin
           if (Roles.userIsInRole(userId, ['Administrator'])) {
             var user = Meteor.users.findOne(userId);
-            SSR.compileTemplate('emailText', Assets.getText('email-stripe-cancel-subs.html'));
-            Template.emailText.helpers({
-              getDoctype: function() {
-                return '!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-              },
-              subject: function() {
-                return 'Cancellation of your RealTimeCRM Subscription';
-              },
-              name: function() {
-                return user.profile.name;
-              }
-            });
-
-            var html = '<' + SSR.render("emailText");
-
-            var text = "Dear " + user.profile.name + ",\n\n" +
-              "Your subscription to RealTimeCRM has now been cancelled.\n" +
-              "Would you have any feed back, please give us a call on 01223 802 900, or email us at team@realtimecrm.co.uk.\n\n" +
-              "Yours sincerely,\n" +
-              "The RealtimeCRM Team";
 
             Email.send({
               to: user.emails[0].address,
               from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
               subject: 'Cancellation of your RealTimeCRM Subscription',
-              html: html,
-              text: text
+              html: Accounts.buildHtmlEmail('email-stripe-cancel-subs.html', {
+                name: user.profile.name
+              }),
+              text: Accounts.buildHtmlEmail('email-stripe-cancel-subs.txt', {
+                name: user.profile.name
+              })
             });
           }
 

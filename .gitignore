@@ -1,4 +1,4 @@
 server/ssl/*
 .demeteorized
 tests/cucumber/.screenshots
-*~
+tests/cucumber/$CIRCLE_TEST_REPORTS

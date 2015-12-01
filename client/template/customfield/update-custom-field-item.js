@@ -1,5 +1,3 @@
-var editor = null;
-
 Template.extInfo.helpers({
   extInfoId: function() {
     return this.name.replace(/ /g, '');

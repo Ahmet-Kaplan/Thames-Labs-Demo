@@ -10,8 +10,13 @@ PurchaseOrders.helpers({
     return Companies.findOne(this.customerCompanyId);
   },
   activities: function() {
+    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+
     return Activities.find({
-      purchaseOrderId: this._id
+      purchaseOrderId: this._id,
+      primaryEntityType: {
+        $nin: collectionsToFilter
+      }
     }, {
       sort: {
         activityTimestamp: -1
@@ -36,9 +41,15 @@ PurchaseOrders.helpers({
 Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
   collection: PurchaseOrders,
   fields: ['description'],
+  permission: function(options) {
+    var userId = options.userId;
+    return Roles.userIsInRole(userId, ['Administrator', 'CanReadPurchaseOrders']);
+  },
   engine: new EasySearch.MongoDB({
     sort: () => {
-      return { 'orderNumber': 1 }
+      return {
+        'orderNumber': 1
+      }
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {

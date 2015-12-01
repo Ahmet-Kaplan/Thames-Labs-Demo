@@ -10,16 +10,17 @@ Template.salesPipeline.onRendered(function() {
   $.getScript('/vendor/d3-funnel.js', function(data, textStatus, jqxhr) {
     if (jqxhr.status = 200) {
       Tracker.autorun(function() {
-        var stages = OpportunityStages.find({}, {
-          sort: {
-            order: 1
-          }
-        }).fetch();
+        var userTenant = Tenants.findOne({});
+        var stages = userTenant.settings.opportunity.stages.sort(function(a, b) {
+          if (a.order < b.order) return -1;
+          if (a.order > b.order) return 1;
+          return 0;
+        });
 
         var data = [];
         for (var i = 0; i < stages.length; i++) {
           var count = Opportunities.find({
-            currentStageId: stages[i]._id
+            currentStageId: stages[i].id
           }).count();
           if (count > 0) {
             var item = [stages[i].title, count];
@@ -32,9 +33,11 @@ Template.salesPipeline.onRendered(function() {
             dynamicArea: true,
             hoverEffects: true,
             onItemClick: function(e) {
-              Session.set('currentStageId', OpportunityStages.findOne({
-                title: e.label
-              })._id);
+              var id = _.result(_.find(stages, function(stg) {
+                return stg.title === e.label;
+              }), 'id');
+
+              Session.set('currentStageId', id);
             }
           };
           options.width = $("#funnel-container").width();
@@ -62,17 +65,27 @@ Template.salesPipeline.helpers({
     return (Opportunities.find({}).count() > 0);
   },
   stages: function() {
-    return OpportunityStages.find({}, {
-      sort: {
-        order: 1
-      }
-    }).fetch();
+    var userTenant = Tenants.findOne({});
+    return userTenant.settings.opportunity.stages.sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
+      return 0;
+    });
   },
   selectedStage: function() {
     var id = Session.get('currentStageId');
-    return OpportunityStages.findOne({
-      _id: id
+    var userTenant = Tenants.findOne({});
+    var stages = userTenant.settings.opportunity.stages.sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
+      return 0;
     });
+
+    var data = null;
+    _.each(stages, function(stage) {
+      if (stage.id === id) data = stage;
+    });
+    return data;
   },
   stageValues: function() {
     var id = Session.get('currentStageId');
@@ -97,11 +110,5 @@ Template.salesPipeline.helpers({
     return Opportunities.find({
       currentStageId: id
     }).fetch();
-  }
-});
-
-Template.salesPipeline.events({
-  'click path': function() {
-    console.log(this);
   }
 });

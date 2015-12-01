@@ -1,10 +1,25 @@
 var verfiyOpportunityStagesExist = function() {
   if (FlowRouter.subsReady()) {
-    var count = OpportunityStages.find({}).count();
-    if (count == 0) {
-      Meteor.call("createDefaultOpportunityStages");
+    var userTenant = Tenants.findOne({});
+    if (userTenant) {
+      var stages = userTenant.settings.opportunity.stages;
+      if (!stages || stages.length === 0) {
+        Meteor.call("createDefaultOpportunityStages");
+      }
     }
   }
+};
+
+var findFirstStageId = function() {
+  var userTenant = Tenants.findOne({});
+  var stages = userTenant.settings.opportunity.stages;
+  if (!stages || stages.length === 0) return null;
+
+  var id = _.result(_.find(stages, function(stg) {
+    return stg.order === 0;
+  }), 'id');
+
+  return id;
 };
 
 Template.insertOpportunityModal.onRendered(function() {
@@ -13,11 +28,8 @@ Template.insertOpportunityModal.onRendered(function() {
 });
 
 Template.insertOpportunityModal.helpers({
-	firstStageId: function() {
-    var count = OpportunityStages.find({}).count();
-    if (count == 0) return null;
-    var id = OpportunityStages.findOne({"order": 0})._id;
-    return id;
+  firstStageId: function() {
+    return findFirstStageId();
   },
   createdBy: function() {
     return Meteor.userId();
@@ -29,11 +41,8 @@ Template.insertCompanyOpportunityModal.onRendered(function() {
 });
 
 Template.insertCompanyOpportunityModal.helpers({
-	firstStageId: function() {
-    var count = OpportunityStages.find({}).count();
-    if (count == 0) return null;
-    var id = OpportunityStages.findOne({"order": 0})._id;
-    return id;
+  firstStageId: function() {
+    return findFirstStageId();
   },
   createdBy: function() {
     return Meteor.userId();
@@ -61,11 +70,8 @@ Template.insertContactOpportunityModal.onRendered(function() {
 });
 
 Template.insertContactOpportunityModal.helpers({
-	firstStageId: function() {
-    var count = OpportunityStages.find({}).count();
-    if (count == 0) return null;
-    var id = OpportunityStages.findOne({"order": 0})._id;
-    return id;
+  firstStageId: function() {
+    return findFirstStageId();
   },
   createdBy: function() {
     return Meteor.userId();
@@ -81,13 +87,13 @@ Template.insertContactOpportunityModal.helpers({
 
 Template.editOpportunityModal.helpers({
   companyName: function() {
-    return Companies.findOne().name
+    return Companies.findOne().name;
   },
   contactName: function() {
     var contact = Contacts.findOne();
     return contact.forename + ' ' + contact.surname;
   }
-})
+});
 
 Template.insertOpportunityItemModal.helpers({
   generatedId: function() {

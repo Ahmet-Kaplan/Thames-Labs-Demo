@@ -27,6 +27,18 @@ Feature: Allow users to manage their Projects
     When I navigate to a project page
     Then I should see the heading "test project"
 
+  Scenario: A user should not be able to see projects created by a user under another tenant
+    Given a "Project" has been created
+    And I navigate to "/projects"
+    Then I should see "#list-item"
+    Given a second tenant exists
+    And a second user exists
+    And I log out
+    And I log in as user 2
+    And I have the "CanReadProjects" permission
+    And I navigate to "/projects"
+    Then I should not see "#list-item"
+
   Scenario: An administrator can add CanReadProjects permission
     Given I have the "Administrator" permission
     And a restricted user exists
@@ -46,6 +58,11 @@ Feature: Allow users to manage their Projects
     When I navigate to "/projects"
     Then I should see the heading "Tenants"
 
+  Scenario: A user can see the projects overview
+    When I navigate to "/projects"
+    And I click "#ref_projectOverviewWidget"
+    Then I should see "#projectOverviewPop"
+
   #Creating
   Scenario: A user can create a project
     Given I have the "CanCreateProjects" permission
@@ -55,8 +72,8 @@ Feature: Allow users to manage their Projects
     And I click "#add-project"
     And I set text field "name" to "test project 2"
     And I set textarea "description" to "This is another test project."
-    And I selectize "companyId" to "Test Ltd"
     And I selectize "userId" to "test user"
+    And I selectize "companyId" to "Test Ltd"
     And I set text field "value" to "999"
     And I submit the "newProject" form
     Then I should see the heading "test project 2"
@@ -239,6 +256,44 @@ Feature: Allow users to manage their Projects
     And a "Project" has been created
     When I navigate to a project page
     Then I should not see "#btnAddTaskToEntity"
+
+  #Activities
+  Scenario: A user can add an activity
+    Given a "Project" has been created
+    When I navigate to a project page
+    And I click "#add-activity"
+    And I set text field "activityTimestamp" to "05/05/2015 05:05"
+    And I set rich text field "notes" to "test activity"
+    And I select "Note" from dropdown field "type"
+    And I click "#confirm"
+    Then I should see the activity in the timeline
+
+  Scenario: A user can edit an activity
+    Given a "Project" has been created
+    When I navigate to a project page
+    And I click "#add-activity"
+    And I set text field "activityTimestamp" to "05/05/2015 05:05"
+    And I set rich text field "notes" to "test activity"
+    And I select "Note" from dropdown field "type"
+    And I click "#confirm"
+    And I wait
+    And I click "#edit-activity"
+    And I select "Email" from dropdown field "type"
+    And I click "#update"
+    Then I should see a toastr with the message "Activity updated."
+
+  Scenario: A user can delete an activity
+    Given a "Project" has been created
+    When I navigate to a project page
+    And I click "#add-activity"
+    And I set text field "activityTimestamp" to "05/05/2015 05:05"
+    And I set rich text field "notes" to "test activity"
+    And I select "Note" from dropdown field "type"
+    And I click "#confirm"
+    And I wait
+    And I click "#remove-activity"
+    And I click confirm on the modal
+    Then I should see "#no-activity"
 
   #Documents
   Scenario: A user without the CanEditProjects permission cannot add documents to a project

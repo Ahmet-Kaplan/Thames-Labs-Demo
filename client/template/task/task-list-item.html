@@ -1,9 +1,9 @@
 <template name="task">
 {{#if entityDetails.permissionToRead}}
-  <a class="list-group-item" href="tasks/{{taskId}}">
+  <a class="list-group-item" href="tasks/{{taskId}}" id="list-item">
     <div class="row">
       <div class="col-md-3">
-        <div class="pull-left">
+        <div class="pull-left" id="completed">
         {{#if isInRole 'Administrator,CanEditTasks'}}
           {{#if completed}}
             <span class="fa-stack fa-1x task-green task-completed">
@@ -33,7 +33,7 @@
         <h4 class="list-group-item-heading">{{title}}</h4>
       </div>
       <div class="col-md-3">
-        {{#if showEntityDetail}} 
+        {{#if showEntityDetail}}
           <span class="fa fa-fw fa-{{entityDetails.icon}}"></span> {{entityDetails.name}}
         {{/if}}
       </div>
@@ -46,7 +46,7 @@
         {{/if}}
       </div>
       <div class="col-md-3">
-        <span class="pull-right">{{> tagBadges}}</span>
+        {{> tagBadges tags=tags index=index pullRight=true}}
       </div>
     </div>
   </a>

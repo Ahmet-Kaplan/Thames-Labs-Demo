@@ -45,6 +45,23 @@ Feature: Allow users to manage their Products
     When I navigate to "/products"
     Then I should see the heading "Tenants"
 
+  Scenario: A user can see the products overview
+    When I navigate to "/products"
+    And I click "#ref_productsOverviewWidget"
+    Then I should see "#productOverviewPop"
+
+  Scenario: A user should not be able to see products created by a user under another tenant
+    Given I have the "CanCreateProducts" permission
+    And a "Product" has been created
+    And I navigate to "/products"
+    Then I should see "#list-item"
+    Given a second tenant exists
+    And a second user exists
+    And I log out
+    And I log in as user 2
+    And I have the "CanReadProducts" permission
+    And I navigate to "/products"
+    Then I should not see "#list-item"
 
   #Adding
   Scenario: A user can create a product

@@ -2,7 +2,6 @@ Template.opportunityDetail.onCreated(function() {
   var id = FlowRouter.getParam('id');
 
   // Subscribe to fixed data sources
-  this.subscribe('opportunityStages');
   this.subscribe('activityByOpportunityId', id);
   this.subscribe('tasksByEntityId', id);
 
@@ -38,44 +37,31 @@ Template.opportunityDetail.helpers({
     return moment(this.estCloseDate).format('MMMM Do YYYY, h:mma');
   },
   stages: function() {
-    return OpportunityStages.find({}, {
-      sort: {
-        order: 1
-      }
+    var userTenant = Tenants.findOne({});
+    var stages = userTenant.settings.opportunity.stages;
+    return stages.sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
+      return 0;
     });
   },
   oppData: function() {
     return Opportunities.findOne({
       _id: FlowRouter.getParam('id')
-    })
-  },
-  activities: function() {
-    return Activities.find({
-      opportunityId: FlowRouter.getParam('id')
-    }, {
-      sort: {
-        activityTimestamp: -1
-      }
     });
   },
   isNotFirstStage: function() {
+    var stages = Tenants.findOne().settings.opportunity.stages;
     var currentStageId = this.currentStageId;
-    var firstStage = OpportunityStages.findOne({
-      "order": 0
-    })
-    if (!firstStage) return false;
-    if (currentStageId == firstStage._id) return false;
+    var firstStageId = stages[0].id;
+    if (currentStageId == firstStageId) return false;
     return true;
   },
   isLastStage: function() {
+    var stages = Tenants.findOne().settings.opportunity.stages;
     var currentStageId = this.currentStageId;
-    var lastStage = OpportunityStages.findOne({}, {
-      sort: {
-        order: -1
-      }
-    });
-    if (!lastStage) return false;
-    if (currentStageId == lastStage._id) return true;
+    var lastStageId = stages[stages.length - 1].id;
+    if (currentStageId == lastStageId) return true;
     return false;
   },
   isActive: function() {
@@ -105,7 +91,7 @@ Template.opportunityDetail.helpers({
   },
   canExportDocx: function() {
     if (bowser.safari) {
-      return false
+      return false;
     } else {
       return true;
     }
@@ -114,18 +100,23 @@ Template.opportunityDetail.helpers({
 
 Template.opportunityDetail.events({
   'click #next-stage': function() {
-    var currentStage = OpportunityStages.findOne(this.currentStageId);
-    var nextStageIndex = currentStage.order + 1;
-    var nextStage = OpportunityStages.findOne({
-      order: nextStageIndex
-    });
+
+    var userTenant = Tenants.findOne({});
+    var stages = userTenant.settings.opportunity.stages;
+    var length = stages.length - 1;
+    var currId = this.currentStageId;
+    var currOrder = _.findIndex(stages, {id: currId});
+    var nextId = stages[currOrder + 1].id;
+
+    if (nextId > length) nextId = length;
+
     Opportunities.update(this._id, {
       $set: {
-        currentStageId: nextStage._id
+        currentStageId: nextId
       }
     });
     var user = Meteor.user();
-    var note = user.profile.name + ' moved this opportunity forward from stage "' + currentStage.title + '" to stage "' + nextStage.title + '"';
+    var note = user.profile.name + ' moved this opportunity forward from stage "' + stages[currId].title + '" to stage "' + stages[nextId].title + '"';
     var date = new Date();
     Activities.insert({
       type: 'Note',
@@ -133,22 +124,28 @@ Template.opportunityDetail.events({
       createdAt: date,
       activityTimestamp: date,
       opportunityId: this._id,
+      primaryEntityId: this._id,
+      primaryEntityType: 'opportunities',
+      primaryEntityDisplayData: this.name,
       createdBy: user._id
     });
   },
   'click #previous-stage': function() {
-    var currentStage = OpportunityStages.findOne(this.currentStageId);
-    var nextStageIndex = currentStage.order - 1;
-    var nextStage = OpportunityStages.findOne({
-      order: nextStageIndex
-    });
+    var userTenant = Tenants.findOne({});
+    var stages = userTenant.settings.opportunity.stages;
+    var currId = this.currentStageId;
+    var currOrder = _.findIndex(stages, {id: currId});
+    var nextId = stages[currOrder - 1].id;
+
+    if (nextId < 0) nextId = 0;
+
     Opportunities.update(this._id, {
       $set: {
-        currentStageId: nextStage._id
+        currentStageId: nextId
       }
     });
     var user = Meteor.user();
-    var note = user.profile.name + ' moved this opportunity back from stage "' + currentStage.title + '" to stage "' + nextStage.title + '"';
+    var note = user.profile.name + ' moved this opportunity from stage "' + stages[currId].title + '" back to stage "' + stages[nextId].title + '"';
     var date = new Date();
     Activities.insert({
       type: 'Note',
@@ -156,6 +153,9 @@ Template.opportunityDetail.events({
       createdAt: date,
       activityTimestamp: date,
       opportunityId: this._id,
+      primaryEntityId: this._id,
+      primaryEntityType: 'opportunities',
+      primaryEntityDisplayData: this.name,
       createdBy: user._id
     });
   },
@@ -182,6 +182,9 @@ Template.opportunityDetail.events({
           notes: note,
           createdAt: date,
           activityTimestamp: date,
+          primaryEntityId: this._id,
+          primaryEntityType: 'opportunities',
+          primaryEntityDisplayData: this.name,
           opportunityId: oppId,
           createdBy: user._id
         });
@@ -211,11 +214,15 @@ Template.opportunityDetail.events({
       if (result === false) return;
 
       var user = Meteor.user(),
-          note = user.profile.name + ' reopened this opportunity',
-          today = new Date();
+        note = user.profile.name + ' reopened this opportunity',
+        today = new Date();
 
       Opportunities.update(this._id, {
-        $unset: { isArchived: 1, hasBeenWon: 1, reasonLost: 1 }
+        $unset: {
+          isArchived: 1,
+          hasBeenWon: 1,
+          reasonLost: 1
+        }
       });
 
       Activities.insert({
@@ -223,6 +230,9 @@ Template.opportunityDetail.events({
         notes: note,
         createdAt: today,
         activityTimestamp: today,
+        primaryEntityId: this._id,
+        primaryEntityType: 'opportunities',
+        primaryEntityDisplayData: this.name,
         opportunityId: this._id,
         createdBy: user._id
       });
@@ -441,7 +451,7 @@ Template.opportunityStage.helpers({
     var stepId = Opportunities.findOne({
       _id: id
     }).currentStageId;
-    if (stepId == this._id) return true;
+    if (stepId == this.id) return true;
     return false;
   }
 });

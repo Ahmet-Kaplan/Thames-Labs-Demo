@@ -161,10 +161,10 @@
             {{> afQuickField name="totalPrice" readonly=true id="activePrice" }}
             {{#if purchaseOrder.supplierCompanyId}}
               <input type="hidden" id="supplierCompanyId" value="{{purchaseOrder.supplierCompanyId}}">
-              {{> esSelectize name="projectId" index=ProjectsIndex parent="supplierCompanyId" filter="supplierCompanyId"}}
+              {{> esSelectize name="projectId" index=ProjectsIndex }}
             {{else}}
               <input type="hidden" id="supplierContactId" value="{{purchaseOrder.supplierContactId}}">
-              {{> esSelectize name="projectId" index=ProjectsIndex parent="supplierContactId" filter="supplierContactId"}}
+              {{> esSelectize name="projectId" index=ProjectsIndex }}
             {{/if}}
             {{> afQuickField name="createdBy" value=currentUser}}
             <button type="submit" class="btn btn-primary" id="add-item-to-po">Create</button>
@@ -196,10 +196,10 @@
             {{> afQuickField name="totalPrice" readonly=true id="activePrice"}}
             {{#if purchaseOrder.supplierCompanyId}}
               <input type="hidden" id="supplierCompanyId" value="{{purchaseOrder.supplierCompanyId}}">
-              {{> esSelectize name="projectId" index=ProjectsIndex parent="supplierCompanyId" filter="supplierCompanyId" value=purchaseOrderItem.projectId}}
+              {{> esSelectize name="projectId" index=ProjectsIndex value=purchaseOrderItem.projectId}}
             {{else}}
               <input type="hidden" id="supplierContactId" value="{{purchaseOrder.supplierContactId}}">
-              {{> esSelectize name="projectId" index=ProjectsIndex parent="supplierContactId" filter="supplierContactId" value=purchaseOrderItem.projectId}}
+              {{> esSelectize name="projectId" index=ProjectsIndex value=purchaseOrderItem.projectId}}
             {{/if}}
             <button type="submit" class="btn btn-primary" id="update-po-item">Update</button>
           {{/autoForm}}

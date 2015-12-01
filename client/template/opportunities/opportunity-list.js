@@ -70,7 +70,7 @@ Template.opportunityList.events({
     event.preventDefault();
     exportFromSearchToCSV('opportunities');
   },
-  'click #ref_oppsOverviewWidget': function(event, template) {
+  'click #oppsOverviewWidget': function(event, template) {
 
       Meteor.call('report.numberOfOpportunities', function(err, data) {
         template.totalOpps.set(data.Count);

@@ -1,0 +1,63 @@
+The implementation of Global Search is built around a custom version of
+Andrew Mao's meteor-autocomplete package. This has been forked into a local
+copy where changes have been made to support searches across multiple
+collections simultaneously. If at all possible, do not update this package, lest
+it break global search.
+
+Files used:
+ - client/template/search/global-search.css
+ - client/template/search/global-search.html
+ - client/template/search/global-search.js
+ - server/publication.js
+ - client/hotkeys.js
+
+---------------------------------------
+global-search.css:
+---------------------------------------
+Typical CSS file, nothing special
+
+---------------------------------------
+global-search.html:
+---------------------------------------
+Contains the templates for the search form, which is displayed as a modal, and
+the search results.
+
+---------------------------------------
+global-search.js:
+---------------------------------------
+This file instanciates the session variable, "globalSearchOpen", if it does
+not already exist. This variable is used in conjunction with the hotkey
+combination to determine whether Global Search has been activated. When
+the search modal is destroyed, the session variable is set to false - this
+ensures that closing the modal in any way updates the session variable
+correctly.
+
+Only one helper is declared, which declares the settings used for the
+"inputAutocomplete" template helper. Significant options:
+ - limit: how many "pills" to show in the list of results
+ - rules.subscription: the subscription that handles the searchable data
+ - rules.field: an array of field names across the collections to search over
+
+The associated helper handles the click event of a result pill. As we're
+merging results across multiple collections, a check is performed to determine
+which is the underlying entity. Navigation is then handled via a direct
+call to FlowRouter.
+
+The pill helper simply returns a HTML string which is used to display the
+search results.
+
+---------------------------------------
+publication.js:
+---------------------------------------
+The "allRecords" publication is used to populate the search results. It users
+a specialized operation, included in the meteor-autocomplete package, to
+manage the data. Adding a collection to the list will enable searching across
+that dataset, provided at least one field has been specified in the rules.field
+array in the global-search.js file.
+
+---------------------------------------
+hotkeys.js:
+---------------------------------------
+The "flowkey:hotkeys" package allows us to bind keyboard shortcuts to anything
+we desire. In this use case, CTRL+SHIFT+F launches or closes the global search
+modal, dependent on the current state of the session variable.
