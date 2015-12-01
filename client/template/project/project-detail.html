@@ -1,6 +1,6 @@
 <template name="projectDetail">
   {{#with projectData}}
-    {{setPageTitle "Project - " name }}
+    {{setPageTitle "Project - " name }} {{> watchlistAdmin entityData=this collection="projects"}}
     <div class="row">
 
       <div class="col-md-12">

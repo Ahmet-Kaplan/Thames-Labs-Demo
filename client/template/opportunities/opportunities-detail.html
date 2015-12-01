@@ -1,6 +1,6 @@
 <template name="opportunityDetail">
   {{#with oppData}}
-  {{setPageTitle "Opportunity - " name}}
+  {{setPageTitle "Opportunity - " name}} {{> watchlistAdmin entityData=this collection="opportunities"}}
   <div class="row">
     <div class="col-md-12">
       <div class="pull-right hidden-xs">

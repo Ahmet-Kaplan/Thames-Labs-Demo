@@ -29,12 +29,72 @@ Template.watchedEntityWidget.helpers({
             });
           }
 
+          if (data.collection === "contacts") {
+            Meteor.subscribe("activityByContactId", data.id);
+
+            Activities.find({
+              contactId: data.id
+            }).map(function(activityRecord) {
+              activityRecord.linkPath = "contact";
+              activityRecord.faIcon = "user";
+              activityRecord.userName = Meteor.users.findOne({
+                _id: activityRecord.createdBy
+              }).profile.name;
+              actArray.push(activityRecord);
+            });
+          }
+
+          if (data.collection === "opportunities") {
+            Meteor.subscribe("activityByOpportunityId", data.id);
+
+            Activities.find({
+              opportunityId: data.id
+            }).map(function(activityRecord) {
+              activityRecord.linkPath = "opportunity";
+              activityRecord.faIcon = "lightbulb-o";
+              activityRecord.userName = Meteor.users.findOne({
+                _id: activityRecord.createdBy
+              }).profile.name;
+              actArray.push(activityRecord);
+            });
+          }
+
+          if (data.collection === "projects") {
+            Meteor.subscribe("activityByProjectId", data.id);
+
+            Activities.find({
+              projectId: data.id
+            }).map(function(activityRecord) {
+              activityRecord.linkPath = "project";
+              activityRecord.faIcon = "sitemap";
+              activityRecord.userName = Meteor.users.findOne({
+                _id: activityRecord.createdBy
+              }).profile.name;
+              actArray.push(activityRecord);
+            });
+          }
+
+          if (data.collection === "purchaseorders") {
+            Meteor.subscribe("activityByPurchaseOrderId", data.id);
+
+            Activities.find({
+              purchaseOrderId: data.id
+            }).map(function(activityRecord) {
+              activityRecord.linkPath = "purchaseOrder";
+              activityRecord.faIcon = "shopping-cart";
+              activityRecord.userName = Meteor.users.findOne({
+                _id: activityRecord.createdBy
+              }).profile.name;
+              actArray.push(activityRecord);
+            });
+          }
+
         });
         //each
 
-        return actArray.sort(function(x,y){
-          if(x.activityTimestamp < y.activityTimestamp) return 1;
-          if(x.activityTimestamp > y.activityTimestamp) return -1;
+        return actArray.sort(function(x, y) {
+          if (x.activityTimestamp < y.activityTimestamp) return 1;
+          if (x.activityTimestamp > y.activityTimestamp) return -1;
           return 0;
         });
       }
@@ -55,8 +115,8 @@ Template.watchedEntityWidget.helpers({
     return icons[type];
   },
 
-  fromNow: function(date){
-    if(date){
+  fromNow: function(date) {
+    if (date) {
       return moment(date).fromNow();
     }
   }

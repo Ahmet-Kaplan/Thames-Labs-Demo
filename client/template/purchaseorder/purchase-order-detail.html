@@ -1,6 +1,6 @@
 <template name="purchaseOrderDetail">
   {{#with purchaseOrderData}}
-    {{setPageTitle "Purchase order - " description}}
+    {{setPageTitle "Purchase order - " description}}{{> watchlistAdmin entityData=this collection="purchaseorders"}}
     <div class="row">
       <div class="col-md-12">
         <h4 class="entity-title">Purchase Order</h4>

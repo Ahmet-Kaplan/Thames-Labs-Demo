@@ -9,7 +9,7 @@
       <img class="img-circle avatar pull-right" src="{{metadata.clearbit.avatar}}" /> {{/if}}
 
 
-      <h4 class="entity-title">Contact</h4>
+      <h4 class="entity-title">Contact</h4> {{> watchlistAdmin entityData=this collection="contacts"}}
       <h1 id="contact-details" class="entity-name">{{name}}</h1>
       {{> tagInput tags=tags collection='contacts' entityId=_id permissionToEdit='CanEditContacts'}}
       <div class="panel panel-default">
