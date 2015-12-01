@@ -19,7 +19,8 @@ var adminTutorial = {
 		if (Session.get(sessionVar)) {
 			$.getScript('/vendor/hopscotch/tours/admin-tutorial.js');
 		} else {
-				Modal.show('adminTutorialEnd');
+			FlowRouter.go('dashboard');
+			$.getScript('/vendor/hopscotch/tours/admin-tutorial-end.js');
 		}
   },
   id: "admin-tutorial",
@@ -44,10 +45,10 @@ var adminTutorial = {
   }, {
     title: "Navigating to the Admin Panel",
     content: "Select 'Administration' from the menu",
-    target: document.querySelector('#notifications-menu'),
+    target: document.querySelector('#global-search'),
     placement: "left",
     yOffset: "40px",
-    xOffset: "30px",
+		xOffset: "10px",
     showNextButton: false,
     nextOnTargetClick: true
   }, {
@@ -126,13 +127,7 @@ var adminTutorial = {
 		target: document.querySelector('#createUser'),
 		placement: "left",
 		showNextButton: false,
-		nextOnTargetClick: true
-	}, {
-		title: "End",
-		content: "End",
-		target: document.querySelector('#userAdminPanelExpander'),
-		placement: "right",
-		smoothScroll: false,
+		nextOnTargetClick: true,
 		onShow: function() {
 			Session.set(sessionVar);
 		}

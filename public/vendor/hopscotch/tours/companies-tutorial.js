@@ -65,7 +65,7 @@ var companiesTutorial = {
 		onShow: $("#addCompanyName").keyup(_.debounce(function() {
 			hopscotch.nextStep();
 			$(this).unbind('keyup');
-		}, 1500))
+		}, 1000))
 	}, {
 		title: "Adding a Company",
 		content: "...Now add an address for the company... Tip: Once you start typing, you can select the desired address from the drop-down. RealTimeCRM will then auto-fill the rest of the address fields for you.",
@@ -78,7 +78,7 @@ var companiesTutorial = {
 				hopscotch.nextStep();
 				$(this).unbind('keyup');
 			}
-		}, 2000)),
+		}, 1500)),
 		onNext: function() {
 			$('#draggableModal').animate({ scrollTop: $('#map_canvas').offset().top }, 500);
 		}
