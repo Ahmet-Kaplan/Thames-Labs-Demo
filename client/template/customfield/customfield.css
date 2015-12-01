@@ -1,27 +1,41 @@
-#global-fields li:last-child {
-  border-bottom: 2px solid #dddddd;
+#custom-fields-panel {
+  border-bottom: none;
 }
+
+#custom-field-container li:last-child {
+  border-bottom: 1px solid #dddddd;
+}
+
 #custom-field-container .list-group-item {
-  border-style: none;
+  border: none;
 }
+
+.globalCFBackground {
+  background: #fafafa !important;
+}
+
 .extinfo-scroll {
   max-height: 450px;
   overflow-x: hidden;
   overflow-y: auto;
 }
+
 #extInfosDisplayItem {
   padding: 3px 0 2px 0;
 }
+
 .modMyPosition {
   padding-top: 7px;
   margin-left: 4px;
 }
+
 .mediumWrapper{
   max-height: 100px;
   overflow-x: hidden;
   overflow-y: auto;
   border: 1px solid #959595;
 }
+
 .mediumWrapperDetail{
   /*max-height: 200px;
   overflow-x: hidden;

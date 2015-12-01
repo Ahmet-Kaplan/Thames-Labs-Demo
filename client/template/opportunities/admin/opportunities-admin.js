@@ -4,7 +4,9 @@ Template.opportunityAdmin.helpers({
   },
   hasStages: function() {
     var userTenant = Tenants.findOne({});
+    if (!userTenant.settings) return false;
     var stages = userTenant.settings.opportunity.stages;
+    if (!stages) return false;
     return stages.length > 0;
   },
   options: {
@@ -23,7 +25,7 @@ Template.opportunityAdmin.events({
 Template.opportunityAdminStage.helpers({
   isFirstStage: function() {
     var stages = Tenants.findOne({}).settings.opportunity.stages;
-    if (_.findIndex(stages, this) == 0) return true;
+    if (_.findIndex(stages, this) === 0) return true;
     return false;
   },
   isLastStage: function() {
@@ -52,7 +54,7 @@ Template.opportunityAdminStage.events({
     var stages = userTenant.settings.opportunity.stages;
     var count = stages.length;
     if (count == 1) {
-      bootbox.alert("You must have at least one opportunity stage.")
+      bootbox.alert("You must have at least one opportunity stage.");
       return;
     }
 
@@ -60,7 +62,7 @@ Template.opportunityAdminStage.events({
     Meteor.call('checkStageInUse', id, function(error, result) {
       if (error) throw new Meteor.Error(error);
       if (result === true) {
-        bootbox.alert("This opportunity stage is currently in use, and cannot be deleted.")
+        bootbox.alert("This opportunity stage is currently in use, and cannot be deleted.");
         return;
       } else {
         bootbox.confirm("Are you sure you wish to delete this stage?", function(result) {

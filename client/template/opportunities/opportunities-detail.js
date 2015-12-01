@@ -43,22 +43,13 @@ Template.opportunityDetail.helpers({
       if (a.order < b.order) return -1;
       if (a.order > b.order) return 1;
       return 0;
-    })
+    });
   },
   oppData: function() {
     return Opportunities.findOne({
       _id: FlowRouter.getParam('id')
-    })
+    });
   },
-  // activities: function() {
-  //   return Activities.find({
-  //     opportunityId: FlowRouter.getParam('id')
-  //   }, {
-  //     sort: {
-  //       activityTimestamp: -1
-  //     }
-  //   });
-  // },
   isNotFirstStage: function() {
     var stages = Tenants.findOne().settings.opportunity.stages;
     var currentStageId = this.currentStageId;
@@ -135,6 +126,7 @@ Template.opportunityDetail.events({
       opportunityId: this._id,
       primaryEntityId: this._id,
       primaryEntityType: 'opportunities',
+      primaryEntityDisplayData: this.name,
       createdBy: user._id
     });
   },
@@ -163,6 +155,7 @@ Template.opportunityDetail.events({
       opportunityId: this._id,
       primaryEntityId: this._id,
       primaryEntityType: 'opportunities',
+      primaryEntityDisplayData: this.name,
       createdBy: user._id
     });
   },
@@ -189,6 +182,9 @@ Template.opportunityDetail.events({
           notes: note,
           createdAt: date,
           activityTimestamp: date,
+          primaryEntityId: this._id,
+          primaryEntityType: 'opportunities',
+          primaryEntityDisplayData: this.name,
           opportunityId: oppId,
           createdBy: user._id
         });
@@ -234,6 +230,9 @@ Template.opportunityDetail.events({
         notes: note,
         createdAt: today,
         activityTimestamp: today,
+        primaryEntityId: this._id,
+        primaryEntityType: 'opportunities',
+        primaryEntityDisplayData: this.name,
         opportunityId: this._id,
         createdBy: user._id
       });

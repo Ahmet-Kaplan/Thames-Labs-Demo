@@ -27,8 +27,8 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
     defaultValue: "0.00"
   },
   quantity: {
-    type: String,
-    defaultValue: "1"
+    type: Number,
+    defaultValue: 1
   },
   totalPrice: {
     type: String,

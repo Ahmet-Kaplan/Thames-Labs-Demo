@@ -100,3 +100,14 @@ globalHotkeys.add({
     }
   }
 });
+
+globalHotkeys.add({
+  combo: "ctrl+m",
+  callback: function() {
+    if(!Meteor.isDevelopment) {
+      var url = 'https://www.youtube.com/watch?v=6-HUgzYPm9g';
+      var win = window.open(url, '_blank');
+      win.focus();
+    }
+  }
+});

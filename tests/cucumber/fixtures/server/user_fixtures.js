@@ -12,7 +12,11 @@ Meteor.methods({
         PurchaseOrderStartingValue: PurchaseOrderStartingValue,
         extInfo: {
           company: [],
-          contact: []
+          contact: [],
+          project: []
+        },
+        opportunity: {
+          stages: []
         }
       },
       stripe: {
@@ -36,7 +40,11 @@ Meteor.methods({
         PurchaseOrderStartingValue: PurchaseOrderStartingValue,
         extInfo: {
           company: [],
-          contact: []
+          contact: [],
+          project: []
+        },
+        opportunity: {
+          stages: []
         }
       },
       stripe: {
