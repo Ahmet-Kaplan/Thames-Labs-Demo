@@ -3,6 +3,10 @@ Collections.globalAudit = GlobalAudit = new Mongo.Collection('globalAudit');
 Collections.globalAudit.index = GlobalAuditIndex = new EasySearch.Index({
   collection: GlobalAudit,
   fields: ['message', 'level', 'user', 'tenant'],
+  permission: function(options) {
+    var userId = options.userId;
+    return Roles.userIsInRole(userId, 'superadmin');
+  },
   engine: new EasySearch.MongoDB({
     sort: () => {
       return {

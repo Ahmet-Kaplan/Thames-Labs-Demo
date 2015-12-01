@@ -135,7 +135,6 @@ router.route('/', {
 router.route('/admin', {
   name: 'administration',
   subscriptions: function() {
-    this.register('opportunityStages', subs.subscribe('opportunityStages'));
     this.register('allCompanies', subs.subscribe('allCompanies'));
     this.register('allContacts', subs.subscribe('allContacts'));
   },
@@ -144,6 +143,15 @@ router.route('/admin', {
       main: "tenancyAdminPage"
     });
   }
+});
+
+router.route('/activities', {
+  name: 'activities',
+  action: function() {
+    layout.render('appLayout', {
+      main: 'activityList'
+    });
+  },
 });
 
 router.route('/companies', {
@@ -306,7 +314,6 @@ router.route('/salespipeline', {
   name: 'salespipeline',
   subscriptions: function() {
     this.register('allOpportunities', subs.subscribe('allOpportunities'));
-    this.register('opportunityStages', subs.subscribe('opportunityStages'));
   },
   action: function() {
     layout.render('appLayout', {

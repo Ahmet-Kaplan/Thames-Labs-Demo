@@ -22,7 +22,6 @@ Template.companyDetail.onCreated(function() {
   this.subscribe('purchaseOrdersByCompanyId', companyId);
   this.subscribe('tasksByEntityId', companyId);
   this.subscribe('opportunitiesByCompanyId', companyId);
-  this.subscribe('opportunityStages');
 });
 
 Template.companyDetail.onRendered(function() {
@@ -186,6 +185,6 @@ Template.companyDetail.helpers({
         icon: 'fa-list',
         permission: 'CanReadCompanies'
       }
-    ]
+    ];
   }
 });

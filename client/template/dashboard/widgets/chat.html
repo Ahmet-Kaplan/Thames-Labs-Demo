@@ -12,7 +12,9 @@
             <ul class="list-unstyled">
               {{#each chatMessages}} {{> message}} {{else}}
               <li>
-                No chat messages
+                <div id="message-empty">
+                  No chat messages
+                </div>
               </li>
               {{/each}}
             </ul>
@@ -20,7 +22,7 @@
         </div>
         <div class="panel-footer">
           <div class="input-group">
-            <input type="text" class="form-control chatMessage" placeholder="Enter message (be nice!)...">
+            <input type="text" class="form-control chatMessage" placeholder="Enter message (be nice!)..." id="chatMessage">
             <span class="input-group-btn">
               <button class="btn btn-default sendMessage" type="button">OK</button>
             </span>

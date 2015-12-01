@@ -1,33 +1,37 @@
 Meteor.startup(function() {
 
-  // Perform any migrations specified in migrations.js
-  // See https://github.com/percolatestudio/meteor-migrations
-  if (!process.env.IS_MIRROR) {
-    Migrations.migrateTo('latest');
-  }
+  if (process.env.IS_MIRROR || process.env.CI) {
+    // Things to do ONLY IN test environment
 
-  //Rewrite Email.send function to avoid displaying
-  //the whole email in the console during tests
-  if (process.env.IS_MIRROR) {
-    Email = {
-      send: function(options) {
-        if (options.text) {
-          console.log("\t---------- Sending Email ----------");
-          console.log("\tFrom: \t\t" + options.from);
-          console.log("\tTo: \t\t" + options.to);
-          console.log("\tSubject: \t\t" + options.subject);
-          console.log("\tText: \t\t" + options.text);
-          console.log("\t---------- Email end ----------");
-        } else {
-          console.log("\t---------- Sending Email ----------");
-          console.log("\tFrom: \t\t" + options.from);
-          console.log("\tTo: \t\t" + options.to);
-          console.log("\tSubject: \t" + options.subject);
-          console.log("\tHTML email content not displayed");
-          console.log("\t---------- Email end ----------");
+    //Rewrite Email.send function to avoid displaying
+    //the whole email in the console during tests
+    if (process.env.IS_MIRROR) {
+      Email = {
+        send: function(options) {
+          if (options.text) {
+            console.log("\t---------- Sending Email ----------");
+            console.log("\tFrom: \t\t" + options.from);
+            console.log("\tTo: \t\t" + options.to);
+            console.log("\tSubject: \t\t" + options.subject);
+            console.log("\tText: \t\t" + options.text);
+            console.log("\t---------- Email end ----------");
+          } else {
+            console.log("\t---------- Sending Email ----------");
+            console.log("\tFrom: \t\t" + options.from);
+            console.log("\tTo: \t\t" + options.to);
+            console.log("\tSubject: \t" + options.subject);
+            console.log("\tHTML email content not displayed");
+            console.log("\t---------- Email end ----------");
+          }
         }
       }
     }
+  } else {
+    // Things to do ONLY OUTSIDE of test environment
+
+    // Perform any migrations specified in migrations.js
+    // See https://github.com/percolatestudio/meteor-migrations
+    Migrations.migrateTo('latest');
   }
 
   //Keep tenant information sync'ed
@@ -39,6 +43,16 @@ Meteor.startup(function() {
       Tenants.update(t._id, {
         $set: {
           settings: tenancyDefaultSettings
+        }
+      });
+    }
+
+    if (typeof t.settings.opportunity === "undefined") {
+      Tenants.update(t._id, {
+        $set: {
+          "settings.opportunity": {
+            stages: []
+          }
         }
       });
     }

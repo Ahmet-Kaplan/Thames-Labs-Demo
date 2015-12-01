@@ -99,11 +99,6 @@ Meteor.publish("contactsByCompanyId", function(companyId) {
 });
 
 
-Meteor.publish("allActivities", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadActivities'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Activities.find({});
-});
 Meteor.publish("activityByContactId", function(contactId) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
@@ -287,15 +282,6 @@ Meteor.publish("allOpportunities", function() {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Opportunities.find();
-});
-Meteor.publish("opportunityStages", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return OpportunityStages.find({}, {
-    sort: {
-      order: 1
-    }
-  });
 });
 Meteor.publish("opportunityById", function(oppId) {
   if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
