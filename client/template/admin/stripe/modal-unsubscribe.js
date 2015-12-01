@@ -9,7 +9,7 @@ Template.stripeUnsubscribe.events({
     event.preventDefault();
     $('#unsubscribe').prop('disabled', true);
     toastr.info('Processing your changes...');
-    Meteor.call('cancelStripeSubscription', function(error, response) {
+    Meteor.call('stripe.cancelSubscription', function(error, response) {
       if(error) {
         Modal.hide();
         bootbox.alert({

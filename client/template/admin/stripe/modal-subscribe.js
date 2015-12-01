@@ -2,7 +2,7 @@ var planDetailsDep = new Tracker.Dependency();
 var planDetails = {};
 
 Template.stripeSubscribe.onRendered(function() {
-  Meteor.call('getStripePlan', 'premier', function(error, result) {
+  Meteor.call('stripe.getPlan', 'premier', function(error, result) {
     if(error) {
       toastr.error('Unable to retrieve scheme details.');
       return false;
@@ -15,7 +15,7 @@ Template.stripeSubscribe.onRendered(function() {
     planDetails.total = planDetails.total.toString();
 
     if(Tenants.findOne().stripe.coupon) {
-      Meteor.call('getStripeCoupon', Tenants.findOne().stripe.coupon, function(error, response) {
+      Meteor.call('stripe.getCoupon', Tenants.findOne().stripe.coupon, function(error, response) {
         if(error || !response) {
           planDetails.couponName = 'invalid: The coupon you have registered is invalid or has been cancelled and will not be applied.';
           planDetailsDep.changed();
@@ -77,7 +77,7 @@ Template.stripeSubscribe.events({
 
           //If has stripeId, update card details and call subscription method
           if(tenantDetails.stripe.stripeId) {
-            Meteor.call('updateStripeCard', response.id, function(error, response) {
+            Meteor.call('stripe.updateCard', response.id, function(error, response) {
               if(error) {
                 Modal.hide();
                 toastr.clear();
@@ -87,7 +87,7 @@ Template.stripeSubscribe.events({
                 });
                 return false;
               }
-              Meteor.call('createStripeSubscription', function(error, response) {
+              Meteor.call('stripe.createSubscription', function(error, response) {
                 if(error) {
                   Modal.hide();
                   bootbox.alert({
@@ -109,7 +109,7 @@ Template.stripeSubscribe.events({
           //If doesn't have stripeId, creates it and proceed subscription
           } else {
             var userEmail = $('#email').val();
-            Meteor.call('createStripeCustomer', response.id, userEmail, function(error, result) {
+            Meteor.call('stripe.createCustomer', response.id, userEmail, function(error, result) {
               if(error || !result) {
                 Modal.hide();
                 bootbox.alert({

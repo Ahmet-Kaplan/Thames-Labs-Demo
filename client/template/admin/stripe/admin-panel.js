@@ -3,7 +3,7 @@ var updateStripeCustomer = function(self) {
   var tenant = Tenants.findOne({});
 
   if(tenant.stripe.stripeId) {
-    Meteor.call('getStripeCustomerDetails', function(error, customer) {
+    Meteor.call('stripe.getCustomerDetails', function(error, customer) {
       if(error) {
         toastr.error('Unable to retrieve your customer details');
         return false;
@@ -16,7 +16,7 @@ var updateStripeCustomer = function(self) {
 var updateUpcomingInvoice = function(self) {
   var tenant = Tenants.findOne({});
   if(tenant.stripe.stripeId) {
-    Meteor.call('getStripeUpcomingInvoice', function(error, invoice) {
+    Meteor.call('stripe.getUpcomingInvoice', function(error, invoice) {
       if(error) {
         toastr.error('Unable to retrieve upcoming invoice.');
         return false;
@@ -79,7 +79,7 @@ var updateUpcomingInvoice = function(self) {
 var updateLastInvoice = function(self) {
   var tenant = Tenants.findOne({});
   if(tenant.stripe.stripeId) {
-    Meteor.call('getStripeLastInvoice', function(error, invoice) {
+    Meteor.call('stripe.getLastInvoice', function(error, invoice) {
       if(error) {
         toastr.error('Unable to retrieve last invoice');
         return false;
@@ -104,7 +104,7 @@ var updateCardDetails = function(self) {
   if(!tenant.stripe.stripeId) {
     return false;
   }
-  Meteor.call('getStripeCardDetails', function(error, response) {
+  Meteor.call('stripe.getCardDetails', function(error, response) {
     self.cardDetails.set(response);
   });
 };
@@ -116,7 +116,7 @@ var updateCouponDetails = function(self) {
     couponDetails.set({});
     return false;
   }
-  Meteor.call('getStripeCoupon', tenant.stripe.coupon, function(error, response) {
+  Meteor.call('stripe.getCoupon', tenant.stripe.coupon, function(error, response) {
     if(!couponDetails.get() || error) {
       couponDetails.set({});
     } else {
@@ -162,7 +162,12 @@ Template.stripeAdmin.helpers({
     return Tenants.findOne({}).stripe.paying;
   },
   subsLoaded: function() {
-    return !(Template.instance().stripeCustomer.get() === 'loading')
+    var paying = Tenants.findOne({}).stripe.paying;
+    if(paying) {
+      return !(Template.instance().stripeCustomer.get() === 'loading')
+    } else {
+      return true;
+    }
   },
   currentSubscription: function() {
     var stripeCustomer = Template.instance().stripeCustomer.get();
@@ -215,7 +220,7 @@ Template.stripeAdmin.helpers({
   },
   hasCoupon: function() {
     var couponDetails = Template.instance().couponDetails.get();
-    details = (!couponDetails || couponDetails.valid !== true) ? false : ((couponDetails.percent_off) ? couponDetails.percent_off + ' % off' : '£' + couponDetails.amount_off + ' off');
+    details = (!couponDetails || couponDetails.valid !== true) ? false : ((couponDetails.percent_off) ? coupondetails.id + ': ' + couponDetails.percent_off + ' % off' : coupondetails.id + ': £' + couponDetails.amount_off + ' off');
     return details;
   },
   cardDetails: function() {
@@ -239,7 +244,7 @@ Template.stripeAdmin.events({
     bootbox.confirm('Do you wish to resume your subscription to RealtimeCRM?', function(result) {
       if(result === true) {
         toastr.info('Resuming your subscription...');
-        Meteor.call('resumeStripeSubscription', function(error, result) {
+        Meteor.call('stripe.resumeSubscription', function(error, result) {
           if(error) {
             bootbox.alert({
               title: 'Error',
@@ -276,7 +281,7 @@ Template.stripeAdmin.events({
       } else {
         toastr.clear();
         toastr.info('Processing your email update');
-        Meteor.call('updateStripeEmail', result, function(error, response) {
+        Meteor.call('stripe.updateEmail', result, function(error, response) {
           if(error) {
             toastr.error('Unable to update email address');
             return false;

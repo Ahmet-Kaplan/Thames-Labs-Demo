@@ -82,7 +82,6 @@ function displayFilter(mainCollectionName, selectize) {
 
 function applyFilter(mainCollectionName, selectize) {
   var data = activeSelection.get();
-  console.log(data);
   var text = data.text;
   var value = data.value;
 
@@ -164,7 +163,6 @@ Template.filterBox.onRendered(function() {
     onItemAdd: function(value, $item) {
       var text = $($item).text();
       applyFilter(mainCollectionName, this);
-      console.log('added Item', text, value)
     }
   });
 
