@@ -32,7 +32,7 @@ Meteor.methods({
     if (Roles.userIsInRole(this.userId, 'Administrator')) {
       Meteor.call('updateStripeQuantity');
     } else if (Roles.userIsInRole(this.userId, 'superadmin')) {
-      Meteor.call('updateStripeQuantity', Partitioner.getUserGroup(this.userId));
+      Meteor.call('updateStripeQuantity', Partitioner.getUserGroup(userId));
     }
     LogServerEvent('warning', 'User removed', 'user', userId);
   },

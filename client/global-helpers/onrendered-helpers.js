@@ -48,12 +48,17 @@ Template.onRendered(function() {
         top: stickBar.offset().top
       }
     });
+    stickBar.on('affix.bs.affix', function() {
+      $('.stick-bar-placeholder').height(stickBar.height());
+    });
     stickBar.on('affixed.bs.affix', function() {
       stickBar.css('width', stickBar.parent().width());
       stickBar.css('top', $('.navbar-header').height());
     });
+
     stickBar.on('affixed-top.bs.affix', function() {
+      $('.stick-bar-placeholder').height(0);
       stickBar.css('width', '');
-    })
+    });
   }
 });

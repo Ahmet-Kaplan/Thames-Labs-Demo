@@ -74,7 +74,6 @@ Template.tenancyAdminPage.events({
             title: 'User removed',
             message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>User ' + name + ' has been removed.<br />Please note that your subscription has been updated accordingly.</div>'
           });
-          upcomingInvoiceDep.changed();
         });
       }
     });

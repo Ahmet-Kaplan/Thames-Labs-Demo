@@ -1,5 +1,7 @@
 Collections.companies = Companies = new Mongo.Collection('companies');
 
+Collections.companies.subscribeById = 'CompanyById';
+
 Partitioner.partitionCollection(Companies);
 
 Companies.helpers({
