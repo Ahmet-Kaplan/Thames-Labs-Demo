@@ -161,13 +161,12 @@ Template.filterBox.onRendered(function() {
       searchInput.set(query);
     },
     onItemAdd: function(value, $item) {
-      var text = $($item).text();
       applyFilter(mainCollectionName, this);
     }
   });
 
   //Trick to handle the use of enter key twice which is not taken care of by Selectize
-  $('#filtersSearch').on('keydown', function(evt){
+  $('#filtersSearch').on('keydown', function(evt) {
     if(evt.keyCode === 13) {
       applyFilter(mainCollectionName, $($select)[0].selectize);
     }

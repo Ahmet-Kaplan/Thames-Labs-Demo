@@ -22,20 +22,19 @@ Meteor.methods({
         var purchaseOrders = [];
         var purchaseOrderItems = [];
         var opportunities = [];
-        var oppStageIds = [];
         var products = [];
 
         //Setup opportunity stages
         var userTenant = Tenants.findOne({});
         var stages = [];
 
-        for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < 4; j++) {
           var stageData = ({
             title: faker.commerce.color(),
             description: faker.lorem.sentence(),
-            id: i
+            id: j
           });
-          stages.push(stageData)
+          stages.push(stageData);
         }
         Tenants.update(userTenant._id, {
           $set: {
@@ -111,11 +110,14 @@ Meteor.methods({
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
               activityTimestamp: faker.date.recent(100),
+              primaryEntityId: taskId,
+              primaryEntityType: 'tasks',
+              primaryEntityDisplayData: title,
               taskId: taskId,
               createdBy: createdBy
             });
           });
-        }
+        };
 
         // generate fake customer data
         _.each(_.range(_.random(50, 100)), function() {
@@ -183,7 +185,7 @@ Meteor.methods({
           var oppId = Opportunities.insert({
             name: oname,
             description: faker.lorem.sentence(),
-            currentStageId: oppStageIds[Math.floor(Math.random() * oppStageIds.length)],
+            currentStageId: Math.floor(Math.random() * stages.length),
             createdBy: randomUser._id,
             items: [],
             value: parseInt(faker.commerce.price()),
@@ -219,8 +221,6 @@ Meteor.methods({
             var fname = faker.name.firstName();
             var sname = faker.name.lastName();
             var contactId = Contacts.insert({
-              forename: faker.name.firstName(),
-              surname: faker.name.lastName(),
               forename: fname,
               surname: sname,
               jobtitle: faker.name.jobTitle(),
@@ -265,8 +265,6 @@ Meteor.methods({
               contactId: contacts[Math.floor(Math.random() * contacts.length)],
               userId: randomUser._id,
               value: parseInt(faker.commerce.price()),
-              probability: _.random(0, 100),
-              lastActionDate: faker.date.past(100),
               createdBy: randomUser._id
             });
 
@@ -301,12 +299,10 @@ Meteor.methods({
               userId: randomUser._id,
               supplierCompanyId: companyId,
               supplierContactId: contacts[Math.floor(Math.random() * contacts.length)],
-              projectId: projects[Math.floor(Math.random() * projects.length)],
               description: poname,
               supplierReference: faker.finance.account(),
               status: _.sample(Schemas.PurchaseOrder._schema.status.allowedValues),
               orderDate: faker.date.past(100),
-              deliveryDate: faker.date.past(100),
               paymentMethod: _.sample(Schemas.PurchaseOrder._schema.paymentMethod.allowedValues),
               createdBy: randomUser._id
             });
@@ -332,6 +328,7 @@ Meteor.methods({
                 purchaseOrderId: purchaseOrderId,
                 description: faker.commerce.productName(),
                 productCode: faker.finance.account(),
+                projectId: projects[Math.floor(Math.random() * projects.length)],
                 value: faker.commerce.price(),
                 quantity: _.random(1, 65),
                 totalPrice: "0.00",
@@ -401,6 +398,9 @@ Meteor.methods({
       createdAt: date,
       activityTimestamp: date,
       opportunityId: opp._id,
+      primaryEntityId: opp._id,
+      primaryEntityType: 'opportunities',
+      primaryEntityDisplayData: opp.name,
       createdBy: user._id
     });
 
@@ -412,6 +412,9 @@ Meteor.methods({
       createdAt: date,
       activityTimestamp: date,
       projectId: projId,
+      primaryEntityId: projId,
+      primaryEntityType: 'projects',
+      primaryEntityDisplayData: opp.name,
       createdBy: user._id
     });
 
@@ -423,4 +426,4 @@ logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
   if (Meteor.isServer) {
     Meteor.call('addEventToAuditLog', logLevel, logMessage, ((typeof logEntityType === 'undefined') ? undefined : logEntityType), ((typeof logEntityId === 'undefined') ? undefined : logEntityId), 'client', Guid.raw());
   }
-}
+};
