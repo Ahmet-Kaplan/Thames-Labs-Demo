@@ -1,0 +1,32 @@
+.wewActType {
+  background-color: #999999;
+  color: #fff;
+  padding: 5px;
+  display: block;
+}
+.wewActType > a {
+  color: #fff;
+  padding-right: 10px;
+}
+.wewActType > a:hover {
+  color: #fff;
+  padding-right: 10px;
+}
+.wewActInfo {
+  padding-top: 5px;
+}
+.wewActCreation {
+  color: #999999;
+  padding: 0 5px 0 5px;
+}
+.wewActNotes {
+  margin-top:-8px;
+  padding: 0 5px 0 5px;
+  max-height: 80px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.wewActEntry {
+  border: 1px solid #ececec;
+  margin-bottom:4px;
+}

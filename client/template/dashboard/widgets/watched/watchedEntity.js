@@ -7,69 +7,57 @@ Template.watchedEntityWidget.helpers({
     var user = Meteor.users.findOne({
       _id: Meteor.userId()
     });
+
     if (user) {
       if (user.profile.watchlist) {
-        return user.profile.watchlist;
+        var dataKeys = user.profile.watchlist;
+        var actArray = [];
+
+        _.each(dataKeys, function(data) {
+          if (data.collection === "companies") {
+            Meteor.subscribe("activityByCompanyId", data.id);
+
+            Activities.find({
+              companyId: data.id
+            }).map(function(activityRecord) {
+              activityRecord.linkPath = "company";
+              activityRecord.faIcon = "building";
+              activityRecord.userName = Meteor.users.findOne({
+                _id: activityRecord.createdBy
+              }).profile.name;
+              actArray.push(activityRecord);
+            });
+          }
+
+        });
+        //each
+
+        return actArray.sort(function(x,y){
+          if(x.activityTimestamp < y.activityTimestamp) return 1;
+          if(x.activityTimestamp > y.activityTimestamp) return -1;
+          return 0;
+        });
       }
+      //watchlist
     }
-  }
-});
-
-Template.watchedEntityEntry.onRendered(function() {
-  switch (this.data.collection) {
-    case "companies":
-      Meteor.subscribe("companyById", this.data.id);
-      Meteor.subscribe("activityByCompanyId", this.data.id);
-  }
-});
-
-Template.activityEntryDisplay.helpers({
-  user: function() {
-    var user = Meteor.users.findOne({
-      _id: this.createdBy
-    });
-    if (user) return user.profile.name;
+    // user
   },
-  timestamp: function() {
-    return moment(this.createdAt).fromNow();
-  },
-  notes: function() {
-    return UniHTML.purify(this.notes);
-  }
-});
 
-Template.watchedEntityEntry.helpers({
-  icon: function() {
-    switch (this.collection) {
-      case "companies":
-        return "<i class='fa fa-fw fa-building'></i>";
+  listIcon: function(type) {
+    var icons = {
+      'note': 'file-text-o',
+      'email': 'envelope-o',
+      'call': 'phone',
+      'Note': 'file-text-o',
+      'Email': 'envelope-o',
+      'Call': 'phone'
+    };
+    return icons[type];
+  },
+
+  fromNow: function(date){
+    if(date){
+      return moment(date).fromNow();
     }
-  },
-  name: function() {
-    var entity = Collections[this.collection].findOne({
-      _id: this.id
-    });
-
-    if (!entity) return;
-
-    if (entity.name) return entity.name;
-    if (entity.forename) return entity.forename + " " + entity.surname;
-    if (entity.description) return entity.description;
-    if (entity.title) return entity.title;
-  },
-  routeName: function() {
-    switch (this.collection) {
-      case "companies":
-        return "company";
-    }
-  },
-  activities: function() {
-    return Activities.find({
-      companyId: this.id
-    }, {
-      sort: {
-        createdAt: -1
-      }
-    }).fetch();
   }
 });
