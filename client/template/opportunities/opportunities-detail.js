@@ -43,22 +43,13 @@ Template.opportunityDetail.helpers({
       if (a.order < b.order) return -1;
       if (a.order > b.order) return 1;
       return 0;
-    })
+    });
   },
   oppData: function() {
     return Opportunities.findOne({
       _id: FlowRouter.getParam('id')
-    })
+    });
   },
-  // activities: function() {
-  //   return Activities.find({
-  //     opportunityId: FlowRouter.getParam('id')
-  //   }, {
-  //     sort: {
-  //       activityTimestamp: -1
-  //     }
-  //   });
-  // },
   isNotFirstStage: function() {
     var stages = Tenants.findOne().settings.opportunity.stages;
     var currentStageId = this.currentStageId;

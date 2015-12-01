@@ -35,7 +35,7 @@ Meteor.methods({
             description: faker.lorem.sentence(),
             id: i
           });
-          stages.push(stageData)
+          stages.push(stageData);
         }
         Tenants.update(userTenant._id, {
           $set: {
@@ -181,8 +181,6 @@ Meteor.methods({
               contactId: contacts[Math.floor(Math.random() * contacts.length)],
               userId: randomUser._id,
               value: parseInt(faker.commerce.price()),
-              probability: _.random(0, 100),
-              lastActionDate: faker.date.past(100),
               createdBy: randomUser._id
             });
 
@@ -209,12 +207,10 @@ Meteor.methods({
               userId: randomUser._id,
               supplierCompanyId: companyId,
               supplierContactId: contacts[Math.floor(Math.random() * contacts.length)],
-              projectId: projects[Math.floor(Math.random() * projects.length)],
               description: poname,
               supplierReference: faker.finance.account(),
               status: _.sample(Schemas.PurchaseOrder._schema.status.allowedValues),
               orderDate: faker.date.past(100),
-              deliveryDate: faker.date.past(100),
               paymentMethod: _.sample(Schemas.PurchaseOrder._schema.paymentMethod.allowedValues),
               createdBy: randomUser._id
             });
@@ -240,6 +236,7 @@ Meteor.methods({
                 purchaseOrderId: purchaseOrderId,
                 description: faker.commerce.productName(),
                 productCode: faker.finance.account(),
+                projectId: projects[Math.floor(Math.random() * projects.length)],
                 value: faker.commerce.price(),
                 quantity: _.random(1, 65),
                 totalPrice: "0.00",

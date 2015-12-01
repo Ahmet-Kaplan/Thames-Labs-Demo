@@ -20,17 +20,23 @@ Template.tenancyAdminPage.helpers({
     var tenant = Tenants.findOne(user.group);
 
     var fields = tenant.settings.extInfo.company;
-    _.each(fields, function(f) {
-      data.push(f);
-    });
-    fields = tenant.settings.extInfo.contact;
-    _.each(fields, function(f) {
-      data.push(f);
-    });
-    fields = tenant.settings.extInfo.project;
-    _.each(fields, function(f) {
-      data.push(f);
-    });
+    if (fields) {
+      _.each(fields, function(f) {
+        data.push(f);
+      });
+    }
+    if (fields) {
+      fields = tenant.settings.extInfo.contact;
+      _.each(fields, function(f) {
+        data.push(f);
+      });
+    }
+    if (fields) {
+      fields = tenant.settings.extInfo.project;
+      _.each(fields, function(f) {
+        data.push(f);
+      });
+    }
 
     return data;
   },
@@ -60,7 +66,7 @@ Template.tenancyAdminPage.events({
     bootbox.confirm("Are you sure you wish to remove the user " + name + "?<br />This action is not reversible.", function(result) {
       if (result === true) {
         Meteor.call('removeUser', self._id, function(error, response) {
-          if(error) {
+          if (error) {
             toastr.error('Unable to remove user. ' + error);
             throw new Meteor.Error('User', 'Unable to remove user.');
           }

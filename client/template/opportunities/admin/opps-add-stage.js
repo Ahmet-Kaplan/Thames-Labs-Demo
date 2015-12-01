@@ -8,6 +8,18 @@ getNewStageId = function(stages) {
   return maxVal + 1;
 };
 
+Template.insertNewStageModal.onCreated(function() {
+  var userTenant = Tenants.findOne({});
+  var stages = userTenant.settings.opportunity.stages;
+  if (!stages) {
+    Tenants.update(userTenant._id, {
+      $set: {
+        'settings.opportunity.stages': []
+      }
+    });
+  }
+});
+
 Template.insertNewStageModal.events({
   'click #addStage': function() {
     var userTenant = Tenants.findOne({});

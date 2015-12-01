@@ -68,6 +68,30 @@ Meteor.startup(function() {
         }
       });
     }
+
+    if (typeof t.settings.extInfo.company === "undefined") {
+      Tenants.update(t._id, {
+        $set: {
+          "settings.extInfo.company": []
+        }
+      });
+    }
+
+    if (typeof t.settings.extInfo.contact === "undefined") {
+      Tenants.update(t._id, {
+        $set: {
+          "settings.extInfo.contact": []
+        }
+      });
+    }
+
+    if (typeof t.settings.extInfo.project === "undefined") {
+      Tenants.update(t._id, {
+        $set: {
+          "settings.extInfo.project": []
+        }
+      });
+    }
   });
 
   //Keep users information sync'ed
