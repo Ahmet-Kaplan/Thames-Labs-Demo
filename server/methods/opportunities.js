@@ -13,7 +13,7 @@ Meteor.methods({
       }
 
       var stageObject = _.pullAt(currentStages, stageIndex);
-      currentStages.splice(stageIndex + step, 0, stageObject[0])
+      currentStages.splice(stageIndex + step, 0, stageObject[0]);
 
       Tenants.update(userTenant._id, {
         $set: {
@@ -51,7 +51,7 @@ Meteor.methods({
           currentStageId: stageId
         }).count() > 0) {
         return true;
-      };
+      }
       return false;
     });
   },
@@ -94,7 +94,7 @@ Meteor.methods({
             $set: {
               "settings.opportunity.stages": defaultStages
             }
-          })
+          });
         }
       }
     }

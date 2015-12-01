@@ -9,6 +9,7 @@ Template.editTenantUser.onRendered(function() {
     _id: this.data._id
   });
   $('#cbUserIsVerified').prop('checked', userRef.emails[0].verified);
+  $('#cbUserIsVerified').prop('disabled', true);
 
   Meteor.call('checkUserRole', this.data._id, 'Administrator', function(err, data) {
     if (err) {
@@ -23,16 +24,6 @@ Template.editTenantUser.onRendered(function() {
 
 Template.editTenantUser.events({
   'click #btnUpdateTenantUser': function() {
-
-    var verified = $('#cbUserIsVerified').prop('checked');
-    Meteor.users.update({
-      _id: this._id
-    }, {
-      $set: {
-        'emails.0.verified': verified
-      }
-    });
-
     var adminState = $('#cbUserIsTenantAdministrator').prop('checked');
     Meteor.call('setUserRole', this._id, 'Administrator', adminState);
 

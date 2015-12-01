@@ -13,7 +13,7 @@ var verfiyOpportunityStagesExist = function() {
 var findFirstStageId = function() {
   var userTenant = Tenants.findOne({});
   var stages = userTenant.settings.opportunity.stages;
-  if (!stages || stages.length == 0) return null;
+  if (!stages || stages.length === 0) return null;
 
   var id = _.result(_.find(stages, function(stg) {
     return stg.order === 0;
@@ -87,13 +87,13 @@ Template.insertContactOpportunityModal.helpers({
 
 Template.editOpportunityModal.helpers({
   companyName: function() {
-    return Companies.findOne().name
+    return Companies.findOne().name;
   },
   contactName: function() {
     var contact = Contacts.findOne();
     return contact.forename + ' ' + contact.surname;
   }
-})
+});
 
 Template.insertOpportunityItemModal.helpers({
   generatedId: function() {

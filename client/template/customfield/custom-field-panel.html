@@ -1,5 +1,5 @@
 <template name="customFieldDisplay">
-  <div class="panel panel-default">
+  <div class="panel panel-default" id="custom-fields-panel">
     <div class="panel-heading" id="entity-custom-fields">
       <div class="btn-group pull-right">
         <button class="btn btn-primary btn-xs" data-placement="bottom" data-toggle="tooltip" id='add-custom-field' role='button' title="Add an extended information field">
@@ -13,20 +13,21 @@
       </div>
       Extended Information
     </div>
-    <ul class="list-group" id='custom-field-container'>
       {{#if customFields}}
 
-      <div id="global-fields">
+    <ul class="list-group" id='custom-field-container'>
         {{#each customFields}} {{#if isGlobal}}{{> cfDisplay}}{{/if}} {{/each}}
-      </div>
-      <div id="local-fields">
+    </ul>
+
+    <ul class="list-group" id='custom-field-container'>
         {{#each customFields}} {{#unless isGlobal}}{{> cfDisplay}}{{/unless}} {{/each}}
-      </div>
+    </ul>
 
       {{else}}
+    <ul class="list-group" id='custom-field-container'>
       <li class="list-group-item">No extended information</li>
+    </ul>
 
       {{/if}}
-    </ul>
   </div>
 </template>

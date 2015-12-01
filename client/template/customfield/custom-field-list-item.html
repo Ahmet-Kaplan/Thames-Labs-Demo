@@ -1,5 +1,5 @@
 <template name="cfDisplay">
-  <li class="list-group-item custom-field-display-item" style="{{#if isGlobal}}background: #fafafa;{{/if}}">
+  <li class="list-group-item custom-field-display-item{{#if isGlobal}} globalCFBackground{{/if}}">
 
     {{#if isAdvancedText}}
     <div class="row">

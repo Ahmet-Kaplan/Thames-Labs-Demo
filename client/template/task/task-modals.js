@@ -72,7 +72,7 @@ Template.insertNewTask.events({
 Template.updateTask.onRendered(function() {
   Session.set('showRemindMe', this.data.remindMe);
   Session.set('hasDueDate', this.data.dueDate !== undefined);
-})
+});
 
 Template.updateTask.helpers({
   hasDueDate: function() {
@@ -81,7 +81,7 @@ Template.updateTask.helpers({
   showRemindMe: function() {
     return Session.get('showRemindMe');
   }
-})
+});
 
 Template.updateTask.events({
   'change input[name=dueDate]': function(e) {
