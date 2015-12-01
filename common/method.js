@@ -22,18 +22,17 @@ Meteor.methods({
         var purchaseOrders = [];
         var purchaseOrderItems = [];
         var opportunities = [];
-        var oppStageIds = [];
         var products = [];
 
         //Setup opportunity stages
         var userTenant = Tenants.findOne({});
         var stages = [];
 
-        for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < 4; j++) {
           var stageData = ({
             title: faker.commerce.color(),
             description: faker.lorem.sentence(),
-            id: i
+            id: j
           });
           stages.push(stageData);
         }
@@ -111,11 +110,14 @@ Meteor.methods({
               notes: faker.lorem.paragraphs(_.random(1, 3)),
               createdAt: faker.date.recent(100),
               activityTimestamp: faker.date.recent(100),
+              primaryEntityId: taskId,
+              primaryEntityType: 'tasks',
+              primaryEntityDisplayData: title,
               taskId: taskId,
               createdBy: createdBy
             });
           });
-        }
+        };
 
         // generate fake customer data
         _.each(_.range(_.random(50, 100)), function() {
@@ -183,7 +185,7 @@ Meteor.methods({
           var oppId = Opportunities.insert({
             name: oname,
             description: faker.lorem.sentence(),
-            currentStageId: oppStageIds[Math.floor(Math.random() * oppStageIds.length)],
+            currentStageId: Math.floor(Math.random() * stages.length),
             createdBy: randomUser._id,
             items: [],
             value: parseInt(faker.commerce.price()),
@@ -219,8 +221,6 @@ Meteor.methods({
             var fname = faker.name.firstName();
             var sname = faker.name.lastName();
             var contactId = Contacts.insert({
-              forename: faker.name.firstName(),
-              surname: faker.name.lastName(),
               forename: fname,
               surname: sname,
               jobtitle: faker.name.jobTitle(),
@@ -420,4 +420,4 @@ logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
   if (Meteor.isServer) {
     Meteor.call('addEventToAuditLog', logLevel, logMessage, ((typeof logEntityType === 'undefined') ? undefined : logEntityType), ((typeof logEntityId === 'undefined') ? undefined : logEntityId), 'client', Guid.raw());
   }
-}
+};

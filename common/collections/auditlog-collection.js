@@ -21,19 +21,19 @@ Collections.auditLog.index = AuditLogIndex = new EasySearch.Index({
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       if (options.search.props.autosuggest) {
         return {
           'message': 1
-        }
+        };
       }
       return {
         'date': 1,
         'level': 1,
         'source': 1,
         'message': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);

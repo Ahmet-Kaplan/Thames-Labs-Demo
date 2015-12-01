@@ -1,4 +1,4 @@
-GetDisallowedPermissions = function(userId){
+GetDisallowedPermissions = function(userId) {
   var collectionsToFilter = [];
   var perms = ['companies', 'contacts', 'opportunities', 'projects', 'tasks', 'purchaseorders'];
   for (var p in perms) {

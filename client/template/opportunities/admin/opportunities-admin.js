@@ -4,6 +4,7 @@ Template.opportunityAdmin.helpers({
   },
   hasStages: function() {
     var userTenant = Tenants.findOne({});
+    if (!userTenant.settings) return false;
     var stages = userTenant.settings.opportunity.stages;
     if (!stages) return false;
     return stages.length > 0;
