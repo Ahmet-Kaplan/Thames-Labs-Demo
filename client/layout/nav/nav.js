@@ -142,29 +142,8 @@ Template.nav.helpers({
 
 //NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
-  'click #start-welcome-tour': function() {
-    FlowRouter.go('dashboard');
-		hopscotch.endTour(true);
-    Session.set('hopscotch.welcomeTourStep');
-    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
-  },
-  'click #start-company-tutorial': function() {
-    FlowRouter.go('dashboard');
-		hopscotch.endTour(true);
-    Session.set('hopscotch.companyTutorialStep');
-    $.getScript('/vendor/hopscotch/tours/companies-tutorial.js');
-  },
-  'click #start-contacts-tutorial': function() {
-    FlowRouter.go('dashboard');
-		hopscotch.endTour(true);
-    Session.set('hopscotch.contactsTutorialStep');
-    $.getScript('/vendor/hopscotch/tours/contacts-tutorial.js');
-  },
-  'click #start-admin-tutorial': function() {
-    FlowRouter.go('dashboard');
-		hopscotch.endTour(true);
-    Session.set('hopscotch.adminTutorialStep');
-    $.getScript('/vendor/hopscotch/tours/admin-tutorial.js');
+  'click #help-menu': function() {
+    Modal.show("help");
   },
   'click #tour-this-page': function() {
     var currentPageName = FlowRouter.getRouteName();

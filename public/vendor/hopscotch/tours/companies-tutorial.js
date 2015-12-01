@@ -95,7 +95,7 @@ var companiesTutorial = {
 		target: document.querySelector('#createCompany'),
 		placement: "left",
 		nextOnTargetClick: true,
-		showNextButton: false,
+		showNextButton: false
 	}, {
 		title: "",
 		content: "",

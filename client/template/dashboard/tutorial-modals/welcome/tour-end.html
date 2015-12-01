@@ -4,6 +4,7 @@
       <div class="modal-content">
 
         <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h2>Great Work!</h2>
         </div>
 
@@ -11,15 +12,15 @@
           <p>That's a brief overview of RealTimeCRM. To learn more, select one of the other tutorials below.</p>
           <h3>What's next?</h3><br>
           <div class="tutorials text-center">
-              <button class="btn btn-default btn-huge text-center" id="first-run-tour"><i class="fa fa-fw fa-history"></i><br><span class="tutorial-title">Retake</span><br>Missed something? Click here to retake this tour.</button>
+              <button class="btn btn-default btn-huge text-center" id="first-run-tour"><i class="fa fa-fw fa-history"></i><br><h4 class="tutorial-title">Retake</h4>Missed something? Click here to retake this tour.</button>
             {{#if isInRole 'Administrator, canCreateCompanies'}}
-              <button class="btn btn-default btn-huge text-center" id="companies-tutorial"><i class="fa fa-fw fa-building"></i><br><span class="tutorial-title">Add a Company</span><br>A short, interactive tutorial that shows you how to add your first company.</button>
+              <button class="btn btn-default btn-huge text-center" id="companies-tutorial"><i class="fa fa-fw fa-building"></i><br><h4 class="tutorial-title">Add a Company</h4>A short, interactive tutorial that shows you how to add your first company.</button>
             {{/if}}
             {{#if isInRole 'Administrator, canCreateContacts'}}
-              <button class="btn btn-default btn-huge text-center" id="contacts-tutorial"><i class="fa fa-fw fa-user"></i><br><span class="tutorial-title">Add a Contact</span><br>A short, interactive tutorial that shows you how to add your first contact.</button>
+              <button class="btn btn-default btn-huge text-center" id="contacts-tutorial"><i class="fa fa-fw fa-user"></i><br><h4 class="tutorial-title">Add a Contact</h4>A short, interactive tutorial that shows you how to add your first contact.</button>
             {{/if}}
             {{#if isInRole 'Administrator'}}
-              <button class="btn btn-default btn-huge text-center" id="admin-tutorial"><i class="fa fa-fw fa-users"></i><br><span class="tutorial-title">Add a User [admin]</span><br>A short, interactive tutorial that shows you how to add users and use your admin powers.</button>
+              <button class="btn btn-default btn-huge text-center" id="admin-tutorial"><i class="fa fa-fw fa-users"></i><br><h4 class="tutorial-title">Add a User [admin]</h4>A short, interactive tutorial that shows you how to add users and use your admin powers.</button>
             {{/if}}
           </div>
         </div>

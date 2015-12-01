@@ -1,16 +1,18 @@
-<template name="firstRun">
+<template name="help">
   <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h2>Welcome to RealTimeCRM</h2>
+          <h2>Having Trouble?</h2>
         </div>
 
         <div class="modal-body">
-          Thank you for choosing RealTimeCRM. You are now all set and ready to run your business in real-time. Why not try one of our interactive tutorials below to get you started?<br />
-          <h3>What's next?</h3><br />
+          Need some help? Or just want to get the most out of RealTimeCRM?<br />
+          Select one of the handy tutorials below:<br />
+
+          <h3>Tutorials</h3><br />
           <div class="tutorials text-center">
               <button class="btn btn-default btn-huge text-center" id="first-run-tour"><i class="fa fa-fw fa-map-signs"></i><br><h4 class="tutorial-title">Take a look around</h4>Take a short tour of the home screen and get aquainted with RealTimeCRM.</button>
             {{#if isInRole 'Administrator, CanCreateCompanies'}}
@@ -23,6 +25,7 @@
               <button class="btn btn-default btn-huge text-center" id="admin-tutorial"><i class="fa fa-fw fa-users"></i><br><h4 class="tutorial-title">Add a User [admin]</h4>A short, interactive tutorial that shows you how to add users and use your admin powers.</button>
             {{/if}}
           </div>
+          Still not sure? We always welcome your questions and feedback. Just click 'Give Feedback' in the user menu.<br />
         </div>
         <div class="modal-footer">
           <button class="btn btn-primary" id="close-first-run">Take me to RealTimeCRM<i class="fa fa-fw fa-angle-right"></i></button>

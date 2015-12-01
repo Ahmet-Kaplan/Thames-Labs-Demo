@@ -38,20 +38,33 @@ var welcomeTour = {
     target: document.querySelector('#id-view-sidemenu'),
     placement: "right"
   }, {
-    title: "Quick Create Menu",
-    content: "In order to maximise the efficiency of RealTime, there are some tasks that you can carry out from anywhere! By clicking this icon, you can quickly add data - simply choose what you want to add, and click it!",
-    target: document.querySelector('#quick-create-menu'),
-    placement: "left"
-  }, {
+		title: "Global Search",
+		content: "Need to search without leaving the page you're on? Luckily, RealTimeCRM has this global search field, where you can search through your entire list of contacts or companies from anywhere.",
+		target: document.querySelector('#global-search'),
+		placement: "left"
+	}, {
     title: "Notifications",
     content: "Sometimes, we need to inform you of something important. When we do, this icon will change colour and a notification will appear in the menu. You can click each link to get more information.",
     target: document.querySelector('#notifications-menu'),
     placement: "left"
   }, {
-    title: "User Menu",
+		title: "Tutorials",
+		content: "Need some help? Tutorials like this one are always available, just click this button and select the desired tutorial.",
+		target: document.querySelector('#help-menu'),
+		placement: "left"
+	}, {
+		title: "User Menu",
     content: "The user menu contains several helpful links which will enhance your experience of RealTime and help us to make improvements. From here, you can change your password, send us feedback, and log out, amongst other things.",
     target: document.querySelector('#general-dropdown'),
     placement: "left"
+  }, {
+		title: "Action Button",
+    content: "In order to maximise the efficiency of RealTime, there are some tasks that you can carry out from anywhere! By clicking this icon, you can quickly add data - simply choose what you want to add, and click it!",
+    target: document.querySelector('#fab-btn'),
+    placement: "top",
+		fixed: true,
+		xOffset: "-250px",
+		arrowOffset: "255px"
   }, {
     title: "The Dashboard",
     content: "This is the dashboard. You'll land here every time you log into RealTime, or every time you click the Dashboard link. Clicking the RealTime logo will also bring you back here. The dashboard is unique in that you can fully tailor it to your liking via the use of widgets...",
