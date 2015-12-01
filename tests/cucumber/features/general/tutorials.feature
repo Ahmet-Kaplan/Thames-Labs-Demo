@@ -6,7 +6,7 @@ Feature: Allow users to take tutorials
 
   Background:
     Given a user exists
-    Given I am a logged in user
+    And I am a logged in user
 
 #Starting
   Scenario: A user can take the welcome tour from the welcome Modal

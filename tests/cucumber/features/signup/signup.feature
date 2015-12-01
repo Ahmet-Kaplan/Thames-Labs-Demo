@@ -24,6 +24,7 @@ Feature: Allow users to sign up to the app
 
 	Scenario: A normal user is redirected from the sign-up page to dashboard
     Given a user exists
+    And I am not a new user
     Given I am a logged in user
     When I navigate to "/sign-up"
     Then I should see the heading "Dashboard"

@@ -12,15 +12,24 @@
   z-index: 101;
 }
 
-.fixed-action-btn {
+.fab-right {
   position: fixed;
   right: 50px;
   bottom: 60px;
-  padding-top: 15px;
-  margin-bottom: 0;
   z-index: 900;
+}
+
+.fab-left {
+  position: fixed;
+  left: 250px;
+  bottom: 60px;
+  z-index: 900;
+}
+
+.fixed-action-btn {
   width: 50px;
   height: 50px;
+  padding-top: 15px;
   border-radius: 50%;
   background: #0e5e98;
   border: none;
@@ -46,10 +55,9 @@
 }
 
 .fab-menu {
-  position: fixed;
+  position: inherit;
   display: none;
-  right: 120px;
-  bottom: 65px;
+  margin-left: 40px;
   z-index: 900;
 }
 
