@@ -25,14 +25,16 @@ Template.tenancyAdminPage.helpers({
         data.push(f);
       });
     }
+
+    fields = tenant.settings.extInfo.contact;
     if (fields) {
-      fields = tenant.settings.extInfo.contact;
       _.each(fields, function(f) {
         data.push(f);
       });
     }
+
+    fields = tenant.settings.extInfo.project;
     if (fields) {
-      fields = tenant.settings.extInfo.project;
       _.each(fields, function(f) {
         data.push(f);
       });
