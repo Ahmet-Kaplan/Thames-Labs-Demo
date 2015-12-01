@@ -1,0 +1,14 @@
+#generalSearch, #filtersSearch {
+  -webkit-transition: All 0.3s ease;
+  -moz-transition: All 0.3s ease;
+  -o-transition: All 0.3s ease;
+  -ms-transition: All 0.3s ease;
+  transition: All 0.3s ease;
+}
+
+.hidden-box {
+  width: 0 ;
+  float: left;
+  display: inline-block;
+  visibility: hidden;
+}

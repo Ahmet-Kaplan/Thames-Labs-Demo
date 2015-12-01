@@ -112,8 +112,3 @@ Template.salesPipeline.helpers({
     }).fetch();
   }
 });
-
-Template.salesPipeline.events({
-  'click path': function() {
-  }
-});
