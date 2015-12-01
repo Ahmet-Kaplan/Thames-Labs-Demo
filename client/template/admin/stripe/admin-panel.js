@@ -1,33 +1,19 @@
-var stripeCustomerDep = new Tracker.Dependency();
-var stripeCustomer = {};
-
-var upcomingInvoiceDep = new Tracker.Dependency();
-var upcomingInvoice;
-
-var lastInvoiceDep = new Tracker.Dependency();
-var lastInvoice = {};
-
-var cardDetailsDep = new Tracker.Dependency();
-var cardDetails = {};
-
-var couponDep = new Tracker.Dependency();
-var couponDetails = {};
-
-var updateStripeCustomer = function() {
+var updateStripeCustomer = function(self) {
+  var stripeCustomer = self.stripeCustomer;
   var tenant = Tenants.findOne({});
+
   if(tenant.stripe.stripeId) {
     Meteor.call('getStripeCustomerDetails', function(error, customer) {
       if(error) {
         toastr.error('Unable to retrieve your customer details');
         return false;
       }
-      stripeCustomer = customer;
-      stripeCustomerDep.changed();
+      stripeCustomer.set(customer);
     });
   }
 };
 
-var updateUpcomingInvoice = function() {
+var updateUpcomingInvoice = function(self) {
   var tenant = Tenants.findOne({});
   if(tenant.stripe.stripeId) {
     Meteor.call('getStripeUpcomingInvoice', function(error, invoice) {
@@ -35,24 +21,24 @@ var updateUpcomingInvoice = function() {
         toastr.error('Unable to retrieve upcoming invoice.');
         return false;
       } else if(invoice === false) {
-        upcomingInvoice = false;
-        upcomingInvoiceDep.changed();
+        self.upcomingInvoice.set(false);
         return false;
       }
-      upcomingInvoice = invoice;
 
+      var upcomingInvoice = invoice;
       var discountCorrection = 1;
+      var taxCorrection = 1;
+
       if(upcomingInvoice.discount) {
         discountCorrection = (upcomingInvoice.discount.coupon.percent_off) ? 1 - (upcomingInvoice.discount.coupon.percent_off / 100) : 1;
       }
 
-      var taxCorrection = 1;
       if(upcomingInvoice.tax_percent) {
         taxCorrection = 1 + upcomingInvoice.tax_percent/100;
       }
       upcomingInvoice.amount_due = invoice.amount_due/100;
       upcomingInvoice.total = invoice.total/100;
-      upcomingInvoice.date = new Date(invoice.date*1000).toLocaleString('en-GB', {year: 'numeric', month: 'long', day: 'numeric'});
+      upcomingInvoice.date = moment(invoice.date*1000).format('DD/MM/YYYY');
       var tot = upcomingInvoice.lines.data.length;
       var i = 0;
       var correctionAmount = 0;
@@ -70,24 +56,27 @@ var updateUpcomingInvoice = function() {
           description: 'Correction for this period\'s subscription'
         });
       } else {
-        newData.push({
-          amount: (correctionAmount/100 * taxCorrection).toFixed(2),
-          description: 'Correction for this period\'s subscription'
-        });
-        var periodStart = new Date(upcomingInvoice.lines.data[tot-1].period.start*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
-        var periodEnd = new Date(upcomingInvoice.lines.data[tot-1].period.end*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
+        if(correctionAmount){
+          newData.push({
+            amount: (correctionAmount/100 * taxCorrection).toFixed(2),
+            description: 'Correction for this period\'s subscription'
+          });
+        }
+
+        var periodStart = moment(upcomingInvoice.lines.data[tot-1].period.start*1000).format('DD/MM/YYYY');
+        var periodEnd = moment(upcomingInvoice.lines.data[tot-1].period.end*1000).format('DD/MM/YYYY');
         newData.push({
           amount: ((upcomingInvoice.lines.data[tot-1].amount/100) * discountCorrection * taxCorrection).toFixed(2),
           description: 'Subscription for next period (' + periodStart + ' - ' + periodEnd + ')'
         });
       }
       upcomingInvoice.lines.data = newData;
-      upcomingInvoiceDep.changed();
+      self.upcomingInvoice.set(upcomingInvoice);
     });
   }
 };
 
-var updateLastInvoice = function() {
+var updateLastInvoice = function(self) {
   var tenant = Tenants.findOne({});
   if(tenant.stripe.stripeId) {
     Meteor.call('getStripeLastInvoice', function(error, invoice) {
@@ -97,58 +86,65 @@ var updateLastInvoice = function() {
       }
       lastInvoice = invoice;
       lastInvoice.amount_due = invoice.amount_due/100;
-      lastInvoice.date = new Date(invoice.date*1000).toLocaleString('en-GB', {year: 'numeric', month: 'long', day: 'numeric'});
-      lastInvoice.start = new Date(invoice.period_start*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
+      lastInvoice.date = moment(invoice.date*1000).format('DD/MM/YYYY');
+      lastInvoice.start = moment(invoice.period_start*1000).format('DD/MM/YYYY');
       //Handle the case of the first payment for which period is only the day
       if(invoice.period_start === invoice.period_end) {
-        lastInvoice.end = new Date(invoice.lines.data[0].period.end*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
+        lastInvoice.end = moment(invoice.lines.data[0].period.end*1000).format('DD/MM/YYYY');
       } else {
-        lastInvoice.end = new Date(invoice.period_end*1000).toLocaleString('en-GB', {year: 'numeric', month: '2-digit', day: '2-digit'});
+        lastInvoice.end = moment(invoice.period_end*1000).format('DD/MM/YYYY');
       }
-      lastInvoiceDep.changed();
+      self.lastInvoice.set(lastInvoice);
     });
   }
 };
 
-var updateCardDetails = function() {
+var updateCardDetails = function(self) {
   var tenant = Tenants.findOne({});
   if(!tenant.stripe.stripeId) {
     return false;
   }
   Meteor.call('getStripeCardDetails', function(error, response) {
-    cardDetails = response;
-    cardDetailsDep.changed();
+    self.cardDetails.set(response);
   });
 };
 
-var updateCouponDetails = function() {
+var updateCouponDetails = function(self) {
+  var couponDetails = self.couponDetails;
   var tenant = Tenants.findOne({});
   if(!tenant.stripe.coupon) {
-    couponDetails = false;
+    couponDetails.set({});
     return false;
   }
   Meteor.call('getStripeCoupon', tenant.stripe.coupon, function(error, response) {
-    if(!couponDetails || error) {
-      couponDetails = false;
+    if(!couponDetails.get() || error) {
+      couponDetails.set({});
     } else {
-      couponDetails = response;
+      couponDetails.set(response);
+      console.log(couponDetails.get())
     }
-    couponDep.changed();
   });
 };
 
 Template.stripeAdmin.onCreated(function() {
+  this.stripeCustomer = new ReactiveVar('loading');
+  this.couponDetails = new ReactiveVar('loading');
+  this.cardDetails = new ReactiveVar({});
+  this.lastInvoice = new ReactiveVar({});
+  this.upcomingInvoice = new ReactiveVar({});
   Session.set('stripeUpdateListener', 0);
+  var self = this;
+
   this.autorun(function() {
     var tenant = Tenants.findOne({});
     var listener = Session.get('stripeUpdateListener');
     var numberOfUsers = Meteor.users.find({group: tenant._id}).count();
     listener += 1;
-    updateCouponDetails();
+    updateCouponDetails(self);
     if(tenant.stripe.stripeId && numberOfUsers) {
-      updateStripeCustomer();
-      updateLastInvoice();
-      updateUpcomingInvoice();
+      updateStripeCustomer(self);
+      updateLastInvoice(self);
+      updateUpcomingInvoice(self);
     }
   });
 
@@ -157,7 +153,7 @@ Template.stripeAdmin.onCreated(function() {
     var updateListener = Session.get('listenCardUpdate');
     updateListener += 1;
     if(tenant.stripe.stripeId) {
-      updateCardDetails();
+      updateCardDetails(self);
     }
   });
 });
@@ -166,8 +162,11 @@ Template.stripeAdmin.helpers({
   payingScheme: function() {
     return Tenants.findOne({}).stripe.paying;
   },
+  subsLoaded: function() {
+    return !(Template.instance().stripeCustomer.get() === 'loading')
+  },
   currentSubscription: function() {
-    stripeCustomerDep.depend();
+    var stripeCustomer = Template.instance().stripeCustomer.get();
     return (stripeCustomer.id) ? ((stripeCustomer.subscriptions.total_count && !stripeCustomer.subscriptions.data[0].cancel_at_period_end) ? stripeCustomer.subscriptions.data[0].plan.name : "Free Plan") : "Free Plan";
   },
   hasStripeAccount: function() {
@@ -177,7 +176,7 @@ Template.stripeAdmin.helpers({
     return Tenants.findOne({}).stripe.stripeSubs;
   },
   subscriptionCancelled: function() {
-    stripeCustomerDep.depend();
+    var stripeCustomer = Template.instance().stripeCustomer.get();
     if(stripeCustomer.id && stripeCustomer.subscriptions.total_count) {
       return stripeCustomer.subscriptions.data[0].cancel_at_period_end;
     } else {
@@ -185,7 +184,7 @@ Template.stripeAdmin.helpers({
     }
   },
   stripeCustomer: function() {
-    stripeCustomerDep.depend();
+    var stripeCustomer = Template.instance().stripeCustomer.get();
     return stripeCustomer;
   },
   totalRecords: function() {
@@ -206,21 +205,22 @@ Template.stripeAdmin.helpers({
     }
   },
   upcomingInvoice: function() {
-    upcomingInvoiceDep.depend();
-    return upcomingInvoice;
+    return Template.instance().upcomingInvoice.get();
   },
   lastInvoice: function() {
-   lastInvoiceDep.depend();
-    return lastInvoice;
+    return Template.instance().lastInvoice.get();
+  },
+  couponLoaded: function() {
+    var couponDetails = Template.instance().couponDetails.get();
+    return !(couponDetails === "loading");
   },
   hasCoupon: function() {
-    couponDep.depend();
-    details = (!couponDetails) ? false : ((couponDetails.percent_off) ? couponDetails.percent_off + ' % off' : '£' + couponDetails.amount_off + ' off');
+    var couponDetails = Template.instance().couponDetails.get();
+    details = (!couponDetails || couponDetails.valid !== true) ? false : ((couponDetails.percent_off) ? couponDetails.percent_off + ' % off' : '£' + couponDetails.amount_off + ' off');
     return details;
   },
   cardDetails: function() {
-    cardDetailsDep.depend();
-    return cardDetails;
+    return Template.instance().cardDetails.get();
   }
 });
 
