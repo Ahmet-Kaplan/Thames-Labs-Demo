@@ -121,7 +121,6 @@ var updateCouponDetails = function(self) {
       couponDetails.set({});
     } else {
       couponDetails.set(response);
-      console.log(couponDetails.get())
     }
   });
 };
