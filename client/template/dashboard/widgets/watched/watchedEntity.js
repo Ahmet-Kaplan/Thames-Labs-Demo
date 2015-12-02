@@ -117,7 +117,7 @@ Template.watchedEntityWidget.helpers({
           if (x.activityTimestamp < y.activityTimestamp) return 1;
           if (x.activityTimestamp > y.activityTimestamp) return -1;
           return 0;
-        });
+        }).slice(0, 10);
       }
       //watchlist
     }
