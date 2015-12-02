@@ -11,4 +11,4 @@ before_install:
   - "npm install -g eslint"
   - "cd tests/cucumber && npm install"
 
-script: "eslint . && meteor --test"
+script: "meteor --test"
