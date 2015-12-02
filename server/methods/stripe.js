@@ -257,6 +257,7 @@ Meteor.methods({
     });
     var stripeId = theTenant.stripe.stripeId;
     var stripeSubs = theTenant.stripe.stripeSubs;
+    var coupon = theTenant.stripe.coupon;
     var numberUsers = Meteor.users.find({
       group: tenantId
     }).count();
@@ -266,10 +267,23 @@ Meteor.methods({
       throw new Meteor.Error(403, 'Only admins may resume subscriptions.');
     }
 
-    Stripe.customers.updateSubscription(stripeId, stripeSubs, {
+    var params = {
       plan: 'premier',
       quantity: numberUsers
-    }, Meteor.bindEnvironment(function(err, subs) {
+    };
+
+    if (coupon) {
+      Meteor.call('stripe.getCoupon', coupon, function(err, response) {
+        if (err || !response) {
+          return false;
+        } else {
+          params.coupon = coupon;
+          return true;
+        }
+      });
+    }
+
+    Stripe.customers.updateSubscription(stripeId, stripeSubs, params, Meteor.bindEnvironment(function(err, subs) {
       if (err) {
         throw new Meteor.Error('Unable to resume subscription', err);
       }
