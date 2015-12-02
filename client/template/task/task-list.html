@@ -2,8 +2,8 @@
   {{setPageTitle 'Tasks'}}
   <h1><i class="fa fa-fw fa-check"></i>{{#if showMine}} My{{/if}} Tasks{{#if showComp}} - <em>Completed</em>{{/if}}</h1>
   <div class="row">
+    <div class="col-md-6">
     {{#if isInRole 'Administrator,CanCreateTasks'}}
-    <div class="col-md-4">
       <div class="btn-group" role="group">
         <div class="btn-group" role="group">
           <button class="btn btn-primary dropdown-toggle{{#if isMobile}} btn-fullWidth{{/if}}" type="button" id="addTaskDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -20,12 +20,19 @@
         {{#if isInRole 'Administrator,CanDeleteTasks'}}
           <button class="btn btn-danger" id="tskDeleteAllCompleted">Delete Tasks</button>
         {{/if}}
+      </div>
+    {{/if}}
+    {{#if isInRole 'Administrator,CanReadTasks'}}
+      <div class="btn-group" role="group">
         <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
           Show completed
         </button>
+        <button type="button" class="btn btn-{{#if showMine}}success{{else}}default{{/if}}" id="tskToggleMine" >
+          Show My Tasks
+        </button>
       </div>
-    </div>
     {{/if}}
+    </div>
   </div>
 
   <div class="stick-bar-placeholder"></div>
