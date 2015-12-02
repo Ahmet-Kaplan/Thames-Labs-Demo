@@ -22,11 +22,14 @@
 .wewActNotes {
   margin-top:-8px;
   padding: 0 5px 0 5px;
-  max-height: 80px;
+  /*max-height: 100px;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: auto;*/
 }
 .wewActEntry {
   border: 1px solid #ececec;
   margin-bottom:4px;
+}
+.wewActTypeIcon{
+  text-transform: capitalize;
 }

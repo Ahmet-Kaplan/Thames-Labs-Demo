@@ -14,18 +14,39 @@ Template.watchedEntityWidget.helpers({
         var actArray = [];
 
         _.each(dataKeys, function(data) {
+
+          if (data.collection === "companies" && data.primaryEntityType === "contacts") {
+            Meteor.subscribe("activityByContactId", data.id);
+
+          }
+
           if (data.collection === "companies") {
             Meteor.subscribe("activityByCompanyId", data.id);
 
             Activities.find({
               companyId: data.id
             }).map(function(activityRecord) {
-              activityRecord.linkPath = "company";
-              activityRecord.faIcon = "building";
-              activityRecord.userName = Meteor.users.findOne({
-                _id: activityRecord.createdBy
-              }).profile.name;
-              actArray.push(activityRecord);
+              if (activityRecord.primaryEntityType === "contacts") {
+                // Meteor.subscribe("companyById", activityRecord.companyId);
+                // var companyData = Companies.findOne({
+                //   _id: activityRecord.companyId
+                // });
+
+                activityRecord.linkPath = "contact";
+                // activityRecord.parentCompany = (companyData ? companyData.name : null);
+                activityRecord.faIcon = "user";
+                activityRecord.userName = Meteor.users.findOne({
+                  _id: activityRecord.createdBy
+                }).profile.name;
+                actArray.push(activityRecord);
+              } else {
+                activityRecord.linkPath = "company";
+                activityRecord.faIcon = "building";
+                activityRecord.userName = Meteor.users.findOne({
+                  _id: activityRecord.createdBy
+                }).profile.name;
+                actArray.push(activityRecord);
+              }
             });
           }
 
