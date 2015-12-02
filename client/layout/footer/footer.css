@@ -12,16 +12,9 @@
   z-index: 101;
 }
 
-.fab-right {
+.fab {
   position: fixed;
   right: 50px;
-  bottom: 60px;
-  z-index: 900;
-}
-
-.fab-left {
-  position: fixed;
-  left: 250px;
   bottom: 60px;
   z-index: 900;
 }
@@ -34,6 +27,7 @@
   background: #0e5e98;
   border: none;
   box-shadow: 2px 2px 7px #888;
+  display: none;
 }
 
 .fixed-action-btn i {
@@ -55,10 +49,11 @@
 }
 
 .fab-menu {
-  position: inherit;
-  display: none;
-  margin-left: 40px;
+  position: fixed;
+  bottom: inherit;
+  right: 110px;
   z-index: 900;
+  display: none;
 }
 
 .fab-menu-item {

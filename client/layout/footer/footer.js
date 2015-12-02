@@ -6,15 +6,15 @@ Template.footer.helpers({
 });
 
 Template.footer.events({
-  'click #fab': function(event) {
+  'click #fab-btn': function(event) {
       $("#fab-menu").toggle(function() {
         $("i", "#fab-btn").toggleClass("fa fw-fa fa-plus fa fw-fa fa-times")
       })
   },
-  'mouseenter #fab': function(event) {
+  'mouseenter #fab-btn': function(event) {
     $("#closeFab").show()
   },
-  'mouseleave #fab': function(event) {
+  'mouseleave #fab-btn': function(event) {
     $("#closeFab").hide()
   },
   'mouseenter #closeFab': function(event) {

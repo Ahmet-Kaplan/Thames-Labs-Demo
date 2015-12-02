@@ -272,7 +272,7 @@ Feature: Allow users to manage their Companies
     And a "Company" has been created
     When I navigate to a company page
     Then I should not see "#btnAddTaskToEntity"
-
+@dev
   #Activities
   Scenario: A user can add an activity
     Given a "Company" has been created
