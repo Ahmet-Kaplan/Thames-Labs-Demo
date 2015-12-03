@@ -25,6 +25,9 @@ Meteor.methods({
       _id: projectId
     });
     if (project) {
+      var typeId = project.projectTypeId;
+      var milestoneId = project.projectMilestoneId;
+
       var user = Meteor.users.findOne({
         _id: this.userId
       });
@@ -45,14 +48,15 @@ Meteor.methods({
             var milestones = currentTypes[typeIndex].milestones;
             var milestoneIndex = -1;
             for (var j = 0, mlen = milestones.length; j < mlen; j++) {
-              if (milestones[j].id === typeId) {
+              if (milestones[j].id === milestoneId  ) {
                 milestoneIndex = j;
                 break;
               }
             }
-            var newId = project.projectMilestoneId;
+            var newId = milestoneId;
             if (milestoneIndex !== -1) {
               var newIndex = milestoneIndex + value;
+
               if (newIndex < 0 || newIndex > milestones.length) {
                 return {
                   exitCode: 6,
