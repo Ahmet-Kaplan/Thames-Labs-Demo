@@ -88,6 +88,9 @@ Schemas.Project = new SimpleSchema({
   },
   projectType: {
     type: String
+  },
+  milestoneId: {
+    type: Number
   }
 });
 Schemas.Project.messages({

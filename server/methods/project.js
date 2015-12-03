@@ -12,7 +12,7 @@ Meteor.methods({
         if (projectSettings) {
           var currentTypes = projectSettings.types;
           var exists = false;
-          var maxId = 0;
+          var maxId = -1;
           _.each(currentTypes, function(t) {
             if (t.id > maxId) {
               maxId = t.id;
@@ -214,7 +214,7 @@ Meteor.methods({
           if (typeIndex !== -1) {
             var selectedType = currentTypes[typeIndex];
             var milestones = selectedType.milestones;
-            var maxId = 0;
+            var maxId = -1;
             var exists = false;
             _.each(milestones, function(m) {
               if (m.id > maxId) {
@@ -231,10 +231,10 @@ Meteor.methods({
                 description: description
               };
               milestones.push(newMilestone);
-              projectSettings.types[typeIndex].milestones = milestones;
+
               Tenants.update({
                 _id: userTenant._id,
-                "settings.project.types.id": selectedType.id
+                "settings.project.types.id": typeId
               }, {
                 $set: {
                   "settings.project.types.$.milestones": milestones
@@ -280,5 +280,171 @@ Meteor.methods({
       };
       //no user
     }
+  },
+
+  updateProjectMilestone: function(typeId, milestoneId, name, description) {
+    var user = Meteor.users.findOne({
+      _id: this.userId
+    });
+    if (user) {
+      var userTenant = Tenants.findOne({
+        _id: user.group
+      });
+      if (userTenant) {
+        var projectSettings = userTenant.settings.project;
+        if (projectSettings) {
+          var currentTypes = projectSettings.types;
+          var typeIndex = -1;
+          for (var i = 0, len = currentTypes.length; i < len; i++) {
+            if (currentTypes[i].id === typeId) {
+              typeIndex = i;
+              break;
+            }
+          }
+          if (typeIndex !== -1) {
+            var currentMilestones = projectSettings.types[typeIndex].milestones;
+            var milestoneIndex = -1;
+            for (var j = 0, mLen = currentMilestones.length; j < mLen; j++) {
+              if (currentMilestones[j].id === milestoneId) {
+                milestoneIndex = j;
+                break;
+              }
+            }
+
+            if (milestoneIndex !== -1) {
+              currentMilestones[milestoneIndex].name = name;
+              currentMilestones[milestoneIndex].description = description;
+
+              Tenants.update({
+                _id: userTenant._id,
+                "settings.project.types.id": typeId
+              }, {
+                $set: {
+                  "settings.project.types.$.milestones": currentMilestones
+                }
+              });
+
+              return {
+                exitCode: 0,
+                exitStatus: "Project milestone updated successfully."
+              };
+            } else {
+              return {
+                exitCode: 1,
+                exitStatus: "Project milestone not found."
+              };
+              //type name in use
+            }
+          } else {
+            return {
+              exitCode: 2,
+              exitStatus: "Type not found."
+            };
+            //type name in use
+          }
+        } else {
+          return {
+            exitCode: 3,
+            exitStatus: "No project settings found in tenant object."
+          };
+          //no project object
+        }
+      } else {
+        return {
+          exitCode: 4,
+          exitStatus: "User tenant not found."
+        };
+        //no tenant
+      }
+    } else {
+      return {
+        exitCode: 5,
+        exitStatus: "No user found."
+      };
+      //no user
+    }
+  },
+
+  removeProjectMilestone: function(typeId, milestoneId) {
+    var user = Meteor.users.findOne({
+      _id: this.userId
+    });
+    if (user) {
+      var userTenant = Tenants.findOne({
+        _id: user.group
+      });
+      if (userTenant) {
+        var projectSettings = userTenant.settings.project;
+        if (projectSettings) {
+          var currentTypes = projectSettings.types;
+          var typeIndex = -1;
+          for (var i = 0, len = currentTypes.length; i < len; i++) {
+            if (currentTypes[i].id === typeId) {
+              typeIndex = i;
+              break;
+            }
+          }
+          if (typeIndex !== -1) {
+            var currentMilestones = projectSettings.types[typeIndex].milestones;
+            var milestoneIndex = -1;
+            for (var j = 0, mLen = currentMilestones.length; j < mLen; j++) {
+              if (currentMilestones[j].id === milestoneId) {
+                milestoneIndex = j;
+                break;
+              }
+            }
+
+            if (milestoneIndex !== -1) {
+              currentMilestones.splice(milestoneIndex, 1);
+
+              Tenants.update({
+                _id: userTenant._id,
+                "settings.project.types.id": typeId
+              }, {
+                $set: {
+                  "settings.project.types.$.milestones": currentMilestones
+                }
+              });
+
+              return {
+                exitCode: 0,
+                exitStatus: "Project milestone removed successfully."
+              };
+            } else {
+              return {
+                exitCode: 1,
+                exitStatus: "Project milestone not found."
+              };
+              //type name in use
+            }
+          } else {
+            return {
+              exitCode: 2,
+              exitStatus: "Type not found."
+            };
+            //type name in use
+          }
+        } else {
+          return {
+            exitCode: 3,
+            exitStatus: "No project settings found in tenant object."
+          };
+          //no project object
+        }
+      } else {
+        return {
+          exitCode: 4,
+          exitStatus: "User tenant not found."
+        };
+        //no tenant
+      }
+    } else {
+      return {
+        exitCode: 5,
+        exitStatus: "No user found."
+      };
+      //no user
+    }
   }
+
 });
