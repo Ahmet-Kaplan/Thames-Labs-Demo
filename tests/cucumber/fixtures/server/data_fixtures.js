@@ -268,7 +268,6 @@ Meteor.methods({
       Meteor.call('addContact', 'Test ' + i, 'Surnamer');
       Meteor.call('addCompany', 'Test ' + i + ' Ltd');
     }
-
   },
 
   addCompanyTask: function() {
