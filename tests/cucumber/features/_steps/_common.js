@@ -161,13 +161,15 @@ module.exports = function() {
   });
 
   this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value) {
-    browser.waitForExist('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
-    browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
-    browser.click('select#' + selector + ' + .selectize-control>.selectize-input');
+    var selectizeInput = 'select#' + selector + ' + .selectize-control>.selectize-input',
+        selectizeFirstResult = 'select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>div:first-child';
+    browser.waitForExist(selectizeInput, 5000);
+    browser.waitForVisible(selectizeInput, 5000);
+    browser.click(selectizeInput);
     browser.keys([value]);
-    browser.waitForExist('select#' + selector + ' + .selectize-control>.selectize-dropdown');
-    browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-dropdown');
-    browser.click('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>div:first-child');
+    browser.waitForExist(selectizeFirstResult, 5000);
+    browser.waitForVisible(selectizeFirstResult, 5000);
+    browser.click(selectizeFirstResult);
   });
 
   this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName) {
