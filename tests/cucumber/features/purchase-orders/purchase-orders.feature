@@ -157,7 +157,7 @@ Feature: Allow users to manage their Purchase Orders
       And I select "Note" from dropdown field "type"
       And I click "#confirm"
       Then I should see the activity in the timeline
-
+@dev
     Scenario: A user can edit an activity
       Given I am a logged in user
       And a "Company" has been created

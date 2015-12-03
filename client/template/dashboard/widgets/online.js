@@ -46,12 +46,17 @@ Template.onlineWidget.helpers({
           loginStatus = "Last seen " + moment(u.profile.lastLogin).fromNow();
         }
 
-        var data = "<small><i class='fa fa-fw fa-circle text-danger grayscale'></i>" + u.profile.name + " (<em>" + loginStatus + "</em>)</small>";
+        var data = {
+          user: u.profile.name,
+          state: 'offline',
+          loginStatus: loginStatus
+        };
+        console.log(data)
         offlineUsers.push(data);
       };
     });
 
-    return offlineUsers.array().join(', ');
+    return offlineUsers.array();
   }
 });
 

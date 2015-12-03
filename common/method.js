@@ -44,7 +44,7 @@ Meteor.methods({
 
         for (var i = 0; i < 8; i++) {
           var userId = Accounts.createUser({
-            email: faker.internet.email(),
+            email: faker.internet.email().toLowerCase(),
             password: 'password',
             profile: {
               name: faker.name.findName(),
