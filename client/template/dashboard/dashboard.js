@@ -1,4 +1,4 @@
-/**************************************** 
+/****************************************
     The widget list is generated from the following 'widgets' object.
     - to avoid conflict with other templates, the convention is to name the template widgets.id + 'Widget', e.g. 'chatWidget'
     - the object must have the same key and id property. This is to speed up the reading.
