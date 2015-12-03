@@ -85,6 +85,9 @@ Schemas.Project = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  projectType: {
+    type: String
   }
 });
 Schemas.Project.messages({

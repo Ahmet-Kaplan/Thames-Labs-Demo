@@ -428,3 +428,20 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 15,
+  name: "Add project types to tenants",
+  up: function() {
+    ServerSession.set('maintenance', true);
+
+    Tenants.update({}, {
+      $set: {
+        "settings.project.types": []
+      }
+    }, {
+      multi: true
+    });
+    ServerSession.set('maintenance', false);
+  }
+});

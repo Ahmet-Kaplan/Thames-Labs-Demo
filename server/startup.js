@@ -57,6 +57,16 @@ Meteor.startup(function() {
       });
     }
 
+    if (typeof t.settings.project === "undefined") {
+      Tenants.update(t._id, {
+        $set: {
+          "settings.project": {
+            types: []
+          }
+        }
+      });
+    }
+
     if (typeof t.settings.extInfo === "undefined") {
       Tenants.update(t._id, {
         $set: {
