@@ -86,10 +86,10 @@ Schemas.Project = new SimpleSchema({
       type: "hidden"
     }
   },
-  projectType: {
-    type: String
+  projectTypeId: {
+    type: Number
   },
-  milestoneId: {
+  projectMilestoneId: {
     type: Number
   }
 });

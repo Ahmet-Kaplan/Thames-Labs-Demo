@@ -1,4 +1,102 @@
 Meteor.methods({
+  typeIsInUse: function(typeId) {
+    var project = Projects.findOne({
+      projectTypeId: typeId
+    });
+    return {
+      exitCode: 0,
+      exitStatus: (project ? true : false)
+    };
+  },
+  milestoneIsInUse: function(typeId, milestoneId) {
+    var project = Projects.findOne({
+      projectTypeId: typeId,
+      projectMilestoneId: milestoneId
+    });
+    return {
+      exitCode: 0,
+      exitStatus: (project ? true : false)
+    };
+  },
+
+  moveMilestone: function(projectId, direction) {
+    var value = (direction === "forward" ? 1 : -1);
+    var project = Projects.findOne({
+      _id: projectId
+    });
+    if (project) {
+      var user = Meteor.users.findOne({
+        _id: this.userId
+      });
+      if (user) {
+        var userTenant = Tenants.findOne({
+          _id: user.group
+        });
+        if (userTenant) {
+          var typeIndex = -1;
+          var currentTypes = userTenant.settings.project.types;
+          for (var i = 0, len = currentTypes.length; i < len; i++) {
+            if (currentTypes[i].id === typeId) {
+              typeIndex = i;
+              break;
+            }
+          }
+          if (typeIndex !== -1) {
+            var milestones = currentTypes[typeIndex].milestones;
+            var milestoneIndex = -1;
+            for (var j = 0, mlen = milestones.length; j < mlen; j++) {
+              if (milestones[j].id === typeId) {
+                milestoneIndex = j;
+                break;
+              }
+            }
+            var newId = project.projectMilestoneId;
+            if (milestoneIndex !== -1) {
+              var newIndex = milestoneIndex + value;
+              if (newIndex < 0 || newIndex > milestones.length) {
+                return {
+                  exitCode: 6,
+                  exitStatus: 'Cannot move milestone beyond existing limits.'
+                };
+              }else{
+                newId = milestones[newIndex].id;
+                return {
+                  exitCode: 0,
+                  exitStatus: newId
+                };
+              }
+            } else {
+              return {
+                exitCode: 1,
+                exitStatus: 'Milestone not found.'
+              };
+            }
+          } else {
+            return {
+              exitCode: 2,
+              exitStatus: 'Type not found.'
+            };
+          }
+        } else {
+          return {
+            exitCode: 3,
+            exitStatus: 'User tenant not found.'
+          };
+        }
+      } else {
+        return {
+          exitCode: 4,
+          exitStatus: 'User not found.'
+        };
+      }
+    } else {
+      return {
+        exitCode: 5,
+        exitStatus: 'Project not found.'
+      };
+    }
+  },
+
   addProjectType: function(name) {
     var user = Meteor.users.findOne({
       _id: this.userId
