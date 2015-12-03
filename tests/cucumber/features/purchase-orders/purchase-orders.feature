@@ -141,7 +141,6 @@ Feature: Allow users to manage their Purchase Orders
     Then I should see "#poOverviewPop"
 
   #Activities
-  @dev
   Scenario: A user can add, edit and delete an activity
     Given I am a logged in user
     And I have the "CanReadCompanies" permission
