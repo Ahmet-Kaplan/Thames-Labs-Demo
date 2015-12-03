@@ -8,11 +8,16 @@
         {{{notes}}}
       </div>
       <div class="col-md-3 text-muted" id="{{primaryEntityType}}ActivityDisplayItemLink">
+      {{#if primaryEntityId}}
         {{#if taskId}}
           <a href="{{pathFor route='task' id=taskId}}" id='{{primaryEntityType}}ActivityLink'><i class="{{entityIcon}}"></i> {{entityName}}</a>
         {{else}}
           <a href="{{pathFor route=routeName id=primaryEntityId}}" id='{{primaryEntityType}}ActivityLink'><i class="{{entityIcon}}"></i> {{entityName}}</a>
         {{/if}}
+      {{else}}
+        No primary record set
+      {{/if}}
+
       </div>
       <div class="col-md-2 text-muted" id="{{primaryEntityType}}ActivityDisplayItemTimestamp">
         <i class="fa fa-clock-o"></i>
