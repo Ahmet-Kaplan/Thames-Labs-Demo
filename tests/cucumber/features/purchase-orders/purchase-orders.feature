@@ -141,6 +141,7 @@ Feature: Allow users to manage their Purchase Orders
     Then I should see "#poOverviewPop"
 
   #Activities
+  @dev
   Scenario: A user can add, edit and delete an activity
     Given I am a logged in user
     And I have the "CanReadCompanies" permission
@@ -154,14 +155,17 @@ Feature: Allow users to manage their Purchase Orders
     And I set rich text field "notes" to "test activity"
     And I select "Note" from dropdown field "type"
     And I click "#confirm"
-    Then I should not see a modal
+    Then I should see a toastr with the message "Purchase order activity created."
+    And I should not see a modal
     And I should see the activity in the timeline
     When I click "#edit-activity"
     Then I should see a modal
+    Given toastr are cleared
     When I select "Email" from dropdown field "type"
     And I click "#update"
     Then I should see a toastr with the message "Activity updated."
     And I should not see a modal
+    Given toastr are cleared
     When I click "#remove-activity"
     And I click confirm on the modal
     Then I should see "#no-activity"

@@ -257,7 +257,6 @@ Feature: Allow users to manage their Projects
     Then I should not see "#btnAddTaskToEntity"
 
   #Activities
-  @dev
   Scenario: A user can add, edit and delete an activity
     Given a "Project" has been created
     When I navigate to a project page
