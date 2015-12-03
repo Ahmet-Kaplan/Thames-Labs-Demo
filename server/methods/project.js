@@ -58,7 +58,7 @@ Meteor.methods({
                   exitCode: 6,
                   exitStatus: 'Cannot move milestone beyond existing limits.'
                 };
-              }else{
+              } else {
                 newId = milestones[newIndex].id;
                 return {
                   exitCode: 0,
