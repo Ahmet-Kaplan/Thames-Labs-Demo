@@ -25,4 +25,4 @@ test:
     - eslint .
     - meteor --test
   post:
-    - cp ~/.meteor/local/log/*.log $CIRCLE_ARTIFACTS
+    - cp .meteor/local/log/*.log $CIRCLE_ARTIFACTS
