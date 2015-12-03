@@ -1,7 +1,7 @@
 machine:
   environment:
     SELENIUM_BROWSER: chrome
-    VELOCITY_CI: 1
+    #VELOCITY_CI: 1
     CUCUMBER_TAIL: 1
     CUCUMBER_SCREENSHOTS_DIR: $CIRCLE_ARTIFACTS/screenshots
     CUCUMBER_JSON_OUTPUT: $CIRCLE_TEST_REPORTS/cucumber/tests.cucumber
