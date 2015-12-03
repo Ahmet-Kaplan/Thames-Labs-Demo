@@ -165,6 +165,7 @@ module.exports = function() {
     browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
     browser.click('select#' + selector + ' + .selectize-control>.selectize-input');
     browser.keys([value]);
+    browser.waitForExist('select#' + selector + ' + .selectize-control>.selectize-dropdown');
     browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-dropdown');
     browser.click('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>div:first-child');
   });
