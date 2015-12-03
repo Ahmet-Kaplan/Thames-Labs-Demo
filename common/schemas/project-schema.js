@@ -87,10 +87,12 @@ Schemas.Project = new SimpleSchema({
     }
   },
   projectTypeId: {
-    type: Number
+    type: Number,
+    defaultValue: 0
   },
   projectMilestoneId: {
-    type: Number
+    type: Number,
+    defaultValue: 0
   }
 });
 Schemas.Project.messages({
