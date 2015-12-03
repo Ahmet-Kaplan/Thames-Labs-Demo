@@ -15,7 +15,7 @@ module.exports = function() {
 
   this.Then(/^I see a field with the name "([^"]*)" in the extended information list$/, function(name) {
     browser.waitForExist('#entity-custom-fields', 2000);
-    browser.waitForExist('.globalCFBackground', 2000);
+    browser.waitForExist('#custom-field-container', 2000);
     expect(browser.getText('.custom-field-display-item', 2000)).toContain(name);
   });
 };

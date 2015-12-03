@@ -215,10 +215,19 @@ Meteor.methods({
 
   addPurchaseOrder: function() {
 
+    var companyId = Companies.insert({
+      name: "Test Ltd",
+      address: "address",
+      city: "city",
+      postcode: "postcode",
+      country: "country",
+      createdBy: Meteor.userId()
+    });
+
     var data = PurchaseOrders.insert({
       userId: this.userId,
       description: "Test Purchase Order",
-      supplierCompanyId: "Test Ltd",
+      supplierCompanyId: companyId,
       status: "Requested",
       createdBy: this.userId
     });
