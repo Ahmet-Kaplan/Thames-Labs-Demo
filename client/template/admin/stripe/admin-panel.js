@@ -220,7 +220,7 @@ Template.stripeAdmin.helpers({
   },
   hasCoupon: function() {
     var couponDetails = Template.instance().couponDetails.get();
-    details = (!couponDetails || couponDetails.valid !== true) ? false : ((couponDetails.percent_off) ? couponDetails.id + ': ' + couponDetails.percent_off + ' % off' : couponDetails.id + ': £' + couponDetails.amount_off + ' off');
+    details = (!couponDetails || couponDetails.valid !== true) ? false : ((couponDetails.percent_off) ? couponDetails.id + ': ' + couponDetails.percent_off + ' % off' : couponDetails.id + ': £' + couponDetails.amount_off / 100 + ' off');
     return details;
   },
   cardDetails: function() {

@@ -11,8 +11,6 @@ Template.stripeSubscribe.onRendered(function() {
     planDetails.quantity = Meteor.users.find({group: Meteor.user().group}).count();
     planDetails.amount /= 100;
     planDetails.total = planDetails.quantity * planDetails.amount;
-    planDetails.amount = planDetails.amount.toString();
-    planDetails.total = planDetails.total.toString();
 
     if(Tenants.findOne().stripe.coupon) {
       Meteor.call('stripe.getCoupon', Tenants.findOne().stripe.coupon, function(error, response) {
@@ -21,9 +19,9 @@ Template.stripeSubscribe.onRendered(function() {
           planDetailsDep.changed();
         } else {
           planDetails.couponName = response.id;
-          planDetails.couponDetails = (response.percent_off) ? response.percent_off + ' % off' : '£' + response.amount_off + ' off';
+          planDetails.couponDetails = (response.percent_off) ? response.percent_off + ' % off' : '£' + response.amount_off / 100 + ' off';
           var percentCorrection = (response.percent_off) ? 1 - (response.percent_off / 100) : 1;
-          var amountCorrection = (response.amount_off) ? - response.amount_off : 0;
+          var amountCorrection = (response.amount_off) ? - response.amount_off / 100 : 0;
           planDetails.total = planDetails.total * percentCorrection + amountCorrection * planDetails.quantity;
           planDetailsDep.changed();
         }
