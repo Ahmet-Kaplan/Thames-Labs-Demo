@@ -440,11 +440,11 @@ Migrations.add({
         name: "Standard Project",
         milestones: [{
           name: "Inception",
-          Description: "This is a newly-created project",
+          description: "This is a newly-created project",
           id: 0
         }, {
           name: "Completion",
-          Description: "This project has been completed",
+          description: "This project has been completed",
           id: 1
         }]
       };
