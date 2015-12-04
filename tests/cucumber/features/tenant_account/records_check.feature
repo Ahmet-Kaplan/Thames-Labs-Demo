@@ -29,6 +29,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a "error" toastr with the message "You have reached the maximum number of records and you are not able to add new ones."
     And I should see a modal
 
+  @dev 
   Scenario: When a user has reached the maximum number of records they can delete a record and add a new one
     Given I have the "Administrator" permission
     Given I have reached the limit of records
@@ -49,16 +50,16 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Given I have the "CanReadCompanies" permission
     Given I have reached the limit of records
     Given toastr are cleared
-    Given a "Company" has been created
     When I navigate to "/projects"
     And I click "#add-project"
     And I set text field "name" to "test project 2"
     And I set textarea "description" to "description of test project 2"
-    And I set text field "value" to "999"
+    And I selectize "companyId" to "Test 0 Ltd"
     And I selectize "userId" to "test user"
-    And I selectize "companyId" to "Test Ltd"
+    And I set text field "value" to "999"
     And I submit the "newProject" form
     Then I should see the heading "test project 2"
+    And I should see a "success" toastr with the message "Project created"
 
   Scenario: A user can create a product even if the limit has been reached
     Given I have the "CanReadProducts" permission
