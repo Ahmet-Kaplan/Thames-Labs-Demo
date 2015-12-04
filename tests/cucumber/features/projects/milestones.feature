@@ -1,5 +1,5 @@
 @dev
-Feature: Allow users to manage their project types and milestones
+	Feature: Allow users to manage their project types and milestones
   As a user of the app
   I want to manage and control my project types and milestones
   So that I can control the progress of my projects
@@ -70,6 +70,15 @@ Feature: Allow users to manage their project types and milestones
     When I click "#removeMilestone"
     And I click confirm on the modal
     Then I should see a "success" toastr with the message "Project milestone deleted successfully."
-
-    #Scenario: a user can move a project to the next milestone
-    #Scenario: a user can move a project to the previous milestone
+	
+	Scenario: a user can move a project between milestones
+    Given a project type has been created
+    And a "Project" has been created
+    And toastr are cleared
+    When I navigate to a project page
+    And I click "#nextMilestone"
+    Then I should see a "success" toastr with the message "Project milestone successfully updated."
+		Given toastr are cleared
+    And I click "#prevMilestone"
+    Then I should see a "success" toastr with the message "Project milestone successfully updated."
+    
