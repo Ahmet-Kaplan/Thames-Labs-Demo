@@ -4,6 +4,7 @@
 
 Accounts.buildHtmlEmail = function(templatePath, helpers) {
   // Wraps the given html template in our standard email template
+  if (Meteor.isDevelopment) return null
   var doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
   SSR.compileTemplate('bodyText', Assets.getText(templatePath));
   SSR.compileTemplate('htmlEmail', Assets.getText('email-template.html'));

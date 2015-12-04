@@ -15,7 +15,6 @@ Meteor.methods({
       Activities.direct.remove({});
       Meteor.tags.direct.remove({});
       AuditLog.direct.remove({});
-
       Companies.direct.remove({});
       Contacts.direct.remove({});
       Projects.direct.remove({});
