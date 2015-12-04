@@ -48,7 +48,7 @@ Meteor.methods({
             var milestones = currentTypes[typeIndex].milestones;
             var milestoneIndex = -1;
             for (var j = 0, mlen = milestones.length; j < mlen; j++) {
-              if (milestones[j].id === milestoneId  ) {
+              if (milestones[j].id === milestoneId) {
                 milestoneIndex = j;
                 break;
               }
@@ -468,6 +468,7 @@ Meteor.methods({
   },
 
   removeProjectMilestone: function(typeId, milestoneId) {
+
     var user = Meteor.users.findOne({
       _id: this.userId
     });
@@ -488,6 +489,14 @@ Meteor.methods({
           }
           if (typeIndex !== -1) {
             var currentMilestones = projectSettings.types[typeIndex].milestones;
+
+            if (currentMilestones.length === 2) {
+              return {
+                exitCode: 6,
+                exitStatus: "A project type must have at least two milestones."
+              };
+            }
+
             var milestoneIndex = -1;
             for (var j = 0, mLen = currentMilestones.length; j < mLen; j++) {
               if (currentMilestones[j].id === milestoneId) {

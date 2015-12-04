@@ -1,5 +1,6 @@
 Template.createProjectType.events({
   "click #submit-new-project-type": function(event, template) {
+
     if ($('#project-type-name').val() === "") {
       toastr.error('Project type name required.');
     }
@@ -22,6 +23,7 @@ Template.updateProjectType.onRendered(function() {
 
 Template.updateProjectType.events({
   "click #update-project-type": function(event, template) {
+
     if ($('#project-type-name').val() === "") {
       toastr.error('Project type name required.');
     }
@@ -40,6 +42,7 @@ Template.updateProjectType.events({
 
 Template.createProjectMilestone.events({
   "click #submit-new-milestone": function(event, template) {
+
     if ($('#project-milestone-name').val() === "") {
       toastr.error('Project milestone name required.');
     }
@@ -63,6 +66,7 @@ Template.updateProjectMilestone.onRendered(function() {
 
 Template.updateProjectMilestone.events({
   'click #update-milestone': function(event, template) {
+    
     var typeId = template.data.parentTypeId;
     var milestoneId = template.data.id;
 

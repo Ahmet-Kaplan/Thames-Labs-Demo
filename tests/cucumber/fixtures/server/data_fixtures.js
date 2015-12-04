@@ -163,12 +163,53 @@ Meteor.methods({
       companyId: companyId,
       userId: Meteor.userId(),
       value: 100,
-      createdBy: Meteor.userId()
+      createdBy: Meteor.userId(),
+      projectTypeId: 0,
+      projectMilestoneId: 0
     });
     return projectId;
   },
 
+  addDefaultProjectType: function() {
+    var userTenant = Tenants.findOne({});
+    var projectType = {
+      id: 0,
+      name: "Standard Project",
+      milestones: [{
+        name: "Inception",
+        description: "This is a newly-created project",
+        id: 0
+      }, {
+        name: "Completion",
+        description: "This project has been completed",
+        id: 1
+      }]
+    };
 
+    Tenants.update({
+      _id: userTenant._id
+    }, {
+      $set: {
+        "settings.project.types": [projectType]
+      }
+    });
+  },
+	addLimitedProjectType: function() {
+    var userTenant = Tenants.findOne({});
+    var projectType = {
+      id: 0,
+      name: "Standard Project",
+      milestones: []
+    };
+
+    Tenants.update({
+      _id: userTenant._id
+    }, {
+      $set: {
+        "settings.project.types": [projectType]
+      }
+    });
+  },
 
   addOpportunity: function() {
     var userTenant = Tenants.findOne({});
@@ -382,7 +423,9 @@ Meteor.methods({
       companyId: companyId,
       userId: Meteor.userId(),
       value: 100,
-      createdBy: Meteor.userId()
+      createdBy: Meteor.userId(),
+      projectTypeId: 0,
+      projectMilestoneId: 0
     });
 
     var taskId = Tasks.insert({
