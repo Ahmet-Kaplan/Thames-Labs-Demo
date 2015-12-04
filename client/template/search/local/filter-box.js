@@ -163,7 +163,6 @@ Template.filterBox.onRendered(function() {
   $('#filtersSearch').on('keyup', function(evt) {
     if(evt.keyCode === 13) {
       var data = activeSelection.get();
-      console.log(data)
       if(data && data.text && data.value) {
         var text = data.text;
         var value = data.value;
