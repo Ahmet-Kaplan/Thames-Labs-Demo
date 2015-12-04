@@ -29,6 +29,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a "error" toastr with the message "You have reached the maximum number of records and you are not able to add new ones."
     And I should see a modal
 
+  @dev 
   Scenario: When a user has reached the maximum number of records they can delete a record and add a new one
     Given I have the "Administrator" permission
     Given I have reached the limit of records
