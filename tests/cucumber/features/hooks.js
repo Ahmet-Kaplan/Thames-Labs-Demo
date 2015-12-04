@@ -7,10 +7,7 @@ module.exports = function( ) {
       height: 700
     });
     browser.url(process.env.ROOT_URL);
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('reset', done);
-      });
+    server.call('reset');
   });
 
 };
