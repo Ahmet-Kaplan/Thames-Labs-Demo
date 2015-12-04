@@ -162,8 +162,7 @@ module.exports = function() {
 
   this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value) {
     var selectizeInput = 'select#' + selector + ' + .selectize-control>.selectize-input>input',
-        selectizeDropdown = 'select#' + selector + ' + .selectize-control>.selectize-dropdown',
-        selectizeFirstResult = 'select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>div:first-child';
+        selectizeDropdown = 'select#' + selector + ' + .selectize-control>.selectize-dropdown';
     browser.waitForExist(selectizeInput, 5000);
     browser.waitForVisible(selectizeInput, 5000);
     browser.setValue(selectizeInput, value);
