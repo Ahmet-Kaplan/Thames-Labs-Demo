@@ -209,6 +209,7 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: A user can mark an opportunity as won but not reopen it
     Given I have the "CanEditOpportunities" permission
+    And a project type has been created
     And I have the "CanReadProjects" permission
     And an "Opportunity" has been created
     When I navigate to an opportunity page
