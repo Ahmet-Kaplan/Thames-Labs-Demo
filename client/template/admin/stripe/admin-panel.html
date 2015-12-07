@@ -13,14 +13,28 @@
       <div class="well well-sm">
       <div class="row">
         <div class="col-xs-5"><strong>Plan</strong></div>
-        <div class="col-xs-7" id="planName">{{currentSubscription}}</div>
+        <div class="col-xs-7" id="planName">
+          {{#if subsLoaded}}
+            {{currentSubscription}}
+          {{else}}
+            <em>Loading...</em>
+          {{/if}}
+        </div>
       </div>
-      {{#if hasCoupon}}
       <div class="row">
-        <div class="col-xs-5"><strong>Discount</strong></div>
-        <div class="col-xs-7">{{hasCoupon}}</div>
+        <div class="col-xs-5"><strong>Coupon</strong></div>
+        <div class="col-xs-7" id="couponDisplay">
+          {{#if couponLoaded}}
+            {{#if hasCoupon}}
+              {{hasCoupon}} - <a href="" id="updateCoupon">Edit</a>
+            {{else}}
+              No active coupon - <a href="" id="updateCoupon">Add</a>
+            {{/if}}
+          {{else}}
+            <em>Loading...</em>
+          {{/if}}
+        </div>
       </div>
-      {{/if}}
       <div class="row">
         <div class="col-xs-5"><strong>Users</strong></div>
         <div class="col-xs-7" id="numberOfUsers">{{totalUsers}}</div>
@@ -58,6 +72,8 @@
             <div class="col-xs-12"><button id="updateCardDetails" class="btn btn-xs btn-primary pull-right">Update Card Details</button></div>
           </div>
           <hr />
+        {{else}}
+        <em>Loading...</em>
         {{/if}}
         {{/with}}
 
@@ -71,6 +87,7 @@
     {{#if hasStripeAccount}}
     <div class="col-md-7">
       <div class="well well-sm">
+        {{#if lastInvoice.date}}
         <div class="row">
           <div class="col-xs-12"><strong>Last Invoice details</strong></div>
         </div>
@@ -86,7 +103,10 @@
           <div class="col-xs-3"><strong>Period</strong></div>
           <div class="col-xs-9">{{lastInvoice.start}} - {{lastInvoice.end}}</div>
         </div>
-        {{#if upcomingInvoice}}
+        {{else}}
+          <em>Loading...</em>
+        {{/if}}
+        {{#if upcomingInvoice.date}}
         <hr />
 
         <div class="row">

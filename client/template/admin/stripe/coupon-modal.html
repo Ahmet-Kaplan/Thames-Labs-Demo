@@ -1,0 +1,28 @@
+<template name="couponModal">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Add or Update Coupon</h4>
+        </div>
+
+        <div class="modal-body">
+          <p>Coupons allow you to benefit from discount for your subscription to RealTimeCRM. If you have a coupon, enter it here.</p>
+          <div class="form-group">
+            <label for="coupon">Coupon</label>
+            <input class="form-control" id="couponName" type="text" placeholder="Enter coupon" value="{{activeCoupon}}">
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" id="setCoupon">Apply</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

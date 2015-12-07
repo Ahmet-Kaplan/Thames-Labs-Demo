@@ -9,7 +9,7 @@ Template.signUp.onRendered(function() {
   if (!Template.currentData().coupon) return;
   var coupon = Template.currentData().coupon();
   if (coupon) {
-    Meteor.call('getStripeCoupon', coupon, function(err, response) {
+    Meteor.call('stripe.getCoupon', coupon, function(err, response) {
       if (err || !response || !response.valid) {
         $('input[name=coupon]').val('');
         $('h1').after('<div class="alert alert-info">The coupon you have provided is not valid. Please contact us to activate it before upgrading.</div>');
