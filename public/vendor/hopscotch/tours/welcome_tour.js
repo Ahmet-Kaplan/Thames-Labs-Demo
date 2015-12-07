@@ -7,6 +7,10 @@ var updateSessionVar = function() {
 var welcomeTour = {
 	onShow: function() {
 		updateSessionVar();
+
+		$("#fab-btn").show();
+		$("#closeFab").hide();
+		$("#fab-menu").hide();
 	},
 	onClose: function() {
 		// Clear sessionVar as we're actually done
@@ -73,12 +77,12 @@ var welcomeTour = {
   }, {
     title: "The Dashboard - Widgets",
     content: "...which you can select from this menu. Widgets are persistent, so you'll see them every time you log in, and on every device you use, too. If you no longer want to see a widget, click the close button in the top-right corner - you can always re-add it later if needed.",
-    target: document.querySelector('#widget-dropdown'),
+    target: document.querySelector('#addWidgetButton'),
     placement: "left"
   }, {
     title: "The Dashboard - Widgets",
     content: "Your current set of widgets will appear in the centre of the dashboard. If you wish to return to the default layout, simply open the Widget menu and click the Reset Dashboard item.",
-    target: document.querySelector('#widget-dropdown'),
+    target: document.querySelector('#addWidgetButton'),
     placement: "left",
 		onShow: function() {
 			Session.set(sessionVar);
