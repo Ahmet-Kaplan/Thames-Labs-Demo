@@ -216,17 +216,6 @@ Template.dashboard.onRendered(function() {
   //Retrieve list of widgets from db if exists
   var savedWidgets = Meteor.user().profile.myWidgets;
   instanciateDashboard(savedWidgets);
-
-  $('.grid-stack').on('resizestart', function(event, ui) {
-    var grid = this;
-    var element = event.target;
-    console.log("resize start");
-  });
-  $('.grid-stack').on('resizestop', function(event, ui) {
-    var grid = this;
-    var element = event.target;
-    console.log("resize stop");
-  });
 });
 
 Template.dashboard.events({
