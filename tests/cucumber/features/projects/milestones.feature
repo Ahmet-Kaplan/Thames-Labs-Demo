@@ -40,16 +40,18 @@ Feature: Allow users to manage their project types and milestones
     And I set text field with selector "#project-type-name" to "Cucumber"
     And I click "#submit-new-project-type"
     Then I should see a "success" toastr with the message "Project type created successfully."
+    And I should not see a modal
     Given toastr are cleared
     When I click "#editType"
     And I set text field with selector "#project-type-name" to "Velocity"
     And I click "#update-project-type"
     Then I should see a "success" toastr with the message "Project type updated successfully."
+    And I should not see a modal
     Given toastr are cleared
     When I click "#removeType"
     And I click confirm on the modal
     Then I should see a "success" toastr with the message "Project type deleted successfully."
-
+    And I should not see a modal
 
   Scenario: a user can create, edit and delete a project milestone
     Given a limited project type has been created
@@ -60,15 +62,18 @@ Feature: Allow users to manage their project types and milestones
     And I set text field with selector "#project-milestone-name" to "Velocity"
     And I click "#submit-new-milestone"
     Then I should see a "success" toastr with the message "Project milestone created successfully."
+    And I should not see a modal
     Given toastr are cleared
     When I click "#editMilestone"
     And I set text field with selector "#project-milestone-name" to "Cucumber"
     And I click "#update-milestone"
     Then I should see a "success" toastr with the message "Project milestone updated successfully."
+    And I should not see a modal
     Given toastr are cleared
     When I click "#removeMilestone"
     And I click confirm on the modal
     Then I should see a "success" toastr with the message "Project milestone deleted successfully."
+    And I should not see a modal
 
 	Scenario: a user can move a project between milestones
     Given a project type has been created
