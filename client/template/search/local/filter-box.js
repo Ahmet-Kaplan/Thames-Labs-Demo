@@ -1,7 +1,7 @@
 var currentFilter = new ReactiveVar({});
 var searchInput = new ReactiveVar('')
 var activeSelection = new ReactiveVar({});
-var handle = '';
+var handle = null;
 
 function updateActiveSelection() {
   if($('#filtersSearch').find('.active').length) {
@@ -174,5 +174,7 @@ Template.filterBox.onRendered(function() {
 });
 
 Template.filterBox.onDestroyed(function() {
-  handle.stop();
+  if(handle) {
+    handle.stop();
+  }
 })
