@@ -1,10 +1,10 @@
 <template name="projectDetail">
   {{#with projectData}}
-    {{setPageTitle "Project - " name }} {{> watchlistAdmin entityData=this collection="projects"}}
+    {{setPageTitle "Project - " name }}
     <div class="row">
 
       <div class="col-md-12">
-        <h4 class="entity-title">Project</h4>
+        <h4 class="entity-title">Project {{> watchlistAdmin entityData=this collection="projects"}}</h4>
         {{#if opportunityId}}
           <div class="pull-right hidden-xs">
             <p style="text-align:right;">
