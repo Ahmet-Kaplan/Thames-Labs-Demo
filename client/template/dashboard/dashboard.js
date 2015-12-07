@@ -119,22 +119,13 @@ widgets = {
     id: 'watchedEntity',
     x: 0,
     y: 0,
-    w: 4,
-    h: 8,
+    w: 3,
+    h: 1,
     displayed: false,
     name: 'Watched Items'
-      // requiredPermission: "CanReadPurchaseOrders"
   }
-  // 'propagationChart': {
-  //   id: 'propagationChart',
-  //   x: 0,
-  //   y: 0,
-  //   w: 4,
-  //   h: 13,
-  //   displayed: false,
-  //   name: 'Propagation Overview (Chart)'
-  // },
 };
+
 //List of widgets used by the user
 myWidgets = {};
 //List of widget views
@@ -207,10 +198,6 @@ Template.dashboard.onRendered(function() {
     animate: true,
     height: 0,
     width: 3,
-    resizable: {
-      autoHide: false,
-      handles: 'e, s, w'
-    }
   });
 
   //Retrieve list of widgets from db if exists
