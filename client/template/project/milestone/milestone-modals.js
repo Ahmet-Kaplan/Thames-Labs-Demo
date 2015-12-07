@@ -66,7 +66,7 @@ Template.updateProjectMilestone.onRendered(function() {
 
 Template.updateProjectMilestone.events({
   'click #update-milestone': function(event, template) {
-    
+
     var typeId = template.data.parentTypeId;
     var milestoneId = template.data.id;
 

@@ -8,7 +8,7 @@ module.exports = function() {
         });
       });
   });
-  
+
   this.Given(/^a limited project type has been created$/, function() {
     browser
       .executeAsync(function(done) {
