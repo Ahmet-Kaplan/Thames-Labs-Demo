@@ -94,7 +94,7 @@ Template.tenant.events({
     bootbox.confirm("Are you sure you wish to set this tenant to the <strong>Free Scheme</strong><br />This will cancel any ongoing subscription?", function(result) {
       if (result === true) {
         toastr.info('Processing the update...');
-        Meteor.call('cancelStripeSubscription', tenantId, function(error, response) {
+        Meteor.call('stripe.cancelSubscription', tenantId, function(error, response) {
           if (error) {
             bootbox.alert({
               title: 'Error',
