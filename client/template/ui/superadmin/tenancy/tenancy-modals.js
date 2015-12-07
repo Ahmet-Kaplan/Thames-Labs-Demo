@@ -120,7 +120,7 @@ Template.setPayingTenant.events({
 
   'click #btnResumeStripeSubs': function() {
     toastr.info('Processing update...');
-    Meteor.call('resumeStripeSubscription', this._id, function(error, response) {
+    Meteor.call('stripe.resumeSubscription', this._id, function(error, response) {
       if(error) {
         Modal.hide();
         toastr.error('Unable to resume subscription.');
@@ -157,7 +157,7 @@ Template.setPayingTenant.events({
     toastr.info('Processing subscription');
     $('#btnSaveStripeSubs').prop('disabled', true);
     $('#btnCreateStripeSubs').prop('disabled', true);
-    Meteor.call('createStripeSubscription', this._id, function(error, response) {
+    Meteor.call('stripe.createSubscription', this._id, function(error, response) {
       if(error) {
         Modal.hide();
         toastr.error('Unable to create subscription. Check that the customer has a card set up.');

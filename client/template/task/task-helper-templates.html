@@ -1,5 +1,5 @@
 <template name="taskDisplay">
-  <div class="panel panel-default" id='entityTaskList'>
+  <div class="{{#if isDashboard}}grid-stack-item-content{{/if}} panel panel-default" id="entityTaskList">
     <div class="panel-heading" id="tasks">
       <i class="fa fa-fw fa-tasks"></i>
       {{#if isDashboard}}
@@ -21,45 +21,47 @@
         </div>
       {{/if}}
     </div>
-    <ul class="list-group" id='taskContainer'>
-      {{#each tasks}} 
+    <div class="panel-body">
+      <ul class="list-group" id='taskContainer'>
+        {{#each tasks}} 
 
-        <a class="list-group-item" href="{{pathFor route='task' id=_id}}">
-          <div class="row">
-            <div class="col-md-4">
-              {{#if isInRole 'Administrator,CanEditTasks'}}
-                {{#if completed}}
-                  <i class="fa fa-fw fa-check-circle task-green task-completed"></i>
+          <a class="list-group-item" href="{{pathFor route='task' id=_id}}">
+            <div class="row">
+              <div class="col-md-4">
+                {{#if isInRole 'Administrator,CanEditTasks'}}
+                  {{#if completed}}
+                    <i class="fa fa-fw fa-check-circle task-green task-completed"></i>
+                  {{else}}
+                    <i class="fa fa-fw fa-check-circle-o task-completed"></i>
+                  {{/if}}
                 {{else}}
-                  <i class="fa fa-fw fa-check-circle-o task-completed"></i>
+                  {{#if completed}}
+                    <i class="fa fa-fw fa-check-circle task-green"></i>
+                  {{else}}
+                    <i class="fa fa-fw fa-check-circle-o"></i>
+                  {{/if}}
                 {{/if}}
-              {{else}}
-                {{#if completed}}
-                  <i class="fa fa-fw fa-check-circle task-green"></i>
-                {{else}}
-                  <i class="fa fa-fw fa-check-circle-o"></i>
-                {{/if}}
-              {{/if}}
-              {{title}}
+                {{title}}
+              </div>
+              <div class="col-md-3">
+                Assignee: {{taskAssignee}}
+                {{#unless completed}}
+                  {{#if formattedDueDate}}<br>Due {{formattedDueDate}}{{/if}}
+                {{/unless}}
+              </div>
+              <div class="col-md-4">
+                <span class="pull-right">{{> tagBadges}}</span>
+              </div>
+              <div class="col-md-1">
+                <i class="fa fa-fw fa-chevron-right pull-right"></i>
+              </div>
             </div>
-            <div class="col-md-3">
-              Assignee: {{taskAssignee}}
-              {{#unless completed}}
-                {{#if formattedDueDate}}<br>Due {{formattedDueDate}}{{/if}}
-              {{/unless}}
-            </div>
-            <div class="col-md-4">
-              <span class="pull-right">{{> tagBadges}}</span>
-            </div>
-            <div class="col-md-1">
-              <i class="fa fa-fw fa-chevron-right pull-right"></i>
-            </div>
-          </div>
-        </a>
+          </a>
 
-      {{else}}
-      <li class="list-group-item">No tasks added</li>
-      {{/each}}
-    </ul>
+        {{else}}
+        <li class="list-group-item">No tasks added</li>
+        {{/each}}
+      </ul>
+    </div>
   </div>
 </template>

@@ -14,7 +14,7 @@ module.exports = function() {
             return;
           } else {
             var userEmail = 'test@domain.com';
-            Meteor.call('createStripeCustomer', response.id, userEmail, function(error, result) {
+            Meteor.call('stripe.createCustomer', response.id, userEmail, function(error, result) {
               if(error || !result) {
                 return false;
               }
@@ -28,7 +28,7 @@ module.exports = function() {
   this.Given(/^I have unsubscribed from the paying plan$/, function() {
     browser
       .executeAsync(function(done) {
-        Meteor.call('cancelStripeSubscription', function(error, result) {
+        Meteor.call('stripe.cancelSubscription', function(error, result) {
           if(error) {
             return false;
           }

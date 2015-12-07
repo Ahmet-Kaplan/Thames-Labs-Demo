@@ -1,21 +1,48 @@
+#gridstack .panel-body {
+  max-height: 257px;
+  overflow-y: auto !important;
+}
+
+#gristack .panel-footer {
+  overflow-y: auto !important;
+}
+
+.grid-stack-item .grid-stack-item-content {
+  overflow: hidden !important;
+}
+
+#chatBox .panel-body {
+  margin: 0 !important;
+  padding: 0;
+}
+
 .activeUserLink{
   /*color: #0028fb;
   cursor: pointer;*/
 }
+
 .chatWindow {
-  height: 150px;
+  height: 202px;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 0;
+  padding: 0 15px;
   margin: 0;
 }
+
 .chatWindow li{
   border: 1px solid #fafafa;
   margin-top: 2px;
   font-size: 12px;
 }
+
 .chatWindow .chatUserName{
   color: #a4a4a4;
-}.chatWindow .chatTimestamp{
+}
+
+.chatWindow .chatTimestamp{
   color: #dddddd;
+}
+
+#onlineUsersBox .panel-footer {
+  margin:0;
 }
