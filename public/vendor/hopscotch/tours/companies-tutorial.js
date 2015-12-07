@@ -106,7 +106,7 @@ var companiesTutorial = {
 			hopscotch.nextStep();
 		}
 	}, {
-		title: "Contact Details",
+		title: "Company Details",
 		content: "This screen shows you the details about the selected company. From here, you can also edit and delete company information. This screen will show after creating a company and when a company is selected in the company list.",
 		target: document.querySelector('#company-details'),
 		yOffset: "centre",
