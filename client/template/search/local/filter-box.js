@@ -1,7 +1,6 @@
 var currentFilter = new ReactiveVar({});
 var searchInput = new ReactiveVar('')
 var activeSelection = new ReactiveVar({});
-var handle = null;
 
 function updateActiveSelection() {
   if($('#filtersSearch').find('.active').length) {
@@ -9,11 +8,11 @@ function updateActiveSelection() {
     }
 }
 
-function displayFilter(mainCollectionName, selectize) {
+function displayFilter(mainCollectionName, selectize, template) {
   var filters = Collections[mainCollectionName].filters;
   filters = _.sortBy(filters, 'display');
 
-  handle = Tracker.autorun(function() {
+  template.handle = Tracker.autorun(function() {
     var search = searchInput.get();
     var matchedFilters = _.some(filters, function(filter) {
 
@@ -127,6 +126,8 @@ function applyFilter(text, value, mainCollectionName, selectize) {
 
 Template.filterBox.onRendered(function() {
   var mainCollectionName = this.data.collectionName;
+  this.handle = null;
+  var self = this;
 
   var $select = $('#filterBox').selectize({
     placeholder: 'Apply filters...',
@@ -144,7 +145,7 @@ Template.filterBox.onRendered(function() {
     maxItems: 2,
     onFocus: function() {
       searchInput.set('');
-      displayFilter(mainCollectionName, this);
+      displayFilter(mainCollectionName, this, self);
       updateActiveSelection();
     },
     onBlur: function() {
@@ -174,7 +175,7 @@ Template.filterBox.onRendered(function() {
 });
 
 Template.filterBox.onDestroyed(function() {
-  if(handle) {
-    handle.stop();
+  if(this.handle) {
+    this.handle.stop();
   }
 })
