@@ -5,7 +5,7 @@ Template.couponModal.helpers({
 });
 
 Template.couponModal.events({
-  'keyup #couponName': function(evt){
+  'keyup #couponName': function(evt) {
     if(evt.keyCode === 13) {
       $('#setCoupon').trigger('click');
     }

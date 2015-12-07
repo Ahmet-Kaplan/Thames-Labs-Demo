@@ -56,7 +56,7 @@ var updateUpcomingInvoice = function(self) {
           description: 'Correction for this period\'s subscription'
         });
       } else {
-        if(correctionAmount){
+        if(correctionAmount) {
           newData.push({
             amount: (correctionAmount/100 * taxCorrection).toFixed(2),
             description: 'Correction for this period\'s subscription'
