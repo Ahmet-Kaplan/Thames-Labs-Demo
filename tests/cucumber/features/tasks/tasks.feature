@@ -104,16 +104,6 @@ Feature: Allow users to manage their Tasks
     And I submit the "editTask" form
     Then I should see the heading "updated task title"
 
-  Scenario: A user can set a task as complete
-    Given I have the "CanEditTasks" permission
-    And I have the "CanReadCompanies" permission
-    And a "Company" task has been created
-    And I navigate to "/tasks"
-    And I click "#completed"
-    And I wait
-    And I click "#tskToggleCompleted"
-    Then I should see "#list-item"
-
   Scenario: A user without permission cannot edit a task
     Given I do not have the "CanEditTasks" permission
     And I have the "CanReadCompanies" permission

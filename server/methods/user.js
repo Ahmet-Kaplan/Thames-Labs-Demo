@@ -30,9 +30,9 @@ Meteor.methods({
     });
 
     if (Roles.userIsInRole(this.userId, 'Administrator')) {
-      Meteor.call('updateStripeQuantity');
+      Meteor.call('stripe.updateQuantity');
     } else if (Roles.userIsInRole(this.userId, 'superadmin')) {
-      Meteor.call('updateStripeQuantity', Partitioner.getUserGroup(userId));
+      Meteor.call('stripe.updateQuantity', Partitioner.getUserGroup(userId));
     }
     LogServerEvent('warning', 'User removed', 'user', userId);
   },
@@ -86,7 +86,7 @@ Meteor.methods({
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 
-    Meteor.call('updateStripeQuantity', doc.group);
+    Meteor.call('stripe.updateQuantity', doc.group);
   },
 
   addTenantUser: function(doc) {
@@ -121,7 +121,7 @@ Meteor.methods({
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 
-    Meteor.call('updateStripeQuantity');
+    Meteor.call('stripe.updateQuantity');
   }
 
 });

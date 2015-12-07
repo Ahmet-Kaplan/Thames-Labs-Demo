@@ -105,6 +105,35 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then the Stripe field "#stripeEmail" should say "newemail@domain.com"
     Then delete stripe customer
 
+  Scenario: An administrator can add a coupon before subscribing
+    When I navigate to "/admin"
+    When I click "#updateCoupon"
+    Then I should see a modal
+    When I set text field with id "couponName" to "chamber"
+    When I click "#setCoupon"
+    Then the Stripe field "#couponDisplay" should not contain "No active coupon"
+    When I click "#upScheme"
+    Then I should see a modal
+    When I set text field with id "cardNumber" to "4242424242424242"
+    When I set text field with id "expMonth" to "01"
+    When I set text field with id "expYear" to "2021"
+    When I set text field with id "cardCVC" to "123"
+    When I click confirm on the modal
+    Then I should see a toastr with the message "Validating your card details..."
+    Then I should see a bootbox
+    Then I should see a modal with title "Subscription complete"
+    When I click confirm on the modal
+    Then the Stripe field "#planName" should not contain "Free"
+    Then delete stripe customer
+
+  Scenario: An administrator cannot add a fake coupon
+    When I navigate to "/admin"
+    When I click "#updateCoupon"
+    Then I should see a modal
+    When I set text field with id "couponName" to "fake"
+    When I click "#setCoupon"
+    Then I should see an "error" toastr
+
   Scenario: An administrator cannot subscribe with incorrect card Number
     When I navigate to "/admin"
     When I click "#upScheme"

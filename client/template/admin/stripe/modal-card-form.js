@@ -38,7 +38,7 @@ Template.cardFormModal.events({
           $('#submit').prop('disabled', false);
           return;
         } else {
-          Meteor.call('updateStripeCard', response.id, function(error, response) {
+          Meteor.call('stripe.updateCard', response.id, function(error, response) {
             if(error) {
               Modal.hide();
               toastr.error('Unable to update card details');

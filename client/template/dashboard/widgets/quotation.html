@@ -1,19 +1,15 @@
 <template name="quotationWidget">
-  <div id="quotationWidget">
-    <div class="grid-stack-item-content">
-      <div class="panel panel-default">
-        <div class="panel-heading" id="quote-box">
-          <i class="fa fa-fw fa-quote-left"></i>
-          <button type="button" class="close" id="close_quotationWidget" aria-hidden="true">×</button>
-          Quotation of the day
-        </div>
-        <div class="panel-body" style="padding:0">
-          <blockquote>
-            <p>{{quotationOfDay.Quote}}</p>
-            <footer>{{quotationOfDay.Person}}</footer>
-          </blockquote>
-        </div>
-      </div>
+  <div class="grid-stack-item-content panel panel-default">
+    <div class="panel-heading" id="quote-box">
+      <i class="fa fa-fw fa-quote-left"></i>
+      <button type="button" class="close" id="close_quotationWidget" aria-hidden="true">×</button>
+      Quotation of the day
+    </div>
+    <div class="panel-body" style="padding:0">
+      <blockquote>
+        <p>{{quotationOfDay.Quote}}</p>
+        <footer>{{quotationOfDay.Person}}</footer>
+      </blockquote>
     </div>
   </div>
 </template>

@@ -82,7 +82,6 @@ function displayFilter(mainCollectionName, selectize) {
 
 function applyFilter(mainCollectionName, selectize) {
   var data = activeSelection.get();
-
   var text = data.text;
   var value = data.value;
 

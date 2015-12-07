@@ -171,12 +171,13 @@ module.exports = function() {
   });
 
   this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value) {
-    browser.waitForExist('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
-    browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-input', 5000);
-    browser.click('select#' + selector + ' + .selectize-control>.selectize-input');
-    browser.keys([value]);
-    browser.waitForVisible('select#' + selector + ' + .selectize-control>.selectize-dropdown');
-    browser.click('select#' + selector + ' + .selectize-control>.selectize-dropdown>.selectize-dropdown-content>div:first-child');
+    var selectizeInput = 'select#' + selector + ' + .selectize-control>.selectize-input>input',
+        selectizeDropdown = 'select#' + selector + ' + .selectize-control>.selectize-dropdown';
+    browser.waitForExist(selectizeInput, 5000);
+    browser.waitForVisible(selectizeInput, 5000);
+    browser.setValue(selectizeInput, value);
+    browser.keys('Enter');
+    browser.waitForVisible(selectizeDropdown, 5000, true);
   });
 
   this.When(/^I select "([^"]*)" from dropdown field "([^"]*)"$/, function(value, fieldName) {

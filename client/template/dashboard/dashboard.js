@@ -1,16 +1,22 @@
-// List of all the available widets
-// To add a new widget, complete the object below
-// Be careful to give the same name to your object and to its id
-// The x, y, w, h are relative to the grid size
-// The 'displayed' property indicate whether or not the widget is to be displayed by default
-// 'name' if for the drop-down menu
+/****************************************
+    The widget list is generated from the following 'widgets' object.
+    - to avoid conflict with other templates, the convention is to name the template widgets.id + 'Widget', e.g. 'chatWidget'
+    - the object must have the same key and id property. This is to speed up the reading.
+    - The x and y parameters are the default position on the grid;
+      The grid has 3 columns hence x must be 0, 1 or 2. There is no limitation for the y position.
+      Note that if the specified position is occupied by another widget, the script will put it
+      at the end of the page in the first available place.
+    - w and h are respectively the width (1, 2 or 3) and the height of the widget
+    - The 'displayed' property indicate whether or not the widget is to be displayed by default
+    - 'name' is the text displayed on the dropdown.
+*****************************************/
 widgets = {
   'chat': {
     id: 'chat',
     x: 0,
     y: 0,
     w: 1,
-    h: 7,
+    h: 1,
     displayed: true,
     name: 'Chatter'
   },
@@ -19,7 +25,7 @@ widgets = {
     x: 1,
     y: 0,
     w: 1,
-    h: 4,
+    h: 1,
     displayed: true,
     name: 'Quotation of the day'
   },
@@ -28,7 +34,7 @@ widgets = {
     x: 2,
     y: 0,
     w: 1,
-    h: 10,
+    h: 1,
     displayed: true,
     name: 'Online users'
   },
@@ -37,7 +43,7 @@ widgets = {
     x: 0,
     y: 8,
     w: 2,
-    h: 3,
+    h: 1,
     displayed: true,
     name: 'My tasks',
     requiredPermission: "CanReadTasks"
@@ -46,8 +52,8 @@ widgets = {
     id: 'openPo',
     x: 0,
     y: 0,
-    w: 2,
-    h: 4,
+    w: 1,
+    h: 1,
     displayed: false,
     name: 'Requested Purchase Orders',
     requiredPermission: "CanReadPurchaseOrders"
@@ -57,7 +63,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 6,
+    h: 1,
     displayed: false,
     name: 'Tasks Overview'
   },
@@ -66,7 +72,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 5,
+    h: 1,
     displayed: false,
     name: 'Opportunities Overview',
     requiredPermission: "CanReadOpportunities"
@@ -76,7 +82,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 6,
+    h: 1,
     displayed: false,
     name: 'Projects Overview',
     requiredPermission: "CanReadProjects"
@@ -86,7 +92,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 5,
+    h: 1,
     displayed: false,
     name: 'Products Overview',
     requiredPermission: "CanReadProducts"
@@ -96,7 +102,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 7,
+    h: 1,
     displayed: false,
     name: 'Purchase Orders Overview',
   },
@@ -105,7 +111,7 @@ widgets = {
     x: 0,
     y: 0,
     w: 1,
-    h: 8,
+    h: 1,
     displayed: false,
     name: 'Company Summary'
   },
@@ -170,6 +176,7 @@ function instanciateDashboard(savedWidgets) {
     }
     if (widget.displayed) {
       grid.add_widget('<div id="' + widget.id + 'Widget"></div>', widget.x, widget.y, widget.w, widget.h, false);
+      grid.resizable($('#' + widget.id + 'Widget'), false);
       newWidget = Blaze.render(Template[widget.id + 'Widget'], document.getElementById(widget.id + "Widget"));
       dashboardWidgets[widget.id + "Widget"] = newWidget;
     }
@@ -185,7 +192,7 @@ Template.dashboard.onCreated(function() {
 
 Template.dashboard.onRendered(function() {
   $('.grid-stack').gridstack({
-    cell_height: 40,
+    cell_height: 300,
     vertical_margin: 10,
     animate: true,
     height: 0,
@@ -218,6 +225,7 @@ Template.dashboard.events({
 
     if (newWidget !== undefined) {
       grid.add_widget('<div id="' + newWidget.id + 'Widget"></div>', newWidget.x, newWidget.y, newWidget.w, newWidget.h, true);
+      grid.resizable($('#' + newWidget.id + 'Widget'), false);
       addedWidget = Blaze.render(Template[newWidget.id + 'Widget'], document.getElementById(newWidget.id + 'Widget'));
       dashboardWidgets[newWidget.id + 'Widget'] = addedWidget;
       myWidgets[newWidget.id].displayed = true;

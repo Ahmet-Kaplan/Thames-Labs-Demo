@@ -23,7 +23,12 @@ Template.esSelectize.onRendered(function() {
     var resultsCursor = null;
     var searchInput = this.query.get();
 
-    if (searchInput == null && this.data.value) {
+    if (searchInput == null && !this.data.value) {
+      // First run and no value set, so do nothing
+      return;
+    }
+
+    if (searchInput == null) {
       // First run and value set, so perform a searchById
       searchOptions.props.searchById = this.data.value;
       resultsCursor = this.data.index.search('', searchOptions);
@@ -31,9 +36,6 @@ Template.esSelectize.onRendered(function() {
         selectize.addOption(resultsCursor.fetch());
         selectize.setValue(this.data.value);
       }
-    } else if (searchInput == null) {
-      // First run and no value set, so do nothing
-      return;
     } else {
       // Normal search
       if(this.parent.get() !== undefined && this.data.filter !== undefined) {
@@ -42,7 +44,9 @@ Template.esSelectize.onRendered(function() {
       resultsCursor = this.data.index.search(searchInput, searchOptions);
       if (resultsCursor.isReady()) {
         selectize.addOption(resultsCursor.fetch());
-        selectize.refreshOptions(true);
+        // only open the selectize dropdown if the input is empty
+        // to be honest, Max and I are not really sure why...
+        selectize.refreshOptions(searchInput === '');
       }
     }
   });
@@ -60,7 +64,7 @@ Template.esSelectize.helpers({
       load: (query) => {
         self.query.set(query);
       },
-      onFocus: () => {
+      onFocus: function() {
         if (!self.query.get()) {
           self.query.set('');
         }

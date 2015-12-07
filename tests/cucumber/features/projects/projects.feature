@@ -258,40 +258,26 @@ Feature: Allow users to manage their Projects
     Then I should not see "#btnAddTaskToEntity"
 
   #Activities
-  Scenario: A user can add an activity
+  Scenario: A user can add, edit and delete an activity
     Given a "Project" has been created
     When I navigate to a project page
     And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
+    Then I should see a modal
+    When I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
     And I select "Note" from dropdown field "type"
     And I click "#confirm"
-    Then I should see the activity in the timeline
-
-  Scenario: A user can edit an activity
-    Given a "Project" has been created
-    When I navigate to a project page
-    And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
-    And I set rich text field "notes" to "test activity"
-    And I select "Note" from dropdown field "type"
-    And I click "#confirm"
-    And I wait
-    And I click "#edit-activity"
+    Then I should see a toastr with the message "Project activity created."
+    And I should not see a modal
+    And I should see the activity in the timeline
+    Given toastr are cleared
+    When I click "#edit-activity"
     And I select "Email" from dropdown field "type"
     And I click "#update"
     Then I should see a toastr with the message "Activity updated."
-
-  Scenario: A user can delete an activity
-    Given a "Project" has been created
-    When I navigate to a project page
-    And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
-    And I set rich text field "notes" to "test activity"
-    And I select "Note" from dropdown field "type"
-    And I click "#confirm"
-    And I wait
-    And I click "#remove-activity"
+    And I should not see a modal
+    Given toastr are cleared
+    When I click "#remove-activity"
     And I click confirm on the modal
     Then I should see "#no-activity"
 
