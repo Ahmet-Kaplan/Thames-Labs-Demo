@@ -1,36 +1,32 @@
 <template name="chatWidget">
-  <!-- <div id="chatWidget"> -->
-    <div class="grid-stack-item-content">
-      <div class="panel panel-default" id='chatBox'>
-        <div class="panel-heading">
-          <i class="fa fa-fw fa-comments"></i>
-          <button type="button" class="close" id="close_chatWidget" aria-hidden="true">×</button>
-          Chatter
-        </div>
-        <div class="panel-body" style="margin-bottom:5px;">
-          <div class="chatWindow">
-            <ul class="list-unstyled">
-              {{#each chatMessages}} {{> message}} {{else}}
-              <li>
-                <div id="message-empty">
-                  No chat messages
-                </div>
-              </li>
-              {{/each}}
-            </ul>
-          </div>
-        </div>
-        <div class="panel-footer">
-          <div class="input-group">
-            <input type="text" class="form-control chatMessage" placeholder="Enter message (be nice!)..." id="chatMessage">
-            <span class="input-group-btn">
-              <button class="btn btn-default sendMessage" type="button">OK</button>
-            </span>
-          </div>
-        </div>
+  <div class="grid-stack-item-content panel panel-default" id='chatBox'>
+    <div class="panel-heading">
+      <i class="fa fa-fw fa-comments"></i>
+      <button type="button" class="close" id="close_chatWidget" aria-hidden="true">×</button>
+      Chatter
+    </div>
+    <div class="panel-body" style="margin-bottom:5px;">
+      <div class="chatWindow">
+        <ul class="list-unstyled">
+          {{#each chatMessages}} {{> message}} {{else}}
+          <li>
+            <div id="message-empty">
+              No chat messages
+            </div>
+          </li>
+          {{/each}}
+        </ul>
       </div>
     </div>
-  <!-- </div> -->
+    <div class="panel-footer">
+      <div class="input-group">
+        <input type="text" class="form-control chatMessage" placeholder="Enter message (be nice!)..." id="chatMessage">
+        <span class="input-group-btn">
+          <button class="btn btn-default sendMessage" type="button">OK</button>
+        </span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="message">
