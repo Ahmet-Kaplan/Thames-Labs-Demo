@@ -13,10 +13,10 @@
           <h3>What's next?</h3><br>
           <div class="tutorials text-center">
               <button class="btn btn-default btn-huge text-center" id="first-run-tour"><i class="fa fa-fw fa-map-signs"></i><br><h4 class="tutorial-title">Take a look around</h4>Take a short tour of the home screen and get aquainted with RealTimeCRM.</button>
-            {{#if isInRole 'Administrator, canCreateCompanies'}}
+            {{#if isInRole 'Administrator, CanCreateCompanies'}}
               <button class="btn btn-default btn-huge text-center" id="companies-tutorial"><i class="fa fa-fw fa-building"></i><br><h4 class="tutorial-title">Add a Company</h4>A short, interactive tutorial that shows you how to add your first company.</button>
             {{/if}}
-            {{#if isInRole 'Administrator, canCreateContacts'}}
+            {{#if isInRole 'Administrator, CanCreateContacts'}}
                 <button class="btn btn-default btn-huge text-center" id="contacts-tutorial"><i class="fa fa-fw fa-user"></i><br><h4 class="tutorial-title">Add a Contact</h4>A short, interactive tutorial that shows you how to add your first contact.</button>
             {{/if}}
             {{#if isInRole 'Administrator'}}

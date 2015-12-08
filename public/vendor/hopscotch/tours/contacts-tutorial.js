@@ -101,8 +101,8 @@ var contactsTutorial = {
 		target: document.querySelector('#createContact'),
 		placement: "left",
 		showNextButton: false,
-		nextOnTargetClick: true,
-		smoothScroll: false
+		smoothScroll: false,
+		nextOnTargetClick: true
 	}, {
 		title: "",
 		content: "",

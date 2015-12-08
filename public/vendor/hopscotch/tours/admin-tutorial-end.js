@@ -33,12 +33,6 @@ var adminTutorialEnd = {
 			FlowRouter.go('administration');
 			hopscotch.nextStep();
 		}
-	}, {
-		title: "user",
-		delay: 300,
-		content: "user",
-		target: document.querySelector('#userAdminPanelExpander'),
-		placement: "right"
 	}],
   showCloseButton: true
 };

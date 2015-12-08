@@ -98,7 +98,6 @@ var adminTutorial = {
 		content: "Type the users name here...",
 		yOffset: "-10px",
 		delay: 300,
-		skipIfNoElement: false,
 		target: document.querySelector('#addUserName'),
 		placement: "right",
 		showNextButton: false,
