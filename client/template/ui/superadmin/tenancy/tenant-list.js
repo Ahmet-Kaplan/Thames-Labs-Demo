@@ -40,6 +40,13 @@ Template.tenant.helpers({
   recordsCount: function() {
     return this.stripe.totalRecords;
   },
+  showDemoDataButton: function() {
+    if (Meteor.users.find({
+        group: this._id
+      }).count() > 0) return false;
+    if (this.stripe.totalRecords > 0) return false;
+    return true;
+  },
   isPayingTenant: function() {
     return this.stripe.paying;
   },
