@@ -118,7 +118,6 @@ var adminTutorial = {
 		onShow: $("#addUserEmail").keyup(_.debounce(function(e) {
 			if (e.keyCode != 9) {
 				hopscotch.nextStep();
-				$(this).unbind('keyup');
 			}
 		}, 1000))
 	}, {
@@ -127,10 +126,19 @@ var adminTutorial = {
 		target: document.querySelector('#createUser'),
 		placement: "left",
 		showNextButton: false,
-		nextOnTargetClick: true,
-		onShow: function() {
-			Session.set(sessionVar);
-		}
+		onShow: $("#createUser").click(function() {
+			setTimeout(function() {
+				if ($("#draggableModal").is(':visible')) {
+					hopscotch.prevStep();
+					$(this).unbind('click');
+				}else{
+					Session.set(sessionVar);
+					$(this).unbind('click');
+					$("#addUserEmail").unbind('keyup');
+					hopscotch.nextStep();
+				}
+			}, 500);
+		})
 	}],
   showCloseButton: true
 };

@@ -47,7 +47,8 @@ var companiesTutorial = {
 		content: "Here you can see a list of all the companies you have saved. If you dont have any yet don't worry, we'll add one now.",
 		target: document.querySelector('#companies-logo'),
 		placement: "bottom",
-		delay: 200
+		delay: 200,
+		zindex: 1000
 	}, {
 		title: "Adding a Company",
 		content: "Click this button to add a company",
@@ -55,13 +56,15 @@ var companiesTutorial = {
 		placement: "bottom",
 		showNextButton: false,
 		nextOnTargetClick: true,
-		width: "200px"
+		width: "200px",
+		zindex: 1000
 	}, {
 		title: "Adding a Company",
 		content: "First, type the company's name in here...",
 		target: document.querySelector('#addCompanyName'),
 		placement: "right",
 		showNextButton: false,
+		delay: 300,
 		onShow: $("#addCompanyName").keyup(_.debounce(function() {
 			hopscotch.nextStep();
 			$(this).unbind('keyup');
@@ -78,23 +81,16 @@ var companiesTutorial = {
 				hopscotch.nextStep();
 				$(this).unbind('keyup');
 			}
-		}, 1500)),
+		}, 1000)),
 		onNext: function() {
-			$('#draggableModal').animate({ scrollTop: $('#map_canvas').offset().top }, 500);
+			$('#draggableModal').animate({ scrollTop: $('#createCompany').offset().top }, 500);
 		}
 	}, {
 		title: "Adding a Company",
-		content: "We'll even show you a map so you can make sure you have the correct address!",
-		target: document.querySelector('#map_canvas'),
-		placement: "right",
-		smoothScroll: false,
-		delay: 600
-	}, {
-		title: "Adding a Company",
-		content: "You can also add a website or a phone number. Once you're done, just click 'Create'.",
-		target: document.querySelector('#createCompany'),
+		content: "You can also add a website or a phone number, but these are not required. Once you're done, just click 'Create'.",
+		target: document.querySelector('#addCompanyPhone'),
 		placement: "left",
-		nextOnTargetClick: true,
+		delay: 600,
 		showNextButton: false
 	}, {
 		title: "",
@@ -112,6 +108,7 @@ var companiesTutorial = {
 		yOffset: "centre",
 		placement: "bottom",
 		delay: 100,
+		zindex: 1000,
 		onShow: function() {
 			Session.set(sessionVar);
 		}

@@ -4,7 +4,7 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <button id="close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h4> Add new company</h4>
         </div>
 
@@ -33,7 +33,7 @@
               {{/if}}
             </div>
             {{> afQuickField name="website" id="addCompanyWebsite"}}
-            {{> afQuickField name="phone"}}
+            {{> afQuickField name="phone" id="addCompanyPhone"}}
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary" id="createCompany">Create</button>
           {{/autoForm}}

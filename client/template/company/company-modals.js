@@ -5,6 +5,13 @@ Template.insertNewCompanyModal.onCreated(function() {
   });
 });
 
+Template.insertNewCompanyModal.events({
+  'click #close': function() {
+    Session.set(sessionVar);
+    hopscotch.endTour(true);
+  }
+});
+
 Template.insertNewCompanyModal.onRendered(function() {
   this.autorun(function() {
     if(GoogleMaps.loaded()) {

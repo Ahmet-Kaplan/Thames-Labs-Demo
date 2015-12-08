@@ -45,8 +45,8 @@ var contactsTutorial = {
 	}, {
 		title: "Viewing your Contacts",
 		content: "This is your contacts list. If you can't see any contacts yet, don't worry, we'll add one now.",
-		target: document.querySelector('#contactSearchResults'),
-		placement: "top",
+		target: document.querySelector('#contacts-logo'),
+		placement: "bottom",
 		delay: 200
 	}, {
 		title: "Adding a Contact",

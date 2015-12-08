@@ -24,17 +24,21 @@ var adminTutorialEnd = {
   },
   id: "admin-tutorial-end",
   steps: [{
-    title: "End of Tutorial!",
-    content: "You now know how to find the admin area and create a user. To end this tutorial, just click the button below.",
+    title: "",
+    content: "",
     target: document.querySelector('.navbar-brand'),
     placement: "right",
 		showNextButton: false,
-		showCTAButton: true,
-		ctaLabel: "End Tutorial",
-		onCTA: function() {
-			Session.set(sessionVar);
-			hopscotch.endTour(true);
+		onShow: function() {
+			FlowRouter.go('administration');
+			hopscotch.nextStep();
 		}
+	}, {
+		title: "user",
+		delay: 300,
+		content: "user",
+		target: document.querySelector('#userAdminPanelExpander'),
+		placement: "right"
 	}],
   showCloseButton: true
 };
