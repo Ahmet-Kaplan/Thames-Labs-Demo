@@ -1,4 +1,5 @@
 Accounts.onLogin(function(cb) {
+  toastr.clear();
 
   var user = Meteor.users.find({
     _id: Meteor.userId()
