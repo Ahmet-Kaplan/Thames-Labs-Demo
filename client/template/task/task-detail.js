@@ -39,7 +39,7 @@ Template.taskDetail.helpers({
             type: 'Company',
             icon: 'building',
             name: c.name,
-            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadCompanies'])
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), [ 'CanReadCompanies'])
           };
         }
         break;
@@ -51,7 +51,7 @@ Template.taskDetail.helpers({
             type: 'Contact',
             icon: 'user',
             name: c.forename + " " + c.surname,
-            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadContacts'])
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadContacts'])
           };
         }
         break;
@@ -63,7 +63,7 @@ Template.taskDetail.helpers({
             type: 'Project',
             icon: 'sitemap',
             name: p.name,
-            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProjects'])
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadProjects'])
           };
         }
         break;
@@ -75,7 +75,7 @@ Template.taskDetail.helpers({
             type: 'Opportunity',
             icon: 'lightbulb-o',
             name: p.name,
-            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadOpportunities'])
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadOpportunities'])
           };
         }
         break;
@@ -84,7 +84,7 @@ Template.taskDetail.helpers({
           type: 'Misc. task',
           icon: '',
           name: "No associated entity",
-          permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadTasks'])
+          permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadTasks'])
         };
     }
 
@@ -128,7 +128,7 @@ Template.taskDetail.events({
   },
   'click .task-completed': function(event) {
     event.preventDefault();
-    if (Roles.userIsInRole(Meteor.userId(), ['Administrator','CanEditTasks'])) {
+    if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
       var taskId = FlowRouter.getRouteName() === 'tasks' ? this.__originalId : this._id;
       if (this.completed) {
         Tasks.update(taskId, { $set: {

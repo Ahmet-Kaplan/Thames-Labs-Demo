@@ -46,7 +46,7 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
 
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, ['Administrator', 'CanReadProjects']);
+    return Roles.userIsInRole(userId, [ 'CanReadProjects']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {

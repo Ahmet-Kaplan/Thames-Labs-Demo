@@ -43,7 +43,7 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
   fields: ['description'],
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, ['Administrator', 'CanReadPurchaseOrders']);
+    return Roles.userIsInRole(userId, [ 'CanReadPurchaseOrders']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {

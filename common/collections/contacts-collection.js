@@ -45,7 +45,7 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
   fields: ['forename', 'surname'],
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, ['Administrator', 'CanReadContacts']);
+    return Roles.userIsInRole(userId, [ 'CanReadContacts']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {

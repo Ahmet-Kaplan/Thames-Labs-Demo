@@ -170,7 +170,7 @@ function instanciateDashboard(savedWidgets) {
     if (!!widget.requiredPermission) {
       var requiredPermission = widget.requiredPermission,
         userId = Meteor.userId();
-      if (!Roles.userIsInRole(userId, ['Administrator', requiredPermission])) {
+      if (!Roles.userIsInRole(userId, [requiredPermission])) {
         return;
       }
     }
@@ -257,7 +257,7 @@ Template.dashboard.helpers({
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
           userId = Meteor.userId();
-        return Roles.userIsInRole(userId, ['Administrator', requiredPermission])
+        return Roles.userIsInRole(userId, [requiredPermission])
       }
       return true;
     });
