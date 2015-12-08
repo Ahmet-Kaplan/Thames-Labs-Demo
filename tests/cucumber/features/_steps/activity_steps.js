@@ -4,9 +4,9 @@ module.exports = function() {
   });
 
   this.Then(/^I see a "([^"]*)" activity with the notes "([^"]*)" in the list "([^"]*)"$/, function(type, notes, listName) {
-    browser.waitForExist(listName, 5000);
-    browser.waitForVisible(listName, 5000);
-    expect(browser.getText('#' + type + 'ActivityDisplayItemNotes', 5000)).toContain(notes);
+    browser.waitForExist('.list-group-item:not(#moar)', 5000);
+    browser.waitForVisible('.list-group-item:not(#moar)', 5000);
+    expect(browser.getText('.list-group-item:not(#moar)', 5000)).toContain(notes);
   });
 
   this.Then(/^I do not see activities from "([^"]*)" in the list "([^"]*)"$/, function(type, listName) {

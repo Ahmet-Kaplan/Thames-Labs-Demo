@@ -350,7 +350,7 @@ Meteor.methods({
 
   },
 
-  winOpportunity: function(opp) {
+  winOpportunity: function(opp, projType) {
     var user = Meteor.user();
     var val = opp.value;
     if (!val) {
@@ -363,7 +363,9 @@ Meteor.methods({
       contactId: opp.contactId,
       userId: user._id,
       value: val,
-      createdBy: user._id
+      createdBy: user._id,
+      projectTypeId: projType,
+      projectMilestoneId: 0
     });
 
     if (opp.items) {

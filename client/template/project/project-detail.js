@@ -2,14 +2,14 @@ Template.projectDetail.onCreated(function() {
   var self = this;
   // Redirect if data doesn't exist
   this.autorun(function() {
-     var project = Projects.findOne(FlowRouter.getParam('id'));
-     if (FlowRouter.subsReady() && project === undefined) {
-       FlowRouter.go('projects');
-     }
-     if (project) {
-       self.subscribe('companyById', project.companyId);
-       self.subscribe('contactById', project.contactId);
-     }
+    var project = Projects.findOne(FlowRouter.getParam('id'));
+    if (FlowRouter.subsReady() && project === undefined) {
+      FlowRouter.go('projects');
+    }
+    if (project) {
+      self.subscribe('companyById', project.companyId);
+      self.subscribe('contactById', project.contactId);
+    }
   });
 
   // Redirect if read permission changed
@@ -25,6 +25,21 @@ Template.projectDetail.onCreated(function() {
 });
 
 Template.projectDetail.helpers({
+  projectType: function() {
+    var typeIndex = -1;
+    var currentTypes = Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.project.types;
+    for (var i = 0, len = currentTypes.length; i < len; i++) {
+      if (currentTypes[i].id === this.projectTypeId) {
+        typeIndex = i;
+        break;
+      }
+    }
+    if (typeIndex !== -1) {
+      return currentTypes[typeIndex].name;
+    }
+  },
   projectData: function() {
     var projectId = FlowRouter.getParam('id');
     var project = Projects.findOne(projectId);
@@ -39,7 +54,9 @@ Template.projectDetail.helpers({
     }).fetch()[0].profile.name;
   },
   opportunityId: function() {
-    var opp = Opportunities.findOne({projectId: this._id});
+    var opp = Opportunities.findOne({
+      projectId: this._id
+    });
     if (opp) return opp._id;
   },
   friendlyDueDate: function() {

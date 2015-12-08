@@ -60,6 +60,17 @@ Feature: Allow users to manage their Tasks
     When I navigate to "/tasks"
     Then I should see the heading "Tenants"
 
+  Scenario: A user can complete a task and see it in the "Completed" section
+    Given a "Company" task has been created
+    And I have the "CanReadCompanies" permission
+    And I have the "CanReadTasks" permission
+    And I have the "CanEditTasks" permission
+    When I navigate to "/tasks"
+    Then I should see "#list-item"
+    When I click ".task-completed"
+    And I click "#tskToggleCompleted"
+    And I should see "#list-item"
+
   #Creating
   Scenario: A user can create a task
     Given I have the "CanCreateTasks" permission

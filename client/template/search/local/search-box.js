@@ -14,19 +14,16 @@ Template.searchBox.helpers({
         var values = propValues.split(',');
         var filter = Collections[mainCollectionName].filters[propIndex];
 
-        _.each(values, function(value) {
-
-          if(filter && filter.index) {
-
-          }
-
-          filtersList.push({
-            filter: propIndex,
-            mainCollectionName: mainCollectionName,
-            id: value
+        //Check that the filter exist as some props might be defined independantly from filters
+        if(filter) {
+          _.each(values, function(value) {
+            filtersList.push({
+              filter: propIndex,
+              mainCollectionName: mainCollectionName,
+              id: value
+            });
           });
-
-        });
+        }
       });
     }
     return filtersList;
@@ -83,7 +80,7 @@ function removeFilter(mainCollectionName, filter, val) {
 }
 
 Template.filterTag.onCreated(function() {
-  if(Collections[this.data.mainCollectionName].filters[this.data.filter].subscriptionById) {
+  if(Collections[this.data.mainCollectionName].filters[this.data.filter] && Collections[this.data.mainCollectionName].filters[this.data.filter].subscriptionById) {
     this.subscribe(Collections[this.data.mainCollectionName].filters[this.data.filter].subscriptionById, this.data.id);
   }
 });

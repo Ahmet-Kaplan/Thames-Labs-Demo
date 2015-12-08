@@ -17,6 +17,9 @@ Meteor.methods({
         },
         opportunity: {
           stages: []
+        },
+        project: {
+          types: []
         }
       },
       stripe: {
@@ -45,6 +48,9 @@ Meteor.methods({
         },
         opportunity: {
           stages: []
+        },
+        project: {
+          types: []
         }
       },
       stripe: {

@@ -428,3 +428,44 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 15,
+  name: "Add project types to tenants",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+      var projectType = {
+        id: 0,
+        name: "Standard Project",
+        milestones: [{
+          name: "Inception",
+          description: "This is a newly-created project",
+          id: 0
+        }, {
+          name: "Completion",
+          description: "This project has been completed",
+          id: 1
+        }]
+      };
+
+      Tenants.update({}, {
+        $set: {
+          "settings.project.types": [projectType]
+        }
+      }, {
+        multi: true
+      });
+
+      Projects.update({}, {
+        $set: {
+          projectTypeId: 0,
+          projectMilestoneId: 0
+        }
+      }, {
+        multi: true
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
