@@ -141,6 +141,8 @@ function saveMyWidgets() {
     myWidgets[id].autoPosition = false;
     myWidgets[id].x = parseInt(data.gsX);
     myWidgets[id].y = parseInt(data.gsY);
+    myWidgets[id].w = parseInt(data.gsWidth);
+    myWidgets[id].h = parseInt(data.gsHeight);
   });
 
   if(myWidgets !== {}) {
