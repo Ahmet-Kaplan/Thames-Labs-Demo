@@ -12,11 +12,21 @@ Template.newProjectForm.events({
 });
 
 Template.newProjectForm.helpers({
+  projectTypes: function() {
+    return Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.project.types.map(function(type) {
+      return {
+        'label': type.name,
+        'value': type.id
+      };
+    });
+  },
   showContacts: function() {
     if (Session.get('sc') === null) {
       return false;
     } else {
-    return true;
+      return true;
     }
   },
   currentUser: function() {
@@ -60,6 +70,17 @@ Template.updateProjectForm.helpers({
 });
 
 Template.newCompanyProjectForm.helpers({
+
+  projectTypes: function() {
+    return Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.project.types.map(function(type) {
+      return {
+        'label': type.name,
+        'value': type.id
+      };
+    });
+  },
   showContacts: function() {
     if (Session.get('sc') === null) {
       return false;
@@ -84,6 +105,17 @@ Template.newCompanyProjectForm.helpers({
 });
 
 Template.newContactProjectForm.helpers({
+
+  projectTypes: function() {
+    return Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.project.types.map(function(type) {
+      return {
+        'label': type.name,
+        'value': type.id
+      };
+    });
+  },
   currentDateTime: function() {
     return moment();
   },

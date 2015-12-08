@@ -85,6 +85,14 @@ Schemas.Project = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  projectTypeId: {
+    type: Number,
+    defaultValue: 0
+  },
+  projectMilestoneId: {
+    type: Number,
+    defaultValue: 0
   }
 });
 Schemas.Project.messages({
