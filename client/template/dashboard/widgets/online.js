@@ -51,7 +51,6 @@ Template.onlineWidget.helpers({
           state: 'offline',
           loginStatus: loginStatus
         };
-        console.log(data)
         offlineUsers.push(data);
       };
     });
