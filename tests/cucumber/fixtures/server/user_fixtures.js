@@ -211,13 +211,15 @@ Meteor.methods({
     var stripeId = theTenant.stripe.stripeId;
     var Stripe = StripeAPI(process.env.STRIPE_SK);
     if (stripeId) {
+      Stripe.customers.del(stripeId);
       Tenants.direct.update({
+        _id: tenantId
+        }, {
         $unset: {
-          stripeId: '',
-          stripeSubs: ''
+          'stripe.stripeId': '',
+          'stripe.stripeSubs': ''
         }
       });
-      Stripe.customers.del(stripeId);
     }
   }
 });

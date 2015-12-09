@@ -26,7 +26,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "expYear" to "2021"
     When I set text field with id "cardCVC" to "123"
     When I click confirm on the modal
-    Then I should see a toastr with the message "Validating your card details..."
+    Then I should see a toastr with the message containing "Validating your card details..."
     Then I should see a bootbox
     Then I should see a modal with title "Subscription complete"
     When I click confirm on the modal
@@ -43,7 +43,8 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "expYear" to "2021"
     When I set text field with id "cardCVC" to "123"
     When I click confirm on the modal
-    Then I should see a toastr with the message "Validating your card details..."
+    Then I should see a toastr with the message containing "Validating your card details..."
+    Then I should see a toastr with the message containing "Please wait"
     Then I should see a bootbox
     Then I should see a modal with title "Subscription complete"
     When I click confirm on the modal
@@ -57,7 +58,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I click "#downScheme"
     Then I should see a modal
     When I click confirm on the modal
-    Then I should see a toastr with the message "Processing your changes..."
+    Then I should see a toastr with the message containing "Processing your changes..."
     Then I should see a bootbox
     Then I should see a modal with title "Subscription updated"
     When I click confirm on the modal
@@ -72,7 +73,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I click "#resumeSubs"
     Then I should see a modal
     When I click confirm on the modal
-    Then I should see a toastr with the message "Resuming your subscription..."
+    Then I should see a toastr with the message containing "Resuming your subscription..."
     Then I should see a bootbox
     When I click confirm on the modal
     Then the Stripe field "#planName" should not contain "Free"
@@ -88,7 +89,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "expYear" to "2022"
     When I set text field with id "cardCVC" to "741"
     When I click confirm on the modal
-    Then I should see a toastr with the message "Validating your card details..."
+    Then I should see a toastr with the message containing "Validating your card details..."
     Then I should see a "success" toastr with the message "Your card details have been updated."
     Then the Stripe field "#cardExpYear" should say "2022"
     Then delete stripe customer
@@ -100,7 +101,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I click "#updateEmail"
     When I set text field with selector ".bootbox-input-text" to "newemail@domain.com"
     When I click confirm on the modal
-    Then I should see a toastr with the message "Processing your email update"
+    Then I should see a toastr with the message containing "Processing your email update"
     Then I should see a "success" toastr with the message "Your email hase been changed: newemail@domain.com"
     Then the Stripe field "#stripeEmail" should say "newemail@domain.com"
     Then delete stripe customer
@@ -119,7 +120,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "expYear" to "2021"
     When I set text field with id "cardCVC" to "123"
     When I click confirm on the modal
-    Then I should see a toastr with the message "Validating your card details..."
+    Then I should see a toastr with the message containing "Validating your card details..."
     Then I should see a bootbox
     Then I should see a modal with title "Subscription complete"
     When I click confirm on the modal

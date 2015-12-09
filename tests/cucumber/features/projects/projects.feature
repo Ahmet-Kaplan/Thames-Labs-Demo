@@ -267,14 +267,14 @@ Feature: Allow users to manage their Projects
     And I set rich text field "notes" to "test activity"
     And I select "Note" from dropdown field "type"
     And I click "#confirm"
-    Then I should see a toastr with the message "Project activity created."
+    Then I should see a toastr with the message containing "Project activity created."
     And I should not see a modal
     And I should see the activity in the timeline
     Given toastr are cleared
     When I click "#edit-activity"
     And I select "Email" from dropdown field "type"
     And I click "#update"
-    Then I should see a toastr with the message "Activity updated."
+    Then I should see a toastr with the message containing "Activity updated."
     And I should not see a modal
     Given toastr are cleared
     When I click "#remove-activity"

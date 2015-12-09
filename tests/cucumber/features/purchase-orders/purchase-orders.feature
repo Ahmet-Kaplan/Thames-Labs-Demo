@@ -155,7 +155,7 @@ Feature: Allow users to manage their Purchase Orders
     And I set rich text field "notes" to "test activity"
     And I select "Note" from dropdown field "type"
     And I click "#confirm"
-    Then I should see a toastr with the message "Purchase order activity created."
+    Then I should see a toastr with the message containing "Purchase order activity created."
     And I should not see a modal
     And I should see the activity in the timeline
     When I click "#edit-activity"
@@ -163,7 +163,7 @@ Feature: Allow users to manage their Purchase Orders
     Given toastr are cleared
     When I select "Email" from dropdown field "type"
     And I click "#update"
-    Then I should see a toastr with the message "Activity updated."
+    Then I should see a toastr with the message containing "Activity updated."
     And I should not see a modal
     Given toastr are cleared
     When I click "#remove-activity"

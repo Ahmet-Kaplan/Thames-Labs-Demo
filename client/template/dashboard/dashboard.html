@@ -9,14 +9,11 @@
     </button>
     <ul class="dropdown-menu" role="menu">
       {{#each widgetList}}
-        <li><a href="#" class="addWidget" data-w="{{w}}" data-h="{{h}}" id="{{id}}">{{name}}</a></li>
+        <li class="{{#if displayed}}disabled{{/if}}"><a href="#" class="addWidget" data-w="{{w}}" data-h="{{h}}" id="{{id}}">{{name}}</a></li>
       {{/each}}
-      <li role="separator" class="divider"></li>
-      <li><a href="#" id="resetDashboard">Reset Dashboard</a></li>
     </ul>
   </div>
   </h1>
 
-  <!-- <button class="btn" id="test">Test</button> -->
   <div class="grid-stack" id="gridstack"></div>
 </template>
