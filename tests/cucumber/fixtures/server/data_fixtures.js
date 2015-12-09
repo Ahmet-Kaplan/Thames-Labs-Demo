@@ -305,14 +305,23 @@ Meteor.methods({
   },
 
   addRecordsToLimit: function() {
+    var Future = Npm.require('fibers/future');
+    var done = new Future()
+    var control = _.after(MAX_RECORDS, function() {
+      done.return(true);
+    });
     var nComp = MAX_RECORDS - 20;
     for(var i = 0; i < 20; i++) {
-      Meteor.call('addContact', 'Test ' + i, 'Surnamer');
+      Meteor.call('addContact', 'Test ' + i, 'Surnamer', function(err, res) {
+        control();
+      });
     }
     for(var j = 0; j < nComp; j++) {
-      Meteor.call('addCompany', 'Test ' + i + ' Ltd');
+      Meteor.call('addCompany', 'Test ' + i + ' Ltd', function(err, res) {
+        control();
+      });
     }
-    return true;
+    return done.wait();
   },
 
   addCompanyTask: function() {
