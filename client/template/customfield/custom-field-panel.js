@@ -10,59 +10,72 @@ Template.customFieldDisplay.events({
 });
 
 Template.customFieldDisplay.helpers({
-  customFields: function() {
+  hasCustomFields: function() {
+    return this.entity_data.extendedInformation.length > 0;
+  },
+  globalFields: function() {
     var ret = [];
+    var extInfo = this.entity_data.extendedInformation;
 
-    for (var cf in this.entity_data.customFields) {
-
-      switch (this.entity_data.customFields[cf].dataType) {
-        case 'text':
-          var cfObj = {
-            name: cf,
-            value: this.entity_data.customFields[cf].dataValue,
-            type: this.entity_data.customFields[cf].dataType,
-            displayValue: this.entity_data.customFields[cf].dataValue,
-            isGlobal: this.entity_data.customFields[cf].isGlobal
-          };
-          ret.push(cfObj);
-          break;
-        case 'advtext':
-          var cfObj = {
-            name: cf,
-            value: this.entity_data.customFields[cf].dataValue,
-            type: this.entity_data.customFields[cf].dataType,
-            displayValue: this.entity_data.customFields[cf].dataValue,
-            isGlobal: this.entity_data.customFields[cf].isGlobal
-          };
-          ret.push(cfObj);
-          break;
+    _.each(_.where(extInfo, {
+      isGlobal: true
+    }), function(ei) {
+      var dv = ei.dataValue;
+      switch (ei.dataType) {
         case 'checkbox':
-          var cfObj = {
-            name: cf,
-            value: this.entity_data.customFields[cf].dataValue,
-            type: this.entity_data.customFields[cf].dataType,
-            displayValue: (this.entity_data.customFields[cf].dataValue ? this.entity_data.customFields[cf].dataValue : "false"),
-            isGlobal: this.entity_data.customFields[cf].isGlobal
-          };
-          ret.push(cfObj);
+          dv = (ei.dataValue ? ei.dataValue : "false");
           break;
         case 'date':
-          var cfObj = {
-            name: cf,
-            value: this.entity_data.customFields[cf].dataValue,
-            type: this.entity_data.customFields[cf].dataType,
-            displayValue: new moment(this.entity_data.customFields[cf].dataValue).format('MMMM Do YYYY'),
-            isGlobal: this.entity_data.customFields[cf].isGlobal
-          };
-          ret.push(cfObj);
+          dv = new moment(ei.dataValue).format('MMMM Do YYYY');
           break;
       }
-    }
+
+      var cfObj = {
+        name: ei.dataName,
+        value: ei.dataValue,
+        type: ei.dataType,
+        displayValue: dv,
+        isGlobal: true,
+        dataOrder: ei.dataOrder,
+        dataGroup: ei.dataGroup
+      };
+      ret.push(cfObj);
+    });
 
     return ret.sort(function(a, b) {
-      if (a.isGlobal === false && b.isGlobal === true) return -1;
-      if (a.isGlobal === true && b.isGlobal === false) return 1;
+      if (a.dataOrder < b.dataOrder) return -1;
+      if (a.dataOrder > b.dataOrder) return 1;
       return 0;
+    });
+  },
+  customFields: function() {
+    var ret = [];
+    var extInfo = this.entity_data.extendedInformation;
+    _.each(_.where(extInfo, {
+      isGlobal: false
+    }), function(ei) {
+      var dv = ei.dataValue;
+      switch (ei.dataType) {
+        case 'checkbox':
+          dv = (ei.dataValue ? ei.dataValue : "false");
+          break;
+        case 'date':
+          dv = new moment(ei.dataValue).format('MMMM Do YYYY');
+          break;
+      }
+
+      var cfObj = {
+        name: ei.dataName,
+        value: ei.dataValue,
+        type: ei.dataType,
+        displayValue: dv,
+        isGlobal: false
+      };
+      ret.push(cfObj);
+    });
+
+    return ret.sort(function(a, b) {
+      return a.name.localeCompare(b.name);
     });
   }
 });

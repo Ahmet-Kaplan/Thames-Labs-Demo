@@ -128,24 +128,25 @@ Template.gcf_display.events({
 
     bootbox.confirm("Are you sure you wish to delete this extended information field?", function(result) {
       if (result === true) {
+        var targets = null;
         switch (self.targetEntity) {
 
           case "company":
-            var targets = Companies.find({}).fetch();
+            targets = Companies.find({}).fetch();
 
             _.each(targets, function(cx) {
 
-              var cfMaster = {};
+              var cfMaster = [];
 
-              if (cx.customFields) {
-                for (var cf in cx.customFields) {
-                  if (cf !== self.name) {
-                    cfMaster[cf] = cx.customFields[cf];
+              if (cx.extendedInformation) {
+                for (var cf in cx.extendedInformation) {
+                  if (cx.extendedInformation[cf].dataName !== self.name) {
+                    cfMaster.push(cx.extendedInformation[cf]);
                   }
                 }
                 Companies.update(cx._id, {
                   $set: {
-                    customFields: cfMaster
+                    extendedInformation: cfMaster
                   }
                 });
               }
@@ -153,21 +154,21 @@ Template.gcf_display.events({
             break;
 
           case "contact":
-            var targets = Contacts.find({}).fetch();
+            targets = Contacts.find({}).fetch();
 
             _.each(targets, function(cx) {
 
-              var cfMaster = {};
+              var cfMaster = [];
 
-              if (cx.customFields) {
-                for (var cf in cx.customFields) {
-                  if (cf !== self.name) {
-                    cfMaster[cf] = cx.customFields[cf];
+              if (cx.extendedInformation) {
+                for (var cf in cx.extendedInformation) {
+                  if (cx.extendedInformation[cf].dataName !== self.name) {
+                    cfMaster.push(cx.extendedInformation[cf]);
                   }
                 }
                 Contacts.update(cx._id, {
                   $set: {
-                    customFields: cfMaster
+                    extendedInformation: cfMaster
                   }
                 });
               }
@@ -175,21 +176,21 @@ Template.gcf_display.events({
             break;
 
           case "project":
-            var targets = Projects.find({}).fetch();
+            targets = Projects.find({}).fetch();
 
             _.each(targets, function(cx) {
 
-              var cfMaster = {};
+              var cfMaster = [];
 
-              if (cx.customFields) {
-                for (var cf in cx.customFields) {
-                  if (cf !== self.name) {
-                    cfMaster[cf] = cx.customFields[cf];
+              if (cx.extendedInformation) {
+                for (var cf in cx.extendedInformation) {
+                  if (cx.extendedInformation[cf].dataName !== self.name) {
+                    cfMaster.push(cx.extendedInformation[cf]);
                   }
                 }
                 Projects.update(cx._id, {
                   $set: {
-                    customFields: cfMaster
+                    extendedInformation: cfMaster
                   }
                 });
               }

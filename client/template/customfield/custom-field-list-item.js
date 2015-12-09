@@ -3,7 +3,9 @@ Template.cfDisplay.helpers({
     this.parentEntity = parentContext;
   },
   trimmedName: function() {
-    return this.name.replace(/\s/g, '');
+    if (this.dataName) {
+      return this.dataName.replace(/\s/g, '');
+    }
   },
   isAdvancedText: function() {
     return this.type === "advtext";

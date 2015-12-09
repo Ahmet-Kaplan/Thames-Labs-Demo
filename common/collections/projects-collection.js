@@ -102,18 +102,21 @@ Projects.after.insert(function(userId, doc) {
     var tenant = Tenants.findOne(user.group);
     var projectCustomFields = tenant.settings.extInfo.project;
 
-    var cfMaster = {};
-    _.each(projectCustomFields, function(cf) {
 
+    var cfMaster = [];
+    _.each(projectCustomFields, function(cf) {
       var field = {
+        dataName: cf.name,
         dataValue: cf.defaultValue,
         dataType: cf.type,
-        isGlobal: true
+        isGlobal: true,
+        dataOrder: cf.dataOrder,
+        dataGroup: cf.dataGroup
       };
 
-      cfMaster[cf.name] = field;
+      cfMaster.push(field);
     });
-    doc.customFields = cfMaster;
+    doc.extendedInformation = cfMaster;
   }
 
   logEvent('info', 'A new project has been created: ' + doc.description);

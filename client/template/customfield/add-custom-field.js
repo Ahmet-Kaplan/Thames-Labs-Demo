@@ -71,44 +71,45 @@ Template.addCustomField.events({
       cfValue = $('#custom-field-date-value').val();
     }
 
-    var cfMaster = {};
+    var cfMaster = [];
     var nameExists = false;
 
-    for (var cf in this.entity_data.customFields) {
-      if (cf === cfName) {
+    for (var cf in this.entity_data.extendedInformation) {
+      if (this.entity_data.extendedInformation[cf].dataName === cfName) {
         nameExists = true;
         break;
       }
-      cfMaster[cf] = this.entity_data.customFields[cf];
+      cfMaster.push(this.entity_data.extendedInformation[cf]);
     }
 
     if (!nameExists) {
       var settings = {
+        "dataName": cfName,
         "dataValue": cfValue,
         "dataType": cfType,
         isGlobal: false
       }
-      cfMaster[cfName] = settings;
+      cfMaster.push(settings);
 
       switch (this.entity_type) {
         case 'company':
           Companies.update(this.entity_data._id, {
             $set: {
-              customFields: cfMaster
+              extendedInformation: cfMaster
             }
           });
           break;
         case 'contact':
           Contacts.update(this.entity_data._id, {
             $set: {
-              customFields: cfMaster
+              extendedInformation: cfMaster
             }
           });
           break;
         case 'project':
           Projects.update(this.entity_data._id, {
             $set: {
-              customFields: cfMaster
+              extendedInformation: cfMaster
             }
           });
           break;

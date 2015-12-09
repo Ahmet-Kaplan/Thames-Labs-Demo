@@ -1,18 +1,20 @@
 Template.addNewGlobalCustomField.onRendered(function() {
+  $.getScript('/vendor/medium/medium-editor.min.js');
+
   $('#select-entity').selectize({
     create: true,
     allowEmptyOption: false
   });
-});
 
-Template.addNewGlobalCustomField.onRendered(function() {
   this.$('.datetimepicker').datetimepicker();
 
   $('#typeText').prop('checked', true);
+  $('#typeAdvText').prop('checked', false);
   $('#typeCheckbox').prop('checked', false);
   $('#typeDate').prop('checked', false);
 
   $('#text-input-area').show();
+  $('#advtext-input-area').hide();
   $('#check-input-area').hide();
   $('#date-input-area').hide();
 });
@@ -35,21 +37,40 @@ Template.addNewGlobalCustomField.events({
   // },
   'click #typeText': function() {
     $('#text-input-area').show();
+    $('#advtext-input-area').hide();
+    $('#check-input-area').hide();
+    $('#date-input-area').hide();
+  },
+  'click #typeAdvText': function() {
+
+    editor = new MediumEditor('.editable', {
+      placeholder: {
+        text: 'Type or paste your content here...'
+      },
+      toolbar: false,
+      autoLink: true
+    });
+
+    $('#text-input-area').hide();
+    $('#advtext-input-area').show();
     $('#check-input-area').hide();
     $('#date-input-area').hide();
   },
   'click #typeCheckbox': function() {
     $('#text-input-area').hide();
+    $('#advtext-input-area').hide();
     $('#check-input-area').show();
     $('#date-input-area').hide();
   },
   'click #typeDate': function() {
     $('#text-input-area').hide();
+    $('#advtext-input-area').hide();
     $('#check-input-area').hide();
     $('#date-input-area').show();
   },
   'click #createCustomField': function() {
     var cfName = $('#custom-field-name').val();
+    var cfGroup = ($('#custom-field-group').val() === "" ? "no-group" : $('#custom-field-group').val());
     var cfValue = "value";
     var cfType = "text";
     var cfEntity = $('#select-entity').val();
@@ -66,6 +87,10 @@ Template.addNewGlobalCustomField.events({
     if ($('#typeText').prop('checked')) {
       cfType = "text";
       cfValue = $('#custom-field-text-value').val();
+    }
+    if ($('#typeAdvText').prop('checked')) {
+      cfType = "advtext";
+      cfValue = $('#custom-field-advtext-value').html();
     }
     if ($('#typeCheckbox').prop('checked')) {
       cfType = "checkbox";
@@ -97,11 +122,15 @@ Template.addNewGlobalCustomField.events({
       data.push(f);
     });
 
+    var orderValue = data.length;
+
     var newField = {
       name: cfName,
       type: cfType,
       defaultValue: cfValue,
-      targetEntity: cfEntity
+      targetEntity: cfEntity,
+      dataOrder: orderValue,
+      dataGroup: cfGroup
     };
 
     if (_.findWhere(fields, newField) === undefined) {
@@ -149,31 +178,35 @@ Template.addNewGlobalCustomField.events({
 
     _.each(targets, function(tx) {
       var nameExists = false;
-      var cfMaster = {};
+      var cfMaster = [];
 
-      if (tx.customFields) {
-        for (var cf in tx.customFields) {
-          if (cf === cfName) {
-            nameExists = true;
-            break;
+      if (tx.extendedInformation) {
+        for (var cf in tx.extendedInformation) {
+          if (tx.extendedInformation.hasOwnProperty(cf)) {
+            if (tx.extendedInformation[cf].dataName === cfName) {
+              nameExists = true;
+              break;
+            }
+            cfMaster.push(tx.extendedInformation[cf]);
           }
-          cfMaster[cf] = tx.customFields[cf];
         }
       }
 
       if (!nameExists) {
-
         var settings = {
+          "dataName": cfName,
           "dataValue": cfValue,
           "dataType": cfType,
-          "isGlobal": true
-        }
-        cfMaster[cfName] = settings;
+          "isGlobal": true,
+          dataOrder: orderValue,
+          dataGroup: cfGroup
+        };
+        cfMaster.push(settings);
 
         if (collName === 'companies') {
           Companies.update(tx._id, {
             $set: {
-              customFields: cfMaster
+              extendedInformation: cfMaster
             }
           });
         }
@@ -181,7 +214,7 @@ Template.addNewGlobalCustomField.events({
         if (collName === 'contacts') {
           Contacts.update(tx._id, {
             $set: {
-              customFields: cfMaster
+              extendedInformation: cfMaster
             }
           });
         }
@@ -189,7 +222,7 @@ Template.addNewGlobalCustomField.events({
         if (collName === 'projects') {
           Projects.update(tx._id, {
             $set: {
-              customFields: cfMaster
+              extendedInformation: cfMaster
             }
           });
         }
