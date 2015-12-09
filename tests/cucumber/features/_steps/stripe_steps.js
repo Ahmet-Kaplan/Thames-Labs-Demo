@@ -69,8 +69,10 @@ module.exports = function() {
 
   this.Then(/^delete stripe customer$/, function() {
     browser.executeAsync(function(done) {
-      Meteor.call('deleteStripeTestCustomer');
-      done();
+
+      Meteor.call('deleteStripeTestCustomer', function(err, res) {
+        done()
+      });
     })
   })
 };

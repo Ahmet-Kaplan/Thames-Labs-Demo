@@ -469,3 +469,19 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 16,
+  name: "Add watchlist capability to all users",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Meteor.users.update({}, {
+      $set: {
+        'profile.watchlist': []
+      }
+    }, {
+      multi: true
+    });
+    ServerSession.set('maintenance', false);
+  }
+});

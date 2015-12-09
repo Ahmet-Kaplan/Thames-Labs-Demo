@@ -295,7 +295,7 @@ Feature: Allow users to manage their Companies
     And I click "#edit-activity"
     And I select "Email" from dropdown field "type"
     And I click "#update"
-    Then I should see a toastr with the message "Activity updated."
+    Then I should see a toastr with the message containing "Activity updated."
 
   Scenario: A user can delete an activity
     Given a "Company" has been created
