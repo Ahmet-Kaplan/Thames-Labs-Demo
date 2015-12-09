@@ -58,22 +58,24 @@ module.exports = function() {
 
   this.Given(/^I am a logged in user$/, function() {
     browser.executeAsync(login, 'test@domain.com', 'goodpassword');
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('removeWidgetAndFab', done);
+    });
   });
 
   this.Given(/^I log in as user 2$/, function() {
     browser.executeAsync(login, 'test2@domain.com', 'goodpassword');
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('removeWidgetAndFab', done);
+    });
   });
 
   this.Given(/^I am a logged in superadmin user$/, function() {
     browser.executeAsync(login, 'admin@cambridgesoftware.co.uk', 'admin');
   });
 
-  this.Given(/^I am not a new user$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('notNewUser', done);
-    });
-  })
   this.Given(/^an? "([^"]*)" has been created$/, function(entity) {
     browser
       .executeAsync(function(entity, done) {

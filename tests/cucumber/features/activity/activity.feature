@@ -5,7 +5,6 @@ Feature: Allow users to access a central view of all activities
 
   Background:
     Given a user exists
-    And I am not a new user
     And I am a logged in user
 
   #Company

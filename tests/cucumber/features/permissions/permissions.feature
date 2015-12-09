@@ -11,7 +11,7 @@ Feature: Allow administrators to give users permissions
     Given a superadmin exists
     And a tenant exists
     And a restricted user exists
-    And I am not a new user
+    And 
     And I am a logged in superadmin user
     When I navigate to "/tenants"
     And I click ".accordion-toggle"
@@ -22,7 +22,7 @@ Feature: Allow administrators to give users permissions
 
   Scenario: An administrator can see the correct menu items
     Given a user exists
-    And I am not a new user
+    And 
     Given I am a logged in user
     And I have the "Administrator" permission
     When I click "#general-dropdown"
@@ -30,7 +30,7 @@ Feature: Allow administrators to give users permissions
 
   Scenario: An administrator can access the Administration page
     Given a user exists
-    And I am not a new user
+    And 
     And I am a logged in user
     And I have the "Administrator" permission
     When I click "#general-dropdown"
@@ -40,7 +40,7 @@ Feature: Allow administrators to give users permissions
 
   Scenario: An restricted user cannot access the Administration page
     Given a user exists
-    And I am not a new user
+    And 
     And I am a logged in user
     And I do not have the "Administrator" permission
     When I click "#general-dropdown"
@@ -50,7 +50,7 @@ Feature: Allow administrators to give users permissions
 
   Scenario: An administrator can see the 'Administration' button
     Given a user exists
-    And I am not a new user
+    And 
     And I am a logged in user
     And I have the "Administrator" permission
     When I navigate to "/"
@@ -59,7 +59,7 @@ Feature: Allow administrators to give users permissions
 
   Scenario: An administrator can add a new user
     Given a user exists
-    And I am not a new user
+    And 
     And I am a logged in user
     And I have the "Administrator" permission
     When I click "#general-dropdown"
@@ -73,7 +73,7 @@ Feature: Allow administrators to give users permissions
 
   Scenario: A normal user can't see the 'Administration' button
     Given a user exists
-    And I am not a new user
+    And 
     And I am a logged in user
     And I do not have the "Administrator" permission
     When I navigate to "/"

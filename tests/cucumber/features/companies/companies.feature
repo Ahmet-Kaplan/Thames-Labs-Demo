@@ -5,10 +5,8 @@ Feature: Allow users to manage their Companies
 
   Background:
     Given a user exists
-    And I am not a new user
     And I am a logged in user
     And I have the "CanReadCompanies" permission
-
 
   #Reading
   Scenario: A user can see the companies list

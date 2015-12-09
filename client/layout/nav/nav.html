@@ -70,7 +70,7 @@
                 <li role="separator" class="divider"></li>
                 {{/if}}
                 <li><a href="#" id="btnChangePassword">Change Password</a></li>
-                <li><a href="#" id="toggleFab">Toggle Action Button on/off</a></li>
+                <li><a href="#" id="toggleFab">Show Action Button</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#" id="feedback-link">Give Feedback</a></li>
                 <li><a href="http://www.realtimecrm.co.uk/roadmap" id="roadmap-link" target="_blank">Feature Roadmap</a></li>
@@ -301,6 +301,23 @@
 
   </div>
   {{/if}}
+
+  {{#unless isInRole 'superadmin'}}
+    {{#if loggedIn}}
+      <div class="fab" id="fab">
+        <button class="fixed-action-btn" id="fab-btn"><i class="fa fw-fa fa-plus"></i></button>
+        <div class="fab-menu" id="fab-menu">
+          <button class="fab-menu-item" id="fabAddContacts" data-toggle="tooltip" title="Add a Contact (Ctl+Alt+C)"><i class="fa fw-fa fa-user"></i></button>
+          <button class="fab-menu-item" id="fabAddCompanies" data-toggle="tooltip" title="Add a Company (Ctl+Alt+X)"><i class="fa fw-fa fa-building"></i></button>
+          <button class="fab-menu-item" id="fabAddProject" data-toggle="tooltip" title="Add a Project (Ctl+Alt+J)"><i class="fa fw-fa fa-sitemap"></i></button>
+          <button class="fab-menu-item" id="fabAddPurchaseOrder" data-toggle="tooltip" title="Add a Purchase Order (Ctl+Alt+P)"><i class="fa fw-fa fa-shopping-cart"></i></button>
+        </div>
+        <div id="close-fab">
+          <button class="close-fab btn-danger" id="closeFab"><i class="fa fa-fw fa-close"></i></button>
+        </div>
+      </div>
+    {{/if}}
+  {{/unless}}
 </template>
 
 <template name="notice">

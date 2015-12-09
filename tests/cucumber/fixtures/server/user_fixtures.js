@@ -70,7 +70,7 @@ Meteor.methods({
       email: "test@domain.com",
       password: "goodpassword",
       profile: {
-        name: "test user",
+        name: "test user"
       }
     });
 
@@ -106,12 +106,13 @@ Meteor.methods({
     Partitioner.setUserGroup(userId, tenantId);
   },
 
-  notNewUser: function() {
+  removeWidgetAndFab: function() {
     Meteor.users.update({
       username: "test user"
     }, {
       $set: {
-        "profile.welcomeTour": true
+        "profile.welcomeTour": true,
+        "profile.fab": true
       }
     });
   },

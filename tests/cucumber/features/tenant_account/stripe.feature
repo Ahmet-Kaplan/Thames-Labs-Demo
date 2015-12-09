@@ -6,7 +6,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
 
   Background:
     Given a user exists
-    And I am not a new user
+    And 
     And I am a logged in user
     And I have the "Administrator" permission
 

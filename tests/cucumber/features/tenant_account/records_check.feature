@@ -4,7 +4,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
 
   Background:
     Given a user exists
-    And I am not a new user
+    And 
     And I am a logged in user
 
   Scenario: When a user has reached the maximum number of subscriptions a message appears when it tries to add company
