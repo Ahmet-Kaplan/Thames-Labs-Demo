@@ -65,8 +65,6 @@ Template.updateCustomField.events({
             "dataName": name,
             "dataValue": newValue,
             "dataType": attr.dataType,
-            "dataOrder": attr.dataOrder,
-            "dataGroup": attr.dataGroup,
             isGlobal: true
           };
           cfMaster.push(settings);

@@ -16,6 +16,34 @@ Template.customFieldDisplay.helpers({
   globalFields: function() {
     var ret = [];
     var extInfo = this.entity_data.extendedInformation;
+    var panelDisplayMode = FlowRouter.current().route.name;
+    var orderList = [];
+    var arr = [];
+
+    switch (panelDisplayMode) {
+      case 'company':
+        arr = Tenants.findOne({
+          _id: Meteor.user().group
+        }).settings.extInfo.company;
+        break;
+      case 'contact':
+        arr = Tenants.findOne({
+          _id: Meteor.user().group
+        }).settings.extInfo.contact;
+        break;
+      case 'project':
+        arr = Tenants.findOne({
+          _id: Meteor.user().group
+        }).settings.extInfo.project;
+        break;
+    }
+
+    _.each(arr, function(e) {
+      orderList.push({
+        'name': e.name,
+        'dataOrder': e.dataOrder
+      });
+    });
 
     _.each(_.where(extInfo, {
       isGlobal: true
@@ -29,6 +57,14 @@ Template.customFieldDisplay.helpers({
           dv = new moment(ei.dataValue).format('MMMM Do YYYY');
           break;
       }
+      var orderIndex = -1;
+      for (var x = 0; x < orderList.length; x++) {
+        if (orderList[x].name === ei.dataName) {
+          orderIndex = x;
+          break;
+        }
+      }
+      var orderValue = (orderIndex === -1 ? 0 : orderList[orderIndex].dataOrder);
 
       var cfObj = {
         name: ei.dataName,
@@ -36,7 +72,7 @@ Template.customFieldDisplay.helpers({
         type: ei.dataType,
         displayValue: dv,
         isGlobal: true,
-        dataOrder: ei.dataOrder,
+        dataOrder: orderValue,
         dataGroup: ei.dataGroup
       };
       ret.push(cfObj);

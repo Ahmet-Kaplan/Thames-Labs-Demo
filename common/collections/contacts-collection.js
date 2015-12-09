@@ -131,9 +131,7 @@ Contacts.before.insert(function(userId, doc) {
         dataName: cf.name,
         dataValue: cf.defaultValue,
         dataType: cf.type,
-        isGlobal: true,
-        dataOrder: cf.dataOrder,
-        dataGroup: cf.dataGroup
+        isGlobal: true
       };
 
       cfMaster.push(field);

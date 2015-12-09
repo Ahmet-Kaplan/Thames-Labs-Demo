@@ -542,24 +542,13 @@ Migrations.add({
 
             for (var i in fields) {
               if (fields.hasOwnProperty(i)) {
-                var newInformation = null;
-                if (fields[i].isGlobal) {
-                  newInformation = {
-                    dataName: i,
-                    dataValue: fields[i].dataValue,
-                    dataType: fields[i].dataType,
-                    isGlobal: true,
-                    dataOrder: newStructure.length,
-                    dataGroup: 'no-group'
-                  };
-                } else {
-                  newInformation = {
-                    dataName: i,
-                    dataValue: fields[i].dataValue,
-                    dataType: fields[i].dataType,
-                    isGlobal: false
-                  };
-                }
+                var newInformation = {
+                  dataName: i,
+                  dataValue: fields[i].dataValue,
+                  dataType: fields[i].dataType,
+                  isGlobal: fields[i].isGlobal
+                };
+
                 var index = -1;
                 for (var x = 0; x < newInformation.length - 1; x++) {
                   if (newStructure[x].dataName === i) {
