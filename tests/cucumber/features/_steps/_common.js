@@ -264,7 +264,15 @@ module.exports = function() {
 
   this.Then(/^I should see a toastr with the message "([^"]*)"$/, function(expectedText) {
     browser.waitForExist('.toast-message', 5000);
-    expect(browser.getText('.toast-message')).toContain(expectedText);
+    browser.waitForVisible('.toast-message', 5000);
+    var toastrs = browser.getText('.toast-message');
+    if(typeof toastrs === 'object') {
+      return taostrs.some(function(toastr) {
+        return toastr.search(new RegExp(expectedText))
+      })
+    } else {
+      expect(toastrs).toContain(expectedText);
+    }
   });
 
   this.Then(/^I should see an? "([^"]*)" toastr with the message "([^"]*)"$/, function(toastrType, expectedText) {

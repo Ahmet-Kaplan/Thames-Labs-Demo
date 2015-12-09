@@ -305,10 +305,14 @@ Meteor.methods({
   },
 
   addRecordsToLimit: function() {
-    for (var i = 0; i < MAX_RECORDS / 2; i++) {
+    var nComp = MAX_RECORDS - 20;
+    for(var i = 0; i < 20; i++) {
       Meteor.call('addContact', 'Test ' + i, 'Surnamer');
+    }
+    for(var j = 0; j < nComp; j++) {
       Meteor.call('addCompany', 'Test ' + i + ' Ltd');
     }
+    return true;
   },
 
   addCompanyTask: function() {

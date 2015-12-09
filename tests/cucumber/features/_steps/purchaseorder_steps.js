@@ -20,7 +20,15 @@ module.exports = function() {
   });
 
   this.Then(/^element "([^"]*)" should contain the text "([^"]*)"$/, function(element, desiredText) {
-    browser.waitForExist(element, 2000);
-    expect(browser.getText(element, 2000)).toContain(desiredText);
+    browser.waitForExist(element, 5000);
+    browser.waitForVisible(element, 5000);
+    var elements = browser.getText(element, 2000);
+    if(typeof elements === 'object') {
+      return elements.some(function(elt) {
+        if(elt.search(/desiredText/)) return true;
+      });
+    } else {
+      expect(elements).toContain(desiredText);
+    }
   });
 };
