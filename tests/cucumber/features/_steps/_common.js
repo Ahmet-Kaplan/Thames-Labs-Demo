@@ -271,13 +271,12 @@ module.exports = function() {
     browser.waitForVisible('.toast-message', 5000);
     browser.waitUntil(function() {
       var toastrs = browser.getText('.toast-message');
-      if(typeof toastrs === 'object') {
-        return toastrs.some(function(toastr) {
-          return toastr.search(new RegExp(expectedText))
-        })
-      } else {
-        expect(toastrs).toContain(expectedText);
+      if(typeof toastrs !== 'object') {
+        toastrs = [toastrs];
       }
+      return toastrs.some(function(toastr) {
+        return (toastr.search(new RegExp(expectedText)) !== -1)
+      });
     }, 5000);
   });
 

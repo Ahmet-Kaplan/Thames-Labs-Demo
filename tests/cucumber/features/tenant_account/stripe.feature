@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to subscribe/unsubscribe to Stripe
 
   As a potential user of the app
@@ -31,7 +32,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I click confirm on the modal
     Then the Stripe field "#planName" should not contain "Free"
     Then delete stripe customer
-@dev
+
   Scenario: An administrator who has reached the records limit can subscribe by entering the correct card details
     Given I have reached the limit of records
     When I navigate to "/admin"
