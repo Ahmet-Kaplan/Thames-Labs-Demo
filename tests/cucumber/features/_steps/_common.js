@@ -201,7 +201,11 @@ module.exports = function() {
 
   this.When(/^I wait$/, function() {
     browser.pause(5000)
-  })
+  });
+
+  this.When(/^I click "([^"]*)" and select the option "([^"]*)"$/, function(menu, option) {
+    browser.selectByVisibleText(menu, option);
+  });
 
   /***************************************************
                           THEN
@@ -262,17 +266,19 @@ module.exports = function() {
     expect(browser.getValue('input[name=' + fieldName + ']')).toContain(fieldValue);
   });
 
-  this.Then(/^I should see a toastr with the message "([^"]*)"$/, function(expectedText) {
+  this.Then(/^I should see a toastr with the message containing "([^"]*)"$/, function(expectedText) {
     browser.waitForExist('.toast-message', 5000);
     browser.waitForVisible('.toast-message', 5000);
-    var toastrs = browser.getText('.toast-message');
-    if(typeof toastrs === 'object') {
-      return taostrs.some(function(toastr) {
-        return toastr.search(new RegExp(expectedText))
-      })
-    } else {
-      expect(toastrs).toContain(expectedText);
-    }
+    browser.waitUntil(function() {
+      var toastrs = browser.getText('.toast-message');
+      if(typeof toastrs === 'object') {
+        return toastrs.some(function(toastr) {
+          return toastr.search(new RegExp(expectedText))
+        })
+      } else {
+        expect(toastrs).toContain(expectedText);
+      }
+    }, 5000);
   });
 
   this.Then(/^I should see an? "([^"]*)" toastr with the message "([^"]*)"$/, function(toastrType, expectedText) {
@@ -309,5 +315,18 @@ module.exports = function() {
 
   this.Then(/^debug$/, function(menuText) {
     browser.debug();
+  });
+
+  this.Then(/^element "([^"]*)" should contain the text "([^"]*)"$/, function(element, desiredText) {
+    browser.waitForExist(element, 5000);
+    browser.waitForVisible(element, 5000);
+    var elements = browser.getText(element, 2000);
+    if(typeof elements === 'object') {
+      return elements.some(function(elt) {
+        if(elt.search(new RegExp(desiredText))) return true;
+      });
+    } else {
+      expect(elements).toContain(desiredText);
+    }
   });
 };
