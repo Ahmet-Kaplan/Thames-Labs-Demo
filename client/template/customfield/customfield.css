@@ -43,3 +43,8 @@
   margin-top:2px;
   padding:4px;
 }
+.custom-field-group-display{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin-top:3px;
+}

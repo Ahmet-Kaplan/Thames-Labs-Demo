@@ -1,18 +1,19 @@
 <template name="cfDisplay">
-  <li class="list-group-item custom-field-display-item{{#if isGlobal}} globalCFBackground{{/if}}">
+<li class="list-group-item custom-field-display-item{{#if isGlobal}} globalCFBackground{{/if}}">
 
-    {{#if isAdvancedText}}
+  {{#if isAdvancedText}}
     <div class="row">
       <div class="col-md-10">
         <strong>{{name}}:</strong>
       </div>
       <div class="col-md-2">
         {{#unless isGlobal}}
-        <div class="btn-group pull-right">
-          <button class="btn btn-danger btn-xs" data-placement="bottom" data-toggle="tooltip" id='delete-custom-field' role='button' title="Delete this extended field">
-            <i class="fa fa-fw fa-times"></i> Delete
-          </button>
-        </div>
+          <div class="btn-group pull-right">
+            <button class="btn btn-danger btn-xs" data-placement="bottom" data-toggle="tooltip" id='delete-custom-field' role='button' title="Delete this extended field">
+              <i class="fa fa-fw fa-times"></i>
+              Delete
+            </button>
+          </div>
         {{/unless}}
       </div>
     </div>
@@ -32,14 +33,20 @@
 
       <div class="col-md-2">
         {{#unless isGlobal}}
-        <div class="btn-group pull-right">
-          <button class="btn btn-danger btn-xs" data-placement="bottom" data-toggle="tooltip" id='delete-custom-field' role='button' title="Delete this extended field">
-            <i class="fa fa-fw fa-times"></i> Delete
-          </button>
-        </div>
+          <div class="btn-group pull-right">
+            <button class="btn btn-danger btn-xs" data-placement="bottom" data-toggle="tooltip" id='delete-custom-field' role='button' title="Delete this extended field">
+              <i class="fa fa-fw fa-times"></i>
+              Delete
+            </button>
+          </div>
+          {{else}}
+          {{#unless equals dataGroup 'no-group'}}
+            <span class="label label-success custom-field-group-display pull-right">{{dataGroup}}</span>
+          {{/unless}}
         {{/unless}}
       </div>
     </div>
-    {{/if}} {{parentHelper ..}}
-  </li>
+  {{/if}}
+  {{parentHelper ..}}
+</li>
 </template>
