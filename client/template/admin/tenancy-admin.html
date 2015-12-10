@@ -64,7 +64,21 @@
             </div>
 
             <div class="list-group" id="custom-field-list">
-              {{#each globalCustomFields}} {{> gcf_display}} {{/each}}
+
+              <div class="well well-sm">
+                <h4>Companies</h4>
+                {{#each globalCompanyCustomFields}} {{> gcf_display}} {{/each}}
+              </div>
+
+              <div class="well well-sm">
+                <h4>Contacts</h4>
+              </div>
+              {{#each globalContactCustomFields}} {{> gcf_display}} {{/each}}
+
+              <div class="well well-sm">
+                <h4>Projects</h4>
+              </div>
+              {{#each globalProjectCustomFields}} {{> gcf_display}} {{/each}}
             </div>
 
           </div>
@@ -77,15 +91,35 @@
 
 <template name="gcf_display">
   <div class="list-group-item" id="glob-cust-field-display">
-    <div class="btn-group pull-right">
-      <button id='delete-global-custom-field' class="btn btn-danger btn-xs " type="button"><i class="fa fa-fw fa-times"></i></button>
+    <div class="row">
+      <div class="col-md-3">
+          Name: {{name}} ({{niceType}})
+      </div>
+      <div class="col-md-3">
+        Default Value: {{defaultValue}}
+      </div>
+      <div class="col-md-3">
+        <span class="pull-right">
+            <i id="orderUp" class="fa fa-fw fa-arrow-up" ></i>
+            <i id="orderDown" class="fa fa-fw fa-arrow-down" ></i>
+        </span>
+      </div>
+      <div class="col-md-3">
+        <button id='delete-global-custom-field' class="btn btn-danger btn-xs pull-right" type="button"><i class="fa fa-fw fa-times"></i></button>
+      </div>
     </div>
-    <ul style="list-style-type: none;">
-      <li>Name: {{name}}</li>
-      <li>Type: {{niceType}}</li>
-      <li>Default Value: {{defaultValue}}</li>
-      <li>Target Entity: {{niceEntity}}</li>
-    </ul>
+
+    <!-- <div class="btn-group pull-right">
+      <button id='delete-global-custom-field' class="btn btn-danger btn-xs " type="button"><i class="fa fa-fw fa-times"></i></button>
+      <span>
+          <a id="orderUp" href="#"><i class="fa fa-fw fa-arrow-up" ></i></a>
+          <a id="orderDown" href="#"><i class="fa fa-fw fa-arrow-down" ></i></a>
+      </span>
+    </div>
+    <p >
+      Name: {{name}} ({{niceType}})<br>
+      Default Value: {{defaultValue}}
+    </p> -->
   </div>
 </template>
 

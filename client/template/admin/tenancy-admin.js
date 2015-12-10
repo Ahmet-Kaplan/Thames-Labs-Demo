@@ -14,7 +14,7 @@ Template.tenancyAdminPage.helpers({
       }
     });
   },
-  globalCustomFields: function() {
+  globalCompanyCustomFields: function() {
     var data = [];
     var user = Meteor.users.findOne(Meteor.userId());
     var tenant = Tenants.findOne(user.group);
@@ -26,21 +26,47 @@ Template.tenancyAdminPage.helpers({
       });
     }
 
-    fields = tenant.settings.extInfo.contact;
+    return data.sort(function(a, b) {
+      if (a.dataOrder < b.dataOrder) return -1;
+      if (a.dataOrder > b.dataOrder) return 1;
+      return 0;
+    });
+  },
+  globalContactCustomFields: function() {
+    var data = [];
+    var user = Meteor.users.findOne(Meteor.userId());
+    var tenant = Tenants.findOne(user.group);
+
+    var fields = tenant.settings.extInfo.contact;
     if (fields) {
       _.each(fields, function(f) {
         data.push(f);
       });
     }
 
-    fields = tenant.settings.extInfo.project;
+    return data.sort(function(a, b) {
+      if (a.dataOrder < b.dataOrder) return -1;
+      if (a.dataOrder > b.dataOrder) return 1;
+      return 0;
+    });
+  },
+  globalProjectCustomFields: function() {
+    var data = [];
+    var user = Meteor.users.findOne(Meteor.userId());
+    var tenant = Tenants.findOne(user.group);
+
+    var fields = tenant.settings.extInfo.project;
     if (fields) {
       _.each(fields, function(f) {
         data.push(f);
       });
     }
 
-    return data;
+    return data.sort(function(a, b) {
+      if (a.dataOrder < b.dataOrder) return -1;
+      if (a.dataOrder > b.dataOrder) return 1;
+      return 0;
+    });
   },
   tenantFound: function() {
     return !!Tenants.findOne({});
@@ -122,6 +148,20 @@ Template.gcf_display.helpers({
   }
 });
 Template.gcf_display.events({
+  'click #orderUp': function() {
+    var self = this;
+    Meteor.call('changeExtInfoOrder', self.targetEntity, self.name, "up", function(err, res) {
+      if (err) throw new Meteor.Error(err);
+      console.log(res);
+    });
+  },
+  'click #orderDown': function() {
+    var self = this;
+    Meteor.call('changeExtInfoOrder', self.targetEntity, self.name, "down", function(err, res) {
+      if (err) throw new Meteor.Error(err);
+      console.log(res);
+    });
+  },
   'click #delete-global-custom-field': function() {
 
     var self = this;
