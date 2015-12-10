@@ -50,19 +50,23 @@ Meteor.methods({
       }
     );
 
-    Partitioner.setUserGroup(userId, tenantId);
+    if (userId && tenantId) {
+      Partitioner.setUserGroup(userId, tenantId);
 
-    Accounts.sendEnrollmentEmail(userId);
+      Accounts.sendEnrollmentEmail(userId);
 
-    var txt = 'New sign up from ' + userDetails.name + ' at company ' + userDetails.companyName;
-    Email.send({
-      to: 'david.mcleary@cambridgesoftware.co.uk',
-      from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
-      subject: 'New RealTimeCRM sign up!',
-      text: txt
-    });
+      var txt = 'New sign up from ' + userDetails.name + ' at company ' + userDetails.companyName;
+      Email.send({
+        to: 'david.mcleary@cambridgesoftware.co.uk',
+        from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
+        subject: 'New RealTimeCRM sign up!',
+        text: txt
+      });
 
-    return true;
+      return true;
+    } else {
+      return false;
+    }
 
   }
 

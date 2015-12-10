@@ -7,7 +7,7 @@
     <div class="col-md-7">
       <h4 class="entity-title">
         <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
-        Company
+        Company {{> watchlistAdmin entityData=this collection="companies"}}
       </h4>
 
       <h1 id="company-details" class="entity-name">{{name}}</h1>

@@ -1,19 +1,18 @@
 var currentFilter = new ReactiveVar({});
 var searchInput = new ReactiveVar('')
-var activeSelection = new ReactiveVar(null);
-var handle = '';
+var activeSelection = new ReactiveVar({});
 
-function updateSelection() {
+function updateActiveSelection() {
   if($('#filtersSearch').find('.active').length) {
       activeSelection.set({text: $('#filtersSearch').find('.active').text(), value: $('#filtersSearch').find('.active').data('value')});
     }
 }
 
-function displayFilter(mainCollectionName, selectize) {
+function displayFilter(mainCollectionName, selectize, template) {
   var filters = Collections[mainCollectionName].filters;
   filters = _.sortBy(filters, 'display');
 
-  handle = Tracker.autorun(function() {
+  template.handle = Tracker.autorun(function() {
     var search = searchInput.get();
     var matchedFilters = _.some(filters, function(filter) {
 
@@ -75,18 +74,11 @@ function displayFilter(mainCollectionName, selectize) {
       });
       selectize.refreshOptions(true);
     }
-
-    updateSelection();
   });
 }
 
-function applyFilter(mainCollectionName, selectize) {
-  var data = activeSelection.get();
-  var text = data.text;
-  var value = data.value;
-
-
-  //If user click on an item in the generated filters list, trigger filter display
+function applyFilter(text, value, mainCollectionName, selectize) {
+  //If user clicked on an item in the generated filters list, trigger filter display
   if(value.search('setFilter') !== -1) {
     selectize.clearOptions();
     $('#filtersSearch input').val(text + ' ');
@@ -134,6 +126,8 @@ function applyFilter(mainCollectionName, selectize) {
 
 Template.filterBox.onRendered(function() {
   var mainCollectionName = this.data.collectionName;
+  this.handle = null;
+  var self = this;
 
   var $select = $('#filterBox').selectize({
     placeholder: 'Apply filters...',
@@ -151,7 +145,8 @@ Template.filterBox.onRendered(function() {
     maxItems: 2,
     onFocus: function() {
       searchInput.set('');
-      displayFilter(mainCollectionName, this);
+      displayFilter(mainCollectionName, this, self);
+      updateActiveSelection();
     },
     onBlur: function() {
       this.clearOptions();
@@ -161,19 +156,26 @@ Template.filterBox.onRendered(function() {
       searchInput.set(query);
     },
     onItemAdd: function(value, $item) {
-      applyFilter(mainCollectionName, this);
+      applyFilter($($item).text(), value, mainCollectionName, this);
     }
   });
 
   //Trick to handle the use of enter key twice which is not taken care of by Selectize
-  $('#filtersSearch').on('keydown', function(evt) {
+  $('#filtersSearch').on('keyup', function(evt) {
     if(evt.keyCode === 13) {
-      applyFilter(mainCollectionName, $($select)[0].selectize);
+      var data = activeSelection.get();
+      if(data && data.text && data.value) {
+        var text = data.text;
+        var value = data.value;
+        applyFilter(text, value, mainCollectionName, $($select)[0].selectize);
+      }
     }
-    updateSelection();
+    updateActiveSelection();
   })
 });
 
 Template.filterBox.onDestroyed(function() {
-  handle.stop();
+  if(this.handle) {
+    this.handle.stop();
+  }
 })

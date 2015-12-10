@@ -6,6 +6,7 @@ Template.taskList.onCreated(function() {
 
   // Search props
   this.showCompleted = new ReactiveVar(false);
+  this.showMine = new ReactiveVar(false);
 });
 
 Template.taskList.onRendered(function() {
@@ -26,12 +27,21 @@ Template.taskList.onRendered(function() {
     } else {
       searchComponent.removeProps('showCompleted');
     }
+    var searchAssignee = TasksIndex.getComponentDict().get('searchOptions').props.assignee;
+    if(searchAssignee === Meteor.userId()) {
+      this.showMine.set(true);
+    } else {
+      this.showMine.set(false);
+    }
   });
 });
 
 Template.taskList.helpers({
   showComp: function() {
     return Template.instance().showCompleted.get();
+  },
+  showMine: function() {
+    return Template.instance().showMine.get();
   }
 });
 
@@ -40,6 +50,16 @@ Template.taskList.events({
     event.preventDefault();
     var showCompleted = Template.instance().showCompleted.get();
     Template.instance().showCompleted.set(!showCompleted);
+    $(event.target).blur();
+  },
+  'click #tskToggleMine': function(event) {
+    event.preventDefault();
+    var searchProp = TasksIndex.getComponentDict().get('searchOptions').props.assignee;
+    if(searchProp === Meteor.userId()) {
+      TasksIndex.getComponentMethods().removeProps('assignee');
+    } else {
+      TasksIndex.getComponentMethods().addProps('assignee', Meteor.userId());
+    }
     $(event.target).blur();
   },
   'click #tskDeleteAllCompleted': function(event) {
