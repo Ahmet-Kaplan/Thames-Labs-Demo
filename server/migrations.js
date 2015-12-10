@@ -470,8 +470,26 @@ Migrations.add({
   }
 });
 
+
 Migrations.add({
   version: 16,
+  name: "Add watchlist capability to all users",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Meteor.users.update({}, {
+      $set: {
+        'profile.watchlist': []
+      }
+    }, {
+      multi: true
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+
+Migrations.add({
+  version: 17,
   name: "Upgrade custom fields to new structure and include groupable-ness",
   up: function() {
     ServerSession.set('maintenance', true);

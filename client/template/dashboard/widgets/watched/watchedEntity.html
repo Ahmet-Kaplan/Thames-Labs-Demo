@@ -1,0 +1,42 @@
+<template name="watchedEntityWidget">
+  <div class="grid-stack-item-content panel panel-default"  id="watchedEntityBox">
+
+    <div class="panel-heading">
+      <i class="fa fa-fw fa-binoculars"></i>
+      <button aria-hidden="true" class="close" id="close_watchedEntityWidget" type="button">×</button>
+      Watched Items
+    </div>
+
+    <div class="panel-body wewActEntries">
+
+      {{#each items}}
+
+        <div class="wewActEntry">
+          <span class="wewActType">
+            <span class="wewActTypeIcon" ><i class="fa fa-fw fa-{{listIcon type}}"></i> {{type}}</span >
+            <a href="{{pathFor route=linkPath id=primaryEntityId}}">
+              <span class="pull-right">
+                <i class="fa fa-fw fa-{{faIcon}}"></i>
+                {{primaryEntityDisplayData}} {{#if parentCompany}}(via {{parentCompany}}){{/if}}</span>
+            </a>
+          </span>
+          <div class="wewActInfo">
+            <p class="wewActCreation">
+              <small>{{userName}}
+                <span class="pull-right wewActTimestamp">{{fromNow activityTimestamp}}</span>
+              </small>
+            </p>
+            <div class="wewActNotes">
+              <p>{{{notes}}}</p>
+            </div>
+          </div>
+        </div>
+
+      {{/each}}
+
+    </div>
+    <!-- </watchedEntityBox> -->
+
+  </div>
+  <!-- </grid-stack-item-content> -->
+</template>
