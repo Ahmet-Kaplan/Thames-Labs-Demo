@@ -110,7 +110,7 @@ function applyFilter(text, value, mainCollectionName, selectize) {
       var searchOptions = Collections[mainCollectionName].index.getComponentDict().get('searchOptions');
 
       //If prop already exist, update corresponding list
-      if(searchOptions.props[filter.prop] !== undefined) {
+      if(searchOptions.props !== undefined && searchOptions.props[filter.prop] !== undefined) {
         var updatedProp = searchOptions.props[filter.prop].split(',');
         updatedProp.push(value);
         //Note that only strings can be passed, the array is passed as a comma separated list

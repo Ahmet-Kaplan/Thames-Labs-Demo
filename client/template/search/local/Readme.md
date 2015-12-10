@@ -8,8 +8,8 @@ Files used:
   - search-help.js/html: Modal to display the help text
 
 Defining filters:
-  The filter box template takes only one parameter which is the name of the collection on which the filters must be applied.
-  This parameter must be passed as a string. For instance, {{> filterBox collectionName='tasks'}} will apply filters on the tasks list.
+  The filter box template takes only two parameters which are the name of the collection on which the filters must be applied and the corresponding index.
+  This parameter must be passed as a string. For instance, {{> filterBox collectionName='tasks' index=TasksIndex}} will apply filters on the tasks list.
 
   The filters themselves are stored in the collection file as an object alongside the collection definintion, index, etc. as:
     Collections.nameOfYourCollection.filters = { filter1, filter2, ... }
