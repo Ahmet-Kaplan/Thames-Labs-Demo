@@ -269,14 +269,6 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     Then I should not see the edit tag button
 
-  Scenario: A user with the Administrator permission can edit tags
-    Given I have the "Administrator" permission
-    And an "Opportunity" has been created
-    When I navigate to an opportunity page
-    And I click ".editTags"
-    And I add the tag "test-tag"
-    Then the tag field for the "opportunities" should contain "test-tag"
-
   #Tasks
   Scenario: A user can add a task to a opportunity
     Given I have the "CanReadTasks" permission
