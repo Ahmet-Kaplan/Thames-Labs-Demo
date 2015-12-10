@@ -188,8 +188,8 @@ Template.dashboard.onCreated(function() {
     this.widgetListUser.set(widgetsDefault)
   } else {
     this.widgetListUser.set(savedWidgets);
-  }
-})
+  };
+});
 
 Template.dashboard.onRendered(function() {
   $('.grid-stack').gridstack({

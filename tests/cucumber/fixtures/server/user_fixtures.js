@@ -117,6 +117,16 @@ Meteor.methods({
     });
   },
 
+  showFab: function() {
+    Meteor.users.update({
+      username: "test user"
+    }, {
+      $set: {
+        "profile.fab": false
+      }
+    });
+  },
+
   createTestSuperAdmin: function() {
     var superadminId = Accounts.createUser({
       username: 'superadmin',

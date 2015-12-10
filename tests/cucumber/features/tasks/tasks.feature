@@ -6,7 +6,6 @@ Feature: Allow users to manage their Tasks
 
   Background:
     Given a user exists
-    And 
     And I am a logged in user
     And I have the "CanReadTasks" permission
 

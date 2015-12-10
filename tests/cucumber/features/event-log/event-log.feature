@@ -5,7 +5,6 @@ Feature: Allow users to view event logs
 
   Background:
     Given a user exists
-    And 
     And I am a logged in user
 
   Scenario: A user can see the event log

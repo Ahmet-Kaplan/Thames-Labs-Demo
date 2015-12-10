@@ -5,7 +5,6 @@ Feature: Allow users to manage their Contacts
 
   Background:
     Given a user exists
-    And 
     And I am a logged in user
     And I have the "CanReadContacts" permission
 

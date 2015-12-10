@@ -55,7 +55,6 @@ Feature: Allow users to manage their Companies
     When I navigate to "/companies"
     Then I should see the heading "Tenants"
 
-
   #Adding
   Scenario: A user can create a company
     Given I have the "CanCreateCompanies" permission

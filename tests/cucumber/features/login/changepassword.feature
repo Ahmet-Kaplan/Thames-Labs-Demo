@@ -6,7 +6,6 @@ Feature: Allow users to change their password
 
   Background:
     Given a user exists
-    And 
     And I am a logged in user
 
   Scenario: A user can change their password

@@ -5,7 +5,6 @@ Feature: Allow users to manage their Projects
 
   Background:
     Given a user exists
-    And 
     And I am a logged in user
     And I have the "CanReadProjects" permission
     And I have the "CanReadCompanies" permission

@@ -57,11 +57,11 @@ module.exports = function() {
   });
 
   this.Given(/^I am a logged in user$/, function() {
-    browser.executeAsync(login, 'test@domain.com', 'goodpassword');
     browser
       .executeAsync(function(done) {
         Meteor.call('removeWidgetAndFab', done);
     });
+    browser.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
 
   this.Given(/^I log in as user 2$/, function() {
@@ -70,6 +70,10 @@ module.exports = function() {
       .executeAsync(function(done) {
         Meteor.call('removeWidgetAndFab', done);
     });
+  });
+
+  this.Given(/^I am logged in as a new user$/, function() {
+      browser.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
 
   this.Given(/^I am a logged in superadmin user$/, function() {
@@ -90,6 +94,13 @@ module.exports = function() {
       toastr.clear();
       done();
     });
+  });
+
+  this.Given(/^fab is enabled$/, function() {
+    browser.executeAsync(function(done) {
+        Meteor.call('showFab', done);
+    });
+    browser.refresh();
   });
 
 /***************************************************
@@ -233,6 +244,10 @@ module.exports = function() {
     expect(browser.isExisting(id)).toEqual(false);
   });
 
+  this.Then(/^"([^"]*)" should be hidden$/, function(id) {
+    expect(browser.isVisible(id)).toEqual(false);
+  });
+
   this.Then(/^I should see the title "([^"]*)"$/, function(expectedTitle) {
     expect(browser.getTitle()).toBe(expectedTitle);
   });
@@ -255,9 +270,9 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the (tour|tutorial)$/, function() {
-    browser.waitForExist('.hopscotch-bubble-container', 6000);
-    browser.waitForVisible('.hopscotch-bubble-container', 6000);
-    expect(browser.isExisting('.hopscotch-bubble-container', 6000))
+    browser.waitForExist('.hopscotch-bubble-container', 5000);
+    browser.waitForVisible('.hopscotch-bubble-container', 5000);
+    expect(browser.isExisting('.hopscotch-bubble-container')).toEqual(true);
   });
 
   this.Then(/^"([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(selector, option, desiredText) {

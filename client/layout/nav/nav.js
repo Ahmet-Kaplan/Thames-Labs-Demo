@@ -328,19 +328,6 @@ Template.nav.events({
   }
 });
 
-Template.nav.onRendered(function() {
-  if (!Meteor.user().profile.fab) {
-    $("#fab-btn").show();
-  }else {
-    $("#fab-btn").hide();
-    $("#closeFab").hide();
-    $("#fab-menu").hide();
-    if ($("i", "#fab-btn").hasClass("fa fw-fa fa-times")) {
-      $("i", "#fab-btn").toggleClass("fa fw-fa fa-times fa fw-fa fa-plus");
-    };
-  }
-});
-
 Template.notice.helpers({
   shortText: function() {
     var c = this.title;

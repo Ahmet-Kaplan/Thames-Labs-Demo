@@ -5,7 +5,6 @@ Feature: Allow users to manage their Purchase Orders
 
   Background:
     Given a user exists
-    And 
     And I am a logged in user
     And I have the "CanReadPurchaseOrders" permission
 

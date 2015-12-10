@@ -6,7 +6,6 @@ Feature: Allow users to favourite pages by URL
 
   Background:
     Given a user exists
-    And 
     And I am a logged in user
 
   Scenario: A user can add and delete favourites

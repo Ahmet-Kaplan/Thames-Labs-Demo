@@ -6,7 +6,6 @@ Feature: Allow users to see widgets
 
   Background:
     Given a user exists
-    And 
     And I am a logged in user
     And I have the "CanReadCompanies" permission
     And I have the "CanReadOpportunities" permission
