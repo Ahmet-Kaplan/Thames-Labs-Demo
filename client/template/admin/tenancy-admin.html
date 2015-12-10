@@ -93,7 +93,9 @@
   <div class="list-group-item" id="glob-cust-field-display">
     <div class="row">
       <div class="col-md-3">
-          Name: {{name}} ({{niceType}})
+          Name: {{name}} ({{niceType}}){{#if dataGroup}}<br>
+          <span>Label: {{dataGroup}}</span>
+          {{/if}}
       </div>
       <div class="col-md-3">
         Default Value: {{defaultValue}}

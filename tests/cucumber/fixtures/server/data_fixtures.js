@@ -107,7 +107,8 @@ Meteor.methods({
       postcode: postcode,
       country: country,
       createdBy: userId,
-      customFields: {}
+      customFields: {},
+      extendedInformation: []
     });
 
     return data;
@@ -123,7 +124,8 @@ Meteor.methods({
       "surname": contactSurname,
       "email": "testy@surname.com",
       "createdBy": userId,
-      "customFields": {}
+      "customFields": {},
+      extendedInformation: []
     });
   },
 
@@ -194,7 +196,7 @@ Meteor.methods({
       }
     });
   },
-	addLimitedProjectType: function() {
+  addLimitedProjectType: function() {
     var userTenant = Tenants.findOne({});
     var projectType = {
       id: 0,
@@ -341,12 +343,13 @@ Meteor.methods({
       "surname": "Kenobi",
       "email": "obiwan@screwthedarkside.com",
       "createdBy": Meteor.userId(),
-      "customFields": {
-        test: {
-          dataValue: "velocity",
-          dataType: "text"
-        }
-      }
+      "customFields": {},
+      extendedInformation: [{
+        "dataName": "test",
+        "dataValue": "velocity",
+        "dataType": "text",
+        "isGlobal": false
+      }]
     });
 
     var taskId = Tasks.insert({
