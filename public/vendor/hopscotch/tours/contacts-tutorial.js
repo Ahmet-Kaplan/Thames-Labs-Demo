@@ -101,12 +101,11 @@ var contactsTutorial = {
 		target: document.querySelector('#createContact'),
 		placement: "left",
 		showNextButton: false,
-		smoothScroll: false,
-		nextOnTargetClick: true
+		smoothScroll: false
 	}, {
 		title: "",
 		content: "",
-		target: document.querySelector('#menuLinkCompanies'),
+		target: document.querySelector('#menuLinkContacts'),
 		placement: "right",
 		smoothScroll: false,
 		onShow: function() {
