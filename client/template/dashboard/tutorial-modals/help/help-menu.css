@@ -1,0 +1,32 @@
+.modal-help {
+  min-height: 600px;
+}
+
+.company-tutorials {
+  display: none;
+}
+
+.next-tutorial {
+  float: right;
+  position: relative;
+  top: 250px;
+  right: 5px;
+}
+
+.prev-tutorial {
+  float: left;
+  position: relative;
+  top: 250px;
+  right: 5px;
+}
+
+.btn-tut-nav {
+  color: #333;
+  background-color: #fff;
+  font-size: 40px !important;
+}
+
+.feedback-text {
+  padding-left: 10px;
+  padding-right: 10px;
+}
