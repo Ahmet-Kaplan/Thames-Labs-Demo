@@ -79,15 +79,9 @@ Collections.purchaseorders.filters = {
         return false;
       }
     },
-    defaultOptions: [
-      'Requested',
-      'Approved',
-      'Rejected',
-      'Ordered',
-      'Arrived',
-      'Closed',
-      'Cancelled'
-    ]
+    defaultOptions: function() {
+      return Schemas.PurchaseOrder.schema('status').allowedValues;
+    }
   }
 }
 

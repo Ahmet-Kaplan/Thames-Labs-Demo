@@ -27,6 +27,10 @@ Template.searchBox.helpers({
       });
     }
     return filtersList;
+  },
+  index: function() {
+    var mainCollectionName = Template.instance().data.collectionName;
+    return Collections[mainCollectionName].index;
   }
 });
 

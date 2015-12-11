@@ -105,9 +105,11 @@ Collections.projects.filters = {
       }
       return true;
     },
-    defaultOptions: _.map(Collections.helpers.wordedTimes, function(obj) {
-      return obj.expr;
-    })
+    defaultOptions: function() {
+      return _.map(Collections.helpers.wordedTimes, function(obj) {
+        return obj.expr;
+      })
+    }
   },
   before: {
     display: 'Due Before:',
