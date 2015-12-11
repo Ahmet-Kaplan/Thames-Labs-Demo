@@ -164,7 +164,7 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
-      console.log(selector)
+
       return selector;
     }
   })

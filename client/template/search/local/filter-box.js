@@ -1,5 +1,12 @@
 var currentFilter = new ReactiveVar({});
 var searchInput = new ReactiveVar('');
+var activeSelection = new ReactiveVar({});
+
+function updateActiveSelection() {
+  if($('#filtersSearch').find('.active').length) {
+      activeSelection.set({text: $('#filtersSearch').find('.active').text(), value: $('#filtersSearch').find('.active').data('value')});
+    }
+}
 
 function displayFilter(mainCollectionName, selectize, template) {
   var filters = Collections[mainCollectionName].filters;
@@ -146,6 +153,7 @@ Template.filterBox.onRendered(function() {
     persist: false,
     maxItems: 2,
     maxOptions: 10,
+    selectOnTab: true,
     onFocus: function() {
       searchInput.set('');
       displayFilter(mainCollectionName, this, self);
@@ -161,6 +169,19 @@ Template.filterBox.onRendered(function() {
       applyFilter($($item).text(), value, mainCollectionName, this);
     }
   });
+
+  //Trick to handle the use of enter key twice which is not taken care of by Selectize
+  $('#filtersSearch').on('keyup', function(evt) {
+    if(evt.keyCode === 13) {
+      var data = activeSelection.get();
+      if(data && data.text && data.value) {
+        var text = data.text;
+        var value = data.value;
+        applyFilter(text, value, mainCollectionName, $($select)[0].selectize);
+      }
+    }
+    updateActiveSelection();
+  })
 });
 
 Template.filterBox.onDestroyed(function() {
