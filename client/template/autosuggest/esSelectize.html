@@ -5,7 +5,7 @@
              *name: a formated name string that will be displayed
     - value (optional): the default value (_id)
     - parent (optional): the id of the input on which this field depends.
-                         e.g. to restrict a list of contact to a company, set parent=companyId, 
+                         e.g. to restrict a list of contact to a company, set parent=companyId,
                          where companyId is the company input field
     - filter (optional, required with parent): the easySearch filter to use with parent.
                                                e.g. following the previous example, create a props 'filterCompanyId'
@@ -14,10 +14,10 @@
                                                in the easySearch index (set to $eq, $ne...)
     - readonly (bool, optional): disable the input, set it to the 'value'
     - allowCreate (bool, optional): whether a new field can be inserted or not. If true, the new field will be inserted
-                                    with an _id=0;                                         
+                                    with an _id=0;
 
  -->
 
 <template name="esSelectize">
-{{> afQuickField name=name id=name label=label type="selectize" selectize=initialize}}
+{{> afQuickField name=name id=name label=label type="selectize" selectize=initialize placeholder="Select from the list or type here to search..."}}
 </template>

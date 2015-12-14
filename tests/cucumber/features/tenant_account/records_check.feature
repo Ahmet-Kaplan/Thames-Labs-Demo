@@ -10,6 +10,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Given I have the "Administrator" permission
     Given I have reached the limit of records
     Given toastr are cleared
+    Then element ".nav-btn-info" should contain the text "Limit reached"
     When I navigate to "/companies"
     And I click "#add-company"
     And I set text field "name" to "Limit Reached Ltd"
