@@ -20,6 +20,7 @@ h4 .task-completed {
 
 #entityTaskList > .panel-body{
   padding: 0;
+  height: 100%;
 }
 
 #taskContainer {
