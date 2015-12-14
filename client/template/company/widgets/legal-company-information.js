@@ -76,6 +76,7 @@ Template.legalCompanyInformation.onCreated(function() {
 
 Template.legalCompanyInformation.helpers({
   shouldShow: function() {
+    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadCompanies'])) return false;
     var companyNumber = Template.currentData().company.companiesHouseId,
         hasResults = Template.instance().companiesHouseSearchResults.get();
     return !!companyNumber || (hasResults && Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanEditCompanies']));
@@ -114,7 +115,7 @@ Template.legalCompanyInformation.events({
     Companies.update(this.company._id, {
       $unset: { companiesHouseId: 1 }
     });
-    toastr.success('Record unlinked');
+    toastr.success('Link to Companies House removed');
   }
 });
 

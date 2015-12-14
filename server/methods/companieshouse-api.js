@@ -14,7 +14,11 @@ Meteor.methods({
 
     url = encodeURI(baseurl + '?q=' + companyName + '&items_per_page=10');
 
-    return HTTP.get(url, {auth: auth});
+    var result = HTTP.get(url, {auth: auth});
+    if (result.statusCode !== 200) {
+      throw new Meteor.Error(500, 'Companies House API returned an error');
+    }
+    return result;
   },
 
   'companiesHouse.company': function(companyNumber) {
@@ -31,7 +35,11 @@ Meteor.methods({
 
     url = encodeURI(baseurl + companyNumber);
 
-    return HTTP.get(url, {auth: auth});
+    var result = HTTP.get(url, {auth: auth});
+    if (result.statusCode !== 200) {
+      throw new Meteor.Error(500, 'Companies House API returned an error');
+    }
+    return result;
   }
 
 });
