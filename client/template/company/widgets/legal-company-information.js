@@ -78,7 +78,7 @@ Template.legalCompanyInformation.helpers({
   shouldShow: function() {
     var companyNumber = Template.currentData().company.companiesHouseId,
         hasResults = Template.instance().companiesHouseSearchResults.get();
-    return !!companyNumber || hasResults;
+    return !!companyNumber || (hasResults && Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanEditCompanies']));
   },
   companiesHouseSearchResults: function() {
     var results = Template.instance().companiesHouseSearchResults.get();

@@ -1,6 +1,9 @@
 Meteor.methods({
 
   'companiesHouse.search.companies': function(companyName) {
+    if (!this.userId) {
+      throw new Meteor.Error(403, 'Must be logged in to search Companies House');
+    }
     var companiesHouseApiKey = process.env.COMPANIESHOUSE_API_KEY;
     if (typeof companiesHouseApiKey == 'undefined') {
       throw new Meteor.Error(500, 'No companies house API key set');
@@ -15,6 +18,9 @@ Meteor.methods({
   },
 
   'companiesHouse.company': function(companyNumber) {
+    if (!this.userId) {
+      throw new Meteor.Error(403, 'Must be logged in to search Companies House');
+    }
     var companiesHouseApiKey = process.env.COMPANIESHOUSE_API_KEY;
     if (typeof companiesHouseApiKey == 'undefined') {
       throw new Meteor.Error(500, 'No companies house API key set');

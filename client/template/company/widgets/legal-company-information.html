@@ -36,9 +36,11 @@
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
           </a>
         </ul>
-        <a href="#" class="unlink-record text-muted small pull-right">
-          <i class="fa fa-fw fa-chain-broken"></i>Remove link to Companies House record
-        </a>
+        {{#if isInRole 'Administrator,CanEditCompanies'}}
+          <a href="#" class="unlink-record text-muted small pull-right">
+            <i class="fa fa-fw fa-chain-broken"></i>Remove link to Companies House record
+          </a>
+        {{/if}}
         <div class="clearfix"></div>
       {{else}}
         <div class="panel panel-default">
