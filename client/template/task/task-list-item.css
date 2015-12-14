@@ -2,6 +2,12 @@
   display: inline-block;
   margin-right: 5px;
   cursor: pointer;
+  font-size: 1em;
+  margin-top: -4px;
+}
+
+h4 .task-completed {
+  margin-top: -2px;
 }
 
 .task-completed>.fa-stack {
@@ -10,4 +16,27 @@
 
 .task-green {
   color: #082;
+}
+
+#entityTaskList > .panel-body{
+  padding: 0;
+}
+
+#taskContainer {
+  margin-bottom: 0;
+  border: none;
+}
+
+#taskContainer > a {
+  border: none;
+  border-top: 1px solid #ddd;
+  padding: 10px 15px 7px;
+}
+
+#taskContainer > a:first-child {
+  border-top: none;
+}
+
+#entityTaskList.grid-stack-item-content > .panel-body > ul > a:last-child {
+  border-bottom: 1px solid #ddd;
 }
