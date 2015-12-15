@@ -52,6 +52,37 @@ Meteor.methods({
     } else {
       throw new Meteor.Error('Not-supported', 'Error 500: Not found', 'Only company or contact lookup supported');
     }
+  },
+
+  'clearbit.getCompanyAutoFill': function(entityWebsite) {
+    var clearbitApiKey = process.env.CLEARBIT_API_KEY;
+    if(entityWebsite.substring(0, 4) != 'http'){
+      entityWebsite = 'http://' + entityWebsite;
+    }
+
+    if (typeof clearbitApiKey === 'undefined') {
+      throw new Meteor.Error(500, 'No clearbit API key set');
+    }
+
+    var Future = Npm.require('fibers/future');
+    var clearbitData = new Future();
+    var url = Meteor.npmRequire('url');
+    var domain = url.parse(entityWebsite).hostname;
+    var requestUrl = 'https://company-stream.clearbit.com/v1/companies/domain/' + domain;
+    var authToken = "Bearer " + clearbitApiKey;
+    Meteor.http.get(requestUrl, {
+       headers: {
+          "Authorization": authToken
+       }
+    }, function(err, res) {
+      if (err) {
+        clearbitData.return(false);
+      } else {
+        clearbitData.return(_.clone(res.data, true));
+      }
+    });
+
+    return clearbitData.wait();
   }
 
 });

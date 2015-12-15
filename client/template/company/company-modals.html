@@ -10,6 +10,16 @@
 
         <div class="modal-body">
          {{#autoForm collection="Companies" id="insertNewCompanyForm" type="insert"}}
+            <div class="form-group">
+              <label for="website" class="control-label">Website</label>
+              <span class="input-group">
+                <input type="text" name="website" id="website" placeholder="http://" class="form-control">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" id="magic-fill"><i class="fa fa-fw fa-magic"></i></button>
+                </span>
+              </span>
+            </div>
+            <!-- {{> afQuickField name="website"}} -->
             {{> afQuickField name="name"}}
             <div class="form-group">
               <label for="geo" class="control-label">Search for Address, City, etc.</label>
@@ -32,7 +42,6 @@
                 </div>
               {{/if}}
             </div>
-            {{> afQuickField name="website"}}
             {{> afQuickField name="phone"}}
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Create</button>
