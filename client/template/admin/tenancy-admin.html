@@ -72,13 +72,14 @@
 
               <div class="well well-sm">
                 <h4>Contacts</h4>
-              </div>
               {{#each globalContactCustomFields}} {{> gcf_display}} {{/each}}
+            </div>
 
               <div class="well well-sm">
                 <h4>Projects</h4>
-              </div>
               {{#each globalProjectCustomFields}} {{> gcf_display}} {{/each}}
+            </div>
+
             </div>
 
           </div>
@@ -98,12 +99,12 @@
           {{/if}}
       </div>
       <div class="col-md-3">
-        Default Value: {{defaultValue}}
+        Default Value: {{#if equals type 'advtext'}} {{{defaultValue}}} {{else}} {{defaultValue}} {{/if}}
       </div>
       <div class="col-md-3">
         <span class="pull-right">
-            <i id="orderUp" class="fa fa-fw fa-arrow-up" ></i>
-            <i id="orderDown" class="fa fa-fw fa-arrow-down" ></i>
+            <i id="orderUp" class="fa fa-fw fa-arrow-up {{#unless canMoveUp}} orderDisabled{{/unless}}" ></i>
+            <i id="orderDown" class="fa fa-fw fa-arrow-down  {{#unless canMoveDown}} orderDisabled{{/unless}}" ></i>
         </span>
       </div>
       <div class="col-md-3">

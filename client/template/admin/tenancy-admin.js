@@ -112,6 +112,15 @@ Template.tenancyAdminPage.events({
 });
 
 Template.gcf_display.helpers({
+  canMoveUp: function() {
+    return this.dataOrder > 0;
+  },
+  canMoveDown: function() {
+    var exInfLen = Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.extInfo[this.targetEntity].length;
+    return this.dataOrder < exInfLen - 1;
+  },
   niceEntity: function() {
     var retVal = "";
 
@@ -136,6 +145,9 @@ Template.gcf_display.helpers({
       case 'text':
         retVal = 'Text';
         break;
+        case 'advtext':
+          retVal = 'Multi-line Text';
+          break;
       case 'checkbox':
         retVal = 'Checkbox';
         break;
@@ -152,14 +164,18 @@ Template.gcf_display.events({
     var self = this;
     Meteor.call('changeExtInfoOrder', self.targetEntity, self.name, "up", function(err, res) {
       if (err) throw new Meteor.Error(err);
-      console.log(res);
+      if (res.exitCode !== 0) {
+        toastr.error(res.exitStatus);
+      }
     });
   },
   'click #orderDown': function() {
     var self = this;
     Meteor.call('changeExtInfoOrder', self.targetEntity, self.name, "down", function(err, res) {
       if (err) throw new Meteor.Error(err);
-      console.log(res);
+      if (res.exitCode !== 0) {
+        toastr.error(res.exitStatus);
+      }
     });
   },
   'click #delete-global-custom-field': function() {
