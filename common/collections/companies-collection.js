@@ -176,6 +176,9 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.phone !== this.previous.phone) {
     logEvent('info', 'An existing company has been updated: The value of "phone" was changed from ' + this.previous.phone + " to " + doc.phone);
   }
+  if (doc.companiesHouseId !== this.previous.companiesHouseId) {
+    logEvent('info', 'An existing company has been updated: The value of "Companies House record" was changed from ' + this.previous.companiesHouseId + " to " + doc.companiesHouseId);
+  }
 }, {
   fetchPrevious: true
 });
