@@ -11,38 +11,48 @@
         <div class="modal-body">
          {{#autoForm collection="Companies" id="insertNewCompanyForm" type="insert"}}
             <div class="form-group">
-              <label for="website" class="control-label">Website</label>
+              <label for="companyName" class="control-label">Name</label>
               <span class="input-group">
-                <input type="text" name="website" id="website" placeholder="http://" class="form-control">
+                <input type="text" name="name" id="companyName" class="form-control">
                 <span class="input-group-btn">
                   <button class="btn btn-default" type="button" id="magic-fill"><i class="fa fa-fw fa-magic"></i></button>
                 </span>
               </span>
             </div>
-            <!-- {{> afQuickField name="website"}} -->
-            {{> afQuickField name="name"}}
-            <div class="form-group">
-              <label for="geo" class="control-label">Search for Address, City, etc.</label>
-              <input type="text" id="geo" class="form-control" autocomplete="off" />
-            </div>
-            <div id="address_details" style="display:none;">
-              {{> afQuickField name="address" id="formatted_address"}}
-              {{> afQuickField name="address2"}}
-              {{> afQuickField name="city" data-geo="locality"}}
-              {{> afQuickField name="county" data-geo="administrative_area_level_2"}}
-              {{> afQuickField name="postcode" data-geo="postal_code"}}
-              {{> afQuickField name="country" data-geo="country"}}
-              {{> afQuickField name="lat" data-geo="lat"}}
-              {{> afQuickField name="lng" data-geo="lng"}}
-              {{#if isDesktop}}
-                <div id="map_wrapper" class="form-group" style="display: none;">
-                  <label class="control-label">Map (drag marker to adjust position)</label>
-                  <div id="map_canvas"></div>
-                  <span class="help-block"></span>
-                </div>
-              {{/if}}
-            </div>
+            {{#if resultsTotal}}
+              {{resultsTotal}} results found:
+              <ul>
+                {{#each resultsList}}
+                <li><small><a href="#" class="magic-result" id="{{id}}">{{name}}, {{location}}</a></small></li>
+                {{/each}}
+              </ul>
+            {{/if}}
+            <!-- {{> afQuickField name="name"}} -->
+            <div id="details-wrapper" style="display:none;">
+            {{> afQuickField name="website"}}
+              <div class="form-group">
+                <label for="geo" class="control-label">Search for Address, City, etc.</label>
+                <input type="text" id="geo" class="form-control" autocomplete="off" />
+              </div>
+              <div id="address_details" style="display:none;">
+                {{> afQuickField name="address" id="formatted_address"}}
+                {{> afQuickField name="address2"}}
+                {{> afQuickField name="city" data-geo="locality"}}
+                {{> afQuickField name="county" data-geo="administrative_area_level_2"}}
+                {{> afQuickField name="postcode" data-geo="postal_code"}}
+                {{> afQuickField name="country" data-geo="country"}}
+                {{> afQuickField name="lat" data-geo="lat"}}
+                {{> afQuickField name="lng" data-geo="lng"}}
+                {{#if isDesktop}}
+                  <div id="map_wrapper" class="form-group" style="display: none;">
+                    <label class="control-label">Map (drag marker to adjust position)</label>
+                    <div id="map_canvas"></div>
+                    <span class="help-block"></span>
+                  </div>
+                {{/if}}
+              </div>
             {{> afQuickField name="phone"}}
+            </div>
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}

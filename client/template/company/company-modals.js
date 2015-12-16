@@ -1,4 +1,5 @@
 Template.insertNewCompanyModal.onCreated(function() {
+  this.magicList = new ReactiveVar([]);
   // Load google maps
   GoogleMaps.load({
     libraries: 'places'
@@ -6,7 +7,6 @@ Template.insertNewCompanyModal.onCreated(function() {
 });
 
 function showAddressDetails(location) {
-  console.log(location)
   $("#address_details").show();
   $("#map_wrapper").show();
   $("#map_canvas").height("400px");
@@ -63,54 +63,79 @@ Template.insertNewCompanyModal.onRendered(function() {
 
 });
 
+Template.insertNewCompanyModal.helpers({
+  resultsList: function() {
+    console.log(Template.instance().magicList.get().results);
+    return Template.instance().magicList.get().results;
+  },
+  resultsTotal: function() {
+    return Template.instance().magicList.get().total;
+  }
+});
+
+function fillCompanyData(res) {
+  $('#details-wrapper').show();
+  if(res.site.url) {
+    $('input[name=website]').val(res.site.url);
+  }
+  if(res.geo) {
+    var geo = res.geo;
+    var searchString = '';
+    if(geo.streetNumber || geo.streetName){
+      var number = (geo.streetNumber !== null) ? geo.streetNumber + ' ' : '';
+      var name = (geo.streetName !== null) ? geo.streetName : '';
+      $('input[name=address]').val(number + name);
+      searchString += number + name;
+    }
+    if(geo.city){
+      $('input[name=city]').val(geo.city);
+      searchString += ' ' + geo.city;
+    }
+    if(geo.state){
+      $('input[name=county]').val(geo.state);
+    }
+    if(geo.postalCode){
+      $('input[name=postcode]').val(geo.postalCode);
+      searchString += ' ' + geo.postalCode;
+    }
+    if(geo.country){
+      $('input[name=country]').val(geo.country);
+      searchString += ' ' + geo.country;
+    }
+    if(geo.lat && geo.lng) {
+      $('input[name=lat]').val(geo.lat);
+      $('input[name=lng]').val(geo.lng);
+      showAddressDetails({
+        lat: geo.lat,
+        lng: geo.lng
+      });
+    } else if(searchString !== '') {
+      $('#geo').val(searchString);
+      $('#geo').trigger('geocode');
+    }
+  }
+  if(res.phone) {
+    $('input[name=phone]').val(res.phone);
+  }
+}
+
 Template.insertNewCompanyModal.events({
   'click #magic-fill': function(evt) {
     evt.preventDefault();
-    Meteor.call('clearbit.getCompanyAutoFill', $('input[name=website]').val(), function(err, res) {
-      console.log(err, res);
-      if(res.name) {
-        $('input[name=name]').val(res.name);
-      } else {
-        toastr.info('No results were found for this website');
+    var templateInstance = Template.instance();
+    Meteor.call('clearbit.getCompanyFromName', $('#companyName').val(), (err, results) => {
+      if(err || !results) {
+        toastr.error('No matching results found');
+        return;
       }
-      if(res.geo) {
-        var geo = res.geo;
-        var searchString = '';
-        if(geo.streetNumber && geo.streetName){
-          $('input[name=address]').val(geo.streetNumber + ' ' + geo.streetName);
-          searchString += geo.streetNumber + ' ' + geo.streetName;
-        }
-        if(geo.city){
-          $('input[name=city]').val(geo.city);
-          searchString += ' ' + geo.city;
-        }
-        if(geo.state){
-          $('input[name=county]').val(geo.state);
-        }
-        if(geo.postalCode){
-          $('input[name=postcode]').val(geo.postalCode);
-          searchString += ' ' + geo.postalCode;
-        }
-        if(geo.country){
-          $('input[name=country]').val(geo.country);
-          searchString += ' ' + geo.country;
-        }
-        if(geo.lat && geo.lng) {
-          $('input[name=lat]').val(geo.lat);
-          $('input[name=lng]').val(geo.lng);
-          showAddressDetails({
-            lat: geo.lat,
-            lng: geo.lng
-          });
-        } else if(searchString !== '') {
-          $('#geo').val(searchString);
-          $('#geo').trigger('geocode');
-        }
-      }
-      if(res.phone) {
-        $('input[name=phone]').val(res.phone);
-      }
+      templateInstance.magicList.set(results);
     });
+  },
+  'click .magic-result': function(evt) {
+    evt.preventDefault();
+    var resultId = evt.target.id;
+    var result = _.find(Template.instance().magicList.get().results, {id: resultId});
+    fillCompanyData(result);
   }
 })
 
