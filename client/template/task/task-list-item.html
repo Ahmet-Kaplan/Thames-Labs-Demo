@@ -1,8 +1,8 @@
 <template name="task">
 {{#if entityDetails.permissionToRead}}
-  <a class="list-group-item" href="tasks/{{taskId}}" id="list-item">
+  <a class="list-group-item" href="{{pathFor route='task' id=taskId}}" id="list-item">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-{{#if showEntityDetail}}3{{else}}6{{/if}}">
         <div class="pull-left" id="completed">
         {{#if isInRole 'Administrator,CanEditTasks'}}
           {{#if completed}}
@@ -32,11 +32,11 @@
         </div>
         <h4 class="list-group-item-heading">{{title}}</h4>
       </div>
+      {{#if showEntityDetail}}
       <div class="col-md-3">
-        {{#if showEntityDetail}}
           <span class="fa fa-fw fa-{{entityDetails.icon}}"></span> {{entityDetails.name}}
-        {{/if}}
       </div>
+      {{/if}}
       <div class="col-md-3">
         Assignee: {{taskAssignee}}<br>
         {{#if completed}}
