@@ -23,27 +23,32 @@
         </div>
         <ul class="list-group">
           {{#if company}} {{#if isInRole 'Administrator,CanReadCompanies'}}
-          <a href="{{pathFor route='company' id=company._id}}" class="list-group-item" data-toggle="tooltip" data-placement="bottom" title="Navigate to company details">
-            <i class="fa fa-fw fa-building"></i> {{company.name}}
+          <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to company details">
+            <h4><i class="fa fa-fw fa-building"></i> Company</h4>            
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            <p class="list-group-item-text">{{company.name}}</p>
           </a>
           {{/if}} {{/if}} {{#if jobtitle}}
-          <li class="list-group-item">
-            <i class="fa fa-fw fa-graduation-cap"></i> {{jobtitle}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-graduation-cap"></i> Job Title</h4>
+            <p class="list-group-item-text">{{jobtitle}}</p>
           </li>
           {{/if}} {{#if email}}
-          <li class="list-group-item">
-            <i class="fa fa-fw fa-envelope"></i> {{email}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-envelope"></i> Email</h4>
+            <p class="list-group-item-text">{{email}}</p>
           </li>
           {{/if}} {{#if phone}}
-          <a href="{{phoneHref phone}}" class="list-group-item" data-toggle="tooltip" data-placement="bottom" title="">
-            <i class="fa fa-fw fa-phone"></i> {{phone}}
+          <a href="{{phoneHref phone}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="">
+            <h4><i class="fa fa-fw fa-phone"></i> Phone Number</h4>
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            <p class="list-group-item-text">{{phone}}</p>
           </a>
           {{/if}} {{#if mobile}}
-          <a href="{{phoneHref mobile}}" class="list-group-item" data-toggle="tooltip" data-placement="bottom" title="">
-            <i class="fa fa-fw fa-mobile"></i> {{mobile}}
+          <a href="{{phoneHref mobile}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="">
+            <h4><i class="fa fa-fw fa-mobile"></i> Mobile Number</h4>
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            <p class="list-group-item-text">{{mobile}}</p>
           </a>
           {{/if}}
         </ul>
