@@ -21,7 +21,7 @@
               {{> contactDataManagement}}
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 text-right">
             {{#if isInRole 'Administrator,CanCreateContacts'}}
               <a class="btn btn-primary addContactToCompany {{#if isMobile}}btn-fullWidth{{/if}}" href="#" id="add-contact" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+X"><i class="fa fa-fw fa-plus"></i> Add contact</a>
             {{/if}}
