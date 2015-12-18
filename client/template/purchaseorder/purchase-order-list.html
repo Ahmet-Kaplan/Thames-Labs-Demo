@@ -9,10 +9,10 @@
       <!-- This should probably be refactored into a "search toolbar" template -->
       <div class="stick-bar">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-3">
             {{> EasySearch.Input index=PurchaseOrdersIndex attributes=searchInputAttributes}}
           </div>
-          <div class="col-md-2" id="btn-group">
+          <div class="col-md-3" id="btn-group">
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
               <button id="ref_poOverviewWidget" class="btn btn-default" data-toggle="popover" title="Purchase Orders Overview" data-content="<div id='poOverviewPop'>
