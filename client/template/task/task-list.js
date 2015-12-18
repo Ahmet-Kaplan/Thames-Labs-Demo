@@ -7,6 +7,7 @@ Template.taskList.onCreated(function() {
   // Search props
   this.showCompleted = new ReactiveVar(false);
   this.showMine = new ReactiveVar(false);
+  this.showCalendar = new ReactiveVar(false);
 });
 
 Template.taskList.onRendered(function() {
@@ -42,6 +43,14 @@ Template.taskList.helpers({
   },
   showMine: function() {
     return Template.instance().showMine.get();
+  },
+  showCalendar: function() {
+    return Template.instance().showCalendar.get();
+  },
+  header: {
+    left: 'title',
+    center: 'month,agendaWeek,agendaDay',
+    right: 'today prev,next'
   }
 });
 
@@ -50,6 +59,12 @@ Template.taskList.events({
     event.preventDefault();
     var showCompleted = Template.instance().showCompleted.get();
     Template.instance().showCompleted.set(!showCompleted);
+    $(event.target).blur();
+  },
+  'click #tskToggleCalendar': function(event) {
+    event.preventDefault();
+    var showCalendar = Template.instance().showCalendar.get();
+    Template.instance().showCalendar.set(!showCalendar);
     $(event.target).blur();
   },
   'click #tskToggleMine': function(event) {

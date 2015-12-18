@@ -30,6 +30,9 @@
         <button type="button" class="btn btn-{{#if showMine}}success{{else}}default{{/if}}" id="tskToggleMine" >
           Show My Tasks
         </button>
+        <button type="button" class="btn btn-{{#if showCalendar}}success{{else}}default{{/if}}" id="tskToggleCalendar" >
+          Show Calendar
+        </button>
       </div>
     {{/if}}
     </div>
@@ -44,6 +47,9 @@
     </div>
   </div>
 
-  {{> searchResults index=TasksIndex listItemTemplateName='task'}}
-
+  {{#if showCalendar}}
+    {{> fullcalendar id='taskCalendar' header=header}}
+  {{else}}
+    {{> searchResults index=TasksIndex listItemTemplateName='task'}}
+  {{/if}}
 </template>
