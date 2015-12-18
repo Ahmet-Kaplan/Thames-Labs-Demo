@@ -19,18 +19,10 @@
       <button class="btn btn-info btn-xs" id="btnEdit">Edit</button>
       <button class="btn btn-danger btn-xs" id="btnDelete">Delete</button>
       <span>
-        {{#if isFirstStage}}
-          <i class="fa fa-fw fa-arrow-up orderDisabled" ></i>
-        {{else}}
-          <i class="fa fa-fw fa-arrow-up" id="orderUp"></i>
-        {{/if}}
+        <i class="fa fa-fw fa-arrow-up {{#if isFirstStage}}orderDisabled {{else}}orderEnabled id='orderUp'{{/if}}" ></i>
       </span>
       <span>
-        {{#if isLastStage}}
-          <i class="fa fa-fw fa-arrow-down orderDisabled" ></i>
-        {{else}}
-          <i class="fa fa-fw fa-arrow-down" id="orderDown"></i>
-        {{/if}}
+        <i class="fa fa-fw fa-arrow-down {{#if isLastStage}}orderDisabled {{else}}orderEnabled id='orderDown'{{/if}}" ></i>  
       </span>
     </div>
     <h4>{{title}} </h4>

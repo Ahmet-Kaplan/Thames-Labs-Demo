@@ -8,21 +8,25 @@
           {{name}}
         </div>
 
-        {{#unless props.isGlobal}}
-        <!-- <div class="col-md-1 modMyPosition">Type:
-        </div> -->
-
-        <div class="col-md-2 modMyPosition">
-          <select id="extInfosTypeOptions">
-            <option value="text">Text</option>
-            <option value="advtext">Multiline Text</option>
-            <option value="checkbox" type="hidden">Checkbox</option>
-            <option value="date" type="hidden">Date/Time</option>
-          </select>
+        <div class="col-md-1 modMyPosition">
+          {{#unless equals props.dataGroup 'no-group'}}
+            <span class="label label-success">{{props.dataGroup}}</span>
+          {{/unless}}
         </div>
+
+        {{#unless props.isGlobal}}
+
+          <div class="col-md-2 modMyPosition">
+            <select id="extInfosTypeOptions">
+              <option value="text">Text</option>
+              <option value="advtext">Multiline Text</option>
+              <option type="hidden" value="checkbox">Checkbox</option>
+              <option type="hidden" value="date">Date/Time</option>
+            </select>
+          </div>
         {{/unless}}
 
-        <div class="{{#if props.isGlobal}}col-md-8{{else}}col-md-6{{/if}} col-md-offset-1">
+        <div class="{{#if props.isGlobal}}col-md-7{{else}}col-md-5{{/if}} col-md-offset-1">
           <div class="form-group" id="extInfos{{extInfoId}}TextInputArea">
             <input class="form-control" id="extInfos{{extInfoId}}TextValue" placeholder="Enter value" type="text">
           </div>

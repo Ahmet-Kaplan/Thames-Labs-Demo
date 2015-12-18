@@ -50,6 +50,7 @@ Template.addCustomField.events({
     $('#date-input-area').show();
   },
   'click #submit-custom-field': function() {
+    $('#submit-custom-field').prop('disabled', true);
     var cfName = $('#custom-field-name').val();
     var cfValue = "value";
     var cfType = "text";
@@ -121,6 +122,7 @@ Template.addCustomField.events({
       toastr.success('Extended information field added.');
     } else {
       toastr.error('An extended information field with that name has already been added.');
+      $('#submit-custom-field').prop('disabled', false);
     }
 
     Modal.hide();

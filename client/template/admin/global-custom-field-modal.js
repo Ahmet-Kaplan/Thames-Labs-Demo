@@ -24,17 +24,6 @@ Template.addNewGlobalCustomField.helpers({
 });
 
 Template.addNewGlobalCustomField.events({
-  // 'change #select-entity': function() {
-  //   var cfEntity = $('#select-entity').val();
-  //   switch (cfEntity) {
-  //     case 'company':
-  //       Meteor.subscribe('allCompanies');
-  //       break;
-  //     case 'contact':
-  //       Meteor.subscribe('allContacts');
-  //       break;
-  //   }
-  // },
   'click #typeText': function() {
     $('#text-input-area').show();
     $('#advtext-input-area').hide();
@@ -69,6 +58,7 @@ Template.addNewGlobalCustomField.events({
     $('#date-input-area').show();
   },
   'click #createCustomField': function() {
+    $('#createCustomField').prop('disabled', true);
     var cfName = $('#custom-field-name').val();
     var cfGroup = ($('#custom-field-group').val() === "" ? "no-group" : $('#custom-field-group').val());
     var cfValue = "value";
