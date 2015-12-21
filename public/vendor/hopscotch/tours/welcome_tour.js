@@ -7,10 +7,7 @@ var updateSessionVar = function() {
 var welcomeTour = {
 	onShow: function() {
 		updateSessionVar();
-
-		$("#fab-btn").show();
-		$("#closeFab").hide();
-		$("#fab-menu").hide();
+		//todo: enable fab
 	},
 	onClose: function() {
 		// Clear sessionVar as we're actually done
@@ -23,10 +20,7 @@ var welcomeTour = {
 		if (Session.get(sessionVar)) {
 			$.getScript('/vendor/hopscotch/tours/welcome_tour.js');
 		} else {
-			Meteor.call('welcomeTour.deleteTourData', function(err,res){
-				if(err) throw new Meteor.Error(err);
-				Modal.show('tourEnd');
-			});
+			Modal.show('tourEnd');
 		}
   },
   id: "welcome-tour",

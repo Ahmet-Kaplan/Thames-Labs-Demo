@@ -112,19 +112,13 @@ Meteor.methods({
     }, {
       $set: {
         "profile.welcomeTour": true,
-        "profile.fab": true
       }
     });
+    //todo: remove fab
   },
 
   showFab: function() {
-    Meteor.users.update({
-      username: "test user"
-    }, {
-      $set: {
-        "profile.fab": false
-      }
-    });
+    //todo: remove fab
   },
 
   createTestSuperAdmin: function() {

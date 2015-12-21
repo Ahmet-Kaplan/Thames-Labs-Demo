@@ -20,7 +20,6 @@ var companiesTutorial = {
 			$.getScript('/vendor/hopscotch/tours/companies-tutorial.js');
 		} else {
 				Modal.show('companyTutorialEnd');
-		}
   },
   id: "companies-tutorial",
   steps: [{

@@ -1,5 +1,7 @@
 Template.nav.onCreated(function() {
   this.subscribe('allNotifications');
+  this.fab = new ReactiveVar(true);
+  this.fabOpen = new ReactiveVar(false);
 
   this.autorun(function() {
     var getNotification = Notifications.findOne({
@@ -137,6 +139,12 @@ Template.nav.helpers({
     }
     var totalRecords = Tenants.findOne({}).stripe.totalRecords;
     return totalRecords >= MAX_RECORDS;
+  },
+  fabEnabled: function() {
+    return Template.instance().fab.get();
+  },
+  fabOpen: function() {
+    return Template.instance().fabOpen.get();
   }
 });
 
@@ -234,95 +242,34 @@ Template.nav.events({
         document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
     }
   },
-  'click #general-dropdown': function() {
-    //Make sure the toggle option in the user menu is correct if new user or after refresh
-    if (!Meteor.user().profile.fab) {
-      document.getElementById("toggleFab").innerHTML = "Hide Action Button";
+  'click #toggleFab': function(event, template) {
+    if (Template.instance().fab.get() === true) {
+      template.fab.set(false);
+      template.fabOpen.set(false);
     }else {
-      document.getElementById("toggleFab").innerHTML = "Show Action Button";
+      template.fab.set(true);
     };
   },
-  'click #toggleFab': function() {
-    if (!Meteor.user().profile.fab) {
-      Meteor.users.update({
-        _id: Meteor.userId()
-      }, {
-        $set: {
-          "profile.fab": true
-        }
-      });
-      document.getElementById("toggleFab").innerHTML = "Show Action Button";
-    }else {
-      Meteor.users.update({
-        _id: Meteor.userId()
-      }, {
-        $set: {
-          "profile.fab": false
-        }
-      });
-      document.getElementById("toggleFab").innerHTML = "Hide Action Button";
-    };
-     $("#fab-btn").toggle();
-  },
-  'click #fab-btn': function(event) {
-      $("#fab-menu").toggle(function() {
-        $("i", "#fab-btn").toggleClass("fa fw-fa fa-plus fa fw-fa fa-times")
-      })
-  },
-  'mouseenter #fab-btn': function(event) {
-    $("#closeFab").show()
-  },
-  'mouseleave #fab-btn': function(event) {
-    $("#closeFab").hide()
-  },
-  'mouseenter #closeFab': function(event) {
-    $("#closeFab").show()
-  },
-  'mouseleave #closeFab': function(event) {
-    $("#closeFab").hide()
-  },
-  'click #closeFab': function(event) {
-    Meteor.users.update({
-      _id: Meteor.userId()
-    }, {
-      $set: {
-        "profile.fab": true
-      }
-    });
-    $("#fab-btn").hide();
-    $("#closeFab").hide();
-    $("#fab-menu").hide();
+  'click #fab-btn': function(event, template) {
+      if (Template.instance().fabOpen.get() === true) {
+        template.fabOpen.set(false);
+      }else {
+        template.fabOpen.set(true);
+      };
   },
   'click #fabAddContacts': function(event) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateContacts'])) {
-      toastr.warning('You do not have permission to create contacts. Please contact your system administrator.');
-      return;
-    }
     event.preventDefault();
     Modal.show('insertContactModal', this);
   },
   'click #fabAddCompanies': function(event) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateCompanies'])) {
-      toastr.warning('You do not have permission to create companies. Please contact your system administrator.');
-      return;
-    }
-
     event.preventDefault();
     Modal.show('insertNewCompanyModal', this);
   },
   'click #fabAddProject': function(event) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateProjects'])) {
-      toastr.warning('You do not have permission to create projects. Please contact your system administrator.');
-      return;
-    }
     event.preventDefault();
     Modal.show('newProjectForm', this);
   },
   'click #fabAddPurchaseOrder': function(event) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreatePurchaseOrders'])) {
-      toastr.warning('You do not have permission to create purchase orders. Please contact your system administrator.');
-      return;
-    }
     event.preventDefault();
     Modal.show('newPurchaseOrderForm', this);
   }
