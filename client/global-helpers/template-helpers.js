@@ -85,10 +85,18 @@ Template.registerHelper('TagsIndex', () => TagsIndex);
 
 // Return standard search input attributes for EasySearch
 Template.registerHelper('searchInputAttributes', () => {
-  return {
-    placeholder: 'Search...',
-    class: 'form-control easysearch-input',
-    autofocus: true
+  if (bowser.mobile || bowser.tablet) {
+    return {
+      placeholder: 'Search...',
+      class: 'form-control easysearch-input',
+      autofocus: false
+    };
+  }else {
+    return {
+      placeholder: 'Search...',
+      class: 'form-control easysearch-input',
+      autofocus: true
+    };
   };
 });
 

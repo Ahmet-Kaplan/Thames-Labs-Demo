@@ -240,6 +240,10 @@ Template.dashboard.onRendered(function() {
   //Has user taken welcome tour yet?
   if (!Meteor.user().profile.welcomeTour) {
     Modal.show("firstRun");
+  }else if (bowser.mobile || bowser.tablet) {
+    if (!Meteor.user().profile.mobile) {
+      Modal.show("firstRunMobile");
+    };
   }
 });
 

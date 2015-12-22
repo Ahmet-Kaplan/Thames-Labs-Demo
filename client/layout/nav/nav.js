@@ -245,8 +245,8 @@ Template.nav.events({
   'click #toggleFab': function(event, template) {
     if (Template.instance().fab.get() === true) {
       template.fab.set(false);
-      template.fabOpen.set(false);
     }else {
+      template.fabOpen.set(true);
       template.fab.set(true);
     };
   },
