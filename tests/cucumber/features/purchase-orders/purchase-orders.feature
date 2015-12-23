@@ -148,6 +148,8 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanEditPurchaseOrders" permission
     And a "PurchaseOrder" has been created
     When I navigate to a purchase order page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     Then I should see a modal
     When I set text field "activityTimestamp" to "05/05/2015 05:05"

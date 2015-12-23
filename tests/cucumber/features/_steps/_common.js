@@ -59,7 +59,7 @@ module.exports = function() {
   this.Given(/^I am a logged in user$/, function() {
     browser
       .executeAsync(function(done) {
-        Meteor.call('removeWidgetAndFab', done);
+        Meteor.call('removeWelcome', done);
     });
     browser.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
@@ -68,7 +68,7 @@ module.exports = function() {
     browser.executeAsync(login, 'test2@domain.com', 'goodpassword');
     browser
       .executeAsync(function(done) {
-        Meteor.call('removeWidgetAndFab', done);
+        Meteor.call('removeWelcome', done);
     });
   });
 
@@ -94,13 +94,6 @@ module.exports = function() {
       toastr.clear();
       done();
     });
-  });
-
-  this.Given(/^fab is enabled$/, function() {
-    browser.executeAsync(function(done) {
-        Meteor.call('showFab', done);
-    });
-    browser.refresh();
   });
 
 /***************************************************

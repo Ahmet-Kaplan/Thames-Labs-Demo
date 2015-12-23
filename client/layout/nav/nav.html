@@ -325,24 +325,24 @@
   {{#unless isInRole 'superadmin'}}
     {{#if loggedIn}}
       {{#if fabEnabled}}
-        <div class="fab" id="fab">
+        <div class="fab {{#if isMobile}}fab-mobile{{/if}}" id="fab">
           <button class="fixed-action-btn" id="fab-btn">{{#if fabOpen}}<i class="fa fw-fa fa-times"></i>{{else}}<i class="fa fw-fa fa-plus"></i>{{/if}}</button>
-          <!-- {{#if fabOpen}} -->
-            <div class="fab-menu" id="fab-menu">
+          {{#if fabOpen}}
+            <div class="fab-menu {{#if isMobile}}fab-menu-mobile{{/if}}" id="fab-menu">
               {{#if isInRole 'Administrator, CanCreateContacts'}}
-                <button class="fab-menu-item animated {{#if fabOpen}}zoomInRight{{else}}zoomOutRight{{/if}}" id="fabAddContacts" data-toggle="tooltip" title="Add a Contact (Ctl+Alt+C)"><i class="fa fw-fa fa-user"></i></button>
+                <button class="fab-menu-item animated zoomInRight" id="fabAddContacts" data-toggle="tooltip" title="Add a Contact (Ctl+Alt+C)"><i class="fa fw-fa fa-user"></i></button>
               {{/if}}
               {{#if isInRole 'Administrator, CanCreateCompanies'}}
-                <button class="fab-menu-item animated {{#if fabOpen}}zoomInRight{{else}}zoomOutRight{{/if}}" id="fabAddCompanies" data-toggle="tooltip" title="Add a Company (Ctl+Alt+X)"><i class="fa fw-fa fa-building"></i></button>
+                <button class="fab-menu-item animated zoomInRight" id="fabAddCompanies" data-toggle="tooltip" title="Add a Company (Ctl+Alt+X)"><i class="fa fw-fa fa-building"></i></button>
               {{/if}}
               {{#if isInRole 'Administrator, CanCreateProjects'}}
-                <button class="fab-menu-item animated {{#if fabOpen}}zoomInRight{{else}}zoomOutRight{{/if}}" id="fabAddProject" data-toggle="tooltip" title="Add a Project (Ctl+Alt+J)"><i class="fa fw-fa fa-sitemap"></i></button>
+                <button class="fab-menu-item animated zoomInRight" id="fabAddProject" data-toggle="tooltip" title="Add a Project (Ctl+Alt+J)"><i class="fa fw-fa fa-sitemap"></i></button>
               {{/if}}
               {{#if isInRole 'Administrator, CanCreatePurchaseOrders'}}
-                <button class="fab-menu-item animated {{#if fabOpen}}zoomInRight{{else}}zoomOutRight{{/if}}" id="fabAddPurchaseOrder" data-toggle="tooltip" title="Add a Purchase Order (Ctl+Alt+P)"><i class="fa fw-fa fa-shopping-cart"></i></button>
+                <button class="fab-menu-item animated zoomInRight" id="fabAddPurchaseOrder" data-toggle="tooltip" title="Add a Purchase Order (Ctl+Alt+P)"><i class="fa fw-fa fa-shopping-cart"></i></button>
               {{/if}}
             </div>
-          <!-- {{/if}} -->
+          {{/if}}
         </div>
       {{/if}}
     {{/if}}

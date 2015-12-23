@@ -106,7 +106,7 @@ Meteor.methods({
     Partitioner.setUserGroup(userId, tenantId);
   },
 
-  removeWidgetAndFab: function() {
+  removeWelcome: function() {
     Meteor.users.update({
       username: "test user"
     }, {
@@ -114,11 +114,6 @@ Meteor.methods({
         "profile.welcomeTour": true,
       }
     });
-    //todo: remove fab
-  },
-
-  showFab: function() {
-    //todo: remove fab
   },
 
   createTestSuperAdmin: function() {

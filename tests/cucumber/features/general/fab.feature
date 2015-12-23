@@ -7,7 +7,6 @@ Feature: Allow the user to use the fab
   Background:
     Given a user exists
     And I am a logged in user
-    And fab is enabled
     And I have the "CanCreateCompanies" permission
     And I have the "CanCreateContacts" permission
     And I have the "CanCreatePurchaseOrders" permission

@@ -307,6 +307,8 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user can add an activity
     Given a "Opportunity" has been created
     When I navigate to an opportunity page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -317,6 +319,8 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user can edit an activity
     Given a "Opportunity" has been created
     When I navigate to an opportunity page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -331,6 +335,8 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user can delete an activity
     Given an "Opportunity" has been created
     When I navigate to an opportunity page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
