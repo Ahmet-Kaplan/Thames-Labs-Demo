@@ -50,7 +50,7 @@
           </div>
           <div class="col-md-3">
             {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
-              <a href="#" id="add-purchase-order" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+P"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
+              <a href="#" id="add-purchase-order" class="btn btn-primary {{#if isMobile}}btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+P"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
             {{/if}}
           </div>
         </div>

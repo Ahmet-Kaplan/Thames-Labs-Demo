@@ -23,7 +23,7 @@
           </div>
           <div class="col-md-3">
             {{#if isInRole 'Administrator,CanCreateCompanies'}}
-              <button type="button" class="btn btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
+              <button type="button" class="btn btn-primary {{#if isMobile}}btn-fullWidth{{/if}}" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
             {{/if}}
           </div>
         </div>
