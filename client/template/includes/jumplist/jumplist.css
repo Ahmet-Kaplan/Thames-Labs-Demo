@@ -21,10 +21,12 @@
   -o-transition: All 0.3s ease;
   -ms-transition: All 0.3s ease;
   transition: All 0.3s ease;
+  min-width: 45px;
+  overflow: hidden;
+  text-align:left !important;
 }
 
 .jumplist-elt a:hover {
-  text-align: left !important;
   width: 200px;
 }
 

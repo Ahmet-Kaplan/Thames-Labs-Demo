@@ -24,40 +24,7 @@
     <div class="panel-body">
       <ul class="list-group" id='taskContainer'>
         {{#each tasks}} 
-
-          <a class="list-group-item" href="{{pathFor route='task' id=_id}}">
-            <div class="row">
-              <div class="col-md-4">
-                {{#if isInRole 'Administrator,CanEditTasks'}}
-                  {{#if completed}}
-                    <i class="fa fa-fw fa-check-circle task-green task-completed"></i>
-                  {{else}}
-                    <i class="fa fa-fw fa-check-circle-o task-completed"></i>
-                  {{/if}}
-                {{else}}
-                  {{#if completed}}
-                    <i class="fa fa-fw fa-check-circle task-green"></i>
-                  {{else}}
-                    <i class="fa fa-fw fa-check-circle-o"></i>
-                  {{/if}}
-                {{/if}}
-                {{title}}
-              </div>
-              <div class="col-md-3">
-                Assignee: {{taskAssignee}}
-                {{#unless completed}}
-                  {{#if formattedDueDate}}<br>Due {{formattedDueDate}}{{/if}}
-                {{/unless}}
-              </div>
-              <div class="col-md-4">
-                <span class="pull-right">{{> tagBadges}}</span>
-              </div>
-              <div class="col-md-1">
-                <i class="fa fa-fw fa-chevron-right pull-right"></i>
-              </div>
-            </div>
-          </a>
-
+          {{> task}}
         {{else}}
         <li class="list-group-item">No tasks added</li>
         {{/each}}

@@ -90,6 +90,13 @@ Schemas.Company = new SimpleSchema({
     autoform: {
       type: 'hidden'
     }
+  },
+  companiesHouseId: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
   }
 });
 Companies.attachSchema(Schemas.Company);

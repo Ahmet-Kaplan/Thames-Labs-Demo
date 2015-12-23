@@ -1,0 +1,84 @@
+<template name="legalCompanyInformation">
+  {{#if shouldShow}}
+      <h1>Legal information</h1>
+      {{#if company.companiesHouseId}}
+        <ul class="list-group" id="companiesHouseMetadata">
+          {{#if company.metadata.companiesHouse}}
+            {{#with company.metadata.companiesHouse}}
+              <li class="list-group-item panel-item-header">
+                <h4><i class="fa fa-fw fa-align-left"></i> Registered Company Name</h4>
+                <p class="list-group-item-text">{{company_name}}</p>
+              </li>
+              <li class="list-group-item panel-item-header">
+                <h4><i class="fa fa-fw fa-location-arrow"></i> Registered Office Address</h4>
+                {{#with registered_office_address}}
+                  <p class="list-group-item-text">{{address_line_1}}</p>
+                  <p class="list-group-item-text">{{address_line_2}}</p>
+                  <p class="list-group-item-text">{{locality}}</p>
+                  <p class="list-group-item-text">{{region}}</p>
+                  <p class="list-group-item-text">{{postal_code}}</p>
+                {{/with}}
+              </li>
+              <li class="list-group-item panel-item-header">
+                <h4><i class="fa fa-fw fa-check-square-o"></i>Company Type</h4>
+                <p class="list-group-item-text">{{companiesHouseEnumerate 'company_type' type}} - <i class="{{#if statusWarning}}text-danger{{/if}}">{{companiesHouseEnumerate 'company_status' company_status}}</i></p>
+              </li>
+              {{#if has_insolvency_history}}
+                <li class="list-group-item panel-item-header">
+                  <h4><i class="fa fa-fw fa-info-circle"></i>Notes</h4>
+                  <p class="list-group-item-text text-danger"><i class="fa fa-fw fa-exclamation-triangle"></i> Company has insolvency history</p>
+                </li>
+              {{/if}}
+            {{/with}}
+          {{/if}}
+          <a href="https://beta.companieshouse.gov.uk/company/{{company.companiesHouseId}}" class="list-group-item" target="_blank">
+            <i class="fa fa-fw fa-external-link"></i> View on companieshouse.gov.uk
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
+        </ul>
+        {{#if isInRole 'Administrator,CanEditCompanies'}}
+          <a href="#" class="unlink-record text-muted small pull-right">
+            <i class="fa fa-fw fa-chain-broken"></i>Remove link to Companies House record
+          </a>
+        {{/if}}
+        <div class="clearfix"></div>
+      {{else}}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="collapsed" data-toggle="collapse" href="#collapseCompaniesHouseSearchResults">
+                <i class="fa fa-fw fa-link"></i> Link to Companies House
+              </a>
+            </h4>
+          </div>
+          <div id="collapseCompaniesHouseSearchResults" class="panel-collapse collapse">
+            <div class="panel-body">
+              {{#if pluralResults}}
+                {{companiesHouseSearchResultsCount}} records match this company name. Select the correct result to link the records and view additional information.
+              {{else}}
+                {{companiesHouseSearchResultsCount}} record matches this company name. Click the result to link the records and view additional information.
+              {{/if}}
+            </div>
+            <ul class="list-group">
+              {{#each companiesHouseSearchResults}}
+                {{> legalCompanyInformationSearchResult}}
+              {{/each}}
+            </ul>
+            {{#if companiesHouseSearchResultsNotShown}}
+              <div class="panel-footer">
+                {{companiesHouseSearchResultsNotShown}} additional results not shown. Edit company name to refine the search.
+              </div>
+            {{/if}}
+          </div>
+        </div>
+      {{/if}}
+  {{/if}}
+</template>
+
+<template name="legalCompanyInformationSearchResult">
+  <a href="#" class="list-group-item">
+    <h4 class="list-group-item-heading">{{title}} </h4>
+    <p class="list-group-item-text">{{snippet}}</p>
+    <p class="list-group-item-text text-muted small">{{description}}</p>
+  </a>
+</template>
