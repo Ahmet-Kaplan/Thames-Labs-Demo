@@ -14,7 +14,9 @@ Template.updateCustomField.helpers({
           name: cfObject[index].dataName,
           props: attr
         };
-        data.push(ei);
+        if (attr.dataType !== 'label') {
+          data.push(ei);
+        }
       }
     }
 

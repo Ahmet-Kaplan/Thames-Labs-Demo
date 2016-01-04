@@ -2,7 +2,7 @@ Template.addNewGlobalCustomField.onRendered(function() {
   $.getScript('/vendor/medium/medium-editor.min.js');
 
   $('#select-entity').selectize({
-    create: true,
+    create: false,
     allowEmptyOption: false
   });
 
@@ -12,15 +12,12 @@ Template.addNewGlobalCustomField.onRendered(function() {
   $('#typeAdvText').prop('checked', false);
   $('#typeCheckbox').prop('checked', false);
   $('#typeDate').prop('checked', false);
+  $('#typeLabel').prop('checked', false);
 
   $('#text-input-area').show();
   $('#advtext-input-area').hide();
   $('#check-input-area').hide();
   $('#date-input-area').hide();
-});
-
-Template.addNewGlobalCustomField.helpers({
-
 });
 
 Template.addNewGlobalCustomField.events({
@@ -57,10 +54,15 @@ Template.addNewGlobalCustomField.events({
     $('#check-input-area').hide();
     $('#date-input-area').show();
   },
+  'click #typeLabel': function() {
+    $('#text-input-area').hide();
+    $('#advtext-input-area').hide();
+    $('#check-input-area').hide();
+    $('#date-input-area').hide();
+  },
   'click #createCustomField': function() {
     $('#createCustomField').prop('disabled', true);
     var cfName = $('#custom-field-name').val();
-    var cfGroup = ($('#custom-field-group').val() === "" ? "no-group" : $('#custom-field-group').val());
     var cfValue = "value";
     var cfType = "text";
     var cfEntity = $('#select-entity').val();
@@ -89,6 +91,10 @@ Template.addNewGlobalCustomField.events({
     if ($('#typeDate').prop('checked')) {
       cfType = "date";
       cfValue = $('#custom-field-date-value').val();
+    }
+    if ($('#typeLabel').prop('checked')) {
+      cfType = "label";
+      cfValue = '';
     }
 
     var user = Meteor.users.findOne(Meteor.userId());
@@ -119,8 +125,7 @@ Template.addNewGlobalCustomField.events({
       type: cfType,
       defaultValue: cfValue,
       targetEntity: cfEntity,
-      dataOrder: orderValue,
-      dataGroup: cfGroup
+      dataOrder: orderValue
     };
 
     if (_.findWhere(fields, newField) === undefined) {
@@ -188,8 +193,7 @@ Template.addNewGlobalCustomField.events({
           "dataValue": cfValue,
           "dataType": cfType,
           "isGlobal": true,
-          dataOrder: orderValue,
-          dataGroup: cfGroup
+          dataOrder: orderValue
         };
         cfMaster.push(settings);
 

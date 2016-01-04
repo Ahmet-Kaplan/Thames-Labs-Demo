@@ -2,7 +2,7 @@
 <li class="list-group-item custom-field-display-item{{#if isGlobal}} globalCFBackground{{/if}}">
 
   {{#if isAdvancedText}}
-    <div class="row">
+    <div class="row non-label">
       <div class="col-md-10">
         <strong>{{name}}:</strong>
       </div>
@@ -25,27 +25,31 @@
       </div>
     </div>
     {{else}}
-    <div class="row">
-      <div class="col-md-10">
-        <strong>{{name}}:</strong>
-        <span id="custom-field-{{trimmedName}}">{{displayValue}}</span>
-      </div>
-
-      <div class="col-md-2">
-        {{#unless isGlobal}}
-          <div class="btn-group pull-right">
-            <button class="btn btn-danger btn-xs" data-placement="bottom" data-toggle="tooltip" id='delete-custom-field' role='button' title="Delete this extended field">
-              <i class="fa fa-fw fa-times"></i>
-              Delete
-            </button>
+      {{#if equals type 'label'}}
+        <div class="row">
+          <div class="col-md-12">
+            <span class="cf-label">{{name}}</span>
           </div>
-          {{else}}
-          {{#unless equals dataGroup 'no-group'}}
-            <span class="label label-success custom-field-group-display pull-right">{{dataGroup}}</span>
-          {{/unless}}
-        {{/unless}}
-      </div>
-    </div>
+        </div>
+      {{else}}
+        <div class="row non-label">
+          <div class="col-md-10">
+            <strong>{{name}}:</strong>
+            <span id="custom-field-{{trimmedName}}">{{displayValue}}</span>
+          </div>
+
+          <div class="col-md-2">
+            {{#unless isGlobal}}
+              <div class="btn-group pull-right">
+                <button class="btn btn-danger btn-xs" data-placement="bottom" data-toggle="tooltip" id='delete-custom-field' role='button' title="Delete this extended field">
+                  <i class="fa fa-fw fa-times"></i>
+                  Delete
+                </button>
+              </div>
+            {{/unless}}
+          </div>
+        </div>
+      {{/if}}
   {{/if}}
   {{parentHelper ..}}
 </li>

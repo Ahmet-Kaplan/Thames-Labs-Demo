@@ -509,7 +509,6 @@ Migrations.add({
               currentTenantData = tenant.settings.extInfo.company;
               _.each(currentTenantData, function(ctd, i) {
                 if (!ctd.dataOrder) ctd.dataOrder = i;
-                if (!ctd.dataGroup) ctd.dataGroup = "no-group";
               });
 
               Tenants.update({
@@ -524,7 +523,6 @@ Migrations.add({
               currentTenantData = tenant.settings.extInfo.contact;
               _.each(currentTenantData, function(ctd, i) {
                 if (!ctd.dataOrder) ctd.dataOrder = i;
-                if (!ctd.dataGroup) ctd.dataGroup = "no-group";
               });
 
               Tenants.update({
@@ -539,7 +537,6 @@ Migrations.add({
               currentTenantData = tenant.settings.extInfo.project;
               _.each(currentTenantData, function(ctd, i) {
                 if (!ctd.dataOrder) ctd.dataOrder = i;
-                if (!ctd.dataGroup) ctd.dataGroup = "no-group";
               });
 
               Tenants.update({

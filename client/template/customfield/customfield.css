@@ -1,50 +1,51 @@
 #custom-fields-panel {
   border-bottom: none;
 }
-
 #custom-field-container li:last-child {
   border-bottom: 1px solid #dddddd;
 }
-
 #custom-field-container .list-group-item {
   border: none;
 }
-
 .globalCFBackground {
   background: #fafafa !important;
 }
-
 .extinfo-scroll {
   max-height: 450px;
   overflow-x: hidden;
   overflow-y: auto;
 }
-
 #extInfosDisplayItem {
   padding: 3px 0 2px 0;
 }
-
 .modMyPosition {
   padding-top: 7px;
   margin-left: 4px;
 }
-
-.mediumWrapper{
+.mediumWrapper {
   max-height: 100px;
   overflow-x: hidden;
   overflow-y: auto;
   border: 1px solid #959595;
 }
-
-.mediumWrapperDetail{
+.mediumWrapperDetail {
   /*max-height: 200px;
   overflow-x: hidden;
   overflow-y: auto;*/
-  margin-top:2px;
-  padding:4px;
+  margin-top: 2px;
+  padding: 4px;
 }
-.custom-field-group-display{
-  overflow:hidden;
-  text-overflow:ellipsis;
-  margin-top:3px;
+.custom-field-group-display {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 3px;
+}
+.cf-label {
+  font-size: 1.3em;
+  border-bottom: 1px dashed #e2e2e2;
+  padding: 0 30px 0 10px;
+}
+.non-label {
+  margin-top: -8px;
+  margin-bottom: -8px;
 }

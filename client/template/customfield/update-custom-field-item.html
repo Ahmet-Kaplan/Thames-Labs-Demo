@@ -4,14 +4,8 @@
     <div id="extInfos{{extInfoId}}Information">
       <div class="row">
 
-        <div class="col-md-2 modMyPosition">
+        <div class="col-md-3 modMyPosition">
           {{name}}
-        </div>
-
-        <div class="col-md-1 modMyPosition">
-          {{#unless equals props.dataGroup 'no-group'}}
-            <span class="label label-success">{{props.dataGroup}}</span>
-          {{/unless}}
         </div>
 
         {{#unless props.isGlobal}}

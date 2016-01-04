@@ -154,6 +154,9 @@ Template.gcf_display.helpers({
       case 'date':
         retVal = 'Date/Time';
         break;
+      case 'label':
+        retVal = 'Label';
+        break;
     }
 
     return retVal;

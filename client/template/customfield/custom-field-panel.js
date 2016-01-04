@@ -72,8 +72,7 @@ Template.customFieldDisplay.helpers({
         type: ei.dataType,
         displayValue: dv,
         isGlobal: true,
-        dataOrder: orderValue,
-        dataGroup: ei.dataGroup
+        dataOrder: orderValue
       };
       ret.push(cfObj);
     });
