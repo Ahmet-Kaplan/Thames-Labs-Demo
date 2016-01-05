@@ -163,12 +163,12 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         var lowerThan = parseInt(options.search.props.valueLower);
         var greaterThan = parseInt(options.search.props.valueGreater);
 
-        if(lowerThan && !isNaN(lowerThan)) {
-          selector.value.$lte = parseInt(options.search.props.valueLower);
+        if(!isNaN(lowerThan)) {
+          selector.value.$lte = lowerThan;
         }
 
-        if(greaterThan && !isNaN(greaterThan)) {
-          selector.value.$gte = parseInt(options.search.props.valueGreater);
+        if(!isNaN(greaterThan)) {
+          selector.value.$gte = greaterThan;
         }
       }
 

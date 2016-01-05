@@ -114,7 +114,7 @@ Template.searchHelp.helpers({
           },
           {
             name: 'Value >',
-            description: 'An lower limit for the value. Can be used together with Value <',
+            description: 'A lower limit for the value. Can be used together with Value <',
             multiple: false
           }
         ];
@@ -172,6 +172,29 @@ Template.searchHelp.helpers({
             name: 'Status',
             description: 'Select amongst the different statuses (' + Schemas.PurchaseOrder.schema().status.allowedValues.join(', ') + ')',
             multiple: true
+          }
+        ];
+      case 'products':
+        return [
+          {
+            name: 'Sales Price <',
+            description: 'An upper limit for the sales price. Can be used together with Sales Price >',
+            multiple: false
+          },
+          {
+            name: 'Sales Price >',
+            description: 'A lower limit for the sales price. Can be used together with Sales Price <',
+            multiple: false
+          },
+          {
+            name: 'Cost Price <',
+            description: 'An upper limit for the cost price. Can be used together with Cost Price >',
+            multiple: false
+          },
+          {
+            name: 'Cost Price >',
+            description: 'A lower limit for the cost price. Can be used together with Cost Price <',
+            multiple: false
           }
         ];
     }
