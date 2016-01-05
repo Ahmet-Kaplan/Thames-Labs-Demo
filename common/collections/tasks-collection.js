@@ -23,53 +23,43 @@ Tasks.helpers({
 // SEARCH FILTERS //
 ////////////////////
 
-var wordedTimes = [
-  {
-    expr: 'today',
-    start: moment().startOf('day'),
-    end: moment().endOf('day')
-  },
-  {
-    expr: 'tomorrow',
-    start: moment().add(1, 'day').startOf('day'),
-    end: moment().add(1, 'day').endOf('day')
-  },
-  {
-    expr: 'yesterday',
-    start: moment().subtract(1, 'day').startOf('day'),
-    end: moment().subtract(1, 'day').endOf('day')
-  },
-  {
-    expr: 'this week',
-    start: moment().startOf('week'),
-    end: moment().endOf('week')
-  },
-  {
-    expr: 'next week',
-    start: moment().add(1, 'week').startOf('week'),
-    end: moment().add(1, 'week').endOf('week')
-  },
-  {
-    expr: 'last week',
-    start: moment().subtract(1, 'week').startOf('week'),
-    end: moment().subtract(1, 'week').endOf('week')
-  },
-  {
-    expr: 'this month',
-    start: moment().startOf('month'),
-    end: moment().endOf('month')
-  },
-  {
-    expr: 'next month',
-    start: moment().add(1, 'month').startOf('month'),
-    end: moment().add(1, 'month').endOf('month')
-  },
-  {
-    expr: 'last month',
-    start: moment().subtract(1, 'month').startOf('month'),
-    end: moment().subtract(1, 'month').endOf('month')
-  }
-]
+var wordedTimes = [{
+  expr: 'today',
+  start: moment().startOf('day'),
+  end: moment().endOf('day')
+}, {
+  expr: 'tomorrow',
+  start: moment().add(1, 'day').startOf('day'),
+  end: moment().add(1, 'day').endOf('day')
+}, {
+  expr: 'yesterday',
+  start: moment().subtract(1, 'day').startOf('day'),
+  end: moment().subtract(1, 'day').endOf('day')
+}, {
+  expr: 'this week',
+  start: moment().startOf('week'),
+  end: moment().endOf('week')
+}, {
+  expr: 'next week',
+  start: moment().add(1, 'week').startOf('week'),
+  end: moment().add(1, 'week').endOf('week')
+}, {
+  expr: 'last week',
+  start: moment().subtract(1, 'week').startOf('week'),
+  end: moment().subtract(1, 'week').endOf('week')
+}, {
+  expr: 'this month',
+  start: moment().startOf('month'),
+  end: moment().endOf('month')
+}, {
+  expr: 'next month',
+  start: moment().add(1, 'month').startOf('month'),
+  end: moment().add(1, 'month').endOf('month')
+}, {
+  expr: 'last month',
+  start: moment().subtract(1, 'month').startOf('month'),
+  end: moment().subtract(1, 'month').endOf('month')
+}]
 
 Collections.tasks.filters = {
   assignee: {
@@ -80,7 +70,7 @@ Collections.tasks.filters = {
     nameField: 'name',
     subscriptionById: 'allUserData',
     displayValue: function(user) {
-      if(user) {
+      if (user) {
         return user.profile.name;
       }
     }
@@ -93,7 +83,7 @@ Collections.tasks.filters = {
     nameField: 'name',
     subscriptionById: 'companyById',
     displayValue: function(company) {
-      if(company) {
+      if (company) {
         return company.name;
       }
     }
@@ -106,7 +96,7 @@ Collections.tasks.filters = {
     nameField: 'name',
     subscriptionById: 'contactById',
     displayValue: function(contact) {
-      if(contact) {
+      if (contact) {
         return contact.name();
       }
     }
@@ -119,7 +109,7 @@ Collections.tasks.filters = {
     nameField: 'name',
     subscriptionById: 'opportunityById',
     displayValue: function(opportunity) {
-      if(opportunity) {
+      if (opportunity) {
         return opportunity.name;
       }
     }
@@ -132,7 +122,7 @@ Collections.tasks.filters = {
     nameField: 'name',
     subscriptionById: 'projectById',
     displayValue: function(project) {
-      if(project) {
+      if (project) {
         return project.name;
       }
     }
@@ -141,7 +131,9 @@ Collections.tasks.filters = {
     display: 'Tag:',
     prop: 'tags',
     collectionName: 'tags',
-    autosuggestFilter: {collection: 'tasks'},
+    autosuggestFilter: {
+      collection: 'tasks'
+    },
     valueField: 'name',
     nameField: 'name'
   },
@@ -149,16 +141,18 @@ Collections.tasks.filters = {
     display: 'Due Date:',
     prop: 'dueDate',
     verify: function(dueDate) {
-      if(!moment(dueDate).isValid() && !moment(dueDate, 'DD-MM-YYYY', false).isValid() && !_.some(wordedTimes, 'expr', dueDate.toLowerCase())) {
-        toastr.error('Invalid date', 'Error', {preventDuplicates: true});
+      if (!moment(dueDate).isValid() && !moment(dueDate, 'DD-MM-YYYY', false).isValid() && !_.some(wordedTimes, 'expr', dueDate.toLowerCase())) {
+        toastr.error('Invalid date', 'Error', {
+          preventDuplicates: true
+        });
         return false;
       }
 
       //Edge case: to avoid conflict, remove dueDate if set
-      if(Collections.tasks.index.getComponentDict().get('searchOptions').props.after) {
+      if (Collections.tasks.index.getComponentDict().get('searchOptions').props.after) {
         Collections.tasks.index.getComponentMethods().removeProps('after');
       }
-      if(Collections.tasks.index.getComponentDict().get('searchOptions').props.before) {
+      if (Collections.tasks.index.getComponentDict().get('searchOptions').props.before) {
         Collections.tasks.index.getComponentMethods().removeProps('before');
       }
       return true;
@@ -172,15 +166,19 @@ Collections.tasks.filters = {
     prop: 'before',
     verify: function(date) {
       var afterOption = Collections.tasks.index.getComponentDict().get('searchOptions').props.after;
-      if(!moment(date).isValid() && !moment(date, 'DD-MM-YYYY', false).isValid()) {
-        toastr.error('Invalid date', 'Error', {preventDuplicates: true});
+      if (!moment(date).isValid() && !moment(date, 'DD-MM-YYYY', false).isValid()) {
+        toastr.error('Invalid date', 'Error', {
+          preventDuplicates: true
+        });
         return false;
-      } else if(afterOption && moment(date).isBefore(moment(afterOption))) {
-        toastr.error('The \'Before\' date is before the \'After\' date', 'Error', {preventDuplicates: true});
+      } else if (afterOption && moment(date).isBefore(moment(afterOption))) {
+        toastr.error('The \'Before\' date is before the \'After\' date', 'Error', {
+          preventDuplicates: true
+        });
         return false;
 
-      //Edge case: to avoid conflict, remove dueDate if set
-      } else if(Collections.tasks.index.getComponentDict().get('searchOptions').props.dueDate) {
+        //Edge case: to avoid conflict, remove dueDate if set
+      } else if (Collections.tasks.index.getComponentDict().get('searchOptions').props.dueDate) {
         Collections.tasks.index.getComponentMethods().removeProps('dueDate');
       }
       return true;
@@ -191,15 +189,19 @@ Collections.tasks.filters = {
     prop: 'after',
     verify: function(date) {
       var beforeOption = Collections.tasks.index.getComponentDict().get('searchOptions').props.before;
-      if(!moment(date).isValid() && !moment(date, 'DD-MM-YYYY', false).isValid()) {
-        toastr.error('Invalid date', 'Error', {preventDuplicates: true});
+      if (!moment(date).isValid() && !moment(date, 'DD-MM-YYYY', false).isValid()) {
+        toastr.error('Invalid date', 'Error', {
+          preventDuplicates: true
+        });
         return false;
-      } else if(beforeOption && moment(date).isAfter(moment(beforeOption))) {
-        toastr.error('The \'After\' date is after the \'Before\' date', 'Error', {preventDuplicates: true});
+      } else if (beforeOption && moment(date).isAfter(moment(beforeOption))) {
+        toastr.error('The \'After\' date is after the \'Before\' date', 'Error', {
+          preventDuplicates: true
+        });
         return false;
 
-      //Edge case: to avoid conflict, remove dueDate if set
-      } else if(Collections.tasks.index.getComponentDict().get('searchOptions').props.dueDate) {
+        //Edge case: to avoid conflict, remove dueDate if set
+      } else if (Collections.tasks.index.getComponentDict().get('searchOptions').props.dueDate) {
         Collections.tasks.index.getComponentMethods().removeProps('dueDate');
       }
       return true;
@@ -227,6 +229,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
     fields: (searchObject, options) => {
       return {
         'title': 1,
+        'description': 1,
         'dueDate': 1,
         'reminder': 1,
         'completed': 1,
@@ -239,56 +242,66 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
-      if(options.search.props.assignee) {
+      if (options.search.props.assignee) {
         // n.b. the array is passed as a comma separated string
-        selector.assigneeId = {$in: options.search.props.assignee.split(',')};
+        selector.assigneeId = {
+          $in: options.search.props.assignee.split(',')
+        };
       }
 
-      if(options.search.props.company) {
+      if (options.search.props.company) {
         // n.b. the array is passed as a comma separated string
-        selector.entityId = {$in: options.search.props.company.split(',')};
+        selector.entityId = {
+          $in: options.search.props.company.split(',')
+        };
       }
 
-      if(options.search.props.contact) {
+      if (options.search.props.contact) {
         // n.b. the array is passed as a comma separated string
-        selector.entityId = {$in: options.search.props.contact.split(',')};
+        selector.entityId = {
+          $in: options.search.props.contact.split(',')
+        };
       }
 
-      if(options.search.props.opportunity) {
+      if (options.search.props.opportunity) {
         // n.b. the array is passed as a comma separated string
-        selector.entityId = {$in: options.search.props.opportunity.split(',')};
+        selector.entityId = {
+          $in: options.search.props.opportunity.split(',')
+        };
       }
 
-      if(options.search.props.project) {
+      if (options.search.props.project) {
         // n.b. the array is passed as a comma separated string
-        selector.entityId = {$in: options.search.props.project.split(',')};
+        selector.entityId = {
+          $in: options.search.props.project.split(',')
+        };
       }
 
-      if(options.search.props.tags) {
+      if (options.search.props.tags) {
         // n.b. tags is a comma separated string
         selector.tags = {
           $in: options.search.props.tags.split(',')
         };
       }
 
-      if(options.search.props.dueDate) {
+      if (options.search.props.dueDate) {
         var dueDate = options.search.props.dueDate;
         var formattedStartDate = null;
         var formattedEndDate = null;
 
-        if(moment(dueDate).isValid()) {
+        if (moment(dueDate).isValid()) {
           formattedStartDate = moment(dueDate).startOf('day').toDate();
           formattedEndDate = moment(dueDate).endOf('day').toDate();
-        } else if(moment(dueDate, 'DD-MM-YYYY', false).isValid()) {
+        } else if (moment(dueDate, 'DD-MM-YYYY', false).isValid()) {
           formattedStartDate = moment(dueDate, 'DD-MM-YYYY', false).startOf('day').toDate();
           formattedEndDate = moment(dueDate, 'DD-MM-YYYY', false).endOf('day').toDate();
-        } else if(_.some(wordedTimes, 'expr', dueDate.toLowerCase())) {
+        } else if (_.some(wordedTimes, 'expr', dueDate.toLowerCase())) {
           var index = _.findIndex(wordedTimes, 'expr', dueDate.toLowerCase());
           formattedStartDate = wordedTimes[index].start.toDate();
           formattedEndDate = wordedTimes[index].end.toDate();
         }
 
-        if(formattedStartDate && formattedEndDate) {
+        if (formattedStartDate && formattedEndDate) {
           selector.dueDate = {
             $gte: formattedStartDate,
             $lte: formattedEndDate
@@ -297,37 +310,39 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 
       }
 
-      if(options.search.props.after || options.search.props.before) {
+      if (options.search.props.after || options.search.props.before) {
         var dueAfter = options.search.props.after;
         var dueBefore = options.search.props.before;
         var startDate = null;
         var endDate = null;
         selector.dueDate = {};
 
-        if(dueAfter && moment(dueAfter).isValid()) {
+        if (dueAfter && moment(dueAfter).isValid()) {
           startDate = moment(dueAfter).startOf('day').toDate();
           selector.dueDate.$gte = startDate;
-        } else if(dueAfter && moment(dueAfter, 'DD-MM-YYYY', false).isValid()) {
+        } else if (dueAfter && moment(dueAfter, 'DD-MM-YYYY', false).isValid()) {
           startDate = moment(dueAfter, 'DD-MM-YYYY', false).startOf('day').toDate();
           selector.dueDate.$gte = startDate;
         }
 
-        if(dueBefore && moment(dueBefore).isValid()) {
+        if (dueBefore && moment(dueBefore).isValid()) {
           endDate = moment(dueBefore).endOf('day').toDate();
           selector.dueDate.$lte = endDate;
-        } else if(dueBefore && moment(dueBefore, 'DD-MM-YYYY', false).isValid()) {
+        } else if (dueBefore && moment(dueBefore, 'DD-MM-YYYY', false).isValid()) {
           endDate = moment(dueBefore, 'DD-MM-YYYY', false).endOf('day').toDate();
           selector.dueDate.$lte = endDate;
         }
       }
 
-      if(options.search.props.showCompleted) {
+      if (options.search.props.showCompleted) {
         selector.completed = true;
       } else {
-        selector.completed = { $ne: true };
+        selector.completed = {
+          $ne: true
+        };
       }
 
-      if(options.search.props.searchById) {
+      if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
 
