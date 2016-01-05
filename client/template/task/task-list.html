@@ -48,7 +48,7 @@
   </div>
 
   {{#if showCalendar}}
-    {{> fullcalendar id='taskCalendar' header=header}}
+    {{> fullcalendar calendarOptions}}
   {{else}}
     {{> searchResults index=TasksIndex listItemTemplateName='task'}}
   {{/if}}

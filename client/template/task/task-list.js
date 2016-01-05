@@ -47,10 +47,46 @@ Template.taskList.helpers({
   showCalendar: function() {
     return Template.instance().showCalendar.get();
   },
-  header: {
-    left: 'title',
-    center: 'month,agendaWeek,agendaDay',
-    right: 'today prev,next'
+  calendarOptions: function() {
+    return {
+      id: 'tasksCalendar',
+      firstDay: 1,
+      weekNumbers: true,
+      header: {
+        left: 'title',
+        center: 'month,agendaWeek,agendaDay',
+        right: 'today prev,next'
+      },
+      timezone: 'local',
+      selectable: true,
+      selectHelper: true,
+      snapDuration: '00:05:00',
+      select: function(start, end, jsEvent, view) {
+        var startTime = start.format('DD/MM/YYYY hh:mm');
+        var endTime = end.format('DD/MM/YYYY hh:mm');
+        bootbox.confirm({
+          title: 'Add Event',
+          message: 'You are about to add an event from ' + startTime + ' to ' + endTime,
+          callback: function(result) {
+          },
+          backdrop: false
+        })
+      },
+      eventSources: [
+        function() {
+          console.log('fetching events');
+          console.log(this, this.getView(), this.getView().start, this.getView().end);
+          var startTime = this.getView().start;
+          var endTime = this.getView().end;
+          TasksIndex.getComponentMethods().addProps('after', startTime);
+          TasksIndex.getComponentMethods().addProps('before', endTime);
+          this.renderEvent({
+            title: 'Test event',
+            start: moment().startOf()
+          }, true)
+        }
+      ]
+    }
   }
 });
 
