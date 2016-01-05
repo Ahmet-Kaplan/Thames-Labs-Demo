@@ -36,8 +36,8 @@ Template.opportunityList.onRendered(function() {
   Meteor.call('report.averageOpportunityValue', function(err, data) {
     template.averageOppValue.set(data.Value);
   });
-  
-  $('[data-toggle="popover"]').popover({html : true, placement : "bottom", container: '#btn-popover'});
+
+  $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: '#btn-popover'});
 
 });
 

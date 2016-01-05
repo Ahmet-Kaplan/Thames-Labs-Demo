@@ -111,7 +111,7 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
-      
+
       if (options.search.props.filterCompanyId) {
         selector.companyId = options.search.props.filterCompanyId;
       }

@@ -33,7 +33,7 @@ Template.purchaseOrderList.onRendered(function() {
     template.totalRejectedPo.set(data.Count);
   });
 
-  $('[data-toggle="popover"]').popover({html : true, placement : "bottom", container: "#btn-popover"});
+  $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: "#btn-popover"});
 });
 
 Template.purchaseOrderList.events({

@@ -115,7 +115,7 @@ Collections.projects.filters = {
     display: 'Due Before:',
     prop: 'before',
     verify: function(date) {
-      var afterOption = (Collections.projects.index.getComponentDict().get('searchOptions').props) ? Collections.projects.index.getComponentDict().get('searchOptions').props.after : null ;
+      var afterOption = (Collections.projects.index.getComponentDict().get('searchOptions').props) ? Collections.projects.index.getComponentDict().get('searchOptions').props.after : null;
       if(!moment(date).isValid() && !moment(date, 'DD-MM-YYYY', false).isValid()) {
         toastr.error('Invalid date', 'Error', {preventDuplicates: true});
         return false;
@@ -196,7 +196,7 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
-      
+
       if (options.search.props.supplierCompanyId) {
         selector.companyId = options.search.props.supplierCompanyId;
       } else if (options.search.props.supplierContactId) {

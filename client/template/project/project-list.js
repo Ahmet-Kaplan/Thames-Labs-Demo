@@ -34,7 +34,7 @@ Template.projectsList.onRendered(function() {
     template.projectsAverage.set(data.Value);
   });
 
-  $('[data-toggle="popover"]').popover({html : true, placement : "bottom", container: '#btn-popover'});
+  $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: '#btn-popover'});
 });
 
 Template.projectsList.events({

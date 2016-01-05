@@ -125,7 +125,7 @@ Meteor.methods({
         contactSurname = (forename === true) ? 'Kenobi' : (surname || 'Surname'),
         email = (forename === true) ? 'obiwan@kenobi.com' : 'testy@surname.com'
         userId = Meteor.userId();
-    
+
     var contactId = Contacts.insert({
       forename: contactForename,
       surname: contactSurname,
@@ -176,7 +176,7 @@ Meteor.methods({
   addProject: function(additional) {
     var companyId = (additional === true) ? Meteor.call('addCompany', true) : Companies.findOne({})._id,
         name = (additional === true) ? 'Restore Peace to the galaxy' : 'test project',
-        description = (additional === true) ? 'Since the Sith took control, the galaxy is an awful place to live.' : 
+        description = (additional === true) ? 'Since the Sith took control, the galaxy is an awful place to live.' :
                                               'The purpose of this project is only to serve as an example for the tests.',
         value = (additional === true) ? 10000 : 100;
 
@@ -196,7 +196,7 @@ Meteor.methods({
         _id: projectId
       });
     }
-    
+
     return projectId;
   },
 
@@ -266,7 +266,7 @@ Meteor.methods({
     var name = (additional === true) ? 'Destroy Death Star' : 'test opportunity',
         description = (additional === true) ? 'This is no moon!' : 'test description',
         value = (additional === true) ? 5000 : 40;
-    
+
     var data = Opportunities.insert({
       name: name,
       description: description,

@@ -117,7 +117,7 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
-      
+
       if(options.search.props.company) {
         // n.b. the array is passed as a comma separated string
         selector.supplierCompanyId = {$in: options.search.props.company.split(',')};
