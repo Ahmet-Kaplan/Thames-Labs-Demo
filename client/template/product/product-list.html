@@ -1,57 +1,52 @@
 <template name="productList">
+
   {{setPageTitle 'Products'}}
+
+  <h1><i class="fa fa-fw fa-barcode"></i> Products</h1>
+
+  <!-- This should probably be refactored into a "search toolbar" template -->
 
   <div class="row">
     <div class="col-md-12">
-      <h1><i class="fa fa-fw fa-barcode"></i> Products</h1>
-
-      <!-- This should probably be refactored into a "search toolbar" template -->
-      <div class="stick-bar">
-        <div class="row">
-          <div class="col-md-4">
-            {{> EasySearch.Input index=ProductsIndex attributes=searchInputAttributes}}
-          </div>
-          <div class="col-md-2" id="btn-group">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
-              <button id="ref_productsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Products Overview" data-content="<div id='productOverviewPop'>
-              <table class='table table-no-border'>
-                <tbody>
-                  <tr>
-                    <td>Products:</td>
-                    <td class='text-right'>{{totalProducts}}</td>
-                  </tr>
-                  <tr>
-                    <td>Total cost:</td>
-                    <td class='text-right'>£{{totalProductsCost}}</td>
-                  </tr>
-                  <tr>
-                    <td>Average cost:</td>
-                    <td class='text-right'>£{{averageProductsCost}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>">
-              <i class="fa fa-fw fa-tasks"></i></button>
-            </div>
-          </div>
-          <div class="col-md-3">
-            {{#if isInRole 'Administrator,CanCreateProducts'}}
-              <a class="btn btn-primary" id="add-product" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-plus"></i> Add product</a>
-            {{/if}}
-          </div>
-        </div>
+      {{#if isInRole 'Administrator,CanCreateProducts'}}
+        <a class="btn btn-primary" id="add-product" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-plus"></i> Add product</a>
+      {{/if}}
+      <div class="btn-group" role="group" id="btn-popover">
+        <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
+        <button id="ref_productsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Products Overview" data-content="<div id='productOverviewPop'>
+        <table class='table table-no-border'>
+          <tbody>
+            <tr>
+              <td>Products:</td>
+              <td class='text-right'>{{totalProducts}}</td>
+            </tr>
+            <tr>
+              <td>Total cost:</td>
+              <td class='text-right'>£{{totalProductsCost}}</td>
+            </tr>
+            <tr>
+              <td>Average cost:</td>
+              <td class='text-right'>£{{averageProductsCost}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>">
+        <i class="fa fa-fw fa-tasks"></i></button>
       </div>
-
-      {{> searchResults index=ProductsIndex listItemTemplateName='productListItem'}}
-
     </div>
   </div>
-  <script>
-    $(document).ready(function(){
-      $('[data-toggle="popover"]').popover({html : true, placement : "bottom", container: '#btn-group'});
-    });
-  </script>
+
+  <div class="stick-bar-placeholder"></div>
+  <div class="stick-bar">
+    <div class="row">
+      <div class="col-md-12">
+        {{> searchBox collectionName='products'}}
+      </div>
+    </div>
+  </div>
+
+  {{> searchResults index=ProductsIndex listItemTemplateName='productListItem'}}
+
   {{> autoformModals}}
 </template>
 

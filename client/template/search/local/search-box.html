@@ -1,6 +1,6 @@
 <template name="searchBox">
 <div class="row">
-  <div id="generalSearch" class="col-md-8">
+  <div id="generalSearch" class="col-md-{{#if showFilters}}4{{else}}8{{/if}}">
     <div class="input-group">
       {{> EasySearch.Input index=index attributes=searchInputAttributes}}
       <span class="input-group-btn">
@@ -10,7 +10,7 @@
     </div>
     <small><a href="" id="searchHelp">Search Help</a></small>
   </div>
-  <div id="filtersSearch" class="hidden-box">
+  <div id="filtersSearch" class="{{#if showFilters}}col-md-4{{else}}hidden-box{{/if}}">
     {{> filterBox collectionName=collectionName}}
   </div>
   <div class="col-md-4">

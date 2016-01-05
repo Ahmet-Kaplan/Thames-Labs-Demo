@@ -1,5 +1,5 @@
 Template.searchBox.onRendered(function() {
-  Session.set('toggleFilters', false);
+  Session.setDefault('toggleFilters', false);
 });
 
 Template.searchBox.helpers({
@@ -31,6 +31,9 @@ Template.searchBox.helpers({
   index: function() {
     var mainCollectionName = Template.instance().data.collectionName;
     return Collections[mainCollectionName].index;
+  },
+  showFilters: function() {
+    return Session.get('toggleFilters');
   }
 });
 
@@ -39,15 +42,8 @@ Template.searchBox.events({
     e.preventDefault();
 
     if(Session.get('toggleFilters')) {
-      $('#filtersSearch').removeClass('col-md-4').addClass('hidden-box')
-      $('#filtersSearch').css('visibility', 'hidden')
-      $('#generalSearch').removeClass('col-md-4').addClass('col-md-8');
       Session.set('toggleFilters', false);
     } else {
-      $('#generalSearch').removeClass('col-md-8').addClass('col-md-4');
-      $('#filtersSearch').css('visibility', 'visible')
-      $('#filtersSearch').removeClass('hidden-box').addClass('col-md-4');
-
       var selectize = $('#filterBox')[0].selectize;
       selectize.clearOptions();
       Meteor.setTimeout(function() {
