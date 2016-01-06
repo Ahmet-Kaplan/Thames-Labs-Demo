@@ -76,6 +76,14 @@ Schemas.PurchaseOrder = new SimpleSchema({
     label: "Notes",
     optional: true
   },
+  documents: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
   createdBy: {
     type: String,
     autoform: {
