@@ -8,10 +8,10 @@
       <!-- This should probably be refactored into a "search toolbar" template -->
       <div class="stick-bar">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-3">
             {{> EasySearch.Input index=ProductsIndex attributes=searchInputAttributes}}
           </div>
-          <div class="col-md-2" id="btn-group">
+          <div class="col-md-3" id="btn-group">
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
               <button id="ref_productsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Products Overview" data-content="<div id='productOverviewPop'>
@@ -35,9 +35,9 @@
               <i class="fa fa-fw fa-tasks"></i></button>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-6 text-right">
             {{#if isInRole 'Administrator,CanCreateProducts'}}
-              <a class="btn btn-primary" id="add-product" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-plus"></i> Add product</a>
+              <a class="btn btn-primary" id="add-product" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-fw fa-plus"></i> Add product</a>
             {{/if}}
           </div>
         </div>

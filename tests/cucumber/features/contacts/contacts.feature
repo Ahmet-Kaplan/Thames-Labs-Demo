@@ -205,8 +205,7 @@ Feature: Allow users to manage their Contacts
   Scenario: A user can see the map on a contact's page
     Given a "Contact" has been created
     When I navigate to a contact page
-    Then I should see the heading "Address"
-    And I should see a map
+    Then I should see a map
 
   Scenario: A user can do a location search and see the map when creating a contact
     Given I have the "CanCreateContacts" permission

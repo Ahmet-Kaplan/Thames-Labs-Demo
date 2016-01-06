@@ -3,31 +3,37 @@
     <div class="panel-heading" id="entity-custom-fields">
       <div class="btn-group pull-right">
         <button class="btn btn-primary btn-xs" data-placement="bottom" data-toggle="tooltip" id='add-custom-field' role='button' title="Add an extended information field">
-          <i class="fa fa-fw fa-plus"></i> Add
+          <i class="fa fa-fw fa-plus"></i>
+          Add
           <!-- Add</button> -->
         </button>
         <button class="btn btn-info btn-xs" data-placement="bottom" data-toggle="tooltip" id='edit-custom-fields' role='button' title="Update the existing extended information fields">
-          <i class="fa fa-fw fa-pencil"></i> Edit
+          <i class="fa fa-fw fa-pencil"></i>
+          Edit
           <!-- Edit</button> -->
         </button>
       </div>
       Extended Information
     </div>
-      {{#if customFields}}
+    {{#if hasCustomFields}}
 
-    <ul class="list-group" id='custom-field-container'>
-        {{#each customFields}} {{#if isGlobal}}{{> cfDisplay}}{{/if}} {{/each}}
-    </ul>
+      <ul class="list-group" id='custom-field-container'>
+        {{#each globalFields}}
+          {{> cfDisplay}}
+        {{/each}}
+      </ul>
 
-    <ul class="list-group" id='custom-field-container'>
-        {{#each customFields}} {{#unless isGlobal}}{{> cfDisplay}}{{/unless}} {{/each}}
-    </ul>
+      <ul class="list-group" id='custom-field-container'>
+        {{#each customFields}}
+          {{> cfDisplay}}
+        {{/each}}
+      </ul>
 
       {{else}}
-    <ul class="list-group" id='custom-field-container'>
-      <li class="list-group-item">No extended information</li>
-    </ul>
+      <ul class="list-group" id='custom-field-container'>
+        <li class="list-group-item">No extended information</li>
+      </ul>
 
-      {{/if}}
+    {{/if}}
   </div>
 </template>
