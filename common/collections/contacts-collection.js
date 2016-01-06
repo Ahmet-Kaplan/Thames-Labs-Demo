@@ -125,19 +125,18 @@ Contacts.before.insert(function(userId, doc) {
     var tenant = Tenants.findOne(user.group);
     var contactCustomFields = tenant.settings.extInfo.contact;
 
-    var cfMaster = {};
+    var cfMaster = [];
     _.each(contactCustomFields, function(cf) {
-
       var field = {
+        dataName: cf.name,
         dataValue: cf.defaultValue,
         dataType: cf.type,
         isGlobal: true
       };
 
-      cfMaster[cf.name] = field;
+      cfMaster.push(field);
     });
-
-    doc.customFields = cfMaster;
+    doc.extendedInformation = cfMaster;
   }
 });
 
