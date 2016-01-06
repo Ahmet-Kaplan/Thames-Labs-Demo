@@ -55,24 +55,20 @@ exportFromTaskSearchToCSV = function() {
     searchDefinition = index.getComponentDict().get('searchDefinition'),
     searchOptions = index.getComponentDict().get('searchOptions');
 
-  Meteor.call('search.export', 'tasks', searchDefinition, searchOptions, (err, results) => {
+  Meteor.call('tasks.export', searchDefinition, searchOptions, (err, results) => {
     if (err) {
       throw new Meteor.Error('500', err);
     }
-    // var filename = [
-    //   'realtimecrm-',
-    //   collectionName,
-    //   '-export_',
-    //   moment().format("MMM-Do-YY"),
-    //   '.csv'
-    // ].join('');
+    var filename = [
+      'realtimecrm-tasks-export_',
+      moment().format("MMM-Do-YY"),
+      '.csv'
+    ].join('');
 
-    console.log(results);
-
-    // var fileData = Papa.unparse(cleanedResults);
-    // var blob = new Blob([fileData], {
-    //   type: "text/csv;charset=utf-8"
-    // });
-    // saveAs(blob, filename);
+    var fileData = Papa.unparse(results);
+    var blob = new Blob([fileData], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(blob, filename);
   });
 };
