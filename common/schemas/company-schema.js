@@ -76,6 +76,14 @@ Schemas.Company = new SimpleSchema({
       type: "hidden"
     }
   },
+  extendedInformation: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
   metadata: {
     type: Object,
     blackbox: true,
@@ -86,6 +94,13 @@ Schemas.Company = new SimpleSchema({
   },
   tags: {
     type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
+  },
+  companiesHouseId: {
+    type: String,
     optional: true,
     autoform: {
       type: 'hidden'
