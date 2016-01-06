@@ -12,3 +12,7 @@
 #taskContainer > .panel{
   margin:3px;
 }
+
+#taskContainer .placeholder-text {
+  border: none;
+}

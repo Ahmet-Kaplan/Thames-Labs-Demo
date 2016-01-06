@@ -207,8 +207,7 @@ Feature: Allow users to manage their Companies
     Given I have the "CanCreateCompanies" permission
     Given a "Company" has been created
     When I navigate to a company page
-    Then I should see the heading "Address"
-    And I should see a map
+    Then I should see a map
 
   Scenario: A user can do a location search and see the map when editing a company's details
     Given I have the "CanEditCompanies" permission
