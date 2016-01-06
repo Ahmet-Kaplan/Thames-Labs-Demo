@@ -9,6 +9,108 @@ Meteor.methods({
       Tasks.remove(task._id);
     });
   },
+  "tasks.import": function(taskList) {
+    var userId = this.userId;
+
+    var status = {
+      exitCode: 0,
+      message: 'OK',
+      errorData: []
+    };
+
+    _.each(taskList, function(task) {
+      var objectRecord = null;
+
+      var assigneeId = Meteor.users.findOne({
+        "profile.name": task.assignee
+      })._id;
+      if (!assigneeId) {
+        status.exitCode = 1;
+        status.message = "Task import failure";
+        status.errorData.push('An ID for assignee ' + task.assignee + ' could not be found. Please ensure that the user exists, and that your spelling is correct, and then try again.');
+      }
+
+      switch (task.recordType) {
+        case 'company':
+          objectRecord = Companies.findOne({
+            name: task.record
+          });
+          if (!objectRecord) {
+            status.exitCode = 1;
+            status.message = "Task import failure";
+            status.errorData.push('A company with the name ' + task.record + ' could not be found. Please ensure that the user exists, and that your spelling is correct, and then try again.');
+          }
+          break;
+        case 'contact':
+          var names = task.record.split(" ");
+
+          objectRecord = Contacts.findOne({
+            forename: names[0],
+            surname: names[1]
+          });
+          if (!objectRecord) {
+            status.exitCode = 1;
+            status.message = "Task import failure";
+            status.errorData.push('A contact with the name ' + task.record + ' could not be found. Please ensure that the user exists, and that your spelling is correct, and then try again.');
+          }
+
+          break;
+        case 'opportunity':
+          objectRecord = Opportunities.findOne({
+            name: task.record
+          });
+
+          if (!objectRecord) {
+            status.exitCode = 1;
+            status.message = "Task import failure";
+            status.errorData.push('An opportunity with the name ' + task.record + ' could not be found. Please ensure that the user exists, and that your spelling is correct, and then try again.');
+          }
+          break;
+        case 'project':
+          objectRecord = Projects.findOne({
+            name: task.record
+          });
+
+          if (!objectRecord) {
+            status.exitCode = 1;
+            status.message = "Task import failure";
+            status.errorData.push('A project with the name ' + task.record + ' could not be found. Please ensure that the user exists, and that your spelling is correct, and then try again.');
+          }
+          break;
+        case 'user':
+          objectRecord = Meteor.users.findOne({
+            "profile.name": task.record
+          });
+          if (!objectRecord) {
+            status.exitCode = 1;
+            status.message = "Task import failure";
+            status.errorData.push('An user with the name ' + task.record + ' could not be found. Please ensure that the user exists, and that your spelling is correct, and then try again.');
+          }
+          break;
+      }
+
+      if (objectRecord) {
+        Tasks.insert({
+          title: task.title,
+          description: task.description,
+          dueDate: task.dueDate,
+          assigneeId: assigneeId,
+          completed: false,
+          entityType: task.recordType,
+          entityId: objectRecord._id,
+          createdBy: userId
+        }, function(err, doc) {
+          if (err) {
+            status.exitCode = 1;
+            status.message = "Task import failure";
+            status.errorData.push('Task insert error (' + task.record + '): ' + err);
+          }
+        });
+      }
+    });
+
+    return status;
+  },
   "tasks.export": function(searchDefinition, searchOptions) {
     var returnData = [];
 
@@ -25,8 +127,7 @@ Meteor.methods({
     _.each(result, function(res) {
       var assignee = 'Not assigned',
         entityDescriptor = '',
-        taskDate = '',
-        recordEntity = '';
+        taskDate = '';
       if (res.assigneeId) {
         assignee = Meteor.users.findOne({
           _id: res.assigneeId
@@ -38,26 +139,22 @@ Meteor.methods({
 
       switch (res.entityType) {
         case 'company':
-          recordEntity = '(Company)';
           entityDescriptor = Companies.findOne({
             _id: res.entityId
           }).name;
           break;
         case 'contact':
-          recordEntity = '(Contact)';
           var contact = Contacts.findOne({
             _id: res.entityId
           });
           entityDescriptor = contact.forename + " " + contact.surname;
           break;
         case 'opportunity':
-          recordEntity = '(Opportunity)';
           entityDescriptor = Opportunities.findOne({
             _id: res.entityId
           }).name;
           break;
         case 'project':
-          recordEntity = '(Project)';
           entityDescriptor = Projects.findOne({
             _id: res.entityId
           }).name;
@@ -74,7 +171,8 @@ Meteor.methods({
         description: res.description,
         assignee: assignee,
         dueDate: taskDate,
-        record: (res.entityType === "user" ? undefined : entityDescriptor + " " + recordEntity),
+        record: entityDescriptor,
+        recordType: res.entityType,
         completed: (res.completed === true ? 'Yes' : 'No')
       };
       returnData.push(entity);
