@@ -120,18 +120,18 @@ Companies.before.insert(function(userId, doc) {
     var tenant = Tenants.findOne(user.group);
     var companyCustomFields = tenant.settings.extInfo.company;
 
-    var cfMaster = {};
+    var cfMaster = [];
     _.each(companyCustomFields, function(cf) {
-
       var field = {
+        dataName: cf.name,
         dataValue: cf.defaultValue,
         dataType: cf.type,
         isGlobal: true
       };
 
-      cfMaster[cf.name] = field;
+      cfMaster.push(field);
     });
-    doc.customFields = cfMaster;
+    doc.extendedInformation = cfMaster;
   }
 
   if (!checkRecordsNumber()) {

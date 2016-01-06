@@ -14,7 +14,7 @@ Template.tenancyAdminPage.helpers({
       }
     });
   },
-  globalCustomFields: function() {
+  globalCompanyCustomFields: function() {
     var data = [];
     var user = Meteor.users.findOne(Meteor.userId());
     var tenant = Tenants.findOne(user.group);
@@ -26,21 +26,47 @@ Template.tenancyAdminPage.helpers({
       });
     }
 
-    fields = tenant.settings.extInfo.contact;
+    return data.sort(function(a, b) {
+      if (a.dataOrder < b.dataOrder) return -1;
+      if (a.dataOrder > b.dataOrder) return 1;
+      return 0;
+    });
+  },
+  globalContactCustomFields: function() {
+    var data = [];
+    var user = Meteor.users.findOne(Meteor.userId());
+    var tenant = Tenants.findOne(user.group);
+
+    var fields = tenant.settings.extInfo.contact;
     if (fields) {
       _.each(fields, function(f) {
         data.push(f);
       });
     }
 
-    fields = tenant.settings.extInfo.project;
+    return data.sort(function(a, b) {
+      if (a.dataOrder < b.dataOrder) return -1;
+      if (a.dataOrder > b.dataOrder) return 1;
+      return 0;
+    });
+  },
+  globalProjectCustomFields: function() {
+    var data = [];
+    var user = Meteor.users.findOne(Meteor.userId());
+    var tenant = Tenants.findOne(user.group);
+
+    var fields = tenant.settings.extInfo.project;
     if (fields) {
       _.each(fields, function(f) {
         data.push(f);
       });
     }
 
-    return data;
+    return data.sort(function(a, b) {
+      if (a.dataOrder < b.dataOrder) return -1;
+      if (a.dataOrder > b.dataOrder) return 1;
+      return 0;
+    });
   },
   tenantFound: function() {
     return !!Tenants.findOne({});
@@ -86,6 +112,15 @@ Template.tenancyAdminPage.events({
 });
 
 Template.gcf_display.helpers({
+  canMoveUp: function() {
+    return this.dataOrder > 0;
+  },
+  canMoveDown: function() {
+    var exInfLen = Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.extInfo[this.targetEntity].length;
+    return this.dataOrder < exInfLen - 1;
+  },
   niceEntity: function() {
     var retVal = "";
 
@@ -110,11 +145,17 @@ Template.gcf_display.helpers({
       case 'text':
         retVal = 'Text';
         break;
+        case 'advtext':
+          retVal = 'Multi-line Text';
+          break;
       case 'checkbox':
         retVal = 'Checkbox';
         break;
       case 'date':
         retVal = 'Date/Time';
+        break;
+      case 'label':
+        retVal = 'Label';
         break;
     }
 
@@ -122,30 +163,49 @@ Template.gcf_display.helpers({
   }
 });
 Template.gcf_display.events({
+  'click #orderUp': function() {
+    var self = this;
+    Meteor.call('changeExtInfoOrder', self.targetEntity, self.name, "up", function(err, res) {
+      if (err) throw new Meteor.Error(err);
+      if (res.exitCode !== 0) {
+        toastr.error(res.exitStatus);
+      }
+    });
+  },
+  'click #orderDown': function() {
+    var self = this;
+    Meteor.call('changeExtInfoOrder', self.targetEntity, self.name, "down", function(err, res) {
+      if (err) throw new Meteor.Error(err);
+      if (res.exitCode !== 0) {
+        toastr.error(res.exitStatus);
+      }
+    });
+  },
   'click #delete-global-custom-field': function() {
 
     var self = this;
 
     bootbox.confirm("Are you sure you wish to delete this extended information field?", function(result) {
       if (result === true) {
+        var targets = null;
         switch (self.targetEntity) {
 
           case "company":
-            var targets = Companies.find({}).fetch();
+            targets = Companies.find({}).fetch();
 
             _.each(targets, function(cx) {
 
-              var cfMaster = {};
+              var cfMaster = [];
 
-              if (cx.customFields) {
-                for (var cf in cx.customFields) {
-                  if (cf !== self.name) {
-                    cfMaster[cf] = cx.customFields[cf];
+              if (cx.extendedInformation) {
+                for (var cf in cx.extendedInformation) {
+                  if (cx.extendedInformation[cf].dataName !== self.name) {
+                    cfMaster.push(cx.extendedInformation[cf]);
                   }
                 }
                 Companies.update(cx._id, {
                   $set: {
-                    customFields: cfMaster
+                    extendedInformation: cfMaster
                   }
                 });
               }
@@ -153,21 +213,21 @@ Template.gcf_display.events({
             break;
 
           case "contact":
-            var targets = Contacts.find({}).fetch();
+            targets = Contacts.find({}).fetch();
 
             _.each(targets, function(cx) {
 
-              var cfMaster = {};
+              var cfMaster = [];
 
-              if (cx.customFields) {
-                for (var cf in cx.customFields) {
-                  if (cf !== self.name) {
-                    cfMaster[cf] = cx.customFields[cf];
+              if (cx.extendedInformation) {
+                for (var cf in cx.extendedInformation) {
+                  if (cx.extendedInformation[cf].dataName !== self.name) {
+                    cfMaster.push(cx.extendedInformation[cf]);
                   }
                 }
                 Contacts.update(cx._id, {
                   $set: {
-                    customFields: cfMaster
+                    extendedInformation: cfMaster
                   }
                 });
               }
@@ -175,21 +235,21 @@ Template.gcf_display.events({
             break;
 
           case "project":
-            var targets = Projects.find({}).fetch();
+            targets = Projects.find({}).fetch();
 
             _.each(targets, function(cx) {
 
-              var cfMaster = {};
+              var cfMaster = [];
 
-              if (cx.customFields) {
-                for (var cf in cx.customFields) {
-                  if (cf !== self.name) {
-                    cfMaster[cf] = cx.customFields[cf];
+              if (cx.extendedInformation) {
+                for (var cf in cx.extendedInformation) {
+                  if (cx.extendedInformation[cf].dataName !== self.name) {
+                    cfMaster.push(cx.extendedInformation[cf]);
                   }
                 }
                 Projects.update(cx._id, {
                   $set: {
-                    customFields: cfMaster
+                    extendedInformation: cfMaster
                   }
                 });
               }

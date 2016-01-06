@@ -8,7 +8,9 @@ Template.adminStatistics.onCreated(function() {
 Template.adminStatistics.rendered = function() {
 
   var users = Meteor.users.find({}).map(function(user) {
-    return user.createdAt;
+    if (moment(user.createdAt).year() == moment().year()) {
+      return user.createdAt;
+    }
   });
 
   var dataPoints = new Array(moment().week() + 1);
