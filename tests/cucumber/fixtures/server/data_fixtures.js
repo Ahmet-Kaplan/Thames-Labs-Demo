@@ -386,10 +386,6 @@ Meteor.methods({
       entityType: 'company',
       entityId: companyId,
       createdBy: Meteor.userId()
-    }, function(err, id) {
-      Collections.tasks.addTag('Company Task', {
-        _id: id
-      });
     });
     return taskId;
   },
