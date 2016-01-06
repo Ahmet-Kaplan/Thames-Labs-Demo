@@ -93,8 +93,8 @@ Template.taskDataManagement.events({
         if (res.exitCode === 0) {
           toastr.success('Tasks successfully imported.');
         } else {
-          console.log(res.errorData);
           toastr.error(res.message);
+          Modal.show('importTaskFailuresModal', res.errorData);
         }
       })
     };

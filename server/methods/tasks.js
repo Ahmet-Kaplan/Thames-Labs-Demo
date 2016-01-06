@@ -38,7 +38,7 @@ Meteor.methods({
           if (!objectRecord) {
             status.exitCode = 1;
             status.message = "Task import failure";
-            status.errorData.push('A company with the name ' + task.record + ' could not be found. Please ensure that the user exists, and that your spelling is correct, and then try again.');
+            status.errorData.push('A company with the name ' + task.record + ' could not be found. Please ensure that the company exists, and that your spelling is correct, and then try again.');
           }
           break;
         case 'contact':
@@ -51,7 +51,7 @@ Meteor.methods({
           if (!objectRecord) {
             status.exitCode = 1;
             status.message = "Task import failure";
-            status.errorData.push('A contact with the name ' + task.record + ' could not be found. Please ensure that the user exists, and that your spelling is correct, and then try again.');
+            status.errorData.push('A contact with the name ' + task.record + ' could not be found. Please ensure that the contact exists, and that your spelling is correct, and then try again.');
           }
 
           break;
@@ -63,7 +63,7 @@ Meteor.methods({
           if (!objectRecord) {
             status.exitCode = 1;
             status.message = "Task import failure";
-            status.errorData.push('An opportunity with the name ' + task.record + ' could not be found. Please ensure that the user exists, and that your spelling is correct, and then try again.');
+            status.errorData.push('An opportunity with the name ' + task.record + ' could not be found. Please ensure that the opportunity exists, and that your spelling is correct, and then try again.');
           }
           break;
         case 'project':
@@ -74,7 +74,7 @@ Meteor.methods({
           if (!objectRecord) {
             status.exitCode = 1;
             status.message = "Task import failure";
-            status.errorData.push('A project with the name ' + task.record + ' could not be found. Please ensure that the user exists, and that your spelling is correct, and then try again.');
+            status.errorData.push('A project with the name ' + task.record + ' could not be found. Please ensure that the project  exists, and that your spelling is correct, and then try again.');
           }
           break;
         case 'user':
