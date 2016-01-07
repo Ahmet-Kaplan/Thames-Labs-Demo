@@ -340,3 +340,33 @@ Feature: Allow users to manage their sales opportunities
     And I click "#remove-activity"
     And I click confirm on the modal
     Then I should see "#no-activity"
+
+  #Filtering and Searching
+  Scenario: A user can filter opportunities by company
+    Given I have the "Administrator" permission
+    And an "Opportunity" has been created
+    And an additional "Opportunity" has been created
+    When I navigate to "/opportunities"
+    And I click "#toggleFilters"
+    And I set the filter to "Company:" then "Test Ltd"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"
+
+  Scenario: A user can filter opportunities by value
+    Given I have the "Administrator" permission
+    And an "Opportunity" has been created
+    And an additional "Opportunity" has been created
+    When I navigate to "/opportunities"
+    And I click "#toggleFilters"
+    And I set the filter to "Value <" then "50"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"
+
+  Scenario: Clicking a tag badge applies the filter
+    Given I have the "Administrator" permission
+    And an "Opportunity" has been created
+    And an additional "Opportunity" has been created
+    When I navigate to "/opportunities"
+    And I click ".badge"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"

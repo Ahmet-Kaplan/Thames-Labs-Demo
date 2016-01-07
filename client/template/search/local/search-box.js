@@ -1,5 +1,5 @@
 Template.searchBox.onRendered(function() {
-  Session.set('toggleFilters', false);
+  Session.setDefault('search.showFilters', false);
 });
 
 Template.searchBox.helpers({
@@ -27,6 +27,13 @@ Template.searchBox.helpers({
       });
     }
     return filtersList;
+  },
+  index: function() {
+    var mainCollectionName = Template.instance().data.collectionName;
+    return Collections[mainCollectionName].index;
+  },
+  showFilters: function() {
+    return Session.get('search.showFilters');
   }
 });
 
@@ -34,22 +41,15 @@ Template.searchBox.events({
   'click #toggleFilters': function(e) {
     e.preventDefault();
 
-    if(Session.get('toggleFilters')) {
-      $('#filtersSearch').removeClass('col-md-4').addClass('hidden-box')
-      $('#filtersSearch').css('visibility', 'hidden')
-      $('#generalSearch').removeClass('col-md-4').addClass('col-md-8');
-      Session.set('toggleFilters', false);
+    if(Session.get('search.showFilters')) {
+      Session.set('search.showFilters', false);
     } else {
-      $('#generalSearch').removeClass('col-md-8').addClass('col-md-4');
-      $('#filtersSearch').css('visibility', 'visible')
-      $('#filtersSearch').removeClass('hidden-box').addClass('col-md-4');
-
       var selectize = $('#filterBox')[0].selectize;
       selectize.clearOptions();
       Meteor.setTimeout(function() {
         $('#filtersSearch input').focus();
       }, 300);
-      Session.set('toggleFilters', true);
+      Session.set('search.showFilters', true);
     }
     $(e.target).blur();
   },

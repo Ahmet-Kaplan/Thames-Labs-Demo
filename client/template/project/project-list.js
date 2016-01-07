@@ -33,6 +33,8 @@ Template.projectsList.onRendered(function() {
   Meteor.call('report.projectsAverage', function(err, data) {
     template.projectsAverage.set(data.Value);
   });
+
+  $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: '#btn-popover'});
 });
 
 Template.projectsList.events({

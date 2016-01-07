@@ -36,6 +36,9 @@ Template.opportunityList.onRendered(function() {
   Meteor.call('report.averageOpportunityValue', function(err, data) {
     template.averageOppValue.set(data.Value);
   });
+
+  $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: '#btn-popover'});
+
 });
 
 Template.opportunityList.helpers({
@@ -65,6 +68,7 @@ Template.opportunityList.events({
     event.preventDefault();
     var showArchived = Template.instance().showArchived.get();
     Template.instance().showArchived.set(!showArchived);
+    $(event.target).blur();
   },
   'click #export': function(event) {
     event.preventDefault();

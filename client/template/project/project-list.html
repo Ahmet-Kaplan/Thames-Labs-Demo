@@ -2,63 +2,53 @@
 
   {{setPageTitle 'Projects'}}
 
+  <h1><i class="fa fa-sitemap"></i> Projects</h1>
+
+  <!-- This should probably be refactored into a "search toolbar" template -->
+  
   <div class="row">
-
-    <div class="col-md-12" id="project-list">
-      <h1><i class="fa fa-fw fa-sitemap"></i> Projects</h1>
-
-      <!-- This should probably be refactored into a "search toolbar" template -->
-      <div class="stick-bar">
-        <div class="row">
-          <div class="col-md-3">
-            {{> EasySearch.Input index=ProjectsIndex attributes=searchInputAttributes}}
-          </div>
-          <div class="col-md-3">
-            {{> tagSearch collection='projects' }}
-          </div>
-          <div class="col-md-2" id="btn-group" >
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
-              <button id="ref_projectOverviewWidget" class="btn btn-default" data-toggle="popover" title="Projects Overview" data-content=" <div id='projectOverviewPop'>
-              <table class='table table-no-border'>
-                <tbody>
-                  <tr>
-                    <td>Projects:</td>
-                    <td class='text-right'>{{totalProjects}}</td>
-                  </tr>
-                  <tr>
-                    <td>Active projects:</td>
-                    <td class='text-right'>{{activeProjects}}</td>
-                  </tr>
-                  <tr>
-                    <td>Active project total value:</td>
-                    <td class='text-right'>£{{projectTotal}}</td>
-                  </tr>
-                  <tr>
-                    <td>Active project average value:</td>
-                    <td class='text-right'>£{{projectsAverage}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>">
-              <i class="fa fa-fw fa-tasks"></i></button>
-            </div>
-          </div>
-          <div class="col-md-4 text-right">
-          {{#if isInRole 'Administrator,CanCreateProjects'}}
-            <a href="#" id="add-project" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</a>
-          {{/if}}
-        </div>
-        </div>
+    <div class="col-md-12">
+      {{#if isInRole 'Administrator,CanCreateProjects'}}
+      <a href="#" id="add-project" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</a>
+      {{/if}}
+      <div class="btn-group" role="group" id="btn-popover">
+        <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
+        <button id="ref_projectOverviewWidget" class="btn btn-default" data-toggle="popover" title="Projects Overview" data-content=" <div id='projectOverviewPop'>
+        <table class='table table-no-border'>
+          <tbody>
+            <tr>
+              <td>Projects:</td>
+              <td class='text-right'>{{totalProjects}}</td>
+            </tr>
+            <tr>
+              <td>Active projects:</td>
+              <td class='text-right'>{{activeProjects}}</td>
+            </tr>
+            <tr>
+              <td>Active projects total value:</td>
+              <td class='text-right'>£{{projectTotal}}</td>
+            </tr>
+            <tr>
+              <td>Active projects average value:</td>
+              <td class='text-right'>£{{projectsAverage}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>">
+        <i class="fa fa-fw fa-tasks"></i></button>
       </div>
-
-      {{> searchResults index=ProjectsIndex listItemTemplateName='projectListItem'}}
-
     </div>
   </div>
-  <script>
-    $(document).ready(function(){
-      $('[data-toggle="popover"]').popover({html : true, placement : "bottom", container: '#btn-group'});
-    });
-  </script>
+
+  <div class="stick-bar-placeholder"></div>
+  <div class="stick-bar">
+    <div class="row">
+      <div class="col-md-12">
+        {{> searchBox collectionName='projects'}}
+      </div>
+    </div>
+  </div>
+
+  {{> searchResults index=ProjectsIndex listItemTemplateName='projectListItem'}}
+
 </template>
