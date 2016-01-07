@@ -33,6 +33,8 @@ Template.milestoneControl.helpers({
 Template.milestoneControl.events({
   'click #prevMilestone': function() {
     var projectId = FlowRouter.getParam('id');
+    var userTenant = Tenants.findOne({});
+
     Meteor.call('moveMilestone', projectId, "backward", function(err, res) {
       if (err) throw new Meteor.Error(err);
       if (res.exitCode === 0) {
@@ -44,6 +46,36 @@ Template.milestoneControl.events({
           }
         });
         toastr.success('Project milestone successfully updated.');
+        // var user = Meteor.user();
+        //
+        // var projectTypeId = Projects.findOne({
+        //   _id: projectId
+        // }).projectTypeId;
+        // var projectName = Projects.findOne({
+        //   _id: projectId
+        // }).name;
+        // var projectTypes = userTenant.settings.project.types;
+        // var projectType = null;
+        // _.each(projectTypes, function(pt) {
+        //   if (pt.id == projectTypeId) projectType = pt;
+        // });
+        // if (projectType) {
+        //   var milestones = projectType.milestones;
+        //   var note = user.profile.name + ' moved this project to milestone "' + milestones[res.exitStatus].name + '"';
+        //   var date = new Date();
+        //   Activities.insert({
+        //     type: 'Note',
+        //     notes: note,
+        //     createdAt: date,
+        //     activityTimestamp: date,
+        //     projectId: this._id,
+        //     primaryEntityId: this._id,
+        //     primaryEntityType: 'projects',
+        //     primaryEntityDisplayData: projectName,
+        //     createdBy: user._id
+        //   });
+        // }
+
       } else {
         toastr.error('Project milestone could not be updated: ' + res.exitStatus);
       }
