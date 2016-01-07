@@ -61,20 +61,40 @@ Template.insertNewCompanyModal.onRendered(function() {
     }
   });
 
+  this.triggerMagicSearch = _.debounce(function() {
+    var templateInstance = this;
+    var searchInput = $('#companyName').val().trim();
+
+    if(!searchInput) return;
+
+    Meteor.call('clearbit.getCompanyFromName', searchInput, (err, results) => {
+      $('#manual-fill').show();
+      $('#resultsList').show();
+      if(results) {
+        templateInstance.magicList.set(results);
+      }
+    });
+  }, 500);
+
 });
 
 Template.insertNewCompanyModal.helpers({
   resultsList: function() {
-    console.log(Template.instance().magicList.get().results);
     return Template.instance().magicList.get().results;
   },
   resultsTotal: function() {
     return Template.instance().magicList.get().total;
+  },
+  moreThanTen: function() {
+    return (Template.instance().magicList.get().total > 10);
   }
 });
 
 function fillCompanyData(res) {
+  $('#insertNewCompanyForm')[0].reset();
   $('#details-wrapper').show();
+
+  $('input[name=name]').val(res.name);
   if(res.site.url) {
     $('input[name=website]').val(res.site.url);
   }
@@ -120,22 +140,23 @@ function fillCompanyData(res) {
 }
 
 Template.insertNewCompanyModal.events({
-  'click #magic-fill': function(evt) {
+  'keyup #companyName': function(evt) {
     evt.preventDefault();
-    var templateInstance = Template.instance();
-    Meteor.call('clearbit.getCompanyFromName', $('#companyName').val(), (err, results) => {
-      if(err || !results) {
-        toastr.error('No matching results found');
-        return;
-      }
-      templateInstance.magicList.set(results);
-    });
+    Template.instance().triggerMagicSearch.cancel();
+    Template.instance().triggerMagicSearch();
   },
   'click .magic-result': function(evt) {
     evt.preventDefault();
+    $('#btnCreate').show();
     var resultId = evt.target.id;
     var result = _.find(Template.instance().magicList.get().results, {id: resultId});
     fillCompanyData(result);
+  },
+  'click #manual-fill': function(evt) {
+    evt.preventDefault();
+    $('#details-wrapper').show();
+    $('#insertNewCompanyForm')[0].reset();
+    $('#btnCreate').show();
   }
 })
 
