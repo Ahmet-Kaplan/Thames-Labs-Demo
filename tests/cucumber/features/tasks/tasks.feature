@@ -218,7 +218,7 @@ Feature: Allow users to manage their Tasks
     Then I should see ".removeProp"
     And I should not see "span.fa-user"
     And "#resultsCount" should say "1 record"
-@dev
+
   Scenario: Clicking a tag badge applies the filter
     Given I have the "Administrator" permission
     And a "Company" task has been created
