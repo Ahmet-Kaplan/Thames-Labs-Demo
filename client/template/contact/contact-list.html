@@ -2,36 +2,33 @@
 
   {{setPageTitle 'Contacts'}}
 
+  <h1><i class="fa fa-users"></i> Contacts</h1>
+
+  <!-- This should probably be refactored into a "search toolbar" template -->
+  
   <div class="row">
     <div class="col-md-12">
-      <h1><i class="fa fa-fw fa-users"></i> Contacts</h1>
-
-      <!-- This should probably be refactored into a "search toolbar" template -->
-      <div class="stick-bar">
-        <div class="row">
-          <div class="col-md-3">
-            {{> EasySearch.Input index=ContactsIndex attributes=searchInputAttributes}}
-          </div>
-          <div class="col-md-3">
-            {{> tagSearch collection='contacts' }}
-          </div>
-          <div class="col-md-3">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
-              {{> contactDataManagement}}
-            </div>
-          </div>
-          <div class="col-md-3 text-right">
-            {{#if isInRole 'Administrator,CanCreateContacts'}}
-              <a class="btn btn-primary addContactToCompany {{#if isMobile}}btn-fullWidth{{/if}}" href="#" id="add-contact" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+X"><i class="fa fa-fw fa-plus"></i> Add contact</a>
-            {{/if}}
-          </div>
-        </div>
-      </div>
-      <div class="search-results" id="search-results">
-        {{> searchResults index=ContactsIndex listItemTemplateName='contactListItem'}}
+      {{#if isInRole 'Administrator,CanCreateContacts'}}
+        <a class="btn btn-primary addContactToCompany {{#if isMobile}}btn-fullWidth{{/if}}" href="#" id="add-contact" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+X"><i class="fa fa-fw fa-plus"></i> Add contact</a>
+      {{/if}}
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
+        {{> contactDataManagement}}
       </div>
     </div>
+  </div>
+
+  <div class="stick-bar-placeholder"></div>
+  <div class="stick-bar">
+    <div class="row">
+      <div class="col-md-12">
+        {{> searchBox collectionName='contacts'}}
+      </div>
+    </div>
+  </div>
+
+  <div class="search-results" id="search-results">
+    {{> searchResults index=ContactsIndex listItemTemplateName='contactListItem'}}
   </div>
 
   {{> autoformModals}}

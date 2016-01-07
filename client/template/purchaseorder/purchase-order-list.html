@@ -2,67 +2,67 @@
 
   {{setPageTitle 'Purchase Orders'}}
 
+  <h1><i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders</h1>
+
+  <!-- This should probably be refactored into a "search toolbar" template -->
+  
+  <div class="row">
+    <div class="col-md-12">
+    {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+        <a href="#" id="add-purchase-order" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+P"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
+    {{/if}}
+      <div class="btn-group" role="group" id="btn-popover">
+        <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
+        <button id="ref_poOverviewWidget" class="btn btn-default" data-toggle="popover" title="Purchase Orders Overview" data-content="<div id='poOverviewPop'>
+          <table class='table table-no-border'>
+            <tbody>
+              <tr>
+                <td>Purchase orders:</td>
+                <td class='text-right'>{{totalPurchaseOrders}}</td>
+              </tr>
+              <tr>
+                <td>Orders approved:</td>
+                <td class='text-right'>{{totalApprovedPo}}</td>
+              </tr>
+              <tr>
+                <td>Orders Arrived:</td>
+                <td class='text-right'>{{totalArrivedPo}}</td>
+              </tr>
+              <tr>
+                <td>Orders closed:</td>
+                <td class='text-right'>{{totalClosedPo}}</td>
+              </tr>
+              <tr>
+                <td>Orders Cancelled:</td>
+                <td class='text-right'>{{totalCancelledPo}}</td>
+              </tr>
+              <tr>
+                <td>Orders Rejected:</td>
+                <td class='text-right'>{{totalRejectedPo}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>">
+        <i class="fa fa-fw fa-tasks"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="stick-bar-placeholder"></div>
+  <div class="stick-bar">
+    <div class="row">
+      <div class="col-md-12">
+        {{> searchBox collectionName='purchaseorders'}}
+      </div>
+    </div>
+  </div>
+
+
   <div class="row">
     <div class="col-md-12" id="purchase-order-list">
-      <h1><i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders</h1>
-
-      <!-- This should probably be refactored into a "search toolbar" template -->
-      <div class="stick-bar">
-        <div class="row">
-          <div class="col-md-3">
-            {{> EasySearch.Input index=PurchaseOrdersIndex attributes=searchInputAttributes}}
-          </div>
-          <div class="col-md-3" id="btn-group">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
-              <button id="ref_poOverviewWidget" class="btn btn-default" data-toggle="popover" title="Purchase Orders Overview" data-content="<div id='poOverviewPop'>
-              <table class='table table-no-border'>
-                <tbody>
-                  <tr>
-                    <td>Purchase orders:</td>
-                    <td class='text-right'>{{totalPurchaseOrders}}</td>
-                  </tr>
-                  <tr>
-                    <td>Orders approved:</td>
-                    <td class='text-right'>{{totalApprovedPo}}</td>
-                  </tr>
-                  <tr>
-                    <td>Orders Arrived:</td>
-                    <td class='text-right'>{{totalArrivedPo}}</td>
-                  </tr>
-                  <tr>
-                    <td>Orders closed:</td>
-                    <td class='text-right'>{{totalClosedPo}}</td>
-                  </tr>
-                  <tr>
-                    <td>Orders Cancelled:</td>
-                    <td class='text-right'>{{totalCancelledPo}}</td>
-                  </tr>
-                  <tr>
-                    <td>Orders Rejected:</td>
-                    <td class='text-right'>{{totalRejectedPo}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>">
-              <i class="fa fa-fw fa-tasks"></i></button>
-            </div>
-          </div>
-          <div class="col-md-6 text-right">
-            {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
-              <a href="#" id="add-purchase-order" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+P"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
-            {{/if}}
-          </div>
-        </div>
-      </div>
 
       {{> searchResults index=PurchaseOrdersIndex listItemTemplateName='purchaseOrderListItem'}}
 
     </div>
   </div>
-  <script>
-    $(document).ready(function(){
-      $('[data-toggle="popover"]').popover({html : true, placement : "bottom", container: "#btn-group"});
-    });
-  </script>
 </template>

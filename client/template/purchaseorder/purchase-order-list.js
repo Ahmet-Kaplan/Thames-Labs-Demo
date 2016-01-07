@@ -32,6 +32,8 @@ Template.purchaseOrderList.onRendered(function() {
   Meteor.call('report.RejectedPo', function(err, data) {
     template.totalRejectedPo.set(data.Count);
   });
+
+  $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: "#btn-popover"});
 });
 
 Template.purchaseOrderList.events({

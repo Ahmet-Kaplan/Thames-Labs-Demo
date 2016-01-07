@@ -1,5 +1,5 @@
 var currentFilter = new ReactiveVar({});
-var searchInput = new ReactiveVar('')
+var searchInput = new ReactiveVar('');
 var activeSelection = new ReactiveVar({});
 
 function updateActiveSelection() {
@@ -47,15 +47,20 @@ function displayFilter(mainCollectionName, selectize, template) {
 
         //If filter doesn't have collection, allow creation to handle the search
         } else {
-          selectize.addOption({_id: 'setUnlistedFilter', name: search});
           //If fixed default options have been set, list them
           if(filter.defaultOptions) {
-            _.each(filter.defaultOptions, function(option, i) {
+            _.each(filter.defaultOptions(), function(option, i) {
               selectize.addOption({
                 _id: 'setUnlistedFilter' + i,
                 name: filter.display + ' ' + option
               });
             });
+            //If defaultOptions are not the only possible values
+            if(filter.strict !== true) {
+              selectize.addOption({_id: 'setUnlistedFilter', name: search});
+            }
+          } else {
+            selectize.addOption({_id: 'setUnlistedFilter', name: search});
           }
         }
 
@@ -95,8 +100,17 @@ function applyFilter(text, value, mainCollectionName, selectize) {
       selectize.blur();
       return false;
     } else {
-      //Apply prop (no need to differenciate define/update since it's a unique value, not an array of values)
-      Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);
+      //Apply prop taking into account whether the filter accepts multiple values or not
+      if(filter.allowMultiple === true) {
+        var searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
+        var updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
+        updatedProp.push(value);
+        //Note that only strings can be passed, the array is passed as a comma separated list
+        Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, updatedProp.join(','));
+      } else {
+        Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);
+      }
+
       selectize.clearOptions();
       selectize.blur();
     }
@@ -107,17 +121,12 @@ function applyFilter(text, value, mainCollectionName, selectize) {
     var filterRegexp = new RegExp(filter.display.trim(), 'i')
 
     if(filterRegexp.test(text)) {
-      var searchOptions = Collections[mainCollectionName].index.getComponentDict().get('searchOptions');
+      var searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
+      var updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
+      updatedProp.push(value);
 
-      //If prop already exist, update corresponding list
-      if(searchOptions.props[filter.prop] !== undefined) {
-        var updatedProp = searchOptions.props[filter.prop].split(',');
-        updatedProp.push(value);
-        //Note that only strings can be passed, the array is passed as a comma separated list
-        Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, updatedProp.join(','));
-      } else {
-        Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);
-      }
+      //Note that only strings can be passed, the array is passed as a comma separated list
+      Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, updatedProp.join(','));
       selectize.clearOptions();
       selectize.blur();
     }
@@ -143,15 +152,16 @@ Template.filterBox.onRendered(function() {
     delimiter: ',',
     persist: false,
     maxItems: 2,
+    maxOptions: 10,
+    selectOnTab: true,
     onFocus: function() {
       searchInput.set('');
       displayFilter(mainCollectionName, this, self);
-      updateActiveSelection();
     },
     onBlur: function() {
       this.clearOptions();
     },
-    load: function(query) {
+    onType: function(query) {
       this.clearOptions();
       searchInput.set(query);
     },

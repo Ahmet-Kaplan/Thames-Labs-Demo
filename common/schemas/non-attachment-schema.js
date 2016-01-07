@@ -64,9 +64,10 @@ Schemas.Feedback = new SimpleSchema({
 Schemas.UserSignUp = new SimpleSchema({
   name: {
     type: String,
-    label: 'User name'
+    label: 'Your name'
   },
   email: {
+    label: 'Email address',
     type: String,
     regEx: SimpleSchema.RegEx.Email,
     unique: true,
@@ -90,6 +91,7 @@ Schemas.UserSignUp = new SimpleSchema({
     }
   },
   companyName: {
+    label: 'Company name',
     type: String
   },
   coupon: {
