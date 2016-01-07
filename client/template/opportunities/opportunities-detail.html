@@ -151,6 +151,8 @@
         </ul>
       </div>
 
+{{> documentContainer collectionName="opportunities" id=this._id permissionRequired="CanEditOpportunities"}}
+
       {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="opportunity" entity_id=_id}} {{/with}} {{/if}}
     </div>
   </div>
