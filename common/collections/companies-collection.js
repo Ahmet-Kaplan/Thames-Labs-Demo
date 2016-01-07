@@ -47,6 +47,48 @@ Companies.helpers({
 Tags.TagsMixin(Companies);
 
 ////////////////////
+// SEARCH FILTERS //
+////////////////////
+
+Collections.companies.filters = {
+  city: {
+    display: 'City:',
+    prop: 'city',
+    allowMultiple: true,
+    verify: function(city) {
+      if(!city) return false;
+      return true;
+    }
+  },
+  country: {
+    display: 'Country:',
+    prop: 'country',
+    allowMultiple: true,
+    verify: function(country) {
+      if(!country) return false;
+      return true;
+    }
+  },
+  postcode: {
+    display: 'Postcode:',
+    prop: 'postcode',
+    allowMultiple: true,
+    verify: function(postcode) {
+      if(!postcode) return false;
+      return true;
+    }
+  },
+  tags: {
+    display: 'Tag:',
+    prop: 'tags',
+    collectionName: 'tags',
+    autosuggestFilter: {collection: 'companies'},
+    valueField: 'name',
+    nameField: 'name'
+  }
+}
+
+////////////////////
 // SEARCH INDICES //
 ////////////////////
 
@@ -69,7 +111,8 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
       }
       if (options.search.props.autosuggest) {
         return {
-          'name': 1
+          'name': 1,
+          'city': 1
         }
       }
       return {
@@ -85,15 +128,43 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+
       if (options.search.props.tags) {
         // n.b. tags is a comma separated string
-        selector.tags = {
-          $in: options.search.props.tags.split(',')
+        selector.tags = {$in: options.search.props.tags.split(',')};
+      }
+
+      if(options.search.props.city) {
+        // n.b. list is a comma separated string
+        selector.city = {
+          $in: _.map(options.search.props.city.split(','), function(city) {
+            return new RegExp(city, 'i');
+          })
         };
       }
+
+      if(options.search.props.country) {
+        // n.b. list is a comma separated string
+        selector.country = {
+          $in: _.map(options.search.props.country.split(','), function(country) {
+            return new RegExp(country, 'i');
+          })
+        }
+      }
+
+      if(options.search.props.postcode) {
+        // n.b. list is a comma separated string
+        selector.postcode = {
+          $in: _.map(options.search.props.postcode.split(','), function(postcode) {
+            return new RegExp(postcode, 'i');
+          })
+        }
+      }
+
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
+
       return selector;
     }
   })
