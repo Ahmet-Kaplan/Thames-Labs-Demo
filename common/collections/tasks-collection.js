@@ -141,6 +141,8 @@ Collections.tasks.filters = {
     display: 'Due Date:',
     prop: 'dueDate',
     verify: function(dueDate) {
+
+      var wordedTimes = Collections.helpers.wordedTimes;
       if (!moment(dueDate).isValid() && !moment(dueDate, 'DD-MM-YYYY', false).isValid() && !_.some(wordedTimes, 'expr', dueDate.toLowerCase())) {
         toastr.error('Invalid date', 'Error', {
           preventDuplicates: true
@@ -157,9 +159,11 @@ Collections.tasks.filters = {
       }
       return true;
     },
-    defaultOptions: _.map(wordedTimes, function(obj) {
-      return obj.expr;
-    })
+    defaultOptions: function() {
+      return _.map(Collections.helpers.wordedTimes, function(obj) {
+        return obj.expr;
+      });
+    }
   },
   before: {
     display: 'Due Before:',
@@ -286,6 +290,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 
       if (options.search.props.dueDate) {
         var dueDate = options.search.props.dueDate;
+        var wordedTimes = Collections.helpers.wordedTimes;
         var formattedStartDate = null;
         var formattedEndDate = null;
 
