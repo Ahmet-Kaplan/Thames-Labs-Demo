@@ -205,8 +205,7 @@ Feature: Allow users to manage their Contacts
   Scenario: A user can see the map on a contact's page
     Given a "Contact" has been created
     When I navigate to a contact page
-    Then I should see the heading "Address"
-    And I should see a map
+    Then I should see a map
 
   Scenario: A user can do a location search and see the map when creating a contact
     Given I have the "CanCreateContacts" permission
@@ -289,39 +288,60 @@ Feature: Allow users to manage their Contacts
     Then I should not see "#btnAddTaskToEntity"
 
   #Activities
-    Scenario: A user can add an activity
-      Given a "Contact" has been created
-      When I navigate to a contact page
-      And I click "#add-activity"
-      And I set text field "activityTimestamp" to "05/05/2015 05:05"
-      And I set rich text field "notes" to "test activity"
-      And I select "Note" from dropdown field "type"
-      And I click "#confirm"
-      Then I should see the activity in the timeline
+  Scenario: A user can add an activity
+    Given a "Contact" has been created
+    When I navigate to a contact page
+    And I click "#add-activity"
+    And I set text field "activityTimestamp" to "05/05/2015 05:05"
+    And I set rich text field "notes" to "test activity"
+    And I select "Note" from dropdown field "type"
+    And I click "#confirm"
+    Then I should see the activity in the timeline
 
-    Scenario: A user can edit an activity
-      Given a "Contact" has been created
-      When I navigate to a contact page
-      And I click "#add-activity"
-      And I set text field "activityTimestamp" to "05/05/2015 05:05"
-      And I set rich text field "notes" to "test activity"
-      And I select "Note" from dropdown field "type"
-      And I click "#confirm"
-      And I wait
-      And I click "#edit-activity"
-      And I select "Email" from dropdown field "type"
-      And I click "#update"
-      Then I should see a toastr with the message containing "Activity updated."
+  Scenario: A user can edit an activity
+    Given a "Contact" has been created
+    When I navigate to a contact page
+    And I click "#add-activity"
+    And I set text field "activityTimestamp" to "05/05/2015 05:05"
+    And I set rich text field "notes" to "test activity"
+    And I select "Note" from dropdown field "type"
+    And I click "#confirm"
+    And I wait
+    And I click "#edit-activity"
+    And I select "Email" from dropdown field "type"
+    And I click "#update"
+    Then I should see a toastr with the message containing "Activity updated."
 
-    Scenario: A user can delete an activity
-      Given a "Contact" has been created
-      When I navigate to a contact page
-      And I click "#add-activity"
-      And I set text field "activityTimestamp" to "05/05/2015 05:05"
-      And I set rich text field "notes" to "test activity"
-      And I select "Note" from dropdown field "type"
-      And I click "#confirm"
-      And I wait
-      And I click "#remove-activity"
-      And I click confirm on the modal
-      Then I should see "#no-activity"
+  Scenario: A user can delete an activity
+    Given a "Contact" has been created
+    When I navigate to a contact page
+    And I click "#add-activity"
+    And I set text field "activityTimestamp" to "05/05/2015 05:05"
+    And I set rich text field "notes" to "test activity"
+    And I select "Note" from dropdown field "type"
+    And I click "#confirm"
+    And I wait
+    And I click "#remove-activity"
+    And I click confirm on the modal
+    Then I should see "#no-activity"
+
+  #Filtering and Searching
+  Scenario: A user can filter contacts by company
+    Given I have the "Administrator" permission
+    And a "Contact" has been created
+    And I create a new contact belonging to a company
+    When I navigate to "/contacts"
+    And I click "#toggleFilters"
+    And I set the filter to "Company:" then "Test Ltd"
+    Then I should see ".removeProp"
+    And I should see ".fa-envelope"
+    And "#resultsCount" should say "1 record"
+
+  Scenario: Clicking a tag badge applies the filter
+    Given I have the "Administrator" permission
+    And a "Contact" has been created
+    And an additional "Contact" has been created
+    When I navigate to "/contacts"
+    And I click ".badge"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"

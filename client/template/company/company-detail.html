@@ -38,14 +38,16 @@
         </div>
         <ul class="list-group">
           {{#if website}}
-          <a href="{{website}}" data-toggle="tooltip" data-placement="bottom" title="Navigate to this website" target="_blank" class="list-group-item">
-            <i class="fa fa-fw fa-laptop"></i> {{website}}
+          <a href="{{website}}" data-toggle="tooltip" data-placement="bottom" title="Navigate to this website" target="_blank" class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-laptop"></i> Website</h4>
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            <p class="list-group-item-text">{{website}}</p>
           </a>
           {{/if}} {{#if phone}}
-          <a href="{{phoneHref phone}}" class="list-group-item" data-toggle="tooltip" data-placement="bottom" title="">
-            <i class="fa fa-fw fa-phone"></i> {{phone}}
+          <a href="{{phoneHref phone}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="">
+            <h4><i class="fa fa-fw fa-phone"></i> Phone Number</h4>
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            <p class="list-group-item-text">{{phone}}</p>
           </a>
           {{/if}}
         </ul>
@@ -127,7 +129,8 @@
 
     <div class="col-md-4">
       {{> publicCompanyInformation}}
-      <h1>Address</h1>
+      {{> legalCompanyInformation company=this}}
+      <h4>Address</h4>
       {{> map title=mapTitle address=mapAddress}}
     </div>
 

@@ -1,25 +1,51 @@
 Template.updateCustomField.onRendered(function() {
   $.getScript('/vendor/medium/medium-editor.min.js');
-})
+});
+
+Template.updateCustomField.helpers({
+  extInfos: function() {
+    var data = [];
+
+    cfObject = this.entity_data.extendedInformation;
+    for (var index in cfObject) {
+      if (cfObject.hasOwnProperty(index)) {
+        var attr = cfObject[index];
+        var ei = {
+          name: cfObject[index].dataName,
+          props: attr
+        };
+        if (attr.dataType !== 'label') {
+          data.push(ei);
+        }
+      }
+    }
+
+    return data.sort(function(a, b) {
+      if (!a.props.isGlobal && b.props.isGlobal) return 1;
+      if (a.props.isGlobal && !b.props.isGlobal) return -1;
+      return 0;
+    });
+  }
+});
 
 Template.updateCustomField.events({
   'click #submit-ext-info': function() {
 
     //Master object to contain all extended information fields
-    var cfMaster = {};
+    var cfMaster = [];
 
-    var cfObject = this.entity_data.customFields;
+    var cfObject = this.entity_data.extendedInformation;
     for (var index in cfObject) {
       if (cfObject.hasOwnProperty(index)) {
 
         //get prettified name
-        var name = index.replace(/ /g, '');
+        var name = cfObject[index].dataName.replace(/ /g, '');
         var safeName = '#extInfos' + name;
 
         //get current (old) settings
         var attr = cfObject[index];
 
-        var newValue = undefined;
+        var newValue = null;
 
         if (attr.isGlobal) {
           switch (attr.dataType) {
@@ -38,11 +64,12 @@ Template.updateCustomField.events({
           }
 
           var settings = {
+            "dataName": name,
             "dataValue": newValue,
             "dataType": attr.dataType,
             isGlobal: true
-          }
-          cfMaster[index] = settings;
+          };
+          cfMaster.push(settings);
 
         } else {
           var selectorName = "#extInfosTypeOptions";
@@ -64,11 +91,12 @@ Template.updateCustomField.events({
           }
 
           var settings = {
+            "dataName": name,
             "dataValue": newValue,
             "dataType": newType,
             isGlobal: false
-          }
-          cfMaster[index] = settings;
+          };
+          cfMaster.push(settings);
 
         }
       }
@@ -78,21 +106,21 @@ Template.updateCustomField.events({
       case 'company':
         Companies.update(this.entity_data._id, {
           $set: {
-            customFields: cfMaster
+            extendedInformation: cfMaster
           }
         });
         break;
       case 'contact':
         Contacts.update(this.entity_data._id, {
           $set: {
-            customFields: cfMaster
+            extendedInformation: cfMaster
           }
         });
         break;
       case 'project':
         Projects.update(this.entity_data._id, {
           $set: {
-            customFields: cfMaster
+            extendedInformation: cfMaster
           }
         });
         break;
@@ -103,29 +131,5 @@ Template.updateCustomField.events({
     }
 
     Modal.hide();
-  }
-});
-
-Template.updateCustomField.helpers({
-  extInfos: function() {
-    var data = [];
-
-    cfObject = this.entity_data.customFields;
-    for (var index in cfObject) {
-      if (cfObject.hasOwnProperty(index)) {
-        var attr = cfObject[index];
-        var ei = {
-          name: index,
-          props: attr
-        };
-        data.push(ei);
-      }
-    }
-
-    return data.sort(function(a, b) {
-      if (!a.props.isGlobal && b.props.isGlobal) return 1;
-      if (a.props.isGlobal && !b.props.isGlobal) return -1;
-      return 0;
-    });
   }
 });

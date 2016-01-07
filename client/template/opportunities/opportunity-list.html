@@ -2,69 +2,55 @@
 
   {{setPageTitle 'Opportunities'}}
 
-  <div class="row" id="opportunity-list">
+  <h1 id="opportunities-page-header"><i class="fa fa-lightbulb-o"></i> Opportunities{{#if archivedShown}} - <i>archived</i>{{/if}}</h1>
+
+  <!-- This should probably be refactored into a "search toolbar" template -->
+  
+  <div class="row">
     <div class="col-md-12">
-
-      <h1 id="opportunities-page-header"><i class="fa fa-lightbulb-o"></i> Opportunities{{#if archivedShown}} - <i>archived</i>{{/if}}</h1>
-
-      <!-- This should probably be refactored into a "search toolbar" template -->
-      <div class="stick-bar">
-        <div class="row">
-          <div class="col-md-3">
-            {{> EasySearch.Input index=OpportunitiesIndex attributes=searchInputAttributes}}
-          </div>
-          <div class="col-md-3">
-            {{> tagSearch collection='opportunities' }}
-          </div>
-          <div class="col-md-3" id="btn-group">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" data-placement="bottom" title="Export results to CSV"><i class="fa fa-fw fa-download"></i></button>
-              {{#if archivedShown}}
-              <button id="toggle-archived" class="btn btn-default"><i class="fa fa-fw fa-folder-open"></i></button>
-              {{else}}
-              <button id="toggle-archived" class="btn btn-default"><i class="fa fa-fw fa-folder"></i></button>
-              {{/if}}
-              <button id="oppsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Opportunities Overview" data-content="<div id='oppOverviewPop'>
-                <table class='table'>
-                  <tbody>
-                    <tr>
-                      <td>Opportunities:</td>
-                      <td class='text-right'>{{totalOpps}}</td>
-                    </tr>
-                    <tr>
-                      <td>Archived Opportunities:</td>
-                      <td class='text-right'>{{archivedOpps}}</td>
-                    </tr>
-                    <tr>
-                      <td>Total Value:</td>
-                      <td class='text-right'>£{{totalOppValue}}</td>
-                    </tr>
-                    <tr>
-                      <td>Average Value:</td>
-                      <td class='text-right'>£{{averageOppValue}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-                ">
-              <i class="fa fa-fw fa-tasks"></i></button>
-            </div>
-          </div>
-          <div class="col-md-3">
-            {{#if isInRole 'Administrator,CanCreateOpportunities'}}
-              <button id="create-opportunity" type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+O"><i class="fa fa-fw fa-plus"></i>Add Opportunity</button>
-            {{/if}}
-          </div>
+      {{#if isInRole 'Administrator,CanCreateOpportunities'}}
+        <button id="create-opportunity" type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+O"><i class="fa fa-fw fa-plus"></i>Add Opportunity</button>
+      {{/if}}
+      <div class="btn-group" role="group" id="btn-popover">
+        <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" data-placement="bottom" title="Export results to CSV"><i class="fa fa-fw fa-download"></i></button>
+        <button id="toggle-archived" class="btn btn-{{#if archivedShown}}success{{else}}default{{/if}}"><i class="fa fa-fw fa-archive"></i></button>
+        <button id="oppsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Opportunities Overview" data-content="<div id='oppOverviewPop'>
+          <table class='table'>
+            <tbody>
+              <tr>
+                <td>Opportunities:</td>
+                <td class='text-right'>{{totalOpps}}</td>
+              </tr>
+              <tr>
+                <td>Archived Opportunities:</td>
+                <td class='text-right'>{{archivedOpps}}</td>
+              </tr>
+              <tr>
+                <td>Total Value:</td>
+                <td class='text-right'>£{{totalOppValue}}</td>
+              </tr>
+              <tr>
+                <td>Average Value:</td>
+                <td class='text-right'>£{{averageOppValue}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+          ">
+        <i class="fa fa-fw fa-tasks"></i></button>
       </div>
-
-      {{> searchResults index=OpportunitiesIndex listItemTemplateName='opportunityListItem'}}
-
     </div>
   </div>
-  <script>
-    $(document).ready(function(){
-      $('[data-toggle="popover"]').popover({html : true, placement : "bottom", container: '#btn-group'});
-    });
-  </script>
+
+  <div class="stick-bar-placeholder"></div>
+  <div class="stick-bar">
+    <div class="row">
+      <div class="col-md-12">
+        {{> searchBox collectionName='opportunities'}}
+      </div>
+    </div>
+  </div>
+
+  {{> searchResults index=OpportunitiesIndex listItemTemplateName='opportunityListItem'}}
+
 </template>

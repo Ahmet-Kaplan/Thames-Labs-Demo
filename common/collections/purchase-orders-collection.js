@@ -35,6 +35,57 @@ PurchaseOrders.helpers({
 });
 
 ////////////////////
+// SEARCH FILTERS //
+////////////////////
+
+Collections.purchaseorders.filters = {
+  company: {
+    display: 'Company:',
+    prop: 'company',
+    collectionName: 'companies',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'companyById',
+    displayValue: function(company) {
+      if(company) {
+        return company.name;
+      } else {
+        return 'N/A';
+      }
+    }
+  },
+  contact: {
+    display: 'Contact:',
+    prop: 'contact',
+    collectionName: 'contacts',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'contactById',
+    displayValue: function(contact) {
+      if(contact) {
+        return contact.name();
+      } else {
+        return 'N/A';
+      }
+    }
+  },
+  status: {
+    display: 'Status:',
+    prop: 'status',
+    verify: function(status) {
+      if(Schemas.PurchaseOrder.schema().status.allowedValues.indexOf(status) !== -1) {
+        return true
+      } else {
+        return false;
+      }
+    },
+    defaultOptions: function() {
+      return Schemas.PurchaseOrder.schema('status').allowedValues;
+    }
+  }
+}
+
+////////////////////
 // SEARCH INDICES //
 ////////////////////
 
@@ -66,6 +117,22 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+
+      if(options.search.props.company) {
+        // n.b. the array is passed as a comma separated string
+        selector.supplierCompanyId = {$in: options.search.props.company.split(',')};
+      }
+
+      if(options.search.props.contact) {
+        // n.b. the array is passed as a comma separated string
+        selector.supplierContactId = {$in: options.search.props.contact.split(',')};
+      }
+
+      if(options.search.props.status) {
+        // n.b. the array is passed as a comma separated string
+        selector.status = {$in: options.search.props.status.split(',')};
+      }
+
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }

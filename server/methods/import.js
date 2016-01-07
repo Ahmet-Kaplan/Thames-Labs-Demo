@@ -41,8 +41,8 @@ Meteor.methods({
                   var company = Companies.findOne({
                     _id: inserted
                   });
-                  var customFields = company.customFields;
-                  var cfMaster = {};
+                  var customFields = company.extendedInformation;
+                  var cfMaster = [];
 
                   for (var index in customFields) {
                     if (customFields.hasOwnProperty(index)) {
@@ -54,10 +54,11 @@ Meteor.methods({
 
                           if (cfArray[x].refName === index) {
                             var settings = {
+                              "dataName": cfArray[x].refName,
                               "dataValue": row[cfArray[x].refVal],
                               "dataType": attr.dataType,
                               isGlobal: true
-                            }
+                            };
                             cfMaster[index] = settings;
                           }
                         }
@@ -67,7 +68,7 @@ Meteor.methods({
 
                   Companies.update(inserted, {
                     $set: {
-                      customFields: cfMaster
+                      extendedInformation: cfMaster
                     }
                   });
                 }
@@ -83,7 +84,7 @@ Meteor.methods({
         }
       });
     } else {
-      return 'User not found.'
+      return 'User not found.';
     }
   },
 
@@ -105,7 +106,7 @@ Meteor.methods({
 
           if (existing === 0) {
 
-            var company = undefined;
+            var company = null;
             if (row[companyColumn] !== '' && row[companyColumn] !== 'NULL') {
               company = Companies.findOne({
                 name: row[companyColumn]
@@ -136,8 +137,8 @@ Meteor.methods({
                   var contact = Contacts.findOne({
                     _id: inserted
                   });
-                  var customFields = contact.customFields;
-                  var cfMaster = {};
+                  var customFields = contact.extendedInformation;
+                  var cfMaster = [];
 
                   for (var index in customFields) {
                     if (customFields.hasOwnProperty(index)) {
@@ -149,6 +150,7 @@ Meteor.methods({
 
                           if (cfArray[x].refName === index) {
                             var settings = {
+                              "dataName": cfArray[x].refName,
                               "dataValue": row[cfArray[x].refVal],
                               "dataType": attr.dataType,
                               isGlobal: true
@@ -162,7 +164,7 @@ Meteor.methods({
 
                   Contacts.update(inserted, {
                     $set: {
-                      customFields: cfMaster
+                      extendedInformation: cfMaster
                     }
                   });
                 }
@@ -178,8 +180,8 @@ Meteor.methods({
         }
       });
     } else {
-      return 'User not found.'
+      return 'User not found.';
     }
   }
 
-})
+});

@@ -21,6 +21,7 @@ Meteor.methods({
     Activities.insert({
       type: "Note",
       notes: "Test contact activity",
+      notes: "Test contact activity",
       createdAt: new Date(),
       activityTimestamp: new Date(),
       primaryEntityId: entity._id,
@@ -93,11 +94,11 @@ Meteor.methods({
   },
 
   addCompany: function(name) {
-    var companyName = name || 'Test Ltd',
-      address = 'Cowley Road',
-      city = 'Cambridge',
-      postcode = 'CB4',
-      country = 'United Kingdom',
+    var companyName = (name === true) ? 'Clouds Inc.' : (name || 'Test Ltd'),
+      address = (name === true) ? '3rd Tower on the left' : 'Cowley Road',
+      city = (name === true) ? 'Cloudy' : 'Cambridge',
+      postcode = (name === true) ? 'CC1' : 'CB4',
+      country = (name === true) ? 'Bespin' : 'United Kingdom',
       userId = this.userId;
 
     var data = Companies.insert({
@@ -107,41 +108,59 @@ Meteor.methods({
       postcode: postcode,
       country: country,
       createdBy: userId,
-      customFields: {}
+      customFields: {},
+      extendedInformation: []
     });
 
+    if(companyName === 'Test Ltd') {
+      Collections.companies.addTag('Company Tag', {
+        _id: data
+      });
+    }
     return data;
 
   },
 
   addContact: function(forename, surname) {
-    var contactForename = forename || 'Testy',
-      contactSurname = surname || 'Surname',
-      userId = Meteor.userId();
-    return Contacts.insert({
-      "forename": contactForename,
-      "surname": contactSurname,
-      "email": "testy@surname.com",
-      "createdBy": userId,
-      "customFields": {}
+    var contactForename = (forename === true) ? 'Obi-Wan' : (forename || 'Testy'),
+        contactSurname = (forename === true) ? 'Kenobi' : (surname || 'Surname'),
+        email = (forename === true) ? 'obiwan@kenobi.com' : 'testy@surname.com'
+        userId = Meteor.userId();
+
+    var contactId = Contacts.insert({
+      forename: contactForename,
+      surname: contactSurname,
+      email: email,
+      createdBy: userId,
+      customFields: {}
     });
+
+    if(contactForename === 'Testy') {
+      Collections.contacts.addTag('Contact Tag', {
+        _id: contactId
+      });
+    }
+
+    return contactId;
   },
 
   addContactForCompany: function() {
+    var userId = Meteor.userId();
     var companyId = Companies.insert({
-      name: "Test Ltd",
-      address: "address",
-      city: "city",
-      postcode: "postcode",
-      country: "country",
-      createdBy: Meteor.userId()
+      name: 'Test Ltd',
+      address: 'Cowley Road',
+      city: 'Cambridge',
+      postcode: 'CB4 0WS',
+      country: 'United Kingdom',
+      createdBy: userId,
+      customFields: {}
     });
 
     return Contacts.insert({
       forename: "Testy",
       surname: "Surname",
       email: "testy@surname.com",
-      createdBy: Meteor.userId(),
+      createdBy: userId,
       companyId: companyId
     });
   },
@@ -155,18 +174,30 @@ Meteor.methods({
     return productId;
   },
 
-  addProject: function() {
-    var companyId = Companies.findOne({})._id;
+  addProject: function(additional) {
+    var companyId = (additional === true) ? Meteor.call('addCompany', true) : Companies.findOne({})._id,
+        name = (additional === true) ? 'Restore Peace to the galaxy' : 'test project',
+        description = (additional === true) ? 'Since the Sith took control, the galaxy is an awful place to live.' :
+                                              'The purpose of this project is only to serve as an example for the tests.',
+        value = (additional === true) ? 10000 : 100;
+
     var projectId = Projects.insert({
-      name: 'test project',
-      description: 'The purpose of this project is only to serve as an example for the tests.',
+      name: name,
+      description: description,
       companyId: companyId,
       userId: Meteor.userId(),
-      value: 100,
+      value: value,
       createdBy: Meteor.userId(),
       projectTypeId: 0,
       projectMilestoneId: 0
     });
+
+    if(name === 'test project') {
+      Collections.projects.addTag('Project Tag', {
+        _id: projectId
+      });
+    }
+
     return projectId;
   },
 
@@ -194,7 +225,7 @@ Meteor.methods({
       }
     });
   },
-	addLimitedProjectType: function() {
+  addLimitedProjectType: function() {
     var userTenant = Tenants.findOne({});
     var projectType = {
       id: 0,
@@ -211,7 +242,7 @@ Meteor.methods({
     });
   },
 
-  addOpportunity: function() {
+  addOpportunity: function(additional) {
     var userTenant = Tenants.findOne({});
     var stages = [];
     stages.push({
@@ -232,44 +263,56 @@ Meteor.methods({
     });
 
     var date = new Date();
-    var companyId = Companies.insert({
-      name: "Test Ltd",
-      address: "address",
-      city: "city",
-      postcode: "postcode",
-      country: "country",
-      createdBy: Meteor.userId()
-    });
-    //  var itemId = Random.id();
+    var companyId = Meteor.call('addCompany', additional);
+    var name = (additional === true) ? 'Destroy Death Star' : 'test opportunity',
+        description = (additional === true) ? 'This is no moon!' : 'test description',
+        value = (additional === true) ? 5000 : 40;
+
     var data = Opportunities.insert({
-      name: 'test opportunity',
-      description: 'test description',
+      name: name,
+      description: description,
       date: date,
-      value: 0,
+      value: value,
       currentStageId: stage.id,
       companyId: companyId,
       createdBy: Meteor.userId(),
       items: []
     });
+
+    if(name === 'test opportunity') {
+      Collections.opportunities.addTag('Opp Tag', {
+        _id: data
+      });
+    }
+
     return data;
   },
 
-  addPurchaseOrder: function() {
+  addPurchaseOrder: function(additional) {
+
+    var name = (additional === true) ? 'Jawa Inc.' : "Test Ltd",
+        address = (additional === true) ? 'Banthas Road' : "address",
+        city = (additional === true) ? 'Mos Eisley' : "city",
+        postcode = (additional === true) ? 'ME1' : "postcode",
+        country = (additional === true) ? 'Tatooine' : "country";
 
     var companyId = Companies.insert({
-      name: "Test Ltd",
-      address: "address",
-      city: "city",
-      postcode: "postcode",
-      country: "country",
+      name: name,
+      address: address,
+      city: city,
+      postcode: postcode,
+      country: country,
       createdBy: Meteor.userId()
     });
 
+    var description = (additional === true) ? 'R2 type Droid' : "Test Purchase Order",
+        status = (additional === true) ? 'Approved': 'Requested';
+
     var data = PurchaseOrders.insert({
       userId: this.userId,
-      description: "Test Purchase Order",
+      description: description,
       supplierCompanyId: companyId,
-      status: "Requested",
+      status: status,
       createdBy: this.userId
     });
 
@@ -349,17 +392,17 @@ Meteor.methods({
 
   addContactTask: function() {
     var contactId = Contacts.insert({
-      "title": "Mr",
-      "forename": "Obi-Wan",
-      "surname": "Kenobi",
-      "email": "obiwan@screwthedarkside.com",
-      "createdBy": Meteor.userId(),
-      "customFields": {
-        test: {
-          dataValue: "velocity",
-          dataType: "text"
-        }
-      }
+      forename: "Obi-Wan",
+      surname: "Kenobi",
+      email: "obiwan@screwthedarkside.com",
+      createdBy: Meteor.userId(),
+      customFields: {},
+      extendedInformation: [{
+        "dataName": "test",
+        "dataValue": "velocity",
+        "dataType": "text",
+        "isGlobal": false
+      }]
     });
 
     var taskId = Tasks.insert({
@@ -367,7 +410,7 @@ Meteor.methods({
       description: 'test description',
       assigneeId: Meteor.userId(),
       isAllDay: true,
-      dueDate: new Date(),
+      dueDate: moment().add(7, 'days').toDate(),
       entityType: 'contact',
       entityId: contactId,
       createdBy: Meteor.userId()
@@ -397,7 +440,7 @@ Meteor.methods({
 
     var date = new Date();
     var companyId = Companies.insert({
-      name: "Test Ltd",
+      name: "Test Task Ltd",
       address: "address",
       city: "city",
       postcode: "postcode",
@@ -406,10 +449,10 @@ Meteor.methods({
     });
 
     var oppId = Opportunities.insert({
-      name: 'test opportunity',
+      name: 'Test opportunity for Task',
       description: 'test description',
       date: date,
-      value: 0,
+      value: 100,
       currentStageId: stage.id,
       companyId: companyId,
       createdBy: Meteor.userId(),
@@ -431,7 +474,7 @@ Meteor.methods({
 
   addProjectTask: function() {
     var companyId = Companies.insert({
-      name: "Test Ltd",
+      name: "Test Task Ltd",
       address: "address",
       city: "city",
       postcode: "postcode",
@@ -440,10 +483,10 @@ Meteor.methods({
     });
 
     var projectId = Projects.insert({
-      name: 'test project',
+      name: 'test project for task',
       companyId: companyId,
       userId: Meteor.userId(),
-      value: 100,
+      value: 200,
       createdBy: Meteor.userId(),
       projectTypeId: 0,
       projectMilestoneId: 0
