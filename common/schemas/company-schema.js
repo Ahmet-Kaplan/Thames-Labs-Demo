@@ -105,6 +105,14 @@ Schemas.Company = new SimpleSchema({
     autoform: {
       type: 'hidden'
     }
+  },
+  documents: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
   }
 });
 Companies.attachSchema(Schemas.Company);
