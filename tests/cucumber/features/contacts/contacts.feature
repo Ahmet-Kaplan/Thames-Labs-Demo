@@ -252,6 +252,7 @@ Feature: Allow users to manage their Contacts
     When I navigate to a contact page
     Then I should not see the edit tag button
 
+
   Scenario: A user with the Administrator permission can edit tags
     Given I have the "Administrator" permission
     And a "Contact" has been created
