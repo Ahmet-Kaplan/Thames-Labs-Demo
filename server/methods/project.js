@@ -64,6 +64,7 @@ Meteor.methods({
                 };
               } else {
                 newId = milestones[newIndex].id;
+
                 return {
                   exitCode: 0,
                   exitStatus: newId

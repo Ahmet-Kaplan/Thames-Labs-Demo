@@ -11,7 +11,11 @@ Template.customFieldDisplay.events({
 
 Template.customFieldDisplay.helpers({
   hasCustomFields: function() {
-    return this.entity_data.extendedInformation.length > 0;
+    if (this.entity_data.extendedInformation) {
+      return this.entity_data.extendedInformation.length > 0;
+    } else {
+      return false;
+    }
   },
   globalFields: function() {
     var ret = [];
