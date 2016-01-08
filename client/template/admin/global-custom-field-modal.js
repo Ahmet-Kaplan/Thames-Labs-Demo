@@ -111,6 +111,9 @@ Template.addNewGlobalCustomField.events({
       case 'project':
         fields = tenant.settings.extInfo.project;
         break;
+      case 'product':
+        fields = tenant.settings.extInfo.product;
+        break;
     }
 
     var data = [];
@@ -154,6 +157,13 @@ Template.addNewGlobalCustomField.events({
           }
         });
         break;
+      case 'product':
+        Tenants.update(user.group, {
+          $set: {
+            'settings.extInfo.product': data
+          }
+        });
+        break;
     }
 
     var collName = '';
@@ -166,6 +176,9 @@ Template.addNewGlobalCustomField.events({
         break;
       case 'project':
         collName = 'projects';
+        break;
+      case 'product':
+        collName = 'products';
         break;
     }
 
@@ -215,6 +228,14 @@ Template.addNewGlobalCustomField.events({
 
         if (collName === 'projects') {
           Projects.update(tx._id, {
+            $set: {
+              extendedInformation: cfMaster
+            }
+          });
+        }
+
+        if (collName === 'products') {
+          Products.update(tx._id, {
             $set: {
               extendedInformation: cfMaster
             }

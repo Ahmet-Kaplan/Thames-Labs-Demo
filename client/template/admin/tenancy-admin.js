@@ -68,6 +68,24 @@ Template.tenancyAdminPage.helpers({
       return 0;
     });
   },
+  globalProductCustomFields: function() {
+    var data = [];
+    var user = Meteor.users.findOne(Meteor.userId());
+    var tenant = Tenants.findOne(user.group);
+
+    var fields = tenant.settings.extInfo.product;
+    if (fields) {
+      _.each(fields, function(f) {
+        data.push(f);
+      });
+    }
+
+    return data.sort(function(a, b) {
+      if (a.dataOrder < b.dataOrder) return -1;
+      if (a.dataOrder > b.dataOrder) return 1;
+      return 0;
+    });
+  },
   tenantFound: function() {
     return !!Tenants.findOne({});
   }
@@ -133,6 +151,9 @@ Template.gcf_display.helpers({
         break;
       case 'project':
         retVal = 'Projects';
+        break;
+      case 'product':
+        retVal = 'Products';
         break;
     }
 
@@ -255,6 +276,28 @@ Template.gcf_display.events({
               }
             });
             break;
+
+          case "product":
+            targets = Products.find({}).fetch();
+
+            _.each(targets, function(cx) {
+
+              var cfMaster = [];
+
+              if (cx.extendedInformation) {
+                for (var cf in cx.extendedInformation) {
+                  if (cx.extendedInformation[cf].dataName !== self.name) {
+                    cfMaster.push(cx.extendedInformation[cf]);
+                  }
+                }
+                Products.update(cx._id, {
+                  $set: {
+                    extendedInformation: cfMaster
+                  }
+                });
+              }
+            });
+            break;
         }
 
         var user = Meteor.users.findOne(Meteor.userId());
@@ -270,6 +313,9 @@ Template.gcf_display.events({
             break;
           case 'project':
             fields = tenant.settings.extInfo.project;
+            break;
+          case 'product':
+            fields = tenant.settings.extInfo.product;
             break;
         }
 
@@ -299,6 +345,13 @@ Template.gcf_display.events({
             Tenants.update(user.group, {
               $set: {
                 'settings.extInfo.project': data
+              }
+            });
+            break;
+          case 'product':
+            Tenants.update(user.group, {
+              $set: {
+                'settings.extInfo.product': data
               }
             });
             break;

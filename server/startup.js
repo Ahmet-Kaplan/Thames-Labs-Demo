@@ -73,7 +73,8 @@ Meteor.startup(function() {
           "settings.extInfo": {
             company: [],
             contact: [],
-            project: []
+            project: [],
+            product: []
           }
         }
       });
@@ -99,6 +100,14 @@ Meteor.startup(function() {
       Tenants.update(t._id, {
         $set: {
           "settings.extInfo.project": []
+        }
+      });
+    }
+
+    if (!t.settings.extInfo.product) {
+      Tenants.update(t._id, {
+        $set: {
+          "settings.extInfo.product": []
         }
       });
     }
