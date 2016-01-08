@@ -165,12 +165,26 @@ Meteor.methods({
     });
   },
 
-  addProduct: function() {
+  addProduct: function(additional) {
+    var name = (additional === true) ? 'Lightsabre (blue)' : 'Imperial Blaster',
+        description = (additional === true) ? 'An elegant weapon, from a more civilised age' : 'Accurate and deadly',
+        cost = (additional === true) ? 0 : 100,
+        price = (additional === true) ? Infinity : 200;
+
     var productId = Products.insert({
-      name: 'test product',
-      description: 'test description',
-      createdBy: Meteor.userId()
+      name: name,
+      description: description,
+      createdBy: Meteor.userId(),
+      cost: cost,
+      price: price
     });
+
+    if (additional === true) {
+      Collections.products.addTag('Jedi', {
+        _id: productId
+      });
+    }
+
     return productId;
   },
 

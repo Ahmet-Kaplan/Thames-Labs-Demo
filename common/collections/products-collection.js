@@ -2,6 +2,8 @@ Collections.products = Products = new Mongo.Collection('products');
 
 Partitioner.partitionCollection(Products);
 
+Tags.TagsMixin(Products);
+
 ////////////////////
 // SEARCH FILTERS //
 ////////////////////
@@ -59,6 +61,14 @@ Collections.products.filters = {
       }
     }
   },
+  tags: {
+    display: 'Tag:',
+    prop: 'tags',
+    collectionName: 'tags',
+    autosuggestFilter: {collection: 'products'},
+    valueField: 'name',
+    nameField: 'name'
+  }
 }
 
 ////////////////////
@@ -85,16 +95,23 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
       return {
         'name': 1,
         'price': 1,
-        'cost': 1
+        'cost': 1,
+        'tags': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
 
-      if(options.search.props.salesPriceLower || options.search.props.salesPriceGreater) {
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = {$in: options.search.props.tags.split(',')};
+      }
+
+      if (options.search.props.salesPriceLower || options.search.props.salesPriceGreater) {
         selector.price = {};
         var priceLowerThan = parseInt(options.search.props.salesPriceLower);
         var priceGreaterThan = parseInt(options.search.props.salesPriceGreater);
@@ -108,7 +125,7 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
         }
       }
 
-      if(options.search.props.costPriceLower || options.search.props.costPriceGreater) {
+      if (options.search.props.costPriceLower || options.search.props.costPriceGreater) {
         selector.cost = {};
         var costLowerThan = parseInt(options.search.props.costPriceLower);
         var costGreaterThan = parseInt(options.search.props.costPriceGreater);

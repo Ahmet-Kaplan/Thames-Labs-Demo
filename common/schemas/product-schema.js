@@ -22,6 +22,13 @@ Schemas.Product = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
-  }
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
+  },
 });
 Products.attachSchema(Schemas.Product);
