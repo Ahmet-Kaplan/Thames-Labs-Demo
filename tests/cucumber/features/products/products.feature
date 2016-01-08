@@ -180,7 +180,6 @@ Feature: Allow users to manage their Products
     Then the tag field for the "product" should contain "test-tag"
 
   #Extended information fields
-  @focus
   Scenario: A user can add, edit and delete extended information fields
     Given I have the "CanEditProducts" permission
     And a "Product" has been created
