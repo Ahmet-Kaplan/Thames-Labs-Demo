@@ -1,6 +1,6 @@
 Meteor.methods({
 
-  'import.AddNewCompany': function(row, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray) {
+  'import.AddNewCompany': function(row, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray, localCF) {
 
     var user = Meteor.users.findOne({
       _id: this.userId
@@ -66,6 +66,16 @@ Meteor.methods({
                     }
                   }
 
+                  for (var local in localCF) {
+                    var newLocalField = {
+                      "dataName": localCF[local].refName,
+                      "dataValue": row[localCF[local].refVal],
+                      "dataType": 'text',
+                      isGlobal: false
+                    };
+                    cfMaster.push(newLocalField);
+                  }
+
                   Companies.update(inserted, {
                     $set: {
                       extendedInformation: cfMaster
@@ -88,7 +98,7 @@ Meteor.methods({
     }
   },
 
-  'import.AddNewContact': function(row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray) {
+  'import.AddNewContact': function(row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, localCF) {
 
     var user = Meteor.users.findOne({
       _id: this.userId
@@ -160,6 +170,16 @@ Meteor.methods({
                         }
                       }
                     }
+                  }
+
+                  for (var local in localCF) {
+                    var newLocalField = {
+                      "dataName": localCF[local].refName,
+                      "dataValue": row[localCF[local].refVal],
+                      "dataType": 'text',
+                      isGlobal: false
+                    };
+                    cfMaster.push(newLocalField);
                   }
 
                   Contacts.update(inserted, {
