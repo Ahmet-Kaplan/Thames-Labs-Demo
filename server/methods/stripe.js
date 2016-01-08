@@ -351,6 +351,8 @@ Meteor.methods({
 
           stripeCardDetails.return(card);
         });
+      } else {
+        stripeCardDetails.return(false);
       }
     });
 
