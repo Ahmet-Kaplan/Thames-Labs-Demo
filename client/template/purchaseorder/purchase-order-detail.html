@@ -95,6 +95,9 @@
             </li>
           </ul>
         </div>
+
+        {{> documentContainer collectionName="purchaseorders" id=this._id permissionRequired="CanEditPurchaseOrders"}}
+
         <div class="panel panel-default">
           <div class="panel-heading">
             {{#if isInRole 'Administrator,CanEditPurchaseOrders'}}

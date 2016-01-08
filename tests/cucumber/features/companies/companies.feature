@@ -205,8 +205,7 @@ Feature: Allow users to manage their Companies
     Given I have the "CanCreateCompanies" permission
     Given a "Company" has been created
     When I navigate to a company page
-    Then I should see the heading "Address"
-    And I should see a map
+    Then I should see a map
 
   Scenario: A user can do a location search and see the map when editing a company's details
     Given I have the "CanEditCompanies" permission
@@ -313,3 +312,29 @@ Feature: Allow users to manage their Companies
     And I click "#remove-activity"
     And I click confirm on the modal
     Then I should see "#no-activity"
+
+  #Filtering and Searching
+  Scenario: A user can filter companies by city
+    Given I have the "Administrator" permission
+    And a "Company" has been created
+    And an additional "Company" has been created
+    When I navigate to "/companies"
+    And I click "#toggleFilters"
+    And I set the filter to "City:" then "Cambridge"
+    Then I should see ".removeProp"
+    And I should see ".fa-map-marker"
+    And "#resultsCount" should say "1 record"
+    When I click ".removeProp"
+    And I set the filter to "City:" then "city"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "0 records"
+
+  Scenario: Clicking a tag badge applies the filter
+    Given I have the "Administrator" permission
+    And a "Company" has been created
+    And an additional "Company" has been created
+    When I navigate to "/companies"
+    And I click ".badge"
+    Then I should see ".removeProp"
+    And I should see ".fa-map-marker"
+    And "#resultsCount" should say "1 record"    

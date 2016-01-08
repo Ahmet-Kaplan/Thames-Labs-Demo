@@ -17,22 +17,34 @@
 
             <label>Type</label>
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-2">
                 <div class="radio">
                   <label>
-                    <input type="radio" name="cfType" id="typeText" checked>Text</label>
+                    <input checked id="typeText" name="cfType" type="radio">Text</label>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="radio">
                   <label>
-                    <input type="radio" name="cfType" id="typeCheckbox">Checkbox</label>
+                    <input id="typeAdvText" name="cfType" type="radio">Multiline Text</label>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-2">
                 <div class="radio">
                   <label>
-                    <input type="radio" name="cfType" id="typeDate">Date/Time</label>
+                    <input id="typeCheckbox" name="cfType" type="radio">Checkbox</label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="radio">
+                  <label>
+                    <input id="typeDate" name="cfType" type="radio">Date/Time</label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="radio">
+                  <label>
+                    <input id="typeLabel" name="cfType" type="radio">Label</label>
                 </div>
               </div>
             </div>
@@ -40,6 +52,10 @@
             <div class="form-group" id="text-input-area">
               <label for="custom-field-text-value">Default Text Value</label>
               <input type="text" class="form-control" placeholder="Global extended information value" id="custom-field-text-value">
+            </div>
+            <div class="form-group" id="advtext-input-area">
+              <label for="custom-field-advtext-value">Multiline Text Value</label>
+              <div class="editable mediumWrapper" id="custom-field-advtext-value"></div>
             </div>
             <div class="form-group" id="check-input-area">
               <label for="custom-field-check-value">Default True/False Value</label>

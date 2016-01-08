@@ -11,6 +11,10 @@ Template.tenantList.helpers({
     var payingTenant = (paying === "true") ? true : false;
     return Tenants.find({
       "stripe.paying": payingTenant
+    }, {
+      sort: {
+        name: 1
+      }
     });
   },
   tenantCount: function() {

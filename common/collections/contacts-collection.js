@@ -37,6 +37,41 @@ Contacts.helpers({
 Tags.TagsMixin(Contacts);
 
 ////////////////////
+// SEARCH FILTERS //
+////////////////////
+
+Collections.contacts.filters = {
+  company: {
+    display: 'Company:',
+    prop: 'company',
+    collectionName: 'companies',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'companyById',
+    displayValue: function(company) {
+      if(company) {
+        return company.name;
+      } else {
+        return 'N/A';
+      }
+    }
+  },
+  phone: {
+    display: 'Phone:',
+    prop: 'phone',
+    allowMultiple: true
+  },
+  tags: {
+    display: 'Tag:',
+    prop: 'tags',
+    collectionName: 'tags',
+    autosuggestFilter: {collection: 'contacts'},
+    valueField: 'name',
+    nameField: 'name'
+  }
+}
+
+////////////////////
 // SEARCH INDICES //
 ////////////////////
 
@@ -76,18 +111,41 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+
       if (options.search.props.filterCompanyId) {
         selector.companyId = options.search.props.filterCompanyId;
       }
+
+      if(options.search.props.company) {
+        // n.b. the array is passed as a comma separated string
+        selector.companyId = {$in: options.search.props.company.split(',')};
+      }
+
+      if(options.search.props.phone) {
+        // n.b. the array is passed as a comma separated string
+        selector.phone = {
+          $in: _.map(options.search.props.phone.split(','), function(phone) {
+            return new RegExp(phone, 'i')
+          })
+        };
+        selector.mobile = {
+          $in: _.map(options.search.props.phone.split(','), function(phone) {
+            return new RegExp(phone, 'i')
+          })
+        };
+      }
+
       if (options.search.props.tags) {
         // n.b. tags is a comma separated string
         selector.tags = {
           $in: options.search.props.tags.split(',')
         };
       }
+
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
+
       return selector;
     },
     transform: (doc) => {
@@ -125,19 +183,18 @@ Contacts.before.insert(function(userId, doc) {
     var tenant = Tenants.findOne(user.group);
     var contactCustomFields = tenant.settings.extInfo.contact;
 
-    var cfMaster = {};
+    var cfMaster = [];
     _.each(contactCustomFields, function(cf) {
-
       var field = {
+        dataName: cf.name,
         dataValue: cf.defaultValue,
         dataType: cf.type,
         isGlobal: true
       };
 
-      cfMaster[cf.name] = field;
+      cfMaster.push(field);
     });
-
-    doc.customFields = cfMaster;
+    doc.extendedInformation = cfMaster;
   }
 });
 

@@ -87,6 +87,14 @@ Schemas.Contact = new SimpleSchema({
       type: "hidden"
     }
   },
+  extendedInformation: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
   metadata: {
     type: Object,
     blackbox: true,
@@ -100,6 +108,14 @@ Schemas.Contact = new SimpleSchema({
     optional: true,
     autoform: {
       type: 'hidden'
+    }
+  },
+  documents: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
     }
   }
 });

@@ -89,6 +89,14 @@ module.exports = function() {
       }, entity);
   });
 
+  this.Given(/^an additional "([^"]*)" has been created$/, function(entity) {
+    browser.executeAsync(function(entity, done) {
+      Meteor.call('add' + entity, true, function() {
+        done();
+      });
+    }, entity)
+  });
+
   this.Given(/^toastr are cleared$/, function() {
     browser.executeAsync(function(done) {
       toastr.clear();
@@ -177,8 +185,8 @@ module.exports = function() {
   });
 
   this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value) {
-    var selectizeInput = 'select#' + selector + ' + .selectize-control>.selectize-input>input',
-        selectizeDropdown = 'select#' + selector + ' + .selectize-control>.selectize-dropdown';
+    var selectizeInput = '#' + selector + ' + .selectize-control>.selectize-input>input',
+        selectizeDropdown = '#' + selector + ' + .selectize-control>.selectize-dropdown';
     browser.waitForExist(selectizeInput, 5000);
     browser.waitForVisible(selectizeInput, 5000);
     browser.setValue(selectizeInput, value);
