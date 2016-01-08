@@ -45,6 +45,11 @@
           {{/if}}
         </ul>
       </div>
+
+      <div>
+        {{#if isInRole 'Administrator,CanEditProducts'}}{{#with this}} {{> customFieldDisplay entity_data=this entity_type='product'}} {{/with}}{{/if}}
+      </div>
+
     </div>
   </div>
   {{/with}}

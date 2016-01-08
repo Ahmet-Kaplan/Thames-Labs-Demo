@@ -30,5 +30,14 @@ Schemas.Product = new SimpleSchema({
       type: 'hidden'
     }
   },
+  extendedInformation: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
 });
+
 Products.attachSchema(Schemas.Product);

@@ -179,6 +179,26 @@ Feature: Allow users to manage their Products
     And I add the tag "test-tag"
     Then the tag field for the "product" should contain "test-tag"
 
+  #Extended information fields
+  @focus
+  Scenario: A user can add, edit and delete extended information fields
+    Given I have the "CanEditProducts" permission
+    And a "Product" has been created
+    When I navigate to a product page
+    And I click "#add-custom-field"
+    Then I should see a modal
+    When I set text field with id "custom-field-name" to "velocity2"
+    And I set text field with id "custom-field-text-value" to "velocity"
+    And I click "#submit-custom-field"
+    Then I should see ".custom-field-display-item"
+    When I click "#edit-custom-fields"
+    And I set text field with id "extInfosvelocity2TextValue" to "velocity"
+    And I click "#submit-ext-info"
+    Then I see a field with the name "velocity" in the extended information list
+    When I click "#delete-custom-field"
+    And I click confirm on the modal
+    Then I should not see ".custom-field-display-item"
+
   #Filtering and Searching
   Scenario: A user can filter products by sales price
     Given I have the "CanReadProducts" permission

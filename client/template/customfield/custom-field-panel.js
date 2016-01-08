@@ -11,7 +11,7 @@ Template.customFieldDisplay.events({
 
 Template.customFieldDisplay.helpers({
   hasCustomFields: function() {
-    return this.entity_data.extendedInformation.length > 0;
+    return this.entity_data.extendedInformation && this.entity_data.extendedInformation.length > 0;
   },
   globalFields: function() {
     var ret = [];
