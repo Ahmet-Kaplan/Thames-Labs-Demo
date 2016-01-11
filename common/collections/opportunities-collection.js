@@ -106,7 +106,7 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
 
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, ['Administrator', 'CanReadOpportunities']);
+    return Roles.userIsInRole(userId, [ 'CanReadOpportunities']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {

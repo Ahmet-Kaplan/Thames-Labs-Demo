@@ -171,7 +171,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
   fields: ['title'],
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, ['Administrator', 'CanReadTasks']);
+    return Roles.userIsInRole(userId, [ 'CanReadTasks']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {

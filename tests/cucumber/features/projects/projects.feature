@@ -179,14 +179,6 @@ Feature: Allow users to manage their Projects
     When I navigate to a project page
     Then I should not see the edit tag button
 
-  Scenario: A user with the Administrator permission can edit tags
-    Given I have the "Administrator" permission
-    And a "Project" has been created
-    When I navigate to a project page
-    And I click ".editTags"
-    And I add the tag "test-tag"
-    Then the tag field for the "projects" should contain "test-tag"
-
   #Extended information fields
   Scenario: A user can open the "Add Extended information fields" modal
     Given I have the "CanEditProjects" permission

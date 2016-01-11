@@ -97,7 +97,7 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
   fields: ['name'],
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, ['Administrator', 'CanReadCompanies']);
+    return Roles.userIsInRole(userId, [ 'CanReadCompanies']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {

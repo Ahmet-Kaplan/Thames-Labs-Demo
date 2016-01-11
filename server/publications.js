@@ -64,13 +64,13 @@ Meteor.publish("allUserData", function() {
 });
 
 Meteor.publish("allCompanies", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadCompanies'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Companies.find({});
 });
 
 Meteor.publish("companyById", function(companyId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadCompanies'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Companies.find({
     _id: companyId
@@ -79,19 +79,19 @@ Meteor.publish("companyById", function(companyId) {
 
 
 Meteor.publish("allContacts", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadContacts'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Contacts.find({});
 });
 Meteor.publish("contactById", function(contactId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadContacts'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Contacts.find({
     _id: contactId
   });
 });
 Meteor.publish("contactsByCompanyId", function(companyId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadContacts'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Contacts.find({
     companyId: companyId
@@ -100,42 +100,42 @@ Meteor.publish("contactsByCompanyId", function(companyId) {
 
 
 Meteor.publish("activityByContactId", function(contactId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadContacts'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadContacts'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     contactId: contactId
   });
 });
 Meteor.publish("activityByCompanyId", function(companyId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadCompanies'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadCompanies'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     companyId: companyId
   });
 });
 Meteor.publish("activityByProjectId", function(projectId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadProjects'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadProjects'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     projectId: projectId
   });
 });
 Meteor.publish("activityByPurchaseOrderId", function(purchaseOrderId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     purchaseOrderId: purchaseOrderId
   });
 });
 Meteor.publish("activityByOpportunityId", function(opportunityId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     opportunityId: opportunityId
   });
 });
 Meteor.publish("activityByTaskId", function(taskId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTasks'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadTasks'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
     taskId: taskId
@@ -144,26 +144,26 @@ Meteor.publish("activityByTaskId", function(taskId) {
 
 
 Meteor.publish("allProjects", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadProjects'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadProjects'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Projects.find({});
 });
 Meteor.publish("projectsByCompanyId", function(companyId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadProjects'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadProjects'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Projects.find({
     companyId: companyId
   });
 });
 Meteor.publish("projectsByContactId", function(contactId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadProjects'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadProjects'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Projects.find({
     contactId: contactId
   });
 });
 Meteor.publish("projectById", function(projectId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadProjects'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadProjects'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Projects.find({
     _id: projectId
@@ -172,33 +172,33 @@ Meteor.publish("projectById", function(projectId) {
 
 
 Meteor.publish("allPurchaseOrders", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return PurchaseOrders.find({});
 });
 Meteor.publish("purchaseOrdersByCompanyId", function(companyId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return PurchaseOrders.find({
     supplierCompanyId: companyId
   });
 });
 Meteor.publish("purchaseOrdersByContactId", function(contactId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return PurchaseOrders.find({
     supplierContactId: contactId
   });
 });
 Meteor.publish("purchaseOrdersByProjectId", function(projectId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return PurchaseOrders.find({
     projectId: projectId
   });
 });
 Meteor.publish("purchaseOrderById", function(purchaseOrderId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return PurchaseOrders.find({
     _id: purchaseOrderId
@@ -206,13 +206,13 @@ Meteor.publish("purchaseOrderById", function(purchaseOrderId) {
 });
 
 Meteor.publish("allPurchaseOrderItemsNoPOID", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return PurchaseOrderItems.find({});
 });
 
 Meteor.publish("allPurchaseOrderItems", function(purchaseOrderId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return PurchaseOrderItems.find({
     purchaseOrderId: purchaseOrderId
@@ -220,7 +220,7 @@ Meteor.publish("allPurchaseOrderItems", function(purchaseOrderId) {
 });
 
 Meteor.publish("allPurchaseOrderItemsByProject", function(projectId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadPurchaseOrders'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return PurchaseOrderItems.find({
     projectId: projectId
@@ -242,26 +242,26 @@ Meteor.publish("allChatter", function() {
 
 
 Meteor.publish("allTasks", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTasks'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadTasks'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Tasks.find({});
 });
 Meteor.publish("taskById", function(taskId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTasks'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadTasks'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Tasks.find({
     _id: taskId
   });
 });
 Meteor.publish("tasksByEntityId", function(entityId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTasks'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadTasks'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Tasks.find({
     entityId: entityId
   });
 });
 Meteor.publish("allUserTasks", function(userId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadTasks'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadTasks'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Tasks.find({
     assigneeId: userId
@@ -275,7 +275,7 @@ Meteor.publish("allProducts", function() {
   return Products.find({});
 });
 Meteor.publish("productById", function(productId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadProducts'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadProducts'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Products.find({
     _id: productId
@@ -284,26 +284,26 @@ Meteor.publish("productById", function(productId) {
 
 //Opportunities
 Meteor.publish("allOpportunities", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Opportunities.find();
 });
 Meteor.publish("opportunityById", function(oppId) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Opportunities.find({
     _id: oppId
   });
 });
 Meteor.publish("opportunitiesByProjectId", function(id) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Opportunities.find({
     projectId: id
   });
 });
 Meteor.publish("opportunitiesByCompanyId", function(id) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Opportunities.find({
     companyId: id,
@@ -313,7 +313,7 @@ Meteor.publish("opportunitiesByCompanyId", function(id) {
   });
 });
 Meteor.publish("opportunitiesByContactId", function(id) {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadOpportunities'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Opportunities.find({
     contactId: id,
@@ -352,7 +352,7 @@ Meteor.publish('tagsByCollection', function(collectionName) {
     });
   }
   var permissionRequired = permissionGenerator('read', collectionName);
-  if (!Roles.userIsInRole(this.userId, ['Administrator', permissionRequired])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, [permissionRequired])) return this.ready();
   return Meteor.tags.find({
     collection: collectionName
   });

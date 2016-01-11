@@ -2,7 +2,7 @@ module.exports = function() {
 
   this.When(/^I see a global field with the name "([^"]*)" in the list "([^"]*)"$/, function(gfName, listName) {
     browser.waitForExist(listName, 2000);
-    expect(browser.getText('#glob-cust-field-display', 2000)).toContain(gfName);
+    expect(browser.getText('#custom-field-list', 2000)).toContain(gfName);
   });
 
   this.When(/^I click the button "([^"]*)"$/, function(button) {
@@ -10,7 +10,7 @@ module.exports = function() {
   });
 
   this.Then(/^the global field should no longer be visible$/, function() {
-    expect(browser.isExisting('#glob-cust-field-display')).toEqual(false);
+    browser.waitForExist('#glob-cust-field-display', 2000, true);
   });
 
   this.Then(/^I see a field with the name "([^"]*)" in the extended information list$/, function(name) {
