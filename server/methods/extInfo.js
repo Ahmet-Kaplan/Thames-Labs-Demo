@@ -385,6 +385,15 @@ Meteor.methods({
         }
       });
     }
+    if (type === 'product') {
+      Tenants.update({
+        _id: user.group
+      }, {
+        $set: {
+          'settings.extInfo.product': currentOrder
+        }
+      });
+    }
 
     return {
       exitCode: 0,
