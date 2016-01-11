@@ -38,6 +38,14 @@ Schemas.Product = new SimpleSchema({
       type: "hidden"
     }
   },
+  documents: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
 });
 
 Products.attachSchema(Schemas.Product);

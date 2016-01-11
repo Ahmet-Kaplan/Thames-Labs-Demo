@@ -50,6 +50,8 @@
         {{#if isInRole 'Administrator,CanEditProducts'}}{{#with this}} {{> customFieldDisplay entity_data=this entity_type='product'}} {{/with}}{{/if}}
       </div>
 
+      {{> documentContainer collectionName="products" id=this._id permissionRequired="CanEditProducts"}}
+
     </div>
   </div>
   {{/with}}
