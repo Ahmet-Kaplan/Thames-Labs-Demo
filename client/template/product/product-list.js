@@ -20,6 +20,8 @@ Template.productList.onRendered(function() {
   Meteor.call('report.averageProductsCost', function(err, data) {
     template.averageProductsCost.set(data.Value);
   });
+
+  $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: '#btn-popover'});
 });
 
 Template.productList.events({

@@ -168,3 +168,25 @@ Feature: Allow users to manage their Purchase Orders
     When I click "#remove-activity"
     And I click confirm on the modal
     Then I should see "#no-activity"
+
+  #Filtering and Searching
+  Scenario: A user can filter purchase orders by company
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadPurchaseOrders" permission
+    And a "PurchaseOrder" has been created
+    And an additional "PurchaseOrder" has been created
+    When I navigate to "/purchaseorders"
+    And I click "#toggleFilters"
+    And I set the filter to "Company:" then "Test Ltd"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"
+
+  Scenario: A user can filter purchase orders by status
+    Given I have the "Administrator" permission
+    And a "PurchaseOrder" has been created
+    And an additional "PurchaseOrder" has been created
+    When I navigate to "/purchaseorders"
+    And I click "#toggleFilters"
+    And I set the filter to "Status:" then "Requested"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"

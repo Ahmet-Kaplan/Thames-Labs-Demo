@@ -76,6 +76,14 @@ Schemas.Company = new SimpleSchema({
       type: "hidden"
     }
   },
+  extendedInformation: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
   metadata: {
     type: Object,
     blackbox: true,
@@ -96,6 +104,14 @@ Schemas.Company = new SimpleSchema({
     optional: true,
     autoform: {
       type: 'hidden'
+    }
+  },
+  documents: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
     }
   }
 });

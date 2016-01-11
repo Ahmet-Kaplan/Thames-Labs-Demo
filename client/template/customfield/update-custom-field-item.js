@@ -15,6 +15,7 @@ Template.extInfo.events({
       case 'text':
         $(safeName + "TextInputArea").show();
         $(safeName + "BooleanInputArea").hide();
+        $(safeName + "AdvTextInputArea").hide();
         $(safeName + "DateInputArea").hide();
         break;
       case 'advtext':
@@ -34,11 +35,13 @@ Template.extInfo.events({
       case 'checkbox':
         $(safeName + "TextInputArea").hide();
         $(safeName + "BooleanInputArea").show();
+        $(safeName + "AdvTextInputArea").hide();
         $(safeName + "DateInputArea").hide();
         break;
       case 'date':
         $(safeName + "TextInputArea").hide();
         $(safeName + "BooleanInputArea").hide();
+        $(safeName + "AdvTextInputArea").hide();
         $(safeName + "DateInputArea").show();
         break;
     }

@@ -8,6 +8,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
 
   Scenario: When a user has reached the maximum number of subscriptions a message appears when it tries to add company
     Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
     Given I have reached the limit of records
     Given toastr are cleared
     Then element ".nav-btn-info" should contain the text "Limit reached"
@@ -20,6 +21,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
 
   Scenario: When a user has reached the maximum number of subscriptions a message appears when it tries to add contact
     Given I have the "Administrator" permission
+    Given I have the "CanReadContacts" permission
     Given I have reached the limit of records
     Given toastr are cleared
     When I navigate to "/contacts"
@@ -32,6 +34,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
 
   Scenario: When a user has reached the maximum number of records they can delete a record and add a new one
     Given I have the "Administrator" permission
+    Given I have the "CanReadContacts" permission
     Given I have reached the limit of records
     Given toastr are cleared
     When I navigate to a contact page

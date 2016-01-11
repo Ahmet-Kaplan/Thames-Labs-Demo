@@ -40,7 +40,7 @@ Template.task.helpers({
         entityData = {
           icon: 'check',
           name: "Personal task",
-          permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadTasks'])
+          permissionToRead: Roles.userIsInRole(Meteor.userId(), [ 'CanReadTasks'])
         }
         break;
       case 'company':
@@ -50,7 +50,7 @@ Template.task.helpers({
           entityData = {
             icon: 'building',
             name: c.name,
-            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadCompanies'])
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), [ 'CanReadCompanies'])
           };
         }
         break;
@@ -61,7 +61,7 @@ Template.task.helpers({
           entityData = {
             icon: 'user',
             name: c.forename + " " + c.surname,
-            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadContacts'])
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), [ 'CanReadContacts'])
           };
         }
         break;
@@ -72,7 +72,7 @@ Template.task.helpers({
           entityData = {
             icon: 'sitemap',
             name: p.name,
-            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProjects'])
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), [ 'CanReadProjects'])
           };
         }
         break;
@@ -83,7 +83,7 @@ Template.task.helpers({
           entityData = {
             icon: 'lightbulb-o',
             name: p.name,
-            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadOpportunities'])
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), [ 'CanReadOpportunities'])
           };
         }
         break;
@@ -91,7 +91,7 @@ Template.task.helpers({
         entityData = {
           icon: "check",
           name: "Misc. task",
-          permissionToRead: Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadTasks'])
+          permissionToRead: Roles.userIsInRole(Meteor.userId(), [ 'CanReadTasks'])
         };
     }
 
@@ -108,7 +108,7 @@ Template.task.events({
     event.preventDefault();
     var self = this;
     var listTarget = $(event.target).parents('.list-group-item');
-    if (Roles.userIsInRole(Meteor.userId(), ['Administrator','CanEditTasks'])) {
+    if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
       var parent = $(event.target).parents('.task-completed');
       if(self.completed) {
         parent.children().remove();
