@@ -11,7 +11,7 @@ Collections.auditLog.index = AuditLogIndex = new EasySearch.Index({
   fields: ['message', 'level'],
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, ['Administrator', 'CanReadEventLog']);
+    return Roles.userIsInRole(userId, [ 'CanReadEventLog']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {

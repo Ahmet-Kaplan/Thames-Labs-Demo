@@ -238,7 +238,7 @@ Template.opportunityDetail.events({
             var type = $('#selectedProjectType').val();
 
             Meteor.call('winOpportunity', opp, parseInt(type), function(err, id) {
-              if (Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProjects'])) {
+              if (Roles.userIsInRole(Meteor.userId(), ['CanReadProjects'])) {
                 FlowRouter.go('/projects/' + id);
               }
             });

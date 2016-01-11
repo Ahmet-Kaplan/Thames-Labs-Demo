@@ -23,7 +23,7 @@ module.exports = function() {
   });
 
   this.Then(/^the task title should (say|contain|not contain) "([^"]*)"$/, function(option, desiredText) {
-    browser.scroll("#displayedTaskHeading", 0, -60)
+    browser.scroll("#displayedTaskHeading", 0, -60);
     var text = browser.getText("#displayedTaskHeading");
     if (option === 'say') {
       expect(text).toEqual(desiredText);
