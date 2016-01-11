@@ -42,6 +42,10 @@ Template.importCompanyMapper.onCreated(function() {
   this.totalImported = new ReactiveVar(0);
 });
 
+Template.importCompanyMapper.onRendered(function() {
+  $('#cbIgnoreExtInfo').prop('checked', true);
+});
+
 Template.importCompanyMapper.helpers({
   importStatus: function() {
     return Template.instance().importInProgress.get();
@@ -100,6 +104,13 @@ Template.importCompanyMapper.events({
     var countryColumn = ($('#countryColumn').val() === "" ? "" : $('#countryColumn').val());
     var websiteColumn = ($('#websiteColumn').val() === "" ? "" : $('#websiteColumn').val());
     var phoneColumn = ($('#phoneColumn').val() === "" ? "" : $('#phoneColumn').val());
+
+    if (nameColumn === "") {
+      toastr.warning('Please complete all required fields.');
+      template.importInProgress.set(false);
+      return;
+    }
+    var createExtInfo = $('#cbIgnoreExtInfo').prop('checked');
 
     var removalIndex = -1;
     if (nameColumn !== "") {
@@ -181,7 +192,7 @@ Template.importCompanyMapper.events({
         }
       });
 
-      Meteor.call('import.AddNewCompany', row, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray, localCF, function(err, res) {
+      Meteor.call('import.AddNewCompany', row, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray, localCF, createExtInfo, function(err, res) {
         imported += 1;
         template.totalImported.set(imported);
 

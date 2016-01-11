@@ -1,6 +1,6 @@
 Meteor.methods({
 
-  'import.AddNewCompany': function(row, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray, localCF) {
+  'import.AddNewCompany': function(row, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray, localCF, createExtInfo) {
 
     var user = Meteor.users.findOne({
       _id: this.userId
@@ -66,14 +66,17 @@ Meteor.methods({
                     }
                   }
 
-                  for (var local in localCF) {
-                    var newLocalField = {
-                      "dataName": localCF[local].refName,
-                      "dataValue": row[localCF[local].refVal],
-                      "dataType": 'text',
-                      isGlobal: false
-                    };
-                    cfMaster.push(newLocalField);
+
+                  if (createExtInfo === true) {
+                    for (var local in localCF) {
+                      var newLocalField = {
+                        "dataName": localCF[local].refName,
+                        "dataValue": row[localCF[local].refVal],
+                        "dataType": 'text',
+                        isGlobal: false
+                      };
+                      cfMaster.push(newLocalField);
+                    }
                   }
 
                   Companies.update(inserted, {
@@ -98,8 +101,7 @@ Meteor.methods({
     }
   },
 
-  'import.AddNewContact': function(row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, localCF) {
-
+  'import.AddNewContact': function(row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, localCF, createMissingCompanies, createExtInfo) {
     var user = Meteor.users.findOne({
       _id: this.userId
     });
@@ -116,11 +118,22 @@ Meteor.methods({
 
           if (existing === 0) {
 
-            var company = null;
+            var company;
+
             if (row[companyColumn] !== '' && row[companyColumn] !== 'NULL') {
               company = Companies.findOne({
                 name: row[companyColumn]
               });
+
+              if (!company && createMissingCompanies === true) {
+                var companyId = Companies.insert({
+                  name: row[companyColumn],
+                  createdBy: userId
+                });
+                company = Companies.findOne({
+                  _id: companyId
+                });
+              }
             }
 
             Contacts.insert({
@@ -130,7 +143,7 @@ Meteor.methods({
                 phone: (phoneColumn !== "" ? row[phoneColumn] : ""),
                 mobile: (mobileColumn !== "" ? row[mobileColumn] : ""),
                 jobtitle: (jobTitleColumn !== "" ? row[jobTitleColumn] : ""),
-                companyId: (company !== undefined ? company._id : undefined),
+                companyId: (company ? company._id : undefined),
                 address: (addressColumn !== "" ? row[addressColumn] : ""),
                 city: (cityColumn !== "" ? row[cityColumn] : ""),
                 county: (countyColumn !== "" ? row[countyColumn] : ""),
@@ -164,7 +177,7 @@ Meteor.methods({
                               "dataValue": row[cfArray[x].refVal],
                               "dataType": attr.dataType,
                               isGlobal: true
-                            }
+                            };
                             cfMaster[index] = settings;
                           }
                         }
@@ -172,14 +185,16 @@ Meteor.methods({
                     }
                   }
 
-                  for (var local in localCF) {
-                    var newLocalField = {
-                      "dataName": localCF[local].refName,
-                      "dataValue": row[localCF[local].refVal],
-                      "dataType": 'text',
-                      isGlobal: false
-                    };
-                    cfMaster.push(newLocalField);
+                  if (createExtInfo === true) {
+                    for (var local in localCF) {
+                      var newLocalField = {
+                        "dataName": localCF[local].refName,
+                        "dataValue": row[localCF[local].refVal],
+                        "dataType": 'text',
+                        isGlobal: false
+                      };
+                      cfMaster.push(newLocalField);
+                    }
                   }
 
                   Contacts.update(inserted, {

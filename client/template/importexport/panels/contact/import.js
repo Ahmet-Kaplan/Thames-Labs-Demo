@@ -14,7 +14,7 @@ Template.contactDataManagement.events({
 
     reader.onerror = function(error) {
       toastr.error('File processing error: ' + error);
-    }
+    };
     reader.onload = function() {
       var data = reader.result;
       var options = {
@@ -30,13 +30,15 @@ Template.contactDataManagement.events({
       };
 
       Modal.show('importContactMapper', requiredData);
-    }
+    };
 
     reader.readAsText(file);
     $('#contact-data-upload').val('');
   }
 });
-
+Template.importContactMapper.onRendered(function() {
+  $('#cbIgnoreExtInfo').prop('checked', true);
+});
 
 Template.importContactMapper.onCreated(function() {
   this.importInProgress = new ReactiveVar(false);
@@ -105,6 +107,15 @@ Template.importContactMapper.events({
     var countyColumn = ($('#countyColumn').val() === "" ? "" : $('#countyColumn').val());
     var postcodeColumn = ($('#postcodeColumn').val() === "" ? "" : $('#postcodeColumn').val());
     var countryColumn = ($('#countryColumn').val() === "" ? "" : $('#countryColumn').val());
+
+    if (forenameColumn === "" || surnameColumn === "" || emailColumn === "") {
+      toastr.warning('Please complete all required fields.');
+      template.importInProgress.set(false);
+      return;
+    }
+
+    var createMissingCompanies = $('#cbAutoCreateCompanies').prop('checked');
+    var createExtInfo = $('#cbIgnoreExtInfo').prop('checked');
 
     var removalIndex = -1;
     if (forenameColumn !== "") {
@@ -193,7 +204,7 @@ Template.importContactMapper.events({
         var cfo = {
           refName: cfName,
           refVal: cfValue
-        }
+        };
         cfArray.push(cfo);
 
         var fieldIndex = fields.indexOf(cfValue);
@@ -205,12 +216,12 @@ Template.importContactMapper.events({
           var cfo = {
             refName: lf.replace(/ExtInfo/g, ' '),
             refVal: lf
-          }
+          };
           localCF.push(cfo);
         }
       });
 
-      Meteor.call('import.AddNewContact', row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, localCF, function(err, res) {
+      Meteor.call('import.AddNewContact', row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, localCF, createMissingCompanies, createExtInfo, function(err, res) {
         imported += 1;
         template.totalImported.set(imported);
 
