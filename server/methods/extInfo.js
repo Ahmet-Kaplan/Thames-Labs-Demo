@@ -1,5 +1,9 @@
 Meteor.methods({
   "extInfo.deleteGlobal": function(self) {
+    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may delete global fields.');
+    }
+
     var targets = null;
     var user = Meteor.users.findOne(this.userId);
     var tenant = Tenants.findOne(user.group);
@@ -156,6 +160,10 @@ Meteor.methods({
     }
   },
   "extInfo.addNewGlobal": function(cfName, cfType, cfValue, cfEntity) {
+    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may add global fields.');
+    }
+
     var user = Meteor.users.findOne(this.userId);
     var tenant = Tenants.findOne(user.group);
     var fields = null;
@@ -317,6 +325,10 @@ Meteor.methods({
     return true;
   },
   changeExtInfoOrder: function(type, name, direction) {
+    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may edit global fields.');
+    }
+
     var value = (direction === "up" ? -1 : 1);
     var user = Meteor.users.findOne({
       _id: this.userId
