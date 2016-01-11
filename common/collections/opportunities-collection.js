@@ -185,6 +185,9 @@ Tags.TagsMixin(Opportunities);
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
+Opportunities.before.insert(function(userId, doc) {
+  doc.currentStageId = 0;
+});
 
 Opportunities.after.insert(function(userId, doc) {
   logEvent('info', 'A new opportunity has been created: ' + doc.name);
