@@ -137,6 +137,8 @@ router.route('/admin', {
   subscriptions: function() {
     this.register('allCompanies', subs.subscribe('allCompanies'));
     this.register('allContacts', subs.subscribe('allContacts'));
+    this.register('allProjects', subs.subscribe('allProjects'));
+    this.register('allProducts', subs.subscribe('allProducts'));
   },
   action: function() {
     layout.render('appLayout', {
