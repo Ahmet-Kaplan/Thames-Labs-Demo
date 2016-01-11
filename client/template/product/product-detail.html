@@ -10,10 +10,10 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#if isInRole 'Administrator,CanEditProducts'}}
+            {{#if isInRole 'CanEditProducts'}}
             <a href="#" id="edit-product" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
             {{/if}}
-              {{#if isInRole 'Administrator,CanDeleteProducts'}}
+              {{#if isInRole 'CanDeleteProducts'}}
             <a href="#" id="delete-product" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
             {{/if}}
           </div>
@@ -47,7 +47,7 @@
       </div>
 
       <div>
-        {{#if isInRole 'Administrator,CanEditProducts'}}{{#with this}} {{> customFieldDisplay entity_data=this entity_type='product'}} {{/with}}{{/if}}
+        {{#if isInRole 'CanEditProducts'}}{{#with this}} {{> customFieldDisplay entity_data=this entity_type='product'}} {{/with}}{{/if}}
       </div>
 
       {{> documentContainer collectionName="products" id=this._id permissionRequired="CanEditProducts"}}

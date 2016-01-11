@@ -270,7 +270,7 @@ Meteor.publish("allUserTasks", function(userId) {
 
 //Products
 Meteor.publish("allProducts", function() {
-  if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanReadProducts'])) return this.ready();
+  if (!Roles.userIsInRole(this.userId, ['CanReadProducts'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Products.find({});
 });
