@@ -10,7 +10,7 @@ module.exports = function() {
   });
 
   this.Then(/^the global field should no longer be visible$/, function() {
-    expect(browser.isExisting('#glob-cust-field-display')).toEqual(false);
+    browser.waitForExist('#glob-cust-field-display', 2000, true);
   });
 
   this.Then(/^I see a field with the name "([^"]*)" in the extended information list$/, function(name) {

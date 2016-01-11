@@ -318,7 +318,8 @@ Feature: Allow users to manage their Contacts
 
   #Filtering and Searching
   Scenario: A user can filter contacts by company
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadContacts" permission
     And a "Contact" has been created
     And I create a new contact belonging to a company
     When I navigate to "/contacts"

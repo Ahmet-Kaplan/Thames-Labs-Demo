@@ -188,17 +188,10 @@ Feature: Allow users to manage their Tasks
     When I navigate to a task page
     Then I should not see the edit tag button
 
-  Scenario: A user with the Administrator permission can edit tags
-    Given I have the "Administrator" permission
-    And a "Company" task has been created
-    When I navigate to a task page
-    And I click ".editTags"
-    And I add the tag "test-tag"
-    Then the tag field for the "tasks" should contain "test-tag"
-
   #Filtering and Searching
   Scenario: A user can filter tasks by entity type
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadContacts" permission
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"
@@ -209,7 +202,8 @@ Feature: Allow users to manage their Tasks
     And "#resultsCount" should say "1 record"
 
   Scenario: A user can filter tasks by due date
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadContacts" permission
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"
@@ -220,7 +214,8 @@ Feature: Allow users to manage their Tasks
     And "#resultsCount" should say "1 record"
 
   Scenario: Clicking a tag badge applies the filter
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadContacts" permission
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"
@@ -230,7 +225,8 @@ Feature: Allow users to manage their Tasks
     And "#resultsCount" should say "1 record"
 
   Scenario: A user can remove a filter from the list
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadContacts" permission
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"
@@ -245,7 +241,8 @@ Feature: Allow users to manage their Tasks
     And "#resultsCount" should say "2 records"
 
   Scenario: A user can set filter, navigate and come back with the filter still being applied
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadContacts" permission
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"
