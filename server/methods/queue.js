@@ -61,7 +61,7 @@ Meteor.startup(function() {
 Meteor.methods({
   addTaskReminder: function(taskId) {
     //Checking permission
-    if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanCreateTasks'])) {
+    if (!Roles.userIsInRole(this.userId, ['CanCreateTasks'])) {
       throw new Meteor.Error(403, 'You do not have the permissions to create Tasks');
     }
 
@@ -103,7 +103,7 @@ Meteor.methods({
 
   editTaskReminder: function(taskId) {
     //Checking permission
-    if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanEditTasks'])) {
+    if (!Roles.userIsInRole(this.userId, [ 'CanEditTasks'])) {
       throw new Meteor.Error(403, 'You do not have the permissions to edit Tasks');
     }
 
@@ -164,7 +164,7 @@ Meteor.methods({
 
   deleteTaskReminder: function(jobId, taskId) {
     //Checking permission
-    if (!Roles.userIsInRole(this.userId, ['Administrator', 'CanDeleteTasks'])) {
+    if (!Roles.userIsInRole(this.userId, ['CanDeleteTasks'])) {
       throw new Meteor.Error(403, 'You do not have the permissions to remove Tasks');
     }
 

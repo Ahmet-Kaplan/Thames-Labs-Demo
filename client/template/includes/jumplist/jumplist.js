@@ -19,7 +19,7 @@ Template.jumplist.onRendered(function() {
 
 Template.jumplist.helpers({
   hasPermission: function() {
-    return Roles.userIsInRole(Meteor.userId(), ['Administrator', this.permission])
+    return Roles.userIsInRole(Meteor.userId(), [this.permission])
   },
   index: function() {
     jumplistIndex++;

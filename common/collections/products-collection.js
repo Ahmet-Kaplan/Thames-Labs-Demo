@@ -76,7 +76,7 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
     },
     permission: function(options) {
       var userId = options.userId;
-      return Roles.userIsInRole(userId, ['Administrator', 'CanReadProducts']);
+      return Roles.userIsInRole(userId, [ 'CanReadProducts']);
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {

@@ -106,7 +106,7 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
 
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, ['Administrator', 'CanReadOpportunities']);
+    return Roles.userIsInRole(userId, [ 'CanReadOpportunities']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {
@@ -185,6 +185,9 @@ Tags.TagsMixin(Opportunities);
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
+Opportunities.before.insert(function(userId, doc) {
+  doc.currentStageId = 0;
+});
 
 Opportunities.after.insert(function(userId, doc) {
   logEvent('info', 'A new opportunity has been created: ' + doc.name);

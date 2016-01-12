@@ -78,7 +78,7 @@ Template.taskDisplay.events({
   'click .task-completed': function(event) {
     event.preventDefault();
     var self = this;
-    if (Roles.userIsInRole(Meteor.userId(), ['Administrator','CanEditTasks'])) {
+    if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
       var taskId = self._id;
       if (self.completed) {
         Tasks.update(taskId, { $set: {

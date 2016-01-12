@@ -171,7 +171,8 @@ Feature: Allow users to manage their Purchase Orders
 
   #Filtering and Searching
   Scenario: A user can filter purchase orders by company
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadPurchaseOrders" permission
     And a "PurchaseOrder" has been created
     And an additional "PurchaseOrder" has been created
     When I navigate to "/purchaseorders"
