@@ -252,6 +252,7 @@ Feature: Allow users to manage their Contacts
     When I navigate to a contact page
     Then I should not see the edit tag button
 
+<<<<<<< HEAD
 
   Scenario: A user with the Administrator permission can edit tags
     Given I have the "Administrator" permission
@@ -262,6 +263,8 @@ Feature: Allow users to manage their Contacts
     Then the tag field for the "contacts" should contain "test-tag"
 
 
+=======
+>>>>>>> master
   #Tasks
   Scenario: A user can add a task to a contact
     Given I have the "CanReadTasks" permission
@@ -290,7 +293,8 @@ Feature: Allow users to manage their Contacts
 
   #Filtering and Searching
   Scenario: A user can filter contacts by company
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadContacts" permission
     And a "Contact" has been created
     And I create a new contact belonging to a company
     When I navigate to "/contacts"

@@ -209,6 +209,42 @@ Template.nav.events({
       Modal.hide('globalSearch');
     }
   },
+  'click #qckCreateCompany': function(event) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['CanCreateCompanies'])) {
+      toastr.warning('You do not have permission to create companies. Please contact your system administrator.');
+      return;
+    }
+
+    event.preventDefault();
+    Modal.show('insertNewCompanyModal', this);
+  },
+  'click #qckCreateContact': function(event) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['CanCreateContacts'])) {
+      toastr.warning('You do not have permission to create contacts. Please contact your system administrator.');
+      return;
+    }
+
+    event.preventDefault();
+    Modal.show('insertContactModal', this);
+  },
+  'click #qckCreateProject': function(event) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['CanCreateProjects'])) {
+      toastr.warning('You do not have permission to create projects. Please contact your system administrator.');
+      return;
+    }
+
+    event.preventDefault();
+    Modal.show('newProjectForm', this);
+  },
+  'click #qckCreatePurchaseOrder': function(event) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['CanCreatePurchaseOrders'])) {
+      toastr.warning('You do not have permission to create purchase orders. Please contact your system administrator.');
+      return;
+    }
+
+    event.preventDefault();
+    Modal.show('newPurchaseOrderForm', this);
+  },
   'click #feedback-link': function(event) {
     event.preventDefault();
     Modal.show('feedbackModal');

@@ -13,27 +13,29 @@
           <!-- Edit</button> -->
         </button>
       </div>
-      Extended Information
+      <a data-toggle="collapse" href="#collapseExtendedInfo">Extended Information</a>
     </div>
-    {{#if hasCustomFields}}
+    <div id="collapseExtendedInfo" class="panel-collapse collapse">
+      {{#if hasCustomFields}}
 
-      <ul class="list-group" id='custom-field-container'>
-        {{#each globalFields}}
-          {{> cfDisplay}}
-        {{/each}}
-      </ul>
+        <ul class="list-group" id='custom-field-container'>
+          {{#each globalFields}}
+            {{> cfDisplay}}
+          {{/each}}
+        </ul>
 
-      <ul class="list-group" id='custom-field-container'>
-        {{#each customFields}}
-          {{> cfDisplay}}
-        {{/each}}
-      </ul>
+        <ul class="list-group" id='custom-field-container'>
+          {{#each customFields}}
+            {{> cfDisplay}}
+          {{/each}}
+        </ul>
 
-      {{else}}
-      <ul class="list-group" id='custom-field-container'>
-        <li class="list-group-item">No extended information</li>
-      </ul>
+        {{else}}
+        <ul class="list-group" id='custom-field-container'>
+          <li class="list-group-item">No extended information</li>
+        </ul>
 
-    {{/if}}
+      {{/if}}
+    </div>
   </div>
 </template>

@@ -14,7 +14,7 @@ Template.contactDataManagement.events({
 
     reader.onerror = function(error) {
       toastr.error('File processing error: ' + error);
-    }
+    };
     reader.onload = function() {
       var data = reader.result;
       var options = {
@@ -30,13 +30,15 @@ Template.contactDataManagement.events({
       };
 
       Modal.show('importContactMapper', requiredData);
-    }
+    };
 
     reader.readAsText(file);
     $('#contact-data-upload').val('');
   }
 });
-
+Template.importContactMapper.onRendered(function() {
+  $('#cbIgnoreExtInfo').prop('checked', true);
+});
 
 Template.importContactMapper.onCreated(function() {
   this.importInProgress = new ReactiveVar(false);
@@ -86,6 +88,13 @@ Template.importContactMapper.helpers({
 Template.importContactMapper.events({
   'click #confirm-mapping': function(event, template) {
 
+    var totalToImport = this.dataSet.data.length;
+    var imported = 0;
+    var errorData = [];
+
+    template.importInProgress.set(true);
+    var fields = this.dataSet.meta.fields;
+
     var forenameColumn = ($('#forenameColumn').val() === "" ? "" : $('#forenameColumn').val());
     var surnameColumn = ($('#surnameColumn').val() === "" ? "" : $('#surnameColumn').val());
     var emailColumn = ($('#emailColumn').val() === "" ? "" : $('#emailColumn').val());
@@ -99,11 +108,91 @@ Template.importContactMapper.events({
     var postcodeColumn = ($('#postcodeColumn').val() === "" ? "" : $('#postcodeColumn').val());
     var countryColumn = ($('#countryColumn').val() === "" ? "" : $('#countryColumn').val());
 
-    var totalToImport = this.dataSet.data.length;
-    var imported = 0;
-    var errorData = [];
+    if (forenameColumn === "" || surnameColumn === "" || emailColumn === "") {
+      toastr.warning('Please complete all required fields.');
+      template.importInProgress.set(false);
+      return;
+    }
 
-    template.importInProgress.set(true);
+    var createMissingCompanies = $('#cbAutoCreateCompanies').prop('checked');
+    var createExtInfo = $('#cbIgnoreExtInfo').prop('checked');
+
+    var removalIndex = -1;
+    if (forenameColumn !== "") {
+      removalIndex = fields.indexOf(forenameColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (surnameColumn !== "") {
+      removalIndex = fields.indexOf(surnameColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (emailColumn !== "") {
+      removalIndex = fields.indexOf(emailColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+
+    if (phoneColumn !== "") {
+      removalIndex = fields.indexOf(phoneColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (mobileColumn !== "") {
+      removalIndex = fields.indexOf(mobileColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (jobTitleColumn !== "") {
+      removalIndex = fields.indexOf(jobTitleColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+
+    if (companyColumn !== "") {
+      removalIndex = fields.indexOf(companyColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (addressColumn !== "") {
+      removalIndex = fields.indexOf(addressColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (cityColumn !== "") {
+      removalIndex = fields.indexOf(cityColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+
+    if (countyColumn !== "") {
+      removalIndex = fields.indexOf(countyColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (postcodeColumn !== "") {
+      removalIndex = fields.indexOf(postcodeColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (countryColumn !== "") {
+      removalIndex = fields.indexOf(countryColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
 
     _.each(this.dataSet.data, function(row) {
       var cfArray = [];
@@ -115,11 +204,24 @@ Template.importContactMapper.events({
         var cfo = {
           refName: cfName,
           refVal: cfValue
-        }
+        };
         cfArray.push(cfo);
+
+        var fieldIndex = fields.indexOf(cfValue);
+        fields.splice(fieldIndex, 1);
+      });
+      var localCF = [];
+      _.each(fields, function(lf) {
+        if (lf !== "") {
+          var cfo = {
+            refName: lf.replace(/ExtInfo/g, ' '),
+            refVal: lf
+          };
+          localCF.push(cfo);
+        }
       });
 
-      Meteor.call('import.AddNewContact', row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, function(err, res) {
+      Meteor.call('import.AddNewContact', row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, localCF, createMissingCompanies, createExtInfo, function(err, res) {
         imported += 1;
         template.totalImported.set(imported);
 
