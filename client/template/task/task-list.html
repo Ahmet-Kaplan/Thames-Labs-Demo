@@ -24,6 +24,7 @@
     {{/if}}
     {{#if isInRole 'CanReadTasks'}}
       <div class="btn-group" role="group">
+        {{> taskDataManagement}}
         <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
           Show completed
         </button>

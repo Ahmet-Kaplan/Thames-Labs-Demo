@@ -324,4 +324,4 @@ Feature: Allow users to manage their Companies
     And I click ".badge"
     Then I should see ".removeProp"
     And I should see ".fa-map-marker"
-    And "#resultsCount" should say "1 record"    
+    And "#resultsCount" should say "1 record"
