@@ -212,7 +212,7 @@ Template.dashboard.onRendered(function() {
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
           userId = Meteor.userId();
-        if (!Roles.userIsInRole(userId, ['Administrator', requiredPermission])) {
+        if (!Roles.userIsInRole(userId, [requiredPermission])) {
           return;
         }
       }

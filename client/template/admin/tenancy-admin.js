@@ -68,6 +68,24 @@ Template.tenancyAdminPage.helpers({
       return 0;
     });
   },
+  globalProductCustomFields: function() {
+    var data = [];
+    var user = Meteor.users.findOne(Meteor.userId());
+    var tenant = Tenants.findOne(user.group);
+
+    var fields = tenant.settings.extInfo.product;
+    if (fields) {
+      _.each(fields, function(f) {
+        data.push(f);
+      });
+    }
+
+    return data.sort(function(a, b) {
+      if (a.dataOrder < b.dataOrder) return -1;
+      if (a.dataOrder > b.dataOrder) return 1;
+      return 0;
+    });
+  },
   tenantFound: function() {
     return !!Tenants.findOne({});
   }
@@ -133,6 +151,9 @@ Template.gcf_display.helpers({
         break;
       case 'project':
         retVal = 'Projects';
+        break;
+      case 'product':
+        retVal = 'Products';
         break;
     }
 

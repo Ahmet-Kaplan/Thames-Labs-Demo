@@ -8,7 +8,7 @@
 
   <div class="row">
     <div class="col-md-12">
-      {{#if isInRole 'Administrator,CanCreateContacts'}}
+      {{#if isInRole 'CanCreateContacts'}}
         <a class="btn btn-primary addContactToCompany {{#if isMobile}}btn-fullWidth{{/if}}" href="#" id="add-contact" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+X"><i class="fa fa-fw fa-plus"></i> Add contact</a>
       {{/if}}
       <div class="btn-group" role="group">

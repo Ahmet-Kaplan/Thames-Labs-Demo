@@ -8,7 +8,7 @@
 
   <div class="row">
     <div class="col-md-12">
-      {{#if isInRole 'Administrator,CanCreateProducts'}}
+      {{#if isInRole 'CanCreateProducts'}}
         <a class="btn btn-primary" id="add-product" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-plus"></i> Add product</a>
       {{/if}}
       <div class="btn-group" role="group" id="btn-popover">
@@ -53,7 +53,7 @@
 <template name="productListItem">
   <a class="list-group-item product-item" href="{{pathFor route='product' id=__originalId}}" id="list-item">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <h4 class="list-group-item-heading">{{name}}</h4>
       </div>
       <div class="col-md-3">
@@ -65,6 +65,9 @@
         {{#if cost}}
           <i class="fa fa-fw fa-gbp"></i> Cost Price: £{{decimal cost}}
         {{/if}}
+      </div>
+      <div class="col-md-3">
+        {{> tagBadges tags=tags index=index pullRight=true}}
       </div>
     </div>
   </a>

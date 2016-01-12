@@ -22,13 +22,13 @@
           <div class="panel-heading">
             <div class="btn-group pull-right">
               <!-- {{#afModal class="btn btn-info btn-xs" collection="Projects" doc=_id operation="update" formId="updateProjectForm" omitFields="projectId, companyId"}} Edit project details {{/afModal}} -->
-              {{#if isInRole 'Administrator,CanEditProjects'}}
+              {{#if isInRole 'CanEditProjects'}}
                 <a class="btn btn-info btn-xs" href="#" id="edit-project">
                   <i class="fa fa-fw fa-pencil"></i>Edit</a>
               {{/if}}
 
               <!-- {{#afModal class="btn btn-danger btn-xs" collection="Projects" doc=_id operation="remove" formId="removeProjectForm"}} Delete project {{/afModal}} -->
-              {{#if isInRole 'Administrator,CanDeleteProjects'}}
+              {{#if isInRole 'CanDeleteProjects'}}
                 <a class="btn btn-danger btn-xs" href="#" id="remove-project">
                   <i class="fa fa-fw fa-times"></i>Delete</a>
               {{/if}}
@@ -37,7 +37,7 @@
             Project details</div>
           <ul class="list-group">
             {{#if description}}
-              {{#if isInRole 'Administrator,CanReadCompanies'}}
+              {{#if isInRole 'CanReadCompanies'}}
                 <li class="list-group-item panel-item-header">
                   <h4>
                     <i class="fa fa-fw fa-align-left"></i>
@@ -47,7 +47,7 @@
               {{/if}}
             {{/if}}
             {{#if company}}
-              {{#if isInRole 'Administrator,CanReadCompanies'}}
+              {{#if isInRole 'CanReadCompanies'}}
                 <a class="list-group-item panel-item-header" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='company' id=company._id}}" title="Navigate to company details">
                   <h4>
                     <i class="fa fa-fw fa-building"></i>
@@ -58,7 +58,7 @@
               {{/if}}
             {{/if}}
             {{#if contactId}}
-              {{#if isInRole 'Administrator,CanReadContacts'}}
+              {{#if isInRole 'CanReadContacts'}}
                 <a class="list-group-item panel-item-header" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='contact' id=contact._id}}" title="Navigate to contact details">
                   <h4>
                     <i class="fa fa-fw fa-user"></i>
@@ -110,7 +110,7 @@
 
     {{> documentContainer collectionName="projects" id=this._id permissionRequired="CanEditProjects"}}
 
-    {{#if isInRole 'Administrator,CanReadTasks'}}
+    {{#if isInRole 'CanReadTasks'}}
       <div class="row">
         <div class="col-md-12">
           {{#with this}}
@@ -121,7 +121,7 @@
     {{/if}}
 
     <div>
-      {{#if isInRole 'Administrator,CanEditProjects'}}
+      {{#if isInRole 'CanEditProjects'}}
         {{#with this}}
           {{> customFieldDisplay entity_data=this entity_type='project'}}
         {{/with}}

@@ -19,7 +19,7 @@
       <div class="panel panel-default" id="company-details-panel">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#if isInRole 'Administrator,CanEditCompanies'}}
+            {{#if isInRole 'CanEditCompanies'}}
             <div class="btn-group">
               <button type="button" class="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
@@ -33,7 +33,7 @@
             </div>
             <input type="file" id="template-upload" style="display:none;">
             <button id="edit-company" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i> Edit</button>
-            {{/if}} {{#if isInRole 'Administrator,CanDeleteCompanies'}}
+            {{/if}} {{#if isInRole 'CanDeleteCompanies'}}
             <a href="#" id="remove-company" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Delete</a>{{/if}}
           </div>
           Company details
@@ -56,13 +56,13 @@
       </div>
 
       <div>
-        {{#if isInRole 'Administrator,CanEditCompanies'}} {{#with this}} {{> customFieldDisplay entity_data=this entity_type='company'}} {{/with}} {{/if}}
+        {{#if isInRole 'CanEditCompanies'}} {{#with this}} {{> customFieldDisplay entity_data=this entity_type='company'}} {{/with}} {{/if}}
       </div>
 
-      {{#if isInRole 'Administrator,CanReadContacts'}}
+      {{#if isInRole 'CanReadContacts'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="contacts">
-          Contacts {{#if isInRole 'Administrator,CanCreateContacts'}}
+          Contacts {{#if isInRole 'CanCreateContacts'}}
           <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New contact for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
@@ -76,10 +76,10 @@
           {{/each}}
         </ul>
       </div>
-      {{/if}} {{#if isInRole 'Administrator,CanReadOpportunities'}}
+      {{/if}} {{#if isInRole 'CanReadOpportunities'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="opportunities">
-          Opportunities {{#if isInRole 'Administrator,CanCreateOpportunities'}}
+          Opportunities {{#if isInRole 'CanCreateOpportunities'}}
           <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
@@ -93,10 +93,10 @@
           {{/each}}
         </ul>
       </div>
-      {{/if}} {{#if isInRole 'Administrator,CanReadProjects'}}
+      {{/if}} {{#if isInRole 'CanReadProjects'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
-          Projects {{#if isInRole 'Administrator,CanCreateProjects'}}
+          Projects {{#if isInRole 'CanCreateProjects'}}
           <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
@@ -109,10 +109,10 @@
           {{/each}}
         </ul>
       </div>
-      {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
+      {{/if}} {{#if isInRole 'CanReadPurchaseOrders'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
-          Purchase Orders {{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+          Purchase Orders {{#if isInRole 'CanCreatePurchaseOrders'}}
           <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
@@ -129,7 +129,7 @@
 
       {{> documentContainer collectionName="companies" id=this._id permissionRequired="CanEditCompanies"}}
 
-      {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="company" entity_id=_id}} {{/with}} {{/if}}
+      {{#if isInRole 'CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="company" entity_id=_id}} {{/with}} {{/if}}
 
     </div>
 

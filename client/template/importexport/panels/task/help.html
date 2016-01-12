@@ -1,0 +1,43 @@
+<template name="importTaskHelpModal">
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+          <h4>Importing with templates</h4>
+        </div>
+        <div class="modal-body">
+          <p>Importing tasks couldn't be simpler:</p>
+          <ol type="1">
+            <li>Download the task template and fill it in.</li>
+            <li>Click the Import option from the import menu.</li>
+            <li>Select the completed template and press the Open button.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="importTaskFailuresModal">
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+          <h4>Task import failures</h4>
+        </div>
+        <div class="modal-body">
+          <p>
+            The following issues occurred during task import. Please correct them and then try the import again. Note that any tasks you provided that are <b>NOT</b> in the list below have been successfully created; these should be removed from the template file before you try the import again.
+          </p>
+          <ol type="1">
+            {{#each errorMessages}}
+              <li>{{description}}</li>
+            {{/each}}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
