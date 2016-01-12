@@ -1,2 +1,9 @@
 export STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE
 export STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA
+
+export PATH=${PATH}:/home/<user>/Android/Sdk/tools/
+export PATH=${PATH}:/home/<user>/Android/Sdk/platform-tools/
+export ANDROID_HOME=/home/<user>/Android/Sdk/
+export ANDROID_HOME=/home/<user>/android-sdk-linux/
+
+export PATH=$PATH:$ANDROID_HOME/tools/:$ANDROID_HOME/platform-tools/
