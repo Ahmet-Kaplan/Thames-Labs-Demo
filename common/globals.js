@@ -21,6 +21,9 @@ tenancyDefaultSettings = {
   },
   opportunity: {
     stages: []
+  },
+  project: {
+    types: []
   }
 };
 
