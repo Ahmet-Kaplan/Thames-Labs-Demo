@@ -23,7 +23,7 @@ Feature: Allow users to manage their Products
   Scenario: A user with read permissions can see a product
     Given a "Product" has been created
     When I navigate to a product page
-    Then I should see the heading "test product"
+    Then I should see the heading "Imperial Blaster"
 
   Scenario: An administrator can add CanReadProducts permission
     Given I have the "Administrator" permission
