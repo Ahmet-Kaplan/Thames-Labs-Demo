@@ -171,14 +171,6 @@ Feature: Allow users to manage their Products
     When I navigate to a product page
     Then I should not see the edit tag button
 
-  Scenario: A user with the Administrator permission can edit tags
-    Given I have the "Administrator" permission
-    And a "Product" has been created
-    When I navigate to a product page
-    And I click ".editTags"
-    And I add the tag "test-tag"
-    Then the tag field for the "product" should contain "test-tag"
-
   #Extended information fields
   Scenario: A user can add, edit and delete extended information fields
     Given I have the "CanEditProducts" permission
