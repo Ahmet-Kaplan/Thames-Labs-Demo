@@ -252,19 +252,6 @@ Feature: Allow users to manage their Contacts
     When I navigate to a contact page
     Then I should not see the edit tag button
 
-<<<<<<< HEAD
-
-  Scenario: A user with the Administrator permission can edit tags
-    Given I have the "Administrator" permission
-    And a "Contact" has been created
-    When I navigate to a contact page
-    And I click ".editTags"
-    And I add the tag "test-tag"
-    Then the tag field for the "contacts" should contain "test-tag"
-
-
-=======
->>>>>>> master
   #Tasks
   Scenario: A user can add a task to a contact
     Given I have the "CanReadTasks" permission

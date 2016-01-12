@@ -14,10 +14,10 @@
             <h3>What's next?</h3><br />
             <div class="quicklinks text-center">
               <button class="btn btn-default btn-huge text-center" id="home"><i class="fa fa-fw fa-home"></i><br><h4 class="tutorial-title">To the Dashboard!</h4>Go to the homepage.</button>
-              {{#if isInRole 'Administrator, CanCreateCompanies'}}
+              {{#if isInRole 'CanCreateCompanies'}}
                 <button class="btn btn-default btn-huge text-center" id="companies"><i class="fa fa-fw fa-building"></i><br><h4 class="tutorial-title">Add a Company</h4>Why not start by adding a company?</button>
               {{/if}}
-              {{#if isInRole 'Administrator, CanCreateContacts'}}
+              {{#if isInRole 'CanCreateContacts'}}
                 <button class="btn btn-default btn-huge text-center" id="contacts"><i class="fa fa-fw fa-user"></i><br><h4 class="tutorial-title">Add a Contact</h4>Or a contact?</button>
               {{/if}}
               {{#if isInRole 'Administrator'}}
@@ -29,10 +29,10 @@
             <h3>What's next?</h3><br />
             <div class="tutorials text-center">
               <button class="btn btn-default btn-huge text-center" id="first-run-tour"><i class="fa fa-fw fa-map-signs"></i><br><h4 class="tutorial-title">Take a look around</h4>Take a short tour of the home screen and get aquainted with RealTimeCRM.</button>
-              {{#if isInRole 'Administrator, CanCreateCompanies'}}
+              {{#if isInRole 'CanCreateCompanies'}}
                 <button class="btn btn-default btn-huge text-center" id="companies-tutorial"><i class="fa fa-fw fa-building"></i><br><h4 class="tutorial-title">Add a Company</h4>A short, interactive tutorial that shows you how to add your first company.</button>
               {{/if}}
-              {{#if isInRole 'Administrator, CanCreateContacts'}}
+              {{#if isInRole 'CanCreateContacts'}}
                 <button class="btn btn-default btn-huge text-center" id="contacts-tutorial"><i class="fa fa-fw fa-user"></i><br><h4 class="tutorial-title">Add a Contact</h4>A short, interactive tutorial that shows you how to add your first contact.</button>
               {{/if}}
               {{#if isInRole 'Administrator'}}
