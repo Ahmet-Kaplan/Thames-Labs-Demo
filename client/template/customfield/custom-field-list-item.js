@@ -22,43 +22,33 @@ Template.cfDisplay.events({
         switch (self.parentEntity.entity_type) {
           case "company":
             var parentCompany = Companies.findOne(self.parentEntity.entity_data._id);
-            var cfMaster = [];
-            for (var cf in parentCompany.extendedInformation) {
-              if (parentCompany.extendedInformation[cf].dataName !== self.name) {
-                cfMaster.push(parentCompany.extendedInformation[cf]);
-              }
-            }
             Companies.update(parentCompany._id, {
-              $set: {
-                extendedInformation: cfMaster
+              $pull: {
+                extendedInformation: { dataName: self.name }
               }
             });
             break;
           case "contact":
             var parentContact = Contacts.findOne(self.parentEntity.entity_data._id);
-            var ccfMaster = [];
-            for (var ccf in parentContact.extendedInformation) {
-              if (parentContact.extendedInformation[ccf].dataName !== self.name) {
-                ccfMaster.push(parentContact.extendedInformation[ccf]);
-              }
-            }
             Contacts.update(parentContact._id, {
-              $set: {
-                extendedInformation: ccfMaster
+              $pull: {
+                extendedInformation: { dataName: self.name }
               }
             });
             break;
           case "project":
             var parentProject = Projects.findOne(self.parentEntity.entity_data._id);
-            var cpfMaster = [];
-            for (var cpf in parentProject.extendedInformation) {
-              if (parentProject.extendedInformation[cpf].dataName !== self.name) {
-                cpfMaster.push(parentProject.extendedInformation[cpf]);
-              }
-            }
             Projects.update(parentProject._id, {
-              $set: {
-                extendedInformation: cpfMaster
+              $pull: {
+                extendedInformation: { dataName: self.name }
+              }
+            });
+            break;
+          case "product":
+            var parentProduct = Products.findOne(self.parentEntity.entity_data._id);
+            Products.update(parentProduct._id, {
+              $pull: {
+                extendedInformation: { dataName: self.name }
               }
             });
             break;

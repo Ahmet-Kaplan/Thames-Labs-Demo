@@ -195,6 +195,11 @@ Template.searchHelp.helpers({
             name: 'Cost Price >',
             description: 'A lower limit for the cost price. Can be used together with Cost Price <',
             multiple: false
+          },
+          {
+            name: 'Tag',
+            description: 'Which tags are applied',
+            multiple: true
           }
         ];
     }

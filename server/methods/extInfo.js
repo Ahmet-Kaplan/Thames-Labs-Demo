@@ -1,5 +1,9 @@
 Meteor.methods({
   "extInfo.deleteGlobal": function(self) {
+    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may delete global fields.');
+    }
+
     var targets = null;
     var user = Meteor.users.findOne(this.userId);
     var tenant = Tenants.findOne(user.group);
@@ -78,6 +82,28 @@ Meteor.methods({
           }
         });
         break;
+
+      case "product":
+        targets = Products.find({}).fetch();
+
+        _.each(targets, function(cx) {
+
+          var cfMaster = [];
+
+          if (cx.extendedInformation) {
+            for (var cf in cx.extendedInformation) {
+              if (cx.extendedInformation[cf].dataName !== self.name) {
+                cfMaster.push(cx.extendedInformation[cf]);
+              }
+            }
+            Products.update(cx._id, {
+              $set: {
+                extendedInformation: cfMaster
+              }
+            });
+          }
+        });
+        break;
     }
 
     switch (self.targetEntity) {
@@ -89,6 +115,9 @@ Meteor.methods({
         break;
       case 'project':
         fields = tenant.settings.extInfo.project;
+        break;
+      case 'product':
+        fields = tenant.settings.extInfo.product;
         break;
     }
 
@@ -121,9 +150,20 @@ Meteor.methods({
           }
         });
         break;
+      case 'product':
+        Tenants.update(user.group, {
+          $set: {
+            'settings.extInfo.product': data
+          }
+        });
+        break;
     }
   },
   "extInfo.addNewGlobal": function(cfName, cfType, cfValue, cfEntity) {
+    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may add global fields.');
+    }
+
     var user = Meteor.users.findOne(this.userId);
     var tenant = Tenants.findOne(user.group);
     var fields = null;
@@ -137,6 +177,9 @@ Meteor.methods({
         break;
       case 'project':
         fields = tenant.settings.extInfo.project;
+        break;
+      case 'product':
+        fields = tenant.settings.extInfo.product;
         break;
     }
 
@@ -181,6 +224,13 @@ Meteor.methods({
           }
         });
         break;
+      case 'product':
+        Tenants.update(user.group, {
+          $set: {
+            'settings.extInfo.product': data
+          }
+        });
+        break;
     }
 
     var targets = null;
@@ -201,6 +251,12 @@ Meteor.methods({
       case 'project':
         collName = 'projects';
         targets = Projects.find({
+          _groupId: user.group
+        }).fetch();
+        break;
+      case 'product':
+        collName = 'products';
+        targets = Products.find({
           _groupId: user.group
         }).fetch();
         break;
@@ -255,12 +311,24 @@ Meteor.methods({
             }
           });
         }
+
+        if (collName === 'products') {
+          Products.update(tx._id, {
+            $set: {
+              extendedInformation: cfMaster
+            }
+          });
+        }
       }
     });
 
     return true;
   },
   changeExtInfoOrder: function(type, name, direction) {
+    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may edit global fields.');
+    }
+
     var value = (direction === "up" ? -1 : 1);
     var user = Meteor.users.findOne({
       _id: this.userId
@@ -326,6 +394,15 @@ Meteor.methods({
       }, {
         $set: {
           'settings.extInfo.project': currentOrder
+        }
+      });
+    }
+    if (type === 'product') {
+      Tenants.update({
+        _id: user.group
+      }, {
+        $set: {
+          'settings.extInfo.product': currentOrder
         }
       });
     }

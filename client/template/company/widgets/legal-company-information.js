@@ -76,10 +76,10 @@ Template.legalCompanyInformation.onCreated(function() {
 
 Template.legalCompanyInformation.helpers({
   shouldShow: function() {
-    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadCompanies'])) return false;
+    if (!Roles.userIsInRole(Meteor.userId(), ['CanReadCompanies'])) return false;
     var companyNumber = Template.currentData().company.companiesHouseId,
         hasResults = Template.instance().companiesHouseSearchResultsCount.get();
-    return !!companyNumber || (hasResults && Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanEditCompanies']));
+    return !!companyNumber || (hasResults && Roles.userIsInRole(Meteor.userId(), ['CanEditCompanies']));
   },
   companiesHouseSearchResults: function() {
     var results = Template.instance().companiesHouseSearchResults.get();

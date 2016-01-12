@@ -76,6 +76,9 @@ Products.permit(['update']).ifLoggedIn().ifHasRole('Administrator').apply();
 Products.permit(['update']).ifLoggedIn().ifHasRole('CanEditProducts').apply();
 Products.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 Products.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteProducts').apply();
+Products.allowTags(function(userId) {
+  return !!userId;
+});
 
 Opportunities.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
 Opportunities.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateOpportunities').apply();

@@ -124,6 +124,13 @@ Template.updateCustomField.events({
           }
         });
         break;
+      case 'product':
+        Products.update(this.entity_data._id, {
+          $set: {
+            extendedInformation: cfMaster
+          }
+        });
+        break;
       default:
         toastr.error('Extended information field not added: entity type not recognised.');
         Modal.hide();

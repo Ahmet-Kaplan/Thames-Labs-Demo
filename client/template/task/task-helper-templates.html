@@ -7,7 +7,7 @@
         <a class="btn btn-xs pull-right"><button type="button" class="close" id="close_taskWidget" aria-hidden="true">×</button></a>
         <div class="btn-group pull-right">
           <a href="#" id="btnRecentlyCompleted" class="btn btn-{{#if showComp}}success{{else}}default{{/if}} btn-xs">Show completed</a>
-          {{#if isInRole 'Administrator,CanCreateTasks'}}
+          {{#if isInRole 'CanCreateTasks'}}
           <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="New task to be completed"><i class="fa fa-fw fa-plus"></i> Add</a>
           {{/if}}
         </div>
@@ -15,7 +15,7 @@
         Tasks
         <div class="btn-group pull-right">
           <a href="#" id="btnRecentlyCompleted" class="btn btn-{{#if showComp}}success{{else}}default{{/if}} btn-xs">Show completed</a>
-          {{#if isInRole 'Administrator,CanCreateTasks'}}
+          {{#if isInRole 'CanCreateTasks'}}
           <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="New task to be completed"><i class="fa fa-fw fa-plus"></i> Add</a>
           {{/if}}
         </div>

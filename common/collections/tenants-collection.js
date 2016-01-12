@@ -13,6 +13,7 @@ Tenants.helpers({
 //////////////////////
 
 Tenants.before.insert(function(userId, doc) {
+  if (!doc.settings) doc.settings = tenancyDefaultSettings;
   doc.createdAt = new Date();
 });
 

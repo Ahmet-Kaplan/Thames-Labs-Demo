@@ -15,14 +15,14 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#if isInRole 'Administrator,CanEditContacts'}}
-            <a href="#" id="edit-contact" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>{{/if}} {{#if isInRole 'Administrator,CanDeleteContacts'}}
+            {{#if isInRole 'CanEditContacts'}}
+            <a href="#" id="edit-contact" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>{{/if}} {{#if isInRole 'CanDeleteContacts'}}
             <a href="#" id="remove-contact" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>{{/if}}
           </div>
           Contact
         </div>
         <ul class="list-group">
-          {{#if company}} {{#if isInRole 'Administrator,CanReadCompanies'}}
+          {{#if company}} {{#if isInRole 'CanReadCompanies'}}
           <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to company details">
             <h4><i class="fa fa-fw fa-building"></i> Company</h4>
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
@@ -54,10 +54,10 @@
         </ul>
       </div>
 
-      {{#if isInRole 'Administrator,CanReadProjects'}}
+      {{#if isInRole 'CanReadProjects'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
-          Projects {{#if isInRole 'Administrator,CanCreateProjects'}}
+          Projects {{#if isInRole 'CanCreateProjects'}}
           <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this contact"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
@@ -66,10 +66,10 @@
           {{/each}}
         </ul>
       </div>
-      {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
+      {{/if}} {{#if isInRole 'CanReadPurchaseOrders'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
-          Purchase Orders{{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+          Purchase Orders{{#if isInRole 'CanCreatePurchaseOrders'}}
            <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this contact"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
@@ -86,16 +86,16 @@
 
 {{> documentContainer collectionName="contacts" id=this._id permissionRequired="CanEditContacts"}}
 
-      {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="contact" entity_id=_id}} {{/with}}{{/if}}
+      {{#if isInRole 'CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="contact" entity_id=_id}} {{/with}}{{/if}}
 
       <div>
-        {{#if isInRole 'Administrator,CanEditContacts'}}{{#with this}} {{> customFieldDisplay entity_data=this entity_type='contact'}} {{/with}}{{/if}}
+        {{#if isInRole 'CanEditContacts'}}{{#with this}} {{> customFieldDisplay entity_data=this entity_type='contact'}} {{/with}}{{/if}}
       </div>
 
-      {{#if isInRole 'Administrator,CanReadOpportunities'}}
+      {{#if isInRole 'CanReadOpportunities'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="opportunities">
-          Opportunities {{#if isInRole 'Administrator,CanCreateOpportunities'}}
+          Opportunities {{#if isInRole 'CanCreateOpportunities'}}
           <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">

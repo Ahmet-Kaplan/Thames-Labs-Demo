@@ -3,7 +3,7 @@
   <h1><i class="fa fa-fw fa-check"></i>{{#if showMine}} My{{/if}} Tasks{{#if showComp}} - <em>Completed</em>{{/if}}</h1>
   <div class="row">
     <div class="col-md-12">
-    {{#if isInRole 'Administrator,CanCreateTasks'}}
+    {{#if isInRole 'CanCreateTasks'}}
       <div class="btn-group" role="group">
         <div class="btn-group" role="group">
           <button class="btn btn-primary dropdown-toggle{{#if isMobile}} btn-fullWidth{{/if}}" type="button" id="addTaskDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -17,12 +17,12 @@
             <li><a href="#" class="add-task" id="project">Project Task</a></li>
           </ul>
         </div>
-        {{#if isInRole 'Administrator,CanDeleteTasks'}}
+        {{#if isInRole 'CanDeleteTasks'}}
           <button class="btn btn-danger" id="tskDeleteAllCompleted">Delete Tasks</button>
         {{/if}}
       </div>
     {{/if}}
-    {{#if isInRole 'Administrator,CanReadTasks'}}
+    {{#if isInRole 'CanReadTasks'}}
       <div class="btn-group" role="group">
         <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
           Show completed
