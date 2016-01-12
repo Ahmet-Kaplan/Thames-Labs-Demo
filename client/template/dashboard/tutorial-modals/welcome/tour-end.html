@@ -1,0 +1,74 @@
+<template name="tourEnd">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h2>Great Work!</h2>
+        </div>
+
+        <div class="modal-body modal-help">
+          <p>That's a brief overview of RealTimeCRM. To learn more, select one of the other tutorials below.</p>
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#featured" data-toggle="tab">Featured</a></li>
+            {{#if isInRole 'CanCreateCompanies'}}
+              <li><a href="#company" data-toggle="tab">Company</a></li>
+            {{/if}}
+            {{#if isInRole 'CanCreateContacts'}}
+              <li><a href="#contact" data-toggle="tab">Contact</a></li>
+            {{/if}}
+            {{#if isInRole 'Administrator'}}
+              <li><a href="#admin" data-toggle="tab">Admin</a></li>
+            {{/if}}
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane fade in active" id="featured">
+              <h3>Featured Tutorials</h3><br />
+              <div class="tutorials text-center">
+                  <button class="btn btn-default btn-huge text-center" id="first-run-tour"><i class="fa fa-fw fa-map-history"></i><br><h4 class="tutorial-title">Retake</h4>Missed something? Click here to retake this tour.</button>
+                {{#if isInRole 'CanCreateCompanies'}}
+                  <button class="btn btn-default btn-huge text-center" id="companies-tutorial"><i class="fa fa-fw fa-building"></i><br><h4 class="tutorial-title">Add a Company</h4>A short, interactive tutorial that shows you how to add your first company.</button>
+                {{/if}}
+                {{#if isInRole 'CanCreateContacts'}}
+                  <button class="btn btn-default btn-huge text-center" id="contacts-tutorial"><i class="fa fa-fw fa-user"></i><br><h4 class="tutorial-title">Add a Contact</h4>A short, interactive tutorial that shows you how to add your first contact.</button>
+                {{/if}}
+                {{#if isInRole 'Administrator'}}
+                  <button class="btn btn-default btn-huge text-center" id="admin-tutorial"><i class="fa fa-fw fa-users"></i><br><h4 class="tutorial-title">Add a User [admin]</h4>A short, interactive tutorial that shows you how to add users and use your admin powers.</button>
+                {{/if}}
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="company">
+              <h3>Company Tutorials</h3><br />
+              <div class="tutorials text-center">
+                  <button class="btn btn-default btn-huge text-center" id="companies-tutorial"><i class="fa fa-fw fa-building"></i><br><h4 class="tutorial-title">Add a Company</h4>A short, interactive tutorial that shows you how to add your first company.</button>
+                  <button class="btn btn-default btn-huge text-center" id="placeholder"><i class="fa fa-fw fa-wrench"></i><br><h4 class="tutorial-title">Watch this space!</h4>We'll be adding more tutorials here soon.</button>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="contact">
+              <h3>Contact Tutorials</h3><br />
+              <div class="tutorials text-center">
+                <button class="btn btn-default btn-huge text-center" id="contacts-tutorial"><i class="fa fa-fw fa-user"></i><br><h4 class="tutorial-title">Add a Contact</h4>A short, interactive tutorial that shows you how to add your first contact.</button>
+                <button class="btn btn-default btn-huge text-center" id="placeholder"><i class="fa fa-fw fa-wrench"></i><br><h4 class="tutorial-title">Watch this space!</h4>We'll be adding more tutorials here soon.</button>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="admin">
+              <h3>Admin Tutorials</h3><br />
+              <div class="tutorials text-center">
+                <button class="btn btn-default btn-huge text-center" id="admin-tutorial"><i class="fa fa-fw fa-users"></i><br><h4 class="tutorial-title">Add a User [admin]</h4>A short, interactive tutorial that shows you how to add users and use your admin powers.</button>
+                <button class="btn btn-default btn-huge text-center" id="placeholder"><i class="fa fa-fw fa-wrench"></i><br><h4 class="tutorial-title">Watch this space!</h4>We'll be adding more tutorials here soon.</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="close-first-run">Take me to RealTimeCRM<i class="fa fa-fw fa-angle-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

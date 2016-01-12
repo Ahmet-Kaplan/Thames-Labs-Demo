@@ -8,7 +8,6 @@ Feature: Allow users to manage their Companies
     And I am a logged in user
     And I have the "CanReadCompanies" permission
 
-
   #Reading
   Scenario: A user can see the companies list
     When I navigate to "/companies"
@@ -55,7 +54,6 @@ Feature: Allow users to manage their Companies
     And I am a logged in superadmin user
     When I navigate to "/companies"
     Then I should see the heading "Tenants"
-
 
   #Adding
   Scenario: A user can create a company
@@ -266,6 +264,8 @@ Feature: Allow users to manage their Companies
   Scenario: A user can add an activity
     Given a "Company" has been created
     When I navigate to a company page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -276,6 +276,8 @@ Feature: Allow users to manage their Companies
   Scenario: A user can edit an activity
     Given a "Company" has been created
     When I navigate to a company page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -290,6 +292,8 @@ Feature: Allow users to manage their Companies
   Scenario: A user can delete an activity
     Given a "Company" has been created
     When I navigate to a company page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"

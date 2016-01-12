@@ -57,11 +57,23 @@ module.exports = function() {
   });
 
   this.Given(/^I am a logged in user$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('removeWelcome', done);
+    });
     browser.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
 
   this.Given(/^I log in as user 2$/, function() {
     browser.executeAsync(login, 'test2@domain.com', 'goodpassword');
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('removeWelcome', done);
+    });
+  });
+
+  this.Given(/^I am logged in as a new user$/, function() {
+      browser.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
 
   this.Given(/^I am a logged in superadmin user$/, function() {
@@ -118,6 +130,10 @@ module.exports = function() {
     browser.waitForVisible(id, 5000);
     browser.scroll(id, 0, -60);
     browser.click(id);
+  });
+
+  this.When(/^I click the selector "([^"]*)"$/, function(selector) {
+    browser.click(selector);
   });
 
   this.When(/^I set rich text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
@@ -229,6 +245,10 @@ module.exports = function() {
     expect(browser.isExisting(id)).toEqual(false);
   });
 
+  this.Then(/^"([^"]*)" should be hidden$/, function(id) {
+    expect(browser.isVisible(id)).toEqual(false);
+  });
+
   this.Then(/^I should see the title "([^"]*)"$/, function(expectedTitle) {
     expect(browser.getTitle()).toBe(expectedTitle);
   });
@@ -248,6 +268,12 @@ module.exports = function() {
       setTimeout(done, 1000);
     });
     expect(browser.isVisible('.modal-dialog')).toEqual(false);
+  });
+
+  this.Then(/^I should see the (tour|tutorial)$/, function() {
+    browser.waitForExist('.hopscotch-bubble-container', 5000);
+    browser.waitForVisible('.hopscotch-bubble-container', 5000);
+    expect(browser.isExisting('.hopscotch-bubble-container')).toEqual(true);
   });
 
   this.Then(/^"([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(selector, option, desiredText) {

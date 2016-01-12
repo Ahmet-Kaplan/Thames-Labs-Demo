@@ -29,7 +29,9 @@
   <div class="row" id="company-list">
     <div class="col-md-12">
 
-      {{> searchResults index=CompaniesIndex listItemTemplateName='companyListItem'}}
+      <div id="companySearchResults">
+	      {{> searchResults index=CompaniesIndex listItemTemplateName='companyListItem'}}
+      </div>
 
     </div>
   </div>
