@@ -148,6 +148,27 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 
+Products.before.insert(function(userId, doc) {
+  if (!Roles.userIsInRole(userId, ['superadmin'])) {
+    var user = Meteor.users.findOne(userId);
+    var tenant = Tenants.findOne(user.group);
+    var productCustomFields = tenant.settings.extInfo.product;
+
+    var cfMaster = [];
+    _.each(productCustomFields, function(cf) {
+      var field = {
+        dataName: cf.name,
+        dataValue: cf.defaultValue,
+        dataType: cf.type,
+        isGlobal: true
+      };
+
+      cfMaster.push(field);
+    });
+    doc.extendedInformation = cfMaster;
+  }
+});
+
 Products.after.insert(function(userId, doc) {
   logEvent('info', 'A new product has been created: ' + doc.name);
 });

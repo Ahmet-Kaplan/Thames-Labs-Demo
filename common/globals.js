@@ -17,13 +17,52 @@ tenancyDefaultSettings = {
   extInfo: {
     company: [],
     contact: [],
-    project: []
+    project: [],
+    product: []
   },
   opportunity: {
-    stages: []
+    stages: [
+      {
+        title: "Exploration",
+        description: "Exploring whether there is a need that your product or service can fulfill",
+        id: 0
+      }, {
+        title: "Fact finding",
+        description: "Finding the key people, whether a budget exists, timescales, competitors pitching",
+        id: 1
+      }, {
+        title: "Solution",
+        description: "Preparing your solution based on what you know from your fact finding",
+        id: 2
+      }, {
+        title: "Negotiation",
+        description: "Negotiating the sale of the solution, confirming price, delivery and other out-of-contract aspects",
+        id: 3
+      }, {
+        title: "Objections",
+        description: "Dealing with any objections to the negotiated solution in order to win the business",
+        id: 4
+      }
+    ]
   },
   project: {
-    types: []
+    types: [
+      {
+        id: 0,
+        name: "Standard Project",
+        milestones: [
+          {
+            name: "Inception",
+            description: "This is a newly-created project",
+            id: 0
+          }, {
+            name: "Completion",
+            description: "This project has been completed",
+            id: 1
+          }
+        ]
+      }
+    ]
   }
 };
 
