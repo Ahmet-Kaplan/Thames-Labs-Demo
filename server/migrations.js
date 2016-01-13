@@ -594,3 +594,23 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 18,
+  name: "Add automatic calculation of PO total Price",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+      PurchaseOrders.find({}).forEach(function(po) {
+        if(!po.totalValue) {
+          PurchaseOrders.update({_id: po._id}, {
+            $set: {
+              totalValue: 0.00
+            }
+          });
+        }
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});

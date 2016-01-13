@@ -24,15 +24,20 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
   },
   value: {
     type: String,
-    defaultValue: "0.00"
+    defaultValue: "0.00",
+    autoform: {
+      type: "number",
+      step: "any"
+    }
   },
   quantity: {
     type: Number,
     defaultValue: 1
   },
   totalPrice: {
-    type: String,
-    defaultValue: "0.00"
+    type: Number,
+    decimal: true,
+    defaultValue: 0.00
   },
   projectId: {
     type: String,
