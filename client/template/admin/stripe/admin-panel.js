@@ -178,6 +178,7 @@ Template.stripeAdmin.helpers({
   hasStripeSubs: function() {
     //Note that this helper is called only after the customer details have been retrieved from the api
     var stripeCustomer = Template.instance().stripeCustomer.get();
+    if(!stripeCustomer || !stripeCustomer.subscriptions) return false;
     return stripeCustomer.subscriptions.total_count !== 0;
   },
   subscriptionCancelled: function() {
