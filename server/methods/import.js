@@ -69,13 +69,15 @@ Meteor.methods({
 
                   if (createExtInfo === true) {
                     for (var local in localCF) {
-                      var newLocalField = {
-                        "dataName": localCF[local].refName,
-                        "dataValue": row[localCF[local].refVal],
-                        "dataType": 'text',
-                        isGlobal: false
-                      };
-                      cfMaster.push(newLocalField);
+                      if (row[localCF[local].refVal] !== "") {
+                        var newLocalField = {
+                          "dataName": localCF[local].refName,
+                          "dataValue": row[localCF[local].refVal],
+                          "dataType": 'text',
+                          isGlobal: false
+                        };
+                        cfMaster.push(newLocalField);
+                      }
                     }
                   }
 
@@ -187,13 +189,15 @@ Meteor.methods({
 
                   if (createExtInfo === true) {
                     for (var local in localCF) {
-                      var newLocalField = {
-                        "dataName": localCF[local].refName,
-                        "dataValue": row[localCF[local].refVal],
-                        "dataType": 'text',
-                        isGlobal: false
-                      };
-                      cfMaster.push(newLocalField);
+                      if (row[localCF[local].refVal] !== "") {
+                        var newLocalField = {
+                          "dataName": localCF[local].refName,
+                          "dataValue": row[localCF[local].refVal],
+                          "dataType": 'text',
+                          isGlobal: false
+                        };
+                        cfMaster.push(newLocalField);
+                      }
                     }
                   }
 

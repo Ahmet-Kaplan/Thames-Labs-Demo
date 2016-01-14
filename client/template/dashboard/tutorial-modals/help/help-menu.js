@@ -6,6 +6,7 @@ Template.help.onRendered(function() {
       "profile.welcomeTour": true
     }
   });
+  hopscotch.endTour(true);
 })
 
 Template.help.events({
