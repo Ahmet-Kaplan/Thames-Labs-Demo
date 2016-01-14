@@ -43,18 +43,27 @@ var contactsTutorial = {
 		showNextButton: false,
 		arrowOffset: "-1px"
 	}, {
+		title: "",
+		content: "",
+		target: document.querySelector('#menuLinkContacts'),
+		placement: "right",
+		smoothScroll: false,
+		onShow: function() {
+			hopscotch.nextStep();
+		}
+	}, {
 		title: "Viewing your Contacts",
 		content: "This is your contacts list. If you can't see any contacts yet, don't worry, we'll add one now.",
 		target: document.querySelector('#contacts-logo'),
-		placement: "bottom",
-		delay: 200
+		placement: "bottom"
 	}, {
 		title: "Adding a Contact",
 		content: "Click this button to add a contact",
 		target: document.querySelector('#add-contact'),
-		placement: "top",
+		placement: "bottom",
 		showNextButton: false,
-		nextOnTargetClick: true
+		nextOnTargetClick: true,
+		delay: 100
 	}, {
 		title: "Adding a Contact",
 		content: "Type the contacts first name here...",
