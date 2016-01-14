@@ -1,3 +1,15 @@
+Template.insertProductModal.onCreated(function() {
+  //Update the default numbering system
+  var tenant = Tenants.findOne({});
+  Tenants.update({
+    _id: tenant._id
+  }, {
+    $inc: {
+      'settings.product.defaultNumber': 1
+    }
+  });
+});
+
 Template.insertProductModal.helpers({
   currentUser: function() {
     return Meteor.userId();

@@ -1,3 +1,37 @@
+Template.insertOpportunityModal.onCreated(function() {
+  //Update the default numbering system
+  var tenant = Tenants.findOne({});
+  Tenants.update({
+    _id: tenant._id
+  }, {
+    $inc: {
+      'settings.opportunity.defaultNumber': 1
+    }
+  });
+});
+Template.insertCompanyOpportunityModal.onCreated(function() {
+  //Update the default numbering system
+  var tenant = Tenants.findOne({});
+  Tenants.update({
+    _id: tenant._id
+  }, {
+    $inc: {
+      'settings.opportunity.defaultNumber': 1
+    }
+  });
+});
+Template.insertContactOpportunityModal.onCreated(function() {
+  //Update the default numbering system
+  var tenant = Tenants.findOne({});
+  Tenants.update({
+    _id: tenant._id
+  }, {
+    $inc: {
+      'settings.opportunity.defaultNumber': 1
+    }
+  });
+});
+
 var verfiyOpportunityStagesExist = function() {
   if (FlowRouter.subsReady()) {
     var userTenant = Tenants.findOne({});

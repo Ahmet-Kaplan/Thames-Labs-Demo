@@ -2,23 +2,11 @@ Schemas.Product = new SimpleSchema({
   sequencedIdentifier: {
     type: String,
     label: "RealTime ID",
-    autoform: {
-      afFieldInput: {
-        defaultValue: function() {
-          var tenant = Tenants.findOne({});
-          var currentValue = tenant.settings.product.defaultNumber;
-
-          Tenants.update({
-            _id: tenant._id
-          }, {
-            $inc: {
-              'settings.product.defaultNumber': 1
-            }
-          });
-          return currentValue;
-        }
+    defaultValue: function() {
+        var tenant = Tenants.findOne({});
+        var currentValue = tenant.settings.product.defaultNumber;
+        return currentValue;
       }
-    }
   },
   name: {
     type: String

@@ -2,23 +2,11 @@ Schemas.Opportunity = new SimpleSchema({
   sequencedIdentifier: {
     type: String,
     label: "RealTime ID",
-    autoform: {
-      afFieldInput: {
-        defaultValue: function() {
-          var tenant = Tenants.findOne({});
-          var currentValue = tenant.settings.opportunity.defaultNumber;
-
-          Tenants.update({
-            _id: tenant._id
-          }, {
-            $inc: {
-              'settings.opportunity.defaultNumber': 1
-            }
-          });
-          return currentValue;
-        }
+    defaultValue: function() {
+        var tenant = Tenants.findOne({});
+        var currentValue = tenant.settings.opportunity.defaultNumber;
+        return currentValue;
       }
-    }
   },
   name: {
     type: String
