@@ -11,7 +11,7 @@ PurchaseOrderItems.after.insert(function(userId, doc) {
   logEvent('info', 'A new purchase order item has been created: ' + doc.name + '(' + currentPurchaseOrder.description + ")");
   PurchaseOrders.update(doc.purchaseOrderId, {
     $set: {
-      totalValue: parseFloat(_.sum(PurchaseOrderItems.find({purchaseOrderId: doc.purchaseOrderId}, {fields: {'totalPrice':1}}).fetch(), 'totalPrice').toFixed(2))
+      totalValue: parseFloat(_.sum(PurchaseOrderItems.find({purchaseOrderId: doc.purchaseOrderId}, {fields: {'totalPrice': 1}}).fetch(), 'totalPrice').toFixed(2))
     }
   });
 });
@@ -41,7 +41,7 @@ PurchaseOrderItems.after.update(function(userId, doc, fieldNames, modifier, opti
 
   PurchaseOrders.update(doc.purchaseOrderId, {
     $set: {
-      totalValue: parseFloat(_.sum(PurchaseOrderItems.find({purchaseOrderId: doc.purchaseOrderId}, {fields: {'totalPrice':1}}).fetch(), 'totalPrice').toFixed(2))
+      totalValue: parseFloat(_.sum(PurchaseOrderItems.find({purchaseOrderId: doc.purchaseOrderId}, {fields: {'totalPrice': 1}}).fetch(), 'totalPrice').toFixed(2))
     }
   });
 });
@@ -51,7 +51,7 @@ PurchaseOrderItems.after.remove(function(userId, doc) {
   logEvent('info', 'A purchase order item has been deleted: ' + doc.name + ' (' + currentPurchaseOrder.description + ")");
   PurchaseOrders.update(doc.purchaseOrderId, {
     $set: {
-      totalValue: parseFloat(_.sum(PurchaseOrderItems.find({purchaseOrderId: doc.purchaseOrderId}, {fields: {'totalPrice':1}}).fetch(), 'totalPrice').toFixed(2))
+      totalValue: parseFloat(_.sum(PurchaseOrderItems.find({purchaseOrderId: doc.purchaseOrderId}, {fields: {'totalPrice': 1}}).fetch(), 'totalPrice').toFixed(2))
     }
   });
 });

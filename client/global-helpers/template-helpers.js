@@ -27,10 +27,11 @@ Template.registerHelper('decimal', function(number) {
   var currencySymbol = getCurrencySymbol(currency);
   var afterSymbol = ['eur'];
 
-  if(afterSymbol.indexOf(currency) !== -1)
+  if(afterSymbol.indexOf(currency) !== -1) {
     return parseFloat(number).toFixed(2) + ' ' + currencySymbol;
-  else
+  } else {
     return currencySymbol + parseFloat(number).toFixed(2);
+  }
 });
 
 Template.registerHelper('formatDateLocale', function(date, locale) {
