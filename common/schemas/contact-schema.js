@@ -1,4 +1,25 @@
 Schemas.Contact = new SimpleSchema({
+  sequencedIdentifier: {
+    type: String,
+    label: "RealTime ID",
+    autoform: {
+      afFieldInput: {
+        defaultValue: function() {
+          var tenant = Tenants.findOne({});
+          var currentValue = tenant.settings.contact.defaultNumber;
+
+          Tenants.update({
+            _id: tenant._id
+          }, {
+            $inc: {
+              'settings.contact.defaultNumber': 1
+            }
+          });
+          return currentValue;
+        }
+      }
+    }
+  },
   forename: {
     type: String
   },

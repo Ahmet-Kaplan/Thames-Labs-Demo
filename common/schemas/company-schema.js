@@ -1,4 +1,25 @@
 Schemas.Company = new SimpleSchema({
+  sequencedIdentifier: {
+    type: String,
+    label: "RealTime ID",
+    autoform: {
+      afFieldInput: {
+        defaultValue: function() {
+          var tenant = Tenants.findOne({});
+          var currentValue = tenant.settings.company.defaultNumber;
+
+          Tenants.update({
+            _id: tenant._id
+          }, {
+            $inc: {
+              'settings.company.defaultNumber': 1
+            }
+          });
+          return currentValue;
+        }
+      }
+    }
+  },
   name: {
     type: String,
     label: "Company name"

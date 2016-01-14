@@ -1,4 +1,25 @@
 Schemas.Project = new SimpleSchema({
+  sequencedIdentifier: {
+    type: String,
+    label: "RealTime ID",
+    autoform: {
+      afFieldInput: {
+        defaultValue: function() {
+          var tenant = Tenants.findOne({});
+          var currentValue = tenant.settings.project.defaultNumber;
+
+          Tenants.update({
+            _id: tenant._id
+          }, {
+            $inc: {
+              'settings.project.defaultNumber': 1
+            }
+          });
+          return currentValue;
+        }
+      }
+    }
+  },
   name: {
     type: String,
     label: "Name"

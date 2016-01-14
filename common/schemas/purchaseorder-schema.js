@@ -1,4 +1,25 @@
 Schemas.PurchaseOrder = new SimpleSchema({
+  sequencedIdentifier: {
+    type: String,
+    label: "RealTime ID",
+    autoform: {
+      afFieldInput: {
+        defaultValue: function() {
+          var tenant = Tenants.findOne({});
+          var currentValue = tenant.settings.purchaseorder.defaultNumber + "" + tenant.settings.purchaseorder.defaultNumber;
+
+          Tenants.update({
+            _id: tenant._id
+          }, {
+            $inc: {
+              'settings.purchaseorder.defaultNumber': 1
+            }
+          });
+          return currentValue;
+        }
+      }
+    }
+  },
   userId: {
     type: String,
     label: "Requestor"
