@@ -6,9 +6,9 @@ Meteor.methods({
       _id: this.userId
     });
 
-    var userId = user._id;
-
     if (user) {
+      var userId = user._id;
+
       return Partitioner.bindUserGroup(userId, function() {
         if (row[nameColumn] !== '' && row[nameColumn] !== 'NULL') {
           var existing = Companies.find({
@@ -108,9 +108,9 @@ Meteor.methods({
       _id: this.userId
     });
 
-    var userId = user._id;
-
     if (user) {
+      var userId = user._id;
+
       return Partitioner.bindUserGroup(userId, function() {
         if (row[forenameColumn] !== '' && row[surnameColumn] !== '' && row[forenameColumn] !== 'NULL' && row[surnameColumn] !== 'NULL') {
           var existing = Contacts.find({
