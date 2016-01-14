@@ -7,7 +7,6 @@ var updateSessionVar = function() {
 var welcomeTour = {
 	onShow: function() {
 		updateSessionVar();
-		//todo: enable fab
 	},
 	onClose: function() {
 		// Clear sessionVar as we're actually done
@@ -20,6 +19,7 @@ var welcomeTour = {
 		if (Session.get(sessionVar)) {
 			$.getScript('/vendor/hopscotch/tours/welcome_tour.js');
 		} else {
+			$(this).unbind('keyup');
 			Modal.show('tourEnd');
 		}
   },
@@ -29,7 +29,13 @@ var welcomeTour = {
     title: "Welcome to RealTimeCRM!",
     content: "Welcome to RealTimeCRM, an easy-to-use, cross-platform CRM from Cambridge Software. Click the Next button to start the tour.",
     target: document.querySelector('.navbar-brand'),
-    placement: "right"
+    placement: "right",
+		onShow:	$(this).keyup(function(e) {
+			var key = e.which || e.keycode;
+			if (key === 13) {
+				$('#next').click();
+			}
+		})
   }, {
     title: "Navigation",
     content: "On the left-hand side of the screen, you'll find a sidebar containing a number of links, which will take you to the relevant sections. The sidebar is ever present, allowing you to navigate to anywhere, from anywhere.",
