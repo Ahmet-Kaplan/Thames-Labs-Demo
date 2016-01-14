@@ -105,7 +105,7 @@
           {{#if value}}
             <li class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-money"></i> Value</h4>
-              {{value}}
+              {{decimal value}}
             </li>
           {{/if}}
 
@@ -151,7 +151,7 @@
         </ul>
         {{#if items}}
           <div class="panel-footer">
-            <b>Overall value</b>: {{overallValue}}
+            <b>Overall value</b>: {{decimal overallValue}}
           </div>
         {{/if}}
       </div>
@@ -196,13 +196,13 @@
       {{data.description}}<br>
     {{/if}}
     {{#if data.value}}
-      <b>Value:</b> {{data.value}}<br>
+      <b>Value:</b> {{decimal data.value}}<br>
     {{/if}}
     {{#if data.quantity}}
       <b>Quantity:</b> {{data.quantity}}<br>
     {{/if}}
     {{#if totalValue}}
-      <b>Total:</b> {{totalValue}}
+      <b>Total:</b> {{decimal totalValue}}
     {{/if}}
   </li>
 </template>

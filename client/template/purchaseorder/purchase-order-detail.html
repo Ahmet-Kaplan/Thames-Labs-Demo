@@ -89,7 +89,7 @@
               {{paymentMethod}}
             </li>
             <li class="list-group-item">
-              <i class="fa fa-fw fa-gbp"></i>
+              <i class="fa fa-fw fa-{{userCurrency}}"></i>
               Total Price:
               {{decimal totalValue}}
             </li>
@@ -165,7 +165,7 @@
       {{orderItemStatus}}
     </div>
     <div class="col-md-1">
-      £{{decimal totalPrice}}
+      {{decimal totalPrice}}
     </div>
     <div class="col-md-2">
       <div class="btn-group btn-group-justified" role="group">

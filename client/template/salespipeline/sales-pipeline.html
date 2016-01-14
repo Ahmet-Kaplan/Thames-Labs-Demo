@@ -29,9 +29,9 @@
         </div>
         <div class="panel-body">
           Average Value:
-          <span class="pull-right">£{{stageValues.averageValue}}</span>
+          <span class="pull-right">{{decimal stageValues.averageValue}}</span>
           <br> Total Value:
-          <span class="pull-right">£{{stageValues.totalValue}}</span>
+          <span class="pull-right">{{decimal stageValues.totalValue}}</span>
         </div>
         <ul class="list-group">
           {{#each opportunities}}
