@@ -12,57 +12,70 @@ GetDisallowedPermissions = function(userId) {
 };
 
 tenancyDefaultSettings = {
-  PurchaseOrderPrefix: "",
-  PurchaseOrderStartingValue: 0,
   extInfo: {
     company: [],
     contact: [],
     project: [],
     product: []
   },
+  activity: {
+    defaultNumber: 0,
+  },
+  task: {
+    defaultNumber: 0,
+  },
+  company: {
+    defaultNumber: 0,
+  },
+  contact: {
+    defaultNumber: 0,
+  },
   opportunity: {
-    stages: [
-      {
-        title: "Exploration",
-        description: "Exploring whether there is a need that your product or service can fulfill",
-        id: 0
-      }, {
-        title: "Fact finding",
-        description: "Finding the key people, whether a budget exists, timescales, competitors pitching",
-        id: 1
-      }, {
-        title: "Solution",
-        description: "Preparing your solution based on what you know from your fact finding",
-        id: 2
-      }, {
-        title: "Negotiation",
-        description: "Negotiating the sale of the solution, confirming price, delivery and other out-of-contract aspects",
-        id: 3
-      }, {
-        title: "Objections",
-        description: "Dealing with any objections to the negotiated solution in order to win the business",
-        id: 4
-      }
-    ]
+    defaultNumber: 0,
+    stages: [{
+      title: "Exploration",
+      description: "Exploring whether there is a need that your product or service can fulfill",
+      id: 0
+    }, {
+      title: "Fact finding",
+      description: "Finding the key people, whether a budget exists, timescales, competitors pitching",
+      id: 1
+    }, {
+      title: "Solution",
+      description: "Preparing your solution based on what you know from your fact finding",
+      id: 2
+    }, {
+      title: "Negotiation",
+      description: "Negotiating the sale of the solution, confirming price, delivery and other out-of-contract aspects",
+      id: 3
+    }, {
+      title: "Objections",
+      description: "Dealing with any objections to the negotiated solution in order to win the business",
+      id: 4
+    }]
   },
   project: {
-    types: [
-      {
-        id: 0,
-        name: "Standard Project",
-        milestones: [
-          {
-            name: "Inception",
-            description: "This is a newly-created project",
-            id: 0
-          }, {
-            name: "Completion",
-            description: "This project has been completed",
-            id: 1
-          }
-        ]
-      }
-    ]
+    defaultNumber: 0,
+    types: [{
+      id: 0,
+      name: "Standard Project",
+      milestones: [{
+        name: "Inception",
+        description: "This is a newly-created project",
+        id: 0
+      }, {
+        name: "Completion",
+        description: "This project has been completed",
+        id: 1
+      }]
+    }]
+  },
+  purchaseorder: {
+    defaultPrefix: "",
+    defaultNumber: 0,
+  },
+  product: {
+    defaultNumber: 0,
   }
 };
 
