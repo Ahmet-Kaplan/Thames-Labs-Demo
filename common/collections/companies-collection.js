@@ -207,9 +207,8 @@ Companies.before.insert(function(userId, doc) {
       cfMaster.push(field);
     });
     doc.extendedInformation = cfMaster;
+    doc.sequencedIdentifier = Tenants.findOne({}).settings.company.defaultNumber;
   }
-
-  doc.sequencedIdentifier = Tenants.findOne({}).settings.company.defaultNumber;
 
   if (!checkRecordsNumber()) {
     return false;

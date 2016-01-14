@@ -199,9 +199,10 @@ Contacts.before.insert(function(userId, doc) {
       cfMaster.push(field);
     });
     doc.extendedInformation = cfMaster;
+    
+    doc.sequencedIdentifier = Tenants.findOne({}).settings.contact.defaultNumber;
   }
 
-  doc.sequencedIdentifier = Tenants.findOne({}).settings.contact.defaultNumber;
 });
 
 Contacts.after.insert(function(userId, doc) {

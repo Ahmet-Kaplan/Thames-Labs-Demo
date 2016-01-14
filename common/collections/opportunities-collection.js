@@ -193,7 +193,10 @@ Tags.TagsMixin(Opportunities);
 //////////////////////
 Opportunities.before.insert(function(userId, doc) {
   doc.currentStageId = 0;
-  doc.sequencedIdentifier = Tenants.findOne({}).settings.company.defaultNumber;
+
+  if (!Roles.userIsInRole(userId, ['superadmin'])) {
+    doc.sequencedIdentifier = Tenants.findOne({}).settings.company.defaultNumber;
+  }
 });
 
 Opportunities.after.insert(function(userId, doc) {

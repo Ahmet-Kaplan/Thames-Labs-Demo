@@ -11,7 +11,7 @@
       </h4>
 
       <h1 id="company-details" class="entity-name">{{name}}</h1>
-			
+
       <div id="company-details-tags">
 	      {{> tagInput tags=tags collection='companies' entityId=_id permissionToEdit='CanEditCompanies'}}
 	     </div>
@@ -52,6 +52,10 @@
             <p class="list-group-item-text">{{phone}}</p>
           </a>
           {{/if}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Company ID</h4>
+            <p class="list-group-item-text">{{sequencedIdentifier}}</p>
+          </li>
         </ul>
       </div>
 

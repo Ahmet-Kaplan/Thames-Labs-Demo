@@ -170,8 +170,8 @@ Products.before.insert(function(userId, doc) {
       cfMaster.push(field);
     });
     doc.extendedInformation = cfMaster;
+    doc.sequencedIdentifier = Tenants.findOne({}).settings.product.defaultNumber;
   }
-  doc.sequencedIdentifier = Tenants.findOne({}).settings.product.defaultNumber;
 });
 
 Products.after.insert(function(userId, doc) {
