@@ -149,6 +149,11 @@
             </li>
           {{/if}}
         </ul>
+        {{#if items}}
+          <div class="panel-footer">
+            <b>Overall value</b>: {{overallValue}}
+          </div>
+        {{/if}}
       </div>
 
 {{> documentContainer collectionName="opportunities" id=this._id permissionRequired="CanEditOpportunities"}}
@@ -191,10 +196,13 @@
       {{data.description}}<br>
     {{/if}}
     {{#if data.value}}
-    <b>Value:</b> {{data.value}}<br>
+      <b>Value:</b> {{data.value}}<br>
     {{/if}}
     {{#if data.quantity}}
-    <b>Quantity:</b> {{data.quantity}}
+      <b>Quantity:</b> {{data.quantity}}<br>
+    {{/if}}
+    {{#if totalValue}}
+      <b>Total:</b> {{totalValue}}
     {{/if}}
   </li>
 </template>
