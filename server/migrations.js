@@ -597,7 +597,7 @@ Migrations.add({
 
 Migrations.add({
   version: 18,
-  name: "Add automatic calculation of PO total Price",
+  name: "Add automatic calculation of PO total Price, set tenant currency",
   up: function() {
     ServerSession.set('maintenance', true);
     Partitioner.directOperation(function() {
@@ -606,6 +606,18 @@ Migrations.add({
           PurchaseOrders.update({_id: po._id}, {
             $set: {
               totalValue: 0.00
+            }
+          });
+        }
+      });
+
+      Tenants.find({}).forEach(function(tenant) {
+        if(!tenant.settings.currency) {
+          Tenants.update({
+            _id: tenant._id
+          }, {
+            $set: {
+              'settings.currency': 'gbp'
             }
           });
         }
