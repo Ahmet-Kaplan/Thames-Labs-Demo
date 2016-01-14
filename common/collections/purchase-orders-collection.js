@@ -47,7 +47,7 @@ Collections.purchaseorders.filters = {
     nameField: 'name',
     subscriptionById: 'companyById',
     displayValue: function(company) {
-      if(company) {
+      if (company) {
         return company.name;
       } else {
         return 'N/A';
@@ -62,7 +62,7 @@ Collections.purchaseorders.filters = {
     nameField: 'name',
     subscriptionById: 'contactById',
     displayValue: function(contact) {
-      if(contact) {
+      if (contact) {
         return contact.name();
       } else {
         return 'N/A';
@@ -73,7 +73,7 @@ Collections.purchaseorders.filters = {
     display: 'Status:',
     prop: 'status',
     verify: function(status) {
-      if(Schemas.PurchaseOrder.schema().status.allowedValues.indexOf(status) !== -1) {
+      if (Schemas.PurchaseOrder.schema().status.allowedValues.indexOf(status) !== -1) {
         return true
       } else {
         return false;
@@ -94,7 +94,7 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
   fields: ['description'],
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, [ 'CanReadPurchaseOrders']);
+    return Roles.userIsInRole(userId, ['CanReadPurchaseOrders']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {
@@ -118,19 +118,25 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
-      if(options.search.props.company) {
+      if (options.search.props.company) {
         // n.b. the array is passed as a comma separated string
-        selector.supplierCompanyId = {$in: options.search.props.company.split(',')};
+        selector.supplierCompanyId = {
+          $in: options.search.props.company.split(',')
+        };
       }
 
-      if(options.search.props.contact) {
+      if (options.search.props.contact) {
         // n.b. the array is passed as a comma separated string
-        selector.supplierContactId = {$in: options.search.props.contact.split(',')};
+        selector.supplierContactId = {
+          $in: options.search.props.contact.split(',')
+        };
       }
 
-      if(options.search.props.status) {
+      if (options.search.props.status) {
         // n.b. the array is passed as a comma separated string
-        selector.status = {$in: options.search.props.status.split(',')};
+        selector.status = {
+          $in: options.search.props.status.split(',')
+        };
       }
 
       if (options.search.props.searchById) {
@@ -144,9 +150,24 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
+PurchaseOrders.before.insert(function(userId, doc) {
+  var tenant = Tenants.findOne({});
+  doc.sequencedIdentifier = tenant.settings.purchaseorder.defaultPrefix + "" + tenant.settings.purchaseorder.defaultNumber;
+});
 
 PurchaseOrders.after.insert(function(userId, doc) {
   logEvent('info', 'A new purchase order has been created: ' + doc.description);
+
+  if (Meteor.isServer) {
+    var t = Tenants.findOne({});
+    Tenants.update({
+      _id: t._id
+    }, {
+      $inc: {
+        'settings.purchaseorder.defaultNumber': 1
+      }
+    });
+  }
 });
 
 PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options) {

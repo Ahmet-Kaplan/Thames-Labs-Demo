@@ -14,7 +14,7 @@ Collections.products.filters = {
     prop: 'salesPriceLower',
     verify: function(value) {
       value = parseInt(value)
-      if(isNaN(value)) {
+      if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false
       } else {
@@ -27,7 +27,7 @@ Collections.products.filters = {
     prop: 'salesPriceGreater',
     verify: function(value) {
       value = parseInt(value)
-      if(isNaN(value)) {
+      if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false
       } else {
@@ -40,7 +40,7 @@ Collections.products.filters = {
     prop: 'costPriceLower',
     verify: function(value) {
       value = parseInt(value)
-      if(isNaN(value)) {
+      if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false
       } else {
@@ -53,7 +53,7 @@ Collections.products.filters = {
     prop: 'costPriceGreater',
     verify: function(value) {
       value = parseInt(value)
-      if(isNaN(value)) {
+      if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false
       } else {
@@ -65,7 +65,9 @@ Collections.products.filters = {
     display: 'Tag:',
     prop: 'tags',
     collectionName: 'tags',
-    autosuggestFilter: {collection: 'products'},
+    autosuggestFilter: {
+      collection: 'products'
+    },
     valueField: 'name',
     nameField: 'name'
   }
@@ -86,7 +88,7 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
     },
     permission: function(options) {
       var userId = options.userId;
-      return Roles.userIsInRole(userId, [ 'CanReadProducts']);
+      return Roles.userIsInRole(userId, ['CanReadProducts']);
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
@@ -108,7 +110,9 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
 
       if (options.search.props.tags) {
         // n.b. tags is a comma separated string
-        selector.tags = {$in: options.search.props.tags.split(',')};
+        selector.tags = {
+          $in: options.search.props.tags.split(',')
+        };
       }
 
       if (options.search.props.salesPriceLower || options.search.props.salesPriceGreater) {
@@ -116,11 +120,11 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
         var priceLowerThan = parseInt(options.search.props.salesPriceLower);
         var priceGreaterThan = parseInt(options.search.props.salesPriceGreater);
 
-        if(!isNaN(priceLowerThan)) {
+        if (!isNaN(priceLowerThan)) {
           selector.price.$lte = priceLowerThan;
         }
 
-        if(!isNaN(priceGreaterThan)) {
+        if (!isNaN(priceGreaterThan)) {
           selector.price.$gte = priceGreaterThan;
         }
       }
@@ -130,11 +134,11 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
         var costLowerThan = parseInt(options.search.props.costPriceLower);
         var costGreaterThan = parseInt(options.search.props.costPriceGreater);
 
-        if(!isNaN(costLowerThan)) {
+        if (!isNaN(costLowerThan)) {
           selector.cost.$lte = costLowerThan;
         }
 
-        if(!isNaN(costGreaterThan)) {
+        if (!isNaN(costGreaterThan)) {
           selector.cost.$gte = costGreaterThan;
         }
       }
@@ -167,10 +171,22 @@ Products.before.insert(function(userId, doc) {
     });
     doc.extendedInformation = cfMaster;
   }
+  doc.sequencedIdentifier = Tenants.findOne({}).settings.product.defaultNumber;
 });
 
 Products.after.insert(function(userId, doc) {
   logEvent('info', 'A new product has been created: ' + doc.name);
+
+  if (Meteor.isServer) {
+    var t = Tenants.findOne({});
+    Tenants.update({
+      _id: t._id
+    }, {
+      $inc: {
+        'settings.product.defaultNumber': 1
+      }
+    });
+  }
 });
 
 Products.after.update(function(userId, doc, fieldNames, modifier, options) {

@@ -1,12 +1,7 @@
 Schemas.Contact = new SimpleSchema({
   sequencedIdentifier: {
-    type: String,
-    label: "RealTime ID",
-    defaultValue: function() {
-        var tenant = Tenants.findOne({});
-        var currentValue = tenant.settings.contact.defaultNumber;
-        return currentValue;
-      }
+    type: Number,
+    label: "RealTime ID"
   },
   forename: {
     type: String

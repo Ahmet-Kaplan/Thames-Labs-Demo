@@ -1,12 +1,7 @@
 Schemas.Opportunity = new SimpleSchema({
   sequencedIdentifier: {
-    type: String,
-    label: "RealTime ID",
-    defaultValue: function() {
-        var tenant = Tenants.findOne({});
-        var currentValue = tenant.settings.opportunity.defaultNumber;
-        return currentValue;
-      }
+    type: Number,
+    label: "RealTime ID"
   },
   name: {
     type: String

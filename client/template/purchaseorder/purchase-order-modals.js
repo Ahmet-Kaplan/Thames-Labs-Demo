@@ -6,18 +6,6 @@ Session.set('poIsLocked', null);
                     newPurchaseOrderForm
 *******************************************************/
 
-Template.newPurchaseOrderForm.onCreated(function() {
-  //Update the default numbering system
-  var tenant = Tenants.findOne({});
-  Tenants.update({
-    _id: tenant._id
-  }, {
-    $inc: {
-      'settings.purchaseorder.defaultNumber': 1
-    }
-  });
-});
-
 Template.newPurchaseOrderForm.onRendered(function() {
   Session.set('posc', null);
 
@@ -59,18 +47,6 @@ Template.newPurchaseOrderForm.events({
 /*******************************************************
               newCompanyPurchaseOrderForm
 *******************************************************/
-
-Template.newCompanyPurchaseOrderForm.onCreated(function() {
-  //Update the default numbering system
-  var tenant = Tenants.findOne({});
-  Tenants.update({
-    _id: tenant._id
-  }, {
-    $inc: {
-      'settings.purchaseorder.defaultNumber': 1
-    }
-  });
-});
 
 Template.newCompanyPurchaseOrderForm.onRendered(function() {
   Session.set('posc', null);
@@ -119,18 +95,6 @@ Template.newCompanyPurchaseOrderForm.events({
 /*******************************************************
               newContactPurchaseOrderForm
 *******************************************************/
-
-Template.newContactPurchaseOrderForm.onCreated(function() {
-  //Update the default numbering system
-  var tenant = Tenants.findOne({});
-  Tenants.update({
-    _id: tenant._id
-  }, {
-    $inc: {
-      'settings.purchaseorder.defaultNumber': 1
-    }
-  });
-});
 
 Template.newContactPurchaseOrderForm.helpers({
   currentUser: function() {

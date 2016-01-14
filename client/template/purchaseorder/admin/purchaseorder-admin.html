@@ -1,0 +1,23 @@
+<template name="purchaseOrderAdminPanel">
+  <div class="panel panel-primary" id="purchaseOrderAdminPanel">
+    <div class="panel-heading ">
+      <a class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#purchaseOrderAdmin" id="purchaseOrderAdminExpander">Purchase order administration</a>
+    </div>
+    <div class="panel-collapse collapse" id="purchaseOrderAdmin">
+      <div class="row" id="poAdminSettings">
+        <div class="col-md-8">
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Identifier prefix</span>
+            <input id="poAdminCurrentPrefix" type="text" class="form-control" aria-describedby="basic-addon1">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-success" id="poAdminUpdatePrefix">Update prefix</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>

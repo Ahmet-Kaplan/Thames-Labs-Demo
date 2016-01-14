@@ -49,7 +49,7 @@ Collections.contacts.filters = {
     nameField: 'name',
     subscriptionById: 'companyById',
     displayValue: function(company) {
-      if(company) {
+      if (company) {
         return company.name;
       } else {
         return 'N/A';
@@ -65,7 +65,9 @@ Collections.contacts.filters = {
     display: 'Tag:',
     prop: 'tags',
     collectionName: 'tags',
-    autosuggestFilter: {collection: 'contacts'},
+    autosuggestFilter: {
+      collection: 'contacts'
+    },
     valueField: 'name',
     nameField: 'name'
   }
@@ -80,7 +82,7 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
   fields: ['forename', 'surname'],
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, [ 'CanReadContacts']);
+    return Roles.userIsInRole(userId, ['CanReadContacts']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {
@@ -116,12 +118,14 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
         selector.companyId = options.search.props.filterCompanyId;
       }
 
-      if(options.search.props.company) {
+      if (options.search.props.company) {
         // n.b. the array is passed as a comma separated string
-        selector.companyId = {$in: options.search.props.company.split(',')};
+        selector.companyId = {
+          $in: options.search.props.company.split(',')
+        };
       }
 
-      if(options.search.props.phone) {
+      if (options.search.props.phone) {
         // n.b. the array is passed as a comma separated string
         selector.phone = {
           $in: _.map(options.search.props.phone.split(','), function(phone) {
@@ -196,11 +200,24 @@ Contacts.before.insert(function(userId, doc) {
     });
     doc.extendedInformation = cfMaster;
   }
+
+  doc.sequencedIdentifier = Tenants.findOne({}).settings.contact.defaultNumber;
 });
 
 Contacts.after.insert(function(userId, doc) {
   Meteor.call('updateTotalRecords');
   logEvent('info', 'A new contact has been created: ' + doc.forename + " " + doc.surname);
+
+  if (Meteor.isServer) {
+    var t = Tenants.findOne({});
+    Tenants.update({
+      _id: t._id
+    }, {
+      $inc: {
+        'settings.contact.defaultNumber': 1
+      }
+    });
+  }
 });
 
 Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {

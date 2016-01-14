@@ -1,39 +1,5 @@
 Session.set('sc', null);
 
-Template.newProjectForm.onCreated(function() {
-  //Update the default numbering system
-  var tenant = Tenants.findOne({});
-  Tenants.update({
-    _id: tenant._id
-  }, {
-    $inc: {
-      'settings.project.defaultNumber': 1
-    }
-  });
-});
-Template.newCompanyProjectForm.onCreated(function() {
-  //Update the default numbering system
-  var tenant = Tenants.findOne({});
-  Tenants.update({
-    _id: tenant._id
-  }, {
-    $inc: {
-      'settings.project.defaultNumber': 1
-    }
-  });
-});
-Template.newContactProjectForm.onCreated(function() {
-  //Update the default numbering system
-  var tenant = Tenants.findOne({});
-  Tenants.update({
-    _id: tenant._id
-  }, {
-    $inc: {
-      'settings.project.defaultNumber': 1
-    }
-  });
-});
-
 Template.newProjectForm.events({
   'change #companyId': function() {
     var c = AutoForm.getFieldValue('companyId', 'newProjectForm');

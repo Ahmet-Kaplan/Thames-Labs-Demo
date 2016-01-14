@@ -1,15 +1,4 @@
 Template.insertContactModal.onCreated(function() {
-  //Update the default numbering system
-  var tenant = Tenants.findOne({});
-  Tenants.update({
-    _id: tenant._id
-  }, {
-    $inc: {
-      'settings.contact.defaultNumber': 1
-    }
-  });
-
-
   // Load google maps
   GoogleMaps.load({
     libraries: 'places'
@@ -96,18 +85,6 @@ Template.insertContactModal.events({
       $('#addressWrapper').show();
     }
   }
-});
-
-Template.insertCompanyContactModal.onCreated(function() {
-  //Update the default numbering system
-  var tenant = Tenants.findOne({});
-  Tenants.update({
-    _id: tenant._id
-  }, {
-    $inc: {
-      'settings.contact.defaultNumber': 1
-    }
-  });
 });
 
 Template.insertCompanyContactModal.helpers({
