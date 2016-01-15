@@ -1,8 +1,7 @@
 Template.nav.onCreated(function() {
   this.subscribe('allNotifications');
-  this.fab = new ReactiveVar(true);
+  this.fab = new ReactiveVar(!(bowser.mobile || bowser.tablet));
   this.fabOpen = new ReactiveVar(false);
-
   this.autorun(function() {
     var getNotification = Notifications.findOne({
       target: {
