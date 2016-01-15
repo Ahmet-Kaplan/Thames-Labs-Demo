@@ -2517,7 +2517,7 @@
         };
         __p += '\n    ';
         if (buttons.showNext) {;
-          __p += '<button class="hopscotch-nav-button next hopscotch-next">' +
+          __p += '<button class="hopscotch-nav-button next hopscotch-next" id="next">' +
             ((__t = (i18n.nextBtn)) == null ? '' : __t) +
             '</button>';
         };

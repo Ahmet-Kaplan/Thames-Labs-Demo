@@ -594,3 +594,35 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 18,
+  name: "Add automatic calculation of PO total Price, set tenant currency",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+      PurchaseOrders.find({}).forEach(function(po) {
+        if(!po.totalValue) {
+          PurchaseOrders.update({_id: po._id}, {
+            $set: {
+              totalValue: 0.00
+            }
+          });
+        }
+      });
+
+      Tenants.find({}).forEach(function(tenant) {
+        if(!tenant.settings.currency) {
+          Tenants.update({
+            _id: tenant._id
+          }, {
+            $set: {
+              'settings.currency': 'gbp'
+            }
+          });
+        }
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});

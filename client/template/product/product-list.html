@@ -22,11 +22,11 @@
             </tr>
             <tr>
               <td>Total cost:</td>
-              <td class='text-right'>£{{totalProductsCost}}</td>
+              <td class='text-right'>{{decimal totalProductsCost}}</td>
             </tr>
             <tr>
               <td>Average cost:</td>
-              <td class='text-right'>£{{averageProductsCost}}</td>
+              <td class='text-right'>{{decimal averageProductsCost}}</td>
             </tr>
           </tbody>
         </table>
@@ -58,12 +58,12 @@
       </div>
       <div class="col-md-3">
         {{#if price}}
-          <i class="fa fa-fw fa-credit-card"></i> Sales Price: £{{decimal price}}
+          <i class="fa fa-fw fa-credit-card"></i> Sales Price: {{decimal price}}
         {{/if}}
       </div>
       <div class="col-md-3">
         {{#if cost}}
-          <i class="fa fa-fw fa-gbp"></i> Cost Price: £{{decimal cost}}
+          <i class="fa fa-fw fa-{{userCurrency}}"></i> Cost Price: {{decimal cost}}
         {{/if}}
       </div>
       <div class="col-md-3">

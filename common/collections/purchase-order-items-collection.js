@@ -9,6 +9,11 @@ Partitioner.partitionCollection(PurchaseOrderItems);
 PurchaseOrderItems.after.insert(function(userId, doc) {
   var currentPurchaseOrder = PurchaseOrders.findOne(doc.purchaseOrderId);
   logEvent('info', 'A new purchase order item has been created: ' + doc.name + '(' + currentPurchaseOrder.description + ")");
+  PurchaseOrders.update(doc.purchaseOrderId, {
+    $set: {
+      totalValue: parseFloat(_.sum(PurchaseOrderItems.find({purchaseOrderId: doc.purchaseOrderId}, {fields: {'totalPrice': 1}}).fetch(), 'totalPrice').toFixed(2))
+    }
+  });
 });
 
 PurchaseOrderItems.after.update(function(userId, doc, fieldNames, modifier, options) {
@@ -33,9 +38,20 @@ PurchaseOrderItems.after.update(function(userId, doc, fieldNames, modifier, opti
     var newPO = Projects.findOne(doc.purchaseOrderId);
     logEvent('info', 'An existing purchase order has been updated: The value of "purchaseOrderId" was changed from ' + this.previous.purchaseOrderId + '(' + prevPO.description + ") to " + doc.purchaseOrderId + ' (' + newPO.description + ')');
   }
+
+  PurchaseOrders.update(doc.purchaseOrderId, {
+    $set: {
+      totalValue: parseFloat(_.sum(PurchaseOrderItems.find({purchaseOrderId: doc.purchaseOrderId}, {fields: {'totalPrice': 1}}).fetch(), 'totalPrice').toFixed(2))
+    }
+  });
 });
 
 PurchaseOrderItems.after.remove(function(userId, doc) {
   var currentPurchaseOrder = PurchaseOrders.findOne(doc.purchaseOrderId);
   logEvent('info', 'A purchase order item has been deleted: ' + doc.name + ' (' + currentPurchaseOrder.description + ")");
+  PurchaseOrders.update(doc.purchaseOrderId, {
+    $set: {
+      totalValue: parseFloat(_.sum(PurchaseOrderItems.find({purchaseOrderId: doc.purchaseOrderId}, {fields: {'totalPrice': 1}}).fetch(), 'totalPrice').toFixed(2))
+    }
+  });
 });

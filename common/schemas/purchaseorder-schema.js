@@ -76,6 +76,11 @@ Schemas.PurchaseOrder = new SimpleSchema({
     label: "Notes",
     optional: true
   },
+  totalValue: {
+    type: Number,
+    decimal: true,
+    defaultValue: 0.00
+  },
   documents: {
     type: [Object],
     blackbox: true,

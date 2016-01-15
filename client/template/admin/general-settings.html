@@ -1,0 +1,19 @@
+<template name="generalSettings">
+  <div class="panel panel-primary" id="genSettingsPanel">
+    <div class="panel-heading">
+      <a class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#genSettings" id="genSettingsExpander">Settings</a>
+    </div>
+    <div class="panel-collapse collapse" id="genSettings">
+      <div class="panel-body">
+        <div class="well well-sm">
+          <b>Currency</b>: 
+            <select id="currencySelect">
+              <option value="gbp" {{setSelected userCurrency 'gbp'}}> GBP - £</option>
+              <option value="eur" {{setSelected userCurrency 'eur'}}> EUR - €</option>
+              <option value="usd" {{setSelected userCurrency 'usd'}}> USD - $</option>
+            </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

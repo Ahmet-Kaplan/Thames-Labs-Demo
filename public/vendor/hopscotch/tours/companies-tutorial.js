@@ -43,11 +43,20 @@ var companiesTutorial = {
 		showNextButton: false,
 		arrowOffset: "-1px"
   }, {
+		title: "",
+		content: "",
+		target: document.querySelector('#menuLinkCompanies'),
+		placement: "right",
+		smoothScroll: false,
+		onShow: function() {
+			hopscotch.nextStep();
+		}
+	}, {
 		title: "Viewing Your Companies",
 		content: "Here you can see a list of all the companies you have saved. If you dont have any yet don't worry, we'll add one now.",
 		target: document.querySelector('#companies-logo'),
 		placement: "bottom",
-		delay: 200,
+		skipIfNoElement: false,
 		zindex: 1000
 	}, {
 		title: "Adding a Company",
@@ -57,7 +66,8 @@ var companiesTutorial = {
 		showNextButton: false,
 		nextOnTargetClick: true,
 		width: "200px",
-		zindex: 1000
+		zindex: 1000,
+		delay: 100
 	}, {
 		title: "Adding a Company",
 		content: "First, type the company's name in here...",
