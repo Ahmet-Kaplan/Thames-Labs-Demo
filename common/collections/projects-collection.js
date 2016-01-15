@@ -110,7 +110,7 @@ Collections.projects.filters = {
     defaultOptions: function() {
       return _.map(Collections.helpers.wordedTimes, function(obj) {
         return obj.expr;
-      })
+      });
     }
   },
   before: {
@@ -168,8 +168,17 @@ Collections.projects.filters = {
     },
     valueField: 'name',
     nameField: 'name'
+  },
+  sequencedIdentifier: {
+    display: 'RealTime Project Identifier:',
+    prop: 'sequencedIdentifier',
+    allowMultiple: false,
+    verify: function(sequencedIdentifier) {
+      if (!sequencedIdentifier) return false;
+      return true;
+    }
   }
-}
+};
 
 ////////////////////
 // SEARCH INDICES //
@@ -203,11 +212,16 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
         'value': 1,
         'tags': 1,
         'companyId': 1,
-        'contactId': 1
+        'contactId': 1,
+        'sequencedIdentifier': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+
+      if (options.search.props.sequencedIdentifier) {
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+      }
 
       if (options.search.props.supplierCompanyId) {
         selector.companyId = options.search.props.supplierCompanyId;

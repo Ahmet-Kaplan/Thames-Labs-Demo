@@ -87,8 +87,17 @@ Collections.companies.filters = {
     },
     valueField: 'name',
     nameField: 'name'
+  },
+  sequencedIdentifier: {
+    display: 'RealTime Company Identifier:',
+    prop: 'sequencedIdentifier',
+    allowMultiple: false,
+    verify: function(sequencedIdentifier) {
+      if (!sequencedIdentifier) return false;
+      return true;
+    }
   }
-}
+};
 
 ////////////////////
 // SEARCH INDICES //
@@ -125,11 +134,16 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
         'country': 1,
         'website': 1,
         'phone': 1,
-        'tags': 1
+        'tags': 1,
+        'sequencedIdentifier': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+
+      if (options.search.props.sequencedIdentifier) {
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+      }
 
       if (options.search.props.tags) {
         // n.b. tags is a comma separated string

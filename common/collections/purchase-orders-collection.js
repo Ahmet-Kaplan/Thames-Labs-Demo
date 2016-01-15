@@ -74,7 +74,7 @@ Collections.purchaseorders.filters = {
     prop: 'status',
     verify: function(status) {
       if (Schemas.PurchaseOrder.schema().status.allowedValues.indexOf(status) !== -1) {
-        return true
+        return true;
       } else {
         return false;
       }
@@ -82,8 +82,17 @@ Collections.purchaseorders.filters = {
     defaultOptions: function() {
       return Schemas.PurchaseOrder.schema('status').allowedValues;
     }
+  },
+  sequencedIdentifier: {
+    display: 'RealTime Purchase Order Identifier:',
+    prop: 'sequencedIdentifier',
+    allowMultiple: false,
+    verify: function(sequencedIdentifier) {
+      if (!sequencedIdentifier) return false;
+      return true;
+    }
   }
-}
+};
 
 ////////////////////
 // SEARCH INDICES //
@@ -112,11 +121,16 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
         'orderNumber': 1,
         'supplierCompanyId': 1,
         'supplierContactId': 1,
-        'projectId': 1
+        'projectId': 1,
+        'sequencedIdentifier': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+
+      if (options.search.props.sequencedIdentifier) {
+        selector.sequencedIdentifier = options.search.props.sequencedIdentifier;
+      }
 
       if (options.search.props.company) {
         // n.b. the array is passed as a comma separated string

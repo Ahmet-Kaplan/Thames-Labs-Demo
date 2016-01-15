@@ -64,10 +64,10 @@ Collections.opportunities.filters = {
     display: 'Value <',
     prop: 'valueLower',
     verify: function(value) {
-      value = parseInt(value)
+      value = parseInt(value);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
+        return false;
       } else {
         return true;
       }
@@ -77,10 +77,10 @@ Collections.opportunities.filters = {
     display: 'Value >',
     prop: 'valueGreater',
     verify: function(value) {
-      value = parseInt(value)
+      value = parseInt(value);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
+        return false;
       } else {
         return true;
       }
@@ -95,8 +95,17 @@ Collections.opportunities.filters = {
     },
     valueField: 'name',
     nameField: 'name'
+  },
+  sequencedIdentifier: {
+    display: 'RealTime Opportunity Identifier:',
+    prop: 'sequencedIdentifier',
+    allowMultiple: false,
+    verify: function(sequencedIdentifier) {
+      if (!sequencedIdentifier) return false;
+      return true;
+    }
   }
-}
+};
 
 ////////////////////
 // SEARCH INDICES //
@@ -129,11 +138,16 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         'isArchived': 1,
         'hasBeenWon': 1,
         'reasonLost': 1,
-        'tags': 1
+        'tags': 1,
+        'sequencedIdentifier': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+
+      if (options.search.props.sequencedIdentifier) {
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+      }
 
       if (options.search.props.showArchived) {
         selector.isArchived = true;
@@ -195,7 +209,7 @@ Opportunities.before.insert(function(userId, doc) {
   doc.currentStageId = 0;
 
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    doc.sequencedIdentifier = Tenants.findOne({}).settings.company.defaultNumber;
+    doc.sequencedIdentifier = Tenants.findOne({}).settings.opportunities.defaultNumber;
   }
 });
 

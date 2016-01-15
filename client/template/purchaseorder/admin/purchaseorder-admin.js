@@ -19,6 +19,8 @@ Template.purchaseOrderAdminPanel.events({
           }
         });
         $('#poAdminCurrentPrefix').val(newVal);
+
+        toastr.success('Purchase order prefix update successfully.');
       }
     });
   }

@@ -13,10 +13,10 @@ Collections.products.filters = {
     display: 'Sales Price <',
     prop: 'salesPriceLower',
     verify: function(value) {
-      value = parseInt(value)
+      value = parseInt(value);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
+        return false;
       } else {
         return true;
       }
@@ -26,10 +26,10 @@ Collections.products.filters = {
     display: 'Sales Price >',
     prop: 'salesPriceGreater',
     verify: function(value) {
-      value = parseInt(value)
+      value = parseInt(value);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
+        return false;
       } else {
         return true;
       }
@@ -39,10 +39,10 @@ Collections.products.filters = {
     display: 'Cost Price <',
     prop: 'costPriceLower',
     verify: function(value) {
-      value = parseInt(value)
+      value = parseInt(value);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
+        return false;
       } else {
         return true;
       }
@@ -52,10 +52,10 @@ Collections.products.filters = {
     display: 'Cost Price >',
     prop: 'costPriceGreater',
     verify: function(value) {
-      value = parseInt(value)
+      value = parseInt(value);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
+        return false;
       } else {
         return true;
       }
@@ -70,8 +70,17 @@ Collections.products.filters = {
     },
     valueField: 'name',
     nameField: 'name'
+  },
+  sequencedIdentifier: {
+    display: 'RealTime Product Identifier:',
+    prop: 'sequencedIdentifier',
+    allowMultiple: false,
+    verify: function(sequencedIdentifier) {
+      if (!sequencedIdentifier) return false;
+      return true;
+    }
   }
-}
+};
 
 ////////////////////
 // SEARCH INDICES //
@@ -98,12 +107,17 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
         'name': 1,
         'price': 1,
         'cost': 1,
-        'tags': 1
+        'tags': 1,
+        'sequencedIdentifier': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
+      if (options.search.props.sequencedIdentifier) {
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+      }
+      
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }

@@ -70,8 +70,17 @@ Collections.contacts.filters = {
     },
     valueField: 'name',
     nameField: 'name'
+  },
+  sequencedIdentifier: {
+    display: 'RealTime Contact Identifier:',
+    prop: 'sequencedIdentifier',
+    allowMultiple: false,
+    verify: function(sequencedIdentifier) {
+      if (!sequencedIdentifier) return false;
+      return true;
+    }
   }
-}
+};
 
 ////////////////////
 // SEARCH INDICES //
@@ -108,11 +117,16 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
         'phone': 1,
         'mobile': 1,
         'email': 1,
-        'tags': 1
+        'tags': 1,
+        'sequencedIdentifier': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+
+      if (options.search.props.sequencedIdentifier) {
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+      }
 
       if (options.search.props.filterCompanyId) {
         selector.companyId = options.search.props.filterCompanyId;
@@ -199,7 +213,7 @@ Contacts.before.insert(function(userId, doc) {
       cfMaster.push(field);
     });
     doc.extendedInformation = cfMaster;
-    
+
     doc.sequencedIdentifier = Tenants.findOne({}).settings.contact.defaultNumber;
   }
 

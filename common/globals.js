@@ -19,19 +19,19 @@ tenancyDefaultSettings = {
     product: []
   },
   activity: {
-    defaultNumber: 0,
+    defaultNumber: 1,
   },
   task: {
-    defaultNumber: 0,
+    defaultNumber: 1,
   },
   company: {
-    defaultNumber: 0,
+    defaultNumber: 1,
   },
   contact: {
-    defaultNumber: 0,
+    defaultNumber: 1,
   },
   opportunity: {
-    defaultNumber: 0,
+    defaultNumber: 1,
     stages: [{
       title: "Exploration",
       description: "Exploring whether there is a need that your product or service can fulfill",
@@ -55,7 +55,7 @@ tenancyDefaultSettings = {
     }]
   },
   project: {
-    defaultNumber: 0,
+    defaultNumber: 1,
     types: [{
       id: 0,
       name: "Standard Project",
@@ -72,10 +72,10 @@ tenancyDefaultSettings = {
   },
   purchaseorder: {
     defaultPrefix: "",
-    defaultNumber: 0,
+    defaultNumber: 1,
   },
   product: {
-    defaultNumber: 0,
+    defaultNumber: 1,
   }
 };
 

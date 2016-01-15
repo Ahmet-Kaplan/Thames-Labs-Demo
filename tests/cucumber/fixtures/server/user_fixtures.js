@@ -13,31 +13,31 @@ Meteor.methods({
           product: []
         },
         activity: {
-          defaultNumber: 0,
+          defaultNumber: 1,
         },
         task: {
-          defaultNumber: 0,
+          defaultNumber: 1,
         },
         company: {
-          defaultNumber: 0,
+          defaultNumber: 1,
         },
         contact: {
-          defaultNumber: 0,
+          defaultNumber: 1,
         },
         opportunity: {
-          defaultNumber: 0,
+          defaultNumber: 1,
           stages: []
         },
         project: {
-          defaultNumber: 0,
+          defaultNumber: 1,
           types: []
         },
         purchaseorder: {
           defaultPrefix: "",
-          defaultNumber: 0,
+          defaultNumber: 1,
         },
         product: {
-          defaultNumber: 0,
+          defaultNumber: 1,
         }
       },
       stripe: {
@@ -62,31 +62,31 @@ Meteor.methods({
           product: []
         },
         activity: {
-          defaultNumber: 0,
+          defaultNumber: 1,
         },
         task: {
-          defaultNumber: 0,
+          defaultNumber: 1,
         },
         company: {
-          defaultNumber: 0,
+          defaultNumber: 1,
         },
         contact: {
-          defaultNumber: 0,
+          defaultNumber: 1,
         },
         opportunity: {
-          defaultNumber: 0,
+          defaultNumber: 1,
           stages: []
         },
         project: {
-          defaultNumber: 0,
+          defaultNumber: 1,
           types: []
         },
         purchaseorder: {
           defaultPrefix: "",
-          defaultNumber: 0,
+          defaultNumber: 1,
         },
         product: {
-          defaultNumber: 0,
+          defaultNumber: 1,
         }
       },
       stripe: {

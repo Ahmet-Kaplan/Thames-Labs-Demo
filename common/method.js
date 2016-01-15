@@ -24,12 +24,12 @@ Meteor.methods({
         var opportunities = [];
         var products = [];
 
-        var companiesSequenceId = 0;
-        var contactsSequenceId = 0;
-        var opportunitiesSequenceId = 0;
-        var projectsSequenceId = 0;
-        var purchaseOrdersSequenceId = 0;
-        var productsSequenceId = 0;
+        var companiesSequenceId = 1;
+        var contactsSequenceId = 1;
+        var opportunitiesSequenceId = 1;
+        var projectsSequenceId = 1;
+        var purchaseOrdersSequenceId = 1;
+        var productsSequenceId = 1;
 
         //Setup opportunity stages
         var userTenant = Tenants.findOne({});
