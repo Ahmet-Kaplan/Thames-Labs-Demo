@@ -321,9 +321,10 @@ Template.purchaseOrderDetail.events({
 Template.purchaseOrderItem.events({
   'click #removePurchaseOrderItem': function(event) {
     event.preventDefault();
+    var itemId = this._id
     bootbox.confirm("Are you sure you wish to delete this item?", function(result) {
       if(result === true) {
-        PurchaseOrderItems.remove(this._id);
+        PurchaseOrderItems.remove(itemId);
       }
     });
   },

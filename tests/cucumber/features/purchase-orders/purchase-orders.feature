@@ -133,6 +133,7 @@ Feature: Allow users to manage their Purchase Orders
     And I set text field with selector "#currQuant" to "4.00"
     And I click "#add-item-to-po"
     And I click "#removePurchaseOrderItem"
+    And I click confirm on the modal
     Then element "#purchase-order-items" should contain the text "No items"
 
   Scenario: A user can see the purchase orders overview
