@@ -323,15 +323,17 @@ Meteor.methods({
               });
             });
 
-            _.each(_.range(_.random(0, 2)), function() {
+            _.each(_.range(_.random(1, 4)), function() {
+              var price = faker.commerce.price();
+              var qty = _.random(1, 40);
               var poi = PurchaseOrderItems.insert({
                 purchaseOrderId: purchaseOrderId,
                 description: faker.commerce.productName(),
                 productCode: faker.finance.account(),
                 projectId: projects[Math.floor(Math.random() * projects.length)],
-                value: faker.commerce.price(),
-                quantity: _.random(1, 65),
-                totalPrice: "0.00",
+                value: price,
+                quantity: qty,
+                totalPrice: parseFloat((price * qty).toFixed(2)),
                 createdBy: randomUser._id
               });
 

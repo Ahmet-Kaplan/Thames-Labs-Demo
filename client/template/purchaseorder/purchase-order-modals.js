@@ -203,7 +203,7 @@ Template.addPurchaseOrderItemModal.helpers({
 });
 
 Template.addPurchaseOrderItemModal.events({
-  'change #itemValue': function() {
+  'change #itemValue, blur #itemValue': function() {
 
     var v = $('#itemValue').val();
     var q = $('#currQuant').val();
@@ -216,7 +216,7 @@ Template.addPurchaseOrderItemModal.events({
       }
     });
   },
-  'change #currQuant': function() {
+  'change #currQuant, blur #currQuant': function() {
 
     var v = $('#itemValue').val();
     var q = $('#currQuant').val();
