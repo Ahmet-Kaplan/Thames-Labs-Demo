@@ -390,7 +390,8 @@ Meteor.methods({
       value: val,
       createdBy: user._id,
       projectTypeId: projType,
-      projectMilestoneId: 0
+      projectMilestoneId: 0,
+      sequencedIdentifier: Tenants.findOne({}).settings.project.defaultNumber
     });
 
     if (opp.items) {
