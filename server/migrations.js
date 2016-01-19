@@ -597,6 +597,40 @@ Migrations.add({
 
 Migrations.add({
   version: 18,
+  name: "Add automatic calculation of PO total Price, set tenant currency",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+      PurchaseOrders.find({}).forEach(function(po) {
+        if (!po.totalValue) {
+          PurchaseOrders.update({
+            _id: po._id
+          }, {
+            $set: {
+              totalValue: 0.00
+            }
+          });
+        }
+      });
+
+      Tenants.find({}).forEach(function(tenant) {
+        if (!tenant.settings.currency) {
+          Tenants.update({
+            _id: tenant._id
+          }, {
+            $set: {
+              'settings.currency': 'gbp'
+            }
+          });
+        }
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 19,
   name: "Add the new tenant settings for sequential numbering",
   up: function() {
     ServerSession.set('maintenance', true);
@@ -605,26 +639,26 @@ Migrations.add({
       var tenants = Tenants.find({}).fetch();
       _.each(tenants, function(tenant) {
 
-          //Remove the old numbering systems
-          Tenants.update({
-            _id: tenant._id
-          }, {
-            $set: {
-              'settings.activity.defaultNumber': 0,
-              'settings.task.defaultNumber': 0,
-              'settings.company.defaultNumber': 0,
-              'settings.contact.defaultNumber': 0,
-              'settings.opportunity.defaultNumber': 0,
-              'settings.project.defaultNumber': 0,
-              'settings.product.defaultNumber': 0,
-              'settings.purchaseorder.defaultPrefix': '',
-              'settings.purchaseorder.defaultNumber': 0
-            },
-            $unset: {
-              'settings.PurchaseOrderPrefix': "",
-              'settings.PurchaseOrderStartingValue': ""
-            }
-          });
+        //Remove the old numbering systems
+        Tenants.update({
+          _id: tenant._id
+        }, {
+          $set: {
+            'settings.activity.defaultNumber': 0,
+            'settings.task.defaultNumber': 0,
+            'settings.company.defaultNumber': 0,
+            'settings.contact.defaultNumber': 0,
+            'settings.opportunity.defaultNumber': 0,
+            'settings.project.defaultNumber': 0,
+            'settings.product.defaultNumber': 0,
+            'settings.purchaseorder.defaultPrefix': '',
+            'settings.purchaseorder.defaultNumber': 0
+          },
+          $unset: {
+            'settings.PurchaseOrderPrefix': "",
+            'settings.PurchaseOrderStartingValue': ""
+          }
+        });
       });
     });
     ServerSession.set('maintenance', false);

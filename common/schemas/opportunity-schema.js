@@ -26,6 +26,7 @@ Schemas.Opportunity = new SimpleSchema({
   },
   value: {
     type: Number,
+    decimal: true,
     optional: true
   },
   estCloseDate: {

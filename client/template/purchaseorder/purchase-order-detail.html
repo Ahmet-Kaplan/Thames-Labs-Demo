@@ -89,10 +89,17 @@
               {{paymentMethod}}
             </li>
             <li class="list-group-item">
+              <i class="fa fa-fw fa-{{userCurrency}}"></i>
+              Total Price:
+              {{decimal totalValue}}
+            </li>
+            {{#if notes}}
+            <li class="list-group-item">
               <i class="fa fa-fw fa-paperclip"></i>
               Notes:
               {{notes}}
             </li>
+            {{/if}}
             <li class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Purchase Order ID</h4>
               <p class="list-group-item-text">{{sequencedIdentifier}}</p>
@@ -162,7 +169,7 @@
       {{orderItemStatus}}
     </div>
     <div class="col-md-1">
-      £{{decimal totalPrice}}
+      {{decimal totalPrice}}
     </div>
     <div class="col-md-2">
       <div class="btn-group btn-group-justified" role="group">
