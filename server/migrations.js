@@ -470,6 +470,7 @@ Migrations.add({
   }
 });
 
+
 Migrations.add({
   version: 16,
   name: "Add watchlist capability to all users",
@@ -481,6 +482,146 @@ Migrations.add({
       }
     }, {
       multi: true
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+
+Migrations.add({
+  version: 17,
+  name: "Upgrade custom fields to new structure and include groupable-ness",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+
+      var colls = ['companies', 'contacts', 'projects'];
+
+      var tenants = Tenants.find({}).fetch();
+
+      _.each(tenants, function(tenant) {
+
+        _.each(colls, function(c) {
+
+          var currentTenantData = null;
+          switch (c) {
+            case 'companies':
+              currentTenantData = tenant.settings.extInfo.company;
+              _.each(currentTenantData, function(ctd, i) {
+                if (!ctd.dataOrder) ctd.dataOrder = i;
+              });
+
+              Tenants.update({
+                _id: tenant._id
+              }, {
+                $set: {
+                  'settings.extInfo.company': currentTenantData
+                }
+              });
+              break;
+            case 'contacts':
+              currentTenantData = tenant.settings.extInfo.contact;
+              _.each(currentTenantData, function(ctd, i) {
+                if (!ctd.dataOrder) ctd.dataOrder = i;
+              });
+
+              Tenants.update({
+                _id: tenant._id
+              }, {
+                $set: {
+                  'settings.extInfo.contact': currentTenantData
+                }
+              });
+              break;
+            case 'projects':
+              currentTenantData = tenant.settings.extInfo.project;
+              _.each(currentTenantData, function(ctd, i) {
+                if (!ctd.dataOrder) ctd.dataOrder = i;
+              });
+
+              Tenants.update({
+                _id: tenant._id
+              }, {
+                $set: {
+                  'settings.extInfo.project': currentTenantData
+                }
+              });
+              break;
+          }
+
+          var currentData = Collections[c].find({}).fetch();
+          _.each(currentData, function(data) {
+
+            var fields = data.customFields;
+            var newStructure = [];
+
+            for (var i in fields) {
+              if (fields.hasOwnProperty(i)) {
+                var newInformation = {
+                  dataName: i,
+                  dataValue: fields[i].dataValue,
+                  dataType: fields[i].dataType,
+                  isGlobal: fields[i].isGlobal
+                };
+
+                var index = -1;
+                for (var x = 0; x < newInformation.length - 1; x++) {
+                  if (newStructure[x].dataName === i) {
+                    index = x;
+                  }
+                }
+                if (index === -1) {
+                  newStructure.push(newInformation);
+                }
+              }
+            }
+
+            Collections[c].update({
+              _id: data._id
+            }, {
+              $set: {
+                extendedInformation: newStructure,
+                customFields: {}
+              }
+            });
+
+          });
+
+        });
+
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 18,
+  name: "Add automatic calculation of PO total Price, set tenant currency",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+      PurchaseOrders.find({}).forEach(function(po) {
+        if(!po.totalValue) {
+          PurchaseOrders.update({_id: po._id}, {
+            $set: {
+              totalValue: 0.00
+            }
+          });
+        }
+      });
+
+      Tenants.find({}).forEach(function(tenant) {
+        if(!tenant.settings.currency) {
+          Tenants.update({
+            _id: tenant._id
+          }, {
+            $set: {
+              'settings.currency': 'gbp'
+            }
+          });
+        }
+      });
     });
     ServerSession.set('maintenance', false);
   }

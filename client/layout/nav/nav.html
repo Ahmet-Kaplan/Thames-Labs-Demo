@@ -37,22 +37,9 @@
               </li>
               {{/if}}
               {{/if}}
-            <li class="dropdown">
+            <li class="dropdown" id="global-search">
               <a href="#" class="dropdown-toggle" id="toggle-search"><i class="fa fa-search"></i></a>
             </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="quick-create-menu">
-                <i class="fa fa-fw fa-plus"></i>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="#" id="qckCreateCompany"><i class="fa fa-fw fa-building"></i> Add Company <small>(Ctrl+Alt+C)</small></a></li>
-                <li><a href="#" id="qckCreateContact"><i class="fa fa-fw fa-user"></i> Add Contact <small>(Ctrl+Alt+X)</small></a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#" id="qckCreateProject"><i class="fa fa-fw fa-sitemap"></i> Add Project <small>(Ctrl+Alt+J)</small></a></li>
-                <li><a href="#" id="qckCreatePurchaseOrder"><i class="fa fa-fw fa-shopping-cart"></i> Add Purchase Order <small>(Ctrl+Alt+P)</small></a></li>
-              </ul>
-            </li>
-
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="notifications-menu">
                 {{#if recentNote}}
@@ -69,6 +56,10 @@
             </li>
 
             <li class="dropdown">
+              <a href="#" class="dropdown-toggle" id="help-menu"><i class="fa fa-lg fa-question"></i></a>
+            </li>
+
+            <li class="dropdown">
               <a href="#" class="dropdown-toggle" id="general-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-fw fa-user"></i> {{userName}}
                 <span class="caret"></span>
@@ -79,14 +70,14 @@
                 <li role="separator" class="divider"></li>
                 {{/if}}
                 <li><a href="#" id="btnChangePassword">Change Password</a></li>
+                {{#if fabEnabled}}
+                  <li><a href="#" id="toggleFab">Hide Action Button</a></li>
+                {{else}}
+                  <li><a href="#" id="toggleFab">Show Action Button</a></li>
+                {{/if}}
                 <li role="separator" class="divider"></li>
                 <li><a href="#" id="feedback-link">Give Feedback</a></li>
                 <li><a href="http://www.realtimecrm.co.uk/roadmap" id="roadmap-link" target="_blank">Feature Roadmap</a></li>
-                {{#if showTourOption}}
-                <li role="separator" class="divider"></li>
-                <li><a href="#" id="tour-this-page">Tell me about this page</a></li>
-                {{/if}}
-                <li role="separator" class="divider"></li>
                 <li><a href="#" id="sign-out">Sign Out</a></li>
               </ul>
             </li>
@@ -149,19 +140,19 @@
           <i class="fa fa-fw fa-check"></i> Tasks
         </a>
       </li>
-      {{/if}} {{#if isInRole 'Administrator,CanReadCompanies'}}
+      {{/if}} {{#if isInRole 'CanReadCompanies'}}
       <li class="panel-title {{isActiveRoute regex='companies|company'}}">
         <a href='/companies' class="dismiss-on-click" id="menuLinkCompanies">
           <i class="fa fa-fw fa-building"></i> Companies
         </a>
       </li>
-      {{/if}} {{#if isInRole 'Administrator,CanReadContacts'}}
+      {{/if}} {{#if isInRole 'CanReadContacts'}}
       <li class="panel-title {{isActiveRoute regex='contacts|contact'}}">
         <a href='/contacts' class="dismiss-on-click" id="menuLinkContacts">
           <i class="fa fa-fw fa-user"></i> Contacts
         </a>
       </li>
-      {{/if}} {{#if isInRole 'Administrator,CanReadOpportunities'}}
+      {{/if}} {{#if isInRole 'CanReadOpportunities'}}
       <li class="panel-title {{isActiveRoute regex='opportunities|opportunity'}}">
         <a href='/opportunities' class="dismiss-on-click" id="menuLinkOpportunities">
           <i class="fa fa-fw fa-lightbulb-o"></i> Opportunities
@@ -169,28 +160,28 @@
       </li>
       <li class="panel-title {{isActiveRoute regex='salespipeline'}}">
         <a href="{{pathFor route='salespipeline'}}" class="dismiss-on-click" id="menuLinkSalespipeline">
-          <i class="fa fa-fw fa-filter"></i> Sales Pipeline
+          <i class="fa fa-fw fa-signal"></i> Sales Pipeline
         </a>
       </li>
-      {{/if}} {{#if isInRole 'Administrator,CanReadProjects'}}
+      {{/if}} {{#if isInRole 'CanReadProjects'}}
       <li class="panel-title {{isActiveRoute regex='projects|project'}}">
         <a href='/projects' class="dismiss-on-click" id="menuLinkProjects">
           <i class="fa fa-fw fa-sitemap"></i> Projects
         </a>
       </li>
-      {{/if}} {{#if isInRole 'Administrator,CanReadProducts'}}
+      {{/if}} {{#if isInRole 'CanReadProducts'}}
       <li class="panel-title {{isActiveRoute regex='products|product'}}">
         <a href='/products' class="dismiss-on-click" id="menuLinkProducts">
           <i class="fa fa-fw fa-barcode"></i> Products
         </a>
       </li>
-      {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
+      {{/if}} {{#if isInRole 'CanReadPurchaseOrders'}}
       <li class="panel-title {{isActiveRoute regex='purchaseOrders|purchaseOrder'}}">
         <a href='/purchaseorders' class="dismiss-on-click" id="menuLinkPurchaseOrders">
           <i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders
         </a>
       </li>
-      {{/if}} {{#if isInRole 'Administrator,CanReadEventLog'}}
+      {{/if}} {{#if isInRole 'CanReadEventLog'}}
       <li class="panel-title {{isActiveRoute 'events'}}">
         <a href='/events' class="dismiss-on-click" id="menuLinkEventLog">
           <i class="fa fa-fw fa-book"></i> Event Log
@@ -258,6 +249,13 @@
         <div class="panel-collapse collapse" id="collapseUserName">
           <div class="panel-body">
             <table class="table">
+              {{#if isInRole 'Administrator'}}
+              <tr>
+                <td>
+                  <a href="/admin" id="Administration">Administration</a>
+                </td>
+              </tr>
+              {{/if}}
               <tr>
                 <td>
                   <a href="#" id="feedback-link">Give Feedback</a>
@@ -266,6 +264,15 @@
               <tr>
                 <td>
                   <a href="#" id="btnChangePassword">Change Password</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  {{#if fabEnabled}}
+                    <a href="#" id="toggleFab">Hide Action Button</a>
+                  {{else}}
+                    <a href="#" id="toggleFab">Show Action Button</a>
+                  {{/if}}
                 </td>
               </tr>
             </table>
@@ -314,6 +321,32 @@
 
   </div>
   {{/if}}
+
+  {{#unless isInRole 'superadmin'}}
+    {{#if loggedIn}}
+      {{#if fabEnabled}}
+        <div class="fab {{#if isMobile}}fab-mobile{{/if}}" id="fab">
+          <button class="fixed-action-btn" id="fab-btn">{{#if fabOpen}}<i class="fa fw-fa fa-times"></i>{{else}}<i class="fa fw-fa fa-plus"></i>{{/if}}</button>
+          {{#if fabOpen}}
+            <div class="fab-menu {{#if isMobile}}fab-menu-mobile{{/if}}" id="fab-menu">
+              {{#if isInRole 'CanCreateContacts'}}
+                <button class="fab-menu-item animated zoomInRight" id="fabAddContacts" data-toggle="tooltip" title="Add a Contact (Ctl+Alt+C)"><i class="fa fw-fa fa-user"></i></button>
+              {{/if}}
+              {{#if isInRole 'CanCreateCompanies'}}
+                <button class="fab-menu-item animated zoomInRight" id="fabAddCompanies" data-toggle="tooltip" title="Add a Company (Ctl+Alt+X)"><i class="fa fw-fa fa-building"></i></button>
+              {{/if}}
+              {{#if isInRole 'CanCreateProjects'}}
+                <button class="fab-menu-item animated zoomInRight" id="fabAddProject" data-toggle="tooltip" title="Add a Project (Ctl+Alt+J)"><i class="fa fw-fa fa-sitemap"></i></button>
+              {{/if}}
+              {{#if isInRole 'CanCreatePurchaseOrders'}}
+                <button class="fab-menu-item animated zoomInRight" id="fabAddPurchaseOrder" data-toggle="tooltip" title="Add a Purchase Order (Ctl+Alt+P)"><i class="fa fw-fa fa-shopping-cart"></i></button>
+              {{/if}}
+            </div>
+          {{/if}}
+        </div>
+      {{/if}}
+    {{/if}}
+  {{/unless}}
 </template>
 
 <template name="notice">

@@ -8,7 +8,6 @@ Feature: Allow users to manage their Companies
     And I am a logged in user
     And I have the "CanReadCompanies" permission
 
-
   #Reading
   Scenario: A user can see the companies list
     When I navigate to "/companies"
@@ -55,7 +54,6 @@ Feature: Allow users to manage their Companies
     And I am a logged in superadmin user
     When I navigate to "/companies"
     Then I should see the heading "Tenants"
-
 
   #Adding
   Scenario: A user can create a company
@@ -207,8 +205,7 @@ Feature: Allow users to manage their Companies
     Given I have the "CanCreateCompanies" permission
     Given a "Company" has been created
     When I navigate to a company page
-    Then I should see the heading "Address"
-    And I should see a map
+    Then I should see a map
 
   Scenario: A user can do a location search and see the map when editing a company's details
     Given I have the "CanEditCompanies" permission
@@ -236,15 +233,6 @@ Feature: Allow users to manage their Companies
     Given a "Company" has been created
     When I navigate to a company page
     Then I should not see the edit tag button
-
-  Scenario: A user with the Administrator permission can edit tags
-    Given I have the "Administrator" permission
-    And a "Company" has been created
-    When I navigate to a company page
-    And I click ".editTags"
-    And I add the tag "test-tag"
-    Then the tag field for the "companies" should contain "test-tag"
-
 
   #Tasks
   Scenario: A user can add a task to a company
@@ -276,6 +264,8 @@ Feature: Allow users to manage their Companies
   Scenario: A user can add an activity
     Given a "Company" has been created
     When I navigate to a company page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -286,6 +276,8 @@ Feature: Allow users to manage their Companies
   Scenario: A user can edit an activity
     Given a "Company" has been created
     When I navigate to a company page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -300,6 +292,8 @@ Feature: Allow users to manage their Companies
   Scenario: A user can delete an activity
     Given a "Company" has been created
     When I navigate to a company page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -309,3 +303,29 @@ Feature: Allow users to manage their Companies
     And I click "#remove-activity"
     And I click confirm on the modal
     Then I should see "#no-activity"
+
+  #Filtering and Searching
+  Scenario: A user can filter companies by city
+    Given I have the "Administrator" permission
+    And a "Company" has been created
+    And an additional "Company" has been created
+    When I navigate to "/companies"
+    And I click "#toggleFilters"
+    And I set the filter to "City:" then "Cambridge"
+    Then I should see ".removeProp"
+    And I should see ".fa-map-marker"
+    And "#resultsCount" should say "1 record"
+    When I click ".removeProp"
+    And I set the filter to "City:" then "city"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "0 records"
+
+  Scenario: Clicking a tag badge applies the filter
+    Given I have the "Administrator" permission
+    And a "Company" has been created
+    And an additional "Company" has been created
+    When I navigate to "/companies"
+    And I click ".badge"
+    Then I should see ".removeProp"
+    And I should see ".fa-map-marker"
+    And "#resultsCount" should say "1 record"

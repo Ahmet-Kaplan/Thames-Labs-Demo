@@ -23,7 +23,7 @@ Feature: Allow users to manage their Products
   Scenario: A user with read permissions can see a product
     Given a "Product" has been created
     When I navigate to a product page
-    Then I should see the heading "test product"
+    Then I should see the heading "Imperial Blaster"
 
   Scenario: An administrator can add CanReadProducts permission
     Given I have the "Administrator" permission
@@ -147,7 +147,6 @@ Feature: Allow users to manage their Products
     When I remove permissions on "Products" from a restricted user
     Then the restricted user should not have the "CanDeleteProducts" permission
 
-
   #Menu item permissions
   Scenario: A restricted user cannot see the Products menu item without the correct permission
     Given I do not have the "CanReadProducts" permission
@@ -156,3 +155,58 @@ Feature: Allow users to manage their Products
   Scenario: A user can see the Products menu item with the correct permission
     Given I have the "CanReadProducts" permission
     Then the "Products" menu item is shown
+
+  #Tags
+  Scenario: A user with the CanEditProducts permission can edit tags
+    Given I have the "CanEditProducts" permission
+    And a "Product" has been created
+    When I navigate to a product page
+    And I click ".editTags"
+    And I add the tag "test-tag"
+    Then the tag field for the "products" should contain "test-tag"
+
+  Scenario: A user without the CanEditProducts permission cannot edit tags
+    Given I do not have the "CanEditProducts" permission
+    Given a "Product" has been created
+    When I navigate to a product page
+    Then I should not see the edit tag button
+
+  #Extended information fields
+  Scenario: A user can add, edit and delete extended information fields
+    Given I have the "CanEditProducts" permission
+    And a "Product" has been created
+    When I navigate to a product page
+    And I click "#add-custom-field"
+    Then I should see a modal
+    When I set text field with id "custom-field-name" to "velocity2"
+    And I set text field with id "custom-field-text-value" to "velocity"
+    And I click "#submit-custom-field"
+    Then I should see ".custom-field-display-item"
+    When I click "#edit-custom-fields"
+    And I set text field with id "extInfosvelocity2TextValue" to "velocity"
+    And I click "#submit-ext-info"
+    Then I see a field with the name "velocity" in the extended information list
+    When I click "#delete-custom-field"
+    And I click confirm on the modal
+    Then I should not see ".custom-field-display-item"
+
+  #Filtering and Searching
+  Scenario: A user can filter products by sales price
+    Given I have the "CanReadProducts" permission
+    And a "Product" has been created
+    And an additional "Product" has been created
+    When I navigate to "/products"
+    And I click "#toggleFilters"
+    And I set the filter to "Sales Price >" then "1000"
+    Then I should see ".removeProp"
+    And I should see ".product-item"
+    And "#resultsCount" should say "1 record"
+
+  Scenario: Clicking a tag badge applies the filter
+    Given I have the "CanReadProducts" permission
+    And a "Product" has been created
+    And an additional "Product" has been created
+    When I navigate to "/products"
+    And I click ".badge"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"

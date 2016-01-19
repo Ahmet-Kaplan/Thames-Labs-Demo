@@ -132,6 +132,18 @@ Template.setPayingTenant.events({
     });
   },
 
+  'click #btnRemoveSubsId': function() {
+    toastr.info('Processing update...');
+    Tenants.update(this._id, {
+      $unset: {
+        "stripe.stripeSubs": ""
+      }
+    });
+    toastr.clear();
+    Modal.hide();
+    toastr.success('Subscription ID has been removed.');
+  },
+
   'click #btnSaveStripeSubs': function() {
     var newStripeSubs = $('#stripeSubsNumber').val();
     Tenants.update(this._id, {

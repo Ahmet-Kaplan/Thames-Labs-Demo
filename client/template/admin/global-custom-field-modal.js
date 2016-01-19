@@ -1,54 +1,67 @@
 Template.addNewGlobalCustomField.onRendered(function() {
+  $.getScript('/vendor/medium/medium-editor.min.js');
+
   $('#select-entity').selectize({
-    create: true,
+    create: false,
     allowEmptyOption: false
   });
-});
 
-Template.addNewGlobalCustomField.onRendered(function() {
   this.$('.datetimepicker').datetimepicker();
 
   $('#typeText').prop('checked', true);
+  $('#typeAdvText').prop('checked', false);
   $('#typeCheckbox').prop('checked', false);
   $('#typeDate').prop('checked', false);
+  $('#typeLabel').prop('checked', false);
 
   $('#text-input-area').show();
+  $('#advtext-input-area').hide();
   $('#check-input-area').hide();
   $('#date-input-area').hide();
 });
 
-Template.addNewGlobalCustomField.helpers({
-
-});
-
 Template.addNewGlobalCustomField.events({
-  // 'change #select-entity': function() {
-  //   var cfEntity = $('#select-entity').val();
-  //   switch (cfEntity) {
-  //     case 'company':
-  //       Meteor.subscribe('allCompanies');
-  //       break;
-  //     case 'contact':
-  //       Meteor.subscribe('allContacts');
-  //       break;
-  //   }
-  // },
   'click #typeText': function() {
     $('#text-input-area').show();
+    $('#advtext-input-area').hide();
+    $('#check-input-area').hide();
+    $('#date-input-area').hide();
+  },
+  'click #typeAdvText': function() {
+
+    editor = new MediumEditor('.editable', {
+      placeholder: {
+        text: 'Type or paste your content here...'
+      },
+      toolbar: false,
+      autoLink: true
+    });
+
+    $('#text-input-area').hide();
+    $('#advtext-input-area').show();
     $('#check-input-area').hide();
     $('#date-input-area').hide();
   },
   'click #typeCheckbox': function() {
     $('#text-input-area').hide();
+    $('#advtext-input-area').hide();
     $('#check-input-area').show();
     $('#date-input-area').hide();
   },
   'click #typeDate': function() {
     $('#text-input-area').hide();
+    $('#advtext-input-area').hide();
     $('#check-input-area').hide();
     $('#date-input-area').show();
   },
+  'click #typeLabel': function() {
+    $('#text-input-area').hide();
+    $('#advtext-input-area').hide();
+    $('#check-input-area').hide();
+    $('#date-input-area').hide();
+  },
   'click #createCustomField': function() {
+    $('#createCustomField').prop('disabled', true);
     var cfName = $('#custom-field-name').val();
     var cfValue = "value";
     var cfType = "text";
@@ -67,6 +80,10 @@ Template.addNewGlobalCustomField.events({
       cfType = "text";
       cfValue = $('#custom-field-text-value').val();
     }
+    if ($('#typeAdvText').prop('checked')) {
+      cfType = "advtext";
+      cfValue = $('#custom-field-advtext-value').html();
+    }
     if ($('#typeCheckbox').prop('checked')) {
       cfType = "checkbox";
       cfValue = $('#custom-field-check-value').prop('checked');
@@ -75,127 +92,18 @@ Template.addNewGlobalCustomField.events({
       cfType = "date";
       cfValue = $('#custom-field-date-value').val();
     }
-
-    var user = Meteor.users.findOne(Meteor.userId());
-    var tenant = Tenants.findOne(user.group);
-    var fields = null;
-
-    switch (cfEntity) {
-      case 'company':
-        fields = tenant.settings.extInfo.company;
-        break;
-      case 'contact':
-        fields = tenant.settings.extInfo.contact;
-        break;
-      case 'project':
-        fields = tenant.settings.extInfo.project;
-        break;
+    if ($('#typeLabel').prop('checked')) {
+      cfType = "label";
+      cfValue = '';
     }
 
-    var data = [];
-    _.each(fields, function(f) {
-      data.push(f);
-    });
-
-    var newField = {
-      name: cfName,
-      type: cfType,
-      defaultValue: cfValue,
-      targetEntity: cfEntity
-    };
-
-    if (_.findWhere(fields, newField) === undefined) {
-      data.push(newField);
-    }
-
-    switch (cfEntity) {
-      case 'company':
-        Tenants.update(user.group, {
-          $set: {
-            'settings.extInfo.company': data
-          }
-        });
-        break;
-      case 'contact':
-        Tenants.update(user.group, {
-          $set: {
-            'settings.extInfo.contact': data
-          }
-        });
-        break;
-      case 'project':
-        Tenants.update(user.group, {
-          $set: {
-            'settings.extInfo.project': data
-          }
-        });
-        break;
-    }
-
-    var collName = '';
-    switch (cfEntity) {
-      case 'company':
-        collName = 'companies';
-        break;
-      case 'contact':
-        collName = 'contacts';
-        break;
-      case 'project':
-        collName = 'projects';
-        break;
-    }
-
-    var targets = Collections[collName].find({}).fetch();
-
-    _.each(targets, function(tx) {
-      var nameExists = false;
-      var cfMaster = {};
-
-      if (tx.customFields) {
-        for (var cf in tx.customFields) {
-          if (cf === cfName) {
-            nameExists = true;
-            break;
-          }
-          cfMaster[cf] = tx.customFields[cf];
-        }
-      }
-
-      if (!nameExists) {
-
-        var settings = {
-          "dataValue": cfValue,
-          "dataType": cfType,
-          "isGlobal": true
-        }
-        cfMaster[cfName] = settings;
-
-        if (collName === 'companies') {
-          Companies.update(tx._id, {
-            $set: {
-              customFields: cfMaster
-            }
-          });
-        }
-
-        if (collName === 'contacts') {
-          Contacts.update(tx._id, {
-            $set: {
-              customFields: cfMaster
-            }
-          });
-        }
-
-        if (collName === 'projects') {
-          Projects.update(tx._id, {
-            $set: {
-              customFields: cfMaster
-            }
-          });
-        }
+    Meteor.call('extInfo.addNewGlobal', cfName, cfType, cfValue, cfEntity, function(err, res) {
+      if (err) throw new Meteor.Error(err);
+      if (res === true) {
+        toastr.success('Global field created successfully.');
+        Modal.hide();
       }
     });
 
-    Modal.hide();
   }
 });

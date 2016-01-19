@@ -10,39 +10,36 @@ Template.editTenantUserPermissions.onRendered(function() {
     var isAdmin = data;
     $('#cbUserIsTenantAdministrator').prop('checked', isAdmin);
 
-    if ($('#cbUserIsTenantAdministrator').prop('checked')) {
-      $('#nonAdminOptions').hide();
-    } else {
-      $('#nonAdminOptions').show();
+    $('#nonAdminOptions').show();
 
-      _.each(permissions, function(p) {
-        var permissionName = p.value;
-        var selectorName = '#' + permissionName + "PermissionSelector";
+    _.each(permissions, function(p) {
+      var permissionName = p.value;
+      var selectorName = '#' + permissionName + "PermissionSelector";
 
-        Meteor.call('getMaxPermission', selectedUserId, permissionName, function(err, status) {
-          var val = '';
+      Meteor.call('getMaxPermission', selectedUserId, permissionName, function(err, status) {
+        var val = '';
 
-          if (status.indexOf('Restricted') > -1) {
-            val = 'Restricted';
-          }
-          if (status.indexOf('CanRead') > -1) {
-            val = 'CanRead';
-          }
-          if (status.indexOf('CanCreate') > -1) {
-            val = 'CanCreate';
-          }
-          if (status.indexOf('CanEdit') > -1) {
-            val = 'CanEdit';
-          }
-          if (status.indexOf('CanDelete') > -1) {
-            val = 'CanDelete';
-          }
+        if (status.indexOf('Restricted') > -1) {
+          val = 'Restricted';
+        }
+        if (status.indexOf('CanRead') > -1) {
+          val = 'CanRead';
+        }
+        if (status.indexOf('CanCreate') > -1) {
+          val = 'CanCreate';
+        }
+        if (status.indexOf('CanEdit') > -1) {
+          val = 'CanEdit';
+        }
+        if (status.indexOf('CanDelete') > -1) {
+          val = 'CanDelete';
+        }
 
-          $(selectorName).val(val);
+        $(selectorName).val(val);
 
-        });
       });
-    }
+    });
+
   });
 
 });
@@ -57,65 +54,54 @@ Template.editTenantUserPermissions.helpers({
 });
 
 Template.editTenantUserPermissions.events({
-  "click #cbUserIsTenantAdministrator": function() {
-    if ($('#cbUserIsTenantAdministrator').prop('checked')) {
-      $('#nonAdminOptions').hide();
-    } else {
-      $('#nonAdminOptions').show();
-    }
-  },
-
   'click #btnUpdateTenantUserPermissions': function() {
     var userId = this._id;
 
-    if ($('#cbUserIsTenantAdministrator').prop('checked')) {
-      Meteor.call('setUserRole', userId, 'Administrator', true);
-    } else {
-      Meteor.call('setUserRole', userId, 'Administrator', false);
+    Meteor.call('setUserRole', userId, 'Administrator', $('#cbUserIsTenantAdministrator').prop('checked'));
 
-      _.each(permissions, function(p) {
-        var selectorName = p.value + "PermissionSelector";
-        var selectorValue = $('#' + selectorName).val();
+    _.each(permissions, function(p) {
+      var selectorName = p.value + "PermissionSelector";
+      var selectorValue = $('#' + selectorName).val();
 
-        switch (selectorValue) {
-          case 'Restricted':
-            Meteor.call('setUserRole', userId, 'CanRead' + p.value, false);
-            Meteor.call('setUserRole', userId, 'CanCreate' + p.value, false);
-            Meteor.call('setUserRole', userId, 'CanEdit' + p.value, false);
-            Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
-            break;
-          case 'CanRead':
-            Meteor.call('setUserRole', userId, 'CanRead' + p.value, true);
-            Meteor.call('setUserRole', userId, 'CanCreate' + p.value, false);
-            Meteor.call('setUserRole', userId, 'CanEdit' + p.value, false);
-            Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
-            break;
-          case 'CanCreate':
-            Meteor.call('setUserRole', userId, 'CanRead' + p.value, true);
-            Meteor.call('setUserRole', userId, 'CanCreate' + p.value, true);
-            Meteor.call('setUserRole', userId, 'CanEdit' + p.value, false);
-            Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
-            break;
-          case 'CanEdit':
-            Meteor.call('setUserRole', userId, 'CanRead' + p.value, true);
-            Meteor.call('setUserRole', userId, 'CanCreate' + p.value, true);
-            Meteor.call('setUserRole', userId, 'CanEdit' + p.value, true);
-            Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
-            break;
-          case 'CanDelete':
-            Meteor.call('setUserRole', userId, 'CanRead' + p.value, true);
-            Meteor.call('setUserRole', userId, 'CanCreate' + p.value, true);
-            Meteor.call('setUserRole', userId, 'CanEdit' + p.value, true);
-            Meteor.call('setUserRole', userId, 'CanDelete' + p.value, true);
-            break;
-          default:
-            Meteor.call('setUserRole', userId, 'CanRead' + p.value, true);
-            Meteor.call('setUserRole', userId, 'CanCreate' + p.value, false);
-            Meteor.call('setUserRole', userId, 'CanEdit' + p.value, false);
-            Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
-        }
-      });
-    }
+      switch (selectorValue) {
+        case 'Restricted':
+          Meteor.call('setUserRole', userId, 'CanRead' + p.value, false);
+          Meteor.call('setUserRole', userId, 'CanCreate' + p.value, false);
+          Meteor.call('setUserRole', userId, 'CanEdit' + p.value, false);
+          Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
+          break;
+        case 'CanRead':
+          Meteor.call('setUserRole', userId, 'CanRead' + p.value, true);
+          Meteor.call('setUserRole', userId, 'CanCreate' + p.value, false);
+          Meteor.call('setUserRole', userId, 'CanEdit' + p.value, false);
+          Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
+          break;
+        case 'CanCreate':
+          Meteor.call('setUserRole', userId, 'CanRead' + p.value, true);
+          Meteor.call('setUserRole', userId, 'CanCreate' + p.value, true);
+          Meteor.call('setUserRole', userId, 'CanEdit' + p.value, false);
+          Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
+          break;
+        case 'CanEdit':
+          Meteor.call('setUserRole', userId, 'CanRead' + p.value, true);
+          Meteor.call('setUserRole', userId, 'CanCreate' + p.value, true);
+          Meteor.call('setUserRole', userId, 'CanEdit' + p.value, true);
+          Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
+          break;
+        case 'CanDelete':
+          Meteor.call('setUserRole', userId, 'CanRead' + p.value, true);
+          Meteor.call('setUserRole', userId, 'CanCreate' + p.value, true);
+          Meteor.call('setUserRole', userId, 'CanEdit' + p.value, true);
+          Meteor.call('setUserRole', userId, 'CanDelete' + p.value, true);
+          break;
+        default:
+          Meteor.call('setUserRole', userId, 'CanRead' + p.value, true);
+          Meteor.call('setUserRole', userId, 'CanCreate' + p.value, false);
+          Meteor.call('setUserRole', userId, 'CanEdit' + p.value, false);
+          Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
+      }
+    });
+
 
     toastr.success('User permissions updated.');
     Modal.hide('editTenantUserPermissions');

@@ -18,21 +18,12 @@ Meteor.methods({
     });
 
     Roles.addUsersToRoles(userId, ["Administrator"]);
+    Roles.addUsersToRoles(userId, defaultPermissionsList);
 
+    // tenancyDefaultSettings is from common/globals.js
     var tenantId = Tenants.insert({
         name: userDetails.companyName,
-        settings: {
-          "PurchaseOrderPrefix": "",
-          "PurchaseOrderStartingValue": 0,
-          extInfo: {
-            company: [],
-            contact: [],
-            project: []
-          },
-          opportunity: {
-            stages: []
-          }
-        },
+        settings: tenancyDefaultSettings,
         stripe: {
           "totalRecords": 0,
           "paying": false,

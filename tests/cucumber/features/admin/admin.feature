@@ -31,6 +31,7 @@ Feature: Allow users to manage general tenancy data
   Scenario: An administrator can add a global field and view it on the company details page
     Given a "Company" has been created
     And I have the "CanReadCompanies" permission
+    And I have the "CanEditCompanies" permission
     When I click "#globCustomFieldsExpander"
     And I click "#addGlobalCustomField"
     And I set text field with id "custom-field-name" to "velocity"

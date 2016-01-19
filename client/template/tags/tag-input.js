@@ -5,7 +5,7 @@ Template.tagInput.onCreated(function() {
 Template.tagInput.helpers({
   hasPermission: function() {
     if (!this.permissionToEdit) return true;
-    return Roles.userIsInRole(Meteor.userId(), ['Administrator', this.permissionToEdit]);
+    return Roles.userIsInRole(Meteor.userId(), [ this.permissionToEdit]);
   },
   inputMode: function() {
     return Template.instance().inputMode.get();

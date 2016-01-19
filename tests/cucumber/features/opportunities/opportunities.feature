@@ -269,14 +269,6 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     Then I should not see the edit tag button
 
-  Scenario: A user with the Administrator permission can edit tags
-    Given I have the "Administrator" permission
-    And an "Opportunity" has been created
-    When I navigate to an opportunity page
-    And I click ".editTags"
-    And I add the tag "test-tag"
-    Then the tag field for the "opportunities" should contain "test-tag"
-
   #Tasks
   Scenario: A user can add a task to a opportunity
     Given I have the "CanReadTasks" permission
@@ -307,6 +299,8 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user can add an activity
     Given a "Opportunity" has been created
     When I navigate to an opportunity page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -317,6 +311,8 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user can edit an activity
     Given a "Opportunity" has been created
     When I navigate to an opportunity page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -331,6 +327,8 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user can delete an activity
     Given an "Opportunity" has been created
     When I navigate to an opportunity page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -340,3 +338,33 @@ Feature: Allow users to manage their sales opportunities
     And I click "#remove-activity"
     And I click confirm on the modal
     Then I should see "#no-activity"
+
+  #Filtering and Searching
+  Scenario: A user can filter opportunities by company
+    Given I have the "Administrator" permission
+    And an "Opportunity" has been created
+    And an additional "Opportunity" has been created
+    When I navigate to "/opportunities"
+    And I click "#toggleFilters"
+    And I set the filter to "Company:" then "Test Ltd"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"
+
+  Scenario: A user can filter opportunities by value
+    Given I have the "Administrator" permission
+    And an "Opportunity" has been created
+    And an additional "Opportunity" has been created
+    When I navigate to "/opportunities"
+    And I click "#toggleFilters"
+    And I set the filter to "Value <" then "50"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"
+
+  Scenario: Clicking a tag badge applies the filter
+    Given I have the "Administrator" permission
+    And an "Opportunity" has been created
+    And an additional "Opportunity" has been created
+    When I navigate to "/opportunities"
+    And I click ".badge"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"

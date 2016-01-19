@@ -101,6 +101,15 @@ Template.insertOpportunityItemModal.helpers({
   }
 });
 
+Template.insertOpportunityItemModal.events({
+  'change input[name=value], blur input[name=value], change input[name=quantity], blur input[name=quantity]': function(event) {
+    var totalValue = parseFloat($('input[name=value]').val()) * parseFloat($('input[name=quantity]').val()).toFixed(2);
+    if(!isNaN(totalValue)) {
+      $('#oppLineTotal').val(totalValue);
+    }
+  }
+});
+
 Template.editOpportunityItemModal.helpers({
   opportunity: function() {
     return Opportunities.findOne(this.oppId);
@@ -116,5 +125,18 @@ Template.editOpportunityItemModal.helpers({
   },
   fieldQuantity: function() {
     return "items." + this.index + ".quantity";
+  },
+  fieldLineTotal: function() {
+    var value = this.data.value * this.data.quantity;
+    if(!isNaN(value)) return value
+  }
+});
+
+Template.editOpportunityItemModal.events({
+  'change #fieldVal, blur #fieldVal, change #fieldQuantity, blur #fieldQuantity': function(event) {
+    var totalValue = (parseFloat($('#fieldVal').val()) * parseFloat($('#fieldQuantity').val())).toFixed(2);
+    if(!isNaN(totalValue)) {
+      $('#oppLineTotal').val(totalValue);
+    }
   }
 });

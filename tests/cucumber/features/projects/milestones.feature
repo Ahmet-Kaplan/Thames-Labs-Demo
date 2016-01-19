@@ -78,6 +78,8 @@ Feature: Allow users to manage their project types and milestones
 	Scenario: a user can move a project between milestones
     Given a project type has been created
     And a "Project" has been created
+    And I have the "CanReadProjects" permission
+    And I have the "CanEditProjects" permission
     And toastr are cleared
     When I navigate to a project page
     And I click "#nextMilestone"

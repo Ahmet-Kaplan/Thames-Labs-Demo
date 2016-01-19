@@ -3,7 +3,9 @@ Template.cfDisplay.helpers({
     this.parentEntity = parentContext;
   },
   trimmedName: function() {
-    return this.name.replace(/\s/g, '');
+    if (this.dataName) {
+      return this.dataName.replace(/\s/g, '');
+    }
   },
   isAdvancedText: function() {
     return this.type === "advtext";
@@ -20,43 +22,33 @@ Template.cfDisplay.events({
         switch (self.parentEntity.entity_type) {
           case "company":
             var parentCompany = Companies.findOne(self.parentEntity.entity_data._id);
-            var cfMaster = {};
-            for (var cf in parentCompany.customFields) {
-              if (cf !== self.name) {
-                cfMaster[cf] = parentCompany.customFields[cf];
-              }
-            }
             Companies.update(parentCompany._id, {
-              $set: {
-                customFields: cfMaster
+              $pull: {
+                extendedInformation: { dataName: self.name }
               }
             });
             break;
           case "contact":
             var parentContact = Contacts.findOne(self.parentEntity.entity_data._id);
-            var cfMaster = {};
-            for (var cf in parentContact.customFields) {
-              if (cf !== self.name) {
-                cfMaster[cf] = parentContact.customFields[cf];
-              }
-            }
             Contacts.update(parentContact._id, {
-              $set: {
-                customFields: cfMaster
+              $pull: {
+                extendedInformation: { dataName: self.name }
               }
             });
             break;
           case "project":
             var parentProject = Projects.findOne(self.parentEntity.entity_data._id);
-            var cfMaster = {};
-            for (var cf in parentProject.customFields) {
-              if (cf !== self.name) {
-                cfMaster[cf] = parentProject.customFields[cf];
-              }
-            }
             Projects.update(parentProject._id, {
-              $set: {
-                customFields: cfMaster
+              $pull: {
+                extendedInformation: { dataName: self.name }
+              }
+            });
+            break;
+          case "product":
+            var parentProduct = Products.findOne(self.parentEntity.entity_data._id);
+            Products.update(parentProduct._id, {
+              $pull: {
+                extendedInformation: { dataName: self.name }
               }
             });
             break;

@@ -20,3 +20,10 @@ AutoForm.hooks({
       }
     }
 });
+
+Template.addNewUser.events({
+  'click #close': function() {
+    Session.set(sessionVar);
+    hopscotch.endTour(true);
+  }
+});

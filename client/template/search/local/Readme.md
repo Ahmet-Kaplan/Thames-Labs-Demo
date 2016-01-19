@@ -9,7 +9,7 @@ Files used:
 
 Defining filters:
   The filter box template takes only one parameter which is the name of the collection on which the filters must be applied.
-  This parameter must be passed as a string. For instance, {{> filterBox collectionName='tasks'}} will apply filters on the tasks list.
+  This parameter must be passed as a string. For instance, {{> filterBox collectionName='tasks' index=TasksIndex}} will apply filters on the tasks list.
 
   The filters themselves are stored in the collection file as an object alongside the collection definintion, index, etc. as:
     Collections.nameOfYourCollection.filters = { filter1, filter2, ... }
@@ -54,7 +54,12 @@ Defining filters:
           return false;
         }
       },
-      defaultOptions: ['op1', 'op2']        Array (Optional)    For filters that do not take a collection as input, an array of the fixed options that will be displayed in the dropdown.
+      defaultOptions: function(){           Function (Optional) For filters that do not take a collection as input, a function that returns an array of the fixed options that will be displayed in the dropdown.
+        return ['op1', 'op2']
+      },
+      strict: (default False),              Boolean (Optional)  To use alongside defaultOptions. If strict is true, only the defaultOptions will be allowed. Otherwise, the defaultOptions are suggestions for the user
+      allowMultiple: (default False)        Boolean (Optional)  To use alongside defaultOptions. Specify if the filter accepts multiple entries or not. For instance, a dueDate filter would not be multiple while a city filter would.
+                                                                If true, the prop rule works the same way as the filters with a collection, i.e. a condition {$in: propValues.split(',')} should be used.
     }
 
 

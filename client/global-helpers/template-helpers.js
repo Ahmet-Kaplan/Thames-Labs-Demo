@@ -1,3 +1,13 @@
+function getCurrencySymbol(currency) {
+  var currencySymbol = {
+    gbp: '£',
+    eur: '€',
+    usd: '$'
+  }
+
+  return currencySymbol[currency] || '£';
+}
+
 Template.registerHelper('equals', function(a, b) {
   return a === b;
 });
@@ -13,7 +23,15 @@ Template.registerHelper('indexedArray', function(context, options) {
 
 Template.registerHelper('decimal', function(number) {
   if (!number) number = 0;
-  return parseFloat(number).toFixed(2);
+  var currency = Tenants.findOne({}).settings.currency || 'gbp';
+  var currencySymbol = getCurrencySymbol(currency);
+  var afterSymbol = ['eur'];
+
+  if(afterSymbol.indexOf(currency) !== -1) {
+    return parseFloat(number).toFixed(2) + ' ' + currencySymbol;
+  } else {
+    return currencySymbol + parseFloat(number).toFixed(2);
+  }
 });
 
 Template.registerHelper('formatDateLocale', function(date, locale) {
@@ -85,10 +103,18 @@ Template.registerHelper('TagsIndex', () => TagsIndex);
 
 // Return standard search input attributes for EasySearch
 Template.registerHelper('searchInputAttributes', () => {
-  return {
-    placeholder: 'Search...',
-    class: 'form-control easysearch-input',
-    autofocus: true
+  if (bowser.mobile || bowser.tablet) {
+    return {
+      placeholder: 'Search...',
+      class: 'form-control easysearch-input',
+      autofocus: false
+    };
+  }else {
+    return {
+      placeholder: 'Search...',
+      class: 'form-control easysearch-input',
+      autofocus: true
+    };
   };
 });
 
@@ -96,4 +122,17 @@ Template.registerHelper('searchInputAttributes', () => {
 Template.registerHelper('extendContext', function(key, value) {
   this[key] = value;
   return this;
+});
+
+Template.registerHelper('userCurrency', function() {
+  return Tenants.findOne({}).settings.currency || 'gbp';
+});
+
+Template.registerHelper('userCurrencySymbol', function() {
+  var currency = Tenants.findOne({}).settings.currency || 'gbp';
+  return getCurrencySymbol(currency);
+});
+
+Template.registerHelper('setSelected', function(value, option) {
+  return (value === option) ? 'selected' : '';
 });

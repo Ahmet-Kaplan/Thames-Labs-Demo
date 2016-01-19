@@ -8,32 +8,40 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
 
   Scenario: When a user has reached the maximum number of subscriptions a message appears when it tries to add company
     Given I have the "Administrator" permission
-    Given I have reached the limit of records
-    Given toastr are cleared
+    And I have the "CanCreateCompanies" permission
+    And I have the "CanReadCompanies" permission
+    And I have reached the limit of records
+    And toastr are cleared
     Then element ".nav-btn-info" should contain the text "Limit reached"
     When I navigate to "/companies"
     And I click "#add-company"
     And I set text field "name" to "Limit Reached Ltd"
-    When I submit the "insertNewCompany" form
+    And I submit the "insertNewCompany" form
     Then I should see a "error" toastr with the message "You have reached the maximum number of records and you are not able to add new ones."
     And I should see a modal
 
   Scenario: When a user has reached the maximum number of subscriptions a message appears when it tries to add contact
     Given I have the "Administrator" permission
-    Given I have reached the limit of records
-    Given toastr are cleared
+    And I have the "CanCreateContacts" permission
+    And I have the "CanReadContacts" permission
+    And I have reached the limit of records
+    And toastr are cleared
+    Then element ".nav-btn-info" should contain the text "Limit reached"
     When I navigate to "/contacts"
     And I click "#add-contact"
     And I set text field "forename" to "Limit"
     And I set text field "surname" to "Reached"
-    When I submit the "insertContact" form
+    And I submit the "insertContact" form
     Then I should see a "error" toastr with the message "You have reached the maximum number of records and you are not able to add new ones."
     And I should see a modal
 
   Scenario: When a user has reached the maximum number of records they can delete a record and add a new one
     Given I have the "Administrator" permission
-    Given I have reached the limit of records
-    Given toastr are cleared
+    And I have the "CanCreateContacts" permission
+    And I have the "CanReadContacts" permission
+    And I have the "CanDeleteContacts" permission
+    And I have reached the limit of records
+    And toastr are cleared
     When I navigate to a contact page
     And I click "#remove-contact"
     And I click confirm on the modal

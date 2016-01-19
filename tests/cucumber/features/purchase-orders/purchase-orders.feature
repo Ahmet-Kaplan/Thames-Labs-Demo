@@ -133,6 +133,7 @@ Feature: Allow users to manage their Purchase Orders
     And I set text field with selector "#currQuant" to "4.00"
     And I click "#add-item-to-po"
     And I click "#removePurchaseOrderItem"
+    And I click confirm on the modal
     Then element "#purchase-order-items" should contain the text "No items"
 
   Scenario: A user can see the purchase orders overview
@@ -148,6 +149,8 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanEditPurchaseOrders" permission
     And a "PurchaseOrder" has been created
     When I navigate to a purchase order page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     Then I should see a modal
     When I set text field "activityTimestamp" to "05/05/2015 05:05"
@@ -168,3 +171,25 @@ Feature: Allow users to manage their Purchase Orders
     When I click "#remove-activity"
     And I click confirm on the modal
     Then I should see "#no-activity"
+
+  #Filtering and Searching
+  Scenario: A user can filter purchase orders by company
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadPurchaseOrders" permission
+    And a "PurchaseOrder" has been created
+    And an additional "PurchaseOrder" has been created
+    When I navigate to "/purchaseorders"
+    And I click "#toggleFilters"
+    And I set the filter to "Company:" then "Test Ltd"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"
+
+  Scenario: A user can filter purchase orders by status
+    Given I have the "Administrator" permission
+    And a "PurchaseOrder" has been created
+    And an additional "PurchaseOrder" has been created
+    When I navigate to "/purchaseorders"
+    And I click "#toggleFilters"
+    And I set the filter to "Status:" then "Requested"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"

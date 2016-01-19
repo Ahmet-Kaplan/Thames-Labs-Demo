@@ -35,6 +35,83 @@ PurchaseOrders.helpers({
 });
 
 ////////////////////
+// SEARCH FILTERS //
+////////////////////
+
+Collections.purchaseorders.filters = {
+  company: {
+    display: 'Company:',
+    prop: 'company',
+    collectionName: 'companies',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'companyById',
+    displayValue: function(company) {
+      if(company) {
+        return company.name;
+      } else {
+        return 'N/A';
+      }
+    }
+  },
+  contact: {
+    display: 'Contact:',
+    prop: 'contact',
+    collectionName: 'contacts',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'contactById',
+    displayValue: function(contact) {
+      if(contact) {
+        return contact.name();
+      } else {
+        return 'N/A';
+      }
+    }
+  },
+  status: {
+    display: 'Status:',
+    prop: 'status',
+    verify: function(status) {
+      if(Schemas.PurchaseOrder.schema().status.allowedValues.indexOf(status) !== -1) {
+        return true
+      } else {
+        return false;
+      }
+    },
+    defaultOptions: function() {
+      return Schemas.PurchaseOrder.schema('status').allowedValues;
+    }
+  },
+  totalValueLower: {
+    display: 'Total Price <',
+    prop: 'totalValueLower',
+    verify: function(value) {
+      value = parseFloat(value)
+      if(isNaN(value)) {
+        toastr.error('Please enter a numeric value.');
+        return false
+      } else {
+        return true;
+      }
+    }
+  },
+  totalValueGreater: {
+    display: 'Total Price >',
+    prop: 'totalValueGreater',
+    verify: function(value) {
+      value = parseFloat(value)
+      if(isNaN(value)) {
+        toastr.error('Please enter a numeric value.');
+        return false
+      } else {
+        return true;
+      }
+    }
+  },
+}
+
+////////////////////
 // SEARCH INDICES //
 ////////////////////
 
@@ -43,7 +120,7 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
   fields: ['description'],
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, ['Administrator', 'CanReadPurchaseOrders']);
+    return Roles.userIsInRole(userId, [ 'CanReadPurchaseOrders']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {
@@ -61,14 +138,46 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
         'orderNumber': 1,
         'supplierCompanyId': 1,
         'supplierContactId': 1,
-        'projectId': 1
+        'projectId': 1,
+        'totalValue': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
-      if (options.search.props.searchById) {
+
+      if(options.search.props.company) {
+        // n.b. the array is passed as a comma separated string
+        selector.supplierCompanyId = {$in: options.search.props.company.split(',')};
+      }
+
+      if(options.search.props.contact) {
+        // n.b. the array is passed as a comma separated string
+        selector.supplierContactId = {$in: options.search.props.contact.split(',')};
+      }
+
+      if(options.search.props.status) {
+        // n.b. the array is passed as a comma separated string
+        selector.status = {$in: options.search.props.status.split(',')};
+      }
+
+      if (options.search.props.totalValueLower || options.search.props.totalValueGreater) {
+        selector.totalValue = {};
+        var costLowerThan = parseFloat(options.search.props.totalValueLower);
+        var costGreaterThan = parseFloat(options.search.props.totalValueGreater);
+
+        if(!isNaN(costLowerThan)) {
+          selector.totalValue.$lte = costLowerThan;
+        }
+
+        if(!isNaN(costGreaterThan)) {
+          selector.totalValue.$gte = costGreaterThan;
+        }
+      }
+
+      if(options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
+
       return selector;
     }
   })

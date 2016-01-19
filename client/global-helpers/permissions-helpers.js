@@ -5,7 +5,7 @@ redirectWithoutPermission = function(userId, permissionName) {
   // Also keep superadmin off these routes
   if (Roles.userIsInRole(userId, 'superadmin')) return FlowRouter.go('tenants');
 
-  if (!Roles.userIsInRole(userId, ['Administrator', permissionName])) {
+  if (!Roles.userIsInRole(userId, [permissionName])) {
     FlowRouter.go('dashboard');
   }
 };

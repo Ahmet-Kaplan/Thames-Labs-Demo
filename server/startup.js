@@ -34,83 +34,13 @@ Meteor.startup(function() {
     Migrations.migrateTo('latest');
   }
 
-  //Keep tenant information sync'ed
-  var tenants = Tenants.find({}).fetch();
-
-  _.forEach(tenants, function(t) {
-
-    if (typeof t.settings === "undefined") {
-      Tenants.update(t._id, {
-        $set: {
-          settings: tenancyDefaultSettings
-        }
-      });
-    }
-
-    if (typeof t.settings.opportunity === "undefined") {
-      Tenants.update(t._id, {
-        $set: {
-          "settings.opportunity": {
-            stages: []
-          }
-        }
-      });
-    }
-
-    if (typeof t.settings.project === "undefined") {
-      Tenants.update(t._id, {
-        $set: {
-          "settings.project": {
-            types: []
-          }
-        }
-      });
-    }
-
-    if (typeof t.settings.extInfo === "undefined") {
-      Tenants.update(t._id, {
-        $set: {
-          "settings.extInfo": {
-            company: [],
-            contact: [],
-            project: []
-          }
-        }
-      });
-    }
-
-    if (typeof t.settings.extInfo.company === "undefined") {
-      Tenants.update(t._id, {
-        $set: {
-          "settings.extInfo.company": []
-        }
-      });
-    }
-
-    if (typeof t.settings.extInfo.contact === "undefined") {
-      Tenants.update(t._id, {
-        $set: {
-          "settings.extInfo.contact": []
-        }
-      });
-    }
-
-    if (typeof t.settings.extInfo.project === "undefined") {
-      Tenants.update(t._id, {
-        $set: {
-          "settings.extInfo.project": []
-        }
-      });
-    }
-  });
-
   //Keep users information sync'ed
   var users = Meteor.users.find({}).fetch();
 
   _.forEach(users, function(u) {
     if (u.profile) {
 
-      if (typeof u.profile.lastLogin === "undefined") {
+      if (!u.profile.lastLogin) {
 
         Meteor.users.update(u._id, {
           $set: {
@@ -120,7 +50,7 @@ Meteor.startup(function() {
 
       }
 
-      if (typeof u.profile.lastActivity === "undefined") {
+      if (!u.profile.lastActivity) {
 
         Meteor.users.update(u._id, {
           $set: {
@@ -133,7 +63,7 @@ Meteor.startup(function() {
 
       }
 
-      if (typeof u.profile.poAuthLevel === "undefined") {
+      if (!u.profile.poAuthLevel) {
 
         Meteor.users.update(u._id, {
           $set: {
@@ -151,7 +81,7 @@ Meteor.startup(function() {
 
     _.forEach(pos, function(po) {
 
-      if (typeof po.locked === "undefined") {
+      if (!po.locked) {
         PurchaseOrders.update(po._id, {
           $set: {
             locked: false

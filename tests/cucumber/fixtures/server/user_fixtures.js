@@ -106,6 +106,16 @@ Meteor.methods({
     Partitioner.setUserGroup(userId, tenantId);
   },
 
+  removeWelcome: function() {
+    Meteor.users.update({
+      username: "test user"
+    }, {
+      $set: {
+        "profile.welcomeTour": true,
+      }
+    });
+  },
+
   createTestSuperAdmin: function() {
     var superadminId = Accounts.createUser({
       username: 'superadmin',

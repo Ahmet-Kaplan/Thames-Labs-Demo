@@ -11,7 +11,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <div class="btn-group pull-right">
-              {{#if isInRole 'Administrator,CanEditPurchaseOrders'}}
+              {{#if isInRole 'CanEditPurchaseOrders'}}
               <div class="btn-group">
                 <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                   <span class="caret"></span> Export
@@ -33,7 +33,7 @@
               </div>
                 <a class="btn btn-info btn-xs" disabled="{{#unless isOpen}}disabled{{/unless}}" href="#" id="edit-purchase-order"><i class="fa fa-fw fa-pencil"></i>Edit</a>
               {{/if}}
-              {{#if isInRole 'Administrator,CanDeletePurchaseOrders'}}
+              {{#if isInRole 'CanDeletePurchaseOrders'}}
                 <a class="btn btn-danger btn-xs" href="#" id="remove-purchase-order"><i class="fa fa-fw fa-times"></i>Delete</a>
               {{/if}}
             </div>
@@ -42,7 +42,7 @@
             Details</div>
           <ul class="list-group">
             {{#if supplierCompany}}
-              {{#if isInRole 'Administrator,CanReadCompanies'}}
+              {{#if isInRole 'CanReadCompanies'}}
                 <a class="list-group-item" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='company' id=supplierCompany._id}}" title="Navigate to supplier company details">
                   <i class="fa fa-fw fa-building"></i>
                   Supplier:
@@ -52,7 +52,7 @@
               {{/if}}
             {{/if}}
             {{#if supplierContact}}
-              {{#if isInRole 'Administrator,CanReadContacts'}}
+              {{#if isInRole 'CanReadContacts'}}
                 <a class="list-group-item" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='contact' id=supplierContact._id}}" title="Navigate to supplier contact details">
                   <i class="fa fa-fw fa-user"></i>
                   Supplier Contact:
@@ -89,15 +89,25 @@
               {{paymentMethod}}
             </li>
             <li class="list-group-item">
+              <i class="fa fa-fw fa-{{userCurrency}}"></i>
+              Total Price:
+              {{decimal totalValue}}
+            </li>
+            {{#if notes}}
+            <li class="list-group-item">
               <i class="fa fa-fw fa-paperclip"></i>
               Notes:
               {{notes}}
             </li>
+            {{/if}}
           </ul>
         </div>
+
+        {{> documentContainer collectionName="purchaseorders" id=this._id permissionRequired="CanEditPurchaseOrders"}}
+
         <div class="panel panel-default">
           <div class="panel-heading">
-            {{#if isInRole 'Administrator,CanEditPurchaseOrders'}}
+            {{#if isInRole 'CanEditPurchaseOrders'}}
               <div class="btn-group pull-right">
                 <a class="btn btn-primary btn-xs" data-placement="bottom" data-toggle="tooltip" disabled="{{#unless canAddMoreItems}}disabled{{/unless}}" href="#" id="add-item" title="New item for this purchase order">
                   <i class="fa fa-fw fa-plus"></i>
@@ -155,7 +165,7 @@
       {{orderItemStatus}}
     </div>
     <div class="col-md-1">
-      £{{decimal totalPrice}}
+      {{decimal totalPrice}}
     </div>
     <div class="col-md-2">
       <div class="btn-group btn-group-justified" role="group">

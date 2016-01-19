@@ -79,6 +79,12 @@ Template.opportunityDetail.helpers({
     }
     return items;
   },
+  overallValue: function() {
+    return _.sum(this.items, function(item) {
+      var subValue = item.quantity * item.value;
+      if(!isNaN(subValue)) return subValue;
+    })
+  },
   company: function() {
     return Companies.findOne({
       _id: this.companyId
@@ -238,7 +244,7 @@ Template.opportunityDetail.events({
             var type = $('#selectedProjectType').val();
 
             Meteor.call('winOpportunity', opp, parseInt(type), function(err, id) {
-              if (Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanReadProjects'])) {
+              if (Roles.userIsInRole(Meteor.userId(), ['CanReadProjects'])) {
                 FlowRouter.go('/projects/' + id);
               }
             });
@@ -503,6 +509,10 @@ Template.opportunityStage.helpers({
 Template.opportunityItem.helpers({
   isActive: function() {
     return !Opportunities.findOne(this.oppId).isArchived;
+  },
+  totalValue: function() {
+    var value = (this.data.quantity * this.data.value).toFixed(2);
+    if(!isNaN(value)) return value;
   }
 });
 

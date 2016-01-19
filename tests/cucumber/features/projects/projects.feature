@@ -179,14 +179,6 @@ Feature: Allow users to manage their Projects
     When I navigate to a project page
     Then I should not see the edit tag button
 
-  Scenario: A user with the Administrator permission can edit tags
-    Given I have the "Administrator" permission
-    And a "Project" has been created
-    When I navigate to a project page
-    And I click ".editTags"
-    And I add the tag "test-tag"
-    Then the tag field for the "projects" should contain "test-tag"
-
   #Extended information fields
   Scenario: A user can open the "Add Extended information fields" modal
     Given I have the "CanEditProjects" permission
@@ -260,6 +252,8 @@ Feature: Allow users to manage their Projects
   Scenario: A user can add, edit and delete an activity
     Given a "Project" has been created
     When I navigate to a project page
+    And I click "#general-dropdown"
+    And I click "#toggleFab"
     And I click "#add-activity"
     Then I should see a modal
     When I set text field "activityTimestamp" to "05/05/2015 05:05"
@@ -294,3 +288,23 @@ Feature: Allow users to manage their Projects
     When I navigate to a project page
     Then I should see "#documents-container"
     Then I should see "#documents-container button"
+
+  #Filtering and Searching
+  Scenario: A user can filter projects by company
+    Given I have the "Administrator" permission
+    And a "Project" has been created
+    And an additional "Project" has been created
+    When I navigate to "/projects"
+    And I click "#toggleFilters"
+    And I set the filter to "Company:" then "Test Ltd"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"
+
+  Scenario: Clicking a tag badge applies the filter
+    Given I have the "Administrator" permission
+    And a "Project" has been created
+    And an additional "Project" has been created
+    When I navigate to "/projects"
+    And I click ".badge"
+    Then I should see ".removeProp"
+    And "#resultsCount" should say "1 record"

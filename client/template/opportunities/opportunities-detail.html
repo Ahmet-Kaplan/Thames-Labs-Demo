@@ -6,7 +6,7 @@
       <div class="pull-right hidden-xs">
         {{#if isActive}}
           <br>
-          {{#if isInRole 'Administrator,CanEditOpportunities'}}
+          {{#if isInRole 'CanEditOpportunities'}}
             {{#if isNotFirstStage}}
               <button class="btn btn-default" id="previous-stage"><i class="fa fa-fw fa-chevron-left"></i> Back to previous stage</button>
             {{/if}}
@@ -21,7 +21,7 @@
         {{else}}
           {{#if hasBeenWon}}
             <h3 class="text-success" style="margin-top: 25px;">Opportunity won</h3>
-            {{#if isInRole 'Administrator,CanReadProjects'}}
+            {{#if isInRole 'CanReadProjects'}}
               {{#if projectId}}
                 <p class="text-right"><a href="{{pathFor route='project' id=projectId}}">View project</a></p>
               {{/if}}
@@ -54,7 +54,7 @@
         <div class="panel-heading">
           {{#if isActive}}
             <div class="btn-group pull-right">
-              {{#if isInRole 'Administrator,CanEditOpportunities'}}
+              {{#if isInRole 'CanEditOpportunities'}}
                 <div class="btn-group">
                   <button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span> Extract to...
@@ -70,14 +70,14 @@
                 </div>
                 <button id="edit-opportunity" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i> Edit</button>
               {{/if}}
-              {{#if isInRole 'Administrator,CanDeleteOpportunities'}}
+              {{#if isInRole 'CanDeleteOpportunities'}}
                 <button id="remove-opportunity" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Delete</button>
               {{/if}}
             </div>
             <input type="file" id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px">
             <input type="file" id="template-upload" style="height:0; width: 0; margin-left: -9999px">
           {{else}}
-            {{#if isInRole 'Administrator,CanEditOpportunities'}}
+            {{#if isInRole 'CanEditOpportunities'}}
               {{#unless hasBeenWon}}
                 <button id="reopen-opportunity" class="btn btn-info btn-xs pull-right"><i class="fa fa-fw fa-repeat"></i> Reopen</button>
               {{/unless}}
@@ -105,11 +105,11 @@
           {{#if value}}
             <li class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-money"></i> Value</h4>
-              {{value}}
+              {{decimal value}}
             </li>
           {{/if}}
 
-          {{#if isInRole 'Administrator,CanReadCompanies'}}{{#if company}}
+          {{#if isInRole 'CanReadCompanies'}}{{#if company}}
             <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-building"></i> Company</h4>
               <i class="fa fa-fw fa-chevron-right pull-right"></i>
@@ -117,7 +117,7 @@
             </a>
           {{/if}}{{/if}}
 
-          {{#if isInRole 'Administrator,CanReadContacts'}}{{#if contact}}
+          {{#if isInRole 'CanReadContacts'}}{{#if contact}}
             <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-user"></i> Contact</h4>
               <i class="fa fa-fw fa-chevron-right pull-right"></i>
@@ -132,7 +132,7 @@
           {{#if isActive}}
           <div class="pull-right">
 
-            {{#if isInRole 'Administrator,CanEditOpportunities'}}
+            {{#if isInRole 'CanEditOpportunities'}}
             <button class="btn btn-primary btn-xs" id="add-line-item"><i class="fa fa-fw fa-plus"></i> Add line item</button>
             {{/if}}
           </div>
@@ -149,9 +149,16 @@
             </li>
           {{/if}}
         </ul>
+        {{#if items}}
+          <div class="panel-footer">
+            <b>Overall value</b>: {{decimal overallValue}}
+          </div>
+        {{/if}}
       </div>
 
-      {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="opportunity" entity_id=_id}} {{/with}} {{/if}}
+{{> documentContainer collectionName="opportunities" id=this._id permissionRequired="CanEditOpportunities"}}
+
+      {{#if isInRole 'CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="opportunity" entity_id=_id}} {{/with}} {{/if}}
     </div>
   </div>
   <div class="row">
@@ -189,10 +196,13 @@
       {{data.description}}<br>
     {{/if}}
     {{#if data.value}}
-    <b>Value:</b> {{data.value}}<br>
+      <b>Value:</b> {{decimal data.value}}<br>
     {{/if}}
     {{#if data.quantity}}
-    <b>Quantity:</b> {{data.quantity}}
+      <b>Quantity:</b> {{data.quantity}}<br>
+    {{/if}}
+    {{#if totalValue}}
+      <b>Total:</b> {{decimal totalValue}}
     {{/if}}
   </li>
 </template>
