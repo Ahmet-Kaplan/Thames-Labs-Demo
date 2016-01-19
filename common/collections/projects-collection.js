@@ -322,7 +322,7 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
 //////////////////////
 Projects.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    doc.sequencedIdentifier = Tenants.findOne({}).settings.projects.defaultNumber;
+    doc.sequencedIdentifier = Tenants.findOne({}).settings.project.defaultNumber;
   }
 });
 

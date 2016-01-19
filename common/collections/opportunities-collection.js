@@ -209,7 +209,7 @@ Opportunities.before.insert(function(userId, doc) {
   doc.currentStageId = 0;
 
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    doc.sequencedIdentifier = Tenants.findOne({}).settings.opportunities.defaultNumber;
+      doc.sequencedIdentifier = Tenants.findOne({}).settings.opportunity.defaultNumber;
   }
 });
 
