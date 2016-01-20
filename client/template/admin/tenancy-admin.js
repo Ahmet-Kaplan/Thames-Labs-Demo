@@ -8,11 +8,7 @@ Template.tenancyAdminPage.onCreated(function() {
 
 Template.tenancyAdminPage.helpers({
   tenantUsers: function() {
-    return Meteor.users.find({
-      _id: {
-        $ne: Meteor.userId()
-      }
-    });
+    return Meteor.users.find({});
   },
   globalCompanyCustomFields: function() {
     var data = [];
@@ -126,6 +122,12 @@ Template.tenancyAdminPage.events({
   },
   'click #addGlobalCustomField': function() {
     Modal.show('addNewGlobalCustomField');
+  }
+});
+
+Template.adminAreaUser.helpers({
+  isSelf: function() {
+    return this._id === Meteor.userId();
   }
 });
 
