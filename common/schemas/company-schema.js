@@ -1,4 +1,8 @@
 Schemas.Company = new SimpleSchema({
+  sequencedIdentifier: {
+    type: Number,
+    label: "RealTime ID"
+  },
   name: {
     type: String,
     label: "Company name"

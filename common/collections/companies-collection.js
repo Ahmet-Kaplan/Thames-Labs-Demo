@@ -56,7 +56,7 @@ Collections.companies.filters = {
     prop: 'city',
     allowMultiple: true,
     verify: function(city) {
-      if(!city) return false;
+      if (!city) return false;
       return true;
     }
   },
@@ -65,7 +65,7 @@ Collections.companies.filters = {
     prop: 'country',
     allowMultiple: true,
     verify: function(country) {
-      if(!country) return false;
+      if (!country) return false;
       return true;
     }
   },
@@ -74,7 +74,7 @@ Collections.companies.filters = {
     prop: 'postcode',
     allowMultiple: true,
     verify: function(postcode) {
-      if(!postcode) return false;
+      if (!postcode) return false;
       return true;
     }
   },
@@ -82,11 +82,22 @@ Collections.companies.filters = {
     display: 'Tag:',
     prop: 'tags',
     collectionName: 'tags',
-    autosuggestFilter: {collection: 'companies'},
+    autosuggestFilter: {
+      collection: 'companies'
+    },
     valueField: 'name',
     nameField: 'name'
+  },
+  sequencedIdentifier: {
+    display: 'RealTime Company Identifier:',
+    prop: 'sequencedIdentifier',
+    allowMultiple: false,
+    verify: function(sequencedIdentifier) {
+      if (!sequencedIdentifier) return false;
+      return true;
+    }
   }
-}
+};
 
 ////////////////////
 // SEARCH INDICES //
@@ -97,7 +108,7 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
   fields: ['name'],
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, [ 'CanReadCompanies']);
+    return Roles.userIsInRole(userId, ['CanReadCompanies']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {
@@ -123,18 +134,25 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
         'country': 1,
         'website': 1,
         'phone': 1,
-        'tags': 1
+        'tags': 1,
+        'sequencedIdentifier': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
-      if (options.search.props.tags) {
-        // n.b. tags is a comma separated string
-        selector.tags = {$in: options.search.props.tags.split(',')};
+      if (options.search.props.sequencedIdentifier) {
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
       }
 
-      if(options.search.props.city) {
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = {
+          $in: options.search.props.tags.split(',')
+        };
+      }
+
+      if (options.search.props.city) {
         // n.b. list is a comma separated string
         selector.city = {
           $in: _.map(options.search.props.city.split(','), function(city) {
@@ -143,7 +161,7 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
         };
       }
 
-      if(options.search.props.country) {
+      if (options.search.props.country) {
         // n.b. list is a comma separated string
         selector.country = {
           $in: _.map(options.search.props.country.split(','), function(country) {
@@ -152,7 +170,7 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
         }
       }
 
-      if(options.search.props.postcode) {
+      if (options.search.props.postcode) {
         // n.b. list is a comma separated string
         selector.postcode = {
           $in: _.map(options.search.props.postcode.split(','), function(postcode) {
@@ -203,6 +221,7 @@ Companies.before.insert(function(userId, doc) {
       cfMaster.push(field);
     });
     doc.extendedInformation = cfMaster;
+    doc.sequencedIdentifier = Tenants.findOne({}).settings.company.defaultNumber;
   }
 
   if (!checkRecordsNumber()) {
@@ -214,6 +233,17 @@ Companies.before.insert(function(userId, doc) {
 Companies.after.insert(function(userId, doc) {
   Meteor.call('updateTotalRecords');
   logEvent('info', 'A new company has been created: ' + doc.name);
+
+  if (Meteor.isServer) {
+    var t = Tenants.findOne({});
+    Tenants.update({
+      _id: t._id
+    }, {
+      $inc: {
+        'settings.company.defaultNumber': 1
+      }
+    });
+  }
 });
 
 Companies.after.update(function(userId, doc, fieldNames, modifier, options) {

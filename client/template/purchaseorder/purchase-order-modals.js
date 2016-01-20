@@ -75,7 +75,9 @@ Template.newCompanyPurchaseOrderForm.helpers({
     return moment();
   },
   supplierCompanyName: function() {
-    return Companies.findOne({_id: this.supplierCompanyId}).name
+    return Companies.findOne({
+      _id: this.supplierCompanyId
+    }).name;
   }
 });
 
@@ -99,10 +101,14 @@ Template.newContactPurchaseOrderForm.helpers({
     return Meteor.userId();
   },
   supplierCompanyName: function() {
-    return Companies.findOne({_id: this.supplierCompanyId}).name
+    return Companies.findOne({
+      _id: this.supplierCompanyId
+    }).name;
   },
   supplierContactName: function() {
-    var contact = Contacts.findOne({_id: this.supplierContactId})
+    var contact = Contacts.findOne({
+      _id: this.supplierContactId
+    });
     return contact.forename + " " + contact.surname;
   },
   currentDateTime: function() {
@@ -139,10 +145,14 @@ Template.updatePurchaseOrderFormModal.onRendered(function() {
 
 Template.updatePurchaseOrderFormModal.helpers({
   supplierCompanyName: function() {
-    return Companies.findOne({_id: this.supplierCompanyId}).name
+    return Companies.findOne({
+      _id: this.supplierCompanyId
+    }).name
   },
   supplierContactName: function() {
-    var contact = Contacts.findOne({_id: this.supplierContactId})
+    var contact = Contacts.findOne({
+      _id: this.supplierContactId
+    })
     return contact.forename + " " + contact.surname;
   }
 })

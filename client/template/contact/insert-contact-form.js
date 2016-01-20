@@ -20,7 +20,7 @@ Template.insertContactModal.onRendered(function() {
   });
 
   this.autorun(function() {
-    if(GoogleMaps.loaded()) {
+    if (GoogleMaps.loaded()) {
       $("#geo").geocomplete({
         details: "#insertContactForm",
         detailsAttribute: "data-geo"
@@ -30,7 +30,7 @@ Template.insertContactModal.onRendered(function() {
           return elt.types[0] == "street_number";
         });
 
-        if(typeof(strNumber) !== 'undefined') {
+        if (typeof(strNumber) !== 'undefined') {
           strNumber = strNumber.long_name;
           address += strNumber + " ";
         }
@@ -39,7 +39,7 @@ Template.insertContactModal.onRendered(function() {
           return elt.types[0] == "route";
         });
 
-        if(typeof(route) !== 'undefined') {
+        if (typeof(route) !== 'undefined') {
           route = route.long_name;
           address += route;
         }
@@ -62,7 +62,7 @@ Template.insertContactModal.onRendered(function() {
           $("input[name=lng]").val(marker.getPosition().lng());
         });
       }).keypress(function(event) {
-        if(event.which == 13) {
+        if (event.which == 13) {
           $("#address_details").show();
         }
       });
@@ -79,9 +79,9 @@ Template.insertContactModal.helpers({
 
 Template.insertContactModal.events({
   'change #companyId': function() {
-    if($('#companyId').val() != '') {
+    if ($('#companyId').val() != '') {
       $('#addressWrapper').hide();
-    }else {
+    } else {
       $('#addressWrapper').show();
     }
   }

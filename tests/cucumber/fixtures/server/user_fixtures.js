@@ -1,25 +1,43 @@
 Meteor.methods({
 
   createTestTenant: function() {
-    var tenantName = 'Acme Corp',
-      PurchaseOrderPrefix = 'A',
-      PurchaseOrderStartingValue = 1;
+    var tenantName = 'Acme Corp';
 
     Tenants.insert({
       name: tenantName,
       settings: {
-        PurchaseOrderPrefix: PurchaseOrderPrefix,
-        PurchaseOrderStartingValue: PurchaseOrderStartingValue,
         extInfo: {
           company: [],
           contact: [],
-          project: []
+          project: [],
+          product: []
+        },
+        activity: {
+          defaultNumber: 1,
+        },
+        task: {
+          defaultNumber: 1,
+        },
+        company: {
+          defaultNumber: 1,
+        },
+        contact: {
+          defaultNumber: 1,
         },
         opportunity: {
+          defaultNumber: 1,
           stages: []
         },
         project: {
+          defaultNumber: 1,
           types: []
+        },
+        purchaseorder: {
+          defaultPrefix: "",
+          defaultNumber: 1,
+        },
+        product: {
+          defaultNumber: 1,
         }
       },
       stripe: {
@@ -32,25 +50,43 @@ Meteor.methods({
   },
 
   createSecondTenant: function() {
-    var tenantName = 'Acme Corp Rivals',
-      PurchaseOrderPrefix = 'A',
-      PurchaseOrderStartingValue = 1;
+    var tenantName = 'Acme Corp Rivals';
 
     Tenants.insert({
       name: tenantName,
       settings: {
-        PurchaseOrderPrefix: PurchaseOrderPrefix,
-        PurchaseOrderStartingValue: PurchaseOrderStartingValue,
         extInfo: {
           company: [],
           contact: [],
-          project: []
+          project: [],
+          product: []
+        },
+        activity: {
+          defaultNumber: 1,
+        },
+        task: {
+          defaultNumber: 1,
+        },
+        company: {
+          defaultNumber: 1,
+        },
+        contact: {
+          defaultNumber: 1,
         },
         opportunity: {
+          defaultNumber: 1,
           stages: []
         },
         project: {
+          defaultNumber: 1,
           types: []
+        },
+        purchaseorder: {
+          defaultPrefix: "",
+          defaultNumber: 1,
+        },
+        product: {
+          defaultNumber: 1,
         }
       },
       stripe: {
@@ -213,7 +249,7 @@ Meteor.methods({
       Stripe.customers.del(stripeId);
       Tenants.direct.update({
         _id: tenantId
-        }, {
+      }, {
         $unset: {
           'stripe.stripeId': '',
           'stripe.stripeSubs': ''

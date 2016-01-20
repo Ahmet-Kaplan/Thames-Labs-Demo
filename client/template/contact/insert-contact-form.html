@@ -19,6 +19,7 @@
             {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
             {{> afQuickField name="jobtitle"}}
+            <!-- {{> afQuickField name="sequencedIdentifier"}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
@@ -71,6 +72,7 @@
                 {{/if}}
               </div>
             </div>
+            <!-- {{> afQuickField name="sequencedIdentifier"}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary" id="createContact">Create</button>
           {{/autoForm}}

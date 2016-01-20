@@ -1,4 +1,8 @@
 Schemas.Opportunity = new SimpleSchema({
+  sequencedIdentifier: {
+    type: Number,
+    label: "RealTime ID"
+  },
   name: {
     type: String
   },

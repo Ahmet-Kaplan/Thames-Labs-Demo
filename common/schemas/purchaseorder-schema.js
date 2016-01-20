@@ -1,4 +1,13 @@
 Schemas.PurchaseOrder = new SimpleSchema({
+  sequencedIdentifier: {
+    type: String,
+    label: "RealTime ID",
+    defaultValue: function() {
+        var tenant = Tenants.findOne({});
+        var currentValue = tenant.settings.purchaseorder.defaultPrefix + "" + tenant.settings.purchaseorder.defaultNumber;
+        return currentValue;
+      }
+  },
   userId: {
     type: String,
     label: "Requestor"
