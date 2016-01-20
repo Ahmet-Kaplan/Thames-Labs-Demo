@@ -193,14 +193,13 @@ Meteor.methods({
   },
 
   getUserByEmail: function(email) {
-    var result = Meteor.users.findOne({
+    return result = Meteor.users.findOne({
       emails: {
         $elemMatch: {
           address: email
         }
       }
-    }) || false;
-    return result;
+    });
   },
 
   deleteStripeTestCustomer: function() {

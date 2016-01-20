@@ -13,7 +13,7 @@ Feature: Allow users to sign up to the app
 		When I sign up with good details
 		Then I am signed up
     And I should see a "success" toastr
-
+@dev
 	Scenario: A user cannot sign up with bad details
 		When I sign up with bad details
 		Then I am not signed up

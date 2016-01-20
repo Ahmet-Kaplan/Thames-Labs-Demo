@@ -75,11 +75,10 @@ module.exports = function() {
     var result = browser
       .executeAsync(function(done) {
         Meteor.call('getUserByEmail', 'restricted@domain.com', function(err, res) {
-          console.log(res);
           done(res);
         });
       });
-    expect(result.value).toBe(false);
+    expect(result.value).toBe(null);
   })
 
   this.When(/^I add permission "([^"]*)" on "([^"]*)" to a restricted user$/, function(permissionName, entityName) {
