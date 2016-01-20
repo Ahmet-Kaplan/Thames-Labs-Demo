@@ -40,13 +40,24 @@ Feature: Allow users to manage their Companies
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanRead" on "Companies" to a restricted user
-    Then the restricted user should have the "CanReadCompanies" permission
+    Then the user "restricted user" should have the "CanReadCompanies" permission
 
   Scenario: An administrator can remove CanReadCompanies permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
-    Then the restricted user should not have the "CanReadCompanies" permission
+    Then the user "restricted user" should not have the "CanReadCompanies" permission
+
+  Scenario: An administrator can remove CanReadCompanies permission for itself
+    Given I have the "Administrator" permission
+    When I remove permissions on "Companies" for myself
+    Then the user "test user" should not have the "CanReadCompanies" permission
+
+  Scenario: An administrator can add back the CanReadCompanies permission for itself
+    Given I have the "Administrator" permission
+    When I remove permissions on "Companies" for myself
+    And I add permission "CanRead" on "Companies" to myself
+    Then the user "test user" should have the "CanReadCompanies" permission
 
   Scenario: A superadmin user can't visit the companies list
     Given a superadmin exists
@@ -73,13 +84,13 @@ Feature: Allow users to manage their Companies
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanCreate" on "Companies" to a restricted user
-    Then the restricted user should have the "CanCreateCompanies" permission
+    Then the user "restricted user" should have the "CanCreateCompanies" permission
 
   Scenario: An administrator can remove CanCreateCompanies permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
-    Then the restricted user should not have the "CanCreateCompanies" permission
+    Then the user "restricted user" should not have the "CanCreateCompanies" permission
 
 
   #Editing
@@ -102,13 +113,13 @@ Feature: Allow users to manage their Companies
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanEdit" on "Companies" to a restricted user
-    Then the restricted user should have the "CanEditCompanies" permission
+    Then the user "restricted user" should have the "CanEditCompanies" permission
 
   Scenario: An administrator can remove CanEditCompanies permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
-    Then the restricted user should not have the "CanEditCompanies" permission
+    Then the user "restricted user" should not have the "CanEditCompanies" permission
 
 
   #Deleting
@@ -130,13 +141,13 @@ Feature: Allow users to manage their Companies
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanDelete" on "Companies" to a restricted user
-    Then the restricted user should have the "CanDeleteCompanies" permission
+    Then the user "restricted user" should have the "CanDeleteCompanies" permission
 
   Scenario: An administrator can remove CanDeleteCompanies permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
-    Then the restricted user should not have the "CanDeleteCompanies" permission
+    Then the user "restricted user" should not have the "CanDeleteCompanies" permission
 
   #Menu item permissions
   Scenario: A restricted user cannot see the Companies menu item without the correct permission

@@ -50,13 +50,13 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanRead" on "Opportunities" to a restricted user
-    Then the restricted user should have the "CanReadOpportunities" permission
+    Then the user "restricted user" should have the "CanReadOpportunities" permission
 
   Scenario: An administrator can remove CanReadOpportunities permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
-    Then the restricted user should not have the "CanReadOpportunities" permission
+    Then the user "restricted user" should not have the "CanReadOpportunities" permission
 
   Scenario: A superadmin user can't visit the opportunities list
     Given a superadmin exists
@@ -93,13 +93,13 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanCreate" on "Opportunities" to a restricted user
-    Then the restricted user should have the "CanCreateOpportunities" permission
+    Then the user "restricted user" should have the "CanCreateOpportunities" permission
 
   Scenario: An administrator can remove CanCreateOpportunities permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
-    Then the restricted user should not have the "CanCreateOpportunities" permission
+    Then the user "restricted user" should not have the "CanCreateOpportunities" permission
 
 
   #Editing
@@ -124,13 +124,13 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanEdit" on "Opportunities" to a restricted user
-    Then the restricted user should have the "CanEditOpportunities" permission
+    Then the user "restricted user" should have the "CanEditOpportunities" permission
 
   Scenario: An administrator can remove CanEditOpportunities permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
-    Then the restricted user should not have the "CanEditOpportunities" permission
+    Then the user "restricted user" should not have the "CanEditOpportunities" permission
 
 
   #Deleting
@@ -152,13 +152,13 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanDelete" on "Opportunities" to a restricted user
-    Then the restricted user should have the "CanDeleteOpportunities" permission
+    Then the user "restricted user" should have the "CanDeleteOpportunities" permission
 
   Scenario: An administrator can remove CanDeleteOpportunities permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
-    Then the restricted user should not have the "CanDeleteOpportunities" permission
+    Then the user "restricted user" should not have the "CanDeleteOpportunities" permission
 
 
   #Menu item permissions

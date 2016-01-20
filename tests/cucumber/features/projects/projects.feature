@@ -42,13 +42,13 @@ Feature: Allow users to manage their Projects
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanRead" on "Projects" to a restricted user
-    Then the restricted user should have the "CanReadProjects" permission
+    Then the user "restricted user" should have the "CanReadProjects" permission
 
   Scenario: An administrator can remove CanReadProjects permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
-    Then the restricted user should not have the "CanReadProjects" permission
+    Then the user "restricted user" should not have the "CanReadProjects" permission
 
   Scenario: A superadmin user can't visit the projects list
     Given a superadmin exists
@@ -86,13 +86,13 @@ Feature: Allow users to manage their Projects
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanCreate" on "Projects" to a restricted user
-    Then the restricted user should have the "CanCreateProjects" permission
+    Then the user "restricted user" should have the "CanCreateProjects" permission
 
   Scenario: An administrator can remove CanCreateProjects permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
-    Then the restricted user should not have the "CanCreateProjects" permission
+    Then the user "restricted user" should not have the "CanCreateProjects" permission
 
   #Editing
   Scenario: A user can edit a project
@@ -116,13 +116,13 @@ Feature: Allow users to manage their Projects
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanEdit" on "Projects" to a restricted user
-    Then the restricted user should have the "CanEditProjects" permission
+    Then the user "restricted user" should have the "CanEditProjects" permission
 
   Scenario: An administrator can remove CanEditProjects permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
-    Then the restricted user should not have the "CanEditProjects" permission
+    Then the user "restricted user" should not have the "CanEditProjects" permission
 
   #Deleting
   Scenario: A user can delete a project
@@ -145,13 +145,13 @@ Feature: Allow users to manage their Projects
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanDelete" on "Projects" to a restricted user
-    Then the restricted user should have the "CanDeleteProjects" permission
+    Then the user "restricted user" should have the "CanDeleteProjects" permission
 
   Scenario: An administrator can remove CanDeleteProjects permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
-    Then the restricted user should not have the "CanDeleteProjects" permission
+    Then the user "restricted user" should not have the "CanDeleteProjects" permission
 
   #Menu item permissions
   Scenario: A restricted user cannot see the Projects menu item without the correct permission

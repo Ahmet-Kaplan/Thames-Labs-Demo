@@ -44,13 +44,13 @@ Feature: Allow users to manage their Tasks
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanRead" on "Tasks" to a restricted user
-    Then the restricted user should have the "CanReadTasks" permission
+    Then the user "restricted user" should have the "CanReadTasks" permission
 
   Scenario: An administrator can remove CanReadTasks permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Tasks" from a restricted user
-    Then the restricted user should not have the "CanReadTasks" permission
+    Then the user "restricted user" should not have the "CanReadTasks" permission
 
   Scenario: A superadmin user can't visit the tasks list
     Given a superadmin exists
@@ -94,13 +94,13 @@ Feature: Allow users to manage their Tasks
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanCreate" on "Tasks" to a restricted user
-    Then the restricted user should have the "CanCreateTasks" permission
+    Then the user "restricted user" should have the "CanCreateTasks" permission
 
   Scenario: An administrator can remove CanCreateTasks permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Tasks" from a restricted user
-    Then the restricted user should not have the "CanCreateTasks" permission
+    Then the user "restricted user" should not have the "CanCreateTasks" permission
 
   #Editing
   Scenario: A user can edit a task
@@ -125,13 +125,13 @@ Feature: Allow users to manage their Tasks
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanEdit" on "Tasks" to a restricted user
-    Then the restricted user should have the "CanEditTasks" permission
+    Then the user "restricted user" should have the "CanEditTasks" permission
 
   Scenario: An administrator can remove CanEditTasks permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Tasks" from a restricted user
-    Then the restricted user should not have the "CanEditTasks" permission
+    Then the user "restricted user" should not have the "CanEditTasks" permission
 
   #Deleting
   Scenario: A user can delete a task
@@ -154,13 +154,13 @@ Feature: Allow users to manage their Tasks
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanDelete" on "Tasks" to a restricted user
-    Then the restricted user should have the "CanDeleteTasks" permission
+    Then the user "restricted user" should have the "CanDeleteTasks" permission
 
   Scenario: An administrator can remove CanDeleteTasks permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Tasks" from a restricted user
-    Then the restricted user should not have the "CanDeleteTasks" permission
+    Then the user "restricted user" should not have the "CanDeleteTasks" permission
 
   #Menu item permissions
   Scenario: A restricted user cannot see the Tasks menu item without the correct permission

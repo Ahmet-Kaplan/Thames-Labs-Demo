@@ -128,7 +128,7 @@ module.exports = function() {
   this.When(/^I click "([^"]*)"$/, function(id) {
     browser.waitForExist(id, 5000);
     browser.waitForVisible(id, 5000);
-    browser.scroll(id, 0, -60);
+    browser.scroll(id, 0, 200);
     browser.click(id);
   });
 
@@ -230,6 +230,10 @@ module.exports = function() {
   this.When(/^I click "([^"]*)" and select the option "([^"]*)"$/, function(menu, option) {
     browser.selectByVisibleText(menu, option);
   });
+
+  this.When(/^I scroll to "([^"]*)"$/, function(selector) {
+    browser.scroll(selector, 0, 200);
+  })
 
   /***************************************************
                           THEN
@@ -362,4 +366,11 @@ module.exports = function() {
       expect(elements).toContain(desiredText);
     }
   });
+    
+  this.Then(/^I cannot click "([^"]*)"$/, function(selector) {
+    browser.waitForExist(selector, 5000);
+    browser.waitForVisible(selector, 5000);
+    browser.scroll(selector, 0, 200);
+    expect(browser.isEnabled(selector)).toBe(false);
+  })
 };

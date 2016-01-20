@@ -51,34 +51,68 @@ module.exports = function() {
     expect(result.value).toBe(false);
   });
 
-  this.Then(/^the restricted user should have the "([^"]*)" permission$/, function(permissionName) {
+  this.Then(/^the user "([^"]*)" should have the "([^"]*)" permission$/, function(userName, permissionName) {
     var result = browser
-      .executeAsync(function(permissionName, done) {
-        Meteor.call('checkUserHasPermission', 'restricted user', permissionName, function(err, res) {
+      .executeAsync(function(userName, permissionName, done) {
+        Meteor.call('checkUserHasPermission', userName, permissionName, function(err, res) {
           done(res);
         });
-      }, permissionName);
+      }, userName, permissionName);
     expect(result.value).toBe(true);
   });
 
-  this.Then(/^the restricted user should not have the "([^"]*)" permission$/, function(permissionName) {
+  this.Then(/^the user "([^"]*)" should not have the "([^"]*)" permission$/, function(userName, permissionName) {
     var result = browser
-      .executeAsync(function(permissionName, done) {
-        Meteor.call('checkUserHasPermission', 'restricted user', permissionName, function(err, res) {
+      .executeAsync(function(userName, permissionName, done) {
+        Meteor.call('checkUserHasPermission', userName, permissionName, function(err, res) {
           done(res);
         });
-      }, permissionName);
+      }, userName, permissionName);
     expect(result.value).toBe(false);
   });
+
+  this.Then(/^the restricted user should not exist in the database$/, function() {
+    var result = browser
+      .executeAsync(function(done) {
+        Meteor.call('getUserByEmail', 'restricted@domain.com', function(err, res) {
+          console.log(res);
+          done(res);
+        });
+      });
+    expect(result.value).toBe(false);
+  })
 
   this.When(/^I add permission "([^"]*)" on "([^"]*)" to a restricted user$/, function(permissionName, entityName) {
     browser.url(url.resolve(process.env.ROOT_URL, "/admin"));
     browser.waitForExist("#userAdminPanelExpander", 5000);
     browser.waitForVisible("#userAdminPanelExpander", 5000);
     browser.click("#userAdminPanelExpander");
-    browser.waitForExist("#btnEditTenantUserPermissions", 5000);
-    browser.waitForVisible("#btnEditTenantUserPermissions", 5000);
-    browser.click("#btnEditTenantUserPermissions");
+
+    //The admin is listed as well, need to select the last child which is the restricted user
+    browser.waitForExist("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions", 5000);
+    browser.waitForVisible("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions", 5000);
+    browser.scroll("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions", 0, 200);
+    browser.click("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions");
+    browser.waitForExist(".modal-dialog", 5000);
+    browser.waitForVisible(".modal-dialog", 5000);
+    browser.waitForExist("#"+ entityName + "PermissionSelector", 5000);
+    browser.waitForVisible("#"+ entityName + "PermissionSelector", 5000);
+    browser.click("#"+ entityName + "PermissionSelector");
+    browser.selectByValue("#"+ entityName + "PermissionSelector", permissionName);
+    browser.click('#btnUpdateTenantUserPermissions');
+  });
+
+  this.When(/^I add permission "([^"]*)" on "([^"]*)" to myself$/, function(permissionName, entityName) {
+    browser.url(url.resolve(process.env.ROOT_URL, "/admin"));
+    browser.waitForExist("#userAdminPanelExpander", 5000);
+    browser.waitForVisible("#userAdminPanelExpander", 5000);
+    browser.click("#userAdminPanelExpander");
+
+    //The admin is listed as first child
+    browser.waitForExist("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions", 5000);
+    browser.waitForVisible("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions", 5000);
+    browser.scroll("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions", 0, 200);
+    browser.click("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
     browser.waitForExist("#"+ entityName + "PermissionSelector", 5000);
@@ -93,9 +127,32 @@ module.exports = function() {
     browser.waitForExist("#userAdminPanelExpander", 5000);
     browser.waitForVisible("#userAdminPanelExpander", 5000);
     browser.click("#userAdminPanelExpander");
-    browser.waitForExist("#btnEditTenantUserPermissions", 5000);
-    browser.waitForVisible("#btnEditTenantUserPermissions", 5000);
-    browser.click("#btnEditTenantUserPermissions");
+
+    //The admin is listed as well, need to select the last child which is the restricted user
+    browser.waitForExist("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions", 5000);
+    browser.waitForVisible("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions", 5000);
+    browser.scroll("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions", 0, 200);
+    browser.click("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions");
+    browser.waitForExist(".modal-dialog", 5000);
+    browser.waitForVisible(".modal-dialog", 5000);
+    browser.waitForExist("#"+ entityName + "PermissionSelector", 5000);
+    browser.waitForVisible("#"+ entityName + "PermissionSelector", 5000);
+    browser.click("#"+ entityName + "PermissionSelector");
+    browser.selectByValue("#"+ entityName + "PermissionSelector", "Restricted");
+    browser.click('#btnUpdateTenantUserPermissions');
+  });
+
+  this.When(/^I remove permissions on "([^"]*)" for myself$/, function(entityName) {
+    browser.url(url.resolve(process.env.ROOT_URL, "/admin"));
+    browser.waitForExist("#userAdminPanelExpander", 5000);
+    browser.waitForVisible("#userAdminPanelExpander", 5000);
+    browser.click("#userAdminPanelExpander");
+
+    //The admin is listed as first child
+    browser.waitForExist("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions", 5000);
+    browser.waitForVisible("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions", 5000);
+    browser.scroll("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions", 0, 200);
+    browser.click("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
     browser.waitForExist("#"+ entityName + "PermissionSelector", 5000);
