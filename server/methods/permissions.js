@@ -20,10 +20,6 @@ Meteor.methods({
     if (user) {
       var returnedValue = 'Restricted';
 
-      if (Roles.userIsInRole(userId, "Administrator")) {
-        return 'CanDelete' + permissionName;
-      }
-
       if (Roles.userIsInRole(userId, 'CanRead' + permissionName)) {
         returnedValue = 'CanRead' + permissionName;
       }

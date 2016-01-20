@@ -229,7 +229,7 @@ Meteor.methods({
   },
 
   getUserByEmail: function(email) {
-    return Meteor.users.findOne({
+    return result = Meteor.users.findOne({
       emails: {
         $elemMatch: {
           address: email

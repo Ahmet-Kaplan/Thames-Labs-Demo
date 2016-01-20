@@ -231,6 +231,10 @@ module.exports = function() {
     browser.selectByVisibleText(menu, option);
   });
 
+  this.When(/^I scroll to "([^"]*)"$/, function(selector) {
+    browser.scroll(selector, 0, 200);
+  })
+
   /***************************************************
                           THEN
   ***************************************************/
@@ -362,4 +366,11 @@ module.exports = function() {
       expect(elements).toContain(desiredText);
     }
   });
+
+  this.Then(/^I cannot click "([^"]*)"$/, function(selector) {
+    browser.waitForExist(selector, 5000);
+    browser.waitForVisible(selector, 5000);
+    browser.scroll(selector, 0, 200);
+    expect(browser.isEnabled(selector)).toBe(false);
+  })
 };

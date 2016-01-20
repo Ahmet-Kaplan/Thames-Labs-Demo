@@ -29,13 +29,13 @@ Feature: Allow users to manage their Products
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanRead" on "Products" to a restricted user
-    Then the restricted user should have the "CanReadProducts" permission
+    Then the user "restricted user" should have the "CanReadProducts" permission
 
   Scenario: An administrator can remove CanReadProducts permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Products" from a restricted user
-    Then the restricted user should not have the "CanReadProducts" permission
+    Then the user "restricted user" should not have the "CanReadProducts" permission
 
   Scenario: A superadmin user can't visit the products list
     Given a superadmin exists
@@ -82,13 +82,13 @@ Feature: Allow users to manage their Products
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanCreate" on "Products" to a restricted user
-    Then the restricted user should have the "CanCreateProducts" permission
+    Then the user "restricted user" should have the "CanCreateProducts" permission
 
   Scenario: An administrator can remove CanCreateProducts permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Products" from a restricted user
-    Then the restricted user should not have the "CanCreateProducts" permission
+    Then the user "restricted user" should not have the "CanCreateProducts" permission
 
 
   #Editing
@@ -111,13 +111,13 @@ Feature: Allow users to manage their Products
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanEdit" on "Products" to a restricted user
-    Then the restricted user should have the "CanEditProducts" permission
+    Then the user "restricted user" should have the "CanEditProducts" permission
 
   Scenario: An administrator can remove CanEditProducts permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Products" from a restricted user
-    Then the restricted user should not have the "CanEditProducts" permission
+    Then the user "restricted user" should not have the "CanEditProducts" permission
 
 
   #Deleting
@@ -139,13 +139,13 @@ Feature: Allow users to manage their Products
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanDelete" on "Products" to a restricted user
-    Then the restricted user should have the "CanDeleteProducts" permission
+    Then the user "restricted user" should have the "CanDeleteProducts" permission
 
   Scenario: An administrator can remove CanDeleteProducts permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Products" from a restricted user
-    Then the restricted user should not have the "CanDeleteProducts" permission
+    Then the user "restricted user" should not have the "CanDeleteProducts" permission
 
   #Menu item permissions
   Scenario: A restricted user cannot see the Products menu item without the correct permission

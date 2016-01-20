@@ -17,7 +17,7 @@ Feature: Allow administrators to give users permissions
     And I click "#btnEditTenantUser"
     And I click "#cbUserIsTenantAdministrator"
     And I click "#btnUpdateTenantUser"
-    Then the restricted user should have the "Administrator" permission
+    Then the user "restricted user" should have the "Administrator" permission
 
   Scenario: An administrator can see the correct menu items
     Given a user exists
@@ -64,6 +64,55 @@ Feature: Allow administrators to give users permissions
     And I set text field "email" to "user.name@domain.com"
     And I submit the "addNewUser" form
     Then I should see a success toastr
+@dev
+  Scenario: An administrator can delete a user
+    Given a user exists
+    And I am a logged in user
+    And I have the "Administrator" permission
+    And a restricted user exists
+    When I click "#general-dropdown"
+    And I click "#Administration"
+    And I click "#userAdminPanelExpander"
+    And I click "#user-list > .list-group-item:last-child #tenantRemoveUser"
+    And I click confirm on the modal
+    Then I should see a modal with title "User removed"
+    When I click confirm on the modal
+    Then the restricted user should not exist in the database
+
+  Scenario: An administrator cannot delete its own account
+    Given a user exists
+    And I am a logged in user
+    And I have the "Administrator" permission
+    When I click "#general-dropdown"
+    And I click "#Administration"
+    And I click "#userAdminPanelExpander"
+    Then I cannot click "#tenantRemoveUser"
+    And the user "test user" should have the "Administrator" permission
+
+  Scenario: An Administrator can set another user to Administrator
+    Given a user exists
+    And I am a logged in user
+    And I have the "Administrator" permission
+    And a restricted user exists
+    When I click "#general-dropdown"
+    And I click "#Administration"
+    And I click "#userAdminPanelExpander"
+    And I click "#user-list > .list-group-item:last-child #btnEditTenantUserPermissions"
+    And I click "#cbUserIsTenantAdministrator"
+    And I click "#btnUpdateTenantUserPermissions"
+    Then the user "restricted user" should have the "Administrator" permission
+
+  Scenario: An Administrator cannot unset its own 'Administrator' status
+    Given a user exists
+    And I am a logged in user
+    And I have the "Administrator" permission
+    When I click "#general-dropdown"
+    And I click "#Administration"
+    And I click "#userAdminPanelExpander"
+    And I click "#btnEditTenantUserPermissions"
+    And I click "#cbUserIsTenantAdministrator"
+    And I click "#btnUpdateTenantUserPermissions"
+    Then the user "test user" should have the "Administrator" permission
 
   Scenario: A normal user can't see the 'Administration' button
     Given a user exists

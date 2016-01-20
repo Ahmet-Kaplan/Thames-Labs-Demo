@@ -21,6 +21,11 @@ Meteor.methods({
       if (Partitioner.getUserGroup(userId) !== Partitioner.getUserGroup(this.userId)) {
         throw new Meteor.Error(403, 'Admins may only remove users from their company');
       }
+
+      //Check if Admin tries to remove itself
+      if(userId === this.userId){
+        throw new Meteor.Error(403, 'You cannot remove your own account. Please contact us to do so.');
+      }
     }
     Grouping.remove({
       _id: userId

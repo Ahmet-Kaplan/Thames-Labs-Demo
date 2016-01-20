@@ -125,7 +125,7 @@ Meteor.methods({
       });
 
       var data = {
-        "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Value": value.toFixed(2)
       }
       return data;
     });
@@ -147,7 +147,7 @@ Meteor.methods({
       if (projData.length) {
 
         var data = {
-          "Value": (value / projData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          "Value": (value / projData.length).toFixed(2)
         }
       }
       return data;
@@ -189,10 +189,9 @@ Meteor.methods({
           value += parseFloat(od.value);
         }
       });
-      parseFloat(value).toFixed(2)
       if (oppData.length) {
         var data = {
-          "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          "Value": value.toFixed(2)
         }
       }
       return data;
@@ -213,7 +212,7 @@ Meteor.methods({
       });
       if (oppData.length) {
         var data = {
-          "Value": (value / oppData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          "Value": (value / oppData.length).toFixed(2)
         }
       }
       return data;
@@ -242,7 +241,7 @@ Meteor.methods({
         }
       });
       var data = {
-        "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Value": value.toFixed(2)
       }
       return data;
     });
@@ -258,7 +257,7 @@ Meteor.methods({
       });
       if (productData.length) {
         var data = {
-          "Value": (value / productData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          "Value": (value / productData.length).toFixed(2)
         }
       }
       return data;
