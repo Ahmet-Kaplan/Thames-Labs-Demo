@@ -666,7 +666,7 @@ Migrations.add({
 });
 
 Migrations.add({
-  version: 19,
+  version: 20,
   name: "Add Default Permissions to all Administrators",
   up: function() {
     ServerSession.set('maintenance', true);
@@ -708,7 +708,7 @@ Migrations.add({
       Meteor.users.find({}).forEach(function(user) {
         if(Roles.userIsInRole(user._id, 'Administrator')) {
           permissions.forEach(function(perm) {
-            Roles.addUsersToRoles(uers._id, perm);
+            Roles.addUsersToRoles(user._id, perm);
           });
         }
       });
