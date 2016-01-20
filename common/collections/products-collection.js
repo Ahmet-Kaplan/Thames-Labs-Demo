@@ -117,7 +117,7 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
       if (options.search.props.sequencedIdentifier) {
         selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
       }
-      
+
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }

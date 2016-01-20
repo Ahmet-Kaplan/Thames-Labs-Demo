@@ -23,7 +23,7 @@ Meteor.methods({
       }
 
       //Check if Admin tries to remove itself
-      if(userId === this.userId){
+      if(userId === this.userId) {
         throw new Meteor.Error(403, 'You cannot remove your own account. Please contact us to do so.');
       }
     }
