@@ -180,3 +180,9 @@ Template.setPayingTenant.events({
     });
   }
 });
+
+Template.generatingDemoData.helpers({
+  currentStep: function() {
+    return ServerSession.get('demoDataProgress') * 100;
+  }
+})
