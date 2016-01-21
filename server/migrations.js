@@ -664,3 +664,55 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 20,
+  name: "Add Default Permissions to all Administrators",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    var permissions = [
+      "CanReadContacts",
+      "CanReadCompanies",
+      "CanCreateCompanies",
+      "CanEditCompanies",
+      "CanDeleteCompanies",
+      "CanCreateContacts",
+      "CanEditContacts",
+      "CanDeleteContacts",
+      "CanReadProjects",
+      "CanCreateProjects",
+      "CanEditProjects",
+      "CanDeleteProjects",
+      "CanReadProducts",
+      "CanCreateProducts",
+      "CanEditProducts",
+      "CanDeleteProducts",
+      "CanReadTasks",
+      "CanCreateTasks",
+      "CanEditTasks",
+      "CanDeleteTasks",
+      "CanReadPurchaseOrders",
+      "CanCreatePurchaseOrders",
+      "CanEditPurchaseOrders",
+      "CanDeletePurchaseOrders",
+      "CanReadEventLog",
+      "CanCreateEventLog",
+      "CanEditEventLog",
+      "CanDeleteEventLog",
+      "CanReadOpportunities",
+      "CanCreateOpportunities",
+      "CanEditOpportunities",
+      "CanDeleteOpportunities"
+    ];
+    Partitioner.directOperation(function() {
+      Meteor.users.find({}).forEach(function(user) {
+        if(Roles.userIsInRole(user._id, 'Administrator')) {
+          permissions.forEach(function(perm) {
+            Roles.addUsersToRoles(user._id, perm);
+          });
+        }
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});

@@ -64,7 +64,7 @@ Feature: Allow administrators to give users permissions
     And I set text field "email" to "user.name@domain.com"
     And I submit the "addNewUser" form
     Then I should see a success toastr
-@dev
+
   Scenario: An administrator can delete a user
     Given a user exists
     And I am a logged in user
