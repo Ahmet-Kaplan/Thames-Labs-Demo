@@ -182,7 +182,11 @@ Template.setPayingTenant.events({
 });
 
 Template.generatingDemoData.helpers({
+  totalStep: function() {
+    return ServerSession.get('demoDataProgress').total;
+  },
   currentStep: function() {
-    return ServerSession.get('demoDataProgress') * 100;
+    var demoData = ServerSession.get('demoDataProgress');
+    return demoData.completed / demoData.total * 100;
   }
 })

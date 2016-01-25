@@ -5,10 +5,10 @@ Meteor.methods({
     }
     ServerSession.set('populatingDemoData', val);
   },
-  setProgress: function(step){
+  setProgress: function(step, total){
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       return;
     }
-    ServerSession.set('demoDataProgress', step/100);
+    ServerSession.set('demoDataProgress', {completed: step, total: total});
   }
 });

@@ -13,7 +13,9 @@ Meteor.methods({
 
     if (Meteor.isServer) {
       Meteor.call('setDemoDataFlag', true);
-      Meteor.call('setProgress', 0);
+
+      var loopNumber = _.random(20, 40)
+      Meteor.call('setProgress', 0, loopNumber);
 
       faker.locale = "en_GB";
       Partitioner.bindGroup(groupId, function() {
@@ -122,7 +124,9 @@ Meteor.methods({
         };
 
         // generate fake customer data
-        _.each(_.range(100), function(step) {
+        _.each(_.range(loopNumber), function(step) {
+          Meteor.call('setProgress', step + 1, loopNumber);
+
 
           var usersArray = Meteor.users.find({}).fetch();
           var randomIndex = Math.floor(Math.random() * usersArray.length);
@@ -344,7 +348,6 @@ Meteor.methods({
 
           });
         
-        Meteor.call('setProgress', step);
         });
 
       });
