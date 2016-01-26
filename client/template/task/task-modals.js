@@ -50,6 +50,10 @@ Template.insertNewTask.helpers({
     } else {
       return this.entity_type.charAt(0).toUpperCase() + this.entity_type.slice(1);
     }
+  },
+  dueDateValue: function() {
+    //this.dueDate is a momentjs object
+    return this.dueDate.toString();
   }
 });
 

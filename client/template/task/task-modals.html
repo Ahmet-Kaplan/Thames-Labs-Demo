@@ -12,7 +12,8 @@
           {{#autoForm collection="Tasks" id="newTaskForm" type="insert" }}
           {{> afQuickField name="title" id="taskTitle"}}
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
-          {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
+          {{dueDate}}
+          {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker" defaultDate="2016-01-26T14:03:00.000Z"}}
           {{> afQuickField name="isAllDay"}}
           {{#if hasDueDate}}
             {{> afQuickField name="remindMe"}}
