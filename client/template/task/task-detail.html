@@ -2,8 +2,8 @@
   {{#with taskData}} {{setPageTitle "Task - " title }}
   <div class="row">
     <div class="col-md-12">
-      <br>
-        <h4 class="pull-left">
+      <h4 class="entity-title">Task {{> watchlistAdmin entityData=this collection="tasks"}}</h4>
+      <h4 class="pull-left">
         <span class="task-completed">
         {{#if completed}}
           <span class="fa-stack task-green">
@@ -17,9 +17,9 @@
           </span>
         {{/if}}
         </span>
-        </h4>
+        </h4>    
       <h1 class="entity-name">
-        {{title}}  <span><h4>{{> watchlistAdmin entityData=this collection="tasks"}}</h4></span>
+        {{title}}
       </h1> 
 
       {{> tagInput tags=tags collection='tasks' entityId=_id permissionToEdit='CanEditTasks'}}

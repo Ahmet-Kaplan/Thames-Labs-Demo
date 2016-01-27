@@ -24,6 +24,26 @@ exportFromSearchToCSV = function(collectionName) {
       '.csv'
     ].join('');
     var cleanedResults = results.map((record) => {
+
+      if (record.date) {
+        record.date = moment(record.date).format('DD/MM/YY');
+      }
+      if (record.estCloseDate) {
+        record.estCloseDate = moment(record.estCloseDate).format('DD/MM/YY');
+      }
+      if (record.createdAt) {
+        record.createdAt = moment(record.createdAt).format('DD/MM/YY');
+      }
+      if (record.dueDate) {
+        record.dueDate = moment(record.dueDate).format('DD/MM/YY');
+      }
+      if (record.orderDate) {
+        record.orderDate = moment(record.orderDate).format('DD/MM/YY');
+      }
+      if (record.completedAt) {
+        record.completedAt = moment(record.completedAt).format('DD/MM/YY');
+      }
+
       return _.omit(record, [
         '_id',
         'createdBy',
