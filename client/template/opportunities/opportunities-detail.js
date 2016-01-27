@@ -82,7 +82,7 @@ Template.opportunityDetail.helpers({
   overallValue: function() {
     return _.sum(this.items, function(item) {
       var subValue = item.quantity * item.value;
-      if(!isNaN(subValue)) return subValue;
+      if (!isNaN(subValue)) return subValue;
     })
   },
   company: function() {
@@ -326,7 +326,7 @@ Template.opportunityDetail.events({
       }
 
       var date = moment().format("MMM Do YYYY");
-
+      var oppId = this._id;
       var opp = Opportunities.findOne({
         _id: this._id
       });
@@ -361,6 +361,20 @@ Template.opportunityDetail.events({
         type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       });
       saveAs(blob, file.name);
+
+
+      Activities.insert({
+        type: "Note",
+        notes: Meteor.user().profile.name + " generated a new quotation.",
+        createdAt: new Date(),
+        activityTimestamp: new Date(),
+        primaryEntityId: oppId,
+        primaryEntityType: "opportunities",
+        primaryEntityDisplayData: opp.name,
+        opportunityId: oppId,
+        createdBy: Meteor.userId()
+      });
+
     }.bind(this);
     reader.readAsArrayBuffer(file);
   },
@@ -387,6 +401,7 @@ Template.opportunityDetail.events({
       }
 
       var date = moment().format("MMM Do YYYY");
+      var oppId = this._id;
 
       var opp = Opportunities.findOne({
         _id: this._id
@@ -470,6 +485,19 @@ Template.opportunityDetail.events({
         });
       };
       toastr.success("Your file will be downloaded shortly", "Processing...");
+
+      Activities.insert({
+        type: "Note",
+        notes: Meteor.user().profile.name + " generated a new quotation.",
+        createdAt: new Date(),
+        activityTimestamp: new Date(),
+        primaryEntityId: oppId,
+        primaryEntityType: "opportunities",
+        primaryEntityDisplayData: opp.name,
+        opportunityId: oppId,
+        createdBy: Meteor.userId()
+      });
+
       xhr.send(data);
     }.bind(this);
     reader.readAsArrayBuffer(file);
@@ -512,7 +540,7 @@ Template.opportunityItem.helpers({
   },
   totalValue: function() {
     var value = (this.data.quantity * this.data.value).toFixed(2);
-    if(!isNaN(value)) return value;
+    if (!isNaN(value)) return value;
   }
 });
 

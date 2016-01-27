@@ -19,8 +19,8 @@
         </span>
         </h4>
       <h1 class="entity-name">
-        {{title}}
-      </h1>
+        {{title}}  <span><h4>{{> watchlistAdmin entityData=this collection="tasks"}}</h4></span>
+      </h1> 
 
       {{> tagInput tags=tags collection='tasks' entityId=_id permissionToEdit='CanEditTasks'}}
 

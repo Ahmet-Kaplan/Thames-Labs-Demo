@@ -224,11 +224,15 @@
               {{> afQuickField name="opportunityId" type="hidden" value=currentEntityId}}
             {{/if}}
 
-            {{#unless equals currentEntity 'user'}}
+            {{#if equals currentEntity 'user'}}
               {{> afQuickField name="primaryEntityType" type="hidden" value=currentEntity}}
               {{> afQuickField name="primaryEntityId" type="hidden" value=currentEntityId}}
               {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=task.title}}
-            {{/unless}}
+            {{else}}
+              {{> afQuickField name="primaryEntityType" type="hidden" value='tasks'}}
+              {{> afQuickField name="primaryEntityId" type="hidden" value=currentUser}}
+              {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=task.title}}
+            {{/if}}
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}

@@ -95,6 +95,21 @@ Template.watchedEntityWidget.helpers({
             });
           }
 
+          if (data.collection === "tasks") {
+            Meteor.subscribe("activityByTaskId", data.id);
+
+            Activities.find({
+              taskId: data.id
+            }).map(function(activityRecord) {
+              activityRecord.linkPath = "task";
+              activityRecord.faIcon = "check";
+              activityRecord.userName = Meteor.users.findOne({
+                _id: activityRecord.createdBy
+              }).profile.name;
+              actArray.push(activityRecord);
+            });
+          }
+
           if (data.collection === "purchaseorders") {
             Meteor.subscribe("activityByPurchaseOrderId", data.id);
 
