@@ -51,15 +51,6 @@ Template.importContactMapper.helpers({
   ContactImportInProgress: function() {
     return ServerSession.get('ContactImportInProgress');
   },
-  importStatus: function() {
-    return Template.instance().importInProgress.get();
-  },
-  totalToImport: function() {
-    return this.dataSet.data.length;
-  },
-  importedSoFar: function() {
-    return Template.instance().totalImported.get();
-  },
   requiredDataInputs: function() {
     var lnkData = this.dataSet;
     var html = "";
@@ -114,6 +105,11 @@ Template.importContactMapper.events({
 
     var createMissingCompanies = $('#cbAutoCreateCompanies').prop('checked');
     var createExtInfo = $('#cbIgnoreExtInfo').prop('checked');
+
+    if (companyColumn === "" && createMissingCompanies == true) {
+      toastr.warning('Please specify the column to use as the name when creating missing companies.');
+      return;
+    }
 
     var removalIndex = -1;
     if (forenameColumn !== "") {
@@ -209,7 +205,7 @@ Template.importContactMapper.events({
       fields.splice(fieldIndex, 1);
     });
 
-      Meteor.call('import.contacts', rows, fields, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, createMissingCompanies, createExtInfo, function(err, res) {
+      Meteor.call('import.contacts', rows, fields, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, createMissingCompanies, createExtInfo, Meteor.bindEnvironment(function(err, res) {
        if (err) throw new Meteor.Error(err);
 
       if (res.length === 0) {

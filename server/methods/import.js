@@ -49,7 +49,8 @@ Meteor.methods({
                   if (!company && createMissingCompanies === true) {
                     var companyId = Companies.insert({
                       name: row[companyColumn],
-                      createdBy: userId
+                      createdBy: userId,
+                      sequencedIdentifier: tenant.settings.company.defaultNumber
                     });
                     company = Companies.findOne({
                       _id: companyId
@@ -117,7 +118,9 @@ Meteor.methods({
                     }
                   }
 
-                  Contacts.update(inserted, {
+                  Contacts.update({
+                    _id: contactId
+                  }, {
                     $set: {
                       extendedInformation: cfMaster
                     }
