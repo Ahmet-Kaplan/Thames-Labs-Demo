@@ -16,6 +16,7 @@ exportFromSearchToCSV = function(collectionName) {
     if (err) {
       throw new Meteor.Error('500', err);
     }
+
     var filename = [
       'realtimecrm-',
       collectionName,
@@ -23,7 +24,38 @@ exportFromSearchToCSV = function(collectionName) {
       moment().format("MMM-Do-YY"),
       '.csv'
     ].join('');
+
+    var parsedColumns = [];
+    var omittedColumns = [
+      '_id',
+      'createdBy',
+      'companyId',
+      'contactId',
+      'opportunityId',
+      'projectId',
+      'purchaseOrderId',
+      'taskId',
+      'productId',
+      'currentStageId',
+      'items',
+      'userId',
+      'supplierCompanyId',
+      'supplierContactId',
+      'primaryEntityId',
+      'documents'
+    ];
+
     var cleanedResults = results.map((record) => {
+
+      for (var property in record) {
+        if (record.hasOwnProperty(property)) {
+          if (!_.contains(omittedColumns, property)) {
+            if (!_.contains(parsedColumns, property)) {
+              parsedColumns.push(property);
+            }
+          }
+        }
+      }
 
       if (record.date) {
         record.date = moment(record.date).format('DD/MM/YY');
@@ -44,25 +76,14 @@ exportFromSearchToCSV = function(collectionName) {
         record.completedAt = moment(record.completedAt).format('DD/MM/YY');
       }
 
-      return _.omit(record, [
-        '_id',
-        'createdBy',
-        'companyId',
-        'contactId',
-        'opportunityId',
-        'projectId',
-        'purchaseOrderId',
-        'taskId',
-        'productId',
-        'currentStageId',
-        'items',
-        'userId',
-        'supplierCompanyId',
-        'supplierContactId',
-        'primaryEntityId'
-      ]);
+      return _.omit(record, omittedColumns);
     });
-    var fileData = Papa.unparse(cleanedResults);
+
+    var fileData = Papa.unparse({
+      fields: parsedColumns,
+      data: cleanedResults
+    });
+
     var blob = new Blob([fileData], {
       type: "text/csv;charset=utf-8"
     });
