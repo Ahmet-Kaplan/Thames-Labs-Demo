@@ -1,66 +1,82 @@
 Meteor.methods({
+  'import.contacts': function(rows, fields, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, createMissingCompanies, createExtInfo) {
+    var totalCount = rows.length;
+    var count = 1;
 
-  'import.AddNewContact': function(row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, localCF, createMissingCompanies, createExtInfo) {
-    ServerSession.set("ContactImportInProgress", true);
+    var errors = [];
 
     var user = Meteor.users.findOne({
       _id: this.userId
     });
 
     if (user) {
-      var userId = user._id;
+      var tenant = Tenants.findOne({
+        _id: user.group
+      });
 
-      return Partitioner.bindUserGroup(userId, function() {
-        if (row[forenameColumn] !== '' && row[surnameColumn] !== '' && row[forenameColumn] !== 'NULL' && row[surnameColumn] !== 'NULL') {
-          var existing = Contacts.find({
-            forename: row[forenameColumn],
-            surname: row[surnameColumn]
-          }).fetch().count();
+      if (tenant) {
+        var userId = user._id;
+        Partitioner.bindGroup(tenant._id, function() {
+          _.each(rows, function(row) {
+            console.log('Importing record ' + count + ' of ' + totalCount);
+            count += 1;
 
-          if (existing === 0) {
-
-            var company;
-
-            if (row[companyColumn] !== '' && row[companyColumn] !== 'NULL') {
-              company = Companies.findOne({
-                name: row[companyColumn]
-              });
-
-              if (!company && createMissingCompanies === true) {
-                var companyId = Companies.insert({
-                  name: row[companyColumn],
-                  createdBy: userId
-                });
-                company = Companies.findOne({
-                  _id: companyId
-                });
+            var localCF = [];
+            _.each(fields, function(lf) {
+              if (lf !== "") {
+                var cfo = {
+                  refName: lf.replace(/ExtInfo/g, ' '),
+                  refVal: lf
+                }
+                localCF.push(cfo);
               }
-            }
+            });
 
-            Contacts.insert({
+            if (row[forenameColumn] !== '' && row[surnameColumn] !== '' && row[forenameColumn] !== 'NULL' && row[surnameColumn] !== 'NULL') {
+              var existing = Contacts.find({
                 forename: row[forenameColumn],
-                surname: row[surnameColumn],
-                email: row[emailColumn],
-                phone: (phoneColumn !== "" ? row[phoneColumn] : ""),
-                mobile: (mobileColumn !== "" ? row[mobileColumn] : ""),
-                jobtitle: (jobTitleColumn !== "" ? row[jobTitleColumn] : ""),
-                companyId: (company ? company._id : undefined),
-                address: (addressColumn !== "" ? row[addressColumn] : ""),
-                city: (cityColumn !== "" ? row[cityColumn] : ""),
-                county: (countyColumn !== "" ? row[countyColumn] : ""),
-                postcode: (postcodeColumn !== "" ? row[postcodeColumn] : ""),
-                country: (countryColumn !== "" ? row[countryColumn] : ""),
-                createdBy: userId
-              },
-              function(err, inserted) {
-                if (err) {
-                  ServerSession.set("ContactImportInProgress", false);
-                  return err;
+                surname: row[surnameColumn]
+              }).fetch().count();
+
+              if (existing === 0) {
+                var company;
+
+                if (row[companyColumn] !== '' && row[companyColumn] !== 'NULL') {
+                  company = Companies.findOne({
+                    name: row[companyColumn]
+                  });
+
+                  if (!company && createMissingCompanies === true) {
+                    var companyId = Companies.insert({
+                      name: row[companyColumn],
+                      createdBy: userId
+                    });
+                    company = Companies.findOne({
+                      _id: companyId
+                    });
+                  }
                 }
 
-                if (inserted) {
+                var contactId = Contacts.insert({
+                  forename: row[forenameColumn],
+                  surname: row[surnameColumn],
+                  email: row[emailColumn],
+                  phone: (phoneColumn !== "" ? row[phoneColumn] : ""),
+                  mobile: (mobileColumn !== "" ? row[mobileColumn] : ""),
+                  jobtitle: (jobTitleColumn !== "" ? row[jobTitleColumn] : ""),
+                  companyId: (company ? company._id : undefined),
+                  address: (addressColumn !== "" ? row[addressColumn] : ""),
+                  city: (cityColumn !== "" ? row[cityColumn] : ""),
+                  county: (countyColumn !== "" ? row[countyColumn] : ""),
+                  postcode: (postcodeColumn !== "" ? row[postcodeColumn] : ""),
+                  country: (countryColumn !== "" ? row[countryColumn] : ""),
+                  createdBy: userId,
+                  sequencedIdentifier: tenant.settings.contact.defaultNumber
+                });
+
+                if (contactId) {
                   var contact = Contacts.findOne({
-                    _id: inserted
+                    _id: contactId
                   });
                   var customFields = contact.extendedInformation;
                   var cfMaster = [];
@@ -106,27 +122,33 @@ Meteor.methods({
                       extendedInformation: cfMaster
                     }
                   });
+                } else {
+                  errors.push['Contact could not be inserted into database: ' + row[forenameColumn] + ' ' + row[surnameColumn]];
                 }
+              } else {
+                errors.push['A contact with the name "' + row[forenameColumn] + ' ' + row[surnameColumn] + '" already exists.'];
+              }
 
-              });
-            ServerSession.set("ContactImportInProgress", false);
-            return "OK";
-          } else {
-            ServerSession.set("ContactImportInProgress", false);
-            return ('A contact with the name "' + row[forenameColumn] + ' ' + row[surnameColumn] + '" already exists.');
-          }
-        } else {
-          ServerSession.set("ContactImportInProgress", false);
-          return 'Contact forename/surname cannot be blank.';
-        }
-      });
+            } else {
+              errors.push['A contact forename/surname cannot be blank'];
+            }
+
+          });
+        });
+
+      } else {
+        errors.push['User tenant not found'];
+      }
     } else {
-      ServerSession.set("ContactImportInProgress", false);
-      return 'User not found.';
+      errors.push['User not found'];
     }
+
+    return errors;
   },
 
   'import.companies': function(rows, fields, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray, createExtInfo) {
+    var totalCount = rows.length;
+    var count = 1;
 
     var errors = [];
 
@@ -144,6 +166,8 @@ Meteor.methods({
         Partitioner.bindGroup(tenant._id, function() {
 
           _.each(rows, function(row) {
+            console.log('Importing record ' + count + ' of ' + totalCount);
+            count += 1;
 
             var localCF = [];
             _.each(fields, function(lf) {
@@ -163,11 +187,12 @@ Meteor.methods({
 
               if (existing === 0) {
                 var formattedWebsite = row[websiteColumn];
-                // if (websiteColumn) {
-                //   var url = row[websiteColumn];
-                //   var rx = new RegExp(/^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);
-                //   formattedWebsite = (rx.test(url) === false ? 'http://' + url : url);                  
-                // }
+
+                if (websiteColumn) {
+                  var url = row[websiteColumn];
+                  var rx = new RegExp(/(^$)|((https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?)/);
+                  formattedWebsite = (rx.test(url) === false ? '' : url);
+                }
 
                 var companyId = Companies.insert({
                   name: row[nameColumn],
@@ -256,6 +281,7 @@ Meteor.methods({
     }
 
     return errors;
-  }
+  },
+
 
 });

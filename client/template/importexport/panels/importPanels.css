@@ -1,3 +1,17 @@
-.requiredField{
-  color: #ff3d00
+.requiredField {
+	color: #ff3d00
+}
+#confirm-mapping > .fa-spinner {
+	-webkit-animation-name: rotateImportSpinner;
+	-webkit-animation-duration: 0.8s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+}
+@-webkit-keyframes rotateImportSpinner {
+	from {
+		-webkit-transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(359deg);
+	}
 }

@@ -10,9 +10,7 @@
     <input type="file" id="company-data-upload" style="display:none;">
   </ul>
   {{#if CompanyImportInProgress}}
-    <li>
-      <span class="nav-btn-info">Import in progress, do not leave this page whilst this message is displayed.</span>
-    </li>
+      <span class="label label-sm label-info">Import in progress, do not leave this page whilst this message is displayed.</span>
   {{/if}}
 </template>
 
@@ -137,7 +135,7 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn btn-primary pull-right" id="confirm-mapping">Proceed with import</button>
+          <button class="btn btn-primary pull-right" id="confirm-mapping">{{#unless CompanyImportInProgress}}Proceed with import{{else}}<i class="fa fa-fw fa-spinner"></i> Importing, please wait...{{/unless}}</button>
         </div>
 
       </div>

@@ -1,3 +1,9 @@
+Template.companyDataManagement.helpers({
+  CompanyImportInProgress: function() {
+    return Session.get('CompanyImportInProgress');
+  },
+});
+
 Template.companyDataManagement.events({
   'click #company-template-help': function(event) {
     event.preventDefault();
