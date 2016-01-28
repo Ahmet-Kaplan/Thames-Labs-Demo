@@ -9,6 +9,12 @@
     <li><a href="#" id="contact-template-help">How does this work?</a></li>
     <input type="file" id="contact-data-upload" style="display:none;">
   </ul>
+  
+  {{#if ContactImportInProgress}}
+    <li>
+      <span class="nav-btn-info">Import in progress, do not leave this page whilst this message is displayed.</span>
+    </li>
+  {{/if}}
 </template>
 
 <template name="importContactMapper">

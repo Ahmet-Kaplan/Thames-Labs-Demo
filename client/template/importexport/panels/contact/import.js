@@ -46,6 +46,9 @@ Template.importContactMapper.onCreated(function() {
 });
 
 Template.importContactMapper.helpers({
+  ContactImportInProgress: function() {
+    return ServerSession.get('ContactImportInProgress');
+  },
   importStatus: function() {
     return Template.instance().importInProgress.get();
   },
