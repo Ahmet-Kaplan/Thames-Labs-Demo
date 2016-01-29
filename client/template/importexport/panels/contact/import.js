@@ -49,7 +49,7 @@ Template.importContactMapper.onRendered(function() {
 
 Template.importContactMapper.helpers({
   ContactImportInProgress: function() {
-    return ServerSession.get('ContactImportInProgress');
+    return Session.get('ContactImportInProgress');
   },
   requiredDataInputs: function() {
     var lnkData = this.dataSet;
@@ -188,7 +188,7 @@ Template.importContactMapper.events({
       }
     }
 
-     var rows = this.dataSet.data;
+    var rows = this.dataSet.data;
     var elems = $('#extInfoSpecifiers').find('.extInfoOption');
     var cfArray = [];
     _.each(elems, function(ex) {
@@ -205,8 +205,10 @@ Template.importContactMapper.events({
       fields.splice(fieldIndex, 1);
     });
 
-      Meteor.call('import.contacts', rows, fields, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, createMissingCompanies, createExtInfo, Meteor.bindEnvironment(function(err, res) {
-       if (err) throw new Meteor.Error(err);
+    Session.set("ContactImportInProgress", true);
+
+    Meteor.call('import.contacts', rows, fields, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, createMissingCompanies, createExtInfo, Meteor.bindEnvironment(function(err, res) {
+      if (err) throw new Meteor.Error(err);
 
       if (res.length === 0) {
         Session.set("ContactImportInProgress", false);

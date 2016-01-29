@@ -58,10 +58,20 @@ Meteor.methods({
                   }
                 }
 
+                var verifiedEmail = row[emailColumn];
+
+                if (emailColumn) {
+                  var email = row[emailColumn];
+                  var rx = new RegExp(/(^$)|([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/);
+                  verifiedEmail = (rx.test(email) === false ? '' : email);
+                }
+
+                console.log(row[forenameColumn], row[surnameColumn], verifiedEmail);
+
                 var contactId = Contacts.insert({
                   forename: row[forenameColumn],
                   surname: row[surnameColumn],
-                  email: row[emailColumn],
+                  email: verifiedEmail,
                   phone: (phoneColumn !== "" ? row[phoneColumn] : ""),
                   mobile: (mobileColumn !== "" ? row[mobileColumn] : ""),
                   jobtitle: (jobTitleColumn !== "" ? row[jobTitleColumn] : ""),
@@ -150,9 +160,6 @@ Meteor.methods({
   },
 
   'import.companies': function(rows, fields, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray, createExtInfo) {
-    var totalCount = rows.length;
-    var count = 1;
-
     var errors = [];
 
     var user = Meteor.users.findOne({
@@ -169,7 +176,6 @@ Meteor.methods({
         Partitioner.bindGroup(tenant._id, function() {
 
           _.each(rows, function(row) {
-            console.log('Importing record ' + count + ' of ' + totalCount);
             count += 1;
 
             var localCF = [];
