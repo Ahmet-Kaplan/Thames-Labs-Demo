@@ -82,7 +82,7 @@ Template.opportunityDetail.helpers({
   overallValue: function() {
     return _.sum(this.items, function(item) {
       var subValue = item.quantity * item.value;
-      if(!isNaN(subValue)) return subValue;
+      if (!isNaN(subValue)) return subValue;
     })
   },
   company: function() {
@@ -480,6 +480,14 @@ Template.opportunityDetail.events({
   'click #template-upload-link-docx': function() {
     document.getElementById('template-upload-docx').click();
   },
+  'click #template-google-drive-link': function() {
+    documentAPI.googleChooser(function(err, res) {
+      if (err) throw new Meteor.Error(err);
+      _.each(res, (file) => {
+        console.log(file);
+      });
+    });
+  },
   'click #opp-template-help': function(event) {
     event.preventDefault();
     Modal.show('oppHelpModal');
@@ -512,7 +520,7 @@ Template.opportunityItem.helpers({
   },
   totalValue: function() {
     var value = (this.data.quantity * this.data.value).toFixed(2);
-    if(!isNaN(value)) return value;
+    if (!isNaN(value)) return value;
   }
 });
 
