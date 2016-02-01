@@ -70,9 +70,14 @@
         </div>
         <ul class="list-group">
           {{#each contacts}}
-          <a href="{{pathFor route='contact' id=_id}}" class="list-group-item" data-toggle="tooltip" data-placement="bottom" title="Navigate to this contact">
+          <a href="{{pathFor route='contact' id=_id}}" class="ContactDataRow list-group-item" data-toggle="tooltip" data-placement="bottom" title="Navigate to this contact">
             <i class="fa fa-fw fa-user"></i> {{forename}} {{surname}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            
+            <span class="pull-right">
+              {{> tagBadges tags=tags index=index pullRight=true}}
+            </span>              
+                
           </a>
           {{else}}
           <li class="list-group-item">No contacts added</li>

@@ -44,7 +44,7 @@ Meteor.methods({
             source: logSource,
             level: logLevel,
             message: logMessage,
-            user: user._id,
+            user: user.profile.name,
             entityType: logEntityType,
             entityId: logEntityId
           });

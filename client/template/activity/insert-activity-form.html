@@ -12,12 +12,12 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
+            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
               {{else}}
               {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
             {{/if}}
-            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
 
             {{> afQuickField name="companyId" type="hidden" value=company._id id="companyId"}}
@@ -50,12 +50,12 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertContactActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
+            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
               {{else}}
               {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
             {{/if}}
-            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="companyId" type="hidden" value=company._id}}
             {{> afQuickField name="contactId" type="hidden" value=contact._id}}
@@ -86,12 +86,12 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertProjectActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
+            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
               {{else}}
               {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
             {{/if}}
-            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
 
             {{> afQuickField name="companyId" type="hidden" value=project.companyId}}
@@ -124,12 +124,12 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertPurchaseOrderActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
+            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
               {{else}}
               {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
             {{/if}}
-            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
 
             {{> afQuickField name="companyId" type="hidden" value=purchaseOrder.supplierCompanyId}}
@@ -162,12 +162,12 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertOpportunityActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
+            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
               {{else}}
               {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
             {{/if}}
-            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="companyId" type="hidden" value=opportunity.companyId}}
             {{> afQuickField name="contactId" type="hidden" value=opportunity.contactId}}
@@ -199,12 +199,12 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertTaskActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
+            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
               {{else}}
               {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
             {{/if}}
-            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
             {{> afQuickField name="taskId" type="hidden" value=task._id}}
 
@@ -224,11 +224,15 @@
               {{> afQuickField name="opportunityId" type="hidden" value=currentEntityId}}
             {{/if}}
 
-            {{#unless equals currentEntity 'user'}}
+            {{#if equals currentEntity 'user'}}
               {{> afQuickField name="primaryEntityType" type="hidden" value=currentEntity}}
               {{> afQuickField name="primaryEntityId" type="hidden" value=currentEntityId}}
               {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=task.title}}
-            {{/unless}}
+            {{else}}
+              {{> afQuickField name="primaryEntityType" type="hidden" value='tasks'}}
+              {{> afQuickField name="primaryEntityId" type="hidden" value=currentUser}}
+              {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=task.title}}
+            {{/if}}
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}

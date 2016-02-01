@@ -32,7 +32,8 @@ Collections.auditLog.index = AuditLogIndex = new EasySearch.Index({
         'date': 1,
         'level': 1,
         'source': 1,
-        'message': 1
+        'message': 1,
+        'user': 1
       };
     },
     selector: function(searchObject, options, aggregation) {

@@ -72,7 +72,7 @@ Template.updateCustomField.events({
           cfMaster.push(settings);
 
         } else {
-          var selectorName = "#extInfosTypeOptions";
+          var selectorName = safeName + "TypeOptions";
           var newType = $(selectorName).val();
 
           switch (newType) {

@@ -5,10 +5,11 @@ Template.extInfo.helpers({
 });
 
 Template.extInfo.events({
-  'change #extInfosTypeOptions': function() {
+  'change .TypeSelectionMenu': function(event, template) {
+
     var index = this.name;
     var safeName = '#extInfos' + index.replace(/ /g, '');
-    var selectorName = "#extInfosTypeOptions";
+    var selectorName = safeName + "TypeOptions";
     var newType = $(selectorName).val();
 
     switch (newType) {
@@ -48,20 +49,24 @@ Template.extInfo.events({
   }
 });
 
+Template.extInfo.onCreated(function() {
+  $.getScript('/vendor/medium/medium-editor.min.js');
+});
+
 Template.extInfo.onRendered(function() {
   this.$('.datetimepicker').datetimepicker();
+
   var index = this.data.name;
   var attr = this.data.props;
 
   var safeName = '#extInfos' + index.replace(/ /g, '');
-  var selectorName = "#extInfosTypeOptions";
-  $(selectorName).val('text');
+  var selectorName = safeName + "TypeOptions";
+  $(selectorName).val(attr.dataType);
+
+  console.log(selectorName, attr.dataType);
 
   switch (attr.dataType) {
     case 'text':
-      // if (attr.isGlobal) {
-      $(selectorName).val('text');
-      // };
       $(safeName + "TextValue").val(attr.dataValue);
       $(safeName + "TextInputArea").show();
       $(safeName + "AdvTextInputArea").hide();
@@ -69,10 +74,6 @@ Template.extInfo.onRendered(function() {
       $(safeName + "DateInputArea").hide();
       break;
     case 'advtext':
-
-      // if (attr.isGlobal) {
-      $(selectorName).val('advtext');
-      // };
       $(safeName + "AdvTextValue").html(attr.dataValue);
       $(safeName + "TextInputArea").hide();
       $(safeName + "AdvTextInputArea").show();
@@ -88,9 +89,6 @@ Template.extInfo.onRendered(function() {
       });
       break;
     case 'checkbox':
-      // if (attr.isGlobal) {
-      $(selectorName).val('checkbox');
-      // };
       $(safeName + "BooleanValue").prop('checked', attr.dataValue);
       $(safeName + "TextInputArea").hide();
       $(safeName + "AdvTextInputArea").hide();
@@ -98,9 +96,6 @@ Template.extInfo.onRendered(function() {
       $(safeName + "DateInputArea").hide();
       break;
     case 'date':
-      // if (attr.isGlobal) {
-      $(selectorName).val('date');
-      // };
       $(safeName + "DateValue").val(attr.dataValue);
       $(safeName + "TextInputArea").hide();
       $(safeName + "AdvTextInputArea").hide();
