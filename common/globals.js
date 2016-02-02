@@ -1,3 +1,23 @@
+IsTenantPro = function(tenantId) {
+  if (tenantId) {
+    var tenant = Tenants.findOne({
+      _id: tenantId
+    });
+    if (tenant.stripe.paying === true || tenant.stripe.freeUnlimited === true) {
+      return true;
+    }
+  }
+  return false;
+};
+
+TenantUserCount = function(tenantId) {
+  if (tenantId) {
+    return Meteor.users.find({
+      group: tenantId
+    }).count();
+  }
+};
+
 GetDisallowedPermissions = function(userId) {
   var collectionsToFilter = [];
   var perms = ['companies', 'contacts', 'opportunities', 'projects', 'tasks', 'purchaseorders'];
@@ -140,3 +160,6 @@ permissionGenerator = function(operation, collectionName) {
 
 //Soft limit for records
 MAX_RECORDS = 50;
+
+//Free plan user limit
+MAX_FREE_USERS = 2;
