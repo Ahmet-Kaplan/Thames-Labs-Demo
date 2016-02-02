@@ -196,19 +196,8 @@ Template.stripeAdmin.helpers({
   totalRecords: function() {
     return Tenants.findOne({}).stripe.totalRecords || 0;
   },
-  limitRecords: function() {
-    return (Tenants.findOne({}).stripe.paying === true ? 'unlimited' : MAX_RECORDS);
-  },
   totalUsers: function() {
     return Meteor.users.find({group: Meteor.user().group}).count();
-  },
-  limitReached: function() {
-    var tenantStripe = Tenants.findOne({}).stripe
-    if(tenantStripe.paying || tenantStripe.freeUnlimited) {
-      return false;
-    } else {
-      return tenantStripe.totalRecords > MAX_RECORDS;
-    }
   },
   upcomingInvoice: function() {
     return Template.instance().upcomingInvoice.get();

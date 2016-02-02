@@ -41,12 +41,8 @@
       </div>
       <div class="row">
         <div class="col-xs-5"><strong>Records</strong></div>
-        <div class="col-xs-7{{#if limitReached}} text-danger{{/if}}">{{totalRecords}} of {{limitRecords}}</div>
+        <div class="col-xs-7">{{totalRecords}}</div>
       </div>
-        {{#if limitReached}}
-          <br />You have reach the maximum number of records and your account is now locked.
-          Please upgrade to enjoy the full functionalities of RealTimeCRM
-        {{/if}}
       </div>
       {{#if hasStripeAccount}}
       <div class="well well-sm">

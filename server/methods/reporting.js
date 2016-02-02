@@ -149,6 +149,10 @@ Meteor.methods({
         var data = {
           "Value": (value / projData.length).toFixed(2)
         }
+        return data;
+      }
+      var data = {
+        "Value": "0.00"
       }
       return data;
     });
@@ -193,6 +197,10 @@ Meteor.methods({
         var data = {
           "Value": value.toFixed(2)
         }
+        return data;
+      }
+      var data = {
+        "Value": "0.00"
       }
       return data;
     });
@@ -214,6 +222,10 @@ Meteor.methods({
         var data = {
           "Value": (value / oppData.length).toFixed(2)
         }
+        return data;
+      }
+      var data = {
+        "Value": "0.00"
       }
       return data;
     });
@@ -259,6 +271,10 @@ Meteor.methods({
         var data = {
           "Value": (value / productData.length).toFixed(2)
         }
+        return data;
+      }
+      var data = {
+        "Value": "0.00"
       }
       return data;
     });

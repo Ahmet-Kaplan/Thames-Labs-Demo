@@ -13,7 +13,11 @@ Template.tenancyAdminPage.helpers({
   globalCompanyCustomFields: function() {
     var data = [];
     var user = Meteor.users.findOne(Meteor.userId());
+    if (!user) return;
+
     var tenant = Tenants.findOne(user.group);
+    if (!tenant) return;
+
 
     var fields = tenant.settings.extInfo.company;
     if (fields) {
@@ -31,7 +35,10 @@ Template.tenancyAdminPage.helpers({
   globalContactCustomFields: function() {
     var data = [];
     var user = Meteor.users.findOne(Meteor.userId());
+    if (!user) return;
+
     var tenant = Tenants.findOne(user.group);
+    if (!tenant) return;
 
     var fields = tenant.settings.extInfo.contact;
     if (fields) {
@@ -49,7 +56,11 @@ Template.tenancyAdminPage.helpers({
   globalProjectCustomFields: function() {
     var data = [];
     var user = Meteor.users.findOne(Meteor.userId());
+    if (!user) return;
+
     var tenant = Tenants.findOne(user.group);
+    if (!tenant) return;
+
 
     var fields = tenant.settings.extInfo.project;
     if (fields) {
@@ -67,7 +78,11 @@ Template.tenancyAdminPage.helpers({
   globalProductCustomFields: function() {
     var data = [];
     var user = Meteor.users.findOne(Meteor.userId());
+    if (!user) return;
+
     var tenant = Tenants.findOne(user.group);
+    if (!tenant) return;
+
 
     var fields = tenant.settings.extInfo.product;
     if (fields) {
@@ -98,7 +113,7 @@ Template.tenancyAdminPage.events({
 
   'click #addNewUserAccount': function() {
     var tenantId = Meteor.user().group;
-     if (!IsTenantPro(tenantId) && TenantUserCount(tenantId) === MAX_FREE_USERS) {
+    if (!IsTenantPro(tenantId) && TenantUserCount(tenantId) === MAX_FREE_USERS) {
       toastr.warning('To add more users, you must first upgrade your account to the PRO plan.');
       return;
     }
