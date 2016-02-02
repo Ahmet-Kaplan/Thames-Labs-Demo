@@ -29,13 +29,7 @@
             {{/if}}
             {{#unless isInRole 'superadmin'}}
               {{#if isInRole 'Administrator'}}
-              {{#if limitReached}}
-              <li>
-                <a href="{{pathFor route='administration'}}">
-                  <span class="nav-btn-info">Limit reached, Upgrade now!</span>
-                </a>
-              </li>
-              {{/if}}
+             
               {{/if}}
             <li class="dropdown" id="global-search">
               <a href="#" class="dropdown-toggle" id="toggle-search"><i class="fa fa-search"></i></a>
@@ -93,13 +87,7 @@
   {{#if loggedIn}}
   <div id="id-view-sidemenu">
     <ul class="panel-group" id="menu">
-      {{#unless isInRole 'superadmin'}} {{#if isInRole 'Administrator'}} {{#if limitReached}}
-      <li class="panel-title nav-btn-info visible-xs">
-        <a href="{{pathFor route='administration'}}" class="dismiss-on-click">
-            Limit reached, Upgrade now!
-          </a>
-      </li>
-      {{/if}} {{/if}}
+      {{#unless isInRole 'superadmin'}} 
       <li class="panel-title {{isActiveRoute 'dashboard'}}">
         <a href='/' class="dismiss-on-click" id="menuLinkDashboard">
           <i class="fa fa-fw fa-home"></i> Dashboard

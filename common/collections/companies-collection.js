@@ -192,8 +192,6 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 
-var checkRecordsNumber = Collections.helpers.checkRecordsNumber;
-
 Companies.before.insert(function(userId, doc) {
   if (doc.website) {
     var currentWebsite = doc.website;
@@ -224,9 +222,6 @@ Companies.before.insert(function(userId, doc) {
     doc.sequencedIdentifier = Tenants.findOne({}).settings.company.defaultNumber;
   }
 
-  if (!checkRecordsNumber()) {
-    return false;
-  }
   return true;
 });
 

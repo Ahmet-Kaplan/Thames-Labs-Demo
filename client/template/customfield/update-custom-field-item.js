@@ -63,8 +63,6 @@ Template.extInfo.onRendered(function() {
   var selectorName = safeName + "TypeOptions";
   $(selectorName).val(attr.dataType);
 
-  console.log(selectorName, attr.dataType);
-
   switch (attr.dataType) {
     case 'text':
       $(safeName + "TextValue").val(attr.dataValue);

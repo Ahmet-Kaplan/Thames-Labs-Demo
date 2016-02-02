@@ -158,8 +158,5 @@ permissionGenerator = function(operation, collectionName) {
   return ['Can', _.startCase(operation), permission.value].join('');
 };
 
-//Soft limit for records
-MAX_RECORDS = 50;
-
 //Free plan user limit
 MAX_FREE_USERS = 2;

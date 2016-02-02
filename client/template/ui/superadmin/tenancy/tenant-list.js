@@ -55,10 +55,6 @@ Template.tenant.helpers({
   isPayingTenant: function() {
     return this.stripe.paying;
   },
-  limitReached: function() {
-    if (this.stripe.paying || this.stripe.freeUnlimited) return false;
-    return this.stripe.totalRecords > MAX_RECORDS;
-  },
   generationInProgress: function() {
     return ServerSession.get('populatingDemoData');
   }
@@ -76,7 +72,7 @@ Template.tenant.events({
     event.preventDefault();
     
     var tenantId = this._id;
-    console.log(tenantId);
+    
     if (!IsTenantPro(tenantId) && TenantUserCount(tenantId) === MAX_FREE_USERS) {
       toastr.warning('To add more users, this tenant must first upgrade to the PRO plan.');
       return;

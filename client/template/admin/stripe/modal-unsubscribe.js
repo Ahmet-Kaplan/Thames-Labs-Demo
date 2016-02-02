@@ -1,9 +1,3 @@
-Template.stripeUnsubscribe.helpers({
-  limitReached: function() {
-  return Tenants.findOne({}).totalRecords > MAX_RECORDS;
-  }
-});
-
 Template.stripeUnsubscribe.events({
   'click #unsubscribe': function() {
     event.preventDefault();

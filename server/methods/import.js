@@ -18,7 +18,6 @@ Meteor.methods({
         var userId = user._id;
         Partitioner.bindGroup(tenant._id, function() {
           _.each(rows, function(row) {
-            console.log('Importing record ' + count + ' of ' + totalCount);
             count += 1;
 
             var localCF = [];
@@ -65,8 +64,6 @@ Meteor.methods({
                   var rx = new RegExp(/(^$)|([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/);
                   verifiedEmail = (rx.test(email) === false ? '' : email);
                 }
-
-                console.log(row[forenameColumn], row[surnameColumn], verifiedEmail);
 
                 var contactId = Contacts.insert({
                   forename: row[forenameColumn],
