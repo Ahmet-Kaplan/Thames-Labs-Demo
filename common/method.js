@@ -49,7 +49,7 @@ Meteor.methods({
           }
         });
 
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < MAX_FREE_USERS; i++) {
           var userId = Accounts.createUser({
             email: faker.internet.email().toLowerCase(),
             password: 'password',

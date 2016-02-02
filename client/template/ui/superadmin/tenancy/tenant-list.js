@@ -45,7 +45,7 @@ Template.tenant.helpers({
     return this.stripe.totalRecords;
   },
   showDemoDataButton: function() {
-    if(Meteor.isDevelopment) return true;
+    if (Meteor.isDevelopment) return true;
     if (Meteor.users.find({
         group: this._id
       }).count() > 0) return false;
@@ -74,6 +74,14 @@ Template.tenantList.events({
 Template.tenant.events({
   "click #btnAddNewTenantUser": function(event, template) {
     event.preventDefault();
+    
+    var tenantId = this._id;
+    console.log(tenantId);
+    if (!IsTenantPro(tenantId) && TenantUserCount(tenantId) === MAX_FREE_USERS) {
+      toastr.warning('To add more users, this tenant must first upgrade to the PRO plan.');
+      return;
+    }
+
     Modal.show('addTenantUser', this);
   },
   "click #btnDeleteTenant": function(event, template) {

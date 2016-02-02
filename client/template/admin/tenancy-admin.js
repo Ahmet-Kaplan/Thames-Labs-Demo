@@ -97,6 +97,11 @@ Template.tenancyAdminPage.events({
   },
 
   'click #addNewUserAccount': function() {
+    var tenantId = Meteor.user().group;
+     if (!IsTenantPro(tenantId) && TenantUserCount(tenantId) === MAX_FREE_USERS) {
+      toastr.warning('To add more users, you must first upgrade your account to the PRO plan.');
+      return;
+    }
     Modal.show('addNewUser', this);
   },
 
