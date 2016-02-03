@@ -7,6 +7,12 @@ AutoForm.hooks({
         return;
       }
 
+      if (!IsTenantPro(tenantId)) {
+        var userId = this.insertDoc._id;
+        Roles.addUsersToRoles(userId, defaultPermissionsList);
+        Roles.addUsersToRoles(userId, 'Administrator');
+      }
+
       Modal.hide();
       if (Tenants.findOne({}).stripe.paying) {
         bootbox.alert({

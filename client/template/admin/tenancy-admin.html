@@ -132,7 +132,7 @@
     <div class="row">
       <div class="col-md-3">{{profile.name}}
       </div>
-      <div class="col-md-5"></div>
+      <div class="col-md-3 col-md-offset-1"></div>
       <div class="col-md-4">
         <div class="btn-group btn-group-justified pull-right" role="group">
 
@@ -142,12 +142,16 @@
               Settings
             </button>
           </div>
+
+          {{#if isProTenant}}
           <div class="btn-group" role="group">
             <button class="btn btn-info btn-xs" id="btnEditTenantUserPermissions" type="button">
               <i class="fa fa-fw fa-pencil"></i>
               Permissions
             </button>
           </div>
+          {{/if}}
+
           <div class="btn-group" role="group">
             <button class="btn btn-danger btn-xs" disabled="{{#if isSelf}}disabled{{/if}}" id="tenantRemoveUser" type="button">
               <i class="fa fa-fw fa-times"></i>
