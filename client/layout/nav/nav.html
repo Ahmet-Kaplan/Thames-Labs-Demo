@@ -167,13 +167,15 @@
           <i class="fa fa-fw fa-barcode"></i> Products
         </a>
       </li>
-      {{/if}} {{#if isInRole 'CanReadPurchaseOrders'}}
+      {{/if}} 
+      
+      {{#if isProTenant}}{{#if isInRole 'CanReadPurchaseOrders'}}
       <li class="panel-title {{isActiveRoute regex='purchaseOrders|purchaseOrder'}}">
         <a href='/purchaseorders' class="dismiss-on-click" id="menuLinkPurchaseOrders">
           <i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders
         </a>
       </li>
-      {{/if}} {{#if isInRole 'CanReadEventLog'}}
+      {{/if}}{{/if}} {{#if isInRole 'CanReadEventLog'}}
       <li class="panel-title {{isActiveRoute 'events'}}">
         <a href='/events' class="dismiss-on-click" id="menuLinkEventLog">
           <i class="fa fa-fw fa-book"></i> Event Log

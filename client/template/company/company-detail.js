@@ -107,6 +107,10 @@ Template.companyDetail.events({
 });
 
 Template.companyDetail.helpers({
+  isProTenant: function() {
+    var user = Meteor.user();
+    return IsTenantPro(user.group);
+  },
   companyData: function() {
     var companyId = FlowRouter.getParam('id');
     var company = Companies.findOne({

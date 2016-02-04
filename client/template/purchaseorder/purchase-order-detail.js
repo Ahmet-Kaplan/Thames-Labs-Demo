@@ -1,5 +1,10 @@
 Template.purchaseOrderDetail.onCreated(function() {
   this.autorun( () => {
+    if (!IsTenantPro(Meteor.user().group)) {
+      toastr.warning('To access Purchase Orders, please upgrade to the PRO plan.');
+      FlowRouter.go('/');
+    }
+
     var purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
     if (purchaseOrder) {
       this.subscribe('companyById', purchaseOrder.supplierCompanyId);

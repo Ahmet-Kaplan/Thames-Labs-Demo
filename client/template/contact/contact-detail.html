@@ -70,7 +70,9 @@
           {{/each}}
         </ul>
       </div>
-      {{/if}} {{#if isInRole 'CanReadPurchaseOrders'}}
+      {{/if}} 
+      {{#if isProTenant}}
+      {{#if isInRole 'CanReadPurchaseOrders'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
           Purchase Orders{{#if isInRole 'CanCreatePurchaseOrders'}}
@@ -86,6 +88,7 @@
           {{/each}}
         </ul>
       </div>
+      {{/if}}
       {{/if}}
 
 {{> documentContainer collectionName="contacts" id=this._id permissionRequired="CanEditContacts"}}
