@@ -7,6 +7,11 @@ Template.tenancyAdminPage.onCreated(function() {
 });
 
 Template.tenancyAdminPage.helpers({
+
+  isProTenant: function() {
+    var user = Meteor.user();
+    return IsTenantPro(user.group);
+  },
   tenantUsers: function() {
     return Meteor.users.find({});
   },
@@ -149,7 +154,7 @@ Template.adminAreaUser.helpers({
   isSelf: function() {
     return this._id === Meteor.userId();
   },
-  isProTenant: function(){
+  isProTenant: function() {
     var user = Meteor.user();
     return IsTenantPro(user.group);
   }
