@@ -274,6 +274,12 @@ router.route('/tasks/:id', {
 });
 
 router.route('/events', {
+  triggersEnter: [function(context, redirect) {
+    if (!IsTenantPro(Meteor.user().group)) {
+      toastr.warning('To access the Event Log view, please upgrade to the PRO plan.');
+      redirect('/');
+    }
+  }],
   name: 'events',
   action: function() {
     layout.render('appLayout', {
