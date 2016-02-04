@@ -1,6 +1,11 @@
 Template.events.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
+    if (!IsTenantPro(Meteor.user().group)) {
+      toastr.warning('To access the Event Log view, please upgrade to the PRO plan.');
+      FlowRouter.go('/');
+    }
+
     redirectWithoutPermission(Meteor.userId(), 'CanReadEventLog');
   });
 });

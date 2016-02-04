@@ -169,19 +169,23 @@
       </li>
       {{/if}} 
       
-      {{#if isProTenant}}{{#if isInRole 'CanReadPurchaseOrders'}}
-      <li class="panel-title {{isActiveRoute regex='purchaseOrders|purchaseOrder'}}">
-        <a href='/purchaseorders' class="dismiss-on-click" id="menuLinkPurchaseOrders">
-          <i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders
-        </a>
-      </li>
-      {{/if}}{{/if}} {{#if isInRole 'CanReadEventLog'}}
-      <li class="panel-title {{isActiveRoute 'events'}}">
-        <a href='/events' class="dismiss-on-click" id="menuLinkEventLog">
-          <i class="fa fa-fw fa-book"></i> Event Log
-        </a>
-      </li>
-      {{/if}} {{/unless}} {{#if isInRole 'superadmin'}}
+      {{#if isProTenant}}
+        {{#if isInRole 'CanReadPurchaseOrders'}}
+          <li class="panel-title {{isActiveRoute regex='purchaseOrders|purchaseOrder'}}">
+            <a href='/purchaseorders' class="dismiss-on-click" id="menuLinkPurchaseOrders">
+              <i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders
+            </a>
+          </li>
+        {{/if}}{{#if isInRole 'CanReadEventLog'}}
+          <li class="panel-title {{isActiveRoute 'events'}}">
+            <a href='/events' class="dismiss-on-click" id="menuLinkEventLog">
+              <i class="fa fa-fw fa-book"></i> Event Log
+            </a>
+          </li>
+        {{/if}}
+      {{/if}}  
+
+      {{/unless}} {{#if isInRole 'superadmin'}}
       <li class="panel-title {{isActiveRoute 'tenants'}}">
         <a href="/tenants" class="dismiss-on-click">
           <i class="fa fa-fw fa-archive"></i> Tenants

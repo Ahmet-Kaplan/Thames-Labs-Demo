@@ -454,6 +454,8 @@ Meteor.methods({
 });
 
 logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
+  if (!IsTenantPro(Meteor.user().group)) return;
+
   if (Meteor.isServer) {
     Meteor.call('addEventToAuditLog', logLevel, logMessage, ((typeof logEntityType === 'undefined') ? undefined : logEntityType), ((typeof logEntityId === 'undefined') ? undefined : logEntityId), 'client', Guid.raw());
   }
