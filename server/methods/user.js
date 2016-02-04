@@ -128,6 +128,14 @@ Meteor.methods({
       }
     });
 
+    var admin = Meteor.users.findOne({
+      _id: adminId
+    });
+    if (admin) {
+      if (!IsTenantPro(admin.group)) {
+        Roles.addUsersToRoles(userId, 'Administrator');
+      }
+    }
     Roles.addUsersToRoles(userId, defaultPermissionsList);
 
     // Add user to a group (partition) based on customer id

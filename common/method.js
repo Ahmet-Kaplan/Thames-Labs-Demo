@@ -64,6 +64,7 @@ Meteor.methods({
             }
           });
 
+          Roles.addUsersToRoles(userId, 'Administrator');
           Roles.addUsersToRoles(userId, defaultPermissionsList);
           Partitioner.setUserGroup(userId, groupId);
         }
