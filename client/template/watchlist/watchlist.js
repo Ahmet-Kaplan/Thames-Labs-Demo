@@ -29,6 +29,7 @@ Template.watchlistAdmin.helpers({
 
 Template.watchlistAdmin.events({
   "click #watchlist-control": function(event, template) {
+
     var watched = template.watchState.get();
     var entityId = template.data.entityData._id;
     var collectionName = template.data.collection;
@@ -36,6 +37,13 @@ Template.watchlistAdmin.events({
     if (watched) {
       unwatch(entityId);
     } else {
+      var user = Meteor.user();
+      var watchlist = user.profile.watchlist;
+
+      if (!IsTenantPro(user.group) && watchlist.length === 5) {
+        toastr.warning('To watch more than 5 records, please upgrade to the PRO plan.');
+        return;
+      }
       watch(entityId, collectionName);
     }
   }
@@ -51,6 +59,7 @@ watch = function(entityId, collectionName) {
     _id: Meteor.userId()
   });
   var watchlist = user.profile.watchlist;
+
   watchlist.push(watchedItem);
   Meteor.users.update({
     _id: user._id

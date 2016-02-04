@@ -107,6 +107,9 @@ Template.companyDetail.events({
 });
 
 Template.companyDetail.helpers({
+  websiteHref: function(website) {
+    return (website.indexOf('http://') > -1 ? website : 'http://' + website);
+  },
   isProTenant: function() {
     var user = Meteor.user();
     return IsTenantPro(user.group);
@@ -140,55 +143,46 @@ Template.companyDetail.helpers({
     });
   },
   linksList: function() {
-    return [
-      {
-        text: 'Company details',
-        anchor: 'company-details',
-        icon: 'fa-file-text-o',
-        permission: 'CanReadCompanies'
-      },
-      {
-        text: 'Extended information',
-        anchor: 'entity-custom-fields',
-        icon: 'fa-bookmark',
-        permission: 'CanReadCompanies'
-      },
-      {
-        text: 'Contacts',
-        anchor: 'contacts',
-        icon: 'fa-user',
-        permission: 'CanReadContacts'
-      },
-      {
-        text: 'Opportunities',
-        anchor: 'opportunities',
-        icon: 'fa-lightbulb-o',
-        permission: 'CanReadOpportunities'
-      },
-      {
-        text: 'Current Projects',
-        anchor: 'projects',
-        icon: 'fa-sitemap',
-        permission: 'CanReadProjects'
-      },
-      {
-        text: 'Purchase Orders',
-        anchor: 'purchase-orders',
-        icon: 'fa-shopping-cart',
-        permission: 'CanReadPurchaseOrders'
-      },
-      {
-        text: 'Tasks',
-        anchor: 'tasks',
-        icon: 'fa-tasks',
-        permission: 'CanReadTasks'
-      },
-      {
-        text: 'Activity Timeline',
-        anchor: 'activity-timeline',
-        icon: 'fa-list',
-        permission: 'CanReadCompanies'
-      }
-    ];
+    return [{
+      text: 'Company details',
+      anchor: 'company-details',
+      icon: 'fa-file-text-o',
+      permission: 'CanReadCompanies'
+    }, {
+      text: 'Extended information',
+      anchor: 'entity-custom-fields',
+      icon: 'fa-bookmark',
+      permission: 'CanReadCompanies'
+    }, {
+      text: 'Contacts',
+      anchor: 'contacts',
+      icon: 'fa-user',
+      permission: 'CanReadContacts'
+    }, {
+      text: 'Opportunities',
+      anchor: 'opportunities',
+      icon: 'fa-lightbulb-o',
+      permission: 'CanReadOpportunities'
+    }, {
+      text: 'Current Projects',
+      anchor: 'projects',
+      icon: 'fa-sitemap',
+      permission: 'CanReadProjects'
+    }, {
+      text: 'Purchase Orders',
+      anchor: 'purchase-orders',
+      icon: 'fa-shopping-cart',
+      permission: 'CanReadPurchaseOrders'
+    }, {
+      text: 'Tasks',
+      anchor: 'tasks',
+      icon: 'fa-tasks',
+      permission: 'CanReadTasks'
+    }, {
+      text: 'Activity Timeline',
+      anchor: 'activity-timeline',
+      icon: 'fa-list',
+      permission: 'CanReadCompanies'
+    }];
   }
 });
