@@ -116,11 +116,13 @@
         </div>
       </div>
 
-      <li class="panel-title {{isActiveRoute regex='activities|activity'}}">
-        <a href='/activities' class="dismiss-on-click" id="menuLinkActivities">
-          <i class="fa fa-fw fa-history"></i> Activities
-        </a>
-      </li>
+      {{#if isProTenant}}
+        <li class="panel-title {{isActiveRoute regex='activities|activity'}}">
+          <a href='/activities' class="dismiss-on-click" id="menuLinkActivities">
+            <i class="fa fa-fw fa-history"></i> Activities
+          </a>
+        </li>
+      {{/if}}
 
       {{#if isInRole 'Administrator,CanReadTasks'}}
       <li class="panel-title {{isActiveRoute regex='tasks|task'}}">

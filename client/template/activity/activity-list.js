@@ -3,6 +3,11 @@ Template.activityList.onCreated(function() {
   // this.autorun(function() {
   //   redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
   // });
+
+    if (!IsTenantPro(Meteor.user().group)) {
+      toastr.warning('To access the Activity List view, please upgrade to the PRO plan.');
+      FlowRouter.go('/');
+    }
 });
 
 Template.activityList.events({
