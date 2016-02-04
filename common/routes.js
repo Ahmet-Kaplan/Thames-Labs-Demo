@@ -307,6 +307,12 @@ router.route('/opportunities/:id', {
 });
 
 router.route('/salespipeline', {
+  triggersEnter: [function(context, redirect) {
+    if (!IsTenantPro(Meteor.user().group)) {
+      toastr.warning('To access the Sales Pipeline, please upgrade to the PRO plan.');
+      redirect('/');
+    }
+  }],
   name: 'salespipeline',
   subscriptions: function() {
     this.register('allOpportunities', subs.subscribe('allOpportunities'));

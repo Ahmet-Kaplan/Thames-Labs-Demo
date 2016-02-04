@@ -44,7 +44,9 @@
         </div>
       </div>
 
-      {{> oppStagePanel}}
+      {{#if isProTenant}}
+        {{> oppStagePanel}}
+      {{/if}}
 
       {{> projectAdmin}}
 
