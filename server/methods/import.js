@@ -1,6 +1,5 @@
 Meteor.methods({
   'import.contacts': function(rows, fields, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, createMissingCompanies, createExtInfo) {
-    var totalCount = rows.length;
     var count = 1;
 
     var errors = [];
@@ -157,6 +156,7 @@ Meteor.methods({
   },
 
   'import.companies': function(rows, fields, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray, createExtInfo) {
+    var count = 1;
     var errors = [];
 
     var user = Meteor.users.findOne({

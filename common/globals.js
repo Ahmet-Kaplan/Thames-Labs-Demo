@@ -146,6 +146,41 @@ permissionOperations = [
   'delete'
 ];
 
+defaultPermissionsList = [
+  "CanReadContacts",
+  "CanReadCompanies",
+  "CanCreateCompanies",
+  "CanEditCompanies",
+  "CanDeleteCompanies",
+  "CanCreateContacts",
+  "CanEditContacts",
+  "CanDeleteContacts",
+  "CanReadProjects",
+  "CanCreateProjects",
+  "CanEditProjects",
+  "CanDeleteProjects",
+  "CanReadProducts",
+  "CanCreateProducts",
+  "CanEditProducts",
+  "CanDeleteProducts",
+  "CanReadTasks",
+  "CanCreateTasks",
+  "CanEditTasks",
+  "CanDeleteTasks",
+  "CanReadPurchaseOrders",
+  "CanCreatePurchaseOrders",
+  "CanEditPurchaseOrders",
+  "CanDeletePurchaseOrders",
+  "CanReadEventLog",
+  "CanCreateEventLog",
+  "CanEditEventLog",
+  "CanDeleteEventLog",
+  "CanReadOpportunities",
+  "CanCreateOpportunities",
+  "CanEditOpportunities",
+  "CanDeleteOpportunities"
+];
+
 permissionGenerator = function(operation, collectionName) {
   operation = operation.toLowerCase();
   if (!_.includes(permissionOperations, operation)) {

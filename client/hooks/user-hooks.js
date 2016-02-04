@@ -12,9 +12,9 @@ AutoForm.hooks({
         return doc;
       }
     },
-    onSuccess: function() {
+    onSuccess: function(formType, result) {
       Modal.hide();
       toastr.success('User created.');
     }
   }
-})
+});

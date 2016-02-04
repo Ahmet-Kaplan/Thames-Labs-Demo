@@ -148,6 +148,10 @@ Template.tenancyAdminPage.events({
 Template.adminAreaUser.helpers({
   isSelf: function() {
     return this._id === Meteor.userId();
+  },
+  isProTenant: function(){
+    var user = Meteor.user();
+    return IsTenantPro(user.group);
   }
 });
 
