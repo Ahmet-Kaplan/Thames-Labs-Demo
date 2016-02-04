@@ -40,7 +40,7 @@ Template.watchlistAdmin.events({
       var user = Meteor.user();
       var watchlist = user.profile.watchlist;
 
-      if (!IsTenantPro(user.group) && watchlist.length === 5) {
+      if (!IsTenantPro(user.group) && watchlist.length === MAX_FREE_WATCHLIST_RECORDS) {
         toastr.warning('To watch more than 5 records, please upgrade to the PRO plan.');
         return;
       }

@@ -198,3 +198,10 @@ permissionGenerator = function(operation, collectionName) {
 
 //Free plan user limit
 MAX_FREE_USERS = 2;
+
+//Extended information field free plan limits
+MAX_FREE_ENTITY_GLOBAL_FIELDS = 5;
+MAX_FREE_ENTITY_LOCAL_FIELDS = 5;
+
+//Watchlist free plan limits
+MAX_FREE_WATCHLIST_RECORDS = 5;
