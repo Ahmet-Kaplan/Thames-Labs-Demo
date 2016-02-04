@@ -1,6 +1,14 @@
 Template.customFieldDisplay.events({
   'click #add-custom-field': function(event) {
     event.preventDefault();
+
+    if (!IsTenantPro(Meteor.user().group)) {
+      if (this.entity_data.extendedInformation.length === MAX_FREE_ENTITY_LOCAL_FIELDS) {
+        toastr.warning('To create more than 5 extended information fields against this record, please upgrade to the PRO plan.');
+        return;
+      }
+    }
+
     Modal.show('addCustomField', this);
   },
   'click #edit-custom-fields': function(event) {

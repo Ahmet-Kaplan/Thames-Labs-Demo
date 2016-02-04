@@ -75,6 +75,33 @@ Template.addNewGlobalCustomField.events({
       toastr.warning('Please select an entity.');
       return;
     }
+    var tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    if (!IsTenantPro(Meteor.user().group)) {
+      var fields = [];
+      switch (cfEntity) {
+        case 'company':
+          fields = tenant.settings.extInfo.company;
+          break;
+        case 'contact':
+          fields = tenant.settings.extInfo.contact;
+          break;
+        case 'project':
+          fields = tenant.settings.extInfo.project;
+          break;
+        case 'product':
+          fields = tenant.settings.extInfo.product;
+          break;
+      }
+
+      if (fields.length === MAX_FREE_ENTITY_GLOBAL_FIELDS) {
+        toastr.warning('To create more than 5 global extended information fields for a ' + cfEntity + ' record, please upgrade to the PRO plan.');
+        Modal.hide();
+        return;
+      }
+    }
+
 
     if ($('#typeText').prop('checked')) {
       cfType = "text";
