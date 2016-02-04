@@ -142,6 +142,12 @@ router.route('/admin', {
 });
 
 router.route('/activities', {
+  triggersEnter: [function(context, redirect) {
+    if (!IsTenantPro(Meteor.user().group)) {
+      toastr.warning('To access the Activities List view, please upgrade to the PRO plan.');
+      redirect('/');
+    }
+  }],
   name: 'activities',
   action: function() {
     layout.render('appLayout', {

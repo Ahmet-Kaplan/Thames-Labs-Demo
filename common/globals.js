@@ -3,6 +3,9 @@ IsTenantPro = function(tenantId) {
     var tenant = Tenants.findOne({
       _id: tenantId
     });
+
+    if (!tenant || !tenant.stripe) return false;
+
     if (tenant.stripe.paying === true || tenant.stripe.freeUnlimited === true) {
       return true;
     }
