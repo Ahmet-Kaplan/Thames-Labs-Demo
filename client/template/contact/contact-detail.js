@@ -30,6 +30,10 @@ Template.contactDetail.onCreated(function() {
 });
 
 Template.contactDetail.helpers({
+  isProTenant: function() {
+    var user = Meteor.user();
+    return IsTenantPro(user.group);
+  },
   contactData: function() {
     var contactId = FlowRouter.getParam('id');
     var contact = Contacts.findOne({

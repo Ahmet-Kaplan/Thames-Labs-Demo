@@ -220,6 +220,12 @@ router.route('/projects/:id', {
 });
 
 router.route('/purchaseorders', {
+  triggersEnter: [function(context, redirect) {
+    if (!IsTenantPro(Meteor.user().group)) {
+      toastr.warning('To access Purchase Orders, please upgrade to the PRO plan.');
+      redirect('/');
+    }
+  }],
   name: 'purchaseOrders',
   action: function() {
     layout.render('appLayout', {
@@ -229,6 +235,12 @@ router.route('/purchaseorders', {
 });
 
 router.route('/purchaseorders/:id', {
+  triggersEnter: [function(context, redirect) {
+    if (!IsTenantPro(Meteor.user().group)) {
+      toastr.warning('To access Purchase Orders, please upgrade to the PRO plan.');
+      redirect('/');
+    }
+  }],
   name: 'purchaseOrder',
   subscriptions: function(params) {
     this.register('purchaseOrderById', subs.subscribe('purchaseOrderById', params.id));
