@@ -76,6 +76,9 @@ Template.legalCompanyInformation.onCreated(function() {
 
 Template.legalCompanyInformation.helpers({
   shouldShow: function() {
+    var user = Meteor.user();
+    if(!IsTenantPro(user.group)) return false;
+
     if (!Roles.userIsInRole(Meteor.userId(), ['CanReadCompanies'])) return false;
     var companyNumber = Template.currentData().company.companiesHouseId,
         hasResults = Template.instance().companiesHouseSearchResultsCount.get();

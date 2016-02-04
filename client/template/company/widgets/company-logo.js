@@ -7,12 +7,13 @@ var domainFromUrl = function(url) {
 
 Template.companyLogo.onCreated(function() {
   this.imageUrl = new ReactiveVar(null);
+
   this.autorun(function() {
     var clearbitUrl = 'https://logo.clearbit.com/',
-        imageTester = new Image(),
-        domain = domainFromUrl(Template.currentData().url),
-        logoUrl = clearbitUrl + domain,
-        imageUrl = Template.instance().imageUrl;
+      imageTester = new Image(),
+      domain = domainFromUrl(Template.currentData().url),
+      logoUrl = clearbitUrl + domain,
+      imageUrl = Template.instance().imageUrl;
     // set imageUrl to null in case a previous template load set it
     imageUrl.set(null);
     // the onload event is only fired if the lookup succeeds, so in this case
