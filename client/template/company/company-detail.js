@@ -80,6 +80,12 @@ Template.companyDetail.events({
   },
   'click #add-purchase-order': function(event) {
     event.preventDefault();
+
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To raise purchase orders');
+      return;
+    }
+
     Modal.show('newCompanyPurchaseOrderForm', {
       supplierCompanyId: this._id
     });
@@ -109,10 +115,6 @@ Template.companyDetail.events({
 Template.companyDetail.helpers({
   websiteHref: function(website) {
     return (website.indexOf('http://') > -1 ? website : 'http://' + website);
-  },
-  isProTenant: function() {
-    var user = Meteor.user();
-    return IsTenantPro(user.group);
   },
   companyData: function() {
     var companyId = FlowRouter.getParam('id');

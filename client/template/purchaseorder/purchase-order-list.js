@@ -2,7 +2,7 @@ Template.purchaseOrderList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
     if (!IsTenantPro(Meteor.user().group)) {
-      toastr.warning('To access Purchase Orders, please upgrade to the PRO plan.');
+      ShowUpgradeToastr('To access Purchase Orders');
       FlowRouter.go('/');
     }
     

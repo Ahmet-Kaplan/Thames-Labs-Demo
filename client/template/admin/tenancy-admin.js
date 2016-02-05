@@ -8,10 +8,6 @@ Template.tenancyAdminPage.onCreated(function() {
 
 Template.tenancyAdminPage.helpers({
 
-  isProTenant: function() {
-    var user = Meteor.user();
-    return IsTenantPro(user.group);
-  },
   tenantUsers: function() {
     return Meteor.users.find({});
   },
@@ -110,16 +106,25 @@ Template.tenancyAdminPage.helpers({
 
 Template.tenancyAdminPage.events({
   'click #btnEditTenantUserGeneralSettings': function() {
+    event.preventDefault();
     Modal.show('editTenantUserGeneralSettings', this);
   },
   'click #btnEditTenantUserPermissions': function() {
+    event.preventDefault();
+    var tenantId = Meteor.user().group;
+    if (!IsTenantPro(tenantId)) {
+      ShowUpgradeToastr('To set user permissions');
+      return;
+    }
     Modal.show('editTenantUserPermissions', this);
   },
 
   'click #addNewUserAccount': function() {
+    event.preventDefault();
+
     var tenantId = Meteor.user().group;
-    if (!IsTenantPro(tenantId) && TenantUserCount(tenantId) === MAX_FREE_USERS) {
-      toastr.warning('To add more users, you must first upgrade your account to the PRO plan.');
+    if (!IsTenantPro(tenantId) && TenantUserCount(tenantId) >= MAX_FREE_USERS) {
+      ShowUpgradeToastr('To add more users');
       return;
     }
     Modal.show('addNewUser', this);
@@ -153,10 +158,6 @@ Template.tenancyAdminPage.events({
 Template.adminAreaUser.helpers({
   isSelf: function() {
     return this._id === Meteor.userId();
-  },
-  isProTenant: function() {
-    var user = Meteor.user();
-    return IsTenantPro(user.group);
   }
 });
 

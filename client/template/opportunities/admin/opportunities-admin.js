@@ -18,6 +18,12 @@ Template.opportunityAdmin.helpers({
 Template.opportunityAdmin.events({
   'click #btnAddStage': function(event) {
     event.preventDefault();
+
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To create your own opportunity stages');
+      return;
+    }
+
     Modal.show('insertNewStageModal', this);
   }
 });
@@ -38,18 +44,39 @@ Template.opportunityAdminStage.helpers({
 
 Template.opportunityAdminStage.events({
   'click #orderUp': function() {
+    event.preventDefault();
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To edit the order of your opportunity stages');
+      return;
+    }
+
     Meteor.call('changeStageOrder', this.id, "up");
   },
   'click #orderDown': function() {
+    event.preventDefault();
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To edit the order of your opportunity stages');
+      return;
+    }
     Meteor.call('changeStageOrder', this.id, "down");
   },
   'click #btnEdit': function() {
     event.preventDefault();
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To edit your opportunity stages');
+      return;
+    }
     Modal.show('editStageModal', this);
   },
 
   'click #btnDelete': function(event) {
     event.preventDefault();
+
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To delete your opportunity stages');
+      return;
+    }
+
     var userTenant = Tenants.findOne({});
     var stages = userTenant.settings.opportunity.stages;
     var count = stages.length;

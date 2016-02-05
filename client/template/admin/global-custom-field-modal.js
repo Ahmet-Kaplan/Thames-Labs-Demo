@@ -96,7 +96,7 @@ Template.addNewGlobalCustomField.events({
       }
 
       if (fields.length === MAX_FREE_ENTITY_GLOBAL_FIELDS) {
-        toastr.warning('To create more than 5 global extended information fields for a ' + cfEntity + ' record, please upgrade to the PRO plan.');
+        ShowUpgradeToastr('To create more than 5 global extended information fields for a ' + cfEntity + ' record');
         Modal.hide();
         return;
       }

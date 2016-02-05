@@ -1,45 +1,65 @@
 <template name="publicContactInformation">
-{{#if hasMetadata}} {{#with metadata.clearbit}}
-<h4>Public information</h4>
-<ul class="list-group">
-  {{#if isProTenant}}
-    {{#if location}}
+  {{#if hasMetadata}} 
+    {{#with metadata.clearbit}}
+    <h4>Public information</h4>
+    <ul class="list-group">
+      {{#if location}}
+      {{#if isProTenant}}
       <li class="list-group-item panel-item-header">
         <h4><i class="fa fa-fw fa-map-marker"></i> Location</h4>
         <p class="list-group-item-text">{{location}}</p>
       </li>
-    {{/if}}
-  {{/if}}
-  {{#if isProTenant}}
-    {{#if site}}
+      {{else}}
+      <a href="#" class="list-group-item upgrade-prompt">
+        <i class="fa fa-fw fa-map-marker"></i> Location data is available
+        <i class="fa fa-fw fa-chevron-right pull-right"></i>
+      </a>
+      {{/if}}
+      {{/if}}
+      {{#if site}}
+      {{#if isProTenant}}
       <a href="{{site}}" title="View website" target="_blank" class="list-group-item">
         <i class="fa fa-fw fa-chevron-right pull-right"></i>
         <i class="fa fa-fw fa-link"></i> View website <span class="pull-right">{{site}}</span>
+      </a> {{else}}
+      <a href="#" class="list-group-item upgrade-prompt">
+        <i class="fa fa-fw fa-link"></i> Contact website data is available
+        <i class="fa fa-fw fa-chevron-right pull-right"></i>
       </a>
-    {{/if}}
-  {{/if}}
-  {{#if isProTenant}}
-    {{#if linkedin.handle}}
+      {{/if}}
+      {{/if}}
+      {{#if linkedin.handle}}
+      {{#if isProTenant}}
       <a href="http://linkedin.com/{{linkedin.handle}}" title="View linkedin page" target="_blank" class="list-group-item">
         <i class="fa fa-fw fa-linkedin"></i> View on LinkedIn
         <i class="fa fa-fw fa-chevron-right pull-right"></i>
+      </a> {{else}}
+      <a href="#" class="list-group-item upgrade-prompt">
+        <i class="fa fa-fw fa-linkedin"></i> LinkedIn data is available
+        <i class="fa fa-fw fa-chevron-right pull-right"></i>
       </a>
-    {{/if}}
-  {{/if}}
-  {{#if twitter.handle}}
-    <a href="http://twitter.com/{{twitter.handle}}" title="View twitter page" target="_blank" class="list-group-item">
-      <i class="fa fa-fw fa-twitter"></i> View on Twitter | {{twitter.followers}} followers | {{twitter.following}} following
-      <i class="fa fa-fw fa-chevron-right pull-right"></i>
-    </a>
-  {{/if}}
-  {{#if isProTenant}}
-    {{#if facebook.handle}}
+      {{/if}}
+      {{/if}}
+      {{#if twitter.handle}}
+      <a href="http://twitter.com/{{twitter.handle}}" title="View twitter page" target="_blank" class="list-group-item">
+        <i class="fa fa-fw fa-twitter"></i> View on Twitter | {{twitter.followers}} followers | {{twitter.following}} following
+        <i class="fa fa-fw fa-chevron-right pull-right"></i>
+      </a>
+      {{/if}}
+      {{#if facebook.handle}}
+      {{#if isProTenant}}
       <a href="http://facebook.com/{{facebook.handle}}" title="View facebook page" target="_blank" class="list-group-item">
         <i class="fa fa-fw fa-facebook"></i> View on Facebook
         <i class="fa fa-fw fa-chevron-right pull-right"></i>
+      </a> 
+      {{else}}
+      <a href="#" class="list-group-item upgrade-prompt">
+        <i class="fa fa-fw fa-facebook"></i> Facebook data is available
+        <i class="fa fa-fw fa-chevron-right pull-right"></i>
       </a>
-    {{/if}}
+      {{/if}}
+      {{/if}}
+    </ul>
+    {{/with}} 
   {{/if}}
-</ul>
-{{/with}} {{/if}}
 </template>

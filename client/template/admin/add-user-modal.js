@@ -3,7 +3,7 @@ AutoForm.hooks({
     onSuccess: function(formType, result) {
       var tenantId = Meteor.user().group;
       if (!IsTenantPro(tenantId) && TenantUserCount(tenantId) === MAX_FREE_USERS) {
-        toastr.warning('To add more users, you must first upgrade your account to the PRO plan.');
+        ShowUpgradeToastr('To add more users');
         return;
       }
 

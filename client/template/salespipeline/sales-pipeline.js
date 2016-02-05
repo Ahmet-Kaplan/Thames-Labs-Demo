@@ -4,7 +4,7 @@ Template.salesPipeline.onCreated(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
 
     if (!IsTenantPro(Meteor.user().group)) {
-      toastr.warning('To access the Sales Pipeline, please upgrade to the PRO plan.');
+      ShowUpgradeToastr('To access the Sales Pipeline');
       FlowRouter.go('/');
     }
   });

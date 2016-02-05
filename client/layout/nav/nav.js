@@ -39,10 +39,6 @@ Template.nav.onCreated(function() {
 });
 
 Template.nav.helpers({
-  isProTenant: function() {
-    var user = Meteor.user();
-    return IsTenantPro(user.group);
-  },
   showTourOption: function() {
     var currRoute = FlowRouter.getRouteName();
     var show = false;

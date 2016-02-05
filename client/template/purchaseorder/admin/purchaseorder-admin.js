@@ -6,6 +6,13 @@ Template.purchaseOrderAdminPanel.onRendered(function() {
 
 Template.purchaseOrderAdminPanel.events({
   'click #poAdminUpdatePrefix': function() {
+    event.preventDefault();
+
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To set your own purchase order prefix');
+      return;
+    }
+
     var newVal = $('#poAdminCurrentPrefix').val();
 
     bootbox.confirm("Updating the purchase order prefix will not affect existing purchase orders - only new ones will reflect the new change. Update it anyway?", function(result) {

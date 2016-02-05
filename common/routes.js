@@ -144,7 +144,7 @@ router.route('/admin', {
 router.route('/activities', {
   triggersEnter: [function(context, redirect) {
     if (!IsTenantPro(Meteor.user().group)) {
-      toastr.warning('To access the Activities List view, please upgrade to the PRO plan.');
+      ShowUpgradeToastr('To access the Activities List view');
       redirect('/');
     }
   }],
@@ -222,7 +222,7 @@ router.route('/projects/:id', {
 router.route('/purchaseorders', {
   triggersEnter: [function(context, redirect) {
     if (!IsTenantPro(Meteor.user().group)) {
-      toastr.warning('To access Purchase Orders, please upgrade to the PRO plan.');
+      ShowUpgradeToastr('To access Purchase Orders');
       redirect('/');
     }
   }],
@@ -237,7 +237,7 @@ router.route('/purchaseorders', {
 router.route('/purchaseorders/:id', {
   triggersEnter: [function(context, redirect) {
     if (!IsTenantPro(Meteor.user().group)) {
-      toastr.warning('To access Purchase Orders, please upgrade to the PRO plan.');
+      ShowUpgradeToastr('To access Purchase Orders');
       redirect('/');
     }
   }],
@@ -276,7 +276,7 @@ router.route('/tasks/:id', {
 router.route('/events', {
   triggersEnter: [function(context, redirect) {
     if (!IsTenantPro(Meteor.user().group)) {
-      toastr.warning('To access the Event Log view, please upgrade to the PRO plan.');
+      ShowUpgradeToastr('To access the Event Log view');
       redirect('/');
     }
   }],
@@ -333,7 +333,7 @@ router.route('/opportunities/:id', {
 router.route('/salespipeline', {
   triggersEnter: [function(context, redirect) {
     if (!IsTenantPro(Meteor.user().group)) {
-      toastr.warning('To access the Sales Pipeline, please upgrade to the PRO plan.');
+      ShowUpgradeToastr('To access the Sales Pipeline');
       redirect('/');
     }
   }],

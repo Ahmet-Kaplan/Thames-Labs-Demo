@@ -1,3 +1,10 @@
+ShowUpgradeToastr = function(preambleMessage) {
+  toastr.warning("GLOBAL: "+ preambleMessage + ", please upgrade to the PRO plan.", {
+    timeOut: 0,
+    closeButton: true
+  });
+};
+
 IsTenantPro = function(tenantId) {
   if (tenantId) {
     var tenant = Tenants.findOne({
