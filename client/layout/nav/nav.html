@@ -116,13 +116,12 @@
         </div>
       </div>
 
-      {{#if isProTenant}}
+      
         <li class="panel-title {{isActiveRoute regex='activities|activity'}}">
           <a href='/activities' class="dismiss-on-click" id="menuLinkActivities">
             <i class="fa fa-fw fa-history"></i> Activities
           </a>
         </li>
-      {{/if}}
 
       {{#if isInRole 'Administrator,CanReadTasks'}}
       <li class="panel-title {{isActiveRoute regex='tasks|task'}}">
@@ -148,13 +147,12 @@
           <i class="fa fa-fw fa-lightbulb-o"></i> Opportunities
         </a>
       </li>
-      {{#if isProTenant}}
+      
         <li class="panel-title {{isActiveRoute regex='salespipeline'}}">
           <a href="{{pathFor route='salespipeline'}}" class="dismiss-on-click" id="menuLinkSalespipeline">
             <i class="fa fa-fw fa-signal"></i> Sales Pipeline
           </a>
         </li>
-      {{/if}}
       {{/if}} {{#if isInRole 'CanReadProjects'}}
       <li class="panel-title {{isActiveRoute regex='projects|project'}}">
         <a href='/projects' class="dismiss-on-click" id="menuLinkProjects">
@@ -169,7 +167,6 @@
       </li>
       {{/if}} 
       
-      {{#if isProTenant}}
         {{#if isInRole 'CanReadPurchaseOrders'}}
           <li class="panel-title {{isActiveRoute regex='purchaseOrders|purchaseOrder'}}">
             <a href='/purchaseorders' class="dismiss-on-click" id="menuLinkPurchaseOrders">
@@ -183,7 +180,6 @@
             </a>
           </li>
         {{/if}}
-      {{/if}}  
 
       {{/unless}} {{#if isInRole 'superadmin'}}
       <li class="panel-title {{isActiveRoute 'tenants'}}">

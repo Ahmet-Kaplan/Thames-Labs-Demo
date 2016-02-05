@@ -41,7 +41,7 @@ Template.watchlistAdmin.events({
       var watchlist = user.profile.watchlist;
 
       if (!IsTenantPro(user.group) && watchlist.length === MAX_FREE_WATCHLIST_RECORDS) {
-        toastr.warning('To watch more than 5 records, please upgrade to the PRO plan.');
+        ShowUpgradeToastr('To watch more than 5 records');
         return;
       }
       watch(entityId, collectionName);

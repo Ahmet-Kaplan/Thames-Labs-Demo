@@ -24,18 +24,42 @@ Template.projectType.helpers({
 
 Template.projectAdmin.events({
   'click #addProjectType': function() {
+    event.preventDefault();
+
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To create your own project types');
+      return;
+    }
+
     Modal.show('createProjectType');
   }
 });
 
 Template.projectType.events({
   'click #addMilestone': function() {
+    event.preventDefault();
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To create your own project type milestones');
+      return;
+    }
+
     Modal.show('createProjectMilestone', this);
   },
   'click #editType': function() {
+    event.preventDefault();
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To edit your project types');
+      return;
+    }
     Modal.show('updateProjectType', this);
   },
   'click #removeType': function() {
+    event.preventDefault();
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To delete your project types');
+      return;
+    }
+
     var typeId = this.id;
 
     bootbox.confirm("Are you sure you wish to delete this project type?", function(result) {
@@ -65,11 +89,24 @@ Template.projectType.events({
 
 Template.projectMilestone.events({
   'click #editMilestone': function(event, template) {
+
+    event.preventDefault();
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To edit your project milestones');
+      return;
+    }
+
     var data = this;
     data.parentTypeId = Template.parentData().id;
     Modal.show('updateProjectMilestone', data);
   },
   'click #removeMilestone': function(event, template) {
+    event.preventDefault();
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To delete your project types');
+      return;
+    }
+
     var typeId = Template.parentData().id;
     var milestoneId = template.data.id;
 

@@ -4,7 +4,7 @@ Template.customFieldDisplay.events({
 
     if (!IsTenantPro(Meteor.user().group)) {
       if (this.entity_data.extendedInformation.length === MAX_FREE_ENTITY_LOCAL_FIELDS) {
-        toastr.warning('To create more than 5 extended information fields against this record, please upgrade to the PRO plan.');
+        ShowUpgradeToastr('To create more than 5 extended information fields against this record');
         return;
       }
     }

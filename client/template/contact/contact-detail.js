@@ -30,10 +30,6 @@ Template.contactDetail.onCreated(function() {
 });
 
 Template.contactDetail.helpers({
-  isProTenant: function() {
-    var user = Meteor.user();
-    return IsTenantPro(user.group);
-  },
   contactData: function() {
     var contactId = FlowRouter.getParam('id');
     var contact = Contacts.findOne({
@@ -159,6 +155,12 @@ Template.contactDetail.events({
   },
   'click #add-purchase-order': function(event) {
     event.preventDefault();
+
+    if (!IsTenantPro(Meteor.user().group)) {
+      ShowUpgradeToastr('To raise purchase orders');
+      return;
+    }
+
     var company = this.company();
     if (company === undefined) {
       Modal.show('newContactPurchaseOrderForm', {

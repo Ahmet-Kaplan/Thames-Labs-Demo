@@ -1,3 +1,22 @@
+ShowUpgradeToastr = function(preambleMessage) {
+  toastr.warning(preambleMessage + ", please upgrade to the PRO plan. You can do this by clicking this message.", "RealTimeCRM", {
+    timeOut: 0,
+    closeButton: true,
+    "debug": false,
+    "newestOnTop": true,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": true,
+    "onclick": function() {
+      console.log('Pro plan feature clicked.');
+      Modal.show('stripeSubscribe', this);
+    },
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  });
+};
+
 IsTenantPro = function(tenantId) {
   if (tenantId) {
     var tenant = Tenants.findOne({

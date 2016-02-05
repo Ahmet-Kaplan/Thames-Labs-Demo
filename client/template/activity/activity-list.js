@@ -5,7 +5,7 @@ Template.activityList.onCreated(function() {
   // });
 
     if (!IsTenantPro(Meteor.user().group)) {
-      toastr.warning('To access the Activity List view, please upgrade to the PRO plan.');
+      ShowUpgradeToastr('To access the Activity List view');
       FlowRouter.go('/');
     }
 });
