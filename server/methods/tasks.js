@@ -1,6 +1,6 @@
 Meteor.methods({
   deleteCompletedTasks: function(searchDefinition, searchOptions) {
-    if(!Roles.userIsInRole(this.userId, [ 'CanDeleteTasks'])) {
+    if (!Roles.userIsInRole(this.userId, ['CanDeleteTasks'])) {
       throw new Meteor.Error(403, 'You do not have the authorization to delete tasks');
     }
     searchOptions.limit = 99999;
@@ -93,7 +93,7 @@ Meteor.methods({
         Tasks.insert({
           title: task.title,
           description: task.description,
-          dueDate: task.dueDate,
+          dueDate: moment(task.dueDate).format('DD/MM/YY HH:mm:ss'),
           assigneeId: assigneeId,
           completed: false,
           entityType: task.recordType,
