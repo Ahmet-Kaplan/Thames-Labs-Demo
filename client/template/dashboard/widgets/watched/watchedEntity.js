@@ -3,6 +3,20 @@ Template.watchedEntityWidget.onCreated(function() {
 });
 
 Template.watchedEntityWidget.helpers({
+  parentCompany: function(id) {
+    Meteor.subscribe('lightCompanyById', id);
+    var company = Companies.findOne({
+      _id: id
+    })
+    if (company) return company.name;
+  },
+  parentContact: function(id) {
+    Meteor.subscribe('lightContactById', id);
+    var contact = Contacts.findOne({
+      _id: id
+    })
+    if (contact) return contact.forename + ' ' + contact.surname;
+  },
   items: function() {
     var user = Meteor.users.findOne({
       _id: Meteor.userId()
