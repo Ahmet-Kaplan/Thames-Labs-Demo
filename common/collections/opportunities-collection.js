@@ -120,9 +120,15 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadOpportunities']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'name': 1
+    sort: (searchObject, options) => {
+      if (options.search.props.sortByClose) {
+        return {
+          'estCloseDate': -1
+        }
+      } else {
+        return {
+          'name': 1
+        }
       }
     },
     fields: (searchObject, options) => {
@@ -209,7 +215,7 @@ Opportunities.before.insert(function(userId, doc) {
   doc.currentStageId = 0;
 
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-      doc.sequencedIdentifier = Tenants.findOne({}).settings.opportunity.defaultNumber;
+    doc.sequencedIdentifier = Tenants.findOne({}).settings.opportunity.defaultNumber;
   }
 });
 
