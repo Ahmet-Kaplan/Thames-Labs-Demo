@@ -1,15 +1,4 @@
 Template.extInfo.helpers({
-  picklistOptions: function() {
-    if (this.props.listValues) {
-      var items = this.props.listValues.split(',');
-      return _.map(items, function(li, i) {
-        return {
-          'optionIndex': 'option_' + i,
-          'optionName': $.trim(li)
-        }
-      })
-    }
-  },
   extInfoId: function() {
     return this.name.replace(/ /g, '');
   }
@@ -77,7 +66,6 @@ Template.extInfo.onCreated(function() {
 
 Template.extInfo.onRendered(function() {
   this.$('.datetimepicker').datetimepicker();
-  $('.selectpicker').selectpicker();
 
   var index = this.data.name;
   var attr = this.data.props;
@@ -86,6 +74,18 @@ Template.extInfo.onRendered(function() {
   var selectorName = safeName + "TypeOptions";
   $(selectorName).val(attr.dataType);
 
+  var options = _.map(attr.listValues.split(','), function(input) {
+    return {
+      value: input,
+      text: input
+    }
+  });
+
+  this.$(safeName + "PicklistValue").selectize({
+    create: false,
+    options: options
+  });
+
   switch (attr.dataType) {
     case 'text':
       $(safeName + "TextValue").val(attr.dataValue);
@@ -93,6 +93,7 @@ Template.extInfo.onRendered(function() {
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").hide();
+      $(safeName + "PicklistInputArea").hide();
       break;
     case 'advtext':
       $(safeName + "AdvTextValue").html(attr.dataValue);
@@ -100,6 +101,7 @@ Template.extInfo.onRendered(function() {
       $(safeName + "AdvTextInputArea").show();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").hide();
+      $(safeName + "PicklistInputArea").hide();
 
       editor = new MediumEditor('.editable', {
         placeholder: {
@@ -115,6 +117,7 @@ Template.extInfo.onRendered(function() {
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").show();
       $(safeName + "DateInputArea").hide();
+      $(safeName + "PicklistInputArea").hide();
       break;
     case 'date':
       $(safeName + "DateValue").val(attr.dataValue);
@@ -122,6 +125,7 @@ Template.extInfo.onRendered(function() {
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").show();
+      $(safeName + "PicklistInputArea").hide();
       break;
     case 'picklist':
       $(safeName + "TextInputArea").hide();
@@ -129,8 +133,9 @@ Template.extInfo.onRendered(function() {
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "DateInputArea").hide();
       $(safeName + "PicklistInputArea").show();
-      $(safeName + "PicklistValue option:contains('" + (attr.dataValue === null ? 'Select a value...' : attr.dataValue) + "')").attr('selected', 'selected');
-      $(safeName + 'PicklistValue').selectpicker('refresh');
+
+      var se = $(safeName + 'PicklistValue').selectize();
+      se[0].selectize.setValue(attr.dataValue);
       break;
   }
 

@@ -62,8 +62,8 @@ Template.updateCustomField.events({
               newValue = $(safeName + "DateValue").val();
               break;
             case 'picklist':
-              newValue = $(safeName + 'PicklistValue :selected').text().trim();
-              if (newValue === "Select a value...") newValue = null;
+              newValue = $(safeName + 'PicklistValue').val().trim();
+              if (newValue === "") newValue = null;
               break;
           }
 
