@@ -6,7 +6,8 @@ Template.taskDataManagement.events({
       'assignee',
       'dueDate',
       'record',
-      'recordType'
+      'recordType',
+      'tags'
     ].join(',');
 
     var samplePersonalValues = [
@@ -15,7 +16,8 @@ Template.taskDataManagement.events({
       Meteor.user().profile.name,
       new Date(),
       Meteor.user().profile.name,
-      'user'
+      'user',
+      'Imported'
     ].join(',');
     var sampleCompanyValues = [
       'Sample company task',
@@ -23,7 +25,8 @@ Template.taskDataManagement.events({
       Meteor.user().profile.name,
       new Date(),
       '<COMPANY NAME HERE>',
-      'company'
+      'company',
+      'Imported'
     ].join(',');
     var sampleContactValues = [
       'Sample contact task',
@@ -31,7 +34,8 @@ Template.taskDataManagement.events({
       Meteor.user().profile.name,
       new Date(),
       '<CONTACT NAME HERE>',
-      'contact'
+      'contact',
+      'Imported'
     ].join(',');
     var sampleOpportunityValues = [
       'Sample opportunity task',
@@ -39,7 +43,8 @@ Template.taskDataManagement.events({
       Meteor.user().profile.name,
       new Date(),
       '<OPPORTUNITY NAME HERE>',
-      'opportunity'
+      'opportunity',
+      'Imported'
     ].join(',');
     var sampleProjectValues = [
       'Sample project task',
@@ -47,7 +52,8 @@ Template.taskDataManagement.events({
       Meteor.user().profile.name,
       new Date(),
       '<PROJECT NAME HERE>',
-      'project'
+      'project',
+      'Imported'
     ].join(',');
 
     var fileData = headers + '\n' + samplePersonalValues + '\n' + sampleCompanyValues + '\n' + sampleContactValues + '\n' + sampleOpportunityValues + '\n' + sampleProjectValues;

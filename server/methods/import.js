@@ -66,8 +66,6 @@ Meteor.methods({
                   verifiedEmail = (rx.test(email) === false ? '' : email);
                 }
 
-                console.log(row[forenameColumn], row[surnameColumn], verifiedEmail);
-
                 var contactId = Contacts.insert({
                   forename: row[forenameColumn],
                   surname: row[surnameColumn],
@@ -86,6 +84,14 @@ Meteor.methods({
                 });
 
                 if (contactId) {
+                  if (row['RealTimeTags']) {
+                    _.each(row['RealTimeTags'].split(','), function(tag) {
+                      Contacts.addTag(tag, {
+                        _id: contactId
+                      });
+                    })
+                  }
+
                   var contact = Contacts.findOne({
                     _id: contactId
                   });
@@ -217,6 +223,13 @@ Meteor.methods({
                 });
 
                 if (companyId) {
+                  if (row['RealTimeTags']) {
+                    _.each(row['RealTimeTags'].split(','), function(tag) {
+                      Companies.addTag(tag, {
+                        _id: companyId
+                      });
+                    })
+                  }
 
                   var company = Companies.findOne({
                     _id: companyId
