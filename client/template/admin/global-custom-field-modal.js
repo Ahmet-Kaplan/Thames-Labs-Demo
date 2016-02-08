@@ -8,6 +8,16 @@ Template.addNewGlobalCustomField.onRendered(function() {
 
   this.$('.datetimepicker').datetimepicker();
 
+  this.$('#custom-field-picklist-values').selectize({
+    delimiter: ',',
+    create: function(input) {
+      return {
+        value: input,
+        text: input
+      }
+    }
+  })
+
   $('#typeText').prop('checked', true);
   $('#typeAdvText').prop('checked', false);
   $('#typeCheckbox').prop('checked', false);
@@ -112,7 +122,7 @@ Template.addNewGlobalCustomField.events({
     }
     if ($('#typePicklist').prop('checked')) {
       cfType = "picklist";
-      cfValue = $('#custom-field-picklist-values').val();
+      cfValue = $('#custom-field-picklist-values').selectize().val();
     }
 
     Meteor.call('extInfo.addNewGlobal', cfName, cfType, cfValue, cfEntity, function(err, res) {
