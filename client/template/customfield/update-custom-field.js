@@ -61,13 +61,18 @@ Template.updateCustomField.events({
             case 'date':
               newValue = $(safeName + "DateValue").val();
               break;
+            case 'picklist':
+              newValue = $(safeName + 'PicklistValue :selected').text().trim();
+              if (newValue === "Select a value...") newValue = null;
+              break;
           }
 
           var settings = {
             "dataName": name,
             "dataValue": newValue,
             "dataType": attr.dataType,
-            isGlobal: true
+            isGlobal: true,
+            'listValues': attr.listValues
           };
           cfMaster.push(settings);
 

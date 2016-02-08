@@ -13,11 +13,13 @@ Template.addNewGlobalCustomField.onRendered(function() {
   $('#typeCheckbox').prop('checked', false);
   $('#typeDate').prop('checked', false);
   $('#typeLabel').prop('checked', false);
+  $('#typePicklist').prop('checked', false);
 
   $('#text-input-area').show();
   $('#advtext-input-area').hide();
   $('#check-input-area').hide();
   $('#date-input-area').hide();
+  $('#picklist-input-area').hide();
 });
 
 Template.addNewGlobalCustomField.events({
@@ -26,6 +28,7 @@ Template.addNewGlobalCustomField.events({
     $('#advtext-input-area').hide();
     $('#check-input-area').hide();
     $('#date-input-area').hide();
+    $('#picklist-input-area').hide();
   },
   'click #typeAdvText': function() {
 
@@ -41,24 +44,35 @@ Template.addNewGlobalCustomField.events({
     $('#advtext-input-area').show();
     $('#check-input-area').hide();
     $('#date-input-area').hide();
+    $('#picklist-input-area').hide();
   },
   'click #typeCheckbox': function() {
     $('#text-input-area').hide();
     $('#advtext-input-area').hide();
     $('#check-input-area').show();
     $('#date-input-area').hide();
+    $('#picklist-input-area').hide();
   },
   'click #typeDate': function() {
     $('#text-input-area').hide();
     $('#advtext-input-area').hide();
     $('#check-input-area').hide();
     $('#date-input-area').show();
+    $('#picklist-input-area').hide();
   },
   'click #typeLabel': function() {
     $('#text-input-area').hide();
     $('#advtext-input-area').hide();
     $('#check-input-area').hide();
     $('#date-input-area').hide();
+    $('#picklist-input-area').hide();
+  },
+  'click #typePicklist': function() {
+    $('#text-input-area').hide();
+    $('#advtext-input-area').hide();
+    $('#check-input-area').hide();
+    $('#date-input-area').hide();
+    $('#picklist-input-area').show();
   },
   'click #createCustomField': function() {
     $('#createCustomField').prop('disabled', true);
@@ -95,6 +109,10 @@ Template.addNewGlobalCustomField.events({
     if ($('#typeLabel').prop('checked')) {
       cfType = "label";
       cfValue = '';
+    }
+    if ($('#typePicklist').prop('checked')) {
+      cfType = "picklist";
+      cfValue = $('#custom-field-picklist-values').val();
     }
 
     Meteor.call('extInfo.addNewGlobal', cfName, cfType, cfValue, cfEntity, function(err, res) {

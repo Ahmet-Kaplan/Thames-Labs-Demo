@@ -1,4 +1,15 @@
 Template.extInfo.helpers({
+  picklistOptions: function() {
+    if (this.props.listValues) {
+      var items = this.props.listValues.split(',');
+      return _.map(items, function(li, i) {
+        return {
+          'optionIndex': 'option_' + i,
+          'optionName': $.trim(li)
+        }
+      })
+    }
+  },
   extInfoId: function() {
     return this.name.replace(/ /g, '');
   }
@@ -18,12 +29,14 @@ Template.extInfo.events({
         $(safeName + "BooleanInputArea").hide();
         $(safeName + "AdvTextInputArea").hide();
         $(safeName + "DateInputArea").hide();
+        $(safeName + "PicklistInputArea").hide();
         break;
       case 'advtext':
         $(safeName + "TextInputArea").hide();
         $(safeName + "AdvTextInputArea").show();
         $(safeName + "BooleanInputArea").hide();
         $(safeName + "DateInputArea").hide();
+        $(safeName + "PicklistInputArea").hide();
 
         editor = new MediumEditor('.editable', {
           placeholder: {
@@ -38,12 +51,21 @@ Template.extInfo.events({
         $(safeName + "BooleanInputArea").show();
         $(safeName + "AdvTextInputArea").hide();
         $(safeName + "DateInputArea").hide();
+        $(safeName + "PicklistInputArea").hide();
         break;
       case 'date':
         $(safeName + "TextInputArea").hide();
         $(safeName + "BooleanInputArea").hide();
         $(safeName + "AdvTextInputArea").hide();
         $(safeName + "DateInputArea").show();
+        $(safeName + "PicklistInputArea").hide();
+        break;
+      case 'picklist':
+        $(safeName + "TextInputArea").hide();
+        $(safeName + "BooleanInputArea").hide();
+        $(safeName + "AdvTextInputArea").hide();
+        $(safeName + "DateInputArea").hide();
+        $(safeName + "PicklistInputArea").show();
         break;
     }
   }
@@ -55,6 +77,7 @@ Template.extInfo.onCreated(function() {
 
 Template.extInfo.onRendered(function() {
   this.$('.datetimepicker').datetimepicker();
+  $('.selectpicker').selectpicker();
 
   var index = this.data.name;
   var attr = this.data.props;
@@ -62,8 +85,6 @@ Template.extInfo.onRendered(function() {
   var safeName = '#extInfos' + index.replace(/ /g, '');
   var selectorName = safeName + "TypeOptions";
   $(selectorName).val(attr.dataType);
-
-  console.log(selectorName, attr.dataType);
 
   switch (attr.dataType) {
     case 'text':
@@ -101,6 +122,15 @@ Template.extInfo.onRendered(function() {
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").show();
+      break;
+    case 'picklist':
+      $(safeName + "TextInputArea").hide();
+      $(safeName + "BooleanInputArea").hide();
+      $(safeName + "AdvTextInputArea").hide();
+      $(safeName + "DateInputArea").hide();
+      $(safeName + "PicklistInputArea").show();
+      $(safeName + "PicklistValue option:contains('" + (attr.dataValue === null ? 'Select a value...' : attr.dataValue) + "')").attr('selected', 'selected');
+      $(safeName + 'PicklistValue').selectpicker('refresh');
       break;
   }
 

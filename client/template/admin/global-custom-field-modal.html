@@ -23,7 +23,7 @@
                     <input checked id="typeText" name="cfType" type="radio">Text</label>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <div class="radio">
                   <label>
                     <input id="typeAdvText" name="cfType" type="radio">Multiline Text</label>
@@ -47,6 +47,12 @@
                     <input id="typeLabel" name="cfType" type="radio">Label</label>
                 </div>
               </div>
+              <div class="col-md-2">
+                <div class="radio">
+                  <label>
+                    <input id="typePicklist" name="cfType" type="radio">Picklist</label>
+                </div>
+              </div>
             </div>
 
             <div class="form-group" id="text-input-area">
@@ -65,6 +71,10 @@
             <div class="form-group datetimepicker" id="date-input-area">
               <label for="custom-field-date-value">Default Date Value</label>
               <input class="form-control" placeholder="Global extended information value" id="custom-field-date-value">
+            </div>
+            <div class="form-group" id="picklist-input-area">
+              <label for="custom-field-text-value">List Values</label>
+              <input type="text" class="form-control" placeholder="Comma-separated list of values" id="custom-field-picklist-values">
             </div>
 
             <label for="select-entity">Target entity</label>

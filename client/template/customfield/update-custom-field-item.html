@@ -16,6 +16,7 @@
               <option value="advtext">Multiline Text</option>
               <option value="checkbox">Checkbox</option>
               <option value="date">Date/Time</option>
+              <option value="picklist">Date/Time</option>
             </select>
           </div>
         {{/unless}}
@@ -35,6 +36,13 @@
 
           <div class="form-group datetimepicker" type="hidden" id="extInfos{{extInfoId}}DateInputArea">
             <input class="form-control" id="extInfos{{extInfoId}}DateValue" placeholder="Enter date" type="text">
+          </div>
+
+          <div class="form-group" type="hidden" id="extInfos{{extInfoId}}PicklistInputArea">
+            <select class="form-control selectpicker" id="extInfos{{extInfoId}}PicklistValue">
+            <option value='null'>Select a value...</option>
+              {{#each picklistOptions}}<option value={{optionIndex}}>{{optionName}}</option>{{/each}}
+            </select>
           </div>
 
         </div>
