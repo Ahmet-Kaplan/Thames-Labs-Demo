@@ -83,7 +83,8 @@ Template.extInfo.onRendered(function() {
 
   this.$(safeName + "PicklistValue").selectize({
     create: false,
-    options: options
+    options: options,
+    maxItems: 1
   });
 
   switch (attr.dataType) {
