@@ -80,8 +80,7 @@ Template.nav.helpers({
     }, {
       sort: {
         createdAt: -1
-      },
-      limit: 3
+      }
     });
   },
   recentNote: function() {
