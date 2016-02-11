@@ -1,0 +1,8 @@
+.FadedText {
+	color: #a9a9a9;
+	text-align: center;
+}
+.items-sep {
+	margin-top: 8px;
+	border-top: 1px dashed #a9a9a9;
+}
