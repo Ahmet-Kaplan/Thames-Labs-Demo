@@ -57,6 +57,13 @@ exportFromSearchToCSV = function(collectionName) {
         }
       }
 
+      if(record.salesManagerId){
+        salesManager = Meteor.users.findOne({
+          _id: record.salesManagerId
+        }).profile.name;
+        record.salesManagerId = salesManager;
+      }
+
       if (record.date) {
         record.date = moment(record.date).format('DD/MM/YY');
       }

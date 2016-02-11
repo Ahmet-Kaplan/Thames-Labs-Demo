@@ -104,7 +104,20 @@ Collections.opportunities.filters = {
       if (!sequencedIdentifier) return false;
       return true;
     }
-  }
+  },
+  salesManager: {
+    display: 'Sales Manager:',
+    prop: 'salesManager',
+    collectionName: 'users',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'allUserData',
+    displayValue: function(user) {
+      if (user) {
+        return user.profile.name;
+      }
+    }
+  },
 };
 
 ////////////////////
@@ -139,11 +152,19 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         'hasBeenWon': 1,
         'reasonLost': 1,
         'tags': 1,
-        'sequencedIdentifier': 1
+        'sequencedIdentifier': 1,
+        'salesManagerId': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      
+      if (options.search.props.salesManager) {
+        // n.b. the array is passed as a comma separated string
+        selector.salesManagerId = {
+          $in: options.search.props.salesManager.split(',')
+        };
+      }
 
       if (options.search.props.sequencedIdentifier) {
         selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
