@@ -1,8 +1,5 @@
 Meteor.methods({
   'import.contacts': function(rows, fields, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, createMissingCompanies, createExtInfo) {
-    var totalCount = rows.length;
-    var count = 1;
-
     var errors = [];
 
     var user = Meteor.users.findOne({
@@ -18,8 +15,6 @@ Meteor.methods({
         var userId = user._id;
         Partitioner.bindGroup(tenant._id, function() {
           _.each(rows, function(row) {
-            console.log('Importing record ' + count + ' of ' + totalCount);
-            count += 1;
 
             var localCF = [];
             _.each(fields, function(lf) {
@@ -182,7 +177,6 @@ Meteor.methods({
         Partitioner.bindGroup(tenant._id, function() {
 
           _.each(rows, function(row) {
-            count += 1;
 
             var localCF = [];
             _.each(fields, function(lf) {
@@ -303,7 +297,5 @@ Meteor.methods({
     }
 
     return errors;
-  },
-
-
+  }
 });
