@@ -31,7 +31,8 @@ Schemas.User = new SimpleSchema({
   },
   password: {
     type: String,
-    min: 6
+    min: 6,
+    optional: true
   },
   roles: {
     type: [String],
