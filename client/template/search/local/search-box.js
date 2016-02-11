@@ -16,7 +16,8 @@ Template.searchBox.helpers({
 
         //Check that the filter exist as some props might be defined independantly from filters
         if(filter) {
-          _.each(values, function(value) {
+          var unified = _.union(values);
+          _.each(unified, function(value) {
             filtersList.push({
               filter: propIndex,
               mainCollectionName: mainCollectionName,
