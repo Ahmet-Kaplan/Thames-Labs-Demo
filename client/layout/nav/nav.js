@@ -1,4 +1,8 @@
+var newNoticesDep = new Tracker.Dependency();
+
 Template.nav.onCreated(function() {
+  this.notices = new ReactiveArray();
+
   this.subscribe('allNotifications');
   this.fab = new ReactiveVar(!(bowser.mobile || bowser.tablet));
   this.fabOpen = new ReactiveVar(false);
@@ -38,7 +42,27 @@ Template.nav.onCreated(function() {
   });
 });
 
+Template.nav.onRendered(function() {
+  newNoticesDep.changed();
+  var notices = Notifications.find({
+    target: {
+      $in: [Meteor.userId(), 'all']
+    }
+  }, {
+    sort: {
+      createdAt: -1
+    },
+    limit: NOTICE_LIMIT
+  }).fetch();
+
+  this.notices = notices;
+  $('#show-less-notices').hide();
+});
+
 Template.nav.helpers({
+  notificationLimit: function() {
+    return NOTICE_LIMIT;
+  },
   showTourOption: function() {
     var currRoute = FlowRouter.getRouteName();
     var show = false;
@@ -73,15 +97,10 @@ Template.nav.helpers({
     return sName;
   },
   notifications: function() {
-    return Notifications.find({
-      target: {
-        $in: [Meteor.userId(), 'all']
-      }
-    }, {
-      sort: {
-        createdAt: -1
-      }
-    });
+    newNoticesDep.depend();
+
+    var notices = Template.instance().notices;
+    return notices;
   },
   recentNote: function() {
     var today = new Date();
@@ -148,6 +167,45 @@ Template.nav.helpers({
 
 //NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
+  'click #show-more-notices': function(event, template) {
+    event.preventDefault();
+    event.stopPropagation();
+    newNoticesDep.changed();
+
+    var notices = Notifications.find({
+      target: {
+        $in: [Meteor.userId(), 'all']
+      }
+    }, {
+      sort: {
+        createdAt: -1
+      }
+    }).fetch();
+
+    Template.instance().notices = notices;
+    $('#show-more-notices').hide();
+    $('#show-less-notices').show();
+  },
+  'click #show-less-notices': function(event, template) {
+    event.preventDefault();
+    event.stopPropagation();
+    newNoticesDep.changed();
+
+    var notices = Notifications.find({
+      target: {
+        $in: [Meteor.userId(), 'all']
+      }
+    }, {
+      sort: {
+        createdAt: -1
+      },
+      limit: NOTICE_LIMIT
+    }).fetch();
+
+    Template.instance().notices = notices;
+    $('#show-more-notices').show();
+    $('#show-less-notices').hide();
+  },
   'click #help-menu': function() {
     Modal.show("help");
   },
@@ -279,17 +337,17 @@ Template.nav.events({
   'click #toggleFab': function(event, template) {
     if (Template.instance().fab.get() === true) {
       template.fab.set(false);
-    }else {
+    } else {
       template.fabOpen.set(true);
       template.fab.set(true);
     };
   },
   'click #fab-btn': function(event, template) {
-      if (Template.instance().fabOpen.get() === true) {
-        template.fabOpen.set(false);
-      }else {
-        template.fabOpen.set(true);
-      };
+    if (Template.instance().fabOpen.get() === true) {
+      template.fabOpen.set(false);
+    } else {
+      template.fabOpen.set(true);
+    };
   },
   'click #fabAddContacts': function(event) {
     event.preventDefault();

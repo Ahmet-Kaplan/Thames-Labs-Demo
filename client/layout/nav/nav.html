@@ -49,9 +49,23 @@
                 {{/if}}
                 </a>
               <ul class="dropdown-menu">
-                {{#each notifications}} {{> notice}} {{else}}
+                {{#each notifications}} {{> notice}} 
+                {{else}}
                 <em>No notifications</em>
                 {{/each}}
+
+                {{#if greaterThan recentNoteCount notificationLimit}}
+                  <li class="list-item">
+                    <a href="#" id="show-more-notices">
+                      Show More
+                    </a>
+                  </li>
+                  <li class="list-item">
+                    <a href="#" id="show-less-notices">
+                      Show Less
+                    </a>
+                  </li>
+                {{/if}}
               </ul>
             </li>
 

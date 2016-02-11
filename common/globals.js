@@ -140,3 +140,5 @@ permissionGenerator = function(operation, collectionName) {
 
 //Soft limit for records
 MAX_RECORDS = 50;
+
+NOTICE_LIMIT = 3;
