@@ -9,13 +9,13 @@ Template.searchBox.helpers({
     var searchOptions = searchIndex.getComponentDict().get('searchOptions');
     var filtersList = [];
 
-    if(searchOptions && searchOptions.props) {
+    if (searchOptions && searchOptions.props) {
       _.each(searchOptions.props, function(propValues, propIndex) {
         var values = propValues.split(',');
         var filter = Collections[mainCollectionName].filters[propIndex];
 
         //Check that the filter exist as some props might be defined independantly from filters
-        if(filter) {
+        if (filter) {
           var unified = _.union(values);
           _.each(unified, function(value) {
             filtersList.push({
@@ -42,7 +42,7 @@ Template.searchBox.events({
   'click #toggleFilters': function(e) {
     e.preventDefault();
 
-    if(Session.get('search.showFilters')) {
+    if (Session.get('search.showFilters')) {
       Session.set('search.showFilters', false);
     } else {
       var selectize = $('#filterBox')[0].selectize;
@@ -63,7 +63,9 @@ Template.searchBox.events({
   },
   'click #searchHelp': function() {
     var mainCollectionName = Template.instance().data.collectionName
-    Modal.show('searchHelp', {collection: mainCollectionName});
+    Modal.show('searchHelp', {
+      collection: mainCollectionName
+    });
   }
 });
 
@@ -73,7 +75,7 @@ function removeFilter(mainCollectionName, filter, val) {
   currentProp.splice(currentProp.indexOf(val), 1);
 
   //If still have values, update prop. Otherwise remove it
-  if(currentProp.length) {
+  if (currentProp.length) {
     Collections[mainCollectionName].index.getComponentMethods().addProps(filter, currentProp.join(','));
   } else {
     Collections[mainCollectionName].index.getComponentMethods().removeProps(filter);
@@ -81,7 +83,7 @@ function removeFilter(mainCollectionName, filter, val) {
 }
 
 Template.filterTag.onCreated(function() {
-  if(Collections[this.data.mainCollectionName].filters[this.data.filter] && Collections[this.data.mainCollectionName].filters[this.data.filter].subscriptionById) {
+  if (Collections[this.data.mainCollectionName].filters[this.data.filter] && Collections[this.data.mainCollectionName].filters[this.data.filter].subscriptionById) {
     this.subscribe(Collections[this.data.mainCollectionName].filters[this.data.filter].subscriptionById, this.data.id);
   }
 });
@@ -89,8 +91,10 @@ Template.filterTag.onCreated(function() {
 Template.filterTag.helpers({
   name: function() {
     var filter = Collections[this.mainCollectionName].filters[this.filter];
-    if(filter.collectionName && filter.displayValue) {
-      var record = Collections[filter.collectionName].findOne({_id: this.id});
+    if (filter.collectionName && filter.displayValue) {
+      var record = Collections[filter.collectionName].findOne({
+        _id: this.id
+      });
       return filter.display + ' ' + filter.displayValue(record);
     } else {
       return filter.display + ' ' + this.id;
