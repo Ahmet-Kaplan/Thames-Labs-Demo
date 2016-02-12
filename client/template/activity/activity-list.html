@@ -1,25 +1,23 @@
 <template name="activityList">
 
   {{setPageTitle 'Activities'}}
-
+  
+  <h1 id="activities-page-header"><i class="fa fa-fw fa-history"></i> Activities</h1>
+  
   <div class="row" id="activity-list">
     <div class="col-md-12">
-      <h1 id="activities-page-header"><i class="fa fa-fw fa-history"></i> Activities</h1>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i> Export to CSV</button>
+      </div>
+    </div>
+
+    <div class="col-md-12">
 
       <div class="stick-bar">
         <div class="row">
           <div class="col-md-12">
-            <!-- {{> EasySearch.Input index=ActivitiesIndex attributes=searchInputAttributes}}
-          </div>
-          <div class="col-md-3">
-            {{> tagSearch collection='activities' }} -->
             {{> searchBox collectionName='activities'}}
           </div> 
-          <!-- <div class="col-md-3">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
-            </div>
-          </div> -->
         </div>
       </div>
 
