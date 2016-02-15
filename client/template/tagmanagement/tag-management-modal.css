@@ -1,0 +1,7 @@
+#target-list {
+	margin-top: 15px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	height: 207px;
+	max-height: 414px;
+}
