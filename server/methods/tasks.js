@@ -93,7 +93,7 @@ Meteor.methods({
         Tasks.insert({
           title: task.title,
           description: task.description,
-          dueDate: moment(task.dueDate).format('DD/MM/YY HH:mm:ss'),
+          dueDate: new Date(task.dueDate),
           assigneeId: assigneeId,
           completed: false,
           entityType: task.recordType,

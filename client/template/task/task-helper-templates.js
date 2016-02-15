@@ -146,7 +146,7 @@ Template.taskDisplay.events({
       'Sample ' + template.entityType + ' task',
       'A simple example of how a ' + template.entityType + ' task should be imported',
       Meteor.user().profile.name,
-      moment().format('DD/MM/YY HH:mm:ss'),
+      moment().format('YYYY-MM-DDTHH:mm:ss'),
       Session.get('entityDescriptor'),
       template.entityType
     ].join(',');

@@ -13,7 +13,7 @@ Template.taskDataManagement.events({
       'Sample personal task',
       'A simple example of how a personal task should be imported',
       Meteor.user().profile.name,
-      moment().format('DD/MM/YY HH:mm:ss'),
+      moment().format('YYYY-MM-DDTHH:mm:ss'),
       Meteor.user().profile.name,
       'user'
     ].join(',');
@@ -21,7 +21,7 @@ Template.taskDataManagement.events({
       'Sample company task',
       'A simple example of how a company task should be imported',
       Meteor.user().profile.name,
-      moment().format('DD/MM/YY HH:mm:ss'),
+      moment().format('YYYY-MM-DDTHH:mm:ss'),
       '<COMPANY NAME HERE>',
       'company'
     ].join(',');
@@ -29,7 +29,7 @@ Template.taskDataManagement.events({
       'Sample contact task',
       'A simple example of how a contact task should be imported',
       Meteor.user().profile.name,
-      moment().format('DD/MM/YY HH:mm:ss'),
+      moment().format('YYYY-MM-DDTHH:mm:ss'),
       '<CONTACT NAME HERE>',
       'contact'
     ].join(',');
@@ -37,7 +37,7 @@ Template.taskDataManagement.events({
       'Sample opportunity task',
       'A simple example of how a opportunity task should be imported',
       Meteor.user().profile.name,
-      moment().format('DD/MM/YY HH:mm:ss'),
+      moment().format('YYYY-MM-DDTHH:mm:ss'),
       '<OPPORTUNITY NAME HERE>',
       'opportunity'
     ].join(',');
@@ -45,7 +45,7 @@ Template.taskDataManagement.events({
       'Sample project task',
       'A simple example of how a project task should be imported',
       Meteor.user().profile.name,
-      moment().format('DD/MM/YY HH:mm:ss'),
+      moment().format('YYYY-MM-DDTHH:mm:ss'),
       '<PROJECT NAME HERE>',
       'project'
     ].join(',');
