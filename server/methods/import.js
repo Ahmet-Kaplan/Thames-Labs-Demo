@@ -1,7 +1,5 @@
 Meteor.methods({
   'import.contacts': function(rows, fields, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, createMissingCompanies, createExtInfo) {
-    var count = 1;
-
     var errors = [];
 
     var user = Meteor.users.findOne({
@@ -17,7 +15,6 @@ Meteor.methods({
         var userId = user._id;
         Partitioner.bindGroup(tenant._id, function() {
           _.each(rows, function(row) {
-            count += 1;
 
             var localCF = [];
             _.each(fields, function(lf) {
@@ -82,6 +79,14 @@ Meteor.methods({
                 });
 
                 if (contactId) {
+                  if (row['RealTimeTags']) {
+                    _.each(row['RealTimeTags'].split(','), function(tag) {
+                      Contacts.addTag(tag, {
+                        _id: contactId
+                      });
+                    })
+                  }
+
                   var contact = Contacts.findOne({
                     _id: contactId
                   });
@@ -156,7 +161,6 @@ Meteor.methods({
   },
 
   'import.companies': function(rows, fields, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray, createExtInfo) {
-    var count = 1;
     var errors = [];
 
     var user = Meteor.users.findOne({
@@ -173,7 +177,6 @@ Meteor.methods({
         Partitioner.bindGroup(tenant._id, function() {
 
           _.each(rows, function(row) {
-            count += 1;
 
             var localCF = [];
             _.each(fields, function(lf) {
@@ -214,6 +217,13 @@ Meteor.methods({
                 });
 
                 if (companyId) {
+                  if (row['RealTimeTags']) {
+                    _.each(row['RealTimeTags'].split(','), function(tag) {
+                      Companies.addTag(tag, {
+                        _id: companyId
+                      });
+                    })
+                  }
 
                   var company = Companies.findOne({
                     _id: companyId
@@ -287,7 +297,5 @@ Meteor.methods({
     }
 
     return errors;
-  },
-
-
+  }
 });
