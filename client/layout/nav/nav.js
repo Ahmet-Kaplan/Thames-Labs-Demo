@@ -2,7 +2,11 @@ Template.nav.onCreated(function() {
   this.subscribe('allNotifications');
   this.fab = new ReactiveVar(!(bowser.mobile || bowser.tablet));
   this.fabOpen = new ReactiveVar(false);
+
+  Session.set("IsProTenant", false);
+
   this.autorun(function() {
+
     var getNotification = Notifications.findOne({
       target: {
         $in: [Meteor.userId(), 'all']
@@ -38,7 +42,19 @@ Template.nav.onCreated(function() {
   });
 });
 
+Template.nav.onRendered(function() {
+  this.autorun(function() {
+    var user = Meteor.user();
+    if (user && user.group) {
+      Session.set('IsProTenant', IsTenantPro(user.group));
+    }
+  });
+});
+
 Template.nav.helpers({
+  IsProTenant: function() {
+    return Session.get('IsProTenant');
+  },
   showTourOption: function() {
     var currRoute = FlowRouter.getRouteName();
     var show = false;
@@ -273,17 +289,17 @@ Template.nav.events({
   'click #toggleFab': function(event, template) {
     if (Template.instance().fab.get() === true) {
       template.fab.set(false);
-    }else {
+    } else {
       template.fabOpen.set(true);
       template.fab.set(true);
     };
   },
   'click #fab-btn': function(event, template) {
-      if (Template.instance().fabOpen.get() === true) {
-        template.fabOpen.set(false);
-      }else {
-        template.fabOpen.set(true);
-      };
+    if (Template.instance().fabOpen.get() === true) {
+      template.fabOpen.set(false);
+    } else {
+      template.fabOpen.set(true);
+    };
   },
   'click #fabAddContacts': function(event) {
     event.preventDefault();

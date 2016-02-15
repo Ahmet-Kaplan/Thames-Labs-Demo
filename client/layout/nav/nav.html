@@ -118,7 +118,7 @@
 
       
         <li class="panel-title {{isActiveRoute regex='activities|activity'}}">
-          <a href='/activities' class="dismiss-on-click" id="menuLinkActivities">
+          <a href='/activities' class="{{#unless IsProTenant}}proFeature {{/unless}}dismiss-on-click" id="menuLinkActivities">
             <i class="fa fa-fw fa-history"></i> Activities
           </a>
         </li>
@@ -149,7 +149,7 @@
       </li>
       
         <li class="panel-title {{isActiveRoute regex='salespipeline'}}">
-          <a href="{{pathFor route='salespipeline'}}" class="dismiss-on-click" id="menuLinkSalespipeline">
+          <a href="{{pathFor route='salespipeline'}}" class="{{#unless IsProTenant}}proFeature {{/unless}}dismiss-on-click" id="menuLinkSalespipeline">
             <i class="fa fa-fw fa-signal"></i> Sales Pipeline
           </a>
         </li>
@@ -169,13 +169,13 @@
       
         {{#if isInRole 'CanReadPurchaseOrders'}}
           <li class="panel-title {{isActiveRoute regex='purchaseOrders|purchaseOrder'}}">
-            <a href='/purchaseorders' class="dismiss-on-click" id="menuLinkPurchaseOrders">
+            <a href='/purchaseorders' class="{{#unless IsProTenant}}proFeature {{/unless}}dismiss-on-click" id="menuLinkPurchaseOrders">
               <i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders
             </a>
           </li>
         {{/if}}{{#if isInRole 'CanReadEventLog'}}
           <li class="panel-title {{isActiveRoute 'events'}}">
-            <a href='/events' class="dismiss-on-click" id="menuLinkEventLog">
+            <a href='/events' class="{{#unless IsProTenant}}proFeature {{/unless}}dismiss-on-click" id="menuLinkEventLog">
               <i class="fa fa-fw fa-book"></i> Event Log
             </a>
           </li>
