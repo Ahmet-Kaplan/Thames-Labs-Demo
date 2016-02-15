@@ -7,7 +7,6 @@ ShowUpgradeToastr = function(preambleMessage) {
     "positionClass": "toast-bottom-right",
     "preventDuplicates": true,
     "onclick": function() {
-      console.log('Pro plan feature clicked.');
       Modal.show('stripeSubscribe', this);
     },
     "showEasing": "swing",

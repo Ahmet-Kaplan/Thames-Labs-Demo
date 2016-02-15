@@ -238,7 +238,7 @@ Template.dashboard.onRendered(function() {
   //Has user taken welcome tour yet?
   if (!Meteor.user().profile.welcomeTour) {
     Modal.show("firstRun");
-  }else if (bowser.mobile || bowser.tablet) {
+  } else if (bowser.mobile || bowser.tablet) {
     if (!Meteor.user().profile.mobile) {
       Modal.show("firstRunMobile");
     };
@@ -279,6 +279,12 @@ Template.dashboard.helpers({
       widget.displayed = (displayedWidgets[widget.id] && displayedWidgets[widget.id].displayed === true);
       return widget;
     }).filter(function(widget) {
+
+      if (widget.id === 'openPo' || widget.id === 'poInformation') {
+        var tenantId = Meteor.user().group;
+        if (!IsTenantPro(tenantId)) return false;
+      }
+
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
           userId = Meteor.userId();
