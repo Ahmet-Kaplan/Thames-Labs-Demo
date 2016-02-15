@@ -158,7 +158,7 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
-      
+
       if (options.search.props.salesManager) {
         // n.b. the array is passed as a comma separated string
         selector.salesManagerId = {

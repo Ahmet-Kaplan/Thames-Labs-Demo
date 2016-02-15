@@ -57,7 +57,7 @@ exportFromSearchToCSV = function(collectionName) {
         }
       }
 
-      if(record.salesManagerId){
+      if(record.salesManagerId) {
         salesManager = Meteor.users.findOne({
           _id: record.salesManagerId
         }).profile.name;

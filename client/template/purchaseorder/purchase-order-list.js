@@ -51,7 +51,7 @@ Template.purchaseOrderList.onRendered(function() {
 
 Template.purchaseOrderList.events({
   'click #toggle-item-view': function(event, template) {
-    var curr = Session.get("showItems");;
+    var curr = Session.get("showItems");
     Session.set("showItems", !curr);
 
     if (Session.get("showItems") === true) {
