@@ -99,10 +99,12 @@
             <h4><i class="fa fa-fw fa-calendar"></i> Date</h4>
             {{friendlyDate}}
           </li>
+          {{#if estCloseDate}}
           <li class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-calendar"></i> Estimated Close</h4>
             {{friendlyClose}}
           </li>
+          {{/if}}
           {{#if value}}
             <li class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-money"></i> Value</h4>

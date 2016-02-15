@@ -107,7 +107,11 @@
           Name: {{name}} ({{niceType}})
       </div>
       <div class="col-md-3">
-         Default Value: {{#if equals type 'advtext'}} {{{defaultValue}}} {{else}} {{defaultValue}} {{/if}}
+        {{#if equals type 'picklist'}}
+          Value List: {{listValues}}
+        {{else}}
+          Default Value: {{#if equals type 'advtext'}} {{{defaultValue}}} {{else}} {{defaultValue}} {{/if}}
+        {{/if}}
       </div>
       {{else}}
       <div class="col-md-6">
