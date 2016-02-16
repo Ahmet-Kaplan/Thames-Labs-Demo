@@ -1,7 +1,4 @@
-#target-list {
-	margin-top: 15px;
-	overflow-x: hidden;
-	overflow-y: auto;
-	height: 207px;
-	max-height: 414px;
-}
+#switch-container { margin-bottom: 8px; }
+#switch-container > .toggle { margin-left: 8px; }
+#switch-container > .toggle label { padding-top: 0px; }
+#removal-warning { float: right; margin-top: 4px;}
