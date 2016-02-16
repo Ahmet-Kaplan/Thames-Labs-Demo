@@ -1,29 +1,24 @@
 Template.tagManagementModal.onCreated(function() {
 	this.collectionName = this.data.collectionName;
-	this.results = null;
 });
 
 Template.tagManagementModal.onRendered(function() {
-	var self = this;
 	var collectionName = this.collectionName;
 	var index = Collections[this.collectionName].index,
 		searchDefinition = index.getComponentDict().get('searchDefinition'),
 		searchOptions = index.getComponentDict().get('searchOptions');
-
-	this.results = index.search(searchDefinition, searchOptions).fetch();
-
 
 	// Subscribe to existing tags for autosuggest
 	this.subscribe('tagsByCollection', collectionName);
 
 	// Initialise selectize
 	this.$('#tag-input').selectize({
-		placeholder: '...add a new tag...',
+		placeholder: 'Select a tag...',
 		valueField: 'name',
 		labelField: 'name',
 		searchField: ['name'],
 		create: function(input, cb) {
-			Meteor.call('tag.addTagToResults', searchDefinition, searchOptions, input);
+			Meteor.call('tag.addTagToResults', collectionName, searchDefinition, searchOptions, input);
 
 			var tag = Meteor.tags.findOne({
 				collection: collectionName,
@@ -53,9 +48,13 @@ Template.tagManagementModal.onRendered(function() {
 			}
 		},
 		onItemAdd: function(value, $item) {
-			Meteor.call('tag.addTagToResults', searchDefinition, searchOptions, input);
+			Meteor.call('tag.addTagToResults', collectionName, searchDefinition, searchOptions, value);
+		},
+		onItemRemove: function(value) {
+			Meteor.call('tag.removeTagFromResults', collectionName, searchDefinition, searchOptions, value);
 		}
 	});
+
 	this.selectize = this.$('#tag-input')[0].selectize;
 
 	this.autorun(() => {
@@ -65,15 +64,20 @@ Template.tagManagementModal.onRendered(function() {
 		this.selectize.addOption(existingTags);
 		this.selectize.refreshOptions(true);
 	});
-})
+});
 
 Template.tagManagementModal.helpers({
-	currentResults: function() {
+	tags: function() {
 		var index = Collections[this.collectionName].index,
 			searchDefinition = index.getComponentDict().get('searchDefinition'),
 			searchOptions = index.getComponentDict().get('searchOptions');
-
+		var tags = [];
 		var result = index.search(searchDefinition, searchOptions).fetch();
-		return result;
+		_.each(result, function(r) {
+			_.each(r.tags, function(t) {
+				tags.push(t);
+			})
+		})
+		return _.uniq(tags);
 	}
 });

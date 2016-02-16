@@ -1,0 +1,26 @@
+<template name="tagManagementModal">
+<div class="modal" id="draggableModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+        <h4>Bulk tag operations</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p>To add a tag to <strong>every record of your current result set</strong>, click in the box below and select a tag from the list, or type into the box and press Enter to create a new one. To delete a tag from <strong>every record of your current result set</strong>, remove it from the box below. These operations cannot be undone once completed.</p>
+            <select id="tag-input" name='tags[]' multiple="multiple">
+              {{#each tags}}
+              <option value="{{this}}" selected="true">{{this}}</option>
+              {{else}}
+              <!-- intentionally left blank to prevent blaze error -->
+              {{/each}}
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
