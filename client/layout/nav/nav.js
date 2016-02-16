@@ -1,7 +1,7 @@
-var newNoticesDep = new Tracker.Dependency();
+Session.setDefault('notifications', []);
+Session.setDefault('showAllNotices', false);
 
 Template.nav.onCreated(function() {
-  this.notices = new ReactiveArray();
 
   this.subscribe('allNotifications');
   this.fab = new ReactiveVar(!(bowser.mobile || bowser.tablet));
@@ -40,26 +40,38 @@ Template.nav.onCreated(function() {
       Meteor.call('setNotified', getNotification._id);
     }
   });
-});
 
-Template.nav.onRendered(function() {
-  newNoticesDep.changed();
-  var notices = Notifications.find({
-    target: {
-      $in: [Meteor.userId(), 'all']
-    }
-  }, {
-    sort: {
-      createdAt: -1
-    },
-    limit: NOTICE_LIMIT
-  }).fetch();
-
-  this.notices = notices;
   $('#show-less-notices').hide();
 });
 
+Template.nav.onRendered(function() {
+  this.autorun(function() {
+    var showAll = Session.get('showAllNotices');
+
+    var notices = Notifications.find({
+      target: {
+        $in: [Meteor.userId(), 'all']
+      }
+    }, {
+      sort: {
+        createdAt: -1
+      },
+      limit: (showAll === true ? 99 : NOTICE_LIMIT)
+    }).fetch();
+
+    Session.set('notifications', notices);
+  });
+});
+
 Template.nav.helpers({
+  displayShowLess: function() {
+    var showAll = Session.get('showAllNotices');
+    return (showAll === true);
+  },
+  displayShowMore: function() {
+    var showAll = Session.get('showAllNotices');
+    return (showAll === false);
+  },
   notificationLimit: function() {
     return NOTICE_LIMIT;
   },
@@ -97,10 +109,7 @@ Template.nav.helpers({
     return sName;
   },
   notifications: function() {
-    newNoticesDep.depend();
-
-    var notices = Template.instance().notices;
-    return notices;
+    return Session.get('notifications');
   },
   recentNote: function() {
     var today = new Date();
@@ -170,39 +179,18 @@ Template.nav.events({
   'click #show-more-notices': function(event, template) {
     event.preventDefault();
     event.stopPropagation();
-    newNoticesDep.changed();
 
-    var notices = Notifications.find({
-      target: {
-        $in: [Meteor.userId(), 'all']
-      }
-    }, {
-      sort: {
-        createdAt: -1
-      }
-    }).fetch();
+    Session.set('showAllNotices', true);
 
-    Template.instance().notices = notices;
     $('#show-more-notices').hide();
     $('#show-less-notices').show();
   },
   'click #show-less-notices': function(event, template) {
     event.preventDefault();
     event.stopPropagation();
-    newNoticesDep.changed();
 
-    var notices = Notifications.find({
-      target: {
-        $in: [Meteor.userId(), 'all']
-      }
-    }, {
-      sort: {
-        createdAt: -1
-      },
-      limit: NOTICE_LIMIT
-    }).fetch();
+    Session.set('showAllNotices', false);
 
-    Template.instance().notices = notices;
     $('#show-more-notices').show();
     $('#show-less-notices').hide();
   },

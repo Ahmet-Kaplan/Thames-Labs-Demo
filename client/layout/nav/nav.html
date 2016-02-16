@@ -55,16 +55,20 @@
                 {{/each}}
 
                 {{#if greaterThan recentNoteCount notificationLimit}}
+                  {{#if displayShowMore}}
                   <li class="list-item">
                     <a href="#" id="show-more-notices">
                       Show More
                     </a>
                   </li>
+                  {{/if}}
+                  {{#if displayShowLess}}
                   <li class="list-item">
-                    <a href="#" id="show-less-notices">
+                    <a href="#" id="show-less-notices" type="hidden">
                       Show Less
                     </a>
                   </li>
+                  {{/if}}
                 {{/if}}
               </ul>
             </li>
