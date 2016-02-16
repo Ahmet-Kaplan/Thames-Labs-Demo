@@ -105,6 +105,7 @@ var widgetsDefault = {
     h: 1,
     displayed: false,
     name: 'Purchase Orders Overview',
+    requiredPermission: "CanReadPurchaseOrders"
   },
   'companySummary': {
     id: 'companySummary',

@@ -67,36 +67,17 @@ Feature: Allow users to access a central view of all activities
 
   #Purchase Order
   Scenario: A user with Purchase Order Read permission can see a purchase order activity in the list
-    Given a "Company" has been created
-    And I have the "CanReadCompanies" permission
-    And I have the "CanReadPurchaseOrders" permission
-    And I have the "CanCreatePurchaseOrders" permission
-    And I navigate to "/purchaseorders"
-    And I click "#add-purchase-order"
-    And I set text field with selector "#description" to "test purchase order"
-    And I selectize "supplierCompanyId" to "Test Ltd"
-    And I click "#create-purchase-order"
-    And I have the "CanReadPurchaseOrders" permission
+    Given I have the "CanCreatePurchaseOrders" permission
+    And a "PurchaseOrder" has been created
     And the purchase order has an activity
     And I click "#menuLinkActivities"
     Then I see a "purchaseOrders" activity with the notes "Test purchase order activity" in the list "#activity-list"
 
   Scenario: A user without Purchase Order Read permission cannot see a purchase order activity in the list
-    Given a "Company" has been created
-    And I have the "CanReadCompanies" permission
-    And I have the "CanReadPurchaseOrders" permission
-    And I have the "CanCreatePurchaseOrders" permission
-    And I navigate to "/purchaseorders"
-    And I click "#add-purchase-order"
-    And I set text field with selector "#description" to "test purchase order"
-    And I selectize "supplierCompanyId" to "Test Ltd"
-    And I click "#create-purchase-order"
+    Given a "PurchaseOrder" has been created
     And the purchase order has an activity
-    And I do not have the "CanReadCompanies" permission
-    And I do not have the "CanReadPurchaseOrders" permission
-    And I do not have the "CanCreatePurchaseOrders" permission
     And I click "#menuLinkActivities"
-    Then I do not see activities from "purchase orders" in the list "#activity-list"
+    Then I do not see activities from "purchaseOrders" in the list "#activity-list"
 
   #Task
   Scenario: A user with Task Read permission can see a task activity in the list

@@ -18,4 +18,12 @@ module.exports = function() {
     browser.waitForExist('#custom-field-container', 2000);
     expect(browser.getText('.custom-field-display-item', 2000)).toContain(name);
   });
-};
+  this.Given(/^an? global extended information field has been created$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('extInfo.addNewGlobal', 'GEI', 'Text', 'GEI Test', 'company', function() {
+          done();
+        });
+      });
+  });
+}

@@ -42,6 +42,55 @@ Meteor.methods({
       },
       stripe: {
         "totalRecords": 0,
+        "paying": true,
+        "blocked": false
+      },
+      createdAt: new Date()
+    });
+  },
+
+  createFreeTenant: function() {
+    var tenantName = 'Acme Corp';
+
+    Tenants.insert({
+      name: tenantName,
+      settings: {
+        extInfo: {
+          company: [],
+          contact: [],
+          project: [],
+          product: []
+        },
+        activity: {
+          defaultNumber: 1,
+        },
+        task: {
+          defaultNumber: 1,
+        },
+        company: {
+          defaultNumber: 1,
+        },
+        contact: {
+          defaultNumber: 1,
+        },
+        opportunity: {
+          defaultNumber: 1,
+          stages: []
+        },
+        project: {
+          defaultNumber: 1,
+          types: []
+        },
+        purchaseorder: {
+          defaultPrefix: "",
+          defaultNumber: 1,
+        },
+        product: {
+          defaultNumber: 1,
+        }
+      },
+      stripe: {
+        "totalRecords": 0,
         "paying": false,
         "blocked": false
       },
@@ -91,7 +140,7 @@ Meteor.methods({
       },
       stripe: {
         "totalRecords": 0,
-        "paying": false,
+        "paying": true,
         "blocked": false
       },
       createdAt: new Date()
@@ -124,12 +173,40 @@ Meteor.methods({
     });
   },
 
+  //used for creating a user on the same tenant
+  createAdditionalUser: function() {
+    var tenantName = 'Acme Corp';
+
+    var userId = Accounts.createUser({
+      username: "test user 2",
+      email: "test2@domain.com",
+      password: "goodpassword",
+      profile: {
+        name: "test user 2"
+      }
+    });
+
+    var tenantId = Tenants.findOne({
+      name: tenantName
+    })._id;
+    Partitioner.setUserGroup(userId, tenantId);
+
+    Meteor.users.update({
+      _id: userId
+    }, {
+      $set: {
+        "emails.0.verified": true
+      }
+    });
+  },
+
+  //used for partition tests
   createSecondUser: function() {
     var tenantName = 'Acme Corp Rivals';
 
     var userId = Accounts.createUser({
       username: "test user two",
-      email: "test2@domain.com",
+      email: "testtwo@domain.com",
       password: "goodpassword",
       profile: {
         name: "test user two"
@@ -140,6 +217,14 @@ Meteor.methods({
       name: tenantName
     })._id;
     Partitioner.setUserGroup(userId, tenantId);
+
+    Meteor.users.update({
+      _id: userId
+    }, {
+      $set: {
+        "emails.0.verified": true
+      }
+    });
   },
 
   removeWelcome: function() {

@@ -24,12 +24,30 @@ module.exports = function() {
       });
   });
 
+  this.Given(/^a free user exists$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('createFreeTenant', done);
+      });
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('createTestUser', done);
+      });
+  });
+
   this.Given(/^a second user exists$/, function() {
     browser
       .executeAsync(function(done) {
         Meteor.call('createSecondUser', done);
       });
-  })
+  });
+
+  this.Given(/^an additional user exists$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('createAdditionalUser', done);
+      });
+  });
 
   this.Given(/^a superadmin exists$/, function() {
     browser
@@ -45,12 +63,19 @@ module.exports = function() {
       });
   });
 
+  this.Given(/^a free tenant exists$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('createFreeTenant', done);
+      });
+  });
+
   this.Given(/^a second tenant exists$/, function() {
     browser
       .executeAsync(function(done) {
         Meteor.call('createSecondTenant', done);
       });
-  })
+  });
 
   this.Given(/^I (am a logged out user|log out)$/, function() {
     browser.executeAsync(logout);
