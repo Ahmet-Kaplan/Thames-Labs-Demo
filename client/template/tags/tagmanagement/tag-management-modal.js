@@ -13,6 +13,7 @@ Template.tagManagementModal.onRendered(function() {
 
 	// Initialise selectize
 	this.$('#tag-input').selectize({
+		plugins: ['remove_button'],
 		placeholder: 'Select a tag...',
 		valueField: 'name',
 		labelField: 'name',
@@ -50,8 +51,13 @@ Template.tagManagementModal.onRendered(function() {
 		onItemAdd: function(value, $item) {
 			Meteor.call('tag.addTagToResults', collectionName, searchDefinition, searchOptions, value);
 		},
-		onItemRemove: function(value) {
-			Meteor.call('tag.removeTagFromResults', collectionName, searchDefinition, searchOptions, value);
+		onDelete: function(values) {
+			var res = confirm('Are you sure you wish to remove the selected tag?');
+			if (res) {
+				Meteor.call('tag.removeTagFromResults', collectionName, searchDefinition, searchOptions, values);
+				return true;
+			}
+			return false;
 		}
 	});
 
