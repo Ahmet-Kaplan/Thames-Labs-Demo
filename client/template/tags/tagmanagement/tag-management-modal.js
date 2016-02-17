@@ -24,7 +24,6 @@ Template.tagManagementModal.onRendered(function() {
 
 	// Initialise selectize
 	this.$('#tag-input').selectize({
-		plugins: ['remove_button'],
 		placeholder: 'Select a tag...',
 		valueField: 'name',
 		labelField: 'name',
@@ -65,10 +64,9 @@ Template.tagManagementModal.onRendered(function() {
 		onDelete: function(values) {
 			if (self.addMode.get() === true) {
 				return false;
-			} else {
-				Meteor.call('tag.removeTagFromResults', collectionName, searchDefinition, searchOptions, values);
-				return true;
 			}
+
+			Meteor.call('tag.removeTagFromResults', collectionName, searchDefinition, searchOptions, values[0]);
 		}
 	});
 
@@ -91,6 +89,9 @@ Template.tagManagementModal.events({
 });
 
 Template.tagManagementModal.helpers({
+	resultsCount: function() {
+		return this.recordCount;
+	},
 	showWarning: function() {
 		var state = Template.instance().addMode.get();
 		return !state;
