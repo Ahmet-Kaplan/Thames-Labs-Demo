@@ -77,6 +77,18 @@ Meteor.publish("companyById", function(companyId) {
   });
 });
 
+Meteor.publish("lightCompanyById", function(companyId) {
+  if (!Roles.userIsInRole(this.userId, ['CanReadCompanies'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Companies.find({
+    _id: companyId
+  }, {
+    fields: {
+      'name': 1
+    }
+  });
+});
+
 
 Meteor.publish("allContacts", function() {
   if (!Roles.userIsInRole(this.userId, ['CanReadContacts'])) return this.ready();
@@ -95,6 +107,18 @@ Meteor.publish("contactsByCompanyId", function(companyId) {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Contacts.find({
     companyId: companyId
+  });
+});
+Meteor.publish("lightContactById", function(contactId) {
+  if (!Roles.userIsInRole(this.userId, ['CanReadContacts'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Contacts.find({
+    _id: contactId
+  }, {
+    fields: {
+      forename: 1,
+      surname: 1
+    }
   });
 });
 

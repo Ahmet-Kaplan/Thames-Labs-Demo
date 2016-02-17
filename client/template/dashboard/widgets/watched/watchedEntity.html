@@ -17,7 +17,14 @@
             <a href="{{pathFor route=linkPath id=primaryEntityId}}">
               <span class="pull-right">
                 <i class="fa fa-fw fa-{{faIcon}}"></i>
-                {{primaryEntityDisplayData}} {{#if parentCompany}}(via {{parentCompany}}){{/if}}</span>
+                {{primaryEntityDisplayData}} 
+                {{#if companyId}}
+                  <small>(via {{parentCompany companyId}})</small>
+                {{else}}
+                  {{#if contactId}}
+                    <small>(via {{parentContact contactId}})</small>
+                  {{/if}}
+                {{/if}}</span>
             </a>
           </span>
           <div class="wewActInfo">
