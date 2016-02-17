@@ -7,7 +7,6 @@ Template.insertNewCompanyModal.onCreated(function() {
 
 Template.insertNewCompanyModal.events({
   'click #close': function() {
-    Session.set(sessionVar);
     hopscotch.endTour(true);
   }
 });
