@@ -193,9 +193,10 @@ Meteor.methods({
     var newField = {
       name: cfName,
       type: cfType,
-      defaultValue: cfValue,
+      defaultValue: (cfType !== 'picklist' ? cfValue: null),
       targetEntity: cfEntity,
-      dataOrder: orderValue
+      dataOrder: orderValue,
+      listValues: (cfType === 'picklist' ? cfValue: null)
     };
 
     if (_.findWhere(fields, newField) === undefined) {
@@ -281,10 +282,11 @@ Meteor.methods({
       if (!nameExists) {
         var settings = {
           "dataName": cfName,
-          "dataValue": cfValue,
+          "dataValue": (cfType !== 'picklist' ? cfValue: null),
           "dataType": cfType,
           "isGlobal": true,
-          dataOrder: orderValue
+          dataOrder: orderValue,
+          'listValues': (cfType === 'picklist' ? cfValue: null)
         };
         cfMaster.push(settings);
 

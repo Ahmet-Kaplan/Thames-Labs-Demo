@@ -76,6 +76,10 @@ Template.taskDataManagement.events({
   'change #task-data-upload': function() {
     var file = event.target.files[0];
     if (!file) return;
+    if (file.type !== "text/csv") {
+      toastr.error('Only CSV files can be used to import data');
+      return
+    }
 
     var reader = new FileReader();
 

@@ -70,6 +70,10 @@ Schemas.Opportunity = new SimpleSchema({
     type: Number,
     optional: true
   },
+  salesManagerId: {
+    type: String,
+    optional: true
+  },
   createdBy: {
     type: String,
     autoform: {

@@ -23,6 +23,7 @@ Template.companyLogo.onCreated(function() {
     };
     imageTester.src = logoUrl;
   });
+
 });
 
 Template.companyLogo.helpers({

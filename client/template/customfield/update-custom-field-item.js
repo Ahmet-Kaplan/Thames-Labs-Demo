@@ -18,12 +18,14 @@ Template.extInfo.events({
         $(safeName + "BooleanInputArea").hide();
         $(safeName + "AdvTextInputArea").hide();
         $(safeName + "DateInputArea").hide();
+        $(safeName + "PicklistInputArea").hide();
         break;
       case 'advtext':
         $(safeName + "TextInputArea").hide();
         $(safeName + "AdvTextInputArea").show();
         $(safeName + "BooleanInputArea").hide();
         $(safeName + "DateInputArea").hide();
+        $(safeName + "PicklistInputArea").hide();
 
         editor = new MediumEditor('.editable', {
           placeholder: {
@@ -38,12 +40,21 @@ Template.extInfo.events({
         $(safeName + "BooleanInputArea").show();
         $(safeName + "AdvTextInputArea").hide();
         $(safeName + "DateInputArea").hide();
+        $(safeName + "PicklistInputArea").hide();
         break;
       case 'date':
         $(safeName + "TextInputArea").hide();
         $(safeName + "BooleanInputArea").hide();
         $(safeName + "AdvTextInputArea").hide();
         $(safeName + "DateInputArea").show();
+        $(safeName + "PicklistInputArea").hide();
+        break;
+      case 'picklist':
+        $(safeName + "TextInputArea").hide();
+        $(safeName + "BooleanInputArea").hide();
+        $(safeName + "AdvTextInputArea").hide();
+        $(safeName + "DateInputArea").hide();
+        $(safeName + "PicklistInputArea").show();
         break;
     }
   }
@@ -63,6 +74,19 @@ Template.extInfo.onRendered(function() {
   var selectorName = safeName + "TypeOptions";
   $(selectorName).val(attr.dataType);
 
+  var options = _.map(attr.listValues.split(','), function(input) {
+    return {
+      value: input,
+      text: input
+    }
+  });
+
+  this.$(safeName + "PicklistValue").selectize({
+    create: false,
+    options: options,
+    maxItems: 1
+  });
+
   switch (attr.dataType) {
     case 'text':
       $(safeName + "TextValue").val(attr.dataValue);
@@ -70,6 +94,7 @@ Template.extInfo.onRendered(function() {
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").hide();
+      $(safeName + "PicklistInputArea").hide();
       break;
     case 'advtext':
       $(safeName + "AdvTextValue").html(attr.dataValue);
@@ -77,6 +102,7 @@ Template.extInfo.onRendered(function() {
       $(safeName + "AdvTextInputArea").show();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").hide();
+      $(safeName + "PicklistInputArea").hide();
 
       editor = new MediumEditor('.editable', {
         placeholder: {
@@ -92,6 +118,7 @@ Template.extInfo.onRendered(function() {
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").show();
       $(safeName + "DateInputArea").hide();
+      $(safeName + "PicklistInputArea").hide();
       break;
     case 'date':
       $(safeName + "DateValue").val(attr.dataValue);
@@ -99,6 +126,17 @@ Template.extInfo.onRendered(function() {
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").show();
+      $(safeName + "PicklistInputArea").hide();
+      break;
+    case 'picklist':
+      $(safeName + "TextInputArea").hide();
+      $(safeName + "BooleanInputArea").hide();
+      $(safeName + "AdvTextInputArea").hide();
+      $(safeName + "DateInputArea").hide();
+      $(safeName + "PicklistInputArea").show();
+
+      var se = $(safeName + 'PicklistValue').selectize();
+      se[0].selectize.setValue(attr.dataValue);
       break;
   }
 

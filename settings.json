@@ -5,7 +5,8 @@
     "googleDeveloperKey": "AIzaSyBl0OmrvqoSet20yP7sOirUExQ28lloVzo",
     "googleClientKey": "329730007716-ru8vk3pa23l06vrr30opg8aoassndkr8.apps.googleusercontent.com",
     "oneDriveClientKey": "000000004017576E",
-    "tawkSiteId": "56b333a5fe87529955d980fa"
+    "tawkSiteId": "56b333a5fe87529955d980fa",
+    "googleAppId": "329730007716"
   },
   "private": {}
 }

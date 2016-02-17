@@ -104,7 +104,20 @@ Collections.opportunities.filters = {
       if (!sequencedIdentifier) return false;
       return true;
     }
-  }
+  },
+  salesManager: {
+    display: 'Sales Manager:',
+    prop: 'salesManager',
+    collectionName: 'users',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'allUserData',
+    displayValue: function(user) {
+      if (user) {
+        return user.profile.name;
+      }
+    }
+  },
 };
 
 ////////////////////
@@ -120,9 +133,15 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadOpportunities']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'name': 1
+    sort: (searchObject, options) => {
+      if (options.search.props.sortByClose) {
+        return {
+          'estCloseDate': -1
+        }
+      } else {
+        return {
+          'name': 1
+        }
       }
     },
     fields: (searchObject, options) => {
@@ -139,11 +158,19 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         'hasBeenWon': 1,
         'reasonLost': 1,
         'tags': 1,
-        'sequencedIdentifier': 1
+        'sequencedIdentifier': 1,
+        'salesManagerId': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+
+      if (options.search.props.salesManager) {
+        // n.b. the array is passed as a comma separated string
+        selector.salesManagerId = {
+          $in: options.search.props.salesManager.split(',')
+        };
+      }
 
       if (options.search.props.sequencedIdentifier) {
         selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
@@ -209,7 +236,7 @@ Opportunities.before.insert(function(userId, doc) {
   doc.currentStageId = 0;
 
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-      doc.sequencedIdentifier = Tenants.findOne({}).settings.opportunity.defaultNumber;
+    doc.sequencedIdentifier = Tenants.findOne({}).settings.opportunity.defaultNumber;
   }
 });
 

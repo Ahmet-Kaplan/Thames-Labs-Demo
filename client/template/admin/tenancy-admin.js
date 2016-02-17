@@ -210,6 +210,9 @@ Template.gcf_display.helpers({
       case 'label':
         retVal = 'Label';
         break;
+      case 'picklist':
+        retVal = 'Picklist';
+        break;
     }
 
     return retVal;

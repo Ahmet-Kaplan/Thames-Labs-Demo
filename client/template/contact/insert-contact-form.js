@@ -7,7 +7,6 @@ Template.insertContactModal.onCreated(function() {
 
 Template.insertContactModal.events({
   'click #close': function() {
-    Session.set(sessionVar);
     hopscotch.endTour(true);
   }
 });

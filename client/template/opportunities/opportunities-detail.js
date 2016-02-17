@@ -30,6 +30,12 @@ Template.opportunityDetail.onRendered(function() {
 });
 
 Template.opportunityDetail.helpers({
+  salesManager: function() {
+    var user = Meteor.users.findOne({
+      _id: this.salesManagerId
+    });
+    if (user) return user.profile.name;
+  },
   friendlyDate: function() {
     return moment(this.date).format('MMMM Do YYYY, h:mma');
   },
@@ -508,6 +514,19 @@ Template.opportunityDetail.events({
   'click #template-upload-link-docx': function() {
     document.getElementById('template-upload-docx').click();
   },
+  // 'click #template-google-drive-link': function() {
+  //   documentAPI.googleChooser(function(err, res) {
+  //     if (err) throw new Meteor.Error(err);
+  //     _.each(res, (file) => {
+
+  //       var fileId = file.fileId;
+  //       HTTP.post('https://www.googleapis.com/drive/v2/files/' + fileId + '/copy&key=' + Meteor.settings.public.googleDeveloperKey, function(err, res) {
+  //         if (err) throw new Meteor.Error(err);
+  //         console.log(res.id);
+  //       });
+  //     });
+  //   });
+  // },
   'click #opp-template-help': function(event) {
     event.preventDefault();
     Modal.show('oppHelpModal');
