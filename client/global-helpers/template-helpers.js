@@ -8,6 +8,12 @@ function getCurrencySymbol(currency) {
   return currencySymbol[currency] || '£';
 }
 
+Template.registerHelper('greaterThan', function(a, b) {
+  return a > b;
+});
+Template.registerHelper('lessThan', function(a, b) {
+  return a < b;
+});
 Template.registerHelper('equals', function(a, b) {
   return a === b;
 });
