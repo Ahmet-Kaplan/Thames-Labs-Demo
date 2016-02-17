@@ -23,7 +23,7 @@ Meteor.methods({
       }
 
       //Check if Admin tries to remove itself
-      if(userId === this.userId) {
+      if (userId === this.userId) {
         throw new Meteor.Error(403, 'You cannot remove your own account. Please contact us to do so.');
       }
     }
@@ -67,32 +67,60 @@ Meteor.methods({
     check(doc, Schemas.User);
 
     // Create user account
-    var userId = Accounts.createUser({
-      email: doc.email.toLowerCase(),
-      profile: {
-        name: doc.name,
-        watchlist: [],
-        lastLogin: null,
-        lastActivity: {
-          page: null,
-          url: null
-        },
-        poAuthLevel: 100000
+    if (!doc.password) {
+      var userId = Accounts.createUser({
+        email: doc.email.toLowerCase(),
+        profile: {
+          name: doc.name,
+          watchlist: [],
+          lastLogin: null,
+          lastActivity: {
+            page: null,
+            url: null
+          },
+          poAuthLevel: 100000
+        }
+      });
+
+      Roles.addUsersToRoles(userId, defaultPermissionsList);
+
+      // Add user to a group (partition) based on customer id
+      if (doc.group) {
+        Partitioner.setUserGroup(userId, doc.group);
       }
-    });
 
-    Roles.addUsersToRoles(userId, defaultPermissionsList);
+      Accounts.sendEnrollmentEmail(userId);
 
-    // Add user to a group (partition) based on customer id
-    if (doc.group) {
-      Partitioner.setUserGroup(userId, doc.group);
+      LogServerEvent('verbose', 'User created', 'user', userId);
+
+      Meteor.call('stripe.updateQuantity', doc.group);
+    } else {
+      var userId = Accounts.createUser({
+        email: doc.email.toLowerCase(),
+        password: doc.password,
+        profile: {
+          name: doc.name,
+          watchlist: [],
+          lastLogin: null,
+          lastActivity: {
+            page: null,
+            url: null
+          },
+          poAuthLevel: 100000
+        }
+      });
+
+      Roles.addUsersToRoles(userId, defaultPermissionsList);
+
+      // Add user to a group (partition) based on customer id
+      if (doc.group) {
+        Partitioner.setUserGroup(userId, doc.group);
+      }
+
+      LogServerEvent('verbose', 'User created', 'user', userId);
+
+      Meteor.call('stripe.updateQuantity', doc.group);
     }
-
-    Accounts.sendEnrollmentEmail(userId);
-
-    LogServerEvent('verbose', 'User created', 'user', userId);
-
-    Meteor.call('stripe.updateQuantity', doc.group);
   },
 
   addTenantUser: function(doc) {

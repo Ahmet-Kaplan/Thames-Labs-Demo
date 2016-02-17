@@ -126,7 +126,14 @@
               <i class="fa fa-fw fa-chevron-right pull-right"></i>
                {{contact.name}}
             </a>
-          {{/if}}{{/if}}
+          {{/if}}
+          {{#if salesManagerId}}
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-user-secret"></i> Sales Manager</h4>
+              {{salesManager}}
+            </li>
+          {{/if}}
+          {{/if}}
           <li class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Opportunity ID</h4>
             <p class="list-group-item-text">{{sequencedIdentifier}}</p>

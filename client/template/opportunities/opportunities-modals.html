@@ -18,6 +18,8 @@
 
             {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
 
+            {{> esSelectize name="salesManagerId" index=UsersIndex allowEmptyOption=true}}
+
             {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
             {{> afQuickField name="isArchived" value=false type="hidden"}}
             {{> afQuickField name="currentStageId" value=firstStageId type="hidden"}}
@@ -49,6 +51,7 @@
             {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
             {{> afQuickField name="companyId" id="companyId" value=companyId type="hidden"}}
             {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
+            {{> esSelectize name="salesManagerId" index=UsersIndex allowEmptyOption=true}}
             {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
             {{> afQuickField name="isArchived" value=false type="hidden"}}
             {{> afQuickField name="currentStageId" value=firstStageId type="hidden"}}
@@ -77,6 +80,7 @@
             {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
             {{> afQuickField name="value"}}
+            {{> esSelectize name="salesManagerId" index=UsersIndex allowEmptyOption=true}}
             {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
             {{> afQuickField name="isArchived" value=false type="hidden"}}
             {{> afQuickField name="currentStageId" value=firstStageId type="hidden"}}
@@ -121,6 +125,7 @@
               {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
               {{> afQuickField name="contactId" value=contactId type="hidden"}}
             {{/if}}
+            {{> esSelectize name="salesManagerId" index=UsersIndex value=salesManagerId allowEmptyOption=true}}
             <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
         </div>

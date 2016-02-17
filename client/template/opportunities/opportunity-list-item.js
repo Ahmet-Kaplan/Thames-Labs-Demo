@@ -4,6 +4,12 @@ Template.opportunityListItem.onCreated(function() {
 });
 
 Template.opportunityListItem.helpers({
+  salesManager: function() {
+    var user = Meteor.users.findOne({
+      _id: this.salesManagerId
+    });
+    if (user) return user.profile.name;
+  },
   friendlyEstClose: function() {
     return moment(this.estCloseDate).format('MMMM Do YYYY, h:mma');
   },
