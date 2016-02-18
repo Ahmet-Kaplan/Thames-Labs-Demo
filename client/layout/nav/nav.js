@@ -1,4 +1,8 @@
+Session.setDefault('notifications', []);
+Session.setDefault('showAllNotices', false);
+
 Template.nav.onCreated(function() {
+
   this.subscribe('allNotifications');
   this.fab = new ReactiveVar(!(bowser.mobile || bowser.tablet));
   this.fabOpen = new ReactiveVar(false);
@@ -40,6 +44,27 @@ Template.nav.onCreated(function() {
       Meteor.call('setNotified', getNotification._id);
     }
   });
+
+  $('#show-less-notices').hide();
+});
+
+Template.nav.onRendered(function() {
+  this.autorun(function() {
+    var showAll = Session.get('showAllNotices');
+
+    var notices = Notifications.find({
+      target: {
+        $in: [Meteor.userId(), 'all']
+      }
+    }, {
+      sort: {
+        createdAt: -1
+      },
+      limit: (showAll === true ? 99 : NOTICE_LIMIT)
+    }).fetch();
+
+    Session.set('notifications', notices);
+  });
 });
 
 Template.nav.onRendered(function() {
@@ -54,6 +79,17 @@ Template.nav.onRendered(function() {
 Template.nav.helpers({
   IsProTenant: function() {
     return Session.get('IsProTenant');
+  },
+  displayShowLess: function() {
+    var showAll = Session.get('showAllNotices');
+    return (showAll === true);
+  },
+  displayShowMore: function() {
+    var showAll = Session.get('showAllNotices');
+    return (showAll === false);
+  },
+  notificationLimit: function() {
+    return NOTICE_LIMIT;
   },
   showTourOption: function() {
     var currRoute = FlowRouter.getRouteName();
@@ -89,16 +125,7 @@ Template.nav.helpers({
     return sName;
   },
   notifications: function() {
-    return Notifications.find({
-      target: {
-        $in: [Meteor.userId(), 'all']
-      }
-    }, {
-      sort: {
-        createdAt: -1
-      },
-      limit: 3
-    });
+    return Session.get('notifications');
   },
   recentNote: function() {
     var today = new Date();
@@ -158,6 +185,24 @@ Template.nav.helpers({
 
 //NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
+  'click #show-more-notices': function(event, template) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    Session.set('showAllNotices', true);
+
+    $('#show-more-notices').hide();
+    $('#show-less-notices').show();
+  },
+  'click #show-less-notices': function(event, template) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    Session.set('showAllNotices', false);
+
+    $('#show-more-notices').show();
+    $('#show-less-notices').hide();
+  },
   'click #help-menu': function() {
     Modal.show("help");
   },

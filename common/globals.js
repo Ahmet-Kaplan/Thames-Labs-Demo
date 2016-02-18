@@ -223,3 +223,6 @@ MAX_FREE_ENTITY_LOCAL_FIELDS = 5;
 
 //Watchlist free plan limits
 MAX_FREE_WATCHLIST_RECORDS = 5;
+
+//Default notification display limit
+NOTICE_LIMIT = 3;

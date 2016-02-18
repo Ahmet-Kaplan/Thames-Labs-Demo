@@ -93,7 +93,7 @@ Meteor.methods({
         var id = Tasks.insert({
           title: task.title,
           description: task.description,
-          dueDate: task.dueDate,
+          dueDate: new Date(task.dueDate),
           assigneeId: assigneeId,
           completed: false,
           entityType: task.recordType,
