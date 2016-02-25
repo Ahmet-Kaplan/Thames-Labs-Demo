@@ -1,6 +1,6 @@
 Template.nav.onCreated(function() {
   this.subscribe('allNotifications');
-  this.fab = new ReactiveVar(!(bowser.mobile || bowser.tablet));
+  this.fab = new ReactiveVar(true);
   this.fabOpen = new ReactiveVar(false);
   this.autorun(function() {
     var getNotification = Notifications.findOne({
@@ -281,7 +281,6 @@ Template.nav.events({
     if (Template.instance().fab.get() === true) {
       template.fab.set(false);
     }else {
-      template.fabOpen.set(true);
       template.fab.set(true);
     };
   },
