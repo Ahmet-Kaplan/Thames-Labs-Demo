@@ -34,10 +34,10 @@
             <p class="list-group-item-text">{{jobtitle}}</p>
           </li>
           {{/if}} {{#if email}}
-          <li class="list-group-item panel-item-header">
+          <a href="mailto:{{email}}" class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-envelope"></i> Email</h4>
             <p class="list-group-item-text">{{email}}</p>
-          </li>
+          </a>
           {{/if}} {{#if phone}}
           <a href="{{phoneHref phone}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="">
             <h4><i class="fa fa-fw fa-phone"></i> Phone Number</h4>
