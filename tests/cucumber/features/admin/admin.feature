@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to manage general tenancy data
   As an administrator
   I want to manage the general tenancy data and settings
@@ -21,7 +22,7 @@ Feature: Allow users to manage general tenancy data
     And I set text field with id "custom-field-name" to "velocity"
     And I click "#typeText"
     And I set text field with id "custom-field-text-value" to "cucumber"
-    And I set selectize field to "Company"
+    And I selectize "select-entity" to "Company"
     And I click the button "#createCustomField"
     And I see a global field with the name "velocity" in the list "#custom-field-list"
     And I click "#delete-global-custom-field"
@@ -37,7 +38,7 @@ Feature: Allow users to manage general tenancy data
     And I set text field with id "custom-field-name" to "velocity"
     And I click "#typeText"
     And I set text field with id "custom-field-text-value" to "cucumber"
-    And I set selectize field to "Company"
+    And I selectize "select-entity" to "Company"
     And I click the button "#createCustomField"
     And I see a global field with the name "velocity" in the list "#custom-field-list"
     And I navigate to a company page
