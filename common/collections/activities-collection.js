@@ -22,6 +22,36 @@ Activities.helpers({
 
 Tags.TagsMixin(Activities);
 
+////////////////////
+// SEARCH FILTERS //
+////////////////////
+
+Collections.activities.filters = {
+  type: {
+    display: 'Type:',
+    prop: 'type',
+    defaultOptions: function() {
+      return ['Call', 'Note', 'Email']
+    },
+    strict: true,
+    allowMultiple: true,
+    verify: function(type) {
+      if (!type) return false;
+      return true;
+    }
+  },
+  tags: {
+    display: 'Tag:',
+    prop: 'tags',
+    collectionName: 'tags',
+    autosuggestFilter: {
+      collection: 'activities'
+    },
+    valueField: 'name',
+    nameField: 'name'
+  }
+};
+
 
 ////////////////////
 // SEARCH INDICES //
@@ -36,6 +66,28 @@ Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
         'activityTimestamp': -1
       };
     },
+    fields: (searchObject, options) => {
+      if (options.search.props.export) {
+        return {}
+      }
+      return {
+        'type': 1,
+        'notes': 1,
+        'activityTimestamp': 1,
+        'tags': 1,
+        'createdAt': 1,
+        'companyId': 1,
+        'contactId': 1,
+        'projectId': 1,
+        'purchaseOrderId': 1,
+        'opportunityId': 1,
+        'taskId': 1,
+        'primaryEntityType': 1,
+        'primaryEntityDisplayData': 1,
+        'primaryEntityId': 1,
+        'createdBy': 1
+      }
+    },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
       if (options.search.props.tags) {
@@ -43,6 +95,13 @@ Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
           $in: options.search.props.tags.split(',')
         };
       }
+
+      if (options.search.props.type) {
+        selector.type = {
+          $in: options.search.props.type.split(',')
+        };
+      }
+
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }

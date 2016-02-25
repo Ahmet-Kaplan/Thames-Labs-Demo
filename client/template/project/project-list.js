@@ -3,6 +3,7 @@ Template.projectsList.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadProjects');
   });
+  this.showArchived = new ReactiveVar(false);
   this.totalProjects = new ReactiveVar(0);
   this.activeProjects = new ReactiveVar(0);
   this.projectTotal = new ReactiveVar(0);
@@ -19,6 +20,17 @@ Template.projectsList.onRendered(function() {
       $('.stick-bar input').val(searchQuery);
     }
   });
+
+  // Update search props if reactive vars changed
+  this.autorun( () => {
+    var searchComponent = ProjectsIndex.getComponentMethods();
+    if (this.showArchived.get()) {
+      searchComponent.addProps('showArchived', 'true');
+    } else {
+      searchComponent.removeProps('showArchived');
+    }
+  });
+
   var template = this;
 
   Meteor.call('report.numberOfProjects', function(err, data) {
@@ -60,10 +72,19 @@ Template.projectsList.events({
     Meteor.call('report.projectsAverage', function(err, data) {
       template.projectsAverage.set(data.Value);
     });
+  },
+  'click #toggle-archived': function(event) {
+    event.preventDefault();
+    var showArchived = Template.instance().showArchived.get();
+    Template.instance().showArchived.set(!showArchived);
+    $(event.target).blur();
   }
 });
 
 Template.projectsList.helpers({
+  archivedShown: function() {
+    return Template.instance().showArchived.get();
+  },
   totalProjects: function() {
     return Template.instance().totalProjects.get();
   },

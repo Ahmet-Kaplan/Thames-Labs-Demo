@@ -213,6 +213,7 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
         'tags': 1,
         'companyId': 1,
         'contactId': 1,
+        'active': 1,
         'sequencedIdentifier': 1
       }
     },
@@ -221,6 +222,14 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
 
       if (options.search.props.sequencedIdentifier) {
         selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+      }
+
+      if (options.search.props.showArchived) {
+        selector.active = false;
+      } else {
+        selector.active = {
+          $ne: false
+        };
       }
 
       if (options.search.props.supplierCompanyId) {

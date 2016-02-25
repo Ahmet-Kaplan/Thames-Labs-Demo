@@ -7,7 +7,7 @@
   <!-- This should probably be refactored into a "search toolbar" template -->
 
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
       {{#if isInRole 'CanCreateContacts'}}
         <a class="btn btn-primary addContactToCompany {{#if isMobile}}btn-fullWidth{{/if}}" href="#" id="add-contact" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+X"><i class="fa fa-fw fa-plus"></i> Add contact</a>
       {{/if}}
@@ -15,6 +15,9 @@
         <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
         {{> contactDataManagement}}
       </div>
+    </div>
+    <div class="col-md-6">
+      {{> tagManagement collectionName='contacts'}}
     </div>
   </div>
 

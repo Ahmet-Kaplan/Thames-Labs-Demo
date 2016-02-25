@@ -3,6 +3,8 @@ Template.purchaseOrderList.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
   });
+  Session.set("showItems", false);
+
   this.totalPurchaseOrders = new ReactiveVar(0);
   this.totalApprovedPo = new ReactiveVar(0);
   this.totalArrivedPo = new ReactiveVar(0);
@@ -13,6 +15,13 @@ Template.purchaseOrderList.onCreated(function() {
 
 Template.purchaseOrderList.onRendered(function() {
   var template = this;
+
+  var curr = Session.get("showItems");
+  if (curr === true) {
+    $('#toggle-item-view').addClass('btn-success').removeClass('btn-default');
+  } else {
+    $('#toggle-item-view').removeClass('btn-success').addClass('btn-default');
+  }
 
   Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
     template.totalPurchaseOrders.set(data.Count);
@@ -33,10 +42,24 @@ Template.purchaseOrderList.onRendered(function() {
     template.totalRejectedPo.set(data.Count);
   });
 
-  $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: "#btn-popover"});
+  $('[data-toggle="popover"]').popover({
+    html: true,
+    placement: "bottom",
+    container: "#btn-popover"
+  });
 });
 
 Template.purchaseOrderList.events({
+  'click #toggle-item-view': function(event, template) {
+    var curr = Session.get("showItems");
+    Session.set("showItems", !curr);
+
+    if (Session.get("showItems") === true) {
+      $('#toggle-item-view').addClass('btn-success').removeClass('btn-default');
+    } else {
+      $('#toggle-item-view').removeClass('btn-success').addClass('btn-default');
+    }
+  },
   'click #add-purchase-order': function(event) {
     event.preventDefault();
     Modal.show('newPurchaseOrderForm', this);
@@ -47,26 +70,26 @@ Template.purchaseOrderList.events({
   },
   'click #ref_poOverviewWidget': function(event, template) {
 
-      Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
-        template.totalPurchaseOrders.set(data.Count);
-      });
-      Meteor.call('report.ApprovedPo', function(err, data) {
-        template.totalApprovedPo.set(data.Count);
-      });
-      Meteor.call('report.ArrivedPo', function(err, data) {
-        template.totalArrivedPo.set(data.Count);
-      });
+    Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
+      template.totalPurchaseOrders.set(data.Count);
+    });
+    Meteor.call('report.ApprovedPo', function(err, data) {
+      template.totalApprovedPo.set(data.Count);
+    });
+    Meteor.call('report.ArrivedPo', function(err, data) {
+      template.totalArrivedPo.set(data.Count);
+    });
 
-      Meteor.call('report.ClosedPo', function(err, data) {
-        template.totalClosedPo.set(data.Count);
-      });
-      Meteor.call('report.CancelledPo', function(err, data) {
-        template.totalCancelledPo.set(data.Count);
-      });
-      Meteor.call('report.RejectedPo', function(err, data) {
-        template.totalRejectedPo.set(data.Count);
-      });
-    }
+    Meteor.call('report.ClosedPo', function(err, data) {
+      template.totalClosedPo.set(data.Count);
+    });
+    Meteor.call('report.CancelledPo', function(err, data) {
+      template.totalCancelledPo.set(data.Count);
+    });
+    Meteor.call('report.RejectedPo', function(err, data) {
+      template.totalRejectedPo.set(data.Count);
+    });
+  }
 });
 
 Template.purchaseOrderList.helpers({

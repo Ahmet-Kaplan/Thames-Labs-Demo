@@ -30,6 +30,12 @@ Template.opportunityDetail.onRendered(function() {
 });
 
 Template.opportunityDetail.helpers({
+  salesManager: function() {
+    var user = Meteor.users.findOne({
+      _id: this.salesManagerId
+    });
+    if (user) return user.profile.name;
+  },
   friendlyDate: function() {
     return moment(this.date).format('MMMM Do YYYY, h:mma');
   },
