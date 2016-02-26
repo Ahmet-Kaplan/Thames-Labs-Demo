@@ -42,7 +42,9 @@ exportFromSearchToCSV = function(collectionName) {
       'supplierCompanyId',
       'supplierContactId',
       'primaryEntityId',
-      'documents'
+      'documents',
+      'customFields',
+      'extendedInformation'
     ];
 
     var cleanedResults = results.map((record) => {
