@@ -24,6 +24,20 @@ module.exports = function() {
       });
   });
 
+  this.Given(/^I am on the free plan$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('setTenantPlan', 'free', done);
+      });
+  });
+
+  this.Given(/^I am on the pro plan$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('setTenantPlan', 'pro', done);
+      });
+  });
+
   this.Given(/^a free user exists$/, function() {
     browser
       .executeAsync(function(done) {

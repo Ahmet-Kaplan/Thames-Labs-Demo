@@ -91,10 +91,21 @@ Meteor.methods({
       },
       stripe: {
         "totalRecords": 0,
-        "paying": false,
+        "paying": true,
         "blocked": false
       },
       createdAt: new Date()
+    });
+  },
+
+  setTenantPlan: function(plan) {
+    var tenant = Tenants.findOne({});
+    Tenants.update({
+      _id: tenant._id
+    }, {
+      $set: {
+        'settings.stripe.paying': (plan === 'free' ? false : true)
+      }
     });
   },
 
