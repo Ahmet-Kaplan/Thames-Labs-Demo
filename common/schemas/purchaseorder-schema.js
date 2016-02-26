@@ -103,6 +103,13 @@ Schemas.PurchaseOrder = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
   }
 });
 Schemas.PurchaseOrder.messages({
