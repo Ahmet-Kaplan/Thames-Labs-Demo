@@ -5,6 +5,9 @@
       <div class="col-md-12">
         <h4 class="entity-title">Purchase Order {{> watchlistAdmin entityData=this collection="purchaseorders"}}</h4>
         <h1 class="entity-name" id="purchase-order-details">{{description}}</h1>
+        <div id="company-details-tags">
+        {{> tagInput tags=tags collection='purchaseorders' entityId=_id permissionToEdit='CanEditPurchaseOrders'}}
+       </div>
 
         <!-- {{> tagInput}} -->
 
