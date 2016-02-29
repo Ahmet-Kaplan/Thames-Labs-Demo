@@ -42,7 +42,7 @@ Meteor.methods({
       },
       stripe: {
         "totalRecords": 0,
-        "paying": true,
+        "paying": false,
         "blocked": false
       },
       createdAt: new Date()
@@ -91,20 +91,51 @@ Meteor.methods({
       },
       stripe: {
         "totalRecords": 0,
-        "paying": true,
+        "paying": false,
         "blocked": false
       },
       createdAt: new Date()
     });
   },
 
-  setTenantPlan: function(plan) {
-    var tenant = Tenants.findOne({});
+  setTenantToFreePlan: function() {
+    var t = Tenants.findOne({
+      name: 'Acme Corp'
+    });
+
     Tenants.update({
-      _id: tenant._id
+      _id: t._id
     }, {
       $set: {
-        'settings.stripe.paying': (plan === 'free' ? false : true)
+        'stripe.paying': false
+      }
+    });
+    var users = Meteor.users.find({
+      group: t._id
+    }).fetch();
+
+    _.each(users, function(user) {
+      if (!Roles.userIsInRole(user._id, 'Administrator')) {
+        Roles.addUsersToRoles(user._id, ["Administrator"]);
+      }
+      _.each(defaultPermissionsList, function(p) {
+        if (!Roles.userIsInRole(user._id, p)) {
+          Roles.addUsersToRoles(user._id, p);
+        }
+      })
+
+    });
+  },
+  setTenantToProPlan: function() {
+    var t = Tenants.findOne({
+      name: 'Acme Corp'
+    });
+
+    Tenants.update({
+      _id: t._id
+    }, {
+      $set: {
+        'stripe.paying': true
       }
     });
   },
@@ -151,7 +182,7 @@ Meteor.methods({
       },
       stripe: {
         "totalRecords": 0,
-        "paying": true,
+        "paying": false,
         "blocked": false
       },
       createdAt: new Date()

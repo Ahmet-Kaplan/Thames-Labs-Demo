@@ -25,17 +25,11 @@ module.exports = function() {
   });
 
   this.Given(/^I am on the free plan$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('setTenantPlan', 'free', done);
-      });
+    server.call('setTenantToFreePlan');
   });
 
   this.Given(/^I am on the pro plan$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('setTenantPlan', 'pro', done);
-      });
+    server.call('setTenantToProPlan');
   });
 
   this.Given(/^a free user exists$/, function() {
@@ -99,7 +93,7 @@ module.exports = function() {
     browser
       .executeAsync(function(done) {
         Meteor.call('removeWelcome', done);
-    });
+      });
     browser.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
 
@@ -108,11 +102,11 @@ module.exports = function() {
     browser
       .executeAsync(function(done) {
         Meteor.call('removeWelcome', done);
-    });
+      });
   });
 
   this.Given(/^I am logged in as a new user$/, function() {
-      browser.executeAsync(login, 'test@domain.com', 'goodpassword');
+    browser.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
 
   this.Given(/^I am a logged in superadmin user$/, function() {
@@ -143,9 +137,9 @@ module.exports = function() {
     });
   });
 
-/***************************************************
-                        WHEN
-***************************************************/
+  /***************************************************
+                          WHEN
+  ***************************************************/
 
   this.When(/^I navigate to "([^"]*)"$/, function(relativePath) {
     var path = url.resolve(process.env.ROOT_URL, relativePath);
@@ -225,7 +219,7 @@ module.exports = function() {
 
   this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value) {
     var selectizeInput = '#' + selector + ' + .selectize-control>.selectize-input>input',
-        selectizeDropdown = '#' + selector + ' + .selectize-control>.selectize-dropdown';
+      selectizeDropdown = '#' + selector + ' + .selectize-control>.selectize-dropdown';
     browser.waitForExist(selectizeInput, 5000);
     browser.waitForVisible(selectizeInput, 5000);
     browser.setValue(selectizeInput, value);
@@ -348,7 +342,7 @@ module.exports = function() {
     browser.waitForVisible('.toast-message', 5000);
     browser.waitUntil(function() {
       var toastrs = browser.getText('.toast-message');
-      if(typeof toastrs !== 'object') {
+      if (typeof toastrs !== 'object') {
         toastrs = [toastrs];
       }
       return toastrs.some(function(toastr) {
@@ -397,9 +391,9 @@ module.exports = function() {
     browser.waitForExist(element, 5000);
     browser.waitForVisible(element, 5000);
     var elements = browser.getText(element, 2000);
-    if(typeof elements === 'object') {
+    if (typeof elements === 'object') {
       return elements.some(function(elt) {
-        if(elt.search(new RegExp(desiredText))) return true;
+        if (elt.search(new RegExp(desiredText))) return true;
       });
     } else {
       expect(elements).toContain(desiredText);
