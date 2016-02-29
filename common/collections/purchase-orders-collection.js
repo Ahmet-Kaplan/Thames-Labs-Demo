@@ -34,6 +34,8 @@ PurchaseOrders.helpers({
   }
 });
 
+Tags.TagsMixin(PurchaseOrders);
+
 ////////////////////
 // SEARCH FILTERS //
 ////////////////////
@@ -117,7 +119,17 @@ Collections.purchaseorders.filters = {
       if (!sequencedIdentifier) return false;
       return true;
     }
-  }
+  },
+  tags: {
+    display: 'Tag:',
+    prop: 'tags',
+    collectionName: 'tags',
+    autosuggestFilter: {
+      collection: 'purchaseorders'
+    },
+    valueField: 'name',
+    nameField: 'name'
+  },
 }
 
 ////////////////////
@@ -149,11 +161,19 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
         'supplierContactId': 1,
         'projectId': 1,
         'totalValue': 1,
+        'tags': 1,
         'sequencedIdentifier': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = {
+          $in: options.search.props.tags.split(',')
+        };
+      }
 
       if (options.search.props.sequencedIdentifier) {
         selector.sequencedIdentifier = options.search.props.sequencedIdentifier;
