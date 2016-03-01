@@ -139,6 +139,19 @@ Meteor.methods({
       }
     });
   },
+  setSecondTenantToProPlan: function() {
+    var t = Tenants.findOne({
+      name: 'Acme Corp Rivals'
+    });
+
+    Tenants.update({
+      _id: t._id
+    }, {
+      $set: {
+        'stripe.paying': true
+      }
+    });
+  },
 
   createSecondTenant: function() {
     var tenantName = 'Acme Corp Rivals';
@@ -187,6 +200,8 @@ Meteor.methods({
       },
       createdAt: new Date()
     });
+
+    console.log("2nd tenant created");
   },
 
   createTestUser: function() {
@@ -269,9 +284,9 @@ Meteor.methods({
     });
   },
 
-  removeWelcome: function() {
+  removeWelcome: function(email) {
     Meteor.users.update({
-      username: "test user"
+      'emails.address': email
     }, {
       $set: {
         "profile.welcomeTour": true,

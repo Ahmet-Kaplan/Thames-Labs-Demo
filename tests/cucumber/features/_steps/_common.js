@@ -32,6 +32,10 @@ module.exports = function() {
     server.call('setTenantToProPlan');
   });
 
+  this.Given(/^the second tenant is on the pro plan$/, function() {
+    server.call('setSecondTenantToProPlan');
+  });
+
   this.Given(/^a free user exists$/, function() {
     browser
       .executeAsync(function(done) {
@@ -92,17 +96,26 @@ module.exports = function() {
   this.Given(/^I am a logged in user$/, function() {
     browser
       .executeAsync(function(done) {
-        Meteor.call('removeWelcome', done);
+        Meteor.call('removeWelcome', 'test@domain.com', done);
       });
     browser.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
 
   this.Given(/^I log in as user 2$/, function() {
-    browser.executeAsync(login, 'test2@domain.com', 'goodpassword');
     browser
       .executeAsync(function(done) {
-        Meteor.call('removeWelcome', done);
+        Meteor.call('removeWelcome', 'test2@domain.com', done);
       });
+    browser.executeAsync(login, 'test2@domain.com', 'goodpassword');
+  });
+
+
+  this.Given(/^I log in as a second tenant user$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('removeWelcome', 'testtwo@domain.com', done);
+      });
+    browser.executeAsync(login, 'testtwo@domain.com', 'goodpassword');
   });
 
   this.Given(/^I am logged in as a new user$/, function() {
@@ -292,6 +305,10 @@ module.exports = function() {
 
   this.Then(/^I should see the heading "([^"]*)"$/, function(expectedHeading) {
     browser.waitForExist('h1*=' + expectedHeading, 5000);
+  });
+
+  this.Then(/^I should not see the heading "([^"]*)"$/, function(expectedHeading) {
+    browser.waitForExist('h1*=' + expectedHeading, 5000, true);
   });
 
   this.Then(/^I should see a modal$/, function() {
