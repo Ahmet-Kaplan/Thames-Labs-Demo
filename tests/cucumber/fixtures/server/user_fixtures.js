@@ -135,9 +135,7 @@ Meteor.methods({
       _id: t._id
     }, {
       $set: {
-        'stripe.paying': true,
-        'stripe.stripeId': 'null',
-        'stripe.stripeSubs': 0
+        'stripe.paying': true
       }
     });
   },
@@ -150,9 +148,7 @@ Meteor.methods({
       _id: t._id
     }, {
       $set: {
-        'stripe.paying': true,
-        'stripe.stripeId': 'test',
-        'stripe.stripeSubs': 0,
+        'stripe.paying': true
       }
     });
   },

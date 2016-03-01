@@ -1,3 +1,4 @@
+@dev
 Feature: Allow users to manage their Projects
   As a user of the app
   I want to manage my Projects
@@ -40,12 +41,14 @@ Feature: Allow users to manage their Projects
 
   Scenario: An administrator can add CanReadProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Projects" to a restricted user
     Then the user "restricted user" should have the "CanReadProjects" permission
 
   Scenario: An administrator can remove CanReadProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
     Then the user "restricted user" should not have the "CanReadProjects" permission
@@ -84,12 +87,14 @@ Feature: Allow users to manage their Projects
 
   Scenario: An administrator can add CanCreateProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanCreate" on "Projects" to a restricted user
     Then the user "restricted user" should have the "CanCreateProjects" permission
 
   Scenario: An administrator can remove CanCreateProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
     Then the user "restricted user" should not have the "CanCreateProjects" permission
@@ -114,12 +119,14 @@ Feature: Allow users to manage their Projects
 
   Scenario: An administrator can add CanEditProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanEdit" on "Projects" to a restricted user
     Then the user "restricted user" should have the "CanEditProjects" permission
 
   Scenario: An administrator can remove CanEditProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
     Then the user "restricted user" should not have the "CanEditProjects" permission
@@ -143,12 +150,14 @@ Feature: Allow users to manage their Projects
 
   Scenario: An administrator can add CanDeleteProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Projects" to a restricted user
     Then the user "restricted user" should have the "CanDeleteProjects" permission
 
   Scenario: An administrator can remove CanDeleteProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
     Then the user "restricted user" should not have the "CanDeleteProjects" permission
@@ -292,6 +301,7 @@ Feature: Allow users to manage their Projects
   #Filtering and Searching
   Scenario: A user can filter projects by company
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a "Project" has been created
     And an additional "Project" has been created
     When I navigate to "/projects"
@@ -302,6 +312,7 @@ Feature: Allow users to manage their Projects
 
   Scenario: Clicking a tag badge applies the filter
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a "Project" has been created
     And an additional "Project" has been created
     When I navigate to "/projects"
