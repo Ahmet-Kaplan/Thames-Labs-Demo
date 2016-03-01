@@ -194,7 +194,7 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
 
 var checkRecordsNumber = Collections.helpers.checkRecordsNumber;
 
-Companies.before.insert(function(userId, doc) {
+Companies.before.insert(function(userId, doc) {  
   if (doc.website) {
     var currentWebsite = doc.website;
     if (currentWebsite.indexOf('http://') === -1) {
@@ -243,7 +243,7 @@ Companies.after.insert(function(userId, doc) {
         'settings.company.defaultNumber': 1
       }
     });
-  }
+  }  
 });
 
 Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
