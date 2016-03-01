@@ -27,7 +27,7 @@ AutoForm.hooks({
       if (error.reason === "Email already exists.") {
         toastr.error('A user with this email already exists.');
       } else {
-        toastr.error('Unable to create user.');
+        toastr.error('Unable to create user: ' + error.reason);
       }
     }
   }

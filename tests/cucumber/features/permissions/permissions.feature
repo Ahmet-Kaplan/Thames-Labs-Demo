@@ -52,16 +52,18 @@ Feature: Allow administrators to give users permissions
     And I click "#general-dropdown"
     Then I should see the "#Administration" button
 
+@dev 
   Scenario: An administrator can add a new user
     Given a user exists
     And I am a logged in user
     And I have the "Administrator" permission
+    And I am on the pro plan
     When I click "#general-dropdown"
     And I click "#Administration"
     And I click "#userAdminPanelExpander"
     And I click "#addNewUserAccount"
-    And I set text field "name" to "User Name"
-    And I set text field "email" to "user.name@domain.com"
+    And I set text field "name" to "Super Mario"
+    And I set text field "email" to "mario@mariobros.com"
     And I submit the "addNewUser" form
     Then I should see a success toastr
 
@@ -93,6 +95,7 @@ Feature: Allow administrators to give users permissions
     Given a user exists
     And I am a logged in user
     And I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I click "#general-dropdown"
     And I click "#Administration"
@@ -106,6 +109,7 @@ Feature: Allow administrators to give users permissions
     Given a user exists
     And I am a logged in user
     And I have the "Administrator" permission
+    And I am on the pro plan
     When I click "#general-dropdown"
     And I click "#Administration"
     And I click "#userAdminPanelExpander"
