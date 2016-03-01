@@ -7,6 +7,7 @@ Feature: Allow users to manage their Purchase Orders
     Given a user exists
     And I am a logged in user
     And I have the "CanReadPurchaseOrders" permission
+    And I am on the pro plan
 
   Scenario: A superadmin user can't visit the Purchase Orders list
     Given a superadmin exists
@@ -21,18 +22,21 @@ Feature: Allow users to manage their Purchase Orders
     When I navigate to "/purchaseorders"
     Then I should see the heading "Purchase Orders"
 
+@dev 
   Scenario: A user should not be able to see purchase orders created by a user under another tenant
     Given a "PurchaseOrder" has been created
+    And a second tenant exists
+    And the second tenant is on the pro plan
+    And a second user exists
     And I navigate to "/purchaseorders"
     Then I should see "#list-item"
-    Given a second tenant exists
-    And a second user exists
     And I log out
-    And I log in as user 2
+    And I log in as a second tenant user
     And I have the "CanReadPurchaseOrders" permission
     And I navigate to "/purchaseorders"
     Then I should not see "#list-item"
 
+#@dev
   Scenario: A user can add a new purchase order to a company
     Given I am a logged in user
     And a "Company" has been created
@@ -46,6 +50,7 @@ Feature: Allow users to manage their Purchase Orders
     And I click "#create-purchase-order"
     Then I should see the heading "test purchase order"
 
+#@dev
   Scenario: A user can edit a purchase order
     Given I am a logged in user
     And a "Company" has been created
@@ -61,6 +66,7 @@ Feature: Allow users to manage their Purchase Orders
     And I click "#update-purchase-order"
     Then I should see the heading "new purchase order"
 
+#@dev
   Scenario: A user can delete a purchase order
     Given I am a logged in user
     And a "Company" has been created
@@ -77,6 +83,7 @@ Feature: Allow users to manage their Purchase Orders
     And I click confirm on the modal
     Then I should not see "#po-item"
 
+#@dev
   Scenario: A user can add a new items to a purchase order
     Given I am a logged in user
     And a "Company" has been created
@@ -95,6 +102,7 @@ Feature: Allow users to manage their Purchase Orders
     And I click "#add-item-to-po"
     Then element "#purchase-order-items" should contain the text "test item"
 
+#@dev
   Scenario: A user can edit an existing purchase order item
     Given I am a logged in user
     And a "Company" has been created
@@ -116,6 +124,7 @@ Feature: Allow users to manage their Purchase Orders
     And I click "#update-po-item"
     Then element "#po-item" should contain the text "test purchase order item"
 
+#@dev
   Scenario: A user can delete an existing purchase order item
     Given I am a logged in user
     And a "Company" has been created
@@ -136,12 +145,14 @@ Feature: Allow users to manage their Purchase Orders
     And I click confirm on the modal
     Then element "#purchase-order-items" should contain the text "No items"
 
+    #@dev
   Scenario: A user can see the purchase orders overview
     When I navigate to "/purchaseorders"
     And I click "#ref_poOverviewWidget"
     Then I should see "#poOverviewPop"
 
   #Activities
+  #@dev
   Scenario: A user can add, edit and delete an activity
     Given I am a logged in user
     And I have the "CanReadCompanies" permission
@@ -173,6 +184,7 @@ Feature: Allow users to manage their Purchase Orders
     Then I should see "#no-activity"
 
   #Filtering and Searching
+  #@dev
   Scenario: A user can filter purchase orders by company
     Given I have the "CanReadCompanies" permission
     And I have the "CanReadPurchaseOrders" permission
@@ -184,6 +196,7 @@ Feature: Allow users to manage their Purchase Orders
     Then I should see ".removeProp"
     And "#resultsCount" should say "1 record"
 
+#@dev
   Scenario: A user can filter purchase orders by status
     Given I have the "Administrator" permission
     And a "PurchaseOrder" has been created
