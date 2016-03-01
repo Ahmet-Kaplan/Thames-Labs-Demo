@@ -61,6 +61,19 @@ Meteor.methods({
                   verifiedEmail = (rx.test(email) === false ? '' : email);
                 }
 
+                //Get global cfs
+                var globalFields = tenant.settings.extInfo.contact;
+                var gei = [];
+                _.each(globalFields, function(gf) {
+                  var settings = {
+                    "dataName": gf.name,
+                    "dataValue": '',
+                    "dataType": gf.type,
+                    isGlobal: true
+                  };
+                  gei.push(settings);
+                });
+
                 var contactId = Contacts.insert({
                   forename: row[forenameColumn],
                   surname: row[surnameColumn],
@@ -75,6 +88,7 @@ Meteor.methods({
                   postcode: (postcodeColumn !== "" ? row[postcodeColumn] : ""),
                   country: (countryColumn !== "" ? row[countryColumn] : ""),
                   createdBy: userId,
+                  extendedInformation: gei,
                   sequencedIdentifier: tenant.settings.contact.defaultNumber
                 });
 
@@ -101,7 +115,8 @@ Meteor.methods({
                       if (attr.isGlobal) {
                         for (var x in cfArray) {
 
-                          if (cfArray[x].refName === index) {
+                          if (cfArray[x].refName === attr.dataName) {
+
                             var settings = {
                               "dataName": cfArray[x].refName,
                               "dataValue": row[cfArray[x].refVal],
@@ -203,6 +218,19 @@ Meteor.methods({
                   formattedWebsite = (rx.test(url) === false ? '' : url);
                 }
 
+                //Get global cfs
+                var globalFields = tenant.settings.extInfo.company;
+                var gei = [];
+                _.each(globalFields, function(gf) {
+                  var settings = {
+                    "dataName": gf.name,
+                    "dataValue": '',
+                    "dataType": gf.type,
+                    isGlobal: true
+                  };
+                  gei.push(settings);
+                });
+
                 var companyId = Companies.insert({
                   name: row[nameColumn],
                   address: (addressColumn !== "" ? row[addressColumn] : ""),
@@ -213,6 +241,7 @@ Meteor.methods({
                   website: (websiteColumn !== "" ? formattedWebsite : ""),
                   phone: (phoneColumn !== "" ? row[phoneColumn] : ""),
                   createdBy: userId,
+                  extendedInformation: gei,
                   sequencedIdentifier: tenant.settings.company.defaultNumber
                 });
 
@@ -229,6 +258,7 @@ Meteor.methods({
                     _id: companyId
                   });
                   if (company) {
+
                     var customFields = company.extendedInformation;
                     var cfMaster = [];
 
@@ -239,7 +269,7 @@ Meteor.methods({
                         if (attr.isGlobal) {
                           for (var x in cfArray) {
 
-                            if (cfArray[x].refName === index) {
+                            if (cfArray[x].refName === attr.dataName) {
                               var settings = {
                                 "dataName": cfArray[x].refName,
                                 "dataValue": row[cfArray[x].refVal],
