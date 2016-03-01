@@ -172,7 +172,7 @@ Meteor.methods({
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 
-    Meteor.call('stripe.updateQuantity');
+    Meteor.call('stripe.updateQuantity', Partitioner.getUserGroup(adminId));
   }
 
 });

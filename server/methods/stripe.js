@@ -507,7 +507,7 @@ Meteor.methods({
     var couponValid = new Future();
     var tenantId = Partitioner.getUserGroup(this.userId);
 
-    if(couponId === '') {
+    if (couponId === '') {
       Tenants.update(tenantId, {
         $unset: {
           'stripe.coupon': ''
@@ -518,7 +518,7 @@ Meteor.methods({
       Stripe.coupons.retrieve(couponId, Meteor.bindEnvironment(function(err, coupon) {
         if (err) {
           couponValid.return(false);
-        } else if(coupon.valid === true) {
+        } else if (coupon.valid === true) {
           Tenants.update(tenantId, {
             $set: {
               'stripe.coupon': couponId
