@@ -387,16 +387,19 @@ Meteor.methods({
     });
     var stripeId = theTenant.stripe.stripeId;
     var Stripe = StripeAPI(process.env.STRIPE_SK);
+
+    console.log(stripeId);
+
     if (stripeId) {
       Stripe.customers.del(stripeId);
-      Tenants.direct.update({
-        _id: tenantId
-      }, {
-        $unset: {
-          'stripe.stripeId': '',
-          'stripe.stripeSubs': ''
-        }
-      });
+      // Tenants.direct.update({
+      //   _id: tenantId
+      // }, {
+      //   $unset: {
+      //     'stripe.stripeId': '',
+      //     'stripe.stripeSubs': ''
+      //   }
+      // });
     }
   }
 });
