@@ -46,6 +46,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then the Stripe field "#planName" should say "Free Plan"
     #Then delete stripe customer
 
+@dev
   Scenario: An administrator can resume to the Paying scheme
     Given I have subscribed to the paying plan
     Given I have unsubscribed from the paying plan
@@ -60,6 +61,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then the Stripe field "#planName" should not contain "Free"
     #Then delete stripe customer
 
+@dev
   Scenario: An administrator can update its card details
     Given I have subscribed to the paying plan
     When I navigate to "/admin"
@@ -75,6 +77,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then the Stripe field "#cardExpYear" should say "2022"
     #Then delete stripe customer
 
+@dev
   Scenario: An administrator can update its email for invoices
     Given I have subscribed to the paying plan
     When I navigate to "/admin"
