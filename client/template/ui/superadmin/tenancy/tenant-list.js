@@ -8,9 +8,9 @@ Template.tenantList.onCreated(function() {
 
 Template.tenantList.helpers({
   tenants: function(paying) {
-    var payingTenant = (paying === "true") ? true : false;
+    var plan = (paying === "true") ? 'pro' : 'free';
     return Tenants.find({
-      "stripe.paying": payingTenant
+      "plan": plan
     }, {
       sort: {
         name: 1
@@ -36,6 +36,14 @@ Template.tenantList.helpers({
 
 
 Template.tenant.helpers({
+  freePaying: function(){
+    if(this.plan === 'pro'){
+      if(this.stripe.stripeSubs){
+        return true;
+      }
+    }
+    return false;
+  },
   userCount: function() {
     return Meteor.users.find({
       group: this._id
@@ -53,7 +61,7 @@ Template.tenant.helpers({
     return true;
   },
   isPayingTenant: function() {
-    return this.stripe.paying;
+    return this.plan === 'pro';
   },
   generationInProgress: function() {
     return ServerSession.get('populatingDemoData');

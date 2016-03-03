@@ -32,6 +32,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then the Stripe field "#planName" should not contain "Free"
     #Then delete stripe customer
 
+@dev
   Scenario: An administrator can unsubscribe from the Paying scheme
     Given I have subscribed to the paying plan
     When I navigate to "/admin"

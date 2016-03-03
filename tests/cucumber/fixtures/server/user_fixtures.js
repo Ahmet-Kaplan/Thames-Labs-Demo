@@ -5,6 +5,7 @@ Meteor.methods({
 
     Tenants.insert({
       name: tenantName,
+      plan: 'free',
       settings: {
         extInfo: {
           company: [],
@@ -42,7 +43,6 @@ Meteor.methods({
       },
       stripe: {
         "totalRecords": 0,
-        "paying": false,
         "blocked": false
       },
       createdAt: new Date()
@@ -54,6 +54,7 @@ Meteor.methods({
 
     Tenants.insert({
       name: tenantName,
+      plan: 'free',
       settings: {
         extInfo: {
           company: [],
@@ -107,7 +108,7 @@ Meteor.methods({
       _id: t._id
     }, {
       $set: {
-        'stripe.paying': false
+        plan: 'free'
       }
     });
     var users = Meteor.users.find({
@@ -135,7 +136,7 @@ Meteor.methods({
       _id: t._id
     }, {
       $set: {
-        'stripe.paying': true
+        plan: 'pro'
       }
     });
   },
@@ -148,7 +149,7 @@ Meteor.methods({
       _id: t._id
     }, {
       $set: {
-        'stripe.paying': true
+        plan: 'pro'
       }
     });
   },
@@ -158,6 +159,7 @@ Meteor.methods({
 
     Tenants.insert({
       name: tenantName,
+      plan: 'free',
       settings: {
         extInfo: {
           company: [],
@@ -194,8 +196,7 @@ Meteor.methods({
         }
       },
       stripe: {
-        "totalRecords": 0,
-        "paying": false,
+        "totalRecords": 0,        
         "blocked": false
       },
       createdAt: new Date()

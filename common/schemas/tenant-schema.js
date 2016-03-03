@@ -3,6 +3,14 @@ Schemas.Tenant = new SimpleSchema({
     type: String,
     label: "Name"
   },
+  plan: {
+    type: String,
+    label: "Plan",
+    autoform: {
+      type: "hidden"
+    },
+    defaultValue: 'free'
+  },
   settings: {
     type: Object,
     blackbox: true,
@@ -16,16 +24,18 @@ Schemas.Tenant = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
-  },
+  },  
   "stripe.paying": {
     type: Boolean,
     label: "Paying tenant",
-    defaultValue: false
+    defaultValue: false,
+    optional: true
   },
   "stripe.freeUnlimited": {
     type: Boolean,
     label: "Free unlimited",
-    defaultValue: false
+    defaultValue: false,
+    optional: true
   },
   "stripe.blocked": {
     // TODO: remove stripe.blocked - it was marked optional and removed from

@@ -96,7 +96,7 @@ Meteor.methods({
         $set: {
           "stripe.stripeId": customer.id,
           "stripe.stripeSubs": customer.subscriptions.data[0].id,
-          "stripe.paying": true
+          "plan": 'pro'
         }
       });
 
@@ -166,7 +166,9 @@ Meteor.methods({
       LogServerEvent('error', 'Unable to update Stripe Quantity for tenant of user ' + superadminTenantId + '/tenant ' + tenantId);
       return false;
     }
-    if (theTenant.stripe.paying === false || theTenant.stripe.freeUnlimited) {
+    console.log(theTenant.plan);
+
+    if (theTenant.plan === 'free') {
       return true;
     }
 
@@ -227,7 +229,7 @@ Meteor.methods({
           }
           Tenants.update(tenantId, {
             $set: {
-              "stripe.paying": false
+              "plan": 'free'
             }
           });
 
@@ -297,7 +299,7 @@ Meteor.methods({
 
       Tenants.update(tenantId, {
         $set: {
-          "stripe.paying": true
+          "plan": 'pro'
         }
       });
 

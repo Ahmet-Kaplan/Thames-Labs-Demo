@@ -24,7 +24,7 @@ IsTenantPro = function(tenantId) {
 
     if (!tenant || !tenant.stripe) return false;
 
-    if (tenant.stripe.paying === true || tenant.stripe.freeUnlimited === true) {
+    if (tenant.plan === 'pro') {
       return true;
     }
   }

@@ -52,6 +52,7 @@ Feature: Allow administrators to give users permissions
     And I click "#general-dropdown"
     Then I should see the "#Administration" button
 
+@dev
   Scenario: An administrator can add a new user
     Given a user exists
     And I am a logged in user
