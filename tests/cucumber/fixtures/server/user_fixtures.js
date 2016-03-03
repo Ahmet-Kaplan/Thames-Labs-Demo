@@ -200,8 +200,6 @@ Meteor.methods({
       },
       createdAt: new Date()
     });
-
-    console.log("2nd tenant created");
   },
 
   createTestUser: function() {
@@ -387,8 +385,6 @@ Meteor.methods({
     });
     var stripeId = theTenant.stripe.stripeId;
     var Stripe = StripeAPI(process.env.STRIPE_SK);
-
-    console.log(stripeId);
 
     if (stripeId) {
       Stripe.customers.del(stripeId);

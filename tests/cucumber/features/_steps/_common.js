@@ -317,6 +317,12 @@ module.exports = function() {
     expect(browser.isExisting('.modal-dialog')).toEqual(true);
   });
 
+  this.Then(/^I should see a modal with the title "([^"]*)"$/, function(expectedTitle) {
+    browser.waitForExist('.modal-dialog', 5000);
+    browser.waitForVisible('.modal-dialog', 5000);
+    expect(browser.waitForExist('h4*=' + expectedTitle, 5000)).toEqual(true);
+  });
+
   this.Then(/^I should not see a modal$/, function() {
     browser.executeAsync(function(done) {
       setTimeout(done, 1000);
