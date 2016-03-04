@@ -204,12 +204,6 @@ module.exports = function() {
     browser.setValue('textarea[data-schema-key=' + fieldName + ']', value);
   });
 
-  this.When(/^I set selectize field to "([^"]*)"$/, function(value) {
-    browser.waitForExist(".selectize-control .selectize-input input", 5000);
-    browser.setValue(".selectize-control .selectize-input input", value);
-    browser.keys(['Return']);
-  });
-
   //This step is necessary when editing fields within an array (eg Opportunites, field items.0.name)
   this.When(/^I set text field with id "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
     browser.waitForExist('#' + fieldName, 5000);

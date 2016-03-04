@@ -313,7 +313,6 @@ Feature: Allow users to manage their Contacts
       Given a "Contact" has been created
       When I navigate to a contact page
       And I click "#general-dropdown"
-      And I click "#toggleFab"
       And I click "#add-activity"
       And I set text field "activityTimestamp" to "05/05/2015 05:05"
       And I set rich text field "notes" to "test activity"
@@ -325,7 +324,6 @@ Feature: Allow users to manage their Contacts
       Given a "Contact" has been created
       When I navigate to a contact page
       And I click "#general-dropdown"
-      And I click "#toggleFab"
       And I click "#add-activity"
       And I set text field "activityTimestamp" to "05/05/2015 05:05"
       And I set rich text field "notes" to "test activity"
@@ -341,7 +339,6 @@ Feature: Allow users to manage their Contacts
       Given a "Contact" has been created
       When I navigate to a contact page
       And I click "#general-dropdown"
-      And I click "#toggleFab"
       And I click "#add-activity"
       And I set text field "activityTimestamp" to "05/05/2015 05:05"
       And I set rich text field "notes" to "test activity"

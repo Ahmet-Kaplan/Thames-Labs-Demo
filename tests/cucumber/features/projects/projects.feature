@@ -265,7 +265,6 @@ Feature: Allow users to manage their Projects
     Given a "Project" has been created
     When I navigate to a project page
     And I click "#general-dropdown"
-    And I click "#toggleFab"
     And I click "#add-activity"
     Then I should see a modal
     When I set text field "activityTimestamp" to "05/05/2015 05:05"

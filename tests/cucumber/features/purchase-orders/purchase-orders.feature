@@ -161,7 +161,6 @@ Feature: Allow users to manage their Purchase Orders
     And I click "#menuLinkPurchaseOrders"
     And I click "#list-item"
     And I click "#general-dropdown"
-    And I click "#toggleFab"
     And I click "#add-activity"
     Then I should see a modal
     When I set text field "activityTimestamp" to "05/05/2015 05:05"

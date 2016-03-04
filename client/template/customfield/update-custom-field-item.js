@@ -74,18 +74,20 @@ Template.extInfo.onRendered(function() {
   var selectorName = safeName + "TypeOptions";
   $(selectorName).val(attr.dataType);
 
-  var options = _.map(attr.listValues.split(','), function(input) {
-    return {
-      value: input,
-      text: input
-    }
-  });
+  if (attr.listValues) {
+    var options = _.map(attr.listValues.split(','), function(input) {
+      return {
+        value: input,
+        text: input
+      }
+    });
 
-  this.$(safeName + "PicklistValue").selectize({
-    create: false,
-    options: options,
-    maxItems: 1
-  });
+    this.$(safeName + "PicklistValue").selectize({
+      create: false,
+      options: options,
+      maxItems: 1
+    });
+  }
 
   switch (attr.dataType) {
     case 'text':

@@ -4,7 +4,7 @@ Session.setDefault('showAllNotices', false);
 Template.nav.onCreated(function() {
 
   this.subscribe('allNotifications');
-  this.fab = new ReactiveVar(!(bowser.mobile || bowser.tablet));
+  this.fab = new ReactiveVar(true);
   this.fabOpen = new ReactiveVar(false);
 
   Session.set("IsProTenant", false);
@@ -334,8 +334,7 @@ Template.nav.events({
   'click #toggleFab': function(event, template) {
     if (Template.instance().fab.get() === true) {
       template.fab.set(false);
-    } else {
-      template.fabOpen.set(true);
+    }else {
       template.fab.set(true);
     };
   },

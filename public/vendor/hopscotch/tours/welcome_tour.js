@@ -62,14 +62,6 @@ var welcomeTour = {
     target: document.querySelector('#general-dropdown'),
     placement: "left"
   }, {
-		title: "Action Button",
-    content: "In order to maximise the efficiency of RealTime, there are some tasks that you can carry out from anywhere! By clicking this icon, you can quickly add data - simply choose what you want to add, and click it!",
-    target: document.querySelector('#fab-btn'),
-    placement: "top",
-		fixed: true,
-		xOffset: "-250px",
-		arrowOffset: "255px"
-  }, {
     title: "The Dashboard",
     content: "This is the dashboard. You'll land here every time you log into RealTime, or every time you click the Dashboard link. Clicking the RealTime logo will also bring you back here. The dashboard is unique in that you can fully tailor it to your liking via the use of widgets...",
     target: document.querySelector('#dashboard-icon'),

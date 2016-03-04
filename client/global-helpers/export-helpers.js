@@ -42,8 +42,17 @@ exportFromSearchToCSV = function(collectionName) {
       'supplierCompanyId',
       'supplierContactId',
       'primaryEntityId',
-      'documents'
+      'documents',
+      'customFields',
+      'extendedInformation',
+      'metadata'
     ];
+
+    if (collectionName === 'contacts') {
+      _.each(results, function(r) {
+        r.companyName = "";
+      });
+    }
 
     var cleanedResults = results.map((record) => {
 
@@ -57,7 +66,14 @@ exportFromSearchToCSV = function(collectionName) {
         }
       }
 
-      if(record.salesManagerId) {
+      if (record.companyId && collectionName === 'contacts') {
+        var company = Companies.findOne({
+          _id: record.companyId
+        });
+        if (company) record.companyName = company.name;
+      }
+
+      if (record.salesManagerId) {
         salesManager = Meteor.users.findOne({
           _id: record.salesManagerId
         }).profile.name;

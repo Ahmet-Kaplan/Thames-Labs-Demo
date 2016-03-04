@@ -28,7 +28,7 @@ Feature: Allow users to manage general tenancy data
     And I click confirm on the modal
     Then the global field should no longer be visible
 
-  Scenario: An administrator can add a global field and view it on the company details page
+  Scenario: An administrator can add a global field and view it on the company details page 
     Given a "Company" has been created
     And I have the "CanReadCompanies" permission
     And I have the "CanEditCompanies" permission

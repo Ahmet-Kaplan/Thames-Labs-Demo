@@ -296,7 +296,6 @@ Feature: Allow users to manage their Companies
     Given a "Company" has been created
     When I navigate to a company page
     And I click "#general-dropdown"
-    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -308,7 +307,6 @@ Feature: Allow users to manage their Companies
     Given a "Company" has been created
     When I navigate to a company page
     And I click "#general-dropdown"
-    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -324,7 +322,6 @@ Feature: Allow users to manage their Companies
     Given a "Company" has been created
     When I navigate to a company page
     And I click "#general-dropdown"
-    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
