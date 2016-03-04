@@ -9,8 +9,6 @@ Picker
 	.route('/mailbox', function(params, req, res) {
 
 		var data = req.body;
-		console.log(req.body);
-		
 		Meteor.call('mailgun.createActivityFromBodyData', data);
 
 		res.writeHead(200, {
