@@ -16,11 +16,19 @@
     <span class="pull-right">Total Tenants: {{tenantCount}} &nbsp;&nbsp;&nbsp;&nbsp; Total Users: {{userCount}}</span>
   </div>
 
-    <h2><i class="fa fa-fw fa-plane"></i> Paying Tenants</h2>
-    {{#each tenants "true"}} {{> tenant}} {{/each}}
+  <div class="stick-bar-placeholder">    
+  </div>
+  <div class="stick-bar">
+    <div class="row">
+      <div class="col-md-12">
+        {{> searchBox collectionName='tenants'}}
+      </div>
+    </div>
+  </div>
 
-    <h2><i class="fa fa-fw fa-paper-plane"></i> Free Tenants</h2>
-    {{#each tenants "false"}} {{> tenant}} {{/each}}
+  <div class="search-results" id="search-results">
+    {{> searchResults index=TenantsIndex listItemTemplateName='tenant'}}
+  </div>
 
 
 </template>
@@ -32,7 +40,7 @@
         {{#if stripe.freeUnlimited}}<i class="fa fa-unlock" data-toggle="tooltip" data-placement="bottom" title="Free unlimited tenant"></i> {{/if}}
         {{name}}<small> (Users: {{userCount}}, Records: {{recordsCount}})</small><span class="glyphicon glyphicon-chevron-down pull-right"></span>
       </div>
-        <div id="collapse{{_id}}" class="panel-collapse collapse">
+        <div class="panel">
             <div class="panel-body" id="listOfTenantUsers">
                 <div class="btn-toolbar" role="toolbar">
                     <button class="btn btn-primary btn-xs" id="btnAddNewTenantUser" type="button">

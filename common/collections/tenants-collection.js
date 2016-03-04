@@ -1,4 +1,4 @@
-Tenants = new Mongo.Collection('tenants');
+Collections.tenants = Tenants = new Mongo.Collection('tenants');
 
 Tenants.helpers({
   users: function() {
@@ -6,6 +6,61 @@ Tenants.helpers({
       group: this._id
     });
   }
+});
+
+////////////////////
+// SEARCH FILTERS //
+////////////////////
+
+// Collections.tenants.filters = {
+//   status: {
+//     display: 'Status: ',
+//     prop: 'stripe.paying',
+//     allowMultiple: false,
+//     defaultOptions: function() {
+//       return ['Free', 'Paying']
+//     },
+//     verify: function(status) {
+//       if (!status) return false;
+//       return true;
+//     }
+//   }
+// };
+
+////////////////////
+// SEARCH INDICES //
+////////////////////
+
+Collections.tenants.index = TenantsIndex = new EasySearch.Index({
+  collection: Tenants,
+  fields: ['name'],
+  engine: new EasySearch.MongoDB({
+    sort: () => {
+      return {
+        'name': 1
+      }
+    },
+    fields: (searchObject, options) => {
+      if (options.search.props.export) {
+        return {}
+      }
+      return {
+        'name': 1,
+        'settings': 1,
+        'stripe': 1
+      }
+    }
+    // selector: function(searchObject, options, aggregation) {
+    //   var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+    //   console.log(selector);
+
+    //   if (options.search.props.status) {       
+    //     selector.status = options.search.props.status;
+    //   }
+
+    //   return selector;
+    // }
+  })
 });
 
 //////////////////////

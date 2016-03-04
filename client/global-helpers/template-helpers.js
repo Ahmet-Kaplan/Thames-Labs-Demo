@@ -109,6 +109,7 @@ Template.registerHelper('PurchaseOrdersIndex', () => PurchaseOrdersIndex);
 Template.registerHelper('UsersIndex', () => UsersIndex);
 Template.registerHelper('TasksIndex', () => TasksIndex);
 Template.registerHelper('TagsIndex', () => TagsIndex);
+Template.registerHelper('TenantsIndex', () => TenantsIndex);
 
 // Return standard search input attributes for EasySearch
 Template.registerHelper('searchInputAttributes', () => {
