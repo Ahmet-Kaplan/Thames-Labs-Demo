@@ -158,7 +158,7 @@ Template.stripeAdmin.onCreated(function() {
 
 Template.stripeAdmin.helpers({
   payingScheme: function() {
-    return Tenants.findOne({}).stripe.paying;
+    return Tenants.findOne({}).plan === 'pro';
   },
   subsLoaded: function() {
     var stripeSubs = Tenants.findOne({}).stripe.stripeSubs;

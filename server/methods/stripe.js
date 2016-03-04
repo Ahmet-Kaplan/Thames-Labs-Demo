@@ -139,7 +139,7 @@ Meteor.methods({
       Tenants.update(tenantId, {
         $set: {
           "stripe.stripeSubs": subscription.id,
-          "stripe.paying": true
+          "plan": 'pro'
         }
       });
       stripeSubscription.return(subscription);

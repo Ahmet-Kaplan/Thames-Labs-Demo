@@ -14,7 +14,7 @@ AutoForm.hooks({
       }
 
       Modal.hide();
-      if (Tenants.findOne({}).stripe.paying) {
+      if (Tenants.findOne({}).plan === 'pro') {
         bootbox.alert({
           title: 'New user added',
           message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>New user <strong>' + this.insertDoc.name + '</strong> created<br />An email containing a link to create the password has been sent.<br />Please note that your subscription has been updated accordingly.</div>'
