@@ -92,7 +92,6 @@ mizzao:autocomplete
 adain:meteor-guid
 ostrio:loggerfile
 ostrio:loggerconsole
-respondly:router-server
 msavin:mongol
 vsivsi:job-collection
 easy:search
@@ -101,3 +100,5 @@ jesperwe:bootstrap-select
 tarzak:gridstackjs
 jiku:bootstrap-toggle
 simple:reactive-method
+meteorhacks:picker
+pfafman:multer
