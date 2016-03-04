@@ -9,6 +9,8 @@ Picker
 	.route('/mailbox', function(params, req, res) {
 
 		var data = req.body;
+		console.log(req.body);
+		
 		Meteor.call('mailgun.createActivityFromBodyData', data);
 
 		res.writeHead(200, {
@@ -21,10 +23,13 @@ Picker
 Meteor.methods({
 	'mailgun.createActivityFromBodyData': function(bodyData) {
 		var subject = bodyData.Subject;
-		var mailText = bodyData["stripped-text"];
+		var mailText = TagStripper.strip(bodyData["body-html"]);
 		var timestamp = bodyData.timestamp;
 		var sendDate = new Date(0);
 		sendDate.setUTCSeconds(timestamp);
+
+		var notesFieldData = "Subject: " + subject + "\n\n" + mailText;
+		console.log(notesFieldData);
 
 		var userEmail = bodyData.From;
 		var cs = userEmail.indexOf('<');
@@ -69,44 +74,28 @@ Meteor.methods({
 
 				_.each(uniqueAddresses, function(ua) {
 
-					if(ua.email === inboxAddress) return;
+					if (ua.email === inboxAddress) return;
 
 					var contact = Contacts.findOne({
 						email: ua.email
 					});
 
 					if (contact) {
-						// Add an activity record against the discovered contact...
-						var activityId = Activities.insert({
+						Activities.insert({
 							type: 'Email',
-							notes: subject + "\n\n" + mailText,
+							notes: notesFieldData,
 							createdAt: Date.now(),
 							activityTimestamp: sendDate,
 							contactId: contact._id,
 							createdBy: MeteorUser._id,
 							primaryEntityId: contact._id,
 							primaryEntityType: 'contacts',
-							primaryEntityDisplayData: contact.name()
-						});
-
-						// ...and tag it accordingly to ensure we know where it's come from
-						Activities.addTag('Automated', {
-							_id: activityId
+							primaryEntityDisplayData: contact.name(),
+							tags: ['Automated']
 						});
 					}
 				})
 			});
 		}
-
-		// console.log('---------------------------');
-		// console.log('MailGun Inbound Router data');
-		// console.log('---------------------------');
-		// console.log('Sender: ' + sender);
-		// console.log('Recipient: ' + recipient);
-		// console.log('Subject: ' + subject);
-		// console.log('Mail Text: ' + mailText);
-		// console.log('Mail Signature: ' + mailSignature);
-		// console.log('Send Date: ' + sendDate);
-		// console.log('---------------------------');
 	}
-})
+});
