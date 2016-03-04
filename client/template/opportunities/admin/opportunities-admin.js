@@ -43,16 +43,19 @@ Template.opportunityAdminStage.helpers({
 });
 
 Template.opportunityAdminStage.events({
-  'click #orderUp': function() {
+  'click .orderUp': function() {
     event.preventDefault();
-    if (!IsTenantPro(Meteor.user().group)) {
+
+    console.log('here');
+
+    if (!IsTenantPro(Meteor.user().group)) {      
       ShowUpgradeToastr('To edit the order of your opportunity stages');
       return;
     }
 
     Meteor.call('changeStageOrder', this.id, "up");
   },
-  'click #orderDown': function() {
+  'click .orderDown': function() {
     event.preventDefault();
     if (!IsTenantPro(Meteor.user().group)) {
       ShowUpgradeToastr('To edit the order of your opportunity stages');
