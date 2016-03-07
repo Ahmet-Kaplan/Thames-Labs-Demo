@@ -5,7 +5,7 @@ Template.purchaseOrderAdminPanel.onRendered(function() {
 });
 
 Template.purchaseOrderAdminPanel.events({
-  'click #poAdminUpdatePrefix': function() {
+  'click #poAdminUpdatePrefix': function(event) {
     event.preventDefault();
 
     if (!IsTenantPro(Meteor.user().group)) {

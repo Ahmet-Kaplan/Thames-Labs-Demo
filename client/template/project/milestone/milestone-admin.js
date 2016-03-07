@@ -23,7 +23,7 @@ Template.projectType.helpers({
 });
 
 Template.projectAdmin.events({
-  'click #addProjectType': function() {
+  'click #addProjectType': function(event) {
     event.preventDefault();
 
     if (!IsTenantPro(Meteor.user().group)) {
@@ -36,7 +36,7 @@ Template.projectAdmin.events({
 });
 
 Template.projectType.events({
-  'click #addMilestone': function() {
+  'click #addMilestone': function(event) {
     event.preventDefault();
     if (!IsTenantPro(Meteor.user().group)) {
       ShowUpgradeToastr('To create your own project type milestones');
@@ -45,7 +45,7 @@ Template.projectType.events({
 
     Modal.show('createProjectMilestone', this);
   },
-  'click #editType': function() {
+  'click #editType': function(event) {
     event.preventDefault();
     if (!IsTenantPro(Meteor.user().group)) {
       ShowUpgradeToastr('To edit your project types');
@@ -53,7 +53,7 @@ Template.projectType.events({
     }
     Modal.show('updateProjectType', this);
   },
-  'click #removeType': function() {
+  'click #removeType': function(event) {
     event.preventDefault();
     if (!IsTenantPro(Meteor.user().group)) {
       ShowUpgradeToastr('To delete your project types');
