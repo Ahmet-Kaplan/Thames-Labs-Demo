@@ -739,7 +739,8 @@ Migrations.add({
           },
           $unset: {
             'stripe.paying': "",
-            'stripe.freeUnlimited': ""
+            'stripe.freeUnlimited': "",
+            'stripe.totalRecords': ""
           }
         });
       });
