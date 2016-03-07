@@ -121,6 +121,7 @@ Template.legalCompanyInformation.events({
     toastr.success('Link to Companies House removed');
   },
   'click .upgrade-prompt': function(event, template) {
+    event.preventDefault();
     if (!IsTenantPro(Meteor.user().group)) {
       ShowUpgradeToastr('To access this information');
     }
