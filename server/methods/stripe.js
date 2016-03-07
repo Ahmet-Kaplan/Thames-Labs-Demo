@@ -152,7 +152,7 @@ Meteor.methods({
     /*superadminTenantId is used when the method is called by the superadmin
     In which case the tenantId cannot be retrieved via Partitioner */
 
-    // Don't try and update Stripe if testing 
+    // Don't try and update Stripe if testing
     // N.B. TEMPORARY FIX - this needs to be changed.
     if (process.env.IS_MIRROR || process.env.CI) {
       return true;

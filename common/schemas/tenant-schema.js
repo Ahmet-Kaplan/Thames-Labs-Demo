@@ -24,7 +24,7 @@ Schemas.Tenant = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
-  },  
+  },
   "stripe.paying": {
     type: Boolean,
     label: "Paying tenant",

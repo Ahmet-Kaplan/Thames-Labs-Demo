@@ -48,7 +48,7 @@ Template.opportunityAdminStage.events({
 
     console.log('here');
 
-    if (!IsTenantPro(Meteor.user().group)) {      
+    if (!IsTenantPro(Meteor.user().group)) {
       ShowUpgradeToastr('To edit the order of your opportunity stages');
       return;
     }

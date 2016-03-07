@@ -5,7 +5,7 @@ Template.purchaseOrderList.onCreated(function() {
       ShowUpgradeToastr('To access Purchase Orders');
       FlowRouter.go('/');
     }
-    
+
     redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
   });
   Session.set("showItems", false);

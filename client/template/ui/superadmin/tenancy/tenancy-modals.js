@@ -55,7 +55,6 @@ Template.setPayingTenant.helpers({
 Template.setPayingTenant.events({
   'click #setFreeUnlimited': function() {
     var tenantId = this._id;
-    var setTo = !Tenants.findOne(tenantId).plan;
     bootbox.confirm({
       message: 'Are you really really sure you want to do that? I mean, come on, that\'s a big deal!',
       callback: function(result) {

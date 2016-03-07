@@ -49,7 +49,7 @@ GetDisallowedPermissions = function(userId) {
       collectionsToFilter.push(perms[p]);
     }
   }
-  
+
   return collectionsToFilter;
 };
 

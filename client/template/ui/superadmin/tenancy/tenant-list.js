@@ -36,9 +36,9 @@ Template.tenantList.helpers({
 
 
 Template.tenant.helpers({
-  freePaying: function(){
-    if(this.plan === 'pro'){
-      if(this.stripe.stripeSubs){
+  freePaying: function() {
+    if(this.plan === 'pro') {
+      if(this.stripe.stripeSubs) {
         return true;
       }
     }
@@ -78,9 +78,9 @@ Template.tenantList.events({
 Template.tenant.events({
   "click #btnAddNewTenantUser": function(event, template) {
     event.preventDefault();
-    
+
     var tenantId = this._id;
-    
+
     if (!IsTenantPro(tenantId) && TenantUserCount(tenantId) === MAX_FREE_USERS) {
       toastr.warning('To add more users, this tenant must first upgrade to the PRO plan.');
       return;
