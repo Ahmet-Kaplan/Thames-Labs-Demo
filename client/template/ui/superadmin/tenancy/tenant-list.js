@@ -81,7 +81,7 @@ Template.tenant.events({
 
     var tenantId = this._id;
 
-    if (!IsTenantPro(tenantId) && TenantUserCount(tenantId) === MAX_FREE_USERS) {
+    if (!IsTenantPro(tenantId) && TenantUserCount(tenantId) >= MAX_FREE_USERS) {
       toastr.warning('To add more users, this tenant must first upgrade to the Pro plan.');
       return;
     }
