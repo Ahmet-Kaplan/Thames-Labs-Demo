@@ -37,12 +37,7 @@ Template.tenantList.helpers({
 
 Template.tenant.helpers({
   freePaying: function() {
-    if(this.plan === 'pro') {
-      if(!this.stripe.stripeSubs) {
-        return true;
-      }
-    }
-    return false;
+    return this.plan === 'pro' && !this.stripe.stripeSubs;
   },
   userCount: function() {
     return Meteor.users.find({
