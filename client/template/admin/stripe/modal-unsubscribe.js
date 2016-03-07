@@ -1,5 +1,5 @@
 Template.stripeUnsubscribe.events({
-  'click #unsubscribe': function() {
+  'click #unsubscribe': function(event) {
     event.preventDefault();
     $('#unsubscribe').prop('disabled', true);
     toastr.info('Processing your changes...');
