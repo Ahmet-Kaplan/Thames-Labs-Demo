@@ -12,20 +12,22 @@ Tenants.helpers({
 // SEARCH FILTERS //
 ////////////////////
 
-// Collections.tenants.filters = {
-//   status: {
-//     display: 'Status: ',
-//     prop: 'stripe.paying',
-//     allowMultiple: false,
-//     defaultOptions: function() {
-//       return ['Free', 'Paying']
-//     },
-//     verify: function(status) {
-//       if (!status) return false;
-//       return true;
-//     }
-//   }
-// };
+Collections.tenants.filters = {
+  user: {
+    display: 'User:',
+    prop: 'user',
+    collectionName: 'users',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'allUserData',
+    allowMultiple: false,
+    displayValue: function(user) {
+      if (user) {
+        return user.profile.name;
+      }
+    }
+  },
+};
 
 ////////////////////
 // SEARCH INDICES //
@@ -49,17 +51,28 @@ Collections.tenants.index = TenantsIndex = new EasySearch.Index({
         'settings': 1,
         'stripe': 1
       }
+    },
+    selector: function(searchObject, options, aggregation) {
+      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+
+      if (options.search.props.user) {
+        var userId = options.search.props.user;
+        var user = Meteor.users.findOne({
+          _id: userId
+        });
+        if (user) {
+          console.log(user);
+          var tenant = Tenants.findOne({
+            _id: user.group
+          });
+          if (tenant) {
+            selector._id = tenant._id;
+          }
+        }
+      }
+
+      return selector;
     }
-    // selector: function(searchObject, options, aggregation) {
-    //   var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
-    //   console.log(selector);
-
-    //   if (options.search.props.status) {       
-    //     selector.status = options.search.props.status;
-    //   }
-
-    //   return selector;
-    // }
   })
 });
 
