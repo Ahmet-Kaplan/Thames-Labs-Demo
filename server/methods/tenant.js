@@ -14,24 +14,38 @@ Meteor.methods({
 
 		try {
 			Partitioner.bindGroup(tenantId, function() {
+				console.log('Deleting tasks...');
 				Tasks.remove({});
+				console.log('Deleting activities...');
 				Activities.remove({});
+				console.log('Deleting tags...');
 				Meteor.tags.remove({});
+				console.log('Deleting events...');
 				AuditLog.remove({});
+				console.log('Deleting companies...');
 				Companies.remove({});
+				console.log('Deleting contacts...');
 				Contacts.remove({});
+				console.log('Deleting opportunities...');
 				Opportunities.remove({});
+				console.log('Deleting projects...');
 				Projects.remove({});
-				PurchaseOrders.remove({});
+				console.log('Deleting purchase order items...');
 				PurchaseOrderItems.remove({});
+				console.log('Deleting purchase orders...');
+				PurchaseOrders.remove({});
+				console.log('Deleting chatter...');
 				Chatterbox.remove({});
+				console.log('Deleting products...');
 				Products.remove({});
 			});
 
+			console.log('Deleting users...');
 			Meteor.users.remove({
 				group: tenantId
 			});
 
+			console.log('Deleting tenant...');
 			Tenants.remove({
 				_id: tenantId
 			});

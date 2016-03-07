@@ -61,7 +61,6 @@ Collections.tenants.index = TenantsIndex = new EasySearch.Index({
           _id: userId
         });
         if (user) {
-          console.log(user);
           var tenant = Tenants.findOne({
             _id: user.group
           });

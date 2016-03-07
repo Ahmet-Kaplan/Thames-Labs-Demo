@@ -10,254 +10,163 @@ Meteor.methods({
       return;
     }
 
-    if (Meteor.isServer) {
-      Meteor.call('setDemoDataFlag', true);
+    try {
+      if (Meteor.isServer) {
+        Meteor.call('setDemoDataFlag', true);
 
-      faker.locale = "en";
-      Partitioner.bindGroup(groupId, function() {
+        faker.locale = "en";
+        Partitioner.bindGroup(groupId, function() {
 
-        var companies = [];
-        var contacts = [];
-        var projects = [];
-        var purchaseOrders = [];
-        var purchaseOrderItems = [];
-        var opportunities = [];
-        var products = [];
+          var companies = [];
+          var contacts = [];
+          var projects = [];
+          var purchaseOrders = [];
+          var purchaseOrderItems = [];
+          var opportunities = [];
+          var products = [];
 
-        var companiesSequenceId = 1;
-        var contactsSequenceId = 1;
-        var opportunitiesSequenceId = 1;
-        var projectsSequenceId = 1;
-        var purchaseOrdersSequenceId = 1;
-        var productsSequenceId = 1;
+          var companiesSequenceId = 1;
+          var contactsSequenceId = 1;
+          var opportunitiesSequenceId = 1;
+          var projectsSequenceId = 1;
+          var purchaseOrdersSequenceId = 1;
+          var productsSequenceId = 1;
 
-        //Setup opportunity stages
-        var userTenant = Tenants.findOne({});
-        var stages = [];
+          //Setup opportunity stages
+          var userTenant = Tenants.findOne({});
+          var stages = [];
 
-        for (var j = 0; j < 4; j++) {
-          var stageData = ({
-            title: faker.commerce.color(),
-            description: faker.lorem.sentence(),
-            id: j
-          });
-          stages.push(stageData);
-        }
-        Tenants.update(userTenant._id, {
-          $set: {
-            'settings.opportunity.stages': stages
+          for (var j = 0; j < 4; j++) {
+            var stageData = ({
+              title: faker.commerce.color(),
+              description: faker.lorem.sentence(),
+              id: j
+            });
+            stages.push(stageData);
           }
-        });
-
-        for (var i = 0; i < 8; i++) {
-          var userId = Accounts.createUser({
-            email: faker.internet.email().toLowerCase(),
-            password: 'password',
-            profile: {
-              name: faker.name.findName(),
-              lastLogin: faker.date.past(),
-              lastActivity: {
-                page: null,
-                url: null
-              },
-              poAuthLevel: 100000
+          Tenants.update(userTenant._id, {
+            $set: {
+              'settings.opportunity.stages': stages
             }
           });
 
-          Roles.addUsersToRoles(userId, defaultPermissionsList);
-          Partitioner.setUserGroup(userId, groupId);
-        }
-
-        //Function to add task since the entity type can vary
-        var addTask = function(entityType, entityId, createdBy) {
-          if (faker.random.boolean()) {
-            return;
-          }
-          var usersArray = Meteor.users.find({}).fetch();
-          var randomIndex = Math.floor(Math.random() * usersArray.length);
-          var randomAssignee = usersArray[randomIndex];
-
-          do {
-            randomIndex = Math.floor(Math.random() * usersArray.length);
-            randomAssignee = usersArray[randomIndex];
-          }
-          while (randomAssignee === undefined);
-
-          var dueDate = faker.random.boolean() ? faker.date.future() : undefined;
-          var completed = faker.random.boolean();
-          var completedAt = completed ? faker.date.recent() : undefined;
-          var title = faker.hacker.verb() + ' ' +
-            faker.hacker.adjective() + ' ' +
-            faker.hacker.noun() + ' ' +
-            faker.hacker.noun();
-
-          var taskId = Tasks.insert({
-            title: title,
-            description: faker.lorem.paragraphs(),
-            dueDate: dueDate,
-            remindMe: false,
-            isAllDay: faker.random.boolean(),
-            assigneeId: randomAssignee._id,
-            completed: completed,
-            completedAt: completedAt,
-            entityType: entityType,
-            entityId: entityId,
-            createdBy: createdBy
-          });
-
-          _.each(_.range(_.random(0, 5)), function() {
-            Tasks.addTag(faker.hacker.verb(), {
-              _id: taskId
+          for (var i = 0; i < 8; i++) {
+            var userId = Accounts.createUser({
+              email: faker.internet.email().toLowerCase(),
+              password: 'password',
+              profile: {
+                name: faker.name.findName(),
+                lastLogin: faker.date.past(),
+                lastActivity: {
+                  page: null,
+                  url: null
+                },
+                poAuthLevel: 100000
+              }
             });
-          });
 
-          _.each(_.range(_.random(0, 2)), function() {
-            Activities.insert({
-              type: _.sample(Schemas.Activity._schema.type.allowedValues),
-              notes: faker.lorem.paragraphs(_.random(1, 3)),
-              createdAt: faker.date.recent(100),
-              activityTimestamp: faker.date.recent(100),
-              primaryEntityId: taskId,
-              primaryEntityType: 'tasks',
-              primaryEntityDisplayData: title,
-              taskId: taskId,
+            Roles.addUsersToRoles(userId, defaultPermissionsList);
+            Partitioner.setUserGroup(userId, groupId);
+          }
+
+          //Function to add task since the entity type can vary
+          var addTask = function(entityType, entityId, createdBy) {
+            if (faker.random.boolean()) {
+              return;
+            }
+            var usersArray = Meteor.users.find({}).fetch();
+            var randomIndex = Math.floor(Math.random() * usersArray.length);
+            var randomAssignee = usersArray[randomIndex];
+
+            do {
+              randomIndex = Math.floor(Math.random() * usersArray.length);
+              randomAssignee = usersArray[randomIndex];
+            }
+            while (randomAssignee === undefined);
+
+            var dueDate = faker.random.boolean() ? faker.date.future() : undefined;
+            var completed = faker.random.boolean();
+            var completedAt = completed ? faker.date.recent() : undefined;
+            var title = faker.hacker.verb() + ' ' +
+              faker.hacker.adjective() + ' ' +
+              faker.hacker.noun() + ' ' +
+              faker.hacker.noun();
+
+            var taskId = Tasks.insert({
+              title: title,
+              description: faker.lorem.paragraphs(),
+              dueDate: dueDate,
+              remindMe: false,
+              isAllDay: faker.random.boolean(),
+              assigneeId: randomAssignee._id,
+              completed: completed,
+              completedAt: completedAt,
+              entityType: entityType,
+              entityId: entityId,
               createdBy: createdBy
             });
-          });
-        };
 
-        // generate fake customer data
-        _.each(_.range(_.random(20, 40)), function() {
-
-          var usersArray = Meteor.users.find({}).fetch();
-          var randomIndex = Math.floor(Math.random() * usersArray.length);
-          var randomUser = usersArray[randomIndex];
-
-          do {
-            randomIndex = Math.floor(Math.random() * usersArray.length);
-            randomUser = usersArray[randomIndex];
-          }
-          while (randomUser === undefined);
-
-          addTask('user', randomUser._id, randomUser._id);
-
-          var cname = faker.company.companyName();
-          var companyId = Companies.insert({
-            name: cname,
-            address: faker.address.streetAddress(),
-            city: faker.address.city(),
-            county: faker.address.county(),
-            postcode: faker.address.zipCode(),
-            country: faker.address.country(),
-            website: 'http://' + faker.internet.domainName(),
-            phone: faker.phone.phoneNumber(),
-            createdBy: randomUser._id,
-            sequencedIdentifier: companiesSequenceId
-          });
-
-          companiesSequenceId = companiesSequenceId + 1;
-
-          companies.push(companyId);
-
-          _.each(_.range(_.random(0, 5)), function() {
-            Companies.addTag(faker.company.catchPhraseAdjective(), {
-              _id: companyId
+            _.each(_.range(_.random(0, 5)), function() {
+              Tasks.addTag(faker.hacker.verb(), {
+                _id: taskId
+              });
             });
-          });
 
-          addTask('company', companyId, randomUser._id);
-
-          _.each(_.range(_.random(0, 2)), function() {
-            Activities.insert({
-              type: _.sample(Schemas.Activity._schema.type.allowedValues),
-              notes: faker.lorem.paragraphs(_.random(1, 3)),
-              createdAt: faker.date.recent(100),
-              activityTimestamp: faker.date.recent(100),
-              primaryEntityId: companyId,
-              primaryEntityType: 'companies',
-              primaryEntityDisplayData: cname,
-              companyId: companyId,
-              createdBy: randomUser._id
+            _.each(_.range(_.random(0, 2)), function() {
+              Activities.insert({
+                type: _.sample(Schemas.Activity._schema.type.allowedValues),
+                notes: faker.lorem.paragraphs(_.random(1, 3)),
+                createdAt: faker.date.recent(100),
+                activityTimestamp: faker.date.recent(100),
+                primaryEntityId: taskId,
+                primaryEntityType: 'tasks',
+                primaryEntityDisplayData: title,
+                taskId: taskId,
+                createdBy: createdBy
+              });
             });
-          });
+          };
 
-          var productId = Products.insert({
-            name: faker.commerce.productName(),
-            description: faker.lorem.sentence(),
-            cost: parseInt(faker.finance.amount()),
-            price: parseInt(faker.commerce.price()),
-            createdBy: randomUser._id,
-            sequencedIdentifier: productsSequenceId
-          });
+          // generate fake customer data
+          _.each(_.range(_.random(20, 40)), function() {
 
-          productsSequenceId = productsSequenceId + 1;
+            var usersArray = Meteor.users.find({}).fetch();
+            var randomIndex = Math.floor(Math.random() * usersArray.length);
+            var randomUser = usersArray[randomIndex];
 
-          products.push(productId);
+            do {
+              randomIndex = Math.floor(Math.random() * usersArray.length);
+              randomUser = usersArray[randomIndex];
+            }
+            while (randomUser === undefined);
 
-          var oname = faker.company.bs();
-          var oppId = Opportunities.insert({
-            name: oname,
-            description: faker.lorem.sentence(),
-            currentStageId: Math.floor(Math.random() * stages.length),
-            createdBy: randomUser._id,
-            items: [],
-            value: parseInt(faker.commerce.price()),
-            companyId: companyId,
-            date: faker.date.recent(100),
-            sequencedIdentifier: opportunitiesSequenceId
-          });
+            addTask('user', randomUser._id, randomUser._id);
 
-          opportunitiesSequenceId = opportunitiesSequenceId + 1;
-
-          _.each(_.range(_.random(0, 2)), function() {
-            Activities.insert({
-              type: _.sample(Schemas.Activity._schema.type.allowedValues),
-              notes: faker.lorem.paragraphs(_.random(1, 3)),
-              createdAt: faker.date.recent(100),
-              activityTimestamp: faker.date.recent(100),
-              primaryEntityId: oppId,
-              primaryEntityType: 'opportunities',
-              primaryEntityDisplayData: oname,
-              opportunityId: oppId,
-              createdBy: randomUser._id
-            });
-          });
-
-          opportunities.push(oppId);
-
-          _.each(_.range(_.random(0, 5)), function() {
-            Opportunities.addTag(faker.hacker.noun(), {
-              _id: oppId
-            });
-          });
-
-          addTask('opportunity', oppId, randomUser._id);
-
-          _.each(_.range(_.random(1, 10)), function() {
-            var fname = faker.name.firstName();
-            var sname = faker.name.lastName();
-            var contactId = Contacts.insert({
-              forename: fname,
-              surname: sname,
-              jobtitle: faker.name.jobTitle(),
+            var cname = faker.company.companyName();
+            var companyId = Companies.insert({
+              name: cname,
+              address: faker.address.streetAddress(),
+              city: faker.address.city(),
+              county: faker.address.county(),
+              postcode: faker.address.zipCode(),
+              country: faker.address.country(),
+              website: 'http://' + faker.internet.domainName(),
               phone: faker.phone.phoneNumber(),
-              mobile: faker.phone.phoneNumber(),
-              companyId: companyId,
               createdBy: randomUser._id,
-              sequencedIdentifier: contactsSequenceId
+              sequencedIdentifier: companiesSequenceId
             });
 
-            contactsSequenceId = contactsSequenceId + 1;
+            companiesSequenceId = companiesSequenceId + 1;
 
-            contacts.push(contactId);
+            companies.push(companyId);
 
             _.each(_.range(_.random(0, 5)), function() {
-              Contacts.addTag(faker.name.jobType(), {
-                _id: contactId
+              Companies.addTag(faker.company.catchPhraseAdjective(), {
+                _id: companyId
               });
             });
 
-            addTask('contact', contactId, randomUser._id);
+            addTask('company', companyId, randomUser._id);
 
             _.each(_.range(_.random(0, 2)), function() {
               Activities.insert({
@@ -265,116 +174,209 @@ Meteor.methods({
                 notes: faker.lorem.paragraphs(_.random(1, 3)),
                 createdAt: faker.date.recent(100),
                 activityTimestamp: faker.date.recent(100),
+                primaryEntityId: companyId,
+                primaryEntityType: 'companies',
+                primaryEntityDisplayData: cname,
                 companyId: companyId,
-                contactId: contactId,
-                primaryEntityId: contactId,
-                primaryEntityType: 'contacts',
-                primaryEntityDisplayData: fname + " " + sname,
                 createdBy: randomUser._id
               });
             });
-          });
 
-          _.each(_.range(_.random(0, 2)), function() {
-            var pname = faker.company.bs();
-            var projectId = Projects.insert({
-              name: pname,
+            var productId = Products.insert({
+              name: faker.commerce.productName(),
               description: faker.lorem.sentence(),
-              companyId: companyId,
-              contactId: contacts[Math.floor(Math.random() * contacts.length)],
-              userId: randomUser._id,
-              value: parseInt(faker.commerce.price()),
+              cost: parseInt(faker.finance.amount()),
+              price: parseInt(faker.commerce.price()),
               createdBy: randomUser._id,
-              sequencedIdentifier: projectsSequenceId
+              sequencedIdentifier: productsSequenceId
             });
 
-            projectsSequenceId = projectsSequenceId + 1;
+            productsSequenceId = productsSequenceId + 1;
 
-            projects.push(projectId);
+            products.push(productId);
+
+            var oname = faker.company.bs();
+            var oppId = Opportunities.insert({
+              name: oname,
+              description: faker.lorem.sentence(),
+              currentStageId: Math.floor(Math.random() * stages.length),
+              createdBy: randomUser._id,
+              items: [],
+              value: parseInt(faker.commerce.price()),
+              companyId: companyId,
+              date: faker.date.recent(100),
+              sequencedIdentifier: opportunitiesSequenceId
+            });
+
+            opportunitiesSequenceId = opportunitiesSequenceId + 1;
+
+            _.each(_.range(_.random(0, 2)), function() {
+              Activities.insert({
+                type: _.sample(Schemas.Activity._schema.type.allowedValues),
+                notes: faker.lorem.paragraphs(_.random(1, 3)),
+                createdAt: faker.date.recent(100),
+                activityTimestamp: faker.date.recent(100),
+                primaryEntityId: oppId,
+                primaryEntityType: 'opportunities',
+                primaryEntityDisplayData: oname,
+                opportunityId: oppId,
+                createdBy: randomUser._id
+              });
+            });
+
+            opportunities.push(oppId);
 
             _.each(_.range(_.random(0, 5)), function() {
-              Projects.addTag(faker.hacker.verb(), {
-                _id: projectId
+              Opportunities.addTag(faker.hacker.noun(), {
+                _id: oppId
               });
             });
 
-            addTask('project', projectId, randomUser._id);
+            addTask('opportunity', oppId, randomUser._id);
+
+            _.each(_.range(_.random(1, 10)), function() {
+              var fname = faker.name.firstName();
+              var sname = faker.name.lastName();
+              var contactId = Contacts.insert({
+                forename: fname,
+                surname: sname,
+                jobtitle: faker.name.jobTitle(),
+                phone: faker.phone.phoneNumber(),
+                mobile: faker.phone.phoneNumber(),
+                companyId: companyId,
+                createdBy: randomUser._id,
+                sequencedIdentifier: contactsSequenceId
+              });
+
+              contactsSequenceId = contactsSequenceId + 1;
+
+              contacts.push(contactId);
+
+              _.each(_.range(_.random(0, 5)), function() {
+                Contacts.addTag(faker.name.jobType(), {
+                  _id: contactId
+                });
+              });
+
+              addTask('contact', contactId, randomUser._id);
+
+              _.each(_.range(_.random(0, 2)), function() {
+                Activities.insert({
+                  type: _.sample(Schemas.Activity._schema.type.allowedValues),
+                  notes: faker.lorem.paragraphs(_.random(1, 3)),
+                  createdAt: faker.date.recent(100),
+                  activityTimestamp: faker.date.recent(100),
+                  companyId: companyId,
+                  contactId: contactId,
+                  primaryEntityId: contactId,
+                  primaryEntityType: 'contacts',
+                  primaryEntityDisplayData: fname + " " + sname,
+                  createdBy: randomUser._id
+                });
+              });
+            });
 
             _.each(_.range(_.random(0, 2)), function() {
-              Activities.insert({
-                type: _.sample(Schemas.Activity._schema.type.allowedValues),
-                notes: faker.lorem.paragraphs(_.random(1, 3)),
-                createdAt: faker.date.recent(100),
-                activityTimestamp: faker.date.recent(100),
-                primaryEntityId: projectId,
-                primaryEntityType: 'projects',
-                primaryEntityDisplayData: pname,
-                projectId: projectId,
-                createdBy: randomUser._id
+              var pname = faker.company.bs();
+              var projectId = Projects.insert({
+                name: pname,
+                description: faker.lorem.sentence(),
+                companyId: companyId,
+                contactId: contacts[Math.floor(Math.random() * contacts.length)],
+                userId: randomUser._id,
+                value: parseInt(faker.commerce.price()),
+                createdBy: randomUser._id,
+                sequencedIdentifier: projectsSequenceId
+              });
+
+              projectsSequenceId = projectsSequenceId + 1;
+
+              projects.push(projectId);
+
+              _.each(_.range(_.random(0, 5)), function() {
+                Projects.addTag(faker.hacker.verb(), {
+                  _id: projectId
+                });
+              });
+
+              addTask('project', projectId, randomUser._id);
+
+              _.each(_.range(_.random(0, 2)), function() {
+                Activities.insert({
+                  type: _.sample(Schemas.Activity._schema.type.allowedValues),
+                  notes: faker.lorem.paragraphs(_.random(1, 3)),
+                  createdAt: faker.date.recent(100),
+                  activityTimestamp: faker.date.recent(100),
+                  primaryEntityId: projectId,
+                  primaryEntityType: 'projects',
+                  primaryEntityDisplayData: pname,
+                  projectId: projectId,
+                  createdBy: randomUser._id
+                });
+              });
+            });
+
+            _.each(_.range(_.random(0, 3)), function() {
+              var poname = faker.commerce.product();
+              var purchaseOrderId = PurchaseOrders.insert({
+                userId: randomUser._id,
+                supplierCompanyId: companyId,
+                supplierContactId: contacts[Math.floor(Math.random() * contacts.length)],
+                description: poname,
+                supplierReference: faker.finance.account(),
+                status: _.sample(Schemas.PurchaseOrder._schema.status.allowedValues),
+                orderDate: faker.date.past(100),
+                paymentMethod: _.sample(Schemas.PurchaseOrder._schema.paymentMethod.allowedValues),
+                createdBy: randomUser._id,
+                sequencedIdentifier: 'PO-' + purchaseOrdersSequenceId
+              });
+
+              purchaseOrdersSequenceId = purchaseOrdersSequenceId + 1;
+
+              purchaseOrders.push(purchaseOrderId);
+
+              _.each(_.range(_.random(0, 2)), function() {
+                Activities.insert({
+                  type: _.sample(Schemas.Activity._schema.type.allowedValues),
+                  notes: faker.lorem.paragraphs(_.random(1, 3)),
+                  createdAt: faker.date.recent(100),
+                  activityTimestamp: faker.date.recent(100),
+                  purchaseOrderId: purchaseOrderId,
+                  primaryEntityId: purchaseOrderId,
+                  primaryEntityType: 'purchaseorders',
+                  primaryEntityDisplayData: poname,
+                  createdBy: randomUser._id
+                });
+              });
+
+              _.each(_.range(_.random(1, 4)), function() {
+                var price = faker.commerce.price();
+                var qty = _.random(1, 40);
+                var poi = PurchaseOrderItems.insert({
+                  purchaseOrderId: purchaseOrderId,
+                  description: faker.commerce.productName(),
+                  productCode: faker.finance.account(),
+                  projectId: projects[Math.floor(Math.random() * projects.length)],
+                  value: price,
+                  quantity: qty,
+                  totalPrice: parseFloat((price * qty).toFixed(2)),
+                  createdBy: randomUser._id
+                });
+
+                purchaseOrderItems.push(poi);
               });
             });
           });
 
-          _.each(_.range(_.random(0, 3)), function() {
-            var poname = faker.commerce.product();
-            var purchaseOrderId = PurchaseOrders.insert({
-              userId: randomUser._id,
-              supplierCompanyId: companyId,
-              supplierContactId: contacts[Math.floor(Math.random() * contacts.length)],
-              description: poname,
-              supplierReference: faker.finance.account(),
-              status: _.sample(Schemas.PurchaseOrder._schema.status.allowedValues),
-              orderDate: faker.date.past(100),
-              paymentMethod: _.sample(Schemas.PurchaseOrder._schema.paymentMethod.allowedValues),
-              createdBy: randomUser._id,
-              sequencedIdentifier: 'PO-' + purchaseOrdersSequenceId
-            });
-
-            purchaseOrdersSequenceId = purchaseOrdersSequenceId + 1;
-
-            purchaseOrders.push(purchaseOrderId);
-
-            _.each(_.range(_.random(0, 2)), function() {
-              Activities.insert({
-                type: _.sample(Schemas.Activity._schema.type.allowedValues),
-                notes: faker.lorem.paragraphs(_.random(1, 3)),
-                createdAt: faker.date.recent(100),
-                activityTimestamp: faker.date.recent(100),
-                purchaseOrderId: purchaseOrderId,
-                primaryEntityId: purchaseOrderId,
-                primaryEntityType: 'purchaseorders',
-                primaryEntityDisplayData: poname,
-                createdBy: randomUser._id
-              });
-            });
-
-            _.each(_.range(_.random(1, 4)), function() {
-              var price = faker.commerce.price();
-              var qty = _.random(1, 40);
-              var poi = PurchaseOrderItems.insert({
-                purchaseOrderId: purchaseOrderId,
-                description: faker.commerce.productName(),
-                productCode: faker.finance.account(),
-                projectId: projects[Math.floor(Math.random() * projects.length)],
-                value: price,
-                quantity: qty,
-                totalPrice: parseFloat((price * qty).toFixed(2)),
-                createdBy: randomUser._id
-              });
-
-              purchaseOrderItems.push(poi);
-            });
-          });
         });
-
-      });
-
+      }
+      logEvent('debug', 'Demo data generated');
+    } catch (err) {
+      logEvent('debug', 'Demo data generation error: ' + err);
+    } finally {
+      Meteor.call('updateTotalRecords');
+      Meteor.call('setDemoDataFlag', false);
     }
-
-    Meteor.call('setDemoDataFlag', false);
-
-    logEvent('debug', 'Demo data generated');
-
   },
 
   winOpportunity: function(opp, projType) {

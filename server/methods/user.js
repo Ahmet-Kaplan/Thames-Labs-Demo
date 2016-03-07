@@ -113,7 +113,7 @@ Meteor.methods({
       Roles.addUsersToRoles(userId, defaultPermissionsList);
 
       // Add user to a group (partition) based on customer id
-      if (doc.group) {
+      if (doc.group) {        
         Partitioner.setUserGroup(userId, doc.group);
       }
 

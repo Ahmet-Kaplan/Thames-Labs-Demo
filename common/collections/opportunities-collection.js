@@ -241,6 +241,7 @@ Opportunities.before.insert(function(userId, doc) {
 });
 
 Opportunities.after.insert(function(userId, doc) {
+    Meteor.call('updateTotalRecords');
   logEvent('info', 'A new opportunity has been created: ' + doc.name);
 
   if (Meteor.isServer) {
@@ -263,5 +264,6 @@ Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) 
   }
 });
 Opportunities.after.remove(function(userId, doc) {
+    Meteor.call('updateTotalRecords');
   logEvent('info', 'An opportunity has been deleted: ' + doc.name);
 });

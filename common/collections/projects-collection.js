@@ -356,6 +356,7 @@ Projects.after.insert(function(userId, doc) {
     doc.extendedInformation = cfMaster;
   }
 
+  Meteor.call('updateTotalRecords');
   logEvent('info', 'A new project has been created: ' + doc.description);
 
   if (Meteor.isServer) {
@@ -398,5 +399,6 @@ Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Projects.after.remove(function(userId, doc) {
+    Meteor.call('updateTotalRecords');
   logEvent('info', 'A project has been deleted: ' + doc.description);
 });

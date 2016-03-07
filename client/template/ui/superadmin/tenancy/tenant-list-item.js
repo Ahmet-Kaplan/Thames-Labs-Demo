@@ -39,7 +39,7 @@ Template.tenantListItem.events({
   },
   "click #btnDeleteTenant": function(event, template) {
     event.preventDefault();
-    var tenantId = this._id;
+    var tenantId = this.__originalId;
     var name = this.name;
 
     bootbox.confirm("Are you sure you wish to delete this tenant?", function(result) {
@@ -61,7 +61,7 @@ Template.tenantListItem.events({
     Modal.show('updateTenantSettings', this);
   },
   'click #btnDemoData': function() {
-    Meteor.call('generateDemoData', this._id);
+    Meteor.call('generateDemoData', this.__originalId);
   },
   'click #btnSwitchToFree': function(event) {
     event.preventDefault();
