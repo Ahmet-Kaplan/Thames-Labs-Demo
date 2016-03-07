@@ -43,19 +43,19 @@ Template.opportunityAdminStage.helpers({
 });
 
 Template.opportunityAdminStage.events({
-  'click .orderUp': function() {
+  'click .orderUp': function(event) {
     event.preventDefault();
 
     console.log('here');
 
-    if (!IsTenantPro(Meteor.user().group)) {      
+    if (!IsTenantPro(Meteor.user().group)) {
       ShowUpgradeToastr('To edit the order of your opportunity stages');
       return;
     }
 
     Meteor.call('changeStageOrder', this.id, "up");
   },
-  'click .orderDown': function() {
+  'click .orderDown': function(event) {
     event.preventDefault();
     if (!IsTenantPro(Meteor.user().group)) {
       ShowUpgradeToastr('To edit the order of your opportunity stages');
@@ -63,7 +63,7 @@ Template.opportunityAdminStage.events({
     }
     Meteor.call('changeStageOrder', this.id, "down");
   },
-  'click #btnEdit': function() {
+  'click #btnEdit': function(event) {
     event.preventDefault();
     if (!IsTenantPro(Meteor.user().group)) {
       ShowUpgradeToastr('To edit your opportunity stages');

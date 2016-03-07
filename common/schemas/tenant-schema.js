@@ -9,7 +9,11 @@ Schemas.Tenant = new SimpleSchema({
     autoform: {
       type: "hidden"
     },
-    defaultValue: 'free'
+    defaultValue: 'free',
+    allowedValues: [
+      "free",
+      "pro"
+    ]
   },
   settings: {
     type: Object,
@@ -24,7 +28,7 @@ Schemas.Tenant = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
-  },  
+  },
   "stripe.paying": {
     type: Boolean,
     label: "Paying tenant",

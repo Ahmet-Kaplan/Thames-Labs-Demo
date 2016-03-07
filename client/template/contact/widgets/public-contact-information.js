@@ -1,11 +1,11 @@
 Template.publicContactInformation.events({
-  'click .upgrade-prompt': function(event, template){
+  'click .upgrade-prompt': function(event, template) {
+    event.preventDefault();
     if (!IsTenantPro(Meteor.user().group)) {
       ShowUpgradeToastr('To access this information');
     }
   }
 });
-
 
 Template.publicContactInformation.helpers({
   isProTenant: function() {

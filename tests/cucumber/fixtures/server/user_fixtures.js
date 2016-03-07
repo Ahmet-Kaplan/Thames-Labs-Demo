@@ -195,7 +195,7 @@ Meteor.methods({
         }
       },
       stripe: {
-        "totalRecords": 0,        
+        "totalRecords": 0,
         "blocked": false
       },
       createdAt: new Date()

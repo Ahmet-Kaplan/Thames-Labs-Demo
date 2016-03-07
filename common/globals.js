@@ -1,5 +1,5 @@
 ShowUpgradeToastr = function(preambleMessage) {
-  toastr.warning(preambleMessage + ", please upgrade to the PRO plan. You can do this by clicking this message.", "RealTimeCRM", {
+  toastr.warning(preambleMessage + ", please upgrade to the Pro plan. You can do this by clicking this message.", "RealTimeCRM", {
     timeOut: 0,
     closeButton: true,
     "debug": false,
@@ -49,7 +49,7 @@ GetDisallowedPermissions = function(userId) {
       collectionsToFilter.push(perms[p]);
     }
   }
-  
+
   return collectionsToFilter;
 };
 

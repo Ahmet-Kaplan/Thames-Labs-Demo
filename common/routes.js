@@ -142,12 +142,6 @@ router.route('/admin', {
 });
 
 router.route('/activities', {
-  triggersEnter: [function(context, redirect) {
-    if (!IsTenantPro(Meteor.user().group)) {
-      ShowUpgradeToastr('To access the Activities List view');
-      redirect('/');
-    }
-  }],
   name: 'activities',
   action: function() {
     layout.render('appLayout', {
@@ -220,12 +214,6 @@ router.route('/projects/:id', {
 });
 
 router.route('/purchaseorders', {
-  triggersEnter: [function(context, redirect) {
-    if (!IsTenantPro(Meteor.user().group)) {
-      ShowUpgradeToastr('To access Purchase Orders');
-      redirect('/');
-    }
-  }],
   name: 'purchaseOrders',
   action: function() {
     layout.render('appLayout', {
@@ -235,12 +223,6 @@ router.route('/purchaseorders', {
 });
 
 router.route('/purchaseorders/:id', {
-  triggersEnter: [function(context, redirect) {
-    if (!IsTenantPro(Meteor.user().group)) {
-      ShowUpgradeToastr('To access Purchase Orders');
-      redirect('/');
-    }
-  }],
   name: 'purchaseOrder',
   subscriptions: function(params) {
     this.register('purchaseOrderById', subs.subscribe('purchaseOrderById', params.id));
@@ -274,12 +256,6 @@ router.route('/tasks/:id', {
 });
 
 router.route('/events', {
-  triggersEnter: [function(context, redirect) {
-    if (!IsTenantPro(Meteor.user().group)) {
-      ShowUpgradeToastr('To access the Event Log view');
-      redirect('/');
-    }
-  }],
   name: 'events',
   action: function() {
     layout.render('appLayout', {
@@ -331,12 +307,6 @@ router.route('/opportunities/:id', {
 });
 
 router.route('/salespipeline', {
-  triggersEnter: [function(context, redirect) {
-    if (!IsTenantPro(Meteor.user().group)) {
-      ShowUpgradeToastr('To access the Sales Pipeline');
-      redirect('/');
-    }
-  }],
   name: 'salespipeline',
   subscriptions: function() {
     this.register('allOpportunities', subs.subscribe('allOpportunities'));
