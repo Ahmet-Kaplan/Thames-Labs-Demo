@@ -282,8 +282,9 @@ Template.dashboard.helpers({
     }).filter(function(widget) {
 
       if (widget.id === 'openPo' || widget.id === 'poInformation') {
-        var tenantId = Meteor.user().group;
-        if (!IsTenantPro(tenantId)) return false;
+        var user = Meteor.user();
+        if (!user || !user.group) return false;
+        if (!IsTenantPro(user.group)) return false;
       }
 
       if (!!widget.requiredPermission) {

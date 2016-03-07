@@ -7,8 +7,6 @@ Template.nav.onCreated(function() {
   this.fab = new ReactiveVar(true);
   this.fabOpen = new ReactiveVar(false);
 
-  Session.set("IsProTenant", false);
-
   this.autorun(function() {
 
     var getNotification = Notifications.findOne({
@@ -67,18 +65,11 @@ Template.nav.onRendered(function() {
   });
 });
 
-Template.nav.onRendered(function() {
-  this.autorun(function() {
-    var user = Meteor.user();
-    if (user && user.group) {
-      Session.set('IsProTenant', IsTenantPro(user.group));
-    }
-  });
-});
-
 Template.nav.helpers({
   IsProTenant: function() {
-    return Session.get('IsProTenant');
+    var user = Meteor.user();
+    if (!user || !user.group) return false;
+    return IsTenantPro(user.group);
   },
   displayShowLess: function() {
     var showAll = Session.get('showAllNotices');
