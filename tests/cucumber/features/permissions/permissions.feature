@@ -75,9 +75,10 @@ Feature: Allow administrators to give users permissions
     And I click "#Administration"
     And I click "#userAdminPanelExpander"
     And I click "#user-list > .list-group-item:last-child #tenantRemoveUser"
-    And I click confirm on the modal
-    Then I should see a modal with title "User removed"
+    Then I should see a modal
     When I click confirm on the modal
+    Then I should see a modal with title "User removed"
+    When I click confirm on the modal with title "User removed"
     Then the restricted user should not exist in the database
 
   Scenario: An administrator cannot delete its own account

@@ -263,6 +263,14 @@ module.exports = function() {
     browser.click(".modal-footer .btn-primary");
   });
 
+  this.When(/^I click confirm on the modal with title "([^"]*)"$/, function(expectedTitle) {
+    browser.waitForExist('h4*=' + expectedTitle, 5000);
+    browser.execute(function(expectedTitle) {
+      var modal = $('h4:contains("' + expectedTitle + '")').parent().parent();
+      modal.children('.modal-footer').children('button.btn-primary').click();
+    }, expectedTitle);
+  });
+
   this.When(/^I wait$/, function() {
     browser.pause(5000)
   });
