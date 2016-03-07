@@ -105,11 +105,11 @@ Template.tenancyAdminPage.helpers({
 
 
 Template.tenancyAdminPage.events({
-  'click #btnEditTenantUserGeneralSettings': function() {
+  'click #btnEditTenantUserGeneralSettings': function(event) {
     event.preventDefault();
     Modal.show('editTenantUserGeneralSettings', this);
   },
-  'click #btnEditTenantUserPermissions': function() {
+  'click #btnEditTenantUserPermissions': function(event) {
     event.preventDefault();
     var tenantId = Meteor.user().group;
     if (!IsTenantPro(tenantId)) {
@@ -119,7 +119,7 @@ Template.tenancyAdminPage.events({
     Modal.show('editTenantUserPermissions', this);
   },
 
-  'click #addNewUserAccount': function() {
+  'click #addNewUserAccount': function(event) {
     event.preventDefault();
 
     var tenantId = Meteor.user().group;
@@ -130,7 +130,7 @@ Template.tenancyAdminPage.events({
     Modal.show('addNewUser', this);
   },
 
-  'click #tenantRemoveUser': function() {
+  'click #tenantRemoveUser': function(event) {
     event.preventDefault();
     var self = this;
     var name = this.profile.name;
@@ -150,7 +150,8 @@ Template.tenancyAdminPage.events({
       }
     });
   },
-  'click #addGlobalCustomField': function() {
+  'click #addGlobalCustomField': function(event) {
+    event.preventDefault();
     Modal.show('addNewGlobalCustomField');
   }
 });
