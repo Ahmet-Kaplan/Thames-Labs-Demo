@@ -38,7 +38,7 @@ Template.tenantList.helpers({
 Template.tenant.helpers({
   freePaying: function() {
     if(this.plan === 'pro') {
-      if(this.stripe.stripeSubs) {
+      if(!this.stripe.stripeSubs) {
         return true;
       }
     }
@@ -49,15 +49,11 @@ Template.tenant.helpers({
       group: this._id
     }).count();
   },
-  recordsCount: function() {
-    return this.stripe.totalRecords;
-  },
   showDemoDataButton: function() {
     if (Meteor.isDevelopment) return true;
     if (Meteor.users.find({
         group: this._id
       }).count() > 0) return false;
-    if (this.stripe.totalRecords > 0) return false;
     return true;
   },
   isPayingTenant: function() {
@@ -113,23 +109,44 @@ Template.tenant.events({
   },
   'click #btnSwitchToFree': function(event) {
     event.preventDefault();
-    var tenantId = this._id;
+    var tenantId = this._id
+        tenant = Tenants.findOne(tenantId);
 
-    bootbox.confirm("Are you sure you wish to set this tenant to the <strong>Free Scheme</strong><br />This will cancel any ongoing subscription?", function(result) {
-      if (result === true) {
-        toastr.info('Processing the update...');
-        Meteor.call('stripe.cancelSubscription', tenantId, function(error, response) {
-          if (error) {
-            bootbox.alert({
-              title: 'Error',
-              message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to cancel subscription.<br />See Stripe dashboard to cancel manually.</div>'
-            });
-            return false;
-          }
-          toastr.success('The subscription has been cancelled successfully.<br />Switched to Free Scheme.');
-        });
-      }
-    });
+    if (!tenant.stripe || !tenant.stripe.stripeId || !tenant.stripe.stripeSubs) {
+      // No subscription, so must be Free Pro
+      bootbox.confirm("Are you sure you wish to set this tenant to the <strong>Free Scheme</strong>?", function(result) {
+        if (result) {
+          Tenants.update(tenantId, {
+            $set: { 'plan': 'free' }
+          }, function(err, res) {
+            if (err) {
+              toastr.error(err);
+              return;
+            }
+            toastr.success('Tenant downgraded to free plan');
+          });
+        } else {
+          toastr.info('Tenant plan has not been changed');
+        }
+      });
+    } else {
+      // Has stripe subscription
+      bootbox.confirm("Are you sure you wish to set this tenant to the <strong>Free Scheme</strong><br>This will cancel any ongoing subscription?", function(result) {
+        if (result === true) {
+          toastr.info('Processing the update...');
+          Meteor.call('stripe.cancelSubscription', tenantId, function(error, response) {
+            if (error) {
+              bootbox.alert({
+                title: 'Error',
+                message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to cancel subscription.<br />See Stripe dashboard to cancel manually.</div>'
+              });
+              return false;
+            }
+            toastr.success('The subscription has been cancelled successfully.<br />Switched to Free Scheme.');
+          });
+        }
+      });
+    }
   },
   'click #btnSwitchToPaying': function(event) {
     event.preventDefault();

@@ -26,8 +26,6 @@ Meteor.methods({
         settings: tenancyDefaultSettings,
         plan: 'free',
         stripe: {
-          "totalRecords": 0,
-          "blocked": false,
           "coupon": userDetails.coupon
         },
         createdAt: new Date()

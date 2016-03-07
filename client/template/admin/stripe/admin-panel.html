@@ -11,38 +11,34 @@
 
     <div class="col-md-5">
       <div class="well well-sm">
-      <div class="row">
-        <div class="col-xs-5"><strong>Plan</strong></div>
-        <div class="col-xs-7" id="planName">
-          {{#if subsLoaded}}
-            {{currentSubscription}}
-          {{else}}
-            <em>Loading...</em>
-          {{/if}}
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-5"><strong>Coupon</strong></div>
-        <div class="col-xs-7" id="couponDisplay">
-          {{#if couponLoaded}}
-            {{#if hasCoupon}}
-              {{hasCoupon}} - <a href="" id="updateCoupon">Edit</a>
-            {{else}}
-              No active coupon - <a href="" id="updateCoupon">Add</a>
+        <div class="row">
+          <div class="col-xs-5"><strong>Plan</strong></div>
+          <div class="col-xs-7" id="planName">
+            {{#if subsLoaded}}
+              {{currentSubscription}}
+              {{else}}
+              <em>Loading...</em>
             {{/if}}
-          {{else}}
-            <em>Loading...</em>
-          {{/if}}
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-5"><strong>Users</strong></div>
-        <div class="col-xs-7" id="numberOfUsers">{{totalUsers}}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-5"><strong>Records</strong></div>
-        <div class="col-xs-7">{{totalRecords}}</div>
-      </div>
+        <div class="row">
+          <div class="col-xs-5"><strong>Coupon</strong></div>
+          <div class="col-xs-7" id="couponDisplay">
+            {{#if couponLoaded}}
+              {{#if hasCoupon}}
+                {{hasCoupon}} - <a href="" id="updateCoupon">Edit</a>
+                {{else}}
+                No active coupon - <a href="" id="updateCoupon">Add</a>
+              {{/if}}
+              {{else}}
+              <em>Loading...</em>
+            {{/if}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-5"><strong>Users</strong></div>
+          <div class="col-xs-7" id="numberOfUsers">{{totalUsers}}</div>
+        </div>
       </div>
       {{#if hasStripeAccount}}
       <div class="well well-sm">
@@ -144,11 +140,11 @@
 </template>
 
 <template name="lineDetails">
-{{#if amount}}
-  <div class="row">
-    <div class="col-xs-3"></div>
-    <div class="col-xs-2"><em>£{{amount}}</em></div>
-    <div class="col-xs-7"><em>{{#if description}}{{description}}{{else}}Subscription for next period ({{period.start}} - {{period.end}}){{/if}}</em></div>
-  </div>
-{{/if}}
+  {{#if amount}}
+    <div class="row">
+      <div class="col-xs-3"></div>
+      <div class="col-xs-2"><em>£{{amount}}</em></div>
+      <div class="col-xs-7"><em>{{#if description}}{{description}}{{else}}Subscription for next period ({{period.start}} - {{period.end}}){{/if}}</em></div>
+    </div>
+  {{/if}}
 </template>

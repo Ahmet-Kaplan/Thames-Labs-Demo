@@ -193,9 +193,6 @@ Template.stripeAdmin.helpers({
     var stripeCustomer = Template.instance().stripeCustomer.get();
     return stripeCustomer;
   },
-  totalRecords: function() {
-    return Tenants.findOne({}).stripe.totalRecords || 0;
-  },
   totalUsers: function() {
     return Meteor.users.find({group: Meteor.user().group}).count();
   },
