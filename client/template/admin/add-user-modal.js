@@ -2,12 +2,12 @@ AutoForm.hooks({
   addNewUserForm: {
     onSuccess: function(formType, result) {
       var tenantId = Meteor.user().group;
-      if (!IsTenantPro(tenantId) && TenantUserCount(tenantId) === MAX_FREE_USERS) {
+      if (!isProTenant(tenantId) && TenantUserCount(tenantId) === MAX_FREE_USERS) {
         ShowUpgradeToastr('To add more users');
         return;
       }
 
-      if (!IsTenantPro(tenantId)) {
+      if (!isProTenant(tenantId)) {
         var userId = this.insertDoc._id;
         Roles.addUsersToRoles(userId, defaultPermissionsList);
         Roles.addUsersToRoles(userId, 'Administrator');

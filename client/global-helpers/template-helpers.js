@@ -155,3 +155,8 @@ Template.registerHelper('setSelected', function(value, option) {
   return (value === option) ? 'selected' : '';
 });
 
+Template.registerHelper('isProTenant', function() {
+  var tenant = Tenants.findOne({});
+  if (!tenant) return false;
+  return isProTenant(tenant._id);
+});

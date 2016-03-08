@@ -114,7 +114,7 @@ Meteor.methods({
         _id: userId
       });
       if (user) {
-        if (!IsTenantPro(user.group)) {
+        if (!isProTenant(user.group)) {
           Roles.addUsersToRoles(userId, ["Administrator"]);
         };
         Roles.addUsersToRoles(userId, defaultPermissionsList);
@@ -159,7 +159,7 @@ Meteor.methods({
       _id: adminId
     });
     if (admin) {
-      if (!IsTenantPro(admin.group)) {
+      if (!isProTenant(admin.group)) {
         Roles.addUsersToRoles(userId, 'Administrator');
       }
     }

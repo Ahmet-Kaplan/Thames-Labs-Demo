@@ -121,7 +121,7 @@ Template.tenancyAdminPage.events({
   'click #btnEditTenantUserPermissions': function(event) {
     event.preventDefault();
     var tenantId = Meteor.user().group;
-    if (!IsTenantPro(tenantId)) {
+    if (!isProTenant(tenantId)) {
       ShowUpgradeToastr('To set user permissions');
       return;
     }
@@ -132,7 +132,7 @@ Template.tenancyAdminPage.events({
     event.preventDefault();
 
     var tenantId = Meteor.user().group;
-    if (!IsTenantPro(tenantId) && TenantUserCount(tenantId) >= MAX_FREE_USERS) {
+    if (!isProTenant(tenantId) && TenantUserCount(tenantId) >= MAX_FREE_USERS) {
       ShowUpgradeToastr('To add more users');
       return;
     }
@@ -176,6 +176,7 @@ Template.gcf_display.helpers({
     return this.dataOrder > 0;
   },
   canMoveDown: function() {
+    if(!Meteor.user()) return;
     var exInfLen = Tenants.findOne({
       _id: Meteor.user().group
     }).settings.extInfo[this.targetEntity].length;

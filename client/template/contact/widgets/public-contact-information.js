@@ -1,7 +1,7 @@
 Template.publicContactInformation.events({
   'click .upgrade-prompt': function(event, template) {
     event.preventDefault();
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To access this information');
     }
   }
@@ -10,7 +10,7 @@ Template.publicContactInformation.events({
 Template.publicContactInformation.helpers({
   isProTenant: function() {
     var user = Meteor.user();
-    return IsTenantPro(user.group);
+    return isProTenant(user.group);
   },
   hasMetadata: function() {
     if (this.metadata && this.metadata.clearbit) {

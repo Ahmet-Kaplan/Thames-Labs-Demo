@@ -1,5 +1,6 @@
 Template.projectAdmin.helpers({
   projectTypes: function() {
+    if(!Meteor.user()) return;
     return Tenants.findOne({
       _id: Meteor.user().group
     }).settings.project.types;
@@ -8,6 +9,7 @@ Template.projectAdmin.helpers({
 
 Template.projectType.helpers({
   milestones: function() {
+    if (!Meteor.user()) return;
     var typeIndex = -1;
     var currentTypes = Tenants.findOne({
       _id: Meteor.user().group
@@ -26,7 +28,7 @@ Template.projectAdmin.events({
   'click #addProjectType': function(event) {
     event.preventDefault();
 
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To create your own project types');
       return;
     }
@@ -38,7 +40,7 @@ Template.projectAdmin.events({
 Template.projectType.events({
   'click #addMilestone': function(event) {
     event.preventDefault();
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To create your own project type milestones');
       return;
     }
@@ -47,7 +49,7 @@ Template.projectType.events({
   },
   'click #editType': function(event) {
     event.preventDefault();
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To edit your project types');
       return;
     }
@@ -55,7 +57,7 @@ Template.projectType.events({
   },
   'click #removeType': function(event) {
     event.preventDefault();
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To delete your project types');
       return;
     }
@@ -91,7 +93,7 @@ Template.projectMilestone.events({
   'click #editMilestone': function(event, template) {
 
     event.preventDefault();
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To edit your project milestones');
       return;
     }
@@ -102,7 +104,7 @@ Template.projectMilestone.events({
   },
   'click #removeMilestone': function(event, template) {
     event.preventDefault();
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To delete your project types');
       return;
     }

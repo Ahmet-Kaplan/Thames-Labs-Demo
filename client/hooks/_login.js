@@ -10,7 +10,7 @@ Accounts.onLogin(function(cb) {
   if (user) {
 
     if (!Roles.userIsInRole(user._id, 'superadmin')) {
-      if (!IsTenantPro(user.group)) {
+      if (!isProTenant(user.group)) {
 
         if (!Roles.userIsInRole(user._id, 'Administrator')) {
           Roles.addUsersToRoles(user._id, ["Administrator"]);

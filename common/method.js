@@ -459,7 +459,7 @@ logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
       _id: this._id
     });
     if (user && user.group) {
-      if (!IsTenantPro(user.group)) return;
+      if (!isProTenant(user.group)) return;
     }
     Meteor.call('addEventToAuditLog', logLevel, logMessage, ((typeof logEntityType === 'undefined') ? undefined : logEntityType), ((typeof logEntityId === 'undefined') ? undefined : logEntityId), 'client', Guid.raw());
   }

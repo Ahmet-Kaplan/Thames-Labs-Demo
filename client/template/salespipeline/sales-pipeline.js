@@ -3,7 +3,7 @@ Template.salesPipeline.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
 
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To access the Sales Pipeline');
       FlowRouter.go('/');
     }

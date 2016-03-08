@@ -66,11 +66,6 @@ Template.nav.onRendered(function() {
 });
 
 Template.nav.helpers({
-  IsProTenant: function() {
-    var user = Meteor.user();
-    if (!user || !user.group) return false;
-    return IsTenantPro(user.group);
-  },
   displayShowLess: function() {
     var showAll = Session.get('showAllNotices');
     return (showAll === true);

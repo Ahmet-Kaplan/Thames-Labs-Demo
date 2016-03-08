@@ -156,7 +156,7 @@ Template.contactDetail.events({
   'click #add-purchase-order': function(event) {
     event.preventDefault();
 
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To raise purchase orders');
       return;
     }

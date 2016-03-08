@@ -102,7 +102,7 @@ Template.addNewGlobalCustomField.events({
     var tenant = Tenants.findOne({
       _id: Meteor.user().group
     });
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       var fields = [];
       switch (cfEntity) {
         case 'company':

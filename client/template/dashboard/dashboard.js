@@ -284,7 +284,7 @@ Template.dashboard.helpers({
       if (widget.id === 'openPo' || widget.id === 'poInformation') {
         var user = Meteor.user();
         if (!user || !user.group) return false;
-        if (!IsTenantPro(user.group)) return false;
+        if (!isProTenant(user.group)) return false;
       }
 
       if (!!widget.requiredPermission) {

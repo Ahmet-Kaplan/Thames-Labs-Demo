@@ -136,6 +136,7 @@ Template.stripeAdmin.onCreated(function() {
 
   this.autorun(function() {
     var tenant = Tenants.findOne({});
+    if (!tenant) return;
     var numberOfUsers = Meteor.users.find({group: tenant._id}).count();
     Session.get('stripeUpdateListener');
 
@@ -194,6 +195,7 @@ Template.stripeAdmin.helpers({
     return stripeCustomer;
   },
   totalUsers: function() {
+    if (!Meteor.user()) return;
     return Meteor.users.find({group: Meteor.user().group}).count();
   },
   upcomingInvoice: function() {

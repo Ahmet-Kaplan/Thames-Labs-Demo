@@ -1,7 +1,7 @@
 Template.activityList.onCreated(function() {
   // Redirect if read permission changed
    this.autorun(function() {
-     if (!IsTenantPro(Meteor.user().group)) {
+     if (!isProTenant(Meteor.user().group)) {
        ShowUpgradeToastr('To access the Activity List view');
        FlowRouter.go('/');
      }

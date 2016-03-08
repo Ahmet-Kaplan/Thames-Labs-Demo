@@ -8,7 +8,7 @@ Template.purchaseOrderAdminPanel.events({
   'click #poAdminUpdatePrefix': function(event) {
     event.preventDefault();
 
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To set your own purchase order prefix');
       return;
     }

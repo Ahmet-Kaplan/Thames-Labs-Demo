@@ -16,7 +16,7 @@ ShowUpgradeToastr = function(preambleMessage) {
   });
 };
 
-IsTenantPro = function(tenantId) {
+isProTenant = function(tenantId) {
   if (tenantId) {
     var tenant = Tenants.findOne({
       _id: tenantId

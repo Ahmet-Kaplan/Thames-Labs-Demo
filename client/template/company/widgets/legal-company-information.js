@@ -77,7 +77,7 @@ Template.legalCompanyInformation.onCreated(function() {
 Template.legalCompanyInformation.helpers({
   shouldShow: function() {
     var user = Meteor.user();
-    if(!IsTenantPro(user.group)) return false;
+    if(!isProTenant(user.group)) return false;
 
     if (!Roles.userIsInRole(Meteor.userId(), ['CanReadCompanies'])) return false;
     var companyNumber = Template.currentData().company.companiesHouseId,
@@ -122,7 +122,7 @@ Template.legalCompanyInformation.events({
   },
   'click .upgrade-prompt': function(event, template) {
     event.preventDefault();
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To access this information');
     }
   }

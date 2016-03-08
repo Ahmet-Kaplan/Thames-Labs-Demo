@@ -4,7 +4,7 @@ Template.opportunityAdmin.helpers({
   },
   hasStages: function() {
     var userTenant = Tenants.findOne({});
-    if (!userTenant.settings) return false;
+    if (!userTenant || !userTenant.settings) return false;
     var stages = userTenant.settings.opportunity.stages;
     if (!stages) return false;
     return stages.length > 0;
@@ -19,7 +19,7 @@ Template.opportunityAdmin.events({
   'click #btnAddStage': function(event) {
     event.preventDefault();
 
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To create your own opportunity stages');
       return;
     }
@@ -48,7 +48,7 @@ Template.opportunityAdminStage.events({
 
     console.log('here');
 
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To edit the order of your opportunity stages');
       return;
     }
@@ -57,7 +57,7 @@ Template.opportunityAdminStage.events({
   },
   'click .orderDown': function(event) {
     event.preventDefault();
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To edit the order of your opportunity stages');
       return;
     }
@@ -65,7 +65,7 @@ Template.opportunityAdminStage.events({
   },
   'click #btnEdit': function(event) {
     event.preventDefault();
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To edit your opportunity stages');
       return;
     }
@@ -75,7 +75,7 @@ Template.opportunityAdminStage.events({
   'click #btnDelete': function(event) {
     event.preventDefault();
 
-    if (!IsTenantPro(Meteor.user().group)) {
+    if (!isProTenant(Meteor.user().group)) {
       ShowUpgradeToastr('To delete your opportunity stages');
       return;
     }
