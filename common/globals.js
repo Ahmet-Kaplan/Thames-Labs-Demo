@@ -38,7 +38,7 @@ isTenantOverFreeUserLimit = function(tenantId) {
   }).count() >= MAX_FREE_USERS;
 };
 
-GetDisallowedPermissions = function(userId) {
+getDisallowedPermissions = function(userId) {
   var collectionsToFilter = [];
   var perms = ['companies', 'contacts', 'opportunities', 'projects', 'tasks', 'purchaseorders'];
   for (var p in perms) {

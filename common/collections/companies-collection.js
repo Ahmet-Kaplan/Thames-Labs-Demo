@@ -11,7 +11,7 @@ Companies.helpers({
     });
   },
   activities: function() {
-    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+    var collectionsToFilter = getDisallowedPermissions(Meteor.userId());
 
     return Activities.find({
       companyId: this._id,
