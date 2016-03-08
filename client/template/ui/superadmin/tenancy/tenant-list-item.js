@@ -1,26 +1,18 @@
 Template.tenantListItem.helpers({
   userCount: function() {
     return Meteor.users.find({
-      group: this._id
+      group: this.__originalId
     }).count();
-  },
-  recordsCount: function() {
-    return this.stripe.totalRecords;
   },
   showDemoDataButton: function() {
     if (Meteor.isDevelopment) return true;
     if (Meteor.users.find({
-        group: this._id
+        group: this.__originalId
       }).count() > 0) return false;
-    if (this.stripe.totalRecords > 0) return false;
     return true;
   },
   isPayingTenant: function() {
-    return this.stripe.paying;
-  },
-  limitReached: function() {
-    if (this.stripe.paying || this.stripe.freeUnlimited) return false;
-    return this.stripe.totalRecords > MAX_RECORDS;
+    return this.plan === "pro" && this.stripe.stripeSubs;
   },
   generationInProgress: function() {
     return ServerSession.get('populatingDemoData');

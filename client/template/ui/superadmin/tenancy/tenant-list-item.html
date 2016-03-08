@@ -1,9 +1,8 @@
 <template name="tenantListItem">
     <div class="panel panel-primary">
       <div class="panel-heading" id="{{_id}}">
-        {{#if limitReached}}<i class="fa fa-ban"></i> {{/if}}
         {{#if stripe.freeUnlimited}}<i class="fa fa-unlock" data-toggle="tooltip" data-placement="bottom" title="Free unlimited tenant"></i> {{/if}}
-        {{name}}<span class="pull-right"><small> (Users: {{userCount}}, Records: {{recordsCount}})</small></span>
+        {{name}}<span class="pull-right"><small> (Users: {{userCount}})</small></span>
       </div>
         <div class="panel">
             <div class="panel-body" id="listOfTenantUsers">

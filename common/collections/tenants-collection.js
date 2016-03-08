@@ -27,6 +27,19 @@ Collections.tenants.filters = {
       }
     }
   },
+  plan: {
+    display: 'Plan:',
+    prop: 'plan',
+    defaultOptions: function() {
+      return ['Free', 'Free+', 'Pro']
+    },
+    strict: true,
+    allowMultiple: false,
+    displayValue: function(plan) {
+      if (!plan) return false;
+      return true;
+    }
+  }
 };
 
 ////////////////////
@@ -81,6 +94,8 @@ Collections.tenants.index = TenantsIndex = new EasySearch.Index({
 
 Tenants.before.insert(function(userId, doc) {
   if (!doc.settings) doc.settings = tenancyDefaultSettings;
+  if (!doc.stripe) doc.stripe = {};
+
   doc.createdAt = new Date();
 });
 

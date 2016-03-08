@@ -10,7 +10,10 @@ Template.tenantList.helpers({
   tenants: function(paying) {
     var payingTenant = (paying === "true") ? true : false;
     return Tenants.find({
-      "stripe.paying": payingTenant
+      "plan": 'pro',
+      'stripe.stripeSubs': {
+        $exists: true
+      }
     }, {
       sort: {
         name: 1

@@ -10,7 +10,7 @@ Opportunities.helpers({
     return Contacts.findOne(this.contactId);
   },
   activities: function() {
-    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+    var collectionsToFilter = getDisallowedPermissions(Meteor.userId());
 
     return Activities.find({
       opportunityId: this._id,

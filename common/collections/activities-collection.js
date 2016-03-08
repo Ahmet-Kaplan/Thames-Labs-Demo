@@ -106,7 +106,7 @@ Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
         selector._id = options.search.props.searchById;
       }
 
-      var collectionsToFilter = GetDisallowedPermissions(options.search.userId);
+      var collectionsToFilter = getDisallowedPermissions(options.search.userId);
 
       selector.primaryEntityType = {
         $nin: collectionsToFilter

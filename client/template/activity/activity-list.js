@@ -1,8 +1,11 @@
 Template.activityList.onCreated(function() {
   // Redirect if read permission changed
-  // this.autorun(function() {
-  //   redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
-  // });
+   this.autorun(function() {
+     if (!isProTenant(Meteor.user().group)) {
+       showUpgradeToastr('To access the Activity List view');
+       FlowRouter.go('/');
+     }
+   });
 });
 
 Template.activityList.events({

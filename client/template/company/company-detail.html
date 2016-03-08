@@ -37,7 +37,7 @@
         </div>
         <ul class="list-group">
           {{#if website}}
-          <a href="{{website}}" data-toggle="tooltip" data-placement="bottom" title="Navigate to this website" target="_blank" class="list-group-item panel-item-header">
+          <a href="{{websiteHref website}}" data-toggle="tooltip" data-placement="bottom" title="Navigate to this website" target="_blank" class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-laptop"></i> Website</h4>
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
             <p class="list-group-item-text">{{website}}</p>
@@ -115,7 +115,9 @@
           {{/each}}
         </ul>
       </div>
-      {{/if}} {{#if isInRole 'CanReadPurchaseOrders'}}
+      {{/if}} 
+
+      {{#if isInRole 'CanReadPurchaseOrders'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
           Purchase Orders {{#if isInRole 'CanCreatePurchaseOrders'}}

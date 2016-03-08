@@ -96,7 +96,7 @@ Meteor.methods({
         $set: {
           "stripe.stripeId": customer.id,
           "stripe.stripeSubs": customer.subscriptions.data[0].id,
-          "stripe.paying": true
+          "plan": 'pro'
         }
       });
 
@@ -139,7 +139,7 @@ Meteor.methods({
       Tenants.update(tenantId, {
         $set: {
           "stripe.stripeSubs": subscription.id,
-          "stripe.paying": true
+          "plan": 'pro'
         }
       });
       stripeSubscription.return(subscription);
@@ -151,6 +151,13 @@ Meteor.methods({
   'stripe.updateQuantity': function(superadminTenantId) {
     /*superadminTenantId is used when the method is called by the superadmin
     In which case the tenantId cannot be retrieved via Partitioner */
+
+    // Don't try and update Stripe if testing
+    // N.B. TEMPORARY FIX - this needs to be changed.
+    if (process.env.IS_MIRROR || process.env.CI) {
+      return true;
+    }
+
     var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({
       _id: tenantId
@@ -159,7 +166,8 @@ Meteor.methods({
       LogServerEvent('error', 'Unable to update Stripe Quantity for tenant of user ' + superadminTenantId + '/tenant ' + tenantId);
       return false;
     }
-    if (theTenant.stripe.paying === false || theTenant.stripe.freeUnlimited) {
+
+    if (theTenant.plan === 'free') {
       return true;
     }
 
@@ -220,7 +228,7 @@ Meteor.methods({
           }
           Tenants.update(tenantId, {
             $set: {
-              "stripe.paying": false
+              "plan": 'free'
             }
           });
 
@@ -290,7 +298,7 @@ Meteor.methods({
 
       Tenants.update(tenantId, {
         $set: {
-          "stripe.paying": true
+          "plan": 'pro'
         }
       });
 
@@ -507,7 +515,7 @@ Meteor.methods({
     var couponValid = new Future();
     var tenantId = Partitioner.getUserGroup(this.userId);
 
-    if(couponId === '') {
+    if (couponId === '') {
       Tenants.update(tenantId, {
         $unset: {
           'stripe.coupon': ''
@@ -518,7 +526,7 @@ Meteor.methods({
       Stripe.coupons.retrieve(couponId, Meteor.bindEnvironment(function(err, coupon) {
         if (err) {
           couponValid.return(false);
-        } else if(coupon.valid === true) {
+        } else if (coupon.valid === true) {
           Tenants.update(tenantId, {
             $set: {
               'stripe.coupon': couponId

@@ -10,7 +10,7 @@ PurchaseOrders.helpers({
     return Companies.findOne(this.customerCompanyId);
   },
   activities: function() {
-    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+    var collectionsToFilter = getDisallowedPermissions(Meteor.userId());
 
     return Activities.find({
       purchaseOrderId: this._id,

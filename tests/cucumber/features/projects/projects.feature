@@ -40,12 +40,14 @@ Feature: Allow users to manage their Projects
 
   Scenario: An administrator can add CanReadProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Projects" to a restricted user
     Then the user "restricted user" should have the "CanReadProjects" permission
 
   Scenario: An administrator can remove CanReadProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
     Then the user "restricted user" should not have the "CanReadProjects" permission
@@ -84,12 +86,14 @@ Feature: Allow users to manage their Projects
 
   Scenario: An administrator can add CanCreateProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanCreate" on "Projects" to a restricted user
     Then the user "restricted user" should have the "CanCreateProjects" permission
 
   Scenario: An administrator can remove CanCreateProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
     Then the user "restricted user" should not have the "CanCreateProjects" permission
@@ -114,12 +118,14 @@ Feature: Allow users to manage their Projects
 
   Scenario: An administrator can add CanEditProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanEdit" on "Projects" to a restricted user
     Then the user "restricted user" should have the "CanEditProjects" permission
 
   Scenario: An administrator can remove CanEditProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
     Then the user "restricted user" should not have the "CanEditProjects" permission
@@ -143,12 +149,14 @@ Feature: Allow users to manage their Projects
 
   Scenario: An administrator can add CanDeleteProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Projects" to a restricted user
     Then the user "restricted user" should have the "CanDeleteProjects" permission
 
   Scenario: An administrator can remove CanDeleteProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
     Then the user "restricted user" should not have the "CanDeleteProjects" permission
@@ -180,12 +188,14 @@ Feature: Allow users to manage their Projects
     Then I should not see the edit tag button
 
   #Extended information fields
+  
   Scenario: A user can open the "Add Extended information fields" modal
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
     When I navigate to a project page
     And I click "#add-custom-field"
     Then I should see a modal
+
 
   Scenario: A user can add an extended information field
     Given I have the "CanEditProjects" permission
@@ -196,6 +206,7 @@ Feature: Allow users to manage their Projects
     And I set text field with id "custom-field-text-value" to "velocity"
     And I click "#submit-custom-field"
     Then I should see ".custom-field-display-item"
+
 
   Scenario: A user can delete an extended information field
     Given I have the "CanEditProjects" permission
@@ -208,6 +219,7 @@ Feature: Allow users to manage their Projects
     And I click "#delete-custom-field"
     And I click confirm on the modal
     Then I should not see ".custom-field-display-item"
+
 
   Scenario: A user can edit an extended information field
     Given I have the "CanEditProjects" permission
@@ -291,6 +303,7 @@ Feature: Allow users to manage their Projects
   #Filtering and Searching
   Scenario: A user can filter projects by company
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a "Project" has been created
     And an additional "Project" has been created
     When I navigate to "/projects"
@@ -301,6 +314,7 @@ Feature: Allow users to manage their Projects
 
   Scenario: Clicking a tag badge applies the filter
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a "Project" has been created
     And an additional "Project" has been created
     When I navigate to "/projects"

@@ -11,7 +11,7 @@ Companies.helpers({
     });
   },
   activities: function() {
-    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+    var collectionsToFilter = getDisallowedPermissions(Meteor.userId());
 
     return Activities.find({
       companyId: this._id,
@@ -192,9 +192,7 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 
-var checkRecordsNumber = Collections.helpers.checkRecordsNumber;
-
-Companies.before.insert(function(userId, doc) {  
+Companies.before.insert(function(userId, doc) {
   if (doc.website) {
     var currentWebsite = doc.website;
     if (currentWebsite.indexOf('http://') === -1) {
@@ -224,14 +222,10 @@ Companies.before.insert(function(userId, doc) {
     doc.sequencedIdentifier = Tenants.findOne({}).settings.company.defaultNumber;
   }
 
-  if (!checkRecordsNumber()) {
-    return false;
-  }
   return true;
 });
 
 Companies.after.insert(function(userId, doc) {
-  Meteor.call('updateTotalRecords');
   logEvent('info', 'A new company has been created: ' + doc.name);
 
   if (Meteor.isServer) {
@@ -243,7 +237,7 @@ Companies.after.insert(function(userId, doc) {
         'settings.company.defaultNumber': 1
       }
     });
-  }  
+  }
 });
 
 Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
@@ -285,6 +279,5 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Companies.after.remove(function(userId, doc) {
-  Meteor.call('updateTotalRecords');
   logEvent('info', 'A company has been deleted: ' + doc.name);
 });

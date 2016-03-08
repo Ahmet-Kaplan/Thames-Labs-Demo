@@ -71,7 +71,7 @@ Meteor.methods({
       createdAt: new Date(),
       activityTimestamp: new Date(),
       primaryEntityId: entity._id,
-      primaryEntityType: "purchaseOrders",
+      primaryEntityType: "purchaseorders",
       primaryEntityDisplayData: data,
       purchaseOrderId: entity._id,
       createdBy: this.userId

@@ -110,7 +110,15 @@ Meteor.methods({
         }
       });
 
-      Roles.addUsersToRoles(userId, defaultPermissionsList);
+      var user = Meteor.users.findOne({
+        _id: userId
+      });
+      if (user) {
+        if (!isProTenant(user.group)) {
+          Roles.addUsersToRoles(userId, ["Administrator"]);
+        };
+        Roles.addUsersToRoles(userId, defaultPermissionsList);
+      }
 
       // Add user to a group (partition) based on customer id
       if (doc.group) {        
@@ -147,6 +155,14 @@ Meteor.methods({
       }
     });
 
+    var admin = Meteor.users.findOne({
+      _id: adminId
+    });
+    if (admin) {
+      if (!isProTenant(admin.group)) {
+        Roles.addUsersToRoles(userId, 'Administrator');
+      }
+    }
     Roles.addUsersToRoles(userId, defaultPermissionsList);
 
     // Add user to a group (partition) based on customer id
@@ -156,7 +172,7 @@ Meteor.methods({
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 
-    Meteor.call('stripe.updateQuantity');
+    Meteor.call('stripe.updateQuantity', Partitioner.getUserGroup(adminId));
   }
 
 });

@@ -3,6 +3,18 @@ Schemas.Tenant = new SimpleSchema({
     type: String,
     label: "Name"
   },
+  plan: {
+    type: String,
+    label: "Plan",
+    autoform: {
+      type: "hidden"
+    },
+    defaultValue: 'free',
+    allowedValues: [
+      "free",
+      "pro"
+    ]
+  },
   settings: {
     type: Object,
     blackbox: true,

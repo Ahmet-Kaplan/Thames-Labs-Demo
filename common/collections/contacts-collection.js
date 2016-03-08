@@ -10,7 +10,7 @@ Contacts.helpers({
     return Companies.findOne(this.companyId);
   },
   activities: function() {
-    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+    var collectionsToFilter = getDisallowedPermissions(Meteor.userId());
 
     return Activities.find({
       contactId: this._id,
@@ -177,14 +177,8 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 
-var checkRecordsNumber = Collections.helpers.checkRecordsNumber;
-
 Contacts.before.insert(function(userId, doc) {
-  if (!checkRecordsNumber()) {
-    return false;
-  }
-
-  if (doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
+   if (doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
     var name = doc.companyId.substr(9);
     var newCompanyId = Companies.insert({
       name: name,
@@ -220,7 +214,6 @@ Contacts.before.insert(function(userId, doc) {
 });
 
 Contacts.after.insert(function(userId, doc) {
-  Meteor.call('updateTotalRecords');
   logEvent('info', 'A new contact has been created: ' + doc.forename + " " + doc.surname);
 
   if (Meteor.isServer) {
@@ -275,6 +268,5 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Contacts.after.remove(function(userId, doc) {
-  Meteor.call('updateTotalRecords');
   logEvent('info', 'A contact has been deleted: ' + doc.forename + " " + doc.surname);
 });

@@ -155,6 +155,12 @@ Template.contactDetail.events({
   },
   'click #add-purchase-order': function(event) {
     event.preventDefault();
+
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To raise purchase orders');
+      return;
+    }
+
     var company = this.company();
     if (company === undefined) {
       Modal.show('newContactPurchaseOrderForm', {

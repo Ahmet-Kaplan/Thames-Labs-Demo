@@ -7,7 +7,7 @@ Projects.helpers({
     return Companies.findOne(this.companyId);
   },
   activities: function() {
-    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+    var collectionsToFilter = getDisallowedPermissions(Meteor.userId());
 
     return Activities.find({
       projectId: this._id,

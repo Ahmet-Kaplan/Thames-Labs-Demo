@@ -1,4 +1,17 @@
+Template.publicContactInformation.events({
+  'click .upgrade-prompt': function(event, template) {
+    event.preventDefault();
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To access this information');
+    }
+  }
+});
+
 Template.publicContactInformation.helpers({
+  isProTenant: function() {
+    var user = Meteor.user();
+    return isProTenant(user.group);
+  },
   hasMetadata: function() {
     if (this.metadata && this.metadata.clearbit) {
       if (this.metadata.clearbit.location) return true;
