@@ -214,7 +214,6 @@ Contacts.before.insert(function(userId, doc) {
 });
 
 Contacts.after.insert(function(userId, doc) {
-  Meteor.call('updateTotalRecords');
   logEvent('info', 'A new contact has been created: ' + doc.forename + " " + doc.surname);
 
   if (Meteor.isServer) {
@@ -269,6 +268,5 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Contacts.after.remove(function(userId, doc) {
-  Meteor.call('updateTotalRecords');
   logEvent('info', 'A contact has been deleted: ' + doc.forename + " " + doc.surname);
 });

@@ -226,7 +226,6 @@ Companies.before.insert(function(userId, doc) {
 });
 
 Companies.after.insert(function(userId, doc) {
-  Meteor.call('updateTotalRecords');
   logEvent('info', 'A new company has been created: ' + doc.name);
 
   if (Meteor.isServer) {
@@ -280,6 +279,5 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Companies.after.remove(function(userId, doc) {
-  Meteor.call('updateTotalRecords');
   logEvent('info', 'A company has been deleted: ' + doc.name);
 });
