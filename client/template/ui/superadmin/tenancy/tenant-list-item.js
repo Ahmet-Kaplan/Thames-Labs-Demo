@@ -14,6 +14,9 @@ Template.tenantListItem.helpers({
   isPayingTenant: function() {
     return this.plan === "pro" && this.stripe.stripeSubs;
   },
+  isFreePlusTenant: function() {
+    return this.plan === "pro" && !this.stripe.stripeSubs;
+  },
   generationInProgress: function() {
     return ServerSession.get('populatingDemoData');
   },

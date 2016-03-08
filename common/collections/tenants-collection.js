@@ -62,6 +62,7 @@ Collections.tenants.index = TenantsIndex = new EasySearch.Index({
       return {
         'name': 1,
         'settings': 1,
+        'plan': 1,
         'stripe': 1
       }
     },
