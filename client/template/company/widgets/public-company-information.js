@@ -1,7 +1,7 @@
 Template.publicCompanyInformation.events({
   'click .upgrade-prompt': function(event, template) {
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To access this information');
+      showUpgradeToastr('To access this information');
     }
   }
 });

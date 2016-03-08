@@ -122,7 +122,7 @@ Template.tenancyAdminPage.events({
     event.preventDefault();
     var tenantId = Meteor.user().group;
     if (!isProTenant(tenantId)) {
-      ShowUpgradeToastr('To set user permissions');
+      showUpgradeToastr('To set user permissions');
       return;
     }
     Modal.show('editTenantUserPermissions', this);
@@ -133,7 +133,7 @@ Template.tenancyAdminPage.events({
 
     var tenantId = Meteor.user().group;
     if (!isProTenant(tenantId) && TenantUserCount(tenantId) >= MAX_FREE_USERS) {
-      ShowUpgradeToastr('To add more users');
+      showUpgradeToastr('To add more users');
       return;
     }
     Modal.show('addNewUser', this);

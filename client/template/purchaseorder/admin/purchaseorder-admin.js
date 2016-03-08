@@ -9,7 +9,7 @@ Template.purchaseOrderAdminPanel.events({
     event.preventDefault();
 
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To set your own purchase order prefix');
+      showUpgradeToastr('To set your own purchase order prefix');
       return;
     }
 

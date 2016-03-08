@@ -3,7 +3,7 @@ AutoForm.hooks({
     onSuccess: function(formType, result) {
       var tenantId = Meteor.user().group;
       if (!isProTenant(tenantId) && TenantUserCount(tenantId) === MAX_FREE_USERS) {
-        ShowUpgradeToastr('To add more users');
+        showUpgradeToastr('To add more users');
         return;
       }
 

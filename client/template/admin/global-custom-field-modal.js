@@ -120,7 +120,7 @@ Template.addNewGlobalCustomField.events({
       }
 
       if (fields.length === MAX_FREE_ENTITY_GLOBAL_FIELDS) {
-        ShowUpgradeToastr('To create more than 5 global extended information fields for a ' + cfEntity + ' record');
+        showUpgradeToastr('To create more than 5 global extended information fields for a ' + cfEntity + ' record');
         Modal.hide();
         return;
       }

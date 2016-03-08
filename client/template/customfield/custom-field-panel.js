@@ -5,7 +5,7 @@ Template.customFieldDisplay.events({
     if (!isProTenant(Meteor.user().group)) {
       if (this.entity_data.extendedInformation) {
         if (this.entity_data.extendedInformation.length === MAX_FREE_ENTITY_LOCAL_FIELDS) {
-          ShowUpgradeToastr('To create more than 5 extended information fields against this record');
+          showUpgradeToastr('To create more than 5 extended information fields against this record');
           return;
         }
       }

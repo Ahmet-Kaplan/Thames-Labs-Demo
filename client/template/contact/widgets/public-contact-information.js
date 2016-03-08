@@ -2,7 +2,7 @@ Template.publicContactInformation.events({
   'click .upgrade-prompt': function(event, template) {
     event.preventDefault();
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To access this information');
+      showUpgradeToastr('To access this information');
     }
   }
 });

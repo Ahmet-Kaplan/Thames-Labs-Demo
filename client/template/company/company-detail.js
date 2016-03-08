@@ -82,7 +82,7 @@ Template.companyDetail.events({
     event.preventDefault();
 
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To raise purchase orders');
+      showUpgradeToastr('To raise purchase orders');
       return;
     }
 

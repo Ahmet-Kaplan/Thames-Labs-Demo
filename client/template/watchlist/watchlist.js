@@ -41,7 +41,7 @@ Template.watchlistAdmin.events({
       var watchlist = user.profile.watchlist;
 
       if (!isProTenant(user.group) && watchlist.length === MAX_FREE_WATCHLIST_RECORDS) {
-        ShowUpgradeToastr('To watch more than 5 records');
+        showUpgradeToastr('To watch more than 5 records');
         return;
       }
       watch(entityId, collectionName);

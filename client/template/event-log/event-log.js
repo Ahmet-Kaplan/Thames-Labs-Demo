@@ -2,7 +2,7 @@ Template.events.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To access the Event Log view');
+      showUpgradeToastr('To access the Event Log view');
       FlowRouter.go('/');
     }
 

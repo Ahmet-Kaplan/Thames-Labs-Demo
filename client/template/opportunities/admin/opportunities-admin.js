@@ -20,7 +20,7 @@ Template.opportunityAdmin.events({
     event.preventDefault();
 
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To create your own opportunity stages');
+      showUpgradeToastr('To create your own opportunity stages');
       return;
     }
 
@@ -49,7 +49,7 @@ Template.opportunityAdminStage.events({
     console.log('here');
 
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To edit the order of your opportunity stages');
+      showUpgradeToastr('To edit the order of your opportunity stages');
       return;
     }
 
@@ -58,7 +58,7 @@ Template.opportunityAdminStage.events({
   'click .orderDown': function(event) {
     event.preventDefault();
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To edit the order of your opportunity stages');
+      showUpgradeToastr('To edit the order of your opportunity stages');
       return;
     }
     Meteor.call('changeStageOrder', this.id, "down");
@@ -66,7 +66,7 @@ Template.opportunityAdminStage.events({
   'click #btnEdit': function(event) {
     event.preventDefault();
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To edit your opportunity stages');
+      showUpgradeToastr('To edit your opportunity stages');
       return;
     }
     Modal.show('editStageModal', this);
@@ -76,7 +76,7 @@ Template.opportunityAdminStage.events({
     event.preventDefault();
 
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To delete your opportunity stages');
+      showUpgradeToastr('To delete your opportunity stages');
       return;
     }
 

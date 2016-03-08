@@ -1,7 +1,7 @@
 Template.purchaseOrderDetail.onCreated(function() {
   this.autorun( () => {
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To access Purchase Orders');
+      showUpgradeToastr('To access Purchase Orders');
       FlowRouter.go('/');
     }
 

@@ -29,7 +29,7 @@ Template.projectAdmin.events({
     event.preventDefault();
 
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To create your own project types');
+      showUpgradeToastr('To create your own project types');
       return;
     }
 
@@ -41,7 +41,7 @@ Template.projectType.events({
   'click #addMilestone': function(event) {
     event.preventDefault();
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To create your own project type milestones');
+      showUpgradeToastr('To create your own project type milestones');
       return;
     }
 
@@ -50,7 +50,7 @@ Template.projectType.events({
   'click #editType': function(event) {
     event.preventDefault();
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To edit your project types');
+      showUpgradeToastr('To edit your project types');
       return;
     }
     Modal.show('updateProjectType', this);
@@ -58,7 +58,7 @@ Template.projectType.events({
   'click #removeType': function(event) {
     event.preventDefault();
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To delete your project types');
+      showUpgradeToastr('To delete your project types');
       return;
     }
 
@@ -94,7 +94,7 @@ Template.projectMilestone.events({
 
     event.preventDefault();
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To edit your project milestones');
+      showUpgradeToastr('To edit your project milestones');
       return;
     }
 
@@ -105,7 +105,7 @@ Template.projectMilestone.events({
   'click #removeMilestone': function(event, template) {
     event.preventDefault();
     if (!isProTenant(Meteor.user().group)) {
-      ShowUpgradeToastr('To delete your project types');
+      showUpgradeToastr('To delete your project types');
       return;
     }
 
