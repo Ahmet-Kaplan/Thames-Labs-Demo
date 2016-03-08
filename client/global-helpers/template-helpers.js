@@ -40,7 +40,10 @@ Template.registerHelper('decimal', function(number) {
   }
   var displayLocale = currencyLocale[currency] || 'en-gb';
 
-  return number.toLocaleString(displayLocale, {style: 'currency', currency: currency.toUpperCase()});
+  return number.toLocaleString(displayLocale, {
+    style: 'currency',
+    currency: currency.toUpperCase()
+  });
 });
 
 Template.registerHelper('formatDateLocale', function(date, locale) {
@@ -118,7 +121,7 @@ Template.registerHelper('searchInputAttributes', () => {
       class: 'form-control easysearch-input',
       autofocus: false
     };
-  }else {
+  } else {
     return {
       placeholder: 'Search...',
       class: 'form-control easysearch-input',
@@ -134,14 +137,26 @@ Template.registerHelper('extendContext', function(key, value) {
 });
 
 Template.registerHelper('userCurrency', function() {
-  return Tenants.findOne({}).settings.currency || 'gbp';
+  var tenant = Tenants.findOne({});
+  if (tenant) {
+    return tenant.settings.currency || 'gbp';
+  }
 });
 
 Template.registerHelper('userCurrencySymbol', function() {
-  var currency = Tenants.findOne({}).settings.currency || 'gbp';
-  return getCurrencySymbol(currency);
+  var tenant = Tenants.findOne({});
+  if (tenant) {
+    var currency = tenant.settings.currency || 'gbp';
+    return getCurrencySymbol(currency);
+  }
 });
 
 Template.registerHelper('setSelected', function(value, option) {
   return (value === option) ? 'selected' : '';
+});
+
+Template.registerHelper('isProTenant', function() {
+  var tenant = Tenants.findOne({});
+  if (!tenant) return false;
+  return isProTenant(tenant._id);
 });

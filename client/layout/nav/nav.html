@@ -29,13 +29,7 @@
             {{/if}}
             {{#unless isInRole 'superadmin'}}
               {{#if isInRole 'Administrator'}}
-              {{#if limitReached}}
-              <li>
-                <a href="{{pathFor route='administration'}}">
-                  <span class="nav-btn-info">Limit reached, Upgrade now!</span>
-                </a>
-              </li>
-              {{/if}}
+             
               {{/if}}
             <li class="dropdown" id="global-search">
               <a href="#" class="dropdown-toggle" id="toggle-search"><i class="fa fa-search"></i></a>
@@ -104,13 +98,7 @@
   {{#if loggedIn}}
   <div id="id-view-sidemenu">
     <ul class="panel-group" id="menu">
-      {{#unless isInRole 'superadmin'}} {{#if isInRole 'Administrator'}} {{#if limitReached}}
-      <li class="panel-title nav-btn-info visible-xs">
-        <a href="{{pathFor route='administration'}}" class="dismiss-on-click">
-            Limit reached, Upgrade now!
-          </a>
-      </li>
-      {{/if}} {{/if}}
+      {{#unless isInRole 'superadmin'}} 
       <li class="panel-title {{isActiveRoute 'dashboard'}}">
         <a href='/' class="dismiss-on-click" id="menuLinkDashboard">
           <i class="fa fa-fw fa-home"></i> Dashboard
@@ -139,11 +127,12 @@
         </div>
       </div>
 
-      <li class="panel-title {{isActiveRoute regex='activities|activity'}}">
-        <a href='/activities' class="dismiss-on-click" id="menuLinkActivities">
-          <i class="fa fa-fw fa-history"></i> Activities
-        </a>
-      </li>
+      
+        <li class="panel-title {{isActiveRoute regex='activities|activity'}}">
+          <a href='/activities' class="{{#unless isProTenant}}proFeature {{/unless}}dismiss-on-click" id="menuLinkActivities">
+            <i class="fa fa-fw fa-history"></i> Activities
+          </a>
+        </li>
 
       {{#if isInRole 'Administrator,CanReadTasks'}}
       <li class="panel-title {{isActiveRoute regex='tasks|task'}}">
@@ -169,11 +158,12 @@
           <i class="fa fa-fw fa-lightbulb-o"></i> Opportunities
         </a>
       </li>
-      <li class="panel-title {{isActiveRoute regex='salespipeline'}}">
-        <a href="{{pathFor route='salespipeline'}}" class="dismiss-on-click" id="menuLinkSalespipeline">
-          <i class="fa fa-fw fa-signal"></i> Sales Pipeline
-        </a>
-      </li>
+      
+        <li class="panel-title {{isActiveRoute regex='salespipeline'}}">
+          <a href="{{pathFor route='salespipeline'}}" class="{{#unless isProTenant}}proFeature {{/unless}}dismiss-on-click" id="menuLinkSalespipeline">
+            <i class="fa fa-fw fa-signal"></i> Sales Pipeline
+          </a>
+        </li>
       {{/if}} {{#if isInRole 'CanReadProjects'}}
       <li class="panel-title {{isActiveRoute regex='projects|project'}}">
         <a href='/projects' class="dismiss-on-click" id="menuLinkProjects">
@@ -186,19 +176,23 @@
           <i class="fa fa-fw fa-barcode"></i> Products
         </a>
       </li>
-      {{/if}} {{#if isInRole 'CanReadPurchaseOrders'}}
-      <li class="panel-title {{isActiveRoute regex='purchaseOrders|purchaseOrder'}}">
-        <a href='/purchaseorders' class="dismiss-on-click" id="menuLinkPurchaseOrders">
-          <i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders
-        </a>
-      </li>
-      {{/if}} {{#if isInRole 'CanReadEventLog'}}
-      <li class="panel-title {{isActiveRoute 'events'}}">
-        <a href='/events' class="dismiss-on-click" id="menuLinkEventLog">
-          <i class="fa fa-fw fa-book"></i> Event Log
-        </a>
-      </li>
-      {{/if}} {{/unless}} {{#if isInRole 'superadmin'}}
+      {{/if}} 
+      
+        {{#if isInRole 'CanReadPurchaseOrders'}}
+          <li class="panel-title {{isActiveRoute regex='purchaseOrders|purchaseOrder'}}">
+            <a href='/purchaseorders' class="{{#unless isProTenant}}proFeature {{/unless}}dismiss-on-click" id="menuLinkPurchaseOrders">
+              <i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders
+            </a>
+          </li>
+        {{/if}}{{#if isInRole 'CanReadEventLog'}}
+          <li class="panel-title {{isActiveRoute 'events'}}">
+            <a href='/events' class="{{#unless isProTenant}}proFeature {{/unless}}dismiss-on-click" id="menuLinkEventLog">
+              <i class="fa fa-fw fa-book"></i> Event Log
+            </a>
+          </li>
+        {{/if}}
+
+      {{/unless}} {{#if isInRole 'superadmin'}}
       <li class="panel-title {{isActiveRoute 'tenants'}}">
         <a href="/tenants" class="dismiss-on-click">
           <i class="fa fa-fw fa-archive"></i> Tenants

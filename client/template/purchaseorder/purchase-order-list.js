@@ -1,6 +1,11 @@
 Template.purchaseOrderList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To access Purchase Orders');
+      FlowRouter.go('/');
+    }
+
     redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
   });
   Session.set("showItems", false);

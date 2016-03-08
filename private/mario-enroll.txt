@@ -1,0 +1,8 @@
+Dear {{name}},
+
+Please come to the castle, I have baked a cake for you.
+
+Yours truly,
+Princess Toadstool
+
+Peach

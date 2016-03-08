@@ -49,7 +49,7 @@ Meteor.methods({
           }
         });
 
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < MAX_FREE_USERS; i++) {
           var userId = Accounts.createUser({
             email: faker.internet.email().toLowerCase(),
             password: 'password',
@@ -64,6 +64,7 @@ Meteor.methods({
             }
           });
 
+          Roles.addUsersToRoles(userId, 'Administrator');
           Roles.addUsersToRoles(userId, defaultPermissionsList);
           Partitioner.setUserGroup(userId, groupId);
         }
@@ -454,6 +455,12 @@ Meteor.methods({
 
 logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
   if (Meteor.isServer) {
+    var user = Meteor.users.findOne({
+      _id: this._id
+    });
+    if (user && user.group) {
+      if (!isProTenant(user.group)) return;
+    }
     Meteor.call('addEventToAuditLog', logLevel, logMessage, ((typeof logEntityType === 'undefined') ? undefined : logEntityType), ((typeof logEntityId === 'undefined') ? undefined : logEntityId), 'client', Guid.raw());
   }
 };

@@ -12,7 +12,7 @@ module.exports = function() {
   this.Then(/^I do not see activities from "([^"]*)" in the list "([^"]*)"$/, function(type, listName) {
     browser.waitForExist(listName, 5000);
     browser.waitForVisible(listName, 5000);
-    browser.waitForExist('#' + type + 'ActivityDisplayItemNotes', 5000, true);
+    browser.waitForExist('#' + type + 'ActivityDisplayItem', 5000, true);
   });
 
   this.Given(/^the company has an activity$/, function() {

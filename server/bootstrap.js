@@ -1,5 +1,5 @@
 if (!Meteor.users.findOne({
-    roles: 'superadmin'
+    roles: 'superadmin',
   })) {
 
   console.log('No superuser found, creating one');
