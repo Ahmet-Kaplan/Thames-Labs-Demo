@@ -67,6 +67,44 @@ Collections.tenants.index = TenantsIndex = new EasySearch.Index({
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      var tenants = [];
+
+      if (options.search.props.plan) {
+        var plan = options.search.props.plan;
+        if (plan === 'Pro') {
+          tenants = Tenants.find({
+            plan: 'pro',
+            'stripe.stripeSubs': {
+              $exists: true
+            }
+          }).map(function(t) {
+            return t._id;
+          });
+        }
+
+        if (plan === 'Free+') {
+          tenants = Tenants.find({
+            plan: 'pro',
+            'stripe.stripeSubs': {
+              $exists: false
+            }
+          }).map(function(t) {
+            return t._id;
+          });
+        }
+
+        if (plan === 'Free') {
+          tenants = Tenants.find({
+            plan: 'free'
+          }).map(function(t) {
+            return t._id;
+          });
+        }
+
+        selector._id = {
+          $in: tenants
+        };
+      }
 
       if (options.search.props.user) {
         var userId = options.search.props.user;
