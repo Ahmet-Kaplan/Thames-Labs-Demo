@@ -7,10 +7,6 @@ Template.publicCompanyInformation.events({
 });
 
 Template.publicCompanyInformation.helpers({
-  isProTenant: function() {
-    var user = Meteor.user();
-    return isProTenant(user.group);
-  },
   hasMetadata: function() {
     var isPro = isProTenant(Meteor.user().group);
     if (this.metadata && this.metadata.clearbit) {
