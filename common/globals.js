@@ -31,12 +31,11 @@ isProTenant = function(tenantId) {
   return false;
 };
 
-TenantUserCount = function(tenantId) {
-  if (tenantId) {
-    return Meteor.users.find({
-      group: tenantId
-    }).count();
-  }
+isTenantOverFreeUserLimit = function(tenantId) {
+  if (!tenantId) return false;
+  return Meteor.users.find({
+    group: tenantId
+  }).count() >= MAX_FREE_USERS;
 };
 
 GetDisallowedPermissions = function(userId) {
