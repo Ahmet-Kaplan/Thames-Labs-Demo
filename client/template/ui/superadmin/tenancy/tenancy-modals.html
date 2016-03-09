@@ -10,9 +10,9 @@
 
         <div class="modal-body">
           {{#autoForm collection="Tenants" id="addTenantModal" type="insert"}}
-            {{> afQuickField name="name"}}
-            {{> afQuickField name="stripe.coupon"}}
-            <button type="submit" class="btn btn-primary">Create</button>
+            {{> afQuickField name="name" id="tenantName"}}
+            {{> afQuickField name="stripe.coupon" id="tenantCoupon"}}
+            <button type="submit" id="btnCreateTenant" class="btn btn-primary">Create</button>
           {{/autoForm}}
         </div>
 

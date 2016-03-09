@@ -30,6 +30,15 @@ Template.tenantListItem.helpers({
 Template.tenantListItem.events({
   "click #btnAddNewTenantUser": function(event, template) {
     event.preventDefault();
+    var tenantId = this.__originalId;
+
+    if (tenantId) {
+      if (!isProTenant(tenantId) && isTenantOverFreeUserLimit(tenantId)) {
+        toastr.warning('To add more users, this tenant must first upgrade to the Pro plan.');
+        return false;
+      }
+    }
+
     Modal.show('addTenantUser', this);
   },
   "click #btnDeleteTenant": function(event, template) {

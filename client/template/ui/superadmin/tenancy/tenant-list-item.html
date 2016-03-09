@@ -1,6 +1,6 @@
 <template name="tenantListItem">
     <div class="panel panel-primary">
-      <div class="panel-heading" id="{{_id}}">
+      <div class="panel-heading tenantListItemEntry" id="{{_id}}">
         {{#if isFreePlusTenant}}<i class="fa fa-unlock" data-toggle="tooltip" data-placement="bottom" title="Free unlimited tenant"></i> {{/if}}
         {{name}}<span class="pull-right"><small> <em>{{userCount}} user(s)</em></small></span>
       </div>
