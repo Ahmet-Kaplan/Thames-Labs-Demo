@@ -20,7 +20,7 @@ Schemas.Activity = new SimpleSchema({
       afFieldInput: {
         dateTimePickerOptions: {
           format: 'DD/MM/YYYY HH:mm',
-          useCurrent: true,
+          defaultDate: moment(),
           sideBySide: true,
           widgetPositioning: {
             vertical: "top"
