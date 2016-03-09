@@ -3,8 +3,10 @@ Template.opportunityList.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
   });
+
   // Search props
   this.showArchived = new ReactiveVar(false);
+  this.sortByClose = new ReactiveVar(false);
   this.totalOpps = new ReactiveVar(0);
   this.archivedOpps = new ReactiveVar(0);
   this.totalOppValue = new ReactiveVar(0);
@@ -12,13 +14,22 @@ Template.opportunityList.onCreated(function() {
 });
 
 Template.opportunityList.onRendered(function() {
+
+  Session.set('oppSortByClose', false);
+
   // Update search props if reactive vars changed
-  this.autorun( () => {
+  this.autorun(() => {
     var searchComponent = OpportunitiesIndex.getComponentMethods();
     if (this.showArchived.get()) {
       searchComponent.addProps('showArchived', 'true');
     } else {
       searchComponent.removeProps('showArchived');
+    }
+
+    if (this.sortByClose.get()) {
+      searchComponent.addProps('sortByClose', 'true');
+    } else {
+      searchComponent.removeProps('sortByClose');
     }
   });
 
@@ -37,7 +48,11 @@ Template.opportunityList.onRendered(function() {
     template.averageOppValue.set(data.Value);
   });
 
-  $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: '#btn-popover'});
+  $('[data-toggle="popover"]').popover({
+    html: true,
+    placement: "bottom",
+    container: '#btn-popover'
+  });
 
 });
 
@@ -60,6 +75,16 @@ Template.opportunityList.helpers({
 });
 
 Template.opportunityList.events({
+  'click #toggle-close-sort': function(event, template) {
+    var currState = Template.instance().sortByClose.get();
+    Template.instance().sortByClose.set(!currState);
+
+    if (Template.instance().sortByClose.get() === true) {
+      $('#toggle-close-sort').addClass('btn-success').removeClass('btn-default');
+    } else {
+      $('#toggle-close-sort').addClass('btn-default').removeClass('btn-success');
+    }
+  },
   'click #create-opportunity': function(event) {
     event.preventDefault();
     Modal.show('insertOpportunityModal');
@@ -76,17 +101,17 @@ Template.opportunityList.events({
   },
   'click #oppsOverviewWidget': function(event, template) {
 
-      Meteor.call('report.numberOfOpportunities', function(err, data) {
-        template.totalOpps.set(data.Count);
-      });
-      Meteor.call('report.archivedOpportunities', function(err, data) {
-        template.archivedOpps.set(data.Count);
-      });
-      Meteor.call('report.valueOfOpportunities', function(err, data) {
-        template.totalOppValue.set(data.Value);
-      });
-      Meteor.call('report.averageOpportunityValue', function(err, data) {
-        template.averageOppValue.set(data.Value);
-      });
+    Meteor.call('report.numberOfOpportunities', function(err, data) {
+      template.totalOpps.set(data.Count);
+    });
+    Meteor.call('report.archivedOpportunities', function(err, data) {
+      template.archivedOpps.set(data.Count);
+    });
+    Meteor.call('report.valueOfOpportunities', function(err, data) {
+      template.totalOppValue.set(data.Value);
+    });
+    Meteor.call('report.averageOpportunityValue', function(err, data) {
+      template.averageOppValue.set(data.Value);
+    });
   }
 });

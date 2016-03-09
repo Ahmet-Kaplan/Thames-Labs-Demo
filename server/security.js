@@ -47,6 +47,10 @@ PurchaseOrders.permit(['update']).ifLoggedIn().ifHasRole('Administrator').apply(
 PurchaseOrders.permit(['update']).ifLoggedIn().ifHasRole('CanEditPurchaseOrders').apply();
 PurchaseOrders.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 PurchaseOrders.permit(['remove']).ifLoggedIn().ifHasRole('CanDeletePurchaseOrders').apply();
+PurchaseOrders.allowTags(function(userId) {
+  return !!userId;
+});
+
 
 PurchaseOrderItems.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
 PurchaseOrderItems.permit(['insert']).ifLoggedIn().ifHasRole('CanEditPurchaseOrders').apply();

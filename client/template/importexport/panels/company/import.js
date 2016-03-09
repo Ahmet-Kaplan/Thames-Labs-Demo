@@ -1,3 +1,9 @@
+Template.companyDataManagement.helpers({
+  CompanyImportInProgress: function() {
+    return Session.get('CompanyImportInProgress');
+  },
+});
+
 Template.companyDataManagement.events({
   'click #company-template-help': function(event) {
     event.preventDefault();
@@ -8,7 +14,12 @@ Template.companyDataManagement.events({
   },
   'change #company-data-upload': function() {
     var file = event.target.files[0];
+
     if (!file) return;
+    //if (file.type !== "text/csv") {
+      //toastr.error('Only CSV files can be used to import data');
+      //return
+    //}
 
     var reader = new FileReader();
 
@@ -37,24 +48,14 @@ Template.companyDataManagement.events({
   }
 });
 
-Template.importCompanyMapper.onCreated(function() {
-  this.importInProgress = new ReactiveVar(false);
-  this.totalImported = new ReactiveVar(0);
-});
-
 Template.importCompanyMapper.onRendered(function() {
   $('#cbIgnoreExtInfo').prop('checked', true);
+  Session.set('CompanyImportInProgress', false);
 });
 
 Template.importCompanyMapper.helpers({
-  importStatus: function() {
-    return Template.instance().importInProgress.get();
-  },
-  totalToImport: function() {
-    return this.dataSet.data.length;
-  },
-  importedSoFar: function() {
-    return Template.instance().totalImported.get();
+  CompanyImportInProgress: function() {
+    return Session.get('CompanyImportInProgress');
   },
   requiredDataInputs: function() {
     var lnkData = this.dataSet;
@@ -88,12 +89,6 @@ Template.importCompanyMapper.helpers({
 
 Template.importCompanyMapper.events({
   'click #confirm-mapping': function(event, template) {
-
-    var totalToImport = this.dataSet.data.length;
-    var imported = 0;
-    var errorData = [];
-
-    template.importInProgress.set(true);
     var fields = this.dataSet.meta.fields;
 
     var nameColumn = ($('#nameColumn').val() === "" ? "" : $('#nameColumn').val());
@@ -107,7 +102,6 @@ Template.importCompanyMapper.events({
 
     if (nameColumn === "") {
       toastr.warning('Please complete all required fields.');
-      template.importInProgress.set(false);
       return;
     }
     var createExtInfo = $('#cbIgnoreExtInfo').prop('checked');
@@ -163,65 +157,51 @@ Template.importCompanyMapper.events({
       }
     }
 
-    _.each(this.dataSet.data, function(row) {
-      var cfArray = [];
-      var elems = $('#extInfoSpecifiers').find('.extInfoOption');
-      _.each(elems, function(ex) {
-        var refId = ex.getAttribute("id");
-        var cfValue = $('#' + refId).val();
-        var cfName = refId.replace(/-/g, ' ').replace(/EXCOL_/g, '');
-        var cfo = {
-          refName: cfName,
-          refVal: cfValue
-        }
-        cfArray.push(cfo);
+    var rows = this.dataSet.data;
+    var elems = $('#extInfoSpecifiers').find('.extInfoOption');
+    var cfArray = [];
+    _.each(elems, function(ex) {
+      var refId = ex.getAttribute("id");
+      var cfValue = $('#' + refId).val();
+      var cfName = refId.replace(/-/g, ' ').replace(/EXCOL_/g, '');
+      var cfo = {
+        refName: cfName,
+        refVal: cfValue
+      };
+      cfArray.push(cfo);
 
-        var fieldIndex = fields.indexOf(cfValue);
-        fields.splice(fieldIndex, 1);
-      });
-
-
-      var localCF = [];
-      _.each(fields, function(lf) {
-        if (lf !== "") {
-          var cfo = {
-            refName: lf.replace(/ExtInfo/g, ' '),
-            refVal: lf
-          }
-          localCF.push(cfo);
-        }
-      });
-
-      Meteor.call('import.AddNewCompany', row, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray, localCF, createExtInfo, function(err, res) {
-        imported += 1;
-        template.totalImported.set(imported);
-
-        if (err) errorData.push(err);
-        if (res !== "OK") errorData.push(res);
-
-        if ((imported === totalToImport) && errorData.length === 0) {
-          toastr.success('Import completed successfully.');
-          template.importInProgress.set(false);
-          Modal.hide();
-        }
-
-        if ((imported === totalToImport) && errorData.length !== 0) {
-          var errorString = "Error\n";
-
-          _.each(errorData, function(e) {
-            errorString += e + "\n";
-          })
-
-          var blob = new Blob([errorString], {
-            type: "text/csv;charset=utf-8"
-          });
-          saveAs(blob, 'realtimecrm_company_import_errors.csv');
-          toastr.warning('Import completed with errors; saving to CSV now...');
-          template.importInProgress.set(false);
-          Modal.hide();
-        }
-
-      });
+      var fieldIndex = fields.indexOf(cfValue);
+      fields.splice(fieldIndex, 1);
     });
+
+    Session.set("CompanyImportInProgress", true);
+
+    Meteor.call('import.companies', rows, fields, nameColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, websiteColumn, phoneColumn, cfArray, createExtInfo, Meteor.bindEnvironment(function(err, res) {
+      if (err) throw new Meteor.Error(err);
+
+      if (res.length === 0) {
+        Session.set("CompanyImportInProgress", false);
+
+        toastr.success('Import completed successfully.');
+        Modal.hide();
+      } else {
+        var errorString = "Error\n";
+
+        _.each(res, function(e) {
+          errorString += e + "\n";
+        })
+
+        var blob = new Blob([errorString], {
+          type: "text/csv;charset=utf-8"
+        });
+        saveAs(blob, 'realtimecrm_company_import_errors.csv');
+
+        Session.set("CompanyImportInProgress", false);
+
+        toastr.warning('Import completed with errors; saving to CSV now...');
+        Modal.hide();
+      }
+
+    }));
   }
 });

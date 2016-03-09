@@ -602,8 +602,10 @@ Migrations.add({
     ServerSession.set('maintenance', true);
     Partitioner.directOperation(function() {
       PurchaseOrders.find({}).forEach(function(po) {
-        if(!po.totalValue) {
-          PurchaseOrders.update({_id: po._id}, {
+        if (!po.totalValue) {
+          PurchaseOrders.update({
+            _id: po._id
+          }, {
             $set: {
               totalValue: 0.00
             }
@@ -612,7 +614,7 @@ Migrations.add({
       });
 
       Tenants.find({}).forEach(function(tenant) {
-        if(!tenant.settings.currency) {
+        if (!tenant.settings.currency) {
           Tenants.update({
             _id: tenant._id
           }, {
@@ -621,6 +623,126 @@ Migrations.add({
             }
           });
         }
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 19,
+  name: "Add the new tenant settings for sequential numbering",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+
+      var tenants = Tenants.find({}).fetch();
+      _.each(tenants, function(tenant) {
+
+        //Remove the old numbering systems
+        Tenants.update({
+          _id: tenant._id
+        }, {
+          $set: {
+            'settings.activity.defaultNumber': 0,
+            'settings.task.defaultNumber': 0,
+            'settings.company.defaultNumber': 0,
+            'settings.contact.defaultNumber': 0,
+            'settings.opportunity.defaultNumber': 0,
+            'settings.project.defaultNumber': 0,
+            'settings.product.defaultNumber': 0,
+            'settings.purchaseorder.defaultPrefix': '',
+            'settings.purchaseorder.defaultNumber': 0
+          },
+          $unset: {
+            'settings.PurchaseOrderPrefix': "",
+            'settings.PurchaseOrderStartingValue': ""
+          }
+        });
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 20,
+  name: "Add Default Permissions to all Administrators",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    var permissions = [
+      "CanReadContacts",
+      "CanReadCompanies",
+      "CanCreateCompanies",
+      "CanEditCompanies",
+      "CanDeleteCompanies",
+      "CanCreateContacts",
+      "CanEditContacts",
+      "CanDeleteContacts",
+      "CanReadProjects",
+      "CanCreateProjects",
+      "CanEditProjects",
+      "CanDeleteProjects",
+      "CanReadProducts",
+      "CanCreateProducts",
+      "CanEditProducts",
+      "CanDeleteProducts",
+      "CanReadTasks",
+      "CanCreateTasks",
+      "CanEditTasks",
+      "CanDeleteTasks",
+      "CanReadPurchaseOrders",
+      "CanCreatePurchaseOrders",
+      "CanEditPurchaseOrders",
+      "CanDeletePurchaseOrders",
+      "CanReadEventLog",
+      "CanCreateEventLog",
+      "CanEditEventLog",
+      "CanDeleteEventLog",
+      "CanReadOpportunities",
+      "CanCreateOpportunities",
+      "CanEditOpportunities",
+      "CanDeleteOpportunities"
+    ];
+    Partitioner.directOperation(function() {
+      Meteor.users.find({}).forEach(function(user) {
+        if (Roles.userIsInRole(user._id, 'Administrator')) {
+          permissions.forEach(function(perm) {
+            Roles.addUsersToRoles(user._id, perm);
+          });
+        }
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 21,
+  name: "Update stripe object against tenants",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+      var tenants = Tenants.find({}).fetch();
+      _.each(tenants, function(t) {
+        var stripe = t.stripe;
+        var flag = false;
+        if (stripe) {
+          flag = (stripe.paying === true || stripe.freeUnlimited === true);
+        }
+
+        Tenants.update({
+          _id: t._id
+        }, {
+          $set: {
+            'plan': (flag === true ? 'pro' : 'free')
+          },
+          $unset: {
+            'stripe.paying': "",
+            'stripe.freeUnlimited': "",
+            'stripe.totalRecords': ""
+          }
+        });
       });
     });
     ServerSession.set('maintenance', false);

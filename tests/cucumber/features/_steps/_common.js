@@ -24,12 +24,42 @@ module.exports = function() {
       });
   });
 
+  this.Given(/^I am on the free plan$/, function() {
+    server.call('setTenantToFreePlan');
+  });
+
+  this.Given(/^I am on the pro plan$/, function() {
+    server.call('setTenantToProPlan');
+  });
+
+  this.Given(/^the second tenant is on the pro plan$/, function() {
+    server.call('setSecondTenantToProPlan');
+  });
+
+  this.Given(/^a free user exists$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('createFreeTenant', done);
+      });
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('createTestUser', done);
+      });
+  });
+
   this.Given(/^a second user exists$/, function() {
     browser
       .executeAsync(function(done) {
         Meteor.call('createSecondUser', done);
       });
-  })
+  });
+
+  this.Given(/^an additional user exists$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('createAdditionalUser', done);
+      });
+  });
 
   this.Given(/^a superadmin exists$/, function() {
     browser
@@ -45,12 +75,19 @@ module.exports = function() {
       });
   });
 
+  this.Given(/^a free tenant exists$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('createFreeTenant', done);
+      });
+  });
+
   this.Given(/^a second tenant exists$/, function() {
     browser
       .executeAsync(function(done) {
         Meteor.call('createSecondTenant', done);
       });
-  })
+  });
 
   this.Given(/^I (am a logged out user|log out)$/, function() {
     browser.executeAsync(logout);
@@ -59,21 +96,30 @@ module.exports = function() {
   this.Given(/^I am a logged in user$/, function() {
     browser
       .executeAsync(function(done) {
-        Meteor.call('removeWelcome', done);
-    });
+        Meteor.call('removeWelcome', 'test@domain.com', done);
+      });
     browser.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
 
   this.Given(/^I log in as user 2$/, function() {
-    browser.executeAsync(login, 'test2@domain.com', 'goodpassword');
     browser
       .executeAsync(function(done) {
-        Meteor.call('removeWelcome', done);
-    });
+        Meteor.call('removeWelcome', 'test2@domain.com', done);
+      });
+    browser.executeAsync(login, 'test2@domain.com', 'goodpassword');
+  });
+
+
+  this.Given(/^I log in as a second tenant user$/, function() {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('removeWelcome', 'testtwo@domain.com', done);
+      });
+    browser.executeAsync(login, 'testtwo@domain.com', 'goodpassword');
   });
 
   this.Given(/^I am logged in as a new user$/, function() {
-      browser.executeAsync(login, 'test@domain.com', 'goodpassword');
+    browser.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
 
   this.Given(/^I am a logged in superadmin user$/, function() {
@@ -104,9 +150,9 @@ module.exports = function() {
     });
   });
 
-/***************************************************
-                        WHEN
-***************************************************/
+  /***************************************************
+                          WHEN
+  ***************************************************/
 
   this.When(/^I navigate to "([^"]*)"$/, function(relativePath) {
     var path = url.resolve(process.env.ROOT_URL, relativePath);
@@ -158,12 +204,6 @@ module.exports = function() {
     browser.setValue('textarea[data-schema-key=' + fieldName + ']', value);
   });
 
-  this.When(/^I set selectize field to "([^"]*)"$/, function(value) {
-    browser.waitForExist(".selectize-control .selectize-input input", 5000);
-    browser.setValue(".selectize-control .selectize-input input", value);
-    browser.keys(['Return']);
-  });
-
   //This step is necessary when editing fields within an array (eg Opportunites, field items.0.name)
   this.When(/^I set text field with id "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
     browser.waitForExist('#' + fieldName, 5000);
@@ -186,7 +226,7 @@ module.exports = function() {
 
   this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value) {
     var selectizeInput = '#' + selector + ' + .selectize-control>.selectize-input>input',
-        selectizeDropdown = '#' + selector + ' + .selectize-control>.selectize-dropdown';
+      selectizeDropdown = '#' + selector + ' + .selectize-control>.selectize-dropdown';
     browser.waitForExist(selectizeInput, 5000);
     browser.waitForVisible(selectizeInput, 5000);
     browser.setValue(selectizeInput, value);
@@ -223,6 +263,14 @@ module.exports = function() {
     browser.click(".modal-footer .btn-primary");
   });
 
+  this.When(/^I click confirm on the modal with title "([^"]*)"$/, function(expectedTitle) {
+    browser.waitForExist('h4*=' + expectedTitle, 5000);
+    browser.execute(function(expectedTitle) {
+      var modal = $('h4:contains("' + expectedTitle + '")').parent().parent();
+      modal.children('.modal-footer').children('button.btn-primary').click();
+    }, expectedTitle);
+  });
+
   this.When(/^I wait$/, function() {
     browser.pause(5000)
   });
@@ -230,6 +278,10 @@ module.exports = function() {
   this.When(/^I click "([^"]*)" and select the option "([^"]*)"$/, function(menu, option) {
     browser.selectByVisibleText(menu, option);
   });
+
+  this.When(/^I scroll to "([^"]*)"$/, function(selector) {
+    browser.scroll(selector, 0, 200);
+  })
 
   /***************************************************
                           THEN
@@ -257,10 +309,20 @@ module.exports = function() {
     browser.waitForExist('h1*=' + expectedHeading, 5000);
   });
 
+  this.Then(/^I should not see the heading "([^"]*)"$/, function(expectedHeading) {
+    browser.waitForExist('h1*=' + expectedHeading, 5000, true);
+  });
+
   this.Then(/^I should see a modal$/, function() {
     browser.waitForExist('.modal-dialog', 5000);
     browser.waitForVisible('.modal-dialog', 5000);
     expect(browser.isExisting('.modal-dialog')).toEqual(true);
+  });
+
+  this.Then(/^I should see a modal with the title "([^"]*)"$/, function(expectedTitle) {
+    browser.waitForExist('.modal-dialog', 5000);
+    browser.waitForVisible('.modal-dialog', 5000);
+    expect(browser.waitForExist('h4*=' + expectedTitle, 5000)).toEqual(true);
   });
 
   this.Then(/^I should not see a modal$/, function() {
@@ -305,7 +367,7 @@ module.exports = function() {
     browser.waitForVisible('.toast-message', 5000);
     browser.waitUntil(function() {
       var toastrs = browser.getText('.toast-message');
-      if(typeof toastrs !== 'object') {
+      if (typeof toastrs !== 'object') {
         toastrs = [toastrs];
       }
       return toastrs.some(function(toastr) {
@@ -354,12 +416,19 @@ module.exports = function() {
     browser.waitForExist(element, 5000);
     browser.waitForVisible(element, 5000);
     var elements = browser.getText(element, 2000);
-    if(typeof elements === 'object') {
+    if (typeof elements === 'object') {
       return elements.some(function(elt) {
-        if(elt.search(new RegExp(desiredText))) return true;
+        if (elt.search(new RegExp(desiredText))) return true;
       });
     } else {
       expect(elements).toContain(desiredText);
     }
   });
+
+  this.Then(/^I cannot click "([^"]*)"$/, function(selector) {
+    browser.waitForExist(selector, 5000);
+    browser.waitForVisible(selector, 5000);
+    browser.scroll(selector, 0, 200);
+    expect(browser.isEnabled(selector)).toBe(false);
+  })
 };

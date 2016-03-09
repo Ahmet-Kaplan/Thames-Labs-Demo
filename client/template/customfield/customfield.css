@@ -11,6 +11,7 @@
   background: #fafafa !important;
 }
 .extinfo-scroll {
+  height: 450px;
   max-height: 450px;
   overflow-x: hidden;
   overflow-y: auto;

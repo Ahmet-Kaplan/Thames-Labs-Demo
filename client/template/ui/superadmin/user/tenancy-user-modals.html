@@ -12,7 +12,7 @@
           {{#autoForm schema="Schemas.User" id="addTenantUserModal" type="method" meteormethod="addUser"}}
             {{> afQuickField name="name"}}
             {{> afQuickField name="email"}}
-            {{> afQuickField name="password" type="hidden" value="default123"}}
+            {{> afQuickField name="password" type="password"}}
             {{> afQuickField name="group" type="hidden" value=_id}}
             <button class="btn btn-primary" type="submit">Create</button>
           {{/autoForm}}

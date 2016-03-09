@@ -15,7 +15,7 @@ module.exports = function() {
           } else {
             var userEmail = 'test@domain.com';
             Meteor.call('stripe.createCustomer', response.id, userEmail, function(error, result) {
-              if(error || !result) {
+              if (error || !result) {
                 return false;
               }
               done(result);
@@ -29,7 +29,7 @@ module.exports = function() {
     browser
       .executeAsync(function(done) {
         Meteor.call('stripe.cancelSubscription', function(error, result) {
-          if(error) {
+          if (error) {
             return false;
           }
           done(result);
@@ -62,17 +62,17 @@ module.exports = function() {
     browser
       .waitUntilSync(function() {
         return this.getText(field).then(function(text) {
-            return text.indexOf(desiredText) === -1;
+          return text.indexOf(desiredText) === -1;
         });
       }, 10000);
   });
 
   this.Then(/^delete stripe customer$/, function() {
-    browser.executeAsync(function(done) {
-
-      Meteor.call('deleteStripeTestCustomer', function(err, res) {
-        done()
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('deleteStripeTestCustomer', function(err, res) {
+          done(res)
+        });
       });
-    })
   })
 };

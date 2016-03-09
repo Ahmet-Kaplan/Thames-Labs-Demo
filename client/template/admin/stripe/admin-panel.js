@@ -136,6 +136,7 @@ Template.stripeAdmin.onCreated(function() {
 
   this.autorun(function() {
     var tenant = Tenants.findOne({});
+    if (!tenant) return;
     var numberOfUsers = Meteor.users.find({group: tenant._id}).count();
     Session.get('stripeUpdateListener');
 
@@ -158,7 +159,7 @@ Template.stripeAdmin.onCreated(function() {
 
 Template.stripeAdmin.helpers({
   payingScheme: function() {
-    return Tenants.findOne({}).stripe.paying;
+    return Tenants.findOne({}).plan === 'pro';
   },
   subsLoaded: function() {
     var stripeSubs = Tenants.findOne({}).stripe.stripeSubs;
@@ -193,22 +194,9 @@ Template.stripeAdmin.helpers({
     var stripeCustomer = Template.instance().stripeCustomer.get();
     return stripeCustomer;
   },
-  totalRecords: function() {
-    return Tenants.findOne({}).stripe.totalRecords || 0;
-  },
-  limitRecords: function() {
-    return (Tenants.findOne({}).stripe.paying === true ? 'unlimited' : MAX_RECORDS);
-  },
   totalUsers: function() {
+    if (!Meteor.user()) return;
     return Meteor.users.find({group: Meteor.user().group}).count();
-  },
-  limitReached: function() {
-    var tenantStripe = Tenants.findOne({}).stripe
-    if(tenantStripe.paying || tenantStripe.freeUnlimited) {
-      return false;
-    } else {
-      return tenantStripe.totalRecords > MAX_RECORDS;
-    }
   },
   upcomingInvoice: function() {
     return Template.instance().upcomingInvoice.get();

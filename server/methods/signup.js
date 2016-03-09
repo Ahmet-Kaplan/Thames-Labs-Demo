@@ -24,10 +24,8 @@ Meteor.methods({
     var tenantId = Tenants.insert({
         name: userDetails.companyName,
         settings: tenancyDefaultSettings,
+        plan: 'free',
         stripe: {
-          "totalRecords": 0,
-          "paying": false,
-          "blocked": false,
           "coupon": userDetails.coupon
         },
         createdAt: new Date()

@@ -64,6 +64,7 @@
                       <li><a href="#" id="template-upload-link-docx">Microsoft Word (.docx)</a></li>
                     {{/if}}
                     <li><a href="#" id="template-upload-link">PDF (.pdf)</a></li>
+                    <!-- <li><a href="#" id="template-google-drive-link">Google Drive file</a></li> -->
                     <li class="divider"></li>
                     <li><a href="#" id="opp-template-help">How does this work?</a></li>
                   </ul>
@@ -75,7 +76,7 @@
               {{/if}}
             </div>
             <input type="file" id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px">
-            <input type="file" id="template-upload" style="height:0; width: 0; margin-left: -9999px">
+            <input type="file" id="template-upload" style="height:0; width: 0; margin-left: -9999px">            
           {{else}}
             {{#if isInRole 'CanEditOpportunities'}}
               {{#unless hasBeenWon}}
@@ -98,10 +99,12 @@
             <h4><i class="fa fa-fw fa-calendar"></i> Date</h4>
             {{friendlyDate}}
           </li>
+          {{#if estCloseDate}}
           <li class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-calendar"></i> Estimated Close</h4>
             {{friendlyClose}}
           </li>
+          {{/if}}
           {{#if value}}
             <li class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-money"></i> Value</h4>
@@ -123,7 +126,18 @@
               <i class="fa fa-fw fa-chevron-right pull-right"></i>
                {{contact.name}}
             </a>
-          {{/if}}{{/if}}
+          {{/if}}
+          {{#if salesManagerId}}
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-user-secret"></i> Sales Manager</h4>
+              {{salesManager}}
+            </li>
+          {{/if}}
+          {{/if}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Opportunity ID</h4>
+            <p class="list-group-item-text">{{sequencedIdentifier}}</p>
+          </li>
         </ul>
       </div>
       <div class="panel panel-default" id="lines">

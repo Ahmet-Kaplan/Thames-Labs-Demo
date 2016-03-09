@@ -1,6 +1,6 @@
 Meteor.methods({
   deleteCompletedTasks: function(searchDefinition, searchOptions) {
-    if(!Roles.userIsInRole(this.userId, [ 'CanDeleteTasks'])) {
+    if (!Roles.userIsInRole(this.userId, ['CanDeleteTasks'])) {
       throw new Meteor.Error(403, 'You do not have the authorization to delete tasks');
     }
     searchOptions.limit = 99999;
@@ -90,10 +90,10 @@ Meteor.methods({
       }
 
       if (objectRecord) {
-        Tasks.insert({
+        var id = Tasks.insert({
           title: task.title,
           description: task.description,
-          dueDate: task.dueDate,
+          dueDate: new Date(task.dueDate),
           assigneeId: assigneeId,
           completed: false,
           entityType: task.recordType,
@@ -106,6 +106,14 @@ Meteor.methods({
             status.errorData.push('Task insert error (' + task.record + '): ' + err);
           }
         });
+
+        if (id) {
+          _.each(task.tags.split(','), function(tag) {
+            Tasks.addTag(tag, {
+              _id: id
+            });
+          });
+        }
       }
     });
 

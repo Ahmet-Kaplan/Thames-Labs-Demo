@@ -2,10 +2,12 @@
 
 // The Browser API key obtained from the Google Developers Console.
 var developerKey = Meteor.settings.public.googleDeveloperKey;
+// Google App ID. (Its the first number in the Client ID)
+var appId = Meteor.settings.public.googleAppId;
 // The Client ID obtained from the Google Developers Console. Replace with your own Client ID.
 var clientId = Meteor.settings.public.googleClientKey;
 // Scope to use to access user's photos.
-var scope = ['https://www.googleapis.com/auth/drive.readonly'];
+var scope = ['https://www.googleapis.com/auth/drive'];
 // Callback to send results
 var callback = null;
 
@@ -18,13 +20,15 @@ var pickerCallback = function(data) {
 
     docUrl = doc[google.picker.Document.URL];
     friendlyName = doc[google.picker.Document.NAME];
+    docId = doc[google.picker.Document.ID];
 
     var data = {
       docPath: docUrl,
       docName: friendlyName,
       fileIcon: 'file-o',
       service: 'google',
-      serviceIcon: 'google'
+      serviceIcon: 'google',
+      fileId: docId,
     };
 
     // Callback expects a list
@@ -36,19 +40,23 @@ var pickerCallback = function(data) {
 var createPicker = function(authResult) {
   if (authResult.access_token) {
     var picker = new google.picker.PickerBuilder()
+      .setAppId(appId)
       .addView(google.picker.ViewId.FOLDERS)
+      .setOrigin(window.location.protocol + "//" + window.location.host)
       .setOAuthToken(authResult.access_token)
       .setDeveloperKey(developerKey)
       .setCallback(pickerCallback)
       .build();
-    picker.setVisible(true);
+
+    if (picker) {
+      picker.setVisible(true);
+    }
   }
 };
 
 documentAPI.googleChooser = function(cb) {
   callback = cb;
-  gapi.auth.authorize(
-    {
+  gapi.auth.authorize({
       'client_id': clientId,
       'scope': scope,
       'immediate': false

@@ -48,15 +48,17 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: An administrator can add CanReadOpportunities permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Opportunities" to a restricted user
-    Then the restricted user should have the "CanReadOpportunities" permission
+    Then the user "restricted user" should have the "CanReadOpportunities" permission
 
   Scenario: An administrator can remove CanReadOpportunities permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
-    Then the restricted user should not have the "CanReadOpportunities" permission
+    Then the user "restricted user" should not have the "CanReadOpportunities" permission
 
   Scenario: A superadmin user can't visit the opportunities list
     Given a superadmin exists
@@ -91,15 +93,17 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: An administrator can add CanCreateOpportunities permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanCreate" on "Opportunities" to a restricted user
-    Then the restricted user should have the "CanCreateOpportunities" permission
+    Then the user "restricted user" should have the "CanCreateOpportunities" permission
 
   Scenario: An administrator can remove CanCreateOpportunities permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
-    Then the restricted user should not have the "CanCreateOpportunities" permission
+    Then the user "restricted user" should not have the "CanCreateOpportunities" permission
 
 
   #Editing
@@ -122,15 +126,17 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: An administrator can add CanEditOpportunities permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanEdit" on "Opportunities" to a restricted user
-    Then the restricted user should have the "CanEditOpportunities" permission
+    Then the user "restricted user" should have the "CanEditOpportunities" permission
 
   Scenario: An administrator can remove CanEditOpportunities permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
-    Then the restricted user should not have the "CanEditOpportunities" permission
+    Then the user "restricted user" should not have the "CanEditOpportunities" permission
 
 
   #Deleting
@@ -150,15 +156,17 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: An administrator can add CanDeleteOpportunities permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Opportunities" to a restricted user
-    Then the restricted user should have the "CanDeleteOpportunities" permission
+    Then the user "restricted user" should have the "CanDeleteOpportunities" permission
 
   Scenario: An administrator can remove CanDeleteOpportunities permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
-    Then the restricted user should not have the "CanDeleteOpportunities" permission
+    Then the user "restricted user" should not have the "CanDeleteOpportunities" permission
 
 
   #Menu item permissions
@@ -300,7 +308,6 @@ Feature: Allow users to manage their sales opportunities
     Given a "Opportunity" has been created
     When I navigate to an opportunity page
     And I click "#general-dropdown"
-    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -312,7 +319,6 @@ Feature: Allow users to manage their sales opportunities
     Given a "Opportunity" has been created
     When I navigate to an opportunity page
     And I click "#general-dropdown"
-    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -328,7 +334,6 @@ Feature: Allow users to manage their sales opportunities
     Given an "Opportunity" has been created
     When I navigate to an opportunity page
     And I click "#general-dropdown"
-    And I click "#toggleFab"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"

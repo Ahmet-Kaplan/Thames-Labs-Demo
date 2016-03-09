@@ -38,15 +38,17 @@ Feature: Allow users to manage their Contacts
 
   Scenario: An administrator can add CanReadContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Contacts" to a restricted user
-    Then the restricted user should have the "CanReadContacts" permission
+    Then the user "restricted user" should have the "CanReadContacts" permission
 
   Scenario: An administrator can remove CanReadContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Contacts" from a restricted user
-    Then the restricted user should not have the "CanReadContacts" permission
+    Then the user "restricted user" should not have the "CanReadContacts" permission
 
   Scenario: A superadmin user can't visit the contacts list
     Given a superadmin exists
@@ -84,15 +86,17 @@ Feature: Allow users to manage their Contacts
 
   Scenario: An administrator can add CanCreateContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanCreate" on "Contacts" to a restricted user
-    Then the restricted user should have the "CanCreateContacts" permission
+    Then the user "restricted user" should have the "CanCreateContacts" permission
 
   Scenario: An administrator can remove CanCreateContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Contacts" from a restricted user
-    Then the restricted user should not have the "CanCreateContacts" permission
+    Then the user "restricted user" should not have the "CanCreateContacts" permission
 
   #Editing
   Scenario: A user can edit a contact
@@ -112,15 +116,17 @@ Feature: Allow users to manage their Contacts
 
   Scenario: An administrator can add CanEditContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanEdit" on "Contacts" to a restricted user
-    Then the restricted user should have the "CanEditContacts" permission
+    Then the user "restricted user" should have the "CanEditContacts" permission
 
   Scenario: An administrator can remove CanEditContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Contacts" from a restricted user
-    Then the restricted user should not have the "CanEditContacts" permission
+    Then the user "restricted user" should not have the "CanEditContacts" permission
 
   #Deleting
   Scenario: A user can delete a contact
@@ -139,15 +145,17 @@ Feature: Allow users to manage their Contacts
 
   Scenario: An administrator can add CanDeleteContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Contacts" to a restricted user
-    Then the restricted user should have the "CanDeleteContacts" permission
+    Then the user "restricted user" should have the "CanDeleteContacts" permission
 
   Scenario: An administrator can remove CanDeleteContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Contacts" from a restricted user
-    Then the restricted user should not have the "CanDeleteContacts" permission
+    Then the user "restricted user" should not have the "CanDeleteContacts" permission
 
   #Menu item permissions
   Scenario: A restricted user cannot see the Contacts menu item without the correct permission
@@ -305,7 +313,6 @@ Feature: Allow users to manage their Contacts
       Given a "Contact" has been created
       When I navigate to a contact page
       And I click "#general-dropdown"
-      And I click "#toggleFab"
       And I click "#add-activity"
       And I set text field "activityTimestamp" to "05/05/2015 05:05"
       And I set rich text field "notes" to "test activity"
@@ -317,7 +324,6 @@ Feature: Allow users to manage their Contacts
       Given a "Contact" has been created
       When I navigate to a contact page
       And I click "#general-dropdown"
-      And I click "#toggleFab"
       And I click "#add-activity"
       And I set text field "activityTimestamp" to "05/05/2015 05:05"
       And I set rich text field "notes" to "test activity"
@@ -333,7 +339,6 @@ Feature: Allow users to manage their Contacts
       Given a "Contact" has been created
       When I navigate to a contact page
       And I click "#general-dropdown"
-      And I click "#toggleFab"
       And I click "#add-activity"
       And I set text field "activityTimestamp" to "05/05/2015 05:05"
       And I set rich text field "notes" to "test activity"

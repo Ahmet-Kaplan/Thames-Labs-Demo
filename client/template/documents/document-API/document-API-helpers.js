@@ -1,6 +1,6 @@
 documentAPI.loadScripts = function() {
   if (typeof Dropbox === 'undefined') {
-    $.getScript('https://www.dropbox.com/static/api/2/dropins.js').then( () => {
+    $.getScript('https://www.dropbox.com/static/api/2/dropins.js').then(() => {
       Dropbox.appKey = Meteor.settings.public.dropboxApiKey;
     });
   }
@@ -8,7 +8,7 @@ documentAPI.loadScripts = function() {
     $.getScript('https://app.box.com/js/static/select.js');
   }
   if (typeof gapi === 'undefined') {
-    $.getScript('https://apis.google.com/js/api.js').then( () => {
+    $.getScript('https://apis.google.com/js/api.js').then(() => {
       gapi.load('auth');
       gapi.load('picker');
     });
@@ -56,7 +56,10 @@ documentAPI.addDocument = function(collectionName, id, documentData) {
 documentAPI.removeDocument = function(collectionName, id, document) {
   Collections[collectionName].update(id, {
     $pull: {
-      documents: { docPath: document.docPath, docName: document.docName }
+      documents: {
+        docPath: document.docPath,
+        docName: document.docName
+      }
     }
   });
 

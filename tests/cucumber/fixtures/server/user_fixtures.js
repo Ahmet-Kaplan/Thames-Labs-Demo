@@ -1,62 +1,196 @@
 Meteor.methods({
 
   createTestTenant: function() {
-    var tenantName = 'Acme Corp',
-      PurchaseOrderPrefix = 'A',
-      PurchaseOrderStartingValue = 1;
+    var tenantName = 'Acme Corp';
 
     Tenants.insert({
       name: tenantName,
+      plan: 'free',
       settings: {
-        PurchaseOrderPrefix: PurchaseOrderPrefix,
-        PurchaseOrderStartingValue: PurchaseOrderStartingValue,
         extInfo: {
           company: [],
           contact: [],
-          project: []
+          project: [],
+          product: []
+        },
+        activity: {
+          defaultNumber: 1,
+        },
+        task: {
+          defaultNumber: 1,
+        },
+        company: {
+          defaultNumber: 1,
+        },
+        contact: {
+          defaultNumber: 1,
         },
         opportunity: {
+          defaultNumber: 1,
           stages: []
         },
         project: {
+          defaultNumber: 1,
           types: []
+        },
+        purchaseorder: {
+          defaultPrefix: "",
+          defaultNumber: 1,
+        },
+        product: {
+          defaultNumber: 1,
         }
       },
       stripe: {
-        "totalRecords": 0,
-        "paying": false,
-        "blocked": false
       },
       createdAt: new Date()
     });
   },
 
-  createSecondTenant: function() {
-    var tenantName = 'Acme Corp Rivals',
-      PurchaseOrderPrefix = 'A',
-      PurchaseOrderStartingValue = 1;
+  createFreeTenant: function() {
+    var tenantName = 'Acme Corp';
 
     Tenants.insert({
       name: tenantName,
+      plan: 'free',
       settings: {
-        PurchaseOrderPrefix: PurchaseOrderPrefix,
-        PurchaseOrderStartingValue: PurchaseOrderStartingValue,
         extInfo: {
           company: [],
           contact: [],
-          project: []
+          project: [],
+          product: []
+        },
+        activity: {
+          defaultNumber: 1,
+        },
+        task: {
+          defaultNumber: 1,
+        },
+        company: {
+          defaultNumber: 1,
+        },
+        contact: {
+          defaultNumber: 1,
         },
         opportunity: {
+          defaultNumber: 1,
           stages: []
         },
         project: {
+          defaultNumber: 1,
           types: []
+        },
+        purchaseorder: {
+          defaultPrefix: "",
+          defaultNumber: 1,
+        },
+        product: {
+          defaultNumber: 1,
         }
       },
       stripe: {
-        "totalRecords": 0,
-        "paying": false,
-        "blocked": false
+      },
+      createdAt: new Date()
+    });
+  },
+
+  setTenantToFreePlan: function() {
+    var t = Tenants.findOne({
+      name: 'Acme Corp'
+    });
+
+    Tenants.update({
+      _id: t._id
+    }, {
+      $set: {
+        plan: 'free'
+      }
+    });
+    var users = Meteor.users.find({
+      group: t._id
+    }).fetch();
+
+    _.each(users, function(user) {
+      if (!Roles.userIsInRole(user._id, 'Administrator')) {
+        Roles.addUsersToRoles(user._id, ["Administrator"]);
+      }
+      _.each(defaultPermissionsList, function(p) {
+        if (!Roles.userIsInRole(user._id, p)) {
+          Roles.addUsersToRoles(user._id, p);
+        }
+      })
+
+    });
+  },
+  setTenantToProPlan: function() {
+    var t = Tenants.findOne({
+      name: 'Acme Corp'
+    });
+
+    Tenants.update({
+      _id: t._id
+    }, {
+      $set: {
+        plan: 'pro'
+      }
+    });
+  },
+  setSecondTenantToProPlan: function() {
+    var t = Tenants.findOne({
+      name: 'Acme Corp Rivals'
+    });
+
+    Tenants.update({
+      _id: t._id
+    }, {
+      $set: {
+        plan: 'pro'
+      }
+    });
+  },
+
+  createSecondTenant: function() {
+    var tenantName = 'Acme Corp Rivals';
+
+    Tenants.insert({
+      name: tenantName,
+      plan: 'free',
+      settings: {
+        extInfo: {
+          company: [],
+          contact: [],
+          project: [],
+          product: []
+        },
+        activity: {
+          defaultNumber: 1,
+        },
+        task: {
+          defaultNumber: 1,
+        },
+        company: {
+          defaultNumber: 1,
+        },
+        contact: {
+          defaultNumber: 1,
+        },
+        opportunity: {
+          defaultNumber: 1,
+          stages: []
+        },
+        project: {
+          defaultNumber: 1,
+          types: []
+        },
+        purchaseorder: {
+          defaultPrefix: "",
+          defaultNumber: 1,
+        },
+        product: {
+          defaultNumber: 1,
+        }
+      },
+      stripe: {
       },
       createdAt: new Date()
     });
@@ -88,12 +222,40 @@ Meteor.methods({
     });
   },
 
+  //used for creating a user on the same tenant
+  createAdditionalUser: function() {
+    var tenantName = 'Acme Corp';
+
+    var userId = Accounts.createUser({
+      username: "test user 2",
+      email: "test2@domain.com",
+      password: "goodpassword",
+      profile: {
+        name: "test user 2"
+      }
+    });
+
+    var tenantId = Tenants.findOne({
+      name: tenantName
+    })._id;
+    Partitioner.setUserGroup(userId, tenantId);
+
+    Meteor.users.update({
+      _id: userId
+    }, {
+      $set: {
+        "emails.0.verified": true
+      }
+    });
+  },
+
+  //used for partition tests
   createSecondUser: function() {
     var tenantName = 'Acme Corp Rivals';
 
     var userId = Accounts.createUser({
       username: "test user two",
-      email: "test2@domain.com",
+      email: "testtwo@domain.com",
       password: "goodpassword",
       profile: {
         name: "test user two"
@@ -104,11 +266,19 @@ Meteor.methods({
       name: tenantName
     })._id;
     Partitioner.setUserGroup(userId, tenantId);
+
+    Meteor.users.update({
+      _id: userId
+    }, {
+      $set: {
+        "emails.0.verified": true
+      }
+    });
   },
 
-  removeWelcome: function() {
+  removeWelcome: function(email) {
     Meteor.users.update({
-      username: "test user"
+      'emails.address': email
     }, {
       $set: {
         "profile.welcomeTour": true,
@@ -193,7 +363,7 @@ Meteor.methods({
   },
 
   getUserByEmail: function(email) {
-    return Meteor.users.findOne({
+    return result = Meteor.users.findOne({
       emails: {
         $elemMatch: {
           address: email
@@ -209,16 +379,17 @@ Meteor.methods({
     });
     var stripeId = theTenant.stripe.stripeId;
     var Stripe = StripeAPI(process.env.STRIPE_SK);
+
     if (stripeId) {
       Stripe.customers.del(stripeId);
-      Tenants.direct.update({
-        _id: tenantId
-        }, {
-        $unset: {
-          'stripe.stripeId': '',
-          'stripe.stripeSubs': ''
-        }
-      });
+      // Tenants.direct.update({
+      //   _id: tenantId
+      // }, {
+      //   $unset: {
+      //     'stripe.stripeId': '',
+      //     'stripe.stripeSubs': ''
+      //   }
+      // });
     }
   }
 });

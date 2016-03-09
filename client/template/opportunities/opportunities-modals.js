@@ -1,3 +1,5 @@
+
+
 var verfiyOpportunityStagesExist = function() {
   if (FlowRouter.subsReady()) {
     var userTenant = Tenants.findOne({});

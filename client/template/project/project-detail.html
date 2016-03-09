@@ -100,12 +100,21 @@
                 {{staffList}}
               </li>
             {{/if}}
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Project ID</h4>
+              <p class="list-group-item-text">{{sequencedIdentifier}}</p>
+            </li>
           </ul>
         </div>
       </div>
+    </div>
 
-      <div class="col-md-3"></div>
-
+    <div>
+      {{#if isInRole 'CanEditProjects'}}
+        {{#with this}}
+          {{> customFieldDisplay entity_data=this entity_type='project'}}
+        {{/with}}
+      {{/if}}
     </div>
 
     {{> documentContainer collectionName="projects" id=this._id permissionRequired="CanEditProjects"}}
@@ -120,13 +129,6 @@
       </div>
     {{/if}}
 
-    <div>
-      {{#if isInRole 'CanEditProjects'}}
-        {{#with this}}
-          {{> customFieldDisplay entity_data=this entity_type='project'}}
-        {{/with}}
-      {{/if}}
-    </div>
 
     <div class="row">
       <div class="col-md-12">

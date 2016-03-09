@@ -6,48 +6,54 @@ Template.taskDataManagement.events({
       'assignee',
       'dueDate',
       'record',
-      'recordType'
+      'recordType',
+      'tags'
     ].join(',');
 
     var samplePersonalValues = [
       'Sample personal task',
       'A simple example of how a personal task should be imported',
       Meteor.user().profile.name,
-      new Date(),
+      moment().format('YYYY-MM-DDTHH:mm:ss'),
       Meteor.user().profile.name,
-      'user'
+      'user',
+      'Imported'
     ].join(',');
     var sampleCompanyValues = [
       'Sample company task',
       'A simple example of how a company task should be imported',
       Meteor.user().profile.name,
-      new Date(),
+      moment().format('YYYY-MM-DDTHH:mm:ss'),
       '<COMPANY NAME HERE>',
-      'company'
+      'company',
+      'Imported'
     ].join(',');
     var sampleContactValues = [
       'Sample contact task',
       'A simple example of how a contact task should be imported',
       Meteor.user().profile.name,
-      new Date(),
+      moment().format('YYYY-MM-DDTHH:mm:ss'),
       '<CONTACT NAME HERE>',
-      'contact'
+      'contact',
+      'Imported'
     ].join(',');
     var sampleOpportunityValues = [
       'Sample opportunity task',
       'A simple example of how a opportunity task should be imported',
       Meteor.user().profile.name,
-      new Date(),
+      moment().format('YYYY-MM-DDTHH:mm:ss'),
       '<OPPORTUNITY NAME HERE>',
-      'opportunity'
+      'opportunity',
+      'Imported'
     ].join(',');
     var sampleProjectValues = [
       'Sample project task',
       'A simple example of how a project task should be imported',
       Meteor.user().profile.name,
-      new Date(),
+      moment().format('YYYY-MM-DDTHH:mm:ss'),
       '<PROJECT NAME HERE>',
-      'project'
+      'project',
+      'Imported'
     ].join(',');
 
     var fileData = headers + '\n' + samplePersonalValues + '\n' + sampleCompanyValues + '\n' + sampleContactValues + '\n' + sampleOpportunityValues + '\n' + sampleProjectValues;
@@ -70,6 +76,10 @@ Template.taskDataManagement.events({
   'change #task-data-upload': function() {
     var file = event.target.files[0];
     if (!file) return;
+    if (file.type !== "text/csv") {
+      toastr.error('Only CSV files can be used to import data');
+      return
+    }
 
     var reader = new FileReader();
 

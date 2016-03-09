@@ -1,17 +1,17 @@
 Template.updateTenantSettings.helpers({
-  settings: function() {
-    var ret = [];
-
-    for (var property in this.settings) {
-      var o = {
-        name: property,
-        value: this.settings[property]
-      };
-      ret.push(o);
-    }
-
-    return ret;
-  },
+  // settings: function() {
+  //   var ret = [];
+  //
+  //   for (var property in this.settings) {
+  //     var o = {
+  //       name: property,
+  //       value: this.settings[property]
+  //     };
+  //     ret.push(o);
+  //   }
+  //
+  //   return ret;
+  // },
 
   coupon: function() {
     return this.stripe.coupon;
@@ -21,16 +21,16 @@ Template.updateTenantSettings.helpers({
 Template.updateTenantSettings.events({
   'click #btnSubmitSettings': function() {
 
-    var o = {};
-    for (var p in this.settings) {
-      o[p] = $('#val-' + p).val();
-    }
+    // var o = {};
+    // for (var p in this.settings) {
+    //   o[p] = $('#val-' + p).val();
+    // }
 
     var coupon = $('#coupon').val();
 
     Tenants.update(this._id, {
       $set: {
-        settings: o,
+        // settings: o,
         "stripe.coupon": coupon
       }
     });
@@ -55,14 +55,13 @@ Template.setPayingTenant.helpers({
 Template.setPayingTenant.events({
   'click #setFreeUnlimited': function() {
     var tenantId = this._id;
-    var setTo = !Tenants.findOne(tenantId).stripe.freeUnlimited;
     bootbox.confirm({
       message: 'Are you really really sure you want to do that? I mean, come on, that\'s a big deal!',
       callback: function(result) {
         if(result === true) {
           Tenants.update(tenantId, {
             $set: {
-              "stripe.freeUnlimited": setTo
+              'plan': (Tenants.findOne(tenantId).plan === 'pro' ? 'free' : 'pro')
             }
           }, function(error, nUpdated) {
             if(error || nUpdated === false) {
@@ -148,7 +147,7 @@ Template.setPayingTenant.events({
     var newStripeSubs = $('#stripeSubsNumber').val();
     Tenants.update(this._id, {
       $set: {
-        "stripe.paying": true,
+        "plan": 'pro',
         "stripe.stripeSubs": newStripeSubs
       }
     }, function(error, nUpdated) {

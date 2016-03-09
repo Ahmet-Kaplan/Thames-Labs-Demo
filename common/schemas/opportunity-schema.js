@@ -1,4 +1,8 @@
 Schemas.Opportunity = new SimpleSchema({
+  sequencedIdentifier: {
+    type: Number,
+    label: "RealTime ID"
+  },
   name: {
     type: String
   },
@@ -64,6 +68,10 @@ Schemas.Opportunity = new SimpleSchema({
   // ##MARKER##
   currentStageId: {
     type: Number,
+    optional: true
+  },
+  salesManagerId: {
+    type: String,
     optional: true
   },
   createdBy: {

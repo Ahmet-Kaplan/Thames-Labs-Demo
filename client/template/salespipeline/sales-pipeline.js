@@ -2,6 +2,11 @@ Template.salesPipeline.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
+
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To access the Sales Pipeline');
+      FlowRouter.go('/');
+    }
   });
 });
 

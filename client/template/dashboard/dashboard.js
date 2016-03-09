@@ -105,6 +105,7 @@ var widgetsDefault = {
     h: 1,
     displayed: false,
     name: 'Purchase Orders Overview',
+    requiredPermission: "CanReadPurchaseOrders"
   },
   'companySummary': {
     id: 'companySummary',
@@ -238,7 +239,7 @@ Template.dashboard.onRendered(function() {
   //Has user taken welcome tour yet?
   if (!Meteor.user().profile.welcomeTour) {
     Modal.show("firstRun");
-  }else if (bowser.mobile || bowser.tablet) {
+  } else if (bowser.mobile || bowser.tablet) {
     if (!Meteor.user().profile.mobile) {
       Modal.show("firstRunMobile");
     };
@@ -279,6 +280,13 @@ Template.dashboard.helpers({
       widget.displayed = (displayedWidgets[widget.id] && displayedWidgets[widget.id].displayed === true);
       return widget;
     }).filter(function(widget) {
+
+      if (widget.id === 'openPo' || widget.id === 'poInformation') {
+        var user = Meteor.user();
+        if (!user || !user.group) return false;
+        if (!isProTenant(user.group)) return false;
+      }
+
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
           userId = Meteor.userId();

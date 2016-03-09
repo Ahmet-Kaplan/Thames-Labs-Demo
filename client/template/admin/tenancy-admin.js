@@ -7,17 +7,26 @@ Template.tenancyAdminPage.onCreated(function() {
 });
 
 Template.tenancyAdminPage.helpers({
-  tenantUsers: function() {
-    return Meteor.users.find({
-      _id: {
-        $ne: Meteor.userId()
-      }
-    });
+
+  isFreeProTenant: function() {
+    if (!Meteor.user() || !Meteor.user().group) return false;
+    var user = Meteor.user(),
+      tenant = Tenants.findOne(user.group);
+      return tenant.plan === 'pro' && !tenant.stripe.stripeSubs;
   },
+
+  tenantUsers: function() {
+    return Meteor.users.find({});
+  },
+
   globalCompanyCustomFields: function() {
     var data = [];
     var user = Meteor.users.findOne(Meteor.userId());
+    if (!user) return;
+
     var tenant = Tenants.findOne(user.group);
+    if (!tenant) return;
+
 
     var fields = tenant.settings.extInfo.company;
     if (fields) {
@@ -32,10 +41,14 @@ Template.tenancyAdminPage.helpers({
       return 0;
     });
   },
+
   globalContactCustomFields: function() {
     var data = [];
     var user = Meteor.users.findOne(Meteor.userId());
+    if (!user) return;
+
     var tenant = Tenants.findOne(user.group);
+    if (!tenant) return;
 
     var fields = tenant.settings.extInfo.contact;
     if (fields) {
@@ -53,7 +66,11 @@ Template.tenancyAdminPage.helpers({
   globalProjectCustomFields: function() {
     var data = [];
     var user = Meteor.users.findOne(Meteor.userId());
+    if (!user) return;
+
     var tenant = Tenants.findOne(user.group);
+    if (!tenant) return;
+
 
     var fields = tenant.settings.extInfo.project;
     if (fields) {
@@ -71,7 +88,11 @@ Template.tenancyAdminPage.helpers({
   globalProductCustomFields: function() {
     var data = [];
     var user = Meteor.users.findOne(Meteor.userId());
+    if (!user) return;
+
     var tenant = Tenants.findOne(user.group);
+    if (!tenant) return;
+
 
     var fields = tenant.settings.extInfo.product;
     if (fields) {
@@ -93,18 +114,32 @@ Template.tenancyAdminPage.helpers({
 
 
 Template.tenancyAdminPage.events({
-  'click #btnEditTenantUserGeneralSettings': function() {
+  'click #btnEditTenantUserGeneralSettings': function(event) {
+    event.preventDefault();
     Modal.show('editTenantUserGeneralSettings', this);
   },
-  'click #btnEditTenantUserPermissions': function() {
+  'click #btnEditTenantUserPermissions': function(event) {
+    event.preventDefault();
+    var tenantId = Meteor.user().group;
+    if (!isProTenant(tenantId)) {
+      showUpgradeToastr('To set user permissions');
+      return;
+    }
     Modal.show('editTenantUserPermissions', this);
   },
 
-  'click #addNewUserAccount': function() {
+  'click #addNewUserAccount': function(event) {
+    event.preventDefault();
+
+    var tenantId = Meteor.user().group;
+    if (!isProTenant(tenantId) && isTenantOverFreeUserLimit(tenantId)) {
+      showUpgradeToastr('To add more users');
+      return;
+    }
     Modal.show('addNewUser', this);
   },
 
-  'click #tenantRemoveUser': function() {
+  'click #tenantRemoveUser': function(event) {
     event.preventDefault();
     var self = this;
     var name = this.profile.name;
@@ -124,8 +159,15 @@ Template.tenancyAdminPage.events({
       }
     });
   },
-  'click #addGlobalCustomField': function() {
+  'click #addGlobalCustomField': function(event) {
+    event.preventDefault();
     Modal.show('addNewGlobalCustomField');
+  }
+});
+
+Template.adminAreaUser.helpers({
+  isSelf: function() {
+    return this._id === Meteor.userId();
   }
 });
 
@@ -134,6 +176,7 @@ Template.gcf_display.helpers({
     return this.dataOrder > 0;
   },
   canMoveDown: function() {
+    if(!Meteor.user()) return;
     var exInfLen = Tenants.findOne({
       _id: Meteor.user().group
     }).settings.extInfo[this.targetEntity].length;
@@ -177,6 +220,9 @@ Template.gcf_display.helpers({
         break;
       case 'label':
         retVal = 'Label';
+        break;
+      case 'picklist':
+        retVal = 'Picklist';
         break;
     }
 
