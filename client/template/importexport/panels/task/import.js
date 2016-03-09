@@ -89,6 +89,7 @@ Template.taskDataManagement.events({
     } else {
       toastr.error('Could not detect file type.');
       return;
+    }
 
     var reader = new FileReader();
 

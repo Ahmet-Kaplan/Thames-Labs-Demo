@@ -68,7 +68,19 @@ Schemas.PurchaseOrder = new SimpleSchema({
   },
   orderDate: {
     type: Date,
-    defaultValue: new Date()
+    defaultValue: new Date(),
+    autoform: {
+      afFieldInput: {
+        dateTimePickerOptions: {
+          format: 'DD/MM/YYYY HH:mm',
+          useCurrent: true,
+          sideBySide: true,
+          widgetPositioning: {
+            vertical: "top"
+          }
+        }
+      }
+    }
   },
   paymentMethod: {
     type: String,
