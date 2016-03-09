@@ -18,5 +18,21 @@ Template.opportunityListItem.helpers({
   },
   contact: function() {
     return Contacts.findOne(this.contactId);
+  },
+  lostAtStage: function() {
+    var self = this;
+    var tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    var stages = tenant.settings.opportunity.stages;
+    var stageValue = "Unknown";
+
+    _.each(stages, function(s) {
+      if (s.id === self.currentStageId) {
+        stageValue = s.title;
+      }
+    })
+
+    return stageValue;
   }
 });

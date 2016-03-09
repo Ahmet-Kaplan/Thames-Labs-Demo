@@ -158,6 +158,7 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         'hasBeenWon': 1,
         'reasonLost': 1,
         'tags': 1,
+        'currentStageId': 1,
         'sequencedIdentifier': 1,
         'salesManagerId': 1
       }
