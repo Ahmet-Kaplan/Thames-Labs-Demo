@@ -13,12 +13,12 @@ module.exports = function() {
     browser.waitForExist('#glob-cust-field-display', 2000, true);
   });
 
-  this.Then(/^I see a field with the name "([^"]*)" in the extended information list$/, function(name) {
+  this.Then(/^I see a field with the name "([^"]*)" in the custom field list$/, function(name) {
     browser.waitForExist('#entity-custom-fields', 2000);
     browser.waitForExist('#custom-field-container', 2000);
     expect(browser.getText('.custom-field-display-item', 2000)).toContain(name);
   });
-  this.Given(/^an? global extended information field has been created$/, function() {
+  this.Given(/^an? global custom field field has been created$/, function() {
     browser
       .executeAsync(function(done) {
         Meteor.call('extInfo.addNewGlobal', 'GEI', 'Text', 'GEI Test', 'company', function() {

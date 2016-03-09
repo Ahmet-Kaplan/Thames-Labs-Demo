@@ -252,7 +252,7 @@ Template.gcf_display.events({
 
     var self = this;
 
-    bootbox.confirm("Are you sure you wish to delete this extended information field?", function(result) {
+    bootbox.confirm("Are you sure you wish to delete this custom field?", function(result) {
       if (result === true) {
         Meteor.call('extInfo.deleteGlobal', self, function(err, res) {
           if (err) throw new Meteor.Error(err);

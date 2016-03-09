@@ -122,13 +122,13 @@ Template.addCustomField.events({
           });
           break;
         default:
-          toastr.error('Extended information field not added: entity type not recognised.');
+          toastr.error('Custom field not added: entity type not recognised.');
           Modal.hide();
           return;
       }
-      toastr.success('Extended information field added.');
+      toastr.success('Custom field added.');
     } else {
-      toastr.error('An extended information field with that name has already been added.');
+      toastr.error('An custom field with that name has already been added.');
       $('#submit-custom-field').prop('disabled', false);
     }
 

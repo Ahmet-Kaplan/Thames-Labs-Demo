@@ -16,7 +16,7 @@ Template.cfDisplay.events({
   'click #delete-custom-field': function(event) {
     event.preventDefault();
     var self = this;
-    bootbox.confirm("Are you sure you wish to delete this extended information field?", function(result) {
+    bootbox.confirm("Are you sure you wish to delete this custom field?", function(result) {
       if (result === true) {
 
         switch (self.parentEntity.entity_type) {
@@ -53,7 +53,7 @@ Template.cfDisplay.events({
             });
             break;
         }
-        toastr.success('Extended information field removed.');
+        toastr.success('Custom field removed.');
       } else {
         return;
       }

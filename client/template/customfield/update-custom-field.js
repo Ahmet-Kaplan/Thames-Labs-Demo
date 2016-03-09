@@ -137,7 +137,7 @@ Template.updateCustomField.events({
         });
         break;
       default:
-        toastr.error('Extended information field not added: entity type not recognised.');
+        toastr.error('Custom fields not added: entity type not recognised.');
         Modal.hide();
         return;
     }

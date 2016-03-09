@@ -151,7 +151,7 @@ Template.companyDetail.helpers({
       icon: 'fa-file-text-o',
       permission: 'CanReadCompanies'
     }, {
-      text: 'Extended information',
+      text: 'Custom Fields',
       anchor: 'entity-custom-fields',
       icon: 'fa-bookmark',
       permission: 'CanReadCompanies'
