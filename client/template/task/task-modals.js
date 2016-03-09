@@ -1,6 +1,9 @@
 Template.insertNewTask.onRendered(function() {
   Session.set('showRemindMe', false);
   Session.set('hasDueDate', false);
+  if(this.data.dueDate) {
+    $('#taskDueDate').data("DateTimePicker").setDate(this.data.dueDate.hours(12));
+  }
 });
 
 Template.insertNewTask.helpers({
@@ -50,10 +53,6 @@ Template.insertNewTask.helpers({
     } else {
       return this.entity_type.charAt(0).toUpperCase() + this.entity_type.slice(1);
     }
-  },
-  dueDateValue: function() {
-    //this.dueDate is a momentjs object
-    return this.dueDate.toString();
   }
 });
 
