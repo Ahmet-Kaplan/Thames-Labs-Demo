@@ -154,9 +154,17 @@ Template.addNewGlobalCustomField.events({
 
     Meteor.call('extInfo.addNewGlobal', cfName, cfType, cfValue, cfEntity, function(err, res) {
       if (err) throw new Meteor.Error(err);
-      if (res === true) {
+      if (res === 0) {
         toastr.success('Global field created successfully.');
         Modal.hide();
+      } else {
+        $('#createCustomField').prop('disabled', false);
+        if (res === 1) {
+          toastr.error('Only admins may add global fields.');
+        }
+        if (res === 2) {
+          toastr.error('A global custom field with that name already exists.');
+        }
       }
     });
 

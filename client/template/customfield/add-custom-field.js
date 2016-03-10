@@ -88,7 +88,8 @@ Template.addCustomField.events({
         "dataName": cfName,
         "dataValue": cfValue,
         "dataType": cfType,
-        isGlobal: false
+        isGlobal: false,
+        uuid: Guid.raw()
       }
       cfMaster.push(settings);
 

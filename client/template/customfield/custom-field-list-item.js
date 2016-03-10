@@ -24,7 +24,7 @@ Template.cfDisplay.events({
             var parentCompany = Companies.findOne(self.parentEntity.entity_data._id);
             Companies.update(parentCompany._id, {
               $pull: {
-                extendedInformation: { dataName: self.name }
+                extendedInformation: { uuid: self.uuid }
               }
             });
             break;
@@ -32,7 +32,7 @@ Template.cfDisplay.events({
             var parentContact = Contacts.findOne(self.parentEntity.entity_data._id);
             Contacts.update(parentContact._id, {
               $pull: {
-                extendedInformation: { dataName: self.name }
+                extendedInformation: { uuid: self.uuid }
               }
             });
             break;
@@ -40,7 +40,7 @@ Template.cfDisplay.events({
             var parentProject = Projects.findOne(self.parentEntity.entity_data._id);
             Projects.update(parentProject._id, {
               $pull: {
-                extendedInformation: { dataName: self.name }
+                extendedInformation: { uuid: self.uuid }
               }
             });
             break;
@@ -48,7 +48,7 @@ Template.cfDisplay.events({
             var parentProduct = Products.findOne(self.parentEntity.entity_data._id);
             Products.update(parentProduct._id, {
               $pull: {
-                extendedInformation: { dataName: self.name }
+                extendedInformation: { uuid: self.uuid }
               }
             });
             break;
