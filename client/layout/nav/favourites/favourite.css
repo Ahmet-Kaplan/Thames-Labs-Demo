@@ -1,0 +1,15 @@
+#favUrl: {
+	padding-top:3px;
+}
+.remove-favourite {
+  margin-top: 4px;
+  cursor: pointer;
+}
+.edit-favourite {
+  margin-top: 4px;
+  cursor: pointer;
+}
+.add-favourite {
+  border-top: 1px solid #e9e9e9;
+  padding-bottom: 5px;
+}
