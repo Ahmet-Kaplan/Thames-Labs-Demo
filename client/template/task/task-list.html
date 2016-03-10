@@ -17,9 +17,6 @@
             <li><a href="#" class="add-task" id="project">Project Task</a></li>
           </ul>
         </div>
-        {{#if isInRole 'CanDeleteTasks'}}
-          <button class="btn btn-danger" id="tskDeleteAllCompleted">Delete Tasks</button>
-        {{/if}}
       </div>
     {{/if}}
     {{#if isInRole 'CanReadTasks'}}
