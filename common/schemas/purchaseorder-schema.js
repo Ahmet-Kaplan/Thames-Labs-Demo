@@ -70,15 +70,12 @@ Schemas.PurchaseOrder = new SimpleSchema({
     type: Date,
     defaultValue: new Date(),
     autoform: {
-      afFieldInput: {
-        dateTimePickerOptions: {
-          format: 'DD/MM/YYYY HH:mm',
-          useCurrent: true,
-          sideBySide: true,
-          widgetPositioning: {
-            vertical: "top"
-          }
-        }
+      type: "bootstrap-datepicker",
+      datePickerOptions: {
+        defaultDate: new Date(),
+        autoclose: true,
+        format: 'dd/mm/yyyy',
+        todayHighlight: true
       }
     }
   },

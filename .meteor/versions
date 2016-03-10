@@ -5,6 +5,7 @@ accounts-ui-unstyled@1.1.8
 adain:meteor-guid@1.0.1
 alanning:roles@1.2.14
 aldeed:autoform@5.7.1
+aldeed:autoform-bs-datepicker@1.1.1
 aldeed:autoform-bs-datetimepicker@1.0.6
 aldeed:collection2@2.5.0
 aldeed:simple-schema@1.3.3
@@ -144,6 +145,7 @@ practicalmeteor:chai@2.1.0_1
 practicalmeteor:loglevel@1.2.0_2
 promise@0.5.1
 raix:handlebar-helpers@0.2.5
+rajit:bootstrap3-datepicker@1.5.1
 random@1.0.5
 rate-limit@1.0.0
 reactive-dict@1.1.3

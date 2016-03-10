@@ -10,8 +10,8 @@
          {{#autoForm collection="Opportunities" id="insertOpportunityForm" type="insert"}}
             {{> afQuickField name="name"}}
             {{> afQuickField name="description" rows=3}}
-            {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
-            {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="date" }}
+            {{> afQuickField name="estCloseDate" }}
             {{> afQuickField name="value"}}
 
             {{> esSelectize name="companyId" index=CompaniesIndex}}
@@ -45,8 +45,8 @@
          {{#autoForm collection="Opportunities" id="insertOpportunityForm" type="insert"}}
             {{> afQuickField name="name"}}
             {{> afQuickField name="description" rows=3}}
-            {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
-            {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="date" }}
+            {{> afQuickField name="estCloseDate" }}
             {{> afQuickField name="value"}}
             {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
             {{> afQuickField name="companyId" id="companyId" value=companyId type="hidden"}}
@@ -77,8 +77,8 @@
          {{#autoForm collection="Opportunities" id="insertOpportunityForm" type="insert"}}
             {{> afQuickField name="name"}}
             {{> afQuickField name="description" rows=3}}
-            {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
-            {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="date" }}
+            {{> afQuickField name="estCloseDate" }}
             {{> afQuickField name="value"}}
             {{> esSelectize name="salesManagerId" index=UsersIndex allowEmptyOption=true}}
             {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
@@ -114,8 +114,8 @@
           {{#autoForm collection="Opportunities" id="editOpportunityForm" type="update" doc=this}}
             {{> afQuickField name="name"}}
             {{> afQuickField name="description" rows=3}}
-            {{> afQuickField name="date" type="bootstrap-datetimepicker"}}
-            {{> afQuickField name="estCloseDate" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="date" }}
+            {{> afQuickField name="estCloseDate" }}
             {{> afQuickField name="value"}}
             {{#if companyId}}
               {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
