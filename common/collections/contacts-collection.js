@@ -146,11 +146,11 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
             return new RegExp(phone, 'i')
           })
         };
-        selector.mobile = {
-          $in: _.map(options.search.props.phone.split(','), function(phone) {
-            return new RegExp(phone, 'i')
-          })
-        };
+        // selector.mobile = {
+        //   $in: _.map(options.search.props.phone.split(','), function(phone) {
+        //     return new RegExp(phone, 'i')
+        //   })
+        // };
       }
 
       if (options.search.props.tags) {

@@ -19,7 +19,7 @@ Template.contactDataManagement.events({
     var patt1 = /\.([0-9a-z]+)(?:[\?#]|$)/i;
     var fileName = file.name;
     var match = (fileName).match(patt1);
-    console.log(match);
+    
     if (match) {
       if (match[1] !== "csv") {
         toastr.error('Only CSV files can be used to import data');
