@@ -66,6 +66,7 @@ Feature: Superadmin can access special parts of the site
     And I set text field with id "tenantName" to "Velocity"
     And I click "#btnCreateTenant"
     Then I should see ".tenantListItemEntry"
+    Then I should see "#btnAddNewTenantUser"
     And I click "#btnAddNewTenantUser"
     And I set text field with id "userName" to "Link"
     And I set text field with id "userEmail" to "link@hyrule"
