@@ -17,7 +17,7 @@ Feature: Allow users to view event logs
     Given I have the "CanReadEventLog" permission
     And I am on the free plan
     And I click "#menuLinkEventLog"
-    Then I should not see the heading "Event Log"
+    Then I should see the heading "Dashboard"
 
   Scenario: A user can see an event in the event log
     Given I have the "CanReadEventLog" permission

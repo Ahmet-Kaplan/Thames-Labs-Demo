@@ -13,7 +13,6 @@ Feature: Allow administrators to give users permissions
     And a restricted user exists
     And I am a logged in superadmin user
     When I navigate to "/tenants"
-    And I click ".accordion-toggle"
     And I click "#btnEditTenantUser"
     And I click "#cbUserIsTenantAdministrator"
     And I click "#btnUpdateTenantUser"

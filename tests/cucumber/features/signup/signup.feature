@@ -28,10 +28,3 @@ Feature: Allow users to sign up to the app
     When I navigate to "/sign-up"
     Then I should see the heading "Dashboard"
     And I should see the title "Dashboard"
-
-	#Sign up statistics page
-	Scenario: A superadmin can see a signup chart
-    Given a superadmin exists
-		And I am a logged in superadmin user
-		When I navigate to "/statistics"
-		Then I should see "#signUpChart"

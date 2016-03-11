@@ -89,15 +89,15 @@ Collections.products.filters = {
 Collections.products.index = ProductsIndex = new EasySearch.Index({
   collection: Products,
   fields: ['name'],
+  permission: function(options) {
+    var userId = options.userId;
+    return Roles.userIsInRole(userId, ['CanReadProducts']);
+  },
   engine: new EasySearch.MongoDB({
     sort: () => {
       return {
         'name': 1
       }
-    },
-    permission: function(options) {
-      var userId = options.userId;
-      return Roles.userIsInRole(userId, ['CanReadProducts']);
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
