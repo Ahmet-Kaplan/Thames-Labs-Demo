@@ -22,7 +22,6 @@ Template.appLayout.onRendered(function() {
   this.autorun(function() {
     if (Tawk_API) {
       if (Meteor.user() && !Roles.userIsInRole(Meteor.userId(), ['superadmin'])) {
-        console.log('set Tawk details');
         Tawk_API.visitor = {
           name: Meteor.user().profile.name,
           email: Meteor.user().emails[0].address
