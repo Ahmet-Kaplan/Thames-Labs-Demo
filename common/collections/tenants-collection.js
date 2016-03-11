@@ -49,6 +49,9 @@ Collections.tenants.filters = {
 Collections.tenants.index = TenantsIndex = new EasySearch.Index({
   collection: Tenants,
   fields: ['name'],
+  permission: function(options) {
+    return Roles.userIsInRole(options.userId, ['superadmin']);
+  },
   engine: new EasySearch.MongoDB({
     sort: () => {
       return {

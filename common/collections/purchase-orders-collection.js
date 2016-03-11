@@ -234,7 +234,6 @@ PurchaseOrders.before.insert(function(userId, doc) {
 });
 
 PurchaseOrders.after.insert(function(userId, doc) {
-    Meteor.call('updateTotalRecords');
   logEvent('info', 'A new purchase order has been created: ' + doc.description);
 
   if (Meteor.isServer) {
@@ -294,6 +293,5 @@ PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options)
 });
 
 PurchaseOrders.after.remove(function(userId, doc) {
-    Meteor.call('updateTotalRecords');
   logEvent('info', 'A purchase order has been deleted: ' + doc.description);
 });

@@ -65,10 +65,7 @@ Template.setPayingTenant.events({
       }
     }
 
-    var set = 'free';
-    if (tenant.plan) {
-      set = (tenant.plan === 'pro' ? 'free' : 'pro')
-    }
+    var set = (tenant.plan && tenant.plan === 'pro') ? 'free' : 'pro';
 
     bootbox.confirm({
       message: 'Are you really really sure you want to do that? I mean, come on, that\'s a big deal!',
