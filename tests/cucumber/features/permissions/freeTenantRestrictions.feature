@@ -9,11 +9,11 @@ Feature: Restrict free users from certain features
 
   Scenario: A free user should not be able to add more than 5 global entity fields
     Given I have the "Administrator" permission
-    And a global custom field has been created
-    And a global custom field has been created
-    And a global custom field has been created
-    And a global custom field has been created
-    And a global custom field has been created
+    And a global custom field has been created with the name "GEI1"
+    And a global custom field has been created with the name "GEI2"
+    And a global custom field has been created with the name "GEI3"
+    And a global custom field has been created with the name "GEI4"
+    And a global custom field has been created with the name "GEI5"
     And I navigate to "/admin"
     And I click "#globCustomFieldsExpander"
     And I click "#addGlobalCustomField"
