@@ -66,7 +66,7 @@ Template.displayCalendar.helpers({
                   title: task.title,
                   description: task.description,
                   start: moment(task.dueDate),
-                  urlId: task.__originalId
+                  __originalId: task.__originalId
                 }, true);
               }
             });
@@ -75,16 +75,21 @@ Template.displayCalendar.helpers({
         }
       ],
       eventClick: function(event, jsEvent, view) {
+        var popoverHolder = $(jsEvent.target).closest('.fc-content');
+
         //Check if popover already exists, if not create it
-        if($(this).find('.fc-title').attr('aria-describedby') !== undefined) {
-          $(jsEvent.target).popover('hide');
-        } else {          
-          event.dueDate = moment(event.dueDate).format('Do MMM YYYY HH:mm');
+        if(popoverHolder.attr('aria-describedby') !== undefined) {
+          popoverHolder.popover('hide');
+          return;
+        //Creates popover only on first instance
+        } else if(!popoverHolder.data('haspopover')) {
+
           if(!!event.description && event.description.length > 100) {
             event.description = event.description.substring(0, 97) + '...';
           }
 
-          $(jsEvent.target).popover({
+          event.start = moment(event.start).format('Do MMM YYYY, HH:mm')
+          popoverHolder.popover({
             container: 'body',
             content: Blaze.toHTMLWithData(Template.taskPopover, event),
             html: true,
@@ -93,48 +98,60 @@ Template.displayCalendar.helpers({
             trigger: 'manual'
           });
 
-          $(jsEvent.target).popover('show');
-
-          //Add event handler to show modal from link in popover. This cannot be done with Template.events because of the toHTMWithData function
-          $('.popover-edit-task').click(function() {
-            var task = _.find(instance.tasksList.get(), {'__originalId': event.urlId});
-            Modal.show('updateTask', task);
-          })
-
-          //Add event listener to hide popover if click is outside
-          var handle = function(evt) {
-            if ($(evt.target).closest(jsEvent.target).length < 1) {
-              $(jsEvent.target).popover('destroy');
-            }
-          };
-          $(window).bind('click', handle);
-
-          //remove the event listener when the popover is destroyed (on hide actually)
-          $(jsEvent.target).on('hidden.bs.popover', function() {
-            $(window).unbind('click', handle);
-          });
-          //Record event listener for removeol on template destroy
-          /*var eventsHandlers = instance.eventsListeners.get();
-          eventsHandlers.push({
-            evt: 'click',
-            handle: handle
-          });
-          instance.eventsListeners.set(eventsHandlers);*/
+          popoverHolder.attr('data-haspopover', true);
         }
+        
+        //Once popover exist, show it  
+        popoverHolder.popover('show');
+
+        //Add event handler to show modal from link in popover. This cannot be done with Template.events because of the toHTMWithData function
+        $('.popover-edit-task').click(function() {
+          var task = _.find(instance.tasksList.get(), {'__originalId': event.__originalId});
+          task._id = task.__originalId
+          Modal.show('updateTask', task);
+        })
+
+        //Add event listener to hide popover if click is outside
+        var handle = function(evt) {
+          if ($(evt.target).closest(jsEvent.target).length < 1) {
+            popoverHolder.popover('hide');
+          }
+        };
+        $(window).bind('click', handle);
+
+        //remove the event listener when the popover is destroyed (on hide actually)
+        popoverHolder.on('hidden.bs.popover', function() {
+          $(window).unbind('click', handle);
+        });
       },
       eventDrop: function(event, delta, revertFunc) {
-        bootbox.confirm('Event was moved', function(result) {
-          if(result === true) {
-          } else {
-            revertFunc();
+        var newStartDate = moment(event.start)
+        bootbox.confirm({
+          message: 'Do you want to change the task due date to ' + newStartDate.format('Do MMM YYYY, HH:mm') + '?',
+          title: 'Update task due date',
+          backdrop: false,
+          callback: function(result) {
+            if(result === true) {
+              Meteor.call('tasks.updateDueDate', event.__originalId, newStartDate.format(), function(err, res) {
+                if(!res) {
+                  toastr.error('Unable to update task');
+                  revertFunc();
+                } else {
+                  toastr.success('Task due date successfully updated');
+                }
+                return;
+              });
+            } else {
+              revertFunc();
+            }
           }
-        })
+        });
       },
       viewRender: function(view, element) {
         //Destroy all popover from previous view and update view boundaries for db fetch
         $('.popover').remove();
-        instance.startTime.set(view.start);
-        instance.endTime.set(view.end);
+        instance.startTime.set(view.intervalStart);
+        instance.endTime.set(view.intervalEnd);
       },
       dayClick: function(date, jsEvent, view) {
         if(view.type === "month") {
@@ -145,10 +162,11 @@ Template.displayCalendar.helpers({
           content: Blaze.toHTMLWithData(Template.quickCalendarAddPopover, date),
           html: true,
           placement: 'top',
-          title: '<h4>Add task on ' + date.format('Do MMM YYYY HH:mm') + '</h4>',
+          title: '<h4>Add task on ' + date.format('Do MMM YYYY, HH:mm') + '</h4>',
           trigger: 'manual'
         });
         $(jsEvent.target).popover('show');
+        
         //Add event listener to hide popover if click is outside
         var handle = function(evt) {
           if(evt.target != jsEvent.target){
@@ -158,12 +176,9 @@ Template.displayCalendar.helpers({
         $(window).bind('click', handle);
 
         //Record event listener for removeol on template destroy
-        var eventsHandlers = instance.eventsListeners.get();
-        eventsHandlers.push({
-          evt: 'click',
-          handle: handle
+        $(jsEvent.target).on('hidden.bs.popover', function() {
+          $(window).unbind('click', handle);
         });
-        instance.eventsListeners.set(eventsHandlers);
 
         //Add event handler to show modal. This cannot be done with Template.events because of the toHTMWithData function
         $('.quick-add-task').click(function(e) {
@@ -179,19 +194,8 @@ Template.displayCalendar.helpers({
   }
 });
 
-Template.displayCalendar.events({
-  'click .quick-add-task': function(e) {
-    console.log('click');
-    e.preventDefault();
-    var entityType = $(e.target).attr('id');
-    Modal.show('insertNewTask', {
-      entity_type: entityType
-    });
-  }
-});
-
 Template.displayCalendar.onDestroyed(function() {
-  $('.fc-title').popover('destroy');
+  $('.fc-content').popover('destroy');
   //removes event listeners added manually
   this.eventsListeners.get().each(function(listener) {
     $(window).unbind(listener.evt, listener.handle);

@@ -1,3 +1,4 @@
+var Future = Npm.require('fibers/future');
 Meteor.methods({
   deleteCompletedTasks: function(searchDefinition, searchOptions) {
     if (!Roles.userIsInRole(this.userId, ['CanDeleteTasks'])) {
@@ -187,5 +188,22 @@ Meteor.methods({
     });
 
     return returnData;
+  },
+  'tasks.updateDueDate': function(taskId, newDate) {
+    if (!Roles.userIsInRole(this.userId, ['CanEditTasks'])) {
+      throw new Meteor.Error(403, 'You do not have the authorization to edit tasks');
+    }
+    var status = new Future();
+    var setDueDate = moment(newDate).toDate();
+
+    taskUpdated = Tasks.update(taskId, {
+      $set: {
+        dueDate: setDueDate
+      }
+    }, function(err, res) {
+      status.return(res);
+    });
+
+    return status.wait();
   }
 });
