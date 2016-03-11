@@ -320,7 +320,7 @@ Template.nav.events({
   'click #toggleFab': function(event, template) {
     if (Template.instance().fab.get() === true) {
       template.fab.set(false);
-    }else {
+    } else {
       template.fab.set(true);
     };
   },

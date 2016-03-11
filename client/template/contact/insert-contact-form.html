@@ -13,12 +13,12 @@
           {{#autoForm collection="Contacts" id="insertCompanyContactForm" type="insert"}}
             {{> afQuickField name="forename"}}
             {{> afQuickField name="surname"}}
-            {{> afQuickField name="companyId" type="hidden" value=_id}}
-            {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
-            {{> afQuickField name="email"}}
+            {{> afQuickField name="jobtitle"}}
             {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
-            {{> afQuickField name="jobtitle"}}
+            {{> afQuickField name="email"}}
+            {{> afQuickField name="companyId" type="hidden" value=_id}}
+            {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
             <!-- {{> afQuickField name="sequencedIdentifier"}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Create</button>
@@ -44,10 +44,10 @@
           {{#autoForm collection="Contacts" id="insertContactForm" type="insert"}}
             {{> afQuickField name="forename" id="addContactForename"}}
             {{> afQuickField name="surname" id="addContactSurname"}}
-            {{> afQuickField name="email" id="addContactEmail"}}
+            {{> afQuickField name="jobtitle"}}
             {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
-            {{> afQuickField name="jobtitle"}}
+            {{> afQuickField name="email" id="addContactEmail"}}
             {{> esSelectize name="companyId" index=CompaniesIndex allowCreate=true}}
             <div id="addressWrapper">
               <div class="form-group">

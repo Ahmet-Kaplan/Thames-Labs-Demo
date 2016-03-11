@@ -207,7 +207,7 @@ Feature: Allow users to manage their Contacts
     And I click "#edit-custom-fields"
     And I set text field with id "extInfosvelocity2TextValue" to "velocity"
     And I click "#submit-ext-info"
-    Then I see a field with the name "velocity" in the extended information list
+    Then I see a field with the name "velocity" in the custom field list
 
   #Maps
   Scenario: A user can see the map on a contact's page

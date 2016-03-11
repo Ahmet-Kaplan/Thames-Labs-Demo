@@ -29,7 +29,13 @@ Template.newPurchaseOrderForm.helpers({
     return Meteor.userId();
   },
   currentDateTime: function() {
-    return moment();
+    var dateTime = moment();
+    var dateValue = moment({
+      year: dateTime.year(),
+      month: dateTime.month(),
+      day: dateTime.date()
+    });
+    return dateValue;
   }
 });
 
