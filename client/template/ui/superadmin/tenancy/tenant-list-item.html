@@ -1,0 +1,47 @@
+<template name="tenantListItem">
+    <div class="panel panel-primary">
+      <div class="panel-heading tenantListItemEntry" id="{{_id}}">
+        {{#if isFreePlusTenant}}<i class="fa fa-unlock" data-toggle="tooltip" data-placement="bottom" title="Free unlimited tenant"></i> {{/if}}
+        {{name}}<span class="pull-right"><small> <em>{{userCount}} user(s)</em></small></span>
+      </div>
+        <div class="panel">
+            <div class="panel-body" id="listOfTenantUsers">
+                <div class="btn-toolbar" role="toolbar">
+                    <button class="btn btn-primary btn-xs" id="btnAddNewTenantUser" type="button">
+                        <i class="fa fa-fw fa-user"></i> Add a new user
+                    </button>
+                        <div class="btn-group pull-right" role="group">
+                        {{#if showDemoDataButton}}
+                        <button class="btn btn-xs" id="btnDemoData" type="button" disabled="{{#if generationInProgress}}disabled{{/if}}">
+                            {{#if generationInProgress}} <em style="color:#acacac;" >Generating, please wait...</em> {{else}}
+                            <i class="fa fa-fw fa-wrench"></i> Generate demo data
+                            {{/if}}
+                        </button>
+                        {{/if}}
+                        <button class="btn btn-info btn-xs" id="btnEditSettings" type="button">
+                            <i class="fa fa-fw fa-wrench"></i> Edit settings
+                        </button>
+
+                        <button class="btn btn-success btn-xs" id="{{#if isPayingTenant}}btnSwitchToFree{{else}}btnSwitchToPaying{{/if}}" type="button">
+                          <i class="fa fa-fw fa-credit-card"></i> Change Scheme
+                        </button>
+                        {{#unless isPayingTenant}}
+                          <button class="btn btn-danger btn-xs" id="btnDeleteTenant" type="button">
+                            <i class="fa fa-fw fa-archive"></i> Delete this tenant
+                          </button>
+                        {{/unless}}
+                    </div>
+                </div>
+
+        <ul class="list-group">
+          {{#each users}} {{> tenantListUserItem}} {{else}}
+          <div class="list-group-item ">
+            <em>No users</em>
+          </div>
+          {{/each}}
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</template>

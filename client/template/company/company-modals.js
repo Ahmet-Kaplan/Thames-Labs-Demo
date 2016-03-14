@@ -8,10 +8,22 @@ Template.insertNewCompanyModal.onCreated(function() {
 Template.insertNewCompanyModal.events({
   'click #close': function() {
     hopscotch.endTour(true);
+  },
+  'change #addCompanyName': function(event, template) {
+    var name = $('#addCompanyName').val();
+    Meteor.call('company.checkExistsByName', name, function(err, res) {
+      if (res === true) {
+        $('#duplicationWarning').show();
+      } else {
+        $('#duplicationWarning').hide();
+      }
+    });
   }
 });
 
 Template.insertNewCompanyModal.onRendered(function() {
+  $('#duplicationWarning').hide();
+
   this.autorun(function() {
     if (GoogleMaps.loaded()) {
       $("#geo").geocomplete({

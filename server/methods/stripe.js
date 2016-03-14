@@ -26,7 +26,7 @@ Server.post('/webhook/stripe', function(req, res) {
       Meteor.log._(o);
 
       Email.send({
-        to: 'david.mcleary@cambridgesoftware.co.uk',
+        to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
         from: 'stripe@realtimecrm.co.uk',
         subject: 'RealtimeCRM received a webhook from Stripe! [' + event.type + ']',
         text: o

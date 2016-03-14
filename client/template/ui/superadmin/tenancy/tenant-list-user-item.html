@@ -1,0 +1,25 @@
+<template name="tenantListUserItem">
+  <div class="list-group-item tenantListUserItemEntry">
+    <div class="row">
+      <div class="col-md-3">
+        <a class="btn btn-warning pull-left btn-xs" id="email-user" href="mailto:{{emailAddress}}" type="button" data-toggle="tooltip" title="Send an email to {{emailAddress}}">
+          <i class="fa fa-fw fa-envelope"></i>
+        </a>
+        <small>&nbsp; {{profile.name}} {{#if isAdmin}}<span class="pull-right"><i class="fa fa-fw fa-key"></i></span>{{/if}}</small>
+      </div>
+      <div class="col-md-6">
+        <small class="userDataDisplay" data-toggle="tooltip" title="{{profile.lastLogin}}"> {{friendlyLastLogin}}</small>
+      </div>
+      <div class="col-md-3">
+
+        <button class="btn btn-danger pull-right btn-xs" id="btnDeleteTenantUser" type="button">
+          <i class="fa fa-fw fa-times"></i> Delete user
+        </button>
+        <button class="btn btn-info pull-right btn-xs" id="btnEditTenantUser" type="button">
+          <i class="fa fa-fw fa-pencil"></i> Edit user
+        </button>
+
+      </div>
+    </div>
+  </div>
+</template>

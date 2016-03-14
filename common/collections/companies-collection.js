@@ -193,6 +193,7 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
 //////////////////////
 
 Companies.before.insert(function(userId, doc) {
+
   if (doc.website) {
     var currentWebsite = doc.website;
     if (currentWebsite.indexOf('http://') === -1) {

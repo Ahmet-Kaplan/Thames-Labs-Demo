@@ -180,7 +180,7 @@ Feature: Allow users to manage their Products
     Then I should not see the edit tag button
 
   #Extended information fields
-  Scenario: A user can add, edit and delete extended information fields
+  Scenario: A user can add, edit and delete custom fields
     Given I have the "CanEditProducts" permission
     And a "Product" has been created
     When I navigate to a product page
@@ -193,7 +193,7 @@ Feature: Allow users to manage their Products
     When I click "#edit-custom-fields"
     And I set text field with id "extInfosvelocity2TextValue" to "velocity"
     And I click "#submit-ext-info"
-    Then I see a field with the name "velocity" in the extended information list
+    Then I see a field with the name "velocity" in the custom field list
     When I click "#delete-custom-field"
     And I click confirm on the modal
     Then I should not see ".custom-field-display-item"

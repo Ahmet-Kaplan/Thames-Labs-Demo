@@ -46,7 +46,7 @@ Meteor.methods({
 
       var txt = 'New sign up from ' + userDetails.name + ' at company ' + userDetails.companyName;
       Email.send({
-        to: 'david.mcleary@cambridgesoftware.co.uk',
+        to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
         from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
         subject: 'New RealTimeCRM sign up!',
         text: txt

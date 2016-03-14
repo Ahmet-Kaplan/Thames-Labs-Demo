@@ -11,9 +11,9 @@
       {{#if isInRole 'CanCreateOpportunities'}}
         <button id="create-opportunity" type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+O"><i class="fa fa-fw fa-plus"></i>Add Opportunity</button>
       {{/if}}
-      <div class="btn-group" role="group">
+      <!-- <div class="btn-group" role="group">
         <button type="button" class="btn btn-default" id="toggle-close-sort" data-toggle="tooltip" data-placement="bottom" title="Turn sorting by close date on/off"><i class="fa fa-fw fa-sort-numeric-desc"></i></button>
-      </div>
+      </div> -->
       <div class="btn-group" role="group" id="btn-popover">
         <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" data-placement="bottom" title="Export results to CSV"><i class="fa fa-fw fa-download"></i></button>
         <button id="toggle-archived" class="btn btn-{{#if archivedShown}}success{{else}}default{{/if}}"><i class="fa fa-fw fa-archive"></i></button>

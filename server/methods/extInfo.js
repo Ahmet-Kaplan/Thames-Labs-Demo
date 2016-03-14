@@ -22,7 +22,7 @@ Meteor.methods({
 
           if (cx.extendedInformation) {
             for (var cf in cx.extendedInformation) {
-              if (cx.extendedInformation[cf].dataName !== self.name) {
+              if (cx.extendedInformation[cf].uuid !== self.uuid) {
                 cfMaster.push(cx.extendedInformation[cf]);
               }
             }
@@ -46,7 +46,7 @@ Meteor.methods({
 
           if (cx.extendedInformation) {
             for (var cf in cx.extendedInformation) {
-              if (cx.extendedInformation[cf].dataName !== self.name) {
+              if (cx.extendedInformation[cf].uuid !== self.uuid) {
                 cfMaster.push(cx.extendedInformation[cf]);
               }
             }
@@ -70,7 +70,7 @@ Meteor.methods({
 
           if (cx.extendedInformation) {
             for (var cf in cx.extendedInformation) {
-              if (cx.extendedInformation[cf].dataName !== self.name) {
+              if (cx.extendedInformation[cf].uuid !== self.uuid) {
                 cfMaster.push(cx.extendedInformation[cf]);
               }
             }
@@ -92,7 +92,7 @@ Meteor.methods({
 
           if (cx.extendedInformation) {
             for (var cf in cx.extendedInformation) {
-              if (cx.extendedInformation[cf].dataName !== self.name) {
+              if (cx.extendedInformation[cf].uuid !== self.uuid) {
                 cfMaster.push(cx.extendedInformation[cf]);
               }
             }
@@ -123,7 +123,7 @@ Meteor.methods({
 
     var data = [];
     _.each(fields, function(f) {
-      if (f.name !== self.name) {
+      if (f.uuid !== self.uuid) {
         data.push(f);
       }
     });
@@ -161,7 +161,7 @@ Meteor.methods({
   },
   "extInfo.addNewGlobal": function(cfName, cfType, cfValue, cfEntity) {
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
-      throw new Meteor.Error(403, 'Only admins may add global fields.');
+      return 1;
     }
 
     var user = Meteor.users.findOne(this.userId);
@@ -190,13 +190,24 @@ Meteor.methods({
 
     var orderValue = data.length;
 
+    var error = false;
+    _.each(fields, function(fn) {
+      if (fn.name === cfName) {
+        error = true;
+      }
+    });
+    if (error) return 2;
+
+    var identifier = Guid.raw();
+
     var newField = {
       name: cfName,
       type: cfType,
-      defaultValue: (cfType !== 'picklist' ? cfValue: null),
+      defaultValue: (cfType !== 'picklist' ? cfValue : null),
       targetEntity: cfEntity,
       dataOrder: orderValue,
-      listValues: (cfType === 'picklist' ? cfValue: null)
+      listValues: (cfType === 'picklist' ? cfValue : null),
+      uuid: identifier
     };
 
     if (_.findWhere(fields, newField) === undefined) {
@@ -270,7 +281,7 @@ Meteor.methods({
       if (tx.extendedInformation) {
         for (var cf in tx.extendedInformation) {
           if (tx.extendedInformation.hasOwnProperty(cf)) {
-            if (tx.extendedInformation[cf].dataName === cfName) {
+            if (cf.dataName === cfName) {
               nameExists = true;
               break;
             }
@@ -282,11 +293,12 @@ Meteor.methods({
       if (!nameExists) {
         var settings = {
           "dataName": cfName,
-          "dataValue": (cfType !== 'picklist' ? cfValue: null),
+          "dataValue": (cfType !== 'picklist' ? cfValue : null),
           "dataType": cfType,
           "isGlobal": true,
           dataOrder: orderValue,
-          'listValues': (cfType === 'picklist' ? cfValue: null)
+          'listValues': (cfType === 'picklist' ? cfValue : null),
+          uuid: identifier
         };
         cfMaster.push(settings);
 
@@ -324,7 +336,7 @@ Meteor.methods({
       }
     });
 
-    return true;
+    return 0;
   },
   changeExtInfoOrder: function(type, name, direction) {
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {

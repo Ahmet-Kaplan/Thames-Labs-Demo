@@ -9,18 +9,29 @@ Schemas.Opportunity = new SimpleSchema({
   description: {
     type: String
   },
+  // date: {
+  //   type: Date,
+  //   autoform: {
+  //     afFieldInput: {
+  //       dateTimePickerOptions: {
+  //         format: 'DD/MM/YYYY HH:mm',
+  //         useCurrent: true,
+  //         sideBySide: true,
+  //         widgetPositioning: {
+  //           vertical: "top"
+  //         }
+  //       }
+  //     }
+  //   }
+  // },
   date: {
     type: Date,
     autoform: {
-      afFieldInput: {
-        dateTimePickerOptions: {
-          format: 'DD/MM/YYYY HH:mm',
-          useCurrent: true,
-          sideBySide: true,
-          widgetPositioning: {
-            vertical: "top"
-          }
-        }
+      type: "bootstrap-datepicker",
+      datePickerOptions: {
+        autoclose: true,
+        format: 'dd/mm/yyyy',
+        todayHighlight: true
       }
     }
   },
@@ -34,18 +45,30 @@ Schemas.Opportunity = new SimpleSchema({
     optional: true,
     label: "Estimated Close Date",
     autoform: {
-      afFieldInput: {
-        dateTimePickerOptions: {
-          format: 'DD/MM/YYYY HH:mm',
-          useCurrent: true,
-          sideBySide: true,
-          widgetPositioning: {
-            vertical: "top"
-          }
-        }
+      type: "bootstrap-datepicker",
+      datePickerOptions: {
+        autoclose: true,
+        format: 'dd/mm/yyyy'
       }
     }
   },
+  // estCloseDate: {
+  //   type: Date,
+  //   optional: true,
+  //   label: "Estimated Close Date",
+  //   autoform: {
+  //     afFieldInput: {
+  //       dateTimePickerOptions: {
+  //         format: 'DD/MM/YYYY HH:mm',
+  //         useCurrent: true,
+  //         sideBySide: true,
+  //         widgetPositioning: {
+  //           vertical: "top"
+  //         }
+  //       }
+  //     }
+  //   }
+  // },
   items: {
     type: Array,
     optional: true

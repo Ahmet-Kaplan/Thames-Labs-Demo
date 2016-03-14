@@ -29,26 +29,6 @@ Schemas.Tenant = new SimpleSchema({
       type: "hidden"
     }
   },
-  "stripe.paying": {
-    type: Boolean,
-    label: "Paying tenant",
-    defaultValue: false,
-    optional: true
-  },
-  "stripe.freeUnlimited": {
-    type: Boolean,
-    label: "Free unlimited",
-    defaultValue: false,
-    optional: true
-  },
-  "stripe.blocked": {
-    // TODO: remove stripe.blocked - it was marked optional and removed from
-    // all tenants in migration #12. Couldn't remove it at the time as the
-    // migration needed to be applied first. Thanks traveller from the future!
-    type: Boolean,
-    defaultValue: false,
-    optional: true
-  },
   "stripe.stripeId": {
     type: String,
     optional: true
@@ -56,10 +36,6 @@ Schemas.Tenant = new SimpleSchema({
   "stripe.stripeSubs": {
     type: String,
     optional: true
-  },
-  "stripe.totalRecords": {
-    type: Number,
-    defaultValue: 0
   },
   "stripe.coupon": {
     type: String,

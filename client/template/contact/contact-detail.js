@@ -117,7 +117,7 @@ Template.contactDetail.helpers({
         permission: 'CanReadTasks'
       },
       {
-        text: 'Extended information',
+        text: 'Custom Fields',
         anchor: 'entity-custom-fields',
         icon: 'fa-bookmark',
         permission: 'CanEditContacts'

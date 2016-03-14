@@ -189,7 +189,7 @@ Feature: Allow users to manage their Projects
 
   #Extended information fields
   
-  Scenario: A user can open the "Add Extended information fields" modal
+  Scenario: A user can open the "Add custom field" modal
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
     When I navigate to a project page
@@ -197,7 +197,7 @@ Feature: Allow users to manage their Projects
     Then I should see a modal
 
 
-  Scenario: A user can add an extended information field
+  Scenario: A user can add an custom field
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
     When I navigate to a project page
@@ -208,7 +208,7 @@ Feature: Allow users to manage their Projects
     Then I should see ".custom-field-display-item"
 
 
-  Scenario: A user can delete an extended information field
+  Scenario: A user can delete an custom field
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
     When I navigate to a project page
@@ -221,7 +221,7 @@ Feature: Allow users to manage their Projects
     Then I should not see ".custom-field-display-item"
 
 
-  Scenario: A user can edit an extended information field
+  Scenario: A user can edit an custom field
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
     When I navigate to a project page
@@ -232,7 +232,7 @@ Feature: Allow users to manage their Projects
     And I click "#edit-custom-fields"
     And I set text field with id "extInfosvelocity2TextValue" to "velocity"
     And I click "#submit-ext-info"
-    Then I see a field with the name "velocity" in the extended information list
+    Then I see a field with the name "velocity" in the custom field list
 
   #Tasks
   Scenario: A user can add a task to a project

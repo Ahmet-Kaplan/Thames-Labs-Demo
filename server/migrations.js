@@ -748,3 +748,157 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 22,
+  name: "Update custom fields to use new UUID system",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+
+      var tenants = Tenants.find({}).fetch();
+
+      _.each(tenants, function(t) {
+        if (t.settings.extInfo) {
+          var ei = t.settings.extInfo;
+          var master = [];
+
+          //Company instances
+          _.each(ei.company, function(fl) {
+            var instanceId = Guid.raw();
+            fl.uuid = instanceId;
+            master.push(fl);
+            _.each(Companies.find({
+              _groupId: t._id
+            }).fetch(), function(objx) {
+              cfMasterList = [];
+              if (objx.extendedInformation) {
+                for (var cf in objx.extendedInformation) {
+                  if (objx.extendedInformation[cf].dataName === fl.name) {
+                    objx.extendedInformation[cf].uuid = instanceId
+                  }
+                  cfMasterList.push(objx.extendedInformation[cf]);
+                }
+                Companies.update(objx._id, {
+                  $set: {
+                    extendedInformation: cfMasterList
+                  }
+                });
+              }
+            });
+          });
+
+          Tenants.update(t._id, {
+            $set: {
+              'settings.extInfo.company': master
+            }
+          });
+
+          master = [];
+
+          //Contact instances
+          _.each(ei.contact, function(fl) {
+            var instanceId = Guid.raw();
+            fl.uuid = instanceId;
+            master.push(fl);
+            _.each(Contacts.find({
+              _groupId: t._id
+            }).fetch(), function(objx) {
+              cfMasterList = [];
+              if (objx.extendedInformation) {
+                for (var cf in objx.extendedInformation) {
+                  if (objx.extendedInformation[cf].dataName === fl.name) {
+                    objx.extendedInformation[cf].uuid = instanceId
+                  }
+                  cfMasterList.push(objx.extendedInformation[cf]);
+                }
+                Contacts.update(objx._id, {
+                  $set: {
+                    extendedInformation: cfMasterList
+                  }
+                });
+              }
+            });
+          });
+
+          Tenants.update(t._id, {
+            $set: {
+              'settings.extInfo.contact': master
+            }
+          });
+
+          master = [];
+
+          //Project instances
+          _.each(ei.project, function(fl) {
+            var instanceId = Guid.raw();
+            fl.uuid = instanceId;
+            master.push(fl);
+            _.each(Projects.find({
+              _groupId: t._id
+            }).fetch(), function(objx) {
+              cfMasterList = [];
+              if (objx.extendedInformation) {
+                for (var cf in objx.extendedInformation) {
+                  if (objx.extendedInformation[cf].dataName === fl.name) {
+                    objx.extendedInformation[cf].uuid = instanceId
+                  }
+                  cfMasterList.push(objx.extendedInformation[cf]);
+                }
+                Projects.update(objx._id, {
+                  $set: {
+                    extendedInformation: cfMasterList
+                  }
+                });
+              }
+            });
+          });
+
+          Tenants.update(t._id, {
+            $set: {
+              'settings.extInfo.project': master
+            }
+          });
+
+          master = [];
+
+          //Products instances
+          _.each(ei.products, function(fl) {
+            var instanceId = Guid.raw();
+            fl.uuid = instanceId;
+            master.push(fl);
+            _.each(Products.find({
+              _groupId: t._id
+            }).fetch(), function(objx) {
+              cfMasterList = [];
+              if (objx.extendedInformation) {
+                for (var cf in objx.extendedInformation) {
+                  if (objx.extendedInformation[cf].dataName === fl.name) {
+                    objx.extendedInformation[cf].uuid = instanceId
+                  }
+                  cfMasterList.push(objx.extendedInformation[cf]);
+                }
+                Products.update(objx._id, {
+                  $set: {
+                    extendedInformation: cfMasterList
+                  }
+                });
+              }
+            });
+          });
+
+          Tenants.update(t._id, {
+            $set: {
+              'settings.extInfo.product': master
+            }
+          });
+
+          master = [];
+
+        }
+      });
+
+    });
+    ServerSession.set('maintenance', false);
+  }
+});

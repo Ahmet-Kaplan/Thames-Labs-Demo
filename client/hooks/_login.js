@@ -5,8 +5,6 @@ Accounts.onLogin(function(cb) {
     _id: Meteor.userId()
   }).fetch()[0];
 
-  var snapshot = new Date();
-
   if (user) {
 
     if (!Roles.userIsInRole(user._id, 'superadmin')) {
@@ -25,7 +23,7 @@ Accounts.onLogin(function(cb) {
 
     var profile = user.profile;
     if (profile) {
-      profile.lastLogin = snapshot;
+      profile.lastLogin = new Date();
 
       Meteor.users.update(user._id, {
         $set: {
