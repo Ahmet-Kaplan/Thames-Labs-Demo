@@ -3,6 +3,7 @@ Template.displayCalendar.onCreated(function() {
   this.endTime = new ReactiveVar({});
   this.tasksList = new ReactiveVar({});
   this.eventsListeners = new ReactiveVar([]);
+  this.popoverHoldersList = new ReactiveVar([]);
 });
 
 Template.displayCalendar.onRendered(function() {
@@ -24,8 +25,8 @@ Template.displayCalendar.onRendered(function() {
 
     if(tasksList.isReady()) {
       this.tasksList.set(tasksList.fetch());
-      $('#tasksCalendar').fullCalendar('removeEvents')
-      $('#tasksCalendar').fullCalendar('refetchEvents')
+      $('#tasksCalendar').fullCalendar('removeEvents');
+      $('#tasksCalendar').fullCalendar('refetchEvents');
     }
   })
 });
@@ -75,7 +76,7 @@ Template.displayCalendar.helpers({
         }
       ],
       eventClick: function(event, jsEvent, view) {
-        var popoverHolder = $(jsEvent.target).closest('.fc-content');
+        var popoverHolder = (view.type === 'month') ? $(jsEvent.target).closest('.fc-content') : $(jsEvent.target).closest('.fc-time-grid-event');
 
         //Check if popover already exists, if not create it
         if(popoverHolder.attr('aria-describedby') !== undefined) {
@@ -88,15 +89,20 @@ Template.displayCalendar.helpers({
             event.description = event.description.substring(0, 97) + '...';
           }
 
-          event.start = moment(event.start).format('Do MMM YYYY, HH:mm')
+          eventData = _.clone(event);
+          eventData.start = moment(eventData.start).format('Do MMM YYYY, HH:mm')
           popoverHolder.popover({
             container: 'body',
-            content: Blaze.toHTMLWithData(Template.taskPopover, event),
+            content: Blaze.toHTMLWithData(Template.taskPopover, eventData),
             html: true,
             placement: 'top',
-            title: event.title,
+            title: eventData.title,
             trigger: 'manual'
           });
+
+          var popoverHoldersList = instance.popoverHoldersList.get();
+          popoverHoldersList.push(popoverHolder);
+          instance.popoverHoldersList.set(popoverHoldersList);
 
           popoverHolder.attr('data-haspopover', true);
         }
@@ -104,25 +110,52 @@ Template.displayCalendar.helpers({
         //Once popover exist, show it  
         popoverHolder.popover('show');
 
+
+        //----------------------------------------//
+        //           JS EVENTS HANDLING           //
+        //----------------------------------------//
+
         //Add event handler to show modal from link in popover. This cannot be done with Template.events because of the toHTMWithData function
-        $('.popover-edit-task').click(function() {
+        var editTaskHandle = function() {
           var task = _.find(instance.tasksList.get(), {'__originalId': event.__originalId});
           task._id = task.__originalId
           Modal.show('updateTask', task);
-        })
+        };
+        $('.popover-edit-task').bind('click', editTaskHandle)
 
         //Add event listener to hide popover if click is outside
-        var handle = function(evt) {
+        var hidePopoverHandle = function(evt) {
           if ($(evt.target).closest(jsEvent.target).length < 1) {
             popoverHolder.popover('hide');
           }
         };
-        $(window).bind('click', handle);
+        $(window).bind('click', hidePopoverHandle);
 
         //remove the event listener when the popover is destroyed (on hide actually)
-        popoverHolder.on('hidden.bs.popover', function() {
-          $(window).unbind('click', handle);
+        var removePopoverListeners = function() {
+          $('.popover-edit-task').unbind('click', editTaskHandle);
+          $(window).unbind('click', hidePopoverHandle);
+        };
+        popoverHolder.bind('hidden.bs.popover', removePopoverListeners);
+
+        //Add event listener to list to remove when template is destroyed
+        var elList = instance.eventsListeners.get();
+        elList.push({
+          elt: $('.popover-edit-task'),
+          type: 'click',
+          fct: editTaskHandle
         });
+        elList.push({
+          elt: $(window),
+          type: 'click',
+          fct: hidePopoverHandle
+        });
+        elList.push({
+          elt: popoverHolder,
+          type: 'hidden.bs.popover',
+          fct: removePopoverListeners
+        });
+        instance.eventsListeners.set(elList);
       },
       eventDrop: function(event, delta, revertFunc) {
         var newStartDate = moment(event.start)
@@ -154,50 +187,113 @@ Template.displayCalendar.helpers({
         instance.endTime.set(view.intervalEnd);
       },
       dayClick: function(date, jsEvent, view) {
+        var popoverHolder = $(jsEvent.target);
+
         if(view.type === "month") {
           date.hours(12);
         }
-        $(jsEvent.target).popover({
+
+        popoverHolder.popover({
           container: 'body',
-          content: Blaze.toHTMLWithData(Template.quickCalendarAddPopover, date),
+          content: Blaze.toHTMLWithData(Template.quickCalendarAddPopover, {
+            date: date.format('Do MMM YYYY, HH:mm')
+          }),
           html: true,
           placement: 'top',
-          title: '<h4>Add task on ' + date.format('Do MMM YYYY, HH:mm') + '</h4>',
+          title: '<h4><a href="#" class="go-to-day-view">Go to day view</a></h4>',
           trigger: 'manual'
         });
-        $(jsEvent.target).popover('show');
+
+        var popoverHoldersList = instance.popoverHoldersList.get();
+        popoverHoldersList.push(popoverHolder);
+        instance.popoverHoldersList.set(popoverHoldersList);
+
+        popoverHolder.popover('toggle');
+
+        //On agendaWeek view, need to tweek the positioning of the popover because of the way the table is displayed
+        if(view.type === "agendaWeek") {
+          var day = date.format('ddd').toLowerCase();
+          var dayOffset = $('.fc-day.fc-' + day).offset().left;
+          var dayWidth = $('.fc-day-header.fc-' + day).width();
+          var popoverWidth = $('.popover').width();
+          var setLeftOffset = dayOffset - (popoverWidth - dayWidth) /2;
+          $('#' + popoverHolder.attr('aria-describedby')).offset({left: setLeftOffset});
+        }
+
+        //----------------------------------------//
+        //           JS EVENTS HANDLING           //
+        //----------------------------------------//
         
         //Add event listener to hide popover if click is outside
-        var handle = function(evt) {
-          if(evt.target != jsEvent.target){
-            $(jsEvent.target).popover('hide');
+        var hidePopoverHandle = function(evt) {
+          if(evt.target != popoverHolder[0]){
+            popoverHolder.popover('hide');
           }
         };
-        $(window).bind('click', handle);
-
-        //Record event listener for removeol on template destroy
-        $(jsEvent.target).on('hidden.bs.popover', function() {
-          $(window).unbind('click', handle);
-        });
+        $(window).bind('click', hidePopoverHandle);
 
         //Add event handler to show modal. This cannot be done with Template.events because of the toHTMWithData function
-        $('.quick-add-task').click(function(e) {
+        var quickLinkHandle = function(e) {
           e.preventDefault();
           var entityType = $(e.target).attr('id');
           Modal.show('insertNewTask', {
             entity_type: entityType,
             dueDate: date
           });
+        };
+        $('.quick-add-task').bind('click', quickLinkHandle);
+
+        //Add event handler to go to day view. This cannot be done with Template.events because of the toHTMWithData function
+        var dayViewHandle = function() {
+          $('#tasksCalendar').fullCalendar('changeView', 'agendaDay');
+          $('#tasksCalendar').fullCalendar('gotoDate', date)
+        };
+        $('.go-to-day-view').bind('click', dayViewHandle);
+
+        //Remove event listeners
+        var removePopoverListeners = function() {
+          $(window).unbind('click', hidePopoverHandle);
+          $('.quick-add-task').unbind('click', quickLinkHandle);
+          // $('.go-to-day-view').unbind('click', dayViewHandle);
+        };
+        popoverHolder.bind('hidden.bs.popover', removePopoverListeners);
+
+        //Add event listener to list to remove when template is destroyed
+        var elList = instance.eventsListeners.get();
+        elList.push({
+          elt: $(window),
+          type: 'click',
+          fct: hidePopoverHandle
         });
+        elList.push({
+          elt: $('.quick-add-task'),
+          type: 'click',
+          fct: quickLinkHandle
+        });
+        elList.push({
+          elt: $('.go-to-day-view'),
+          type: 'click',
+          fct: dayViewHandle
+        });
+        elList.push({
+          elt: popoverHolder,
+          type: 'hidden.bs.popover',
+          fct: removePopoverListeners
+        });
+        instance.eventsListeners.set(elList);
       }
     }
   }
 });
 
 Template.displayCalendar.onDestroyed(function() {
-  $('.fc-content').popover('destroy');
-  //removes event listeners added manually
-  this.eventsListeners.get().each(function(listener) {
-    $(window).unbind(listener.evt, listener.handle);
+  var eventsListeners = this.eventsListeners.get();
+  _.each(eventsListeners, function(event) {
+    event.elt.unbind(event.type, event.fct);
+  });
+
+  var popoverHoldersList = this.popoverHoldersList.get();
+  _.each(popoverHoldersList, function(popoverHolder) {
+    popoverHolder.popover('destroy');
   })
 });

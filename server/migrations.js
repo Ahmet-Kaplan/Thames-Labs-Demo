@@ -345,19 +345,19 @@ Migrations.add({
   }
 });
 
-Migrations.add({
-  version: 12,
-  name: "Remove stripe.blocked from all tenants",
-  up: function() {
-    ServerSession.set('maintenance', true);
-    Tenants.update({}, {
-      $unset: {
-        'stripe.blocked': ''
-      }
-    });
-    ServerSession.set('maintenance', false);
-  }
-});
+// Migrations.add({
+//   version: 12,
+//   name: "Remove stripe.blocked from all tenants",
+//   up: function() {
+//     ServerSession.set('maintenance', true);
+//     Tenants.update({}, {
+//       $unset: {
+//         'stripe.blocked': ''
+//       }
+//     });
+//     ServerSession.set('maintenance', false);
+//   }
+// });
 
 
 Migrations.add({
