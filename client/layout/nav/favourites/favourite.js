@@ -4,7 +4,7 @@ Template.favourite.events({
   },
   'click #mnuRemoveFavourite': function() {
 
-    bootbox.confirm("Are you sure you wish to delete this favourite?", function(result) {
+    bootbox.confirm("Are you sure you wish to delete this favourite?", (result) => {
       if (result === true) {
 
         var profile = Meteor.users.findOne(Meteor.userId()).profile;
