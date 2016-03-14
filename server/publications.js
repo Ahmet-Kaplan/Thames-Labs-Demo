@@ -167,6 +167,23 @@ Meteor.publish("activityByTaskId", function(taskId) {
 });
 
 
+
+Meteor.publish("customFieldsById", function(fieldId) {
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return CustomFields.find({
+    _id: fieldId
+  });
+});
+Meteor.publish("customFieldsByEntityId", function(entityId, collectionName) {
+  var permissionRequired = permissionGenerator('read', collectionName);
+  if (!Roles.userIsInRole(this.userId, [permissionRequired])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return CustomFields.find({
+    entityId: entityId
+  });
+});
+
+
 Meteor.publish("allProjects", function() {
   if (!Roles.userIsInRole(this.userId, ['CanReadProjects'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();

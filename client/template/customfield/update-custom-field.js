@@ -4,25 +4,13 @@ Template.updateCustomField.onRendered(function() {
 
 Template.updateCustomField.helpers({
   extInfos: function() {
-    var data = [];
+    var arr = CustomFields.find({
+      entityId: this.entity_data._id
+    }).fetch();
 
-    cfObject = this.entity_data.extendedInformation;
-    for (var index in cfObject) {
-      if (cfObject.hasOwnProperty(index)) {
-        var attr = cfObject[index];
-        var ei = {
-          name: cfObject[index].dataName,
-          props: attr
-        };
-        if (attr.dataType !== 'label') {
-          data.push(ei);
-        }
-      }
-    }
-
-    return data.sort(function(a, b) {
-      if (!a.props.isGlobal && b.props.isGlobal) return 1;
-      if (a.props.isGlobal && !b.props.isGlobal) return -1;
+    return arr.sort(function(a, b) {
+      if (a.dataOrder < b.dataOrder) return -1;
+      if (a.dataOrder > b.dataOrder) return 1;
       return 0;
     });
   }
@@ -31,116 +19,56 @@ Template.updateCustomField.helpers({
 Template.updateCustomField.events({
   'click #submit-ext-info': function() {
 
-    //Master object to contain all extended information fields
-    var cfMaster = [];
+    var arr = CustomFields.find({
+      entityId: this.entity_data._id
+    }).fetch();
 
-    var cfObject = this.entity_data.extendedInformation;
-    for (var index in cfObject) {
-      if (cfObject.hasOwnProperty(index)) {
+    _.each(arr, function(field) {
+      var name = field.name.replace(/ /g, '');
+      var safeName = '#extInfos' + name;
 
-        //get prettified name
-        var name = cfObject[index].dataName.replace(/ /g, '');
-        var safeName = '#extInfos' + name;
-
-        //get current (old) settings
-        var attr = cfObject[index];
-
-        var newValue = null;
-
-        if (attr.isGlobal) {
-          switch (attr.dataType) {
-            case 'text':
-              newValue = $(safeName + "TextValue").val();
-              break;
-            case 'advtext':
-              newValue = $(safeName + "AdvTextValue").html();
-              break;
-            case 'checkbox':
-              newValue = $(safeName + "BooleanValue").prop('checked');
-              break;
-            case 'date':
-              newValue = $(safeName + "DateValue").val();
-              break;
-            case 'picklist':
-              newValue = $(safeName + 'PicklistValue').val().trim();
-              if (newValue === "") newValue = null;
-              break;
-          }
-
-          var settings = {
-            "dataName": name,
-            "dataValue": newValue,
-            "dataType": attr.dataType,
-            isGlobal: true,
-            'listValues': attr.listValues
-          };
-          cfMaster.push(settings);
-
-        } else {
-          var selectorName = safeName + "TypeOptions";
-          var newType = $(selectorName).val();
-
-          switch (newType) {
-            case 'text':
-              newValue = $(safeName + "TextValue").val();
-              break;
-            case 'advtext':
-              newValue = $(safeName + "AdvTextValue").html();
-              break;
-            case 'checkbox':
-              newValue = $(safeName + "BooleanValue").prop('checked');
-              break;
-            case 'date':
-              newValue = $(safeName + "DateValue").val();
-              break;
-          }
-
-          var settings = {
-            "dataName": name,
-            "dataValue": newValue,
-            "dataType": newType,
-            isGlobal: false
-          };
-          cfMaster.push(settings);
-
-        }
+      var newValue = '';
+      switch (field.type) {
+        case 'text':
+          newValue = $(safeName + "TextValue").val();
+          break;
+        case 'advtext':
+          newValue = $(safeName + "AdvTextValue").html();
+          break;
+        case 'checkbox':
+          newValue = $(safeName + "BooleanValue").prop('checked');
+          break;
+        case 'date':
+          newValue = $(safeName + "DateValue").val();
+          break;
+        case 'picklist':
+          newValue = $(safeName + 'PicklistValue').val().trim();
+          if (newValue === "") newValue = null;
+          break;
       }
-    }
 
-    switch (this.entity_type) {
-      case 'company':
-        Companies.update(this.entity_data._id, {
+      if (field.global) {
+        CustomFields.update({
+          _id: field._id
+        }, {
           $set: {
-            extendedInformation: cfMaster
+            value: newValue
           }
         });
-        break;
-      case 'contact':
-        Contacts.update(this.entity_data._id, {
+      } else {
+        var selectorName = safeName + "TypeOptions";
+        var newType = $(selectorName).val();
+
+        CustomFields.update({
+          _id: field._id
+        }, {
           $set: {
-            extendedInformation: cfMaster
+            value: newValue,
+            type: newType
           }
         });
-        break;
-      case 'project':
-        Projects.update(this.entity_data._id, {
-          $set: {
-            extendedInformation: cfMaster
-          }
-        });
-        break;
-      case 'product':
-        Products.update(this.entity_data._id, {
-          $set: {
-            extendedInformation: cfMaster
-          }
-        });
-        break;
-      default:
-        toastr.error('Custom fields not added: entity type not recognised.');
-        Modal.hide();
-        return;
-    }
+      }
+    });
 
     Modal.hide();
   }

@@ -72,62 +72,35 @@ Template.addCustomField.events({
       cfValue = $('#custom-field-date-value').val();
     }
 
-    var cfMaster = [];
     var nameExists = false;
 
-    for (var cf in this.entity_data.extendedInformation) {
-      if (this.entity_data.extendedInformation[cf].dataName === cfName) {
-        nameExists = true;
-        break;
-      }
-      cfMaster.push(this.entity_data.extendedInformation[cf]);
+    if (CustomFields.findOne({
+        entityId: this.entity_data._id,
+        name: cfName
+      })) {
+      nameExists = true;
     }
 
-    if (!nameExists) {
-      var settings = {
-        "dataName": cfName,
-        "dataValue": cfValue,
-        "dataType": cfType,
-        isGlobal: false,
-        uuid: Guid.raw()
-      }
-      cfMaster.push(settings);
+    var recordFields = CustomFields.find({entityId: this.entity_data._id}).fetch();
+    var maxValue = _.max(_.map(recordFields, function(r){
+      return r.dataOrder;
+    }))
 
-      switch (this.entity_type) {
-        case 'company':
-          Companies.update(this.entity_data._id, {
-            $set: {
-              extendedInformation: cfMaster
-            }
-          });
-          break;
-        case 'contact':
-          Contacts.update(this.entity_data._id, {
-            $set: {
-              extendedInformation: cfMaster
-            }
-          });
-          break;
-        case 'project':
-          Projects.update(this.entity_data._id, {
-            $set: {
-              extendedInformation: cfMaster
-            }
-          });
-          break;
-        case 'product':
-          Products.update(this.entity_data._id, {
-            $set: {
-              extendedInformation: cfMaster
-            }
-          });
-          break;
-        default:
-          toastr.error('Custom field not added: entity type not recognised.');
-          Modal.hide();
-          return;
+    if (!nameExists) {
+      var cfId = CustomFields.insert({
+        name: cfName,
+        value: cfValue,
+        defaultValue: '',
+        type: cfType,
+        global: false,
+        order: maxValue + 1,
+        target: this.entity_type,
+        listValues: '',
+        entityId: this.entity_data._id
+      });
+      if (cfId) {
+        toastr.success('Custom field added.');
       }
-      toastr.success('Custom field added.');
     } else {
       toastr.error('An custom field with that name has already been added.');
       $('#submit-custom-field').prop('disabled', false);

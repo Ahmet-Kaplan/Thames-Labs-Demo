@@ -1,5 +1,5 @@
 <template name="extInfo">
-  <div id="extInfos{{extInfoId}}DisplayItem" style="{{#if props.isGlobal}}background: #fafafa;{{/if}}padding-top:5px;">
+  <div id="extInfos{{extInfoId}}DisplayItem" style="{{#if props.global}}background: #fafafa;{{/if}}padding-top:5px;">
     <!-- <label for="extInfos{{extInfoId}}Information">{{name}}</label> -->
     <div id="extInfos{{extInfoId}}Information">
       <div class="row">
@@ -8,7 +8,7 @@
           {{name}}
         </div>
 
-        {{#unless props.isGlobal}}
+        {{#unless props.global}}
 
           <div class="col-md-2 modMyPosition">
             <select id="extInfos{{extInfoId}}TypeOptions" class="TypeSelectionMenu">
@@ -21,7 +21,7 @@
           </div>
         {{/unless}}
 
-        <div class="{{#if props.isGlobal}}col-md-7{{else}}col-md-5{{/if}} col-md-offset-1">
+        <div class="{{#if props.global}}col-md-7{{else}}col-md-5{{/if}} col-md-offset-1">
           <div class="form-group" type="hidden" id="extInfos{{extInfoId}}TextInputArea">
             <input class="form-control" id="extInfos{{extInfoId}}TextValue" placeholder="Enter value" type="text">
           </div>

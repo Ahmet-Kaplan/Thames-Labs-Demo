@@ -102,22 +102,15 @@ Template.addNewGlobalCustomField.events({
     var tenant = Tenants.findOne({
       _id: Meteor.user().group
     });
+
     if (!isProTenant(Meteor.user().group)) {
       var fields = [];
-      switch (cfEntity) {
-        case 'company':
-          fields = tenant.settings.extInfo.company;
-          break;
-        case 'contact':
-          fields = tenant.settings.extInfo.contact;
-          break;
-        case 'project':
-          fields = tenant.settings.extInfo.project;
-          break;
-        case 'product':
-          fields = tenant.settings.extInfo.product;
-          break;
-      }
+      Meteor.call('extInfo.getTenantGlobals', collectionType, function(err, res) {
+        if (err) throw new Meteor.Error(err);
+        _.each(res, function(r) {
+          fields.push(r);
+        })
+      })
 
       if (fields.length === MAX_FREE_ENTITY_GLOBAL_FIELDS) {
         showUpgradeToastr('To create more than 5 global custom fields for a ' + cfEntity + ' record');
