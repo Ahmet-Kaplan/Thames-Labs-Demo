@@ -84,7 +84,7 @@ exportFromSearchToCSV = function(collectionName) {
         var contact = Contacts.findOne({
           _id: record.contactId
         });
-        if (company) record.contactName = contact.forename + " " + contact.surname;
+        if (contact) record.contactName = contact.forename + " " + contact.surname;
       }
 
       if (record.salesManagerId) {
