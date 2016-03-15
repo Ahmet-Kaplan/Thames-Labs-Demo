@@ -1,26 +1,13 @@
-var GetExtInfoByType = function(collectionType) {  
-  Meteor.call('extInfo.getTenantGlobals', collectionType, function(err, res) {
-    if (err) throw new Meteor.Error(err);
-    _.each(res, function(r) {
-      Meteor.subscribe('customFieldsById', r._id);
-    });
-  });
-}
-
-Template.tenancyAdminPage.onRendered(function() {  
-    GetExtInfoByType('company');
-});
-
 Template.tenancyAdminPage.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'Administrator');
   });
   Meteor.subscribe('activeTenantData', Meteor.user().group);
+  this.subscribe('globalCustomFields');
 });
 
 Template.tenancyAdminPage.helpers({
-
   isFreeProTenant: function() {
     if (!Meteor.user() || !Meteor.user().group) return false;
     var user = Meteor.user(),
@@ -33,16 +20,40 @@ Template.tenancyAdminPage.helpers({
   },
 
   globalCompanyCustomFields: function() {
-    return CustomFields.find({target: 'company'}).fetch();
+    return CustomFields.find({
+      target: 'company'
+    }).fetch().sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
+      return 0;
+    });
   },
   globalContactCustomFields: function() {
-    // return GetExtInfoByType('contact');
+    return CustomFields.find({
+      target: 'contact'
+    }).fetch().sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
+      return 0;
+    });
   },
   globalProjectCustomFields: function() {
-    // return GetExtInfoByType('project');
+    return CustomFields.find({
+      target: 'project'
+    }).fetch().sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
+      return 0;
+    });
   },
   globalProductCustomFields: function() {
-    // return GetExtInfoByType('product');
+    return CustomFields.find({
+      target: 'product'
+    }).fetch().sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
+      return 0;
+    });
   },
   tenantFound: function() {
     return !!Tenants.findOne({});
@@ -109,11 +120,18 @@ Template.adminAreaUser.helpers({
 });
 
 Template.gcf_display.helpers({
+  canMove: function() {
+    return CustomFields.find({
+      target: this.target
+    }).fetch().length > 1;
+  },
   canMoveUp: function() {
     return this.order > 0;
   },
   canMoveDown: function() {
-    return this.order === 0;
+    return this.order < CustomFields.find({
+      target: this.target
+    }).fetch().length - 1;
   },
   niceEntity: function() {
     var retVal = "";
@@ -165,7 +183,7 @@ Template.gcf_display.helpers({
 Template.gcf_display.events({
   'click #orderUp': function() {
     var self = this;
-    Meteor.call('changeExtInfoOrder', self.target, self.name, "up", function(err, res) {
+    Meteor.call('changeExtInfoOrder', self, "up", function(err, res) {
       if (err) throw new Meteor.Error(err);
       if (res.exitCode !== 0) {
         toastr.error(res.exitStatus);
@@ -174,7 +192,7 @@ Template.gcf_display.events({
   },
   'click #orderDown': function() {
     var self = this;
-    Meteor.call('changeExtInfoOrder', self.target, self.name, "down", function(err, res) {
+    Meteor.call('changeExtInfoOrder', self, "down", function(err, res) {
       if (err) throw new Meteor.Error(err);
       if (res.exitCode !== 0) {
         toastr.error(res.exitStatus);

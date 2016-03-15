@@ -1,9 +1,23 @@
 Template.customFieldDisplay.onRendered(function() {
   var collType = this.data.entity_type;
-  switch (collType) {
-    case 'company':
-      Meteor.subscribe('customFieldsByEntityId', this.data.entity_data._id, 'companies');
-  }
+  var entityId = this.data.entity_data._id;
+
+  this.autorun(function() {
+    switch (collType) {
+      case 'company':
+        Meteor.subscribe('customFieldsByEntityId', entityId, 'companies');
+        break;
+      case 'contact':
+        Meteor.subscribe('customFieldsByEntityId', entityId, 'contacts');
+        break;
+      case 'project':
+        Meteor.subscribe('customFieldsByEntityId', entityId, 'projects');
+        break;
+      case 'product':
+        Meteor.subscribe('customFieldsByEntityId', entityId, 'products');
+        break;
+    }
+  })
 });
 
 Template.customFieldDisplay.events({
@@ -40,8 +54,8 @@ Template.customFieldDisplay.helpers({
     }).fetch();
 
     return arr.sort(function(a, b) {
-      if (a.dataOrder < b.dataOrder) return -1;
-      if (a.dataOrder > b.dataOrder) return 1;
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
       return 0;
     });
   },

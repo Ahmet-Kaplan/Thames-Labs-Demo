@@ -66,7 +66,7 @@
               <div class="col-md-12">
                 <div class="well well-sm">
                   <button type="button" class="btn btn-xs btn-primary" role="button" id="addGlobalCustomField">
-                    <i class="fa fa-fw fa-plus"></i>
+                    <i class="fa fa-fw fa-plus"></i> Add new global field
                   </button>
                 </div>
               </div>
@@ -124,10 +124,12 @@
       </div>
       {{/unless}}
       <div class="col-md-3">
-        <span class="pull-right">
-            <i id="orderUp" class="fa fa-fw fa-arrow-up {{#if canMoveUp}} orderEnabled {{else}} orderDisabled {{/if}}" ></i>
-            <i id="orderDown" class="fa fa-fw fa-arrow-down  {{#if canMoveDown}} orderEnabled {{else}} orderDisabled {{/if}}" ></i>
-        </span>
+        {{#if canMove}}
+          <span class="pull-right">
+              <i id="orderUp" class="fa fa-fw fa-arrow-up {{#if canMoveUp}} orderEnabled {{else}} orderDisabled {{/if}}" ></i>
+              <i id="orderDown" class="fa fa-fw fa-arrow-down  {{#if canMoveDown}} orderEnabled {{else}} orderDisabled {{/if}}" ></i>
+          </span>
+        {{/if}}
       </div>
       <div class="col-md-3">
         <button id='delete-global-custom-field' class="btn btn-danger btn-xs pull-right" type="button"><i class="fa fa-fw fa-times"></i></button>

@@ -4,15 +4,41 @@ Template.updateCustomField.onRendered(function() {
 
 Template.updateCustomField.helpers({
   extInfos: function() {
+    var data = [];
+
     var arr = CustomFields.find({
-      entityId: this.entity_data._id
+      entityId: this.entity_data._id,
+      global: true
     }).fetch();
 
-    return arr.sort(function(a, b) {
-      if (a.dataOrder < b.dataOrder) return -1;
-      if (a.dataOrder > b.dataOrder) return 1;
+    arr = arr.sort(function(a, b) {
+      if (a.order < b.order) {
+        return -1;
+      }
+      if (a.order > b.order) {
+        return 1;
+      }
       return 0;
     });
+
+    _.each(arr, function(a) {
+      data.push(a);
+    });
+
+    arr = CustomFields.find({
+      entityId: this.entity_data._id,
+      global: false
+    }).fetch();
+
+    arr = arr.sort(function(a, b) {
+      return a.name.localeCompare(b.name);
+    });
+
+    _.each(arr, function(b) {
+      data.push(b);
+    });
+
+    return data;
   }
 });
 

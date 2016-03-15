@@ -105,7 +105,7 @@ Template.addNewGlobalCustomField.events({
 
     if (!isProTenant(Meteor.user().group)) {
       var fields = [];
-      Meteor.call('extInfo.getTenantGlobals', collectionType, function(err, res) {
+      Meteor.call('extInfo.getTenantGlobals', cfEntity, function(err, res) {
         if (err) throw new Meteor.Error(err);
         _.each(res, function(r) {
           fields.push(r);
@@ -149,6 +149,8 @@ Template.addNewGlobalCustomField.events({
       if (err) throw new Meteor.Error(err);
       if (res === 0) {
         toastr.success('Global field created successfully.');
+        Meteor.subscribe('globalCustomFields');
+
         Modal.hide();
       } else {
         $('#createCustomField').prop('disabled', false);

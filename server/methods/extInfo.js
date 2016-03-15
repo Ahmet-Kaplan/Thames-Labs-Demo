@@ -43,48 +43,61 @@ Meteor.methods({
     }
 
     var user = Meteor.users.findOne(this.userId);
+    var duplicateFlag = false;
 
     if (user) {
       Partitioner.bindGroup(user.group, function() {
-        var collectionName = '';
 
         var exData = CustomFields.find({
-          target: collectionType
+          target: cfEntity
         }).fetch();
-        var maxValue = _.max(_.map(exData, function(r) {
-          return r.dataOrder;
-        }))
+        var maxValue = -1;
+        _.each(exData, function(x) {
+          if (x.order > maxValue) maxValue = x.order;
+        });
 
+        var targets = [];
         if (cfEntity === 'company') {
-          collectionName === 'companies';
+          targets = Companies.find({}).fetch();
         } else if (cfEntity === 'contact') {
-          collectionName === 'contacts';
+          targets = Contacts.find({}).fetch();
         } else if (cfEntity === 'project') {
-          collectionName === 'projects';
+          targets = Projects.find({}).fetch();
         } else if (cfEntity === 'product') {
-          collectionName === 'products';
+          targets = Products.find({}).fetch();
         }
 
-        _.each(Collections[collectionName].find({}).fetch(), function(ox) {
-          CustomFields.insert({
+        if (CustomFields.findOne({
             name: cfName,
-            value: cfValue,
-            defaultValue: (cfType === 'picklist' ? '' : cfValue),
-            type: cfType,
-            global: true,
-            order: maxValue + 1,
-            target: cfEntity,
-            listValues: (cfType !== 'picklist' ? '' : cfValue),
-            entityId: ox._id
+            target: cfEntity
+          })) {
+          duplicateFlag = true
+        }
+
+        if (duplicateFlag === false) {
+          _.each(targets, function(ox) {
+            CustomFields.insert({
+              name: cfName,
+              value: cfValue,
+              defaultValue: (cfType === 'picklist' ? '' : cfValue),
+              type: cfType,
+              global: true,
+              order: maxValue + 1,
+              target: cfEntity,
+              listValues: (cfType !== 'picklist' ? '' : cfValue),
+              entityId: ox._id
+            });
           });
-        });
+        }
       });
 
     }
 
+    if (duplicateFlag === true) return 2;
+
     return 0;
   },
-  changeExtInfoOrder: function(type, name, direction) {
+  changeExtInfoOrder: function(extInfoObj, direction) {
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may edit global fields.');
     }
@@ -101,71 +114,49 @@ Meteor.methods({
       };
     }
 
-    var currentOrder = Tenants.findOne({
-      _id: user.group
-    }).settings.extInfo[type].sort(function(a, b) {
-      if (a.dataOrder < b.dataOrder) return -1;
-      if (a.dataOrder > b.dataOrder) return 1;
+    var data = [];
+
+    Partitioner.bindGroup(user.group, function() {
+      data = CustomFields.find({
+        entityId: extInfoObj.entityId
+      }).fetch();
+    });
+
+    var currentOrder = _.uniq(data, 'name');
+    currentOrder = currentOrder.sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
       return 0;
     });
 
     var index = -1;
     _.each(currentOrder, function(co, i) {
-      if (co.name === name) index = i;
+      if (extInfoObj._id === co._id) index = i;
     });
-    var GaiaRecord = currentOrder[index];
-
-    GaiaRecord.dataOrder = GaiaRecord.dataOrder + value;
-    if (GaiaRecord.dataOrder < 0 || GaiaRecord.dataOrder > currentOrder.length - 1) {
-      return {
-        exitCode: 2,
-        exitStatus: "Failure: beyond bounds."
-      };
-    }
+    var recToMove = currentOrder[index];
+    var switchA = recToMove.order + value;
+    CustomFields.update({
+      _id: recToMove._id
+    }, {
+      $set: {
+        order: switchA
+      }
+    });
 
     _.each(currentOrder, function(co, i) {
-      if (co.name !== name) {
-        if (co.dataOrder === GaiaRecord.dataOrder) {
-          co.dataOrder = co.dataOrder - value;
+      if (extInfoObj._id !== co._id) {
+        if (co.order === switchA) {
+          var switchB = co.order - value;
+          CustomFields.update({
+            _id: co._id
+          }, {
+            $set: {
+              order: switchB
+            }
+          });
         }
       }
     });
-    if (type === 'company') {
-      Tenants.update({
-        _id: user.group
-      }, {
-        $set: {
-          'settings.extInfo.company': currentOrder
-        }
-      });
-    }
-    if (type === 'contact') {
-      Tenants.update({
-        _id: user.group
-      }, {
-        $set: {
-          'settings.extInfo.contact': currentOrder
-        }
-      });
-    }
-    if (type === 'project') {
-      Tenants.update({
-        _id: user.group
-      }, {
-        $set: {
-          'settings.extInfo.project': currentOrder
-        }
-      });
-    }
-    if (type === 'product') {
-      Tenants.update({
-        _id: user.group
-      }, {
-        $set: {
-          'settings.extInfo.product': currentOrder
-        }
-      });
-    }
 
     return {
       exitCode: 0,

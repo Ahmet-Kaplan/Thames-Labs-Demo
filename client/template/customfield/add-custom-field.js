@@ -81,10 +81,14 @@ Template.addCustomField.events({
       nameExists = true;
     }
 
-    var recordFields = CustomFields.find({entityId: this.entity_data._id}).fetch();
-    var maxValue = _.max(_.map(recordFields, function(r){
-      return r.dataOrder;
-    }))
+    var recordFields = CustomFields.find({
+      entityId: this.entity_data._id
+    }).fetch();
+    var maxValue = -1;
+    _.each(recordFields, function(x) {
+      if (x.order > maxValue) maxValue = x.order;
+    });
+
 
     if (!nameExists) {
       var cfId = CustomFields.insert({
