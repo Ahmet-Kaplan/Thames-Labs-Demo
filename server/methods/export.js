@@ -45,18 +45,18 @@ Meteor.methods({
 
     return results.map( (record) => {
 
-      if (record.companyId && _.includes(['contacts', 'opportunities'], collectionName)) {
-        var company = Companies.findOne({
+      if (record.companyId) {
+        const company = Companies.findOne({
           _id: record.companyId
         });
-        if (company) record.companyName = company.name;
+        record.companyName = company ? company.name : null;
       }
 
-      if (record.contactId && collectionName === 'opportunities') {
-        var contact = Contacts.findOne({
+      if (record.contactId) {
+        const contact = Contacts.findOne({
           _id: record.contactId
         });
-        if (contact) record.contactName = contact.forename + " " + contact.surname;
+        record.contactName = contact ? contact.name() : null;
       }
 
       if (record.assigneeId) {
