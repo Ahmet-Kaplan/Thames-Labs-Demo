@@ -5,7 +5,7 @@
 <template name="taskPopover">
   <strong>Due date</strong>: {{start}}
   <p>Description: {{ #if description }}{{description}}{{ else }}<i>No description available</i>{{ /if }}</p>
-  <p><a href="{{pathFor route='task' id=__originalId}}">See tasks details</a> - <a href="#" class="popover-edit-task" id="{{__originalId}}">Edit tasks</a></p>
+  <p><a href="{{pathFor route='task' id=__originalId}}">See task details</a> - <a href="#" class="popover-edit-task" id="{{__originalId}}">Edit task</a></p>
 </template>
 
 <template name="quickCalendarAddPopover">

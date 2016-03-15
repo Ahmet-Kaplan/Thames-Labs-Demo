@@ -13,4 +13,5 @@ Feature: Allow users to favourite pages by URL
     And I click "#mnuAddToFavourites"
     Then "#collapseFavourites" should contain "Dashboard"
     Then I click "#mnuRemoveFavourite"
+    Then I click confirm on the modal
     Then "#collapseFavourites" should not contain "Dashboard"

@@ -197,6 +197,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         'title': 1,
         'description': 1,
         'dueDate': 1,
+        'isAllDay': 1,
         'reminder': 1,
         'completed': 1,
         'entityType': 1,

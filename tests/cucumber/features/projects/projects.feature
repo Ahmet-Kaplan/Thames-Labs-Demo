@@ -207,7 +207,7 @@ Feature: Allow users to manage their Projects
     And I click "#submit-custom-field"
     Then I should see ".custom-field-display-item"
 
-
+@dev
   Scenario: A user can delete an custom field
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
