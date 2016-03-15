@@ -12,7 +12,7 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
-            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="activityTimestamp" id="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
               {{else}}
@@ -50,7 +50,7 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertContactActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
-            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="activityTimestamp" id="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
               {{else}}
@@ -86,7 +86,7 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertProjectActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
-            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="activityTimestamp" id="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
               {{else}}
@@ -124,7 +124,7 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertPurchaseOrderActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
-            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="activityTimestamp" id="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
               {{else}}
@@ -162,7 +162,7 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertOpportunityActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
-            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="activityTimestamp" id="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
               {{else}}
@@ -199,7 +199,7 @@
         <div class="modal-body">
           {{#autoForm collection="Activities" id="insertTaskActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
-            {{> afQuickField name="activityTimestamp" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="activityTimestamp" id="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="notes"}}
               {{else}}

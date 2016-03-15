@@ -20,11 +20,7 @@ Schemas.Activity = new SimpleSchema({
       type: "bootstrap-datetimepicker",
       dateTimePickerOptions: {
         format: 'DD/MM/YYYY HH:mm',
-        defaultDate: new Date(),
-        sideBySide: true,
-        widgetPositioning: {
-          vertical: "top"
-        }
+        sideBySide: true
       }
     }
   },
