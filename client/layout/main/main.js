@@ -20,16 +20,18 @@
   });
 
   Template.appLayout.onCreated(function() {
-    if (Meteor.user() && !Roles.userIsInRole(Meteor.userId(), ['superadmin'])) {
-      var Tawk_API = Tawk_API || {},
-        Tawk_LoadStart = new Date();
+    this.autorun(function() {
+      if (Meteor.user() && !Roles.userIsInRole(Meteor.userId(), ['superadmin'])) {
+        var Tawk_API = Tawk_API || {},
+          Tawk_LoadStart = new Date();
 
-      var s1 = document.createElement("script"),
-        s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/' + Meteor.settings.public.tawkSiteId + '/default';
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin', '*');
-      s0.parentNode.insertBefore(s1, s0);
-    }
+        var s1 = document.createElement("script"),
+          s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/' + Meteor.settings.public.tawkSiteId + '/default';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
+      }
+    })
   });
