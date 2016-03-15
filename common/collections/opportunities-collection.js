@@ -134,9 +134,9 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
   },
   engine: new EasySearch.MongoDB({
     sort: (searchObject, options) => {
-      if (options.search.props.sortByClose) {
+      if (options.search.props.sortByCloseDate) {
         return {
-          'estCloseDate': -1
+          'estCloseDate': 1
         }
       } else {
         return {
@@ -217,6 +217,12 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
 
         if (!isNaN(greaterThan)) {
           selector.value.$gte = greaterThan;
+        }
+      }
+
+      if (options.search.props.sortByCloseDate) {
+        selector.estCloseDate = {
+          $ne: undefined
         }
       }
 
