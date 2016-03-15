@@ -10,15 +10,14 @@ Schemas.Task = new SimpleSchema({
     type: Date,
     optional: true,
     autoform: {
-      afFieldInput: {
-        dateTimePickerOptions: {
-          format: 'DD/MM/YYYY HH:mm',
-          useCurrent: false,
-          defaultValue: false,
-          sideBySide: false,
-          widgetPositioning: {
-            vertical: 'top'
-          }
+      type: "bootstrap-datetimepicker",
+      dateTimePickerOptions: {
+        format: 'DD/MM/YYYY HH:mm',
+        useCurrent: false,
+        defaultValue: false,
+        sideBySide: false,
+        widgetPositioning: {
+          vertical: 'top'
         }
       }
     }
