@@ -13,12 +13,7 @@ Schemas.Task = new SimpleSchema({
       type: "bootstrap-datetimepicker",
       dateTimePickerOptions: {
         format: 'DD/MM/YYYY HH:mm',
-        useCurrent: false,
-        defaultValue: false,
-        sideBySide: false,
-        widgetPositioning: {
-          vertical: 'top'
-        }
+        sideBySide: false
       }
     }
   },
