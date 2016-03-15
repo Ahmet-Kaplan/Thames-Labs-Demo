@@ -75,6 +75,18 @@ Meteor.methods({
         }
 
         if (duplicateFlag === false) {
+          var tenantCFId = CustomFields.insert({
+            name: cfName,
+            value: cfValue,
+            defaultValue: (cfType === 'picklist' ? '' : cfValue),
+            type: cfType,
+            global: true,
+            order: maxValue + 1,
+            target: cfEntity,
+            listValues: (cfType !== 'picklist' ? '' : cfValue),
+            entityId: user.group
+          });
+
           _.each(targets, function(ox) {
             CustomFields.insert({
               name: cfName,
@@ -91,11 +103,12 @@ Meteor.methods({
         }
       });
 
+      if (duplicateFlag === true) return 2;
+
+      return 0;
     }
 
-    if (duplicateFlag === true) return 2;
-
-    return 0;
+    return 3;
   },
   changeExtInfoOrder: function(extInfoObj, direction) {
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
