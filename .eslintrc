@@ -4,7 +4,7 @@
   "ecmaFeatures": {
     "arrowFunctions": true,                     // enable ES6 arrow functions
     "binaryLiterals": false,                    // enable binary literals
-    "blockBindings": false,                     // enable let and const (aka block bindings)
+    "blockBindings": true,                      // enable let and const (aka block bindings)
     "defaultParams": false,                     // enable default function parameters
     "forOf": false,                             // enable for-of loops
     "generators": false,                        // enable generators
