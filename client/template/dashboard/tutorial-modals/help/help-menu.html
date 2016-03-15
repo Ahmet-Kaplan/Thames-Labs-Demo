@@ -12,15 +12,16 @@
 
           <ul class="nav nav-tabs">
             <li class="active"><a href="#featured" data-toggle="tab">Featured</a></li>
+            {{#if isInRole 'Administrator'}}
+              <li><a href="#admin" data-toggle="tab">Admin</a></li>
+            {{/if}}
             {{#if isInRole 'CanCreateCompanies'}}
               <li><a href="#company" data-toggle="tab">Company</a></li>
             {{/if}}
             {{#if isInRole 'CanCreateContacts'}}
               <li><a href="#contact" data-toggle="tab">Contact</a></li>
             {{/if}}
-            {{#if isInRole 'Administrator'}}
-              <li><a href="#admin" data-toggle="tab">Admin</a></li>
-            {{/if}}
+              <li><a href="#misc" data-toggle="tab">Misc</a></li>
           </ul>
 
           <div class="tab-content">
@@ -60,6 +61,15 @@
               <h3>Admin Tutorials</h3><br />
               <div class="tutorials text-center">
                 <button class="btn btn-default btn-huge text-center" id="admin-tutorial"><i class="fa fa-fw fa-users"></i><br><h4 class="tutorial-title">Add a User [admin]</h4>A short, interactive tutorial that shows you how to add users and use your admin powers.</button>
+                <button class="btn btn-default btn-huge text-center" id="placeholder"><i class="fa fa-fw fa-wrench"></i><br><h4 class="tutorial-title">Watch this space!</h4>We'll be adding more tutorials here soon.</button>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="misc">
+              <h3>Miscellaneous Tutorials</h3><br />
+              <div class="tutrials text-center">
+                <button class="btn btn-default btn-huge text-center" id="tags-tutorial"><i class="fa fa-fw fa-tag"></i><br><h4 class="tutorial-title">Add Tags</h4>Tags are incredibly useful! This interactive tutorial shows you how to assign and use tags for a company.</button>
+                <button class="btn btn-default btn-huge text-center" id="search-tutorial"><i class="fa fa-fw fa-search"></i><br><h4 class="tutorial-title">Searching/Filtering</h4>Learn how to make the most out of RealTimeCRM's powerfull search and filtering tools.</button>
                 <button class="btn btn-default btn-huge text-center" id="placeholder"><i class="fa fa-fw fa-wrench"></i><br><h4 class="tutorial-title">Watch this space!</h4>We'll be adding more tutorials here soon.</button>
               </div>
             </div>
