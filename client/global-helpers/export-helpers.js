@@ -1,5 +1,9 @@
 exportFromSearchToCSV = function(collectionName) {
-  if (!Collections[collectionName] || !Collections[collectionName].index) {
+  if (!Collections[collectionName]) {
+    throw new Meteor.Error('collection-missing', 'Collection not found');
+  }
+
+  if (!Collections[collectionName].index) {
     throw new Meteor.Error('index-missing', 'Search index not found');
   }
 
@@ -9,8 +13,8 @@ exportFromSearchToCSV = function(collectionName) {
   }
 
   var index = Collections[collectionName].index,
-    searchDefinition = index.getComponentDict().get('searchDefinition'),
-    searchOptions = index.getComponentDict().get('searchOptions');
+      searchDefinition = index.getComponentDict().get('searchDefinition'),
+      searchOptions = index.getComponentDict().get('searchOptions');
 
   Meteor.call('search.export', collectionName, searchDefinition, searchOptions, (err, results) => {
     if (err) {
