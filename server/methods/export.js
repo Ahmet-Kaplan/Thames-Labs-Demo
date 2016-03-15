@@ -20,7 +20,10 @@ const OMITTEDCOLUMNS = [
   'customFields',
   'extendedInformation',
   'metadata',
-  'sequencedIdentifier'
+  'sequencedIdentifier',
+  'assigneeId',
+  'entityId',
+  'entityType',
 ];
 
 Meteor.methods({
@@ -54,6 +57,55 @@ Meteor.methods({
           _id: record.contactId
         });
         if (contact) record.contactName = contact.forename + " " + contact.surname;
+      }
+
+      if (record.assigneeId) {
+        const assignee = Meteor.users.findOne({
+          _id: record.assigneeId
+        });
+        record.assignee = assignee ? assignee.profile.name : 'Not assigned';
+      }
+
+      // This is to deal with related entities on tasks
+      if (record.entityType && record.entityId) {
+        record.relatedRecordType = record.entityType;
+
+        switch (record.entityType) {
+          case 'company':
+            const company = Companies.findOne({
+              _id: record.entityId
+            });
+            record.relatedRecord = company ? company.name : null;
+            break;
+          case 'contact':
+            const contact = Contacts.findOne({
+              _id: record.entityId
+            });
+            record.relatedRecord = contact ? contact.name() : null;
+            break;
+          case 'opportunity':
+            const opportunity = Opportunities.findOne({
+              _id: record.entityId
+            });
+            record.relatedRecord = opportunity ? opportunity.name : null;
+            break;
+          case 'project':
+            const project = Projects.findOne({
+              _id: record.entityId
+            });
+            record.relatedRecord = project ? project.name : null;
+            break;
+          case 'user':
+            const user = Meteor.users.findOne({
+              _id: record.entityId
+            });
+            record.relatedRecord = user ? user.profile.name : null;
+            break;
+        }
+      }
+
+      if ( _.has(record, 'completed') ) {
+        record.completed = record.completed ? 'Yes' : 'No';
       }
 
       if (record.salesManagerId) {

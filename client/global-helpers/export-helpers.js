@@ -7,11 +7,6 @@ exportFromSearchToCSV = function(collectionName) {
     throw new Meteor.Error('index-missing', 'Search index not found');
   }
 
-  if (collectionName === 'tasks') {
-    exportFromTaskSearchToCSV();
-    return;
-  }
-
   var index = Collections[collectionName].index,
       searchDefinition = index.getComponentDict().get('searchDefinition'),
       searchOptions = index.getComponentDict().get('searchOptions');
@@ -35,69 +30,6 @@ exportFromSearchToCSV = function(collectionName) {
       type: "text/csv;charset=utf-8"
     });
 
-    saveAs(blob, filename);
-  });
-};
-
-exportFromTaskSearchToCSV = function() {
-  var index = Collections['tasks'].index,
-    searchDefinition = index.getComponentDict().get('searchDefinition'),
-    searchOptions = index.getComponentDict().get('searchOptions');
-
-  Meteor.call('tasks.export', searchDefinition, searchOptions, (err, results) => {
-    if (err) {
-      throw new Meteor.Error('500', err);
-    }
-    var filename = [
-      'realtimecrm-tasks-export_',
-      moment().format("MMM-Do-YY"),
-      '.csv'
-    ].join('');
-
-    var cleanedResults = results.map((record) => {
-
-      if (record.date) {
-        record.date = moment(record.date).format('DD/MM/YY');
-      }
-      if (record.estCloseDate) {
-        record.estCloseDate = moment(record.estCloseDate).format('DD/MM/YY');
-      }
-      if (record.createdAt) {
-        record.createdAt = moment(record.createdAt).format('DD/MM/YY');
-      }
-      if (record.dueDate) {
-        record.dueDate = moment(record.dueDate).format('DD/MM/YY');
-      }
-      if (record.orderDate) {
-        record.orderDate = moment(record.orderDate).format('DD/MM/YY');
-      }
-      if (record.completedAt) {
-        record.completedAt = moment(record.completedAt).format('DD/MM/YY');
-      }
-
-      return _.omit(record, [
-        '_id',
-        'createdBy',
-        'companyId',
-        'contactId',
-        'opportunityId',
-        'projectId',
-        'purchaseOrderId',
-        'taskId',
-        'productId',
-        'currentStageId',
-        'items',
-        'userId',
-        'supplierCompanyId',
-        'supplierContactId',
-        'primaryEntityId'
-      ]);
-    });
-
-    var fileData = Papa.unparse(cleanedResults);
-    var blob = new Blob([fileData], {
-      type: "text/csv;charset=utf-8"
-    });
     saveAs(blob, filename);
   });
 };
