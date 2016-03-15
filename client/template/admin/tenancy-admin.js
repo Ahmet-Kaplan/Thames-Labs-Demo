@@ -109,6 +109,23 @@ Template.tenancyAdminPage.events({
   },
   'click #addGlobalCustomField': function(event) {
     event.preventDefault();
+
+    if (!isProTenant(Meteor.user().group)) {
+      var fields = [];
+      Meteor.call('extInfo.getTenantGlobals', cfEntity, function(err, res) {
+        if (err) throw new Meteor.Error(err);
+        _.each(res, function(r) {
+          fields.push(r);
+        })
+      })
+
+      if (fields.length === MAX_FREE_ENTITY_GLOBAL_FIELDS) {
+        showUpgradeToastr('To create more than 5 global custom fields for a ' + cfEntity + ' record');
+        Modal.hide();
+        return;
+      }
+    }
+    
     Modal.show('addNewGlobalCustomField');
   }
 });
