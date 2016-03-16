@@ -29,30 +29,40 @@ var tagsTutorial2 = {
     target: document.querySelector('#menuLinkCompanies'),
     placement: "right",
     showNextButton: false,
-    nextOnTargetClick: true,
-    onShow: function() {
-      console.log("1");
-    }
-  },{
-    title: "",
-    content: "",
-    target: document.querySelector('.navbar-brand'),
-    placement: "right",
-    smoothScroll: false,
-    onShow: function() {
-      console.log("2");
-      hopscotch.nextStep();
-    }
-  }, {
-    title: "Bulk Tagging",
-    content: "To add tags to multiple companies at once, click this button",
-    target: document.querySelector('#manage-tags'),
-    placement: "left",
-    showNextButton: false,
-    nextOnTargetClick: true,
-    onShow: function () {
-      console.log("3");
-    }
+    nextOnTargetClick: true
+	}, {
+		title: "",
+		content: "",
+		target: document.querySelector('#menuLinkCompanies'),
+		placement: "right",
+		smoothScroll: false,
+		onShow: function() {
+			hopscotch.nextStep();
+		}
+	}, {
+		title: "Bulk Tagging",
+		content: "This button allows you to manage tags for all of the companies in the list shown below. You can refine the list of companies by searching and filtering.",
+		target: document.querySelector('#manage-tags'),
+		placement: "left",
+		nextOnTargetClick: true,
+		showNextButton: false,
+		delay: 100
+	}, {
+		title: "Bulk Tagging",
+		content: "Just as before, type in any tags you wish to add in this box, pressing the enter key after each one. To remove tags, switch the 'Current Mode' to 'Remove' and press backspace on the tag you wish to remove.",
+		target: document.querySelector('.selectize-control'),
+		placement: "right",
+		onNext: function() {
+			Modal.hide();
+		}
+	},{
+		title: "Tutorial Complete!",
+		content: "Now your tags can be seen in the list. Click 'Done' to complete this tutorial.",
+		target: document.querySelector('#company-list'),
+		placement: "top",
+		onShow: function() {
+			Session.set(sessionVar);
+		}
 	}],
   showCloseButton: true
 };

@@ -36,7 +36,7 @@ var tagsTutorial = {
 		}
   }, {
     title: "Creating Tags",
-    content: "This tutorial assumes you have created a company. Please create one if you havn't already and restart the tutorial. If you have created a company, click the Companies opiton on the nav bar.",
+    content: "This tutorial assumes you have created a company. Please create one if you haven't already and restart the tutorial. If you have created a company, click the Companies opiton on the nav bar.",
     target: document.querySelector('#menuLinkCompanies'),
     placement: "right",
 		nextOnTargetClick: true,
@@ -85,8 +85,8 @@ var tagsTutorial = {
 		target: document.querySelector('#company-details'),
 		placement: "bottom",
 		onShow: function () {
-			hopscotch.endTour(true);
 			$.getScript('/vendor/hopscotch/tours/tags-tutorial-p2.js');
+			hopscotch.endTour(true);
 		}
 	}],
   showCloseButton: true
