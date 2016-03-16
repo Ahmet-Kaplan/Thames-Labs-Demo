@@ -24,6 +24,8 @@ const OMITTEDCOLUMNS = [
   'assigneeId',
   'entityId',
   'entityType',
+  'projectTypeId',
+  'projectMilestoneId',
 ];
 
 Meteor.methods({
@@ -122,6 +124,20 @@ Meteor.methods({
         const stages = tenant.settings.opportunity.stages,
               currentStage = _.find(stages, { 'id': record.currentStageId });
         record.stage = currentStage ? currentStage.title : null;
+      }
+
+      if ( _.has(record, 'projectTypeId') ) {
+        const tenant = Tenants.findOne({
+          _id: Partitioner.group()
+        });
+        const projects = tenant.settings.project.types,
+              project = _.find(projects, { 'id': record.projectTypeId });
+        record.project = project ? project.name : null;
+
+        if ( _.has(record, 'projectMilestoneId') && project && project.milestones ) {
+          const milestone = _.find(project.milestones, { 'id': record.projectMilestoneId });
+          record.milestone = milestone ? milestone.name : null;
+        }
       }
 
       if (record.date) {
