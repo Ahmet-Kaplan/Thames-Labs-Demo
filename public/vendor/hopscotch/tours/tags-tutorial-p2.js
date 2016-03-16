@@ -19,7 +19,8 @@ var tagsTutorial2 = {
 		if (Session.get(sessionVar)) {
 			$.getScript('/vendor/hopscotch/tours/tags-tutorial-p2.js');
 		} else {
-				Modal.show('tagsTutorialEnd');
+			lastTutorial = "addTags"
+			Modal.show('help');
 		}
   },
   id: "tags-tutorial-p2",

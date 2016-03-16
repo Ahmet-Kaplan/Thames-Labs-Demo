@@ -4,12 +4,12 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h2>Need Some Help?</h2>
+          <button type="button" id="close" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h2>{{helpTitle}}</h2>
         </div>
 
         <div class="modal-body modal-help">
-
+          <p>{{helpText}}</p>
           <ul class="nav nav-tabs">
             <li class="active"><a href="#featured" data-toggle="tab">Featured</a></li>
             {{#if isInRole 'Administrator'}}

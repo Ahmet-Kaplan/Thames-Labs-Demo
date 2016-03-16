@@ -19,8 +19,8 @@ var adminTutorial = {
 		if (Session.get(sessionVar)) {
 			$.getScript('/vendor/hopscotch/tours/admin-tutorial.js');
 		} else {
-			FlowRouter.go('dashboard');
-			$.getScript('/vendor/hopscotch/tours/admin-tutorial-end.js');
+			lastTutorial = "admin";
+			Modal.show('help');
 		}
   },
   id: "admin-tutorial",
@@ -134,7 +134,7 @@ var adminTutorial = {
 					Session.set(sessionVar);
 					$(this).unbind('click');
 					$("#addUserEmail").unbind('keyup');
-					hopscotch.nextStep();
+					$.getScript('/vendor/hopscotch/tours/admin-tutorial-end.js');
 				}
 			}, 500);
 		})

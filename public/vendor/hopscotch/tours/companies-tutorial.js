@@ -19,7 +19,8 @@ var companiesTutorial = {
 		if (Session.get(sessionVar)) {
 			$.getScript('/vendor/hopscotch/tours/companies-tutorial.js');
 		} else {
-				Modal.show('companyTutorialEnd');
+				lastTutorial = "addCompany";
+				Modal.show('help');
 		}
   },
   id: "companies-tutorial",
