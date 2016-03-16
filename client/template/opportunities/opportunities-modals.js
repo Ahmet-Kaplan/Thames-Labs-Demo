@@ -50,7 +50,7 @@ Template.insertCompanyOpportunityModal.helpers({
     return Meteor.userId();
   },
   companyName: function() {
-    return Companies.findOne().name;
+    return Companies.findOne(this.companyId).name;
   }
 });
 
@@ -82,7 +82,7 @@ Template.insertContactOpportunityModal.helpers({
     return Companies.findOne().name;
   },
   contactName: function() {
-    var contact = Contacts.findOne();
+    var contact = Contacts.findOne(this.contactId);
     return contact.forename + ' ' + contact.surname;
   }
 });
