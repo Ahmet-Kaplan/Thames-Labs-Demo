@@ -36,25 +36,33 @@ Feature: Allow users to manage their Companies
     And I navigate to "/companies"
     Then I should not see "#mchCompany"
 
+
   Scenario: An administrator can add CanReadCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Companies" to a restricted user
     Then the user "restricted user" should have the "CanReadCompanies" permission
 
+
   Scenario: An administrator can remove CanReadCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
     Then the user "restricted user" should not have the "CanReadCompanies" permission
 
+
   Scenario: An administrator can remove CanReadCompanies permission for itself
     Given I have the "Administrator" permission
+    And I am on the pro plan
     When I remove permissions on "Companies" for myself
     Then the user "test user" should not have the "CanReadCompanies" permission
 
+
   Scenario: An administrator can add back the CanReadCompanies permission for itself
     Given I have the "Administrator" permission
+    And I am on the pro plan
     When I remove permissions on "Companies" for myself
     And I add permission "CanRead" on "Companies" to myself
     Then the user "test user" should have the "CanReadCompanies" permission
@@ -80,14 +88,18 @@ Feature: Allow users to manage their Companies
     When I navigate to "/companies"
     Then I should not see "#add-company"
 
+
   Scenario: An administrator can add CanCreateCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanCreate" on "Companies" to a restricted user
     Then the user "restricted user" should have the "CanCreateCompanies" permission
 
+
   Scenario: An administrator can remove CanCreateCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
     Then the user "restricted user" should not have the "CanCreateCompanies" permission
@@ -109,14 +121,18 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     Then I should not see "#edit-company"
 
+
   Scenario: An administrator can add CanEditCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanEdit" on "Companies" to a restricted user
     Then the user "restricted user" should have the "CanEditCompanies" permission
 
+
   Scenario: An administrator can remove CanEditCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
     Then the user "restricted user" should not have the "CanEditCompanies" permission
@@ -137,14 +153,18 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     Then I should not see "#remove-company"
 
+
   Scenario: An administrator can add CanDeleteCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Companies" to a restricted user
     Then the user "restricted user" should have the "CanDeleteCompanies" permission
 
+
   Scenario: An administrator can remove CanDeleteCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
     Then the user "restricted user" should not have the "CanDeleteCompanies" permission
@@ -160,14 +180,14 @@ Feature: Allow users to manage their Companies
 
 
   #Extended information fields
-  Scenario: A user can open the "Add Extended information fields" modal
+  Scenario: A user can open the "Add custom field" modal
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
     And I click "#add-custom-field"
     Then I should see a modal
 
-  Scenario: A user can add an extended information field
+  Scenario: A user can add an custom field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
@@ -177,7 +197,7 @@ Feature: Allow users to manage their Companies
     And I click "#submit-custom-field"
     Then I should see ".custom-field-display-item"
 
-  Scenario: A user can delete an extended information field
+  Scenario: A user can delete an custom field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
@@ -189,7 +209,7 @@ Feature: Allow users to manage their Companies
     And I click confirm on the modal
     Then I should not see ".custom-field-display-item"
 
-  Scenario: A user can edit an extended information field
+  Scenario: A user can edit an custom field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
@@ -200,7 +220,7 @@ Feature: Allow users to manage their Companies
     And I click "#edit-custom-fields"
     And I set text field with id "extInfosvelocity2TextValue" to "velocity"
     And I click "#submit-ext-info"
-    Then I see a field with the name "velocity" in the extended information list
+    Then I see a field with the name "velocity" in the custom field list
 
 
   #Maps

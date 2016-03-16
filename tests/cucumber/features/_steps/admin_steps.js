@@ -13,9 +13,17 @@ module.exports = function() {
     browser.waitForExist('#glob-cust-field-display', 2000, true);
   });
 
-  this.Then(/^I see a field with the name "([^"]*)" in the extended information list$/, function(name) {
+  this.Then(/^I see a field with the name "([^"]*)" in the custom field list$/, function(name) {
     browser.waitForExist('#entity-custom-fields', 2000);
     browser.waitForExist('#custom-field-container', 2000);
     expect(browser.getText('.custom-field-display-item', 2000)).toContain(name);
   });
-};
+  this.Given(/^a global custom field has been created with the name "([^"]*)"$/, function(name) {
+    browser
+      .executeAsync(function(done) {
+        Meteor.call('extInfo.addNewGlobal', name, 'Text', name + ' Test', 'company', function() {
+          done();
+        });
+      });
+  });
+}

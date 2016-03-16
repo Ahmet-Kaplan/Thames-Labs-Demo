@@ -76,6 +76,9 @@ Template.legalCompanyInformation.onCreated(function() {
 
 Template.legalCompanyInformation.helpers({
   shouldShow: function() {
+    var user = Meteor.user();
+    if(!isProTenant(user.group)) return false;
+
     if (!Roles.userIsInRole(Meteor.userId(), ['CanReadCompanies'])) return false;
     var companyNumber = Template.currentData().company.companiesHouseId,
         hasResults = Template.instance().companiesHouseSearchResultsCount.get();
@@ -116,6 +119,12 @@ Template.legalCompanyInformation.events({
       $unset: { companiesHouseId: 1 }
     });
     toastr.success('Link to Companies House removed');
+  },
+  'click .upgrade-prompt': function(event, template) {
+    event.preventDefault();
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To access this information');
+    }
   }
 });
 

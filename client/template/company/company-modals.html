@@ -11,6 +11,9 @@
         <div class="modal-body">
          {{#autoForm collection="Companies" id="insertNewCompanyForm" type="insert"}}
             {{> afQuickField name="name" id="addCompanyName"}}
+            <div class="form-group" id="duplicationWarning">
+              <small class="text-warning">You already have a company record with that name. Clicking <strong>Create</strong> will create a different record with the same name.</small>
+            </div>
             <div class="form-group">
               <label for="geo" class="control-label">Search for Address, City, etc.</label>
               <input type="text" id="geo" class="form-control" autocomplete="off" />

@@ -42,12 +42,14 @@ Feature: Allow users to manage their Tasks
 
   Scenario: An administrator can add CanReadTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Tasks" to a restricted user
     Then the user "restricted user" should have the "CanReadTasks" permission
 
   Scenario: An administrator can remove CanReadTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Tasks" from a restricted user
     Then the user "restricted user" should not have the "CanReadTasks" permission
@@ -92,12 +94,14 @@ Feature: Allow users to manage their Tasks
 
   Scenario: An administrator can add CanCreateTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanCreate" on "Tasks" to a restricted user
     Then the user "restricted user" should have the "CanCreateTasks" permission
 
   Scenario: An administrator can remove CanCreateTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Tasks" from a restricted user
     Then the user "restricted user" should not have the "CanCreateTasks" permission
@@ -123,12 +127,14 @@ Feature: Allow users to manage their Tasks
 
   Scenario: An administrator can add CanEditTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanEdit" on "Tasks" to a restricted user
     Then the user "restricted user" should have the "CanEditTasks" permission
 
   Scenario: An administrator can remove CanEditTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Tasks" from a restricted user
     Then the user "restricted user" should not have the "CanEditTasks" permission
@@ -152,12 +158,14 @@ Feature: Allow users to manage their Tasks
 
   Scenario: An administrator can add CanDeleteTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Tasks" to a restricted user
     Then the user "restricted user" should have the "CanDeleteTasks" permission
 
   Scenario: An administrator can remove CanDeleteTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Tasks" from a restricted user
     Then the user "restricted user" should not have the "CanDeleteTasks" permission

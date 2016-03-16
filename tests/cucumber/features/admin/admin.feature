@@ -41,4 +41,4 @@ Feature: Allow users to manage general tenancy data
     And I click the button "#createCustomField"
     And I see a global field with the name "velocity" in the list "#custom-field-list"
     And I navigate to a company page
-    Then I see a field with the name "velocity" in the extended information list
+    Then I see a field with the name "velocity" in the custom field list

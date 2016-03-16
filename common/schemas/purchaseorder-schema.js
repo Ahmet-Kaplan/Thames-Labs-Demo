@@ -68,7 +68,16 @@ Schemas.PurchaseOrder = new SimpleSchema({
   },
   orderDate: {
     type: Date,
-    defaultValue: new Date()
+    defaultValue: new Date(),
+    autoform: {
+      type: "bootstrap-datepicker",
+      datePickerOptions: {
+        defaultDate: new Date(),
+        autoclose: true,
+        format: 'dd/mm/yyyy',
+        todayHighlight: true
+      }
+    }
   },
   paymentMethod: {
     type: String,

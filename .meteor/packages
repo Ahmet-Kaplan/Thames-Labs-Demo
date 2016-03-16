@@ -102,3 +102,11 @@ jiku:bootstrap-toggle
 simple:reactive-method
 meteorhacks:picker
 pfafman:multer
+rajit:bootstrap3-datepicker
+aldeed:autoform-bs-datepicker
+jparker:crypto-md5
+jparker:crypto-sha1
+jparker:crypto-hmac
+jparker:crypto-core
+jparker:crypto-base64
+jparker:crypto-sha256

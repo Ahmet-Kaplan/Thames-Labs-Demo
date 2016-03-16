@@ -66,61 +66,69 @@ Meteor.methods({
     // Important - do server side schema check
     check(doc, Schemas.User);
 
-    // Create user account
-    if (!doc.password) {
-      var userId = Accounts.createUser({
-        email: doc.email.toLowerCase(),
-        profile: {
-          name: doc.name,
-          watchlist: [],
-          lastLogin: null,
-          lastActivity: {
-            page: null,
-            url: null
-          },
-          poAuthLevel: 100000
-        }
-      });
+    Partitioner.bindGroup(doc.group, function() {
+      // Create user account
+      if (!doc.password) {
+        var userId = Accounts.createUser({
+          email: doc.email.toLowerCase(),
+          profile: {
+            name: doc.name,
+            watchlist: [],
+            lastLogin: null,
+            lastActivity: {
+              page: null,
+              url: null
+            },
+            poAuthLevel: 100000
+          }
+        });
 
-      Roles.addUsersToRoles(userId, defaultPermissionsList);
-
-      // Add user to a group (partition) based on customer id
-      if (doc.group) {
+        // Add user to a group (partition) based on customer id
         Partitioner.setUserGroup(userId, doc.group);
-      }
 
-      Accounts.sendEnrollmentEmail(userId);
+        Roles.addUsersToRoles(userId, defaultPermissionsList);
 
-      LogServerEvent('verbose', 'User created', 'user', userId);
+        Accounts.sendEnrollmentEmail(userId);
 
-      Meteor.call('stripe.updateQuantity', doc.group);
-    } else {
-      var userId = Accounts.createUser({
-        email: doc.email.toLowerCase(),
-        password: doc.password,
-        profile: {
-          name: doc.name,
-          watchlist: [],
-          lastLogin: null,
-          lastActivity: {
-            page: null,
-            url: null
-          },
-          poAuthLevel: 100000
-        }
-      });
+        LogServerEvent('verbose', 'User created', 'user', userId);
 
-      Roles.addUsersToRoles(userId, defaultPermissionsList);
+        Meteor.call('stripe.updateQuantity', doc.group);
+      } else {
+        var userId = Accounts.createUser({
+          email: doc.email.toLowerCase(),
+          password: doc.password,
+          profile: {
+            name: doc.name,
+            watchlist: [],
+            lastLogin: null,
+            lastActivity: {
+              page: null,
+              url: null
+            },
+            poAuthLevel: 100000
+          }
+        });
 
-      // Add user to a group (partition) based on customer id
-      if (doc.group) {
+        var user = Meteor.users.findOne({
+          _id: userId
+        });
+
+        // Add user to a group (partition) based on customer id
         Partitioner.setUserGroup(userId, doc.group);
+
+        if (user) {
+          if (!isProTenant(user.group)) {
+            Roles.addUsersToRoles(userId, ["Administrator"]);
+          };
+          Roles.addUsersToRoles(userId, defaultPermissionsList);
+        }
+
+        LogServerEvent('verbose', 'User created', 'user', userId);
+
+        Meteor.call('stripe.updateQuantity', doc.group);
       }
+    });
 
-      LogServerEvent('verbose', 'User created', 'user', userId);
-
-      Meteor.call('stripe.updateQuantity', doc.group);
-    }
   },
 
   addTenantUser: function(doc) {
@@ -147,6 +155,14 @@ Meteor.methods({
       }
     });
 
+    var admin = Meteor.users.findOne({
+      _id: adminId
+    });
+    if (admin) {
+      if (!isProTenant(admin.group)) {
+        Roles.addUsersToRoles(userId, 'Administrator');
+      }
+    }
     Roles.addUsersToRoles(userId, defaultPermissionsList);
 
     // Add user to a group (partition) based on customer id
@@ -156,7 +172,7 @@ Meteor.methods({
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 
-    Meteor.call('stripe.updateQuantity');
+    Meteor.call('stripe.updateQuantity', Partitioner.getUserGroup(adminId));
   }
 
 });

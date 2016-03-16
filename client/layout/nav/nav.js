@@ -6,7 +6,9 @@ Template.nav.onCreated(function() {
   this.subscribe('allNotifications');
   this.fab = new ReactiveVar(true);
   this.fabOpen = new ReactiveVar(false);
+
   this.autorun(function() {
+
     var getNotification = Notifications.findOne({
       target: {
         $in: [Meteor.userId(), 'all']
@@ -158,13 +160,6 @@ Template.nav.helpers({
         return favList;
       }
     }
-  },
-  limitReached: function() {
-    if (!Tenants.findOne({}) || Tenants.findOne({}).stripe.paying || Tenants.findOne({}).stripe.freeUnlimited) {
-      return false;
-    }
-    var totalRecords = Tenants.findOne({}).stripe.totalRecords;
-    return totalRecords >= MAX_RECORDS;
   },
   fabEnabled: function() {
     return Template.instance().fab.get();
@@ -325,7 +320,7 @@ Template.nav.events({
   'click #toggleFab': function(event, template) {
     if (Template.instance().fab.get() === true) {
       template.fab.set(false);
-    }else {
+    } else {
       template.fab.set(true);
     };
   },

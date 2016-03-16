@@ -1,6 +1,16 @@
 Template.customFieldDisplay.events({
   'click #add-custom-field': function(event) {
     event.preventDefault();
+
+    if (!isProTenant(Meteor.user().group)) {
+      if (this.entity_data.extendedInformation) {
+        if (this.entity_data.extendedInformation.length === MAX_FREE_ENTITY_LOCAL_FIELDS) {
+          showUpgradeToastr('To create more than 5 custom fields against this record');
+          return;
+        }
+      }
+    }
+
     Modal.show('addCustomField', this);
   },
   'click #edit-custom-fields': function(event) {

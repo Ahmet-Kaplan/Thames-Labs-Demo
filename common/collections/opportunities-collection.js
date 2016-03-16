@@ -10,7 +10,7 @@ Opportunities.helpers({
     return Contacts.findOne(this.contactId);
   },
   activities: function() {
-    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+    var collectionsToFilter = getDisallowedPermissions(Meteor.userId());
 
     return Activities.find({
       opportunityId: this._id,
@@ -158,6 +158,7 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         'hasBeenWon': 1,
         'reasonLost': 1,
         'tags': 1,
+        'currentStageId': 1,
         'sequencedIdentifier': 1,
         'salesManagerId': 1
       }

@@ -16,9 +16,19 @@ Template.companyDataManagement.events({
     var file = event.target.files[0];
 
     if (!file) return;
-    if (file.type !== "text/csv") {
-      toastr.error('Only CSV files can be used to import data');
-      return
+    
+    var patt1 = /\.([0-9a-z]+)(?:[\?#]|$)/i;
+    var fileName = file.name;
+    var match = (fileName).match(patt1);
+    
+    if (match) {
+      if (match[1] !== "csv") {
+        toastr.error('Only CSV files can be used to import data');
+        return
+      }
+    } else {
+      toastr.error('Could not detect file type.');
+      return;
     }
 
     var reader = new FileReader();

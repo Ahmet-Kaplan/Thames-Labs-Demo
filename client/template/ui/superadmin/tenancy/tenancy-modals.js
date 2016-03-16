@@ -54,22 +54,33 @@ Template.setPayingTenant.helpers({
 
 Template.setPayingTenant.events({
   'click #setFreeUnlimited': function() {
-    var tenantId = this._id;
-    var setTo = !Tenants.findOne(tenantId).stripe.freeUnlimited;
+    var tenantId = this.__originalId;
+    var tenant = Tenants.findOne(tenantId);
+
+    if (tenant.plan) {
+      if (tenant.plan === "pro" && tenant.stripe.stripeSubs) {
+        Modal.hide();
+        toastr.info('This tenant is on the pro plan, and thus cannot be set to Free Unlimited.');
+        return;
+      }
+    }
+
+    var set = (tenant.plan && tenant.plan === 'pro') ? 'free' : 'pro';
+
     bootbox.confirm({
       message: 'Are you really really sure you want to do that? I mean, come on, that\'s a big deal!',
       callback: function(result) {
-        if(result === true) {
+        if (result === true) {
           Tenants.update(tenantId, {
             $set: {
-              "stripe.freeUnlimited": setTo
+              "plan": set
             }
           }, function(error, nUpdated) {
-            if(error || nUpdated === false) {
+            if (error || nUpdated === false) {
               Modal.hide();
               bootbox.alert({
-              title: 'Error',
-              message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Check connexion with database.</div>'
+                title: 'Error',
+                message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Check connexion with database.</div>'
               });
             } else {
               Modal.hide();
@@ -82,7 +93,7 @@ Template.setPayingTenant.events({
   },
 
   'keyup #stripeAccountNumber': function() {
-    if($('#stripeAccountNumber').val() != '') {
+    if ($('#stripeAccountNumber').val() != '') {
       $('#showSubsNumberForm').show();
     } else {
       $('#showSubsNumberForm').hide();
@@ -94,20 +105,20 @@ Template.setPayingTenant.events({
     var stripeId = $('#stripeAccountNumber').val();
     bootbox.confirm({
       message: '<div class="bg-warning"><i class="fa fa-exclamation fa-3x pull-left text-warning"></i>' +
-               'The account number will be saved directly to the database. ' +
-               'No verification will be made with Stripe. ' +
-               'Are you sure you wish to save this account number?</div>',
+        'The account number will be saved directly to the database. ' +
+        'No verification will be made with Stripe. ' +
+        'Are you sure you wish to save this account number?</div>',
       callback: function(result) {
-        if(result === true) {
+        if (result === true) {
           Tenants.update(tenantId, {
             $set: {
               "stripe.stripeId": stripeId
             }
           }, function(error, nUpdated) {
-            if(error || nUpdated === false) {
+            if (error || nUpdated === false) {
               bootbox.alert({
-              title: 'Error',
-              message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Check connexion with database.</div>'
+                title: 'Error',
+                message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Check connexion with database.</div>'
               });
             } else {
               toastr.success('Account Number has been set successfully. You may now enter Subscription details.');
@@ -121,7 +132,7 @@ Template.setPayingTenant.events({
   'click #btnResumeStripeSubs': function() {
     toastr.info('Processing update...');
     Meteor.call('stripe.resumeSubscription', this._id, function(error, response) {
-      if(error) {
+      if (error) {
         Modal.hide();
         toastr.error('Unable to resume subscription.');
         return false;
@@ -148,15 +159,15 @@ Template.setPayingTenant.events({
     var newStripeSubs = $('#stripeSubsNumber').val();
     Tenants.update(this._id, {
       $set: {
-        "stripe.paying": true,
+        "plan": 'pro',
         "stripe.stripeSubs": newStripeSubs
       }
     }, function(error, nUpdated) {
       Modal.hide();
-      if(error || nUpdated === false) {
+      if (error || nUpdated === false) {
         bootbox.alert({
-        title: 'Error',
-        message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Error: ' + error + '</div>'
+          title: 'Error',
+          message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Error: ' + error + '</div>'
         });
         return false;
       } else {
@@ -170,7 +181,7 @@ Template.setPayingTenant.events({
     $('#btnSaveStripeSubs').prop('disabled', true);
     $('#btnCreateStripeSubs').prop('disabled', true);
     Meteor.call('stripe.createSubscription', this._id, function(error, response) {
-      if(error) {
+      if (error) {
         Modal.hide();
         toastr.error('Unable to create subscription. Check that the customer has a card set up.');
         return false;

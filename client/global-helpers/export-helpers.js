@@ -54,6 +54,13 @@ exportFromSearchToCSV = function(collectionName) {
       });
     }
 
+    if (collectionName === 'opportunities') {
+      _.each(results, function(r) {
+        if (r.companyId) r.companyName = "";
+        if (r.contactId) r.contactName = "";
+      });
+    }
+
     var cleanedResults = results.map((record) => {
 
       for (var property in record) {
@@ -66,11 +73,18 @@ exportFromSearchToCSV = function(collectionName) {
         }
       }
 
-      if (record.companyId && collectionName === 'contacts') {
+      if (record.companyId && (collectionName === 'contacts' || collectionName === 'opportunities')) {
         var company = Companies.findOne({
           _id: record.companyId
         });
         if (company) record.companyName = company.name;
+      }
+
+      if (record.contactId && collectionName === 'opportunities') {
+        var contact = Contacts.findOne({
+          _id: record.contactId
+        });
+        if (contact) record.contactName = contact.forename + " " + contact.surname;
       }
 
       if (record.salesManagerId) {
