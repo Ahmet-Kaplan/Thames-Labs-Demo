@@ -21,24 +21,20 @@ Picker
 Meteor.methods({
 	'mailgun.createActivityFromBodyData': function(bodyData) {
 		var subject = bodyData.Subject;
-		var mailText = TagStripper.strip(bodyData["body-html"]);
+		var mailText = bodyData["body-html"];
 		var timestamp = bodyData.timestamp;
 		var sendDate = new Date(0);
 		sendDate.setUTCSeconds(timestamp);
 
-		var notesFieldData = "Subject: " + subject + "\n\n" + mailText;
-		console.log(notesFieldData);
+		var notesFieldData = "<p>Subject: " + subject + "</p><p>" + mailText  + "</p>";
 
-		var userEmail = bodyData.From;
-		var cs = userEmail.indexOf('<');
-		if (cs > -1) {
-			var ce = userEmail.indexOf('>');
-			var newStr = userEmail.substring(cs + 1, ce);
-			userEmail = newStr
-		}
+		var emailPattern = /([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,})/g;
+		var userEmail = bodyData.From.match(emailPattern);
+
+		if (!userEmail) return;
 
 		var MeteorUser = Meteor.users.findOne({
-			'emails.address': userEmail
+			'emails.address': userEmail[0]
 		});
 
 		if (!MeteorUser) {
@@ -52,30 +48,13 @@ Meteor.methods({
 			}
 
 			Partitioner.bindGroup(TheTenant._id, function() {
-				var addresses = bodyData.To.split(',');
-				addresses.push(bodyData.From);
-				_.each(addresses, function(addr, i) {
-					var str = addr.trim();
-					var chevronStart = str.indexOf('<');
-					if (chevronStart > -1) {
-						var chevronEnd = str.indexOf('>');
-						var newStr = str.substring(chevronStart + 1, chevronEnd);
-						addresses[i] = newStr
-					}
-				});
+				var toAddresses = bodyData.To.match(emailPattern);
+				var involvedParties = bodyData["body-plain"].match(emailPattern);
+				var addresses = _.union(toAddresses, involvedParties);			
 
-				var uniqueAddresses = _.uniq(addresses.map(function(r) {
-					return {
-						'email': r
-					}
-				}), 'email');
-
-				_.each(uniqueAddresses, function(ua) {
-
-					if (ua.email === inboxAddress) return;
-
+				_.each(addresses, function(address) {
 					var contact = Contacts.findOne({
-						email: ua.email
+						email: address
 					});
 
 					if (contact) {
