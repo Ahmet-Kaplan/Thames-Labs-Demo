@@ -4,6 +4,7 @@ Template.displayCalendar.onCreated(function() {
   this.tasksList = new ReactiveVar({});
   this.eventsListeners = new ReactiveVar([]);
   this.popoverHoldersList = new ReactiveVar([]);
+  this.currentView = new ReactiveVar({});
 });
 
 Template.displayCalendar.onRendered(function() {
@@ -16,8 +17,17 @@ Template.displayCalendar.onRendered(function() {
   } else if (moment(getEndDate).isValid()){
     $('#tasksCalendar').fullCalendar('gotoDate', moment(getEndDate).startOf('month'));
   }
+  
+  //On change from month to week, renders current week if is current month
+  this.autorun(() => {
+    var currentView = this.currentView.get();
+    var newView = $('#tasksCalendar').fullCalendar('getView');
+    if( currentView.type === "month" && newView.type === "agendaWeek" && currentView.start.isBefore(moment()) && currentView.end.isAfter(moment()) ) {
+      $('#tasksCalendar').fullCalendar('gotoDate', moment());
+    }
+  });
 
-  //Looks for views update, i.e. when the user changes month or between day/week/month views
+  //Looks for views rendering, i.e. when the user changes month or between day/week/month views
   this.autorun(() => {
     var startTime = this.startTime.get();
     var endTime = this.endTime.get();
@@ -38,7 +48,7 @@ Template.displayCalendar.onRendered(function() {
       $('#tasksCalendar').fullCalendar('removeEvents');
       $('#tasksCalendar').fullCalendar('refetchEvents');
     }
-  })
+  });
 });
 
 Template.displayCalendar.helpers({
@@ -65,28 +75,50 @@ Template.displayCalendar.helpers({
       snapDuration: '00:30:00',
       slotLabelFormat: 'HH:mm',
       timeFormat: 'HH:mm',
-      eventOrder: 'start',
-      eventSources: [
-        function() {
-          var tasksList = instance.tasksList.get()
-          if(!!tasksList.length) {
-            _.each(tasksList, (task) => {
-              //Check first that the event is not already displayed
-              var taskDisplayed = this.clientEvents('evt_' + task._id).length;
-        
-              if(typeof task.dueDate !== 'undefined' && !taskDisplayed) {
-                this.renderEvent({
-                  id: 'evt_' + task.__originalId,
-                  title: task.title,
-                  description: task.description,
-                  allDay: task.isAllDay,
-                  start: moment(task.dueDate),
-                  __originalId: task.__originalId
-                }, false);
-              }
-            });
+      eventOrder: [
+        function(taskA, taskB) {
+          if(taskA.myTask && !taskB.myTask) {
+            return 1;
+          } else {
+            return -1;
           }
+        }, 'start'],
+      eventSources: [
+        {
+          events: function(start, end, timezone, callback) {
+            var tasksList = instance.tasksList.get()
+            var events = []
+            if(!!tasksList.length) {
+              _.each(tasksList, (task) => {
+                //Check first that the event is not already displayed
+                var taskDisplayed = this.clientEvents('evt_' + task._id).length;
+          
+                if(typeof task.dueDate !== 'undefined' && !taskDisplayed) {
+                  var background = {
+                    'company': 'primary',
+                    'contact': 'info',
+                    'opportunity': 'warning',
+                    'project': 'danger',
+                    'product': 'success',
+                    'user': 'user-task'
+                  };
 
+                  events.push({
+                    id: 'evt_' + task.__originalId,
+                    title: task.title,
+                    description: task.description,
+                    allDay: task.isAllDay,
+                    start: moment(task.dueDate),
+                    __originalId: task.__originalId,
+                    entityType: task.entityType,
+                    myTask: task.assigneeId === Meteor.userId(),
+                    className: (task.assigneeId === Meteor.userId()) ? 'btn-' + background[task.entityType] : 'btn-non-user text-' + background[task.entityType]
+                  });
+                }
+              });
+            }
+            callback(events);
+          }
         }
       ],
       eventClick: function(event, jsEvent, view) {
@@ -193,6 +225,9 @@ Template.displayCalendar.helpers({
         $('.popover').remove();
         instance.startTime.set(view.intervalStart);
         instance.endTime.set(view.intervalEnd);
+      },
+      viewDestroy: function(view, element) {
+        instance.currentView.set(view);
       },
       dayClick: function(date, jsEvent, view) {
         var popoverHolder = $(jsEvent.target);
@@ -317,5 +352,7 @@ Template.displayCalendar.onDestroyed(function() {
   var searchDefinition = Session.get(name + '.searchDefinition');
   var searchOptions = TasksIndex.getComponentDict().get('searchOptions');
   searchOptions.limit = 10;
+  TasksIndex.getComponentMethods().removeProps('after');
+  TasksIndex.getComponentMethods().removeProps('before');
   TasksIndex.search(searchDefinition, searchOptions);
 });

@@ -139,7 +139,7 @@ exportFromTaskSearchToCSV = function() {
     }
     var filename = [
       'realtimecrm-tasks-export_',
-      moment().format("MMM-Do-YY"),
+      moment().format("YYYY-MM-DD"),
       '.csv'
     ].join('');
 
