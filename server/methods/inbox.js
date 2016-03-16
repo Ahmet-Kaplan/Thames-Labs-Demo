@@ -1,6 +1,5 @@
 var multer = Meteor.npmRequire('multer');
 var upload = multer();
-var inboxAddress = 'inbox@mailgun.realtimecrm.co.uk';
 
 Picker
 	.filter(function(req, res) {
@@ -26,7 +25,7 @@ Meteor.methods({
 		var sendDate = new Date(0);
 		sendDate.setUTCSeconds(timestamp);
 
-		var notesFieldData = "<p>Subject: " + subject + "</p><p>" + mailText  + "</p>";
+		var notesFieldData = "<h4><strong>Subject: " + subject + "</strong></h4><p>" + mailText  + "</p>";
 
 		var emailPattern = /([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,})/g;
 		var userEmail = bodyData.From.match(emailPattern);
