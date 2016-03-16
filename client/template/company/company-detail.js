@@ -109,6 +109,19 @@ Template.companyDetail.events({
     Modal.show('insertCompanyOpportunityModal', {
       companyId: this._id
     });
+  },
+  'click #companyTelephone': function(event, template){    
+    Activities.insert({
+      type: 'Call',
+      notes: Meteor.user().profile.name + ' made a call to ' + this.name,
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      companyId: this._id,
+      primaryEntityId: this._id,
+      primaryEntityType: 'companies',
+      primaryEntityDisplayData: this.name,
+      createdBy: Meteor.userId()
+    });
   }
 });
 
