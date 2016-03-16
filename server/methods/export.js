@@ -109,10 +109,19 @@ Meteor.methods({
       }
 
       if (record.salesManagerId) {
-        salesManager = Meteor.users.findOne({
+        const salesManager = Meteor.users.findOne({
           _id: record.salesManagerId
-        }).profile.name;
-        record.salesManagerId = salesManager;
+        });
+        record.salesManagerId = salesManager ? salesManager.profile.name : null;
+      }
+
+      if ( _.has(record, 'currentStageId') ) {
+        const tenant = Tenants.findOne({
+          _id: Partitioner.group()
+        });
+        const stages = tenant.settings.opportunity.stages,
+              currentStage = _.find(stages, { 'id': record.currentStageId });
+        record.stage = currentStage ? currentStage.title : null;
       }
 
       if (record.date) {
