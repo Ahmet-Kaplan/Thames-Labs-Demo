@@ -33,7 +33,7 @@ Template.notificationAdmin.events({
       createdAt: new Date(),
       createdBy: Meteor.userId()
     });
-    
+
     $('#txtNotificationTitle').val("");
     $('#txtDesc').val("");
     $('#txtDetails').val("");
