@@ -110,75 +110,6 @@ Meteor.methods({
 
     return status;
   },
-  "tasks.export": function(searchDefinition, searchOptions) {
-    var returnData = [];
-
-    if (!Collections['tasks'] || !Collections['tasks'].index) {
-      throw new Meteor.Error('500', 'Search index not found');
-    }
-    searchOptions.limit = 99999;
-    if (!searchOptions.props) searchOptions.props = {};
-    searchOptions.props.export = true;
-    var index = Collections['tasks'].index;
-    var result = index.search(searchDefinition, searchOptions).fetch();
-    // return result;
-
-    _.each(result, function(res) {
-      var assignee = 'Not assigned',
-        entityDescriptor = '',
-        taskDate = '';
-      if (res.assigneeId) {
-        assignee = Meteor.users.findOne({
-          _id: res.assigneeId
-        }).profile.name;
-      }
-      if (res.dueDate) {
-        taskDate = moment(res.dueDate).format('MMMM Do YYYY, h:mm:ss a');
-      }
-
-      switch (res.entityType) {
-        case 'company':
-          entityDescriptor = Companies.findOne({
-            _id: res.entityId
-          }).name;
-          break;
-        case 'contact':
-          var contact = Contacts.findOne({
-            _id: res.entityId
-          });
-          entityDescriptor = contact.forename + " " + contact.surname;
-          break;
-        case 'opportunity':
-          entityDescriptor = Opportunities.findOne({
-            _id: res.entityId
-          }).name;
-          break;
-        case 'project':
-          entityDescriptor = Projects.findOne({
-            _id: res.entityId
-          }).name;
-          break;
-        case 'user':
-          entityDescriptor = Meteor.users.findOne({
-            _id: res.entityId
-          }).profile.name;
-          break;
-      }
-
-      var entity = {
-        title: res.title,
-        description: res.description,
-        assignee: assignee,
-        dueDate: taskDate,
-        record: entityDescriptor,
-        recordType: res.entityType,
-        completed: (res.completed === true ? 'Yes' : 'No')
-      };
-      returnData.push(entity);
-    });
-
-    return returnData;
-  },
   'tasks.updateDueDate': function(taskId, newDate) {
     if (!Roles.userIsInRole(this.userId, ['CanEditTasks'])) {
       throw new Meteor.Error(403, 'You do not have the authorization to edit tasks');
@@ -196,4 +127,5 @@ Meteor.methods({
 
     return status.wait();
   }
+
 });
