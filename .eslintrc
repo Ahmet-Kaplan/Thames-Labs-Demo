@@ -4,7 +4,7 @@
   "ecmaFeatures": {
     "arrowFunctions": true,                     // enable ES6 arrow functions
     "binaryLiterals": false,                    // enable binary literals
-    "blockBindings": false,                     // enable let and const (aka block bindings)
+    "blockBindings": true,                      // enable let and const (aka block bindings)
     "defaultParams": false,                     // enable default function parameters
     "forOf": false,                             // enable for-of loops
     "generators": false,                        // enable generators
@@ -206,6 +206,7 @@
 
     "no-var": 0,          // require let or const instead of var (off by default)
     "generator-star": 0,  // enforce the position of the * in generator functions (off by default)
+    "prefer-const": 2,    // suggest const where a variable is never reassigned
 
 
     ////////// Legacy //////////
