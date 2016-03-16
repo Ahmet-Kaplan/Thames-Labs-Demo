@@ -220,12 +220,6 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         }
       }
 
-      if (options.search.props.sortByCloseDate) {
-        selector.estCloseDate = {
-          $ne: undefined
-        }
-      }
-
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
