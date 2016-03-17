@@ -19,9 +19,7 @@
         {{#if value}}
           <p class="list-group-item-text"><i class="fa fa-fw fa-money"></i> {{decimal value}}</p>
         {{/if}}
-        {{#if estCloseDate}}
-          <p class="list-group-item-text"><i class="fa fa-fw fa-calendar"></i> Est. Close: {{friendlyEstClose}}</p>
-        {{/if}}
+        <p class="list-group-item-text"><i class="fa fa-fw fa-calendar"></i> Est. Close: {{friendlyEstClose}}</p>
         {{#if isArchived}}
           {{#if hasBeenWon}}
             <p class="text-success">Opportunity Won</p>

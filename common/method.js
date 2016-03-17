@@ -201,6 +201,7 @@ Meteor.methods({
           products.push(productId);
 
           var oname = faker.company.bs();
+          var createdDate = faker.date.recent(100);
           var oppId = Opportunities.insert({
             name: oname,
             description: faker.lorem.sentence(),
@@ -209,7 +210,8 @@ Meteor.methods({
             items: [],
             value: parseInt(faker.commerce.price()),
             companyId: companyId,
-            date: faker.date.recent(100),
+            date: createdDate,
+            estCloseDate: faker.date.future(0.5, createdDate),
             sequencedIdentifier: opportunitiesSequenceId
           });
 
