@@ -208,8 +208,8 @@ Template.ContactProjectListItem.helpers({
     return (this.companyId ? true : false);
   },
   projectCompanyName: function() {
-    Meteor.subscribe('companyById', this.companyId)
+    Template.instance().subscribe('companyById', this.companyId)
     var company = Companies.findOne(this.companyId);
-    return company.name;
+    return company ? company.name : null;
   }
 });
