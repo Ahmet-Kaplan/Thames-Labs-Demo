@@ -32,9 +32,9 @@ Template.taskDetail.helpers({
 
     switch (this.entityType) {
       case 'company':
-        var handle = Meteor.subscribe("companyById", this.entityId);
+        var handle = Template.instance().subscribe("companyById", this.entityId);
         if (handle && handle.ready()) {
-          var c = Companies.findOne({});
+          var c = Companies.findOne(this.entityId);
           entityData = {
             type: 'Company',
             icon: 'building',
@@ -44,9 +44,9 @@ Template.taskDetail.helpers({
         }
         break;
       case 'contact':
-        var handle = Meteor.subscribe("contactById", this.entityId);
+        var handle = Template.instance().subscribe("contactById", this.entityId);
         if (handle && handle.ready()) {
-          var c = Contacts.findOne({});
+          var c = Contacts.findOne(this.entityId);
           entityData = {
             type: 'Contact',
             icon: 'user',
@@ -56,9 +56,9 @@ Template.taskDetail.helpers({
         }
         break;
       case 'project':
-        var handle = Meteor.subscribe("projectById", this.entityId);
+        var handle = Template.instance().subscribe("projectById", this.entityId);
         if (handle && handle.ready()) {
-          var p = Projects.findOne({});
+          var p = Projects.findOne(this.entityId);
           entityData = {
             type: 'Project',
             icon: 'sitemap',
@@ -68,9 +68,9 @@ Template.taskDetail.helpers({
         }
         break;
       case 'opportunity':
-        var handle = Meteor.subscribe("opportunityById", this.entityId);
+        var handle = Template.instance().subscribe("opportunityById", this.entityId);
         if (handle && handle.ready()) {
-          var p = Opportunities.findOne({});
+          var p = Opportunities.findOne(this.entitythis.entityId);
           entityData = {
             type: 'Opportunity',
             icon: 'lightbulb-o',
