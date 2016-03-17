@@ -345,19 +345,19 @@ Migrations.add({
   }
 });
 
-Migrations.add({
-  version: 12,
-  name: "Remove stripe.blocked from all tenants",
-  up: function() {
-    ServerSession.set('maintenance', true);
-    Tenants.update({}, {
-      $unset: {
-        'stripe.blocked': ''
-      }
-    });
-    ServerSession.set('maintenance', false);
-  }
-});
+// Migrations.add({
+//   version: 12,
+//   name: "Remove stripe.blocked from all tenants",
+//   up: function() {
+//     ServerSession.set('maintenance', true);
+//     Tenants.update({}, {
+//       $unset: {
+//         'stripe.blocked': ''
+//       }
+//     });
+//     ServerSession.set('maintenance', false);
+//   }
+// });
 
 
 Migrations.add({
@@ -717,37 +717,37 @@ Migrations.add({
   }
 });
 
-Migrations.add({
-  version: 21,
-  name: "Update stripe object against tenants",
-  up: function() {
-    ServerSession.set('maintenance', true);
-    Partitioner.directOperation(function() {
-      var tenants = Tenants.find({}).fetch();
-      _.each(tenants, function(t) {
-        var stripe = t.stripe;
-        var flag = false;
-        if (stripe) {
-          flag = (stripe.paying === true || stripe.freeUnlimited === true);
-        }
+// Migrations.add({
+//   version: 21,
+//   name: "Update stripe object against tenants",
+//   up: function() {
+//     ServerSession.set('maintenance', true);
+//     Partitioner.directOperation(function() {
+//       var tenants = Tenants.find({}).fetch();
+//       _.each(tenants, function(t) {
+//         var stripe = t.stripe;
+//         var flag = false;
+//         if (stripe) {
+//           flag = (stripe.paying === true || stripe.freeUnlimited === true);
+//         }
 
-        Tenants.update({
-          _id: t._id
-        }, {
-          $set: {
-            'plan': (flag === true ? 'pro' : 'free')
-          },
-          $unset: {
-            'stripe.paying': "",
-            'stripe.freeUnlimited': "",
-            'stripe.totalRecords': ""
-          }
-        });
-      });
-    });
-    ServerSession.set('maintenance', false);
-  }
-});
+//         Tenants.update({
+//           _id: t._id
+//         }, {
+//           $set: {
+//             'plan': (flag === true ? 'pro' : 'free')
+//           },
+//           $unset: {
+//             'stripe.paying': "",
+//             'stripe.freeUnlimited': "",
+//             'stripe.totalRecords': ""
+//           }
+//         });
+//       });
+//     });
+//     ServerSession.set('maintenance', false);
+//   }
+// });
 
 Migrations.add({
   version: 22,

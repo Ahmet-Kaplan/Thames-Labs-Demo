@@ -25,10 +25,15 @@ Meteor.methods({
 		var sendDate = new Date(0);
 		sendDate.setUTCSeconds(timestamp);
 
-		var notesFieldData = "<h4><strong>Subject: " + subject + "</strong></h4><p>" + mailText  + "</p>";
+		var notesFieldData = "<h4><strong>Subject: " + subject + "</strong></h4><p>" + mailText + "</p>";
 
 		var emailPattern = /([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,})/g;
 		var userEmail = bodyData.From.match(emailPattern);
+
+		if (userEmail[0].indexOf('@cambridgesoftware.co.uk') === -1) {
+			console.log('Email sent but not from Cambridge Software account, ignoring...');
+			return;
+		}
 
 		if (!userEmail) return;
 
@@ -49,7 +54,7 @@ Meteor.methods({
 			Partitioner.bindGroup(TheTenant._id, function() {
 				var toAddresses = bodyData.To.match(emailPattern);
 				var involvedParties = bodyData["body-plain"].match(emailPattern);
-				var addresses = _.union(toAddresses, involvedParties);			
+				var addresses = _.union(toAddresses, involvedParties);
 
 				_.each(addresses, function(address) {
 					var contact = Contacts.findOne({
