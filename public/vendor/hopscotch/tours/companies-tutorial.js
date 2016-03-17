@@ -19,7 +19,8 @@ var companiesTutorial = {
 		if (Session.get(sessionVar)) {
 			$.getScript('/vendor/hopscotch/tours/companies-tutorial.js');
 		} else {
-				Modal.show('companyTutorialEnd');
+				lastTutorial = "addCompany";
+				Modal.show('help');
 		}
   },
   id: "companies-tutorial",
@@ -42,22 +43,15 @@ var companiesTutorial = {
 		nextOnTargetClick: true,
 		showNextButton: false,
 		arrowOffset: "-1px"
-  }, {
-		title: "",
-		content: "",
-		target: document.querySelector('#menuLinkCompanies'),
-		placement: "right",
-		smoothScroll: false,
-		onShow: function() {
-			hopscotch.nextStep();
-		}
 	}, {
 		title: "Viewing Your Companies",
 		content: "Here you can see a list of all the companies you have saved. If you dont have any yet don't worry, we'll add one now.",
-		target: document.querySelector('#companies-logo'),
-		placement: "bottom",
-		skipIfNoElement: false,
-		zindex: 1000
+		target: document.querySelector('#company-list'),
+		placement: "top",
+		zindex: 1000,
+		delay: 200,
+		width: "300px",
+		xOffset: "center"
 	}, {
 		title: "Adding a Company",
 		content: "Click this button to add a company",
@@ -67,7 +61,6 @@ var companiesTutorial = {
 		nextOnTargetClick: true,
 		width: "200px",
 		zindex: 1000,
-		delay: 100
 	}, {
 		title: "Adding a Company",
 		content: "First, type the company's name in here...",

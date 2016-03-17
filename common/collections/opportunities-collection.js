@@ -134,9 +134,9 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
   },
   engine: new EasySearch.MongoDB({
     sort: (searchObject, options) => {
-      if (options.search.props.sortByClose) {
+      if (options.search.props.sortByCloseDate) {
         return {
-          'estCloseDate': -1
+          'estCloseDate': 1
         }
       } else {
         return {
