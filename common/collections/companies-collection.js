@@ -280,5 +280,7 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Companies.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true) return;
+  
   logEvent('info', 'A company has been deleted: ' + doc.name);
 });

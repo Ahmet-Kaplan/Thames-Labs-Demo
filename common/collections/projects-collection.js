@@ -398,5 +398,7 @@ Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Projects.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true) return;
+  
   logEvent('info', 'A project has been deleted: ' + doc.description);
 });

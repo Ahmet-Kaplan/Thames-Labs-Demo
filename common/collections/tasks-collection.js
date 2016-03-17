@@ -441,6 +441,8 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Tasks.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true) return;
+  
   if (doc.taskReminderJob && Meteor.isServer) {
     Meteor.call('deleteTaskReminder', doc.taskReminderJob);
   }

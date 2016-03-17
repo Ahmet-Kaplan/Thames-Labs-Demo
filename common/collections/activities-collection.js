@@ -186,6 +186,8 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Activities.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true) return;
+  
   var entity;
   var entityName;
   if (doc.companyId) {

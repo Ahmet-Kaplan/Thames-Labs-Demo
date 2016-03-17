@@ -263,5 +263,7 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Contacts.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true) return;
+  
   logEvent('info', 'A contact has been deleted: ' + doc.forename + " " + doc.surname);
 });

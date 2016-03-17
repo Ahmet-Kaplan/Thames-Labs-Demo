@@ -9,15 +9,10 @@ Meteor.methods({
 			_id: tenantId
 		});
 		if (!tenant) return 'Tenant not found';
-
-		//check tenant pay status and handle accordingly here
-
 		try {
 			Partitioner.bindGroup(tenantId, function() {
 				console.log('Deleting tasks...');
 				Tasks.remove({});
-				console.log('Deleting activities...');
-				Activities.remove({});
 				console.log('Deleting tags...');
 				Meteor.tags.remove({});
 				console.log('Deleting events...');
@@ -38,6 +33,8 @@ Meteor.methods({
 				Chatterbox.remove({});
 				console.log('Deleting products...');
 				Products.remove({});
+				console.log('Deleting activities...');
+				Activities.remove({});
 			});
 
 			console.log('Deleting users...');
@@ -50,9 +47,16 @@ Meteor.methods({
 				_id: tenantId
 			});
 		} catch (err) {
+			console.log(err);
 			return 'Error during tenant removal: ' + err;
 		}
 
 		return true;
-	}
+	},
+  setTenantDeletionFlag: function(val) {
+    if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
+      return;
+    }
+    ServerSession.set('deletingTenant', val);
+  },
 });

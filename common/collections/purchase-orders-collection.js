@@ -293,5 +293,7 @@ PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options)
 });
 
 PurchaseOrders.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true) return;
+  
   logEvent('info', 'A purchase order has been deleted: ' + doc.description);
 });

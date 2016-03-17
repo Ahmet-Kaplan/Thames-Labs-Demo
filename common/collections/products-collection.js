@@ -219,5 +219,7 @@ Products.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Products.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true) return;
+  
   logEvent('info', 'A product has been deleted: ' + doc.name);
 });
