@@ -19,8 +19,8 @@ var adminTutorial = {
 		if (Session.get(sessionVar)) {
 			$.getScript('/vendor/hopscotch/tours/admin-tutorial.js');
 		} else {
-			FlowRouter.go('dashboard');
-			$.getScript('/vendor/hopscotch/tours/admin-tutorial-end.js');
+			lastTutorial = "admin";
+			Modal.show('help');
 		}
   },
   id: "admin-tutorial",
@@ -67,12 +67,12 @@ var adminTutorial = {
     placement: "bottom"
   }, {
     title: "Subscription Details",
-    content: "These are the details of your subscription. If you're on the free plan, you'll see that your records are limited to 50, if you're on a paid plan, you'll see that you have unlimited records.",
-    target: document.querySelector('.col-md-5'),
+    content: "These are the details of your subscription. You're on the free plan, you'll notice that certain features in RealTimeCRM are not active.",
+    target: document.querySelector('#planName'),
     placement: "right"
   }, {
     title: "Upgrading Subscription",
-    content: "Blown away by RealTimeCRM? Use this button to upgrade to the paid plan at anytime. This will remove all restrictions. See our website for more details at realtimecrm.co.uk",
+    content: "Use this button to upgrade to the paid plan at anytime. This will activate all features. See our website for more details at realtimecrm.co.uk",
     target: document.querySelector('#upScheme'),
     placement: "right",
     yOffset: "-10px"
@@ -134,7 +134,7 @@ var adminTutorial = {
 					Session.set(sessionVar);
 					$(this).unbind('click');
 					$("#addUserEmail").unbind('keyup');
-					hopscotch.nextStep();
+					$.getScript('/vendor/hopscotch/tours/admin-tutorial-end.js');
 				}
 			}, 500);
 		})
