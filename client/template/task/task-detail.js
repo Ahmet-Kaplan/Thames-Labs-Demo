@@ -12,7 +12,7 @@ Template.taskDetail.helpers({
     }
     return task;
   },
-  formattedDueDate: function() {
+  relativeDueDate: function() {
     if (this.isAllDay) {
       var a = moment(new Date());
       a.hour(0);
@@ -26,6 +26,10 @@ Template.taskDetail.helpers({
     } else {
       return moment(this.dueDate).fromNow();
     }
+  },
+  formattedDueDate: function() {
+    var displayDate = this.isAllDay ? moment(this.dueDate).format('Do MMM YYYY') : moment(this.dueDate).format('Do MMM YYYY, HH:mm');
+    return displayDate;
   },
   entityDetails: function() {
     var entityData = "";

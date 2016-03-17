@@ -17,19 +17,19 @@
             <li><a href="#" class="add-task" id="project">Project Task</a></li>
           </ul>
         </div>
-        {{#if isInRole 'CanDeleteTasks'}}
-          <button class="btn btn-danger" id="tskDeleteAllCompleted">Delete Tasks</button>
-        {{/if}}
       </div>
     {{/if}}
     {{#if isInRole 'CanReadTasks'}}
+      {{> taskDataManagement}}
       <div class="btn-group" role="group">
-        {{> taskDataManagement}}
         <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
           Show completed
         </button>
         <button type="button" class="btn btn-{{#if showMine}}success{{else}}default{{/if}}" id="tskToggleMine" >
           Show My Tasks
+        </button>
+        <button type="button" class="btn btn-{{#if showCalendar}}success{{else}}default{{/if}}" id="tskToggleCalendar" >
+          <i class="fa fa-fw fa-calendar"></i> Show Calendar
         </button>
       </div>
     {{/if}}
@@ -45,6 +45,9 @@
     </div>
   </div>
 
-  {{> searchResults index=TasksIndex listItemTemplateName='task'}}
-
+  {{#if showCalendar}}
+    {{> displayCalendar}}
+  {{else}}
+    {{> searchResults index=TasksIndex listItemTemplateName='task'}}
+  {{/if}}
 </template>

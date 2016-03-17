@@ -10,10 +10,14 @@ Meteor.methods({
       return;
     }
 
+
     if (Meteor.isServer) {
       Meteor.call('setDemoDataFlag', true);
 
-      faker.locale = "en";
+      var loopNumber = _.random(20, 40)
+      Meteor.call('setProgress', 0, loopNumber);
+
+      faker.locale = "en_GB";
       Partitioner.bindGroup(groupId, function() {
 
         var companies = [];
@@ -128,7 +132,8 @@ Meteor.methods({
         };
 
         // generate fake customer data
-        _.each(_.range(_.random(20, 40)), function() {
+        _.each(_.range(loopNumber), function(step) {
+          Meteor.call('setProgress', step + 1, loopNumber);
 
           var usersArray = Meteor.users.find({}).fetch();
           var randomIndex = Math.floor(Math.random() * usersArray.length);
@@ -365,7 +370,9 @@ Meteor.methods({
 
               purchaseOrderItems.push(poi);
             });
+
           });
+        
         });
 
       });

@@ -1,15 +1,17 @@
 <template name="taskDataManagement">
-  <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
-  <button type="button" class="btn btn-default" data-toggle="dropdown" >
-    <i class="fa fa-fw fa-upload"></i>
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-    <li><a href="#" id="task-data-upload-link">Import from CSV</a></li>
-    <li class="divider"></li>
-    <li><a href="#" id="task-template">Download task import template</a></li>
-    <li class="divider"></li>
-    <li><a href="#" id="task-template-help">How does this work?</a></li>
-    <input type="file" id="task-data-upload" style="display:none;">
-  </ul>
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
+    <button type="button" class="btn btn-default" data-toggle="dropdown" >
+      <i class="fa fa-fw fa-upload"></i>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="#" id="task-data-upload-link">Import from CSV</a></li>
+      <li class="divider"></li>
+      <li><a href="#" id="task-template">Download task import template</a></li>
+      <li class="divider"></li>
+      <li><a href="#" id="task-template-help">How does this work?</a></li>
+      <input type="file" id="task-data-upload" style="display:none;">
+    </ul>
+  </div>
 </template>
