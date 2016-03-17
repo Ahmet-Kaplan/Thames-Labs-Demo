@@ -19,7 +19,8 @@ var contactsTutorial = {
 		if (Session.get(sessionVar)) {
 			$.getScript('/vendor/hopscotch/tours/contacts-tutorial.js');
 		} else {
-				Modal.show('contactTutorialEnd');
+				lastTutorial = "addContact";
+				Modal.show('help');
 		}
   },
   id: "contacts-tutorial",

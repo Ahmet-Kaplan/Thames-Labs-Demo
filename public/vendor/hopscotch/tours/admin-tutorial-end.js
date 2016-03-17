@@ -19,7 +19,8 @@ var adminTutorialEnd = {
 		if (Session.get(sessionVar)) {
 			$.getScript('/vendor/hopscotch/tours/admin-tutorial-end.js');
 		} else {
-			Modal.show('adminTutorialEnd');
+			lastTutorial = "admin";
+			Modal.show('help');
 		}
   },
   id: "admin-tutorial-end",
@@ -30,7 +31,6 @@ var adminTutorialEnd = {
     placement: "right",
 		showNextButton: false,
 		onShow: function() {
-			FlowRouter.go('administration');
 			hopscotch.nextStep();
 		}
 	}],

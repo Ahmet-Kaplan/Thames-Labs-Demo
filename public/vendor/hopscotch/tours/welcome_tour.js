@@ -20,7 +20,8 @@ var welcomeTour = {
 			$.getScript('/vendor/hopscotch/tours/welcome_tour.js');
 		} else {
 			$(this).unbind('keyup');
-			Modal.show('tourEnd');
+			lastTutorial = "welcome";
+			Modal.show('help');
 		}
   },
   id: "welcome-tour",

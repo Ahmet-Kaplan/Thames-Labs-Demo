@@ -6,7 +6,7 @@ Template.opportunityList.onCreated(function() {
 
   // Search props
   this.showArchived = new ReactiveVar(false);
-  this.sortByClose = new ReactiveVar(false);
+  this.sortByCloseDate = new ReactiveVar(false);
   this.totalOpps = new ReactiveVar(0);
   this.archivedOpps = new ReactiveVar(0);
   this.totalOppValue = new ReactiveVar(0);
@@ -15,7 +15,7 @@ Template.opportunityList.onCreated(function() {
 
 Template.opportunityList.onRendered(function() {
 
-  Session.set('oppSortByClose', false);
+  Session.set('oppsortByCloseDate', false);
 
   // Update search props if reactive vars changed
   this.autorun(() => {
@@ -26,10 +26,10 @@ Template.opportunityList.onRendered(function() {
       searchComponent.removeProps('showArchived');
     }
 
-    if (this.sortByClose.get()) {
-      searchComponent.addProps('sortByClose', 'true');
+    if (this.sortByCloseDate.get()) {
+      searchComponent.addProps('sortByCloseDate', 'true');
     } else {
-      searchComponent.removeProps('sortByClose');
+      searchComponent.removeProps('sortByCloseDate');
     }
   });
 
@@ -71,19 +71,17 @@ Template.opportunityList.helpers({
   },
   averageOppValue: function() {
     return Template.instance().averageOppValue.get();
+  },
+  sortByCloseDate: function() {
+    return Template.instance().sortByCloseDate.get();
   }
 });
 
 Template.opportunityList.events({
   'click #toggle-close-sort': function(event, template) {
-    var currState = Template.instance().sortByClose.get();
-    Template.instance().sortByClose.set(!currState);
-
-    if (Template.instance().sortByClose.get() === true) {
-      $('#toggle-close-sort').addClass('btn-success').removeClass('btn-default');
-    } else {
-      $('#toggle-close-sort').addClass('btn-default').removeClass('btn-success');
-    }
+    var currState = Template.instance().sortByCloseDate.get();
+    Template.instance().sortByCloseDate.set(!currState);
+    $(event.target).blur();
   },
   'click #create-opportunity': function(event) {
     event.preventDefault();

@@ -4,6 +4,15 @@ Template.tenantList.onCreated(function() {
   this.autorun(function() {
     superAdminOnly(Meteor.userId());
   });
+
+  //Watch for demo data generation
+  this.autorun(function() {
+    if(ServerSession.get('populatingDemoData')){
+      Modal.show('generatingDemoData');
+    } else {
+      Modal.hide('generatingDemoData');
+    }
+  })
 });
 
 Template.tenantList.helpers({
