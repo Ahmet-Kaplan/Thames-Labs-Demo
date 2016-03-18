@@ -1,5 +1,8 @@
 Template.insertNewCompanyModal.onCreated(function() {
   this.magicList = new ReactiveVar([]);
+  this.fetchingResults = new ReactiveVar(false);
+  this.showFillManually = new ReactiveVar(false);
+  this.showDetails = new ReactiveVar(false);
   // Load google maps
   GoogleMaps.load({
     libraries: 'places'
@@ -63,18 +66,20 @@ Template.insertNewCompanyModal.onRendered(function() {
     }
   });
 
-  this.triggerMagicSearch = _.debounce(function() {
+  this.triggerMagicSearch = _.debounce(() => {
     var templateInstance = this;
     var searchInput = $('#companyName').val().trim();
 
     if(!searchInput) return;
+    else this.fetchingResults.set(true);
 
     Meteor.call('clearbit.getCompanyFromName', searchInput, (err, results) => {
-      $('#manual-fill').show();
       $('#resultsList').show();
       if(results) {
         templateInstance.magicList.set(results);
       }
+      this.showFillManually.set(true);
+      this.fetchingResults.set(false);
     });
   }, 500);
 
@@ -89,12 +94,20 @@ Template.insertNewCompanyModal.helpers({
   },
   moreThanTen: function() {
     return (Template.instance().magicList.get().total > 10);
+  },
+  fetchingResults: function() {
+    return Template.instance().fetchingResults.get();
+  },
+  showFillManually: function() {
+    return Template.instance().showFillManually.get();
+  },
+  showDetails: function() {
+    return Template.instance().showDetails.get();
   }
 });
 
 function fillCompanyData(res) {
   $('#insertNewCompanyForm')[0].reset();
-  $('#details-wrapper').show();
 
   $('input[name=name]').val(res.name);
   if(res.site.url) {
@@ -142,10 +155,13 @@ function fillCompanyData(res) {
 }
 
 Template.insertNewCompanyModal.events({
-    'click #close': function() {
-    hopscotch.endTour(true);
+  'click #close': function() {
+  hopscotch.endTour(true);
   },
-  'change #companyName': function(event, template) {
+  'keyup #companyName': function(evt) {
+    evt.preventDefault();
+    Template.instance().triggerMagicSearch.cancel();
+    Template.instance().triggerMagicSearch();
     var name = $('#companyName').val();
     Meteor.call('company.checkExistsByName', name, function(err, res) {
       if (res === true) {
@@ -155,23 +171,20 @@ Template.insertNewCompanyModal.events({
       }
     });
   },
-  'keyup #companyName': function(evt) {
-    evt.preventDefault();
-    Template.instance().triggerMagicSearch.cancel();
-    Template.instance().triggerMagicSearch();
-  },
   'click .magic-result': function(evt) {
     evt.preventDefault();
-    $('#btnCreate').show();
+    Template.instance().showDetails.set(true);
     var resultId = evt.target.id;
     var result = _.find(Template.instance().magicList.get().results, {id: resultId});
     fillCompanyData(result);
   },
   'click #manual-fill': function(evt) {
     evt.preventDefault();
-    $('#details-wrapper').show();
-    $('#insertNewCompanyForm')[0].reset();
-    $('#btnCreate').show();
+    Template.instance().showDetails.set(true);
+    Meteor.setTimeout(() => {
+      $('#insertNewCompanyForm')[0].reset();
+      $('input[name=name]').val($('#companyName').val());
+    }, 100);
   }
 })
 
