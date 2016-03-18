@@ -6,18 +6,40 @@ Meteor.methods({
       var userTenant = Tenants.findOne({});
       var currentStages = userTenant.settings.opportunity.stages;
       var step = (direction === "up" ? -1 : 1);
-      var stageIndex = _.findIndex(currentStages, {id: stageId});
 
-      if(stageIndex + step < 0 || stageIndex + step >= currentStages.length) {
-        throw new Meteor.Error('Incorrect Index', 'Incorrect index, the stage could not be moved.');
+      _.each(currentStages, function(cs, i) {
+        if (!cs.order) cs.order = i;
+      });
+
+      var currentOrder = currentStages.sort(function(a, b) {
+        if (a.order < b.order) return -1;
+        if (a.order > b.order) return 1;
+        return 0;
+      });
+
+      var index = -1;
+      _.each(currentOrder, function(co, i) {
+        if (co.id === stageId) index = i;
+      });
+      var GaiaRecord = currentOrder[index];
+
+      GaiaRecord.order = GaiaRecord.order + step;
+
+      if (GaiaRecord.order < 0 || GaiaRecord.order > currentOrder.length - 1) {
+        throw new Meteor.Error('Beyond bounds');
       }
 
-      var stageObject = _.pullAt(currentStages, stageIndex);
-      currentStages.splice(stageIndex + step, 0, stageObject[0]);
+      _.each(currentOrder, function(co, i) {
+        if (co.id !== stageId) {
+          if (co.order === GaiaRecord.order) {
+            co.order = co.order - step;
+          }
+        }
+      });
 
       Tenants.update(userTenant._id, {
         $set: {
-          'settings.opportunity.stages': currentStages
+          'settings.opportunity.stages': currentOrder
         }
       });
 
@@ -30,9 +52,11 @@ Meteor.methods({
     Partitioner.bindGroup(user.group, function() {
       var userTenant = Tenants.findOne({});
       var currentStages = userTenant.settings.opportunity.stages;
-      var stageIndex = _.findIndex(currentStages, {id: stageId});
+      var stageIndex = _.findIndex(currentStages, {
+        id: stageId
+      });
 
-      if(stageIndex !== -1) {
+      if (stageIndex !== -1) {
         _.pullAt(currentStages, stageIndex);
         Tenants.update(userTenant._id, {
           $set: {
