@@ -1,5 +1,348 @@
 Meteor.methods({
+  "extInfo.deleteGlobal": function(self) {
+    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may delete global fields.');
+    }
+
+    var targets = null;
+    var user = Meteor.users.findOne(this.userId);
+    var tenant = Tenants.findOne(user.group);
+    var fields = null;
+
+    switch (self.targetEntity) {
+
+      case "company":
+        targets = Companies.find({
+          _groupId: user.group
+        }).fetch();
+
+        _.each(targets, function(cx) {
+
+          var cfMaster = [];
+
+          if (cx.extendedInformation) {
+            for (var cf in cx.extendedInformation) {
+              if (cx.extendedInformation[cf].uuid !== self.uuid) {
+                cfMaster.push(cx.extendedInformation[cf]);
+              }
+            }
+            Companies.update(cx._id, {
+              $set: {
+                extendedInformation: cfMaster
+              }
+            });
+          }
+        });
+        break;
+
+      case "contact":
+        targets = Contacts.find({
+          _groupId: user.group
+        }).fetch();
+
+        _.each(targets, function(cx) {
+
+          var cfMaster = [];
+
+          if (cx.extendedInformation) {
+            for (var cf in cx.extendedInformation) {
+              if (cx.extendedInformation[cf].uuid !== self.uuid) {
+                cfMaster.push(cx.extendedInformation[cf]);
+              }
+            }
+            Contacts.update(cx._id, {
+              $set: {
+                extendedInformation: cfMaster
+              }
+            });
+          }
+        });
+        break;
+
+      case "project":
+        targets = Projects.find({
+          _groupId: user.group
+        }).fetch();
+
+        _.each(targets, function(cx) {
+
+          var cfMaster = [];
+
+          if (cx.extendedInformation) {
+            for (var cf in cx.extendedInformation) {
+              if (cx.extendedInformation[cf].uuid !== self.uuid) {
+                cfMaster.push(cx.extendedInformation[cf]);
+              }
+            }
+            Projects.update(cx._id, {
+              $set: {
+                extendedInformation: cfMaster
+              }
+            });
+          }
+        });
+        break;
+
+      case "product":
+        targets = Products.find({}).fetch();
+
+        _.each(targets, function(cx) {
+
+          var cfMaster = [];
+
+          if (cx.extendedInformation) {
+            for (var cf in cx.extendedInformation) {
+              if (cx.extendedInformation[cf].uuid !== self.uuid) {
+                cfMaster.push(cx.extendedInformation[cf]);
+              }
+            }
+            Products.update(cx._id, {
+              $set: {
+                extendedInformation: cfMaster
+              }
+            });
+          }
+        });
+        break;
+    }
+
+    switch (self.targetEntity) {
+      case 'company':
+        fields = tenant.settings.extInfo.company;
+        break;
+      case 'contact':
+        fields = tenant.settings.extInfo.contact;
+        break;
+      case 'project':
+        fields = tenant.settings.extInfo.project;
+        break;
+      case 'product':
+        fields = tenant.settings.extInfo.product;
+        break;
+    }
+
+    var data = [];
+    _.each(fields, function(f) {
+      if (f.uuid !== self.uuid) {
+        data.push(f);
+      }
+    });
+
+    switch (self.targetEntity) {
+      case 'company':
+        Tenants.update(user.group, {
+          $set: {
+            'settings.extInfo.company': data
+          }
+        });
+        break;
+      case 'contact':
+        Tenants.update(user.group, {
+          $set: {
+            'settings.extInfo.contact': data
+          }
+        });
+        break;
+      case 'project':
+        Tenants.update(user.group, {
+          $set: {
+            'settings.extInfo.project': data
+          }
+        });
+        break;
+      case 'product':
+        Tenants.update(user.group, {
+          $set: {
+            'settings.extInfo.product': data
+          }
+        });
+        break;
+    }
+  },
+  "extInfo.addNewGlobal": function(cfName, cfType, cfValue, cfEntity) {
+    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
+      return 1;
+    }
+
+    var user = Meteor.users.findOne(this.userId);
+    var tenant = Tenants.findOne(user.group);
+    var fields = null;
+
+    switch (cfEntity) {
+      case 'company':
+        fields = tenant.settings.extInfo.company;
+        break;
+      case 'contact':
+        fields = tenant.settings.extInfo.contact;
+        break;
+      case 'project':
+        fields = tenant.settings.extInfo.project;
+        break;
+      case 'product':
+        fields = tenant.settings.extInfo.product;
+        break;
+    }
+
+    var data = [];
+    _.each(fields, function(f) {
+      data.push(f);
+    });
+
+    var orderValue = data.length;
+
+    var error = false;
+    _.each(fields, function(fn) {
+      if (fn.name === cfName) {
+        error = true;
+      }
+    });
+    if (error) return 2;
+
+    var identifier = Guid.raw();
+
+    var newField = {
+      name: cfName,
+      type: cfType,
+      defaultValue: (cfType !== 'picklist' ? cfValue : null),
+      targetEntity: cfEntity,
+      dataOrder: orderValue,
+      listValues: (cfType === 'picklist' ? cfValue : null),
+      uuid: identifier
+    };
+
+    if (_.findWhere(fields, newField) === undefined) {
+      data.push(newField);
+    }
+
+    switch (cfEntity) {
+      case 'company':
+        Tenants.update(user.group, {
+          $set: {
+            'settings.extInfo.company': data
+          }
+        });
+        break;
+      case 'contact':
+        Tenants.update(user.group, {
+          $set: {
+            'settings.extInfo.contact': data
+          }
+        });
+        break;
+      case 'project':
+        Tenants.update(user.group, {
+          $set: {
+            'settings.extInfo.project': data
+          }
+        });
+        break;
+      case 'product':
+        Tenants.update(user.group, {
+          $set: {
+            'settings.extInfo.product': data
+          }
+        });
+        break;
+    }
+
+    var targets = null;
+    var collName = '';
+    switch (cfEntity) {
+      case 'company':
+        collName = 'companies';
+        targets = Companies.find({
+          _groupId: user.group
+        }).fetch();
+        break;
+      case 'contact':
+        collName = 'contacts';
+        targets = Contacts.find({
+          _groupId: user.group
+        }).fetch();
+        break;
+      case 'project':
+        collName = 'projects';
+        targets = Projects.find({
+          _groupId: user.group
+        }).fetch();
+        break;
+      case 'product':
+        collName = 'products';
+        targets = Products.find({
+          _groupId: user.group
+        }).fetch();
+        break;
+    }
+
+    _.each(targets, function(tx) {
+      var nameExists = false;
+      var cfMaster = [];
+
+      if (tx.extendedInformation) {
+        for (var cf in tx.extendedInformation) {
+          if (tx.extendedInformation.hasOwnProperty(cf)) {
+            if (cf.dataName === cfName) {
+              nameExists = true;
+              break;
+            }
+            cfMaster.push(tx.extendedInformation[cf]);
+          }
+        }
+      }
+
+      if (!nameExists) {
+        var settings = {
+          "dataName": cfName,
+          "dataValue": (cfType !== 'picklist' ? cfValue : null),
+          "dataType": cfType,
+          "isGlobal": true,
+          dataOrder: orderValue,
+          'listValues': (cfType === 'picklist' ? cfValue : null),
+          uuid: identifier
+        };
+        cfMaster.push(settings);
+
+        if (collName === 'companies') {
+          Companies.update(tx._id, {
+            $set: {
+              extendedInformation: cfMaster
+            }
+          });
+        }
+
+        if (collName === 'contacts') {
+          Contacts.update(tx._id, {
+            $set: {
+              extendedInformation: cfMaster
+            }
+          });
+        }
+
+        if (collName === 'projects') {
+          Projects.update(tx._id, {
+            $set: {
+              extendedInformation: cfMaster
+            }
+          });
+        }
+
+        if (collName === 'products') {
+          Products.update(tx._id, {
+            $set: {
+              extendedInformation: cfMaster
+            }
+          });
+        }
+      }
+    });
+
+    return 0;
+  },
   changeExtInfoOrder: function(type, name, direction) {
+    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may edit global fields.');
+    }
+
     var value = (direction === "up" ? -1 : 1);
     var user = Meteor.users.findOne({
       _id: this.userId
@@ -65,6 +408,15 @@ Meteor.methods({
       }, {
         $set: {
           'settings.extInfo.project': currentOrder
+        }
+      });
+    }
+    if (type === 'product') {
+      Tenants.update({
+        _id: user.group
+      }, {
+        $set: {
+          'settings.extInfo.product': currentOrder
         }
       });
     }

@@ -1,5 +1,10 @@
 Template.purchaseOrderDetail.onCreated(function() {
   this.autorun( () => {
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To access Purchase Orders');
+      FlowRouter.go('/');
+    }
+
     var purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
     if (purchaseOrder) {
       this.subscribe('companyById', purchaseOrder.supplierCompanyId);
@@ -24,6 +29,72 @@ Template.purchaseOrderDetail.onCreated(function() {
 
 Template.purchaseOrderDetail.onRendered(function() {
   $.getScript('/vendor/docxgen.min.js');
+});
+
+Template.purchaseOrderItem.helpers({
+  currencySymbol: function() {
+    if (this.currency === "GBP") return "£";
+    if (this.currency === "USD") return "$";
+    if (this.currency === "EUR") return "€";
+  },
+  canAddMoreItems: function(parentContext) {
+    this.parentContext = parentContext;
+    return (this.parentContext.status === "Requested" ? true : false);
+  },
+  orderItemStatus: function() {
+    if (this.status === undefined) {
+      return "No status set.";
+    } else {
+      return this.status;
+    }
+  },
+  statusIcon: function() {
+    switch (this.status) {
+      case 'Dispatched':
+        return "fa fa-fw fa-truck text-warning";
+      case 'Delivered':
+        return "fa fa-fw fa-check text-success";
+      case 'Cancelled':
+        return "fa fa-fw fa-times text-danger";
+      default:
+        return "";
+    }
+  },
+  projectName: function() {
+    var project = Projects.findOne(this.projectId);
+    if(project) return project.name;
+    return "No project";
+  }
+});
+
+Template.purchaseOrderDetail.helpers({
+  purchaseOrderData: function() {
+    var purchaseOrderId = FlowRouter.getParam('id');
+    return PurchaseOrders.findOne(purchaseOrderId);
+  },
+  hasItems: function() {
+    return PurchaseOrderItems.find({
+      purchaseOrderId: this._id
+    }).count() > 0;
+  },
+  purchaseOrderItems: function() {
+    return PurchaseOrderItems.find({
+      purchaseOrderId: this._id
+    });
+  },
+  isOpen: function() {
+    return (this.status !== "Closed" ? true : false);
+  },
+  canAddMoreItems: function() {
+    return (this.status === "Requested" ? true : false);
+  },
+  canExportDocx: function() {
+    if (bowser.safari) {
+      return false
+    } else {
+      return true;
+    }
+  }
 });
 
 Template.purchaseOrderDetail.events({
@@ -245,7 +316,7 @@ Template.purchaseOrderDetail.events({
     var poId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this purchase order?", function(result) {
-      if (result === true) {
+      if(result === true) {
         PurchaseOrders.remove(poId);
       }
     });
@@ -253,8 +324,14 @@ Template.purchaseOrderDetail.events({
 });
 
 Template.purchaseOrderItem.events({
-  'click #removePurchaseOrderItem': function() {
-    PurchaseOrderItems.remove(this._id);
+  'click #removePurchaseOrderItem': function(event) {
+    event.preventDefault();
+    var itemId = this._id
+    bootbox.confirm("Are you sure you wish to delete this item?", function(result) {
+      if(result === true) {
+        PurchaseOrderItems.remove(itemId);
+      }
+    });
   },
   'click #edit-po-item': function(event) {
     event.preventDefault();
@@ -262,71 +339,5 @@ Template.purchaseOrderItem.events({
       purchaseOrder: Template.parentData(),
       purchaseOrderItem: this
     });
-  }
-});
-
-Template.purchaseOrderItem.helpers({
-  currencySymbol: function() {
-    if (this.currency === "GBP") return "£";
-    if (this.currency === "USD") return "$";
-    if (this.currency === "EUR") return "€";
-  },
-  canAddMoreItems: function(parentContext) {
-    this.parentContext = parentContext;
-    return (this.parentContext.status === "Requested" ? true : false);
-  },
-  orderItemStatus: function() {
-    if (this.status === undefined) {
-      return "No status set.";
-    } else {
-      return this.status;
-    }
-  },
-  statusIcon: function() {
-    switch (this.status) {
-      case 'Dispatched':
-        return "fa fa-fw fa-truck text-warning";
-      case 'Delivered':
-        return "fa fa-fw fa-check text-success";
-      case 'Cancelled':
-        return "fa fa-fw fa-times text-danger";
-      default:
-        return "";
-    }
-  },
-  projectName: function() {
-    var project = Projects.findOne(this.projectId);
-    if(project) return project.name;
-    return "No project";
-  }
-});
-
-Template.purchaseOrderDetail.helpers({
-  purchaseOrderData: function() {
-    var purchaseOrderId = FlowRouter.getParam('id');
-    return PurchaseOrders.findOne(purchaseOrderId);
-  },
-  hasItems: function() {
-    return PurchaseOrderItems.find({
-      purchaseOrderId: this._id
-    }).count() > 0;
-  },
-  purchaseOrderItems: function() {
-    return PurchaseOrderItems.find({
-      purchaseOrderId: this._id
-    });
-  },
-  isOpen: function() {
-    return (this.status !== "Closed" ? true : false);
-  },
-  canAddMoreItems: function() {
-    return (this.status === "Requested" ? true : false);
-  },
-  canExportDocx: function() {
-    if (bowser.safari) {
-      return false
-    } else {
-      return true;
-    }
   }
 });

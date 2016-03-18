@@ -105,6 +105,7 @@ var widgetsDefault = {
     h: 1,
     displayed: false,
     name: 'Purchase Orders Overview',
+    requiredPermission: "CanReadPurchaseOrders"
   },
   'companySummary': {
     id: 'companySummary',
@@ -146,7 +147,7 @@ function saveMyWidgets() {
     myWidgets[id].h = parseInt(data.gsHeight);
   });
 
-  if(myWidgets !== {}) {
+  if (myWidgets !== {}) {
     Meteor.users.update(Meteor.userId(), {
       $set: {
         'profile.myWidgets': myWidgets
@@ -178,18 +179,16 @@ Template.dashboard.onCreated(function() {
     // Redirect superadmin
     if (Roles.userIsInRole(Meteor.userId(), 'superadmin')) FlowRouter.go('tenants');
   });
-});
 
-Template.dashboard.onCreated(function() {
   //Retrieve list of widgets from db if exists
   this.widgetListUser = new ReactiveVar({});
   var savedWidgets = Meteor.user().profile.myWidgets;
-  if(typeof savedWidgets === 'undefined' || savedWidgets === {}) {
-    this.widgetListUser.set(widgetsDefault)
+  if (typeof savedWidgets === 'undefined' || savedWidgets === {}) {
+    this.widgetListUser.set(widgetsDefault);
   } else {
     this.widgetListUser.set(savedWidgets);
   }
-})
+});
 
 Template.dashboard.onRendered(function() {
   $('.grid-stack').gridstack({
@@ -208,13 +207,13 @@ Template.dashboard.onRendered(function() {
 
     //Create the actual widgets table
     _.each(_.sortByOrder(widgetList, ['autoPosition', 'y'], ['desc', 'asc']), function(widget) {
-      if($('#' + widget.id + 'Widget').length > 0) {
+      if ($('#' + widget.id + 'Widget').length > 0) {
         return;
       }
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
           userId = Meteor.userId();
-        if (!Roles.userIsInRole(userId, ['Administrator', requiredPermission])) {
+        if (!Roles.userIsInRole(userId, [requiredPermission])) {
           return;
         }
       }
@@ -236,14 +235,23 @@ Template.dashboard.onRendered(function() {
     this.widgetListUser.get();
     saveMyWidgets();
   });
+
+  //Has user taken welcome tour yet?
+  if (!Meteor.user().profile.welcomeTour) {
+    Modal.show("firstRun");
+  } else if (bowser.mobile || bowser.tablet) {
+    if (!Meteor.user().profile.mobile) {
+      Modal.show("firstRunMobile");
+    };
+  }
 });
 
 Template.dashboard.events({
- 'change .grid-stack': function() {
+  'change .grid-stack': function() {
     saveMyWidgets();
   },
 
- 'click .addWidget': function(e) {
+  'click .addWidget': function(e) {
     var newWidgetName = e.target.id;
 
     if ($('#' + newWidgetName + 'Widget').length) {
@@ -272,10 +280,17 @@ Template.dashboard.helpers({
       widget.displayed = (displayedWidgets[widget.id] && displayedWidgets[widget.id].displayed === true);
       return widget;
     }).filter(function(widget) {
+
+      if (widget.id === 'openPo' || widget.id === 'poInformation') {
+        var user = Meteor.user();
+        if (!user || !user.group) return false;
+        if (!isProTenant(user.group)) return false;
+      }
+
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
-            userId = Meteor.userId();
-        return Roles.userIsInRole(userId, ['Administrator', requiredPermission]);
+          userId = Meteor.userId();
+        return Roles.userIsInRole(userId, [requiredPermission]);
       }
       return true;
     });

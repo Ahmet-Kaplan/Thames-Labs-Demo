@@ -5,13 +5,15 @@
       <h4 class="entity-title">Product</h4>
       <h1 id="product-name" class="entity-name">{{name}}</h1>
 
+      {{> tagInput tags=tags collection='products' entityId=_id permissionToEdit='CanEditProducts'}}
+
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#if isInRole 'Administrator,CanEditProducts'}}
+            {{#if isInRole 'CanEditProducts'}}
             <a href="#" id="edit-product" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
             {{/if}}
-              {{#if isInRole 'Administrator,CanDeleteProducts'}}
+              {{#if isInRole 'CanDeleteProducts'}}
             <a href="#" id="delete-product" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
             {{/if}}
           </div>
@@ -37,12 +39,23 @@
           {{/if}}
           {{#if cost}}
           <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-gbp"></i> Cost Price</h4>
+            <h4><i class="fa fa-fw fa-{{userCurrency}}"></i> Cost Price</h4>
             {{decimal cost}}
           </li>
           {{/if}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Product ID</h4>
+            <p class="list-group-item-text">{{sequencedIdentifier}}</p>
+          </li>
         </ul>
       </div>
+
+      <div>
+        {{#if isInRole 'CanEditProducts'}}{{#with this}} {{> customFieldDisplay entity_data=this entity_type='product'}} {{/with}}{{/if}}
+      </div>
+
+      {{> documentContainer collectionName="products" id=this._id permissionRequired="CanEditProducts"}}
+
     </div>
   </div>
   {{/with}}

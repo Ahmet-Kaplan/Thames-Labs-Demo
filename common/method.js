@@ -10,10 +10,14 @@ Meteor.methods({
       return;
     }
 
+
     if (Meteor.isServer) {
       Meteor.call('setDemoDataFlag', true);
 
-      faker.locale = "en";
+      var loopNumber = _.random(20, 40)
+      Meteor.call('setProgress', 0, loopNumber);
+
+      faker.locale = "en_GB";
       Partitioner.bindGroup(groupId, function() {
 
         var companies = [];
@@ -23,6 +27,13 @@ Meteor.methods({
         var purchaseOrderItems = [];
         var opportunities = [];
         var products = [];
+
+        var companiesSequenceId = 1;
+        var contactsSequenceId = 1;
+        var opportunitiesSequenceId = 1;
+        var projectsSequenceId = 1;
+        var purchaseOrdersSequenceId = 1;
+        var productsSequenceId = 1;
 
         //Setup opportunity stages
         var userTenant = Tenants.findOne({});
@@ -42,7 +53,7 @@ Meteor.methods({
           }
         });
 
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < MAX_FREE_USERS; i++) {
           var userId = Accounts.createUser({
             email: faker.internet.email().toLowerCase(),
             password: 'password',
@@ -57,13 +68,14 @@ Meteor.methods({
             }
           });
 
+          Roles.addUsersToRoles(userId, 'Administrator');
           Roles.addUsersToRoles(userId, defaultPermissionsList);
           Partitioner.setUserGroup(userId, groupId);
         }
 
         //Function to add task since the entity type can vary
         var addTask = function(entityType, entityId, createdBy) {
-          if(faker.random.boolean()) {
+          if (faker.random.boolean()) {
             return;
           }
           var usersArray = Meteor.users.find({}).fetch();
@@ -80,9 +92,9 @@ Meteor.methods({
           var completed = faker.random.boolean();
           var completedAt = completed ? faker.date.recent() : undefined;
           var title = faker.hacker.verb() + ' ' +
-                      faker.hacker.adjective() + ' ' +
-                      faker.hacker.noun() + ' ' +
-                      faker.hacker.noun();
+            faker.hacker.adjective() + ' ' +
+            faker.hacker.noun() + ' ' +
+            faker.hacker.noun();
 
           var taskId = Tasks.insert({
             title: title,
@@ -98,7 +110,7 @@ Meteor.methods({
             createdBy: createdBy
           });
 
-          _.each(_.range(_.random(0,5)), function() {
+          _.each(_.range(_.random(0, 5)), function() {
             Tasks.addTag(faker.hacker.verb(), {
               _id: taskId
             });
@@ -120,7 +132,8 @@ Meteor.methods({
         };
 
         // generate fake customer data
-        _.each(_.range(_.random(50, 100)), function() {
+        _.each(_.range(loopNumber), function(step) {
+          Meteor.call('setProgress', step + 1, loopNumber);
 
           var usersArray = Meteor.users.find({}).fetch();
           var randomIndex = Math.floor(Math.random() * usersArray.length);
@@ -144,12 +157,15 @@ Meteor.methods({
             country: faker.address.country(),
             website: 'http://' + faker.internet.domainName(),
             phone: faker.phone.phoneNumber(),
-            createdBy: randomUser._id
+            createdBy: randomUser._id,
+            sequencedIdentifier: companiesSequenceId
           });
+
+          companiesSequenceId = companiesSequenceId + 1;
 
           companies.push(companyId);
 
-          _.each(_.range(_.random(0,5)), function() {
+          _.each(_.range(_.random(0, 5)), function() {
             Companies.addTag(faker.company.catchPhraseAdjective(), {
               _id: companyId
             });
@@ -176,12 +192,16 @@ Meteor.methods({
             description: faker.lorem.sentence(),
             cost: parseInt(faker.finance.amount()),
             price: parseInt(faker.commerce.price()),
-            createdBy: randomUser._id
+            createdBy: randomUser._id,
+            sequencedIdentifier: productsSequenceId
           });
+
+          productsSequenceId = productsSequenceId + 1;
 
           products.push(productId);
 
           var oname = faker.company.bs();
+          var createdDate = faker.date.recent(100);
           var oppId = Opportunities.insert({
             name: oname,
             description: faker.lorem.sentence(),
@@ -190,8 +210,12 @@ Meteor.methods({
             items: [],
             value: parseInt(faker.commerce.price()),
             companyId: companyId,
-            date: faker.date.recent(100)
+            date: createdDate,
+            estCloseDate: faker.date.future(0.5, createdDate),
+            sequencedIdentifier: opportunitiesSequenceId
           });
+
+          opportunitiesSequenceId = opportunitiesSequenceId + 1;
 
           _.each(_.range(_.random(0, 2)), function() {
             Activities.insert({
@@ -209,7 +233,7 @@ Meteor.methods({
 
           opportunities.push(oppId);
 
-          _.each(_.range(_.random(0,5)), function() {
+          _.each(_.range(_.random(0, 5)), function() {
             Opportunities.addTag(faker.hacker.noun(), {
               _id: oppId
             });
@@ -227,12 +251,15 @@ Meteor.methods({
               phone: faker.phone.phoneNumber(),
               mobile: faker.phone.phoneNumber(),
               companyId: companyId,
-              createdBy: randomUser._id
+              createdBy: randomUser._id,
+              sequencedIdentifier: contactsSequenceId
             });
+
+            contactsSequenceId = contactsSequenceId + 1;
 
             contacts.push(contactId);
 
-            _.each(_.range(_.random(0,5)), function() {
+            _.each(_.range(_.random(0, 5)), function() {
               Contacts.addTag(faker.name.jobType(), {
                 _id: contactId
               });
@@ -265,12 +292,15 @@ Meteor.methods({
               contactId: contacts[Math.floor(Math.random() * contacts.length)],
               userId: randomUser._id,
               value: parseInt(faker.commerce.price()),
-              createdBy: randomUser._id
+              createdBy: randomUser._id,
+              sequencedIdentifier: projectsSequenceId
             });
+
+            projectsSequenceId = projectsSequenceId + 1;
 
             projects.push(projectId);
 
-            _.each(_.range(_.random(0,5)), function() {
+            _.each(_.range(_.random(0, 5)), function() {
               Projects.addTag(faker.hacker.verb(), {
                 _id: projectId
               });
@@ -304,8 +334,11 @@ Meteor.methods({
               status: _.sample(Schemas.PurchaseOrder._schema.status.allowedValues),
               orderDate: faker.date.past(100),
               paymentMethod: _.sample(Schemas.PurchaseOrder._schema.paymentMethod.allowedValues),
-              createdBy: randomUser._id
+              createdBy: randomUser._id,
+              sequencedIdentifier: 'PO-' + purchaseOrdersSequenceId
             });
+
+            purchaseOrdersSequenceId = purchaseOrdersSequenceId + 1;
 
             purchaseOrders.push(purchaseOrderId);
 
@@ -323,21 +356,25 @@ Meteor.methods({
               });
             });
 
-            _.each(_.range(_.random(0, 2)), function() {
+            _.each(_.range(_.random(1, 4)), function() {
+              var price = faker.commerce.price();
+              var qty = _.random(1, 40);
               var poi = PurchaseOrderItems.insert({
                 purchaseOrderId: purchaseOrderId,
                 description: faker.commerce.productName(),
                 productCode: faker.finance.account(),
                 projectId: projects[Math.floor(Math.random() * projects.length)],
-                value: faker.commerce.price(),
-                quantity: _.random(1, 65),
-                totalPrice: "0.00",
+                value: price,
+                quantity: qty,
+                totalPrice: parseFloat((price * qty).toFixed(2)),
                 createdBy: randomUser._id
               });
 
               purchaseOrderItems.push(poi);
             });
+
           });
+        
         });
 
       });
@@ -365,7 +402,8 @@ Meteor.methods({
       value: val,
       createdBy: user._id,
       projectTypeId: projType,
-      projectMilestoneId: 0
+      projectMilestoneId: 0,
+      sequencedIdentifier: Tenants.findOne({}).settings.project.defaultNumber
     });
 
     if (opp.items) {
@@ -426,6 +464,12 @@ Meteor.methods({
 
 logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
   if (Meteor.isServer) {
+    var user = Meteor.users.findOne({
+      _id: this._id
+    });
+    if (user && user.group) {
+      if (!isProTenant(user.group)) return;
+    }
     Meteor.call('addEventToAuditLog', logLevel, logMessage, ((typeof logEntityType === 'undefined') ? undefined : logEntityType), ((typeof logEntityId === 'undefined') ? undefined : logEntityId), 'client', Guid.raw());
   }
 };

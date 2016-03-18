@@ -1,0 +1,17 @@
+.btn-huge {
+	width: 200px;
+	height: 200px;
+	white-space: normal !important;
+	margin-bottom: 10px !important;
+	margin-right: 10px !important;
+}
+
+.btn-huge i {
+	margin: 10px 10px 10px 10px;
+	font-size: 50px;
+}
+
+.tutorial-title{
+	font-family: Helvetica, sans-serif;
+	font-weight: bold;
+}

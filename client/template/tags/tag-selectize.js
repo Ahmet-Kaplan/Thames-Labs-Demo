@@ -61,7 +61,7 @@ Template.tagSelectize.onRendered(function() {
       tagInput.focus();
       self.autorun(function() {
         var userId = Meteor.userId();
-        if (permissionToEdit && !Roles.userIsInRole(userId, ['Administrator', permissionToEdit])) {
+        if (permissionToEdit && !Roles.userIsInRole(userId, [permissionToEdit])) {
           tagInput.lock();
         } else {
           tagInput.unlock();

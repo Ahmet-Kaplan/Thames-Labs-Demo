@@ -1,37 +1,33 @@
 <head>
   <script type="text/javascript">
-    window.heap = window.heap || [], heap.load = function(t, e) {
-      window.heap.appid = t, window.heap.config = e;
-      var a = document.createElement("script");
-      a.type = "text/javascript", a.async = !0, a.src = ("https:" === document.location.protocol ? "https:" : "http:") + "//cdn.heapanalytics.com/js/heap-" + t + ".js";
-      var n = document.getElementsByTagName("script")[0];
-      n.parentNode.insertBefore(a, n);
-      for (var o = function(t) {
-          return function() {
-            heap.push([t].concat(Array.prototype.slice.call(arguments, 0)))
-          }
-        }, p = ["clearEventProperties", "identify", "setEventProperties", "track", "unsetEventProperty"], c = 0; c < p.length; c++) heap[p[c]] = o(p[c])
-    };
-    heap.load("3502967420");
+  window.heap = window.heap || [], heap.load = function(t, e) {
+  window.heap.appid = t, window.heap.config = e;
+  var a = document.createElement("script");
+  a.type = "text/javascript", a.async = !0, a.src = ("https:" === document.location.protocol ? "https:" : "http:") + "//cdn.heapanalytics.com/js/heap-" + t + ".js";
+  var n = document.getElementsByTagName("script")[0];
+  n.parentNode.insertBefore(a, n);
+  for (var o = function(t) {
+  return function() {
+  heap.push([t].concat(Array.prototype.slice.call(arguments, 0)))
+  }
+  }, p = ["clearEventProperties", "identify", "setEventProperties", "track", "unsetEventProperty"], c = 0; c < p.length; c++) heap[p[c]] = o(p[c])
+  };
+  heap.load("3502967420");
   </script>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0">
   <link href="/favicon.ico" rel="icon" sizes="16x16 32x32">
-
   <link rel="stylesheet" href="/vendor/hopscotch/hopscotch.css"></link>
   <script src="/vendor/hopscotch/hopscotch.js"></script>
+  <script src="/vendor/jszip.min.js"></script>
   <script src="/vendor/chartjs/Chart.min.js"></script>
   <script src="/vendor/chartjs/Chart.StackedBar.js"></script>
 </head>
-
 <template name="appLayout">
-
-  {{#if maintenanceMode}} {{> maintenance}} {{else}}
-
-  <div class="container-fluid">
-    <div id="id-view-content" class="{{hasMenuClass}}">
-      {{> nav}} {{#if currentUser}} {{#if subsReady}} {{> Template.dynamic template=main}} {{else}} {{> loading}} {{/if}} {{else}} {{#if loggingIn}} {{> loading}} {{else}} {{>login}} {{/if}} {{/if}} {{> footer}}
-    </div>
+{{#if maintenanceMode}} {{> maintenance}} {{else}}
+<div class="container-fluid">
+  <div id="id-view-content" class="{{hasMenuClass}}">
+    {{> nav}} {{#if currentUser}} {{#if subsReady}} {{> Template.dynamic template=main}} {{else}} {{> loading}} {{/if}} {{else}} {{#if loggingIn}} {{> loading}} {{else}} {{>login}} {{/if}} {{/if}} {{> footer}}
   </div>
-  {{/if}}
-
+</div>
+{{/if}}
 </template>

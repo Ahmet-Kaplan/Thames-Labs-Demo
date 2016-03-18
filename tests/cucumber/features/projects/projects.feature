@@ -40,15 +40,17 @@ Feature: Allow users to manage their Projects
 
   Scenario: An administrator can add CanReadProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Projects" to a restricted user
-    Then the restricted user should have the "CanReadProjects" permission
+    Then the user "restricted user" should have the "CanReadProjects" permission
 
   Scenario: An administrator can remove CanReadProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
-    Then the restricted user should not have the "CanReadProjects" permission
+    Then the user "restricted user" should not have the "CanReadProjects" permission
 
   Scenario: A superadmin user can't visit the projects list
     Given a superadmin exists
@@ -84,15 +86,17 @@ Feature: Allow users to manage their Projects
 
   Scenario: An administrator can add CanCreateProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanCreate" on "Projects" to a restricted user
-    Then the restricted user should have the "CanCreateProjects" permission
+    Then the user "restricted user" should have the "CanCreateProjects" permission
 
   Scenario: An administrator can remove CanCreateProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
-    Then the restricted user should not have the "CanCreateProjects" permission
+    Then the user "restricted user" should not have the "CanCreateProjects" permission
 
   #Editing
   Scenario: A user can edit a project
@@ -114,15 +118,17 @@ Feature: Allow users to manage their Projects
 
   Scenario: An administrator can add CanEditProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanEdit" on "Projects" to a restricted user
-    Then the restricted user should have the "CanEditProjects" permission
+    Then the user "restricted user" should have the "CanEditProjects" permission
 
   Scenario: An administrator can remove CanEditProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
-    Then the restricted user should not have the "CanEditProjects" permission
+    Then the user "restricted user" should not have the "CanEditProjects" permission
 
   #Deleting
   Scenario: A user can delete a project
@@ -143,15 +149,17 @@ Feature: Allow users to manage their Projects
 
   Scenario: An administrator can add CanDeleteProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Projects" to a restricted user
-    Then the restricted user should have the "CanDeleteProjects" permission
+    Then the user "restricted user" should have the "CanDeleteProjects" permission
 
   Scenario: An administrator can remove CanDeleteProjects permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Projects" from a restricted user
-    Then the restricted user should not have the "CanDeleteProjects" permission
+    Then the user "restricted user" should not have the "CanDeleteProjects" permission
 
   #Menu item permissions
   Scenario: A restricted user cannot see the Projects menu item without the correct permission
@@ -179,23 +187,17 @@ Feature: Allow users to manage their Projects
     When I navigate to a project page
     Then I should not see the edit tag button
 
-  Scenario: A user with the Administrator permission can edit tags
-    Given I have the "Administrator" permission
-    And a "Project" has been created
-    When I navigate to a project page
-    And I click ".editTags"
-    And I add the tag "test-tag"
-    Then the tag field for the "projects" should contain "test-tag"
-
   #Extended information fields
-  Scenario: A user can open the "Add Extended information fields" modal
+  
+  Scenario: A user can open the "Add custom field" modal
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
     When I navigate to a project page
     And I click "#add-custom-field"
     Then I should see a modal
 
-  Scenario: A user can add an extended information field
+
+  Scenario: A user can add an custom field
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
     When I navigate to a project page
@@ -205,7 +207,8 @@ Feature: Allow users to manage their Projects
     And I click "#submit-custom-field"
     Then I should see ".custom-field-display-item"
 
-  Scenario: A user can delete an extended information field
+
+  Scenario: A user can delete a custom field
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
     When I navigate to a project page
@@ -215,9 +218,12 @@ Feature: Allow users to manage their Projects
     And I click "#submit-custom-field"
     And I click "#delete-custom-field"
     And I click confirm on the modal
-    Then I should not see ".custom-field-display-item"
+    Then I should not see a modal
+    And I should not see ".custom-field-display-item"
+    And I should see a "success" toastr with the message "Custom field removed."
 
-  Scenario: A user can edit an extended information field
+
+  Scenario: A user can edit an custom field
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
     When I navigate to a project page
@@ -228,7 +234,7 @@ Feature: Allow users to manage their Projects
     And I click "#edit-custom-fields"
     And I set text field with id "extInfosvelocity2TextValue" to "velocity"
     And I click "#submit-ext-info"
-    Then I see a field with the name "velocity" in the extended information list
+    Then I see a field with the name "velocity" in the custom field list
 
   #Tasks
   Scenario: A user can add a task to a project
@@ -260,6 +266,7 @@ Feature: Allow users to manage their Projects
   Scenario: A user can add, edit and delete an activity
     Given a "Project" has been created
     When I navigate to a project page
+    And I click "#general-dropdown"
     And I click "#add-activity"
     Then I should see a modal
     When I set text field "activityTimestamp" to "05/05/2015 05:05"
@@ -298,6 +305,7 @@ Feature: Allow users to manage their Projects
   #Filtering and Searching
   Scenario: A user can filter projects by company
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a "Project" has been created
     And an additional "Project" has been created
     When I navigate to "/projects"
@@ -308,6 +316,7 @@ Feature: Allow users to manage their Projects
 
   Scenario: Clicking a tag badge applies the filter
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a "Project" has been created
     And an additional "Project" has been created
     When I navigate to "/projects"

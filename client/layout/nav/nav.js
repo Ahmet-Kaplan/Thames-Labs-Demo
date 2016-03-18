@@ -1,29 +1,38 @@
+Session.setDefault('notifications', []);
+Session.setDefault('showAllNotices', false);
+
 Template.nav.onCreated(function() {
+
   this.subscribe('allNotifications');
+  this.fab = new ReactiveVar(true);
+  this.fabOpen = new ReactiveVar(false);
 
   this.autorun(function() {
+
     var getNotification = Notifications.findOne({
-      target: {$in: [Meteor.userId(), 'all']}
+      target: {
+        $in: [Meteor.userId(), 'all']
+      }
     }, {
       sort: {
         createdAt: -1
       }
     });
 
-    if(getNotification && !getNotification.notified && getNotification.target === Meteor.userId()) {
-      if("Notification" in window) {
+    if (getNotification && !getNotification.notified && getNotification.target === Meteor.userId()) {
+      if ("Notification" in window) {
 
         var options = {
           body: getNotification.shortDescription + ": " + getNotification.detail,
           icon: '/dark-icon.svg'
         }
 
-        if(Notification.permission === "granted") {
+        if (Notification.permission === "granted") {
           new Notification(getNotification.title, options);
 
         } else if (Notification.permission !== "denied") {
           Notification.requestPermission(function(permission) {
-            if(permission === "granted") {
+            if (permission === "granted") {
               new Notification(getNotification.title, options);
             }
           })
@@ -33,9 +42,41 @@ Template.nav.onCreated(function() {
       Meteor.call('setNotified', getNotification._id);
     }
   });
+
+  $('#show-less-notices').hide();
+});
+
+Template.nav.onRendered(function() {
+  this.autorun(function() {
+    var showAll = Session.get('showAllNotices');
+
+    var notices = Notifications.find({
+      target: {
+        $in: [Meteor.userId(), 'all']
+      }
+    }, {
+      sort: {
+        createdAt: -1
+      },
+      limit: (showAll === true ? 99 : NOTICE_LIMIT)
+    }).fetch();
+
+    Session.set('notifications', notices);
+  });
 });
 
 Template.nav.helpers({
+  displayShowLess: function() {
+    var showAll = Session.get('showAllNotices');
+    return (showAll === true);
+  },
+  displayShowMore: function() {
+    var showAll = Session.get('showAllNotices');
+    return (showAll === false);
+  },
+  notificationLimit: function() {
+    return NOTICE_LIMIT;
+  },
   showTourOption: function() {
     var currRoute = FlowRouter.getRouteName();
     var show = false;
@@ -70,14 +111,7 @@ Template.nav.helpers({
     return sName;
   },
   notifications: function() {
-    return Notifications.find({
-      target: {$in: [Meteor.userId(), 'all']}
-    }, {
-      sort: {
-        createdAt: -1
-      },
-      limit: 3
-    });
+    return Session.get('notifications');
   },
   recentNote: function() {
     var today = new Date();
@@ -85,7 +119,9 @@ Template.nav.helpers({
     yesterday.setDate(today.getDate() - 1);
 
     var recent = Notifications.find({
-      target: {$in: [Meteor.userId(), 'all']}
+      target: {
+        $in: [Meteor.userId(), 'all']
+      }
     }, {
       sort: {
         createdAt: -1
@@ -107,7 +143,9 @@ Template.nav.helpers({
     yesterday.setDate(today.getDate() - 1);
 
     return Notifications.find({
-      target: {$in: [Meteor.userId(), 'all']}
+      target: {
+        $in: [Meteor.userId(), 'all']
+      }
     }).count();
   },
   favourites: function() {
@@ -123,17 +161,38 @@ Template.nav.helpers({
       }
     }
   },
-  limitReached: function() {
-    if(!Tenants.findOne({}) || Tenants.findOne({}).stripe.paying || Tenants.findOne({}).stripe.freeUnlimited) {
-      return false;
-    }
-    var totalRecords = Tenants.findOne({}).stripe.totalRecords;
-    return totalRecords >= MAX_RECORDS;
+  fabEnabled: function() {
+    return Template.instance().fab.get();
+  },
+  fabOpen: function() {
+    return Template.instance().fabOpen.get();
   }
 });
 
 //NOTE: Repeated ID's for elements in the navbar and sidemenu are okay, as only one will be displayed at a time
 Template.nav.events({
+  'click #show-more-notices': function(event, template) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    Session.set('showAllNotices', true);
+
+    $('#show-more-notices').hide();
+    $('#show-less-notices').show();
+  },
+  'click #show-less-notices': function(event, template) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    Session.set('showAllNotices', false);
+
+    $('#show-more-notices').show();
+    $('#show-less-notices').hide();
+  },
+  'click #help-menu': function() {
+    lastTutorial = "help";
+    Modal.show("help");
+  },
   'click #tour-this-page': function() {
     var currentPageName = FlowRouter.getRouteName();
 
@@ -191,7 +250,7 @@ Template.nav.events({
     }
   },
   'click #qckCreateCompany': function(event) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateCompanies'])) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['CanCreateCompanies'])) {
       toastr.warning('You do not have permission to create companies. Please contact your system administrator.');
       return;
     }
@@ -200,7 +259,7 @@ Template.nav.events({
     Modal.show('insertNewCompanyModal', this);
   },
   'click #qckCreateContact': function(event) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateContacts'])) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['CanCreateContacts'])) {
       toastr.warning('You do not have permission to create contacts. Please contact your system administrator.');
       return;
     }
@@ -209,7 +268,7 @@ Template.nav.events({
     Modal.show('insertContactModal', this);
   },
   'click #qckCreateProject': function(event) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreateProjects'])) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['CanCreateProjects'])) {
       toastr.warning('You do not have permission to create projects. Please contact your system administrator.');
       return;
     }
@@ -218,7 +277,7 @@ Template.nav.events({
     Modal.show('newProjectForm', this);
   },
   'click #qckCreatePurchaseOrder': function(event) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['Administrator', 'CanCreatePurchaseOrders'])) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['CanCreatePurchaseOrders'])) {
       toastr.warning('You do not have permission to create purchase orders. Please contact your system administrator.');
       return;
     }
@@ -258,6 +317,36 @@ Template.nav.events({
       document.getElementById("id-view-sidemenu").className =
         document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
     }
+  },
+  'click #toggleFab': function(event, template) {
+    if (Template.instance().fab.get() === true) {
+      template.fab.set(false);
+    } else {
+      template.fab.set(true);
+    };
+  },
+  'click #fab-btn': function(event, template) {
+    if (Template.instance().fabOpen.get() === true) {
+      template.fabOpen.set(false);
+    } else {
+      template.fabOpen.set(true);
+    };
+  },
+  'click #fabAddContacts': function(event) {
+    event.preventDefault();
+    Modal.show('insertContactModal', this);
+  },
+  'click #fabAddCompanies': function(event) {
+    event.preventDefault();
+    Modal.show('insertNewCompanyModal', this);
+  },
+  'click #fabAddProject': function(event) {
+    event.preventDefault();
+    Modal.show('newProjectForm', this);
+  },
+  'click #fabAddPurchaseOrder': function(event) {
+    event.preventDefault();
+    Modal.show('newPurchaseOrderForm', this);
   }
 });
 

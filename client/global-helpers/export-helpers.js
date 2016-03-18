@@ -1,7 +1,12 @@
 exportFromSearchToCSV = function(collectionName) {
-  if (!Collections[collectionName] || !Collections[collectionName].index) {
+  if (!Collections[collectionName]) {
+    throw new Meteor.Error('collection-missing', 'Collection not found');
+  }
+
+  if (!Collections[collectionName].index) {
     throw new Meteor.Error('index-missing', 'Search index not found');
   }
+
   var index = Collections[collectionName].index,
       searchDefinition = index.getComponentDict().get('searchDefinition'),
       searchOptions = index.getComponentDict().get('searchOptions');
@@ -10,6 +15,9 @@ exportFromSearchToCSV = function(collectionName) {
     if (err) {
       throw new Meteor.Error('500', err);
     }
+
+    if (Meteor.isDevelopment) console.log(results);
+
     var filename = [
       'realtimecrm-',
       collectionName,
@@ -17,29 +25,13 @@ exportFromSearchToCSV = function(collectionName) {
       moment().format("MMM-Do-YY"),
       '.csv'
     ].join('');
-    var cleanedResults = results.map( (record) => {
-      return _.omit(record, [
-        '_id',
-        'createdBy',
-        'companyId',
-        'contactId',
-        'opportunityId',
-        'projectId',
-        'purchaseOrderId',
-        'taskId',
-        'productId',
-        'currentStageId',
-        'items',
-        'userId',
-        'supplierCompanyId',
-        'supplierContactId',
-        'primaryEntityId'
-      ]);
-    });
-    var fileData = Papa.unparse(cleanedResults);
+
+    var fileData = Papa.unparse(results);
+
     var blob = new Blob([fileData], {
       type: "text/csv;charset=utf-8"
     });
+
     saveAs(blob, filename);
   });
-}
+};

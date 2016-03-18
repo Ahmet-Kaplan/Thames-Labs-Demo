@@ -1,27 +1,43 @@
 Schemas.Opportunity = new SimpleSchema({
+  sequencedIdentifier: {
+    type: Number,
+    label: "RealTime ID"
+  },
   name: {
     type: String
   },
   description: {
     type: String
   },
+  // date: {
+  //   type: Date,
+  //   autoform: {
+  //     afFieldInput: {
+  //       dateTimePickerOptions: {
+  //         format: 'DD/MM/YYYY HH:mm',
+  //         useCurrent: true,
+  //         sideBySide: true,
+  //         widgetPositioning: {
+  //           vertical: "top"
+  //         }
+  //       }
+  //     }
+  //   }
+  // },
   date: {
     type: Date,
     autoform: {
-      afFieldInput: {
-        dateTimePickerOptions: {
-          format: 'DD/MM/YYYY HH:mm',
-          useCurrent: true,
-          sideBySide: true,
-          widgetPositioning: {
-            vertical: "top"
-          }
-        }
+      type: "bootstrap-datepicker",
+      datePickerOptions: {
+        autoclose: true,
+        format: 'dd/mm/yyyy',
+        todayHighlight: true
       }
     }
   },
   value: {
     type: Number,
+    decimal: true,
     optional: true
   },
   estCloseDate: {
@@ -29,18 +45,30 @@ Schemas.Opportunity = new SimpleSchema({
     optional: true,
     label: "Estimated Close Date",
     autoform: {
-      afFieldInput: {
-        dateTimePickerOptions: {
-          format: 'DD/MM/YYYY HH:mm',
-          useCurrent: true,
-          sideBySide: true,
-          widgetPositioning: {
-            vertical: "top"
-          }
-        }
+      type: "bootstrap-datepicker",
+      datePickerOptions: {
+        autoclose: true,
+        format: 'dd/mm/yyyy'
       }
     }
   },
+  // estCloseDate: {
+  //   type: Date,
+  //   optional: true,
+  //   label: "Estimated Close Date",
+  //   autoform: {
+  //     afFieldInput: {
+  //       dateTimePickerOptions: {
+  //         format: 'DD/MM/YYYY HH:mm',
+  //         useCurrent: true,
+  //         sideBySide: true,
+  //         widgetPositioning: {
+  //           vertical: "top"
+  //         }
+  //       }
+  //     }
+  //   }
+  // },
   items: {
     type: Array,
     optional: true
@@ -63,6 +91,10 @@ Schemas.Opportunity = new SimpleSchema({
   // ##MARKER##
   currentStageId: {
     type: Number,
+    optional: true
+  },
+  salesManagerId: {
+    type: String,
     optional: true
   },
   createdBy: {
@@ -125,6 +157,14 @@ Schemas.Opportunity = new SimpleSchema({
     optional: true,
     autoform: {
       type: 'hidden'
+    }
+  },
+  documents: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
     }
   }
 });

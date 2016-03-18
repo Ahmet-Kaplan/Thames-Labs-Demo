@@ -1,4 +1,8 @@
 Schemas.Project = new SimpleSchema({
+  sequencedIdentifier: {
+    type: Number,
+    label: "RealTime ID"
+  },
   name: {
     type: String,
     label: "Name"
@@ -54,15 +58,11 @@ Schemas.Project = new SimpleSchema({
     type: Date,
     optional: true,
     autoform: {
-      afFieldInput: {
-        dateTimePickerOptions: {
-          format: 'DD/MM/YYYY HH:mm',
-          useCurrent: true,
-          sideBySide: true,
-          widgetPositioning: {
-            vertical: "top"
-          }
-        }
+      type: "bootstrap-datepicker",
+      datePickerOptions: {
+        autoclose: true,
+        format: 'dd/mm/yyyy',
+        todayHighlight: true
       }
     }
   },

@@ -29,12 +29,26 @@ Accounts.emailTemplates.enrollAccount.subject = function(user) {
   return 'Your RealTimeCRM details';
 };
 Accounts.emailTemplates.enrollAccount.html = function(user, url) {
+  if (user.emails[0].address === 'mario@mariobros.com') {
+    return Accounts.buildHtmlEmail('mario-enroll.html', {
+      name: user.profile.name,
+      url: url
+    });
+  }
+
   return Accounts.buildHtmlEmail('email-enroll.html', {
     name: user.profile.name,
     url: url
   });
 };
 Accounts.emailTemplates.enrollAccount.text = function(user, url) {
+  if (user.emails[0].address === 'mario@mariobros.com') {
+    return Accounts.buildTxtEmail('mario-enroll.txt', {
+      name: user.profile.name,
+      url: url
+    });
+  }
+
   return Accounts.buildTxtEmail('email-enroll.txt', {
     name: user.profile.name,
     url: url

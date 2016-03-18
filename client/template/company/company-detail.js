@@ -80,6 +80,12 @@ Template.companyDetail.events({
   },
   'click #add-purchase-order': function(event) {
     event.preventDefault();
+
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To raise purchase orders');
+      return;
+    }
+
     Modal.show('newCompanyPurchaseOrderForm', {
       supplierCompanyId: this._id
     });
@@ -103,10 +109,26 @@ Template.companyDetail.events({
     Modal.show('insertCompanyOpportunityModal', {
       companyId: this._id
     });
+  },
+  'click #companyTelephone': function(event, template){    
+    Activities.insert({
+      type: 'Call',
+      notes: Meteor.user().profile.name + ' made a call to ' + this.name,
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      companyId: this._id,
+      primaryEntityId: this._id,
+      primaryEntityType: 'companies',
+      primaryEntityDisplayData: this.name,
+      createdBy: Meteor.userId()
+    });
   }
 });
 
 Template.companyDetail.helpers({
+  websiteHref: function(website) {
+    return (website.indexOf('http://') > -1 ? website : 'http://' + website);
+  },
   companyData: function() {
     var companyId = FlowRouter.getParam('id');
     var company = Companies.findOne({
@@ -136,55 +158,46 @@ Template.companyDetail.helpers({
     });
   },
   linksList: function() {
-    return [
-      {
-        text: 'Company details',
-        anchor: 'company-details',
-        icon: 'fa-file-text-o',
-        permission: 'CanReadCompanies'
-      },
-      {
-        text: 'Extended information',
-        anchor: 'entity-custom-fields',
-        icon: 'fa-bookmark',
-        permission: 'CanReadCompanies'
-      },
-      {
-        text: 'Contacts',
-        anchor: 'contacts',
-        icon: 'fa-user',
-        permission: 'CanReadContacts'
-      },
-      {
-        text: 'Opportunities',
-        anchor: 'opportunities',
-        icon: 'fa-lightbulb-o',
-        permission: 'CanReadOpportunities'
-      },
-      {
-        text: 'Current Projects',
-        anchor: 'projects',
-        icon: 'fa-sitemap',
-        permission: 'CanReadProjects'
-      },
-      {
-        text: 'Purchase Orders',
-        anchor: 'purchase-orders',
-        icon: 'fa-shopping-cart',
-        permission: 'CanReadPurchaseOrders'
-      },
-      {
-        text: 'Tasks',
-        anchor: 'tasks',
-        icon: 'fa-tasks',
-        permission: 'CanReadTasks'
-      },
-      {
-        text: 'Activity Timeline',
-        anchor: 'activity-timeline',
-        icon: 'fa-list',
-        permission: 'CanReadCompanies'
-      }
-    ];
+    return [{
+      text: 'Company details',
+      anchor: 'company-details',
+      icon: 'fa-file-text-o',
+      permission: 'CanReadCompanies'
+    }, {
+      text: 'Custom Fields',
+      anchor: 'entity-custom-fields',
+      icon: 'fa-bookmark',
+      permission: 'CanReadCompanies'
+    }, {
+      text: 'Contacts',
+      anchor: 'contacts',
+      icon: 'fa-user',
+      permission: 'CanReadContacts'
+    }, {
+      text: 'Opportunities',
+      anchor: 'opportunities',
+      icon: 'fa-lightbulb-o',
+      permission: 'CanReadOpportunities'
+    }, {
+      text: 'Current Projects',
+      anchor: 'projects',
+      icon: 'fa-sitemap',
+      permission: 'CanReadProjects'
+    }, {
+      text: 'Purchase Orders',
+      anchor: 'purchase-orders',
+      icon: 'fa-shopping-cart',
+      permission: 'CanReadPurchaseOrders'
+    }, {
+      text: 'Tasks',
+      anchor: 'tasks',
+      icon: 'fa-tasks',
+      permission: 'CanReadTasks'
+    }, {
+      text: 'Activity Timeline',
+      anchor: 'activity-timeline',
+      icon: 'fa-list',
+      permission: 'CanReadCompanies'
+    }];
   }
 });

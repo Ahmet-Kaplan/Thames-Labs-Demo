@@ -1,7 +1,7 @@
 Meteor.methods({
 
   clearAuditLog: function() {
-    if (Roles.userIsInRole(this.userId, ['Administrator', 'CanDeleteEventLog']) && !Roles.userIsInRole(this.userId, 'superadmin')) {
+    if (Roles.userIsInRole(this.userId, ['CanDeleteEventLog']) && !Roles.userIsInRole(this.userId, 'superadmin')) {
       var user = Meteor.users.findOne({
         _id: this.userId
       });
@@ -44,7 +44,7 @@ Meteor.methods({
             source: logSource,
             level: logLevel,
             message: logMessage,
-            user: user._id,
+            user: user.profile.name,
             entityType: logEntityType,
             entityId: logEntityId
           });

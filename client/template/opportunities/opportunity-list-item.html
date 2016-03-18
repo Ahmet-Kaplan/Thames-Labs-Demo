@@ -11,20 +11,24 @@
         {{#if contactId}}
           <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> {{contact.name}}</p>
         {{/if}}
+        {{#if salesManagerId}}
+          <p class="list-group-item-text"><i class="fa fa-fw fa-user-secret"></i> {{salesManager}}</p>
+        {{/if}}
       </div>
       <div class="col-md-3">
         {{#if value}}
-          <p class="list-group-item-text"><i class="fa fa-fw fa-money"></i> £{{decimal value}}</p>
+          <p class="list-group-item-text"><i class="fa fa-fw fa-money"></i> {{decimal value}}</p>
         {{/if}}
-        {{#if estCloseDate}}
-          <p class="list-group-item-text"><i class="fa fa-fw fa-calendar"></i> Est. Close: {{friendlyEstClose}}</p>
-        {{/if}}
+        <p class="list-group-item-text"><i class="fa fa-fw fa-calendar"></i> Est. Close: {{friendlyEstClose}}</p>
         {{#if isArchived}}
           {{#if hasBeenWon}}
             <p class="text-success">Opportunity Won</p>
           {{else}}
             <p>
               <span class="text-danger">Opportunity Lost</span>{{#if reasonLost}}: {{reasonLost}}{{/if}}
+            </p>
+            <p>
+              <span class="text-danger">Lost at stage:</span> {{lostAtStage}}
             </p>
           {{/if}}
         {{/if}}

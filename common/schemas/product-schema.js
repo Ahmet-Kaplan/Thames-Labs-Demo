@@ -1,4 +1,8 @@
 Schemas.Product = new SimpleSchema({
+  sequencedIdentifier: {
+    type: Number,
+    label: "RealTime ID"
+  },
   name: {
     type: String
   },
@@ -22,6 +26,30 @@ Schemas.Product = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
-  }
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
+    }
+  },
+  extendedInformation: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
+  documents: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
 });
+
 Products.attachSchema(Schemas.Product);

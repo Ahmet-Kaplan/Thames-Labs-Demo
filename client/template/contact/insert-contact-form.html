@@ -13,12 +13,13 @@
           {{#autoForm collection="Contacts" id="insertCompanyContactForm" type="insert"}}
             {{> afQuickField name="forename"}}
             {{> afQuickField name="surname"}}
-            {{> afQuickField name="companyId" type="hidden" value=_id}}
-            {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
-            {{> afQuickField name="email"}}
+            {{> afQuickField name="jobtitle"}}
             {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
-            {{> afQuickField name="jobtitle"}}
+            {{> afQuickField name="email"}}
+            {{> afQuickField name="companyId" type="hidden" value=_id}}
+            {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
+            <!-- {{> afQuickField name="sequencedIdentifier"}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
@@ -35,18 +36,18 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <button id="close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h4>Add new contact</h4>
         </div>
 
         <div class="modal-body">
           {{#autoForm collection="Contacts" id="insertContactForm" type="insert"}}
-            {{> afQuickField name="forename"}}
-            {{> afQuickField name="surname"}}
-            {{> afQuickField name="email"}}
+            {{> afQuickField name="forename" id="addContactForename"}}
+            {{> afQuickField name="surname" id="addContactSurname"}}
+            {{> afQuickField name="jobtitle"}}
             {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
-            {{> afQuickField name="jobtitle"}}
+            {{> afQuickField name="email" id="addContactEmail"}}
             {{> esSelectize name="companyId" index=CompaniesIndex allowCreate=true}}
             <div id="addressWrapper">
               <div class="form-group">
@@ -71,8 +72,9 @@
                 {{/if}}
               </div>
             </div>
+            <!-- {{> afQuickField name="sequencedIdentifier"}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" id="createContact">Create</button>
           {{/autoForm}}
         </div>
 

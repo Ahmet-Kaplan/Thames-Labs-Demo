@@ -11,71 +11,65 @@
 
     <div class="col-md-5">
       <div class="well well-sm">
-      <div class="row">
-        <div class="col-xs-5"><strong>Plan</strong></div>
-        <div class="col-xs-7" id="planName">
-          {{#if subsLoaded}}
-            {{currentSubscription}}
-          {{else}}
-            <em>Loading...</em>
-          {{/if}}
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-5"><strong>Coupon</strong></div>
-        <div class="col-xs-7" id="couponDisplay">
-          {{#if couponLoaded}}
-            {{#if hasCoupon}}
-              {{hasCoupon}} - <a href="" id="updateCoupon">Edit</a>
-            {{else}}
-              No active coupon - <a href="" id="updateCoupon">Add</a>
+        <div class="row">
+          <div class="col-xs-5"><strong>Plan</strong></div>
+          <div class="col-xs-7" id="planName">
+            {{#if subsLoaded}}
+              {{currentSubscription}}
+              {{else}}
+              <em>Loading...</em>
             {{/if}}
-          {{else}}
-            <em>Loading...</em>
-          {{/if}}
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-5"><strong>Users</strong></div>
-        <div class="col-xs-7" id="numberOfUsers">{{totalUsers}}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-5"><strong>Records</strong></div>
-        <div class="col-xs-7{{#if limitReached}} text-danger{{/if}}">{{totalRecords}} of {{limitRecords}}</div>
-      </div>
-        {{#if limitReached}}
-          <br />You have reach the maximum number of records and your account is now locked.
-          Please upgrade to enjoy the full functionalities of RealTimeCRM
-        {{/if}}
+        <div class="row">
+          <div class="col-xs-5"><strong>Coupon</strong></div>
+          <div class="col-xs-7" id="couponDisplay">
+            {{#if couponLoaded}}
+              {{#if hasCoupon}}
+                {{hasCoupon}} - <a href="" id="updateCoupon">Edit</a>
+                {{else}}
+                No active coupon - <a href="" id="updateCoupon">Add</a>
+              {{/if}}
+              {{else}}
+              <em>Loading...</em>
+            {{/if}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-5"><strong>Users</strong></div>
+          <div class="col-xs-7" id="numberOfUsers">{{totalUsers}}</div>
+        </div>
       </div>
       {{#if hasStripeAccount}}
       <div class="well well-sm">
-        {{#with cardDetails}}
-        {{#if cardDetails.last4}}
-          <p>Card used for your payments:</p>
-          <div class="row">
-            <div class="col-xs-6"><strong>Name</strong></div><div class="col-xs-6">{{name}}</div>
-          </div>
-          <div class="row">
-            <div class="col-xs-6"><strong>Brand</strong></div><div class="col-xs-6">{{brand}}</div>
-          </div>
-          <div class="row">
-            <div class="col-xs-6"><strong>Last four number</strong></div><div class="col-xs-6">{{last4}}</div>
-          </div>
-          <div class="row">
-            <div class="col-xs-6"><strong>Exp Month</strong></div><div class="col-xs-6">{{exp_month}}</div>
-          </div>
-          <div class="row">
-            <div class="col-xs-6"><strong>Exp Year</strong></div><div class="col-xs-6" id="cardExpYear">{{exp_year}}</div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12"><button id="updateCardDetails" class="btn btn-xs btn-primary pull-right">Update Card Details</button></div>
-          </div>
-          <hr />
-        {{else}}
-        <em>Loading...</em>
+        {{#if stripeCustomer.sources.total_count}}
+          {{#with cardDetails}}
+          {{#if cardDetails.last4}}
+            <p>Card used for your payments:</p>
+            <div class="row">
+              <div class="col-xs-6"><strong>Name</strong></div><div class="col-xs-6">{{name}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"><strong>Brand</strong></div><div class="col-xs-6">{{brand}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"><strong>Last four number</strong></div><div class="col-xs-6">{{last4}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"><strong>Exp Month</strong></div><div class="col-xs-6">{{exp_month}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"><strong>Exp Year</strong></div><div class="col-xs-6" id="cardExpYear">{{exp_year}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12"><button id="updateCardDetails" class="btn btn-xs btn-primary pull-right">Update Card Details</button></div>
+            </div>
+            <hr />
+          {{else}}
+            <em>Loading...</em>
+          {{/if}}
+          {{/with}}
         {{/if}}
-        {{/with}}
 
         <p>Email used for your invoices:</p>
         <div class="row"><div class="col-xs-12" id="stripeEmail">{{stripeCustomer.email}}</div></div>
@@ -133,10 +127,12 @@
   {{#if payingScheme}}
     <button type="button" class="btn btn-danger" role="button" id="downScheme">Downgrade to Free Plan</button>
   {{else}}
-    {{#if hasStripeSubs}}
-        <button type="button" class="btn btn-success" role="button" id="resumeSubs">Resume Subscription</button>
+    {{#if subsLoaded}}
+      {{#if hasStripeSubs}}
+          <button type="button" class="btn btn-success" role="button" id="resumeSubs">Resume Subscription</button>
       {{else}}
-        <button type="button" class="btn btn-info" role="button" id="upScheme">Upgrade to Paid Plan</button>
+          <button type="button" class="btn btn-info" role="button" id="upScheme">Upgrade to Pro Plan</button>
+      {{/if}}
     {{/if}}
   {{/if}}
   <div><i class="fa fa-lock"></i> <a href="#" id="showStripeHow">All payments are securely processed by Stripe, our payment partner</a></div>
@@ -144,11 +140,11 @@
 </template>
 
 <template name="lineDetails">
-{{#if amount}}
-  <div class="row">
-    <div class="col-xs-3"></div>
-    <div class="col-xs-2"><em>£{{amount}}</em></div>
-    <div class="col-xs-7"><em>{{#if description}}{{description}}{{else}}Subscription for next period ({{period.start}} - {{period.end}}){{/if}}</em></div>
-  </div>
-{{/if}}
+  {{#if amount}}
+    <div class="row">
+      <div class="col-xs-3"></div>
+      <div class="col-xs-2"><em>£{{amount}}</em></div>
+      <div class="col-xs-7"><em>{{#if description}}{{description}}{{else}}Subscription for next period ({{period.start}} - {{period.end}}){{/if}}</em></div>
+    </div>
+  {{/if}}
 </template>

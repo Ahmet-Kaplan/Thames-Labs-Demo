@@ -1,14 +1,11 @@
 AutoForm.hooks({
   addTenantUserModal: {
-    before: {
-      insert: function(doc) {
-        doc.createdBy = Meteor.userId();
-        return doc;
-      }
-    },
-    onSuccess: function() {
+    onSuccess: function(formType, result) {
       Modal.hide();
       toastr.success('User created.');
+    },
+    onError: function(formType, error) {
+      toastr.error('User creation error: ' + error);
     }
   }
-})
+});

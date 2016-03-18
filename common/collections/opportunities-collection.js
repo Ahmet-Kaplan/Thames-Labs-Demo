@@ -10,7 +10,7 @@ Opportunities.helpers({
     return Contacts.findOne(this.contactId);
   },
   activities: function() {
-    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+    var collectionsToFilter = getDisallowedPermissions(Meteor.userId());
 
     return Activities.find({
       opportunityId: this._id,
@@ -38,7 +38,7 @@ Collections.opportunities.filters = {
     nameField: 'name',
     subscriptionById: 'companyById',
     displayValue: function(company) {
-      if(company) {
+      if (company) {
         return company.name;
       } else {
         return 'N/A';
@@ -53,7 +53,7 @@ Collections.opportunities.filters = {
     nameField: 'name',
     subscriptionById: 'contactById',
     displayValue: function(contact) {
-      if(contact) {
+      if (contact) {
         return contact.name();
       } else {
         return 'N/A';
@@ -64,10 +64,10 @@ Collections.opportunities.filters = {
     display: 'Value <',
     prop: 'valueLower',
     verify: function(value) {
-      value = parseInt(value)
-      if(isNaN(value)) {
+      value = parseInt(value);
+      if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
+        return false;
       } else {
         return true;
       }
@@ -77,10 +77,10 @@ Collections.opportunities.filters = {
     display: 'Value >',
     prop: 'valueGreater',
     verify: function(value) {
-      value = parseInt(value)
-      if(isNaN(value)) {
+      value = parseInt(value);
+      if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
+        return false;
       } else {
         return true;
       }
@@ -90,11 +90,35 @@ Collections.opportunities.filters = {
     display: 'Tag:',
     prop: 'tags',
     collectionName: 'tags',
-    autosuggestFilter: {collection: 'opportunities'},
+    autosuggestFilter: {
+      collection: 'opportunities'
+    },
     valueField: 'name',
     nameField: 'name'
-  }
-}
+  },
+  sequencedIdentifier: {
+    display: 'RealTime Opportunity Identifier:',
+    prop: 'sequencedIdentifier',
+    allowMultiple: false,
+    verify: function(sequencedIdentifier) {
+      if (!sequencedIdentifier) return false;
+      return true;
+    }
+  },
+  salesManager: {
+    display: 'Sales Manager:',
+    prop: 'salesManager',
+    collectionName: 'users',
+    valueField: '__originalId',
+    nameField: 'name',
+    subscriptionById: 'allUserData',
+    displayValue: function(user) {
+      if (user) {
+        return user.profile.name;
+      }
+    }
+  },
+};
 
 ////////////////////
 // SEARCH INDICES //
@@ -106,12 +130,18 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
 
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, ['Administrator', 'CanReadOpportunities']);
+    return Roles.userIsInRole(userId, ['CanReadOpportunities']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'name': 1
+    sort: (searchObject, options) => {
+      if (options.search.props.sortByCloseDate) {
+        return {
+          'estCloseDate': 1
+        }
+      } else {
+        return {
+          'name': 1
+        }
       }
     },
     fields: (searchObject, options) => {
@@ -127,11 +157,25 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         'isArchived': 1,
         'hasBeenWon': 1,
         'reasonLost': 1,
-        'tags': 1
+        'tags': 1,
+        'currentStageId': 1,
+        'sequencedIdentifier': 1,
+        'salesManagerId': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+
+      if (options.search.props.salesManager) {
+        // n.b. the array is passed as a comma separated string
+        selector.salesManagerId = {
+          $in: options.search.props.salesManager.split(',')
+        };
+      }
+
+      if (options.search.props.sequencedIdentifier) {
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+      }
 
       if (options.search.props.showArchived) {
         selector.isArchived = true;
@@ -148,26 +192,30 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         };
       }
 
-      if(options.search.props.company) {
+      if (options.search.props.company) {
         // n.b. the array is passed as a comma separated string
-        selector.companyId = {$in: options.search.props.company.split(',')};
+        selector.companyId = {
+          $in: options.search.props.company.split(',')
+        };
       }
 
-      if(options.search.props.contact) {
+      if (options.search.props.contact) {
         // n.b. the array is passed as a comma separated string
-        selector.contactId = {$in: options.search.props.contact.split(',')};
+        selector.contactId = {
+          $in: options.search.props.contact.split(',')
+        };
       }
 
-      if(options.search.props.valueLower || options.search.props.valueGreater) {
+      if (options.search.props.valueLower || options.search.props.valueGreater) {
         selector.value = {};
         var lowerThan = parseInt(options.search.props.valueLower);
         var greaterThan = parseInt(options.search.props.valueGreater);
 
-        if(!isNaN(lowerThan)) {
+        if (!isNaN(lowerThan)) {
           selector.value.$lte = lowerThan;
         }
 
-        if(!isNaN(greaterThan)) {
+        if (!isNaN(greaterThan)) {
           selector.value.$gte = greaterThan;
         }
       }
@@ -185,9 +233,27 @@ Tags.TagsMixin(Opportunities);
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
+Opportunities.before.insert(function(userId, doc) {
+  doc.currentStageId = 0;
+
+  if (!Roles.userIsInRole(userId, ['superadmin'])) {
+    doc.sequencedIdentifier = Tenants.findOne({}).settings.opportunity.defaultNumber;
+  }
+});
 
 Opportunities.after.insert(function(userId, doc) {
   logEvent('info', 'A new opportunity has been created: ' + doc.name);
+
+  if (Meteor.isServer) {
+    var t = Tenants.findOne({});
+    Tenants.update({
+      _id: t._id
+    }, {
+      $inc: {
+        'settings.opportunity.defaultNumber': 1
+      }
+    });
+  }
 });
 Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.description !== this.previous.description) {

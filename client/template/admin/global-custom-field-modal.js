@@ -8,16 +8,28 @@ Template.addNewGlobalCustomField.onRendered(function() {
 
   this.$('.datetimepicker').datetimepicker();
 
+  this.$('#custom-field-picklist-values').selectize({
+    delimiter: ',',
+    create: function(input) {
+      return {
+        value: input,
+        text: input
+      }
+    }
+  })
+
   $('#typeText').prop('checked', true);
   $('#typeAdvText').prop('checked', false);
   $('#typeCheckbox').prop('checked', false);
   $('#typeDate').prop('checked', false);
   $('#typeLabel').prop('checked', false);
+  $('#typePicklist').prop('checked', false);
 
   $('#text-input-area').show();
   $('#advtext-input-area').hide();
   $('#check-input-area').hide();
   $('#date-input-area').hide();
+  $('#picklist-input-area').hide();
 });
 
 Template.addNewGlobalCustomField.events({
@@ -26,6 +38,7 @@ Template.addNewGlobalCustomField.events({
     $('#advtext-input-area').hide();
     $('#check-input-area').hide();
     $('#date-input-area').hide();
+    $('#picklist-input-area').hide();
   },
   'click #typeAdvText': function() {
 
@@ -41,24 +54,35 @@ Template.addNewGlobalCustomField.events({
     $('#advtext-input-area').show();
     $('#check-input-area').hide();
     $('#date-input-area').hide();
+    $('#picklist-input-area').hide();
   },
   'click #typeCheckbox': function() {
     $('#text-input-area').hide();
     $('#advtext-input-area').hide();
     $('#check-input-area').show();
     $('#date-input-area').hide();
+    $('#picklist-input-area').hide();
   },
   'click #typeDate': function() {
     $('#text-input-area').hide();
     $('#advtext-input-area').hide();
     $('#check-input-area').hide();
     $('#date-input-area').show();
+    $('#picklist-input-area').hide();
   },
   'click #typeLabel': function() {
     $('#text-input-area').hide();
     $('#advtext-input-area').hide();
     $('#check-input-area').hide();
     $('#date-input-area').hide();
+    $('#picklist-input-area').hide();
+  },
+  'click #typePicklist': function() {
+    $('#text-input-area').hide();
+    $('#advtext-input-area').hide();
+    $('#check-input-area').hide();
+    $('#date-input-area').hide();
+    $('#picklist-input-area').show();
   },
   'click #createCustomField': function() {
     $('#createCustomField').prop('disabled', true);
@@ -75,6 +99,33 @@ Template.addNewGlobalCustomField.events({
       toastr.warning('Please select an entity.');
       return;
     }
+    var tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    if (!isProTenant(Meteor.user().group)) {
+      var fields = [];
+      switch (cfEntity) {
+        case 'company':
+          fields = tenant.settings.extInfo.company;
+          break;
+        case 'contact':
+          fields = tenant.settings.extInfo.contact;
+          break;
+        case 'project':
+          fields = tenant.settings.extInfo.project;
+          break;
+        case 'product':
+          fields = tenant.settings.extInfo.product;
+          break;
+      }
+
+      if (fields.length === MAX_FREE_ENTITY_GLOBAL_FIELDS) {
+        showUpgradeToastr('To create more than 5 global custom fields for a ' + cfEntity + ' record');
+        Modal.hide();
+        return;
+      }
+    }
+
 
     if ($('#typeText').prop('checked')) {
       cfType = "text";
@@ -96,133 +147,26 @@ Template.addNewGlobalCustomField.events({
       cfType = "label";
       cfValue = '';
     }
-
-    var user = Meteor.users.findOne(Meteor.userId());
-    var tenant = Tenants.findOne(user.group);
-    var fields = null;
-
-    switch (cfEntity) {
-      case 'company':
-        fields = tenant.settings.extInfo.company;
-        break;
-      case 'contact':
-        fields = tenant.settings.extInfo.contact;
-        break;
-      case 'project':
-        fields = tenant.settings.extInfo.project;
-        break;
+    if ($('#typePicklist').prop('checked')) {
+      cfType = "picklist";
+      cfValue = $('#custom-field-picklist-values').selectize().val();
     }
 
-    var data = [];
-    _.each(fields, function(f) {
-      data.push(f);
-    });
-
-    var orderValue = data.length;
-
-    var newField = {
-      name: cfName,
-      type: cfType,
-      defaultValue: cfValue,
-      targetEntity: cfEntity,
-      dataOrder: orderValue
-    };
-
-    if (_.findWhere(fields, newField) === undefined) {
-      data.push(newField);
-    }
-
-    switch (cfEntity) {
-      case 'company':
-        Tenants.update(user.group, {
-          $set: {
-            'settings.extInfo.company': data
-          }
-        });
-        break;
-      case 'contact':
-        Tenants.update(user.group, {
-          $set: {
-            'settings.extInfo.contact': data
-          }
-        });
-        break;
-      case 'project':
-        Tenants.update(user.group, {
-          $set: {
-            'settings.extInfo.project': data
-          }
-        });
-        break;
-    }
-
-    var collName = '';
-    switch (cfEntity) {
-      case 'company':
-        collName = 'companies';
-        break;
-      case 'contact':
-        collName = 'contacts';
-        break;
-      case 'project':
-        collName = 'projects';
-        break;
-    }
-
-    var targets = Collections[collName].find({}).fetch();
-
-    _.each(targets, function(tx) {
-      var nameExists = false;
-      var cfMaster = [];
-
-      if (tx.extendedInformation) {
-        for (var cf in tx.extendedInformation) {
-          if (tx.extendedInformation.hasOwnProperty(cf)) {
-            if (tx.extendedInformation[cf].dataName === cfName) {
-              nameExists = true;
-              break;
-            }
-            cfMaster.push(tx.extendedInformation[cf]);
-          }
+    Meteor.call('extInfo.addNewGlobal', cfName, cfType, cfValue, cfEntity, function(err, res) {
+      if (err) throw new Meteor.Error(err);
+      if (res === 0) {
+        toastr.success('Global field created successfully.');
+        Modal.hide();
+      } else {
+        $('#createCustomField').prop('disabled', false);
+        if (res === 1) {
+          toastr.error('Only admins may add global fields.');
         }
-      }
-
-      if (!nameExists) {
-        var settings = {
-          "dataName": cfName,
-          "dataValue": cfValue,
-          "dataType": cfType,
-          "isGlobal": true,
-          dataOrder: orderValue
-        };
-        cfMaster.push(settings);
-
-        if (collName === 'companies') {
-          Companies.update(tx._id, {
-            $set: {
-              extendedInformation: cfMaster
-            }
-          });
-        }
-
-        if (collName === 'contacts') {
-          Contacts.update(tx._id, {
-            $set: {
-              extendedInformation: cfMaster
-            }
-          });
-        }
-
-        if (collName === 'projects') {
-          Projects.update(tx._id, {
-            $set: {
-              extendedInformation: cfMaster
-            }
-          });
+        if (res === 2) {
+          toastr.error('A global custom field with that name already exists.');
         }
       }
     });
 
-    Modal.hide();
   }
 });

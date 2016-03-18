@@ -27,8 +27,10 @@ function showAddressDetails(location) {
 }
 
 Template.insertNewCompanyModal.onRendered(function() {
+  $('#duplicationWarning').hide();
+
   this.autorun(function() {
-    if(GoogleMaps.loaded()) {
+    if (GoogleMaps.loaded()) {
       $("#geo").geocomplete({
         details: "#insertNewCompanyForm",
         detailsAttribute: "data-geo"
@@ -38,7 +40,7 @@ Template.insertNewCompanyModal.onRendered(function() {
           return elt.types[0] == "street_number";
         });
 
-        if(typeof(strNumber) !== 'undefined') {
+        if (typeof(strNumber) !== 'undefined') {
           strNumber = strNumber.long_name;
           address += strNumber + " ";
         }
@@ -47,14 +49,14 @@ Template.insertNewCompanyModal.onRendered(function() {
           return elt.types[0] == "route";
         });
 
-        if(typeof(route) !== 'undefined') {
+        if (typeof(route) !== 'undefined') {
           route = route.long_name;
           address += route;
         }
         $("#formatted_address").val(address);
         showAddressDetails(result.geometry.location);
       }).keypress(function(event) {
-        if(event.which == 13) {
+        if (event.which == 13) {
           $("#address_details").show();
         }
       });
@@ -140,6 +142,19 @@ function fillCompanyData(res) {
 }
 
 Template.insertNewCompanyModal.events({
+    'click #close': function() {
+    hopscotch.endTour(true);
+  },
+  'change #companyName': function(event, template) {
+    var name = $('#companyName').val();
+    Meteor.call('company.checkExistsByName', name, function(err, res) {
+      if (res === true) {
+        $('#duplicationWarning').show();
+      } else {
+        $('#duplicationWarning').hide();
+      }
+    });
+  },
   'keyup #companyName': function(evt) {
     evt.preventDefault();
     Template.instance().triggerMagicSearch.cancel();
@@ -169,7 +184,7 @@ Template.editCompanyModal.onCreated(function() {
 
 Template.editCompanyModal.onRendered(function() {
   this.autorun(function() {
-    if(GoogleMaps.loaded()) {
+    if (GoogleMaps.loaded()) {
       $("#geo").geocomplete({
         details: "#editCompanyForm",
         detailsAttribute: "data-geo"
@@ -179,7 +194,7 @@ Template.editCompanyModal.onRendered(function() {
           return elt.types[0] == "street_number";
         });
 
-        if(typeof(strNumber) !== 'undefined') {
+        if (typeof(strNumber) !== 'undefined') {
           strNumber = strNumber.long_name;
           address += strNumber + " ";
         }
@@ -188,7 +203,7 @@ Template.editCompanyModal.onRendered(function() {
           return elt.types[0] == "route";
         });
 
-        if(typeof(route) !== 'undefined') {
+        if (typeof(route) !== 'undefined') {
           route = route.long_name;
           address += route;
         }
@@ -209,7 +224,7 @@ Template.editCompanyModal.onRendered(function() {
           $("input[name=lng]").val(marker.getPosition().lng());
         });
       }).keypress(function(event) {
-        if(event.keyCode == 13) {
+        if (event.keyCode == 13) {
           $("#address_details").show();
         }
       });
@@ -225,9 +240,9 @@ Template.editCompanyModal.events({
     $("#map_wrapper").show();
     $("#mapModal_canvas").height("400px");
     var location = {
-        lat: 52.234744,
-        lng: 0.153752
-      };
+      lat: 52.234744,
+      lng: 0.153752
+    };
     var mapModal = new google.maps.Map(document.getElementById("mapModal_canvas"), {
       zoom: 10,
       center: location,
@@ -235,14 +250,14 @@ Template.editCompanyModal.events({
     });
     //Set map to the current location
     var infowindow = new google.maps.InfoWindow();
-    if(companyData.lat !== undefined && companyData.lng !== undefined) {
+    if (companyData.lat !== undefined && companyData.lng !== undefined) {
       location = {
-            lat: parseFloat(companyData.lat),
-            lng: parseFloat(companyData.lng)
-          }
+        lat: parseFloat(companyData.lat),
+        lng: parseFloat(companyData.lng)
+      }
       mapModal.panTo(location);
       mapModal.setZoom(16);
-      var markerModal = new google.maps.Marker( {
+      var markerModal = new google.maps.Marker({
         map: mapModal,
         position: location,
         title: companyData.name,
@@ -256,11 +271,11 @@ Template.editCompanyModal.events({
       var infowindow = new google.maps.InfoWindow();
       infowindow.setContent(companyData.name);
       infowindow.open(mapModal, markerModal);
-    }else {
+    } else {
       var gc = new google.maps.Geocoder();
       gc.geocode({
-          'address': companyData.address + companyData.postcode + companyData.city + companyData.country
-        }, function(results, status) {
+        'address': companyData.address + companyData.postcode + companyData.city + companyData.country
+      }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           location = {
             lat: results[0].geometry.location.lat(),
@@ -268,7 +283,7 @@ Template.editCompanyModal.events({
           };
           mapModal.panTo(location);
           mapModal.setZoom(16);
-          var markerModal = new google.maps.Marker( {
+          var markerModal = new google.maps.Marker({
             map: mapModal,
             position: location,
             title: companyData.name,

@@ -42,15 +42,17 @@ Feature: Allow users to manage their Tasks
 
   Scenario: An administrator can add CanReadTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Tasks" to a restricted user
-    Then the restricted user should have the "CanReadTasks" permission
+    Then the user "restricted user" should have the "CanReadTasks" permission
 
   Scenario: An administrator can remove CanReadTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Tasks" from a restricted user
-    Then the restricted user should not have the "CanReadTasks" permission
+    Then the user "restricted user" should not have the "CanReadTasks" permission
 
   Scenario: A superadmin user can't visit the tasks list
     Given a superadmin exists
@@ -92,15 +94,17 @@ Feature: Allow users to manage their Tasks
 
   Scenario: An administrator can add CanCreateTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanCreate" on "Tasks" to a restricted user
-    Then the restricted user should have the "CanCreateTasks" permission
+    Then the user "restricted user" should have the "CanCreateTasks" permission
 
   Scenario: An administrator can remove CanCreateTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Tasks" from a restricted user
-    Then the restricted user should not have the "CanCreateTasks" permission
+    Then the user "restricted user" should not have the "CanCreateTasks" permission
 
   #Editing
   Scenario: A user can edit a task
@@ -123,15 +127,17 @@ Feature: Allow users to manage their Tasks
 
   Scenario: An administrator can add CanEditTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanEdit" on "Tasks" to a restricted user
-    Then the restricted user should have the "CanEditTasks" permission
+    Then the user "restricted user" should have the "CanEditTasks" permission
 
   Scenario: An administrator can remove CanEditTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Tasks" from a restricted user
-    Then the restricted user should not have the "CanEditTasks" permission
+    Then the user "restricted user" should not have the "CanEditTasks" permission
 
   #Deleting
   Scenario: A user can delete a task
@@ -152,15 +158,17 @@ Feature: Allow users to manage their Tasks
 
   Scenario: An administrator can add CanDeleteTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Tasks" to a restricted user
-    Then the restricted user should have the "CanDeleteTasks" permission
+    Then the user "restricted user" should have the "CanDeleteTasks" permission
 
   Scenario: An administrator can remove CanDeleteTasks permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Tasks" from a restricted user
-    Then the restricted user should not have the "CanDeleteTasks" permission
+    Then the user "restricted user" should not have the "CanDeleteTasks" permission
 
   #Menu item permissions
   Scenario: A restricted user cannot see the Tasks menu item without the correct permission
@@ -188,17 +196,10 @@ Feature: Allow users to manage their Tasks
     When I navigate to a task page
     Then I should not see the edit tag button
 
-  Scenario: A user with the Administrator permission can edit tags
-    Given I have the "Administrator" permission
-    And a "Company" task has been created
-    When I navigate to a task page
-    And I click ".editTags"
-    And I add the tag "test-tag"
-    Then the tag field for the "tasks" should contain "test-tag"
-
   #Filtering and Searching
   Scenario: A user can filter tasks by entity type
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadContacts" permission
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"
@@ -209,7 +210,8 @@ Feature: Allow users to manage their Tasks
     And "#resultsCount" should say "1 record"
 
   Scenario: A user can filter tasks by due date
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadContacts" permission
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"
@@ -220,7 +222,8 @@ Feature: Allow users to manage their Tasks
     And "#resultsCount" should say "1 record"
 
   Scenario: Clicking a tag badge applies the filter
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadContacts" permission
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"
@@ -230,7 +233,8 @@ Feature: Allow users to manage their Tasks
     And "#resultsCount" should say "1 record"
 
   Scenario: A user can remove a filter from the list
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadContacts" permission
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"
@@ -245,7 +249,8 @@ Feature: Allow users to manage their Tasks
     And "#resultsCount" should say "2 records"
 
   Scenario: A user can set filter, navigate and come back with the filter still being applied
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadContacts" permission
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"

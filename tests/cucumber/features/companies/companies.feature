@@ -8,7 +8,6 @@ Feature: Allow users to manage their Companies
     And I am a logged in user
     And I have the "CanReadCompanies" permission
 
-
   #Reading
   Scenario: A user can see the companies list
     When I navigate to "/companies"
@@ -37,17 +36,36 @@ Feature: Allow users to manage their Companies
     And I navigate to "/companies"
     Then I should not see "#mchCompany"
 
+
   Scenario: An administrator can add CanReadCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Companies" to a restricted user
-    Then the restricted user should have the "CanReadCompanies" permission
+    Then the user "restricted user" should have the "CanReadCompanies" permission
+
 
   Scenario: An administrator can remove CanReadCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
-    Then the restricted user should not have the "CanReadCompanies" permission
+    Then the user "restricted user" should not have the "CanReadCompanies" permission
+
+
+  Scenario: An administrator can remove CanReadCompanies permission for itself
+    Given I have the "Administrator" permission
+    And I am on the pro plan
+    When I remove permissions on "Companies" for myself
+    Then the user "test user" should not have the "CanReadCompanies" permission
+
+
+  Scenario: An administrator can add back the CanReadCompanies permission for itself
+    Given I have the "Administrator" permission
+    And I am on the pro plan
+    When I remove permissions on "Companies" for myself
+    And I add permission "CanRead" on "Companies" to myself
+    Then the user "test user" should have the "CanReadCompanies" permission
 
   Scenario: A superadmin user can't visit the companies list
     Given a superadmin exists
@@ -55,7 +73,6 @@ Feature: Allow users to manage their Companies
     And I am a logged in superadmin user
     When I navigate to "/companies"
     Then I should see the heading "Tenants"
-
 
   #Adding
   Scenario: A user can create a company
@@ -71,17 +88,21 @@ Feature: Allow users to manage their Companies
     When I navigate to "/companies"
     Then I should not see "#add-company"
 
+
   Scenario: An administrator can add CanCreateCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanCreate" on "Companies" to a restricted user
-    Then the restricted user should have the "CanCreateCompanies" permission
+    Then the user "restricted user" should have the "CanCreateCompanies" permission
+
 
   Scenario: An administrator can remove CanCreateCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
-    Then the restricted user should not have the "CanCreateCompanies" permission
+    Then the user "restricted user" should not have the "CanCreateCompanies" permission
 
 
   #Editing
@@ -100,17 +121,21 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     Then I should not see "#edit-company"
 
+
   Scenario: An administrator can add CanEditCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanEdit" on "Companies" to a restricted user
-    Then the restricted user should have the "CanEditCompanies" permission
+    Then the user "restricted user" should have the "CanEditCompanies" permission
+
 
   Scenario: An administrator can remove CanEditCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
-    Then the restricted user should not have the "CanEditCompanies" permission
+    Then the user "restricted user" should not have the "CanEditCompanies" permission
 
 
   #Deleting
@@ -128,17 +153,21 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     Then I should not see "#remove-company"
 
+
   Scenario: An administrator can add CanDeleteCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Companies" to a restricted user
-    Then the restricted user should have the "CanDeleteCompanies" permission
+    Then the user "restricted user" should have the "CanDeleteCompanies" permission
+
 
   Scenario: An administrator can remove CanDeleteCompanies permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
-    Then the restricted user should not have the "CanDeleteCompanies" permission
+    Then the user "restricted user" should not have the "CanDeleteCompanies" permission
 
   #Menu item permissions
   Scenario: A restricted user cannot see the Companies menu item without the correct permission
@@ -151,14 +180,14 @@ Feature: Allow users to manage their Companies
 
 
   #Extended information fields
-  Scenario: A user can open the "Add Extended information fields" modal
+  Scenario: A user can open the "Add custom field" modal
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
     And I click "#add-custom-field"
     Then I should see a modal
 
-  Scenario: A user can add an extended information field
+  Scenario: A user can add an custom field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
@@ -168,7 +197,7 @@ Feature: Allow users to manage their Companies
     And I click "#submit-custom-field"
     Then I should see ".custom-field-display-item"
 
-  Scenario: A user can delete an extended information field
+  Scenario: A user can delete an custom field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
@@ -180,7 +209,7 @@ Feature: Allow users to manage their Companies
     And I click confirm on the modal
     Then I should not see ".custom-field-display-item"
 
-  Scenario: A user can edit an extended information field
+  Scenario: A user can edit an custom field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
@@ -191,7 +220,7 @@ Feature: Allow users to manage their Companies
     And I click "#edit-custom-fields"
     And I set text field with id "extInfosvelocity2TextValue" to "velocity"
     And I click "#submit-ext-info"
-    Then I see a field with the name "velocity" in the extended information list
+    Then I see a field with the name "velocity" in the custom field list
 
 
   #Maps
@@ -236,15 +265,6 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     Then I should not see the edit tag button
 
-  Scenario: A user with the Administrator permission can edit tags
-    Given I have the "Administrator" permission
-    And a "Company" has been created
-    When I navigate to a company page
-    And I click ".editTags"
-    And I add the tag "test-tag"
-    Then the tag field for the "companies" should contain "test-tag"
-
-
   #Tasks
   Scenario: A user can add a task to a company
     Given I have the "CanReadTasks" permission
@@ -275,6 +295,7 @@ Feature: Allow users to manage their Companies
   Scenario: A user can add an activity
     Given a "Company" has been created
     When I navigate to a company page
+    And I click "#general-dropdown"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -285,6 +306,7 @@ Feature: Allow users to manage their Companies
   Scenario: A user can edit an activity
     Given a "Company" has been created
     When I navigate to a company page
+    And I click "#general-dropdown"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -299,6 +321,7 @@ Feature: Allow users to manage their Companies
   Scenario: A user can delete an activity
     Given a "Company" has been created
     When I navigate to a company page
+    And I click "#general-dropdown"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
@@ -333,4 +356,4 @@ Feature: Allow users to manage their Companies
     And I click ".badge"
     Then I should see ".removeProp"
     And I should see ".fa-map-marker"
-    And "#resultsCount" should say "1 record"    
+    And "#resultsCount" should say "1 record"

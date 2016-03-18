@@ -61,18 +61,23 @@ Template.updateCustomField.events({
             case 'date':
               newValue = $(safeName + "DateValue").val();
               break;
+            case 'picklist':
+              newValue = $(safeName + 'PicklistValue').val().trim();
+              if (newValue === "") newValue = null;
+              break;
           }
 
           var settings = {
             "dataName": name,
             "dataValue": newValue,
             "dataType": attr.dataType,
-            isGlobal: true
+            isGlobal: true,
+            'listValues': attr.listValues
           };
           cfMaster.push(settings);
 
         } else {
-          var selectorName = "#extInfosTypeOptions";
+          var selectorName = safeName + "TypeOptions";
           var newType = $(selectorName).val();
 
           switch (newType) {
@@ -124,8 +129,15 @@ Template.updateCustomField.events({
           }
         });
         break;
+      case 'product':
+        Products.update(this.entity_data._id, {
+          $set: {
+            extendedInformation: cfMaster
+          }
+        });
+        break;
       default:
-        toastr.error('Extended information field not added: entity type not recognised.');
+        toastr.error('Custom fields not added: entity type not recognised.');
         Modal.hide();
         return;
     }

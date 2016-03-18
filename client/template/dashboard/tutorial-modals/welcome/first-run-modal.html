@@ -1,0 +1,51 @@
+<template name="firstRun">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" id="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h2>Welcome to RealTimeCRM</h2>
+        </div>
+
+        <div class="modal-body">
+          {{#if isMobile}}
+            Thank you for choosing RealTimeCRM. You are now all set and ready to run your business in real-time. Click a link below to get started!<br />
+            <h3>What's next?</h3><br />
+            <div class="quicklinks text-center">
+              <button class="btn btn-default btn-huge text-center" id="home"><i class="fa fa-fw fa-home"></i><br><h4 class="tutorial-title">To the Dashboard!</h4>Go to the homepage.</button>
+              {{#if isInRole 'CanCreateCompanies'}}
+                <button class="btn btn-default btn-huge text-center" id="companies"><i class="fa fa-fw fa-building"></i><br><h4 class="tutorial-title">Add a Company</h4>Why not start by adding a company?</button>
+              {{/if}}
+              {{#if isInRole 'CanCreateContacts'}}
+                <button class="btn btn-default btn-huge text-center" id="contacts"><i class="fa fa-fw fa-user"></i><br><h4 class="tutorial-title">Add a Contact</h4>Or a contact?</button>
+              {{/if}}
+              {{#if isInRole 'Administrator'}}
+                <button class="btn btn-default btn-huge text-center" id="admin"><i class="fa fa-fw fa-users"></i><br><h4 class="tutorial-title">Add a User [admin]</h4>So you're an admin? Click here to add a new user</button>
+              {{/if}}
+            </div>
+          {{else}}
+            Thank you for choosing RealTimeCRM. You are now all set and ready to run your business in real-time. Why not try one of our interactive tutorials below to get you started?<br />
+            <h3>What's next?</h3><br />
+            <div class="tutorials text-center">
+              <button class="btn btn-default btn-huge text-center" id="first-run-tour"><i class="fa fa-fw fa-map-signs"></i><br><h4 class="tutorial-title">Take a look around</h4>Take a short tour of the home screen and get aquainted with RealTimeCRM.</button>
+              {{#if isInRole 'CanCreateCompanies'}}
+                <button class="btn btn-default btn-huge text-center" id="companies-tutorial"><i class="fa fa-fw fa-building"></i><br><h4 class="tutorial-title">Add a Company</h4>A short, interactive tutorial that shows you how to add your first company.</button>
+              {{/if}}
+              {{#if isInRole 'CanCreateContacts'}}
+                <button class="btn btn-default btn-huge text-center" id="contacts-tutorial"><i class="fa fa-fw fa-user"></i><br><h4 class="tutorial-title">Add a Contact</h4>A short, interactive tutorial that shows you how to add your first contact.</button>
+              {{/if}}
+              {{#if isInRole 'Administrator'}}
+                <button class="btn btn-default btn-huge text-center" id="admin-tutorial"><i class="fa fa-fw fa-users"></i><br><h4 class="tutorial-title">Add a User [admin]</h4>A short, interactive tutorial that shows you how to add users and use your admin powers.</button>
+              {{/if}}
+            </div>
+          {{/if}}
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="close-first-run">Take me to RealTimeCRM<i class="fa fa-fw fa-angle-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

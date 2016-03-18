@@ -1,4 +1,13 @@
 Schemas.PurchaseOrder = new SimpleSchema({
+  sequencedIdentifier: {
+    type: String,
+    label: "RealTime ID",
+    defaultValue: function() {
+        var tenant = Tenants.findOne({});
+        var currentValue = tenant.settings.purchaseorder.defaultPrefix + "" + tenant.settings.purchaseorder.defaultNumber;
+        return currentValue;
+      }
+  },
   userId: {
     type: String,
     label: "Requestor"
@@ -59,7 +68,16 @@ Schemas.PurchaseOrder = new SimpleSchema({
   },
   orderDate: {
     type: Date,
-    defaultValue: new Date()
+    defaultValue: new Date(),
+    autoform: {
+      type: "bootstrap-datepicker",
+      datePickerOptions: {
+        defaultDate: new Date(),
+        autoclose: true,
+        format: 'dd/mm/yyyy',
+        todayHighlight: true
+      }
+    }
   },
   paymentMethod: {
     type: String,
@@ -76,10 +94,30 @@ Schemas.PurchaseOrder = new SimpleSchema({
     label: "Notes",
     optional: true
   },
+  totalValue: {
+    type: Number,
+    decimal: true,
+    defaultValue: 0.00
+  },
+  documents: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
   createdBy: {
     type: String,
     autoform: {
       type: "hidden"
+    }
+  },
+  tags: {
+    type: [String],
+    optional: true,
+    autoform: {
+      type: 'hidden'
     }
   }
 });

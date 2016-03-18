@@ -1,15 +1,15 @@
 Template.searchResults.onRendered(function() {
   var index = this.data.index,
-      name = index.getComponentDict().name,
-      sessionVariableName = name + '.searchDefinition',
-      previousSearch = Session.get(sessionVariableName);
+    name = index.getComponentDict().name,
+    sessionVariableName = name + '.searchDefinition',
+    previousSearch = Session.get(sessionVariableName);
 
   if (previousSearch) {
     index.getComponentMethods().search(previousSearch);
     $('input.easysearch-input').val(previousSearch);
   }
 
-  this.autorun( () => {
+  this.autorun(() => {
     searchDefinition = index.getComponentDict().get('searchDefinition');
     Session.set(sessionVariableName, searchDefinition);
   });

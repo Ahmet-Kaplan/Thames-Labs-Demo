@@ -12,19 +12,19 @@
       <h4 class="entity-title">Contact {{> watchlistAdmin entityData=this collection="contacts"}}</h4>
       <h1 id="contact-details" class="entity-name">{{name}}</h1>
       {{> tagInput tags=tags collection='contacts' entityId=_id permissionToEdit='CanEditContacts'}}
-      <div class="panel panel-default">
+      <div class="panel panel-default" id="contact-detail-panel">
         <div class="panel-heading">
           <div class="btn-group pull-right">
-            {{#if isInRole 'Administrator,CanEditContacts'}}
-            <a href="#" id="edit-contact" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>{{/if}} {{#if isInRole 'Administrator,CanDeleteContacts'}}
+            {{#if isInRole 'CanEditContacts'}}
+            <a href="#" id="edit-contact" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>{{/if}} {{#if isInRole 'CanDeleteContacts'}}
             <a href="#" id="remove-contact" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>{{/if}}
           </div>
           Contact
         </div>
         <ul class="list-group">
-          {{#if company}} {{#if isInRole 'Administrator,CanReadCompanies'}}
+          {{#if company}} {{#if isInRole 'CanReadCompanies'}}
           <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to company details">
-            <h4><i class="fa fa-fw fa-building"></i> Company</h4>            
+            <h4><i class="fa fa-fw fa-building"></i> Company</h4>
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
             <p class="list-group-item-text">{{company.name}}</p>
           </a>
@@ -34,12 +34,12 @@
             <p class="list-group-item-text">{{jobtitle}}</p>
           </li>
           {{/if}} {{#if email}}
-          <li class="list-group-item panel-item-header">
+          <a href="mailto:{{email}}" class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-envelope"></i> Email</h4>
             <p class="list-group-item-text">{{email}}</p>
-          </li>
+          </a>
           {{/if}} {{#if phone}}
-          <a href="{{phoneHref phone}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="">
+          <a href="{{phoneHref phone}}" id="contactTelephone" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="">
             <h4><i class="fa fa-fw fa-phone"></i> Phone Number</h4>
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
             <p class="list-group-item-text">{{phone}}</p>
@@ -51,13 +51,21 @@
             <p class="list-group-item-text">{{mobile}}</p>
           </a>
           {{/if}}
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Contact ID</h4>
+            <p class="list-group-item-text">{{sequencedIdentifier}}</p>
+          </li>
         </ul>
       </div>
 
-      {{#if isInRole 'Administrator,CanReadProjects'}}
+      <div>
+        {{#if isInRole 'CanEditContacts'}}{{#with this}} {{> customFieldDisplay entity_data=this entity_type='contact'}} {{/with}}{{/if}}
+      </div>
+
+      {{#if isInRole 'CanReadProjects'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
-          Projects {{#if isInRole 'Administrator,CanCreateProjects'}}
+          Projects {{#if isInRole 'CanCreateProjects'}}
           <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this contact"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
@@ -66,10 +74,12 @@
           {{/each}}
         </ul>
       </div>
-      {{/if}} {{#if isInRole 'Administrator,CanReadPurchaseOrders'}}
+      {{/if}} 
+
+      {{#if isInRole 'CanReadPurchaseOrders'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="purchase-orders">
-          Purchase Orders{{#if isInRole 'Administrator,CanCreatePurchaseOrders'}}
+          Purchase Orders{{#if isInRole 'CanCreatePurchaseOrders'}}
            <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this contact"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
@@ -82,16 +92,17 @@
           {{/each}}
         </ul>
       </div>
-      {{/if}} {{#if isInRole 'Administrator,CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="contact" entity_id=_id}} {{/with}}{{/if}}
+      {{/if}}
 
-      <div>
-        {{#if isInRole 'Administrator,CanEditContacts'}}{{#with this}} {{> customFieldDisplay entity_data=this entity_type='contact'}} {{/with}}{{/if}}
-      </div>
+{{> documentContainer collectionName="contacts" id=this._id permissionRequired="CanEditContacts"}}
 
-      {{#if isInRole 'Administrator,CanReadOpportunities'}}
+      {{#if isInRole 'CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="contact" entity_id=_id}} {{/with}}{{/if}}
+
+
+      {{#if isInRole 'CanReadOpportunities'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="opportunities">
-          Opportunities {{#if isInRole 'Administrator,CanCreateOpportunities'}}
+          Opportunities {{#if isInRole 'CanCreateOpportunities'}}
           <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">

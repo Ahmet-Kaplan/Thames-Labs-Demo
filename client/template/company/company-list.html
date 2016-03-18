@@ -5,15 +5,18 @@
   <h1 id="companies-page-header"><i class="fa fa-building"></i> Companies</h1>
 
   <!-- This should probably be refactored into a "search toolbar" template -->
-  <div class="row">
-    <div class="col-md-12">
-      {{#if isInRole 'Administrator,CanCreateCompanies'}}
+  <div class="row">    
+    <div class="col-md-6">
+      {{#if isInRole 'CanCreateCompanies'}}
         <button type="button" class="btn btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
       {{/if}}
       <div class="btn-group" role="group">
         <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
         {{> companyDataManagement}}
       </div>
+    </div>
+    <div class="col-md-6">
+      {{> tagManagement collectionName='companies'}}
     </div>
   </div>
 
@@ -29,7 +32,9 @@
   <div class="row" id="company-list">
     <div class="col-md-12">
 
-      {{> searchResults index=CompaniesIndex listItemTemplateName='companyListItem'}}
+      <div id="companySearchResults">
+	      {{> searchResults index=CompaniesIndex listItemTemplateName='companyListItem'}}
+      </div>
 
     </div>
   </div>

@@ -2,38 +2,40 @@
   <div class="panel panel-default" id="custom-fields-panel">
     <div class="panel-heading" id="entity-custom-fields">
       <div class="btn-group pull-right">
-        <button class="btn btn-primary btn-xs" data-placement="bottom" data-toggle="tooltip" id='add-custom-field' role='button' title="Add an extended information field">
+        <button class="btn btn-primary btn-xs" data-placement="bottom" data-toggle="tooltip" id='add-custom-field' role='button' title="Add an custom field">
           <i class="fa fa-fw fa-plus"></i>
           Add
           <!-- Add</button> -->
         </button>
-        <button class="btn btn-info btn-xs" data-placement="bottom" data-toggle="tooltip" id='edit-custom-fields' role='button' title="Update the existing extended information fields">
+        <button class="btn btn-info btn-xs" data-placement="bottom" data-toggle="tooltip" id='edit-custom-fields' role='button' title="Update the existing custom fields">
           <i class="fa fa-fw fa-pencil"></i>
           Edit
           <!-- Edit</button> -->
         </button>
       </div>
-      Extended Information
+      <a data-toggle="collapse" href="#collapseExtendedInfo">Custom Fields</a>
     </div>
-    {{#if hasCustomFields}}
+    <div id="collapseExtendedInfo" class="panel-collapse collapse in">
+      {{#if hasCustomFields}}
 
-      <ul class="list-group" id='custom-field-container'>
-        {{#each globalFields}}
-          {{> cfDisplay}}
-        {{/each}}
-      </ul>
+        <ul class="list-group" id='custom-field-container'>
+          {{#each globalFields}}
+            {{> cfDisplay}}
+          {{/each}}
+        </ul>
 
-      <ul class="list-group" id='custom-field-container'>
-        {{#each customFields}}
-          {{> cfDisplay}}
-        {{/each}}
-      </ul>
+        <ul class="list-group" id='custom-field-container'>
+          {{#each customFields}}
+            {{> cfDisplay}}
+          {{/each}}
+        </ul>
 
-      {{else}}
-      <ul class="list-group" id='custom-field-container'>
-        <li class="list-group-item">No extended information</li>
-      </ul>
+        {{else}}
+        <ul class="list-group" id='custom-field-container'>
+          <li class="list-group-item">No custom fields</li>
+        </ul>
 
-    {{/if}}
+      {{/if}}
+    </div>
   </div>
 </template>

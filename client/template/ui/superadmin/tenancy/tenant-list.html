@@ -16,86 +16,17 @@
     <span class="pull-right">Total Tenants: {{tenantCount}} &nbsp;&nbsp;&nbsp;&nbsp; Total Users: {{userCount}}</span>
   </div>
 
-    <h2><i class="fa fa-fw fa-plane"></i> Paying Tenants</h2>
-    {{#each tenants "true"}} {{> tenant}} {{/each}}
-
-    <h2><i class="fa fa-fw fa-paper-plane"></i> Free Tenants</h2>
-    {{#each tenants "false"}} {{> tenant}} {{/each}}
-
-
-</template>
-
-<template name="tenant">
-    <div class="panel panel-primary">
-      <div class="panel-heading accordion-toggle" id="{{_id}}">
-        {{#if limitReached}}<i class="fa fa-ban"></i> {{/if}}
-        {{#if stripe.freeUnlimited}}<i class="fa fa-unlock" data-toggle="tooltip" data-placement="bottom" title="Free unlimited tenant"></i> {{/if}}
-        {{name}}<small> (Users: {{userCount}}, Records: {{recordsCount}})</small><span class="glyphicon glyphicon-chevron-down pull-right"></span>
-      </div>
-        <div id="collapse{{_id}}" class="panel-collapse collapse">
-            <div class="panel-body" id="listOfTenantUsers">
-                <div class="btn-toolbar" role="toolbar">
-                    <button class="btn btn-primary btn-xs" id="btnAddNewTenantUser" type="button">
-                        <i class="fa fa-fw fa-user"></i> Add a new user
-                    </button>
-                        <div class="btn-group pull-right" role="group">
-                        {{#if showDemoDataButton}}
-                        <button class="btn btn-xs" id="btnDemoData" type="button" disabled="{{#if generationInProgress}}disabled{{/if}}">
-                            {{#if generationInProgress}} <em style="color:#acacac;" >Generating, please wait...</em> {{else}}
-                            <i class="fa fa-fw fa-wrench"></i> Generate demo data
-                            {{/if}}
-                        </button>
-                        {{/if}}
-                        <button class="btn btn-info btn-xs" id="btnEditSettings" type="button">
-                            <i class="fa fa-fw fa-wrench"></i> Edit settings
-                        </button>
-
-                        <button class="btn btn-success btn-xs" id="{{#if isPayingTenant}}btnSwitchToFree{{else}}btnSwitchToPaying{{/if}}" type="button">
-                          <i class="fa fa-fw fa-credit-card"></i> Change Scheme
-                        </button>
-                        {{#unless isPayingTenant}}
-                          <button class="btn btn-danger btn-xs" id="btnDeleteTenant" type="button">
-                            <i class="fa fa-fw fa-archive"></i> Delete this tenant
-                          </button>
-                        {{/unless}}
-                    </div>
-                </div>
-
-        <ul class="list-group">
-          {{#each users}} {{> user}} {{else}}
-          <div class="list-group-item ">
-            <em>No users</em>
-          </div>
-          {{/each}}
-        </ul>
-
+  <div class="stick-bar-placeholder">    
+  </div>
+  <div class="stick-bar">
+    <div class="row">
+      <div class="col-md-12">
+        {{> searchBox collectionName='tenants'}}
       </div>
     </div>
   </div>
-</template>
 
-<template name="user">
-  <div class="list-group-item">
-    <div class="row">
-      <div class="col-md-3">
-        <a class="btn btn-warning pull-left btn-xs" id="email-user" href="mailto:{{emailAddress}}" type="button" data-toggle="tooltip" title="Send an email to {{emailAddress}}">
-          <i class="fa fa-fw fa-envelope"></i>
-        </a>
-        <small>&nbsp; {{profile.name}} {{#if isAdmin}}<span class="pull-right"><i class="fa fa-fw fa-key"></i></span>{{/if}}</small>
-      </div>
-      <div class="col-md-6">
-        <small class="userDataDisplay" data-toggle="tooltip" title="{{profile.lastLogin}}"> {{friendlyLastLogin}}</small>
-      </div>
-      <div class="col-md-3">
-
-        <button class="btn btn-danger pull-right btn-xs" id="btnDeleteTenantUser" type="button">
-          <i class="fa fa-fw fa-times"></i> Delete user
-        </button>
-        <button class="btn btn-info pull-right btn-xs" id="btnEditTenantUser" type="button">
-          <i class="fa fa-fw fa-pencil"></i> Edit user
-        </button>
-
-      </div>
-    </div>
+  <div class="search-results" id="search-results">
+    {{> searchResults index=TenantsIndex listItemTemplateName='tenantListItem'}}
   </div>
 </template>

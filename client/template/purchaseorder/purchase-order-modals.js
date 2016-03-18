@@ -29,7 +29,13 @@ Template.newPurchaseOrderForm.helpers({
     return Meteor.userId();
   },
   currentDateTime: function() {
-    return moment();
+    var dateTime = moment();
+    var dateValue = moment({
+      year: dateTime.year(),
+      month: dateTime.month(),
+      day: dateTime.date()
+    });
+    return dateValue;
   }
 });
 
@@ -75,7 +81,9 @@ Template.newCompanyPurchaseOrderForm.helpers({
     return moment();
   },
   supplierCompanyName: function() {
-    return Companies.findOne({_id: this.supplierCompanyId}).name
+    return Companies.findOne({
+      _id: this.supplierCompanyId
+    }).name;
   }
 });
 
@@ -99,10 +107,14 @@ Template.newContactPurchaseOrderForm.helpers({
     return Meteor.userId();
   },
   supplierCompanyName: function() {
-    return Companies.findOne({_id: this.supplierCompanyId}).name
+    return Companies.findOne({
+      _id: this.supplierCompanyId
+    }).name;
   },
   supplierContactName: function() {
-    var contact = Contacts.findOne({_id: this.supplierContactId})
+    var contact = Contacts.findOne({
+      _id: this.supplierContactId
+    });
     return contact.forename + " " + contact.surname;
   },
   currentDateTime: function() {
@@ -139,10 +151,14 @@ Template.updatePurchaseOrderFormModal.onRendered(function() {
 
 Template.updatePurchaseOrderFormModal.helpers({
   supplierCompanyName: function() {
-    return Companies.findOne({_id: this.supplierCompanyId}).name
+    return Companies.findOne({
+      _id: this.supplierCompanyId
+    }).name
   },
   supplierContactName: function() {
-    var contact = Contacts.findOne({_id: this.supplierContactId})
+    var contact = Contacts.findOne({
+      _id: this.supplierContactId
+    })
     return contact.forename + " " + contact.surname;
   }
 })
@@ -203,7 +219,7 @@ Template.addPurchaseOrderItemModal.helpers({
 });
 
 Template.addPurchaseOrderItemModal.events({
-  'change #itemValue': function() {
+  'change #itemValue, blur #itemValue': function() {
 
     var v = $('#itemValue').val();
     var q = $('#currQuant').val();
@@ -216,7 +232,7 @@ Template.addPurchaseOrderItemModal.events({
       }
     });
   },
-  'change #currQuant': function() {
+  'change #currQuant, blur #currQuant': function() {
 
     var v = $('#itemValue').val();
     var q = $('#currQuant').val();

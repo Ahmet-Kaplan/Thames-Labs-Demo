@@ -5,13 +5,16 @@
       <div class="col-md-12">
         <h4 class="entity-title">Purchase Order {{> watchlistAdmin entityData=this collection="purchaseorders"}}</h4>
         <h1 class="entity-name" id="purchase-order-details">{{description}}</h1>
+        <div id="company-details-tags">
+        {{> tagInput tags=tags collection='purchaseorders' entityId=_id permissionToEdit='CanEditPurchaseOrders'}}
+       </div>
 
         <!-- {{> tagInput}} -->
 
         <div class="panel panel-default">
           <div class="panel-heading">
             <div class="btn-group pull-right">
-              {{#if isInRole 'Administrator,CanEditPurchaseOrders'}}
+              {{#if isInRole 'CanEditPurchaseOrders'}}
               <div class="btn-group">
                 <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                   <span class="caret"></span> Export
@@ -33,7 +36,7 @@
               </div>
                 <a class="btn btn-info btn-xs" disabled="{{#unless isOpen}}disabled{{/unless}}" href="#" id="edit-purchase-order"><i class="fa fa-fw fa-pencil"></i>Edit</a>
               {{/if}}
-              {{#if isInRole 'Administrator,CanDeletePurchaseOrders'}}
+              {{#if isInRole 'CanDeletePurchaseOrders'}}
                 <a class="btn btn-danger btn-xs" href="#" id="remove-purchase-order"><i class="fa fa-fw fa-times"></i>Delete</a>
               {{/if}}
             </div>
@@ -42,7 +45,7 @@
             Details</div>
           <ul class="list-group">
             {{#if supplierCompany}}
-              {{#if isInRole 'Administrator,CanReadCompanies'}}
+              {{#if isInRole 'CanReadCompanies'}}
                 <a class="list-group-item" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='company' id=supplierCompany._id}}" title="Navigate to supplier company details">
                   <i class="fa fa-fw fa-building"></i>
                   Supplier:
@@ -52,7 +55,7 @@
               {{/if}}
             {{/if}}
             {{#if supplierContact}}
-              {{#if isInRole 'Administrator,CanReadContacts'}}
+              {{#if isInRole 'CanReadContacts'}}
                 <a class="list-group-item" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='contact' id=supplierContact._id}}" title="Navigate to supplier contact details">
                   <i class="fa fa-fw fa-user"></i>
                   Supplier Contact:
@@ -63,11 +66,6 @@
               {{/if}}
             {{/if}}
 
-            <li class="list-group-item">
-              <i class="fa fa-fw fa-bullseye"></i>
-              Order Number:
-              {{orderNumber}}
-            </li>
             <li class="list-group-item">
               <i class="fa fa-fw fa-question"></i>
               Status:
@@ -89,15 +87,29 @@
               {{paymentMethod}}
             </li>
             <li class="list-group-item">
+              <i class="fa fa-fw fa-{{userCurrency}}"></i>
+              Total Price:
+              {{decimal totalValue}}
+            </li>
+            {{#if notes}}
+            <li class="list-group-item">
               <i class="fa fa-fw fa-paperclip"></i>
               Notes:
               {{notes}}
             </li>
+            {{/if}}
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Purchase Order ID</h4>
+              <p class="list-group-item-text">{{sequencedIdentifier}}</p>
+            </li>
           </ul>
         </div>
+
+        {{> documentContainer collectionName="purchaseorders" id=this._id permissionRequired="CanEditPurchaseOrders"}}
+
         <div class="panel panel-default">
           <div class="panel-heading">
-            {{#if isInRole 'Administrator,CanEditPurchaseOrders'}}
+            {{#if isInRole 'CanEditPurchaseOrders'}}
               <div class="btn-group pull-right">
                 <a class="btn btn-primary btn-xs" data-placement="bottom" data-toggle="tooltip" disabled="{{#unless canAddMoreItems}}disabled{{/unless}}" href="#" id="add-item" title="New item for this purchase order">
                   <i class="fa fa-fw fa-plus"></i>
@@ -155,7 +167,7 @@
       {{orderItemStatus}}
     </div>
     <div class="col-md-1">
-      £{{decimal totalPrice}}
+      {{decimal totalPrice}}
     </div>
     <div class="col-md-2">
       <div class="btn-group btn-group-justified" role="group">

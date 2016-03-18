@@ -3,6 +3,20 @@ Template.watchedEntityWidget.onCreated(function() {
 });
 
 Template.watchedEntityWidget.helpers({
+  parentCompany: function(id) {
+    Meteor.subscribe('lightCompanyById', id);
+    var company = Companies.findOne({
+      _id: id
+    })
+    if (company) return company.name;
+  },
+  parentContact: function(id) {
+    Meteor.subscribe('lightContactById', id);
+    var contact = Contacts.findOne({
+      _id: id
+    })
+    if (contact) return contact.forename + ' ' + contact.surname;
+  },
   items: function() {
     var user = Meteor.users.findOne({
       _id: Meteor.userId()
@@ -88,6 +102,21 @@ Template.watchedEntityWidget.helpers({
             }).map(function(activityRecord) {
               activityRecord.linkPath = "project";
               activityRecord.faIcon = "sitemap";
+              activityRecord.userName = Meteor.users.findOne({
+                _id: activityRecord.createdBy
+              }).profile.name;
+              actArray.push(activityRecord);
+            });
+          }
+
+          if (data.collection === "tasks") {
+            Meteor.subscribe("activityByTaskId", data.id);
+
+            Activities.find({
+              taskId: data.id
+            }).map(function(activityRecord) {
+              activityRecord.linkPath = "task";
+              activityRecord.faIcon = "check";
               activityRecord.userName = Meteor.users.findOne({
                 _id: activityRecord.createdBy
               }).profile.name;

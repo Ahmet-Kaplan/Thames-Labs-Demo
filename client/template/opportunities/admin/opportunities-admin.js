@@ -4,7 +4,7 @@ Template.opportunityAdmin.helpers({
   },
   hasStages: function() {
     var userTenant = Tenants.findOne({});
-    if (!userTenant.settings) return false;
+    if (!userTenant || !userTenant.settings) return false;
     var stages = userTenant.settings.opportunity.stages;
     if (!stages) return false;
     return stages.length > 0;
@@ -18,6 +18,12 @@ Template.opportunityAdmin.helpers({
 Template.opportunityAdmin.events({
   'click #btnAddStage': function(event) {
     event.preventDefault();
+
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To create your own opportunity stages');
+      return;
+    }
+
     Modal.show('insertNewStageModal', this);
   }
 });
@@ -37,19 +43,41 @@ Template.opportunityAdminStage.helpers({
 });
 
 Template.opportunityAdminStage.events({
-  'click #orderUp': function() {
+  'click .orderUp': function(event) {
+    event.preventDefault();
+
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To edit the order of your opportunity stages');
+      return;
+    }
+
     Meteor.call('changeStageOrder', this.id, "up");
   },
-  'click #orderDown': function() {
+  'click .orderDown': function(event) {
+    event.preventDefault();
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To edit the order of your opportunity stages');
+      return;
+    }
     Meteor.call('changeStageOrder', this.id, "down");
   },
-  'click #btnEdit': function() {
+  'click #btnEdit': function(event) {
     event.preventDefault();
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To edit your opportunity stages');
+      return;
+    }
     Modal.show('editStageModal', this);
   },
 
   'click #btnDelete': function(event) {
     event.preventDefault();
+
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To delete your opportunity stages');
+      return;
+    }
+
     var userTenant = Tenants.findOne({});
     var stages = userTenant.settings.opportunity.stages;
     var count = stages.length;

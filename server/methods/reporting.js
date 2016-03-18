@@ -78,7 +78,6 @@ Meteor.methods({
       var contactData = Contacts.find({}).fetch();
       var data = {
         "StoredContacts": (!Meteor.isDevelopment ? [] : contactData),
-        // "Count": (contactData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
         "Count": (contactData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
 
       }
@@ -126,9 +125,7 @@ Meteor.methods({
       });
 
       var data = {
-        "ActiveProjects": (!Meteor.isDevelopment ? [] : projectData),
-        "Count": (projectData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-        "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Value": value.toFixed(2)
       }
       return data;
     });
@@ -150,16 +147,12 @@ Meteor.methods({
       if (projData.length) {
 
         var data = {
-          "ActiveProjects": (!Meteor.isDevelopment ? [] : projData),
-          "Count": (projData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-          "Value": (value / projData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          "Value": (value / projData.length).toFixed(2)
         }
-      } else {
-          var data = {
-            "ActiveProjects": (!Meteor.isDevelopment ? [] : projData),
-            "Count": (projData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-            "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-          }
+        return data;
+      }
+      var data = {
+        "Value": "0.00"
       }
       return data;
     });
@@ -169,7 +162,6 @@ Meteor.methods({
     return Partitioner.bindUserGroup(this.userId, function() {
       var oppData = Opportunities.find({}).fetch();
       var data = {
-        "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
         "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
@@ -183,7 +175,6 @@ Meteor.methods({
         }
       }).fetch();
       var data = {
-        "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
         "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
@@ -191,38 +182,37 @@ Meteor.methods({
   },
   'report.valueOfOpportunities': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
-      var oppData = Opportunities.find({}).fetch();
+      var oppData = Opportunities.find({
+        isArchived: {
+          $ne: true
+        }
+      }).fetch();
       var value = 0;
-
       _.each(oppData, function(od) {
         if (od.value) {
           value += parseFloat(od.value);
         }
       });
-      parseFloat(value).toFixed(2)
       if (oppData.length) {
-
         var data = {
-          "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
-          "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-          "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          "Value": value.toFixed(2)
         }
-      } else {
-
-        var data = {
-          "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
-          "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-          "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-        }
+        return data;
+      }
+      var data = {
+        "Value": "0.00"
       }
       return data;
     });
   },
   'report.averageOpportunityValue': function() {
     return Partitioner.bindUserGroup(this.userId, function() {
-      var oppData = Opportunities.find({}).fetch();
+      var oppData = Opportunities.find({
+        isArchived: {
+          $ne: true
+        }
+      }).fetch();
       var value = 0;
-
       _.each(oppData, function(od) {
         if (od.value) {
           value += parseFloat(od.value)
@@ -230,17 +220,12 @@ Meteor.methods({
       });
       if (oppData.length) {
         var data = {
-          "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
-          "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-          "Value": (value / oppData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          "Value": (value / oppData.length).toFixed(2)
         }
-      } else {
-        var data = {
-          "Opportunities": (!Meteor.isDevelopment ? [] : oppData),
-          "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-          "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-
-        }
+        return data;
+      }
+      var data = {
+        "Value": "0.00"
       }
       return data;
     });
@@ -262,17 +247,13 @@ Meteor.methods({
     return Partitioner.bindUserGroup(this.userId, function() {
       var productData = Products.find({}).fetch();
       var value = 0;
-
       _.each(productData, function(pd) {
         if (pd.cost) {
           value += parseFloat(pd.cost)
         }
       });
-
       var data = {
-        "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
-        "Count": (productData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-        "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Value": value.toFixed(2)
       }
       return data;
     });
@@ -281,7 +262,6 @@ Meteor.methods({
     return Partitioner.bindUserGroup(this.userId, function() {
       var productData = Products.find({}).fetch();
       var value = 0;
-
       _.each(productData, function(pd) {
         if (pd.cost) {
           value += parseFloat(pd.cost)
@@ -289,17 +269,13 @@ Meteor.methods({
       });
       if (productData.length) {
         var data = {
-          "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
-          "Count": (productData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-          "Value": (value / productData.length).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          "Value": (value / productData.length).toFixed(2)
         }
-      } else {
-        var data = {
-          "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
-          "Count": (productData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
-          "Value": value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-        }
-    }
+        return data;
+      }
+      var data = {
+        "Value": "0.00"
+      }
       return data;
     });
   },
@@ -308,7 +284,6 @@ Meteor.methods({
     return Partitioner.bindUserGroup(this.userId, function() {
       var purchaseData = PurchaseOrders.find({}).fetch();
       var data = {
-        "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
         "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
@@ -322,7 +297,6 @@ Meteor.methods({
         }
       }).fetch();
       var data = {
-        "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
         "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
@@ -336,7 +310,6 @@ Meteor.methods({
         }
       }).fetch();
       var data = {
-        "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
         "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
@@ -350,7 +323,6 @@ Meteor.methods({
         }
       }).fetch();
       var data = {
-        "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
         "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
@@ -364,7 +336,6 @@ Meteor.methods({
         }
       }).fetch();
       var data = {
-        "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
         "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;
@@ -378,7 +349,6 @@ Meteor.methods({
         }
       }).fetch();
       var data = {
-        "StoredPurchaseOrders": (!Meteor.isDevelopment ? [] : purchaseData),
         "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       }
       return data;

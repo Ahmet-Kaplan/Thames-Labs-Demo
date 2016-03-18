@@ -5,10 +5,11 @@ Template.extInfo.helpers({
 });
 
 Template.extInfo.events({
-  'change #extInfosTypeOptions': function() {
+  'change .TypeSelectionMenu': function(event, template) {
+
     var index = this.name;
     var safeName = '#extInfos' + index.replace(/ /g, '');
-    var selectorName = "#extInfosTypeOptions";
+    var selectorName = safeName + "TypeOptions";
     var newType = $(selectorName).val();
 
     switch (newType) {
@@ -17,12 +18,14 @@ Template.extInfo.events({
         $(safeName + "BooleanInputArea").hide();
         $(safeName + "AdvTextInputArea").hide();
         $(safeName + "DateInputArea").hide();
+        $(safeName + "PicklistInputArea").hide();
         break;
       case 'advtext':
         $(safeName + "TextInputArea").hide();
         $(safeName + "AdvTextInputArea").show();
         $(safeName + "BooleanInputArea").hide();
         $(safeName + "DateInputArea").hide();
+        $(safeName + "PicklistInputArea").hide();
 
         editor = new MediumEditor('.editable', {
           placeholder: {
@@ -37,47 +40,71 @@ Template.extInfo.events({
         $(safeName + "BooleanInputArea").show();
         $(safeName + "AdvTextInputArea").hide();
         $(safeName + "DateInputArea").hide();
+        $(safeName + "PicklistInputArea").hide();
         break;
       case 'date':
         $(safeName + "TextInputArea").hide();
         $(safeName + "BooleanInputArea").hide();
         $(safeName + "AdvTextInputArea").hide();
         $(safeName + "DateInputArea").show();
+        $(safeName + "PicklistInputArea").hide();
+        break;
+      case 'picklist':
+        $(safeName + "TextInputArea").hide();
+        $(safeName + "BooleanInputArea").hide();
+        $(safeName + "AdvTextInputArea").hide();
+        $(safeName + "DateInputArea").hide();
+        $(safeName + "PicklistInputArea").show();
         break;
     }
   }
 });
 
+Template.extInfo.onCreated(function() {
+  $.getScript('/vendor/medium/medium-editor.min.js');
+});
+
 Template.extInfo.onRendered(function() {
   this.$('.datetimepicker').datetimepicker();
+
   var index = this.data.name;
   var attr = this.data.props;
 
   var safeName = '#extInfos' + index.replace(/ /g, '');
-  var selectorName = "#extInfosTypeOptions";
-  $(selectorName).val('text');
+  var selectorName = safeName + "TypeOptions";
+  $(selectorName).val(attr.dataType);
+
+  if (attr.listValues) {
+    var options = _.map(attr.listValues.split(','), function(input) {
+      return {
+        value: input,
+        text: input
+      }
+    });
+
+    this.$(safeName + "PicklistValue").selectize({
+      create: false,
+      options: options,
+      maxItems: 1
+    });
+  }
 
   switch (attr.dataType) {
     case 'text':
-      // if (attr.isGlobal) {
-      $(selectorName).val('text');
-      // };
       $(safeName + "TextValue").val(attr.dataValue);
       $(safeName + "TextInputArea").show();
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").hide();
+      $(safeName + "PicklistInputArea").hide();
       break;
     case 'advtext':
-
-      // if (attr.isGlobal) {
-      $(selectorName).val('advtext');
-      // };
       $(safeName + "AdvTextValue").html(attr.dataValue);
       $(safeName + "TextInputArea").hide();
       $(safeName + "AdvTextInputArea").show();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").hide();
+      $(safeName + "PicklistInputArea").hide();
 
       editor = new MediumEditor('.editable', {
         placeholder: {
@@ -88,24 +115,30 @@ Template.extInfo.onRendered(function() {
       });
       break;
     case 'checkbox':
-      // if (attr.isGlobal) {
-      $(selectorName).val('checkbox');
-      // };
       $(safeName + "BooleanValue").prop('checked', attr.dataValue);
       $(safeName + "TextInputArea").hide();
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").show();
       $(safeName + "DateInputArea").hide();
+      $(safeName + "PicklistInputArea").hide();
       break;
     case 'date':
-      // if (attr.isGlobal) {
-      $(selectorName).val('date');
-      // };
       $(safeName + "DateValue").val(attr.dataValue);
       $(safeName + "TextInputArea").hide();
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").hide();
       $(safeName + "DateInputArea").show();
+      $(safeName + "PicklistInputArea").hide();
+      break;
+    case 'picklist':
+      $(safeName + "TextInputArea").hide();
+      $(safeName + "BooleanInputArea").hide();
+      $(safeName + "AdvTextInputArea").hide();
+      $(safeName + "DateInputArea").hide();
+      $(safeName + "PicklistInputArea").show();
+
+      var se = $(safeName + 'PicklistValue').selectize();
+      se[0].selectize.setValue(attr.dataValue);
       break;
   }
 

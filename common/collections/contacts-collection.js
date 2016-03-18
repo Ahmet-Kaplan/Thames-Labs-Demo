@@ -10,7 +10,7 @@ Contacts.helpers({
     return Companies.findOne(this.companyId);
   },
   activities: function() {
-    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+    var collectionsToFilter = getDisallowedPermissions(Meteor.userId());
 
     return Activities.find({
       contactId: this._id,
@@ -49,7 +49,7 @@ Collections.contacts.filters = {
     nameField: 'name',
     subscriptionById: 'companyById',
     displayValue: function(company) {
-      if(company) {
+      if (company) {
         return company.name;
       } else {
         return 'N/A';
@@ -65,11 +65,22 @@ Collections.contacts.filters = {
     display: 'Tag:',
     prop: 'tags',
     collectionName: 'tags',
-    autosuggestFilter: {collection: 'contacts'},
+    autosuggestFilter: {
+      collection: 'contacts'
+    },
     valueField: 'name',
     nameField: 'name'
+  },
+  sequencedIdentifier: {
+    display: 'RealTime Contact Identifier:',
+    prop: 'sequencedIdentifier',
+    allowMultiple: false,
+    verify: function(sequencedIdentifier) {
+      if (!sequencedIdentifier) return false;
+      return true;
+    }
   }
-}
+};
 
 ////////////////////
 // SEARCH INDICES //
@@ -80,7 +91,7 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
   fields: ['forename', 'surname'],
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, ['Administrator', 'CanReadContacts']);
+    return Roles.userIsInRole(userId, ['CanReadContacts']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {
@@ -106,29 +117,31 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
         'phone': 1,
         'mobile': 1,
         'email': 1,
-        'tags': 1
+        'tags': 1,
+        'sequencedIdentifier': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
+      if (options.search.props.sequencedIdentifier) {
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+      }
+
       if (options.search.props.filterCompanyId) {
         selector.companyId = options.search.props.filterCompanyId;
       }
 
-      if(options.search.props.company) {
+      if (options.search.props.company) {
         // n.b. the array is passed as a comma separated string
-        selector.companyId = {$in: options.search.props.company.split(',')};
+        selector.companyId = {
+          $in: options.search.props.company.split(',')
+        };
       }
 
-      if(options.search.props.phone) {
+      if (options.search.props.phone) {
         // n.b. the array is passed as a comma separated string
         selector.phone = {
-          $in: _.map(options.search.props.phone.split(','), function(phone) {
-            return new RegExp(phone, 'i')
-          })
-        };
-        selector.mobile = {
           $in: _.map(options.search.props.phone.split(','), function(phone) {
             return new RegExp(phone, 'i')
           })
@@ -159,14 +172,8 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 
-var checkRecordsNumber = Collections.helpers.checkRecordsNumber;
-
 Contacts.before.insert(function(userId, doc) {
-  if (!checkRecordsNumber()) {
-    return false;
-  }
-
-  if (doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
+   if (doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
     var name = doc.companyId.substr(9);
     var newCompanyId = Companies.insert({
       name: name,
@@ -195,12 +202,25 @@ Contacts.before.insert(function(userId, doc) {
       cfMaster.push(field);
     });
     doc.extendedInformation = cfMaster;
+
+    doc.sequencedIdentifier = Tenants.findOne({}).settings.contact.defaultNumber;
   }
+
 });
 
 Contacts.after.insert(function(userId, doc) {
-  Meteor.call('updateTotalRecords');
   logEvent('info', 'A new contact has been created: ' + doc.forename + " " + doc.surname);
+
+  if (Meteor.isServer) {
+    var t = Tenants.findOne({});
+    Tenants.update({
+      _id: t._id
+    }, {
+      $inc: {
+        'settings.contact.defaultNumber': 1
+      }
+    });
+  }
 });
 
 Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
@@ -243,6 +263,5 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Contacts.after.remove(function(userId, doc) {
-  Meteor.call('updateTotalRecords');
   logEvent('info', 'A contact has been deleted: ' + doc.forename + " " + doc.surname);
 });

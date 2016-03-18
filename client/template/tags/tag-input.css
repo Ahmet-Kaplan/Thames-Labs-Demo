@@ -1,3 +1,6 @@
 #tag-list-display + .panel {
   margin-top: 10px;
 }
+#tag-list-display {
+	padding-bottom: 5px;
+}

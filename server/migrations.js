@@ -345,19 +345,19 @@ Migrations.add({
   }
 });
 
-Migrations.add({
-  version: 12,
-  name: "Remove stripe.blocked from all tenants",
-  up: function() {
-    ServerSession.set('maintenance', true);
-    Tenants.update({}, {
-      $unset: {
-        'stripe.blocked': ''
-      }
-    });
-    ServerSession.set('maintenance', false);
-  }
-});
+// Migrations.add({
+//   version: 12,
+//   name: "Remove stripe.blocked from all tenants",
+//   up: function() {
+//     ServerSession.set('maintenance', true);
+//     Tenants.update({}, {
+//       $unset: {
+//         'stripe.blocked': ''
+//       }
+//     });
+//     ServerSession.set('maintenance', false);
+//   }
+// });
 
 
 Migrations.add({
@@ -590,6 +590,314 @@ Migrations.add({
         });
 
       });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 18,
+  name: "Add automatic calculation of PO total Price, set tenant currency",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+      PurchaseOrders.find({}).forEach(function(po) {
+        if (!po.totalValue) {
+          PurchaseOrders.update({
+            _id: po._id
+          }, {
+            $set: {
+              totalValue: 0.00
+            }
+          });
+        }
+      });
+
+      Tenants.find({}).forEach(function(tenant) {
+        if (!tenant.settings.currency) {
+          Tenants.update({
+            _id: tenant._id
+          }, {
+            $set: {
+              'settings.currency': 'gbp'
+            }
+          });
+        }
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 19,
+  name: "Add the new tenant settings for sequential numbering",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+
+      var tenants = Tenants.find({}).fetch();
+      _.each(tenants, function(tenant) {
+
+        //Remove the old numbering systems
+        Tenants.update({
+          _id: tenant._id
+        }, {
+          $set: {
+            'settings.activity.defaultNumber': 0,
+            'settings.task.defaultNumber': 0,
+            'settings.company.defaultNumber': 0,
+            'settings.contact.defaultNumber': 0,
+            'settings.opportunity.defaultNumber': 0,
+            'settings.project.defaultNumber': 0,
+            'settings.product.defaultNumber': 0,
+            'settings.purchaseorder.defaultPrefix': '',
+            'settings.purchaseorder.defaultNumber': 0
+          },
+          $unset: {
+            'settings.PurchaseOrderPrefix': "",
+            'settings.PurchaseOrderStartingValue': ""
+          }
+        });
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 20,
+  name: "Add Default Permissions to all Administrators",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    var permissions = [
+      "CanReadContacts",
+      "CanReadCompanies",
+      "CanCreateCompanies",
+      "CanEditCompanies",
+      "CanDeleteCompanies",
+      "CanCreateContacts",
+      "CanEditContacts",
+      "CanDeleteContacts",
+      "CanReadProjects",
+      "CanCreateProjects",
+      "CanEditProjects",
+      "CanDeleteProjects",
+      "CanReadProducts",
+      "CanCreateProducts",
+      "CanEditProducts",
+      "CanDeleteProducts",
+      "CanReadTasks",
+      "CanCreateTasks",
+      "CanEditTasks",
+      "CanDeleteTasks",
+      "CanReadPurchaseOrders",
+      "CanCreatePurchaseOrders",
+      "CanEditPurchaseOrders",
+      "CanDeletePurchaseOrders",
+      "CanReadEventLog",
+      "CanCreateEventLog",
+      "CanEditEventLog",
+      "CanDeleteEventLog",
+      "CanReadOpportunities",
+      "CanCreateOpportunities",
+      "CanEditOpportunities",
+      "CanDeleteOpportunities"
+    ];
+    Partitioner.directOperation(function() {
+      Meteor.users.find({}).forEach(function(user) {
+        if (Roles.userIsInRole(user._id, 'Administrator')) {
+          permissions.forEach(function(perm) {
+            Roles.addUsersToRoles(user._id, perm);
+          });
+        }
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 21,
+  name: "Update stripe object against tenants",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+      var tenants = Tenants.find({}).fetch();
+      _.each(tenants, function(t) {
+        var stripe = t.stripe;
+        var flag = false;
+        if (stripe) {
+          flag = (stripe.paying === true || stripe.freeUnlimited === true);
+        }
+
+        Tenants.update({
+          _id: t._id
+        }, {
+          $set: {
+            'plan': (flag === true ? 'pro' : 'free')
+          },
+          $unset: {
+            'stripe.paying': "",
+            'stripe.freeUnlimited': "",
+            'stripe.totalRecords': ""
+          }
+        });
+      });
+    });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 22,
+  name: "Update custom fields to use new UUID system",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    Partitioner.directOperation(function() {
+
+      var tenants = Tenants.find({}).fetch();
+
+      _.each(tenants, function(t) {
+        if (t.settings.extInfo) {
+          var ei = t.settings.extInfo;
+          var master = [];
+
+          //Company instances
+          _.each(ei.company, function(fl) {
+            var instanceId = Guid.raw();
+            fl.uuid = instanceId;
+            master.push(fl);
+            _.each(Companies.find({
+              _groupId: t._id
+            }).fetch(), function(objx) {
+              cfMasterList = [];
+              if (objx.extendedInformation) {
+                for (var cf in objx.extendedInformation) {
+                  if (objx.extendedInformation[cf].dataName === fl.name) {
+                    objx.extendedInformation[cf].uuid = instanceId
+                  }
+                  cfMasterList.push(objx.extendedInformation[cf]);
+                }
+                Companies.update(objx._id, {
+                  $set: {
+                    extendedInformation: cfMasterList
+                  }
+                });
+              }
+            });
+          });
+
+          Tenants.update(t._id, {
+            $set: {
+              'settings.extInfo.company': master
+            }
+          });
+
+          master = [];
+
+          //Contact instances
+          _.each(ei.contact, function(fl) {
+            var instanceId = Guid.raw();
+            fl.uuid = instanceId;
+            master.push(fl);
+            _.each(Contacts.find({
+              _groupId: t._id
+            }).fetch(), function(objx) {
+              cfMasterList = [];
+              if (objx.extendedInformation) {
+                for (var cf in objx.extendedInformation) {
+                  if (objx.extendedInformation[cf].dataName === fl.name) {
+                    objx.extendedInformation[cf].uuid = instanceId
+                  }
+                  cfMasterList.push(objx.extendedInformation[cf]);
+                }
+                Contacts.update(objx._id, {
+                  $set: {
+                    extendedInformation: cfMasterList
+                  }
+                });
+              }
+            });
+          });
+
+          Tenants.update(t._id, {
+            $set: {
+              'settings.extInfo.contact': master
+            }
+          });
+
+          master = [];
+
+          //Project instances
+          _.each(ei.project, function(fl) {
+            var instanceId = Guid.raw();
+            fl.uuid = instanceId;
+            master.push(fl);
+            _.each(Projects.find({
+              _groupId: t._id
+            }).fetch(), function(objx) {
+              cfMasterList = [];
+              if (objx.extendedInformation) {
+                for (var cf in objx.extendedInformation) {
+                  if (objx.extendedInformation[cf].dataName === fl.name) {
+                    objx.extendedInformation[cf].uuid = instanceId
+                  }
+                  cfMasterList.push(objx.extendedInformation[cf]);
+                }
+                Projects.update(objx._id, {
+                  $set: {
+                    extendedInformation: cfMasterList
+                  }
+                });
+              }
+            });
+          });
+
+          Tenants.update(t._id, {
+            $set: {
+              'settings.extInfo.project': master
+            }
+          });
+
+          master = [];
+
+          //Products instances
+          _.each(ei.products, function(fl) {
+            var instanceId = Guid.raw();
+            fl.uuid = instanceId;
+            master.push(fl);
+            _.each(Products.find({
+              _groupId: t._id
+            }).fetch(), function(objx) {
+              cfMasterList = [];
+              if (objx.extendedInformation) {
+                for (var cf in objx.extendedInformation) {
+                  if (objx.extendedInformation[cf].dataName === fl.name) {
+                    objx.extendedInformation[cf].uuid = instanceId
+                  }
+                  cfMasterList.push(objx.extendedInformation[cf]);
+                }
+                Products.update(objx._id, {
+                  $set: {
+                    extendedInformation: cfMasterList
+                  }
+                });
+              }
+            });
+          });
+
+          Tenants.update(t._id, {
+            $set: {
+              'settings.extInfo.product': master
+            }
+          });
+
+          master = [];
+
+        }
+      });
+
     });
     ServerSession.set('maintenance', false);
   }

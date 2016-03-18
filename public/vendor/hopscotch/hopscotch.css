@@ -249,7 +249,7 @@ div.hopscotch-bubble .hopscotch-nav-button {
   padding: 0 10px;
   height: 26px;
   line-height: 24px;
-  font-size: 12px;
+  font-size: 15px;
   *zoom: 1;
   white-space: nowrap;
   display: -moz-inline-stack;
@@ -266,6 +266,7 @@ div.hopscotch-bubble .hopscotch-nav-button {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  box-shadow: 1px 1px 4px #888888;
 }
 div.hopscotch-bubble .hopscotch-nav-button:hover {
   *zoom: 1;
@@ -349,10 +350,10 @@ div.hopscotch-bubble.hide, div.hopscotch-bubble .hide, div.hopscotch-bubble .hid
 div.hopscotch-bubble h3 {
   color: #000;
   font-family: "Source Sans Pro";
-  font-size: 16px;
+  font-size: 25px;
   font-weight: normal;
-  line-height: 19px;
-  margin: -1px 15px 0 0;
+  line-height: 25px;
+  margin: 0 15px 5px 0;
   padding: 0;
 }
 div.hopscotch-bubble .hopscotch-bubble-container {
@@ -365,12 +366,13 @@ div.hopscotch-bubble .hopscotch-bubble-container {
 div.hopscotch-bubble .hopscotch-content {
   font-family: "Source Sans Pro";
   font-weight: normal;
-  line-height: 17px;
-  margin: -5px 0 11px;
+  font-size: 14px;
+  line-height: 20px;
+  margin: -5px 0 15px;
   padding-top: 8px;
 }
 div.hopscotch-bubble .hopscotch-bubble-content {
-  margin: 0;
+  margin: 0 0 0 10px;
 }
 div.hopscotch-bubble.no-number .hopscotch-bubble-content {
   margin: 0;
@@ -396,17 +398,19 @@ div.hopscotch-bubble .hopscotch-bubble-close.hide, div.hopscotch-bubble .hopscot
   display: none;
 }
 div.hopscotch-bubble .hopscotch-bubble-number {
-  background: transparent url(../img/sprite-green.png) 0 0 no-repeat;
+  border-radius: 50%;
+  background: #3388c6;
   color: #fff;
   display: none;
   float: left;
   font-size: 17px;
   font-weight: bold;
   line-height: 31px;
-  padding: 0 10px 0 0;
+  padding: 0 0 0 0;
   text-align: center;
   width: 30px;
   height: 30px;
+  box-shadow: 1px 1px 4px #888888;
 }
 div.hopscotch-bubble .hopscotch-bubble-arrow-container {
   position: absolute;

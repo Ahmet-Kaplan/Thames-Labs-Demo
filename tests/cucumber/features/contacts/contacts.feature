@@ -38,15 +38,17 @@ Feature: Allow users to manage their Contacts
 
   Scenario: An administrator can add CanReadContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Contacts" to a restricted user
-    Then the restricted user should have the "CanReadContacts" permission
+    Then the user "restricted user" should have the "CanReadContacts" permission
 
   Scenario: An administrator can remove CanReadContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Contacts" from a restricted user
-    Then the restricted user should not have the "CanReadContacts" permission
+    Then the user "restricted user" should not have the "CanReadContacts" permission
 
   Scenario: A superadmin user can't visit the contacts list
     Given a superadmin exists
@@ -84,15 +86,17 @@ Feature: Allow users to manage their Contacts
 
   Scenario: An administrator can add CanCreateContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanCreate" on "Contacts" to a restricted user
-    Then the restricted user should have the "CanCreateContacts" permission
+    Then the user "restricted user" should have the "CanCreateContacts" permission
 
   Scenario: An administrator can remove CanCreateContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Contacts" from a restricted user
-    Then the restricted user should not have the "CanCreateContacts" permission
+    Then the user "restricted user" should not have the "CanCreateContacts" permission
 
   #Editing
   Scenario: A user can edit a contact
@@ -112,15 +116,17 @@ Feature: Allow users to manage their Contacts
 
   Scenario: An administrator can add CanEditContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanEdit" on "Contacts" to a restricted user
-    Then the restricted user should have the "CanEditContacts" permission
+    Then the user "restricted user" should have the "CanEditContacts" permission
 
   Scenario: An administrator can remove CanEditContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Contacts" from a restricted user
-    Then the restricted user should not have the "CanEditContacts" permission
+    Then the user "restricted user" should not have the "CanEditContacts" permission
 
   #Deleting
   Scenario: A user can delete a contact
@@ -139,15 +145,17 @@ Feature: Allow users to manage their Contacts
 
   Scenario: An administrator can add CanDeleteContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Contacts" to a restricted user
-    Then the restricted user should have the "CanDeleteContacts" permission
+    Then the user "restricted user" should have the "CanDeleteContacts" permission
 
   Scenario: An administrator can remove CanDeleteContacts permission
     Given I have the "Administrator" permission
+    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Contacts" from a restricted user
-    Then the restricted user should not have the "CanDeleteContacts" permission
+    Then the user "restricted user" should not have the "CanDeleteContacts" permission
 
   #Menu item permissions
   Scenario: A restricted user cannot see the Contacts menu item without the correct permission
@@ -199,7 +207,7 @@ Feature: Allow users to manage their Contacts
     And I click "#edit-custom-fields"
     And I set text field with id "extInfosvelocity2TextValue" to "velocity"
     And I click "#submit-ext-info"
-    Then I see a field with the name "velocity" in the extended information list
+    Then I see a field with the name "velocity" in the custom field list
 
   #Maps
   Scenario: A user can see the map on a contact's page
@@ -252,15 +260,6 @@ Feature: Allow users to manage their Contacts
     When I navigate to a contact page
     Then I should not see the edit tag button
 
-  Scenario: A user with the Administrator permission can edit tags
-    Given I have the "Administrator" permission
-    And a "Contact" has been created
-    When I navigate to a contact page
-    And I click ".editTags"
-    And I add the tag "test-tag"
-    Then the tag field for the "contacts" should contain "test-tag"
-
-
   #Tasks
   Scenario: A user can add a task to a contact
     Given I have the "CanReadTasks" permission
@@ -287,47 +286,10 @@ Feature: Allow users to manage their Contacts
     When I navigate to a contact page
     Then I should not see "#btnAddTaskToEntity"
 
-  #Activities
-  Scenario: A user can add an activity
-    Given a "Contact" has been created
-    When I navigate to a contact page
-    And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
-    And I set rich text field "notes" to "test activity"
-    And I select "Note" from dropdown field "type"
-    And I click "#confirm"
-    Then I should see the activity in the timeline
-
-  Scenario: A user can edit an activity
-    Given a "Contact" has been created
-    When I navigate to a contact page
-    And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
-    And I set rich text field "notes" to "test activity"
-    And I select "Note" from dropdown field "type"
-    And I click "#confirm"
-    And I wait
-    And I click "#edit-activity"
-    And I select "Email" from dropdown field "type"
-    And I click "#update"
-    Then I should see a toastr with the message containing "Activity updated."
-
-  Scenario: A user can delete an activity
-    Given a "Contact" has been created
-    When I navigate to a contact page
-    And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
-    And I set rich text field "notes" to "test activity"
-    And I select "Note" from dropdown field "type"
-    And I click "#confirm"
-    And I wait
-    And I click "#remove-activity"
-    And I click confirm on the modal
-    Then I should see "#no-activity"
-
   #Filtering and Searching
   Scenario: A user can filter contacts by company
-    Given I have the "Administrator" permission
+    Given I have the "CanReadCompanies" permission
+    And I have the "CanReadContacts" permission
     And a "Contact" has been created
     And I create a new contact belonging to a company
     When I navigate to "/contacts"
@@ -345,3 +307,44 @@ Feature: Allow users to manage their Contacts
     And I click ".badge"
     Then I should see ".removeProp"
     And "#resultsCount" should say "1 record"
+
+  #Activities
+    Scenario: A user can add an activity
+      Given a "Contact" has been created
+      When I navigate to a contact page
+      And I click "#general-dropdown"
+      And I click "#add-activity"
+      And I set text field "activityTimestamp" to "05/05/2015 05:05"
+      And I set rich text field "notes" to "test activity"
+      And I select "Note" from dropdown field "type"
+      And I click "#confirm"
+      Then I should see the activity in the timeline
+
+    Scenario: A user can edit an activity
+      Given a "Contact" has been created
+      When I navigate to a contact page
+      And I click "#general-dropdown"
+      And I click "#add-activity"
+      And I set text field "activityTimestamp" to "05/05/2015 05:05"
+      And I set rich text field "notes" to "test activity"
+      And I select "Note" from dropdown field "type"
+      And I click "#confirm"
+      And I wait
+      And I click "#edit-activity"
+      And I select "Email" from dropdown field "type"
+      And I click "#update"
+      Then I should see a toastr with the message containing "Activity updated."
+
+    Scenario: A user can delete an activity
+      Given a "Contact" has been created
+      When I navigate to a contact page
+      And I click "#general-dropdown"
+      And I click "#add-activity"
+      And I set text field "activityTimestamp" to "05/05/2015 05:05"
+      And I set rich text field "notes" to "test activity"
+      And I select "Note" from dropdown field "type"
+      And I click "#confirm"
+      And I wait
+      And I click "#remove-activity"
+      And I click confirm on the modal
+      Then I should see "#no-activity"

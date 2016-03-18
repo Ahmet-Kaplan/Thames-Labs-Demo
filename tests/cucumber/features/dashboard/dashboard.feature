@@ -34,10 +34,18 @@ Feature: Allow users to see widgets
       And I click "#task"
       Then I should see "#taskWidget"
 
+    
     Scenario: A user can see the Requested Purchase Orders widget
+      Given I am on the pro plan
       When I click "#addWidgetButton"
       And I click "#openPo"
       Then I should see "#openPoBox"
+
+    
+    Scenario: A free plan user cannot see the Requested Purchase Orders widget
+      Given I am on the free plan
+      When I click "#addWidgetButton"
+      Then I should not see "#openPo"
 
     Scenario: A user can see the Tasks Overview widget
       When I click "#addWidgetButton"
@@ -59,10 +67,18 @@ Feature: Allow users to see widgets
       And I click "#productsInformation"
       Then I should see "#productInformationBox"
 
+
     Scenario: A user can see the purchase orders Overview widget
+      Given I am on the pro plan
       When I click "#addWidgetButton"
       And I click "#poInformation"
       Then I should see "#poInformationBox"
+
+
+    Scenario: A user on the free plan cannot see the purchase orders Overview widget
+      Given I am on the free plan
+      When I click "#addWidgetButton"
+      Then I should not see "#poInformation"
 
     Scenario: A user can see the Company Summary widget
       When I click "#addWidgetButton"

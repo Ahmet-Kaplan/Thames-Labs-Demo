@@ -117,7 +117,7 @@ Template.contactDetail.helpers({
         permission: 'CanReadTasks'
       },
       {
-        text: 'Extended information',
+        text: 'Custom Fields',
         anchor: 'entity-custom-fields',
         icon: 'fa-bookmark',
         permission: 'CanEditContacts'
@@ -155,6 +155,12 @@ Template.contactDetail.events({
   },
   'click #add-purchase-order': function(event) {
     event.preventDefault();
+
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To raise purchase orders');
+      return;
+    }
+
     var company = this.company();
     if (company === undefined) {
       Modal.show('newContactPurchaseOrderForm', {
@@ -194,6 +200,19 @@ Template.contactDetail.events({
         contactId: this._id
       });
     }
+  },
+  'click #contactTelephone': function(event, template){    
+    Activities.insert({
+      type: 'Call',
+      notes: Meteor.user().profile.name + ' made a call to ' + this.forename + ' ' + this.surname,
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      contactId: this._id,
+      primaryEntityId: this._id,
+      primaryEntityType: 'contacts',
+      primaryEntityDisplayData: this.forename + ' ' + this.surname,
+      createdBy: Meteor.userId()
+    });
   }
 });
 
@@ -202,8 +221,8 @@ Template.ContactProjectListItem.helpers({
     return (this.companyId ? true : false);
   },
   projectCompanyName: function() {
-    Meteor.subscribe('companyById', this.companyId)
+    Template.instance().subscribe('companyById', this.companyId)
     var company = Companies.findOne(this.companyId);
-    return company.name;
+    return company ? company.name : null;
   }
 });

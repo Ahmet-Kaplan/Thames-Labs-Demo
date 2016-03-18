@@ -1,0 +1,4 @@
+#switch-container { margin-bottom: 8px; }
+#switch-container > .toggle { margin-left: 8px; }
+#switch-container > .toggle label { padding-top: 0px; }
+#removal-warning { float: right; margin-top: 4px;}

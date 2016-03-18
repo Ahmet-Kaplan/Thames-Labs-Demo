@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-md-{{#if showEntityDetail}}3{{else}}6{{/if}}">
         <div class="pull-left" id="completed">
-        {{#if isInRole 'Administrator,CanEditTasks'}}
+        {{#if isInRole 'CanEditTasks'}}
           {{#if completed}}
             <span class="fa-stack fa-1x task-green task-completed">
               <i class="fa fa-circle fa-stack-2x"></i>

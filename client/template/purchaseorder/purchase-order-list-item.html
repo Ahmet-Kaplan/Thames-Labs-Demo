@@ -1,11 +1,11 @@
 <template name="purchaseOrderListItem">
   <a class="list-group-item" href="{{pathFor route='purchaseOrder' id=__originalId}}" id="list-item">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <h4 class="list-group-item-heading">{{description}}</h4>
-        {{#if orderNumber}}
+        <!-- {{#if orderNumber}}
           <p class="list-group-item-text"><i class="fa fa-fw fa-square-o"></i> PO Number: {{orderNumber}}</p>
-        {{/if}}
+        {{/if}} -->
       </div>
       <div class="col-md-4">
         {{#if supplierCompany}}
@@ -15,11 +15,42 @@
           <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> Supplier Contact: {{supplierContact.name}}</p>
         {{/if}}
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
+        {{#if totalValue}}
+          <p class="list-group-item-text"><i class="fa fa-fw fa-{{userCurrency}}"></i> Total Price: {{decimal totalValue}}</p>
+        {{/if}}
         {{#if status}}
           <p class="list-group-item-text"><i class="fa fa-fw fa-question"></i> Status: {{status}}</p>
         {{/if}}
       </div>
+      <div class="col-md-2">
+        {{> tagBadges tags=tags index=index}}
+      </div>
     </div>
+    {{#if showItems}}
+      <div class="row items-sep">
+        <div class="col-md-12">
+          <small class="FadedText">Items</small> 
+
+          {{#each items}}
+            <div class="row">
+              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                {{description}}
+              </div>
+              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 FadedText">
+                Product Code: {{code}}
+              </div>
+              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 FadedText">
+                Quantity: {{quantity}}
+              </div>
+              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 FadedText">
+                Total Price: {{decimal price}}
+              </div>
+            </div>
+          {{/each}}
+
+        </div>
+      </div>
+    {{/if}}
   </a>
 </template>

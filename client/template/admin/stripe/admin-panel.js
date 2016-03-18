@@ -136,9 +136,10 @@ Template.stripeAdmin.onCreated(function() {
 
   this.autorun(function() {
     var tenant = Tenants.findOne({});
-    var listener = Session.get('stripeUpdateListener');
+    if (!tenant) return;
     var numberOfUsers = Meteor.users.find({group: tenant._id}).count();
-    listener += 1;
+    Session.get('stripeUpdateListener');
+
     updateCouponDetails(self);
     if(tenant.stripe.stripeId && numberOfUsers) {
       updateStripeCustomer(self);
@@ -149,8 +150,7 @@ Template.stripeAdmin.onCreated(function() {
 
   this.autorun(function() {
     var tenant = Tenants.findOne({});
-    var updateListener = Session.get('listenCardUpdate');
-    updateListener += 1;
+    Session.get('listenCardUpdate');
     if(tenant.stripe.stripeId) {
       updateCardDetails(self);
     }
@@ -159,12 +159,12 @@ Template.stripeAdmin.onCreated(function() {
 
 Template.stripeAdmin.helpers({
   payingScheme: function() {
-    return Tenants.findOne({}).stripe.paying;
+    return Tenants.findOne({}).plan === 'pro';
   },
   subsLoaded: function() {
-    var paying = Tenants.findOne({}).stripe.paying;
-    if(paying) {
-      return !(Template.instance().stripeCustomer.get() === 'loading')
+    var stripeSubs = Tenants.findOne({}).stripe.stripeSubs;
+    if(!!stripeSubs) {
+      return Template.instance().stripeCustomer.get() !== 'loading'
     } else {
       return true;
     }
@@ -177,7 +177,10 @@ Template.stripeAdmin.helpers({
     return !(Tenants.findOne({}).stripe.stripeId === undefined || Tenants.findOne({}).stripe.stripeId === '');
   },
   hasStripeSubs: function() {
-    return Tenants.findOne({}).stripe.stripeSubs;
+    //Note that this helper is called only after the customer details have been retrieved from the api
+    var stripeCustomer = Template.instance().stripeCustomer.get();
+    if(!stripeCustomer || !stripeCustomer.subscriptions) return false;
+    return stripeCustomer.subscriptions.total_count !== 0;
   },
   subscriptionCancelled: function() {
     var stripeCustomer = Template.instance().stripeCustomer.get();
@@ -191,22 +194,9 @@ Template.stripeAdmin.helpers({
     var stripeCustomer = Template.instance().stripeCustomer.get();
     return stripeCustomer;
   },
-  totalRecords: function() {
-    return Tenants.findOne({}).stripe.totalRecords || 0;
-  },
-  limitRecords: function() {
-    return (Tenants.findOne({}).stripe.paying === true ? 'unlimited' : MAX_RECORDS);
-  },
   totalUsers: function() {
+    if (!Meteor.user()) return;
     return Meteor.users.find({group: Meteor.user().group}).count();
-  },
-  limitReached: function() {
-    var tenantStripe = Tenants.findOne({}).stripe
-    if(tenantStripe.paying || tenantStripe.freeUnlimited) {
-      return false;
-    } else {
-      return tenantStripe.totalRecords > MAX_RECORDS;
-    }
   },
   upcomingInvoice: function() {
     return Template.instance().upcomingInvoice.get();

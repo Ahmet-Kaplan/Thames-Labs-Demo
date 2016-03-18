@@ -2,17 +2,18 @@
 
   {{setPageTitle 'Projects'}}
 
-  <h1><i class="fa fa-sitemap"></i> Projects</h1>
+  <h1><i class="fa fa-sitemap"></i> Projects{{#if archivedShown}} - <i>inactive</i>{{/if}}</h1>
 
   <!-- This should probably be refactored into a "search toolbar" template -->
-  
+
   <div class="row">
     <div class="col-md-12">
-      {{#if isInRole 'Administrator,CanCreateProjects'}}
+      {{#if isInRole 'CanCreateProjects'}}
       <a href="#" id="add-project" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</a>
       {{/if}}
       <div class="btn-group" role="group" id="btn-popover">
         <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
+        <button id="toggle-archived" class="btn btn-{{#if archivedShown}}success{{else}}default{{/if}}"><i class="fa fa-fw fa-archive"></i></button>
         <button id="ref_projectOverviewWidget" class="btn btn-default" data-toggle="popover" title="Projects Overview" data-content=" <div id='projectOverviewPop'>
         <table class='table table-no-border'>
           <tbody>
@@ -26,11 +27,11 @@
             </tr>
             <tr>
               <td>Active projects total value:</td>
-              <td class='text-right'>£{{projectTotal}}</td>
+              <td class='text-right'>{{decimal projectTotal}}</td>
             </tr>
             <tr>
               <td>Active projects average value:</td>
-              <td class='text-right'>£{{projectsAverage}}</td>
+              <td class='text-right'>{{decimal projectsAverage}}</td>
             </tr>
           </tbody>
         </table>

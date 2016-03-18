@@ -1,4 +1,8 @@
 Schemas.Contact = new SimpleSchema({
+  sequencedIdentifier: {
+    type: Number,
+    label: "RealTime ID"
+  },
   forename: {
     type: String
   },
@@ -108,6 +112,14 @@ Schemas.Contact = new SimpleSchema({
     optional: true,
     autoform: {
       type: 'hidden'
+    }
+  },
+  documents: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
     }
   }
 });

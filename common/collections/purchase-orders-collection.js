@@ -10,7 +10,7 @@ PurchaseOrders.helpers({
     return Companies.findOne(this.customerCompanyId);
   },
   activities: function() {
-    var collectionsToFilter = GetDisallowedPermissions(Meteor.userId());
+    var collectionsToFilter = getDisallowedPermissions(Meteor.userId());
 
     return Activities.find({
       purchaseOrderId: this._id,
@@ -34,6 +34,8 @@ PurchaseOrders.helpers({
   }
 });
 
+Tags.TagsMixin(PurchaseOrders);
+
 ////////////////////
 // SEARCH FILTERS //
 ////////////////////
@@ -47,7 +49,7 @@ Collections.purchaseorders.filters = {
     nameField: 'name',
     subscriptionById: 'companyById',
     displayValue: function(company) {
-      if(company) {
+      if (company) {
         return company.name;
       } else {
         return 'N/A';
@@ -62,7 +64,7 @@ Collections.purchaseorders.filters = {
     nameField: 'name',
     subscriptionById: 'contactById',
     displayValue: function(contact) {
-      if(contact) {
+      if (contact) {
         return contact.name();
       } else {
         return 'N/A';
@@ -73,8 +75,8 @@ Collections.purchaseorders.filters = {
     display: 'Status:',
     prop: 'status',
     verify: function(status) {
-      if(Schemas.PurchaseOrder.schema().status.allowedValues.indexOf(status) !== -1) {
-        return true
+      if (Schemas.PurchaseOrder.schema().status.allowedValues.indexOf(status) !== -1) {
+        return true;
       } else {
         return false;
       }
@@ -82,7 +84,52 @@ Collections.purchaseorders.filters = {
     defaultOptions: function() {
       return Schemas.PurchaseOrder.schema('status').allowedValues;
     }
-  }
+  },
+  totalValueLower: {
+    display: 'Total Price <',
+    prop: 'totalValueLower',
+    verify: function(value) {
+      value = parseFloat(value)
+      if (isNaN(value)) {
+        toastr.error('Please enter a numeric value.');
+        return false
+      } else {
+        return true;
+      }
+    }
+  },
+  totalValueGreater: {
+    display: 'Total Price >',
+    prop: 'totalValueGreater',
+    verify: function(value) {
+      value = parseFloat(value)
+      if (isNaN(value)) {
+        toastr.error('Please enter a numeric value.');
+        return false
+      } else {
+        return true;
+      }
+    }
+  },
+  sequencedIdentifier: {
+    display: 'RealTime Purchase Order Identifier:',
+    prop: 'sequencedIdentifier',
+    allowMultiple: false,
+    verify: function(sequencedIdentifier) {
+      if (!sequencedIdentifier) return false;
+      return true;
+    }
+  },
+  tags: {
+    display: 'Tag:',
+    prop: 'tags',
+    collectionName: 'tags',
+    autosuggestFilter: {
+      collection: 'purchaseorders'
+    },
+    valueField: 'name',
+    nameField: 'name'
+  },
 }
 
 ////////////////////
@@ -94,7 +141,7 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
   fields: ['description'],
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, ['Administrator', 'CanReadPurchaseOrders']);
+    return Roles.userIsInRole(userId, ['CanReadPurchaseOrders']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {
@@ -112,30 +159,65 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
         'orderNumber': 1,
         'supplierCompanyId': 1,
         'supplierContactId': 1,
-        'projectId': 1
+        'projectId': 1,
+        'totalValue': 1,
+        'tags': 1,
+        'sequencedIdentifier': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
-      if(options.search.props.company) {
-        // n.b. the array is passed as a comma separated string
-        selector.supplierCompanyId = {$in: options.search.props.company.split(',')};
+      if (options.search.props.tags) {
+        // n.b. tags is a comma separated string
+        selector.tags = {
+          $in: options.search.props.tags.split(',')
+        };
       }
 
-      if(options.search.props.contact) {
-        // n.b. the array is passed as a comma separated string
-        selector.supplierContactId = {$in: options.search.props.contact.split(',')};
+      if (options.search.props.sequencedIdentifier) {
+        selector.sequencedIdentifier = options.search.props.sequencedIdentifier;
       }
 
-      if(options.search.props.status) {
+      if (options.search.props.company) {
         // n.b. the array is passed as a comma separated string
-        selector.status = {$in: options.search.props.status.split(',')};
+        selector.supplierCompanyId = {
+          $in: options.search.props.company.split(',')
+        };
+      }
+
+      if (options.search.props.contact) {
+        // n.b. the array is passed as a comma separated string
+        selector.supplierContactId = {
+          $in: options.search.props.contact.split(',')
+        };
+      }
+
+      if (options.search.props.status) {
+        // n.b. the array is passed as a comma separated string
+        selector.status = {
+          $in: options.search.props.status.split(',')
+        };
+      }
+
+      if (options.search.props.totalValueLower || options.search.props.totalValueGreater) {
+        selector.totalValue = {};
+        var costLowerThan = parseFloat(options.search.props.totalValueLower);
+        var costGreaterThan = parseFloat(options.search.props.totalValueGreater);
+
+        if (!isNaN(costLowerThan)) {
+          selector.totalValue.$lte = costLowerThan;
+        }
+
+        if (!isNaN(costGreaterThan)) {
+          selector.totalValue.$gte = costGreaterThan;
+        }
       }
 
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
+
       return selector;
     }
   })
@@ -144,9 +226,26 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
+PurchaseOrders.before.insert(function(userId, doc) {
+  if (!Roles.userIsInRole(userId, ['superadmin'])) {
+    var tenant = Tenants.findOne({});
+    doc.sequencedIdentifier = tenant.settings.purchaseorder.defaultPrefix + "" + tenant.settings.purchaseorder.defaultNumber;
+  }
+});
 
 PurchaseOrders.after.insert(function(userId, doc) {
   logEvent('info', 'A new purchase order has been created: ' + doc.description);
+
+  if (Meteor.isServer) {
+    var t = Tenants.findOne({});
+    Tenants.update({
+      _id: t._id
+    }, {
+      $inc: {
+        'settings.purchaseorder.defaultNumber': 1
+      }
+    });
+  }
 });
 
 PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options) {

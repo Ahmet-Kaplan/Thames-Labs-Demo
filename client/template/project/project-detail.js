@@ -30,6 +30,32 @@ Template.projectDetail.helpers({
     var currentTypes = Tenants.findOne({
       _id: Meteor.user().group
     }).settings.project.types;
+
+    if (currentTypes.length === 0) {
+      var data = [];
+      var projectType = {
+        id: 0,
+        name: "Standard Project",
+        milestones: [{
+          name: "Inception",
+          description: "This is a newly-created project",
+          id: 0
+        }, {
+          name: "Completion",
+          description: "This project has been completed",
+          id: 1
+        }]
+      };
+      data.push(projectType);
+      Tenants.update({
+        _id: Meteor.user().group
+      }, {
+        $set: {
+          'settings.project.types': data
+        }
+      })
+    }
+
     for (var i = 0, len = currentTypes.length; i < len; i++) {
       if (currentTypes[i].id === this.projectTypeId) {
         typeIndex = i;

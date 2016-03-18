@@ -47,6 +47,10 @@ PurchaseOrders.permit(['update']).ifLoggedIn().ifHasRole('Administrator').apply(
 PurchaseOrders.permit(['update']).ifLoggedIn().ifHasRole('CanEditPurchaseOrders').apply();
 PurchaseOrders.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 PurchaseOrders.permit(['remove']).ifLoggedIn().ifHasRole('CanDeletePurchaseOrders').apply();
+PurchaseOrders.allowTags(function(userId) {
+  return !!userId;
+});
+
 
 PurchaseOrderItems.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
 PurchaseOrderItems.permit(['insert']).ifLoggedIn().ifHasRole('CanEditPurchaseOrders').apply();
@@ -76,6 +80,9 @@ Products.permit(['update']).ifLoggedIn().ifHasRole('Administrator').apply();
 Products.permit(['update']).ifLoggedIn().ifHasRole('CanEditProducts').apply();
 Products.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 Products.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteProducts').apply();
+Products.allowTags(function(userId) {
+  return !!userId;
+});
 
 Opportunities.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
 Opportunities.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateOpportunities').apply();

@@ -20,9 +20,10 @@
             {{/if}}
             {{> esSelectize name="userId" index=UsersIndex}}
             {{> afQuickField name="value"}}
-            {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="dueDate" }}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             <!-- {{> afQuickField name="nextActionBy" options=usersAsOptions}} -->
+            <!-- {{> afQuickField name="sequencedIdentifier"}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
             {{> afQuickField name="projectTypeId" options=projectTypes }}
             <button type="submit" class="btn btn-primary">Create</button>
@@ -55,9 +56,10 @@
             {{/if}}
             {{> esSelectize name="userId" index=UsersIndex}}
             {{> afQuickField name="value"}}
-            {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="dueDate" }}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             <!-- {{> afQuickField name="nextActionBy" options=usersAsOptions}} -->
+            <!-- {{> afQuickField name="sequencedIdentifier"}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
             {{> afQuickField name="projectTypeId" options=projectTypes }}
             <button type="submit" class="btn btn-primary">Create</button>
@@ -92,8 +94,9 @@
             {{> esSelectize name="userId" index=UsersIndex}}
             {{> afQuickField name="status" options="allowed"}}
             {{> afQuickField name="value"}}
-            {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="dueDate" }}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
+            <!-- {{> afQuickField name="sequencedIdentifier"}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
             {{> afQuickField name="projectTypeId" options=projectTypes }}
             <button type="submit" class="btn btn-primary">Create</button>
@@ -130,7 +133,7 @@
             {{> esSelectize name="userId" index=UsersIndex value=userId}}
             {{> afQuickField name="value"}}
             {{> afQuickField name="active"}}
-            {{> afQuickField name="dueDate" type="bootstrap-datetimepicker"}}
+            {{> afQuickField name="dueDate" }}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}

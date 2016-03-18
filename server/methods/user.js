@@ -21,6 +21,11 @@ Meteor.methods({
       if (Partitioner.getUserGroup(userId) !== Partitioner.getUserGroup(this.userId)) {
         throw new Meteor.Error(403, 'Admins may only remove users from their company');
       }
+
+      //Check if Admin tries to remove itself
+      if (userId === this.userId) {
+        throw new Meteor.Error(403, 'You cannot remove your own account. Please contact us to do so.');
+      }
     }
     Grouping.remove({
       _id: userId
@@ -61,33 +66,69 @@ Meteor.methods({
     // Important - do server side schema check
     check(doc, Schemas.User);
 
-    // Create user account
-    var userId = Accounts.createUser({
-      email: doc.email.toLowerCase(),
-      profile: {
-        name: doc.name,
-        watchlist: [],
-        lastLogin: null,
-        lastActivity: {
-          page: null,
-          url: null
-        },
-        poAuthLevel: 100000
+    Partitioner.bindGroup(doc.group, function() {
+      // Create user account
+      if (!doc.password) {
+        var userId = Accounts.createUser({
+          email: doc.email.toLowerCase(),
+          profile: {
+            name: doc.name,
+            watchlist: [],
+            lastLogin: null,
+            lastActivity: {
+              page: null,
+              url: null
+            },
+            poAuthLevel: 100000
+          }
+        });
+
+        // Add user to a group (partition) based on customer id
+        Partitioner.setUserGroup(userId, doc.group);
+
+        Roles.addUsersToRoles(userId, defaultPermissionsList);
+
+        Accounts.sendEnrollmentEmail(userId);
+
+        LogServerEvent('verbose', 'User created', 'user', userId);
+
+        Meteor.call('stripe.updateQuantity', doc.group);
+      } else {
+        var userId = Accounts.createUser({
+          email: doc.email.toLowerCase(),
+          password: doc.password,
+          profile: {
+            name: doc.name,
+            watchlist: [],
+            lastLogin: null,
+            lastActivity: {
+              page: null,
+              url: null
+            },
+            poAuthLevel: 100000
+          }
+        });
+
+        var user = Meteor.users.findOne({
+          _id: userId
+        });
+
+        // Add user to a group (partition) based on customer id
+        Partitioner.setUserGroup(userId, doc.group);
+
+        if (user) {
+          if (!isProTenant(user.group)) {
+            Roles.addUsersToRoles(userId, ["Administrator"]);
+          };
+          Roles.addUsersToRoles(userId, defaultPermissionsList);
+        }
+
+        LogServerEvent('verbose', 'User created', 'user', userId);
+
+        Meteor.call('stripe.updateQuantity', doc.group);
       }
     });
 
-    Roles.addUsersToRoles(userId, defaultPermissionsList);
-
-    // Add user to a group (partition) based on customer id
-    if (doc.group) {
-      Partitioner.setUserGroup(userId, doc.group);
-    }
-
-    Accounts.sendEnrollmentEmail(userId);
-
-    LogServerEvent('verbose', 'User created', 'user', userId);
-
-    Meteor.call('stripe.updateQuantity', doc.group);
   },
 
   addTenantUser: function(doc) {
@@ -114,6 +155,14 @@ Meteor.methods({
       }
     });
 
+    var admin = Meteor.users.findOne({
+      _id: adminId
+    });
+    if (admin) {
+      if (!isProTenant(admin.group)) {
+        Roles.addUsersToRoles(userId, 'Administrator');
+      }
+    }
     Roles.addUsersToRoles(userId, defaultPermissionsList);
 
     // Add user to a group (partition) based on customer id
@@ -123,7 +172,7 @@ Meteor.methods({
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 
-    Meteor.call('stripe.updateQuantity');
+    Meteor.call('stripe.updateQuantity', Partitioner.getUserGroup(adminId));
   }
 
 });

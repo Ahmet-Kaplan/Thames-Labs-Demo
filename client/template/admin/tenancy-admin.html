@@ -3,7 +3,7 @@
   {{setPageTitle "Administration" }}
 
   <h1 id="admin-header">
-    <i class="fa fa-fw fa-cogs"></i>
+    <i class="fa fa-fw fa-cogs" id="admin-logo"></i>
     Administration</h1>
 
   <div class="row">
@@ -13,10 +13,19 @@
       <div class="panel panel-primary" id="stripeAdminPanel">
         <div class="panel-heading ">Plan</div>
         <div class="panel-body" id="tenancyStripe">
-          {{> stripeAdmin}}
+          {{#if isFreeProTenant }}
+            <h4>You are currently on the Pro plan</h4>
+            <p>To make changes to your account please contact <a href="mailto:support@cambridgesoftware.co.uk">support@cambridgesoftware.co.uk</a>.</p>
+          {{else}}
+            {{> stripeAdmin}}
+          {{/if}}
         </div>
       </div>
       {{/if}}
+
+      {{> dataDumpPanel}}
+
+      {{> generalSettings}}
 
       <div class="panel panel-primary" id="userAdminPanel">
         <div class="panel-heading">
@@ -32,7 +41,7 @@
               </button>
             </div>
 
-            <ul class="list-group">
+            <ul class="list-group" id="user-list">
               {{#each tenantUsers}}
                 {{> adminAreaUser}}
               {{/each}}
@@ -42,13 +51,13 @@
         </div>
       </div>
 
-      {{> oppStagePanel}}
-
-      {{> projectAdmin}}
-
+        {{> oppStagePanel}}
+        {{> projectAdmin}}
+        {{> purchaseOrderAdminPanel}}
+      
       <div class="panel panel-primary" id="globalCustomFieldsPanel">
         <div class="panel-heading ">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#globCustFields" id="globCustomFieldsExpander">Global extended information</a>
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#globCustFields" id="globCustomFieldsExpander">Global Custom Fields</a>
         </div>
         <div id="globCustFields" class="panel-collapse collapse">
           <div class="panel-body">
@@ -80,6 +89,11 @@
               {{#each globalProjectCustomFields}} {{> gcf_display}} {{/each}}
             </div>
 
+              <div class="well well-sm">
+                <h4>Products</h4>
+                {{#each globalProductCustomFields}} {{> gcf_display}} {{/each}}
+              </div>
+
             </div>
 
           </div>
@@ -98,7 +112,11 @@
           Name: {{name}} ({{niceType}})
       </div>
       <div class="col-md-3">
-         Default Value: {{#if equals type 'advtext'}} {{{defaultValue}}} {{else}} {{defaultValue}} {{/if}}
+        {{#if equals type 'picklist'}}
+          Value List: {{listValues}}
+        {{else}}
+          Default Value: {{#if equals type 'advtext'}} {{{defaultValue}}} {{else}} {{defaultValue}} {{/if}}
+        {{/if}}
       </div>
       {{else}}
       <div class="col-md-6">
@@ -123,7 +141,7 @@
     <div class="row">
       <div class="col-md-3">{{profile.name}}
       </div>
-      <div class="col-md-5"></div>
+      <div class="col-md-3 col-md-offset-1"></div>
       <div class="col-md-4">
         <div class="btn-group btn-group-justified pull-right" role="group">
 
@@ -133,14 +151,16 @@
               Settings
             </button>
           </div>
+
           <div class="btn-group" role="group">
             <button class="btn btn-info btn-xs" id="btnEditTenantUserPermissions" type="button">
               <i class="fa fa-fw fa-pencil"></i>
               Permissions
             </button>
           </div>
+          
           <div class="btn-group" role="group">
-            <button class="btn btn-danger btn-xs" id="tenantRemoveUser" type="button">
+            <button class="btn btn-danger btn-xs" disabled="{{#if isSelf}}disabled{{/if}}" id="tenantRemoveUser" type="button">
               <i class="fa fa-fw fa-times"></i>
               Delete
             </button>

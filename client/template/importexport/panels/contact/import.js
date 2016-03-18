@@ -1,3 +1,9 @@
+Template.contactDataManagement.helpers({
+  ContactImportInProgress: function() {
+    return Session.get('ContactImportInProgress');
+  },
+});
+
 Template.contactDataManagement.events({
   'click #contact-template-help': function(event) {
     event.preventDefault();
@@ -10,11 +16,25 @@ Template.contactDataManagement.events({
     var file = event.target.files[0];
     if (!file) return;
 
+    var patt1 = /\.([0-9a-z]+)(?:[\?#]|$)/i;
+    var fileName = file.name;
+    var match = (fileName).match(patt1);
+
+    if (match) {
+      if (match[1] !== "csv") {
+        toastr.error('Only CSV files can be used to import data');
+        return
+      }
+    } else {
+      toastr.error('Could not detect file type.');
+      return;
+    }
+
     var reader = new FileReader();
 
     reader.onerror = function(error) {
       toastr.error('File processing error: ' + error);
-    }
+    };
     reader.onload = function() {
       var data = reader.result;
       var options = {
@@ -30,28 +50,20 @@ Template.contactDataManagement.events({
       };
 
       Modal.show('importContactMapper', requiredData);
-    }
+    };
 
     reader.readAsText(file);
     $('#contact-data-upload').val('');
   }
 });
-
-
-Template.importContactMapper.onCreated(function() {
-  this.importInProgress = new ReactiveVar(false);
-  this.totalImported = new ReactiveVar(0);
+Template.importContactMapper.onRendered(function() {
+  $('#cbIgnoreExtInfo').prop('checked', true);
+  Session.set('ContactImportInProgress', false);
 });
 
 Template.importContactMapper.helpers({
-  importStatus: function() {
-    return Template.instance().importInProgress.get();
-  },
-  totalToImport: function() {
-    return this.dataSet.data.length;
-  },
-  importedSoFar: function() {
-    return Template.instance().totalImported.get();
+  ContactImportInProgress: function() {
+    return Session.get('ContactImportInProgress');
   },
   requiredDataInputs: function() {
     var lnkData = this.dataSet;
@@ -85,6 +97,7 @@ Template.importContactMapper.helpers({
 
 Template.importContactMapper.events({
   'click #confirm-mapping': function(event, template) {
+    var fields = this.dataSet.meta.fields;
 
     var forenameColumn = ($('#forenameColumn').val() === "" ? "" : $('#forenameColumn').val());
     var surnameColumn = ($('#surnameColumn').val() === "" ? "" : $('#surnameColumn').val());
@@ -99,56 +112,142 @@ Template.importContactMapper.events({
     var postcodeColumn = ($('#postcodeColumn').val() === "" ? "" : $('#postcodeColumn').val());
     var countryColumn = ($('#countryColumn').val() === "" ? "" : $('#countryColumn').val());
 
-    var totalToImport = this.dataSet.data.length;
-    var imported = 0;
-    var errorData = [];
+    if (forenameColumn === "" || surnameColumn === "" || emailColumn === "") {
+      toastr.warning('Please complete all required fields.');
+      return;
+    }
 
-    template.importInProgress.set(true);
+    var createMissingCompanies = $('#cbAutoCreateCompanies').prop('checked');
+    var createExtInfo = $('#cbIgnoreExtInfo').prop('checked');
 
-    _.each(this.dataSet.data, function(row) {
-      var cfArray = [];
-      var elems = $('#extInfoSpecifiers').find('.extInfoOption');
-      _.each(elems, function(ex) {
-        var refId = ex.getAttribute("id");
-        var cfValue = $('#' + refId).val();
-        var cfName = refId.replace(/-/g, ' ').replace(/EXCOL_/g, '');
-        var cfo = {
-          refName: cfName,
-          refVal: cfValue
-        }
-        cfArray.push(cfo);
-      });
+    if (companyColumn === "" && createMissingCompanies == true) {
+      toastr.warning('Please specify the column to use as the name when creating missing companies.');
+      return;
+    }
 
-      Meteor.call('import.AddNewContact', row, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, function(err, res) {
-        imported += 1;
-        template.totalImported.set(imported);
+    var removalIndex = -1;
+    if (forenameColumn !== "") {
+      removalIndex = fields.indexOf(forenameColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (surnameColumn !== "") {
+      removalIndex = fields.indexOf(surnameColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (emailColumn !== "") {
+      removalIndex = fields.indexOf(emailColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
 
-        if (err) errorData.push(err);
-        if (res !== "OK") errorData.push(res);
+    if (phoneColumn !== "") {
+      removalIndex = fields.indexOf(phoneColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (mobileColumn !== "") {
+      removalIndex = fields.indexOf(mobileColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (jobTitleColumn !== "") {
+      removalIndex = fields.indexOf(jobTitleColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
 
-        if ((imported === totalToImport) && errorData.length === 0) {
-          toastr.success('Import completed successfully.');
-          template.importInProgress.set(false);
-          Modal.hide();
-        }
+    if (companyColumn !== "") {
+      removalIndex = fields.indexOf(companyColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (addressColumn !== "") {
+      removalIndex = fields.indexOf(addressColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (cityColumn !== "") {
+      removalIndex = fields.indexOf(cityColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
 
-        if ((imported === totalToImport) && errorData.length !== 0) {
-          var errorString = "Error\n";
+    if (countyColumn !== "") {
+      removalIndex = fields.indexOf(countyColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (postcodeColumn !== "") {
+      removalIndex = fields.indexOf(postcodeColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
+    if (countryColumn !== "") {
+      removalIndex = fields.indexOf(countryColumn);
+      if (removalIndex > -1) {
+        fields.splice(removalIndex, 1);
+      }
+    }
 
-          _.each(errorData, function(e) {
-            errorString += e + "\n";
-          })
+    var rows = this.dataSet.data;
+    var elems = $('#extInfoSpecifiers').find('.extInfoOption');
+    var cfArray = [];
+    _.each(elems, function(ex) {
+      var refId = ex.getAttribute("id");
+      var cfValue = $('#' + refId).val();
+      var cfName = refId.replace(/-/g, ' ').replace(/EXCOL_/g, '');
+      var cfo = {
+        refName: cfName,
+        refVal: cfValue
+      };
+      cfArray.push(cfo);
 
-          var blob = new Blob([errorString], {
-            type: "text/csv;charset=utf-8"
-          });
-          saveAs(blob, 'realtimecrm_contact_import_errors.csv');
-          toastr.warning('Import completed with errors; saving to CSV now...');
-          template.importInProgress.set(false);
-          Modal.hide();
-        }
-      });
+      var fieldIndex = fields.indexOf(cfValue);
+      fields.splice(fieldIndex, 1);
     });
+
+    Session.set("ContactImportInProgress", true);
+
+    Meteor.call('import.contacts', rows, fields, forenameColumn, surnameColumn, emailColumn, phoneColumn, mobileColumn, jobTitleColumn, companyColumn, addressColumn, cityColumn, countyColumn, postcodeColumn, countryColumn, cfArray, createMissingCompanies, createExtInfo, Meteor.bindEnvironment(function(err, res) {
+      if (err) throw new Meteor.Error(err);
+
+      if (res.length === 0) {
+        Session.set("ContactImportInProgress", false);
+
+        toastr.success('Import completed successfully.');
+        Modal.hide();
+      } else {
+        var errorString = "Error\n";
+
+        _.each(res, function(e) {
+          errorString += e + "\n";
+        })
+
+        var blob = new Blob([errorString], {
+          type: "text/csv;charset=utf-8"
+        });
+        saveAs(blob, 'realtimecrm_contact_import_errors.csv');
+
+        Session.set("ContactImportInProgress", false);
+
+        toastr.warning('Import completed with errors; saving to CSV now...');
+        Modal.hide();
+      }
+
+    }));
 
   }
 });
