@@ -7,6 +7,7 @@ Template.taskList.onCreated(function() {
   // Search props
   this.showCompleted = new ReactiveVar(false);
   this.showMine = new ReactiveVar(false);
+  this.showCalendar = new ReactiveVar(false);
 });
 
 Template.taskList.onRendered(function() {
@@ -42,6 +43,9 @@ Template.taskList.helpers({
   },
   showMine: function() {
     return Template.instance().showMine.get();
+  },
+  showCalendar: function() {
+    return Template.instance().showCalendar.get();
   }
 });
 
@@ -50,6 +54,12 @@ Template.taskList.events({
     event.preventDefault();
     var showCompleted = Template.instance().showCompleted.get();
     Template.instance().showCompleted.set(!showCompleted);
+    $(event.target).blur();
+  },
+  'click #tskToggleCalendar': function(event) {
+    event.preventDefault();
+    var showCalendar = Template.instance().showCalendar.get();
+    Template.instance().showCalendar.set(!showCalendar);
     $(event.target).blur();
   },
   'click #tskToggleMine': function(event) {
@@ -62,28 +72,10 @@ Template.taskList.events({
     }
     $(event.target).blur();
   },
-  'click #tskDeleteAllCompleted': function(event) {
-    event.preventDefault();
-    var searchDefinition = TasksIndex.getComponentDict().get('searchDefinition');
-    var searchOptions = TasksIndex.getComponentDict().get('searchOptions');
-    $(event.target).blur();
-    bootbox.confirm('Are you sure you want to delete these tasks?', (res) => {
-      if(res === true) {
-        Meteor.call('deleteCompletedTasks', searchDefinition, searchOptions, (err, res) => {
-          if(err) {
-            toastr.error('Unable to delete tasks');
-          } else {
-            toastr.success('The tasks have successfully been deleted.');
-            TasksIndex.getComponentMethods().search(searchDefinition);
-          }
-        });
-      }
-    });
-  },
   'click .add-task': function(e) {
     var entityType = $(e.target).attr('id');
     Modal.show('insertNewTask', {
       entity_type: entityType
-    })
+    });
   }
 });

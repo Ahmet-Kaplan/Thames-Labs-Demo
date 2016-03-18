@@ -11,7 +11,7 @@ Template.opportunityListItem.helpers({
     if (user) return user.profile.name;
   },
   friendlyEstClose: function() {
-    return moment(this.estCloseDate).format('MMMM Do YYYY, h:mma');
+    return this.estCloseDate ? moment(this.estCloseDate).format('MMMM Do YYYY, h:mma') : 'none';
   },
   company: function() {
     return Companies.findOne(this.companyId);

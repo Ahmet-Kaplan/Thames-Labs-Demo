@@ -1,6 +1,9 @@
 Template.insertNewTask.onRendered(function() {
   Session.set('showRemindMe', false);
   Session.set('hasDueDate', false);
+  if(this.data.dueDate) {
+    $('#taskDueDate').data("DateTimePicker").setDate(this.data.dueDate);
+  }
 });
 
 Template.insertNewTask.helpers({

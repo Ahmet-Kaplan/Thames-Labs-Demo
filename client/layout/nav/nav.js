@@ -190,6 +190,7 @@ Template.nav.events({
     $('#show-less-notices').hide();
   },
   'click #help-menu': function() {
+    lastTutorial = "help";
     Modal.show("help");
   },
   'click #tour-this-page': function() {
