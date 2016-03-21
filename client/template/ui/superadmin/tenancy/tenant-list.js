@@ -7,7 +7,7 @@ Template.tenantList.onCreated(function() {
 
   //Watch for demo data generation
   this.autorun(function() {
-    if(ServerSession.get('populatingDemoData')){
+    if(ServerSession.get('populatingDemoData')) {
       Modal.show('generatingDemoData');
     } else {
       Modal.hide('generatingDemoData');
@@ -17,7 +17,6 @@ Template.tenantList.onCreated(function() {
 
 Template.tenantList.helpers({
   tenants: function(paying) {
-    var payingTenant = (paying === "true") ? true : false;
     return Tenants.find({
       "plan": 'pro',
       'stripe.stripeSubs': {
