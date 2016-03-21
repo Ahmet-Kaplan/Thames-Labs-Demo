@@ -722,29 +722,29 @@ Migrations.add({
   name: "Update stripe object against tenants",
   up: function() {
     ServerSession.set('maintenance', true);
-    Partitioner.directOperation(function() {
-      var tenants = Tenants.find({}).fetch();
-      _.each(tenants, function(t) {
-        var stripe = t.stripe;
-        var flag = false;
-        if (stripe) {
-          flag = (stripe.paying === true || stripe.freeUnlimited === true);
-        }
+    // Partitioner.directOperation(function() {
+    //   var tenants = Tenants.find({}).fetch();
+    //   _.each(tenants, function(t) {
+    //     var stripe = t.stripe;
+    //     var flag = false;
+    //     if (stripe) {
+    //       flag = (stripe.paying === true || stripe.freeUnlimited === true);
+    //     }
 
-        Tenants.update({
-          _id: t._id
-        }, {
-          $set: {
-            'plan': (flag === true ? 'pro' : 'free')
-          },
-          $unset: {
-            'stripe.paying': "",
-            'stripe.freeUnlimited': "",
-            'stripe.totalRecords': ""
-          }
-        });
-      });
-    });
+    //     Tenants.update({
+    //       _id: t._id
+    //     }, {
+    //       $set: {
+    //         'plan': (flag === true ? 'pro' : 'free')
+    //       },
+    //       $unset: {
+    //         'stripe.paying': "",
+    //         'stripe.freeUnlimited': "",
+    //         'stripe.totalRecords': ""
+    //       }
+    //     });
+    //   });
+    // });
     ServerSession.set('maintenance', false);
   }
 });
@@ -754,151 +754,230 @@ Migrations.add({
   name: "Update custom fields to use new UUID system",
   up: function() {
     ServerSession.set('maintenance', true);
-    Partitioner.directOperation(function() {
+    // Partitioner.directOperation(function() {
 
-      var tenants = Tenants.find({}).fetch();
+    //   var tenants = Tenants.find({}).fetch();
 
-      _.each(tenants, function(t) {
-        if (t.settings.extInfo) {
-          var ei = t.settings.extInfo;
-          var master = [];
+    //   _.each(tenants, function(t) {
+    //     if (t.settings.extInfo) {
+    //       var ei = t.settings.extInfo;
+    //       var master = [];
 
-          //Company instances
-          _.each(ei.company, function(fl) {
-            var instanceId = Guid.raw();
-            fl.uuid = instanceId;
-            master.push(fl);
-            _.each(Companies.find({
-              _groupId: t._id
-            }).fetch(), function(objx) {
-              cfMasterList = [];
-              if (objx.extendedInformation) {
-                for (var cf in objx.extendedInformation) {
-                  if (objx.extendedInformation[cf].dataName === fl.name) {
-                    objx.extendedInformation[cf].uuid = instanceId
-                  }
-                  cfMasterList.push(objx.extendedInformation[cf]);
-                }
-                Companies.update(objx._id, {
-                  $set: {
-                    extendedInformation: cfMasterList
-                  }
-                });
+    //       //Company instances
+    //       _.each(ei.company, function(fl) {
+    //         var instanceId = Guid.raw();
+    //         fl.uuid = instanceId;
+    //         master.push(fl);
+    //         _.each(Companies.find({
+    //           _groupId: t._id
+    //         }).fetch(), function(objx) {
+    //           cfMasterList = [];
+    //           if (objx.extendedInformation) {
+    //             for (var cf in objx.extendedInformation) {
+    //               if (objx.extendedInformation[cf].dataName === fl.name) {
+    //                 objx.extendedInformation[cf].uuid = instanceId
+    //               }
+    //               cfMasterList.push(objx.extendedInformation[cf]);
+    //             }
+    //             Companies.update(objx._id, {
+    //               $set: {
+    //                 extendedInformation: cfMasterList
+    //               }
+    //             });
+    //           }
+    //         });
+    //       });
+
+    //       Tenants.update(t._id, {
+    //         $set: {
+    //           'settings.extInfo.company': master
+    //         }
+    //       });
+
+    //       master = [];
+
+    //       //Contact instances
+    //       _.each(ei.contact, function(fl) {
+    //         var instanceId = Guid.raw();
+    //         fl.uuid = instanceId;
+    //         master.push(fl);
+    //         _.each(Contacts.find({
+    //           _groupId: t._id
+    //         }).fetch(), function(objx) {
+    //           cfMasterList = [];
+    //           if (objx.extendedInformation) {
+    //             for (var cf in objx.extendedInformation) {
+    //               if (objx.extendedInformation[cf].dataName === fl.name) {
+    //                 objx.extendedInformation[cf].uuid = instanceId
+    //               }
+    //               cfMasterList.push(objx.extendedInformation[cf]);
+    //             }
+    //             Contacts.update(objx._id, {
+    //               $set: {
+    //                 extendedInformation: cfMasterList
+    //               }
+    //             });
+    //           }
+    //         });
+    //       });
+
+    //       Tenants.update(t._id, {
+    //         $set: {
+    //           'settings.extInfo.contact': master
+    //         }
+    //       });
+
+    //       master = [];
+
+    //       //Project instances
+    //       _.each(ei.project, function(fl) {
+    //         var instanceId = Guid.raw();
+    //         fl.uuid = instanceId;
+    //         master.push(fl);
+    //         _.each(Projects.find({
+    //           _groupId: t._id
+    //         }).fetch(), function(objx) {
+    //           cfMasterList = [];
+    //           if (objx.extendedInformation) {
+    //             for (var cf in objx.extendedInformation) {
+    //               if (objx.extendedInformation[cf].dataName === fl.name) {
+    //                 objx.extendedInformation[cf].uuid = instanceId
+    //               }
+    //               cfMasterList.push(objx.extendedInformation[cf]);
+    //             }
+    //             Projects.update(objx._id, {
+    //               $set: {
+    //                 extendedInformation: cfMasterList
+    //               }
+    //             });
+    //           }
+    //         });
+    //       });
+
+    //       Tenants.update(t._id, {
+    //         $set: {
+    //           'settings.extInfo.project': master
+    //         }
+    //       });
+
+    //       master = [];
+
+    //       //Products instances
+    //       _.each(ei.products, function(fl) {
+    //         var instanceId = Guid.raw();
+    //         fl.uuid = instanceId;
+    //         master.push(fl);
+    //         _.each(Products.find({
+    //           _groupId: t._id
+    //         }).fetch(), function(objx) {
+    //           cfMasterList = [];
+    //           if (objx.extendedInformation) {
+    //             for (var cf in objx.extendedInformation) {
+    //               if (objx.extendedInformation[cf].dataName === fl.name) {
+    //                 objx.extendedInformation[cf].uuid = instanceId
+    //               }
+    //               cfMasterList.push(objx.extendedInformation[cf]);
+    //             }
+    //             Products.update(objx._id, {
+    //               $set: {
+    //                 extendedInformation: cfMasterList
+    //               }
+    //             });
+    //           }
+    //         });
+    //       });
+
+    //       Tenants.update(t._id, {
+    //         $set: {
+    //           'settings.extInfo.product': master
+    //         }
+    //       });
+
+    //       master = [];
+
+    //     }
+    //   });
+
+    // });
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 23,
+  name: "Fix sequencing system",
+  up: function() {
+    ServerSession.set('maintenance', true);
+
+    var tenants = Tenants.find({}).fetch();
+
+    _.each(tenants, function(tenant) {
+      Partitioner.bindGroup(tenant._id, function() {
+        var companyCount = Companies.find({
+          sequencedIdentifier: {
+            $exists: true
+          }
+        }).count();
+        var contactCount = Contacts.find({
+          sequencedIdentifier: {
+            $exists: true
+          }
+        }).count();
+        var opportunitiesCount = Opportunities.find({
+          sequencedIdentifier: {
+            $exists: true
+          }
+        }).count();
+        var projectCount = Projects.find({
+          sequencedIdentifier: {
+            $exists: true
+          }
+        }).count();
+        var purchaseOrderCount = PurchaseOrders.find({
+          sequencedIdentifier: {
+            $exists: true
+          }
+        }).count();
+        var productCount = Products.find({
+          sequencedIdentifier: {
+            $exists: true
+          }
+        }).count();
+
+        Tenants.update({
+          _id: tenant._id
+        }, {
+          $set: {
+            'settings.company.defaultNumber': companyCount,
+            'settings.contact.defaultNumber': contactCount,
+            'settings.opportunity.defaultNumber': opportunitiesCount,
+            'settings.project.defaultNumber': projectCount,
+            'settings.purchaseorder.defaultNumber': purchaseOrderCount,
+            'settings.product.defaultNumber': productCount,
+          }
+        });
+
+        var pos = PurchaseOrders.find({
+          sequencedIdentifier: {
+            $exists: true
+          }
+        }).fetch();
+        var prefix = tenant.settings.purchaseorder.defaultPrefix;
+        _.each(pos, function(po) {
+          if (po.sequencedIdentifier.indexOf('undefined') > -1) {
+            var newID = po.sequencedIdentifier.replace('undefined', prefix);
+            PurchaseOrders.update({
+              _id: po._id
+            }, {
+              $set: {
+                sequencedIdentifier: newID
               }
             });
-          });
-
-          Tenants.update(t._id, {
-            $set: {
-              'settings.extInfo.company': master
-            }
-          });
-
-          master = [];
-
-          //Contact instances
-          _.each(ei.contact, function(fl) {
-            var instanceId = Guid.raw();
-            fl.uuid = instanceId;
-            master.push(fl);
-            _.each(Contacts.find({
-              _groupId: t._id
-            }).fetch(), function(objx) {
-              cfMasterList = [];
-              if (objx.extendedInformation) {
-                for (var cf in objx.extendedInformation) {
-                  if (objx.extendedInformation[cf].dataName === fl.name) {
-                    objx.extendedInformation[cf].uuid = instanceId
-                  }
-                  cfMasterList.push(objx.extendedInformation[cf]);
-                }
-                Contacts.update(objx._id, {
-                  $set: {
-                    extendedInformation: cfMasterList
-                  }
-                });
-              }
-            });
-          });
-
-          Tenants.update(t._id, {
-            $set: {
-              'settings.extInfo.contact': master
-            }
-          });
-
-          master = [];
-
-          //Project instances
-          _.each(ei.project, function(fl) {
-            var instanceId = Guid.raw();
-            fl.uuid = instanceId;
-            master.push(fl);
-            _.each(Projects.find({
-              _groupId: t._id
-            }).fetch(), function(objx) {
-              cfMasterList = [];
-              if (objx.extendedInformation) {
-                for (var cf in objx.extendedInformation) {
-                  if (objx.extendedInformation[cf].dataName === fl.name) {
-                    objx.extendedInformation[cf].uuid = instanceId
-                  }
-                  cfMasterList.push(objx.extendedInformation[cf]);
-                }
-                Projects.update(objx._id, {
-                  $set: {
-                    extendedInformation: cfMasterList
-                  }
-                });
-              }
-            });
-          });
-
-          Tenants.update(t._id, {
-            $set: {
-              'settings.extInfo.project': master
-            }
-          });
-
-          master = [];
-
-          //Products instances
-          _.each(ei.products, function(fl) {
-            var instanceId = Guid.raw();
-            fl.uuid = instanceId;
-            master.push(fl);
-            _.each(Products.find({
-              _groupId: t._id
-            }).fetch(), function(objx) {
-              cfMasterList = [];
-              if (objx.extendedInformation) {
-                for (var cf in objx.extendedInformation) {
-                  if (objx.extendedInformation[cf].dataName === fl.name) {
-                    objx.extendedInformation[cf].uuid = instanceId
-                  }
-                  cfMasterList.push(objx.extendedInformation[cf]);
-                }
-                Products.update(objx._id, {
-                  $set: {
-                    extendedInformation: cfMasterList
-                  }
-                });
-              }
-            });
-          });
-
-          Tenants.update(t._id, {
-            $set: {
-              'settings.extInfo.product': master
-            }
-          });
-
-          master = [];
-
-        }
+          }
+        });
       });
-
     });
+
     ServerSession.set('maintenance', false);
   }
 });
