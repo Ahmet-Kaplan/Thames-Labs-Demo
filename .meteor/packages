@@ -49,8 +49,6 @@ useraccounts:bootstrap
 arillo:flow-router-helpers
 aldeed:autoform-bs-datetimepicker
 tsega:bootstrap3-datetimepicker@=3.1.3_3
-xolvio:cucumber
-velocity:console-reporter
 chart:chart
 underscore
 percolate:migrations
@@ -73,7 +71,6 @@ mologie:autoform-selectize
 meteor-base
 mobile-experience
 mongo
-blaze-html-templates
 session
 jquery
 tracker
@@ -93,7 +90,9 @@ ostrio:loggerfile
 ostrio:loggerconsole
 msavin:mongol
 vsivsi:job-collection
-easy:search
+easy:search@=2.0.0
+easysearch:components@=2.0.1
+easysearch:core@=2.0.1
 jamiecollinson:selectize-bootstrap
 jesperwe:bootstrap-select
 tarzak:gridstackjs
