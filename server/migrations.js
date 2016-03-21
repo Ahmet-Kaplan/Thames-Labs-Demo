@@ -964,15 +964,17 @@ Migrations.add({
         }).fetch();
         var prefix = tenant.settings.purchaseorder.defaultPrefix;
         _.each(pos, function(po) {
-          if (po.sequencedIdentifier.indexOf('undefined') > -1) {
-            var newID = po.sequencedIdentifier.replace('undefined', prefix);
-            PurchaseOrders.update({
-              _id: po._id
-            }, {
-              $set: {
-                sequencedIdentifier: newID
-              }
-            });
+          if (po.sequencedIdentifier) {
+            if (po.sequencedIdentifier.indexOf('undefined') > -1) {
+              var newID = po.sequencedIdentifier.replace('undefined', prefix);
+              PurchaseOrders.update({
+                _id: po._id
+              }, {
+                $set: {
+                  sequencedIdentifier: newID
+                }
+              });
+            }
           }
         });
       });
