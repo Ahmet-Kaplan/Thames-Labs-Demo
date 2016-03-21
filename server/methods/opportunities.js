@@ -1,6 +1,6 @@
 Meteor.methods({
 
-  changeStageOrder: function(stageId, direction) {
+  changeStageOrder: function(stageId, direction, currentOrder) {
     var user = Meteor.users.find(this.userId);
     Partitioner.bindGroup(user.group, function() {
       var userTenant = Tenants.findOne({});
@@ -8,7 +8,7 @@ Meteor.methods({
       var step = (direction === "up" ? -1 : 1);
 
       _.each(currentStages, function(cs, i) {
-        if (!cs.order) cs.order = i;
+        cs.order = i + 1;
       });
 
       var currentOrder = currentStages.sort(function(a, b) {
@@ -17,23 +17,22 @@ Meteor.methods({
         return 0;
       });
 
-      var index = -1;
+      var orders = [];
+
       _.each(currentOrder, function(co, i) {
-        if (co.id === stageId) index = i;
+        if (co.id === stageId) {
+          co.order = co.order + step;
+        }
       });
-      var GaiaRecord = currentOrder[index];
-
-      GaiaRecord.order = GaiaRecord.order + step;
-
-      if (GaiaRecord.order < 0 || GaiaRecord.order > currentOrder.length - 1) {
-        throw new Meteor.Error('Beyond bounds');
-      }
 
       _.each(currentOrder, function(co, i) {
         if (co.id !== stageId) {
-          if (co.order === GaiaRecord.order) {
+          co.order = co.order - step;
+
+          while (_.includes(orders, co.order)) {
             co.order = co.order - step;
           }
+          orders.push(co.order);
         }
       });
 

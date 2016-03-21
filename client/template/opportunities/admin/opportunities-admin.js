@@ -1,10 +1,22 @@
 Template.opportunityAdmin.helpers({
   stages: function() {
-    return Tenants.findOne({}).settings.opportunity.stages.sort(function(a, b) {
+    var currentStages = Tenants.findOne({}).settings.opportunity.stages.sort(function(a, b) {
       if (a.order < b.order) return -1;
       if (a.order > b.order) return 1;
       return 0;
     });
+
+    _.each(currentStages, function(cs, i) {
+      cs.order = i + 1;
+    });
+
+    Tenants.update(Meteor.user().group, {
+      $set: {
+        'settings.opportunity.stages': currentStages
+      }
+    });
+
+    return currentStages;
   },
   hasStages: function() {
     var userTenant = Tenants.findOne({});
@@ -62,7 +74,7 @@ Template.opportunityAdminStage.events({
       showUpgradeToastr('To edit the order of your opportunity stages');
       return;
     }
-    Meteor.call('changeStageOrder', stageId, "up");
+    Meteor.call('changeStageOrder', stageId, "up", this.order);
   },
   'click .orderDown': function(event) {
     event.preventDefault();
@@ -71,7 +83,7 @@ Template.opportunityAdminStage.events({
       showUpgradeToastr('To edit the order of your opportunity stages');
       return;
     }
-    Meteor.call('changeStageOrder', stageId, "down");
+    Meteor.call('changeStageOrder', stageId, "down", this.order);
   },
   'click #btnEdit': function(event) {
     event.preventDefault();
