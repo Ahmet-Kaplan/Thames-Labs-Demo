@@ -70,7 +70,6 @@ mrgalaxy:stripe
 copleykj:tagstripper
 flowkey:bowser
 mologie:autoform-selectize
-standard-minifiers
 meteor-base
 mobile-experience
 mongo
@@ -102,7 +101,6 @@ rzymek:fullcalendar
 jiku:bootstrap-toggle
 simple:reactive-method
 meteorhacks:picker
-pfafman:multer
 rajit:bootstrap3-datepicker
 aldeed:autoform-bs-datepicker
 jparker:crypto-md5
@@ -111,3 +109,5 @@ jparker:crypto-hmac
 jparker:crypto-core
 jparker:crypto-base64
 jparker:crypto-sha256
+standard-minifier-css
+standard-minifier-js
