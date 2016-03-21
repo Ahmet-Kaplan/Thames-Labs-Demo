@@ -46,14 +46,13 @@ ddp-server@1.2.4-rc.4
 deps@1.0.10-rc.4
 diff-sequence@1.0.3-rc.4
 digilord:faker@1.0.7
-easy:search@2.0.0
-easysearch:components@2.0.1
-easysearch:core@2.0.1
+easy:search@2.0.8
+easysearch:components@2.0.8
+easysearch:core@2.0.8
 ecmascript@0.4.1-rc.4
 ecmascript-runtime@0.2.8-rc.4
 ejson@1.0.9-rc.4
 email@1.0.10-rc.4
-erasaur:meteor-lodash@3.10.1_1
 erasaur:notification-badge@0.0.6
 fastclick@1.0.9-rc.4
 flowkey:bowser@1.0.2

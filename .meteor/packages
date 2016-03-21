@@ -90,9 +90,7 @@ ostrio:loggerfile
 ostrio:loggerconsole
 msavin:mongol
 vsivsi:job-collection
-easy:search@=2.0.0
-easysearch:components@=2.0.1
-easysearch:core@=2.0.1
+easy:search
 jamiecollinson:selectize-bootstrap
 jesperwe:bootstrap-select
 tarzak:gridstackjs
@@ -110,3 +108,4 @@ jparker:crypto-base64
 jparker:crypto-sha256
 standard-minifier-css
 standard-minifier-js
+templating
