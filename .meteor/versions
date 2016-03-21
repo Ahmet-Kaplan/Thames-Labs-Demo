@@ -55,6 +55,7 @@ ejson@1.0.9-rc.4
 email@1.0.10-rc.4
 erasaur:notification-badge@0.0.6
 fastclick@1.0.9-rc.4
+fixtures@0.0.1
 flowkey:bowser@1.0.2
 flowkey:hotkeys@1.1.1
 fortawesome:fontawesome@4.5.0

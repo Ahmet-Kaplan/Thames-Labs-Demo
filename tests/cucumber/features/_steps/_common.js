@@ -89,7 +89,7 @@ module.exports = function() {
       });
   });
 
-  this.Given(/^I (am a logged out user|log out)$/, function() {
+  this.Given(/^I (?:am a logged out user|log out)$/, function() {
     browser.executeAsync(logout);
   });
 

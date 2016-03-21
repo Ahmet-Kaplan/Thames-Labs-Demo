@@ -5,7 +5,7 @@ module.exports = function() {
       .executeAsync(function(done) {
         Stripe.card.createToken({
           number: '4242424242424242',
-          exp_month: 01,
+          exp_month: '01',
           exp_year: 2022,
           cvc: '123',
           name: 'Test Smith'
