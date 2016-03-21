@@ -1,4 +1,4 @@
-var Future = Npm.require('fibers/future');
+import Future from 'fibers/future';
 var Stripe = StripeAPI(process.env.STRIPE_SK);
 
 var postRoutes = Picker.filter(function(req, res) {
