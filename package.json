@@ -1,0 +1,27 @@
+{
+  "name": "realtimecrm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mobile-config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "multer": "^1.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "npm install && modulus deploy --project-name realtimecrm --include-modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CambridgeSoftwareLtd/RealtimeCRM.git"
+  },
+  "author": "Cambridge Software",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CambridgeSoftwareLtd/RealtimeCRM/issues"
+  },
+  "homepage": "https://github.com/CambridgeSoftwareLtd/RealtimeCRM#readme"
+}
