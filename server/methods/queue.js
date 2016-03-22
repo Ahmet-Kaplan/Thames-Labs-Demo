@@ -2,9 +2,6 @@ jobsList = JobCollection('jobsQueue');
 
 
 Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
-  //////////////////////
-  //  Task Reminders  //
-  //////////////////////
   var assigneeId = job.data.assigneeId;
 
   if(assigneeId === undefined) {
@@ -51,44 +48,6 @@ Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
     Tasks.direct.update(job.data.taskId, {
       $unset: {
         taskReminderJob: ''
-      }
-    })
-    callback();
-  });
-  /////////////////////////
-  //  Po Notifications  //
-  ////////////////////////
-  var requestedId = job.data.requestedId;
-
-  if(requestedId === undefined) {
-    job.log('Unable to find user with _id: ' + job.data.requestedId, {level: 'warning'});
-    job.fail('User not found.');
-    callback();
-  }
-
-  Partitioner.directOperation(function() {
-    var po = PurchaseOrders.findOne({_id: job.data.purchaseOrderId});
-
-    if(!po) {
-      job.log("Unable to find purchase order with _id: " + job.data.purchaseOrderId, {level: 'warning'});
-      job.fail('Purchase Order Not Found.');
-      callback();
-    }
-
-    Notifications.insert({
-      title: purchaseOrder.description || 'RealTimeCRM Purchase Order Notification',
-      shortDescription: 'RealTimeCRM Purchase Order Reminder',
-      detail: "Your purchase order, " + purchaseOrder.description + ", has been accepted",
-      target: requestedId,
-      createdAt: new Date(),
-      createdBy: purchaseOrder.createdBy
-    })
-
-    job.done();
-    job.remove();
-    PurchaseOrders.direct.update(job.data.purchaseOrderId, {
-      $unset: {
-        poNotificationJob: ''
       }
     })
     callback();
@@ -233,27 +192,36 @@ Meteor.methods({
     }
   },
 
-  addPoNotification: function(purchaseOrderId) {
-    console.log("Method run");
+  poAcceptedNotification: function(purchaseOrderId) {
     var purchaseOrder = PurchaseOrders.findOne({_id: purchaseOrderId});
-
     if(!purchaseOrder) {
       throw new Meteor.Error(404, 'No PO provided');
-    }else {
-      console.log('found po');
     }
-    var poJob = new Job(jobsList, 'sendNotificationEmail', {
-      requestedId: purchaseOrder.createdBy,
-      purchaseOrderId: purchaseOrderId
-    });
+    Notifications.insert({
+      title: purchaseOrder.description || 'RealTimeCRM Purchase Order Notification',
+      shortDescription: 'RealTimeCRM Purchase Order Notification',
+      detail: "Your purchase order '" + purchaseOrder.description + "' has been Approved.",
+      target: purchaseOrder.createdBy,
+      createdAt: new Date(),
+      createdBy: this.userId,
+      icon: 'shopping-cart'
+    })
+  },
 
-    poJob.priority('normal')
-         .save();
-    PurchaseOrders.direct.update(purchaseOrder._id, {
-      $set: {
-        poNotificationJob: poJob._doc._id
-      }
-    });
+  poRejectedNotification: function(purchaseOrderId) {
+    var purchaseOrder = PurchaseOrders.findOne({_id: purchaseOrderId});
+    if(!purchaseOrder) {
+      throw new Meteor.Error(404, 'No PO provided');
+    }
+    Notifications.insert({
+      title: purchaseOrder.description || 'RealTimeCRM Purchase Order Notification',
+      shortDescription: 'RealTimeCRM Purchase Order Notification',
+      detail: "Your purchase order '" + purchaseOrder.description + "' has been Rejected.",
+      target: purchaseOrder.createdBy,
+      createdAt: new Date(),
+      createdBy: this.userId,
+      icon: 'shopping-cart'
+    })
   },
 
   getJobsList: function() {
