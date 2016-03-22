@@ -120,7 +120,7 @@ Template.companyFormDetails.onRendered(function() {
 
   //Run the geocode search handler and return data into the companyData reactive var
   this.autorun(() => {
-    if (GoogleMaps.loaded()) {
+    if (GoogleMaps.loaded() && $('#geo').length > 0) {
       $("#geo").geocomplete({
         details: "#insertNewCompanyForm",
         detailsAttribute: "data-geo"
@@ -132,7 +132,7 @@ Template.companyFormDetails.onRendered(function() {
 
         //Street Number
         var strNumber = _.find(result.address_components, (elt) => {
-          return elt.types[0] == "street_number";
+          return elt.types.indexOf("street_number") !== -1;
         });
 
         if (typeof strNumber !== 'undefined') {
@@ -142,7 +142,7 @@ Template.companyFormDetails.onRendered(function() {
 
         //Street Name
         var route = _.find(result.address_components, (elt) => {
-          return elt.types[0] == "route";
+          return elt.types.indexOf("route") !== -1;
         });
 
         if (typeof route !== 'undefined') {
@@ -152,7 +152,7 @@ Template.companyFormDetails.onRendered(function() {
 
         //City
         var city = _.find(result.address_components, (elt) => {
-          return elt.types[0] == "locality";
+          return elt.types.indexOf("locality") !== -1;
         });
 
         if (typeof city !== 'undefined') {
@@ -162,7 +162,7 @@ Template.companyFormDetails.onRendered(function() {
 
         //County/State
         var state = _.find(result.address_components, (elt) => {
-          return elt.types[0] == "administrative_area_level_2";
+          return elt.types.indexOf("administrative_area_level_2") !== -1;
         });
 
         if (typeof state !== 'undefined') {
@@ -172,7 +172,7 @@ Template.companyFormDetails.onRendered(function() {
 
         //Country
         var country = _.find(result.address_components, (elt) => {
-          return elt.types[0] == "country";
+          return elt.types.indexOf("country") !== -1;
         });
 
         if (typeof country !== 'undefined') {
@@ -182,7 +182,7 @@ Template.companyFormDetails.onRendered(function() {
 
         //Postcode
         var postalCode = _.find(result.address_components, (elt) => {
-          return elt.types[0] == "postal_code";
+          return elt.types.indexOf("postal_code") !== -1;
         });
 
         if (typeof postalCode !== 'undefined') {
@@ -205,7 +205,6 @@ Template.companyFormDetails.onRendered(function() {
       }).keypress((event) => {
         if (event.which == 13) {
           this.showAddressDetails.set(true);
-          this.showLocationSearch.set(false);
         }
       });
     }
@@ -320,6 +319,7 @@ Template.companyFormDetails.events({
   'click #newLocationSearch': function(event) {
     event.preventDefault();
     Template.instance().showLocationSearch.set(true);
+    $('#geo').val('');
   }
 })
 

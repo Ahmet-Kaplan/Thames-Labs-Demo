@@ -60,14 +60,11 @@
 {{#autoForm collection="Companies" id="insertNewCompanyForm" type="insert"}}
   {{> afQuickField name="name" value=companyName}}
   {{> afQuickField name="website" value=website}}
-    {{#if showLocationSearch}}
-      <div class="form-group">
-        <label for="geo" class="control-label">Search for Address, City, etc.</label>
-        <input type="text" id="geo" class="form-control" autocomplete="off" />
-      </div>
-    {{else}}
-    <p><a href="#" id="newLocationSearch">New address search</a></p>
-    {{/if}}
+    <div class="form-group {{#if showLocationSearch}}show{{else}}hidden{{/if}}">
+      <label for="geo" class="control-label">Search for Address, City, etc.</label>
+      <input type="text" id="geo" class="form-control" autocomplete="off" />
+    </div>
+    <p class="{{#if showLocationSearch}}hidden{{else}}show{{/if}}"><a href="#" id="newLocationSearch">New address search</a></p>
     {{#if showAddressDetails}}
       {{> afQuickField name="address" value=formattedAddress}}
       {{> afQuickField name="address2"}}
