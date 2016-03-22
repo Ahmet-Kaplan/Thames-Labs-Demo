@@ -14,7 +14,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "meteor",
-    "test": "chimp --watch --ddp=http://localhost:3000 --path=tests/cucumber",
+    "test": "chimp --ddp=http://localhost:3000 --path=tests/cucumber",
     "deploy": "npm install && modulus deploy --project-name realtimecrm --include-modules"
   },
   "repository": {
