@@ -249,6 +249,12 @@ PurchaseOrders.after.insert(function(userId, doc) {
 });
 
 PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options) {
+  if (Meteor.isServer && doc.status === "Approved") {
+    console.log('Approved');
+    Meteor.call('addPoNotification', doc._id);
+  }else if (Meteor.isServer && doc.status === "Rejected") {
+    console.log('Rejected');
+  }
   if (doc.description !== this.previous.description) {
     logEvent('info', 'An existing purchase order has been updated: The value of "description" was changed from ' + this.previous.description + " to " + doc.description);
   }
