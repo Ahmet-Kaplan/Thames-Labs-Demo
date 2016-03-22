@@ -8,17 +8,38 @@ Template.searchResults.onRendered(function() {
     index.getComponentMethods().search(previousSearch);
     $('input.easysearch-input').val(previousSearch);
   }
+  
+  //Update searches and filters from URL if exists
   var urlSearch = FlowRouter.getQueryParam("q");
   if (urlSearch) {
     urlSearch = decodeURIComponent(urlSearch);
     index.getComponentMethods().search(urlSearch);
     $('input.easysearch-input').val(urlSearch);
   }
+  
+  var urlFilter = FlowRouter.getQueryParam("f");
+  if (urlFilter) {
+    urlFilter = JSON.parse(decodeURIComponent(decodeURIComponent(urlFilter)));
+    var searchOptions = { props: urlFilter };
+    index.getComponentDict().set('searchOptions', searchOptions);
+  }
 
   this.autorun(() => {
     searchDefinition = index.getComponentDict().get('searchDefinition');
-    FlowRouter.setQueryParams({q: encodeURIComponent(searchDefinition)});
+    searchOptions = index.getComponentDict().get('searchOptions').props;
+
     Session.set(sessionVariableName, searchDefinition);
+    
+    var encodedSO = JSON.stringify(searchOptions);
+    if (encodedSO == "{}") encodedSO = undefined;
+    if (searchDefinition == "") searchDefinition = undefined;
+    
+    //FlowRouter automatically performs encodeURIComponent on variables, no need to repeat
+    FlowRouter.setQueryParams({
+      q: searchDefinition,
+      f: encodedSO
+    });
+    
   });
 });
 
