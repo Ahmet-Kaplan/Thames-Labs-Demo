@@ -110,7 +110,7 @@ Template.companyDetail.events({
       companyId: this._id
     });
   },
-  'click #companyTelephone': function(event, template){    
+  'click #companyTelephone': function(event, template) {
     Activities.insert({
       type: 'Call',
       notes: Meteor.user().profile.name + ' made a call to ' + this.name,
