@@ -92,7 +92,6 @@ mizzao:autocomplete
 adain:meteor-guid
 ostrio:loggerfile
 ostrio:loggerconsole
-respondly:router-server
 msavin:mongol
 vsivsi:job-collection
 easy:search
@@ -103,6 +102,8 @@ lookback:clearbit
 rzymek:fullcalendar
 jiku:bootstrap-toggle
 simple:reactive-method
+meteorhacks:picker
+pfafman:multer
 rajit:bootstrap3-datepicker
 aldeed:autoform-bs-datepicker
 jparker:crypto-md5

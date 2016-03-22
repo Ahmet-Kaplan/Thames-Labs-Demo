@@ -14,10 +14,10 @@ Template.displayCalendar.onRendered(function() {
   var getEndDate = TasksIndex.getComponentDict().get('searchOptions').props.before
   if(moment(getStartDate).isValid()) {
     $('#tasksCalendar').fullCalendar('gotoDate', moment(getStartDate).startOf('month'));
-  } else if (moment(getEndDate).isValid()){
+  } else if (moment(getEndDate).isValid()) {
     $('#tasksCalendar').fullCalendar('gotoDate', moment(getEndDate).startOf('month'));
   }
-  
+
   //On change from month to week, renders current week if is current month
   this.autorun(() => {
     var currentView = this.currentView.get();
@@ -92,7 +92,7 @@ Template.displayCalendar.helpers({
               _.each(tasksList, (task) => {
                 //Check first that the event is not already displayed
                 var taskDisplayed = this.clientEvents('evt_' + task._id).length;
-          
+
                 if(typeof task.dueDate !== 'undefined' && !taskDisplayed) {
                   var background = {
                     'company': 'primary',
@@ -171,7 +171,7 @@ Template.displayCalendar.helpers({
           });
           instance.eventsListeners.set(elList);
         }
-        
+
         //----------------------------------------//
         //       JS EVENTS HANDLING FOR LINKS     //
         //----------------------------------------//
@@ -260,7 +260,7 @@ Template.displayCalendar.helpers({
           //----------------------------------------//
           //     JS EVENTS HANDLING FOR POPOVER     //
           //----------------------------------------//
-          
+
           //Add event listener to hide popover if click is outside
           var hidePopoverHandle = function(evt) {
             if(evt.target != popoverHolder[0]) {
@@ -300,7 +300,7 @@ Template.displayCalendar.helpers({
         } else {
           popoverHolder.popover('toggle');
         }
-        
+
         //Add event handler to show modal. This cannot be done with Template.events because of the toHTMWithData function
         var quickLinkHandle = function(jsEvent) {
           jsEvent.preventDefault();
@@ -348,11 +348,6 @@ Template.displayCalendar.onDestroyed(function() {
   });
 
   //Reset search options
-  var name = TasksIndex.getComponentDict().name;
-  var searchDefinition = Session.get(name + '.searchDefinition');
-  var searchOptions = TasksIndex.getComponentDict().get('searchOptions');
-  searchOptions.limit = 10;
   TasksIndex.getComponentMethods().removeProps('after');
   TasksIndex.getComponentMethods().removeProps('before');
-  TasksIndex.search(searchDefinition, searchOptions);
 });

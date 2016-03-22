@@ -1,8 +1,12 @@
 var Future = Npm.require('fibers/future');
 var Stripe = StripeAPI(process.env.STRIPE_SK);
 
+var postRoutes = Picker.filter(function(req, res) {
+  return req.method == "POST";
+});
+
 //respondly:router-server: route for webhooks
-Server.post('/webhook/stripe', function(req, res) {
+postRoutes.route('/webhook/stripe', function(params, req, res) {
   if (req.body.object !== 'event') {
     return res.send(400);
   }
