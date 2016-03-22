@@ -289,7 +289,8 @@ Feature: Allow users to manage their Companies
     And I do not have the "CanCreateTasks" permission
     And a "Company" has been created
     When I navigate to a company page
-    Then I should not see "#btnAddTaskToEntity"
+    Then I should see "#entityTaskList"
+    And I should not see "#btnAddTaskToEntity"
 
   #Activities
   Scenario: A user can add an activity

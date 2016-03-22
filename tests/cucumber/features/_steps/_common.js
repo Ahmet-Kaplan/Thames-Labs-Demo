@@ -294,7 +294,6 @@ module.exports = function() {
   });
 
   this.Then(/^I should not see "([^"]*)"$/, function(id) {
-    browser.waitForExist(id, 5000, true);
     expect(browser.isExisting(id)).toEqual(false);
   });
 
