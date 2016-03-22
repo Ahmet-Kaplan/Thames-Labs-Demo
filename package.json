@@ -15,7 +15,8 @@
   "scripts": {
     "start": "meteor",
     "test": "chimp --ddp=http://localhost:3000 --path=tests/cucumber",
-    "deploy": "npm install && modulus deploy --project-name realtimecrm --include-modules"
+    "deploy": "npm install && modulus deploy --project-name realtimecrm --include-modules",
+    "lint": "eslint . || true"
   },
   "repository": {
     "type": "git",
