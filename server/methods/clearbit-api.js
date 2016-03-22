@@ -54,9 +54,10 @@ Meteor.methods({
     }
   },
 
+  //Not used at the moment, could be implemented
   'clearbit.getCompanyFromWebsite': function(entityWebsite) {
     var clearbitApiKey = process.env.CLEARBIT_API_KEY;
-    if(entityWebsite.substring(0, 4) != 'http'){
+    if(entityWebsite.substring(0, 4) != 'http') {
       entityWebsite = 'http://' + entityWebsite;
     }
 
@@ -87,7 +88,7 @@ Meteor.methods({
 
   'clearbit.getCompanyFromName': function(entityName) {
     var clearbitApiKey = process.env.CLEARBIT_API_KEY;
-    
+
     if (typeof clearbitApiKey === 'undefined') {
       throw new Meteor.Error(500, 'No clearbit API key set');
     }
