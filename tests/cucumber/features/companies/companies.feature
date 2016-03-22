@@ -202,12 +202,13 @@ Feature: Allow users to manage their Companies
     And a "Company" has been created
     When I navigate to a company page
     And I click "#add-custom-field"
-    And I set text field with id "custom-field-name" to "velocity2"
+    Then I should see a modal
+    When I set text field with id "custom-field-name" to "velocity2"
     And I set text field with id "custom-field-text-value" to "velocity"
     And I click "#submit-custom-field"
     And I click "#delete-custom-field"
     And I click confirm on the modal
-    Then I should not see ".custom-field-display-item"
+    Then "#custom-fields-panel" should contain "No custom fields"
 
   Scenario: A user can edit an custom field
     Given I have the "CanEditCompanies" permission

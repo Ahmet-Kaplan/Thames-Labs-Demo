@@ -1,8 +1,7 @@
 {
   "name": "realtimecrm",
   "version": "1.0.0",
-  "description": "",
-  "main": "",
+  "description": "A RealTime CRM from Cambridge Software",
   "directories": {
     "test": "tests"
   },
@@ -15,6 +14,7 @@
   "scripts": {
     "start": "meteor",
     "test": "chimp --ddp=http://localhost:3000 --path=tests/cucumber",
+    "watch": "chimp --watch --ddp=http://localhost:3000 --path=tests/cucumber",
     "pretest": "npm run lint",
     "deploy": "npm install && modulus deploy --project-name realtimecrm --include-modules",
     "lint": "eslint ."
