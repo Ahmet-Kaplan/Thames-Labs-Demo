@@ -8,9 +8,16 @@ Template.searchResults.onRendered(function() {
     index.getComponentMethods().search(previousSearch);
     $('input.easysearch-input').val(previousSearch);
   }
+  var urlSearch = FlowRouter.getQueryParam("q");
+  if (urlSearch) {
+    urlSearch = decodeURIComponent(urlSearch);
+    index.getComponentMethods().search(urlSearch);
+    $('input.easysearch-input').val(urlSearch);
+  }
 
   this.autorun(() => {
     searchDefinition = index.getComponentDict().get('searchDefinition');
+    FlowRouter.setQueryParams({q: encodeURIComponent(searchDefinition)});
     Session.set(sessionVariableName, searchDefinition);
   });
 });
