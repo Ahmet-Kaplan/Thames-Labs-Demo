@@ -156,12 +156,6 @@ Meteor.methods({
     /*superadminTenantId is used when the method is called by the superadmin
     In which case the tenantId cannot be retrieved via Partitioner */
 
-    // Don't try and update Stripe if testing
-    // N.B. TEMPORARY FIX - this needs to be changed.
-    if (process.env.IS_MIRROR || process.env.CI) {
-      return true;
-    }
-
     var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({
       _id: tenantId
@@ -171,7 +165,7 @@ Meteor.methods({
       return false;
     }
 
-    if (theTenant.plan === 'free') {
+    if (theTenant.plan === 'free' || !theTenant.stripe || !theTenant.stripe.stripeId) {
       return true;
     }
 
@@ -183,8 +177,6 @@ Meteor.methods({
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may add or remove users.');
-    } else if (!stripeId) {
-      throw new Meteor.Error('Missing subscription', 'It appears you do not have an account.');
     }
 
     var subsParameters = {

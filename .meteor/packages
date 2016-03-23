@@ -49,8 +49,6 @@ useraccounts:bootstrap
 arillo:flow-router-helpers
 aldeed:autoform-bs-datetimepicker
 tsega:bootstrap3-datetimepicker@=3.1.3_3
-xolvio:cucumber
-velocity:console-reporter
 chart:chart
 underscore
 percolate:migrations
@@ -73,7 +71,6 @@ mologie:autoform-selectize
 meteor-base
 mobile-experience
 mongo
-blaze-html-templates
 session
 jquery
 tracker
@@ -111,3 +108,5 @@ jparker:crypto-base64
 jparker:crypto-sha256
 standard-minifier-css
 standard-minifier-js
+templating
+fixtures
