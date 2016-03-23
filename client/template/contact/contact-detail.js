@@ -201,7 +201,7 @@ Template.contactDetail.events({
       });
     }
   },
-  'click #contactTelephone': function(event, template){    
+  'click #contactTelephone': function(event, template) {
     Activities.insert({
       type: 'Call',
       notes: Meteor.user().profile.name + ' made a call to ' + this.forename + ' ' + this.surname,
@@ -221,8 +221,8 @@ Template.ContactProjectListItem.helpers({
     return (this.companyId ? true : false);
   },
   projectCompanyName: function() {
-    Meteor.subscribe('companyById', this.companyId)
+    Template.instance().subscribe('companyById', this.companyId)
     var company = Companies.findOne(this.companyId);
-    return company.name;
+    return company ? company.name : null;
   }
 });
