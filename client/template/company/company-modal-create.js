@@ -63,16 +63,17 @@ Template.insertNewCompanyModal.events({
     evt.preventDefault();
     //Flush on Enter
     if(evt.keyCode === 13) {
+      Template.instance().fetchingResults.set(true);
       Template.instance().triggerMagicSearch();
       Template.instance().triggerMagicSearch.flush;
     //Only trigger search if key is a number, letter OR backspace, dash/minus, dot/point, slash
-    } else if((evt.keyCode > 47 && evt.keyCode < 91) || [8, 109, 110, 189, 190, 191].indexOf(evt.keyCode) !== -1) {
+    } else if(bowser.mobile || bowser.tablet || (evt.keyCode > 47 && evt.keyCode < 91) || [8, 109, 110, 189, 190, 191].indexOf(evt.keyCode) !== -1) {
+      Template.instance().triggerMagicSearch.cancel;
       if($(evt.target).val().trim() !== '') {
         Template.instance().fetchingResults.set(true);
       } else {
         Template.instance().fetchingResults.set(false);
       }
-      Template.instance().triggerMagicSearch.cancel;
       Template.instance().triggerMagicSearch();
     }
     //Handle duplication warning message
