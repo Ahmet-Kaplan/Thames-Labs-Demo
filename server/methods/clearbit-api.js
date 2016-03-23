@@ -54,39 +54,7 @@ Meteor.methods({
     }
   },
 
-  //Not used at the moment, could be implemented
-  'clearbit.getCompanyFromWebsite': function(entityWebsite) {
-    var clearbitApiKey = process.env.CLEARBIT_API_KEY;
-    if(entityWebsite.substring(0, 4) != 'http') {
-      entityWebsite = 'http://' + entityWebsite;
-    }
-
-    if (typeof clearbitApiKey === 'undefined') {
-      throw new Meteor.Error(500, 'No clearbit API key set');
-    }
-
-    var Future = Npm.require('fibers/future');
-    var clearbitData = new Future();
-    var url = Meteor.npmRequire('url');
-    var domain = url.parse(entityWebsite).hostname;
-    var requestUrl = 'https://company-stream.clearbit.com/v1/companies/domain/' + domain;
-    var authToken = "Bearer " + clearbitApiKey;
-    Meteor.http.get(requestUrl, {
-       headers: {
-          "Authorization": authToken
-       }
-    }, function(err, res) {
-      if (err) {
-        clearbitData.return(false);
-      } else {
-        clearbitData.return(_.clone(res.data, true));
-      }
-    });
-
-    return clearbitData.wait();
-  },
-
-  'clearbit.getCompanyFromName': function(entityName) {
+  'clearbit.getCompanyFromNameOrWebsite': function(queryString) {
     var clearbitApiKey = process.env.CLEARBIT_API_KEY;
 
     if (typeof clearbitApiKey === 'undefined') {
@@ -96,14 +64,24 @@ Meteor.methods({
     const Discovery = clearbit(clearbitApiKey).Discovery;
     var Future = Npm.require('fibers/future');
     var clearbitData = new Future();
+    var query = {};
+    var url = Meteor.npmRequire('url');
+    var domainRegex = new RegExp('^(https?\://)?(www\.)?[a-z0-9\.-]+\.[a-z]{2,4}/?$');
+    var domainQuery = null;
 
-    Discovery.search({
-      query: {
-        name: entityName
-      }
-    }).then(function(search) {
+    if(queryString.match(domainRegex) !== null && url.parse(queryString).host) {
+      domainQuery = url.parse(queryString).host.trim();
+    } 
+    
+    if(!!domainQuery && domainQuery.length > 0) {
+      query.domain = domainQuery;
+    } else {
+      query.name = queryString;
+    }
+
+    Discovery.search({query}).then(function(search) {
       clearbitData.return(search);
-    })
+    });
 
     return clearbitData.wait();
   }

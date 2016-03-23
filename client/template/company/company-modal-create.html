@@ -10,27 +10,25 @@
 
         <div class="modal-body">
             <div class="form-group">
-              <label for="companyName" class="control-label">Search for Company Name</label>
-                <input type="text" id="companyName" class="form-control">
+              {{#if isMobile}}<label for="companyName" class="control-label">Search for Company Name or website</label>{{/if}}
+                <input type="text" id="companyName" class="form-control" placeholder="{{#unless isMobile}}Search for Company Name or website{{/unless}}">
             </div>
-            <div class="form-group" id="duplicationWarning">
-              <small class="text-warning">You already have a company record with that name. Clicking <strong>Create</strong> will create a different record with the same name.</small>
-            </div>
+            {{#if showDuplicationWarning}}
+              <div class="form-group" id="duplicationWarning">
+                <small class="text-warning">You already have a company record with that name. Clicking <strong>Create</strong> will create a different record with the same name.</small>
+              </div>
+            {{/if}}
             {{#if fetchingResults}}
               {{> loadingSmall }}
               <!-- <div class="text-center"><i class="fa fa-lg fa-circle-o-notch fa-spin"></i></div> -->
             {{else}}
               {{#if showResultsList}}
                 {{> resultsListTemplate resultsTotal=resultsTotal resultsList=resultsList}}
+                <div class="text-right">
+                ...or 
+                  <button class="btn btn-default" type="button" id="manual-fill">Fill Manually</button>
+                </div>
               {{/if}}
-            {{/if}}
-
-
-            {{#if showFillManually}}
-              <div class="text-right">
-              ...or 
-                <button class="btn btn-default" type="button" id="manual-fill">Fill Manually</button>
-              </div>
             {{/if}}
 
             {{#if showDetails}}

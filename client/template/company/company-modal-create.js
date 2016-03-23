@@ -1,10 +1,10 @@
 Template.insertNewCompanyModal.onCreated(function() {
   this.magicList = new ReactiveVar([]);
   this.fetchingResults = new ReactiveVar(false);
-  this.showFillManually = new ReactiveVar(false);
   this.showDetails = new ReactiveVar(false);
   this.showResultsList = new ReactiveVar(false);
   this.companyData = new ReactiveVar({});
+  this.showDuplicationWarning = new ReactiveVar(false);
   // Load google maps
   GoogleMaps.load({
     libraries: 'places'
@@ -12,8 +12,6 @@ Template.insertNewCompanyModal.onCreated(function() {
 });
 
 Template.insertNewCompanyModal.onRendered(function() {
-  $('#duplicationWarning').hide();
-
   this.triggerMagicSearch = _.debounce(() => {
     var searchInput = $('#companyName').val().trim();
 
@@ -22,12 +20,11 @@ Template.insertNewCompanyModal.onRendered(function() {
       return;
     }
 
-    Meteor.call('clearbit.getCompanyFromName', searchInput, (err, results) => {
+    Meteor.call('clearbit.getCompanyFromNameOrWebsite', searchInput, (err, results) => {
       if(results) {
         this.magicList.set(results);
       }
       this.showResultsList.set(true)
-      this.showFillManually.set(true);
       this.fetchingResults.set(false);
     });
   }, 500);
@@ -44,9 +41,6 @@ Template.insertNewCompanyModal.helpers({
   fetchingResults: function() {
     return Template.instance().fetchingResults.get();
   },
-  showFillManually: function() {
-    return Template.instance().showFillManually.get();
-  },
   showDetails: function() {
     return Template.instance().showDetails.get();
   },
@@ -55,36 +49,37 @@ Template.insertNewCompanyModal.helpers({
   },
   companyData: function() {
     return Template.instance().companyData.get();
+  },
+  showDuplicationWarning: function() {
+    return Template.instance().showDuplicationWarning.get();
   }
 });
 
 Template.insertNewCompanyModal.events({
   'click #close': function() {
-  hopscotch.endTour(true);
+    hopscotch.endTour(true);
   },
   'keyup #companyName': function(evt) {
     evt.preventDefault();
-    if($(evt.target).val().trim() !== '') {
-      Template.instance().fetchingResults.set(true);
-    } else {
-      Template.instance().fetchingResults.set(false);
-    }
     //Flush on Enter
     if(evt.keyCode === 13) {
+      Template.instance().triggerMagicSearch();
       Template.instance().triggerMagicSearch.flush;
-    //Only trigger search if key is a number, letter, dot, dash
-    } else if((evt.keyCode > 47 && evt.keyCode < 91) || [109, 110, 189, 190].indexOf(evt.keyCode) !== -1) {
+    //Only trigger search if key is a number, letter OR backspace, dash/minus, dot/point, slash
+    } else if((evt.keyCode > 47 && evt.keyCode < 91) || [8, 109, 110, 189, 190, 191].indexOf(evt.keyCode) !== -1) {
+      if($(evt.target).val().trim() !== '') {
+        Template.instance().fetchingResults.set(true);
+      } else {
+        Template.instance().fetchingResults.set(false);
+      }
       Template.instance().triggerMagicSearch.cancel;
       Template.instance().triggerMagicSearch();
     }
-    //Handle warning message
+    //Handle duplication warning message
     var name = $('#companyName').val();
-    Meteor.call('company.checkExistsByName', name, function(err, res) {
-      if (res === true) {
-        $('#duplicationWarning').show();
-      } else {
-        $('#duplicationWarning').hide();
-      }
+    var templateInstance = Template.instance();
+    Meteor.call('company.checkExistsByName', name, (err, res) => {
+      templateInstance.showDuplicationWarning.set(res === true);
     });
   },
   'click .magic-result': function(evt) {
