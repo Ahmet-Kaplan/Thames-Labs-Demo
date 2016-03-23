@@ -18,7 +18,7 @@
     "watch": "chimp --watch --ddp=http://localhost:3000 --path=tests/cucumber",
     "prewatch": "npm run lint",
     "deploy": "modulus deploy --project-name realtimecrm --include-modules",
-    "predeploy": "npm install && npm run lint",
+    "predeploy": "npm install",
     "lint": "eslint ."
   },
   "repository": {
