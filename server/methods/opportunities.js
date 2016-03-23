@@ -1,23 +1,44 @@
 Meteor.methods({
 
-  changeStageOrder: function(stageId, direction) {
+  changeStageOrder: function(stageId, direction, currentOrder) {
     var user = Meteor.users.find(this.userId);
     Partitioner.bindGroup(user.group, function() {
       var userTenant = Tenants.findOne({});
       var currentStages = userTenant.settings.opportunity.stages;
       var step = (direction === "up" ? -1 : 1);
-      var stageIndex = _.findIndex(currentStages, {id: stageId});
 
-      if(stageIndex + step < 0 || stageIndex + step >= currentStages.length) {
-        throw new Meteor.Error('Incorrect Index', 'Incorrect index, the stage could not be moved.');
-      }
+      _.each(currentStages, function(cs, i) {
+        cs.order = i + 1;
+      });
 
-      var stageObject = _.pullAt(currentStages, stageIndex);
-      currentStages.splice(stageIndex + step, 0, stageObject[0]);
+      var currentOrder = currentStages.sort(function(a, b) {
+        if (a.order < b.order) return -1;
+        if (a.order > b.order) return 1;
+        return 0;
+      });
+
+      var orders = [];
+
+      _.each(currentOrder, function(co, i) {
+        if (co.id === stageId) {
+          co.order = co.order + step;
+        }
+      });
+
+      _.each(currentOrder, function(co, i) {
+        if (co.id !== stageId) {
+          co.order = co.order - step;
+
+          while (_.includes(orders, co.order)) {
+            co.order = co.order - step;
+          }
+          orders.push(co.order);
+        }
+      });
 
       Tenants.update(userTenant._id, {
         $set: {
-          'settings.opportunity.stages': currentStages
+          'settings.opportunity.stages': currentOrder
         }
       });
 
@@ -30,9 +51,11 @@ Meteor.methods({
     Partitioner.bindGroup(user.group, function() {
       var userTenant = Tenants.findOne({});
       var currentStages = userTenant.settings.opportunity.stages;
-      var stageIndex = _.findIndex(currentStages, {id: stageId});
+      var stageIndex = _.findIndex(currentStages, {
+        id: stageId
+      });
 
-      if(stageIndex !== -1) {
+      if (stageIndex !== -1) {
         _.pullAt(currentStages, stageIndex);
         Tenants.update(userTenant._id, {
           $set: {

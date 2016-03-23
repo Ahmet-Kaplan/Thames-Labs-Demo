@@ -3,7 +3,7 @@ Template.tenancyAdminPage.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'Administrator');
   });
-  Meteor.subscribe('activeTenantData', Meteor.user().group);
+  Meteor.subscribe('activeTenantData');
 });
 
 Template.tenancyAdminPage.helpers({
