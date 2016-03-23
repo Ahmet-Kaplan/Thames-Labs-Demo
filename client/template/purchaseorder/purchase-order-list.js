@@ -24,8 +24,12 @@ Template.purchaseOrderList.onRendered(function() {
   var curr = Session.get("showItems");
   if (curr === true) {
     $('#toggle-item-view').addClass('btn-success').removeClass('btn-default');
+    $(".po-list-item").css('margin-bottom', '4px');
+    $(".po-list-item").css('padding-bottom', '0');
   } else {
     $('#toggle-item-view').removeClass('btn-success').addClass('btn-default');
+    $(".po-list-item").css('margin-bottom', '');
+    $(".po-list-item").css('padding-bottom', '');
   }
 
   Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
@@ -61,8 +65,12 @@ Template.purchaseOrderList.events({
 
     if (Session.get("showItems") === true) {
       $('#toggle-item-view').addClass('btn-success').removeClass('btn-default');
+      $(".po-list-item").css('margin-bottom', '4px');
+      $(".po-list-item").css('padding-bottom', '0');
     } else {
       $('#toggle-item-view').removeClass('btn-success').addClass('btn-default');
+      $(".po-list-item").css('margin-bottom', '');
+      $(".po-list-item").css('padding-bottom', '');
     }
   },
   'click #add-purchase-order': function(event) {
