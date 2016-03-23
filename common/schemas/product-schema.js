@@ -12,7 +12,7 @@ Schemas.Product = new SimpleSchema({
   price: {
     type: Number,
     optional: true,
-    label: "Sales Price",
+    label: "Sale Price",
     decimal: true
   },
   cost: {
