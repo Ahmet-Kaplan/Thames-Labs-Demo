@@ -119,13 +119,6 @@ Schemas.PurchaseOrder = new SimpleSchema({
     autoform: {
       type: 'hidden'
     }
-  },
-  poNotificationJob: {
-    type: String,
-    optional: true,
-    autoform: {
-      type: 'hidden'
-    }
   }
 });
 Schemas.PurchaseOrder.messages({
