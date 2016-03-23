@@ -1,45 +1,45 @@
 Template.searchResults.onRendered(function() {
   var index = this.data.index,
-    name = index.getComponentDict().name,
-    sessionVariableName = name + '.searchDefinition',
-    previousSearch = Session.get(sessionVariableName);
-
-  if (previousSearch) {
-    index.getComponentMethods().search(previousSearch);
-    $('input.easysearch-input').val(previousSearch);
-  }
+  
+  name = index.getComponentDict().name;
+  
   
   //Update searches and filters from URL if exists
   var urlSearch = FlowRouter.getQueryParam("q");
+  var urlFilter = FlowRouter.getQueryParam("f");
+
   if (urlSearch) {
     urlSearch = decodeURIComponent(urlSearch);
     index.getComponentMethods().search(urlSearch);
     $('input.easysearch-input').val(urlSearch);
   }
-  
-  var urlFilter = FlowRouter.getQueryParam("f");
+  else {
+    index.getComponentMethods().search("");
+    $('input.easysearch-input').val("");
+  }
+
   if (urlFilter) {
     urlFilter = JSON.parse(decodeURIComponent(decodeURIComponent(urlFilter)));
     var searchOptions = { props: urlFilter };
     index.getComponentDict().set('searchOptions', searchOptions);
   }
-
+  else {
+    index.getComponentDict().set('searchOptions', {});
+  }
+    
   this.autorun(() => {
     searchDefinition = index.getComponentDict().get('searchDefinition');
-    searchOptions = index.getComponentDict().get('searchOptions').props;
-
-    Session.set(sessionVariableName, searchDefinition);
+    searchOptions = JSON.stringify(index.getComponentDict().get('searchOptions').props);
     
-    var encodedSO = JSON.stringify(searchOptions);
-    if (encodedSO == "{}") encodedSO = undefined;
     if (searchDefinition == "") searchDefinition = undefined;
+    if (searchOptions == "{}") searchOptions = undefined;
     
-    //FlowRouter automatically performs encodeURIComponent on variables, no need to repeat
-    FlowRouter.setQueryParams({
-      q: searchDefinition,
-      f: encodedSO
+    FlowRouter.withReplaceState(function() {
+      FlowRouter.setQueryParams({
+        q: searchDefinition,
+        f: searchOptions
+       });
     });
-    
   });
 });
 
