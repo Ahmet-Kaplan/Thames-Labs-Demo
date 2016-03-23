@@ -10,6 +10,7 @@ Template.purchaseOrderList.onCreated(function() {
   });
   Session.set("showItems", false);
 
+  this.showClosed = new ReactiveVar(false);
   this.totalPurchaseOrders = new ReactiveVar(0);
   this.totalApprovedPo = new ReactiveVar(0);
   this.totalArrivedPo = new ReactiveVar(0);
@@ -31,6 +32,15 @@ Template.purchaseOrderList.onRendered(function() {
     $(".po-list-item").css('margin-bottom', '');
     $(".po-list-item").css('padding-bottom', '');
   }
+
+  this.autorun(() => {
+    var searchComponent = PurchaseOrdersIndex.getComponentMethods();
+    if (this.showClosed.get()) {
+      searchComponent.addProps('showClosed', 'true');
+    } else {
+      searchComponent.removeProps('showClosed');
+    }
+  });
 
   Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
     template.totalPurchaseOrders.set(data.Count);
@@ -102,10 +112,19 @@ Template.purchaseOrderList.events({
     Meteor.call('report.RejectedPo', function(err, data) {
       template.totalRejectedPo.set(data.Count);
     });
-  }
+  },
+  'click #toggle-closed': function(event) {
+    event.preventDefault();
+    var showClosed = Template.instance().showClosed.get();
+    Template.instance().showClosed.set(!showClosed);
+    $(event.target).blur();
+  },
 });
 
 Template.purchaseOrderList.helpers({
+  closedShown: function() {
+    return Template.instance().showClosed.get();
+  },
   totalPurchaseOrders: function() {
     return Template.instance().totalPurchaseOrders.get();
   },
