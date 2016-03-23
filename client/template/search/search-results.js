@@ -4,7 +4,6 @@ Template.searchResults.onRendered(function() {
     sessionVariableName = name + '.searchDefinition',
     previousSearch = Session.get(sessionVariableName);
 
-  console.log(previousSearch);
   if (previousSearch) {
     index.getComponentMethods().search(previousSearch);
     $('input.easysearch-input').val(previousSearch);
