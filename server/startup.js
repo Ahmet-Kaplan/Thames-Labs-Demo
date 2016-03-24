@@ -1,4 +1,5 @@
 Meteor.startup(function() {
+  process.setMaxListeners(0);
 
   if (Meteor.isDevelopment) {
     //Rewrite Email.send function to avoid displaying
