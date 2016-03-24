@@ -2,7 +2,7 @@ module.exports = function() {
 
   this.When(/^I sign up with good details$/, function() {
     browser.waitForExist('form#signUpForm', 2000);
-    browser.setValue('#company-name-field', 'Company Name');
+    browser.setValue('#company-name-field', 'Acme Corp');
     browser.setValue('#name-field', 'test user');
     browser.setValue('#email-field', 'test3@domain.com');
     browser.submitForm('form#signUpForm');

@@ -21,7 +21,6 @@ Meteor.methods({
     Activities.insert({
       type: "Note",
       notes: "Test contact activity",
-      notes: "Test contact activity",
       createdAt: new Date(),
       activityTimestamp: new Date(),
       primaryEntityId: entity._id,
@@ -223,8 +222,7 @@ Meteor.methods({
     return projectId;
   },
 
-  addDefaultProjectType: function() {
-    var userTenant = Tenants.findOne({});
+  addDefaultProjectType: function(tenantName) {
     var projectType = {
       id: 0,
       name: "Standard Project",
@@ -240,15 +238,14 @@ Meteor.methods({
     };
 
     Tenants.update({
-      _id: userTenant._id
+      name: tenantName,
     }, {
       $set: {
         "settings.project.types": [projectType]
       }
     });
   },
-  addLimitedProjectType: function() {
-    var userTenant = Tenants.findOne({});
+  addLimitedProjectType: function(tenantName) {
     var projectType = {
       id: 0,
       name: "Standard Project",
@@ -256,7 +253,7 @@ Meteor.methods({
     };
 
     Tenants.update({
-      _id: userTenant._id
+      name: tenantName,
     }, {
       $set: {
         "settings.project.types": [projectType]

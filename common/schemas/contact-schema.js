@@ -31,6 +31,7 @@ Schemas.Contact = new SimpleSchema({
   },
   companyId: {
     type: String,
+    label: "Company",
     optional: true
   },
   address: {

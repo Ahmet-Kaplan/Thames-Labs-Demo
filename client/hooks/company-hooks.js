@@ -14,6 +14,9 @@ AutoForm.hooks({
 
         FlowRouter.go('/companies/' + result);
       }
+    },
+    onError: function(formType, error) {
+      toastr.error('Company creation error: ' + error);
     }
   },
   editCompanyForm: {
@@ -35,6 +38,9 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide();
       toastr.success('Company details updated.');
+    },
+    onError: function(formType, error) {
+      toastr.error('Company update error: ' + error);
     }
   },
   removeCompanyForm: {
@@ -42,6 +48,9 @@ AutoForm.hooks({
       Modal.hide();
       toastr.success('Company removed.');
       FlowRouter.go('/companies');
+    },
+    onError: function(formType, error) {
+      toastr.error('Company delete error: ' + error);
     }
   }
 });

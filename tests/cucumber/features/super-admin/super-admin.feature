@@ -57,19 +57,3 @@ Feature: Superadmin can access special parts of the site
     And I set text field with id "tenantName" to "Velocity"
     And I click "#btnCreateTenant"
     Then I should see ".tenantListItemEntry"
-
-  Scenario: A super-admin can create a new tenant and add a user to it
-    Given a superadmin exists
-    And I am a logged in superadmin user
-    When I navigate to "/tenants"
-    And I click "#btnAddNewTenant"
-    And I set text field with id "tenantName" to "Velocity"
-    And I click "#btnCreateTenant"
-    Then I should see ".tenantListItemEntry"
-    Then I should see "#btnAddNewTenantUser"
-    And I click "#btnAddNewTenantUser"
-    And I set text field with id "userName" to "Link"
-    And I set text field with id "userEmail" to "link@hyrule"
-    And I set text field with id "userPassword" to "triforce"
-    And I click "#btnCreateTenantUser"
-    Then I should see ".tenantListUserItemEntry"

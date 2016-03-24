@@ -31,26 +31,32 @@ Schemas.Activity = new SimpleSchema({
   },
   companyId: {
     type: String,
+    label: 'Company',
     optional: true
   },
   contactId: {
     type: String,
+    label: 'Contact',
     optional: true
   },
   projectId: {
     type: String,
+    label: 'Project',
     optional: true
   },
   purchaseOrderId: {
     type: String,
+    label: 'Purchase Order',
     optional: true
   },
   opportunityId: {
     type: String,
+    label: 'Opportunity',
     optional: true
   },
   taskId: {
     type: String,
+    label: 'Task',
     optional: true
   },
   primaryEntityType: {

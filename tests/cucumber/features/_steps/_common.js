@@ -89,7 +89,7 @@ module.exports = function() {
       });
   });
 
-  this.Given(/^I (am a logged out user|log out)$/, function() {
+  this.Given(/^I (?:am a logged out user|log out)$/, function() {
     browser.executeAsync(logout);
   });
 
@@ -214,12 +214,6 @@ module.exports = function() {
   //This step is necessary when editing fields where maximum selection flexibility is required (e.g. tags)
   this.When(/^I set text field with selector "([^"]*)" to "([^"]*)"$/, function(selector, value) {
     browser.waitForExist(selector, 5000);
-    browser.setValue(selector, value);
-  });
-
-  //This step is necessary when editing fields where maximum selection flexibility is required (e.g. tags)
-  this.When(/^I set text field with selector "([^"]*)" to "([^"]*)"$/, function(selector, value) {
-    browser.waitForExist(selector, 5000);
     browser.waitForVisible(selector, 5000);
     browser.setValue(selector, value);
   });
@@ -294,7 +288,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should not see "([^"]*)"$/, function(id) {
-    expect(browser.isVisible(id)).toEqual(false);
+    expect(browser.isExisting(id)).toEqual(false);
   });
 
   this.Then(/^"([^"]*)" should be hidden$/, function(id) {
@@ -330,12 +324,6 @@ module.exports = function() {
       setTimeout(done, 1000);
     });
     expect(browser.isVisible('.modal-dialog')).toEqual(false);
-  });
-
-  this.Then(/^I should see the (tour|tutorial)$/, function() {
-    browser.waitForExist('.hopscotch-bubble-container', 5000);
-    browser.waitForVisible('.hopscotch-bubble-container', 5000);
-    expect(browser.isExisting('.hopscotch-bubble-container')).toEqual(true);
   });
 
   this.Then(/^"([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(selector, option, desiredText) {
