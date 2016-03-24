@@ -4,48 +4,44 @@ Template.opportunityList.onCreated(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
   });
 
-  // Search props
-  this.showArchived = new ReactiveVar(false);
-  this.sortByCloseDate = new ReactiveVar(false);
+  // Summary stats
   this.totalOpps = new ReactiveVar(0);
   this.archivedOpps = new ReactiveVar(0);
   this.totalOppValue = new ReactiveVar(0);
   this.averageOppValue = new ReactiveVar(0);
+
+  // Store search index dict on template to allow helpers to access
+  this.index = OpportunitiesIndex;
+
+  // Store search prop state - seems necessary as helpers can't access
+  // index.getComponentDict()
+  this.showArchived = new ReactiveVar(false);
+  this.sortByCloseDate = new ReactiveVar(false);
 });
 
 Template.opportunityList.onRendered(function() {
 
-  Session.set('oppsortByCloseDate', false);
-
-  // Update search props if reactive vars changed
+  // Update reactive vars if search props updated
   this.autorun(() => {
-    var searchComponent = OpportunitiesIndex.getComponentMethods();
-    if (this.showArchived.get()) {
-      searchComponent.addProps('showArchived', 'true');
-    } else {
-      searchComponent.removeProps('showArchived');
-    }
+    const searchComponent = this.index.getComponentDict(),
+          searchOptions = searchComponent.get('searchOptions'),
+          props = searchOptions.props ? searchOptions.props : {};
 
-    if (this.sortByCloseDate.get()) {
-      searchComponent.addProps('sortByCloseDate', 'true');
-    } else {
-      searchComponent.removeProps('sortByCloseDate');
-    }
+    this.showArchived.set(props.showArchived ? true : false);
+    this.sortByCloseDate.set(props.sortByCloseDate ? true : false);
   });
 
-  var template = this;
-
-  Meteor.call('report.numberOfOpportunities', function(err, data) {
-    template.totalOpps.set(data.Count);
+  Meteor.call('report.numberOfOpportunities', (err, data) => {
+    this.totalOpps.set(data.Count);
   });
-  Meteor.call('report.archivedOpportunities', function(err, data) {
-    template.archivedOpps.set(data.Count);
+  Meteor.call('report.archivedOpportunities', (err, data) => {
+    this.archivedOpps.set(data.Count);
   });
-  Meteor.call('report.valueOfOpportunities', function(err, data) {
-    template.totalOppValue.set(data.Value);
+  Meteor.call('report.valueOfOpportunities', (err, data) => {
+    this.totalOppValue.set(data.Value);
   });
-  Meteor.call('report.averageOpportunityValue', function(err, data) {
-    template.averageOppValue.set(data.Value);
+  Meteor.call('report.averageOpportunityValue', (err, data) => {
+    this.averageOppValue.set(data.Value);
   });
 
   $('[data-toggle="popover"]').popover({
@@ -57,7 +53,7 @@ Template.opportunityList.onRendered(function() {
 });
 
 Template.opportunityList.helpers({
-  archivedShown: function() {
+  showArchived: function() {
     return Template.instance().showArchived.get();
   },
   totalOpps: function() {
@@ -79,8 +75,12 @@ Template.opportunityList.helpers({
 
 Template.opportunityList.events({
   'click #toggle-close-sort': function(event, template) {
-    var currState = Template.instance().sortByCloseDate.get();
-    Template.instance().sortByCloseDate.set(!currState);
+    const indexMethods = Template.instance().index.getComponentMethods();
+    if (Template.instance().sortByCloseDate.get()) {
+      indexMethods.removeProps('sortByCloseDate');
+    } else {
+      indexMethods.addProps('sortByCloseDate', 'true');
+    }
     $(event.target).blur();
   },
   'click #create-opportunity': function(event) {
@@ -89,8 +89,12 @@ Template.opportunityList.events({
   },
   'click #toggle-archived': function(event) {
     event.preventDefault();
-    var showArchived = Template.instance().showArchived.get();
-    Template.instance().showArchived.set(!showArchived);
+    const indexMethods = Template.instance().index.getComponentMethods();
+    if (Template.instance().showArchived.get()) {
+      indexMethods.removeProps('showArchived');
+    } else {
+      indexMethods.addProps('showArchived', 'true');
+    }
     $(event.target).blur();
   },
   'click #export': function(event) {

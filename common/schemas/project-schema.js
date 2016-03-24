@@ -15,6 +15,7 @@ Schemas.Project = new SimpleSchema({
   companyId: {
     type: String,
     optional: true,
+    label: "Company",
     custom: function() {
       if (!this.isSet && !this.field('contactId').isSet) {
         return "needsRelatedEntity";
@@ -24,6 +25,7 @@ Schemas.Project = new SimpleSchema({
   contactId: {
     type: String,
     optional: true,
+    label: "Contact",
     custom: function() {
       if (!this.isSet && !this.field('companyId').isSet) {
         return "needsRelatedEntity";
@@ -35,7 +37,8 @@ Schemas.Project = new SimpleSchema({
     label: "Account Manager"
   },
   value: {
-    type: Number
+    type: Number,
+    decimal: true
   },
   active: {
     type: Boolean,
@@ -96,6 +99,7 @@ Schemas.Project = new SimpleSchema({
   },
   projectTypeId: {
     type: Number,
+    label: "Project Type",
     defaultValue: 0
   },
   projectMilestoneId: {
