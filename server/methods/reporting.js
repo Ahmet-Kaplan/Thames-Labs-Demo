@@ -1,17 +1,19 @@
 Meteor.methods({
   //Tasks
   'report.tasksCreated': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var taskData = Tasks.find({}).fetch();
       var data = {
         "CreatedTasks": (!Meteor.isDevelopment ? [] : taskData),
-        "Count": (taskData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (taskData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.tasksCompleted': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var taskData = Tasks.find({
         completed: {
           $eq: true
@@ -19,13 +21,15 @@ Meteor.methods({
       }).fetch();
       var data = {
         "CompletedTasks": (!Meteor.isDevelopment ? [] : taskData),
-        "Count": (taskData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (taskData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.tasksDueInTheNextWeek': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var startDate = moment();
       var endDate = moment(startDate).add(7, 'days');
 
@@ -37,13 +41,15 @@ Meteor.methods({
       }).fetch();
       var data = {
         "DueTasks": (!Meteor.isDevelopment ? [] : taskData),
-        "Count": (taskData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (taskData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.tasksOverdue': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var startDate = moment();
 
       var taskData = Tasks.find({
@@ -56,47 +62,55 @@ Meteor.methods({
       }).fetch();
       var data = {
         "OverdueTasks": (!Meteor.isDevelopment ? [] : taskData),
-        "Count": (taskData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (taskData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   //Companies
   'report.companiesStored': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var companyData = Companies.find({}).fetch();
       var data = {
         "StoredCompanies": (!Meteor.isDevelopment ? [] : companyData),
-        "Count": (companyData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (companyData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   //Contacts
   'report.contactsStored': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var contactData = Contacts.find({}).fetch();
       var data = {
         "StoredContacts": (!Meteor.isDevelopment ? [] : contactData),
-        "Count": (contactData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (contactData.length)
 
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   //Projects
   'report.numberOfProjects': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var projectData = Projects.find({}).fetch();
       var data = {
         "StoredProjects": (!Meteor.isDevelopment ? [] : projectData),
-        "Count": (projectData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (projectData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.activeProjects': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var projectData = Projects.find({
         active: {
           $eq: true
@@ -104,13 +118,15 @@ Meteor.methods({
       }).fetch();
       var data = {
         "ActiveProjects": (!Meteor.isDevelopment ? [] : projectData),
-        "Count": (projectData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (projectData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.projectValue': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var projectData = Projects.find({
         active: {
           $eq: true
@@ -128,10 +144,12 @@ Meteor.methods({
         "Value": value.toFixed(2)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.projectsAverage': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var projData = Projects.find({
         active: {
           $eq: true
@@ -155,33 +173,39 @@ Meteor.methods({
         "Value": "0.00"
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   //Opportunities
   'report.numberOfOpportunities': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var oppData = Opportunities.find({}).fetch();
       var data = {
-        "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (oppData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.archivedOpportunities': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var oppData = Opportunities.find({
         isArchived: {
           $eq: true
         }
       }).fetch();
       var data = {
-        "Count": (oppData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (oppData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.valueOfOpportunities': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var oppData = Opportunities.find({
         isArchived: {
           $ne: true
@@ -203,10 +227,12 @@ Meteor.methods({
         "Value": "0.00"
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.averageOpportunityValue': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var oppData = Opportunities.find({
         isArchived: {
           $ne: true
@@ -228,23 +254,27 @@ Meteor.methods({
         "Value": "0.00"
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
 
 
   //Products
   'report.numberOfProducts': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var productData = Products.find({}).fetch();
       var data = {
         "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
-        "Count": productData.length.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": productData.length
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.costOfProducts': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var productData = Products.find({}).fetch();
       var value = 0;
       _.each(productData, function(pd) {
@@ -256,10 +286,12 @@ Meteor.methods({
         "Value": value.toFixed(2)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.averageProductsCost': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var productData = Products.find({}).fetch();
       var value = 0;
       _.each(productData, function(pd) {
@@ -277,81 +309,95 @@ Meteor.methods({
         "Value": "0.00"
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   //Purchase Orders
   'report.numberOfPurchaseOrders': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var purchaseData = PurchaseOrders.find({}).fetch();
       var data = {
-        "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (purchaseData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.ApprovedPo': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var purchaseData = PurchaseOrders.find({
         status: {
           $eq: "Approved"
         }
       }).fetch();
       var data = {
-        "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (purchaseData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.ArrivedPo': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var purchaseData = PurchaseOrders.find({
         status: {
           $eq: "Arrived"
         }
       }).fetch();
       var data = {
-        "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (purchaseData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.ClosedPo': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var purchaseData = PurchaseOrders.find({
         status: {
           $eq: "Closed"
         }
       }).fetch();
       var data = {
-        "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (purchaseData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.CancelledPo': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var purchaseData = PurchaseOrders.find({
         status: {
           $eq: "Cancelled"
         }
       }).fetch();
       var data = {
-        "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (purchaseData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
   'report.RejectedPo': function() {
-    return Partitioner.bindUserGroup(this.userId, function() {
+    if (this.userId) {
       var purchaseData = PurchaseOrders.find({
         status: {
           $eq: "Rejected"
         }
       }).fetch();
       var data = {
-        "Count": (purchaseData.length).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        "Count": (purchaseData.length)
       }
       return data;
-    });
+    }else {
+      return;
+    }
   },
 });
