@@ -2,7 +2,8 @@
 
 const exec = require('child_process').exec,
 	path = require('path'),
-	extend = require('util')._extend;
+	extend = require('util')._extend,
+	processes = [];
 
 const meteorCommand = 'meteor --settings settings.json',
 	meteorProcessOptions = {
@@ -43,15 +44,14 @@ function startChimp() {
 	chimpProcess.stdout.pipe(process.stdout);
 	chimpProcess.stderr.pipe(process.stderr);
 	chimpProcess.on('close', function(code) {
-		if (code > 0) {
-			console.log(opts.name, 'exited with code ' + code);
-			process.exit(code);
-		} else {
-			callback();
+		console.log(opts.name, 'exited with code ' + code);
+		for (var i = 0; i < processes.length; i += 1) {
+			processes[i].kill();
 		}
+		exec('kill `ps ax | grep node | grep meteor | awk \'{print $1}\'`');
+		process.exit(code);
 	});
+	processes.push(proc);
 }
 
-startMeteor(startChimp(function() {
-	console.log('Completed.');
-}));
+startMeteor(startChimp());
