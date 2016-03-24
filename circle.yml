@@ -1,15 +1,21 @@
 machine:
-  environment:
-    SELENIUM_BROWSER: chrome
-    STRIPE_PK: pk_test_W7Cx4LDFStOIaJ2g5DufAIaE
-    STRIPE_SK: sk_test_CEgjj8xNKSrQMUrqC4puiHxA
+  java:
+    version: oraclejdk8
+  node:
+    version: 5.2.0
   post:
     - env
 dependencies:
   cache_directories:
+    - "node_modules"
     - "~/.npm"
+    - "~/_opt"
+    - ~/.meteor
   override:
+    - if [ -d ~/.meteor ]; then sudo ln -s ~/.meteor/meteor /usr/local/bin/meteor; fi
+    - if [ ! -e $HOME/.meteor/meteor ]; then curl https://install.meteor.com | sh; fi
     - npm install
+    - npm install glob
 test:
   override:
-    - npm run lint
+    - npm run circle  
