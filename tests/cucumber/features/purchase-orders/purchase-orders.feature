@@ -7,7 +7,7 @@ Feature: Allow users to manage their Purchase Orders
     Given a user exists
     And I am a logged in user
     And I have the "CanReadPurchaseOrders" permission
-    
+
   Scenario: A superadmin user can't visit the Purchase Orders list
     Given a superadmin exists
     And I am a logged out user
@@ -205,3 +205,16 @@ Feature: Allow users to manage their Purchase Orders
     And I set the filter to "Status:" then "Requested"
     Then I should see ".removeProp"
     And "#resultsCount" should say "1 record"
+
+  #Notifications
+  Scenario: A user should see a notification when status is set to "Approved"
+    Given I am on the pro plan
+    And I have the "CanEditPurchaseOrders" permission
+    And a "PurchaseOrder" has been created
+    And I click "#menuLinkPurchaseOrders"
+    And I click "#list-item"
+    And I click "#edit-purchase-order"
+    And I select "Approved" from dropdown field "status"
+    And I click "#update-purchase-order"
+    And I click "#notifications-menu"
+    Then I should see "#notification"
