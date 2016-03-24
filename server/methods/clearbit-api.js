@@ -1,4 +1,5 @@
 import url from 'url';
+import Future from 'fibers/future';
 
 Meteor.methods({
 
@@ -54,16 +55,14 @@ Meteor.methods({
     }
   },
 
-  'clearbit.getCompanyFromNameOrWebsite': function(queryString) {
+  'clearbit.getCompanyFromWebsite': function(queryString) {
     var clearbitApiKey = process.env.CLEARBIT_API_KEY;
 
     if (typeof clearbitApiKey === 'undefined') {
       throw new Meteor.Error(500, 'No clearbit API key set');
     }
 
-    const Discovery = clearbit(clearbitApiKey).Discovery;
     const Company = clearbit(clearbitApiKey).Company;
-    var Future = Npm.require('fibers/future');
     var clearbitData = new Future();
     var query = {};
     var domainRegex = new RegExp('^(https?\://)?(www\.)?[a-z0-9\.-]+\.[a-z]{2,4}/?$');
@@ -75,7 +74,6 @@ Meteor.methods({
     } 
     
     if(!!domainQuery && domainQuery.length > 0) {
-      console.log("domain match");
       Company.find({
           domain: domainQuery
       }).then(function(search) {
@@ -87,27 +85,8 @@ Meteor.methods({
         clearbitData.return(false);
       });
     } else {
-      console.log('name match');
-      Meteor.call('companiesHouse.search.companies', queryString, function(err, res) {
-        var results = {
-          total: res.data.total_results,
-          results: _.map(res.data.items, function(item, key) {
-            return {
-              id: key.toString(),
-              name: item.title.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}),
-              geo: {
-                streetName: item.address.address_line_1 + (item.address.address_line_2 ? ' ' + item.address.address_line_2 : ''),
-                city: item.address.locality,
-                postalCode: item.address.postal_code,
-                country: 'United Kingdom',
-              }
-            }
-          })
-        }
-        clearbitData.return(results);
-      })
+      clearbit.return(false); 
     }
-
 
     return clearbitData.wait();
   }

@@ -20,14 +20,53 @@ Template.insertNewCompanyModal.onRendered(function() {
       return;
     }
 
-    Meteor.call('clearbit.getCompanyFromNameOrWebsite', searchInput, (err, results) => {
-      if(results) {
-        console.log(results)
-        this.magicList.set(results);
-      }
-      this.showResultsList.set(true)
-      this.fetchingResults.set(false);
-    });
+    var domainRegex = new RegExp('^(https?\://)?(www\.)?[a-z0-9\.-]+\.[a-z]{2,4}/?$');
+    var domainQuery = null;
+
+    //If matches url regex, lookup for website
+    if(searchInput.match(domainRegex) !== null) {
+      var domainSplit = searchInput.replace(/https?\:\/\//, '').replace(/www\./, '').replace(' ', '').split('/');
+      domainQuery = domainSplit[0];
+    }
+    
+    if(!!domainQuery && domainQuery.length > 0) {
+      Meteor.call('clearbit.getCompanyFromWebsite', searchInput, (err, results) => {
+        if(results) {
+          this.magicList.set(results);
+        }
+        this.showResultsList.set(true);
+        this.fetchingResults.set(false);
+      });
+    //Otherwise, use the companies house API. Clearbit could be used in the future when we have more API Calls.
+    } else {
+      Meteor.call('companiesHouse.search.companies', searchInput, (err, res) => {
+        if(res) {
+          var ucAll = function(text) {
+            return _.map(text.split(' '), function(word){return _.capitalize(word.toLowerCase())}).join(' ');
+          }
+          var results = {
+            total: res.data.total_results,
+            results: _.map(res.data.items, function(item, key) {
+              return {
+                id: key.toString(),
+                name: ucAll(item.title),
+                geo: {
+                  streetName: ucAll(item.address.address_line_1) + (item.address.address_line_2 ? ' ' + ucAll(item.address.address_line_2) : ''),
+                  city: ucAll(item.address.locality),
+                  postalCode: item.address.postal_code,
+                  country: 'United Kingdom',
+                }
+              }
+            })
+          }
+        }
+        if(results) {
+          this.magicList.set(results);
+        }
+        this.showResultsList.set(true);
+        this.fetchingResults.set(false);
+      });
+    }
   }, 500);
 
 });
@@ -218,16 +257,16 @@ Template.companyFormDetails.onRendered(function() {
       this.showLocationSearch.set(false);
     }
     //If lat and lng available, display on map, otherwise trigger search using data provided
-    if(GoogleMaps.loaded() && companyData.geo && companyData.geo.lat && companyData.geo.lng) {
+    if(companyData.geo && companyData.geo.lat && companyData.geo.lng) {
       this.showMap.set(true);
     } else {
       var searchString = [];
-      searchString.push(companyData.streetNumber || '');
-      searchString.push(companyData.streetName || '');
-      searchString.push(companyData.city || '');
-      searchString.push(companyData.state || '');
-      searchString.push(companyData.postalCode || '');
-      searchString.push(companyData.country || '');
+      searchString.push(companyData.geo.streetNumber || '');
+      searchString.push(companyData.geo.streetName || '');
+      searchString.push(companyData.geo.city || '');
+      searchString.push(companyData.geo.state || '');
+      searchString.push(companyData.geo.postalCode || '');
+      searchString.push(companyData.geo.country || '');
 
       if(searchString.join(' ').trim() !== '') {
         this.showMap.set(true);
@@ -242,7 +281,6 @@ Template.companyFormDetails.onRendered(function() {
 
 Template.companyFormDetails.helpers({
   companyName: function() {
-    console.log(Template.instance().companyData.get());
     return Template.instance().companyData.get().name || '';
   },
   website: function() {
