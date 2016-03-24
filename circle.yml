@@ -12,7 +12,7 @@ dependencies:
     - "~/_opt"
     - ~/.meteor
   override:
-    - chmod +rwx ~/.scripts
+    - chmod +rwx ~/RealtimeCRM/.scripts
     - curl https://install.meteor.com | sh
     - npm install
     - npm install glob
