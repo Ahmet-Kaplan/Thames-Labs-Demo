@@ -29,7 +29,7 @@ Meteor.methods({
         }
       });
 
-    } else if (entityName === 'contact') {        
+    } else if (entityName === 'contact') {
         var contact = Contacts.findOne(entityId);
         var requestUrl = 'https://person-stream.clearbit.com/v1/people/email/' + contact.email;
         var authToken = "Bearer " + clearbitApiKey;

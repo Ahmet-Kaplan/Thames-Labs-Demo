@@ -17,9 +17,6 @@ AutoForm.hooks({
         FlowRouter.go('/purchaseorders/' + result);
 
       }
-    },
-    onError: function(formType, error) {
-      toastr.error('Purchase order creation error: ' + error);
     }
   },
   updatePurchaseOrderForm: {
