@@ -4,8 +4,8 @@
       <div class="col-md-1 text-muted" id="{{primaryEntityType}}ActivityDisplayItemType">
         <i class="fa fa-fw fa-{{listIcon type}}"></i> {{type}}
       </div>
-      <div class="col-md-4" id="{{primaryEntityType}}ActivityDisplayItemNotes">
-        {{{notes}}}
+      <div class="col-md-4 activityListDetailWrapper" id="{{primaryEntityType}}ActivityDisplayItemNotes">
+        {{strippedNotes}}
       </div>
       <div class="col-md-3 text-muted" id="{{primaryEntityType}}ActivityDisplayItemLink">
       {{#if primaryEntityId}}

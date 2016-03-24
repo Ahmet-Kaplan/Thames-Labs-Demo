@@ -146,7 +146,7 @@
   margin-top: 5px;
 }
 
-@media (max-width: 767px) {
+@media (max-width:767px) {
   ul.timeline:before {
     left: 40px;
   }
@@ -180,8 +180,15 @@
     left: -14px;
     right: auto;
   }
+
 }
 
 #no-activity {
   margin-bottom: 50px;
+}
+
+.activityDetailWrapper {
+  max-height: 200px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }

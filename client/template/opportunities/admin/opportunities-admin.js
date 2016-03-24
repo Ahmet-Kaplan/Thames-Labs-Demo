@@ -1,6 +1,22 @@
 Template.opportunityAdmin.helpers({
   stages: function() {
-    return Tenants.findOne({}).settings.opportunity.stages;
+    var currentStages = Tenants.findOne({}).settings.opportunity.stages.sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
+      return 0;
+    });
+
+    _.each(currentStages, function(cs, i) {
+      cs.order = i + 1;
+    });
+
+    Tenants.update(Meteor.user().group, {
+      $set: {
+        'settings.opportunity.stages': currentStages
+      }
+    });
+
+    return currentStages;
   },
   hasStages: function() {
     var userTenant = Tenants.findOne({});
@@ -30,12 +46,20 @@ Template.opportunityAdmin.events({
 
 Template.opportunityAdminStage.helpers({
   isFirstStage: function() {
-    var stages = Tenants.findOne({}).settings.opportunity.stages;
+    var stages = Tenants.findOne({}).settings.opportunity.stages.sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
+      return 0;
+    });
     if (_.findIndex(stages, this) === 0) return true;
     return false;
   },
   isLastStage: function() {
-    var stages = Tenants.findOne({}).settings.opportunity.stages;
+    var stages = Tenants.findOne({}).settings.opportunity.stages.sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
+      return 0;
+    });
     var maxVal = stages.length - 1;
     if (_.findIndex(stages, this) == maxVal) return true;
     return false;
@@ -45,21 +69,21 @@ Template.opportunityAdminStage.helpers({
 Template.opportunityAdminStage.events({
   'click .orderUp': function(event) {
     event.preventDefault();
-
+    var stageId = this.id;
     if (!isProTenant(Meteor.user().group)) {
       showUpgradeToastr('To edit the order of your opportunity stages');
       return;
     }
-
-    Meteor.call('changeStageOrder', this.id, "up");
+    Meteor.call('changeStageOrder', stageId, "up", this.order);
   },
   'click .orderDown': function(event) {
     event.preventDefault();
+    var stageId = this.id;
     if (!isProTenant(Meteor.user().group)) {
       showUpgradeToastr('To edit the order of your opportunity stages');
       return;
     }
-    Meteor.call('changeStageOrder', this.id, "down");
+    Meteor.call('changeStageOrder', stageId, "down", this.order);
   },
   'click #btnEdit': function(event) {
     event.preventDefault();

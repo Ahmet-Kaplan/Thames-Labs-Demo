@@ -68,6 +68,7 @@ Template.taskList.events({
     if(searchProp === Meteor.userId()) {
       TasksIndex.getComponentMethods().removeProps('assignee');
     } else {
+      TasksIndex.getComponentMethods().removeProps('assignee');
       TasksIndex.getComponentMethods().addProps('assignee', Meteor.userId());
     }
     $(event.target).blur();

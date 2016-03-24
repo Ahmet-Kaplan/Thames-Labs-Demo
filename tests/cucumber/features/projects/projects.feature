@@ -208,7 +208,7 @@ Feature: Allow users to manage their Projects
     Then I should see ".custom-field-display-item"
 
 
-  Scenario: A user can delete an custom field
+  Scenario: A user can delete a custom field
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
     When I navigate to a project page
@@ -218,7 +218,9 @@ Feature: Allow users to manage their Projects
     And I click "#submit-custom-field"
     And I click "#delete-custom-field"
     And I click confirm on the modal
-    Then I should not see ".custom-field-display-item"
+    Then I should not see a modal
+    And I should not see ".custom-field-display-item"
+    And I should see a "success" toastr with the message "Custom field removed."
 
 
   Scenario: A user can edit an custom field
