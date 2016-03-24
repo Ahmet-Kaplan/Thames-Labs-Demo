@@ -10,6 +10,9 @@ Template.purchaseOrderList.onCreated(function() {
   });
   Session.set("showItems", false);
 
+  // Store search index dict on template to allow helpers to access
+  this.index = PurchaseOrdersIndex;
+
   this.showClosed = new ReactiveVar(false);
   this.totalPurchaseOrders = new ReactiveVar(0);
   this.totalApprovedPo = new ReactiveVar(0);
@@ -34,12 +37,11 @@ Template.purchaseOrderList.onRendered(function() {
   }
 
   this.autorun(() => {
-    var searchComponent = PurchaseOrdersIndex.getComponentMethods();
-    if (this.showClosed.get()) {
-      searchComponent.addProps('showClosed', 'true');
-    } else {
-      searchComponent.removeProps('showClosed');
-    }
+    const searchComponent = this.index.getComponentDict(),
+      searchOptions = searchComponent.get('searchOptions'),
+      props = searchOptions.props ? searchOptions.props : {};
+
+    this.showClosed.set(props.showClosed ? true : false);
   });
 
   Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
@@ -115,8 +117,12 @@ Template.purchaseOrderList.events({
   },
   'click #toggle-closed': function(event) {
     event.preventDefault();
-    var showClosed = Template.instance().showClosed.get();
-    Template.instance().showClosed.set(!showClosed);
+    const indexMethods = Template.instance().index.getComponentMethods();
+    if (Template.instance().showClosed.get()) {
+      indexMethods.removeProps('showClosed');
+    } else {
+      indexMethods.addProps('showClosed', 'true');
+    }
     $(event.target).blur();
   },
 });
