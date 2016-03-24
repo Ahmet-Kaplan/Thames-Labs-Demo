@@ -1,9 +1,7 @@
 <template name="companyDataManagement">
-  <button type="button" class="btn btn-default" data-toggle="dropdown" >
-    <i class="fa fa-fw fa-upload"></i>
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
+    <li>
+  <a data-toggle="dropdown" >Import<span class="caret"></span></a>
+  <ul class="dropdown-menu pull-right" role="menu">
     <li><a href="#" id="company-data-upload-link">Import from CSV</a></li>
     <li class="divider"></li>
     <li><a href="#" id="company-template-help">How does this work?</a></li>
@@ -12,6 +10,7 @@
   {{#if CompanyImportInProgress}}
       <span class="label label-sm label-info">Import in progress, do not leave this page whilst this message is displayed.</span>
   {{/if}}
+  </li>
 </template>
 
 <template name="importCompanyMapper">

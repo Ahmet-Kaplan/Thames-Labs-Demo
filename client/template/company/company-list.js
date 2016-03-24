@@ -7,10 +7,16 @@ Template.companyList.onCreated(function() {
 
 Template.companyList.helpers({
   companyCount: function() {
-    return CompaniesIndex.getComponentDict().get('count');
+      
+    this.autorun(function() {
+        return Collections['companies'].index.getComponentDict().get('count');
+    });
   },
   hasMultipleCompanies: function() {
-    return CompaniesIndex.getComponentDict().get('count') !== 1;
+      
+    this.autorun(function() {
+        return Collections['companies'].index.getComponentDict().get('count') !== 1;
+    });
   }
 });
 
