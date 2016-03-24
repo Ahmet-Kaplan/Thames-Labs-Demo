@@ -17,13 +17,15 @@ In one terminal:
 npm start
 ```
 
-In another terminal:
+If you want tests, run the following in another terminal to automatically run any @dev tagged features:
 
 ```
 npm run watch
 ```
 
 ## Full test run
+
+*Before beginning a full test run do `meteor reset` to clear the database - this is a consequence of our tests having been designed to run in the isolated velocity mirror DB. We should fix this so they can coincide, but it hasn't been done yet*
 
 Start a dev server with `npm start` then 
 
