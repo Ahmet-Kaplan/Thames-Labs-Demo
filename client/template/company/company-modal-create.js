@@ -22,6 +22,7 @@ Template.insertNewCompanyModal.onRendered(function() {
 
     Meteor.call('clearbit.getCompanyFromNameOrWebsite', searchInput, (err, results) => {
       if(results) {
+        console.log(results)
         this.magicList.set(results);
       }
       this.showResultsList.set(true)
@@ -241,6 +242,7 @@ Template.companyFormDetails.onRendered(function() {
 
 Template.companyFormDetails.helpers({
   companyName: function() {
+    console.log(Template.instance().companyData.get());
     return Template.instance().companyData.get().name || '';
   },
   website: function() {

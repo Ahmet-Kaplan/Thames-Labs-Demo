@@ -62,26 +62,52 @@ Meteor.methods({
     }
 
     const Discovery = clearbit(clearbitApiKey).Discovery;
+    const Company = clearbit(clearbitApiKey).Company;
     var Future = Npm.require('fibers/future');
     var clearbitData = new Future();
     var query = {};
-    var url = Meteor.npmRequire('url');
     var domainRegex = new RegExp('^(https?\://)?(www\.)?[a-z0-9\.-]+\.[a-z]{2,4}/?$');
     var domainQuery = null;
 
-    if(queryString.match(domainRegex) !== null && url.parse(queryString).host) {
-      domainQuery = url.parse(queryString).host.trim();
+    if(queryString.match(domainRegex) !== null) {
+      var domainSplit = queryString.replace(/https?\:\/\//, '').replace(/www\./, '').replace(' ', '').split('/');
+      domainQuery = domainSplit[0]
     } 
     
     if(!!domainQuery && domainQuery.length > 0) {
-      query.domain = domainQuery;
+      console.log("domain match");
+      Company.find({
+          domain: domainQuery
+      }).then(function(search) {
+        clearbitData.return({
+          total: 1,
+          results: [search]
+        });
+      }).catch(function(err) {
+        clearbitData.return(false);
+      });
     } else {
-      query.name = queryString;
+      console.log('name match');
+      Meteor.call('companiesHouse.search.companies', queryString, function(err, res) {
+        var results = {
+          total: res.data.total_results,
+          results: _.map(res.data.items, function(item, key) {
+            return {
+              id: key.toString(),
+              name: item.title.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}),
+              geo: {
+                streetName: item.address.address_line_1 + (item.address.address_line_2 ? ' ' + item.address.address_line_2 : ''),
+                city: item.address.locality,
+                postalCode: item.address.postal_code,
+                country: 'United Kingdom',
+              }
+            }
+          })
+        }
+        clearbitData.return(results);
+      })
     }
 
-    Discovery.search({query}).then(function(search) {
-      clearbitData.return(search);
-    });
 
     return clearbitData.wait();
   }
