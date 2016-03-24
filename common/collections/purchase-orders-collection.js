@@ -175,6 +175,16 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
         };
       }
 
+      if (options.search.props.showClosed) {
+        selector.status = {
+          $in: ['Closed', 'Cancelled']
+        };
+      } else {
+        selector.status = {
+          $nin: ['Closed', 'Cancelled']
+        };
+      }
+
       if (options.search.props.sequencedIdentifier) {
         selector.sequencedIdentifier = options.search.props.sequencedIdentifier;
       }

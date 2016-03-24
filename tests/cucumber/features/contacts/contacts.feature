@@ -194,6 +194,7 @@ Feature: Allow users to manage their Contacts
     And I click "#submit-custom-field"
     Then I click "#delete-custom-field"
     Then I click confirm on the modal
+    Then I should not see a modal
     Then I should not see ".custom-field-display-item"
 
   Scenario: A user can edit a custom field

@@ -3,7 +3,15 @@ Template.projectsList.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadProjects');
   });
+
+  // Store search index dict on template to allow helpers to access
+  this.index = ProjectsIndex;
+
+  // Store search prop state - seems necessary as helpers can't access
+  // index.getComponentDict()
   this.showArchived = new ReactiveVar(false);
+
+  // Summary stats
   this.totalProjects = new ReactiveVar(0);
   this.activeProjects = new ReactiveVar(0);
   this.projectTotal = new ReactiveVar(0);
@@ -11,6 +19,7 @@ Template.projectsList.onCreated(function() {
 });
 
 Template.projectsList.onRendered(function() {
+
   // Watch for session variable setting search
   Session.set('projectListSearchQuery', null);
   Tracker.autorun(function() {
@@ -21,29 +30,26 @@ Template.projectsList.onRendered(function() {
     }
   });
 
-  // Update search props if reactive vars changed
-  this.autorun( () => {
-    var searchComponent = ProjectsIndex.getComponentMethods();
-    if (this.showArchived.get()) {
-      searchComponent.addProps('showArchived', 'true');
-    } else {
-      searchComponent.removeProps('showArchived');
-    }
+  // Update reactive vars if search props updated
+  this.autorun(() => {
+    const searchComponent = this.index.getComponentDict(),
+          searchOptions = searchComponent.get('searchOptions'),
+          props = searchOptions.props ? searchOptions.props : {};
+
+    this.showArchived.set(props.showArchived ? true : false);
   });
 
-  var template = this;
-
-  Meteor.call('report.numberOfProjects', function(err, data) {
-    template.totalProjects.set(data.Count);
+  Meteor.call('report.numberOfProjects', (err, data) => {
+    this.totalProjects.set(data.Count);
   });
-  Meteor.call('report.activeProjects', function(err, data) {
-    template.activeProjects.set(data.Count);
+  Meteor.call('report.activeProjects', (err, data) => {
+    this.activeProjects.set(data.Count);
   });
-  Meteor.call('report.projectValue', function(err, data) {
-    template.projectTotal.set(data.Value);
+  Meteor.call('report.projectValue', (err, data) => {
+    this.projectTotal.set(data.Value);
   });
-  Meteor.call('report.projectsAverage', function(err, data) {
-    template.projectsAverage.set(data.Value);
+  Meteor.call('report.projectsAverage', (err, data) => {
+    this.projectsAverage.set(data.Value);
   });
 
   $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: '#btn-popover'});
@@ -75,8 +81,12 @@ Template.projectsList.events({
   },
   'click #toggle-archived': function(event) {
     event.preventDefault();
-    var showArchived = Template.instance().showArchived.get();
-    Template.instance().showArchived.set(!showArchived);
+    const indexMethods = Template.instance().index.getComponentMethods();
+    if (Template.instance().showArchived.get()) {
+      indexMethods.removeProps('showArchived');
+    } else {
+      indexMethods.addProps('showArchived', 'true');
+    }
     $(event.target).blur();
   }
 });

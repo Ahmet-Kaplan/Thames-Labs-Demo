@@ -13,6 +13,9 @@ AutoForm.hooks({
 
         FlowRouter.go('/contacts/' + result);
       }
+    },
+    onError: function(formType, error) {
+      toastr.error('Contact creation error: ' + error);
     }
   },
   insertCompanyContactForm: {
@@ -27,6 +30,9 @@ AutoForm.hooks({
           return false;
         }
       }
+    },
+    onError: function(formType, error) {
+      toastr.error('Contact creation error: ' + error);
     }
   },
   editContactForm: {
@@ -48,6 +54,9 @@ AutoForm.hooks({
     onSuccess: function() {
       Modal.hide();
       toastr.success('Contact details updated.');
+    },
+    onError: function(formType, error) {
+      toastr.error('Contact update error: ' + error);
     }
   }
 });
