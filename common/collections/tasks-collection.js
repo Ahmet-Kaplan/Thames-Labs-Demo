@@ -113,10 +113,10 @@ Collections.tasks.filters = {
       }
 
       //Edge case: to avoid conflict, remove dueDate if set
-      if (Collections.tasks.index.getComponentDict().get('searchOptions').props.after) {
+      if (Collections.tasks.index.getComponentDict().get('searchOptions').props && Collections.tasks.index.getComponentDict().get('searchOptions').props.after) {
         Collections.tasks.index.getComponentMethods().removeProps('after');
       }
-      if (Collections.tasks.index.getComponentDict().get('searchOptions').props.before) {
+      if (Collections.tasks.index.getComponentDict().get('searchOptions').props && Collections.tasks.index.getComponentDict().get('searchOptions').props.before) {
         Collections.tasks.index.getComponentMethods().removeProps('before');
       }
       return true;
