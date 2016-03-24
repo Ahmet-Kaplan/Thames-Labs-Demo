@@ -62,7 +62,6 @@ kadira:flow-router
 kadira:blaze-layout
 aldeed:template-extension
 reactive-var
-meteorhacks:npm
 csauer:accounts-phony
 mrgalaxy:stripe
 copleykj:tagstripper
@@ -80,7 +79,6 @@ random
 ejson
 spacebars
 check
-npm-container
 dburles:google-maps
 ecmascript
 flowkey:hotkeys
@@ -110,3 +108,5 @@ standard-minifier-css
 standard-minifier-js
 templating
 fixtures
+
+

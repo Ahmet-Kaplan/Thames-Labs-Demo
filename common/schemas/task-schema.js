@@ -49,7 +49,8 @@ Schemas.Task = new SimpleSchema({
     label: 'Due all day'
   },
   assigneeId: {
-    type: String
+    type: String,
+    label: 'Assignee'
   },
   completed: {
     type: Boolean,

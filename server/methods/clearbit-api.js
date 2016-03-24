@@ -1,3 +1,5 @@
+import url from 'url';
+
 Meteor.methods({
 
   getClearbitData: function(entityName, entityId) {
@@ -7,7 +9,6 @@ Meteor.methods({
     }
 
     if (entityName === 'company') {
-      var url = Meteor.npmRequire('url');
       var company = Companies.findOne(entityId);
       var domain = url.parse(company.website).hostname;
       var requestUrl = 'https://company-stream.clearbit.com/v1/companies/domain/' + domain;
@@ -28,8 +29,7 @@ Meteor.methods({
         }
       });
 
-    } else if (entityName === 'contact') {
-        var url = Meteor.npmRequire('url');
+    } else if (entityName === 'contact') {        
         var contact = Contacts.findOne(entityId);
         var requestUrl = 'https://person-stream.clearbit.com/v1/people/email/' + contact.email;
         var authToken = "Bearer " + clearbitApiKey;
