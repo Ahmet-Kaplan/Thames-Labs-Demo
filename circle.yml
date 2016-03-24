@@ -16,6 +16,6 @@ test:
   override:
     - npm run lint
     - npm test:
-      environment:
-        STRIPE_PK: "pk_test_W7Cx4LDFStOIaJ2g5DufAIaE"
-        STRIPE_SK: "sk_test_CEgjj8xNKSrQMUrqC4puiHxA"
+        environment:
+          STRIPE_PK: "pk_test_W7Cx4LDFStOIaJ2g5DufAIaE"
+          STRIPE_SK: "sk_test_CEgjj8xNKSrQMUrqC4puiHxA"
