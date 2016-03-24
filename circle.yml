@@ -12,7 +12,7 @@ dependencies:
     - "~/_opt"
     - ~/.meteor
   override:
-    - chmod +r .scripts
+    - chmod +rwx ~/.scripts
     - curl https://install.meteor.com | sh
     - npm install
     - npm install glob
