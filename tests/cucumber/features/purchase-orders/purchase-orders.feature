@@ -218,3 +218,28 @@ Feature: Allow users to manage their Purchase Orders
     And I click "#update-purchase-order"
     And I click "#notifications-menu"
     Then I should see "#notification"
+
+  Scenario: A user should see a notification when status is set to "Approved"
+    Given I am on the pro plan
+    And I have the "CanEditPurchaseOrders" permission
+    And a "PurchaseOrder" has been created
+    And I click "#menuLinkPurchaseOrders"
+    And I click "#list-item"
+    And I click "#edit-purchase-order"
+    And I select "Rejected" from dropdown field "status"
+    And I click "#update-purchase-order"
+    And I click "#notifications-menu"
+    Then I should see "#notification"
+
+  Scenario: A user can remove a notification
+  Given I am on the pro plan
+  And I have the "CanEditPurchaseOrders" permission
+  And a "PurchaseOrder" has been created
+  And I click "#menuLinkPurchaseOrders"
+  And I click "#list-item"
+  And I click "#edit-purchase-order"
+  And I select "Rejected" from dropdown field "status"
+  And I click "#update-purchase-order"
+  And I click "#notifications-menu"
+  And I click "#notification"
+  And I click "#removeNotification"
