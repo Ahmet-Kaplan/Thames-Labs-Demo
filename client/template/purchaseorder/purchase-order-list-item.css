@@ -8,9 +8,9 @@
 	padding-left: 20px;
 	background-color: #F5F5F5;
 }
-#po-list-item {
-	padding-bottom: 2px;	
+.po-list-item {
+	padding-bottom: 2px;
 }
-#po-list-item-item {
+.po-list-item-item {
 	padding-bottom: 5px;
 }
