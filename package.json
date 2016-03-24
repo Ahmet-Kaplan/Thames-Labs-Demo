@@ -6,13 +6,15 @@
     "test": "tests"
   },
   "dependencies": {
-    "chimp": "^0.30.0",
-    "eslint": "^1.10.3",
     "multer": "^1.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chimp": "^0.30.0",
+    "eslint": "^1.10.3"
+  },
   "scripts": {
     "start": "STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA meteor --settings settings.json",
+    "prestart": "npm install",
     "test": "chimp --ddp=http://localhost:3000 --path=tests/cucumber",
     "pretest": "npm run lint",
     "watch": "chimp --watch --ddp=http://localhost:3000 --path=tests/cucumber",
