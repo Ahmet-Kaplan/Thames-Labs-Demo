@@ -20,7 +20,7 @@
     "deploy": "modulus deploy --project-name realtimecrm --include-modules",
     "predeploy": "npm install",
     "lint": "eslint .",
-    "circle": ".scripts/start.js"
+    "circle": "chmod +x .scripts/start.js && .scripts/start.js"
   },
   "repository": {
     "type": "git",

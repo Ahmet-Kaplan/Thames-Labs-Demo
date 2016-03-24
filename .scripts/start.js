@@ -51,7 +51,7 @@ function startChimp() {
 		exec('kill `ps ax | grep node | grep meteor | awk \'{print $1}\'`');
 		process.exit(code);
 	});
-	processes.push(proc);
+	processes.push(chimpProcess);
 }
 
 startMeteor(startChimp());
