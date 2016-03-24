@@ -37,11 +37,9 @@ function startMeteor() {
 			chimpProcess.stdout.pipe(process.stdout);
 			chimpProcess.stderr.pipe(process.stderr);
 			chimpProcess.on('close', function(code) {
-				console.log(opts.name, 'exited with code ' + code);
 				for (var i = 0; i < processes.length; i += 1) {
 					processes[i].kill();
 				}
-				exec('kill `ps ax | grep node | grep meteor | awk \'{print $1}\'`');
 				process.exit(code);
 			});
 			processes.push(chimpProcess);
