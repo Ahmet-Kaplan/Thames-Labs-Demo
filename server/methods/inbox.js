@@ -1,4 +1,4 @@
-var multer = Meteor.npmRequire('multer');
+import multer from 'multer';
 var upload = multer();
 
 Picker

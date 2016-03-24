@@ -37,7 +37,7 @@ Template.activityListItem.onCreated(function() {
 });
 
 Template.activityListItem.helpers({
-  strippedNotes: function(){
+  strippedNotes: function() {
     return TagStripper.strip(this.notes);
   },
   fromNow: function(date) {

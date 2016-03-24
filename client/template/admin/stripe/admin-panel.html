@@ -25,11 +25,7 @@
           <div class="col-xs-5"><strong>Coupon</strong></div>
           <div class="col-xs-7" id="couponDisplay">
             {{#if couponLoaded}}
-              {{#if hasCoupon}}
-                {{hasCoupon}} - <a href="" id="updateCoupon">Edit</a>
-                {{else}}
-                No active coupon - <a href="" id="updateCoupon">Add</a>
-              {{/if}}
+              <span id="couponText">{{#if hasCoupon}}{{hasCoupon}}{{else}}No active coupon{{/if}}</span> - <a href="" id="updateCoupon">Edit</a>
               {{else}}
               <em>Loading...</em>
             {{/if}}

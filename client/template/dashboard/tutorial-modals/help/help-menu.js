@@ -11,7 +11,7 @@ Template.help.onRendered(function() {
 
 Template.help.events({
   'click #close': function(event, template) {
-    delete lastTutorial;
+    lastTutorial = null;
   },
   'click #first-run-tour': function(event, template) {
     Modal.hide();

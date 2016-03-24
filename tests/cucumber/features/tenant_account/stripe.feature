@@ -29,8 +29,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a bootbox
     Then I should see a modal with title "Subscription complete"
     When I click confirm on the modal
-    Then the Stripe field "#planName" should not contain "Free"
-    #Then delete stripe customer
+    Then the Stripe field "#planName" should say "Paying Plan"
 
   Scenario: An administrator can unsubscribe from the Paying scheme
     Given I have subscribed to the paying plan
@@ -44,7 +43,6 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a modal with title "Subscription updated"
     When I click confirm on the modal
     Then the Stripe field "#planName" should say "Free Plan"
-    #Then delete stripe customer
 
   Scenario: An administrator can resume to the Paying scheme
     Given I have subscribed to the paying plan
@@ -57,8 +55,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a toastr with the message containing "Resuming your subscription..."
     Then I should see a bootbox
     When I click confirm on the modal
-    Then the Stripe field "#planName" should not contain "Free"
-    #Then delete stripe customer
+    Then the Stripe field "#planName" should say "Paying Plan"
 
   Scenario: An administrator can update its card details
     Given I have subscribed to the paying plan
@@ -73,7 +70,6 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a toastr with the message containing "Validating your card details..."
     Then I should see a "success" toastr with the message "Your card details have been updated."
     Then the Stripe field "#cardExpYear" should say "2022"
-    #Then delete stripe customer
 
   Scenario: An administrator can update its email for invoices
     Given I have subscribed to the paying plan
@@ -85,7 +81,6 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a toastr with the message containing "Processing your email update"
     Then I should see a "success" toastr with the message "Your email hase been changed: newemail@domain.com"
     Then the Stripe field "#stripeEmail" should say "newemail@domain.com"
-    #Then delete stripe customer
 
   Scenario: An administrator can add a coupon before subscribing
     When I navigate to "/admin"
@@ -93,7 +88,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a modal
     When I set text field with id "couponName" to "chamber"
     When I click "#setCoupon"
-    Then the Stripe field "#couponDisplay" should not contain "No active coupon"
+    Then the Stripe field "#couponText" should say "chamber: 50 % off"
     When I click "#upScheme"
     Then I should see a modal
     When I set text field with id "cardNumber" to "4242424242424242"
@@ -105,8 +100,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a bootbox
     Then I should see a modal with title "Subscription complete"
     When I click confirm on the modal
-    Then the Stripe field "#planName" should not contain "Free"
-    #Then delete stripe customer
+    Then the Stripe field "#planName" should say "Paying Plan"
 
   Scenario: An administrator cannot add a fake coupon
     When I navigate to "/admin"

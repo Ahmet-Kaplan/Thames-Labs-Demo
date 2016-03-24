@@ -5,7 +5,7 @@ module.exports = function() {
       .executeAsync(function(done) {
         Stripe.card.createToken({
           number: '4242424242424242',
-          exp_month: 01,
+          exp_month: '01',
           exp_year: 2022,
           cvc: '123',
           name: 'Test Smith'
@@ -39,7 +39,7 @@ module.exports = function() {
 
   this.Then(/^I should see a bootbox$/, function() {
     browser
-      .executeSync(function() {
+      .execute(function() {
         Modal.hide();
       });
     browser.waitForExist('.bootbox-body', 20000);
@@ -49,22 +49,9 @@ module.exports = function() {
 
   this.Then(/^the Stripe field "([^"]*)" should say "([^"]*)"$/, function(field, desiredText) {
     browser.waitForExist(field, 5000);
-    browser
-      .waitUntilSync(function() {
-        return this.getText(field).then(function(text) {
-          return text === desiredText;
-        });
-      }, 10000);
-  });
-
-  this.Then(/^the Stripe field "([^"]*)" should not contain "([^"]*)"$/, function(field, desiredText) {
-    browser.waitForExist(field, 5000);
-    browser
-      .waitUntilSync(function() {
-        return this.getText(field).then(function(text) {
-          return text.indexOf(desiredText) === -1;
-        });
-      }, 10000);
+    browser.waitUntil( function() {
+      return this.getText(field) === desiredText;
+    });
   });
 
   this.Then(/^delete stripe customer$/, function() {

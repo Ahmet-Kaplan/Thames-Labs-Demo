@@ -4,10 +4,6 @@ module.exports = function() {
     browser.waitForExist('form#at-pwd-form');
   });
 
-  this.When(/^I can see the login form$/, function() {
-    browser.waitForExist('form#at-pwd-form');
-  });
-
   this.When(/^I enter good credentials into the login form$/, function() {
     browser.waitForExist('#at-pwd-form', 2000);
     browser.setValue('#at-field-email', 'test@domain.com');
