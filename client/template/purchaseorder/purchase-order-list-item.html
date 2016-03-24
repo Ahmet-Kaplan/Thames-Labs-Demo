@@ -1,5 +1,5 @@
 <template name="purchaseOrderListItem">
-  <a class="list-group-item" href="{{pathFor route='purchaseOrder' id=__originalId}}" id="list-item">
+  <a class="list-group-item po-list-item" href="{{pathFor route='purchaseOrder' id=__originalId}}" id="list-item">
     <div class="row">
       <div class="col-md-3">
         <h4 class="list-group-item-heading">{{description}}</h4>
@@ -27,30 +27,28 @@
         {{> tagBadges tags=tags index=index}}
       </div>
     </div>
-    {{#if showItems}}
-      <div class="row items-sep">
-        <div class="col-md-12">
-          <small class="FadedText">Items</small> 
-
-          {{#each items}}
-            <div class="row">
-              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                {{description}}
+      {{#if showItems}}
+        <div class="row items-sep">
+          <div class="col-md-12">
+            <small class="FadedText">Items</small>
+            {{#each items}}
+              <div class="row po-list-item-item">
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                  {{description}}
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 FadedText">
+                  Product Code: {{code}}
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 FadedText">
+                  Quantity: {{quantity}}
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 FadedText">
+                  Total Price: {{decimal price}}
+                </div>
               </div>
-              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 FadedText">
-                Product Code: {{code}}
-              </div>
-              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 FadedText">
-                Quantity: {{quantity}}
-              </div>
-              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 FadedText">
-                Total Price: {{decimal price}}
-              </div>
-            </div>
-          {{/each}}
-
+            {{/each}}
+          </div>
         </div>
-      </div>
     {{/if}}
   </a>
 </template>

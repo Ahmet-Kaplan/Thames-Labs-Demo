@@ -3,3 +3,6 @@
 packages/
 public/vendor/
 tests/cucumber/node_modules/
+
+# Imports Tawk_API which causes linting errors
+client/layout/main/main.js

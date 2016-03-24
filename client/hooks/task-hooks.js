@@ -29,6 +29,9 @@ AutoForm.hooks({
       Modal.hide();
       toastr.success('Task created.');
       FlowRouter.go('/tasks/' + result);
+    },
+    onError: function(formType, error) {
+      toastr.error('Task creation error: ' + error);
     }
   },
   editTaskForm: {
@@ -57,6 +60,9 @@ AutoForm.hooks({
       $('input[name=dueDate]').data("DateTimePicker").hide();
       Modal.hide();
       toastr.success('Task updated.');
+    },
+    onError: function(formType, error) {
+      toastr.error('Task update error: ' + error);
     }
   }
 })

@@ -23,12 +23,9 @@ Feature: Restrict free users from certain features
     And I click "#createCustomField"
     Then I should see a "warning" toastr
 
-  Scenario: A free user should not be able to view legal information
-    Given I have the "CanReadCompanies" permission
-    And a "Company" has been created
-    And I navigate to a company page
-    And I click "#legal-info"
-    Then I should see a "warning" toastr
+  # There was a test for companies house "legal information" but since this relies on
+  # an entered company matching on an external API it was removed
+  # Possibly we should rework the restriction so something is visible even if no result matches
 
   Scenario: A free user should not be able to access the event log
     Given I have the "CanReadEventLog" permission
