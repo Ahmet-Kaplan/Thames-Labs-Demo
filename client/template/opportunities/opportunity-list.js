@@ -53,7 +53,7 @@ Template.opportunityList.onRendered(function() {
   $('[data-toggle="popover"]').popover({
     html: true,
     placement: "bottom",
-    container: '#btn-popover'
+    container: '.list-header-right'
   });
 
 });

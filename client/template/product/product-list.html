@@ -1,49 +1,48 @@
 <template name="productList">
 
   {{setPageTitle 'Products'}}
-
-  <h1><i class="fa fa-fw fa-barcode"></i> Products</h1>
-
-  <!-- This should probably be refactored into a "search toolbar" template -->
-
-  <div class="row">
-    <div class="col-md-12">
-      {{#if isInRole 'CanCreateProducts'}}
-        <a class="btn btn-primary" id="add-product" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-plus"></i> Add product</a>
-      {{/if}}
-      <div class="btn-group" role="group" id="btn-popover">
-        <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
-        <button id="ref_productsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Products Overview" data-content="<div id='productOverviewPop'>
-        <table class='table table-no-border'>
-          <tbody>
-            <tr>
-              <td>Products:</td>
-              <td class='text-right'>{{totalProducts}}</td>
-            </tr>
-            <tr>
-              <td>Total cost:</td>
-              <td class='text-right'>{{decimal totalProductsCost}}</td>
-            </tr>
-            <tr>
-              <td>Average cost:</td>
-              <td class='text-right'>{{decimal averageProductsCost}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>">
-        <i class="fa fa-fw fa-tasks"></i></button>
+  
+  
+  <div class="row list-header">
+      <div class="col-md-5">
+        <h1>Products</h1>
+        <p class="list-header-subtitle">{{productCount}} record{{#if hasMultipleProducts}}s{{/if}}</p>
       </div>
-    </div>
-  </div>
-
-  <div class="stick-bar-placeholder"></div>
-  <div class="stick-bar">
-    <div class="row">
-      <div class="col-md-12">
-        {{> searchBox collectionName='products'}}
+      <div class="col-md-7 list-header-right">
+        <div class="btn-group pull-right" role="group">
+            {{#if isInRole 'CanCreateProducts'}}
+                <button id="add-product" type="button" class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-fw fa-plus"></i> Add product</button>
+            {{/if}}
+            {{> smallSearchBox collectionName='products'}}
+        </div>
+        <br>
+        <ul class="list-toolbar pull-right">       
+           <li><a id="ref_productsOverviewWidget" data-toggle="popover" title="Products Overview" data-content="
+            <div id='productOverviewPop'>
+                <table class='table table-no-border'>
+                <tbody>
+                    <tr>
+                    <td>Products:</td>
+                    <td class='text-right'>{{totalProducts}}</td>
+                    </tr>
+                    <tr>
+                    <td>Total cost:</td>
+                    <td class='text-right'>{{decimal totalProductsCost}}</td>
+                    </tr>
+                    <tr>
+                    <td>Average cost:</td>
+                    <td class='text-right'>{{decimal averageProductsCost}}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>">Overview</a>
+            </li>
+            {{> tagManagement collectionName='products'}}
+            <li><a id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom">Export</a></li>
+        </ul>
       </div>
-    </div>
   </div>
+  {{> filterPanel collectionName='products'}}
 
   {{> searchResults index=ProductsIndex listItemTemplateName='productListItem'}}
 
