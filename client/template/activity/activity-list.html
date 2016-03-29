@@ -5,7 +5,7 @@
   <div class="row list-header">
       <div class="col-md-5">
         <h1>Activities</h1>
-        <p class="list-header-subtitle">{{activityCount}} record{{#if hasMultipleActivities}}s{{/if}}</p>
+        <p id="resultsCount" class="list-header-subtitle">{{activityCount}} record{{#if hasMultipleActivities}}s{{/if}}</p>
       </div>
       <div class="col-md-7 list-header-right">
         <div class="btn-group pull-right" role="group">
@@ -18,6 +18,7 @@
       </div>
   </div>
   {{> filterPanel collectionName='activities'}}
-
+  <div id="activity-list">
   {{> searchResults index=ActivitiesIndex listItemTemplateName='activityListItem'}}
+  </div>
 </template>
