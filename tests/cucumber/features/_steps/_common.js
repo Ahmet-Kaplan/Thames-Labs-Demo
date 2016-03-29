@@ -419,4 +419,9 @@ module.exports = function() {
     browser.scroll(selector, 0, 200);
     expect(browser.isEnabled(selector)).toBe(false);
   })
+
+  this.Then(/^I should see the url is "([^"]*)"$/, function(expectedText) {
+    browser.pause(100);
+    expect(browser.getUrl()).toContain(expectedText);
+  });
 };
