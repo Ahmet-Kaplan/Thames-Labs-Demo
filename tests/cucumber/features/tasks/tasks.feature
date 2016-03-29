@@ -203,7 +203,6 @@ Feature: Allow users to manage their Tasks
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"
-    And I click "#toggleFilters"
     And I set the filter to "Company:" then "Test Ltd"
     Then I should see ".removeProp"
     And I should not see "span.fa-user"
@@ -215,7 +214,6 @@ Feature: Allow users to manage their Tasks
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"
-    And I click "#toggleFilters"
     And I set the filter to "Due Date:" then "today"
     Then I should see ".removeProp"
     And I should not see "span.fa-user"
@@ -238,7 +236,6 @@ Feature: Allow users to manage their Tasks
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"
-    And I click "#toggleFilters"
     And I set the filter to "Company:" then "Test Ltd"
     Then I should see ".removeProp"
     And I should not see "span.fa-user"
@@ -254,7 +251,6 @@ Feature: Allow users to manage their Tasks
     And a "Company" task has been created
     And a "Contact" task has been created
     When I navigate to "/tasks"
-    And I click "#toggleFilters"
     And I set the filter to "Company:" then "Test Ltd"
     Then I should see ".removeProp"
     And I should not see "span.fa-user"

@@ -311,7 +311,6 @@ Feature: Allow users to manage their Projects
     And a "Project" has been created
     And an additional "Project" has been created
     When I navigate to "/projects"
-    And I click "#toggleFilters"
     And I set the filter to "Company:" then "Test Ltd"
     Then I should see ".removeProp"
     And "#resultsCount" should say "1 record"
