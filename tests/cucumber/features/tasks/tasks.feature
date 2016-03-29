@@ -197,6 +197,7 @@ Feature: Allow users to manage their Tasks
     Then I should not see the edit tag button
 
   #Filtering and Searching
+
   Scenario: A user can filter tasks by entity type
     Given I have the "CanReadCompanies" permission
     And I have the "CanReadContacts" permission
@@ -244,19 +245,3 @@ Feature: Allow users to manage their Tasks
     Then I should see "span.fa-user"
     And I should not see ".removeProp"
     And "#resultsCount" should say "2 records"
-
-  Scenario: A user can set filter, navigate and come back with the filter still being applied
-    Given I have the "CanReadCompanies" permission
-    And I have the "CanReadContacts" permission
-    And a "Company" task has been created
-    And a "Contact" task has been created
-    When I navigate to "/tasks"
-    And I set the filter to "Company:" then "Test Ltd"
-    Then I should see ".removeProp"
-    And I should not see "span.fa-user"
-    And "#resultsCount" should say "1 record"
-    When I click "#menuLinkDashboard"
-    And I click "#menuLinkTasks"
-    Then I should see ".removeProp"
-    And I should not see "span.fa-user"
-    And "#resultsCount" should say "1 record"

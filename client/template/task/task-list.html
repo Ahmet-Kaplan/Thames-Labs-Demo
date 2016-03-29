@@ -19,10 +19,9 @@
                     <li><a href="#" class="add-task" id="opportunity">Opportunity Task</a></li>
                     <li><a href="#" class="add-task" id="project">Project Task</a></li>
                 </ul>
-                
-                {{> smallSearchBox collectionName='tasks'}}
             </div>
         {{/if}}
+        {{> smallSearchBox collectionName='tasks'}}
         <br>
         <ul class="list-toolbar pull-right">
             {{#if isInRole 'CanReadTasks'}}
