@@ -1,12 +1,15 @@
 {
   "libs": [
-    "browser",
-    "jquery",
-    "underscore"
+    "browser"
   ],
-  "loadEagerly": [ "*.js", "*/*.js", "*/*/*.js", "*/*/*/*.js" ],
-  "dontLoad": [ ".meteor" ],
+  "loadEagerly": [
+    "client/**/*.js",
+    "common/**/*.js",
+    "lib/**/*.js",
+    "server/**/*.js"
+  ],
   "plugins": {
-    "meteor": {}
+    "node": {},
+    "es_modules": {}
   }
 }
