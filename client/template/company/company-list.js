@@ -3,20 +3,22 @@ Template.companyList.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
   });
+
+  this.totalCompanies = new ReactiveVar(0);
+});
+
+Template.companyList.onRendered(function() {
+  this.autorun(() => {
+    this.totalCompanies.set(Collections['companies'].index.getComponentDict().get('count'));
+  });
 });
 
 Template.companyList.helpers({
   companyCount: function() {
-      
-    this.autorun(function() {
-        return Collections['companies'].index.getComponentDict().get('count');
-    });
+     return Template.instance().totalCompanies.get();
   },
   hasMultipleCompanies: function() {
-      
-    this.autorun(function() {
-        return Collections['companies'].index.getComponentDict().get('count') !== 1;
-    });
+     return Template.instance().totalCompanies.get() !== 1;
   }
 });
 

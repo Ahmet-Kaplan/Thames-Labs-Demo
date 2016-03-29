@@ -8,14 +8,12 @@
         <p class="list-header-subtitle">{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</p>
       </div>
       <div class="col-md-7 list-header-right">
-        {{#if isInRole 'CanCreateCompanies'}}
-            <div class="btn-group pull-right" role="group">
-                {{#if isInRole 'CanCreateCompanies'}}
-                    <button type="button" class="btn btn-md btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
-                {{/if}}
-                {{> smallSearchBox collectionName='companies'}}
-            </div>
-        {{/if}}
+        <div class="btn-group pull-right" role="group">
+            {{#if isInRole 'CanCreateCompanies'}}
+                <button type="button" class="btn btn-md btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
+            {{/if}}
+            {{> smallSearchBox collectionName='companies'}}
+        </div>
         <br>
         <ul class="list-toolbar pull-right">        
             {{> tagManagement collectionName='companies'}}           

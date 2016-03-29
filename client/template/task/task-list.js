@@ -13,6 +13,9 @@ Template.taskList.onCreated(function() {
 
   // Calendar toggle
   this.showCalendar = new ReactiveVar(false);
+
+  // Total tasks in search results
+  this.totalTasks = new ReactiveVar(0);
 });
 
 Template.taskList.onRendered(function() {
@@ -25,6 +28,10 @@ Template.taskList.onRendered(function() {
       TasksIndex.getComponentMethods().search(searchQuery);
       $('.stick-bar input').val(searchQuery);
     }
+  });
+
+  this.autorun(() => {
+    this.totalTasks.set(Collections['tasks'].index.getComponentDict().get('count'));
   });
 
   // Update reactive vars if search props change
@@ -48,6 +55,12 @@ Template.taskList.helpers({
   },
   showCalendar: function() {
     return Template.instance().showCalendar.get();
+  },
+  taskCount: function() {
+     return Template.instance().totalTasks.get();
+  },
+  hasMultipleTasks: function() {
+     return Template.instance().totalTasks.get() !== 1;
   }
 });
 

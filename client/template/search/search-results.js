@@ -1,9 +1,6 @@
 Template.searchResults.onRendered(function() {
-  var index = this.data.index,
-  
-  name = index.getComponentDict().name;
-  
-  
+  var index = this.data.index;
+
   //Update searches and filters from URL if exists
   var urlSearch = FlowRouter.getQueryParam("q");
   var urlFilter = FlowRouter.getQueryParam("f");
@@ -12,8 +9,7 @@ Template.searchResults.onRendered(function() {
     urlSearch = decodeURIComponent(urlSearch);
     index.getComponentMethods().search(urlSearch);
     $('input.easysearch-input').val(urlSearch);
-  }
-  else {
+  } else {
     index.getComponentMethods().search("");
     $('input.easysearch-input').val("");
   }
@@ -22,18 +18,17 @@ Template.searchResults.onRendered(function() {
     urlFilter = JSON.parse(decodeURIComponent(decodeURIComponent(urlFilter)));
     var searchOptions = { props: urlFilter };
     index.getComponentDict().set('searchOptions', searchOptions);
-  }
-  else {
+  } else {
     index.getComponentDict().set('searchOptions', {});
   }
-    
+
   this.autorun(() => {
     searchDefinition = index.getComponentDict().get('searchDefinition');
     searchOptions = JSON.stringify(index.getComponentDict().get('searchOptions').props);
-    
+
     if (searchDefinition == "") searchDefinition = undefined;
     if (searchOptions == "{}") searchOptions = undefined;
-    
+
     FlowRouter.withReplaceState(function() {
       FlowRouter.setQueryParams({
         q: searchDefinition,

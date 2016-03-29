@@ -2,28 +2,22 @@
 
   {{setPageTitle 'Activities'}}
   
-  <h1 id="activities-page-header"><i class="fa fa-fw fa-history"></i> Activities</h1>
-  
-  <div class="row" id="activity-list">
-    <div class="col-md-12">
-      <div class="btn-group" role="group">
-        <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i> Export to CSV</button>
+  <div class="row list-header">
+      <div class="col-md-5">
+        <h1>Activities</h1>
+        <p class="list-header-subtitle">{{activityCount}} record{{#if hasMultipleActivities}}s{{/if}}</p>
       </div>
-    </div>
-
-    <div class="col-md-12">
-
-      <div class="stick-bar">
-        <div class="row">
-          <div class="col-md-12">
-            {{> searchBox collectionName='activities'}}
-          </div> 
+      <div class="col-md-7 list-header-right">
+        <div class="btn-group pull-right" role="group">
+            {{> smallSearchBox collectionName='activities'}}
         </div>
+        <br>
+        <ul class="list-toolbar pull-right">
+            <li><a id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom">Export</a></li>
+        </ul>
       </div>
-
-      {{> searchResults index=ActivitiesIndex listItemTemplateName='activityListItem'}}
-
-    </div>
   </div>
+  {{> filterPanel collectionName='activities'}}
 
+  {{> searchResults index=ActivitiesIndex listItemTemplateName='activityListItem'}}
 </template>
