@@ -1,7 +1,4 @@
 <template name="searchResults">
-  <div class="pull-right list-pagination">
-    {{> EasySearch.Pagination index=index maxPages=10}}
-  </div>  
   <div class="list-group clearfix">
     {{#EasySearch.Each index=index}}
       {{> listItem extendContext 'index' ../index}}
@@ -13,6 +10,8 @@
 
     {{#EasySearch.IfSearching index=index}}
       {{> spinner}}
+    {{else}}
+      {{> loadMore index=index}}
     {{/EasySearch.IfSearching}}
   </div>
 </template>
