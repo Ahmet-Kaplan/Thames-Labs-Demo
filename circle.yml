@@ -18,4 +18,4 @@ dependencies:
     - npm install glob
 test:
   override:
-    - npm run circle  
+    - npm run circle
