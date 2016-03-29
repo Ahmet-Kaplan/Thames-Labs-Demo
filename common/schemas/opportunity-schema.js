@@ -95,6 +95,7 @@ Schemas.Opportunity = new SimpleSchema({
   },
   salesManagerId: {
     type: String,
+    label: "Sales Manager",
     optional: true
   },
   createdBy: {
@@ -105,6 +106,7 @@ Schemas.Opportunity = new SimpleSchema({
   },
   companyId: {
     type: String,
+    label: "Company",
     optional: true,
     custom: function() {
       if (!this.isSet && !this.field('contactId').isSet) {
@@ -115,6 +117,7 @@ Schemas.Opportunity = new SimpleSchema({
   contactId: {
     type: String,
     optional: true,
+    label: "Contact",
     custom: function() {
       if (!this.isSet && !this.field('companyId').isSet) {
         return "needsRelatedEntity";
@@ -150,6 +153,7 @@ Schemas.Opportunity = new SimpleSchema({
   },
   projectId: {
     type: String,
+    label: "Project",
     optional: true
   },
   tags: {

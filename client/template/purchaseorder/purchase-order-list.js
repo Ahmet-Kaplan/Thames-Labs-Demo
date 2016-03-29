@@ -10,6 +10,10 @@ Template.purchaseOrderList.onCreated(function() {
   });
   Session.set("showItems", false);
 
+  // Store search index dict on template to allow helpers to access
+  this.index = PurchaseOrdersIndex;
+
+  this.showClosed = new ReactiveVar(false);
   this.totalPurchaseOrders = new ReactiveVar(0);
   this.totalApprovedPo = new ReactiveVar(0);
   this.totalArrivedPo = new ReactiveVar(0);
@@ -24,9 +28,21 @@ Template.purchaseOrderList.onRendered(function() {
   var curr = Session.get("showItems");
   if (curr === true) {
     $('#toggle-item-view').addClass('btn-success').removeClass('btn-default');
+    $(".po-list-item").css('margin-bottom', '4px');
+    $(".po-list-item").css('padding-bottom', '0');
   } else {
     $('#toggle-item-view').removeClass('btn-success').addClass('btn-default');
+    $(".po-list-item").css('margin-bottom', '');
+    $(".po-list-item").css('padding-bottom', '');
   }
+
+  this.autorun(() => {
+    const searchComponent = this.index.getComponentDict(),
+      searchOptions = searchComponent.get('searchOptions'),
+      props = searchOptions.props ? searchOptions.props : {};
+
+    this.showClosed.set(props.showClosed ? true : false);
+  });
 
   Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
     template.totalPurchaseOrders.set(data.Count);
@@ -61,8 +77,12 @@ Template.purchaseOrderList.events({
 
     if (Session.get("showItems") === true) {
       $('#toggle-item-view').addClass('btn-success').removeClass('btn-default');
+      $(".po-list-item").css('margin-bottom', '4px');
+      $(".po-list-item").css('padding-bottom', '0');
     } else {
       $('#toggle-item-view').removeClass('btn-success').addClass('btn-default');
+      $(".po-list-item").css('margin-bottom', '');
+      $(".po-list-item").css('padding-bottom', '');
     }
   },
   'click #add-purchase-order': function(event) {
@@ -94,10 +114,23 @@ Template.purchaseOrderList.events({
     Meteor.call('report.RejectedPo', function(err, data) {
       template.totalRejectedPo.set(data.Count);
     });
-  }
+  },
+  'click #toggle-closed': function(event) {
+    event.preventDefault();
+    const indexMethods = Template.instance().index.getComponentMethods();
+    if (Template.instance().showClosed.get()) {
+      indexMethods.removeProps('showClosed');
+    } else {
+      indexMethods.addProps('showClosed', 'true');
+    }
+    $(event.target).blur();
+  },
 });
 
 Template.purchaseOrderList.helpers({
+  closedShown: function() {
+    return Template.instance().showClosed.get();
+  },
   totalPurchaseOrders: function() {
     return Template.instance().totalPurchaseOrders.get();
   },

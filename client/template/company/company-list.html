@@ -5,7 +5,7 @@
   <h1 id="companies-page-header"><i class="fa fa-building"></i> Companies</h1>
 
   <!-- This should probably be refactored into a "search toolbar" template -->
-  <div class="row">    
+  <div class="row">
     <div class="col-md-6">
       {{#if isInRole 'CanCreateCompanies'}}
         <button type="button" class="btn btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
@@ -50,8 +50,7 @@
           <h4>Help on templates</h4>
         </div>
         <div class="modal-body">
-          <p>You can create a template by using Word, creating a new document, populating it with your content and include Keywords that RealTime recognises which will allow RealTime to personalise and fill your template for you. You can then upload your
-            template whenever you need to use it and save time.</p>
+          <p>Start by creating a Microsoft Word Document to act as a template. Include the keywords below where needed in the document, and select "Microsoft Word Template". In the file finder, select the template file you just created. RealTime will replace the keywords with their relative values, and download a new version of the file for you.</p>
           <p>Keywords which are recognised by RealTime:</p>
           <ul>
             <li>{name} - Company name</li>

@@ -4,13 +4,19 @@ Template.taskList.onCreated(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadTasks');
   });
 
+  // Store search index dict on template to allow helpers to access
+  this.index = TasksIndex;
+
   // Search props
   this.showCompleted = new ReactiveVar(false);
   this.showMine = new ReactiveVar(false);
+
+  // Calendar toggle
   this.showCalendar = new ReactiveVar(false);
 });
 
 Template.taskList.onRendered(function() {
+
   // Watch for session variable setting search
   Session.set('taskSearchQuery', null);
   this.autorun(function() {
@@ -20,21 +26,17 @@ Template.taskList.onRendered(function() {
       $('.stick-bar input').val(searchQuery);
     }
   });
-  // Update search props if reactive vars changed
+
+  // Update reactive vars if search props change
   this.autorun( () => {
-    var searchComponent = TasksIndex.getComponentMethods();
-    if (this.showCompleted.get()) {
-      searchComponent.addProps('showCompleted', 'true');
-    } else {
-      searchComponent.removeProps('showCompleted');
-    }
-    var searchAssignee = TasksIndex.getComponentDict().get('searchOptions').props.assignee;
-    if(searchAssignee === Meteor.userId()) {
-      this.showMine.set(true);
-    } else {
-      this.showMine.set(false);
-    }
+    const searchComponent = this.index.getComponentDict(),
+          searchOptions = searchComponent.get('searchOptions'),
+          props = searchOptions.props ? searchOptions.props : {};
+
+    this.showCompleted.set(props.showCompleted ? true : false);
+    this.showMine.set(props.assignee && props.assignee === Meteor.userId() ? true : false);
   });
+
 });
 
 Template.taskList.helpers({
@@ -52,8 +54,12 @@ Template.taskList.helpers({
 Template.taskList.events({
   'click #tskToggleCompleted': function(event) {
     event.preventDefault();
-    var showCompleted = Template.instance().showCompleted.get();
-    Template.instance().showCompleted.set(!showCompleted);
+    const indexMethods = Template.instance().index.getComponentMethods();
+    if (Template.instance().showCompleted.get()) {
+      indexMethods.removeProps('showCompleted');
+    } else {
+      indexMethods.addProps('showCompleted', 'true');
+    }
     $(event.target).blur();
   },
   'click #tskToggleCalendar': function(event) {
@@ -64,11 +70,10 @@ Template.taskList.events({
   },
   'click #tskToggleMine': function(event) {
     event.preventDefault();
-    var searchProp = TasksIndex.getComponentDict().get('searchOptions').props.assignee;
-    if(searchProp === Meteor.userId()) {
-      TasksIndex.getComponentMethods().removeProps('assignee');
-    } else {
-      TasksIndex.getComponentMethods().addProps('assignee', Meteor.userId());
+    const indexMethods = Template.instance().index.getComponentMethods();
+    indexMethods.removeProps('assignee');
+    if (!Template.instance().showMine.get()) {
+      indexMethods.addProps('assignee', Meteor.userId());
     }
     $(event.target).blur();
   },

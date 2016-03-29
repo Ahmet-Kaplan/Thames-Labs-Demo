@@ -49,8 +49,6 @@ useraccounts:bootstrap
 arillo:flow-router-helpers
 aldeed:autoform-bs-datetimepicker
 tsega:bootstrap3-datetimepicker@=3.1.3_3
-xolvio:cucumber
-velocity:console-reporter
 chart:chart
 underscore
 percolate:migrations
@@ -64,17 +62,14 @@ kadira:flow-router
 kadira:blaze-layout
 aldeed:template-extension
 reactive-var
-meteorhacks:npm
 csauer:accounts-phony
 mrgalaxy:stripe
 copleykj:tagstripper
 flowkey:bowser
 mologie:autoform-selectize
-standard-minifiers
 meteor-base
 mobile-experience
 mongo
-blaze-html-templates
 session
 jquery
 tracker
@@ -84,7 +79,6 @@ random
 ejson
 spacebars
 check
-npm-container
 dburles:google-maps
 ecmascript
 flowkey:hotkeys
@@ -92,7 +86,6 @@ mizzao:autocomplete
 adain:meteor-guid
 ostrio:loggerfile
 ostrio:loggerconsole
-respondly:router-server
 msavin:mongol
 vsivsi:job-collection
 easy:search
@@ -102,6 +95,7 @@ tarzak:gridstackjs
 rzymek:fullcalendar
 jiku:bootstrap-toggle
 simple:reactive-method
+meteorhacks:picker
 rajit:bootstrap3-datepicker
 aldeed:autoform-bs-datepicker
 jparker:crypto-md5
@@ -110,3 +104,9 @@ jparker:crypto-hmac
 jparker:crypto-core
 jparker:crypto-base64
 jparker:crypto-sha256
+standard-minifier-css
+standard-minifier-js
+templating
+fixtures
+
+

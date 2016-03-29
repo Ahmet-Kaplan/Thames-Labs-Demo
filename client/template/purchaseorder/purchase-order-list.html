@@ -2,7 +2,7 @@
 
   {{setPageTitle 'Purchase Orders'}}
 
-  <h1><i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders</h1>
+  <h1><i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders {{#if closedShown}} - <i>closed</i>{{/if}}</h1>
 
   <!-- This should probably be refactored into a "search toolbar" template -->
 
@@ -15,6 +15,7 @@
         <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
         
         <button type="button" class="btn btn-default" id="toggle-item-view" data-toggle="tooltip" title="Toggle PO item view on/off" data-placement="bottom"><i class="fa fa-fw fa-shopping-basket"></i></button>
+        <button id="toggle-closed" class="btn btn-{{#if closedShown}}success{{else}}default{{/if}}" data-toggle="tooltip" title="Toggle active/closed purchase orders" data-placement="bottom"><i class="fa fa-fw fa-archive"></i></button>
 
         <button id="ref_poOverviewWidget" class="btn btn-default" data-toggle="popover" title="Purchase Orders Overview" data-content="<div id='poOverviewPop'>
           <table class='table table-no-border'>
