@@ -1,6 +1,6 @@
 .filter-panel {
     transition: 0.1s all ease-in-out;
-    margin-bottom: 10px;
+    margin-bottom: 0;
     margin-top: -10px;
 }
 
