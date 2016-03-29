@@ -1,41 +1,35 @@
 Template.searchResults.onRendered(function() {
-  var index = this.data.index;
 
-  //Update searches and filters from URL if exists
-  var urlSearch = FlowRouter.getQueryParam("q");
-  var urlFilter = FlowRouter.getQueryParam("f");
+  const index = this.data.index,
+        urlSearch = FlowRouter.getQueryParam("q"),
+        urlFilter = FlowRouter.getQueryParam("f");
 
+  // Update search on first render if present in URL
   if (urlSearch) {
-    urlSearch = decodeURIComponent(urlSearch);
     index.getComponentMethods().search(urlSearch);
     $('input.easysearch-input').val(urlSearch);
-  } else {
-    index.getComponentMethods().search("");
-    $('input.easysearch-input').val("");
   }
 
+  // Update filters on first render if present in URL
   if (urlFilter) {
-    urlFilter = JSON.parse(decodeURIComponent(decodeURIComponent(urlFilter)));
-    var searchOptions = { props: urlFilter };
-    index.getComponentDict().set('searchOptions', searchOptions);
-  } else {
-    index.getComponentDict().set('searchOptions', {});
+    index.getComponentDict().set('searchOptions', {
+      props: urlFilter
+    });
   }
 
+  // Update URL based on search and filters
   this.autorun(() => {
-    searchDefinition = index.getComponentDict().get('searchDefinition');
-    searchOptions = JSON.stringify(index.getComponentDict().get('searchOptions').props);
-
-    if (searchDefinition == "") searchDefinition = undefined;
-    if (searchOptions == "{}") searchOptions = undefined;
+    const searchDefinition = index.getComponentDict().get('searchDefinition'),
+          searchProps = index.getComponentDict().get('searchOptions').props;
 
     FlowRouter.withReplaceState(function() {
       FlowRouter.setQueryParams({
-        q: searchDefinition,
-        f: searchOptions
+        q: searchDefinition ? searchDefinition : null,
+        f: searchProps ? searchProps : null
        });
     });
   });
+
 });
 
 Template.searchResults.helpers({
