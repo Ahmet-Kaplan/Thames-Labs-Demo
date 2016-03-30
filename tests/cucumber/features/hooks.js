@@ -12,7 +12,7 @@ module.exports = function( ) {
 
   // called after all features have completed
   this.registerHandler('AfterFeatures', function() {
-    // server.call('reset');
+    server.call('reset');
   });
 
 };
