@@ -28,7 +28,7 @@ Template.insertNewCompanyModal.onRendered(function() {
       var domainSplit = searchInput.replace(/https?\:\/\//, '').replace(/www\./, '').replace(' ', '').split('/');
       domainQuery = domainSplit[0];
     }
-    
+
     if(!!domainQuery && domainQuery.length > 0) {
       Meteor.call('clearbit.getCompanyFromWebsite', searchInput, (err, results) => {
         if(results) {
@@ -42,7 +42,9 @@ Template.insertNewCompanyModal.onRendered(function() {
       Meteor.call('companiesHouse.search.companies', searchInput, (err, res) => {
         if(res) {
           var ucAll = function(text) {
-            return _.map(text.split(' '), function(word){return _.capitalize(word.toLowerCase())}).join(' ');
+            return _.map(text.split(' '), function(word) {
+              return _.capitalize(word.toLowerCase())
+            }).join(' ');
           }
           var results = {
             total: res.data.total_results,
@@ -238,6 +240,7 @@ Template.companyFormDetails.onRendered(function() {
         this.companyData.set(companyData);
         this.showAddressDetails.set(true);
         this.showLocationSearch.set(false);
+        this.showMap.set(true);
       }).keypress((event) => {
         if (event.which == 13) {
           this.showAddressDetails.set(true);

@@ -64,15 +64,14 @@ Meteor.methods({
 
     const Company = clearbit(clearbitApiKey).Company;
     var clearbitData = new Future();
-    var query = {};
     var domainRegex = new RegExp('^(https?\://)?(www\.)?[a-z0-9\.-]+\.[a-z]{2,4}/?$');
     var domainQuery = null;
 
     if(queryString.match(domainRegex) !== null) {
       var domainSplit = queryString.replace(/https?\:\/\//, '').replace(/www\./, '').replace(' ', '').split('/');
       domainQuery = domainSplit[0]
-    } 
-    
+    }
+
     if(!!domainQuery && domainQuery.length > 0) {
       Company.find({
           domain: domainQuery
@@ -85,7 +84,7 @@ Meteor.methods({
         clearbitData.return(false);
       });
     } else {
-      clearbit.return(false); 
+      clearbit.return(false);
     }
 
     return clearbitData.wait();
