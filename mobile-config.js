@@ -13,15 +13,20 @@ App.info({
 });
 
 App.icons({
-    'android_ldpi': 'resources/icons/camsoft.png',
     'android_mdpi': 'resources/icons/camsoft.png',
     'android_hdpi': 'resources/icons/camsoft.png',
-    'android_xhdpi': 'resources/icons/camsoft.png'
+    'android_xhdpi': 'resources/icons/camsoft.png',
+    'android_xxhdpi': 'resources/icons/camsoft.png',
+    'android_xxxhdpi': 'resources/icons/camsoft.png'
 });
 
 App.launchScreens({
-    'android_ldpi_portrait': 'resources/splash/ldpi.png',
     'android_mdpi_portrait': 'resources/splash/mdpi.png',
+    'android_mdpi_landscape': 'resources/splash/mdpi.png',
     'android_hdpi_portrait': 'resources/splash/hdpi.png',
-    'android_xhdpi_portrait': 'resources/splash/xhdpi.png'
+    'android_hdpi_landscape': 'resources/splash/hdpi.png',
+    'android_xhdpi_portrait': 'resources/splash/xhdpi.png',
+    'android_xhdpi_landscape': 'resources/splash/xhdpi.png',
+    'android_xxhdpi_portrait': 'resources/splash/xhdpi.png',
+    'android_xxhdpi_landscape': 'resources/splash/xhdpi.png',
 });
