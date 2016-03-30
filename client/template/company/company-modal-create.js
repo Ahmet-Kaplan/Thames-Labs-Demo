@@ -252,15 +252,11 @@ Template.companyFormDetails.onRendered(function() {
   //Autorun that display address details and map if data exist
   this.autorun(() => {
     var companyData = this.companyData.get()
-    if(!companyData.geo) {
+    if(!companyData.geo || companyData.geo == {}) {
       this.showAddressDetails.set(false);
       this.showLocationSearch.set(true);
-    } else if(companyData.geo != {}) {
+    } else if(companyData.geo && companyData.geo.lat && companyData.geo.lng) {
       this.showAddressDetails.set(true);
-      this.showLocationSearch.set(false);
-    }
-    //If lat and lng available, display on map, otherwise trigger search using data provided
-    if(companyData.geo && companyData.geo.lat && companyData.geo.lng) {
       this.showMap.set(true);
     } else {
       var searchString = [];
@@ -272,6 +268,7 @@ Template.companyFormDetails.onRendered(function() {
       searchString.push(companyData.geo.country || '');
 
       if(searchString.join(' ').trim() !== '') {
+        this.showAddressDetails.set(true);
         this.showMap.set(true);
         $('#geo').val(searchString);
         $('#geo').trigger('geocode');
