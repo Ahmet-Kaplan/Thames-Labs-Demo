@@ -37,34 +37,3 @@ Template.filterPanel.helpers({
     return Session.get('search.showFilters');
   }
 });
-
-Template.filterPanel.events({
-  'click #toggleFilters': function(e) {
-    e.preventDefault();
-
-    if (Session.get('search.showFilters')) {
-      Session.set('search.showFilters', false);
-    } else {
-      var selectize = $('#filterBox')[0].selectize;
-      selectize.clearOptions();
-      Meteor.setTimeout(function() {
-        $('#filtersSearch input').focus();
-      }, 300);
-      Session.set('search.showFilters', true);
-    }
-    $(e.target).blur();
-  },
-  'click #resetSearch': function() {
-    var mainCollectionName = Template.instance().data.collectionName;
-    var indexMethods = Collections[mainCollectionName].index.getComponentMethods();
-    indexMethods.removeProps();
-    indexMethods.search('');
-    $('input.easysearch-input').val('');
-  },
-  'click #searchHelp': function() {
-    var mainCollectionName = Template.instance().data.collectionName
-    Modal.show('searchHelp', {
-      collection: mainCollectionName
-    });
-  }
-});

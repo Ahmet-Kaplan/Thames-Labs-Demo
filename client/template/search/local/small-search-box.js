@@ -6,15 +6,6 @@ Template.smallSearchBox.helpers({
 });
 
 Template.smallSearchBox.events({
-  'click #toggleFilters': function(e) {
-    e.preventDefault();
-
-    if (Session.get('search.showFilters')) {
-      Session.set('search.showFilters', false);
-    } else {
-      Session.set('search.showFilters', true);
-    }
-  },
   'click #resetSearch': function() {
     var mainCollectionName = Template.instance().data.collectionName;
     var indexMethods = Collections[mainCollectionName].index.getComponentMethods();
