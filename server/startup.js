@@ -1,5 +1,4 @@
 Meteor.startup(function() {
-
   if (Meteor.isDevelopment) {
     //Rewrite Email.send function to avoid displaying
     //the whole email in the console during tests
