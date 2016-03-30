@@ -1,18 +1,35 @@
 Template.searchResults.onRendered(function() {
-  var index = this.data.index,
-    name = index.getComponentDict().name,
-    sessionVariableName = name + '.searchDefinition',
-    previousSearch = Session.get(sessionVariableName);
 
-  if (previousSearch) {
-    index.getComponentMethods().search(previousSearch);
-    $('input.easysearch-input').val(previousSearch);
+  const index = this.data.index,
+        urlSearch = FlowRouter.getQueryParam("q"),
+        urlFilter = FlowRouter.getQueryParam("f");
+
+  // Update search on first render if present in URL
+  if (urlSearch) {
+    index.getComponentMethods().search(urlSearch);
+    $('input.easysearch-input').val(urlSearch);
   }
 
+  // Update filters on first render if present in URL
+  if (urlFilter) {
+    index.getComponentDict().set('searchOptions', {
+      props: urlFilter
+    });
+  }
+
+  // Update URL based on search and filters
   this.autorun(() => {
-    searchDefinition = index.getComponentDict().get('searchDefinition');
-    Session.set(sessionVariableName, searchDefinition);
+    const searchDefinition = index.getComponentDict().get('searchDefinition'),
+          searchProps = index.getComponentDict().get('searchOptions').props;
+
+    FlowRouter.withReplaceState(function() {
+      FlowRouter.setQueryParams({
+        q: searchDefinition ? searchDefinition : null,
+        f: searchProps ? searchProps : null
+       });
+    });
   });
+
 });
 
 Template.searchResults.helpers({
