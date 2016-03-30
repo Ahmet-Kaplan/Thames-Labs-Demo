@@ -3,8 +3,15 @@ machine:
     version: oraclejdk8
   node:
     version: 5.2.0
+  environment:
+    CUCUMBER_JSON_OUTPUT: $CIRCLE_TEST_REPORTS/cucumber/tests.cucumber
   post:
     - env
+    - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
+general:
+  artifacts:
+    - $CIRCLE_TEST_REPORTS
+    - target
 dependencies:
   cache_directories:
     - "node_modules"
@@ -12,10 +19,9 @@ dependencies:
     - "~/_opt"
     - ~/.meteor
   override:
-    - if [ -d ~/.meteor ]; then sudo ln -s ~/.meteor/meteor /usr/local/bin/meteor; fi
-    - if [ ! -e $HOME/.meteor/meteor ]; then curl https://install.meteor.com | sh; fi
+    - curl https://install.meteor.com/ | sh
     - npm install
     - npm install glob
 test:
   override:
-    - npm run circle  
+    - npm run circle
