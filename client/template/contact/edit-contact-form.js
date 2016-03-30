@@ -1,17 +1,18 @@
 Template.editContactModal.onCreated(function() {
   // Load google maps
   GoogleMaps.load({
-    libraries: 'places'
+    libraries: 'places',
+    key: Meteor.settings.public.googleDeveloperKey
   });
 });
 
 Template.editContactModal.onRendered(function() {
-  if(this.data.companyId === undefined) {
+  if (this.data.companyId === undefined) {
     $('#addressWrapper').show();
   }
 
   this.autorun(function() {
-    if(GoogleMaps.loaded()) {
+    if (GoogleMaps.loaded()) {
       $("#geo").geocomplete({
         details: "#editContactForm",
         detailsAttribute: "data-geo"
@@ -21,7 +22,7 @@ Template.editContactModal.onRendered(function() {
           return elt.types[0] == "street_number";
         });
 
-        if(typeof(strNumber) !== 'undefined') {
+        if (typeof(strNumber) !== 'undefined') {
           strNumber = strNumber.long_name;
           address += strNumber + " ";
         }
@@ -30,7 +31,7 @@ Template.editContactModal.onRendered(function() {
           return elt.types[0] == "route";
         });
 
-        if(typeof(route) !== 'undefined') {
+        if (typeof(route) !== 'undefined') {
           route = route.long_name;
           address += route;
         }
@@ -51,7 +52,7 @@ Template.editContactModal.onRendered(function() {
           $("input[name=lng]").val(marker.getPosition().lat());
         });
       }).keypress(function(event) {
-        if(event.keyCode == 13) {
+        if (event.keyCode == 13) {
           $("#address_details").show();
         }
       });
@@ -72,30 +73,33 @@ Template.editContactModal.events({
     $("#map_wrapper").show();
     $("#mapModal_canvas").height("400px");
     var location = {
-        lat: 52.234744,
-        lng: 0.153752
-      };
+      lat: 52.234744,
+      lng: 0.153752
+    };
     var mapModal = new google.maps.Map(document.getElementById("mapModal_canvas"), {
       zoom: 10,
       center: location,
       scrollwheel: false
     });
-    if(mapData !== null && mapData.title !== undefined) {
-      mapData.name = mapData.forename + ' ' + mapData.surname;
+    if (mapData !== null && mapData.title !== undefined) {
+      mapData.title = mapData.forename + ' ' + mapData.surname;
+    }else{
+      mapData.title = mapData.forename + ' ' + mapData.surname;
     }
     //Set map to the current location
     var infowindow = new google.maps.InfoWindow();
-    if(mapData.lat !== undefined && mapData.lng !== undefined) {
+    if (mapData.lat !== undefined && mapData.lng !== undefined) {
       location = {
-            lat: parseFloat(mapData.lat),
-            lng: parseFloat(mapData.lng)
-          }
+        lat: parseFloat(mapData.lat),
+        lng: parseFloat(mapData.lng)
+      }
       mapModal.panTo(location);
       mapModal.setZoom(16);
-      var markerModal = new google.maps.Marker( {
+
+      var markerModal = new google.maps.Marker({
         map: mapModal,
         position: location,
-        title: mapData.name,
+        title: mapData.title,
         draggable: true
       });
       markerModal.setMap(mapModal);
@@ -104,13 +108,13 @@ Template.editContactModal.events({
         $("input[name=lng]").val(markerModal.getPosition().lng());
       });
       var infowindow = new google.maps.InfoWindow();
-      infowindow.setContent(mapData.name);
+      infowindow.setContent(mapData.title);
       infowindow.open(mapModal, markerModal);
-    }else {
+    } else {
       var gc = new google.maps.Geocoder();
       gc.geocode({
-          'address': mapData.address + mapData.postcode + mapData.city + mapData.country
-        }, function(results, status) {
+        'address': mapData.address + mapData.postcode + mapData.city + mapData.country
+      }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           location = {
             lat: results[0].geometry.location.lat(),
@@ -118,10 +122,11 @@ Template.editContactModal.events({
           };
           mapModal.panTo(location);
           mapModal.setZoom(16);
-          var markerModal = new google.maps.Marker( {
+
+          var markerModal = new google.maps.Marker({
             map: mapModal,
             position: location,
-            title: mapData.name,
+            title: mapData.title,
             draggable: true
           });
           markerModal.setMap(mapModal);
@@ -130,7 +135,7 @@ Template.editContactModal.events({
             $("input[name=lng]").val(markerModal.getPosition().lng());
           });
           var infowindow = new google.maps.InfoWindow();
-          infowindow.setContent(mapData.name);
+          infowindow.setContent(mapData.title);
           infowindow.open(mapModal, markerModal);
         }
       });
