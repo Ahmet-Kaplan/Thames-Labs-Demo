@@ -25,5 +25,3 @@ dependencies:
 test:
   override:
     - npm run circle
-  post:
-    - cp ~/.meteor/local/log/*.log $CIRCLE_ARTIFACTS
