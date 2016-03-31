@@ -22,48 +22,61 @@ if (!process.env.CI) {
 	chimpArgs.push('--watch');
 }
 
-function startMeteor() {
-	console.log('Starting Meteor');
+console.log('Starting Meteor');
 
-	var meteorProcess = spawn(meteorCommand, meteorArgs, meteorProcessOptions);
+var meteorProcess = spawn(meteorCommand, meteorArgs, meteorProcessOptions);
 
-	meteorProcess.on('exit', function(code, signal) {
-		console.log('Meteor exited via exit event with code ' + (code ? code : signal));
-		if (code) {
-			process.exit(code);
-		} else {
-			process.exit(0);
-		}
-	});
+meteorProcess.on('exit', function(code, signal) {
+	console.log('Meteor exited via exit event with code ' + (code ? code : signal));
+	if (code) {
+		process.exit(code);
+	} else {
+		process.exit(0);
+	}
+});
 
 
-	meteorProcess.on('close', function(code, signal) {
-		console.log('Meteor exited via close event with code ' + (code ? code : signal));
-		if (code) {
-			process.exit(code);
-		} else {
-			process.exit(0);
-		}
-	});
+meteorProcess.on('close', function(code, signal) {
+	console.log('Meteor exited via close event with code ' + (code ? code : signal));
+	if (code) {
+		process.exit(code);
+	} else {
+		process.exit(0);
+	}
+});
 
-	meteorProcess.stdout.on('data', (data) => {
-		//data is a Buffer and needs to be converted to a string to be displayed
-		data = data.toString();
-		console.log(data);
-		if (data.match('App running at')) {
-			console.log('Starting Chimp');
+meteorProcess.stdout.on('error', (data) => {
+	console.log('ERROR! ' + data.toString());
+});
 
-			var chimpProcess = spawn(chimpCommand, chimpArgs, {
-				stdio: 'inherit'
-			});
+meteorProcess.stdout.on('data', (data) => {
+	//data is a Buffer and needs to be converted to a string to be displayed
+	data = data.toString().replace(/\r?\n|\r/, ' ');
+	console.log(data);
 
-			chimpProcess.on('close', function(code, signal) {
-				meteorProcess.kill();
+	if (data.match('App running at')) {
+		console.log('Starting Chimp');
 
-				console.log('Chimp exited via close event with code ' + (code ? code : signal));
-			});
-		}
-	});
-}
+		var chimpProcess = spawn(chimpCommand, chimpArgs);
 
-startMeteor();
+		chimpProcess.stdout.on('data', (data) => {
+			data = data.toString().replace(/\r?\n|\r/, ' ');
+			console.log(data);
+
+			//Handle results to throw error if tests failed
+			if(data.match(/[0-9]+ scenarios.*[0-9]+.failed?/)) {
+				throw new Error('TESTS FAILED!');
+			}
+		})
+
+		chimpProcess.on('close', function(code, signal) {
+			meteorProcess.kill();
+
+			console.log('Chimp exited via close event with code ' + (code ? code : signal));
+		});
+
+		chimpProcess.stdout.on('error', (data) => {
+			console.log('Error raised: ' + data.toString());
+		})
+	}
+});

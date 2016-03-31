@@ -22,7 +22,7 @@ Feature: Allow users to access a central view of all activities
     And the company has an activity
     And I click "#menuLinkActivities"
     Then I do not see activities from "companies" in the list "#activity-list"
-
+@ignore
   #Contact
   Scenario: A user with Contact Read permission can see a contact activity in the list
     Given a "Contact" has been created
@@ -31,14 +31,14 @@ Feature: Allow users to access a central view of all activities
     And the contact has an activity
     And I click "#menuLinkActivities"
     Then I see a "contacts" activity with the notes "Test contact activity" in the list "#activity-list"
-
+@ignore
   Scenario: A user without Contact Read permission cannot see a company activity in the list
     Given a "Contact" has been created
     And I am on the pro plan
     And the contact has an activity
     And I click "#menuLinkActivities"
     Then I do not see activities from "contacts" in the list "#activity-list"
-
+@ignore
   #Opportunity
   Scenario: A user with Opportunity Read permission can see a opportunity activity in the list
     Given a "Opportunity" has been created
@@ -47,14 +47,14 @@ Feature: Allow users to access a central view of all activities
     And the opportunity has an activity
     And I click "#menuLinkActivities"
     Then I see a "opportunities" activity with the notes "Test opportunity activity" in the list "#activity-list"
-
+@ignore
   Scenario: A user without Opportunity Read permission cannot see a opportunity activity in the list
     Given a "Opportunity" has been created
     And I am on the pro plan
     And the opportunity has an activity
     And I click "#menuLinkActivities"
     Then I do not see activities from "opportunities" in the list "#activity-list"
-
+@ignore
   #Project
   Scenario: A user with Project Read permission can see a project activity in the list
     Given a "Company" has been created
@@ -64,7 +64,7 @@ Feature: Allow users to access a central view of all activities
     And the project has an activity
     And I click "#menuLinkActivities"
     Then I see a "projects" activity with the notes "Test project activity" in the list "#activity-list"
-
+@ignore
   Scenario: A user without Project Read permission cannot see a project activity in the list
     Given a "Company" has been created
     And I am on the pro plan
@@ -72,7 +72,7 @@ Feature: Allow users to access a central view of all activities
     And the project has an activity
     And I click "#menuLinkActivities"
     Then I do not see activities from "projects" in the list "#activity-list"
-
+@ignore
   #Purchase Order
   Scenario: A user with Purchase Order Read permission can see a purchase order activity in the list
     Given I have the "CanReadPurchaseOrders" permission
@@ -81,14 +81,14 @@ Feature: Allow users to access a central view of all activities
     And the purchase order has an activity
     And I click "#menuLinkActivities"
     Then I see a "purchaseOrders" activity with the notes "Test purchase order activity" in the list "#activity-list"
-
+@ignore
   Scenario: A user without Purchase Order Read permission cannot see a purchase order activity in the list
     Given a "PurchaseOrder" has been created
     And I am on the pro plan
     And the purchase order has an activity
     And I click "#menuLinkActivities"
     Then I do not see activities from "purchaseOrders" in the list "#activity-list"
-
+@ignore
   #Task
   Scenario: A user with Task Read permission can see a task activity in the list
     Given a "Company" task has been created
@@ -97,14 +97,14 @@ Feature: Allow users to access a central view of all activities
     And the task has an activity
     And I click "#menuLinkActivities"
     Then I see a "tasks" activity with the notes "Test task activity" in the list "#activity-list"
-
+@ignore
   Scenario: A user without Task Read permission cannot see a task activity in the list
     Given a "Company" task has been created
     And I am on the pro plan
     And the task has an activity
     And I click "#menuLinkActivities"
     Then I do not see activities from "tasks" in the list "#activity-list"
-
+@ignore
   #Free plan
   Scenario: A user on the free plan cannot get to the activities list
     Given I am on the free plan

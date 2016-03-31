@@ -1,3 +1,4 @@
+@ignore
 Feature: Allow users to see widgets
 
   As a user of the app

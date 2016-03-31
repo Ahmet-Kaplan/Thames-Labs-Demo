@@ -1,3 +1,4 @@
+@ignore
 Feature: Allow users to change their password
 
   As a user of the app
