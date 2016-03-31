@@ -95,7 +95,7 @@ Meteor.methods({
             faker.hacker.noun() + ' ' +
             faker.hacker.noun();
 
-          var taskId = Tasks.insert({
+          Tasks.insert({
             title: title,
             description: faker.lorem.paragraphs(),
             dueDate: faker.date.future(),

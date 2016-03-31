@@ -219,7 +219,7 @@ Feature: Allow users to manage their Purchase Orders
     Then I should see "#notifications-menu"
     When I click "#notifications-menu"
     Then I should see "#notification"
-
+@dev
   Scenario: A user should see a notification when status is set to "Rejected"
     Given I am on the pro plan
     And I have the "CanEditPurchaseOrders" permission

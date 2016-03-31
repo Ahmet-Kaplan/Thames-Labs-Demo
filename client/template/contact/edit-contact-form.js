@@ -83,7 +83,7 @@ Template.editContactModal.events({
     });
     if (mapData !== null && mapData.title !== undefined) {
       mapData.title = mapData.forename + ' ' + mapData.surname;
-    }else{
+    } else {
       mapData.title = mapData.forename + ' ' + mapData.surname;
     }
     //Set map to the current location
