@@ -1,67 +1,82 @@
 #!/usr/bin/env node
 
-const exec = require('child_process').exec,
-	path = require('path'),
-	extend = require('util')._extend;
+const spawn = require('child_process').spawn,
+			path = require('path'),
+			extend = require('util')._extend;
 
-const meteorCommand = 'meteor --settings settings.json',
-	meteorProcessOptions = {
-		cwd: path.resolve(__dirname, '..'),
-		env: extend(process.env, {
-			STRIPE_PK: "pk_test_W7Cx4LDFStOIaJ2g5DufAIaE",
-			STRIPE_SK: "sk_test_CEgjj8xNKSrQMUrqC4puiHxA",
-			CI: 1
-		})
-	};
+const meteorCommand = 'meteor',
+			meteorArgs = ['--settings', 'settings.json'],
+			meteorProcessOptions = {
+				cwd: path.resolve(__dirname, '..'),
+				env: extend(process.env, {
+					STRIPE_PK: "pk_test_W7Cx4LDFStOIaJ2g5DufAIaE",
+					STRIPE_SK: "sk_test_CEgjj8xNKSrQMUrqC4puiHxA",
+					CI: 1
+				}),
+			};
 
 const chimpCommand = 'chimp';
-var chimpSwitches = ' --ddp=http://localhost:3000 --path=tests/cucumber';
+var chimpArgs = ['--ddp=http://localhost:3000',  '--path=tests/cucumber'];
 
 if (!process.env.CI) {
-	chimpSwitches += ' --watch';
+	chimpArgs.push('--watch');
 }
 
-function startMeteor() {
-	console.log('Starting Meteor');
+console.log('Starting Meteor');
 
-	var meteorProcess = exec(meteorCommand, meteorProcessOptions);
-	meteorProcess.stdout.pipe(process.stdout);
-	meteorProcess.stderr.pipe(process.stderr);
+var meteorProcess = spawn(meteorCommand, meteorArgs, meteorProcessOptions);
 
-	meteorProcess.on('exit', function(code, signal) {
-		console.log('Meteor exited via exit event with code ' + (code ? code : signal));
-		if (code) {
-			process.exit(code);
-		} else {
-			process.exit(0);
-		}
-	});
+meteorProcess.on('exit', function(code, signal) {
+	console.log('Meteor exited via exit event with code ' + (code ? code : signal));
+	if (code) {
+		process.exit(code);
+	} else {
+		process.exit(0);
+	}
+});
 
 
-	meteorProcess.on('close', function(code, signal) {
-		console.log('Meteor exited via close event with code ' + (code ? code : signal));
-		if (code) {
-			process.exit(code);
-		} else {
-			process.exit(0);
-		}
-	});
+meteorProcess.on('close', function(code, signal) {
+	console.log('Meteor exited via close event with code ' + (code ? code : signal));
+	if (code) {
+		process.exit(code);
+	} else {
+		process.exit(0);
+	}
+});
 
-	meteorProcess.stdout.on('data', (data) => {
-		if (data.match('App running at')) {
-			console.log('Starting Chimp');
+meteorProcess.stdout.on('error', (data) => {
+	console.log('ERROR! ' + data.toString());
+});
 
-			var chimpProcess = exec(chimpCommand + chimpSwitches);
-			chimpProcess.stdout.pipe(process.stdout);
-			chimpProcess.stderr.pipe(process.stderr);
+meteorProcess.stdout.on('data', (data) => {
+	//data is a Buffer and needs to be converted to a string to be displayed
+	data = data.toString().replace(/\r?\n|\r/, ' ');
+	console.log(data);
 
-			chimpProcess.on('close', function(code, signal) {
-				meteorProcess.kill();
+	if (data.match('App running at')) {
+		console.log('Starting Chimp');
 
-				console.log('Chimp exited via close event with code ' + (code ? code : signal));
-			});
-		}
-	});
-}
+		var chimpProcess = spawn(chimpCommand, chimpArgs);
 
-startMeteor();
+		chimpProcess.stdout.on('data', (data) => {
+			data = data.toString().replace(/\r?\n|\r/, ' ');
+			console.log(data);
+
+			//Handle results to throw error if tests failed
+			if(data.match(/[0-9]+ scenarios.*[0-9]+.failed/)) {
+				throw new Error('TESTS FAILED!');
+			}
+		})
+
+		chimpProcess.on('close', function(code, signal) {
+			meteorProcess.kill();
+
+			console.log('Chimp exited via close event with code ' + (code ? code : signal));
+		});
+
+		chimpProcess.stdout.on('error', (data) => {
+			console.log('Error raised: ' + data.toString());
+		})
+	}
+});

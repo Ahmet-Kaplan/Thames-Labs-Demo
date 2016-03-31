@@ -23,7 +23,7 @@
     "predeploy": "npm prune --production && npm install --production",
     "lint": "eslint .",
     "precircle": "chmod +x .scripts/start.js",
-    "circle": ".scripts/start.js"
+    "circle": "node .scripts/start.js"
   },
   "repository": {
     "type": "git",
