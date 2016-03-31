@@ -1,7 +1,3 @@
-Template.filterPanel.onRendered(function() {
-  Session.setDefault('search.showFilters', false);
-});
-
 Template.filterPanel.helpers({
   filtersList: function() {
     var mainCollectionName = Template.instance().data.collectionName;
@@ -32,8 +28,5 @@ Template.filterPanel.helpers({
   index: function() {
     var mainCollectionName = Template.instance().data.collectionName;
     return Collections[mainCollectionName].index;
-  },
-  showFilters: function() {
-    return Session.get('search.showFilters');
   }
 });
