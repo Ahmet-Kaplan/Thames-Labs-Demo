@@ -190,7 +190,6 @@ Feature: Allow users to manage their Purchase Orders
     And a "PurchaseOrder" has been created
     And an additional "PurchaseOrder" has been created
     And I click "#menuLinkPurchaseOrders"
-    And I click "#toggleFilters"
     And I set the filter to "Company:" then "Test Ltd"
     Then I should see ".removeProp"
     And "#resultsCount" should say "1 record"
@@ -201,7 +200,6 @@ Feature: Allow users to manage their Purchase Orders
     And a "PurchaseOrder" has been created
     And an additional "PurchaseOrder" has been created
     And I click "#menuLinkPurchaseOrders"
-    And I click "#toggleFilters"
     And I set the filter to "Status:" then "Requested"
     Then I should see ".removeProp"
     And "#resultsCount" should say "1 record"

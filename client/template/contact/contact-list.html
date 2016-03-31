@@ -1,34 +1,27 @@
 <template name="contactList">
 
   {{setPageTitle 'Contacts'}}
-
-  <h1><i class="fa fa-users"></i> Contacts</h1>
-
-  <!-- This should probably be refactored into a "search toolbar" template -->
-
-  <div class="row">
-    <div class="col-md-6">
-      {{#if isInRole 'CanCreateContacts'}}
-        <a class="btn btn-primary addContactToCompany {{#if isMobile}}btn-fullWidth{{/if}}" href="#" id="add-contact" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+X"><i class="fa fa-fw fa-plus"></i> Add contact</a>
-      {{/if}}
-      <div class="btn-group" role="group">
-        <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
-        {{> contactDataManagement}}
+  <div class="row list-header">
+      <div class="col-md-5">
+        <h1>Contacts</h1>
+        <p id="resultsCount" class="list-header-subtitle">{{contactCount}} record{{#if hasMultipleContacts}}s{{/if}}</p>
       </div>
-    </div>
-    <div class="col-md-6">
-      {{> tagManagement collectionName='contacts'}}
-    </div>
-  </div>
-
-  <div class="stick-bar-placeholder"></div>
-  <div class="stick-bar">
-    <div class="row">
-      <div class="col-md-12">
-        {{> searchBox collectionName='contacts'}}
+      <div class="col-md-7 list-header-right">
+        <div class="btn-group pull-right" role="group">
+            {{#if isInRole 'CanCreateContacts'}}
+                <button type="button" class="btn btn-md btn-primary addContactToCompany" id="add-contact" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+X"><i class="fa fa-fw fa-plus"></i> Add contact</button>
+            {{/if}}
+            {{> smallSearchBox collectionName='contacts'}}
+        </div>
+        <br>
+        <ul class="list-toolbar pull-right">        
+            {{> tagManagement collectionName='contacts'}}           
+            {{> contactDataManagement}} 
+            <li><a id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom">Export</a></li>
+        </ul>
       </div>
-    </div>
   </div>
+  {{> filterPanel collectionName='contacts'}}
 
   <div class="search-results" id="search-results">
     {{> searchResults index=ContactsIndex listItemTemplateName='contactListItem'}}

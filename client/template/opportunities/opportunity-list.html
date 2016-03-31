@@ -2,58 +2,52 @@
 
   {{setPageTitle 'Opportunities'}}
 
-  <h1 id="opportunities-page-header"><i class="fa fa-lightbulb-o"></i> Opportunities{{#if archivedShown}} - <i>archived</i>{{/if}}</h1>
-
-  <!-- This should probably be refactored into a "search toolbar" template -->
-
-  <div class="row">
-    <div class="col-md-12">
-      {{#if isInRole 'CanCreateOpportunities'}}
-        <button id="create-opportunity" type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+O"><i class="fa fa-fw fa-plus"></i>Add Opportunity</button>
-      {{/if}}
-      <!-- <div class="btn-group" role="group">
-        <button type="button" class="btn btn-default" id="toggle-close-sort" data-toggle="tooltip" data-placement="bottom" title="Turn sorting by close date on/off"><i class="fa fa-fw fa-sort-numeric-desc"></i></button>
-      </div> -->
-      <div class="btn-group" role="group" id="btn-popover">
-        <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" data-placement="bottom" title="Export results to CSV"><i class="fa fa-fw fa-download"></i></button>
-        <button id="toggle-archived" class="btn btn-{{#if showArchived}}success{{else}}default{{/if}}"><i class="fa fa-fw fa-archive"></i></button>
-        <button id="oppsOverviewWidget" class="btn btn-default" data-toggle="popover" title="Opportunities Overview" data-content="<div id='oppOverviewPop'>
-          <table class='table'>
-            <tbody>
-              <tr>
-                <td>Opportunities:</td>
-                <td class='text-right'>{{totalOpps}}</td>
-              </tr>
-              <tr>
-                <td>Archived Opportunities:</td>
-                <td class='text-right'>{{archivedOpps}}</td>
-              </tr>
-              <tr>
-                <td>Total Value:</td>
-                <td class='text-right'>£{{totalOppValue}}</td>
-              </tr>
-              <tr>
-                <td>Average Value:</td>
-                <td class='text-right'>£{{averageOppValue}}</td>
-              </tr>
-            </tbody>
-          </table>
+  <div class="row list-header">
+      <div class="col-md-5">
+        <h1>Opportunities</h1>
+        <p id="resultsCount" class="list-header-subtitle">{{oppCount}} record{{#if hasMultipleOpps}}s{{/if}}</p>
+      </div>
+      <div class="col-md-7 list-header-right">
+        <div class="btn-group pull-right" role="group">
+            {{#if isInRole 'CanCreateOpportunities'}}
+                <button id="create-opportunity" type="button" class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+O"><i class="fa fa-fw fa-plus"></i> Add opportunity</button>
+            {{/if}}
+            {{> smallSearchBox collectionName='opportunities'}}
         </div>
-          ">
-        <i class="fa fa-fw fa-tasks"></i></button>
-        <button type="button" class="btn btn-{{#if sortByCloseDate}}success{{else}}default{{/if}}" id="toggle-close-sort" data-toggle="tooltip" data-placement="bottom" title="Sort by Closing Date"><i class="fa fa-fw fa-sort-amount-desc"></i></button>
+        <br>
+        <ul class="list-toolbar pull-right">       
+            <li><a id="toggle-close-sort" class="{{#if sortByCloseDate}}text-success{{/if}}">Sort by closing date</a></li>     
+            <li><a id="toggle-archived">{{#if showArchived}}Hide{{else}}Show{{/if}} archived</a></li>     
+            <li><a id="oppsOverviewWidget" data-toggle="popover" title="Opportunities Overview" data-content="<div id='oppOverviewPop'>
+                <table class='table'>
+                    <tbody>
+                    <tr>
+                        <td>Opportunities:</td>
+                        <td class='text-right'>{{totalOpps}}</td>
+                    </tr>
+                    <tr>
+                        <td>Archived Opportunities:</td>
+                        <td class='text-right'>{{archivedOpps}}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Value:</td>
+                        <td class='text-right'>£{{totalOppValue}}</td>
+                    </tr>
+                    <tr>
+                        <td>Average Value:</td>
+                        <td class='text-right'>£{{averageOppValue}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>">Overview</a>
+            </li>
+            {{> tagManagement collectionName='opportunities'}}
+            <li><a id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom">Export</a></li>
+        </ul>
       </div>
-    </div>
   </div>
+  {{> filterPanel collectionName='opportunities'}}
 
-  <div class="stick-bar-placeholder"></div>
-  <div class="stick-bar">
-    <div class="row">
-      <div class="col-md-12">
-        {{> searchBox collectionName='opportunities'}}
-      </div>
-    </div>
-  </div>
 
   {{> searchResults index=OpportunitiesIndex listItemTemplateName='opportunityListItem'}}
 
