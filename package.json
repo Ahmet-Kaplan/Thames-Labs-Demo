@@ -21,7 +21,9 @@
     "prewatch": "npm run lint",
     "deploy": "modulus deploy --project-name realtimecrm --include-modules",
     "predeploy": "npm prune --production && npm install --production",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "precircle": "chmod +x .scripts/start.js",
+    "circle": "node .scripts/start.js"
   },
   "repository": {
     "type": "git",

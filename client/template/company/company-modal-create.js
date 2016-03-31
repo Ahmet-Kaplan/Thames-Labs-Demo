@@ -7,7 +7,8 @@ Template.insertNewCompanyModal.onCreated(function() {
   this.showDuplicationWarning = new ReactiveVar(false);
   // Load google maps
   GoogleMaps.load({
-    libraries: 'places'
+    libraries: 'places',
+    key: Meteor.settings.public.googleDeveloperKey,
   });
 });
 

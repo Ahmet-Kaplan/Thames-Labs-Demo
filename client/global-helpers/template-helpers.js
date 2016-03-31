@@ -46,6 +46,14 @@ Template.registerHelper('decimal', function(number) {
   });
 });
 
+Template.registerHelper('longNumber', function(number) {
+  if (!number) number = 0;
+  number = parseFloat(number);
+  return number.toLocaleString({
+    style: 'decimal'
+  });
+});
+
 Template.registerHelper('formatDateLocale', function(date, locale) {
   if (!locale) locale = 'GMT';
   if (date) {
