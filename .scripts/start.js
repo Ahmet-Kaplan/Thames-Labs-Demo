@@ -64,7 +64,7 @@ meteorProcess.stdout.on('data', (data) => {
 			console.log(data);
 
 			//Handle results to throw error if tests failed
-			if(data.match(/[0-9]+ scenarios.*[0-9]+.failed?/)) {
+			if(data.match(/[0-9]+ scenarios.*[0-9]+.failed/)) {
 				throw new Error('TESTS FAILED!');
 			}
 		})
