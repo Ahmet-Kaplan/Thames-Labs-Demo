@@ -1,4 +1,3 @@
-@ignore
 Feature: Allow users to provide feedback
 
   As a user of the app

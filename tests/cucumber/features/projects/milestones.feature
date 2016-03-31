@@ -1,4 +1,3 @@
-@ignore
 Feature: Allow users to manage their project types and milestones
   As a user of the app
   I want to manage and control my project types and milestones
