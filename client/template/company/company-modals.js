@@ -1,7 +1,8 @@
 Template.insertNewCompanyModal.onCreated(function() {
   // Load google maps
   GoogleMaps.load({
-    libraries: 'places'
+    libraries: 'places',
+    key: Meteor.settings.public.googleDeveloperKey
   });
 });
 
@@ -79,7 +80,8 @@ Template.insertNewCompanyModal.onRendered(function() {
 Template.editCompanyModal.onCreated(function() {
   // Load google maps
   GoogleMaps.load({
-    libraries: 'places'
+    libraries: 'places',
+    key: Meteor.settings.public.googleDeveloperKey
   });
 });
 

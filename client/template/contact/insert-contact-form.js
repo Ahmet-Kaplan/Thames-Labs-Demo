@@ -1,7 +1,8 @@
 Template.insertContactModal.onCreated(function() {
   // Load google maps
   GoogleMaps.load({
-    libraries: 'places'
+    libraries: 'places',
+    key: Meteor.settings.public.googleDeveloperKey
   });
 });
 
