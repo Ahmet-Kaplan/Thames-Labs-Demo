@@ -84,7 +84,7 @@ Meteor.methods({
         clearbitData.return(false);
       });
     } else {
-      clearbit.return(false);
+      clearbitData.return(false);
     }
 
     return clearbitData.wait();
