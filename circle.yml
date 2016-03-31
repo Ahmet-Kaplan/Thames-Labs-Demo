@@ -1,28 +1,27 @@
 machine:
+  java:
+    version: oraclejdk8
+  node:
+    version: 5.2.0
   environment:
-    SELENIUM_BROWSER: chrome
-    VELOCITY_CI: 1
-    CUCUMBER_TAIL: 1
-    CUCUMBER_SCREENSHOTS_DIR: $CIRCLE_ARTIFACTS/screenshots
     CUCUMBER_JSON_OUTPUT: $CIRCLE_TEST_REPORTS/cucumber/tests.cucumber
-    STRIPE_PK: pk_test_W7Cx4LDFStOIaJ2g5DufAIaE
-    STRIPE_SK: sk_test_CEgjj8xNKSrQMUrqC4puiHxA
   post:
     - env
     - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
+general:
+  artifacts:
+    - $CIRCLE_TEST_REPORTS
+    - target
 dependencies:
   cache_directories:
-    # Only caches folders available at end of dependencies stage, so ideally
-    # we would install the meteor packages during this stage
-    - "~/.meteor"
+    - "node_modules"
     - "~/.npm"
+    - "~/_opt"
+    - ~/.meteor
   override:
-    - curl https://install.meteor.com | sh
-    - npm install -g eslint
-    - cd tests/cucumber && npm install
+    - curl https://install.meteor.com/ | sh
+    - npm install
+    - npm install glob
 test:
   override:
-    - eslint .
-    - meteor --test
-  post:
-    - cp .meteor/local/log/*.log $CIRCLE_ARTIFACTS
+    - npm run circle

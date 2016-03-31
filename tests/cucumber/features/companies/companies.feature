@@ -202,12 +202,13 @@ Feature: Allow users to manage their Companies
     And a "Company" has been created
     When I navigate to a company page
     And I click "#add-custom-field"
-    And I set text field with id "custom-field-name" to "velocity2"
+    Then I should see a modal
+    When I set text field with id "custom-field-name" to "velocity2"
     And I set text field with id "custom-field-text-value" to "velocity"
     And I click "#submit-custom-field"
     And I click "#delete-custom-field"
     And I click confirm on the modal
-    Then I should not see ".custom-field-display-item"
+    Then "#custom-fields-panel" should contain "No custom fields"
 
   Scenario: A user can edit an custom field
     Given I have the "CanEditCompanies" permission
@@ -289,7 +290,8 @@ Feature: Allow users to manage their Companies
     And I do not have the "CanCreateTasks" permission
     And a "Company" has been created
     When I navigate to a company page
-    Then I should not see "#btnAddTaskToEntity"
+    Then I should see "#entityTaskList"
+    And I should not see "#btnAddTaskToEntity"
 
   #Activities
   Scenario: A user can add an activity
@@ -357,3 +359,19 @@ Feature: Allow users to manage their Companies
     Then I should see ".removeProp"
     And I should see ".fa-map-marker"
     And "#resultsCount" should say "1 record"
+
+  Scenario: Navigating to the company list with a search term
+    When I navigate to "/companies?q=search"
+    Then I should see the heading "Companies"
+    And the field with selector ".easysearch-input" should contain "search"
+
+  Scenario: Navigating to the company list with a filter
+    When I navigate to "/companies?f%5Btags%5D=tag"
+    Then I should see the heading "Companies"
+    And I should see ".removeProp"
+  
+  Scenario: Searching in the company list should update the URL
+    When I navigate to "/companies"
+    Then I should see the heading "Companies"
+    When I set text field with selector ".easysearch-input" to "search"
+    Then I should see the url is "/companies?q=search"

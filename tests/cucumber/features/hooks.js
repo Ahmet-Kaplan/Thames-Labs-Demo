@@ -10,4 +10,9 @@ module.exports = function( ) {
     server.call('reset');
   });
 
+  // called after all features have completed
+  this.registerHandler('AfterFeatures', function() {
+    // server.call('reset');
+  });
+
 };

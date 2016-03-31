@@ -28,9 +28,6 @@
             <li>{{> atNavButton}}</li>
             {{/if}}
             {{#unless isInRole 'superadmin'}}
-              {{#if isInRole 'Administrator'}}
-             
-              {{/if}}
             <li class="dropdown" id="global-search">
               <a href="#" class="dropdown-toggle" id="toggle-search"><i class="fa fa-search"></i></a>
             </li>
@@ -43,7 +40,7 @@
                 {{/if}}
                 </a>
               <ul class="dropdown-menu">
-                {{#each notifications}} {{> notice}} 
+                {{#each notifications}} {{> notice}}
                 {{else}}
                 <em>No notifications</em>
                 {{/each}}
@@ -98,7 +95,7 @@
   {{#if loggedIn}}
   <div id="id-view-sidemenu">
     <ul class="panel-group" id="menu">
-      {{#unless isInRole 'superadmin'}} 
+      {{#unless isInRole 'superadmin'}}
       <li class="panel-title {{isActiveRoute 'dashboard'}}">
         <a href='/' class="dismiss-on-click" id="menuLinkDashboard">
           <i class="fa fa-fw fa-home"></i> Dashboard
@@ -127,7 +124,6 @@
         </div>
       </div>
 
-      
         <li class="panel-title {{isActiveRoute regex='activities|activity'}}">
           <a href='/activities' class="{{#unless isProTenant}}proFeature {{/unless}}dismiss-on-click" id="menuLinkActivities">
             <i class="fa fa-fw fa-history"></i> Activities
@@ -158,7 +154,6 @@
           <i class="fa fa-fw fa-lightbulb-o"></i> Opportunities
         </a>
       </li>
-      
         <li class="panel-title {{isActiveRoute regex='salespipeline'}}">
           <a href="{{pathFor route='salespipeline'}}" class="{{#unless isProTenant}}proFeature {{/unless}}dismiss-on-click" id="menuLinkSalespipeline">
             <i class="fa fa-fw fa-signal"></i> Sales Pipeline
@@ -176,8 +171,7 @@
           <i class="fa fa-fw fa-barcode"></i> Products
         </a>
       </li>
-      {{/if}} 
-      
+      {{/if}}
         {{#if isInRole 'CanReadPurchaseOrders'}}
           <li class="panel-title {{isActiveRoute regex='purchaseOrders|purchaseOrder'}}">
             <a href='/purchaseorders' class="{{#unless isProTenant}}proFeature {{/unless}}dismiss-on-click" id="menuLinkPurchaseOrders">
@@ -358,13 +352,14 @@
 
 <template name="notice">
   <li class="list-item">
-    <a href="#" class="btnOpenNotice shortText">
+    <a href="#" class="btnOpenNotice shortText" id="notification">
       {{#if recentNote}}
         <i class="fa fa-fw fa-{{icon}} text-primary"></i>
       {{else}}
         <i class="fa fa-fw fa-{{icon}}"></i>
       {{/if}}
-      {{shortText}}
+      {{shortText}}<br />
+      <small><em>{{detail}}</em></small>
     </a>
   </li>
 </template>

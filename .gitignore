@@ -3,3 +3,4 @@ server/ssl/*
 tests/cucumber/.screenshots
 tests/cucumber/$CIRCLE_TEST_REPORTS
 node_modules/
+npm-debug.log
