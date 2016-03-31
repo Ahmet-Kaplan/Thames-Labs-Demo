@@ -63,9 +63,13 @@ meteorProcess.stdout.on('data', (data) => {
 			data = data.toString().replace(/\r?\n|\r/, ' ');
 			console.log(data);
 
+			if(data.match('Given')) {
+				meteorProcess.kill('SIGHUP');
+			}
+
 			//Handle results to throw error if tests failed
 			if(data.match(/[0-9]+ scenarios.*[0-9]+.failed?/)) {
-				throw new Error('TESTS FAILED!');
+				// throw new Error('TESTS FAILED!');
 			}
 		})
 
