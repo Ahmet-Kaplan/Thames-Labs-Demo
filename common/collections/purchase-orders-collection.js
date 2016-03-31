@@ -275,6 +275,9 @@ PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options)
   }
   if (doc.status !== this.previous.status) {
     logEvent('info', 'An existing purchase order has been updated: The value of "status" was changed from ' + this.previous.status + " to " + doc.status);
+    if (Meteor.isServer && _.includes(["Approved", "Rejected"], doc.status)) {
+      Meteor.call('addPoNotification', doc._id, doc.status);
+    };
   }
   if (doc.orderDate !== this.previous.orderDate) {
     logEvent('info', 'An existing purchase order has been updated: The value of "orderDate" was changed from ' + this.previous.orderDate + " to " + doc.orderDate);
