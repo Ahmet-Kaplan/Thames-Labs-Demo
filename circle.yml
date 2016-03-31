@@ -24,4 +24,4 @@ dependencies:
     - npm install glob
 test:
   override:
-    - npm run circle
+    - if [[ ! -z "$CI_PULL_REQUEST" ]] || [[ "$CIRCLE_BRANCH" == master ]]; then npm run circle; fi

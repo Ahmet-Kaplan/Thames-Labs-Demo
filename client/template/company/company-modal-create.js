@@ -139,6 +139,11 @@ Template.insertNewCompanyModal.events({
       name: $('#companyName').val()
     });
     Template.instance().showDetails.set(true);
+
+    //Reset geo search if already displayed
+    if($("#geo").length > 0) {
+      $("#geo").val('');
+    }
   }
 });
 
