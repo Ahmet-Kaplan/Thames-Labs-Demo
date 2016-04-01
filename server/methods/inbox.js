@@ -1,21 +1,35 @@
 import multer from 'multer';
+import bodyParser from 'body-parser';
+
 var upload = multer();
+
+Picker.middleware(upload.single())
+Picker.middleware(bodyParser.urlencoded({
+	extended: true
+}))
+Picker.middleware(bodyParser.json());
 
 Picker
 	.filter(function(req, res) {
 		return req.method == "POST";
 	})
 	.route('/mailbox', function(params, req, res) {
-
 		var data = req.body;
-		Meteor.call('mailgun.createActivityFromBodyData', data);
+		if (data) {
+			Meteor.call('mailgun.createActivityFromBodyData', data);
 
-		res.writeHead(200, {
-			'Content-Type': 'text/plain'
-		});
-		res.end('ok');
-	})
-	.middleware(upload.single());
+			res.writeHead(200, {
+				'Content-Type': 'text/plain'
+			});
+			res.end('Message received and parsed.');
+		} else {
+			res.writeHead(500, {
+				'Content-Type': 'text/plain'
+			});
+			res.end('No body found in request.');
+		}
+	});
+
 
 Meteor.methods({
 	'mailgun.createActivityFromBodyData': function(bodyData) {
