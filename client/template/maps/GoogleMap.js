@@ -77,7 +77,7 @@ Template.map.onRendered(function() {
 
 Template.map.helpers({
   mapOptions: function() {
-    return {   
+    return {
       zoom: 8,
       center: {
         lat: 52.234744,
