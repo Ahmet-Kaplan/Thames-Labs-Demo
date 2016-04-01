@@ -2,4 +2,6 @@ server/ssl/*
 .demeteorized
 tests/cucumber/.screenshots
 tests/cucumber/$CIRCLE_TEST_REPORTS
-node_modules/
+node_modules
+npm-debug.log
+.tern-port
