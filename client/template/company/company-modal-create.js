@@ -25,7 +25,6 @@ Template.insertNewCompanyModal.onRendered(function() {
     }
 
     var domainRegex = new RegExp('^(?:https?\://)?(?:www\.)?[a-z0-9\.-]+\\.[a-z]{2,4}$');
-    console.log(searchInput.match(domainRegex))
     var domainQuery = null;
 
     //If matches url regex, lookup for website
