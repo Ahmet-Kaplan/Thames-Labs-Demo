@@ -230,7 +230,13 @@ Companies.after.insert(function(userId, doc) {
   logEvent('info', 'A new company has been created: ' + doc.name);
 
   if (Meteor.isServer) {
-    var t = Tenants.findOne({});
+    var user = Meteor.users.findOne({
+      _id: userId
+    });
+    var t = Tenants.findOne({
+      _id: user.group
+    });
+    
     Tenants.update({
       _id: t._id
     }, {

@@ -1,49 +1,41 @@
 <template name="taskList">
   {{setPageTitle 'Tasks'}}
-  <h1><i class="fa fa-fw fa-check"></i>{{#if showMine}} My{{/if}} Tasks{{#if showComp}} - <em>Completed</em>{{/if}}</h1>
-  <div class="row">
-    <div class="col-md-12">
-    {{#if isInRole 'CanCreateTasks'}}
-      <div class="btn-group" role="group">
+  
+  <div class="row list-header">
+      <div class="col-md-5">
+        <h1>{{#if showMine}} My{{/if}} Tasks{{#if showComp}} - <em>Completed</em>{{/if}}</h1>
+        <p id="resultsCount" class="list-header-subtitle">{{taskCount}} record{{#if hasMultipleTasks}}s{{/if}}</p>
+      </div>
+      <div class="col-md-7 list-header-right">
         <div class="btn-group" role="group">
-          <button class="btn btn-primary dropdown-toggle{{#if isMobile}} btn-fullWidth{{/if}}" type="button" id="addTaskDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Add Task <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu{{#if isMobile}} btn-fullWidth{{/if}}" aria-labelledby="addTaskDropdown">
-            <li><a href="#" class="add-task" id="user">Personal Task</a></li>
-            <li><a href="#" class="add-task" id="company">Company Task</a></li>
-            <li><a href="#" class="add-task" id="contact">Contact Task</a></li>
-            <li><a href="#" class="add-task" id="opportunity">Opportunity Task</a></li>
-            <li><a href="#" class="add-task" id="project">Project Task</a></li>
-          </ul>
+            {{#if isInRole 'CanCreateTasks'}}
+            <button class="btn btn-md btn-primary dropdown-toggle{{#if isMobile}} btn-fullWidth{{/if}}" type="button" id="addTaskDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-fw fa-plus"></i> Add task  <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu{{#if isMobile}} btn-fullWidth{{/if}}" aria-labelledby="addTaskDropdown">
+                <li><a href="#" class="add-task" id="user">Personal Task</a></li>
+                <li><a href="#" class="add-task" id="company">Company Task</a></li>
+                <li><a href="#" class="add-task" id="contact">Contact Task</a></li>
+                <li><a href="#" class="add-task" id="opportunity">Opportunity Task</a></li>
+                <li><a href="#" class="add-task" id="project">Project Task</a></li>
+            </ul>
+            {{/if}}
+            {{> smallSearchBox collectionName='tasks'}}
         </div>
+        <br>
+        <ul class="list-toolbar pull-right">
+            {{#if isInRole 'CanReadTasks'}}
+              <li><a id="tskToggleCompleted">{{#if showComp}}Hide{{else}}Show{{/if}} completed</a></li>
+              <li><a id="tskToggleMine">{{#if showMine}}Show all tasks{{else}}Show my tasks{{/if}}</a></li>
+              <li><a id="tskToggleCalendar">{{#if showCalendar}}Hide{{else}}Show{{/if}} calendar</a></li>
+            {{/if}}
+            {{#if isInRole 'CanReadTasks'}}
+              {{> taskDataManagement}}
+            {{/if}}
+          </ul>
       </div>
-    {{/if}}
-    {{#if isInRole 'CanReadTasks'}}
-      {{> taskDataManagement}}
-      <div class="btn-group" role="group">
-        <button type="button" class="btn btn-{{#if showComp}}success{{else}}default{{/if}}" id="tskToggleCompleted" >
-          Show completed
-        </button>
-        <button type="button" class="btn btn-{{#if showMine}}success{{else}}default{{/if}}" id="tskToggleMine" >
-          Show My Tasks
-        </button>
-        <button type="button" class="btn btn-{{#if showCalendar}}success{{else}}default{{/if}}" id="tskToggleCalendar" >
-          <i class="fa fa-fw fa-calendar"></i> Show Calendar
-        </button>
-      </div>
-    {{/if}}
-    </div>
   </div>
-
-  <div class="stick-bar-placeholder"></div>
-  <div class="stick-bar">
-    <div class="row">
-      <div class="col-md-12">
-        {{> searchBox collectionName='tasks'}}
-      </div>
-    </div>
-  </div>
+  {{> filterPanel collectionName='tasks'}}
 
   {{#if showCalendar}}
     {{> displayCalendar}}

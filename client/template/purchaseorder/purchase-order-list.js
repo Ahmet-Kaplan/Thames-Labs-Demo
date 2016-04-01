@@ -20,18 +20,24 @@ Template.purchaseOrderList.onCreated(function() {
   this.totalClosedPo = new ReactiveVar(0);
   this.totalCancelledPo = new ReactiveVar(0);
   this.totalRejectedPo = new ReactiveVar(0);
+
+  this.showItems = new ReactiveVar(false);
+  this.totalPOs = new ReactiveVar(0);
 });
 
 Template.purchaseOrderList.onRendered(function() {
+
+  this.autorun(() => {
+    this.totalPOs.set(Collections['purchaseorders'].index.getComponentDict().get('count'));
+  });
+
   var template = this;
 
   var curr = Session.get("showItems");
   if (curr === true) {
-    $('#toggle-item-view').addClass('btn-success').removeClass('btn-default');
     $(".po-list-item").css('margin-bottom', '4px');
     $(".po-list-item").css('padding-bottom', '0');
   } else {
-    $('#toggle-item-view').removeClass('btn-success').addClass('btn-default');
     $(".po-list-item").css('margin-bottom', '');
     $(".po-list-item").css('padding-bottom', '');
   }
@@ -66,7 +72,7 @@ Template.purchaseOrderList.onRendered(function() {
   $('[data-toggle="popover"]').popover({
     html: true,
     placement: "bottom",
-    container: "#btn-popover"
+    container: ".list-header-right"
   });
 });
 
@@ -74,13 +80,12 @@ Template.purchaseOrderList.events({
   'click #toggle-item-view': function(event, template) {
     var curr = Session.get("showItems");
     Session.set("showItems", !curr);
+    template.showItems.set(!curr);
 
     if (Session.get("showItems") === true) {
-      $('#toggle-item-view').addClass('btn-success').removeClass('btn-default');
       $(".po-list-item").css('margin-bottom', '4px');
       $(".po-list-item").css('padding-bottom', '0');
     } else {
-      $('#toggle-item-view').removeClass('btn-success').addClass('btn-default');
       $(".po-list-item").css('margin-bottom', '');
       $(".po-list-item").css('padding-bottom', '');
     }
@@ -149,4 +154,13 @@ Template.purchaseOrderList.helpers({
   totalRejectedPo: function() {
     return Template.instance().totalRejectedPo.get();
   },
+  showItems: function() {
+    return Template.instance().showItems.get();
+  },
+  poCount: function() {
+     return Template.instance().totalPOs.get();
+  },
+  hasMultiplePOs: function() {
+     return Template.instance().totalPOs.get() !== 1;
+  }
 });

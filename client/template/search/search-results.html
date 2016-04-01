@@ -1,5 +1,4 @@
 <template name="searchResults">
-  <small id="resultsCount">{{resultsCount}} record{{#if hasMultipleResults}}s{{/if}}</small>    
   <div class="list-group clearfix">
     {{#EasySearch.Each index=index}}
       {{> listItem extendContext 'index' ../index}}

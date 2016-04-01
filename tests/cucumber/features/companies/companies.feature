@@ -335,12 +335,12 @@ Feature: Allow users to manage their Companies
     Then I should see "#no-activity"
 
   #Filtering and Searching
+
   Scenario: A user can filter companies by city
     Given I have the "Administrator" permission
     And a "Company" has been created
     And an additional "Company" has been created
     When I navigate to "/companies"
-    And I click "#toggleFilters"
     And I set the filter to "City:" then "Cambridge"
     Then I should see ".removeProp"
     And I should see ".fa-map-marker"
@@ -349,7 +349,7 @@ Feature: Allow users to manage their Companies
     And I set the filter to "City:" then "city"
     Then I should see ".removeProp"
     And "#resultsCount" should say "0 records"
-
+ 
   Scenario: Clicking a tag badge applies the filter
     Given I have the "Administrator" permission
     And a "Company" has been created
