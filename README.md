@@ -27,7 +27,7 @@ npm run watch
 
 *Before beginning a full test run do `meteor reset` to clear the database - this is a consequence of our tests having been designed to run in the isolated velocity mirror DB. We should fix this so they can coincide, but it hasn't been done yet*
 
-Start a dev server with `npm start` then 
+Start a dev server with `npm start` then
 
 ```
 npm test
@@ -42,3 +42,25 @@ This will install dependencies via `npm install` then deploy to modulus.
 ```
 npm run deploy
 ```
+
+## Android dev
+*The Android SDK and Java JDK are required. Meteor's mobile guide: http://guide.meteor.com/mobile.html*
+
+Make sure your device is connected via USB, has debug mode on and is on the same network then run:
+
+```
+export ANDROID_HOME="<path/of/your/sdk>"
+npm run android
+```
+Debug by going to chrome://inspect
+
+## ios dev
+*Requires a mac with Xcode installed.*
+
+Run:
+
+```
+npm run ios
+```
+
+This will open Xcode where you can choose your device or emulator to run the app on.
