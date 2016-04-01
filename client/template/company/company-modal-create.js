@@ -13,7 +13,10 @@ Template.insertNewCompanyModal.onCreated(function() {
 });
 
 Template.insertNewCompanyModal.onRendered(function() {
+  $('#companyName').focus();
+
   this.triggerMagicSearch = _.debounce(() => {
+    this.companyData.set({});
     var searchInput = $('#companyName').val().trim();
 
     if(!searchInput) {
@@ -21,7 +24,8 @@ Template.insertNewCompanyModal.onRendered(function() {
       return;
     }
 
-    var domainRegex = new RegExp('^(https?\://)?(www\.)?[a-z0-9\.-]+\.[a-z]{2,4}/?$');
+    var domainRegex = new RegExp('^(?:https?\://)?(?:www\.)?[a-z0-9\.-]+\\.[a-z]{2,4}$');
+    console.log(searchInput.match(domainRegex))
     var domainQuery = null;
 
     //If matches url regex, lookup for website
@@ -40,22 +44,17 @@ Template.insertNewCompanyModal.onRendered(function() {
       });
     //Otherwise, use the companies house API. Clearbit could be used in the future when we have more API Calls.
     } else {
-      Meteor.call('companiesHouse.search.companies', searchInput, (err, res) => {
+      Meteor.call('companiesHouse.search.companies', _.startCase(searchInput.toLowerCase()), (err, res) => {
         if(res) {
-          var ucAll = function(text) {
-            return _.map(text.split(' '), function(word) {
-              return _.capitalize(word.toLowerCase())
-            }).join(' ');
-          }
           var results = {
             total: res.data.total_results,
             results: _.map(res.data.items, function(item, key) {
               return {
                 id: key.toString(),
-                name: ucAll(item.title),
+                name: _.startCase((item.title).toLowerCase()),
                 geo: {
-                  streetName: ucAll(item.address.address_line_1) + (item.address.address_line_2 ? ' ' + ucAll(item.address.address_line_2) : ''),
-                  city: ucAll(item.address.locality),
+                  streetName: _.startCase(item.address.address_line_1.toLowerCase()) + (item.address.address_line_2 ? ' ' + _.startCase(item.address.address_line_2.toLowerCase()) : ''),
+                  city: _.startCase(item.address.locality.toLowerCase()),
                   postalCode: item.address.postal_code,
                   country: 'United Kingdom',
                 }
