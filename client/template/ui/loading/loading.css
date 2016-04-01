@@ -1,3 +1,7 @@
+/****************************************
+        Big circle for whole page
+****************************************/
+
 .sk-spinner-rt {
   background-color: none;
   width: 40px;
@@ -46,6 +50,63 @@
   animation: sk-rt-rotate 2s ease-in-out infinite 1s;
 }
 
+/****************************************
+      Small circle for inside page
+****************************************/
+
+.loading-circles {
+  background-color: none;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  margin: 0px auto;
+}
+
+.loading-circles .sk-rt-light-small-circle {
+  display: block;
+  background-color: none;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  border-radius: 22px;
+  border: 2px solid #C3DFFF;
+  right: 7px;
+  top: -1px;
+  -webkit-animation: sk-rt-rotate 2s ease-in-out infinite 0s;
+  animation: sk-rt-rotate 2s ease-in-out infinite infinite 0s;
+}
+
+.loading-circles .sk-rt-medium-small-circle {
+  display: block;
+  background-color: none;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 20px;
+  border: 2px solid #4FA0DB;
+  -webkit-animation: sk-rt-rotate 2s ease-in-out infinite 0.5s;
+  animation: sk-rt-rotate 2s ease-in-out infinite 0.5s;
+}
+
+.loading-circles .sk-rt-dark-small-circle {
+  display: block;
+  background-color: none;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  border-radius: 20px;
+  border: 2px solid #1B4982;
+  left: 7px;
+  top: 1px;
+  -webkit-animation: sk-rt-rotate 2s ease-in-out infinite 1s;
+  animation: sk-rt-rotate 2s ease-in-out infinite 1s;
+}
+
+/****************************************
+                Animations
+****************************************/
 @-webkit-keyframes sk-rt-rotate {
   50%, 100% {
     -webkit-transform:rotateY(360deg);
