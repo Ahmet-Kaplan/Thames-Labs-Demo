@@ -1,4 +1,14 @@
 Migrations.add({
+  version: 20,
+  name: "It's dangerous to go alone.....",
+  up: function() {
+    ServerSession.set('maintenance', true);
+    console.log('.....take this *DO-DO-DO-DOOOO*');
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
   version: 23,
   name: "Fix sequencing system",
   up: function() {
