@@ -6,7 +6,8 @@
     "test": "tests"
   },
   "dependencies": {
-    "multer": "^1.1.0"
+    "multer": "^1.1.0",
+    "body-parser": "^1.15.0"
   },
   "devDependencies": {
     "chimp": "^0.30.0",
