@@ -6,10 +6,16 @@ Template.productList.onCreated(function() {
   this.totalProducts = new ReactiveVar(0);
   this.totalProductsCost = new ReactiveVar(0);
   this.averageProductsCost = new ReactiveVar(0);
+
+  this.productCount = new ReactiveVar(0);
 });
 
 Template.productList.onRendered(function() {
   var template = this;
+
+  this.autorun(() => {
+    this.productCount.set(Collections['products'].index.getComponentDict().get('count'));
+  });
 
   Meteor.call('report.numberOfProducts', function(err, data) {
     template.totalProducts.set(data.Count);
@@ -21,7 +27,7 @@ Template.productList.onRendered(function() {
     template.averageProductsCost.set(data.Value);
   });
 
-  $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: '#btn-popover'});
+  $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: '.list-header-right'});
 });
 
 Template.productList.events({
@@ -56,5 +62,11 @@ Template.productList.helpers({
   },
   averageProductsCost: function() {
     return Template.instance().averageProductsCost.get();
+  },
+  productCount: function() {
+     return Template.instance().productCount.get();
+  },
+  hasMultipleProducts: function() {
+     return Template.instance().productCount.get() !== 1;
   }
 });

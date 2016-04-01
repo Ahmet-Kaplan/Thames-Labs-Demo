@@ -359,7 +359,13 @@ Projects.after.insert(function(userId, doc) {
   logEvent('info', 'A new project has been created: ' + doc.description);
 
   if (Meteor.isServer) {
-    var t = Tenants.findOne({});
+    var user = Meteor.users.findOne({
+      _id: userId
+    });
+    var t = Tenants.findOne({
+      _id: user.group
+    });
+    
     Tenants.update({
       _id: t._id
     }, {
