@@ -89,6 +89,8 @@ npm run buildmobile
 
 Sign BOTH apk files (ARM and x86) using "realtime.keystore" ***-APK must be signed with this key or the app will not update***
 
+Zipalign files (instructions in meteor guide)
+
 Upload using Android Development Console.
 
 ### IOS
