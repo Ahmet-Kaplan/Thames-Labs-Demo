@@ -87,7 +87,7 @@ npm run buildmobile
 ```
 ### Android
 
-Sign BOTH apk files (ARM and x86) using "realtime.keystore" - MUST BE SIGNED WITH THIS KEY OR APP WILL NOT UPDATE.
+Sign BOTH apk files (ARM and x86) using "realtime.keystore" ***-APK must be signed with this key or the app will not update***
 
 Upload using Android Development Console.
 
