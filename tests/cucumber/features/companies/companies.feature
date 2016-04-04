@@ -79,6 +79,8 @@ Feature: Allow users to manage their Companies
     Given I have the "CanCreateCompanies" permission
     When I navigate to "/companies"
     And I click "#add-company"
+    And I set text field with id "companyName" to "Test Company"
+    And I click "#manual-fill"
     And I set text field "name" to "test company 2"
     And I submit the "insertNewCompany" form
     Then I should see the heading "test company 2"
@@ -229,6 +231,8 @@ Feature: Allow users to manage their Companies
     Given I have the "CanCreateCompanies" permission
     When I navigate to "/companies"
     And I click "#add-company"
+    And I set text field with id "companyName" to "Test Company"
+    And I click "#manual-fill"
     And I search for Cowley Road
     Then the field "postcode" should contain "CB4"
     And I should see a map

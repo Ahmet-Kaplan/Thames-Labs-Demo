@@ -88,7 +88,6 @@ Meteor.methods({
           }
           while (randomAssignee === undefined);
 
-          var dueDate = faker.random.boolean() ? faker.date.future() : undefined;
           var completed = faker.random.boolean();
           var completedAt = completed ? faker.date.recent() : undefined;
           var title = faker.hacker.verb() + ' ' +
@@ -96,10 +95,10 @@ Meteor.methods({
             faker.hacker.noun() + ' ' +
             faker.hacker.noun();
 
-          var taskId = Tasks.insert({
+          Tasks.insert({
             title: title,
             description: faker.lorem.paragraphs(),
-            dueDate: dueDate,
+            dueDate: faker.date.future(),
             remindMe: false,
             isAllDay: faker.random.boolean(),
             assigneeId: randomAssignee._id,
@@ -108,25 +107,27 @@ Meteor.methods({
             entityType: entityType,
             entityId: entityId,
             createdBy: createdBy
-          });
+          }, function(err, taskId) {
+            if(err) return;
 
-          _.each(_.range(_.random(0, 5)), function() {
-            Tasks.addTag(faker.hacker.verb(), {
-              _id: taskId
+            _.each(_.range(_.random(0, 5)), function() {
+              Tasks.addTag(faker.hacker.verb(), {
+                _id: taskId
+              });
             });
-          });
 
-          _.each(_.range(_.random(0, 2)), function() {
-            Activities.insert({
-              type: _.sample(Schemas.Activity._schema.type.allowedValues),
-              notes: faker.lorem.paragraphs(_.random(1, 3)),
-              createdAt: faker.date.recent(100),
-              activityTimestamp: faker.date.recent(100),
-              primaryEntityId: taskId,
-              primaryEntityType: 'tasks',
-              primaryEntityDisplayData: title,
-              taskId: taskId,
-              createdBy: createdBy
+            _.each(_.range(_.random(0, 2)), function() {
+              Activities.insert({
+                type: _.sample(Schemas.Activity._schema.type.allowedValues),
+                notes: faker.lorem.paragraphs(_.random(1, 3)),
+                createdAt: faker.date.recent(100),
+                activityTimestamp: faker.date.recent(100),
+                primaryEntityId: taskId,
+                primaryEntityType: 'tasks',
+                primaryEntityDisplayData: title,
+                taskId: taskId,
+                createdBy: createdBy
+              });
             });
           });
         };

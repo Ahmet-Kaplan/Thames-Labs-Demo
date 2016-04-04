@@ -91,6 +91,7 @@ livedata@1.0.16
 local:partitioner@0.5.5
 localstorage@1.0.7
 logging@1.0.10
+lookback:clearbit@1.2.0_1
 manuel:reactivearray@1.0.5
 matb33:collection-hooks@0.8.1
 matteodem:server-session@0.4.2

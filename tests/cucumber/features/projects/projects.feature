@@ -221,8 +221,8 @@ Feature: Allow users to manage their Projects
     When I click "#delete-custom-field"
     And I click confirm on the modal
     Then I should not see a modal
-    And I should not see ".custom-field-display-item"
     And I should see a "success" toastr with the message "Custom field removed."
+    And I should not see ".custom-field-display-item"
 
 
   Scenario: A user can edit an custom field
