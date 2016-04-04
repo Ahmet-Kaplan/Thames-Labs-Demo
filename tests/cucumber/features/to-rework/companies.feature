@@ -4,9 +4,7 @@ Feature: Allow users to manage their Companies
   So that I can effectively manage the companies that my business communicates with
 
   Background:
-    Given a user exists
-    And I am a logged in user
-    And I have the "CanReadCompanies" permission
+    Given I have the "CanReadCompanies" permission
 
   #Reading
   Scenario: A user can see the companies list

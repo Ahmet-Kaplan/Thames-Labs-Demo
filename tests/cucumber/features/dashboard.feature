@@ -18,16 +18,22 @@ Feature: Allow users to see widgets
     When I am on the pro plan
     Then I can add the purchase orders widgets
 
+  @ignore
+  # pending fix to report stats
   Scenario: A user can add the opportunities widget if they have permission
     Then I can not add the opportunities widget
     When I have permission to read opportunities
     Then I can add the opportunities widget
 
+  @ignore
+  # pending fix to report stats
   Scenario: A user can add the project widget if they have permission
     Then I can not add the project widget
     When I have permission to read projects
     Then I can add the project widget
 
+  @ignore
+  # pending fix to report stats
   Scenario: A user can add the products widget if they have permission
     Then I can not add the products widget
     When I have permission to read products

@@ -4,10 +4,6 @@ Feature: Allow users to change their password
   I want to be able to change my password
   So that I can keep my account safe
 
-  Background:
-    Given a user exists
-    And I am a logged in user
-
   Scenario: A user can change their password
     When I click "#general-dropdown"
     And I click "#btnChangePassword"

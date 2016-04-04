@@ -3,9 +3,9 @@ module.exports = function() {
     if (option === 'can') {
       browser.click('#addWidgetButton');
       expect(browser.isVisible('li=Purchase Orders Overview')).toBe(true);
-      browser.click('li=Purchase Orders Overview');
-      browser.waitForVisible('#poInformationBox');
-      browser.click('#addWidgetButton');
+      // browser.click('li=Purchase Orders Overview');
+      // browser.waitForVisible('#poInformationBox');
+      // browser.click('#addWidgetButton');
       expect(browser.isVisible('li=Requested Purchase Orders')).toBe(true);
       browser.click('li=Requested Purchase Orders');
       browser.waitForVisible('#openPoBox');

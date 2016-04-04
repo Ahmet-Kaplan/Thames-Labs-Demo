@@ -10,16 +10,14 @@ module.exports = function() {
 
   // called before each scenario
   this.Before(function() {
-    // Setup default tenant and user
+    // Reset data
     server.execute(reset);
+
+    // Setup default tenant and user
     const tenantId = server.execute(createTenant);
     server.execute(createUser, tenantId);
 
-    // Setup browser
-    browser.setViewportSize({
-      width: 1200,
-      height: 700
-    });
+    // Navigate to root URL
     browser.url(process.env.ROOT_URL);
 
     // Login as test user

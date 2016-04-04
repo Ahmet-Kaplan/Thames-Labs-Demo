@@ -3,8 +3,6 @@ Feature: Allow users to access a central view of all activities
     I want to view a list of all activities
     So that I can search and filter them as necessary
 
-  Background:
-
   #Company
   Scenario: A user with Company Read permission can see a company activity in the list
     Given a "Company" has been created
@@ -105,6 +103,5 @@ Feature: Allow users to access a central view of all activities
 
   #Free plan
   Scenario: A user on the free plan cannot get to the activities list
-    Given I am on the free plan
-    And I click "#menuLinkActivities"
+    When I click "#menuLinkActivities"
     Then I should see a "warning" toastr

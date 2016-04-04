@@ -8,7 +8,7 @@ module.exports = function() {
     Meteor.loginWithPassword(email, password, done);
   };
 
-  var url = require('url');
+  // var url = require('url');
 
   /***************************************************
                           GIVEN
@@ -26,10 +26,6 @@ module.exports = function() {
 
   this.Given(/^I am on the free plan$/, function() {
     server.call('setTenantToFreePlan');
-  });
-
-  this.Given(/^I am on the pro plan$/, function() {
-    server.call('setTenantToProPlan');
   });
 
   this.Given(/^the second tenant is on the pro plan$/, function() {
@@ -155,8 +151,11 @@ module.exports = function() {
   ***************************************************/
 
   this.When(/^I navigate to "([^"]*)"$/, function(relativePath) {
-    var path = url.resolve(process.env.ROOT_URL, relativePath);
-    browser.url(path);
+    // var path = url.resolve(process.env.ROOT_URL, relativePath);
+    // browser.url(path);
+    browser.execute(function(relativePath) {
+      FlowRouter.go(relativePath);
+    });
   });
 
   this.When(/^I navigate backwards in the browser history$/, function() {

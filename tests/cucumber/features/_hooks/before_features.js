@@ -3,6 +3,13 @@ module.exports = function() {
   // called at the beginning of the full feature run
   this.registerHandler('BeforeFeatures', function() {
 
+    // Setup browser
+    browser.setViewportSize({
+      width: 1200,
+      height: 700
+    });
+
+    // Add extra webdriver commands
     browser.addCommand('selectize', function(selector, value) {
       const selectizeInput = '' + selector + ' + .selectize-control>.selectize-input>input',
             selectizeDropdown = '' + selector + ' + .selectize-control>.selectize-dropdown';
@@ -34,8 +41,11 @@ module.exports = function() {
 
     browser.addCommand('confirmModal', function() {
       browser.safeClick(".modal-footer .btn-primary");
-      browser.waitForExist('.modal-backdrop', 2000, true);
+      browser.waitUntil(function() {
+        return !browser.isExisting('.modal-dialog');
+      });
     });
+
   });
 
 };
