@@ -86,5 +86,7 @@ Do a meteor reset to remove conflicting local files and then build.
 npm run buildmobile
 ```
 *ANDROID ONLY*
+
 Sign BOTH apk files (ARM and x86) using "realtime.keystore" - MUST BE SIGNED WITH THIS KEY OR APP WILL NOT UPDATE.
+
 Upload using Android Development Console.
