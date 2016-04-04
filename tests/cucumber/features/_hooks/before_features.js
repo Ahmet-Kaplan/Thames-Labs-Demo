@@ -46,6 +46,21 @@ module.exports = function() {
       });
     });
 
+    browser.addCommand('waitForModal', function() {
+      browser.waitForExist('.modal-dialog');
+      browser.waitForVisible('.modal-dialog');
+      expect(browser.isExisting('.modal-dialog')).toEqual(true);
+    });
+
+    browser.addCommand('waitForToastr', function(type, message) {
+      const selector = '.toast-' + type + ' .toast-message';
+      browser.waitForExist(selector);
+      browser.waitForVisible(selector);
+      expect(browser.getText(selector))
+        .toContain(message);
+      browser.click(selector);
+    });
+
   });
 
 };
