@@ -8,7 +8,7 @@ module.exports = function() {
     Meteor.loginWithPassword(email, password, done);
   };
 
-  // var url = require('url');
+  var url = require('url');
 
   /***************************************************
                           GIVEN
@@ -151,11 +151,8 @@ module.exports = function() {
   ***************************************************/
 
   this.When(/^I navigate to "([^"]*)"$/, function(relativePath) {
-    // var path = url.resolve(process.env.ROOT_URL, relativePath);
-    // browser.url(path);
-    browser.execute(function(relativePath) {
-      FlowRouter.go(relativePath);
-    });
+    var path = url.resolve(process.env.ROOT_URL, relativePath);
+    browser.url(path);
   });
 
   this.When(/^I navigate backwards in the browser history$/, function() {
