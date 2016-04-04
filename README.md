@@ -76,3 +76,15 @@ npm run ios
 ```
 
 This will open Xcode where you can choose your device or emulator to run the app on.
+
+## Mobile build
+*Only required when device specific code ( e.g. java ) has been edited*
+
+Do a meteor reset to remove conflicting local files and then build.
+
+```
+npm run buildmobile
+```
+*ANDROID ONLY*
+Sign BOTH apk files (ARM and x86) using "realtime.keystore" - MUST BE SIGNED WITH THIS KEY OR APP WILL NOT UPDATE.
+Upload using Android Development Console.
