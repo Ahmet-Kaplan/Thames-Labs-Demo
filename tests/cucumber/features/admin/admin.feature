@@ -12,7 +12,6 @@ Feature: Allow users to manage general tenancy data
     Then I should see the admin screen
 
   #Global Fields
-  @dev
   Scenario: An administrator can add and remove a global custom field
     When I add a global custom field
     Then I should see the global custom field has been created
@@ -25,9 +24,4 @@ Feature: Allow users to manage general tenancy data
     And I remove the global custom field
     Then I should see the global custom field list is empty
     When I visit the company details screen for "test company"
-    Then I should see no global custom fields in the company details
-
-  Scenario: to move to above
-    And I click "#delete-global-custom-field"
-    And I click confirm on the modal
-    Then the global field should no longer be visible
+    Then I should not see the global custom field in the company details

@@ -25,21 +25,6 @@ module.exports = function() {
     // Login as test user
     browser.executeAsync(login, 'test@domain.com', 'goodpassword');
 
-    // Add custom commands
-    browser.addCommand('selectize', function(selector, value) {
-      const selectizeInput = '' + selector + ' + .selectize-control>.selectize-input>input',
-          selectizeDropdown = '' + selector + ' + .selectize-control>.selectize-dropdown';
-      browser.waitForExist(selectizeInput, 5000);
-      browser.waitForVisible(selectizeInput, 5000);
-      browser.setValue(selectizeInput, value);
-      browser.keys('Enter');
-      browser.waitForVisible(selectizeDropdown, 5000, true);
-    });
-    browser.addCommand('userId', function() {
-      return browser.execute(function() {
-        return Meteor.userId();
-      }).value;
-    });
   });
 
 };
