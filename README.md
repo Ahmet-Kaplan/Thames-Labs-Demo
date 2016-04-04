@@ -46,7 +46,7 @@ npm run deploy
 ## Android dev
 *The Android SDK and Java JDK are required. Meteor's mobile guide: http://guide.meteor.com/mobile.html*
 
-Add the Android platform (N.B This MUST be removed before merge into master, as it will break deployment).
+Add the Android platform ***-This must be removed before merge into master or it will break deployment***
 
 ```
 meteor add-platform android
@@ -60,10 +60,10 @@ npm run android
 ```
 Debug by going to chrome://inspect
 
-## ios dev
+## IOS dev
 *Requires a mac with Xcode installed.*
 
-Add the ios platform (N.B This MUST be removed before merge into master, as it will break deployment).
+Add the ios platform ***-This must be removed before merge into master or it will break deployment***
 
 ```
 meteor add-platform ios
@@ -85,8 +85,13 @@ Do a meteor reset to remove conflicting local files and then build.
 ```
 npm run buildmobile
 ```
-*ANDROID ONLY*
+### Android
 
 Sign BOTH apk files (ARM and x86) using "realtime.keystore" - MUST BE SIGNED WITH THIS KEY OR APP WILL NOT UPDATE.
 
 Upload using Android Development Console.
+
+### IOS
+
+Open the output project in Xcode
+Follow Apple's instructions: https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/SubmittingYourApp/SubmittingYourApp.html
