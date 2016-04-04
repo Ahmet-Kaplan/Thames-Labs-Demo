@@ -24,7 +24,6 @@ module.exports = function() {
 
     // Login as test user
     browser.executeAsync(login, 'test@domain.com', 'goodpassword');
-
   });
 
 };

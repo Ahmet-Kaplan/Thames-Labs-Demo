@@ -19,6 +19,12 @@ module.exports = function() {
       }).value;
     });
 
+    browser.addCommand('tenantId', function() {
+      return browser.execute(function() {
+        return Partitioner.group();
+      }).value;
+    });
+
     browser.addCommand('safeClick', function(selector) {
       browser.waitForExist(selector);
       browser.waitForVisible(selector);
