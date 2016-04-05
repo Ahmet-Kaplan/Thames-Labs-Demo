@@ -1,3 +1,5 @@
+# Testing green under new changes but needs reworking
+
 Feature: Allow administrators to give users permissions
   As an administrator
   I want to assign permissions to my users
@@ -7,16 +9,18 @@ Feature: Allow administrators to give users permissions
   I want to view content that is relevant to me
   So that I can work efficiently
 
+  # N.B. this scenario was tweaked slightly and uses a mix of old and new steps
+  # It should be reworked to be entirely new style
   Scenario: The super admin can set a user as an administrator for their tenant
-    Given a superadmin exists
-    And a tenant exists
-    And a restricted user exists
+    Given I am on the pro plan
+    And I am a logged out user
+    And a superadmin exists
     And I am a logged in superadmin user
     When I navigate to "/tenants"
     And I click "#btnEditTenantUser"
     And I click "#cbUserIsTenantAdministrator"
     And I click "#btnUpdateTenantUser"
-    Then the user "restricted user" should have the "Administrator" permission
+    Then the user "test user" should have the "Administrator" permission
 
   Scenario: An administrator can see the correct menu items
     Given a user exists
