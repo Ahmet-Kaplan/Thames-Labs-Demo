@@ -1,3 +1,5 @@
+# Testing green under new changes but needs reworking
+
 Feature: Allow users to manage their Products
 
   As a user of the app
@@ -5,10 +7,7 @@ Feature: Allow users to manage their Products
   So that I can effectively manage the products that my business sells
 
   Background:
-    Given a user exists
-    And I am a logged in user
-    And I have the "CanReadProducts" permission
-
+    Given I have the "CanReadProducts" permission
 
   #Reading
   Scenario: A user can see the products list
