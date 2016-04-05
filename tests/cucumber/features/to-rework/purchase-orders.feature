@@ -1,12 +1,12 @@
+# Testing green under new changes but needs reworking
+
 Feature: Allow users to manage their Purchase Orders
   As a user of the app
   I want to manage my Purchase Orders
   So that I can effectively monitor all incoming and outgoing purchases
 
   Background:
-    Given a user exists
-    And I am a logged in user
-    And I have the "CanReadPurchaseOrders" permission
+    Given I have the "CanReadPurchaseOrders" permission
     
   Scenario: A superadmin user can't visit the Purchase Orders list
     Given a superadmin exists
