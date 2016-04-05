@@ -262,7 +262,6 @@ Meteor.methods({
   },
 
   addOpportunity: function(additional) {
-    var userTenant = Tenants.findOne({});
     var stages = [];
     stages.push({
       title: 'Stage 1',
@@ -275,7 +274,7 @@ Meteor.methods({
       id: 1
     });
     var stage = stages[0];
-    Tenants.update(userTenant._id, {
+    Tenants.update(Partitioner.group(), {
       $set: {
         'settings.opportunity.stages': stages
       }
