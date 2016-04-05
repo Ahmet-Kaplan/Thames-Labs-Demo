@@ -23,5 +23,5 @@ dependencies:
     - npm install
     - npm install glob
 test:
-  override:
+  override: 
     - GIT_COMMIT_MESSAGE=$(git log --format=%B -n 1 $CIRCLE_SHA1) && if [[ ! -z "$CI_PULL_REQUEST" ]] || [[ "$CIRCLE_BRANCH" == "master" ]] || [[ "$GIT_COMMIT_MESSAGE" == *"[run-tests]"* ]]; then npm run circle; else npm run lint; fi
