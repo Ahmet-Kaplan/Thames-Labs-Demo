@@ -1,11 +1,9 @@
+# Testing green under new changes but needs reworking
+
 Feature: Allow users to view event logs
   As a user
   I want to see events
   So that I can manage the previous use of my account
-
-  Background:
-    Given a user exists
-    And I am a logged in user
 
   Scenario: A pro user can see the event log
     Given I have the "CanReadEventLog" permission
