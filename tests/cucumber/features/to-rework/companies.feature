@@ -1,3 +1,5 @@
+# Testing green under new changes but needs reworking
+
 Feature: Allow users to manage their Companies
   As a user of the app
   I want to manage my Companies
@@ -34,14 +36,12 @@ Feature: Allow users to manage their Companies
     And I navigate to "/companies"
     Then I should not see "#mchCompany"
 
-
   Scenario: An administrator can add CanReadCompanies permission
     Given I have the "Administrator" permission
     And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Companies" to a restricted user
     Then the user "restricted user" should have the "CanReadCompanies" permission
-
 
   Scenario: An administrator can remove CanReadCompanies permission
     Given I have the "Administrator" permission
@@ -50,13 +50,11 @@ Feature: Allow users to manage their Companies
     When I remove permissions on "Companies" from a restricted user
     Then the user "restricted user" should not have the "CanReadCompanies" permission
 
-
   Scenario: An administrator can remove CanReadCompanies permission for itself
     Given I have the "Administrator" permission
     And I am on the pro plan
     When I remove permissions on "Companies" for myself
     Then the user "test user" should not have the "CanReadCompanies" permission
-
 
   Scenario: An administrator can add back the CanReadCompanies permission for itself
     Given I have the "Administrator" permission
@@ -135,7 +133,6 @@ Feature: Allow users to manage their Companies
     When I remove permissions on "Companies" from a restricted user
     Then the user "restricted user" should not have the "CanEditCompanies" permission
 
-
   #Deleting
   Scenario: A user can delete a company
     Given I have the "CanDeleteCompanies" permission
@@ -151,14 +148,12 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     Then I should not see "#remove-company"
 
-
   Scenario: An administrator can add CanDeleteCompanies permission
     Given I have the "Administrator" permission
     And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Companies" to a restricted user
     Then the user "restricted user" should have the "CanDeleteCompanies" permission
-
 
   Scenario: An administrator can remove CanDeleteCompanies permission
     Given I have the "Administrator" permission
@@ -175,7 +170,6 @@ Feature: Allow users to manage their Companies
   Scenario: A user can see the Companies menu item with the correct permission
     Given I have the "CanReadCompanies" permission
     Then the "Companies" menu item is shown
-
 
   #Extended information fields
   Scenario: A user can open the "Add custom field" modal
@@ -221,7 +215,6 @@ Feature: Allow users to manage their Companies
     And I click "#submit-ext-info"
     Then I see a field with the name "velocity" in the custom field list
 
-
   #Maps
   Scenario: A user can do a location search and see the map when creating a company
     Given I have the "CanCreateCompanies" permission
@@ -247,7 +240,6 @@ Feature: Allow users to manage their Companies
     When I search for Cowley Road
     Then the field "postcode" should contain "CB4"
     And I should see a map
-
 
   #Tags
   Scenario: A user with the CanEditCompanies permission can edit tags
