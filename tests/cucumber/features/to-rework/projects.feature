@@ -1,12 +1,12 @@
+# Testing green under new changes but needs reworking
+
 Feature: Allow users to manage their Projects
   As a user of the app
   I want to manage my Projects
   So that I know what my project is working on and with whom
 
   Background:
-    Given a user exists
-    And I am a logged in user
-    And I have the "CanReadProjects" permission
+    Given I have the "CanReadProjects" permission
     And I have the "CanReadCompanies" permission
     And I have the "CanCreateCompanies" permission
     And a "Company" has been created
