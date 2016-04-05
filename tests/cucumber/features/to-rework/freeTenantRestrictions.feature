@@ -1,11 +1,9 @@
+# Testing green under new changes but needs reworking
+
 Feature: Restrict free users from certain features
   As a user
   I should not be able to use certain features
   Until I upgrade
-
-  Background:
-    Given a free user exists
-    And I am a logged in user
 
   Scenario: A free user should not be able to add more than 5 global entity fields
     Given I have the "Administrator" permission
