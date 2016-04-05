@@ -1,3 +1,5 @@
+# Testing green under new changes but needs reworking
+
 Feature: Allow users to manage their Tasks
 
   As a user of the app
@@ -5,9 +7,7 @@ Feature: Allow users to manage their Tasks
   So that I can effectively manage the tasks that I have to complete
 
   Background:
-    Given a user exists
-    And I am a logged in user
-    And I have the "CanReadTasks" permission
+    Given I have the "CanReadTasks" permission
 
   #Reading
   Scenario: A user can see the tasks list

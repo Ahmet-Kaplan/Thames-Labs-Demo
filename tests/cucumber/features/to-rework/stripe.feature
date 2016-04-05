@@ -1,3 +1,5 @@
+# Testing green under new changes but needs reworking
+
 Feature: Allow users to subscribe/unsubscribe to Stripe
 
   As a potential user of the app
@@ -5,9 +7,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
   So that I can use the full potential of RealtimeCRM
 
   Background:
-    Given a user exists
-    And I am a logged in user
-    And I have the "Administrator" permission
+    Given I have the "Administrator" permission
 
   Scenario: An Administrator can see the subscription button and the modal
     When I navigate to "/admin"
