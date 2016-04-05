@@ -247,7 +247,13 @@ PurchaseOrders.after.insert(function(userId, doc) {
   logEvent('info', 'A new purchase order has been created: ' + doc.description);
 
   if (Meteor.isServer) {
-    var t = Tenants.findOne({});
+    var user = Meteor.users.findOne({
+      _id: userId
+    });
+    var t = Tenants.findOne({
+      _id: user.group
+    });
+
     Tenants.update({
       _id: t._id
     }, {
@@ -275,6 +281,9 @@ PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options)
   }
   if (doc.status !== this.previous.status) {
     logEvent('info', 'An existing purchase order has been updated: The value of "status" was changed from ' + this.previous.status + " to " + doc.status);
+    if (Meteor.isServer && _.includes(["Approved", "Rejected"], doc.status)) {
+      Meteor.call('addPoNotification', doc._id, doc.status);
+    };
   }
   if (doc.orderDate !== this.previous.orderDate) {
     logEvent('info', 'An existing purchase order has been updated: The value of "orderDate" was changed from ' + this.previous.orderDate + " to " + doc.orderDate);

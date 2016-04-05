@@ -75,6 +75,8 @@ Feature: Allow users to manage their Companies
     Given I have the "CanCreateCompanies" permission
     When I navigate to "/companies"
     And I click "#add-company"
+    And I set text field with id "companyName" to "Test Company"
+    And I click "#manual-fill"
     And I set text field "name" to "test company 2"
     And I submit the "insertNewCompany" form
     Then I should see the heading "test company 2"
@@ -220,6 +222,8 @@ Feature: Allow users to manage their Companies
     Given I have the "CanCreateCompanies" permission
     When I navigate to "/companies"
     And I click "#add-company"
+    And I set text field with id "companyName" to "Test Company"
+    And I click "#manual-fill"
     And I search for Cowley Road
     Then the field "postcode" should contain "CB4"
     And I should see a map
@@ -325,12 +329,12 @@ Feature: Allow users to manage their Companies
     Then I should see "#no-activity"
 
   #Filtering and Searching
+
   Scenario: A user can filter companies by city
     Given I have the "Administrator" permission
     And a "Company" has been created
     And an additional "Company" has been created
     When I navigate to "/companies"
-    And I click "#toggleFilters"
     And I set the filter to "City:" then "Cambridge"
     Then I should see ".removeProp"
     And I should see ".fa-map-marker"
@@ -339,7 +343,7 @@ Feature: Allow users to manage their Companies
     And I set the filter to "City:" then "city"
     Then I should see ".removeProp"
     And "#resultsCount" should say "0 records"
-
+ 
   Scenario: Clicking a tag badge applies the filter
     Given I have the "Administrator" permission
     And a "Company" has been created

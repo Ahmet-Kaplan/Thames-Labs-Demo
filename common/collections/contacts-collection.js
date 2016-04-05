@@ -173,7 +173,7 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
 //////////////////////
 
 Contacts.before.insert(function(userId, doc) {
-   if (doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
+  if (doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
     var name = doc.companyId.substr(9);
     var newCompanyId = Companies.insert({
       name: name,
@@ -212,7 +212,13 @@ Contacts.after.insert(function(userId, doc) {
   logEvent('info', 'A new contact has been created: ' + doc.forename + " " + doc.surname);
 
   if (Meteor.isServer) {
-    var t = Tenants.findOne({});
+    var user = Meteor.users.findOne({
+      _id: userId
+    });
+    var t = Tenants.findOne({
+      _id: user.group
+    });
+
     Tenants.update({
       _id: t._id
     }, {

@@ -203,7 +203,6 @@ Feature: Allow users to manage their Products
     And a "Product" has been created
     And an additional "Product" has been created
     When I navigate to "/products"
-    And I click "#toggleFilters"
     And I set the filter to "Sales Price >" then "1000"
     Then I should see ".removeProp"
     And I should see ".product-item"

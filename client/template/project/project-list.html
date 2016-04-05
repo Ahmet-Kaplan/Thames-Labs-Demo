@@ -2,53 +2,51 @@
 
   {{setPageTitle 'Projects'}}
 
-  <h1><i class="fa fa-sitemap"></i> Projects{{#if archivedShown}} - <i>inactive</i>{{/if}}</h1>
-
-  <!-- This should probably be refactored into a "search toolbar" template -->
-
-  <div class="row">
-    <div class="col-md-12">
-      {{#if isInRole 'CanCreateProjects'}}
-      <a href="#" id="add-project" class="btn btn-primary{{#if isMobile}} btn-fullWidth{{/if}}" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</a>
-      {{/if}}
-      <div class="btn-group" role="group" id="btn-popover">
-        <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
-        <button id="toggle-archived" class="btn btn-{{#if archivedShown}}success{{else}}default{{/if}}"><i class="fa fa-fw fa-archive"></i></button>
-        <button id="ref_projectOverviewWidget" class="btn btn-default" data-toggle="popover" title="Projects Overview" data-content=" <div id='projectOverviewPop'>
-        <table class='table table-no-border'>
-          <tbody>
-            <tr>
-              <td>Projects:</td>
-              <td class='text-right'>{{totalProjects}}</td>
-            </tr>
-            <tr>
-              <td>Active projects:</td>
-              <td class='text-right'>{{activeProjects}}</td>
-            </tr>
-            <tr>
-              <td>Active projects total value:</td>
-              <td class='text-right'>{{decimal projectTotal}}</td>
-            </tr>
-            <tr>
-              <td>Active projects average value:</td>
-              <td class='text-right'>{{decimal projectsAverage}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>">
-        <i class="fa fa-fw fa-tasks"></i></button>
+  <div class="row list-header">
+      <div class="col-md-5">
+        <h1>Projects {{#if archivedShown}} - <i>inactive</i>{{/if}}</h1>
+        <p id="resultsCount" class="list-header-subtitle">{{projectCount}} record{{#if hasMultipleProjects}}s{{/if}}</p>
       </div>
-    </div>
-  </div>
-
-  <div class="stick-bar-placeholder"></div>
-  <div class="stick-bar">
-    <div class="row">
-      <div class="col-md-12">
-        {{> searchBox collectionName='projects'}}
+      <div class="col-md-7 list-header-right">
+        <div class="btn-group pull-right" role="group">
+            {{#if isInRole 'CanCreateProjects'}}
+                <button id="add-project" type="button" class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</button>
+            {{/if}}
+            {{> smallSearchBox collectionName='projects'}}
+        </div>
+        <br>
+        <ul class="list-toolbar pull-right">       
+            <li><a id="toggle-archived">{{#if archivedShown}}Hide{{else}}Show{{/if}} inactive</a></li>     
+            <li><a id="ref_projectOverviewWidget" data-toggle="popover" title="Projects Overview" data-content="
+            <div id='projectOverviewPop'>
+                <table class='table table-no-border'>
+                <tbody>
+                    <tr>
+                    <td>Projects:</td>
+                    <td class='text-right'>{{totalProjects}}</td>
+                    </tr>
+                    <tr>
+                    <td>Active projects:</td>
+                    <td class='text-right'>{{activeProjects}}</td>
+                    </tr>
+                    <tr>
+                    <td>Active projects total value:</td>
+                    <td class='text-right'>{{decimal projectTotal}}</td>
+                    </tr>
+                    <tr>
+                    <td>Active projects average value:</td>
+                    <td class='text-right'>{{decimal projectsAverage}}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>">Overview</a>
+            </li>
+            {{> tagManagement collectionName='projects'}}
+            <li><a id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom">Export</a></li>
+        </ul>
       </div>
-    </div>
   </div>
+  {{> filterPanel collectionName='projects'}}
 
   {{> searchResults index=ProjectsIndex listItemTemplateName='projectListItem'}}
 

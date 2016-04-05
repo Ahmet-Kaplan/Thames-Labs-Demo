@@ -3,6 +3,23 @@ Template.contactList.onCreated(function() {
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'CanReadContacts');
   });
+
+  this.totalContacts = new ReactiveVar(0);
+});
+
+Template.contactList.onRendered(function() {
+  this.autorun(() => {
+    this.totalContacts.set(Collections['contacts'].index.getComponentDict().get('count'));
+  });
+});
+
+Template.contactList.helpers({
+  contactCount: function() {
+     return Template.instance().totalContacts.get();
+  },
+  hasMultipleContacts: function() {
+     return Template.instance().totalContacts.get() !== 1;
+  }
 });
 
 Template.contactList.events({

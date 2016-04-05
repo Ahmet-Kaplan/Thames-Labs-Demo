@@ -19,5 +19,21 @@ Meteor.methods({
     }
 
     Notifications.remove(notificationId);
+  },
+
+  addPoNotification: function(purchaseOrderId, status) {
+    var purchaseOrder = PurchaseOrders.findOne({_id: purchaseOrderId});
+    if(!purchaseOrder) {
+      throw new Meteor.Error(404, 'No PO provided');
+    }
+    Notifications.insert({
+      title: purchaseOrder.description || 'RealTimeCRM Purchase Order Notification',
+      shortDescription: 'RealTimeCRM Purchase Order Notification',
+      detail: "Your purchase order '" + purchaseOrder.description + "' has been " + status + ".",
+      target: purchaseOrder.createdBy,
+      createdAt: new Date(),
+      createdBy: this.userId,
+      icon: 'shopping-cart'
+    });
   }
 })

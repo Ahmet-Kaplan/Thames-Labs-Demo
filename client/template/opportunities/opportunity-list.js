@@ -10,6 +10,8 @@ Template.opportunityList.onCreated(function() {
   this.totalOppValue = new ReactiveVar(0);
   this.averageOppValue = new ReactiveVar(0);
 
+  this.oppsListCount = new ReactiveVar(0);
+
   // Store search index dict on template to allow helpers to access
   this.index = OpportunitiesIndex;
 
@@ -20,6 +22,10 @@ Template.opportunityList.onCreated(function() {
 });
 
 Template.opportunityList.onRendered(function() {
+
+  this.autorun(() => {
+    this.oppsListCount.set(Collections['opportunities'].index.getComponentDict().get('count'));
+  });
 
   // Update reactive vars if search props updated
   this.autorun(() => {
@@ -47,7 +53,7 @@ Template.opportunityList.onRendered(function() {
   $('[data-toggle="popover"]').popover({
     html: true,
     placement: "bottom",
-    container: '#btn-popover'
+    container: '.list-header-right'
   });
 
 });
@@ -70,6 +76,12 @@ Template.opportunityList.helpers({
   },
   sortByCloseDate: function() {
     return Template.instance().sortByCloseDate.get();
+  },
+  oppCount: function() {
+     return Template.instance().oppsListCount.get();
+  },
+  hasMultipleOpps: function() {
+     return Template.instance().oppsListCount.get() !== 1;
   }
 });
 

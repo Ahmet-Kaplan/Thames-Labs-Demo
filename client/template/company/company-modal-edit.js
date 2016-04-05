@@ -1,85 +1,8 @@
-Template.insertNewCompanyModal.onCreated(function() {
-  // Load google maps
-  GoogleMaps.load({
-    libraries: 'places'
-  });
-});
-
-Template.insertNewCompanyModal.events({
-  'click #close': function() {
-    hopscotch.endTour(true);
-  },
-  'change #addCompanyName': function(event, template) {
-    var name = $('#addCompanyName').val();
-    Meteor.call('company.checkExistsByName', name, function(err, res) {
-      if (res === true) {
-        $('#duplicationWarning').show();
-      } else {
-        $('#duplicationWarning').hide();
-      }
-    });
-  }
-});
-
-Template.insertNewCompanyModal.onRendered(function() {
-  $('#duplicationWarning').hide();
-
-  this.autorun(function() {
-    if (GoogleMaps.loaded()) {
-      $("#geo").geocomplete({
-        details: "#insertNewCompanyForm",
-        detailsAttribute: "data-geo"
-      }).bind("geocode:result", function(event, result) {
-        var address = "";
-        var strNumber = _.find(result.address_components, function(elt) {
-          return elt.types[0] == "street_number";
-        });
-
-        if (typeof(strNumber) !== 'undefined') {
-          strNumber = strNumber.long_name;
-          address += strNumber + " ";
-        }
-
-        var route = _.find(result.address_components, function(elt) {
-          return elt.types[0] == "route";
-        });
-
-        if (typeof(route) !== 'undefined') {
-          route = route.long_name;
-          address += route;
-        }
-        $("#formatted_address").val(address);
-        $("#address_details").show();
-        $("#map_wrapper").show();
-        $("#map_canvas").height("400px");
-        var map = new google.maps.Map(document.getElementById("map_canvas"), {
-          zoom: 16,
-          center: result.geometry.location,
-          scrollwheel: false
-        });
-        var marker = new google.maps.Marker({
-          map: map,
-          position: result.geometry.location,
-          draggable: true
-        });
-        google.maps.event.addListener(marker, "dragend", function(event) {
-          $("input[name=lat]").val(marker.getPosition().lat());
-          $("input[name=lng]").val(marker.getPosition().lng());
-        });
-      }).keypress(function(event) {
-        if (event.which == 13) {
-          $("#address_details").show();
-        }
-      });
-    }
-  });
-
-});
-
 Template.editCompanyModal.onCreated(function() {
   // Load google maps
   GoogleMaps.load({
-    libraries: 'places'
+    libraries: 'places',
+    key: Meteor.settings.public.googleDeveloperKey
   });
 });
 

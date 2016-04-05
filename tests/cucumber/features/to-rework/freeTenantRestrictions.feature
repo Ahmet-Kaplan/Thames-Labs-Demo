@@ -59,8 +59,8 @@ Feature: Restrict free users from certain features
     Then I should see a "warning" toastr
 
   Scenario: A free user should not be able to add more that two users
-    Given an additional user exists
-    And I have the "Administrator" permission
+    Given I have the "Administrator" permission
+    And an additional user exists
     And I navigate to "/admin"
     And I click "#userAdminPanelExpander"
     And I click "#addNewUserAccount"

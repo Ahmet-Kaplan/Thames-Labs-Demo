@@ -294,7 +294,6 @@ Feature: Allow users to manage their Contacts
     And a "Contact" has been created
     And I create a new contact belonging to a company
     When I navigate to "/contacts"
-    And I click "#toggleFilters"
     And I set the filter to "Company:" then "Test Ltd"
     Then I should see ".removeProp"
     And I should see ".fa-envelope"

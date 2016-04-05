@@ -46,15 +46,17 @@ Template.onRendered(function() {
   if (stickBar.length > 0 && !bowser.mobile && !bowser.tablet) {
     stickBar.affix({
       offset: {
-        top: stickBar.offset().top
+        top: (stickBar.offset().top - $('.navbar-header').height())
       }
     });
     stickBar.on('affix.bs.affix', function() {
-      $('.stick-bar-placeholder').height(stickBar.height());
+      $('.stick-bar-placeholder').height(0);
     });
     stickBar.on('affixed.bs.affix', function() {
       stickBar.css('width', stickBar.parent().width());
       stickBar.css('top', $('.navbar-header').height());
+      //+25 to account for padding
+      $('.stick-bar-placeholder').height(stickBar.height() + 25);
     });
 
     stickBar.on('affixed-top.bs.affix', function() {

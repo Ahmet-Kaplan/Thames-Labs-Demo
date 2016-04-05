@@ -24,7 +24,8 @@ var updateMap = function(map, title, address) {
 
 Template.map.onCreated(function() {
   GoogleMaps.load({
-    libraries: 'places'
+    libraries: 'places',
+    key: Meteor.settings.public.googleDeveloperKey
   });
 });
 

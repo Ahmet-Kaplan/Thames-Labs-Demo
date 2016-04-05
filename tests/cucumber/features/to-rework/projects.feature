@@ -221,8 +221,8 @@ Feature: Allow users to manage their Projects
     When I click "#delete-custom-field"
     And I click confirm on the modal
     Then I should not see a modal
-    And I should not see ".custom-field-display-item"
     And I should see a "success" toastr with the message "Custom field removed."
+    And I should not see ".custom-field-display-item"
 
 
   Scenario: A user can edit an custom field
@@ -311,7 +311,6 @@ Feature: Allow users to manage their Projects
     And a "Project" has been created
     And an additional "Project" has been created
     When I navigate to "/projects"
-    And I click "#toggleFilters"
     And I set the filter to "Company:" then "Test Ltd"
     Then I should see ".removeProp"
     And "#resultsCount" should say "1 record"

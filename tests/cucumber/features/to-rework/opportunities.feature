@@ -345,7 +345,6 @@ Feature: Allow users to manage their sales opportunities
     And an "Opportunity" has been created
     And an additional "Opportunity" has been created
     When I navigate to "/opportunities"
-    And I click "#toggleFilters"
     And I set the filter to "Company:" then "Test Ltd"
     Then I should see ".removeProp"
     And "#resultsCount" should say "1 record"
@@ -355,7 +354,6 @@ Feature: Allow users to manage their sales opportunities
     And an "Opportunity" has been created
     And an additional "Opportunity" has been created
     When I navigate to "/opportunities"
-    And I click "#toggleFilters"
     And I set the filter to "Value <" then "50"
     Then I should see ".removeProp"
     And "#resultsCount" should say "1 record"

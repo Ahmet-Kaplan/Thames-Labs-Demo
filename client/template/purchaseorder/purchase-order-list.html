@@ -2,65 +2,60 @@
 
   {{setPageTitle 'Purchase Orders'}}
 
-  <h1><i class="fa fa-fw fa-shopping-cart"></i> Purchase Orders {{#if closedShown}} - <i>closed</i>{{/if}}</h1>
-
-  <!-- This should probably be refactored into a "search toolbar" template -->
-
-  <div class="row">
-    <div class="col-md-12">
-    {{#if isInRole 'CanCreatePurchaseOrders'}}
-        <a href="#" id="add-purchase-order" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+P"><i class="fa fa-fw fa-plus"></i>Add purchase order</a>
-    {{/if}}
-      <div class="btn-group" role="group" id="btn-popover">
-        <button type="button" class="btn btn-default" id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom"><i class="fa fa-fw fa-download"></i></button>
-        
-        <button type="button" class="btn btn-default" id="toggle-item-view" data-toggle="tooltip" title="Toggle PO item view on/off" data-placement="bottom"><i class="fa fa-fw fa-shopping-basket"></i></button>
-        <button id="toggle-closed" class="btn btn-{{#if closedShown}}success{{else}}default{{/if}}" data-toggle="tooltip" title="Toggle active/closed purchase orders" data-placement="bottom"><i class="fa fa-fw fa-archive"></i></button>
-
-        <button id="ref_poOverviewWidget" class="btn btn-default" data-toggle="popover" title="Purchase Orders Overview" data-content="<div id='poOverviewPop'>
-          <table class='table table-no-border'>
-            <tbody>
-              <tr>
-                <td>Purchase orders:</td>
-                <td class='text-right'>{{totalPurchaseOrders}}</td>
-              </tr>
-              <tr>
-                <td>Orders approved:</td>
-                <td class='text-right'>{{totalApprovedPo}}</td>
-              </tr>
-              <tr>
-                <td>Orders Arrived:</td>
-                <td class='text-right'>{{totalArrivedPo}}</td>
-              </tr>
-              <tr>
-                <td>Orders closed:</td>
-                <td class='text-right'>{{totalClosedPo}}</td>
-              </tr>
-              <tr>
-                <td>Orders Cancelled:</td>
-                <td class='text-right'>{{totalCancelledPo}}</td>
-              </tr>
-              <tr>
-                <td>Orders Rejected:</td>
-                <td class='text-right'>{{totalRejectedPo}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>">
-        <i class="fa fa-fw fa-tasks"></i></button>
+  <div class="row list-header">
+      <div class="col-md-5">
+        <h1>Purchase Orders {{#if closedShown}} - <i>closed</i>{{/if}}</h1>
+        <p id="resultsCount" class="list-header-subtitle">{{poCount}} record{{#if hasMultiplePOs}}s{{/if}}</p>
       </div>
-    </div>
-  </div>
-
-  <div class="stick-bar-placeholder"></div>
-  <div class="stick-bar">
-    <div class="row">
-      <div class="col-md-12">
-        {{> searchBox collectionName='purchaseorders'}}
+      <div class="col-md-7 list-header-right">
+        <div class="btn-group pull-right" role="group">
+            {{#if isInRole 'CanCreatePurchaseOrders'}}
+                <button type="button" class="btn btn-md btn-primary" id="add-purchase-order" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+P"><i class="fa fa-fw fa-plus"></i> Add purchase order</button>
+            {{/if}}
+            {{> smallSearchBox collectionName='purchaseorders'}}
+        </div>
+        <br>
+        <ul class="list-toolbar pull-right">        
+            <li><a id="toggle-item-view">{{#if showItems}}Hide{{else}}Show{{/if}} PO items</a></li>
+            <li><a id="toggle-closed">Show {{#if closedShown}}active{{else}}closed{{/if}} orders</a></li>
+            <li><a id="ref_poOverviewWidget" data-toggle="popover" title="Purchase Orders Overview" data-content="
+            <div id='poOverviewPop'>
+                <table class='table table-no-border'>
+                    <tbody>
+                    <tr>
+                        <td>Purchase orders:</td>
+                        <td class='text-right'>{{totalPurchaseOrders}}</td>
+                    </tr>
+                    <tr>
+                        <td>Orders approved:</td>
+                        <td class='text-right'>{{totalApprovedPo}}</td>
+                    </tr>
+                    <tr>
+                        <td>Orders Arrived:</td>
+                        <td class='text-right'>{{totalArrivedPo}}</td>
+                    </tr>
+                    <tr>
+                        <td>Orders closed:</td>
+                        <td class='text-right'>{{totalClosedPo}}</td>
+                    </tr>
+                    <tr>
+                        <td>Orders Cancelled:</td>
+                        <td class='text-right'>{{totalCancelledPo}}</td>
+                    </tr>
+                    <tr>
+                        <td>Orders Rejected:</td>
+                        <td class='text-right'>{{totalRejectedPo}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>">Overview</a>
+            </li>
+            {{> tagManagement collectionName='purchaseorders'}}
+            <li><a id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom">Export</a></li>
+        </ul>
       </div>
-    </div>
   </div>
-
+  {{> filterPanel collectionName='purchaseorders'}}
 
   <div class="row">
     <div class="col-md-12" id="purchase-order-list">
