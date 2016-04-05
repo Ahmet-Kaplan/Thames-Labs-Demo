@@ -1,11 +1,11 @@
+# Testing green under new changes but needs reworking
+
 Feature: Allow users to manage their Contacts
   As a user of the app
   I want to manage my Contacts
   So that I can effectively manage the contacts that my business communicates with
 
   Background:
-    Given a user exists
-    And I am a logged in user
     And I have the "CanReadContacts" permission
 
   #Reading
