@@ -1,8 +1,13 @@
+# Testing green under new changes but needs reworking
+
 Feature: Allow users to take tutorials
 
   As a user of the app
   I want to take tutorials for certain parts of the app
   So that I can quickly learn how to use it
+
+  Background:
+    Given I have not seen the welcome modal
 
   #Starting - Welcome Modal
   Scenario: A user can take the welcome tour from the welcome Modal
