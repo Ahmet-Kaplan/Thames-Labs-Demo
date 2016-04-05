@@ -1,12 +1,12 @@
+# Testing green under new changes but needs reworking
+
 Feature: Allow users to manage their project types and milestones
   As a user of the app
   I want to manage and control my project types and milestones
   So that I can control the progress of my projects
 
   Background:
-  Given a user exists
-  And I am a logged in user
-  And I have the "Administrator" permission
+  Given I have the "Administrator" permission
   And a "Company" has been created
 
   #Milestones
