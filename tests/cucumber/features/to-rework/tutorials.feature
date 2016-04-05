@@ -4,11 +4,7 @@ Feature: Allow users to take tutorials
   I want to take tutorials for certain parts of the app
   So that I can quickly learn how to use it
 
-  Background:
-    Given a user exists
-    And I am logged in as a new user
-
-#Starting - Welcome Modal
+  #Starting - Welcome Modal
   Scenario: A user can take the welcome tour from the welcome Modal
     Given I click "#first-run-tour"
     Then I should see the tour
@@ -33,7 +29,7 @@ Feature: Allow users to take tutorials
     When I click "#admin-tutorial"
     Then I should see the tutorial
 
-#Starting - Help Modal
+  #Starting - Help Modal
   Scenario: A user can take the welcome tour from the help Modal
     Then I should see a modal
     When I click "#close"
@@ -78,7 +74,7 @@ Feature: Allow users to take tutorials
     Then I should not see a modal
     Then I should see the tutorial
 
-#Closing
+  #Closing
   Scenario: A user can close the welcome tour and the end modal will show
     Given I have the "CanReadContacts" permission
     And I have the "CanCreateContacts" permission
