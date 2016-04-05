@@ -1,3 +1,5 @@
+# Testing green under new changes but needs reworking
+
 Feature: Allow users to manage their sales opportunities
 
   As a user of the app
@@ -5,11 +7,8 @@ Feature: Allow users to manage their sales opportunities
   So that I can keep track of my opportunities
 
   Background:
-    Given a user exists
-    And I am a logged in user
-    And I have the "CanReadCompanies" permission
+    Given I have the "CanReadCompanies" permission
     And I have the "CanReadOpportunities" permission
-
 
   #Reading
   Scenario: A user can see the opportunities list
@@ -105,7 +104,6 @@ Feature: Allow users to manage their sales opportunities
     When I remove permissions on "Opportunities" from a restricted user
     Then the user "restricted user" should not have the "CanCreateOpportunities" permission
 
-
   #Editing
   Scenario: A user can edit an opportunity
     Given I have the "CanEditOpportunities" permission
@@ -138,7 +136,6 @@ Feature: Allow users to manage their sales opportunities
     When I remove permissions on "Opportunities" from a restricted user
     Then the user "restricted user" should not have the "CanEditOpportunities" permission
 
-
   #Deleting
   Scenario: A user can delete an opportunity
     Given I have the "CanDeleteOpportunities" permission
@@ -168,7 +165,6 @@ Feature: Allow users to manage their sales opportunities
     When I remove permissions on "Opportunities" from a restricted user
     Then the user "restricted user" should not have the "CanDeleteOpportunities" permission
 
-
   #Menu item permissions
   Scenario: A restricted user cannot see the Opportunities menu item without the correct permission
     Given I do not have the "CanReadOpportunities" permission
@@ -177,7 +173,6 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user can see the Opportunities menu item with the correct permission
     Given I have the "CanReadOpportunities" permission
     Then the "Opportunities" menu item is shown
-
 
   #Opportunity Stages
   Scenario: A user can change opportunity stage
