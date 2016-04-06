@@ -229,21 +229,17 @@ Companies.before.insert(function(userId, doc) {
 Companies.after.insert(function(userId, doc) {
   logEvent('info', 'A new company has been created: ' + doc.name);
 
-  if (Meteor.isServer) {
-    var user = Meteor.users.findOne({
-      _id: userId
-    });
-    var t = Tenants.findOne({
-      _id: user.group
-    });
 
-    Tenants.update({
-      _id: t._id
-    }, {
-      $inc: {
-        'settings.company.defaultNumber': 1
-      }
-    });
+  if (Meteor.isServer) {
+    if (doc._groupId) {
+      Tenants.update({
+        _id: doc._groupId
+      }, {
+        $inc: {
+          'settings.company.defaultNumber': 1
+        }
+      });
+    }
   }
 });
 
