@@ -13,6 +13,33 @@ Template.insertContactModal.events({
 });
 
 Template.insertContactModal.onRendered(function() {
+
+  if (Meteor.user()) {
+    var tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    if (tenant) {
+      var options = [];
+      if (tenant.settings.contact.titles) {
+        options = _.map(tenant.settings.contact.titles.split(','), function(input) {
+          return {
+            value: input,
+            text: input
+          }
+        });
+      }
+
+      this.$("#contactTitlePicklist").selectize({
+        delimiter: ',',
+        create: false,
+        options: options,
+        maxItems: 1,
+        selectOnTab: true,
+        allowEmptyOption: true
+      });
+    }
+  }
+
   $('#draggableModal').draggable({
     grid: [50, 50],
     handle: '.modal-header',
@@ -93,5 +120,33 @@ Template.insertCompanyContactModal.helpers({
   },
   companyName: function() {
     return this.name;
+  }
+});
+
+Template.insertCompanyContactModal.onRendered(function() {
+  if (Meteor.user()) {
+    var tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    if (tenant) {
+      var options = [];
+      if (tenant.settings.contact.titles) {
+        options = _.map(tenant.settings.contact.titles.split(','), function(input) {
+          return {
+            value: input,
+            text: input
+          }
+        });
+      }
+
+      this.$("#contactTitlePicklist").selectize({
+        delimiter: ',',
+        create: false,
+        options: options,
+        maxItems: 1,
+        selectOnTab: true,
+        allowEmptyOption: true
+      });
+    }
   }
 });

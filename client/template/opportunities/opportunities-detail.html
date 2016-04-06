@@ -124,7 +124,7 @@
             <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-user"></i> Contact</h4>
               <i class="fa fa-fw fa-chevron-right pull-right"></i>
-               {{contact.name}}
+               {{#if contact.title}}{{contact.title}} {{/if}}{{contact.name}}
             </a>
           {{/if}}
           {{#if salesManagerId}}
