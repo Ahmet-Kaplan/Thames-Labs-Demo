@@ -24,4 +24,4 @@ dependencies:
     - npm install glob
 test:
   override:
-    - npm run lint
+    - npm run circle
