@@ -10,7 +10,7 @@ machine:
     - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
 general:
   artifacts:
-    - $CIRCLE_TEST_REPORTS/cucumber
+    - $CIRCLE_TEST_REPORTS
     - target
 dependencies:
   cache_directories:
