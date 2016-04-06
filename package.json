@@ -6,6 +6,8 @@
     "test": "tests"
   },
   "dependencies": {
+    "body-parser": "^1.15.0",
+    "fibers": "^1.0.10",
     "multer": "^1.1.0"
   },
   "devDependencies": {

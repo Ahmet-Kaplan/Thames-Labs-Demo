@@ -198,7 +198,7 @@ Products.after.insert(function(userId, doc) {
     var t = Tenants.findOne({
       _id: user.group
     });
-    
+
     Tenants.update({
       _id: t._id
     }, {

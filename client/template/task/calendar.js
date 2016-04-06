@@ -10,12 +10,14 @@ Template.displayCalendar.onCreated(function() {
 Template.displayCalendar.onRendered(function() {
 
   //Check first if the user had already been looking in a date/time window and if so go to it
-  var getStartDate = TasksIndex.getComponentDict().get('searchOptions').props.after
-  var getEndDate = TasksIndex.getComponentDict().get('searchOptions').props.before
-  if(moment(getStartDate).isValid()) {
-    $('#tasksCalendar').fullCalendar('gotoDate', moment(getStartDate).startOf('month'));
-  } else if (moment(getEndDate).isValid()) {
-    $('#tasksCalendar').fullCalendar('gotoDate', moment(getEndDate).startOf('month'));
+  if(TasksIndex.getComponentDict().get('searchOptions').props) {
+    var getStartDate = TasksIndex.getComponentDict().get('searchOptions').props.after
+    var getEndDate = TasksIndex.getComponentDict().get('searchOptions').props.before
+    if(moment(getStartDate).isValid()) {
+      $('#tasksCalendar').fullCalendar('gotoDate', moment(getStartDate).startOf('month'));
+    } else if (moment(getEndDate).isValid()) {
+      $('#tasksCalendar').fullCalendar('gotoDate', moment(getEndDate).startOf('month'));
+    }
   }
 
   //On change from month to week, renders current week if is current month
@@ -35,10 +37,11 @@ Template.displayCalendar.onRendered(function() {
     TasksIndex.getComponentMethods().addProps('after', startTime.format('DD MMM YYYY'));
     TasksIndex.getComponentMethods().addProps('before', endTime.format('DD MMM YYYY'));
   });
+
   //Update search index according to the view and trigger the update of the view with new events
   this.autorun(() => {
     var name = TasksIndex.getComponentDict().name;
-    var searchDefinition = Session.get(name + '.searchDefinition');
+    var searchDefinition = Session.get(name + '.searchDefinition') || '';
     var searchOptions = TasksIndex.getComponentDict().get('searchOptions');
     searchOptions.limit = 200;
     var tasksList = TasksIndex.search(searchDefinition, searchOptions);
