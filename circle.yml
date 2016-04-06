@@ -3,8 +3,6 @@ machine:
     version: oraclejdk8
   node:
     version: 5.2.0
-  ruby:
-     version: rbx-2.2.6
   environment:
     CUCUMBER_JSON_OUTPUT: $CIRCLE_TEST_REPORTS/cucumber/tests.cucumber
   post:
@@ -26,5 +24,4 @@ dependencies:
     - npm install glob
 test:
   override:
-    - bundle exec cucumber --format json --out $CIRCLE_TEST_REPORTS/cucumber/tests.cucumber
     - npm run lint
