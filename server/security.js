@@ -12,7 +12,6 @@ Companies.permit(['update']).ifLoggedIn().ifHasRole('CanEditCompanies').apply();
 Companies.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 Companies.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteCompanies').apply();
 Companies.allowTags(function(userId) {
-	console.log(userId);
   return !!userId;
 });
 
