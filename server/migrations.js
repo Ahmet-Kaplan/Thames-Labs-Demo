@@ -279,4 +279,3 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
-Status 

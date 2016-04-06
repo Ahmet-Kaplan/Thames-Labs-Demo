@@ -165,7 +165,7 @@ Meteor.methods({
       return false;
     }
 
-    if (theTenant.plan === 'free' || theTenant.plan === 'pro' && !theTenant.stripe.stripeSubs ) {
+    if (theTenant.plan === 'free' || (theTenant.plan === 'pro' && !theTenant.stripe.stripeSubs)) {
       return true;
     }
 

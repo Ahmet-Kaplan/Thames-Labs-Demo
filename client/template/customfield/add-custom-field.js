@@ -91,20 +91,17 @@ Template.addCustomField.events({
 
 
     if (!nameExists) {
-      var cfId = CustomFields.insert({
-        name: cfName,
-        value: cfValue,
-        defaultValue: '',
-        type: cfType,
-        global: false,
-        order: maxValue + 1,
-        target: this.entity_type,
-        listValues: '',
-        entityId: this.entity_data._id
+      var entityType = this.entity_type;
+      var entityId = this.entity_data._id;
+
+      Meteor.call('customFields.create', cfName, cfValue, cfType, maxValue, entityType, entityId, function(err, res) {
+        if (err) {
+          toastr.error(err);
+        }
+        if (res) {
+          toastr.success('Custom field added.');
+        }
       });
-      if (cfId) {
-        toastr.success('Custom field added.');
-      }
     } else {
       toastr.error('An custom field with that name has already been added.');
       $('#submit-custom-field').prop('disabled', false);
