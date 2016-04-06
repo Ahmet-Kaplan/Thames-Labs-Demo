@@ -21,6 +21,10 @@ Meteor.methods({
     Notifications.remove(notificationId);
   },
 
+  removeAllNotifications: function() {
+      Notifications.remove({target: this.userId});
+  },
+
   addPoNotification: function(purchaseOrderId, status) {
     var purchaseOrder = PurchaseOrders.findOne({_id: purchaseOrderId});
     if(!purchaseOrder) {
