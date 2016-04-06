@@ -63,7 +63,7 @@ var companiesTutorial = {
 		delay: 10
 	}, {
 		title: "Adding a Company",
-		content: "We understand filling out a huge form can be time consuming, so just provide RealTimeCRM with a comapanies name or website and it will do all the hard work for you!",
+		content: "We understand filling out a huge form can be time consuming, so just provide RealTimeCRM with a company's name or website and it will do all the hard work for you!",
 		target: document.querySelector('#companyName'),
 		placement: "right",
 		showNextButton: false,
