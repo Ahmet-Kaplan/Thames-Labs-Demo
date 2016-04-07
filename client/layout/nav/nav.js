@@ -189,6 +189,9 @@ Template.nav.events({
     $('#show-more-notices').show();
     $('#show-less-notices').hide();
   },
+  'click #clear-all': function() {
+    Meteor.call('removeAllNotifications'); 
+  },
   'click #help-menu': function() {
     lastTutorial = "help";
     Modal.show("help");
