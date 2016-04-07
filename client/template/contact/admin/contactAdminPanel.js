@@ -6,7 +6,9 @@ Template.contactAdminPanel.onRendered(function() {
 		var options = [];
 		var items = [];
 		if (tenant.settings.contact.titles) {
-			items = tenant.settings.contact.titles.split(',');
+			items = tenant.settings.contact.titles.split(',').sort(function(a, b) {
+				return a.localeCompare(b);
+			});
 			options = _.map(tenant.settings.contact.titles.split(','), function(input) {
 				return {
 					value: input,
@@ -38,7 +40,10 @@ Template.contactAdminPanel.events({
 			$set: {
 				'settings.contact.titles': values
 			}
+		}, function(err) {
+			if (err) toastr.error('Could not save list of titles.');
 		});
 
+		toastr.success('Title list updated successfully.');
 	}
 });

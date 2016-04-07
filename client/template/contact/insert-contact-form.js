@@ -35,7 +35,8 @@ Template.insertContactModal.onRendered(function() {
         options: options,
         maxItems: 1,
         selectOnTab: true,
-        allowEmptyOption: true
+        allowEmptyOption: true,
+        sortField: 'text'
       });
     }
   }
@@ -101,6 +102,13 @@ Template.insertContactModal.onRendered(function() {
 Template.insertContactModal.helpers({
   currentUser: function() {
     return Meteor.userId();
+  },
+  showTitleField: function(){
+    var tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    if(tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) return true;
+    return false;
   }
 });
 
@@ -120,6 +128,13 @@ Template.insertCompanyContactModal.helpers({
   },
   companyName: function() {
     return this.name;
+  },
+  showTitleField: function(){
+    var tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    if(tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) return true;
+    return false;
   }
 });
 
@@ -145,7 +160,8 @@ Template.insertCompanyContactModal.onRendered(function() {
         options: options,
         maxItems: 1,
         selectOnTab: true,
-        allowEmptyOption: true
+        allowEmptyOption: true,
+        sortField: 'text'
       });
     }
   }
