@@ -60,7 +60,6 @@ quotations = [{
     "Person": "Aristotle"
   },
 
-
   {
     "Quote": "If you want to achieve greatness stop asking for permission."
   }, {
