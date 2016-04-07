@@ -135,7 +135,7 @@ router.route('/', {
 router.route('/admin', {
   name: 'administration',
   subscriptions: function() {
-    // this.register('globalCustomFields', subs.subscribe('globalCustomFields'));
+    this.register('globalCustomFields', subs.subscribe('globalCustomFields'));
   },
   action: function() {
     layout.render('appLayout', {

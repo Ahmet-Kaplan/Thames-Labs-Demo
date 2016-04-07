@@ -312,7 +312,9 @@ PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options)
 });
 
 PurchaseOrders.after.remove(function(userId, doc) {
-  if (ServerSession.get('deletingTenant') === true) return;
-  
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   logEvent('info', 'A purchase order has been deleted: ' + doc.description);
 });

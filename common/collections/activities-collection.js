@@ -186,8 +186,10 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Activities.after.remove(function(userId, doc) {
-  if (ServerSession.get('deletingTenant') === true) return;
-  
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   var entity;
   var entityName;
   if (doc.companyId) {

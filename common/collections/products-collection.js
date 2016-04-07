@@ -170,21 +170,7 @@ Products.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
     var user = Meteor.users.findOne(userId);
     var tenant = Tenants.findOne(user.group);
-    var productCustomFields = tenant.settings.extInfo.product;
-
-    var cfMaster = [];
-    _.each(productCustomFields, function(cf) {
-      var field = {
-        dataName: cf.name,
-        dataValue: cf.defaultValue,
-        dataType: cf.type,
-        isGlobal: true
-      };
-
-      cfMaster.push(field);
-    });
-    doc.extendedInformation = cfMaster;
-    doc.sequencedIdentifier = Tenants.findOne({}).settings.product.defaultNumber;
+    doc.sequencedIdentifier = tenant.settings.product.defaultNumber;
   }
 });
 
@@ -195,12 +181,32 @@ Products.after.insert(function(userId, doc) {
     var user = Meteor.users.findOne({
       _id: userId
     });
-    var t = Tenants.findOne({
+    var tenant = Tenants.findOne({
       _id: user.group
     });
 
+    if (!Roles.userIsInRole(userId, ['superadmin'])) {
+
+      Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'product', function(err, res) {
+        if (err) throw new Meteor.Error(err);
+        _.each(res, function(ex) {
+          CustomFields.insert({
+            name: ex.name,
+            value: (ex.value ? ex.value : ''),
+            defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+            type: ex.type,
+            global: true,
+            order: ex.order,
+            target: 'product',
+            listValues: '',
+            entityId: doc._id
+          });
+        });
+      });
+    }
+
     Tenants.update({
-      _id: t._id
+      _id: tenant._id
     }, {
       $inc: {
         'settings.product.defaultNumber': 1
@@ -225,7 +231,9 @@ Products.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Products.after.remove(function(userId, doc) {
-  if (ServerSession.get('deletingTenant') === true) return;
-  
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   logEvent('info', 'A product has been deleted: ' + doc.name);
 });

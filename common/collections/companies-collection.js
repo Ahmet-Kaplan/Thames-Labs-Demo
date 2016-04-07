@@ -206,21 +206,7 @@ Companies.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
     var user = Meteor.users.findOne(userId);
     var tenant = Tenants.findOne(user.group);
-    var companyCustomFields = tenant.settings.extInfo.company;
-
-    var cfMaster = [];
-    _.each(companyCustomFields, function(cf) {
-      var field = {
-        dataName: cf.name,
-        dataValue: cf.defaultValue,
-        dataType: cf.type,
-        isGlobal: true
-      };
-
-      cfMaster.push(field);
-    });
-    doc.extendedInformation = cfMaster;
-    doc.sequencedIdentifier = Tenants.findOne({}).settings.company.defaultNumber;
+    doc.sequencedIdentifier = tenant.settings.company.defaultNumber;
   }
 
   return true;
@@ -233,12 +219,32 @@ Companies.after.insert(function(userId, doc) {
     var user = Meteor.users.findOne({
       _id: userId
     });
-    var t = Tenants.findOne({
+    var tenant = Tenants.findOne({
       _id: user.group
     });
 
+    if (!Roles.userIsInRole(userId, ['superadmin'])) {
+
+      Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'company', function(err, res) {
+        if (err) throw new Meteor.Error(err);
+        _.each(res, function(ex) {
+          CustomFields.insert({
+            name: ex.name,
+            value: (ex.value ? ex.value : ''),
+            defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+            type: ex.type,
+            global: true,
+            order: ex.order,
+            target: 'company',
+            listValues: '',
+            entityId: doc._id
+          });
+        });
+      });
+    }
+
     Tenants.update({
-      _id: t._id
+      _id: tenant._id
     }, {
       $inc: {
         'settings.company.defaultNumber': 1
@@ -286,7 +292,9 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Companies.after.remove(function(userId, doc) {
-  if (ServerSession.get('deletingTenant') === true) return;
-  
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   logEvent('info', 'A company has been deleted: ' + doc.name);
 });

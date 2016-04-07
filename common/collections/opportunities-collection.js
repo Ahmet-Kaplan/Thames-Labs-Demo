@@ -270,7 +270,9 @@ Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) 
   }
 });
 Opportunities.after.remove(function(userId, doc) {
-  if (ServerSession.get('deletingTenant') === true) return;
-  
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   logEvent('info', 'An opportunity has been deleted: ' + doc.name);
 });

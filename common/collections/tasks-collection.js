@@ -184,7 +184,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
   fields: ['title'],
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, [ 'CanReadTasks']);
+    return Roles.userIsInRole(userId, ['CanReadTasks']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {
@@ -441,8 +441,10 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Tasks.after.remove(function(userId, doc) {
-  if (ServerSession.get('deletingTenant') === true) return;
-  
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   if (doc.taskReminderJob && Meteor.isServer) {
     Meteor.call('deleteTaskReminder', doc.taskReminderJob);
   }
