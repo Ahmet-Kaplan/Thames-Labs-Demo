@@ -224,13 +224,15 @@ Contacts.after.insert(function(userId, doc) {
       });
     }
 
-    Tenants.update({
-      _id: tenant._id
-    }, {
-      $inc: {
-        'settings.contact.defaultNumber': 1
-      }
-    });
+    if (doc._groupId) {
+      Tenants.update({
+        _id: doc._groupId
+      }, {
+        $inc: {
+          'settings.contact.defaultNumber': 1
+        }
+      });
+    }
   }
 });
 

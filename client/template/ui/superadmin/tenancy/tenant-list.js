@@ -1,4 +1,9 @@
 Template.tenantList.onCreated(function() {
+
+  ServerSession.set('demoDataProgress', {
+    completed: 0,
+    total: 0
+  });
   Meteor.call('setDemoDataFlag', false);
   // Redirect if not superadmin
   this.autorun(function() {

@@ -205,13 +205,15 @@ Products.after.insert(function(userId, doc) {
       });
     }
 
-    Tenants.update({
-      _id: tenant._id
-    }, {
-      $inc: {
-        'settings.product.defaultNumber': 1
-      }
-    });
+    if (doc._groupId) {
+      Tenants.update({
+        _id: doc._groupId
+      }, {
+        $inc: {
+          'settings.product.defaultNumber': 1
+        }
+      });
+    }
   }
 });
 

@@ -189,6 +189,9 @@ Template.nav.events({
     $('#show-more-notices').show();
     $('#show-less-notices').hide();
   },
+  'click #clear-all': function() {
+    Meteor.call('removeAllNotifications'); 
+  },
   'click #help-menu': function() {
     lastTutorial = "help";
     Modal.show("help");
@@ -237,6 +240,10 @@ Template.nav.events({
         profile: profile
       }
     });
+  },
+  'click #tips': function(event, template) {
+    event.preventDefault();
+    Modal.show("tipsModal");
   },
   'click #toggle-search': function(event) {
     event.preventDefault();
