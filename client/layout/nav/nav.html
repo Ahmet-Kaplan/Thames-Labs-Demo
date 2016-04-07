@@ -28,6 +28,9 @@
             <li>{{> atNavButton}}</li>
             {{/if}}
             {{#unless isInRole 'superadmin'}}
+            <li class="dropdown" id="tips">
+              <a href="#" class="dropdown-toggle" id="toggle-tips"><i class="fa fa-exclamation"></i></a>
+            </li>
             <li class="dropdown" id="global-search">
               <a href="#" class="dropdown-toggle" id="toggle-search"><i class="fa fa-search"></i></a>
             </li>

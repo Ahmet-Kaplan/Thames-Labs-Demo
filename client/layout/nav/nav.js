@@ -241,6 +241,10 @@ Template.nav.events({
       }
     });
   },
+  'click #tips': function(event, template) {
+    event.preventDefault();
+    Modal.show("tipsModal");
+  },
   'click #toggle-search': function(event) {
     event.preventDefault();
     var state = Session.get('globalSearchOpen');
