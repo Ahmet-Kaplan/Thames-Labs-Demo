@@ -44,57 +44,48 @@ var companiesTutorial = {
 		showNextButton: false,
 		arrowOffset: "-1px"
 	}, {
-		title: "Viewing Your Companies",
-		content: "Here you can see a list of all the companies you have saved. If you dont have any yet don't worry, we'll add one now.",
-		target: document.querySelector('#company-list'),
-		placement: "top",
-		zindex: 1000,
-		delay: 200,
-		width: "300px",
-		xOffset: "center"
+		title: "",
+		content: "",
+		target: document.querySelector('#menuLinkContacts'),
+		placement: "right",
+		smoothScroll: false,
+		onShow: function() {
+			hopscotch.nextStep();
+		}
 	}, {
 		title: "Adding a Company",
-		content: "Click this button to add a company",
+		content: "Below you can see a list of all your companies. If you dont have any yet don't worry, click this button to add one now.",
 		target: document.querySelector('#add-company'),
 		placement: "bottom",
 		showNextButton: false,
 		nextOnTargetClick: true,
-		width: "200px",
 		zindex: 1000,
+		delay: 10
 	}, {
 		title: "Adding a Company",
-		content: "First, type the company's name in here...",
-		target: document.querySelector('#addCompanyName'),
+		content: "We understand filling out a huge form can be time consuming, so just provide RealTimeCRM with a company's name or website and it will do all the hard work for you!",
+		target: document.querySelector('#companyName'),
 		placement: "right",
 		showNextButton: false,
-		delay: 300,
-		onShow: $("#addCompanyName").keyup(_.debounce(function() {
+		delay: 100,
+		onShow: $("#companyName").keyup(_.debounce(function() {
 			hopscotch.nextStep();
 			$(this).unbind('keyup');
 		}, 1000))
 	}, {
 		title: "Adding a Company",
-		content: "...Now add an address for the company... Tip: Once you start typing, you can select the desired address from the drop-down. RealTimeCRM will then auto-fill the rest of the address fields for you.",
-		target: document.querySelector('#geo'),
-		placement: "right",
+		content: "Now select a company from the list of matching companies, or select 'Fill Manually' if there are no results.",
+		target: document.querySelector('.modal-body'),
+		placement: "left",
 		showNextButton: false,
-		smoothScroll: false,
-		onShow: $("#geo").keyup(_.debounce(function(e) {
-			if (e.keyCode != 9) {
-				hopscotch.nextStep();
-				$(this).unbind('keyup');
-			}
-		}, 1000)),
-		onNext: function() {
-			$('#draggableModal').animate({ scrollTop: $('#createCompany').offset().top }, 500);
-		}
+		nextOnTargetClick: true
 	}, {
 		title: "Adding a Company",
-		content: "You can also add a website or a phone number, but these are not required. Once you're done, just click 'Create'.",
-		target: document.querySelector('#addCompanyPhone'),
+		content: "If you clicked a suggested company, the form has now been automatically populated with information! Be sure to check everything is correct, and then click 'create'. If you clicked 'Fill Manually' fill out the data you require and click 'create'.",
+		target: document.querySelector('#btnCreate'),
 		placement: "left",
-		delay: 600,
-		showNextButton: false
+		showNextButton: false,
+		yOffset: -500
 	}, {
 		title: "",
 		content: "",
