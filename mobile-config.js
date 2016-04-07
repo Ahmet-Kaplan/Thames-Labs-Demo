@@ -13,15 +13,39 @@ App.info({
 });
 
 App.icons({
-    'android_ldpi': 'resources/icons/camsoft.png',
-    'android_mdpi': 'resources/icons/camsoft.png',
-    'android_hdpi': 'resources/icons/camsoft.png',
-    'android_xhdpi': 'resources/icons/camsoft.png'
+    'iphone_2x': 'resources/icons/res/ic_launcher_xxhdpi.png',
+    'iphone_3x': 'resources/icons/res/ic_launcher_xxxhdpi.png',
+    'ipad': 'resources/icons/res/ic_launcher_xhdpi.png',
+    'ipad_2x': 'resources/icons/res/ic_launcher_xxxhdpi.png',
+    'ipad_pro': 'resources/icons/res/ic_launcher_xxxhdpi.png',
+    'ios_settings': 'resources/icons/res/ic_launcher_mdpi.png',
+    'ios_settings_2x': 'resources/icons/res/ic_launcher_hdpi.png',
+    'ios_settings_3x': 'resources/icons/res/ic_launcher_xhdpi.png',
+    'ios_spotlight': 'resources/icons/res/ic_launcher_mdpi.png',
+    'ios_spotlight_2x': 'resources/icons/res/ic_launcher_xhdpi.png',
+    'android_mdpi': 'resources/icons/res/ic_launcher_mdpi.png',
+    'android_hdpi': 'resources/icons/res/ic_launcher_hdpi.png',
+    'android_xhdpi': 'resources/icons/res/ic_launcher_xhdpi.png',
+    'android_xxhdpi': 'resources/icons/res/ic_launcher_xxhdpi.png',
+    'android_xxxhdpi': 'resources/icons/res/ic_launcher_xxxhdpi.png'
 });
 
 App.launchScreens({
-    'android_ldpi_portrait': 'resources/splash/ldpi.png',
+    'iphone_2x': 'resources/splash/xhdpi.png',
+    'iphone5': 'resources/splash/xhdpi.png',
+    'iphone6': 'resources/splash/xhdpi.png',
+    'iphone6p_portrait': 'resources/splash/xxhdpi.png',
+    'iphone6p_landscape': 'resources/splash/xxhdpi.png',
+    'ipad_portrait': 'resources/splash/xxhdpi.png',
+    'ipad_portrait_2x': 'resources/splash/xxhdpi.png',
+    'ipad_landscape': 'resources/splash/xxhdpi.png',
+    'ipad_landscape_2x': 'resources/splash/xxhdpi.png',
     'android_mdpi_portrait': 'resources/splash/mdpi.png',
+    'android_mdpi_landscape': 'resources/splash/mdpi.png',
     'android_hdpi_portrait': 'resources/splash/hdpi.png',
-    'android_xhdpi_portrait': 'resources/splash/xhdpi.png'
+    'android_hdpi_landscape': 'resources/splash/hdpi.png',
+    'android_xhdpi_portrait': 'resources/splash/xhdpi.png',
+    'android_xhdpi_landscape': 'resources/splash/xhdpi.png',
+    'android_xxhdpi_portrait': 'resources/splash/xhdpi.png',
+    'android_xxhdpi_landscape': 'resources/splash/xhdpi.png'
 });
