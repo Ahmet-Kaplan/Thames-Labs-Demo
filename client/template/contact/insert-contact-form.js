@@ -103,11 +103,11 @@ Template.insertContactModal.helpers({
   currentUser: function() {
     return Meteor.userId();
   },
-  showTitleField: function(){
+  showTitleField: function() {
     var tenant = Tenants.findOne({
       _id: Meteor.user().group
     });
-    if(tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) return true;
+    if (tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) return true;
     return false;
   }
 });
@@ -129,11 +129,11 @@ Template.insertCompanyContactModal.helpers({
   companyName: function() {
     return this.name;
   },
-  showTitleField: function(){
+  showTitleField: function() {
     var tenant = Tenants.findOne({
       _id: Meteor.user().group
     });
-    if(tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) return true;
+    if (tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) return true;
     return false;
   }
 });
