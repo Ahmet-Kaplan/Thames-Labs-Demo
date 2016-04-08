@@ -49,3 +49,7 @@ App.launchScreens({
     'android_xxhdpi_portrait': 'resources/splash/xhdpi.png',
     'android_xxhdpi_landscape': 'resources/splash/xhdpi.png'
 });
+
+App.setPreference('ShowSplashScreenSpinner', 'true');
+App.setPreference('FadeSplashScreen', 'false');
+App.setPreference('SplashScreenDelay', '100');
