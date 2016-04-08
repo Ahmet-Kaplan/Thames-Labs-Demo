@@ -19,6 +19,7 @@ Template.opportunityList.onCreated(function() {
   // index.getComponentDict()
   this.showArchived = new ReactiveVar(false);
   this.sortByCloseDate = new ReactiveVar(false);
+  this.sortByValue = new ReactiveVar(false);
 });
 
 Template.opportunityList.onRendered(function() {
@@ -35,6 +36,7 @@ Template.opportunityList.onRendered(function() {
 
     this.showArchived.set(props.showArchived ? true : false);
     this.sortByCloseDate.set(props.sortByCloseDate ? true : false);
+    this.sortByValue.set(props.sortByValue ? true : false);
   });
 
   Meteor.call('report.numberOfOpportunities', (err, data) => {
@@ -77,6 +79,9 @@ Template.opportunityList.helpers({
   sortByCloseDate: function() {
     return Template.instance().sortByCloseDate.get();
   },
+  sortByValue: function() {
+    return Template.instance().sortByValue.get();
+  },
   oppCount: function() {
      return Template.instance().oppsListCount.get();
   },
@@ -92,6 +97,15 @@ Template.opportunityList.events({
       indexMethods.removeProps('sortByCloseDate');
     } else {
       indexMethods.addProps('sortByCloseDate', 'true');
+    }
+    $(event.target).blur();
+  },
+  'click #toggle-value-sort': function(event, template) {
+    const indexMethods = Template.instance().index.getComponentMethods();
+    if (Template.instance().sortByValue.get()) {
+        indexMethods.removeProps('sortByValue');
+    } else {
+        indexMethods.addProps('sortByValue', 'true');
     }
     $(event.target).blur();
   },

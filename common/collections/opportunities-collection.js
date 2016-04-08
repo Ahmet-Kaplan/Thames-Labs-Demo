@@ -138,6 +138,10 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         return {
           'estCloseDate': 1
         }
+      } else if (options.search.props.sortByValue) {
+        return {
+          'value': -1
+        }
       } else {
         return {
           'name': 1
