@@ -1,6 +1,9 @@
 Template.updateTenantSettings.helpers({
   coupon: function() {
     return this.stripe.coupon;
+  },
+  companyName: function() {
+    return this.name;
   }
 });
 
@@ -8,10 +11,12 @@ Template.updateTenantSettings.events({
   'click #btnSubmitSettings': function() {
 
     var coupon = $('#coupon').val();
+    var tenantCompanyName = $('#tenantCompanyName').val();
 
-    Tenants.update(this._id, {
+    Tenants.update(this.__originalId, {
       $set: {
-        "stripe.coupon": coupon
+        name: tenantCompanyName,
+        "stripe.coupon": coupon,
       }
     });
 
