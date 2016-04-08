@@ -100,7 +100,7 @@ Template.opportunityList.events({
     }
     $(event.target).blur();
   },
-  'click #toggle-value-sort' : function(event, template) {
+  'click #toggle-value-sort': function(event, template) {
     const indexMethods = Template.instance().index.getComponentMethods();
     if (Template.instance().sortByValue.get()) {
         indexMethods.removeProps('sortByValue');

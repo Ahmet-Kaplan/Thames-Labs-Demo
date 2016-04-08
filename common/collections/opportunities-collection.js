@@ -140,11 +140,11 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         }
       } else if (options.search.props.sortByValue) {
         return {
-          'value':-1
+          'value': -1
         }
       } else {
         return {
-          'name' : 1
+          'name': 1
         }
       }
     },
