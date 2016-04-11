@@ -64,4 +64,18 @@ Template.onRendered(function() {
       stickBar.css('width', '');
     });
   }
+
+  //If connection is lost on mobile, alert the user
+  document.addEventListener("offline", onOffline, false);
+  function onOffline() {
+    navigator.notification.alert(
+        'It looks like your device is not connected to the internet, please check the connection and try again',
+         alertDismissed,
+        'No Connection'
+    );
+  }
+
+  function alertDismissed() {
+    console.log("Device was offline")
+  }
 });
