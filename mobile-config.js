@@ -53,3 +53,6 @@ App.launchScreens({
 App.setPreference('ShowSplashScreenSpinner', 'true');
 App.setPreference('FadeSplashScreen', 'false');
 App.setPreference('SplashScreenDelay', '100');
+App.setPreference('StatusBarBackgroundColor', '#173E6F');
+App.setPreference('BackgroundColor', '#173E6F');
+App.setPreference('SplashMaintainAspectRatio', 'true');
