@@ -6,6 +6,6 @@ Template.footer.helpers({
 });
 
 //Hide the splashscreen as quickly as possible
-Template.footer.onRendered(function () {
+Template.footer.onRendered(function() {
     navigator.splashscreen.hide();
 });
