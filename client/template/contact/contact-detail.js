@@ -91,50 +91,54 @@ Template.contactDetail.helpers({
     })
   },
   linksList: function() {
-    return [
-      {
-        text: 'Contacts details',
-        anchor: 'contact-details',
-        icon: 'fa-file-text-o',
-        permission: 'CanReadContacts'
-      },
-      {
-        text: 'Current projects',
-        anchor: 'projects',
-        icon: 'fa-sitemap',
-        permission: 'CanReadProjects'
-      },
-      {
-        text: 'Purchase Orders',
-        anchor: 'purchase-orders',
-        icon: 'fa-shopping-cart',
-        permission: 'CanReadPurchaseOrders'
-      },
-      {
-        text: 'Tasks',
-        anchor: 'tasks',
-        icon: 'fa-tasks',
-        permission: 'CanReadTasks'
-      },
-      {
-        text: 'Custom Fields',
-        anchor: 'entity-custom-fields',
-        icon: 'fa-bookmark',
-        permission: 'CanEditContacts'
-      },
-      {
-        text: 'Opportunities',
-        anchor: 'opportunities',
-        icon: 'fa-lightbulb-o',
-        permission: 'CanReadOpportunities'
-      },
-      {
-        text: 'Activity Timeline',
-        anchor: 'activity-timeline',
-        icon: 'fa-list',
-        permission: 'CanReadContacts'
+    return [{
+      text: 'Contacts details',
+      anchor: 'contact-details',
+      icon: 'fa-file-text-o',
+      permission: 'CanReadContacts'
+    }, {
+      text: 'Current projects',
+      anchor: 'projects',
+      icon: 'fa-sitemap',
+      permission: 'CanReadProjects'
+    }, {
+      text: 'Purchase Orders',
+      anchor: 'purchase-orders',
+      icon: 'fa-shopping-cart',
+      permission: 'CanReadPurchaseOrders'
+    }, {
+      text: 'Tasks',
+      anchor: 'tasks',
+      icon: 'fa-tasks',
+      permission: 'CanReadTasks'
+    }, {
+      text: 'Custom Fields',
+      anchor: 'entity-custom-fields',
+      icon: 'fa-bookmark',
+      permission: 'CanEditContacts'
+    }, {
+      text: 'Opportunities',
+      anchor: 'opportunities',
+      icon: 'fa-lightbulb-o',
+      permission: 'CanReadOpportunities'
+    }, {
+      text: 'Activity Timeline',
+      anchor: 'activity-timeline',
+      icon: 'fa-list',
+      permission: 'CanReadContacts'
+    }]
+  },
+  showTitle: function() {
+    if (this.title) {
+      var tenant = Tenants.findOne({
+        _id: Meteor.user().group
+      });
+      if (tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) {
+        var titles = tenant.settings.contact.titles.split(',');
+        return _.contains(titles, this.title);
       }
-    ]
+    }
+    return false;
   }
 });
 

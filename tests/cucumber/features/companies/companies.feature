@@ -353,7 +353,7 @@ Feature: Allow users to manage their Companies
     And I set the filter to "City:" then "city"
     Then I should see ".removeProp"
     And "#resultsCount" should say "0 records"
- 
+
   Scenario: Clicking a tag badge applies the filter
     Given I have the "Administrator" permission
     And a "Company" has been created
@@ -373,7 +373,7 @@ Feature: Allow users to manage their Companies
     When I navigate to "/companies?f%5Btags%5D=tag"
     Then I should see the heading "Companies"
     And I should see ".removeProp"
-  
+
   Scenario: Searching in the company list should update the URL
     When I navigate to "/companies"
     Then I should see the heading "Companies"

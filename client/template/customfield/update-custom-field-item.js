@@ -68,11 +68,11 @@ Template.extInfo.onRendered(function() {
   this.$('.datetimepicker').datetimepicker();
 
   var index = this.data.name;
-  var attr = this.data.props;
+  var attr = this.data;
 
   var safeName = '#extInfos' + index.replace(/ /g, '');
   var selectorName = safeName + "TypeOptions";
-  $(selectorName).val(attr.dataType);
+  $(selectorName).val(attr.type);
 
   if (attr.listValues) {
     var options = _.map(attr.listValues.split(','), function(input) {
@@ -89,9 +89,9 @@ Template.extInfo.onRendered(function() {
     });
   }
 
-  switch (attr.dataType) {
+  switch (attr.type) {
     case 'text':
-      $(safeName + "TextValue").val(attr.dataValue);
+      $(safeName + "TextValue").val(attr.value);
       $(safeName + "TextInputArea").show();
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").hide();
@@ -99,7 +99,7 @@ Template.extInfo.onRendered(function() {
       $(safeName + "PicklistInputArea").hide();
       break;
     case 'advtext':
-      $(safeName + "AdvTextValue").html(attr.dataValue);
+      $(safeName + "AdvTextValue").html(attr.value);
       $(safeName + "TextInputArea").hide();
       $(safeName + "AdvTextInputArea").show();
       $(safeName + "BooleanInputArea").hide();
@@ -115,7 +115,7 @@ Template.extInfo.onRendered(function() {
       });
       break;
     case 'checkbox':
-      $(safeName + "BooleanValue").prop('checked', attr.dataValue);
+      $(safeName + "BooleanValue").prop('checked', attr.value);
       $(safeName + "TextInputArea").hide();
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").show();
@@ -123,7 +123,7 @@ Template.extInfo.onRendered(function() {
       $(safeName + "PicklistInputArea").hide();
       break;
     case 'date':
-      $(safeName + "DateValue").val(attr.dataValue);
+      $(safeName + "DateValue").val(attr.value);
       $(safeName + "TextInputArea").hide();
       $(safeName + "AdvTextInputArea").hide();
       $(safeName + "BooleanInputArea").hide();
@@ -138,7 +138,7 @@ Template.extInfo.onRendered(function() {
       $(safeName + "PicklistInputArea").show();
 
       var se = $(safeName + 'PicklistValue').selectize();
-      se[0].selectize.setValue(attr.dataValue);
+      se[0].selectize.setValue(attr.value);
       break;
   }
 

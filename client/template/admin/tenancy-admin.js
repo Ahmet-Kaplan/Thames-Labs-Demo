@@ -7,12 +7,11 @@ Template.tenancyAdminPage.onCreated(function() {
 });
 
 Template.tenancyAdminPage.helpers({
-
   isFreeProTenant: function() {
     if (!Meteor.user() || !Meteor.user().group) return false;
     var user = Meteor.user(),
       tenant = Tenants.findOne(user.group);
-      return tenant.plan === 'pro' && !tenant.stripe.stripeSubs;
+    return tenant.plan === 'pro' && !tenant.stripe.stripeSubs;
   },
 
   tenantUsers: function() {
@@ -20,90 +19,38 @@ Template.tenancyAdminPage.helpers({
   },
 
   globalCompanyCustomFields: function() {
-    var data = [];
-    var user = Meteor.users.findOne(Meteor.userId());
-    if (!user) return;
-
-    var tenant = Tenants.findOne(user.group);
-    if (!tenant) return;
-
-
-    var fields = tenant.settings.extInfo.company;
-    if (fields) {
-      _.each(fields, function(f) {
-        data.push(f);
-      });
-    }
-
-    return data.sort(function(a, b) {
-      if (a.dataOrder < b.dataOrder) return -1;
-      if (a.dataOrder > b.dataOrder) return 1;
+    return CustomFields.find({
+      target: 'company'
+    }).fetch().sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
       return 0;
     });
   },
-
   globalContactCustomFields: function() {
-    var data = [];
-    var user = Meteor.users.findOne(Meteor.userId());
-    if (!user) return;
-
-    var tenant = Tenants.findOne(user.group);
-    if (!tenant) return;
-
-    var fields = tenant.settings.extInfo.contact;
-    if (fields) {
-      _.each(fields, function(f) {
-        data.push(f);
-      });
-    }
-
-    return data.sort(function(a, b) {
-      if (a.dataOrder < b.dataOrder) return -1;
-      if (a.dataOrder > b.dataOrder) return 1;
+    return CustomFields.find({
+      target: 'contact'
+    }).fetch().sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
       return 0;
     });
   },
   globalProjectCustomFields: function() {
-    var data = [];
-    var user = Meteor.users.findOne(Meteor.userId());
-    if (!user) return;
-
-    var tenant = Tenants.findOne(user.group);
-    if (!tenant) return;
-
-
-    var fields = tenant.settings.extInfo.project;
-    if (fields) {
-      _.each(fields, function(f) {
-        data.push(f);
-      });
-    }
-
-    return data.sort(function(a, b) {
-      if (a.dataOrder < b.dataOrder) return -1;
-      if (a.dataOrder > b.dataOrder) return 1;
+    return CustomFields.find({
+      target: 'project'
+    }).fetch().sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
       return 0;
     });
   },
   globalProductCustomFields: function() {
-    var data = [];
-    var user = Meteor.users.findOne(Meteor.userId());
-    if (!user) return;
-
-    var tenant = Tenants.findOne(user.group);
-    if (!tenant) return;
-
-
-    var fields = tenant.settings.extInfo.product;
-    if (fields) {
-      _.each(fields, function(f) {
-        data.push(f);
-      });
-    }
-
-    return data.sort(function(a, b) {
-      if (a.dataOrder < b.dataOrder) return -1;
-      if (a.dataOrder > b.dataOrder) return 1;
+    return CustomFields.find({
+      target: 'product'
+    }).fetch().sort(function(a, b) {
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
       return 0;
     });
   },
@@ -160,7 +107,7 @@ Template.tenancyAdminPage.events({
     });
   },
   'click #addGlobalCustomField': function(event) {
-    event.preventDefault();
+    event.preventDefault();    
     Modal.show('addNewGlobalCustomField');
   }
 });
@@ -172,20 +119,23 @@ Template.adminAreaUser.helpers({
 });
 
 Template.gcf_display.helpers({
+  canMove: function() {
+    return CustomFields.find({
+      target: this.target
+    }).fetch().length > 1;
+  },
   canMoveUp: function() {
-    return this.dataOrder > 0;
+    return this.order > 0;
   },
   canMoveDown: function() {
-    if(!Meteor.user()) return;
-    var exInfLen = Tenants.findOne({
-      _id: Meteor.user().group
-    }).settings.extInfo[this.targetEntity].length;
-    return this.dataOrder < exInfLen - 1;
+    return this.order < CustomFields.find({
+      target: this.target
+    }).fetch().length - 1;
   },
   niceEntity: function() {
     var retVal = "";
 
-    switch (this.targetEntity) {
+    switch (this.target) {
       case 'company':
         retVal = 'Companies';
         break;
@@ -232,7 +182,7 @@ Template.gcf_display.helpers({
 Template.gcf_display.events({
   'click #orderUp': function() {
     var self = this;
-    Meteor.call('changeExtInfoOrder', self.targetEntity, self.name, "up", function(err, res) {
+    Meteor.call('changeExtInfoOrder', self, "up", function(err, res) {
       if (err) throw new Meteor.Error(err);
       if (res.exitCode !== 0) {
         toastr.error(res.exitStatus);
@@ -241,7 +191,7 @@ Template.gcf_display.events({
   },
   'click #orderDown': function() {
     var self = this;
-    Meteor.call('changeExtInfoOrder', self.targetEntity, self.name, "down", function(err, res) {
+    Meteor.call('changeExtInfoOrder', self, "down", function(err, res) {
       if (err) throw new Meteor.Error(err);
       if (res.exitCode !== 0) {
         toastr.error(res.exitStatus);

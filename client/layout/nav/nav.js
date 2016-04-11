@@ -190,7 +190,7 @@ Template.nav.events({
     $('#show-less-notices').hide();
   },
   'click #clear-all': function() {
-    Meteor.call('removeAllNotifications'); 
+    Meteor.call('removeAllNotifications');
   },
   'click #help-menu': function() {
     lastTutorial = "help";
