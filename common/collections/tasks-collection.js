@@ -342,6 +342,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
+
 Tasks.after.insert(function(userId, doc) {
   if (doc.remindMe && doc.reminder && Meteor.isServer) {
     Meteor.call('addTaskReminder', doc._id);

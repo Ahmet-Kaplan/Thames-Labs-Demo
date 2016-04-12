@@ -6,6 +6,17 @@ Template.taskDetail.onCreated(function() {
   });
   if (task) {
     if (task.parentTaskId) this.subscribe('taskById', task.parentTaskId);
+
+    switch (task.entityType) {
+      case 'company':
+        this.subscribe('companyById', task.entityId);
+      case 'contact':
+        this.subscribe('contactById', task.entityId);
+      case 'project':
+        this.subscribe('projectById', task.entityId);
+      case 'opportunity':
+        this.subscribe('opportunityById', task.entityId);
+    }
   }
 });
 
@@ -63,12 +74,15 @@ Template.taskDetail.helpers({
   },
   entityDetails: function() {
     var entityData = "";
+    var entityId = this.entityId;
+
+    if (!this || !entityId) return;
 
     switch (this.entityType) {
       case 'company':
-        var handle = Template.instance().subscribe("companyById", this.entityId);
+        var handle = Template.instance().subscribe("companyById", entityId);
         if (handle && handle.ready()) {
-          var c = Companies.findOne(this.entityId);
+          var c = Companies.findOne(entityId);
           entityData = {
             type: 'Company',
             icon: 'building',
@@ -78,9 +92,9 @@ Template.taskDetail.helpers({
         }
         break;
       case 'contact':
-        var handle = Template.instance().subscribe("contactById", this.entityId);
+        var handle = Template.instance().subscribe("contactById", entityId);
         if (handle && handle.ready()) {
-          var c = Contacts.findOne(this.entityId);
+          var c = Contacts.findOne(entityId);
           entityData = {
             type: 'Contact',
             icon: 'user',
@@ -90,9 +104,9 @@ Template.taskDetail.helpers({
         }
         break;
       case 'project':
-        var handle = Template.instance().subscribe("projectById", this.entityId);
+        var handle = Template.instance().subscribe("projectById", entityId);
         if (handle && handle.ready()) {
-          var p = Projects.findOne(this.entityId);
+          var p = Projects.findOne(entityId);
           entityData = {
             type: 'Project',
             icon: 'sitemap',
@@ -102,9 +116,9 @@ Template.taskDetail.helpers({
         }
         break;
       case 'opportunity':
-        var handle = Template.instance().subscribe("opportunityById", this.entityId);
+        var handle = Template.instance().subscribe("opportunityById", entityId);
         if (handle && handle.ready()) {
-          var p = Opportunities.findOne(this.entitythis.entityId);
+          var p = Opportunities.findOne(entityId);
           entityData = {
             type: 'Opportunity',
             icon: 'lightbulb-o',
@@ -148,8 +162,8 @@ Template.taskDetail.events({
     event.preventDefault();
     Modal.show('insertNewTask', {
       _id: this._id,
-      entityType: this.entityType,
-      entityId: this.entityId
+      entity_type: this.entityType,
+      entity_id: this.entityId
     });
   },
   'click #add-activity': function(event) {

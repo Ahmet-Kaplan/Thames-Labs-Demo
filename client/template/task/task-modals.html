@@ -5,7 +5,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4>Add new {{displayLabel}} task</h4>
+          <h4>Add {{#if parentTask}}sub-{{else}}new {{displayLabel}} {{/if}}task</h4>
         </div>
 
         <div class="modal-body">
@@ -29,10 +29,11 @@
 
           {{> afQuickField name="entityType" value=getEntityType type='hidden'}}
 
-          {{#if showEntityId}}
+          {{#if getEntityId}}
             {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
           {{else}}
             {{#if isUserTask}}
+              {{> afQuickField name="entityType" value=getEntityType type='hidden'}}
               {{> afQuickField name="entityId" value=getCurrentUserId type='hidden'}}
             {{else}}
               {{> esSelectize name="entityId" label=displayLabel index=autosuggestIndex}}
@@ -40,7 +41,7 @@
           {{/if}}
 
           {{#if parentTask}}
-            {{> esSelectize name="parentTaskId" index=TasksIndex value=parentTask readonly=true}}
+            {{> afQuickField name="parentTaskId" value=parentTask type='hidden'}}
           {{else}}
             {{> esSelectize name="parentTaskId" index=TasksIndex}}
           {{/if}}
