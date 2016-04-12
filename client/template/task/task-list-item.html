@@ -44,6 +44,10 @@
         {{else}}
           {{#if formattedDueDate}}Due {{formattedDueDate}}{{/if}}
         {{/if}}
+        {{#if parentTaskId}}
+          <br>
+          Parent Task: {{taskParentName}}
+        {{/if}}
       </div>
       <div class="col-md-3">
         {{> tagBadges tags=tags index=index pullRight=true}}

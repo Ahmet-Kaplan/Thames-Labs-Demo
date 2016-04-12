@@ -38,6 +38,9 @@
               {{> esSelectize name="entityId" label=displayLabel index=autosuggestIndex}}
             {{/if}}
           {{/if}}
+
+          {{> esSelectize name="parentTaskId" index=TasksIndex}}
+
           <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
         </div>
@@ -70,6 +73,8 @@
             </div>
           {{/if}}
           {{> esSelectize name="assigneeId" index=UsersIndex value=assigneeId}}
+          {{> esSelectize name="parentTaskId" index=TasksIndex value=parentTaskId excludes=exclusions}}
+
           <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
         </div>

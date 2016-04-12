@@ -1,9 +1,39 @@
 Template.taskDetail.onCreated(function() {
   var taskId = FlowRouter.getParam('id');
   this.subscribe('activityByTaskId', taskId);
-})
+  var task = Tasks.findOne({
+    _id: taskId
+  });
+  if (task) {
+    if (task.parentTaskId) this.subscribe('taskById', task.parentTaskId);
+  }
+});
+
+Template.taskDetail.onRendered(function() {
+  this.autorun(() => {
+    var taskId = FlowRouter.getParam('id');
+    var task = Tasks.findOne({
+      _id: taskId
+    });
+    if (task) {
+      if (task.parentTaskId) this.subscribe('taskById', task.parentTaskId);
+    }
+  });
+});
 
 Template.taskDetail.helpers({
+  subTasks: function() {
+    var subs = ReactiveMethod.call("tasks.getSubTasks", this._id);
+    if (subs && subs.length > 0) return subs;
+  },
+  parentTask: function() {
+    if (this.parentTaskId) {
+      var task = Tasks.findOne({
+        _id: this.parentTaskId
+      });
+      if (task) return task.title;
+    }
+  },
   taskData: function() {
     var taskId = FlowRouter.getParam('id');
     var task = Tasks.findOne(taskId);
@@ -43,7 +73,7 @@ Template.taskDetail.helpers({
             type: 'Company',
             icon: 'building',
             name: c.name,
-            permissionToRead: Roles.userIsInRole(Meteor.userId(), [ 'CanReadCompanies'])
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadCompanies'])
           };
         }
         break;
@@ -99,12 +129,16 @@ Template.taskDetail.helpers({
   },
   taskAssignee: function() {
     Meteor.subscribe('currentTenantUserData');
-    var assignee = Meteor.users.findOne({_id: this.assigneeId});
+    var assignee = Meteor.users.findOne({
+      _id: this.assigneeId
+    });
     return assignee.profile.name;
   },
   taskCreator: function() {
     Meteor.subscribe('currentTenantUserData');
-    var creator = Meteor.users.findOne({_id: this.createdBy});
+    var creator = Meteor.users.findOne({
+      _id: this.createdBy
+    });
     return creator.profile.name;
   }
 });
@@ -135,17 +169,32 @@ Template.taskDetail.events({
     if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
       var taskId = FlowRouter.getRouteName() === 'tasks' ? this.__originalId : this._id;
       if (this.completed) {
-        Tasks.update(taskId, { $set: {
-          completed: false
-        }, $unset: {
-          completedAt: null
-        }});
+        Tasks.update(taskId, {
+          $set: {
+            completed: false
+          },
+          $unset: {
+            completedAt: null
+          }
+        });
       } else {
-        Tasks.update(taskId, { $set: {
-          completed: true,
-          completedAt: new Date()
-        }});
+        Tasks.update(taskId, {
+          $set: {
+            completed: true,
+            completedAt: new Date()
+          }
+        });
       }
     }
   }
-})
+});
+
+Template.subTaskItem.onCreated(function() {
+  this.subscribe('taskById', this.data._id);
+});
+
+Template.subTaskItem.helpers({
+  subTaskName: function() {
+    return this.title;
+  }
+});

@@ -26,6 +26,7 @@
         <ul class="list-toolbar pull-right">
             {{#if isInRole 'CanReadTasks'}}
               <li><a id="tskToggleCompleted">{{#if showComp}}Hide{{else}}Show{{/if}} completed</a></li>
+              <!-- <li><a id="tskToggleSubTasks">{{#if showSubs}}Hide{{else}}Show{{/if}} sub-tasks</a></li> -->
               <li><a id="tskToggleMine">{{#if showMine}}Show all tasks{{else}}Show my tasks{{/if}}</a></li>
               <li><a id="tskToggleCalendar">{{#if showCalendar}}Hide{{else}}Show{{/if}} calendar</a></li>
             {{/if}}
