@@ -29,7 +29,7 @@
 
           {{> afQuickField name="entityType" value=getEntityType type='hidden'}}
 
-          {{#if getEntityId}}
+          {{#if showEntityId}}
             {{> afQuickField name="entityId" value=getEntityId type='hidden'}}
           {{else}}
             {{#if isUserTask}}
@@ -39,7 +39,11 @@
             {{/if}}
           {{/if}}
 
-          {{> esSelectize name="parentTaskId" index=TasksIndex}}
+          {{#if parentTask}}
+            {{> esSelectize name="parentTaskId" index=TasksIndex value=parentTask readonly=true}}
+          {{else}}
+            {{> esSelectize name="parentTaskId" index=TasksIndex}}
+          {{/if}}
 
           <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}

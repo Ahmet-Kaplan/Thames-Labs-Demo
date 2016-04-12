@@ -144,6 +144,14 @@ Template.taskDetail.helpers({
 });
 
 Template.taskDetail.events({
+  'click #create-sub-task': function(event, template) {
+    event.preventDefault();
+    Modal.show('insertNewTask', {
+      _id: this._id,
+      entityType: this.entityType,
+      entityId: this.entityId
+    });
+  },
   'click #add-activity': function(event) {
     event.preventDefault();
     Modal.show('insertTaskActivityModal', {

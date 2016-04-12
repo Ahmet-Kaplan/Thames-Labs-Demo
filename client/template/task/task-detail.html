@@ -98,23 +98,30 @@
   </div>
 
 
-  {{#if subTasks}}
+  <!-- {{#if subTasks}} -->
   <div class="row">
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading">
+          <div class="btn-group pull-right">
+            {{#if isInRole 'CanCreateTasks'}}
+              <a href="#" id="create-sub-task" class="btn btn-info btn-xs"><i class="fa fa-fw fa-plus"></i> Create sub-task</a>
+            {{/if}}
+          </div>
           Sub-Tasks
         </div>
 
         <ul class="list-group">
         {{#each subTasks}}
           {{> subTaskItem}}
+        {{else}}
+          <li class="list-group-item">No sub-tasks</li>
         {{/each}}
         </ul>
       </div>
     </div>
   </div>
-  {{/if}}
+  <!-- {{/if}} -->
 
 
   <div class="row">

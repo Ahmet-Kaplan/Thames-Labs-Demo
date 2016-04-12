@@ -7,6 +7,9 @@ Template.insertNewTask.onRendered(function() {
 });
 
 Template.insertNewTask.helpers({
+  parentTask: function() {
+    return this._id;
+  },
   hasDueDate: function() {
     return Session.get('hasDueDate');
   },
