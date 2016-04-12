@@ -491,4 +491,18 @@ Tasks.after.remove(function(userId, doc) {
       break;
   }
   logEvent('info', 'An existing task has been deleted: ' + doc.title + '(' + entityName + ")");
+
+  var subTasks = Tasks.find({
+    parentTaskId: doc._id
+  }).fetch();
+
+  _.each(subTasks, function(st) {
+    Tasks.update({
+      _id: st._id
+    }, {
+      $unset: {
+        'parentTaskId': ''
+      }
+    });
+  });
 });
