@@ -107,7 +107,7 @@ Template.tenancyAdminPage.events({
     });
   },
   'click #addGlobalCustomField': function(event) {
-    event.preventDefault();    
+    event.preventDefault();
     Modal.show('addNewGlobalCustomField');
   }
 });
