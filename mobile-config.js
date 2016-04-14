@@ -33,7 +33,7 @@ App.icons({
 App.launchScreens({
     'iphone_2x': 'resources/splash/ios/@2x.png',
     'iphone5': 'resources/splash/ios/568h@2x.png',
-    'iphone6': 'resources/splash/ios/667h@2.png',
+    'iphone6': 'resources/splash/ios/667h@2x.png',
     'iphone6p_portrait': 'resources/splash/ios/Portrait-736h@3x.png',
     'iphone6p_landscape': 'resources/splash/ios/Landscape-736h@3x.png',
     'ipad_portrait': 'resources/splash/ios/Portrait.png',
