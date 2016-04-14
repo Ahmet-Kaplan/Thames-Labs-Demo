@@ -110,7 +110,7 @@ Template.importCompanyMapper.helpers({
     _.each(lnkData.meta.fields, function(f) {
       html += '<option>' + f + '</option>';
     });
-    return _.map(CustomFields.find({
+    var fields = _.map(CustomFields.find({
       target: 'company'
     }).fetch(), function(cx) {
       return {
@@ -118,6 +118,7 @@ Template.importCompanyMapper.helpers({
         "options": html
       }
     });
+    return fields.length === 0 ? false : fields;
   }
 });
 
