@@ -5,6 +5,35 @@ Template.companyDataManagement.helpers({
 });
 
 Template.companyDataManagement.events({
+  'click #company-template': function() {
+    var headers = [
+      'Company Name',
+      'Address',
+      'City',
+      'County',
+      'Post Code',
+      'Country',
+      'Website',
+      'Telephone'
+    ].join(',');
+
+    var sampleValues = [
+      'Cambridge Software Ltd',
+      'St John\'s Innovation Centre',
+      'Milton',
+      'Cambridgeshire',
+      'CB4 0WS',
+      'United Kingdom',
+      'http://www.cambridgesoftware.co.uk',
+      '01223 802 900'
+    ].join(',');
+
+    var fileData = headers + '\n' + sampleValues;
+    var blob = new Blob([fileData], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(blob, 'company-template.csv');
+  },
   'click #company-template-help': function(event) {
     event.preventDefault();
     Modal.show('importCompanyHelpModal');
