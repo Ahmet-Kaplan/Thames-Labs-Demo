@@ -209,6 +209,7 @@ Contacts.after.insert(function(userId, doc) {
       Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'contact', function(err, res) {
         if (err) throw new Meteor.Error(err);
         _.each(res, function(ex) {
+
           CustomFields.insert({
             name: ex.name,
             value: (ex.value ? ex.value : ''),
