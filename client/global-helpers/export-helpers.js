@@ -16,8 +16,6 @@ exportFromSearchToCSV = function(collectionName) {
       throw new Meteor.Error('500', err);
     }
 
-    if (Meteor.isDevelopment) console.log(results);
-
     var filename = [
       'realtimecrm-',
       collectionName,
