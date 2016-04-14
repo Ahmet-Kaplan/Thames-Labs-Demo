@@ -79,18 +79,16 @@ Template.importContactMapper.helpers({
     _.each(lnkData.meta.fields, function(f) {
       html += '<option>' + f + '</option>';
     });
+    Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'contact', function(err, res) {
+      if (err) throw new Meteor.Error(err);
+      var arr = res;
 
-    var user = Meteor.users.findOne({
-      _id: Meteor.userId()
-    });
-    var tenant = Tenants.findOne({
-      _id: user.group
-    });
-    return _.map(tenant.settings.extInfo.contact, function(cx) {
-      return {
-        "name": cx["name"].replace(/ /g, '-'),
-        "options": html
-      }
+      return _.map(arr, function(cx) {
+        return {
+          "name": cx["name"].replace(/ /g, '-'),
+          "options": html
+        }
+      });
     });
   }
 });

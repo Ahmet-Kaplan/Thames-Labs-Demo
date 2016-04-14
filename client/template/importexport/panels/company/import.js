@@ -82,17 +82,16 @@ Template.importCompanyMapper.helpers({
       html += '<option>' + f + '</option>';
     });
 
-    var user = Meteor.users.findOne({
-      _id: Meteor.userId()
-    });
-    var tenant = Tenants.findOne({
-      _id: user.group
-    });
-    return _.map(tenant.settings.extInfo.company, function(cx) {
-      return {
-        "name": cx["name"].replace(/ /g, '-'),
-        "options": html
-      }
+    Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'company', function(err, res) {
+      if (err) throw new Meteor.Error(err);
+      var arr = res;
+
+      return _.map(arr, function(cx) {
+        return {
+          "name": cx["name"].replace(/ /g, '-'),
+          "options": html
+        }
+      });
     });
   }
 });
