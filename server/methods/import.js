@@ -91,17 +91,42 @@ Meteor.methods({
                   Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'contact', function(err, res) {
                     if (err) throw new Meteor.Error(err);
                     _.each(res, function(ex) {
-                      CustomFields.insert({
+                      var parseCol = _.find(cfArray, function(o) {
+                        return o.refName === ex.name;
+                      }).refVal;
+
+                      var value = (parseCol ? row[parseCol] : null);
+
+                      var existingField = CustomFields.findOne({
                         name: ex.name,
-                        value: (ex.value ? ex.value : ''),
-                        defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
                         type: ex.type,
                         global: true,
                         order: ex.order,
                         target: 'contact',
-                        listValues: '',
                         entityId: contactId
                       });
+
+                      if (existingField) {
+                        CustomFields.update({
+                          _id: existingField._id
+                        }, {
+                          $set: {
+                            'value': (value ? value : (ex.defaultValue ? ex.defaultValue : ''))
+                          }
+                        });
+                      } else {
+                        CustomFields.insert({
+                          name: ex.name,
+                          value: (value ? value : (ex.defaultValue ? ex.defaultValue : '')),
+                          defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+                          type: ex.type,
+                          global: true,
+                          order: ex.order,
+                          target: 'contact',
+                          listValues: '',
+                          entityId: contactId
+                        });
+                      }
                     });
                   });
 
@@ -213,17 +238,42 @@ Meteor.methods({
                   Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'company', function(err, res) {
                     if (err) throw new Meteor.Error(err);
                     _.each(res, function(ex) {
-                      CustomFields.insert({
+                      var parseCol = _.find(cfArray, function(o) {
+                        return o.refName === ex.name;
+                      }).refVal;
+
+                      var value = (parseCol ? row[parseCol] : null);
+
+                      var existingField = CustomFields.findOne({
                         name: ex.name,
-                        value: (ex.value ? ex.value : ''),
-                        defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
                         type: ex.type,
                         global: true,
                         order: ex.order,
                         target: 'company',
-                        listValues: '',
                         entityId: companyId
                       });
+
+                      if (existingField) {
+                        CustomFields.update({
+                          _id: existingField._id
+                        }, {
+                          $set: {
+                            'value': (value ? value : (ex.defaultValue ? ex.defaultValue : ''))
+                          }
+                        });
+                      } else {
+                        CustomFields.insert({
+                          name: ex.name,
+                          value: (value ? value : (ex.defaultValue ? ex.defaultValue : '')),
+                          defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+                          type: ex.type,
+                          global: true,
+                          order: ex.order,
+                          target: 'company',
+                          listValues: '',
+                          entityId: companyId
+                        });
+                      }
                     });
                   });
 
