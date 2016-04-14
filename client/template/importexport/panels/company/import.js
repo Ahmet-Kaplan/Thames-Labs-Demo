@@ -81,19 +81,19 @@ Template.importCompanyMapper.helpers({
     _.each(lnkData.meta.fields, function(f) {
       html += '<option>' + f + '</option>';
     });
-
-    Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'company', function(err, res) {
-      if (err) throw new Meteor.Error(err);
-      var arr = res;
-
-      return _.map(arr, function(cx) {
-        return {
-          "name": cx["name"].replace(/ /g, '-'),
-          "options": html
-        }
-      });
+    return _.map(CustomFields.find({
+      target: 'company'
+    }).fetch(), function(cx) {
+      return {
+        "name": cx["name"].replace(/ /g, '-'),
+        "options": html
+      }
     });
   }
+});
+
+Template.importCompanyMapper.onCreated(function() {
+  this.subscribe('globalCustomFieldsByEntityType', 'company');
 });
 
 Template.importCompanyMapper.events({

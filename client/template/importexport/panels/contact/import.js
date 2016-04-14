@@ -79,19 +79,21 @@ Template.importContactMapper.helpers({
     _.each(lnkData.meta.fields, function(f) {
       html += '<option>' + f + '</option>';
     });
-    Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'contact', function(err, res) {
-      if (err) throw new Meteor.Error(err);
-      var arr = res;
-
-      return _.map(arr, function(cx) {
-        return {
-          "name": cx["name"].replace(/ /g, '-'),
-          "options": html
-        }
-      });
+    return _.map(CustomFields.find({
+      target: 'contact'
+    }).fetch(), function(cx) {
+      return {
+        "name": cx["name"].replace(/ /g, '-'),
+        "options": html
+      }
     });
   }
 });
+
+Template.importContactMapper.onCreated(function() {
+  this.subscribe('globalCustomFieldsByEntityType', 'contact');
+});
+
 
 Template.importContactMapper.events({
   'click #confirm-mapping': function(event, template) {

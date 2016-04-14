@@ -197,6 +197,22 @@ Meteor.publish("globalCustomFields", function() {
     }
   })
 });
+Meteor.publish("globalCustomFieldsByEntityType", function(entityType) {
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  var data = CustomFields.find({
+    global: true,
+    target: entityType
+  }).fetch();
+
+  var ids = _.map(_.uniq(data, 'name'), function(fn) {
+    return fn._id;
+  });
+  return CustomFields.find({
+    _id: {
+      $in: ids
+    }
+  })
+});
 
 
 Meteor.publish("allProjects", function() {
