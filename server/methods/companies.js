@@ -10,5 +10,16 @@ Meteor.methods({
 		if (company) return true;
 		return false;
 
+	},
+	'company.getMergeTargets': function(companyId) {
+		return Companies.find({
+			_id: {
+				$ne: companyId
+			}
+		}, {
+			fields: {
+				name: 1
+			}
+		}).fetch();
 	}
-})
+});
