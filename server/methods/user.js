@@ -1,5 +1,41 @@
 Meteor.methods({
 
+  'users.export': function(collectionName, searchDefinition, searchOptions) {
+    var userArray = [];
+
+    // We require a user as we make find calls on partitioned collections
+    if (!this.userId) throw new Meteor.Error('401', 'Must be a logged in user to perform export');
+
+    if (!Collections[collectionName] || !Collections[collectionName].index) {
+      throw new Meteor.Error('500', 'Search index not found');
+    }
+
+    searchOptions.limit = 99999;
+    if (!searchOptions.props) searchOptions.props = {};
+    searchOptions.props.export = true;
+    var index = Collections[collectionName].index;
+    var results = index.search(searchDefinition, searchOptions).fetch();
+
+    _.each(results, function(tenant) {
+      var users = Meteor.users.find({
+        group: tenant._id
+      }).fetch();
+      _.each(users, function(user) {
+        var data = {
+          name: user.profile.name,
+          createdAt: moment(user.createdAt).format('DD/MM/YYYY HH:mm'),
+          lastLogin: moment(user.profile.lastLogin).format('DD/MM/YYYY HH:mm'),
+          email: user.emails[0].address,
+          tenant: tenant.name,
+          administrator: (_.contains(user.roles, 'Administrator') ? 'Yes' : 'No')
+        }
+        userArray.push(data);
+      });
+    });
+
+    return userArray;
+  },
+
   isEmailAvailable: function(emailAddress) {
     return !Accounts.findUserByEmail(emailAddress);
   },
