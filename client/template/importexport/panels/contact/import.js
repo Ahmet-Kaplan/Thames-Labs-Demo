@@ -5,6 +5,45 @@ Template.contactDataManagement.helpers({
 });
 
 Template.contactDataManagement.events({
+  'click #contact-template': function() {
+    var headers = [
+      'Forename',
+      'Surname',
+      'Email',
+      'Telephone',
+      'Mobile',
+      'Job Title',
+      'Company Name',
+      'Address',
+      'City',
+      'County',
+      'Post Code',
+      'Country'
+    ].join(',');
+
+    var sampleValues = [
+      'John',
+      'Doe',
+      'john.doe@cambridgesoftware.co.uk',
+      '01234 567 890',
+      '07123 456 789',
+      'Team Supervisor',
+      'Cambridge Software Ltd',
+      'St John\'s Innovation Centre',
+      'Milton',
+      'Cambridgeshire',
+      'CB4 0WS',
+      'United Kingdom',
+      'http://www.cambridgesoftware.co.uk',
+      '01223 802 900'
+    ].join(',');
+
+    var fileData = headers + '\n' + sampleValues;
+    var blob = new Blob([fileData], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(blob, 'contact-template.csv');
+  },
   'click #contact-template-help': function(event) {
     event.preventDefault();
     Modal.show('importContactHelpModal');
@@ -79,21 +118,22 @@ Template.importContactMapper.helpers({
     _.each(lnkData.meta.fields, function(f) {
       html += '<option>' + f + '</option>';
     });
-
-    var user = Meteor.users.findOne({
-      _id: Meteor.userId()
-    });
-    var tenant = Tenants.findOne({
-      _id: user.group
-    });
-    return _.map(tenant.settings.extInfo.contact, function(cx) {
+    var fields = _.map(CustomFields.find({
+      target: 'contact'
+    }).fetch(), function(cx) {
       return {
         "name": cx["name"].replace(/ /g, '-'),
         "options": html
       }
     });
+    return fields.length === 0 ? false : fields;
   }
 });
+
+Template.importContactMapper.onCreated(function() {
+  this.subscribe('globalCustomFieldsByEntityType', 'contact');
+});
+
 
 Template.importContactMapper.events({
   'click #confirm-mapping': function(event, template) {

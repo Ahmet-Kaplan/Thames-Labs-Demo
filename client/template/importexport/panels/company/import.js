@@ -5,6 +5,35 @@ Template.companyDataManagement.helpers({
 });
 
 Template.companyDataManagement.events({
+  'click #company-template': function() {
+    var headers = [
+      'Company Name',
+      'Address',
+      'City',
+      'County',
+      'Post Code',
+      'Country',
+      'Website',
+      'Telephone'
+    ].join(',');
+
+    var sampleValues = [
+      'Cambridge Software Ltd',
+      'St John\'s Innovation Centre',
+      'Milton',
+      'Cambridgeshire',
+      'CB4 0WS',
+      'United Kingdom',
+      'http://www.cambridgesoftware.co.uk',
+      '01223 802 900'
+    ].join(',');
+
+    var fileData = headers + '\n' + sampleValues;
+    var blob = new Blob([fileData], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(blob, 'company-template.csv');
+  },
   'click #company-template-help': function(event) {
     event.preventDefault();
     Modal.show('importCompanyHelpModal');
@@ -81,20 +110,20 @@ Template.importCompanyMapper.helpers({
     _.each(lnkData.meta.fields, function(f) {
       html += '<option>' + f + '</option>';
     });
-
-    var user = Meteor.users.findOne({
-      _id: Meteor.userId()
-    });
-    var tenant = Tenants.findOne({
-      _id: user.group
-    });
-    return _.map(tenant.settings.extInfo.company, function(cx) {
+    var fields = _.map(CustomFields.find({
+      target: 'company'
+    }).fetch(), function(cx) {
       return {
         "name": cx["name"].replace(/ /g, '-'),
         "options": html
       }
     });
+    return fields.length === 0 ? false : fields;
   }
+});
+
+Template.importCompanyMapper.onCreated(function() {
+  this.subscribe('globalCustomFieldsByEntityType', 'company');
 });
 
 Template.importCompanyMapper.events({
