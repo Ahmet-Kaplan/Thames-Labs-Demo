@@ -331,34 +331,43 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
 //////////////////////
 Projects.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    doc.sequencedIdentifier = Tenants.findOne({}).settings.project.defaultNumber;
+    var user = Meteor.users.findOne(userId);
+    var tenant = Tenants.findOne(user.group);
+    doc.sequencedIdentifier = tenant.settings.project.defaultNumber;
   }
 });
 
 Projects.after.insert(function(userId, doc) {
-  if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    var user = Meteor.users.findOne(userId);
-    var tenant = Tenants.findOne(user.group);
-    var projectCustomFields = tenant.settings.extInfo.project;
-
-
-    var cfMaster = [];
-    _.each(projectCustomFields, function(cf) {
-      var field = {
-        dataName: cf.name,
-        dataValue: cf.defaultValue,
-        dataType: cf.type,
-        isGlobal: true
-      };
-
-      cfMaster.push(field);
-    });
-    doc.extendedInformation = cfMaster;
-  }
-
   logEvent('info', 'A new project has been created: ' + doc.description);
 
   if (Meteor.isServer) {
+    var user = Meteor.users.findOne({
+      _id: userId
+    });
+    var tenant = Tenants.findOne({
+      _id: user.group
+    });
+
+    if (!Roles.userIsInRole(userId, ['superadmin'])) {
+
+      Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'project', function(err, res) {
+        if (err) throw new Meteor.Error(err);
+        _.each(res, function(ex) {
+          CustomFields.insert({
+            name: ex.name,
+            value: (ex.value ? ex.value : ''),
+            defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+            type: ex.type,
+            global: true,
+            order: ex.order,
+            target: 'project',
+            listValues: '',
+            entityId: doc._id
+          });
+        });
+      });
+    }
+
     if (doc._groupId) {
       Tenants.update({
         _id: doc._groupId
@@ -399,5 +408,9 @@ Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Projects.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   logEvent('info', 'A project has been deleted: ' + doc.description);
 });

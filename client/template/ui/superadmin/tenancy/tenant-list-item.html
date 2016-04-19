@@ -13,9 +13,8 @@
                         <div class="btn-group pull-right" role="group">
                         {{#if showDemoDataButton}}
                         <button class="btn btn-xs" id="btnDemoData" type="button" disabled="{{#if generationInProgress}}disabled{{/if}}">
-                            {{#if generationInProgress}} <em style="color:#acacac;" >Generating, please wait...</em> {{else}}
+                          
                             <i class="fa fa-fw fa-wrench"></i> Generate demo data
-                            {{/if}}
                         </button>
                         {{/if}}
                         <button class="btn btn-info btn-xs" id="btnEditSettings" type="button">
@@ -26,7 +25,7 @@
                           <i class="fa fa-fw fa-credit-card"></i> Change Scheme
                         </button>
                         {{#unless isPayingTenant}}
-                          <button class="btn btn-danger btn-xs" id="btnDeleteTenant" type="button">
+                          <button class="btn btn-danger btn-xs" id="btnDeleteTenant" type="button" disabled="{{#if deletionInProgress}}disabled{{/if}}">
                             <i class="fa fa-fw fa-archive"></i> Delete this tenant
                           </button>
                         {{/unless}}

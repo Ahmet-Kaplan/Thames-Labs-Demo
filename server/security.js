@@ -12,7 +12,7 @@ Companies.permit(['update']).ifLoggedIn().ifHasRole('CanEditCompanies').apply();
 Companies.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 Companies.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteCompanies').apply();
 Companies.allowTags(function(userId) {
-  return !!userId;
+	return !!userId;
 });
 
 Contacts.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
@@ -22,13 +22,15 @@ Contacts.permit(['update']).ifLoggedIn().ifHasRole('CanEditContacts').apply();
 Contacts.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 Contacts.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteContacts').apply();
 Contacts.allowTags(function(userId) {
-  return !!userId;
+	return !!userId;
 });
 
 Activities.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 Activities.allowTags(function(userId) {
-  return !!userId;
+	return !!userId;
 });
+
+CustomFields.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 
 Projects.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
 Projects.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateProjects').apply();
@@ -37,7 +39,7 @@ Projects.permit(['update']).ifLoggedIn().ifHasRole('CanEditProjects').apply();
 Projects.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 Projects.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteProjects').apply();
 Projects.allowTags(function(userId) {
-  return !!userId;
+	return !!userId;
 });
 
 
@@ -48,7 +50,7 @@ PurchaseOrders.permit(['update']).ifLoggedIn().ifHasRole('CanEditPurchaseOrders'
 PurchaseOrders.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 PurchaseOrders.permit(['remove']).ifLoggedIn().ifHasRole('CanDeletePurchaseOrders').apply();
 PurchaseOrders.allowTags(function(userId) {
-  return !!userId;
+	return !!userId;
 });
 
 
@@ -66,7 +68,7 @@ Tasks.permit(['update']).ifLoggedIn().ifHasRole('CanEditTasks').apply();
 Tasks.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 Tasks.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteTasks').apply();
 Tasks.allowTags(function(userId) {
-  return !!userId;
+	return !!userId;
 });
 
 Chatterbox.permit(['insert']).ifLoggedIn().apply();
@@ -81,7 +83,7 @@ Products.permit(['update']).ifLoggedIn().ifHasRole('CanEditProducts').apply();
 Products.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 Products.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteProducts').apply();
 Products.allowTags(function(userId) {
-  return !!userId;
+	return !!userId;
 });
 
 Opportunities.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
@@ -91,5 +93,5 @@ Opportunities.permit(['update']).ifLoggedIn().ifHasRole('CanEditOpportunities').
 Opportunities.permit(['remove']).ifLoggedIn().ifHasRole('Administrator').apply();
 Opportunities.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteOpportunities').apply();
 Opportunities.allowTags(function(userId) {
-  return !!userId;
+	return !!userId;
 });
