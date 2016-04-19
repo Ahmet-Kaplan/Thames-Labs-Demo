@@ -71,7 +71,6 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a "success" toastr with the message "Your card details have been updated."
     Then the Stripe field "#cardExpYear" should say "2022"
 
-    @dev
   Scenario: An administrator can update its email for invoices
     Given I have subscribed to the paying plan
     When I navigate to "/admin"
