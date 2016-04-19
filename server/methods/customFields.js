@@ -97,7 +97,7 @@ Meteor.methods({
         }
 
         if (duplicateFlag === false) {
-          var tenantCFId = CustomFields.insert({
+          CustomFields.insert({
             name: cfName,
             value: cfValue,
             defaultValue: (cfType === 'picklist' ? '' : cfValue),
