@@ -1,19 +1,19 @@
-Template.insertActivityModal.onRendered(function(){
+Template.insertActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'))
 });
-Template.insertContactActivityModal.onRendered(function(){
+Template.insertContactActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'))
 });
-Template.insertProjectActivityModal.onRendered(function(){
+Template.insertProjectActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'))
 });
-Template.insertPurchaseOrderActivityModal.onRendered(function(){
+Template.insertPurchaseOrderActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'))
 });
-Template.insertOpportunityActivityModal.onRendered(function(){
+Template.insertOpportunityActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'))
 });
-Template.insertTaskActivityModal.onRendered(function(){
+Template.insertTaskActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'))
 });
 
