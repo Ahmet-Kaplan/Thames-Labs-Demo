@@ -69,6 +69,7 @@ Template.opportunityAdminStage.helpers({
 Template.opportunityAdminStage.events({
   'click .orderUp': function(event) {
     event.preventDefault();
+
     var stageId = this.id;
     if (!isProTenant(Meteor.user().group)) {
       showUpgradeToastr('To edit the order of your opportunity stages');
@@ -78,6 +79,7 @@ Template.opportunityAdminStage.events({
   },
   'click .orderDown': function(event) {
     event.preventDefault();
+
     var stageId = this.id;
     if (!isProTenant(Meteor.user().group)) {
       showUpgradeToastr('To edit the order of your opportunity stages');

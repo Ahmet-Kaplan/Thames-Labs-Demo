@@ -4,6 +4,8 @@
     <ul class="dropdown-menu pull-right" role="menu">
       <li><a href="#" id="company-data-upload-link">Import from CSV</a></li>
       <li class="divider"></li>
+      <li><a href="#" id="company-template">Download company import template</a></li>
+      <li class="divider"></li>
       <li><a href="#" id="company-template-help">How does this work?</a></li>
       <input type="file" id="company-data-upload" style="display:none;">
     </ul>
@@ -105,6 +107,7 @@
             </div>
           </div>
 
+          {{#if ExtInfoFields}}
           <div class="row" style="padding-bottom:2px;" id="extInfoSpecifiers">
             <div class="col-md-12">
               <b>Custom Fields</b>
@@ -123,8 +126,9 @@
               {{/each}}
             </div>
           </div>
+          {{/if}}
 
-          The above fields will be read from your CSV file and used to build up a list of your companies.
+          <p>The above fields will be read from your CSV file and used to build up a list of your companies.</p>
           <div class="checkbox">
             <label>
               <input id="cbIgnoreExtInfo" type="checkbox">
