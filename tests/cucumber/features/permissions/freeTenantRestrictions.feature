@@ -14,7 +14,7 @@ Feature: Restrict free users from certain features
     And a global custom field has been created with the name "GEI3"
     And a global custom field has been created with the name "GEI4"
     And a global custom field has been created with the name "GEI5"
-    And I navigate to "/admin"
+    When I navigate to "/admin"
     And I click "#globCustomFieldsExpander"
     And I click "#addGlobalCustomField"
     And I set text field with id "custom-field-name" to "test"
