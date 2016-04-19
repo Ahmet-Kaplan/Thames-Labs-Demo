@@ -31,7 +31,7 @@ Meteor.methods({
               var existing = Contacts.find({
                 forename: row[forenameColumn],
                 surname: row[surnameColumn]
-              }).fetch().count();
+              }).count();
 
               if (existing === 0) {
                 var company;
@@ -61,18 +61,6 @@ Meteor.methods({
                   verifiedEmail = (rx.test(email) === false ? '' : email);
                 }
 
-                //Get global cfs
-                var globalFields = tenant.settings.extInfo.contact;
-                var gei = [];
-                _.each(globalFields, function(gf) {
-                  var settings = {
-                    "dataName": gf.name,
-                    "dataValue": '',
-                    "dataType": gf.type,
-                    isGlobal: true
-                  };
-                  gei.push(settings);
-                });
 
                 var contactId = Contacts.insert({
                   forename: row[forenameColumn],
@@ -88,7 +76,6 @@ Meteor.methods({
                   postcode: (postcodeColumn !== "" ? row[postcodeColumn] : ""),
                   country: (countryColumn !== "" ? row[countryColumn] : ""),
                   createdBy: userId,
-                  extendedInformation: gei,
                   sequencedIdentifier: tenant.settings.contact.defaultNumber
                 });
 
@@ -101,56 +88,64 @@ Meteor.methods({
                     })
                   }
 
-                  var contact = Contacts.findOne({
-                    _id: contactId
-                  });
-                  var customFields = contact.extendedInformation;
-                  var cfMaster = [];
+                  Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'contact', function(err, res) {
+                    if (err) throw new Meteor.Error(err);
+                    _.each(res, function(ex) {
+                      var parseCol = _.find(cfArray, function(o) {
+                        return o.refName === ex.name;
+                      }).refVal;
 
-                  for (var index in customFields) {
-                    if (customFields.hasOwnProperty(index)) {
+                      var value = (parseCol ? row[parseCol] : null);
 
-                      var attr = customFields[index];
+                      var existingField = CustomFields.findOne({
+                        name: ex.name,
+                        type: ex.type,
+                        global: true,
+                        order: ex.order,
+                        target: 'contact',
+                        entityId: contactId
+                      });
 
-                      if (attr.isGlobal) {
-                        for (var x in cfArray) {
-
-                          if (cfArray[x].refName === attr.dataName) {
-
-                            var settings = {
-                              "dataName": cfArray[x].refName,
-                              "dataValue": row[cfArray[x].refVal],
-                              "dataType": attr.dataType,
-                              isGlobal: true
-                            };
-                            cfMaster[index] = settings;
+                      if (existingField) {
+                        CustomFields.update({
+                          _id: existingField._id
+                        }, {
+                          $set: {
+                            'value': (value ? value : (ex.defaultValue ? ex.defaultValue : ''))
                           }
-                        }
+                        });
+                      } else {
+                        CustomFields.insert({
+                          name: ex.name,
+                          value: (value ? value : (ex.defaultValue ? ex.defaultValue : '')),
+                          defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+                          type: ex.type,
+                          global: true,
+                          order: ex.order,
+                          target: 'contact',
+                          listValues: '',
+                          entityId: contactId
+                        });
                       }
-                    }
-                  }
+                    });
+                  });
 
                   if (createExtInfo === true) {
-                    for (var local in localCF) {
-                      if (row[localCF[local].refVal] !== "") {
-                        var newLocalField = {
-                          "dataName": localCF[local].refName,
-                          "dataValue": row[localCF[local].refVal],
-                          "dataType": 'text',
-                          isGlobal: false
-                        };
-                        cfMaster.push(newLocalField);
-                      }
-                    }
-                  }
 
-                  Contacts.update({
-                    _id: contactId
-                  }, {
-                    $set: {
-                      extendedInformation: cfMaster
-                    }
-                  });
+                    _.each(localCF, function(local, i) {
+                      value = row[local.refVal];
+
+                      CustomFields.insert({
+                        name: local.refName,
+                        value: (value ? value : ''),
+                        type: 'text',
+                        global: false,
+                        order: i,
+                        target: 'contact',
+                        entityId: contactId
+                      });
+                    });
+                  }
                 } else {
                   errors.push['Contact could not be inserted into database: ' + row[forenameColumn] + ' ' + row[surnameColumn]];
                 }
@@ -207,7 +202,7 @@ Meteor.methods({
             if (row[nameColumn] !== '' && row[nameColumn] !== 'NULL') {
               var existing = Companies.find({
                 name: row[nameColumn]
-              }).fetch().count();
+              }).count();
 
               if (existing === 0) {
                 var formattedWebsite = row[websiteColumn];
@@ -217,19 +212,6 @@ Meteor.methods({
                   var rx = new RegExp(/(^$)|((https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?)/);
                   formattedWebsite = (rx.test(url) === false ? '' : url);
                 }
-
-                //Get global cfs
-                var globalFields = tenant.settings.extInfo.company;
-                var gei = [];
-                _.each(globalFields, function(gf) {
-                  var settings = {
-                    "dataName": gf.name,
-                    "dataValue": '',
-                    "dataType": gf.type,
-                    isGlobal: true
-                  };
-                  gei.push(settings);
-                });
 
                 var companyId = Companies.insert({
                   name: row[nameColumn],
@@ -241,7 +223,6 @@ Meteor.methods({
                   website: (websiteColumn !== "" ? formattedWebsite : ""),
                   phone: (phoneColumn !== "" ? row[phoneColumn] : ""),
                   createdBy: userId,
-                  extendedInformation: gei,
                   sequencedIdentifier: tenant.settings.company.defaultNumber
                 });
 
@@ -254,63 +235,65 @@ Meteor.methods({
                     })
                   }
 
-                  var company = Companies.findOne({
-                    _id: companyId
-                  });
-                  if (company) {
+                  Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'company', function(err, res) {
+                    if (err) throw new Meteor.Error(err);
+                    _.each(res, function(ex) {
+                      var parseCol = _.find(cfArray, function(o) {
+                        return o.refName === ex.name;
+                      }).refVal;
 
-                    var customFields = company.extendedInformation;
-                    var cfMaster = [];
+                      var value = (parseCol ? row[parseCol] : null);
 
-                    for (var index in customFields) {
-                      if (customFields.hasOwnProperty(index)) {
-                        var attr = customFields[index];
+                      var existingField = CustomFields.findOne({
+                        name: ex.name,
+                        type: ex.type,
+                        global: true,
+                        order: ex.order,
+                        target: 'company',
+                        entityId: companyId
+                      });
 
-                        if (attr.isGlobal) {
-                          for (var x in cfArray) {
-
-                            if (cfArray[x].refName === attr.dataName) {
-                              var settings = {
-                                "dataName": cfArray[x].refName,
-                                "dataValue": row[cfArray[x].refVal],
-                                "dataType": attr.dataType,
-                                isGlobal: true
-                              };
-                              cfMaster[index] = settings;
-                            }
+                      if (existingField) {
+                        CustomFields.update({
+                          _id: existingField._id
+                        }, {
+                          $set: {
+                            'value': (value ? value : (ex.defaultValue ? ex.defaultValue : ''))
                           }
-                        }
+                        });
+                      } else {
+                        CustomFields.insert({
+                          name: ex.name,
+                          value: (value ? value : (ex.defaultValue ? ex.defaultValue : '')),
+                          defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+                          type: ex.type,
+                          global: true,
+                          order: ex.order,
+                          target: 'company',
+                          listValues: '',
+                          entityId: companyId
+                        });
                       }
-                    }
+                    });
+                  });
 
-
-                    if (createExtInfo === true) {
-                      for (var local in localCF) {
-                        if (row[localCF[local].refVal] !== "") {
-                          var newLocalField = {
-                            "dataName": localCF[local].refName,
-                            "dataValue": row[localCF[local].refVal],
-                            "dataType": 'text',
-                            isGlobal: false
-                          };
-                          cfMaster.push(newLocalField);
-                        }
-                      }
-                    }
-
-                    Companies.update({
-                      _id: companyId
-                    }, {
-                      $set: {
-                        extendedInformation: cfMaster
-                      }
+                  if (createExtInfo === true) {
+                    _.each(localCF, function(local, i) {
+                      value = row[local.refVal];
+                      CustomFields.insert({
+                        name: local.refName,
+                        value: (value ? value : ''),
+                        type: 'text',
+                        global: false,
+                        order: i,
+                        target: 'company',
+                        entityId: companyId
+                      });
                     });
                   }
                 } else {
                   errors.push['Company could not be inserted into database: ' + row[nameColumn]];
                 }
-
-
               } else {
                 errors.push['A company with the name "' + row[nameColumn] + '" already exists.'];
               }
