@@ -66,7 +66,9 @@ Template.onRendered(function() {
   }
 
   //If connection is lost on mobile, alert the user
-  document.addEventListener("offline", onOffline, false);
+  function alertDismissed() {
+    console.log("Device was offline")
+  }
   function onOffline() {
     navigator.notification.alert(
         'It looks like your device is not connected to the internet, please check the connection and try again',
@@ -74,8 +76,6 @@ Template.onRendered(function() {
         'No Connection'
     );
   }
+  document.addEventListener("offline", onOffline, false);
 
-  function alertDismissed() {
-    console.log("Device was offline")
-  }
 });
