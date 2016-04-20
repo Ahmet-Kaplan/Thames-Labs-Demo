@@ -5,12 +5,22 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4>Merge company details with...</h4>
+          <h4>Merge company details</h4>
         </div>
 
         <div class="modal-body">
-            <label for="select-entity">Company</label>
-            <input type="text" id="select-entity" placeholder="Select a company..." />
+          <p>
+            <strong>How it works</strong><br>
+            Select a company from the list below to merge {{name}} into, and press <span class="label label-primary">Merge</span>. Record details that are already present on the selected company will remain untouched. For example, if both {{name}} and the target company have an <em>address</em> specified, then the target company's address will be used in place of {{name}}'s. When merging, any records belonging to {{name}} (contacts, opportunities, activities, etc.) will become child records of the target company.<br><br>
+            Once the merge has been completed, {{name}}'s record will be permanently deleted. If you wish to delete the record yourself, uncheck the <strong>Delete on completion</strong> checkbox below before starting the Merge.
+          </p>
+          <label for="select-entity">Company</label>
+          <input type="text" id="select-entity" placeholder="Select a company..." />
+
+          <div class="checkbox">
+            <label>
+             <input type="checkbox" id="cbDelete" checked>Delete {{name}} on completion</label>
+          </div>
         </div>
 
         <div class="modal-footer">

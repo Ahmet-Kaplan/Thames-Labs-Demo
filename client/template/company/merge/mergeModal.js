@@ -36,8 +36,35 @@ Template.mergeModal.helpers({
 });
 
 Template.mergeModal.events({
-	'change #select-entity': function(event, template) {
-		var selectedCompany = $('#select-entity').val();
-		console.log(selectedCompany);
+	'click #initiateMerge': function(event, template) {
+		var deleteRecord = $('#cbDelete').prop('checked');
+		var companyId = this._id;
+		var targetCompanyId = $('#select-entity').val();
+		Meteor.call('company.findById', targetCompanyId, function(err, res) {
+			if (res) targetName = res;
+		});
+
+		if (targetCompanyId === "") {
+			toastr.warning('Please select a target company');
+			return;
+		}
+
+		bootbox.confirm("Are you sure you wish to merge these companies? This action cannot be undone.", function(result) {
+			if (result === true) {
+				Meteor.call('company.merge', companyId, targetCompanyId, deleteRecord, function(err, res) {
+					if (err) throw new Meteor.Error(err);
+
+					if (res) {
+						if (res === 0) {
+							toastr.success('Merge successful.')
+							Modal.hide();
+						} else {
+							toastr.error(res.source + ": " + res.error)
+						}
+					}
+
+				});
+			}
+		});
 	}
 });
