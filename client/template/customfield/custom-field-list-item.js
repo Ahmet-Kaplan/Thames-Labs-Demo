@@ -3,8 +3,8 @@ Template.cfDisplay.helpers({
     this.parentEntity = parentContext;
   },
   trimmedName: function() {
-    if (this.dataName) {
-      return this.dataName.replace(/\s/g, '');
+    if (this.name) {
+      return this.name.replace(/\s/g, '');
     }
   },
   isAdvancedText: function() {
@@ -18,42 +18,10 @@ Template.cfDisplay.events({
     var self = this;
     bootbox.confirm("Are you sure you wish to delete this custom field?", function(result) {
       if (result === true) {
-
-        switch (self.parentEntity.entity_type) {
-          case "company":
-            var parentCompany = Companies.findOne(self.parentEntity.entity_data._id);
-            Companies.update(parentCompany._id, {
-              $pull: {
-                extendedInformation: { uuid: self.uuid }
-              }
-            });
-            break;
-          case "contact":
-            var parentContact = Contacts.findOne(self.parentEntity.entity_data._id);
-            Contacts.update(parentContact._id, {
-              $pull: {
-                extendedInformation: { uuid: self.uuid }
-              }
-            });
-            break;
-          case "project":
-            var parentProject = Projects.findOne(self.parentEntity.entity_data._id);
-            Projects.update(parentProject._id, {
-              $pull: {
-                extendedInformation: { uuid: self.uuid }
-              }
-            });
-            break;
-          case "product":
-            var parentProduct = Products.findOne(self.parentEntity.entity_data._id);
-            Products.update(parentProduct._id, {
-              $pull: {
-                extendedInformation: { uuid: self.uuid }
-              }
-            });
-            break;
-        }
-        toastr.success('Custom field removed.');
+        Meteor.call('extInfo.deleteLocal', self._id, function(err, res) {
+          if (err) throw new Meteor.Error(err);
+          toastr.success('Custom field removed.');
+        });
       } else {
         return;
       }

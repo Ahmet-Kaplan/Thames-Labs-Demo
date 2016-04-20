@@ -1,9 +1,10 @@
 Meteor.methods({
 
   changeStageOrder: function(stageId, direction, currentOrder) {
-    var user = Meteor.users.find(this.userId);
+    var user = Meteor.users.findOne(this.userId);
+
     Partitioner.bindGroup(user.group, function() {
-      var userTenant = Tenants.findOne({});
+      var userTenant = Tenants.findOne({_id: user.group});
       var currentStages = userTenant.settings.opportunity.stages;
       var step = (direction === "up" ? -1 : 1);
 
@@ -47,7 +48,7 @@ Meteor.methods({
   },
 
   deleteOpportunityStage: function(stageId) {
-    var user = Meteor.users.find(this.userId);
+    var user = Meteor.users.findOne(this.userId);
     Partitioner.bindGroup(user.group, function() {
       var userTenant = Tenants.findOne({});
       var currentStages = userTenant.settings.opportunity.stages;
@@ -68,7 +69,7 @@ Meteor.methods({
   },
 
   checkStageInUse: function(stageId) {
-    var user = Meteor.users.find(this.userId);
+    var user = Meteor.users.findOne(this.userId);
     return Partitioner.bindGroup(user.group, function() {
       if (Opportunities.find({
           currentStageId: stageId
@@ -81,7 +82,7 @@ Meteor.methods({
 
   createDefaultOpportunityStages: function() {
 
-    var user = Meteor.users.find(this.userId);
+    var user = Meteor.users.findOne(this.userId);
     if (user) {
       var userTenant = Tenants.findOne({
         _id: user.group

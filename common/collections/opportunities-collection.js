@@ -138,6 +138,10 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         return {
           'estCloseDate': 1
         }
+      } else if (options.search.props.sortByValue) {
+        return {
+          'value': -1
+        }
       } else {
         return {
           'name': 1
@@ -265,5 +269,9 @@ Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) 
   }
 });
 Opportunities.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   logEvent('info', 'An opportunity has been deleted: ' + doc.name);
 });

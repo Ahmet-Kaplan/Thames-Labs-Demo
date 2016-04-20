@@ -78,6 +78,5 @@ Template.onRendered(function() {
         'No Connection'
     );
   }
-
   document.addEventListener("offline", onOffline, false);
 });
