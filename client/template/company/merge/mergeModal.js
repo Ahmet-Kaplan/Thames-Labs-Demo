@@ -37,6 +37,11 @@ Template.mergeModal.helpers({
 
 Template.mergeModal.events({
 	'click #initiateMerge': function(event, template) {
+		if (!Roles.userIsInRole(userId, 'Administrator')) {
+			toastr.error('Only administrators can merge records.');
+			return;
+		}
+
 		var deleteRecord = $('#cbDelete').prop('checked');
 		var companyId = this._id;
 		var targetCompanyId = $('#select-entity').val();
