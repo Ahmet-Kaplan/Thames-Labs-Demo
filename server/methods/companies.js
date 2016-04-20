@@ -29,6 +29,14 @@ Meteor.methods({
 	},
 	'company.merge': function(sourceId, targetId, deleteSource) {
 
+		if (!Roles.userIsInRole(userId, 'Administrator')) {
+			return {
+				code: -1,
+				error: 'Only administrators can merge records.',
+				source: 'Company record merge failed'
+			}
+		}
+
 		var sourceRecord = Companies.findOne({
 			_id: sourceId
 		});
