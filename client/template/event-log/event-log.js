@@ -49,27 +49,28 @@ Template.eventEntry.helpers({
 
     return returnedData;
   },
-  entityName: function() {
-    var returnedData;
-    var entity;
+  entityIcon: function() {
+    var icon = "building";
     switch (this.entityType) {
-      case 'Company':
-        entity = Companies.findOne(this.entityId);
-        returnedData = "<div><i class='fa fa-fw fa-building'></i>" + entity.name + "</div>";
+      case 'company':
+        icon = "building";
         break;
-      case 'Contact':
-        entity = Contacts.findOne(this.entityId);
-        returnedData = "<div><i class='fa fa-fw fa-user'></i>" + entity.forename + " " + entity.surname + "</div>";
+      case 'contact':
+        icon = "user";
         break;
-      case 'Project':
-        entity = Projects.findOne(this.entityId);
-        returnedData = "<div><i class='fa fa-fw fa-sitemap'></i>" + entity.description + "</div>";
+      case 'opportunity':
+        icon = "lightbulb-o";
         break;
-      case 'Purchase Order':
-        entity = PurchaseOrders.findOne(this.entityId);
-        returnedData = "<div><i class='fa fa-fw fa-shopping-cart'></i>" + entity.description + "</div>";
+      case 'project':
+        icon = "sitemap";
+        break;
+      case 'purchaseOrder':
+        icon = "shopping-cart";
+        break;
+      case 'task':
+        icon = "check";
         break;
     }
-    return returnedData;
+    return icon;
   }
 });

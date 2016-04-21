@@ -16,7 +16,7 @@ Meteor.methods({
 				console.log('Deleting tags...');
 				Meteor.tags.remove({});
 				console.log('Deleting events...');
-				AuditLog.remove({});
+				EventLog.remove({});
 				console.log('Deleting companies...');
 				Companies.remove({});
 				console.log('Deleting contacts...');

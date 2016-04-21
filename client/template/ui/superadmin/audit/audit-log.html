@@ -1,48 +1,28 @@
-<template name="auditLog">
+<template name="eventLog">
 
-  {{setPageTitle 'Global Audit Log'}}
+  {{setPageTitle 'Global Event Log'}}
 
-  <div class="row" id="company-list">
-    <div class="col-md-12">
-      <h1><i class="fa fa-fw fa-user-secret"></i> Global Audit Log</h1>
-
-      <div class="stick-bar">
-        <div class="row">
-          <div class="col-md-9">
-            {{> EasySearch.Input index=GlobalAuditIndex attributes=searchInputAttributes}}
-          </div>
-          <div class="col-md-3">
-            <div class="btn-group" role="group">
-              <button type="button" id="clear-audit-log" class="btn btn-danger"><i class="fa fa-fw fa-times"></i> Clear audit log</button>
-            </div>
-          </div>
-        </div>
+  <div class="row list-header">
+    <div class="col-md-5">
+      <h1><i class="fa fa-fw fa-user-secret"></i> Global Event Log</h1>
+    </div>
+    <div class="col-md-5 list-header-right">
+      <div class="btn-group pull-right" role="group">
+        {{> smallSearchBox collectionName='eventLog' hideHelpButton='true'}}
       </div>
+    </div>
 
-      <div class="row">
-        <div class="col-md-5 col-md-offset-7" style="text-align:right;">{{> EasySearch.Pagination index=GlobalAuditIndex prevAndNext=true maxPages=15}}</div></div>
-
-      <div class="list-group">
-        {{#EasySearch.Each index=GlobalAuditIndex}}
-          {{> auditLogEntry}}
-        {{/EasySearch.Each}}
-
-        {{#EasySearch.IfNoResults index=GlobalAuditIndex}}
-          <h4>No results found</h4>
-        {{/EasySearch.IfNoResults}}
-
-        {{#EasySearch.IfSearching index=GlobalAuditIndex}}
-          {{> spinner}}
-        <!-- {{else}}
-          {{> loadMore index=GlobalAuditIndex}} -->
-        {{/EasySearch.IfSearching}}
+     <div class="col-md-2 list-header-right">
+      <div class="btn-group pull-right" role="group">
+        <button type="button" id="clear-event-log" class="btn btn-danger"><i class="fa fa-fw fa-times"></i> Clear event log</button>
       </div>
     </div>
   </div>
 
+  {{> searchResults index=EventLogIndex listItemTemplateName='eventLogEntry'}}
 </template>
 
-<template name="auditLogEntry">
+<template name="eventLogEntry">
   <li class="list-group-item">
     <div class="row">
       <div class="col-md-2">

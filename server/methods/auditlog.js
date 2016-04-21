@@ -1,29 +1,31 @@
 Meteor.methods({
 
-  clearAuditLog: function() {
+  clearEventLog: function() {
     if (Roles.userIsInRole(this.userId, ['CanDeleteEventLog']) && !Roles.userIsInRole(this.userId, 'superadmin')) {
       var user = Meteor.users.findOne({
         _id: this.userId
       });
 
       Partitioner.bindGroup(user.group, function() {
-        AuditLog.remove({});
+        EventLog.remove({});
       });
     } else if (Roles.userIsInRole(this.userId, 'superadmin')) {
       Partitioner.directOperation(function() {
-        AuditLog.direct.remove({});
-        GlobalAudit.direct.remove({});
+        EventLog.direct.remove({});
       });
-
     } else {
-      throw new Meteor.Error(403, 'Only administrators can clear the audit log');
+      throw new Meteor.Error(403, 'Only administrators can clear the event log');
     }
   },
 
-  addEventToAuditLog: function(logLevel, logMessage, logEntityType, logEntityId, logSource, auditGuid) {
+  addEventToEventLog: function(logLevel, logMessage, logEntityType, logEntityId, logSource) {
 
     logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
     logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
+
+    var userName = "superadmin";
+    var tenantName = null;
+    var userGroup = null;
 
     if (!Roles.userIsInRole(this.userId, 'superadmin')) {
       var user = Meteor.users.findOne({
@@ -31,59 +33,28 @@ Meteor.methods({
       });
 
       if (user) {
-        var tenant = Partitioner.directOperation(function() {
-          return Tenants.findOne({
-            _id: user.group
-          });
-        })
-
-        Partitioner.bindGroup(user.group, function() {
-          AuditLog.insert({
-            token: auditGuid,
-            date: new Date(),
-            source: logSource,
-            level: logLevel,
-            message: logMessage,
-            user: user.profile.name,
-            entityType: logEntityType,
-            entityId: logEntityId
-          });
+        userName = user.profile.name;
+        var tenant = Tenants.findOne({
+          _id: user.group
         });
 
-        GlobalAudit.insert({
-          date: new Date(),
-          source: logSource,
-          level: logLevel,
-          message: logMessage,
-          user: user.profile.name,
-          tenant: tenant.name
-        });
+        if (tenant) {
+          tenantName = tenant.name;
+          userGroup = tenant._id;
+        }
       }
 
-    } else {
-      Partitioner.directOperation(function() {
-        AuditLog.direct.insert({
-          token: auditGuid,
-          date: new Date(),
-          source: logSource,
-          level: logLevel,
-          message: logMessage,
-          user: undefined,
-          entityType: logEntityType,
-          entityId: logEntityId
-        });
-      });
-
-      GlobalAudit.insert({
+      EventLog.insert({
         date: new Date(),
         source: logSource,
         level: logLevel,
         message: logMessage,
-        user: 'Cambridge Software Team',
-        tenant: 'Super Admin'
-      })
+        user: userName,
+        entityType: logEntityType,
+        entityId: logEntityId,
+        tenant: tenantName,
+        group: userGroup
+      });
     }
-
   }
-
 });

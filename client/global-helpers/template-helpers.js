@@ -108,9 +108,8 @@ Template.registerHelper("isMobile", function() {
 });
 
 // Make search indices available to templates - e.g. for EasySearch components
-Template.registerHelper('AuditLogIndex', () => AuditLogIndex);
 Template.registerHelper('ActivitiesIndex', () => ActivitiesIndex);
-Template.registerHelper('GlobalAuditIndex', () => GlobalAuditIndex);
+Template.registerHelper('EventLogIndex', () => EventLogIndex);
 Template.registerHelper('CompaniesIndex', () => CompaniesIndex);
 Template.registerHelper('ContactsIndex', () => ContactsIndex);
 Template.registerHelper('OpportunitiesIndex', () => OpportunitiesIndex);

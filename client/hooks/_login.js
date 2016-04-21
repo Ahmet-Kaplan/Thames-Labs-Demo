@@ -31,7 +31,7 @@ Accounts.onLogin(function(cb) {
         }
       });
 
-      logEvent("info", profile.name + " logged in.");
+      LogClientEvent(LogLevel.Info, profile.name + " logged in", undefined, undefined);
     }
   }
 

@@ -194,6 +194,8 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
 
 Companies.before.insert(function(userId, doc) {
 
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+
   if (doc.website) {
     var currentWebsite = doc.website;
     if (currentWebsite.indexOf('http://') === -1) {
@@ -203,22 +205,23 @@ Companies.before.insert(function(userId, doc) {
     }
   }
 
-  if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    var user = Meteor.users.findOne(userId);
-    var tenant = Tenants.findOne(user.group);
-    doc.sequencedIdentifier = tenant.settings.company.defaultNumber;
-  }
+  var user = Meteor.users.findOne(userId);
+  var tenant = Tenants.findOne(user.group);
+  doc.sequencedIdentifier = tenant.settings.company.defaultNumber;
 
   return true;
 });
 
 Companies.after.insert(function(userId, doc) {
-  logEvent('info', 'A new company has been created: ' + doc.name);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
+  LogClientEvent(LogLevel.Info, user.profile.name + " created a new company", 'company', doc._id);
 
   if (Meteor.isServer) {
-    var user = Meteor.users.findOne({
-      _id: userId
-    });
     var tenant = Tenants.findOne({
       _id: user.group
     });
@@ -238,6 +241,10 @@ Companies.after.insert(function(userId, doc) {
             target: 'company',
             listValues: '',
             entityId: doc._id
+          }, function(err) {
+            if (err) {
+              LogServerEvent(LogLevel.Warning, "An error occurred whilst instanciating the global custom field '" + ex.name + "': " + err, 'company', doc._id);
+            }
           });
         });
       });
@@ -250,53 +257,68 @@ Companies.after.insert(function(userId, doc) {
         $inc: {
           'settings.company.defaultNumber': 1
         }
+      }, function(err) {
+        if (err) {
+          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's RealTime ID company value: " + err, 'tenant', doc._groupId);
+          return;
+        }
       });
     }
   }
 });
 
 Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
   if (this.previous.website !== doc.website && doc.website !== '') {
     Meteor.call('getClearbitData', 'company', doc._id);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's public information", 'company', doc._id);
   }
   if (doc.name !== this.previous.name) {
-    logEvent('info', 'An existing company has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's name", 'company', doc._id);
   }
   if (doc.address !== this.previous.address) {
-    logEvent('info', 'An existing company has been updated: The value of "address" was changed from ' + this.previous.address + " to " + doc.address);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's primary address line", 'company', doc._id);
   }
   if (doc.address2 !== this.previous.address2) {
-    logEvent('info', 'An existing company has been updated: The value of "address2" was changed from ' + this.previous.address2 + " to " + doc.address2);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's secondary address line", 'company', doc._id);
   }
   if (doc.city !== this.previous.city) {
-    logEvent('info', 'An existing company has been updated: The value of "city" was changed from ' + this.previous.city + " to " + doc.city);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's city", 'company', doc._id);
   }
   if (doc.county !== this.previous.county) {
-    logEvent('info', 'An existing company has been updated: The value of "county" was changed from ' + this.previous.county + " to " + doc.county);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's county", 'company', doc._id);
   }
   if (doc.postcode !== this.previous.postcode) {
-    logEvent('info', 'An existing company has been updated: The value of "postcode" was changed from ' + this.previous.postcode + " to " + doc.postcode);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's postcode", 'company', doc._id);
   }
   if (doc.country !== this.previous.country) {
-    logEvent('info', 'An existing company has been updated: The value of "country" was changed from ' + this.previous.country + " to " + doc.country);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's country", 'company', doc._id);
   }
   if (doc.website !== this.previous.website) {
-    logEvent('info', 'An existing company has been updated: The value of "website" was changed from ' + this.previous.website + " to " + doc.website);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's website", 'company', doc._id);
   }
   if (doc.phone !== this.previous.phone) {
-    logEvent('info', 'An existing company has been updated: The value of "phone" was changed from ' + this.previous.phone + " to " + doc.phone);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's telephone number", 'company', doc._id);
   }
   if (doc.companiesHouseId !== this.previous.companiesHouseId) {
-    logEvent('info', 'An existing company has been updated: The value of "Companies House record" was changed from ' + this.previous.companiesHouseId + " to " + doc.companiesHouseId);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's CompaniesHouse reference", 'company', doc._id);
   }
 }, {
   fetchPrevious: true
 });
 
 Companies.after.remove(function(userId, doc) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
   if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
     return;
   }
 
-  logEvent('info', 'A company has been deleted: ' + doc.name);
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  LogClientEvent(LogLevel.Info, user.profile.name + " deleted company '" + doc.name + "'", undefined, undefined);
 });
