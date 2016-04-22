@@ -1,5 +1,14 @@
 Meteor.methods({
 
+  clearRecentEvents: function(days) {
+    var cutOffTime = moment().subtract(days, 'days');
+    return EventLog.remove({
+      date: {
+        $lt: cutOffTime
+      }
+    });
+  },
+
   clearEventLog: function() {
     if (Roles.userIsInRole(this.userId, ['CanDeleteEventLog']) && !Roles.userIsInRole(this.userId, 'superadmin')) {
       var user = Meteor.users.findOne({

@@ -44,11 +44,13 @@ Collections.eventLog.index = EventLogIndex = new EasySearch.Index({
       var userId = options.search.userId;
 
       if (userId) {
-        var user = Meteor.users.findOne({
-          _id: userId
-        });
-        if (user) {
-          selector.group = user.group;
+        if (!Roles.userIsInRole(userId, ['superadmin'])) {
+          var user = Meteor.users.findOne({
+            _id: userId
+          });
+          if (user) {
+            selector.group = user.group;
+          }
         }
       }
 
