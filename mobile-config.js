@@ -1,6 +1,7 @@
-App.accessRule('http://app.realtimecrm.co.uk/*');
-App.accessRule('http://192.168.251.57:3000/*');
-App.accessRule('https://realtimecrm-47612.onmodulus.net/*');
+// App.accessRule('http://app.realtimecrm.co.uk/*');
+// App.accessRule('http://192.168.251.57:3000/*');
+// App.accessRule('https://realtimecrm-47612.onmodulus.net/*');
+App.accessRule('https://*');
 
 App.info({
     name: 'RealtimeCRM',
