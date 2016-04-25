@@ -9,7 +9,7 @@ getNewStageId = function(stages) {
 };
 
 Template.insertNewStageModal.onCreated(function() {
-  var userTenant = Tenants.findOne({});
+  var userTenant = Tenants.findOne({_id: Meteor.user().group});
   var stages = userTenant.settings.opportunity.stages;
   if (!stages) {
     Tenants.update(userTenant._id, {
@@ -22,7 +22,7 @@ Template.insertNewStageModal.onCreated(function() {
 
 Template.insertNewStageModal.events({
   'click #addStage': function() {
-    var userTenant = Tenants.findOne({});
+    var userTenant = Tenants.findOne({_id: Meteor.user().group});
     var stages = userTenant.settings.opportunity.stages;
     var orderValue = stages.length;
 

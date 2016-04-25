@@ -50,7 +50,7 @@ Meteor.methods({
   deleteOpportunityStage: function(stageId) {
     var user = Meteor.users.findOne(this.userId);
     Partitioner.bindGroup(user.group, function() {
-      var userTenant = Tenants.findOne({});
+      var userTenant = Tenants.findOne({_id: Meteor.user().group});
       var currentStages = userTenant.settings.opportunity.stages;
       var stageIndex = _.findIndex(currentStages, {
         id: stageId

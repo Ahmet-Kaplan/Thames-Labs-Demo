@@ -241,7 +241,12 @@ Opportunities.before.insert(function(userId, doc) {
   doc.currentStageId = 0;
 
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    doc.sequencedIdentifier = Tenants.findOne({}).settings.opportunity.defaultNumber;
+    var user = Meteor.users.findOne({
+      _id: userId
+    });
+    doc.sequencedIdentifier = Tenants.findOne({
+      _id: user.group
+    }).settings.opportunity.defaultNumber;
   }
 });
 

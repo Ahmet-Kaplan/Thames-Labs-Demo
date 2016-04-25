@@ -238,7 +238,12 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
 //////////////////////
 PurchaseOrders.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    var tenant = Tenants.findOne({});
+    var user = Meteor.users.findOne({
+      _id: userId
+    });
+    var tenant = Tenants.findOne({
+      _id: user.group
+    });
     doc.sequencedIdentifier = tenant.settings.purchaseorder.defaultPrefix + "" + tenant.settings.purchaseorder.defaultNumber;
   }
 });
