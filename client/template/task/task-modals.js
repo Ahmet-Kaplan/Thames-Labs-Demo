@@ -1,4 +1,10 @@
 Template.insertNewTask.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateTasks'])) {
+    toastr.warning("You do not have permission to create tasks");
+    Modal.hide();
+    return;
+  }
+
   Session.set('showRemindMe', false);
   Session.set('hasDueDate', false);
   if(this.data.dueDate) {
@@ -73,6 +79,12 @@ Template.insertNewTask.events({
 });
 
 Template.updateTask.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateTasks'])) {
+    toastr.warning("You do not have permission to create tasks");
+    Modal.hide();
+    return;
+  }
+
   Session.set('showRemindMe', this.data.remindMe);
   Session.set('hasDueDate', this.data.dueDate !== undefined);
 });

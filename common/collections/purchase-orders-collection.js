@@ -237,6 +237,10 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 PurchaseOrders.before.insert(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanCreatePurchaseOrders'])) {
+    return false;
+  }
+
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
     var user = Meteor.users.findOne({
       _id: userId
@@ -245,6 +249,17 @@ PurchaseOrders.before.insert(function(userId, doc) {
       _id: user.group
     });
     doc.sequencedIdentifier = tenant.settings.purchaseorder.defaultPrefix + "" + tenant.settings.purchaseorder.defaultNumber;
+  }
+});
+
+PurchaseOrders.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(!Roles.userIsInRole(userId, ['CanEditPurchaseOrders'])) {
+    return false;
+  }
+});
+PurchaseOrders.before.remove(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanRemovePurchaseOrders'])) {
+    return false;
   }
 });
 

@@ -43,6 +43,12 @@ Template.newProjectForm.helpers({
 });
 
 Template.updateProjectForm.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanEditProjects'])) {
+    toastr.warning("You do not have permission to edit projects");
+    Modal.hide();
+    return;
+  }
+
   var c = this.data.companyId;
   if (c) {
     Session.set('sc', c);
@@ -146,5 +152,29 @@ Template.newContactProjectForm.helpers({
       _id: this.contactId
     });
     return contact.forename + ' ' + contact.surname;
+  }
+});
+
+Template.newProjectForm.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateProjects'])) {
+    toastr.warning("You do not have permission to create projects");
+    Modal.hide();
+    return;
+  }
+});
+
+Template.newCompanyProjectForm.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateProjects'])) {
+    toastr.warning("You do not have permission to create projects");
+    Modal.hide();
+    return;
+  }
+});
+
+Template.newContactProjectForm.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateProjects'])) {
+    toastr.warning("You do not have permission to create projects");
+    Modal.hide();
+    return;
   }
 });

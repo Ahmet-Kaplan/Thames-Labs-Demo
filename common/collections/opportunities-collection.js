@@ -237,7 +237,22 @@ Tags.TagsMixin(Opportunities);
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
+
+Opportunities.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(!Roles.userIsInRole(userId, ['CanEditOpportunities'])) {
+    return false;
+  }
+});
+Opportunities.before.remove(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveOpportunities'])) {
+    return false;
+  }
+});
+
 Opportunities.before.insert(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanCreateOpportunities'])) {
+    return false;
+  }
   doc.currentStageId = 0;
 
   if (!Roles.userIsInRole(userId, ['superadmin'])) {

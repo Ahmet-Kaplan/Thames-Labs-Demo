@@ -11,6 +11,14 @@ Template.insertProductModal.helpers({
   }
 });
 
+Template.insertProductModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateProducts'])) {
+    toastr.warning("You do not have permission to create products");
+    Modal.hide();
+    return;
+  }
+});
+
 AutoForm.hooks({
   insertProductForm: {
     onSuccess: function() {

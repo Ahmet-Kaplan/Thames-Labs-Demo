@@ -23,6 +23,12 @@ var findFirstStageId = function() {
 };
 
 Template.insertOpportunityModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateOpportunities'])) {
+    toastr.warning("You do not have permission to create opportunities");
+    Modal.hide();
+    return;
+  }
+
   Session.set('oppComp', null);
   verfiyOpportunityStagesExist();
 });
@@ -37,6 +43,12 @@ Template.insertOpportunityModal.helpers({
 });
 
 Template.insertCompanyOpportunityModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateOpportunities'])) {
+    toastr.warning("You do not have permission to create opportunities");
+    Modal.hide();
+    return;
+  }
+
   verfiyOpportunityStagesExist();
 });
 
@@ -66,6 +78,12 @@ Template.insertOpportunityModal.events({
 });
 
 Template.insertContactOpportunityModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateOpportunities'])) {
+    toastr.warning("You do not have permission to create opportunities");
+    Modal.hide();
+    return;
+  }
+
   verfiyOpportunityStagesExist();
 });
 
@@ -115,6 +133,22 @@ Template.insertOpportunityItemModal.events({
     if (!isNaN(totalValue)) {
       $('#oppLineTotal').val(totalValue);
     }
+  }
+});
+
+Template.editOpportunityModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanEditOpportunities'])) {
+    toastr.warning("You do not have permission to edit opportunities");
+    Modal.hide();
+    return;
+  }
+});
+
+Template.editOpportunityItemModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanEditOpportunities'])) {
+    toastr.warning("You do not have permission to edit opportunities");
+    Modal.hide();
+    return;
   }
 });
 

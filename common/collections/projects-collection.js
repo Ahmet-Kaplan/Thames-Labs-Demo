@@ -330,10 +330,24 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 Projects.before.insert(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanCreateProjects'])) {
+    return false;
+  }
+
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
     var user = Meteor.users.findOne(userId);
     var tenant = Tenants.findOne(user.group);
     doc.sequencedIdentifier = tenant.settings.project.defaultNumber;
+  }
+});
+Projects.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(!Roles.userIsInRole(userId, ['CanEditProjects'])) {
+    return false;
+  }
+});
+Projects.before.remove(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveProjects'])) {
+    return false;
   }
 });
 

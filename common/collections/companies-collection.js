@@ -192,7 +192,21 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 
+Companies.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(!Roles.userIsInRole(userId, ['CanEditCompanies'])) {
+    return false;
+  }
+});
+Companies.before.remove(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveCompanies'])) {
+    return false;
+  }
+});
+
 Companies.before.insert(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanCreateCompanies'])) {
+    return false;
+  }
 
   if (doc.website) {
     var currentWebsite = doc.website;

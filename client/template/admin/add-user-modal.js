@@ -40,3 +40,11 @@ Template.addNewUser.events({
     hopscotch.endTour(true);
   }
 });
+
+Template.addNewUser.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['Administrator'])) {
+    toastr.warning("You do not have permission to create users");
+    Modal.hide();
+    return;
+  }
+});

@@ -166,7 +166,22 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 
+Products.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(!Roles.userIsInRole(userId, ['CanEditProducts'])) {
+    return false;
+  }
+});
+Products.before.remove(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveProducts'])) {
+    return false;
+  }
+});
+
 Products.before.insert(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanCreateProducts'])) {
+    return false;
+  }
+
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
     var user = Meteor.users.findOne(userId);
     var tenant = Tenants.findOne(user.group);
