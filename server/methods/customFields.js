@@ -207,14 +207,14 @@ Meteor.methods({
         return 0;
       });
 
-      _.each(updatedOrder, function (field) {
+      _.each(updatedOrder, function (field, i) {
         CustomFields.update({
           target: field.target,
           global: true,
           name: field.name
         }, {
             $set: {
-              order: field.order
+              order: i
             }
           }, { multi: true });
       });
