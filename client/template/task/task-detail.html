@@ -17,10 +17,10 @@
           </span>
         {{/if}}
         </span>
-        </h4>    
+        </h4>
       <h1 class="entity-name">
         {{title}}
-      </h1> 
+      </h1>
 
       {{> tagInput tags=tags collection='tasks' entityId=_id permissionToEdit='CanEditTasks'}}
 
@@ -34,7 +34,7 @@
               <a href="#" id="remove-task" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
               {{/if}}
           </div>
- 
+
         Task details
         </div>
 
@@ -53,8 +53,8 @@
             <h4><i class="fa fa-fw fa-calendar"></i> Due Date</h4>
             {{formattedDueDate}} - {{relativeDueDate}}
           </li>
-          {{/if}} 
-          {{/if}} 
+          {{/if}}
+          {{/if}}
           {{#unless isPersonalTask}}
           {{#if entityDetails.permissionToRead}}
             <a href="{{pathFor route=entityType id=entityId}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to {{entityType}} details">

@@ -307,6 +307,14 @@ module.exports = function() {
     browser.waitForExist('h1*=' + expectedHeading, 5000, true);
   });
 
+  this.Then(/^I should see the list item "([^"]*)"$/, function(expectedHeading) {
+    browser.waitForExist('h4*=' + expectedHeading, 5000);
+  });
+
+  this.Then(/^I should not see the list item "([^"]*)"$/, function(expectedHeading) {
+    browser.waitForExist('h4*=' + expectedHeading, 5000, true);
+  });
+
   this.Then(/^I should see a modal$/, function() {
     browser.waitForExist('.modal-dialog', 5000);
     browser.waitForVisible('.modal-dialog', 5000);
