@@ -182,7 +182,9 @@ Template.dashboard.onCreated(function() {
 
   //Retrieve list of widgets from db if exists
   this.widgetListUser = new ReactiveVar({});
-  var savedWidgets = Meteor.user().profile.myWidgets;
+  if (!Roles.userIsInRole(Meteor.userId(), 'superadmin')) {
+    var savedWidgets = Meteor.user().profile.myWidgets;
+  }
   if (typeof savedWidgets === 'undefined' || savedWidgets === {}) {
     this.widgetListUser.set(widgetsDefault);
   } else {
