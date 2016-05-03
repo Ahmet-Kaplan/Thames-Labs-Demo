@@ -42,6 +42,9 @@ Template.help.events({
     FlowRouter.go('dashboard');
     hopscotch.endTour(true);
     $.getScript('/vendor/hopscotch/tours/tags-tutorial-p1.js');
+  },
+  'click #close-help': function(event, template) {
+    Modal.hide();
   }
 });
 

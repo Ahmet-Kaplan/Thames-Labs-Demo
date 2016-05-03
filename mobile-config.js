@@ -1,9 +1,10 @@
 App.accessRule('http://app.realtimecrm.co.uk/*');
 App.accessRule('http://192.168.251.57:3000/*');
 App.accessRule('https://realtimecrm-47612.onmodulus.net/*');
+App.accessRule('http://maps.apple.com/*');
 
 App.info({
-    name: 'RealtimeCRM',
+    name: 'RealTimeCRM',
     description: 'The ultimate business tool',
     version: '0.0.1',
     id: 'uk.co.cambridgesoftware.realtimecrm',

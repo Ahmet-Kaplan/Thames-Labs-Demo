@@ -98,3 +98,4 @@ Template.map.helpers({
     }
   }
 });
+
