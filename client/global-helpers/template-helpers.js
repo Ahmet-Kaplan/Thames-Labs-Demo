@@ -109,6 +109,10 @@ Template.registerHelper("isMobile", function() {
   return bowser.mobile || bowser.tablet;
 });
 
+Template.registerHelper("isApp", function() {
+  return Meteor.isCordova;
+});
+
 // Make search indices available to templates - e.g. for EasySearch components
 Template.registerHelper('AuditLogIndex', () => AuditLogIndex);
 Template.registerHelper('ActivitiesIndex', () => ActivitiesIndex);
