@@ -411,7 +411,7 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
     switch (this.previous.entityType) {
       case 'company':
         prevEntity = Companies.findOne(this.previous.entityId);
-        prevEntityName = "Company: " + prevEntity.name;
+        prevEntityName = "Company: " + this.previous.name;
         break;
       case 'contact':
         prevEntity = Contacts.findOne(this.previous.entityId);

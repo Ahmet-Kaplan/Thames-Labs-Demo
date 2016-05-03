@@ -29,7 +29,7 @@ Meteor.methods({
 	},
 	'company.merge': function(sourceId, targetId, deleteSource) {
 
-		if (!Roles.userIsInRole(userId, 'Administrator')) {
+		if (!Roles.userIsInRole(this.userId, 'Administrator')) {
 			return {
 				code: -1,
 				error: 'Only administrators can merge records.',

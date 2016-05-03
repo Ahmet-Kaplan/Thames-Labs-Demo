@@ -27,18 +27,6 @@ Template.mergeModal.onCreated(function() {
 	});
 });
 
-Template.mergeModal.onRendered(function() {
-
-});
-
-Template.mergeModal.onDestroyed(function() {
-
-});
-
-Template.mergeModal.helpers({
-
-});
-
 Template.mergeModal.events({
 	'click #initiateMerge': function(event, template) {
 		if (!Roles.userIsInRole(Meteor.userId(), 'Administrator')) {
@@ -58,21 +46,25 @@ Template.mergeModal.events({
 			return;
 		}
 
-		bootbox.confirm("Are you sure you wish to merge these companies? This action cannot be undone.", function(result) {
-			if (result === true) {
-				Meteor.call('company.merge', companyId, targetCompanyId, deleteRecord, function(err, res) {
-					if (err) throw new Meteor.Error(err);
+		bootbox.confirm({
+			message: "Are you sure you wish to merge these companies? This action cannot be undone.",
+			backdrop: false,
+			callback: function(result) {
+				if (result === true) {
+					Meteor.call('company.merge', companyId, targetCompanyId, deleteRecord, function(err, res) {
+						if (err) throw new Meteor.Error(err);
 
-					if (res) {
-						if (res === 0) {
-							toastr.success('Merge successful.')
-							Modal.hide();
-						} else {
-							toastr.error(res.source + ": " + res.error)
+						if (res) {
+							if (res === 0) {
+								Modal.hide();
+								toastr.success('Merge successful.')
+							} else {
+								toastr.error(res.source + ": " + res.error)
+							}
 						}
-					}
 
-				});
+					});
+				}
 			}
 		});
 	}
