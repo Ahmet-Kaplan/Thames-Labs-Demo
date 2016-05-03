@@ -10,7 +10,7 @@ Meteor.methods({
   },
 
   clearEventLog: function() {
-    if (Roles.userIsInRole(this.userId, ['CanDeleteEventLog']) && !Roles.userIsInRole(this.userId, 'superadmin')) {
+    if (Roles.userIsInRole(this.userId, ['CanDeleteEventLog', 'Administrator']) && !Roles.userIsInRole(this.userId, 'superadmin')) {
       var user = Meteor.users.findOne({
         _id: this.userId
       });

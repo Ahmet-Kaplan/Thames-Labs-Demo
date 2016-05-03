@@ -18,7 +18,8 @@ Schemas.EventLog = new SimpleSchema({
   },
   entityType: {
     type: String,
-    optional: true
+    optional: true,
+    allowedValues: ['company', 'contact', 'opportunity', 'project', 'purchaseOrder', 'task', 'user', 'product', 'tenant']
   },
   entityId: {
     type: String,
