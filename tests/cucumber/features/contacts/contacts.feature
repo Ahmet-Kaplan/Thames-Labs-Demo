@@ -295,6 +295,7 @@ Feature: Allow users to manage their Contacts
     And I create a new contact belonging to a company
     When I navigate to "/contacts"
     And I set the filter to "Company:" then "Test Ltd"
+    And the page is loaded
     Then I should see ".removeProp"
     And I should see ".fa-envelope"
     And "#resultsCount" should say "1 record"
