@@ -214,7 +214,8 @@ Feature: Allow users to manage their Purchase Orders
     And I click "#edit-purchase-order"
     And I select "Approved" from dropdown field "status"
     And I click "#update-purchase-order"
-    Then I should see "#notifications-menu"
+    Then I should not see a modal
+    And I should see "#notifications-menu"
     When I click "#notifications-menu"
     Then I should see "#notification"
 
