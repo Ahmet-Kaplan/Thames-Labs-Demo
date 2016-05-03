@@ -193,18 +193,19 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
 //////////////////////
 
 Companies.before.update(function(userId, doc, fieldNames, modifier, options) {
-  if(!Roles.userIsInRole(userId, ['CanEditCompanies'])) {
+  if(!Roles.userIsInRole(userId, ['CanEditCompanies']) && Meteor.isClient) {
     return false;
   }
 });
 Companies.before.remove(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanRemoveCompanies'])) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveCompanies']) && Meteor.isClient) {
     return false;
   }
 });
 
 Companies.before.insert(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanCreateCompanies'])) {
+  console.log(userId, doc)
+  if(!Roles.userIsInRole(userId, ['CanCreateCompanies']) && Meteor.isClient) {
     return false;
   }
 

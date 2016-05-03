@@ -330,7 +330,7 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 Projects.before.insert(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanCreateProjects'])) {
+  if(!Roles.userIsInRole(userId, ['CanCreateProjects']) && Meteor.isClient) {
     return false;
   }
 
@@ -341,12 +341,12 @@ Projects.before.insert(function(userId, doc) {
   }
 });
 Projects.before.update(function(userId, doc, fieldNames, modifier, options) {
-  if(!Roles.userIsInRole(userId, ['CanEditProjects'])) {
+  if(!Roles.userIsInRole(userId, ['CanEditProjects']) && Meteor.isClient) {
     return false;
   }
 });
 Projects.before.remove(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanRemoveProjects'])) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveProjects']) && Meteor.isClient) {
     return false;
   }
 });

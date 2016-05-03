@@ -122,17 +122,17 @@ Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
 //////////////////////
 
 Activities.before.insert(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanCreateActivities'])) {
+  if(!Roles.userIsInRole(userId, ['CanCreateActivities']) && Meteor.isClient) {
     return false;
   }
 });
 Activities.before.update(function(userId, doc, fieldNames, modifier, options) {
-  if(!Roles.userIsInRole(userId, ['CanEditActivities'])) {
+  if(!Roles.userIsInRole(userId, ['CanEditActivities']) && Meteor.isClient) {
     return false;
   }
 });
 Activities.before.remove(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanRemoveActivities'])) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveActivities']) && Meteor.isClient) {
     return false;
   }
 });

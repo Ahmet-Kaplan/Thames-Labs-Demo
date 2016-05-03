@@ -7,6 +7,7 @@ Feature: Allow users to access a central view of all activities
     Given a user exists
     And I am a logged in user
 
+@dev
   #Company
   Scenario: A user with Company Read permission can see a company activity in the list
     Given a "Company" has been created

@@ -167,18 +167,18 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
 //////////////////////
 
 Products.before.update(function(userId, doc, fieldNames, modifier, options) {
-  if(!Roles.userIsInRole(userId, ['CanEditProducts'])) {
+  if(!Roles.userIsInRole(userId, ['CanEditProducts']) && Meteor.isClient) {
     return false;
   }
 });
 Products.before.remove(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanRemoveProducts'])) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveProducts']) && Meteor.isClient) {
     return false;
   }
 });
 
 Products.before.insert(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanCreateProducts'])) {
+  if(!Roles.userIsInRole(userId, ['CanCreateProducts']) && Meteor.isClient) {
     return false;
   }
 

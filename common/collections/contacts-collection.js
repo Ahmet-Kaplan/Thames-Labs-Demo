@@ -173,18 +173,18 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
 //////////////////////
 
 Contacts.before.update(function(userId, doc, fieldNames, modifier, options) {
-  if(!Roles.userIsInRole(userId, ['CanEditContacts'])) {
+  if(!Roles.userIsInRole(userId, ['CanEditContacts']) && Meteor.isClient) {
     return false;
   }
 });
 Contacts.before.remove(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanRemoveContacts'])) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveContacts']) && Meteor.isClient) {
     return false;
   }
 });
 
 Contacts.before.insert(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanCreateContacts'])) {
+  if(!Roles.userIsInRole(userId, ['CanCreateContacts']) && Meteor.isClient) {
     return false;
   }
 

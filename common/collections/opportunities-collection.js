@@ -239,18 +239,18 @@ Tags.TagsMixin(Opportunities);
 //////////////////////
 
 Opportunities.before.update(function(userId, doc, fieldNames, modifier, options) {
-  if(!Roles.userIsInRole(userId, ['CanEditOpportunities'])) {
+  if(!Roles.userIsInRole(userId, ['CanEditOpportunities']) && Meteor.isClient) {
     return false;
   }
 });
 Opportunities.before.remove(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanRemoveOpportunities'])) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveOpportunities']) && Meteor.isClient) {
     return false;
   }
 });
 
 Opportunities.before.insert(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanCreateOpportunities'])) {
+  if(!Roles.userIsInRole(userId, ['CanCreateOpportunities']) && Meteor.isClient) {
     return false;
   }
   doc.currentStageId = 0;

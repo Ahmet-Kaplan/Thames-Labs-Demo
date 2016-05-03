@@ -237,7 +237,7 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 PurchaseOrders.before.insert(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanCreatePurchaseOrders'])) {
+  if(!Roles.userIsInRole(userId, ['CanCreatePurchaseOrders']) && Meteor.isClient) {
     return false;
   }
 
@@ -253,12 +253,12 @@ PurchaseOrders.before.insert(function(userId, doc) {
 });
 
 PurchaseOrders.before.update(function(userId, doc, fieldNames, modifier, options) {
-  if(!Roles.userIsInRole(userId, ['CanEditPurchaseOrders'])) {
+  if(!Roles.userIsInRole(userId, ['CanEditPurchaseOrders']) && Meteor.isClient) {
     return false;
   }
 });
 PurchaseOrders.before.remove(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanRemovePurchaseOrders'])) {
+  if(!Roles.userIsInRole(userId, ['CanRemovePurchaseOrders']) && Meteor.isClient) {
     return false;
   }
 });
