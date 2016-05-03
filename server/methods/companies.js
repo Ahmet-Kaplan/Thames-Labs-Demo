@@ -121,7 +121,8 @@ Meteor.methods({
 		});
 
 		CustomFields.update({
-			entityId: sourceId
+			entityId: sourceId,
+			global: false
 		}, {
 			$set: {
 				entityId: targetId

@@ -17,7 +17,11 @@ Template.mergeModal.onCreated(function() {
 			$('#select-entity').selectize({
 				create: false,
 				allowEmptyOption: false,
-				options: options
+				options: options,
+				maxItems: 1,
+				closeAfterSelect: true,
+				hideSelected: true,
+				maxOptions: 10
 			});
 		}
 	});
@@ -37,7 +41,7 @@ Template.mergeModal.helpers({
 
 Template.mergeModal.events({
 	'click #initiateMerge': function(event, template) {
-		if (!Roles.userIsInRole(userId, 'Administrator')) {
+		if (!Roles.userIsInRole(Meteor.userId(), 'Administrator')) {
 			toastr.error('Only administrators can merge records.');
 			return;
 		}
