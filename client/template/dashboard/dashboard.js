@@ -236,10 +236,10 @@ Template.dashboard.onRendered(function() {
     saveMyWidgets();
   });
 
-  //Has user taken welcome tour yet?
+  //Has user seen the welcome modal yet?
   if (!Meteor.user().profile.welcomeTour) {
     Modal.show("firstRun");
-  } else if (bowser.mobile || bowser.tablet) {
+  } else if (Meteor.isCordova) {
     if (!Meteor.user().profile.mobile) {
       Modal.show("firstRunMobile");
     };
