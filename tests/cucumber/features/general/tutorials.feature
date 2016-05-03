@@ -11,7 +11,8 @@ Feature: Allow users to take tutorials
 #Starting - Welcome Modal
   Scenario: A user can take the welcome tour from the welcome Modal
     Given I click "#first-run-tour"
-    Then I should see the tour
+    Then I should not see a modal
+    And I should see the tour
 
   Scenario: A user can take the company tutorial from the welcome modal
     Given I have the "CanReadCompanies" permission

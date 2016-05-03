@@ -242,6 +242,6 @@ Feature: Allow users to manage their Tasks
     And I should not see "span.fa-user" 
     And "#resultsCount" should say "1 record"
     When I click ".removeProp"
-    Then "#resultsCount" should say "2 records"
-    And I should not see ".removeProp"
+    Then I should not see ".removeProp"
+    And "#resultsCount" should say "2 records"
     And I should see "span.fa-user" 
