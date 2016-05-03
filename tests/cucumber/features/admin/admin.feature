@@ -23,6 +23,7 @@ Feature: Allow users to manage general tenancy data
     And I set text field with id "custom-field-text-value" to "cucumber"
     And I selectize "select-entity" to "Company"
     And I click the button "#createCustomField"
+    Then I should not see a modal 
     And I see a global field with the name "velocity" in the list "#custom-field-list"
     And I click "#delete-global-custom-field"
     And I click confirm on the modal
@@ -39,6 +40,7 @@ Feature: Allow users to manage general tenancy data
     And I set text field with id "custom-field-text-value" to "cucumber"
     And I selectize "select-entity" to "Company"
     And I click the button "#createCustomField"
-    Then I see a global field with the name "velocity" in the list "#custom-field-list"
+    Then I should not see a modal
+    And I see a global field with the name "velocity" in the list "#custom-field-list"
     When I navigate to a company page
     Then I see a field with the name "velocity" in the custom field list
