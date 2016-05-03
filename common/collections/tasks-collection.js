@@ -203,7 +203,8 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         'entityType': 1,
         'entityId': 1,
         'assigneeId': 1,
-        'tags': 1
+        'tags': 1,
+        'parentTaskId': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
@@ -241,6 +242,12 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         // n.b. the array is passed as a comma separated string
         selector.entityId = {
           $in: options.search.props.project.split(',')
+        };
+      }
+
+      if (options.search.props.excludes) {
+        selector._id = {
+          $nin: options.search.props.excludes.split(',')
         };
       }
 
@@ -313,6 +320,16 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         };
       }
 
+      // if (options.search.props.showSubTasks) {
+      //   selector.parentTaskId = {
+      //     $exists: true
+      //   };
+      // } else {
+      //   selector.parentTaskId = {
+      //     $exists: false
+      //   };
+      // }
+
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
@@ -325,6 +342,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
+
 Tasks.after.insert(function(userId, doc) {
   if (doc.remindMe && doc.reminder && Meteor.isServer) {
     Meteor.call('addTaskReminder', doc._id);
@@ -474,4 +492,18 @@ Tasks.after.remove(function(userId, doc) {
       break;
   }
   logEvent('info', 'An existing task has been deleted: ' + doc.title + '(' + entityName + ")");
+
+  var subTasks = Tasks.find({
+    parentTaskId: doc._id
+  }).fetch();
+
+  _.each(subTasks, function(st) {
+    Tasks.update({
+      _id: st._id
+    }, {
+      $unset: {
+        'parentTaskId': ''
+      }
+    });
+  });
 });
