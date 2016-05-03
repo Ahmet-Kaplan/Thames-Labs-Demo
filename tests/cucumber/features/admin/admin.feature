@@ -1,3 +1,4 @@
+@ingore
 Feature: Allow users to manage general tenancy data
   As an administrator
   I want to manage the general tenancy data and settings

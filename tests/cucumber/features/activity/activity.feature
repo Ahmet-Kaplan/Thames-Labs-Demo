@@ -1,3 +1,4 @@
+@ignore
 Feature: Allow users to access a central view of all activities
     As a user
     I want to view a list of all activities
