@@ -43,4 +43,5 @@ Feature: Allow users to manage general tenancy data
     Then I should not see a modal
     And I see a global field with the name "velocity" in the list "#custom-field-list"
     When I navigate to a company page
+    And the page is loaded
     Then I see a field with the name "velocity" in the custom field list
