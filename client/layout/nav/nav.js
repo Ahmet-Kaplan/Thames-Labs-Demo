@@ -367,6 +367,16 @@ Template.notice.helpers({
       return s;
     }
   },
+  shortDetail: function() {
+   var c = this.detail;
+   var s = c.substr(0, 40);
+   if (s.length > 37) {
+     return s + "...";
+   } else {
+     return s
+   }
+  },
+
   recentNote: function() {
     var today = new Date();
     var yesterday = new Date(today);

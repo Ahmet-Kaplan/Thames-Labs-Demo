@@ -1,7 +1,7 @@
 App.accessRule('https://*');
 
 App.info({
-    name: 'RealtimeCRM',
+    name: 'RealTimeCRM',
     description: 'The ultimate business tool',
     version: '0.0.1',
     id: 'uk.co.cambridgesoftware.realtimecrm',
