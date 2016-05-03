@@ -2,7 +2,7 @@ module.exports = function() {
 
   this.When(/^I see a global field with the name "([^"]*)" in the list "([^"]*)"$/, function(gfName, listName) {
     browser.waitForExist(listName, 2000);
-    expect(browser.getText('#custom-field-list', 2000)).toContain(gfName);
+    expect(browser.getText('#glob-cust-field-display', 2000)).toContain(gfName);
   });
 
   this.When(/^I click the button "([^"]*)"$/, function(button) {
