@@ -399,19 +399,18 @@ Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
     logEvent('info', 'An existing project has been updated: The value of "description" was changed from ' + this.previous.description + " to " + doc.description);
   }
   if (doc.companyId !== this.previous.companyId) {
-    var prevComp = Companies.findOne(this.previous.companyId);
     var newComp = Companies.findOne(doc.companyId);
-    logEvent('info', 'An existing project has been updated: The value of "companyId" was changed from ' + this.previous.companyId + '(' + prevComp.name + ") to " + doc.companyId + ' (' + newComp.name + ')');
+    logEvent('info', 'An existing project has been updated: The value of "companyId" was changed from ' + this.previous.companyId + ' (' + this.previous.name + ") to " + doc.companyId + ' (' + newComp.name + ')');
   }
   if (doc.contactId !== this.previous.contactId) {
     var prevCont = Contacts.findOne(this.previous.contactId);
     var newCont = Contacts.findOne(doc.contactId);
-    logEvent('info', 'An existing project has been updated: The value of "contactId" was changed from ' + this.previous.contactId + '(' + prevCont.forename + " " + prevCont.surname + ") to " + doc.contactId + ' (' + newCont.forename + " " + newCont.surname + ')');
+    logEvent('info', 'An existing project has been updated: The value of "contactId" was changed from ' + this.previous.contactId + ' (' + prevCont.forename + " " + prevCont.surname + ") to " + doc.contactId + ' (' + newCont.forename + " " + newCont.surname + ')');
   }
   if (doc.userId !== this.previous.userId) {
     var prevUser = Meteor.users.findOne(this.previous.userId);
     var newUser = Meteor.users.findOne(doc.userId);
-    logEvent('info', 'An existing project has been updated: The value of "userId" was changed from ' + this.previous.userId + '(' + prevUser.profile.name + ") to " + doc.userId + ' (' + newUser.profile.name + ')');
+    logEvent('info', 'An existing project has been updated: The value of "userId" was changed from ' + this.previous.userId + ' (' + prevUser.profile.name + ") to " + doc.userId + ' (' + newUser.profile.name + ')');
   }
   if (doc.value !== this.previous.value) {
     logEvent('info', 'An existing project has been updated: The value of "value" was changed from ' + this.previous.value + " to " + doc.value);
