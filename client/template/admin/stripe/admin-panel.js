@@ -1,6 +1,6 @@
 var updateStripeCustomer = function(self) {
   var stripeCustomer = self.stripeCustomer;
-  var tenant = Tenants.findOne({});
+  var tenant = Tenants.findOne({_id: Meteor.user().group});
 
   if(tenant.stripe.stripeId) {
     Meteor.call('stripe.getCustomerDetails', function(error, customer) {
@@ -14,7 +14,7 @@ var updateStripeCustomer = function(self) {
 };
 
 var updateUpcomingInvoice = function(self) {
-  var tenant = Tenants.findOne({});
+  var tenant =  Tenants.findOne({_id: Meteor.user().group});
   if(tenant.stripe.stripeId) {
     Meteor.call('stripe.getUpcomingInvoice', function(error, invoice) {
       if(error) {
@@ -77,7 +77,7 @@ var updateUpcomingInvoice = function(self) {
 };
 
 var updateLastInvoice = function(self) {
-  var tenant = Tenants.findOne({});
+  var tenant =  Tenants.findOne({_id: Meteor.user().group});
   if(tenant.stripe.stripeId) {
     Meteor.call('stripe.getLastInvoice', function(error, invoice) {
       if(error) {
@@ -100,7 +100,7 @@ var updateLastInvoice = function(self) {
 };
 
 var updateCardDetails = function(self) {
-  var tenant = Tenants.findOne({});
+  var tenant =  Tenants.findOne({_id: Meteor.user().group});
   if(!tenant.stripe.stripeId) {
     return false;
   }
@@ -111,7 +111,7 @@ var updateCardDetails = function(self) {
 
 var updateCouponDetails = function(self) {
   var couponDetails = self.couponDetails;
-  var tenant = Tenants.findOne({});
+  var tenant =  Tenants.findOne({_id: Meteor.user().group});
   if(!tenant.stripe.coupon) {
     couponDetails.set({});
     return false;
@@ -135,7 +135,7 @@ Template.stripeAdmin.onCreated(function() {
   var self = this;
 
   this.autorun(function() {
-    var tenant = Tenants.findOne({});
+    var tenant = Tenants.findOne({_id: Meteor.user().group});
     if (!tenant) return;
     var numberOfUsers = Meteor.users.find({group: tenant._id}).count();
     Session.get('stripeUpdateListener');
@@ -149,7 +149,7 @@ Template.stripeAdmin.onCreated(function() {
   });
 
   this.autorun(function() {
-    var tenant = Tenants.findOne({});
+    var tenant =  Tenants.findOne({_id: Meteor.user().group});
     Session.get('listenCardUpdate');
     if(tenant.stripe.stripeId) {
       updateCardDetails(self);
@@ -159,10 +159,10 @@ Template.stripeAdmin.onCreated(function() {
 
 Template.stripeAdmin.helpers({
   payingScheme: function() {
-    return Tenants.findOne({}).plan === 'pro';
+    return  Tenants.findOne({_id: Meteor.user().group}).plan === 'pro';
   },
   subsLoaded: function() {
-    var stripeSubs = Tenants.findOne({}).stripe.stripeSubs;
+    var stripeSubs =  Tenants.findOne({_id: Meteor.user().group}).stripe.stripeSubs;
     if(!!stripeSubs) {
       return Template.instance().stripeCustomer.get() !== 'loading'
     } else {
@@ -174,7 +174,7 @@ Template.stripeAdmin.helpers({
     return (stripeCustomer.id) ? ((stripeCustomer.subscriptions.total_count && !stripeCustomer.subscriptions.data[0].cancel_at_period_end) ? stripeCustomer.subscriptions.data[0].plan.name : "Free Plan") : "Free Plan";
   },
   hasStripeAccount: function() {
-    return !(Tenants.findOne({}).stripe.stripeId === undefined || Tenants.findOne({}).stripe.stripeId === '');
+    return !( Tenants.findOne({_id: Meteor.user().group}).stripe.stripeId === undefined ||  Tenants.findOne({_id: Meteor.user().group}).stripe.stripeId === '');
   },
   hasStripeSubs: function() {
     //Note that this helper is called only after the customer details have been retrieved from the api

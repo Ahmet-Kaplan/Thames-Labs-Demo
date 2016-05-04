@@ -1,0 +1,30 @@
+<template name="tipsModal">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button id="close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          Tips
+        </div>
+        <div class="modal-body">
+          <div id="tip-content">
+            <p>{{{currentTip}}}</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="row">
+            <div class="col-md-2">
+              <button type="button" class="btn btn-primary pull-left" id="previous-tip"><i class="fa fa-fw fa-arrow-left"></i></button>
+            </div>
+            <div class="col-md-8" id="countLabel">
+              {{tipIndex}} of {{tipCount}}
+            </div>
+            <div class="col-md-2"> 
+              <button type="button" class="btn btn-primary pull-right" id="next-tip"><i class="fa fa-fw fa-arrow-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

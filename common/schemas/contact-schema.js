@@ -3,6 +3,11 @@ Schemas.Contact = new SimpleSchema({
     type: Number,
     label: "RealTime ID"
   },
+  title: {
+    label: 'Title',
+    type: String,
+    optional: true
+  },
   forename: {
     type: String
   },

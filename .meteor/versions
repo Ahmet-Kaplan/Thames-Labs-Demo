@@ -32,6 +32,7 @@ check@1.1.2
 chrismbeckett:toastr@2.1.2_1
 coffeescript@1.0.15
 copleykj:tagstripper@1.0.0
+crosswalk@1.6.0
 csauer:accounts-phony@0.1.0
 dandv:caret-position@2.1.1
 dbernhard:jquery-ui-draggable@0.1.2
@@ -138,8 +139,6 @@ ongoworks:security@1.3.0
 ordered-dict@1.0.5
 ostrio:logger@1.0.0
 ostrio:loggerconsole@1.0.0
-ostrio:loggerfile@1.0.1
-ostrio:meteor-root@1.0.3
 panphora:environment-template-helpers@0.0.4
 patrickleet:tags@1.2.0
 pcel:loading@1.0.3

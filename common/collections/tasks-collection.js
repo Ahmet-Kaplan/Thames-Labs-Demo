@@ -184,7 +184,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
   fields: ['title'],
   permission: function(options) {
     var userId = options.userId;
-    return Roles.userIsInRole(userId, [ 'CanReadTasks']);
+    return Roles.userIsInRole(userId, ['CanReadTasks']);
   },
   engine: new EasySearch.MongoDB({
     sort: () => {
@@ -203,7 +203,8 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         'entityType': 1,
         'entityId': 1,
         'assigneeId': 1,
-        'tags': 1
+        'tags': 1,
+        'parentTaskId': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
@@ -241,6 +242,12 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         // n.b. the array is passed as a comma separated string
         selector.entityId = {
           $in: options.search.props.project.split(',')
+        };
+      }
+
+      if (options.search.props.excludes) {
+        selector._id = {
+          $nin: options.search.props.excludes.split(',')
         };
       }
 
@@ -313,6 +320,16 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         };
       }
 
+      // if (options.search.props.showSubTasks) {
+      //   selector.parentTaskId = {
+      //     $exists: true
+      //   };
+      // } else {
+      //   selector.parentTaskId = {
+      //     $exists: false
+      //   };
+      // }
+
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
@@ -325,6 +342,22 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
+Tasks.before.insert(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanCreateTasks']) && Meteor.isClient) {
+    return false;
+  }
+});
+Tasks.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(!Roles.userIsInRole(userId, ['CanEditTasks']) && Meteor.isClient) {
+    return false;
+  }
+});
+Tasks.before.remove(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveTasks']) && Meteor.isClient) {
+    return false;
+  }
+});
+
 Tasks.after.insert(function(userId, doc) {
   if (doc.remindMe && doc.reminder && Meteor.isServer) {
     Meteor.call('addTaskReminder', doc._id);
@@ -411,7 +444,7 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
     switch (this.previous.entityType) {
       case 'company':
         prevEntity = Companies.findOne(this.previous.entityId);
-        prevEntityName = "Company: " + prevEntity.name;
+        prevEntityName = "Company: " + this.previous.name;
         break;
       case 'contact':
         prevEntity = Contacts.findOne(this.previous.entityId);
@@ -441,6 +474,10 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Tasks.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   if (doc.taskReminderJob && Meteor.isServer) {
     Meteor.call('deleteTaskReminder', doc.taskReminderJob);
   }
@@ -470,4 +507,18 @@ Tasks.after.remove(function(userId, doc) {
       break;
   }
   logEvent('info', 'An existing task has been deleted: ' + doc.title + '(' + entityName + ")");
+
+  var subTasks = Tasks.find({
+    parentTaskId: doc._id
+  }).fetch();
+
+  _.each(subTasks, function(st) {
+    Tasks.update({
+      _id: st._id
+    }, {
+      $unset: {
+        'parentTaskId': ''
+      }
+    });
+  });
 });

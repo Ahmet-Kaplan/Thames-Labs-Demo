@@ -43,7 +43,7 @@ Template.opportunityDetail.helpers({
     return moment(this.estCloseDate).format('MMMM Do YYYY, h:mma');
   },
   stages: function() {
-    var userTenant = Tenants.findOne({});
+    var userTenant =  Tenants.findOne({_id: Meteor.user().group});
     var stages = userTenant.settings.opportunity.stages;
     return stages.sort(function(a, b) {
       if (a.order < b.order) return -1;
@@ -57,14 +57,18 @@ Template.opportunityDetail.helpers({
     });
   },
   isNotFirstStage: function() {
-    var stages = Tenants.findOne().settings.opportunity.stages;
+    var stages = Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.opportunity.stages;
     var currentStageId = this.currentStageId;
     var firstStageId = stages[0].id;
     if (currentStageId == firstStageId) return false;
     return true;
   },
   isLastStage: function() {
-    var stages = Tenants.findOne().settings.opportunity.stages;
+    var stages = Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.opportunity.stages;
     var currentStageId = this.currentStageId;
     var lastStageId = stages[stages.length - 1].id;
     if (currentStageId == lastStageId) return true;
@@ -113,7 +117,7 @@ Template.opportunityDetail.helpers({
 Template.opportunityDetail.events({
   'click #next-stage': function() {
 
-    var userTenant = Tenants.findOne({});
+    var userTenant =  Tenants.findOne({_id: Meteor.user().group});
     var stages = userTenant.settings.opportunity.stages;
     var length = stages.length - 1;
     var currId = this.currentStageId;
@@ -145,7 +149,7 @@ Template.opportunityDetail.events({
     });
   },
   'click #previous-stage': function() {
-    var userTenant = Tenants.findOne({});
+    var userTenant =  Tenants.findOne({_id: Meteor.user().group});
     var stages = userTenant.settings.opportunity.stages;
     var currId = this.currentStageId;
     var currOrder = _.findIndex(stages, {

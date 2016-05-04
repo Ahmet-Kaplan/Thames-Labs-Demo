@@ -1,18 +1,21 @@
-Template.updateTenantSettings.helpers({
-  // settings: function() {
-  //   var ret = [];
-  //
-  //   for (var property in this.settings) {
-  //     var o = {
-  //       name: property,
-  //       value: this.settings[property]
-  //     };
-  //     ret.push(o);
-  //   }
-  //
-  //   return ret;
-  // },
+Template.addTenant.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['superadmin'])) {
+    toastr.warning("You do not have permission to create tenants");
+    Modal.hide();
+    return;
+  }
+});
 
+Template.updateTenantSettings.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['superadmin'])) {
+    toastr.warning("You do not have permission to edit tenant settings");
+    Modal.hide();
+    return;
+  }
+});
+
+
+Template.updateTenantSettings.helpers({
   coupon: function() {
     return this.stripe.coupon;
   }
@@ -21,16 +24,10 @@ Template.updateTenantSettings.helpers({
 Template.updateTenantSettings.events({
   'click #btnSubmitSettings': function() {
 
-    // var o = {};
-    // for (var p in this.settings) {
-    //   o[p] = $('#val-' + p).val();
-    // }
-
     var coupon = $('#coupon').val();
 
     Tenants.update(this._id, {
       $set: {
-        // settings: o,
         "stripe.coupon": coupon
       }
     });
@@ -200,4 +197,4 @@ Template.generatingDemoData.helpers({
     var demoData = ServerSession.get('demoDataProgress');
     return demoData.completed / demoData.total * 100;
   }
-})
+});

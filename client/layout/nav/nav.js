@@ -189,6 +189,9 @@ Template.nav.events({
     $('#show-more-notices').show();
     $('#show-less-notices').hide();
   },
+  'click #clear-all': function() {
+    Meteor.call('removeAllNotifications');
+  },
   'click #help-menu': function() {
     lastTutorial = "help";
     Modal.show("help");
@@ -237,6 +240,10 @@ Template.nav.events({
         profile: profile
       }
     });
+  },
+  'click #tips': function(event, template) {
+    event.preventDefault();
+    Modal.show("tipsModal");
   },
   'click #toggle-search': function(event) {
     event.preventDefault();
@@ -360,6 +367,16 @@ Template.notice.helpers({
       return s;
     }
   },
+  shortDetail: function() {
+   var c = this.detail;
+   var s = c.substr(0, 40);
+   if (s.length > 37) {
+     return s + "...";
+   } else {
+     return s
+   }
+  },
+
   recentNote: function() {
     var today = new Date();
     var yesterday = new Date(today);

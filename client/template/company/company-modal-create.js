@@ -13,6 +13,12 @@ Template.insertNewCompanyModal.onCreated(function() {
 });
 
 Template.insertNewCompanyModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateCompanies'])) {
+    toastr.warning("You do not have permission to create companies");
+    Modal.hide();
+    return;
+  }
+
   $('#companyName').focus();
 
   this.triggerMagicSearch = _.debounce(() => {
@@ -167,6 +173,7 @@ Template.companyFormDetails.onRendered(function() {
         details: "#insertNewCompanyForm",
         detailsAttribute: "data-geo"
       }).bind("geocode:result", (event, result) => {
+
         var companyData = this.companyData.get();
         if(!companyData.geo) {
           companyData.geo = {};
@@ -179,8 +186,8 @@ Template.companyFormDetails.onRendered(function() {
 
         if (typeof strNumber !== 'undefined') {
           strNumber = strNumber.long_name;
-          companyData.geo.streetNumber = strNumber;
         }
+        companyData.geo.streetNumber = strNumber || '';
 
         //Street Name
         var route = _.find(result.address_components, (elt) => {
@@ -189,8 +196,8 @@ Template.companyFormDetails.onRendered(function() {
 
         if (typeof route !== 'undefined') {
           route = route.long_name;
-          companyData.geo.streetName = route;
         }
+        companyData.geo.streetName = route || '';
 
         //City
         var city = _.find(result.address_components, (elt) => {
@@ -199,8 +206,8 @@ Template.companyFormDetails.onRendered(function() {
 
         if (typeof city !== 'undefined') {
           city = city.long_name;
-          companyData.geo.city = city;
         }
+        companyData.geo.city = city || '';
 
         //County/State
         var state = _.find(result.address_components, (elt) => {
@@ -209,8 +216,8 @@ Template.companyFormDetails.onRendered(function() {
 
         if (typeof state !== 'undefined') {
           state = state.long_name;
-          companyData.geo.state = state;
         }
+        companyData.geo.state = state || '';
 
         //Country
         var country = _.find(result.address_components, (elt) => {
@@ -219,8 +226,8 @@ Template.companyFormDetails.onRendered(function() {
 
         if (typeof country !== 'undefined') {
           country = country.long_name;
-          companyData.geo.country = country;
         }
+        companyData.geo.country = country || '';
 
         //Postcode
         var postalCode = _.find(result.address_components, (elt) => {
@@ -229,8 +236,8 @@ Template.companyFormDetails.onRendered(function() {
 
         if (typeof postalCode !== 'undefined') {
           postalCode = postalCode.long_name;
-          companyData.geo.postalCode = postalCode;
         }
+        companyData.geo.postalCode = postalCode || '';
 
         //Lat and Lng
         var lat = result.geometry.location.lat();
@@ -256,12 +263,16 @@ Template.companyFormDetails.onRendered(function() {
   //Autorun that display address details and map if data exist
   this.autorun(() => {
     var companyData = this.companyData.get()
+    // If no data, display the location search input
     if(!companyData.geo || companyData.geo == {}) {
       this.showAddressDetails.set(false);
       this.showLocationSearch.set(true);
+    // If we have lat and lng, display map but not location search
     } else if(companyData.geo && companyData.geo.lat && companyData.geo.lng) {
+      this.showLocationSearch.set(false);
       this.showAddressDetails.set(true);
       this.showMap.set(true);
+    // otherwise trigger manually the geo search by parsing the geo fields.
     } else {
       var searchString = [];
       searchString.push(companyData.geo.streetNumber || '');

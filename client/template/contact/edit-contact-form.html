@@ -10,6 +10,9 @@
 
         <div class="modal-body">
           {{#autoForm collection="Contacts" id="editContactForm" type="update" doc=this}}
+            {{#if showTitleField}}
+              {{> afQuickField name="title" id="contactTitlePicklist"}}
+            {{/if}}
             {{> afQuickField name="forename"}}
             {{> afQuickField name="surname"}}
             {{> afQuickField name="jobtitle"}}

@@ -172,7 +172,22 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 
+Contacts.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(!Roles.userIsInRole(userId, ['CanEditContacts']) && Meteor.isClient) {
+    return false;
+  }
+});
+Contacts.before.remove(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveContacts']) && Meteor.isClient) {
+    return false;
+  }
+});
+
 Contacts.before.insert(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanCreateContacts']) && Meteor.isClient) {
+    return false;
+  }
+
   if (doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
     var name = doc.companyId.substr(9);
     var newCompanyId = Companies.insert({
@@ -188,22 +203,7 @@ Contacts.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
     var user = Meteor.users.findOne(userId);
     var tenant = Tenants.findOne(user.group);
-    var contactCustomFields = tenant.settings.extInfo.contact;
-
-    var cfMaster = [];
-    _.each(contactCustomFields, function(cf) {
-      var field = {
-        dataName: cf.name,
-        dataValue: cf.defaultValue,
-        dataType: cf.type,
-        isGlobal: true
-      };
-
-      cfMaster.push(field);
-    });
-    doc.extendedInformation = cfMaster;
-
-    doc.sequencedIdentifier = Tenants.findOne({}).settings.contact.defaultNumber;
+    doc.sequencedIdentifier = tenant.settings.contact.defaultNumber;
   }
 
 });
@@ -215,17 +215,40 @@ Contacts.after.insert(function(userId, doc) {
     var user = Meteor.users.findOne({
       _id: userId
     });
-    var t = Tenants.findOne({
+    var tenant = Tenants.findOne({
       _id: user.group
     });
 
-    Tenants.update({
-      _id: t._id
-    }, {
-      $inc: {
-        'settings.contact.defaultNumber': 1
-      }
-    });
+    if (!Roles.userIsInRole(userId, ['superadmin'])) {
+
+      Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'contact', function(err, res) {
+        if (err) throw new Meteor.Error(err);
+        _.each(res, function(ex) {
+
+          CustomFields.insert({
+            name: ex.name,
+            value: (ex.value ? ex.value : ''),
+            defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+            type: ex.type,
+            global: true,
+            order: ex.order,
+            target: 'contact',
+            listValues: '',
+            entityId: doc._id
+          });
+        });
+      });
+    }
+
+    if (doc._groupId) {
+      Tenants.update({
+        _id: doc._groupId
+      }, {
+        $inc: {
+          'settings.contact.defaultNumber': 1
+        }
+      });
+    }
   }
 });
 
@@ -254,20 +277,19 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.companyId !== this.previous.companyId) {
     var prevComp = Companies.findOne(this.previous.companyId);
     var newComp = Companies.findOne(doc.companyId);
-    if (prevComp === undefined) {
-      var prevComp = {
-        name: 'None'
-      }
-    }
     if (newComp === undefined) {
       var newComp = {
         name: 'None'
       }
     }
-    logEvent('info', 'An existing contact has been updated: The value of "companyId" was changed from ' + this.previous.companyId + '(' + prevComp.name + ") to " + doc.companyId + ' (' + newComp.name + ')');
+    logEvent('info', 'An existing contact has been updated: The value of "companyId" was changed from ' + this.previous.companyId + ' (' + ( this.previous.name || 'none' ) + ") to " + doc.companyId + ' (' + newComp.name + ')');
   }
 });
 
 Contacts.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   logEvent('info', 'A contact has been deleted: ' + doc.forename + " " + doc.surname);
 });

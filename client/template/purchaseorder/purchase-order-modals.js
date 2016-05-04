@@ -7,6 +7,12 @@ Session.set('poIsLocked', null);
 *******************************************************/
 
 Template.newPurchaseOrderForm.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreatePurchaseOrders'])) {
+    toastr.warning("You do not have permission to create purchase orders");
+    Modal.hide();
+    return;
+  }
+
   Session.set('posc', null);
 
   var c = this.data.supplierCompanyId;
@@ -50,11 +56,25 @@ Template.newPurchaseOrderForm.events({
   }
 });
 
+Template.newContactPurchaseOrderForm.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreatePurchaseOrders'])) {
+    toastr.warning("You do not have permission to create purchase orders");
+    Modal.hide();
+    return;
+  }
+})
+
 /*******************************************************
               newCompanyPurchaseOrderForm
 *******************************************************/
 
 Template.newCompanyPurchaseOrderForm.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreatePurchaseOrders'])) {
+    toastr.warning("You do not have permission to create purchase orders");
+    Modal.hide();
+    return;
+  }
+
   Session.set('posc', null);
 
   var c = this.data.supplierCompanyId;
@@ -128,6 +148,12 @@ Template.newContactPurchaseOrderForm.helpers({
 *******************************************************/
 
 Template.updatePurchaseOrderFormModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanEditPurchaseOrders'])) {
+    toastr.warning("You do not have permission to edit purchase orders");
+    Modal.hide();
+    return;
+  }
+
   Session.set('posc', null);
   Session.set('poStat', this.data.status);
   Session.set('poIsLocked', this.data.locked);
@@ -200,6 +226,12 @@ Template.updatePurchaseOrderFormModal.onDestroyed(function() {
 *******************************************************/
 
 Template.addPurchaseOrderItemModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanEditPurchaseOrders'])) {
+    toastr.warning("You do not have permission to edit purchase orders");
+    Modal.hide();
+    return;
+  }
+
   var v = $('#itemValue').val();
   var q = $('#currQuant').val();
 
@@ -252,6 +284,12 @@ Template.addPurchaseOrderItemModal.events({
 *******************************************************/
 
 Template.editPurchaseOrderItemModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanEditPurchaseOrders'])) {
+    toastr.warning("You do not have permission to edit purchase orders");
+    Modal.hide();
+    return;
+  }
+
   var pid = this.data.projectId;
   Meteor.subscribe('allProjects');
 

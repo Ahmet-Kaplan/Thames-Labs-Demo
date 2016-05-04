@@ -330,49 +330,67 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 Projects.before.insert(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanCreateProjects']) && Meteor.isClient) {
+    return false;
+  }
+
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    doc.sequencedIdentifier = Tenants.findOne({}).settings.project.defaultNumber;
+    var user = Meteor.users.findOne(userId);
+    var tenant = Tenants.findOne(user.group);
+    doc.sequencedIdentifier = tenant.settings.project.defaultNumber;
+  }
+});
+Projects.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(!Roles.userIsInRole(userId, ['CanEditProjects']) && Meteor.isClient) {
+    return false;
+  }
+});
+Projects.before.remove(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveProjects']) && Meteor.isClient) {
+    return false;
   }
 });
 
 Projects.after.insert(function(userId, doc) {
-  if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    var user = Meteor.users.findOne(userId);
-    var tenant = Tenants.findOne(user.group);
-    var projectCustomFields = tenant.settings.extInfo.project;
-
-
-    var cfMaster = [];
-    _.each(projectCustomFields, function(cf) {
-      var field = {
-        dataName: cf.name,
-        dataValue: cf.defaultValue,
-        dataType: cf.type,
-        isGlobal: true
-      };
-
-      cfMaster.push(field);
-    });
-    doc.extendedInformation = cfMaster;
-  }
-
   logEvent('info', 'A new project has been created: ' + doc.description);
 
   if (Meteor.isServer) {
     var user = Meteor.users.findOne({
       _id: userId
     });
-    var t = Tenants.findOne({
+    var tenant = Tenants.findOne({
       _id: user.group
     });
 
-    Tenants.update({
-      _id: t._id
-    }, {
-      $inc: {
-        'settings.project.defaultNumber': 1
-      }
-    });
+    if (!Roles.userIsInRole(userId, ['superadmin'])) {
+
+      Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'project', function(err, res) {
+        if (err) throw new Meteor.Error(err);
+        _.each(res, function(ex) {
+          CustomFields.insert({
+            name: ex.name,
+            value: (ex.value ? ex.value : ''),
+            defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+            type: ex.type,
+            global: true,
+            order: ex.order,
+            target: 'project',
+            listValues: '',
+            entityId: doc._id
+          });
+        });
+      });
+    }
+
+    if (doc._groupId) {
+      Tenants.update({
+        _id: doc._groupId
+      }, {
+        $inc: {
+          'settings.project.defaultNumber': 1
+        }
+      });
+    }
   }
 });
 
@@ -381,19 +399,18 @@ Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
     logEvent('info', 'An existing project has been updated: The value of "description" was changed from ' + this.previous.description + " to " + doc.description);
   }
   if (doc.companyId !== this.previous.companyId) {
-    var prevComp = Companies.findOne(this.previous.companyId);
     var newComp = Companies.findOne(doc.companyId);
-    logEvent('info', 'An existing project has been updated: The value of "companyId" was changed from ' + this.previous.companyId + '(' + prevComp.name + ") to " + doc.companyId + ' (' + newComp.name + ')');
+    logEvent('info', 'An existing project has been updated: The value of "companyId" was changed from ' + this.previous.companyId + ' (' + this.previous.name + ") to " + doc.companyId + ' (' + newComp.name + ')');
   }
   if (doc.contactId !== this.previous.contactId) {
     var prevCont = Contacts.findOne(this.previous.contactId);
     var newCont = Contacts.findOne(doc.contactId);
-    logEvent('info', 'An existing project has been updated: The value of "contactId" was changed from ' + this.previous.contactId + '(' + prevCont.forename + " " + prevCont.surname + ") to " + doc.contactId + ' (' + newCont.forename + " " + newCont.surname + ')');
+    logEvent('info', 'An existing project has been updated: The value of "contactId" was changed from ' + this.previous.contactId + ' (' + prevCont.forename + " " + prevCont.surname + ") to " + doc.contactId + ' (' + newCont.forename + " " + newCont.surname + ')');
   }
   if (doc.userId !== this.previous.userId) {
     var prevUser = Meteor.users.findOne(this.previous.userId);
     var newUser = Meteor.users.findOne(doc.userId);
-    logEvent('info', 'An existing project has been updated: The value of "userId" was changed from ' + this.previous.userId + '(' + prevUser.profile.name + ") to " + doc.userId + ' (' + newUser.profile.name + ')');
+    logEvent('info', 'An existing project has been updated: The value of "userId" was changed from ' + this.previous.userId + ' (' + prevUser.profile.name + ") to " + doc.userId + ' (' + newUser.profile.name + ')');
   }
   if (doc.value !== this.previous.value) {
     logEvent('info', 'An existing project has been updated: The value of "value" was changed from ' + this.previous.value + " to " + doc.value);
@@ -404,5 +421,9 @@ Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Projects.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   logEvent('info', 'A project has been deleted: ' + doc.description);
 });

@@ -17,6 +17,7 @@
         <div class="panel-heading">
           <div class="btn-group pull-right">
             {{#if isInRole 'CanEditCompanies'}}
+            <button id="merge-company" class="btn btn-info btn-xs"><i class="fa fa-fw fa-compress"></i> Merge</button>
             <div class="btn-group">
               <button type="button" class="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
@@ -69,7 +70,7 @@
         <ul class="list-group">
           {{#each contacts}}
           <a href="{{pathFor route='contact' id=_id}}" class="ContactDataRow list-group-item" data-toggle="tooltip" data-placement="bottom" title="Navigate to this contact">
-            <i class="fa fa-fw fa-user"></i> {{forename}} {{surname}}
+            <i class="fa fa-fw fa-user"></i> {{#if title}}{{title}} {{/if}}{{forename}} {{surname}}
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
 
             <span class="pull-right">
@@ -115,7 +116,7 @@
           {{/each}}
         </ul>
       </div>
-      {{/if}} 
+      {{/if}}
 
       {{#if isInRole 'CanReadPurchaseOrders'}}
       <div class="panel panel-default">

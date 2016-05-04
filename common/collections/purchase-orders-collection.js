@@ -237,9 +237,29 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 PurchaseOrders.before.insert(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanCreatePurchaseOrders']) && Meteor.isClient) {
+    return false;
+  }
+
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    var tenant = Tenants.findOne({});
+    var user = Meteor.users.findOne({
+      _id: userId
+    });
+    var tenant = Tenants.findOne({
+      _id: user.group
+    });
     doc.sequencedIdentifier = tenant.settings.purchaseorder.defaultPrefix + "" + tenant.settings.purchaseorder.defaultNumber;
+  }
+});
+
+PurchaseOrders.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(!Roles.userIsInRole(userId, ['CanEditPurchaseOrders']) && Meteor.isClient) {
+    return false;
+  }
+});
+PurchaseOrders.before.remove(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanRemovePurchaseOrders']) && Meteor.isClient) {
+    return false;
   }
 });
 
@@ -247,20 +267,15 @@ PurchaseOrders.after.insert(function(userId, doc) {
   logEvent('info', 'A new purchase order has been created: ' + doc.description);
 
   if (Meteor.isServer) {
-    var user = Meteor.users.findOne({
-      _id: userId
-    });
-    var t = Tenants.findOne({
-      _id: user.group
-    });
-
-    Tenants.update({
-      _id: t._id
-    }, {
-      $inc: {
-        'settings.purchaseorder.defaultNumber': 1
-      }
-    });
+    if (doc._groupId) {
+      Tenants.update({
+        _id: doc._groupId
+      }, {
+        $inc: {
+          'settings.purchaseorder.defaultNumber': 1
+        }
+      });
+    }
   }
 });
 
@@ -295,22 +310,25 @@ PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options)
     logEvent('info', 'An existing purchase order has been updated: The value of "notes" was changed from ' + this.previous.notes + " to " + doc.notes);
   }
   if (doc.supplierCompanyId !== this.previous.supplierCompanyId) {
-    var prevComp = Companies.findOne(this.previous.supplierCompanyId);
     var newComp = Companies.findOne(doc.supplierCompanyId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "supplierCompanyId" was changed from ' + this.previous.supplierCompanyId + '(' + prevComp.name + ") to " + doc.supplierCompanyId + ' (' + newComp.name + ')');
+    logEvent('info', 'An existing purchase order has been updated: The value of "supplierCompanyId" was changed from ' + this.previous.supplierCompanyId + ' (' + this.previous.name + ") to " + doc.supplierCompanyId + ' (' + newComp.name + ')');
   }
   if (doc.supplierContactId !== this.previous.supplierContactId) {
     var prevCont = Contacts.findOne(this.previous.supplierContactId);
     var newCont = Contacts.findOne(doc.supplierContactId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "supplierContactId" was changed from ' + this.previous.supplierContactId + '(' + prevCont.forename + " " + prevCont.surname + ") to " + doc.supplierContactId + ' (' + newCont.forename + " " + newCont.surname + ')');
+    logEvent('info', 'An existing purchase order has been updated: The value of "supplierContactId" was changed from ' + this.previous.supplierContactId + ' (' + prevCont.forename + " " + prevCont.surname + ") to " + doc.supplierContactId + ' (' + newCont.forename + " " + newCont.surname + ')');
   }
   if (doc.projectId !== this.previous.projectId) {
     var prevProj = Projects.findOne(this.previous.projectId);
     var newProj = Projects.findOne(doc.projectId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "projectId" was changed from ' + this.previous.projectId + '(' + prevProj.description + ") to " + doc.projectId + ' (' + newProj.description + ')');
+    logEvent('info', 'An existing purchase order has been updated: The value of "projectId" was changed from ' + this.previous.projectId + ' (' + prevProj.description + ") to " + doc.projectId + ' (' + newProj.description + ')');
   }
 });
 
 PurchaseOrders.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   logEvent('info', 'A purchase order has been deleted: ' + doc.description);
 });

@@ -1,5 +1,10 @@
 import Future from 'fibers/future';
 Meteor.methods({
+  "tasks.getSubTasks": function(taskId) {
+    return Tasks.find({
+      parentTaskId: taskId
+    }).fetch();
+  },
   "tasks.import": function(taskList) {
     var userId = this.userId;
 

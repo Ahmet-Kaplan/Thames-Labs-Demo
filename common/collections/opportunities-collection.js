@@ -138,6 +138,10 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         return {
           'estCloseDate': 1
         }
+      } else if (options.search.props.sortByValue) {
+        return {
+          'value': -1
+        }
       } else {
         return {
           'name': 1
@@ -233,11 +237,31 @@ Tags.TagsMixin(Opportunities);
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
+
+Opportunities.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(!Roles.userIsInRole(userId, ['CanEditOpportunities']) && Meteor.isClient) {
+    return false;
+  }
+});
+Opportunities.before.remove(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveOpportunities']) && Meteor.isClient) {
+    return false;
+  }
+});
+
 Opportunities.before.insert(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanCreateOpportunities']) && Meteor.isClient) {
+    return false;
+  }
   doc.currentStageId = 0;
 
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    doc.sequencedIdentifier = Tenants.findOne({}).settings.opportunity.defaultNumber;
+    var user = Meteor.users.findOne({
+      _id: userId
+    });
+    doc.sequencedIdentifier = Tenants.findOne({
+      _id: user.group
+    }).settings.opportunity.defaultNumber;
   }
 });
 
@@ -245,20 +269,15 @@ Opportunities.after.insert(function(userId, doc) {
   logEvent('info', 'A new opportunity has been created: ' + doc.name);
 
   if (Meteor.isServer) {
-    var user = Meteor.users.findOne({
-      _id: userId
-    });
-    var t = Tenants.findOne({
-      _id: user.group
-    });
-
-    Tenants.update({
-      _id: t._id
-    }, {
-      $inc: {
-        'settings.opportunity.defaultNumber': 1
-      }
-    });
+    if (doc._groupId) {
+      Tenants.update({
+        _id: doc._groupId
+      }, {
+        $inc: {
+          'settings.opportunity.defaultNumber': 1
+        }
+      });
+    }
   }
 });
 Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) {
@@ -270,5 +289,9 @@ Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) 
   }
 });
 Opportunities.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   logEvent('info', 'An opportunity has been deleted: ' + doc.name);
 });

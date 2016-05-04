@@ -1,4 +1,12 @@
 Template.addNewGlobalCustomField.onRendered(function() {
+
+  if(!Roles.userIsInRole(Meteor.userId(), ['Administrator'])) {
+    toastr.warning("You do not have permission to create global custom fields");
+    Modal.hide();
+    return;
+  }
+
+
   $.getScript('/vendor/medium/medium-editor.min.js');
 
   $('#select-entity').selectize({
@@ -90,6 +98,7 @@ Template.addNewGlobalCustomField.events({
     var cfValue = "value";
     var cfType = "text";
     var cfEntity = $('#select-entity').val();
+    var freePlanMaxFlag = false;
 
     if (cfName === "") {
       toastr.warning('Please provide a name.');
@@ -99,74 +108,72 @@ Template.addNewGlobalCustomField.events({
       toastr.warning('Please select an entity.');
       return;
     }
-    var tenant = Tenants.findOne({
-      _id: Meteor.user().group
-    });
-    if (!isProTenant(Meteor.user().group)) {
-      var fields = [];
-      switch (cfEntity) {
-        case 'company':
-          fields = tenant.settings.extInfo.company;
-          break;
-        case 'contact':
-          fields = tenant.settings.extInfo.contact;
-          break;
-        case 'project':
-          fields = tenant.settings.extInfo.project;
-          break;
-        case 'product':
-          fields = tenant.settings.extInfo.product;
-          break;
-      }
+
+    var fields = [];
+    Meteor.call('extInfo.getTenantGlobals', cfEntity, Meteor.bindEnvironment(function(err, res) {
+      if (err) throw new Meteor.Error(err);
+      _.each(res, function(r) {
+        fields.push(r);
+      });
 
       if (fields.length === MAX_FREE_ENTITY_GLOBAL_FIELDS) {
+        freePlanMaxFlag = true;
+      }
+
+      if (!isProTenant(Meteor.user().group) && freePlanMaxFlag === true) {
         showUpgradeToastr('To create more than 5 global custom fields for a ' + cfEntity + ' record');
         Modal.hide();
         return;
       }
-    }
 
-
-    if ($('#typeText').prop('checked')) {
-      cfType = "text";
-      cfValue = $('#custom-field-text-value').val();
-    }
-    if ($('#typeAdvText').prop('checked')) {
-      cfType = "advtext";
-      cfValue = $('#custom-field-advtext-value').html();
-    }
-    if ($('#typeCheckbox').prop('checked')) {
-      cfType = "checkbox";
-      cfValue = $('#custom-field-check-value').prop('checked');
-    }
-    if ($('#typeDate').prop('checked')) {
-      cfType = "date";
-      cfValue = $('#custom-field-date-value').val();
-    }
-    if ($('#typeLabel').prop('checked')) {
-      cfType = "label";
-      cfValue = '';
-    }
-    if ($('#typePicklist').prop('checked')) {
-      cfType = "picklist";
-      cfValue = $('#custom-field-picklist-values').selectize().val();
-    }
-
-    Meteor.call('extInfo.addNewGlobal', cfName, cfType, cfValue, cfEntity, function(err, res) {
-      if (err) throw new Meteor.Error(err);
-      if (res === 0) {
-        toastr.success('Global field created successfully.');
-        Modal.hide();
-      } else {
-        $('#createCustomField').prop('disabled', false);
-        if (res === 1) {
-          toastr.error('Only admins may add global fields.');
+      if (freePlanMaxFlag === false) {
+        if ($('#typeText').prop('checked')) {
+          cfType = "text";
+          cfValue = $('#custom-field-text-value').val();
         }
-        if (res === 2) {
-          toastr.error('A global custom field with that name already exists.');
+        if ($('#typeAdvText').prop('checked')) {
+          cfType = "advtext";
+          cfValue = $('#custom-field-advtext-value').html();
         }
+        if ($('#typeCheckbox').prop('checked')) {
+          cfType = "checkbox";
+          cfValue = $('#custom-field-check-value').prop('checked');
+        }
+        if ($('#typeDate').prop('checked')) {
+          cfType = "date";
+          cfValue = $('#custom-field-date-value').val();
+        }
+        if ($('#typeLabel').prop('checked')) {
+          cfType = "label";
+          cfValue = '';
+        }
+        if ($('#typePicklist').prop('checked')) {
+          cfType = "picklist";
+          cfValue = $('#custom-field-picklist-values').selectize().val();
+        }
+
+        Meteor.call('extInfo.addNewGlobal', cfName, cfType, cfValue, cfEntity, function(err, res) {
+          if (err) throw new Meteor.Error(err);
+          if (res === 0) {
+            toastr.success('Global field created successfully.');
+            Meteor.subscribe('globalCustomFields');
+
+            Modal.hide();
+          } else {
+            $('#createCustomField').prop('disabled', false);
+            if (res === 1) {
+              toastr.error('Only admins may add global fields.');
+            }
+            if (res === 2) {
+              toastr.error('A global custom field with that name already exists.');
+            }
+            if (res === 3) {
+              toastr.error('No user detected');
+            }
+          }
+        });
       }
-    });
 
+    }));
   }
 });

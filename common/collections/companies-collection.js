@@ -192,7 +192,22 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 
+Companies.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(!Roles.userIsInRole(userId, ['CanEditCompanies']) && Meteor.isClient) {
+    return false;
+  }
+});
+Companies.before.remove(function(userId, doc) {
+  if(!Roles.userIsInRole(userId, ['CanRemoveCompanies']) && Meteor.isClient) {
+    return false;
+  }
+});
+
 Companies.before.insert(function(userId, doc) {
+  console.log(userId, doc)
+  if(!Roles.userIsInRole(userId, ['CanCreateCompanies']) && Meteor.isClient) {
+    return false;
+  }
 
   if (doc.website) {
     var currentWebsite = doc.website;
@@ -206,21 +221,7 @@ Companies.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
     var user = Meteor.users.findOne(userId);
     var tenant = Tenants.findOne(user.group);
-    var companyCustomFields = tenant.settings.extInfo.company;
-
-    var cfMaster = [];
-    _.each(companyCustomFields, function(cf) {
-      var field = {
-        dataName: cf.name,
-        dataValue: cf.defaultValue,
-        dataType: cf.type,
-        isGlobal: true
-      };
-
-      cfMaster.push(field);
-    });
-    doc.extendedInformation = cfMaster;
-    doc.sequencedIdentifier = Tenants.findOne({}).settings.company.defaultNumber;
+    doc.sequencedIdentifier = tenant.settings.company.defaultNumber;
   }
 
   return true;
@@ -230,13 +231,42 @@ Companies.after.insert(function(userId, doc) {
   logEvent('info', 'A new company has been created: ' + doc.name);
 
   if (Meteor.isServer) {
-    Tenants.update({
-      _id: doc._groupId
-    }, {
-      $inc: {
-        'settings.company.defaultNumber': 1
-      }
+    var user = Meteor.users.findOne({
+      _id: userId
     });
+    var tenant = Tenants.findOne({
+      _id: user.group
+    });
+
+    if (!Roles.userIsInRole(userId, ['superadmin'])) {
+
+      Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'company', function(err, res) {
+        if (err) throw new Meteor.Error(err);
+        _.each(res, function(ex) {
+          CustomFields.insert({
+            name: ex.name,
+            value: (ex.value ? ex.value : ''),
+            defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+            type: ex.type,
+            global: true,
+            order: ex.order,
+            target: 'company',
+            listValues: '',
+            entityId: doc._id
+          });
+        });
+      });
+    }
+
+    if (doc._groupId) {
+      Tenants.update({
+        _id: doc._groupId
+      }, {
+        $inc: {
+          'settings.company.defaultNumber': 1
+        }
+      });
+    }
   }
 });
 
@@ -279,5 +309,9 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Companies.after.remove(function(userId, doc) {
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
   logEvent('info', 'A company has been deleted: ' + doc.name);
 });
