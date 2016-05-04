@@ -38,8 +38,8 @@ Template.taskList.onRendered(function() {
   // Update reactive vars if search props change
   this.autorun(() => {
     const searchComponent = this.index.getComponentDict(),
-      searchOptions = searchComponent.get('searchOptions'),
-      props = searchOptions.props ? searchOptions.props : {};
+          searchOptions = searchComponent.get('searchOptions'),
+          props = searchOptions.props ? searchOptions.props : {};
 
     this.showCompleted.set(props.showCompleted ? true : false);
     // this.showSubTasks.set(props.showSubTasks ? true : false);

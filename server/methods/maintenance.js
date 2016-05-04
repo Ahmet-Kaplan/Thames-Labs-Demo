@@ -1,5 +1,5 @@
 Meteor.methods({
-    setMaintenanceMode: function(val) {
+  setMaintenanceMode: function(val) {
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       return;
     }

@@ -75,9 +75,9 @@ Template.addCustomField.events({
     var nameExists = false;
 
     if (CustomFields.findOne({
-        entityId: this.entity_data._id,
-        name: cfName
-      })) {
+      entityId: this.entity_data._id,
+      name: cfName
+    })) {
       nameExists = true;
     }
 

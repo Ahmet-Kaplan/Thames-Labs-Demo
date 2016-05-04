@@ -1,4 +1,5 @@
-quotations = [{
+quotations = [
+  {
     "Quote": "Conversation should be pleasant without scurrility, witty without affectation, free without indecency, learned without conceitedness, novel without falsehood.",
     "Person": "William Shakespeare "
   }, {
@@ -19,48 +20,46 @@ quotations = [{
   }, {
     "Quote": "The definition of insanity is doing the same thing over and over and over again, but expecting a different result.",
     "Person": "Albert Einstein"
-  },   {
+  }, {
     "Quote": "Honesty is the first chapter in the book of wisdom.",
     "Person": "Thomas Jefferson"
-  },   {
+  }, {
     "Quote": "Before you embark on a journey of revenge, dig two graves.",
     "Person": "Confucius"
-  },   {
+  }, {
     "Quote": "What this power is I cannot say; all I know is that it exists and it becomes available only when a man is in that state of mind in which he knows exactly what he wants and is fully determined not to quit until he finds it.",
     "Person": "Alexander Graham Bell"
-  },   {
+  }, {
     "Quote": "Try not to become a man of success but rather try to become a man of value.",
     "Person": "Albert Einstein"
-  },   {
+  }, {
     "Quote": "A slip of the foot you may soon recover, but a slip of the tongue you may never get over.",
     "Person": "Benjamin Franklin"
-  },   {
+  }, {
     "Quote": "It's not the size of the dog in the fight, it's the size of the fight in the dog.",
     "Person": "Mark Twain"
-  },   {
+  }, {
     "Quote": "Whatever is begun in anger ends in shame.",
     "Person": "Benjamin Franklin"
-  },   {
+  }, {
     "Quote": "Start by doing what's necessary, then what's possible, and suddenly you are doing the impossible.",
     "Person": "Francis of Assisi"
-  },   {
+  }, {
     "Quote": "Satisfaction lies in the effort not the attainment. Full effort is full victory.",
     "Person": "Mahatma Gandhi"
-  },   {
+  }, {
     "Quote": "You will never plough a field if you only turn it over in your mind.",
     "Person": "Irish Proverb"
-  },   {
+  }, {
     "Quote": "No man will make a great leader who wants to do it all himself or get all the credit for doing it.",
     "Person": "Andrew Carnegie"
-  },   {
+  }, {
     "Quote": "When one door closes, another opens. But we often look so regretfully upon the closed door that we don't see the one that has opened for us.",
     "Person": "Alexander Graham Bell"
-  },   {
+  }, {
     "Quote": "It is simplicity that makes the uneducated more effective than the educated when addressing popular audiences.",
     "Person": "Aristotle"
-  },
-
-  {
+  },   {
     "Quote": "If you want to achieve greatness stop asking for permission."
   }, {
     "Quote": "Things work out best for those who make the best of how things work out.",

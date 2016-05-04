@@ -7,8 +7,8 @@ Template.tenantListItem.helpers({
   showDemoDataButton: function() {
     if (Meteor.isDevelopment) return true;
     if (Meteor.users.find({
-        group: this.__originalId
-      }).count() > 0) return false;
+      group: this.__originalId
+    }).count() > 0) return false;
     return true;
   },
   isPayingTenant: function() {

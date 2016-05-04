@@ -1,10 +1,12 @@
-Template.updateCustomField.onRendered(function () {
+Template.updateCustomField.onRendered(function() {
   $.getScript('/vendor/medium/medium-editor.min.js');
   var self = this;
 
-  Meteor.call('customFields.getGlobalsByTenantEntity', Meteor.user().group, self.data.entity_type, function (e, r) {
-    _.each(r, function (cf, i) {
-      var exists = CustomFields.findOne({ name: cf.name });
+  Meteor.call('customFields.getGlobalsByTenantEntity', Meteor.user().group, self.data.entity_type, function(e, r) {
+    _.each(r, function(cf, i) {
+      var exists = CustomFields.findOne({
+        name: cf.name
+      });
       if (!exists) {
         CustomFields.insert({
           name: cf.name,
@@ -23,7 +25,7 @@ Template.updateCustomField.onRendered(function () {
 });
 
 Template.updateCustomField.helpers({
-  extInfos: function () {
+  extInfos: function() {
     var data = [];
 
     var arr = CustomFields.find({
@@ -34,7 +36,7 @@ Template.updateCustomField.helpers({
       }
     }).fetch();
 
-    arr = arr.sort(function (a, b) {
+    arr = arr.sort(function(a, b) {
       if (a.order < b.order) {
         return -1;
       }
@@ -44,7 +46,7 @@ Template.updateCustomField.helpers({
       return 0;
     });
 
-    _.each(arr, function (a) {
+    _.each(arr, function(a) {
       data.push(a);
     });
 
@@ -53,11 +55,11 @@ Template.updateCustomField.helpers({
       global: false
     }).fetch();
 
-    arr = arr.sort(function (a, b) {
+    arr = arr.sort(function(a, b) {
       return a.name.localeCompare(b.name);
     });
 
-    _.each(arr, function (b) {
+    _.each(arr, function(b) {
       data.push(b);
     });
 
@@ -66,13 +68,13 @@ Template.updateCustomField.helpers({
 });
 
 Template.updateCustomField.events({
-  'click #submit-ext-info': function () {
+  'click #submit-ext-info': function() {
 
     var arr = CustomFields.find({
       entityId: this.entity_data._id
     }).fetch();
 
-    _.each(arr, function (field) {
+    _.each(arr, function(field) {
       var name = field.name.replace(/ /g, '');
       var safeName = '#extInfos' + name;
 
@@ -100,10 +102,10 @@ Template.updateCustomField.events({
         CustomFields.update({
           _id: field._id
         }, {
-            $set: {
-              value: newValue
-            }
-          });
+          $set: {
+            value: newValue
+          }
+        });
       } else {
         var selectorName = safeName + "TypeOptions";
         var newType = $(selectorName).val();
@@ -111,11 +113,11 @@ Template.updateCustomField.events({
         CustomFields.update({
           _id: field._id
         }, {
-            $set: {
-              value: newValue,
-              type: newType
-            }
-          });
+          $set: {
+            value: newValue,
+            type: newType
+          }
+        });
       }
     });
 

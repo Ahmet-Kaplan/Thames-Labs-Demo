@@ -15,8 +15,8 @@ AutoForm.hooks({
 
       Modal.hide();
       if (Tenants.findOne({
-          _id: tenantId
-        }).plan === 'pro') {
+        _id: tenantId
+      }).plan === 'pro') {
         bootbox.alert({
           title: 'New user added',
           message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>New user <strong>' + this.insertDoc.name + '</strong> created<br />An email containing a link to create the password has been sent.<br />Please note that your subscription has been updated accordingly.</div>'
@@ -42,7 +42,7 @@ Template.addNewUser.events({
 });
 
 Template.addNewUser.onRendered(function() {
-  if(!Roles.userIsInRole(Meteor.userId(), ['Administrator'])) {
+  if (!Roles.userIsInRole(Meteor.userId(), ['Administrator'])) {
     toastr.warning("You do not have permission to create users");
     Modal.hide();
     return;

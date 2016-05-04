@@ -10,7 +10,7 @@ Template.tenancyAdminPage.helpers({
   isFreeProTenant: function() {
     if (!Meteor.user() || !Meteor.user().group) return false;
     var user = Meteor.user(),
-      tenant = Tenants.findOne(user.group);
+        tenant = Tenants.findOne(user.group);
     return tenant.plan === 'pro' && !tenant.stripe.stripeSubs;
   },
 

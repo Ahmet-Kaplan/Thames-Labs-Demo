@@ -10,7 +10,7 @@ Meteor.methods({
     }
 
     var asanaWorkspace = '20585633191816',
-      asanaProject = '36900399110512';
+        asanaProject = '36900399110512';
 
     HTTP.post('https://app.asana.com/api/1.0/tasks', {
       auth: asanaApiKey + ':',

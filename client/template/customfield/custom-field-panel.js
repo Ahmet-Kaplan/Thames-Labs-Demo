@@ -26,8 +26,8 @@ Template.customFieldDisplay.events({
 
     if (!isProTenant(Meteor.user().group)) {
       if (CustomFields.find({
-          entityId: this.entity_data._id
-        }).fetch().length === MAX_FREE_ENTITY_LOCAL_FIELDS) {
+        entityId: this.entity_data._id
+      }).fetch().length === MAX_FREE_ENTITY_LOCAL_FIELDS) {
         showUpgradeToastr('To create more than 5 custom fields against this record');
         return;
       }

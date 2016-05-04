@@ -21,15 +21,15 @@ Template.productsInformationWidget.onRendered(function() {
 Template.productsInformationWidget.events({
   'click #ref_productsInformationWidget': function(event, template) {
 
-      Meteor.call('report.numberOfProducts', function(err, data) {
-        template.totalProducts.set(data.Count);
-      });
-      Meteor.call('report.costOfProducts', function(err, data) {
-        template.totalProductsCost.set(data.Value);
-      });
-      Meteor.call('report.averageProductsCost', function(err, data) {
-        template.averageProductsCost.set(data.Value);
-      });
+    Meteor.call('report.numberOfProducts', function(err, data) {
+      template.totalProducts.set(data.Count);
+    });
+    Meteor.call('report.costOfProducts', function(err, data) {
+      template.totalProductsCost.set(data.Value);
+    });
+    Meteor.call('report.averageProductsCost', function(err, data) {
+      template.averageProductsCost.set(data.Value);
+    });
   }
 });
 

@@ -1,6 +1,6 @@
 var subs = new SubsManager(),
-  router = FlowRouter,
-  layout = BlazeLayout;
+    router = FlowRouter,
+    layout = BlazeLayout;
 
 // These are route trigger functions
 // They're used for before / after actions on routes

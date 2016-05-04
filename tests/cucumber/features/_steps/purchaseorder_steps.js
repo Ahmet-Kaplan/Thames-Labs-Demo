@@ -1,6 +1,6 @@
 module.exports = function() {
 
-    var url = require('url');
+  var url = require('url');
 
   //Reading
   this.When(/^I navigate to a purchase order page$/, function() {

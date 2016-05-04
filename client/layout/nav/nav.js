@@ -368,13 +368,13 @@ Template.notice.helpers({
     }
   },
   shortDetail: function() {
-   var c = this.detail;
-   var s = c.substr(0, 40);
-   if (s.length > 37) {
-     return s + "...";
-   } else {
-     return s
-   }
+    var c = this.detail;
+    var s = c.substr(0, 40);
+    if (s.length > 37) {
+      return s + "...";
+    } else {
+      return s
+    }
   },
 
   recentNote: function() {

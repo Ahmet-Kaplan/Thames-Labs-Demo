@@ -13,7 +13,7 @@ Template.insertContactModal.events({
 });
 
 Template.insertContactModal.onRendered(function() {
-if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateContacts'])) {
+  if (!Roles.userIsInRole(Meteor.userId(), ['CanCreateContacts'])) {
     toastr.warning("You do not have permission to create contacts");
     Modal.hide();
     return;
