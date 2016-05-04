@@ -204,7 +204,6 @@ Companies.before.remove(function(userId, doc) {
 });
 
 Companies.before.insert(function(userId, doc) {
-  console.log(userId, doc)
   if(!Roles.userIsInRole(userId, ['CanCreateCompanies']) && Meteor.isClient) {
     return false;
   }
