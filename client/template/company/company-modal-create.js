@@ -13,12 +13,6 @@ Template.insertNewCompanyModal.onCreated(function() {
 });
 
 Template.insertNewCompanyModal.onRendered(function() {
-  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateCompanies'])) {
-    toastr.warning("You do not have permission to create companies");
-    Modal.hide();
-    return;
-  }
-
   $('#companyName').focus();
 
   this.triggerMagicSearch = _.debounce(() => {

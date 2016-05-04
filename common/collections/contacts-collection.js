@@ -172,22 +172,7 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 
-Contacts.before.update(function(userId, doc, fieldNames, modifier, options) {
-  if (!Roles.userIsInRole(userId, ['CanEditContacts']) && Meteor.isClient) {
-    return false;
-  }
-});
-Contacts.before.remove(function(userId, doc) {
-  if (!Roles.userIsInRole(userId, ['CanRemoveContacts']) && Meteor.isClient) {
-    return false;
-  }
-});
-
 Contacts.before.insert(function(userId, doc) {
-  if (!Roles.userIsInRole(userId, ['CanCreateContacts']) && Meteor.isClient) {
-    return false;
-  }
-
   if (doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
     var name = doc.companyId.substr(9);
     var newCompanyId = Companies.insert({

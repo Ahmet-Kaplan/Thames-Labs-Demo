@@ -121,22 +121,6 @@ Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
 // COLLECTION HOOKS //
 //////////////////////
 
-Activities.before.insert(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanCreateActivities']) && Meteor.isClient) {
-    return false;
-  }
-});
-Activities.before.update(function(userId, doc, fieldNames, modifier, options) {
-  if(!Roles.userIsInRole(userId, ['CanEditActivities']) && Meteor.isClient) {
-    return false;
-  }
-});
-Activities.before.remove(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanRemoveActivities']) && Meteor.isClient) {
-    return false;
-  }
-});
-
 Activities.after.insert(function(userId, doc) {
   var entity;
   var entityName;

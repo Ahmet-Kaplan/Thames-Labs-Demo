@@ -237,31 +237,11 @@ Tags.TagsMixin(Opportunities);
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
-
-Opportunities.before.update(function(userId, doc, fieldNames, modifier, options) {
-  if(!Roles.userIsInRole(userId, ['CanEditOpportunities']) && Meteor.isClient) {
-    return false;
-  }
-});
-Opportunities.before.remove(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanRemoveOpportunities']) && Meteor.isClient) {
-    return false;
-  }
-});
-
 Opportunities.before.insert(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanCreateOpportunities']) && Meteor.isClient) {
-    return false;
-  }
   doc.currentStageId = 0;
 
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    var user = Meteor.users.findOne({
-      _id: userId
-    });
-    doc.sequencedIdentifier = Tenants.findOne({
-      _id: user.group
-    }).settings.opportunity.defaultNumber;
+    doc.sequencedIdentifier = Tenants.findOne({}).settings.opportunity.defaultNumber;
   }
 });
 

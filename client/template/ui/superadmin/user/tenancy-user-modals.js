@@ -1,11 +1,3 @@
-Template.addTenantUser.onRendered(function() {
-  if(!Roles.userIsInRole(Meteor.userId(), ['superadmin'])) {
-    toastr.warning("You do not have permission to edit users");
-    Modal.hide();
-    return;
-  }
-});
-
 Template.addTenantUser.helpers({
   formId: function() {
     return 'form-' + this._id;
@@ -13,13 +5,6 @@ Template.addTenantUser.helpers({
 });
 
 Template.editTenantUser.onRendered(function() {
-
-  if(!Roles.userIsInRole(Meteor.userId(), ['superadmin'])) {
-    toastr.warning("You do not have permission to edit users");
-    Modal.hide();
-    return;
-  }
-
   var userRef = Meteor.users.findOne({
     _id: this.data._id
   });
