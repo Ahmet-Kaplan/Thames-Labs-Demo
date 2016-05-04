@@ -5,7 +5,7 @@ Feature: Allow users to login and logout
   So that I can prove my identity and work with my data
 
   Background:
-    When I log out
+    Given I am logged out
 
   Scenario: A user can view the login screen
     Then I should see the sign in form
