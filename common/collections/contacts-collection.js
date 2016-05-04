@@ -275,7 +275,7 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
     logEvent('info', 'An existing contact has been updated: The value of "jobtitle" was changed from ' + this.previous.jobtitle + " to " + doc.jobtitle);
   }
   if (doc.companyId !== this.previous.companyId) {
-    var prevComp = Companies.findOne(this.previous.companyId);
+    // var prevComp = Companies.findOne(this.previous.companyId);
     var newComp = Companies.findOne(doc.companyId);
     if (newComp === undefined) {
       var newComp = {
