@@ -7,6 +7,12 @@ Template.editContactModal.onCreated(function() {
 });
 
 Template.editContactModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanEditContacts'])) {
+    toastr.warning("You do not have permission to edit contacts");
+    Modal.hide();
+    return;
+  }
+
   if (this.data.companyId === undefined) {
     $('#addressWrapper').show();
   }

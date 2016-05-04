@@ -1,12 +1,14 @@
 Template.couponModal.helpers({
   activeCoupon: function() {
-    return Tenants.findOne().stripe.coupon;
+    return Tenants.findOne({
+      _id: Meteor.user().group
+    }).stripe.coupon;
   }
 });
 
 Template.couponModal.events({
   'keyup #couponName': function(evt) {
-    if(evt.keyCode === 13) {
+    if (evt.keyCode === 13) {
       $('#setCoupon').trigger('click');
     }
   },
@@ -17,11 +19,11 @@ Template.couponModal.events({
 
     var coupon = $('#couponName').val();
     Meteor.call('stripe.updateCoupon', coupon, function(err, res) {
-      if(err) {
+      if (err) {
         toastr.error('Unable to set your coupon', 'Error');
         $('#setCoupon').prop('disabled', false);
         $('#setCoupon').html('Apply');
-      } else if(!res) {
+      } else if (!res) {
         toastr.error('This coupon is not valid', 'Error');
         $('#setCoupon').prop('disabled', false);
         $('#setCoupon').html('Apply');

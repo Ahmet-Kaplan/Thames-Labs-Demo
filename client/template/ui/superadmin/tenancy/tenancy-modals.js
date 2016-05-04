@@ -1,3 +1,20 @@
+Template.addTenant.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['superadmin'])) {
+    toastr.warning("You do not have permission to create tenants");
+    Modal.hide();
+    return;
+  }
+});
+
+Template.updateTenantSettings.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['superadmin'])) {
+    toastr.warning("You do not have permission to edit tenant settings");
+    Modal.hide();
+    return;
+  }
+});
+
+
 Template.updateTenantSettings.helpers({
   coupon: function() {
     return this.stripe.coupon;

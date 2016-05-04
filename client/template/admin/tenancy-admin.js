@@ -55,7 +55,9 @@ Template.tenancyAdminPage.helpers({
     });
   },
   tenantFound: function() {
-    return !!Tenants.findOne({});
+    return !!Tenants.findOne({
+      _id: Meteor.user().group
+    });
   }
 });
 

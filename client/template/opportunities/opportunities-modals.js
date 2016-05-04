@@ -1,8 +1,6 @@
-
-
 var verfiyOpportunityStagesExist = function() {
   if (FlowRouter.subsReady()) {
-    var userTenant = Tenants.findOne({});
+    var userTenant = Tenants.findOne({_id: Meteor.user().group});
     if (userTenant) {
       var stages = userTenant.settings.opportunity.stages;
       if (!stages || stages.length === 0) {
@@ -13,7 +11,7 @@ var verfiyOpportunityStagesExist = function() {
 };
 
 var findFirstStageId = function() {
-  var userTenant = Tenants.findOne({});
+  var userTenant = Tenants.findOne({_id: Meteor.user().group});
   var stages = userTenant.settings.opportunity.stages;
   if (!stages || stages.length === 0) return null;
 
@@ -25,6 +23,12 @@ var findFirstStageId = function() {
 };
 
 Template.insertOpportunityModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateOpportunities'])) {
+    toastr.warning("You do not have permission to create opportunities");
+    Modal.hide();
+    return;
+  }
+
   Session.set('oppComp', null);
   verfiyOpportunityStagesExist();
 });
@@ -39,6 +43,12 @@ Template.insertOpportunityModal.helpers({
 });
 
 Template.insertCompanyOpportunityModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateOpportunities'])) {
+    toastr.warning("You do not have permission to create opportunities");
+    Modal.hide();
+    return;
+  }
+
   verfiyOpportunityStagesExist();
 });
 
@@ -68,6 +78,12 @@ Template.insertOpportunityModal.events({
 });
 
 Template.insertContactOpportunityModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanCreateOpportunities'])) {
+    toastr.warning("You do not have permission to create opportunities");
+    Modal.hide();
+    return;
+  }
+
   verfiyOpportunityStagesExist();
 });
 
@@ -79,20 +95,28 @@ Template.insertContactOpportunityModal.helpers({
     return Meteor.userId();
   },
   companyName: function() {
-    return Companies.findOne().name;
+    return Companies.findOne({
+      _id: this.companyId
+    }).name;
   },
   contactName: function() {
-    var contact = Contacts.findOne(this.contactId);
+    var contact = Contacts.findOne({
+      _id: this.contactId
+    });
     return contact.forename + ' ' + contact.surname;
   }
 });
 
 Template.editOpportunityModal.helpers({
   companyName: function() {
-    return Companies.findOne().name;
+    return Companies.findOne({
+      _id: this.companyId
+    }).name;
   },
   contactName: function() {
-    var contact = Contacts.findOne();
+    var contact = Contacts.findOne({
+      _id: this.contactId
+    });
     return contact.forename + ' ' + contact.surname;
   }
 });
@@ -106,15 +130,33 @@ Template.insertOpportunityItemModal.helpers({
 Template.insertOpportunityItemModal.events({
   'change input[name=value], blur input[name=value], change input[name=quantity], blur input[name=quantity]': function(event) {
     var totalValue = parseFloat($('input[name=value]').val()) * parseFloat($('input[name=quantity]').val()).toFixed(2);
-    if(!isNaN(totalValue)) {
+    if (!isNaN(totalValue)) {
       $('#oppLineTotal').val(totalValue);
     }
   }
 });
 
+Template.editOpportunityModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanEditOpportunities'])) {
+    toastr.warning("You do not have permission to edit opportunities");
+    Modal.hide();
+    return;
+  }
+});
+
+Template.editOpportunityItemModal.onRendered(function() {
+  if(!Roles.userIsInRole(Meteor.userId(), ['CanEditOpportunities'])) {
+    toastr.warning("You do not have permission to edit opportunities");
+    Modal.hide();
+    return;
+  }
+});
+
 Template.editOpportunityItemModal.helpers({
   opportunity: function() {
-    return Opportunities.findOne(this.oppId);
+    return Opportunities.findOne({
+      _id: this.oppId
+    });
   },
   fieldName: function() {
     return "items." + this.index + ".name";
@@ -130,14 +172,14 @@ Template.editOpportunityItemModal.helpers({
   },
   fieldLineTotal: function() {
     var value = this.data.value * this.data.quantity;
-    if(!isNaN(value)) return value
+    if (!isNaN(value)) return value
   }
 });
 
 Template.editOpportunityItemModal.events({
   'change #fieldVal, blur #fieldVal, change #fieldQuantity, blur #fieldQuantity': function(event) {
     var totalValue = (parseFloat($('#fieldVal').val()) * parseFloat($('#fieldQuantity').val())).toFixed(2);
-    if(!isNaN(totalValue)) {
+    if (!isNaN(totalValue)) {
       $('#oppLineTotal').val(totalValue);
     }
   }
