@@ -19,19 +19,15 @@ Template.appLayout.onRendered(function() {
   $.getScript('/vendor/bowser.min.js');
 });
 
-Template.appLayout.onCreated(function() {
+Template.onCreated(function() {
   this.autorun(function() {
     if (Meteor.user() && !Roles.userIsInRole(Meteor.userId(), ['superadmin'])) {
-      var Tawk_API = Tawk_API || {},
-        Tawk_LoadStart = new Date();
-
-      var s1 = document.createElement("script"),
-        s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/' + Meteor.settings.public.tawkSiteId + '/default';
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin', '*');
-      s0.parentNode.insertBefore(s1, s0);
+      // $.getScript('https://embed.tawk.to/56b333a5fe87529955d980fa/default').then(function(){
+      //   Tawk_API.visitor = {
+      //     name: Meteor.user().profile.name,
+      //     email: Meteor.user().emails[0].address
+      //   }
+      // });
     }
-  })
+  });
 });
