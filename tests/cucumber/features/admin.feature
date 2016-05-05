@@ -5,7 +5,7 @@ Feature: Allow users to manage general tenancy data
 
   Background:
     Given I am an administrator
-    And I visit the admin screen
+    And I go to the admin screen
 
   #Access
   Scenario: An administrator can access the Administration area
@@ -15,12 +15,12 @@ Feature: Allow users to manage general tenancy data
   Scenario: An administrator can add and remove a global custom field
     When I add a global custom field
     Then I should see the global custom field has been created
-    Given a company named "test company" has been created
+    Given a "Company" has been created
     And I have permission to read companies
     And I have permission to edit companies
-    When I visit the company details screen for "test company"
+    When I visit the company details screen for "Test Ltd"
     Then I should see the global custom field in the company details
-    When I visit the admin screen
+    When I go to the admin screen
     And I remove the global custom field
     Then I should see the global custom field list is empty
     # TODO: re-add these steps once custom fields are reworked

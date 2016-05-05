@@ -429,7 +429,7 @@ Meteor.methods({
     });
 
     var taskId = Tasks.insert({
-      title: 'test task (Contact)',
+      title: 'test task',
       description: 'test description',
       assigneeId: Meteor.userId(),
       isAllDay: true,
