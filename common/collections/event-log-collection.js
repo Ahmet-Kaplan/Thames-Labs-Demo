@@ -51,6 +51,8 @@ Collections.eventLog.index = EventLogIndex = new EasySearch.Index({
           if (user) {
             selector.group = user.group;
           }
+        } else if (Roles.userIsInRole(userId, ['superadmin'])) {
+          selector.source = "server"
         }
       } else {
         throw new Meteor.Error('No user id');
