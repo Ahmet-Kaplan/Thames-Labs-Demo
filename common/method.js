@@ -407,7 +407,7 @@ Meteor.methods({
       projectTypeId: projType,
       projectMilestoneId: 0,
       sequencedIdentifier: Tenants.findOne({
-        _id: groupId
+        _id: user.group
       }).settings.project.defaultNumber
     });
 
