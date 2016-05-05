@@ -238,7 +238,9 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
 //////////////////////
 PurchaseOrders.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    var tenant = Tenants.findOne({});
+    var tenant = Tenants.findOne({
+      _id: doc._groupId
+    });
     doc.sequencedIdentifier = tenant.settings.purchaseorder.defaultPrefix + "" + tenant.settings.purchaseorder.defaultNumber;
   }
 });
