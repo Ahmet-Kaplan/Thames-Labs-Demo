@@ -5,7 +5,8 @@ module.exports = function() {
     'purchase orders': 'purchaseorders',
     'opportunities': 'opportunities',
     'projects': 'projects',
-    'products': 'products'
+    'products': 'products',
+    'event logs': 'auditLog'
   };
 
   this.Given(/^I have permission to (\w+) ([^"]*)$/, function(action, friendlyEntityName) {

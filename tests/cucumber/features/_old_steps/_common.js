@@ -122,14 +122,14 @@ module.exports = function() {
     browser.executeAsync(login, 'admin@cambridgesoftware.co.uk', 'admin');
   });
 
-  this.Given(/^an? "([^"]*)" has been created$/, function(entity) {
-    browser
-      .executeAsync(function(entity, done) {
-        Meteor.call('add' + entity, function() {
-          done();
-        });
-      }, entity);
-  });
+  // this.Given(/^an? "([^"]*)" has been created$/, function(entity) {
+  //   browser
+  //     .executeAsync(function(entity, done) {
+  //       Meteor.call('add' + entity, function() {
+  //         done();
+  //       });
+  //     }, entity);
+  // });
 
   this.Given(/^an additional "([^"]*)" has been created$/, function(entity) {
     browser.executeAsync(function(entity, done) {
@@ -295,13 +295,13 @@ module.exports = function() {
     expect(browser.getTitle()).toBe(expectedTitle);
   });
 
-  this.Then(/^I should see the heading "([^"]*)"$/, function(expectedHeading) {
-    browser.waitForExist('h1*=' + expectedHeading, 5000);
-  });
+  // this.Then(/^I should see the heading "([^"]*)"$/, function(expectedHeading) {
+  //   browser.waitForExist('h1*=' + expectedHeading, 5000);
+  // });
 
-  this.Then(/^I should not see the heading "([^"]*)"$/, function(expectedHeading) {
-    browser.waitForExist('h1*=' + expectedHeading, 5000, true);
-  });
+  // this.Then(/^I should not see the heading "([^"]*)"$/, function(expectedHeading) {
+  //   browser.waitForExist('h1*=' + expectedHeading, 5000, true);
+  // });
 
   this.Then(/^I should see a modal$/, function() {
     browser.waitForExist('.modal-dialog', 5000);
