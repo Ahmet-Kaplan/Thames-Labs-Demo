@@ -15,13 +15,12 @@ Meteor.methods({
         _id: this.userId
       });
 
-      Partitioner.bindGroup(user.group, function() {
-        EventLog.remove({});
+      // EventLog collection is not partitioned. Cannot use Partitioner.bindGroup.
+      EventLog.remove({
+        group: user.group
       });
     } else if (Roles.userIsInRole(this.userId, 'superadmin')) {
-      Partitioner.directOperation(function() {
-        EventLog.direct.remove({});
-      });
+      EventLog.direct.remove({});
     } else {
       throw new Meteor.Error(403, 'Only administrators can clear the event log');
     }

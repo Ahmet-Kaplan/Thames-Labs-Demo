@@ -52,6 +52,8 @@ Collections.eventLog.index = EventLogIndex = new EasySearch.Index({
             selector.group = user.group;
           }
         }
+      } else {
+        throw new Meteor.Error('No user id');
       }
 
       if (options.search.props.searchById) {
