@@ -342,21 +342,6 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
-Tasks.before.insert(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanCreateTasks']) && Meteor.isClient) {
-    return false;
-  }
-});
-Tasks.before.update(function(userId, doc, fieldNames, modifier, options) {
-  if(!Roles.userIsInRole(userId, ['CanEditTasks']) && Meteor.isClient) {
-    return false;
-  }
-});
-Tasks.before.remove(function(userId, doc) {
-  if(!Roles.userIsInRole(userId, ['CanRemoveTasks']) && Meteor.isClient) {
-    return false;
-  }
-});
 
 Tasks.after.insert(function(userId, doc) {
   if (doc.remindMe && doc.reminder && Meteor.isServer) {

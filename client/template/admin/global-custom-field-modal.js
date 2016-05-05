@@ -1,12 +1,4 @@
 Template.addNewGlobalCustomField.onRendered(function() {
-
-  if(!Roles.userIsInRole(Meteor.userId(), ['Administrator'])) {
-    toastr.warning("You do not have permission to create global custom fields");
-    Modal.hide();
-    return;
-  }
-
-
   $.getScript('/vendor/medium/medium-editor.min.js');
 
   $('#select-entity').selectize({

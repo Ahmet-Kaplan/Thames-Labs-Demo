@@ -4,7 +4,9 @@ Template.updateCustomField.onRendered(function() {
 
   Meteor.call('customFields.getGlobalsByTenantEntity', Meteor.user().group, self.data.entity_type, function(e, r) {
     _.each(r, function(cf, i) {
-      var exists = CustomFields.findOne({ name: cf.name });
+      var exists = CustomFields.findOne({
+        name: cf.name
+      });
       if (!exists) {
         CustomFields.insert({
           name: cf.name,
@@ -100,10 +102,10 @@ Template.updateCustomField.events({
         CustomFields.update({
           _id: field._id
         }, {
-            $set: {
-              value: newValue
-            }
-          });
+          $set: {
+            value: newValue
+          }
+        });
       } else {
         var selectorName = safeName + "TypeOptions";
         var newType = $(selectorName).val();
@@ -111,11 +113,11 @@ Template.updateCustomField.events({
         CustomFields.update({
           _id: field._id
         }, {
-            $set: {
-              value: newValue,
-              type: newType
-            }
-          });
+          $set: {
+            value: newValue,
+            type: newType
+          }
+        });
       }
     });
 

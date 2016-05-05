@@ -57,7 +57,11 @@ Template.projectsList.onRendered(function() {
     this.projectsAverage.set(data.Value);
   });
 
-  $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: '.list-header-right'});
+  $('[data-toggle="popover"]').popover({
+    html: true,
+    placement: "bottom",
+    container: '.list-header-right'
+  });
 });
 
 Template.projectsList.events({
@@ -113,9 +117,9 @@ Template.projectsList.helpers({
     return Template.instance().projectsAverage.get();
   },
   projectCount: function() {
-     return Template.instance().totalProjects.get();
+    return Template.instance().totalProjects.get();
   },
   hasMultipleProjects: function() {
-     return Template.instance().totalProjects.get() !== 1;
+    return Template.instance().totalProjects.get() !== 1;
   }
 });

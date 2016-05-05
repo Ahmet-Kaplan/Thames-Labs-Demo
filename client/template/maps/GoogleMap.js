@@ -39,8 +39,8 @@ Template.map.onRendered(function() {
       // Reactively get current data context
       // n.b. self.data isn't reactive
       var data = Template.currentData(),
-        address = data.address,
-        title = data.title;
+          address = data.address,
+          title = data.title;
 
       if (!address || !title) {
         return;
@@ -59,8 +59,8 @@ Template.map.onRendered(function() {
             address.lng = location.lng();
           } else {
             address.lat = 0,
-              address.lng = 0,
-              title = "Location not found";
+            address.lng = 0,
+            title = "Location not found";
           }
           updateMap(map.instance, title, address);
         });
@@ -98,4 +98,3 @@ Template.map.helpers({
     }
   }
 });
-

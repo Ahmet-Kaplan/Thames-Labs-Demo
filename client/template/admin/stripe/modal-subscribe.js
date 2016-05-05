@@ -15,8 +15,8 @@ Template.stripeSubscribe.onRendered(function() {
     planDetails.total = planDetails.quantity * planDetails.amount;
 
     if (Tenants.findOne({
-        _id: Meteor.user().group
-      }).stripe.coupon) {
+      _id: Meteor.user().group
+    }).stripe.coupon) {
       Meteor.call('stripe.getCoupon', Tenants.findOne({
         _id: Meteor.user().group
       }).stripe.coupon, function(error, response) {
@@ -45,16 +45,16 @@ Template.stripeSubscribe.helpers({
     return planDetails;
   },
   hasCoupon: function() {
-    return !!Tenants.findOne({
-      _id: Meteor.user().group
-    }).stripe.coupon;
+    return !!Tenants.findOne().stripe.coupon;
   }
 });
 
 Template.stripeSubscribe.events({
   'submit #subscribe': function() {
     event.preventDefault();
-    var tenantDetails =  Tenants.findOne({_id: Meteor.user().group});
+    var tenantDetails = Tenants.findOne({
+      _id: Meteor.user().group
+    });
 
     //Disable the submit button to prevent repeated clicks
     $('#submit').prop('disabled', true);

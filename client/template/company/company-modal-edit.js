@@ -7,12 +7,6 @@ Template.editCompanyModal.onCreated(function() {
 });
 
 Template.editCompanyModal.onRendered(function() {
-  if(!Roles.userIsInRole(Meteor.userId(), ['CanEditCompanies'])) {
-    toastr.warning("You do not have permission to edit companies");
-    Modal.hide();
-    return;
-  }
-
   this.autorun(function() {
     if (GoogleMaps.loaded()) {
       $("#geo").geocomplete({

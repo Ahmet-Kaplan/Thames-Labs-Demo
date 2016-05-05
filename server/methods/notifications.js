@@ -1,7 +1,7 @@
 Meteor.methods({
   setNotified: function(notificationId) {
     var notification = Notifications.findOne(notificationId);
-    if(notification.target !== this.userId) {
+    if (notification.target !== this.userId) {
       throw new Meteor.Error(403, "You do not have the permission to alter this data.");
     }
 
@@ -14,7 +14,7 @@ Meteor.methods({
 
   removeNotification: function(notificationId) {
     var notification = Notifications.findOne(notificationId);
-    if(notification.target !== this.userId) {
+    if (notification.target !== this.userId) {
       throw new Meteor.Error(403, "You do not have the permission to alter this data.");
     }
 
@@ -22,12 +22,16 @@ Meteor.methods({
   },
 
   removeAllNotifications: function() {
-      Notifications.remove({target: this.userId});
+    Notifications.remove({
+      target: this.userId
+    });
   },
 
   addPoNotification: function(purchaseOrderId, status) {
-    var purchaseOrder = PurchaseOrders.findOne({_id: purchaseOrderId});
-    if(!purchaseOrder) {
+    var purchaseOrder = PurchaseOrders.findOne({
+      _id: purchaseOrderId
+    });
+    if (!purchaseOrder) {
       throw new Meteor.Error(404, 'No PO provided');
     }
     Notifications.insert({

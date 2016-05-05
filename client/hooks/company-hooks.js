@@ -23,7 +23,7 @@ AutoForm.hooks({
     before: {
       update: function(doc) {
         var oldValues = this.currentDoc,
-          modifications = true;
+            modifications = true;
         $.each(['address', 'address2', 'city', 'country', 'county', 'postcode'], function(i, field) {
           modifications = (oldValues[field] === doc.$set[field]);
           return modifications;

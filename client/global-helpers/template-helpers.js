@@ -31,9 +31,7 @@ Template.registerHelper('decimal', function(number) {
   if (!number) number = 0;
   number = parseFloat(number);
   var allowedCurrencies = ['gbp', 'eur', 'usd'];
-  var tenantCurrency = Tenants.findOne({
-    _id: Meteor.user().group
-  }).settings.currency;
+  var tenantCurrency = Tenants.findOne({}).settings.currency;
   var currency = (allowedCurrencies.indexOf(tenantCurrency) === -1) ? 'gbp' : tenantCurrency;
   var currencyLocale = {
     gbp: 'en-gb',
@@ -152,18 +150,14 @@ Template.registerHelper('extendContext', function(key, value) {
 });
 
 Template.registerHelper('userCurrency', function() {
-  var tenant = Tenants.findOne({
-    _id: Meteor.user().group
-  });
+  var tenant = Tenants.findOne({});
   if (tenant) {
     return tenant.settings.currency || 'gbp';
   }
 });
 
 Template.registerHelper('userCurrencySymbol', function() {
-  var tenant = Tenants.findOne({
-    _id: Meteor.user().group
-  });
+  var tenant = Tenants.findOne({});
   if (tenant) {
     var currency = tenant.settings.currency || 'gbp';
     return getCurrencySymbol(currency);
@@ -175,9 +169,7 @@ Template.registerHelper('setSelected', function(value, option) {
 });
 
 Template.registerHelper('isProTenant', function() {
-  var tenant = Tenants.findOne({
-    _id: Meteor.user().group
-  });
+  var tenant = Tenants.findOne({});
   if (!tenant) return false;
   return isProTenant(tenant._id);
 });

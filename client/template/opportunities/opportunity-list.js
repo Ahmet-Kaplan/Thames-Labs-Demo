@@ -83,10 +83,10 @@ Template.opportunityList.helpers({
     return Template.instance().sortByValue.get();
   },
   oppCount: function() {
-     return Template.instance().oppsListCount.get();
+    return Template.instance().oppsListCount.get();
   },
   hasMultipleOpps: function() {
-     return Template.instance().oppsListCount.get() !== 1;
+    return Template.instance().oppsListCount.get() !== 1;
   }
 });
 
@@ -103,9 +103,9 @@ Template.opportunityList.events({
   'click #toggle-value-sort': function(event, template) {
     const indexMethods = Template.instance().index.getComponentMethods();
     if (Template.instance().sortByValue.get()) {
-        indexMethods.removeProps('sortByValue');
+      indexMethods.removeProps('sortByValue');
     } else {
-        indexMethods.addProps('sortByValue', 'true');
+      indexMethods.addProps('sortByValue', 'true');
     }
     $(event.target).blur();
   },

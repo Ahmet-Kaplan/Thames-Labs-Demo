@@ -175,10 +175,10 @@ Meteor.methods({
     CustomFields.update({
       _id: recToMove._id
     }, {
-        $set: {
-          order: switchA
-        }
-      });
+      $set: {
+        order: switchA
+      }
+    });
 
     _.each(currentOrder, function(co, i) {
       if (extInfoObj._id !== co._id) {
@@ -187,10 +187,10 @@ Meteor.methods({
           CustomFields.update({
             _id: co._id
           }, {
-              $set: {
-                order: switchB
-              }
-            });
+            $set: {
+              order: switchB
+            }
+          });
         }
       }
     });
@@ -213,10 +213,12 @@ Meteor.methods({
           global: true,
           name: field.name
         }, {
-            $set: {
-              order: i
-            }
-          }, { multi: true });
+          $set: {
+            order: i
+          }
+        }, {
+          multi: true
+        });
       });
     });
 
