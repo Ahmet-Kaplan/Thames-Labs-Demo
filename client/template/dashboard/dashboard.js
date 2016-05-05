@@ -214,7 +214,7 @@ Template.dashboard.onRendered(function() {
       }
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
-          userId = Meteor.userId();
+            userId = Meteor.userId();
         if (!Roles.userIsInRole(userId, [requiredPermission])) {
           return;
         }
@@ -291,7 +291,7 @@ Template.dashboard.helpers({
 
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
-          userId = Meteor.userId();
+            userId = Meteor.userId();
         return Roles.userIsInRole(userId, [requiredPermission]);
       }
       return true;

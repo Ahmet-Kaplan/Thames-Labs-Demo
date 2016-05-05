@@ -5,23 +5,28 @@ Template.esSelectize.onRendered(function() {
   var selectize = $('#' + this.data.name)[0].selectize;
 
   // If parent is set, listen for updates to it's value
-  if(this.data.parent) {
+  if (this.data.parent) {
     var parentElt = $('#' + this.data.parent);
     this.parent.set(parentElt.val());
-    parentElt.change( () => {
+    parentElt.change(() => {
       this.parent.set(parentElt.val());
     });
   }
 
   // search update listener
-  this.autorun( () => {
+  this.autorun(() => {
     var searchOptions = {
       props: {
         autosuggest: true
       }
     };
+
     var resultsCursor = null;
     var searchInput = this.query.get();
+
+    if (this.data.excludes) {
+      searchOptions.props.excludes = this.data.excludes;
+    }
 
     if (searchInput == null && !this.data.value) {
       // First run and no value set, so do nothing
@@ -38,7 +43,7 @@ Template.esSelectize.onRendered(function() {
       }
     } else {
       // Normal search
-      if(this.parent.get() !== undefined && this.data.filter !== undefined) {
+      if (this.parent.get() !== undefined && this.data.filter !== undefined) {
         searchOptions.props[this.data.filter] = this.parent.get();
       }
       resultsCursor = this.data.index.search(searchInput, searchOptions);
@@ -54,12 +59,14 @@ Template.esSelectize.onRendered(function() {
 
 Template.esSelectize.helpers({
   initialize: function() {
+    var tasksIndex = (this.index.config.name === "tasks");
+
     var self = Template.instance();
     var options = {
       closeAfterSelect: true,
       valueField: "__originalId",
-      labelField: "name",
-      searchField: "name",
+      labelField: (tasksIndex ? "title" : "name"),
+      searchField: (tasksIndex ? "title" : "name"),
       createOnBlur: false,
       load: (query) => {
         self.query.set(query);
@@ -70,12 +77,12 @@ Template.esSelectize.helpers({
         }
       },
       onInitialize: function() {
-        if(self.data.readonly) {
+        if (self.data.readonly) {
           this.disable();
         }
       }
     };
-    if(this.allowCreate) {
+    if (this.allowCreate) {
       options.render = {
         option_create: function(data, escape) {
           return '<div data-selectable class="create">This will create a new Company <strong>' + escape(data.input) + '</strong></div>';

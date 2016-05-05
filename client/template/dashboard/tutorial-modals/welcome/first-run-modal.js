@@ -18,7 +18,7 @@ Template.firstRun.events({
   },
   'click #first-run-tour': function(event, template) {
     Modal.hide();
-		hopscotch.endTour(true);
+    hopscotch.endTour(true);
     $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
   },
   'click #companies-tutorial': function(event, template) {

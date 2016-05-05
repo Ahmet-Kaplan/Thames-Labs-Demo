@@ -1,16 +1,17 @@
 App.accessRule('https://*');
 
 App.info({
-    name: 'RealTimeCRM',
-    description: 'The ultimate business tool',
-    version: '0.0.1',
-    id: 'uk.co.cambridgesoftware.realtimecrm',
-    author: 'Cambridge Software',
-    email: 'solutions@cambridgesoftware.co.uk',
-    website: 'http://app.realtimecrm.co.uk/'
+  name: 'RealTimeCRM',
+  description: 'The ultimate business tool',
+  version: '0.0.1',
+  id: 'uk.co.cambridgesoftware.realtimecrm',
+  author: 'Cambridge Software',
+  email: 'solutions@cambridgesoftware.co.uk',
+  website: 'http://app.realtimecrm.co.uk/'
 });
 
 App.icons({
+<<<<<<< HEAD
     'iphone_2x': 'resources/icons/ios/iphone_2x.png',
     'iphone_3x': 'resources/icons/ios/iphone_3x.png',
     'ipad': 'resources/icons/ios/ipad.png',
