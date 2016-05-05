@@ -295,6 +295,7 @@ Feature: Allow users to manage their Contacts
     And I create a new contact belonging to a company
     When I navigate to "/contacts"
     And I set the filter to "Company:" then "Test Ltd"
+    And the page is loaded
     Then I should see ".removeProp"
     And I should see ".fa-envelope"
     And "#resultsCount" should say "1 record"
@@ -329,7 +330,7 @@ Feature: Allow users to manage their Contacts
       And I set rich text field "notes" to "test activity"
       And I select "Note" from dropdown field "type"
       And I click "#confirm"
-      And I wait
+      Then I should not see a modal
       And I click "#edit-activity"
       And I select "Email" from dropdown field "type"
       And I click "#update"
@@ -344,7 +345,7 @@ Feature: Allow users to manage their Contacts
       And I set rich text field "notes" to "test activity"
       And I select "Note" from dropdown field "type"
       And I click "#confirm"
-      And I wait
+      Then I should not see a modal
       And I click "#remove-activity"
       And I click confirm on the modal
       Then I should see "#no-activity"

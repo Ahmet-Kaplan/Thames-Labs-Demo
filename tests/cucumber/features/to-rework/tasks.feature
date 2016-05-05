@@ -230,7 +230,7 @@ Feature: Allow users to manage their Tasks
     Then I should see ".removeProp"
     And I should not see "span.fa-user"
     And "#resultsCount" should say "1 record"
-
+    
   Scenario: A user can remove a filter from the list
     Given I have the "CanReadCompanies" permission
     And I have the "CanReadContacts" permission
@@ -239,9 +239,10 @@ Feature: Allow users to manage their Tasks
     When I navigate to "/tasks"
     And I set the filter to "Company:" then "Test Ltd"
     Then I should see ".removeProp"
-    And I should not see "span.fa-user"
+    And I should not see "span.fa-user" 
     And "#resultsCount" should say "1 record"
     When I click ".removeProp"
-    Then I should see "span.fa-user"
-    And I should not see ".removeProp"
+    And the page is loaded
+    Then I should not see ".removeProp"
     And "#resultsCount" should say "2 records"
+    And I should see "span.fa-user" 

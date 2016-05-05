@@ -60,12 +60,28 @@
           {{/if}}
 
           {{#if dueDate}}
+<<<<<<< HEAD
             {{#if isInRole 'CanReadTasks'}}
               <li class="list-group-item panel-item-header">
                 <h4><i class="fa fa-fw fa-calendar"></i> Due Date</h4>
                 {{formattedDueDate}} - {{relativeDueDate}}
               </li>
             {{/if}}
+=======
+          <li class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-calendar"></i> Due Date</h4>
+            {{formattedDueDate}} - {{relativeDueDate}}
+          </li>
+          {{/if}}
+          {{/if}}
+          {{#unless isPersonalTask}}
+          {{#if entityDetails.permissionToRead}}
+            <a href="{{pathFor route=entityType id=entityId}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to {{entityType}} details">
+              <h4><i class="fa fa-fw fa-{{entityDetails.icon}}"></i> {{entityDetails.type}}</h4>
+              <i class="fa fa-fw fa-chevron-right pull-right"></i>
+              {{entityDetails.name}}
+            </a>
+>>>>>>> ci-fixes
           {{/if}}
 
           {{#unless isPersonalTask}}

@@ -195,7 +195,8 @@ Feature: Allow users to manage their Products
     Then I see a field with the name "velocity" in the custom field list
     When I click "#delete-custom-field"
     And I click confirm on the modal
-    Then I should not see ".custom-field-display-item"
+    Then I should not see a modal
+    And I should not see ".custom-field-display-item"
 
   #Filtering and Searching
   Scenario: A user can filter products by sales price
