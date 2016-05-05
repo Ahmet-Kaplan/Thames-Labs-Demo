@@ -1,10 +1,4 @@
 Template.editTenantUserGeneralSettings.onRendered(function() {
-  if(!Roles.userIsInRole(Meteor.userId(), ['Administrator'])) {
-    toastr.warning("You do not have permission to edit user permissions");
-    Modal.hide();
-    return;
-  }
-
   var user = this.data;
 
   $('#user-po-auth-level').val(user.profile.poAuthLevel);

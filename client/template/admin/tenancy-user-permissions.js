@@ -1,11 +1,4 @@
 Template.editTenantUserPermissions.onRendered(function() {
-
-  if(!Roles.userIsInRole(Meteor.userId(), ['Administrator'])) {
-    toastr.warning("You do not have permission to edit user permissions");
-    Modal.hide();
-    return;
-  }
-
   var selectedUserId = this.data._id;
 
   Meteor.call('checkUserRole', selectedUserId, 'Administrator', function(err, data) {

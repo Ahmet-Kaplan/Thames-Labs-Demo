@@ -36,7 +36,7 @@ Meteor.methods({
         var productsSequenceId = 1;
 
         //Setup opportunity stages
-        var userTenant = Tenants.findOne({_id: groupId});
+        var userTenant = Tenants.findOne({});
         var stages = [];
 
         for (var j = 0; j < 4; j++) {
@@ -404,7 +404,7 @@ Meteor.methods({
       createdBy: user._id,
       projectTypeId: projType,
       projectMilestoneId: 0,
-      sequencedIdentifier: Tenants.findOne({_id: Meteor.user().group}).settings.project.defaultNumber
+      sequencedIdentifier: Tenants.findOne({}).settings.project.defaultNumber
     });
 
     if (opp.items) {

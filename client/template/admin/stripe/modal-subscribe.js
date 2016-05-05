@@ -45,9 +45,7 @@ Template.stripeSubscribe.helpers({
     return planDetails;
   },
   hasCoupon: function() {
-    return !!Tenants.findOne({
-      _id: Meteor.user().group
-    }).stripe.coupon;
+    return !!Tenants.findOne().stripe.coupon;
   }
 });
 

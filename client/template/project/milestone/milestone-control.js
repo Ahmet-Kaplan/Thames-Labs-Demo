@@ -33,7 +33,7 @@ Template.milestoneControl.helpers({
 Template.milestoneControl.events({
   'click #prevMilestone': function() {
     var projectId = FlowRouter.getParam('id');
-    var userTenant = Tenants.findOne({_id: Meteor.user().group});
+    var userTenant = Tenants.findOne({});
 
     Meteor.call('moveMilestone', projectId, "backward", function(err, res) {
       if (err) throw new Meteor.Error(err);
@@ -81,7 +81,7 @@ Template.milestoneControl.events({
   },
   'click #nextMilestone': function() {
     var projectId = FlowRouter.getParam('id');
-    var userTenant = Tenants.findOne({_id: Meteor.user().group});
+    var userTenant = Tenants.findOne({});
 
     Meteor.call('moveMilestone', projectId, "forward", function(err, res) {
       if (err) throw new Meteor.Error(err);
