@@ -11,7 +11,6 @@ App.info({
 });
 
 App.icons({
-<<<<<<< HEAD
     'iphone_2x': 'resources/icons/ios/iphone_2x.png',
     'iphone_3x': 'resources/icons/ios/iphone_3x.png',
     'ipad': 'resources/icons/ios/ipad.png',
