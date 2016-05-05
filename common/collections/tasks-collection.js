@@ -203,7 +203,8 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         'entityType': 1,
         'entityId': 1,
         'assigneeId': 1,
-        'tags': 1
+        'tags': 1,
+        'parentTaskId': 1
       }
     },
     selector: function(searchObject, options, aggregation) {
@@ -241,6 +242,12 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         // n.b. the array is passed as a comma separated string
         selector.entityId = {
           $in: options.search.props.project.split(',')
+        };
+      }
+
+      if (options.search.props.excludes) {
+        selector._id = {
+          $nin: options.search.props.excludes.split(',')
         };
       }
 
@@ -313,6 +320,16 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         };
       }
 
+      // if (options.search.props.showSubTasks) {
+      //   selector.parentTaskId = {
+      //     $exists: true
+      //   };
+      // } else {
+      //   selector.parentTaskId = {
+      //     $exists: false
+      //   };
+      // }
+
       if (options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
@@ -325,6 +342,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 //////////////////////
 // COLLECTION HOOKS //
 //////////////////////
+
 Tasks.after.insert(function(userId, doc) {
   if (Roles.userIsInRole(userId, ['superadmin'])) return;
   if (doc.remindMe && doc.reminder && Meteor.isServer) {
@@ -410,6 +428,7 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
   }
   if (doc.completed !== this.previous.completed) {
     LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's completed status", entityType, entityId);
+
   }
   if (doc.assigneeId !== this.previous.assigneeId) {
     LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's assigned user", entityType, entityId);
@@ -456,4 +475,18 @@ Tasks.after.remove(function(userId, doc) {
     _id: userId
   });
   LogClientEvent(LogLevel.Info, user.profile.name + " deleted task '" + doc.title + "'", entityType, entityId);
+
+  var subTasks = Tasks.find({
+    parentTaskId: doc._id
+  }).fetch();
+
+  _.each(subTasks, function(st) {
+    Tasks.update({
+      _id: st._id
+    }, {
+      $unset: {
+        'parentTaskId': ''
+      }
+    });
+  });
 });

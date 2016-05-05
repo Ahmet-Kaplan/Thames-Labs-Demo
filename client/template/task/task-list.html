@@ -7,7 +7,7 @@
         <p id="resultsCount" class="list-header-subtitle">{{taskCount}} record{{#if hasMultipleTasks}}s{{/if}}</p>
       </div>
       <div class="col-md-7 list-header-right">
-        <div class="btn-group pull-right" role="group">
+        <div class="btn-group" role="group">
             {{#if isInRole 'CanCreateTasks'}}
             <button class="btn btn-md btn-primary dropdown-toggle" type="button" id="addTaskDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <i class="fa fa-fw fa-plus"></i> Add task  <span class="caret"></span>
@@ -26,6 +26,7 @@
         <ul class="list-toolbar pull-right">
             {{#if isInRole 'CanReadTasks'}}
               <li><a id="tskToggleCompleted">{{#if showComp}}Hide{{else}}Show{{/if}} completed</a></li>
+              <!-- <li><a id="tskToggleSubTasks">{{#if showSubs}}Hide{{else}}Show{{/if}} sub-tasks</a></li> -->
               <li><a id="tskToggleMine">{{#if showMine}}Show all tasks{{else}}Show my tasks{{/if}}</a></li>
               <li><a id="tskToggleCalendar">{{#if showCalendar}}Hide{{else}}Show{{/if}} calendar</a></li>
             {{/if}}

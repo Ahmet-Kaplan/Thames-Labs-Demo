@@ -26,7 +26,7 @@ Template.searchResults.onRendered(function() {
       FlowRouter.setQueryParams({
         q: searchDefinition ? searchDefinition : null,
         f: searchProps ? searchProps : null
-       });
+      });
     });
   });
 

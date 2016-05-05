@@ -1,8 +1,8 @@
 Meteor.methods({
-	'tenant.remove': function(tenantId) {
-		if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
-			throw new Meteor.Error(403, 'Only superadmins may completely delete a tenant');
-		}
+  'tenant.remove': function(tenantId) {
+    if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
+      throw new Meteor.Error(403, 'Only superadmins may completely delete a tenant');
+    }
 
 		if (!tenantId) return 'Tenant ID not supplied';
 		var tenant = Tenants.findOne({
@@ -40,22 +40,22 @@ Meteor.methods({
 				Activities.remove({});
 			});
 
-			console.log('Deleting users...');
-			Meteor.users.remove({
-				group: tenantId
-			});
+      console.log('Deleting users...');
+      Meteor.users.remove({
+        group: tenantId
+      });
 
-			console.log('Deleting tenant...');
-			Tenants.remove({
-				_id: tenantId
-			});
-		} catch (err) {
-			console.log(err);
-			return 'Error during tenant removal: ' + err;
-		}
+      console.log('Deleting tenant...');
+      Tenants.remove({
+        _id: tenantId
+      });
+    } catch (err) {
+      console.log(err);
+      return 'Error during tenant removal: ' + err;
+    }
 
-		return true;
-	},
+    return true;
+  },
   setTenantDeletionFlag: function(val) {
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       return;

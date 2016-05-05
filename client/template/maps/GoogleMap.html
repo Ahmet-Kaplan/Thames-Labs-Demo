@@ -13,14 +13,16 @@ Note: Apple Maps redirects to Google Maps on non Apple devices, so is used for t
         {{> googleMap name="map" options=mapOptions}}
       </div>
     {{/if}}
-    {{#if isPhone}}
-      <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x300&markers={{addressString}}" />
+    {{#if isMobile}}
+      <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x300&markers={{addressString}}" onclick="cordova.InAppBrowser.open('http://maps.apple.com/?address={{addressString}}', '_system')" />
     {{/if}}
     
     <div class="caption">
-      <a class="pull-right" target="_blank" href="http://maps.apple.com/?address={{addressString}}">
-        Open in Maps
-      </a>
+      {{#unless isApp}}
+        <a class="pull-right" id="open-maps" target="_blank" href="http://maps.apple.com/?address={{addressString}}">
+          Open in Maps
+        </a>
+      {{/unless}}
       <address>
         <b>{{title}}</b>
         {{#with address}}

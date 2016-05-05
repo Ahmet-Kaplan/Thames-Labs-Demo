@@ -90,9 +90,9 @@ Meteor.methods({
         }
 
         if (CustomFields.findOne({
-            name: cfName,
-            target: cfEntity
-          })) {
+          name: cfName,
+          target: cfEntity
+        })) {
           duplicateFlag = true
         }
 
@@ -153,7 +153,9 @@ Meteor.methods({
 
     Partitioner.bindGroup(user.group, function() {
       data = CustomFields.find({
-        entityId: extInfoObj.entityId
+        entityId: extInfoObj.entityId,
+        target: extInfoObj.target,
+        global: true
       }).fetch();
     });
 
@@ -191,6 +193,33 @@ Meteor.methods({
           });
         }
       }
+    });
+
+    var updatedOrder = [];
+    Partitioner.bindGroup(user.group, function() {
+      updatedOrder = CustomFields.find({
+        entityId: extInfoObj.entityId,
+        target: extInfoObj.target,
+        global: true
+      }).fetch().sort(function(a, b) {
+        if (a.order < b.order) return -1;
+        if (a.order > b.order) return 1;
+        return 0;
+      });
+
+      _.each(updatedOrder, function(field, i) {
+        CustomFields.update({
+          target: field.target,
+          global: true,
+          name: field.name
+        }, {
+          $set: {
+            order: i
+          }
+        }, {
+          multi: true
+        });
+      });
     });
 
     return {

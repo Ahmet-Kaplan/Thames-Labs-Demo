@@ -15,8 +15,8 @@ var callback = null;
 var pickerCallback = function(data) {
   if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
     var docUrl = '',
-      friendlyName = '';
-    var doc = data[google.picker.Response.DOCUMENTS][0];
+        friendlyName = '',
+        doc = data[google.picker.Response.DOCUMENTS][0];
 
     docUrl = doc[google.picker.Document.URL];
     friendlyName = doc[google.picker.Document.NAME];
@@ -57,10 +57,10 @@ var createPicker = function(authResult) {
 documentAPI.googleChooser = function(cb) {
   callback = cb;
   gapi.auth.authorize({
-      'client_id': clientId,
-      'scope': scope,
-      'immediate': false
-    },
+    'client_id': clientId,
+    'scope': scope,
+    'immediate': false
+  },
     createPicker
   );
 };

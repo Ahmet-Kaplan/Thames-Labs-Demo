@@ -44,8 +44,8 @@ Template.purchaseOrderList.onRendered(function() {
 
   this.autorun(() => {
     const searchComponent = this.index.getComponentDict(),
-      searchOptions = searchComponent.get('searchOptions'),
-      props = searchOptions.props ? searchOptions.props : {};
+          searchOptions = searchComponent.get('searchOptions'),
+          props = searchOptions.props ? searchOptions.props : {};
 
     this.showClosed.set(props.showClosed ? true : false);
   });
@@ -158,9 +158,9 @@ Template.purchaseOrderList.helpers({
     return Template.instance().showItems.get();
   },
   poCount: function() {
-     return Template.instance().totalPOs.get();
+    return Template.instance().totalPOs.get();
   },
   hasMultiplePOs: function() {
-     return Template.instance().totalPOs.get() !== 1;
+    return Template.instance().totalPOs.get() !== 1;
   }
 });
