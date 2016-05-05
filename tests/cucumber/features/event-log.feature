@@ -1,5 +1,3 @@
-# Testing green under new changes but needs reworking
-
 Feature: Allow users to view event logs
   As a user
   I want to see events
@@ -19,14 +17,7 @@ Feature: Allow users to view event logs
     Then I should see an event in the list
 
   Scenario: A user should not be able to see events created by a user under another tenant
-    And a second tenant exists
-    And the second tenant is on the pro plan
-    And a second user exists
-    And an "Event" has been created
-    And I click "#menuLinkEventLog"
-    Then I should see "#list-item"
-    Given I log out
-    And I log in as a second tenant user
-    And I have the "CanReadEventLog" permission
-    And I click "#menuLinkEventLog"
-    Then I should not see "#list-item"
+    Given a second pro tenant exists
+    And the second tenant has an Event
+    And I visit EventLog
+    Then I should not see an event in the list

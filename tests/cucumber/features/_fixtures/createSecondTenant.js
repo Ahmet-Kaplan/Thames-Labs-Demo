@@ -1,5 +1,5 @@
-export function createTenant() {
-  const defaultTenant = {
+export function createSecondTenant() {
+  const alternateTenant = {
     name: 'Acme Corp Rivals',
     plan: 'free',
     settings: {

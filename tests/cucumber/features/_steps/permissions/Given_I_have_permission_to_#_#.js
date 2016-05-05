@@ -16,5 +16,4 @@ module.exports = function() {
       Roles.addUsersToRoles(userId, requiredPermission);
     }, browser.userId(), action, collectionMap[friendlyEntityName]);
   });
-
-};
+}
