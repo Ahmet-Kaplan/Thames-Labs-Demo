@@ -319,7 +319,7 @@ Feature: Allow users to manage their sales opportunities
     And I set rich text field "notes" to "test activity"
     And I select "Note" from dropdown field "type"
     And I click "#confirm"
-    And I wait
+    Then I should not see a modal
     And I click "#edit-activity"
     And I select "Email" from dropdown field "type"
     And I click "#update"
@@ -334,7 +334,7 @@ Feature: Allow users to manage their sales opportunities
     And I set rich text field "notes" to "test activity"
     And I select "Note" from dropdown field "type"
     And I click "#confirm"
-    And I wait
+    Then I should not see a modal
     And I click "#remove-activity"
     And I click confirm on the modal
     Then I should see "#no-activity"

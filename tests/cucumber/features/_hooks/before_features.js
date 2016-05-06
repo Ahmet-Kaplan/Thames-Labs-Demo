@@ -35,7 +35,7 @@ module.exports = function() {
     browser.addCommand('safeClick', function(selector) {
       browser.waitForExist(selector);
       browser.waitForVisible(selector);
-      browser.scroll(selector);
+      browser.scroll(selector, 0, -60);
       browser.click(selector);
     });
 
