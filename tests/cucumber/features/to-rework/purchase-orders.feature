@@ -242,11 +242,12 @@ Feature: Allow users to manage their Purchase Orders
     And I click "#edit-purchase-order"
     And I select "Rejected" from dropdown field "status"
     And I click "#update-purchase-order"
-    Then I should see "#notifications-menu"
+    Then I should not see a modal
+    And I should see "#notifications-menu"
     When I click "#notifications-menu"
     And I click "#notification"
     And I click "#removeNotification"
-    And I wait
-    Then I should see "#notifications-menu"
+    Then I should not see a modal
+    And I should see "#notifications-menu"
     When I click "#notifications-menu"
     Then ".dropdown-menu" should contain "No notifications"

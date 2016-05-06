@@ -168,10 +168,7 @@ module.exports = function() {
   })
 
   this.When(/^I click "([^"]*)"$/, function(id) {
-    browser.waitForExist(id, 5000);
-    browser.waitForVisible(id, 5000);
-    browser.scroll(id, 0, -60);
-    browser.click(id);
+    browser.safeClick(id);
   });
 
   this.When(/^I click the selector "([^"]*)"$/, function(selector) {
@@ -259,10 +256,6 @@ module.exports = function() {
       var modal = $('h4:contains("' + expectedTitle + '")').parent().parent();
       modal.children('.modal-footer').children('button.btn-primary').click();
     }, expectedTitle);
-  });
-
-  this.When(/^I wait$/, function() {
-    browser.pause(5000)
   });
 
   this.When(/^I click "([^"]*)" and select the option "([^"]*)"$/, function(menu, option) {
