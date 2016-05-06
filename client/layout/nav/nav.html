@@ -28,11 +28,11 @@
             <li>{{> atNavButton}}</li>
             {{/if}}
             {{#unless isInRole 'superadmin'}}
-            <li class="dropdown" id="tips">
-              <a href="#" class="dropdown-toggle" id="toggle-tips"><i class="fa fa-exclamation"></i></a>
-            </li>
             <li class="dropdown" id="global-search">
               <a href="#" class="dropdown-toggle" id="toggle-search"><i class="fa fa-search"></i></a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" id="help-menu"><i class="fa fa-lg fa-question"></i></a>
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="notifications-menu">
@@ -70,10 +70,6 @@
                   </li>
                 {{/if}}
               </ul>
-            </li>
-
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" id="help-menu"><i class="fa fa-lg fa-question"></i></a>
             </li>
 
             <li class="dropdown">

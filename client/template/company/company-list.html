@@ -9,15 +9,17 @@
       </div>
       <div class="col-md-7 list-header-right">
         <div class="btn-group pull-right" role="group">
+          {{#unless isMobile}}
             {{#if isInRole 'CanCreateCompanies'}}
-                <button type="button" class="btn btn-md btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
+              <button type="button" class="btn btn-md btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
             {{/if}}
-            {{> smallSearchBox collectionName='companies'}}
+          {{/unless}}
+          {{> smallSearchBox collectionName='companies'}}
         </div>
         <br>
-        <ul class="list-toolbar pull-right">        
-            {{> tagManagement collectionName='companies'}}           
-            {{> companyDataManagement}} 
+        <ul class="list-toolbar pull-right">
+            {{> tagManagement collectionName='companies'}}
+            {{> companyDataManagement}}
             <li><a id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom">Export</a></li>
         </ul>
       </div>

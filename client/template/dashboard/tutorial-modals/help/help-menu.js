@@ -7,7 +7,7 @@ Template.help.onRendered(function() {
     }
   });
   hopscotch.endTour(true);
-})
+});
 
 Template.help.events({
   'click #close': function(event, template) {
@@ -45,6 +45,11 @@ Template.help.events({
   },
   'click #close-help': function(event, template) {
     Modal.hide();
+  },
+  'click #show-tips': function(event, template) {
+    Modal.allowMultiple = true;
+    Modal.hide();
+    Modal.show('tipsModal');
   }
 });
 

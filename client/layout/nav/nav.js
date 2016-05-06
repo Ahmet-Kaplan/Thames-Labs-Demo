@@ -333,11 +333,16 @@ Template.nav.events({
     };
   },
   'click #fab-btn': function(event, template) {
-    if (Template.instance().fabOpen.get() === true) {
-      template.fabOpen.set(false);
-    } else {
-      template.fabOpen.set(true);
-    };
+    var title = document.title;
+    if(title === "Companies") {
+      Modal.show('insertNewCompanyModal', this);
+    }else {
+      if (Template.instance().fabOpen.get() === true) {
+        template.fabOpen.set(false);
+      } else {
+        template.fabOpen.set(true);
+      };
+    }
   },
   'click #fabAddContacts': function(event) {
     event.preventDefault();
