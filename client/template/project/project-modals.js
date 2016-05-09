@@ -61,10 +61,14 @@ Template.updateProjectForm.helpers({
     });
   },
   companyName: function() {
-    return Companies.findOne().name;
+    return Companies.findOne({
+      _id: companyId
+    }).name;
   },
   contactName: function() {
-    var contact = Contacts.findOne();
+    var contact = Contacts.findOne({
+      _id: contactId
+    });
     return contact.forename + ' ' + contact.surname;
   }
 });
@@ -100,7 +104,9 @@ Template.newCompanyProjectForm.helpers({
     });
   },
   companyName: function() {
-    return Companies.findOne().name;
+    return Companies.findOne({
+      _id: this.companyId
+    }).name;
   }
 });
 
@@ -131,10 +137,14 @@ Template.newContactProjectForm.helpers({
     });
   },
   companyName: function() {
-    return Companies.findOne().name;
+    return Companies.findOne({
+      _id: this.companyId
+    }).name;
   },
   contactName: function() {
-    var contact = Contacts.findOne();
+    var contact = Contacts.findOne({
+      _id: this.contactId
+    });
     return contact.forename + ' ' + contact.surname;
   }
 });
