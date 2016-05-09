@@ -9,6 +9,5 @@ module.exports = function() {
     browser.keys(' ' + value);
     expect(browser.getValue(selectizeInput)).toContain(filter + ' ' + value);
     browser.keys('Enter');
-    browser.waitForVisible(selectizeDropdown, 5000, true);
   });
 }

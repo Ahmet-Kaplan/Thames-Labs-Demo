@@ -241,6 +241,5 @@ Feature: Allow users to manage their Tasks
     Then I should see ".removeProp"
     When I click ".removeProp"
     And the page is loaded
-    Then I should see "span.fa-user" 
-    And "#resultsCount" should say "2 records"
-    And I should not see ".removeProp"
+    When I click "span.fa-user"
+    Then I should see the heading "test task"
