@@ -92,6 +92,6 @@ Template.help.helpers({
         hText = "You now know how to add a user in RealTimeCRM! Everything you have created in this tutorial has been saved. To learn more, select one of the other tutorials below.";
         break;
     }
-  return hText;
+    return hText;
   }
 });
