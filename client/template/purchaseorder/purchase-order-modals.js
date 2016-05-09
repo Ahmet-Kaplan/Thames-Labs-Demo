@@ -205,7 +205,7 @@ Template.addPurchaseOrderItemModal.onRendered(function() {
 
   Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
     if (error) {
-
+      return false;
     } else {
       $('#activePrice').prop('value', result);
     }
@@ -226,7 +226,7 @@ Template.addPurchaseOrderItemModal.events({
 
     Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
       if (error) {
-
+        return false;
       } else {
         $('#activePrice').prop('value', result);
       }
@@ -239,7 +239,7 @@ Template.addPurchaseOrderItemModal.events({
 
     Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
       if (error) {
-
+        return false;
       } else {
         $('#activePrice').prop('value', result);
       }
@@ -297,7 +297,7 @@ Template.editPurchaseOrderItemModal.events({
 
     Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
       if (error) {
-
+        return false;
       } else {
         $('#activePrice').prop('value', result);
       }
@@ -310,7 +310,7 @@ Template.editPurchaseOrderItemModal.events({
 
     Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
       if (error) {
-
+        return false;
       } else {
         $('#activePrice').prop('value', result);
       }
