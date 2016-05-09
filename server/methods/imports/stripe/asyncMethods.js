@@ -24,12 +24,12 @@ export const stripeMethodsAsync = {
      * @return   {(Object|Boolean)}  - The Stripe customer object (see {@link https://stripe.com/docs/api#customer_object}) or false on failure.
      * @see      https://stripe.com/docs/api#create_customer
      */
-    create(parameters) {
-      let createCustomerAsync = Meteor.wrapAsync(Stripe.customers.create, Stripe.customers);
+    create: function(parameters) {
+      const createCustomerAsync = Meteor.wrapAsync(Stripe.customers.create, Stripe.customers);
       let customer = null;
       try {
         customer = createCustomerAsync(parameters)
-      } catch(error) {
+      } catch (error) {
         customer = false;
         throw new Meteor.Error('Unable to create customer', error.message);
       } finally {
@@ -45,12 +45,12 @@ export const stripeMethodsAsync = {
      * @return   {(Object|Boolean)} - The Stripe customer object (see {@link https://stripe.com/docs/api#customer_object}) or false on failure.
      * @see      https://stripe.com/docs/api#retrieve_customer
      */
-    retrieve(stripeId) {
-      let getCustomerObject = Meteor.wrapAsync(Stripe.customers.retrieve, Stripe.customers);
+    retrieve: function(stripeId) {
+      const getCustomerObject = Meteor.wrapAsync(Stripe.customers.retrieve, Stripe.customers);
       let customerObject = null;
       try {
         customerObject = getCustomerObject(stripeId);
-      } catch(error) {
+      } catch (error) {
         customerObject = false;
         throw new Meteor.Error('Unable to retrieve customer details', error.message);
       } finally {
@@ -67,12 +67,12 @@ export const stripeMethodsAsync = {
      * @return   {(Object|Boolean)}  - The Stripe customer object (see {@link https://stripe.com/docs/api#customer_object}) or false on failure.
      * @see      https://stripe.com/docs/api#update_customer
      */
-    update(stripeId, parameters) {
-      let updateCustomerAsync = Meteor.wrapAsync(Stripe.customers.update, Stripe.customers);
+    update: function(stripeId, parameters) {
+      const updateCustomerAsync = Meteor.wrapAsync(Stripe.customers.update, Stripe.customers);
       let customer = null;
       try {
         customer = updateCustomerAsync(stripeId, parameters);
-      } catch(error) {
+      } catch (error) {
         customer = false;
         throw new Meteor.Error('Unable to update card details', error.message);
       } finally {
@@ -89,8 +89,8 @@ export const stripeMethodsAsync = {
      * @return   {(Object|Boolean)}  - The Stripe subscription object (see {@link https://stripe.com/docs/api#subscription_object}) or false on failure.
      * @see      https://stripe.com/docs/api#create_subscription
      */
-    createSubscription(stripeId, parameters) {
-      let createSubscriptionAsync = Meteor.wrapAsync(Stripe.customers.createSubscription, Stripe.customers);
+    createSubscription: function(stripeId, parameters) {
+      const createSubscriptionAsync = Meteor.wrapAsync(Stripe.customers.createSubscription, Stripe.customers);
       let subscription = null;
       try {
         subscription = createSubscriptionAsync(stripeId, parameters);
@@ -111,12 +111,12 @@ export const stripeMethodsAsync = {
      * @return   {(Object|Boolean)} - The Stripe subscription object (see {@link https://stripe.com/docs/api#subscription_object}) or false on failure.
      * @see      https://stripe.com/docs/api#retrieve_subscription
      */
-    retrieveSubscription(stripeId, subsId) {
-      let getCurrentSubscription = Meteor.wrapAsync(Stripe.customers.retrieveSubscription, Stripe.customers);
+    retrieveSubscription: function(stripeId, subsId) {
+      const getCurrentSubscription = Meteor.wrapAsync(Stripe.customers.retrieveSubscription, Stripe.customers);
       let subscription = null;
       try {
         subscription = getCurrentSubscription(stripeId, subsId);
-      } catch(error) {
+      } catch (error) {
         subscription = false;
         throw new Meteor.Error('Unable to retrieve subscription object', error.message);
       } finally {
@@ -134,12 +134,12 @@ export const stripeMethodsAsync = {
      * @return   {(Object|Boolean)}  - The Stripe subscription object (see {@link https://stripe.com/docs/api#subscription_object}) or false on failure.
      * @see      https://stripe.com/docs/api#update_subscription
      */
-    updateSubscription(stripeId, subsId, parameters) {
-      let updateSubscriptionAsync = Meteor.wrapAsync(Stripe.customers.updateSubscription, Stripe.customers);
+    updateSubscription: function(stripeId, subsId, parameters) {
+      const updateSubscriptionAsync = Meteor.wrapAsync(Stripe.customers.updateSubscription, Stripe.customers);
       let result = null;
       try {
         result = updateSubscriptionAsync(stripeId, subsId, parameters);
-      } catch(error) {
+      } catch (error) {
         result = false;
         throw new Meteor.Error('Error', error);
       } finally {
@@ -157,12 +157,12 @@ export const stripeMethodsAsync = {
      * @return   {Boolean}         - True if cancellation was successful, false otherwise.
      * @see      https://stripe.com/docs/api#cancel_subscription
      */
-    cancelSubscription(stripeId, subsId, options) {
-      let cancelSubscriptionAsync = Meteor.wrapAsync(Stripe.customers.cancelSubscription, Stripe.customers);
+    cancelSubscription: function(stripeId, subsId, options) {
+      const cancelSubscriptionAsync = Meteor.wrapAsync(Stripe.customers.cancelSubscription, Stripe.customers);
       let confirmation = null;
       try {
         confirmation = cancelSubscriptionAsync(stripeId, subsId, options);
-      } catch(error) {
+      } catch (error) {
         confirmation = false;
         throw new Meteor.Error('Unable to cancel subscription', error.message);
       } finally {
@@ -179,12 +179,12 @@ export const stripeMethodsAsync = {
      * @return   {(Object|Boolean)} - The Stripe card object or false on failure
      * @see      https://stripe.com/docs/api#retrieve_card
      */
-    retrieveCard(stripeId, cardId) {
-      let retriveCardDetailsAsync = Meteor.wrapAsync(Stripe.customers.retrieveCard, Stripe.customers);
+    retrieveCard: function(stripeId, cardId) {
+      const retriveCardDetailsAsync = Meteor.wrapAsync(Stripe.customers.retrieveCard, Stripe.customers);
       let cardDetails = null;
       try {
         cardDetails = retriveCardDetailsAsync(stripeId, cardId);
-      } catch(error) {
+      } catch (error) {
         cardDetails = false;
         console.log(error)
         throw new Meteor.Error('Unable to retrieve card details', error.message);
@@ -202,13 +202,13 @@ export const stripeMethodsAsync = {
      * @return   {(Object|Boolean)} - The Stripe card object or false on failure
      * @see      https://stripe.com/docs/api#delete_card
      */
-    deleteCard(stripeId, cardId) {
-      let deleteCardDetails = Meteor.wrapAsync(Stripe.customers.deleteCard, Stripe.customers);
+    deleteCard: function(stripeId, cardId) {
+      const deleteCardDetails = Meteor.wrapAsync(Stripe.customers.deleteCard, Stripe.customers);
       let result = null;
       try {
-        let response = deleteCardDetails(stripeId, cardId);
+        const response = deleteCardDetails(stripeId, cardId);
         result = response.deleted;
-      } catch(error) {
+      } catch (error) {
         result = false;
         throw new Meteor.Error('Unable to delete card', error.message);
       } finally {
@@ -231,12 +231,12 @@ export const stripeMethodsAsync = {
      * @return   {(Object|Boolean)} - The coupon object (see {@link https://stripe.com/docs/api#coupon_object}) or false on failure
      * @see      https://stripe.com/docs/api#retrieve_coupon
      */
-    retrieve(coupon) {
-      let getCouponAsync = Meteor.wrapAsync(Stripe.coupons.retrieve, Stripe.coupons);
+    retrieve: function(coupon) {
+      const getCouponAsync = Meteor.wrapAsync(Stripe.coupons.retrieve, Stripe.coupons);
       let couponDetails = null;
       try {
         couponDetails = getCouponAsync(coupon);
-      } catch(error) {
+      } catch (error) {
         couponDetails = false;
         throw new Meteor.Error('Error', error.message);
       } finally {
@@ -259,12 +259,12 @@ export const stripeMethodsAsync = {
      * @return   {(Object|Boolean)} - The plan object (see {@link https://stripe.com/docs/api#plan_object}) or false on failure
      * @see      https://stripe.com/docs/api#retrieve_plan
      */
-    retrieve(planId) {
-      let retrievePlanAsync = Meteor.wrapAsync(Stripe.plans.retrieve, Stripe.plans);
+    retrieve: function(planId) {
+      const retrievePlanAsync = Meteor.wrapAsync(Stripe.plans.retrieve, Stripe.plans);
       let plan = null;
       try {
         plan = retrievePlanAsync(planId);
-      } catch(error) {
+      } catch (error) {
         plan = false;
         throw new Meteor.Error('Unable to retrieve plan details', error.message);
       } finally {
@@ -287,12 +287,12 @@ export const stripeMethodsAsync = {
      * @return   {(Object|false)}   - The Stripe invoice Object (see {@link https://stripe.com/docs/api#invoice_object}) or false on failure
      * @see      https://stripe.com/docs/api#upcoming_invoice
      */
-    retrieveUpcoming(stripeId) {
-      let retrieveUpcomingInvoiceAsync = Meteor.wrapAsync(Stripe.invoices.retrieveUpcoming, Stripe.invoices);
+    retrieveUpcoming: function(stripeId) {
+      const retrieveUpcomingInvoiceAsync = Meteor.wrapAsync(Stripe.invoices.retrieveUpcoming, Stripe.invoices);
       let upcomingInvoice = null;
       try {
         upcomingInvoice = retrieveUpcomingInvoiceAsync(stripeId);
-      } catch(error) {
+      } catch (error) {
         upcomingInvoice = false;
       } finally {
         return upcomingInvoice;
@@ -307,12 +307,12 @@ export const stripeMethodsAsync = {
      * @return   {(Object|false)} - The Stripe invoice Object (see {@link https://stripe.com/docs/api#list_invoices}) or false on failure
      * @see      https://stripe.com/docs/api#list_invoices
      */
-    list(options) {
-      let retrieveLastInvoice = Meteor.wrapAsync(Stripe.invoices.list, Stripe.invoices);
+    list: function(options) {
+      const retrieveLastInvoice = Meteor.wrapAsync(Stripe.invoices.list, Stripe.invoices);
       let invoiceArray = null;
       try {
         invoiceArray = retrieveLastInvoice(options);
-      } catch(error) {
+      } catch (error) {
         invoiceArray = false;
         throw new Meteor.Error('Unable to retrieve last invoice', error.message);
       } finally {

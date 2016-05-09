@@ -471,7 +471,7 @@ Meteor.methods({
       throw new Meteor.Error(403, 'You do not have the rights to access this information.');
     }
 
-    return stripeMethodsAsync.plans.retrieve(planId);;
+    return stripeMethodsAsync.plans.retrieve(planId);
   },
 
 

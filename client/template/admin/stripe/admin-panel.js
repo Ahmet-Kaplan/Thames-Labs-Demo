@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { _ } from 'lodash';
 import { $ } from 'meteor/jquery';
 
 //Import helpers function from external file
