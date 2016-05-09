@@ -2,7 +2,9 @@
 
 var verfiyOpportunityStagesExist = function() {
   if (FlowRouter.subsReady()) {
-    var userTenant = Tenants.findOne({});
+    var userTenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
     if (userTenant) {
       var stages = userTenant.settings.opportunity.stages;
       if (!stages || stages.length === 0) {
@@ -13,7 +15,9 @@ var verfiyOpportunityStagesExist = function() {
 };
 
 var findFirstStageId = function() {
-  var userTenant = Tenants.findOne({});
+  var userTenant = Tenants.findOne({
+    _id: Meteor.user().group
+  });
   var stages = userTenant.settings.opportunity.stages;
   if (!stages || stages.length === 0) return null;
 
@@ -79,7 +83,9 @@ Template.insertContactOpportunityModal.helpers({
     return Meteor.userId();
   },
   companyName: function() {
-    return Companies.findOne().name;
+    return Companies.findOne({
+      _id: this.companyId
+    }).name;
   },
   contactName: function() {
     var contact = Contacts.findOne(this.contactId);
@@ -89,10 +95,14 @@ Template.insertContactOpportunityModal.helpers({
 
 Template.editOpportunityModal.helpers({
   companyName: function() {
-    return Companies.findOne().name;
+    return Companies.findOne({
+      _id: this.companyId
+    }).name;
   },
   contactName: function() {
-    var contact = Contacts.findOne();
+    var contact = Contacts.findOne({
+      _id: this.contactId
+    });
     return contact.forename + ' ' + contact.surname;
   }
 });

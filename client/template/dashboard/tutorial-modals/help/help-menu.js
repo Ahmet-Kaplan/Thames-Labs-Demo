@@ -16,7 +16,7 @@ Template.help.events({
   'click #first-run-tour': function(event, template) {
     Modal.hide();
     FlowRouter.go('dashboard');
-		hopscotch.endTour(true);
+    hopscotch.endTour(true);
     $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
   },
   'click #companies-tutorial': function(event, template) {
@@ -42,6 +42,9 @@ Template.help.events({
     FlowRouter.go('dashboard');
     hopscotch.endTour(true);
     $.getScript('/vendor/hopscotch/tours/tags-tutorial-p1.js');
+  },
+  'click #close-help': function(event, template) {
+    Modal.hide();
   }
 });
 

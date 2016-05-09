@@ -33,26 +33,26 @@ Template.poInformationWidget.onRendered(function() {
 Template.poInformationWidget.events({
   'click #ref_poInformationWidget': function(event, template) {
 
-      Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
-        template.totalPurchaseOrders.set(data.Count);
-      });
-      Meteor.call('report.ApprovedPo', function(err, data) {
-        template.totalApprovedPo.set(data.Count);
-      });
-      Meteor.call('report.ArrivedPo', function(err, data) {
-        template.totalArrivedPo.set(data.Count);
-      });
+    Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
+      template.totalPurchaseOrders.set(data.Count);
+    });
+    Meteor.call('report.ApprovedPo', function(err, data) {
+      template.totalApprovedPo.set(data.Count);
+    });
+    Meteor.call('report.ArrivedPo', function(err, data) {
+      template.totalArrivedPo.set(data.Count);
+    });
 
-      Meteor.call('report.ClosedPo', function(err, data) {
-        template.totalClosedPo.set(data.Count);
-      });
-      Meteor.call('report.CancelledPo', function(err, data) {
-        template.totalCancelledPo.set(data.Count);
-      });
-      Meteor.call('report.RejectedPo', function(err, data) {
-        template.totalRejectedPo.set(data.Count);
-      });
-    }
+    Meteor.call('report.ClosedPo', function(err, data) {
+      template.totalClosedPo.set(data.Count);
+    });
+    Meteor.call('report.CancelledPo', function(err, data) {
+      template.totalCancelledPo.set(data.Count);
+    });
+    Meteor.call('report.RejectedPo', function(err, data) {
+      template.totalRejectedPo.set(data.Count);
+    });
+  }
 });
 
 Template.poInformationWidget.helpers({

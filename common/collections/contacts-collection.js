@@ -209,6 +209,7 @@ Contacts.after.insert(function(userId, doc) {
       Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'contact', function(err, res) {
         if (err) throw new Meteor.Error(err);
         _.each(res, function(ex) {
+
           CustomFields.insert({
             name: ex.name,
             value: (ex.value ? ex.value : ''),
@@ -259,19 +260,13 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
     logEvent('info', 'An existing contact has been updated: The value of "jobtitle" was changed from ' + this.previous.jobtitle + " to " + doc.jobtitle);
   }
   if (doc.companyId !== this.previous.companyId) {
-    var prevComp = Companies.findOne(this.previous.companyId);
     var newComp = Companies.findOne(doc.companyId);
-    if (prevComp === undefined) {
-      var prevComp = {
-        name: 'None'
-      }
-    }
     if (newComp === undefined) {
       var newComp = {
         name: 'None'
       }
     }
-    logEvent('info', 'An existing contact has been updated: The value of "companyId" was changed from ' + this.previous.companyId + '(' + prevComp.name + ") to " + doc.companyId + ' (' + newComp.name + ')');
+    logEvent('info', 'An existing contact has been updated: The value of "companyId" was changed from ' + this.previous.companyId + ' (' + (this.previous.name || 'none') + ") to " + doc.companyId + ' (' + newComp.name + ')');
   }
 });
 

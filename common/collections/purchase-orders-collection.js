@@ -238,7 +238,9 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
 //////////////////////
 PurchaseOrders.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    var tenant = Tenants.findOne({});
+    var tenant = Tenants.findOne({
+      _id: doc._groupId
+    });
     doc.sequencedIdentifier = tenant.settings.purchaseorder.defaultPrefix + "" + tenant.settings.purchaseorder.defaultNumber;
   }
 });
@@ -290,19 +292,18 @@ PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options)
     logEvent('info', 'An existing purchase order has been updated: The value of "notes" was changed from ' + this.previous.notes + " to " + doc.notes);
   }
   if (doc.supplierCompanyId !== this.previous.supplierCompanyId) {
-    var prevComp = Companies.findOne(this.previous.supplierCompanyId);
     var newComp = Companies.findOne(doc.supplierCompanyId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "supplierCompanyId" was changed from ' + this.previous.supplierCompanyId + '(' + prevComp.name + ") to " + doc.supplierCompanyId + ' (' + newComp.name + ')');
+    logEvent('info', 'An existing purchase order has been updated: The value of "supplierCompanyId" was changed from ' + this.previous.supplierCompanyId + ' (' + this.previous.name + ") to " + doc.supplierCompanyId + ' (' + newComp.name + ')');
   }
   if (doc.supplierContactId !== this.previous.supplierContactId) {
     var prevCont = Contacts.findOne(this.previous.supplierContactId);
     var newCont = Contacts.findOne(doc.supplierContactId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "supplierContactId" was changed from ' + this.previous.supplierContactId + '(' + prevCont.forename + " " + prevCont.surname + ") to " + doc.supplierContactId + ' (' + newCont.forename + " " + newCont.surname + ')');
+    logEvent('info', 'An existing purchase order has been updated: The value of "supplierContactId" was changed from ' + this.previous.supplierContactId + ' (' + prevCont.forename + " " + prevCont.surname + ") to " + doc.supplierContactId + ' (' + newCont.forename + " " + newCont.surname + ')');
   }
   if (doc.projectId !== this.previous.projectId) {
     var prevProj = Projects.findOne(this.previous.projectId);
     var newProj = Projects.findOne(doc.projectId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "projectId" was changed from ' + this.previous.projectId + '(' + prevProj.description + ") to " + doc.projectId + ' (' + newProj.description + ')');
+    logEvent('info', 'An existing purchase order has been updated: The value of "projectId" was changed from ' + this.previous.projectId + ' (' + prevProj.description + ") to " + doc.projectId + ' (' + newProj.description + ')');
   }
 });
 

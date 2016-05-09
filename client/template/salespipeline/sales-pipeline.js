@@ -15,7 +15,9 @@ Template.salesPipeline.onRendered(function() {
   $.getScript('/vendor/d3-funnel.js', function(data, textStatus, jqxhr) {
     if (jqxhr.status = 200) {
       Tracker.autorun(function() {
-        var userTenant = Tenants.findOne({});
+        var userTenant = Tenants.findOne({
+          _id: Meteor.user().group
+        });
         var stages = userTenant.settings.opportunity.stages.sort(function(a, b) {
           if (a.order < b.order) return -1;
           if (a.order > b.order) return 1;
@@ -70,7 +72,7 @@ Template.salesPipeline.helpers({
     return (Opportunities.find({}).count() > 0);
   },
   stages: function() {
-    var userTenant = Tenants.findOne({});
+    var userTenant = Tenants.findOne({_id: Meteor.user().group});
     return userTenant.settings.opportunity.stages.sort(function(a, b) {
       if (a.order < b.order) return -1;
       if (a.order > b.order) return 1;
@@ -79,7 +81,9 @@ Template.salesPipeline.helpers({
   },
   selectedStage: function() {
     var id = Session.get('currentStageId');
-    var userTenant = Tenants.findOne({});
+    var userTenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
     var stages = userTenant.settings.opportunity.stages.sort(function(a, b) {
       if (a.order < b.order) return -1;
       if (a.order > b.order) return 1;

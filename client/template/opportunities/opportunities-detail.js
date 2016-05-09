@@ -43,7 +43,9 @@ Template.opportunityDetail.helpers({
     return moment(this.estCloseDate).format('MMMM Do YYYY, h:mma');
   },
   stages: function() {
-    var userTenant = Tenants.findOne({});
+    var userTenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
     var stages = userTenant.settings.opportunity.stages;
     return stages.sort(function(a, b) {
       if (a.order < b.order) return -1;
@@ -57,14 +59,18 @@ Template.opportunityDetail.helpers({
     });
   },
   isNotFirstStage: function() {
-    var stages = Tenants.findOne().settings.opportunity.stages;
+    var stages = Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.opportunity.stages;
     var currentStageId = this.currentStageId;
     var firstStageId = stages[0].id;
     if (currentStageId == firstStageId) return false;
     return true;
   },
   isLastStage: function() {
-    var stages = Tenants.findOne().settings.opportunity.stages;
+    var stages = Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.opportunity.stages;
     var currentStageId = this.currentStageId;
     var lastStageId = stages[stages.length - 1].id;
     if (currentStageId == lastStageId) return true;
@@ -113,7 +119,9 @@ Template.opportunityDetail.helpers({
 Template.opportunityDetail.events({
   'click #next-stage': function() {
 
-    var userTenant = Tenants.findOne({});
+    var userTenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
     var stages = userTenant.settings.opportunity.stages;
     var length = stages.length - 1;
     var currId = this.currentStageId;
@@ -145,7 +153,9 @@ Template.opportunityDetail.events({
     });
   },
   'click #previous-stage': function() {
-    var userTenant = Tenants.findOne({});
+    var userTenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
     var stages = userTenant.settings.opportunity.stages;
     var currId = this.currentStageId;
     var currOrder = _.findIndex(stages, {
@@ -270,8 +280,8 @@ Template.opportunityDetail.events({
       if (result === false) return;
 
       var user = Meteor.user(),
-        note = user.profile.name + ' reopened this opportunity',
-        today = new Date();
+          note = user.profile.name + ' reopened this opportunity',
+          today = new Date();
 
       Opportunities.update(this._id, {
         $unset: {
@@ -318,8 +328,8 @@ Template.opportunityDetail.events({
       var doc = new Docxgen(reader.result);
 
       var companyName = "",
-        companyAddress = "",
-        contactName = "";
+          companyAddress = "",
+          contactName = "";
 
       if (this.companyId) {
         var company = Companies.findOne(this.companyId);
@@ -393,8 +403,8 @@ Template.opportunityDetail.events({
       var doc = new Docxgen(reader.result);
 
       var companyName = "",
-        companyAddress = "",
-        contactName = "";
+          companyAddress = "",
+          contactName = "";
 
       if (this.companyId) {
         var company = Companies.findOne(this.companyId);
