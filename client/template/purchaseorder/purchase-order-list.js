@@ -47,7 +47,7 @@ Template.purchaseOrderList.onRendered(function() {
           searchOptions = searchComponent.get('searchOptions'),
           props = searchOptions.props ? searchOptions.props : {};
 
-    this.showClosed.set(props.showClosed ? true : false);
+    this.showClosed.set(!!props.showClosed);
   });
 
   Meteor.call('report.numberOfPurchaseOrders', function(err, data) {

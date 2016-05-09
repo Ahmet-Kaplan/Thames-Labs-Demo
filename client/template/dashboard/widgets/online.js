@@ -61,6 +61,6 @@ Template.onlineWidget.helpers({
 
 Template.colleagueData.helpers({
   isOnline: function() {
-    return (this.state === "online" ? true : false);
+    return (this.state === "online");
   }
 });

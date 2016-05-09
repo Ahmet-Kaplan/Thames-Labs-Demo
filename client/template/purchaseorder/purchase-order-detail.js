@@ -39,7 +39,7 @@ Template.purchaseOrderItem.helpers({
   },
   canAddMoreItems: function(parentContext) {
     this.parentContext = parentContext;
-    return (this.parentContext.status === "Requested" ? true : false);
+    return (this.parentContext.status === "Requested");
   },
   orderItemStatus: function() {
     if (this.status === undefined) {
@@ -83,10 +83,10 @@ Template.purchaseOrderDetail.helpers({
     });
   },
   isOpen: function() {
-    return (this.status !== "Closed" ? true : false);
+    return (this.status !== "Closed");
   },
   canAddMoreItems: function() {
-    return (this.status === "Requested" ? true : false);
+    return (this.status === "Requested");
   },
   canExportDocx: function() {
     if (bowser.safari) {

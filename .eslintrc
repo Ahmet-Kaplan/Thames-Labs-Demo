@@ -182,6 +182,7 @@
     "no-ternary": 0,                // disallow the use of ternary operators (off by default)
     "no-trailing-spaces": 2,        // disallow trailing whitespace at the end of lines
     "no-underscore-dangle": 0,      // disallow dangling underscores in identifiers
+    "no-unneeded-ternary": 2,
     "no-wrap-func": 0,              // disallow wrapping of non-IIFE statements in parens
     "one-var": 0,                   // allow just one var statement per function (off by default)
     "operator-assignment": 0,       // require assignment operator shorthand where possible or prohibit it entirely (off by default)
@@ -209,6 +210,7 @@
     "no-var": 0,          // require let or const instead of var (off by default)
     "generator-star": 0,  // enforce the position of the * in generator functions (off by default)
     "prefer-const": 2,    // suggest const where a variable is never reassigned
+    "object-shorthand": [1, "always"],
 
 
     ////////// Legacy //////////

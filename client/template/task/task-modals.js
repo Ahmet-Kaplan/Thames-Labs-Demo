@@ -23,7 +23,7 @@ Template.insertNewTask.helpers({
     return this.entity_id;
   },
   isUserTask: function() {
-    return (this.entity_type === "user" ? true : false);
+    return (this.entity_type === "user");
   },
   getCurrentUserId: function() {
     return Meteor.userId();

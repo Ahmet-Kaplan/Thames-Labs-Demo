@@ -5,7 +5,7 @@ Meteor.methods({
     });
     return {
       exitCode: 0,
-      exitStatus: (project ? true : false)
+      exitStatus: !!project
     };
   },
   milestoneIsInUse: function(typeId, milestoneId) {
@@ -15,7 +15,7 @@ Meteor.methods({
     });
     return {
       exitCode: 0,
-      exitStatus: (project ? true : false)
+      exitStatus: !!project
     };
   },
 

@@ -90,7 +90,7 @@ Template.nav.helpers({
     return show;
   },
   loggedIn: function() {
-    return (Meteor.userId() ? true : false);
+    return !!Meteor.userId();
   },
   userName: function() {
     if (!Meteor.userId()) {

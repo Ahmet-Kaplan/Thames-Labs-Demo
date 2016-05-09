@@ -222,7 +222,7 @@ Template.contactDetail.events({
 
 Template.ContactProjectListItem.helpers({
   companyProject: function() {
-    return (this.companyId ? true : false);
+    return !!this.companyId;
   },
   projectCompanyName: function() {
     Template.instance().subscribe('companyById', this.companyId)
