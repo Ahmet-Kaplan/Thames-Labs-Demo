@@ -208,7 +208,7 @@ Template.dashboard.onRendered(function() {
     var widgetList = this.widgetListUser.get();
 
     //Create the actual widgets table
-    _.each(_.sortByOrder(widgetList, ['autoPosition', 'y'], ['desc', 'asc']), function(widget) {
+    _.each(_.orderBy(widgetList, ['autoPosition', 'y'], ['desc', 'asc']), function(widget) {
       if ($('#' + widget.id + 'Widget').length > 0) {
         return;
       }

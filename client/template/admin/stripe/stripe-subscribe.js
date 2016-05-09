@@ -5,7 +5,7 @@ import { $ } from 'meteor/jquery';
 import { displayLocale } from './imports/helpers.js';
 
 import './stripe-subscribe.html';
-import './stripe-subscribe.css';
+// import './stripe-subscribe.css';
 
 Template.stripeSubscribe.onCreated(function() {
   this.planDetails = new ReactiveVar({});
