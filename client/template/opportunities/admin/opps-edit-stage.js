@@ -9,7 +9,9 @@ Template.editStageModal.onRendered(function() {
 
 Template.editStageModal.events({
   'click #editStage': function(event, template) {
-    var userTenant = Tenants.findOne({});
+    var userTenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
     var stages = userTenant.settings.opportunity.stages;
     var orig = template.originalData;
 
