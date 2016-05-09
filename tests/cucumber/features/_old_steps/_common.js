@@ -247,7 +247,7 @@ module.exports = function() {
     browser.waitForExist(".modal-footer .btn-primary", 5000);
     browser.waitForVisible(".modal-footer .btn-primary", 5000);
     browser.scroll(".modal-footer .btn-primary", 0, -60);
-    browser.click(".modal-footer .btn-primary");
+    browser.safeClick(".modal-footer .btn-primary");
   });
 
   this.When(/^I click confirm on the modal with title "([^"]*)"$/, function(expectedTitle) {
