@@ -51,6 +51,7 @@
     "no-constant-condition": 2,   // disallow use of constant expressions in conditions
     "no-control-regex": 0,        // disallow control characters in regular expressions
     "no-debugger": 0,             // disallow use of debugger
+    "no-dupe-args": 2,            // disallow duplicate keys when creating object literals
     "no-dupe-keys": 0,            // disallow duplicate keys when creating object literals
     "no-empty": 0,                // disallow empty statements
     "no-empty-class": 0,          // disallow the use of empty character classes in regular expressions
