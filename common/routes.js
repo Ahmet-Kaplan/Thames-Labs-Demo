@@ -62,7 +62,7 @@ router.subscriptions = function() {
 };
 
 router.notFound = {
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'placeholder'
     });
