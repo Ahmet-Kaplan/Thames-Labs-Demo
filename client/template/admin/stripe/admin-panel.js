@@ -1,139 +1,20 @@
-var updateStripeCustomer = function(self) {
-  var stripeCustomer = self.stripeCustomer;
-  var tenant = Tenants.findOne({
-    _id: Meteor.user().group
-  });
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { _ } from 'lodash';
+import { $ } from 'meteor/jquery';
 
-  if (tenant.stripe.stripeId) {
-    Meteor.call('stripe.getCustomerDetails', function(error, customer) {
-      if (error) {
-        toastr.error('Unable to retrieve your customer details');
-        return false;
-      }
-      stripeCustomer.set(customer);
-    });
-  }
-};
+//Import helpers function from external file
+import { displayLocale, updateStripeCustomer,updateUpcomingInvoice, updateLastInvoice } from './imports/helpers.js';
 
-var updateUpcomingInvoice = function(self) {
-  var tenant = Tenants.findOne({
-    _id: Meteor.user().group
-  });
-  if (tenant.stripe.stripeId) {
-    Meteor.call('stripe.getUpcomingInvoice', function(error, invoice) {
-      if (error) {
-        toastr.error('Unable to retrieve upcoming invoice.');
-        return false;
-      } else if (invoice === false) {
-        self.upcomingInvoice.set(false);
-        return false;
-      }
+//Import html files
+import './admin-panel.html';
+import './stripe-how.html';
 
-      var upcomingInvoice = invoice;
-      var discountCorrection = 1;
-      var taxCorrection = 1;
-
-      if (upcomingInvoice.discount) {
-        discountCorrection = (upcomingInvoice.discount.coupon.percent_off) ? 1 - (upcomingInvoice.discount.coupon.percent_off / 100) : 1;
-      }
-
-      if (upcomingInvoice.tax_percent) {
-        taxCorrection = 1 + upcomingInvoice.tax_percent / 100;
-      }
-      upcomingInvoice.amount_due = invoice.amount_due / 100;
-      upcomingInvoice.total = invoice.total / 100;
-      upcomingInvoice.date = moment(invoice.date * 1000).format('DD/MM/YYYY');
-      var tot = upcomingInvoice.lines.data.length;
-      var i = 0;
-      var correctionAmount = 0;
-      var newData = [];
-      if (tot > 1) {
-        for (i = 0; i < tot - 1; i++) {
-          correctionAmount += upcomingInvoice.lines.data[i].amount;
-        }
-      }
-
-      if (upcomingInvoice.lines.data[tot - 1].description) {
-        correctionAmount += upcomingInvoice.lines.data[tot - 1].amount;
-        newData.push({
-          amount: (correctionAmount / 100 * taxCorrection).toFixed(2),
-          description: 'Correction for this period\'s subscription'
-        });
-      } else {
-        if (correctionAmount) {
-          newData.push({
-            amount: (correctionAmount / 100 * taxCorrection).toFixed(2),
-            description: 'Correction for this period\'s subscription'
-          });
-        }
-
-        var periodStart = moment(upcomingInvoice.lines.data[tot - 1].period.start * 1000).format('DD/MM/YYYY');
-        var periodEnd = moment(upcomingInvoice.lines.data[tot - 1].period.end * 1000).format('DD/MM/YYYY');
-        newData.push({
-          amount: ((upcomingInvoice.lines.data[tot - 1].amount / 100) * discountCorrection * taxCorrection).toFixed(2),
-          description: 'Subscription for next period (' + periodStart + ' - ' + periodEnd + ')'
-        });
-      }
-      upcomingInvoice.lines.data = newData;
-      self.upcomingInvoice.set(upcomingInvoice);
-    });
-  }
-};
-
-var updateLastInvoice = function(self) {
-  var tenant = Tenants.findOne({
-    _id: Meteor.user().group
-  });
-  if (tenant.stripe.stripeId) {
-    Meteor.call('stripe.getLastInvoice', function(error, invoice) {
-      if (error) {
-        toastr.error('Unable to retrieve last invoice');
-        return false;
-      }
-      lastInvoice = invoice;
-      lastInvoice.amount_due = invoice.amount_due / 100;
-      lastInvoice.date = moment(invoice.date * 1000).format('DD/MM/YYYY');
-      lastInvoice.start = moment(invoice.period_start * 1000).format('DD/MM/YYYY');
-      //Handle the case of the first payment for which period is only the day
-      if (invoice.period_start === invoice.period_end) {
-        lastInvoice.end = moment(invoice.lines.data[0].period.end * 1000).format('DD/MM/YYYY');
-      } else {
-        lastInvoice.end = moment(invoice.period_end * 1000).format('DD/MM/YYYY');
-      }
-      self.lastInvoice.set(lastInvoice);
-    });
-  }
-};
-
-var updateCardDetails = function(self) {
-  var tenant = Tenants.findOne({
-    _id: Meteor.user().group
-  });
-  if (!tenant.stripe.stripeId) {
-    return false;
-  }
-  Meteor.call('stripe.getCardDetails', function(error, response) {
-    self.cardDetails.set(response);
-  });
-};
-
-var updateCouponDetails = function(self) {
-  var couponDetails = self.couponDetails;
-  var tenant = Tenants.findOne({
-    _id: Meteor.user().group
-  });
-  if (!tenant.stripe.coupon) {
-    couponDetails.set({});
-    return false;
-  }
-  Meteor.call('stripe.getCoupon', tenant.stripe.coupon, function(error, response) {
-    if (!couponDetails.get() || error) {
-      couponDetails.set({});
-    } else {
-      couponDetails.set(response);
-    }
-  });
-};
+//Import sub-templates js
+import './card-form-modal.js';
+import './coupon-modal.js';
+import './stripe-subscribe.js';
+import './stripe-unsubscribe.js';
 
 Template.stripeAdmin.onCreated(function() {
   this.stripeCustomer = new ReactiveVar('loading');
@@ -141,49 +22,53 @@ Template.stripeAdmin.onCreated(function() {
   this.cardDetails = new ReactiveVar({});
   this.lastInvoice = new ReactiveVar({});
   this.upcomingInvoice = new ReactiveVar({});
-  Session.set('stripeUpdateListener', 0);
   var self = this;
 
   this.autorun(function() {
-    var tenant = Tenants.findOne({
-      _id: Meteor.user().group
-    });
+    var tenant = Tenants.findOne({});
     if (!tenant) return;
-    var numberOfUsers = Meteor.users.find({
-      group: tenant._id
-    }).count();
-    Session.get('stripeUpdateListener');
+    var numberOfUsers = Meteor.users.find({group: tenant._id}).count();
 
-    updateCouponDetails(self);
-    if (tenant.stripe.stripeId && numberOfUsers) {
+    if(tenant.stripe.stripeId && numberOfUsers) {
       updateStripeCustomer(self);
       updateLastInvoice(self);
       updateUpcomingInvoice(self);
     }
   });
-
-  this.autorun(function() {
-    var tenant = Tenants.findOne({
-      _id: Meteor.user().group
-    });
-    Session.get('listenCardUpdate');
-    if (tenant.stripe.stripeId) {
-      updateCardDetails(self);
-    }
-  });
 });
+
+Template.stripeAdmin.onRendered(function() {
+  var tenant = Tenants.findOne({});
+
+  //Get coupon info
+  if(tenant.stripe.coupon) {
+    Meteor.call('stripe.getCoupon', tenant.stripe.coupon, (error, response) => {
+      if(!this.couponDetails.get() || error) {
+        this.couponDetails.set({});
+      } else {
+        this.couponDetails.set(response);
+      }
+    });
+  } else {
+    this.couponDetails.set({});
+  }
+
+  //Get card info
+  if(tenant.stripe.stripeId) {
+    Meteor.call('stripe.getCardDetails', (error, response) => {
+      this.cardDetails.set(response);
+    });
+  }
+
+})
 
 Template.stripeAdmin.helpers({
   payingScheme: function() {
-    return Tenants.findOne({
-      _id: Meteor.user().group
-    }).plan === 'pro';
+    return Tenants.findOne({}).plan === 'pro';
   },
   subsLoaded: function() {
-    var stripeSubs = Tenants.findOne({
-      _id: Meteor.user().group
-    }).stripe.stripeSubs;
-    if (!!stripeSubs) {
+    var stripeSubs = Tenants.findOne({}).stripe.stripeSubs;
+    if(!!stripeSubs) {
       return Template.instance().stripeCustomer.get() !== 'loading'
     } else {
       return true;
@@ -194,21 +79,17 @@ Template.stripeAdmin.helpers({
     return (stripeCustomer.id) ? ((stripeCustomer.subscriptions.total_count && !stripeCustomer.subscriptions.data[0].cancel_at_period_end) ? stripeCustomer.subscriptions.data[0].plan.name : "Free Plan") : "Free Plan";
   },
   hasStripeAccount: function() {
-    return !(Tenants.findOne({
-      _id: Meteor.user().group
-    }).stripe.stripeId === undefined || Tenants.findOne({
-      _id: Meteor.user().group
-    }).stripe.stripeId === '');
+    return !(Tenants.findOne({}).stripe.stripeId === undefined || Tenants.findOne({}).stripe.stripeId === '');
   },
   hasStripeSubs: function() {
     //Note that this helper is called only after the customer details have been retrieved from the api
     var stripeCustomer = Template.instance().stripeCustomer.get();
-    if (!stripeCustomer || !stripeCustomer.subscriptions) return false;
+    if(!stripeCustomer || !stripeCustomer.subscriptions) return false;
     return stripeCustomer.subscriptions.total_count !== 0;
   },
   subscriptionCancelled: function() {
     var stripeCustomer = Template.instance().stripeCustomer.get();
-    if (stripeCustomer.id && stripeCustomer.subscriptions.total_count) {
+    if(stripeCustomer.id && stripeCustomer.subscriptions.total_count) {
       return stripeCustomer.subscriptions.data[0].cancel_at_period_end;
     } else {
       return false;
@@ -220,9 +101,7 @@ Template.stripeAdmin.helpers({
   },
   totalUsers: function() {
     if (!Meteor.user()) return;
-    return Meteor.users.find({
-      group: Meteor.user().group
-    }).count();
+    return Meteor.users.find({group: Meteor.user().group}).count();
   },
   upcomingInvoice: function() {
     return Template.instance().upcomingInvoice.get();
@@ -236,7 +115,8 @@ Template.stripeAdmin.helpers({
   },
   hasCoupon: function() {
     var couponDetails = Template.instance().couponDetails.get();
-    details = (!couponDetails || couponDetails.valid !== true) ? false : ((couponDetails.percent_off) ? couponDetails.id + ': ' + couponDetails.percent_off + ' % off' : couponDetails.id + ': £' + couponDetails.amount_off / 100 + ' off');
+    var currency = couponDetails.currency || 'gbp';
+    details = (!couponDetails || couponDetails.valid !== true) ? false : ((couponDetails.percent_off) ? couponDetails.id + ': ' + couponDetails.percent_off + ' % off' : couponDetails.id + ': ' + displayLocale(couponDetails.amount_off / 100, currency) + ' off');
     return details;
   },
   cardDetails: function() {
@@ -247,7 +127,10 @@ Template.stripeAdmin.helpers({
 Template.stripeAdmin.events({
   'click #upScheme': function(e) {
     e.preventDefault();
-    Modal.show('stripeSubscribe', this);
+    Modal.show('stripeSubscribe', {
+      userCurrency: Template.instance().stripeCustomer.get().currency,
+      cardDetails: Template.instance().cardDetails,
+    });
   },
 
   'click #downScheme': function(e) {
@@ -258,21 +141,28 @@ Template.stripeAdmin.events({
   'click #resumeSubs': function(e) {
     e.preventDefault();
     bootbox.confirm('Do you wish to resume your subscription to RealtimeCRM?', function(result) {
-      if (result === true) {
-        toastr.info('Resuming your subscription...');
+      if(result === true) {
+        bootbox.dialog({
+          message: 'Resuming your subscription...',
+          closeButton: false,
+          buttons: {},
+        });
         Meteor.call('stripe.resumeSubscription', function(error, result) {
-          if (error) {
+          bootbox.hideAll();
+          if(error || result === false) {
             bootbox.alert({
               title: 'Error',
-              message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to resume your subscription.<br />Please contact us if the problem remains.</div>'
+              message: '<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to resume your subscription.<br />Please contact us if the problem remains.',
+              className: 'bootbox-danger',
             });
           } else {
             bootbox.alert({
               title: 'Subscription complete',
-              message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />We\'re glad to have you back!'
+              message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />We\'re glad to have you back!',
+              backdrop: false,
+              className: 'bootbox-success',
             });
           }
-          Session.set('stripeUpdateListener', Session.get('stripeUpdateListener') + 1);
         });
       }
     });
@@ -280,31 +170,37 @@ Template.stripeAdmin.events({
 
   'click #updateCardDetails': function(event) {
     event.preventDefault();
-    Modal.show('cardFormModal');
+    Modal.show('cardFormModal', {
+      cardDetails: Template.instance().cardDetails,
+    });
   },
 
   'click #updateEmail': function(event) {
     event.preventDefault();
-    bootbox.prompt("Please enter the new email for your invoices.", function(result) {
-      if (!result) {
+
+    var stripeCustomer = Template.instance().stripeCustomer;
+
+    bootbox.prompt("Please enter the new email for your invoices.", (newEmail) => {
+      if(!newEmail) {
         return true;
       }
       var emailRegex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-      if (!emailRegex.test(result)) {
+      if(!emailRegex.test(newEmail)) {
         $('.bootbox-form').addClass('has-error');
         toastr.error('Please enter a valid email address');
         return false;
       } else {
         toastr.clear();
         toastr.info('Processing your email update');
-        Meteor.call('stripe.updateEmail', result, function(error, response) {
-          if (error) {
+        Meteor.call('stripe.updateEmail', newEmail, (error, updatedCustomer) => {
+          if(error || updatedCustomer === false) {
             toastr.error('Unable to update email address');
             return false;
+          } else {
+            stripeCustomer.set(updatedCustomer)
+            toastr.clear();
+            toastr.success('Your email has been changed to: ' + newEmail);
           }
-          toastr.clear();
-          toastr.success('Your email hase been changed: ' + result);
-          Session.set('stripeUpdateListener', Session.get('stripeUpdateListener') + 1);
         });
       }
     });
@@ -317,6 +213,8 @@ Template.stripeAdmin.events({
 
   'click #updateCoupon': function(event) {
     event.preventDefault();
-    Modal.show('couponModal');
-  }
+    Modal.show('couponModal', {
+      couponDetails: Template.instance().couponDetails,
+    });
+  },
 });

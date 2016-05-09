@@ -1,26 +1,20 @@
-Template.cardForm.onRendered(function() {
-  $.getScript('/vendor/jquery.card.js').then(function() {
-    $('form').card({
-      container: '.card-wrapper',
-      formSelectors: {
-        numberInput: 'input#cardNumber',
-        expiryInput: 'input#expMonth, input#expYear',
-        cvcInput: 'input#cardCVC',
-        nameInput: 'input#cardName'
-      }
-    });
-  });
-});
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { _ } from 'lodash';
+import { $ } from 'meteor/jquery';
 
-Template.cardForm.helpers({
-  userEmail: function() {
-    return Meteor.user().emails[0].address;
-  }
-});
+// import components
+import './card-form.js';
+
+// import ui
+import './card-form-modal.html';
 
 Template.cardFormModal.events({
   'submit #subscribe': function(event) {
     event.preventDefault();
+
+    //Retrieve cardDetails ReactiveVar to update parent template
+    var cardDetails = Template.currentData().cardDetails;
 
     //Disable the submit button to prevent repeated clicks
     $('#submit').prop('disabled', true);
@@ -32,22 +26,22 @@ Template.cardFormModal.events({
       exp_year: $('[data-stripe=exp-year]').val(),
       cvc: $('[data-stripe=cvc]').val(),
       name: $('[data-stripe=name]').val()
-    }, function(status, response) {
+    }, (status, response) => {
       if (response.error) {
         toastr.error(response.error.message);
         $('#submit').prop('disabled', false);
         return;
       } else {
-        Meteor.call('stripe.updateCard', response.id, function(error, response) {
-          if (error) {
+        Meteor.call('stripe.updateCard', response.id, (error, newCard) => {
+          if (error || newCard === false) {
             Modal.hide();
             toastr.error('Unable to update card details');
             return false;
           }
+          cardDetails.set(newCard);
           toastr.clear();
           toastr.success('Your card details have been updated.');
           Modal.hide();
-          Session.set('listenCardUpdate', Session.get('listenCardUpdate') + 1);
         });
       }
     });
