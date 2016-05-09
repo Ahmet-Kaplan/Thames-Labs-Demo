@@ -5,7 +5,7 @@ var subs = new SubsManager(),
 // These are route trigger functions
 // They're used for before / after actions on routes
 
-var tidyUpModals = function (context) {
+var tidyUpModals = function(context) {
   Modal.hide();
   $(".modal-backdrop").remove();
   $("body").removeClass('modal-open');
@@ -23,7 +23,7 @@ var tidyUpModals = function (context) {
 };
 
 // Adjust Heap settings to replace their crazy user ID with something more readable
-var setHeapParams = function (context) {
+var setHeapParams = function(context) {
   if (Roles.userIsInRole(Meteor.userId(), 'superadmin')) return;
 
   var user = Meteor.users.findOne({
@@ -56,7 +56,7 @@ router.triggers.exit(tidyUpModals);
 
 // These are global subscriptions
 // Since they're global there's no need to use SubsManager
-router.subscriptions = function () {
+router.subscriptions = function() {
   this.register('currentTenantUserData', Meteor.subscribe('currentTenantUserData'));
   this.register('activeTenantData', Meteor.subscribe('activeTenantData'));
 };
@@ -72,11 +72,11 @@ router.notFound = {
 // SUPERADMIN only route
 router.route('/tenants', {
   name: 'tenants',
-  subscriptions: function () {
+  subscriptions: function() {
     this.register('allTenants', subs.subscribe('allTenants'));
     this.register('allUserData', subs.subscribe('allUserData'));
   },
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: "tenantList"
     });
@@ -86,10 +86,10 @@ router.route('/tenants', {
 // SUPERADMIN only route
 router.route('/notifications', {
   name: 'notifications',
-  subscriptions: function () {
+  subscriptions: function() {
     this.register('allNotifications', subs.subscribe('allNotifications'));
   },
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: "notificationAdmin"
     });
@@ -99,11 +99,11 @@ router.route('/notifications', {
 // SUPERADMIN only route
 router.route('/statistics', {
   name: 'statistics',
-  subscriptions: function () {
+  subscriptions: function() {
     this.register('allTenants', subs.subscribe('allTenants'));
     this.register('allUserData', subs.subscribe('allUserData'));
   },
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: "adminStatistics"
     });
@@ -113,7 +113,7 @@ router.route('/statistics', {
 // SUPERADMIN only route
 router.route('/audit', {
   name: 'audit',
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: "auditLog"
     });
@@ -123,7 +123,7 @@ router.route('/audit', {
 // SUPERADMIN only route
 router.route('/jobs', {
   name: 'jobs-queue',
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: "jobsQueue"
     });
@@ -133,7 +133,7 @@ router.route('/jobs', {
 // LOGGED OUT USER ONLY route
 router.route('/sign-up', {
   name: 'sign-up',
-  action: function () {
+  action: function() {
     layout.render('signUpLayout', {
       main: "signUp"
     });
@@ -142,7 +142,7 @@ router.route('/sign-up', {
 
 router.route('/sign-up/:coupon', {
   name: 'sign-up',
-  action: function (params) {
+  action: function(params) {
     layout.render('signUpLayout', {
       main: "signUp",
       coupon: params.coupon
@@ -154,7 +154,7 @@ router.route('/sign-up/:coupon', {
 
 router.route('/', {
   name: 'dashboard',
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: "dashboard"
     });
@@ -163,10 +163,10 @@ router.route('/', {
 
 router.route('/admin', {
   name: 'administration',
-  subscriptions: function () {
+  subscriptions: function() {
     this.register('globalCustomFields', subs.subscribe('globalCustomFields'));
   },
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: "tenancyAdminPage"
     });
@@ -175,7 +175,7 @@ router.route('/admin', {
 
 router.route('/activities', {
   name: 'activities',
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'activityList'
     });
@@ -184,7 +184,7 @@ router.route('/activities', {
 
 router.route('/companies', {
   name: 'companies',
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'companyList'
     });
@@ -193,10 +193,10 @@ router.route('/companies', {
 
 router.route('/companies/:id', {
   name: 'company',
-  subscriptions: function (params) {
+  subscriptions: function(params) {
     this.register('companyById', subs.subscribe('companyById', params.id));
   },
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'companyDetail'
     });
@@ -205,7 +205,7 @@ router.route('/companies/:id', {
 
 router.route('/contacts', {
   name: 'contacts',
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'contactList'
     });
@@ -214,10 +214,10 @@ router.route('/contacts', {
 
 router.route('/contacts/:id', {
   name: 'contact',
-  subscriptions: function (params) {
+  subscriptions: function(params) {
     this.register('contactById', subs.subscribe('contactById', params.id));
   },
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'contactDetail'
     });
@@ -226,7 +226,7 @@ router.route('/contacts/:id', {
 
 router.route('/projects', {
   name: 'projects',
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'projectsList'
     });
@@ -235,10 +235,10 @@ router.route('/projects', {
 
 router.route('/projects/:id', {
   name: 'project',
-  subscriptions: function (params) {
+  subscriptions: function(params) {
     this.register('projectById', subs.subscribe('projectById', params.id));
   },
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'projectDetail'
     });
@@ -247,7 +247,7 @@ router.route('/projects/:id', {
 
 router.route('/purchaseorders', {
   name: 'purchaseOrders',
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'purchaseOrderList'
     });
@@ -256,10 +256,10 @@ router.route('/purchaseorders', {
 
 router.route('/purchaseorders/:id', {
   name: 'purchaseOrder',
-  subscriptions: function (params) {
+  subscriptions: function(params) {
     this.register('purchaseOrderById', subs.subscribe('purchaseOrderById', params.id));
   },
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'purchaseOrderDetail'
     });
@@ -268,7 +268,7 @@ router.route('/purchaseorders/:id', {
 
 router.route('/tasks', {
   name: 'tasks',
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'taskList'
     });
@@ -277,10 +277,10 @@ router.route('/tasks', {
 
 router.route('/tasks/:id', {
   name: 'task',
-  subscriptions: function (params) {
+  subscriptions: function(params) {
     this.register('taskById', subs.subscribe('taskById', params.id))
   },
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'taskDetail'
     });
@@ -289,7 +289,7 @@ router.route('/tasks/:id', {
 
 router.route('/events', {
   name: 'events',
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: "events"
     });
@@ -298,7 +298,7 @@ router.route('/events', {
 
 router.route('/products', {
   name: 'products',
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'productList'
     });
@@ -307,10 +307,10 @@ router.route('/products', {
 
 router.route('/products/:id', {
   name: 'product',
-  subscriptions: function (params) {
+  subscriptions: function(params) {
     this.register('productById', subs.subscribe('productById', params.id));
   },
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'productDetail'
     });
@@ -319,7 +319,7 @@ router.route('/products/:id', {
 
 router.route('/opportunities', {
   name: 'opportunities',
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'opportunityList'
     });
@@ -328,10 +328,10 @@ router.route('/opportunities', {
 
 router.route('/opportunities/:id', {
   name: 'opportunity',
-  subscriptions: function (params) {
+  subscriptions: function(params) {
     this.register('opportunityById', subs.subscribe('opportunityById', params.id));
   },
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'opportunityDetail'
     });
@@ -340,10 +340,10 @@ router.route('/opportunities/:id', {
 
 router.route('/salespipeline', {
   name: 'salespipeline',
-  subscriptions: function () {
+  subscriptions: function() {
     this.register('allOpportunities', subs.subscribe('allOpportunities'));
   },
-  action: function () {
+  action: function() {
     layout.render('appLayout', {
       main: 'salesPipeline'
     });
