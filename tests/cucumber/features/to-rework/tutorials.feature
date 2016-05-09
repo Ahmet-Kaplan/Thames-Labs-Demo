@@ -118,4 +118,5 @@ Feature: Allow users to take tutorials
     Then I should not see a modal
     And I should see the tutorial
     And I click ".hopscotch-close"
+    And the page is loaded
     Then I should see a modal
