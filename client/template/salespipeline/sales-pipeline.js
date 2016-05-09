@@ -13,7 +13,7 @@ Template.salesPipeline.onCreated(function() {
 Template.salesPipeline.onRendered(function() {
   Session.set('currentStageId', null);
   $.getScript('/vendor/d3-funnel.js', function(data, textStatus, jqxhr) {
-    if (jqxhr.status = 200) {
+    if (jqxhr.status == 200) {
       Tracker.autorun(function() {
         var userTenant = Tenants.findOne({
           _id: Meteor.user().group
