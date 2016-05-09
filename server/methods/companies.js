@@ -81,7 +81,7 @@ Meteor.methods({
           error: err,
           source: 'Company record merge failed'
         }
-      };
+      }
     });
 
     Activities.update({
@@ -99,7 +99,7 @@ Meteor.methods({
           error: err,
           source: 'Activity record merge failed'
         }
-      };
+      }
     });
 
     Contacts.update({
@@ -117,7 +117,7 @@ Meteor.methods({
           error: err,
           source: 'Contact record merge failed'
         }
-      };
+      }
     });
 
     CustomFields.update({
@@ -136,7 +136,7 @@ Meteor.methods({
           error: err,
           source: 'Custom field record merge failed'
         }
-      };
+      }
     });
 
     Opportunities.update({
@@ -154,7 +154,7 @@ Meteor.methods({
           error: err,
           source: 'Opportunity record merge failed'
         }
-      };
+      }
     });
 
     Projects.update({
@@ -172,7 +172,7 @@ Meteor.methods({
           error: err,
           source: 'Project record merge failed'
         }
-      };
+      }
     });
 
     PurchaseOrders.update({
@@ -190,7 +190,7 @@ Meteor.methods({
           error: err,
           source: 'Purchase order record merge failed'
         }
-      };
+      }
     });
 
     Tasks.update({
@@ -215,7 +215,7 @@ Meteor.methods({
             error: err,
             source: 'Project record merge failed'
           }
-        };
+        }
       });
     }
 

@@ -244,7 +244,7 @@ Template.dashboard.onRendered(function() {
   } else if (Meteor.isCordova) {
     if (!Meteor.user().profile.mobile) {
       Modal.show("firstRunMobile");
-    };
+    }
   }
 });
 

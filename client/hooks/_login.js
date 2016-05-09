@@ -19,7 +19,7 @@ Accounts.onLogin(function(cb) {
             Roles.addUsersToRoles(user._id, p);
           }
         })
-      };
+      }
     }
 
     var profile = user.profile;

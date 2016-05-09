@@ -142,7 +142,7 @@ Template.registerHelper('searchInputAttributes', () => {
       class: 'form-control easysearch-input',
       autofocus: true
     };
-  };
+  }
 });
 
 // Allow extended context without overwriting

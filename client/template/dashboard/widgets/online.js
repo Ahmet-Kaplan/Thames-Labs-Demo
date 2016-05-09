@@ -52,7 +52,7 @@ Template.onlineWidget.helpers({
           loginStatus: loginStatus
         };
         offlineUsers.push(data);
-      };
+      }
     });
 
     return offlineUsers.array();
