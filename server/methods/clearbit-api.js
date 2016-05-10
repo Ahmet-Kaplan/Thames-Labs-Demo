@@ -83,7 +83,7 @@ Meteor.methods({
 
     if (queryString.match(domainRegex) !== null) {
       var domainSplit = queryString.replace(/https?\:\/\//, '').replace(/www\./, '').replace(' ', '').split('/');
-      domainQuery = domainSplit[0]
+      domainQuery = domainSplit[0];
     }
 
     if (!!domainQuery && domainQuery.length > 0) {

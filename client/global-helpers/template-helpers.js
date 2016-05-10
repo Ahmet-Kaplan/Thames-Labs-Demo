@@ -3,7 +3,7 @@ function getCurrencySymbol(currency) {
     gbp: '£',
     eur: '€',
     usd: '$'
-  }
+  };
 
   return currencySymbol[currency] || '£';
 }
@@ -39,7 +39,7 @@ Template.registerHelper('decimal', function(number) {
     gbp: 'en-gb',
     eur: 'fr',
     usd: 'en'
-  }
+  };
   var displayLocale = currencyLocale[currency] || 'en-gb';
 
   return number.toLocaleString(displayLocale, {

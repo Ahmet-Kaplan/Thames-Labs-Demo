@@ -133,19 +133,19 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
       if (options.search.props.sortByCloseDate) {
         return {
           'estCloseDate': 1
-        }
+        };
       } else if (options.search.props.sortByValue) {
         return {
           'value': -1
-        }
+        };
       }
       return {
         'name': 1
-      }
+      };
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       return {
         'name': 1,
@@ -160,7 +160,7 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         'currentStageId': 1,
         'sequencedIdentifier': 1,
         'salesManagerId': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);

@@ -10,7 +10,7 @@ Template.documentContainer.onRendered(function() {
 Template.documentContainer.helpers({
   documents: function() {
     var mongoDoc = Collections[this.collectionName].findOne(this.id);
-    if (!mongoDoc || !mongoDoc.documents) return
+    if (!mongoDoc || !mongoDoc.documents) return;
     return _.map(mongoDoc.documents, (doc) => {
       return {
         "docName": doc.docName,
@@ -20,7 +20,7 @@ Template.documentContainer.helpers({
         "serviceIcon": doc.serviceIcon,
         "collectionName": this.collectionName,
         "id": this.id,
-      }
+      };
     }).sort(function(a, b) {
       return a.docName.localeCompare(b.docName);
     });

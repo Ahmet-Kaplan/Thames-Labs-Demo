@@ -93,11 +93,11 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
     sort: () => {
       return {
         'name': 1
-      }
+      };
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       return {
         'name': 1,
@@ -105,7 +105,7 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
         'cost': 1,
         'tags': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);

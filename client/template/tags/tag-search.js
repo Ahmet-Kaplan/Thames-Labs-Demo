@@ -38,7 +38,7 @@ Template.tagSearch.onRendered(function() {
         this.selectize.addOption(res);
         this.selectize.refreshOptions(false);
       });
-  }
+  };
 
   // Get initial tag suggestions
   this.updateOptions('');
@@ -50,7 +50,7 @@ Template.tagSearch.onRendered(function() {
     if (searchOptions.props && searchOptions.props.tags) {
       var tags = searchOptions.props.tags.split(',');
       this.selectize.addOption(tags.map( (tag) => {
-        return { name: tag }
+        return { name: tag };
       }));
       this.selectize.setValue(tags, true);
     }

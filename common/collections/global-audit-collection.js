@@ -11,16 +11,16 @@ Collections.globalAudit.index = GlobalAuditIndex = new EasySearch.Index({
     sort: () => {
       return {
         'date': -1
-      }
+      };
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       if (options.search.props.autosuggest) {
         return {
           'message': 1
-        }
+        };
       }
       return {
         'date': 1,
@@ -29,7 +29,7 @@ Collections.globalAudit.index = GlobalAuditIndex = new EasySearch.Index({
         'message': 1,
         'user': 1,
         'tenant': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);

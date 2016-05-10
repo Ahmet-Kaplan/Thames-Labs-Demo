@@ -86,10 +86,10 @@ Collections.purchaseorders.filters = {
     display: 'Total Price <',
     prop: 'totalValueLower',
     verify: function(value) {
-      value = parseFloat(value)
+      value = parseFloat(value);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
+        return false;
       }
       return true;
     }
@@ -98,10 +98,10 @@ Collections.purchaseorders.filters = {
     display: 'Total Price >',
     prop: 'totalValueGreater',
     verify: function(value) {
-      value = parseFloat(value)
+      value = parseFloat(value);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
+        return false;
       }
       return true;
     }
@@ -125,7 +125,7 @@ Collections.purchaseorders.filters = {
     valueField: 'name',
     nameField: 'name'
   },
-}
+};
 
 ////////////////////
 // SEARCH INDICES //
@@ -142,11 +142,11 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
     sort: () => {
       return {
         'orderNumber': 1
-      }
+      };
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       return {
         'description': 1,
@@ -158,7 +158,7 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
         'totalValue': 1,
         'tags': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);

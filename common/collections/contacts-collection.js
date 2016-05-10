@@ -96,17 +96,17 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
     sort: () => {
       return {
         'surname': 1
-      }
+      };
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       if (options.search.props.autosuggest) {
         return {
           'forename': 1,
           'surname': 1
-        }
+        };
       }
       return {
         'forename': 1,
@@ -118,7 +118,7 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
         'email': 1,
         'tags': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
@@ -142,7 +142,7 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
         // n.b. the array is passed as a comma separated string
         selector.phone = {
           $in: _.map(options.search.props.phone.split(','), function(phone) {
-            return new RegExp(phone, 'i')
+            return new RegExp(phone, 'i');
           })
         };
       }
@@ -263,7 +263,7 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
     if (typeof newComp === "undefined") {
       newComp = {
         name: 'None'
-      }
+      };
     }
     logEvent('info', 'An existing contact has been updated: The value of "companyId" was changed from ' + this.previous.companyId + ' (' + (this.previous.name || 'none') + ") to " + doc.companyId + ' (' + newComp.name + ')');
   }

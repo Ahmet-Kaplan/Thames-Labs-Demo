@@ -89,7 +89,7 @@ Template.purchaseOrderDetail.helpers({
   },
   canExportDocx: function() {
     if (bowser.safari) {
-      return false
+      return false;
     }
     return true;
   }
@@ -128,7 +128,7 @@ Template.purchaseOrderDetail.events({
           count: oi.quantity,
           value: oi.value,
           total: oi.totalPrice,
-        }
+        };
 
         running += parseFloat(oi.totalPrice);
 
@@ -198,7 +198,7 @@ Template.purchaseOrderDetail.events({
           count: oi.quantity,
           value: oi.value,
           total: oi.totalPrice,
-        }
+        };
 
         running += parseFloat(oi.totalPrice);
 
@@ -324,7 +324,7 @@ Template.purchaseOrderDetail.events({
 Template.purchaseOrderItem.events({
   'click #removePurchaseOrderItem': function(event) {
     event.preventDefault();
-    var itemId = this._id
+    var itemId = this._id;
     bootbox.confirm("Are you sure you wish to delete this item?", function(result) {
       if (result === true) {
         PurchaseOrderItems.remove(itemId);

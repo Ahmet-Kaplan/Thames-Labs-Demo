@@ -19,7 +19,7 @@ function displayFilter(mainCollectionName, selectize, template) {
     var search = searchInput.get();
     var matchedFilters = _.some(filters, function(filter) {
 
-      var filterRegexp = new RegExp(filter.display.trim(), 'i')
+      var filterRegexp = new RegExp(filter.display.trim(), 'i');
 
       if (filterRegexp.test(search)) {
 
@@ -129,7 +129,7 @@ function applyFilter(text, value, mainCollectionName, selectize) {
     //Otherwise apply the said filter
   } else {
     const filter = currentFilter.get();
-    var filterRegexp = new RegExp(filter.display.trim(), 'i')
+    var filterRegexp = new RegExp(filter.display.trim(), 'i');
 
     if (filterRegexp.test(text)) {
       const searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
@@ -192,11 +192,11 @@ Template.filterBox.onRendered(function() {
       }
     }
     updateActiveSelection();
-  })
+  });
 });
 
 Template.filterBox.onDestroyed(function() {
   if (this.handle) {
     this.handle.stop();
   }
-})
+});

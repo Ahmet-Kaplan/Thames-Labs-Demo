@@ -4,7 +4,7 @@ Template.task.onCreated(function() {
 
 Template.task.onRendered(function() {
   if (this.data.parentTaskId) this.subscribe('taskById', this.data.parentTaskId);
-})
+});
 
 Template.task.helpers({
   taskParentName: function() {
@@ -13,7 +13,7 @@ Template.task.helpers({
   },
   taskId: function() {
     if (FlowRouter.getRouteName() === "tasks") {
-      return this.__originalId
+      return this.__originalId;
     }
     return this._id;
   },
@@ -48,7 +48,7 @@ Template.task.helpers({
           icon: 'check',
           name: "Personal task",
           permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadTasks'])
-        }
+        };
         break;
 
       case 'company':
@@ -160,7 +160,7 @@ Template.task.events({
             }
           });
         }
-      })
+      });
     }
   }
 });

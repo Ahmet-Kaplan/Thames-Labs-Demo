@@ -3,10 +3,10 @@ import bodyParser from 'body-parser';
 
 var upload = multer();
 
-Picker.middleware(upload.single())
+Picker.middleware(upload.single());
 Picker.middleware(bodyParser.urlencoded({
   extended: true
-}))
+}));
 Picker.middleware(bodyParser.json());
 
 Picker
@@ -90,7 +90,7 @@ Meteor.methods({
             tags: ['Automated']
           });
         }
-      })
+      });
     });
   }
 });

@@ -22,7 +22,7 @@ Template.editContactModal.onRendered(function() {
           return {
             value: input,
             text: input
-          }
+          };
         });
       }
 
@@ -125,7 +125,7 @@ Template.editContactModal.events({
       location = {
         lat: parseFloat(mapData.lat),
         lng: parseFloat(mapData.lng)
-      }
+      };
       mapModal.panTo(location);
       mapModal.setZoom(16);
 

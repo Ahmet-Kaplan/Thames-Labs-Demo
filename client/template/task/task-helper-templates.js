@@ -126,7 +126,7 @@ Template.taskDisplay.events({
       $(event.target).parents('.list-group-item').fadeOut(500, () => {
         Session.set('showCompleted', 1);
         Session.set('showCompleted', 0);
-      })
+      });
     }
   },
 
@@ -191,7 +191,7 @@ Template.taskDisplay.events({
           toastr.error(res.message);
           Modal.show('importTaskFailuresModal', res.errorData);
         }
-      })
+      });
     };
 
     reader.readAsText(file);

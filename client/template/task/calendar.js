@@ -11,8 +11,8 @@ Template.displayCalendar.onRendered(function() {
 
   //Check first if the user had already been looking in a date/time window and if so go to it
   if(TasksIndex.getComponentDict().get('searchOptions').props) {
-    var getStartDate = TasksIndex.getComponentDict().get('searchOptions').props.after
-    var getEndDate = TasksIndex.getComponentDict().get('searchOptions').props.before
+    var getStartDate = TasksIndex.getComponentDict().get('searchOptions').props.after;
+    var getEndDate = TasksIndex.getComponentDict().get('searchOptions').props.before;
     if(moment(getStartDate).isValid()) {
       $('#tasksCalendar').fullCalendar('gotoDate', moment(getStartDate).startOf('month'));
     } else if (moment(getEndDate).isValid()) {
@@ -88,8 +88,8 @@ Template.displayCalendar.helpers({
       eventSources: [
         {
           events: function(start, end, timezone, callback) {
-            var tasksList = instance.tasksList.get()
-            var events = []
+            var tasksList = instance.tasksList.get();
+            var events = [];
             if(!!tasksList.length) {
               _.each(tasksList, (task) => {
                 //Check first that the event is not already displayed
@@ -134,7 +134,7 @@ Template.displayCalendar.helpers({
           }
 
           eventData = _.clone(event);
-          eventData.start = moment(eventData.start).format('Do MMM YYYY, HH:mm')
+          eventData.start = moment(eventData.start).format('Do MMM YYYY, HH:mm');
           popoverHolder.popover({
             container: 'body',
             content: Blaze.toHTMLWithData(Template.taskPopover, eventData),
@@ -184,7 +184,7 @@ Template.displayCalendar.helpers({
         function editTaskHandle(jsInnerEvent) {
           jsInnerEvent.preventDefault();
           var task = _.find(instance.tasksList.get(), {'__originalId': event.__originalId});
-          task._id = task.__originalId
+          task._id = task.__originalId;
           Modal.show('updateTask', task);
         }
         $('.popover-edit-task').bind('click', editTaskHandle);
@@ -199,7 +199,7 @@ Template.displayCalendar.helpers({
         instance.eventsListeners.set(elList);
       },
       eventDrop: function(event, delta, revertFunc) {
-        var newStartDate = moment(event.start)
+        var newStartDate = moment(event.start);
         bootbox.confirm({
           message: 'Do you want to change the task due date to ' + newStartDate.format('Do MMM YYYY, HH:mm') + '?',
           title: 'Update task due date',
@@ -315,7 +315,7 @@ Template.displayCalendar.helpers({
         //Add event handler to go to day view. This cannot be done with Template.events because of the toHTMWithData function
         function dayViewHandle() {
           $('#tasksCalendar').fullCalendar('changeView', 'agendaDay');
-          $('#tasksCalendar').fullCalendar('gotoDate', date)
+          $('#tasksCalendar').fullCalendar('gotoDate', date);
         }
         $('.go-to-day-view').bind('click', dayViewHandle);
 
@@ -333,7 +333,7 @@ Template.displayCalendar.helpers({
         });
         instance.eventsListeners.set(elList);
       }
-    }
+    };
   }
 });
 

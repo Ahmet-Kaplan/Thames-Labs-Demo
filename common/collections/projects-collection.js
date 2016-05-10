@@ -193,16 +193,16 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
     sort: () => {
       return {
         'name': 1
-      }
+      };
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       if (options.search.props.autosuggest) {
         return {
           'name': 1,
-        }
+        };
       }
       return {
         'name': 1,
@@ -212,7 +212,7 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
         'contactId': 1,
         'active': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
@@ -285,7 +285,7 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
           selector.dueDate = {
             $gte: formattedStartDate,
             $lte: formattedEndDate
-          }
+          };
         }
 
       }

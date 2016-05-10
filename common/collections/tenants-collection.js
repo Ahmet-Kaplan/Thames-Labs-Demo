@@ -31,7 +31,7 @@ Collections.tenants.filters = {
     display: 'Plan:',
     prop: 'plan',
     defaultOptions: function() {
-      return ['Free', 'Free+', 'Pro']
+      return ['Free', 'Free+', 'Pro'];
     },
     strict: true,
     allowMultiple: false,
@@ -56,18 +56,18 @@ Collections.tenants.index = TenantsIndex = new EasySearch.Index({
     sort: () => {
       return {
         'name': 1
-      }
+      };
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       return {
         'name': 1,
         'settings': 1,
         'plan': 1,
         'stripe': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);

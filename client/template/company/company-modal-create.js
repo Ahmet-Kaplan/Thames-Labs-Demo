@@ -57,9 +57,9 @@ Template.insertNewCompanyModal.onRendered(function() {
                   postalCode: item.address.postal_code,
                   country: 'United Kingdom',
                 }
-              }
+              };
             })
-          }
+          };
         }
         if(results) {
           this.magicList.set(results);
@@ -151,7 +151,7 @@ Template.companyFormDetails.onCreated(function() {
   this.showLocationSearch = new ReactiveVar(true);
   //Using ReactiveVar for company data to be able to update them dynamically
   this.companyData = new ReactiveVar(this.data.companyData);
-})
+});
 
 Template.companyFormDetails.onRendered(function() {
   //Updates companyData if update on parent template
@@ -256,7 +256,7 @@ Template.companyFormDetails.onRendered(function() {
 
   //Autorun that display address details and map if data exist
   this.autorun(() => {
-    var companyData = this.companyData.get()
+    var companyData = this.companyData.get();
     // If no data, display the location search input
     if(!companyData.geo || companyData.geo == {}) {
       this.showAddressDetails.set(false);
@@ -359,7 +359,7 @@ Template.companyFormDetails.events({
     Template.instance().showLocationSearch.set(true);
     $('#geo').val('');
   }
-})
+});
 
 Template.mapPicker.onRendered(function() {
   this.autorun(() => {
@@ -367,7 +367,7 @@ Template.mapPicker.onRendered(function() {
       var location = {
         lat: Template.currentData().lat,
         lng: Template.currentData().lng
-      }
+      };
       $("#map_canvas").height("400px");
       var map = new google.maps.Map(document.getElementById("map_canvas"), {
         zoom: 16,
@@ -384,5 +384,5 @@ Template.mapPicker.onRendered(function() {
         $("input[name=lng]").val(marker.getPosition().lng());
       });
     }
-  })
-})
+  });
+});

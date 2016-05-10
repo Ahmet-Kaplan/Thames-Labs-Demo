@@ -1,6 +1,6 @@
 function tagIsInList(tag, tagList) {
   return _.some(tagList.split(','), (s) => {
-    return s === tag
+    return s === tag;
   });
 }
 
@@ -42,10 +42,10 @@ Template.tagBadge.events({
 
 Template.tagBadge.helpers({
   'selected': function() {
-    if (!this.index) return ''
+    if (!this.index) return '';
     var searchOptions = this.index.getComponentDict().get('searchOptions');
     if (searchOptions && searchOptions.props && searchOptions.props.tags) {
-      return tagIsInList(this.tag, searchOptions.props.tags) ? 'active' : ''
+      return tagIsInList(this.tag, searchOptions.props.tags) ? 'active' : '';
     }
   }
 });

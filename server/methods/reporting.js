@@ -6,7 +6,7 @@ Meteor.methods({
     var data = {
       "CreatedTasks": (!Meteor.isDevelopment ? [] : taskData),
       "Count": (taskData.length)
-    }
+    };
     return data;
   },
   'report.tasksCompleted': function() {
@@ -19,7 +19,7 @@ Meteor.methods({
     var data = {
       "CompletedTasks": (!Meteor.isDevelopment ? [] : taskData),
       "Count": (taskData.length)
-    }
+    };
     return data;
   },
   'report.tasksDueInTheNextWeek': function() {
@@ -35,7 +35,7 @@ Meteor.methods({
     var data = {
       "DueTasks": (!Meteor.isDevelopment ? [] : taskData),
       "Count": (taskData.length)
-    }
+    };
     return data;
   },
   'report.tasksOverdue': function() {
@@ -52,7 +52,7 @@ Meteor.methods({
     var data = {
       "OverdueTasks": (!Meteor.isDevelopment ? [] : taskData),
       "Count": (taskData.length)
-    }
+    };
     return data;
   },
   //Companies
@@ -62,7 +62,7 @@ Meteor.methods({
     var data = {
       "StoredCompanies": (!Meteor.isDevelopment ? [] : companyData),
       "Count": (companyData.length)
-    }
+    };
     return data;
   },
   //Contacts
@@ -72,7 +72,7 @@ Meteor.methods({
     var data = {
       "StoredContacts": (!Meteor.isDevelopment ? [] : contactData),
       "Count": (contactData.length)
-    }
+    };
     return data;
   },
   //Projects
@@ -82,7 +82,7 @@ Meteor.methods({
     var data = {
       "StoredProjects": (!Meteor.isDevelopment ? [] : projectData),
       "Count": (projectData.length)
-    }
+    };
     return data;
   },
   'report.activeProjects': function() {
@@ -95,7 +95,7 @@ Meteor.methods({
     var data = {
       "ActiveProjects": (!Meteor.isDevelopment ? [] : projectData),
       "Count": (projectData.length)
-    }
+    };
     return data;
   },
   'report.projectValue': function() {
@@ -109,13 +109,13 @@ Meteor.methods({
 
     _.each(projectData, function(pd) {
       if (pd.value) {
-        value += parseFloat(pd.value)
+        value += parseFloat(pd.value);
       }
     });
 
     var data = {
       "Value": value.toFixed(2)
-    }
+    };
     return data;
   },
   'report.projectsAverage': function() {
@@ -129,19 +129,19 @@ Meteor.methods({
 
     _.each(projData, function(pd) {
       if (pd.value) {
-        value += parseFloat(pd.value)
+        value += parseFloat(pd.value);
       }
     });
     if (projData.length) {
 
       const data = {
         "Value": (value / projData.length).toFixed(2)
-      }
+      };
       return data;
     }
     const data = {
       "Value": "0.00"
-    }
+    };
     return data;
   },
   //Opportunities
@@ -150,7 +150,7 @@ Meteor.methods({
     var oppData = Opportunities.find({}).fetch();
     var data = {
       "Count": (oppData.length)
-    }
+    };
     return data;
   },
   'report.archivedOpportunities': function() {
@@ -162,7 +162,7 @@ Meteor.methods({
     }).fetch();
     var data = {
       "Count": (oppData.length)
-    }
+    };
     return data;
   },
   'report.valueOfOpportunities': function() {
@@ -181,12 +181,12 @@ Meteor.methods({
     if (oppData.length) {
       const data = {
         "Value": value.toFixed(2)
-      }
+      };
       return data;
     }
     const data = {
       "Value": "0.00"
-    }
+    };
     return data;
   },
   'report.averageOpportunityValue': function() {
@@ -199,18 +199,18 @@ Meteor.methods({
     var value = 0;
     _.each(oppData, function(od) {
       if (od.value) {
-        value += parseFloat(od.value)
+        value += parseFloat(od.value);
       }
     });
     if (oppData.length) {
       const data = {
         "Value": (value / oppData.length).toFixed(2)
-      }
+      };
       return data;
     }
     const data = {
       "Value": "0.00"
-    }
+    };
     return data;
   },
 
@@ -222,7 +222,7 @@ Meteor.methods({
     var data = {
       "StoredProducts": (!Meteor.isDevelopment ? [] : productData),
       "Count": productData.length
-    }
+    };
     return data;
   },
   'report.costOfProducts': function() {
@@ -231,12 +231,12 @@ Meteor.methods({
     var value = 0;
     _.each(productData, function(pd) {
       if (pd.cost) {
-        value += parseFloat(pd.cost)
+        value += parseFloat(pd.cost);
       }
     });
     var data = {
       "Value": value.toFixed(2)
-    }
+    };
     return data;
   },
   'report.averageProductsCost': function() {
@@ -245,18 +245,18 @@ Meteor.methods({
     var value = 0;
     _.each(productData, function(pd) {
       if (pd.cost) {
-        value += parseFloat(pd.cost)
+        value += parseFloat(pd.cost);
       }
     });
     if (productData.length) {
       const data = {
         "Value": (value / productData.length).toFixed(2)
-      }
+      };
       return data;
     }
     const data = {
       "Value": "0.00"
-    }
+    };
     return data;
   },
   //Purchase Orders
@@ -265,7 +265,7 @@ Meteor.methods({
     var purchaseData = PurchaseOrders.find({}).fetch();
     var data = {
       "Count": (purchaseData.length)
-    }
+    };
     return data;
   },
   'report.ApprovedPo': function() {
@@ -277,7 +277,7 @@ Meteor.methods({
     }).fetch();
     var data = {
       "Count": (purchaseData.length)
-    }
+    };
     return data;
   },
   'report.ArrivedPo': function() {
@@ -289,7 +289,7 @@ Meteor.methods({
     }).fetch();
     var data = {
       "Count": (purchaseData.length)
-    }
+    };
     return data;
   },
   'report.ClosedPo': function() {
@@ -301,7 +301,7 @@ Meteor.methods({
     }).fetch();
     var data = {
       "Count": (purchaseData.length)
-    }
+    };
     return data;
   },
   'report.CancelledPo': function() {
@@ -313,7 +313,7 @@ Meteor.methods({
     }).fetch();
     var data = {
       "Count": (purchaseData.length)
-    }
+    };
     return data;
   },
   'report.RejectedPo': function() {
@@ -325,7 +325,7 @@ Meteor.methods({
     }).fetch();
     var data = {
       "Count": (purchaseData.length)
-    }
+    };
     return data;
   }
 });

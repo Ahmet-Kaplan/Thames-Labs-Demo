@@ -17,7 +17,7 @@ Collections.auditLog.index = AuditLogIndex = new EasySearch.Index({
     sort: () => {
       return {
         'date': -1
-      }
+      };
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {

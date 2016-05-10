@@ -31,7 +31,7 @@ Collections.activities.filters = {
     display: 'Type:',
     prop: 'type',
     defaultOptions: function() {
-      return ['Call', 'Note', 'Email']
+      return ['Call', 'Note', 'Email'];
     },
     strict: true,
     allowMultiple: true,
@@ -68,7 +68,7 @@ Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       return {
         'type': 1,
@@ -86,7 +86,7 @@ Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
         'primaryEntityDisplayData': 1,
         'primaryEntityId': 1,
         'createdBy': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);

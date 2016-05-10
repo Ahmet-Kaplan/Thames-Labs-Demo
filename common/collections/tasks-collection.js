@@ -17,7 +17,7 @@ Tasks.helpers({
       }
     });
   },
-})
+});
 
 ////////////////////
 // SEARCH FILTERS //
@@ -190,7 +190,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
     sort: () => {
       return {
         'dueDate': 1
-      }
+      };
     },
     fields: (searchObject, options) => {
       return {
@@ -205,7 +205,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         'assigneeId': 1,
         'tags': 1,
         'parentTaskId': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
@@ -281,7 +281,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
             $gte: formattedStartDate,
             $lte: formattedEndDate,
             $ne: null
-          }
+          };
         }
 
       }

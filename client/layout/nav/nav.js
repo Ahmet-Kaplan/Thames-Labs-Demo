@@ -25,7 +25,7 @@ Template.nav.onCreated(function() {
         var options = {
           body: getNotification.shortDescription + ": " + getNotification.detail,
           icon: '/dark-icon.svg'
-        }
+        };
 
         if (Notification.permission === "granted") {
           new Notification(getNotification.title, options);
@@ -35,7 +35,7 @@ Template.nav.onCreated(function() {
             if (permission === "granted") {
               new Notification(getNotification.title, options);
             }
-          })
+          });
         }
 
       }
@@ -130,7 +130,7 @@ Template.nav.helpers({
     }).fetch()[0];
 
     if (recent) {
-      return (recent.createdAt >= yesterday)
+      return (recent.createdAt >= yesterday);
     }
   },
   recentNoteCount: function() {
@@ -215,7 +215,7 @@ Template.nav.events({
       const x = {
         name: document.title,
         url: FlowRouter.current().path
-      }
+      };
       favList.push(x);
       profile.favourites = favList;
     } else {
@@ -223,7 +223,7 @@ Template.nav.events({
       const x = {
         name: document.title,
         url: FlowRouter.current().path
-      }
+      };
       fav.push(x);
       profile.favourites = fav;
     }
@@ -301,7 +301,7 @@ Template.nav.events({
   'click #id-menu-button': function() {
     if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
       document.getElementById("id-view-sidemenu").className =
-        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '');
     } else {
       document.getElementById("id-view-sidemenu").className = "active";
     }
@@ -309,13 +309,13 @@ Template.nav.events({
   'click .panel-body > table > tr > td > a': function() {
     if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
       document.getElementById("id-view-sidemenu").className =
-        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '');
     }
   },
   'click .dismiss-on-click': function() {
     if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
       document.getElementById("id-view-sidemenu").className =
-        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '');
     }
   },
   'click #toggleFab': function(event, template) {
@@ -420,4 +420,4 @@ Template.notificationModal.events({
     Meteor.call('removeNotification', this._id);
     Modal.hide();
   }
-})
+});

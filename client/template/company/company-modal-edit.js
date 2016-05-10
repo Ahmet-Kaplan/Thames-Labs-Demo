@@ -77,7 +77,7 @@ Template.editCompanyModal.events({
       location = {
         lat: parseFloat(companyData.lat),
         lng: parseFloat(companyData.lng)
-      }
+      };
       mapModal.panTo(location);
       mapModal.setZoom(16);
       const markerModal = new google.maps.Marker({

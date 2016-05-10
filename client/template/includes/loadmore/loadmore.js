@@ -24,8 +24,8 @@ Template.loadMore.onRendered(function() {
 });
 
 Template.loadMore.onDestroyed(function() {
-  Meteor.clearInterval(setIntervalId)
-})
+  Meteor.clearInterval(setIntervalId);
+});
 
 Template.loadMore.helpers({
   hasMoreDocs: function() {
@@ -39,4 +39,4 @@ Template.loadMore.events({
     var searchIndex = Template.instance().data.index;
     searchIndex.getComponentMethods().loadMore(10);
   }
-})
+});

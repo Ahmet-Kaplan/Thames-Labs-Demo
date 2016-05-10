@@ -11,14 +11,14 @@ Collections.tags.index = TagsIndex = new EasySearch.Index({
   fields: ['name'],
   engine: new EasySearch.MongoDB({
     sort: () => {
-      return { 'name': 1 }
+      return { 'name': 1 };
     },
     fields: (searchObject, options) => {
       if (options.search.props.autosuggest) {
         return {
           'name': 1,
           'nRefs': 1
-        }
+        };
       }
       return {};
     },

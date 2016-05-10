@@ -95,7 +95,7 @@ Template.opportunityDetail.helpers({
     return _.sum(this.items, function(item) {
       var subValue = item.quantity * item.value;
       if (!isNaN(subValue)) return subValue;
-    })
+    });
   },
   company: function() {
     return Companies.findOne({
@@ -352,7 +352,7 @@ Template.opportunityDetail.events({
           description: oi.description,
           value: oi.value,
           quantity: oi.quantity
-        }
+        };
         items.push(obj);
       });
 
@@ -427,7 +427,7 @@ Template.opportunityDetail.events({
           name: oi.name,
           description: oi.description,
           value: oi.value
-        }
+        };
         items.push(obj);
       });
 

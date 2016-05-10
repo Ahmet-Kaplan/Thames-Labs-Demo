@@ -1,6 +1,6 @@
 Meteor.users.helpers({
   name: function() {
-    return Meteor.users.findOne(this._id).profile.name
+    return Meteor.users.findOne(this._id).profile.name;
   }
 });
 
@@ -21,7 +21,7 @@ Collections.users.index = UsersIndex = new EasySearch.Index({
     fields: (searchObject, options) => {
       return {
         'profile.name': 1
-      }
+      };
     },
     transform: (doc) => {
       doc.name = doc.profile.name;
