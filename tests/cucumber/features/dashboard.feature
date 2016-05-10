@@ -17,7 +17,7 @@ Feature: Allow users to see widgets
     Then I can not add the purchase orders widgets
     When I am on the pro plan
     Then I can add the purchase orders widgets
-
+     
   Scenario: A user can add the opportunities widget if they have permission
     Then I can not add the opportunities widget
     When I have permission to read opportunities
