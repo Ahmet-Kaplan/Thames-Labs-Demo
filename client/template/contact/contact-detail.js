@@ -76,9 +76,8 @@ Template.contactDetail.helpers({
         _id: this.companyId
       });
       return company;
-    } else {
-      return this
     }
+    return this;
   },
   opportunities: function() {
     return Opportunities.find({

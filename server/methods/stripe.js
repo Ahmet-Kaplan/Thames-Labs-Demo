@@ -84,10 +84,9 @@ Meteor.methods({
       Meteor.call('stripe.getCoupon', coupon, function(err, response) {
         if (err || !response) {
           return false;
-        } else {
-          customerParameters.coupon = coupon;
-          return true;
         }
+        customerParameters.coupon = coupon;
+        return true;
       });
     }
 
@@ -280,10 +279,9 @@ Meteor.methods({
       Meteor.call('stripe.getCoupon', coupon, function(err, response) {
         if (err || !response) {
           return false;
-        } else {
-          params.coupon = coupon;
-          return true;
         }
+        params.coupon = coupon;
+        return true;
       });
     }
 
@@ -449,9 +447,8 @@ Meteor.methods({
         if (err.message.indexOf('No upcoming invoices') !== -1) {
           upcomingInvoice.return(false);
           return false;
-        } else {
-          throw new Meteor.Error(400, err);
         }
+        throw new Meteor.Error(400, err);
       }
 
       upcomingInvoice.return(upcoming);
@@ -518,23 +515,23 @@ Meteor.methods({
         }
       });
       return true;
-    } else {
-      Stripe.coupons.retrieve(couponId, Meteor.bindEnvironment(function(err, coupon) {
-        if (err) {
-          couponValid.return(false);
-        } else if (coupon.valid === true) {
-          Tenants.update(tenantId, {
-            $set: {
-              'stripe.coupon': couponId
-            }
-          });
-          couponValid.return(true);
-        } else {
-          couponValid.return(false);
-        }
-      }));
-
-      return couponValid.wait();
     }
+
+    Stripe.coupons.retrieve(couponId, Meteor.bindEnvironment(function(err, coupon) {
+      if (err) {
+        couponValid.return(false);
+      } else if (coupon.valid === true) {
+        Tenants.update(tenantId, {
+          $set: {
+            'stripe.coupon': couponId
+          }
+        });
+        couponValid.return(true);
+      } else {
+        couponValid.return(false);
+      }
+    }));
+
+    return couponValid.wait();
   }
 });

@@ -44,9 +44,8 @@ Template.purchaseOrderItem.helpers({
   orderItemStatus: function() {
     if (this.status === undefined) {
       return "No status set.";
-    } else {
-      return this.status;
     }
+    return this.status;
   },
   statusIcon: function() {
     switch (this.status) {
@@ -91,9 +90,8 @@ Template.purchaseOrderDetail.helpers({
   canExportDocx: function() {
     if (bowser.safari) {
       return false
-    } else {
-      return true;
     }
+    return true;
   }
 });
 

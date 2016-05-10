@@ -111,21 +111,20 @@ function applyFilter(text, value, mainCollectionName, selectize) {
       selectize.clearOptions();
       selectize.blur();
       return false;
-    } else {
-      //Apply prop taking into account whether the filter accepts multiple values or not
-      if (filter.allowMultiple === true) {
-        var searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
-        var updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
-        updatedProp.push(value);
-        //Note that only strings can be passed, the array is passed as a comma separated list
-        Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, updatedProp.join(','));
-      } else {
-        Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);
-      }
-
-      selectize.clearOptions();
-      selectize.blur();
     }
+    //Apply prop taking into account whether the filter accepts multiple values or not
+    if (filter.allowMultiple === true) {
+      var searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
+      var updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
+      updatedProp.push(value);
+      //Note that only strings can be passed, the array is passed as a comma separated list
+      Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, updatedProp.join(','));
+    } else {
+      Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);
+    }
+
+    selectize.clearOptions();
+    selectize.blur();
 
     //Otherwise apply the said filter
   } else {

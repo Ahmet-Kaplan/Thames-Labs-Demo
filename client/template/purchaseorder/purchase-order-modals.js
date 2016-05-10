@@ -67,11 +67,7 @@ Template.newCompanyPurchaseOrderForm.onRendered(function() {
 
 Template.newCompanyPurchaseOrderForm.helpers({
   showSupplierContacts: function() {
-    if (Session.get('posc') === null) {
-      return false;
-    } else {
-      return true;
-    }
+    return (Session.get('posc') !== null);
   },
   currentUser: function() {
     return Meteor.userId();
@@ -206,9 +202,8 @@ Template.addPurchaseOrderItemModal.onRendered(function() {
   Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
     if (error) {
       return false;
-    } else {
-      $('#activePrice').prop('value', result);
     }
+    $('#activePrice').prop('value', result);
   });
 });
 
@@ -227,9 +222,8 @@ Template.addPurchaseOrderItemModal.events({
     Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
       if (error) {
         return false;
-      } else {
-        $('#activePrice').prop('value', result);
       }
+      $('#activePrice').prop('value', result);
     });
   },
   'change #currQuant, blur #currQuant': function() {
@@ -240,9 +234,8 @@ Template.addPurchaseOrderItemModal.events({
     Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
       if (error) {
         return false;
-      } else {
-        $('#activePrice').prop('value', result);
       }
+      $('#activePrice').prop('value', result);
     });
   }
 });
@@ -298,9 +291,8 @@ Template.editPurchaseOrderItemModal.events({
     Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
       if (error) {
         return false;
-      } else {
-        $('#activePrice').prop('value', result);
       }
+      $('#activePrice').prop('value', result);
     });
   },
   'change #currQuant': function() {
@@ -311,9 +303,8 @@ Template.editPurchaseOrderItemModal.events({
     Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
       if (error) {
         return false;
-      } else {
-        $('#activePrice').prop('value', result);
       }
+      $('#activePrice').prop('value', result);
     });
   }
 });

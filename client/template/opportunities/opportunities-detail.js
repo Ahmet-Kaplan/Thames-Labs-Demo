@@ -110,9 +110,8 @@ Template.opportunityDetail.helpers({
   canExportDocx: function() {
     if (bowser.safari) {
       return false;
-    } else {
-      return true;
     }
+    return true;
   }
 });
 

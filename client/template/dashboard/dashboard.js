@@ -259,14 +259,14 @@ Template.dashboard.events({
     if ($('#' + newWidgetName + 'Widget').length) {
       toastr.error('This widget is already displayed.');
       return;
-    } else {
-      var newWidgetList = Template.instance().widgetListUser.get();
-
-      newWidgetList[newWidgetName] = widgetsDefault[newWidgetName];
-      newWidgetList[newWidgetName].displayed = true;
-      newWidgetList[newWidgetName].autoPosition = true;
-      Template.instance().widgetListUser.set(newWidgetList);
     }
+
+    var newWidgetList = Template.instance().widgetListUser.get();
+
+    newWidgetList[newWidgetName] = widgetsDefault[newWidgetName];
+    newWidgetList[newWidgetName].displayed = true;
+    newWidgetList[newWidgetName].autoPosition = true;
+    Template.instance().widgetListUser.set(newWidgetList);
   },
 
   'click .close': function(e) {

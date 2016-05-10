@@ -130,11 +130,7 @@ Template.nav.helpers({
     }).fetch()[0];
 
     if (recent) {
-      if (recent.createdAt >= yesterday) {
-        return true;
-      } else {
-        return false;
-      }
+      return (recent.createdAt >= yesterday)
     }
   },
   recentNoteCount: function() {
@@ -155,10 +151,8 @@ Template.nav.helpers({
       var profile = ux.profile;
       if (!profile.favourites) {
         return null;
-      } else {
-        favList = profile.favourites;
-        return favList;
       }
+      return profile.favourites;
     }
   },
   fabEnabled: function() {
@@ -217,14 +211,13 @@ Template.nav.events({
       if (exists) {
         toastr.info('Page already favourited.');
         return;
-      } else {
-        var x = {
-          name: document.title,
-          url: FlowRouter.current().path
-        }
-        favList.push(x);
-        profile.favourites = favList;
       }
+      var x = {
+        name: document.title,
+        url: FlowRouter.current().path
+      }
+      favList.push(x);
+      profile.favourites = favList;
     } else {
       var fav = [];
       var x = {
@@ -363,18 +356,16 @@ Template.notice.helpers({
     var s = c.substr(0, 40);
     if (s.length > 37) {
       return s + "...";
-    } else {
-      return s;
     }
+    return s;
   },
   shortDetail: function() {
     var c = this.detail;
     var s = c.substr(0, 40);
     if (s.length > 37) {
       return s + "...";
-    } else {
-      return s
     }
+    return s;
   },
 
   recentNote: function() {
@@ -382,11 +373,7 @@ Template.notice.helpers({
     var yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    if (this.createdAt >= yesterday) {
-      return true;
-    } else {
-      return false;
-    }
+    return (this.createdAt >= yesterday);
   }
 });
 
@@ -403,20 +390,15 @@ Template.menuNotice.helpers({
     var s = c.substr(0, 40);
     if (s.length > 37) {
       return s + "...";
-    } else {
-      return s;
     }
+    return s;
   },
   recentNote: function() {
     var today = new Date();
     var yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    if (this.createdAt >= yesterday) {
-      return true;
-    } else {
-      return false;
-    }
+    return (this.createdAt >= yesterday);
   }
 });
 

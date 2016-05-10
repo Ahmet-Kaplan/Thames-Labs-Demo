@@ -51,9 +51,8 @@ Collections.purchaseorders.filters = {
     displayValue: function(company) {
       if (company) {
         return company.name;
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   contact: {
@@ -66,9 +65,8 @@ Collections.purchaseorders.filters = {
     displayValue: function(contact) {
       if (contact) {
         return contact.name();
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   status: {
@@ -77,9 +75,8 @@ Collections.purchaseorders.filters = {
     verify: function(status) {
       if (Schemas.PurchaseOrder.schema().status.allowedValues.indexOf(status) !== -1) {
         return true;
-      } else {
-        return false;
       }
+      return false;
     },
     defaultOptions: function() {
       return Schemas.PurchaseOrder.schema('status').allowedValues;
@@ -93,9 +90,8 @@ Collections.purchaseorders.filters = {
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false
-      } else {
-        return true;
       }
+      return true;
     }
   },
   totalValueGreater: {
@@ -106,9 +102,8 @@ Collections.purchaseorders.filters = {
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false
-      } else {
-        return true;
       }
+      return true;
     }
   },
   sequencedIdentifier: {

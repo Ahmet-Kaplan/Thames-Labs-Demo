@@ -2,9 +2,8 @@ Template.activityTimeline.helpers({
   fromNow: function(date) {
     if (date) {
       return moment(date).fromNow();
-    } else {
-      return "Date/time not specified";
     }
+    return "Date/time not specified";
   },
   timelineClass: function(index) {
     return index % 2 === 0 ? 'timeline-inverted' : '';

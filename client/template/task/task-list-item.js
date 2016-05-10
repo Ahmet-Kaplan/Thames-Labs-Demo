@@ -14,9 +14,8 @@ Template.task.helpers({
   taskId: function() {
     if (FlowRouter.getRouteName() === "tasks") {
       return this.__originalId
-    } else {
-      return this._id;
     }
+    return this._id;
   },
   formattedDueDate: function() {
     if (!this.dueDate) {
@@ -32,9 +31,8 @@ Template.task.helpers({
       if (b.dayOfYear() == a.dayOfYear() - 1) return 'yesterday';
       if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
       return b.from(a);
-    } else {
-      return moment(this.dueDate).fromNow();
     }
+    return moment(this.dueDate).fromNow();
   },
   showEntityDetail: function() {
     return (FlowRouter.getRouteName() === "dashboard" || FlowRouter.getRouteName() === "tasks");

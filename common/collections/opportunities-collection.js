@@ -40,9 +40,8 @@ Collections.opportunities.filters = {
     displayValue: function(company) {
       if (company) {
         return company.name;
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   contact: {
@@ -55,9 +54,8 @@ Collections.opportunities.filters = {
     displayValue: function(contact) {
       if (contact) {
         return contact.name();
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   valueLower: {
@@ -68,9 +66,8 @@ Collections.opportunities.filters = {
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   valueGreater: {
@@ -81,9 +78,8 @@ Collections.opportunities.filters = {
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   tags: {
@@ -142,10 +138,9 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         return {
           'value': -1
         }
-      } else {
-        return {
-          'name': 1
-        }
+      }
+      return {
+        'name': 1
       }
     },
     fields: (searchObject, options) => {

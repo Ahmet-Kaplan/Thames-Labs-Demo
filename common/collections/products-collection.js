@@ -17,9 +17,8 @@ Collections.products.filters = {
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   salesPriceGreater: {
@@ -30,9 +29,8 @@ Collections.products.filters = {
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   costPriceLower: {
@@ -43,9 +41,8 @@ Collections.products.filters = {
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   costPriceGreater: {
@@ -56,9 +53,8 @@ Collections.products.filters = {
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   tags: {

@@ -62,44 +62,38 @@ Meteor.methods({
                   exitCode: 6,
                   exitStatus: 'Cannot move milestone beyond existing limits.'
                 };
-              } else {
-                newId = milestones[newIndex].id;
-
-                return {
-                  exitCode: 0,
-                  exitStatus: newId
-                };
               }
-            } else {
+              newId = milestones[newIndex].id;
+
               return {
-                exitCode: 1,
-                exitStatus: 'Milestone not found.'
+                exitCode: 0,
+                exitStatus: newId
               };
             }
-          } else {
             return {
-              exitCode: 2,
-              exitStatus: 'Type not found.'
+              exitCode: 1,
+              exitStatus: 'Milestone not found.'
             };
           }
-        } else {
           return {
-            exitCode: 3,
-            exitStatus: 'User tenant not found.'
+            exitCode: 2,
+            exitStatus: 'Type not found.'
           };
         }
-      } else {
         return {
-          exitCode: 4,
-          exitStatus: 'User not found.'
+          exitCode: 3,
+          exitStatus: 'User tenant not found.'
         };
       }
-    } else {
       return {
-        exitCode: 5,
-        exitStatus: 'Project not found.'
+        exitCode: 4,
+        exitStatus: 'User not found.'
       };
     }
+    return {
+      exitCode: 5,
+      exitStatus: 'Project not found.'
+    };
   },
 
   addProjectType: function(name) {
@@ -143,34 +137,30 @@ Meteor.methods({
               exitCode: 0,
               exitStatus: "Project type added successfully."
             };
-          } else {
-            return {
-              exitCode: 1,
-              exitStatus: "Project type already exists."
-            };
-            //type name in use
           }
-        } else {
           return {
-            exitCode: 2,
-            exitStatus: "No project settings found in tenant object."
+            exitCode: 1,
+            exitStatus: "Project type already exists."
           };
-          //no project settings
+          //type name in use
         }
-      } else {
         return {
-          exitCode: 3,
-          exitStatus: "User tenant not found."
+          exitCode: 2,
+          exitStatus: "No project settings found in tenant object."
         };
-        //no tenant
+        //no project settings
       }
-    } else {
       return {
-        exitCode: 4,
-        exitStatus: "No user found."
+        exitCode: 3,
+        exitStatus: "User tenant not found."
       };
-      //no user
+      //no tenant
     }
+    return {
+      exitCode: 4,
+      exitStatus: "No user found."
+    };
+    //no user
   },
   updateProjectType: function(id, name) {
     var user = Meteor.users.findOne({
@@ -204,34 +194,30 @@ Meteor.methods({
               exitCode: 0,
               exitStatus: "Project type updated successfully."
             };
-          } else {
-            return {
-              exitCode: 1,
-              exitStatus: "Type not found."
-            };
-            //type name in use
           }
-        } else {
           return {
-            exitCode: 2,
-            exitStatus: "No project settings found in tenant object."
+            exitCode: 1,
+            exitStatus: "Type not found."
           };
-          //no project settings
+          //type name in use
         }
-      } else {
         return {
-          exitCode: 3,
-          exitStatus: "User tenant not found."
+          exitCode: 2,
+          exitStatus: "No project settings found in tenant object."
         };
-        //no tenant
+        //no project settings
       }
-    } else {
       return {
-        exitCode: 4,
-        exitStatus: "No user found."
+        exitCode: 3,
+        exitStatus: "User tenant not found."
       };
-      //no user
+      //no tenant
     }
+    return {
+      exitCode: 4,
+      exitStatus: "No user found."
+    };
+    //no user
   },
   removeProjectType: function(id) {
     var user = Meteor.users.findOne({
@@ -265,34 +251,30 @@ Meteor.methods({
               exitCode: 0,
               exitStatus: "Project type removed successfully."
             };
-          } else {
-            return {
-              exitCode: 1,
-              exitStatus: "Type not found."
-            };
-            //type name in use
           }
-        } else {
           return {
-            exitCode: 2,
-            exitStatus: "No project settings found in tenant object."
+            exitCode: 1,
+            exitStatus: "Type not found."
           };
-          //no project settings
+          //type name in use
         }
-      } else {
         return {
-          exitCode: 3,
-          exitStatus: "User tenant not found."
+          exitCode: 2,
+          exitStatus: "No project settings found in tenant object."
         };
-        //no tenant
+        //no project settings
       }
-    } else {
       return {
-        exitCode: 4,
-        exitStatus: "No user found."
+        exitCode: 3,
+        exitStatus: "User tenant not found."
       };
-      //no user
+      //no tenant
     }
+    return {
+      exitCode: 4,
+      exitStatus: "No user found."
+    };
+    //no user
   },
 
   addProjectMilestone: function(typeId, name, description) {
@@ -348,41 +330,36 @@ Meteor.methods({
                 exitCode: 0,
                 exitStatus: "Project milestone added successfully."
               };
-            } else {
-              return {
-                exitCode: 1,
-                exitStatus: "Project milestone already exists."
-              };
-              //type name in use
             }
-          } else {
             return {
-              exitCode: 2,
-              exitStatus: "Type not found."
+              exitCode: 1,
+              exitStatus: "Project milestone already exists."
             };
             //type name in use
           }
-        } else {
           return {
-            exitCode: 3,
-            exitStatus: "No project settings found in tenant object."
+            exitCode: 2,
+            exitStatus: "Type not found."
           };
-          //no project object
+          //type name in use
         }
-      } else {
         return {
-          exitCode: 4,
-          exitStatus: "User tenant not found."
+          exitCode: 3,
+          exitStatus: "No project settings found in tenant object."
         };
-        //no tenant
+        //no project object
       }
-    } else {
       return {
-        exitCode: 5,
-        exitStatus: "No user found."
+        exitCode: 4,
+        exitStatus: "User tenant not found."
       };
-      //no user
+      //no tenant
     }
+    return {
+      exitCode: 5,
+      exitStatus: "No user found."
+    };
+    //no user
   },
 
   updateProjectMilestone: function(typeId, milestoneId, name, description) {
@@ -431,41 +408,36 @@ Meteor.methods({
                 exitCode: 0,
                 exitStatus: "Project milestone updated successfully."
               };
-            } else {
-              return {
-                exitCode: 1,
-                exitStatus: "Project milestone not found."
-              };
-              //type name in use
             }
-          } else {
             return {
-              exitCode: 2,
-              exitStatus: "Type not found."
+              exitCode: 1,
+              exitStatus: "Project milestone not found."
             };
             //type name in use
           }
-        } else {
           return {
-            exitCode: 3,
-            exitStatus: "No project settings found in tenant object."
+            exitCode: 2,
+            exitStatus: "Type not found."
           };
-          //no project object
+          //type name in use
         }
-      } else {
         return {
-          exitCode: 4,
-          exitStatus: "User tenant not found."
+          exitCode: 3,
+          exitStatus: "No project settings found in tenant object."
         };
-        //no tenant
+        //no project object
       }
-    } else {
       return {
-        exitCode: 5,
-        exitStatus: "No user found."
+        exitCode: 4,
+        exitStatus: "User tenant not found."
       };
-      //no user
+      //no tenant
     }
+    return {
+      exitCode: 5,
+      exitStatus: "No user found."
+    };
+    //no user
   },
 
   removeProjectMilestone: function(typeId, milestoneId) {
@@ -522,41 +494,36 @@ Meteor.methods({
                 exitCode: 0,
                 exitStatus: "Project milestone removed successfully."
               };
-            } else {
-              return {
-                exitCode: 1,
-                exitStatus: "Project milestone not found."
-              };
-              //type name in use
             }
-          } else {
             return {
-              exitCode: 2,
-              exitStatus: "Type not found."
+              exitCode: 1,
+              exitStatus: "Project milestone not found."
             };
             //type name in use
           }
-        } else {
           return {
-            exitCode: 3,
-            exitStatus: "No project settings found in tenant object."
+            exitCode: 2,
+            exitStatus: "Type not found."
           };
-          //no project object
+          //type name in use
         }
-      } else {
         return {
-          exitCode: 4,
-          exitStatus: "User tenant not found."
+          exitCode: 3,
+          exitStatus: "No project settings found in tenant object."
         };
-        //no tenant
+        //no project object
       }
-    } else {
       return {
-        exitCode: 5,
-        exitStatus: "No user found."
+        exitCode: 4,
+        exitStatus: "User tenant not found."
       };
-      //no user
+      //no tenant
     }
+    return {
+      exitCode: 5,
+      exitStatus: "No user found."
+    };
+    //no user
   }
 
 });

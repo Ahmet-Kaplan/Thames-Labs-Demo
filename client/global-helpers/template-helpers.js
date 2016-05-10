@@ -136,13 +136,12 @@ Template.registerHelper('searchInputAttributes', () => {
       class: 'form-control easysearch-input',
       autofocus: false
     };
-  } else {
-    return {
-      placeholder: 'Search...',
-      class: 'form-control easysearch-input',
-      autofocus: true
-    };
   }
+  return {
+    placeholder: 'Search...',
+    class: 'form-control easysearch-input',
+    autofocus: true
+  };
 });
 
 // Allow extended context without overwriting

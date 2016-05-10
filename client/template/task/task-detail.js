@@ -64,9 +64,8 @@ Template.taskDetail.helpers({
       if (b.dayOfYear() == a.dayOfYear() - 1) return 'yesterday';
       if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
       return b.from(a);
-    } else {
-      return moment(this.dueDate).fromNow();
     }
+    return moment(this.dueDate).fromNow();
   },
   formattedDueDate: function() {
     var displayDate = this.isAllDay ? moment(this.dueDate).format('Do MMM YYYY') : moment(this.dueDate).format('Do MMM YYYY, HH:mm');

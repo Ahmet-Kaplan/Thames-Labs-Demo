@@ -53,9 +53,8 @@ Template.insertNewTask.helpers({
   displayLabel: function() {
     if (this.entity_type === "user") {
       return 'Personal';
-    } else {
-      return this.entity_type.charAt(0).toUpperCase() + this.entity_type.slice(1);
     }
+    return this.entity_type.charAt(0).toUpperCase() + this.entity_type.slice(1);
   }
 });
 

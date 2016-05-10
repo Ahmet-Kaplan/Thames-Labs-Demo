@@ -43,9 +43,8 @@ Template.activityListItem.helpers({
   fromNow: function(date) {
     if (date) {
       return moment(date).fromNow();
-    } else {
-      return "Date/time not specified";
     }
+    return "Date/time not specified";
   },
   entityName: function() {
     return Template.instance().displayName.get();

@@ -150,9 +150,9 @@ Template.setPayingTenant.events({
           message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Error: ' + error + '</div>'
         });
         return false;
-      } else {
-        toastr.success('Subscription has been successful.<br />Switched to Paying Scheme.');
       }
+
+      toastr.success('Subscription has been successful.<br />Switched to Paying Scheme.');
     });
   },
 

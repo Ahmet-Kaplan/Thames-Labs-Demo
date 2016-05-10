@@ -303,51 +303,44 @@ Template.companyFormDetails.helpers({
       var number = (Template.instance().companyData.get().geo.streetNumber) ? Template.instance().companyData.get().geo.streetNumber + ' ' : '';
       var name = (Template.instance().companyData.get().geo.streetName) ? Template.instance().companyData.get().geo.streetName : '';
       return number + name;
-    } else {
-      return '';
     }
+    return '';
   },
   city: function() {
     if(Template.instance().companyData.get().geo && Template.instance().companyData.get().geo.city) {
       return Template.instance().companyData.get().geo.city;
-    } else {
-      return '';
     }
+    return '';
   },
   county: function() {
     if(Template.instance().companyData.get().geo && Template.instance().companyData.get().geo.state) {
       return Template.instance().companyData.get().geo.state;
-    } else {
-      return '';
     }
+    return '';
   },
   postcode: function() {
     if(Template.instance().companyData.get().geo && Template.instance().companyData.get().geo.postalCode) {
       return Template.instance().companyData.get().geo.postalCode;
-    } else {
-      return '';
     }
+    return '';
   },
   country: function() {
     if(Template.instance().companyData.get().geo && Template.instance().companyData.get().geo.country) {
       return Template.instance().companyData.get().geo.country;
-    } else {
-      return '';
     }
+    return '';
   },
   lat: function() {
     if(Template.instance().companyData.get().geo && Template.instance().companyData.get().geo.lat) {
       return Template.instance().companyData.get().geo.lat;
-    } else {
-      return '';
     }
+    return '';
   },
   lng: function() {
     if(Template.instance().companyData.get().geo && Template.instance().companyData.get().geo.lng) {
       return Template.instance().companyData.get().geo.lng;
-    } else {
-      return '';
     }
+    return '';
   },
   phone: function() {
     return Template.instance().companyData.get().phone;

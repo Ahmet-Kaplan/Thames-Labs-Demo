@@ -96,9 +96,8 @@ Template.filterTag.helpers({
         _id: this.id
       });
       return filter.display + ' ' + filter.displayValue(record);
-    } else {
-      return filter.display + ' ' + this.id;
     }
+    return filter.display + ' ' + this.id;
   }
 })
 

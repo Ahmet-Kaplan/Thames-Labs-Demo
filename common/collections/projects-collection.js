@@ -51,9 +51,8 @@ Collections.projects.filters = {
     displayValue: function(company) {
       if (company) {
         return company.name;
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   contact: {
@@ -66,9 +65,8 @@ Collections.projects.filters = {
     displayValue: function(contact) {
       if (contact) {
         return contact.name();
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   manager: {
@@ -81,9 +79,8 @@ Collections.projects.filters = {
     displayValue: function(user) {
       if (user) {
         return user.profile.name;
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   dueDate: {

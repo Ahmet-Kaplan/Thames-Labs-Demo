@@ -185,9 +185,8 @@ Template.stripeAdmin.helpers({
     }).stripe.stripeSubs;
     if (!!stripeSubs) {
       return Template.instance().stripeCustomer.get() !== 'loading'
-    } else {
-      return true;
     }
+    return true;
   },
   currentSubscription: function() {
     var stripeCustomer = Template.instance().stripeCustomer.get();
@@ -210,9 +209,8 @@ Template.stripeAdmin.helpers({
     var stripeCustomer = Template.instance().stripeCustomer.get();
     if (stripeCustomer.id && stripeCustomer.subscriptions.total_count) {
       return stripeCustomer.subscriptions.data[0].cancel_at_period_end;
-    } else {
-      return false;
     }
+    return false;
   },
   stripeCustomer: function() {
     var stripeCustomer = Template.instance().stripeCustomer.get();
@@ -294,19 +292,18 @@ Template.stripeAdmin.events({
         $('.bootbox-form').addClass('has-error');
         toastr.error('Please enter a valid email address');
         return false;
-      } else {
-        toastr.clear();
-        toastr.info('Processing your email update');
-        Meteor.call('stripe.updateEmail', result, function(error, response) {
-          if (error) {
-            toastr.error('Unable to update email address');
-            return false;
-          }
-          toastr.clear();
-          toastr.success('Your email hase been changed: ' + result);
-          Session.set('stripeUpdateListener', Session.get('stripeUpdateListener') + 1);
-        });
       }
+      toastr.clear();
+      toastr.info('Processing your email update');
+      Meteor.call('stripe.updateEmail', result, function(error, response) {
+        if (error) {
+          toastr.error('Unable to update email address');
+          return false;
+        }
+        toastr.clear();
+        toastr.success('Your email hase been changed: ' + result);
+        Session.set('stripeUpdateListener', Session.get('stripeUpdateListener') + 1);
+      });
     });
   },
 

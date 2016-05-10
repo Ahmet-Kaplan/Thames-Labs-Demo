@@ -408,9 +408,8 @@ module.exports = function() {
       return elements.some(function(elt) {
         if (elt.search(new RegExp(desiredText))) return true;
       });
-    } else {
-      expect(elements).toContain(desiredText);
     }
+    expect(elements).toContain(desiredText);
   });
 
   this.Then(/^I cannot click "([^"]*)"$/, function(selector) {

@@ -28,9 +28,8 @@ Meteor.publish("auditData", function() {
 Meteor.publish("allTenants", function() {
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
     return Tenants.find({});
-  } else {
-    this.ready();
   }
+  this.ready();
 });
 
 Meteor.publish("activeTenantData", function() {
