@@ -90,11 +90,7 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadProducts']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'name': 1
-      };
-    },
+    sort: () => ({ 'name': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
         return {};

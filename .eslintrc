@@ -209,6 +209,7 @@
 
     ////////// ECMAScript 6 //////////
 
+    "arrow-body-style": [2, "as-needed"], // require braces around arrow function bodies
     "no-var": 0,          // require let or const instead of var (off by default)
     "generator-star": 0,  // enforce the position of the * in generator functions (off by default)
     "prefer-const": 2,    // suggest const where a variable is never reassigned

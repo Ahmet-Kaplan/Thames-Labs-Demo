@@ -1,7 +1,5 @@
 function tagIsInList(tag, tagList) {
-  return _.some(tagList.split(','), (s) => {
-    return s === tag;
-  });
+  return _.some(tagList.split(','), (s) => (s === tag));
 }
 
 function toggleTag(tag, index) {

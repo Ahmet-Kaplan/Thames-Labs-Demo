@@ -49,9 +49,7 @@ Template.tagSearch.onRendered(function() {
     this.selectize.clear(true);
     if (searchOptions.props && searchOptions.props.tags) {
       var tags = searchOptions.props.tags.split(',');
-      this.selectize.addOption(tags.map( (tag) => {
-        return { name: tag };
-      }));
+      this.selectize.addOption(tags.map((tag) => ({ name: tag })));
       this.selectize.setValue(tags, true);
     }
   });

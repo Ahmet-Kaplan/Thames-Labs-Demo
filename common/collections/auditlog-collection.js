@@ -14,11 +14,7 @@ Collections.auditLog.index = AuditLogIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, [ 'CanReadEventLog']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'date': -1
-      };
-    },
+    sort: () => ({ 'date': -1}),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
         return {};

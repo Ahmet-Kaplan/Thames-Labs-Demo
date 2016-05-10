@@ -187,26 +187,20 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadTasks']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'dueDate': 1
-      };
-    },
-    fields: (searchObject, options) => {
-      return {
-        'title': 1,
-        'description': 1,
-        'dueDate': 1,
-        'isAllDay': 1,
-        'reminder': 1,
-        'completed': 1,
-        'entityType': 1,
-        'entityId': 1,
-        'assigneeId': 1,
-        'tags': 1,
-        'parentTaskId': 1
-      };
-    },
+    sort: () => ({ 'dueDate': 1 }),
+    fields: (searchObject, options) => ({
+      'title': 1,
+      'description': 1,
+      'dueDate': 1,
+      'isAllDay': 1,
+      'reminder': 1,
+      'completed': 1,
+      'entityType': 1,
+      'entityId': 1,
+      'assigneeId': 1,
+      'tags': 1,
+      'parentTaskId': 1
+    }),
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 

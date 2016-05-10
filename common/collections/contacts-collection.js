@@ -93,11 +93,7 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadContacts']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'surname': 1
-      };
-    },
+    sort: () => ({ 'surname': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
         return {};

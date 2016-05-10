@@ -61,11 +61,7 @@ Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
   collection: Activities,
   fields: ['type', 'notes', 'primaryEntityDisplayData'],
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'activityTimestamp': -1
-      };
-    },
+    sort: () => ({ 'activityTimestamp': -1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
         return {};

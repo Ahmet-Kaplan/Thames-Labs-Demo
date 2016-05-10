@@ -139,11 +139,7 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadPurchaseOrders']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'orderNumber': 1
-      };
-    },
+    sort: () => ({ 'orderNumber': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
         return {};

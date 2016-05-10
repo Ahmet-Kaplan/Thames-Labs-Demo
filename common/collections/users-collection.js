@@ -18,11 +18,7 @@ Collections.users.index = UsersIndex = new EasySearch.Index({
     return !!options.userId;
   },
   engine: new EasySearch.MongoDB({
-    fields: (searchObject, options) => {
-      return {
-        'profile.name': 1
-      };
-    },
+    fields: (searchObject, options) => ({ 'profile.name': 1 }),
     transform: (doc) => {
       doc.name = doc.profile.name;
       return doc;

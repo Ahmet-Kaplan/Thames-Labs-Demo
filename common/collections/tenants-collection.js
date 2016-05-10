@@ -53,11 +53,7 @@ Collections.tenants.index = TenantsIndex = new EasySearch.Index({
     return Roles.userIsInRole(options.userId, ['superadmin']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'name': 1
-      };
-    },
+    sort: () => ({ 'name': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
         return {};

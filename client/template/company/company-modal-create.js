@@ -174,9 +174,7 @@ Template.companyFormDetails.onRendered(function() {
         }
 
         //Street Number
-        var strNumber = _.find(result.address_components, (elt) => {
-          return elt.types.indexOf("street_number") !== -1;
-        });
+        var strNumber = _.find(result.address_components, (elt) => (elt.types.indexOf("street_number") !== -1));
 
         if (typeof strNumber !== 'undefined') {
           strNumber = strNumber.long_name;
@@ -184,9 +182,7 @@ Template.companyFormDetails.onRendered(function() {
         companyData.geo.streetNumber = strNumber || '';
 
         //Street Name
-        var route = _.find(result.address_components, (elt) => {
-          return elt.types.indexOf("route") !== -1;
-        });
+        var route = _.find(result.address_components, (elt) => (elt.types.indexOf("route") !== -1));
 
         if (typeof route !== 'undefined') {
           route = route.long_name;
@@ -194,9 +190,7 @@ Template.companyFormDetails.onRendered(function() {
         companyData.geo.streetName = route || '';
 
         //City
-        var city = _.find(result.address_components, (elt) => {
-          return elt.types.indexOf("locality") !== -1;
-        });
+        var city = _.find(result.address_components, (elt) => (elt.types.indexOf("locality") !== -1));
 
         if (typeof city !== 'undefined') {
           city = city.long_name;
@@ -204,9 +198,7 @@ Template.companyFormDetails.onRendered(function() {
         companyData.geo.city = city || '';
 
         //County/State
-        var state = _.find(result.address_components, (elt) => {
-          return elt.types.indexOf("administrative_area_level_2") !== -1;
-        });
+        var state = _.find(result.address_components, (elt) => (elt.types.indexOf("administrative_area_level_2") !== -1));
 
         if (typeof state !== 'undefined') {
           state = state.long_name;
@@ -214,9 +206,7 @@ Template.companyFormDetails.onRendered(function() {
         companyData.geo.state = state || '';
 
         //Country
-        var country = _.find(result.address_components, (elt) => {
-          return elt.types.indexOf("country") !== -1;
-        });
+        var country = _.find(result.address_components, (elt) => (elt.types.indexOf("country") !== -1));
 
         if (typeof country !== 'undefined') {
           country = country.long_name;
@@ -224,9 +214,7 @@ Template.companyFormDetails.onRendered(function() {
         companyData.geo.country = country || '';
 
         //Postcode
-        var postalCode = _.find(result.address_components, (elt) => {
-          return elt.types.indexOf("postal_code") !== -1;
-        });
+        var postalCode = _.find(result.address_components, (elt) => (elt.types.indexOf("postal_code") !== -1));
 
         if (typeof postalCode !== 'undefined') {
           postalCode = postalCode.long_name;

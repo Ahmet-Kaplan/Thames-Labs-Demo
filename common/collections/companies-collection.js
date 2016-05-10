@@ -111,11 +111,7 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadCompanies']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'name': 1
-      };
-    },
+    sort: () => ({ 'name': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
         return {};
