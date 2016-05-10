@@ -13,7 +13,7 @@ Template.contactAdminPanel.onRendered(function() {
         return {
           value: input,
           text: input
-        }
+        };
       });
     }
 
@@ -22,7 +22,7 @@ Template.contactAdminPanel.onRendered(function() {
         return {
           value: input,
           text: input
-        }
+        };
       },
       items: items,
       options: options

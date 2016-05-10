@@ -11,4 +11,4 @@ module.exports = function() {
     browser.keys('Enter');
     browser.waitForVisible(selectizeDropdown, 5000, true);
   });
-}
+};

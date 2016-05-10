@@ -14,7 +14,7 @@ Meteor.methods({
     if (Meteor.isServer) {
       Meteor.call('setDemoDataFlag', true);
 
-      var loopNumber = _.random(20, 40)
+      var loopNumber = _.random(20, 40);
       Meteor.call('setProgress', 0, loopNumber);
 
       faker.locale = "en_GB";

@@ -138,7 +138,7 @@ Template.editOpportunityItemModal.helpers({
   },
   fieldLineTotal: function() {
     var value = this.data.value * this.data.quantity;
-    if(!isNaN(value)) return value
+    if(!isNaN(value)) return value;
   }
 });
 

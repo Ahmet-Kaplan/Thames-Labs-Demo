@@ -14,9 +14,9 @@ Template.addNewGlobalCustomField.onRendered(function() {
       return {
         value: input,
         text: input
-      }
+      };
     }
-  })
+  });
 
   $('#typeText').prop('checked', true);
   $('#typeAdvText').prop('checked', false);

@@ -57,8 +57,8 @@ module.exports = function() {
     browser
       .executeAsync(function(done) {
         Meteor.call('deleteStripeTestCustomer', function(err, res) {
-          done(res)
+          done(res);
         });
       });
-  })
+  });
 };

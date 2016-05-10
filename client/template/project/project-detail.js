@@ -53,7 +53,7 @@ Template.projectDetail.helpers({
         $set: {
           'settings.project.types': data
         }
-      })
+      });
     }
 
     for (var i = 0, len = currentTypes.length; i < len; i++) {

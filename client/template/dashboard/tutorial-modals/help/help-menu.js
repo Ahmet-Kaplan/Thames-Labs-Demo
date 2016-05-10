@@ -7,7 +7,7 @@ Template.help.onRendered(function() {
     }
   });
   hopscotch.endTour(true);
-})
+});
 
 Template.help.events({
   'click #close': function(event, template) {

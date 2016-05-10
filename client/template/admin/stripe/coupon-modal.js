@@ -31,6 +31,6 @@ Template.couponModal.events({
         toastr.success('Your coupon has been updated successfully');
         Modal.hide();
       }
-    })
+    });
   }
-})
+});

@@ -24,7 +24,7 @@ Template.insertContactModal.onRendered(function() {
           return {
             value: input,
             text: input
-          }
+          };
         });
       }
 
@@ -149,7 +149,7 @@ Template.insertCompanyContactModal.onRendered(function() {
           return {
             value: input,
             text: input
-          }
+          };
         });
       }
 

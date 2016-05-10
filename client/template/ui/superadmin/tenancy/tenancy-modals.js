@@ -69,7 +69,7 @@ Template.setPayingTenant.events({
           });
         }
       }
-    })
+    });
   },
 
   'keyup #stripeAccountNumber': function() {

@@ -9,7 +9,7 @@ Template.tagManagement.onRendered(function() {
       var index = Collections[collectionName].index;
       Session.set('resultsCount', index.getComponentDict().get('count'));
     }
-  })
+  });
 });
 
 

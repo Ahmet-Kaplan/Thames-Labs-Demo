@@ -12,7 +12,7 @@ Template.companyListItem.helpers({
     // Remove www.
     website = website.replace('www.', '');
     if(website.length >= 14) {
-      website = website.substring(0, 11) + '...'
+      website = website.substring(0, 11) + '...';
     }
     return website;
   }

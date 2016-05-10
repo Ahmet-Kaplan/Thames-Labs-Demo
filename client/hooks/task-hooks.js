@@ -13,7 +13,7 @@ AutoForm.hooks({
           var reminderDate = moment(doc.dueDate).subtract(parseInt(reminderValue, 10), reminderUnit);
 
           if (reminderDate.isBefore(moment())) {
-            toastr.error('The reminder date is in the past.')
+            toastr.error('The reminder date is in the past.');
             return false;
           }
 
@@ -47,7 +47,7 @@ AutoForm.hooks({
           var reminderDate = moment(doc.$set.dueDate).subtract(parseInt(reminderValue, 10), reminderUnit);
 
           if (reminderDate.isBefore(moment())) {
-            toastr.error('The reminder date is in the past.')
+            toastr.error('The reminder date is in the past.');
             return false;
           }
 
@@ -65,4 +65,4 @@ AutoForm.hooks({
       toastr.error('Task update error: ' + error);
     }
   }
-})
+});

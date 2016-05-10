@@ -62,7 +62,7 @@ Template.searchBox.events({
     $('input.easysearch-input').val('');
   },
   'click #searchHelp': function() {
-    var mainCollectionName = Template.instance().data.collectionName
+    var mainCollectionName = Template.instance().data.collectionName;
     Modal.show('searchHelp', {
       collection: mainCollectionName
     });
@@ -99,7 +99,7 @@ Template.filterTag.helpers({
     }
     return filter.display + ' ' + this.id;
   }
-})
+});
 
 Template.filterTag.events({
   'click .removeProp': function(e) {

@@ -18,7 +18,7 @@ Accounts.onLogin(function(cb) {
           if (!Roles.userIsInRole(user._id, p)) {
             Roles.addUsersToRoles(user._id, p);
           }
-        })
+        });
       }
     }
 

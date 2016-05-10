@@ -20,8 +20,8 @@ Template.updateCustomField.onRendered(function() {
           entityId: self.data.entity_data._id
         });
       }
-    })
-  })
+    });
+  });
 });
 
 Template.updateCustomField.helpers({

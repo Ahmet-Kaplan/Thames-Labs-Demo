@@ -87,7 +87,7 @@ Template.contactDetail.helpers({
   purchaseOrders: function() {
     return PurchaseOrders.find({
       supplierContactId: this._id
-    })
+    });
   },
   linksList: function() {
     return [{
@@ -125,7 +125,7 @@ Template.contactDetail.helpers({
       anchor: 'activity-timeline',
       icon: 'fa-list',
       permission: 'CanReadContacts'
-    }]
+    }];
   },
   showTitle: function() {
     if (this.title) {
@@ -224,7 +224,7 @@ Template.ContactProjectListItem.helpers({
     return !!this.companyId;
   },
   projectCompanyName: function() {
-    Template.instance().subscribe('companyById', this.companyId)
+    Template.instance().subscribe('companyById', this.companyId);
     var company = Companies.findOne(this.companyId);
     return company ? company.name : null;
   }

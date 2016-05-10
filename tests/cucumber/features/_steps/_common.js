@@ -140,7 +140,7 @@ module.exports = function() {
       Meteor.call('add' + innerEntity, true, function() {
         done();
       });
-    }, entity)
+    }, entity);
   });
 
   this.Given(/^toastr are cleared$/, function() {
@@ -168,8 +168,8 @@ module.exports = function() {
       //This is used to wait for the data to be loaded.
       //Ideally this should look the the subscription instead.
       setTimeout(done, 500);
-    })
-  })
+    });
+  });
 
   this.When(/^I click "([^"]*)"$/, function(id) {
     browser.waitForExist(id, 5000);
@@ -266,7 +266,7 @@ module.exports = function() {
   });
 
   this.When(/^I wait$/, function() {
-    browser.pause(5000)
+    browser.pause(5000);
   });
 
   this.When(/^I click "([^"]*)" and select the option "([^"]*)"$/, function(menu, option) {
@@ -275,7 +275,7 @@ module.exports = function() {
 
   this.When(/^I scroll to "([^"]*)"$/, function(selector) {
     browser.scroll(selector, 0, 200);
-  })
+  });
 
   /***************************************************
                           THEN
@@ -359,7 +359,7 @@ module.exports = function() {
         toastrs = [toastrs];
       }
       return toastrs.some(function(toastr) {
-        return (toastr.search(new RegExp(expectedText)) !== -1)
+        return (toastr.search(new RegExp(expectedText)) !== -1);
       });
     }, 5000);
   });
@@ -417,7 +417,7 @@ module.exports = function() {
     browser.waitForVisible(selector, 5000);
     browser.scroll(selector, 0, 200);
     expect(browser.isEnabled(selector)).toBe(false);
-  })
+  });
 
   this.Then(/^I should see the url is "([^"]*)"$/, function(expectedText) {
     browser.pause(100);

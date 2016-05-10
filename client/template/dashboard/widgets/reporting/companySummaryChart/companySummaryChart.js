@@ -26,7 +26,7 @@ Template.companySummaryChartWidget.events({
 
     var chartType = $('#chartTypeSelect').val();
     refreshData(template);
-    buildChart(template, chartType)
+    buildChart(template, chartType);
   }
 });
 
@@ -46,7 +46,7 @@ refreshData = function(template) {
   Meteor.call('report.numberOfProducts', function(err, data) {
     template.totalProducts.set(data.Count);
   });
-}
+};
 
 buildChart = function(template, chartType) {
   var ctx = document.getElementById("companySummaryChartDisplayArea").getContext("2d");
@@ -77,7 +77,7 @@ buildChart = function(template, chartType) {
         relativeBars: false,
         legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
         tooltipHideZero: false
-      }
+      };
       var StackedBarChartObject = new Chart(ctx).StackedBar(data, options);
       globalSBCRef = StackedBarChartObject;
       break;
@@ -136,7 +136,7 @@ buildChart = function(template, chartType) {
         barDatasetSpacing: 1,
         legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
 
-      }
+      };
       var BarChartObject = new Chart(ctx).Bar(data, options);
       globalBCRef = BarChartObject;
       break;
@@ -268,12 +268,12 @@ buildChart = function(template, chartType) {
         animateRotate: true,
         animateScale: false,
         legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
-      }
+      };
       var PolarChart = new Chart(ctx).PolarArea(data, options);
       globalPACRef = PolarChart;
       break;
   }
-}
+};
 
 clearOldCharts = function() {
   if (typeof globalSBCRef !== "undefined") {
@@ -296,4 +296,4 @@ clearOldCharts = function() {
     globalPACRef.destroy();
     globalPACRef = void 0;
   }
-}
+};

@@ -31,7 +31,7 @@ Template.opportunityListItem.helpers({
       if (s.id === self.currentStageId) {
         stageValue = s.title;
       }
-    })
+    });
 
     return stageValue;
   }

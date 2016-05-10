@@ -112,7 +112,7 @@ Template.salesPipeline.helpers({
     return {
       totalValue: parseFloat(total).toFixed(2),
       averageValue: parseFloat(total / opps.length).toFixed(2)
-    }
+    };
   },
   opportunities: function() {
     var id = Session.get('currentStageId');

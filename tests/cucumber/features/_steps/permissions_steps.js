@@ -79,7 +79,7 @@ module.exports = function() {
         });
       });
     expect(result.value).toBe(null);
-  })
+  });
 
   this.When(/^I add permission "([^"]*)" on "([^"]*)" to a restricted user$/, function(permissionName, entityName) {
     browser.url(url.resolve(process.env.ROOT_URL, "/admin"));

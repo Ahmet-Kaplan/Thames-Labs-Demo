@@ -279,7 +279,7 @@ router.route('/tasks', {
 router.route('/tasks/:id', {
   name: 'task',
   subscriptions: function(params) {
-    this.register('taskById', subs.subscribe('taskById', params.id))
+    this.register('taskById', subs.subscribe('taskById', params.id));
   },
   action: function() {
     layout.render('appLayout', {

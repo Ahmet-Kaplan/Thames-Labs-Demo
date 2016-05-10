@@ -41,7 +41,7 @@ Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
       createdAt: new Date(),
       createdBy: task.createdBy,
       icon: 'check'
-    })
+    });
 
     job.done();
     job.remove();
@@ -49,7 +49,7 @@ Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
       $unset: {
         taskReminderJob: ''
       }
-    })
+    });
     callback();
   });
 });
@@ -148,12 +148,12 @@ Meteor.methods({
         //Else it means we have to create a new job
         //Because the job ran and is now deleted
         } else {
-          Meteor.call('addTaskReminder', taskId)
+          Meteor.call('addTaskReminder', taskId);
         }
 
       //Delete
       } else {
-        Meteor.call('deleteTaskReminder', task.taskReminderJob, task._id)
+        Meteor.call('deleteTaskReminder', task.taskReminderJob, task._id);
       }
 
     //If no job set, check if need to create one
@@ -199,4 +199,4 @@ Meteor.methods({
 
     return jobsList.find({}).fetch();
   }
-})
+});

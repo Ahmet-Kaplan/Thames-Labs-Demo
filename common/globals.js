@@ -205,7 +205,7 @@ defaultPermissionsList = [
 permissionGenerator = function(operation, collectionName) {
   operation = operation.toLowerCase();
   if (!_.includes(permissionOperations, operation)) {
-    throw new Meteor.Error(operation + ' is not a valid operation')
+    throw new Meteor.Error(operation + ' is not a valid operation');
   }
   var permission = _.find(permissions, 'collectionName', collectionName);
   if (!permission) {

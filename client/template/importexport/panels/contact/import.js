@@ -62,7 +62,7 @@ Template.contactDataManagement.events({
     if (match) {
       if (match[1] !== "csv") {
         toastr.error('Only CSV files can be used to import data');
-        return
+        return;
       }
     } else {
       toastr.error('Could not detect file type.');
@@ -124,7 +124,7 @@ Template.importContactMapper.helpers({
       return {
         "name": cx["name"].replace(/ /g, '-'),
         "options": html
-      }
+      };
     });
     return fields.length === 0 ? false : fields;
   }
@@ -274,7 +274,7 @@ Template.importContactMapper.events({
 
         _.each(res, function(e) {
           errorString += e + "\n";
-        })
+        });
 
         var blob = new Blob([errorString], {
           type: "text/csv;charset=utf-8"

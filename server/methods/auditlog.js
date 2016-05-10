@@ -35,7 +35,7 @@ Meteor.methods({
           return Tenants.findOne({
             _id: user.group
           });
-        })
+        });
 
         Partitioner.bindGroup(user.group, function() {
           AuditLog.insert({
@@ -81,7 +81,7 @@ Meteor.methods({
         message: logMessage,
         user: 'Cambridge Software Team',
         tenant: 'Super Admin'
-      })
+      });
     }
 
   }

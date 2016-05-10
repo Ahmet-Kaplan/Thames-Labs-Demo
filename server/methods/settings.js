@@ -13,4 +13,4 @@ Meteor.methods({
 
     return newCurrency;
   }
-})
+});

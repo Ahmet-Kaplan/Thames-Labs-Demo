@@ -17,7 +17,7 @@ Template.tenantList.onCreated(function() {
     } else {
       Modal.hide('generatingDemoData');
     }
-  })
+  });
 });
 
 Template.tenantList.helpers({

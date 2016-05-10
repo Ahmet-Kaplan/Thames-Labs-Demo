@@ -10,7 +10,7 @@ Template.login.helpers({
     var quoteObject = quotations[i];
 
     if (typeof quoteObject.Person === "undefined") {
-      quoteObject.Person = "Anonymous"
+      quoteObject.Person = "Anonymous";
     }
     return quoteObject;
   },

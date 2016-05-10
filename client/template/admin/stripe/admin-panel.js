@@ -184,7 +184,7 @@ Template.stripeAdmin.helpers({
       _id: Meteor.user().group
     }).stripe.stripeSubs;
     if (!!stripeSubs) {
-      return Template.instance().stripeCustomer.get() !== 'loading'
+      return Template.instance().stripeCustomer.get() !== 'loading';
     }
     return true;
   },
