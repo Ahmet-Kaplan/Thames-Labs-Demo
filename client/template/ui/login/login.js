@@ -9,7 +9,7 @@ Template.login.helpers({
     var i = Math.round((new Date() - date) / 8.64e7) % quotations.length;
     var quoteObject = quotations[i];
 
-    if (quoteObject.Person === undefined) {
+    if (typeof quoteObject.Person === "undefined") {
       quoteObject.Person = "Anonymous"
     }
     return quoteObject;

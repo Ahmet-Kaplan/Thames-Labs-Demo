@@ -43,7 +43,7 @@ Template.esSelectize.onRendered(function() {
       }
     } else {
       // Normal search
-      if (this.parent.get() !== undefined && this.data.filter !== undefined) {
+      if (typeof this.parent.get() !== "undefined" && typeof this.data.filter !== "undefined") {
         searchOptions.props[this.data.filter] = this.parent.get();
       }
       resultsCursor = this.data.index.search(searchInput, searchOptions);

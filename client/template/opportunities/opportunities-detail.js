@@ -15,7 +15,7 @@ Template.opportunityDetail.onCreated(function() {
     }
 
     // Redirect if data doesn't exist
-    if (FlowRouter.subsReady() && opportunity === undefined) {
+    if (FlowRouter.subsReady() && typeof opportunity === "undefined") {
       FlowRouter.go('opportunities');
     }
 

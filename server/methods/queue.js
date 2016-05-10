@@ -4,7 +4,7 @@ jobsList = JobCollection('jobsQueue');
 Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
   var assigneeId = job.data.assigneeId;
 
-  if(assigneeId === undefined) {
+  if(typeof assigneeId === "undefined") {
     job.log('Unable to find user with _id: ' + job.data.assigneeId, {level: 'warning'});
     job.fail('User not found.');
     callback();

@@ -117,7 +117,7 @@
     "no-self-compare": 2,       // disallow comparisons where both sides are exactly the same (off by default)
     "no-sequences": 2,          // disallow use of comma operator
     "no-unused-expressions": 0, // disallow usage of expressions in statement position
-    "no-void": 2,               // disallow use of void operator (off by default)
+    "no-void": 0,               // disallow use of void operator (off by default)
     "no-warning-comments": [2, {"location": "anywhere"}],   // disallow usage of configurable warning terms in comments, e.g. TODO or FIXME (off by default)
     "no-with": 2,               // disallow use of the with statement
     "radix": 2,                 // require use of the second argument for parseInt() (off by default)
@@ -141,8 +141,8 @@
     "no-shadow": [2, {"builtinGlobals": false, "allow": ["err", "res", "error", "result", "response"]}],                   // disallow declaration of variables already declared in the outer scope
     "no-shadow-restricted-names": 0,  // disallow shadowing of names such as arguments
     "no-undef": 0,                    // disallow use of undeclared variables unless mentioned in a /*global */ block
-    "no-undef-init": 0,               // disallow use of undefined when initializing variables
-    "no-undefined": 0,                // disallow use of undefined variable (off by default)
+    "no-undef-init": 2,               // disallow use of undefined when initializing variables
+    "no-undefined": 2,                // disallow use of undefined variable (off by default)
     "no-unused-vars": [2, {"vars": "all", "args": "none"}], // disallow declaration of variables that are not used in the code
     "no-use-before-define": 2,        // disallow use of variables before they are defined
 

@@ -7,7 +7,7 @@ Template.editContactModal.onCreated(function() {
 });
 
 Template.editContactModal.onRendered(function() {
-  if (this.data.companyId === undefined) {
+  if (typeof this.data.companyId === "undefined") {
     $('#addressWrapper').show();
   }
 
@@ -89,7 +89,7 @@ Template.editContactModal.onRendered(function() {
 
 Template.editContactModal.helpers({
   noCompany: function() {
-    return this.companyId === undefined;
+    return typeof this.companyId === "undefined";
   },
   showTitleField: function() {
     var tenant = Tenants.findOne({
@@ -115,13 +115,13 @@ Template.editContactModal.events({
       center: location,
       scrollwheel: false
     });
-    if (mapData !== null && mapData.title !== undefined) {
+    if (mapData !== null && typeof mapData.title !== "undefined") {
       mapData.title = mapData.forename + ' ' + mapData.surname;
     } else {
       mapData.title = mapData.forename + ' ' + mapData.surname;
     }
     //Set map to the current location
-    if (mapData.lat !== undefined && mapData.lng !== undefined) {
+    if (typeof mapData.lat !== "undefined" && typeof mapData.lng !== "undefined") {
       location = {
         lat: parseFloat(mapData.lat),
         lng: parseFloat(mapData.lng)

@@ -237,7 +237,7 @@ Contacts.after.insert(function(userId, doc) {
 });
 
 Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
-  if (this.previous.email !== doc.email && doc.email !== '' && doc.email !== undefined) {
+  if (this.previous.email !== doc.email && doc.email !== '' && typeof doc.email !== "undefined") {
     Meteor.call('getClearbitData', 'contact', doc._id);
   }
   if (doc.forename !== this.previous.forename) {
@@ -260,7 +260,7 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
   }
   if (doc.companyId !== this.previous.companyId) {
     var newComp = Companies.findOne(doc.companyId);
-    if (newComp === undefined) {
+    if (typeof newComp === "undefined") {
       newComp = {
         name: 'None'
       }

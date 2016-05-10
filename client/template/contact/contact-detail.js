@@ -4,9 +4,9 @@ Template.contactDetail.onCreated(function() {
     var contactId = FlowRouter.getParam('id');
     var contact = Contacts.findOne(contactId);
     // Redirect if data doesn't exist
-    if (FlowRouter.subsReady() && contact === undefined) {
+    if (FlowRouter.subsReady() && typeof contact === "undefined") {
       FlowRouter.go('contacts');
-    } else if (FlowRouter.subsReady() && contact.email !== '' && contact.email !== undefined) {
+    } else if (FlowRouter.subsReady() && contact.email !== '' && typeof contact.email !== "undefined") {
       Meteor.call('getClearbitData', 'contact', contact._id);
     }
     // Update company subscription if contact record changes (e.g. we change company)
@@ -165,7 +165,7 @@ Template.contactDetail.events({
     }
 
     var company = this.company();
-    if (company === undefined) {
+    if (typeof company === "undefined") {
       Modal.show('newContactPurchaseOrderForm', {
         supplierContactId: this._id
       });
@@ -193,7 +193,7 @@ Template.contactDetail.events({
   'click #add-opportunity': function(event) {
     event.preventDefault();
     var company = this.company();
-    if (company === undefined) {
+    if (typeof company === "undefined") {
       Modal.show('insertContactOpportunityModal', {
         contactId: this._id
       });

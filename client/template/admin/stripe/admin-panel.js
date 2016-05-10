@@ -193,9 +193,9 @@ Template.stripeAdmin.helpers({
     return (stripeCustomer.id) ? ((stripeCustomer.subscriptions.total_count && !stripeCustomer.subscriptions.data[0].cancel_at_period_end) ? stripeCustomer.subscriptions.data[0].plan.name : "Free Plan") : "Free Plan";
   },
   hasStripeAccount: function() {
-    return !(Tenants.findOne({
+    return !( typeof Tenants.findOne({
       _id: Meteor.user().group
-    }).stripe.stripeId === undefined || Tenants.findOne({
+    }).stripe.stripeId === "undefined" || Tenants.findOne({
       _id: Meteor.user().group
     }).stripe.stripeId === '');
   },

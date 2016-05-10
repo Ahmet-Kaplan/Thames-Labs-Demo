@@ -203,7 +203,7 @@ Meteor.methods({
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may subscribe.');
-    } else if (stripeId === undefined || stripeSubs === undefined) {
+    } else if (typeof stripeId === "undefined" || typeof stripeSubs === "undefined") {
       throw new Meteor.Error(400, 'It appears you are not subscribed.');
     }
 

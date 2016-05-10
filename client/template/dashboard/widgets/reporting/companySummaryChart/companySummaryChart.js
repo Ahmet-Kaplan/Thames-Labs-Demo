@@ -1,8 +1,8 @@
-globalSBCRef = undefined;
-globalBCRef = undefined;
-globalPCRef = undefined;
-globalDCRef = undefined;
-globalPACRef = undefined;
+var globalSBCRef = void 0;
+var globalBCRef = void 0;
+var globalPCRef = void 0;
+var globalDCRef = void 0;
+var globalPACRef = void 0;
 
 Template.companySummaryChartWidget.onCreated(function() {
   this.totalCompanies = new ReactiveVar(0);
@@ -276,24 +276,24 @@ buildChart = function(template, chartType) {
 }
 
 clearOldCharts = function() {
-  if (globalSBCRef !== undefined) {
+  if (typeof globalSBCRef !== "undefined") {
     globalSBCRef.destroy();
-    globalSBCRef = undefined;
+    globalSBCRef = void 0;
   }
-  if (globalBCRef !== undefined) {
+  if (typeof globalBCRef !== "undefined") {
     globalBCRef.destroy();
-    globalBCRef = undefined;
+    globalBCRef = void 0;
   }
-  if (globalPCRef !== undefined) {
+  if (typeof globalPCRef !== "undefined") {
     globalPCRef.destroy();
-    globalPCRef = undefined;
+    globalPCRef = void 0;
   }
-  if (globalDCRef !== undefined) {
+  if (typeof globalDCRef !== "undefined") {
     globalDCRef.destroy();
-    globalDCRef = undefined;
+    globalDCRef = void 0;
   }
-  if (globalPACRef !== undefined) {
+  if (typeof globalPACRef !== "undefined") {
     globalPACRef.destroy();
-    globalPACRef = undefined;
+    globalPACRef = void 0;
   }
 }

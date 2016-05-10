@@ -22,8 +22,8 @@ Meteor.methods({
 
   addEventToAuditLog: function(logLevel, logMessage, logEntityType, logEntityId, logSource, auditGuid) {
 
-    logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
-    logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
+    // logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
+    // logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
 
     if (!Roles.userIsInRole(this.userId, 'superadmin')) {
       var user = Meteor.users.findOne({
@@ -68,7 +68,7 @@ Meteor.methods({
           source: logSource,
           level: logLevel,
           message: logMessage,
-          user: undefined,
+          user: void 0,
           entityType: logEntityType,
           entityId: logEntityId
         });

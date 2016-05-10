@@ -11,7 +11,7 @@ Template.purchaseOrderDetail.onCreated(function() {
       this.subscribe('contactById', purchaseOrder.supplierContactId);
     }
     // Redirect if data doesn't exist
-    if (FlowRouter.subsReady() && purchaseOrder === undefined) {
+    if (FlowRouter.subsReady() && typeof purchaseOrder === "undefined") {
       FlowRouter.go('purchaseOrders');
     }
   });
@@ -42,7 +42,7 @@ Template.purchaseOrderItem.helpers({
     return (this.parentContext.status === "Requested");
   },
   orderItemStatus: function() {
-    if (this.status === undefined) {
+    if (typeof this.status === "undefined") {
       return "No status set.";
     }
     return this.status;

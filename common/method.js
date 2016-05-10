@@ -88,10 +88,10 @@ Meteor.methods({
             randomIndex = Math.floor(Math.random() * usersArray.length);
             randomAssignee = usersArray[randomIndex];
           }
-          while (randomAssignee === undefined);
+          while (typeof randomAssignee === "undefined");
 
           var completed = faker.random.boolean();
-          var completedAt = completed ? faker.date.recent() : undefined;
+          var completedAt = completed ? faker.date.recent() : void 0;
           var title = faker.hacker.verb() + ' ' +
             faker.hacker.adjective() + ' ' +
             faker.hacker.noun() + ' ' +
@@ -146,7 +146,7 @@ Meteor.methods({
             randomIndex = Math.floor(Math.random() * usersArray.length);
             randomUser = usersArray[randomIndex];
           }
-          while (randomUser === undefined);
+          while (typeof randomUser === "undefined");
 
           addTask('user', randomUser._id, randomUser._id);
 
@@ -475,6 +475,6 @@ logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
     if (user && user.group) {
       if (!isProTenant(user.group)) return;
     }
-    Meteor.call('addEventToAuditLog', logLevel, logMessage, ((typeof logEntityType === 'undefined') ? undefined : logEntityType), ((typeof logEntityId === 'undefined') ? undefined : logEntityId), 'client', Guid.raw());
+    Meteor.call('addEventToAuditLog', logLevel, logMessage, logEntityType, logEntityId, 'client', Guid.raw());
   }
 };

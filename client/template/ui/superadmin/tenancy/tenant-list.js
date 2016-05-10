@@ -39,7 +39,7 @@ Template.tenantList.helpers({
   userCount: function() {
     return Meteor.users.find({
       group: {
-        $ne: undefined
+        $ne: void 0
       }
     }).count();
   }

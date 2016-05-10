@@ -73,7 +73,7 @@ Template.editCompanyModal.events({
       scrollwheel: false
     });
     //Set map to the current location
-    if (companyData.lat !== undefined && companyData.lng !== undefined) {
+    if (typeof companyData.lat !== "undefined" && typeof companyData.lng !== "undefined") {
       location = {
         lat: parseFloat(companyData.lat),
         lng: parseFloat(companyData.lng)

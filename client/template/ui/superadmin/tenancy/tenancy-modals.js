@@ -22,10 +22,10 @@ Template.updateTenantSettings.events({
 
 Template.setPayingTenant.helpers({
   hasStripeAccount: function() {
-    return (this.stripe.stripeId !== undefined && this.stripe.stripeId !== '');
+    return (typeof this.stripe.stripeId !== "undefined" && this.stripe.stripeId !== '');
   },
   stripeId: function() {
-    return (this.stripe.stripeId !== undefined) ? this.stripe.stripeId : '';
+    return (typeof this.stripe.stripeId !== "undefined") ? this.stripe.stripeId : '';
   },
   stripeSubs: function() {
     return this.stripe.stripeSubs;
