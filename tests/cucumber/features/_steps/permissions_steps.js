@@ -94,10 +94,10 @@ module.exports = function() {
     browser.click("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
-    browser.waitForExist("#"+ entityName + "PermissionSelector", 5000);
-    browser.waitForVisible("#"+ entityName + "PermissionSelector", 5000);
-    browser.click("#"+ entityName + "PermissionSelector");
-    browser.selectByValue("#"+ entityName + "PermissionSelector", permissionName);
+    browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
+    browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
+    browser.click("#" + entityName + "PermissionSelector");
+    browser.selectByValue("#" + entityName + "PermissionSelector", permissionName);
     browser.click('#btnUpdateTenantUserPermissions');
   });
 
@@ -114,10 +114,10 @@ module.exports = function() {
     browser.click("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
-    browser.waitForExist("#"+ entityName + "PermissionSelector", 5000);
-    browser.waitForVisible("#"+ entityName + "PermissionSelector", 5000);
-    browser.click("#"+ entityName + "PermissionSelector");
-    browser.selectByValue("#"+ entityName + "PermissionSelector", permissionName);
+    browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
+    browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
+    browser.click("#" + entityName + "PermissionSelector");
+    browser.selectByValue("#" + entityName + "PermissionSelector", permissionName);
     browser.click('#btnUpdateTenantUserPermissions');
   });
 
@@ -134,10 +134,10 @@ module.exports = function() {
     browser.click("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
-    browser.waitForExist("#"+ entityName + "PermissionSelector", 5000);
-    browser.waitForVisible("#"+ entityName + "PermissionSelector", 5000);
-    browser.click("#"+ entityName + "PermissionSelector");
-    browser.selectByValue("#"+ entityName + "PermissionSelector", "Restricted");
+    browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
+    browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
+    browser.click("#" + entityName + "PermissionSelector");
+    browser.selectByValue("#" + entityName + "PermissionSelector", "Restricted");
     browser.click('#btnUpdateTenantUserPermissions');
   });
 
@@ -154,10 +154,10 @@ module.exports = function() {
     browser.click("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
-    browser.waitForExist("#"+ entityName + "PermissionSelector", 5000);
-    browser.waitForVisible("#"+ entityName + "PermissionSelector", 5000);
-    browser.click("#"+ entityName + "PermissionSelector");
-    browser.selectByValue("#"+ entityName + "PermissionSelector", "Restricted");
+    browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
+    browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
+    browser.click("#" + entityName + "PermissionSelector");
+    browser.selectByValue("#" + entityName + "PermissionSelector", "Restricted");
     browser.click('#btnUpdateTenantUserPermissions');
   });
 };

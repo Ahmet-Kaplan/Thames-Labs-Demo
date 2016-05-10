@@ -293,7 +293,7 @@ Template.displayCalendar.helpers({
             var dayOffset = $('.fc-day.fc-' + day).offset().left;
             var dayWidth = $('.fc-day-header.fc-' + day).width();
             var popoverWidth = $('.popover').width();
-            var setLeftOffset = dayOffset - (popoverWidth - dayWidth) /2;
+            var setLeftOffset = dayOffset - (popoverWidth - dayWidth) / 2;
             $('#' + popoverHolder.attr('aria-describedby')).offset({left: setLeftOffset});
             popoverHolder.data('day', day);
           }
