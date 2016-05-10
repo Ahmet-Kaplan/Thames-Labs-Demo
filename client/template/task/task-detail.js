@@ -10,12 +10,16 @@ Template.taskDetail.onCreated(function() {
     switch (task.entityType) {
       case 'company':
         this.subscribe('companyById', task.entityId);
+        break;
       case 'contact':
         this.subscribe('contactById', task.entityId);
+        break;
       case 'project':
         this.subscribe('projectById', task.entityId);
+        break;
       case 'opportunity':
         this.subscribe('opportunityById', task.entityId);
+        break;
     }
   }
 });
