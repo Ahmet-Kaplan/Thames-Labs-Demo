@@ -12,7 +12,7 @@ Template.events.onCreated(function() {
 
 Template.eventEntry.helpers({
   friendlyDate: function() {
-    return new moment(this.date).format("Do MMMM YYYY, HH:mm:ss");
+    return moment(this.date).format("Do MMMM YYYY, HH:mm:ss");
   },
   userName: function() {
     if (typeof this.user !== "undefined") {

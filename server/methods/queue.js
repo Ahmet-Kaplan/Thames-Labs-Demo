@@ -81,7 +81,7 @@ Meteor.methods({
     if (reminderDate.isBefore(moment())) {
       throw new Meteor.Error(400, 'The reminder date is in the past.');
     } else if(task.dueDate && reminderDate.isAfter(dueDate)) {
-      throw new Meteor.error(400, 'The reminder date is after the due Date.');
+      throw new Meteor.Error(400, 'The reminder date is after the due Date.');
     } else if(task.remindMe && task.reminder) {
       //create job
       var taskJob = new Job(jobsList, 'sendReminderEmail', {
@@ -136,7 +136,7 @@ Meteor.methods({
         if (reminderDate.isBefore(moment())) {
           throw new Meteor.Error(400, 'The reminder date is in the past.');
         } else if(task.dueDate && reminderDate.isAfter(dueDate)) {
-          throw new Meteor.error(400, 'The reminder date is after the due Date.');
+          throw new Meteor.Error(400, 'The reminder date is after the due Date.');
         }
 
         //Check if task can be paused

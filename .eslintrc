@@ -171,8 +171,8 @@
     "indent": [2, 2, { "SwitchCase": 1, "VariableDeclarator": { "var": 2, "let": 2, "const": 3 } }],               // enforces use of 2 spaces indent
     "key-spacing": 2,               // enforces spacing between keys and values in object literal properties
     "max-nested-callbacks": 0,      // specify the maximum depth callbacks can be nested (off by default)
-    "new-cap": 0,                   // require a capital letter for constructors
-    "new-parens": 0,                // disallow the omission of parentheses when invoking a constructor with no arguments
+    "new-cap": [2, {"newIsCap": true, "capIsNew": false}],                   // require a capital letter for constructors
+    "new-parens": 2,                // disallow the omission of parentheses when invoking a constructor with no arguments
     "no-array-constructor": 0,      // disallow use of the Array constructor
     "no-inline-comments": 2,        // disallow comments inline after code (off by default)
     "no-lonely-if": 0,              // disallow if as the only statement in an else block (off by default)

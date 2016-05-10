@@ -24,7 +24,7 @@ Template.auditLog.events({
 
 Template.auditLogEntry.helpers({
   friendlyDate: function() {
-    return new moment(this.date).format("Do MMMM YYYY, HH:mm:ss");
+    return moment(this.date).format("Do MMMM YYYY, HH:mm:ss");
   },
   displayLevel: function() {
     var returnedData;
