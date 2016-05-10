@@ -165,15 +165,9 @@
 }
 .fab {
   position: fixed;
-  right: 30px;
-  bottom: 50px;
+  right: 20px;
+  bottom: 20px;
   z-index: 900;
-}
-.fab-mobile {
-  right: 20px !important;
-  bottom: 20px !important;
-}
-.fixed-action-btn {
   width: 50px;
   height: 50px;
   padding-top: 15px;
@@ -182,19 +176,40 @@
   border: none;
   box-shadow: 2px 2px 7px #888;
 }
-.fixed-action-btn i {
+.fab.add {
+  background: #0e5e98;
+}
+.fab.edit {
+  background: #00acc1;  
+}
+// .fab-mobile {
+  // right: 20px !important;
+  // bottom: 20px !important;
+// }
+// .fixed-action-btn {
+  // width: 50px;
+  // height: 50px;
+  // padding-top: 15px;
+  // border-radius: 50%;
+  // background: #0e5e98;
+  // border: none;
+  // box-shadow: 2px 2px 7px #888;
+// }
+.fab i {
   color: #fff;
   font-size: 20px;
   padding-bottom: 15px;
+  position: relative;
+  left: 17px;
 }
-.fixed-action-btn:hover {
+.fab:hover {
   background: #0a4169;
 }
-.fixed-action-btn:active {
+.fab:active {
   outline: none;
   border: none;
 }
-.fixed-action-btn:focus {
+.fab:focus {
   outline: 0;
 }
 .fab-menu {
