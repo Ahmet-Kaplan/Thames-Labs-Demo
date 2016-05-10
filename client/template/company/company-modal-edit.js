@@ -18,7 +18,7 @@ Template.editCompanyModal.onRendered(function() {
           return elt.types[0] == "street_number";
         });
 
-        if (typeof(strNumber) !== 'undefined') {
+        if (typeof strNumber !== 'undefined') {
           strNumber = strNumber.long_name;
           address += strNumber + " ";
         }
@@ -27,7 +27,7 @@ Template.editCompanyModal.onRendered(function() {
           return elt.types[0] == "route";
         });
 
-        if (typeof(route) !== 'undefined') {
+        if (typeof route !== 'undefined') {
           route = route.long_name;
           address += route;
         }
