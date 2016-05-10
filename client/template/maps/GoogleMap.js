@@ -58,8 +58,8 @@ Template.map.onRendered(function() {
             address.lat = location.lat();
             address.lng = location.lng();
           } else {
-            address.lat = 0,
-            address.lng = 0,
+            address.lat = 0;
+            address.lng = 0;
             title = "Location not found";
           }
           updateMap(map.instance, title, address);
