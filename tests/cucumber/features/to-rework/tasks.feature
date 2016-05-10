@@ -239,7 +239,7 @@ Feature: Allow users to manage their Tasks
     When I navigate to "/tasks"
     And I set the filter to "Company:" then "Test Ltd"
     Then I should see ".removeProp"
-    When I click ".removeProp"
+    When I click "#resetSearch"
     And the page is loaded
-    When I click "span.fa-user"
-    Then I should see the heading "test task"
+    Then I should see "span.fa-user"
+    And "#resultsCount" should say "2 records"

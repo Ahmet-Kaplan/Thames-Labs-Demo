@@ -3,7 +3,7 @@ module.exports = function() {
     if (option === 'can') {
       browser.click('#addWidgetButton');
       expect(browser.isVisible('#projectInformation')).toBe(true);
-      browser.click('li=Projects Overview');
+      browser.click('#projectInformation');
       expect(browser.isExisting('#projectInformationBox')).toBe(true);
     } else if (option === 'can not') {
       browser.click('#addWidgetButton');
