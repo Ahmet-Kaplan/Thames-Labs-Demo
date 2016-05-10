@@ -261,7 +261,7 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.companyId !== this.previous.companyId) {
     var newComp = Companies.findOne(doc.companyId);
     if (newComp === undefined) {
-      var newComp = {
+      newComp = {
         name: 'None'
       }
     }

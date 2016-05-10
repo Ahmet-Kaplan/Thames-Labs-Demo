@@ -165,7 +165,7 @@ Template.displayCalendar.helpers({
           $(window).bind('click', hidePopoverHandle);
 
           //Add event listener to list to remove when template is destroyed
-          var elList = instance.eventsListeners.get();
+          const elList = instance.eventsListeners.get();
           elList.push({
             elt: $(window),
             type: 'click',
@@ -191,7 +191,7 @@ Template.displayCalendar.helpers({
         $('.popover-edit-task').bind('click', editTaskHandle);
 
         //Add event listener to list to remove when template is destroyed
-        var elList = instance.eventsListeners.get();
+        const elList = instance.eventsListeners.get();
         elList.push({
           elt: $('.popover-edit-task'),
           type: 'click',
@@ -271,7 +271,7 @@ Template.displayCalendar.helpers({
           };
           $(window).bind('click', hidePopoverHandle);
           //Add event listener to list to remove when template is destroyed
-          var elList = instance.eventsListeners.get();
+          const elList = instance.eventsListeners.get();
           elList.push({
             elt: $(window),
             type: 'click',
@@ -322,7 +322,7 @@ Template.displayCalendar.helpers({
         $('.go-to-day-view').bind('click', dayViewHandle);
 
         //Add event listener to list to remove when template is destroyed
-        var elList = instance.eventsListeners.get();
+        const elList = instance.eventsListeners.get();
         elList.push({
           elt: $('.quick-add-task'),
           type: 'click',

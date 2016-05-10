@@ -134,12 +134,12 @@ Meteor.methods({
     });
     if (projData.length) {
 
-      var data = {
+      const data = {
         "Value": (value / projData.length).toFixed(2)
       }
       return data;
     }
-    var data = {
+    const data = {
       "Value": "0.00"
     }
     return data;
@@ -179,12 +179,12 @@ Meteor.methods({
       }
     });
     if (oppData.length) {
-      var data = {
+      const data = {
         "Value": value.toFixed(2)
       }
       return data;
     }
-    var data = {
+    const data = {
       "Value": "0.00"
     }
     return data;
@@ -203,12 +203,12 @@ Meteor.methods({
       }
     });
     if (oppData.length) {
-      var data = {
+      const data = {
         "Value": (value / oppData.length).toFixed(2)
       }
       return data;
     }
-    var data = {
+    const data = {
       "Value": "0.00"
     }
     return data;
@@ -249,12 +249,12 @@ Meteor.methods({
       }
     });
     if (productData.length) {
-      var data = {
+      const data = {
         "Value": (value / productData.length).toFixed(2)
       }
       return data;
     }
-    var data = {
+    const data = {
       "Value": "0.00"
     }
     return data;

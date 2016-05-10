@@ -73,7 +73,6 @@ Template.editCompanyModal.events({
       scrollwheel: false
     });
     //Set map to the current location
-    var infowindow = new google.maps.InfoWindow();
     if (companyData.lat !== undefined && companyData.lng !== undefined) {
       location = {
         lat: parseFloat(companyData.lat),
@@ -92,7 +91,7 @@ Template.editCompanyModal.events({
         $("input[name=lat]").val(markerModal.getPosition().lat());
         $("input[name=lng]").val(markerModal.getPosition().lng());
       });
-      var infowindow = new google.maps.InfoWindow();
+      const infowindow = new google.maps.InfoWindow();
       infowindow.setContent(companyData.name);
       infowindow.open(mapModal, markerModal);
     } else {
@@ -118,7 +117,7 @@ Template.editCompanyModal.events({
             $("input[name=lat]").val(markerModal.getPosition().lat());
             $("input[name=lng]").val(markerModal.getPosition().lng());
           });
-          var infowindow = new google.maps.InfoWindow();
+          const infowindow = new google.maps.InfoWindow();
           infowindow.setContent(companyData.name);
           infowindow.open(mapModal, markerModal);
         }

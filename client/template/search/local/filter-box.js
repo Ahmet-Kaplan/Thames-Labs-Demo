@@ -103,7 +103,7 @@ function applyFilter(text, value, mainCollectionName, selectize) {
 
     //If the filter is not a predefined value (e.g. date)
   } else if (value.search("setUnlistedFilter") !== -1) {
-    var filter = currentFilter.get();
+    const filter = currentFilter.get();
     text = text.split(filter.display);
     value = text[text.length - 1].trim();
 
@@ -114,8 +114,8 @@ function applyFilter(text, value, mainCollectionName, selectize) {
     }
     //Apply prop taking into account whether the filter accepts multiple values or not
     if (filter.allowMultiple === true) {
-      var searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
-      var updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
+      const searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
+      const updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
       updatedProp.push(value);
       //Note that only strings can be passed, the array is passed as a comma separated list
       Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, updatedProp.join(','));
@@ -128,12 +128,12 @@ function applyFilter(text, value, mainCollectionName, selectize) {
 
     //Otherwise apply the said filter
   } else {
-    var filter = currentFilter.get();
+    const filter = currentFilter.get();
     var filterRegexp = new RegExp(filter.display.trim(), 'i')
 
     if (filterRegexp.test(text)) {
-      var searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
-      var updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
+      const searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
+      const updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
       updatedProp.push(value);
 
       //Note that only strings can be passed, the array is passed as a comma separated list

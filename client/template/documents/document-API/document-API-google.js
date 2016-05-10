@@ -22,7 +22,7 @@ var pickerCallback = function(data) {
     friendlyName = doc[google.picker.Document.NAME];
     docId = doc[google.picker.Document.ID];
 
-    var data = {
+    const cbData = {
       docPath: docUrl,
       docName: friendlyName,
       fileIcon: 'file-o',
@@ -32,7 +32,7 @@ var pickerCallback = function(data) {
     };
 
     // Callback expects a list
-    callback(null, [data]);
+    callback(null, [cbData]);
   }
 };
 

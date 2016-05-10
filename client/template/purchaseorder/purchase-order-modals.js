@@ -167,7 +167,7 @@ Template.updatePurchaseOrderFormModal.events({
 
     if (level === 0) {
       if (selected !== "Requested" && selected !== "Cancelled") {
-        var origVal = Session.get('poStat');
+        const origVal = Session.get('poStat');
         $('#poStatus').val(origVal);
         toastr.warning('Your authorisation level only permits you to set order status to "Requested" or "Cancelled".');
         return false;
@@ -176,7 +176,7 @@ Template.updatePurchaseOrderFormModal.events({
 
     if (Session.get('poIsLocked')) {
       if (selected === "Requested") {
-        var origVal = Session.get('poStat');
+        const origVal = Session.get('poStat');
         $('#poStatus').val(origVal);
         toastr.warning('You cannot set the order status to "Requested" - it has already been submitted for authorisation.');
         return false;
@@ -261,7 +261,7 @@ Template.editPurchaseOrderItemModal.helpers({
     _.each(projects, function(project) {
       if (project.companyId) {
         var company = Companies.findOne(project.companyId);
-        var info = {
+        const info = {
           'label': project.name + " (" + company.name + ")",
           'value': project._id
         };
@@ -269,7 +269,7 @@ Template.editPurchaseOrderItemModal.helpers({
         data.push(info);
       } else {
         var contact = Contacts.findOne(project.contactId);
-        var info = {
+        const info = {
           'label': project.name + " (" + contact.forename + " " + contact.surname + ")",
           'value': project._id
         };

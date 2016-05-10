@@ -39,6 +39,7 @@ Template.task.helpers({
   },
   entityDetails: function() {
     var entityData = "";
+    let handle = null;
 
     switch (this.entityType) {
       case 'user':
@@ -49,10 +50,11 @@ Template.task.helpers({
           permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadTasks'])
         }
         break;
+
       case 'company':
-        var handle = Meteor.subscribe("companyById", this.entityId);
+        handle = Meteor.subscribe("companyById", this.entityId);
         if (handle && handle.ready()) {
-          var c = Companies.findOne({
+          const c = Companies.findOne({
             _id: this.entityId
           });
           entityData = {
@@ -62,10 +64,11 @@ Template.task.helpers({
           };
         }
         break;
+
       case 'contact':
-        var handle = Meteor.subscribe("contactById", this.entityId);
+        handle = Meteor.subscribe("contactById", this.entityId);
         if (handle && handle.ready()) {
-          var c = Contacts.findOne({
+          const c = Contacts.findOne({
             _id: this.entityId
           });
           entityData = {
@@ -75,10 +78,11 @@ Template.task.helpers({
           };
         }
         break;
+
       case 'project':
-        var handle = Meteor.subscribe("projectById", this.entityId);
+        handle = Meteor.subscribe("projectById", this.entityId);
         if (handle && handle.ready()) {
-          var p = Projects.findOne({
+          const p = Projects.findOne({
             _id: this.entityId
           });
           entityData = {
@@ -88,10 +92,11 @@ Template.task.helpers({
           };
         }
         break;
+
       case 'opportunity':
-        var handle = Meteor.subscribe("opportunityById", this.entityId);
+        handle = Meteor.subscribe("opportunityById", this.entityId);
         if (handle && handle.ready()) {
-          var p = Opportunities.findOne({
+          const p = Opportunities.findOne({
             _id: this.entityId
           });
           entityData = {
@@ -101,6 +106,7 @@ Template.task.helpers({
           };
         }
         break;
+
       default:
         entityData = {
           icon: "check",

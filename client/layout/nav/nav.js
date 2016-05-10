@@ -212,7 +212,7 @@ Template.nav.events({
         toastr.info('Page already favourited.');
         return;
       }
-      var x = {
+      const x = {
         name: document.title,
         url: FlowRouter.current().path
       }
@@ -220,7 +220,7 @@ Template.nav.events({
       profile.favourites = favList;
     } else {
       var fav = [];
-      var x = {
+      const x = {
         name: document.title,
         url: FlowRouter.current().path
       }

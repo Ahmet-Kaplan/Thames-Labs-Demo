@@ -121,7 +121,6 @@ Template.editContactModal.events({
       mapData.title = mapData.forename + ' ' + mapData.surname;
     }
     //Set map to the current location
-    var infowindow = new google.maps.InfoWindow();
     if (mapData.lat !== undefined && mapData.lng !== undefined) {
       location = {
         lat: parseFloat(mapData.lat),
@@ -141,7 +140,7 @@ Template.editContactModal.events({
         $("input[name=lat]").val(markerModal.getPosition().lat());
         $("input[name=lng]").val(markerModal.getPosition().lng());
       });
-      var infowindow = new google.maps.InfoWindow();
+      const infowindow = new google.maps.InfoWindow();
       infowindow.setContent(mapData.title);
       infowindow.open(mapModal, markerModal);
     } else {
@@ -168,7 +167,7 @@ Template.editContactModal.events({
             $("input[name=lat]").val(markerModal.getPosition().lat());
             $("input[name=lng]").val(markerModal.getPosition().lng());
           });
-          var infowindow = new google.maps.InfoWindow();
+          const infowindow = new google.maps.InfoWindow();
           infowindow.setContent(mapData.title);
           infowindow.open(mapModal, markerModal);
         }

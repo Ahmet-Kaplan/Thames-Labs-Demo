@@ -50,10 +50,11 @@ refreshData = function(template) {
 
 buildChart = function(template, chartType) {
   var ctx = document.getElementById("companySummaryChartDisplayArea").getContext("2d");
+  var data = null, options = null;
 
   switch (chartType) {
     case 'stacked-bar':
-      var data = {
+      data = {
         labels: ["Companies", "Contacts", "Opportunities", "Projects", "Products"],
         datasets: [{
           label: "Companies",
@@ -65,7 +66,7 @@ buildChart = function(template, chartType) {
         }]
       };
 
-      var options = {
+      options = {
         scaleBeginAtZero: true,
         scaleShowGridLines: true,
         scaleGridLineColor: "rgba(0,0,0,.05)",
@@ -80,8 +81,9 @@ buildChart = function(template, chartType) {
       var StackedBarChartObject = new Chart(ctx).StackedBar(data, options);
       globalSBCRef = StackedBarChartObject;
       break;
+
     case 'bar':
-      var data = {
+      data = {
         labels: ["Companies", "Contacts", "Opportunities", "Projects", "Products"],
         datasets: [{
           label: "Companies",
@@ -121,7 +123,7 @@ buildChart = function(template, chartType) {
         }]
       };
 
-      var options = {
+      options = {
         scaleBeginAtZero: true,
         scaleShowGridLines: true,
         scaleGridLineColor: "rgba(0,0,0,.05)",
@@ -138,8 +140,9 @@ buildChart = function(template, chartType) {
       var BarChartObject = new Chart(ctx).Bar(data, options);
       globalBCRef = BarChartObject;
       break;
+
     case 'pie':
-      var data = [{
+      data = [{
         value: template.totalCompanies.get(),
         color: "#ff0006",
         highlight: "#ff3b3f",
@@ -165,7 +168,7 @@ buildChart = function(template, chartType) {
         highlight: "#a249fb",
         label: "Products"
       }];
-      var options = {
+      options = {
         segmentShowStroke: true,
         segmentStrokeColor: "#fff",
         segmentStrokeWidth: 2,
@@ -178,8 +181,9 @@ buildChart = function(template, chartType) {
       var PieChartObject = new Chart(ctx).Pie(data, options);
       globalPCRef = PieChartObject;
       break;
+
     case 'doughnut':
-      var data = [{
+      data = [{
         value: template.totalCompanies.get(),
         color: "#ff0006",
         highlight: "#ff3b3f",
@@ -205,7 +209,7 @@ buildChart = function(template, chartType) {
         highlight: "#a249fb",
         label: "Products"
       }];
-      var options = {
+      options = {
 
         segmentShowStroke: true,
         segmentStrokeColor: "#fff",
@@ -220,8 +224,9 @@ buildChart = function(template, chartType) {
       var DoughtnutChart = new Chart(ctx).Doughnut(data, options);
       globalDCRef = DoughtnutChart;
       break;
+
     case 'polar':
-      var data = [{
+      data = [{
         value: template.totalCompanies.get(),
         color: "#ff0006",
         highlight: "#ff3b3f",
@@ -248,7 +253,7 @@ buildChart = function(template, chartType) {
         label: "Products"
       }];
 
-      var options = {
+      options = {
         scaleShowLabelBackdrop: true,
         scaleBackdropColor: "rgba(255,255,255,0.75)",
         scaleBeginAtZero: true,
