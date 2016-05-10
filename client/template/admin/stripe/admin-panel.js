@@ -1,4 +1,4 @@
-var updateStripeCustomer = function(self) {
+function updateStripeCustomer(self) {
   var stripeCustomer = self.stripeCustomer;
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
@@ -13,9 +13,9 @@ var updateStripeCustomer = function(self) {
       stripeCustomer.set(customer);
     });
   }
-};
+}
 
-var updateUpcomingInvoice = function(self) {
+function updateUpcomingInvoice(self) {
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });
@@ -78,9 +78,9 @@ var updateUpcomingInvoice = function(self) {
       self.upcomingInvoice.set(upcomingInvoice);
     });
   }
-};
+}
 
-var updateLastInvoice = function(self) {
+function updateLastInvoice(self) {
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });
@@ -103,9 +103,9 @@ var updateLastInvoice = function(self) {
       self.lastInvoice.set(lastInvoice);
     });
   }
-};
+}
 
-var updateCardDetails = function(self) {
+function updateCardDetails(self) {
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });
@@ -115,9 +115,9 @@ var updateCardDetails = function(self) {
   Meteor.call('stripe.getCardDetails', function(error, response) {
     self.cardDetails.set(response);
   });
-};
+}
 
-var updateCouponDetails = function(self) {
+function updateCouponDetails(self) {
   var couponDetails = self.couponDetails;
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
@@ -133,7 +133,7 @@ var updateCouponDetails = function(self) {
       couponDetails.set(response);
     }
   });
-};
+}
 
 Template.stripeAdmin.onCreated(function() {
   this.stripeCustomer = new ReactiveVar('loading');

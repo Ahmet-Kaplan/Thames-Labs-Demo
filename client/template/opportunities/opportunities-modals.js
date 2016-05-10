@@ -1,6 +1,4 @@
-
-
-var verfiyOpportunityStagesExist = function() {
+function verfiyOpportunityStagesExist() {
   if (FlowRouter.subsReady()) {
     var userTenant = Tenants.findOne({
       _id: Meteor.user().group
@@ -12,9 +10,9 @@ var verfiyOpportunityStagesExist = function() {
       }
     }
   }
-};
+}
 
-var findFirstStageId = function() {
+function findFirstStageId() {
   var userTenant = Tenants.findOne({
     _id: Meteor.user().group
   });
@@ -26,7 +24,7 @@ var findFirstStageId = function() {
   }), 'id');
 
   return id;
-};
+}
 
 Template.insertOpportunityModal.onRendered(function() {
   Session.set('oppComp', null);

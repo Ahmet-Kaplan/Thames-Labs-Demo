@@ -12,7 +12,7 @@ var scope = ['https://www.googleapis.com/auth/drive'];
 var callback = null;
 
 // A simple callback implementation.
-var pickerCallback = function(data) {
+function pickerCallback(data) {
   if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
     var docUrl = '',
         friendlyName = '',
@@ -34,10 +34,10 @@ var pickerCallback = function(data) {
     // Callback expects a list
     callback(null, [cbData]);
   }
-};
+}
 
 // Create and render a Picker object for picking user docs
-var createPicker = function(authResult) {
+function createPicker(authResult) {
   if (authResult.access_token) {
     var picker = new google.picker.PickerBuilder()
       .setAppId(appId)
@@ -52,7 +52,7 @@ var createPicker = function(authResult) {
       picker.setVisible(true);
     }
   }
-};
+}
 
 documentAPI.googleChooser = function(cb) {
   callback = cb;

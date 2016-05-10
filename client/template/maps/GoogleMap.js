@@ -1,6 +1,6 @@
 var marker, infowindow;
 
-var updateMap = function(map, title, address) {
+function updateMap(map, title, address) {
   var newPosition = new google.maps.LatLng(address.lat, address.lng);
   if (!marker) {
     marker = new google.maps.Marker({
@@ -20,7 +20,7 @@ var updateMap = function(map, title, address) {
 
   map.setCenter(marker.getPosition());
   map.setZoom(14);
-};
+}
 
 Template.map.onCreated(function() {
   GoogleMaps.load({

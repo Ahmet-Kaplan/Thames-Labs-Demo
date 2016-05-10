@@ -1,9 +1,9 @@
 module.exports = function() {
   var url = require('url');
 
-  var setPermission = function(permissionName, value, done) {
+  function setPermission(permissionName, value, done) {
     Meteor.call('setPermission', permissionName, value, done);
-  };
+  }
 
   this.Given(/^I have the "([^"]*)" permission$/, function(permissionName) {
     browser.executeAsync(setPermission, permissionName, true);

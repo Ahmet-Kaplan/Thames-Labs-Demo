@@ -76,7 +76,7 @@ Meteor.methods({
         }
 
         //Function to add task since the entity type can vary
-        var addTask = function(entityType, entityId, createdBy) {
+        function addTask(entityType, entityId, createdBy) {
           if (faker.random.boolean()) {
             return;
           }
@@ -132,7 +132,7 @@ Meteor.methods({
               });
             });
           });
-        };
+        }
 
         // generate fake customer data
         _.each(_.range(loopNumber), function(step) {

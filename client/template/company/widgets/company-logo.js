@@ -1,9 +1,9 @@
 // Helper function to get the domain from a url
-var domainFromUrl = function(url) {
+function domainFromUrl(url) {
   var a = document.createElement('a');
   a.href = url;
   return a.hostname;
-};
+}
 
 Template.companyLogo.onCreated(function() {
   this.imageUrl = new ReactiveVar(null);

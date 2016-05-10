@@ -1,10 +1,10 @@
-var tagIsInList = function(tag, tagList) {
+function tagIsInList(tag, tagList) {
   return _.some(tagList.split(','), (s) => {
     return s === tag
   });
-};
+}
 
-var toggleTag = function(tag, index) {
+function toggleTag(tag, index) {
   var searchOptions = index.getComponentDict().get('searchOptions'),
       tags = (searchOptions && searchOptions.props && searchOptions.props.tags) ? searchOptions.props.tags : '';
 

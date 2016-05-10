@@ -157,12 +157,11 @@ Template.displayCalendar.helpers({
 
 
           //Add event listener to hide popover if click is outside
-          var hidePopoverHandle = function(evt) {
+          $(window).bind('click', hidePopoverHandle = function(evt) {
             if ($(evt.target).closest(jsEvent.target).length < 1) {
               popoverHolder.popover('hide');
             }
-          };
-          $(window).bind('click', hidePopoverHandle);
+          });
 
           //Add event listener to list to remove when template is destroyed
           const elList = instance.eventsListeners.get();
@@ -182,12 +181,12 @@ Template.displayCalendar.helpers({
         popoverHolder.popover('toggle');
 
         //Add event handler to show modal from link in popover. This cannot be done with Template.events because of the toHTMWithData function
-        var editTaskHandle = function(jsInnerEvent) {
+        function editTaskHandle(jsInnerEvent) {
           jsInnerEvent.preventDefault();
           var task = _.find(instance.tasksList.get(), {'__originalId': event.__originalId});
           task._id = task.__originalId
           Modal.show('updateTask', task);
-        };
+        }
         $('.popover-edit-task').bind('click', editTaskHandle);
 
         //Add event listener to list to remove when template is destroyed
@@ -264,12 +263,11 @@ Template.displayCalendar.helpers({
           //----------------------------------------//
 
           //Add event listener to hide popover if click is outside
-          var hidePopoverHandle = function(evt) {
+          $(window).bind('click', hidePopoverHandle = function(evt) {
             if(evt.target != popoverHolder[0]) {
               popoverHolder.popover('hide');
             }
-          };
-          $(window).bind('click', hidePopoverHandle);
+          });
           //Add event listener to list to remove when template is destroyed
           const elList = instance.eventsListeners.get();
           elList.push({
@@ -304,21 +302,21 @@ Template.displayCalendar.helpers({
         }
 
         //Add event handler to show modal. This cannot be done with Template.events because of the toHTMWithData function
-        var quickLinkHandle = function(jsInnerEvent) {
+        function quickLinkHandle(jsInnerEvent) {
           jsInnerEvent.preventDefault();
           var entityType = $(jsInnerEvent.target).attr('id');
           Modal.show('insertNewTask', {
             entity_type: entityType,
             dueDate: date
           });
-        };
+        }
         $('.quick-add-task').bind('click', quickLinkHandle);
 
         //Add event handler to go to day view. This cannot be done with Template.events because of the toHTMWithData function
-        var dayViewHandle = function() {
+        function dayViewHandle() {
           $('#tasksCalendar').fullCalendar('changeView', 'agendaDay');
           $('#tasksCalendar').fullCalendar('gotoDate', date)
-        };
+        }
         $('.go-to-day-view').bind('click', dayViewHandle);
 
         //Add event listener to list to remove when template is destroyed

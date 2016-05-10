@@ -1,12 +1,12 @@
 module.exports = function() {
 
-  var logout = function(done) {
+  function logout(done) {
     Meteor.logout(done);
-  };
+  }
 
-  var login = function(email, password, done) {
+  function login(email, password, done) {
     Meteor.loginWithPassword(email, password, done);
-  };
+  }
 
   var url = require('url');
 

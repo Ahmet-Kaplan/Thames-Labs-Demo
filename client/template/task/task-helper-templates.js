@@ -1,6 +1,6 @@
-var isDashboard = function() {
+function isDashboard() {
   return FlowRouter.getRouteName() === "dashboard";
-};
+}
 
 Template.taskDisplay.onCreated(function() {
   this.entityType = this.data.entity_type;

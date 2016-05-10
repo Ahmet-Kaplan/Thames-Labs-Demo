@@ -1,4 +1,4 @@
-var displayMore = function(searchIndex) {
+function displayMore(searchIndex) {
   if (!$('#moar').offset() || !searchIndex.getComponentMethods().hasMoreDocuments()) {
     return;
   }
