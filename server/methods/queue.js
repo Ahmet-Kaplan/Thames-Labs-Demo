@@ -73,7 +73,7 @@ Meteor.methods({
     }
 
     //Checking validity of dates provided
-    var reminderValue = parseInt(task.reminder.split('.')[0]);
+    var reminderValue = parseInt(task.reminder.split('.')[0], 10);
     var reminderUnit = task.reminder.split('.')[1];
     var reminderDate = moment(task.dueDate).subtract(reminderValue, reminderUnit);
     var dueDate = moment(task.dueDate);
@@ -122,7 +122,7 @@ Meteor.methods({
     //If reminder job exist, update or cancel it
     if(task.taskReminderJob) {
 
-      var reminderValue = parseInt(task.reminder.split('.')[0]);
+      var reminderValue = parseInt(task.reminder.split('.')[0], 10);
       var reminderUnit = task.reminder.split('.')[1];
       var reminderDate = moment(task.dueDate).subtract(reminderValue, reminderUnit);
       var dueDate = moment(task.dueDate);

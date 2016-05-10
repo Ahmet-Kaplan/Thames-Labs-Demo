@@ -13,7 +13,7 @@ Collections.products.filters = {
     display: 'Sales Price <',
     prop: 'salesPriceLower',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
@@ -25,7 +25,7 @@ Collections.products.filters = {
     display: 'Sales Price >',
     prop: 'salesPriceGreater',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
@@ -37,7 +37,7 @@ Collections.products.filters = {
     display: 'Cost Price <',
     prop: 'costPriceLower',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
@@ -49,7 +49,7 @@ Collections.products.filters = {
     display: 'Cost Price >',
     prop: 'costPriceGreater',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
@@ -111,7 +111,7 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.sequencedIdentifier) {
-        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
 
       if (options.search.props.searchById) {
@@ -127,8 +127,8 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
 
       if (options.search.props.salesPriceLower || options.search.props.salesPriceGreater) {
         selector.price = {};
-        var priceLowerThan = parseInt(options.search.props.salesPriceLower);
-        var priceGreaterThan = parseInt(options.search.props.salesPriceGreater);
+        var priceLowerThan = parseInt(options.search.props.salesPriceLower, 10);
+        var priceGreaterThan = parseInt(options.search.props.salesPriceGreater, 10);
 
         if (!isNaN(priceLowerThan)) {
           selector.price.$lte = priceLowerThan;
@@ -141,8 +141,8 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
 
       if (options.search.props.costPriceLower || options.search.props.costPriceGreater) {
         selector.cost = {};
-        var costLowerThan = parseInt(options.search.props.costPriceLower);
-        var costGreaterThan = parseInt(options.search.props.costPriceGreater);
+        var costLowerThan = parseInt(options.search.props.costPriceLower, 10);
+        var costGreaterThan = parseInt(options.search.props.costPriceGreater, 10);
 
         if (!isNaN(costLowerThan)) {
           selector.cost.$lte = costLowerThan;

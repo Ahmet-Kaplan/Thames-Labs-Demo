@@ -258,7 +258,7 @@ Template.opportunityDetail.events({
           callback: function() {
             var type = $('#selectedProjectType').val();
 
-            Meteor.call('winOpportunity', opp, parseInt(type), function(err, id) {
+            Meteor.call('winOpportunity', opp, parseInt(type, 10), function(err, id) {
               if (Roles.userIsInRole(Meteor.userId(), ['CanReadProjects'])) {
                 FlowRouter.go('/projects/' + id);
               }

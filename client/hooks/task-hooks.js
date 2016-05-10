@@ -10,7 +10,7 @@ AutoForm.hooks({
 
           var reminderValue = $('#reminderValue').val();
           var reminderUnit = $('#reminderUnit').val();
-          var reminderDate = moment(doc.dueDate).subtract(parseInt(reminderValue), reminderUnit);
+          var reminderDate = moment(doc.dueDate).subtract(parseInt(reminderValue, 10), reminderUnit);
 
           if (reminderDate.isBefore(moment())) {
             toastr.error('The reminder date is in the past.')
@@ -44,7 +44,7 @@ AutoForm.hooks({
           }
           var reminderValue = $('#reminderValue').val();
           var reminderUnit = $('#reminderUnit').val();
-          var reminderDate = moment(doc.$set.dueDate).subtract(parseInt(reminderValue), reminderUnit);
+          var reminderDate = moment(doc.$set.dueDate).subtract(parseInt(reminderValue, 10), reminderUnit);
 
           if (reminderDate.isBefore(moment())) {
             toastr.error('The reminder date is in the past.')

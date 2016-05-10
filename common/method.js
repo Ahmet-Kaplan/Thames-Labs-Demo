@@ -193,8 +193,8 @@ Meteor.methods({
           var productId = Products.insert({
             name: faker.commerce.productName(),
             description: faker.lorem.sentence(),
-            cost: parseInt(faker.finance.amount()),
-            price: parseInt(faker.commerce.price()),
+            cost: parseInt(faker.finance.amount(), 10),
+            price: parseInt(faker.commerce.price(), 10),
             createdBy: randomUser._id,
             sequencedIdentifier: productsSequenceId
           });
@@ -211,7 +211,7 @@ Meteor.methods({
             currentStageId: Math.floor(Math.random() * stages.length),
             createdBy: randomUser._id,
             items: [],
-            value: parseInt(faker.commerce.price()),
+            value: parseInt(faker.commerce.price(), 10),
             companyId: companyId,
             date: createdDate,
             estCloseDate: faker.date.future(0.5, createdDate),
@@ -294,7 +294,7 @@ Meteor.methods({
               companyId: companyId,
               contactId: contacts[Math.floor(Math.random() * contacts.length)],
               userId: randomUser._id,
-              value: parseInt(faker.commerce.price()),
+              value: parseInt(faker.commerce.price(), 10),
               createdBy: randomUser._id,
               sequencedIdentifier: projectsSequenceId
             });
