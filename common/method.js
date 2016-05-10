@@ -164,7 +164,7 @@ Meteor.methods({
             sequencedIdentifier: companiesSequenceId
           });
 
-          companiesSequenceId = companiesSequenceId + 1;
+          companiesSequenceId++;
 
           companies.push(companyId);
 
@@ -199,7 +199,7 @@ Meteor.methods({
             sequencedIdentifier: productsSequenceId
           });
 
-          productsSequenceId = productsSequenceId + 1;
+          productsSequenceId++;
 
           products.push(productId);
 
@@ -218,7 +218,7 @@ Meteor.methods({
             sequencedIdentifier: opportunitiesSequenceId
           });
 
-          opportunitiesSequenceId = opportunitiesSequenceId + 1;
+          opportunitiesSequenceId++;
 
           _.each(_.range(_.random(0, 2)), function() {
             Activities.insert({
@@ -258,7 +258,7 @@ Meteor.methods({
               sequencedIdentifier: contactsSequenceId
             });
 
-            contactsSequenceId = contactsSequenceId + 1;
+            contactsSequenceId++;
 
             contacts.push(contactId);
 
@@ -299,7 +299,7 @@ Meteor.methods({
               sequencedIdentifier: projectsSequenceId
             });
 
-            projectsSequenceId = projectsSequenceId + 1;
+            projectsSequenceId++;
 
             projects.push(projectId);
 
@@ -341,7 +341,7 @@ Meteor.methods({
               sequencedIdentifier: 'PO-' + purchaseOrdersSequenceId
             });
 
-            purchaseOrdersSequenceId = purchaseOrdersSequenceId + 1;
+            purchaseOrdersSequenceId++;
 
             purchaseOrders.push(purchaseOrderId);
 

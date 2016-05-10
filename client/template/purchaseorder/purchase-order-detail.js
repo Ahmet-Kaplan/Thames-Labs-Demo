@@ -130,7 +130,7 @@ Template.purchaseOrderDetail.events({
           total: oi.totalPrice,
         }
 
-        running = running + parseFloat(oi.totalPrice);
+        running += parseFloat(oi.totalPrice);
 
         items.push(obj);
       });
@@ -200,7 +200,7 @@ Template.purchaseOrderDetail.events({
           total: oi.totalPrice,
         }
 
-        running = running + parseFloat(oi.totalPrice);
+        running += parseFloat(oi.totalPrice);
 
         items.push(obj);
       });
