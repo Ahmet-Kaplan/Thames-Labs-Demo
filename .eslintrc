@@ -153,7 +153,7 @@
     "no-mixed-requires": 0,     // disallow mixing regular variable and require declarations (off by default) (on by default in the node environment)
     "no-new-require": 0,        // disallow use of new operator with the require function (off by default) (on by default in the node environment)
     "no-path-concat": 0,        // disallow string concatenation with __dirname and __filename (off by default) (on by default in the node environment)
-    "no-process-exit": 0,       // disallow process.exit() (on by default in the node environment)
+    "no-process-exit": 2,       // disallow process.exit() (on by default in the node environment)
     "no-restricted-modules": 0, // restrict usage of specified node modules (off by default)
     "no-sync": 0,               // disallow use of synchronous methods (off by default)
 
@@ -162,7 +162,7 @@
 
     "brace-style": [2, "1tbs"],     // enforce one true brace style (off by default)
     "camelcase": [2, { "properties": "never" }], // require camel case names but ignore properties
-    "comma-spacing": 0,             // enforce spacing before and after comma
+    "comma-spacing": [2, {"before": false, "after": true}],             // enforce spacing before and after comma
     "comma-style": [2, "last"],     // enforce one true comma style (off by default)
     "consistent-this": 0,           // enforces consistent naming when capturing the current execution context (off by default)
     "eol-last": 0,                  // enforce newline at the end of file, with no multiple empty lines
