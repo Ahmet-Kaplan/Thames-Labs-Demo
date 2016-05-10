@@ -18,22 +18,21 @@ postRoutes.route('/webhook/stripe', function(params, req, res) {
     Meteor.log._(o);
     res.send(200);
   } else {
-    Stripe.events.retrieve(req.body.id, function(err, event) {
-      // if (err) { || !event) {
+    Stripe.events.retrieve(req.body.id, function(err, evt) {
       if (err) {
         Meteor.log._(err);
         return res.send(401);
       }
 
-      var o = event.data.object;
-      Meteor.log._("Stripe webhook received: " + event.type + ", data object follows.");
-      Meteor.log._(o);
+      var obj = evt.data.object;
+      Meteor.log._("Stripe webhook received: " + evt.type + ", data object follows.");
+      Meteor.log._(obj);
 
       Email.send({
         to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
         from: 'stripe@realtimecrm.co.uk',
-        subject: 'RealtimeCRM received a webhook from Stripe! [' + event.type + ']',
-        text: o
+        subject: 'RealtimeCRM received a webhook from Stripe! [' + evt.type + ']',
+        text: obj
       });
 
       res.send(200);

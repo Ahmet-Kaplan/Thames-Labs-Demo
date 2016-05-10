@@ -128,16 +128,16 @@ module.exports = function() {
 
   this.Given(/^an? "([^"]*)" has been created$/, function(entity) {
     browser
-      .executeAsync(function(entity, done) {
-        Meteor.call('add' + entity, function() {
+      .executeAsync(function(innerEntity, done) {
+        Meteor.call('add' + innerEntity, function() {
           done();
         });
       }, entity);
   });
 
   this.Given(/^an additional "([^"]*)" has been created$/, function(entity) {
-    browser.executeAsync(function(entity, done) {
-      Meteor.call('add' + entity, true, function() {
+    browser.executeAsync(function(innerEntity, done) {
+      Meteor.call('add' + innerEntity, true, function() {
         done();
       });
     }, entity)
@@ -185,9 +185,9 @@ module.exports = function() {
   this.When(/^I set rich text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
     browser.waitForExist('div[data-schema-key=' + fieldName + ']', 5000);
     browser
-      .executeAsync(function(fieldName, value, done) {
+      .executeAsync(function(innerFieldName, innerValue, done) {
         //Set value for medium text editor because it isn't a standard input
-        $('div[data-schema-key=' + fieldName + ']').html(value);
+        $('div[data-schema-key=' + innerFieldName + ']').html(innerValue);
         done();
       }, fieldName, value);
   });
@@ -259,8 +259,8 @@ module.exports = function() {
 
   this.When(/^I click confirm on the modal with title "([^"]*)"$/, function(expectedTitle) {
     browser.waitForExist('h4*=' + expectedTitle, 5000);
-    browser.execute(function(expectedTitle) {
-      var modal = $('h4:contains("' + expectedTitle + '")').parent().parent();
+    browser.execute(function(innerExpectedTitle) {
+      var modal = $('h4:contains("' + innerExpectedTitle + '")').parent().parent();
       modal.children('.modal-footer').children('button.btn-primary').click();
     }, expectedTitle);
   });

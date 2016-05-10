@@ -273,9 +273,9 @@ Template.purchaseOrderDetail.events({
           }
 
           //Convert returned base64 string into blob for download
-          var data = base64toBlob(res.data.file, 'application/pdf');
+          var blobData = base64toBlob(res.data.file, 'application/pdf');
           Meteor.call('remainingConversions', res.headers['x-ratelimit-requests-remaining'], function(err, res) {});
-          saveAs(data, file.name.replace(".docx", ".pdf"));
+          saveAs(blobData, file.name.replace(".docx", ".pdf"));
         });
       };
       toastr.success("Your file will be downloaded shortly", "Processing...");

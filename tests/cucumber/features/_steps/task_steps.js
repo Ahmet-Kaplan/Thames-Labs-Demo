@@ -10,10 +10,10 @@ module.exports = function() {
   });
 
   this.Given(/^an? "([^"]*)" task has been created$/, function(entity) {
-    browser.executeAsync(function(entity, done) {
-      Meteor.call('add' + entity + 'Task', function(err, data) {
-        if (entity === "Company") {
-          Tasks.addTag(entity + ' Task', {
+    browser.executeAsync(function(innerEntity, done) {
+      Meteor.call('add' + innerEntity + 'Task', function(err, data) {
+        if (innerEntity === "Company") {
+          Tasks.addTag(innerEntity + ' Task', {
             _id: data
           });
         }

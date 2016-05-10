@@ -84,7 +84,7 @@ Template.insertContactModal.onRendered(function() {
           position: result.geometry.location,
           draggable: true
         });
-        google.maps.event.addListener(marker, "dragend", function(event) {
+        google.maps.event.addListener(marker, "dragend", function() {
           $("input[name=lat]").val(marker.getPosition().lat());
           $("input[name=lng]").val(marker.getPosition().lng());
         });

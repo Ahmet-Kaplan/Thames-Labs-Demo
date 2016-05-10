@@ -31,9 +31,9 @@ module.exports = function() {
 
   this.Then(/^I should have the "([^"]*)" permission$/, function(permissionName) {
     var result = browser
-      .executeAsync(function(permissionName, done) {
+      .executeAsync(function(innerPermissionName, done) {
         var user = Meteor.user();
-        Meteor.call('checkUserHasPermission', user.username, permissionName, function(err, res) {
+        Meteor.call('checkUserHasPermission', user.username, innerPermissionName, function(err, res) {
           done(res);
         });
       }, permissionName);
@@ -42,9 +42,9 @@ module.exports = function() {
 
   this.Then(/^I should not have the "([^"]*)" permission$/, function(permissionName) {
     var result = browser
-      .executeAsync(function(permissionName, done) {
+      .executeAsync(function(innerPermissionName, done) {
         var user = Meteor.user();
-        Meteor.call('checkUserHasPermission', user.username, permissionName, function(err, res) {
+        Meteor.call('checkUserHasPermission', user.username, innerPermissionName, function(err, res) {
           done(res);
         });
       }, permissionName);
@@ -53,8 +53,8 @@ module.exports = function() {
 
   this.Then(/^the user "([^"]*)" should have the "([^"]*)" permission$/, function(userName, permissionName) {
     var result = browser
-      .executeAsync(function(userName, permissionName, done) {
-        Meteor.call('checkUserHasPermission', userName, permissionName, function(err, res) {
+      .executeAsync(function(innerUserName, innerPermissionName, done) {
+        Meteor.call('checkUserHasPermission', innerUserName, innerPermissionName, function(err, res) {
           done(res);
         });
       }, userName, permissionName);
@@ -63,8 +63,8 @@ module.exports = function() {
 
   this.Then(/^the user "([^"]*)" should not have the "([^"]*)" permission$/, function(userName, permissionName) {
     var result = browser
-      .executeAsync(function(userName, permissionName, done) {
-        Meteor.call('checkUserHasPermission', userName, permissionName, function(err, res) {
+      .executeAsync(function(innerUserName, innerPermissionName, done) {
+        Meteor.call('checkUserHasPermission', innerUserName, innerPermissionName, function(err, res) {
           done(res);
         });
       }, userName, permissionName);

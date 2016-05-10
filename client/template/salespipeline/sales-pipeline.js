@@ -12,7 +12,7 @@ Template.salesPipeline.onCreated(function() {
 
 Template.salesPipeline.onRendered(function() {
   Session.set('currentStageId', null);
-  $.getScript('/vendor/d3-funnel.js', function(data, textStatus, jqxhr) {
+  $.getScript('/vendor/d3-funnel.js', function(dataRec, textStatus, jqxhr) {
     if (jqxhr.status == 200) {
       Tracker.autorun(function() {
         var userTenant = Tenants.findOne({
@@ -54,8 +54,8 @@ Template.salesPipeline.onRendered(function() {
 
           $(window).on("resize", function() {
             options.width = $("#funnel-container").width();
-            var chart = new D3Funnel('#funnel');
-            chart.draw(data, options);
+            var newChart = new D3Funnel('#funnel');
+            newChart.draw(data, options);
           });
         }
       });

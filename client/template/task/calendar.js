@@ -182,8 +182,8 @@ Template.displayCalendar.helpers({
         popoverHolder.popover('toggle');
 
         //Add event handler to show modal from link in popover. This cannot be done with Template.events because of the toHTMWithData function
-        var editTaskHandle = function(jsEvent) {
-          jsEvent.preventDefault();
+        var editTaskHandle = function(jsInnerEvent) {
+          jsInnerEvent.preventDefault();
           var task = _.find(instance.tasksList.get(), {'__originalId': event.__originalId});
           task._id = task.__originalId
           Modal.show('updateTask', task);
@@ -304,9 +304,9 @@ Template.displayCalendar.helpers({
         }
 
         //Add event handler to show modal. This cannot be done with Template.events because of the toHTMWithData function
-        var quickLinkHandle = function(jsEvent) {
-          jsEvent.preventDefault();
-          var entityType = $(jsEvent.target).attr('id');
+        var quickLinkHandle = function(jsInnerEvent) {
+          jsInnerEvent.preventDefault();
+          var entityType = $(jsInnerEvent.target).attr('id');
           Modal.show('insertNewTask', {
             entity_type: entityType,
             dueDate: date

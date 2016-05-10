@@ -1,6 +1,6 @@
 Meteor.methods({
 
-  changeStageOrder: function(stageId, direction, currentOrder) {
+  changeStageOrder: function(stageId, direction, currOrder) {
     var user = Meteor.users.findOne(this.userId);
 
     Partitioner.bindGroup(user.group, function() {

@@ -43,7 +43,7 @@ Template.editCompanyModal.onRendered(function() {
           position: result.geometry.location,
           draggable: true
         });
-        google.maps.event.addListener(marker, "dragend", function(event) {
+        google.maps.event.addListener(marker, "dragend", function() {
           $("input[name=lat]").val(marker.getPosition().lat());
           $("input[name=lng]").val(marker.getPosition().lng());
         });
@@ -80,7 +80,7 @@ Template.editCompanyModal.events({
       }
       mapModal.panTo(location);
       mapModal.setZoom(16);
-      var markerModal = new google.maps.Marker({
+      const markerModal = new google.maps.Marker({
         map: mapModal,
         position: location,
         title: companyData.name,
@@ -106,7 +106,7 @@ Template.editCompanyModal.events({
           };
           mapModal.panTo(location);
           mapModal.setZoom(16);
-          var markerModal = new google.maps.Marker({
+          const markerModal = new google.maps.Marker({
             map: mapModal,
             position: location,
             title: companyData.name,

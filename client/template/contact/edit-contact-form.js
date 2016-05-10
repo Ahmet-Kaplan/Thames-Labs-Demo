@@ -74,7 +74,7 @@ Template.editContactModal.onRendered(function() {
           position: result.geometry.location,
           draggable: true
         });
-        google.maps.event.addListener(marker, "dragend", function(event) {
+        google.maps.event.addListener(marker, "dragend", function() {
           $("input[name=lat]").val(marker.getPosition().lng());
           $("input[name=lng]").val(marker.getPosition().lat());
         });
@@ -129,7 +129,7 @@ Template.editContactModal.events({
       mapModal.panTo(location);
       mapModal.setZoom(16);
 
-      var markerModal = new google.maps.Marker({
+      const markerModal = new google.maps.Marker({
         map: mapModal,
         position: location,
         title: mapData.title,
@@ -156,7 +156,7 @@ Template.editContactModal.events({
           mapModal.panTo(location);
           mapModal.setZoom(16);
 
-          var markerModal = new google.maps.Marker({
+          const markerModal = new google.maps.Marker({
             map: mapModal,
             position: location,
             title: mapData.title,
