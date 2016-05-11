@@ -251,7 +251,7 @@ PurchaseOrders.after.insert(function(userId, doc) {
     _id: userId
   });
 
-  LogClientEvent(LogLevel.Info, user.profile.name + " created a new purchase order", 'PurchaseOrder', doc._id);
+  LogClientEvent(LogLevel.Info, user.profile.name + " created a new purchase order", 'purchaseOrder', doc._id);
 
   if (Meteor.isServer) {
     if (doc._groupId) {
