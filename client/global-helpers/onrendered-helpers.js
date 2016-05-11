@@ -64,7 +64,4 @@ Template.onRendered(function() {
       stickBar.css('width', '');
     });
   }
-
-  //set fab reactive var
-  this.fab = new ReactiveVar(true);
 });

@@ -128,7 +128,7 @@ Template.registerHelper('TenantsIndex', () => TenantsIndex);
 
 // Return standard search input attributes for EasySearch
 Template.registerHelper('searchInputAttributes', () => {
-  if (bowser.mobile || bowser.tablet) {
+  if (bowser.mobile || bowser.tablet || Meteor.isCordova) {
     return {
       placeholder: 'Search...',
       class: 'form-control easysearch-input',

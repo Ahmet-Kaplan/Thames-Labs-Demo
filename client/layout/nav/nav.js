@@ -325,25 +325,27 @@ Template.nav.events({
         document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
     }
   },
-  'click #toggleFab': function(event, template) {
-    if (Template.instance().fab.get() === true) {
-      template.fab.set(false);
-    } else {
-      template.fab.set(true);
-    };
-  },
-  'click #fab-btn': function(event, template) {
-    var title = document.title;
-    if(title === "Companies") {
-      Modal.show('insertNewCompanyModal', this);
-    }else {
-      if (Template.instance().fabOpen.get() === true) {
-        template.fabOpen.set(false);
-      } else {
-        template.fabOpen.set(true);
-      };
-    }
-  },
+
+  // 'click #toggleFab': function(event, template) {
+  //   if (Template.instance().fab.get() === true) {
+  //     template.fab.set(false);
+  //   } else {
+  //     template.fab.set(true);
+  //   };
+  // },
+  // 'click #fab-btn': function(event, template) {
+  //   var title = document.title;
+  //   if(title === "Companies") {
+  //     Modal.show('insertNewCompanyModal', this);
+  //   }else {
+  //     if (Template.instance().fabOpen.get() === true) {
+  //       template.fabOpen.set(false);
+  //     } else {
+  //       template.fabOpen.set(true);
+  //     };
+  //   }
+
+  // },
   'click #fabAddContacts': function(event) {
     event.preventDefault();
     Modal.show('insertContactModal', this);
