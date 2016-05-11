@@ -217,6 +217,10 @@ Template.contactDetail.events({
       primaryEntityDisplayData: this.forename + ' ' + this.surname,
       createdBy: Meteor.userId()
     });
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('editContactModal', this);
   }
 });
 
