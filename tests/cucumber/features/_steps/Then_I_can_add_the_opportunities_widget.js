@@ -1,5 +1,6 @@
 module.exports = function() {
   this.Then(/^I (can|can not) add the opportunities widget$/, function(option) {
+    browser.refresh();
     if (option === 'can') {
       browser.click('#addWidgetButton');
       expect(browser.isVisible('li=Opportunities Overview')).toBe(true);

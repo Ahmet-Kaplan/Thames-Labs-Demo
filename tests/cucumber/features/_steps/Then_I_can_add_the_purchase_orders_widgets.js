@@ -1,5 +1,6 @@
 module.exports = function() {
   this.Then(/^I (can|can not) add the purchase orders widgets$/, function(option) {
+    browser.refresh();
     if (option === 'can') {
       browser.click('#addWidgetButton');
       expect(browser.isVisible('li=Purchase Orders Overview')).toBe(true);

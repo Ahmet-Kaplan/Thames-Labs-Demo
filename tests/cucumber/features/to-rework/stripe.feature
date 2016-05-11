@@ -1,4 +1,5 @@
 # Testing green under new changes but needs reworking
+
 Feature: Allow users to subscribe/unsubscribe to Stripe
 
   As a potential user of the app

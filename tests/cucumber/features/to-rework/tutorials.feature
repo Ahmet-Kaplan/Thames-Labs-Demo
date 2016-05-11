@@ -1,5 +1,4 @@
 # Testing green under new changes but needs reworking
-
 Feature: Allow users to take tutorials
 
   As a user of the app
@@ -8,6 +7,7 @@ Feature: Allow users to take tutorials
 
   Background:
     Given I have not seen the welcome modal
+    And the page is loaded
 
   #Starting - Welcome Modal
   Scenario: A user can take the welcome tour from the welcome Modal

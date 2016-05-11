@@ -1,7 +1,7 @@
 module.exports = function() {
   this.When(/^I change my password to "([^"]*)"$/, function(newpassword) {
-    browser.click('#general-dropdown');
-    browser.click('#btnChangePassword');
+    browser.safeClick('#general-dropdown');
+    browser.safeClick('#btnChangePassword');
     browser.waitForModal();
     browser.setValue('#objOldPassword', 'goodpassword');
     browser.setValue('#objNewPassword', newpassword);
