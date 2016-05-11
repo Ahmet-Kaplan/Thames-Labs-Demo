@@ -1,24 +1,28 @@
 {
   // http://eslint.org/docs/rules/
 
-  "ecmaFeatures": {
-    "arrowFunctions": true,                     // enable ES6 arrow functions
-    "binaryLiterals": false,                    // enable binary literals
-    "blockBindings": true,                      // enable let and const (aka block bindings)
-    "defaultParams": false,                     // enable default function parameters
-    "forOf": false,                             // enable for-of loops
-    "generators": false,                        // enable generators
-    "modules": true,                            // enable modules
-    "objectLiteralComputedProperties": false,   // enable computed object literal property names
-    "objectLiteralDuplicateProperties": false,  // enable duplicate object literal properties in strict mode
-    "objectLiteralShorthandMethods": false,     // enable object literal shorthand methods
-    "objectLiteralShorthandProperties": false,  // enable object literal shorthand properties
-    "octalLiterals": false,                     // enable octal literals
-    "regexUFlag": false,                        // enable the regular expression u flag
-    "regexYFlag": false,                        // enable the regular expression y flag
-    "templateStrings": false,                   // enable template strings
-    "unicodeCodePointEscapes": false,           // enable code point escapes
-    "jsx": false                                // enable JSX
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "arrowFunctions": true,                     // enable ES6 arrow functions
+      "binaryLiterals": false,                    // enable binary literals
+      "blockBindings": true,                      // enable let and const (aka block bindings)
+      "defaultParams": false,                     // enable default function parameters
+      "forOf": false,                             // enable for-of loops
+      "generators": false,                        // enable generators
+      "modules": true,                            // enable modules
+      "objectLiteralComputedProperties": false,   // enable computed object literal property names
+      "objectLiteralDuplicateProperties": false,  // enable duplicate object literal properties in strict mode
+      "objectLiteralShorthandMethods": false,     // enable object literal shorthand methods
+      "objectLiteralShorthandProperties": false,  // enable object literal shorthand properties
+      "octalLiterals": false,                     // enable octal literals
+      "regexUFlag": false,                        // enable the regular expression u flag
+      "regexYFlag": false,                        // enable the regular expression y flag
+      "templateStrings": false,                   // enable template strings
+      "unicodeCodePointEscapes": false,           // enable code point escapes
+      "jsx": false                                // enable JSX
+    }
   },
 
   "env": {
@@ -217,7 +221,7 @@
     "no-dupe-class-members": 2,           // disallow duplicate class members
     "no-var": 0,                          // require let or const instead of var (off by default)
     "generator-star": 0,                  // enforce the position of the * in generator functions (off by default)
-    "object-shorthand": [1, "always"],    // require or disallow method and property shorthand syntax for object literals
+    "object-shorthand": [0, "always"],    // require or disallow method and property shorthand syntax for object literals
     "prefer-const": 2,                    // suggest const where a variable is never reassigned
     "prefer-spread": 2,                   // require spread operators instead of .apply()
     "prefer-template": 1,                 // require template literals instead of string concatenation
