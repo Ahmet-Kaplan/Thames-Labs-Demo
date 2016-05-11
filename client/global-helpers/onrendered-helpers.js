@@ -67,8 +67,7 @@ Template.onRendered(function() {
 
   //If connection is lost on mobile, alert the user
   function alertDismissed() {
-    //Log that the device was offline for debug purposes
-    console.log("Device was offline");
+    navigator.app.exitApp();
   }
 
   function onOffline() {
