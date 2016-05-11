@@ -26,7 +26,9 @@ export function displayLocale(number, currency) {
 }
 
 export function updateStripeCustomer(self) {
-  const tenant = Tenants.findOne({});
+  const tenant = Tenants.findOne({
+    _id: Meteor.user().group
+  });
 
   if (tenant.stripe.stripeId) {
     Meteor.call('stripe.getCustomerDetails', function(error, customer) {
@@ -40,7 +42,9 @@ export function updateStripeCustomer(self) {
 };
 
 export function updateUpcomingInvoice(self) {
-  const tenant = Tenants.findOne({});
+  const tenant = Tenants.findOne({
+    _id: Meteor.user().group
+  });
   if (tenant.stripe.stripeId) {
     Meteor.call('stripe.getUpcomingInvoice', function(error, invoice) {
       if (error) {
@@ -103,7 +107,9 @@ export function updateUpcomingInvoice(self) {
 };
 
 export function updateLastInvoice(self) {
-  const tenant = Tenants.findOne({});
+  const tenant = Tenants.findOne({
+    _id: Meteor.user().group
+  });
   if (tenant.stripe.stripeId) {
     Meteor.call('stripe.getLastInvoice', function(error, invoice) {
       if (error) {

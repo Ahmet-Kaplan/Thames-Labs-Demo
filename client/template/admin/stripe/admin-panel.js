@@ -24,7 +24,9 @@ Template.stripeAdmin.onCreated(function() {
   var self = this;
 
   this.autorun(function() {
-    var tenant = Tenants.findOne({});
+    var tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
     if (!tenant) return;
     var numberOfUsers = Meteor.users.find({group: tenant._id}).count();
 
@@ -37,7 +39,9 @@ Template.stripeAdmin.onCreated(function() {
 });
 
 Template.stripeAdmin.onRendered(function() {
-  var tenant = Tenants.findOne({});
+  var tenant = Tenants.findOne({
+    _id: Meteor.user().group
+  });
 
   //Get coupon info
   if(tenant.stripe.coupon) {
@@ -63,10 +67,14 @@ Template.stripeAdmin.onRendered(function() {
 
 Template.stripeAdmin.helpers({
   payingScheme: function() {
-    return Tenants.findOne({}).plan === 'pro';
+    return Tenants.findOne({
+      _id: Meteor.user().group
+    }).plan === 'pro';
   },
   subsLoaded: function() {
-    var stripeSubs = Tenants.findOne({}).stripe.stripeSubs;
+    var stripeSubs = Tenants.findOne({
+      _id: Meteor.user().group
+    }).stripe.stripeSubs;
     if(!!stripeSubs) {
       return Template.instance().stripeCustomer.get() !== 'loading'
     } else {
@@ -78,7 +86,10 @@ Template.stripeAdmin.helpers({
     return (stripeCustomer.id) ? ((stripeCustomer.subscriptions.total_count && !stripeCustomer.subscriptions.data[0].cancel_at_period_end) ? stripeCustomer.subscriptions.data[0].plan.name : "Free Plan") : "Free Plan";
   },
   hasStripeAccount: function() {
-    return !(Tenants.findOne({}).stripe.stripeId === undefined || Tenants.findOne({}).stripe.stripeId === '');
+    const tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    })
+    return !(typeof tenant.stripe.stripeId === "undefined" || tenant.stripe.stripeId === '');
   },
   hasStripeSubs: function() {
     //Note that this helper is called only after the customer details have been retrieved from the api

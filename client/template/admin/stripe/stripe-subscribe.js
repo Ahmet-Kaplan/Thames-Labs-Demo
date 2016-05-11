@@ -31,8 +31,11 @@ Template.stripeSubscribe.onRendered(function() {
       planDetails.total = planDetails.quantity * planDetails.amount;
       planDetails.amount = displayLocale(planDetails.amount, planDetails.currency);
 
-      if (Tenants.findOne().stripe.coupon) {
-        Meteor.call('stripe.getCoupon', Tenants.findOne().stripe.coupon, (error, response) => {
+      const tenant = Tenants.findOne({
+        _id: Meteor.user().group
+      });
+      if (tenant.stripe.coupon) {
+        Meteor.call('stripe.getCoupon', tenant.stripe.coupon, (error, response) => {
           if (error || response === false) {
             planDetails.couponName = 'invalid: The coupon you have registered is invalid or has been cancelled and will not be applied.';
             this.planDetails.set(planDetails);
@@ -73,7 +76,9 @@ Template.stripeSubscribe.helpers({
     return Template.instance().paymentCurrency.get();
   },
   hasCoupon: function() {
-    return !!Tenants.findOne().stripe.coupon;
+    return !!Tenants.findOne({
+      _id: Meteor.user().group
+    }).stripe.coupon;
   }
 });
 
@@ -86,7 +91,9 @@ Template.stripeSubscribe.events({
   },
   'submit #subscribe': function() {
     event.preventDefault();
-    var tenantDetails = Tenants.findOne({});
+    var tenantDetails = Tenants.findOne({
+      _id: Meteor.user().group
+    });
     var planId = Template.instance().planDetails.get().id || 'premier';
     var currentUserCurrency = Template.currentData().userCurrency;
     var newPlanCurrency = Template.instance().paymentCurrency.get();
