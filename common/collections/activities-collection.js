@@ -122,67 +122,87 @@ Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
 //////////////////////
 
 Activities.after.insert(function(userId, doc) {
-  var entity;
-  var entityName;
+  var entityType;
+  var entityId;
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+
   if (doc.companyId) {
-    entity = Companies.findOne(doc.companyId);
-    entityName = "Company: " + entity.name;
+    entityType = "company";
+    entityId = doc.companyId;
   }
   if (doc.contactId) {
-    entity = Contacts.findOne(doc.contactId);
-    entityName = "Contact: " + entity.forename + " " + entity.surname;
+    entityType = "contact";
+    entityId = doc.contactId;
+  }
+  if (doc.opportunityId) {
+    entityType = "opportunity";
+    entityId = doc.opportunityId;
   }
   if (doc.projectId) {
-    entity = Projects.findOne(doc.projectId);
-    entityName = "Project: " + entity.name;
+    entityType = "project";
+    entityId = doc.projectId;
   }
   if (doc.purchaseOrderId) {
-    entity = PurchaseOrders.findOne(doc.purchaseOrderId);
-    entityName = "Purchase Order: " + entity.description;
+    entityType = "purchaseOrder";
+    entityId = doc.purchaseOrderId;
   }
   if (doc.taskId) {
-    entity = Tasks.findOne(doc.taskId);
-    entityName = "Task: " + entity.title;
+    entityType = "task";
+    entityId = doc.taskId;
   }
 
-  var content = TagStripper.strip(doc.notes, "", "", false);
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  LogClientEvent(LogLevel.Info, user.profile.name + " created a new activity", entityType, entityId);
 
-  logEvent('info', 'A new activity has been created: ' + content + ' (' + entityName + ")");
 });
 
 Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
-  var entity;
-  var entityName;
+  var entityType;
+  var entityId;
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+
   if (doc.companyId) {
-    entity = Companies.findOne(doc.companyId);
-    entityName = "Company: " + entity.name;
+    entityType = "company";
+    entityId = doc.companyId;
   }
   if (doc.contactId) {
-    entity = Contacts.findOne(doc.contactId);
-    entityName = "Contact: " + entity.forename + " " + entity.surname;
+    entityType = "contact";
+    entityId = doc.contactId;
+  }
+  if (doc.opportunityId) {
+    entityType = "opportunity";
+    entityId = doc.opportunityId;
   }
   if (doc.projectId) {
-    entity = Projects.findOne(doc.projectId);
-    entityName = "Project: " + entity.description;
+    entityType = "project";
+    entityId = doc.projectId;
   }
   if (doc.purchaseOrderId) {
-    entity = PurchaseOrders.findOne(doc.purchaseOrderId);
-    entityName = "Purchase Order: " + entity.description;
+    entityType = "purchaseOrder";
+    entityId = doc.purchaseOrderId;
   }
   if (doc.taskId) {
-    entity = Tasks.findOne(doc.taskId);
-    entityName = "Task: " + entity.title;
+    entityType = "task";
+    entityId = doc.taskId;
   }
 
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
   if (doc.type !== this.previous.type) {
-    logEvent('info', 'An existing activity has been updated: The value of "type" was changed from ' + this.previous.type + " to " + doc.type + ' (' + entityName + ")");
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated an activity's type from " + this.previous.type + " to " + doc.type, entityType, entityId);
   }
   if (doc.notes !== this.previous.notes) {
-    logEvent('info', 'An existing activity has been updated: The value of "notes" was changed. (' + entityName + ")");
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated an activity's notes", entityType, entityId);
   }
   if (doc.activityTimestamp !== this.previous.activityTimestamp) {
-    logEvent('info', 'An existing activity has been updated: The value of "activityTimestamp" was changed from ' + this.previous.activityTimestamp + " to " + doc.activityTimestamp + ' (' + entityName + ")");
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated an activity's timestamp", entityType, entityId);
   }
+}, {
+  fetchPrevious: true
 });
 
 Activities.after.remove(function(userId, doc) {
@@ -190,29 +210,37 @@ Activities.after.remove(function(userId, doc) {
     return;
   }
 
-  var entity;
-  var entityName;
+  var entityType;
+  var entityId;
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+
   if (doc.companyId) {
-    entity = Companies.findOne(doc.companyId);
-    entityName = "Company: " + entity.name;
+    entityType = "company";
+    entityId = doc.companyId;
   }
   if (doc.contactId) {
-    entity = Contacts.findOne(doc.contactId);
-    entityName = "Contact: " + entity.forename + " " + entity.surname;
+    entityType = "contact";
+    entityId = doc.contactId;
+  }
+  if (doc.opportunityId) {
+    entityType = "opportunity";
+    entityId = doc.opportunityId;
   }
   if (doc.projectId) {
-    entity = Projects.findOne(doc.projectId);
-    entityName = "Project: " + entity.description;
+    entityType = "project";
+    entityId = doc.projectId;
   }
   if (doc.purchaseOrderId) {
-    entity = PurchaseOrders.findOne(doc.purchaseOrderId);
-    entityName = "Purchase Order: " + entity.description;
+    entityType = "purchaseOrder";
+    entityId = doc.purchaseOrderId;
   }
   if (doc.taskId) {
-    entity = Tasks.findOne(doc.taskId);
-    entityName = "Task: " + entity.title;
+    entityType = "task";
+    entityId = doc.taskId;
   }
 
-  var content = TagStripper.strip(doc.notes, "", "", false);
-  logEvent('info', 'An existing activity has been deleted: ' + content + ' (' + entityName + ")");
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  LogClientEvent(LogLevel.Info, user.profile.name + " deleted an activity", entityType, entityId);
 });
