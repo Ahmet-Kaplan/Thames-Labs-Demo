@@ -142,22 +142,23 @@ Tenants.before.insert(function(userId, doc) {
 });
 
 Tenants.after.insert(function(userId, doc) {
-  logEvent('info', 'A new tenant has been created: ' + doc.name);
+  LogServerEvent(LogLevel.Verbose, "A new tenant was created", 'tenant', doc._id);
 });
 
 Tenants.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.name !== this.previous.name) {
-    logEvent('info', 'An existing tenant has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
+    LogServerEvent(LogLevel.Verbose, "A tenant's name was updated", 'tenant', doc._id);
   }
-  var prevdoc = this.previous;
-  var key;
-  for (key in doc.settings) {
-    if (doc.settings.hasOwnProperty(key)) {
-      if (doc.settings[key] !== prevdoc.settings[key]) {
-        logEvent('info', 'An existing tenant has been updated: The value of tenant setting "' + key + '" was changed from ' + prevdoc.settings[key] + " to " + doc.settings[key]);
-      }
-    }
-  }
+  // var prevdoc = this.previous;
+  // var key;
+  // for (key in doc.settings) {
+  //   if (doc.settings.hasOwnProperty(key)) {
+  //     if (doc.settings[key] !== prevdoc.settings[key]) {
+  //       console.log(doc.settings[key], prevdoc.settings[key])
+  //       LogServerEvent(LogLevel.Verbose, "The value of " + key + " setting was updated", 'tenant', doc._id);
+  //     }
+  //   }
+  // }
 });
 
 Tenants.after.remove(function(userId, doc) {
@@ -165,5 +166,5 @@ Tenants.after.remove(function(userId, doc) {
     return;
   }
 
-  logEvent('info', 'A tenant has been deleted: ' + doc.name);
+  LogServerEvent(LogLevel.Verbose, "Tenant '" + doc.name + "' was deleted", 'tenant', doc._id);
 });

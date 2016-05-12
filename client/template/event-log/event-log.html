@@ -1,19 +1,20 @@
 <template name="events">
 
   {{setPageTitle 'Event Log'}}
-  
+
   <div class="row list-header">
       <div class="col-md-5">
         <h1>Event Log</h1>
       </div>
       <div class="col-md-7 list-header-right">
         <div class="btn-group pull-right" role="group">
-            {{> smallSearchBox collectionName='auditLog' hideHelpButton='true'}}
+          <div class="btn btn-danger" id="clear-log"><i class="fa fa-fw fa-times"></i>Clear Log</div>
+          {{> smallSearchBox collectionName='eventLog' hideHelpButton='true'}}
         </div>
       </div>
   </div>
 
-  {{> searchResults index=AuditLogIndex listItemTemplateName='eventEntry'}}
+  {{> searchResults index=EventLogIndex listItemTemplateName='eventEntry'}}
 </template>
 
 <template name="eventEntry">
@@ -28,14 +29,13 @@
       <div class="col-md-1">
         {{{displayLevel}}}
       </div>
-      <div class="col-md-4">
+      <div class="col-md-5">
         {{message}}
       </div>
-      <div class="col-md-2 userDataDisplay">
-        {{#if entityType}} {{{entityName}}} {{/if}}
-      </div>
-      <div class="col-md-2 userDataDisplay">
-        {{#if user}} {{userName}} {{/if}}
+      <div class="col-md-3 userDataDisplay">
+        {{#if entityType}}
+          <a href="{{pathFor route=entityType id=entityId}}"><i class='fa fa-fw fa-{{entityIcon}}'></i> View {{entityType}} record</a>
+        {{/if}}
       </div>
     </div>
   </li>

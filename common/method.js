@@ -53,6 +53,12 @@ Meteor.methods({
           $set: {
             'settings.opportunity.stages': stages
           }
+        }, function(err) {
+          if (err) {
+            LogServerEvent(LogLevel.Error, "Demo data generation failed whilst updating tenant opportunity stages: " + err, "tenant", groupId);
+            Meteor.call('setDemoDataFlag', false);
+            return;
+          }
         });
 
         for (var i = 0; i < MAX_FREE_USERS; i++) {
@@ -110,7 +116,11 @@ Meteor.methods({
             entityId: entityId,
             createdBy: createdBy
           }, function(err, taskId) {
-            if(err) return;
+            if (err) {
+              LogServerEvent(LogLevel.Error, "Demo data generation failed whilst updating tenant opportunity stages: " + err, "tenant", groupId);
+              Meteor.call('setDemoDataFlag', false);
+              return;
+            }
 
             _.each(_.range(_.random(0, 5)), function() {
               Tasks.addTag(faker.hacker.verb(), {
@@ -129,6 +139,12 @@ Meteor.methods({
                 primaryEntityDisplayData: title,
                 taskId: taskId,
                 createdBy: createdBy
+              }, function(err) {
+                if (err) {
+                  LogServerEvent(LogLevel.Error, "Demo data generation failed whilst adding a task activity: " + err, "tenant", groupId);
+                  Meteor.call('setDemoDataFlag', false);
+                  return;
+                }
               });
             });
           });
@@ -162,6 +178,12 @@ Meteor.methods({
             phone: faker.phone.phoneNumber(),
             createdBy: randomUser._id,
             sequencedIdentifier: companiesSequenceId
+          }, function(err) {
+            if (err) {
+              LogServerEvent(LogLevel.Error, "Demo data generation failed whilst adding a company: " + err, "tenant", groupId);
+              Meteor.call('setDemoDataFlag', false);
+              return;
+            }
           });
 
           companiesSequenceId = companiesSequenceId + 1;
@@ -187,6 +209,12 @@ Meteor.methods({
               primaryEntityDisplayData: cname,
               companyId: companyId,
               createdBy: randomUser._id
+            }, function(err) {
+              if (err) {
+                LogServerEvent(LogLevel.Error, "Demo data generation failed whilst adding a company activity: " + err, "tenant", groupId);
+                Meteor.call('setDemoDataFlag', false);
+                return;
+              }
             });
           });
 
@@ -197,6 +225,12 @@ Meteor.methods({
             price: parseInt(faker.commerce.price()),
             createdBy: randomUser._id,
             sequencedIdentifier: productsSequenceId
+          }, function(err) {
+            if (err) {
+              LogServerEvent(LogLevel.Error, "Demo data generation failed whilst adding a product: " + err, "tenant", groupId);
+              Meteor.call('setDemoDataFlag', false);
+              return;
+            }
           });
 
           productsSequenceId = productsSequenceId + 1;
@@ -216,6 +250,12 @@ Meteor.methods({
             date: createdDate,
             estCloseDate: faker.date.future(0.5, createdDate),
             sequencedIdentifier: opportunitiesSequenceId
+          }, function(err) {
+            if (err) {
+              LogServerEvent(LogLevel.Error, "Demo data generation failed whilst adding an opportunity: " + err, "tenant", groupId);
+              Meteor.call('setDemoDataFlag', false);
+              return;
+            }
           });
 
           opportunitiesSequenceId = opportunitiesSequenceId + 1;
@@ -231,6 +271,12 @@ Meteor.methods({
               primaryEntityDisplayData: oname,
               opportunityId: oppId,
               createdBy: randomUser._id
+            }, function(err) {
+              if (err) {
+                LogServerEvent(LogLevel.Error, "Demo data generation failed whilst adding an opportunity activity: " + err, "tenant", groupId);
+                Meteor.call('setDemoDataFlag', false);
+                return;
+              }
             });
           });
 
@@ -256,6 +302,12 @@ Meteor.methods({
               companyId: companyId,
               createdBy: randomUser._id,
               sequencedIdentifier: contactsSequenceId
+            }, function(err) {
+              if (err) {
+                LogServerEvent(LogLevel.Error, "Demo data generation failed whilst adding a company contact: " + err, "tenant", groupId);
+                Meteor.call('setDemoDataFlag', false);
+                return;
+              }
             });
 
             contactsSequenceId = contactsSequenceId + 1;
@@ -282,6 +334,12 @@ Meteor.methods({
                 primaryEntityType: 'contacts',
                 primaryEntityDisplayData: fname + " " + sname,
                 createdBy: randomUser._id
+              }, function(err) {
+                if (err) {
+                  LogServerEvent(LogLevel.Error, "Demo data generation failed whilst adding a company contact activity: " + err, "tenant", groupId);
+                  Meteor.call('setDemoDataFlag', false);
+                  return;
+                }
               });
             });
           });
@@ -297,6 +355,12 @@ Meteor.methods({
               value: parseInt(faker.commerce.price()),
               createdBy: randomUser._id,
               sequencedIdentifier: projectsSequenceId
+            }, function(err) {
+              if (err) {
+                LogServerEvent(LogLevel.Error, "Demo data generation failed whilst adding a project: " + err, "tenant", groupId);
+                Meteor.call('setDemoDataFlag', false);
+                return;
+              }
             });
 
             projectsSequenceId = projectsSequenceId + 1;
@@ -322,6 +386,12 @@ Meteor.methods({
                 primaryEntityDisplayData: pname,
                 projectId: projectId,
                 createdBy: randomUser._id
+              }, function(err) {
+                if (err) {
+                  LogServerEvent(LogLevel.Error, "Demo data generation failed whilst adding a project activity: " + err, "tenant", groupId);
+                  Meteor.call('setDemoDataFlag', false);
+                  return;
+                }
               });
             });
           });
@@ -339,6 +409,12 @@ Meteor.methods({
               paymentMethod: _.sample(Schemas.PurchaseOrder._schema.paymentMethod.allowedValues),
               createdBy: randomUser._id,
               sequencedIdentifier: 'PO-' + purchaseOrdersSequenceId
+            }, function(err) {
+              if (err) {
+                LogServerEvent(LogLevel.Error, "Demo data generation failed whilst adding a purchase order: " + err, "tenant", groupId);
+                Meteor.call('setDemoDataFlag', false);
+                return;
+              }
             });
 
             purchaseOrdersSequenceId = purchaseOrdersSequenceId + 1;
@@ -356,6 +432,12 @@ Meteor.methods({
                 primaryEntityType: 'purchaseorders',
                 primaryEntityDisplayData: poname,
                 createdBy: randomUser._id
+              }, function(err) {
+                if (err) {
+                  LogServerEvent(LogLevel.Error, "Demo data generation failed whilst adding a purchase order activity: " + err, "tenant", groupId);
+                  Meteor.call('setDemoDataFlag', false);
+                  return;
+                }
               });
             });
 
@@ -371,6 +453,12 @@ Meteor.methods({
                 quantity: qty,
                 totalPrice: parseFloat((price * qty).toFixed(2)),
                 createdBy: randomUser._id
+              }, function(err) {
+                if (err) {
+                  LogServerEvent(LogLevel.Error, "Demo data generation failed whilst adding a purchase order item: " + err, "tenant", groupId);
+                  Meteor.call('setDemoDataFlag', false);
+                  return;
+                }
               });
 
               purchaseOrderItems.push(poi);
@@ -386,7 +474,7 @@ Meteor.methods({
 
     Meteor.call('setDemoDataFlag', false);
 
-    logEvent('debug', 'Demo data generated');
+    LogServerEvent(LogLevel.Verbose, "Demo data generation completed successfully", "tenant", groupId);
 
   },
 
@@ -409,6 +497,11 @@ Meteor.methods({
       sequencedIdentifier: Tenants.findOne({
         _id: user.group
       }).settings.project.defaultNumber
+    }, function(err) {
+      if (err) {
+        LogClientEvent(LogLevel.Error, "Auto-creation of Project from won opportunity ['" + opp.name + "'] failed: " + err, "opportunity", opp._id);
+        return;
+      }
     });
 
     if (opp.items) {
@@ -422,6 +515,10 @@ Meteor.methods({
           createdBy: user._id,
           entityType: 'project',
           entityId: projId
+        }, function(err) {
+          if (err) {
+            LogClientEvent(LogLevel.Error, "Auto-creation of Project task from won opportunity item ['" + title + "'] failed: " + err, "project", projId);
+          }
         });
       }
     }
@@ -432,6 +529,10 @@ Meteor.methods({
         hasBeenWon: true,
         projectId: projId,
         currentStageId: null
+      }
+    }, function(err) {
+      if (err) {
+        LogClientEvent(LogLevel.Error, "Auto-archiving of won opportunity ['" + opp.name + "'] failed: " + err, "opportunity", opp._id);
       }
     });
 
@@ -447,6 +548,10 @@ Meteor.methods({
       primaryEntityType: 'opportunities',
       primaryEntityDisplayData: opp.name,
       createdBy: user._id
+    }, function(err) {
+      if (err) {
+        LogClientEvent(LogLevel.Error, "Auto-creation of won opportunity ['" + opp.name + "'] activity entry failed: " + err, "opportunity", opp._id);
+      }
     });
 
     note = 'Converted from won opportunity "' + opp.name + '"';
@@ -461,13 +566,18 @@ Meteor.methods({
       primaryEntityType: 'projects',
       primaryEntityDisplayData: opp.name,
       createdBy: user._id
+    }, function(err) {
+      if (err) {
+        LogClientEvent(LogLevel.Error, "Auto-creation of project ['" + opp.name + "'] activity entry on upgrading from opportunity failed: " + err, "project", projId);
+      }
     });
 
+    LogClientEvent(LogLevel.Info, "Auto-creation of project ['" + opp.name + "'] from won opportunity succeeded", "project", projId);
     return projId;
   }
 });
 
-logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
+LogClientEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
   if (Meteor.isServer) {
     var user = Meteor.users.findOne({
       _id: this._id
@@ -475,6 +585,16 @@ logEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
     if (user && user.group) {
       if (!isProTenant(user.group)) return;
     }
-    Meteor.call('addEventToAuditLog', logLevel, logMessage, ((typeof logEntityType === 'undefined') ? undefined : logEntityType), ((typeof logEntityId === 'undefined') ? undefined : logEntityId), 'client', Guid.raw());
+    var entityType = ((typeof logEntityType === 'undefined') ? undefined : logEntityType);
+    var entityId = ((typeof logEntityId === 'undefined') ? undefined : logEntityId);
+
+    Meteor.call('addEventToEventLog', logLevel, logMessage, entityType, entityId, 'client');
   }
+};
+
+LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
+  var entityType = ((typeof logEntityType === 'undefined') ? undefined : logEntityType);
+  var entityId = ((typeof logEntityId === 'undefined') ? undefined : logEntityId);
+
+  Meteor.call('addEventToEventLog', logLevel, logMessage, entityType, entityId, 'server');
 };

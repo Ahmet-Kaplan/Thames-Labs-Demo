@@ -16,7 +16,10 @@ Meteor.methods({
         console.log('Deleting tags...');
         Meteor.tags.remove({});
         console.log('Deleting events...');
-        AuditLog.remove({});
+        //EventLog is not partitioned
+        EventLog.remove({
+          group: tenantId
+        });
         console.log('Deleting companies...');
         Companies.remove({});
         console.log('Deleting contacts...');

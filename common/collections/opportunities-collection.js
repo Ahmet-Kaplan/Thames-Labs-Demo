@@ -238,6 +238,7 @@ Tags.TagsMixin(Opportunities);
 // COLLECTION HOOKS //
 //////////////////////
 Opportunities.before.insert(function(userId, doc) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
   doc.currentStageId = 0;
 
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
@@ -248,7 +249,11 @@ Opportunities.before.insert(function(userId, doc) {
 });
 
 Opportunities.after.insert(function(userId, doc) {
-  logEvent('info', 'A new opportunity has been created: ' + doc.name);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  LogClientEvent(LogLevel.Info, user.profile.name + " created a new opportunity", 'opportunity', doc._id);
 
   if (Meteor.isServer) {
     if (doc._groupId) {
@@ -258,22 +263,38 @@ Opportunities.after.insert(function(userId, doc) {
         $inc: {
           'settings.opportunity.defaultNumber': 1
         }
+      }, function(err) {
+        if (err) {
+          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's RealTime ID opportunity value: " + err, 'tenant', doc._groupId);
+          return;
+        }
       });
     }
   }
 });
+
 Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
   if (doc.description !== this.previous.description) {
-    logEvent('info', 'An existing opportunity has been updated: The value of "description" was changed');
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated an opportunity's description", 'opportunity', doc._id);
   }
   if (doc.name !== this.previous.name) {
-    logEvent('info', 'An existing opportunity has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated an opportunity's name", 'opportunity', doc._id);
   }
 });
+
 Opportunities.after.remove(function(userId, doc) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
   if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
     return;
   }
 
-  logEvent('info', 'An opportunity has been deleted: ' + doc.name);
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  LogClientEvent(LogLevel.Info, user.profile.name + " deleted opportunity '" + doc.name + "'", undefined, undefined);
 });

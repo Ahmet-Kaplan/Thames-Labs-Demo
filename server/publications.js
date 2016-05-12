@@ -13,18 +13,6 @@ Meteor.publish('userPresence', function() {
   });
 });
 
-Meteor.publish("globalAuditData", function() {
-  if (!Roles.userIsInRole(this.userId, ['superadmin'])) return this.ready();
-  return GlobalAudit.find({});
-});
-
-Meteor.publish("auditData", function() {
-  if (!Roles.userIsInRole(this.userId, ['superadmin'])) return this.ready();
-  return Partitioner.directOperation(function() {
-    return AuditLog.find({});
-  });
-});
-
 Meteor.publish("allTenants", function() {
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
     return Tenants.find({});
