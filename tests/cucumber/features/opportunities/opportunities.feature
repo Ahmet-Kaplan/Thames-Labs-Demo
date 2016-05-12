@@ -178,7 +178,6 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "CanReadOpportunities" permission
     Then the "Opportunities" menu item is shown
 
-
   #Opportunity Stages
   Scenario: A user can change opportunity stage
     Given I have the "CanEditOpportunities" permission

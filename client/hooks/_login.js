@@ -1,4 +1,5 @@
 Accounts.onLogin(function(cb) {
+
   toastr.clear();
 
   var user = Meteor.users.find({
@@ -23,6 +24,7 @@ Accounts.onLogin(function(cb) {
 
     var profile = user.profile;
     if (profile) {
+
       profile.lastLogin = new Date();
 
       Meteor.users.update(user._id, {
@@ -31,7 +33,7 @@ Accounts.onLogin(function(cb) {
         }
       });
 
-      logEvent("info", profile.name + " logged in.");
+      LogClientEvent(LogLevel.Info, profile.name + " logged in", undefined, undefined);
     }
   }
 

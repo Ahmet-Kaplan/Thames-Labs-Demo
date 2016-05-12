@@ -59,14 +59,18 @@ Template.opportunityDetail.helpers({
     });
   },
   isNotFirstStage: function() {
-    var stages = Tenants.findOne().settings.opportunity.stages;
+    var stages = Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.opportunity.stages;
     var currentStageId = this.currentStageId;
     var firstStageId = stages[0].id;
     if (currentStageId == firstStageId) return false;
     return true;
   },
   isLastStage: function() {
-    var stages = Tenants.findOne().settings.opportunity.stages;
+    var stages = Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.opportunity.stages;
     var currentStageId = this.currentStageId;
     var lastStageId = stages[stages.length - 1].id;
     if (currentStageId == lastStageId) return true;
