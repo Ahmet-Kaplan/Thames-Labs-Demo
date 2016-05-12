@@ -8,3 +8,10 @@ Template.footer.helpers({
     return !!tenant ? tenant.name : null;
   }
 });
+
+//Hide the splashscreen as quickly as possible
+Template.footer.onRendered(function() {
+  if (Meteor.isCordova) {
+    navigator.splashscreen.hide();
+  }
+});

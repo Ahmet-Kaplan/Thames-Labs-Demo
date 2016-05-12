@@ -108,5 +108,7 @@ standard-minifier-css
 standard-minifier-js
 templating
 fixtures
+launch-screen
 crosswalk
+hedcet:touch-swipe
 force-ssl
