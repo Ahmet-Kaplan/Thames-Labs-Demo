@@ -1,5 +1,4 @@
 # Testing green under new changes but needs reworking
-
 Feature: Allow users to manage their Companies
   As a user of the app
   I want to manage my Companies

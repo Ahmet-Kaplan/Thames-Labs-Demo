@@ -1,5 +1,4 @@
 # Testing green under new changes but needs reworking
-
 Feature: Allow users to sign up to the app
 
   As a potential user of the app

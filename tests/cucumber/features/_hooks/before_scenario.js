@@ -14,8 +14,8 @@ module.exports = function() {
     server.execute(reset);
 
     // Setup default tenant and user
-    const tenantId = server.execute(createTenant);
-    server.execute(createUser, tenantId);
+    const tenantId = server.execute(createTenant, 'Acme Corp', 'free');
+    server.execute(createUser, tenantId, 'Test User', 'test@domain.com');
 
     // Navigate to root URL
     browser.url(process.env.ROOT_URL);

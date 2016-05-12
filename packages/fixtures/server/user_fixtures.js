@@ -391,23 +391,5 @@ Meteor.methods({
       //   }
       // });
     }
-  },
-
-  switchUser: function() {
-    var userId = Meteor.users.findOne({
-      username: "second test user"
-    })._id;
-    console.log(userId);
-
-    this.setUserId(userId);
-  },
-
-  switchBack: function() {
-    var userId = Meteor.users.findOne({
-      username: "test user"
-    })._id;
-    console.log(userId);
-
-    this.setUserId(userId);
   }
 });

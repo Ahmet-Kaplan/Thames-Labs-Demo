@@ -1,5 +1,4 @@
 # Testing green under new changes but needs reworking
-
 Feature: Allow users to manage their sales opportunities
 
   As a user of the app

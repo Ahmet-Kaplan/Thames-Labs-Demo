@@ -1,5 +1,4 @@
 # Testing green under new changes but needs reworking
-
 Feature: Allow users to view event logs
   As a user
   I want to see events

@@ -15,9 +15,3 @@ Feature: Allow users to view event logs
     Given an "Event" has been created
     And I visit EventLog
     Then I should see an event in the list
-
-  Scenario: A user should not be able to see events created by a user under another tenant
-    Given a second pro tenant exists
-    And the second tenant has an Event
-    And I visit EventLog
-    Then I should not see an event in the list

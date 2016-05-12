@@ -1,11 +1,11 @@
-export function createUser(tenantId) {
+export function createUser(tenantId, name, email) {
   // TODO: make this use our actual user creation method for better accuracy
   const userId = Accounts.createUser({
-    username: "test user",
-    email: "test@domain.com",
+    username: name,
+    email: email,
     password: "goodpassword",
     profile: {
-      name: "test user"
+      name: name
     }
   });
 

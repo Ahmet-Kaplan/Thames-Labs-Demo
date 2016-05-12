@@ -1,7 +1,7 @@
-export function createTenant() {
+export function createTenant(name, plan) {
   const defaultTenant = {
-    name: 'Acme Corp',
-    plan: 'free',
+    name: name,
+    plan: plan,
     settings: {
       extInfo: {
         company: [],
