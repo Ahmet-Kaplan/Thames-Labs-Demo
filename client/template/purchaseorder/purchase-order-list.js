@@ -130,6 +130,10 @@ Template.purchaseOrderList.events({
     }
     $(event.target).blur();
   },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('newPurchaseOrderForm', this);
+  }
 });
 
 Template.purchaseOrderList.helpers({

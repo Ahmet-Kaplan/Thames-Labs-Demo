@@ -208,6 +208,10 @@ Template.taskDetail.events({
         });
       }
     }
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('updateTask', this);
   }
 });
 
