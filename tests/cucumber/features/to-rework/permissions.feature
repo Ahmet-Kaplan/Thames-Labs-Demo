@@ -19,7 +19,7 @@ Feature: Allow administrators to give users permissions
     And I click "#btnEditTenantUser"
     And I click "#cbUserIsTenantAdministrator"
     And I click "#btnUpdateTenantUser"
-    Then the user "test user" should have the "Administrator" permission
+    Then the user "Test User" should have the "Administrator" permission
 
   Scenario: An administrator can see the correct menu items
     Given a user exists
@@ -91,7 +91,7 @@ Feature: Allow administrators to give users permissions
     And I click "#Administration"
     And I click "#userAdminPanelExpander"
     Then I cannot click "#tenantRemoveUser"
-    And the user "test user" should have the "Administrator" permission
+    And the user "Test User" should have the "Administrator" permission
 
   Scenario: An Administrator can set another user to Administrator
     Given a user exists
@@ -118,7 +118,7 @@ Feature: Allow administrators to give users permissions
     And I click "#btnEditTenantUserPermissions"
     And I click "#cbUserIsTenantAdministrator"
     And I click "#btnUpdateTenantUserPermissions"
-    Then the user "test user" should have the "Administrator" permission
+    Then the user "Test User" should have the "Administrator" permission
 
   Scenario: A normal user can't see the 'Administration' button
     Given a user exists

@@ -167,10 +167,10 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     And I click "#next-stage"
     Then I should see "#previous-stage"
-    And "#timeline" should contain "test user moved this opportunity forward from stage"
+    And "#timeline" should contain "Test User moved this opportunity forward from stage"
     When I click "#previous-stage"
     Then I should not see "#previous-stage"
-    And "#timeline" should contain "test user moved this opportunity from stage"
+    And "#timeline" should contain "Test User moved this opportunity from stage"
 
   Scenario: A user can mark an opportunity as lost and reopen it
     Given I have the "CanEditOpportunities" permission
@@ -179,12 +179,12 @@ Feature: Allow users to manage their sales opportunities
     And I click "#lost-opportunity"
     And I click confirm on the modal
     Then I should see that the opportunity has been lost
-    And "#timeline" should contain "test user marked this opportunity as lost"
+    And "#timeline" should contain "Test User marked this opportunity as lost"
     And I should see "#reopen-opportunity"
     When I click "#reopen-opportunity"
     And I click confirm on the modal
     Then I should see "#next-stage"
-    And "#timeline" should contain "test user reopened this opportunity"
+    And "#timeline" should contain "Test User reopened this opportunity"
 
   Scenario: A user without edit permissions cannot reopen an opportunity
     Given I have the "CanEditOpportunities" permission
@@ -209,7 +209,7 @@ Feature: Allow users to manage their sales opportunities
     Then I should see that an project has been created from the opportunity
     And "#timeline" should contain "Converted from won opportunity"
     When I navigate backwards in the browser history
-    And "#timeline" should contain "test user marked this opportunity as won"
+    And "#timeline" should contain "Test User marked this opportunity as won"
     And I should not see "#reopen-opportunity"
 
   #Opportunity Line Items

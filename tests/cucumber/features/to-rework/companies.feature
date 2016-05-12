@@ -47,7 +47,7 @@ Feature: Allow users to manage their Companies
     And I am on the pro plan
     When I remove permissions on "Companies" for myself
     And I add permission "CanRead" on "Companies" to myself
-    Then the user "test user" should have the "CanReadCompanies" permission
+    Then the user "Test User" should have the "CanReadCompanies" permission
 
   Scenario: A superadmin user can't visit the companies list
     Given a superadmin exists
