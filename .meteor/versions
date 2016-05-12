@@ -59,7 +59,7 @@ fastclick@1.0.10
 fixtures@0.0.1
 flowkey:bowser@1.0.2
 flowkey:hotkeys@1.1.1
-force-ssl@1.0.9
+force-ssl@1.0.10
 fortawesome:fontawesome@4.5.0
 geojson-utils@1.0.7
 gildaspk:autoform-medium@0.0.5
@@ -190,11 +190,8 @@ useraccounts:bootstrap@1.13.1
 useraccounts:core@1.13.1
 vazco:universe-html-purifier@1.2.3
 vsivsi:job-collection@1.3.0
-webapp@1.2.6
-webapp-hashing@1.0.7
-xolvio:backdoor@0.1.2
-vsivsi:job-collection@1.3.2
 webapp@1.2.7
 webapp-hashing@1.0.8
+xolvio:backdoor@0.1.2
 yogiben:autoform-modals@0.3.8
 zimme:active-route@2.3.2

@@ -21,20 +21,6 @@ Feature: Allow users to manage their Purchase Orders
     When I navigate to "/purchaseorders"
     Then I should see the heading "Purchase Orders"
 
-  Scenario: A user should not be able to see purchase orders created by a user under another tenant
-    Given a "PurchaseOrder" has been created
-    And I am on the pro plan
-    And a second tenant exists
-    And the second tenant is on the pro plan
-    And a second user exists
-    And I click "#menuLinkPurchaseOrders"
-    Then I should see "#list-item"
-    And I log out
-    And I log in as a second tenant user
-    And I have the "CanReadPurchaseOrders" permission
-    And I click "#menuLinkPurchaseOrders"
-    Then I should not see "#list-item"
-
   Scenario: A user can add a new purchase order to a company
     Given I am a logged in user
     And I am on the pro plan

@@ -11,11 +11,13 @@ module.exports = function() {
     //Set second users permissions
     const collectionMap = {
       'Company': 'companies',
+      'Contact': 'contacts',
       'Purchase order': 'purchaseorders',
       'Opportunity': 'opportunities',
       'Project': 'projects',
       'Product': 'products',
-      'Event': 'auditLog'
+      'Event': 'eventLog',
+      'Task': 'tasks'
     };
     var action = "create";
     expect(Object.keys(collectionMap)).toContain(friendlyEntityName);

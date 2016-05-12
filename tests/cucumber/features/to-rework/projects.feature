@@ -25,18 +25,6 @@ Feature: Allow users to manage their Projects
     When I navigate to a project page
     Then I should see the heading "test project"
 
-  Scenario: A user should not be able to see projects created by a user under another tenant
-    Given a "Project" has been created
-    And I navigate to "/projects"
-    Then I should see "#list-item"
-    Given a second tenant exists
-    And a second user exists
-    And I log out
-    And I log in as user 2
-    And I have the "CanReadProjects" permission
-    And I navigate to "/projects"
-    Then I should not see "#list-item"
-
   Scenario: An administrator can add CanReadProjects permission
     Given I have the "Administrator" permission
     And I am on the pro plan
