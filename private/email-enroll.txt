@@ -6,7 +6,7 @@ To begin using the system, please set your password by clicking the link below:
 
 {{url}}
 
-We hope you will enjoy all the features that RealTimeCRM offers. Please take a moment to look at our Terms and Conditions of use. As a product that is in Beta, we are always looking for thoughts and suggestions and so we very much value any feedback you may have.
+We hope you will enjoy all the features that RealTimeCRM offers. Please take a moment to look at http://www.realtimecrm.co.uk/terms-conditions/. As a product that is in Beta, we are always looking for thoughts and suggestions and so we very much value any feedback you may have.
 
 Should you have any questions or comments please use the “Give Feedback” link in the menu at the top right of the screen.
 
