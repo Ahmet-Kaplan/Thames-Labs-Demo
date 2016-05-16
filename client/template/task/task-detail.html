@@ -134,7 +134,18 @@
 </template>
 
 <template name="subTaskItem">
-  <a href="{{pathFor route='task' id=_id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to sub-task's details">
-    <i class="fa fa-fw fa-check"></i> <i class="fa fa-fw fa-chevron-right pull-right"></i> {{subTaskName}}
-  </a>
+    <a href="{{pathFor route='task' id=_id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to sub-task's details">
+    {{#if completed}}
+      <span class="fa-stack fa-1x task-green task-completed">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+      </span>
+      {{else}}
+      <span class="fa-stack fa-1x task-completed">
+      <i class="fa fa-check fa-stack-1x"></i>
+      <i class="fa fa-circle-thin fa-stack-2x"></i>
+      </span>
+    {{/if}}
+    <i class="fa fa-fw fa-chevron-right pull-right"></i> {{subTaskName}}
+    </a>
 </template>
