@@ -280,8 +280,8 @@ Template.opportunityDetail.events({
       if (result === false) return;
 
       var user = Meteor.user(),
-          note = user.profile.name + ' reopened this opportunity',
-          today = new Date();
+        note = user.profile.name + ' reopened this opportunity',
+        today = new Date();
 
       Opportunities.update(this._id, {
         $unset: {
@@ -325,20 +325,26 @@ Template.opportunityDetail.events({
 
     var reader = new FileReader();
     reader.onload = function() {
+      toastr.info("Extracting, please wait...");
+
       var doc = new Docxgen(reader.result);
 
       var companyName = "",
-          companyAddress = "",
-          contactName = "";
+        companyAddress = "",
+        contactName = "";
 
       if (this.companyId) {
         var company = Companies.findOne(this.companyId);
-        companyName = company.name;
-        companyAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
+        if (company) {
+          companyName = company.name;
+          companyAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
+        }
       }
       if (this.contactId) {
         var contact = Contacts.findOne(this.contactId);
-        contactName = contact.forename + " " + contact.surname;
+        if (contact) {
+          contactName = contact.forename + " " + contact.surname;
+        }
       }
 
       var date = moment().format("MMM Do YYYY");
@@ -378,6 +384,7 @@ Template.opportunityDetail.events({
       });
       saveAs(blob, file.name);
 
+      $('#template-upload-docx').val('');
 
       Activities.insert({
         type: "Note",
@@ -403,8 +410,8 @@ Template.opportunityDetail.events({
       var doc = new Docxgen(reader.result);
 
       var companyName = "",
-          companyAddress = "",
-          contactName = "";
+        companyAddress = "",
+        contactName = "";
 
       if (this.companyId) {
         var company = Companies.findOne(this.companyId);
@@ -501,6 +508,8 @@ Template.opportunityDetail.events({
         });
       };
       toastr.success("Your file will be downloaded shortly", "Processing...");
+
+      $('#template-upload').val('');
 
       Activities.insert({
         type: "Note",
