@@ -276,6 +276,6 @@ Migrations.add({
       });
     });
 
-    ServerSession.set('maintenance', true);
+    ServerSession.set('maintenance', false);
   }
 });
