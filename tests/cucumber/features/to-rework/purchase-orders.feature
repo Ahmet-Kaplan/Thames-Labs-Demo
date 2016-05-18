@@ -103,6 +103,7 @@ Feature: Allow users to manage their Purchase Orders
     And I set text field with selector "#itemValue" to "4.00"
     And I set text field with selector "#currQuant" to "4.00"
     And I click "#add-item-to-po"
+    Then I should not see a modal
     And I click "#edit-po-item"
     And I set textarea "description" to "test purchase order item"
     And I click "#update-po-item"
