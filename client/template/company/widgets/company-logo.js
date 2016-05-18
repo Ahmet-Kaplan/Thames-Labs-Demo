@@ -13,8 +13,6 @@ function domainFromUrl(url) {
 Template.companyLogo.onCreated(function() {
   this.imageUrl = new ReactiveVar(null);
 
-  console.log(Template.currentData());
-
   this.autorun(function() {
     var clearbitUrl = 'https://logo.clearbit.com/',
         imageTester = new Image(),
