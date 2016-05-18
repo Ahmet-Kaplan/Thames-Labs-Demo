@@ -14,10 +14,10 @@ Feature: Allow users to see widgets
     And I have the "CanReadProducts" permission
     And I have the "CanReadPurchaseOrders" permission
 
-    Scenario: A user can see the chatter widget
-      When I click "#addWidgetButton"
-      And I click "#chat"
-      Then I should see "#chatBox"
+    #Scenario: A user can see the chatter widget
+      #When I click "#addWidgetButton"
+      #And I click "#chat"
+      #Then I should see "#chatBox"
 
     Scenario: A user can see the quotation widget
       When I click "#addWidgetButton"

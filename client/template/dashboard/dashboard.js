@@ -11,15 +11,15 @@
     - 'name' is the text displayed on the dropdown.
 *****************************************/
 var widgetsDefault = {
-  'chat': {
-    id: 'chat',
-    x: 0,
-    y: 0,
-    w: 1,
-    h: 1,
-    displayed: true,
-    name: 'Chatter'
-  },
+  // 'chat': {
+  //   id: 'chat',
+  //   x: 0,
+  //   y: 0,
+  //   w: 1,
+  //   h: 1,
+  //   displayed: true,
+  //   name: 'Chatter'
+  // },
   'quotation': {
     id: 'quotation',
     x: 1,

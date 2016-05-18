@@ -1,76 +1,76 @@
-Template.chatWidget.onCreated(function() {
-  this.subscribe('allChatter');
-});
+// Template.chatWidget.onCreated(function() {
+//   this.subscribe('allChatter');
+// });
 
-Template.chatWidget.onRendered(function() {
-  $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
-});
+// Template.chatWidget.onRendered(function() {
+//   $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
+// });
 
-function sendMessage() {
-  var user = Meteor.users.find({
-    _id: Meteor.userId()
-  }).fetch()[0];
+// function sendMessage() {
+//   var user = Meteor.users.find({
+//     _id: Meteor.userId()
+//   }).fetch()[0];
 
-  if (user) {
-    if (user.profile) {
-      var m = $('.chatMessage').val();
-      if (!m) return;
-      Chatterbox.insert({
-        user: user.profile.name,
-        message: m,
-        createdAt: new Date()
-      });
+//   if (user) {
+//     if (user.profile) {
+//       var m = $('.chatMessage').val();
+//       if (!m) return;
+//       Chatterbox.insert({
+//         user: user.profile.name,
+//         message: m,
+//         createdAt: new Date()
+//       });
 
-      $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
-      $('.chatMessage').val("");
-    }
-  }
-}
+//       $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
+//       $('.chatMessage').val("");
+//     }
+//   }
+// }
 
-Template.chatWidget.events({
-  'click .sendMessage': function() {
-    sendMessage();
-  },
-  'keypress .chatMessage': function(e) {
-    if(e.keyCode == 13) {
-      sendMessage();
-    }
-  }
-});
+// Template.chatWidget.events({
+//   'click .sendMessage': function() {
+//     sendMessage();
+//   },
+//   'keypress .chatMessage': function(e) {
+//     if(e.keyCode == 13) {
+//       sendMessage();
+//     }
+//   }
+// });
 
-Template.chatWidget.helpers({
-  chatMessages: function() {
-    var user = Meteor.users.find({
-      _id: Meteor.userId()
-    }).fetch()[0];
+// Template.chatWidget.helpers({
+//   chatMessages: function() {
+//     var user = Meteor.users.find({
+//       _id: Meteor.userId()
+//     }).fetch()[0];
 
-    if (user) {
-      if (user.profile) {
-        var arr = [];
-        var filter = new Date(user.profile.lastLogin);
-        var msgs = Chatterbox.find({}).fetch();
-        _.each(msgs, function(x) {
-          var thisDate = new Date(x.createdAt);
-          if (thisDate >= filter) {
-            arr.push(x);
-          }
-        });
-        return arr;
-      }
-    }
-  },
+//     if (user) {
+//       if (user.profile) {
+//         var arr = [];
+//         var filter = new Date(user.profile.lastLogin);
+//         var msgs = Chatterbox.find({}).fetch();
+//         _.each(msgs, function(x) {
+//           var thisDate = new Date(x.createdAt);
+//           if (thisDate >= filter) {
+//             arr.push(x);
+//           }
+//         });
+//         return arr;
+//       }
+//     }
+//   },
 
-  getCurrentUserId: function() {
-    return Meteor.userId();
-  }
-});
+//   getCurrentUserId: function() {
+//     return Meteor.userId();
+//   }
+// });
 
-Template.message.onRendered(function() {
-  $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
-});
+// Template.message.onRendered(function() {
+//   $('.chatWindow').scrollTop($('.chatWindow').prop("scrollHeight"));
+// });
 
-Template.message.helpers({
-  niceTime: function() {
-    return moment(this.createdAt).fromNow();
-  }
-});
+// Template.message.helpers({
+//   niceTime: function() {
+//     return moment(this.createdAt).fromNow();
+//   }
+// });

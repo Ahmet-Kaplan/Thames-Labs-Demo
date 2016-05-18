@@ -295,10 +295,10 @@ Meteor.publish("allNotifications", function() {
   });
 });
 
-Meteor.publish("allChatter", function() {
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Chatterbox.find({});
-});
+// Meteor.publish("allChatter", function() {
+//   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+//   return Chatterbox.find({});
+// });
 
 
 Meteor.publish("allTasks", function() {

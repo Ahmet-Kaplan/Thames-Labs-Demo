@@ -275,5 +275,33 @@ Migrations.add({
         });
       });
     });
+
+    ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 26,
+  name: "Move all custom fields to new collection storage approach",
+  up: function() {
+    ServerSession.set('maintenance', true);
+
+    _.each(Meteor.users.find({}).fetch(), function(u) {
+      if (u.profile) {
+        var widgets = u.profile.myWidgets;
+        if (widgets && widgets['chat']) {
+          delete widgets['chat'];
+          Meteor.users.update({
+            _id: u._id
+          }, {
+            $set: {
+              'profile.myWidgets': widgets
+            }
+          });
+        }
+      }
+    });
+
+    ServerSession.set('maintenance', false);
   }
 });
