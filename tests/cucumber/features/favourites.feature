@@ -1,3 +1,4 @@
+@ignore
 Feature: Allow users to favourite pages by URL
 
   As a user of the app

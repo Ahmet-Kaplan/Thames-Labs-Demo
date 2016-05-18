@@ -1,4 +1,5 @@
 # Testing green under new changes but needs reworking
+@ignore
 Feature: Superadmin can access special parts of the site
 
   As a superadmin user of the app
