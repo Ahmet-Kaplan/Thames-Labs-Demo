@@ -1,4 +1,3 @@
-@ignore
 Feature: Stop users from seeing data from other tenants
   As a user
   I want to only see my data

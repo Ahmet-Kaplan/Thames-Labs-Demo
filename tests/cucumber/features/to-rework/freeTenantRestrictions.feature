@@ -1,5 +1,4 @@
 # Testing green under new changes but needs reworking
-@ignore
 Feature: Restrict free users from certain features
   As a user
   I should not be able to use certain features

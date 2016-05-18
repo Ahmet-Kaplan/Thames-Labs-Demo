@@ -1,5 +1,4 @@
 # Testing green under new changes but needs reworking
-@ignore
 Feature: Allow users to manage their Contacts
   As a user of the app
   I want to manage my Contacts

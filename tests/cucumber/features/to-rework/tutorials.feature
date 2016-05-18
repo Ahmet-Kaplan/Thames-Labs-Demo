@@ -1,5 +1,4 @@
 # Testing green under new changes but needs reworking
-@ignore
 Feature: Allow users to take tutorials
 
   As a user of the app
