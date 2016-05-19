@@ -7,8 +7,13 @@ Partitioner.partitionCollection(PurchaseOrderItems);
 //////////////////////
 
 PurchaseOrderItems.after.insert(function(userId, doc) {
-  var currentPurchaseOrder = PurchaseOrders.findOne(doc.purchaseOrderId);
-  logEvent('info', 'A new purchase order item has been created: ' + doc.name + '(' + currentPurchaseOrder.description + ")");
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
+  LogClientEvent(LogLevel.Info, user.profile.name + " created a new purchase order item", 'purchaseOrder', doc.purchaseOrderId);
+
   PurchaseOrders.update(doc.purchaseOrderId, {
     $set: {
       totalValue: parseFloat(_.sum(PurchaseOrderItems.find({
@@ -18,31 +23,36 @@ PurchaseOrderItems.after.insert(function(userId, doc) {
           'totalPrice': 1
         }
       }).fetch(), 'totalPrice').toFixed(2))
+    }
+  }, function(err) {
+    if (err) {
+      LogClientEvent(LogLevel.Warning, "An error occurred whilst updating the total value of a purchase order: " + err, 'purchaseOrder', doc.purchaseOrderId);
     }
   });
 });
 
 PurchaseOrderItems.after.update(function(userId, doc, fieldNames, modifier, options) {
-  var currentPurchaseOrder = PurchaseOrders.findOne(doc.purchaseOrderId);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
   if (doc.description !== this.previous.description) {
-    logEvent('info', 'An existing purchase order item has been updated: The value of "description" was changed from ' + this.previous.description + " to " + doc.description + '(' + currentPurchaseOrder.description + ")");
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order item's description", 'purchaseOrder', doc.purchaseOrderId);
   }
   if (doc.productCode !== this.previous.productCode) {
-    logEvent('info', 'An existing purchase order item has been updated: The value of "productCode" was changed from ' + this.previous.productCode + " to " + doc.productCode + '(' + currentPurchaseOrder.description + ")");
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order item's product code", 'purchaseOrder', doc.purchaseOrderId);
   }
   if (doc.value !== this.previous.value) {
-    logEvent('info', 'An existing purchase order item has been updated: The value of "value" was changed from ' + this.previous.value + " to " + doc.value + '(' + currentPurchaseOrder.description + ")");
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order item's value", 'purchaseOrder', doc.purchaseOrderId);
   }
   if (doc.quantity !== this.previous.quantity) {
-    logEvent('info', 'An existing purchase order item has been updated: The value of "quantity" was changed from ' + this.previous.quantity + " to " + doc.quantity + '(' + currentPurchaseOrder.description + ")");
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order item's quantity", 'purchaseOrder', doc.purchaseOrderId);
   }
   if (doc.totalPrice !== this.previous.totalPrice) {
-    logEvent('info', 'An existing purchase order item has been updated: The value of "totalPrice" was changed from ' + this.previous.totalPrice + " to " + doc.totalPrice + '(' + currentPurchaseOrder.description + ")");
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order item's total price", 'purchaseOrder', doc.purchaseOrderId);
   }
   if (doc.purchaseOrderId !== this.previous.purchaseOrderId) {
-    var prevPO = Projects.findOne(this.previous.purchaseOrderId);
-    var newPO = Projects.findOne(doc.purchaseOrderId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "purchaseOrderId" was changed from ' + this.previous.purchaseOrderId + '(' + prevPO.description + ") to " + doc.purchaseOrderId + ' (' + newPO.description + ')');
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order item's parent purchase order", 'purchaseOrder', doc.purchaseOrderId);
   }
 
   PurchaseOrders.update(doc.purchaseOrderId, {
@@ -54,17 +64,20 @@ PurchaseOrderItems.after.update(function(userId, doc, fieldNames, modifier, opti
           'totalPrice': 1
         }
       }).fetch(), 'totalPrice').toFixed(2))
+    }
+  }, function(err) {
+    if (err) {
+      LogClientEvent(LogLevel.Warning, "An error occurred whilst updating the total value of a purchase order: " + err, 'purchaseOrder', doc.purchaseOrderId);
     }
   });
 });
 
 PurchaseOrderItems.after.remove(function(userId, doc) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
   if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
     return;
   }
 
-  var currentPurchaseOrder = PurchaseOrders.findOne(doc.purchaseOrderId);
-  logEvent('info', 'A purchase order item has been deleted: ' + doc.name + ' (' + currentPurchaseOrder.description + ")");
   PurchaseOrders.update(doc.purchaseOrderId, {
     $set: {
       totalValue: parseFloat(_.sum(PurchaseOrderItems.find({
@@ -75,5 +88,14 @@ PurchaseOrderItems.after.remove(function(userId, doc) {
         }
       }).fetch(), 'totalPrice').toFixed(2))
     }
+  }, function(err) {
+    if (err) {
+      LogClientEvent(LogLevel.Warning, "An error occurred whilst updating the total value of a purchase order: " + err, 'purchaseOrder', doc.purchaseOrderId);
+    }
   });
+
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  LogClientEvent(LogLevel.Info, user.profile.name + " deleted purchase order item '" + doc.name + "'", 'purchaseOrder', doc.purchaseOrderId);
 });

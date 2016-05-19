@@ -52,6 +52,15 @@ getDisallowedPermissions = function(userId) {
   return collectionsToFilter;
 };
 
+LogLevel = {
+  Debug: 'debug',
+  Verbose: 'verbose',
+  Info: 'info',
+  Warning: 'warning',
+  Error: 'error',
+  Fatal: 'fatal'
+}
+
 tenancyDefaultSettings = {
   extInfo: {
     company: [],
@@ -152,7 +161,7 @@ permissions = [{
   value: 'PurchaseOrders'
 }, {
   displayName: 'Event Log',
-  collectionName: 'auditLog',
+  collectionName: 'eventLog',
   value: 'EventLog'
 }, {
   displayName: 'Opportunities',

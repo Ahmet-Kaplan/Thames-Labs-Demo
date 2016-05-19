@@ -116,7 +116,7 @@ router.route('/audit', {
   name: 'audit',
   action: function() {
     layout.render('appLayout', {
-      main: "auditLog"
+      main: "eventLog"
     });
   }
 });

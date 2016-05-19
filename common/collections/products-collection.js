@@ -167,34 +167,42 @@ Products.before.insert(function(userId, doc) {
 });
 
 Products.after.insert(function(userId, doc) {
-  logEvent('info', 'A new product has been created: ' + doc.name);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
+  LogClientEvent(LogLevel.Info, user.profile.name + " created a new product", 'product', doc._id);
 
   if (Meteor.isServer) {
-    var user = Meteor.users.findOne({
-      _id: userId
-    });
-    var tenant = Tenants.findOne({
-      _id: user.group
-    });
-
-    if (!Roles.userIsInRole(userId, ['superadmin'])) {
-
-      Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'product', function(err, res) {
-        if (err) throw new Meteor.Error(err);
-        _.each(res, function(ex) {
-          CustomFields.insert({
-            name: ex.name,
-            value: (ex.value ? ex.value : ''),
-            defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
-            type: ex.type,
-            global: true,
-            order: ex.order,
-            target: 'product',
-            listValues: '',
-            entityId: doc._id
-          });
-        });
+    if (user) {
+      var tenant = Tenants.findOne({
+        _id: user.group
       });
+      if (tenant) {
+        if (!Roles.userIsInRole(userId, ['superadmin'])) {
+          Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'product', function(err, res) {
+            if (err) throw new Meteor.Error(err);
+            _.each(res, function(ex) {
+              CustomFields.insert({
+                name: ex.name,
+                value: (ex.value ? ex.value : ''),
+                defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+                type: ex.type,
+                global: true,
+                order: ex.order,
+                target: 'product',
+                listValues: '',
+                entityId: doc._id
+              }, function(err) {
+                if (err) {
+                  LogServerEvent(LogLevel.Warning, "An error occurred whilst instanciating the global custom field '" + ex.name + "': " + err, 'product', doc._id);
+                }
+              });
+            });
+          });
+        }
+      }
     }
 
     if (doc._groupId) {
@@ -204,30 +212,44 @@ Products.after.insert(function(userId, doc) {
         $inc: {
           'settings.product.defaultNumber': 1
         }
+      }, function(err) {
+        if (err) {
+          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's RealTime ID product value: " + err, 'tenant', doc._groupId);
+          return;
+        }
       });
     }
   }
 });
 
 Products.after.update(function(userId, doc, fieldNames, modifier, options) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
   if (doc.description !== this.previous.description) {
-    logEvent('info', 'An existing product has been updated: The value of "description" was changed');
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's description", 'product', doc._id);
   }
   if (doc.name !== this.previous.name) {
-    logEvent('info', 'An existing product has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's name", 'product', doc._id);
   }
   if (doc.cost !== this.previous.cost) {
-    logEvent('info', 'An existing product has been updated: The value of "cost price" was changed from ' + this.previous.cost + " to " + doc.cost);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's cost", 'product', doc._id);
   }
   if (doc.price !== this.previous.price) {
-    logEvent('info', 'An existing product has been updated: The value of "sales price" was changed from ' + this.previous.price + " to " + doc.price);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's price", 'product', doc._id);
   }
 });
 
 Products.after.remove(function(userId, doc) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
   if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
     return;
   }
 
-  logEvent('info', 'A product has been deleted: ' + doc.name);
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  LogClientEvent(LogLevel.Info, user.profile.name + " deleted product '" + doc.name + "'", undefined, undefined);
 });

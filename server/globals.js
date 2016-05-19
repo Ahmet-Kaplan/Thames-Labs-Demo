@@ -1,3 +1,6 @@
-LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  Meteor.call('addEventToAuditLog', logLevel, logMessage, logEntityType, logEntityId, 'server', Guid.raw());
-};
+// LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
+//    var entityType = ((typeof logEntityType === 'undefined') ? undefined : logEntityType);
+//     var entityId = ((typeof logEntityId === 'undefined') ? undefined : logEntityId);
+
+//   Meteor.call('addEventToEventLog', logLevel, logMessage, entityType, entityId, 'server');
+// };
