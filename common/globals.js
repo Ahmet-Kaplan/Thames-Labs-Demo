@@ -59,7 +59,7 @@ LogLevel = {
   Warning: 'warning',
   Error: 'error',
   Fatal: 'fatal'
-}
+};
 
 tenancyDefaultSettings = {
   extInfo: {

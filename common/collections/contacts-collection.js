@@ -250,7 +250,7 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
     _id: userId
   });
 
-  if (this.previous.email !== doc.email && doc.email !== '' && doc.email !== undefined) {
+  if (this.previous.email !== doc.email && doc.email !== '' && typeof doc.email !== 'undefined') {
     Meteor.call('getClearbitData', 'contact', doc._id);
     LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's public information", 'contact', doc._id);
   }
@@ -283,5 +283,5 @@ Contacts.after.remove(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " deleted contact '" + doc.forena + " " + doc.surname + "'", undefined, undefined);
+  LogClientEvent(LogLevel.Info, user.profile.name + " deleted contact '" + doc.forena + " " + doc.surname + "'", null, null);
 });

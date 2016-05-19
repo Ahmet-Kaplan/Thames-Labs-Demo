@@ -11,9 +11,9 @@ Template.eventLog.events({
       if (result === true) {
         Meteor.call('clearEventLog', function(error, result) {
           if (error) {
-            LogClientEvent(LogLevel.Error, "An error occurred whilst attempting to clear the event log: " + error, undefined, undefined);
+            LogClientEvent(LogLevel.Error, "An error occurred whilst attempting to clear the event log: " + error, null, null);
           } else {
-            LogClientEvent(LogLevel.Info, "Super-admin user cleared the event logs", undefined, undefined);
+            LogClientEvent(LogLevel.Info, "Super-admin user cleared the event logs", null, null);
           }
         });
         bootbox.hideAll();

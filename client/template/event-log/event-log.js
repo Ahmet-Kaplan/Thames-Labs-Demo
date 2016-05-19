@@ -22,9 +22,9 @@ Template.events.events({
           }
           toastr.success('Event log cleared!');
           return true;
-        })
+        });
       }
-    })
+    });
   },
 });
 

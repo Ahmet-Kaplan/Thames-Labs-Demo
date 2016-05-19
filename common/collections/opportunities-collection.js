@@ -291,5 +291,5 @@ Opportunities.after.remove(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " deleted opportunity '" + doc.name + "'", undefined, undefined);
+  LogClientEvent(LogLevel.Info, user.profile.name + " deleted opportunity '" + doc.name + "'", null, null);
 });

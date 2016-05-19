@@ -251,5 +251,5 @@ Products.after.remove(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " deleted product '" + doc.name + "'", undefined, undefined);
+  LogClientEvent(LogLevel.Info, user.profile.name + " deleted product '" + doc.name + "'", null, null);
 });
