@@ -3,6 +3,5 @@ module.exports = function() {
     browser.waitForVisible('#chatBox');
     browser.waitForVisible('#quotationWidget');
     browser.waitForVisible('#onlineWidget');
-    browser.waitForVisible('#taskWidget');
   });
 };
