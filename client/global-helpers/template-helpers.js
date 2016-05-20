@@ -30,7 +30,7 @@ Template.registerHelper('indexedArray', function(context, options) {
 Template.registerHelper('decimal', function(number) {
   if (!number) number = 0;
   number = parseFloat(number);
-  
+
   if(!Meteor.user()) return number.toFixed(2);
 
   var allowedCurrencies = ['gbp', 'eur', 'usd'];
@@ -182,7 +182,7 @@ Template.registerHelper('setSelected', function(value, option) {
 
 Template.registerHelper('isProTenant', function() {
   if(!Meteor.user()) return false;
-  
+
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });
