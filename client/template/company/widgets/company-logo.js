@@ -1,5 +1,9 @@
 // http://stackoverflow.com/questions/8498592/extract-root-domain-name-from-string
 function domainFromUrl(url) {
+  if(!url) {
+    return '';
+  }
+
   var domain;
   if (url.indexOf("://") > -1) {
     domain = url.split('/')[2];
