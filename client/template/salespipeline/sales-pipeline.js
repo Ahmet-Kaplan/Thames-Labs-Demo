@@ -72,7 +72,9 @@ Template.salesPipeline.helpers({
     return (Opportunities.find({}).count() > 0);
   },
   stages: function() {
-    var userTenant = Tenants.findOne({_id: Meteor.user().group});
+    var userTenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
     return userTenant.settings.opportunity.stages.sort(function(a, b) {
       if (a.order < b.order) return -1;
       if (a.order > b.order) return 1;
@@ -121,3 +123,21 @@ Template.salesPipeline.helpers({
     }).fetch();
   }
 });
+
+Template.salesPipelineListItem.onCreated(function() {
+  if (this.companyId) {
+    Meteor.subscribe('companyById', this.companyId);
+  } else if (this.contactId) {
+    Meteor.subscribe('contactById', this.contactId);
+  }
+});
+
+Template.salesPipelineListItem.helpers({
+  entity: function() {
+    if (this.companyId) {
+      return ReactiveMethod.call('pipeline.getCompany', this.companyId);
+    } else if (this.contactId) {
+      return ReactiveMethod.call('pipeline.getContact', this.contactId);      
+    }
+  }
+})
