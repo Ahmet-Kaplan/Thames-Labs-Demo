@@ -137,7 +137,7 @@ Template.salesPipelineListItem.helpers({
     if (this.companyId) {
       return ReactiveMethod.call('pipeline.getCompany', this.companyId);
     } else if (this.contactId) {
-      return ReactiveMethod.call('pipeline.getContact', this.contactId);      
+      return ReactiveMethod.call('pipeline.getContact', this.contactId);
     }
   }
 })
