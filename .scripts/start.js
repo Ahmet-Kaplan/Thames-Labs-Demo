@@ -19,7 +19,7 @@ const chimpCommand = 'chimp';
 var chimpArgs = ['--ddp=http://localhost:3000',  '--path=tests/cucumber'];
 
 if (process.env.CUCUMBER_JSON_OUTPUT) {
-  chimpArgs += ' --jsonOutput=' + process.env.CUCUMBER_JSON_OUTPUT;
+  chimpArgs.push('--jsonOutput=' + process.env.CUCUMBER_JSON_OUTPUT);
 }
 
 if (!process.env.CI) {
