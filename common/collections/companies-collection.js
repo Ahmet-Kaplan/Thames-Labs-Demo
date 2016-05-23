@@ -26,7 +26,8 @@ Companies.helpers({
   },
   projects: function() {
     return Projects.find({
-      companyId: this._id
+      companyId: this._id,
+      active: true
     }, {
       sort: {
         createdAt: -1

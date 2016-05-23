@@ -126,6 +126,14 @@ Template.companyDetail.events({
       primaryEntityDisplayData: this.name,
       createdBy: Meteor.userId()
     });
+  },
+  'click #active-projects': function(event, template) {
+    var url = "?f%5Bcompany%5D=" + this._id;
+    FlowRouter.go("/projects" + url);
+  },
+  'click #inactive-projects': function(event, template) {
+    var url = "?f%5Bcompany%5D=" + this._id + "&f%5BshowArchived%5D=true";
+    FlowRouter.go("/projects" + url);
   }
 });
 
@@ -160,6 +168,18 @@ Template.companyDetail.helpers({
     return Opportunities.find({
       companyId: this._id
     });
+  },
+  activeProjects: function() {
+    return Projects.find({
+      companyId: this._id,
+      active: true
+    }).count();
+  },
+  inactiveProjects: function() {
+    return Projects.find({
+      companyId: this._id,
+      active: false
+    }).count();
   },
   linksList: function() {
     return [{
