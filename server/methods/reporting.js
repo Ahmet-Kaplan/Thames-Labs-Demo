@@ -194,6 +194,9 @@ Meteor.methods({
     var oppData = Opportunities.find({
       isArchived: {
         $ne: true
+      },
+      value: {
+        $gt: 0
       }
     }).fetch();
     var value = 0;
