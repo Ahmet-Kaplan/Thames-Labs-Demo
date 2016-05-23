@@ -3,7 +3,6 @@ function domainFromUrl(url) {
   if(!url) {
     return '';
   }
-
   var domain;
   if (url.indexOf("://") > -1) {
     domain = url.split('/')[2];
