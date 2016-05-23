@@ -105,13 +105,7 @@
         <div class="panel-heading" id="projects">
           Projects
           {{#if isInRole 'CanCreateProjects'}}
-          <div class="btn-group pull-right">
-            <button type="button" class="btn btn-xs btn-info pull-right dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Show...</button>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#" id="active-projects">All Active ({{activeProjects}})</a></li>
-              <li><a href="#" id="inactive-projects">All Inactive ({{inactiveProjects}})</a></li>
-            </ul>
-          </div>
+          <a id="inactive-projects" class="btn btn-xs btn-info pull-right">Show Inactive ({{inactiveProjects}})</a>
           <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
