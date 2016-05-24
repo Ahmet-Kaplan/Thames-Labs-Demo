@@ -34,11 +34,14 @@ Template.productDetail.events({
       }
     });
   },
-
   'click #edit-product': function(event) {
     event.preventDefault();
     Modal.show('editProductModal', this);
   },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('editProductModal', this);
+  }
 });
 
 Template.editProductModal.helpers({

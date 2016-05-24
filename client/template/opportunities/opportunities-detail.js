@@ -549,6 +549,10 @@ Template.opportunityDetail.events({
   },
   'click .nav-link': function(event) {
     event.preventDefault();
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('editOpportunityModal', this);
   }
 });
 

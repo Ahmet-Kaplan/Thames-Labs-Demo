@@ -1,8 +1,7 @@
 <template name="productList">
 
   {{setPageTitle 'Products'}}
-  
-  
+
   <div class="row list-header">
       <div class="col-md-5">
         <h1>Products</h1>
@@ -11,12 +10,14 @@
       <div class="col-md-7 list-header-right">
         <div class="btn-group pull-right" role="group">
             {{#if isInRole 'CanCreateProducts'}}
+              {{#unless isMobile}}
                 <button id="add-product" type="button" class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-fw fa-plus"></i> Add product</button>
+              {{/unless}}
             {{/if}}
             {{> smallSearchBox collectionName='products'}}
         </div>
         <br>
-        <ul class="list-toolbar pull-right">       
+        <ul class="list-toolbar pull-right">
            <li><a id="ref_productsOverviewWidget" data-toggle="popover" title="Products Overview" data-content="
             <div id='productOverviewPop'>
                 <table class='table table-no-border'>
@@ -45,6 +46,14 @@
   {{> filterPanel collectionName='products'}}
 
   {{> searchResults index=ProductsIndex listItemTemplateName='productListItem'}}
+
+  {{#if isInRole 'CanCreateProducts'}}
+    {{#if isMobile}}
+      <div class="fab add" id="fab">
+        <i class="fa fw-fa fa-plus"></i>
+      </div>
+    {{/if}}
+  {{/if}}
 
   {{> autoformModals}}
 </template>

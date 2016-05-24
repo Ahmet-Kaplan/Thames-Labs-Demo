@@ -126,6 +126,10 @@ Template.companyDetail.events({
       primaryEntityDisplayData: this.name,
       createdBy: Meteor.userId()
     });
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('editCompanyModal', this);
   }
 });
 
