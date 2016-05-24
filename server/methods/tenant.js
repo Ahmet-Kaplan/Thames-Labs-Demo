@@ -1,5 +1,5 @@
 Meteor.methods({
-  'tenant.getPayingUsers': function(){
+  'tenant.getPayingUsers': function() {
     var tenants = Tenants.find({
       plan: 'pro',
       'stripe.stripeSubs': {
@@ -12,7 +12,7 @@ Meteor.methods({
       userCount += Meteor.users.find({
         group: t._id
       }).fetch().length;
-    })
+    });
 
     return userCount;
   },
@@ -26,7 +26,7 @@ Meteor.methods({
       userCount += Meteor.users.find({
         group: t._id
       }).fetch().length;
-    })
+    });
 
     return userCount;
   },

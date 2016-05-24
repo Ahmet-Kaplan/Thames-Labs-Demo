@@ -7,7 +7,11 @@ Template.adminStatistics.onCreated(function() {
 
 Template.adminStatistics.helpers({
   totalUsers: function() {
-    return Meteor.users.find({group:{$exists:true}}).count();
+    return Meteor.users.find({
+      group: {
+        $exists: true
+      }
+    }).count();
   },
   totalTenants: function() {
     return Tenants.find({}).count();
