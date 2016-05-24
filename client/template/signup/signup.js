@@ -20,7 +20,7 @@ Template.signUp.onRendered(function() {
           $('input[name=coupon]').val('');
           $('h1').after('<div class="alert alert-info">The coupon you have provided is not valid. Please contact us to activate it before upgrading.</div>');
         } else {
-          var discount = (response.percent_off) ? response.percent_off + "%" : "£" + response.amount_off / 100
+          var discount = (response.percent_off) ? response.percent_off + "%" : "£" + response.amount_off / 100;
           $('h1').after('<div class="alert alert-info">Your coupon \'' + response.id + '\' will give you a ' + discount + ' discount on any subscription to RealTimeCRM.</div>');
         }
       });
@@ -35,12 +35,11 @@ AutoForm.hooks({
         title: 'Sign-up successful!',
         message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your account has been created but is not active yet. To do so, click the link in the email we\'ve just sent you and set your password.<br>Thank you for choosing RealTimeCRM.',
         className: 'bootbox-success',
-        callback() {
+        callback: function() {
           FlowRouter.redirect('/');
           FlowRouter.reload();
-        },
+        }
       });
-
-    },
+    }
   }
 });
