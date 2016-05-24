@@ -35,7 +35,8 @@
         </div>
         <ul class="list-group">
           {{#each opportunities}}
-          <a class="list-group-item" href="{{pathFor route='opportunity' id=_id}}">{{name}}</a> {{/each}}
+            {{> salesPipelineListItem}}
+          {{/each}}
         </ul>
         {{else}}
         <div class="panel-body">
@@ -45,4 +46,8 @@
       </div>
     </div>
   </div>
+</template>
+
+<template name="salesPipelineListItem">
+  <a class="list-group-item" href="{{pathFor route='opportunity' id=_id}}">{{name}} <span class="fadedText">{{entity}}</span></a> 
 </template>

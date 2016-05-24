@@ -107,8 +107,10 @@ jparker:crypto-sha256
 standard-minifier-css
 standard-minifier-js
 templating
+xolvio:backdoor
 fixtures
 launch-screen
 crosswalk
 hedcet:touch-swipe
 force-ssl
+kadira:debug

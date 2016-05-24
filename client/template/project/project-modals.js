@@ -62,12 +62,12 @@ Template.updateProjectForm.helpers({
   },
   companyName: function() {
     return Companies.findOne({
-      _id: companyId
+      _id: this.companyId
     }).name;
   },
   contactName: function() {
     var contact = Contacts.findOne({
-      _id: contactId
+      _id: this.contactId
     });
     return contact.forename + ' ' + contact.surname;
   }

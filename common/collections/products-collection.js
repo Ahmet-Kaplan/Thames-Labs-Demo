@@ -183,32 +183,34 @@ Products.after.insert(function(userId, doc) {
   LogClientEvent(LogLevel.Info, user.profile.name + " created a new product", 'product', doc._id);
 
   if (Meteor.isServer) {
-    var tenant = Tenants.findOne({
-      _id: user.group
-    });
-
-    if (!Roles.userIsInRole(userId, ['superadmin'])) {
-
-      Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'product', function(err, res) {
-        if (err) throw new Meteor.Error(err);
-        _.each(res, function(ex) {
-          CustomFields.insert({
-            name: ex.name,
-            value: (ex.value ? ex.value : ''),
-            defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
-            type: ex.type,
-            global: true,
-            order: ex.order,
-            target: 'product',
-            listValues: '',
-            entityId: doc._id
-          }, function(err) {
-            if (err) {
-              LogServerEvent(LogLevel.Warning, "An error occurred whilst instanciating the global custom field '" + ex.name + "': " + err, 'product', doc._id);
-            }
-          });
-        });
+    if (user) {
+      var tenant = Tenants.findOne({
+        _id: user.group
       });
+      if (tenant) {
+        if (!Roles.userIsInRole(userId, ['superadmin'])) {
+          Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'product', function(err, res) {
+            if (err) throw new Meteor.Error(err);
+            _.each(res, function(ex) {
+              CustomFields.insert({
+                name: ex.name,
+                value: (ex.value ? ex.value : ''),
+                defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+                type: ex.type,
+                global: true,
+                order: ex.order,
+                target: 'product',
+                listValues: '',
+                entityId: doc._id
+              }, function(err) {
+                if (err) {
+                  LogServerEvent(LogLevel.Warning, "An error occurred whilst instanciating the global custom field '" + ex.name + "': " + err, 'product', doc._id);
+                }
+              });
+            });
+          });
+        }
+      }
     }
 
     if (doc._groupId) {

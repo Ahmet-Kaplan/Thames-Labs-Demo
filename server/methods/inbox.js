@@ -9,26 +9,26 @@ Picker.middleware(bodyParser.urlencoded({
 }))
 Picker.middleware(bodyParser.json());
 
-Picker
-  .filter(function(req, res) {
-    return req.method == "POST";
-  })
-  .route('/mailbox', function(params, req, res) {
-    var data = req.body;
-    if (data) {
-      Meteor.call('mailgun.createActivityFromBodyData', data);
+// Picker
+//   .filter(function(req, res) {
+//     return req.method == "POST";
+//   })
+//   .route('/mailbox', function(params, req, res) {
+//     var data = req.body;
+//     if (data) {
+//       Meteor.call('mailgun.createActivityFromBodyData', data);
 
-      res.writeHead(200, {
-        'Content-Type': 'text/plain'
-      });
-      res.end('Message received and parsed.');
-    } else {
-      res.writeHead(500, {
-        'Content-Type': 'text/plain'
-      });
-      res.end('No body found in request.');
-    }
-  });
+//       res.writeHead(200, {
+//         'Content-Type': 'text/plain'
+//       });
+//       res.end('Message received and parsed.');
+//     } else {
+//       res.writeHead(500, {
+//         'Content-Type': 'text/plain'
+//       });
+//       res.end('No body found in request.');
+//     }
+//   });
 
 
 Meteor.methods({
