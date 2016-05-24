@@ -367,9 +367,9 @@ Meteor.publish("opportunitiesByCompanyId", function(id) {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Opportunities.find({
     companyId: id,
-    isArchived: {
-      $ne: true
-    }
+    // isArchived: {
+      // $ne: true
+    // }
   });
 });
 Meteor.publish("opportunitiesByContactId", function(id) {
