@@ -30,6 +30,9 @@ Template.registerHelper('indexedArray', function(context, options) {
 Template.registerHelper('decimal', function(number) {
   if (!number) number = 0;
   number = parseFloat(number);
+
+  if(!Meteor.user()) return number.toFixed(2);
+
   var allowedCurrencies = ['gbp', 'eur', 'usd'];
   var tenantCurrency = Tenants.findOne({
     _id: Meteor.user().group
@@ -150,6 +153,8 @@ Template.registerHelper('extendContext', function(key, value) {
 });
 
 Template.registerHelper('userCurrency', function() {
+  if(!Meteor.user()) return 'gbp';
+
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });
@@ -159,6 +164,8 @@ Template.registerHelper('userCurrency', function() {
 });
 
 Template.registerHelper('userCurrencySymbol', function() {
+  if(!Meteor.user()) return '£';
+
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });
@@ -173,6 +180,8 @@ Template.registerHelper('setSelected', function(value, option) {
 });
 
 Template.registerHelper('isProTenant', function() {
+  if(!Meteor.user()) return false;
+
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });

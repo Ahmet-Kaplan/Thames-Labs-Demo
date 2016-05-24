@@ -2,7 +2,6 @@ Template.displayCalendar.onCreated(function() {
   this.startTime = new ReactiveVar({});
   this.endTime = new ReactiveVar({});
   this.tasksList = new ReactiveVar({});
-  this.eventsListeners = new ReactiveVar([]);
   this.popoverHoldersList = new ReactiveVar([]);
   this.currentView = new ReactiveVar({});
 });
@@ -157,20 +156,11 @@ Template.displayCalendar.helpers({
 
 
           //Add event listener to hide popover if click is outside
-          $(window).bind('click', hidePopoverHandle = function(evt) {
+          $(window).on('click.RTCalendar', function(evt) {
             if ($(evt.target).closest(jsEvent.target).length < 1) {
               popoverHolder.popover('hide');
             }
           });
-
-          //Add event listener to list to remove when template is destroyed
-          const elList = instance.eventsListeners.get();
-          elList.push({
-            elt: $(window),
-            type: 'click',
-            fct: hidePopoverHandle
-          });
-          instance.eventsListeners.set(elList);
         }
 
         //----------------------------------------//
@@ -181,22 +171,12 @@ Template.displayCalendar.helpers({
         popoverHolder.popover('toggle');
 
         //Add event handler to show modal from link in popover. This cannot be done with Template.events because of the toHTMWithData function
-        function editTaskHandle(jsInnerEvent) {
-          jsInnerEvent.preventDefault();
+        $('.popover-edit-task').on('click.RTCalendar', function(jsEvent) {
+          jsEvent.preventDefault();
           var task = _.find(instance.tasksList.get(), {'__originalId': event.__originalId});
           task._id = task.__originalId;
           Modal.show('updateTask', task);
-        }
-        $('.popover-edit-task').bind('click', editTaskHandle);
-
-        //Add event listener to list to remove when template is destroyed
-        const elList = instance.eventsListeners.get();
-        elList.push({
-          elt: $('.popover-edit-task'),
-          type: 'click',
-          fct: editTaskHandle
         });
-        instance.eventsListeners.set(elList);
       },
       eventDrop: function(event, delta, revertFunc) {
         var newStartDate = moment(event.start);
@@ -263,19 +243,11 @@ Template.displayCalendar.helpers({
           //----------------------------------------//
 
           //Add event listener to hide popover if click is outside
-          $(window).bind('click', hidePopoverHandle = function(evt) {
+          $(window).on('click.RTCalendar', function(evt) {
             if(evt.target != popoverHolder[0]) {
               popoverHolder.popover('hide');
             }
           });
-          //Add event listener to list to remove when template is destroyed
-          const elList = instance.eventsListeners.get();
-          elList.push({
-            elt: $(window),
-            type: 'click',
-            fct: hidePopoverHandle
-          });
-          instance.eventsListeners.set(elList);
         }
 
         //----------------------------------------//
@@ -302,50 +274,35 @@ Template.displayCalendar.helpers({
         }
 
         //Add event handler to show modal. This cannot be done with Template.events because of the toHTMWithData function
-        function quickLinkHandle(jsInnerEvent) {
-          jsInnerEvent.preventDefault();
-          var entityType = $(jsInnerEvent.target).attr('id');
+        $('.quick-add-task').on('click.RTCalendar', function(jsEvent) {
+          jsEvent.preventDefault();
+          var entityType = $(jsEvent.target).attr('id');
           Modal.show('insertNewTask', {
             entity_type: entityType,
             dueDate: date
           });
-        }
-        $('.quick-add-task').bind('click', quickLinkHandle);
+        });
 
         //Add event handler to go to day view. This cannot be done with Template.events because of the toHTMWithData function
-        function dayViewHandle() {
+        $('.go-to-day-view').on('click.RTCalendar', function() {
           $('#tasksCalendar').fullCalendar('changeView', 'agendaDay');
-          $('#tasksCalendar').fullCalendar('gotoDate', date);
-        }
-        $('.go-to-day-view').bind('click', dayViewHandle);
-
-        //Add event listener to list to remove when template is destroyed
-        const elList = instance.eventsListeners.get();
-        elList.push({
-          elt: $('.quick-add-task'),
-          type: 'click',
-          fct: quickLinkHandle
+          $('#tasksCalendar').fullCalendar('gotoDate', date)
         });
-        elList.push({
-          elt: $('.go-to-day-view'),
-          type: 'click',
-          fct: dayViewHandle
-        });
-        instance.eventsListeners.set(elList);
       }
     };
   }
 });
 
 Template.displayCalendar.onDestroyed(function() {
-  var eventsListeners = this.eventsListeners.get();
-  _.each(eventsListeners, function(event) {
-  });
 
-  var popoverHoldersList = this.popoverHoldersList.get();
-  _.each(popoverHoldersList, function(popoverHolder) {
-    popoverHolder.popover('destroy');
-  });
+  //Clear Events Listeners added manually
+  $(window).off('click.RTCalendar');
+  $('.popover-edit-task').off('click.RTCalendar');
+  $('.quick-add-task').off('click.RTCalendar');
+  $('.go-to-day-view').off('click.RTCalendar');
+
+  //Clear popovers
+  $('.popover').remove();
 
   //Reset search options
   TasksIndex.getComponentMethods().removeProps('after');
