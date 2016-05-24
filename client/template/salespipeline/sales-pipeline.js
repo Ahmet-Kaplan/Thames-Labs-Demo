@@ -140,4 +140,4 @@ Template.salesPipelineListItem.helpers({
       return ReactiveMethod.call('pipeline.getContact', this.contactId);
     }
   }
-})
+});

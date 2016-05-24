@@ -4,5 +4,4 @@ module.exports = function() {
     browser.safeClick('a#general-dropdown');
     browser.safeClick('a#Administration');
   });
-
-}
+};

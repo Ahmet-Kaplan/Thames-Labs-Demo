@@ -3,26 +3,26 @@
 
   "parserOptions": {
     "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "arrowFunctions": true,                     // enable ES6 arrow functions
-      "binaryLiterals": false,                    // enable binary literals
-      "blockBindings": true,                      // enable let and const (aka block bindings)
-      "defaultParams": false,                     // enable default function parameters
-      "forOf": false,                             // enable for-of loops
-      "generators": false,                        // enable generators
-      "modules": true,                            // enable modules
-      "objectLiteralComputedProperties": false,   // enable computed object literal property names
-      "objectLiteralDuplicateProperties": false,  // enable duplicate object literal properties in strict mode
-      "objectLiteralShorthandMethods": false,     // enable object literal shorthand methods
-      "objectLiteralShorthandProperties": false,  // enable object literal shorthand properties
-      "octalLiterals": false,                     // enable octal literals
-      "regexUFlag": false,                        // enable the regular expression u flag
-      "regexYFlag": false,                        // enable the regular expression y flag
-      "templateStrings": false,                   // enable template strings
-      "unicodeCodePointEscapes": false,           // enable code point escapes
-      "jsx": false                                // enable JSX
-    }
+    "sourceType": "module"
+  },
+  "ecmaFeatures": {
+    "arrowFunctions": true,                     // enable ES6 arrow functions
+    "binaryLiterals": false,                    // enable binary literals
+    "blockBindings": true,                      // enable let and const (aka block bindings)
+    "defaultParams": false,                     // enable default function parameters
+    "forOf": false,                             // enable for-of loops
+    "generators": false,                        // enable generators
+    "modules": true,                            // enable modules
+    "objectLiteralComputedProperties": false,   // enable computed object literal property names
+    "objectLiteralDuplicateProperties": false,  // enable duplicate object literal properties in strict mode
+    "objectLiteralShorthandMethods": false,     // enable object literal shorthand methods
+    "objectLiteralShorthandProperties": false,  // enable object literal shorthand properties
+    "octalLiterals": false,                     // enable octal literals
+    "regexUFlag": false,                        // enable the regular expression u flag
+    "regexYFlag": false,                        // enable the regular expression y flag
+    "templateStrings": false,                   // enable template strings
+    "unicodeCodePointEscapes": false,           // enable code point escapes
+    "jsx": false                                // enable JSX
   },
 
   "env": {
@@ -142,7 +142,7 @@
     "no-catch-shadow": 2,             // disallow the catch clause parameter name being the same as a variable in the outer scope (off by default in the node environment)
     "no-delete-var": 0,               // disallow deletion of variables
     "no-label-var": 2,                // disallow labels that share a name with a variable
-    "no-shadow": [2, {"builtinGlobals": false, "allow": ["err", "res", "error", "result", "response"]}],                   // disallow declaration of variables already declared in the outer scope
+    "no-shadow": [2, {"builtinGlobals": false, "allow": ["err", "res", "error", "result", "response", "jsEvent"]}],                   // disallow declaration of variables already declared in the outer scope
     "no-shadow-restricted-names": 0,  // disallow shadowing of names such as arguments
     "no-undef": 0,                    // disallow use of undeclared variables unless mentioned in a /*global */ block
     "no-undef-init": 2,               // disallow use of undefined when initializing variables

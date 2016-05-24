@@ -4,9 +4,9 @@ import {createUser} from '../_fixtures/createUser.js';
 
 module.exports = function() {
 
-  var login = function(email, password, done) {
+  function login(email, password, done) {
     Meteor.loginWithPassword(email, password, done);
-  };
+  }
 
   // called before each scenario
   this.Before(function() {

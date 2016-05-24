@@ -6,4 +6,4 @@ module.exports = function() {
     const tenantId = server.execute(createTenant, 'Acme Corp Rivals', plan);
     server.execute(createUser, tenantId, 'Test User 2', 'test2@domain.com');
   });
-}
+};

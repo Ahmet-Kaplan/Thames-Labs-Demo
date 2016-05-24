@@ -286,7 +286,7 @@ Template.displayCalendar.helpers({
         //Add event handler to go to day view. This cannot be done with Template.events because of the toHTMWithData function
         $('.go-to-day-view').on('click.RTCalendar', function() {
           $('#tasksCalendar').fullCalendar('changeView', 'agendaDay');
-          $('#tasksCalendar').fullCalendar('gotoDate', date)
+          $('#tasksCalendar').fullCalendar('gotoDate', date);
         });
       }
     };
