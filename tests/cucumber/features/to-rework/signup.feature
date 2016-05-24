@@ -13,7 +13,7 @@ Feature: Allow users to sign up to the app
 	Scenario: A user should sign up with good details
 		When I sign up with good details
 		Then I am signed up
-    And I should see a "success" toastr
+    And I should see a modal 
 
 	Scenario: A user cannot sign up with bad details
 		When I sign up with bad details
