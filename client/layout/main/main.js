@@ -30,16 +30,10 @@ Template.appLayout.onRendered(function() {
   });
 });
 
-Template.onCreated(function() {
+Template.appLayout.onCreated(function() {
   this.autorun(function() {
     if (Meteor.user() && !Roles.userIsInRole(Meteor.userId(), ['superadmin']) && Meteor.isProduction) {
       $.getScript('https://embed.tawk.to/56b333a5fe87529955d980fa/default');
-      //.then(function(){
-      //   Tawk_API.visitor = {
-      //     name: Meteor.user().profile.name,
-      //     email: Meteor.user().emails[0].address
-      //   }
-      // });
     }
   });
 });

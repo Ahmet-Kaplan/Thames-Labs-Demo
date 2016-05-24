@@ -60,7 +60,7 @@ Template.contactDataManagement.events({
     var match = (fileName).match(patt1);
 
     if (match) {
-      if (match[1] !== "csv") {
+      if (match[1].toLowerCase() !== "csv") {
         toastr.error('Only CSV files can be used to import data');
         return
       }
