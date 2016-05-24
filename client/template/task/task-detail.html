@@ -17,10 +17,10 @@
           </span>
         {{/if}}
         </span>
-        </h4>    
+        </h4>
       <h1 class="entity-name">
         {{title}}
-      </h1> 
+      </h1>
 
       {{> tagInput tags=tags collection='tasks' entityId=_id permissionToEdit='CanEditTasks'}}
 
@@ -34,42 +34,57 @@
               <a href="#" id="remove-task" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
               {{/if}}
           </div>
- 
+
         Task details
         </div>
 
         <ul class="list-group">
           {{#if description}}
-          {{#if isInRole 'CanReadTasks'}}
-            <li class="list-group-item panel-item-header">
-              <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
-              {{description}}
-            </li>
+            {{#if isInRole 'CanReadTasks'}}
+              <li class="list-group-item panel-item-header">
+                <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
+                {{description}}
+              </li>
+            {{/if}}
           {{/if}}
+
+          {{#if parentTaskId}}
+            {{#if isInRole 'CanReadTasks'}}
+              <a href="{{pathFor route='task' id=parentTaskId}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to parent task's details">
+                <h4><i class="fa fa-fw fa-check"></i>
+                  Parent Task</h4>
+                <i class="fa fa-fw fa-chevron-right pull-right"></i>
+                {{parentTask}}
+              </a>
+            {{/if}}
           {{/if}}
-          {{#if isInRole 'CanReadTasks'}}
+
           {{#if dueDate}}
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-calendar"></i> Due Date</h4>
-            {{formattedDueDate}} - {{relativeDueDate}}
-          </li>
-          {{/if}} 
-          {{/if}} 
-          {{#unless isPersonalTask}}
-          {{#if entityDetails.permissionToRead}}
-            <a href="{{pathFor route=entityType id=entityId}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to {{entityType}} details">
-              <h4><i class="fa fa-fw fa-{{entityDetails.icon}}"></i> {{entityDetails.type}}</h4>
-              <i class="fa fa-fw fa-chevron-right pull-right"></i>
-              {{entityDetails.name}}
-            </a>
+            {{#if isInRole 'CanReadTasks'}}
+              <li class="list-group-item panel-item-header">
+                <h4><i class="fa fa-fw fa-calendar"></i> Due Date</h4>
+                {{formattedDueDate}} - {{relativeDueDate}}
+              </li>
+            {{/if}}
           {{/if}}
+
+          {{#unless isPersonalTask}}
+            {{#if entityDetails.permissionToRead}}
+              <a href="{{pathFor route=entityType id=entityId}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to {{entityType}} details">
+                <h4><i class="fa fa-fw fa-{{entityDetails.icon}}"></i> {{entityDetails.type}}</h4>
+                <i class="fa fa-fw fa-chevron-right pull-right"></i>
+                {{entityDetails.name}}
+              </a>
+            {{/if}}
           {{/unless}}
+
           {{#if isInRole 'CanReadTasks'}}
             <li class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-user"></i> Task assignee</h4>
               {{taskAssignee}}
             </li>
           {{/if}}
+
           {{#if isInRole 'CanReadTasks'}}
             <li class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-user"></i> Created By</h4>
@@ -78,8 +93,31 @@
           {{/if}}
         </ul>
       </div>
-    </div>
 
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="btn-group pull-right">
+            {{#if isInRole 'CanCreateTasks'}}
+              <a href="#" id="create-sub-task" class="btn btn-info btn-xs"><i class="fa fa-fw fa-plus"></i> Create sub-task</a>
+            {{/if}}
+          </div>
+          Sub-Tasks
+        </div>
+
+        <ul class="list-group">
+        {{#each subTasks}}
+          {{> subTaskItem}}
+        {{else}}
+          <li class="list-group-item">No sub-tasks</li>
+        {{/each}}
+        </ul>
+      </div>
+    </div>
   </div>
 
   <div class="row">
@@ -93,4 +131,10 @@
   </div>
 
   {{/with}}
+</template>
+
+<template name="subTaskItem">
+  <a href="{{pathFor route='task' id=_id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to sub-task's details">
+    <i class="fa fa-fw fa-check"></i> <i class="fa fa-fw fa-chevron-right pull-right"></i> {{subTaskName}}
+  </a>
 </template>

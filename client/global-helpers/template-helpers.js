@@ -30,8 +30,13 @@ Template.registerHelper('indexedArray', function(context, options) {
 Template.registerHelper('decimal', function(number) {
   if (!number) number = 0;
   number = parseFloat(number);
+
+  if(!Meteor.user()) return number.toFixed(2);
+
   var allowedCurrencies = ['gbp', 'eur', 'usd'];
-  var tenantCurrency = Tenants.findOne({}).settings.currency;
+  var tenantCurrency = Tenants.findOne({
+    _id: Meteor.user().group
+  }).settings.currency;
   var currency = (allowedCurrencies.indexOf(tenantCurrency) === -1) ? 'gbp' : tenantCurrency;
   var currencyLocale = {
     gbp: 'en-gb',
@@ -107,10 +112,13 @@ Template.registerHelper("isMobile", function() {
   return bowser.mobile || bowser.tablet;
 });
 
+Template.registerHelper("isApp", function() {
+  return Meteor.isCordova;
+});
+
 // Make search indices available to templates - e.g. for EasySearch components
-Template.registerHelper('AuditLogIndex', () => AuditLogIndex);
 Template.registerHelper('ActivitiesIndex', () => ActivitiesIndex);
-Template.registerHelper('GlobalAuditIndex', () => GlobalAuditIndex);
+Template.registerHelper('EventLogIndex', () => EventLogIndex);
 Template.registerHelper('CompaniesIndex', () => CompaniesIndex);
 Template.registerHelper('ContactsIndex', () => ContactsIndex);
 Template.registerHelper('OpportunitiesIndex', () => OpportunitiesIndex);
@@ -146,14 +154,22 @@ Template.registerHelper('extendContext', function(key, value) {
 });
 
 Template.registerHelper('userCurrency', function() {
-  var tenant = Tenants.findOne({});
+  if(!Meteor.user()) return 'gbp';
+
+  var tenant = Tenants.findOne({
+    _id: Meteor.user().group
+  });
   if (tenant) {
     return tenant.settings.currency || 'gbp';
   }
 });
 
 Template.registerHelper('userCurrencySymbol', function() {
-  var tenant = Tenants.findOne({});
+  if(!Meteor.user()) return '£';
+
+  var tenant = Tenants.findOne({
+    _id: Meteor.user().group
+  });
   if (tenant) {
     var currency = tenant.settings.currency || 'gbp';
     return getCurrencySymbol(currency);
@@ -165,7 +181,11 @@ Template.registerHelper('setSelected', function(value, option) {
 });
 
 Template.registerHelper('isProTenant', function() {
-  var tenant = Tenants.findOne({});
+  if(!Meteor.user()) return false;
+
+  var tenant = Tenants.findOne({
+    _id: Meteor.user().group
+  });
   if (!tenant) return false;
   return isProTenant(tenant._id);
 });

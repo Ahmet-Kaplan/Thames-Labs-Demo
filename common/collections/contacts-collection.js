@@ -173,6 +173,7 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
 //////////////////////
 
 Contacts.before.insert(function(userId, doc) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
   if (doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
     var name = doc.companyId.substr(9);
     var newCompanyId = Companies.insert({
@@ -188,30 +189,49 @@ Contacts.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
     var user = Meteor.users.findOne(userId);
     var tenant = Tenants.findOne(user.group);
-    var contactCustomFields = tenant.settings.extInfo.contact;
-
-    var cfMaster = [];
-    _.each(contactCustomFields, function(cf) {
-      var field = {
-        dataName: cf.name,
-        dataValue: cf.defaultValue,
-        dataType: cf.type,
-        isGlobal: true
-      };
-
-      cfMaster.push(field);
-    });
-    doc.extendedInformation = cfMaster;
-
-    doc.sequencedIdentifier = Tenants.findOne({}).settings.contact.defaultNumber;
+    doc.sequencedIdentifier = tenant.settings.contact.defaultNumber;
   }
 
 });
 
 Contacts.after.insert(function(userId, doc) {
-  logEvent('info', 'A new contact has been created: ' + doc.forename + " " + doc.surname);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  LogClientEvent(LogLevel.Info, user.profile.name + " created a new contact", 'contact', doc._id);
 
   if (Meteor.isServer) {
+    if (user) {
+      var tenant = Tenants.findOne({
+        _id: user.group
+      });
+      if (tenant) {
+        if (!Roles.userIsInRole(userId, ['superadmin'])) {
+          Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'contact', function(err, res) {
+            if (err) throw new Meteor.Error(err);
+            _.each(res, function(ex) {
+              CustomFields.insert({
+                name: ex.name,
+                value: (ex.value ? ex.value : ''),
+                defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+                type: ex.type,
+                global: true,
+                order: ex.order,
+                target: 'contact',
+                listValues: '',
+                entityId: doc._id
+              }, function(err) {
+                if (err) {
+                  LogServerEvent(LogLevel.Warning, "An error occurred whilst instanciating the global custom field '" + ex.name + "': " + err, 'contact', doc._id);
+                }
+              });
+            });
+          });
+        }
+      }
+    }
+
     if (doc._groupId) {
       Tenants.update({
         _id: doc._groupId
@@ -219,50 +239,54 @@ Contacts.after.insert(function(userId, doc) {
         $inc: {
           'settings.contact.defaultNumber': 1
         }
+      }, function(err) {
+        if (err) {
+          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's RealTime ID contact value: " + err, 'tenant', doc._groupId);
+          return;
+        }
       });
     }
   }
 });
 
 Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
   if (this.previous.email !== doc.email && doc.email !== '' && doc.email !== undefined) {
     Meteor.call('getClearbitData', 'contact', doc._id);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's public information", 'contact', doc._id);
   }
   if (doc.forename !== this.previous.forename) {
-    logEvent('info', 'An existing contact has been updated: The value of "forename" was changed from ' + this.previous.forename + " to " + doc.forename);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's forename", 'contact', doc._id);
   }
   if (doc.surname !== this.previous.surname) {
-    logEvent('info', 'An existing contact has been updated: The value of "surname" was changed from ' + this.previous.surname + " to " + doc.surname);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's surname", 'contact', doc._id);
   }
   if (doc.email !== this.previous.email) {
-    logEvent('info', 'An existing contact has been updated: The value of "email" was changed from ' + this.previous.email + " to " + doc.email);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's email address", 'contact', doc._id);
   }
   if (doc.phone !== this.previous.phone) {
-    logEvent('info', 'An existing contact has been updated: The value of "phone" was changed from ' + this.previous.phone + " to " + doc.phone);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's telephone number", 'contact', doc._id);
   }
   if (doc.mobile !== this.previous.mobile) {
-    logEvent('info', 'An existing contact has been updated: The value of "mobile" was changed from ' + this.previous.mobile + " to " + doc.mobile);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's mobile phone number", 'contact', doc._id);
   }
   if (doc.jobtitle !== this.previous.jobtitle) {
-    logEvent('info', 'An existing contact has been updated: The value of "jobtitle" was changed from ' + this.previous.jobtitle + " to " + doc.jobtitle);
-  }
-  if (doc.companyId !== this.previous.companyId) {
-    var prevComp = Companies.findOne(this.previous.companyId);
-    var newComp = Companies.findOne(doc.companyId);
-    if (prevComp === undefined) {
-      var prevComp = {
-        name: 'None'
-      }
-    }
-    if (newComp === undefined) {
-      var newComp = {
-        name: 'None'
-      }
-    }
-    logEvent('info', 'An existing contact has been updated: The value of "companyId" was changed from ' + this.previous.companyId + '(' + prevComp.name + ") to " + doc.companyId + ' (' + newComp.name + ')');
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's job title", 'contact', doc._id);
   }
 });
 
 Contacts.after.remove(function(userId, doc) {
-  logEvent('info', 'A contact has been deleted: ' + doc.forename + " " + doc.surname);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  LogClientEvent(LogLevel.Info, user.profile.name + " deleted contact '" + doc.forena + " " + doc.surname + "'", undefined, undefined);
 });

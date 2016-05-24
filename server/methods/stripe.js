@@ -165,7 +165,7 @@ Meteor.methods({
       return false;
     }
 
-    if (theTenant.plan === 'free' || !theTenant.stripe || !theTenant.stripe.stripeId) {
+    if (theTenant.plan === 'free' || (theTenant.plan === 'pro' && !theTenant.stripe.stripeSubs)) {
       return true;
     }
 
@@ -216,8 +216,8 @@ Meteor.methods({
         throw new Meteor.Error('Error', err);
       }
       Stripe.customers.cancelSubscription(stripeId, stripeSubs, {
-          at_period_end: true
-        },
+        at_period_end: true
+      },
         Meteor.bindEnvironment(function(err, confirmation) {
           if (err) {
             throw new Meteor.Error('Error', err);

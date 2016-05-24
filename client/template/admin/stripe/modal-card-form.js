@@ -34,22 +34,22 @@ Template.cardFormModal.events({
       name: $('[data-stripe=name]').val()
     }, function(status, response) {
       if (response.error) {
-          toastr.error(response.error.message);
-          $('#submit').prop('disabled', false);
-          return;
-        } else {
-          Meteor.call('stripe.updateCard', response.id, function(error, response) {
-            if(error) {
-              Modal.hide();
-              toastr.error('Unable to update card details');
-              return false;
-            }
-            toastr.clear();
-            toastr.success('Your card details have been updated.');
+        toastr.error(response.error.message);
+        $('#submit').prop('disabled', false);
+        return;
+      } else {
+        Meteor.call('stripe.updateCard', response.id, function(error, response) {
+          if (error) {
             Modal.hide();
-            Session.set('listenCardUpdate', Session.get('listenCardUpdate') + 1);
-          });
-        }
+            toastr.error('Unable to update card details');
+            return false;
+          }
+          toastr.clear();
+          toastr.success('Your card details have been updated.');
+          Modal.hide();
+          Session.set('listenCardUpdate', Session.get('listenCardUpdate') + 1);
+        });
+      }
     });
   }
 });

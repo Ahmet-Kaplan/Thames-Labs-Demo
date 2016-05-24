@@ -238,13 +238,20 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
 //////////////////////
 PurchaseOrders.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    var tenant = Tenants.findOne({});
+    var tenant = Tenants.findOne({
+      _id: doc._groupId
+    });
     doc.sequencedIdentifier = tenant.settings.purchaseorder.defaultPrefix + "" + tenant.settings.purchaseorder.defaultNumber;
   }
 });
 
 PurchaseOrders.after.insert(function(userId, doc) {
-  logEvent('info', 'A new purchase order has been created: ' + doc.description);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
+  LogClientEvent(LogLevel.Info, user.profile.name + " created a new purchase order", 'purchaseOrder', doc._id);
 
   if (Meteor.isServer) {
     if (doc._groupId) {
@@ -254,58 +261,60 @@ PurchaseOrders.after.insert(function(userId, doc) {
         $inc: {
           'settings.purchaseorder.defaultNumber': 1
         }
+      }, function(err) {
+        if (err) {
+          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's RealTime ID purchase order value: " + err, 'tenant', doc._groupId);
+          return;
+        }
       });
     }
   }
 });
 
 PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
   if (doc.description !== this.previous.description) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "description" was changed from ' + this.previous.description + " to " + doc.description);
-  }
-  if (doc.userId !== this.previous.userId) {
-    var prevUser = Meteor.users.findOne(this.previous.userId);
-    var newUser = Meteor.users.findOne(doc.userId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "userId" was changed from ' + this.previous.userId + '(' + prevUser.profile.name + ") to " + doc.userId + ' (' + newUser.profile.name + ')');
-  }
-  if (doc.orderNumber !== this.previous.orderNumber) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "orderNumber" was changed from ' + this.previous.orderNumber + " to " + doc.orderNumber);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's description", 'purchaseOrder', doc._id);
   }
   if (doc.supplierReference !== this.previous.supplierReference) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "supplierReference" was changed from ' + this.previous.supplierReference + " to " + doc.supplierReference);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's supplier reference", 'purchaseOrder', doc._id);
   }
   if (doc.status !== this.previous.status) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "status" was changed from ' + this.previous.status + " to " + doc.status);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's status", 'purchaseOrder', doc._id);
+
     if (Meteor.isServer && _.includes(["Approved", "Rejected"], doc.status)) {
       Meteor.call('addPoNotification', doc._id, doc.status);
     };
   }
-  if (doc.orderDate !== this.previous.orderDate) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "orderDate" was changed from ' + this.previous.orderDate + " to " + doc.orderDate);
-  }
   if (doc.paymentMethod !== this.previous.paymentMethod) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "paymentMethod" was changed from ' + this.previous.paymentMethod + " to " + doc.paymentMethod);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's payment method", 'purchaseOrder', doc._id);
   }
   if (doc.notes !== this.previous.notes) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "notes" was changed from ' + this.previous.notes + " to " + doc.notes);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's notes", 'purchaseOrder', doc._id);
   }
   if (doc.supplierCompanyId !== this.previous.supplierCompanyId) {
-    var prevComp = Companies.findOne(this.previous.supplierCompanyId);
-    var newComp = Companies.findOne(doc.supplierCompanyId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "supplierCompanyId" was changed from ' + this.previous.supplierCompanyId + '(' + prevComp.name + ") to " + doc.supplierCompanyId + ' (' + newComp.name + ')');
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's supplier company", 'purchaseOrder', doc._id);
   }
   if (doc.supplierContactId !== this.previous.supplierContactId) {
-    var prevCont = Contacts.findOne(this.previous.supplierContactId);
-    var newCont = Contacts.findOne(doc.supplierContactId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "supplierContactId" was changed from ' + this.previous.supplierContactId + '(' + prevCont.forename + " " + prevCont.surname + ") to " + doc.supplierContactId + ' (' + newCont.forename + " " + newCont.surname + ')');
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's supplier contact", 'purchaseOrder', doc._id);
   }
   if (doc.projectId !== this.previous.projectId) {
-    var prevProj = Projects.findOne(this.previous.projectId);
-    var newProj = Projects.findOne(doc.projectId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "projectId" was changed from ' + this.previous.projectId + '(' + prevProj.description + ") to " + doc.projectId + ' (' + newProj.description + ')');
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's project", 'purchaseOrder', doc._id);
   }
 });
 
 PurchaseOrders.after.remove(function(userId, doc) {
-  logEvent('info', 'A purchase order has been deleted: ' + doc.description);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  LogClientEvent(LogLevel.Info, user.profile.name + " deleted purchase order '" + doc.description + "'", 'purchaseOrder', doc._id);
 });

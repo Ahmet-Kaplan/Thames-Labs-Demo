@@ -1,11 +1,11 @@
 Template.activityList.onCreated(function() {
   // Redirect if read permission changed
-   this.autorun(function() {
-     if (!isProTenant(Meteor.user().group)) {
-       showUpgradeToastr('To access the Activity List view');
-       FlowRouter.go('/');
-     }
-   });
+  this.autorun(function() {
+    if (!isProTenant(Meteor.user().group)) {
+      showUpgradeToastr('To access the Activity List view');
+      FlowRouter.go('/');
+    }
+  });
 
   this.totalActivities = new ReactiveVar(0);
 });
@@ -18,10 +18,10 @@ Template.activityList.onRendered(function() {
 
 Template.activityList.helpers({
   activityCount: function() {
-     return Template.instance().totalActivities.get();
+    return Template.instance().totalActivities.get();
   },
   hasMultipleActivities: function() {
-     return Template.instance().totalActivities.get() !== 1;
+    return Template.instance().totalActivities.get() !== 1;
   }
 });
 

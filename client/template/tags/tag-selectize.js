@@ -1,7 +1,7 @@
 Template.tagSelectize.onRendered(function() {
   var collectionName = this.data.collection,
-    entityId = this.data.entityId,
-    self = this;
+      entityId = this.data.entityId,
+      self = this;
 
   // Subscribe to existing tags for autosuggest
   this.subscribe('tagsByCollection', collectionName);
@@ -57,7 +57,7 @@ Template.tagSelectize.onRendered(function() {
     onInitialize: function() {
       // N.B. self refers to Template.tagInput
       var tagInput = this,
-        permissionToEdit = self.data.permissionToEdit;
+          permissionToEdit = self.data.permissionToEdit;
       tagInput.focus();
       self.autorun(function() {
         var userId = Meteor.userId();
@@ -74,7 +74,7 @@ Template.tagSelectize.onRendered(function() {
   this.selectize = this.$('.tag-input')[0].selectize;
 
   // Update tag suggestion based on subscription
-  this.autorun( () => {
+  this.autorun(() => {
     var existingTags = Meteor.tags.find({
       collection: collectionName,
     }).fetch();

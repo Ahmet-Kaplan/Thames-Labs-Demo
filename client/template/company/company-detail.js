@@ -30,6 +30,10 @@ Template.companyDetail.onRendered(function() {
 });
 
 Template.companyDetail.events({
+  'click #merge-company': function(event, template) {
+    event.preventDefault();
+    Modal.show('mergeModal', this);
+  },
   'change #template-upload': function(event) {
     var file = event.target.files[0];
     if (!file) return;

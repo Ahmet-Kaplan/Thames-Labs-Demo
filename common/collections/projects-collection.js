@@ -331,34 +331,51 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
 //////////////////////
 Projects.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    doc.sequencedIdentifier = Tenants.findOne({}).settings.project.defaultNumber;
+    var user = Meteor.users.findOne(userId);
+    var tenant = Tenants.findOne(user.group);
+    doc.sequencedIdentifier = tenant.settings.project.defaultNumber;
   }
 });
 
 Projects.after.insert(function(userId, doc) {
-  if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    var user = Meteor.users.findOne(userId);
-    var tenant = Tenants.findOne(user.group);
-    var projectCustomFields = tenant.settings.extInfo.project;
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
 
-
-    var cfMaster = [];
-    _.each(projectCustomFields, function(cf) {
-      var field = {
-        dataName: cf.name,
-        dataValue: cf.defaultValue,
-        dataType: cf.type,
-        isGlobal: true
-      };
-
-      cfMaster.push(field);
-    });
-    doc.extendedInformation = cfMaster;
-  }
-
-  logEvent('info', 'A new project has been created: ' + doc.description);
+  LogClientEvent(LogLevel.Info, user.profile.name + " created a new project", 'project', doc._id);
 
   if (Meteor.isServer) {
+    if (user) {
+      var tenant = Tenants.findOne({
+        _id: user.group
+      });
+      if (tenant) {
+        if (!Roles.userIsInRole(userId, ['superadmin'])) {
+          Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'project', function(err, res) {
+            if (err) throw new Meteor.Error(err);
+            _.each(res, function(ex) {
+              CustomFields.insert({
+                name: ex.name,
+                value: (ex.value ? ex.value : ''),
+                defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+                type: ex.type,
+                global: true,
+                order: ex.order,
+                target: 'project',
+                listValues: '',
+                entityId: doc._id
+              }, function(err) {
+                if (err) {
+                  LogServerEvent(LogLevel.Warning, "An error occurred whilst instanciating the global custom field '" + ex.name + "': " + err, 'project', doc._id);
+                }
+              });
+            });
+          });
+        }
+      }
+    }
+
     if (doc._groupId) {
       Tenants.update({
         _id: doc._groupId
@@ -372,32 +389,42 @@ Projects.after.insert(function(userId, doc) {
 });
 
 Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
+  if (doc.name !== this.previous.name) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's name", 'project', doc._id);
+  }
   if (doc.description !== this.previous.description) {
-    logEvent('info', 'An existing project has been updated: The value of "description" was changed from ' + this.previous.description + " to " + doc.description);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's description", 'project', doc._id);
   }
   if (doc.companyId !== this.previous.companyId) {
-    var prevComp = Companies.findOne(this.previous.companyId);
-    var newComp = Companies.findOne(doc.companyId);
-    logEvent('info', 'An existing project has been updated: The value of "companyId" was changed from ' + this.previous.companyId + '(' + prevComp.name + ") to " + doc.companyId + ' (' + newComp.name + ')');
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's company", 'project', doc._id);
   }
   if (doc.contactId !== this.previous.contactId) {
-    var prevCont = Contacts.findOne(this.previous.contactId);
-    var newCont = Contacts.findOne(doc.contactId);
-    logEvent('info', 'An existing project has been updated: The value of "contactId" was changed from ' + this.previous.contactId + '(' + prevCont.forename + " " + prevCont.surname + ") to " + doc.contactId + ' (' + newCont.forename + " " + newCont.surname + ')');
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's contact", 'project', doc._id);
   }
   if (doc.userId !== this.previous.userId) {
-    var prevUser = Meteor.users.findOne(this.previous.userId);
-    var newUser = Meteor.users.findOne(doc.userId);
-    logEvent('info', 'An existing project has been updated: The value of "userId" was changed from ' + this.previous.userId + '(' + prevUser.profile.name + ") to " + doc.userId + ' (' + newUser.profile.name + ')');
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's account manager", 'project', doc._id);
   }
   if (doc.value !== this.previous.value) {
-    logEvent('info', 'An existing project has been updated: The value of "value" was changed from ' + this.previous.value + " to " + doc.value);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's value", 'project', doc._id);
   }
   if (doc.active !== this.previous.active) {
-    logEvent('info', 'An existing project has been updated: The value of "active" was changed from ' + this.previous.active + " to " + doc.active);
+    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's active state", 'project', doc._id);
   }
 });
 
 Projects.after.remove(function(userId, doc) {
-  logEvent('info', 'A project has been deleted: ' + doc.description);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+    return;
+  }
+
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  LogClientEvent(LogLevel.Info, user.profile.name + " deleted project '" + doc.name + "'", undefined, undefined);
 });

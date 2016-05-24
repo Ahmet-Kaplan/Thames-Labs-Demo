@@ -30,6 +30,8 @@ Activities.allowTags(function(userId) {
   return !!userId;
 });
 
+CustomFields.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+
 Projects.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
 Projects.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateProjects').apply();
 Projects.permit(['update']).ifLoggedIn().ifHasRole('Administrator').apply();
@@ -71,8 +73,7 @@ Tasks.allowTags(function(userId) {
 
 Chatterbox.permit(['insert']).ifLoggedIn().apply();
 
-AuditLog.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
-GlobalAudit.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+EventLog.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 
 Products.permit(['insert']).ifLoggedIn().ifHasRole('Administrator').apply();
 Products.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateProducts').apply();

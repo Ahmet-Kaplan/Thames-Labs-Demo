@@ -16,16 +16,12 @@ Schemas.Activity = new SimpleSchema({
   activityTimestamp: {
     type: Date,
     label: "Activity Date/Time",
+    defaultValue: new Date(),
     autoform: {
-      afFieldInput: {
-        dateTimePickerOptions: {
-          format: 'DD/MM/YYYY HH:mm',
-          defaultDate: moment(),
-          sideBySide: true,
-          widgetPositioning: {
-            vertical: "top"
-          }
-        }
+      type: "bootstrap-datetimepicker",
+      dateTimePickerOptions: {
+        format: 'DD/MM/YYYY HH:mm',
+        sideBySide: true
       }
     }
   },

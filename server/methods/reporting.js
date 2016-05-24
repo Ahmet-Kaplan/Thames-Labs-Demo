@@ -138,11 +138,11 @@ Meteor.methods({
         "Value": (value / projData.length).toFixed(2)
       }
       return data;
-      }
-      var data = {
-        "Value": "0.00"
-      }
-      return data;
+    }
+    var data = {
+      "Value": "0.00"
+    }
+    return data;
   },
   //Opportunities
   'report.numberOfOpportunities': function() {

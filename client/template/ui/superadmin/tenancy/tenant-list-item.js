@@ -7,8 +7,8 @@ Template.tenantListItem.helpers({
   showDemoDataButton: function() {
     if (Meteor.isDevelopment) return true;
     if (Meteor.users.find({
-        group: this.__originalId
-      }).count() > 0) return false;
+      group: this.__originalId
+    }).count() > 0) return false;
     return true;
   },
   isPayingTenant: function() {
@@ -19,6 +19,9 @@ Template.tenantListItem.helpers({
   },
   generationInProgress: function() {
     return ServerSession.get('populatingDemoData');
+  },
+  deletionInProgress: function() {
+    return ServerSession.get('deletingTenant');
   },
   users: function() {
     return Meteor.users.find({
@@ -48,13 +51,22 @@ Template.tenantListItem.events({
 
     bootbox.confirm("Are you sure you wish to delete this tenant?", function(result) {
       if (result === true) {
-        Meteor.call('tenant.remove', tenantId, function(err, res) {
-          if (err) {
-            toastr.error(err);
-            return false;
-          }
-          if (res === true) {
-            toastr.success('Tenant "' + name + '" removed');
+        bootbox.prompt("A bold decision! You can still back out of it if you want to. If you're sure, type 'delete' into the box below and press OK.", function(result) {
+          if (result === 'delete') {
+            Meteor.call('setTenantDeletionFlag', true);
+
+            Meteor.call('tenant.remove', tenantId, function(err, res) {
+              if (err) {
+                toastr.error(err);
+                Meteor.call('setTenantDeletionFlag', false);
+                return false;
+              }
+              if (res === true) {
+                toastr.success('Tenant "' + name + '" removed');
+                Meteor.call('setTenantDeletionFlag', false);
+                return true;
+              }
+            });
           }
         });
       }

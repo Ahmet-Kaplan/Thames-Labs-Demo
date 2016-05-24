@@ -1,5 +1,5 @@
 Template.purchaseOrderDetail.onCreated(function() {
-  this.autorun( () => {
+  this.autorun(() => {
     if (!isProTenant(Meteor.user().group)) {
       showUpgradeToastr('To access Purchase Orders');
       FlowRouter.go('/');
@@ -62,7 +62,7 @@ Template.purchaseOrderItem.helpers({
   },
   projectName: function() {
     var project = Projects.findOne(this.projectId);
-    if(project) return project.name;
+    if (project) return project.name;
     return "No project";
   }
 });
@@ -107,9 +107,9 @@ Template.purchaseOrderDetail.events({
       var doc = new Docxgen(reader.result);
 
       var customerName = "",
-        // customerContact = "",
-        customerAddress = "",
-        orderNumber = "";
+          // customerContact = "",
+          customerAddress = "",
+          orderNumber = "";
 
       var company = Companies.findOne(this.customerCompanyId);
       customerName = company.name;
@@ -174,9 +174,9 @@ Template.purchaseOrderDetail.events({
       var doc = new Docxgen(reader.result);
 
       var customerName = "",
-        // customerContact = "",
-        customerAddress = "",
-        orderNumber = "";
+          // customerContact = "",
+          customerAddress = "",
+          orderNumber = "";
 
       var company = Companies.findOne(this.customerCompanyId);
       customerName = company.name;
@@ -316,7 +316,7 @@ Template.purchaseOrderDetail.events({
     var poId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this purchase order?", function(result) {
-      if(result === true) {
+      if (result === true) {
         PurchaseOrders.remove(poId);
       }
     });
@@ -328,7 +328,7 @@ Template.purchaseOrderItem.events({
     event.preventDefault();
     var itemId = this._id
     bootbox.confirm("Are you sure you wish to delete this item?", function(result) {
-      if(result === true) {
+      if (result === true) {
         PurchaseOrderItems.remove(itemId);
       }
     });

@@ -1,6 +1,6 @@
 var subs = new SubsManager(),
-  router = FlowRouter,
-  layout = BlazeLayout;
+    router = FlowRouter,
+    layout = BlazeLayout;
 
 // These are route trigger functions
 // They're used for before / after actions on routes
@@ -21,6 +21,35 @@ var tidyUpModals = function(context) {
     // }
   }
 };
+
+// Adjust Heap settings to replace their crazy user ID with something more readable
+var setHeapParams = function(context) {
+  if (Roles.userIsInRole(Meteor.userId(), 'superadmin')) return;
+
+  var user = Meteor.users.findOne({
+    _id: Meteor.userId()
+  });
+  if (!user) return;
+  var profile = user.profile;
+  if (!profile) return;
+
+  if (heap) {
+    var name = profile.name;
+    var tenant = Tenants.findOne({
+      _id: user.group
+    });
+    var tenantName = (tenant ? " (" + tenant.name + ")" : '');
+
+    var identifier = name + tenantName;
+    heap.identify(identifier);
+    heap.addUserProperties({
+      'Name': name,
+      'Tenant': (tenant ? tenant.name : '')
+    });
+  }
+};
+FlowRouter.triggers.enter([setHeapParams]);
+
 
 // These functions add the triggers to routes globally
 router.triggers.exit(tidyUpModals);
@@ -86,7 +115,7 @@ router.route('/audit', {
   name: 'audit',
   action: function() {
     layout.render('appLayout', {
-      main: "auditLog"
+      main: "eventLog"
     });
   }
 });
@@ -134,6 +163,9 @@ router.route('/', {
 
 router.route('/admin', {
   name: 'administration',
+  subscriptions: function() {
+    this.register('globalCustomFields', subs.subscribe('globalCustomFields'));
+  },
   action: function() {
     layout.render('appLayout', {
       main: "tenancyAdminPage"

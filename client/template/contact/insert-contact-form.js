@@ -13,7 +13,6 @@ Template.insertContactModal.events({
 });
 
 Template.insertContactModal.onRendered(function() {
-
   if (Meteor.user()) {
     var tenant = Tenants.findOne({
       _id: Meteor.user().group

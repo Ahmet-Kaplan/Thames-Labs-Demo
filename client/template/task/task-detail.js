@@ -1,9 +1,50 @@
 Template.taskDetail.onCreated(function() {
   var taskId = FlowRouter.getParam('id');
   this.subscribe('activityByTaskId', taskId);
-})
+  var task = Tasks.findOne({
+    _id: taskId
+  });
+  if (task) {
+    if (task.parentTaskId) this.subscribe('taskById', task.parentTaskId);
+
+    switch (task.entityType) {
+      case 'company':
+        this.subscribe('companyById', task.entityId);
+      case 'contact':
+        this.subscribe('contactById', task.entityId);
+      case 'project':
+        this.subscribe('projectById', task.entityId);
+      case 'opportunity':
+        this.subscribe('opportunityById', task.entityId);
+    }
+  }
+});
+
+Template.taskDetail.onRendered(function() {
+  this.autorun(() => {
+    var taskId = FlowRouter.getParam('id');
+    var task = Tasks.findOne({
+      _id: taskId
+    });
+    if (task) {
+      if (task.parentTaskId) this.subscribe('taskById', task.parentTaskId);
+    }
+  });
+});
 
 Template.taskDetail.helpers({
+  subTasks: function() {
+    var subs = ReactiveMethod.call("tasks.getSubTasks", this._id);
+    if (subs && subs.length > 0) return subs;
+  },
+  parentTask: function() {
+    if (this.parentTaskId) {
+      var task = Tasks.findOne({
+        _id: this.parentTaskId
+      });
+      if (task) return task.title;
+    }
+  },
   taskData: function() {
     var taskId = FlowRouter.getParam('id');
     var task = Tasks.findOne(taskId);
@@ -33,24 +74,27 @@ Template.taskDetail.helpers({
   },
   entityDetails: function() {
     var entityData = "";
+    var entityId = this.entityId;
+
+    if (!this || !entityId) return;
 
     switch (this.entityType) {
       case 'company':
-        var handle = Template.instance().subscribe("companyById", this.entityId);
+        var handle = Template.instance().subscribe("companyById", entityId);
         if (handle && handle.ready()) {
-          var c = Companies.findOne(this.entityId);
+          var c = Companies.findOne(entityId);
           entityData = {
             type: 'Company',
             icon: 'building',
             name: c.name,
-            permissionToRead: Roles.userIsInRole(Meteor.userId(), [ 'CanReadCompanies'])
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadCompanies'])
           };
         }
         break;
       case 'contact':
-        var handle = Template.instance().subscribe("contactById", this.entityId);
+        var handle = Template.instance().subscribe("contactById", entityId);
         if (handle && handle.ready()) {
-          var c = Contacts.findOne(this.entityId);
+          var c = Contacts.findOne(entityId);
           entityData = {
             type: 'Contact',
             icon: 'user',
@@ -60,9 +104,9 @@ Template.taskDetail.helpers({
         }
         break;
       case 'project':
-        var handle = Template.instance().subscribe("projectById", this.entityId);
+        var handle = Template.instance().subscribe("projectById", entityId);
         if (handle && handle.ready()) {
-          var p = Projects.findOne(this.entityId);
+          var p = Projects.findOne(entityId);
           entityData = {
             type: 'Project',
             icon: 'sitemap',
@@ -72,9 +116,9 @@ Template.taskDetail.helpers({
         }
         break;
       case 'opportunity':
-        var handle = Template.instance().subscribe("opportunityById", this.entityId);
+        var handle = Template.instance().subscribe("opportunityById", entityId);
         if (handle && handle.ready()) {
-          var p = Opportunities.findOne(this.entitythis.entityId);
+          var p = Opportunities.findOne(entityId);
           entityData = {
             type: 'Opportunity',
             icon: 'lightbulb-o',
@@ -99,17 +143,29 @@ Template.taskDetail.helpers({
   },
   taskAssignee: function() {
     Meteor.subscribe('currentTenantUserData');
-    var assignee = Meteor.users.findOne({_id: this.assigneeId});
+    var assignee = Meteor.users.findOne({
+      _id: this.assigneeId
+    });
     return assignee.profile.name;
   },
   taskCreator: function() {
     Meteor.subscribe('currentTenantUserData');
-    var creator = Meteor.users.findOne({_id: this.createdBy});
+    var creator = Meteor.users.findOne({
+      _id: this.createdBy
+    });
     return creator.profile.name;
   }
 });
 
 Template.taskDetail.events({
+  'click #create-sub-task': function(event, template) {
+    event.preventDefault();
+    Modal.show('insertNewTask', {
+      _id: this._id,
+      entity_type: this.entityType,
+      entity_id: this.entityId
+    });
+  },
   'click #add-activity': function(event) {
     event.preventDefault();
     Modal.show('insertTaskActivityModal', {
@@ -123,7 +179,7 @@ Template.taskDetail.events({
   'click #remove-task': function(event) {
     event.preventDefault();
     var taskId = this._id;
-    bootbox.confirm("Are you sure you wish to delete this task?", function(result) {
+    bootbox.confirm("Are you sure you wish to delete this task? Sub-tasks will not be deleted.", function(result) {
       if (result === true) {
         Tasks.remove(taskId);
         FlowRouter.go('tasks');
@@ -135,17 +191,32 @@ Template.taskDetail.events({
     if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
       var taskId = FlowRouter.getRouteName() === 'tasks' ? this.__originalId : this._id;
       if (this.completed) {
-        Tasks.update(taskId, { $set: {
-          completed: false
-        }, $unset: {
-          completedAt: null
-        }});
+        Tasks.update(taskId, {
+          $set: {
+            completed: false
+          },
+          $unset: {
+            completedAt: null
+          }
+        });
       } else {
-        Tasks.update(taskId, { $set: {
-          completed: true,
-          completedAt: new Date()
-        }});
+        Tasks.update(taskId, {
+          $set: {
+            completed: true,
+            completedAt: new Date()
+          }
+        });
       }
     }
   }
-})
+});
+
+Template.subTaskItem.onCreated(function() {
+  this.subscribe('taskById', this.data._id);
+});
+
+Template.subTaskItem.helpers({
+  subTaskName: function() {
+    return this.title;
+  }
+});
