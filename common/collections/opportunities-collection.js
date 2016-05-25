@@ -253,7 +253,9 @@ Opportunities.after.insert(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " created a new opportunity", 'opportunity', doc._id);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " created a new opportunity", 'opportunity', doc._id);
+  }
 
   if (Meteor.isServer) {
     if (doc._groupId) {
@@ -279,11 +281,13 @@ Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) 
     _id: userId
   });
 
-  if (doc.description !== this.previous.description) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated an opportunity's description", 'opportunity', doc._id);
-  }
-  if (doc.name !== this.previous.name) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated an opportunity's name", 'opportunity', doc._id);
+  if (user) {
+    if (doc.description !== this.previous.description) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated an opportunity's description", 'opportunity', doc._id);
+    }
+    if (doc.name !== this.previous.name) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated an opportunity's name", 'opportunity', doc._id);
+    }
   }
 });
 
@@ -296,5 +300,7 @@ Opportunities.after.remove(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " deleted opportunity '" + doc.name + "'", undefined, undefined);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted opportunity '" + doc.name + "'", undefined, undefined);
+  }
 });

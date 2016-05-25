@@ -251,7 +251,9 @@ PurchaseOrders.after.insert(function(userId, doc) {
     _id: userId
   });
 
-  LogClientEvent(LogLevel.Info, user.profile.name + " created a new purchase order", 'purchaseOrder', doc._id);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " created a new purchase order", 'purchaseOrder', doc._id);
+  }
 
   if (Meteor.isServer) {
     if (doc._groupId) {
@@ -277,33 +279,35 @@ PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options)
     _id: userId
   });
 
-  if (doc.description !== this.previous.description) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's description", 'purchaseOrder', doc._id);
-  }
-  if (doc.supplierReference !== this.previous.supplierReference) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's supplier reference", 'purchaseOrder', doc._id);
-  }
-  if (doc.status !== this.previous.status) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's status", 'purchaseOrder', doc._id);
+  if (user) {
+    if (doc.description !== this.previous.description) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's description", 'purchaseOrder', doc._id);
+    }
+    if (doc.supplierReference !== this.previous.supplierReference) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's supplier reference", 'purchaseOrder', doc._id);
+    }
+    if (doc.status !== this.previous.status) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's status", 'purchaseOrder', doc._id);
 
-    if (Meteor.isServer && _.includes(["Approved", "Rejected"], doc.status)) {
-      Meteor.call('addPoNotification', doc._id, doc.status);
-    };
-  }
-  if (doc.paymentMethod !== this.previous.paymentMethod) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's payment method", 'purchaseOrder', doc._id);
-  }
-  if (doc.notes !== this.previous.notes) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's notes", 'purchaseOrder', doc._id);
-  }
-  if (doc.supplierCompanyId !== this.previous.supplierCompanyId) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's supplier company", 'purchaseOrder', doc._id);
-  }
-  if (doc.supplierContactId !== this.previous.supplierContactId) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's supplier contact", 'purchaseOrder', doc._id);
-  }
-  if (doc.projectId !== this.previous.projectId) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's project", 'purchaseOrder', doc._id);
+      if (Meteor.isServer && _.includes(["Approved", "Rejected"], doc.status)) {
+        Meteor.call('addPoNotification', doc._id, doc.status);
+      };
+    }
+    if (doc.paymentMethod !== this.previous.paymentMethod) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's payment method", 'purchaseOrder', doc._id);
+    }
+    if (doc.notes !== this.previous.notes) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's notes", 'purchaseOrder', doc._id);
+    }
+    if (doc.supplierCompanyId !== this.previous.supplierCompanyId) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's supplier company", 'purchaseOrder', doc._id);
+    }
+    if (doc.supplierContactId !== this.previous.supplierContactId) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's supplier contact", 'purchaseOrder', doc._id);
+    }
+    if (doc.projectId !== this.previous.projectId) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's project", 'purchaseOrder', doc._id);
+    }
   }
 });
 
@@ -316,5 +320,7 @@ PurchaseOrders.after.remove(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " deleted purchase order '" + doc.description + "'", 'purchaseOrder', doc._id);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted purchase order '" + doc.description + "'", 'purchaseOrder', doc._id);
+  }
 });

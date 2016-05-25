@@ -9,27 +9,36 @@ Picker.middleware(bodyParser.urlencoded({
 }))
 Picker.middleware(bodyParser.json());
 
-// Picker
-//   .filter(function(req, res) {
-//     return req.method == "POST";
-//   })
-//   .route('/mailbox', function(params, req, res) {
-//     var data = req.body;
-//     if (data) {
-//       Meteor.call('mailgun.createActivityFromBodyData', data);
+Picker
+  .filter(function(req, res) {
+    return req.method == "POST";
+  })
+  .route('/mailbox', function(params, req, res) {
+    if (Object.keys(req.body).length === 0) {
+      console.log('Email linkage: no body data found');
+      res.writeHead(200, {
+        'Content-Type': 'text/plain'
+      });
+      res.end('Message received and parsed.');
+    } else {
+      var data = req.body;
+      console.log(data);
 
-//       res.writeHead(200, {
-//         'Content-Type': 'text/plain'
-//       });
-//       res.end('Message received and parsed.');
-//     } else {
-//       res.writeHead(500, {
-//         'Content-Type': 'text/plain'
-//       });
-//       res.end('No body found in request.');
-//     }
-//   });
+      if (data) {
+        Meteor.call('mailgun.createActivityFromBodyData', data);
 
+        res.writeHead(200, {
+          'Content-Type': 'text/plain'
+        });
+        res.end('Message received and parsed.');
+      } else {
+        res.writeHead(500, {
+          'Content-Type': 'text/plain'
+        });
+        res.end('No body found in request.');
+      }
+    }
+  });
 
 Meteor.methods({
   'mailgun.createActivityFromBodyData': function(bodyData) {
@@ -58,14 +67,7 @@ Meteor.methods({
     if (!MeteorUser) {
       return;
     } else {
-      var TheTenant = Tenants.findOne({
-        _id: MeteorUser.group
-      });
-      if (!TheTenant) {
-        return;
-      }
-
-      Partitioner.bindGroup(TheTenant._id, function() {
+      Partitioner.bindUserGroup(MeteorUser._id, function() {
         var toAddresses = bodyData.To.match(emailPattern);
         var involvedParties = bodyData["body-plain"].match(emailPattern);
         var addresses = _.union(toAddresses, involvedParties);
@@ -89,7 +91,7 @@ Meteor.methods({
               tags: ['Automated']
             });
           }
-        })
+        });
       });
     }
   }

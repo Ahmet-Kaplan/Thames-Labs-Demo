@@ -199,7 +199,9 @@ Contacts.after.insert(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " created a new contact", 'contact', doc._id);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " created a new contact", 'contact', doc._id);
+  }
 
   if (Meteor.isServer) {
     if (user) {
@@ -255,27 +257,29 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
     _id: userId
   });
 
-  if (this.previous.email !== doc.email && doc.email !== '' && doc.email !== undefined) {
-    Meteor.call('getClearbitData', 'contact', doc._id);
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's public information", 'contact', doc._id);
-  }
-  if (doc.forename !== this.previous.forename) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's forename", 'contact', doc._id);
-  }
-  if (doc.surname !== this.previous.surname) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's surname", 'contact', doc._id);
-  }
-  if (doc.email !== this.previous.email) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's email address", 'contact', doc._id);
-  }
-  if (doc.phone !== this.previous.phone) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's telephone number", 'contact', doc._id);
-  }
-  if (doc.mobile !== this.previous.mobile) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's mobile phone number", 'contact', doc._id);
-  }
-  if (doc.jobtitle !== this.previous.jobtitle) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's job title", 'contact', doc._id);
+  if (user) {
+    if (this.previous.email !== doc.email && doc.email !== '' && doc.email !== undefined) {
+      Meteor.call('getClearbitData', 'contact', doc._id);
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's public information", 'contact', doc._id);
+    }
+    if (doc.forename !== this.previous.forename) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's forename", 'contact', doc._id);
+    }
+    if (doc.surname !== this.previous.surname) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's surname", 'contact', doc._id);
+    }
+    if (doc.email !== this.previous.email) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's email address", 'contact', doc._id);
+    }
+    if (doc.phone !== this.previous.phone) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's telephone number", 'contact', doc._id);
+    }
+    if (doc.mobile !== this.previous.mobile) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's mobile phone number", 'contact', doc._id);
+    }
+    if (doc.jobtitle !== this.previous.jobtitle) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's job title", 'contact', doc._id);
+    }
   }
 });
 
@@ -288,5 +292,7 @@ Contacts.after.remove(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " deleted contact '" + doc.forena + " " + doc.surname + "'", undefined, undefined);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted contact '" + doc.forena + " " + doc.surname + "'", undefined, undefined);
+  }
 });
