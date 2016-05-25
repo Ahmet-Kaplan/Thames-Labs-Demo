@@ -97,6 +97,10 @@ Template.projectsList.events({
       indexMethods.addProps('showArchived', 'true');
     }
     $(event.target).blur();
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('newProjectForm', this);
   }
 });
 

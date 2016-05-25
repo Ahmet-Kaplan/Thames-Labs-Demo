@@ -318,6 +318,10 @@ Template.purchaseOrderDetail.events({
         PurchaseOrders.remove(poId);
       }
     });
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('updatePurchaseOrderFormModal',this);
   }
 });
 

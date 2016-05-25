@@ -33,7 +33,9 @@
                   </li>
                 </ul>
               </div>
+              {{#unless isMobile}}
                 <a class="btn btn-info btn-xs" disabled="{{#unless isOpen}}disabled{{/unless}}" href="#" id="edit-purchase-order"><i class="fa fa-fw fa-pencil"></i>Edit</a>
+              {{/unless}}
               {{/if}}
               {{#if isInRole 'CanDeletePurchaseOrders'}}
                 <a class="btn btn-danger btn-xs" href="#" id="remove-purchase-order"><i class="fa fa-fw fa-times"></i>Delete</a>
@@ -144,6 +146,14 @@
         {{> activityTimeline activities=activities}}
       </div>
     </div>
+    {{#if isInRole 'CanEditPurchaseOrders'}}
+      {{#if isMobile}}
+        <div class="fab edit" id="fab">
+          <i class="fa fw-fa fa-pencil"></i>
+        </div>
+      {{/if}}
+    {{/if}}
+
     {{> autoformModals}}
   {{/with}}
 </template>

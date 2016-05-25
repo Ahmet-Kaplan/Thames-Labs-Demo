@@ -121,5 +121,9 @@ Template.projectDetail.events({
         Projects.remove(projectId);
       }
     });
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('updateProjectForm', this);
   }
 });

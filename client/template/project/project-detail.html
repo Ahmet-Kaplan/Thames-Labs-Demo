@@ -23,8 +23,10 @@
             <div class="btn-group pull-right">
               <!-- {{#afModal class="btn btn-info btn-xs" collection="Projects" doc=_id operation="update" formId="updateProjectForm" omitFields="projectId, companyId"}} Edit project details {{/afModal}} -->
               {{#if isInRole 'CanEditProjects'}}
+                {{#unless isMobile}}
                 <a class="btn btn-info btn-xs" href="#" id="edit-project">
                   <i class="fa fa-fw fa-pencil"></i>Edit</a>
+                {{/unless}}
               {{/if}}
 
               <!-- {{#afModal class="btn btn-danger btn-xs" collection="Projects" doc=_id operation="remove" formId="removeProjectForm"}} Delete project {{/afModal}} -->
@@ -141,6 +143,13 @@
         {{> activityTimeline activities=activities}}
       </div>
     </div>
+    {{#if isInRole 'CanEditProjects'}}
+      {{#if isMobile}}
+        <div class="fab edit" id="fab">
+          <i class="fa fw-fa fa-pencil"></i>
+        </div>
+      {{/if}}
+    {{/if}}
 
     {{> autoformModals}}
   {{/with}}

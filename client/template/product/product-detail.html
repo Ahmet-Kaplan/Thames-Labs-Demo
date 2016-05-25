@@ -11,7 +11,9 @@
         <div class="panel-heading">
           <div class="btn-group pull-right">
             {{#if isInRole 'CanEditProducts'}}
+              {{#unless isMobile}}
             <a href="#" id="edit-product" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
+              {{/unless}}
             {{/if}}
               {{#if isInRole 'CanDeleteProducts'}}
             <a href="#" id="delete-product" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
@@ -58,6 +60,15 @@
 
     </div>
   </div>
+
+  {{#if isInRole 'CanEditProducts'}}
+    {{#if isMobile}}
+      <div class="fab edit" id="fab">
+        <i class="fa fw-fa fa-pencil"></i>
+      </div>
+    {{/if}}
+  {{/if}}
+
   {{/with}}
 </template>
 
