@@ -321,7 +321,7 @@ Template.purchaseOrderDetail.events({
   },
   'click #fab': function(event) {
     event.preventDefault();
-    Modal.show('updatePurchaseOrderFormModal',this);
+    Modal.show('updatePurchaseOrderFormModal', this);
   }
 });
 
