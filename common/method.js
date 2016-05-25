@@ -585,7 +585,7 @@ LogClientEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
     if (user && user.group) {
       if (!isProTenant(user.group)) return;
     }
-    Meteor.call('addEventToAuditLog', logLevel, logMessage, logEntityType, logEntityId, 'client');
+    Meteor.call('addEventToEventLog', logLevel, logMessage, logEntityType, logEntityId, 'client');
   }
 };
 
