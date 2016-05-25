@@ -279,9 +279,9 @@ Template.opportunityDetail.events({
     bootbox.confirm("Are you sure you wish to reopen this opportunity?", (result) => {
       if (result === false) return;
 
-      var user = Meteor.user(),
-        note = user.profile.name + ' reopened this opportunity',
-        today = new Date();
+      var user = Meteor.user();
+      var note = user.profile.name + ' reopened this opportunity';
+      var today = new Date();
 
       Opportunities.update(this._id, {
         $unset: {
@@ -329,9 +329,9 @@ Template.opportunityDetail.events({
 
       var doc = new Docxgen(reader.result);
 
-      var companyName = "",
-        companyAddress = "",
-        contactName = "";
+      var companyName = "";
+      var companyAddress = "";
+      var contactName = "";
 
       if (this.companyId) {
         var company = Companies.findOne(this.companyId);
@@ -409,9 +409,9 @@ Template.opportunityDetail.events({
     reader.onload = function() {
       var doc = new Docxgen(reader.result);
 
-      var companyName = "",
-        companyAddress = "",
-        contactName = "";
+      var companyName = "";
+      var companyAddress = "";
+      var contactName = "";
 
       if (this.companyId) {
         var company = Companies.findOne(this.companyId);
