@@ -213,11 +213,10 @@ Template.taskDetail.events({
 
 Template.subTaskItem.onCreated(function() {
   this.subscribe('taskById', this.data._id);
-this.state = new ReactiveVar(this.data.completed);
+  this.state = new ReactiveVar(this.data.completed);
 });
 
 Template.subTaskItem.onRendered(function() {
-  var self = this;
   var myId = this.data._id;
 
   this.autorun(function() {
