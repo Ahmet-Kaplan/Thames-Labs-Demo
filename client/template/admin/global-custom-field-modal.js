@@ -1,5 +1,7 @@
 Template.addNewGlobalCustomField.onRendered(function() {
   $.getScript('/vendor/medium/medium-editor.min.js');
+  $('.progress').hide();
+  $('.information-label').hide();
 
   $('#select-entity').selectize({
     create: false,
@@ -30,6 +32,12 @@ Template.addNewGlobalCustomField.onRendered(function() {
   $('#check-input-area').hide();
   $('#date-input-area').hide();
   $('#picklist-input-area').hide();
+});
+
+Template.addNewGlobalCustomField.helpers({
+  percentComplete: function() {
+    return UserSession.get('globalFieldProgress');
+  }
 });
 
 Template.addNewGlobalCustomField.events({
@@ -84,8 +92,9 @@ Template.addNewGlobalCustomField.events({
     $('#date-input-area').hide();
     $('#picklist-input-area').show();
   },
-  'click #createCustomField': function() {
-    $('#createCustomField').prop('disabled', true);
+  'click #createCustomField': function(event, template) {
+    event.preventDefault();
+
     var cfName = $('#custom-field-name').val();
     var cfValue = "value";
     var cfType = "text";
@@ -144,7 +153,16 @@ Template.addNewGlobalCustomField.events({
           cfValue = $('#custom-field-picklist-values').selectize().val();
         }
 
-        Meteor.call('extInfo.addNewGlobal', cfName, cfType, cfValue, cfEntity, function(err, res) {
+        UserSession.set("globalFieldProgress", 0);
+        $('.progress').show();
+        $('.information-label').show();
+        $('.modal-header').hide();
+        $('.modal-body').hide();
+        $('#createCustomField').hide();
+        $('#createCustomField').prop('disabled', true);
+
+        Meteor.call('extInfo.addNewGlobal', cfName, cfType, cfValue, cfEntity, Meteor.userId(), function(err, res) {
+
           if (err) throw new Meteor.Error(err);
           if (res === 0) {
             toastr.success('Global field created successfully.');
@@ -152,7 +170,15 @@ Template.addNewGlobalCustomField.events({
 
             Modal.hide();
           } else {
+
+            UserSession.set("globalFieldProgress", 0);
+            $('.progress').hide();
+            $('.information-label').hide();
+            $('.modal-header').show();
+            $('.modal-body').show();
+            $('#createCustomField').show();
             $('#createCustomField').prop('disabled', false);
+
             if (res === 1) {
               toastr.error('Only admins may add global fields.');
             }
