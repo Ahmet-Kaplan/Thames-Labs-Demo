@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "chimp": "^0.30.0",
-    "eslint": "^1.10.3"
+    "eslint": "^2.0.0"
   },
   "scripts": {
     "start": "STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA meteor --settings settings.json",
@@ -23,7 +23,7 @@
     "prewatch": "npm run lint",
     "deploy": "modulus deploy --project-name realtimecrm --include-modules",
     "predeploy": "npm prune --production && npm install --production",
-    "lint": "eslint .",
+    "lint": "eslint --quiet .",
     "precircle": "chmod +x .scripts/start.js && npm run lint",
     "circle": "node .scripts/start.js",
     "android": "STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools meteor run android-device --settings settings.json",

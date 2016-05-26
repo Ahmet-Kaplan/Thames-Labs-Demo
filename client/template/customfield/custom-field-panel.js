@@ -17,7 +17,7 @@ Template.customFieldDisplay.onRendered(function() {
         Meteor.subscribe('customFieldsByEntityId', entityId, 'products');
         break;
     }
-  })
+  });
 });
 
 Template.customFieldDisplay.events({

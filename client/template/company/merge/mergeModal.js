@@ -11,7 +11,7 @@ Template.mergeModal.onCreated(function() {
         return {
           value: cmp._id,
           text: cmp.name
-        }
+        };
       });
 
       $('#select-entity').selectize({
@@ -57,9 +57,9 @@ Template.mergeModal.events({
             if (res) {
               if (res === 0) {
                 Modal.hide();
-                toastr.success('Merge successful.')
+                toastr.success('Merge successful.');
               } else {
-                toastr.error(res.source + ": " + res.error)
+                toastr.error(res.source + ": " + res.error);
               }
             }
 

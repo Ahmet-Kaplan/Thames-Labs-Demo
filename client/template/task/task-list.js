@@ -41,9 +41,9 @@ Template.taskList.onRendered(function() {
           searchOptions = searchComponent.get('searchOptions'),
           props = searchOptions.props ? searchOptions.props : {};
 
-    this.showCompleted.set(props.showCompleted ? true : false);
+    this.showCompleted.set(!!props.showCompleted);
     // this.showSubTasks.set(props.showSubTasks ? true : false);
-    this.showMine.set(props.assignee && props.assignee === Meteor.userId() ? true : false);
+    this.showMine.set(props.assignee && props.assignee === Meteor.userId());
   });
 
 });

@@ -28,8 +28,8 @@ Meteor.methods({
 
   addEventToEventLog: function(logLevel, logMessage, logEntityType, logEntityId, logSource) {
 
-    logEntityType = (typeof logEntityType === 'undefined') ? undefined : logEntityType;
-    logEntityId = (typeof logEntityId === 'undefined') ? undefined : logEntityId;
+    logEntityType = (typeof logEntityType === 'undefined') ? null : logEntityType;
+    logEntityId = (typeof logEntityId === 'undefined') ? null : logEntityId;
 
     var userName = "superadmin";
     var tenantName = null;

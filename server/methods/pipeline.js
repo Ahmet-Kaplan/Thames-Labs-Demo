@@ -11,4 +11,4 @@ Meteor.methods({
     });
     if (contact) return " (" + contact.forename + " " + contact.surname + ")";
   }
-})
+});

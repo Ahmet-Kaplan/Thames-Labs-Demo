@@ -204,4 +204,4 @@ Template.searchHelp.helpers({
         ];
     }
   }
-})
+});

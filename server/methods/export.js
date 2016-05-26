@@ -180,7 +180,7 @@ Meteor.methods({
       var data = {
         name: c,
         data: res
-      }
+      };
       dataArray.push(data);
     });
 

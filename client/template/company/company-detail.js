@@ -2,9 +2,9 @@ Template.companyDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
     var company = Companies.findOne(FlowRouter.getParam('id'));
-    if (FlowRouter.subsReady() && company === undefined) {
+    if (FlowRouter.subsReady() && typeof company === "undefined") {
       FlowRouter.go('companies');
-    } else if (FlowRouter.subsReady() && company.website !== '' && company.website !== undefined) {
+    } else if (FlowRouter.subsReady() && company.website !== '' && typeof company.website !== "undefined") {
       Meteor.call('getClearbitData', 'company', company._id);
     }
   });

@@ -105,8 +105,8 @@ Template.tagManagementModal.helpers({
     _.each(result, function(r) {
       _.each(r.tags, function(t) {
         tags.push(t);
-      })
-    })
+      });
+    });
     return _.uniq(tags);
   }
 });

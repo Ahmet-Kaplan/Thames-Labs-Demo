@@ -12,11 +12,9 @@ Collections.eventLog.index = EventLogIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadEventLog', 'superadmin']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'date': -1
-      }
-    },
+    sort: () => ({
+      'date': -1
+    }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
         return {};
@@ -52,7 +50,7 @@ Collections.eventLog.index = EventLogIndex = new EasySearch.Index({
             selector.group = user.group;
           }
         } else if (Roles.userIsInRole(userId, ['superadmin'])) {
-          selector.source = "server"
+          selector.source = "server";
         }
       } else {
         throw new Meteor.Error('No user id');

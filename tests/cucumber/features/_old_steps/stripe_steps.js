@@ -12,15 +12,14 @@ module.exports = function() {
         }, function(status, response) {
           if (response.error) {
             return;
-          } else {
-            var userEmail = 'test@domain.com';
-            Meteor.call('stripe.createCustomer', response.id, userEmail, function(error, result) {
-              if (error || !result) {
-                return false;
-              }
-              done(result);
-            });
           }
+          var userEmail = 'test@domain.com';
+          Meteor.call('stripe.createCustomer', response.id, userEmail, function(error, result) {
+            if (error || !result) {
+              return false;
+            }
+            done(result);
+          });
         });
       });
   });
@@ -58,8 +57,8 @@ module.exports = function() {
     browser
       .executeAsync(function(done) {
         Meteor.call('deleteStripeTestCustomer', function(err, res) {
-          done(res)
+          done(res);
         });
       });
-  })
+  });
 };

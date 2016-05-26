@@ -1,12 +1,12 @@
 module.exports = function() {
 
-  var logout = function(done) {
+  function logout(done) {
     Meteor.logout(done);
-  };
+  }
 
-  var login = function(email, password, done) {
+  function login(email, password, done) {
     Meteor.loginWithPassword(email, password, done);
-  };
+  }
 
   var url = require('url');
 
@@ -132,11 +132,11 @@ module.exports = function() {
   // });
 
   this.Given(/^an additional "([^"]*)" has been created$/, function(entity) {
-    browser.executeAsync(function(entity, done) {
-      Meteor.call('add' + entity, true, function() {
+    browser.executeAsync(function(innerEntity, done) {
+      Meteor.call('add' + innerEntity, true, function() {
         done();
       });
-    }, entity)
+    }, entity);
   });
 
   this.Given(/^toastr are cleared$/, function() {
@@ -164,8 +164,8 @@ module.exports = function() {
       //This is used to wait for the data to be loaded.
       //Ideally this should look the the subscription instead.
       setTimeout(done, 500);
-    })
-  })
+    });
+  });
 
   this.When(/^I click "([^"]*)"$/, function(id) {
     browser.safeClick(id);
@@ -178,9 +178,9 @@ module.exports = function() {
   this.When(/^I set rich text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {
     browser.waitForExist('div[data-schema-key=' + fieldName + ']', 5000);
     browser
-      .executeAsync(function(fieldName, value, done) {
+      .executeAsync(function(innerFieldName, innerValue, done) {
         //Set value for medium text editor because it isn't a standard input
-        $('div[data-schema-key=' + fieldName + ']').html(value);
+        $('div[data-schema-key=' + innerFieldName + ']').html(innerValue);
         done();
       }, fieldName, value);
   });
@@ -252,8 +252,8 @@ module.exports = function() {
 
   this.When(/^I click confirm on the modal with title "([^"]*)"$/, function(expectedTitle) {
     browser.waitForExist('h4*=' + expectedTitle, 5000);
-    browser.execute(function(expectedTitle) {
-      var modal = $('h4:contains("' + expectedTitle + '")').parent().parent();
+    browser.execute(function(innerExpectedTitle) {
+      var modal = $('h4:contains("' + innerExpectedTitle + '")').parent().parent();
       modal.children('.modal-footer').children('button.btn-primary').click();
     }, expectedTitle);
   });
@@ -264,7 +264,7 @@ module.exports = function() {
 
   this.When(/^I scroll to "([^"]*)"$/, function(selector) {
     browser.scroll(selector, 0, 200);
-  })
+  });
 
   /***************************************************
                           THEN
@@ -348,7 +348,7 @@ module.exports = function() {
         toastrs = [toastrs];
       }
       return toastrs.some(function(toastr) {
-        return (toastr.search(new RegExp(expectedText)) !== -1)
+        return (toastr.search(new RegExp(expectedText)) !== -1);
       });
     }, 5000);
   });
@@ -397,9 +397,8 @@ module.exports = function() {
       return elements.some(function(elt) {
         if (elt.search(new RegExp(desiredText))) return true;
       });
-    } else {
-      expect(elements).toContain(desiredText);
     }
+    expect(elements).toContain(desiredText);
   });
 
   this.Then(/^I cannot click "([^"]*)"$/, function(selector) {
@@ -407,7 +406,7 @@ module.exports = function() {
     browser.waitForVisible(selector, 5000);
     browser.scroll(selector, 0, 200);
     expect(browser.isEnabled(selector)).toBe(false);
-  })
+  });
 
   this.Then(/^I should see the url is "([^"]*)"$/, function(expectedText) {
     browser.pause(100);

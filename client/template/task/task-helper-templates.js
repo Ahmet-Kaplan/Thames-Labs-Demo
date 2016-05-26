@@ -1,6 +1,6 @@
-var isDashboard = function() {
+function isDashboard() {
   return FlowRouter.getRouteName() === "dashboard";
-};
+}
 
 Template.taskDisplay.onCreated(function() {
   this.entityType = this.data.entity_type;
@@ -45,24 +45,23 @@ Template.taskDisplay.helpers({
           dueDate: 1
         }
       });
-    } else {
-      return Tasks.find({
-        entityId: this.entity_id,
-        $or: [{
-          completed: false
-        }, {
-          completedAt: {
-            $gt: cutOffDate
-          }
-        }]
-      }, {
-        sort: {
-          completed: 1,
-          completedAt: -1,
-          dueDate: 1
-        }
-      });
     }
+    return Tasks.find({
+      entityId: this.entity_id,
+      $or: [{
+        completed: false
+      }, {
+        completedAt: {
+          $gt: cutOffDate
+        }
+      }]
+    }, {
+      sort: {
+        completed: 1,
+        completedAt: -1,
+        dueDate: 1
+      }
+    });
   },
   taskAssignee: function() {
     Meteor.subscribe('currentTenantUserData');
@@ -81,9 +80,8 @@ Template.taskDisplay.helpers({
       if (b.dayOfYear() == a.dayOfYear() - 1) return 'yesterday';
       if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
       return b.from(a);
-    } else {
-      return moment(this.dueDate).fromNow();
     }
+    return moment(this.dueDate).fromNow();
   },
 });
 
@@ -128,7 +126,7 @@ Template.taskDisplay.events({
       $(event.target).parents('.list-group-item').fadeOut(500, () => {
         Session.set('showCompleted', 1);
         Session.set('showCompleted', 0);
-      })
+      });
     }
   },
 
@@ -193,7 +191,7 @@ Template.taskDisplay.events({
           toastr.error(res.message);
           Modal.show('importTaskFailuresModal', res.errorData);
         }
-      })
+      });
     };
 
     reader.readAsText(file);

@@ -23,11 +23,7 @@ Template.newProjectForm.helpers({
     });
   },
   showContacts: function() {
-    if (Session.get('sc') === null) {
-      return false;
-    } else {
-      return true;
-    }
+    return (Session.get('sc') !== null);
   },
   currentUser: function() {
     return Meteor.userId();
@@ -86,11 +82,7 @@ Template.newCompanyProjectForm.helpers({
     });
   },
   showContacts: function() {
-    if (Session.get('sc') === null) {
-      return false;
-    } else {
-      return true;
-    }
+    return (Session.get('sc') !== null);
   },
   currentUser: function() {
     return Meteor.userId();

@@ -41,7 +41,7 @@ Template.projectsList.onRendered(function() {
           searchOptions = searchComponent.get('searchOptions'),
           props = searchOptions.props ? searchOptions.props : {};
 
-    this.showArchived.set(props.showArchived ? true : false);
+    this.showArchived.set(!!props.showArchived);
   });
 
   Meteor.call('report.numberOfProjects', (err, data) => {

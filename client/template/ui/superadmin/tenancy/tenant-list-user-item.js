@@ -2,9 +2,8 @@ Template.tenantListUserItem.helpers({
   friendlyLastLogin: function() {
     if (this.profile.lastLogin === null) {
       return "Never logged in.";
-    } else {
-      return "Last logged in " + moment(this.profile.lastLogin).fromNow();
     }
+    return "Last logged in " + moment(this.profile.lastLogin).fromNow();
   },
   emailAddress: function() {
     return this.emails[0].address;

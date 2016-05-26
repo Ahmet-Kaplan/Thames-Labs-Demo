@@ -13,7 +13,7 @@ Template.purchaseOrderListItem.onRendered(function() {
 
   this.autorun(function() {
     self.showItems.set(Session.get("showItems"));
-  })
+  });
 });
 
 Template.purchaseOrderListItem.helpers({

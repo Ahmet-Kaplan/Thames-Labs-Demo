@@ -44,4 +44,4 @@ Meteor.methods({
       icon: 'shopping-cart'
     });
   }
-})
+});
