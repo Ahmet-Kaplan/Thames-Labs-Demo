@@ -1,27 +1,35 @@
 var companyFields = [{
   fieldLabel: 'Company Name',
-  fieldIdentifier: 'CompanyName',
+  fieldIdentifier: 'name',
+  required: true
 }, {
   fieldLabel: 'Address',
-  fieldIdentifier: 'CompanyAddress',
+  fieldIdentifier: 'address',
+  required: false
 }, {
   fieldLabel: 'City',
-  fieldIdentifier: 'CompanyCity',
+  fieldIdentifier: 'city',
+  required: false
 }, {
   fieldLabel: 'County',
-  fieldIdentifier: 'CompanyCounty',
+  fieldIdentifier: 'county',
+  required: false
 }, {
   fieldLabel: 'Postcode',
-  fieldIdentifier: 'CompanyPostcode',
+  fieldIdentifier: 'postcode',
+  required: false
 }, {
   fieldLabel: 'Country',
-  fieldIdentifier: 'CompanyCountry',
+  fieldIdentifier: 'country',
+  required: false
 }, {
   fieldLabel: 'Website',
-  fieldIdentifier: 'CompanyWebsite',
+  fieldIdentifier: 'website',
+  required: false
 }, {
   fieldLabel: 'Telephone Number',
-  fieldIdentifier: 'CompanyTelephone',
+  fieldIdentifier: 'phone',
+  required: false
 }];
 
 Template.importEntityModal.onCreated(function() {
@@ -58,19 +66,41 @@ Template.importEntityModal.helpers({
 
 Template.importEntityModal.events({
   'click #startImport': function(event, template) {
-    $('#startImport').prop('disabled', true);
-    $('#fieldMapper').hide();
-    $('#progressIndicator').show();
-    $('.modal-header').hide();
-    $('.modal-footer').hide();
-
     var customFields = template.selectOptions;
+    var selectedValues = [];
+    var requiredFieldsCompleted = true;
 
     $('.selectpicker').each(function(i, obj) {
-      var cfIndex = customFields.indexOf(obj.value);
-      if (cfIndex > -1) customFields.splice(cfIndex, 1);
+      if (obj.value !== "") {
+        var cfIndex = customFields.indexOf(obj.value);
+        if (cfIndex > -1) customFields.splice(cfIndex, 1);
+        var setting = {
+          schemaField: obj.id.replace('Selector', ''),
+          fieldValue: obj.value
+        };
+        selectedValues.push(setting);
+      } else {
+        var result = $.grep(companyFields, function(e) {
+          return e.fieldIdentifier == obj.id.replace('Selector', '');
+        });
+        if (result[0].required === true) {
+          console.log(result[0].fieldLabel + " is a required field. Please assign it a value from the list.");
+          requiredFieldsCompleted = false;
+          return;
+        }
+      }
     });
 
-    
+    if (requiredFieldsCompleted) {
+      // ----------------------------------------------------------
+      // MOVE THIS TO JUST BEFORE IMPORT STARTS    
+      // ----------------------------------------------------------
+      $('#startImport').prop('disabled', true);
+      $('#fieldMapper').hide();
+      $('#progressIndicator').show();
+      $('.modal-header').hide();
+      $('.modal-footer').hide();
+      // ----------------------------------------------------------
+    }
   }
 });
