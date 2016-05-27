@@ -15,19 +15,7 @@
     Tasks
     <div class="btn-group pull-right">
       <a href="#" id="btnRecentlyCompleted" class="btn btn-{{#if showComp}}success{{else}}default{{/if}} btn-xs">Show completed</a>
-      {{#if isInRole 'CanCreateTasks'}}
-      
-      <button type="button" class="btn btn-default btn-xs" data-toggle="dropdown" >
-      <i class="fa fa-fw fa-upload"></i>
-      <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" role="menu">
-        <li><a href="#" id="task-data-upload-link">Import {{taskEntityType}} tasks from CSV</a></li>
-        <li class="divider"></li>
-        <li><a href="#" id="task-template">Download {{taskEntityType}} task import template</a></li>
-        <input type="file" id="task-data-upload" style="display:none;">
-      </ul>
-      
+      {{#if isInRole 'CanCreateTasks'}}            
       <a href="#" id="btnAddTaskToEntity" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="New task to be completed"><i class="fa fa-fw fa-plus"></i> Add</a>
       {{/if}}
     </div>

@@ -1,0 +1,48 @@
+<template name="importEntityModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Import {{entityType}}</h4>
+        </div>
+
+        <div class="modal-body">
+
+          <div id="fieldMapper">
+            {{#each importFields}}
+              <div class="row">
+                <div class="col-md-3 importFieldLabel">{{fieldLabel}}</div>
+                <div class="col-md-9">
+                  <select id="{{fieldIdentifier}}Selector" class="selectpicker">
+                    <option value="">Do not import</option>
+                    {{#each csvHeaders}}
+                      <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+
+          <div id="progressIndicator">
+
+            <div class="progress">
+              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{percentComplete}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentComplete}}%">
+                {{percentComplete}}% Complete
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="startImport" role="button">Import</button>          
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
