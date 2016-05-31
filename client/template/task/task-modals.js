@@ -23,7 +23,7 @@ Template.insertNewTask.helpers({
     return this.entity_id;
   },
   isUserTask: function() {
-    return (this.entity_type === "user" ? true : false);
+    return (this.entity_type === "user");
   },
   getCurrentUserId: function() {
     return Meteor.userId();
@@ -44,7 +44,7 @@ Template.insertNewTask.helpers({
         searchIndex = OpportunitiesIndex;
         break;
       case 'project':
-        Meteor.subscribe('allProjects')
+        Meteor.subscribe('allProjects');
         searchIndex = ProjectsIndex;
         break;
     }
@@ -53,9 +53,8 @@ Template.insertNewTask.helpers({
   displayLabel: function() {
     if (this.entity_type === "user") {
       return 'Personal';
-    } else {
-      return this.entity_type.charAt(0).toUpperCase() + this.entity_type.slice(1);
     }
+    return this.entity_type.charAt(0).toUpperCase() + this.entity_type.slice(1);
   }
 });
 
@@ -77,7 +76,7 @@ Template.insertNewTask.events({
 
 Template.updateTask.onRendered(function() {
   Session.set('showRemindMe', this.data.remindMe);
-  Session.set('hasDueDate', this.data.dueDate !== undefined);
+  Session.set('hasDueDate', typeof this.data.dueDate !== "undefined");
 });
 
 Template.updateTask.helpers({

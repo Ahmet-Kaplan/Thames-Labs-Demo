@@ -10,18 +10,16 @@ Template.documentContainer.onRendered(function() {
 Template.documentContainer.helpers({
   documents: function() {
     var mongoDoc = Collections[this.collectionName].findOne(this.id);
-    if (!mongoDoc || !mongoDoc.documents) return
-    return _.map(mongoDoc.documents, (doc) => {
-      return {
-        "docName": doc.docName,
-        "docPath": doc.docPath,
-        "fileIcon": doc.fileIcon,
-        "service": doc.service,
-        "serviceIcon": doc.serviceIcon,
-        "collectionName": this.collectionName,
-        "id": this.id,
-      }
-    }).sort(function(a, b) {
+    if (!mongoDoc || !mongoDoc.documents) return;
+    return _.map(mongoDoc.documents, (doc) => ({
+      "docName": doc.docName,
+      "docPath": doc.docPath,
+      "fileIcon": doc.fileIcon,
+      "service": doc.service,
+      "serviceIcon": doc.serviceIcon,
+      "collectionName": this.collectionName,
+      "id": this.id,
+    })).sort(function(a, b) {
       return a.docName.localeCompare(b.docName);
     });
   }

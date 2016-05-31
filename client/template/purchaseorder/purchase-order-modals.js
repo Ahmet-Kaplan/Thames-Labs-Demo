@@ -67,11 +67,7 @@ Template.newCompanyPurchaseOrderForm.onRendered(function() {
 
 Template.newCompanyPurchaseOrderForm.helpers({
   showSupplierContacts: function() {
-    if (Session.get('posc') === null) {
-      return false;
-    } else {
-      return true;
-    }
+    return (Session.get('posc') !== null);
   },
   currentUser: function() {
     return Meteor.userId();
@@ -153,15 +149,15 @@ Template.updatePurchaseOrderFormModal.helpers({
   supplierCompanyName: function() {
     return Companies.findOne({
       _id: this.supplierCompanyId
-    }).name
+    }).name;
   },
   supplierContactName: function() {
     var contact = Contacts.findOne({
       _id: this.supplierContactId
-    })
+    });
     return contact.forename + " " + contact.surname;
   }
-})
+});
 
 Template.updatePurchaseOrderFormModal.events({
   'change #poStatus': function() {
@@ -171,7 +167,7 @@ Template.updatePurchaseOrderFormModal.events({
 
     if (level === 0) {
       if (selected !== "Requested" && selected !== "Cancelled") {
-        var origVal = Session.get('poStat');
+        const origVal = Session.get('poStat');
         $('#poStatus').val(origVal);
         toastr.warning('Your authorisation level only permits you to set order status to "Requested" or "Cancelled".');
         return false;
@@ -180,7 +176,7 @@ Template.updatePurchaseOrderFormModal.events({
 
     if (Session.get('poIsLocked')) {
       if (selected === "Requested") {
-        var origVal = Session.get('poStat');
+        const origVal = Session.get('poStat');
         $('#poStatus').val(origVal);
         toastr.warning('You cannot set the order status to "Requested" - it has already been submitted for authorisation.');
         return false;
@@ -205,10 +201,9 @@ Template.addPurchaseOrderItemModal.onRendered(function() {
 
   Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
     if (error) {
-
-    } else {
-      $('#activePrice').prop('value', result);
+      return false;
     }
+    $('#activePrice').prop('value', result);
   });
 });
 
@@ -226,10 +221,9 @@ Template.addPurchaseOrderItemModal.events({
 
     Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
       if (error) {
-
-      } else {
-        $('#activePrice').prop('value', result);
+        return false;
       }
+      $('#activePrice').prop('value', result);
     });
   },
   'change #currQuant, blur #currQuant': function() {
@@ -239,10 +233,9 @@ Template.addPurchaseOrderItemModal.events({
 
     Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
       if (error) {
-
-      } else {
-        $('#activePrice').prop('value', result);
+        return false;
       }
+      $('#activePrice').prop('value', result);
     });
   }
 });
@@ -268,7 +261,7 @@ Template.editPurchaseOrderItemModal.helpers({
     _.each(projects, function(project) {
       if (project.companyId) {
         var company = Companies.findOne(project.companyId);
-        var info = {
+        const info = {
           'label': project.name + " (" + company.name + ")",
           'value': project._id
         };
@@ -276,7 +269,7 @@ Template.editPurchaseOrderItemModal.helpers({
         data.push(info);
       } else {
         var contact = Contacts.findOne(project.contactId);
-        var info = {
+        const info = {
           'label': project.name + " (" + contact.forename + " " + contact.surname + ")",
           'value': project._id
         };
@@ -297,10 +290,9 @@ Template.editPurchaseOrderItemModal.events({
 
     Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
       if (error) {
-
-      } else {
-        $('#activePrice').prop('value', result);
+        return false;
       }
+      $('#activePrice').prop('value', result);
     });
   },
   'change #currQuant': function() {
@@ -310,10 +302,9 @@ Template.editPurchaseOrderItemModal.events({
 
     Meteor.call("calculatePurchaseOrderItemTotalValue", v, q, function(error, result) {
       if (error) {
-
-      } else {
-        $('#activePrice').prop('value', result);
+        return false;
       }
+      $('#activePrice').prop('value', result);
     });
   }
 });

@@ -20,7 +20,7 @@ Meteor.startup(function() {
           console.log("\t---------- Email end ----------");
         }
       }
-    }
+    };
   }
 
   if (!process.env.CI) {

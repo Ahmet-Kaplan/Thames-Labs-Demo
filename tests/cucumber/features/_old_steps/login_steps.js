@@ -19,7 +19,7 @@ module.exports = function() {
   });
 
   this.Then(/^I am logged in$/, function() {
-    browser.waitForExist('#menuLinkDashboard', 2000)
+    browser.waitForExist('#menuLinkDashboard', 2000);
     var userId = browser
       .executeSync(function() {
         return Meteor.userId();

@@ -8,4 +8,4 @@ module.exports = function() {
     browser.waitForExist('.at-error');
     expect(browser.userId()).toBe(null);
   });
-}
+};

@@ -28,4 +28,4 @@ TipList = [{
   "Tip": "You can share your searches and filtered conditions with other users! When you search, the URL of the current page will update to include your conditions - simply copy it and send it in any way you choose."
 }, {
   "Tip": "Create an opportunity from anywhere by pressing CTRL + ALT + O, or via the fast-action button when on mobile (the <i class='fa fa-fw fa-plus'></i> icon in the lower-right corner)"
-}]
+}];

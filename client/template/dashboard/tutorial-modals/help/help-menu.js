@@ -59,52 +59,44 @@ Template.help.helpers({
     switch (lastTutorial) {
       case "welcome":
         hTitle = "Great Work!";
-        return hTitle;
         break;
       case "addCompany":
         hTitle = "How Did You Get So Good?";
-        return hTitle;
         break;
       case "addContact":
         hTitle = "You're a Natural!";
-        return hTitle;
         break;
       case "addTags":
         hTitle = "You're a Smart Cookie!";
-        return hTitle;
         break;
       case "admin":
         hTitle = "Now You're Cooking!";
-        return hTitle;
         break;
       case "help":
         hTitle = "Need Some Help?";
-        return hTitle;
+        break;
     }
+    return hTitle;
   },
   helpText: function() {
     var hText = "";
     switch (lastTutorial) {
       case "welcome":
         hText = "That's a brief overview of RealTimeCRM. To learn more, select one of the other tutorials below.";
-        return hText;
         break;
       case "addCompany":
         hText = "You now know how to add company in RealTimeCRM! Everything you have created in this tutorial has been saved. To learn more, select one of the other tutorials below.";
-        return hText;
         break;
       case "addContact":
         hText = "You now know how to add a contact in RealTimeCRM! Everything you have created in this tutorial has been saved. To learn more, select one of the other tutorials below.";
-        return hText;
         break;
       case "addTags":
         hText = "You now know how to add tags in RealTimeCRM! The process for tagging is the same throughout the application, so keep tagging and discover how powerful they are! Everything you have created in this tutorial has been saved. To learn more, select one of the other tutorials below.";
-        return hText;
         break;
       case "admin":
         hText = "You now know how to add a user in RealTimeCRM! Everything you have created in this tutorial has been saved. To learn more, select one of the other tutorials below.";
-        return hText;
         break;
     }
+    return hText;
   }
 });

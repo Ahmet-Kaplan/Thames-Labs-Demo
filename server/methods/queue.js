@@ -4,7 +4,7 @@ jobsList = JobCollection('jobsQueue');
 Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
   var assigneeId = job.data.assigneeId;
 
-  if(assigneeId === undefined) {
+  if(typeof assigneeId === "undefined") {
     job.log('Unable to find user with _id: ' + job.data.assigneeId, {level: 'warning'});
     job.fail('User not found.');
     callback();
@@ -41,7 +41,7 @@ Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
       createdAt: new Date(),
       createdBy: task.createdBy,
       icon: 'check'
-    })
+    });
 
     job.done();
     job.remove();
@@ -49,7 +49,7 @@ Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
       $unset: {
         taskReminderJob: ''
       }
-    })
+    });
     callback();
   });
 });
@@ -73,7 +73,7 @@ Meteor.methods({
     }
 
     //Checking validity of dates provided
-    var reminderValue = parseInt(task.reminder.split('.')[0]);
+    var reminderValue = parseInt(task.reminder.split('.')[0], 10);
     var reminderUnit = task.reminder.split('.')[1];
     var reminderDate = moment(task.dueDate).subtract(reminderValue, reminderUnit);
     var dueDate = moment(task.dueDate);
@@ -81,7 +81,7 @@ Meteor.methods({
     if (reminderDate.isBefore(moment())) {
       throw new Meteor.Error(400, 'The reminder date is in the past.');
     } else if(task.dueDate && reminderDate.isAfter(dueDate)) {
-      throw new Meteor.error(400, 'The reminder date is after the due Date.');
+      throw new Meteor.Error(400, 'The reminder date is after the due Date.');
     } else if(task.remindMe && task.reminder) {
       //create job
       var taskJob = new Job(jobsList, 'sendReminderEmail', {
@@ -122,7 +122,7 @@ Meteor.methods({
     //If reminder job exist, update or cancel it
     if(task.taskReminderJob) {
 
-      var reminderValue = parseInt(task.reminder.split('.')[0]);
+      var reminderValue = parseInt(task.reminder.split('.')[0], 10);
       var reminderUnit = task.reminder.split('.')[1];
       var reminderDate = moment(task.dueDate).subtract(reminderValue, reminderUnit);
       var dueDate = moment(task.dueDate);
@@ -136,7 +136,7 @@ Meteor.methods({
         if (reminderDate.isBefore(moment())) {
           throw new Meteor.Error(400, 'The reminder date is in the past.');
         } else if(task.dueDate && reminderDate.isAfter(dueDate)) {
-          throw new Meteor.error(400, 'The reminder date is after the due Date.');
+          throw new Meteor.Error(400, 'The reminder date is after the due Date.');
         }
 
         //Check if task can be paused
@@ -148,12 +148,12 @@ Meteor.methods({
         //Else it means we have to create a new job
         //Because the job ran and is now deleted
         } else {
-          Meteor.call('addTaskReminder', taskId)
+          Meteor.call('addTaskReminder', taskId);
         }
 
       //Delete
       } else {
-        Meteor.call('deleteTaskReminder', task.taskReminderJob, task._id)
+        Meteor.call('deleteTaskReminder', task.taskReminderJob, task._id);
       }
 
     //If no job set, check if need to create one
@@ -199,4 +199,4 @@ Meteor.methods({
 
     return jobsList.find({}).fetch();
   }
-})
+});

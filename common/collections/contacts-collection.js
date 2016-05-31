@@ -51,9 +51,8 @@ Collections.contacts.filters = {
     displayValue: function(company) {
       if (company) {
         return company.name;
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   phone: {
@@ -94,20 +93,16 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadContacts']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'surname': 1
-      }
-    },
+    sort: () => ({ 'surname': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       if (options.search.props.autosuggest) {
         return {
           'forename': 1,
           'surname': 1
-        }
+        };
       }
       return {
         'forename': 1,
@@ -119,13 +114,13 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
         'email': 1,
         'tags': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.sequencedIdentifier) {
-        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
 
       if (options.search.props.filterCompanyId) {
@@ -143,7 +138,7 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
         // n.b. the array is passed as a comma separated string
         selector.phone = {
           $in: _.map(options.search.props.phone.split(','), function(phone) {
-            return new RegExp(phone, 'i')
+            return new RegExp(phone, 'i');
           })
         };
       }

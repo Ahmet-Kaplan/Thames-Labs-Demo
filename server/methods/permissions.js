@@ -7,11 +7,7 @@ Meteor.methods({
         return true;
       }
 
-      if (Roles.userIsInRole(userId, roleName)) {
-        return true;
-      } else {
-        return false;
-      }
+      return (Roles.userIsInRole(userId, roleName));
     }
   },
 

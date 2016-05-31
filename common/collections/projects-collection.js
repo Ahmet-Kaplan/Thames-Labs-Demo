@@ -51,9 +51,8 @@ Collections.projects.filters = {
     displayValue: function(company) {
       if (company) {
         return company.name;
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   contact: {
@@ -66,9 +65,8 @@ Collections.projects.filters = {
     displayValue: function(contact) {
       if (contact) {
         return contact.name();
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   manager: {
@@ -81,9 +79,8 @@ Collections.projects.filters = {
     displayValue: function(user) {
       if (user) {
         return user.profile.name;
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   dueDate: {
@@ -193,19 +190,15 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadProjects']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'name': 1
-      }
-    },
+    sort: () => ({ 'name': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       if (options.search.props.autosuggest) {
         return {
           'name': 1,
-        }
+        };
       }
       return {
         'name': 1,
@@ -215,13 +208,13 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
         'contactId': 1,
         'active': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.sequencedIdentifier) {
-        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
 
       if (options.search.props.showArchived) {
@@ -288,7 +281,7 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
           selector.dueDate = {
             $gte: formattedStartDate,
             $lte: formattedEndDate
-          }
+          };
         }
 
       }

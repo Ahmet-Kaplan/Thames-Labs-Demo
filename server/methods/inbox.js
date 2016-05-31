@@ -3,10 +3,10 @@ import bodyParser from 'body-parser';
 
 var upload = multer();
 
-Picker.middleware(upload.single())
+Picker.middleware(upload.single());
 Picker.middleware(bodyParser.urlencoded({
   extended: true
-}))
+}));
 Picker.middleware(bodyParser.json());
 
 Picker
@@ -66,33 +66,40 @@ Meteor.methods({
 
     if (!MeteorUser) {
       return;
-    } else {
-      Partitioner.bindUserGroup(MeteorUser._id, function() {
-        var toAddresses = bodyData.To.match(emailPattern);
-        var involvedParties = bodyData["body-plain"].match(emailPattern);
-        var addresses = _.union(toAddresses, involvedParties);
-
-        _.each(addresses, function(address) {
-          var contact = Contacts.findOne({
-            email: address
-          });
-
-          if (contact) {
-            Activities.insert({
-              type: 'Email',
-              notes: notesFieldData,
-              createdAt: Date.now(),
-              activityTimestamp: sendDate,
-              contactId: contact._id,
-              createdBy: MeteorUser._id,
-              primaryEntityId: contact._id,
-              primaryEntityType: 'contacts',
-              primaryEntityDisplayData: contact.name(),
-              tags: ['Automated']
-            });
-          }
-        });
-      });
     }
+
+    var TheTenant = Tenants.findOne({
+      _id: MeteorUser.group
+    });
+    if (!TheTenant) {
+      return;
+    }
+
+    Partitioner.bindGroup(TheTenant._id, function() {
+      var toAddresses = bodyData.To.match(emailPattern);
+      var involvedParties = bodyData["body-plain"].match(emailPattern);
+      var addresses = _.union(toAddresses, involvedParties);
+
+      _.each(addresses, function(address) {
+        var contact = Contacts.findOne({
+          email: address
+        });
+
+        if (contact) {
+          Activities.insert({
+            type: 'Email',
+            notes: notesFieldData,
+            createdAt: Date.now(),
+            activityTimestamp: sendDate,
+            contactId: contact._id,
+            createdBy: MeteorUser._id,
+            primaryEntityId: contact._id,
+            primaryEntityType: 'contacts',
+            primaryEntityDisplayData: contact.name(),
+            tags: ['Automated']
+          });
+        }
+      });
+    });
   }
 });

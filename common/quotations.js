@@ -59,7 +59,7 @@ quotations = [
   }, {
     "Quote": "It is simplicity that makes the uneducated more effective than the educated when addressing popular audiences.",
     "Person": "Aristotle"
-  },   {
+  }, {
     "Quote": "If you want to achieve greatness stop asking for permission."
   }, {
     "Quote": "Things work out best for those who make the best of how things work out.",

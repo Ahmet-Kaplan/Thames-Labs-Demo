@@ -18,7 +18,7 @@ Template.editCompanyModal.onRendered(function() {
           return elt.types[0] == "street_number";
         });
 
-        if (typeof(strNumber) !== 'undefined') {
+        if (typeof strNumber !== 'undefined') {
           strNumber = strNumber.long_name;
           address += strNumber + " ";
         }
@@ -27,7 +27,7 @@ Template.editCompanyModal.onRendered(function() {
           return elt.types[0] == "route";
         });
 
-        if (typeof(route) !== 'undefined') {
+        if (typeof route !== 'undefined') {
           route = route.long_name;
           address += route;
         }
@@ -43,7 +43,7 @@ Template.editCompanyModal.onRendered(function() {
           position: result.geometry.location,
           draggable: true
         });
-        google.maps.event.addListener(marker, "dragend", function(event) {
+        google.maps.event.addListener(marker, "dragend", function() {
           $("input[name=lat]").val(marker.getPosition().lat());
           $("input[name=lng]").val(marker.getPosition().lng());
         });
@@ -73,15 +73,14 @@ Template.editCompanyModal.events({
       scrollwheel: false
     });
     //Set map to the current location
-    var infowindow = new google.maps.InfoWindow();
-    if (companyData.lat !== undefined && companyData.lng !== undefined) {
+    if (typeof companyData.lat !== "undefined" && typeof companyData.lng !== "undefined") {
       location = {
         lat: parseFloat(companyData.lat),
         lng: parseFloat(companyData.lng)
-      }
+      };
       mapModal.panTo(location);
       mapModal.setZoom(16);
-      var markerModal = new google.maps.Marker({
+      const markerModal = new google.maps.Marker({
         map: mapModal,
         position: location,
         title: companyData.name,
@@ -92,7 +91,7 @@ Template.editCompanyModal.events({
         $("input[name=lat]").val(markerModal.getPosition().lat());
         $("input[name=lng]").val(markerModal.getPosition().lng());
       });
-      var infowindow = new google.maps.InfoWindow();
+      const infowindow = new google.maps.InfoWindow();
       infowindow.setContent(companyData.name);
       infowindow.open(mapModal, markerModal);
     } else {
@@ -107,7 +106,7 @@ Template.editCompanyModal.events({
           };
           mapModal.panTo(location);
           mapModal.setZoom(16);
-          var markerModal = new google.maps.Marker({
+          const markerModal = new google.maps.Marker({
             map: mapModal,
             position: location,
             title: companyData.name,
@@ -118,7 +117,7 @@ Template.editCompanyModal.events({
             $("input[name=lat]").val(markerModal.getPosition().lat());
             $("input[name=lng]").val(markerModal.getPosition().lng());
           });
-          var infowindow = new google.maps.InfoWindow();
+          const infowindow = new google.maps.InfoWindow();
           infowindow.setContent(companyData.name);
           infowindow.open(mapModal, markerModal);
         }

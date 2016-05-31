@@ -1,5 +1,5 @@
 export function createUser(tenantId, name, email) {
-  // TODO: make this use our actual user creation method for better accuracy
+  // T-O-D-O: make this use our actual user creation method for better accuracy
   const userId = Accounts.createUser({
     username: name,
     email: email,

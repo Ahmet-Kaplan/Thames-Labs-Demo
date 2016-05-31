@@ -40,9 +40,8 @@ Collections.opportunities.filters = {
     displayValue: function(company) {
       if (company) {
         return company.name;
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   contact: {
@@ -55,35 +54,32 @@ Collections.opportunities.filters = {
     displayValue: function(contact) {
       if (contact) {
         return contact.name();
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   valueLower: {
     display: 'Value <',
     prop: 'valueLower',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   valueGreater: {
     display: 'Value >',
     prop: 'valueGreater',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   tags: {
@@ -137,20 +133,19 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
       if (options.search.props.sortByCloseDate) {
         return {
           'estCloseDate': 1
-        }
+        };
       } else if (options.search.props.sortByValue) {
         return {
           'value': -1
-        }
-      } else {
-        return {
-          'name': 1
-        }
+        };
       }
+      return {
+        'name': 1
+      };
     },
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       return {
         'name': 1,
@@ -165,7 +160,7 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         'currentStageId': 1,
         'sequencedIdentifier': 1,
         'salesManagerId': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
@@ -178,7 +173,7 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
       }
 
       if (options.search.props.sequencedIdentifier) {
-        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
 
       if (options.search.props.showArchived) {
@@ -212,8 +207,8 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
 
       if (options.search.props.valueLower || options.search.props.valueGreater) {
         selector.value = {};
-        var lowerThan = parseInt(options.search.props.valueLower);
-        var greaterThan = parseInt(options.search.props.valueGreater);
+        var lowerThan = parseInt(options.search.props.valueLower, 10);
+        var greaterThan = parseInt(options.search.props.valueGreater, 10);
 
         if (!isNaN(lowerThan)) {
           selector.value.$lte = lowerThan;

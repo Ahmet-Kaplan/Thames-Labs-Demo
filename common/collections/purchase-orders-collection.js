@@ -51,9 +51,8 @@ Collections.purchaseorders.filters = {
     displayValue: function(company) {
       if (company) {
         return company.name;
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   contact: {
@@ -66,9 +65,8 @@ Collections.purchaseorders.filters = {
     displayValue: function(contact) {
       if (contact) {
         return contact.name();
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   status: {
@@ -77,9 +75,8 @@ Collections.purchaseorders.filters = {
     verify: function(status) {
       if (Schemas.PurchaseOrder.schema().status.allowedValues.indexOf(status) !== -1) {
         return true;
-      } else {
-        return false;
       }
+      return false;
     },
     defaultOptions: function() {
       return Schemas.PurchaseOrder.schema('status').allowedValues;
@@ -89,26 +86,24 @@ Collections.purchaseorders.filters = {
     display: 'Total Price <',
     prop: 'totalValueLower',
     verify: function(value) {
-      value = parseFloat(value)
+      value = parseFloat(value);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
-      } else {
-        return true;
+        return false;
       }
+      return true;
     }
   },
   totalValueGreater: {
     display: 'Total Price >',
     prop: 'totalValueGreater',
     verify: function(value) {
-      value = parseFloat(value)
+      value = parseFloat(value);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
-      } else {
-        return true;
+        return false;
       }
+      return true;
     }
   },
   sequencedIdentifier: {
@@ -130,7 +125,7 @@ Collections.purchaseorders.filters = {
     valueField: 'name',
     nameField: 'name'
   },
-}
+};
 
 ////////////////////
 // SEARCH INDICES //
@@ -144,14 +139,10 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadPurchaseOrders']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'orderNumber': 1
-      }
-    },
+    sort: () => ({ 'orderNumber': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       return {
         'description': 1,
@@ -163,7 +154,7 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
         'totalValue': 1,
         'tags': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
@@ -291,7 +282,7 @@ PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options)
 
       if (Meteor.isServer && _.includes(["Approved", "Rejected"], doc.status)) {
         Meteor.call('addPoNotification', doc._id, doc.status);
-      };
+      }
     }
     if (doc.paymentMethod !== this.previous.paymentMethod) {
       LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's payment method", 'purchaseOrder', doc._id);

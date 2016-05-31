@@ -13,9 +13,9 @@ module.exports = function() {
 
   this.Given(/^I have permission to (\w+) ([^"]*)$/, function(action, friendlyEntityName) {
     expect(Object.keys(collectionMap)).toContain(friendlyEntityName);
-    server.execute(function(userId, action, collectionName) {
-      const requiredPermission = permissionGenerator(action, collectionName);
+    server.execute(function(userId, innerAction, collectionName) {
+      const requiredPermission = permissionGenerator(innerAction, collectionName);
       Roles.addUsersToRoles(userId, requiredPermission);
     }, browser.userId(), action, collectionMap[friendlyEntityName]);
   });
-}
+};
