@@ -1,3 +1,13 @@
 .importFieldLabel {
   padding-top: 5px;
 }
+.toggle-container {
+  padding-top: 5px;
+}
+.required-marker {
+  color: #e52325;
+}
+#errorList {
+  max-height: 150px;
+  overflow-y: auto;
+}

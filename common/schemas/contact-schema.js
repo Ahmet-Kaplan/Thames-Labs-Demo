@@ -1,7 +1,8 @@
 Schemas.Contact = new SimpleSchema({
   sequencedIdentifier: {
     type: Number,
-    label: "RealTime ID"
+    label: "RealTime ID",
+    optional: true
   },
   title: {
     label: 'Title',

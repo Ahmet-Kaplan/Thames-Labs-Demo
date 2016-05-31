@@ -201,7 +201,6 @@ Companies.before.insert(function(userId, doc) {
   var user = Meteor.users.findOne(userId);
   var tenant = Tenants.findOne(user.group);
   doc.sequencedIdentifier = tenant.settings.company.defaultNumber;
-
   return true;
 });
 
