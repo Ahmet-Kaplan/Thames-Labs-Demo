@@ -1,3 +1,53 @@
+var contactFields = [{
+  fieldLabel: 'Forename',
+  fieldIdentifier: 'forename',
+  required: true
+}, {
+  fieldLabel: 'Surname',
+  fieldIdentifier: 'surname',
+  required: true
+}, {
+  fieldLabel: 'Job Title',
+  fieldIdentifier: 'jobtitle',
+  required: false
+}, {
+  fieldLabel: 'Telephone',
+  fieldIdentifier: 'phone',
+  required: false
+}, {
+  fieldLabel: 'Mobile',
+  fieldIdentifier: 'mobile',
+  required: false
+}, {
+  fieldLabel: 'Email',
+  fieldIdentifier: 'email',
+  required: false
+}, {
+  fieldLabel: 'Address',
+  fieldIdentifier: 'address',
+  required: false
+}, {
+  fieldLabel: 'City',
+  fieldIdentifier: 'city',
+  required: false
+}, {
+  fieldLabel: 'County',
+  fieldIdentifier: 'county',
+  required: false
+}, {
+  fieldLabel: 'Postcode',
+  fieldIdentifier: 'postcode',
+  required: false
+}, {
+  fieldLabel: 'Country',
+  fieldIdentifier: 'country',
+  required: false
+}, {
+  fieldLabel: 'Company Name',
+  fieldIdentifier: 'companyName',
+  required: true
+}];
+
 var companyFields = [{
   fieldLabel: 'Company Name',
   fieldIdentifier: 'name',
@@ -77,6 +127,8 @@ Template.importEntityModal.helpers({
     switch (this.entity) {
       case 'companies':
         return companyFields;
+      case 'contacts':
+        return contactFields;
     }
   },
   'csvHeaders': function() {
@@ -115,9 +167,17 @@ Template.importEntityModal.events({
         };
         selectedValues.push(setting);
       } else {
-        var result = $.grep(companyFields, function(e) {
-          return e.fieldIdentifier == obj.id.replace('Selector', '');
-        });
+        var result = null;
+        if (entityType === "companies") {
+          result = $.grep(companyFields, function(e) {
+            return e.fieldIdentifier == obj.id.replace('Selector', '');
+          });
+        } else {
+          result = $.grep(contactFields, function(e) {
+            return e.fieldIdentifier == obj.id.replace('Selector', '');
+          });
+        }
+
         if (result[0].required === true) {
           toastr.warning(result[0].fieldLabel + " is a required field. Please assign it a value from the list.");
           requiredFieldsCompleted = false;
@@ -156,7 +216,11 @@ Template.importEntityModal.events({
               errorHTML += "<li>" + em + "</li>";
             });
             $('#errorList').html(errorHTML);
-            toastr.warning('Some errors occurred.');
+
+            var warningCount = errors.toString().match(/\[WARNING\]*/g).length;
+            var errorCount = errors.length - warningCount;
+
+            toastr.warning('Import completed with ' + warningCount + ' warnings and ' + errorCount + ' errors.');
 
             $('#closeErrors').show();
           } else {
