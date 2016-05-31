@@ -40,6 +40,8 @@ Template.importEntityModal.onCreated(function() {
 });
 
 Template.importEntityModal.onRendered(function() {
+  var self = this;
+
   $('#mode-toggle').bootstrapToggle({
     on: 'Yes',
     off: 'No',
@@ -56,6 +58,14 @@ Template.importEntityModal.onRendered(function() {
   $('.selectpicker').selectpicker({
     title: 'Do not import',
     selectOnTab: true
+  });
+
+  $('.selectpicker').each(function(i, obj) {
+    _.each(self.selectOptions, function(option) {
+      if (option === obj.id.replace('Selector', '')) {
+        $('#`obj.id`').selectpicker('val', option);
+      }
+    });
   });
 });
 
