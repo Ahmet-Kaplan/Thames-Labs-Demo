@@ -91,6 +91,7 @@ Template.importEntityModal.events({
     var customFields = template.selectOptions;
     var dataToImport = template.dataToImport;
     var entityType = template.entityType;
+    var unusedAsCustoms = template.unusedAsCustoms.get();
     var selectedValues = [];
     var requiredFieldsCompleted = true;
 
@@ -124,7 +125,7 @@ Template.importEntityModal.events({
       $('.modal-header').hide();
       $('.modal-footer').hide();
 
-      Meteor.call('import.do', Meteor.userId(), entityType, dataToImport, selectedValues, customFields, function(error, result) {
+      Meteor.call('import.do', Meteor.userId(), entityType, dataToImport, selectedValues, (unusedAsCustoms ? customFields : []), function(error, result) {
         if (error) {
           toastr.error(error);
           $('#startImport').prop('disabled', false);

@@ -27,6 +27,14 @@ Meteor.methods({
               formattedWebsite = (rx.test(url) === false ? '' : url);
             }
 
+            if(Companies.findOne({name: row[_.result(_.find(selectedValues, function(obj) {return obj.schemaField === 'name';}), 'fieldValue')]})){
+                errorList.push('Could not import "' + row[_.result(_.find(selectedValues, function(obj) {
+                  return obj.schemaField === 'name';
+                }), 'fieldValue')] + '": a company with this name already exists.');
+                UserSession.set("importErrors", errorList, userId);
+                return;
+            }
+
             Companies.insert({
               name: row[_.result(_.find(selectedValues, function(obj) {return obj.schemaField === 'name';}), 'fieldValue')],
               address: (_.result(_.find(selectedValues, function(obj) {return obj.schemaField === 'address';}), 'fieldValue') ? row[_.result(_.find(selectedValues, function(obj) {return obj.schemaField === 'address';}), 'fieldValue')] : null),
