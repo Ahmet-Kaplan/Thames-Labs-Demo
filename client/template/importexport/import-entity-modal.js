@@ -45,7 +45,7 @@ var contactFields = [{
 }, {
   fieldLabel: 'Company Name',
   fieldIdentifier: 'companyName',
-  required: true
+  required: false
 }];
 
 var companyFields = [{
@@ -172,7 +172,7 @@ Template.importEntityModal.events({
           result = $.grep(companyFields, function(e) {
             return e.fieldIdentifier == obj.id.replace('Selector', '');
           });
-        } else {
+        } else if (entityType === "contacts") {
           result = $.grep(contactFields, function(e) {
             return e.fieldIdentifier == obj.id.replace('Selector', '');
           });
