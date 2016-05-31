@@ -63,7 +63,7 @@ Template.importEntityModal.onRendered(function() {
   $('.selectpicker').each(function(i, obj) {
     _.each(self.selectOptions, function(option) {
       if (option === obj.id.replace('Selector', '')) {
-        $('#`obj.id`').selectpicker('val', option);
+        $('#' + obj.id).selectpicker('val', option);
       }
     });
   });

@@ -11,7 +11,70 @@ Template.importEntityDropdown.events({
     document.getElementById('data-upload').click();
   },
   'click #template-link': function(event, template) {
+    var headers = [];
+    var sampleValues = [];
 
+    if (entityToImport === "companies") {
+      headers = [
+        'Company Name',
+        'Address',
+        'City',
+        'County',
+        'Post Code',
+        'Country',
+        'Website',
+        'Telephone'
+      ].join(',');
+
+      sampleValues = [
+        'Cambridge Software Ltd',
+        'St John\'s Innovation Centre',
+        'Milton',
+        'Cambridgeshire',
+        'CB4 0WS',
+        'United Kingdom',
+        'http://www.cambridgesoftware.co.uk',
+        '01223 802 900'
+      ].join(',');
+    } else {
+      headers = [
+        'Forename',
+        'Surname',
+        'Email',
+        'Telephone',
+        'Mobile',
+        'Job Title',
+        'Company Name',
+        'Address',
+        'City',
+        'County',
+        'Post Code',
+        'Country'
+      ].join(',');
+
+      sampleValues = [
+        'John',
+        'Doe',
+        'john.doe@cambridgesoftware.co.uk',
+        '01234 567 890',
+        '07123 456 789',
+        'Team Supervisor',
+        'Cambridge Software Ltd',
+        'St John\'s Innovation Centre',
+        'Milton',
+        'Cambridgeshire',
+        'CB4 0WS',
+        'United Kingdom',
+        'http://www.cambridgesoftware.co.uk',
+        '01223 802 900'
+      ].join(',');
+    }
+
+    var fileData = headers + '\n' + sampleValues;
+    var blob = new Blob([fileData], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(blob, 'data-template.csv');
   },
   'change #data-upload': function(event, template) {
     var file = event.target.files[0];
