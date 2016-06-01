@@ -1,10 +1,8 @@
 Template.appLayout.helpers({
   hasMenuClass: function() {
-    var loggedIn = (Meteor.userId() ? true : false);
-    if (!loggedIn) {
+    // var loggedIn = (Meteor.userId() ? true : false);
+    if (!Meteor.userId()) {
       return 'no-menu';
-    } else {
-      return;
     }
   },
   maintenanceMode: function() {
@@ -14,22 +12,22 @@ Template.appLayout.helpers({
     return FlowRouter.subsReady();
   }
 });
-
 Template.appLayout.onRendered(function() {
   $.getScript('/vendor/bowser.min.js');
-  $("#id-view-content").swipe({
-    swipeLeft: function(event) {
-      console.log('swiped left');
-      document.getElementById("id-view-sidemenu").className = "";
-    },
-    swipeRight: function(event) {
-      console.log('swiped right');
-      document.getElementById("id-view-sidemenu").className = "active";
-    },
-    threshold: 75,
-  });
+  if (bowser.mobile) {
+    $("#id-view-content").swipe({
+      swipeLeft: function(event) {
+        console.log('swiped left');
+        document.getElementById("id-view-sidemenu").className = "";
+      },
+      swipeRight: function(event) {
+        console.log('swiped right');
+        document.getElementById("id-view-sidemenu").className = "active";
+      },
+      threshold: 75,
+    });
+  }
 });
-
 Template.appLayout.onCreated(function() {
   this.autorun(function() {
     if (Meteor.user() && !Roles.userIsInRole(Meteor.userId(), ['superadmin']) && Meteor.isProduction) {
