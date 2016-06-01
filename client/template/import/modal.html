@@ -23,7 +23,7 @@
           </div>
           {{/each}}
           <br>
-          <div class="row">
+          <div class="row customFieldSwitch">
             <div class="col-md-9 importFieldLabel" >Any fields in your CSV file that are not selected in the above drop-downs will be imported as custom fields. If you do not want this, to happen, set this slider to <strong>No</strong>.</div>
             <div class="col-md-3 toggle-container"><input id="mode-toggle" checked type="checkbox"></div>
           </div>
@@ -35,7 +35,7 @@
             </div>
           </div>
           <div class="errorOutput">
-            The following errors occurred whilst importing. <br />
+            The following errors occurred whilst importing. Please correct them in your CSV file and then try to import your records again.<br /><br />
             <ol id="errorList">
             </ol>
           </div>

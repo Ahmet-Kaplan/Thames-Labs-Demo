@@ -1,3 +1,29 @@
+var taskFields = [{
+  fieldLabel: 'Title',
+  fieldIdentifier: 'title',
+  required: true
+}, {
+  fieldLabel: 'Description',
+  fieldIdentifier: 'description',
+  required: false
+}, {
+  fieldLabel: 'Assigned User',
+  fieldIdentifier: 'assignee',
+  required: true
+}, {
+  fieldLabel: 'Due Date',
+  fieldIdentifier: 'dueDate',
+  required: false
+}, {
+  fieldLabel: 'Record Name',
+  fieldIdentifier: 'record',
+  required: true
+}, {
+  fieldLabel: 'Record Type',
+  fieldIdentifier: 'recordType',
+  required: true
+}];
+
 var contactFields = [{
   fieldLabel: 'Forename',
   fieldIdentifier: 'forename',
@@ -100,6 +126,12 @@ Template.importEntityModal.onRendered(function() {
     offstyle: 'warning'
   });
 
+  if (this.entityType === 'tasks') {
+    $('#mode-toggle').bootstrapToggle('off');
+    $('#mode-toggle').bootstrapToggle('disable');
+    $(".customFieldSwitch").hide();
+  }
+
   $('#fieldMapper').show();
   $('#progressIndicator').hide();
   $('#closeErrors').hide();
@@ -129,6 +161,8 @@ Template.importEntityModal.helpers({
         return companyFields;
       case 'contacts':
         return contactFields;
+      case 'tasks':
+        return taskFields;
     }
   },
   'csvHeaders': function() {
@@ -176,6 +210,10 @@ Template.importEntityModal.events({
           result = $.grep(contactFields, function(e) {
             return e.fieldIdentifier == obj.id.replace('Selector', '');
           });
+        } else if (entityType === "tasks") {
+          result = $.grep(taskFields, function(e) {
+            return e.fieldIdentifier == obj.id.replace('Selector', '');
+          });
         }
 
         if (result[0].required === true) {
@@ -217,7 +255,7 @@ Template.importEntityModal.events({
             });
             $('#errorList').html(errorHTML);
 
-            var warningCount = errors.toString().match(/\[WARNING\]*/g).length;
+            var warningCount = (errors.toString().match(/\[WARNING\]*/g) ? errors.toString().match(/\[WARNING\]*/g).length : 0);
             var errorCount = errors.length - warningCount;
 
             toastr.warning('Import completed with ' + warningCount + ' warnings and ' + errorCount + ' errors.');

@@ -159,6 +159,75 @@ Meteor.methods({
               });
             });
             break;
+
+          case 'tasks':
+            _.each(dataToImport, function(row, iter) {
+              var percDone = ((iter / importTotal) * 100).toFixed(2);
+              UserSession.set("importProgress", percDone, userId);
+
+              var assignee = Meteor.users.findOne({
+                "profile.name": row[getFieldValueByKey(selectedValues, 'assignee')]
+              });
+
+              if (!assignee) {
+                errorList.push('Could not find user "' + row[getFieldValueByKey(selectedValues, 'assignee')] + ' for task  "' + row[getFieldValueByKey(selectedValues, 'title')] + '".');
+                UserSession.set("importErrors", errorList, userId);
+                return;
+              }
+
+              var entity = null;
+              if (row[getFieldValueByKey(selectedValues, 'recordType')] === 'user') {
+                entity = Meteor.users.findOne({
+                  "profile.name": row[getFieldValueByKey(selectedValues, 'record')]
+                });
+              } else if (row[getFieldValueByKey(selectedValues, 'recordType')] !== 'contact') {
+                var collectionName = null;
+                switch (row[getFieldValueByKey(selectedValues, 'recordType')]) {
+                  case 'company':
+                    collectionName = 'companies';
+                    break;
+                  case 'opportunity':
+                    collectionName = 'opportunities';
+                    break;
+                  case 'project':
+                    collectionName = 'projects';
+                    break;
+                }
+
+                entity = Collections[collectionName].findOne({
+                  name: row[getFieldValueByKey(selectedValues, 'record')]
+                });
+              } else {
+                var contactName = row[getFieldValueByKey(selectedValues, 'record')];
+                entity = Contacts.findOne({
+                  forename: contactName.split(' ')[0],
+                  surname: contactName.split(' ')[1]
+                });
+              }
+
+              if (!entity) {
+                errorList.push('Could not find entity "' + row[getFieldValueByKey(selectedValues, 'record')] + '" for task  "' + row[getFieldValueByKey(selectedValues, 'title')] + '".');
+                UserSession.set("importErrors", errorList, userId);
+                return;
+              }
+
+              Tasks.insert({
+                title: row[getFieldValueByKey(selectedValues, 'title')],
+                description: (getFieldValueByKey(selectedValues, 'description') ? row[getFieldValueByKey(selectedValues, 'description')] : null),
+                dueDate: (getFieldValueByKey(selectedValues, 'dueDate') ? row[getFieldValueByKey(selectedValues, 'dueDate')] : null),
+                assigneeId: assignee._id,
+                completed: false,
+                entityType: row[getFieldValueByKey(selectedValues, 'recordType')],
+                entityId: entity._id,
+                createdBy: userId,
+              }, function(error, docId) {
+                if (error) {
+                  errorList.push('Could not import "' + row[getFieldValueByKey(selectedValues, 'name')] + '": ' + error);
+                  UserSession.set("importErrors", errorList, userId);
+                }
+              });
+            });
+            break;
         }
       });
 

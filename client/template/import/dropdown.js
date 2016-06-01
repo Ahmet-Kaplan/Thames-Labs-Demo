@@ -36,7 +36,12 @@ Template.importEntityDropdown.events({
         'http://www.cambridgesoftware.co.uk',
         '01223 802 900'
       ].join(',');
-    } else {
+      var companyFileData = headers + '\n' + sampleValues;
+      var companyBlob = new Blob([companyFileData], {
+        type: "text/csv;charset=utf-8"
+      });
+      saveAs(companyBlob, 'company-import-template.csv');
+    } else if (entityToImport === "contacts") {
       headers = [
         'Forename',
         'Surname',
@@ -68,13 +73,75 @@ Template.importEntityDropdown.events({
         'http://www.cambridgesoftware.co.uk',
         '01223 802 900'
       ].join(',');
-    }
 
-    var fileData = headers + '\n' + sampleValues;
-    var blob = new Blob([fileData], {
-      type: "text/csv;charset=utf-8"
-    });
-    saveAs(blob, 'data-template.csv');
+      var contactFileData = headers + '\n' + sampleValues;
+      var contactBlob = new Blob([contactFileData], {
+        type: "text/csv;charset=utf-8"
+      });
+      saveAs(contactBlob, 'contact-import-template.csv');
+    } else if (entityToImport === "tasks") {
+      headers = [
+        'title',
+        'description',
+        'assignee',
+        'dueDate',
+        'record',
+        'recordType',
+        'tags'
+      ].join(',');
+
+      var samplePersonalValues = [
+        'Sample personal task',
+        'A simple example of how a personal task should be imported',
+        Meteor.user().profile.name,
+        moment().format('YYYY-MM-DDTHH:mm:ss'),
+        Meteor.user().profile.name,
+        'user',
+        'Imported'
+      ].join(',');
+      var sampleCompanyValues = [
+        'Sample company task',
+        'A simple example of how a company task should be imported',
+        Meteor.user().profile.name,
+        moment().format('YYYY-MM-DDTHH:mm:ss'),
+        '<COMPANY NAME HERE>',
+        'company',
+        'Imported'
+      ].join(',');
+      var sampleContactValues = [
+        'Sample contact task',
+        'A simple example of how a contact task should be imported',
+        Meteor.user().profile.name,
+        moment().format('YYYY-MM-DDTHH:mm:ss'),
+        '<CONTACT NAME HERE>',
+        'contact',
+        'Imported'
+      ].join(',');
+      var sampleOpportunityValues = [
+        'Sample opportunity task',
+        'A simple example of how a opportunity task should be imported',
+        Meteor.user().profile.name,
+        moment().format('YYYY-MM-DDTHH:mm:ss'),
+        '<OPPORTUNITY NAME HERE>',
+        'opportunity',
+        'Imported'
+      ].join(',');
+      var sampleProjectValues = [
+        'Sample project task',
+        'A simple example of how a project task should be imported',
+        Meteor.user().profile.name,
+        moment().format('YYYY-MM-DDTHH:mm:ss'),
+        '<PROJECT NAME HERE>',
+        'project',
+        'Imported'
+      ].join(',');
+
+      var taskFileData = headers + '\n' + samplePersonalValues + '\n' + sampleCompanyValues + '\n' + sampleContactValues + '\n' + sampleOpportunityValues + '\n' + sampleProjectValues;
+      var taskBlob = new Blob([taskFileData], {
+        type: "text/csv;charset=utf-8"
+      });
+      saveAs(taskBlob, 'task-import-template.csv');
+    }
   },
   'change #data-upload': function(event, template) {
     var file = event.target.files[0];
