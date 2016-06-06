@@ -6,7 +6,7 @@ Template.firstRun.onRendered(function() {
       "profile.welcomeTour": true
     }
   });
-})
+});
 
 Template.firstRun.events({
   'click #close-first-run': function(event, template) {

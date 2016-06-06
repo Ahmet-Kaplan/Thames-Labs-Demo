@@ -2,7 +2,7 @@ Template.productDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
     var product = Products.findOne(FlowRouter.getParam('id'));
-    if (FlowRouter.subsReady() && product === undefined) {
+    if (FlowRouter.subsReady() && typeof product === "undefined") {
       FlowRouter.go('products');
     }
   });
@@ -34,11 +34,14 @@ Template.productDetail.events({
       }
     });
   },
-
   'click #edit-product': function(event) {
     event.preventDefault();
     Modal.show('editProductModal', this);
   },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('editProductModal', this);
+  }
 });
 
 Template.editProductModal.helpers({

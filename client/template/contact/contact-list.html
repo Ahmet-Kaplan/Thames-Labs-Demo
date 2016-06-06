@@ -8,15 +8,17 @@
       </div>
       <div class="col-md-7 list-header-right">
         <div class="btn-group pull-right" role="group">
-            {{#if isInRole 'CanCreateContacts'}}
-                <button type="button" class="btn btn-md btn-primary addContactToCompany" id="add-contact" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+X"><i class="fa fa-fw fa-plus"></i> Add contact</button>
-            {{/if}}
-            {{> smallSearchBox collectionName='contacts'}}
+          {{#if isInRole 'CanCreateContacts'}}
+            {{#unless isMobile}}
+              <button type="button" class="btn btn-md btn-primary addContactToCompany" id="add-contact" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+X"><i class="fa fa-fw fa-plus"></i> Add contact</button>
+             {{/unless}}
+          {{/if}}
+          {{> smallSearchBox collectionName='contacts'}}
         </div>
         <br>
-        <ul class="list-toolbar pull-right">        
-            {{> tagManagement collectionName='contacts'}}           
-            {{> contactDataManagement}} 
+        <ul class="list-toolbar pull-right">
+            {{> tagManagement collectionName='contacts'}}
+            {{> contactDataManagement}}
             <li><a id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom">Export</a></li>
         </ul>
       </div>
@@ -26,6 +28,15 @@
   <div class="search-results" id="search-results">
     {{> searchResults index=ContactsIndex listItemTemplateName='contactListItem'}}
   </div>
+
+  {{#if isInRole 'CanCreateContacts'}}
+    {{#if isMobile}}
+      <div class="fab add" id="fab">
+        <i class="fa fw-fa fa-plus"></i>
+      </div>
+    {{/if}}
+  {{/if}}
+
 
   {{> autoformModals}}
 

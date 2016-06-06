@@ -34,9 +34,9 @@ Template.opportunityList.onRendered(function() {
           searchOptions = searchComponent.get('searchOptions'),
           props = searchOptions.props ? searchOptions.props : {};
 
-    this.showArchived.set(props.showArchived ? true : false);
-    this.sortByCloseDate.set(props.sortByCloseDate ? true : false);
-    this.sortByValue.set(props.sortByValue ? true : false);
+    this.showArchived.set(!!props.showArchived);
+    this.sortByCloseDate.set(!!props.sortByCloseDate);
+    this.sortByValue.set(!!props.sortByValue);
   });
 
   Meteor.call('report.numberOfOpportunities', (err, data) => {
@@ -141,5 +141,9 @@ Template.opportunityList.events({
     Meteor.call('report.averageOpportunityValue', function(err, data) {
       template.averageOppValue.set(data.Value);
     });
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('insertOpportunityModal');
   }
 });

@@ -52,7 +52,7 @@ Template.onlineWidget.helpers({
           loginStatus: loginStatus
         };
         offlineUsers.push(data);
-      };
+      }
     });
 
     return offlineUsers.array();
@@ -61,6 +61,6 @@ Template.onlineWidget.helpers({
 
 Template.colleagueData.helpers({
   isOnline: function() {
-    return (this.state === "online" ? true : false);
+    return (this.state === "online");
   }
 });

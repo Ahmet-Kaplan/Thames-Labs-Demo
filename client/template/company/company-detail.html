@@ -30,7 +30,9 @@
               </ul>
             </div>
             <input type="file" id="template-upload" style="display:none;">
+            {{#unless isMobile}}
             <button id="edit-company" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+            {{/unless}}
             {{/if}} {{#if isInRole 'CanDeleteCompanies'}}
             <a href="#" id="remove-company" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Delete</a>{{/if}}
           </div>
@@ -171,5 +173,14 @@
     </div>
   </div>
 
+  {{#if isInRole 'CanEditCompanies'}}
+    {{#if isMobile}}
+      <div class="fab edit" id="fab">
+        <i class="fa fw-fa fa-pencil"></i>
+      </div>
+    {{/if}}
+  {{/if}}
+
   {{> autoformModals}} {{/with}}
-</template>
+
+  </template>

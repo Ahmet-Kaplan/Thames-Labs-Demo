@@ -1,4 +1,4 @@
-var updateStripeCustomer = function(self) {
+function updateStripeCustomer(self) {
   var stripeCustomer = self.stripeCustomer;
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
@@ -13,9 +13,9 @@ var updateStripeCustomer = function(self) {
       stripeCustomer.set(customer);
     });
   }
-};
+}
 
-var updateUpcomingInvoice = function(self) {
+function updateUpcomingInvoice(self) {
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });
@@ -78,9 +78,9 @@ var updateUpcomingInvoice = function(self) {
       self.upcomingInvoice.set(upcomingInvoice);
     });
   }
-};
+}
 
-var updateLastInvoice = function(self) {
+function updateLastInvoice(self) {
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });
@@ -103,9 +103,9 @@ var updateLastInvoice = function(self) {
       self.lastInvoice.set(lastInvoice);
     });
   }
-};
+}
 
-var updateCardDetails = function(self) {
+function updateCardDetails(self) {
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });
@@ -115,9 +115,9 @@ var updateCardDetails = function(self) {
   Meteor.call('stripe.getCardDetails', function(error, response) {
     self.cardDetails.set(response);
   });
-};
+}
 
-var updateCouponDetails = function(self) {
+function updateCouponDetails(self) {
   var couponDetails = self.couponDetails;
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
@@ -133,7 +133,7 @@ var updateCouponDetails = function(self) {
       couponDetails.set(response);
     }
   });
-};
+}
 
 Template.stripeAdmin.onCreated(function() {
   this.stripeCustomer = new ReactiveVar('loading');
@@ -184,19 +184,18 @@ Template.stripeAdmin.helpers({
       _id: Meteor.user().group
     }).stripe.stripeSubs;
     if (!!stripeSubs) {
-      return Template.instance().stripeCustomer.get() !== 'loading'
-    } else {
-      return true;
+      return Template.instance().stripeCustomer.get() !== 'loading';
     }
+    return true;
   },
   currentSubscription: function() {
     var stripeCustomer = Template.instance().stripeCustomer.get();
     return (stripeCustomer.id) ? ((stripeCustomer.subscriptions.total_count && !stripeCustomer.subscriptions.data[0].cancel_at_period_end) ? stripeCustomer.subscriptions.data[0].plan.name : "Free Plan") : "Free Plan";
   },
   hasStripeAccount: function() {
-    return !(Tenants.findOne({
+    return !( typeof Tenants.findOne({
       _id: Meteor.user().group
-    }).stripe.stripeId === undefined || Tenants.findOne({
+    }).stripe.stripeId === "undefined" || Tenants.findOne({
       _id: Meteor.user().group
     }).stripe.stripeId === '');
   },
@@ -210,9 +209,8 @@ Template.stripeAdmin.helpers({
     var stripeCustomer = Template.instance().stripeCustomer.get();
     if (stripeCustomer.id && stripeCustomer.subscriptions.total_count) {
       return stripeCustomer.subscriptions.data[0].cancel_at_period_end;
-    } else {
-      return false;
     }
+    return false;
   },
   stripeCustomer: function() {
     var stripeCustomer = Template.instance().stripeCustomer.get();
@@ -294,19 +292,18 @@ Template.stripeAdmin.events({
         $('.bootbox-form').addClass('has-error');
         toastr.error('Please enter a valid email address');
         return false;
-      } else {
-        toastr.clear();
-        toastr.info('Processing your email update');
-        Meteor.call('stripe.updateEmail', result, function(error, response) {
-          if (error) {
-            toastr.error('Unable to update email address');
-            return false;
-          }
-          toastr.clear();
-          toastr.success('Your email hase been changed: ' + result);
-          Session.set('stripeUpdateListener', Session.get('stripeUpdateListener') + 1);
-        });
       }
+      toastr.clear();
+      toastr.info('Processing your email update');
+      Meteor.call('stripe.updateEmail', result, function(error, response) {
+        if (error) {
+          toastr.error('Unable to update email address');
+          return false;
+        }
+        toastr.clear();
+        toastr.success('Your email hase been changed: ' + result);
+        Session.set('stripeUpdateListener', Session.get('stripeUpdateListener') + 1);
+      });
     });
   },
 

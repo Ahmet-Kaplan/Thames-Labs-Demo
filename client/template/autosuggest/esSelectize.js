@@ -28,12 +28,12 @@ Template.esSelectize.onRendered(function() {
       searchOptions.props.excludes = this.data.excludes;
     }
 
-    if (searchInput == null && !this.data.value) {
+    if (searchInput === null && !this.data.value) {
       // First run and no value set, so do nothing
       return;
     }
 
-    if (searchInput == null) {
+    if (searchInput === null) {
       // First run and value set, so perform a searchById
       searchOptions.props.searchById = this.data.value;
       resultsCursor = this.data.index.search('', searchOptions);
@@ -43,7 +43,7 @@ Template.esSelectize.onRendered(function() {
       }
     } else {
       // Normal search
-      if (this.parent.get() !== undefined && this.data.filter !== undefined) {
+      if (typeof this.parent.get() !== "undefined" && typeof this.data.filter !== "undefined") {
         searchOptions.props[this.data.filter] = this.parent.get();
       }
       resultsCursor = this.data.index.search(searchInput, searchOptions);

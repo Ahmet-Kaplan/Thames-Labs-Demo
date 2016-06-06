@@ -112,20 +112,16 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadCompanies']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'name': 1
-      }
-    },
+    sort: () => ({ 'name': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       if (options.search.props.autosuggest) {
         return {
           'name': 1,
           'city': 1
-        }
+        };
       }
       return {
         'name': 1,
@@ -137,13 +133,13 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
         'phone': 1,
         'tags': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.sequencedIdentifier) {
-        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
 
       if (options.search.props.tags) {
@@ -168,7 +164,7 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
           $in: _.map(options.search.props.country.split(','), function(country) {
             return new RegExp(country, 'i');
           })
-        }
+        };
       }
 
       if (options.search.props.postcode) {
@@ -177,7 +173,7 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
           $in: _.map(options.search.props.postcode.split(','), function(postcode) {
             return new RegExp(postcode, 'i');
           })
-        }
+        };
       }
 
       if (options.search.props.searchById) {
@@ -320,5 +316,5 @@ Companies.after.remove(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " deleted company '" + doc.name + "'", undefined, undefined);
+  LogClientEvent(LogLevel.Info, user.profile.name + " deleted company '" + doc.name + "'", null, null);
 });

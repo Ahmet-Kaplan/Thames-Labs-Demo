@@ -14,7 +14,7 @@ Meteor.methods({
     if (Meteor.isServer) {
       Meteor.call('setDemoDataFlag', true);
 
-      var loopNumber = _.random(20, 40)
+      var loopNumber = _.random(20, 40);
       Meteor.call('setProgress', 0, loopNumber);
 
       faker.locale = "en_GB";
@@ -82,7 +82,7 @@ Meteor.methods({
         }
 
         //Function to add task since the entity type can vary
-        var addTask = function(entityType, entityId, createdBy) {
+        function addTask(entityType, entityId, createdBy) {
           if (faker.random.boolean()) {
             return;
           }
@@ -94,10 +94,10 @@ Meteor.methods({
             randomIndex = Math.floor(Math.random() * usersArray.length);
             randomAssignee = usersArray[randomIndex];
           }
-          while (randomAssignee === undefined);
+          while (typeof randomAssignee === "undefined");
 
           var completed = faker.random.boolean();
-          var completedAt = completed ? faker.date.recent() : undefined;
+          var completedAt = completed ? faker.date.recent() : void 0;
           var title = faker.hacker.verb() + ' ' +
             faker.hacker.adjective() + ' ' +
             faker.hacker.noun() + ' ' +
@@ -148,7 +148,7 @@ Meteor.methods({
               });
             });
           });
-        };
+        }
 
         // generate fake customer data
         _.each(_.range(loopNumber), function(step) {
@@ -162,7 +162,7 @@ Meteor.methods({
             randomIndex = Math.floor(Math.random() * usersArray.length);
             randomUser = usersArray[randomIndex];
           }
-          while (randomUser === undefined);
+          while (typeof randomUser === "undefined");
 
           addTask('user', randomUser._id, randomUser._id);
 
@@ -186,7 +186,7 @@ Meteor.methods({
             }
           });
 
-          companiesSequenceId = companiesSequenceId + 1;
+          companiesSequenceId++;
 
           companies.push(companyId);
 
@@ -221,8 +221,8 @@ Meteor.methods({
           var productId = Products.insert({
             name: faker.commerce.productName(),
             description: faker.lorem.sentence(),
-            cost: parseInt(faker.finance.amount()),
-            price: parseInt(faker.commerce.price()),
+            cost: parseInt(faker.finance.amount(), 10),
+            price: parseInt(faker.commerce.price(), 10),
             createdBy: randomUser._id,
             sequencedIdentifier: productsSequenceId
           }, function(err) {
@@ -233,7 +233,7 @@ Meteor.methods({
             }
           });
 
-          productsSequenceId = productsSequenceId + 1;
+          productsSequenceId++;
 
           products.push(productId);
 
@@ -245,7 +245,7 @@ Meteor.methods({
             currentStageId: Math.floor(Math.random() * stages.length),
             createdBy: randomUser._id,
             items: [],
-            value: parseInt(faker.commerce.price()),
+            value: parseInt(faker.commerce.price(), 10),
             companyId: companyId,
             date: createdDate,
             estCloseDate: faker.date.future(0.5, createdDate),
@@ -258,7 +258,7 @@ Meteor.methods({
             }
           });
 
-          opportunitiesSequenceId = opportunitiesSequenceId + 1;
+          opportunitiesSequenceId++;
 
           _.each(_.range(_.random(0, 2)), function() {
             Activities.insert({
@@ -310,7 +310,7 @@ Meteor.methods({
               }
             });
 
-            contactsSequenceId = contactsSequenceId + 1;
+            contactsSequenceId++;
 
             contacts.push(contactId);
 
@@ -352,7 +352,7 @@ Meteor.methods({
               companyId: companyId,
               contactId: contacts[Math.floor(Math.random() * contacts.length)],
               userId: randomUser._id,
-              value: parseInt(faker.commerce.price()),
+              value: parseInt(faker.commerce.price(), 10),
               createdBy: randomUser._id,
               sequencedIdentifier: projectsSequenceId
             }, function(err) {
@@ -363,7 +363,7 @@ Meteor.methods({
               }
             });
 
-            projectsSequenceId = projectsSequenceId + 1;
+            projectsSequenceId++;
 
             projects.push(projectId);
 
@@ -417,7 +417,7 @@ Meteor.methods({
               }
             });
 
-            purchaseOrdersSequenceId = purchaseOrdersSequenceId + 1;
+            purchaseOrdersSequenceId++;
 
             purchaseOrders.push(purchaseOrderId);
 
@@ -585,16 +585,10 @@ LogClientEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
     if (user && user.group) {
       if (!isProTenant(user.group)) return;
     }
-    var entityType = ((typeof logEntityType === 'undefined') ? undefined : logEntityType);
-    var entityId = ((typeof logEntityId === 'undefined') ? undefined : logEntityId);
-
-    Meteor.call('addEventToEventLog', logLevel, logMessage, entityType, entityId, 'client');
+    Meteor.call('addEventToEventLog', logLevel, logMessage, logEntityType, logEntityId, 'client');
   }
 };
 
 LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  var entityType = ((typeof logEntityType === 'undefined') ? undefined : logEntityType);
-  var entityId = ((typeof logEntityId === 'undefined') ? undefined : logEntityId);
-
-  Meteor.call('addEventToEventLog', logLevel, logMessage, entityType, entityId, 'server');
+  Meteor.call('addEventToEventLog', logLevel, logMessage, logEntityType, logEntityId, 'server');
 };

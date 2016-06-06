@@ -93,7 +93,7 @@ Meteor.methods({
           name: cfName,
           target: cfEntity
         })) {
-          duplicateFlag = true
+          duplicateFlag = true;
         }
 
         if (duplicateFlag === false) {

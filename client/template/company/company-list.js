@@ -30,5 +30,8 @@ Template.companyList.events({
   'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('companies');
+  },
+  'click #fab': function(event) {
+    Modal.show('insertNewCompanyModal', this);
   }
 });

@@ -5,7 +5,7 @@ var subs = new SubsManager(),
 // These are route trigger functions
 // They're used for before / after actions on routes
 
-var tidyUpModals = function(context) {
+function tidyUpModals(context) {
   Modal.hide();
   $(".modal-backdrop").remove();
   $("body").removeClass('modal-open');
@@ -20,10 +20,10 @@ var tidyUpModals = function(context) {
     hopscotch.endTour();
     // }
   }
-};
+}
 
 // Adjust Heap settings to replace their crazy user ID with something more readable
-var setHeapParams = function(context) {
+function setHeapParams(context) {
   if (Roles.userIsInRole(Meteor.userId(), 'superadmin')) return;
 
   var user = Meteor.users.findOne({
@@ -47,7 +47,8 @@ var setHeapParams = function(context) {
       'Tenant': (tenant ? tenant.name : '')
     });
   }
-};
+}
+
 FlowRouter.triggers.enter([setHeapParams]);
 
 
@@ -278,7 +279,7 @@ router.route('/tasks', {
 router.route('/tasks/:id', {
   name: 'task',
   subscriptions: function(params) {
-    this.register('taskById', subs.subscribe('taskById', params.id))
+    this.register('taskById', subs.subscribe('taskById', params.id));
   },
   action: function() {
     layout.render('appLayout', {

@@ -36,4 +36,4 @@ Template.favourite.events({
 
 
   }
-})
+});

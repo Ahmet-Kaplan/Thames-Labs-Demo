@@ -7,7 +7,7 @@ Template.editContactModal.onCreated(function() {
 });
 
 Template.editContactModal.onRendered(function() {
-  if (this.data.companyId === undefined) {
+  if (typeof this.data.companyId === "undefined") {
     $('#addressWrapper').show();
   }
 
@@ -22,7 +22,7 @@ Template.editContactModal.onRendered(function() {
           return {
             value: input,
             text: input
-          }
+          };
         });
       }
 
@@ -49,7 +49,7 @@ Template.editContactModal.onRendered(function() {
           return elt.types[0] == "street_number";
         });
 
-        if (typeof(strNumber) !== 'undefined') {
+        if (typeof strNumber !== 'undefined') {
           strNumber = strNumber.long_name;
           address += strNumber + " ";
         }
@@ -58,7 +58,7 @@ Template.editContactModal.onRendered(function() {
           return elt.types[0] == "route";
         });
 
-        if (typeof(route) !== 'undefined') {
+        if (typeof route !== 'undefined') {
           route = route.long_name;
           address += route;
         }
@@ -74,7 +74,7 @@ Template.editContactModal.onRendered(function() {
           position: result.geometry.location,
           draggable: true
         });
-        google.maps.event.addListener(marker, "dragend", function(event) {
+        google.maps.event.addListener(marker, "dragend", function() {
           $("input[name=lat]").val(marker.getPosition().lng());
           $("input[name=lng]").val(marker.getPosition().lat());
         });
@@ -89,7 +89,7 @@ Template.editContactModal.onRendered(function() {
 
 Template.editContactModal.helpers({
   noCompany: function() {
-    return this.companyId === undefined;
+    return typeof this.companyId === "undefined";
   },
   showTitleField: function() {
     var tenant = Tenants.findOne({
@@ -115,22 +115,21 @@ Template.editContactModal.events({
       center: location,
       scrollwheel: false
     });
-    if (mapData !== null && mapData.title !== undefined) {
+    if (mapData !== null && typeof mapData.title !== "undefined") {
       mapData.title = mapData.forename + ' ' + mapData.surname;
     } else {
       mapData.title = mapData.forename + ' ' + mapData.surname;
     }
     //Set map to the current location
-    var infowindow = new google.maps.InfoWindow();
-    if (mapData.lat !== undefined && mapData.lng !== undefined) {
+    if (typeof mapData.lat !== "undefined" && typeof mapData.lng !== "undefined") {
       location = {
         lat: parseFloat(mapData.lat),
         lng: parseFloat(mapData.lng)
-      }
+      };
       mapModal.panTo(location);
       mapModal.setZoom(16);
 
-      var markerModal = new google.maps.Marker({
+      const markerModal = new google.maps.Marker({
         map: mapModal,
         position: location,
         title: mapData.title,
@@ -141,7 +140,7 @@ Template.editContactModal.events({
         $("input[name=lat]").val(markerModal.getPosition().lat());
         $("input[name=lng]").val(markerModal.getPosition().lng());
       });
-      var infowindow = new google.maps.InfoWindow();
+      const infowindow = new google.maps.InfoWindow();
       infowindow.setContent(mapData.title);
       infowindow.open(mapModal, markerModal);
     } else {
@@ -157,7 +156,7 @@ Template.editContactModal.events({
           mapModal.panTo(location);
           mapModal.setZoom(16);
 
-          var markerModal = new google.maps.Marker({
+          const markerModal = new google.maps.Marker({
             map: mapModal,
             position: location,
             title: mapData.title,
@@ -168,7 +167,7 @@ Template.editContactModal.events({
             $("input[name=lat]").val(markerModal.getPosition().lat());
             $("input[name=lng]").val(markerModal.getPosition().lng());
           });
-          var infowindow = new google.maps.InfoWindow();
+          const infowindow = new google.maps.InfoWindow();
           infowindow.setContent(mapData.title);
           infowindow.open(mapModal, markerModal);
         }

@@ -10,7 +10,9 @@
       <div class="col-md-7 list-header-right">
         <div class="btn-group pull-right" role="group">
             {{#if isInRole 'CanCreateProjects'}}
+              {{#unless isMobile}}
                 <button id="add-project" type="button" class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</button>
+              {{/unless}}
             {{/if}}
             {{> smallSearchBox collectionName='projects'}}
         </div>
@@ -49,5 +51,13 @@
   {{> filterPanel collectionName='projects'}}
 
   {{> searchResults index=ProjectsIndex listItemTemplateName='projectListItem'}}
+
+  {{#if isInRole 'CanCreateProjects'}}
+    {{#if isMobile}}
+      <div class="fab add" id="fab">
+        <i class="fa fw-fa fa-plus"></i>
+      </div>
+    {{/if}}
+  {{/if}}
 
 </template>

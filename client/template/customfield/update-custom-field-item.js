@@ -79,7 +79,7 @@ Template.extInfo.onRendered(function() {
       return {
         value: input,
         text: input
-      }
+      };
     });
 
     this.$(safeName + "PicklistValue").selectize({

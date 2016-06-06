@@ -1,12 +1,10 @@
 Meteor.methods({
 
   'welcomeTour.createDemoCompany': function() {
-    return Partitioner.bindUserGroup(this.userId, () => {
-      return Companies.insert({
-        name: 'Realtime Tours, Inc.',
-        createdBy: this.userId
-      });
-    });
+    return Partitioner.bindUserGroup(this.userId, () => Companies.insert({
+      name: 'Realtime Tours, Inc.',
+      createdBy: this.userId
+    }));
   },
 
   'welcomeTour.deleteTourData': function() {
