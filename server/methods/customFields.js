@@ -59,7 +59,7 @@ Meteor.methods({
       });
     }
   },
-  "extInfo.addNewGlobal": function(cfName, cfType, cfValue, cfEntity) {
+  "extInfo.addNewGlobal": function(cfName, cfType, cfValue, cfEntity, userId) {
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
       return 1;
     }
@@ -109,7 +109,13 @@ Meteor.methods({
             entityId: user.group
           });
 
-          _.each(targets, function(ox) {
+          var totalCount = targets.length;
+
+          _.each(targets, function(ox, iter) {
+
+            var percDone = ((iter/totalCount) * 100).toFixed(2);
+            UserSession.set("globalFieldProgress", percDone, userId);
+
             CustomFields.insert({
               name: cfName,
               value: cfValue,
