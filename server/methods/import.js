@@ -1,9 +1,9 @@
-var getFieldValueByKey = function(valueList, key) {
+function getFieldValueByKey(valueList, key) {
   var result = _.result(_.find(valueList, function(obj) {
     return obj.schemaField === key;
   }), 'fieldValue');
   return result;
-};
+}
 
 Meteor.methods({
   'import.do': function(userId, entityType, dataToImport, selectedValues, customFields) {
@@ -36,8 +36,8 @@ Meteor.methods({
               }
 
               if (Companies.findOne({
-                  name: row[getFieldValueByKey(selectedValues, 'name')]
-                })) {
+                name: row[getFieldValueByKey(selectedValues, 'name')]
+              })) {
                 errorList.push('[WARNING] Duplicate company imported ("' + row[getFieldValueByKey(selectedValues, 'name')] + '"): a company with this name already exists.');
                 UserSession.set("importErrors", errorList, userId);
               }
@@ -100,18 +100,18 @@ Meteor.methods({
 
               if (companyId) {
                 if (Contacts.findOne({
-                    forename: row[getFieldValueByKey(selectedValues, 'forename')],
-                    surname: row[getFieldValueByKey(selectedValues, 'surname')],
-                    companyId: companyId
-                  })) {
+                  forename: row[getFieldValueByKey(selectedValues, 'forename')],
+                  surname: row[getFieldValueByKey(selectedValues, 'surname')],
+                  companyId: companyId
+                })) {
                   errorList.push('[WARNING] Duplicate contact imported ("' + row[getFieldValueByKey(selectedValues, 'forename')] + ' ' + row[getFieldValueByKey(selectedValues, 'surname')] + '"): a contact with this name already exists against company "' + row[getFieldValueByKey(selectedValues, 'companyName')] + '".');
                   UserSession.set("importErrors", errorList, userId);
                 }
               } else {
                 if (Contacts.findOne({
-                    forename: row[getFieldValueByKey(selectedValues, 'forename')],
-                    surname: row[getFieldValueByKey(selectedValues, 'surname')]
-                  })) {
+                  forename: row[getFieldValueByKey(selectedValues, 'forename')],
+                  surname: row[getFieldValueByKey(selectedValues, 'surname')]
+                })) {
                   errorList.push('[WARNING] Duplicate contact imported ("' + row[getFieldValueByKey(selectedValues, 'forename')] + ' ' + row[getFieldValueByKey(selectedValues, 'surname')] + '"): a contact with this name already exists.');
                   UserSession.set("importErrors", errorList, userId);
                 }
@@ -219,7 +219,7 @@ Meteor.methods({
                 completed: false,
                 entityType: row[getFieldValueByKey(selectedValues, 'recordType')],
                 entityId: entity._id,
-                createdBy: userId,
+                createdBy: userId
               }, function(error, docId) {
                 if (error) {
                   errorList.push('Could not import "' + row[getFieldValueByKey(selectedValues, 'name')] + '": ' + error);
