@@ -14,7 +14,7 @@ Template.appLayout.helpers({
 });
 Template.appLayout.onRendered(function() {
   $.getScript('/vendor/bowser.min.js');
-  if (bowser.mobile) {
+  if (bowser.mobile || Meteor.isCordova) {
     $("#id-view-content").swipe({
       swipeLeft: function(event) {
         console.log('swiped left');
@@ -24,7 +24,7 @@ Template.appLayout.onRendered(function() {
         console.log('swiped right');
         document.getElementById("id-view-sidemenu").className = "active";
       },
-      threshold: 75,
+      threshold: 75
     });
   }
 });
