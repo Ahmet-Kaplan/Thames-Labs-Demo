@@ -253,7 +253,7 @@ Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
   });
 
   if (user) {
-    if (this.previous.email !== doc.email && doc.email !== '' && doc.email !== undefined) {
+    if (this.previous.email !== doc.email && doc.email !== '' && doc.email !== null) {
       Meteor.call('getClearbitData', 'contact', doc._id);
       LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's public information", 'contact', doc._id);
     }
