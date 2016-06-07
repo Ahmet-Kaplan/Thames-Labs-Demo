@@ -7,10 +7,6 @@ Feature: Allow users to manage general tenancy data
     Given I am an administrator
     And I go to the admin screen
 
-  #Access
-  Scenario: An administrator can access the Administration area
-    Then I should see the admin screen
-
   #Global Fields
   Scenario: An administrator can add and remove a global custom field
     When I add a global custom field
