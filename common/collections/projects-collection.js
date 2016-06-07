@@ -424,6 +424,6 @@ Projects.after.remove(function(userId, doc) {
     _id: userId
   });
   if (user) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " deleted project '" + doc.name + "'", undefined, undefined);
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted project '" + doc.name + "'", null, null);
   }
 });

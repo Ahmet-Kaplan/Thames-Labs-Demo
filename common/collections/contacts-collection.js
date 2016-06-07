@@ -288,6 +288,6 @@ Contacts.after.remove(function(userId, doc) {
     _id: userId
   });
   if (user) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " deleted contact '" + doc.forena + " " + doc.surname + "'", undefined, undefined);
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted contact '" + doc.forena + " " + doc.surname + "'", null, null);
   }
 });

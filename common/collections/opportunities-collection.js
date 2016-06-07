@@ -296,6 +296,6 @@ Opportunities.after.remove(function(userId, doc) {
     _id: userId
   });
   if (user) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " deleted opportunity '" + doc.name + "'", undefined, undefined);
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted opportunity '" + doc.name + "'", null, null);
   }
 });
