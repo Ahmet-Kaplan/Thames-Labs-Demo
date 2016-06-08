@@ -122,8 +122,12 @@
 
     <div class="col-md-4">
       {{> publicContactInformation}}
-      <h4>Address</h4>
-      {{> map title=mapTitle address=mapAddress}}
+        <h4>Address</h4>
+      {{#if address}}
+        {{> map title=mapTitle address=mapAddress}}
+      {{else}}
+        <em class="FadedText">No address for this contact. Add it via the Edit button to see where they're based!</em>
+      {{/if}}
     </div>
 
   </div>
