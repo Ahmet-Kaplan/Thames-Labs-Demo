@@ -113,7 +113,7 @@ Meteor.methods({
 
           _.each(targets, function(ox, iter) {
 
-            var percDone = ((iter/totalCount) * 100).toFixed(2);
+            var percDone = (( iter / totalCount) * 100).toFixed(2);
             UserSession.set("globalFieldProgress", percDone, userId);
 
             CustomFields.insert({
