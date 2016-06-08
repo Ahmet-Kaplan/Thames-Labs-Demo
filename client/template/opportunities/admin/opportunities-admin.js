@@ -128,13 +128,12 @@ Template.opportunityAdminStage.events({
       if (result === true) {
         bootbox.alert("This opportunity stage is currently in use, and cannot be deleted.");
         return;
-      } else {
-        bootbox.confirm("Are you sure you wish to delete this stage?", function(result) {
-          if (result === true) {
-            Meteor.call('deleteOpportunityStage', id);
-          }
-        });
       }
+      bootbox.confirm("Are you sure you wish to delete this stage?", function(result) {
+        if (result === true) {
+          Meteor.call('deleteOpportunityStage', id);
+        }
+      });
     });
   }
 });

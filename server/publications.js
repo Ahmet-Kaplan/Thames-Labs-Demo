@@ -16,9 +16,8 @@ Meteor.publish('userPresence', function() {
 Meteor.publish("allTenants", function() {
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
     return Tenants.find({});
-  } else {
-    this.ready();
   }
+  this.ready();
 });
 
 Meteor.publish("activeTenantData", function() {
@@ -183,7 +182,7 @@ Meteor.publish("globalCustomFields", function() {
     _id: {
       $in: ids
     }
-  })
+  });
 });
 Meteor.publish("globalCustomFieldsByEntityType", function(entityType) {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
@@ -199,7 +198,7 @@ Meteor.publish("globalCustomFieldsByEntityType", function(entityType) {
     _id: {
       $in: ids
     }
-  })
+  });
 });
 
 

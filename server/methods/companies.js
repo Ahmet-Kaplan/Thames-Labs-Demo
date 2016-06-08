@@ -34,7 +34,7 @@ Meteor.methods({
         code: -1,
         error: 'Only administrators can merge records.',
         source: 'Company record merge failed'
-      }
+      };
     }
 
     var sourceRecord = Companies.findOne({
@@ -80,8 +80,8 @@ Meteor.methods({
           code: -1,
           error: err,
           source: 'Company record merge failed'
-        }
-      };
+        };
+      }
     });
 
     Activities.update({
@@ -98,8 +98,8 @@ Meteor.methods({
           code: -1,
           error: err,
           source: 'Activity record merge failed'
-        }
-      };
+        };
+      }
     });
 
     Contacts.update({
@@ -116,8 +116,8 @@ Meteor.methods({
           code: -1,
           error: err,
           source: 'Contact record merge failed'
-        }
-      };
+        };
+      }
     });
 
     CustomFields.update({
@@ -135,8 +135,8 @@ Meteor.methods({
           code: -1,
           error: err,
           source: 'Custom field record merge failed'
-        }
-      };
+        };
+      }
     });
 
     Opportunities.update({
@@ -153,8 +153,8 @@ Meteor.methods({
           code: -1,
           error: err,
           source: 'Opportunity record merge failed'
-        }
-      };
+        };
+      }
     });
 
     Projects.update({
@@ -171,8 +171,8 @@ Meteor.methods({
           code: -1,
           error: err,
           source: 'Project record merge failed'
-        }
-      };
+        };
+      }
     });
 
     PurchaseOrders.update({
@@ -189,8 +189,8 @@ Meteor.methods({
           code: -1,
           error: err,
           source: 'Purchase order record merge failed'
-        }
-      };
+        };
+      }
     });
 
     Tasks.update({
@@ -214,8 +214,8 @@ Meteor.methods({
             code: -1,
             error: err,
             source: 'Project record merge failed'
-          }
-        };
+          };
+        }
       });
     }
 

@@ -1,10 +1,8 @@
-var tagIsInList = function(tag, tagList) {
-  return _.some(tagList.split(','), (s) => {
-    return s === tag
-  });
-};
+function tagIsInList(tag, tagList) {
+  return _.some(tagList.split(','), (s) => (s === tag));
+}
 
-var toggleTag = function(tag, index) {
+function toggleTag(tag, index) {
   var searchOptions = index.getComponentDict().get('searchOptions'),
       tags = (searchOptions && searchOptions.props && searchOptions.props.tags) ? searchOptions.props.tags : '';
 
@@ -42,10 +40,10 @@ Template.tagBadge.events({
 
 Template.tagBadge.helpers({
   'selected': function() {
-    if (!this.index) return ''
+    if (!this.index) return '';
     var searchOptions = this.index.getComponentDict().get('searchOptions');
     if (searchOptions && searchOptions.props && searchOptions.props.tags) {
-      return tagIsInList(this.tag, searchOptions.props.tags) ? 'active' : ''
+      return tagIsInList(this.tag, searchOptions.props.tags) ? 'active' : '';
     }
   }
 });

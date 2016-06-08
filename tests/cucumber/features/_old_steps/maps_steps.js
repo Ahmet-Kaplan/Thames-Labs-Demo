@@ -6,7 +6,7 @@ module.exports = function() {
     browser.execute(function() {
       var y = $(".modal").height();
       $(".modal").scrollTop(y);
-    })
+    });
     browser.setValue('#geo', 'Cowley Road, Cambridge');
     browser.waitForExist('.pac-item');
     browser.click('.pac-item');

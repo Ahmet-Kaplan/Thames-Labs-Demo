@@ -13,52 +13,48 @@ Collections.products.filters = {
     display: 'Sales Price <',
     prop: 'salesPriceLower',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   salesPriceGreater: {
     display: 'Sales Price >',
     prop: 'salesPriceGreater',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   costPriceLower: {
     display: 'Cost Price <',
     prop: 'costPriceLower',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   costPriceGreater: {
     display: 'Cost Price >',
     prop: 'costPriceGreater',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   tags: {
@@ -94,14 +90,10 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadProducts']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'name': 1
-      }
-    },
+    sort: () => ({ 'name': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       return {
         'name': 1,
@@ -109,13 +101,13 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
         'cost': 1,
         'tags': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.sequencedIdentifier) {
-        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
 
       if (options.search.props.searchById) {
@@ -131,8 +123,8 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
 
       if (options.search.props.salesPriceLower || options.search.props.salesPriceGreater) {
         selector.price = {};
-        var priceLowerThan = parseInt(options.search.props.salesPriceLower);
-        var priceGreaterThan = parseInt(options.search.props.salesPriceGreater);
+        var priceLowerThan = parseInt(options.search.props.salesPriceLower, 10);
+        var priceGreaterThan = parseInt(options.search.props.salesPriceGreater, 10);
 
         if (!isNaN(priceLowerThan)) {
           selector.price.$lte = priceLowerThan;
@@ -145,8 +137,8 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
 
       if (options.search.props.costPriceLower || options.search.props.costPriceGreater) {
         selector.cost = {};
-        var costLowerThan = parseInt(options.search.props.costPriceLower);
-        var costGreaterThan = parseInt(options.search.props.costPriceGreater);
+        var costLowerThan = parseInt(options.search.props.costPriceLower, 10);
+        var costGreaterThan = parseInt(options.search.props.costPriceGreater, 10);
 
         if (!isNaN(costLowerThan)) {
           selector.cost.$lte = costLowerThan;
@@ -259,5 +251,5 @@ Products.after.remove(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " deleted product '" + doc.name + "'", undefined, undefined);
+  LogClientEvent(LogLevel.Info, user.profile.name + " deleted product '" + doc.name + "'", null, null);
 });

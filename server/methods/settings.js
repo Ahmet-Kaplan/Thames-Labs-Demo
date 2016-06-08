@@ -5,7 +5,7 @@ Meteor.methods({
 
     Tenants.update({
       _id: Meteor.user().group
-    },{
+    }, {
       $set: {
         'settings.currency': newCurrency
       }
@@ -13,4 +13,4 @@ Meteor.methods({
 
     return newCurrency;
   }
-})
+});

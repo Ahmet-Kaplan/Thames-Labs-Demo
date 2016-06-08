@@ -28,7 +28,9 @@
         <div class="panel-heading">
           <div class="btn-group pull-right">
             {{#if isInRole 'CanEditTasks'}}
-              <a href="#" id="edit-task" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
+              {{#unless isMobile}}
+                <a href="#" id="edit-task" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
+              {{/unless}}
             {{/if}}
             {{#if isInRole 'CanDeleteTasks'}}
               <a href="#" id="remove-task" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
@@ -129,6 +131,15 @@
       {{> activityTimeline activities=activities}}
     </div>
   </div>
+
+  {{#if isInRole 'CanEditProjects'}}
+    {{#if isMobile}}
+      <div class="fab edit" id="fab">
+        <i class="fa fw-fa fa-pencil"></i>
+      </div>
+    {{/if}}
+  {{/if}}
+
 
   {{/with}}
 </template>

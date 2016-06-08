@@ -6,4 +6,4 @@ module.exports = function() {
       browser.waitForExist('.list-item', 2000, true);
     }
   });
-}
+};

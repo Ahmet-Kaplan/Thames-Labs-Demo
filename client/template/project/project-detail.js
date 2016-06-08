@@ -3,7 +3,7 @@ Template.projectDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
     var project = Projects.findOne(FlowRouter.getParam('id'));
-    if (FlowRouter.subsReady() && project === undefined) {
+    if (FlowRouter.subsReady() && typeof project === "undefined") {
       FlowRouter.go('projects');
     }
     if (project) {
@@ -53,7 +53,7 @@ Template.projectDetail.helpers({
         $set: {
           'settings.project.types': data
         }
-      })
+      });
     }
 
     for (var i = 0, len = currentTypes.length; i < len; i++) {
@@ -121,5 +121,9 @@ Template.projectDetail.events({
         Projects.remove(projectId);
       }
     });
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('updateProjectForm', this);
   }
 });

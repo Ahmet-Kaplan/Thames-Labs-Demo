@@ -15,7 +15,7 @@ Template.opportunityDetail.onCreated(function() {
     }
 
     // Redirect if data doesn't exist
-    if (FlowRouter.subsReady() && opportunity === undefined) {
+    if (FlowRouter.subsReady() && typeof opportunity === "undefined") {
       FlowRouter.go('opportunities');
     }
 
@@ -95,7 +95,7 @@ Template.opportunityDetail.helpers({
     return _.sum(this.items, function(item) {
       var subValue = item.quantity * item.value;
       if (!isNaN(subValue)) return subValue;
-    })
+    });
   },
   company: function() {
     return Companies.findOne({
@@ -110,9 +110,8 @@ Template.opportunityDetail.helpers({
   canExportDocx: function() {
     if (bowser.safari) {
       return false;
-    } else {
-      return true;
     }
+    return true;
   }
 });
 
@@ -259,7 +258,7 @@ Template.opportunityDetail.events({
           callback: function() {
             var type = $('#selectedProjectType').val();
 
-            Meteor.call('winOpportunity', opp, parseInt(type), function(err, id) {
+            Meteor.call('winOpportunity', opp, parseInt(type, 10), function(err, id) {
               if (Roles.userIsInRole(Meteor.userId(), ['CanReadProjects'])) {
                 FlowRouter.go('/projects/' + id);
               }
@@ -359,7 +358,7 @@ Template.opportunityDetail.events({
           description: oi.description,
           value: oi.value,
           quantity: oi.quantity
-        }
+        };
         items.push(obj);
       });
 
@@ -435,7 +434,7 @@ Template.opportunityDetail.events({
           name: oi.name,
           description: oi.description,
           value: oi.value
-        }
+        };
         items.push(obj);
       });
 
@@ -502,9 +501,9 @@ Template.opportunityDetail.events({
           }
 
           //Convert returned base64 string into blob for download
-          var data = base64toBlob(res.data.file, 'application/pdf');
+          var blobData = base64toBlob(res.data.file, 'application/pdf');
           Meteor.call('remainingConversions', res.headers['x-ratelimit-requests-remaining'], function(err, res) {});
-          saveAs(data, file.name.replace(".docx", ".pdf"));
+          saveAs(blobData, file.name.replace(".docx", ".pdf"));
         });
       };
       toastr.success("Your file will be downloaded shortly", "Processing...");
@@ -558,6 +557,10 @@ Template.opportunityDetail.events({
   },
   'click .nav-link': function(event) {
     event.preventDefault();
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('editOpportunityModal', this);
   }
 });
 

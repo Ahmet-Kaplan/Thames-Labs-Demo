@@ -10,8 +10,8 @@ Template.displayCalendar.onRendered(function() {
 
   //Check first if the user had already been looking in a date/time window and if so go to it
   if(TasksIndex.getComponentDict().get('searchOptions').props) {
-    var getStartDate = TasksIndex.getComponentDict().get('searchOptions').props.after
-    var getEndDate = TasksIndex.getComponentDict().get('searchOptions').props.before
+    var getStartDate = TasksIndex.getComponentDict().get('searchOptions').props.after;
+    var getEndDate = TasksIndex.getComponentDict().get('searchOptions').props.before;
     if(moment(getStartDate).isValid()) {
       $('#tasksCalendar').fullCalendar('gotoDate', moment(getStartDate).startOf('month'));
     } else if (moment(getEndDate).isValid()) {
@@ -81,15 +81,14 @@ Template.displayCalendar.helpers({
         function(taskA, taskB) {
           if(taskA.myTask && !taskB.myTask) {
             return 1;
-          } else {
-            return -1;
           }
+          return -1;
         }, 'start'],
       eventSources: [
         {
           events: function(start, end, timezone, callback) {
-            var tasksList = instance.tasksList.get()
-            var events = []
+            var tasksList = instance.tasksList.get();
+            var events = [];
             if(!!tasksList.length) {
               _.each(tasksList, (task) => {
                 //Check first that the event is not already displayed
@@ -134,7 +133,7 @@ Template.displayCalendar.helpers({
           }
 
           eventData = _.clone(event);
-          eventData.start = moment(eventData.start).format('Do MMM YYYY, HH:mm')
+          eventData.start = moment(eventData.start).format('Do MMM YYYY, HH:mm');
           popoverHolder.popover({
             container: 'body',
             content: Blaze.toHTMLWithData(Template.taskPopover, eventData),
@@ -175,12 +174,12 @@ Template.displayCalendar.helpers({
         $('.popover-edit-task').on('click.RTCalendar', function(jsEvent) {
           jsEvent.preventDefault();
           var task = _.find(instance.tasksList.get(), {'__originalId': event.__originalId});
-          task._id = task.__originalId
+          task._id = task.__originalId;
           Modal.show('updateTask', task);
         });
       },
       eventDrop: function(event, delta, revertFunc) {
-        var newStartDate = moment(event.start)
+        var newStartDate = moment(event.start);
         bootbox.confirm({
           message: 'Do you want to change the task due date to ' + newStartDate.format('Do MMM YYYY, HH:mm') + '?',
           title: 'Update task due date',
@@ -266,7 +265,7 @@ Template.displayCalendar.helpers({
             var dayOffset = $('.fc-day.fc-' + day).offset().left;
             var dayWidth = $('.fc-day-header.fc-' + day).width();
             var popoverWidth = $('.popover').width();
-            var setLeftOffset = dayOffset - (popoverWidth - dayWidth) /2;
+            var setLeftOffset = dayOffset - (popoverWidth - dayWidth) / 2;
             $('#' + popoverHolder.attr('aria-describedby')).offset({left: setLeftOffset});
             popoverHolder.data('day', day);
           }
@@ -287,10 +286,10 @@ Template.displayCalendar.helpers({
         //Add event handler to go to day view. This cannot be done with Template.events because of the toHTMWithData function
         $('.go-to-day-view').on('click.RTCalendar', function() {
           $('#tasksCalendar').fullCalendar('changeView', 'agendaDay');
-          $('#tasksCalendar').fullCalendar('gotoDate', date)
+          $('#tasksCalendar').fullCalendar('gotoDate', date);
         });
       }
-    }
+    };
   }
 });
 

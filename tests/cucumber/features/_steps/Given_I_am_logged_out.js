@@ -4,4 +4,4 @@ module.exports = function() {
       Meteor.logout(done);
     });
   });
-}
+};
