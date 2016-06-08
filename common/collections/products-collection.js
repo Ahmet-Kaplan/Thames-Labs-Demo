@@ -172,7 +172,9 @@ Products.after.insert(function(userId, doc) {
     _id: userId
   });
 
-  LogClientEvent(LogLevel.Info, user.profile.name + " created a new product", 'product', doc._id);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " created a new product", 'product', doc._id);
+  }
 
   if (Meteor.isServer) {
     if (user) {
@@ -228,17 +230,19 @@ Products.after.update(function(userId, doc, fieldNames, modifier, options) {
     _id: userId
   });
 
-  if (doc.description !== this.previous.description) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's description", 'product', doc._id);
-  }
-  if (doc.name !== this.previous.name) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's name", 'product', doc._id);
-  }
-  if (doc.cost !== this.previous.cost) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's cost", 'product', doc._id);
-  }
-  if (doc.price !== this.previous.price) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's price", 'product', doc._id);
+  if (user) {
+    if (doc.description !== this.previous.description) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's description", 'product', doc._id);
+    }
+    if (doc.name !== this.previous.name) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's name", 'product', doc._id);
+    }
+    if (doc.cost !== this.previous.cost) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's cost", 'product', doc._id);
+    }
+    if (doc.price !== this.previous.price) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's price", 'product', doc._id);
+    }
   }
 });
 
@@ -251,5 +255,7 @@ Products.after.remove(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " deleted product '" + doc.name + "'", null, null);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted product '" + doc.name + "'", null, null);
+  }
 });
