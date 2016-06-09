@@ -1,7 +1,7 @@
 module.exports = function() {
 
   this.Given(/^a company named "([^"]*)" has been created$/, function(name) {
-    browser.execute(function(userId, name) {
+    browser.execute(function(userId, companyName) {
       Companies.insert({
         name: companyName,
         createdBy: userId,
@@ -9,4 +9,4 @@ module.exports = function() {
       });
     });
   });
-}
+};

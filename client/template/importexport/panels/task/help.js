@@ -4,7 +4,7 @@ Template.importTaskFailuresModal.helpers({
     _.each(this, function(m) {
       var message = {
         description: m
-      }
+      };
       arr.push(message);
     });
     return arr;

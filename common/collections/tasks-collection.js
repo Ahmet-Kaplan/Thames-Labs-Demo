@@ -17,7 +17,7 @@ Tasks.helpers({
       }
     });
   },
-})
+});
 
 ////////////////////
 // SEARCH FILTERS //
@@ -187,26 +187,20 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadTasks']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'dueDate': 1
-      }
-    },
-    fields: (searchObject, options) => {
-      return {
-        'title': 1,
-        'description': 1,
-        'dueDate': 1,
-        'isAllDay': 1,
-        'reminder': 1,
-        'completed': 1,
-        'entityType': 1,
-        'entityId': 1,
-        'assigneeId': 1,
-        'tags': 1,
-        'parentTaskId': 1
-      }
-    },
+    sort: () => ({ 'dueDate': 1 }),
+    fields: (searchObject, options) => ({
+      'title': 1,
+      'description': 1,
+      'dueDate': 1,
+      'isAllDay': 1,
+      'reminder': 1,
+      'completed': 1,
+      'entityType': 1,
+      'entityId': 1,
+      'assigneeId': 1,
+      'tags': 1,
+      'parentTaskId': 1
+    }),
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
@@ -281,7 +275,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
             $gte: formattedStartDate,
             $lte: formattedEndDate,
             $ne: null
-          }
+          };
         }
 
       }
@@ -378,7 +372,9 @@ Tasks.after.insert(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " created a new task", entityType, entityId);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " created a new task", entityType, entityId);
+  }
 });
 
 Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
@@ -417,21 +413,23 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
     _id: userId
   });
 
-  if (doc.title !== this.previous.title) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's title", entityType, entityId);
-  }
-  if (doc.description !== this.previous.description) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's description", entityType, entityId);
-  }
-  if (doc.dueDate !== this.previous.dueDate) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's due date", entityType, entityId);
-  }
-  if (doc.completed !== this.previous.completed) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's completed status", entityType, entityId);
+  if (user) {
+    if (doc.title !== this.previous.title) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's title", entityType, entityId);
+    }
+    if (doc.description !== this.previous.description) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's description", entityType, entityId);
+    }
+    if (doc.dueDate !== this.previous.dueDate) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's due date", entityType, entityId);
+    }
+    if (doc.completed !== this.previous.completed) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's completed status", entityType, entityId);
 
-  }
-  if (doc.assigneeId !== this.previous.assigneeId) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's assigned user", entityType, entityId);
+    }
+    if (doc.assigneeId !== this.previous.assigneeId) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's assigned user", entityType, entityId);
+    }
   }
 });
 
@@ -474,7 +472,9 @@ Tasks.after.remove(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " deleted task '" + doc.title + "'", entityType, entityId);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted task '" + doc.title + "'", entityType, entityId);
+  }
 
   var subTasks = Tasks.find({
     parentTaskId: doc._id

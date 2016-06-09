@@ -45,9 +45,9 @@ Template.DurationPicker.onRendered(function() {
     //Display hours over 23
     var mins = moment.duration({
       minutes: val.minutes()
-    })
+    });
     var hours = val.subtract(mins);
     $("input[name=hours]").val(hours.asHours());
     $("input[name=minutes]").val(mins.get('minutes'));
   }
-})
+});

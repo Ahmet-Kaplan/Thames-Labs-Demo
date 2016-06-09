@@ -10,7 +10,7 @@ export function reset() {
     const tenantId = testTenant._id;
     // First remove all associated data
     // N.B. we don't need directOperation() as we're already using "direct" to bypass any collection hooks
-    // TODO: Ideally this would use bindGroup() but if we then use "direct" it bypasses the partitioner
+    // T-O-D-O: Ideally this would use bindGroup() but if we then use "direct" it bypasses the partitioner
     Tasks.direct.remove({ _groupId: tenantId });
     Activities.direct.remove({ _groupId: tenantId });
     Meteor.tags.direct.remove({ _groupId: tenantId });
@@ -22,12 +22,14 @@ export function reset() {
     PurchaseOrderItems.direct.remove({ _groupId: tenantId });
     Chatterbox.direct.remove({ _groupId: tenantId });
     Products.direct.remove({ _groupId: tenantId });
+    Opportunities.direct.remove({ _groupId: tenantId });
+    CustomFields.direct.remove({ _groupId: tenantId });
 
     // N.B. Users uses field "group" rather than "_groupId"!
     Meteor.users.direct.remove({ group: tenantId });
 
     // Now remove tenant
-    Tenants.direct.remove({_id: tenantId});
+    Tenants.direct.remove({ _id: tenantId });
   });
 
   // Remove items in unpartitioned collections

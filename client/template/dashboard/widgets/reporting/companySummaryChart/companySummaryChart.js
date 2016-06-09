@@ -1,8 +1,8 @@
-globalSBCRef = undefined;
-globalBCRef = undefined;
-globalPCRef = undefined;
-globalDCRef = undefined;
-globalPACRef = undefined;
+var globalSBCRef = void 0;
+var globalBCRef = void 0;
+var globalPCRef = void 0;
+var globalDCRef = void 0;
+var globalPACRef = void 0;
 
 Template.companySummaryChartWidget.onCreated(function() {
   this.totalCompanies = new ReactiveVar(0);
@@ -26,7 +26,7 @@ Template.companySummaryChartWidget.events({
 
     var chartType = $('#chartTypeSelect').val();
     refreshData(template);
-    buildChart(template, chartType)
+    buildChart(template, chartType);
   }
 });
 
@@ -46,14 +46,15 @@ refreshData = function(template) {
   Meteor.call('report.numberOfProducts', function(err, data) {
     template.totalProducts.set(data.Count);
   });
-}
+};
 
 buildChart = function(template, chartType) {
   var ctx = document.getElementById("companySummaryChartDisplayArea").getContext("2d");
+  var data = null, options = null;
 
   switch (chartType) {
     case 'stacked-bar':
-      var data = {
+      data = {
         labels: ["Companies", "Contacts", "Opportunities", "Projects", "Products"],
         datasets: [{
           label: "Companies",
@@ -65,7 +66,7 @@ buildChart = function(template, chartType) {
         }]
       };
 
-      var options = {
+      options = {
         scaleBeginAtZero: true,
         scaleShowGridLines: true,
         scaleGridLineColor: "rgba(0,0,0,.05)",
@@ -76,12 +77,13 @@ buildChart = function(template, chartType) {
         relativeBars: false,
         legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
         tooltipHideZero: false
-      }
+      };
       var StackedBarChartObject = new Chart(ctx).StackedBar(data, options);
       globalSBCRef = StackedBarChartObject;
       break;
+
     case 'bar':
-      var data = {
+      data = {
         labels: ["Companies", "Contacts", "Opportunities", "Projects", "Products"],
         datasets: [{
           label: "Companies",
@@ -121,7 +123,7 @@ buildChart = function(template, chartType) {
         }]
       };
 
-      var options = {
+      options = {
         scaleBeginAtZero: true,
         scaleShowGridLines: true,
         scaleGridLineColor: "rgba(0,0,0,.05)",
@@ -134,12 +136,13 @@ buildChart = function(template, chartType) {
         barDatasetSpacing: 1,
         legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
 
-      }
+      };
       var BarChartObject = new Chart(ctx).Bar(data, options);
       globalBCRef = BarChartObject;
       break;
+
     case 'pie':
-      var data = [{
+      data = [{
         value: template.totalCompanies.get(),
         color: "#ff0006",
         highlight: "#ff3b3f",
@@ -165,7 +168,7 @@ buildChart = function(template, chartType) {
         highlight: "#a249fb",
         label: "Products"
       }];
-      var options = {
+      options = {
         segmentShowStroke: true,
         segmentStrokeColor: "#fff",
         segmentStrokeWidth: 2,
@@ -178,8 +181,9 @@ buildChart = function(template, chartType) {
       var PieChartObject = new Chart(ctx).Pie(data, options);
       globalPCRef = PieChartObject;
       break;
+
     case 'doughnut':
-      var data = [{
+      data = [{
         value: template.totalCompanies.get(),
         color: "#ff0006",
         highlight: "#ff3b3f",
@@ -205,7 +209,7 @@ buildChart = function(template, chartType) {
         highlight: "#a249fb",
         label: "Products"
       }];
-      var options = {
+      options = {
 
         segmentShowStroke: true,
         segmentStrokeColor: "#fff",
@@ -220,8 +224,9 @@ buildChart = function(template, chartType) {
       var DoughtnutChart = new Chart(ctx).Doughnut(data, options);
       globalDCRef = DoughtnutChart;
       break;
+
     case 'polar':
-      var data = [{
+      data = [{
         value: template.totalCompanies.get(),
         color: "#ff0006",
         highlight: "#ff3b3f",
@@ -248,7 +253,7 @@ buildChart = function(template, chartType) {
         label: "Products"
       }];
 
-      var options = {
+      options = {
         scaleShowLabelBackdrop: true,
         scaleBackdropColor: "rgba(255,255,255,0.75)",
         scaleBeginAtZero: true,
@@ -263,32 +268,32 @@ buildChart = function(template, chartType) {
         animateRotate: true,
         animateScale: false,
         legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
-      }
+      };
       var PolarChart = new Chart(ctx).PolarArea(data, options);
       globalPACRef = PolarChart;
       break;
   }
-}
+};
 
 clearOldCharts = function() {
-  if (globalSBCRef !== undefined) {
+  if (typeof globalSBCRef !== "undefined") {
     globalSBCRef.destroy();
-    globalSBCRef = undefined;
+    globalSBCRef = void 0;
   }
-  if (globalBCRef !== undefined) {
+  if (typeof globalBCRef !== "undefined") {
     globalBCRef.destroy();
-    globalBCRef = undefined;
+    globalBCRef = void 0;
   }
-  if (globalPCRef !== undefined) {
+  if (typeof globalPCRef !== "undefined") {
     globalPCRef.destroy();
-    globalPCRef = undefined;
+    globalPCRef = void 0;
   }
-  if (globalDCRef !== undefined) {
+  if (typeof globalDCRef !== "undefined") {
     globalDCRef.destroy();
-    globalDCRef = undefined;
+    globalDCRef = void 0;
   }
-  if (globalPACRef !== undefined) {
+  if (typeof globalPACRef !== "undefined") {
     globalPACRef.destroy();
-    globalPACRef = undefined;
+    globalPACRef = void 0;
   }
-}
+};

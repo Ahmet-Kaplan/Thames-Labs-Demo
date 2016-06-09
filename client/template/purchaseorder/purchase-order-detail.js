@@ -11,7 +11,7 @@ Template.purchaseOrderDetail.onCreated(function() {
       this.subscribe('contactById', purchaseOrder.supplierContactId);
     }
     // Redirect if data doesn't exist
-    if (FlowRouter.subsReady() && purchaseOrder === undefined) {
+    if (FlowRouter.subsReady() && typeof purchaseOrder === "undefined") {
       FlowRouter.go('purchaseOrders');
     }
   });
@@ -39,14 +39,13 @@ Template.purchaseOrderItem.helpers({
   },
   canAddMoreItems: function(parentContext) {
     this.parentContext = parentContext;
-    return (this.parentContext.status === "Requested" ? true : false);
+    return (this.parentContext.status === "Requested");
   },
   orderItemStatus: function() {
-    if (this.status === undefined) {
+    if (typeof this.status === "undefined") {
       return "No status set.";
-    } else {
-      return this.status;
     }
+    return this.status;
   },
   statusIcon: function() {
     switch (this.status) {
@@ -83,17 +82,16 @@ Template.purchaseOrderDetail.helpers({
     });
   },
   isOpen: function() {
-    return (this.status !== "Closed" ? true : false);
+    return (this.status !== "Closed");
   },
   canAddMoreItems: function() {
-    return (this.status === "Requested" ? true : false);
+    return (this.status === "Requested");
   },
   canExportDocx: function() {
     if (bowser.safari) {
-      return false
-    } else {
-      return true;
+      return false;
     }
+    return true;
   }
 });
 
@@ -130,9 +128,9 @@ Template.purchaseOrderDetail.events({
           count: oi.quantity,
           value: oi.value,
           total: oi.totalPrice,
-        }
+        };
 
-        running = running + parseFloat(oi.totalPrice);
+        running += parseFloat(oi.totalPrice);
 
         items.push(obj);
       });
@@ -200,9 +198,9 @@ Template.purchaseOrderDetail.events({
           count: oi.quantity,
           value: oi.value,
           total: oi.totalPrice,
-        }
+        };
 
-        running = running + parseFloat(oi.totalPrice);
+        running += parseFloat(oi.totalPrice);
 
         items.push(obj);
       });
@@ -275,9 +273,9 @@ Template.purchaseOrderDetail.events({
           }
 
           //Convert returned base64 string into blob for download
-          var data = base64toBlob(res.data.file, 'application/pdf');
+          var blobData = base64toBlob(res.data.file, 'application/pdf');
           Meteor.call('remainingConversions', res.headers['x-ratelimit-requests-remaining'], function(err, res) {});
-          saveAs(data, file.name.replace(".docx", ".pdf"));
+          saveAs(blobData, file.name.replace(".docx", ".pdf"));
         });
       };
       toastr.success("Your file will be downloaded shortly", "Processing...");
@@ -320,13 +318,17 @@ Template.purchaseOrderDetail.events({
         PurchaseOrders.remove(poId);
       }
     });
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('updatePurchaseOrderFormModal', this);
   }
 });
 
 Template.purchaseOrderItem.events({
   'click #removePurchaseOrderItem': function(event) {
     event.preventDefault();
-    var itemId = this._id
+    var itemId = this._id;
     bootbox.confirm("Are you sure you wish to delete this item?", function(result) {
       if (result === true) {
         PurchaseOrderItems.remove(itemId);

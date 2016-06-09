@@ -30,5 +30,9 @@ Template.contactList.events({
   'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('contacts');
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('insertContactModal', this);
   }
 });

@@ -1,9 +1,9 @@
 module.exports = function() {
   var url = require('url');
 
-  var setPermission = function(permissionName, value, done) {
+  function setPermission(permissionName, value, done) {
     Meteor.call('setPermission', permissionName, value, done);
-  };
+  }
 
   this.Given(/^I have the "([^"]*)" permission$/, function(permissionName) {
     browser.executeAsync(setPermission, permissionName, true);
@@ -31,9 +31,9 @@ module.exports = function() {
 
   this.Then(/^I should have the "([^"]*)" permission$/, function(permissionName) {
     var result = browser
-      .executeAsync(function(permissionName, done) {
+      .executeAsync(function(innerPermissionName, done) {
         var user = Meteor.user();
-        Meteor.call('checkUserHasPermission', user.username, permissionName, function(err, res) {
+        Meteor.call('checkUserHasPermission', user.username, innerPermissionName, function(err, res) {
           done(res);
         });
       }, permissionName);
@@ -42,9 +42,9 @@ module.exports = function() {
 
   this.Then(/^I should not have the "([^"]*)" permission$/, function(permissionName) {
     var result = browser
-      .executeAsync(function(permissionName, done) {
+      .executeAsync(function(innerPermissionName, done) {
         var user = Meteor.user();
-        Meteor.call('checkUserHasPermission', user.username, permissionName, function(err, res) {
+        Meteor.call('checkUserHasPermission', user.username, innerPermissionName, function(err, res) {
           done(res);
         });
       }, permissionName);
@@ -53,8 +53,8 @@ module.exports = function() {
 
   this.Then(/^the user "([^"]*)" should have the "([^"]*)" permission$/, function(userName, permissionName) {
     var result = browser
-      .executeAsync(function(userName, permissionName, done) {
-        Meteor.call('checkUserHasPermission', userName, permissionName, function(err, res) {
+      .executeAsync(function(innerUserName, innerPermissionName, done) {
+        Meteor.call('checkUserHasPermission', innerUserName, innerPermissionName, function(err, res) {
           done(res);
         });
       }, userName, permissionName);
@@ -63,8 +63,8 @@ module.exports = function() {
 
   this.Then(/^the user "([^"]*)" should not have the "([^"]*)" permission$/, function(userName, permissionName) {
     var result = browser
-      .executeAsync(function(userName, permissionName, done) {
-        Meteor.call('checkUserHasPermission', userName, permissionName, function(err, res) {
+      .executeAsync(function(innerUserName, innerPermissionName, done) {
+        Meteor.call('checkUserHasPermission', innerUserName, innerPermissionName, function(err, res) {
           done(res);
         });
       }, userName, permissionName);
@@ -79,7 +79,7 @@ module.exports = function() {
         });
       });
     expect(result.value).toBe(null);
-  })
+  });
 
   this.When(/^I add permission "([^"]*)" on "([^"]*)" to a restricted user$/, function(permissionName, entityName) {
     browser.url(url.resolve(process.env.ROOT_URL, "/admin"));
@@ -94,10 +94,10 @@ module.exports = function() {
     browser.click("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
-    browser.waitForExist("#"+ entityName + "PermissionSelector", 5000);
-    browser.waitForVisible("#"+ entityName + "PermissionSelector", 5000);
-    browser.click("#"+ entityName + "PermissionSelector");
-    browser.selectByValue("#"+ entityName + "PermissionSelector", permissionName);
+    browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
+    browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
+    browser.click("#" + entityName + "PermissionSelector");
+    browser.selectByValue("#" + entityName + "PermissionSelector", permissionName);
     browser.click('#btnUpdateTenantUserPermissions');
   });
 
@@ -114,10 +114,10 @@ module.exports = function() {
     browser.click("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
-    browser.waitForExist("#"+ entityName + "PermissionSelector", 5000);
-    browser.waitForVisible("#"+ entityName + "PermissionSelector", 5000);
-    browser.click("#"+ entityName + "PermissionSelector");
-    browser.selectByValue("#"+ entityName + "PermissionSelector", permissionName);
+    browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
+    browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
+    browser.click("#" + entityName + "PermissionSelector");
+    browser.selectByValue("#" + entityName + "PermissionSelector", permissionName);
     browser.click('#btnUpdateTenantUserPermissions');
   });
 
@@ -134,10 +134,10 @@ module.exports = function() {
     browser.click("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
-    browser.waitForExist("#"+ entityName + "PermissionSelector", 5000);
-    browser.waitForVisible("#"+ entityName + "PermissionSelector", 5000);
-    browser.click("#"+ entityName + "PermissionSelector");
-    browser.selectByValue("#"+ entityName + "PermissionSelector", "Restricted");
+    browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
+    browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
+    browser.click("#" + entityName + "PermissionSelector");
+    browser.selectByValue("#" + entityName + "PermissionSelector", "Restricted");
     browser.click('#btnUpdateTenantUserPermissions');
   });
 
@@ -154,10 +154,10 @@ module.exports = function() {
     browser.click("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
-    browser.waitForExist("#"+ entityName + "PermissionSelector", 5000);
-    browser.waitForVisible("#"+ entityName + "PermissionSelector", 5000);
-    browser.click("#"+ entityName + "PermissionSelector");
-    browser.selectByValue("#"+ entityName + "PermissionSelector", "Restricted");
+    browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
+    browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
+    browser.click("#" + entityName + "PermissionSelector");
+    browser.selectByValue("#" + entityName + "PermissionSelector", "Restricted");
     browser.click('#btnUpdateTenantUserPermissions');
   });
 };

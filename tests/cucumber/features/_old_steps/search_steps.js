@@ -10,4 +10,4 @@ module.exports = function() {
     expect(browser.getValue(selectizeInput)).toContain(filter + ' ' + value);
     browser.keys('Enter');
   });
-}
+};

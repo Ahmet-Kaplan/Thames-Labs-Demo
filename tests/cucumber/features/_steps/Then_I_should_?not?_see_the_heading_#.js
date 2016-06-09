@@ -8,4 +8,4 @@ module.exports = function() {
       browser.waitForVisible('h1*=' + expectedHeading, 5000, true);
     }
   });
-}
+};

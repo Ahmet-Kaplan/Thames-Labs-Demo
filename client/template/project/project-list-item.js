@@ -10,4 +10,4 @@ Template.projectListItem.helpers({
   contact: function() {
     return Contacts.findOne(this.contactId);
   },
-})
+});

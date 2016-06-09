@@ -17,4 +17,4 @@ documentAPI.dropboxChooser = function(cb) {
     },
     cancel: function() {}
   });
-}
+};

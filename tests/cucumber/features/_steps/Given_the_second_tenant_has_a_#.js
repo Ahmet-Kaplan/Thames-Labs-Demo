@@ -21,14 +21,14 @@ module.exports = function() {
     };
     var action = "create";
     expect(Object.keys(collectionMap)).toContain(friendlyEntityName);
-    server.execute(function(userId, action, collectionName) {
-      const requiredPermission = permissionGenerator(action, collectionName);
+    server.execute(function(userId, innerAction, collectionName) {
+      const requiredPermission = permissionGenerator(innerAction, collectionName);
       Roles.addUsersToRoles(userId, requiredPermission);
     }, browser.userId(), action, collectionMap[friendlyEntityName]);
 
     //Add the entity
-    browser.executeAsync(function(friendlyEntityName, done) {
-      Meteor.call('add' + friendlyEntityName, function() {
+    browser.executeAsync(function(entityName, done) {
+      Meteor.call('add' + entityName, function() {
         done();
       });
     }, friendlyEntityName);
@@ -41,4 +41,4 @@ module.exports = function() {
       Meteor.loginWithPassword('test@domain.com', 'goodpassword', done);
     });
   });
-}
+};

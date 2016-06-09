@@ -12,8 +12,8 @@ Template.salesPipeline.onCreated(function() {
 
 Template.salesPipeline.onRendered(function() {
   Session.set('currentStageId', null);
-  $.getScript('/vendor/d3-funnel.js', function(data, textStatus, jqxhr) {
-    if (jqxhr.status = 200) {
+  $.getScript('/vendor/d3-funnel.js', function(dataRec, textStatus, jqxhr) {
+    if (jqxhr.status == 200) {
       Tracker.autorun(function() {
         var userTenant = Tenants.findOne({
           _id: Meteor.user().group
@@ -27,7 +27,10 @@ Template.salesPipeline.onRendered(function() {
         var data = [];
         for (var i = 0; i < stages.length; i++) {
           var count = Opportunities.find({
-            currentStageId: stages[i].id
+            currentStageId: stages[i].id,
+            isArchived: {
+              $ne: true
+            }
           }).count();
           if (count > 0) {
             var item = [stages[i].title, count];
@@ -54,8 +57,8 @@ Template.salesPipeline.onRendered(function() {
 
           $(window).on("resize", function() {
             options.width = $("#funnel-container").width();
-            var chart = new D3Funnel('#funnel');
-            chart.draw(data, options);
+            var newChart = new D3Funnel('#funnel');
+            newChart.draw(data, options);
           });
         }
       });
@@ -114,7 +117,7 @@ Template.salesPipeline.helpers({
     return {
       totalValue: parseFloat(total).toFixed(2),
       averageValue: parseFloat(total / opps.length).toFixed(2)
-    }
+    };
   },
   opportunities: function() {
     var id = Session.get('currentStageId');
@@ -140,4 +143,4 @@ Template.salesPipelineListItem.helpers({
       return ReactiveMethod.call('pipeline.getContact', this.contactId);
     }
   }
-})
+});

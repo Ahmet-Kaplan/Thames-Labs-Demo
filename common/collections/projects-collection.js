@@ -51,9 +51,8 @@ Collections.projects.filters = {
     displayValue: function(company) {
       if (company) {
         return company.name;
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   contact: {
@@ -66,9 +65,8 @@ Collections.projects.filters = {
     displayValue: function(contact) {
       if (contact) {
         return contact.name();
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   manager: {
@@ -81,9 +79,8 @@ Collections.projects.filters = {
     displayValue: function(user) {
       if (user) {
         return user.profile.name;
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   dueDate: {
@@ -193,19 +190,15 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadProjects']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'name': 1
-      }
-    },
+    sort: () => ({ 'name': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       if (options.search.props.autosuggest) {
         return {
           'name': 1,
-        }
+        };
       }
       return {
         'name': 1,
@@ -215,13 +208,13 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
         'contactId': 1,
         'active': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.sequencedIdentifier) {
-        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
 
       if (options.search.props.showArchived) {
@@ -288,7 +281,7 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
           selector.dueDate = {
             $gte: formattedStartDate,
             $lte: formattedEndDate
-          }
+          };
         }
 
       }
@@ -343,7 +336,9 @@ Projects.after.insert(function(userId, doc) {
     _id: userId
   });
 
-  LogClientEvent(LogLevel.Info, user.profile.name + " created a new project", 'project', doc._id);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " created a new project", 'project', doc._id);
+  }
 
   if (Meteor.isServer) {
     if (user) {
@@ -394,26 +389,28 @@ Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
     _id: userId
   });
 
-  if (doc.name !== this.previous.name) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's name", 'project', doc._id);
-  }
-  if (doc.description !== this.previous.description) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's description", 'project', doc._id);
-  }
-  if (doc.companyId !== this.previous.companyId) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's company", 'project', doc._id);
-  }
-  if (doc.contactId !== this.previous.contactId) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's contact", 'project', doc._id);
-  }
-  if (doc.userId !== this.previous.userId) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's account manager", 'project', doc._id);
-  }
-  if (doc.value !== this.previous.value) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's value", 'project', doc._id);
-  }
-  if (doc.active !== this.previous.active) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's active state", 'project', doc._id);
+  if (user) {
+    if (doc.name !== this.previous.name) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's name", 'project', doc._id);
+    }
+    if (doc.description !== this.previous.description) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's description", 'project', doc._id);
+    }
+    if (doc.companyId !== this.previous.companyId) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's company", 'project', doc._id);
+    }
+    if (doc.contactId !== this.previous.contactId) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's contact", 'project', doc._id);
+    }
+    if (doc.userId !== this.previous.userId) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's account manager", 'project', doc._id);
+    }
+    if (doc.value !== this.previous.value) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's value", 'project', doc._id);
+    }
+    if (doc.active !== this.previous.active) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's active state", 'project', doc._id);
+    }
   }
 });
 
@@ -426,5 +423,7 @@ Projects.after.remove(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " deleted project '" + doc.name + "'", undefined, undefined);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted project '" + doc.name + "'", null, null);
+  }
 });
