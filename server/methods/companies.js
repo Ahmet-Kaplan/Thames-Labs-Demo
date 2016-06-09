@@ -84,6 +84,18 @@ Meteor.methods({
       }
     });
 
+    Activities.insert({
+      type: 'Note',
+      notes: sourceRecord.name + " was merged into this company",
+      createdAt: new Date(),
+      activityTimestamp: new Date(),
+      companyId: targetRecord._id,
+      primaryEntityId: targetRecord._id,
+      primaryEntityType: 'companies',
+      primaryEntityDisplayData: targetRecord.name,
+      createdBy: Meteor.userId()
+    });
+
     Activities.update({
       companyId: sourceId
     }, {
