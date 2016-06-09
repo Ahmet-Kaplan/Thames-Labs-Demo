@@ -26,7 +26,8 @@ Companies.helpers({
   },
   projects: function() {
     return Projects.find({
-      companyId: this._id
+      companyId: this._id,
+      active: true
     }, {
       sort: {
         createdAt: -1
@@ -111,20 +112,16 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadCompanies']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'name': 1
-      }
-    },
+    sort: () => ({ 'name': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       if (options.search.props.autosuggest) {
         return {
           'name': 1,
           'city': 1
-        }
+        };
       }
       return {
         'name': 1,
@@ -136,13 +133,13 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
         'phone': 1,
         'tags': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.sequencedIdentifier) {
-        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
 
       if (options.search.props.tags) {
@@ -167,7 +164,7 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
           $in: _.map(options.search.props.country.split(','), function(country) {
             return new RegExp(country, 'i');
           })
-        }
+        };
       }
 
       if (options.search.props.postcode) {
@@ -176,7 +173,7 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
           $in: _.map(options.search.props.postcode.split(','), function(postcode) {
             return new RegExp(postcode, 'i');
           })
-        }
+        };
       }
 
       if (options.search.props.searchById) {
@@ -193,7 +190,6 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
 //////////////////////
 
 Companies.before.insert(function(userId, doc) {
-
   if (doc.website) {
     var currentWebsite = doc.website;
     if (currentWebsite.indexOf('http://') === -1) {
@@ -203,44 +199,52 @@ Companies.before.insert(function(userId, doc) {
     }
   }
 
-  if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    var user = Meteor.users.findOne(userId);
-    var tenant = Tenants.findOne(user.group);
-    doc.sequencedIdentifier = tenant.settings.company.defaultNumber;
-  }
+  var user = Meteor.users.findOne(userId);
+  var tenant = Tenants.findOne(user.group);
+  doc.sequencedIdentifier = tenant.settings.company.defaultNumber;
 
   return true;
 });
 
 Companies.after.insert(function(userId, doc) {
-  logEvent('info', 'A new company has been created: ' + doc.name);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
 
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " created a new company", 'company', doc._id);
+  }
   if (Meteor.isServer) {
-    var user = Meteor.users.findOne({
-      _id: userId
-    });
-    var tenant = Tenants.findOne({
-      _id: user.group
-    });
-
-    if (!Roles.userIsInRole(userId, ['superadmin'])) {
-
-      Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'company', function(err, res) {
-        if (err) throw new Meteor.Error(err);
-        _.each(res, function(ex) {
-          CustomFields.insert({
-            name: ex.name,
-            value: (ex.value ? ex.value : ''),
-            defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
-            type: ex.type,
-            global: true,
-            order: ex.order,
-            target: 'company',
-            listValues: '',
-            entityId: doc._id
-          });
-        });
+    if (user) {
+      var tenant = Tenants.findOne({
+        _id: user.group
       });
+      if (tenant) {
+        if (!Roles.userIsInRole(userId, ['superadmin'])) {
+          Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'company', function(err, res) {
+            if (err) throw new Meteor.Error(err);
+            _.each(res, function(ex) {
+              CustomFields.insert({
+                name: ex.name,
+                value: (ex.value ? ex.value : ''),
+                defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+                type: ex.type,
+                global: true,
+                order: ex.order,
+                target: 'company',
+                listValues: '',
+                entityId: doc._id
+              }, function(err) {
+                if (err) {
+                  LogServerEvent(LogLevel.Warning, "An error occurred whilst instanciating the global custom field '" + ex.name + "': " + err, 'company', doc._id);
+                }
+              });
+            });
+          });
+        }
+      }
     }
 
     if (doc._groupId) {
@@ -250,53 +254,72 @@ Companies.after.insert(function(userId, doc) {
         $inc: {
           'settings.company.defaultNumber': 1
         }
+      }, function(err) {
+        if (err) {
+          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's RealTime ID company value: " + err, 'tenant', doc._groupId);
+          return;
+        }
       });
     }
   }
 });
 
 Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
-  if (this.previous.website !== doc.website && doc.website !== '') {
-    Meteor.call('getClearbitData', 'company', doc._id);
-  }
-  if (doc.name !== this.previous.name) {
-    logEvent('info', 'An existing company has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
-  }
-  if (doc.address !== this.previous.address) {
-    logEvent('info', 'An existing company has been updated: The value of "address" was changed from ' + this.previous.address + " to " + doc.address);
-  }
-  if (doc.address2 !== this.previous.address2) {
-    logEvent('info', 'An existing company has been updated: The value of "address2" was changed from ' + this.previous.address2 + " to " + doc.address2);
-  }
-  if (doc.city !== this.previous.city) {
-    logEvent('info', 'An existing company has been updated: The value of "city" was changed from ' + this.previous.city + " to " + doc.city);
-  }
-  if (doc.county !== this.previous.county) {
-    logEvent('info', 'An existing company has been updated: The value of "county" was changed from ' + this.previous.county + " to " + doc.county);
-  }
-  if (doc.postcode !== this.previous.postcode) {
-    logEvent('info', 'An existing company has been updated: The value of "postcode" was changed from ' + this.previous.postcode + " to " + doc.postcode);
-  }
-  if (doc.country !== this.previous.country) {
-    logEvent('info', 'An existing company has been updated: The value of "country" was changed from ' + this.previous.country + " to " + doc.country);
-  }
-  if (doc.website !== this.previous.website) {
-    logEvent('info', 'An existing company has been updated: The value of "website" was changed from ' + this.previous.website + " to " + doc.website);
-  }
-  if (doc.phone !== this.previous.phone) {
-    logEvent('info', 'An existing company has been updated: The value of "phone" was changed from ' + this.previous.phone + " to " + doc.phone);
-  }
-  if (doc.companiesHouseId !== this.previous.companiesHouseId) {
-    logEvent('info', 'An existing company has been updated: The value of "Companies House record" was changed from ' + this.previous.companiesHouseId + " to " + doc.companiesHouseId);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
+  if (user) {
+    if (this.previous.website !== doc.website && doc.website !== '') {
+      Meteor.call('getClearbitData', 'company', doc._id);
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's public information", 'company', doc._id);
+    }
+    if (doc.name !== this.previous.name) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's name", 'company', doc._id);
+    }
+    if (doc.address !== this.previous.address) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's primary address line", 'company', doc._id);
+    }
+    if (doc.address2 !== this.previous.address2) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's secondary address line", 'company', doc._id);
+    }
+    if (doc.city !== this.previous.city) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's city", 'company', doc._id);
+    }
+    if (doc.county !== this.previous.county) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's county", 'company', doc._id);
+    }
+    if (doc.postcode !== this.previous.postcode) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's postcode", 'company', doc._id);
+    }
+    if (doc.country !== this.previous.country) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's country", 'company', doc._id);
+    }
+    if (doc.website !== this.previous.website) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's website", 'company', doc._id);
+    }
+    if (doc.phone !== this.previous.phone) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's telephone number", 'company', doc._id);
+    }
+    if (doc.companiesHouseId !== this.previous.companiesHouseId) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's CompaniesHouse reference", 'company', doc._id);
+    }
   }
 }, {
   fetchPrevious: true
 });
 
 Companies.after.remove(function(userId, doc) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
   if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
     return;
   }
 
-  logEvent('info', 'A company has been deleted: ' + doc.name);
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted company '" + doc.name + "'", null, null);
+  }
 });

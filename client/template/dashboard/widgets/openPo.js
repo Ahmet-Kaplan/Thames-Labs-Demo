@@ -54,4 +54,4 @@ Template.openPoEntry.helpers({
 
     return total;
   }
-})
+});

@@ -165,7 +165,7 @@ Meteor.methods({
   },
 
   'search.dataDump': function() {
-    var collections = ['activities', 'companies', 'contacts', 'opportunities', 'projects', 'products', 'purchaseorders', 'tasks', 'auditLog'];
+    var collections = ['activities', 'companies', 'contacts', 'opportunities', 'projects', 'products', 'purchaseorders', 'tasks', 'eventLog'];
     var dataArray = [];
     var user = Meteor.users.findOne({
       _id: this.userId
@@ -181,7 +181,7 @@ Meteor.methods({
       var data = {
         name: c,
         data: res
-      }
+      };
       dataArray.push(data);
     });
 

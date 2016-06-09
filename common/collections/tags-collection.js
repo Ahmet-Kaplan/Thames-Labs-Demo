@@ -10,15 +10,13 @@ Collections.tags.index = TagsIndex = new EasySearch.Index({
   collection: Meteor.tags,
   fields: ['name'],
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return { 'name': 1 }
-    },
+    sort: () => ({ 'name': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.autosuggest) {
         return {
           'name': 1,
           'nRefs': 1
-        }
+        };
       }
       return {};
     },

@@ -15,10 +15,10 @@ Template.companyList.onRendered(function() {
 
 Template.companyList.helpers({
   companyCount: function() {
-     return Template.instance().totalCompanies.get();
+    return Template.instance().totalCompanies.get();
   },
   hasMultipleCompanies: function() {
-     return Template.instance().totalCompanies.get() !== 1;
+    return Template.instance().totalCompanies.get() !== 1;
   }
 });
 
@@ -30,5 +30,8 @@ Template.companyList.events({
   'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('companies');
+  },
+  'click #fab': function(event) {
+    Modal.show('insertNewCompanyModal', this);
   }
 });

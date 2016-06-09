@@ -141,10 +141,10 @@ function saveMyWidgets() {
     myWidgets[id] = widgetsDefault[id];
     myWidgets[id].displayed = true;
     myWidgets[id].autoPosition = false;
-    myWidgets[id].x = parseInt(data.gsX);
-    myWidgets[id].y = parseInt(data.gsY);
-    myWidgets[id].w = parseInt(data.gsWidth);
-    myWidgets[id].h = parseInt(data.gsHeight);
+    myWidgets[id].x = parseInt(data.gsX, 10);
+    myWidgets[id].y = parseInt(data.gsY, 10);
+    myWidgets[id].w = parseInt(data.gsWidth, 10);
+    myWidgets[id].h = parseInt(data.gsHeight, 10);
   });
 
   if (myWidgets !== {}) {
@@ -182,7 +182,9 @@ Template.dashboard.onCreated(function() {
 
   //Retrieve list of widgets from db if exists
   this.widgetListUser = new ReactiveVar({});
-  var savedWidgets = Meteor.user().profile.myWidgets;
+  if (!Roles.userIsInRole(Meteor.userId(), 'superadmin')) {
+    var savedWidgets = Meteor.user().profile.myWidgets;
+  }
   if (typeof savedWidgets === 'undefined' || savedWidgets === {}) {
     this.widgetListUser.set(widgetsDefault);
   } else {
@@ -212,7 +214,7 @@ Template.dashboard.onRendered(function() {
       }
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
-          userId = Meteor.userId();
+            userId = Meteor.userId();
         if (!Roles.userIsInRole(userId, [requiredPermission])) {
           return;
         }
@@ -236,13 +238,13 @@ Template.dashboard.onRendered(function() {
     saveMyWidgets();
   });
 
-  //Has user taken welcome tour yet?
+  //Has user seen the welcome modal yet?
   if (!Meteor.user().profile.welcomeTour) {
     Modal.show("firstRun");
-  } else if (bowser.mobile || bowser.tablet) {
+  } else if (Meteor.isCordova) {
     if (!Meteor.user().profile.mobile) {
       Modal.show("firstRunMobile");
-    };
+    }
   }
 });
 
@@ -257,14 +259,14 @@ Template.dashboard.events({
     if ($('#' + newWidgetName + 'Widget').length) {
       toastr.error('This widget is already displayed.');
       return;
-    } else {
-      var newWidgetList = Template.instance().widgetListUser.get();
-
-      newWidgetList[newWidgetName] = widgetsDefault[newWidgetName];
-      newWidgetList[newWidgetName].displayed = true;
-      newWidgetList[newWidgetName].autoPosition = true;
-      Template.instance().widgetListUser.set(newWidgetList);
     }
+
+    var newWidgetList = Template.instance().widgetListUser.get();
+
+    newWidgetList[newWidgetName] = widgetsDefault[newWidgetName];
+    newWidgetList[newWidgetName].displayed = true;
+    newWidgetList[newWidgetName].autoPosition = true;
+    Template.instance().widgetListUser.set(newWidgetList);
   },
 
   'click .close': function(e) {
@@ -289,7 +291,7 @@ Template.dashboard.helpers({
 
       if (!!widget.requiredPermission) {
         var requiredPermission = widget.requiredPermission,
-          userId = Meteor.userId();
+            userId = Meteor.userId();
         return Roles.userIsInRole(userId, [requiredPermission]);
       }
       return true;

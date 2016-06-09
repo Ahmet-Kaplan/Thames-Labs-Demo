@@ -1,11 +1,11 @@
 var subs = new SubsManager(),
-  router = FlowRouter,
-  layout = BlazeLayout;
+    router = FlowRouter,
+    layout = BlazeLayout;
 
 // These are route trigger functions
 // They're used for before / after actions on routes
 
-var tidyUpModals = function(context) {
+function tidyUpModals(context) {
   Modal.hide();
   $(".modal-backdrop").remove();
   $("body").removeClass('modal-open');
@@ -20,7 +20,37 @@ var tidyUpModals = function(context) {
     hopscotch.endTour();
     // }
   }
-};
+}
+
+// Adjust Heap settings to replace their crazy user ID with something more readable
+function setHeapParams(context) {
+  if (Roles.userIsInRole(Meteor.userId(), 'superadmin')) return;
+
+  var user = Meteor.users.findOne({
+    _id: Meteor.userId()
+  });
+  if (!user) return;
+  var profile = user.profile;
+  if (!profile) return;
+
+  if (heap) {
+    var name = profile.name;
+    var tenant = Tenants.findOne({
+      _id: user.group
+    });
+    var tenantName = (tenant ? " (" + tenant.name + ")" : '');
+
+    var identifier = name + tenantName;
+    heap.identify(identifier);
+    heap.addUserProperties({
+      'Name': name,
+      'Tenant': (tenant ? tenant.name : '')
+    });
+  }
+}
+
+FlowRouter.triggers.enter([setHeapParams]);
+
 
 // These functions add the triggers to routes globally
 router.triggers.exit(tidyUpModals);
@@ -86,7 +116,7 @@ router.route('/audit', {
   name: 'audit',
   action: function() {
     layout.render('appLayout', {
-      main: "auditLog"
+      main: "eventLog"
     });
   }
 });
@@ -249,7 +279,7 @@ router.route('/tasks', {
 router.route('/tasks/:id', {
   name: 'task',
   subscriptions: function(params) {
-    this.register('taskById', subs.subscribe('taskById', params.id))
+    this.register('taskById', subs.subscribe('taskById', params.id));
   },
   action: function() {
     layout.render('appLayout', {

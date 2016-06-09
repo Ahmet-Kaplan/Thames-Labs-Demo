@@ -59,7 +59,7 @@ Meteor.methods({
       });
     }
   },
-  "extInfo.addNewGlobal": function(cfName, cfType, cfValue, cfEntity) {
+  "extInfo.addNewGlobal": function(cfName, cfType, cfValue, cfEntity, userId) {
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
       return 1;
     }
@@ -90,14 +90,14 @@ Meteor.methods({
         }
 
         if (CustomFields.findOne({
-            name: cfName,
-            target: cfEntity
-          })) {
-          duplicateFlag = true
+          name: cfName,
+          target: cfEntity
+        })) {
+          duplicateFlag = true;
         }
 
         if (duplicateFlag === false) {
-          var tenantCFId = CustomFields.insert({
+          CustomFields.insert({
             name: cfName,
             value: cfValue,
             defaultValue: (cfType === 'picklist' ? '' : cfValue),
@@ -109,7 +109,13 @@ Meteor.methods({
             entityId: user.group
           });
 
-          _.each(targets, function(ox) {
+          var totalCount = targets.length;
+
+          _.each(targets, function(ox, iter) {
+
+            var percDone = (( iter / totalCount) * 100).toFixed(2);
+            UserSession.set("globalFieldProgress", percDone, userId);
+
             CustomFields.insert({
               name: cfName,
               value: cfValue,
@@ -153,7 +159,9 @@ Meteor.methods({
 
     Partitioner.bindGroup(user.group, function() {
       data = CustomFields.find({
-        entityId: extInfoObj.entityId
+        entityId: extInfoObj.entityId,
+        target: extInfoObj.target,
+        global: true
       }).fetch();
     });
 
@@ -191,6 +199,33 @@ Meteor.methods({
           });
         }
       }
+    });
+
+    var updatedOrder = [];
+    Partitioner.bindGroup(user.group, function() {
+      updatedOrder = CustomFields.find({
+        entityId: extInfoObj.entityId,
+        target: extInfoObj.target,
+        global: true
+      }).fetch().sort(function(a, b) {
+        if (a.order < b.order) return -1;
+        if (a.order > b.order) return 1;
+        return 0;
+      });
+
+      _.each(updatedOrder, function(field, i) {
+        CustomFields.update({
+          target: field.target,
+          global: true,
+          name: field.name
+        }, {
+          $set: {
+            order: i
+          }
+        }, {
+          multi: true
+        });
+      });
     });
 
     return {

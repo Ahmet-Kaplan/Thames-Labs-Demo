@@ -1,7 +1,7 @@
 Template.loading.rendered = function() {
-    $('#loading-page').fadeIn(200);
+  $('#loading-page').fadeIn(200);
 };
 
 Template.loading.destroyed = function() {
-    $('#loading-page').fadeOut(200);
+  $('#loading-page').fadeOut(200);
 };

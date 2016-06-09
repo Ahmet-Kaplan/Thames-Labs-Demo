@@ -20,7 +20,7 @@ Meteor.startup(function() {
           console.log("\t---------- Email end ----------");
         }
       }
-    }
+    };
   }
 
   if (!process.env.CI) {
@@ -84,6 +84,16 @@ Meteor.startup(function() {
         });
       }
     });
+  });
+
+  // Clear any event logs older than X days old
+  var days = 45;
+  Meteor.call('clearRecentEvents', days, function(err, res) {
+    if (err) throw new Meteor.Error(err);
+    if (res) {
+      var cutOffTime = moment().subtract(days, 'days').format('Do MMMM YYYY, HH:mm');
+      console.log("Removed " + res + " events from the event log (cut-off period: " + cutOffTime + ")");
+    }
   });
 
 });

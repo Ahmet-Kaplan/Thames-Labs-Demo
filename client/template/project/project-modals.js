@@ -23,11 +23,7 @@ Template.newProjectForm.helpers({
     });
   },
   showContacts: function() {
-    if (Session.get('sc') === null) {
-      return false;
-    } else {
-      return true;
-    }
+    return (Session.get('sc') !== null);
   },
   currentUser: function() {
     return Meteor.userId();
@@ -61,10 +57,14 @@ Template.updateProjectForm.helpers({
     });
   },
   companyName: function() {
-    return Companies.findOne().name;
+    return Companies.findOne({
+      _id: this.companyId
+    }).name;
   },
   contactName: function() {
-    var contact = Contacts.findOne();
+    var contact = Contacts.findOne({
+      _id: this.contactId
+    });
     return contact.forename + ' ' + contact.surname;
   }
 });
@@ -82,11 +82,7 @@ Template.newCompanyProjectForm.helpers({
     });
   },
   showContacts: function() {
-    if (Session.get('sc') === null) {
-      return false;
-    } else {
-      return true;
-    }
+    return (Session.get('sc') !== null);
   },
   currentUser: function() {
     return Meteor.userId();
@@ -100,7 +96,9 @@ Template.newCompanyProjectForm.helpers({
     });
   },
   companyName: function() {
-    return Companies.findOne().name;
+    return Companies.findOne({
+      _id: this.companyId
+    }).name;
   }
 });
 
@@ -131,10 +129,14 @@ Template.newContactProjectForm.helpers({
     });
   },
   companyName: function() {
-    return Companies.findOne().name;
+    return Companies.findOne({
+      _id: this.companyId
+    }).name;
   },
   contactName: function() {
-    var contact = Contacts.findOne();
+    var contact = Contacts.findOne({
+      _id: this.contactId
+    });
     return contact.forename + ' ' + contact.surname;
   }
 });

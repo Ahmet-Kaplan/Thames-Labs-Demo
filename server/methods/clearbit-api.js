@@ -12,8 +12,8 @@ Meteor.methods({
     if (entityName === 'company') {
       var company = Companies.findOne(entityId);
       var domain = url.parse(company.website).hostname;
-      var requestUrl = 'https://company-stream.clearbit.com/v1/companies/domain/' + domain;
-      var authToken = "Bearer " + clearbitApiKey;
+      const requestUrl = 'https://company-stream.clearbit.com/v1/companies/domain/' + domain;
+      const authToken = "Bearer " + clearbitApiKey;
       Meteor.http.get(requestUrl, {
         headers: {
           "Authorization": authToken
@@ -26,7 +26,7 @@ Meteor.methods({
             }
           });
         } else {
-          var clearbitData = _.clone(res.data, true);
+          const clearbitData = _.clone(res.data, true);
           Companies.update(
             entityId, {
               $set: {
@@ -39,8 +39,8 @@ Meteor.methods({
 
     } else if (entityName === 'contact') {
       var contact = Contacts.findOne(entityId);
-      var requestUrl = 'https://person-stream.clearbit.com/v1/people/email/' + contact.email;
-      var authToken = "Bearer " + clearbitApiKey;
+      const requestUrl = 'https://person-stream.clearbit.com/v1/people/email/' + contact.email;
+      const authToken = "Bearer " + clearbitApiKey;
       Meteor.http.get(requestUrl, {
         headers: {
           "Authorization": authToken
@@ -53,7 +53,7 @@ Meteor.methods({
             }
           });
         } else {
-          var clearbitData = _.clone(res.data, true);
+          const clearbitData = _.clone(res.data, true);
           Contacts.update(
             entityId, {
               $set: {
@@ -81,14 +81,14 @@ Meteor.methods({
     var domainRegex = new RegExp('^(https?\://)?(www\.)?[a-z0-9\.-]+\.[a-z]{2,4}/?$');
     var domainQuery = null;
 
-    if(queryString.match(domainRegex) !== null) {
+    if (queryString.match(domainRegex) !== null) {
       var domainSplit = queryString.replace(/https?\:\/\//, '').replace(/www\./, '').replace(' ', '').split('/');
-      domainQuery = domainSplit[0]
+      domainQuery = domainSplit[0];
     }
 
-    if(!!domainQuery && domainQuery.length > 0) {
+    if (!!domainQuery && domainQuery.length > 0) {
       Company.find({
-          domain: domainQuery
+        domain: domainQuery
       }).then(function(search) {
         clearbitData.return({
           total: 1,

@@ -27,7 +27,11 @@ Template.productList.onRendered(function() {
     template.averageProductsCost.set(data.Value);
   });
 
-  $('[data-toggle="popover"]').popover({html: true, placement: "bottom", container: '.list-header-right'});
+  $('[data-toggle="popover"]').popover({
+    html: true,
+    placement: "bottom",
+    container: '.list-header-right'
+  });
 });
 
 Template.productList.events({
@@ -41,15 +45,19 @@ Template.productList.events({
   },
   'click #ref_productsOverviewWidget': function(event, template) {
 
-      Meteor.call('report.numberOfProducts', function(err, data) {
-        template.totalProducts.set(data.Count);
-      });
-      Meteor.call('report.costOfProducts', function(err, data) {
-        template.totalProductsCost.set(data.Value);
-      });
-      Meteor.call('report.averageProductsCost', function(err, data) {
-        template.averageProductsCost.set(data.Value);
-      });
+    Meteor.call('report.numberOfProducts', function(err, data) {
+      template.totalProducts.set(data.Count);
+    });
+    Meteor.call('report.costOfProducts', function(err, data) {
+      template.totalProductsCost.set(data.Value);
+    });
+    Meteor.call('report.averageProductsCost', function(err, data) {
+      template.averageProductsCost.set(data.Value);
+    });
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('insertProductModal', this);
   }
 });
 
@@ -64,9 +72,9 @@ Template.productList.helpers({
     return Template.instance().averageProductsCost.get();
   },
   productCount: function() {
-     return Template.instance().productCount.get();
+    return Template.instance().productCount.get();
   },
   hasMultipleProducts: function() {
-     return Template.instance().productCount.get() !== 1;
+    return Template.instance().productCount.get() !== 1;
   }
 });

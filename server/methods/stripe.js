@@ -5,42 +5,41 @@ var postRoutes = Picker.filter(function(req, res) {
   return req.method == "POST";
 });
 
-//respondly:router-server: route for webhooks
 postRoutes.route('/webhook/stripe', function(params, req, res) {
   if (req.body.object !== 'event') {
-    return res.send(400);
+    res.writeHead(400);
+    return res.end();
   }
 
   if (req.body.id === "evt_00000000000000") {
+    // Test transaction
     var event = req.body;
     var o = event.data.object;
     Meteor.log._("Stripe webhook received: " + event.type + ", data object follows.");
     Meteor.log._(o);
-    res.send(200);
   } else {
-    Stripe.events.retrieve(req.body.id, function(err, event) {
-      // if (err) { || !event) {
+    Stripe.events.retrieve(req.body.id, Meteor.bindEnvironment(function(err, evt) {
       if (err) {
-        Meteor.log._(err);
-        return res.send(401);
+        throw new Meteor.Error(404, err);
       }
 
-      var o = event.data.object;
-      Meteor.log._("Stripe webhook received: " + event.type + ", data object follows.");
-      Meteor.log._(o);
+      var obj = evt.data.object;
+      Meteor.log._("Stripe webhook received: " + evt.type + ", data object follows.");
+      Meteor.log._(obj);
 
       Email.send({
         to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
         from: 'stripe@realtimecrm.co.uk',
-        subject: 'RealtimeCRM received a webhook from Stripe! [' + event.type + ']',
-        text: o
+        subject: 'RealtimeCRM received a webhook from Stripe! [' + evt.type + ']',
+        text: obj
       });
-
-      res.send(200);
-    });
+    }));
   }
+  // should perhaps return a future so that we can adjust depending on callback from
+  // `Stripe.events.retreive`
+  res.writeHead(200);
+  return res.end();
 });
-
 
 Meteor.methods({
   'stripe.getPK': function() {
@@ -84,10 +83,9 @@ Meteor.methods({
       Meteor.call('stripe.getCoupon', coupon, function(err, response) {
         if (err || !response) {
           return false;
-        } else {
-          customerParameters.coupon = coupon;
-          return true;
         }
+        customerParameters.coupon = coupon;
+        return true;
       });
     }
 
@@ -205,7 +203,7 @@ Meteor.methods({
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may subscribe.');
-    } else if (stripeId === undefined || stripeSubs === undefined) {
+    } else if (typeof stripeId === "undefined" || typeof stripeSubs === "undefined") {
       throw new Meteor.Error(400, 'It appears you are not subscribed.');
     }
 
@@ -216,8 +214,8 @@ Meteor.methods({
         throw new Meteor.Error('Error', err);
       }
       Stripe.customers.cancelSubscription(stripeId, stripeSubs, {
-          at_period_end: true
-        },
+        at_period_end: true
+      },
         Meteor.bindEnvironment(function(err, confirmation) {
           if (err) {
             throw new Meteor.Error('Error', err);
@@ -280,10 +278,9 @@ Meteor.methods({
       Meteor.call('stripe.getCoupon', coupon, function(err, response) {
         if (err || !response) {
           return false;
-        } else {
-          params.coupon = coupon;
-          return true;
         }
+        params.coupon = coupon;
+        return true;
       });
     }
 
@@ -449,9 +446,8 @@ Meteor.methods({
         if (err.message.indexOf('No upcoming invoices') !== -1) {
           upcomingInvoice.return(false);
           return false;
-        } else {
-          throw new Meteor.Error(400, err);
         }
+        throw new Meteor.Error(400, err);
       }
 
       upcomingInvoice.return(upcoming);
@@ -518,23 +514,23 @@ Meteor.methods({
         }
       });
       return true;
-    } else {
-      Stripe.coupons.retrieve(couponId, Meteor.bindEnvironment(function(err, coupon) {
-        if (err) {
-          couponValid.return(false);
-        } else if (coupon.valid === true) {
-          Tenants.update(tenantId, {
-            $set: {
-              'stripe.coupon': couponId
-            }
-          });
-          couponValid.return(true);
-        } else {
-          couponValid.return(false);
-        }
-      }));
-
-      return couponValid.wait();
     }
+
+    Stripe.coupons.retrieve(couponId, Meteor.bindEnvironment(function(err, coupon) {
+      if (err) {
+        couponValid.return(false);
+      } else if (coupon.valid === true) {
+        Tenants.update(tenantId, {
+          $set: {
+            'stripe.coupon': couponId
+          }
+        });
+        couponValid.return(true);
+      } else {
+        couponValid.return(false);
+      }
+    }));
+
+    return couponValid.wait();
   }
 });

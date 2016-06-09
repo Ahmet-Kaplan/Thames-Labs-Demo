@@ -15,10 +15,10 @@ Template.contactList.onRendered(function() {
 
 Template.contactList.helpers({
   contactCount: function() {
-     return Template.instance().totalContacts.get();
+    return Template.instance().totalContacts.get();
   },
   hasMultipleContacts: function() {
-     return Template.instance().totalContacts.get() !== 1;
+    return Template.instance().totalContacts.get() !== 1;
   }
 });
 
@@ -30,5 +30,9 @@ Template.contactList.events({
   'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('contacts');
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('insertContactModal', this);
   }
 });

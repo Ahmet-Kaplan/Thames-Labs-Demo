@@ -17,4 +17,4 @@ AutoForm.hooks({
       toastr.error('Tenant settings update error: ' + error);
     }
   }
-})
+});

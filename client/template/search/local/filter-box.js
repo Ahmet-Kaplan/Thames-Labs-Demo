@@ -3,9 +3,12 @@ var searchInput = new ReactiveVar('');
 var activeSelection = new ReactiveVar({});
 
 function updateActiveSelection() {
-  if($('#filtersSearch').find('.active').length) {
-      activeSelection.set({text: $('#filtersSearch').find('.active').text(), value: $('#filtersSearch').find('.active').data('value')});
-    }
+  if ($('#filtersSearch').find('.active').length) {
+    activeSelection.set({
+      text: $('#filtersSearch').find('.active').text(),
+      value: $('#filtersSearch').find('.active').data('value')
+    });
+  }
 }
 
 function displayFilter(mainCollectionName, selectize, template) {
@@ -16,9 +19,9 @@ function displayFilter(mainCollectionName, selectize, template) {
     var search = searchInput.get();
     var matchedFilters = _.some(filters, function(filter) {
 
-      var filterRegexp = new RegExp(filter.display.trim(), 'i')
+      var filterRegexp = new RegExp(filter.display.trim(), 'i');
 
-      if(filterRegexp.test(search)) {
+      if (filterRegexp.test(search)) {
 
         currentFilter.set(filter);
 
@@ -31,11 +34,11 @@ function displayFilter(mainCollectionName, selectize, template) {
         selectize.clearOptions();
 
         //If filter is searchable, i.e. has a collection (unlike date, value...)
-        if(filter.collectionName) {
+        if (filter.collectionName) {
           var recordsCursor = Collections[filter.collectionName].index.search(searchString, {
             props: props
           });
-          if(recordsCursor.isReady()) {
+          if (recordsCursor.isReady()) {
             var records = recordsCursor.fetch();
             _.each(records, function(record) {
               selectize.addOption({
@@ -45,10 +48,10 @@ function displayFilter(mainCollectionName, selectize, template) {
             });
           }
 
-        //If filter doesn't have collection, allow creation to handle the search
+          //If filter doesn't have collection, allow creation to handle the search
         } else {
           //If fixed default options have been set, list them
-          if(filter.defaultOptions) {
+          if (filter.defaultOptions) {
             _.each(filter.defaultOptions(), function(option, i) {
               selectize.addOption({
                 _id: 'setUnlistedFilter' + i,
@@ -56,11 +59,17 @@ function displayFilter(mainCollectionName, selectize, template) {
               });
             });
             //If defaultOptions are not the only possible values
-            if(filter.strict !== true) {
-              selectize.addOption({_id: 'setUnlistedFilter', name: search});
+            if (filter.strict !== true) {
+              selectize.addOption({
+                _id: 'setUnlistedFilter',
+                name: search
+              });
             }
           } else {
-            selectize.addOption({_id: 'setUnlistedFilter', name: search});
+            selectize.addOption({
+              _id: 'setUnlistedFilter',
+              name: search
+            });
           }
         }
 
@@ -72,10 +81,13 @@ function displayFilter(mainCollectionName, selectize, template) {
 
     //If no match, the user may have erased the entry
     //so the list is no longer valid
-    if(!matchedFilters) {
+    if (!matchedFilters) {
 
       _.each(filters, function(filter) {
-        selectize.addOption({_id: 'setFilter' + '_' + filter.prop , name: filter.display});
+        selectize.addOption({
+          _id: 'setFilter' + '_' + filter.prop,
+          name: filter.display
+        });
       });
       selectize.refreshOptions(true);
     }
@@ -84,45 +96,44 @@ function displayFilter(mainCollectionName, selectize, template) {
 
 function applyFilter(text, value, mainCollectionName, selectize) {
   //If user clicked on an item in the generated filters list, trigger filter display
-  if(value.search('setFilter') !== -1) {
+  if (value.search('setFilter') !== -1) {
     selectize.clearOptions();
     $('#filtersSearch input').val(text + ' ');
     searchInput.set(text + ' ');
 
-  //If the filter is not a predefined value (e.g. date)
-  } else if(value.search("setUnlistedFilter") !== -1) {
-    var filter = currentFilter.get();
+    //If the filter is not a predefined value (e.g. date)
+  } else if (value.search("setUnlistedFilter") !== -1) {
+    const filter = currentFilter.get();
     text = text.split(filter.display);
-    value = text[text.length -1].trim();
+    value = text[text.length - 1].trim();
 
-    if(filter.verify && !filter.verify(value)) {
+    if (filter.verify && !filter.verify(value)) {
       selectize.clearOptions();
       selectize.blur();
       return false;
+    }
+    //Apply prop taking into account whether the filter accepts multiple values or not
+    if (filter.allowMultiple === true) {
+      const searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
+      const updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
+      updatedProp.push(value);
+      //Note that only strings can be passed, the array is passed as a comma separated list
+      Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, updatedProp.join(','));
     } else {
-      //Apply prop taking into account whether the filter accepts multiple values or not
-      if(filter.allowMultiple === true) {
-        var searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
-        var updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
-        updatedProp.push(value);
-        //Note that only strings can be passed, the array is passed as a comma separated list
-        Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, updatedProp.join(','));
-      } else {
-        Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);
-      }
-
-      selectize.clearOptions();
-      selectize.blur();
+      Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, value);
     }
 
-  //Otherwise apply the said filter
-  } else {
-    var filter = currentFilter.get();
-    var filterRegexp = new RegExp(filter.display.trim(), 'i')
+    selectize.clearOptions();
+    selectize.blur();
 
-    if(filterRegexp.test(text)) {
-      var searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
-      var updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
+    //Otherwise apply the said filter
+  } else {
+    const filter = currentFilter.get();
+    var filterRegexp = new RegExp(filter.display.trim(), 'i');
+
+    if (filterRegexp.test(text)) {
+      const searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
+      const updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
       updatedProp.push(value);
 
       //Note that only strings can be passed, the array is passed as a comma separated list
@@ -172,20 +183,20 @@ Template.filterBox.onRendered(function() {
 
   //Trick to handle the use of enter key twice which is not taken care of by Selectize
   $('#filtersSearch').on('keyup', function(evt) {
-    if(evt.keyCode === 13) {
+    if (evt.keyCode === 13) {
       var data = activeSelection.get();
-      if(data && data.text && data.value) {
+      if (data && data.text && data.value) {
         var text = data.text;
         var value = data.value;
         applyFilter(text, value, mainCollectionName, $($select)[0].selectize);
       }
     }
     updateActiveSelection();
-  })
+  });
 });
 
 Template.filterBox.onDestroyed(function() {
-  if(this.handle) {
+  if (this.handle) {
     this.handle.stop();
   }
-})
+});

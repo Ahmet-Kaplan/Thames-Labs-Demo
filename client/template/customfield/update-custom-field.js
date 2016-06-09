@@ -1,5 +1,27 @@
 Template.updateCustomField.onRendered(function() {
   $.getScript('/vendor/medium/medium-editor.min.js');
+  var self = this;
+
+  Meteor.call('customFields.getGlobalsByTenantEntity', Meteor.user().group, self.data.entity_type, function(e, r) {
+    _.each(r, function(cf, i) {
+      var exists = CustomFields.findOne({
+        name: cf.name
+      });
+      if (!exists) {
+        CustomFields.insert({
+          name: cf.name,
+          value: cf.value,
+          defaultValue: (cf.type === 'picklist' ? '' : cf.value),
+          type: cf.type,
+          global: true,
+          order: i,
+          target: self.data.entity_type,
+          listValues: (cf.type !== 'picklist' ? '' : cf.value),
+          entityId: self.data.entity_data._id
+        });
+      }
+    });
+  });
 });
 
 Template.updateCustomField.helpers({
@@ -8,7 +30,10 @@ Template.updateCustomField.helpers({
 
     var arr = CustomFields.find({
       entityId: this.entity_data._id,
-      global: true
+      global: true,
+      type: {
+        $ne: 'label'
+      }
     }).fetch();
 
     arr = arr.sort(function(a, b) {

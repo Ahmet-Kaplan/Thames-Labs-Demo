@@ -1,6 +1,8 @@
 Template.couponModal.helpers({
   activeCoupon: function() {
-    return Tenants.findOne().stripe.coupon;
+    return Tenants.findOne({
+      _id: Meteor.user().group
+    }).stripe.coupon;
   }
 });
 
@@ -29,6 +31,6 @@ Template.couponModal.events({
         toastr.success('Your coupon has been updated successfully');
         Modal.hide();
       }
-    })
+    });
   }
-})
+});

@@ -13,24 +13,11 @@ Meteor.publish('userPresence', function() {
   });
 });
 
-Meteor.publish("globalAuditData", function() {
-  if (!Roles.userIsInRole(this.userId, ['superadmin'])) return this.ready();
-  return GlobalAudit.find({});
-});
-
-Meteor.publish("auditData", function() {
-  if (!Roles.userIsInRole(this.userId, ['superadmin'])) return this.ready();
-  return Partitioner.directOperation(function() {
-    return AuditLog.find({});
-  });
-});
-
 Meteor.publish("allTenants", function() {
   if (Roles.userIsInRole(this.userId, ['superadmin'])) {
     return Tenants.find({});
-  } else {
-    this.ready();
   }
+  this.ready();
 });
 
 Meteor.publish("activeTenantData", function() {
@@ -195,7 +182,7 @@ Meteor.publish("globalCustomFields", function() {
     _id: {
       $in: ids
     }
-  })
+  });
 });
 Meteor.publish("globalCustomFieldsByEntityType", function(entityType) {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
@@ -211,7 +198,7 @@ Meteor.publish("globalCustomFieldsByEntityType", function(entityType) {
     _id: {
       $in: ids
     }
-  })
+  });
 });
 
 
@@ -379,9 +366,9 @@ Meteor.publish("opportunitiesByCompanyId", function(id) {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Opportunities.find({
     companyId: id,
-    isArchived: {
-      $ne: true
-    }
+    // isArchived: {
+      // $ne: true
+    // }
   });
 });
 Meteor.publish("opportunitiesByContactId", function(id) {
@@ -389,9 +376,9 @@ Meteor.publish("opportunitiesByContactId", function(id) {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Opportunities.find({
     contactId: id,
-    isArchived: {
-      $ne: true
-    }
+    // isArchived: {
+      // $ne: true
+    // }
   });
 });
 

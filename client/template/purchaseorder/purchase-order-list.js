@@ -44,10 +44,10 @@ Template.purchaseOrderList.onRendered(function() {
 
   this.autorun(() => {
     const searchComponent = this.index.getComponentDict(),
-      searchOptions = searchComponent.get('searchOptions'),
-      props = searchOptions.props ? searchOptions.props : {};
+          searchOptions = searchComponent.get('searchOptions'),
+          props = searchOptions.props ? searchOptions.props : {};
 
-    this.showClosed.set(props.showClosed ? true : false);
+    this.showClosed.set(!!props.showClosed);
   });
 
   Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
@@ -130,6 +130,10 @@ Template.purchaseOrderList.events({
     }
     $(event.target).blur();
   },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('newPurchaseOrderForm', this);
+  }
 });
 
 Template.purchaseOrderList.helpers({
@@ -158,9 +162,9 @@ Template.purchaseOrderList.helpers({
     return Template.instance().showItems.get();
   },
   poCount: function() {
-     return Template.instance().totalPOs.get();
+    return Template.instance().totalPOs.get();
   },
   hasMultiplePOs: function() {
-     return Template.instance().totalPOs.get() !== 1;
+    return Template.instance().totalPOs.get() !== 1;
   }
 });

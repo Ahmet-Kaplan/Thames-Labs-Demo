@@ -25,7 +25,7 @@ Template.nav.onCreated(function() {
         var options = {
           body: getNotification.shortDescription + ": " + getNotification.detail,
           icon: '/dark-icon.svg'
-        }
+        };
 
         if (Notification.permission === "granted") {
           new Notification(getNotification.title, options);
@@ -35,7 +35,7 @@ Template.nav.onCreated(function() {
             if (permission === "granted") {
               new Notification(getNotification.title, options);
             }
-          })
+          });
         }
 
       }
@@ -90,7 +90,7 @@ Template.nav.helpers({
     return show;
   },
   loggedIn: function() {
-    return (Meteor.userId() ? true : false);
+    return !!Meteor.userId();
   },
   userName: function() {
     if (!Meteor.userId()) {
@@ -130,11 +130,7 @@ Template.nav.helpers({
     }).fetch()[0];
 
     if (recent) {
-      if (recent.createdAt >= yesterday) {
-        return true;
-      } else {
-        return false;
-      }
+      return (recent.createdAt >= yesterday);
     }
   },
   recentNoteCount: function() {
@@ -155,10 +151,8 @@ Template.nav.helpers({
       var profile = ux.profile;
       if (!profile.favourites) {
         return null;
-      } else {
-        favList = profile.favourites;
-        return favList;
       }
+      return profile.favourites;
     }
   },
   fabEnabled: function() {
@@ -217,20 +211,19 @@ Template.nav.events({
       if (exists) {
         toastr.info('Page already favourited.');
         return;
-      } else {
-        var x = {
-          name: document.title,
-          url: FlowRouter.current().path
-        }
-        favList.push(x);
-        profile.favourites = favList;
       }
-    } else {
-      var fav = [];
-      var x = {
+      const x = {
         name: document.title,
         url: FlowRouter.current().path
-      }
+      };
+      favList.push(x);
+      profile.favourites = favList;
+    } else {
+      var fav = [];
+      const x = {
+        name: document.title,
+        url: FlowRouter.current().path
+      };
       fav.push(x);
       profile.favourites = fav;
     }
@@ -308,7 +301,7 @@ Template.nav.events({
   'click #id-menu-button': function() {
     if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
       document.getElementById("id-view-sidemenu").className =
-        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '');
     } else {
       document.getElementById("id-view-sidemenu").className = "active";
     }
@@ -316,29 +309,36 @@ Template.nav.events({
   'click .panel-body > table > tr > td > a': function() {
     if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
       document.getElementById("id-view-sidemenu").className =
-        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '');
     }
   },
   'click .dismiss-on-click': function() {
     if (document.getElementById("id-view-sidemenu").className.match(/(?:^|\s)active(?!\S)/)) {
       document.getElementById("id-view-sidemenu").className =
-        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '')
+        document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '');
     }
   },
-  'click #toggleFab': function(event, template) {
-    if (Template.instance().fab.get() === true) {
-      template.fab.set(false);
-    } else {
-      template.fab.set(true);
-    };
-  },
-  'click #fab-btn': function(event, template) {
-    if (Template.instance().fabOpen.get() === true) {
-      template.fabOpen.set(false);
-    } else {
-      template.fabOpen.set(true);
-    };
-  },
+
+  // 'click #toggleFab': function(event, template) {
+  //   if (Template.instance().fab.get() === true) {
+  //     template.fab.set(false);
+  //   } else {
+  //     template.fab.set(true);
+  //   };
+  // },
+  // 'click #fab-btn': function(event, template) {
+  //   var title = document.title;
+  //   if(title === "Companies") {
+  //     Modal.show('insertNewCompanyModal', this);
+  //   }else {
+  //     if (Template.instance().fabOpen.get() === true) {
+  //       template.fabOpen.set(false);
+  //     } else {
+  //       template.fabOpen.set(true);
+  //     };
+  //   }
+
+  // },
   'click #fabAddContacts': function(event) {
     event.preventDefault();
     Modal.show('insertContactModal', this);
@@ -363,20 +363,24 @@ Template.notice.helpers({
     var s = c.substr(0, 40);
     if (s.length > 37) {
       return s + "...";
-    } else {
-      return s;
     }
+    return s;
   },
+  shortDetail: function() {
+    var c = this.detail;
+    var s = c.substr(0, 40);
+    if (s.length > 37) {
+      return s + "...";
+    }
+    return s;
+  },
+
   recentNote: function() {
     var today = new Date();
     var yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    if (this.createdAt >= yesterday) {
-      return true;
-    } else {
-      return false;
-    }
+    return (this.createdAt >= yesterday);
   }
 });
 
@@ -393,20 +397,15 @@ Template.menuNotice.helpers({
     var s = c.substr(0, 40);
     if (s.length > 37) {
       return s + "...";
-    } else {
-      return s;
     }
+    return s;
   },
   recentNote: function() {
     var today = new Date();
     var yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    if (this.createdAt >= yesterday) {
-      return true;
-    } else {
-      return false;
-    }
+    return (this.createdAt >= yesterday);
   }
 });
 
@@ -428,4 +427,4 @@ Template.notificationModal.events({
     Meteor.call('removeNotification', this._id);
     Modal.hide();
   }
-})
+});

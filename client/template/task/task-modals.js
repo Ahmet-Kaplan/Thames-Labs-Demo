@@ -1,12 +1,15 @@
 Template.insertNewTask.onRendered(function() {
   Session.set('showRemindMe', false);
   Session.set('hasDueDate', false);
-  if(this.data.dueDate) {
+  if (this.data.dueDate) {
     $('#taskDueDate').data("DateTimePicker").setDate(this.data.dueDate);
   }
 });
 
 Template.insertNewTask.helpers({
+  parentTask: function() {
+    return this._id;
+  },
   hasDueDate: function() {
     return Session.get('hasDueDate');
   },
@@ -20,14 +23,14 @@ Template.insertNewTask.helpers({
     return this.entity_id;
   },
   isUserTask: function() {
-    return (this.entity_type === "user" ? true : false);
+    return (this.entity_type === "user");
   },
   getCurrentUserId: function() {
     return Meteor.userId();
   },
   autosuggestIndex: function() {
     var searchIndex;
-    switch(this.entity_type) {
+    switch (this.entity_type) {
       case 'company':
         Meteor.subscribe('allCompanies');
         searchIndex = CompaniesIndex;
@@ -41,25 +44,24 @@ Template.insertNewTask.helpers({
         searchIndex = OpportunitiesIndex;
         break;
       case 'project':
-        Meteor.subscribe('allProjects')
+        Meteor.subscribe('allProjects');
         searchIndex = ProjectsIndex;
         break;
     }
     return searchIndex;
   },
   displayLabel: function() {
-    if(this.entity_type === "user") {
+    if (this.entity_type === "user") {
       return 'Personal';
-    } else {
-      return this.entity_type.charAt(0).toUpperCase() + this.entity_type.slice(1);
     }
+    return this.entity_type.charAt(0).toUpperCase() + this.entity_type.slice(1);
   }
 });
 
 Template.insertNewTask.events({
   'change input[name=dueDate]': function(e) {
     e.preventDefault();
-    if($('input[name=dueDate]').val()) {
+    if ($('input[name=dueDate]').val()) {
       Session.set('hasDueDate', true);
     } else {
       Session.set('hasDueDate', false);
@@ -74,10 +76,23 @@ Template.insertNewTask.events({
 
 Template.updateTask.onRendered(function() {
   Session.set('showRemindMe', this.data.remindMe);
-  Session.set('hasDueDate', this.data.dueDate !== undefined);
+  Session.set('hasDueDate', typeof this.data.dueDate !== "undefined");
 });
 
 Template.updateTask.helpers({
+  exclusions: function() {
+    var excludes = [];
+
+    excludes.push(this._id);
+
+    var subs = ReactiveMethod.call("tasks.getSubTasks", this._id);
+    if (subs && subs.length > 0) {
+      _.each(subs, (s) => {
+        excludes.push(s._id);
+      });
+    }
+    return excludes.join(',');
+  },
   hasDueDate: function() {
     return Session.get('hasDueDate');
   },
@@ -89,7 +104,7 @@ Template.updateTask.helpers({
 Template.updateTask.events({
   'change input[name=dueDate]': function(e) {
     e.preventDefault();
-    if($('input[name=dueDate]').val()) {
+    if ($('input[name=dueDate]').val()) {
       Session.set('hasDueDate', true);
     } else {
       Session.set('hasDueDate', false);
@@ -103,7 +118,7 @@ Template.updateTask.events({
 });
 
 Template.reminderSelector.onRendered(function() {
-  if(this.data.reminder) {
+  if (this.data.reminder) {
     var reminderValue = this.data.reminder.split('.')[0];
     var reminderUnit = this.data.reminder.split('.')[1];
     $('#reminderValue').val(reminderValue);

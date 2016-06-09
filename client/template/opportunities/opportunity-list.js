@@ -34,9 +34,9 @@ Template.opportunityList.onRendered(function() {
           searchOptions = searchComponent.get('searchOptions'),
           props = searchOptions.props ? searchOptions.props : {};
 
-    this.showArchived.set(props.showArchived ? true : false);
-    this.sortByCloseDate.set(props.sortByCloseDate ? true : false);
-    this.sortByValue.set(props.sortByValue ? true : false);
+    this.showArchived.set(!!props.showArchived);
+    this.sortByCloseDate.set(!!props.sortByCloseDate);
+    this.sortByValue.set(!!props.sortByValue);
   });
 
   Meteor.call('report.numberOfOpportunities', (err, data) => {
@@ -83,10 +83,10 @@ Template.opportunityList.helpers({
     return Template.instance().sortByValue.get();
   },
   oppCount: function() {
-     return Template.instance().oppsListCount.get();
+    return Template.instance().oppsListCount.get();
   },
   hasMultipleOpps: function() {
-     return Template.instance().oppsListCount.get() !== 1;
+    return Template.instance().oppsListCount.get() !== 1;
   }
 });
 
@@ -103,9 +103,9 @@ Template.opportunityList.events({
   'click #toggle-value-sort': function(event, template) {
     const indexMethods = Template.instance().index.getComponentMethods();
     if (Template.instance().sortByValue.get()) {
-        indexMethods.removeProps('sortByValue');
+      indexMethods.removeProps('sortByValue');
     } else {
-        indexMethods.addProps('sortByValue', 'true');
+      indexMethods.addProps('sortByValue', 'true');
     }
     $(event.target).blur();
   },
@@ -141,5 +141,9 @@ Template.opportunityList.events({
     Meteor.call('report.averageOpportunityValue', function(err, data) {
       template.averageOppValue.set(data.Value);
     });
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('insertOpportunityModal');
   }
 });

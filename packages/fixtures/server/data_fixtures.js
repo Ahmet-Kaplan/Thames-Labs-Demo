@@ -262,7 +262,6 @@ Meteor.methods({
   },
 
   addOpportunity: function(additional) {
-    var userTenant = Tenants.findOne({});
     var stages = [];
     stages.push({
       title: 'Stage 1',
@@ -275,7 +274,7 @@ Meteor.methods({
       id: 1
     });
     var stage = stages[0];
-    Tenants.update(userTenant._id, {
+    Tenants.update(Partitioner.group(), {
       $set: {
         'settings.opportunity.stages': stages
       }
@@ -343,13 +342,19 @@ Meteor.methods({
   },
 
   addEvent: function() {
-
-    var data = AuditLog.insert({
-      token: "P2vxnjD2fgyZvuFNc",
-      date: "2015-11-18T10:17:24.346Z",
-      source: "client",
-      level: "info",
-      message: "A new task has been created: test (Company: Test Ltd)",
+    var userGroup = Tenants.findOne({
+      name: 'Acme Corp'
+    });
+    var data = EventLog.insert({
+      date: new Date(),
+      source: 'client',
+      level: 'info',
+      message: 'This is a test event',
+      user: 'test user',
+      entityType: undefined,
+      entityId: undefined,
+      tenant: 'Acme Corp',
+      group: userGroup._id
     });
 
     return data;

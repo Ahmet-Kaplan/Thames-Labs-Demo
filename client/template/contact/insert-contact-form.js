@@ -13,7 +13,6 @@ Template.insertContactModal.events({
 });
 
 Template.insertContactModal.onRendered(function() {
-
   if (Meteor.user()) {
     var tenant = Tenants.findOne({
       _id: Meteor.user().group
@@ -25,7 +24,7 @@ Template.insertContactModal.onRendered(function() {
           return {
             value: input,
             text: input
-          }
+          };
         });
       }
 
@@ -58,7 +57,7 @@ Template.insertContactModal.onRendered(function() {
           return elt.types[0] == "street_number";
         });
 
-        if (typeof(strNumber) !== 'undefined') {
+        if (typeof strNumber !== 'undefined') {
           strNumber = strNumber.long_name;
           address += strNumber + " ";
         }
@@ -67,7 +66,7 @@ Template.insertContactModal.onRendered(function() {
           return elt.types[0] == "route";
         });
 
-        if (typeof(route) !== 'undefined') {
+        if (typeof route !== 'undefined') {
           route = route.long_name;
           address += route;
         }
@@ -85,7 +84,7 @@ Template.insertContactModal.onRendered(function() {
           position: result.geometry.location,
           draggable: true
         });
-        google.maps.event.addListener(marker, "dragend", function(event) {
+        google.maps.event.addListener(marker, "dragend", function() {
           $("input[name=lat]").val(marker.getPosition().lat());
           $("input[name=lng]").val(marker.getPosition().lng());
         });
@@ -150,7 +149,7 @@ Template.insertCompanyContactModal.onRendered(function() {
           return {
             value: input,
             text: input
-          }
+          };
         });
       }
 

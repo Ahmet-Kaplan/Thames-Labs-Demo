@@ -84,7 +84,6 @@ ecmascript
 flowkey:hotkeys
 mizzao:autocomplete
 adain:meteor-guid
-ostrio:loggerfile
 ostrio:loggerconsole
 msavin:mongol
 vsivsi:job-collection
@@ -108,5 +107,11 @@ jparker:crypto-sha256
 standard-minifier-css
 standard-minifier-js
 templating
+xolvio:backdoor
 fixtures
+launch-screen
 crosswalk
+hedcet:touch-swipe
+force-ssl
+kadira:debug
+benjaminrh:user-session

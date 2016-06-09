@@ -1,6 +1,8 @@
 Template.opportunityAdmin.helpers({
   stages: function() {
-    var currentStages = Tenants.findOne({}).settings.opportunity.stages.sort(function(a, b) {
+    var currentStages = Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.opportunity.stages.sort(function(a, b) {
       if (a.order < b.order) return -1;
       if (a.order > b.order) return 1;
       return 0;
@@ -19,7 +21,9 @@ Template.opportunityAdmin.helpers({
     return currentStages;
   },
   hasStages: function() {
-    var userTenant = Tenants.findOne({});
+    var userTenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
     if (!userTenant || !userTenant.settings) return false;
     var stages = userTenant.settings.opportunity.stages;
     if (!stages) return false;
@@ -46,7 +50,9 @@ Template.opportunityAdmin.events({
 
 Template.opportunityAdminStage.helpers({
   isFirstStage: function() {
-    var stages = Tenants.findOne({}).settings.opportunity.stages.sort(function(a, b) {
+    var stages = Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.opportunity.stages.sort(function(a, b) {
       if (a.order < b.order) return -1;
       if (a.order > b.order) return 1;
       return 0;
@@ -55,7 +61,9 @@ Template.opportunityAdminStage.helpers({
     return false;
   },
   isLastStage: function() {
-    var stages = Tenants.findOne({}).settings.opportunity.stages.sort(function(a, b) {
+    var stages = Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.opportunity.stages.sort(function(a, b) {
       if (a.order < b.order) return -1;
       if (a.order > b.order) return 1;
       return 0;
@@ -104,7 +112,9 @@ Template.opportunityAdminStage.events({
       return;
     }
 
-    var userTenant = Tenants.findOne({});
+    var userTenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
     var stages = userTenant.settings.opportunity.stages;
     var count = stages.length;
     if (count == 1) {
@@ -118,13 +128,12 @@ Template.opportunityAdminStage.events({
       if (result === true) {
         bootbox.alert("This opportunity stage is currently in use, and cannot be deleted.");
         return;
-      } else {
-        bootbox.confirm("Are you sure you wish to delete this stage?", function(result) {
-          if (result === true) {
-            Meteor.call('deleteOpportunityStage', id);
-          }
-        });
       }
+      bootbox.confirm("Are you sure you wish to delete this stage?", function(result) {
+        if (result === true) {
+          Meteor.call('deleteOpportunityStage', id);
+        }
+      });
     });
   }
 });

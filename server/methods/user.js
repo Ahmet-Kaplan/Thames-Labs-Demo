@@ -105,7 +105,7 @@ Meteor.methods({
     Partitioner.bindGroup(doc.group, function() {
       // Create user account
       if (!doc.password) {
-        var userId = Accounts.createUser({
+        const userId = Accounts.createUser({
           email: doc.email.toLowerCase(),
           profile: {
             name: doc.name,
@@ -130,7 +130,7 @@ Meteor.methods({
 
         Meteor.call('stripe.updateQuantity', doc.group);
       } else {
-        var userId = Accounts.createUser({
+        const userId = Accounts.createUser({
           email: doc.email.toLowerCase(),
           password: doc.password,
           profile: {
@@ -155,7 +155,7 @@ Meteor.methods({
         if (user) {
           if (!isProTenant(user.group)) {
             Roles.addUsersToRoles(userId, ["Administrator"]);
-          };
+          }
           Roles.addUsersToRoles(userId, defaultPermissionsList);
         }
 

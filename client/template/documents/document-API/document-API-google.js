@@ -12,17 +12,17 @@ var scope = ['https://www.googleapis.com/auth/drive'];
 var callback = null;
 
 // A simple callback implementation.
-var pickerCallback = function(data) {
+function pickerCallback(data) {
   if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
     var docUrl = '',
-      friendlyName = '';
-    var doc = data[google.picker.Response.DOCUMENTS][0];
+        friendlyName = '',
+        doc = data[google.picker.Response.DOCUMENTS][0];
 
     docUrl = doc[google.picker.Document.URL];
     friendlyName = doc[google.picker.Document.NAME];
     docId = doc[google.picker.Document.ID];
 
-    var data = {
+    const cbData = {
       docPath: docUrl,
       docName: friendlyName,
       fileIcon: 'file-o',
@@ -32,12 +32,12 @@ var pickerCallback = function(data) {
     };
 
     // Callback expects a list
-    callback(null, [data]);
+    callback(null, [cbData]);
   }
-};
+}
 
 // Create and render a Picker object for picking user docs
-var createPicker = function(authResult) {
+function createPicker(authResult) {
   if (authResult.access_token) {
     var picker = new google.picker.PickerBuilder()
       .setAppId(appId)
@@ -52,15 +52,15 @@ var createPicker = function(authResult) {
       picker.setVisible(true);
     }
   }
-};
+}
 
 documentAPI.googleChooser = function(cb) {
   callback = cb;
   gapi.auth.authorize({
-      'client_id': clientId,
-      'scope': scope,
-      'immediate': false
-    },
+    'client_id': clientId,
+    'scope': scope,
+    'immediate': false
+  },
     createPicker
   );
 };

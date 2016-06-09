@@ -2,9 +2,9 @@ Template.companyDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
     var company = Companies.findOne(FlowRouter.getParam('id'));
-    if (FlowRouter.subsReady() && company === undefined) {
+    if (FlowRouter.subsReady() && typeof company === "undefined") {
       FlowRouter.go('companies');
-    } else if (FlowRouter.subsReady() && company.website !== '' && company.website !== undefined) {
+    } else if (FlowRouter.subsReady() && company.website !== '' && typeof company.website !== "undefined") {
       Meteor.call('getClearbitData', 'company', company._id);
     }
   });
@@ -30,6 +30,10 @@ Template.companyDetail.onRendered(function() {
 });
 
 Template.companyDetail.events({
+  'click #merge-company': function(event, template) {
+    event.preventDefault();
+    Modal.show('mergeModal', this);
+  },
   'change #template-upload': function(event) {
     var file = event.target.files[0];
     if (!file) return;
@@ -122,6 +126,18 @@ Template.companyDetail.events({
       primaryEntityDisplayData: this.name,
       createdBy: Meteor.userId()
     });
+  },
+  'click #inactive-projects': function(event, template) {
+    var url = "?f%5Bcompany%5D=" + this._id + "&f%5BshowArchived%5D=true";
+    FlowRouter.go("/projects" + url);
+  },
+  'click #archived-opportunities': function(event, template) {
+    var url = "?f%5Bcompany%5D=" + this._id + "&f%5BshowArchived%5D=true";
+    FlowRouter.go("/opportunities" + url);
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('editCompanyModal', this);
   }
 });
 
@@ -154,8 +170,21 @@ Template.companyDetail.helpers({
   },
   opportunities: function() {
     return Opportunities.find({
-      companyId: this._id
+      companyId: this._id,
+      isArchived: { $ne: true }
     });
+  },
+  archivedOpps: function() {
+    return Opportunities.find({
+      companyId: this._id,
+      isArchived: true
+    }).count();
+  },
+  inactiveProjects: function() {
+    return Projects.find({
+      companyId: this._id,
+      active: false
+    }).count();
   },
   linksList: function() {
     return [{

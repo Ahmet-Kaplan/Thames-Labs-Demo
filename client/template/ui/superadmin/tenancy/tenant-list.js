@@ -17,7 +17,7 @@ Template.tenantList.onCreated(function() {
     } else {
       Modal.hide('generatingDemoData');
     }
-  })
+  });
 });
 
 Template.tenantList.helpers({
@@ -39,7 +39,7 @@ Template.tenantList.helpers({
   userCount: function() {
     return Meteor.users.find({
       group: {
-        $ne: undefined
+        $ne: void 0
       }
     }).count();
   }

@@ -9,6 +9,7 @@ Template.taskList.onCreated(function() {
 
   // Search props
   this.showCompleted = new ReactiveVar(false);
+  // this.showSubTasks = new ReactiveVar(false);
   this.showMine = new ReactiveVar(false);
 
   // Calendar toggle
@@ -35,13 +36,14 @@ Template.taskList.onRendered(function() {
   });
 
   // Update reactive vars if search props change
-  this.autorun( () => {
+  this.autorun(() => {
     const searchComponent = this.index.getComponentDict(),
           searchOptions = searchComponent.get('searchOptions'),
           props = searchOptions.props ? searchOptions.props : {};
 
-    this.showCompleted.set(props.showCompleted ? true : false);
-    this.showMine.set(props.assignee && props.assignee === Meteor.userId() ? true : false);
+    this.showCompleted.set(!!props.showCompleted);
+    // this.showSubTasks.set(props.showSubTasks ? true : false);
+    this.showMine.set(props.assignee && props.assignee === Meteor.userId());
   });
 
 });
@@ -50,6 +52,9 @@ Template.taskList.helpers({
   showComp: function() {
     return Template.instance().showCompleted.get();
   },
+  showSubs: function() {
+    // return Template.instance().showSubTasks.get();
+  },
   showMine: function() {
     return Template.instance().showMine.get();
   },
@@ -57,10 +62,10 @@ Template.taskList.helpers({
     return Template.instance().showCalendar.get();
   },
   taskCount: function() {
-     return Template.instance().totalTasks.get();
+    return Template.instance().totalTasks.get();
   },
   hasMultipleTasks: function() {
-     return Template.instance().totalTasks.get() !== 1;
+    return Template.instance().totalTasks.get() !== 1;
   }
 });
 
@@ -75,6 +80,16 @@ Template.taskList.events({
     }
     $(event.target).blur();
   },
+  // 'click #tskToggleSubTasks': function(event) {
+  //   event.preventDefault();
+  //   const indexMethods = Template.instance().index.getComponentMethods();
+  //   if (Template.instance().showSubTasks.get()) {
+  //     indexMethods.removeProps('showSubTasks');
+  //   } else {
+  //     indexMethods.addProps('showSubTasks', 'true');
+  //   }
+  //   $(event.target).blur();
+  // },
   'click #tskToggleCalendar': function(event) {
     event.preventDefault();
     var showCalendar = Template.instance().showCalendar.get();
