@@ -8,7 +8,7 @@
         <small>&nbsp; {{profile.name}} {{#if isAdmin}}<span class="pull-right"><i class="fa fa-fw fa-key"></i></span>{{/if}}</small>
       </div>
       <div class="col-md-2">
-        <small class="userDataDisplay" data-toggle="tooltip" title="{{profile.telephone}}"> Tel: {{profile.telephone}}</small>
+        {{#if profile.telephone}}<small class="userDataDisplay" data-toggle="tooltip" title="User telephone number: {{profile.telephone}}"> Tel: {{profile.telephone}}</small>{{/if}}
       </div>
       <div class="col-md-4">
         <small class="userDataDisplay" data-toggle="tooltip" title="{{profile.lastLogin}}"> {{friendlyLastLogin}}</small>
