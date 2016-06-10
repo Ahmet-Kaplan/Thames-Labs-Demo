@@ -22,12 +22,14 @@ export function reset() {
     PurchaseOrderItems.direct.remove({ _groupId: tenantId });
     Chatterbox.direct.remove({ _groupId: tenantId });
     Products.direct.remove({ _groupId: tenantId });
+    Opportunities.direct.remove({ _groupId: tenantId });
+    CustomFields.direct.remove({ _groupId: tenantId });
 
     // N.B. Users uses field "group" rather than "_groupId"!
     Meteor.users.direct.remove({ group: tenantId });
 
     // Now remove tenant
-    Tenants.direct.remove({_id: tenantId});
+    Tenants.direct.remove({ _id: tenantId });
   });
 
   // Remove items in unpartitioned collections

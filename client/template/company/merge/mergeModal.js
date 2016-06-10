@@ -51,10 +51,29 @@ Template.mergeModal.events({
       backdrop: false,
       callback: function(result) {
         if (result === true) {
+
+          toastr.info("Merge in progress...", "RealTimeCRM", {
+            timeOut: 3000,
+            closeButton: false,
+            "debug": false,
+            "newestOnTop": true,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": true,
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+          });
+
           Meteor.call('company.merge', companyId, targetCompanyId, deleteRecord, function(err, res) {
-            if (err) throw new Meteor.Error(err);
+            if (err) {
+              toastr.clear();
+              throw new Meteor.Error(err);
+            }
 
             if (res) {
+              toastr.clear();
+
               if (res === 0) {
                 Modal.hide();
                 toastr.success('Merge successful.');

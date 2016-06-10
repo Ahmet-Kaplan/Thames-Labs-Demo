@@ -51,7 +51,8 @@ Template.contactDetail.helpers({
   projects: function() {
     var contactId = FlowRouter.getParam('id');
     return Projects.find({
-      contactId: contactId
+      contactId: contactId,
+      active: true
     }, {
       sort: {
         description: 1
@@ -81,13 +82,26 @@ Template.contactDetail.helpers({
   },
   opportunities: function() {
     return Opportunities.find({
-      contactId: this._id
+      contactId: this._id,
+      isArchived: { $ne: true }
     });
   },
   purchaseOrders: function() {
     return PurchaseOrders.find({
       supplierContactId: this._id
     });
+  },
+  archivedOpps: function() {
+    return Opportunities.find({
+      contactId: this._id,
+      isArchived: true
+    }).count();
+  },
+  inactiveProjects: function() {
+    return Projects.find({
+      contactId: this._id,
+      active: false
+    }).count();
   },
   linksList: function() {
     return [{
@@ -220,6 +234,14 @@ Template.contactDetail.events({
   'click #fab': function(event) {
     event.preventDefault();
     Modal.show('editContactModal', this);
+  },
+  'click #inactive-projects': function(event, template) {
+    var url = "?f%5Bcontact%5D=" + this._id + "&f%5BshowArchived%5D=true";
+    FlowRouter.go("/projects" + url);
+  },
+  'click #archived-opportunities': function(event, template) {
+    var url = "?f%5Bcontact%5D=" + this._id + "&f%5BshowArchived%5D=true";
+    FlowRouter.go("/opportunities" + url);
   }
 });
 

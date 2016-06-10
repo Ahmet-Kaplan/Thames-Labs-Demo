@@ -5,23 +5,22 @@ var postRoutes = Picker.filter(function(req, res) {
   return req.method == "POST";
 });
 
-//respondly:router-server: route for webhooks
 postRoutes.route('/webhook/stripe', function(params, req, res) {
   if (req.body.object !== 'event') {
-    return res.send(400);
+    res.writeHead(400);
+    return res.end();
   }
 
   if (req.body.id === "evt_00000000000000") {
+    // Test transaction
     var event = req.body;
     var o = event.data.object;
     Meteor.log._("Stripe webhook received: " + event.type + ", data object follows.");
     Meteor.log._(o);
-    res.send(200);
   } else {
-    Stripe.events.retrieve(req.body.id, function(err, evt) {
+    Stripe.events.retrieve(req.body.id, Meteor.bindEnvironment(function(err, evt) {
       if (err) {
-        Meteor.log._(err);
-        return res.send(401);
+        throw new Meteor.Error(404, err);
       }
 
       var obj = evt.data.object;
@@ -34,12 +33,13 @@ postRoutes.route('/webhook/stripe', function(params, req, res) {
         subject: 'RealtimeCRM received a webhook from Stripe! [' + evt.type + ']',
         text: obj
       });
-
-      res.send(200);
-    });
+    }));
   }
+  // should perhaps return a future so that we can adjust depending on callback from
+  // `Stripe.events.retreive`
+  res.writeHead(200);
+  return res.end();
 });
-
 
 Meteor.methods({
   'stripe.getPK': function() {
