@@ -23,13 +23,13 @@
               <!-- <div class="text-center"><i class="fa fa-lg fa-circle-o-notch fa-spin"></i></div> -->
             {{else}}
               {{#if showResultsList}}
-                {{> resultsListTemplate resultsTotal=resultsTotal resultsList=resultsList}}
-                <div class="text-right">
+                {{> resultsListTemplate resultsTotal=resultsTotal resultsList=resultsList}}                
+              {{/if}}
+            {{/if}}
+            <div class="text-right">
                 ...or 
                   <button class="btn btn-default" type="button" id="manual-fill">Fill Manually</button>
                 </div>
-              {{/if}}
-            {{/if}}
 
             {{#if showDetails}}
               {{> companyFormDetails companyData=companyData}}
