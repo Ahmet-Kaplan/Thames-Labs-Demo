@@ -153,9 +153,5 @@ Template.adminStatistics.helpers({
         $lt: currentDate
       }
     }).count();
-  },
-  remainingPdfCount: function() {
-    if (!ServerSession.get('DocxToPdfRemaining')) return "??";
-    return ServerSession.get('DocxToPdfRemaining');
   }
 });
