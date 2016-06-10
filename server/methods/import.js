@@ -38,7 +38,7 @@ Meteor.methods({
               if (Companies.findOne({
                 name: row[getFieldValueByKey(selectedValues, 'name')]
               })) {
-                errorList.push('[WARNING] Duplicate company imported ("' + row[getFieldValueByKey(selectedValues, 'name')] + '"): a company with this name already exists.');
+                errorList.push('<span class="label label-warning">WARNING</span> Another company with the name "' + row[getFieldValueByKey(selectedValues, 'name')] + '" already exists. If the record contained in your import file is the same company, you can use the <em>Merge tool</em> to combine them into a single record.');
                 UserSession.set("importErrors", errorList, userId);
               }
 
@@ -55,7 +55,7 @@ Meteor.methods({
                 sequencedIdentifier: currRealTimeIndex
               }, function(error, docId) {
                 if (error) {
-                  errorList.push('Could not import "' + row[getFieldValueByKey(selectedValues, 'name')] + '": ' + error);
+                  errorList.push('<span class="label label-danger">ERROR</span> Could not import "' + row[getFieldValueByKey(selectedValues, 'name')] + '": ' + error);
                   UserSession.set("importErrors", errorList, userId);
                 } else {
                   if (customFields.length > 0) {
@@ -70,7 +70,7 @@ Meteor.methods({
                         entityId: docId
                       }, function(cfErr) {
                         if (cfErr) {
-                          errorList.push('Could not add custom fields for "' + row[getFieldValueByKey(selectedValues, 'name')] + '": ' + cfErr);
+                          errorList.push('<span class="label label-danger">ERROR</span> Could not add custom fields for "' + row[getFieldValueByKey(selectedValues, 'name')] + '": ' + cfErr);
                           UserSession.set("importErrors", errorList, userId);
                         }
                       });
@@ -104,7 +104,7 @@ Meteor.methods({
                   surname: row[getFieldValueByKey(selectedValues, 'surname')],
                   companyId: companyId
                 })) {
-                  errorList.push('[WARNING] Duplicate contact imported ("' + row[getFieldValueByKey(selectedValues, 'forename')] + ' ' + row[getFieldValueByKey(selectedValues, 'surname')] + '"): a contact with this name already exists against company "' + row[getFieldValueByKey(selectedValues, 'companyName')] + '".');
+                  errorList.push('<span class="label label-warning">WARNING</span> Another contact with the name "' + row[getFieldValueByKey(selectedValues, 'forename')] + ' ' + row[getFieldValueByKey(selectedValues, 'surname')] + '" already exists against company "' + row[getFieldValueByKey(selectedValues, 'companyName')] + '". We have imported the record contained in your import file, but recommend you manually remove any unnecessary records.');
                   UserSession.set("importErrors", errorList, userId);
                 }
               } else {
@@ -112,7 +112,7 @@ Meteor.methods({
                   forename: row[getFieldValueByKey(selectedValues, 'forename')],
                   surname: row[getFieldValueByKey(selectedValues, 'surname')]
                 })) {
-                  errorList.push('[WARNING] Duplicate contact imported ("' + row[getFieldValueByKey(selectedValues, 'forename')] + ' ' + row[getFieldValueByKey(selectedValues, 'surname')] + '"): a contact with this name already exists.');
+                  errorList.push('<span class="label label-warning">WARNING</span> Another contact with the name "' + row[getFieldValueByKey(selectedValues, 'forename')] + ' ' + row[getFieldValueByKey(selectedValues, 'surname')] + '" already exists. We have imported the record contained in your import file, but recommend you manually remove any unnecessary records.');
                   UserSession.set("importErrors", errorList, userId);
                 }
               }
@@ -134,7 +134,7 @@ Meteor.methods({
                 sequencedIdentifier: currRealTimeIndex
               }, function(error, docId) {
                 if (error) {
-                  errorList.push('Could not import "' + row[getFieldValueByKey(selectedValues, 'forename')] + ' ' + row[getFieldValueByKey(selectedValues, 'surname')] + '": ' + error);
+                  errorList.push('<span class="label label-danger">ERROR</span> Could not import "' + row[getFieldValueByKey(selectedValues, 'forename')] + ' ' + row[getFieldValueByKey(selectedValues, 'surname')] + '": ' + error);
                   UserSession.set("importErrors", errorList, userId);
                 } else {
                   if (customFields.length > 0) {
@@ -149,7 +149,7 @@ Meteor.methods({
                         entityId: docId
                       }, function(cfErr) {
                         if (cfErr) {
-                          errorList.push('Could not add custom fields for "' + row[getFieldValueByKey(selectedValues, 'forename')] + ' ' + row[getFieldValueByKey(selectedValues, 'surname')] + '": ' + cfErr);
+                          errorList.push('<span class="label label-danger">ERROR</span> Could not add custom fields for "' + row[getFieldValueByKey(selectedValues, 'forename')] + ' ' + row[getFieldValueByKey(selectedValues, 'surname')] + '": ' + cfErr);
                           UserSession.set("importErrors", errorList, userId);
                         }
                       });
@@ -170,7 +170,7 @@ Meteor.methods({
               });
 
               if (!assignee) {
-                errorList.push('Could not find user "' + row[getFieldValueByKey(selectedValues, 'assignee')] + ' for task  "' + row[getFieldValueByKey(selectedValues, 'title')] + '".');
+                errorList.push('<span class="label label-danger">ERROR</span> Could not find user "' + row[getFieldValueByKey(selectedValues, 'assignee')] + ' for task  "' + row[getFieldValueByKey(selectedValues, 'title')] + '".');
                 UserSession.set("importErrors", errorList, userId);
                 return;
               }
@@ -206,7 +206,7 @@ Meteor.methods({
               }
 
               if (!entity) {
-                errorList.push('Could not find entity "' + row[getFieldValueByKey(selectedValues, 'record')] + '" for task  "' + row[getFieldValueByKey(selectedValues, 'title')] + '".');
+                errorList.push('<span class="label label-danger">ERROR</span> Could not find entity "' + row[getFieldValueByKey(selectedValues, 'record')] + '" for task  "' + row[getFieldValueByKey(selectedValues, 'title')] + '".');
                 UserSession.set("importErrors", errorList, userId);
                 return;
               }
@@ -222,7 +222,7 @@ Meteor.methods({
                 createdBy: userId
               }, function(error, docId) {
                 if (error) {
-                  errorList.push('Could not import "' + row[getFieldValueByKey(selectedValues, 'name')] + '": ' + error);
+                  errorList.push('<span class="label label-danger">ERROR</span> Could not import "' + row[getFieldValueByKey(selectedValues, 'name')] + '": ' + error);
                   UserSession.set("importErrors", errorList, userId);
                 }
               });
