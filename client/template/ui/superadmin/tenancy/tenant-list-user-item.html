@@ -7,7 +7,10 @@
         </a>
         <small>&nbsp; {{profile.name}} {{#if isAdmin}}<span class="pull-right"><i class="fa fa-fw fa-key"></i></span>{{/if}}</small>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-2">
+        <small class="userDataDisplay" data-toggle="tooltip" title="{{profile.telephone}}"> Tel: {{profile.telephone}}</small>
+      </div>
+      <div class="col-md-4">
         <small class="userDataDisplay" data-toggle="tooltip" title="{{profile.lastLogin}}"> {{friendlyLastLogin}}</small>
       </div>
       <div class="col-md-3">

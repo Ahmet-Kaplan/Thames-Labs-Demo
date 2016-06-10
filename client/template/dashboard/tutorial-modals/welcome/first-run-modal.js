@@ -9,6 +9,16 @@ Template.firstRun.onRendered(function() {
 });
 
 Template.firstRun.events({
+  'hide.bs.modal .firstRunModal': function(e) {
+    var tel = $('#tenantPhone').val();
+    Meteor.users.update({
+      _id: Meteor.userId()
+    }, {
+      $set: {
+        "profile.telephone": tel
+      }
+    });
+  },
   'click #close-first-run': function(event, template) {
     Modal.hide();
   },

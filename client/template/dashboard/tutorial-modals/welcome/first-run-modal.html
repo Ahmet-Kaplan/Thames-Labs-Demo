@@ -1,5 +1,5 @@
 <template name="firstRun">
-  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal fade firstRunModal"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -40,6 +40,14 @@
               {{/if}}
             </div>
           {{/if}}
+
+          <br>
+          <div >
+            <em>We'd love to know why you signed up to RealTimeCRM, and what problems you're trying to solve. If you're happy for us to contact you about your needs, please enter your telephone number in the box below.</em>
+            <div class="input-group" id="optional-phone">
+              <input type="text" class="form-control" placeholder="Telephone number" id="tenantPhone">
+            </div>
+          </div>
 
         </div>
         <div class="modal-footer">
