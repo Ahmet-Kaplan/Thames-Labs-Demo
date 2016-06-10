@@ -168,7 +168,7 @@ module.exports = function() {
   });
 
   this.When(/^I click "([^"]*)"$/, function(id) {
-    browser.scroll(id)
+    browser.scroll(id);
     browser.safeClick(id);
   });
 
