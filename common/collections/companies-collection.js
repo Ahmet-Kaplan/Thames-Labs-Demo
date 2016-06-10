@@ -26,7 +26,8 @@ Companies.helpers({
   },
   projects: function() {
     return Projects.find({
-      companyId: this._id
+      companyId: this._id,
+      active: true
     }, {
       sort: {
         createdAt: -1
@@ -212,8 +213,9 @@ Companies.after.insert(function(userId, doc) {
     _id: userId
   });
 
-  LogClientEvent(LogLevel.Info, user.profile.name + " created a new company", 'company', doc._id);
-
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " created a new company", 'company', doc._id);
+  }
   if (Meteor.isServer) {
     if (user) {
       var tenant = Tenants.findOne({
@@ -268,39 +270,41 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
     _id: userId
   });
 
-  if (this.previous.website !== doc.website && doc.website !== '') {
-    Meteor.call('getClearbitData', 'company', doc._id);
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's public information", 'company', doc._id);
-  }
-  if (doc.name !== this.previous.name) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's name", 'company', doc._id);
-  }
-  if (doc.address !== this.previous.address) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's primary address line", 'company', doc._id);
-  }
-  if (doc.address2 !== this.previous.address2) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's secondary address line", 'company', doc._id);
-  }
-  if (doc.city !== this.previous.city) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's city", 'company', doc._id);
-  }
-  if (doc.county !== this.previous.county) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's county", 'company', doc._id);
-  }
-  if (doc.postcode !== this.previous.postcode) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's postcode", 'company', doc._id);
-  }
-  if (doc.country !== this.previous.country) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's country", 'company', doc._id);
-  }
-  if (doc.website !== this.previous.website) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's website", 'company', doc._id);
-  }
-  if (doc.phone !== this.previous.phone) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's telephone number", 'company', doc._id);
-  }
-  if (doc.companiesHouseId !== this.previous.companiesHouseId) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's CompaniesHouse reference", 'company', doc._id);
+  if (user) {
+    if (this.previous.website !== doc.website && doc.website !== '') {
+      Meteor.call('getClearbitData', 'company', doc._id);
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's public information", 'company', doc._id);
+    }
+    if (doc.name !== this.previous.name) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's name", 'company', doc._id);
+    }
+    if (doc.address !== this.previous.address) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's primary address line", 'company', doc._id);
+    }
+    if (doc.address2 !== this.previous.address2) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's secondary address line", 'company', doc._id);
+    }
+    if (doc.city !== this.previous.city) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's city", 'company', doc._id);
+    }
+    if (doc.county !== this.previous.county) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's county", 'company', doc._id);
+    }
+    if (doc.postcode !== this.previous.postcode) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's postcode", 'company', doc._id);
+    }
+    if (doc.country !== this.previous.country) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's country", 'company', doc._id);
+    }
+    if (doc.website !== this.previous.website) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's website", 'company', doc._id);
+    }
+    if (doc.phone !== this.previous.phone) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's telephone number", 'company', doc._id);
+    }
+    if (doc.companiesHouseId !== this.previous.companiesHouseId) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's CompaniesHouse reference", 'company', doc._id);
+    }
   }
 }, {
   fetchPrevious: true
@@ -315,5 +319,7 @@ Companies.after.remove(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " deleted company '" + doc.name + "'", null, null);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted company '" + doc.name + "'", null, null);
+  }
 });

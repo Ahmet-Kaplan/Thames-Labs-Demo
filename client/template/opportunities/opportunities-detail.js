@@ -278,9 +278,9 @@ Template.opportunityDetail.events({
     bootbox.confirm("Are you sure you wish to reopen this opportunity?", (result) => {
       if (result === false) return;
 
-      var user = Meteor.user(),
-          note = user.profile.name + ' reopened this opportunity',
-          today = new Date();
+      var user = Meteor.user();
+      var note = user.profile.name + ' reopened this opportunity';
+      var today = new Date();
 
       Opportunities.update(this._id, {
         $unset: {
@@ -324,20 +324,26 @@ Template.opportunityDetail.events({
 
     var reader = new FileReader();
     reader.onload = function() {
+      toastr.info("Extracting, please wait...");
+
       var doc = new Docxgen(reader.result);
 
-      var companyName = "",
-          companyAddress = "",
-          contactName = "";
+      var companyName = "";
+      var companyAddress = "";
+      var contactName = "";
 
       if (this.companyId) {
         var company = Companies.findOne(this.companyId);
-        companyName = company.name;
-        companyAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
+        if (company) {
+          companyName = company.name;
+          companyAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
+        }
       }
       if (this.contactId) {
         var contact = Contacts.findOne(this.contactId);
-        contactName = contact.forename + " " + contact.surname;
+        if (contact) {
+          contactName = contact.forename + " " + contact.surname;
+        }
       }
 
       var date = moment().format("MMM Do YYYY");
@@ -377,6 +383,7 @@ Template.opportunityDetail.events({
       });
       saveAs(blob, file.name);
 
+      $('#template-upload-docx').val('');
 
       Activities.insert({
         type: "Note",

@@ -66,7 +66,11 @@
       {{#if isInRole 'CanReadProjects'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="projects">
-          Projects {{#if isInRole 'CanCreateProjects'}}
+          Projects
+          {{#if inactiveProjects}}
+            - <a href="#" id="inactive-projects">Show Inactive ({{inactiveProjects}})</a>
+          {{/if}}
+          {{#if isInRole 'CanCreateProjects'}}
           <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this contact"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
@@ -103,7 +107,11 @@
       {{#if isInRole 'CanReadOpportunities'}}
       <div class="panel panel-default">
         <div class="panel-heading" id="opportunities">
-          Opportunities {{#if isInRole 'CanCreateOpportunities'}}
+          Opportunities
+          {{#if archivedOpps}}
+            - <a href="#" id="archived-opportunities">Show Archived ({{archivedOpps}})</a>
+          {{/if}}
+          {{#if isInRole 'CanCreateOpportunities'}}
           <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
@@ -122,8 +130,12 @@
 
     <div class="col-md-4">
       {{> publicContactInformation}}
-      <h4>Address</h4>
-      {{> map title=mapTitle address=mapAddress}}
+        <h4>Address</h4>
+      {{#if address}}
+        {{> map title=mapTitle address=mapAddress}}
+      {{else}}
+        <em class="FadedText">No address for this contact. Add it via the Edit button to see where they're based!</em>
+      {{/if}}
     </div>
 
   </div>

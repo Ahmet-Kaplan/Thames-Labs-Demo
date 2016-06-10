@@ -31,9 +31,15 @@ Template.signUp.onRendered(function() {
 AutoForm.hooks({
   signUpForm: {
     onSuccess: function(formType, result) {
-      toastr.success('Your sign-up was successful - please confirm your email by clicking the link in the email we\'ve just sent you. Thank you for choosing RealTimeCRM.');
-      FlowRouter.redirect('/');
-      FlowRouter.reload();
-    },
+      bootbox.alert({
+        title: 'Sign-up successful!',
+        message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your account has been created but is not active yet. To do so, click the link in the email we\'ve just sent you and set your password.<br>Thank you for choosing RealTimeCRM.',
+        className: 'bootbox-success',
+        callback: function() {
+          FlowRouter.redirect('/');
+          FlowRouter.reload();
+        }
+      });
+    }
   }
 });

@@ -27,7 +27,10 @@ Template.salesPipeline.onRendered(function() {
         var data = [];
         for (var i = 0; i < stages.length; i++) {
           var count = Opportunities.find({
-            currentStageId: stages[i].id
+            currentStageId: stages[i].id,
+            isArchived: {
+              $ne: true
+            }
           }).count();
           if (count > 0) {
             var item = [stages[i].title, count];

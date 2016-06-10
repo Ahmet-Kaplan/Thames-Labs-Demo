@@ -150,8 +150,9 @@ Activities.after.insert(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " created a new activity", entityType, entityId);
-
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " created a new activity", entityType, entityId);
+  }
 });
 
 Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
@@ -187,15 +188,16 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-
-  if (doc.type !== this.previous.type) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated an activity's type from " + this.previous.type + " to " + doc.type, entityType, entityId);
-  }
-  if (doc.notes !== this.previous.notes) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated an activity's notes", entityType, entityId);
-  }
-  if (doc.activityTimestamp !== this.previous.activityTimestamp) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " updated an activity's timestamp", entityType, entityId);
+  if (user) {
+    if (doc.type !== this.previous.type) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated an activity's type from " + this.previous.type + " to " + doc.type, entityType, entityId);
+    }
+    if (doc.notes !== this.previous.notes) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated an activity's notes", entityType, entityId);
+    }
+    if (doc.activityTimestamp !== this.previous.activityTimestamp) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated an activity's timestamp", entityType, entityId);
+    }
   }
 }, {
   fetchPrevious: true
@@ -238,5 +240,7 @@ Activities.after.remove(function(userId, doc) {
   var user = Meteor.users.findOne({
     _id: userId
   });
-  LogClientEvent(LogLevel.Info, user.profile.name + " deleted an activity", entityType, entityId);
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted an activity", entityType, entityId);
+  }
 });
