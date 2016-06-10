@@ -1,22 +1,3 @@
-Template.insertActivityModal.onRendered(function() {
-  $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
-});
-Template.insertContactActivityModal.onRendered(function() {
-  $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
-});
-Template.insertProjectActivityModal.onRendered(function() {
-  $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
-});
-Template.insertPurchaseOrderActivityModal.onRendered(function() {
-  $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
-});
-Template.insertOpportunityActivityModal.onRendered(function() {
-  $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
-});
-Template.insertTaskActivityModal.onRendered(function() {
-  $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
-});
-
 Template.insertActivityModal.helpers({
   currentDateTime: function() {
     return moment();
