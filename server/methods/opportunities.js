@@ -1,5 +1,28 @@
 Meteor.methods({
+  'opportunities.getCompanySalesHistory': function(companyId) {
+    var user = Meteor.users.findOne(this.userId);
+    return Partitioner.bindGroup(user.group, function() {
+      var data = {
+        oppsWon: Opportunities.find({companyId: companyId, hasBeenWon: true}).count(),
+        oppsLost: Opportunities.find({companyId: companyId, hasBeenWon: false}).count(),
+        oppsPending: Opportunities.find({companyId: companyId, hasBeenWon: {$exists: false}}).count()
+      };
 
+      return data;
+    });
+  },
+  // 'opportunities.getContactSalesHistory': function(contactId) {
+  //   var user = Meteor.users.findOne(this.userId);
+  //   return Partitioner.bindGroup(user.group, function() {
+  //     var data = {
+  //       oppsWon: Opportunities.find({contactId: contactId, hasBeenWon: true}).count(),
+  //       oppsLost: Opportunities.find({contactId: contactId, hasBeenWon: false}).count(),
+  //       oppsPending: Opportunities.find({contactId: contactId, hasBeenWon: {$exists: false}}).count()
+  //     };
+  //
+  //     return data;
+  //   });
+  // },
   changeStageOrder: function(stageId, direction, currOrder) {
     var user = Meteor.users.findOne(this.userId);
 
