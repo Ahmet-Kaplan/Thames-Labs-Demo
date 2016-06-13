@@ -94,3 +94,17 @@ Opportunities.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteOpportunities'
 Opportunities.allowTags(function(userId) {
   return !!userId;
 });
+
+ServerSession.setCondition(function(key, value) {
+  if(Meteor.userId()) {
+    if(key !== "DocxToPdfRemaining") {
+      if(Roles.userIsInRole(Meteor.userId(), 'superadmin')) {
+        return true;
+      }
+      return false;
+
+    }
+    return true;
+  }
+  return true;
+});
