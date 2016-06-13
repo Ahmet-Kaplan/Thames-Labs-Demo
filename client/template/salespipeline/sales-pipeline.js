@@ -105,7 +105,10 @@ Template.salesPipeline.helpers({
     var id = Session.get('currentStageId');
     var total = 0;
     var opps = Opportunities.find({
-      currentStageId: id
+      currentStageId: id,
+      isArchived: {
+        $ne: true
+      }
     }).fetch();
 
     _.each(opps, function(o) {
@@ -122,7 +125,10 @@ Template.salesPipeline.helpers({
   opportunities: function() {
     var id = Session.get('currentStageId');
     return Opportunities.find({
-      currentStageId: id
+      currentStageId: id,
+      isArchived: {
+        $ne: true
+      }
     }).fetch();
   }
 });
