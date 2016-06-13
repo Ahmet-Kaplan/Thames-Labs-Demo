@@ -7,13 +7,15 @@
       <div class="panel-body">
 
         <div class="well well-sm">
-          <b>Tenant Name</b>:
-          <div class="input-group">
-            <input type="text" class="form-control" id="tenantNameEditor" placeholder="Enter your organisation name...">
-            <span class="input-group-btn">
-              <button class="btn btn-secondary" id="saveTenantName" type="button">Save</button>
-            </span>
-          </div>
+          <b>Company Name</b>:
+          <form id="tenantNameForm">
+              <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Enter your organisation name..." value="{{tenant.name}}">
+                  <span class="input-group-btn">
+                      <button class="btn btn-secondary" type="submit">Save</button>
+                  </span>
+              </div>
+          </form>
         </div>
 
         <div class="well well-sm">

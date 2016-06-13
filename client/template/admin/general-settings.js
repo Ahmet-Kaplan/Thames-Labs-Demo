@@ -1,3 +1,9 @@
+Template.generalSettings.helpers({
+  tenant: function() {
+    return Tenants.findOne({_id: Partitioner.group()});
+  }
+});
+
 Template.generalSettings.events({
   'change #currencySelect': function(event) {
     event.preventDefault();
@@ -9,29 +15,23 @@ Template.generalSettings.events({
       }
     });
   },
-  'click #saveTenantName': function(event, template) {
+  'submit #tenantNameForm': function(event, template) {
     event.preventDefault();
-    var newName = $('#tenantNameEditor').val();
+    var newName = $(event.target).find('input').val();
+
     if (newName === "") {
-      toastr.error('You must provide a tenant name.');
+      toastr.error('You must provide a name.');
       return;
     }
-    var user = Meteor.user();
-    var tenant = Tenants.findOne({_id: user.group});
 
-    Tenants.update(tenant._id, {$set: {"name": newName}}, function(err) {
+    Tenants.update(Partitioner.group(), {$set: {"name": newName}}, function(err) {
       if(err) {
         toastr.error(err.reason);
-        $('#tenantNameEditor').val(tenant.name);
+        return;
       }
+      toastr.success("Company name updated successfully.");
     });
 
-    toastr.success("Tenant name updated successfully.");
   }
 });
 
-Template.generalSettings.onRendered(function() {
-  var user = Meteor.user();
-  var tenant = Tenants.findOne({_id: user.group});
-  $('#tenantNameEditor').val(tenant.name);
-});
