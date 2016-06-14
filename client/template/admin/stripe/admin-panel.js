@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
 //Import helpers function from external file
-import { displayLocale, updateStripeCustomer,updateUpcomingInvoice, updateLastInvoice } from './imports/helpers.js';
+import { displayLocale, updateStripeCustomer, updateUpcomingInvoice, updateLastInvoice } from './imports/helpers.js';
 
 //Import html files
 import './admin-panel.html';
@@ -63,7 +63,7 @@ Template.stripeAdmin.onRendered(function() {
     });
   }
 
-})
+});
 
 Template.stripeAdmin.helpers({
   payingScheme: function() {
@@ -87,7 +87,7 @@ Template.stripeAdmin.helpers({
   hasStripeAccount: function() {
     const tenant = Tenants.findOne({
       _id: Meteor.user().group
-    })
+    });
     return !(typeof tenant.stripe.stripeId === "undefined" || tenant.stripe.stripeId === '');
   },
   hasStripeSubs: function() {
@@ -197,20 +197,18 @@ Template.stripeAdmin.events({
         $('.bootbox-form').addClass('has-error');
         toastr.error('Please enter a valid email address');
         return false;
-      } else {
-        toastr.clear();
-        toastr.info('Processing your email update');
-        Meteor.call('stripe.updateEmail', newEmail, (error, updatedCustomer) => {
-          if(error || updatedCustomer === false) {
-            toastr.error('Unable to update email address');
-            return false;
-          } else {
-            stripeCustomer.set(updatedCustomer)
-            toastr.clear();
-            toastr.success('Your email has been changed to: ' + newEmail);
-          }
-        });
       }
+      toastr.clear();
+      toastr.info('Processing your email update');
+      Meteor.call('stripe.updateEmail', newEmail, (error, updatedCustomer) => {
+        if(error || updatedCustomer === false) {
+          toastr.error('Unable to update email address');
+          return false;
+        }
+        stripeCustomer.set(updatedCustomer);
+        toastr.clear();
+        toastr.success('Your email has been changed to: ' + newEmail);
+      });
     });
   },
 

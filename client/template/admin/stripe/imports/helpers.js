@@ -2,7 +2,7 @@ export function displayLocale(number, currency) {
   if (typeof number !== 'number') return;
 
   let locale = 'en-gb';
-  let curr = 'GBP'
+  let curr = 'GBP';
   switch (currency) {
     case 'eur':
       curr = 'EUR';
@@ -39,7 +39,7 @@ export function updateStripeCustomer(self) {
       self.stripeCustomer.set(customer);
     });
   }
-};
+}
 
 export function updateUpcomingInvoice(self) {
   const tenant = Tenants.findOne({
@@ -104,7 +104,7 @@ export function updateUpcomingInvoice(self) {
       self.upcomingInvoice.set(upcomingInvoice);
     });
   }
-};
+}
 
 export function updateLastInvoice(self) {
   const tenant = Tenants.findOne({
@@ -132,4 +132,4 @@ export function updateLastInvoice(self) {
       self.lastInvoice.set(lastInvoice);
     });
   }
-};
+}

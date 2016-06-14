@@ -23,13 +23,13 @@ postRoutes.route('/webhook/stripe', function(params, request, response) {
   // Delete Card Details When Subscription is Deleted //
   //--------------------------------------------------//
   if(event.type === "customer.subscription.deleted") {
-    var message = "Result from webhook " + event.type + '/' +  event.id + ":\n";
+    var message = "Result from webhook " + event.type + '/' + event.id + ":\n";
 
     var customerObject = stripeMethodsAsync.customers.retrieve(eventObject.customer);
 
-    var deleteCard = stripeMethodsAsync.customers.deleteCard(customerObject.id, customerObject.default_source)
+    var deleteCard = stripeMethodsAsync.customers.deleteCard(customerObject.id, customerObject.default_source);
     message += (deleteCard === true) ? "Card Details successfully deleted" : "Unable to remove card details";
-    message +=  " for RealTimeCRM customer " + customerObject.description + " with id " + customerObject.metadata.tenantId + " (Stripe account " + eventObject.customer + ")";
+    message += " for RealTimeCRM customer " + customerObject.description + " with id " + customerObject.metadata.tenantId + " (Stripe account " + eventObject.customer + ")";
 
     if(deleteCard === true) {
       Tenants.update(customerObject.metadata.tenantId, {
@@ -166,7 +166,7 @@ Meteor.methods({
       tax_percent: 20.0
     };
 
-    var subscription = stripeMethodsAsync.customers.createSubscription(stripeId, subsParameters)
+    var subscription = stripeMethodsAsync.customers.createSubscription(stripeId, subsParameters);
 
     if(!!subscription === true) {
       Tenants.update(tenantId, {
@@ -562,7 +562,7 @@ Meteor.methods({
           'stripe.coupon': ''
         }
       });
-      return true;
+      couponDetails = true;
     } else {
       couponDetails = stripeMethodsAsync.coupons.retrieve(couponId);
       if(couponDetails.valid === true) {
@@ -572,8 +572,7 @@ Meteor.methods({
           }
         });
       }
-
-      return couponDetails;
     }
+    return couponDetails;
   }
 });

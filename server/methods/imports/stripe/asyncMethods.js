@@ -28,7 +28,7 @@ export const stripeMethodsAsync = {
       const createCustomerAsync = Meteor.wrapAsync(Stripe.customers.create, Stripe.customers);
       let customer = null;
       try {
-        customer = createCustomerAsync(parameters)
+        customer = createCustomerAsync(parameters);
       } catch (error) {
         customer = false;
         throw new Meteor.Error('Unable to create customer', error.message);
@@ -96,7 +96,7 @@ export const stripeMethodsAsync = {
         subscription = createSubscriptionAsync(stripeId, parameters);
       } catch (error) {
         subscription = false;
-        throw new Meteor.Error('Error', error.message)
+        throw new Meteor.Error('Error', error.message);
       } finally {
         return subscription;
       }
@@ -186,7 +186,6 @@ export const stripeMethodsAsync = {
         cardDetails = retriveCardDetailsAsync(stripeId, cardId);
       } catch (error) {
         cardDetails = false;
-        console.log(error)
         throw new Meteor.Error('Unable to retrieve card details', error.message);
       } finally {
         return cardDetails;

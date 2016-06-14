@@ -11,7 +11,7 @@ Template.stripeSubscribe.onCreated(function() {
   this.planDetails = new ReactiveVar({});
   var defaultCurrency = Tenants.findOne(Meteor.user().group).settings.currency || 'gbp';
   this.paymentCurrency = new ReactiveVar(defaultCurrency);
-})
+});
 
 Template.stripeSubscribe.onRendered(function() {
   var getPlan = (planId) => {
@@ -54,7 +54,7 @@ Template.stripeSubscribe.onRendered(function() {
         this.planDetails.set(planDetails);
       }
     });
-  }
+  };
 
   //watch for updates on the plan currency
   this.autorun(() => {
@@ -65,7 +65,7 @@ Template.stripeSubscribe.onRendered(function() {
       usd: 'premierUSD',
     };
     getPlan(plans[paymentCurrency]);
-  })
+  });
 });
 
 Template.stripeSubscribe.helpers({
@@ -121,75 +121,74 @@ Template.stripeSubscribe.events({
         toastr.error(response.error.message);
         $('#submit').prop('disabled', false);
         return;
-      } else {
+      }
 
-        //Return card details to parent template to display
-        cardDetails.set(response.card);
+      //Return card details to parent template to display
+      cardDetails.set(response.card);
 
-        toastr.info('Please wait while we process your subscription...');
+      toastr.info('Please wait while we process your subscription...');
 
-        /*If has stripeId, check if the new plan's currency is the same as before.
-            Stripe only allows one currency per account. If tenant wants to use a different currency,
-            we need to create a new stripeId (new Customer Object on Stripe).
-            Otherwise, update card details and call subscription method*/
-        if (tenantDetails.stripe.stripeId && newPlanCurrency === currentUserCurrency) {
-          Meteor.call('stripe.updateCard', response.id, function(error, response) {
+      /*If has stripeId, check if the new plan's currency is the same as before.
+          Stripe only allows one currency per account. If tenant wants to use a different currency,
+          we need to create a new stripeId (new Customer Object on Stripe).
+          Otherwise, update card details and call subscription method*/
+      if (tenantDetails.stripe.stripeId && newPlanCurrency === currentUserCurrency) {
+        Meteor.call('stripe.updateCard', response.id, function(error, response) {
+          if (error || response === false) {
+            Modal.hide();
+            toastr.clear();
+            bootbox.alert({
+              title: 'Error',
+              message: '<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to validate your card details.<br />Please contact us if the problem remains.',
+              className: 'bootbox-danger',
+            });
+            return false;
+          }
+          Meteor.call('stripe.createSubscription', planId, function(error, response) {
             if (error || response === false) {
               Modal.hide();
-              toastr.clear();
               bootbox.alert({
                 title: 'Error',
-                message: '<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to validate your card details.<br />Please contact us if the problem remains.',
+                message: '<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription.<br />Please contact us if the problem remains.',
                 className: 'bootbox-danger',
               });
               return false;
             }
-            Meteor.call('stripe.createSubscription', planId, function(error, response) {
-              if (error || response === false) {
-                Modal.hide();
-                bootbox.alert({
-                  title: 'Error',
-                  message: '<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription.<br />Please contact us if the problem remains.',
-                  className: 'bootbox-danger',
-                });
-                return false;
-              }
-              Modal.hide();
-              toastr.clear();
-              bootbox.alert({
-                title: 'Subscription complete',
-                message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />Thank you for using RealtimeCRM!',
-                backdrop: false,
-                className: 'bootbox-success',
-              });
-            });
-          });
-
-          //If doesn't have stripeId, creates it and proceed subscription
-        } else {
-          var userEmail = $('#email').val();
-          Meteor.call('stripe.createCustomer', response.id, userEmail, planId, function(error, result) {
-            if (error || result === false) {
-              Modal.hide();
-              bootbox.alert({
-                title: 'Error',
-                message: '<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription.<br>' + error.message,
-                className: "bootbox-danger",
-              });
-              return false;
-            }
-
-            toastr.clear();
             Modal.hide();
-            var noCoupon = (result === 'CouponNotApplied') ? '<br />However there has been an issue applying your coupon. Please contact us to correct this.' : '';
+            toastr.clear();
             bootbox.alert({
               title: 'Subscription complete',
-              message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.' + noCoupon + '<br />Thank you for using RealtimeCRM!',
+              message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />Thank you for using RealtimeCRM!',
               backdrop: false,
               className: 'bootbox-success',
             });
           });
-        }
+        });
+
+        //If doesn't have stripeId, creates it and proceed subscription
+      } else {
+        var userEmail = $('#email').val();
+        Meteor.call('stripe.createCustomer', response.id, userEmail, planId, function(error, result) {
+          if (error || result === false) {
+            Modal.hide();
+            bootbox.alert({
+              title: 'Error',
+              message: '<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription.<br>' + error.message,
+              className: "bootbox-danger",
+            });
+            return false;
+          }
+
+          toastr.clear();
+          Modal.hide();
+          var noCoupon = (result === 'CouponNotApplied') ? '<br />However there has been an issue applying your coupon. Please contact us to correct this.' : '';
+          bootbox.alert({
+            title: 'Subscription complete',
+            message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.' + noCoupon + '<br />Thank you for using RealtimeCRM!',
+            backdrop: false,
+            className: 'bootbox-success',
+          });
+        });
       }
     });
   }
