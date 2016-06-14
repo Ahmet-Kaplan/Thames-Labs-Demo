@@ -64,7 +64,7 @@ Meteor.methods({
       if (record.assigneeId) {
         const assignee = Meteor.users.findOne({
           _id: record.assigneeId,
-          profile: {
+          "profile.name": {
             $exists: true
           }
         });
@@ -153,7 +153,7 @@ Meteor.methods({
         if ( _.has(record, 'value') ) {
           if(record.value) record.value = record.value.toFixed(2);
           else record.value = "0.00";
-        }else{
+        }else {
           record.value = "0.00";
         }
       }
