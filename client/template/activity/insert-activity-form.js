@@ -17,6 +17,41 @@ Template.insertTaskActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
 });
 
+Template.insertActivityModal.events({
+  'click #confirm': function(e, t) {
+    if (AutoForm.validateForm('insertActivityForm')) {
+      if ($('#create-task-toggle').prop('checked')) {
+        var taskDate = moment($('#helperContent .taskdatetimepicker').val()).toDate();
+
+        var taskTitle = "Follow Up " + AutoForm.getFieldValue('type', 'insertActivityForm');
+        if (AutoForm.getFieldValue('contactId', 'insertActivityForm')) {
+          var contact = Contacts.findOne({
+            _id: AutoForm.getFieldValue('contactId', 'insertActivityForm')
+          });
+          if (contact) {
+            taskTitle = taskTitle + " with " + contact.forename + " " + contact.surname;
+          }
+        }
+
+        Tasks.insert({
+          title: taskTitle,
+          description: TagStripper.strip(AutoForm.getFieldValue('notes', 'insertActivityForm')),
+          dueDate: taskDate,
+          assigneeId: Meteor.userId(),
+          completed: false,
+          remindMe: true,
+          reminder: '1.hours',
+          entityType: 'company',
+          entityId: AutoForm.getFieldValue('primaryEntityId', 'insertActivityForm'),
+          createdBy: Meteor.userId()
+        }, function(err) {
+          console.log(err);
+        });
+      }
+    }
+  }
+});
+
 Template.insertActivityModal.helpers({
   currentDateTime: function() {
     return moment();

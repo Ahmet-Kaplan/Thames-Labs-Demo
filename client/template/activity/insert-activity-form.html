@@ -28,6 +28,8 @@
             {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=company.name}}
 
             {{> afQuickField name="createdBy" value=currentUser }}
+
+            {{> createTaskHelper}}
             <button type="submit" class="btn btn-primary" id="confirm">Create</button>
           {{/autoForm}}
         </div>
