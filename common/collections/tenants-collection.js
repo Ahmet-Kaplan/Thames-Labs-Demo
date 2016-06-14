@@ -44,7 +44,7 @@ Collections.tenants.filters = {
     display: 'Activity:',
     prop: 'active',
     defaultOptions: function() {
-      return ['7 days', '14 days', '28 days']
+      return ['7 days', '14 days', '28 days'];
     },
     strict: true,
     allowMultiple: false,

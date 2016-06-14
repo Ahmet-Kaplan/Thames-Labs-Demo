@@ -28,7 +28,7 @@ Meteor.methods({
           email: user.emails[0].address,
           tenant: tenant.name,
           administrator: (_.contains(user.roles, 'Administrator') ? 'Yes' : 'No')
-        }
+        };
         userArray.push(data);
       });
     });

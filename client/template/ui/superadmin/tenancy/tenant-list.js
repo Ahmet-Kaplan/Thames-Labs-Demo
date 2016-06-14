@@ -54,9 +54,9 @@ Template.tenantList.events({
     var collectionName = "tenants";
     var tenantArray = [];
 
-    var index = Collections[collectionName].index,
-      searchDefinition = index.getComponentDict().get('searchDefinition'),
-      searchOptions = index.getComponentDict().get('searchOptions');
+    var index = Collections[collectionName].index;
+    var searchDefinition = index.getComponentDict().get('searchDefinition');
+    var searchOptions = index.getComponentDict().get('searchOptions');
 
     Meteor.call('search.export', collectionName, searchDefinition, searchOptions, (err, results) => {
       if (err) {
@@ -78,7 +78,7 @@ Template.tenantList.events({
           tasks: tenant.settings.task.defaultNumber,
           currency: tenant.settings.currency,
           coupon: (tenant.stripe && tenant.stripe.coupon ? tenant.stripe.coupon : '')
-        }
+        };
 
         tenantArray.push(data);
       });
@@ -103,9 +103,9 @@ Template.tenantList.events({
   "click #export-users": function(event, template) {
     var collectionName = "tenants";
 
-    var index = Collections[collectionName].index,
-      searchDefinition = index.getComponentDict().get('searchDefinition'),
-      searchOptions = index.getComponentDict().get('searchOptions');
+    var index = Collections[collectionName].index;
+    var searchDefinition = index.getComponentDict().get('searchDefinition');
+    var searchOptions = index.getComponentDict().get('searchOptions');
 
     Meteor.call('users.export', collectionName, searchDefinition, searchOptions, (err, results) => {
       if (err) {
