@@ -1,3 +1,5 @@
+import '/imports/startup/client';
+
 Template.appLayout.helpers({
   hasMenuClass: function() {
     // var loggedIn = (Meteor.userId() ? true : false);
@@ -12,6 +14,7 @@ Template.appLayout.helpers({
     return FlowRouter.subsReady();
   }
 });
+
 Template.appLayout.onRendered(function() {
   $.getScript('/vendor/bowser.min.js');
   if (bowser.mobile || Meteor.isCordova) {
@@ -28,6 +31,7 @@ Template.appLayout.onRendered(function() {
     });
   }
 });
+
 Template.appLayout.onCreated(function() {
   this.autorun(function() {
     if (Meteor.user() && !Roles.userIsInRole(Meteor.userId(), ['superadmin']) && Meteor.isProduction) {
