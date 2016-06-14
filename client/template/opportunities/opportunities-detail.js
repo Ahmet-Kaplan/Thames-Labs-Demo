@@ -331,6 +331,7 @@ Template.opportunityDetail.events({
       var companyName = "";
       var companyAddress = "";
       var contactName = "";
+      var userName = Meteor.user().profile.name;
 
       if (this.companyId) {
         var company = Companies.findOne(this.companyId);
@@ -357,7 +358,8 @@ Template.opportunityDetail.events({
           name: oi.name,
           description: oi.description,
           value: oi.value,
-          quantity: oi.quantity
+          quantity: oi.quantity,
+          total: Number(oi.value * oi.quantity).toFixed(2)
         };
         items.push(obj);
       });
@@ -369,7 +371,9 @@ Template.opportunityDetail.events({
         "date": date,
         "lineItems": items,
         "opportunityName": opp.name,
-        "opportunityDescription": opp.description
+        "opportunityDescription": opp.description,
+        "author": userName,
+        "opportunityNumber": opp.sequencedIdentifier
       });
 
       doc.render();
