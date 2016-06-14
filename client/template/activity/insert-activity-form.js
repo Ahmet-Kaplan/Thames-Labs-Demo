@@ -68,6 +68,32 @@ Template.insertActivityModal.helpers({
   }
 });
 
+Template.insertContactActivityModal.events({
+  'click #confirm': function(e, t) {
+    if (AutoForm.validateForm('insertContactActivityForm')) {
+      if ($('#create-task-toggle').prop('checked')) {
+        var taskDate = moment($('#helperContent .taskdatetimepicker').val()).toDate();
+        var taskTitle = "Follow Up " + AutoForm.getFieldValue('type', 'insertContactActivityForm');
+
+        Tasks.insert({
+          title: taskTitle,
+          description: TagStripper.strip(AutoForm.getFieldValue('notes', 'insertContactActivityForm')),
+          dueDate: taskDate,
+          assigneeId: Meteor.userId(),
+          completed: false,
+          remindMe: true,
+          reminder: '1.hours',
+          entityType: 'contact',
+          entityId: AutoForm.getFieldValue('primaryEntityId', 'insertContactActivityForm'),
+          createdBy: Meteor.userId()
+        }, function(err) {
+          console.log(err);
+        });
+      }
+    }
+  }
+});
+
 Template.insertContactActivityModal.helpers({
   currentDateTime: function() {
     return moment();
@@ -84,6 +110,33 @@ Template.insertContactActivityModal.helpers({
   },
   fullName: function() {
     return this.contact.forename + " " + this.contact.surname;
+  }
+});
+
+Template.insertProjectActivityModal.events({
+  'click #confirm': function(e, t) {
+    if (AutoForm.validateForm('insertProjectActivityForm')) {
+      if ($('#create-task-toggle').prop('checked')) {
+        var taskDate = moment($('#helperContent .taskdatetimepicker').val()).toDate();
+
+        var taskTitle = "Follow Up " + AutoForm.getFieldValue('type', 'insertProjectActivityForm');
+
+        Tasks.insert({
+          title: taskTitle,
+          description: TagStripper.strip(AutoForm.getFieldValue('notes', 'insertProjectActivityForm')),
+          dueDate: taskDate,
+          assigneeId: Meteor.userId(),
+          completed: false,
+          remindMe: true,
+          reminder: '1.hours',
+          entityType: 'project',
+          entityId: AutoForm.getFieldValue('primaryEntityId', 'insertProjectActivityForm'),
+          createdBy: Meteor.userId()
+        }, function(err) {
+          console.log(err);
+        });
+      }
+    }
   }
 });
 
@@ -116,6 +169,33 @@ Template.insertPurchaseOrderActivityModal.helpers({
     }
 
     return false;
+  }
+});
+
+Template.insertOpportunityActivityModal.events({
+  'click #confirm': function(e, t) {
+    if (AutoForm.validateForm('insertOpportunityActivityForm')) {
+      if ($('#create-task-toggle').prop('checked')) {
+        var taskDate = moment($('#helperContent .taskdatetimepicker').val()).toDate();
+
+        var taskTitle = "Follow Up " + AutoForm.getFieldValue('type', 'insertOpportunityActivityForm');
+
+        Tasks.insert({
+          title: taskTitle,
+          description: TagStripper.strip(AutoForm.getFieldValue('notes', 'insertOpportunityActivityForm')),
+          dueDate: taskDate,
+          assigneeId: Meteor.userId(),
+          completed: false,
+          remindMe: true,
+          reminder: '1.hours',
+          entityType: 'opportunity',
+          entityId: AutoForm.getFieldValue('primaryEntityId', 'insertOpportunityActivityForm'),
+          createdBy: Meteor.userId()
+        }, function(err) {
+          console.log(err);
+        });
+      }
+    }
   }
 });
 
