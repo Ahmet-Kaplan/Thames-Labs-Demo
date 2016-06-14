@@ -40,6 +40,7 @@ function createTenant(name, plan) {
       }
     },
     stripe: {},
+
     createdAt: new Date()
   };
 
@@ -47,7 +48,7 @@ function createTenant(name, plan) {
 }
 
 function createUser(tenantId, name, email) {
-  // TODO: make this use our actual user creation method for better accuracy
+  // we should make this use our actual user creation method for better accuracy
   const userId = Accounts.createUser({
     username: name,
     email: email,
