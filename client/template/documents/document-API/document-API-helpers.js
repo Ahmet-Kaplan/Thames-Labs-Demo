@@ -13,6 +13,9 @@ documentAPI.loadScripts = function() {
       gapi.load('picker');
     });
   }
+  if (typeof OneDrive === 'undefined') {
+    $.getScript('https://js.live.net/v7.0/OneDrive.js');
+  }
 };
 
 documentAPI.addDocument = function(collectionName, id, documentData) {

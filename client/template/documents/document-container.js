@@ -50,6 +50,14 @@ Template.documentContainer.events({
       });
     });
   },
+  'click #add-onedrive-document': function() {
+    documentAPI.onedriveChooser( (err, res) => {
+      if (err) throw new Meteor.Error(err);
+      _.each(res, (file) => {
+        documentAPI.addDocument(this.collectionName, this.id, file);
+      });
+     });
+  },
   'click #remove-document': function() {
     documentAPI.removeDocument(this.collectionName, this.id, this);
   }
