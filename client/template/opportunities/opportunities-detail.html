@@ -246,6 +246,8 @@
           <ul>
             <li>{opportunityName} - Opportunity name</li>
             <li>{opportunityDescription} - Opportunity description</li>
+            <li>{opportunityNumber} - Opportunity RealTime ID number</li>
+            <li>{author} - The name of the current user</li>
 
             <li>{companyName} - Company name (if provided)</li>
             <li>{companyAddress} - Address of company (if provided)</li>
@@ -256,10 +258,11 @@
 
           For each line item, you can specify the following tags:
           <ul>
-            <li>{name} - The name of the opportunity</li>
-            <li>{description} - The description of the opportunity</li>
-            <li>{value} - The value of the opportunity</li>
-            <li>{quantity} - The quantity of the opportunity</li>
+            <li>{name} - The name of the opportunity line item</li>
+            <li>{description} - The description of the opportunity line item</li>
+            <li>{value} - The value of the opportunity line item</li>
+            <li>{quantity} - The quantity of the opportunity line item</li>
+            <li>{total} - The total cost of the opportunity line item</li>
           </ul>
           You can loop through multiple items in your template by wrapping them as follows:
           <blockquote>
