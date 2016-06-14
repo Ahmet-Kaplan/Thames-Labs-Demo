@@ -42,7 +42,7 @@ Meteor.methods({
 
       Accounts.sendEnrollmentEmail(userId);
 
-      var txt = 'New sign up from ' + userDetails.name + ' at company ' + userDetails.companyName;
+      var txt = 'New sign up from ' + userDetails.name + ' at company ' + userDetails.companyName + ' with email address ' + userDetails.email;
       Email.send({
         to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
         from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
@@ -51,10 +51,8 @@ Meteor.methods({
       });
 
       return true;
-    } else {
-      return false;
     }
-
+    return false;
   }
 
 });

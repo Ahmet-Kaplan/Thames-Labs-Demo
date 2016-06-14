@@ -13,52 +13,48 @@ Collections.products.filters = {
     display: 'Sales Price <',
     prop: 'salesPriceLower',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   salesPriceGreater: {
     display: 'Sales Price >',
     prop: 'salesPriceGreater',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   costPriceLower: {
     display: 'Cost Price <',
     prop: 'costPriceLower',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   costPriceGreater: {
     display: 'Cost Price >',
     prop: 'costPriceGreater',
     verify: function(value) {
-      value = parseInt(value);
+      value = parseInt(value, 10);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
         return false;
-      } else {
-        return true;
       }
+      return true;
     }
   },
   tags: {
@@ -94,14 +90,10 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadProducts']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'name': 1
-      }
-    },
+    sort: () => ({ 'name': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       return {
         'name': 1,
@@ -109,13 +101,13 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
         'cost': 1,
         'tags': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.sequencedIdentifier) {
-        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
 
       if (options.search.props.searchById) {
@@ -131,8 +123,8 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
 
       if (options.search.props.salesPriceLower || options.search.props.salesPriceGreater) {
         selector.price = {};
-        var priceLowerThan = parseInt(options.search.props.salesPriceLower);
-        var priceGreaterThan = parseInt(options.search.props.salesPriceGreater);
+        var priceLowerThan = parseInt(options.search.props.salesPriceLower, 10);
+        var priceGreaterThan = parseInt(options.search.props.salesPriceGreater, 10);
 
         if (!isNaN(priceLowerThan)) {
           selector.price.$lte = priceLowerThan;
@@ -145,8 +137,8 @@ Collections.products.index = ProductsIndex = new EasySearch.Index({
 
       if (options.search.props.costPriceLower || options.search.props.costPriceGreater) {
         selector.cost = {};
-        var costLowerThan = parseInt(options.search.props.costPriceLower);
-        var costGreaterThan = parseInt(options.search.props.costPriceGreater);
+        var costLowerThan = parseInt(options.search.props.costPriceLower, 10);
+        var costGreaterThan = parseInt(options.search.props.costPriceGreater, 10);
 
         if (!isNaN(costLowerThan)) {
           selector.cost.$lte = costLowerThan;
@@ -175,34 +167,44 @@ Products.before.insert(function(userId, doc) {
 });
 
 Products.after.insert(function(userId, doc) {
-  logEvent('info', 'A new product has been created: ' + doc.name);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " created a new product", 'product', doc._id);
+  }
 
   if (Meteor.isServer) {
-    var user = Meteor.users.findOne({
-      _id: userId
-    });
-    var tenant = Tenants.findOne({
-      _id: user.group
-    });
-
-    if (!Roles.userIsInRole(userId, ['superadmin'])) {
-
-      Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'product', function(err, res) {
-        if (err) throw new Meteor.Error(err);
-        _.each(res, function(ex) {
-          CustomFields.insert({
-            name: ex.name,
-            value: (ex.value ? ex.value : ''),
-            defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
-            type: ex.type,
-            global: true,
-            order: ex.order,
-            target: 'product',
-            listValues: '',
-            entityId: doc._id
-          });
-        });
+    if (user) {
+      var tenant = Tenants.findOne({
+        _id: user.group
       });
+      if (tenant) {
+        if (!Roles.userIsInRole(userId, ['superadmin'])) {
+          Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'product', function(err, res) {
+            if (err) throw new Meteor.Error(err);
+            _.each(res, function(ex) {
+              CustomFields.insert({
+                name: ex.name,
+                value: (ex.value ? ex.value : ''),
+                defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+                type: ex.type,
+                global: true,
+                order: ex.order,
+                target: 'product',
+                listValues: '',
+                entityId: doc._id
+              }, function(err) {
+                if (err) {
+                  LogServerEvent(LogLevel.Warning, "An error occurred whilst instanciating the global custom field '" + ex.name + "': " + err, 'product', doc._id);
+                }
+              });
+            });
+          });
+        }
+      }
     }
 
     if (doc._groupId) {
@@ -212,30 +214,48 @@ Products.after.insert(function(userId, doc) {
         $inc: {
           'settings.product.defaultNumber': 1
         }
+      }, function(err) {
+        if (err) {
+          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's RealTime ID product value: " + err, 'tenant', doc._groupId);
+          return;
+        }
       });
     }
   }
 });
 
 Products.after.update(function(userId, doc, fieldNames, modifier, options) {
-  if (doc.description !== this.previous.description) {
-    logEvent('info', 'An existing product has been updated: The value of "description" was changed');
-  }
-  if (doc.name !== this.previous.name) {
-    logEvent('info', 'An existing product has been updated: The value of "name" was changed from ' + this.previous.name + " to " + doc.name);
-  }
-  if (doc.cost !== this.previous.cost) {
-    logEvent('info', 'An existing product has been updated: The value of "cost price" was changed from ' + this.previous.cost + " to " + doc.cost);
-  }
-  if (doc.price !== this.previous.price) {
-    logEvent('info', 'An existing product has been updated: The value of "sales price" was changed from ' + this.previous.price + " to " + doc.price);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
+  if (user) {
+    if (doc.description !== this.previous.description) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's description", 'product', doc._id);
+    }
+    if (doc.name !== this.previous.name) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's name", 'product', doc._id);
+    }
+    if (doc.cost !== this.previous.cost) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's cost", 'product', doc._id);
+    }
+    if (doc.price !== this.previous.price) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's price", 'product', doc._id);
+    }
   }
 });
 
 Products.after.remove(function(userId, doc) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
   if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
     return;
   }
 
-  logEvent('info', 'A product has been deleted: ' + doc.name);
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted product '" + doc.name + "'", null, null);
+  }
 });

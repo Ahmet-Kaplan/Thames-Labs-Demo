@@ -1,19 +1,19 @@
-Template.auditLog.onCreated(function() {
+Template.eventLog.onCreated(function() {
   // Redirect if not superadmin
   this.autorun(function() {
     superAdminOnly(Meteor.userId());
   });
 });
 
-Template.auditLog.events({
-  'click #clear-audit-log': function() {
+Template.eventLog.events({
+  'click #clear-event-log': function() {
     bootbox.confirm("Are you sure you wish to delete all log entries?", function(result) {
       if (result === true) {
-        Meteor.call('clearAuditLog', function(error, result) {
+        Meteor.call('clearEventLog', function(error, result) {
           if (error) {
-            logEvent('fatal', 'Could not clear the audit log: ' + error);
+            LogClientEvent(LogLevel.Error, "An error occurred whilst attempting to clear the event log: " + error, null, null);
           } else {
-            logEvent('verbose', 'Audit log cleared.');
+            LogClientEvent(LogLevel.Info, "Super-admin user cleared the event logs", null, null);
           }
         });
         bootbox.hideAll();
@@ -22,9 +22,9 @@ Template.auditLog.events({
   }
 });
 
-Template.auditLogEntry.helpers({
+Template.eventLogEntry.helpers({
   friendlyDate: function() {
-    return new moment(this.date).format("Do MMMM YYYY, HH:mm:ss");
+    return moment(this.date).format("Do MMMM YYYY, HH:mm:ss");
   },
   displayLevel: function() {
     var returnedData;

@@ -1,9 +1,17 @@
-// Helper function to get the domain from a url
-var domainFromUrl = function(url) {
-  var a = document.createElement('a');
-  a.href = url;
-  return a.hostname;
-};
+// http://stackoverflow.com/questions/8498592/extract-root-domain-name-from-string
+function domainFromUrl(url) {
+  if(!url) {
+    return '';
+  }
+  var domain;
+  if (url.indexOf("://") > -1) {
+    domain = url.split('/')[2];
+  } else {
+    domain = url.split('/')[0];
+  }
+  domain = domain.split(':')[0];
+  return domain;
+}
 
 Template.companyLogo.onCreated(function() {
   this.imageUrl = new ReactiveVar(null);

@@ -19,7 +19,7 @@ Template.globalSearch.helpers({
         template: Template.resultPill,
         matchAll: true
       }]
-    }
+    };
   }
 });
 
@@ -58,4 +58,4 @@ Template.resultPill.helpers({
       return '<a href="/companies/' + this._id + '"><span class="label label-primary"><i class="fa fa-fw fa-building"></i></span>' + this.name + '</a>';
     }
   }
-})
+});

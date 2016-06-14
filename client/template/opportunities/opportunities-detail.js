@@ -15,7 +15,7 @@ Template.opportunityDetail.onCreated(function() {
     }
 
     // Redirect if data doesn't exist
-    if (FlowRouter.subsReady() && opportunity === undefined) {
+    if (FlowRouter.subsReady() && typeof opportunity === "undefined") {
       FlowRouter.go('opportunities');
     }
 
@@ -95,7 +95,7 @@ Template.opportunityDetail.helpers({
     return _.sum(this.items, function(item) {
       var subValue = item.quantity * item.value;
       if (!isNaN(subValue)) return subValue;
-    })
+    });
   },
   company: function() {
     return Companies.findOne({
@@ -110,9 +110,8 @@ Template.opportunityDetail.helpers({
   canExportDocx: function() {
     if (bowser.safari) {
       return false;
-    } else {
-      return true;
     }
+    return true;
   }
 });
 
@@ -259,7 +258,7 @@ Template.opportunityDetail.events({
           callback: function() {
             var type = $('#selectedProjectType').val();
 
-            Meteor.call('winOpportunity', opp, parseInt(type), function(err, id) {
+            Meteor.call('winOpportunity', opp, parseInt(type, 10), function(err, id) {
               if (Roles.userIsInRole(Meteor.userId(), ['CanReadProjects'])) {
                 FlowRouter.go('/projects/' + id);
               }
@@ -279,9 +278,9 @@ Template.opportunityDetail.events({
     bootbox.confirm("Are you sure you wish to reopen this opportunity?", (result) => {
       if (result === false) return;
 
-      var user = Meteor.user(),
-          note = user.profile.name + ' reopened this opportunity',
-          today = new Date();
+      var user = Meteor.user();
+      var note = user.profile.name + ' reopened this opportunity';
+      var today = new Date();
 
       Opportunities.update(this._id, {
         $unset: {
@@ -325,20 +324,26 @@ Template.opportunityDetail.events({
 
     var reader = new FileReader();
     reader.onload = function() {
+      toastr.info("Extracting, please wait...");
+
       var doc = new Docxgen(reader.result);
 
-      var companyName = "",
-          companyAddress = "",
-          contactName = "";
+      var companyName = "";
+      var companyAddress = "";
+      var contactName = "";
 
       if (this.companyId) {
         var company = Companies.findOne(this.companyId);
-        companyName = company.name;
-        companyAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
+        if (company) {
+          companyName = company.name;
+          companyAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
+        }
       }
       if (this.contactId) {
         var contact = Contacts.findOne(this.contactId);
-        contactName = contact.forename + " " + contact.surname;
+        if (contact) {
+          contactName = contact.forename + " " + contact.surname;
+        }
       }
 
       var date = moment().format("MMM Do YYYY");
@@ -353,7 +358,7 @@ Template.opportunityDetail.events({
           description: oi.description,
           value: oi.value,
           quantity: oi.quantity
-        }
+        };
         items.push(obj);
       });
 
@@ -378,6 +383,7 @@ Template.opportunityDetail.events({
       });
       saveAs(blob, file.name);
 
+      $('#template-upload-docx').val('');
 
       Activities.insert({
         type: "Note",
@@ -402,9 +408,9 @@ Template.opportunityDetail.events({
     reader.onload = function() {
       var doc = new Docxgen(reader.result);
 
-      var companyName = "",
-          companyAddress = "",
-          contactName = "";
+      var companyName = "";
+      var companyAddress = "";
+      var contactName = "";
 
       if (this.companyId) {
         var company = Companies.findOne(this.companyId);
@@ -428,7 +434,7 @@ Template.opportunityDetail.events({
           name: oi.name,
           description: oi.description,
           value: oi.value
-        }
+        };
         items.push(obj);
       });
 
@@ -495,12 +501,14 @@ Template.opportunityDetail.events({
           }
 
           //Convert returned base64 string into blob for download
-          var data = base64toBlob(res.data.file, 'application/pdf');
+          var blobData = base64toBlob(res.data.file, 'application/pdf');
           Meteor.call('remainingConversions', res.headers['x-ratelimit-requests-remaining'], function(err, res) {});
-          saveAs(data, file.name.replace(".docx", ".pdf"));
+          saveAs(blobData, file.name.replace(".docx", ".pdf"));
         });
       };
       toastr.success("Your file will be downloaded shortly", "Processing...");
+
+      $('#template-upload').val('');
 
       Activities.insert({
         type: "Note",
@@ -549,6 +557,10 @@ Template.opportunityDetail.events({
   },
   'click .nav-link': function(event) {
     event.preventDefault();
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('editOpportunityModal', this);
   }
 });
 

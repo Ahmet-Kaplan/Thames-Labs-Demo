@@ -16,6 +16,7 @@ Schemas.Activity = new SimpleSchema({
   activityTimestamp: {
     type: Date,
     label: "Activity Date/Time",
+    defaultValue: new Date(),
     autoform: {
       type: "bootstrap-datetimepicker",
       dateTimePickerOptions: {

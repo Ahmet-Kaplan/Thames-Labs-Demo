@@ -50,7 +50,7 @@ postRoutes.route('/webhook/stripe', function(params, request, response) {
 
 /**
  * Meteor methods used to get responses from the Stripe API.
- * <br> Methods can be called unsing `Meteor.call('stripe.[methodName]', function(err, res){});`
+ * <br> Methods can be called using `Meteor.call('stripe.[methodName]', function(err, res){});`
  * @module stripe
  */
 
@@ -564,7 +564,7 @@ Meteor.methods({
       });
       return true;
     } else {
-      var couponDetails = stripeMethodsAsync.coupons.retrieve(couponId);
+      couponDetails = stripeMethodsAsync.coupons.retrieve(couponId);
       if(couponDetails.valid === true) {
         Tenants.update(tenantId, {
           $set: {

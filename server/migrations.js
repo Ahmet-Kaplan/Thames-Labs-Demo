@@ -22,7 +22,7 @@ Migrations.add({
               if (a.dataOrder < b.dataOrder) return -1;
               if (a.dataOrder > b.dataOrder) return 1;
               return 0;
-            })
+            });
             _.each(sortedArray, function(ei, i) {
               if (ei.dataName !== "") {
                 var cfId = CustomFields.insert({
@@ -43,7 +43,7 @@ Migrations.add({
                     $unset: {
                       extendedInformation: ''
                     }
-                  })
+                  });
                 }
               }
             });
@@ -64,7 +64,7 @@ Migrations.add({
               if (a.dataOrder < b.dataOrder) return -1;
               if (a.dataOrder > b.dataOrder) return 1;
               return 0;
-            })
+            });
             _.each(sortedArray, function(ei, i) {
               if (ei.dataName !== "") {
                 var cfId = CustomFields.insert({
@@ -85,7 +85,7 @@ Migrations.add({
                     $unset: {
                       extendedInformation: ''
                     }
-                  })
+                  });
                 }
               }
             });
@@ -106,7 +106,7 @@ Migrations.add({
               if (a.dataOrder < b.dataOrder) return -1;
               if (a.dataOrder > b.dataOrder) return 1;
               return 0;
-            })
+            });
             _.each(sortedArray, function(ei, i) {
               if (ei.dataName !== "") {
                 var cfId = CustomFields.insert({
@@ -127,7 +127,7 @@ Migrations.add({
                     $unset: {
                       extendedInformation: ''
                     }
-                  })
+                  });
                 }
               }
             });
@@ -148,7 +148,7 @@ Migrations.add({
               if (a.dataOrder < b.dataOrder) return -1;
               if (a.dataOrder > b.dataOrder) return 1;
               return 0;
-            })
+            });
             _.each(sortedArray, function(ei, i) {
 
               if (ei.dataName !== "") {
@@ -171,7 +171,7 @@ Migrations.add({
                     $unset: {
                       extendedInformation: ''
                     }
-                  })
+                  });
                 }
               }
             });
@@ -275,5 +275,7 @@ Migrations.add({
         });
       });
     });
+
+    ServerSession.set('maintenance', false);
   }
 });

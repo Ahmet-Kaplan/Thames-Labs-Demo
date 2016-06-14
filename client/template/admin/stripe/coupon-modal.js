@@ -44,4 +44,4 @@ Template.couponModal.events({
       }
     });
   }
-})
+});

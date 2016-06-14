@@ -94,11 +94,11 @@ Meteor.methods({
 
   addCompany: function(name) {
     var companyName = (name === true) ? 'Clouds Inc.' : (name || 'Test Ltd'),
-      address = (name === true) ? '3rd Tower on the left' : 'Cowley Road',
-      city = (name === true) ? 'Cloudy' : 'Cambridge',
-      postcode = (name === true) ? 'CC1' : 'CB4',
-      country = (name === true) ? 'Bespin' : 'United Kingdom',
-      userId = this.userId;
+        address = (name === true) ? '3rd Tower on the left' : 'Cowley Road',
+        city = (name === true) ? 'Cloudy' : 'Cambridge',
+        postcode = (name === true) ? 'CC1' : 'CB4',
+        country = (name === true) ? 'Bespin' : 'United Kingdom',
+        userId = this.userId;
 
     var data = Companies.insert({
       name: companyName,
@@ -123,14 +123,18 @@ Meteor.methods({
 
   addContact: function(forename, surname) {
     var contactForename = (forename === true) ? 'Obi-Wan' : (forename || 'Testy'),
-      contactSurname = (forename === true) ? 'Kenobi' : (surname || 'Surname'),
-      email = (forename === true) ? 'obiwan@kenobi.com' : 'testy@surname.com'
+        contactSurname = (forename === true) ? 'Kenobi' : (surname || 'Surname'),
+        email = (forename === true) ? 'obiwan@kenobi.com' : 'testy@surname.com';
     userId = Meteor.userId();
 
     var contactId = Contacts.insert({
       forename: contactForename,
       surname: contactSurname,
       email: email,
+      address: 'Cowley Road',
+      city: 'Cambridge',
+      postcode: 'CB4 0WS',
+      country: 'United Kingdom',
       createdBy: userId,
       customFields: {},
       extendedInformation: [],
@@ -172,9 +176,9 @@ Meteor.methods({
 
   addProduct: function(additional) {
     var name = (additional === true) ? 'Lightsabre (blue)' : 'Imperial Blaster',
-      description = (additional === true) ? 'An elegant weapon, from a more civilised age' : 'Accurate and deadly',
-      cost = (additional === true) ? 0 : 100,
-      price = (additional === true) ? Infinity : 200;
+        description = (additional === true) ? 'An elegant weapon, from a more civilised age' : 'Accurate and deadly',
+        cost = (additional === true) ? 0 : 100,
+        price = (additional === true) ? Infinity : 200;
 
     var productId = Products.insert({
       name: name,
@@ -196,10 +200,10 @@ Meteor.methods({
 
   addProject: function(additional) {
     var companyId = (additional === true) ? Meteor.call('addCompany', true) : Companies.findOne({})._id,
-      name = (additional === true) ? 'Restore Peace to the galaxy' : 'test project',
-      description = (additional === true) ? 'Since the Sith took control, the galaxy is an awful place to live.' :
-      'The purpose of this project is only to serve as an example for the tests.',
-      value = (additional === true) ? 10000 : 100;
+        name = (additional === true) ? 'Restore Peace to the galaxy' : 'test project',
+        description = (additional === true) ? 'Since the Sith took control, the galaxy is an awful place to live.' :
+        'The purpose of this project is only to serve as an example for the tests.',
+        value = (additional === true) ? 10000 : 100;
 
     var projectId = Projects.insert({
       name: name,
@@ -238,7 +242,7 @@ Meteor.methods({
     };
 
     Tenants.update({
-      name: tenantName,
+      name: tenantName
     }, {
       $set: {
         "settings.project.types": [projectType]
@@ -253,7 +257,7 @@ Meteor.methods({
     };
 
     Tenants.update({
-      name: tenantName,
+      name: tenantName
     }, {
       $set: {
         "settings.project.types": [projectType]
@@ -262,7 +266,6 @@ Meteor.methods({
   },
 
   addOpportunity: function(additional) {
-    var userTenant = Tenants.findOne({});
     var stages = [];
     stages.push({
       title: 'Stage 1',
@@ -275,7 +278,7 @@ Meteor.methods({
       id: 1
     });
     var stage = stages[0];
-    Tenants.update(userTenant._id, {
+    Tenants.update(Partitioner.group(), {
       $set: {
         'settings.opportunity.stages': stages
       }
@@ -284,8 +287,8 @@ Meteor.methods({
     var date = new Date();
     var companyId = Meteor.call('addCompany', additional);
     var name = (additional === true) ? 'Destroy Death Star' : 'test opportunity',
-      description = (additional === true) ? 'This is no moon!' : 'test description',
-      value = (additional === true) ? 5000 : 40;
+        description = (additional === true) ? 'This is no moon!' : 'test description',
+        value = (additional === true) ? 5000 : 40;
 
     var data = Opportunities.insert({
       name: name,
@@ -311,10 +314,10 @@ Meteor.methods({
   addPurchaseOrder: function(additional) {
 
     var name = (additional === true) ? 'Jawa Inc.' : "Test Ltd",
-      address = (additional === true) ? 'Banthas Road' : "address",
-      city = (additional === true) ? 'Mos Eisley' : "city",
-      postcode = (additional === true) ? 'ME1' : "postcode",
-      country = (additional === true) ? 'Tatooine' : "country";
+        address = (additional === true) ? 'Banthas Road' : "address",
+        city = (additional === true) ? 'Mos Eisley' : "city",
+        postcode = (additional === true) ? 'ME1' : "postcode",
+        country = (additional === true) ? 'Tatooine' : "country";
 
     var companyId = Companies.insert({
       name: name,
@@ -327,7 +330,7 @@ Meteor.methods({
     });
 
     var description = (additional === true) ? 'R2 type Droid' : "Test Purchase Order",
-      status = (additional === true) ? 'Approved' : 'Requested';
+        status = (additional === true) ? 'Approved' : 'Requested';
 
     var data = PurchaseOrders.insert({
       userId: this.userId,
@@ -343,13 +346,19 @@ Meteor.methods({
   },
 
   addEvent: function() {
-
-    var data = AuditLog.insert({
-      token: "P2vxnjD2fgyZvuFNc",
-      date: "2015-11-18T10:17:24.346Z",
-      source: "client",
-      level: "info",
-      message: "A new task has been created: test (Company: Test Ltd)",
+    var userGroup = Tenants.findOne({
+      name: 'Acme Corp'
+    });
+    var data = EventLog.insert({
+      date: new Date(),
+      source: 'client',
+      level: 'info',
+      message: 'This is a test event',
+      user: 'test user',
+      entityType: null,
+      entityId: null,
+      tenant: 'Acme Corp',
+      group: userGroup._id
     });
 
     return data;
@@ -371,7 +380,7 @@ Meteor.methods({
 
   addRecordsToLimit: function() {
     var Future = Npm.require('fibers/future');
-    var done = new Future()
+    var done = new Future();
     var control = _.after(MAX_RECORDS, function() {
       done.return(true);
     });

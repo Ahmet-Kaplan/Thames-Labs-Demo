@@ -75,11 +75,10 @@ Template.stripeAdmin.helpers({
     var stripeSubs = Tenants.findOne({
       _id: Meteor.user().group
     }).stripe.stripeSubs;
-    if(!!stripeSubs) {
-      return Template.instance().stripeCustomer.get() !== 'loading'
-    } else {
-      return true;
+    if (!!stripeSubs) {
+      return Template.instance().stripeCustomer.get() !== 'loading';
     }
+    return true;
   },
   currentSubscription: function() {
     var stripeCustomer = Template.instance().stripeCustomer.get();
@@ -101,9 +100,8 @@ Template.stripeAdmin.helpers({
     var stripeCustomer = Template.instance().stripeCustomer.get();
     if(stripeCustomer.id && stripeCustomer.subscriptions.total_count) {
       return stripeCustomer.subscriptions.data[0].cancel_at_period_end;
-    } else {
-      return false;
     }
+    return false;
   },
   stripeCustomer: function() {
     var stripeCustomer = Template.instance().stripeCustomer.get();

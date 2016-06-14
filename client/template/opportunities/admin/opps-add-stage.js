@@ -2,7 +2,7 @@ getNewStageId = function(stages) {
   var maxVal = -1;
   _.each(stages, function(s) {
     if (s.id > maxVal) {
-      maxVal = s.id
+      maxVal = s.id;
     }
   });
   return maxVal + 1;

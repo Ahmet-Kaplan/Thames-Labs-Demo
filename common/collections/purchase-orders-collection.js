@@ -51,9 +51,8 @@ Collections.purchaseorders.filters = {
     displayValue: function(company) {
       if (company) {
         return company.name;
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   contact: {
@@ -66,9 +65,8 @@ Collections.purchaseorders.filters = {
     displayValue: function(contact) {
       if (contact) {
         return contact.name();
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   status: {
@@ -77,9 +75,8 @@ Collections.purchaseorders.filters = {
     verify: function(status) {
       if (Schemas.PurchaseOrder.schema().status.allowedValues.indexOf(status) !== -1) {
         return true;
-      } else {
-        return false;
       }
+      return false;
     },
     defaultOptions: function() {
       return Schemas.PurchaseOrder.schema('status').allowedValues;
@@ -89,26 +86,24 @@ Collections.purchaseorders.filters = {
     display: 'Total Price <',
     prop: 'totalValueLower',
     verify: function(value) {
-      value = parseFloat(value)
+      value = parseFloat(value);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
-      } else {
-        return true;
+        return false;
       }
+      return true;
     }
   },
   totalValueGreater: {
     display: 'Total Price >',
     prop: 'totalValueGreater',
     verify: function(value) {
-      value = parseFloat(value)
+      value = parseFloat(value);
       if (isNaN(value)) {
         toastr.error('Please enter a numeric value.');
-        return false
-      } else {
-        return true;
+        return false;
       }
+      return true;
     }
   },
   sequencedIdentifier: {
@@ -130,7 +125,7 @@ Collections.purchaseorders.filters = {
     valueField: 'name',
     nameField: 'name'
   },
-}
+};
 
 ////////////////////
 // SEARCH INDICES //
@@ -144,14 +139,10 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadPurchaseOrders']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'orderNumber': 1
-      }
-    },
+    sort: () => ({ 'orderNumber': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       return {
         'description': 1,
@@ -163,7 +154,7 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
         'totalValue': 1,
         'tags': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
@@ -246,7 +237,14 @@ PurchaseOrders.before.insert(function(userId, doc) {
 });
 
 PurchaseOrders.after.insert(function(userId, doc) {
-  logEvent('info', 'A new purchase order has been created: ' + doc.description);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " created a new purchase order", 'purchaseOrder', doc._id);
+  }
 
   if (Meteor.isServer) {
     if (doc._groupId) {
@@ -256,61 +254,64 @@ PurchaseOrders.after.insert(function(userId, doc) {
         $inc: {
           'settings.purchaseorder.defaultNumber': 1
         }
+      }, function(err) {
+        if (err) {
+          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's RealTime ID purchase order value: " + err, 'tenant', doc._groupId);
+          return;
+        }
       });
     }
   }
 });
 
 PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options) {
-  if (doc.description !== this.previous.description) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "description" was changed from ' + this.previous.description + " to " + doc.description);
-  }
-  if (doc.userId !== this.previous.userId) {
-    var prevUser = Meteor.users.findOne(this.previous.userId);
-    var newUser = Meteor.users.findOne(doc.userId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "userId" was changed from ' + this.previous.userId + '(' + prevUser.profile.name + ") to " + doc.userId + ' (' + newUser.profile.name + ')');
-  }
-  if (doc.orderNumber !== this.previous.orderNumber) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "orderNumber" was changed from ' + this.previous.orderNumber + " to " + doc.orderNumber);
-  }
-  if (doc.supplierReference !== this.previous.supplierReference) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "supplierReference" was changed from ' + this.previous.supplierReference + " to " + doc.supplierReference);
-  }
-  if (doc.status !== this.previous.status) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "status" was changed from ' + this.previous.status + " to " + doc.status);
-    if (Meteor.isServer && _.includes(["Approved", "Rejected"], doc.status)) {
-      Meteor.call('addPoNotification', doc._id, doc.status);
-    };
-  }
-  if (doc.orderDate !== this.previous.orderDate) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "orderDate" was changed from ' + this.previous.orderDate + " to " + doc.orderDate);
-  }
-  if (doc.paymentMethod !== this.previous.paymentMethod) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "paymentMethod" was changed from ' + this.previous.paymentMethod + " to " + doc.paymentMethod);
-  }
-  if (doc.notes !== this.previous.notes) {
-    logEvent('info', 'An existing purchase order has been updated: The value of "notes" was changed from ' + this.previous.notes + " to " + doc.notes);
-  }
-  if (doc.supplierCompanyId !== this.previous.supplierCompanyId) {
-    var newComp = Companies.findOne(doc.supplierCompanyId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "supplierCompanyId" was changed from ' + this.previous.supplierCompanyId + ' (' + this.previous.name + ") to " + doc.supplierCompanyId + ' (' + newComp.name + ')');
-  }
-  if (doc.supplierContactId !== this.previous.supplierContactId) {
-    var prevCont = Contacts.findOne(this.previous.supplierContactId);
-    var newCont = Contacts.findOne(doc.supplierContactId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "supplierContactId" was changed from ' + this.previous.supplierContactId + ' (' + prevCont.forename + " " + prevCont.surname + ") to " + doc.supplierContactId + ' (' + newCont.forename + " " + newCont.surname + ')');
-  }
-  if (doc.projectId !== this.previous.projectId) {
-    var prevProj = Projects.findOne(this.previous.projectId);
-    var newProj = Projects.findOne(doc.projectId);
-    logEvent('info', 'An existing purchase order has been updated: The value of "projectId" was changed from ' + this.previous.projectId + ' (' + prevProj.description + ") to " + doc.projectId + ' (' + newProj.description + ')');
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
+  if (user) {
+    if (doc.description !== this.previous.description) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's description", 'purchaseOrder', doc._id);
+    }
+    if (doc.supplierReference !== this.previous.supplierReference) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's supplier reference", 'purchaseOrder', doc._id);
+    }
+    if (doc.status !== this.previous.status) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's status", 'purchaseOrder', doc._id);
+
+      if (Meteor.isServer && _.includes(["Approved", "Rejected"], doc.status)) {
+        Meteor.call('addPoNotification', doc._id, doc.status);
+      }
+    }
+    if (doc.paymentMethod !== this.previous.paymentMethod) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's payment method", 'purchaseOrder', doc._id);
+    }
+    if (doc.notes !== this.previous.notes) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's notes", 'purchaseOrder', doc._id);
+    }
+    if (doc.supplierCompanyId !== this.previous.supplierCompanyId) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's supplier company", 'purchaseOrder', doc._id);
+    }
+    if (doc.supplierContactId !== this.previous.supplierContactId) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's supplier contact", 'purchaseOrder', doc._id);
+    }
+    if (doc.projectId !== this.previous.projectId) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a purchase order's project", 'purchaseOrder', doc._id);
+    }
   }
 });
 
 PurchaseOrders.after.remove(function(userId, doc) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
   if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
     return;
   }
 
-  logEvent('info', 'A purchase order has been deleted: ' + doc.description);
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted purchase order '" + doc.description + "'", 'purchaseOrder', doc._id);
+  }
 });

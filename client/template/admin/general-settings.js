@@ -7,6 +7,6 @@ Template.generalSettings.events({
       } else {
         toastr.success('Your currency has been updated to <b>' + res.toUpperCase() + '</b>');
       }
-    })
+    });
   }
-})
+});

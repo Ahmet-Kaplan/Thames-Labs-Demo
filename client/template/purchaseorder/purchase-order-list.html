@@ -9,13 +9,15 @@
       </div>
       <div class="col-md-7 list-header-right">
         <div class="btn-group pull-right" role="group">
-            {{#if isInRole 'CanCreatePurchaseOrders'}}
+          {{#if isInRole 'CanCreatePurchaseOrders'}}
+            {{#unless isMobile}}
                 <button type="button" class="btn btn-md btn-primary" id="add-purchase-order" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+P"><i class="fa fa-fw fa-plus"></i> Add purchase order</button>
-            {{/if}}
-            {{> smallSearchBox collectionName='purchaseorders'}}
+            {{/unless}}
+          {{/if}}
+          {{> smallSearchBox collectionName='purchaseorders'}}
         </div>
         <br>
-        <ul class="list-toolbar pull-right">        
+        <ul class="list-toolbar pull-right">
             <li><a id="toggle-item-view">{{#if showItems}}Hide{{else}}Show{{/if}} PO items</a></li>
             <li><a id="toggle-closed">Show {{#if closedShown}}active{{else}}closed{{/if}} orders</a></li>
             <li><a id="ref_poOverviewWidget" data-toggle="popover" title="Purchase Orders Overview" data-content="
@@ -64,4 +66,13 @@
 
     </div>
   </div>
+
+  {{#if isInRole 'CanCreatePurchaseOrders'}}
+    {{#if isMobile}}
+      <div class="fab add" id="fab">
+        <i class="fa fw-fa fa-plus"></i>
+      </div>
+    {{/if}}
+  {{/if}}
+
 </template>

@@ -1,4 +1,35 @@
 Meteor.methods({
+  'tenant.getPayingUsers': function() {
+    var tenants = Tenants.find({
+      plan: 'pro',
+      'stripe.stripeSubs': {
+        $exists: true
+      }
+    }).fetch();
+
+    var userCount = 0;
+    _.each(tenants, function(t) {
+      userCount += Meteor.users.find({
+        group: t._id
+      }).fetch().length;
+    });
+
+    return userCount;
+  },
+  'tenant.getUsersForTenants': function(plan) {
+    var tenants = Tenants.find({
+      plan: plan
+    }).fetch();
+
+    var userCount = 0;
+    _.each(tenants, function(t) {
+      userCount += Meteor.users.find({
+        group: t._id
+      }).fetch().length;
+    });
+
+    return userCount;
+  },
   'tenant.remove': function(tenantId) {
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       throw new Meteor.Error(403, 'Only superadmins may completely delete a tenant');
@@ -16,7 +47,10 @@ Meteor.methods({
         console.log('Deleting tags...');
         Meteor.tags.remove({});
         console.log('Deleting events...');
-        AuditLog.remove({});
+        //EventLog is not partitioned
+        EventLog.remove({
+          group: tenantId
+        });
         console.log('Deleting companies...');
         Companies.remove({});
         console.log('Deleting contacts...');

@@ -35,7 +35,7 @@ Template.searchResults.onRendered(function() {
 Template.searchResults.helpers({
   listItem: function() {
     var templateName = Template.instance().data.listItemTemplateName;
-    return Template[templateName]
+    return Template[templateName];
   },
   resultsCount: function() {
     return Template.instance().data.index.getComponentDict().get('count');

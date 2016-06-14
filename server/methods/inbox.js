@@ -3,10 +3,10 @@ import bodyParser from 'body-parser';
 
 var upload = multer();
 
-Picker.middleware(upload.single())
+Picker.middleware(upload.single());
 Picker.middleware(bodyParser.urlencoded({
   extended: true
-}))
+}));
 Picker.middleware(bodyParser.json());
 
 Picker
@@ -14,22 +14,31 @@ Picker
     return req.method == "POST";
   })
   .route('/mailbox', function(params, req, res) {
-    var data = req.body;
-    if (data) {
-      Meteor.call('mailgun.createActivityFromBodyData', data);
-
+    if (Object.keys(req.body).length === 0) {
+      console.log('Email linkage: no body data found');
       res.writeHead(200, {
         'Content-Type': 'text/plain'
       });
       res.end('Message received and parsed.');
     } else {
-      res.writeHead(500, {
-        'Content-Type': 'text/plain'
-      });
-      res.end('No body found in request.');
+      var data = req.body;
+      console.log(data);
+
+      if (data) {
+        Meteor.call('mailgun.createActivityFromBodyData', data);
+
+        res.writeHead(200, {
+          'Content-Type': 'text/plain'
+        });
+        res.end('Message received and parsed.');
+      } else {
+        res.writeHead(500, {
+          'Content-Type': 'text/plain'
+        });
+        res.end('No body found in request.');
+      }
     }
   });
-
 
 Meteor.methods({
   'mailgun.createActivityFromBodyData': function(bodyData) {
@@ -57,40 +66,40 @@ Meteor.methods({
 
     if (!MeteorUser) {
       return;
-    } else {
-      var TheTenant = Tenants.findOne({
-        _id: MeteorUser.group
-      });
-      if (!TheTenant) {
-        return;
-      }
-
-      Partitioner.bindGroup(TheTenant._id, function() {
-        var toAddresses = bodyData.To.match(emailPattern);
-        var involvedParties = bodyData["body-plain"].match(emailPattern);
-        var addresses = _.union(toAddresses, involvedParties);
-
-        _.each(addresses, function(address) {
-          var contact = Contacts.findOne({
-            email: address
-          });
-
-          if (contact) {
-            Activities.insert({
-              type: 'Email',
-              notes: notesFieldData,
-              createdAt: Date.now(),
-              activityTimestamp: sendDate,
-              contactId: contact._id,
-              createdBy: MeteorUser._id,
-              primaryEntityId: contact._id,
-              primaryEntityType: 'contacts',
-              primaryEntityDisplayData: contact.name(),
-              tags: ['Automated']
-            });
-          }
-        })
-      });
     }
+
+    var TheTenant = Tenants.findOne({
+      _id: MeteorUser.group
+    });
+    if (!TheTenant) {
+      return;
+    }
+
+    Partitioner.bindGroup(TheTenant._id, function() {
+      var toAddresses = bodyData.To.match(emailPattern);
+      var involvedParties = bodyData["body-plain"].match(emailPattern);
+      var addresses = _.union(toAddresses, involvedParties);
+
+      _.each(addresses, function(address) {
+        var contact = Contacts.findOne({
+          email: address
+        });
+
+        if (contact) {
+          Activities.insert({
+            type: 'Email',
+            notes: notesFieldData,
+            createdAt: Date.now(),
+            activityTimestamp: sendDate,
+            contactId: contact._id,
+            createdBy: MeteorUser._id,
+            primaryEntityId: contact._id,
+            primaryEntityType: 'contacts',
+            primaryEntityDisplayData: contact.name(),
+            tags: ['Automated']
+          });
+        }
+      });
+    });
   }
 });

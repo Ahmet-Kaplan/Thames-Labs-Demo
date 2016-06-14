@@ -51,9 +51,8 @@ Collections.contacts.filters = {
     displayValue: function(company) {
       if (company) {
         return company.name;
-      } else {
-        return 'N/A';
       }
+      return 'N/A';
     }
   },
   phone: {
@@ -94,20 +93,16 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadContacts']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => {
-      return {
-        'surname': 1
-      }
-    },
+    sort: () => ({ 'surname': 1 }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
-        return {}
+        return {};
       }
       if (options.search.props.autosuggest) {
         return {
           'forename': 1,
           'surname': 1
-        }
+        };
       }
       return {
         'forename': 1,
@@ -119,13 +114,13 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
         'email': 1,
         'tags': 1,
         'sequencedIdentifier': 1
-      }
+      };
     },
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.sequencedIdentifier) {
-        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier);
+        selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
 
       if (options.search.props.filterCompanyId) {
@@ -143,7 +138,7 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
         // n.b. the array is passed as a comma separated string
         selector.phone = {
           $in: _.map(options.search.props.phone.split(','), function(phone) {
-            return new RegExp(phone, 'i')
+            return new RegExp(phone, 'i');
           })
         };
       }
@@ -173,6 +168,7 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
 //////////////////////
 
 Contacts.before.insert(function(userId, doc) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
   if (doc.companyId && doc.companyId.indexOf('newRecord') !== -1) {
     var name = doc.companyId.substr(9);
     var newCompanyId = Companies.insert({
@@ -194,35 +190,43 @@ Contacts.before.insert(function(userId, doc) {
 });
 
 Contacts.after.insert(function(userId, doc) {
-  logEvent('info', 'A new contact has been created: ' + doc.forename + " " + doc.surname);
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " created a new contact", 'contact', doc._id);
+  }
 
   if (Meteor.isServer) {
-    var user = Meteor.users.findOne({
-      _id: userId
-    });
-    var tenant = Tenants.findOne({
-      _id: user.group
-    });
-
-    if (!Roles.userIsInRole(userId, ['superadmin'])) {
-
-      Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'contact', function(err, res) {
-        if (err) throw new Meteor.Error(err);
-        _.each(res, function(ex) {
-
-          CustomFields.insert({
-            name: ex.name,
-            value: (ex.value ? ex.value : ''),
-            defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
-            type: ex.type,
-            global: true,
-            order: ex.order,
-            target: 'contact',
-            listValues: '',
-            entityId: doc._id
-          });
-        });
+    if (user) {
+      var tenant = Tenants.findOne({
+        _id: user.group
       });
+      if (tenant) {
+        if (!Roles.userIsInRole(userId, ['superadmin'])) {
+          Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'contact', function(err, res) {
+            if (err) throw new Meteor.Error(err);
+            _.each(res, function(ex) {
+              CustomFields.insert({
+                name: ex.name,
+                value: (ex.value ? ex.value : ''),
+                defaultValue: (ex.defaultValue ? ex.defaultValue : ''),
+                type: ex.type,
+                global: true,
+                order: ex.order,
+                target: 'contact',
+                listValues: '',
+                entityId: doc._id
+              }, function(err) {
+                if (err) {
+                  LogServerEvent(LogLevel.Warning, "An error occurred whilst instanciating the global custom field '" + ex.name + "': " + err, 'contact', doc._id);
+                }
+              });
+            });
+          });
+        }
+      }
     }
 
     if (doc._groupId) {
@@ -232,48 +236,58 @@ Contacts.after.insert(function(userId, doc) {
         $inc: {
           'settings.contact.defaultNumber': 1
         }
+      }, function(err) {
+        if (err) {
+          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's RealTime ID contact value: " + err, 'tenant', doc._groupId);
+          return;
+        }
       });
     }
   }
 });
 
 Contacts.after.update(function(userId, doc, fieldNames, modifier, options) {
-  if (this.previous.email !== doc.email && doc.email !== '' && doc.email !== undefined) {
-    Meteor.call('getClearbitData', 'contact', doc._id);
-  }
-  if (doc.forename !== this.previous.forename) {
-    logEvent('info', 'An existing contact has been updated: The value of "forename" was changed from ' + this.previous.forename + " to " + doc.forename);
-  }
-  if (doc.surname !== this.previous.surname) {
-    logEvent('info', 'An existing contact has been updated: The value of "surname" was changed from ' + this.previous.surname + " to " + doc.surname);
-  }
-  if (doc.email !== this.previous.email) {
-    logEvent('info', 'An existing contact has been updated: The value of "email" was changed from ' + this.previous.email + " to " + doc.email);
-  }
-  if (doc.phone !== this.previous.phone) {
-    logEvent('info', 'An existing contact has been updated: The value of "phone" was changed from ' + this.previous.phone + " to " + doc.phone);
-  }
-  if (doc.mobile !== this.previous.mobile) {
-    logEvent('info', 'An existing contact has been updated: The value of "mobile" was changed from ' + this.previous.mobile + " to " + doc.mobile);
-  }
-  if (doc.jobtitle !== this.previous.jobtitle) {
-    logEvent('info', 'An existing contact has been updated: The value of "jobtitle" was changed from ' + this.previous.jobtitle + " to " + doc.jobtitle);
-  }
-  if (doc.companyId !== this.previous.companyId) {
-    var newComp = Companies.findOne(doc.companyId);
-    if (newComp === undefined) {
-      var newComp = {
-        name: 'None'
-      }
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+
+  if (user) {
+    if (this.previous.email !== doc.email && doc.email !== '' && doc.email !== null) {
+      Meteor.call('getClearbitData', 'contact', doc._id);
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's public information", 'contact', doc._id);
     }
-    logEvent('info', 'An existing contact has been updated: The value of "companyId" was changed from ' + this.previous.companyId + ' (' + (this.previous.name || 'none') + ") to " + doc.companyId + ' (' + newComp.name + ')');
+    if (doc.forename !== this.previous.forename) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's forename", 'contact', doc._id);
+    }
+    if (doc.surname !== this.previous.surname) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's surname", 'contact', doc._id);
+    }
+    if (doc.email !== this.previous.email) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's email address", 'contact', doc._id);
+    }
+    if (doc.phone !== this.previous.phone) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's telephone number", 'contact', doc._id);
+    }
+    if (doc.mobile !== this.previous.mobile) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's mobile phone number", 'contact', doc._id);
+    }
+    if (doc.jobtitle !== this.previous.jobtitle) {
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a contact's job title", 'contact', doc._id);
+    }
   }
 });
 
 Contacts.after.remove(function(userId, doc) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
   if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
     return;
   }
 
-  logEvent('info', 'A contact has been deleted: ' + doc.forename + " " + doc.surname);
+  var user = Meteor.users.findOne({
+    _id: userId
+  });
+  if (user) {
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted contact '" + doc.forena + " " + doc.surname + "'", null, null);
+  }
 });

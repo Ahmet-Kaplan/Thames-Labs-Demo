@@ -22,7 +22,7 @@ Meteor.methods({
                 var cfo = {
                   refName: lf.replace(/ExtInfo/g, ' '),
                   refVal: lf
-                }
+                };
                 localCF.push(cfo);
               }
             });
@@ -69,7 +69,7 @@ Meteor.methods({
                   phone: (phoneColumn !== "" ? row[phoneColumn] : ""),
                   mobile: (mobileColumn !== "" ? row[mobileColumn] : ""),
                   jobtitle: (jobTitleColumn !== "" ? row[jobTitleColumn] : ""),
-                  companyId: (company ? company._id : undefined),
+                  companyId: (company ? company._id : void 0),
                   address: (addressColumn !== "" ? row[addressColumn] : ""),
                   city: (cityColumn !== "" ? row[cityColumn] : ""),
                   county: (countyColumn !== "" ? row[countyColumn] : ""),
@@ -85,7 +85,7 @@ Meteor.methods({
                       Contacts.addTag(tag, {
                         _id: contactId
                       });
-                    })
+                    });
                   }
 
                   Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'contact', function(err, res) {
@@ -194,7 +194,7 @@ Meteor.methods({
                 var cfo = {
                   refName: lf.replace(/ExtInfo/g, ' '),
                   refVal: lf
-                }
+                };
                 localCF.push(cfo);
               }
             });
@@ -232,7 +232,7 @@ Meteor.methods({
                       Companies.addTag(tag, {
                         _id: companyId
                       });
-                    })
+                    });
                   }
 
                   Meteor.call('customFields.getGlobalsByTenantEntity', tenant._id, 'company', function(err, res) {

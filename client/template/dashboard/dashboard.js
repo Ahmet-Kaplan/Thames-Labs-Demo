@@ -141,10 +141,10 @@ function saveMyWidgets() {
     myWidgets[id] = widgetsDefault[id];
     myWidgets[id].displayed = true;
     myWidgets[id].autoPosition = false;
-    myWidgets[id].x = parseInt(data.gsX);
-    myWidgets[id].y = parseInt(data.gsY);
-    myWidgets[id].w = parseInt(data.gsWidth);
-    myWidgets[id].h = parseInt(data.gsHeight);
+    myWidgets[id].x = parseInt(data.gsX, 10);
+    myWidgets[id].y = parseInt(data.gsY, 10);
+    myWidgets[id].w = parseInt(data.gsWidth, 10);
+    myWidgets[id].h = parseInt(data.gsHeight, 10);
   });
 
   if (myWidgets !== {}) {
@@ -244,7 +244,7 @@ Template.dashboard.onRendered(function() {
   } else if (Meteor.isCordova) {
     if (!Meteor.user().profile.mobile) {
       Modal.show("firstRunMobile");
-    };
+    }
   }
 });
 
@@ -259,14 +259,14 @@ Template.dashboard.events({
     if ($('#' + newWidgetName + 'Widget').length) {
       toastr.error('This widget is already displayed.');
       return;
-    } else {
-      var newWidgetList = Template.instance().widgetListUser.get();
-
-      newWidgetList[newWidgetName] = widgetsDefault[newWidgetName];
-      newWidgetList[newWidgetName].displayed = true;
-      newWidgetList[newWidgetName].autoPosition = true;
-      Template.instance().widgetListUser.set(newWidgetList);
     }
+
+    var newWidgetList = Template.instance().widgetListUser.get();
+
+    newWidgetList[newWidgetName] = widgetsDefault[newWidgetName];
+    newWidgetList[newWidgetName].displayed = true;
+    newWidgetList[newWidgetName].autoPosition = true;
+    Template.instance().widgetListUser.set(newWidgetList);
   },
 
   'click .close': function(e) {

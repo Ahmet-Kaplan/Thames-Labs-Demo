@@ -24,6 +24,6 @@ documentAPI.boxChooser = function(cb) {
     });
     boxSelect.launchPopup();
   } else {
-    toastr.error("The Box.com file selector does not support your current browser. You can see a list of supported browsers <a href='https://developers.box.com/the-box-file-picker/#browsersupport'>here</a>.")
+    toastr.error("The Box.com file selector does not support your current browser. You can see a list of supported browsers <a href='https://developers.box.com/the-box-file-picker/#browsersupport'>here</a>.");
   }
 };

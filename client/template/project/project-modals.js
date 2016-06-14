@@ -23,11 +23,7 @@ Template.newProjectForm.helpers({
     });
   },
   showContacts: function() {
-    if (Session.get('sc') === null) {
-      return false;
-    } else {
-      return true;
-    }
+    return (Session.get('sc') !== null);
   },
   currentUser: function() {
     return Meteor.userId();
@@ -62,12 +58,12 @@ Template.updateProjectForm.helpers({
   },
   companyName: function() {
     return Companies.findOne({
-      _id: companyId
+      _id: this.companyId
     }).name;
   },
   contactName: function() {
     var contact = Contacts.findOne({
-      _id: contactId
+      _id: this.contactId
     });
     return contact.forename + ' ' + contact.surname;
   }
@@ -86,11 +82,7 @@ Template.newCompanyProjectForm.helpers({
     });
   },
   showContacts: function() {
-    if (Session.get('sc') === null) {
-      return false;
-    } else {
-      return true;
-    }
+    return (Session.get('sc') !== null);
   },
   currentUser: function() {
     return Meteor.userId();
