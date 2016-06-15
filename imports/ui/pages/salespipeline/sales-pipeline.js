@@ -3,29 +3,30 @@ import d3 from 'd3';
 import './sales-pipeline.html';
 
 function Bubblechart(el) {
-  this.w = $(el).innerWidth(),
-  this.h = $(el).innerHeight(),
+  this.w = $(el).innerWidth();
+  this.h = $(el).innerHeight();
 
   this.svg = d3.select(el)
     .append("svg")
     .attr("width", this.w)
-    .attr("height", this.h),
+    .attr("height", this.h);
+
+  this.nodes = [];
 
   this.force = d3.layout.force()
-    .charge(-100)
-    .size([this.w, this.h]),
+    .nodes(this.nodes)
+    .charge(-200)
+    .size([this.w, this.h]);
 
-  this.nodes = this.force.nodes(),
-
-  this.radiusScale = d3.scale.linear()
-    .range([2, 30])
-    .clamp(true);
+  this.radiusScale = d3.scale.sqrt()
+    .range([5, 50]);
 
   this.updateNodes = (newNodes) => {
     newNodes.forEach( (newNode) => {
       this._addOrUpdateNode(newNode);
     });
     this._cleanNodes(newNodes);
+    this.force.nodes(this.nodes);
     this._update();
   };
 
@@ -59,12 +60,17 @@ function Bubblechart(el) {
       .append("circle")
       .attr("class", "node");
 
+    node
+      .transition().duration(2000)
+      .attr("r", (d) => { return this.radiusScale(d.value); });
+
     node.exit()
+      .transition() .duration(2000)
+      .attr("r", 0)
       .remove();
 
     this.force.on("tick", () => {
       node
-        .attr("r", (d) => { return this.radiusScale(d.value); })
         .attr("cx", (d) => { return d.x; })
         .attr("cy", (d) => { return d.y; });
     })
@@ -85,10 +91,9 @@ Template.salesPipeline.onCreated(function() {
 });
 
 Template.salesPipeline.onRendered(function() {
-  this.subscribe('allOpportunities');
+  this.subscribe('salesPipelineOpportunities');
+
   const chart = new Bubblechart('#d3-sales-pipeline');
-  // TODO: remove this
-  window.chart = chart;
 
   this.autorun(function() {
     const dataset = Opportunities.find().fetch();
