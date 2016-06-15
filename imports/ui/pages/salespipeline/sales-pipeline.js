@@ -1,4 +1,6 @@
 import d3 from 'd3';
+import d3tip from 'd3-tip';
+d3tip(d3);
 
 import './sales-pipeline.html';
 
@@ -13,15 +15,22 @@ function Bubblechart(el) {
 
   this.nodes = [];
 
-  this.force = d3.layout.force()
-    .nodes(this.nodes)
-    .charge(-200)
-    .size([this.w, this.h]);
-
   this.radiusScale = d3.scale.sqrt()
     .range([5, 50]);
 
   this.categoryColorScale = d3.scale.category20();
+
+  this.charge = (d) => {
+    return -Math.pow(this.radiusScale(d.value), 2.0) / 4;
+  };
+
+  this.force = d3.layout.force()
+    .size([this.w, this.h])
+    .charge(this.charge)
+    .nodes(this.nodes);
+
+  this.tip = d3.tip().attr('class', 'd3-tip').html((d) => { return d.name; });
+  this.svg.call(this.tip);
 
   this.updateNodes = (newNodes) => {
     newNodes.forEach( (newNode) => {
@@ -62,7 +71,9 @@ function Bubblechart(el) {
     node.enter()
       .append("circle")
       .attr("fill", (d) => this.categoryColorScale(d.currentStageId))
-      .attr("class", "node");
+      .attr("class", "node")
+      .on('mouseover', this.tip.show)
+      .on('mouseout', this.tip.hide);
 
     node
       .transition().duration(2000)
