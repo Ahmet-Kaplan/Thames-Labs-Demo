@@ -36,7 +36,7 @@ function Bubblechart(el) {
     const existingNode = _.find(this.nodes, {'_id': newNode._id});
     if (existingNode) {
       existingNode.name = newNode.name;
-      existingNode.value = newNode.value;
+      existingNode.value = _.isFinite(newNode.value) ? newNode.value : 0;
       existingNode.currentStageId = newNode.currentStageId;
     } else {
       this.nodes.push(newNode);
