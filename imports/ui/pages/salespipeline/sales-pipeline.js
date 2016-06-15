@@ -2,6 +2,76 @@ import d3 from 'd3';
 
 import './sales-pipeline.html';
 
+function Bubblechart(el) {
+  this.w = $(el).innerWidth(),
+  this.h = $(el).innerHeight(),
+
+  this.svg = d3.select(el)
+    .append("svg")
+    .attr("width", this.w)
+    .attr("height", this.h),
+
+  this.force = d3.layout.force()
+    .charge(-100)
+    .size([this.w, this.h]),
+
+  this.nodes = this.force.nodes(),
+
+  this.radiusScale = d3.scale.linear()
+    .range([2, 30])
+    .clamp(true);
+
+  this.updateNodes = (newNodes) => {
+    newNodes.forEach( (newNode) => {
+      this._addOrUpdateNode(newNode);
+    });
+    this._cleanNodes(newNodes);
+    this._update();
+  };
+
+  this._addOrUpdateNode = (newNode) => {
+    const existingNode = _.find(this.nodes, {'_id': newNode._id});
+    if (existingNode) {
+      existingNode.name = newNode.name;
+      existingNode.value = newNode.value;
+    } else {
+      this.nodes.push(newNode);
+    }
+  };
+
+  this._cleanNodes = (newNodes) => {
+    const idsToRemove = _.difference(
+      this.nodes.map( (node) => _.get(node, '_id')),
+      newNodes.map((node) => _.get(node, '_id'))
+    );
+    this.nodes = _.reject(this.nodes, (node) => _.includes(idsToRemove, node._id));
+  };
+
+  this._update = () => {
+    const radii = this.nodes.map( (d) => { return d.value; });
+    this.radiusScale
+      .domain([_.min(radii), _.max(radii)]);
+
+    const node = this.svg.selectAll(".node")
+            .data(this.nodes, (d) => { return d._id; });
+
+    node.enter()
+      .append("circle")
+      .attr("class", "node");
+
+    node.exit()
+      .remove();
+
+    this.force.on("tick", () => {
+      node
+        .attr("r", (d) => { return this.radiusScale(d.value); })
+        .attr("cx", (d) => { return d.x; })
+        .attr("cy", (d) => { return d.y; });
+    })
+      .start();
+  };
+}
+
 Template.salesPipeline.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
@@ -16,30 +86,12 @@ Template.salesPipeline.onCreated(function() {
 
 Template.salesPipeline.onRendered(function() {
   this.subscribe('allOpportunities');
-
-  const diameter = 500;
-
-  const svg = d3.select('#d3-sales-pipeline')
-          .append("svg")
-          .attr("width", diameter)
-          .attr("height", diameter);
+  const chart = new Bubblechart('#d3-sales-pipeline');
+  // TODO: remove this
+  window.chart = chart;
 
   this.autorun(function() {
-    let dataset = Opportunities.find().fetch();
-    console.log(dataset);
-    var opps = svg.selectAll("rect")
-      .data(dataset, (d) => { return d._id; });
-
-    opps.enter()
-      .append("rect")
-      .attr("y", (d, i) => { return i*25 })
-      .attr("height", 20)
-      .attr("width", (d, i) => {return d.value });
-
-    opps.exit()
-      .remove();
+    const dataset = Opportunities.find().fetch();
+    chart.updateNodes(dataset);
   });
-});
-
-Template.salesPipeline.helpers({
 });
