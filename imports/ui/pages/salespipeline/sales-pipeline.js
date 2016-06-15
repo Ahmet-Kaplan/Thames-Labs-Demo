@@ -3,6 +3,7 @@ import d3tip from 'd3-tip';
 d3tip(d3);
 
 import './sales-pipeline.html';
+import './sales-pipeline.css';
 
 function Bubblechart(el) {
   this.w = $(el).innerWidth();
