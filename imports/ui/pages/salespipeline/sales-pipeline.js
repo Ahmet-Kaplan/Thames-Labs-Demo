@@ -9,10 +9,16 @@ function Bubblechart(el) {
   this.w = $(el).innerWidth();
   this.h = $(el).innerHeight();
 
+  this.splitByStage = true;
+
   this.svg = d3.select(el)
     .append("svg")
     .attr("width", this.w)
-    .attr("height", this.h);
+    .attr("height", this.h)
+    .on("click", () => {
+      this.splitByStage = !this.splitByStage;
+      this._update();
+    });
 
   this.nodes = [];
 
@@ -21,7 +27,11 @@ function Bubblechart(el) {
 
   this.fillColor = d3.scale.category20();
 
-  this.charge = (d) => -Math.pow(this.radiusScale(d.value), 2.0) / 5;
+  this.charge = (d) => {
+    // When splitting by stage the additional y-force means we want a stronger charge
+    const scaleFactor = this.splitByStage ? 0.3 : 0.2;
+    return -Math.pow(this.radiusScale(d.value), 2.0) * scaleFactor;
+  };
 
   this.force = d3.layout.force()
     .size([this.w, this.h])
@@ -63,36 +73,49 @@ function Bubblechart(el) {
     this.radiusScale
       .domain([0, _.max(this.nodes.map( (d) => d.value ))]);
 
-    const node = this.svg.selectAll(".node")
+    const circle = this.svg.selectAll(".node")
             .data(this.nodes, (d) => d._id);
 
-    node.enter()
+    circle.enter()
       .append("circle")
       .attr("fill", (d) => this.fillColor(d.currentStageId))
       .attr("stroke-width", 2)
       .attr("stroke", (d) => d3.rgb(this.fillColor(d.currentStageId)).darker())
       .attr("class", "node")
+      .on('click', (d) => {
+        this.tip.hide();
+        FlowRouter.go('opportunity', {id: d._id});
+      })
       .on('mouseover', this.tip.show)
       .on('mouseout', this.tip.hide);
 
-    node
+    circle
       .transition().duration(2000)
       .attr("fill", (d) => this.fillColor(d.currentStageId))
       .attr("stroke-width", 2)
       .attr("stroke", (d) => d3.rgb(this.fillColor(d.currentStageId)).darker())
       .attr("r", (d) => this.radiusScale(d.value));
 
-    node.exit()
+    circle.exit()
       .transition() .duration(2000)
       .attr("r", 0)
       .remove();
 
-    this.force.on("tick", () => {
-      node
+    this.force.on("tick", (e) => {
+      if (this.splitByStage) {
+        this.nodes.forEach((node) => this._attractToStage(node, e.alpha));
+        this.force.nodes(this.nodes);
+      }
+      circle
         .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y);
     })
       .start();
+  };
+
+  this._attractToStage = (d, alpha) => {
+    const targetY = 100 + d.currentStageId * 300;
+    d.y += (targetY - d.y) * alpha * 0.2;
   };
 }
 
@@ -111,10 +134,12 @@ Template.salesPipeline.onCreated(function() {
 Template.salesPipeline.onRendered(function() {
   this.subscribe('salesPipelineOpportunities');
 
-  const chart = new Bubblechart('#d3-sales-pipeline');
+  this.chart = new Bubblechart('#d3-sales-pipeline');
 
-  this.autorun(function() {
-    const dataset = Opportunities.find().fetch();
-    chart.updateNodes(dataset);
+  this.autorun( () => {
+    const dataset = Opportunities.find({
+      isArchived: { $ne: true }
+    }).fetch();
+    this.chart.updateNodes(dataset);
   });
 });
