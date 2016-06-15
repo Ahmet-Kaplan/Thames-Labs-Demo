@@ -16,20 +16,18 @@ function Bubblechart(el) {
   this.nodes = [];
 
   this.radiusScale = d3.scale.sqrt()
-    .range([5, 50]);
+    .range([2, 85]);
 
-  this.categoryColorScale = d3.scale.category20();
+  this.fillColor = d3.scale.category20();
 
-  this.charge = (d) => {
-    return -Math.pow(this.radiusScale(d.value), 2.0) / 4;
-  };
+  this.charge = (d) => -Math.pow(this.radiusScale(d.value), 2.0) / 5;
 
   this.force = d3.layout.force()
     .size([this.w, this.h])
     .charge(this.charge)
     .nodes(this.nodes);
 
-  this.tip = d3.tip().attr('class', 'd3-tip').html((d) => { return d.name; });
+  this.tip = d3.tip().attr('class', 'd3-tip').html((d) => d.name);
   this.svg.call(this.tip);
 
   this.updateNodes = (newNodes) => {
@@ -61,24 +59,27 @@ function Bubblechart(el) {
   };
 
   this._update = () => {
-    const radii = this.nodes.map( (d) => { return d.value; });
     this.radiusScale
-      .domain([_.min(radii), _.max(radii)]);
+      .domain([0, _.max(this.nodes.map( (d) => d.value ))]);
 
     const node = this.svg.selectAll(".node")
-            .data(this.nodes, (d) => { return d._id; });
+            .data(this.nodes, (d) => d._id);
 
     node.enter()
       .append("circle")
-      .attr("fill", (d) => this.categoryColorScale(d.currentStageId))
+      .attr("fill", (d) => this.fillColor(d.currentStageId))
+      .attr("stroke-width", 2)
+      .attr("stroke", (d) => d3.rgb(this.fillColor(d.currentStageId)).darker())
       .attr("class", "node")
       .on('mouseover', this.tip.show)
       .on('mouseout', this.tip.hide);
 
     node
       .transition().duration(2000)
-      .attr("fill", (d) => this.categoryColorScale(d.currentStageId))
-      .attr("r", (d) => { return this.radiusScale(d.value); });
+      .attr("fill", (d) => this.fillColor(d.currentStageId))
+      .attr("stroke-width", 2)
+      .attr("stroke", (d) => d3.rgb(this.fillColor(d.currentStageId)).darker())
+      .attr("r", (d) => this.radiusScale(d.value));
 
     node.exit()
       .transition() .duration(2000)
@@ -87,8 +88,8 @@ function Bubblechart(el) {
 
     this.force.on("tick", () => {
       node
-        .attr("cx", (d) => { return d.x; })
-        .attr("cy", (d) => { return d.y; });
+        .attr("cx", (d) => d.x)
+        .attr("cy", (d) => d.y);
     })
       .start();
   };
