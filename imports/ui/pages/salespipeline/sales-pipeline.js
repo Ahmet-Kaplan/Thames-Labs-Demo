@@ -21,6 +21,8 @@ function Bubblechart(el) {
   this.radiusScale = d3.scale.sqrt()
     .range([5, 50]);
 
+  this.categoryColorScale = d3.scale.category20();
+
   this.updateNodes = (newNodes) => {
     newNodes.forEach( (newNode) => {
       this._addOrUpdateNode(newNode);
@@ -35,6 +37,7 @@ function Bubblechart(el) {
     if (existingNode) {
       existingNode.name = newNode.name;
       existingNode.value = newNode.value;
+      existingNode.currentStageId = newNode.currentStageId;
     } else {
       this.nodes.push(newNode);
     }
@@ -58,10 +61,12 @@ function Bubblechart(el) {
 
     node.enter()
       .append("circle")
+      .attr("fill", (d) => this.categoryColorScale(d.currentStageId))
       .attr("class", "node");
 
     node
       .transition().duration(2000)
+      .attr("fill", (d) => this.categoryColorScale(d.currentStageId))
       .attr("r", (d) => { return this.radiusScale(d.value); });
 
     node.exit()
