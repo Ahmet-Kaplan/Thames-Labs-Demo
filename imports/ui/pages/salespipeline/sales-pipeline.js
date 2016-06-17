@@ -28,15 +28,8 @@ function Bubblechart(el) {
 
   this.fillColor = d3.scale.category20();
 
-  this.charge = (d) => {
-    // When splitting by stage the additional y-force means we want a stronger charge
-    const scaleFactor = this.splitByStage ? 0.3 : 0.2;
-    return -Math.pow(this.radiusScale(d.value), 2.0) * scaleFactor;
-  };
-
   this.force = d3.layout.force()
     .size([this.w, this.h])
-    .charge(this.charge)
     .chargeDistance(100)
     .nodes(this.nodes);
 
@@ -74,16 +67,24 @@ function Bubblechart(el) {
   };
 
   this._update = () => {
-    this._removeStageAxis();
-    if (this.splitByStage) this._drawStageAxis();
+    // Remove any mode specific things
+    this._removeStagesChart();
 
+    // Mode specific code
+    if (this.splitByStage) {
+      this._stagesChart();
+    } else {
+      this._totalsChart();
+    }
+
+    // What follows happens regardless of chart mode
     this.radiusScale
       .domain([0, _.max(this.nodes.map( (d) => d.value ))]);
 
-    const circle = this.svg.selectAll(".node")
+    this.circle = this.svg.selectAll(".node")
             .data(this.nodes, (d) => d._id);
 
-    circle.enter()
+    this.circle.enter()
       .append("circle")
       .attr("fill", (d) => this.fillColor(d.currentStageIndex))
       .attr("stroke-width", 2)
@@ -96,43 +97,60 @@ function Bubblechart(el) {
       .on('mouseover', this.tip.show)
       .on('mouseout', this.tip.hide);
 
-    circle
+    this.circle
       .transition().duration(2000)
       .attr("fill", (d) => this.fillColor(d.currentStageIndex))
       .attr("stroke-width", 2)
       .attr("stroke", (d) => d3.rgb(this.fillColor(d.currentStageIndex)).darker())
       .attr("r", (d) => this.radiusScale(d.value));
 
-    circle.exit()
+    this.circle.exit()
       .transition() .duration(2000)
       .attr("r", 0)
       .remove();
 
+    this.force.start();
+  };
+
+  // Contains totals specific visualisation
+  this._totalsChart = () => {
+    // Set layout
+    this.w = $(el).innerWidth();
+    this.h = $('.footer').offset().top - $(el).offset().top;
+    this.svg.attr("height", this.h).attr("width", this.w);
+    // Set forces
+    this.force.size([this.w, this.h]);
+    this.force.gravity(0.1);
+    this.force.charge( (d) => -Math.pow(this.radiusScale(d.value), 2.0) * 0.2 );
     this.force.on("tick", (e) => {
-      if (this.splitByStage) {
-        this.nodes.forEach((node) => this._attractToStage(node, e.alpha));
-        this.force.nodes(this.nodes);
-      }
-      circle
+      this.force.nodes(this.nodes);
+      this.circle
         .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y);
-    })
-      .start();
+    });
   };
 
-  this._attractToStage = (d, alpha) => {
-    const targetY = 50 + d.currentStageIndex * 100;
-    d.y += (targetY - d.y) * alpha * 0.3;
-    d.x += (this.w / 2 - d.x) * alpha * 0.1;
-  };
-
-  this._removeStageAxis = () => {
-    this.svg.selectAll("g.axisContainer").remove();
-    this.force.gravity(0.1);
-  };
-
-  this._drawStageAxis = () => {
+  // Contains stages specific visualisation
+  this._stagesChart = () => {
+    // Set layout
+    this.w = $(el).innerWidth();
+    this.h = 100 * this.stages.length;
+    this.svg.attr("height", this.h).attr("width", this.w);
+    // Set forces
     this.force.gravity(0);
+    this.force.charge( (d) => -Math.pow(this.radiusScale(d.value), 2.0) * 0.5 );
+    this.force.on("tick", (e) => {
+      this.nodes.forEach((d) => {
+        // Attract to stages
+        const targetY = 50 + d.currentStageIndex * 100;
+        d.y += (targetY - d.y) * e.alpha * 0.3;
+        d.x += (this.w / 2 - d.x) * e.alpha * 0.1;
+      });
+      this.force.nodes(this.nodes);
+      this.circle
+        .attr("cx", (d) => d.x)
+        .attr("cy", (d) => d.y);
+    });
 
     // draw y axis
     const axisContainer = this.svg.append("g")
@@ -168,8 +186,14 @@ function Bubblechart(el) {
       .attr("fill", "rgb(51,51,51)")
       .attr("dominant-baseline", "central")
       .text((d) => d.title);
+
   };
-}
+
+  this._removeStagesChart = () => {
+    this.svg.selectAll("g.axisContainer").remove();
+  };
+
+};
 
 Template.salesPipeline.onCreated(function() {
   // Redirect if read permission changed
@@ -187,6 +211,7 @@ Template.salesPipeline.onRendered(function() {
   this.subscribe('salesPipelineOpportunities');
 
   this.chart = new Bubblechart('#d3-sales-pipeline');
+  this.chartResizeEventHandler = window.addEventListener("resize", this.chart._update);
 
   // TODO: handle null tenant / stages
   // n.b. stages are currently not reactive - need to find a way to watch for updates without
@@ -203,4 +228,9 @@ Template.salesPipeline.onRendered(function() {
     });
     this.chart.updateNodes(dataset, stages);
   });
+});
+
+Template.salesPipeline.onDestroyed(function() {
+  // Clean up resize event handler
+  window.removeEventListener("resize", this.chartResizeEventHandler);
 });
