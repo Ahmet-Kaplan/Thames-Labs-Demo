@@ -1,3 +1,7 @@
+Template.firstRun.onCreated(function() {
+  this.phoneRegistered = new ReactiveVar(false);
+});
+
 Template.firstRun.onRendered(function() {
   Meteor.users.update({
     _id: Meteor.userId()
@@ -8,14 +12,28 @@ Template.firstRun.onRendered(function() {
   });
 });
 
+Template.firstRun.helpers({
+  phoneRegistered: function() {
+    return Template.instance().phoneRegistered.get();
+  }
+});
+
 Template.firstRun.events({
-  'hide.bs.modal .firstRunModal': function(e) {
-    var tel = $('#tenantPhone').val();
+  'click #addMyPhone, hide.bs.modal .firstRunModal': function(evt) {
+    const tel = $('#tenantPhone').val();
+    const phoneReg = Template.instance().phoneRegistered;
     Meteor.users.update({
       _id: Meteor.userId()
     }, {
       $set: {
         "profile.telephone": tel
+      }
+    }, (err, res) => {
+      if(res && !!tel) {
+        Meteor.call('notify.telephoneUpdated');
+        if(evt.target.id === 'addMyPhone') {
+          phoneReg.set(true);
+        }
       }
     });
   },
