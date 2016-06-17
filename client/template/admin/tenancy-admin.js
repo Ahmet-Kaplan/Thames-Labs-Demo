@@ -63,6 +63,32 @@ Template.tenancyAdminPage.helpers({
 
 
 Template.tenancyAdminPage.events({
+  'click #deleteUserAccount': function() {
+    bootbox.prompt({
+      title: "Delete your RealTimeCRM account",
+      inputType: "password",
+      message: "You are about to flag your company's RealTimeCRM account for deletion. To confirm, please enter your password and click OK.",
+      callback: function(result) {
+        if (result !== null) {
+          var digest = Package.sha.SHA256(result);
+          Meteor.call('user.checkPassword', Meteor.userId(), digest, function(err, res) {
+            if(err) {
+              toastr.error('Error: ' + err);
+            }
+
+            if(res === true) {
+              Meteor.call('tenant.flagForDeletion', Meteor.user().group, function(err2, res2) {
+                if(err2) {
+                  toastr.error('Error: ' + err2);
+                }
+              });
+            }
+          });
+
+        }
+      }
+    });
+  },
   'click #btnEditTenantUserGeneralSettings': function(event) {
     event.preventDefault();
     Modal.show('editTenantUserGeneralSettings', this);

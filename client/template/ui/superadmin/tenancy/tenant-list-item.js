@@ -1,4 +1,7 @@
 Template.tenantListItem.helpers({
+  toBeDeleted: function() {
+    return this.settings.toBeDeleted === true;
+  },
   userCount: function() {
     return Meteor.users.find({
       group: this.__originalId

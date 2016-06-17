@@ -1,6 +1,7 @@
 <template name="tenantListItem">
     <div class="panel panel-primary">
       <div class="panel-heading tenantListItemEntry" id="{{_id}}">
+        {{#if toBeDeleted}}<i class="fa fa-trash-o" data-toggle="tooltip" data-placement="bottom" title="Flagged for deletion"></i> {{/if}}
         {{#if isFreePlusTenant}}<i class="fa fa-unlock" data-toggle="tooltip" data-placement="bottom" title="Free unlimited tenant"></i> {{/if}}
         {{name}}<span class="pull-right"><small> <em>{{userCount}} user(s)</em></small></span>
       </div>
@@ -13,7 +14,7 @@
                         <div class="btn-group pull-right" role="group">
                         {{#if showDemoDataButton}}
                         <button class="btn btn-xs" id="btnDemoData" type="button" disabled="{{#if generationInProgress}}disabled{{/if}}">
-                          
+
                             <i class="fa fa-fw fa-wrench"></i> Generate demo data
                         </button>
                         {{/if}}

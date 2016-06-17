@@ -39,6 +39,19 @@ Collections.tenants.filters = {
       if (!plan) return false;
       return true;
     }
+  },
+  toBeDeleted: {
+    display: 'To Be Deleted:',
+    prop: 'toBeDeleted',
+    defaultOptions: function() {
+      return ['Yes', 'No'];
+    },
+    strict: true,
+    allowMultiple: false,
+    displayValue: function(flagged) {
+      if (!flagged) return false;
+      return true;
+    }
   }
 };
 
@@ -68,6 +81,27 @@ Collections.tenants.index = TenantsIndex = new EasySearch.Index({
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
       var tenants = [];
+
+      if(options.search.props.toBeDeleted) {
+        var flagged = options.search.props.toBeDeleted;
+        if (flagged === 'Yes') {
+          tenants = Tenants.find({
+            'settings.toBeDeleted': true
+          }).map(function(t) {
+            return t._id;
+          });
+        } else {
+          tenants = Tenants.find({
+            'settings.toBeDeleted': {$ne: true}
+          }).map(function(t) {
+            return t._id;
+          });
+        }
+
+        selector._id = {
+          $in: tenants
+        };
+      }
 
       if (options.search.props.plan) {
         var plan = options.search.props.plan;

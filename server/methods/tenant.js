@@ -47,7 +47,7 @@ Meteor.methods({
         console.log('Deleting tags...');
         Meteor.tags.remove({});
         console.log('Deleting events...');
-        //EventLog is not partitioned
+                //EventLog is not partitioned
         EventLog.remove({
           group: tenantId
         });
@@ -93,4 +93,34 @@ Meteor.methods({
     }
     ServerSession.set('deletingTenant', val);
   },
+  'tenant.flagForDeletion': function(tenantId) {
+    var tenant = Tenants.findOne({
+      _id: tenantId
+    });
+    if (tenant) {
+      Tenants.update({
+        _id: tenantId
+      }, {
+        $set: {
+          'settings.toBeDeleted': true
+        }
+      });
+
+      Partitioner.bindGroup(tenantId, function() {
+        var users = Meteor.users.find({
+          group: tenantId
+        }).fetch();
+        _.each(users, function(user) {
+          Roles.addUsersToRoles(user._id, ["Disabled"]);
+          Meteor.users.update({
+            _id: user._id
+          }, {
+            $set: {
+              "services.resume.loginTokens": []
+            }
+          });
+        });
+      });
+    }
+  }
 });
