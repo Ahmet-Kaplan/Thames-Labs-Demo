@@ -41,9 +41,13 @@ function Bubblechart(el) {
     newNodes.forEach( (newNode) => {
       this._addOrUpdateNode(newNode);
     });
-    this.stages = stages;
     this._cleanNodes(newNodes);
     this.force.nodes(this.nodes);
+    this.stages = stages;
+    // calculate stage totals
+    _.each(this.stages, (stage) => {
+        stage.opportunityCount = _.filter(this.nodes, {currentStageId: stage.id}).length;
+    });
     this._update();
   };
 
@@ -135,11 +139,11 @@ function Bubblechart(el) {
   // Contains stages specific visualisation
   this._stagesChart = () => {
     // Set layout
-    this.stageHeight = window.innerHeight / 8;
+    this.stageHeight = window.innerHeight / 6;
     this.w = $(el).innerWidth();
     this.h = this.stageHeight * this.stages.length;
     this.svg.attr("height", this.h).attr("width", this.w);
-    this.radiusScale.range([2, this.stageHeight * 0.5]);
+    this.radiusScale.range([2, this.stageHeight * 0.4]);
     // Set forces
     this.force.gravity(0);
     this.force.charge( (d) => -this.stageHeight*0.1 -Math.pow(this.radiusScale(d.value), 1.7) );
@@ -190,7 +194,7 @@ function Bubblechart(el) {
       .attr("y", (d, i) => (0.5 + i) * this.stageHeight)
       .attr("fill", "rgb(51,51,51)")
       .attr("dominant-baseline", "central")
-      .text((d) => d.title);
+      .text((d) => `${d.title} (${d.opportunityCount})`);
 
   };
 
