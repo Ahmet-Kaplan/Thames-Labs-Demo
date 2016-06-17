@@ -26,11 +26,12 @@ function Bubblechart(el) {
   this.radiusScale = d3.scale.sqrt()
     .range([2, 40]);
 
+  this.stageHeight = 100;
+
   this.fillColor = d3.scale.category20();
 
   this.force = d3.layout.force()
     .size([this.w, this.h])
-    .chargeDistance(100)
     .nodes(this.nodes);
 
   this.tip = d3.tip().attr('class', 'd3-tip').html((d) => d.name);
@@ -116,8 +117,9 @@ function Bubblechart(el) {
   this._totalsChart = () => {
     // Set layout
     this.w = $(el).innerWidth();
-    this.h = $('.footer').offset().top - $(el).offset().top;
+    this.h = window.innerHeight - 120;
     this.svg.attr("height", this.h).attr("width", this.w);
+    this.radiusScale.range([2, this.h/10]);
     // Set forces
     this.force.size([this.w, this.h]);
     this.force.gravity(0.1);
@@ -133,18 +135,21 @@ function Bubblechart(el) {
   // Contains stages specific visualisation
   this._stagesChart = () => {
     // Set layout
+    this.stageHeight = window.innerHeight / 8;
     this.w = $(el).innerWidth();
-    this.h = 100 * this.stages.length;
+    this.h = this.stageHeight * this.stages.length;
     this.svg.attr("height", this.h).attr("width", this.w);
+    this.radiusScale.range([2, this.stageHeight * 0.5]);
     // Set forces
     this.force.gravity(0);
-    this.force.charge( (d) => -Math.pow(this.radiusScale(d.value), 2.0) * 0.5 );
+    this.force.charge( (d) => -this.stageHeight*0.1 -Math.pow(this.radiusScale(d.value), 1.7) );
+    this.force.chargeDistance(this.stageHeight);
     this.force.on("tick", (e) => {
       this.nodes.forEach((d) => {
         // Attract to stages
-        const targetY = 50 + d.currentStageIndex * 100;
+        const targetY = (0.5 + d.currentStageIndex) * this.stageHeight;
         d.y += (targetY - d.y) * e.alpha * 0.3;
-        d.x += (this.w / 2 - d.x) * e.alpha * 0.1;
+        d.x += (this.w / 2 - d.x) * e.alpha * 0.05;
       });
       this.force.nodes(this.nodes);
       this.circle
@@ -175,14 +180,14 @@ function Bubblechart(el) {
       .attr("stroke", (d, i) => d3.rgb(this.fillColor(i)).darker())
       .attr("stroke-width", 2)
       .attr("cx", 12)
-      .attr("cy", (d, i) => 50 + i * 100);
+      .attr("cy", (d, i) => (0.5 + i) * this.stageHeight);
 
     axisContainer.selectAll(".markerText")
       .data(this.stages, (d) => d.id)
       .enter()
       .append("text")
       .attr("x", 30)
-      .attr("y", (d, i) => 50 + i * 100)
+      .attr("y", (d, i) => (0.5 + i) * this.stageHeight)
       .attr("fill", "rgb(51,51,51)")
       .attr("dominant-baseline", "central")
       .text((d) => d.title);
