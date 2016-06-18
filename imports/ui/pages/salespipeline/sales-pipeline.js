@@ -17,6 +17,7 @@ function Bubblechart(el) {
     .attr("width", this.w)
     .attr("height", this.h)
     .on("click", () => {
+      if (d3.event.defaultPrevented) return; // Ignore drag
       this.splitByStage = !this.splitByStage;
       this._update();
     });
@@ -33,6 +34,14 @@ function Bubblechart(el) {
   this.force = d3.layout.force()
     .size([this.w, this.h])
     .nodes(this.nodes);
+
+  this.force.drag()
+    .on("dragend", (d) => {
+        Opportunities.update(d._id, {
+            $set: { currentStageId: 0 }
+        });
+        console.log(d);
+    });
 
   this.tip = d3.tip().attr('class', 'd3-tip').html((d) => d.name);
   this.svg.call(this.tip);
@@ -95,7 +104,9 @@ function Bubblechart(el) {
       .attr("stroke-width", 2)
       .attr("stroke", (d) => d3.rgb(this.fillColor(d.currentStageIndex)).darker())
       .attr("class", "node")
+      .call(this.force.drag)
       .on('click', (d) => {
+        if (d3.event.defaultPrevented) return; // Ignore drag
         this.tip.hide();
         FlowRouter.go('opportunity', {id: d._id});
       })
@@ -103,14 +114,14 @@ function Bubblechart(el) {
       .on('mouseout', this.tip.hide);
 
     this.circle
-      .transition().duration(2000)
+      .transition().duration(1000)
       .attr("fill", (d) => this.fillColor(d.currentStageIndex))
       .attr("stroke-width", 2)
       .attr("stroke", (d) => d3.rgb(this.fillColor(d.currentStageIndex)).darker())
       .attr("r", (d) => this.radiusScale(d.value));
 
     this.circle.exit()
-      .transition() .duration(2000)
+      .transition() .duration(1000)
       .attr("r", 0)
       .remove();
 
@@ -123,11 +134,12 @@ function Bubblechart(el) {
     this.w = $(el).innerWidth();
     this.h = window.innerHeight - 120;
     this.svg.attr("height", this.h).attr("width", this.w);
-    this.radiusScale.range([2, this.h/10]);
+    this.radiusScale.range([2, this.h/6]);
     // Set forces
     this.force.size([this.w, this.h]);
     this.force.gravity(0.1);
-    this.force.charge( (d) => -Math.pow(this.radiusScale(d.value), 2.0) * 0.2 );
+    this.force.charge( (d) => -(150 + 0.1 * Math.pow(this.radiusScale(d.value), 2)) );
+    this.force.chargeDistance(this.h/2);
     this.force.on("tick", (e) => {
       this.force.nodes(this.nodes);
       this.circle
@@ -146,7 +158,7 @@ function Bubblechart(el) {
     this.radiusScale.range([2, this.stageHeight * 0.4]);
     // Set forces
     this.force.gravity(0);
-    this.force.charge( (d) => -this.stageHeight*0.1 -Math.pow(this.radiusScale(d.value), 1.7) );
+    this.force.charge( (d) => -(50 + 0.2 * Math.pow(this.radiusScale(d.value), 2)) );
     this.force.chargeDistance(this.stageHeight);
     this.force.on("tick", (e) => {
       this.nodes.forEach((d) => {
