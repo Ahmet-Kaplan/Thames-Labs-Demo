@@ -1,6 +1,7 @@
 import d3 from 'd3';
 import d3tip from 'd3-tip';
 d3tip(d3);
+import _ from 'lodash';
 
 import './sales-pipeline.html';
 import './sales-pipeline.css';
@@ -37,10 +38,14 @@ function Bubblechart(el) {
 
   this.force.drag()
     .on("dragend", (d) => {
+        // TODO: also make this add activity and check permissions?
+        // Also what about when not in stages mode?
+        // Also don't update if current stage is new stage
+        const closestStage = _.minBy(this.stages, (stage) => Math.abs(d.y - stage.y));
+        const indexOfClosestStage = _.findIndex(this.stages, closestStage);
         Opportunities.update(d._id, {
-            $set: { currentStageId: 0 }
+            $set: { currentStageId: indexOfClosestStage }
         });
-        console.log(d);
     });
 
   this.tip = d3.tip().attr('class', 'd3-tip').html((d) => d.name);
@@ -152,6 +157,7 @@ function Bubblechart(el) {
   this._stagesChart = () => {
     // Set layout
     this.stageHeight = window.innerHeight / 6;
+    this.stages.forEach( (stage, i) => stage.y = (0.5 + i) * this.stageHeight );
     this.w = $(el).innerWidth();
     this.h = this.stageHeight * this.stages.length;
     this.svg.attr("height", this.h).attr("width", this.w);
@@ -163,8 +169,8 @@ function Bubblechart(el) {
     this.force.on("tick", (e) => {
       this.nodes.forEach((d) => {
         // Attract to stages
-        const targetY = (0.5 + d.currentStageIndex) * this.stageHeight;
-        d.y += (targetY - d.y) * e.alpha * 0.3;
+        const stage = this.stages[d.currentStageIndex];
+        d.y += (stage.y - d.y) * e.alpha * 0.3;
         d.x += (this.w / 2 - d.x) * e.alpha * 0.05;
       });
       this.force.nodes(this.nodes);
@@ -196,14 +202,14 @@ function Bubblechart(el) {
       .attr("stroke", (d, i) => d3.rgb(this.fillColor(i)).darker())
       .attr("stroke-width", 2)
       .attr("cx", 12)
-      .attr("cy", (d, i) => (0.5 + i) * this.stageHeight);
+      .attr("cy", (d) => d.y);
 
     axisContainer.selectAll(".markerText")
       .data(this.stages, (d) => d.id)
       .enter()
       .append("text")
       .attr("x", 30)
-      .attr("y", (d, i) => (0.5 + i) * this.stageHeight)
+      .attr("y", (d) => d.y)
       .attr("fill", "rgb(51,51,51)")
       .attr("dominant-baseline", "central")
       .text((d) => `${d.title} (${d.opportunityCount})`);
