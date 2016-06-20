@@ -34,6 +34,9 @@ Template.companyDetail.onRendered(function() {
     var companyid = FlowRouter.getParam('id');
     Meteor.call('opportunities.getCompanySalesHistory', companyid, function(err, res) {
       var ctx = document.getElementById("shContainer").getContext("2d");
+
+      Chart.defaults.global.defaultFontFamily = 'Source Sans Pro';
+
       new Chart(ctx, {
         type: 'bar',
         data: {
@@ -56,8 +59,7 @@ Template.companyDetail.onRendered(function() {
         },
         options: {
           title: {
-            display: true,
-            text: 'Sales History'
+            display: false
           },
           legend: {display: false},
           scales: {
@@ -70,6 +72,8 @@ Template.companyDetail.onRendered(function() {
           }
         }
       });
+
+
     });
   });
 });
