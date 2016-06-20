@@ -62,42 +62,35 @@ Template.tenantList.events({
       if (err) {
         throw new Meteor.Error('500', err);
       }
+      var total = results.length;
+      var proc = 0;
 
-      _.each(results, function(tenant) {
-        var data = {
-          name: tenant.name,
-          createdAt: moment(tenant.createdAt).format('DD/MM/YYYY HH:mm'),
-          plan: tenant.plan,
-          companies: tenant.settings.company.defaultNumber,
-          contacts: tenant.settings.contact.defaultNumber,
-          opportunities: tenant.settings.opportunity.defaultNumber,
-          projects: tenant.settings.project.defaultNumber,
-          products: tenant.settings.product.defaultNumber,
-          purchaseOrders: tenant.settings.purchaseorder.defaultNumber,
-          activities: tenant.settings.activity.defaultNumber,
-          tasks: tenant.settings.task.defaultNumber,
-          currency: tenant.settings.currency,
-          coupon: (tenant.stripe && tenant.stripe.coupon ? tenant.stripe.coupon : '')
-        };
+      _.each(results, function(tenant, i) {
+        Meteor.bindEnvironment(Meteor.call('tenant.getExportData', tenant.name, function(err, res) {
+          if(err) throw new Meteor.Error(err);
+          tenantArray.push(res);
+          proc = i + 1;
 
-        tenantArray.push(data);
+          if (proc === total) {
+            console.log(tenantArray);
+            var filename = [
+              'realtimecrm-',
+              collectionName,
+              '-export_',
+              moment().format("MMM-Do-YY"),
+              '.csv'
+            ].join('');
+
+            var fileData = Papa.unparse(tenantArray);
+
+            var blob = new Blob([fileData], {
+              type: "text/csv;charset=utf-8"
+            });
+
+            saveAs(blob, filename);
+          }
+        }));
       });
-
-      var filename = [
-        'realtimecrm-',
-        collectionName,
-        '-export_',
-        moment().format("MMM-Do-YY"),
-        '.csv'
-      ].join('');
-
-      var fileData = Papa.unparse(tenantArray);
-
-      var blob = new Blob([fileData], {
-        type: "text/csv;charset=utf-8"
-      });
-
-      saveAs(blob, filename);
     });
   },
   "click #export-users": function(event, template) {

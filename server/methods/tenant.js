@@ -93,4 +93,26 @@ Meteor.methods({
     }
     ServerSession.set('deletingTenant', val);
   },
+  'tenant.getExportData': function(tenantName) {
+    var tenant = Tenants.findOne({name: tenantName});
+
+    return Partitioner.bindGroup(tenant._id, function() {
+      var data = {
+        name: tenant.name,
+        createdAt: moment(tenant.createdAt).format('DD/MM/YYYY HH:mm'),
+        plan: tenant.plan,
+        companies: Companies.find({_groupId: tenant._id}).count(),
+        contacts: Contacts.find({_groupId: tenant._id}).count(),
+        opportunities: Opportunities.find({_groupId: tenant._id}).count(),
+        projects: Projects.find({_groupId: tenant._id}).count(),
+        products: Products.find({_groupId: tenant._id}).count(),
+        purchaseOrders: PurchaseOrders.find({_groupId: tenant._id}).count(),
+        activities: Activities.find({_groupId: tenant._id}).count(),
+        tasks: Tasks.find({_groupId: tenant._id}).count(),
+        currency: tenant.settings.currency,
+        coupon: (tenant.stripe && tenant.stripe.coupon ? tenant.stripe.coupon : '')
+      };
+      return data;
+    });
+  }
 });
