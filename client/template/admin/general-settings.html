@@ -5,14 +5,28 @@
     </div>
     <div class="panel-collapse collapse" id="genSettings">
       <div class="panel-body">
+
         <div class="well well-sm">
-          <b>Currency</b>: 
+          <b>Company Name</b>:
+          <form id="tenantNameForm">
+              <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Enter your organisation name..." value="{{tenant.name}}">
+                  <span class="input-group-btn">
+                      <button class="btn btn-secondary" type="submit">Save</button>
+                  </span>
+              </div>
+          </form>
+        </div>
+
+        <div class="well well-sm">
+          <b>Currency</b>:
             <select id="currencySelect">
               <option value="gbp" {{setSelected userCurrency 'gbp'}}> GBP - £</option>
               <option value="eur" {{setSelected userCurrency 'eur'}}> EUR - €</option>
               <option value="usd" {{setSelected userCurrency 'usd'}}> USD - $</option>
             </select>
         </div>
+
       </div>
     </div>
   </div>
