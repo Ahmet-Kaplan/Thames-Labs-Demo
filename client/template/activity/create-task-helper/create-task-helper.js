@@ -17,7 +17,8 @@ Template.createTaskHelper.events({
       $('#helperContent').show();
       $('#helperContent .taskdatetimepicker').datetimepicker({
         minDate: moment(),
-        defaultDate: moment().add(1, 'd')
+        defaultDate: moment().add(1, 'd'),
+        format: 'DD/MM/YYYY HH:mm:ss'
       });
     } else {
       $('#helperContent').hide();

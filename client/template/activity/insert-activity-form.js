@@ -1,3 +1,4 @@
+
 Template.insertActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
 });
@@ -21,7 +22,9 @@ Template.insertActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
-        var taskDate = moment($('#helperContent .taskdatetimepicker').val()).toDate();
+        var d = $('#helperContent .taskdatetimepicker');
+        var dtp = d.data('DateTimePicker');
+        var taskDate = dtp.date.toDate();
 
         var taskTitle = "Follow Up " + AutoForm.getFieldValue('type', 'insertActivityForm');
         if (AutoForm.getFieldValue('contactId', 'insertActivityForm')) {
@@ -43,8 +46,7 @@ Template.insertActivityModal.events({
               entityId: AutoForm.getFieldValue('contactId', 'insertActivityForm'),
               createdBy: Meteor.userId()
             }, function(err) {
-              console.log(err);
-              toastr.error("An error occurred whilst creating a task from this activity: " + err);
+              if (err) toastr.error("An error occurred whilst creating a task from this activity: " + err);
             });
 
             return;
@@ -63,7 +65,7 @@ Template.insertActivityModal.events({
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertActivityForm'),
           createdBy: Meteor.userId()
         }, function(err) {
-          toastr.error("An error occurred whilst creating a task from this activity: " + err);
+          if (err) toastr.error("An error occurred whilst creating a task from this activity: " + err);
         });
       }
     }
@@ -90,7 +92,9 @@ Template.insertContactActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertContactActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
-        var taskDate = moment($('#helperContent .taskdatetimepicker').val()).toDate();
+        var d = $('#helperContent .taskdatetimepicker');
+        var dtp = d.data('DateTimePicker');
+        var taskDate = dtp.date.toDate();
         var taskTitle = "Follow Up " + AutoForm.getFieldValue('type', 'insertContactActivityForm');
 
         Tasks.insert({
