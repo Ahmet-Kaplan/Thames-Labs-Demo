@@ -30,23 +30,22 @@ function Bubblechart(el) {
 
   this.stageHeight = 100;
 
-  this.fillColor = d3.scale.category20();
+  this.fillColor = d3.scale.ordinal()
+    .range([
+      '#1684c1', // CS blue (primary)
+      '#00c99d', // blue-green
+      '#fec41a', // yellow
+      '#e8425d', // red-pink (danger)
+      '#173e5f', // deep blue
+      '#00b3bb', // turquoise (info)
+      '#00c15b', // green (success)
+      '#fd9727', // orange (warning)
+      '#af1876', // red-violet
+    ]);
 
   this.force = d3.layout.force()
     .size([this.w, this.h])
     .nodes(this.nodes);
-
-  this.force.drag()
-    .on("dragend", (d) => {
-        // TODO: also make this add activity and check permissions?
-        // Also what about when not in stages mode?
-        // Also don't update if current stage is new stage
-        const closestStage = _.minBy(this.stages, (stage) => Math.abs(d.y - stage.y));
-        const indexOfClosestStage = _.findIndex(this.stages, closestStage);
-        Opportunities.update(d._id, {
-            $set: { currentStageId: indexOfClosestStage }
-        });
-    });
 
   this.tip = d3.tip().attr('class', 'd3-tip').html((d) => d.name);
   this.svg.call(this.tip);
@@ -109,6 +108,7 @@ function Bubblechart(el) {
       .attr("stroke-width", 2)
       .attr("stroke", (d) => d3.rgb(this.fillColor(d.currentStageIndex)).darker())
       .attr("class", "node")
+      .style("cursor", "pointer")
       .call(this.force.drag)
       .on('click', (d) => {
         if (d3.event.defaultPrevented) return; // Ignore drag
@@ -139,18 +139,20 @@ function Bubblechart(el) {
     this.w = $(el).innerWidth();
     this.h = window.innerHeight - 120;
     this.svg.attr("height", this.h).attr("width", this.w);
-    this.radiusScale.range([2, this.h/6]);
+    this.radiusScale.range([2, this.h/8]);
+    this.nodes.forEach((d) => d.radius = this.radiusScale(d.value));
     // Set forces
     this.force.size([this.w, this.h]);
-    this.force.gravity(0.1);
-    this.force.charge( (d) => -(150 + 0.1 * Math.pow(this.radiusScale(d.value), 2)) );
-    this.force.chargeDistance(this.h/2);
+    this.force.gravity(0.05);
+    this.force.charge( (d) => -(100 + 0.2 * Math.pow(d.radius, 2)) );
+    this.force.chargeDistance(this.h/4);
     this.force.on("tick", (e) => {
-      this.force.nodes(this.nodes);
       this.circle
         .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y);
     });
+    this.force.drag()
+      .on("dragend", (d) => {} );
   };
 
   // Contains stages specific visualisation
@@ -162,22 +164,32 @@ function Bubblechart(el) {
     this.h = this.stageHeight * this.stages.length;
     this.svg.attr("height", this.h).attr("width", this.w);
     this.radiusScale.range([2, this.stageHeight * 0.4]);
+    this.nodes.forEach((d) => d.radius = this.radiusScale(d.value));
     // Set forces
     this.force.gravity(0);
-    this.force.charge( (d) => -(50 + 0.2 * Math.pow(this.radiusScale(d.value), 2)) );
+    this.force.charge( (d) => -(50 + 0.2 * Math.pow(d.radius, 2)) );
     this.force.chargeDistance(this.stageHeight);
     this.force.on("tick", (e) => {
-      this.nodes.forEach((d) => {
+      this.circle.each((d) => {
         // Attract to stages
         const stage = this.stages[d.currentStageIndex];
         d.y += (stage.y - d.y) * e.alpha * 0.3;
         d.x += (this.w / 2 - d.x) * e.alpha * 0.05;
       });
-      this.force.nodes(this.nodes);
       this.circle
         .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y);
     });
+    this.force.drag()
+      .on("dragend", (d) => {
+        // TODO: also make this add activity and check permissions?
+        // Also don't update if current stage is new stage
+        const closestStage = _.minBy(this.stages, (stage) => Math.abs(d.y - stage.y));
+        const indexOfClosestStage = _.findIndex(this.stages, closestStage);
+        Opportunities.update(d._id, {
+          $set: { currentStageId: indexOfClosestStage }
+        });
+      });
 
     // draw y axis
     const axisContainer = this.svg.append("g")
@@ -218,6 +230,39 @@ function Bubblechart(el) {
 
   this._removeStagesChart = () => {
     this.svg.selectAll("g.axisContainer").remove();
+  };
+
+  // Resolves collisions between d and all other nodes
+  this._collide = (alpha) => {
+    const quadtree = d3.geom.quadtree(this.nodes),
+          maxRadius = _.chain(this.nodes)
+            .map((d) => d.radius)
+            .max()
+            .value(),
+          padding = 5;
+    return (d) => {
+      const r = d.radius + this.maxRadius + padding,
+            nx1 = d.x - r,
+            nx2 = d.x + r,
+            ny1 = d.y - r,
+            ny2 = d.y + r;
+      quadtree.visit( (quad, x1, y1, x2, y2) => {
+        if (quad.point && (quad.point !== d)) {
+          let x = d.x - quad.point.x,
+              y = d.y - quad.point.y,
+              l = Math.sqrt(x*x + y*y);
+          const r = d.radius + quad.point.radius + padding;
+          if (l < r) {
+            l = (l - r) / l * alpha;
+            d.x -= x *= l;
+            d.y -= y *= l;
+            quad.point.x += x;
+            quad.point.y += y;
+          }
+        }
+        return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+      });
+    };
   };
 
 };
