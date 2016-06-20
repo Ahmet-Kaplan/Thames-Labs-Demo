@@ -97,10 +97,6 @@ Template.adminStatistics.helpers({
       }
     }).count();
   },
-  remainingPdfCount: function() {
-    if (!ServerSession.get('DocxToPdfRemaining')) return "??";
-    return ServerSession.get('DocxToPdfRemaining');
-  },
   freeUsers: function() {
     return ReactiveMethod.call('tenant.getUsersForTenants', 'free');
   },
