@@ -59,16 +59,20 @@ function Bubblechart(el) {
     this.stages = stages;
     // calculate stage totals
     _.each(this.stages, (stage) => {
-        stage.opportunityCount = _.filter(this.nodes, {currentStageId: stage.id}).length;
+      const stageNodes = _.filter(this.nodes, {currentStageId: stage.id});
+      stage.opportunityCount = stageNodes.length;
+      stage.opportunityTotal = _.sumBy(stageNodes, 'value');
+      stage.opportunityAvg = stage.opportunityTotal / stageNodes.length;
     });
     this._update();
   };
 
   this._addOrUpdateNode = (newNode) => {
+    newNode.value = _.isFinite(newNode.value) ? newNode.value : 0;
     const existingNode = _.find(this.nodes, {'_id': newNode._id});
     if (existingNode) {
       existingNode.name = newNode.name;
-      existingNode.value = _.isFinite(newNode.value) ? newNode.value : 0;
+      existingNode.value = newNode.value;
       existingNode.currentStageId = newNode.currentStageId;
       existingNode.currentStageIndex = newNode.currentStageIndex;
     } else {
@@ -219,12 +223,18 @@ function Bubblechart(el) {
     axisContainer.selectAll(".markerText")
       .data(this.stages, (d) => d.id)
       .enter()
-      .append("text")
+      .append("foreignObject")
+      .attr("width", this.w/3)
+      .attr("height", this.stageHeight)
       .attr("x", 30)
-      .attr("y", (d) => d.y)
-      .attr("fill", "rgb(51,51,51)")
-      .attr("dominant-baseline", "central")
-      .text((d) => `${d.title} (${d.opportunityCount})`);
+      .attr("y", (d) => d.y - 10)
+      .append("xhtml:div")
+      .append("p")
+      .html( (d) => `${d.title} (${d.opportunityCount})` )
+      .append("p")
+      .html( (d) => `Total: £${d.opportunityTotal}` )
+      .append("p")
+      .html( (d) => `Average: £${d.opportunityAvg}` );
 
   };
 
