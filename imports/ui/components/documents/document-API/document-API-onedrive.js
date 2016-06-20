@@ -1,3 +1,4 @@
+import { documentAPI } from './document-API-helpers.js';
 //Note: This redirect html file is required for our setup, see https://dev.onedrive.com/sdk/js-v7/js-picker-open.htm
 //If changing the location of the onedrive_redirect.html file, update the app settings on https://apps.dev.microsoft.com/.
 //Login details use the admin@ email address.

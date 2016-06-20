@@ -1,3 +1,5 @@
+documentAPI = {};
+
 documentAPI.loadScripts = function() {
   if (typeof Dropbox === 'undefined') {
     $.getScript('https://www.dropbox.com/static/api/2/dropins.js').then(() => {
@@ -69,3 +71,5 @@ documentAPI.removeDocument = function(collectionName, id, document) {
   toastr.clear();
   toastr.success('The selected document has been successfully removed');
 };
+
+export { documentAPI };

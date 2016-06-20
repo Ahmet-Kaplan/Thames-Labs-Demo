@@ -1,3 +1,4 @@
+import { documentAPI } from './document-API-helpers.js';
 documentAPI.boxChooser = function(cb) {
   var clientKey = Meteor.settings.public.boxApiKey;
   var options = {

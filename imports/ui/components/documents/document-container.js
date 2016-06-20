@@ -1,3 +1,8 @@
+import './document-API';
+
+import './document-container.html';
+import './document-container.css';
+
 // documentContainer expects to be passed:
 // - collectionName: the name of the collecton on which it's operating
 // - id: the _id of the mongo document on which it's operating
