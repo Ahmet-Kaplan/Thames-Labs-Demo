@@ -1,8 +1,11 @@
 //Note: This redirect html file is required for our setup, see https://dev.onedrive.com/sdk/js-v7/js-picker-open.htm
+//If changing the location of the onedrive_redirect.html file, update the app settings on https://apps.dev.microsoft.com/.
+//Login details use the admin@ email address.
 var onedriveRedirect = Meteor.absoluteUrl('vendor/onedrive_redirect.html');
+var clientId = Meteor.settings.public.oneDriveClientKey;
 documentAPI.onedriveChooser = function(cb) {
   var pickerOptions = {
-    clientId: "3085de0d-0961-4759-bd1a-9883a33eee2d",
+    clientId: clientId,
     action: "share",
     openInNewWindow: true,
     multiSelect: true,
@@ -21,13 +24,10 @@ documentAPI.onedriveChooser = function(cb) {
           };
         });
         cb(null, results);
-        console.log(response);
       }
     },
     cancel: function() {},
-    error: function(e) {
-      console.log(e);
-    }
+    error: function(e) {}
   };
 
   OneDrive.open(pickerOptions);
