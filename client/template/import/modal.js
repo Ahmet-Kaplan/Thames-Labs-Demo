@@ -255,7 +255,7 @@ Template.importEntityModal.events({
             });
             $('#errorList').html(errorHTML);
 
-            var warningCount = (errors.toString().match(/\[WARNING\]*/g) ? errors.toString().match(/\[WARNING\]*/g).length : 0);
+            var warningCount = (errors.toString().match(/WARNING/g) ? errors.toString().match(/WARNING/g).length : 0);
             var errorCount = errors.length - warningCount;
 
             toastr.warning('Import completed with ' + warningCount + ' warnings and ' + errorCount + ' errors.');
