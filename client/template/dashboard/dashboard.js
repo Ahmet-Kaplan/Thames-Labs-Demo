@@ -11,15 +11,6 @@
     - 'name' is the text displayed on the dropdown.
 *****************************************/
 var widgetsDefault = {
-  // 'chat': {
-  //   id: 'chat',
-  //   x: 0,
-  //   y: 0,
-  //   w: 1,
-  //   h: 1,
-  //   displayed: true,
-  //   name: 'Chatter'
-  // },
   'quotation': {
     id: 'quotation',
     x: 1,
@@ -219,6 +210,25 @@ Template.dashboard.onRendered(function() {
           return;
         }
       }
+
+      // Self-cleaning widget list
+      if(!widgetsDefault[widget.id]) {
+        var u = Meteor.users.findOne({_id: Meteor.userId()});
+        if(u.profile) {
+          var widgets = u.profile.myWidgets;
+          if (widgets && widgets[widget.id]) {
+            delete widgets[widget.id];
+            Meteor.users.update({
+              _id: u._id
+            }, {
+              $set: {
+                'profile.myWidgets': widgets
+              }
+            });
+          }
+        }
+      }
+
       if (widget.displayed) {
         //Control to avoid migration and for display safety
         widget.h = (widget.h > 2) ? 1 : widget.h;
