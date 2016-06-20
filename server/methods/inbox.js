@@ -53,10 +53,10 @@ Meteor.methods({
     var emailPattern = /([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,})/g;
     var userEmail = bodyData.From.match(emailPattern);
 
-    if (userEmail[0].indexOf('@cambridgesoftware.co.uk') === -1) {
-      console.log('Email sent but not from Cambridge Software account, ignoring...');
-      return;
-    }
+    // if (userEmail[0].indexOf('@cambridgesoftware.co.uk') === -1) {
+    //   console.log('Email sent but not from Cambridge Software account, ignoring...');
+    //   return;
+    // }
 
     if (!userEmail) return;
 
