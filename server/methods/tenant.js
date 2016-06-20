@@ -94,33 +94,29 @@ Meteor.methods({
     ServerSession.set('deletingTenant', val);
   },
   'tenant.flagForDeletion': function(tenantId) {
-    var tenant = Tenants.findOne({
+    Tenants.update({
       _id: tenantId
+    }, {
+      $set: {
+        'settings.toBeDeleted': true
+      }
     });
-    if (tenant) {
-      Tenants.update({
-        _id: tenantId
-      }, {
-        $set: {
-          'settings.toBeDeleted': true
-        }
-      });
 
-      Partitioner.bindGroup(tenantId, function() {
-        var users = Meteor.users.find({
-          group: tenantId
-        }).fetch();
-        _.each(users, function(user) {
-          Roles.addUsersToRoles(user._id, ["Disabled"]);
-          Meteor.users.update({
-            _id: user._id
-          }, {
-            $set: {
-              "services.resume.loginTokens": []
-            }
-          });
+    Partitioner.bindGroup(tenantId, function() {
+      var users = Meteor.users.find({
+        group: tenantId
+      }).fetch();
+      _.each(users, function(user) {
+        Roles.addUsersToRoles(user._id, ["Disabled"]);
+        Meteor.users.update({
+          _id: user._id
+        }, {
+          $set: {
+            "services.resume.loginTokens": []
+          }
         });
       });
-    }
+    });
+
   }
 });
