@@ -149,6 +149,7 @@ Template.companyFormDetails.onCreated(function() {
   this.showMap = new ReactiveVar(false);
   this.showAddressDetails = new ReactiveVar(false);
   this.showLocationSearch = new ReactiveVar(true);
+  this.manualAddressEntry = new ReactiveVar(false);
   //Using ReactiveVar for company data to be able to update them dynamically
   this.companyData = new ReactiveVar(this.data.companyData);
 });
@@ -274,6 +275,10 @@ Template.companyFormDetails.onRendered(function() {
       }
     }
   });
+
+  $( "input[value='address'],input[value='address2'],input[value='city'],input[value='county'],input[value='country'],input[value='postcode']" ).blur(function() {
+    alert('Handler for .change() called.');
+  });
 });
 
 Template.companyFormDetails.helpers({
@@ -338,6 +343,9 @@ Template.companyFormDetails.helpers({
   },
   showLocationSearch: function() {
     return Template.instance().showLocationSearch.get();
+  },
+  manualAddressEntry: function() {
+    return Template.instance().manualAddressEntry.get();
   }
 });
 
@@ -345,7 +353,19 @@ Template.companyFormDetails.events({
   'click #newLocationSearch': function(event) {
     event.preventDefault();
     Template.instance().showLocationSearch.set(true);
+    Template.instance().showAddressDetails.set(false);
+    Template.instance().manualAddressEntry.set(false);
     $('#geo').val('');
+  },
+  'click #manualAddressEntry': function(event) {
+    event.preventDefault();
+    Template.instance().showAddressDetails.set(false);
+    Template.instance().manualAddressEntry.set(true);
+    $('#geo').val('');
+    Template.instance().companyData.set({
+      lat: null,
+      lng: null
+    });
   }
 });
 

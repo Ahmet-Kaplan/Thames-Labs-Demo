@@ -168,6 +168,11 @@ Template.companyDetail.helpers({
   mapAddress: function() {
     return this;
   },
+  hasAddress: function() {
+    if (this.lat || this.lng || this.address || this.city || this.postcode || this.country || this.county) {
+      return true;
+    }
+  },
   opportunities: function() {
     return Opportunities.find({
       companyId: this._id,

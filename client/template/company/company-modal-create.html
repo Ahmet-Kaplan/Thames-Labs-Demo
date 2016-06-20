@@ -58,28 +58,37 @@
 {{#autoForm collection="Companies" id="insertNewCompanyForm" type="insert"}}
   {{> afQuickField name="name" value=companyName}}
   {{> afQuickField name="website" value=website}}
-    <div class="form-group {{#if showLocationSearch}}show{{else}}hidden{{/if}}">
-      <label for="geo" class="control-label">Search for Address, City, etc.</label>
-      <input type="text" id="geo" class="form-control" autocomplete="off" />
-    </div>
-    <p class="{{#if showLocationSearch}}hidden{{else}}show{{/if}}"><a href="#" id="newLocationSearch">New address search</a></p>
-    {{#if showAddressDetails}}
-      {{> afQuickField name="address" value=formattedAddress}}
-      {{> afQuickField name="address2"}}
-      {{> afQuickField name="city" data-geo="locality" value=city}}
-      {{> afQuickField name="county" data-geo="administrative_area_level_2" value=county}}
-      {{> afQuickField name="postcode" data-geo="postal_code" value=postcode}}
-      {{> afQuickField name="country" data-geo="country" value=country}}
-      {{> afQuickField name="lat" data-geo="lat" value=lat}}
-      {{> afQuickField name="lng" data-geo="lng" value=lng}}
-      
-      {{#if isDesktop}}
-        {{#if showMap}}
-          {{> mapPicker lat=lat lng=lng}}
-        {{/if}}
-      {{/if}}
 
+  {{#unless manualAddressEntry}}
+  <div class="form-group {{#if showLocationSearch}}show{{else}}hidden{{/if}}">
+    <label for="geo" class="control-label">Search for Address, City, etc.</label>
+    <input type="text" id="geo" class="form-control" autocomplete="off" />
+  </div>
+  {{/unless}}
+
+  {{#if showAddressDetails}}
+    <p><br>Address</p>
+    <p><strong>{{formattedAddress}}, {{city}}, {{county}}, {{country}}, {{postcode}}</strong></p>
+    <p>Not quite right? Search for a <a href="#" id="newLocationSearch">different address</a> or <a id="manualAddressEntry" href="#">enter one manually</a><br><br></p>
+    {{#if isDesktop}}
+      {{#if showMap}}
+        {{> mapPicker lat=lat lng=lng}}
+      {{/if}}
     {{/if}}
+  {{/if}}
+
+  
+  <div class="{{#unless manualAddressEntry}}hidden{{/unless}}">
+    {{> afQuickField name="address" value=formattedAddress}}
+    {{> afQuickField name="address2"}}
+    {{> afQuickField name="city" data-geo="locality" value=city}}
+    {{> afQuickField name="county" data-geo="administrative_area_level_2" value=county}}
+    {{> afQuickField name="postcode" data-geo="postal_code" value=postcode}}
+    {{> afQuickField name="country" data-geo="country" value=country}}
+    {{> afQuickField name="lat" data-geo="lat" value=lat}}
+    {{> afQuickField name="lng" data-geo="lng" value=lng}}
+  </div>
+  
   {{> afQuickField name="phone" value=phone}}
   {{> afQuickField name="createdBy" value=currentUser }}
   <button type="submit" class="btn btn-primary" id="btnCreate">Create</button>
