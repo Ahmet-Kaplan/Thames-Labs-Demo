@@ -1,3 +1,5 @@
+//Note: This redirect html file is required for our setup, see https://dev.onedrive.com/sdk/js-v7/js-picker-open.htm
+var onedriveRedirect = Meteor.absoluteUrl('vendor/onedrive_redirect.html');
 documentAPI.onedriveChooser = function(cb) {
   var pickerOptions = {
     clientId: "3085de0d-0961-4759-bd1a-9883a33eee2d",
@@ -5,7 +7,7 @@ documentAPI.onedriveChooser = function(cb) {
     openInNewWindow: true,
     multiSelect: true,
     advanced: {
-        redirectUri: 'http://localhost:3000/onedrive-redirect.html'
+      redirectUri: onedriveRedirect
     },
     success: function(response) {
       if (response.value) {
@@ -23,8 +25,10 @@ documentAPI.onedriveChooser = function(cb) {
       }
     },
     cancel: function() {},
-    error: function(e) {console.log(e)}
+    error: function(e) {
+      console.log(e);
+    }
   };
 
   OneDrive.open(pickerOptions);
-}
+};

@@ -5,10 +5,12 @@
 
       {{#if isInRole permissionRequired}}
         <div class="btn-group pull-right">
-          <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" type="button">
+          <button aria-expanded="false" aria-haspopup="true" class="btn btn-primary btn-xs dropdown-toggle btn-xs" data-toggle="dropdown" type="button">
+            <i class="fa fa-fw fa-plus"></i> 
             Add from...
             <span class="caret"></span>
           </button>
+
           <ul class="dropdown-menu" role="menu">
             <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-drive-document" title="Add a document from Google Drive">
               <small><i class="fa fa-fw fa-google"></i> Google Drive</small>

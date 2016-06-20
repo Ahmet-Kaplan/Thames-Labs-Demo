@@ -56,7 +56,7 @@ Template.documentContainer.events({
       _.each(res, (file) => {
         documentAPI.addDocument(this.collectionName, this.id, file);
       });
-     });
+    });
   },
   'click #remove-document': function() {
     documentAPI.removeDocument(this.collectionName, this.id, this);
