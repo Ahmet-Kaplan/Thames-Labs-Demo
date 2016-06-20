@@ -64,7 +64,10 @@ Meteor.methods({
 
       if (record.assigneeId) {
         const assignee = Meteor.users.findOne({
-          _id: record.assigneeId
+          _id: record.assigneeId,
+          "profile.name": {
+            $exists: true
+          }
         });
         record.assignee = assignee ? assignee.profile.name : 'Not assigned';
       }
@@ -100,7 +103,10 @@ Meteor.methods({
             break;
           case 'user':
             const user = Meteor.users.findOne({
-              _id: record.entityId
+              _id: record.entityId,
+              profile: {
+                $exists: true
+              }
             });
             record.relatedRecord = user ? user.profile.name : null;
             break;
@@ -113,7 +119,10 @@ Meteor.methods({
 
       if (record.salesManagerId) {
         const salesManager = Meteor.users.findOne({
-          _id: record.salesManagerId
+          _id: record.salesManagerId,
+          profile: {
+            $exists: true
+          }
         });
         record.salesManagerId = salesManager ? salesManager.profile.name : null;
       }
@@ -138,6 +147,15 @@ Meteor.methods({
         if ( _.has(record, 'projectMilestoneId') && project && project.milestones ) {
           const milestone = _.find(project.milestones, { 'id': record.projectMilestoneId });
           record.milestone = milestone ? milestone.name : null;
+        }
+      }
+
+      if(collectionName === "opportunities") {
+        if ( _.has(record, 'value') ) {
+          if(record.value) record.value = record.value.toFixed(2);
+          else record.value = "0.00";
+        }else {
+          record.value = "0.00";
         }
       }
 
