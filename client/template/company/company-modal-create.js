@@ -10,6 +10,7 @@ Template.insertNewCompanyModal.onCreated(function() {
     libraries: 'places',
     key: Meteor.settings.public.googleDeveloperKey,
   });
+  $('#companyName').focus();
 });
 
 Template.insertNewCompanyModal.onRendered(function() {
