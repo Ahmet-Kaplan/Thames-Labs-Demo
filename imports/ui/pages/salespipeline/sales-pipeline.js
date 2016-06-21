@@ -3,6 +3,8 @@ import d3tip from 'd3-tip';
 d3tip(d3);
 import _ from 'lodash';
 
+import { decimal } from '/imports/ui/components/currency/decimal.js';
+
 import './sales-pipeline.html';
 import './sales-pipeline.css';
 
@@ -232,9 +234,9 @@ function Bubblechart(el) {
       .append("p")
       .html( (d) => `${d.title} (${d.opportunityCount})` )
       .append("p")
-      .html( (d) => `Total: £${d.opportunityTotal}` )
+      .html( (d) => `Total: ${decimal(d.opportunityTotal)}` )
       .append("p")
-      .html( (d) => `Average: £${d.opportunityAvg}` );
+      .html( (d) => `Average: ${decimal(d.opportunityAvg)}` );
 
   };
 

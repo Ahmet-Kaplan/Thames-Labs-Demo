@@ -1,12 +1,5 @@
-function getCurrencySymbol(currency) {
-  var currencySymbol = {
-    gbp: '£',
-    eur: '€',
-    usd: '$'
-  };
-
-  return currencySymbol[currency] || '£';
-}
+import { userCurrencySymbol } from '/imports/ui/components/currency/currency-symbol.js';
+import { decimal } from '/imports/ui/components/currency/decimal.js';
 
 Template.registerHelper('greaterThan', function(a, b) {
   return a > b;
@@ -28,27 +21,7 @@ Template.registerHelper('indexedArray', function(context, options) {
 });
 
 Template.registerHelper('decimal', function(number) {
-  if (!number) number = 0;
-  number = parseFloat(number);
-
-  if(!Meteor.user()) return number.toFixed(2);
-
-  var allowedCurrencies = ['gbp', 'eur', 'usd'];
-  var tenantCurrency = Tenants.findOne({
-    _id: Meteor.user().group
-  }).settings.currency;
-  var currency = (allowedCurrencies.indexOf(tenantCurrency) === -1) ? 'gbp' : tenantCurrency;
-  var currencyLocale = {
-    gbp: 'en-gb',
-    eur: 'fr',
-    usd: 'en'
-  };
-  var displayLocale = currencyLocale[currency] || 'en-gb';
-
-  return number.toLocaleString(displayLocale, {
-    style: 'currency',
-    currency: currency.toUpperCase()
-  });
+  return decimal(number);
 });
 
 Template.registerHelper('longNumber', function(number) {
@@ -164,15 +137,7 @@ Template.registerHelper('userCurrency', function() {
 });
 
 Template.registerHelper('userCurrencySymbol', function() {
-  if(!Meteor.user()) return '£';
-
-  var tenant = Tenants.findOne({
-    _id: Meteor.user().group
-  });
-  if (tenant) {
-    var currency = tenant.settings.currency || 'gbp';
-    return getCurrencySymbol(currency);
-  }
+  return userCurrencySymbol();
 });
 
 Template.registerHelper('setSelected', function(value, option) {
