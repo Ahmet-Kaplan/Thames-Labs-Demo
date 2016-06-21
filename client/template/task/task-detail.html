@@ -17,9 +17,16 @@
           </span>
         {{/if}}
         </span>
-        </h4>
+      </h4>
       <h1 class="entity-name">
         {{title}}
+        <div  class="pull-right" id="obvious-task-completion-button">
+          {{#if completed}}
+            <button class="btn btn-md btn-default">Mark as incomplete</button>
+          {{else}}
+            <button class="btn btn-md btn-success">Mark as complete</button>
+          {{/if}}
+        </div>
       </h1>
 
       {{> tagInput tags=tags collection='tasks' entityId=_id permissionToEdit='CanEditTasks'}}
@@ -69,6 +76,13 @@
               </li>
             {{/if}}
           {{/if}}
+
+                    {{#if completedAt}}
+                        <li class="list-group-item panel-item-header">
+                          <h4><i class="fa fa-fw fa-calendar"></i> Completion Date</h4>
+                          {{formattedCompletionDate}} - {{relativeCompletionDate}}
+                        </li>
+                      {{/if}}
 
           {{#unless isPersonalTask}}
             {{#if entityDetails.permissionToRead}}
