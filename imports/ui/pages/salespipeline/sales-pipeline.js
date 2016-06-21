@@ -18,9 +18,13 @@ function Bubblechart(el) {
   this.svg = d3.select(el)
     .append("svg")
     .attr("width", this.w)
-    .attr("height", this.h);
+    .attr("height", this.h)
+    .on("click", (e) => {
+      this.selectOpportunity(null);
+    });
 
   this.nodes = [];
+  this.selectedNode = null;
 
   this.radiusScale = d3.scale.sqrt()
     .range([2, 40]);
@@ -100,9 +104,14 @@ function Bubblechart(el) {
       this._totalsChart();
     }
 
-    // What follows happens regardless of chart mode
+    this._drawCircles();
+
+    this.force.start();
+  };
+
+  this._drawCircles = () => {
     this.circle = this.svg.selectAll(".node")
-            .data(this.nodes, (d) => d._id);
+      .data(this.nodes, (d) => d._id);
 
     this.circle.enter()
       .append("circle")
@@ -114,25 +123,28 @@ function Bubblechart(el) {
       .call(this.force.drag)
       .on('click', (d) => {
         if (d3.event.defaultPrevented) return; // Ignore drag
-        this.tip.hide();
-        FlowRouter.go('opportunity', {id: d._id});
+        this._selectionCallback(d._id);
       })
       .on('mouseover', this.tip.show)
       .on('mouseout', this.tip.hide);
 
     this.circle
-      .transition().duration(1000)
-      .attr("fill", (d) => this.fillColor(d.currentStageIndex))
+      .transition().duration(500)
+      .attr("fill", (d) => {
+        if (this.selectedNode == d._id) return d3.rgb(this.fillColor(d.currentStageIndex)).brighter();
+        return this.fillColor(d.currentStageIndex);
+      })
+      .attr("stroke", (d) => {
+        if (this.selectedNode == d._id) return d3.rgb(this.fillColor(d.currentStageIndex)).darker(2);
+        return d3.rgb(this.fillColor(d.currentStageIndex)).darker();
+      })
       .attr("stroke-width", 2)
-      .attr("stroke", (d) => d3.rgb(this.fillColor(d.currentStageIndex)).darker())
       .attr("r", (d) => this.radiusScale(d.value));
 
     this.circle.exit()
       .transition() .duration(1000)
       .attr("r", 0)
       .remove();
-
-    this.force.start();
   };
 
   // Contains totals specific visualisation
@@ -277,6 +289,15 @@ function Bubblechart(el) {
     };
   };
 
+  // This function is for attaching a callback on circle selection
+  this._selectionCallback = () => {};
+
+  this.selectOpportunity = (id) => {
+    // set to null for nothing selected
+    this.selectedNode = id;
+    this._drawCircles();
+  };
+
 };
 
 Template.salesPipeline.onCreated(function() {
@@ -297,6 +318,9 @@ Template.salesPipeline.onRendered(function() {
   this.chart = new Bubblechart('#d3-sales-pipeline');
   this.chartResizeEventHandler = window.addEventListener("resize", this.chart._update);
 
+  this.selectedOpportunity = new ReactiveVar(null);
+  this.chart._selectionCallback = (id) => this.selectedOpportunity.set(id);
+
   // TODO: handle null tenant / stages
   // n.b. stages are currently not reactive - need to find a way to watch for updates without
   // triggering on ANY tenant update
@@ -311,6 +335,10 @@ Template.salesPipeline.onRendered(function() {
       d.currentStageIndex = _.findIndex(stages, {id: d.currentStageId});
     });
     this.chart.updateNodes(dataset, stages);
+  });
+
+  this.autorun( () => {
+    this.chart.selectOpportunity(this.selectedOpportunity.get());
   });
 });
 
