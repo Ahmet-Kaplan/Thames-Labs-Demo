@@ -18,12 +18,7 @@ function Bubblechart(el) {
   this.svg = d3.select(el)
     .append("svg")
     .attr("width", this.w)
-    .attr("height", this.h)
-    .on("click", () => {
-      if (d3.event.defaultPrevented) return; // Ignore drag
-      this.splitByStage = !this.splitByStage;
-      this._update();
-    });
+    .attr("height", this.h);
 
   this.nodes = [];
 
@@ -70,6 +65,7 @@ function Bubblechart(el) {
   };
 
   this._addOrUpdateNode = (newNode) => {
+    // Set defaults to prevent divide by zero errors on init
     newNode.value = _.isFinite(newNode.value) ? newNode.value : 0;
     const existingNode = _.find(this.nodes, {'_id': newNode._id});
     if (existingNode) {
@@ -94,6 +90,9 @@ function Bubblechart(el) {
     // Remove any mode specific things
     this._removeStagesChart();
 
+    this.radiusScale
+      .domain([0, _.max(this.nodes.map( (d) => d.value ))]);
+
     // Mode specific code
     if (this.splitByStage) {
       this._stagesChart();
@@ -102,9 +101,6 @@ function Bubblechart(el) {
     }
 
     // What follows happens regardless of chart mode
-    this.radiusScale
-      .domain([0, _.max(this.nodes.map( (d) => d.value ))]);
-
     this.circle = this.svg.selectAll(".node")
             .data(this.nodes, (d) => d._id);
 
@@ -145,7 +141,7 @@ function Bubblechart(el) {
     this.w = $(el).innerWidth();
     this.h = window.innerHeight - 120;
     this.svg.attr("height", this.h).attr("width", this.w);
-    this.radiusScale.range([2, this.h/8]);
+    this.radiusScale.range([2, this.h/10]);
     this.nodes.forEach((d) => d.radius = this.radiusScale(d.value));
     // Set forces
     this.force.size([this.w, this.h]);
@@ -164,23 +160,25 @@ function Bubblechart(el) {
   // Contains stages specific visualisation
   this._stagesChart = () => {
     // Set layout
-    this.stageHeight = window.innerHeight / 6;
+    this.stageHeight = _.max([100, window.innerHeight / 6]);
     this.stages.forEach( (stage, i) => stage.y = (0.5 + i) * this.stageHeight );
     this.w = $(el).innerWidth();
     this.h = this.stageHeight * this.stages.length;
     this.svg.attr("height", this.h).attr("width", this.w);
-    this.radiusScale.range([2, this.stageHeight * 0.4]);
-    this.nodes.forEach((d) => d.radius = this.radiusScale(d.value));
+    this.radiusScale.range([2, this.stageHeight * 0.3]);
+    this.nodes.forEach( (d) => d.radius = this.radiusScale(d.value) );
     // Set forces
     this.force.gravity(0);
     this.force.charge( (d) => -(50 + 0.2 * Math.pow(d.radius, 2)) );
     this.force.chargeDistance(this.stageHeight);
     this.force.on("tick", (e) => {
-      this.circle.each((d) => {
+      this.nodes.forEach((d) => {
         // Attract to stages
         const stage = this.stages[d.currentStageIndex];
         d.y += (stage.y - d.y) * e.alpha * 0.3;
         d.x += (this.w / 2 - d.x) * e.alpha * 0.05;
+        // Push away from edges
+        if (d.x < 30) d.x += (30 - d.x) * e.alpha;
       });
       this.circle
         .attr("cx", (d) => d.x)
@@ -222,21 +220,23 @@ function Bubblechart(el) {
       .attr("cx", 12)
       .attr("cy", (d) => d.y);
 
-    axisContainer.selectAll(".markerText")
-      .data(this.stages, (d) => d.id)
-      .enter()
-      .append("foreignObject")
-      .attr("width", this.w/3)
-      .attr("height", this.stageHeight)
-      .attr("x", 30)
-      .attr("y", (d) => d.y - 10)
-      .append("xhtml:div")
-      .append("p")
-      .html( (d) => `${d.title} (${d.opportunityCount})` )
-      .append("p")
-      .html( (d) => `Total: ${decimal(d.opportunityTotal)}` )
-      .append("p")
-      .html( (d) => `Average: ${decimal(d.opportunityAvg)}` );
+    if (this.w > 650) {
+      axisContainer.selectAll(".markerText")
+        .data(this.stages, (d) => d.id)
+        .enter()
+        .append("foreignObject")
+        .attr("width", this.w/6)
+        .attr("height", this.stageHeight)
+        .attr("x", 30)
+        .attr("y", (d) => d.y - 10)
+        .append("xhtml:div")
+        .append("p")
+        .html( (d) => `${d.title} (${d.opportunityCount})` )
+        .append("p")
+        .html( (d) => `Total: ${decimal(d.opportunityTotal)}` )
+        .append("p")
+        .html( (d) => `Average: ${decimal(d.opportunityAvg)}` );
+    }
 
   };
 
