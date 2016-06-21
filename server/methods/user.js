@@ -173,6 +173,11 @@ Meteor.methods({
     LogServerEvent('verbose', 'User created', 'user', userId);
 
     Meteor.call('stripe.updateQuantity', Partitioner.getUserGroup(adminId));
+  },
+
+  "user.changeEmail": function(newEmailAddress) {
+    var userId = this.userId;
+    Meteor.users.update({_id: userId}, {$set: {'emails.0.address': newEmailAddress}});
   }
 
 });

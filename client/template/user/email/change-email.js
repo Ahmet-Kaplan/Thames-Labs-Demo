@@ -1,0 +1,31 @@
+Template.changeEmail.helpers({
+  userEmail: function() {
+    return Meteor.user().emails[0].address;
+  }
+});
+
+Template.changeEmail.events({
+  'click #btnEmailChange': function() {
+    if ($('#objNewEmail').val() === "") {
+      toastr.warning("Please enter your new email address.");
+      return;
+    }
+    if ($('#objRepEmail').val() === "") {
+      toastr.warning("Please re-enter your new email address.");
+      return;
+    }
+    if ($('#objNewEmail').val() !== $('#objRepEmail').val()) {
+      toastr.error("Email addresses do not match.");
+      return;
+    }
+
+    Meteor.call("user.changeEmail", $('#objNewEmail').val(), function(err) {
+      if (err) {
+        toastr.error("Error updating email adderss: " + err);
+      }
+
+      toastr.success('Your email address was updated successfully. You should login with your new email address in future.');
+      Modal.hide();
+    });
+  }
+});
