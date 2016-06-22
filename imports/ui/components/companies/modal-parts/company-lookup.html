@@ -1,0 +1,39 @@
+<template name='companyLookup'>
+  <div class="form-group">
+    <label for="companyName" class="control-label">Company name or website</label>
+    <input type="text" id="companyName" class="form-control" placeholder="{{#unless isMobile}}Search for company name or website{{/unless}}">
+  </div>
+
+  {{#if showDuplicationWarning}}
+    <div class="form-group" id="duplicationWarning">
+      <small class="text-warning">You already have a company record with that name. Clicking <strong>create</strong> will create a different record with the same name.</small>
+    </div>
+  {{/if}}
+
+  {{#if fetchingResults}}
+    {{> loadingSmall }}
+  {{else}}
+    {{#if showResultsList}}
+      {{> companyLookupResults resultsTotal=resultsTotal resultsList=resultsList}}                
+    {{/if}}
+  {{/if}}
+
+  <div class="text-right">
+      or 
+    <button class="btn btn-default" type="button" id="manual-fill">Fill Manually</button>
+  </div>
+</template>
+
+
+<template name="companyLookupResults">
+  {{#if resultsTotal}}
+    <p>Pre-fill from matching company:</p>
+    <ul>
+      {{#each resultsList}}
+      <li><small><a href="#" class="magic-result" id="{{id}}">{{name}}, {{location}}</a></small></li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <em>No results found</em>
+  {{/if}}
+</template>
