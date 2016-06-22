@@ -20,6 +20,7 @@ function Bubblechart(el) {
     .attr("width", this.w)
     .attr("height", this.h)
     .on("click", (e) => {
+      if (d3.event.defaultPrevented) return; // Ignore drag
       this.selectOpportunity(null);
     });
 
