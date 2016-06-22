@@ -109,7 +109,7 @@ Template.insertContactActivityModal.events({
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertContactActivityForm'),
           createdBy: Meteor.userId()
         }, function(err) {
-          toastr.error("An error occurred whilst creating a task from this activity: " + err);
+          if (err) toastr.error("An error occurred whilst creating a task from this activity: " + err);
         });
       }
     }
@@ -139,7 +139,9 @@ Template.insertProjectActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertProjectActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
-        var taskDate = moment($('#helperContent .taskdatetimepicker').val()).toDate();
+        var d = $('#helperContent .taskdatetimepicker');
+        var dtp = d.data('DateTimePicker');
+        var taskDate = dtp.date.toDate();
 
         var taskTitle = "Follow Up " + AutoForm.getFieldValue('type', 'insertProjectActivityForm');
 
@@ -155,7 +157,7 @@ Template.insertProjectActivityModal.events({
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertProjectActivityForm'),
           createdBy: Meteor.userId()
         }, function(err) {
-          toastr.error("An error occurred whilst creating a task from this activity: " + err);
+          if (err) toastr.error("An error occurred whilst creating a task from this activity: " + err);
         });
       }
     }
@@ -198,7 +200,9 @@ Template.insertOpportunityActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertOpportunityActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
-        var taskDate = moment($('#helperContent .taskdatetimepicker').val()).toDate();
+        var d = $('#helperContent .taskdatetimepicker');
+        var dtp = d.data('DateTimePicker');
+        var taskDate = dtp.date.toDate();
 
         var taskTitle = "Follow Up " + AutoForm.getFieldValue('type', 'insertOpportunityActivityForm');
 
@@ -214,7 +218,7 @@ Template.insertOpportunityActivityModal.events({
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertOpportunityActivityForm'),
           createdBy: Meteor.userId()
         }, function(err) {
-          toastr.error("An error occurred whilst creating a task from this activity: " + err);
+          if (err) toastr.error("An error occurred whilst creating a task from this activity: " + err);
         });
       }
     }
