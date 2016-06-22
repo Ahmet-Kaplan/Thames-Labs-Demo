@@ -36,7 +36,7 @@ Template.mapEditor.onRendered(function() {
       var self = this;
       var geocoder = new google.maps.Geocoder();
       geocoder.geocode({
-        'address': [addressData.address, addressData.postcode, addressData.city, addressData.country].join(', ')
+        'address': [addressData.address, addressData.address2, addressData.postcode, addressData.city, addressData.country].join(', ')
       }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           var loc = results[0].geometry.location;
@@ -44,9 +44,18 @@ Template.mapEditor.onRendered(function() {
           addressData.lng = loc.lng();
           self.data.address.set(addressData);
         } else {
-          addressData.lat = 0;
-          addressData.lng = 0;
-          title = "Location not found";
+          if (addressData.postcode) {
+            geocoder.geocode({
+              'address': addressData.postcode
+            }, function(res, st) {
+              if (st == google.maps.GeocoderStatus.OK) {
+                var l = res[0].geometry.location;
+                addressData.lat = l.lat();
+                addressData.lng = l.lng();
+                self.data.address.set(addressData);
+              }
+            });
+          }
         }
       });
     }

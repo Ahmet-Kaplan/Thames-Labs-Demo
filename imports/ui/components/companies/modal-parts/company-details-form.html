@@ -29,7 +29,7 @@
           {{#if address1}}{{address1}},<br>{{/if}}
           {{#if address2}}{{address2}},<br>{{/if}}
           {{#if city}}{{city}},<br>{{/if}}
-          {{#if county}}{{county}},<br>{{/if}}
+          {{#if county}}{{county}}{{#if country}},{{/if}}<br>{{/if}}
           {{#if country}}{{country}}<br>{{/if}}
           {{#if postcode}}{{postcode}}<br>{{/if}}
         </strong></p>

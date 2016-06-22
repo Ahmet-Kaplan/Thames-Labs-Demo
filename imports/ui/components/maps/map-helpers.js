@@ -21,7 +21,7 @@ const getAddressFromGoogleMapsSearch = (result) => {
     route = route.long_name;
   }
   if (typeof strNumber !== 'undefined') {
-    route = strNumber + ' ' + route;
+    route = _.join([strNumber, ' ', route]);
   }
   if (addressData.address == '') {
     addressData.address = route || '';
@@ -72,19 +72,18 @@ const getAddressFromGoogleMapsSearch = (result) => {
 
 //Converts result from Clearbit API call to RT's address format
 const getAddressFromLookup = (geo) => {
-
   var addressData = {};
   //Generate values for addressData.address and addressData.address2
   if (geo.subPremise) {
     addressData.address = geo.subPremise;
     if (geo.streetName && geo.streetNumber) {
-      addressData.address2 = geo.streetNumber + ' ' + geo.streetName;
+      addressData.address2 = _.join([geo.streetNumber, ' ', geo.streetName]);
     } else if (geo.streetName && !geo.streetNumber) {
       addressData.address2 = geo.streetName;
     }
   } else {
     if (geo.streetName && geo.streetNumber) {
-      addressData.address = geo.streetNumber + ' ' + geo.streetName;
+      addressData.address = _.join([geo.streetNumber, ' ', geo.streetName]);
     } else if (geo.streetName && !geo.streetNumber) {
       addressData.address = geo.streetName;
     }

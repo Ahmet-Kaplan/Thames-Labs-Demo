@@ -52,10 +52,10 @@ Template.companyLookup.onRendered(function() {
                 id: key.toString(),
                 name: _.startCase((item.title).toLowerCase()),
                 geo: {
-                  streetName: _.startCase(item.address.address_line_1.toLowerCase()) + (item.address.address_line_2 ? ' ' + _.startCase(item.address.address_line_2.toLowerCase()) : ''),
-                  city: _.startCase(item.address.locality.toLowerCase()),
-                  postalCode: item.address.postal_code,
-                  country: 'United Kingdom',
+                  subPremise: _.startCase((item.address.address_line_1 || '').toLowerCase()),
+                  streetName: _.startCase((item.address.address_line_2 || '').toLowerCase()),
+                  city: _.startCase((item.address.locality || '').toLowerCase()),
+                  postalCode: item.address.postal_code
                 }
               };
             })
