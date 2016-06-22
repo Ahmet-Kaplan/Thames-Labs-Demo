@@ -1,1 +1,1 @@
-import '../../ui/pages/salespipeline/sales-pipeline.js';
+import '../../ui/pages/sales-pipeline/sales-pipeline.js';

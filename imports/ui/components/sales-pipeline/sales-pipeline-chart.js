@@ -1,14 +1,11 @@
+import _ from 'lodash';
 import d3 from 'd3';
 import d3tip from 'd3-tip';
 d3tip(d3);
-import _ from 'lodash';
 
 import { decimal } from '/imports/ui/components/currency/decimal.js';
 
-import './sales-pipeline.html';
-import './sales-pipeline.css';
-
-function Bubblechart(el) {
+function SalesPipelineChart(el) {
   this.w = $(el).innerWidth();
   this.h = $('.footer').offset().top - $(el).offset().top;
 
@@ -21,7 +18,7 @@ function Bubblechart(el) {
     .attr("height", this.h)
     .on("click", (e) => {
       if (d3.event.defaultPrevented) return; // Ignore drag
-      this.selectOpportunity(null);
+      this._selectionCallback(null);
     });
 
   this.nodes = [];
@@ -124,6 +121,7 @@ function Bubblechart(el) {
       .call(this.force.drag)
       .on('click', (d) => {
         if (d3.event.defaultPrevented) return; // Ignore drag
+        d3.event.stopPropagation();
         this._selectionCallback(d._id);
       })
       .on('mouseover', this.tip.show)
@@ -203,6 +201,7 @@ function Bubblechart(el) {
         // Also don't update if current stage is new stage
         const closestStage = _.minBy(this.stages, (stage) => Math.abs(d.y - stage.y));
         const indexOfClosestStage = _.findIndex(this.stages, closestStage);
+        if (indexOfClosestStage === d.currentStageId) return;
         Opportunities.update(d._id, {
           $set: { currentStageId: indexOfClosestStage }
         });
@@ -301,49 +300,4 @@ function Bubblechart(el) {
 
 };
 
-Template.salesPipeline.onCreated(function() {
-  // Redirect if read permission changed
-  this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
-
-    if (Meteor.user() & !isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To access the Sales Pipeline');
-      FlowRouter.go('/');
-    }
-  });
-});
-
-Template.salesPipeline.onRendered(function() {
-  this.subscribe('salesPipelineOpportunities');
-
-  this.chart = new Bubblechart('#d3-sales-pipeline');
-  this.chartResizeEventHandler = window.addEventListener("resize", this.chart._update);
-
-  this.selectedOpportunity = new ReactiveVar(null);
-  this.chart._selectionCallback = (id) => this.selectedOpportunity.set(id);
-
-  // TODO: handle null tenant / stages
-  // n.b. stages are currently not reactive - need to find a way to watch for updates without
-  // triggering on ANY tenant update
-  const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
-
-  this.autorun( () => {
-    // n.b. clone to prevent updates from within chart triggering autorun
-    const dataset = _.clone(Opportunities.find({
-      isArchived: { $ne: true }
-    }).fetch());
-    dataset.forEach( (d) => {
-      d.currentStageIndex = _.findIndex(stages, {id: d.currentStageId});
-    });
-    this.chart.updateNodes(dataset, stages);
-  });
-
-  this.autorun( () => {
-    this.chart.selectOpportunity(this.selectedOpportunity.get());
-  });
-});
-
-Template.salesPipeline.onDestroyed(function() {
-  // Clean up resize event handler
-  window.removeEventListener("resize", this.chartResizeEventHandler);
-});
+export { SalesPipelineChart };
