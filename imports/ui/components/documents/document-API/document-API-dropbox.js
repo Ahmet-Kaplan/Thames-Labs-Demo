@@ -1,3 +1,4 @@
+import { documentAPI } from './document-API-helpers.js';
 documentAPI.dropboxChooser = function(cb) {
   // Returns array of files chosen
   Dropbox.choose({
