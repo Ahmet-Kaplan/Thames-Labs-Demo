@@ -2,7 +2,8 @@ Schemas.PurchaseOrder = new SimpleSchema({
   sequencedIdentifier: {
     type: String,
     label: "RealTime ID",
-    defaultValue: 'xxx-000'
+    defaultValue: 'xxx-000',
+    optional: true
   },
   userId: {
     type: String,

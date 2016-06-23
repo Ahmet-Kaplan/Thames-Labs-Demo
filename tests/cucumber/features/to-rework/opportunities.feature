@@ -18,7 +18,7 @@ Feature: Allow users to manage their sales opportunities
   Scenario: The opportunities list contains company / contact name
     Given an "Opportunity" has been created
     When I navigate to "/opportunities"
-    Then I should see ".list-group-item:not(#moar)"
+    Then I should not see "#moar"
     And ".list-group-item-text" should contain "Test Ltd"
 
   Scenario: A user without permission cannot see the opportunities list
