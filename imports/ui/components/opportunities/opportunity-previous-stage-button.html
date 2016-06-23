@@ -1,0 +1,5 @@
+<template name="opportunityPreviousStageButton">
+  {{#if isInRole 'CanEditOpportunities'}}
+    <button class="btn btn-default" id="previous-stage" disabled={{isFirstStage}}><i class="fa fa-fw fa-chevron-left"></i> Back to previous stage</button>
+  {{/if}}
+</template>

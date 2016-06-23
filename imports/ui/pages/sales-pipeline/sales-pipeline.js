@@ -8,6 +8,7 @@ import { Template } from 'meteor/templating';
 import { SalesPipelineChart } from '/imports/ui/components/sales-pipeline/sales-pipeline-chart';
 
 import '/imports/ui/components/opportunities/opportunity-details-panel.js';
+import '/imports/ui/components/opportunities/opportunity-previous-stage-button.js';
 
 import './sales-pipeline.html';
 import './sales-pipeline.css';
