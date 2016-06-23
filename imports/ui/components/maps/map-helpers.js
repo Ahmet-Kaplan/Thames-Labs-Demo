@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 //Converts result from Google Maps API call to RT's address format
+//result: google.maps.places.PlaceResult
 const getAddressFromGoogleMapsSearch = (result) => {
   var addressData = {};
 
@@ -21,7 +22,7 @@ const getAddressFromGoogleMapsSearch = (result) => {
     route = route.long_name;
   }
   if (typeof strNumber !== 'undefined') {
-    route = _.join([strNumber, ' ', route]);
+    route = _.join([strNumber, route], ' ');
   }
   if (addressData.address == '') {
     addressData.address = route || '';
@@ -77,13 +78,13 @@ const getAddressFromLookup = (geo) => {
   if (geo.subPremise) {
     addressData.address = geo.subPremise;
     if (geo.streetName && geo.streetNumber) {
-      addressData.address2 = _.join([geo.streetNumber, ' ', geo.streetName]);
+      addressData.address2 = _.join([geo.streetNumber, geo.streetName], ' ');
     } else if (geo.streetName && !geo.streetNumber) {
       addressData.address2 = geo.streetName;
     }
   } else {
     if (geo.streetName && geo.streetNumber) {
-      addressData.address = _.join([geo.streetNumber, ' ', geo.streetName]);
+      addressData.address = _.join([geo.streetNumber, geo.streetName], ' ');
     } else if (geo.streetName && !geo.streetNumber) {
       addressData.address = geo.streetName;
     }
