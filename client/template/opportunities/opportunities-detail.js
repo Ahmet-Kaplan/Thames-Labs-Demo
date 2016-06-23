@@ -1,3 +1,5 @@
+import '/imports/ui/components/opportunities/opportunity-details-panel.js';
+
 Template.opportunityDetail.onCreated(function() {
   var id = FlowRouter.getParam('id');
 

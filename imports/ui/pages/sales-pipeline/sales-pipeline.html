@@ -1,19 +1,19 @@
 <template name="salesPipeline">
-  {{setPageTitle "Sales Pipeline"}}
-  <div class="row">
-    <div class="col-md-12">
-      <h1>Sales Pipeline</h1>
+    {{setPageTitle "Sales Pipeline"}}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Sales Pipeline</h1>
+        </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-8">
-        <div id="d3-sales-pipeline"></div>
+    <div class="row">
+        <div class="col-md-8">
+            <div id="d3-sales-pipeline"></div>
+        </div>
+        <div class="col-md-4">
+            {{#if selectedOpportunity}}
+                {{> tagInput tags=selectedOpportunity.tags collection='opportunities' entityId=selectedOpportunity._id permissionToEdit='CanEditOpportunities'}}
+                {{> opportunityDetailsPanel opportunity=selectedOpportunity}}
+            {{/if}}
+        </div>
     </div>
-    <div class="col-md-4">
-        {{#if selectedOpportunity}}
-            {{selectedOpportunity.name}}
-            {{selectedOpportunity.description}}
-        {{/if}}
-    </div>
-  </div>
 </template>
