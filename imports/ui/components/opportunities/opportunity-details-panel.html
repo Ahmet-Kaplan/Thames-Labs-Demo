@@ -67,32 +67,38 @@
         </li>
       {{/if}}
 
-      {{#if isInRole 'CanReadCompanies'}}{{#if company}}
-        <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header">
-          <h4><i class="fa fa-fw fa-building"></i> Company</h4>
-          <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          {{company.name}}
-        </a>
-      {{/if}}{{/if}}
-
-      {{#if isInRole 'CanReadContacts'}}{{#if contact}}
-        <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item panel-item-header">
-          <h4><i class="fa fa-fw fa-user"></i> Contact</h4>
-          <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          {{contact.name}}
-        </a>
+      {{#if isInRole 'CanReadCompanies'}}
+        {{#if company}}
+          <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-building"></i> Company</h4>
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            {{company.name}}
+          </a>
+        {{/if}}
       {{/if}}
-      {{#if salesManagerId}}
+
+      {{#if isInRole 'CanReadContacts'}}
+        {{#if contact}}
+          <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-user"></i> Contact</h4>
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            {{contact.name}}
+          </a>
+        {{/if}}
+      {{/if}}
+
+      {{#if opportunity.salesManagerId}}
         <li class="list-group-item panel-item-header">
           <h4><i class="fa fa-fw fa-user-secret"></i> Sales Manager</h4>
           {{salesManager}}
         </li>
       {{/if}}
-      {{/if}}
+
       <li class="list-group-item panel-item-header">
         <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Opportunity ID</h4>
-        <p class="list-group-item-text">{{sequencedIdentifier}}</p>
+        <p class="list-group-item-text">{{opportunity.sequencedIdentifier}}</p>
       </li>
+
     </ul>
   </div>
 </template>

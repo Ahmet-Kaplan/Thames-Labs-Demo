@@ -10,12 +10,6 @@ Template.opportunityDetail.onCreated(function() {
   this.autorun(() => {
     var opportunity = Opportunities.findOne(id);
 
-    // Subscribe to reactive data sources
-    if (opportunity) {
-      this.subscribe('companyById', opportunity.companyId);
-      this.subscribe('contactById', opportunity.contactId);
-    }
-
     // Redirect if data doesn't exist
     if (FlowRouter.subsReady() && typeof opportunity === "undefined") {
       FlowRouter.go('opportunities');
@@ -32,12 +26,6 @@ Template.opportunityDetail.onRendered(function() {
 });
 
 Template.opportunityDetail.helpers({
-  salesManager: function() {
-    var user = Meteor.users.findOne({
-      _id: this.salesManagerId
-    });
-    if (user) return user.profile.name;
-  },
   stages: function() {
     var userTenant = Tenants.findOne({
       _id: Meteor.user().group
@@ -93,22 +81,6 @@ Template.opportunityDetail.helpers({
       if (!isNaN(subValue)) return subValue;
     });
   },
-  company: function() {
-    return Companies.findOne({
-      _id: this.companyId
-    });
-  },
-  contact: function() {
-    return Contacts.findOne({
-      _id: this.contactId
-    });
-  },
-  canExportDocx: function() {
-    if (bowser.safari) {
-      return false;
-    }
-    return true;
-  }
 });
 
 Template.opportunityDetail.events({
