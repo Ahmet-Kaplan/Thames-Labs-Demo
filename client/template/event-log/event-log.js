@@ -29,9 +29,6 @@ Template.events.events({
 });
 
 Template.eventEntry.helpers({
-  friendlyDate: function() {
-    return moment(this.date).format("Do MMMM YYYY, HH:mm:ss");
-  },
   userName: function() {
     if (typeof this.user !== "undefined") {
 

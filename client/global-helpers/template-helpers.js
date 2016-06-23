@@ -42,6 +42,10 @@ Template.registerHelper('formatDateLocale', function(date, locale) {
   }
 });
 
+Template.registerHelper('friendlyDate', function(date) {
+  return moment(date).format("Do MMMM YYYY, HH:mm:ss");
+});
+
 setRouteDetails = function(title) {
   var user = Meteor.users.find({
     _id: Meteor.userId()

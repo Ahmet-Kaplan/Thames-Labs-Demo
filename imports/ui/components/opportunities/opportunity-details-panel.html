@@ -32,7 +32,7 @@
           <input type="file" id="template-upload" style="height:0; width: 0; margin-left: -9999px">
       {{else}}
           {{#if isInRole 'CanEditOpportunities'}}
-            {{#unless hasBeenWon}}
+            {{#unless opportunity.hasBeenWon}}
               <button id="reopen-opportunity" class="btn btn-info btn-xs pull-right"><i class="fa fa-fw fa-repeat"></i> Reopen</button>
             {{/unless}}
           {{/if}}
@@ -44,26 +44,26 @@
     <ul class="list-group">
       <li class="list-group-item panel-item-header">
         <h4><i class="fa fa-fw fa-file-o"></i> Name</h4>
-        {{name}}
+        {{opportunity.name}}
       </li>
       <li class="list-group-item panel-item-header">
         <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
-        {{description}}
+        {{opportunity.description}}
       </li>
       <li class="list-group-item panel-item-header">
         <h4><i class="fa fa-fw fa-calendar"></i> Date</h4>
-        {{friendlyDate}}
+        {{friendlyDate opportunity.date}}
       </li>
-      {{#if estCloseDate}}
+      {{#if opportunity.estCloseDate}}
         <li class="list-group-item panel-item-header">
           <h4><i class="fa fa-fw fa-calendar"></i> Estimated Close</h4>
-          {{friendlyClose}}
+          {{friendlyDate opportunity.estCloseDate}}
         </li>
       {{/if}}
-      {{#if value}}
+      {{#if opportunity.value}}
         <li class="list-group-item panel-item-header">
           <h4><i class="fa fa-fw fa-money"></i> Value</h4>
-          {{decimal value}}
+          {{decimal opportunity.value}}
         </li>
       {{/if}}
 

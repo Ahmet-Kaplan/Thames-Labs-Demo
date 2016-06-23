@@ -38,12 +38,6 @@ Template.opportunityDetail.helpers({
     });
     if (user) return user.profile.name;
   },
-  friendlyDate: function() {
-    return moment(this.date).format('MMMM Do YYYY, h:mma');
-  },
-  friendlyClose: function() {
-    return moment(this.estCloseDate).format('MMMM Do YYYY, h:mma');
-  },
   stages: function() {
     var userTenant = Tenants.findOne({
       _id: Meteor.user().group
