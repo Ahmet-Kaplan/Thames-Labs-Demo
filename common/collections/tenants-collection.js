@@ -179,16 +179,6 @@ Tenants.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.name !== this.previous.name) {
     LogServerEvent(LogLevel.Verbose, "A tenant's name was updated", 'tenant', doc._id);
   }
-  // var prevdoc = this.previous;
-  // var key;
-  // for (key in doc.settings) {
-  //   if (doc.settings.hasOwnProperty(key)) {
-  //     if (doc.settings[key] !== prevdoc.settings[key]) {
-  //       console.log(doc.settings[key], prevdoc.settings[key])
-  //       LogServerEvent(LogLevel.Verbose, "The value of " + key + " setting was updated", 'tenant', doc._id);
-  //     }
-  //   }
-  // }
 });
 
 Tenants.after.remove(function(userId, doc) {
