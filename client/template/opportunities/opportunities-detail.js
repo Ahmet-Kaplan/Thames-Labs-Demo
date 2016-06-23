@@ -353,9 +353,10 @@ Template.opportunityDetail.events({
 Template.opportunityStage.helpers({
   isCurrentStep: function() {
     var id = FlowRouter.getParam('id');
-    var stepId = Opportunities.findOne({
+    var opportunity = Opportunities.findOne({
       _id: id
-    }).currentStageId;
+    });
+    var stepId = opportunity ? opportunity.currentStageId : null;
     if (stepId == this.id) return true;
     return false;
   }
