@@ -1,8 +1,10 @@
 import './company-lookup.html';
 
 /*
-  This module looks up companies from their website or their name.
-  Usage: Import companyLookup table through Blaze {{> companyLookup}}
+  This template looks up companies from their website or their name.
+  Usage: Import companyLookup table through Blaze {{> companyLookup (lookupResponse res)}}
+  Results: Calls a callback provided by parent template with name completedLookup(res);
+  See ../insert-modal.js insertCompanyModal.helpers.lookupResponse(res) for an example
 */
 
 Template.companyLookup.onCreated(function() {
