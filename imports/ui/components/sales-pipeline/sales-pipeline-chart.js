@@ -181,8 +181,17 @@ function SalesPipelineChart(el) {
     // Set forces
     this.force.gravity(0);
     this.force.charge( (d) => -(50 + 0.2 * Math.pow(d.radius, 2)) );
+
     this.force.chargeDistance(this.stageHeight);
     this.force.on("tick", (e) => {
+      var q = d3.geom.quadtree(this.nodes),
+          i = 0,
+          n = this.nodes.length;
+
+      while (++i < n) {
+        q.visit(this.collide(this.nodes[i], 0.5));
+      }
+
       this.nodes.forEach((d) => {
         // Attract to stages
         const stage = this.stages[d.currentStageIndex];
@@ -191,6 +200,7 @@ function SalesPipelineChart(el) {
         // Push away from edges
         if (d.x < 30) d.x += (30 - d.x) * e.alpha;
       });
+
       this.circle
         .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y);
@@ -254,6 +264,34 @@ function SalesPipelineChart(el) {
 
   this._removeStagesChart = () => {
     this.svg.selectAll("g.axisContainer").remove();
+  };
+
+  // Really resolves collisions between d and all other nodes!
+  this.collide = (node, aggression) => {
+    var r = node.radius + 16,
+        nx1 = node.x - r,
+        nx2 = node.x + r,
+        ny1 = node.y - r,
+        ny2 = node.y + r;
+    return function(quad, x1, y1, x2, y2) {
+      if (quad.point && (quad.point !== node)) {
+        var x = node.x - quad.point.x,
+            y = node.y - quad.point.y,
+            l = Math.sqrt(x * x + y * y),
+            r = node.radius + quad.point.radius + 3;
+        if (l < r) {
+          l = (l - r) / l * aggression;
+          node.x -= x *= l;
+          node.y -= y *= l;
+          quad.point.x += x;
+          quad.point.y += y;
+        }
+      }
+      return x1 > nx2
+          || x2 < nx1
+          || y1 > ny2
+          || y2 < ny1;
+    };
   };
 
   // Resolves collisions between d and all other nodes
