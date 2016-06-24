@@ -42,18 +42,6 @@
       Opportunity details
     </div>
     <ul class="list-group">
-      {{#if isDetailsPage}}
-        <li class="list-group-item panel-item-header">
-          <h4><i class="fa fa-fw fa-file-o"></i> Name</h4>
-          {{opportunity.name}}
-        </li>
-      {{else}}
-        <a href="{{pathFor route='opportunity' id=opportunity._id}}" class="list-group-item panel-item-header">
-          <h4><i class="fa fa-fw fa-file-o"></i> Name</h4>
-          <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          {{opportunity.name}}
-        </a>
-      {{/if}}
       <li class="list-group-item panel-item-header">
         <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
         {{opportunity.description}}
@@ -108,5 +96,10 @@
       </li>
 
     </ul>
+    {{#unless isDetailsPage}}
+      <a href="{{pathFor route='opportunity' id=opportunity._id}}" class="text-muted small pull-right">
+        View full opportunity details
+      </a>
+    {{/unless}}
   </div>
 </template>
