@@ -4,11 +4,13 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
+import { Tracker } from 'meteor/tracker';
 
 import { SalesPipelineChart } from '/imports/ui/components/sales-pipeline/sales-pipeline-chart';
 
 import '/imports/ui/components/opportunities/opportunity-details-panel.js';
 import '/imports/ui/components/opportunities/opportunity-previous-stage-button.js';
+import '/imports/ui/components/opportunities/opportunity-lost-link.js';
 
 import './sales-pipeline.html';
 import './sales-pipeline.css';
@@ -41,14 +43,21 @@ Template.salesPipeline.onRendered(function() {
   const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
 
   this.autorun( () => {
+    // Update chart data when opportunities change
     // n.b. clone to prevent updates from within chart triggering autorun
-    const dataset = _.clone(Opportunities.find({
+    const opportunities = _.clone(Opportunities.find({
       isArchived: { $ne: true }
     }).fetch());
-    dataset.forEach( (d) => {
+    opportunities.forEach( (d) => {
       d.currentStageIndex = _.findIndex(stages, {id: d.currentStageId});
     });
-    this.chart.updateNodes(dataset, stages);
+    this.chart.updateNodes(opportunities, stages);
+
+    // Check if currently selected opportunity is in dataset and set null if not
+    const selectedOpportunityId = Tracker.nonreactive( () => this.selectedOpportunity.get() );
+    if (!_.find(opportunities, {_id: selectedOpportunityId})) {
+      this.selectedOpportunity.set(null);
+    }
   });
 
   this.autorun( () => {

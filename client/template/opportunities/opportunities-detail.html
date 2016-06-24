@@ -6,12 +6,14 @@
       <div class="pull-right hidden-xs">
         {{#if isActive}}
           <br>
-          {{> opportunityPreviousStageButton opportunity=this}}
-          {{> opportunityNextStageButton opportunity=this}}
-          {{#if isInRole 'CanEditOpportunities'}}
-            <br><br>
-            <a href="#" id="lost-opportunity" class="pull-right text-danger" style="text-decoration:underline">Mark opportunity as lost</a>
-          {{/if}}
+          <p>
+            {{> opportunityPreviousStageButton opportunity=this}}
+            {{> opportunityNextStageButton opportunity=this}}
+          </p>
+          <div class="clearfix"></div>
+          <p class="pull-right">
+            {{> opportunityLostLink opportunity=this}}
+          </p>
         {{else}}
           {{#if hasBeenWon}}
             <h3 class="text-success" style="margin-top: 25px;">Opportunity won</h3>

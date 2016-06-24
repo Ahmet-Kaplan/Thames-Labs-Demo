@@ -1,6 +1,7 @@
 import '/imports/ui/components/opportunities/opportunity-details-panel.js';
 import '/imports/ui/components/opportunities/opportunity-previous-stage-button.js';
 import '/imports/ui/components/opportunities/opportunity-next-stage-button.js';
+import '/imports/ui/components/opportunities/opportunity-lost-link.js';
 
 Template.opportunityDetail.onCreated(function() {
   var id = FlowRouter.getParam('id');
@@ -67,38 +68,6 @@ Template.opportunityDetail.helpers({
 });
 
 Template.opportunityDetail.events({
-  'click #lost-opportunity': function(event) {
-    event.preventDefault();
-    var oppId = this._id;
-    bootbox.prompt("Are you sure you wish to mark this opportunity as lost? To continue, give a reason below and press OK, otherwise press Cancel.", function(result) {
-      if (result !== null) {
-        Opportunities.update(oppId, {
-          $set: {
-            isArchived: true,
-            hasBeenWon: false,
-            reasonLost: result
-          }
-        });
-        var user = Meteor.user();
-        var note = user.profile.name + ' marked this opportunity as lost';
-        if (result) {
-          note += ": <br />" + result;
-        }
-        var date = new Date();
-        Activities.insert({
-          type: 'Note',
-          notes: note,
-          createdAt: date,
-          activityTimestamp: date,
-          primaryEntityId: this._id,
-          primaryEntityType: 'opportunities',
-          primaryEntityDisplayData: this.name,
-          opportunityId: oppId,
-          createdBy: user._id
-        });
-      }
-    });
-  },
   'click #add-line-item': function(event) {
     event.preventDefault();
     Modal.show('insertOpportunityItemModal', this);

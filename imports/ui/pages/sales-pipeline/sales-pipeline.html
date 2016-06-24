@@ -12,10 +12,17 @@
         <div class="col-md-4">
             {{#if selectedOpportunity}}
                 <h1 class="entity-name">{{selectedOpportunity.name}}</h1>
+                <p class="pull-right">
+                  {{> opportunityPreviousStageButton opportunity=selectedOpportunity}}
+                  {{> opportunityNextStageButton opportunity=selectedOpportunity}}
+                </p>
+                <div class="clearfix"></div>
+                <p class="pull-right">
+                  {{> opportunityLostLink opportunity=selectedOpportunity}}
+                </p>
+                <div class="clearfix"></div>
                 {{> tagInput tags=selectedOpportunity.tags collection='opportunities' entityId=selectedOpportunity._id permissionToEdit='CanEditOpportunities'}}
                 {{> opportunityDetailsPanel opportunity=selectedOpportunity}}
-                {{> opportunityPreviousStageButton opportunity=selectedOpportunity}}
-                {{> opportunityNextStageButton opportunity=selectedOpportunity}}
             {{else}}
                 <div class="panel panel-default">
                     <div class="panel-body">
