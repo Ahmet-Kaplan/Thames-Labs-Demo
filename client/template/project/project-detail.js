@@ -106,7 +106,7 @@ Template.projectDetail.helpers({
 });
 
 Template.projectDetail.events({
-  'click #invertProjectState': function(e,t){
+  'click #invertProjectState': function(e, t) {
     event.preventDefault();
     Meteor.call('project.invertState', this._id);
   },
