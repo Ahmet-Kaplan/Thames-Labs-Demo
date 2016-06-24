@@ -1,3 +1,5 @@
+import '/imports/startup/client';
+
 Template.appLayout.helpers({
   hasMenuClass: function() {
     // var loggedIn = (Meteor.userId() ? true : false);

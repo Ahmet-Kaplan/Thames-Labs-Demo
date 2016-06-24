@@ -29,6 +29,10 @@ Template.events.events({
 });
 
 Template.eventEntry.helpers({
+  isLinkable: function() {
+    if (this.entityType === "user" || this.entityType === "tenant") return false;
+    return true;
+  },
   friendlyDate: function() {
     return moment(this.date).format("Do MMMM YYYY, HH:mm:ss");
   },
