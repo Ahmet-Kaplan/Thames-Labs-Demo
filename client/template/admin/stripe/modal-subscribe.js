@@ -25,7 +25,6 @@ Template.stripeSubscribe.onRendered(function() {
           planDetails.couponName = 'invalid: The coupon you have registered is invalid or has been cancelled and will not be applied.';
           planDetailsDep.changed();
         } else {
-          console.log(response);
           planDetails.couponExpiry = (response.duration_in_months ? response.duration_in_months + " months" : "never");
           planDetails.couponName = response.id;
           planDetails.couponDetails = (response.percent_off) ? response.percent_off + ' % off' : '£' + response.amount_off / 100 + ' off';
