@@ -294,39 +294,6 @@ function SalesPipelineChart(el) {
     };
   };
 
-  // Resolves collisions between d and all other nodes
-  this._collide = (alpha) => {
-    const quadtree = d3.geom.quadtree(this.nodes),
-          maxRadius = _.chain(this.nodes)
-            .map((d) => d.radius)
-            .max()
-            .value(),
-          padding = 5;
-    return (d) => {
-      const r = d.radius + this.maxRadius + padding,
-            nx1 = d.x - r,
-            nx2 = d.x + r,
-            ny1 = d.y - r,
-            ny2 = d.y + r;
-      quadtree.visit( (quad, x1, y1, x2, y2) => {
-        if (quad.point && (quad.point !== d)) {
-          let x = d.x - quad.point.x,
-              y = d.y - quad.point.y,
-              l = Math.sqrt(x*x + y*y);
-          const r = d.radius + quad.point.radius + padding;
-          if (l < r) {
-            l = (l - r) / l * alpha;
-            d.x -= x *= l;
-            d.y -= y *= l;
-            quad.point.x += x;
-            quad.point.y += y;
-          }
-        }
-        return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
-      });
-    };
-  };
-
   // This function is for attaching a callback on circle selection
   this._selectionCallback = () => {};
 
