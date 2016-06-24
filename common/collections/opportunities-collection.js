@@ -22,7 +22,7 @@ Opportunities.helpers({
         activityTimestamp: -1
       }
     });
-  },
+  }
 });
 
 ////////////////////
@@ -114,6 +114,23 @@ Collections.opportunities.filters = {
       }
     }
   },
+  stage: {
+    display: 'Stage:',
+    prop: 'stage',
+    allowMultiple: true,
+    defaultOptions: function() {
+      var tenant = Tenants.findOne();
+      return _.map(tenant.settings.opportunity.stages, function(s) {
+        return s.title;
+      });
+    },
+    displayValue: function(stage) {
+      if (stage) {
+        return stage;
+      }
+      return 'N/A';
+    }
+  }
 };
 
 ////////////////////
@@ -202,6 +219,21 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         // n.b. the array is passed as a comma separated string
         selector.contactId = {
           $in: options.search.props.contact.split(',')
+        };
+      }
+
+      if (options.search.props.stage) {
+        var tenant = Tenants.findOne();
+        var stages = options.search.props.stage.split(',');
+        var ids = [];
+        _.each(stages, function(x) {
+          var id = _.find(tenant.settings.opportunity.stages, function(y) {
+            return y.title === x;
+          }).id;
+          ids.push(id);
+        });
+        selector.currentStageId = {
+          $in: ids
         };
       }
 
