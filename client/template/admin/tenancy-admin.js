@@ -77,6 +77,20 @@ Template.tenancyAdminPage.events({
             }
 
             if(res === true) {
+              Meteor.call('stripe.cancelSubscription');
+
+              var tenant = Tenants.findOne({
+                _id: Meteor.user().group
+              });
+
+              var txt = 'A tenant administrator for ' + tenant.name + ' has requested that their account be deleted. Please log into the administration area of RealTimeCRM to process this removal';
+              Email.send({
+                to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
+                from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
+                subject: 'A RealTimeCRM account has been flagged for deletion',
+                text: txt
+              });
+
               Meteor.call('tenant.flagForDeletion', Meteor.user().group, function(err2, res2) {
                 if(err2) {
                   toastr.error('Error: ' + err2);
