@@ -26,7 +26,9 @@ Template.salesPipeline.onCreated(function() {
     }
   });
 
-  this.selectedOpportunity = new ReactiveVar(null);
+  // Get selected opportunity from URL if present
+  const opportunityId = FlowRouter.getQueryParam("opportunity");
+  this.selectedOpportunity = new ReactiveVar(opportunityId);
 });
 
 Template.salesPipeline.onRendered(function() {
@@ -54,14 +56,25 @@ Template.salesPipeline.onRendered(function() {
     this.chart.updateNodes(opportunities, stages);
 
     // Check if currently selected opportunity is in dataset and set null if not
-    const selectedOpportunityId = Tracker.nonreactive( () => this.selectedOpportunity.get() );
-    if (!_.find(opportunities, {_id: selectedOpportunityId})) {
-      this.selectedOpportunity.set(null);
+    if (this.subscriptionsReady()) {
+      // Don't check unless all opps arrived to prevent overwriting selected opportunity from url
+      const selectedOpportunityId = Tracker.nonreactive( () => this.selectedOpportunity.get() );
+      if (!_.find(opportunities, {_id: selectedOpportunityId})) {
+        this.selectedOpportunity.set(null);
+      }
     }
   });
 
   this.autorun( () => {
-    this.chart.selectOpportunity(this.selectedOpportunity.get());
+    const opportunityId = this.selectedOpportunity.get();
+    // Update chart
+    this.chart.selectOpportunity(opportunityId);
+    // Update URL to reflect selected opportunity
+    FlowRouter.withReplaceState( () => {
+      FlowRouter.setQueryParams({
+        opportunity: opportunityId
+      });
+    });
   });
 });
 
