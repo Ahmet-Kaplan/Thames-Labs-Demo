@@ -11,6 +11,7 @@ function SalesPipelineChart(el) {
 
   this.stages = [];
   this.splitByStage = true;
+  this.collisionDetection = false;
 
   this.svg = d3.select(el)
     .append("svg")
@@ -181,19 +182,16 @@ function SalesPipelineChart(el) {
     // Set forces
     this.force.gravity(0);
     this.force.charge( (d) => -(50 + 0.2 * Math.pow(d.radius, 2)) );
-
     this.force.chargeDistance(this.stageHeight);
     this.force.on("tick", (e) => {
-      var q = d3.geom.quadtree(this.nodes),
-          i = 0,
-          n = this.nodes.length;
-
-      while (++i < n) {
-        q.visit(this.collide(this.nodes[i], 0.5));
+      // Perform collision detection
+      if (this.collisionDetection) {
+        const q = d3.geom.quadtree(this.nodes);
+        this.nodes.forEach( (d) => q.visit(this._collide(d, 0.5)) );
       }
 
+      // Attract to stages
       this.nodes.forEach((d) => {
-        // Attract to stages
         const stage = this.stages[d.currentStageIndex];
         d.y += (stage.y - d.y) * e.alpha * 0.3;
         d.x += (this.w / 2 - d.x) * e.alpha * 0.05;
@@ -201,6 +199,7 @@ function SalesPipelineChart(el) {
         if (d.x < 30) d.x += (30 - d.x) * e.alpha;
       });
 
+      // Update circle location
       this.circle
         .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y);
@@ -267,7 +266,7 @@ function SalesPipelineChart(el) {
   };
 
   // Really resolves collisions between d and all other nodes!
-  this.collide = (node, aggression) => {
+  this._collide = (node, aggression) => {
     var r = node.radius + 16,
         nx1 = node.x - r,
         nx2 = node.x + r,
