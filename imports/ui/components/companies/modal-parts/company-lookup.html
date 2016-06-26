@@ -6,7 +6,7 @@
 
   {{#if showDuplicationWarning}}
     <div class="form-group" id="duplicationWarning">
-      <small class="text-warning">You already have a company record with that name. Clicking <strong>create</strong> will create a different record with the same name.</small>
+      <small class="text-warning">A company record has been found with a name similar to the one you have entered above ("<a href="{{pathFor route='company' id=dupedRecord._id}}" data-toggle="tooltip" data-placement="bottom" title="Navigate to company details">{{dupedRecord.name}}</a>"). This may lead to you having duplicate records.</small> 
     </div>
   {{/if}}
 

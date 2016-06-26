@@ -12,6 +12,7 @@ Template.companyLookup.onCreated(function() {
   this.fetchingResults = new ReactiveVar(false);
   this.showResultsList = new ReactiveVar(false);
   this.showDuplicationWarning = new ReactiveVar(false);
+  this.dupedRecord = new ReactiveVar('');
   this.companyData = new ReactiveVar({});
 });
 
@@ -93,6 +94,9 @@ Template.companyLookup.helpers({
   },
   showDuplicationWarning: function() {
     return Template.instance().showDuplicationWarning.get();
+  },
+  dupedRecord: function() {
+    return Template.instance().dupedRecord.get();
   }
 });
 
@@ -118,7 +122,8 @@ Template.companyLookup.events({
     var name = $('#companyName').val();
     var templateInstance = Template.instance();
     Meteor.call('company.checkExistsByName', name, (err, res) => {
-      templateInstance.showDuplicationWarning.set(res === true);
+      templateInstance.dupedRecord.set(res);
+      templateInstance.showDuplicationWarning.set(res !== null);
     });
   },
 
