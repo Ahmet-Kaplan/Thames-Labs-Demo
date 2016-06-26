@@ -343,37 +343,11 @@ Tasks.after.insert(function(userId, doc) {
     Meteor.call('addTaskReminder', doc._id);
   }
 
-  var entityType;
-  var entityId;
-
-  switch (doc.entityType) {
-    case 'company':
-      entityType = "company";
-      entityId = doc.entityId;
-      break;
-    case 'contact':
-      entityType = "contact";
-      entityId = doc.entityId;
-      break;
-    case 'opportunity':
-      entityType = "opportunity";
-      entityId = doc.entityId;
-      break;
-    case 'project':
-      entityType = "project";
-      entityId = doc.entityId;
-      break;
-    case 'user':
-      entityType = "user";
-      entityId = doc.entityId;
-      break;
-  }
-
   var user = Meteor.users.findOne({
     _id: userId
   });
   if (user) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " created a new task", entityType, entityId);
+    LogClientEvent(LogLevel.Info, user.profile.name + " created a new task", 'task', doc._id);
   }
 });
 
@@ -382,53 +356,26 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (Meteor.isServer) {
     Meteor.call('editTaskReminder', doc._id);
   }
-
-  var entityType;
-  var entityId;
-
-  switch (doc.entityType) {
-    case 'company':
-      entityType = "company";
-      entityId = doc.entityId;
-      break;
-    case 'contact':
-      entityType = "contact";
-      entityId = doc.entityId;
-      break;
-    case 'opportunity':
-      entityType = "opportunity";
-      entityId = doc.entityId;
-      break;
-    case 'project':
-      entityType = "project";
-      entityId = doc.entityId;
-      break;
-    case 'user':
-      entityType = "user";
-      entityId = doc.entityId;
-      break;
-  }
-
   var user = Meteor.users.findOne({
     _id: userId
   });
 
   if (user) {
     if (doc.title !== this.previous.title) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's title", entityType, entityId);
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's title", 'task', doc._id);
     }
     if (doc.description !== this.previous.description) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's description", entityType, entityId);
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's description", 'task', doc._id);
     }
     if (doc.dueDate !== this.previous.dueDate) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's due date", entityType, entityId);
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's due date", 'task', doc._id);
     }
     if (doc.completed !== this.previous.completed) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's completed status", entityType, entityId);
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's completed status", 'task', doc._id);
 
     }
     if (doc.assigneeId !== this.previous.assigneeId) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's assigned user", entityType, entityId);
+      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's assigned user", 'task', doc._id);
     }
   }
 });
@@ -443,37 +390,11 @@ Tasks.after.remove(function(userId, doc) {
     Meteor.call('deleteTaskReminder', doc.taskReminderJob);
   }
 
-  var entityType;
-  var entityId;
-
-  switch (doc.entityType) {
-    case 'company':
-      entityType = "company";
-      entityId = doc.entityId;
-      break;
-    case 'contact':
-      entityType = "contact";
-      entityId = doc.entityId;
-      break;
-    case 'opportunity':
-      entityType = "opportunity";
-      entityId = doc.entityId;
-      break;
-    case 'project':
-      entityType = "project";
-      entityId = doc.entityId;
-      break;
-    case 'user':
-      entityType = "user";
-      entityId = doc.entityId;
-      break;
-  }
-
   var user = Meteor.users.findOne({
     _id: userId
   });
   if (user) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " deleted task '" + doc.title + "'", entityType, entityId);
+    LogClientEvent(LogLevel.Info, user.profile.name + " deleted task '" + doc.title + "'", 'task', doc._id);
   }
 
   var subTasks = Tasks.find({

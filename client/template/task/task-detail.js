@@ -57,6 +57,24 @@ Template.taskDetail.helpers({
     }
     return task;
   },
+  relativeCompletionDate: function() {
+    if (this.isAllDay) {
+      var a = moment(new Date());
+      a.hour(0);
+      a.minute(0);
+
+      var b = moment(this.completedAt);
+      if (b.dayOfYear() == a.dayOfYear()) return 'today';
+      if (b.dayOfYear() == a.dayOfYear() - 1) return 'yesterday';
+      if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
+      return b.from(a);
+    }
+    return moment(this.completedAt).fromNow();
+  },
+  formattedCompletionDate: function() {
+    var displayDate = this.isAllDay ? moment(this.completedAt).format('Do MMM YYYY') : moment(this.completedAt).format('Do MMM YYYY, HH:mm');
+    return displayDate;
+  },
   relativeDueDate: function() {
     if (this.isAllDay) {
       var a = moment(new Date());
@@ -194,7 +212,7 @@ Template.taskDetail.events({
       }
     });
   },
-  'click .task-completed': function(event) {
+  'click .task-completed, click #obvious-task-completion-button': function(event) {
     event.preventDefault();
     if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
       var taskId = FlowRouter.getRouteName() === 'tasks' ? this.__originalId : this._id;
@@ -215,6 +233,19 @@ Template.taskDetail.events({
           }
         });
       }
+
+      // insert activity
+      Activities.insert({
+        type: 'Note',
+        notes: Meteor.user().profile.name + ' marked this task as ' + (this.completed ? "complete" : "incomplete"),
+        createdAt: new Date(),
+        activityTimestamp: new Date(),
+        taskId: this._id,
+        primaryEntityId: taskId,
+        primaryEntityType: 'tasks',
+        primaryEntityDisplayData: this.title,
+        createdBy: Meteor.userId()
+      });
     }
   },
   'click #fab': function(event) {
