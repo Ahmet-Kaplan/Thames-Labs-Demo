@@ -254,7 +254,7 @@ export const stripeMethodsAsync = {
      * Retrieve a plan Object from Stripe
      * @memberOf stripeMethodsAsync.plans
      * @method   retrieve
-     * @param    {String} planId    - The name of the plan ('premier', 'premierEUR', 'premierUSD')
+     * @param    {String} planId    - The name of the plan ('premierGBP', 'premierEUR', 'premierUSD')
      * @return   {(Object|Boolean)} - The plan object (see {@link https://stripe.com/docs/api#plan_object}) or false on failure
      * @see      https://stripe.com/docs/api#retrieve_plan
      */

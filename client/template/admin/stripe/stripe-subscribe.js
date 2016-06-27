@@ -15,8 +15,8 @@ Template.stripeSubscribe.onCreated(function() {
 
 Template.stripeSubscribe.onRendered(function() {
   var getPlan = (planId) => {
-    if (!_.includes(['premier', 'premierEUR', 'premierUSD'], planId)) {
-      planId = 'premier';
+    if (!_.includes(['premierGBP', 'premierEUR', 'premierUSD'], planId)) {
+      planId = 'premierGBP';
     }
     Meteor.call('stripe.getPlan', planId, (error, result) => {
       if (error || result === false) {
@@ -60,7 +60,7 @@ Template.stripeSubscribe.onRendered(function() {
   this.autorun(() => {
     var paymentCurrency = (_.includes(['gbp', 'eur', 'usd'], this.paymentCurrency.get())) ? this.paymentCurrency.get() : 'gbp';
     var plans = {
-      gpb: 'premier',
+      gpb: 'premierGBP',
       eur: 'premierEUR',
       usd: 'premierUSD',
     };
@@ -94,7 +94,7 @@ Template.stripeSubscribe.events({
     var tenantDetails = Tenants.findOne({
       _id: Meteor.user().group
     });
-    var planId = Template.instance().planDetails.get().id || 'premier';
+    var planId = Template.instance().planDetails.get().id || 'premierGBP';
     var currentUserCurrency = Template.currentData().userCurrency;
     var newPlanCurrency = Template.instance().paymentCurrency.get();
     var cardDetails = Template.currentData().cardDetails;

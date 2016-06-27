@@ -50,11 +50,10 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see "#resumeSubs"
     When I click "#resumeSubs"
     Then I should see a modal
-    When I click confirm on the modal 
-    Then I should see a toastr with the message containing "Resuming your subscription..."
+    When I click confirm on the modal
     Then I should see a bootbox
     When I click confirm on the modal
-    Then the Stripe field "#planName" should say "Paying Plan"
+    Then the Stripe field "#planName" should say "Paying Plan (GBP)"
 
   Scenario: An administrator can update its card details
     Given I have subscribed to the paying plan
@@ -79,7 +78,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I click confirm on the modal
     Then I should see a "info" toastr with the message "Processing your email update"
     When the page is loaded
-    Then I should see a "success" toastr with the message "Your email hase been changed: newemail@domain.com"
+    Then I should see a "success" toastr with the message "Your email has been changed to: newemail@domain.com"
     Then the Stripe field "#stripeEmail" should say "newemail@domain.com"
 
   Scenario: An administrator can add a coupon before subscribing

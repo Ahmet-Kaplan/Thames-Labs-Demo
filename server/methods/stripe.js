@@ -75,11 +75,11 @@ Meteor.methods({
   * @method createCustomer
   * @param {String} token     - card token returned by Stripe (see {@link https://stripe.com/docs/stripe.js})
   * @param {String} userEmail - email provided on signup
-  * @param {String} planId    - Stripe plan id ('premier', 'premierEUR', 'premierUSD')
+  * @param {String} planId    - Stripe plan id ('premierGBP', 'premierEUR', 'premierUSD')
   * @return {Boolean}         - Whether or not the creation succeeded.
   */
   'stripe.createCustomer': function(token, userEmail, planId) {
-    if(!_.includes(['premier', 'premierEUR', 'premierUSD'], planId)) {
+    if(!_.includes(['premierGBP', 'premierEUR', 'premierUSD'], planId)) {
       throw new Meteor.Error('400', 'Invalid plan name');
     }
 
@@ -136,12 +136,12 @@ Meteor.methods({
  /**
   * Creates a subscription object for a tenant which already has a stripe ID.
   * @method createSubscription
-  * @param {String} planId              - Stripe plan id ('premier', 'premierEUR', 'premierUSD')
+  * @param {String} planId              - Stripe plan id ('premierGBP', 'premierEUR', 'premierUSD')
   * @param {?String} superadminTenantId - Used when method is called from the superadmin interface in which case tenantId cannot be retrieved via partitioner
   * @return {(Object|Boolean)}          - The stripe subscription object (see {@link https://stripe.com/docs/api#subscription_object}) or false if failed.
   */
   'stripe.createSubscription': function(planId, superadminTenantId) {
-    if(!_.includes(['premier', 'premierEUR', 'premierUSD'], planId)) {
+    if(!_.includes(['premierGBP', 'premierEUR', 'premierUSD'], planId)) {
       throw new Meteor.Error(401, 'Invalid plan name');
     }
 
@@ -463,7 +463,7 @@ Meteor.methods({
  /**
   * Returns Stripe plan object to use in Administrator panel
   * @method getPlan
-  * @param  {String} planId    - Stripe plan id ('premier', 'premierEUR', 'premierUSD')
+  * @param  {String} planId    - Stripe plan id ('premierGBP', 'premierEUR', 'premierUSD')
   * @return {(Object|Boolean)} - The Stripe plan Object (see {@link https://stripe.com/docs/api#plan_object}) or false if failed
   */
   'stripe.getPlan': function(planId) {
