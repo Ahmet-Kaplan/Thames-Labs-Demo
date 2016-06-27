@@ -1,22 +1,23 @@
 <template name="documentContainer">
   <div class="panel panel-default">
     <div class="panel-heading" id="documents-container">
-      <i class="fa fa-fw fa-files-o"></i>
       Documents
 
       {{#if isInRole permissionRequired}}
         <div class="btn-group pull-right">
-          <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" type="button">
+          <button aria-expanded="false" aria-haspopup="true" class="btn btn-primary btn-xs dropdown-toggle btn-xs" data-toggle="dropdown" type="button">
+            <i class="fa fa-fw fa-plus"></i> 
             Add from...
             <span class="caret"></span>
           </button>
+
           <ul class="dropdown-menu" role="menu">
             <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-drive-document" title="Add a document from Google Drive">
               <small><i class="fa fa-fw fa-google"></i> Google Drive</small>
             </li>
-            <!-- <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-onedrive-document" title="Add a document from Box">
-              <small><i class="fa fa-fw fa-windows"></i> OneDrive</small>
-            </li> -->
+            <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-onedrive-document" title="Add a document from OneDrive">
+              <small><i class="fa fa-fw fa-cloud"></i> OneDrive</small>
+            </li>
             <li class="list-item add-link" data-placement="bottom" data-toggle="tooltip" id="add-dropbox-document" title="Add a document from Dropbox">
               <small><i class="fa fa-fw fa-dropbox"></i> Dropbox</small>
             </li>

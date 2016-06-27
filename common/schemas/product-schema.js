@@ -1,7 +1,8 @@
 Schemas.Product = new SimpleSchema({
   sequencedIdentifier: {
     type: Number,
-    label: "RealTime ID"
+    label: "RealTime ID",
+    optional: true
   },
   name: {
     type: String
