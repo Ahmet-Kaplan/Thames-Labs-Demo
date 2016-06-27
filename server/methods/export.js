@@ -72,6 +72,21 @@ Meteor.methods({
         record.assignee = assignee ? assignee.profile.name : 'Not assigned';
       }
 
+      if (record.staff) {
+        var staffList = [];
+        _.each(record.staff, function(staffId) {
+          const staff = Meteor.users.findOne({
+            _id: staffId,
+            "profile.name": {
+              $exists: true
+            }
+          });
+          staffList.push(staff.profile.name);
+        });
+        record.staff = staffList.length > 0 ? staffList.join(',') : 'Not assigned';
+
+      }
+
       // This is to deal with related entities on tasks
       if (record.entityType && record.entityId) {
         record.relatedRecordType = record.entityType;
