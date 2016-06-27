@@ -212,6 +212,7 @@ function SalesPipelineChart(el) {
         const indexOfClosestStage = _.findIndex(this.stages, closestStage);
         if (indexOfClosestStage === d.currentStageId) return;
         Opportunities.update(d._id, {
+          // TODO: this should be the ID of closest stage, not the index
           $set: { currentStageId: indexOfClosestStage }
         });
       });
