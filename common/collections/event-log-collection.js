@@ -48,6 +48,9 @@ Collections.eventLog.index = EventLogIndex = new EasySearch.Index({
           });
           if (user) {
             selector.group = user.group;
+            selector.entityType = {
+              $nin: ['tenant']
+            };
           }
         } else if (Roles.userIsInRole(userId, ['superadmin'])) {
           selector.source = "server";

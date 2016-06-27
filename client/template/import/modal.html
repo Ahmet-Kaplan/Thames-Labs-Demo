@@ -1,0 +1,51 @@
+<template name="importEntityModal">
+<div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4>Import {{entityType}}</h4>
+      </div>
+      <div class="modal-body">
+        <div id="fieldMapper">
+          Use the drop-downs below to map each of the fields in your CSV file to the relevant RealTimeCRM fields. RealTimeCRM will try and match the field names for you automatically based on field name - mouse over the field labels below to see what it's looking for.<br /><br />
+          {{#each importFields}}
+          <div class="row">
+            <div class="col-md-3 importFieldLabel" data-toggle="tooltip" data-placement="bottom" title="Auto-map field name: {{fieldIdentifier}}" >{{fieldLabel}}{{#if required}}<span class="required-marker">*</span>{{/if}}</div>
+            <div class="col-md-9">
+              <select id="{{fieldIdentifier}}Selector" class="selectpicker">
+                <option value="">Do not import</option>
+                {{#each csvHeaders}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          {{/each}}
+          <br>
+          <div class="row customFieldSwitch">
+            <div class="col-md-9 importFieldLabel" >Any fields in your CSV file that are not selected in the above drop-downs will be imported as custom fields. If you do not want this, to happen, set this slider to <strong>No</strong>.</div>
+            <div class="col-md-3 toggle-container"><input id="mode-toggle" checked type="checkbox"></div>
+          </div>
+        </div>
+        <div id="progressIndicator">
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{percentComplete}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentComplete}}%">
+              {{percentComplete}}% Complete
+            </div>
+          </div>
+          <div class="errorOutput">
+            The following errors and warnings occurred whilst importing. Please correct them in your CSV file and then try to import your records again.<br /><br />
+            <ol id="errorList">
+            </ol>
+          </div>
+          <button class="btn btn-danger" id="closeErrors" role="button">Close</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="startImport" role="button">Import</button>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
