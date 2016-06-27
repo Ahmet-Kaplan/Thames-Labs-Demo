@@ -33,7 +33,7 @@
           {{/if}}
         {{/if}}
       </div>
-      <h4 class="entity-title">Opportunity {{> watchlistAdmin entityData=this collection="opportunities"}}</h4>
+      <h4 class="entity-title">Opportunity #{{sequencedIdentifier}} {{> watchlistAdmin entityData=this collection="opportunities"}}</h4>
       <h1 class="entity-name">{{name}}</h1>
       {{#if isActive}}
         <div class="stepwizard hidden-xs">
@@ -134,10 +134,6 @@
             </li>
           {{/if}}
           {{/if}}
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Opportunity ID</h4>
-            <p class="list-group-item-text">{{sequencedIdentifier}}</p>
-          </li>
         </ul>
       </div>
       <div class="panel panel-default" id="lines">

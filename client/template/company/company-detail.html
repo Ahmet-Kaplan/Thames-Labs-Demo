@@ -7,7 +7,7 @@
     <div class="col-md-7">
       <h4 class="entity-title">
         <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
-        Company {{> watchlistAdmin entityData=this collection="companies"}}
+        Company #{{sequencedIdentifier}} {{> watchlistAdmin entityData=this collection="companies"}}
       </h4>
 
       <h1 id="company-details" class="entity-name">{{name}}</h1>
@@ -52,10 +52,6 @@
             <p class="list-group-item-text">{{phone}}</p>
           </a>
           {{/if}}
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Company ID</h4>
-            <p class="list-group-item-text">{{sequencedIdentifier}}</p>
-          </li>
         </ul>
       </div>
 
