@@ -6,12 +6,13 @@ Feature: Allow users to see widgets
 
   Background:
     Given I am viewing the dashboard
-@dev
+
   Scenario: A user can see the standard widgets and add those which aren't default
     Then I see the default widgets
     When I add new widgets
     Then I see the new widgets on my dashboard
 
+@dev
   Scenario: A pro user can add the purchase orders widgets if they have permission
     Given I have permission to read purchase orders
     Then I can not add the purchase orders widgets

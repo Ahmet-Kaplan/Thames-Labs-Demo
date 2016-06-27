@@ -26,7 +26,7 @@ Meteor.methods({
             }
           });
         } else {
-          const clearbitData = _.cloneDeep(res.data, true);
+          const clearbitData = _.cloneDeep(res.data);
           Companies.update(
             entityId, {
               $set: {
@@ -53,7 +53,7 @@ Meteor.methods({
             }
           });
         } else {
-          const clearbitData = _.cloneDeep(res.data, true);
+          const clearbitData = _.cloneDeep(res.data);
           Contacts.update(
             entityId, {
               $set: {
