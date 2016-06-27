@@ -7,6 +7,10 @@ Template.task.onRendered(function() {
 });
 
 Template.task.helpers({
+  formattedCompletionDate: function() {
+    var displayDate = this.isAllDay ? moment(this.completedAt).format('Do MMM YYYY') : moment(this.completedAt).format('Do MMM YYYY, HH:mm');
+    return displayDate;
+  },
   taskParentName: function() {
     var parent = Tasks.findOne({_id: this.parentTaskId});
     if(parent) return parent.title;
