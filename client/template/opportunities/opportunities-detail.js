@@ -92,7 +92,7 @@ Template.opportunityDetail.helpers({
     return items;
   },
   overallValue: function() {
-    return _.sum(this.items, function(item) {
+    return _.sumBy(this.items, function(item) {
       var subValue = item.quantity * item.value;
       if (!isNaN(subValue)) return subValue;
     });

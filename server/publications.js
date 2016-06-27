@@ -175,7 +175,7 @@ Meteor.publish("globalCustomFields", function() {
     global: true
   }).fetch();
 
-  var ids = _.map(_.uniq(data, 'name'), function(fn) {
+  var ids = _.map(_.uniqBy(data, 'name'), function(fn) {
     return fn._id;
   });
   return CustomFields.find({
@@ -191,7 +191,7 @@ Meteor.publish("globalCustomFieldsByEntityType", function(entityType) {
     target: entityType
   }).fetch();
 
-  var ids = _.map(_.uniq(data, 'name'), function(fn) {
+  var ids = _.map(_.uniqBy(data, 'name'), function(fn) {
     return fn._id;
   });
   return CustomFields.find({
