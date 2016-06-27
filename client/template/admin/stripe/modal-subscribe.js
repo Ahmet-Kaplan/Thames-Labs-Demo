@@ -7,6 +7,7 @@ Template.stripeSubscribe.onRendered(function() {
       toastr.error('Unable to retrieve scheme details.');
       return false;
     }
+
     planDetails = result;
     planDetails.quantity = Meteor.users.find({
       group: Meteor.user().group
@@ -24,6 +25,7 @@ Template.stripeSubscribe.onRendered(function() {
           planDetails.couponName = 'invalid: The coupon you have registered is invalid or has been cancelled and will not be applied.';
           planDetailsDep.changed();
         } else {
+          planDetails.couponExpiry = (response.duration_in_months ? response.duration_in_months + " months" : "never");
           planDetails.couponName = response.id;
           planDetails.couponDetails = (response.percent_off) ? response.percent_off + ' % off' : '£' + response.amount_off / 100 + ' off';
           var percentCorrection = (response.percent_off) ? 1 - (response.percent_off / 100) : 1;
