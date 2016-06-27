@@ -4,14 +4,15 @@ machine:
   node:
     version: 5.2.0
   environment:
-    CUCUMBER_JSON_OUTPUT: $CIRCLE_TEST_REPORTS/cucumber/tests.cucumber
+    CUCUMBER_JSON_OUTPUT: $CIRCLE_TEST_REPORTS/cucumber/chrome.cucumber
   post:
     - env
-    - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
+
 general:
   artifacts:
     - $CIRCLE_TEST_REPORTS
     - target
+
 dependencies:
   cache_directories:
     - "node_modules"
@@ -22,6 +23,11 @@ dependencies:
     - curl https://install.meteor.com/ | sh
     - npm install
     - npm install glob
+
 test:
+  pre:
+    - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
   override:
+    - npm run lint
+    - npm run test-mocha
     - npm run circle

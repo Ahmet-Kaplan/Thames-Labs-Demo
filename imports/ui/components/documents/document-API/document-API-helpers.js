@@ -1,3 +1,5 @@
+documentAPI = {};
+
 documentAPI.loadScripts = function() {
   if (typeof Dropbox === 'undefined') {
     $.getScript('https://www.dropbox.com/static/api/2/dropins.js').then(() => {
@@ -12,6 +14,9 @@ documentAPI.loadScripts = function() {
       gapi.load('auth');
       gapi.load('picker');
     });
+  }
+  if (typeof OneDrive === 'undefined') {
+    $.getScript('https://js.live.net/v7.0/OneDrive.js');
   }
 };
 
@@ -66,3 +71,5 @@ documentAPI.removeDocument = function(collectionName, id, document) {
   toastr.clear();
   toastr.success('The selected document has been successfully removed');
 };
+
+export { documentAPI };

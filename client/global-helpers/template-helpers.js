@@ -3,7 +3,7 @@ function getCurrencySymbol(currency) {
     gbp: '£',
     eur: '€',
     usd: '$'
-  }
+  };
 
   return currencySymbol[currency] || '£';
 }
@@ -30,6 +30,9 @@ Template.registerHelper('indexedArray', function(context, options) {
 Template.registerHelper('decimal', function(number) {
   if (!number) number = 0;
   number = parseFloat(number);
+
+  if(!Meteor.user()) return number.toFixed(2);
+
   var allowedCurrencies = ['gbp', 'eur', 'usd'];
   var tenantCurrency = Tenants.findOne({
     _id: Meteor.user().group
@@ -39,7 +42,7 @@ Template.registerHelper('decimal', function(number) {
     gbp: 'en-gb',
     eur: 'fr',
     usd: 'en'
-  }
+  };
   var displayLocale = currencyLocale[currency] || 'en-gb';
 
   return number.toLocaleString(displayLocale, {
@@ -129,18 +132,17 @@ Template.registerHelper('TenantsIndex', () => TenantsIndex);
 
 // Return standard search input attributes for EasySearch
 Template.registerHelper('searchInputAttributes', () => {
-  if (bowser.mobile || bowser.tablet) {
+  if (bowser.mobile || bowser.tablet || Meteor.isCordova) {
     return {
       placeholder: 'Search...',
       class: 'form-control easysearch-input',
       autofocus: false
     };
-  } else {
-    return {
-      placeholder: 'Search...',
-      class: 'form-control easysearch-input',
-      autofocus: true
-    };
+  }
+  return {
+    placeholder: 'Search...',
+    class: 'form-control easysearch-input',
+    autofocus: true
   };
 });
 
@@ -151,6 +153,8 @@ Template.registerHelper('extendContext', function(key, value) {
 });
 
 Template.registerHelper('userCurrency', function() {
+  if(!Meteor.user()) return 'gbp';
+
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });
@@ -160,6 +164,8 @@ Template.registerHelper('userCurrency', function() {
 });
 
 Template.registerHelper('userCurrencySymbol', function() {
+  if(!Meteor.user()) return '£';
+
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });
@@ -174,6 +180,8 @@ Template.registerHelper('setSelected', function(value, option) {
 });
 
 Template.registerHelper('isProTenant', function() {
+  if(!Meteor.user()) return false;
+
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });

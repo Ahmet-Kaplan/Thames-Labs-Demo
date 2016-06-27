@@ -4,19 +4,22 @@ Template.task.onCreated(function() {
 
 Template.task.onRendered(function() {
   if (this.data.parentTaskId) this.subscribe('taskById', this.data.parentTaskId);
-})
+});
 
 Template.task.helpers({
+  formattedCompletionDate: function() {
+    var displayDate = this.isAllDay ? moment(this.completedAt).format('Do MMM YYYY') : moment(this.completedAt).format('Do MMM YYYY, HH:mm');
+    return displayDate;
+  },
   taskParentName: function() {
     var parent = Tasks.findOne({_id: this.parentTaskId});
     if(parent) return parent.title;
   },
   taskId: function() {
     if (FlowRouter.getRouteName() === "tasks") {
-      return this.__originalId
-    } else {
-      return this._id;
+      return this.__originalId;
     }
+    return this._id;
   },
   formattedDueDate: function() {
     if (!this.dueDate) {
@@ -32,15 +35,15 @@ Template.task.helpers({
       if (b.dayOfYear() == a.dayOfYear() - 1) return 'yesterday';
       if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
       return b.from(a);
-    } else {
-      return moment(this.dueDate).fromNow();
     }
+    return moment(this.dueDate).fromNow();
   },
   showEntityDetail: function() {
     return (FlowRouter.getRouteName() === "dashboard" || FlowRouter.getRouteName() === "tasks");
   },
   entityDetails: function() {
     var entityData = "";
+    let handle = null;
 
     switch (this.entityType) {
       case 'user':
@@ -49,12 +52,13 @@ Template.task.helpers({
           icon: 'check',
           name: "Personal task",
           permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadTasks'])
-        }
+        };
         break;
+
       case 'company':
-        var handle = Meteor.subscribe("companyById", this.entityId);
+        handle = Meteor.subscribe("companyById", this.entityId);
         if (handle && handle.ready()) {
-          var c = Companies.findOne({
+          const c = Companies.findOne({
             _id: this.entityId
           });
           entityData = {
@@ -64,10 +68,11 @@ Template.task.helpers({
           };
         }
         break;
+
       case 'contact':
-        var handle = Meteor.subscribe("contactById", this.entityId);
+        handle = Meteor.subscribe("contactById", this.entityId);
         if (handle && handle.ready()) {
-          var c = Contacts.findOne({
+          const c = Contacts.findOne({
             _id: this.entityId
           });
           entityData = {
@@ -77,10 +82,11 @@ Template.task.helpers({
           };
         }
         break;
+
       case 'project':
-        var handle = Meteor.subscribe("projectById", this.entityId);
+        handle = Meteor.subscribe("projectById", this.entityId);
         if (handle && handle.ready()) {
-          var p = Projects.findOne({
+          const p = Projects.findOne({
             _id: this.entityId
           });
           entityData = {
@@ -90,10 +96,11 @@ Template.task.helpers({
           };
         }
         break;
+
       case 'opportunity':
-        var handle = Meteor.subscribe("opportunityById", this.entityId);
+        handle = Meteor.subscribe("opportunityById", this.entityId);
         if (handle && handle.ready()) {
-          var p = Opportunities.findOne({
+          const p = Opportunities.findOne({
             _id: this.entityId
           });
           entityData = {
@@ -103,6 +110,7 @@ Template.task.helpers({
           };
         }
         break;
+
       default:
         entityData = {
           icon: "check",
@@ -156,7 +164,7 @@ Template.task.events({
             }
           });
         }
-      })
+      });
     }
   }
 });

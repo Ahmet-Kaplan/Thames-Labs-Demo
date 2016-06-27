@@ -9,16 +9,18 @@
       </div>
       <div class="col-md-7 list-header-right">
         <div class="btn-group pull-right" role="group">
-            {{#if isInRole 'CanCreateOpportunities'}}
-                <button id="create-opportunity" type="button" class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+O"><i class="fa fa-fw fa-plus"></i> Add opportunity</button>
-            {{/if}}
-            {{> smallSearchBox collectionName='opportunities'}}
+          {{#if isInRole 'CanCreateOpportunities'}}
+            {{#unless isMobile}}
+              <button id="create-opportunity" type="button" class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+O"><i class="fa fa-fw fa-plus"></i> Add opportunity</button>
+            {{/unless}}
+          {{/if}}
+          {{> smallSearchBox collectionName='opportunities'}}
         </div>
         <br>
-        <ul class="list-toolbar pull-right">       
-            <li><a id="toggle-close-sort" class="{{#if sortByCloseDate}}text-success{{/if}}">Sort by closing date</a></li>     
+        <ul class="list-toolbar pull-right">
+            <li><a id="toggle-close-sort" class="{{#if sortByCloseDate}}text-success{{/if}}">Sort by closing date</a></li>
             <li><a id="toggle-value-sort" class="{{#if sortByValue}}text-success{{/if}}">Sort by value</a></li>
-            <li><a id="toggle-archived">{{#if showArchived}}Hide{{else}}Show{{/if}} archived</a></li>     
+            <li><a id="toggle-archived">{{#if showArchived}}Hide{{else}}Show{{/if}} archived</a></li>
             <li><a id="oppsOverviewWidget" data-toggle="popover" title="Opportunities Overview" data-content="<div id='oppOverviewPop'>
                 <table class='table'>
                     <tbody>
@@ -51,5 +53,13 @@
 
 
   {{> searchResults index=OpportunitiesIndex listItemTemplateName='opportunityListItem'}}
+
+  {{#if isInRole 'CanCreateOpportunities'}}
+    {{#if isMobile}}
+      <div class="fab add" id="fab">
+        <i class="fa fw-fa fa-plus"></i>
+      </div>
+    {{/if}}
+  {{/if}}
 
 </template>

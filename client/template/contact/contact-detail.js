@@ -4,9 +4,9 @@ Template.contactDetail.onCreated(function() {
     var contactId = FlowRouter.getParam('id');
     var contact = Contacts.findOne(contactId);
     // Redirect if data doesn't exist
-    if (FlowRouter.subsReady() && contact === undefined) {
+    if (FlowRouter.subsReady() && typeof contact === "undefined") {
       FlowRouter.go('contacts');
-    } else if (FlowRouter.subsReady() && contact.email !== '' && contact.email !== undefined) {
+    } else if (FlowRouter.subsReady() && contact.email !== '' && typeof contact.email !== "undefined") {
       Meteor.call('getClearbitData', 'contact', contact._id);
     }
     // Update company subscription if contact record changes (e.g. we change company)
@@ -51,7 +51,8 @@ Template.contactDetail.helpers({
   projects: function() {
     var contactId = FlowRouter.getParam('id');
     return Projects.find({
-      contactId: contactId
+      contactId: contactId,
+      active: true
     }, {
       sort: {
         description: 1
@@ -76,19 +77,31 @@ Template.contactDetail.helpers({
         _id: this.companyId
       });
       return company;
-    } else {
-      return this
     }
+    return this;
   },
   opportunities: function() {
     return Opportunities.find({
-      contactId: this._id
+      contactId: this._id,
+      isArchived: { $ne: true }
     });
   },
   purchaseOrders: function() {
     return PurchaseOrders.find({
       supplierContactId: this._id
-    })
+    });
+  },
+  archivedOpps: function() {
+    return Opportunities.find({
+      contactId: this._id,
+      isArchived: true
+    }).count();
+  },
+  inactiveProjects: function() {
+    return Projects.find({
+      contactId: this._id,
+      active: false
+    }).count();
   },
   linksList: function() {
     return [{
@@ -126,7 +139,7 @@ Template.contactDetail.helpers({
       anchor: 'activity-timeline',
       icon: 'fa-list',
       permission: 'CanReadContacts'
-    }]
+    }];
   },
   showTitle: function() {
     if (this.title) {
@@ -166,7 +179,7 @@ Template.contactDetail.events({
     }
 
     var company = this.company();
-    if (company === undefined) {
+    if (typeof company === "undefined") {
       Modal.show('newContactPurchaseOrderForm', {
         supplierContactId: this._id
       });
@@ -194,7 +207,7 @@ Template.contactDetail.events({
   'click #add-opportunity': function(event) {
     event.preventDefault();
     var company = this.company();
-    if (company === undefined) {
+    if (typeof company === "undefined") {
       Modal.show('insertContactOpportunityModal', {
         contactId: this._id
       });
@@ -217,15 +230,27 @@ Template.contactDetail.events({
       primaryEntityDisplayData: this.forename + ' ' + this.surname,
       createdBy: Meteor.userId()
     });
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('editContactModal', this);
+  },
+  'click #inactive-projects': function(event, template) {
+    var url = "?f%5Bcontact%5D=" + this._id + "&f%5BshowArchived%5D=true";
+    FlowRouter.go("/projects" + url);
+  },
+  'click #archived-opportunities': function(event, template) {
+    var url = "?f%5Bcontact%5D=" + this._id + "&f%5BshowArchived%5D=true";
+    FlowRouter.go("/opportunities" + url);
   }
 });
 
 Template.ContactProjectListItem.helpers({
   companyProject: function() {
-    return (this.companyId ? true : false);
+    return !!this.companyId;
   },
   projectCompanyName: function() {
-    Template.instance().subscribe('companyById', this.companyId)
+    Template.instance().subscribe('companyById', this.companyId);
     var company = Companies.findOne(this.companyId);
     return company ? company.name : null;
   }

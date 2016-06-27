@@ -15,7 +15,7 @@ Template.opportunityDetail.onCreated(function() {
     }
 
     // Redirect if data doesn't exist
-    if (FlowRouter.subsReady() && opportunity === undefined) {
+    if (FlowRouter.subsReady() && typeof opportunity === "undefined") {
       FlowRouter.go('opportunities');
     }
 
@@ -95,7 +95,7 @@ Template.opportunityDetail.helpers({
     return _.sum(this.items, function(item) {
       var subValue = item.quantity * item.value;
       if (!isNaN(subValue)) return subValue;
-    })
+    });
   },
   company: function() {
     return Companies.findOne({
@@ -110,9 +110,8 @@ Template.opportunityDetail.helpers({
   canExportDocx: function() {
     if (bowser.safari) {
       return false;
-    } else {
-      return true;
     }
+    return true;
   }
 });
 
@@ -259,7 +258,7 @@ Template.opportunityDetail.events({
           callback: function() {
             var type = $('#selectedProjectType').val();
 
-            Meteor.call('winOpportunity', opp, parseInt(type), function(err, id) {
+            Meteor.call('winOpportunity', opp, parseInt(type, 10), function(err, id) {
               if (Roles.userIsInRole(Meteor.userId(), ['CanReadProjects'])) {
                 FlowRouter.go('/projects/' + id);
               }
@@ -279,9 +278,9 @@ Template.opportunityDetail.events({
     bootbox.confirm("Are you sure you wish to reopen this opportunity?", (result) => {
       if (result === false) return;
 
-      var user = Meteor.user(),
-          note = user.profile.name + ' reopened this opportunity',
-          today = new Date();
+      var user = Meteor.user();
+      var note = user.profile.name + ' reopened this opportunity';
+      var today = new Date();
 
       Opportunities.update(this._id, {
         $unset: {
@@ -325,20 +324,27 @@ Template.opportunityDetail.events({
 
     var reader = new FileReader();
     reader.onload = function() {
+      toastr.info("Extracting, please wait...");
+
       var doc = new Docxgen(reader.result);
 
-      var companyName = "",
-          companyAddress = "",
-          contactName = "";
+      var companyName = "";
+      var companyAddress = "";
+      var contactName = "";
+      var userName = Meteor.user().profile.name;
 
       if (this.companyId) {
         var company = Companies.findOne(this.companyId);
-        companyName = company.name;
-        companyAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
+        if (company) {
+          companyName = company.name;
+          companyAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
+        }
       }
       if (this.contactId) {
         var contact = Contacts.findOne(this.contactId);
-        contactName = contact.forename + " " + contact.surname;
+        if (contact) {
+          contactName = contact.forename + " " + contact.surname;
+        }
       }
 
       var date = moment().format("MMM Do YYYY");
@@ -352,8 +358,9 @@ Template.opportunityDetail.events({
           name: oi.name,
           description: oi.description,
           value: oi.value,
-          quantity: oi.quantity
-        }
+          quantity: oi.quantity,
+          total: Number(oi.value * oi.quantity).toFixed(2)
+        };
         items.push(obj);
       });
 
@@ -364,7 +371,9 @@ Template.opportunityDetail.events({
         "date": date,
         "lineItems": items,
         "opportunityName": opp.name,
-        "opportunityDescription": opp.description
+        "opportunityDescription": opp.description,
+        "author": userName,
+        "opportunityNumber": opp.sequencedIdentifier
       });
 
       doc.render();
@@ -378,6 +387,7 @@ Template.opportunityDetail.events({
       });
       saveAs(blob, file.name);
 
+      $('#template-upload-docx').val('');
 
       Activities.insert({
         type: "Note",
@@ -391,130 +401,6 @@ Template.opportunityDetail.events({
         createdBy: Meteor.userId()
       });
 
-    }.bind(this);
-    reader.readAsArrayBuffer(file);
-  },
-  'change #template-upload': function(event) {
-    var file = event.target.files[0];
-    if (!file) return;
-
-    var reader = new FileReader();
-    reader.onload = function() {
-      var doc = new Docxgen(reader.result);
-
-      var companyName = "",
-          companyAddress = "",
-          contactName = "";
-
-      if (this.companyId) {
-        var company = Companies.findOne(this.companyId);
-        companyName = company.name;
-        companyAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
-      }
-      if (this.contactId) {
-        var contact = Contacts.findOne(this.contactId);
-        contactName = contact.forename + " " + contact.surname;
-      }
-
-      var date = moment().format("MMM Do YYYY");
-      var oppId = this._id;
-
-      var opp = Opportunities.findOne({
-        _id: this._id
-      });
-      var items = [];
-      _.each(opp.items, function(oi) {
-        var obj = {
-          name: oi.name,
-          description: oi.description,
-          value: oi.value
-        }
-        items.push(obj);
-      });
-
-      doc.setData({
-        "companyName": companyName,
-        "contactName": contactName,
-        "companyAddress": companyAddress,
-        "date": date,
-        "lineItems": items,
-        "opportunityName": opp.name,
-        "opportunityDescription": opp.description
-      });
-
-      doc.render();
-      var docDataUri = doc.getZip().generate({
-        type: 'blob'
-      });
-
-      docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-
-      //Convert data into a blob format for sending to api
-      var blob = new Blob([docDataUri], {
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      });
-      var data = new FormData();
-      data.append('file', blob, 'purchaseorder.docx');
-      data.append('type', 'pdf');
-      data.append('assign', 'connection_number@&@30@&@connection_duration@&@30 sec');
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://gybra-swissknifedocs.p.mashape.com/docs');
-      xhr.setRequestHeader('X-Mashape-Key', 'lkiGJfIdcNmshokW0VQBWvDBxzg4p12J1UEjsnBhpOquVKzczR');
-
-      xhr.onload = function(r) {
-        var fileName = JSON.parse(r.srcElement.response)['file_name'];
-        var filePath = 'https://gybra-swissknifedocs.p.mashape.com/download/' + fileName;
-        HTTP.get(filePath, {
-          headers: {
-            'X-Mashape-Key': 'lkiGJfIdcNmshokW0VQBWvDBxzg4p12J1UEjsnBhpOquVKzczR'
-          }
-        }, function(err, res) {
-
-          function base64toBlob(base64Data, contentType) {
-            contentType = contentType || '';
-            var sliceSize = 1024;
-            var byteCharacters = atob(base64Data);
-            var bytesLength = byteCharacters.length;
-            var slicesCount = Math.ceil(bytesLength / sliceSize);
-            var byteArrays = new Array(slicesCount);
-
-            for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
-              var begin = sliceIndex * sliceSize;
-              var end = Math.min(begin + sliceSize, bytesLength);
-
-              var bytes = new Array(end - begin);
-              var i, offset;
-              for (offset = begin, i = 0; offset < end; ++i, ++offset) {
-                bytes[i] = byteCharacters[offset].charCodeAt(0);
-              }
-              byteArrays[sliceIndex] = new Uint8Array(bytes);
-            }
-            return new Blob(byteArrays, {
-              type: contentType
-            });
-          }
-
-          //Convert returned base64 string into blob for download
-          var data = base64toBlob(res.data.file, 'application/pdf');
-          Meteor.call('remainingConversions', res.headers['x-ratelimit-requests-remaining'], function(err, res) {});
-          saveAs(data, file.name.replace(".docx", ".pdf"));
-        });
-      };
-      toastr.success("Your file will be downloaded shortly", "Processing...");
-
-      Activities.insert({
-        type: "Note",
-        notes: Meteor.user().profile.name + " generated a new quotation.",
-        createdAt: new Date(),
-        activityTimestamp: new Date(),
-        primaryEntityId: oppId,
-        primaryEntityType: "opportunities",
-        primaryEntityDisplayData: opp.name,
-        opportunityId: oppId,
-        createdBy: Meteor.userId()
-      });
-
-      xhr.send(data);
     }.bind(this);
     reader.readAsArrayBuffer(file);
   },
@@ -524,19 +410,6 @@ Template.opportunityDetail.events({
   'click #template-upload-link-docx': function() {
     document.getElementById('template-upload-docx').click();
   },
-  // 'click #template-google-drive-link': function() {
-  //   documentAPI.googleChooser(function(err, res) {
-  //     if (err) throw new Meteor.Error(err);
-  //     _.each(res, (file) => {
-
-  //       var fileId = file.fileId;
-  //       HTTP.post('https://www.googleapis.com/drive/v2/files/' + fileId + '/copy&key=' + Meteor.settings.public.googleDeveloperKey, function(err, res) {
-  //         if (err) throw new Meteor.Error(err);
-  //         console.log(res.id);
-  //       });
-  //     });
-  //   });
-  // },
   'click #opp-template-help': function(event) {
     event.preventDefault();
     Modal.show('oppHelpModal');
@@ -549,6 +422,10 @@ Template.opportunityDetail.events({
   },
   'click .nav-link': function(event) {
     event.preventDefault();
+  },
+  'click #fab': function(event) {
+    event.preventDefault();
+    Modal.show('editOpportunityModal', this);
   }
 });
 

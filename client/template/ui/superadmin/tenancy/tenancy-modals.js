@@ -1,6 +1,9 @@
 Template.updateTenantSettings.helpers({
   coupon: function() {
     return this.stripe.coupon;
+  },
+  companyName: function() {
+    return this.name;
   }
 });
 
@@ -8,10 +11,12 @@ Template.updateTenantSettings.events({
   'click #btnSubmitSettings': function() {
 
     var coupon = $('#coupon').val();
+    var tenantCompanyName = $('#tenantCompanyName').val();
 
-    Tenants.update(this._id, {
+    Tenants.update(this.__originalId, {
       $set: {
-        "stripe.coupon": coupon
+        name: tenantCompanyName,
+        "stripe.coupon": coupon,
       }
     });
 
@@ -22,10 +27,10 @@ Template.updateTenantSettings.events({
 
 Template.setPayingTenant.helpers({
   hasStripeAccount: function() {
-    return (this.stripe.stripeId !== undefined && this.stripe.stripeId !== '');
+    return (typeof this.stripe.stripeId !== "undefined" && this.stripe.stripeId !== '');
   },
   stripeId: function() {
-    return (this.stripe.stripeId !== undefined) ? this.stripe.stripeId : '';
+    return (typeof this.stripe.stripeId !== "undefined") ? this.stripe.stripeId : '';
   },
   stripeSubs: function() {
     return this.stripe.stripeSubs;
@@ -69,7 +74,7 @@ Template.setPayingTenant.events({
           });
         }
       }
-    })
+    });
   },
 
   'keyup #stripeAccountNumber': function() {
@@ -150,9 +155,9 @@ Template.setPayingTenant.events({
           message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Error: ' + error + '</div>'
         });
         return false;
-      } else {
-        toastr.success('Subscription has been successful.<br />Switched to Paying Scheme.');
       }
+
+      toastr.success('Subscription has been successful.<br />Switched to Paying Scheme.');
     });
   },
 

@@ -16,7 +16,11 @@ const meteorCommand = 'meteor',
       };
 
 const chimpCommand = 'chimp';
-var chimpArgs = ['--ddp=http://localhost:3000',  '--path=tests/cucumber'];
+var chimpArgs = ['--ddp=http://localhost:3000', '--path=tests/cucumber'];
+
+if (process.env.CUCUMBER_JSON_OUTPUT) {
+  chimpArgs.push('--jsonOutput=' + process.env.CUCUMBER_JSON_OUTPUT);
+}
 
 if (!process.env.CI) {
   chimpArgs.push('--watch');
@@ -65,9 +69,9 @@ meteorProcess.stdout.on('data', (data) => {
 
       //Handle results to throw error if tests failed
       if(data.match(/[0-9]+ scenarios.*[0-9]+.failed/)) {
-        meteorProcess.kill(1)
+        meteorProcess.kill(1);
       }
-    })
+    });
 
     chimpProcess.on('close', function(code, signal) {
       meteorProcess.kill();
@@ -77,6 +81,6 @@ meteorProcess.stdout.on('data', (data) => {
 
     chimpProcess.stdout.on('error', (data) => {
       console.log('Error raised: ' + data.toString());
-    })
+    });
   }
 });

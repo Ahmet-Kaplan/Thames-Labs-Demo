@@ -7,14 +7,14 @@ Template.watchedEntityWidget.helpers({
     Meteor.subscribe('lightCompanyById', id);
     var company = Companies.findOne({
       _id: id
-    })
+    });
     if (company) return company.name;
   },
   parentContact: function(id) {
     Meteor.subscribe('lightContactById', id);
     var contact = Contacts.findOne({
       _id: id
-    })
+    });
     if (contact) return contact.forename + ' ' + contact.surname;
   },
   items: function() {

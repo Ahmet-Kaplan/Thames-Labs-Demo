@@ -14,19 +14,19 @@ Template.activityListItem.onCreated(function() {
     } else {
       switch (ref.primaryEntityType) {
         case 'companies':
-          icon = icon + 'building';
+          icon += 'building';
           break;
         case 'contacts':
-          icon = icon + 'user';
+          icon += 'user';
           break;
         case 'opportunities':
-          icon = icon + 'lightbulb-o';
+          icon += 'lightbulb-o';
           break;
         case 'projects':
-          icon = icon + 'sitemap';
+          icon += 'sitemap';
           break;
         case 'purchaseorders':
-          icon = icon + 'shopping-cart';
+          icon += 'shopping-cart';
           break;
       }
 
@@ -40,9 +40,8 @@ Template.activityListItem.helpers({
   fromNow: function(date) {
     if (date) {
       return moment(date).fromNow();
-    } else {
-      return "Date/time not specified";
     }
+    return "Date/time not specified";
   },
   entityName: function() {
     return Template.instance().displayName.get();

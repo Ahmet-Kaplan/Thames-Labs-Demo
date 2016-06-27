@@ -51,10 +51,31 @@ Meteor.methods({
       });
 
       return true;
-    } else {
-      return false;
+    }
+    return false;
+  },
+
+  'notify.telephoneUpdated': function() {
+
+    if(!this.userId) {
+      throw new Meteor.Error('No users', 'Needs to be logged in.');
     }
 
+    const user = Meteor.users.findOne(this.userId);
+
+    if(!user) {
+      throw new Meteor.Error('Not found', 'User not found.');
+    }
+
+    const tenant = Tenants.findOne(user.group);
+
+    const txt = `Telephone number updated for user ${user.profile.name} (${user.emails[0].address}) at ${tenant.name}: ${user.profile.telephone}.`;
+    Email.send({
+      to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
+      from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
+      subject: 'RealTimeCRM User - Updated Telephone Number',
+      text: txt
+    });
   }
 
 });

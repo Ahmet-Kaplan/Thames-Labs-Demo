@@ -13,4 +13,4 @@ Template.firstRunMobile.events({
     FlowRouter.go('dashboard');
     Modal.hide();
   }
-})
+});

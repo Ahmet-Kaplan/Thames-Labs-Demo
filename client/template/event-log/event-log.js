@@ -22,18 +22,22 @@ Template.events.events({
           }
           toastr.success('Event log cleared!');
           return true;
-        })
+        });
       }
-    })
+    });
   },
 });
 
 Template.eventEntry.helpers({
+  isLinkable: function() {
+    if (this.entityType === "user" || this.entityType === "tenant") return false;
+    return true;
+  },
   friendlyDate: function() {
-    return new moment(this.date).format("Do MMMM YYYY, HH:mm:ss");
+    return moment(this.date).format("Do MMMM YYYY, HH:mm:ss");
   },
   userName: function() {
-    if (this.user !== undefined) {
+    if (typeof this.user !== "undefined") {
 
       var u = Meteor.users.findOne(this.user);
       if (u) {
