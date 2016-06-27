@@ -1,4 +1,5 @@
 import './company-details-form.html';
+import './company-details-form.css';
 import _ from 'lodash';
 import '../../maps/map-editor.js';
 import { getAddressFromLookup, getAddressFromGoogleMapsSearch } from '../../maps/map-helpers.js';

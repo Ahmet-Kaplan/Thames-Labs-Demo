@@ -1,12 +1,12 @@
 <template name='companyLookup'>
   <div class="form-group">
     <label for="companyName" class="control-label">Company name or website</label>
-    <input type="text" id="companyName" class="form-control" placeholder="{{#unless isMobile}}Search for company name or website{{/unless}}">
+    <input autofocus type="text" id="companyName" class="form-control" placeholder="{{#unless isMobile}}Search for company name or website{{/unless}}">
   </div>
 
   {{#if showDuplicationWarning}}
     <div class="form-group" id="duplicationWarning">
-      <small class="text-warning">A company record has been found with a name similar to the one you have entered above ("<a href="{{pathFor route='company' id=dupedRecord._id}}" data-toggle="tooltip" data-placement="bottom" title="Navigate to company details">{{dupedRecord.name}}</a>"). This may lead to you having duplicate records.</small> 
+      <p class="text-warning">A company record has been found with a similar name: "<a href="{{pathFor route='company' id=dupedRecord._id}}" data-toggle="tooltip" data-placement="bottom" title="Navigate to company details">{{dupedRecord.name}}</a>".</p>
     </div>
   {{/if}}
 
