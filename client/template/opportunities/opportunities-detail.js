@@ -331,6 +331,7 @@ Template.opportunityDetail.events({
       var companyName = "";
       var companyAddress = "";
       var contactName = "";
+      var userName = Meteor.user().profile.name;
 
       if (this.companyId) {
         var company = Companies.findOne(this.companyId);
@@ -357,7 +358,8 @@ Template.opportunityDetail.events({
           name: oi.name,
           description: oi.description,
           value: oi.value,
-          quantity: oi.quantity
+          quantity: oi.quantity,
+          total: Number(oi.value * oi.quantity).toFixed(2)
         };
         items.push(obj);
       });
@@ -369,7 +371,9 @@ Template.opportunityDetail.events({
         "date": date,
         "lineItems": items,
         "opportunityName": opp.name,
-        "opportunityDescription": opp.description
+        "opportunityDescription": opp.description,
+        "author": userName,
+        "opportunityNumber": opp.sequencedIdentifier
       });
 
       doc.render();
@@ -406,19 +410,6 @@ Template.opportunityDetail.events({
   'click #template-upload-link-docx': function() {
     document.getElementById('template-upload-docx').click();
   },
-  // 'click #template-google-drive-link': function() {
-  //   documentAPI.googleChooser(function(err, res) {
-  //     if (err) throw new Meteor.Error(err);
-  //     _.each(res, (file) => {
-
-  //       var fileId = file.fileId;
-  //       HTTP.post('https://www.googleapis.com/drive/v2/files/' + fileId + '/copy&key=' + Meteor.settings.public.googleDeveloperKey, function(err, res) {
-  //         if (err) throw new Meteor.Error(err);
-  //         console.log(res.id);
-  //       });
-  //     });
-  //   });
-  // },
   'click #opp-template-help': function(event) {
     event.preventDefault();
     Modal.show('oppHelpModal');
