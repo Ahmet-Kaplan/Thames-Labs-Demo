@@ -1,3 +1,4 @@
+import { documentAPI } from './document-API-helpers.js';
 // See https://developers.google.com/picker/docs/ for details on this crazy!
 
 // The Browser API key obtained from the Google Developers Console.
