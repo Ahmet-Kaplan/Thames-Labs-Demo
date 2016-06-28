@@ -235,8 +235,7 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         var ids = [];
 
         _.each(stages, function(x) {
-          var stageLink = tenant.settings.opportunity.stages;
-          var id = _.find(stageLink, function(y) {
+          var id = _.find(tenant.settings.opportunity.stages, function(y) {
             return y.title === x;
           }).id;
           ids.push(id);
