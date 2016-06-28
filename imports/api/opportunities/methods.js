@@ -9,14 +9,15 @@ Meteor.methods({
 
     check(id, String);
     check(stagesToAdvance, Match.Integer);
-    if (!this.userId) throw new Meteor.error('Only logged in users may update opportunity stage');
+    if (!this.userId) throw new Meteor.Error('Only logged in users may update opportunity stage');
+    if (!Roles.userIsInRole(this.userId, ['CanEditOpportunities'])) throw new Meteor.Error('Only users with permission to edit opportunities can move opportunity stage');
 
     const tenant = Tenants.findOne(Meteor.user().group),
           stages = _.get(tenant, 'settings.opportunity.stages');
-    if (!stages) throw new Meteor.error('Opportunity stages not found');
+    if (!stages) throw new Meteor.Error('Opportunity stages not found');
 
     const opportunity = Opportunities.findOne(id);
-    if (!opportunity) throw new Meteor.error('Opportunity not found');
+    if (!opportunity) throw new Meteor.Error('Opportunity not found');
 
     const currentIndex = _.findIndex(stages, { id: opportunity.currentStageId }),
           newIndex = currentIndex + stagesToAdvance,
@@ -33,14 +34,15 @@ Meteor.methods({
     check(id, String);
     check(stageId, Match.Integer);
 
-    if (!this.userId) throw new Meteor.error('Only logged in users may update opportunity stage');
+    if (!this.userId) throw new Meteor.Error('Only logged in users may update opportunity stage');
+    if (!Roles.userIsInRole(this.userId, ['CanEditOpportunities'])) throw new Meteor.Error('Only users with permission to edit opportunities can move opportunity stage');
 
     const tenant = Tenants.findOne(Meteor.user().group),
           stages = _.get(tenant, 'settings.opportunity.stages');
-    if (!stages) throw new Meteor.error('Opportunity stages not found');
+    if (!stages) throw new Meteor.Error('Opportunity stages not found');
 
     const opportunity = Opportunities.findOne(id);
-    if (!opportunity) throw new Meteor.error('Opportunity not found');
+    if (!opportunity) throw new Meteor.Error('Opportunity not found');
 
     const newStage = _.find(stages, { id: stageId });
     check(newStage, Object);

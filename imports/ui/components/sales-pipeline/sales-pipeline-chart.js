@@ -1,10 +1,12 @@
 import _ from 'lodash';
-import { Meteor } from 'meteor/meteor';
 import d3 from 'd3';
 import d3tip from 'd3-tip';
-d3tip(d3);
+import toastr from 'meteor/chrismbeckett:toastr';
+import { Meteor } from 'meteor/meteor';
 
 import { decimal } from '/imports/ui/components/currency/decimal.js';
+
+d3tip(d3);
 
 function SalesPipelineChart(el) {
   this.w = $(el).innerWidth();
@@ -210,7 +212,9 @@ function SalesPipelineChart(el) {
         // Update opportunity to move it the closest stage
         const closestStage = _.minBy(this.stages, (stage) => Math.abs(d.y - stage.y));
         if (closestStage.id === d.currentStageId) return;
-        Meteor.call('opportunities.setStage', d._id, closestStage.id);
+        Meteor.call('opportunities.setStage', d._id, closestStage.id, (err) => {
+          if (err) toastr.error(err.error);
+        });
       });
 
     // draw y axis

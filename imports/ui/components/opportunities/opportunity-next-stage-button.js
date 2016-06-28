@@ -29,7 +29,7 @@ Template.opportunityNextStageButton.events({
       'opportunities.advanceStage',
       this.opportunity._id,
       1,
-      (err, res) => { if (err) return toastr.error(err); }
+      (err) => { if (err) return toastr.error(err.error); }
     );
   },
 
