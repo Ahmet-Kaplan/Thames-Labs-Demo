@@ -147,11 +147,13 @@
           <h4>Help on templates</h4>
         </div>
         <div class="modal-body">
-          <p>Start by creating a Microsoft Word Document or PDF to act as a template. Include the keywords below where needed in the document, and select "Microsoft Word Template" or "PDF". In the file finder, select the template file you just created. RealTime will replace the keywords with their relative values, and download a new version of the file for you.</p>
+          <p>Start by creating a Microsoft Word Document to act as a template. Include the keywords below where needed in the document, and select "Microsoft Word Template". In the file finder, select the template file you just created. RealTime will replace the keywords with their relative values, and download a new version of the file for you.</p>
           <p>Keywords which are recognised by RealTime:</p>
           <ul>
             <li>{opportunityName} - Opportunity name</li>
             <li>{opportunityDescription} - Opportunity description</li>
+            <li>{opportunityNumber} - Opportunity RealTime ID number</li>
+            <li>{author} - The name of the current user</li>
 
             <li>{companyName} - Company name (if provided)</li>
             <li>{companyAddress} - Address of company (if provided)</li>
@@ -162,10 +164,11 @@
 
           For each line item, you can specify the following tags:
           <ul>
-            <li>{name} - The name of the opportunity</li>
-            <li>{description} - The description of the opportunity</li>
-            <li>{value} - The value of the opportunity</li>
-            <li>{quantity} - The quantity of the opportunity</li>
+            <li>{name} - The name of the opportunity line item</li>
+            <li>{description} - The description of the opportunity line item</li>
+            <li>{value} - The value of the opportunity line item</li>
+            <li>{quantity} - The quantity of the opportunity line item</li>
+            <li>{total} - The total cost of the opportunity line item</li>
           </ul>
           You can loop through multiple items in your template by wrapping them as follows:
           <blockquote>

@@ -29,6 +29,12 @@ Template.events.events({
 });
 
 Template.eventEntry.helpers({
+
+  isLinkable: function() {
+    if (this.entityType === "user" || this.entityType === "tenant") return false;
+    return true;
+  },
+
   userName: function() {
     if (typeof this.user !== "undefined") {
 
@@ -38,6 +44,7 @@ Template.eventEntry.helpers({
       }
     }
   },
+
   displayLevel: function() {
     var returnedData;
 

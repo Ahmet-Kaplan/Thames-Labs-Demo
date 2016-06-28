@@ -34,7 +34,9 @@
       </div>
       <div class="col-md-3 userDataDisplay">
         {{#if entityType}}
-          <a href="{{pathFor route=entityType id=entityId}}"><i class='fa fa-fw fa-{{entityIcon}}'></i> View {{entityType}} record</a>
+          {{#if isLinkable}}
+            <a href="{{pathFor route=entityType id=entityId}}"><i class='fa fa-fw fa-{{entityIcon}}'></i> View {{entityType}} record</a>
+          {{/if}}
         {{/if}}
       </div>
     </div>

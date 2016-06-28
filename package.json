@@ -34,6 +34,9 @@
     "buildmobile": "PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools meteor build ../mobile-builds --server https://app.realtimecrm.co.uk --mobile-settings settings.json --verbose",
     "commit": "git commit -am",
     "precommit": "npm run lint"
+    "test-mocha": "meteor test --once --full-app --driver-package=dispatch:mocha-phantomjs",
+    "test-mocha:watch": "TEST_WATCH=1 meteor test --full-app --driver-package=dispatch:mocha-phantomjs",
+    "test-mocha:browser": "meteor test --full-app --driver-package=practicalmeteor:mocha"
   },
   "repository": {
     "type": "git",
