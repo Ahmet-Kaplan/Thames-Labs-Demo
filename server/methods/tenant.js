@@ -94,6 +94,13 @@ Meteor.methods({
     ServerSession.set('deletingTenant', val);
   },
   'tenant.getExportData': function(tenantName) {
+
+    if (!this.userId) throw new Meteor.Error('401', 'Must be a logged in user to perform export');
+
+    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may export tenant data');
+    }
+
     var tenant = Tenants.findOne({name: tenantName});
 
     return Partitioner.bindGroup(tenant._id, function() {
