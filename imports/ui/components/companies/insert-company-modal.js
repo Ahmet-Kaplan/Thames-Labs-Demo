@@ -1,6 +1,6 @@
 import './modal-parts/company-lookup.js';
 import './modal-parts/company-details-form.js';
-import './insert-modal.html';
+import './insert-company-modal.html';
 
 /*
   This template provides a form to create a company
