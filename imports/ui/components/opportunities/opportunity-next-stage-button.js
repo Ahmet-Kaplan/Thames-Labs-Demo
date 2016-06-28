@@ -2,6 +2,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Roles } from 'meteor/alanning:roles';
+import toastr from 'meteor/chrismbeckett:toastr';
 
 import './opportunity-next-stage-button.html';
 
@@ -23,38 +24,13 @@ Template.opportunityNextStageButton.events({
 
   'click #next-stage': function(event) {
     event.preventDefault();
-    var userTenant = Tenants.findOne({
-      _id: Meteor.user().group
-    });
-    var stages = userTenant.settings.opportunity.stages;
-    var length = stages.length - 1;
-    var currId = this.opportunity.currentStageId;
-    var currOrder = _.findIndex(stages, {
-      id: currId
-    });
-    var nextId = stages[currOrder + 1].id;
 
-    if (nextId > length) nextId = length;
-
-    Opportunities.update(this.opportunity._id, {
-      $set: {
-        currentStageId: nextId
-      }
-    });
-    var user = Meteor.user();
-    var note = user.profile.name + ' moved this opportunity forward from stage "' + stages[currId].title + '" to stage "' + stages[nextId].title + '"';
-    var date = new Date();
-    Activities.insert({
-      type: 'Note',
-      notes: note,
-      createdAt: date,
-      activityTimestamp: date,
-      opportunityId: this.opportunity._id,
-      primaryEntityId: this.opportunity._id,
-      primaryEntityType: 'opportunities',
-      primaryEntityDisplayData: this.opportunity.name,
-      createdBy: user._id
-    });
+    Meteor.call(
+      'opportunities.advanceStage',
+      this.opportunity._id,
+      1,
+      (err, res) => { if (err) return toastr.error(err); }
+    );
   },
 
   'click #won-opportunity': function(event) {

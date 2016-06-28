@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { Meteor } from 'meteor/meteor';
 import d3 from 'd3';
 import d3tip from 'd3-tip';
 d3tip(d3);
@@ -209,9 +210,7 @@ function SalesPipelineChart(el) {
         // Update opportunity to move it the closest stage
         const closestStage = _.minBy(this.stages, (stage) => Math.abs(d.y - stage.y));
         if (closestStage.id === d.currentStageId) return;
-        Opportunities.update(d._id, {
-          $set: { currentStageId: closestStage.id }
-        });
+        Meteor.call('opportunities.setStage', d._id, closestStage.id);
       });
 
     // draw y axis

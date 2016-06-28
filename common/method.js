@@ -1,3 +1,5 @@
+import '/imports/api/opportunities/methods.js';
+
 Meteor.methods({
 
   calculatePurchaseOrderItemTotalValue: function(price, quantity) {
