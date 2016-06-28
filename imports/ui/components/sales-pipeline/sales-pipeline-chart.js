@@ -47,7 +47,7 @@ function SalesPipelineChart(el) {
     .size([this.w, this.h])
     .nodes(this.nodes);
 
-  this.tip = d3.tip().attr('class', 'd3-tip').html((d) => d.name);
+  this.tip = d3.tip().attr('class', 'd3-tip').html((d) => `${d.name} | ${decimal(d.value)}`);
   this.svg.call(this.tip);
 
   this.updateNodes = (newNodes, stages) => {
@@ -206,14 +206,11 @@ function SalesPipelineChart(el) {
     });
     this.force.drag()
       .on("dragend", (d) => {
-        // TODO: also make this add activity and check permissions?
-        // Also don't update if current stage is new stage
+        // Update opportunity to move it the closest stage
         const closestStage = _.minBy(this.stages, (stage) => Math.abs(d.y - stage.y));
-        const indexOfClosestStage = _.findIndex(this.stages, closestStage);
-        if (indexOfClosestStage === d.currentStageId) return;
+        if (closestStage.id === d.currentStageId) return;
         Opportunities.update(d._id, {
-          // TODO: this should be the ID of closest stage, not the index
-          $set: { currentStageId: indexOfClosestStage }
+          $set: { currentStageId: closestStage.id }
         });
       });
 
