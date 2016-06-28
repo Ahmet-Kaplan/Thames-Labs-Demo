@@ -21,7 +21,7 @@ function SalesPipelineChart(el) {
     .attr("width", this.w)
     .attr("height", this.h)
     .on("click", (e) => {
-      if (d3.event.defaultPrevented) return; // Ignore drag
+      if (d3.event.defaultPrevented) return;
       this._selectionCallback(null);
     });
 
@@ -35,15 +35,15 @@ function SalesPipelineChart(el) {
 
   this.fillColor = d3.scale.ordinal()
     .range([
-      '#1684c1', // CS blue (primary)
-      '#00c99d', // blue-green
-      '#fec41a', // yellow
-      '#e8425d', // red-pink (danger)
-      '#173e5f', // deep blue
-      '#00b3bb', // turquoise (info)
-      '#00c15b', // green (success)
-      '#fd9727', // orange (warning)
-      '#af1876', // red-violet
+      '#1684c1',
+      '#00c99d',
+      '#fec41a',
+      '#e8425d',
+      '#173e5f',
+      '#00b3bb',
+      '#00c15b',
+      '#fd9727',
+      '#af1876',
     ]);
 
   this.force = d3.layout.force()
@@ -124,7 +124,7 @@ function SalesPipelineChart(el) {
       .style("cursor", "pointer")
       .call(this.force.drag)
       .on('click', (d) => {
-        if (d3.event.defaultPrevented) return; // Ignore drag
+        if (d3.event.defaultPrevented) return;
         d3.event.stopPropagation();
         this._selectionCallback(d._id);
       })
@@ -156,13 +156,15 @@ function SalesPipelineChart(el) {
     this.w = $(el).innerWidth();
     this.h = window.innerHeight - 120;
     this.svg.attr("height", this.h).attr("width", this.w);
-    this.radiusScale.range([2, this.h/10]);
-    this.nodes.forEach((d) => d.radius = this.radiusScale(d.value));
+    this.radiusScale.range([2, this.h / 10]);
+    this.nodes.forEach((d) => {
+      d.radius = this.radiusScale(d.value);
+    });
     // Set forces
     this.force.size([this.w, this.h]);
     this.force.gravity(0.05);
     this.force.charge( (d) => -(100 + 0.2 * Math.pow(d.radius, 2)) );
-    this.force.chargeDistance(this.h/4);
+    this.force.chargeDistance(this.h / 4);
     this.force.on("tick", (e) => {
       this.circle
         .attr("cx", (d) => d.x)
@@ -176,12 +178,16 @@ function SalesPipelineChart(el) {
   this._stagesChart = () => {
     // Set layout
     this.stageHeight = _.max([100, window.innerHeight / 6]);
-    this.stages.forEach( (stage, i) => stage.y = (0.5 + i) * this.stageHeight );
+    this.stages.forEach( (stage, i) => {
+      stage.y = (0.5 + i) * this.stageHeight;
+    });
     this.w = $(el).innerWidth();
     this.h = this.stageHeight * this.stages.length;
     this.svg.attr("height", this.h).attr("width", this.w);
     this.radiusScale.range([2, this.stageHeight * 0.3]);
-    this.nodes.forEach( (d) => d.radius = this.radiusScale(d.value) );
+    this.nodes.forEach( (d) => {
+      d.radius = this.radiusScale(d.value);
+    });
     // Set forces
     this.force.gravity(0);
     this.force.charge( (d) => -(50 + 0.2 * Math.pow(d.radius, 2)) );
@@ -247,7 +253,7 @@ function SalesPipelineChart(el) {
         .data(this.stages, (d) => d.id)
         .enter()
         .append("foreignObject")
-        .attr("width", this.w/6)
+        .attr("width", this.w / 6)
         .attr("height", this.stageHeight)
         .attr("x", 30)
         .attr("y", (d) => d.y - 10)
@@ -268,11 +274,11 @@ function SalesPipelineChart(el) {
 
   // Really resolves collisions between d and all other nodes!
   this._collide = (node, aggression) => {
-    var r = node.radius + 16,
-        nx1 = node.x - r,
-        nx2 = node.x + r,
-        ny1 = node.y - r,
-        ny2 = node.y + r;
+    var radius = node.radius + 16,
+        nx1 = node.x - radius,
+        nx2 = node.x + radius,
+        ny1 = node.y - radius,
+        ny2 = node.y + radius;
     return function(quad, x1, y1, x2, y2) {
       if (quad.point && (quad.point !== node)) {
         var x = node.x - quad.point.x,
@@ -303,6 +309,6 @@ function SalesPipelineChart(el) {
     this._drawCircles();
   };
 
-};
+}
 
 export { SalesPipelineChart };

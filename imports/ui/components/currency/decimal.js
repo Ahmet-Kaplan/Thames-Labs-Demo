@@ -21,6 +21,6 @@ function decimal(number) {
     style: 'currency',
     currency: currency.toUpperCase()
   });
-};
+}
 
 export { decimal };

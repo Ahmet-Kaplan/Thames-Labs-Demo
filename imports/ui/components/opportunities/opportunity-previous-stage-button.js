@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import toastr from 'meteor/chrismbeckett:toastr';
@@ -28,8 +27,10 @@ Template.opportunityPreviousStageButton.events({
       'opportunities.advanceStage',
       this.opportunity._id,
       -1,
-      (err) => { if (err) return toastr.error(err.error); }
+      (err) => {
+        if (err) return toastr.error(err.error);
+      }
     );
   },
 
-})
+});

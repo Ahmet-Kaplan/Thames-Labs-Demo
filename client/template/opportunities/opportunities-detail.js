@@ -61,9 +61,7 @@ Template.opportunityDetail.helpers({
     return items;
   },
   overallValue: function() {
-    return _.sumBy(this.items, (item) => {
-      return item.quantity * item.value;
-    });
+    return _.sumBy(this.items, (item) => item.quantity * item.value);
   },
 });
 

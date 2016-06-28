@@ -24,17 +24,16 @@ Template.salesPipeline.onCreated(function() {
   // Get selected opportunity from URL if present
   const opportunityId = FlowRouter.getParam("id");
   this.selectedOpportunity = new ReactiveVar(opportunityId);
+
+  this.subscribe('salesPipelineOpportunities');
 });
 
 Template.salesPipeline.onRendered(function() {
-  this.subscribe('salesPipelineOpportunities');
-
   this.chart = new SalesPipelineChart('#d3-sales-pipeline');
   this.chartResizeEventHandler = window.addEventListener("resize", this.chart._update);
 
   this.chart._selectionCallback = (id) => this.selectedOpportunity.set(id);
 
-  // TODO: handle null tenant / stages
   // n.b. stages are currently not reactive - need to find a way to watch for updates without
   // triggering on ANY tenant update
   const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;

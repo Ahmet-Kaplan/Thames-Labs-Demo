@@ -6,7 +6,7 @@ function getCurrencySymbol(currency) {
   };
 
   return currencySymbol[currency] || '£';
-};
+}
 
 function userCurrencySymbol() {
   if(!Meteor.user()) return '£';
@@ -18,6 +18,6 @@ function userCurrencySymbol() {
     var currency = tenant.settings.currency || 'gbp';
     return getCurrencySymbol(currency);
   }
-};
+}
 
 export { userCurrencySymbol };
