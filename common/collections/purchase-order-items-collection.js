@@ -24,7 +24,7 @@ PurchaseOrderItems.after.insert(function(userId, doc) {
         fields: {
           'totalPrice': 1
         }
-      }).fetch(), 'totalPrice').toFixed(2))
+      }).fetch().totalPrice).toFixed(2))
     }
   }, function(err) {
     if (err) {

@@ -44,13 +44,10 @@ getDisallowedPermissions = function(userId) {
 
   _.each(perms, function(p) {
     var perm = permissionGenerator('read', p);
-    console.log(perm);
-
     if (!Roles.userIsInRole(userId, perm)) {
-      collectionsToFilter.push(perms[p]);
+      collectionsToFilter.push(p);
     }
   });
-
   return collectionsToFilter;
 };
 
@@ -218,7 +215,7 @@ permissionGenerator = function(operation, collectionName) {
   if (!_.includes(permissionOperations, operation)) {
     throw new Meteor.Error(operation + ' is not a valid operation');
   }
-  var permission = _.find(permissions, 'collectionName', collectionName);
+  var permission = _.find(permissions, {'collectionName': collectionName});
   if (!permission) {
     throw new Meteor.Error('No permissions found for ' + collectionName);
   }

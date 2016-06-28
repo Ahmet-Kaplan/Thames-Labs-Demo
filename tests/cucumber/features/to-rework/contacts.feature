@@ -296,7 +296,6 @@ Feature: Allow users to manage their Contacts
     And "#resultsCount" should say "1 record"
 
   #Activities
-  @dev
   Scenario: A user can add an activity
     Given a "Contact" has been created
     When I navigate to a contact page
@@ -307,7 +306,6 @@ Feature: Allow users to manage their Contacts
     And I click "#confirm"
     Then I should see the activity in the timeline
 
-  @dev
   Scenario: A user can edit an activity
     Given a "Contact" has been created
     When I navigate to a contact page
@@ -323,7 +321,6 @@ Feature: Allow users to manage their Contacts
     And I click "#update"
     Then I should see a toastr with the message containing "Activity updated."
 
-  @dev
   Scenario: A user can delete an activity
     Given a "Contact" has been created
     When I navigate to a contact page
