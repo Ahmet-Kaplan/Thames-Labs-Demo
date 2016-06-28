@@ -7,7 +7,7 @@
     <div class="col-md-7">
       <h4 class="entity-title">
         <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
-        Company {{> watchlistAdmin entityData=this collection="companies"}}
+        Company {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="companies"}}
       </h4>
 
       <h1 id="company-details" class="entity-name">{{name}}</h1>
@@ -52,10 +52,6 @@
             <p class="list-group-item-text">{{phone}}</p>
           </a>
           {{/if}}
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Company ID</h4>
-            <p class="list-group-item-text">{{sequencedIdentifier}}</p>
-          </li>
         </ul>
       </div>
 
@@ -162,6 +158,11 @@
       {{else}}
         <em class="FadedText">No address for this company. Add it via the Edit button to see where they're based!</em>
       {{/if}}
+
+      <div>
+        <h4>Sales History</h4>
+        <canvas id="shContainer" width="400" height="400"></canvas>
+      </div>
     </div>
 
   </div>

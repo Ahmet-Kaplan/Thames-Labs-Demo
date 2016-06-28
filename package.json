@@ -1,51 +1,52 @@
 {
-    "name": "realtimecrm",
-    "version": "1.0.0",
-    "description": "A RealTime CRM from Cambridge Software",
-    "directories": {
-        "test": "tests"
-    },
-    "dependencies": {
-        "body-parser": "^1.15.0",
-        "fibers": "^1.0.10",
-        "multer": "^1.1.0"
-    },
-    "devDependencies": {
-        "chimp": "^0.30.0",
-        "eslint": "^2.0.0"
-    },
-    "scripts": {
-        "start": "STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA meteor --settings settings.json",
-        "prestart": "npm install",
-        "test": "chimp --ddp=http://localhost:3000 --path=tests/cucumber",
-        "pretest": "npm run lint",
-        "watch": "chimp --watch --ddp=http://localhost:3000 --path=tests/cucumber",
-        "prewatch": "npm run lint",
-        "deploy": "modulus deploy --project-name realtimecrm --include-modules",
-        "predeploy": "npm prune --production && npm install --production",
-        "lint": "eslint --quiet .",
-        "precircle": "chmod +x .scripts/start.js",
-        "circle": "node .scripts/start.js",
-        "android": "STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools meteor run android-device --settings settings.json",
-        "ios": "STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA meteor run ios-device --settings settings.json",
-        "buildmobile": "PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools meteor build ../mobile-builds --server https://app.realtimecrm.co.uk --mobile-settings settings.json --verbose",
-        "commit": "git commit -am",
-        "precommit": "npm run lint",
-        "unit-test": "meteor test --once --driver-package linguahouse:mocha-phantomjs-junit",
-        "unit-test:watch": "TEST_WATCH=1 meteor test --driver-package linguahouse:mocha-phantomjs-junit",
-        "unit-test:browser": "meteor test --driver-package dispatch:mocha-browser",
-        "full-app-test": "meteor test --once --full-app --driver-package linguahouse:mocha-phantomjs-junit",
-        "full-app-test:watch": "TEST_WATCH=1 meteor test--full-app --driver-package linguahouse:mocha-phantomjs-junit",
-        "full-app-test:browser": "meteor test --full-app --driver-package dispatch:mocha-browser"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/CambridgeSoftwareLtd/RealtimeCRM.git"
-    },
-    "author": "Cambridge Software Ltd",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/CambridgeSoftwareLtd/RealtimeCRM/issues"
-    },
-    "homepage": "https://app.realtimecrm.co.uk"
+  "name": "realtimecrm",
+  "version": "1.0.0",
+  "description": "A RealTime CRM from Cambridge Software",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "chart.js": "^2.1.5",
+    "fibers": "^1.0.10",
+    "multer": "^1.1.0"
+  },
+  "devDependencies": {
+    "chimp": "^0.30.0",
+    "eslint": "^2.0.0"
+  },
+  "scripts": {
+    "start": "STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA meteor --settings settings.json",
+    "prestart": "npm install",
+    "test": "chimp --ddp=http://localhost:3000 --path=tests/cucumber",
+    "pretest": "npm run lint",
+    "watch": "chimp --watch --ddp=http://localhost:3000 --path=tests/cucumber",
+    "prewatch": "npm run lint",
+    "deploy": "modulus deploy --project-name realtimecrm --include-modules",
+    "predeploy": "npm prune --production && npm install --production",
+    "lint": "eslint --quiet .",
+    "precircle": "chmod +x .scripts/start.js",
+    "circle": "node .scripts/start.js",
+    "android": "STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools meteor run android-device --settings settings.json",
+    "ios": "STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA meteor run ios-device --settings settings.json",
+    "buildmobile": "PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools meteor build ../mobile-builds --server https://app.realtimecrm.co.uk --mobile-settings settings.json --verbose",
+    "commit": "git commit -am",
+    "precommit": "npm run lint",
+    "unit-test": "meteor test --once --driver-package linguahouse:mocha-phantomjs-junit",
+    "unit-test:watch": "TEST_WATCH=1 meteor test --driver-package linguahouse:mocha-phantomjs-junit",
+    "unit-test:browser": "meteor test --driver-package dispatch:mocha-browser",
+    "full-app-test": "meteor test --once --full-app --driver-package linguahouse:mocha-phantomjs-junit",
+    "full-app-test:watch": "TEST_WATCH=1 meteor test--full-app --driver-package linguahouse:mocha-phantomjs-junit",
+    "full-app-test:browser": "meteor test --full-app --driver-package dispatch:mocha-browser"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CambridgeSoftwareLtd/RealtimeCRM.git"
+  },
+  "author": "Cambridge Software Ltd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CambridgeSoftwareLtd/RealtimeCRM/issues"
+  },
+  "homepage": "https://app.realtimecrm.co.uk"
 }
