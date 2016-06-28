@@ -134,7 +134,7 @@
       {{#if address}}
         {{> map title=mapTitle address=mapAddress}}
       {{else}}
-        <em class="FadedText">No address for this contact. Add it via the Edit button to see where they're based!{{#if canLinkAddress}}<br><br><small><a href="#" id="linkCompanyAddress">Click here</a> if you want to use the address associated with {{company.name}}.</small>{{/if}}</em>
+        <em class="FadedText">This contact has no address. Add it via the Edit button to see where they're based!{{#if canLinkAddress}}<br><br><a href="#" id="linkCompanyAddress">Use {{company.name}}'s address?</a>{{/if}}</em>
       {{/if}}
     </div>
 
