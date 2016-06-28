@@ -33,7 +33,7 @@
     "ios": "STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA meteor run ios-device --settings settings.json",
     "buildmobile": "PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools meteor build ../mobile-builds --server https://app.realtimecrm.co.uk --mobile-settings settings.json --verbose",
     "commit": "git commit -am",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
     "test-mocha": "meteor test --once --full-app --driver-package=dispatch:mocha-phantomjs",
     "test-mocha:watch": "TEST_WATCH=1 meteor test --full-app --driver-package=dispatch:mocha-phantomjs",
     "test-mocha:browser": "meteor test --full-app --driver-package=practicalmeteor:mocha"
