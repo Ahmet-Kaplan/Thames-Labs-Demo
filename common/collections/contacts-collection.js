@@ -117,6 +117,12 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
       };
     },
     selector: function(searchObject, options, aggregation) {
+      if (searchObject.forename.length == 1) {
+        var search = "^" + searchObject.forename;
+        searchObject.surname = search;
+        searchObject.forename = search;
+      }
+
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.sequencedIdentifier) {
