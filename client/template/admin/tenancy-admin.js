@@ -65,9 +65,8 @@ Template.tenancyAdminPage.helpers({
 Template.tenancyAdminPage.events({
   'click #deleteUserAccount': function() {
     bootbox.prompt({
-      title: "Delete your RealTimeCRM account",
+      title: "Delete your RealTimeCRM account<br><small>You are about to flag your company's RealTimeCRM account for deletion. To confirm, please enter your password and click OK.</small>",
       inputType: "password",
-      message: "You are about to flag your company's RealTimeCRM account for deletion. To confirm, please enter your password and click OK.",
       callback: function(result) {
         if (result !== null) {
           var digest = Package.sha.SHA256(result);
@@ -78,20 +77,7 @@ Template.tenancyAdminPage.events({
 
             if(res === true) {
               Meteor.call('stripe.cancelSubscription');
-
-              var tenant = Tenants.findOne({
-                _id: Meteor.user().group
-              });
-
-              var txt = 'A tenant administrator for ' + tenant.name + ' has requested that their account be deleted. Please log into the administration area of RealTimeCRM to process this removal';
-              Email.send({
-                to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
-                from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
-                subject: 'A RealTimeCRM account has been flagged for deletion',
-                text: txt
-              });
-
-              Meteor.call('tenant.flagForDeletion', Meteor.user().group, function(err2, res2) {
+              Meteor.call('tenant.flagForDeletion', function(err2, res2) {
                 if(err2) {
                   toastr.error('Error: ' + err2);
                 }

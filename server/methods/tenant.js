@@ -93,20 +93,24 @@ Meteor.methods({
     }
     ServerSession.set('deletingTenant', val);
   },
-  'tenant.flagForDeletion': function(tenantId) {
+  'tenant.flagForDeletion': function() {
+    const adminUser = Meteor.users.findOne(this.userId);
+    const tenant = Tenants.findOne({
+      _id: adminUser.group
+    });
+
     Tenants.update({
-      _id: tenantId
+      _id: tenant._id
     }, {
       $set: {
         'settings.toBeDeleted': true
       }
     });
 
-    Partitioner.bindGroup(tenantId, function() {
-      var users = Meteor.users.find({
-        group: tenantId
-      }).fetch();
-      _.each(users, function(user) {
+    Partitioner.bindGroup(tenant._id, function() {
+      Meteor.users.find({
+        group: tenant._id
+      }).forEach(function(user) {
         Roles.addUsersToRoles(user._id, ["Disabled"]);
         Meteor.users.update({
           _id: user._id
@@ -116,6 +120,14 @@ Meteor.methods({
           }
         });
       });
+    });
+
+    const txt = 'Tenant administrator ' + adminUser.profile.name + ' for ' + tenant.name + ' has requested that their account be deleted. Please log into the administration area of RealTimeCRM to process this removal';
+    Email.send({
+      to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
+      from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
+      subject: 'A RealTimeCRM account has been flagged for deletion',
+      text: txt
     });
 
   }
