@@ -4,7 +4,7 @@
     <div class="row">
 
       <div class="col-md-12">
-        <h4 class="entity-title">Project ({{projectType}}) {{> watchlistAdmin entityData=this collection="projects"}}</h4>
+        <h4 class="entity-title">Project ({{projectType}}) {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="projects"}}</h4>
         {{#if opportunityId}}
           <div class="pull-right hidden-xs">
             <p class="text-right">
@@ -102,10 +102,6 @@
                 {{staffList}}
               </li>
             {{/if}}
-            <li class="list-group-item panel-item-header">
-              <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Project ID</h4>
-              <p class="list-group-item-text">{{sequencedIdentifier}}</p>
-            </li>
           </ul>
         </div>
       </div>
