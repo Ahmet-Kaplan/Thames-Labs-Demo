@@ -30,6 +30,18 @@ Template.contactDetail.onCreated(function() {
 });
 
 Template.contactDetail.helpers({
+  canLinkAddress: function() {
+    var company = Companies.findOne({
+      _id: this.companyId
+    });
+
+    if(company) {
+      if(company.address && company.city && company.county && company.postcode && company.country) {
+        return true;
+      }
+    }
+    return false;
+  },
   contactData: function() {
     var contactId = FlowRouter.getParam('id');
     var contact = Contacts.findOne({
@@ -156,6 +168,11 @@ Template.contactDetail.helpers({
 });
 
 Template.contactDetail.events({
+  'click #linkCompanyAddress': function(event, template) {
+    event.preventDefault();
+
+    Meteor.call('contact.linkCompanyAddress', this._id);
+  },
   'click #add-activity': function(event) {
     event.preventDefault();
     Modal.show('insertContactActivityModal', {
