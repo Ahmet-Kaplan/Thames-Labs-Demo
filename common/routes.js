@@ -339,7 +339,7 @@ router.route('/opportunities/:id', {
   }
 });
 
-router.route('/salespipeline', {
+router.route('/salespipeline/:opportunityId?', {
   name: 'salespipeline',
   action: function() {
     layout.render('appLayout', {

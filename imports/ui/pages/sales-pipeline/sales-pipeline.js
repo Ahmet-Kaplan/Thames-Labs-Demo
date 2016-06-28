@@ -27,7 +27,7 @@ Template.salesPipeline.onCreated(function() {
   });
 
   // Get selected opportunity from URL if present
-  const opportunityId = FlowRouter.getQueryParam("opportunity");
+  const opportunityId = FlowRouter.getParam("opportunityId");
   this.selectedOpportunity = new ReactiveVar(opportunityId);
 });
 
@@ -71,8 +71,8 @@ Template.salesPipeline.onRendered(function() {
     this.chart.selectOpportunity(opportunityId);
     // Update URL to reflect selected opportunity
     FlowRouter.withReplaceState( () => {
-      FlowRouter.setQueryParams({
-        opportunity: opportunityId
+      FlowRouter.setParams({
+        opportunityId: opportunityId
       });
     });
   });
