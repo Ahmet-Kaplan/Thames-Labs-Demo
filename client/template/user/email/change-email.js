@@ -19,9 +19,14 @@ Template.changeEmail.events({
       return;
     }
 
-    Meteor.call("user.changeEmail", $('#objNewEmail').val(), function(err) {
+    Meteor.call("user.changeEmail", $('#objNewEmail').val(), function(err, res) {
       if (err) {
         toastr.error("Error updating email adderss: " + err);
+      }
+
+      if(!res) {
+        toastr.error('The email address you have chosen is already in use. Please choose a different email address.');
+        return;
       }
 
       toastr.success('Your email address was updated successfully. You should login with your new email address in future.');

@@ -177,7 +177,9 @@ Meteor.methods({
 
   "user.changeEmail": function(newEmailAddress) {
     var userId = this.userId;
+    if(Accounts.findUserByEmail(newEmailAddress)) return false;
     Meteor.users.update({_id: userId}, {$set: {'emails.0.address': newEmailAddress}});
+    return true;
   }
 
 });
