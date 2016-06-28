@@ -37,7 +37,7 @@
     "unit-test:watch": "TEST_WATCH=1 meteor test --driver-package linguahouse:mocha-phantomjs-junit",
     "unit-test:browser": "meteor test --driver-package dispatch:mocha-browser",
     "full-app-test": "meteor test --once --full-app --driver-package linguahouse:mocha-phantomjs-junit",
-    "full-app-test:watch": "TEST_WATCH=1 meteor test--full-app --driver-package linguahouse:mocha-phantomjs-junit",
+    "full-app-test:watch": "TEST_WATCH=1 meteor test --full-app --driver-package linguahouse:mocha-phantomjs-junit",
     "full-app-test:browser": "meteor test --full-app --driver-package dispatch:mocha-browser"
   },
   "repository": {
