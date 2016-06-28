@@ -9,6 +9,7 @@
     "body-parser": "^1.15.0",
     "chart.js": "^2.1.5",
     "fibers": "^1.0.10",
+    "lodash": "^4.13.1",
     "multer": "^1.1.0"
   },
   "devDependencies": {

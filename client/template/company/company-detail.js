@@ -218,9 +218,7 @@ Template.companyDetail.helpers({
     return this;
   },
   hasAddress: function() {
-    if (this.lat || this.lng || this.address || this.city || this.postcode || this.country || this.county) {
-      return true;
-    }
+    return (this.lat || this.lng || this.address || this.city || this.postcode || this.country || this.county);
   },
   opportunities: function() {
     return Opportunities.find({
