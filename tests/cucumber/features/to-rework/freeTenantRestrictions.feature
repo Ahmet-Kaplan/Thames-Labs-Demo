@@ -45,11 +45,6 @@ Feature: Restrict free users from certain features
     When I click "#addProjectType"
     Then I should see a "warning" toastr
 
-  Scenario: A free user should not be able to access the sales pipeline
-    Given I have the "CanReadOpportunities" permission
-    And I click "#menuLinkSalespipeline"
-    Then I should see a "warning" toastr
-
   Scenario: A free user should not be able to set permissions
     Given I have the "Administrator" permission
     And I navigate to "/admin"
