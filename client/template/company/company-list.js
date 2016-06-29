@@ -25,13 +25,13 @@ Template.companyList.helpers({
 Template.companyList.events({
   'click #add-company': function(event) {
     event.preventDefault();
-    Modal.show('insertNewCompanyModal', this);
+    Modal.show('insertCompanyModal', this);
   },
   'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('companies');
   },
   'click #fab': function(event) {
-    Modal.show('insertNewCompanyModal', this);
+    Modal.show('insertCompanyModal', this);
   }
 });

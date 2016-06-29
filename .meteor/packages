@@ -113,5 +113,6 @@ hedcet:touch-swipe
 force-ssl
 kadira:debug
 benjaminrh:user-session
-practicalmeteor:mocha
-dispatch:mocha-phantomjs
+linguahouse:mocha-phantomjs-junit
+practicalmeteor:chai
+dispatch:mocha-browser
