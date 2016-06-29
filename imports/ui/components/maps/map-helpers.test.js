@@ -1,6 +1,6 @@
 import { assert } from 'meteor/practicalmeteor:chai';
 
-import { getAddressFromLookup, getAddressFromGoogleMapsSearch } from '../imports/ui/components/maps/map-helpers.js';
+import { getAddressFromLookup, getAddressFromGoogleMapsSearch } from './map-helpers.js';
 
 describe("map helpers", () => {
 
