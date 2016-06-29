@@ -243,6 +243,23 @@ Contacts.after.insert(function(userId, doc) {
         }
       });
     }
+
+    if(doc.companyId && !doc.address && !doc.city && !doc.county && !doc.postcode && !doc.country) {
+      var company = Companies.findOne({_id: doc.companyId});
+      if(company) {
+        Contacts.update({
+          _id: doc._id
+        }, {
+          $set: {
+            address: company.address,
+            city: company.city,
+            county: company.county,
+            postcode: company.postcode,
+            country: company.country,
+          }
+        });
+      }
+    }
   }
 });
 
