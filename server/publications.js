@@ -381,6 +381,14 @@ Meteor.publish("opportunitiesByContactId", function(id) {
     // }
   });
 });
+Meteor.publish("salesPipelineOpportunities", function() {
+  // Created separate publication in case we want to (e.g.) limit number returned
+  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Opportunities.find({
+    isArchived: { $ne: true }
+  });
+});
 
 ////////////////////////////////////////////////////////////////////
 // Global search publications

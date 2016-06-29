@@ -7,8 +7,11 @@
   },
   "dependencies": {
     "body-parser": "^1.15.0",
-    "chart.js": "^2.1.5",
+    "d3": "^3.5.17",
+    "d3-tip": "^0.6.7",
     "fibers": "^1.0.10",
+    "lodash": "^4.13.1",
+    "chart.js": "^2.1.5",
     "multer": "^1.1.0"
   },
   "devDependencies": {
