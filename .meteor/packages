@@ -4,7 +4,6 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-stevezhu:lodash
 fortawesome:fontawesome
 aldeed:autoform
 aldeed:simple-schema
@@ -50,7 +49,6 @@ arillo:flow-router-helpers
 aldeed:autoform-bs-datetimepicker
 tsega:bootstrap3-datetimepicker@=3.1.3_3
 chart:chart
-underscore
 percolate:migrations
 gildaspk:autoform-medium
 vazco:universe-html-purifier
@@ -115,5 +113,6 @@ hedcet:touch-swipe
 force-ssl
 kadira:debug
 benjaminrh:user-session
-practicalmeteor:mocha
-dispatch:mocha-phantomjs
+linguahouse:mocha-phantomjs-junit
+practicalmeteor:chai
+dispatch:mocha-browser

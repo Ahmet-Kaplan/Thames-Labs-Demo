@@ -313,9 +313,34 @@ Opportunities.after.insert(function(userId, doc) {
 
 Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (Roles.userIsInRole(userId, ['superadmin'])) return;
-  var user = Meteor.users.findOne({
-    _id: userId
-  });
+
+  const user = Meteor.user();
+
+  // Add activity log entry on opportunity stage update
+  if ( _.includes(fieldNames, 'currentStageId') ) {
+    const date = new Date(),
+          userName = _.get(user, 'profile.name'),
+          tenant = Tenants.findOne(Meteor.user().group),
+          stages = _.get(tenant, 'settings.opportunity.stages'),
+          previousStageTitle = _.chain(stages)
+            .find({id: this.previous.currentStageId})
+            .get('title'),
+          stageTitle = _.chain(stages)
+            .find({id: doc.currentStageId})
+            .get('title'),
+          note = `${userName} moved this opportunity from stage "${previousStageTitle}" to "${stageTitle}"`;
+    Activities.insert({
+      type: 'Note',
+      notes: note,
+      createdAt: date,
+      activityTimestamp: date,
+      opportunityId: doc._id,
+      primaryEntityId: doc._id,
+      primaryEntityType: 'opportunities',
+      primaryEntityDisplayData: doc.name,
+      createdBy: user._id
+    });
+  }
 
   if (user) {
     if (doc.description !== this.previous.description) {

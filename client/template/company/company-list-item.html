@@ -8,7 +8,7 @@
         <h4 class="list-group-item-heading">{{name}}</h4> <p class="list-group-item-text"></p>
       </div>
       <div class="hidden-xs hidden-sm col-md-3 col-lg-3">
-        <i class="fa fa-fw fa-map-marker"></i> {{address}}, {{city}} {{postcode}}, {{country}}
+        <i class="fa fa-fw fa-map-marker"></i> {{#if address}}{{address}},{{/if}} {{#if city}}{{city}},{{/if}} {{#if postcode}}{{postcode}},{{/if}} {{country}}
       </div>
       <div class="hidden-xs hidden-sm hidden-md col-lg-2">
         {{#if website}}<i class="fa fa-fw fa-globe"></i> <a href="{{website}}" target="_blank">{{shortWebsite}}</a><br>{{/if}}

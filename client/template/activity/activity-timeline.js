@@ -26,9 +26,10 @@ Template.activityTimeline.helpers({
     return createdBy === Meteor.userId();
   },
   otherUser: function(createdBy) {
-    return Meteor.users.findOne({
+    var user = Meteor.users.findOne({
       _id: createdBy
-    }).profile.name;
+    });
+    if(user && user.profile) return user.profile.name;
   },
   isPrimaryEntity: function() {
     if (!this.primaryEntityId || !this.primaryEntityType) return false;
