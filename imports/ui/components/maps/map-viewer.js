@@ -1,3 +1,6 @@
+import './map-viewer.css';
+import './map-viewer.html';
+
 var marker, infowindow;
 
 function updateMap(map, title, address) {
@@ -22,14 +25,14 @@ function updateMap(map, title, address) {
   map.setZoom(14);
 }
 
-Template.map.onCreated(function() {
+Template.mapViewer.onCreated(function() {
   GoogleMaps.load({
     libraries: 'places',
     key: Meteor.settings.public.googleDeveloperKey
   });
 });
 
-Template.map.onRendered(function() {
+Template.mapViewer.onRendered(function() {
 
   var self = this;
 
@@ -75,7 +78,7 @@ Template.map.onRendered(function() {
 
 });
 
-Template.map.helpers({
+Template.mapViewer.helpers({
   mapOptions: function() {
     return {
       zoom: 8,
