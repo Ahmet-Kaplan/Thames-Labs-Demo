@@ -339,11 +339,8 @@ router.route('/opportunities/:id', {
   }
 });
 
-router.route('/salespipeline', {
+router.route('/salespipeline/:id?', {
   name: 'salespipeline',
-  subscriptions: function() {
-    this.register('allOpportunities', subs.subscribe('allOpportunities'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'salesPipeline'

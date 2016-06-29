@@ -7,14 +7,16 @@
   },
   "dependencies": {
     "body-parser": "^1.15.0",
+    "chart.js": "^2.1.5",
+    "d3": "^3.5.17",
+    "d3-tip": "^0.6.7",
     "fibers": "^1.0.10",
     "jquery": "^2.2.3",
     "jszip": "^2.6.0",
-    "lodash": "^4.10.0",
+    "lodash": "^4.13.1",
     "medium-editor": "^5.16.1",
     "multer": "^1.1.0",
     "stripe": "^4.5.0",
-    "chart.js": "^2.1.5",
     "toastr": "^2.1.2"
   },
   "devDependencies": {

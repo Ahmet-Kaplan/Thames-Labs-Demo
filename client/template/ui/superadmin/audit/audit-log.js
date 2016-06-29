@@ -23,9 +23,6 @@ Template.eventLog.events({
 });
 
 Template.eventLogEntry.helpers({
-  friendlyDate: function() {
-    return moment(this.date).format("Do MMMM YYYY, HH:mm:ss");
-  },
   displayLevel: function() {
     var returnedData;
 
