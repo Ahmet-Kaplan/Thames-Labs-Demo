@@ -20,14 +20,14 @@ Template.salesHistory.onRendered(function() {
           // label: '# of Opportunities',
           data: [data.oppsWon, data.oppsLost, data.oppsPending],
           backgroundColor: [
-            Colours.html['green'],
-            Colours.html['red-pink'],
-            Colours.html['yellow']
+            Colours.hex.green,
+            Colours.hex.redPink,
+            Colours.hex.yellow
           ],
           borderColor: [
-            Colours.html['green'],
-            Colours.html['red-pink'],
-            Colours.html['yellow']
+            Colours.hex.green,
+            Colours.hex.redPink,
+            Colours.hex.yellow
           ],
           borderWidth: 1
         }]
