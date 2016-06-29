@@ -161,7 +161,6 @@ Feature: Allow users to manage their sales opportunities
     Then the "Opportunities" menu item is shown
 
   #Opportunity Stages
-@dev 
   Scenario: A user can change opportunity stage
     Given I have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
