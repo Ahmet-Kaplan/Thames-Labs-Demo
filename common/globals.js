@@ -216,7 +216,7 @@ permissionGenerator = function(operation, collectionName) {
   if (!_.includes(permissionOperations, operation)) {
     throw new Meteor.Error(operation + ' is not a valid operation');
   }
-  var permission = _.find(permissions, 'collectionName', collectionName);
+  var permission = _.find(permissions, {'collectionName': collectionName});
   if (!permission) {
     throw new Meteor.Error('No permissions found for ' + collectionName);
   }
