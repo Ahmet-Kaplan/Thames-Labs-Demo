@@ -161,15 +161,16 @@ Feature: Allow users to manage their sales opportunities
     Then the "Opportunities" menu item is shown
 
   #Opportunity Stages
+@dev 
   Scenario: A user can change opportunity stage
     Given I have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
     When I navigate to an opportunity page
     And I click "#next-stage"
     Then I should see "#previous-stage"
-    And "#timeline" should contain "Test User moved this opportunity forward from stage"
+    And "#timeline" should contain "Test User moved this opportunity from stage"
     When I click "#previous-stage"
-    Then I should not see "#previous-stage"
+    Then "#previous-stage" should be disabled
     And "#timeline" should contain "Test User moved this opportunity from stage"
 
   Scenario: A user can mark an opportunity as lost and reopen it
