@@ -1,6 +1,5 @@
-import Chart from 'chart.js';
-
 Template.companyDetail.onCreated(function() {
+  this.oppStats = new ReactiveVar({});
   // Redirect if data doesn't exist
   this.autorun(function() {
     var company = Companies.findOne(FlowRouter.getParam('id'));
@@ -9,6 +8,14 @@ Template.companyDetail.onCreated(function() {
     } else if (FlowRouter.subsReady() && company.website !== '' && typeof company.website !== "undefined") {
       Meteor.call('getClearbitData', 'company', company._id);
     }
+  });
+
+  this.autorun(function() {
+    var companyid = FlowRouter.getParam('id');
+    var currentInstance = Template.instance();
+    Meteor.call('opportunities.getCompanySalesHistory', companyid, function(err, res) {
+      currentInstance.oppStats.set(res);
+    });
   });
 
   // Redirect if read permission changed
@@ -29,53 +36,6 @@ Template.companyDetail.onCreated(function() {
 Template.companyDetail.onRendered(function() {
   // Load docxgen
   $.getScript('/vendor/docxgen.min.js');
-
-  this.autorun(function() {
-    var companyid = FlowRouter.getParam('id');
-    Meteor.call('opportunities.getCompanySalesHistory', companyid, function(err, res) {
-      var ctx = document.getElementById("shContainer").getContext("2d");
-
-      Chart.defaults.global.defaultFontFamily = 'Source Sans Pro';
-
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ["Won", "Lost", "Pending"],
-          datasets: [{
-            // label: '# of Opportunities',
-            data: [res.oppsWon, res.oppsLost, res.oppsPending],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)'
-            ],
-            borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          title: {
-            display: false
-          },
-          legend: {display: false},
-          scales: {
-            yAxes: [{
-              ticks: {
-                stepSize: 1,
-                beginAtZero: true
-              }
-            }]
-          }
-        }
-      });
-
-
-    });
-  });
 });
 
 Template.companyDetail.events({
@@ -277,5 +237,8 @@ Template.companyDetail.helpers({
       icon: 'fa-list',
       permission: 'CanReadCompanies'
     }];
+  },
+  oppStats: function() {
+    return Template.instance().oppStats;
   }
 });

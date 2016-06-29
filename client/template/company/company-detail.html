@@ -158,11 +158,9 @@
       {{else}}
         <em class="FadedText">This company has no address. Add it via the Edit button to see where they're based!</em>
       {{/if}}
-
-      <div>
-        <h4>Sales History</h4>
-        <canvas id="shContainer" width="400" height="400"></canvas>
-      </div>
+      {{#if oppStats}}
+        {{> salesHistory oppStats=oppStats}}
+      {{/if}}
     </div>
 
   </div>
