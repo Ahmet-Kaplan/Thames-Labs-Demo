@@ -222,7 +222,8 @@ Meteor.methods({
 
     //Otherwise update subscription
     var subsParameters = {
-      quantity: numberUsers
+      quantity: numberUsers,
+      prorate: false
     };
 
     return !!stripeMethodsAsync.customers.updateSubscription(stripeId, stripeSubs, subsParameters);
@@ -251,11 +252,6 @@ Meteor.methods({
       throw new Meteor.Error(403, 'Only admins may subscribe.');
     } else if (!stripeId || !stripeSubs) {
       throw new Meteor.Error(400, 'It appears you are not subscribed.');
-    }
-
-    var subscriptionUpdated = stripeMethodsAsync.customers.updateSubscription(stripeId, stripeSubs, {quantity: 0});
-    if(!!subscriptionUpdated === false) {
-      return false;
     }
 
     var confirmation = stripeMethodsAsync.customers.cancelSubscription(stripeId, stripeSubs, {at_period_end: true});

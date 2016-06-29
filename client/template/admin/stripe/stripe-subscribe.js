@@ -126,6 +126,7 @@ Template.stripeSubscribe.events({
       //Return card details to parent template to display
       cardDetails.set(response.card);
 
+      toastr.clear();
       toastr.info('Please wait while we process your subscription...');
 
       /*If has stripeId, check if the new plan's currency is the same as before.
