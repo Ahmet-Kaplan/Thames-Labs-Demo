@@ -41,14 +41,13 @@ isTenantOverFreeUserLimit = function(tenantId) {
 getDisallowedPermissions = function(userId) {
   var collectionsToFilter = [];
   var perms = ['companies', 'contacts', 'opportunities', 'projects', 'tasks', 'purchaseorders'];
-  for (var p in perms) {
-    var perm = permissionGenerator('read', perms[p]);
 
+  _.each(perms, function(p) {
+    var perm = permissionGenerator('read', p);
     if (!Roles.userIsInRole(userId, perm)) {
-      collectionsToFilter.push(perms[p]);
+      collectionsToFilter.push(p);
     }
-  }
-
+  });
   return collectionsToFilter;
 };
 
