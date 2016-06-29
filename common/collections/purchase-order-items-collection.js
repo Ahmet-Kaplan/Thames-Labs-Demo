@@ -18,7 +18,7 @@ PurchaseOrderItems.after.insert(function(userId, doc) {
 
   PurchaseOrders.update(doc.purchaseOrderId, {
     $set: {
-      totalValue: parseFloat(_.sum(PurchaseOrderItems.find({
+      totalValue: parseFloat(_.sumBy(PurchaseOrderItems.find({
         purchaseOrderId: doc.purchaseOrderId
       }, {
         fields: {
@@ -61,7 +61,7 @@ PurchaseOrderItems.after.update(function(userId, doc, fieldNames, modifier, opti
 
   PurchaseOrders.update(doc.purchaseOrderId, {
     $set: {
-      totalValue: parseFloat(_.sum(PurchaseOrderItems.find({
+      totalValue: parseFloat(_.sumBy(PurchaseOrderItems.find({
         purchaseOrderId: doc.purchaseOrderId
       }, {
         fields: {
@@ -84,7 +84,7 @@ PurchaseOrderItems.after.remove(function(userId, doc) {
 
   PurchaseOrders.update(doc.purchaseOrderId, {
     $set: {
-      totalValue: parseFloat(_.sum(PurchaseOrderItems.find({
+      totalValue: parseFloat(_.sumBy(PurchaseOrderItems.find({
         purchaseOrderId: doc.purchaseOrderId
       }, {
         fields: {

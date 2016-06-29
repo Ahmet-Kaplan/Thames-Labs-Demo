@@ -6,18 +6,14 @@
       <div class="pull-right hidden-xs">
         {{#if isActive}}
           <br>
-          {{#if isInRole 'CanEditOpportunities'}}
-            {{#if isNotFirstStage}}
-              <button class="btn btn-default" id="previous-stage"><i class="fa fa-fw fa-chevron-left"></i> Back to previous stage</button>
-            {{/if}}
-            {{#if isLastStage}}
-              <button class="btn btn-success" id="won-opportunity">Opportunity won</button>
-            {{else}}
-              <button class="btn btn-primary" id="next-stage">Move to next stage <i class="fa fa-fw fa-chevron-right"></i></button>
-            {{/if}}
-            <br><br>
-            <a href="#" id="lost-opportunity" class="pull-right text-danger" style="text-decoration:underline">Mark opportunity as lost</a>
-          {{/if}}
+          <p>
+            {{> opportunityPreviousStageButton opportunity=this}}
+            {{> opportunityNextStageButton opportunity=this}}
+          </p>
+          <div class="clearfix"></div>
+          <p class="pull-right">
+            {{> opportunityLostLink opportunity=this}}
+          </p>
         {{else}}
           {{#if hasBeenWon}}
             <h3 class="text-success" style="margin-top: 25px;">Opportunity won</h3>
@@ -50,92 +46,8 @@
 
       {{> tagInput tags=tags collection='opportunities' entityId=_id permissionToEdit='CanEditOpportunities'}}
 
-      <div class="panel panel-default" id="opportunity-details">
-        <div class="panel-heading">
-          {{#if isActive}}
-            <div class="btn-group pull-right">
-              {{#if isInRole 'CanEditOpportunities'}}
-                <div class="btn-group">
-                  <button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span> Extract to...
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    {{#if canExportDocx}}
-                      <li><a href="#" id="template-upload-link-docx">Microsoft Word (.docx)</a></li>
-                    {{/if}}
-                    <li class="divider"></li>
-                    <li><a href="#" id="opp-template-help">How does this work?</a></li>
-                  </ul>
-                </div>
-                {{#unless isMobile}}
-                <button id="edit-opportunity" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i> Edit</button>
-                {{/unless}}
-              {{/if}}
-              {{#if isInRole 'CanDeleteOpportunities'}}
-                <button id="remove-opportunity" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Delete</button>
-              {{/if}}
-            </div>
-            <input type="file" id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px">
-            <input type="file" id="template-upload" style="height:0; width: 0; margin-left: -9999px">
-          {{else}}
-            {{#if isInRole 'CanEditOpportunities'}}
-              {{#unless hasBeenWon}}
-                <button id="reopen-opportunity" class="btn btn-info btn-xs pull-right"><i class="fa fa-fw fa-repeat"></i> Reopen</button>
-              {{/unless}}
-            {{/if}}
-          {{/if}}
-          Opportunity details
-        </div>
-        <ul class="list-group">
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-file-o"></i> Name</h4>
-            {{name}}
-          </li>
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
-            {{description}}
-          </li>
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-calendar"></i> Date</h4>
-            {{friendlyDate}}
-          </li>
-          {{#if estCloseDate}}
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-calendar"></i> Estimated Close</h4>
-            {{friendlyClose}}
-          </li>
-          {{/if}}
-          {{#if value}}
-            <li class="list-group-item panel-item-header">
-              <h4><i class="fa fa-fw fa-money"></i> Value</h4>
-              {{decimal value}}
-            </li>
-          {{/if}}
+      {{> opportunityDetailsPanel opportunity=this showButtons=true}}
 
-          {{#if isInRole 'CanReadCompanies'}}{{#if company}}
-            <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header">
-              <h4><i class="fa fa-fw fa-building"></i> Company</h4>
-              <i class="fa fa-fw fa-chevron-right pull-right"></i>
-               {{company.name}}
-            </a>
-          {{/if}}{{/if}}
-
-          {{#if isInRole 'CanReadContacts'}}{{#if contact}}
-            <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item panel-item-header">
-              <h4><i class="fa fa-fw fa-user"></i> Contact</h4>
-              <i class="fa fa-fw fa-chevron-right pull-right"></i>
-               {{contact.name}}
-            </a>
-          {{/if}}
-          {{#if salesManagerId}}
-            <li class="list-group-item panel-item-header">
-              <h4><i class="fa fa-fw fa-user-secret"></i> Sales Manager</h4>
-              {{salesManager}}
-            </li>
-          {{/if}}
-          {{/if}}
-        </ul>
-      </div>
       <div class="panel panel-default" id="lines">
         <div class="panel-heading">
           Line items
