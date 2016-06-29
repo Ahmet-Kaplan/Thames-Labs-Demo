@@ -4,16 +4,12 @@
     <div class="row">
 
       <div class="col-md-12">
-        <h4 class="entity-title">Project ({{projectType}}) {{> watchlistAdmin entityData=this collection="projects"}}</h4>
+        <h4 class="entity-title">Project ({{projectType}}) {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="projects"}}</h4>
 
         <div class="pull-right hidden-xs">
-          <!--<p class="text-right">-->
             <a href="#" id="invertProjectState">Mark project {{inverseState}}</a>
-          <!--</p>-->
           {{#if opportunityId}}
-            <!--<p class="text-right">-->
                | <a href="{{pathFor route='opportunity' id=opportunityId}}">View opportunity</a>
-            <!--</p>-->
           {{/if}}
         </div>
         <h1 class="entity-name" id="project-details">{{name}}</h1>
@@ -106,10 +102,6 @@
                 {{staffList}}
               </li>
             {{/if}}
-            <li class="list-group-item panel-item-header">
-              <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Project ID</h4>
-              <p class="list-group-item-text">{{sequencedIdentifier}}</p>
-            </li>
           </ul>
         </div>
       </div>

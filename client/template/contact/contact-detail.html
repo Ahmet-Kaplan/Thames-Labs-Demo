@@ -9,7 +9,7 @@
       <img class="img-circle avatar pull-right" src="{{metadata.clearbit.avatar}}" /> {{/if}}
 
 
-      <h4 class="entity-title">Contact {{> watchlistAdmin entityData=this collection="contacts"}}</h4>
+      <h4 class="entity-title">Contact {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="contacts"}}</h4>
       <h1 id="contact-details" class="entity-name">{{#if showTitle}}{{title}} {{/if}}{{name}}</h1>
       {{> tagInput tags=tags collection='contacts' entityId=_id permissionToEdit='CanEditContacts'}}
       <div class="panel panel-default" id="contact-detail-panel">
@@ -52,10 +52,6 @@
             <p class="list-group-item-text">{{mobile}}</p>
           </a>
           {{/if}}
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Contact ID</h4>
-            <p class="list-group-item-text">{{sequencedIdentifier}}</p>
-          </li>
         </ul>
       </div>
 
@@ -134,7 +130,7 @@
       {{#if address}}
         {{> map title=mapTitle address=mapAddress}}
       {{else}}
-        <em class="FadedText">No address for this contact. Add it via the Edit button to see where they're based!</em>
+        <em class="FadedText">This contact has no address. Add it via the Edit button to see where they're based!{{#if canLinkAddress}}<br><br><a href="#" id="linkCompanyAddress">Use {{company.name}}'s address?</a>{{/if}}</em>
       {{/if}}
     </div>
 
