@@ -1,5 +1,6 @@
 import Chart from 'chart.js';
 import { Tracker } from 'meteor/tracker';
+import { Colours } from '/imports/api/lookup/colours.js';
 import './sales-history.css';
 import './sales-history.html';
 
@@ -19,14 +20,14 @@ Template.salesHistory.onRendered(function() {
           // label: '# of Opportunities',
           data: [data.oppsWon, data.oppsLost, data.oppsPending],
           backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)'
+            Colours.html['green'],
+            Colours.html['red-pink'],
+            Colours.html['yellow']
           ],
           borderColor: [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)'
+            Colours.html['green'],
+            Colours.html['red-pink'],
+            Colours.html['yellow']
           ],
           borderWidth: 1
         }]
