@@ -1,9 +1,10 @@
 import { assert } from 'meteor/practicalmeteor:chai';
-
 import { generateData } from './generate-data.app-test.js';
 
+const denodeify = require('es6-denodeify')(Promise);
+
 // Utilities
-const afterFlushPromise = Promise.denodeify(Tracker.afterFlush);
+const afterFlushPromise = denodeify(Tracker.afterFlush);
 
 if (Meteor.isClient) {
   describe("login", () => {

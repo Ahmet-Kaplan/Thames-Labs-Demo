@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
+const denodeify = require('es6-denodeify')(Promise);
+
 function createTenant(name, plan) {
   const defaultTenant = {
     name: name,
@@ -82,7 +84,7 @@ Meteor.methods({
 let generateData;
 if (Meteor.isClient) {
   const testConnection = Meteor.connect(Meteor.absoluteUrl());
-  generateData = Promise.denodeify( (cb) => {
+  generateData = denodeify( (cb) => {
     testConnection.call('generateFixtures', cb);
   });
 }
