@@ -22,6 +22,8 @@ Template.insertActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
+        var reminder = $('#reminderValue').val() + '.' + $('#reminderUnit').val();
+
         var d = $('#helperContent .taskdatetimepicker');
         var dtp = d.data('DateTimePicker');
         var taskDate = dtp.date.toDate();
@@ -41,7 +43,7 @@ Template.insertActivityModal.events({
               assigneeId: Meteor.userId(),
               completed: false,
               remindMe: true,
-              reminder: '1.hours',
+              reminder: reminder,
               entityType: 'contact',
               entityId: AutoForm.getFieldValue('contactId', 'insertActivityForm'),
               createdBy: Meteor.userId()
@@ -60,7 +62,7 @@ Template.insertActivityModal.events({
           assigneeId: Meteor.userId(),
           completed: false,
           remindMe: true,
-          reminder: '1.hours',
+          reminder: reminder,
           entityType: 'company',
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertActivityForm'),
           createdBy: Meteor.userId()
@@ -92,6 +94,7 @@ Template.insertContactActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertContactActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
+        var reminder = $('#reminderValue').val() + '.' + $('#reminderUnit').val();
         var d = $('#helperContent .taskdatetimepicker');
         var dtp = d.data('DateTimePicker');
         var taskDate = dtp.date.toDate();
@@ -104,7 +107,7 @@ Template.insertContactActivityModal.events({
           assigneeId: Meteor.userId(),
           completed: false,
           remindMe: true,
-          reminder: '1.hours',
+          reminder: reminder,
           entityType: 'contact',
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertContactActivityForm'),
           createdBy: Meteor.userId()
@@ -139,6 +142,7 @@ Template.insertProjectActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertProjectActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
+        var reminder = $('#reminderValue').val() + '.' + $('#reminderUnit').val();
         var d = $('#helperContent .taskdatetimepicker');
         var dtp = d.data('DateTimePicker');
         var taskDate = dtp.date.toDate();
@@ -152,7 +156,7 @@ Template.insertProjectActivityModal.events({
           assigneeId: Meteor.userId(),
           completed: false,
           remindMe: true,
-          reminder: '1.hours',
+          reminder: reminder,
           entityType: 'project',
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertProjectActivityForm'),
           createdBy: Meteor.userId()
@@ -200,6 +204,7 @@ Template.insertOpportunityActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertOpportunityActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
+        var reminder = $('#reminderValue').val() + '.' + $('#reminderUnit').val();
         var d = $('#helperContent .taskdatetimepicker');
         var dtp = d.data('DateTimePicker');
         var taskDate = dtp.date.toDate();
@@ -213,7 +218,7 @@ Template.insertOpportunityActivityModal.events({
           assigneeId: Meteor.userId(),
           completed: false,
           remindMe: true,
-          reminder: '1.hours',
+          reminder: reminder,
           entityType: 'opportunity',
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertOpportunityActivityForm'),
           createdBy: Meteor.userId()

@@ -9,3 +9,7 @@
 #helperContent {
   padding-top: 7px;
 }
+
+#helperContent > .row {
+  margin-bottom: 4px;
+}
