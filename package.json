@@ -1,14 +1,17 @@
 {
   "name": "realtimecrm",
   "version": "1.0.0",
-  "description": "A real-time CRM from Cambridge Software",
+  "description": "A RealTime CRM from Cambridge Software",
   "directories": {
     "test": "tests"
   },
   "dependencies": {
     "body-parser": "^1.15.0",
     "chart.js": "^2.1.5",
+    "d3": "^3.5.17",
+    "d3-tip": "^0.6.7",
     "fibers": "^1.0.10",
+    "lodash": "^4.13.1",
     "multer": "^1.1.0"
   },
   "devDependencies": {
@@ -32,9 +35,12 @@
     "buildmobile": "PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools meteor build ../mobile-builds --server https://app.realtimecrm.co.uk --mobile-settings settings.json --verbose",
     "commit": "git commit -am",
     "precommit": "npm run lint",
-    "test-mocha": "meteor test --once --full-app --driver-package=dispatch:mocha-phantomjs",
-    "test-mocha:watch": "TEST_WATCH=1 meteor test --full-app --driver-package=dispatch:mocha-phantomjs",
-    "test-mocha:browser": "meteor test --full-app --driver-package=practicalmeteor:mocha"
+    "unit-test": "meteor test --once --driver-package linguahouse:mocha-phantomjs-junit",
+    "unit-test:watch": "TEST_WATCH=1 meteor test --driver-package linguahouse:mocha-phantomjs-junit",
+    "unit-test:browser": "meteor test --driver-package dispatch:mocha-browser",
+    "full-app-test": "meteor test --once --full-app --driver-package linguahouse:mocha-phantomjs-junit",
+    "full-app-test:watch": "TEST_WATCH=1 meteor test --full-app --driver-package linguahouse:mocha-phantomjs-junit",
+    "full-app-test:browser": "meteor test --full-app --driver-package dispatch:mocha-browser"
   },
   "repository": {
     "type": "git",

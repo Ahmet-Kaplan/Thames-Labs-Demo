@@ -3,12 +3,12 @@ Meteor.methods({
     var user = Meteor.users.findOne({
       _id: this.userId
     });
-    var company = Companies.findOne({
-      name: companyName,
+    var results = Companies.find({
+      name: {$regex: companyName, $options: 'i'},
       _groupId: user.group
-    });
-    if (company) return true;
-    return false;
+    }).fetch();
+    if (results.length >= 1) return results[0];
+    return null;
 
   },
   'company.getMergeTargets': function(companyId) {
