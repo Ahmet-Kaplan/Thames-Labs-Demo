@@ -177,6 +177,9 @@ Template.companyDetail.helpers({
   mapAddress: function() {
     return this;
   },
+  hasAddress: function() {
+    return (this.lat || this.lng || this.address || this.city || this.postcode || this.country || this.county);
+  },
   opportunities: function() {
     return Opportunities.find({
       companyId: this._id,
