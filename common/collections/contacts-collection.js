@@ -55,6 +55,14 @@ Collections.contacts.filters = {
       return 'N/A';
     }
   },
+  forename: {
+    display: 'Forename:',
+    prop: 'forename'
+  },
+  surname: {
+    display: 'Surname:',
+    prop: 'surname'
+  },
   phone: {
     display: 'Phone:',
     prop: 'phone',
@@ -117,12 +125,6 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
       };
     },
     selector: function(searchObject, options, aggregation) {
-      if (searchObject.forename.length == 1) {
-        var search = "^" + searchObject.forename;
-        searchObject.surname = search;
-        searchObject.forename = search;
-      }
-
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.sequencedIdentifier) {
@@ -137,6 +139,20 @@ Collections.contacts.index = ContactsIndex = new EasySearch.Index({
         // n.b. the array is passed as a comma separated string
         selector.companyId = {
           $in: options.search.props.company.split(',')
+        };
+      }
+
+      if (options.search.props.forename) {
+        selector.forename = {
+          $regex: '^' + options.search.props.forename,
+          $options: 'i'
+        };
+      }
+
+      if (options.search.props.surname) {
+        selector.surname = {
+          $regex: '^' + options.search.props.surname,
+          $options: 'i'
         };
       }
 
