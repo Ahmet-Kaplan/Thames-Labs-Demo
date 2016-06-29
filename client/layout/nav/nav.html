@@ -13,8 +13,7 @@
           {{/if}}
           <a class="navbar-brand" href="/">
             <img class="hidden-xs" alt="" src="/lighter-icon.svg">
-            <img class="visible-xs" alt="" src="/icon.svg"> RealTime
-            <span>CRM</span>
+            <img class="visible-xs" alt="" src="/icon.svg"> RealTime<span>CRM</span>
           </a>
           {{#if loggedIn}}
           <button class="btn btn-primary pull-right visible-xs" id="toggle-search"><i class="fa fa-search"></i></button>
@@ -83,6 +82,7 @@
                 <li><a href="/admin" id="Administration">Administration</a></li>
                 <li role="separator" class="divider"></li>
                 {{/if}}
+                <li><a href="#" id="btnChangeEmail">Change Email</a></li>
                 <li><a href="#" id="btnChangePassword">Change Password</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#" id="feedback-link">Give Feedback</a></li>
@@ -160,7 +160,7 @@
         </a>
       </li>
         <li class="panel-title {{isActiveRoute regex='salespipeline'}}">
-          <a href="{{pathFor route='salespipeline'}}" class="{{#unless isProTenant}}proFeature {{/unless}}dismiss-on-click" id="menuLinkSalespipeline">
+          <a href="{{pathFor route='salespipeline'}}" class="dismiss-on-click" id="menuLinkSalespipeline">
             <i class="fa fa-fw fa-signal"></i> Sales Pipeline
           </a>
         </li>

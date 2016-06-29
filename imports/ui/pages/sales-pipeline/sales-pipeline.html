@@ -1,0 +1,35 @@
+<template name="salesPipeline">
+    {{setPageTitle "Sales Pipeline"}}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Sales Pipeline</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div id="d3-sales-pipeline"></div>
+        </div>
+        <div class="col-md-4">
+            {{#if selectedOpportunity}}
+                <h1 class="entity-name">{{selectedOpportunity.name}}</h1>
+                <p class="pull-right">
+                  {{> opportunityPreviousStageButton opportunity=selectedOpportunity}}
+                  {{> opportunityNextStageButton opportunity=selectedOpportunity}}
+                </p>
+                <div class="clearfix"></div>
+                <p class="pull-right">
+                  {{> opportunityLostLink opportunity=selectedOpportunity}}
+                </p>
+                <div class="clearfix"></div>
+                {{> tagInput tags=selectedOpportunity.tags collection='opportunities' entityId=selectedOpportunity._id permissionToEdit='CanEditOpportunities'}}
+                {{> opportunityDetailsPanel opportunity=selectedOpportunity}}
+            {{else}}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h4>Select an opportunity to view details</h4>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</template>
