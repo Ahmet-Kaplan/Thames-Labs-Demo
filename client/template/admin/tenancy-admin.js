@@ -82,6 +82,8 @@ Template.tenancyAdminPage.events({
                   toastr.error('Error: ' + err2);
                 }
               });
+            } else {
+              toastr.warning('There was a problem checking your password. Please ensure that your password is correct, and try again.');
             }
           });
 

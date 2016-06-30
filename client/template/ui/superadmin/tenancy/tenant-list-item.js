@@ -34,6 +34,18 @@ Template.tenantListItem.helpers({
 });
 
 Template.tenantListItem.events({
+  "click #btnCancelDeletion": function(event, template) {
+    event.preventDefault();
+    var tenantId = this.__originalId;
+
+
+    bootbox.confirm("Cancel deletion request?", function(result) {
+      if (result === true) {
+        Meteor.call('tenant.cancelDeletion', tenantId);
+      }
+    });
+
+  },
   "click #btnAddNewTenantUser": function(event, template) {
     event.preventDefault();
     var tenantId = this.__originalId;

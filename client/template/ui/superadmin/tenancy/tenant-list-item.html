@@ -14,10 +14,16 @@
                         <div class="btn-group pull-right" role="group">
                         {{#if showDemoDataButton}}
                         <button class="btn btn-xs" id="btnDemoData" type="button" disabled="{{#if generationInProgress}}disabled{{/if}}">
-
-                            <i class="fa fa-fw fa-wrench"></i> Generate demo data
+                          <i class="fa fa-fw fa-wrench"></i> Generate demo data
                         </button>
                         {{/if}}
+
+                        {{#if settings.toBeDeleted}}
+                        <button class="btn btn-warning btn-xs" id="btnCancelDeletion" type="button">
+                          <i class="fa fa-fw fa-reply"></i> Cancel Deletion
+                        </button>
+                        {{/if}}
+
                         <button class="btn btn-info btn-xs" id="btnEditSettings" type="button">
                             <i class="fa fa-fw fa-wrench"></i> Edit settings
                         </button>

@@ -95,6 +95,8 @@ Meteor.methods({
   },
   'tenant.flagForDeletion': function() {
     const adminUser = Meteor.users.findOne(this.userId);
+    if(!adminUser) return;
+
     const tenant = Tenants.findOne({
       _id: adminUser.group
     });
@@ -130,5 +132,26 @@ Meteor.methods({
       text: txt
     });
 
+  },
+  'tenant.cancelDeletion': function(tenantId) {
+    const tenant = Tenants.findOne({
+      _id: tenantId
+    });
+
+    Tenants.update({
+      _id: tenant._id
+    }, {
+      $set: {
+        'settings.toBeDeleted': false
+      }
+    });
+
+    Partitioner.bindGroup(tenant._id, function() {
+      Meteor.users.find({
+        group: tenant._id
+      }).forEach(function(user) {
+        if(Roles.userIsInRole(user._id, "Disabled")) Roles.removeUsersFromRoles(user._id, ["Disabled"]);
+      });
+    });
   }
 });
