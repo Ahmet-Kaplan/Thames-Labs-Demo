@@ -50,7 +50,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see "#resumeSubs"
     When I click "#resumeSubs"
     Then I should see a modal
-    When I click confirm on the modal 
+    When I click confirm on the modal
     Then I should see a toastr with the message containing "Resuming your subscription..."
     Then I should see a bootbox
     When I click confirm on the modal

@@ -160,13 +160,6 @@ Feature: Allow users to manage their Companies
     Then the "Companies" menu item is shown
 
   #Extended information fields
-  Scenario: A user can open the "Add custom field" modal
-    Given I have the "CanEditCompanies" permission
-    And a "Company" has been created
-    When I navigate to a company page
-    And I click "#add-custom-field"
-    Then I should see a modal
-
   Scenario: A user can add an custom field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
