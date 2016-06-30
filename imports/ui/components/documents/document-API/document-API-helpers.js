@@ -54,7 +54,6 @@ const documentAPI = {
           documents: currDocs
         }
       }, function(err, res) {
-        console.log(err);
         if (docWasUpdated && !err) {
           toastr.clear();
           toastr.info('The selected document\'s URL was already referenced, but under a different name. We\'ve updated the list to show the new name.');
