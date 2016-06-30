@@ -1,0 +1,15 @@
+#helperToggle {
+  margin-top: 2px;
+}
+
+#helperLabel {
+  padding-top: 4px;
+}
+
+#helperContent {
+  padding-top: 7px;
+}
+
+#helperContent > .row {
+  margin-bottom: 4px;
+}

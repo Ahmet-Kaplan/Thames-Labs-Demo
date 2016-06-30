@@ -25,6 +25,10 @@ Template.projectDetail.onCreated(function() {
 });
 
 Template.projectDetail.helpers({
+  inverseState: function() {
+    if(this.active)return "inactive";
+    return "active";
+  },
   projectType: function() {
     var typeIndex = -1;
     var currentTypes = Tenants.findOne({
@@ -102,6 +106,10 @@ Template.projectDetail.helpers({
 });
 
 Template.projectDetail.events({
+  'click #invertProjectState': function(e, t) {
+    event.preventDefault();
+    Meteor.call('project.invertState', this._id);
+  },
   'click #add-activity': function(event) {
     event.preventDefault();
     Modal.show('insertProjectActivityModal', {
