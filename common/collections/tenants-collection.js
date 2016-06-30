@@ -121,22 +121,22 @@ Collections.tenants.index = TenantsIndex = new EasySearch.Index({
 
       if (options.search.props.active) {
         var active = options.search.props.active;
-        var currentDate = new Date();
-        var cutOffDate = new Date();
+        var currentDate = moment();
+        var cutOffDate = null;
         var tenantIDs = [];
 
         if (active === '7 days') {
-          cutOffDate.setDate(currentDate.getDate() - 7);
+          cutOffDate = moment().subtract(7, 'day');
         } else if (active === '14 days') {
-          cutOffDate.setDate(currentDate.getDate() - 14);
+          cutOffDate = moment().subtract(14, 'day');
         } else if (active === '28 days') {
-          cutOffDate.setDate(currentDate.getDate() - 28);
+          cutOffDate = moment().subtract(28, 'day');
         }
 
         var users = Meteor.users.find({
           "profile.lastLogin": {
-            $gte: cutOffDate,
-            $lt: currentDate
+            $gte: cutOffDate.toDate(),
+            $lt: currentDate.toDate()
           }
         }).fetch();
 

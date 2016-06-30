@@ -72,7 +72,6 @@ Template.tenantList.events({
           proc = i + 1;
 
           if (proc === total) {
-            console.log(tenantArray);
             var filename = [
               'realtimecrm-',
               collectionName,
