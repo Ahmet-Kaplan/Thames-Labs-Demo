@@ -44,24 +44,29 @@ const documentAPI = {
       }
     });
 
-    if (!docAlreadyExists) {
+    if (docAlreadyExists) {
+      toastr.clear();
+      toastr.warning('The selected document has already been added');
+    } else {
       currDocs.push(documentData);
       Collections[collectionName].update(id, {
         $set: {
           documents: currDocs
         }
+      }, function(err, res) {
+        console.log(err);
+        if (docWasUpdated && !err) {
+          toastr.clear();
+          toastr.info('The selected document\'s URL was already referenced, but under a different name. We\'ve updated the list to show the new name.');
+        } else if (!err) {
+          toastr.clear();
+          toastr.success('The selected document has been added');
+        } else {
+          toastr.clear();
+          toastr.warning("The selected document couldn't be added");
+        }
       });
-    }
 
-    if (docAlreadyExists) {
-      toastr.clear();
-      toastr.warning('The selected document has already been added');
-    } else if (docWasUpdated) {
-      toastr.clear();
-      toastr.info('The selected document\'s URL was already referenced, but under a different name. We\'ve updated the list to show the new name.');
-    } else {
-      toastr.clear();
-      toastr.success('The selected document has been added');
     }
   },
   removeDocument: function(collectionName, id, document) {
@@ -72,10 +77,12 @@ const documentAPI = {
           docName: document.docName
         }
       }
+    }, function(err, res) {
+      if (!err) {
+        toastr.clear();
+        toastr.success('The selected document has been successfully removed');
+      }
     });
-
-    toastr.clear();
-    toastr.success('The selected document has been successfully removed');
   }
 };
 
