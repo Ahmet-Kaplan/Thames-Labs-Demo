@@ -1,22 +1,10 @@
 <template name="contactAdminPanel">
-  <div class="panel panel-primary" id="contactAdminPanel">
-    <div class="panel-heading ">
-      <a class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#contactAdmin" id="contactAdminExpander">Contact administration</a>
-    </div>
-    <div class="panel-collapse collapse" id="contactAdmin">
-      <div class="row" id="contactAdminSettings">
-        <div class="col-md-2" id="contactTitlesLabel">
-          Contact Titles
-        </div>
-        <div class="col-md-8">
-          <input id="contactAdminTitles" type="text" class="form-control">
-        </div>
-        <div class="col-md-2">
-          <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-success" id="contactAdminUpdateTitles">Update</button>
-          </div>
-        </div>
-      </div>
-    </div>
+  <h4>Contact Administration</h4>
+  Contact Titles
+  <div class="input-group">
+    <input id="contactAdminTitles" type="text" class="form-control">
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-success" id="contactAdminUpdateTitles">Update</button>
+    </span>
   </div>
 </template>

@@ -174,6 +174,15 @@ router.route('/admin', {
   }
 });
 
+router.route('/settings', {
+  name: 'settings',
+  action: function() {
+    layout.render('appLayout', {
+      main: "settings"
+    });
+  }
+});
+
 router.route('/activities', {
   name: 'activities',
   action: function() {

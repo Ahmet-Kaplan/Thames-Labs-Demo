@@ -1,0 +1,17 @@
+#settings-content h3{
+  margin: 20px 0px 5px;
+}
+
+#settings-content h3.heading {
+  margin-top: 50px;
+}
+
+#settings-content h4{
+  margin: 15px 0px 5px;
+}
+
+#settings-nav > .nav {
+  position:fixed;
+  margin-top: 20px;
+  width: inherit;
+}
