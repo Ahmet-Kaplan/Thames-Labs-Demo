@@ -20,7 +20,8 @@ Template.stripeSubscribe.onRendered(function() {
     }
     Meteor.call('stripe.getPlan', planId, (error, result) => {
       if (error || result === false) {
-        toastr.error('Unable to retrieve scheme details.');
+        toastr.error('Unable to retrieve plan details.');
+        Modal.hide();
         return false;
       }
       var planDetails = _.cloneDeep(result);
