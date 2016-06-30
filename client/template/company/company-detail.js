@@ -243,5 +243,14 @@ Template.companyDetail.helpers({
   },
   oppStats: function() {
     return Template.instance().oppStats;
+  },
+  showOppStats: function() {
+    const oppStats = Template.instance().oppStats.get();
+    if (oppStats) {
+      const sum = oppStats.oppsWon + oppStats.oppsLost + oppStats.oppsPending;
+      if (sum > 0) {
+        return true;
+      }
+    }
   }
 });
