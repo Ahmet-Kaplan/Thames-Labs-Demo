@@ -152,10 +152,13 @@
     <div class="col-md-4">
       {{> publicCompanyInformation}}
       {{> legalCompanyInformation company=this}}
-      {{#if address}}
+      {{#if hasAddress}}
         {{> mapViewer title=mapTitle address=mapAddress}}
       {{else}}
-        <em class="FadedText">This company has no address. Add it via the Edit button to see where they're based!</em>
+        <p>
+          <br>
+          <em class="FadedText">This company has no address. Add it via the Edit button to see where they're based!</em>
+        </p>
       {{/if}}
       {{#if showOppStats}}
         {{> salesHistory oppStats=oppStats}}

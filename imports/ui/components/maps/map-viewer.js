@@ -1,35 +1,34 @@
 import './map-viewer.css';
 import './map-viewer.html';
 
-var marker, infowindow;
-
-function updateMap(map, title, address) {
-  var newPosition = new google.maps.LatLng(address.lat, address.lng);
-  if (!marker) {
-    marker = new google.maps.Marker({
-      position: newPosition,
-      map: map
-    });
-  } else {
-    marker.setPosition(newPosition);
-    marker.setMap(map);
-  }
-
-  if (!infowindow) {
-    infowindow = new google.maps.InfoWindow();
-  }
-  infowindow.open(map, marker);
-  infowindow.setContent(title);
-
-  map.setCenter(marker.getPosition());
-  map.setZoom(14);
-}
-
 Template.mapViewer.onCreated(function() {
   GoogleMaps.load({
     libraries: 'places',
     key: Meteor.settings.public.googleDeveloperKey
   });
+
+  const self = this;
+  this.updateMap = (map, title, address) => {
+    var newPosition = new google.maps.LatLng(address.lat, address.lng);
+    if (!self.marker) {
+      self.marker = new google.maps.Marker({
+        position: newPosition,
+        map: map
+      });
+    } else {
+      self.marker.setPosition(newPosition);
+      self.marker.setMap(map);
+    }
+
+    if (!self.infowindow) {
+      self.infowindow = new google.maps.InfoWindow();
+    }
+    self.infowindow.open(map, self.marker);
+    self.infowindow.setContent(title);
+
+    map.setCenter(self.marker.getPosition());
+    map.setZoom(14);
+  };
 });
 
 Template.mapViewer.onRendered(function() {
@@ -37,7 +36,7 @@ Template.mapViewer.onRendered(function() {
   var self = this;
 
   GoogleMaps.ready('map', function(map) {
-
+    const currentInstance = self;
     self.autorun(function() {
       // Reactively get current data context
       // n.b. self.data isn't reactive
@@ -53,8 +52,9 @@ Template.mapViewer.onRendered(function() {
       var isGeocoded = ('lat' in address && 'lng' in address);
       if (!isGeocoded) {
         var geocoder = new google.maps.Geocoder();
+        const instance = currentInstance;
         geocoder.geocode({
-          'address': [address.address, address.postcode, address.city, address.country].join(', ')
+          'address': [address.address, address.postcode, address.city, address.county, address.country].join(', ')
         }, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             var location = results[0].geometry.location;
@@ -65,11 +65,11 @@ Template.mapViewer.onRendered(function() {
             address.lng = 0;
             title = "Location not found";
           }
-          updateMap(map.instance, title, address);
+          instance.updateMap(map.instance, title, address);
         });
       } else {
         // Location already known so no need to geocode
-        updateMap(map.instance, title, address);
+        currentInstance.updateMap(map.instance, title, address);
       }
 
     });
