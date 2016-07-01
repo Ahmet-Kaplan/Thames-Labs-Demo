@@ -32,14 +32,11 @@
       <h4 class="entity-title">Opportunity {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="opportunities"}}</h4>
       <h1 class="entity-name">{{name}}</h1>
       {{#if isActive}}
-        <div class="stepwizard hidden-xs">
-          <div class="stepwizard-row">
-            {{#each stages}}
-              {{> opportunityStage}}
-            {{/each}}
-          </div>
-        </div>
-        <br>
+
+
+      <div id="d3-stage-chart">
+      </div>
+
       {{/if}}
 
       <div class="clearfix"></div>

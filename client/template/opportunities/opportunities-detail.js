@@ -2,6 +2,8 @@ import '/imports/ui/components/opportunities/opportunity-details-panel.js';
 import '/imports/ui/components/opportunities/opportunity-previous-stage-button.js';
 import '/imports/ui/components/opportunities/opportunity-next-stage-button.js';
 import '/imports/ui/components/opportunities/opportunity-lost-link.js';
+import '/imports/ui/components/charts/stage-chart.js';
+import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
 
 Template.opportunityDetail.onCreated(function() {
   var id = FlowRouter.getParam('id');
@@ -26,6 +28,18 @@ Template.opportunityDetail.onCreated(function() {
 
 Template.opportunityDetail.onRendered(function() {
   $.getScript('/vendor/docxgen.min.js');
+
+  this.chart = new StageChart('#d3-stage-chart');
+  this.chartResizeEventHandler = window.addEventListener("resize", this.chart._update);
+
+  const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
+  const id = FlowRouter.getParam('id');
+  const opportunity = Opportunities.findOne(id);
+
+  this.autorun( () => {
+    this.chart.updateNodes(opportunity, stages);
+  });
+
 });
 
 Template.opportunityDetail.helpers({
@@ -224,4 +238,8 @@ Template.opportunityItem.events({
       }
     });
   }
+});
+
+Template.opportunityDetail.onDestroyed(function() {
+  window.removeEventListener("resize", this.chartResizeEventHandler);
 });
