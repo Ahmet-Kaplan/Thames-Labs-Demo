@@ -1,10 +1,28 @@
 Template.generalSettings.helpers({
   tenant: function() {
     return Tenants.findOne({_id: Partitioner.group()});
+  },
+  phoneNumber: function() {
+    return Meteor.user().profile.telephone;
   }
 });
 
 Template.generalSettings.events({
+  'submit #tenantPhoneForm': function(event) {
+    event.preventDefault();
+    var tel = $(event.target).find('input').val();
+    Meteor.users.update({
+      _id: Meteor.userId()
+    }, {
+      $set: {
+        "profile.telephone": tel
+      }
+    }, (err, res) => {
+      if(res && !!tel) {
+        Meteor.call('notify.telephoneUpdated');
+      }
+    });
+  },
   'change #currencySelect': function(event) {
     event.preventDefault();
     Meteor.call('setNewCurrency', $(event.target).val(), function(err, res) {
