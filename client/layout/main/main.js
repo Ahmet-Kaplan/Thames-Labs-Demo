@@ -30,12 +30,26 @@ Template.appLayout.onRendered(function() {
       threshold: 75
     });
   }
+
+  /* eslint-disable camelcase*/
+  this.autorun(function() {
+    const visitor = Meteor.user();
+    const tenant = (typeof visitor !== 'undefined') ? Tenants.findOne({
+      _id: visitor.group
+    }) : null;
+    if(typeof visitor !== 'undefined' && !!tenant) {
+      Meteor.call('tawkTo.UserInfo', function(err, res) {
+        if(typeof res !== 'undefined' && typeof Tawk_API !== 'undefined' && _.get(Tawk_API, 'setAttributes')) {
+          Tawk_API.setAttributes(res);
+        }
+      });
+    }
+  });
+  /* eslint-enable camelcase*/
 });
 
 Template.appLayout.onCreated(function() {
-  this.autorun(function() {
-    if (Meteor.user() && !Roles.userIsInRole(Meteor.userId(), ['superadmin']) && Meteor.isProduction) {
-      $.getScript('https://embed.tawk.to/56b333a5fe87529955d980fa/default');
-    }
-  });
+  if(Meteor.isProduction && !Roles.userIsInRole(Meteor.userId(), ['superadmin']) && Meteor.user().emails[0].address.indexOf('@cambridgesoftware.co.uk') === -1 && !Meteor.isTest) {
+    $.getScript('https://embed.tawk.to/56b333a5fe87529955d980fa/default');
+  }
 });
