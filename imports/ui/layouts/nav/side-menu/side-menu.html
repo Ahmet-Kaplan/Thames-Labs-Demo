@@ -1,0 +1,142 @@
+<template name="sideMenu"> 
+  {{#if loggedIn}}
+  <div id="id-view-sidemenu">
+    <ul class="panel-group" id="menu">
+      {{#unless isInRole 'superadmin'}}
+        {{> menuButton title='Dashboard' page='' icon='home' permissions='' activeRoutes='dashboard'}}
+
+        <div class="panel panel-default" id="favourites">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a id="collapseFavouritesButton" data-parent="#accordion" data-toggle="collapse" href="#collapseFavourites">
+                <i class="fa fa-fw fa-star"></i> Favourites
+                <i class="fa fa-angle-down pull-right"></i>
+              </a>
+            </h4>
+          </div>
+          <div class="panel-collapse collapse" id="collapseFavourites">
+            <div class="panel-body">
+              <ul id="favourites-links">
+                {{#each favourites}} {{>favourite}}
+                {{/each}}
+                <li class="add-favourite">
+                  <a data-toggle="tooltip" data-placement="bottom" title="Add this page to your favourites for easy access" id="mnuAddToFavourites"><i class="fa fa-fw fa-plus"></i>  Add</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      {{> menuButton title='Activities' page='activities' icon='history' permissions='' activeRoutes='activities' proFeature='true'}}
+      {{> menuButton title='Tasks' page='tasks' icon='check' permissions='Administrator,CanReadTasks' activeRoutes='tasks|task'}}
+      {{> menuButton title='Companies' page='companies' icon='building' permissions='CanReadCompanies' activeRoutes='companies|company'}}
+      {{> menuButton title='Contacts' page='contacts' icon='user' permissions='CanReadContacts' activeRoutes='contacts|contact'}}
+      {{> menuButton title='Opportunities' page='opportunities' icon='lightbulb-o' permissions='CanReadOpportunities' activeRoutes='opportunities|opportunity'}}
+      {{> menuButton title='Sales Pipeline' page='salespipeline' icon='signal' permissions='CanReadOpportunities' activeRoutes='salespipeline'}}
+      {{> menuButton title='Projects' page='projects' icon='sitemap' permissions='CanReadProjects' activeRoutes='projects|project'}}
+      {{> menuButton title='Products' page='products' icon='barcode' permissions='CanReadProducts' activeRoutes='products|product'}}
+      {{> menuButton title='Purchase Orders' page='purchaseorders' icon='shopping-cart' permissions='CanReadPurchaseOrders' activeRoutes='purchaseOrders|purchaseOrder'}}
+      {{> menuButton title='Event Log' page='events' icon='book' permissions='CanReadEventLog' activeRoutes='events' proFeature='true'}}
+    {{/unless}}
+    
+    {{#if isInRole 'superadmin'}}
+      {{> menuButton title='Tenants' page='tenants' icon='archive' permissions='superadmin' activeRoutes='tenants'}}
+      {{> menuButton title='Notifications' page='notifications' icon='envelope' permissions='superadmin' activeRoutes='notfications'}}
+      {{> menuButton title='Statistics' page='statistics' icon='bar-chart' permissions='superadmin' activeRoutes='statistics'}}
+      {{> menuButton title='Global Event Log' page='audit' icon='user-secret' permissions='superadmin' activeRoutes='audit'}}
+      {{> menuButton title='Jobs Queue' page='jobs' icon='list' permissions='superadmin' activeRoutes='jobs-queue'}}
+    {{/if}}
+
+    <h5 class="visible-xs" style="padding-left: 20px;">Menu items</h5>
+
+      {{#if isInRole 'superadmin'}}
+      <li class="panel-title visible-xs">
+        <a href="#" id="feedback-link" class="dismiss-on-click">
+            Feedback
+          </a>
+      </li>
+
+      <li class="panel-title visible-xs">
+        <a href="#" id="sign-out" class="dismiss-on-click">
+            Sign out
+          </a>
+      </li>
+
+      {{/if}}
+      {{#unless isInRole 'superadmin'}}
+      <div class="panel panel-default visible-xs" id="user-menu">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseUserName">
+              <i class="fa fa-fw fa-user"></i> {{userName}}
+              <i class="fa fa-angle-down pull-right"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseUserName">
+          <div class="panel-body">
+            <table class="table">
+              {{#if isInRole 'Administrator'}}
+              <tr>
+                <td>
+                  <a href="/admin" id="Administration">Administration</a>
+                </td>
+              </tr>
+              {{/if}}
+              <tr>
+                <td>
+                  <a href="#" id="feedback-link">Give Feedback</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="#" id="btnChangePassword">Change Password</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default visible-xs" id="notifications">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-parent="#accordion" data-toggle="collapse" href="#collapseNotifications">
+              {{#if recentNote}}
+              {{recentNoteCount}}
+              <i class="fa fa-fw fa-bell text-primary"></i>
+              {{else}}
+              <i class="fa fa-fw fa-bell"></i>
+              {{/if}}
+              Notifications
+              <i class="fa fa-angle-down pull-right"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseNotifications">
+          <div class="panel-body">
+            <table class="table">
+              {{#each notifications}} {{> menuNotice}} {{else}}
+              <tr>
+                <td>
+                  <em>No notifications</em>
+                </td>
+              </tr>
+              {{/each}}
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <li class="panel-title visible-xs">
+        <a href="#" id="sign-out" class="dismiss-on-click">
+            Sign out
+          </a>
+      </li>
+
+      {{/unless}}
+    </ul>
+
+  </div>
+  {{/if}}
+</template>

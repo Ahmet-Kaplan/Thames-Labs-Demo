@@ -1,0 +1,9 @@
+<template name="menuButton">
+{{#if hasPermission}}
+<li class="panel-title {{isActiveRoute regex=activeRoutes}}">
+  <a href='/{{page}}' class="{{#if proFeature}}{{#unless isProTenant}}proFeature {{/unless}}{{/if}}dismiss-on-click" id="menuLink{{page}}">
+    <i class="fa fa-fw fa-{{icon}}"></i> {{title}}
+  </a>
+</li>
+{{/if}} 
+</template>

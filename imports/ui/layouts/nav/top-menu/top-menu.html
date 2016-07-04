@@ -1,0 +1,99 @@
+<template name="topMenu">
+  <div id="id-nav-bar">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          {{#if loggedIn}}
+          <button id="id-menu-button" class="navbar-toggle collapsed pull-left" type="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          {{/if}}
+          <a class="navbar-brand" href="/">
+            <img class="hidden-xs" alt="" src="/lighter-icon.svg">
+            <img class="visible-xs" alt="" src="/icon.svg"> RealTime<span>CRM</span>
+          </a>
+          {{#if loggedIn}}
+          <button class="btn btn-primary pull-right visible-xs" id="toggle-search"><i class="fa fa-search"></i></button>
+          {{/if}}
+        </div>
+        {{#if loggedIn}}
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            {{#if isInRole 'superadmin'}}
+            <li><a href="#" id="feedback-link">Feedback</a></li>
+            <li>{{> atNavButton}}</li>
+            {{/if}}
+            {{#unless isInRole 'superadmin'}}
+            <li id="tenant-name">{{tenantName}}</li>
+            <li class="dropdown" id="global-search">
+              <a href="#" class="dropdown-toggle" id="toggle-search"><i class="fa fa-search"></i></a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" id="help-menu"><i class="fa fa-lg fa-question"></i></a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="notifications-menu">
+                {{#if recentNote}}
+                <i class="fa fa-fw fa-bell"></i> {{recentNoteCount}}
+                {{else}}
+                <i class="fa fa-fw fa-bell"></i>
+                {{/if}}
+                </a>
+              <ul class="dropdown-menu">
+                {{#each notifications}} {{> notice}}
+                {{else}}
+                <em>No notifications</em>
+                {{/each}}
+
+                {{#if greaterThan recentNoteCount notificationLimit}}
+                  {{#if displayShowMore}}
+                  <li class="list-item">
+                    <a href="#" id="show-more-notices">
+                      Show More
+                    </a>
+                  </li>
+                  {{/if}}
+                  {{#if displayShowLess}}
+                  <li class="list-item">
+                    <a href="#" id="show-less-notices" type="hidden">
+                      Show Less
+                    </a>
+                  </li>
+                  {{/if}}
+                  <li class="list-item">
+                   <a href="#" id="clear-all">
+                     Clear All
+                   </a>
+                  </li>
+                {{/if}}
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" id="general-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-fw fa-user"></i> {{userName}}
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                {{#if isInRole 'Administrator'}}
+                <li><a href="/admin" id="Administration">Administration</a></li>
+                <li role="separator" class="divider"></li>
+                {{/if}}
+                <li><a href="#" id="btnChangeEmail">Change Email</a></li>
+                <li><a href="#" id="btnChangePassword">Change Password</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#" id="feedback-link">Give Feedback</a></li>
+                <li><a href="#" id="sign-out">Sign Out</a></li>
+              </ul>
+            </li>
+            {{/unless}}
+          </ul>
+        </div>
+        {{/if}}
+      </div>
+    </nav>
+  </div>
+</template>

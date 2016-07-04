@@ -1,3 +1,8 @@
+import './nav.less';
+import './top-menu/top-menu.js';
+import './side-menu/side-menu.js';
+import './nav.html';
+
 Session.setDefault('notifications', []);
 Session.setDefault('showAllNotices', false);
 
@@ -160,14 +165,6 @@ Template.nav.helpers({
   },
   fabOpen: function() {
     return Template.instance().fabOpen.get();
-  },
-  tenantName: function() {
-    if (!Meteor.user()) return;
-
-    var tenant = Tenants.findOne({
-      _id: Meteor.user().group
-    });
-    return !!tenant ? tenant.name : null;
   }
 });
 
