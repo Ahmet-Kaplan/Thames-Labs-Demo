@@ -19,11 +19,9 @@ Note: Apple Maps redirects to Google Maps on non Apple devices, so is used for t
     {{/if}}
     
     <div class="caption">
-      {{#unless isApp}}
-        <a class="pull-right" id="open-maps" target="_blank" href="http://maps.apple.com/?address={{addressString}}">
-          Open in Maps
-        </a>
-      {{/unless}}
+      <a class="pull-right" id="open-maps" target="_blank" href="http://maps.apple.com/?address={{addressString}}">
+        Open in Maps
+      </a>
       <address>
         <b>{{title}}</b>
         {{#with address}}
