@@ -39,7 +39,7 @@ Template.appLayout.onRendered(function() {
     }) : null;
     if(typeof visitor !== 'undefined' && !!tenant) {
       Meteor.call('tawkTo.UserInfo', function(err, res) {
-        if(typeof res !== 'undefined' && typeof Tawk_API !== 'undefined' && _.get(Tawk_API, 'setAttributes')) {
+        if(!!res && typeof Tawk_API !== 'undefined' && _.get(Tawk_API, 'setAttributes')) {
           Tawk_API.setAttributes(res);
         }
       });
