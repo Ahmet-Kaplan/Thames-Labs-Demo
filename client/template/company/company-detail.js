@@ -40,7 +40,7 @@ Template.companyDetail.onRendered(function() {
       new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ["Won", "Lost", "Pending"],
+          labels: ["Won", "Lost", "Open"],
           datasets: [{
             // label: '# of Opportunities',
             data: [res.oppsWon, res.oppsLost, res.oppsPending],

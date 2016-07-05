@@ -174,7 +174,44 @@ Collections.projects.filters = {
       if (!sequencedIdentifier) return false;
       return true;
     }
-  }
+  },
+  active: {
+    display: 'Active:',
+    prop: 'active',
+    defaultOptions: function() {
+      return ['Yes', 'No'];
+    },
+    strict: true,
+    allowMultiple: false,
+    verify: function(active) {
+      if (!active) return false;
+      return active;
+    }
+  },
+  valueLower: {
+    display: 'Value <',
+    prop: 'valueLower',
+    verify: function(value) {
+      value = parseInt(value, 10);
+      if (isNaN(value)) {
+        toastr.error('Please enter a numeric value.');
+        return false;
+      }
+      return true;
+    }
+  },
+  valueGreater: {
+    display: 'Value >',
+    prop: 'valueGreater',
+    verify: function(value) {
+      value = parseInt(value, 10);
+      if (isNaN(value)) {
+        toastr.error('Please enter a numeric value.');
+        return false;
+      }
+      return true;
+    }
+  },
 };
 
 ////////////////////
@@ -217,13 +254,13 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
         selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
 
-      if (options.search.props.showArchived) {
-        selector.active = false;
-      } else {
-        selector.active = {
-          $ne: false
-        };
-      }
+      // if (options.search.props.showArchived) {
+      //   selector.active = false;
+      // } else {
+      //   selector.active = {
+      //     $ne: false
+      //   };
+      // }
 
       if (options.search.props.supplierCompanyId) {
         selector.companyId = options.search.props.supplierCompanyId;
@@ -243,6 +280,31 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
         selector.companyId = {
           $in: options.search.props.company.split(',')
         };
+      }
+
+      if (options.search.props.active) {
+        // n.b. the array is passed as a comma separated string
+        if(options.search.props.active === "Yes") {
+          selector.active = true;
+        } else {
+          selector.active = {
+            $ne: true
+          };
+        }
+      }
+
+      if (options.search.props.valueLower || options.search.props.valueGreater) {
+        selector.value = {};
+        var lowerThan = parseInt(options.search.props.valueLower, 10);
+        var greaterThan = parseInt(options.search.props.valueGreater, 10);
+
+        if (!isNaN(lowerThan)) {
+          selector.value.$lte = lowerThan;
+        }
+
+        if (!isNaN(greaterThan)) {
+          selector.value.$gte = greaterThan;
+        }
       }
 
       if (options.search.props.contact) {

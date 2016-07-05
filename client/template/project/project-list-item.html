@@ -14,6 +14,7 @@
       </div>
       <div class="col-md-3">
         <p class="list-group-item-text"><i class="fa fa-fw fa-money"></i> Value: {{decimal value}}</p>
+        <p class="list-group-item-text">{{#if active}}Active{{else}}Inactive{{/if}}</p>
       </div>
       <div class="col-md-3">
         {{> tagBadges tags=tags index=index pullRight=true}}
