@@ -1,15 +1,14 @@
 import Chart from 'chart.js';
-import { Tracker } from 'meteor/tracker';
-import { Colours } from '/imports/api/lookup/colours.js';
+import { colours } from '/imports/api/lookup/colours.js';
 import './sales-history.css';
 import './sales-history.html';
 
 /* Expects oppStats ReactiveObject with {oppsWon, oppsLost, oppsPending} arguments*/
 Template.salesHistory.onRendered(function() {
   const currentInstance = Template.instance();
-  Tracker.autorun(function() {
+  this.autorun(function() {
     Chart.defaults.global.defaultFontFamily = 'Source Sans Pro';
-    const data = currentInstance.data.oppStats.get();
+    const data = currentInstance.data.oppStats;
 
     var ctx = document.getElementById("shContainer").getContext("2d");
     new Chart(ctx, {
@@ -20,14 +19,14 @@ Template.salesHistory.onRendered(function() {
           // label: '# of Opportunities',
           data: [data.oppsWon, data.oppsLost, data.oppsPending],
           backgroundColor: [
-            Colours.hex.green,
-            Colours.hex.redPink,
-            Colours.hex.yellow
+            colours.hex.green,
+            colours.hex.redPink,
+            colours.hex.yellow
           ],
           borderColor: [
-            Colours.hex.green,
-            Colours.hex.redPink,
-            Colours.hex.yellow
+            colours.hex.green,
+            colours.hex.redPink,
+            colours.hex.yellow
           ],
           borderWidth: 1
         }]

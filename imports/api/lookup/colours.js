@@ -1,4 +1,4 @@
-const Colours = {
+const colours = {
   'hex': {
     'redViolet': '#AF1876',
     'redPink': '#E8425D',
@@ -11,4 +11,4 @@ const Colours = {
     'deepBlue': '#173E5F'
   }
 };
-export { Colours };
+export { colours };

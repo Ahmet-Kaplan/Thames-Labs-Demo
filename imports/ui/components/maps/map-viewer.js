@@ -7,37 +7,33 @@ Template.mapViewer.onCreated(function() {
     key: Meteor.settings.public.googleDeveloperKey
   });
 
-  const self = this;
   this.updateMap = (map, title, address) => {
     var newPosition = new google.maps.LatLng(address.lat, address.lng);
-    if (!self.marker) {
-      self.marker = new google.maps.Marker({
+    if (!this.marker) {
+      this.marker = new google.maps.Marker({
         position: newPosition,
         map: map
       });
     } else {
-      self.marker.setPosition(newPosition);
-      self.marker.setMap(map);
+      this.marker.setPosition(newPosition);
+      this.marker.setMap(map);
     }
 
-    if (!self.infowindow) {
-      self.infowindow = new google.maps.InfoWindow();
+    if (!this.infowindow) {
+      this.infowindow = new google.maps.InfoWindow();
     }
-    self.infowindow.open(map, self.marker);
-    self.infowindow.setContent(title);
+    this.infowindow.open(map, this.marker);
+    this.infowindow.setContent(title);
 
-    map.setCenter(self.marker.getPosition());
+    map.setCenter(this.marker.getPosition());
     map.setZoom(14);
   };
 });
 
 Template.mapViewer.onRendered(function() {
 
-  var self = this;
-
-  GoogleMaps.ready('map', function(map) {
-    const currentInstance = self;
-    self.autorun(function() {
+  GoogleMaps.ready('map', (map) => {
+    this.autorun(() => {
       // Reactively get current data context
       // n.b. self.data isn't reactive
       var data = Template.currentData(),
@@ -52,10 +48,9 @@ Template.mapViewer.onRendered(function() {
       var isGeocoded = ('lat' in address && 'lng' in address);
       if (!isGeocoded) {
         var geocoder = new google.maps.Geocoder();
-        const instance = currentInstance;
         geocoder.geocode({
           'address': [address.address, address.postcode, address.city, address.county, address.country].join(', ')
-        }, function(results, status) {
+        }, (results, status) => {
           if (status == google.maps.GeocoderStatus.OK) {
             var location = results[0].geometry.location;
             address.lat = location.lat();
@@ -65,11 +60,11 @@ Template.mapViewer.onRendered(function() {
             address.lng = 0;
             title = "Location not found";
           }
-          instance.updateMap(map.instance, title, address);
+          this.updateMap(map.instance, title, address);
         });
       } else {
         // Location already known so no need to geocode
-        currentInstance.updateMap(map.instance, title, address);
+        this.updateMap(map.instance, title, address);
       }
 
     });

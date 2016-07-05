@@ -1,3 +1,7 @@
+import '/imports/ui/components/companies/widgets/index.js';
+import '/imports/ui/components/charts/sales-history.js';
+import '/imports/ui/components/maps/map-viewer.js';
+
 Template.companyDetail.onCreated(function() {
   this.oppStats = new ReactiveVar({});
   // Redirect if data doesn't exist
@@ -242,15 +246,13 @@ Template.companyDetail.helpers({
     }];
   },
   oppStats: function() {
-    return Template.instance().oppStats;
+    return Template.instance().oppStats.get();
   },
   showOppStats: function() {
     const oppStats = Template.instance().oppStats.get();
     if (oppStats) {
       const sum = oppStats.oppsWon + oppStats.oppsLost + oppStats.oppsPending;
-      if (sum > 0) {
-        return true;
-      }
+      return (sum > 0);
     }
   }
 });
