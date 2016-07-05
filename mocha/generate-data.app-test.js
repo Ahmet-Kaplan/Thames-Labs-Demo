@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
+import denodeifyDefault from 'es6-denodeify';
 
-const denodeify = require('es6-denodeify')(Promise);
+const denodeify = denodeifyDefault(Promise);
 
 function createTenant(name, plan) {
   const defaultTenant = {

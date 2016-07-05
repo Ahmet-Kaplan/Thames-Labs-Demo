@@ -1,7 +1,8 @@
 import { assert } from 'meteor/practicalmeteor:chai';
 import { generateData } from './generate-data.app-test.js';
+import denodeifyDefault from 'es6-denodeify';
 
-const denodeify = require('es6-denodeify')(Promise);
+const denodeify = denodeifyDefault(Promise);
 
 // Utilities
 const afterFlushPromise = denodeify(Tracker.afterFlush);
