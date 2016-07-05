@@ -172,6 +172,19 @@ Collections.tasks.filters = {
       }
       return true;
     }
+  },
+  completed: {
+    display: 'Completed:',
+    prop: 'completed',
+    defaultOptions: function() {
+      return ['Yes', 'No'];
+    },
+    strict: true,
+    allowMultiple: false,
+    verify: function(completed) {
+      if (!completed) return false;
+      return completed;
+    }
   }
 };
 
@@ -250,6 +263,17 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         selector.tags = {
           $in: options.search.props.tags.split(',')
         };
+      }
+
+      if (options.search.props.completed) {
+        // n.b. the array is passed as a comma separated string
+        if(options.search.props.completed === "Yes") {
+          selector.completed = true;
+        } else {
+          selector.completed = {
+            $ne: true
+          };
+        }
       }
 
       if (options.search.props.dueDate) {
