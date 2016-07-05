@@ -1,3 +1,4 @@
+@dev
 # Testing green under new changes but needs reworking
 Feature: Allow users to subscribe/unsubscribe to Stripe
 
@@ -28,7 +29,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a bootbox
     Then I should see a modal with title "Subscription complete"
     When I click confirm on the modal
-    Then the Stripe field "#planName" should say "Paying Plan (GBP)"
+    Then the Stripe field "#planName" should say "Pro Plan (GBP)"
 
   Scenario: An administrator can unsubscribe from the Paying scheme
     Given I have subscribed to the paying plan
@@ -53,7 +54,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I click confirm on the modal
     Then I should see a bootbox
     When I click confirm on the modal
-    Then the Stripe field "#planName" should say "Paying Plan (GBP)"
+    Then the Stripe field "#planName" should say "Pro Plan (GBP)"
 
   Scenario: An administrator can update its card details
     Given I have subscribed to the paying plan
@@ -99,7 +100,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a bootbox
     Then I should see a modal with title "Subscription complete"
     When I click confirm on the modal
-    Then the Stripe field "#planName" should say "Paying Plan (GBP)"
+    Then the Stripe field "#planName" should say "Pro Plan (GBP)"
 
   Scenario: An administrator cannot add a fake coupon
     When I navigate to "/admin"
