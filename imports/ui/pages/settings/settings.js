@@ -1,16 +1,20 @@
+import '../../components/settings/plan-billing/plan-billing.js';
+import '../../components/settings/general-settings/general-settings.js';
+import '../../components/settings/users/users.js';
+
 import './settings.css';
 import './settings.html';
 
 Template.settings.onRendered(function() {
   var buttonPressed = false;
-  $('#settings-nav > ul > li').each(function() {
+  $('#settings-nav li').each(function() {
     const id = $(this).attr('id');
     $(this).click(function() {
       const heading = id.slice(0, -5);
       $('html, body').animate({
-        scrollTop: $("#" + heading).offset().top - 60
+        scrollTop: $("#" + heading).offset().top - 80
       }, 0);
-      $('#settings-nav > ul > li').removeClass('active');
+      $('#settings-nav li').removeClass('active');
       $(this).addClass('active');
       buttonPressed = true;
     });
@@ -21,12 +25,11 @@ Template.settings.onRendered(function() {
       var position = $(this).scrollTop();
 
       $('.heading').each(function() {
-        var target = $(this).offset().top - 60;
+        var target = $(this).offset().top - 80;
         var id = '#' + $(this).attr('id') + '-link';
-        console.log(id);
 
         if (position >= target) {
-          $('#settings-nav > ul > li').removeClass('active');
+          $('#settings-nav li').removeClass('active');
           $(id).addClass('active');
         }
       });

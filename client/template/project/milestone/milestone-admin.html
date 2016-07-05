@@ -1,18 +1,11 @@
 <template name="projectAdmin">
-  <div class="panel panel-primary" id="projectAdminPanel">
-    <div class="panel-heading ">
-      <a class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#projectAdmin" id="projectAdminExpander">Project administration</a>
-    </div>
-    <div class="panel-collapse collapse" id="projectAdmin">
-      <p class="typesInfo">
-        Below are your configured project types and the milestones for each. To add a new project type, click <a href="#" id="addProjectType">here</a>.
-      </p>
-      {{#each projectTypes}}
-        {{> projectType}}
-      {{/each}}
-    </div>
-  </div>
-
+  <h4>Project Administration</h4>
+  <p>
+    Below are your configured project types and the milestones for each. To add a new project type, click <a href="#" id="addProjectType">here</a>.
+  </p>
+  {{#each projectTypes}}
+    {{> projectType}}
+  {{/each}}
 </template>
 
 <template name="projectType">

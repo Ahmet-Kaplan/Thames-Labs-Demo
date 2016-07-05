@@ -1,3 +1,5 @@
+import './general-settings.html';
+
 Template.generalSettings.helpers({
   tenant: function() {
     return Tenants.findOne({_id: Partitioner.group()});

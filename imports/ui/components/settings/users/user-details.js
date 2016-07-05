@@ -1,4 +1,8 @@
-Template.editTenantUserPermissions.onRendered(function() {
+import './permissions/permission-options.js';
+import './user-details-link.css';
+import './user-details.html';
+
+Template.userDetails.onRendered(function() {
   var selectedUserId = this.data._id;
 
   Meteor.call('checkUserRole', selectedUserId, 'Administrator', function(err, data) {
@@ -8,7 +12,7 @@ Template.editTenantUserPermissions.onRendered(function() {
     }
 
     var isAdmin = data;
-    $('#cbUserIsTenantAdministrator').prop('checked', isAdmin);
+    $('#admin-checkbox').prop('checked', isAdmin);
 
     $('#nonAdminOptions').show();
 
@@ -28,6 +32,9 @@ Template.editTenantUserPermissions.onRendered(function() {
         if (status.indexOf('CanCreate') > -1) {
           val = 'CanCreate';
         }
+        if (status.indexOf('CanCreateAndEdit') > -1) {
+          val = 'CanCreateAndEdit';
+        }
         if (status.indexOf('CanEdit') > -1) {
           val = 'CanEdit';
         }
@@ -35,8 +42,7 @@ Template.editTenantUserPermissions.onRendered(function() {
           val = 'CanDelete';
         }
 
-        $(selectorName).val(val);
-
+        $(selectorName).selectpicker('val', val);
       });
     });
 
@@ -44,7 +50,7 @@ Template.editTenantUserPermissions.onRendered(function() {
 
 });
 
-Template.editTenantUserPermissions.helpers({
+Template.userDetails.helpers({
   isMe: function() {
     return (Meteor.userId() === this._id);
   },
@@ -53,11 +59,11 @@ Template.editTenantUserPermissions.helpers({
   }
 });
 
-Template.editTenantUserPermissions.events({
-  'click #btnUpdateTenantUserPermissions': function() {
+Template.userDetails.events({
+  'click #update-user': function() {
     var userId = this._id;
 
-    Meteor.call('setUserRole', userId, 'Administrator', $('#cbUserIsTenantAdministrator').prop('checked'));
+    Meteor.call('setUserRole', userId, 'Administrator', $('#admin-checkbox').prop('checked'));
 
     _.each(permissions, function(p) {
       var selectorName = p.value + "PermissionSelector";
@@ -84,6 +90,12 @@ Template.editTenantUserPermissions.events({
           break;
         case 'CanEdit':
           Meteor.call('setUserRole', userId, 'CanRead' + p.value, true);
+          Meteor.call('setUserRole', userId, 'CanCreate' + p.value, false);
+          Meteor.call('setUserRole', userId, 'CanEdit' + p.value, true);
+          Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
+          break;
+        case 'CanCreateAndEdit':
+          Meteor.call('setUserRole', userId, 'CanRead' + p.value, true);
           Meteor.call('setUserRole', userId, 'CanCreate' + p.value, true);
           Meteor.call('setUserRole', userId, 'CanEdit' + p.value, true);
           Meteor.call('setUserRole', userId, 'CanDelete' + p.value, false);
@@ -102,8 +114,33 @@ Template.editTenantUserPermissions.events({
       }
     });
 
+    //Set PO Auth Level
+    var newAuthLevel = $('#po-auth-level').val();
 
-    toastr.success('User permissions updated.');
-    Modal.hide('editTenantUserPermissions');
+    Meteor.call('setUserAuthLevel', userId, newAuthLevel);
+
+    toastr.success('User details updated.');
+    Modal.hide('userDetails');
+  },
+
+  'click #delete-user': function(event) {
+    event.preventDefault();
+    var name = this.profile.name;
+
+    Modal.hide('userDetails');
+    bootbox.confirm("Are you sure you wish to remove the user " + name + "?<br />This action is not reversible.", (result) => {
+      if (result === true) {
+        Meteor.call('removeUser', this._id, (error, response) => {
+          if (error) {
+            toastr.error('Unable to remove user. ' + error);
+            throw new Meteor.Error('User', 'Unable to remove user.');
+          }
+          bootbox.alert({
+            title: 'User removed',
+            message: '<div class="bg-success"><i class="fa fa-check fa-3x pull-left text-success"></i>User ' + name + ' has been removed.<br />Please note that your subscription has been updated accordingly.</div>'
+          });
+        });
+      }
+    });
   }
 });

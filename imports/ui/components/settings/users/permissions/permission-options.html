@@ -1,0 +1,19 @@
+<template name="permissionOptions">
+  <div class="row">
+
+    <div class="col-xs-4 permission-label">
+      {{displayName}}
+    </div>
+
+    <div class="col-xs-6">
+      <select class="selectpicker" id="{{value}}PermissionSelector">
+        <option value="Restricted">Restricted</option>
+        <option value="CanRead">Read</option>
+        <option value="CanCreate">Create, Read</option>
+        <option value="CanEdit">Edit, Read</option>
+        <option value="CanCreateAndEdit">Edit, Create, Read</option>
+        <option value="CanDelete">Delete, Edit, Create, Read</option>
+      </select>
+    </div>
+  </div>
+</template>

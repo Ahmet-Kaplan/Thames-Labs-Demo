@@ -1,17 +1,44 @@
-#settings-content h3{
-  margin: 20px 0px 5px;
+#settings-content h2{
+  margin: 20px 0px 10px;
+  font-size: 1.7em;
 }
 
-#settings-content h3.heading {
-  margin-top: 50px;
+#settings-content h2.heading {
+  margin-top: 30px;
 }
 
-#settings-content h4{
+#settings-content .list-group {
+  margin-top: -5px;
+  margin-bottom: 0;
+}
+
+.settings-section {
+  padding: 0px 0px 20px;
+}
+
+.settings-section.slim {
+  padding: 0px 0px 5px;
+}
+
+.settings-section h4{
   margin: 15px 0px 5px;
+  line-height: 22px;
 }
 
-#settings-nav > .nav {
-  position:fixed;
-  margin-top: 20px;
-  width: inherit;
+.settings-section h3{
+  margin: 5px 0px;
+}
+
+.settings-section .checkbox {
+  margin-bottom: 0;
+}
+
+#settings-nav > div {
+  float: right;
+  padding-top: 20px;
+  display: block;
+  width: 150px;
+}
+#settings-nav .nav {
+  position: fixed;
 }

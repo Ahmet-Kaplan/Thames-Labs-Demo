@@ -1,19 +1,12 @@
+import './add-user.html';
+
 AutoForm.hooks({
-  addNewUserForm: {
+  addUser: {
     onSuccess: function(formType, result) {
-      var tenantId = Meteor.user().group;
-      if (!isProTenant(tenantId) && isTenantOverFreeUserLimit(tenantId)) {
-        showUpgradeToastr('To add more users');
-        return;
-      }
-
-      if (!isProTenant(tenantId)) {
-        var userId = this.insertDoc._id;
-        Roles.addUsersToRoles(userId, defaultPermissionsList);
-        Roles.addUsersToRoles(userId, 'Administrator');
-      }
-
       Modal.hide();
+
+      var tenantId = Meteor.user().group;
+
       if (Tenants.findOne({
         _id: tenantId
       }).plan === 'pro') {
@@ -35,7 +28,14 @@ AutoForm.hooks({
   }
 });
 
-Template.addNewUser.events({
+Template.addUser.helpers({
+  isProTenant: function() {
+    const tenantId = Meteor.user().group;
+    return isProTenant(tenantId);
+  }
+});
+
+Template.addUser.events({
   'click #close': function() {
     hopscotch.endTour(true);
   }
