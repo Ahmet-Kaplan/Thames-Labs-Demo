@@ -1,4 +1,3 @@
-@dev
 # Testing green under new changes but needs reworking
 Feature: Allow users to subscribe/unsubscribe to Stripe
 
