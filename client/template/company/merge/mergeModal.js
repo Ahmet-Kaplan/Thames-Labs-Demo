@@ -22,31 +22,6 @@ Template.mergeModal.onCreated(function() {
       });
     }
   });
-
-  // this.autorun(() => {
-  //   var companies = ReactiveMethod.call('company.getMergeTargets', currentCompany._id, function(err, res) {
-  //     if (err) throw new Meteor.Error(err);
-  //     return res;
-  //   });
-  //   if (companies) {
-  //     var options = _.map(companies, function(cmp) {
-  //       return {
-  //         value: cmp._id,
-  //         text: cmp.name
-  //       };
-  //     });
-
-  //     $('#select-entity').selectize({
-  //       create: false,
-  //       allowEmptyOption: false,
-  //       options: options,
-  //       maxItems: 1,
-  //       closeAfterSelect: true,
-  //       hideSelected: true,
-  //       maxOptions: 10
-  //     });
-  //   }
-  // });
 });
 
 Template.mergeModal.events({
