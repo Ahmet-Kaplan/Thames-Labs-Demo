@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+
 Meteor.methods({
   'tawkTo.UserInfo': function() {
     if(!Meteor.user()) {
@@ -8,7 +10,7 @@ Meteor.methods({
     const tenant = Tenants.findOne({
       _id: visitor.group
     });
-    const tawkToApiKey = process.env.TAWKTO_API_KEY;
+    const tawkToApiKey = process.env.TAWKTO_API_KEY || '';
     const hash = CryptoJS.HmacSHA256(visitor.emails[0].address.toString(), tawkToApiKey);
 
     return {
