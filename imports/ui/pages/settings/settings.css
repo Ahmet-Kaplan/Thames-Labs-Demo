@@ -4,7 +4,7 @@
 }
 
 #settings-content h2.heading {
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 #settings-content .list-group {
@@ -23,6 +23,10 @@
 .settings-section h4{
   margin: 15px 0px 5px;
   line-height: 22px;
+}
+
+.settings-section h4.slim {
+  margin: 0;
 }
 
 .settings-section h3{

@@ -3,7 +3,7 @@ import './permission-options.css';
 import './permission-options.html';
 
 Template.permissionOptions.onRendered(function() {
-  $('.selectpicker').each(function(i, obj) {
+  $('.permissions .selectpicker').each(function(i, obj) {
     _.each(self.selectOptions, function(option) {
       if (option === obj.id.replace('Selector', '')) {
         $('#' + obj.id).selectpicker('val', option);
@@ -11,5 +11,5 @@ Template.permissionOptions.onRendered(function() {
     });
   });
   $('.selectpicker').selectpicker();
-  $('.selectpicker').selectpicker('setStyle', 'btn-xs', 'add');
+  $('.permissions-selectpicker').selectpicker('setStyle', 'btn-xs', 'add');
 });

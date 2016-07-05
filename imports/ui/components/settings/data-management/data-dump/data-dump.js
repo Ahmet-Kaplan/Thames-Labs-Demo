@@ -1,4 +1,6 @@
-Template.dataDumpPanel.events({
+import './data-dump.html';
+
+Template.dataDump.events({
   'click #dump-data': function() {
 
     var zip = new JSZip();

@@ -1,4 +1,6 @@
-Template.opportunityAdmin.helpers({
+import './opportunities-admin.html';
+
+Template.opportunitiesAdmin.helpers({
   stages: function() {
     var currentStages = Tenants.findOne({
       _id: Meteor.user().group
@@ -35,7 +37,7 @@ Template.opportunityAdmin.helpers({
   }
 });
 
-Template.opportunityAdmin.events({
+Template.opportunitiesAdmin.events({
   'click #btnAddStage': function(event) {
     event.preventDefault();
 

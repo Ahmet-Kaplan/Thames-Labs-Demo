@@ -1,6 +1,7 @@
 import '../../components/settings/plan-billing/plan-billing.js';
 import '../../components/settings/general-settings/general-settings.js';
 import '../../components/settings/users/users.js';
+import '../../components/settings/data-management/data-management.js';
 
 import './settings.css';
 import './settings.html';

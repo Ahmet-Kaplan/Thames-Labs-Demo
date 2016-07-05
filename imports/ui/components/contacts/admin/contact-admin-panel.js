@@ -1,3 +1,6 @@
+import './contact-admin-panel.css';
+import './contact-admin-panel.html';
+
 Template.contactAdminPanel.onRendered(function() {
   var tenant = Tenants.findOne({
     _id: Meteor.user().group

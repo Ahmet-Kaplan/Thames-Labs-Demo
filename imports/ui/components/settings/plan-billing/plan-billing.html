@@ -1,24 +1,6 @@
 <template name="planBilling">
   <div class="settings-section">
     <h4>Subscription Status</h4>
-    {{#if payingScheme}}
-      <!-- Pro plan -->
-      <h3 class="text-success"><strong>Pro Plan</strong></h3>
-      <a href="#" class="text-danger" id="downScheme">Downgrade to Free Plan</a>
-    {{else}}
-      {{#if subsLoaded}}
-        {{#if hasStripeSubs}}
-            <!-- Pro plan cancelled -->
-            <p class="text-danger">
-              <i class="fa fa-fw fa-exclamation-triangle"></i> Your subscription has been cancelled.
-            </p>
-            <button type="button" class="btn btn-success" role="button" id="resumeSubs">Resume Subscription</button>
-        {{else}}
-            <!-- Free plan -->
-            <h3 class="text-info"><strong>Free Plan</strong></h3>
-            <button type="button" class="btn btn-success" role="button" id="upScheme">Upgrade to Pro Plan</button>
-        {{/if}}
-      {{/if}}
-    {{/if}}
+    <p>Free plan</p>
   </div>
 </template>

@@ -1,3 +1,6 @@
+import './purchaseorder-admin.css';
+import './purchaseorder-admin.html';
+
 Template.purchaseOrderAdminPanel.onRendered(function() {
   var tenant = Tenants.findOne({
     _id: Meteor.user().group

@@ -1,5 +1,9 @@
 import './general-settings.html';
 
+Template.generalSettings.onRendered(function() {
+  $('.selectpicker').selectpicker();
+});
+
 Template.generalSettings.helpers({
   tenant: function() {
     return Tenants.findOne({_id: Partitioner.group()});
