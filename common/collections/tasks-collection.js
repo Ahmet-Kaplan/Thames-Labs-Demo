@@ -131,7 +131,7 @@ Collections.tasks.filters = {
     display: 'Due Before:',
     prop: 'before',
     verify: function(date) {
-      var afterOption = Collections.tasks.index.getComponentDict().get('searchOptions').props.after;
+      var afterOption = _.get(Collections.tasks.index.getComponentDict().get('searchOptions'), 'props.after', null);
       if (!moment(date).isValid() && !moment(date, 'DD-MM-YYYY', false).isValid()) {
         toastr.error('Invalid date', 'Error', {
           preventDuplicates: true
@@ -144,7 +144,7 @@ Collections.tasks.filters = {
         return false;
 
         //Edge case: to avoid conflict, remove dueDate if set
-      } else if (Collections.tasks.index.getComponentDict().get('searchOptions').props.dueDate) {
+      } else if (_.get(Collections.tasks.index.getComponentDict().get('searchOptions'), 'props.dueDate')) {
         Collections.tasks.index.getComponentMethods().removeProps('dueDate');
       }
       return true;
@@ -154,7 +154,7 @@ Collections.tasks.filters = {
     display: 'Due After:',
     prop: 'after',
     verify: function(date) {
-      var beforeOption = Collections.tasks.index.getComponentDict().get('searchOptions').props.before;
+      var beforeOption = _.get(Collections.tasks.index.getComponentDict().get('searchOptions'), 'props.before', null);
       if (!moment(date).isValid() && !moment(date, 'DD-MM-YYYY', false).isValid()) {
         toastr.error('Invalid date', 'Error', {
           preventDuplicates: true
@@ -167,7 +167,7 @@ Collections.tasks.filters = {
         return false;
 
         //Edge case: to avoid conflict, remove dueDate if set
-      } else if (Collections.tasks.index.getComponentDict().get('searchOptions').props.dueDate) {
+      } else if (_.get(Collections.tasks.index.getComponentDict().get('searchOptions'), 'props.dueDate')) {
         Collections.tasks.index.getComponentMethods().removeProps('dueDate');
       }
       return true;
