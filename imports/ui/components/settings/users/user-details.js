@@ -1,5 +1,4 @@
 import './permissions/permission-options.js';
-import './user-details-link.css';
 import './user-details.html';
 
 Template.userDetails.onRendered(function() {

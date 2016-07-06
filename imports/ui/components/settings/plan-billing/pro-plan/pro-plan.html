@@ -1,10 +1,9 @@
 <template name="proPlan">
   <div class="settings-section">
     <h4>Current Plan</h4>
-    <p>This is the plan {{tenantName}} is currently subscribed to.</p>
     <div class="well">
-      <h3 class="plan-name">Pro Plan</h3>
-      <p>You have used {{tenantUserCount}} of unlimited user accounts.</p>
+      <h3 class="plan-name text-success">Pro Plan</h3>
+      <p>{{tenantName}} is using {{tenantUserCount}} user accounts.</p>
     </div>
   </div>
 
@@ -23,6 +22,6 @@
     <h4 class="text-danger">Downgrade RealTimeCRM</h4>
     <p>You can downgrade to the Free Plan at any time, but {{tenantName}} will <strong>no longer</strong> have access to any data created with Pro Plan only functionality.</p>
     <p>Need to talk to us? Contact us - we'd love to help.</p>
-    <small><a class="text-danger" style="text-decoration:underline">Unsubscribe from the Pro Plan</a></small>
+    <small><a id="downgrade-plan" class="text-danger" style="text-decoration:underline">Unsubscribe from the Pro Plan</a></small>
   </div>
 </template>

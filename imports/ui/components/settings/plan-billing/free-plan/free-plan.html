@@ -1,15 +1,23 @@
 <template name="freePlan">
   <div class="settings-section">
     <h4>Current Plan</h4>
-    <p>This is the plan {{tenantName}} is currently subscribed to.</p>
     <div class="well">
       <h3 class="plan-name">Free Plan</h3>
-      <p>You have used {{tenantUserCount}} of 2 free user accounts.</p>
+      <p>{{tenantName}} is using {{tenantUserCount}} of 2 free user accounts.</p>
     </div>
   </div>
-  <div class="settings-section">
-    <h4>Upgrade RealTimeCRM</h4>
-    <p>Subscribe to the Pro Plan to access our latest and greatest new features to help your business grow.</p>
-    <button class="btn btn-success"><i class="fa fa-fw fa-check"></i> Upgrade to the Pro Plan</button>
-  </div>
+  
+  {{#if hasPreviousSubscription}}
+    <div class="settings-section">
+      <h4>Resume Subscription </h4>
+      <p>Yay go back to the PRO PLAN you cheapskates</p>
+      <button id="resume-subscription" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Resume subscription</button>
+    </div>
+  {{else}}
+    <div class="settings-section">
+      <h4>Upgrade RealTimeCRM</h4>
+      <p>Subscribe to the Pro Plan to access our latest and greatest new features to help your business grow.</p>
+      <button id="pro-upgrade" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Upgrade to the Pro Plan</button>
+    </div>
+  {{/if}}
 </template>

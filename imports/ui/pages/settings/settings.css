@@ -33,9 +33,17 @@
   margin: 5px 0px;
 }
 
+.settings-section a {
+  cursor: pointer;
+}
+
 .settings-section .checkbox,
 .settings-section .well {
   margin-bottom: 0;
+}
+
+.settings-section .input-group-btn > .btn {
+  padding-top: 7px;
 }
 
 #settings-nav > div {

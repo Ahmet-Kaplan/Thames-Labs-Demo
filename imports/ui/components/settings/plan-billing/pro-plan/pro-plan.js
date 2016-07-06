@@ -10,3 +10,10 @@ Template.proPlan.helpers({
     return Meteor.users.find({}).count();
   },
 });
+
+Template.proPlan.events({
+  'click #downgrade-plan': function(e) {
+    e.preventDefault();
+    Modal.show('stripeUnsubscribe', this);
+  }
+});
