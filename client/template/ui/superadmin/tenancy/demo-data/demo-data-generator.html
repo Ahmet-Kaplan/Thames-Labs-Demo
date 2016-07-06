@@ -8,8 +8,13 @@
       </div>
       <div class="modal-body">
         <div id="generatorOptions">
-          Select the items you want to generate for this tenant, and then click <span class="label label-primary">Generate</span><br /><br />
+          Select the items you want to generate for this tenant, and then click <span class="label label-primary">Generate</span>. Feeling particularly lazy today? <a href='#' id="randomize">Click here</a> to let randomness take over!<br /><br />
 
+          <div class="row">
+            <div class="col-md-2 col-md-offset-2 generatorFieldLabel">Generate</div>
+            <div class="col-md-2"><input type="text" class="form-control" id="userCount" value="0" min="0" max="6"></div>
+            <div class="col-md-2">Users</div>
+          </div>
           <div class="row">
             <div class="col-md-2 col-md-offset-2 generatorFieldLabel">Generate</div>
             <div class="col-md-2"><input type="text" class="form-control" id="companyCount" value="0" min="0" max="40"></div>
@@ -58,6 +63,7 @@
               {{percentComplete}}% Complete
             </div>
           </div>
+          <button class="btn btn-danger" id="closeCompletion" role="button">Close</button>
         </div>
       </div>
       <div class="modal-footer">

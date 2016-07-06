@@ -93,7 +93,8 @@ Meteor.methods({
     ServerSession.set('deletingTenant', val);
   },
   'tenant.generateDemoData': function(tenantId, options) {
-    if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
+    var userId = this.userId;
+    if (!Roles.userIsInRole(userId, ['superadmin'])) {
       throw new Meteor.Error(403, 'Only superadmins may generate demo data for a tenant');
     }
 
@@ -108,24 +109,26 @@ Meteor.methods({
     if (!Meteor.isServer) return 'Must be ran on server.';
 
     Partitioner.bindGroup(tenantId, function() {
-      for (var ux = 0; ux < 2; ux++) {
-        var userId = Accounts.createUser({
-          email: faker.internet.email().toLowerCase(),
-          password: 'password',
-          profile: {
-            name: faker.name.findName(),
-            lastLogin: faker.date.past(),
-            lastActivity: {
-              page: null,
-              url: null
-            },
-            poAuthLevel: 100000
-          }
-        });
+      if(options.users > 0) {
+        for (var ux = 0; ux < options.users; ux++) {
+          var uxId = Accounts.createUser({
+            email: faker.internet.email().toLowerCase(),
+            password: 'password',
+            profile: {
+              name: faker.name.findName(),
+              lastLogin: faker.date.past(),
+              lastActivity: {
+                page: null,
+                url: null
+              },
+              poAuthLevel: 100000
+            }
+          });
 
-        Roles.addUsersToRoles(userId, 'Administrator');
-        Roles.addUsersToRoles(userId, defaultPermissionsList);
-        Partitioner.setUserGroup(userId, tenantId);
+          Roles.addUsersToRoles(uxId, 'Administrator');
+          Roles.addUsersToRoles(uxId, defaultPermissionsList);
+          Partitioner.setUserGroup(uxId, tenantId);
+        }
       }
 
       var usersArray = Meteor.users.find({group: tenantId}).fetch();
@@ -137,6 +140,20 @@ Meteor.methods({
       var projectIDs = [];
       var productIDs = [];
       var purchaseOrderIDs = [];
+      var importTotal = 0;
+      var percDone = 0;
+      var newPerc = 0;
+      var contactIndex = -1;
+      var tempContact = null;
+
+      _.each(_.omit(options, ['tasks', 'activities', 'users']), function(opt) {
+        importTotal += opt;
+      });
+      var tempTotal = importTotal;
+
+      importTotal += tempTotal * options.tasks;
+      importTotal += tempTotal * options.activities;
+      importTotal += options.users;
 
       function createTaskForEntity(entityType, entityId) {
         randomUser = usersArray[Math.floor(Math.random() * usersArray.length)];
@@ -189,8 +206,16 @@ Meteor.methods({
         });
       }
 
+      function setPercentageComplete() {
+        newPerc = Number(UserSession.get("importProgress", userId)) + Number(percDone);
+        UserSession.set("importProgress", newPerc, userId);
+      }
+
+      percDone = (1 / importTotal) * 100;
+
       if(options.companies > 0) {
         for (var cx = 0; cx < options.companies; cx++) {
+          setPercentageComplete();
           randomUser = usersArray[Math.floor(Math.random() * usersArray.length)];
           var cName = faker.company.companyName();
           var companyId = Companies.insert({
@@ -209,12 +234,14 @@ Meteor.methods({
 
           if(options.tasks > 0) {
             for (var ctx = 0; ctx < options.tasks; ctx++) {
+              setPercentageComplete();
               createTaskForEntity('company', companyId);
             }
           }
 
           if(options.activities > 0) {
             for (var cax = 0; cax < options.activities; cax++) {
+              setPercentageComplete();
               createActivityForEntity('companies', companyId, cName);
             }
           }
@@ -223,6 +250,7 @@ Meteor.methods({
 
       if(options.contacts > 0) {
         for (var xx = 0; xx < options.contacts; xx++) {
+          setPercentageComplete();
           randomUser = usersArray[Math.floor(Math.random() * usersArray.length)];
 
           var fname = faker.name.firstName();
@@ -241,12 +269,14 @@ Meteor.methods({
 
           if(options.tasks > 0) {
             for (var xtx = 0; xtx < options.tasks; xtx++) {
+              setPercentageComplete();
               createTaskForEntity('contact', contactId);
             }
           }
 
           if(options.activities > 0) {
             for (var xax = 0; xax < options.activities; xax++) {
+              setPercentageComplete();
               createActivityForEntity('contacts', contactId, cName);
             }
           }
@@ -255,11 +285,19 @@ Meteor.methods({
 
       if(options.opportunities > 0) {
         for (var ox = 0; ox < options.opportunities; ox++) {
+          setPercentageComplete();
           randomUser = usersArray[Math.floor(Math.random() * usersArray.length)];
           var oname = faker.company.bs();
           var createdDate = faker.date.recent(100);
           var oCompId = (faker.random.boolean() ? companyIDs[Math.floor(Math.random() * companyIDs.length)] : null);
-          var oContId = ((faker.random.boolean() && oCompId) ? Contacts.find({companyId: oCompId}).fetch()[Math.floor(Math.random() * Contacts.find({companyId: oCompId}).count())] : null);
+          var oContId = null;
+          if(oCompId) {
+            if(faker.random.boolean()) {
+              contactIndex = Math.floor(Math.random() * Contacts.find({companyId: oCompId}).count());
+              tempContact = Contacts.find({companyId: oCompId}).fetch()[contactIndex];
+              if(tempContact) oContId = tempContact._id;
+            }
+          }
           var stages = tenant.settings.opportunity.stages;
 
           var oppId = Opportunities.insert({
@@ -279,12 +317,14 @@ Meteor.methods({
 
           if(options.tasks > 0) {
             for (var otx = 0; otx < options.tasks; otx++) {
+              setPercentageComplete();
               createTaskForEntity('opportunity', oppId);
             }
           }
 
           if(options.activities > 0) {
             for (var oax = 0; oax < options.activities; oax++) {
+              setPercentageComplete();
               createActivityForEntity('opportunities', oppId, oname);
             }
           }
@@ -293,10 +333,18 @@ Meteor.methods({
 
       if(options.projects > 0) {
         for (var px = 0; px < options.projects; px++) {
+          setPercentageComplete();
           randomUser = usersArray[Math.floor(Math.random() * usersArray.length)];
           var pname = faker.company.bs();
           var pCompId = (faker.random.boolean() ? companyIDs[Math.floor(Math.random() * companyIDs.length)] : null);
-          var pContId = ((faker.random.boolean() && pCompId) ? Contacts.find({companyId: pCompId}).fetch()[Math.floor(Math.random() * Contacts.find({companyId: pCompId}).count())] : null);
+          var pContId = null;
+          if(pCompId) {
+            if(faker.random.boolean()) {
+              contactIndex = Math.floor(Math.random() * Contacts.find({companyId: pCompId}).count());
+              tempContact = Contacts.find({companyId: pCompId}).fetch()[contactIndex];
+              if(tempContact) pContId = tempContact._id;
+            }
+          }
           var projectId = Projects.insert({
             name: pname,
             description: faker.lorem.sentence(),
@@ -311,12 +359,14 @@ Meteor.methods({
 
           if(options.tasks > 0) {
             for (var ptx = 0; ptx < options.tasks; ptx++) {
+              setPercentageComplete();
               createTaskForEntity('project', projectId);
             }
           }
 
           if(options.activities > 0) {
             for (var pax = 0; pax < options.activities; pax++) {
+              setPercentageComplete();
               createActivityForEntity('projects', projectId, pname);
             }
           }
@@ -325,35 +375,76 @@ Meteor.methods({
 
       if(options.products > 0) {
         for (var rx = 0; rx < options.products; rx++) {
+          setPercentageComplete();
           randomUser = usersArray[Math.floor(Math.random() * usersArray.length)];
+          var prName = faker.commerce.productName();
 
-          if(options.tasks > 0) {
-            for (var rtx = 0; rtx < options.tasks; rtx++) {
+          var productId = Products.insert({
+            name: prName,
+            description: faker.lorem.sentence(),
+            cost: parseInt(faker.finance.amount(), 10),
+            price: parseInt(faker.commerce.price(), 10),
+            createdBy: randomUser._id
+          });
 
-            }
-          }
+          productIDs.push(productId);
 
-          if(options.activities > 0) {
-            for (var rax = 0; rax < options.activities; rax++) {
+          // if(options.tasks > 0) {
+          //   for (var rtx = 0; rtx < options.tasks; rtx++) {
+          //     setPercentageComplete();
+          //     createTaskForEntity('product', productId);
+          //   }
+          // }
 
-            }
-          }
+          // if(options.activities > 0) {
+          //   for (var rax = 0; rax < options.activities; rax++) {
+          //     setPercentageComplete();
+          //     createActivityForEntity('products', productId, prName);
+          //   }
+          // }
         }
       }
 
       if(options.purchaseOrders > 0) {
         for (var dx = 0; dx < options.purchaseOrders; dx++) {
+          setPercentageComplete();
           randomUser = usersArray[Math.floor(Math.random() * usersArray.length)];
-
-          if(options.tasks > 0) {
-            for (var dtx = 0; dtx < options.tasks; dtx++) {
-
+          var poCompId = (faker.random.boolean() ? companyIDs[Math.floor(Math.random() * companyIDs.length)] : null);
+          var poContId = null;
+          if(poCompId) {
+            if(faker.random.boolean()) {
+              contactIndex = Math.floor(Math.random() * Contacts.find({companyId: poCompId}).count());
+              tempContact = Contacts.find({companyId: poCompId}).fetch()[contactIndex];
+              if(tempContact) poContId = tempContact._id;
             }
           }
+          var poname = faker.commerce.product();
+
+          var purchaseOrderId = PurchaseOrders.insert({
+            userId: randomUser._id,
+            supplierCompanyId: poCompId,
+            supplierContactId: poContId,
+            description: poname,
+            supplierReference: faker.finance.account(),
+            status: _.sample(Schemas.PurchaseOrder._schema.status.allowedValues),
+            orderDate: faker.date.past(100),
+            paymentMethod: _.sample(Schemas.PurchaseOrder._schema.paymentMethod.allowedValues),
+            createdBy: randomUser._id
+          });
+
+          purchaseOrderIDs.push(purchaseOrderId);
+
+          // if(options.tasks > 0) {
+          //   for (var dtx = 0; dtx < options.tasks; dtx++) {
+          //     setPercentageComplete();
+          //     createTaskForEntity('product', productId);
+          //   }
+          // }
 
           if(options.activities > 0) {
             for (var dax = 0; dax < options.activities; dax++) {
-
+              setPercentageComplete();
+              createActivityForEntity('purchaseorders', purchaseOrderId, poname);
             }
           }
         }
