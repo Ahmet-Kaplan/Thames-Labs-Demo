@@ -1,3 +1,5 @@
+import { wordedTimes, getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
+
 Collections.tasks = Tasks = new Mongo.Collection('tasks');
 Partitioner.partitionCollection(Tasks);
 Tags.TagsMixin(Tasks);
@@ -103,7 +105,7 @@ Collections.tasks.filters = {
     display: 'Due Date:',
     prop: 'dueDate',
     verify: function(dueDate) {
-      if(!Collections.helpers.getEuropeanDate(dueDate) && !Collections.helpers.getWordedTime(dueDate)) {
+      if(!getEuropeanDate(dueDate) && !getWordedTime(dueDate)) {
         toastr.error('Invalid date', 'Error', {
           preventDuplicates: true
         });
@@ -120,7 +122,7 @@ Collections.tasks.filters = {
       return true;
     },
     defaultOptions: function() {
-      return _.map(Collections.helpers.wordedTimes, 'expr');
+      return _.map(wordedTimes, 'expr');
     }
   },
   before: {
@@ -128,7 +130,7 @@ Collections.tasks.filters = {
     prop: 'before',
     verify: function(date) {
       var afterOption = _.get(Collections.tasks.index.getComponentDict().get('searchOptions'), 'props.after', null);
-      if(!Collections.helpers.getEuropeanDate(date)) {
+      if(!getEuropeanDate(date)) {
         toastr.error('Invalid date', 'Error', {
           preventDuplicates: true
         });
@@ -151,7 +153,7 @@ Collections.tasks.filters = {
     prop: 'after',
     verify: function(date) {
       var beforeOption = _.get(Collections.tasks.index.getComponentDict().get('searchOptions'), 'props.before', null);
-      if(!Collections.helpers.getEuropeanDate(date)) {
+      if(!getEuropeanDate(date)) {
         toastr.error('Invalid date', 'Error', {
           preventDuplicates: true
         });
@@ -250,8 +252,8 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 
       if(options.search.props.dueDate) {
         const dueDate = options.search.props.dueDate;
-        const europeanDueDate = Collections.helpers.getEuropeanDate(dueDate);
-        const wordedDate = Collections.helpers.getWordedTime(dueDate);
+        const europeanDueDate = getEuropeanDate(dueDate);
+        const wordedDate = getWordedTime(dueDate);
         let formattedStartDate = null;
         let formattedEndDate = null;
 
@@ -275,9 +277,9 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 
       if(options.search.props.after || options.search.props.before) {
         const dueAfter = options.search.props.after;
-        const dueAfterMoment = Collections.helpers.getEuropeanDate(dueAfter);
+        const dueAfterMoment = getEuropeanDate(dueAfter);
         const dueBefore = options.search.props.before;
-        const dueBeforeMoment = Collections.helpers.getEuropeanDate(dueBefore);
+        const dueBeforeMoment = getEuropeanDate(dueBefore);
         let startDate = null;
         let endDate = null;
         selector.dueDate = {
@@ -326,7 +328,7 @@ Tasks.after.insert(function(userId, doc) {
     _id: userId
   });
   if(user) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " created a new task", 'task', doc._id);
+    LogClientEvent(LogLevel.Info, `${user.profile.name} created a new task`, 'task', doc._id);
   }
 });
 
@@ -341,20 +343,20 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
 
   if(user) {
     if(doc.title !== this.previous.title) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's title", 'task', doc._id);
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a task's title`, 'task', doc._id);
     }
     if(doc.description !== this.previous.description) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's description", 'task', doc._id);
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a task's description`, 'task', doc._id);
     }
     if(doc.dueDate !== this.previous.dueDate) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's due date", 'task', doc._id);
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a task's due date`, 'task', doc._id);
     }
     if(doc.completed !== this.previous.completed) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's completed status", 'task', doc._id);
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a task's completed status`, 'task', doc._id);
 
     }
     if(doc.assigneeId !== this.previous.assigneeId) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's assigned user", 'task', doc._id);
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a task's assigned user`, 'task', doc._id);
     }
   }
 });
@@ -373,7 +375,7 @@ Tasks.after.remove(function(userId, doc) {
     _id: userId
   });
   if(user) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " deleted task '" + doc.title + "'", 'task', doc._id);
+    LogClientEvent(LogLevel.Info, `${user.profile.name} deleted task '${doc.title}'`, 'task', doc._id);
   }
 
   var subTasks = Tasks.find({
