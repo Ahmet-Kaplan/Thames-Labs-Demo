@@ -35,10 +35,11 @@ Template.opportunityDetail.onRendered(function() {
   const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
   const id = FlowRouter.getParam('id');
   var opportunity = Opportunities.findOne(id);
+  this.chart.draw(opportunity, stages);
 
   this.autorun( () => {
     opportunity = Opportunities.findOne(id);
-    this.chart.draw(opportunity, stages);
+    this.chart.update(opportunity, stages);
   });
 
 });
