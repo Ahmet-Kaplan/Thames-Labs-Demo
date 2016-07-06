@@ -17,6 +17,7 @@ App.icons({
   'ipad_2x': 'resources/icons/ios/ipad_2x.png',
   'ipad_pro': 'resources/icons/ios/ipad_pro.png',
   'ios_settings': 'resources/icons/ios/settings.png',
+  'ios_settings_2x': 'resources/icons/ios/settings_2x.png',
   'ios_settings_3x': 'resources/icons/ios/settings_3x.png',
   'ios_spotlight': 'resources/icons/ios/spotlight.png',
   'ios_spotlight_2x': 'resources/icons/ios/spotlight_2x.png',
@@ -51,5 +52,8 @@ App.setPreference('ShowSplashScreenSpinner', 'true');
 App.setPreference('FadeSplashScreen', 'false');
 App.setPreference('SplashScreenDelay', '100');
 App.setPreference('StatusBarBackgroundColor', '#173E6F');
+App.setPreference('StatusBarStyle', 'lightContent');
 App.setPreference('BackgroundColor', '#173E6F');
 App.setPreference('SplashMaintainAspectRatio', 'true');
+App.setPreference('Suppresses3DTouchGesture', 'false');
+App.setPreference('Orientation', 'all');
