@@ -27,17 +27,18 @@ Template.opportunityDetail.onCreated(function() {
 });
 
 Template.opportunityDetail.onRendered(function() {
-  $.getScript('/vendor/docxgen.min.js');
 
+  $.getScript('/vendor/docxgen.min.js');
   this.chart = new StageChart('#d3-stage-chart');
-  this.chartResizeEventHandler = window.addEventListener("resize", this.chart._update);
+  // this.chartResizeEventHandler = window.addEventListener("resize", this.chart.e);
 
   const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
   const id = FlowRouter.getParam('id');
+  var opportunity = Opportunities.findOne(id);
 
   this.autorun( () => {
-    const opportunity = Opportunities.findOne(id);
-    this.chart.updateNodes(opportunity, stages);
+    opportunity = Opportunities.findOne(id);
+    this.chart.draw(opportunity, stages);
   });
 
 });
