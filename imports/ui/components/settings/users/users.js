@@ -16,7 +16,9 @@ Template.users.helpers({
     return (Meteor.users.find({}).count() > 1);
   },
   tenantPlan: function() {
-    return 'Flaming Octo Sansa';
+    return Tenants.findOne({
+      _id: Meteor.user().group
+    }).plan;
   }
 });
 
