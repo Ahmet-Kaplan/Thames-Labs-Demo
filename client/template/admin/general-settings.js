@@ -3,7 +3,7 @@ Template.generalSettings.helpers({
     return Tenants.findOne({_id: Partitioner.group()});
   },
   phoneNumber: function() {
-    return Meteor.user().profile.telephone;
+    return _.get(Meteor.user(), 'profile.telephone');
   }
 });
 
