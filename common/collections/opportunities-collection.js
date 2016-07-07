@@ -226,7 +226,6 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
       }
 
       if (options.search.props.state) {
-        // n.b. the array is passed as a comma separated string
         if(options.search.props.state === "Won") {
           selector.hasBeenWon = true;
         } else if(options.search.props.state === "Lost") {
@@ -239,7 +238,6 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
       }
 
       if (options.search.props.archived) {
-        // n.b. the array is passed as a comma separated string
         if(options.search.props.archived === "Yes") {
           selector.isArchived = true;
         } else {

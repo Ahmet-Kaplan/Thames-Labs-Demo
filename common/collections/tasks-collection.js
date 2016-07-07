@@ -266,7 +266,6 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
       }
 
       if (options.search.props.completed) {
-        // n.b. the array is passed as a comma separated string
         if(options.search.props.completed === "Yes") {
           selector.completed = true;
         } else {

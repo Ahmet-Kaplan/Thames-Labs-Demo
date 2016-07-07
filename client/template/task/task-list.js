@@ -30,7 +30,9 @@ Template.taskList.onRendered(function() {
     this.totalTasks.set(Collections['tasks'].index.getComponentDict().get('count'));
   });
 
-  Collections['tasks'].index.getComponentMethods().addProps('completed', 'No');
+  if(!_.get(Collections['tasks'].index.getComponentDict().get('searchOptions').props, "completed")) {
+    Collections['tasks'].index.getComponentMethods().addProps('completed', 'No');
+  }
 });
 
 Template.taskList.helpers({

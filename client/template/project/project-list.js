@@ -50,7 +50,9 @@ Template.projectsList.onRendered(function() {
     container: '.list-header-right'
   });
 
-  Collections['projects'].index.getComponentMethods().addProps('active', 'Yes');
+  if(!_.get(Collections['projects'].index.getComponentDict().get('searchOptions').props, "active")) {
+    Collections['projects'].index.getComponentMethods().addProps('active', 'Yes');
+  }
 });
 
 Template.projectsList.events({
