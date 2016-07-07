@@ -1,6 +1,8 @@
 import './milestone-admin.html';
 import './milestone-modals.js';
 
+import 'meteor/mrt:jquery-ui-sortable';
+import { Blaze } from 'meteor/blaze';
 
 Template.projectAdmin.helpers({
   projectTypes: function() {
@@ -12,7 +14,21 @@ Template.projectAdmin.helpers({
 });
 
 Template.projectType.onRendered(function() {
+  const typeId = this.data.id;
+  $('#milestone-list-' + this.data.id).sortable({
+    handle: '.project-milestone-handle',
+    stop: function(event, ui) {
+      //Setup needed variables
+      const milestoneId = Blaze.getData(ui.item[0]).id;
+      const newIndex = $(this).find('.project-milestone').index(ui.item);
 
+      //Update data stores
+      Meteor.call('changeMilestoneOrder', typeId, milestoneId, newIndex);
+
+      //Prevent DOM updates to let Meteor + Blaze handle it
+      $(this).sortable('cancel');
+    }
+  });
 });
 
 Template.projectAdmin.events({

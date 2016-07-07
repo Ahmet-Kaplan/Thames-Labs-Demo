@@ -13,31 +13,14 @@ Template.opportunitiesAdmin.onRendered(function() {
     handle: '.opportunity-stage-handle',
     stop: function(event, ui) {
       //Setup needed variables
-      const currentStage = Blaze.getData(ui.item[0]);
-      var currentStages = Tenants.findOne({
-        _id: Meteor.user().group
-      }).settings.opportunity.stages;
-
+      const stageId = Blaze.getData(ui.item[0]).id;
       const newIndex = $(this).find('.opportunity-stage').index(ui.item);
-      const currentIndex = _.findIndex(currentStages, { 'id': currentStage.id });
 
-      //Reorder array
-      _.pullAt(currentStages, currentIndex);
-      currentStages.splice(newIndex, 0, currentStage);
-      _.each(currentStages, function(value, key) {
-        value.order = key;
-      });
-
-      //Save changes
-      Tenants.update(Meteor.user().group, {
-        $set: {
-          'settings.opportunity.stages': currentStages
-        }
-      });
+      //Update data stores
+      Meteor.call('changeStageOrder', stageId, newIndex);
 
       //Prevent DOM updates to let Meteor + Blaze handle it
       $(this).sortable('cancel');
-
     }
   });
 });
