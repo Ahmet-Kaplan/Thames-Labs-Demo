@@ -19,9 +19,19 @@
           <input class="taskdatetimepicker taskdate form-control" type="text"/>
         </div>
       </div>
+
       <div class="row">
+        <div class="col-md-10" id="helperLabel">
+          Add a reminder to this follow-up task?
+        </div>
+        <div class="col-md-1" id="helperToggle">
+          <input id="add-reminder-toggle" checked type="checkbox" />
+        </div>
+      </div>
+
+      <div class="row setReminderArea">
         <div class="col-md-3" id="helperLabel">
-          Remind me<span class="required-marker">*</span>
+          Remind me
         </div>
         <div class="col-md-3">
           <input id="reminderValue" type="number" max="60" class="form-control" value="1">
@@ -32,11 +42,6 @@
             <option value="hours" selected>Hours Before</option>
             <option value="days">Days Before</option>
           </select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <small><span class="required-marker">*</span>If you don't want/need a task reminder to be created, set the number above to 0.</small>
         </div>
       </div>
     </div>

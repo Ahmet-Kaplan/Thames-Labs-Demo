@@ -23,7 +23,7 @@ Template.insertActivityModal.events({
     if (AutoForm.validateForm('insertActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
 
-        var setReminder = ($('#reminderValue').val() === 0);
+        var setReminder = $('#add-reminder-toggle').prop('checked');
         var reminder = $('#reminderValue').val() + '.' + $('#reminderUnit').val();
         var d = $('#helperContent .taskdatetimepicker');
         var dtp = d.data('DateTimePicker');
@@ -43,8 +43,8 @@ Template.insertActivityModal.events({
               dueDate: taskDate,
               assigneeId: Meteor.userId(),
               completed: false,
-              remindMe: true,
-              reminder: reminder,
+              remindMe: setReminder,
+              reminder: (setReminder ? reminder : null),
               entityType: 'contact',
               entityId: AutoForm.getFieldValue('contactId', 'insertActivityForm'),
               createdBy: Meteor.userId()
@@ -96,7 +96,7 @@ Template.insertContactActivityModal.events({
     if (AutoForm.validateForm('insertContactActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
 
-        var setReminder = ($('#reminderValue').val() === 0);
+        var setReminder = $('#add-reminder-toggle').prop('checked');
         var reminder = $('#reminderValue').val() + '.' + $('#reminderUnit').val();
         var d = $('#helperContent .taskdatetimepicker');
         var dtp = d.data('DateTimePicker');
@@ -146,7 +146,7 @@ Template.insertProjectActivityModal.events({
     if (AutoForm.validateForm('insertProjectActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
 
-        var setReminder = ($('#reminderValue').val() === 0);
+        var setReminder = $('#add-reminder-toggle').prop('checked');
         var reminder = $('#reminderValue').val() + '.' + $('#reminderUnit').val();
         var d = $('#helperContent .taskdatetimepicker');
         var dtp = d.data('DateTimePicker');
@@ -210,7 +210,7 @@ Template.insertOpportunityActivityModal.events({
     if (AutoForm.validateForm('insertOpportunityActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
 
-        var setReminder = ($('#reminderValue').val() === 0);
+        var setReminder = $('#add-reminder-toggle').prop('checked');
         var reminder = $('#reminderValue').val() + '.' + $('#reminderUnit').val();
         var d = $('#helperContent .taskdatetimepicker');
         var dtp = d.data('DateTimePicker');

@@ -6,8 +6,16 @@ Template.createTaskHelper.onRendered(function() {
     onstyle: 'primary',
     offstyle: 'default'
   });
+  $('#add-reminder-toggle').bootstrapToggle({
+    on: 'Yes',
+    off: 'No',
+    size: 'small',
+    onstyle: 'primary',
+    offstyle: 'default'
+  });
 
   $('#create-task-toggle').bootstrapToggle('off');
+  $('#add-reminder-toggle').bootstrapToggle('off');
   $('#helperContent').hide();
 });
 
@@ -22,6 +30,13 @@ Template.createTaskHelper.events({
       });
     } else {
       $('#helperContent').hide();
+    }
+  },
+  'change #add-reminder-toggle': function(e, t) {
+    if ($('#add-reminder-toggle').prop('checked')) {
+      $('.setReminderArea').show();
+    } else {
+      $('.setReminderArea').hide();
     }
   }
 });
