@@ -5,6 +5,15 @@ import '../../components/settings/data-management/data-management.js';
 import './settings.css';
 import './settings.html';
 
+Template.settings.onCreated(function() {
+  // Redirect if read permission changed
+  this.autorun(function() {
+    redirectWithoutPermission(Meteor.userId(), 'Administrator');
+  });
+  Meteor.subscribe('activeTenantData');
+});
+
+
 Template.settings.onRendered(function() {
   var buttonPressed = false;
   $('#settings-nav li').each(function() {

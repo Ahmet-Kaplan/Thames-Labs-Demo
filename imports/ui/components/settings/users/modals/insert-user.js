@@ -1,7 +1,7 @@
-import './add-user.html';
+import './insert-user.html';
 
 AutoForm.hooks({
-  addUser: {
+  insertUser: {
     onSuccess: function(formType, result) {
       Modal.hide();
 
@@ -28,14 +28,14 @@ AutoForm.hooks({
   }
 });
 
-Template.addUser.helpers({
+Template.insertUser.helpers({
   isProTenant: function() {
     const tenantId = Meteor.user().group;
     return isProTenant(tenantId);
   }
 });
 
-Template.addUser.events({
+Template.insertUser.events({
   'click #close': function() {
     hopscotch.endTour(true);
   }

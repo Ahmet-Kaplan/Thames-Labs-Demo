@@ -1,7 +1,7 @@
-import './permissions/permission-options.js';
-import './user-details.html';
+import './modal-parts/permission-options.js';
+import './update-user.html';
 
-Template.userDetails.onRendered(function() {
+Template.updateUser.onRendered(function() {
   var selectedUserId = this.data._id;
 
   Meteor.call('checkUserRole', selectedUserId, 'Administrator', function(err, data) {
@@ -49,7 +49,7 @@ Template.userDetails.onRendered(function() {
 
 });
 
-Template.userDetails.helpers({
+Template.updateUser.helpers({
   isMe: function() {
     return (Meteor.userId() === this._id);
   },
@@ -58,7 +58,7 @@ Template.userDetails.helpers({
   }
 });
 
-Template.userDetails.events({
+Template.updateUser.events({
   'click #update-user': function() {
     var userId = this._id;
 
@@ -119,14 +119,14 @@ Template.userDetails.events({
     Meteor.call('setUserAuthLevel', userId, newAuthLevel);
 
     toastr.success('User details updated.');
-    Modal.hide('userDetails');
+    Modal.hide('updateUser');
   },
 
   'click #delete-user': function(event) {
     event.preventDefault();
     var name = this.profile.name;
 
-    Modal.hide('userDetails');
+    Modal.hide('updateUser');
     bootbox.confirm("Are you sure you wish to remove the user " + name + "?<br />This action is not reversible.", (result) => {
       if (result === true) {
         Meteor.call('removeUser', this._id, (error, response) => {

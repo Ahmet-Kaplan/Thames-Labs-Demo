@@ -1,4 +1,4 @@
-import './opps-add-stage.html';
+import './insert-opp-stage.html';
 
 const getNewStageId = (stages) => {
   var maxVal = -1;
@@ -10,7 +10,7 @@ const getNewStageId = (stages) => {
   return maxVal + 1;
 };
 
-Template.insertNewStageModal.onCreated(function() {
+Template.insertOppStage.onCreated(function() {
   var userTenant = Tenants.findOne({
     _id: Meteor.user().group
   });
@@ -24,7 +24,7 @@ Template.insertNewStageModal.onCreated(function() {
   }
 });
 
-Template.insertNewStageModal.events({
+Template.insertOppStage.events({
   'click #addStage': function() {
     var userTenant = Tenants.findOne({
       _id: Meteor.user().group

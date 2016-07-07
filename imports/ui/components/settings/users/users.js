@@ -1,5 +1,5 @@
 import './user-details-link.js';
-import './add-user/add-user.js';
+import './modals/insert-user.js';
 import './users.html';
 
 Template.users.helpers({
@@ -31,6 +31,6 @@ Template.users.events({
       showUpgradeToastr('To add more users');
       return;
     }
-    Modal.show('addUser', this);
+    Modal.show('insertUser', this);
   }
 });

@@ -1,11 +1,11 @@
-<template name="insertNewStageModal">
+<template name="updateOppStage">
   <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4>Add new stage</h4>
+          <h4>Edit stage</h4>
         </div>
 
         <div class="modal-body">
@@ -21,10 +21,9 @@
             </div>
           </form>
 
-        </div>
-
-        <div class="modal-footer">
-          <button id="addStage" role="button" class="btn btn-primary">Add Stage</button>
+          <div class="row">
+            <div class="col-md-2"><button id="editStage" role="button" class="btn btn-primary">Update</button></div>
+          </div>
         </div>
       </div>
     </div>

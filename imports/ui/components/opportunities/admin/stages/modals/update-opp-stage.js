@@ -1,15 +1,15 @@
-import './opps-edit-stage.html';
+import './update-opp-stage.html';
 
-Template.editStageModal.onCreated(function() {
+Template.updateOppStage.onCreated(function() {
   this.originalData = this.data;
 });
 
-Template.editStageModal.onRendered(function() {
+Template.updateOppStage.onRendered(function() {
   $('#stage-title').val(this.data.title);
   $('#stage-description').val(this.data.description);
 });
 
-Template.editStageModal.events({
+Template.updateOppStage.events({
   'click #editStage': function(event, template) {
     var userTenant = Tenants.findOne({
       _id: Meteor.user().group

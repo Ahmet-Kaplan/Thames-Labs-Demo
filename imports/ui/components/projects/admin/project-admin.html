@@ -1,0 +1,10 @@
+<template name="projectAdmin">
+  <div class="settings-section">
+    <h4>Project Types  <button class="btn pull-right btn-primary btn-xs" id="addProjectType"><i class="fa fa-fw fa-plus"></i> Add project type</button></h4>
+    <p>Below are your configured project types and the milestones for each.</p>
+    {{#each projectTypes}}
+      {{> projectType}}
+      <br>
+    {{/each}}
+  </div>
+</template>
