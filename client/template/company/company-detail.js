@@ -1,4 +1,6 @@
 import Chart from 'chart.js';
+import '/imports/ui/components/companies/merge/merge-company-modal.js';
+
 
 Template.companyDetail.onCreated(function() {
   // Redirect if data doesn't exist
