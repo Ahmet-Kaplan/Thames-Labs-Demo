@@ -1,3 +1,5 @@
+import './milestone-modals.html';
+
 Template.createProjectType.events({
   "click #submit-new-project-type": function(event, template) {
 

@@ -1,4 +1,6 @@
-getNewStageId = function(stages) {
+import './opps-add-stage.html';
+
+const getNewStageId = (stages) => {
   var maxVal = -1;
   _.each(stages, function(s) {
     if (s.id > maxVal) {

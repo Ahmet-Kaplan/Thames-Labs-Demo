@@ -1,0 +1,47 @@
+<template name="projectAdmin">
+  <div class="settings-section">
+    <h4>Project Types  <button class="btn pull-right btn-primary btn-xs" id="addProjectType"><i class="fa fa-fw fa-plus"></i> Add project type</button></h4>
+    <p>Below are your configured project types and the milestones for each.</p>
+    {{#each projectTypes}}
+      {{> projectType}}
+      <br>
+    {{/each}}
+  </div>
+</template>
+
+<template name="projectType">
+  <div class="projectTypeEntry">
+    <h5>
+      {{name}}
+      <div class="ptButtons pull-right">
+        <a class="btn btn-primary btn-xs" href="#" id="addMilestone">
+          <i class="fa fa-fw fa-plus"></i>
+          Add milestone</a>
+        <a class="btn btn-info btn-xs" href="#" id="editType">
+          Edit</a>
+        <a class="btn btn-danger btn-xs" href="#" id="removeType">
+          Delete</a>
+      </div>
+    </h5>
+
+    <div class="projectTypeMilestones">
+      <ul class="list-group" id="milestone-list-{{id}}">
+        {{#each milestones}}
+          {{> projectMilestone}}
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</template>
+
+<template name="projectMilestone">
+  <a class="list-group-item projectMilestoneEntry" data-id={{id}}>
+    <div class="btn-group pull-right">
+      <button class="btn btn-danger btn-xs" href="#" id="removeMilestone">Delete</button> 
+      <span class="project-milestone-handle">
+        <i class="fa fa-fw fa-bars"></i>
+      </span>
+    </div>
+    <span class="project-milestone-handle">{{name}}</span>
+  </a>
+</template>

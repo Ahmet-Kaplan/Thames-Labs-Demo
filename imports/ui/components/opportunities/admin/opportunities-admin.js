@@ -1,26 +1,60 @@
+import './opps-add-stage.js';
+import './opps-edit-stage.js';
+import './opportunities-admin.css';
 import './opportunities-admin.html';
+
+import _ from 'lodash';
+import 'meteor/mrt:jquery-ui-sortable';
+import { Blaze } from 'meteor/blaze';
+
+
+Template.opportunitiesAdmin.onRendered(function() {
+  $('#opp-stages').sortable({
+    handle: '.opportunity-stage-handle',
+    stop: function(event, ui) {
+      //Setup needed variables
+      const currentStage = Blaze.getData(ui.item[0]);
+      var currentStages = Tenants.findOne({
+        _id: Meteor.user().group
+      }).settings.opportunity.stages;
+
+      const newIndex = $(this).find('.opportunity-stage').index(ui.item);
+      const currentIndex = _.findIndex(currentStages, { 'id': currentStage.id });
+
+      //Reorder array
+      _.pullAt(currentStages, currentIndex);
+      currentStages.splice(newIndex, 0, currentStage);
+      _.each(currentStages, function(value, key) {
+        value.order = key;
+      });
+
+      //Save changes
+      Tenants.update(Meteor.user().group, {
+        $set: {
+          'settings.opportunity.stages': currentStages
+        }
+      });
+
+      //Prevent DOM updates to let Meteor + Blaze handle it
+      $(this).sortable('cancel');
+
+    }
+  });
+});
+
+Template.opportunitiesAdmin.onCreated(function() {
+  this.stages = new ReactiveVar();
+  this.autorun(() => {
+    var currentStages = Tenants.findOne({
+      _id: Meteor.user().group
+    }).settings.opportunity.stages;
+    this.stages.set(currentStages);
+  });
+});
 
 Template.opportunitiesAdmin.helpers({
   stages: function() {
-    var currentStages = Tenants.findOne({
-      _id: Meteor.user().group
-    }).settings.opportunity.stages.sort(function(a, b) {
-      if (a.order < b.order) return -1;
-      if (a.order > b.order) return 1;
-      return 0;
-    });
-
-    _.each(currentStages, function(cs, i) {
-      cs.order = i + 1;
-    });
-
-    Tenants.update(Meteor.user().group, {
-      $set: {
-        'settings.opportunity.stages': currentStages
-      }
-    });
-
-    return currentStages;
+    return Template.instance().stages.get();
   },
   hasStages: function() {
     var userTenant = Tenants.findOne({
@@ -77,27 +111,7 @@ Template.opportunityAdminStage.helpers({
 });
 
 Template.opportunityAdminStage.events({
-  'click .orderUp': function(event) {
-    event.preventDefault();
-
-    var stageId = this.id;
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To edit the order of your opportunity stages');
-      return;
-    }
-    Meteor.call('changeStageOrder', stageId, "up", this.order);
-  },
-  'click .orderDown': function(event) {
-    event.preventDefault();
-
-    var stageId = this.id;
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To edit the order of your opportunity stages');
-      return;
-    }
-    Meteor.call('changeStageOrder', stageId, "down", this.order);
-  },
-  'click #btnEdit': function(event) {
+  'click .opportunity-stage': function(event) {
     event.preventDefault();
     if (!isProTenant(Meteor.user().group)) {
       showUpgradeToastr('To edit your opportunity stages');

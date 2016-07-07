@@ -1,27 +1,18 @@
+import './milestone-admin.html';
+import './milestone-modals.js';
+
+
 Template.projectAdmin.helpers({
   projectTypes: function() {
-    if(!Meteor.user()) return;
+    //if (!Meteor.user()) return;
     return Tenants.findOne({
       _id: Meteor.user().group
     }).settings.project.types;
   }
 });
 
-Template.projectType.helpers({
-  milestones: function() {
-    if (!Meteor.user()) return;
-    var typeIndex = -1;
-    var currentTypes = Tenants.findOne({
-      _id: Meteor.user().group
-    }).settings.project.types;
-    for (var i = 0, len = currentTypes.length; i < len; i++) {
-      if (currentTypes[i].id === this.id) {
-        typeIndex = i;
-        break;
-      }
-    }
-    return currentTypes[typeIndex].milestones;
-  }
+Template.projectType.onRendered(function() {
+
 });
 
 Template.projectAdmin.events({
@@ -90,7 +81,7 @@ Template.projectType.events({
 });
 
 Template.projectMilestone.events({
-  'click #editMilestone': function(event, template) {
+  'click .projectMilestoneEntry': function(event, template) {
 
     event.preventDefault();
     if (!isProTenant(Meteor.user().group)) {

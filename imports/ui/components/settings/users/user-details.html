@@ -11,10 +11,7 @@
         <div class="modal-body">
           <div class="slim settings-section">
             <h3>{{name}}</h3>
-            {{#unless isMe}}
-              <a class="text-danger" id="delete-user">Delete user</a>
-            {{/unless}}
-          </div>
+         </div>
 
           <div class="settings-section">
             <h4>Administrator</h4>
@@ -40,10 +37,11 @@
               <input id="po-auth-level" type="text" class="form-control" placeholder="Enter the value..." value="{{profile.poAuthLevel}}">
             </div>
           </div>
-        </div>
 
-        <div class="modal-footer">
-          <a id="update-user" class="btn btn-primary">Update</a>
+          <div class="row">
+            <div class="col-xs-2"><button id="update-user" role="button" class="btn btn-primary">Update</button> </div>
+            <div class="col-xs-2">{{#unless isMe}}<a class="text-danger" id="delete-user">Delete user</a>{{/unless}}</div>
+          </div>
         </div>
       </div>
     </div>

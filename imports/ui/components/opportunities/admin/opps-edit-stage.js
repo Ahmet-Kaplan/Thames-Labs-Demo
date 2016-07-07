@@ -1,3 +1,5 @@
+import './opps-edit-stage.html';
+
 Template.editStageModal.onCreated(function() {
   this.originalData = this.data;
 });
