@@ -1,4 +1,35 @@
 Meteor.methods({
+  'project.invertState': function(projectId) {
+    var user = Meteor.users.findOne({_id: this.userId});
+    var project = Projects.findOne({
+      _id: projectId
+    });
+    var newState = (project.active ? "inactive" : "active");
+    if (project) {
+      Projects.update({
+        _id: projectId
+      }, {
+        $set: {
+          active: !project.active
+        }
+      }, function(err) {
+        if(!err) {
+
+          Activities.insert({
+            type: 'Note',
+            notes: user.profile.name + ' marked this project as ' + newState,
+            createdAt: new Date(),
+            activityTimestamp: new Date(),
+            projectId: projectId,
+            primaryEntityId: projectId,
+            primaryEntityType: 'projects',
+            primaryEntityDisplayData: project.name,
+            createdBy: user._id
+          });
+        }
+      });
+    }
+  },
   typeIsInUse: function(typeId) {
     var project = Projects.findOne({
       projectTypeId: typeId

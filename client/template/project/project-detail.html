@@ -5,13 +5,13 @@
 
       <div class="col-md-12">
         <h4 class="entity-title">Project ({{projectType}}) {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="projects"}}</h4>
-        {{#if opportunityId}}
-          <div class="pull-right hidden-xs">
-            <p class="text-right">
-              <a href="{{pathFor route='opportunity' id=opportunityId}}">View opportunity</a>
-            </p>
-          </div>
-        {{/if}}
+
+        <div class="pull-right hidden-xs">
+            <a href="#" id="invertProjectState">Mark project {{inverseState}}</a>
+          {{#if opportunityId}}
+               | <a href="{{pathFor route='opportunity' id=opportunityId}}">View opportunity</a>
+          {{/if}}
+        </div>
         <h1 class="entity-name" id="project-details">{{name}}</h1>
 
         {{> milestoneControl}}

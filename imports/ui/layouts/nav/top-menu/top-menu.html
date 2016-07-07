@@ -16,7 +16,9 @@
             <img class="visible-xs" alt="" src="/icon.svg"> RealTime<span>CRM</span>
           </a>
           {{#if loggedIn}}
-          <button class="btn btn-primary pull-right visible-xs" id="toggle-search"><i class="fa fa-search"></i></button>
+          <li class="pull-right" id="global-search-mobile">
+            <a href="#" class="dropdown-toggle" id="toggle-search"><i class="fa fa-search"></i></a>
+          </li>
           {{/if}}
         </div>
         {{#if loggedIn}}
