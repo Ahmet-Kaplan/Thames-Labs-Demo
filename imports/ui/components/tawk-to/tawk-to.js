@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 function loadTawkTo() {
   if(Meteor.isProduction && !Meteor.isTest) {
-    if(Meteor.user() && !Roles.userIsInRole(Meteor.userId(), ['superadmin']) && _.get(Meteor.user(), 'emails[0].address') && Meteor.user().emails[0].address.indexOf('@cambridgesoftware.co.uk') === -1) {
+    if(Meteor.user() && !Roles.userIsInRole(Meteor.userId(), ['superadmin'])) {
       /* eslint-disable camelcase*/
       Tawk_API = {
         visitor: Meteor.user().profile.name,
@@ -10,7 +10,11 @@ function loadTawkTo() {
       };
       /* eslint-enable camelcase*/
     }
-    $.getScript('https://embed.tawk.to/56b333a5fe87529955d980fa/default');
+
+    const isCSUser = (Meteor.user() && _.get(Meteor.user(), 'emails[0].address') && Meteor.user().emails[0].address.indexOf('@cambridgesoftware.co.uk') === -1);
+    if(!isCSUser){
+      $.getScript('https://embed.tawk.to/56b333a5fe87529955d980fa/default');
+    }
   }
 }
 
