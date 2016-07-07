@@ -22,6 +22,7 @@ Template.demoDataGeneratorModal.events({
       products: _.random(2, 20),
       tasks: _.random(1, 7),
       activities: _.random(2, 7),
+      personalTasks: (_.random(2, 10) % 2 === 0 ? _.random(2, 4) : 0)
     };
 
     $('#progressIndicator').show();
@@ -54,6 +55,7 @@ Template.demoDataGeneratorModal.events({
       products: ($('#productCount').val() === "" ? 0 : Number($('#productCount').val())),
       tasks: ($('#taskCount').val() === "" ? 0 : Number($('#taskCount').val())),
       activities: ($('#activityCount').val() === "" ? 0 : Number($('#activityCount').val())),
+      personalTasks: ($('#cbCreatePersonalTasks').prop('checked') === true ? _.random(2, 4) : 0)
     };
 
     $('#progressIndicator').show();

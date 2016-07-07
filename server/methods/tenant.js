@@ -173,12 +173,14 @@ Meteor.methods({
             dueDate: faker.date.future(),
             remindMe: false,
             isAllDay: faker.random.boolean(),
-            assigneeId: randomAssignee._id,
+            assigneeId: (entityType === 'user' ? entityId : randomAssignee._id),
             completed: completed,
             completedAt: completedAt,
             entityType: entityType,
             entityId: entityId,
-            createdBy: randomUser._id
+            createdBy: (entityType === 'user' ? entityId : randomUser._id),
+          }, function(err) {
+            console.log(err);
           });
         });
       }
@@ -447,6 +449,14 @@ Meteor.methods({
               createActivityForEntity('purchaseorders', purchaseOrderId, poname);
             }
           }
+        }
+      }
+
+      if(options.personalTasks > 0) {
+        for (var pstx = 0; pstx < options.personalTasks; pstx++) {
+          setPercentageComplete();
+          randomUser = usersArray[Math.floor(Math.random() * usersArray.length)];
+          createTaskForEntity('user', randomUser._id);
         }
       }
     });
