@@ -1,7 +1,6 @@
-//**Need to move this file to imports/ui/components/maps after Meteor upgrade**
 import { assert } from 'meteor/practicalmeteor:chai';
 
-import { getAddressFromLookup, getAddressFromGoogleMapsSearch } from '../imports/ui/components/maps/map-helpers.js';
+import { getAddressFromLookup, getAddressFromGoogleMapsSearch } from './map-helpers.js';
 
 describe("map helpers", () => {
 
