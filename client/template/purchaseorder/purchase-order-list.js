@@ -66,7 +66,9 @@ Template.purchaseOrderList.onRendered(function() {
     container: ".list-header-right"
   });
 
-  Collections['purchaseorders'].index.getComponentMethods().addProps('active', 'Yes');
+  if(!_.get(Collections['purchaseorders'].index.getComponentDict().get('searchOptions').props, "active")) {
+    Collections['purchaseorders'].index.getComponentMethods().addProps('active', 'Yes');
+  }
 });
 
 Template.purchaseOrderList.events({
