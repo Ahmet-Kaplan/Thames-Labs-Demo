@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 function loadTawkTo() {
-  if(!Meteor.isTest) {
+  if(Meteor.isProduction && !Meteor.isTest) {
     if(Meteor.user() && !Roles.userIsInRole(Meteor.userId(), ['superadmin']) && _.get(Meteor.user(), 'emails[0].address') && Meteor.user().emails[0].address.indexOf('@cambridgesoftware.co.uk') === -1) {
       /* eslint-disable camelcase*/
       Tawk_API = {
