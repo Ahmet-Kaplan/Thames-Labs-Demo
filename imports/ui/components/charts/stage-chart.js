@@ -1,5 +1,8 @@
 import d3 from 'd3';
+import d3tip from 'd3-tip';
 import _ from 'lodash';
+
+d3tip(d3);
 
 function StageChart(el) {
 
@@ -31,14 +34,17 @@ function StageChart(el) {
 
   var nodes = [];
 
-  this.draw = (entity, stages) => {
+  var tip = d3.tip().attr('class', 'd3-tip').html((d) => d.description);
+  svg.call(tip);
 
+  this.draw = (entity, stages) => {
     nodes.push(entity);
 
     const stageWidth = width / stages.length;
     stages.forEach( (stage, i) => {
       stage.x = (0.5 + i) * stageWidth;
     });
+
     const axisContainer = svg.append("g")
             .attr("class", "axisContainer");
 
@@ -55,14 +61,26 @@ function StageChart(el) {
     axisContainer.selectAll(".marker")
       .data(stages, (d) => d.id)
       .enter()
-      .append("circle")
+      .append("g")
       .attr("class", "marker")
+      .style("text-anchor", "middle")
+      .append("circle")
+      .attr("class", "stage")
       .attr("r", markerR)
       .attr("fill", (d, i) => color(i))
       .attr("stroke", (d, i) => d3.rgb(color(i)).darker())
       .attr("stroke-width", 2)
       .attr("cx", (d) => d.x)
       .attr("cy", height / 2);
+
+    axisContainer.selectAll(".marker")
+      .append("text")
+      .attr("class", "marker-label")
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
+      .attr("x", (d) => d.x)
+      .attr("y", height - (height / 8))
+      .text((d) => d.title);
 
     //Draw node
     svg.append("circle")
