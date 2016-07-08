@@ -101,13 +101,6 @@
   {{/with}}
 </template>
 
-<template name="opportunityStage">
-  <div class="stepwizard-step {{#if isCurrentStep}}active-step{{/if}}" data-toggle="tooltip" data-placement="bottom" title="{{description}}">
-    <button type="button" class="btn btn-default btn-circle" disabled="disabled"></button>
-    <p>{{title}}</p>
-  </div>
-</template>
-
 <template name="opportunityItem">
   <li class="list-group-item">
     {{#if isActive}}

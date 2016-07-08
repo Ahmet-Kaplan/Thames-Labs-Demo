@@ -202,18 +202,6 @@ Template.opportunityDetail.events({
   }
 });
 
-Template.opportunityStage.helpers({
-  isCurrentStep: function() {
-    var id = FlowRouter.getParam('id');
-    var opportunity = Opportunities.findOne({
-      _id: id
-    });
-    var stepId = opportunity ? opportunity.currentStageId : null;
-    if (stepId == this.id) return true;
-    return false;
-  }
-});
-
 Template.opportunityItem.helpers({
   isActive: function() {
     return !Opportunities.findOne(this.oppId).isArchived;
