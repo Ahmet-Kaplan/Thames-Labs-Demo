@@ -8,7 +8,7 @@ function StageChart(el) {
 
   var width = $(el).innerWidth(),
       height = 100,
-      nodeR = 25,
+      nodeR = 20,
       markerR = 5;
 
   var color = d3.scale.ordinal()
@@ -99,15 +99,15 @@ function StageChart(el) {
   this.update = (entity, stages) => {
 
     //Get current stage
-    const currentStage = stages[entity.currentStageId];
+    const currentStage = stages[entity.currentStageIndex];
 
     //force.size divides by 2 so multiply stage.x by 2 for node x
     var nodeX = currentStage.x * 2;
 
     //Update node colours
     var circle = svg.selectAll(".node")
-          .style("fill", color(entity.currentStageId))
-          .attr("stroke", d3.rgb(color(entity.currentStageId)).darker());
+          .style("fill", color(entity.currentStageIndex))
+          .attr("stroke", d3.rgb(color(entity.currentStageIndex)).darker());
 
     //Update node position
     var tick = (e) => {
@@ -118,10 +118,8 @@ function StageChart(el) {
       force.drag()
         .on("dragend", (d) => {
           const closestStage = _.minBy(stages, (stage) => Math.abs(d.x - stage.x));
-          if (closestStage.id === entity.currentStageId) return;
-          Meteor.call('opportunities.setStage', d._id, closestStage.id, (err) => {
-            if (err) toastr.error(err.error);
-          });
+          if (closestStage.id === entity.currentStageIndex) return;
+          this._dragCallBack(d._id, closestStage.id);
         });
     };
 
@@ -131,6 +129,10 @@ function StageChart(el) {
       .on("tick", tick)
       .start();
   };
+
+  //Attach callback for circle dragend
+  this._dragCallBack = () => {};
+
 }
 
 export { StageChart };

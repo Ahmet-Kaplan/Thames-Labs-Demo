@@ -50,7 +50,7 @@ Meteor.methods({
     };
   },
 
-  moveMilestone: function(projectId, direction) {
+  'moveMilestone': function(projectId, direction) {
     var value = (direction === "forward" ? 1 : -1);
     var project = Projects.findOne({
       _id: projectId

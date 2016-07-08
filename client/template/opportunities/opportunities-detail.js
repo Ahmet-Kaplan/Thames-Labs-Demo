@@ -2,7 +2,6 @@ import '/imports/ui/components/opportunities/opportunity-details-panel.js';
 import '/imports/ui/components/opportunities/opportunity-previous-stage-button.js';
 import '/imports/ui/components/opportunities/opportunity-next-stage-button.js';
 import '/imports/ui/components/opportunities/opportunity-lost-link.js';
-import '/imports/ui/components/charts/stage-chart.js';
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
 
 Template.opportunityDetail.onCreated(function() {
@@ -35,12 +34,20 @@ Template.opportunityDetail.onRendered(function() {
   const id = FlowRouter.getParam('id');
   var opportunity = Opportunities.findOne(id);
   this.chart.draw(opportunity, stages);
-  this.chartResizeEventHandler = window.addEventListener("resize", this.chart.draw(opportunity, stages));
+  // this.chartResizeEventHandler = window.addEventListener("resize", this.chart.draw(opportunity, stages));
 
   this.autorun( () => {
     opportunity = Opportunities.findOne(id);
+    opportunity.currentStageIndex = _.findIndex(stages, {id: opportunity.currentStageId});
     this.chart.update(opportunity, stages);
   });
+
+  //Update opp stage when dragged
+  this.chart._dragCallBack = (opportunityId, closestStageId) => {
+    Meteor.call('opportunities.setStage', opportunityId, closestStageId, (err) => {
+      if (err) toastr.error(err.error);
+    });
+  };
 
 });
 
@@ -78,7 +85,7 @@ Template.opportunityDetail.helpers({
   },
   overallValue: function() {
     return _.sumBy(this.items, (item) => item.quantity * item.value);
-  },
+  }
 });
 
 Template.opportunityDetail.events({

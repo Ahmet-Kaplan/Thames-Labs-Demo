@@ -1,3 +1,6 @@
+import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
+import { Meteor } from 'meteor/meteor';
+
 Template.projectDetail.onCreated(function() {
   var self = this;
   // Redirect if data doesn't exist
@@ -22,6 +25,90 @@ Template.projectDetail.onCreated(function() {
   this.subscribe('activityByProjectId', projectId);
   this.subscribe('tasksByEntityId', projectId);
   this.subscribe('opportunitiesByProjectId', projectId);
+});
+
+Template.projectDetail.onRendered(function() {
+  this.chart = new StageChart('#d3-stage-chart');
+
+  const id = FlowRouter.getParam('id');
+
+  var typeId = Projects.findOne({_id: id}).projectTypeId;
+
+  var typeIndex = -1;
+  var currentTypes = Tenants.findOne(Meteor.user().group).settings.project.types;
+  for (var i = 0, len = currentTypes.length; i < len; i++) {
+    if (currentTypes[i].id === typeId) {
+      typeIndex = i;
+      break;
+    }
+  }
+  if(typeIndex !== -1) {
+    var stages = currentTypes[typeIndex].milestones;
+  }
+
+  stages.forEach( (d) => {
+    d.title = d.name;
+  });
+
+  var project = Projects.findOne(id);
+
+  this.chart.draw(project, stages);
+  // this.chartResizeEventHandler = window.addEventListener("resize", this.chart.draw(opportunity, stages));
+
+  this.autorun( () => {
+    project = Projects.findOne(id);
+    project.currentStageIndex = _.findIndex(stages, {id: project.projectMilestoneId});
+    this.chart.update(project, stages);
+  });
+
+  //Update opp stage when dragged
+  this.chart._dragCallBack = (projectId, closestStageId) => {
+    if (closestStageId > project.currentStageIndex) {
+      var direction = "forward";
+    }
+
+    Meteor.call('moveMilestone', projectId, direction, (err, res) => {
+      if (err) toastr.error(err.error);
+      if (res.exitCode === 0) {
+        Projects.update({
+          _id: projectId
+        }, {
+          $set: {
+            projectMilestoneId: res.exitStatus
+          }
+        });
+        toastr.success('Project milestone successfully updated.');
+        var user = Meteor.user();
+
+        var project = Projects.findOne({
+          _id: projectId
+        });
+        var projectTypes = userTenant.settings.project.types;
+        var projectType = null;
+        _.each(projectTypes, function(pt) {
+          if (pt.id == project.projectTypeId) projectType = pt;
+        });
+
+        if (projectType) {
+          var milestones = projectType.milestones;
+          var note = user.profile.name + ' moved this project to milestone "' + milestones[res.exitStatus].name + '"';
+          var date = new Date();
+          Activities.insert({
+            type: 'Note',
+            notes: note,
+            createdAt: date,
+            activityTimestamp: date,
+            projectId: project._id,
+            primaryEntityId: project._id,
+            primaryEntityType: 'projects',
+            primaryEntityDisplayData: project.name,
+            createdBy: user._id
+          });
+        }
+      }
+    });
+  };
+
 });
 
 Template.projectDetail.helpers({

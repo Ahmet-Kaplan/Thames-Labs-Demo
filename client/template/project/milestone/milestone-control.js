@@ -134,16 +134,15 @@ Template.milestoneControl.events({
   }
 });
 
-Template.milestone.helpers({
-  isCurrentStep: function() {
-    var projectId = FlowRouter.getParam('id');
-
-    var milestoneId = Projects.findOne({
-      _id: projectId
-    }).projectMilestoneId;
-    return this.id === milestoneId;
-  }
-});
+// Template.milestone.helpers({
+//   isCurrentStep: function() {
+//     var projectId = FlowRouter.getParam('id');
+//     var milestoneId = Projects.findOne({
+//       _id: projectId
+//     }).projectMilestoneId;
+//     return this.id === milestoneId;
+//   }
+// });
 
 getMilestones = function(typeId) {
   var typeIndex = -1;
