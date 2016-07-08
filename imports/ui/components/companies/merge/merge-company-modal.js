@@ -72,15 +72,12 @@ Template.mergeModal.events({
               throw new Meteor.Error(err);
             }
 
-            if (res) {
+            if (res === 0) {
               toastr.clear();
-
-              if (res === 0) {
-                Modal.hide();
-                toastr.success('Merge successful.');
-              } else {
-                toastr.error(res.source + ": " + res.error);
-              }
+              Modal.hide();
+              toastr.success('Merge successful.');
+            } else {
+              toastr.error(res.source + ": " + res.error);
             }
 
           });
