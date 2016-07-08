@@ -1,0 +1,20 @@
+<template name="profileSettings">
+  {{setPageTitle "Profile"}}
+  <div class="row">
+    <div class="col-sm-3">
+      {{> settingsNav}}
+    </div>
+    <div class="col-sm-7">
+      <h4 class="entity-title">Settings</h4>
+      <h1 id="top" class="entity-name">Profile</h1>
+      <div class="settings-content">
+        <div class="settings-section">
+          <h4>Name</h4>
+          <p class="slim">{{user.profile.name}}</p>
+        </div>
+        {{> changePassword }}
+        {{> changeEmail }}
+      </div>
+    </div>
+  </div>
+</template>

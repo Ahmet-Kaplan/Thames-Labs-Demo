@@ -174,15 +174,51 @@ router.route('/admin', {
   }
 });
 
+//Settings
 router.route('/settings', {
   name: 'settings',
   action: function() {
+    FlowRouter.go('/settings/profile');
+  }
+});
+
+router.route('/settings/profile', {
+  name: 'profileSettings',
+  action: function() {
     layout.render('appLayout', {
-      main: "settings"
+      main: "profileSettings"
     });
   }
 });
 
+router.route('/settings/users', {
+  name: 'userSettings',
+  action: function() {
+    layout.render('appLayout', {
+      main: "userSettings"
+    });
+  }
+});
+
+router.route('/settings/plan-billing', {
+  name: 'planBillingSettings',
+  action: function() {
+    layout.render('appLayout', {
+      main: "planBillingSettings"
+    });
+  }
+});
+
+router.route('/settings/configuration', {
+  name: 'configurationSettings',
+  action: function() {
+    layout.render('appLayout', {
+      main: "configurationSettings"
+    });
+  }
+});
+
+//Other routes
 router.route('/activities', {
   name: 'activities',
   action: function() {

@@ -1,3 +1,5 @@
+import './change-email.html';
+
 Template.changeEmail.helpers({
   userEmail: function() {
     return Meteor.user().emails[0].address;
@@ -5,7 +7,9 @@ Template.changeEmail.helpers({
 });
 
 Template.changeEmail.events({
-  'click #btnEmailChange': function() {
+  'click #btnEmailChange': function(e) {
+    e.preventDefault();
+
     if ($('#objNewEmail').val() === "") {
       toastr.warning("Please enter your new email address.");
       return;
@@ -21,8 +25,12 @@ Template.changeEmail.events({
 
     Meteor.call("user.changeEmail", $('#objNewEmail').val(), function(err, res) {
       if (err) {
-        toastr.error("Error updating email adderss: " + err);
+        toastr.error("Error updating email address: " + err);
+        return;
       }
+
+      $('#objNewEmail').val("");
+      $('#objRepEmail').val("");
 
       if(!res) {
         toastr.error('The email address you have chosen is already in use. Please choose a different email address.');
@@ -30,7 +38,6 @@ Template.changeEmail.events({
       }
 
       toastr.success('Your email address was updated successfully. You should login with your new email address in future.');
-      Modal.hide();
     });
   }
 });

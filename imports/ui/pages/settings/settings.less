@@ -1,3 +1,5 @@
+@import "{}/client/bootstrap/custom.bootstrap.import.less";
+
 #settings-nav > div {
   float: right;
   padding-top: 20px;
@@ -30,7 +32,7 @@
   line-height: 22px;
 }
 
-.settings-section h4.slim {
+.settings-section .slim {
   margin: 0;
 }
 
@@ -75,4 +77,16 @@
   padding: 14px 10px 12px;
   color: #656565;
   cursor:ns-resize;
+}
+.settings-section form button {
+  margin-top: 15px;
+}
+.settings-section label {
+  margin-bottom: 5px;
+  margin-top: 10px;
+  font-weight: normal;
+  color: #555;
+}
+.settings-section form label:first-of-type {
+  margin-top: 0;
 }
