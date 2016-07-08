@@ -1,138 +1,94 @@
 <template name="stripeAdmin">
 
-    <div class="col-md-12">
-      <h4>Here are the details of your subscription status</h4>
-      {{#if subscriptionCancelled}}
-        <p class="text-danger">
-        <i class="fa fa-fw fa-exclamation-triangle"></i> Your subscription has been cancelled. You can resume it until the end of that period.
-        </p>
-      {{/if}}
-    </div>
+  <div class="settings-section">
+    <h4>Subscription Status</h4>
 
-    <div class="col-md-5">
-      <div class="well well-sm">
-        <div class="row">
-          <div class="col-xs-5"><strong>Plan</strong></div>
-          <div class="col-xs-7" id="planName">
-            {{#if subsLoaded}}
-              {{currentSubscription}}
-              {{else}}
-              <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
-            {{/if}}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-5"><strong>Coupon</strong></div>
-          <div class="col-xs-7" id="couponDisplay">
-            {{#if couponLoaded}}
-              <span id="couponText">{{#if hasCoupon}}{{hasCoupon}}{{else}}No active coupon{{/if}}</span>{{#unless isProTenant}} - <a href="#" id="updateCoupon">Edit</a>{{/unless}}
-              {{else}}
-              <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
-            {{/if}}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-5"><strong>Users</strong></div>
-          <div class="col-xs-7" id="numberOfUsers">{{totalUsers}}</div>
-        </div>
-      </div>
-      {{#if hasStripeAccount}}
-      <div class="well well-sm">
-        {{#if stripeCustomer.sources.total_count}}
-          {{#with cardDetails}}
-          {{#if cardDetails.last4}}
-            <p>Card used for your payments:</p>
-            <div class="row">
-              <div class="col-xs-6"><strong>Name</strong></div><div class="col-xs-6">{{name}}</div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6"><strong>Brand</strong></div><div class="col-xs-6">{{brand}}</div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6"><strong>Last four number</strong></div><div class="col-xs-6">{{last4}}</div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6"><strong>Exp Month</strong></div><div class="col-xs-6">{{exp_month}}</div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6"><strong>Exp Year</strong></div><div class="col-xs-6" id="cardExpYear">{{exp_year}}</div>
-            </div>
-            <div class="row">
-              <div class="col-xs-12"><button id="updateCardDetails" class="btn btn-xs btn-primary pull-right">Update Card Details</button></div>
-            </div>
-            <hr />
+    {{#if subscriptionCancelled}}
+      <p class="text-danger">
+      <i class="fa fa-fw fa-exclamation-triangle"></i> Your subscription has been cancelled. You can resume it until the end of that period.
+      </p>
+    {{/if}}
+
+    {{#if subsLoaded}}
+      <ul class="list-group">
+        <li class="list-group-item">Plan:  
+            {{currentSubscription}}
+        </li>
+        <li class="list-group-item">Coupon: 
+          {{#if couponLoaded}}
+            <span id="couponText">
+              {{#if hasCoupon}}{{hasCoupon}}{{else}}No active coupon{{/if}}
+            </span>
+            {{#unless isProTenant}} - <a href="#" id="updateCoupon">Edit</a>{{/unless}}
           {{else}}
             <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
           {{/if}}
-          {{/with}}
-        {{/if}}
-
-        <p>Email used for your invoices:</p>
-        <div class="row"><div class="col-xs-12" id="stripeEmail">{{stripeCustomer.email}}</div></div>
-        <div class="row"><div class="col-xs-12"><button id="updateEmail" class="btn btn-xs btn-primary pull-right">Update Email</button></div></div>
-      </div>
-      {{/if}}
-    </div>
-
-    {{#if hasStripeAccount}}
-    <div class="col-md-7">
-      <div class="well well-sm">
-        {{#if lastInvoice.date}}
-        <div class="row">
-          <div class="col-xs-12"><strong>Last Invoice details</strong></div>
-        </div>
-        <div class="row">
-          <div class="col-xs-3"><strong>Amount</strong></div>
-          <div class="col-xs-9">{{lastInvoice.amount_due}}</div>
-        </div>
-        <div class="row">
-          <div class="col-xs-3"><strong>Date</strong></div>
-          <div class="col-xs-9">{{lastInvoice.date}}</div>
-        </div>
-        <div class="row">
-          <div class="col-xs-3"><strong>Period</strong></div>
-          <div class="col-xs-9">{{lastInvoice.start}} - {{lastInvoice.end}}</div>
-        </div>
-        {{else}}
-          <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
-        {{/if}}
-        {{#if upcomingInvoice.date}}
-        <hr />
-
-        <div class="row">
-          <div class="col-xs-12"><strong>Upcoming Invoice details</strong></div>
-        </div>
-        <div class="row">
-          <div class="col-xs-3"><strong>Amount</strong></div>
-          <div class="col-xs-9">{{upcomingInvoice.amount_due}}</div>
-        </div>
-        {{#each upcomingInvoice.lines.data}}
-          {{> lineDetails}}
-        {{/each}}
-        <div class="row">
-          <div class="col-xs-3"><strong>Date Due</strong></div>
-          <div class="col-xs-9">{{upcomingInvoice.date}}</div>
-        </div>
-        {{/if}}
-
-      </div>
-    </div>
+        </li>
+        <li class="list-group-item">Users: {{totalUsers}}</li>
+      </ul>
+    {{else}}
+      <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
     {{/if}}
-
-  <div class="col-xs-12" id="switchButtons">
-  {{#if payingScheme}}
-    <button type="button" class="btn btn-danger" role="button" id="downScheme">Downgrade to Free Plan</button>
-  {{else}}
-    {{#if subsLoaded}}
-      {{#if hasStripeSubs}}
-          <button type="button" class="btn btn-success" role="button" id="resumeSubs">Resume Subscription</button>
-      {{else}}
-          <button type="button" class="btn btn-info" role="button" id="upScheme">Upgrade to Pro Plan</button>
-      {{/if}}
-    {{/if}}
-  {{/if}}
-  <div><i class="fa fa-lock"></i> <a href="#" id="showStripeHow">All payments are securely processed by Stripe, our payment partner</a></div>
   </div>
+
+  <div class="settings-section">
+    <h4>Card Details
+      {{#if cardDetails.last4}}
+        <button id="updateCardDetails" class="btn btn-xs btn-primary pull-right">Update Card Details</button>
+      {{/if}}
+    </h4>
+    {{#if stripeCustomer.sources.total_count}}{{#with cardDetails}}{{#if cardDetails.last4}}
+      <ul class="list-group">
+        <li class="list-group-item">Name: {{name}}</li>
+        <li class="list-group-item">Type: {{brand}}</li>
+        <li class="list-group-item">Number: **** **** **** {{last4}}</li>
+        <li class="list-group-item">Expiration Month: {{exp_month}}</li>
+        <li class="list-group-item">Expiration Year: {{exp_year}}</li>
+      </ul>
+      <p>
+        <i class="fa fa-lock"></i> 
+        <a href="#" id="showStripeHow">All payments are securely processed by Stripe, our payment partner</a>
+      </p>
+    {{else}}
+      <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
+    {{/if}}{{/with}}{{else}}
+      <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
+    {{/if}}
+  </div>
+
+  <div class="settings-section">
+    <h4>Invoice Email Address</h4>
+    {{#if stripeCustomer.email}}
+      <p>{{stripeCustomer.email}}<button id="updateEmail" class="btn btn-xs btn-primary pull-right">Update Email</button></p>
+    {{else}}
+      <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
+    {{/if}}
+  </div>
+
+  <div class="settings-section">
+    <h4>Next Invoice</h4>
+    {{#if hasStripeAccount}}{{#if upcomingInvoice.date}}
+      <p>Amount: {{upcomingInvoice.amount_due}}</p>
+      <p>Date: {{upcomingInvoice.date}}</p>
+      {{#each upcomingInvoice.lines.data}}
+        {{> lineDetails}}
+      {{/each}}
+    {{else}}
+      <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
+    {{/if}}{{/if}}
+  </div>
+
+  <div class="settings-section">
+    <h4>Last Payment</h4>
+    {{#if hasStripeAccount}}{{#if lastInvoice.date}}
+      <p>Amount: {{lastInvoice.amount_due}}</p>
+      <p>Date: {{lastInvoice.date}}</p>
+      <p>Period: {{lastInvoice.start}} - {{lastInvoice.end}}</p>
+    {{else}}
+      <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
+    {{/if}}{{/if}}
+  </div>
+
 </template>
 
 <template name="lineDetails">

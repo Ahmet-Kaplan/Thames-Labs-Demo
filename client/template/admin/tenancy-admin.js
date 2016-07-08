@@ -114,12 +114,6 @@ Template.tenancyAdminPage.events({
   }
 });
 
-Template.adminAreaUser.helpers({
-  isSelf: function() {
-    return this._id === Meteor.userId();
-  }
-});
-
 Template.gcf_display.helpers({
   canMove: function() {
     return CustomFields.find({

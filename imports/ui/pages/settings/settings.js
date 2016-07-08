@@ -1,6 +1,6 @@
 import './profile/profile.js';
 import './users/users.js';
-import './plan-billing/plan-billing.js';
+import './billing/billing.js';
 import './configuration/configuration.js';
 /*
 Template.settings.onCreated(function() {

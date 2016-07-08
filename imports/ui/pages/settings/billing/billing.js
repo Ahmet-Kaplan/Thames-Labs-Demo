@@ -1,7 +1,7 @@
-import './plan-billing.html';
-import '/imports/ui/components/settings/plan-billing/plan-billing.js';
+import './billing.html';
+import '/imports/ui/components/settings/billing/billing.js';
 
-Template.planBillingSettings.onCreated(function() {
+Template.billingSettings.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
     redirectWithoutPermission(Meteor.userId(), 'Administrator');

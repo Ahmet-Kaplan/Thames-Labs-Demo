@@ -200,11 +200,11 @@ router.route('/settings/users', {
   }
 });
 
-router.route('/settings/plan-billing', {
-  name: 'planBillingSettings',
+router.route('/settings/billing', {
+  name: 'billingSettings',
   action: function() {
     layout.render('appLayout', {
-      main: "planBillingSettings"
+      main: "billingSettings"
     });
   }
 });

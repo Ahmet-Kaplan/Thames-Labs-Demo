@@ -1,9 +1,9 @@
 import './free-plan/free-plan.js';
 import './pro-plan/pro-plan.js';
-import './plan-billing.css';
-import './plan-billing.html';
+import './billing.css';
+import './billing.html';
 
-Template.planBilling.helpers({
+Template.billing.helpers({
   //Determine plan type
   isProTenant: function() {
     if (!Meteor.user() || !Meteor.user().group) return false;

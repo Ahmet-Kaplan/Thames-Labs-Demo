@@ -1,21 +1,13 @@
 <template name="proPlan">
+
+  {{> stripeAdmin }}
+
   <div class="settings-section">
     <h4>Current Plan</h4>
     <div class="well">
       <h3 class="plan-name text-success">Pro Plan</h3>
       <p>{{tenantName}} is using {{tenantUserCount}} user accounts.</p>
     </div>
-  </div>
-
-  <div class="settings-section">
-    <h4>Next Payment</h4>
-    <p>Your next payment is due on:</p>
-    <p>Amount: £20 <small>user per month</small></p>
-  </div>
-
-  <div class="settings-section">
-    <h4>Payment History</h4>
-    <p><i>You have not made any payments</i></p>
   </div>
 
   <div class="settings-section">
