@@ -160,7 +160,7 @@ Template.contactDetail.helpers({
       });
       if (tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) {
         var titles = tenant.settings.contact.titles.split(',');
-        return _.contains(titles, this.title);
+        return _.includes(titles, this.title);
       }
     }
     return false;
