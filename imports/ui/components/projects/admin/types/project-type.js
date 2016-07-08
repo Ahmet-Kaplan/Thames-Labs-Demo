@@ -24,7 +24,7 @@ Template.projectType.onRendered(function() {
       const newIndex = $(this).find('.project-milestone').index(ui.item);
 
       //Update data stores
-      Meteor.call('changeMilestoneOrder', typeId, milestoneId, newIndex);
+      Meteor.call('projects.changeMilestoneOrder', typeId, milestoneId, newIndex);
 
       //Prevent DOM updates to let Meteor + Blaze handle it
       $(this).sortable('cancel');

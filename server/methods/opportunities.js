@@ -13,34 +13,6 @@ Meteor.methods({
       return data;
     });
   },
-  changeStageOrder: function(stageId, newIndex) {
-    var user = Meteor.users.findOne(this.userId);
-
-    Partitioner.bindGroup(user.group, function() {
-      var userTenant = Tenants.findOne({
-        _id: user.group
-      });
-      var currentStages = userTenant.settings.opportunity.stages;
-      const currentStage = _.find(currentStages, { 'id': stageId });
-      const currentIndex = _.findIndex(currentStages, { 'id': stageId });
-
-      //Reorder array
-      _.pullAt(currentStages, currentIndex);
-      currentStages.splice(newIndex, 0, currentStage);
-
-      //Update order field for timeline on opp page
-      _.each(currentStages, function(value, key) {
-        value.order = key;
-      });
-
-      //Save changes
-      Tenants.update(userTenant._id, {
-        $set: {
-          'settings.opportunity.stages': currentStages
-        }
-      });
-    });
-  },
 
   deleteOpportunityStage: function(stageId) {
     var user = Meteor.users.findOne(this.userId);

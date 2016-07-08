@@ -22,7 +22,7 @@ Template.opportunitiesAdmin.onRendered(function() {
       const newIndex = $(this).find('.opportunity-stage').index(ui.item);
 
       //Update data stores
-      Meteor.call('changeStageOrder', stageId, newIndex);
+      Meteor.call('opportunities.changeStageOrder', stageId, newIndex);
 
       //Prevent DOM updates to let Meteor + Blaze handle it
       $(this).sortable('cancel');
