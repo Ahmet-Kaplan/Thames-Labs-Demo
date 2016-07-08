@@ -52,43 +52,46 @@ Template.tenantList.events({
   },
   "click #export-tenants": function(event, template) {
     var collectionName = "tenants";
-    var tenantArray = [];
 
     var index = Collections[collectionName].index;
     var searchDefinition = index.getComponentDict().get('searchDefinition');
     var searchOptions = index.getComponentDict().get('searchOptions');
 
+    toastr.info("Exporting, please wait...", "RealTimeCRM", {
+      timeOut: 6000,
+      closeButton: false,
+      "debug": false,
+      "newestOnTop": true,
+      "positionClass": "toast-bottom-right",
+      "preventDuplicates": true,
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    });
+
     Meteor.call('search.export', collectionName, searchDefinition, searchOptions, (err, results) => {
       if (err) {
         throw new Meteor.Error('500', err);
       }
-      var total = results.length;
-      var proc = 0;
+      Meteor.call('tenant.getExportData', results, function(err, res) {
+        if(err) throw new Meteor.Error(err);
+        var filename = [
+          'realtimecrm-',
+          collectionName,
+          '-export_',
+          moment().format("MMM-Do-YY"),
+          '.csv'
+        ].join('');
 
-      _.each(results, function(tenant, i) {
-        Meteor.bindEnvironment(Meteor.call('tenant.getExportData', tenant.name, function(err, res) {
-          if(err) throw new Meteor.Error(err);
-          tenantArray.push(res);
-          proc = i + 1;
+        var fileData = Papa.unparse(res);
 
-          if (proc === total) {
-            var filename = [
-              'realtimecrm-',
-              collectionName,
-              '-export_',
-              moment().format("MMM-Do-YY"),
-              '.csv'
-            ].join('');
+        var blob = new Blob([fileData], {
+          type: "text/csv;charset=utf-8"
+        });
 
-            var fileData = Papa.unparse(tenantArray);
-
-            var blob = new Blob([fileData], {
-              type: "text/csv;charset=utf-8"
-            });
-
-            saveAs(blob, filename);
-          }
-        }));
+        toastr.clear();
+        saveAs(blob, filename);
       });
     });
   },

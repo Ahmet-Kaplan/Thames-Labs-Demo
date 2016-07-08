@@ -93,7 +93,7 @@ Meteor.methods({
     }
     ServerSession.set('deletingTenant', val);
   },
-  'tenant.getExportData': function(tenantName) {
+  'tenant.getExportData': function(tenants) {
 
     if (!this.userId) throw new Meteor.Error('401', 'Must be a logged in user to perform export');
 
@@ -101,25 +101,34 @@ Meteor.methods({
       throw new Meteor.Error(403, 'Only admins may export tenant data');
     }
 
-    var tenant = Tenants.findOne({name: tenantName});
+    var tenantArray = [];
 
-    return Partitioner.bindGroup(tenant._id, function() {
-      var data = {
-        name: tenant.name,
-        createdAt: moment(tenant.createdAt).format('DD/MM/YYYY HH:mm'),
-        plan: tenant.plan,
-        companies: Companies.find({_groupId: tenant._id}).count(),
-        contacts: Contacts.find({_groupId: tenant._id}).count(),
-        opportunities: Opportunities.find({_groupId: tenant._id}).count(),
-        projects: Projects.find({_groupId: tenant._id}).count(),
-        products: Products.find({_groupId: tenant._id}).count(),
-        purchaseOrders: PurchaseOrders.find({_groupId: tenant._id}).count(),
-        activities: Activities.find({_groupId: tenant._id}).count(),
-        tasks: Tasks.find({_groupId: tenant._id}).count(),
-        currency: tenant.settings.currency,
-        coupon: (tenant.stripe && tenant.stripe.coupon ? tenant.stripe.coupon : '')
-      };
-      return data;
+    _.each(tenants, function(t) {
+      var tenant = Tenants.findOne({name: t.name});
+
+      if(tenant) {
+        Partitioner.bindGroup(tenant._id, function() {
+          var data = {
+            name: tenant.name,
+            createdAt: moment(tenant.createdAt).format('DD/MM/YYYY HH:mm'),
+            plan: tenant.plan,
+            companies: Companies.find({_groupId: tenant._id}).count(),
+            contacts: Contacts.find({_groupId: tenant._id}).count(),
+            opportunities: Opportunities.find({_groupId: tenant._id}).count(),
+            projects: Projects.find({_groupId: tenant._id}).count(),
+            products: Products.find({_groupId: tenant._id}).count(),
+            purchaseOrders: PurchaseOrders.find({_groupId: tenant._id}).count(),
+            activities: Activities.find({_groupId: tenant._id}).count(),
+            tasks: Tasks.find({_groupId: tenant._id}).count(),
+            currency: (tenant.settings.currency ? tenant.settings.currency : 'Not set'),
+            coupon: (tenant.stripe && tenant.stripe.coupon ? tenant.stripe.coupon : '')
+          };
+
+          tenantArray.push(data);
+        });
+      }
     });
+
+    return tenantArray;
   }
 });
