@@ -11,6 +11,8 @@ Template.updateOppStage.onRendered(function() {
 
 Template.updateOppStage.events({
   'click #editStage': function(event, template) {
+    event.preventDefault();
+
     var userTenant = Tenants.findOne({
       _id: Meteor.user().group
     });

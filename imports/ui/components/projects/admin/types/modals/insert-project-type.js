@@ -2,7 +2,7 @@ import './insert-project-type.html';
 
 Template.insertProjectType.events({
   "click #submit-new-project-type": function(event, template) {
-
+    event.preventDefault();
     if ($('#project-type-name').val() === "") {
       toastr.error('Project type name required.');
     }

@@ -12,6 +12,7 @@ Template.projectType.onRendered(function() {
   const typeId = this.data.id;
   $('#milestone-list-' + this.data.id).sortable({
     handle: '.handle',
+    axis: 'y',
     stop: function(event, ui) {
       if (!isProTenant(Meteor.user().group)) {
         showUpgradeToastr('To reorder project milestones');
@@ -39,7 +40,7 @@ Template.projectType.events({
       return;
     }
 
-    Modal.show('createProjectMilestone', this);
+    Modal.show('insertProjectMilestone', this);
   },
   'click #editType': function(event) {
     event.preventDefault();

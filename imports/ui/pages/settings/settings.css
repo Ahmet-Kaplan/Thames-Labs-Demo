@@ -52,13 +52,13 @@
 }
 .settings-section .list-group-item {
   padding: 0;
+  min-height: 42px;
 }
 .settings-section .list-group-item:hover {
   background: #f5f5f5;
 }
 .settings-section .list-group-item > a {
-  padding: 10px 0;
-  margin-left: 20px;
+  padding: 10px 15px;
   display: block;
   color: #555555;
   text-decoration: none;
@@ -72,8 +72,7 @@
   margin-right: 10px;
 }
 .settings-section .list-group-item > .handle i {
-  margin-top: 14px;
-  margin-right: 10px;
-  padding-left: 10px;
+  padding: 14px 10px 12px;
   color: #656565;
+  cursor:ns-resize;
 }

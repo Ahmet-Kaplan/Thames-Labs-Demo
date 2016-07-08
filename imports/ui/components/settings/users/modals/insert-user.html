@@ -10,7 +10,7 @@
 
         <div class="modal-body">
           {{#autoForm schema="Schemas.User" id="insertUser" type="method" meteormethod="addTenantUser"}}
-            {{> afQuickField name="name" autocomplete="off" id="addUserName"}}
+            {{> afQuickField name="name" autocomplete="off" id="addUserName" autofocus=''}}
             {{> afQuickField name="email" autocomplete="off" id="addUserEmail"}}
             {{> afQuickField name="password" type="hidden" value="default123"}}
             {{> afQuickField name="group" type="hidden" value="1"}}

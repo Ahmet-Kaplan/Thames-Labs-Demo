@@ -20,6 +20,6 @@ Template.projectAdmin.events({
       return;
     }
 
-    Modal.show('createProjectType');
+    Modal.show('insertProjectType');
   }
 });

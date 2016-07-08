@@ -6,6 +6,7 @@ Template.updateProjectType.onRendered(function() {
 
 Template.updateProjectType.events({
   "click #update-project-type": function(event, template) {
+    event.preventDefault();
 
     if ($('#project-type-name').val() === "") {
       toastr.error('Project type name required.');

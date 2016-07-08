@@ -10,6 +10,7 @@ import { Blaze } from 'meteor/blaze';
 Template.opportunitiesAdmin.onRendered(function() {
   $('#opp-stages').sortable({
     handle: '.handle',
+    axis: 'y',
     stop: function(event, ui) {
       if (!isProTenant(Meteor.user().group)) {
         showUpgradeToastr('To reorder opportunity stages');

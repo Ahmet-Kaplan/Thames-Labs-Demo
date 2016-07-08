@@ -2,6 +2,7 @@ import './insert-project-milestone.html';
 
 Template.insertProjectMilestone.events({
   "click #submit-new-milestone": function(event, template) {
+    event.preventDefault();
 
     if ($('#project-milestone-name').val() === "") {
       toastr.error('Project milestone name required.');

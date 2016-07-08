@@ -25,7 +25,9 @@ Template.insertOppStage.onCreated(function() {
 });
 
 Template.insertOppStage.events({
-  'click #addStage': function() {
+  'click #addStage': function(e) {
+    e.preventDefault();
+
     var userTenant = Tenants.findOne({
       _id: Meteor.user().group
     });
