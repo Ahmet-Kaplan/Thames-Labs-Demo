@@ -2,7 +2,7 @@ import './project-milestone.html';
 import './modals/update-project-milestone.js';
 
 Template.projectMilestone.events({
-  'click .project-milestone': function(event, template) {
+  'click .project-milestone-link': function(event, template) {
 
     event.preventDefault();
     if (!isProTenant(Meteor.user().group)) {
@@ -14,7 +14,7 @@ Template.projectMilestone.events({
     data.parentTypeId = Template.parentData().id;
     Modal.show('updateProjectMilestone', data);
   },
-  'click #removeMilestone': function(event, template) {
+  'click #delete': function(event, template) {
     event.preventDefault();
     if (!isProTenant(Meteor.user().group)) {
       showUpgradeToastr('To delete your project types');

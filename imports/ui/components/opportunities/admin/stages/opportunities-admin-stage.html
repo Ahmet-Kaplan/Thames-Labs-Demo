@@ -1,11 +1,11 @@
 <template name="opportunityAdminStage">
-  <a class="list-group-item opportunity-stage">
+  <li class="opportunity-stage list-group-item">
     <div class="pull-right">
-      <button class="btn btn-danger btn-xs" id="btnDelete">Delete</button>
-      <span class="opportunity-stage-handle">
-        <i class="fa fa-fw fa-bars"></i>
-      </span>
+      <button class="btn btn-danger btn-xs" id="delete">Delete</button>
     </div>
-    <span class="opportunity-stage-handle">{{title}}</span>
-  </a>
+    <span class="pull-left handle">
+      <i class="fa fa-bars"></i>
+    </span>
+    <a class="opportunity-stage-link handle">{{title}}</a>
+  </li>
 </template>

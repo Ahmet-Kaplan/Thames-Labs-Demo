@@ -29,7 +29,7 @@ Template.opportunityAdminStage.helpers({
 });
 
 Template.opportunityAdminStage.events({
-  'click .opportunity-stage': function(event) {
+  'click .opportunity-stage-link': function(event) {
     event.preventDefault();
     if (!isProTenant(Meteor.user().group)) {
       showUpgradeToastr('To edit your opportunity stages');
@@ -38,7 +38,7 @@ Template.opportunityAdminStage.events({
     Modal.show('updateOppStage', this);
   },
 
-  'click #btnDelete': function(event) {
+  'click #delete': function(event) {
     event.preventDefault();
 
     if (!isProTenant(Meteor.user().group)) {

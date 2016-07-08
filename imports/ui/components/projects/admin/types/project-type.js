@@ -11,8 +11,13 @@ import { Blaze } from 'meteor/blaze';
 Template.projectType.onRendered(function() {
   const typeId = this.data.id;
   $('#milestone-list-' + this.data.id).sortable({
-    handle: '.project-milestone-handle',
+    handle: '.handle',
     stop: function(event, ui) {
+      if (!isProTenant(Meteor.user().group)) {
+        showUpgradeToastr('To reorder project milestones');
+        $(this).sortable('cancel');
+        return;
+      }
       //Setup needed variables
       const milestoneId = Blaze.getData(ui.item[0]).id;
       const newIndex = $(this).find('.project-milestone').index(ui.item);

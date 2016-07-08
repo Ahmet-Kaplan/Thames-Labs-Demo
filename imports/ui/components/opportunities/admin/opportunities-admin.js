@@ -9,8 +9,13 @@ import { Blaze } from 'meteor/blaze';
 
 Template.opportunitiesAdmin.onRendered(function() {
   $('#opp-stages').sortable({
-    handle: '.opportunity-stage-handle',
+    handle: '.handle',
     stop: function(event, ui) {
+      if (!isProTenant(Meteor.user().group)) {
+        showUpgradeToastr('To reorder opportunity stages');
+        $(this).sortable('cancel');
+        return;
+      }
       //Setup needed variables
       const stageId = Blaze.getData(ui.item[0]).id;
       const newIndex = $(this).find('.opportunity-stage').index(ui.item);

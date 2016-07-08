@@ -1,3 +1,13 @@
+#settings-nav > div {
+  float: right;
+  padding-top: 20px;
+  display: block;
+  width: 150px;
+}
+#settings-nav .nav {
+  position: fixed;
+}
+
 #settings-content h2{
   margin: 20px 0px 10px;
   font-size: 1.7em;
@@ -5,11 +15,6 @@
 
 #settings-content h2.heading {
   margin-top: 40px;
-}
-
-#settings-content .list-group {
-  margin-top: -5px;
-  margin-bottom: 0;
 }
 
 .settings-section {
@@ -42,12 +47,33 @@
   margin-bottom: 0;
 }
 
-#settings-nav > div {
-  float: right;
-  padding-top: 20px;
-  display: block;
-  width: 150px;
+.settings-section .list-group {
+  margin-bottom: -5px;
 }
-#settings-nav .nav {
-  position: fixed;
+.settings-section .list-group-item {
+  padding: 0;
+}
+.settings-section .list-group-item:hover {
+  background: #f5f5f5;
+}
+.settings-section .list-group-item > a {
+  padding: 10px 0;
+  margin-left: 20px;
+  display: block;
+  color: #555555;
+  text-decoration: none;
+}
+.settings-section .list-group-item > .pull-right {
+  height: 40px;
+  line-height: 40px;
+}
+.settings-section .list-group-item > .pull-right > button {
+  margin-top: -3px;
+  margin-right: 10px;
+}
+.settings-section .list-group-item > .handle i {
+  margin-top: 14px;
+  margin-right: 10px;
+  padding-left: 10px;
+  color: #656565;
 }
