@@ -173,9 +173,6 @@ Template.opportunityDetail.events({
     }.bind(this);
     reader.readAsArrayBuffer(file);
   },
-  'click #template-upload-link': function() {
-    document.getElementById('template-upload').click();
-  },
   'click #template-upload-link-docx': function() {
     document.getElementById('template-upload-docx').click();
   },

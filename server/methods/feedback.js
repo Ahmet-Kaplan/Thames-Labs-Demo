@@ -16,7 +16,7 @@ Meteor.methods({
       auth: asanaApiKey + ':',
       data: {
         data: {
-          name: _.trunc(doc.message),
+          name: _.truncate(doc.message),
           projects: asanaProject,
           workspace: asanaWorkspace,
           notes: doc.message + '\n\nurl: ' + doc.url + '\nname: ' + doc.name + '\nemail: ' + doc.email

@@ -1,4 +1,4 @@
-import './document-API';
+import { documentAPI } from './document-API/document-API-helpers.js';
 
 import './document-container.html';
 import './document-container.css';

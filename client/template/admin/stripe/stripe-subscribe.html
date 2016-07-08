@@ -9,6 +9,10 @@
         </div>
 
         <div class="modal-body">
+          Select your currency:
+          <label class="currency"><input type="radio" name="selectCurrency" value="gbp" checked="{{#if equals paymentCurrency 'gbp'}}checked{{/if}}"> <i class="fa fa-fw fa-gbp"></i> (GBP) </label>
+          <label class="currency"><input type="radio" name="selectCurrency" value="eur" checked="{{#if equals paymentCurrency 'eur'}}checked{{/if}}"> <i class="fa fa-fw fa-eur"></i> (EUR) </label>
+          <label class="currency"><input type="radio" name="selectCurrency" value="usd" checked="{{#if equals paymentCurrency 'usd'}}checked{{/if}}"> <i class="fa fa-fw fa-usd"></i> (USD) </label>
           <br />Please find below the details of your subscription:
 
           <div class="well well-sm">
@@ -20,7 +24,7 @@
             </div>
             <div class="row">
               <div class="col-xs-6"><em>Price</em></div>
-              <div class="col-xs-4">£{{amount}} /user/{{interval}}</div>
+              <div class="col-xs-4">{{amount}} /user/{{interval}}</div>
             </div>
             <div class="row">
               <div class="col-xs-6"><em>Number of users</em></div>
@@ -39,7 +43,7 @@
             </div>
             <div class="row">
               <div class="col-xs-6"><strong>Total Price of Subscription</strong></div>
-              <div class="col-xs-4">£{{total}} /{{interval}} + VAT (20%)</div>
+              <div class="col-xs-4">{{total}} /{{interval}} + VAT (20%)</div>
             </div>
           {{/with}}
           {{else}}
@@ -47,7 +51,7 @@
           {{/if}}
           </div>
 
-          <br /><br />For your subscription to become active, enter your card details below.
+          <br /><br />To complete your subscription, enter your card details below.
           <br />Please note that none of the card information is stored by us.
         </div>
 

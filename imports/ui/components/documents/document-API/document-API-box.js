@@ -1,5 +1,4 @@
-import { documentAPI } from './document-API-helpers.js';
-documentAPI.boxChooser = function(cb) {
+const boxChooser = (cb) => {
   var clientKey = Meteor.settings.public.boxApiKey;
   var options = {
     clientId: clientKey,
@@ -28,3 +27,5 @@ documentAPI.boxChooser = function(cb) {
     toastr.error("The Box.com file selector does not support your current browser. You can see a list of supported browsers <a href='https://developers.box.com/the-box-file-picker/#browsersupport'>here</a>.");
   }
 };
+
+export { boxChooser };

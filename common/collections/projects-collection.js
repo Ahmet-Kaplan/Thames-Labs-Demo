@@ -88,7 +88,9 @@ Collections.projects.filters = {
     prop: 'dueDate',
     verify: function(dueDate) {
       var wordedTimes = Collections.helpers.wordedTimes;
-      if (!moment(dueDate).isValid() && !moment(dueDate, 'DD-MM-YYYY', false).isValid() && !_.some(wordedTimes, 'expr', dueDate.toLowerCase())) {
+      if (!moment(dueDate).isValid() && !moment(dueDate, 'DD-MM-YYYY', false).isValid() && !_.some(wordedTimes, {
+        'expr': dueDate.toLowerCase()
+      })) {
         toastr.error('Invalid date', 'Error', {
           preventDuplicates: true
         });
@@ -190,7 +192,9 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadProjects']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => ({ 'name': 1 }),
+    sort: () => ({
+      'name': 1
+    }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
         return {};
@@ -271,8 +275,12 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
         } else if (moment(dueDate, 'DD-MM-YYYY', false).isValid()) {
           formattedStartDate = moment(dueDate, 'DD-MM-YYYY', false).startOf('day').toDate();
           formattedEndDate = moment(dueDate, 'DD-MM-YYYY', false).endOf('day').toDate();
-        } else if (_.some(wordedTimes, 'expr', dueDate.toLowerCase())) {
-          var index = _.findIndex(wordedTimes, 'expr', dueDate.toLowerCase());
+        } else if (_.some(wordedTimes, {
+          'expr': dueDate.toLowerCase()
+        })) {
+          var index = _.findIndex(wordedTimes, {
+            'expr': dueDate.toLowerCase()
+          });
           formattedStartDate = wordedTimes[index].start.toDate();
           formattedEndDate = wordedTimes[index].end.toDate();
         }
