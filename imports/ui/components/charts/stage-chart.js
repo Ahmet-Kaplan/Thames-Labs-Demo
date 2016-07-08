@@ -1,10 +1,12 @@
 import d3 from 'd3';
+import _ from 'lodash';
 
 function StageChart(el) {
 
   var width = $(el).innerWidth(),
       height = 100,
-      nodeR = 20;
+      nodeR = 25,
+      markerR = 5;
 
   var color = d3.scale.ordinal()
         .range([
@@ -55,7 +57,7 @@ function StageChart(el) {
       .enter()
       .append("circle")
       .attr("class", "marker")
-      .attr("r", 5)
+      .attr("r", markerR)
       .attr("fill", (d, i) => color(i))
       .attr("stroke", (d, i) => d3.rgb(color(i)).darker())
       .attr("stroke-width", 2)
@@ -67,6 +69,7 @@ function StageChart(el) {
       .attr("class", "node")
       .attr("r", nodeR)
       .attr("stroke-width", 2)
+      .style("cursor", "pointer")
       .data(nodes)
       .call(force.drag);
 
@@ -78,21 +81,30 @@ function StageChart(el) {
   this.update = (entity, stages) => {
 
     //Get current stage
-    const stage = stages[entity.currentStageId];
+    const currentStage = stages[entity.currentStageId];
 
     //force.size divides by 2 so multiply stage.x by 2 for node x
-    var nodeX = stage.x * 2;
+    var nodeX = currentStage.x * 2;
 
     //Update node colours
     var circle = svg.selectAll(".node")
           .style("fill", color(entity.currentStageId))
-          .attr("stroke", color(entity.currentStageId));
+          .attr("stroke", d3.rgb(color(entity.currentStageId)).darker());
 
     //Update node position
     var tick = (e) => {
       circle
         .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y);
+
+      force.drag()
+        .on("dragend", (d) => {
+          const closestStage = _.minBy(stages, (stage) => Math.abs(d.x - stage.x));
+          if (closestStage.id === entity.currentStageId) return;
+          Meteor.call('opportunities.setStage', d._id, closestStage.id, (err) => {
+            if (err) toastr.error(err.error);
+          });
+        });
     };
 
     //Update force position
