@@ -38,6 +38,23 @@ function StageChart(el) {
   svg.call(tip);
 
   this.draw = (entity, stages) => {
+    this.drawAxis(entity, stages);
+    this.setForce(entity, stages);
+  };
+
+  this.resize = (entity, stages) => {
+    svg.selectAll("g.axisContainer").remove();
+    svg.selectAll("circle").remove();
+    this.drawAxis(entity, stages);
+    this.setForce(entity, stages);
+  };
+
+  this.drawAxis = (entity, stages) => {
+    width = $(el).innerWidth();
+
+    svg
+      .attr("width", width);
+
     nodes.push(entity);
 
     const stageWidth = width / stages.length;
@@ -82,7 +99,7 @@ function StageChart(el) {
       .attr("y", height - (height / 8))
       .text((d) => d.title);
 
-    //Draw node
+    //Draw Circle
     svg.append("circle")
       .attr("class", "node")
       .attr("r", nodeR)
@@ -90,13 +107,12 @@ function StageChart(el) {
       .style("cursor", "pointer")
       .data(nodes)
       .call(force.drag);
+  };
+
+  this.setForce = (entity, stages) => {
 
     force
       .nodes(nodes);
-
-  };
-
-  this.update = (entity, stages) => {
 
     //Get current stage
     const currentStage = stages[entity.currentStageIndex];

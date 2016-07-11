@@ -28,18 +28,26 @@ Template.opportunityDetail.onCreated(function() {
 Template.opportunityDetail.onRendered(function() {
 
   $.getScript('/vendor/docxgen.min.js');
+
   this.chart = new StageChart('#d3-stage-chart');
 
   const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
-  const id = FlowRouter.getParam('id');
-  var opportunity = Opportunities.findOne(id);
+  var opportunity = Opportunities.findOne(FlowRouter.getParam('id'));
+
+  opportunity.currentStageIndex = _.findIndex(stages, {id: opportunity.currentStageId});
+
   this.chart.draw(opportunity, stages);
-  // this.chartResizeEventHandler = window.addEventListener("resize", this.chart.draw(opportunity, stages));
+
+  var resize = () => {
+    this.chart.resize(opportunity, stages);
+  };
+
+  this.chartResizeEventHandler = window.addEventListener("resize", resize);
 
   this.autorun( () => {
-    opportunity = Opportunities.findOne(id);
+    opportunity = Opportunities.findOne(FlowRouter.getParam('id'));
     opportunity.currentStageIndex = _.findIndex(stages, {id: opportunity.currentStageId});
-    this.chart.update(opportunity, stages);
+    this.chart.setForce(opportunity, stages);
   });
 
   //Update opp stage when dragged
