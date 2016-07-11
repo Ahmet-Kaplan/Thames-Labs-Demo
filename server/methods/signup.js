@@ -28,7 +28,13 @@ Meteor.methods({
     }, function(error, result) {
       if (error) {
         Meteor.users.remove(userId);
-        throw new Meteor.Error(500, "Sign up could not be completed. Please contact support");
+        Email.send({
+          to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
+          from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
+          subject: 'FAILED RealTimeCRM sign up!',
+          text: `Failed sign up from ${userDetails.name} at company ${userDetails.companyName} with email address ${userDetails.email}\n\n${error}`
+        });
+        throw new Meteor.Error(error.sanitizedError.error, error.sanitizedError.reason);
       }
       Partitioner.setUserGroup(userId, tenantId);
 

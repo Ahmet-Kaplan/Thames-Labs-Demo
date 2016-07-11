@@ -42,7 +42,7 @@ AutoForm.hooks({
       });
     },
     onError: function(formType, error) {
-      toastr.error(error.reason);
+      toastr.error("There was a problem creating your account - we're sorry. We've been notified and will look into the problem. Please get in touch with our support team.");
     }
   }
 });
