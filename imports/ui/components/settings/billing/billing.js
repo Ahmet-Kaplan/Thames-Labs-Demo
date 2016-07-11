@@ -1,22 +1,7 @@
-import './free-plan/free-plan.js';
-import './pro-plan/pro-plan.js';
 import './billing.css';
 import './billing.html';
 
 Template.billing.helpers({
-  //Determine plan type
-  isProTenant: function() {
-    if (!Meteor.user() || !Meteor.user().group) return false;
-    const tenant = Tenants.findOne(Meteor.user().group);
-    return Tenants.findOne({
-      _id: Meteor.user().group
-    }).plan === 'pro' && tenant.stripe.stripeSubs;
-  },
-  isFreeTenant: function() {
-    return Tenants.findOne({
-      _id: Meteor.user().group
-    }).plan === 'free';
-  },
   isFreeProTenant: function() {
     if (!Meteor.user() || !Meteor.user().group) return false;
     const tenant = Tenants.findOne(Meteor.user().group);

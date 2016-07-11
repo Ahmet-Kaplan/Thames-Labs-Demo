@@ -1,93 +1,161 @@
 <template name="stripeAdmin">
+  {{#unless hasStripeAccount}}{{#unless isProTenant}}
+    <div class="settings-section">
+      <h4>Upgrade RealTimeCRM</h4>
+      <p>Subscribe to the Pro Plan to add more than 2 users and access .</p>
+      <button id="upScheme" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Upgrade to the Pro Plan</button>
+    </div>
+  {{/unless}}{{/unless}}
 
+  {{#if subscriptionCancelled}}
+    <div class="settings-section">
+      <h4>Resume Subscription </h4>
+      <p>The subscription for {{tenantName}} has been cancelled. You can resume it until the end of that period.</p>
+      <button id="resumeSubs" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Resume subscription</button>
+    </div>    
+  {{/if}}
+
+  {{#if hasStripeAccount}}
   <div class="settings-section">
-    <h4>Subscription Status</h4>
-
-    {{#if subscriptionCancelled}}
-      <p class="text-danger">
-      <i class="fa fa-fw fa-exclamation-triangle"></i> Your subscription has been cancelled. You can resume it until the end of that period.
-      </p>
-    {{/if}}
-
+    <h4>Overview</h4>
     {{#if subsLoaded}}
       <ul class="list-group">
-        <li class="list-group-item">Plan:  
-            {{currentSubscription}}
+        <li class="list-group-item panel-item-header">
+          <h4 class="slim"><i class="fa fa-fw fa-wrench"></i> Plan</h4>
+          {{currentSubscription}} - {{totalUsers}} users
         </li>
-        <li class="list-group-item">Coupon: 
+
+        <!-- COUPON -->
+        <li class="list-group-item panel-item-header">
+          <h4 class="slim">
+            <i class="fa fa-fw fa-ticket"></i> Coupon
+            {{#unless isProTenant}}<button id="updateCoupon" class="btn btn-xs btn-primary pull-right">Update Coupon</button>{{/unless}}
+          </h4>
           {{#if couponLoaded}}
-            <span id="couponText">
-              {{#if hasCoupon}}{{hasCoupon}}{{else}}No active coupon{{/if}}
-            </span>
-            {{#unless isProTenant}} - <a href="#" id="updateCoupon">Edit</a>{{/unless}}
+            {{#if hasCoupon}}{{hasCoupon}}{{else}}No active coupon{{/if}}
           {{else}}
             <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
           {{/if}}
         </li>
-        <li class="list-group-item">Users: {{totalUsers}}</li>
-      </ul>
-    {{else}}
-      <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
-    {{/if}}
-  </div>
 
-  <div class="settings-section">
-    <h4>Card Details
-      {{#if cardDetails.last4}}
-        <button id="updateCardDetails" class="btn btn-xs btn-primary pull-right">Update Card Details</button>
-      {{/if}}
-    </h4>
-    {{#if stripeCustomer.sources.total_count}}{{#with cardDetails}}{{#if cardDetails.last4}}
-      <ul class="list-group">
-        <li class="list-group-item">Name: {{name}}</li>
-        <li class="list-group-item">Type: {{brand}}</li>
-        <li class="list-group-item">Number: **** **** **** {{last4}}</li>
-        <li class="list-group-item">Expiration Month: {{exp_month}}</li>
-        <li class="list-group-item">Expiration Year: {{exp_year}}</li>
+        <!-- INVOICE EMAIL ADDRESS -->
+        <li class="list-group-item panel-item-header">
+          <h4 class="slim">
+            <i class="fa fa-fw fa-envelope-o"></i> Invoice Email Address
+            <button id="updateEmail" class="btn btn-xs btn-primary pull-right">Update Email</button>
+          </h4>
+          {{#if stripeCustomer.email}}
+            {{stripeCustomer.email}}
+          {{else}}
+            <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
+          {{/if}}
+        </li>
+
+        <!-- CARD DETAILS -->
+        <li class="list-group-item panel-item-header">
+          <h4 class="slim">
+            <i class="fa fa-fw fa-credit-card"></i> Card Details 
+            <button id="updateCardDetails" class="btn btn-xs btn-primary pull-right">Update Card Details</button>
+          </h4>
+          {{#if stripeCustomer.sources.total_count}}{{#with cardDetails}}{{#if cardDetails.last4}}
+            <small>Number: </small> **** **** **** {{last4}} <br>
+            <small>Expiration Date: </small> {{exp_month}} / {{exp_year}} <br>
+            <small>Type: </small> {{brand}} <br>
+            <small>Cardholder Name: </small> {{name}}
+          {{else}}
+            <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
+          {{/if}}{{/with}}{{/if}}
+        </li>
       </ul>
       <p>
-        <i class="fa fa-lock"></i> 
-        <a href="#" id="showStripeHow">All payments are securely processed by Stripe, our payment partner</a>
+        <a href="#" id="showStripeHow"><i class="fa fa-lock"></i> All payments are securely processed by Stripe, our payment partner</a>
       </p>
     {{else}}
       <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
-    {{/if}}{{/with}}{{else}}
-      <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
     {{/if}}
   </div>
+  {{/if}}
 
-  <div class="settings-section">
-    <h4>Invoice Email Address</h4>
-    {{#if stripeCustomer.email}}
-      <p>{{stripeCustomer.email}}<button id="updateEmail" class="btn btn-xs btn-primary pull-right">Update Email</button></p>
-    {{else}}
-      <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
+  {{#if hasStripeAccount}}
+
+    {{#if hasLastInvoice}}
+    <div class="settings-section">
+      <h4>Last Payment</h4>
+      {{#if lastInvoice.date}}
+        <p>The previous payment of {{lastInvoice.amount_due}} for {{tenantName}} was paid on {{lastInvoice.date}}. See below for the cost breakdown.</p>
+        <div class="panel panel-default">
+          <table class="table panel-body">
+            <tbody>
+              {{#each lastInvoice.lines.data}}
+                <tr>
+                  <td>
+                    {{description}}
+                    {{#if quantity}}<br><small>{{quantity}} users on {{plan.name}} at {{plan.amount}} each </small>{{/if}}
+                  </td>
+                  <td>{{amount}}</td>
+                </tr>
+              {{/each}}
+              <tr>
+                <td>Tax at {{lastInvoice.tax_percent}}%</td>
+                <td>{{lastInvoice.tax}}</td>
+              </tr>
+              <tr class="active">
+                <td>Total</td>
+                <td>{{lastInvoice.amount_due}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      {{else}}
+        <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
+      {{/if}}
+    </div>
     {{/if}}
-  </div>
+    
+    {{#if hasUpcomingInvoice}}
+    <div class="settings-section">
+      <h4>Next Payment Due</h4>
+      {{#if upcomingInvoice.date}}
+        <p>The next payment for {{tenantName}} is {{upcomingInvoice.amount_due}} and is due on {{upcomingInvoice.date}}. See below for the cost breakdown.</p>
+        <div class="panel panel-default">
+          <table class="table panel-body">
+            <tbody>
+              {{#each upcomingInvoice.lines.data}}
+                <tr>
+                  <td>
+                    {{description}}
+                    {{#if quantity}}<br><small>{{quantity}} users on {{plan.name}} at {{plan.amount}} each - <a href="users">View users</a></small>{{/if}}
+                  </td>
+                  <td>{{amount}}</td>
+                </tr>
+              {{/each}}
+              <tr>
+                <td>Tax at {{upcomingInvoice.tax_percent}}%</td>
+                <td>{{upcomingInvoice.tax}}</td>
+              </tr>
+              <tr class="active">
+                <td>Total</td>
+                <td>{{upcomingInvoice.amount_due}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      {{else}}
+        <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
+      {{/if}}
+    </div>
+    {{/if}}
 
-  <div class="settings-section">
-    <h4>Next Invoice</h4>
-    {{#if hasStripeAccount}}{{#if upcomingInvoice.date}}
-      <p>Amount: {{upcomingInvoice.amount_due}}</p>
-      <p>Date: {{upcomingInvoice.date}}</p>
-      {{#each upcomingInvoice.lines.data}}
-        {{> lineDetails}}
-      {{/each}}
-    {{else}}
-      <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
-    {{/if}}{{/if}}
-  </div>
+  {{/if}}
 
+  {{#if isProTenant}}{{#if hasStripeAccount}}
   <div class="settings-section">
-    <h4>Last Payment</h4>
-    {{#if hasStripeAccount}}{{#if lastInvoice.date}}
-      <p>Amount: {{lastInvoice.amount_due}}</p>
-      <p>Date: {{lastInvoice.date}}</p>
-      <p>Period: {{lastInvoice.start}} - {{lastInvoice.end}}</p>
-    {{else}}
-      <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
-    {{/if}}{{/if}}
+    <h4 class="text-danger">Downgrade RealTimeCRM</h4>
+    <p>You can downgrade to the Free Plan at any time, but {{tenantName}} will <strong>no longer</strong> have access to any data created with Pro Plan only functionality.</p>
+    <p>Need to talk to us? Contact us - we'd love to help.</p>
+    <small><a id="downScheme" class="text-danger" style="text-decoration:underline">Unsubscribe from the Pro Plan</a></small>
   </div>
+  {{/if}}{{/if}}
 
 </template>
 

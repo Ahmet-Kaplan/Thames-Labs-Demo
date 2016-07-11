@@ -1,17 +1,8 @@
 <template name="billing">
-
-  {{#if isFreeTenant }}
-    {{> freePlan}}
-  {{/if}}
-
-  {{#if isProTenant }}
-    {{> proPlan}}
-  {{/if}}
+  {{> stripeAdmin }}
 
   {{#if isFreeProTenant }}
     <div class="settings-section">
-      <h4>Current Plan</h4>
-      <p>This is the plan {{tenantName}} is currently subscribed to.</p>
       <div class="well">
           <h3 class="plan-name text-success">Pro Plan</h3>
           <p>To make changes to your account please contact <a href="mailto:support@cambridgesoftware.co.uk">support@cambridgesoftware.co.uk</a>.</p>
