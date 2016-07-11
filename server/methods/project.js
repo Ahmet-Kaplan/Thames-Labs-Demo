@@ -127,6 +127,18 @@ Meteor.methods({
     };
   },
 
+  'updateMilestone': function(id, milestoneId) {
+    check(id, String);
+    check(milestoneId, Match.Integer);
+
+    if(!this.userId) throw new Meteor.Error('Only logged in users may update project milestones');
+    if(!Roles.userIsInRole(this.userId, ['CanEditProjects'])) throw new Meteor.Error('Only users with permission to edit projects can move project milestones');
+
+    Projects.update(id, { $set: { projectMilestoneId: milestoneId }});
+
+    return;
+  },
+
   addProjectType: function(name) {
     var user = Meteor.users.findOne({
       _id: this.userId

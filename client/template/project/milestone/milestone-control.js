@@ -48,33 +48,6 @@ Template.milestoneControl.events({
           }
         });
         toastr.success('Project milestone successfully updated.');
-        var user = Meteor.user();
-
-        var project = Projects.findOne({
-          _id: projectId
-        });
-        var projectTypes = userTenant.settings.project.types;
-        var projectType = null;
-        _.each(projectTypes, function(pt) {
-          if (pt.id == project.projectTypeId) projectType = pt;
-        });
-
-        if (projectType) {
-          var milestones = projectType.milestones;
-          var note = user.profile.name + ' moved this project to milestone "' + milestones[res.exitStatus].name + '"';
-          var date = new Date();
-          Activities.insert({
-            type: 'Note',
-            notes: note,
-            createdAt: date,
-            activityTimestamp: date,
-            projectId: project._id,
-            primaryEntityId: project._id,
-            primaryEntityType: 'projects',
-            primaryEntityDisplayData: project.name,
-            createdBy: user._id
-          });
-        }
 
       } else {
         toastr.error('Project milestone could not be updated: ' + res.exitStatus);
@@ -98,34 +71,6 @@ Template.milestoneControl.events({
           }
         });
         toastr.success('Project milestone successfully updated.');
-
-        var user = Meteor.user();
-
-        var project = Projects.findOne({
-          _id: projectId
-        });
-        var projectTypes = userTenant.settings.project.types;
-        var projectType = null;
-        _.each(projectTypes, function(pt) {
-          if (pt.id == project.projectTypeId) projectType = pt;
-        });
-
-        if (projectType) {
-          var milestones = projectType.milestones;
-          var note = user.profile.name + ' moved this project to milestone "' + milestones[res.exitStatus].name + '"';
-          var date = new Date();
-          Activities.insert({
-            type: 'Note',
-            notes: note,
-            createdAt: date,
-            activityTimestamp: date,
-            projectId: project._id,
-            primaryEntityId: project._id,
-            primaryEntityType: 'projects',
-            primaryEntityDisplayData: project.name,
-            createdBy: user._id
-          });
-        }
 
       } else {
         toastr.error('Project milestone could not be updated: ' + res.exitStatus);
