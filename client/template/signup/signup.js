@@ -40,6 +40,9 @@ AutoForm.hooks({
           FlowRouter.reload();
         }
       });
+    },
+    onError: function(formType, error) {
+      toastr.error(error.reason);
     }
   }
 });
