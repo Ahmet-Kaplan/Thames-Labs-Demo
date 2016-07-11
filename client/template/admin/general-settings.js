@@ -10,17 +10,32 @@ Template.generalSettings.helpers({
 Template.generalSettings.events({
   'submit #tenantPhoneForm': function(event) {
     event.preventDefault();
-    var tel = $(event.target).find('input').val();
+    $('#tenantPhoneForm button[type=submit]').prop('disabled', true);
+    const tel = $(event.target).find('input').val();
+    let modifier = null;
+    if(tel == '') {
+      modifier = {
+        $unset: {
+          'profile.telephone': ''
+        }
+      };
+    } else {
+      modifier = {
+        $set: {
+          'profile.telephone': tel
+        }
+      };
+    }
     Meteor.users.update({
       _id: Meteor.userId()
-    }, {
-      $set: {
-        "profile.telephone": tel
-      }
-    }, (err, res) => {
-      if(res && !!tel) {
+    }, modifier, (err, res) => {
+      if(res) {
+        toastr.success('Your telephone number has been updated.');
         Meteor.call('notify.telephoneUpdated');
+      } else if(err) {
+        toastr.error('Unable to update your phone number');
       }
+      $('#tenantPhoneForm button[type=submit]').prop('disabled', false);
     });
   },
   'change #currencySelect': function(event) {
