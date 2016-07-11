@@ -187,7 +187,9 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadProjects']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => ({ 'name': 1 }),
+    sort: () => ({
+      'name': 1
+    }),
     fields: (searchObject, options) => {
       if (options.search.props.export) {
         return {};

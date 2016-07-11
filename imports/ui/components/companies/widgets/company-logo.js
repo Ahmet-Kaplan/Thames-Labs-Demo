@@ -1,3 +1,6 @@
+import './company-logo.css';
+import './company-logo.html';
+
 // http://stackoverflow.com/questions/8498592/extract-root-domain-name-from-string
 function domainFromUrl(url) {
   if(!url) {

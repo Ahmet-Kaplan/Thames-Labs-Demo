@@ -185,7 +185,9 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
     return Roles.userIsInRole(userId, ['CanReadTasks']);
   },
   engine: new EasySearch.MongoDB({
-    sort: () => ({ 'dueDate': 1 }),
+    sort: () => ({
+      'dueDate': 1
+    }),
     fields: (searchObject, options) => ({
       'title': 1,
       'description': 1,

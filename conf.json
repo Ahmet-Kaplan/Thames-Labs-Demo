@@ -1,0 +1,28 @@
+// Uses docstrap npm plugin for templates (see https://github.com/docstrap/docstrap)
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "source": {
+    "include": ["client", "common", "server", "imports"],
+    "includePattern": ".+\\.js(doc)?$"
+  },
+  "templates": {
+    "cleverLinks": true,
+    "systemName": "RealTimeCRM",
+    "copyright": "&copy; Cambridge Software Ltd 2016",
+    "navType": "inline",
+    "theme": "spacelab",
+    "linenums": true,
+    "collapseSymbols": true,
+    "outputSourceFile": true
+  },
+  "plugins": ["plugins/markdown"],
+  "opts": {
+    "destination": "../RT-docs",
+    "recurse": true,
+    "readme": "README.md",
+    "template": "./node_modules/ink-docstrap/template"
+  }
+}

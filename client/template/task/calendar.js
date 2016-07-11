@@ -132,7 +132,7 @@ Template.displayCalendar.helpers({
             event.description = event.description.substring(0, 97) + '...';
           }
 
-          eventData = _.clone(event);
+          eventData = _.cloneDeep(event);
           eventData.start = moment(eventData.start).format('Do MMM YYYY, HH:mm');
           popoverHolder.popover({
             container: 'body',
