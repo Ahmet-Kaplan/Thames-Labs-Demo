@@ -63,11 +63,7 @@ Template.projectDetail.onRendered(function() {
 
   //Update opp stage when dragged
   this.chart._dragCallBack = (projectId, closestStageId) => {
-    if (closestStageId > project.currentStageIndex) {
-      var direction = "forward";
-    }
-
-    Meteor.call('updateMilestone', projectId, closestStageId);
+    Meteor.call('setMilestone', projectId, closestStageId);
   };
 
 });

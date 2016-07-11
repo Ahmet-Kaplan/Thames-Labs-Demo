@@ -32,50 +32,24 @@ Template.milestoneControl.helpers({
 
 Template.milestoneControl.events({
   'click #prevMilestone': function() {
-    var projectId = FlowRouter.getParam('id');
-    var userTenant = Tenants.findOne({
-      _id: Meteor.user().group
+    const projectId = FlowRouter.getParam('id');
+    const project = Projects.findOne({
+      _id: projectId
     });
+    const newMilestoneId = project.projectMilestoneId - 1;
 
-    Meteor.call('moveMilestone', projectId, "backward", function(err, res) {
-      if (err) throw new Meteor.Error(err);
-      if (res.exitCode === 0) {
-        Projects.update({
-          _id: projectId
-        }, {
-          $set: {
-            projectMilestoneId: res.exitStatus
-          }
-        });
-        toastr.success('Project milestone successfully updated.');
+    Meteor.call('setMilestone', projectId, newMilestoneId);
 
-      } else {
-        toastr.error('Project milestone could not be updated: ' + res.exitStatus);
-      }
-    });
   },
   'click #nextMilestone': function() {
-    var projectId = FlowRouter.getParam('id');
-    var userTenant = Tenants.findOne({
-      _id: Meteor.user().group
+    const projectId = FlowRouter.getParam('id');
+    const project = Projects.findOne({
+      _id: projectId
     });
+    const newMilestoneId = project.projectMilestoneId + 1;
 
-    Meteor.call('moveMilestone', projectId, "forward", function(err, res) {
-      if (err) throw new Meteor.Error(err);
-      if (res.exitCode === 0) {
-        Projects.update({
-          _id: projectId
-        }, {
-          $set: {
-            projectMilestoneId: res.exitStatus
-          }
-        });
-        toastr.success('Project milestone successfully updated.');
+    Meteor.call('setMilestone', projectId, newMilestoneId);
 
-      } else {
-        toastr.error('Project milestone could not be updated: ' + res.exitStatus);
-      }
-    });
   }
 });
 
