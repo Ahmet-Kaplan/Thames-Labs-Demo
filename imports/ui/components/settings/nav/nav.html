@@ -1,10 +1,26 @@
 <template name="settingsNav">
-  <div class="list-group">
-    <a class="list-group-item" href="profile">Profile</a>
+  <div class="list-group hidden-sm hidden-xs" id="settings-nav">
+    <a class="list-group-item {{isActiveRoute regex='profileSettings'}}" href="profile">Profile</a>
     {{#if isInRole 'Administrator'}}
-      <a class="list-group-item" href="configuration">Configuration</a>
-      <a class="list-group-item" href="users">Users</a>
-      <a class="list-group-item" href="billing">Billing</a>
+      <a class="list-group-item {{isActiveRoute regex='configurationSettings'}}" href="configuration">Configuration</a>
+      <a class="list-group-item {{isActiveRoute regex='userSettings'}}" href="users">Users</a>
+      <a class="list-group-item {{isActiveRoute regex='billingSettings'}}" href="billing">Billing</a>
     {{/if}}
+  </div>
+
+  <div class="visible-xs visible-sm">
+    <div class="btn-group pull-right">
+      <button type="button" class="btn btn-default dropdown-toggle settings-nav-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Other settings <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="{{isActiveRoute regex='profileSettings'}}" href="profile">Profile</a></li>
+        {{#if isInRole 'Administrator'}}
+          <li><a class="{{isActiveRoute regex='configurationSettings'}}" href="configuration">Configuration</a></li>
+          <li><a class="{{isActiveRoute regex='userSettings'}}" href="users">Users</a></li>
+          <li><a class="{{isActiveRoute regex='billingSettings'}}" href="billing">Billing</a></li>
+        {{/if}}
+      </ul>
+    </div>
   </div>
 </template>

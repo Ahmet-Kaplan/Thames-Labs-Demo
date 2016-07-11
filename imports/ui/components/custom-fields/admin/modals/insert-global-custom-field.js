@@ -1,4 +1,6 @@
-Template.addNewGlobalCustomField.onRendered(function() {
+import './insert-global-custom-field.html';
+
+Template.insertGlobalCustomField.onRendered(function() {
   $.getScript('/vendor/medium/medium-editor.min.js');
   $('.progress').hide();
   $('.information-label').hide();
@@ -34,7 +36,7 @@ Template.addNewGlobalCustomField.onRendered(function() {
   $('#picklist-input-area').hide();
 });
 
-Template.addNewGlobalCustomField.helpers({
+Template.insertGlobalCustomField.helpers({
   percentComplete: function() {
     return UserSession.get('globalFieldProgress');
   }
