@@ -19,6 +19,10 @@ Template.users.helpers({
     return Tenants.findOne({
       _id: Meteor.user().group
     }).plan;
+  },
+  isProTenant: function() {
+    var tenantId = Meteor.user().group;
+    return isProTenant(tenantId);
   }
 });
 
@@ -32,5 +36,9 @@ Template.users.events({
       return;
     }
     Modal.show('insertUser', this);
-  }
+  },
+  'click #upScheme': function(e) {
+    e.preventDefault();
+    Modal.show('stripeSubscribe');
+  },
 });

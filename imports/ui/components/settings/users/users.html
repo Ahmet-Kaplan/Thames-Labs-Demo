@@ -1,10 +1,5 @@
 <template name="users">
   <div class="settings-section">
-    <h4>Summary</h4>
-    <p>{{tenantName}} has {{tenantUserCount}} user{{#if tenantHasMultipleUsers}}s{{/if}} on the <strong>{{tenantPlan}}</strong> plan.</p>
-  </div>
-
-  <div class="settings-section">
     <h4>Current Users <a class="btn btn-xs btn-primary pull-right" id="add-user"><i class="fa fa-fw fa-plus"></i> Add user</a></h4>
     <p>Click on a user to change details, permissions and related settings.</p>
     <ul class="list-group" id="user-list">
@@ -13,4 +8,12 @@
       {{/each}}
     </ul>
   </div>
+
+  {{#unless isProTenant}}
+  <div class="settings-section">
+      <h4>Upgrade RealTimeCRM</h4>
+      <p>Subscribe to the Pro Plan to add more than 2 users.</p>
+      <button id="upScheme" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Upgrade to the Pro Plan</button>
+  </div>
+  {{/unless}}
 </template>
