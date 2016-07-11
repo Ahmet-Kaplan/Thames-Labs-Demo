@@ -6,7 +6,8 @@ This component expects to be called with two parameters:
 Note: Apple Maps redirects to Google Maps on non Apple devices, so is used for the map link
 -->
 
-<template name="map">
+<template name="mapViewer">
+  <h4>Address</h4>
   <div class="map thumbnail">
     {{#if isDesktop}}
       <div class="map-container">
@@ -18,11 +19,9 @@ Note: Apple Maps redirects to Google Maps on non Apple devices, so is used for t
     {{/if}}
     
     <div class="caption">
-      {{#unless isApp}}
-        <a class="pull-right" id="open-maps" target="_blank" href="http://maps.apple.com/?address={{addressString}}">
-          Open in Maps
-        </a>
-      {{/unless}}
+      <a class="pull-right" id="open-maps" target="_blank" href="http://maps.apple.com/?address={{addressString}}">
+        Open in Maps
+      </a>
       <address>
         <b>{{title}}</b>
         {{#with address}}
