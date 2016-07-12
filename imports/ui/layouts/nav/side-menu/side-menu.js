@@ -1,5 +1,5 @@
 import './menu-button/menu-button.js';
-
+import './favourites/favourites.js';
 import './side-menu.html';
 
 Template.sideMenu.helpers({
@@ -80,16 +80,5 @@ Template.sideMenu.helpers({
         $in: [Meteor.userId(), 'all']
       }
     }).count();
-  },
-  favourites: function() {
-    var ux = Meteor.users.findOne(Meteor.userId());
-
-    if (ux) {
-      var profile = ux.profile;
-      if (!profile.favourites) {
-        return null;
-      }
-      return profile.favourites;
-    }
   }
 });

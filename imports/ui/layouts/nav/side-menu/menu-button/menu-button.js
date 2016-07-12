@@ -10,5 +10,14 @@ Template.menuButton.helpers({
       return false;
     }
     return true;
+  },
+  hasFreeAccessOnly: function() {
+    return (Template.currentData().proFeature && !isProTenant());
+  }
+});
+
+Template.menuButton.events({
+  'click .proFeature': function() {
+    showUpgradeToastr('To access ' + Template.currentData().title);
   }
 });
