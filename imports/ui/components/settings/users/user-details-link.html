@@ -1,7 +1,7 @@
 <template name="userDetailsLink">
   <li class="list-group-item">
     <div class="pull-right">
-      {{#unless isMe}}<button class="btn btn-danger btn-xs" id="delete-user">Delete</button>{{/unless}}
+      <button class="btn btn-danger btn-xs" disabled="{{#if isSelf}}disabled{{/if}}" id="delete-user">Delete</button>
     </div>
     <a class="user-detail-link">{{profile.name}} - <i>{{emails.[0].address}}</i></a>
   </li>

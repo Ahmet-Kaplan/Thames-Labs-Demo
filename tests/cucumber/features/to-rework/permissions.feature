@@ -27,46 +27,39 @@ Feature: Allow administrators to give users permissions
     Given I am a logged in user
     And I have the "Administrator" permission
     When I click "#general-dropdown"
-    Then I should see "#Administration"
+    Then I should see "#settings"
 
   Scenario: An administrator can access the Administration page
     Given a user exists
     And I am a logged in user
     And I have the "Administrator" permission
-    When I click "#general-dropdown"
-    Then I should see "#Administration"
-    When I click "#Administration"
-    Then I should see the heading "Administration"
+    When I navigate to "/settings/configuration"
+    Then I should see the heading "Configuration"
+    When I navigate to "/settings/billing"
+    Then I should see the heading "Billing"
+    When I navigate to "/settings/users"
+    Then I should see the heading "Users"
 
   Scenario: An restricted user cannot access the Administration page
     Given a user exists
     And I am a logged in user
-    And I do not have the "Administrator" permission
-    When I click "#general-dropdown"
-    Then I should not see "#Administration"
-    When I navigate to "/admin"
+    When I navigate to "/settings/configuration"
     Then I should see the heading "Dashboard"
-
-  Scenario: An administrator can see the 'Administration' button
-    Given a user exists
-    And I am a logged in user
-    And I have the "Administrator" permission
-    When I navigate to "/"
-    And I click "#general-dropdown"
-    Then I should see the "#Administration" button
+    When I navigate to "/settings/billing"
+    Then I should see the heading "Dashboard"
+    When I navigate to "/settings/users"
+    Then I should see the heading "Dashboard"
 
   Scenario: An administrator can add a new user
     Given a user exists
     And I am a logged in user
     And I have the "Administrator" permission
     And I am on the pro plan
-    When I click "#general-dropdown"
-    And I click "#Administration"
-    And I click "#userAdminPanelExpander"
-    And I click "#addNewUserAccount"
+    When I navigate to "/settings/users"
+    And I click "#add-user"
     And I set text field "name" to "Mario"
     And I set text field "email" to "mario@mariobros.com"
-    And I submit the "addNewUser" form
+    And I click "#createUser"
     Then I should see a modal with the title "New user added"
 
   Scenario: An administrator can delete a user
@@ -74,10 +67,8 @@ Feature: Allow administrators to give users permissions
     And I am a logged in user
     And I have the "Administrator" permission
     And a restricted user exists
-    When I click "#general-dropdown"
-    And I click "#Administration"
-    And I click "#userAdminPanelExpander"
-    And I click "#user-list > .list-group-item:last-child #tenantRemoveUser"
+    When I navigate to "/settings/users"
+    And I click "#user-list .list-group-item:last-child #delete-user"
     Then I should see a modal
     When I click confirm on the modal
     Then I should see a modal with title "User removed"
@@ -88,10 +79,8 @@ Feature: Allow administrators to give users permissions
     Given a user exists
     And I am a logged in user
     And I have the "Administrator" permission
-    When I click "#general-dropdown"
-    And I click "#Administration"
-    And I click "#userAdminPanelExpander"
-    Then I cannot click "#tenantRemoveUser"
+    When I navigate to "/settings/users"
+    Then I cannot click "#user-list .list-group-item:last-child #delete-user"
     And the user "Test User" should have the "Administrator" permission
 
   Scenario: An Administrator can set another user to Administrator
@@ -100,12 +89,10 @@ Feature: Allow administrators to give users permissions
     And I have the "Administrator" permission
     And I am on the pro plan
     And a restricted user exists
-    When I click "#general-dropdown"
-    And I click "#Administration"
-    And I click "#userAdminPanelExpander"
-    And I click "#user-list > .list-group-item:last-child #btnEditTenantUserPermissions"
-    And I click "#cbUserIsTenantAdministrator"
-    And I click "#btnUpdateTenantUserPermissions"
+    When I navigate to "/settings/users"
+    And I click "#user-list .list-group-item:last-child a"
+    And I click "#admin-checkbox"
+    And I click "#update-user"
     Then the user "restricted user" should have the "Administrator" permission
 
   Scenario: An Administrator cannot unset its own 'Administrator' status
@@ -113,18 +100,8 @@ Feature: Allow administrators to give users permissions
     And I am a logged in user
     And I have the "Administrator" permission
     And I am on the pro plan
-    When I click "#general-dropdown"
-    And I click "#Administration"
-    And I click "#userAdminPanelExpander"
-    And I click "#btnEditTenantUserPermissions"
-    And I click "#cbUserIsTenantAdministrator"
-    And I click "#btnUpdateTenantUserPermissions"
+    When I navigate to "/settings/users"
+    And I click "#user-list .list-group-item:last-child a"
+    And I click "#admin-checkbox"
+    And I click "#update-user"
     Then the user "Test User" should have the "Administrator" permission
-
-  Scenario: A normal user can't see the 'Administration' button
-    Given a user exists
-    And I am a logged in user
-    And I do not have the "Administrator" permission
-    When I navigate to "/"
-    And I click "#general-dropdown"
-    Then I should not see the "#Administration" button
