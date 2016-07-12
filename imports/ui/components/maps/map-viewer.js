@@ -1,41 +1,39 @@
-var marker, infowindow;
+import './map-viewer.css';
+import './map-viewer.html';
 
-function updateMap(map, title, address) {
-  var newPosition = new google.maps.LatLng(address.lat, address.lng);
-  if (!marker) {
-    marker = new google.maps.Marker({
-      position: newPosition,
-      map: map
-    });
-  } else {
-    marker.setPosition(newPosition);
-    marker.setMap(map);
-  }
-
-  if (!infowindow) {
-    infowindow = new google.maps.InfoWindow();
-  }
-  infowindow.open(map, marker);
-  infowindow.setContent(title);
-
-  map.setCenter(marker.getPosition());
-  map.setZoom(14);
-}
-
-Template.map.onCreated(function() {
+Template.mapViewer.onCreated(function() {
   GoogleMaps.load({
     libraries: 'places',
     key: Meteor.settings.public.googleDeveloperKey
   });
+
+  this.updateMap = (map, title, address) => {
+    var newPosition = new google.maps.LatLng(address.lat, address.lng);
+    if (!this.marker) {
+      this.marker = new google.maps.Marker({
+        position: newPosition,
+        map: map
+      });
+    } else {
+      this.marker.setPosition(newPosition);
+      this.marker.setMap(map);
+    }
+
+    if (!this.infowindow) {
+      this.infowindow = new google.maps.InfoWindow();
+    }
+    this.infowindow.open(map, this.marker);
+    this.infowindow.setContent(title);
+
+    map.setCenter(this.marker.getPosition());
+    map.setZoom(14);
+  };
 });
 
-Template.map.onRendered(function() {
+Template.mapViewer.onRendered(function() {
 
-  var self = this;
-
-  GoogleMaps.ready('map', function(map) {
-
-    self.autorun(function() {
+  GoogleMaps.ready('map', (map) => {
+    this.autorun(() => {
       // Reactively get current data context
       // n.b. self.data isn't reactive
       var data = Template.currentData(),
@@ -51,8 +49,8 @@ Template.map.onRendered(function() {
       if (!isGeocoded) {
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({
-          'address': [address.address, address.postcode, address.city, address.country].join(', ')
-        }, function(results, status) {
+          'address': [address.address, address.postcode, address.city, address.county, address.country].join(', ')
+        }, (results, status) => {
           if (status == google.maps.GeocoderStatus.OK) {
             var location = results[0].geometry.location;
             address.lat = location.lat();
@@ -62,11 +60,11 @@ Template.map.onRendered(function() {
             address.lng = 0;
             title = "Location not found";
           }
-          updateMap(map.instance, title, address);
+          this.updateMap(map.instance, title, address);
         });
       } else {
         // Location already known so no need to geocode
-        updateMap(map.instance, title, address);
+        this.updateMap(map.instance, title, address);
       }
 
     });
@@ -75,7 +73,7 @@ Template.map.onRendered(function() {
 
 });
 
-Template.map.helpers({
+Template.mapViewer.helpers({
   mapOptions: function() {
     return {
       zoom: 8,
