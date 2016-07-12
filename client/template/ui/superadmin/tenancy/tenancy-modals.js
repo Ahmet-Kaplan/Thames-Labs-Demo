@@ -16,7 +16,7 @@ Template.updateTenantSettings.events({
     Tenants.update(this.__originalId, {
       $set: {
         name: tenantCompanyName,
-        "stripe.coupon": coupon,
+        "stripe.coupon": coupon
       }
     });
 
@@ -34,6 +34,9 @@ Template.setPayingTenant.helpers({
   },
   stripeSubs: function() {
     return this.stripe.stripeSubs;
+  },
+  freeUnlimited: function() {
+    return this.plan === "pro" && !this.stripe.stripeSubs;
   }
 });
 
