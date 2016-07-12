@@ -1,6 +1,8 @@
+import _ from 'lodash';
 import d3 from 'd3';
 import d3tip from 'd3-tip';
-import _ from 'lodash';
+
+import { colours } from '/imports/api/lookup/colours.js';
 
 d3tip(d3);
 
@@ -13,15 +15,15 @@ function StageChart(el) {
 
   var color = d3.scale.ordinal()
         .range([
-          '#1684c1',
-          '#00c99d',
-          '#fec41a',
-          '#e8425d',
-          '#173e5f',
-          '#00b3bb',
-          '#00c15b',
-          '#fd9727',
-          '#af1876'
+          colours.hex.csBlue,
+          colours.hex.blueGreen,
+          colours.hex.yellow,
+          colours.hex.redPink,
+          colours.hex.deepBlue,
+          colours.hex.turquoise,
+          colours.hex.green,
+          colours.hex.orange,
+          colours.hex.redViolet,
         ]);
 
   var svg = d3.select(el).append("svg")
