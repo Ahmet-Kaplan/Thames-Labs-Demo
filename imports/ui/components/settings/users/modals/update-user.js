@@ -17,6 +17,7 @@ Template.updateUser.onRendered(function() {
 
     _.each(permissions, function(p) {
       var permissionName = p.value;
+      var selectorName = '#' + permissionName + "PermissionSelector";
 
       Meteor.call('getMaxPermission', selectedUserId, permissionName, function(err, status) {
         var val = '';
@@ -39,7 +40,7 @@ Template.updateUser.onRendered(function() {
         if (status.indexOf('CanDelete') > -1) {
           val = 'CanDelete';
         }
-
+        $(selectorName).val(val);
       });
     });
 
