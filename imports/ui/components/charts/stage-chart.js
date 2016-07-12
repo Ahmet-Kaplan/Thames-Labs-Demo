@@ -38,13 +38,16 @@ function StageChart(el) {
   svg.call(tip);
 
   this.draw = (entity, stages) => {
+    //Draw axis container here so it doesn't get re-drawn on top of the node
+    svg.append("g")
+      .attr("class", "axisContainer");
     this.drawAxis(entity, stages);
+    this.drawCircle();
     this.setForce(entity, stages);
   };
 
   this.resize = (entity, stages) => {
-    svg.selectAll("g.axisContainer").remove();
-    svg.selectAll("circle").remove();
+    svg.selectAll("g.axis").remove();
     this.drawAxis(entity, stages);
     this.setForce(entity, stages);
   };
@@ -60,13 +63,22 @@ function StageChart(el) {
     const stageWidth = width / stages.length;
     stages.forEach( (stage, i) => {
       stage.x = (0.5 + i) * stageWidth;
+      if( width < 375 && stage.id % 2 == 0) {
+        stage.y = height / 8;
+      }else {
+        stage.y = height - (height / 8);
+      }
     });
 
-    const axisContainer = svg.append("g")
-            .attr("class", "axisContainer");
+    const axisContainer = svg.selectAll(".axisContainer");
+
+    axisContainer.append("g")
+      .attr("class", "axis");
+
+    const axis = svg.selectAll(".axis");
 
     //Draw axis
-    axisContainer.append("line")
+    axis.append("line")
       .attr("class", "stageAxis")
       .attr("x1", 0)
       .attr("x2", width)
@@ -75,7 +87,7 @@ function StageChart(el) {
       .attr("stroke-width", 2)
       .attr("stroke", "#ccc");
 
-    axisContainer.selectAll(".marker")
+    axis.selectAll(".marker")
       .data(stages, (d) => d.id)
       .enter()
       .append("g")
@@ -90,16 +102,21 @@ function StageChart(el) {
       .attr("cx", (d) => d.x)
       .attr("cy", height / 2);
 
-    axisContainer.selectAll(".marker")
-      .append("text")
-      .attr("class", "marker-label")
-      .on('mouseover', tip.show)
-      .on('mouseout', tip.hide)
-      .attr("x", (d) => d.x)
-      .attr("y", height - (height / 8))
-      .text((d) => d.title);
+    if(width > 250) {
+      axis.selectAll(".marker")
+        .append("text")
+        .attr("class", "marker-label")
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide)
+        .attr("x", (d) => d.x)
+        .attr("y", (d) => d.y)
+        .text((d) => d.title);
+    }
 
-    //Draw Circle
+  };
+
+  this.drawCircle = () => {
+
     svg.append("circle")
       .attr("class", "node")
       .attr("r", nodeR)

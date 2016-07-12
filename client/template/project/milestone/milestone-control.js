@@ -32,21 +32,27 @@ Template.milestoneControl.helpers({
 
 Template.milestoneControl.events({
   'click #prevMilestone': function() {
-    const projectId = FlowRouter.getParam('id');
-    const project = Projects.findOne({
-      _id: projectId
-    });
-    const newMilestoneId = project.projectMilestoneId - 1;
+    const projectId = FlowRouter.getParam('id'),
+          project = Projects.findOne({
+            _id: projectId
+          }),
+          milestones = getMilestones(project.projectTypeId),
+          currentIndex = _.findIndex(milestones, { id: project.projectMilestoneId }),
+          newIndex = currentIndex - 1,
+          newMilestoneId = milestones[newIndex].id;
 
     Meteor.call('setMilestone', projectId, newMilestoneId);
 
   },
   'click #nextMilestone': function() {
-    const projectId = FlowRouter.getParam('id');
-    const project = Projects.findOne({
-      _id: projectId
-    });
-    const newMilestoneId = project.projectMilestoneId + 1;
+    const projectId = FlowRouter.getParam('id'),
+          project = Projects.findOne({
+            _id: projectId
+          }),
+          milestones = getMilestones(project.projectTypeId),
+          currentIndex = _.findIndex(milestones, { id: project.projectMilestoneId }),
+          newIndex = currentIndex + 1,
+          newMilestoneId = milestones[newIndex].id;
 
     Meteor.call('setMilestone', projectId, newMilestoneId);
 

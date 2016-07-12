@@ -4,18 +4,18 @@
     <div class="row">
 
       <div class="col-md-12">
-        <h4 class="entity-title">Project ({{projectType}}) {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="projects"}}</h4>
-
-        <div class="pull-right hidden-xs">
+        <div class="pull-right">
+          <br>
           {{> milestoneControl}}
         <div class="clearfix"></div>
         <p class="pull-right">
-            <a href="#" id="invertProjectState">Mark project {{inverseState}}</a>
+            <a href="#" id="invertProjectState">Mark {{#unless isMobile}}project{{/unless}} {{inverseState}}</a>
           {{#if opportunityId}}
                | <a href="{{pathFor route='opportunity' id=opportunityId}}">View opportunity</a>
             {{/if}}
         </p>
         </div>
+        <h4 class="entity-title">Project ({{projectType}}) {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="projects"}}</h4>
         <h1 class="entity-name" id="project-details">{{name}}</h1>
 
         <div id="d3-stage-chart">

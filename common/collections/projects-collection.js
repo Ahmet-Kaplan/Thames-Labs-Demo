@@ -400,12 +400,9 @@ Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
     const date = new Date(),
           userName = _.get(user, 'profile.name'),
           tenant = Tenants.findOne(Meteor.user().group),
-          projectTypes = tenant.settings.project.types;
-    var projectType = null;
+          projectTypes = _.get(tenant, 'settings.project.types');
 
-    _.each(projectTypes, (pt) => {
-      if (pt.id == doc.projectTypeId) projectType = pt;
-    });
+    const projectType = projectTypes[doc.projectTypeId];
 
     if(projectType) {
       const milestones = projectType.milestones,

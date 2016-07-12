@@ -25,7 +25,7 @@ Meteor.methods({
     check(newStage, Object);
 
     Opportunities.update(opportunity._id, { $set: { currentStageId: newStage.id } });
-    
+
     return;
   },
 
