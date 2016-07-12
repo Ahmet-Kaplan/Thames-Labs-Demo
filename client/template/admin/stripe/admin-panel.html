@@ -99,16 +99,16 @@
                     {{description}}
                     {{#if quantity}}<br><small>{{quantity}} users on {{plan.name}} at {{plan.amount}} each - <a href="users">View users</a></small>{{/if}}
                   </td>
-                  <td>{{amount}}</td>
+                  <td width="100">{{amount}}</td>
                 </tr>
               {{/each}}
               <tr>
                 <td>Tax at {{upcomingInvoice.tax_percent}}%</td>
-                <td>{{upcomingInvoice.tax}}</td>
+                <td width="100">{{upcomingInvoice.tax}}</td>
               </tr>
               <tr class="active">
                 <td>Total</td>
-                <td>{{upcomingInvoice.amount_due}}</td>
+                <td width="100">{{upcomingInvoice.amount_due}}</td>
               </tr>
             </tbody>
           </table>
@@ -133,16 +133,16 @@
                     {{description}}
                     {{#if quantity}}<br><small>{{quantity}} users on {{plan.name}} at {{plan.amount}} each </small>{{/if}}
                   </td>
-                  <td>{{amount}}</td>
+                  <td width="100">{{amount}}</td>
                 </tr>
               {{/each}}
               <tr>
                 <td>Tax at {{lastInvoice.tax_percent}}%</td>
-                <td>{{lastInvoice.tax}}</td>
+                <td width="100">{{lastInvoice.tax}}</td>
               </tr>
               <tr class="active">
                 <td>Total</td>
-                <td>{{lastInvoice.amount_due}}</td>
+                <td width="100">{{lastInvoice.amount_due}}</td>
               </tr>
             </tbody>
           </table>

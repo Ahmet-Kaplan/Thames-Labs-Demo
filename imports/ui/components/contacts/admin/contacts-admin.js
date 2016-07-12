@@ -1,7 +1,7 @@
-import './contact-admin-panel.css';
-import './contact-admin-panel.html';
+import './contacts-admin.css';
+import './contacts-admin.html';
 
-Template.contactAdminPanel.onRendered(function() {
+Template.contactsAdmin.onRendered(function() {
   var tenant = Tenants.findOne({
     _id: Meteor.user().group
   });
@@ -33,7 +33,7 @@ Template.contactAdminPanel.onRendered(function() {
   }
 });
 
-Template.contactAdminPanel.events({
+Template.contactsAdmin.events({
   'click #contactAdminUpdateTitles': function(event, template) {
     var values = $('#contactAdminTitles').selectize().val();
 

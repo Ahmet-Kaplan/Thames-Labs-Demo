@@ -42,7 +42,7 @@ Template.insertGlobalCustomField.helpers({
   }
 });
 
-Template.addNewGlobalCustomField.events({
+Template.insertGlobalCustomField.events({
   'click #typeText': function() {
     $('#text-input-area').show();
     $('#advtext-input-area').hide();

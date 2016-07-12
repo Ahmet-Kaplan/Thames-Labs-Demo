@@ -8,6 +8,8 @@
     {{/if}}
   </div>
 
+  {{#if isInRole 'Administrator'}}
+  <!-- Mobile menu is admin only as normal users only have one settings page -->
   <div class="visible-xs visible-sm">
     <div class="btn-group pull-right">
       <button type="button" class="btn btn-default dropdown-toggle settings-nav-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -15,12 +17,11 @@
       </button>
       <ul class="dropdown-menu">
         <li><a class="{{isActiveRoute regex='profileSettings'}}" href="profile">Profile</a></li>
-        {{#if isInRole 'Administrator'}}
           <li><a class="{{isActiveRoute regex='configurationSettings'}}" href="configuration">Configuration</a></li>
           <li><a class="{{isActiveRoute regex='userSettings'}}" href="users">Users</a></li>
           <li><a class="{{isActiveRoute regex='billingSettings'}}" href="billing">Billing</a></li>
-        {{/if}}
       </ul>
     </div>
   </div>
+  {{/if}}
 </template>

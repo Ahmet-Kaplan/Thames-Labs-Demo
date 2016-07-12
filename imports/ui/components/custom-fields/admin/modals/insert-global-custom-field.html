@@ -12,7 +12,7 @@
           <form>
             <div class="form-group">
               <label for="custom-field-name">Name</label>
-              <input type="text" class="form-control" placeholder="Global custom field name" id="custom-field-name">
+              <input type="text" class="form-control" placeholder="Global custom field name" id="custom-field-name" autofocus>
             </div>
 
             <label>Type</label>
@@ -86,18 +86,16 @@
               <option value="product">Product</option>
             </select>
           </form>
-        </div>
 
-        <div class="modal-footer">
           <button id="createCustomField" role="button" class="btn btn-primary">Create</button>
           <div class="progress">
             <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{percentComplete}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentComplete}}%">
               {{percentComplete}}% Complete
             </div>
           </div>
-        </div>
-        <div class="information-label"><em>Applying to existing records, please wait...</em></div>
+          <div class="information-label"><em>Applying to existing records, please wait...</em></div>
 
+        </div>
       </div>
     </div>
   </div>

@@ -1,4 +1,5 @@
-import '/imports/ui/components/contacts/admin/contact-admin-panel.js';
+import '/imports/ui/components/contacts/admin/contacts-admin.js';
+import '/imports/ui/components/custom-fields/admin/global-custom-fields-admin.js';
 import '/imports/ui/components/opportunities/admin/opportunities-admin.js';
 import '/imports/ui/components/projects/admin/project-admin.js';
 import '/imports/ui/components/purchase-orders/admin/purchaseorder-admin.js';
