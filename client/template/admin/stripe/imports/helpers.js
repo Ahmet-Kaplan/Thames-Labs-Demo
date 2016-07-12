@@ -42,7 +42,6 @@ export function updateStripeCustomer(self) {
 }
 
 function beautifyInvoices(invoice) {
-  console.log(invoice);
   const beautifiedInvoice = _.cloneDeep(invoice);
   let discountCorrection = 1;
 
