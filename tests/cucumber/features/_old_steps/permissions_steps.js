@@ -97,13 +97,14 @@ module.exports = function() {
   });
 
   this.When(/^I add permission "([^"]*)" on "([^"]*)" to myself$/, function(permissionName, entityName) {
-     browser.url(url.resolve(process.env.ROOT_URL, "/settings/users"));
+    browser.url(url.resolve(process.env.ROOT_URL, "/settings/users"));
     //The admin is listed as well, need to select the last child which is the restricted user
     browser.waitForExist(".user-detail-link:last-child", 5000);
     browser.scroll(".user-detail-link:last-child", 0, 200);
     browser.click(".user-detail-link:last-child");
     browser.waitForExist(".modal-dialog", 5000);
-    browser.waitForVisible(".modal-dialog", 5000);    browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
+    browser.waitForVisible(".modal-dialog", 5000);
+    browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
     browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
     browser.click("#" + entityName + "PermissionSelector");
     browser.selectByValue("#" + entityName + "PermissionSelector", permissionName);
