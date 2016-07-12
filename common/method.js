@@ -1,4 +1,5 @@
 import '/imports/api/opportunities/methods.js';
+import '/imports/api/global/tawk-to.js';
 
 Meteor.methods({
 

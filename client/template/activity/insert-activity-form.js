@@ -1,40 +1,46 @@
 
 Template.insertActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
+  $('#activityTimestamp').data('DateTimePicker').setDate(moment());
 });
 Template.insertContactActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
+  $('#activityTimestamp').data('DateTimePicker').setDate(moment());
 });
 Template.insertProjectActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
+  $('#activityTimestamp').data('DateTimePicker').setDate(moment());
 });
 Template.insertPurchaseOrderActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
+  $('#activityTimestamp').data('DateTimePicker').setDate(moment());
 });
 Template.insertOpportunityActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
+  $('#activityTimestamp').data('DateTimePicker').setDate(moment());
 });
 Template.insertTaskActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
+  $('#activityTimestamp').data('DateTimePicker').setDate(moment());
 });
 
 Template.insertActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
-        var reminder = $('#reminderValue').val() + '.' + $('#reminderUnit').val();
+        var reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`;
 
         var d = $('#helperContent .taskdatetimepicker');
         var dtp = d.data('DateTimePicker');
         var taskDate = dtp.date.toDate();
 
-        var taskTitle = "Follow Up " + AutoForm.getFieldValue('type', 'insertActivityForm');
+        var taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertActivityForm')}`;
         if (AutoForm.getFieldValue('contactId', 'insertActivityForm')) {
           var contact = Contacts.findOne({
             _id: AutoForm.getFieldValue('contactId', 'insertActivityForm')
           });
           if (contact) {
-            taskTitle = taskTitle + " with " + contact.forename + " " + contact.surname;
+            taskTitle = `${taskTitle} with ${contact.forename} ${contact.surname}`;
 
             Tasks.insert({
               title: taskTitle,
@@ -48,7 +54,7 @@ Template.insertActivityModal.events({
               entityId: AutoForm.getFieldValue('contactId', 'insertActivityForm'),
               createdBy: Meteor.userId()
             }, function(err) {
-              if (err) toastr.error("An error occurred whilst creating a task from this activity: " + err);
+              if (err) toastr.error(`An error occurred whilst creating a task from this activity: ${err}`);
             });
 
             return;
@@ -67,7 +73,7 @@ Template.insertActivityModal.events({
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertActivityForm'),
           createdBy: Meteor.userId()
         }, function(err) {
-          if (err) toastr.error("An error occurred whilst creating a task from this activity: " + err);
+          if (err) toastr.error(`An error occurred whilst creating a task from this activity: ${err}`);
         });
       }
     }
@@ -94,11 +100,11 @@ Template.insertContactActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertContactActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
-        var reminder = $('#reminderValue').val() + '.' + $('#reminderUnit').val();
+        var reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`;
         var d = $('#helperContent .taskdatetimepicker');
         var dtp = d.data('DateTimePicker');
         var taskDate = dtp.date.toDate();
-        var taskTitle = "Follow Up " + AutoForm.getFieldValue('type', 'insertContactActivityForm');
+        var taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertContactActivityForm')}`;
 
         Tasks.insert({
           title: taskTitle,
@@ -112,7 +118,7 @@ Template.insertContactActivityModal.events({
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertContactActivityForm'),
           createdBy: Meteor.userId()
         }, function(err) {
-          if (err) toastr.error("An error occurred whilst creating a task from this activity: " + err);
+          if (err) toastr.error(`An error occurred whilst creating a task from this activity: ${err}`);
         });
       }
     }
@@ -134,7 +140,7 @@ Template.insertContactActivityModal.helpers({
     return false;
   },
   fullName: function() {
-    return this.contact.forename + " " + this.contact.surname;
+    return `${this.contact.forename} ${this.contact.surname}`;
   }
 });
 
@@ -142,12 +148,12 @@ Template.insertProjectActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertProjectActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
-        var reminder = $('#reminderValue').val() + '.' + $('#reminderUnit').val();
+        var reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`;
         var d = $('#helperContent .taskdatetimepicker');
         var dtp = d.data('DateTimePicker');
         var taskDate = dtp.date.toDate();
 
-        var taskTitle = "Follow Up " + AutoForm.getFieldValue('type', 'insertProjectActivityForm');
+        var taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertProjectActivityForm')}`;
 
         Tasks.insert({
           title: taskTitle,
@@ -161,7 +167,7 @@ Template.insertProjectActivityModal.events({
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertProjectActivityForm'),
           createdBy: Meteor.userId()
         }, function(err) {
-          if (err) toastr.error("An error occurred whilst creating a task from this activity: " + err);
+          if (err) toastr.error(`An error occurred whilst creating a task from this activity: ${err}`);
         });
       }
     }
@@ -204,12 +210,12 @@ Template.insertOpportunityActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertOpportunityActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
-        var reminder = $('#reminderValue').val() + '.' + $('#reminderUnit').val();
+        var reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`;
         var d = $('#helperContent .taskdatetimepicker');
         var dtp = d.data('DateTimePicker');
         var taskDate = dtp.date.toDate();
 
-        var taskTitle = "Follow Up " + AutoForm.getFieldValue('type', 'insertOpportunityActivityForm');
+        var taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertOpportunityActivityForm')}`;
 
         Tasks.insert({
           title: taskTitle,
@@ -223,7 +229,7 @@ Template.insertOpportunityActivityModal.events({
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertOpportunityActivityForm'),
           createdBy: Meteor.userId()
         }, function(err) {
-          if (err) toastr.error("An error occurred whilst creating a task from this activity: " + err);
+          if (err) toastr.error(`An error occurred whilst creating a task from this activity: ${err}`);
         });
       }
     }

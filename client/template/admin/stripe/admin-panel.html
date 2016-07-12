@@ -17,7 +17,7 @@
             {{#if subsLoaded}}
               {{currentSubscription}}
               {{else}}
-              <em>Loading...</em>
+              <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
             {{/if}}
           </div>
         </div>
@@ -25,9 +25,9 @@
           <div class="col-xs-5"><strong>Coupon</strong></div>
           <div class="col-xs-7" id="couponDisplay">
             {{#if couponLoaded}}
-              <span id="couponText">{{#if hasCoupon}}{{hasCoupon}}{{else}}No active coupon{{/if}}</span> - <a href="" id="updateCoupon">Edit</a>
+              <span id="couponText">{{#if hasCoupon}}{{hasCoupon}}{{else}}No active coupon{{/if}}</span>{{#unless isProTenant}} - <a href="#" id="updateCoupon">Edit</a>{{/unless}}
               {{else}}
-              <em>Loading...</em>
+              <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
             {{/if}}
           </div>
         </div>
@@ -62,7 +62,7 @@
             </div>
             <hr />
           {{else}}
-            <em>Loading...</em>
+            <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
           {{/if}}
           {{/with}}
         {{/if}}
@@ -83,7 +83,7 @@
         </div>
         <div class="row">
           <div class="col-xs-3"><strong>Amount</strong></div>
-          <div class="col-xs-9">£{{lastInvoice.amount_due}}</div>
+          <div class="col-xs-9">{{lastInvoice.amount_due}}</div>
         </div>
         <div class="row">
           <div class="col-xs-3"><strong>Date</strong></div>
@@ -94,7 +94,7 @@
           <div class="col-xs-9">{{lastInvoice.start}} - {{lastInvoice.end}}</div>
         </div>
         {{else}}
-          <em>Loading...</em>
+          <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
         {{/if}}
         {{#if upcomingInvoice.date}}
         <hr />
@@ -104,7 +104,7 @@
         </div>
         <div class="row">
           <div class="col-xs-3"><strong>Amount</strong></div>
-          <div class="col-xs-9">£{{upcomingInvoice.amount_due}}</div>
+          <div class="col-xs-9">{{upcomingInvoice.amount_due}}</div>
         </div>
         {{#each upcomingInvoice.lines.data}}
           {{> lineDetails}}
@@ -139,7 +139,7 @@
   {{#if amount}}
     <div class="row">
       <div class="col-xs-3"></div>
-      <div class="col-xs-2"><em>£{{amount}}</em></div>
+      <div class="col-xs-2"><em>{{amount}}</em></div>
       <div class="col-xs-7"><em>{{#if description}}{{description}}{{else}}Subscription for next period ({{period.start}} - {{period.end}}){{/if}}</em></div>
     </div>
   {{/if}}

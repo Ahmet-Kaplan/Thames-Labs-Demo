@@ -58,6 +58,29 @@
       <div>
         {{#if isInRole 'CanEditContacts'}}{{#with this}} {{> customFieldDisplay entity_data=this entity_type='contact'}} {{/with}}{{/if}}
       </div>
+      
+      {{#if isInRole 'CanReadOpportunities'}}
+      <div class="panel panel-default">
+        <div class="panel-heading" id="opportunities">
+          Opportunities
+          {{#if archivedOpps}}
+            - <a href="#" id="archived-opportunities">Show Archived ({{archivedOpps}})</a>
+          {{/if}}
+          {{#if isInRole 'CanCreateOpportunities'}}
+          <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
+        </div>
+        <ul class="list-group">
+          {{#each opportunities}}
+          <a href="{{pathFor route='opportunity' id=_id}}" class="list-group-item">
+            <i class="fa fa-fw fa-lightbulb-o"></i> {{name}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
+          {{else}}
+          <li class="list-group-item">No opportunities</li>
+          {{/each}}
+        </ul>
+      </div>
+      {{/if}}
 
       {{#if isInRole 'CanReadProjects'}}
       <div class="panel panel-default">
@@ -95,40 +118,16 @@
       </div>
       {{/if}}
 
-{{> documentContainer collectionName="contacts" id=this._id permissionRequired="CanEditContacts"}}
+      {{> documentContainer collectionName="contacts" id=this._id permissionRequired="CanEditContacts"}}
 
       {{#if isInRole 'CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="contact" entity_id=_id}} {{/with}}{{/if}}
 
-
-      {{#if isInRole 'CanReadOpportunities'}}
-      <div class="panel panel-default">
-        <div class="panel-heading" id="opportunities">
-          Opportunities
-          {{#if archivedOpps}}
-            - <a href="#" id="archived-opportunities">Show Archived ({{archivedOpps}})</a>
-          {{/if}}
-          {{#if isInRole 'CanCreateOpportunities'}}
-          <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
-        </div>
-        <ul class="list-group">
-          {{#each opportunities}}
-          <a href="{{pathFor route='opportunity' id=_id}}" class="list-group-item">
-            <i class="fa fa-fw fa-lightbulb-o"></i> {{name}}
-            <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          </a>
-          {{else}}
-          <li class="list-group-item">No opportunities</li>
-          {{/each}}
-        </ul>
-      </div>
-      {{/if}}
     </div>
 
     <div class="col-md-4">
       {{> publicContactInformation}}
-        <h4>Address</h4>
       {{#if address}}
-        {{> map title=mapTitle address=mapAddress}}
+        {{> mapViewer title=mapTitle address=mapAddress}}
       {{else}}
         <em class="FadedText">This contact has no address. Add it via the Edit button to see where they're based!{{#if canLinkAddress}}<br><br><a href="#" id="linkCompanyAddress">Use {{company.name}}'s address?</a>{{/if}}</em>
       {{/if}}
