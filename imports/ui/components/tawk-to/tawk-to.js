@@ -1,8 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 
 function loadTawkTo() {
+  if(typeof Tawk_API !== 'undefined') {
+    return;
+  }
   if(Meteor.isProduction && !Meteor.isTest) {
-    if(Meteor.user() && Meteor.user().emails[0].address.indexOf('@cambridgesoftware.co.uk') > -1) {
+    // On loading, if user is logged in Meteor.user() is undefined
+    // However if user is on sign-up page, Meteor.user() is null (we want to load Tawk.to in this case).
+    // This function is called inside an autorun so that if the user is signed in, Meteor.user() becomes defined and trigger the chat script.
+    if(typeof Meteor.user() === 'undefined' || (!!Meteor.user() && Meteor.user().emails[0].address.indexOf('@cambridgesoftware.co.uk') > -1)) {
       return;
     }
     $.getScript('https://embed.tawk.to/56b333a5fe87529955d980fa/default');

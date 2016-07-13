@@ -12,9 +12,10 @@ Meteor.methods({
     });
     const tawkToApiKey = process.env.TAWKTO_API_KEY || '';
     const hash = CryptoJS.HmacSHA256(visitor.emails[0].address.toString(), tawkToApiKey);
+    const name = (`${visitor.profile.name} [${tenant.name}]`).substring(0, 40);
 
     return {
-      name: `${visitor.profile.name} [${tenant.name}]`,
+      name: name,
       email: visitor.emails[0].address.toString(),
       hash: hash.toString()
     };
