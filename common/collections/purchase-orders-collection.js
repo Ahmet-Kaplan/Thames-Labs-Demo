@@ -197,7 +197,7 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
         };
       }
 
-       if (options.search.props.active) {
+      if (options.search.props.active) {
         // n.b. the array is passed as a comma separated string
         if(options.search.props.active === "Yes") {
           selector.status = {
