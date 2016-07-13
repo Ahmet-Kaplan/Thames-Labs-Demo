@@ -79,12 +79,7 @@
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                {{#if isInRole 'Administrator'}}
-                <li><a href="/admin" id="Administration">Administration</a></li>
-                <li role="separator" class="divider"></li>
-                {{/if}}
-                <li><a href="#" id="btnChangeEmail">Change Email</a></li>
-                <li><a href="#" id="btnChangePassword">Change Password</a></li>
+                <li><a href="/settings/profile" id="settings">Settings</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#" id="feedback-link">Give Feedback</a></li>
                 <li><a href="#" id="sign-out">Sign Out</a></li>
@@ -254,13 +249,11 @@
         <div class="panel-collapse collapse" id="collapseUserName">
           <div class="panel-body">
             <table class="table">
-              {{#if isInRole 'Administrator'}}
               <tr>
                 <td>
-                  <a href="/admin" id="Administration">Administration</a>
+                  <a href="/settings/profile" id="settings">Settings</a>
                 </td>
               </tr>
-              {{/if}}
               <tr>
                 <td>
                   <a href="#" id="feedback-link">Give Feedback</a>

@@ -1,0 +1,36 @@
+<template name="globalCustomFieldsAdmin">
+  <div class="settings-section">
+    <h4>
+      Custom Fields
+      <button type="button" class="btn btn-xs btn-primary pull-right" role="button" id="addGlobalCustomField">
+        <i class="fa fa-fw fa-plus"></i> Add global custom field
+      </button>
+    </h4>
+
+    {{#if globalCompanyCustomFields}}
+      <h5>Companies</h5>
+      {{> globalCustomFieldList entity='company' items=globalCompanyCustomFields}}
+    {{/if}}
+  </div>
+
+  {{#if globalContactCustomFields}}
+  <div class="settings-section">
+    <h5>Contacts</h5>
+    {{> globalCustomFieldList entity='contact' items=globalContactCustomFields}}
+  </div>
+  {{/if}}
+
+  {{#if globalProjectCustomFields}}
+  <div class="settings-section">
+    <h5>Projects</h5>
+    {{> globalCustomFieldList entity='project' items=globalProjectCustomFields}}
+  </div>
+  {{/if}}
+
+  {{#if globalProductCustomFields}}
+  <div class="settings-section">
+    <h5>Products</h5>
+    {{> globalCustomFieldList entity='product' items=globalProductCustomFields}}
+  </div>
+  {{/if}}
+ </template>

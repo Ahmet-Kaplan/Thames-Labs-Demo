@@ -41,6 +41,64 @@ export function updateStripeCustomer(self) {
   }
 }
 
+function beautifyInvoices(invoice) {
+  const beautifiedInvoice = _.cloneDeep(invoice);
+  let discountCorrection = 1;
+
+  if (beautifiedInvoice.discount) {
+    discountCorrection = (beautifiedInvoice.discount.coupon.percent_off) ? 1 - (beautifiedInvoice.discount.coupon.percent_off / 100) : 1;
+  }
+
+  if (beautifiedInvoice.tax_percent) {
+    taxCorrection = 1 + beautifiedInvoice.tax_percent / 100;
+  }
+  beautifiedInvoice.amount_due = displayLocale(invoice.amount_due / 100, beautifiedInvoice.currency);
+  beautifiedInvoice.total = invoice.total / 100;
+  beautifiedInvoice.date = moment(invoice.date * 1000).format('DD/MM/YYYY');
+  beautifiedInvoice.tax = displayLocale(invoice.tax / 100, beautifiedInvoice.currency);
+
+  const tot = beautifiedInvoice.lines.data.length;
+
+  let i = 0;
+  let correctionAmount = 0;
+  const newData = [];
+  if (tot > 1) {
+    for (i = 0; i < tot - 1; i++) {
+      correctionAmount += beautifiedInvoice.lines.data[i].amount;
+    }
+  }
+
+  if (beautifiedInvoice.lines.data[tot - 1].description) {
+    correctionAmount += beautifiedInvoice.lines.data[tot - 1].amount;
+    newData.push({
+      amount: displayLocale(correctionAmount / 100, beautifiedInvoice.currency),
+      description: 'Correction for this period\'s subscription'
+    });
+  } else {
+    if (correctionAmount) {
+      newData.push({
+        amount: displayLocale(correctionAmount / 100, beautifiedInvoice.currency),
+        description: 'Correction for this period\'s subscription'
+      });
+    }
+
+    const periodStart = moment(beautifiedInvoice.lines.data[tot - 1].period.start * 1000).format('DD/MM/YYYY');
+    const periodEnd = moment(beautifiedInvoice.lines.data[tot - 1].period.end * 1000).format('DD/MM/YYYY');
+    const pricePerUser = beautifiedInvoice.lines.data[tot - 1].plan.amount * discountCorrection;
+    newData.push({
+      quantity: beautifiedInvoice.lines.data[tot - 1].quantity,
+      plan: {
+        name: beautifiedInvoice.lines.data[tot - 1].plan.name,
+        amount: displayLocale(pricePerUser / 100, beautifiedInvoice.currency)
+      },
+      amount: displayLocale((beautifiedInvoice.lines.data[tot - 1].amount / 100) * discountCorrection, beautifiedInvoice.currency),
+      description: 'Subscription for period between ' + periodStart + ' and ' + periodEnd
+    });
+  }
+  beautifiedInvoice.lines.data = newData;
+  return beautifiedInvoice;
+}
+
 export function updateUpcomingInvoice(self) {
   const tenant = Tenants.findOne({
     _id: Meteor.user().group
@@ -49,58 +107,14 @@ export function updateUpcomingInvoice(self) {
     Meteor.call('stripe.getUpcomingInvoice', function(error, invoice) {
       if (error) {
         toastr.error('Unable to retrieve upcoming invoice.');
-        return false;
+        return {};
       } else if (invoice === false) {
         self.upcomingInvoice.set(false);
-        return false;
+        return {};
       }
 
-      const upcomingInvoice = _.cloneDeep(invoice);
-      let discountCorrection = 1;
-      let taxCorrection = 1;
+      const upcomingInvoice = beautifyInvoices(invoice);
 
-      if (upcomingInvoice.discount) {
-        discountCorrection = (upcomingInvoice.discount.coupon.percent_off) ? 1 - (upcomingInvoice.discount.coupon.percent_off / 100) : 1;
-      }
-
-      if (upcomingInvoice.tax_percent) {
-        taxCorrection = 1 + upcomingInvoice.tax_percent / 100;
-      }
-      upcomingInvoice.amount_due = displayLocale(invoice.amount_due / 100, upcomingInvoice.currency);
-      upcomingInvoice.total = invoice.total / 100;
-      upcomingInvoice.date = moment(invoice.date * 1000).format('DD/MM/YYYY');
-      const tot = upcomingInvoice.lines.data.length;
-      let i = 0;
-      let correctionAmount = 0;
-      const newData = [];
-      if (tot > 1) {
-        for (i = 0; i < tot - 1; i++) {
-          correctionAmount += upcomingInvoice.lines.data[i].amount;
-        }
-      }
-
-      if (upcomingInvoice.lines.data[tot - 1].description) {
-        correctionAmount += upcomingInvoice.lines.data[tot - 1].amount;
-        newData.push({
-          amount: displayLocale(correctionAmount / 100 * taxCorrection, upcomingInvoice.currency),
-          description: 'Correction for this period\'s subscription'
-        });
-      } else {
-        if (correctionAmount) {
-          newData.push({
-            amount: displayLocale(correctionAmount / 100 * taxCorrection, upcomingInvoice.currency),
-            description: 'Correction for this period\'s subscription'
-          });
-        }
-
-        const periodStart = moment(upcomingInvoice.lines.data[tot - 1].period.start * 1000).format('DD/MM/YYYY');
-        const periodEnd = moment(upcomingInvoice.lines.data[tot - 1].period.end * 1000).format('DD/MM/YYYY');
-        newData.push({
-          amount: displayLocale((upcomingInvoice.lines.data[tot - 1].amount / 100) * discountCorrection * taxCorrection, upcomingInvoice.currency),
-          description: 'Subscription for next period (' + periodStart + ' - ' + periodEnd + ')'
-        });
-      }
-      upcomingInvoice.lines.data = newData;
       self.upcomingInvoice.set(upcomingInvoice);
     });
   }
@@ -119,16 +133,8 @@ export function updateLastInvoice(self) {
         self.lastInvoice.set(false);
         return false;
       }
-      const lastInvoice = _.cloneDeep(invoice);
-      lastInvoice.amount_due = displayLocale(invoice.amount_due / 100, invoice.currency);
-      lastInvoice.date = moment(invoice.date * 1000).format('DD/MM/YYYY');
-      lastInvoice.start = moment(invoice.period_start * 1000).format('DD/MM/YYYY');
-      //Handle the case of the first payment for which period is only the day
-      if (invoice.period_start === invoice.period_end) {
-        lastInvoice.end = moment(invoice.lines.data[0].period.end * 1000).format('DD/MM/YYYY');
-      } else {
-        lastInvoice.end = moment(invoice.period_end * 1000).format('DD/MM/YYYY');
-      }
+      const lastInvoice = beautifyInvoices(invoice);
+
       self.lastInvoice.set(lastInvoice);
     });
   }
