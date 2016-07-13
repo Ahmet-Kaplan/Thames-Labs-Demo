@@ -93,7 +93,7 @@ Feature: Allow administrators to give users permissions
     And I click "#admin-checkbox"
     And I click "#update-user"
     Then the user "restricted user" should have the "Administrator" permission
-@dev
+
   Scenario: An Administrator cannot unset its own 'Administrator' status
     Given a user exists
     And I am a logged in user
