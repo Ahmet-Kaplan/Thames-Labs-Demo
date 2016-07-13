@@ -42,23 +42,7 @@
 }
 .nav > .dropdown > .dropdown-toggle:active {
   background: rgba(0, 0, 0, 0.1) !important;
-} /*
-.nav-btn-info {
-  background-color: @brand-info;
-  color: #fff !important;
-  font-weight: bold;
-  padding: 6px 12px;
-  border-radius: 4px;
-}
-.nav-btn-info:hover {
-  background-color: darken(@brand-info, 10%) !important;
-}
-.nav-btn-info:focus {
-  background-color: @brand-info !important;
-}
-.nav-btn-info:active {
-  background-color: darken(@brand-info, 10%) !important;
-} */
+} 
 
 #tenant-name {
   font-size: 14px;
@@ -83,68 +67,4 @@
   #global-search-mobile {
     display: none;
   }
-}
-
-
-#id-view-sidemenu {
-  position: fixed;
-  top: 50px;
-  left: 0;
-  bottom: 0;
-  width: @sidebar-width;
-  overflow-x: hidden;
-  overflow-y: auto;
-  background-color: #eee;
-  transition: all 0.15s ease-in-out;
-  z-index: 999;
-}
-
-@media only screen and (max-width:767px) {
-  #id-view-sidemenu {
-    left: -@sidebar-width-mobile;
-    width: @sidebar-width-mobile;
-  }
-  #id-view-sidemenu.active {
-    left: 0;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
-  }
-}
-
-#id-view-sidemenu > ul {
-  list-style: none;
-  margin: 0;
-  padding: 0 0 30px;
-}
-#id-view-sidemenu > ul > li {
-  padding: 0;
-  width: 100%;
-}
-#id-view-sidemenu > ul > li > a {
-  transition: all 0.1s ease-in-out;
-  text-decoration: none;
-  padding: 8px 15px;
-  width: 100%;
-  display: block;
-  color: rgba(0, 0, 0, 0.8);
-  font-size: 1.15em;
-  cursor: pointer;
-} 
-#id-view-sidemenu > ul > li > a:hover {
-  background: rgba(0, 0, 0, 0.1);
-}
-#id-view-sidemenu > ul > li > a:active {
-  background: rgba(0, 0, 0, 0.15);
-}
-#id-view-sidemenu > ul > li.active {
-  background: rgba(0, 0, 0, 0.05);
-  background: white;
-  color: #000;
-}
-#id-view-sidemenu > ul > li > a > i {
-  margin-right: 9px;
-} 
-#id-view-sidemenu > ul > li > a.proFeature {
-  color: darkgrey !important;
-  background-color: #eee;
-  cursor: default;
 }

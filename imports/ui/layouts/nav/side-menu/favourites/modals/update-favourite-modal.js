@@ -1,3 +1,5 @@
+import './update-favourite-modal.html';
+
 Template.updateFavourite.onRendered(function() {
   $('#favouriteName').val(this.data.name);
 });

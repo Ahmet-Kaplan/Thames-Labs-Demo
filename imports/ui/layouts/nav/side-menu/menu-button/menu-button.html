@@ -1,7 +1,7 @@
 <template name="menuButton">
 {{#if hasPermission}}
 <li class="{{isActiveRoute regex=activeRoutes}}">
-  <a href='{{#if hasFreeAccessOnly}}#{{else}}/{{page}}{{/if}}' class="{{#if hasFreeAccessOnly}}proFeature{{/if}}" id="menuLink{{page}}">
+  <a href='{{#unless hasFreeAccessOnly}}/{{page}}{{/unless}}' class="menu-button {{#if hasFreeAccessOnly}}pro-feature{{/if}}" id="menuLink{{page}}">
     <i class="fa fa-fw fa-{{icon}}"></i> {{title}}
   </a>
 </li>

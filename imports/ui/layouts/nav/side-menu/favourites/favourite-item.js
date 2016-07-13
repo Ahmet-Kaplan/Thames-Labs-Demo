@@ -1,8 +1,11 @@
-Template.favourite.events({
-  'click #mnuEditFavourite': function() {
+import './favourite-item.html';
+import './modals/update-favourite-modal.js';
+
+Template.favouriteItem.events({
+  'click .edit-favourite': function() {
     Modal.show('updateFavourite', this);
   },
-  'click #mnuRemoveFavourite': function() {
+  'click .remove-favourite': function() {
 
     bootbox.confirm("Are you sure you wish to delete this favourite?", (result) => {
       if (result === true) {

@@ -5,7 +5,6 @@ Template.menuButton.helpers({
   hasPermission: function() {
     const permissions = Template.currentData().permissions;
     const permissionList = _.split(permissions, ',');
-    console.log(permissionList);
     if (!Roles.userIsInRole(Meteor.userId(), permissionList) && permissions !== '') {
       return false;
     }
@@ -17,7 +16,10 @@ Template.menuButton.helpers({
 });
 
 Template.menuButton.events({
-  'click .proFeature': function() {
+  'click .menu-button': function() {
+    $("#id-view-sidemenu").removeClass("active");
+  },
+  'click .pro-feature': function() {
     showUpgradeToastr('To access ' + Template.currentData().title);
   }
 });
