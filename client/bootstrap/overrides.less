@@ -272,17 +272,28 @@ a, button {
 }
 
 .toast-success {
-  background-color: #00C15B;
+  background-color: @brand-success;
 }
 
 .toast-warning {
-  background-color: #FD9727;
+  background-color: @brand-warning;
 }
 
 .toast-error {
-  background-color: #E8425D;
+  background-color: @brand-danger;
 }
 
 .toast-info {
-  background-color: #00C99D;
+  background-color: @brand-info;
 }
+
+#toast-container > div {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  opacity: .9;
+}
+
+#toast-container > :hover {
+  box-shadow: none;
+}
+
