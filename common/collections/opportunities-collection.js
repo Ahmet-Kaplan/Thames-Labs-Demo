@@ -150,19 +150,6 @@ Collections.opportunities.filters = {
       return state;
     }
   },
-  archived: {
-    display: 'Archived:',
-    prop: 'archived',
-    defaultOptions: function() {
-      return ['Yes', 'No'];
-    },
-    strict: true,
-    allowMultiple: false,
-    verify: function(archived) {
-      if (!archived) return false;
-      return archived;
-    }
-  },
 };
 
 ////////////////////

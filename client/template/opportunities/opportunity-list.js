@@ -56,8 +56,8 @@ Template.opportunityList.onRendered(function() {
     container: '.list-header-right'
   });
 
-  if(!_.get(Collections['opportunities'].index.getComponentDict().get('searchOptions').props, "archived")) {
-    Collections['opportunities'].index.getComponentMethods().addProps('archived', 'No');
+  if(!_.get(Collections['opportunities'].index.getComponentDict().get('searchOptions').props, "state")) {
+    Collections['opportunities'].index.getComponentMethods().addProps('state', 'Open');
   }
 });
 
