@@ -1,3 +1,4 @@
+import { check, Match } from 'meteor/check';
 Meteor.methods({
   'project.invertState': function(projectId) {
     var user = Meteor.users.findOne({_id: this.userId});
@@ -50,81 +51,16 @@ Meteor.methods({
     };
   },
 
-  moveMilestone: function(projectId, direction) {
-    var value = (direction === "forward" ? 1 : -1);
-    var project = Projects.findOne({
-      _id: projectId
-    });
-    if (project) {
-      var typeId = project.projectTypeId;
-      var milestoneId = project.projectMilestoneId;
+  'setMilestone': function(id, milestoneId) {
+    check(id, String);
+    check(milestoneId, Match.Integer);
 
-      var user = Meteor.users.findOne({
-        _id: this.userId
-      });
-      if (user) {
-        var userTenant = Tenants.findOne({
-          _id: user.group
-        });
-        if (userTenant) {
-          var typeIndex = -1;
-          var currentTypes = userTenant.settings.project.types;
-          for (var i = 0, len = currentTypes.length; i < len; i++) {
-            if (currentTypes[i].id === typeId) {
-              typeIndex = i;
-              break;
-            }
-          }
-          if (typeIndex !== -1) {
-            var milestones = currentTypes[typeIndex].milestones;
-            var milestoneIndex = -1;
-            for (var j = 0, mlen = milestones.length; j < mlen; j++) {
-              if (milestones[j].id === milestoneId) {
-                milestoneIndex = j;
-                break;
-              }
-            }
-            var newId = milestoneId;
-            if (milestoneIndex !== -1) {
-              var newIndex = milestoneIndex + value;
+    if(!this.userId) throw new Meteor.Error('Only logged in users may update project milestones');
+    if(!Roles.userIsInRole(this.userId, ['CanEditProjects'])) throw new Meteor.Error('Only users with permission to edit projects can move project milestones');
 
-              if (newIndex < 0 || newIndex > milestones.length) {
-                return {
-                  exitCode: 6,
-                  exitStatus: 'Cannot move milestone beyond existing limits.'
-                };
-              }
-              newId = milestones[newIndex].id;
+    Projects.update(id, { $set: { projectMilestoneId: milestoneId }});
 
-              return {
-                exitCode: 0,
-                exitStatus: newId
-              };
-            }
-            return {
-              exitCode: 1,
-              exitStatus: 'Milestone not found.'
-            };
-          }
-          return {
-            exitCode: 2,
-            exitStatus: 'Type not found.'
-          };
-        }
-        return {
-          exitCode: 3,
-          exitStatus: 'User tenant not found.'
-        };
-      }
-      return {
-        exitCode: 4,
-        exitStatus: 'User not found.'
-      };
-    }
-    return {
-      exitCode: 5,
-      exitStatus: 'Project not found.'
-    };
+    return;
   },
 
   addProjectType: function(name) {

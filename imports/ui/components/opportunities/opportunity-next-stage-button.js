@@ -87,6 +87,6 @@ Template.opportunityNextStageButton.events({
         }
       }
     });
-  },
+  }
 
 });

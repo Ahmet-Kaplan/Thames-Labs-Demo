@@ -1,3 +1,6 @@
+import './legal-company-information.css';
+import './legal-company-information.html';
+
 // Expects arguments:
 // - company - the company object
 

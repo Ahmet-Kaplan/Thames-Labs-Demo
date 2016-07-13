@@ -1,3 +1,5 @@
+import './public-company-information.html';
+
 Template.publicCompanyInformation.events({
   'click .upgrade-prompt': function(event, template) {
     if (!isProTenant(Meteor.user().group)) {

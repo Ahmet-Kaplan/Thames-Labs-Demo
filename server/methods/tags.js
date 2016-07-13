@@ -10,7 +10,7 @@ Meteor.methods({
     var result = index.search(searchDefinition, searchOptions).fetch();
 
     _.each(result, function(x) {
-      if (!_.contains(x.tags, tag)) {
+      if (!_.includes(x.tags, tag)) {
         Collections[collectionName].addTag(tag, {
           _id: x._id
         });

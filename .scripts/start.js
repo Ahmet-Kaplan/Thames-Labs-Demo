@@ -22,10 +22,6 @@ if (process.env.CUCUMBER_JSON_OUTPUT) {
   chimpArgs.push('--jsonOutput=' + process.env.CUCUMBER_JSON_OUTPUT);
 }
 
-if (!process.env.CI) {
-  chimpArgs.push('--watch');
-}
-
 console.log('Starting Meteor');
 
 var meteorProcess = spawn(meteorCommand, meteorArgs, meteorProcessOptions);

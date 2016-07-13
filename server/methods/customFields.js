@@ -40,7 +40,7 @@ Meteor.methods({
       }).fetch();
     });
 
-    return _.uniq(data, 'name');
+    return _.uniqBy(data, 'name');
   },
   "extInfo.deleteGlobal": function(self) {
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
@@ -165,7 +165,7 @@ Meteor.methods({
       }).fetch();
     });
 
-    var currentOrder = _.uniq(data, 'name');
+    var currentOrder = _.uniqBy(data, 'name');
     currentOrder = currentOrder.sort(function(a, b) {
       if (a.order < b.order) return -1;
       if (a.order > b.order) return 1;

@@ -77,16 +77,3 @@ Feature: Allow users to manage their project types and milestones
     And I click confirm on the modal
     Then I should see a "success" toastr with the message "Project milestone deleted successfully."
     And I should not see a modal
-
-	Scenario: a user can move a project between milestones
-    Given a project type has been created
-    And a "Project" has been created
-    And I have the "CanReadProjects" permission
-    And I have the "CanEditProjects" permission
-    And toastr are cleared
-    When I navigate to a project page
-    And I click "#nextMilestone"
-    Then I should see a "success" toastr with the message "Project milestone successfully updated."
-		Given toastr are cleared
-    And I click "#prevMilestone"
-    Then I should see a "success" toastr with the message "Project milestone successfully updated."
