@@ -175,45 +175,26 @@ router.route('/admin', {
 });
 
 //Settings
-router.route('/settings', {
+router.route('/settings/:section', {
   name: 'settings',
-  action: function() {
-    FlowRouter.go('/settings/profile');
-  }
-});
+  action: function(params) {
+    let layoutTemplate = 'profileSettings';
+    switch(params.section) {
+      case 'users':
+        layoutTemplate = 'userSettings';
+        break;
 
-router.route('/settings/profile', {
-  name: 'profileSettings',
-  action: function() {
-    layout.render('appLayout', {
-      main: "profileSettings"
-    });
-  }
-});
+      case 'billing':
+        layoutTemplate = 'billingSettings';
+        break;
 
-router.route('/settings/users', {
-  name: 'userSettings',
-  action: function() {
-    layout.render('appLayout', {
-      main: "userSettings"
-    });
-  }
-});
+      case 'configuration':
+        layoutTemplate = 'configurationSettings';
+        break;
+    }
 
-router.route('/settings/billing', {
-  name: 'billingSettings',
-  action: function() {
     layout.render('appLayout', {
-      main: "billingSettings"
-    });
-  }
-});
-
-router.route('/settings/configuration', {
-  name: 'configurationSettings',
-  action: function() {
-    layout.render('appLayout', {
-      main: "configurationSettings"
+      main: layoutTemplate
     });
   }
 });

@@ -1,10 +1,10 @@
 <template name="settingsNav">
   <div class="list-group hidden-sm hidden-xs" id="settings-nav">
-    <a class="list-group-item {{isActiveRoute regex='profileSettings'}}" href="profile">Profile</a>
+    <a class="list-group-item {{isActivePath '/settings/profile'}}" href="profile">Profile</a>
     {{#if isInRole 'Administrator'}}
-      <a class="list-group-item {{isActiveRoute regex='configurationSettings'}}" href="configuration">Configuration</a>
-      <a class="list-group-item {{isActiveRoute regex='userSettings'}}" href="users">Users</a>
-      <a class="list-group-item {{isActiveRoute regex='billingSettings'}}" href="billing">Billing</a>
+      <a class="list-group-item {{isActivePath '/settings/configuration'}}" href="configuration">Configuration</a>
+      <a class="list-group-item {{isActivePath '/settings/users'}}" href="users">Users</a>
+      <a class="list-group-item {{isActivePath '/settings/billing'}}" href="billing">Billing</a>
     {{/if}}
   </div>
 
@@ -16,10 +16,10 @@
         Other settings <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
-        <li><a class="{{isActiveRoute regex='profileSettings'}}" href="profile">Profile</a></li>
-          <li><a class="{{isActiveRoute regex='configurationSettings'}}" href="configuration">Configuration</a></li>
-          <li><a class="{{isActiveRoute regex='userSettings'}}" href="users">Users</a></li>
-          <li><a class="{{isActiveRoute regex='billingSettings'}}" href="billing">Billing</a></li>
+        <li><a class="{{isActivePath '/settings/profile'}}" href="profile">Profile</a></li>
+          <li><a class="{{isActivePath '/settings/configuration'}}" href="configuration">Configuration</a></li>
+          <li><a class="{{isActivePath '/settings/users'}}" href="users">Users</a></li>
+          <li><a class="{{isActivePath '/settings/billing'}}" href="billing">Billing</a></li>
       </ul>
     </div>
   </div>
