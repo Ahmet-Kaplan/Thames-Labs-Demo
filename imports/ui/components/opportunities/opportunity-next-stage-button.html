@@ -1,9 +1,9 @@
 <template name="opportunityNextStageButton">
   {{#if isInRole 'CanEditOpportunities'}}
     {{#if isLastStage}}
-      <button class="btn btn-success" id="won-opportunity">Opportunity won</button>
+  <button class="btn btn-success {{#if isMobile}}btn-sm{{/if}}" id="won-opportunity">{{#if isMobile}}<i class="fa fa-fw fa-check"></i>{{else}}Opportunity won{{/if}}</button>
     {{else}}
-      <button class="btn btn-primary" id="next-stage">Next stage <i class="fa fa-fw fa-chevron-right"></i></button>
+      <button class="btn btn-primary {{#if isMobile}}btn-sm{{/if}}" id="next-stage">{{#unless isMobile}}Next stage{{/unless}}<i class="fa fa-fw fa-chevron-right"></i></button>
     {{/if}}
   {{/if}}
 </template>

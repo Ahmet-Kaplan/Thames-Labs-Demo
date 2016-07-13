@@ -2,6 +2,7 @@ import '/imports/ui/components/opportunities/opportunity-details-panel.js';
 import '/imports/ui/components/opportunities/opportunity-previous-stage-button.js';
 import '/imports/ui/components/opportunities/opportunity-next-stage-button.js';
 import '/imports/ui/components/opportunities/opportunity-lost-link.js';
+import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
 
 Template.opportunityDetail.onCreated(function() {
   var id = FlowRouter.getParam('id');
@@ -25,7 +26,37 @@ Template.opportunityDetail.onCreated(function() {
 });
 
 Template.opportunityDetail.onRendered(function() {
+
   $.getScript('/vendor/docxgen.min.js');
+
+  this.chart = new StageChart('#d3-stage-chart');
+
+  const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
+  var opportunity = Opportunities.findOne(FlowRouter.getParam('id'));
+
+  opportunity.currentStageIndex = _.findIndex(stages, {id: opportunity.currentStageId});
+
+  this.chart.draw(opportunity, stages);
+
+  var resize = () => {
+    this.chart.resize(opportunity, stages);
+  };
+
+  this.chartResizeEventHandler = window.addEventListener("resize", resize);
+
+  this.autorun( () => {
+    opportunity = Opportunities.findOne(FlowRouter.getParam('id'));
+    opportunity.currentStageIndex = _.findIndex(stages, {id: opportunity.currentStageId});
+    this.chart.setForce(opportunity, stages);
+  });
+
+  //Update opp stage when dragged
+  this.chart._dragCallBack = (opportunityId, closestStageId) => {
+    Meteor.call('opportunities.setStage', opportunityId, closestStageId, (err) => {
+      if (err) toastr.error(err.error);
+    });
+  };
+
 });
 
 Template.opportunityDetail.helpers({
@@ -62,7 +93,7 @@ Template.opportunityDetail.helpers({
   },
   overallValue: function() {
     return _.sumBy(this.items, (item) => item.quantity * item.value);
-  },
+  }
 });
 
 Template.opportunityDetail.events({
@@ -179,18 +210,6 @@ Template.opportunityDetail.events({
   }
 });
 
-Template.opportunityStage.helpers({
-  isCurrentStep: function() {
-    var id = FlowRouter.getParam('id');
-    var opportunity = Opportunities.findOne({
-      _id: id
-    });
-    var stepId = opportunity ? opportunity.currentStageId : null;
-    if (stepId == this.id) return true;
-    return false;
-  }
-});
-
 Template.opportunityItem.helpers({
   isActive: function() {
     return !Opportunities.findOne(this.oppId).isArchived;
@@ -221,4 +240,8 @@ Template.opportunityItem.events({
       }
     });
   }
+});
+
+Template.opportunityDetail.onDestroyed(function() {
+  window.removeEventListener("resize", this.chartResizeEventHandler);
 });
