@@ -68,5 +68,13 @@ Template.customFieldDisplay.helpers({
     return arr.sort(function(a, b) {
       return a.name.localeCompare(b.name);
     });
+  },
+  noLabels: function() {
+    return CustomFields.find({
+      entityId: this.entity_data._id,
+      type: {
+        $ne: 'label'
+      }
+    }).fetch().length > 0;
   }
 });
