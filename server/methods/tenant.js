@@ -179,8 +179,6 @@ Meteor.methods({
             entityType: entityType,
             entityId: entityId,
             createdBy: (entityType === 'user' ? entityId : randomUser._id),
-          }, function(err) {
-            console.log(err);
           });
         });
       }
