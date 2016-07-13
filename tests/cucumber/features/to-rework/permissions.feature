@@ -93,14 +93,14 @@ Feature: Allow administrators to give users permissions
     And I click "#admin-checkbox"
     And I click "#update-user"
     Then the user "restricted user" should have the "Administrator" permission
-
+@dev
   Scenario: An Administrator cannot unset its own 'Administrator' status
     Given a user exists
     And I am a logged in user
     And I have the "Administrator" permission
     And I am on the pro plan
     When I navigate to "/settings/users"
-    And I click "#user-list .list-group-item:last-child a"
-    And I click "#admin-checkbox"
+    And I click "#user-list .list-group-item:first-child a"
+    Then "#admin-checkbox" should be disabled
     And I click "#update-user"
     Then the user "Test User" should have the "Administrator" permission
