@@ -114,8 +114,14 @@ Template.stripeAdmin.helpers({
   upcomingInvoice: function() {
     return Template.instance().upcomingInvoice.get();
   },
+  hasUpcomingInvoice: function() {
+    return !(Template.instance().upcomingInvoice.get() == false);
+  },
   lastInvoice: function() {
     return Template.instance().lastInvoice.get();
+  },
+  hasLastInvoice: function() {
+    return !(Template.instance().lastInvoice.get() == false);
   },
   couponLoaded: function() {
     var couponDetails = Template.instance().couponDetails.get();
@@ -129,6 +135,11 @@ Template.stripeAdmin.helpers({
   },
   cardDetails: function() {
     return Template.instance().cardDetails.get();
+  },
+  tenantName: function() {
+    return Tenants.findOne({
+      _id: Meteor.user().group
+    }).name;
   }
 });
 
@@ -148,7 +159,7 @@ Template.stripeAdmin.events({
 
   'click #resumeSubs': function(e) {
     e.preventDefault();
-    bootbox.confirm('Do you wish to resume your subscription to RealtimeCRM?', function(result) {
+    bootbox.confirm('Do you wish to resume your subscription to RealTimeCRM?', function(result) {
       if(result === true) {
         bootbox.dialog({
           message: 'Resuming your subscription...',

@@ -1,3 +1,4 @@
+import '/imports/ui/components/companies/merge/merge-company-modal.js';
 import '/imports/ui/components/companies/widgets/index.js';
 import '/imports/ui/components/charts/sales-history.js';
 import '/imports/ui/components/maps/map-viewer.js';

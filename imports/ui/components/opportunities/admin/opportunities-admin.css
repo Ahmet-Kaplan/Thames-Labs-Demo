@@ -1,0 +1,7 @@
+.list-group-item.opportunity-stage:focus {
+  background: none;
+}
+
+.list-group-item.opportunity-stage.ghost {
+  background: #ddd;
+}

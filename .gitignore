@@ -5,3 +5,4 @@ tests/cucumber/$CIRCLE_TEST_REPORTS
 node_modules
 npm-debug.log
 .tern-port
+.vscode

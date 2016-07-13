@@ -1,0 +1,46 @@
+<template name="updateUser">
+ <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          User Details
+          <button id="close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="slim settings-section">
+            <h3>{{name}}</h3>
+         </div>
+
+          <div class="settings-section">
+            <h4>Administrator</h4>
+            <p>Determines whether {{name}} is an Administrator.</p>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="admin-checkbox" disabled="{{#if isMe}}disabled{{/if}}"> Tenant Administrator
+              </label>
+            </div>
+          </div>
+
+          <div id="nonAdminOptions" class="settings-section">
+            <h4>User Permissions</h4>
+            <p>Determines the access {{name}} has to sections of RealTimeCRM.</p>
+            {{#each AvailablePermissions}} {{> permissionOptions}} {{/each}}
+          </div>
+
+          <div class="settings-section">
+            <h4>Purchase Order Authorisation Level</h4>
+            <p>Determines the maximum value purchase order that {{name}} can approve.</p>
+            <div class="input-group">
+              <span class="input-group-addon">{{userCurrencySymbol}}</span>
+              <input id="po-auth-level" type="text" class="form-control" placeholder="Enter the value..." value="{{profile.poAuthLevel}}">
+            </div>
+          </div>
+
+          <button id="update-user" role="button" class="btn btn-primary" autofocus>Update</button>
+        </div>
+      </div>
+    </div>
+ </div>
+</template>

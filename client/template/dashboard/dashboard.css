@@ -46,3 +46,7 @@
 #onlineUsersBox .panel-footer {
   margin:0;
 }
+
+.grid-stack-item.ui-state-disabled {
+  opacity: 1;
+}
