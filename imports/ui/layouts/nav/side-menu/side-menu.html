@@ -36,51 +36,18 @@
       </li>
 
       {{#unless isInRole 'superadmin'}}
-
-      <li class="visible-xs">
-        <a href='/settings/profile' class="menu-button">
-          <i class="fa fa-fw fa-cog"></i> Settings
-        </a>
-      </li>
-
-      <div class="panel panel-default visible-xs" id="notifications">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-parent="#accordion" data-toggle="collapse" href="#collapseNotifications">
-              {{#if recentNote}}
-              {{recentNoteCount}}
-              <i class="fa fa-fw fa-bell text-primary"></i>
-              {{else}}
-              <i class="fa fa-fw fa-bell"></i>
-              {{/if}}
-              Notifications
-              <i class="fa fa-angle-down pull-right"></i>
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse collapse" id="collapseNotifications">
-          <div class="panel-body">
-            <table class="table">
-              {{#each notifications}} {{> menuNotice}} {{else}}
-              <tr>
-                <td>
-                  <em>No notifications</em>
-                </td>
-              </tr>
-              {{/each}}
-            </table>
-          </div>
-        </div>
-      </div>
+        <li class="visible-xs">
+          <a href='/settings/profile' class="menu-button">
+            <i class="fa fa-fw fa-cog"></i> Settings
+          </a>
+        </li>
       {{/unless}}
-
 
       <li class="visible-xs">
         <a href='#' class="menu-button" id="sign-out">
           Sign out
         </a>
       </li>
-
     </ul>
   </div>
   {{/if}}

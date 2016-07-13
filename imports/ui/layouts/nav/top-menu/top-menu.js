@@ -1,3 +1,4 @@
+import './top-menu.less';
 import './top-menu.html';
 
 Template.topMenu.helpers({
