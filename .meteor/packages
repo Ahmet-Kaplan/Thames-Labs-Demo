@@ -61,7 +61,6 @@ kadira:blaze-layout
 aldeed:template-extension
 reactive-var
 csauer:accounts-phony
-mrgalaxy:stripe
 copleykj:tagstripper
 flowkey:bowser
 mologie:autoform-selectize
@@ -116,3 +115,4 @@ benjaminrh:user-session
 linguahouse:mocha-phantomjs-junit
 practicalmeteor:chai
 dispatch:mocha-browser
+mrt:jquery-ui-sortable

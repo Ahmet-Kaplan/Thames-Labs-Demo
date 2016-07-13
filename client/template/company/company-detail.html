@@ -17,9 +17,9 @@
         <div class="panel-heading">
           <div class="btn-group pull-right">
             {{#if isInRole 'CanEditCompanies'}}
-            <button id="merge-company" class="btn btn-info btn-xs"><i class="fa fa-fw fa-compress"></i> Merge</button>
+            <button id="merge-company" class="btn btn-default btn-xs"><i class="fa fa-fw fa-compress"></i> Merge</button>
             <div class="btn-group">
-              <button type="button" class="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown">
+              <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
                 Extract to...
               </button>
@@ -152,17 +152,17 @@
     <div class="col-md-4">
       {{> publicCompanyInformation}}
       {{> legalCompanyInformation company=this}}
-      <h4>Address</h4>
       {{#if hasAddress}}
-        {{> map title=mapTitle address=mapAddress}}
+        {{> mapViewer title=mapTitle address=mapAddress}}
       {{else}}
-        <em class="FadedText">This company has no address. Add it via the Edit button to see where they're based!</em>
+        <p>
+          <br>
+          <em class="FadedText">This company has no address. Add it via the Edit button to see where they're based!</em>
+        </p>
       {{/if}}
-
-      <div>
-        <h4>Sales History</h4>
-        <canvas id="shContainer" width="400" height="400"></canvas>
-      </div>
+      {{#if showOppStats}}
+        {{> salesHistory oppStats=oppStats}}
+      {{/if}}
     </div>
 
   </div>

@@ -27,7 +27,7 @@ Template.tenantListItem.helpers({
     return Meteor.users.find({
       group: this.__originalId
     });
-  },
+  }
 });
 
 Template.tenantListItem.events({

@@ -5,6 +5,7 @@ import toastr from 'meteor/chrismbeckett:toastr';
 import { Meteor } from 'meteor/meteor';
 
 import { decimal } from '/imports/ui/components/currency/decimal.js';
+import { colours } from '/imports/api/lookup/colours.js';
 
 d3tip(d3);
 
@@ -35,15 +36,15 @@ function SalesPipelineChart(el) {
 
   this.fillColor = d3.scale.ordinal()
     .range([
-      '#1684c1',
-      '#00c99d',
-      '#fec41a',
-      '#e8425d',
-      '#173e5f',
-      '#00b3bb',
-      '#00c15b',
-      '#fd9727',
-      '#af1876',
+      colours.hex.csBlue,
+      colours.hex.blueGreen,
+      colours.hex.yellow,
+      colours.hex.redPink,
+      colours.hex.deepBlue,
+      colours.hex.turquoise,
+      colours.hex.green,
+      colours.hex.orange,
+      colours.hex.redViolet,
     ]);
 
   this.force = d3.layout.force()
