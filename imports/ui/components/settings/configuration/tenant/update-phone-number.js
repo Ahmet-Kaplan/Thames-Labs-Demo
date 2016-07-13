@@ -1,3 +1,14 @@
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+
+import './update-phone-number.html';
+
+Template.updatePhoneNumber.helpers({
+  phoneNumber: function() {
+    return _.get(Meteor.user(), 'profile.telephone');
+  }
+});
+
 Template.updatePhoneNumber.events({
   'submit #tenantPhoneForm': function(event) {
     event.preventDefault();

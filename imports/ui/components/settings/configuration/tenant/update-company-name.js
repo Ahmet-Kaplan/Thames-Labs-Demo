@@ -4,9 +4,6 @@ Template.updateCompanyName.helpers({
   tenant: function() {
     return Tenants.findOne({_id: Partitioner.group()});
   },
-  phoneNumber: function() {
-    return _.get(Meteor.user(), 'profile.telephone');
-  }
 });
 
 Template.updateCompanyName.events({
