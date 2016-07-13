@@ -175,6 +175,13 @@ router.route('/admin', {
 });
 
 //Settings
+router.route('/settings', {
+  name: 'settings',
+  action: function() {
+    FlowRouter.go('/settings/profile');
+  }
+});
+
 router.route('/settings/:section', {
   name: 'settings',
   action: function(params) {
