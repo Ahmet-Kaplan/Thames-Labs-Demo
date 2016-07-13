@@ -1,5 +1,5 @@
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
-import { Meteor } from 'meteor/meteor';
+import '/imports/ui/components/custom-fields/custom-field-panel.js';
 
 Template.projectDetail.onCreated(function() {
   var self = this;

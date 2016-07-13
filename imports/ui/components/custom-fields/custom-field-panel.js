@@ -1,3 +1,14 @@
+import { FlowRouter } from 'meteor/kadira:flow-router';
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+
+import './custom-field-panel.html';
+import './add-custom-field.js';
+import './custom-field-list-item.js';
+import './update-custom-field-item.js';
+import './update-custom-field.js';
+import './customfield.css';
+
 Template.customFieldDisplay.onRendered(function() {
   var collType = this.data.entity_type;
   var entityId = this.data.entity_data._id;

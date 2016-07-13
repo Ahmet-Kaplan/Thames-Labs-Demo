@@ -1,3 +1,6 @@
+import './update-custom-field.html';
+import './customfield.css';
+
 Template.updateCustomField.onRendered(function() {
   $.getScript('/vendor/medium/medium-editor.min.js');
   var self = this;

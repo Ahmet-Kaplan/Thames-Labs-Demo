@@ -1,3 +1,5 @@
+import '/imports/ui/components/custom-fields/custom-field-panel.js';
+
 Template.contactDetail.onCreated(function() {
   var self = this;
   this.autorun(function() {
