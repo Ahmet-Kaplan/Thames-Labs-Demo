@@ -1,20 +1,6 @@
 <template name="milestoneControl">
-  <div class="milestone-control-buttons pull-right hidden-xs">
-    <button class="btn btn-primary btn-sm" id="prevMilestone" disabled="{{#if isFirstStep}}disabled{{/if}}">Previous Milestone</button>
-    <button class="btn btn-primary btn-sm" id="nextMilestone" disabled="{{#if isLastStep}}disabled{{/if}}">Next Milestone</button>
-  </div>
-  <div class="stepwizard hidden-xs">
-    <div class="stepwizard-row">
-      {{#each milestones}}
-        {{> milestone}}
-      {{/each}}
-    </div>
-  </div>
-</template>
-
-<template name="milestone">
-  <div class="stepwizard-step {{#if isCurrentStep}}active-step{{/if}}" data-toggle="tooltip" data-placement="bottom" title="{{description}}">
-    <button type="button" class="btn btn-default btn-circle" disabled="disabled"></button>
-    <p>{{name}}</p>
-  </div>
+  <p>
+    <button class="btn btn-default {{#if isMobile}}btn-sm{{/if}}" id="prevMilestone" disabled="{{isFirstStep}}"><i class="fa fa-fw fa-chevron-left"></i>{{#unless isMobile}}Previous Milestone{{/unless}}</button>
+    <button class="btn btn-primary {{#if isMobile}}btn-sm{{/if}}" id="nextMilestone" disabled="{{isLastStep}}">{{#unless isMobile}}Next Milestone{{/unless}}<i class="fa fa-fw fa-chevron-right"></i></button>
+  </p>
 </template>

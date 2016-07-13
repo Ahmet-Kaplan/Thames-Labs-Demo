@@ -42,7 +42,7 @@ Template.opportunityDetailsPanel.helpers({
 
   isDetailsPage: function() {
     return FlowRouter.getRouteName() === 'opportunity';
-  },
+  }
 
 });
 
