@@ -18,12 +18,14 @@ Template.importEntityDropdown.events({
       headers = [
         'Company Name',
         'Address',
+        'Address 2',
         'City',
         'County',
         'Post Code',
         'Country',
         'Website',
-        'Telephone'
+        'Telephone',
+        'Tags'
       ].join(',');
 
       sampleValues = [

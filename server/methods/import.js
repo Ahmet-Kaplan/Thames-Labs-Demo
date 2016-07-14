@@ -42,9 +42,10 @@ Meteor.methods({
                 UserSession.set("importErrors", errorList, userId);
               }
 
-              Companies.insert({
+              var companyId = Companies.insert({
                 name: row[getFieldValueByKey(selectedValues, 'name')],
-                address: (getFieldValueByKey(selectedValues, 'address') ? row[getFieldValueByKey(selectedValues, 'website')] : null),
+                address: (getFieldValueByKey(selectedValues, 'address') ? row[getFieldValueByKey(selectedValues, 'address')] : null),
+                address2: (getFieldValueByKey(selectedValues, 'address2') ? row[getFieldValueByKey(selectedValues, 'address2')] : null),
                 city: (getFieldValueByKey(selectedValues, 'city') ? row[getFieldValueByKey(selectedValues, 'city')] : null),
                 county: (getFieldValueByKey(selectedValues, 'county') ? row[getFieldValueByKey(selectedValues, 'county')] : null),
                 postcode: (getFieldValueByKey(selectedValues, 'postcode') ? row[getFieldValueByKey(selectedValues, 'postcode')] : null),
@@ -78,6 +79,14 @@ Meteor.methods({
                   }
                 }
               });
+
+              if (row[getFieldValueByKey(selectedValues, 'tags')]) {
+                _.each(row[getFieldValueByKey(selectedValues, 'tags')].split(','), function(tag) {
+                  Companies.addTag(tag, {
+                    _id: companyId
+                  });
+                });
+              }
             });
             break;
 
