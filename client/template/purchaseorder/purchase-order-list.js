@@ -13,7 +13,6 @@ Template.purchaseOrderList.onCreated(function() {
   // Store search index dict on template to allow helpers to access
   this.index = PurchaseOrdersIndex;
 
-  this.showClosed = new ReactiveVar(false);
   this.totalPurchaseOrders = new ReactiveVar(0);
   this.totalApprovedPo = new ReactiveVar(0);
   this.totalArrivedPo = new ReactiveVar(0);
@@ -42,14 +41,6 @@ Template.purchaseOrderList.onRendered(function() {
     $(".po-list-item").css('padding-bottom', '');
   }
 
-  this.autorun(() => {
-    const searchComponent = this.index.getComponentDict(),
-          searchOptions = searchComponent.get('searchOptions'),
-          props = searchOptions.props ? searchOptions.props : {};
-
-    this.showClosed.set(!!props.showClosed);
-  });
-
   Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
     template.totalPurchaseOrders.set(data.Count);
   });
@@ -74,6 +65,10 @@ Template.purchaseOrderList.onRendered(function() {
     placement: "bottom",
     container: ".list-header-right"
   });
+
+  if(!_.get(Collections['purchaseorders'].index.getComponentDict().get('searchOptions').props, "active")) {
+    Collections['purchaseorders'].index.getComponentMethods().addProps('active', 'Yes');
+  }
 });
 
 Template.purchaseOrderList.events({
@@ -120,16 +115,6 @@ Template.purchaseOrderList.events({
       template.totalRejectedPo.set(data.Count);
     });
   },
-  'click #toggle-closed': function(event) {
-    event.preventDefault();
-    const indexMethods = Template.instance().index.getComponentMethods();
-    if (Template.instance().showClosed.get()) {
-      indexMethods.removeProps('showClosed');
-    } else {
-      indexMethods.addProps('showClosed', 'true');
-    }
-    $(event.target).blur();
-  },
   'click #fab': function(event) {
     event.preventDefault();
     Modal.show('newPurchaseOrderForm', this);
@@ -137,9 +122,6 @@ Template.purchaseOrderList.events({
 });
 
 Template.purchaseOrderList.helpers({
-  closedShown: function() {
-    return Template.instance().showClosed.get();
-  },
   totalPurchaseOrders: function() {
     return Template.instance().totalPurchaseOrders.get();
   },

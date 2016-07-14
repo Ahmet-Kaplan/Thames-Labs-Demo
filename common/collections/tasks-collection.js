@@ -170,6 +170,19 @@ Collections.tasks.filters = {
       }
       return true;
     }
+  },
+  completed: {
+    display: 'Completed:',
+    prop: 'completed',
+    defaultOptions: function() {
+      return ['Yes', 'No'];
+    },
+    strict: true,
+    allowMultiple: false,
+    verify: function(completed) {
+      if (!completed) return false;
+      return completed;
+    }
   }
 };
 
@@ -252,6 +265,15 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         };
       }
 
+      if (options.search.props.completed) {
+        if(options.search.props.completed === "Yes") {
+          selector.completed = true;
+        } else {
+          selector.completed = {
+            $ne: true
+          };
+        }
+      }
       if(options.search.props.dueDate) {
         const dueDate = options.search.props.dueDate;
         const europeanDueDate = getEuropeanDate(dueDate);

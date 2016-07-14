@@ -7,10 +7,6 @@ Template.projectsList.onCreated(function() {
   // Store search index dict on template to allow helpers to access
   this.index = ProjectsIndex;
 
-  // Store search prop state - seems necessary as helpers can't access
-  // index.getComponentDict()
-  this.showArchived = new ReactiveVar(false);
-
   // Summary stats
   this.totalProjects = new ReactiveVar(0);
   this.activeProjects = new ReactiveVar(0);
@@ -35,15 +31,6 @@ Template.projectsList.onRendered(function() {
     }
   });
 
-  // Update reactive vars if search props updated
-  this.autorun(() => {
-    const searchComponent = this.index.getComponentDict(),
-          searchOptions = searchComponent.get('searchOptions'),
-          props = searchOptions.props ? searchOptions.props : {};
-
-    this.showArchived.set(!!props.showArchived);
-  });
-
   Meteor.call('report.numberOfProjects', (err, data) => {
     this.totalProjects.set(data.Count);
   });
@@ -62,6 +49,10 @@ Template.projectsList.onRendered(function() {
     placement: "bottom",
     container: '.list-header-right'
   });
+
+  if(!_.get(Collections['projects'].index.getComponentDict().get('searchOptions').props, "active")) {
+    Collections['projects'].index.getComponentMethods().addProps('active', 'Yes');
+  }
 });
 
 Template.projectsList.events({
@@ -88,16 +79,6 @@ Template.projectsList.events({
       template.projectsAverage.set(data.Value);
     });
   },
-  'click #toggle-archived': function(event) {
-    event.preventDefault();
-    const indexMethods = Template.instance().index.getComponentMethods();
-    if (Template.instance().showArchived.get()) {
-      indexMethods.removeProps('showArchived');
-    } else {
-      indexMethods.addProps('showArchived', 'true');
-    }
-    $(event.target).blur();
-  },
   'click #fab': function(event) {
     event.preventDefault();
     Modal.show('newProjectForm', this);
@@ -105,9 +86,6 @@ Template.projectsList.events({
 });
 
 Template.projectsList.helpers({
-  archivedShown: function() {
-    return Template.instance().showArchived.get();
-  },
   totalProjects: function() {
     return Template.instance().totalProjects.get();
   },

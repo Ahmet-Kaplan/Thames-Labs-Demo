@@ -125,6 +125,19 @@ Collections.purchaseorders.filters = {
     valueField: 'name',
     nameField: 'name'
   },
+  active: {
+    display: 'Active:',
+    prop: 'active',
+    defaultOptions: function() {
+      return ['Yes', 'No'];
+    },
+    strict: true,
+    allowMultiple: false,
+    verify: function(active) {
+      if (!active) return false;
+      return active;
+    }
+  }
 };
 
 ////////////////////
@@ -166,16 +179,6 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
         };
       }
 
-      if (options.search.props.showClosed) {
-        selector.status = {
-          $in: ['Closed', 'Cancelled']
-        };
-      } else {
-        selector.status = {
-          $nin: ['Closed', 'Cancelled']
-        };
-      }
-
       if (options.search.props.sequencedIdentifier) {
         selector.sequencedIdentifier = options.search.props.sequencedIdentifier;
       }
@@ -192,6 +195,19 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
         selector.supplierContactId = {
           $in: options.search.props.contact.split(',')
         };
+      }
+
+      if (options.search.props.active) {
+        // n.b. the array is passed as a comma separated string
+        if(options.search.props.active === "Yes") {
+          selector.status = {
+            $nin: ['Closed', 'Cancelled']
+          };
+        } else {
+          selector.status = {
+            $in: ['Closed', 'Cancelled']
+          };
+        }
       }
 
       if (options.search.props.status) {

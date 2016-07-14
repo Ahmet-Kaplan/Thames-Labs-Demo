@@ -136,7 +136,20 @@ Collections.opportunities.filters = {
       return 'N/A';
     }
 
-  }
+  },
+  state: {
+    display: 'State:',
+    prop: 'state',
+    defaultOptions: function() {
+      return ['Won', 'Lost', 'Open'];
+    },
+    strict: true,
+    allowMultiple: false,
+    verify: function(state) {
+      if (!state) return false;
+      return state;
+    }
+  },
 };
 
 ////////////////////
@@ -199,12 +212,26 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
 
-      if (options.search.props.showArchived) {
-        selector.isArchived = true;
-      } else {
-        selector.isArchived = {
-          $ne: true
-        };
+      if (options.search.props.state) {
+        if(options.search.props.state === "Won") {
+          selector.hasBeenWon = true;
+        } else if(options.search.props.state === "Lost") {
+          selector.hasBeenWon = false;
+        } else {
+          selector.hasBeenWon = {
+            $exists: false
+          };
+        }
+      }
+
+      if (options.search.props.archived) {
+        if(options.search.props.archived === "Yes") {
+          selector.isArchived = true;
+        } else {
+          selector.isArchived = {
+            $ne: true
+          };
+        }
       }
 
       if (options.search.props.tags) {
