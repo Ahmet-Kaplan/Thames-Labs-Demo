@@ -28,7 +28,8 @@ Template.favourites.events({
     e.preventDefault();
     Template.instance().isFavouritesShown.set(!Template.instance().isFavouritesShown.get());
   },
-  'click #add-to-favourites': function() {
+  'click #add-to-favourites': function(e) {
+    e.preventDefault();
     var profile = Meteor.users.findOne(Meteor.userId()).profile;
 
     if (profile.favourites) {
