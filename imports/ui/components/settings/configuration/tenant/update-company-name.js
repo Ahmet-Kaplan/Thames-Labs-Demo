@@ -3,7 +3,7 @@ import './update-company-name.html';
 Template.updateCompanyName.helpers({
   tenant: function() {
     return Tenants.findOne({_id: Partitioner.group()});
-  }
+  },
 });
 
 Template.updateCompanyName.events({
