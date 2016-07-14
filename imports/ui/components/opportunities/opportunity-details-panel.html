@@ -90,10 +90,12 @@
 
     </ul>
     {{#if isDetailsPage}}
-      <a href="{{pathFor route='salespipeline' id=opportunity._id}}" class="text-muted small pull-right">
-        <i class="fa fa-fw fa-signal"></i>
-        View in sales pipeline
-      </a>
+      {{#unless opportunity.hasBeenWon}}
+        <a href="{{pathFor route='salespipeline' id=opportunity._id}}" class="text-muted small pull-right">
+          <i class="fa fa-fw fa-signal"></i>
+          View in sales pipeline
+        </a>
+      {{/unless}}
     {{else}}
       <a href="{{pathFor route='opportunity' id=opportunity._id}}" class="text-muted small pull-right">
         <i class="fa fa-fw fa-lightbulb-o"></i>
