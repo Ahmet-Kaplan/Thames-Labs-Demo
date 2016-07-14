@@ -53,8 +53,8 @@ Feature: Allow users to manage their Tasks
     When I navigate to "/tasks"
     Then I should see "#list-item"
     When I click ".task-completed"
-    And I click "#tskToggleCompleted"
-    And I should see "#list-item"
+    And I set the filter to "Completed:" then "Yes"
+    Then I should see "#list-item"
 
   #Creating
   Scenario: A user can create a task

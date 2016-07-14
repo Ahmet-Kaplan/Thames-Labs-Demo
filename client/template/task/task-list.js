@@ -55,7 +55,8 @@ Template.taskList.events({
     $(event.target).blur();
   },
   'click .add-task': function(e) {
-    var entityType = $(e.target).attr('id');
+    e.preventDefault();
+    var entityType = e.target.id;
     Modal.show('insertNewTask', {
       entity_type: entityType
     });
