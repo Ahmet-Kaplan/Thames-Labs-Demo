@@ -95,7 +95,7 @@ Template.filterTag.helpers({
       var record = Collections[filter.collectionName].findOne({
         _id: this.id
       });
-      return filter.display + ' ' + filter.displayValue(record);
+      return filter.display + ' ' + _.capitalize(filter.displayValue(record));
     }
     return filter.display + ' ' + this.id;
   }

@@ -17,7 +17,6 @@ Template.opportunityList.onCreated(function() {
 
   // Store search prop state - seems necessary as helpers can't access
   // index.getComponentDict()
-  this.showArchived = new ReactiveVar(false);
   this.sortByCloseDate = new ReactiveVar(false);
   this.sortByValue = new ReactiveVar(false);
 });
@@ -34,7 +33,6 @@ Template.opportunityList.onRendered(function() {
           searchOptions = searchComponent.get('searchOptions'),
           props = searchOptions.props ? searchOptions.props : {};
 
-    this.showArchived.set(!!props.showArchived);
     this.sortByCloseDate.set(!!props.sortByCloseDate);
     this.sortByValue.set(!!props.sortByValue);
   });
@@ -58,12 +56,12 @@ Template.opportunityList.onRendered(function() {
     container: '.list-header-right'
   });
 
+  if(!_.get(Collections['opportunities'].index.getComponentDict().get('searchOptions').props, "state")) {
+    Collections['opportunities'].index.getComponentMethods().addProps('state', 'Open');
+  }
 });
 
 Template.opportunityList.helpers({
-  showArchived: function() {
-    return Template.instance().showArchived.get();
-  },
   totalOpps: function() {
     return Template.instance().totalOpps.get();
   },
@@ -112,16 +110,6 @@ Template.opportunityList.events({
   'click #create-opportunity': function(event) {
     event.preventDefault();
     Modal.show('insertOpportunityModal');
-  },
-  'click #toggle-archived': function(event) {
-    event.preventDefault();
-    const indexMethods = Template.instance().index.getComponentMethods();
-    if (Template.instance().showArchived.get()) {
-      indexMethods.removeProps('showArchived');
-    } else {
-      indexMethods.addProps('showArchived', 'true');
-    }
-    $(event.target).blur();
   },
   'click #export': function(event) {
     event.preventDefault();

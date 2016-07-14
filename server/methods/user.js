@@ -1,7 +1,7 @@
 Meteor.methods({
 
   'users.export': function(collectionName, searchDefinition, searchOptions) {
-    var userArray = [];
+    const userArray = [];
 
     // We require a user as we make find calls on partitioned collections
     if (!this.userId) throw new Meteor.Error('401', 'Must be a logged in user to perform export');
@@ -17,21 +17,21 @@ Meteor.methods({
     searchOptions.limit = 99999;
     if (!searchOptions.props) searchOptions.props = {};
     searchOptions.props.export = true;
-    var index = Collections[collectionName].index;
-    var results = index.search(searchDefinition, searchOptions).fetch();
+    const index = Collections[collectionName].index;
+    const results = index.search(searchDefinition, searchOptions).fetch();
 
     _.each(results, function(tenant) {
-      var users = Meteor.users.find({
+      const users = Meteor.users.find({
         group: tenant._id
       }).fetch();
       _.each(users, function(user) {
-        var data = {
+        const data = {
           name: user.profile.name,
           createdAt: moment(user.createdAt).format('DD/MM/YYYY HH:mm'),
           lastLogin: moment(user.profile.lastLogin).format('DD/MM/YYYY HH:mm'),
           email: user.emails[0].address,
           tenant: tenant.name,
-          administrator: (_.contains(user.roles, 'Administrator') ? 'Yes' : 'No')
+          administrator: (_.includes(user.roles, 'Administrator') ? 'Yes' : 'No')
         };
         userArray.push(data);
       });
@@ -213,6 +213,13 @@ Meteor.methods({
     LogServerEvent('verbose', 'User created', 'user', userId);
 
     Meteor.call('stripe.updateQuantity', Partitioner.getUserGroup(adminId));
+  },
+
+  "user.changeEmail": function(newEmailAddress) {
+    var userId = this.userId;
+    if(Accounts.findUserByEmail(newEmailAddress)) return false;
+    Meteor.users.update({_id: userId}, {$set: {'emails.0.address': newEmailAddress}});
+    return true;
   }
 
 });

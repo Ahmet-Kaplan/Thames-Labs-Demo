@@ -7,7 +7,7 @@
     <div class="col-md-7">
       <h4 class="entity-title">
         <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
-        Company {{> watchlistAdmin entityData=this collection="companies"}}
+        Company {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="companies"}}
       </h4>
 
       <h1 id="company-details" class="entity-name">{{name}}</h1>
@@ -17,9 +17,9 @@
         <div class="panel-heading">
           <div class="btn-group pull-right">
             {{#if isInRole 'CanEditCompanies'}}
-            <button id="merge-company" class="btn btn-info btn-xs"><i class="fa fa-fw fa-compress"></i> Merge</button>
+            <button id="merge-company" class="btn btn-default btn-xs"><i class="fa fa-fw fa-compress"></i> Merge</button>
             <div class="btn-group">
-              <button type="button" class="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown">
+              <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
                 Extract to...
               </button>
@@ -52,10 +52,6 @@
             <p class="list-group-item-text">{{phone}}</p>
           </a>
           {{/if}}
-          <li class="list-group-item panel-item-header">
-            <h4><i class="fa fa-fw fa-hashtag"></i> RealTime Company ID</h4>
-            <p class="list-group-item-text">{{sequencedIdentifier}}</p>
-          </li>
         </ul>
       </div>
 
@@ -156,11 +152,16 @@
     <div class="col-md-4">
       {{> publicCompanyInformation}}
       {{> legalCompanyInformation company=this}}
-        <h4>Address</h4>
-      {{#if address}}
-        {{> map title=mapTitle address=mapAddress}}
+      {{#if hasAddress}}
+        {{> mapViewer title=mapTitle address=mapAddress}}
       {{else}}
-        <em class="FadedText">No address for this company. Add it via the Edit button to see where they're based!</em>
+        <p>
+          <br>
+          <em class="FadedText">This company has no address. Add it via the Edit button to see where they're based!</em>
+        </p>
+      {{/if}}
+      {{#if showOppStats}}
+        {{> salesHistory oppStats=oppStats}}
       {{/if}}
     </div>
 

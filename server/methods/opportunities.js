@@ -1,52 +1,17 @@
+import _ from 'lodash';
+
 Meteor.methods({
-
-  changeStageOrder: function(stageId, direction, currOrder) {
+  'opportunities.getCompanySalesHistory': function(companyId) {
     var user = Meteor.users.findOne(this.userId);
+    return Partitioner.bindGroup(user.group, function() {
+      var data = {
+        oppsWon: Opportunities.find({companyId: companyId, hasBeenWon: true}).count(),
+        oppsLost: Opportunities.find({companyId: companyId, hasBeenWon: false}).count(),
+        oppsPending: Opportunities.find({companyId: companyId, hasBeenWon: {$exists: false}}).count()
+      };
 
-    Partitioner.bindGroup(user.group, function() {
-      var userTenant = Tenants.findOne({
-        _id: user.group
-      });
-      var currentStages = userTenant.settings.opportunity.stages;
-      var step = (direction === "up" ? -1 : 1);
-
-      _.each(currentStages, function(cs, i) {
-        cs.order = i + 1;
-      });
-
-      var currentOrder = currentStages.sort(function(a, b) {
-        if (a.order < b.order) return -1;
-        if (a.order > b.order) return 1;
-        return 0;
-      });
-
-      var orders = [];
-
-      _.each(currentOrder, function(co, i) {
-        if (co.id === stageId) {
-          co.order += step;
-        }
-      });
-
-      _.each(currentOrder, function(co, i) {
-        if (co.id !== stageId) {
-          co.order -= step;
-
-          while (_.includes(orders, co.order)) {
-            co.order -= step;
-          }
-          orders.push(co.order);
-        }
-      });
-
-      Tenants.update(userTenant._id, {
-        $set: {
-          'settings.opportunity.stages': currentOrder
-        }
-      });
-
+      return data;
     });
-
   },
 
   deleteOpportunityStage: function(stageId) {

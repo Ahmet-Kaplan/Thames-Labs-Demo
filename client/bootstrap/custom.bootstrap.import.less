@@ -23,11 +23,11 @@
 @gray-light:             lighten(@gray-base, 46.7%); // #777
 @gray-lighter:           lighten(@gray-base, 93.5%); // #eee
 
-@brand-primary:         #0E5E98; // #337ab7
-@brand-success:         #43A047;
-@brand-info:            #00ACC1;
-@brand-warning:         #FB8C00;
-@brand-danger:          #D32F2F;
+@brand-primary:         #1684C1;
+@brand-success:         #00C15B;
+@brand-info:            #00B3BB;
+@brand-warning:         #FD9727;
+@brand-danger:          #E8425D;
 
 
 //== Scaffolding
@@ -40,7 +40,7 @@
 @text-color:            @gray-dark;
 
 //** Global textual link color.
-@link-color:            @brand-primary;
+@link-color:            darken(@brand-primary, 5%);
 //** Link hover color set via `darken()` function.
 @link-hover-color:      darken(@link-color, 15%);
 //** Link hover decoration.
@@ -64,7 +64,7 @@
 @font-size-h1:            floor((@font-size-base * 2.6)); // ~36px
 @font-size-h2:            floor((@font-size-base * 2.15)); // ~30px
 @font-size-h3:            ceil((@font-size-base * 1.7)); // ~24px
-@font-size-h4:            ceil((@font-size-base * 1.25)); // ~18px
+@font-size-h4:            ceil((@font-size-base * 1.2)); // ~18px
 @font-size-h5:            @font-size-base;
 @font-size-h6:            ceil((@font-size-base * 0.85)); // ~12px
 
@@ -112,7 +112,7 @@
 @line-height-small:         1.5;
 
 @border-radius-base:        2px;
-@border-radius-large:       3px;
+@border-radius-large:       5px;
 @border-radius-small:       1px;
 
 //** Global color for active items (e.g., navs or dropdowns).
@@ -877,3 +877,5 @@
 // Sidebar properties
 @sidebar-width:               220px;
 @sidebar-width-mobile:        250px;
+
+@default-transition: all 0.05s ease-in-out;;

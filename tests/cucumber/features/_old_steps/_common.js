@@ -168,11 +168,13 @@ module.exports = function() {
   });
 
   this.When(/^I click "([^"]*)"$/, function(id) {
+    browser.waitForExist(id, 5000);
+    browser.scroll(id);
     browser.safeClick(id);
   });
 
   this.When(/^I click the selector "([^"]*)"$/, function(selector) {
-    browser.click(selector);
+    browser.safeClick(selector);
   });
 
   this.When(/^I set rich text field "([^"]*)" to "([^"]*)"$/, function(fieldName, value) {

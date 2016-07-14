@@ -1,3 +1,6 @@
+import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
+import '/imports/ui/components/custom-fields/custom-field-panel.js';
+
 Template.projectDetail.onCreated(function() {
   var self = this;
   // Redirect if data doesn't exist
@@ -24,7 +27,48 @@ Template.projectDetail.onCreated(function() {
   this.subscribe('opportunitiesByProjectId', projectId);
 });
 
+Template.projectDetail.onRendered(function() {
+  this.chart = new StageChart('#d3-stage-chart');
+
+  var project = Projects.findOne(FlowRouter.getParam('id'));
+
+  const tenant = Tenants.findOne(Meteor.user().group),
+        types = tenant.settings.project.types,
+        type = types[project.projectTypeId],
+        milestones = type.milestones;
+
+  milestones.forEach( (d) => {
+    d.title = d.name;
+  });
+
+  project.currentStageIndex = _.findIndex(milestones, {id: project.projectMilestoneId});
+
+  this.chart.draw(project, milestones);
+
+  var resize = () => {
+    this.chart.resize(project, milestones);
+  };
+
+  this.chartResizeEventHandler = window.addEventListener("resize", resize);
+
+  this.autorun( () => {
+    project = Projects.findOne(FlowRouter.getParam('id'));
+    project.currentStageIndex = _.findIndex(milestones, {id: project.projectMilestoneId});
+    this.chart.setForce(project, milestones);
+  });
+
+  //Update project milestone when dragged
+  this.chart._dragCallBack = (projectId, closestStageId) => {
+    Meteor.call('setMilestone', projectId, closestStageId);
+  };
+
+});
+
 Template.projectDetail.helpers({
+  inverseState: function() {
+    if(this.active)return "inactive";
+    return "active";
+  },
   projectType: function() {
     var typeIndex = -1;
     var currentTypes = Tenants.findOne({
@@ -102,6 +146,10 @@ Template.projectDetail.helpers({
 });
 
 Template.projectDetail.events({
+  'click #invertProjectState': function(e, t) {
+    event.preventDefault();
+    Meteor.call('project.invertState', this._id);
+  },
   'click #add-activity': function(event) {
     event.preventDefault();
     Modal.show('insertProjectActivityModal', {
@@ -126,4 +174,8 @@ Template.projectDetail.events({
     event.preventDefault();
     Modal.show('updateProjectForm', this);
   }
+});
+
+Template.projectDetail.onDestroyed(function() {
+  window.removeEventListener("resize", this.chartResizeEventHandler);
 });

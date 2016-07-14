@@ -190,6 +190,8 @@ Collections.companies.index = CompaniesIndex = new EasySearch.Index({
 //////////////////////
 
 Companies.before.insert(function(userId, doc) {
+  if (Roles.userIsInRole(userId, ['superadmin'])) return;
+
   if (doc.website) {
     var currentWebsite = doc.website;
     if (currentWebsite.indexOf('http://') === -1) {
@@ -270,7 +272,7 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
   });
 
   if (user) {
-    if (this.previous.website !== doc.website && doc.website !== '') {
+    if (this.previous.website !== doc.website && doc.website !== '' && doc.website) {
       Meteor.call('getClearbitData', 'company', doc._id);
       LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's public information", 'company', doc._id);
     }

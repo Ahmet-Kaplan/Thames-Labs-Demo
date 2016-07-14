@@ -14,7 +14,7 @@ module.exports = function() {
             return;
           }
           var userEmail = 'test@domain.com';
-          Meteor.call('stripe.createCustomer', response.id, userEmail, function(error, result) {
+          Meteor.call('stripe.createCustomer', response.id, userEmail, 'premierGBP', function(error, result) {
             if (error || !result) {
               return false;
             }

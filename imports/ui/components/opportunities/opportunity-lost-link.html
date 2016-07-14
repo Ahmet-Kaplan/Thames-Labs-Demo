@@ -1,0 +1,5 @@
+<template name="opportunityLostLink">
+  {{#if isInRole 'CanEditOpportunities'}}
+    <a href="#" id="lost-opportunity" class="text-danger text-underline">Mark {{#unless isMobile}}opportunity{{/unless}} as lost</a>
+  {{/if}}
+</template>

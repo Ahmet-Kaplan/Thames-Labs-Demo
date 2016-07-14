@@ -1,3 +1,5 @@
+import '/imports/ui/components/custom-fields/custom-field-panel.js';
+
 Template.contactDetail.onCreated(function() {
   var self = this;
   this.autorun(function() {
@@ -30,6 +32,18 @@ Template.contactDetail.onCreated(function() {
 });
 
 Template.contactDetail.helpers({
+  canLinkAddress: function() {
+    var company = Companies.findOne({
+      _id: this.companyId
+    });
+
+    if(company) {
+      if(company.address && company.city && company.county && company.postcode && company.country) {
+        return true;
+      }
+    }
+    return false;
+  },
   contactData: function() {
     var contactId = FlowRouter.getParam('id');
     var contact = Contacts.findOne({
@@ -148,7 +162,7 @@ Template.contactDetail.helpers({
       });
       if (tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) {
         var titles = tenant.settings.contact.titles.split(',');
-        return _.contains(titles, this.title);
+        return _.includes(titles, this.title);
       }
     }
     return false;
@@ -156,6 +170,11 @@ Template.contactDetail.helpers({
 });
 
 Template.contactDetail.events({
+  'click #linkCompanyAddress': function(event, template) {
+    event.preventDefault();
+
+    Meteor.call('contact.linkCompanyAddress', this._id);
+  },
   'click #add-activity': function(event) {
     event.preventDefault();
     Modal.show('insertContactActivityModal', {

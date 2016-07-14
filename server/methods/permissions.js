@@ -28,6 +28,10 @@ Meteor.methods({
         returnedValue = 'CanEdit' + permissionName;
       }
 
+      if (Roles.userIsInRole(userId, 'CanEdit' + permissionName) && Roles.userIsInRole(userId, 'CanCreate' + permissionName)) {
+        returnedValue = 'CanCreateAndEdit' + permissionName;
+      }
+
       if (Roles.userIsInRole(userId, 'CanDelete' + permissionName)) {
         returnedValue = 'CanDelete' + permissionName;
       }

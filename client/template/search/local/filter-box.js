@@ -163,7 +163,7 @@ Template.filterBox.onRendered(function() {
     delimiter: ',',
     persist: false,
     maxItems: 2,
-    maxOptions: 10,
+    maxOptions: 15,
     selectOnTab: true,
     onFocus: function() {
       searchInput.set('');

@@ -289,10 +289,6 @@ Template.nav.events({
     event.preventDefault();
     Modal.show('feedbackModal');
   },
-  'click #btnChangePassword': function(event) {
-    event.preventDefault();
-    Modal.show('changePassword');
-  },
   'click #sign-out': function() {
     Meteor.logout(function(err) {
       FlowRouter.reload();
