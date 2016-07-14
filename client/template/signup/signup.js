@@ -40,6 +40,11 @@ AutoForm.hooks({
           FlowRouter.reload();
         }
       });
+    },
+    onError: function(formType, error) {
+      if(error.errorType === 'Meteor.Error') {
+        toastr.error("There was a problem creating your account - we're sorry. We've been notified and will look into the problem. Please get in touch with our support team.");
+      }
     }
   }
 });

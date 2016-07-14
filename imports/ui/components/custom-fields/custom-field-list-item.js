@@ -1,3 +1,6 @@
+import './custom-field-list-item.html';
+import './customfield.css';
+
 Template.cfDisplay.helpers({
   parentHelper: function(parentContext) {
     this.parentEntity = parentContext;
