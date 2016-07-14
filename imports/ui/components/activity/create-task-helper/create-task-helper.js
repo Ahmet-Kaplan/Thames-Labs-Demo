@@ -1,3 +1,9 @@
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
+
+import './create-task-helper.html';
+import './create-task-helper.css';
+
 Template.createTaskHelper.onRendered(function() {
   $('#create-task-toggle').bootstrapToggle({
     on: 'Yes',

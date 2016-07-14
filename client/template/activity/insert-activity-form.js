@@ -1,3 +1,4 @@
+import '/imports/ui/components/activity/create-task-helper/create-task-helper.js';
 
 Template.insertActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
