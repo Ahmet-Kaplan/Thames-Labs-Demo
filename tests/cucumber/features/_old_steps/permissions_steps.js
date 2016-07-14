@@ -21,7 +21,7 @@ module.exports = function() {
   });
 
   this.Then(/^the "([^"]*)" menu item is shown$/, function(menuText) {
-    browser.waitForExist('#menu-link-' + menuText.toLower(), 5000);
+    browser.waitForExist('#menu-link-' + menuText.toLowerCase(), 5000);
     expect(browser.isExisting('#menu-link-' + menuText.toLowerCase())).toEqual(true);
   });
 
