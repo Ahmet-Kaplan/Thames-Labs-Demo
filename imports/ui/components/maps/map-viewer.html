@@ -1,0 +1,50 @@
+<!--
+This component expects to be called with two parameters:
+  title: sets the title of the google maps infowindow
+  address: an object containing our usual address fields, optionally including lat and lng
+  
+Note: Apple Maps redirects to Google Maps on non Apple devices, so is used for the map link
+-->
+
+<template name="mapViewer">
+  <h4>Address</h4>
+  <div class="map thumbnail">
+    {{#if isDesktop}}
+      <div class="map-container">
+        {{> googleMap name="map" options=mapOptions}}
+      </div>
+    {{/if}}
+    {{#if isMobile}}
+      <img src="https://maps.googleapis.com/maps/api/staticmap?center={{addressString}}&zoom=15&size=600x300&markers={{addressString}}" onclick="cordova.InAppBrowser.open('http://maps.apple.com/?address={{addressString}}', '_system')" />
+    {{/if}}
+    
+    <div class="caption">
+      <a class="pull-right" id="open-maps" target="_blank" href="http://maps.apple.com/?address={{addressString}}">
+        Open in Maps
+      </a>
+      <address>
+        <b>{{title}}</b>
+        {{#with address}}
+          {{#if address}}
+            <br /> {{address}}
+          {{/if}}
+          {{#if address2}}
+            <br /> {{address2}}
+          {{/if}}
+          {{#if city}}
+            <br /> {{city}}
+          {{/if}}
+          {{#if county}}
+            <br /> {{county}}
+          {{/if}}
+          {{#if postcode}}
+            <br /> {{postcode}}
+          {{/if}}
+          {{#if country}}
+            <br /> {{country}}
+          {{/if}}
+        {{/with}}
+      </address>
+    </div>
+  </div>
+</template>

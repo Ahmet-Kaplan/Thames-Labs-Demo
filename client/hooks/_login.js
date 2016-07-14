@@ -19,7 +19,9 @@ Accounts.onLogin(function(cb) {
         }
       });
 
-      LogClientEvent(LogLevel.Info, profile.name + " logged in", null, null);
+      if(profile.name) {
+        LogClientEvent(LogLevel.Info, profile.name + " logged in", null, null);
+      }
     }
   }
 

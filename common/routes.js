@@ -174,6 +174,39 @@ router.route('/admin', {
   }
 });
 
+//Settings
+router.route('/settings', {
+  name: 'settings',
+  action: function() {
+    FlowRouter.go('/settings/profile');
+  }
+});
+
+router.route('/settings/:section', {
+  name: 'settings',
+  action: function(params) {
+    let layoutTemplate = 'profileSettings';
+    switch(params.section) {
+      case 'users':
+        layoutTemplate = 'userSettings';
+        break;
+
+      case 'billing':
+        layoutTemplate = 'billingSettings';
+        break;
+
+      case 'configuration':
+        layoutTemplate = 'configurationSettings';
+        break;
+    }
+
+    layout.render('appLayout', {
+      main: layoutTemplate
+    });
+  }
+});
+
+//Other routes
 router.route('/activities', {
   name: 'activities',
   action: function() {
@@ -339,11 +372,8 @@ router.route('/opportunities/:id', {
   }
 });
 
-router.route('/salespipeline', {
+router.route('/salespipeline/:id?', {
   name: 'salespipeline',
-  subscriptions: function() {
-    this.register('allOpportunities', subs.subscribe('allOpportunities'));
-  },
   action: function() {
     layout.render('appLayout', {
       main: 'salesPipeline'

@@ -1,11 +1,22 @@
 @import "custom.bootstrap.import.less";
 
 //typography
-h4,
-h5,
-h6 {
+h4,h5,h6 {
   font-weight: normal;
 }
+h2 {
+  color: #1684C1;
+}
+h3 {
+  color: #165F96;
+}
+h4 {
+  color: #173E6F;
+}
+h5 {
+  color: #173E6F;
+}
+
 
 .navbar:focus {
   font-weight: inherit;
@@ -35,10 +46,12 @@ input[type="color"]:focus,
 .uneditable-input:focus,
 .selectize-input > input:focus,
 .selectize-input.focus,
-.form-control.medium-editor:focus {
+.form-control.medium-editor:focus,
+.bootstrap-select .dropdown-toggle:focus,
+.bootstrap-select.btn-group .dropdown-menu li a:focus  {
   border: 1px solid @brand-primary;
   box-shadow: none;
-  outline: none;
+  outline: none !important;
 }
 
 .form-control.medium-editor {
@@ -250,6 +263,10 @@ div.af-checkbox-group {
   margin: 0 1px;
 }
 
+.text-underline {
+  text-decoration: underline;
+}
+
 //Correction for Mongol edit CSS
 #Mongol pre, .MeteorToys pre {
     color: rgba(0,0,0,1) !important;
@@ -262,3 +279,34 @@ div.af-checkbox-group {
 .list-group-item {
     transition: background 0.1s ease-in-out;
 }
+
+a, button {
+  transition: @default-transition;
+}
+
+.toast-success {
+  background-color: @brand-success;
+}
+
+.toast-warning {
+  background-color: @brand-warning;
+}
+
+.toast-error {
+  background-color: @brand-danger;
+}
+
+.toast-info {
+  background-color: @brand-info;
+}
+
+#toast-container > div {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  opacity: .9;
+}
+
+#toast-container > :hover {
+  box-shadow: none;
+}
+

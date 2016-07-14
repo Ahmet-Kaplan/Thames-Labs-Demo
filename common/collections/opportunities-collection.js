@@ -22,7 +22,7 @@ Opportunities.helpers({
         activityTimestamp: -1
       }
     });
-  },
+  }
 });
 
 ////////////////////
@@ -112,8 +112,31 @@ Collections.opportunities.filters = {
       if (user) {
         return user.profile.name;
       }
+      return 'N/A';
     }
   },
+  stage: {
+    display: 'Stage:',
+    prop: 'stage',
+    allowMultiple: true,
+    strict: true,
+    defaultOptions: function() {
+      var tenant = Tenants.findOne();
+      console.log(tenant);
+      var map = _.map(tenant.settings.opportunity.stages, function(s) {
+        return s.title;
+      });
+      return map;
+    },
+    displayValue: function(stage) {
+      console.log(stage);
+      if (stage) {
+        return stage;
+      }
+      return 'N/A';
+    }
+
+  }
 };
 
 ////////////////////
@@ -162,7 +185,7 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         'salesManagerId': 1
       };
     },
-    selector: function(searchObject, options, aggregation) {
+    selector: function(searchObject, options, aggregation, userId, doc) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.salesManager) {
@@ -202,6 +225,24 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
         // n.b. the array is passed as a comma separated string
         selector.contactId = {
           $in: options.search.props.contact.split(',')
+        };
+      }
+
+      if (options.search.props.stage) {
+        var user = Meteor.users.findOne(userId);
+        var tenant = Tenants.findOne(user.group);
+        var stages = options.search.props.stage.split(',');
+        var ids = [];
+
+        _.each(stages, function(x) {
+          var id = _.find(tenant.settings.opportunity.stages, function(y) {
+            return y.title === x;
+          }).id;
+          ids.push(id);
+        });
+
+        selector.currentStageId = {
+          $in: ids
         };
       }
 
@@ -272,9 +313,34 @@ Opportunities.after.insert(function(userId, doc) {
 
 Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (Roles.userIsInRole(userId, ['superadmin'])) return;
-  var user = Meteor.users.findOne({
-    _id: userId
-  });
+
+  const user = Meteor.user();
+
+  // Add activity log entry on opportunity stage update
+  if ( _.includes(fieldNames, 'currentStageId') ) {
+    const date = new Date(),
+          userName = _.get(user, 'profile.name'),
+          tenant = Tenants.findOne(Meteor.user().group),
+          stages = _.get(tenant, 'settings.opportunity.stages'),
+          previousStageTitle = _.chain(stages)
+            .find({id: this.previous.currentStageId})
+            .get('title'),
+          stageTitle = _.chain(stages)
+            .find({id: doc.currentStageId})
+            .get('title'),
+          note = `${userName} moved this opportunity from stage "${previousStageTitle}" to "${stageTitle}"`;
+    Activities.insert({
+      type: 'Note',
+      notes: note,
+      createdAt: date,
+      activityTimestamp: date,
+      opportunityId: doc._id,
+      primaryEntityId: doc._id,
+      primaryEntityType: 'opportunities',
+      primaryEntityDisplayData: doc.name,
+      createdBy: user._id
+    });
+  }
 
   if (user) {
     if (doc.description !== this.previous.description) {

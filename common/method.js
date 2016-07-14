@@ -1,3 +1,7 @@
+import '/imports/api/opportunities/methods.js';
+import '/imports/api/projects/methods.js';
+import '/imports/api/global/tawk-to.js';
+
 Meteor.methods({
 
   calculatePurchaseOrderItemTotalValue: function(price, quantity) {

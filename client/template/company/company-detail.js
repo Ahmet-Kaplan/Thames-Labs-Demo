@@ -1,4 +1,10 @@
+import '/imports/ui/components/companies/merge/merge-company-modal.js';
+import '/imports/ui/components/companies/widgets/index.js';
+import '/imports/ui/components/charts/sales-history.js';
+import '/imports/ui/components/maps/map-viewer.js';
+
 Template.companyDetail.onCreated(function() {
+  this.oppStats = new ReactiveVar({});
   // Redirect if data doesn't exist
   this.autorun(function() {
     var company = Companies.findOne(FlowRouter.getParam('id'));
@@ -7,6 +13,14 @@ Template.companyDetail.onCreated(function() {
     } else if (FlowRouter.subsReady() && company.website !== '' && typeof company.website !== "undefined") {
       Meteor.call('getClearbitData', 'company', company._id);
     }
+  });
+
+  this.autorun(function() {
+    var companyid = FlowRouter.getParam('id');
+    var currentInstance = Template.instance();
+    Meteor.call('opportunities.getCompanySalesHistory', companyid, function(err, res) {
+      currentInstance.oppStats.set(res);
+    });
   });
 
   // Redirect if read permission changed
@@ -168,6 +182,9 @@ Template.companyDetail.helpers({
   mapAddress: function() {
     return this;
   },
+  hasAddress: function() {
+    return (this.lat || this.lng || this.address || this.city || this.postcode || this.country || this.county);
+  },
   opportunities: function() {
     return Opportunities.find({
       companyId: this._id,
@@ -228,5 +245,15 @@ Template.companyDetail.helpers({
       icon: 'fa-list',
       permission: 'CanReadCompanies'
     }];
+  },
+  oppStats: function() {
+    return Template.instance().oppStats.get();
+  },
+  showOppStats: function() {
+    const oppStats = Template.instance().oppStats.get();
+    if (oppStats) {
+      const sum = oppStats.oppsWon + oppStats.oppsLost + oppStats.oppsPending;
+      return (sum > 0);
+    }
   }
 });

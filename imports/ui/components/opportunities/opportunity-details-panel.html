@@ -1,0 +1,104 @@
+<template name="opportunityDetailsPanel">
+  <div class="panel panel-default" id="opportunity-details">
+    <div class="panel-heading">
+
+      {{#if showButtons}}
+        {{#unless opportunity.isArchived}}
+          <div class="btn-group pull-right">
+            {{#if isInRole 'CanEditOpportunities'}}
+              <div class="btn-group">
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                  <span class="caret"></span> Extract to...
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  {{#if canExportDocx}}
+                    <li><a href="#" id="template-upload-link-docx">Microsoft Word (.docx)</a></li>
+                  {{/if}}
+                  <li class="divider"></li>
+                  <li><a href="#" id="opp-template-help">How does this work?</a></li>
+                </ul>
+              </div>
+              {{#unless isMobile}}
+                <button id="edit-opportunity" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+              {{/unless}}
+            {{/if}}
+            {{#if isInRole 'CanDeleteOpportunities'}}
+              <button id="remove-opportunity" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Delete</button>
+            {{/if}}
+          </div>
+          <input type="file" id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px">
+          <input type="file" id="template-upload" style="height:0; width: 0; margin-left: -9999px">
+      {{else}}
+          {{#if isInRole 'CanEditOpportunities'}}
+            {{#unless opportunity.hasBeenWon}}
+              <button id="reopen-opportunity" class="btn btn-info btn-xs pull-right"><i class="fa fa-fw fa-repeat"></i> Reopen</button>
+            {{/unless}}
+          {{/if}}
+        {{/unless}}
+      {{/if}}
+
+      Opportunity details
+    </div>
+    <ul class="list-group">
+      <li class="list-group-item panel-item-header">
+        <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
+        {{opportunity.description}}
+      </li>
+      <li class="list-group-item panel-item-header">
+        <h4><i class="fa fa-fw fa-calendar"></i> Date</h4>
+        {{friendlyDate opportunity.date}}
+      </li>
+      {{#if opportunity.estCloseDate}}
+        <li class="list-group-item panel-item-header">
+          <h4><i class="fa fa-fw fa-calendar"></i> Estimated Close</h4>
+          {{friendlyDate opportunity.estCloseDate}}
+        </li>
+      {{/if}}
+      {{#if opportunity.value}}
+        <li class="list-group-item panel-item-header">
+          <h4><i class="fa fa-fw fa-money"></i> Value</h4>
+          {{decimal opportunity.value}}
+        </li>
+      {{/if}}
+
+      {{#if isInRole 'CanReadCompanies'}}
+        {{#if company}}
+          <a href="{{pathFor route='company' id=company._id}}" class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-building"></i> Company</h4>
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            {{company.name}}
+          </a>
+        {{/if}}
+      {{/if}}
+
+      {{#if isInRole 'CanReadContacts'}}
+        {{#if contact}}
+          <a href="{{pathFor route='contact' id=contact._id}}" class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-user"></i> Contact</h4>
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            {{contact.name}}
+          </a>
+        {{/if}}
+      {{/if}}
+
+      {{#if opportunity.salesManagerId}}
+        <li class="list-group-item panel-item-header">
+          <h4><i class="fa fa-fw fa-user-secret"></i> Sales Manager</h4>
+          {{salesManager}}
+        </li>
+      {{/if}}
+
+    </ul>
+    {{#if isDetailsPage}}
+      <a href="{{pathFor route='salespipeline' id=opportunity._id}}" class="text-muted small pull-right">
+        <i class="fa fa-fw fa-signal"></i>
+        View in sales pipeline
+      </a>
+    {{else}}
+      <a href="{{pathFor route='opportunity' id=opportunity._id}}" class="text-muted small pull-right">
+        <i class="fa fa-fw fa-lightbulb-o"></i>
+        View full opportunity details
+      </a>
+    {{/if}}
+  </div>
+</template>

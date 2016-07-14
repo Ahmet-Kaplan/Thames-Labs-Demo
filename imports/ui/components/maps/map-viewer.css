@@ -1,0 +1,14 @@
+.map.thumbnail {
+  padding: 0;
+}
+
+.map-container {
+  width: 100%;
+  max-width: 100%;
+  height: 200px;
+}
+
+.map.thumbnail address {
+  margin-bottom: 0;
+  padding: 0 5px;
+}

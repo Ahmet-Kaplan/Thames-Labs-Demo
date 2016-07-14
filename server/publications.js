@@ -175,7 +175,7 @@ Meteor.publish("globalCustomFields", function() {
     global: true
   }).fetch();
 
-  var ids = _.map(_.uniq(data, 'name'), function(fn) {
+  var ids = _.map(_.uniqBy(data, 'name'), function(fn) {
     return fn._id;
   });
   return CustomFields.find({
@@ -191,7 +191,7 @@ Meteor.publish("globalCustomFieldsByEntityType", function(entityType) {
     target: entityType
   }).fetch();
 
-  var ids = _.map(_.uniq(data, 'name'), function(fn) {
+  var ids = _.map(_.uniqBy(data, 'name'), function(fn) {
     return fn._id;
   });
   return CustomFields.find({
@@ -294,10 +294,10 @@ Meteor.publish("allNotifications", function() {
   });
 });
 
-Meteor.publish("allChatter", function() {
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Chatterbox.find({});
-});
+// Meteor.publish("allChatter", function() {
+//   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+//   return Chatterbox.find({});
+// });
 
 
 Meteor.publish("allTasks", function() {
@@ -379,6 +379,14 @@ Meteor.publish("opportunitiesByContactId", function(id) {
     // isArchived: {
       // $ne: true
     // }
+  });
+});
+Meteor.publish("salesPipelineOpportunities", function() {
+  // Created separate publication in case we want to (e.g.) limit number returned
+  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Opportunities.find({
+    isArchived: { $ne: true }
   });
 });
 

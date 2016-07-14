@@ -63,9 +63,8 @@ Feature: Allow users to manage their Companies
     And I click "#add-company"
     And I set text field with id "companyName" to "Test Company"
     And I click "#manual-fill"
-    And I set text field "name" to "test company 2"
     And I submit the "insertNewCompany" form
-    Then I should see the heading "test company 2"
+    Then I should see the heading "Test Company"
 
   Scenario: A user without permission cannot create a companies
     Given I do not have the "CanCreateCompanies" permission
@@ -160,13 +159,6 @@ Feature: Allow users to manage their Companies
     Then the "Companies" menu item is shown
 
   #Extended information fields
-  Scenario: A user can open the "Add custom field" modal
-    Given I have the "CanEditCompanies" permission
-    And a "Company" has been created
-    When I navigate to a company page
-    And I click "#add-custom-field"
-    Then I should see a modal
-
   Scenario: A user can add an custom field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
