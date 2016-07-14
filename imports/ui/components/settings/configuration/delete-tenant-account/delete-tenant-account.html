@@ -1,20 +1,8 @@
 <template name="deleteTenantAccount">
-  <div class="panel panel-danger" id="accountDeletePanel">
-    <div class="panel-heading">
-      <a class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#colAccDel" id="accountDeletionPanelExpander">Delete My Company Account</a>
-    </div>
-    <div class="panel-collapse collapse" id="colAccDel">
-      <div class="panel-body" id="accDelPanelBody">
-
-        <div class="well well-sm">
-          <p><h3>WARNING!</h3> This action will flag your company's RealTimeCRM account for deletion. Once deleted, all data associated with it will be permanently lost and cannot be recovered. You will be asked to confirm your password in order to proceed, and your Stripe subscription (if any) will be cancelled immediately.</p>
-          <button class="btn btn-danger" id="deleteUserAccount" role="button" type="button">
-            <i class="fa fa-fw fa-times"></i>
-            Delete my account
-          </button>
-        </div>
-
-      </div>
-    </div>
-  </div>
+  <h4 class="text-danger">Delete company account</h4>
+  <p><span class="text-danger">WARNING!</span> - This action will flag your company's RealTimeCRM account for deletion. Once deleted, all data associated with it will be permanently lost and cannot be recovered. You will be asked to confirm your password in order to proceed, and your Stripe subscription (if any) will be cancelled. Before proceeding we strongly advise you to download all your data.</p>
+  <button class="btn btn-danger" id="deleteUserAccount" role="button" type="button">
+    <i class="fa fa-fw fa-times"></i>
+    Delete my account
+  </button>
 </template>
