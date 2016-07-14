@@ -1,10 +1,10 @@
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
-import './create-task-helper.html';
-import './create-task-helper.css';
+import './insert-task-helper.html';
+import './insert-task-helper.css';
 
-Template.createTaskHelper.onRendered(function() {
+Template.insertTaskHelper.onRendered(function() {
   $('#create-task-toggle').bootstrapToggle({
     on: 'Yes',
     off: 'No',
@@ -25,7 +25,7 @@ Template.createTaskHelper.onRendered(function() {
   $('#helperContent').hide();
 });
 
-Template.createTaskHelper.events({
+Template.insertTaskHelper.events({
   'change #create-task-toggle': function(e, t) {
     if ($('#create-task-toggle').prop('checked')) {
       $('#helperContent').show();
