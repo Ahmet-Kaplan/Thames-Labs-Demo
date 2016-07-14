@@ -27,14 +27,14 @@ var tagsTutorial2 = {
   steps: [{
     title: "Bulk Tagging",
     content: "You should now see any tags that you added! But what if you want to add tags to multiple companies at once? Let's have a look at that now, Click on Companies in the nav bar.",
-    target: document.querySelector('#menuLinkCompanies'),
+    target: document.querySelector('#menu-link-companies'),
     placement: "right",
     showNextButton: false,
     nextOnTargetClick: true
 	}, {
 		title: "",
 		content: "",
-		target: document.querySelector('#menuLinkCompanies'),
+		target: document.querySelector('#menu-link-companies'),
 		placement: "right",
 		smoothScroll: false,
 		onShow: function() {

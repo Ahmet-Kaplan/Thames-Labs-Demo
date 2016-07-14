@@ -21,12 +21,12 @@ module.exports = function() {
   });
 
   this.Then(/^the "([^"]*)" menu item is shown$/, function(menuText) {
-    browser.waitForExist('#menuLink' + menuText, 5000);
-    expect(browser.isExisting('#menuLink' + menuText)).toEqual(true);
+    browser.waitForExist('#menu-link-' + menuText.toLower(), 5000);
+    expect(browser.isExisting('#menu-link-' + menuText.toLower())).toEqual(true);
   });
 
   this.Then(/^the "([^"]*)" menu item is not shown$/, function(menuText) {
-    expect(browser.isExisting('#menuLink' + menuText)).toEqual(false);
+    expect(browser.isExisting('#menu-link-' + menuText.toLower())).toEqual(false);
   });
 
   this.Then(/^I should have the "([^"]*)" permission$/, function(permissionName) {
