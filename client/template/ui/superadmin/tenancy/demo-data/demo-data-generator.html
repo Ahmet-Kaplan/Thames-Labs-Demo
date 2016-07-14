@@ -1,0 +1,85 @@
+<template name="demoDataGeneratorModal">
+<div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4>Generate Demo Data</h4>
+      </div>
+      <div class="modal-body">
+        <div id="generatorOptions">
+          Select the items you want to generate for this tenant, and then click <span class="label label-primary">Generate</span>. Feeling particularly lazy today? <a href='#' id="randomize">Click here</a> to let randomness take over!<br /><br />
+
+          <div class="row">
+            <div class="col-md-2 col-md-offset-2 generatorFieldLabel">Generate</div>
+            <div class="col-md-2"><input type="number" class="form-control" id="userCount" value="0" min="0" max="6"></div>
+            <div class="col-md-2">Users</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-md-offset-2 generatorFieldLabel">Generate</div>
+            <div class="col-md-2"><input type="number" class="form-control" id="companyCount" value="0" min="0" max="40"></div>
+            <div class="col-md-2">Companies</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-md-offset-2 generatorFieldLabel">Generate</div>
+            <div class="col-md-2"><input type="number" class="form-control" id="contactCount" value="0" min="0" max="40"></div>
+            <div class="col-md-2">Contacts</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-md-offset-2 generatorFieldLabel">Generate</div>
+            <div class="col-md-2"><input type="number" class="form-control" id="oppCount" value="0" min="0" max="40"></div>
+            <div class="col-md-2">Opportunities</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-md-offset-2 generatorFieldLabel">Generate</div>
+            <div class="col-md-2"><input type="number" class="form-control" id="projectCount" value="0" min="0" max="40"></div>
+            <div class="col-md-2">Projects</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-md-offset-2 generatorFieldLabel">Generate</div>
+            <div class="col-md-2"><input type="number" class="form-control" id="purchaseCount" value="0" min="0" max="40"></div>
+            <div class="col-md-3">Purchase Orders</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-md-offset-2 generatorFieldLabel">Generate</div>
+            <div class="col-md-2"><input type="number" class="form-control" id="productCount" value="0" min="0" max="20"></div>
+            <div class="col-md-2">Products</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-md-offset-2 generatorFieldLabel">Generate</div>
+            <div class="col-md-2"><input type="number" class="form-control" id="taskCount" value="0" min="0" max="7"></div>
+            <div class="col-md-3">Tasks per record</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-md-offset-2 generatorFieldLabel">Generate</div>
+            <div class="col-md-2"><input type="number" class="form-control" id="activityCount" value="0" min="0" max="7"></div>
+            <div class="col-md-3">Activities per record</div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" id="cbCreatePersonalTasks"> Generate sample personal tasks
+                </label>
+            </div>
+            </div>
+          </div>
+
+        </div>
+        <div id="progressIndicator">
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{percentComplete}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentComplete}}%">
+              {{percentComplete}}% Complete
+            </div>
+          </div>
+          <button class="btn btn-danger" id="closeCompletion" role="button">Close</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="startGeneration" role="button">Generate</button>
+      </div>
+    </div>
+  </div>
+</div>
+</template>

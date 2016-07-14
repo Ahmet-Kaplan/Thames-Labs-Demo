@@ -76,8 +76,9 @@ Template.tenantListItem.events({
     event.preventDefault();
     Modal.show('updateTenantSettings', this);
   },
-  'click #btnDemoData': function() {
-    Meteor.call('generateDemoData', this.__originalId);
+  'click #btnDemoData': function(event, template) {
+    event.preventDefault();
+    Modal.show('demoDataGeneratorModal', this);
   },
   'click #btnSwitchToFree': function(event) {
     event.preventDefault();
