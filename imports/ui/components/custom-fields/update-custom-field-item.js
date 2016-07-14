@@ -1,3 +1,6 @@
+import './update-custom-field-item.html';
+import './customfield.css';
+
 Template.extInfo.helpers({
   extInfoId: function() {
     return this.name.replace(/ /g, '');
