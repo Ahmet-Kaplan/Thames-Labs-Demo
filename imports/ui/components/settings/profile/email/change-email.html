@@ -1,0 +1,13 @@
+<template name="changeEmail">
+  <div class="settings-section">
+    <h4>Change Email Address</h4>
+    <p>Your email address is currently <span class="text-primary">{{userEmail}}</span>. You can change this below.</p>
+    <form>
+      <label for="objNewEmail">New email address</label>
+      <input type="email" class="form-control" id="objNewEmail" placeholder={{userEmail}}>
+      <label for="objRepEmail">Repeat new email address</label>
+      <input type="email" class="form-control" id="objRepEmail" placeholder={{userEmail}}>
+      <button id="btnEmailChange" class="btn btn-success">Update</button>
+    </form>
+  </div>
+</template>

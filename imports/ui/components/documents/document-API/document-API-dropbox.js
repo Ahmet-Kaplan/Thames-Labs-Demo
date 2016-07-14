@@ -1,5 +1,4 @@
-import { documentAPI } from './document-API-helpers.js';
-documentAPI.dropboxChooser = function(cb) {
+const dropboxChooser = (cb) => {
   // Returns array of files chosen
   Dropbox.choose({
     linkType: "direct",
@@ -19,3 +18,5 @@ documentAPI.dropboxChooser = function(cb) {
     cancel: function() {}
   });
 };
+
+export { dropboxChooser };

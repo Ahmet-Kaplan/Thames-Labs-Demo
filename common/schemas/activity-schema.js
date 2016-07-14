@@ -23,7 +23,7 @@ Schemas.Activity = new SimpleSchema({
         dateTimePickerOptions: function() {
           return {
             format: 'DD/MM/YYYY HH:mm',
-            useCurrent: false,
+            useCurrent: true,
             sideBySide: true
           };
         }

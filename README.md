@@ -44,12 +44,6 @@ npm run deploy
 ## Android dev
 *The Android SDK and Java JDK are required. Meteor's mobile guide: http://guide.meteor.com/mobile.html*
 
-Add the Android platform ***-This must be removed before merge into master or it will break deployment***
-
-```
-meteor add-platform android
-```
-
 Make sure your device is connected via USB, has debug mode on and is on the same network then run:
 
 ```
@@ -60,14 +54,6 @@ Debug by going to chrome://inspect
 
 ## IOS dev
 *Requires a mac with Xcode installed.*
-
-Add the ios platform ***-This must be removed before merge into master or it will break deployment***
-
-```
-meteor add-platform ios
-```
-
-Then:
 
 ```
 npm run ios

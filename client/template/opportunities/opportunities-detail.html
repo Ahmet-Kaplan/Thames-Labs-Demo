@@ -3,7 +3,7 @@
   {{setPageTitle "Opportunity - " name}}
   <div class="row">
     <div class="col-md-12">
-      <div class="pull-right hidden-xs">
+      <div class="pull-right">
         {{#if isActive}}
           <br>
           <p>
@@ -32,14 +32,8 @@
       <h4 class="entity-title">Opportunity {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="opportunities"}}</h4>
       <h1 class="entity-name">{{name}}</h1>
       {{#if isActive}}
-        <div class="stepwizard hidden-xs">
-          <div class="stepwizard-row">
-            {{#each stages}}
-              {{> opportunityStage}}
-            {{/each}}
-          </div>
+        <div id="d3-stage-chart">
         </div>
-        <br>
       {{/if}}
 
       <div class="clearfix"></div>
@@ -105,13 +99,6 @@
     {{/if}}
   {{/if}}
   {{/with}}
-</template>
-
-<template name="opportunityStage">
-  <div class="stepwizard-step {{#if isCurrentStep}}active-step{{/if}}" data-toggle="tooltip" data-placement="bottom" title="{{description}}">
-    <button type="button" class="btn btn-default btn-circle" disabled="disabled"></button>
-    <p>{{title}}</p>
-  </div>
 </template>
 
 <template name="opportunityItem">

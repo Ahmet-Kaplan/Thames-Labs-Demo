@@ -27,7 +27,7 @@ Template.projectsList.onRendered(function() {
 
   // Watch for session variable setting search
   Session.set('projectListSearchQuery', null);
-  Tracker.autorun(function() {
+  this.autorun(function() {
     var searchQuery = Session.get('projectListSearchQuery');
     if (searchQuery) {
       ProjectsIndex.getComponentMethods().search(searchQuery);
