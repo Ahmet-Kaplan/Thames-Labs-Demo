@@ -6,7 +6,7 @@ Meteor.methods({
     // We require a user as we make find calls on partitioned collections
     if (!this.userId) throw new Meteor.Error('401', 'Must be a logged in user to perform export');
 
-    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
+    if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       throw new Meteor.Error(403, 'Only admins may export user data');
     }
 
