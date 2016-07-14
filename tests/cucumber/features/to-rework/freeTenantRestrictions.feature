@@ -25,16 +25,16 @@ Feature: Restrict free users from certain features
 
   Scenario: A free user should not be able to access the event log
     Given I have the "CanReadEventLog" permission
-    And I click "#menuLinkEventLog"
+    And I click "#menu-link-events"
     Then I should see a "warning" toastr
 
   Scenario: A free user should not be able to see purchase orders
     Given I have the "CanReadPurchaseOrders" permission
-    And I click "#menuLinkPurchaseOrders"
+    And I click "#menu-link-purchaseorders"
     Then I should see a "warning" toastr
 
   Scenario: A free user should not be able to see the activities list
-    When I click "#menuLinkActivities"
+    When I click "#menu-link-activities"
     Then I should see a "warning" toastr
 
   Scenario: A free user should not be able to create or manage project milestones or types

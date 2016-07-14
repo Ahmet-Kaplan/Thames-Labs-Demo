@@ -3,11 +3,11 @@
   <div id="id-view-sidemenu">
     <ul class="panel-group" id="menu">
       {{#unless isInRole 'superadmin'}}
-        {{> menuButton title='Dashboard' page='' icon='home' permissions='' activeRoutes='dashboard'}}
+        {{> menuButton title='Dashboard' page='' icon='home' permissions='' activeRoutes='dashboard' linkId='dashboard'}}
 
         {{> favourites }}
 
-        {{> menuButton title='Activities' page='activities' icon='history' permissions='' activeRoutes='activities' proFeature='true'}}
+        {{> menuButton title='Activities' page='activities' icon='history' permissions='' activeRoutes='activities' proFeature='true' linkId='activities'}}
         {{> menuButton title='Tasks' page='tasks' icon='check' permissions='Administrator,CanReadTasks' activeRoutes='tasks|task'}}
         {{> menuButton title='Companies' page='companies' icon='building' permissions='CanReadCompanies' activeRoutes='companies|company'}}
         {{> menuButton title='Contacts' page='contacts' icon='user' permissions='CanReadContacts' activeRoutes='contacts|contact'}}
