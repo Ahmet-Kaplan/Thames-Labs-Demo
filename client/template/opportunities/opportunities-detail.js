@@ -134,7 +134,7 @@ Template.opportunityDetail.events({
       var date = moment().format("MMM Do YYYY");
       var oppId = this._id;
       var opp = Opportunities.findOne({
-        _id: this._id
+        _id: this.opportunity._id
       });
       var items = [];
       _.each(opp.items, function(oi) {
