@@ -2,11 +2,18 @@
   {{#if loggedIn}}
   <div id="id-view-sidemenu">
     <ul class="panel-group" id="menu">
-      {{#unless isInRole 'superadmin'}}
+      {{#if isInRole 'superadmin'}}     
+
+        {{> menuButton title='Tenants' page='tenants' icon='archive' permissions='superadmin' activeRoutes='tenants'}}
+        {{> menuButton title='Notifications' page='notifications' icon='envelope' permissions='superadmin' activeRoutes='notifications'}}
+        {{> menuButton title='Statistics' page='statistics' icon='bar-chart' permissions='superadmin' activeRoutes='statistics'}}
+        {{> menuButton title='Global Event Log' page='audit' icon='user-secret' permissions='superadmin' activeRoutes='audit'}}
+        {{> menuButton title='Jobs Queue' page='jobs' icon='list' permissions='superadmin' activeRoutes='jobs-queue'}}
+
+      {{else}}
+
         {{> menuButton title='Dashboard' page='' icon='home' permissions='' activeRoutes='dashboard' linkId='dashboard'}}
-
         {{> favourites }}
-
         {{> menuButton title='Activities' page='activities' icon='history' permissions='' activeRoutes='activities' proFeature='true' linkId='activities'}}
         {{> menuButton title='Tasks' page='tasks' icon='check' permissions='Administrator,CanReadTasks' activeRoutes='tasks|task'}}
         {{> menuButton title='Companies' page='companies' icon='building' permissions='CanReadCompanies' activeRoutes='companies|company'}}
@@ -17,14 +24,7 @@
         {{> menuButton title='Products' page='products' icon='barcode' permissions='CanReadProducts' activeRoutes='products|product'}}
         {{> menuButton title='Purchase Orders' page='purchaseorders' icon='shopping-cart' permissions='CanReadPurchaseOrders' activeRoutes='purchaseOrders|purchaseOrder' proFeature='true'}}
         {{> menuButton title='Event Log' page='events' icon='book' permissions='CanReadEventLog' activeRoutes='events' proFeature='true' linkId='eventlog'}}
-      {{/unless}}
-      
-      {{#if isInRole 'superadmin'}}
-        {{> menuButton title='Tenants' page='tenants' icon='archive' permissions='superadmin' activeRoutes='tenants'}}
-        {{> menuButton title='Notifications' page='notifications' icon='envelope' permissions='superadmin' activeRoutes='notfications'}}
-        {{> menuButton title='Statistics' page='statistics' icon='bar-chart' permissions='superadmin' activeRoutes='statistics'}}
-        {{> menuButton title='Global Event Log' page='audit' icon='user-secret' permissions='superadmin' activeRoutes='audit'}}
-        {{> menuButton title='Jobs Queue' page='jobs' icon='list' permissions='superadmin' activeRoutes='jobs-queue'}}
+
       {{/if}}
 
       <h5 class="visible-xs" style="padding-left: 20px;">Menu items</h5>

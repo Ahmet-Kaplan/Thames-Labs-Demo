@@ -24,7 +24,8 @@ Template.favourites.helpers({
 });
 
 Template.favourites.events({
-  'click #favourites': function() {
+  'click #favourites': function(e) {
+    e.preventDefault();
     Template.instance().isFavouritesShown.set(!Template.instance().isFavouritesShown.get());
   },
   'click #add-to-favourites': function() {
