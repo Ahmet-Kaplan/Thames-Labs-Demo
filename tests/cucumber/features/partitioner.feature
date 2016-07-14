@@ -10,7 +10,7 @@ Feature: Stop users from seeing data from other tenants
   Scenario: A user should not be able to see events created by a user under another tenant
     Given the second tenant has an Event
     And I have permission to read event logs
-    And I visit Events
+    And I visit EventLog
     Then I should not see an event in the list
 
   Scenario: A user should not be able to see companies created by a user under under another tenant

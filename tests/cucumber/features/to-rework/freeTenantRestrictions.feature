@@ -25,7 +25,7 @@ Feature: Restrict free users from certain features
 
   Scenario: A free user should not be able to access the event log
     Given I have the "CanReadEventLog" permission
-    And I click "#menu-link-events"
+    And I click "#menu-link-eventlog"
     Then I should see a "warning" toastr
 
   Scenario: A free user should not be able to see purchase orders

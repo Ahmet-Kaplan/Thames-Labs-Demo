@@ -16,7 +16,7 @@
         {{> menuButton title='Projects' page='projects' icon='sitemap' permissions='CanReadProjects' activeRoutes='projects|project'}}
         {{> menuButton title='Products' page='products' icon='barcode' permissions='CanReadProducts' activeRoutes='products|product'}}
         {{> menuButton title='Purchase Orders' page='purchaseorders' icon='shopping-cart' permissions='CanReadPurchaseOrders' activeRoutes='purchaseOrders|purchaseOrder' proFeature='true'}}
-        {{> menuButton title='Event Log' page='events' icon='book' permissions='CanReadEventLog' activeRoutes='events' proFeature='true'}}
+        {{> menuButton title='Event Log' page='events' icon='book' permissions='CanReadEventLog' activeRoutes='events' proFeature='true' linkId='eventlog'}}
       {{/unless}}
       
       {{#if isInRole 'superadmin'}}
