@@ -2,10 +2,13 @@ import '/imports/startup/client';
 import { loadTawkTo, updateTawkToVisitor } from '/imports/ui/components/tawk-to/tawk-to.js';
 
 Template.appLayout.onCreated(function() {
-  loadTawkTo();
 });
 
 Template.appLayout.onRendered(function() {
+  this.autorun(function() {
+    Meteor.user();
+    loadTawkTo();
+  });
   this.autorun(function() {
     const visitor = Meteor.user();
     const tenant = !!visitor ? Tenants.findOne({
