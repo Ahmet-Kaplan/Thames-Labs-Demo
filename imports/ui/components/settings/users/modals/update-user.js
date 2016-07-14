@@ -119,5 +119,10 @@ Template.updateUser.events({
 
     toastr.success('User details updated.');
     Modal.hide('updateUser');
+  },
+  'click #password-reset': function() {
+    var options = {};
+    options.email = Meteor.user().emails[0].address;
+    Accounts.forgotPassword(options);
   }
 });
