@@ -44,7 +44,7 @@ var adminTutorial = {
     nextOnTargetClick: true
   }, {
     title: "Navigating to the Admin Panel",
-    content: "Select 'Administration' from the menu",
+    content: "Select 'Settings' from the menu",
     target: document.querySelector('#global-search'),
     placement: "left",
     yOffset: "40px",
@@ -63,13 +63,26 @@ var adminTutorial = {
   }, {
     title: "The Admin Panel",
     content: "This is the admin panel. Let's take a look around...",
-    target: document.querySelector('#admin-logo'),
-    placement: "bottom"
+    target: document.querySelector('#settings-nav'),
+    placement: "right"
+  }, {
+    title: "Navigating to billing settings",
+    content: "Select 'Billing' from the menu",
+    target: document.querySelector('a[href="billing"]'),
+    placement: "right",
+		xOffset: "10px",
+    showNextButton: false,
+    nextOnTargetClick: true
+  }, {
+    title: "",
+		content: "",
+		target: document.querySelector('.entity-name'),
+    placement: "top"
   }, {
     title: "Subscription Details",
     content: "These are the details of your subscription. You're on the free plan, you'll notice that certain features in RealTimeCRM are not active.",
     target: document.querySelector('#planName'),
-    placement: "right"
+    placement: "top"
   }, {
     title: "Upgrading Subscription",
     content: "Use this button to upgrade to the paid plan at anytime. This will activate all features. See our website for more details at realtimecrm.co.uk",
@@ -77,20 +90,25 @@ var adminTutorial = {
     placement: "right",
     yOffset: "-10px"
   }, {
-    title: "Users",
-    content: "To open the user panel, click here",
-    yOffset: "-20px",
-    target: document.querySelector('#userAdminPanelExpander'),
+    title: "Navigating to user settings",
+    content: "Select 'Users' from the menu",
+    target: document.querySelector('a[href="users"]'),
     placement: "right",
+		xOffset: "10px",
     showNextButton: false,
     nextOnTargetClick: true
-	}, {
+  }, {
+    title: "",
+		content: "",
+		target: document.querySelector('.entity-name'),
+    placement: "top"
+  }, {
 		title: "Adding Users",
 		content: "As an admin, you can add, delete and edit users. Let's take a look at how to do this now... Click this button to create a new user",
 		delay: 300,
 		yOffset: "-25px",
-		target: document.querySelector('#addNewUserAccount'),
-		placement: "right",
+		target: document.querySelector('#add-user'),
+		placement: "left",
 		showNextButton: false,
 		nextOnTargetClick: true
 	}, {
@@ -124,20 +142,7 @@ var adminTutorial = {
 		content: "Now click 'Create' and you're done!",
 		target: document.querySelector('#createUser'),
 		placement: "left",
-		showNextButton: false,
-		onShow: $("#createUser").click(function() {
-			setTimeout(function() {
-				if ($("#draggableModal").is(':visible')) {
-					hopscotch.prevStep();
-					$(this).unbind('click');
-				}else{
-					Session.set(sessionVar);
-					$(this).unbind('click');
-					$("#addUserEmail").unbind('keyup');
-					$.getScript('/vendor/hopscotch/tours/admin-tutorial-end.js');
-				}
-			}, 500);
-		})
+		showNextButton: false
 	}],
   showCloseButton: true
 };
