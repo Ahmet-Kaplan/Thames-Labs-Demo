@@ -20,3 +20,25 @@ Template.companyDetailsForm.helpers({
     return this.companyData;
   }
 });
+
+AutoForm.hooks({
+  insertNewCompanyForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Company created.');
+    },
+    after: {
+      insert: function(error, result) {
+        if (error) {
+          console.log(result);
+          console.log(error);
+          $("#address_details").show();
+          toastr.error('Company creation error: ' + error);
+          return false;
+        }
+
+        FlowRouter.go('/companies/' + result);
+      }
+    }
+  }
+});
