@@ -82,6 +82,11 @@ Template.stripeAdmin.helpers({
   },
   currentSubscription: function() {
     var stripeCustomer = Template.instance().stripeCustomer.get();
+
+    const tenant = Tenants.findOne(Meteor.user().group);
+    if (tenant.plan === 'pro' && !tenant.stripe.stripeSubs) {
+      return "Pro Plan";
+    }
     return (stripeCustomer.id) ? ((stripeCustomer.subscriptions.total_count && !stripeCustomer.subscriptions.data[0].cancel_at_period_end) ? stripeCustomer.subscriptions.data[0].plan.name : "Free Plan") : "Free Plan";
   },
   hasStripeAccount: function() {
@@ -140,6 +145,11 @@ Template.stripeAdmin.helpers({
     return Tenants.findOne({
       _id: Meteor.user().group
     }).name;
+  },
+  isFreeProTenant: function() {
+    if (!Meteor.user() || !Meteor.user().group) return false;
+    const tenant = Tenants.findOne(Meteor.user().group);
+    return tenant.plan === 'pro' && !tenant.stripe.stripeSubs;
   }
 });
 
