@@ -42,7 +42,7 @@ Meteor.methods({
                 UserSession.set("importErrors", errorList, userId);
               }
 
-              var companyId = Companies.insert({
+              const companyId = Companies.insert({
                 name: row[getFieldValueByKey(selectedValues, 'name')],
                 address: (getFieldValueByKey(selectedValues, 'address') ? row[getFieldValueByKey(selectedValues, 'address')] : null),
                 address2: (getFieldValueByKey(selectedValues, 'address2') ? row[getFieldValueByKey(selectedValues, 'address2')] : null),
@@ -126,7 +126,7 @@ Meteor.methods({
                 }
               }
 
-              Contacts.insert({
+              const contactId = Contacts.insert({
                 forename: row[getFieldValueByKey(selectedValues, 'forename')],
                 surname: row[getFieldValueByKey(selectedValues, 'surname')],
                 jobtitle: (getFieldValueByKey(selectedValues, 'jobtitle') ? row[getFieldValueByKey(selectedValues, 'jobtitle')] : null),
@@ -166,6 +166,14 @@ Meteor.methods({
                   }
                 }
               });
+
+              if (row[getFieldValueByKey(selectedValues, 'tags')]) {
+                _.each(row[getFieldValueByKey(selectedValues, 'tags')].split(','), function(tag) {
+                  Contacts.addTag(tag, {
+                    _id: contactId
+                  });
+                });
+              }
             });
             break;
 

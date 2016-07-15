@@ -72,6 +72,10 @@ var contactFields = [{
   fieldLabel: 'Company Name',
   fieldIdentifier: 'companyName',
   required: false
+}, {
+  fieldLabel: 'Tags',
+  fieldIdentifier: 'tags',
+  required: false
 }];
 
 var companyFields = [{

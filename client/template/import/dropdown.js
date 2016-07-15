@@ -31,6 +31,7 @@ Template.importEntityDropdown.events({
       sampleValues = [
         'Cambridge Software Ltd',
         'St John\'s Innovation Centre',
+        'Cowley Road',
         'Milton',
         'Cambridgeshire',
         'CB4 0WS',
@@ -56,7 +57,8 @@ Template.importEntityDropdown.events({
         'City',
         'County',
         'Post Code',
-        'Country'
+        'Country',
+        'Tags'
       ].join(',');
 
       sampleValues = [
