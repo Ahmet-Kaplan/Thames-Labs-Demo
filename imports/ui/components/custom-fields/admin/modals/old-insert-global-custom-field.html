@@ -55,41 +55,27 @@
               </div>
             </div>
 
-            {{#if typeText}}
-              <div class="form-group" id="text-input-area">
-                <label for="custom-field-text-value">Default Text Value</label>
-                <input type="text" class="form-control" placeholder="Global custom field value" id="custom-field-text-value">
-              </div>
-              {{/if}}
-
-            {{#if typeMultiText}}
+            <div class="form-group" id="text-input-area">
+              <label for="custom-field-text-value">Default Text Value</label>
+              <input type="text" class="form-control" placeholder="Global custom field value" id="custom-field-text-value">
+            </div>
             <div class="form-group" id="advtext-input-area">
               <label for="custom-field-advtext-value">Multiline Text Value</label>
               <div class="editable mediumWrapper" id="custom-field-advtext-value"></div>
             </div>
-            {{/if}}
-
-            {{#if typeCheckBox}}
             <div class="form-group" id="check-input-area">
               <label for="custom-field-check-value">Default True/False Value</label>
               <br />
               <input type="checkbox" placeholder="Global custom field value" id="custom-field-check-value"> Check this box to set the value of this custom field to true. Leave it blank for false values.
             </div>
-            {{/if}}
-
-            {{#if typeDateTime}}
             <div class="form-group datetimepicker" id="date-input-area">
               <label for="custom-field-date-value">Default Date Value</label>
               <input class="form-control" placeholder="Global custom field value" id="custom-field-date-value">
             </div>
-            {{/if}}
-
-            {{#if typePicklist}}
             <div class="form-group" id="picklist-input-area">
               <label for="custom-field-picklist-value">List Values</label>
               <input id="custom-field-picklist-values">
             </div>
-            {{/if}}
 
             <label for="select-entity">Target entity</label>
             <select id="select-entity" placeholder="Select an entity...">
