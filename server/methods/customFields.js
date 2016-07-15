@@ -65,7 +65,6 @@ Meteor.methods({
     }
 
     var user = Meteor.users.findOne(this.userId);
-    var duplicateFlag = false;
 
     if (user) {
       Partitioner.bindGroup(user.group, function() {
@@ -89,14 +88,25 @@ Meteor.methods({
           targets = Products.find({}).fetch();
         }
 
-        if (CustomFields.findOne({
+        CustomFields.insert({
           name: cfName,
-          target: cfEntity
-        })) {
-          duplicateFlag = true;
-        }
+          value: cfValue,
+          defaultValue: (cfType === 'picklist' ? '' : cfValue),
+          type: cfType,
+          global: true,
+          order: maxValue + 1,
+          target: cfEntity,
+          listValues: (cfType !== 'picklist' ? '' : cfValue),
+          entityId: user.group
+        });
 
-        if (duplicateFlag === false) {
+        var totalCount = targets.length;
+
+        _.each(targets, function(ox, iter) {
+
+          var percDone = (( iter / totalCount) * 100).toFixed(2);
+          UserSession.set("globalFieldProgress", percDone, userId);
+
           CustomFields.insert({
             name: cfName,
             value: cfValue,
@@ -106,37 +116,15 @@ Meteor.methods({
             order: maxValue + 1,
             target: cfEntity,
             listValues: (cfType !== 'picklist' ? '' : cfValue),
-            entityId: user.group
+            entityId: ox._id
           });
-
-          var totalCount = targets.length;
-
-          _.each(targets, function(ox, iter) {
-
-            var percDone = (( iter / totalCount) * 100).toFixed(2);
-            UserSession.set("globalFieldProgress", percDone, userId);
-
-            CustomFields.insert({
-              name: cfName,
-              value: cfValue,
-              defaultValue: (cfType === 'picklist' ? '' : cfValue),
-              type: cfType,
-              global: true,
-              order: maxValue + 1,
-              target: cfEntity,
-              listValues: (cfType !== 'picklist' ? '' : cfValue),
-              entityId: ox._id
-            });
-          });
-        }
+        });
       });
-
-      if (duplicateFlag === true) return 2;
 
       return 0;
     }
 
-    return 3;
+    return 2;
   },
   changeExtInfoOrder: function(extInfoObj, direction) {
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {

@@ -9,6 +9,7 @@
         </div>
 
         <div class="modal-body">
+          {{#unless create}}
           <form>
             <div class="form-group">
               <label for="custom-field-name">Name</label>
@@ -18,40 +19,22 @@
             <label>Type</label>
             <div class="row">
               <div class="col-md-2">
-                <div class="radio">
-                  <label>
-                    <input checked id="typeText" name="cfType" type="radio">Text</label>
-                </div>
+                <a id="typeText" class="{{#unless typeText}}text-muted{{/unless}}" href="">Text</a>
               </div>
               <div class="col-md-2">
-                <div class="radio">
-                  <label>
-                    <input id="typeAdvText" name="cfType" type="radio">Multiline Text</label>
-                </div>
+                <a id="typeMultiText" class="{{#unless typeMultiText}}text-muted{{/unless}}" href="">Multiline Text</a>
               </div>
               <div class="col-md-2">
-                <div class="radio">
-                  <label>
-                    <input id="typeCheckbox" name="cfType" type="radio">Checkbox</label>
-                </div>
+                <a id="typeCheckbox" class="{{#unless typeCheckbox}}text-muted{{/unless}}" href="">Checkbox</a>
               </div>
               <div class="col-md-2">
-                <div class="radio">
-                  <label>
-                    <input id="typeDate" name="cfType" type="radio">Date/Time</label>
-                </div>
+                <a id="typeDateTime" class="{{#unless typeDateTime}}text-muted{{/unless}}" href="">Date/Time</a>
               </div>
               <div class="col-md-2">
-                <div class="radio">
-                  <label>
-                    <input id="typeLabel" name="cfType" type="radio">Label</label>
-                </div>
+                <a id="typeLabel" class="{{#unless typeLabel}}text-muted{{/unless}}" href="">Label</a>
               </div>
               <div class="col-md-2">
-                <div class="radio">
-                  <label>
-                    <input id="typePicklist" name="cfType" type="radio">Picklist</label>
-                </div>
+                <a id="typePicklist" class="{{#unless typePicklist}}text-muted{{/unless}}" href="">Picklist</a>
               </div>
             </div>
 
@@ -62,32 +45,29 @@
               </div>
               {{/if}}
 
-            {{#if typeMultiText}}
-            <div class="form-group" id="advtext-input-area">
+            <div class="form-group" id="advtext-input-area" style="{{#unless typeMultiText}}display: none;{{/unless}}">
               <label for="custom-field-advtext-value">Multiline Text Value</label>
-              <div class="editable mediumWrapper" id="custom-field-advtext-value"></div>
+              <div class="editable form-control" id="custom-field-multitext-value"></div>
             </div>
-            {{/if}}
 
-            {{#if typeCheckBox}}
+            {{#if typeCheckbox}}
             <div class="form-group" id="check-input-area">
               <label for="custom-field-check-value">Default True/False Value</label>
               <br />
-              <input type="checkbox" placeholder="Global custom field value" id="custom-field-check-value"> Check this box to set the value of this custom field to true. Leave it blank for false values.
+              Set default value to true?
+              <input type="checkbox" placeholder="Global custom field value" id="custom-field-check-value">
             </div>
             {{/if}}
 
-            {{#if typeDateTime}}
-            <div class="form-group datetimepicker" id="date-input-area">
+            <div class="form-group datetimepicker" id="date-input-area" style="{{#unless typeDateTime}}display: none;{{/unless}}">
               <label for="custom-field-date-value">Default Date Value</label>
               <input class="form-control" placeholder="Global custom field value" id="custom-field-date-value">
             </div>
-            {{/if}}
 
             {{#if typePicklist}}
             <div class="form-group" id="picklist-input-area">
               <label for="custom-field-picklist-value">List Values</label>
-              <input id="custom-field-picklist-values">
+              <input class="form-control" id="custom-field-picklist-values">
             </div>
             {{/if}}
 
@@ -102,6 +82,8 @@
           </form>
 
           <button id="createCustomField" role="button" class="btn btn-primary">Create</button>
+          {{/unless}}
+          {{#if create}}
           <div class="progress">
             <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{percentComplete}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentComplete}}%">
               {{percentComplete}}% Complete
@@ -109,6 +91,7 @@
           </div>
           <div class="information-label"><em>Applying to existing records, please wait...</em></div>
 
+          {{/if}}
         </div>
       </div>
     </div>
