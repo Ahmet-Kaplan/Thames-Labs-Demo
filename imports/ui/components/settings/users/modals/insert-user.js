@@ -2,15 +2,6 @@ import './insert-user.html';
 
 AutoForm.hooks({
   insertUser: {
-    before: {
-      submit: function(doc) {
-        const tenantId = Meteor.user().group;
-        if (!isProTenant(tenantId) && isTenantOverFreeUserLimit(tenantId)) {
-          showUpgradeToastr('To add more users');
-          return false;
-        }
-      }
-    },
     beginSubmit: function() {
       toastr.info('Adding new user...');
       $('#createUser').prop('disabled', true);
@@ -37,6 +28,8 @@ AutoForm.hooks({
       toastr.clear();
       if (error.reason === "Email already exists.") {
         toastr.error('A user with this email already exists.');
+      } else if(error.reason === "Users limit reached") {
+        showUpgradeToastr('To add more users');
       } else {
         toastr.error(`Unable to create user: ${error.reason}`);
       }

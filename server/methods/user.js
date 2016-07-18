@@ -148,9 +148,16 @@ Meteor.methods({
 
   addTenantUser: function(doc) {
     // This method is called by tenant admins to create users
-    var adminId = this.userId;
+    const adminId = this.userId;
+    const admin = Meteor.users.findOne({
+      _id: adminId
+    });
     if (!Roles.userIsInRole(adminId, ['Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may create users');
+    }
+
+    if(admin && !isProTenant(admin.group) && isTenantOverFreeUserLimit(admin.group)) {
+      throw new Meteor.Error(403, 'Users limit reached');
     }
 
     // Important - do server side schema check
@@ -170,11 +177,8 @@ Meteor.methods({
       }
     });
 
-    var admin = Meteor.users.findOne({
-      _id: adminId
-    });
-    if (admin) {
-      if (!isProTenant(admin.group)) {
+    if(admin) {
+      if(!isProTenant(admin.group)) {
         Roles.addUsersToRoles(userId, 'Administrator');
       }
     }
