@@ -52,6 +52,10 @@ Template.companyDetail.events({
   'change #template-upload': function(event) {
     var file = event.target.files[0];
     if (!file) return;
+    if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+      toastr.error("Unable to extract to file. Please ensure the provided file is a word document (.docx)");
+      return;
+    }
 
     var reader = new FileReader();
     reader.onload = function() {

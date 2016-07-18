@@ -105,6 +105,10 @@ Template.opportunityDetail.events({
   'change #template-upload-docx': function(event) {
     var file = event.target.files[0];
     if (!file) return;
+    if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+      toastr.error("Unable to extract to file. Please ensure the provided file is a word document (.docx)");
+      return;
+    }
 
     var reader = new FileReader();
     reader.onload = function() {
@@ -132,9 +136,9 @@ Template.opportunityDetail.events({
       }
 
       var date = moment().format("MMM Do YYYY");
-      var oppId = this._id;
+      var oppId = this.opportunity._id;
       var opp = Opportunities.findOne({
-        _id: this.opportunity._id
+        _id: oppId
       });
       var items = [];
       _.each(opp.items, function(oi) {
