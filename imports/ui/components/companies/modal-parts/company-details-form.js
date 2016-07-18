@@ -30,8 +30,6 @@ AutoForm.hooks({
     after: {
       insert: function(error, result) {
         if (error) {
-          console.log(result);
-          console.log(error);
           $("#address_details").show();
           toastr.error('Company creation error: ' + error);
           return false;
