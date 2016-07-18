@@ -32,7 +32,7 @@
         </li>
 
         <!-- COUPON -->
-        {{#unless isFreeProTenant}}
+        {{#unless isFreeProTenant}}{{#unless isProWithNoCoupon}}
         <li class="list-group-item panel-item-header">
           <h4 class="slim">
             <i class="fa fa-fw fa-ticket"></i> Coupon
@@ -44,7 +44,7 @@
             <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
           {{/if}}
         </li>
-        {{/unless}}
+        {{/unless}}{{/unless}}
 
         {{#if hasStripeAccount}}
         <!-- INVOICE EMAIL ADDRESS -->

@@ -138,6 +138,10 @@ Template.stripeAdmin.helpers({
     details = (!couponDetails || couponDetails.valid !== true) ? false : ((couponDetails.percent_off) ? couponDetails.id + ': ' + couponDetails.percent_off + ' % off' : couponDetails.id + ': ' + displayLocale(couponDetails.amount_off / 100, currency) + ' off');
     return details;
   },
+  isProWithNoCoupon: function() {
+    var couponDetails = Template.instance().couponDetails.get();
+    return ((!couponDetails || couponDetails.valid !== true) && isProTenant(Meteor.user().group));
+  },
   cardDetails: function() {
     return Template.instance().cardDetails.get();
   },
