@@ -54,7 +54,7 @@ var adminTutorial = {
   }, {
     title: "",
 		content: "",
-		target: document.querySelector('#menuLinkCompanies'),
+		target: document.querySelector('#menu-link-companies'),
 		placement: "right",
 		smoothScroll: false,
 		onShow: function() {

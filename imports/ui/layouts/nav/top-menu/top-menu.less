@@ -1,0 +1,70 @@
+@import "/client/bootstrap/custom.bootstrap.import.less";
+
+#id-nav-main-view {
+  height: auto;
+  min-height: 100%;
+}
+#id-menu-button {
+  border: none;
+  margin: 0;
+  transition: all 0.15s ease-in-out;
+}
+#id-menu-button:focus {
+  background: rgba(0, 0, 0, 0.05);
+}
+#id-menu-button:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+#id-menu-button:active {
+  background: rgba(0, 0, 0, 0.1);
+}
+#id-menu-button > .icon-bar {
+  background-color: #eee !important;
+  transition: all 0.15s ease-in-out;
+}
+#id-menu-button:hover > .icon-bar {
+  background-color: #ddd !important;
+}
+#id-menu-button:active > .icon-bar {
+  background-color: #ccc !important;
+}
+
+.nav > .dropdown > .dropdown-toggle {
+  color: #fff;
+  background: rgba(0, 0, 0, 0) !important;
+  transition: all 0.15s ease-in-out;
+}
+.nav > .dropdown > .dropdown-toggle:focus {
+  background: rgba(0, 0, 0, 0.1) !important;
+}
+.nav > .dropdown > .dropdown-toggle:hover {
+  background: rgba(0, 0, 0, 0.1) !important;
+}
+.nav > .dropdown > .dropdown-toggle:active {
+  background: rgba(0, 0, 0, 0.1) !important;
+} 
+
+#tenant-name {
+  font-size: 14px;
+  line-height: 20px;
+  color: white;
+  padding: 15px;
+  max-width: 280px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-weight: lighter;
+}
+#global-search-mobile {
+  list-style: none;
+}
+#global-search-mobile > a {
+  color: white;
+  line-height: 30px;
+  padding: 15px;
+}
+@media only screen and (min-width: 767px) {
+  #global-search-mobile {
+    display: none;
+  }
+}

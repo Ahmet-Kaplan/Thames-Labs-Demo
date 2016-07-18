@@ -38,7 +38,7 @@ var tagsTutorial = {
   }, {
     title: "Creating Tags",
     content: "This tutorial assumes you have created a company. Please create one if you haven't already and restart the tutorial. If you have created a company, click the Companies opiton on the nav bar.",
-    target: document.querySelector('#menuLinkCompanies'),
+    target: document.querySelector('#menu-link-companies'),
     placement: "right",
 		nextOnTargetClick: true,
 		showNextButton: false,
@@ -46,7 +46,7 @@ var tagsTutorial = {
   }, {
     title: "",
 		content: "",
-		target: document.querySelector('#menuLinkCompanies'),
+		target: document.querySelector('#menu-link-companies'),
 		placement: "right",
 		smoothScroll: false,
 		onShow: function() {
@@ -62,7 +62,7 @@ var tagsTutorial = {
   }, {
     title: "",
 		content: "",
-		target: document.querySelector('#menuLinkCompanies'),
+		target: document.querySelector('#menu-link-companies'),
 		placement: "right",
 		smoothScroll: false,
 		onShow: function() {
