@@ -37,6 +37,17 @@ Template.taskDetail.onRendered(function() {
 });
 
 Template.taskDetail.helpers({
+  reminderDetails: function() {
+    if(this.remindMe) {
+      var reminderArray = this.reminder.split('.');
+      var reminderString = this.reminder.replace('.', ' ');
+      if(reminderArray[0] === "1") {
+        reminderString = reminderString.substring(0, reminderString.length - 1);
+      }
+      return reminderString + " before";
+    }
+    return "No reminder set";
+  },
   subTasks: function() {
     var subs = ReactiveMethod.call("tasks.getSubTasks", this._id);
     if (subs && subs.length > 0) return subs;

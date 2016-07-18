@@ -5,7 +5,9 @@ var subs = new SubsManager(),
 // These are route trigger functions
 // They're used for before / after actions on routes
 
-function tidyUpModals(context) {
+function tidyUpUI(context) {
+  $("#id-view-sidemenu").removeClass("active");
+
   Modal.hide();
   $(".modal-backdrop").remove();
   $("body").removeClass('modal-open');
@@ -53,7 +55,7 @@ FlowRouter.triggers.enter([setHeapParams]);
 
 
 // These functions add the triggers to routes globally
-router.triggers.exit(tidyUpModals);
+router.triggers.exit(tidyUpUI);
 
 // These are global subscriptions
 // Since they're global there's no need to use SubsManager
@@ -174,6 +176,39 @@ router.route('/admin', {
   }
 });
 
+//Settings
+router.route('/settings', {
+  name: 'settings',
+  action: function() {
+    FlowRouter.go('/settings/profile');
+  }
+});
+
+router.route('/settings/:section', {
+  name: 'settings',
+  action: function(params) {
+    let layoutTemplate = 'profileSettings';
+    switch(params.section) {
+      case 'users':
+        layoutTemplate = 'userSettings';
+        break;
+
+      case 'billing':
+        layoutTemplate = 'billingSettings';
+        break;
+
+      case 'configuration':
+        layoutTemplate = 'configurationSettings';
+        break;
+    }
+
+    layout.render('appLayout', {
+      main: layoutTemplate
+    });
+  }
+});
+
+//Other routes
 router.route('/activities', {
   name: 'activities',
   action: function() {

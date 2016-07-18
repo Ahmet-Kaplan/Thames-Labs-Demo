@@ -7,15 +7,13 @@
           <div class="btn-group pull-right">
             {{#if isInRole 'CanEditOpportunities'}}
               <div class="btn-group">
-                <button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                   <span class="caret"></span> Extract to...
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   {{#if canExportDocx}}
                     <li><a href="#" id="template-upload-link-docx">Microsoft Word (.docx)</a></li>
                   {{/if}}
-                  <li><a href="#" id="template-upload-link">PDF (.pdf)</a></li>
-                  <!-- <li><a href="#" id="template-google-drive-link">Google Drive file</a></li> -->
                   <li class="divider"></li>
                   <li><a href="#" id="opp-template-help">How does this work?</a></li>
                 </ul>
@@ -93,12 +91,12 @@
     </ul>
     {{#if isDetailsPage}}
       <a href="{{pathFor route='salespipeline' id=opportunity._id}}" class="text-muted small pull-right">
-        <i class="fa fa-fw fa-signal"></i> 
+        <i class="fa fa-fw fa-signal"></i>
         View in sales pipeline
       </a>
     {{else}}
       <a href="{{pathFor route='opportunity' id=opportunity._id}}" class="text-muted small pull-right">
-        <i class="fa fa-fw fa-lightbulb-o"></i> 
+        <i class="fa fa-fw fa-lightbulb-o"></i>
         View full opportunity details
       </a>
     {{/if}}

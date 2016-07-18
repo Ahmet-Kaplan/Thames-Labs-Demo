@@ -1,3 +1,5 @@
+import '/imports/ui/components/custom-fields/custom-field-panel.js';
+
 Template.contactDetail.onCreated(function() {
   var self = this;
   this.autorun(function() {
@@ -253,7 +255,7 @@ Template.contactDetail.events({
     Modal.show('editContactModal', this);
   },
   'click #inactive-projects': function(event, template) {
-    var url = "?f%5Bcontact%5D=" + this._id + "&f%5BshowArchived%5D=true";
+    var url = "?f%5Bcontact%5D=" + this._id + "&f%5Bactive%5D=No";
     FlowRouter.go("/projects" + url);
   },
   'click #archived-opportunities': function(event, template) {

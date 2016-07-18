@@ -1,6 +1,8 @@
-Collections.projects = Projects = new Mongo.Collection('projects');
+import { wordedTimes, getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
 
+Collections.projects = Projects = new Mongo.Collection('projects');
 Partitioner.partitionCollection(Projects);
+Tags.TagsMixin(Projects);
 
 Projects.helpers({
   company: function() {
@@ -33,8 +35,6 @@ Projects.helpers({
     });
   }
 });
-
-Tags.TagsMixin(Projects);
 
 ////////////////////
 // SEARCH FILTERS //
@@ -87,37 +87,32 @@ Collections.projects.filters = {
     display: 'Due Date:',
     prop: 'dueDate',
     verify: function(dueDate) {
-      var wordedTimes = Collections.helpers.wordedTimes;
-      if (!moment(dueDate).isValid() && !moment(dueDate, 'DD-MM-YYYY', false).isValid() && !_.some(wordedTimes, {
-        'expr': dueDate.toLowerCase()
-      })) {
+      if(!getEuropeanDate(dueDate) && !getWordedTime(dueDate)) {
         toastr.error('Invalid date', 'Error', {
           preventDuplicates: true
         });
         return false;
       }
 
-      //Edge case: to avoid conflict, remove after/before if set
-      if (Collections.projects.index.getComponentDict().get('searchOptions').props && Collections.projects.index.getComponentDict().get('searchOptions').props.after) {
+      //Edge case: to avoid conflict, remove dueBefore/dueAfter if set
+      if (_.get(Collections.projects.index.getComponentDict().get('searchOptions'), 'props.after')) {
         Collections.projects.index.getComponentMethods().removeProps('after');
       }
-      if (Collections.projects.index.getComponentDict().get('searchOptions').props && Collections.projects.index.getComponentDict().get('searchOptions').props.before) {
+      if (_.get(Collections.projects.index.getComponentDict().get('searchOptions'), 'props.before')) {
         Collections.projects.index.getComponentMethods().removeProps('before');
       }
       return true;
     },
     defaultOptions: function() {
-      return _.map(Collections.helpers.wordedTimes, function(obj) {
-        return obj.expr;
-      });
+      return _.map(wordedTimes, 'expr');
     }
   },
   before: {
     display: 'Due Before:',
     prop: 'before',
     verify: function(date) {
-      var afterOption = (Collections.projects.index.getComponentDict().get('searchOptions').props) ? Collections.projects.index.getComponentDict().get('searchOptions').props.after : null;
-      if (!moment(date).isValid() && !moment(date, 'DD-MM-YYYY', false).isValid()) {
+      var afterOption = _.get(Collections.projects.index.getComponentDict().get('searchOptions'), 'props.after');
+      if(!getEuropeanDate(date)) {
         toastr.error('Invalid date', 'Error', {
           preventDuplicates: true
         });
@@ -129,7 +124,7 @@ Collections.projects.filters = {
         return false;
 
         //Edge case: to avoid conflict, remove dueDate if set
-      } else if (Collections.projects.index.getComponentDict().get('searchOptions').props && Collections.projects.index.getComponentDict().get('searchOptions').props.dueDate) {
+      } else if (_.get(Collections.projects.index.getComponentDict().get('searchOptions'), 'props.dueDate')) {
         Collections.projects.index.getComponentMethods().removeProps('dueDate');
       }
       return true;
@@ -139,8 +134,8 @@ Collections.projects.filters = {
     display: 'Due After:',
     prop: 'after',
     verify: function(date) {
-      var beforeOption = ((Collections.projects.index.getComponentDict().get('searchOptions').props)) ? Collections.projects.index.getComponentDict().get('searchOptions').props.before : null;
-      if (!moment(date).isValid() && !moment(date, 'DD-MM-YYYY', false).isValid()) {
+      var beforeOption = _.get(Collections.projects.index.getComponentDict().get('searchOptions'), 'props.before');
+      if(!getEuropeanDate(date)) {
         toastr.error('Invalid date', 'Error', {
           preventDuplicates: true
         });
@@ -152,7 +147,7 @@ Collections.projects.filters = {
         return false;
 
         //Edge case: to avoid conflict, remove dueDate if set
-      } else if (Collections.projects.index.getComponentDict().get('searchOptions').props && Collections.projects.index.getComponentDict().get('searchOptions').props.dueDate) {
+      } else if (_.get(Collections.projects.index.getComponentDict().get('searchOptions'), 'props.dueDate')) {
         Collections.projects.index.getComponentMethods().removeProps('dueDate');
       }
       return true;
@@ -176,7 +171,44 @@ Collections.projects.filters = {
       if (!sequencedIdentifier) return false;
       return true;
     }
-  }
+  },
+  active: {
+    display: 'Active:',
+    prop: 'active',
+    defaultOptions: function() {
+      return ['Yes', 'No'];
+    },
+    strict: true,
+    allowMultiple: false,
+    verify: function(active) {
+      if (!active) return false;
+      return active;
+    }
+  },
+  valueLower: {
+    display: 'Value <',
+    prop: 'valueLower',
+    verify: function(value) {
+      value = parseInt(value, 10);
+      if (isNaN(value)) {
+        toastr.error('Please enter a numeric value.');
+        return false;
+      }
+      return true;
+    }
+  },
+  valueGreater: {
+    display: 'Value >',
+    prop: 'valueGreater',
+    verify: function(value) {
+      value = parseInt(value, 10);
+      if (isNaN(value)) {
+        toastr.error('Please enter a numeric value.');
+        return false;
+      }
+      return true;
+    }
+  },
 };
 
 ////////////////////
@@ -221,13 +253,13 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
         selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
 
-      if (options.search.props.showArchived) {
-        selector.active = false;
-      } else {
-        selector.active = {
-          $ne: false
-        };
-      }
+      // if (options.search.props.showArchived) {
+      //   selector.active = false;
+      // } else {
+      //   selector.active = {
+      //     $ne: false
+      //   };
+      // }
 
       if (options.search.props.supplierCompanyId) {
         selector.companyId = options.search.props.supplierCompanyId;
@@ -249,6 +281,30 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
         };
       }
 
+      if (options.search.props.active) {
+        if(options.search.props.active === "Yes") {
+          selector.active = true;
+        } else {
+          selector.active = {
+            $ne: true
+          };
+        }
+      }
+
+      if (options.search.props.valueLower || options.search.props.valueGreater) {
+        selector.value = {};
+        var lowerThan = parseInt(options.search.props.valueLower, 10);
+        var greaterThan = parseInt(options.search.props.valueGreater, 10);
+
+        if (!isNaN(lowerThan)) {
+          selector.value.$lte = lowerThan;
+        }
+
+        if (!isNaN(greaterThan)) {
+          selector.value.$gte = greaterThan;
+        }
+      }
+
       if (options.search.props.contact) {
         // n.b. the array is passed as a comma separated string
         selector.contactId = {
@@ -264,56 +320,48 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
       }
 
       if (options.search.props.dueDate) {
-        var dueDate = options.search.props.dueDate;
-        var wordedTimes = Collections.helpers.wordedTimes;
-        var formattedStartDate = null;
-        var formattedEndDate = null;
+        const dueDate = options.search.props.dueDate;
+        const europeanDueDate = getEuropeanDate(dueDate);
+        const wordedDate = getWordedTime(dueDate);
+        let formattedStartDate = null;
+        let formattedEndDate = null;
 
-        if (moment(dueDate).isValid()) {
-          formattedStartDate = moment(dueDate).startOf('day').toDate();
-          formattedEndDate = moment(dueDate).endOf('day').toDate();
-        } else if (moment(dueDate, 'DD-MM-YYYY', false).isValid()) {
-          formattedStartDate = moment(dueDate, 'DD-MM-YYYY', false).startOf('day').toDate();
-          formattedEndDate = moment(dueDate, 'DD-MM-YYYY', false).endOf('day').toDate();
-        } else if (_.some(wordedTimes, {
-          'expr': dueDate.toLowerCase()
-        })) {
-          var index = _.findIndex(wordedTimes, {
-            'expr': dueDate.toLowerCase()
-          });
-          formattedStartDate = wordedTimes[index].start.toDate();
-          formattedEndDate = wordedTimes[index].end.toDate();
+        if (europeanDueDate) {
+          formattedStartDate = moment(europeanDueDate).startOf('day').toDate();
+          formattedEndDate = moment(europeanDueDate).endOf('day').toDate();
+        } else if (wordedDate) {
+          formattedStartDate = wordedDate.start.toDate();
+          formattedEndDate = wordedDate.end.toDate();
         }
 
         if (formattedStartDate && formattedEndDate) {
           selector.dueDate = {
             $gte: formattedStartDate,
-            $lte: formattedEndDate
+            $lte: formattedEndDate,
+            $ne: null
           };
         }
 
       }
 
       if (options.search.props.after || options.search.props.before) {
-        var dueAfter = options.search.props.after;
-        var dueBefore = options.search.props.before;
-        var startDate = null;
-        var endDate = null;
-        selector.dueDate = {};
+        const dueAfter = options.search.props.after;
+        const dueAfterMoment = getEuropeanDate(dueAfter);
+        const dueBefore = options.search.props.before;
+        const dueBeforeMoment = getEuropeanDate(dueBefore);
+        let startDate = null;
+        let endDate = null;
+        selector.dueDate = {
+          $ne: null
+        };
 
-        if (dueAfter && moment(dueAfter).isValid()) {
-          startDate = moment(dueAfter).startOf('day').toDate();
-          selector.dueDate.$gte = startDate;
-        } else if (dueAfter && moment(dueAfter, 'DD-MM-YYYY', false).isValid()) {
-          startDate = moment(dueAfter, 'DD-MM-YYYY', false).startOf('day').toDate();
+        if (dueAfter && dueAfterMoment) {
+          startDate = moment(dueAfterMoment).startOf('day').toDate();
           selector.dueDate.$gte = startDate;
         }
 
-        if (dueBefore && moment(dueBefore).isValid()) {
-          endDate = moment(dueBefore).endOf('day').toDate();
-          selector.dueDate.$lte = endDate;
-        } else if (dueBefore && moment(dueBefore, 'DD-MM-YYYY', false).isValid()) {
-          endDate = moment(dueBefore, 'DD-MM-YYYY', false).endOf('day').toDate();
+        if (dueBefore && dueBeforeMoment) {
+          endDate = moment(dueBeforeMoment).endOf('day').toDate();
           selector.dueDate.$lte = endDate;
         }
       }
@@ -345,7 +393,7 @@ Projects.after.insert(function(userId, doc) {
   });
 
   if (user) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " created a new project", 'project', doc._id);
+    LogClientEvent(LogLevel.Info, `${user.profile.name} created a new project`, 'project', doc._id);
   }
 
   if (Meteor.isServer) {
@@ -370,7 +418,7 @@ Projects.after.insert(function(userId, doc) {
                 entityId: doc._id
               }, function(err) {
                 if (err) {
-                  LogServerEvent(LogLevel.Warning, "An error occurred whilst instanciating the global custom field '" + ex.name + "': " + err, 'project', doc._id);
+                  LogServerEvent(LogLevel.Warning, `An error occurred whilst instanciating the global custom field '${ex.name}': ${err}`, 'project', doc._id);
                 }
               });
             });
@@ -393,31 +441,55 @@ Projects.after.insert(function(userId, doc) {
 
 Projects.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (Roles.userIsInRole(userId, ['superadmin'])) return;
-  var user = Meteor.users.findOne({
-    _id: userId
-  });
+
+  const user = Meteor.user();
+
+  if( _.includes(fieldNames, 'projectMilestoneId')) {
+    const date = new Date(),
+          userName = _.get(user, 'profile.name'),
+          tenant = Tenants.findOne(Meteor.user().group),
+          projectTypes = _.get(tenant, 'settings.project.types');
+
+    const projectType = projectTypes[doc.projectTypeId];
+
+    if(projectType) {
+      const milestones = projectType.milestones,
+            note = `${userName} moved this project to milestone "${milestones[doc.projectMilestoneId].name}"`;
+      Activities.insert({
+        type: 'Note',
+        notes: note,
+        createdAt: date,
+        activityTimestamp: date,
+        projectId: doc._id,
+        primaryEntityId: doc._id,
+        primaryEntityType: 'projects',
+        primaryEntityDisplayData: doc.name,
+        createdBy: user._id
+      });
+    }
+  }
 
   if (user) {
     if (doc.name !== this.previous.name) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's name", 'project', doc._id);
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a project's name`, 'project', doc._id);
     }
     if (doc.description !== this.previous.description) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's description", 'project', doc._id);
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a project's description`, 'project', doc._id);
     }
     if (doc.companyId !== this.previous.companyId) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's company", 'project', doc._id);
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a project's company`, 'project', doc._id);
     }
     if (doc.contactId !== this.previous.contactId) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's contact", 'project', doc._id);
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a project's contact`, 'project', doc._id);
     }
     if (doc.userId !== this.previous.userId) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's account manager", 'project', doc._id);
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a project's account manager`, 'project', doc._id);
     }
     if (doc.value !== this.previous.value) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's value", 'project', doc._id);
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a project's value`, 'project', doc._id);
     }
     if (doc.active !== this.previous.active) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a project's active state", 'project', doc._id);
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a project's active state`, 'project', doc._id);
     }
   }
 });
@@ -432,6 +504,6 @@ Projects.after.remove(function(userId, doc) {
     _id: userId
   });
   if (user) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " deleted project '" + doc.name + "'", null, null);
+    LogClientEvent(LogLevel.Info, `${user.profile.name} deleted project '${doc.name}'`, null, null);
   }
 });

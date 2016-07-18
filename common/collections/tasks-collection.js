@@ -1,3 +1,5 @@
+import { wordedTimes, getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
+
 Collections.tasks = Tasks = new Mongo.Collection('tasks');
 Partitioner.partitionCollection(Tasks);
 Tags.TagsMixin(Tasks);
@@ -32,7 +34,7 @@ Collections.tasks.filters = {
     nameField: 'name',
     subscriptionById: 'allUserData',
     displayValue: function(user) {
-      if (user) {
+      if(user) {
         return user.profile.name;
       }
     }
@@ -45,7 +47,7 @@ Collections.tasks.filters = {
     nameField: 'name',
     subscriptionById: 'companyById',
     displayValue: function(company) {
-      if (company) {
+      if(company) {
         return company.name;
       }
     }
@@ -58,7 +60,7 @@ Collections.tasks.filters = {
     nameField: 'name',
     subscriptionById: 'contactById',
     displayValue: function(contact) {
-      if (contact) {
+      if(contact) {
         return contact.name();
       }
     }
@@ -71,7 +73,7 @@ Collections.tasks.filters = {
     nameField: 'name',
     subscriptionById: 'opportunityById',
     displayValue: function(opportunity) {
-      if (opportunity) {
+      if(opportunity) {
         return opportunity.name;
       }
     }
@@ -84,7 +86,7 @@ Collections.tasks.filters = {
     nameField: 'name',
     subscriptionById: 'projectById',
     displayValue: function(project) {
-      if (project) {
+      if(project) {
         return project.name;
       }
     }
@@ -103,50 +105,44 @@ Collections.tasks.filters = {
     display: 'Due Date:',
     prop: 'dueDate',
     verify: function(dueDate) {
-
-      var wordedTimes = Collections.helpers.wordedTimes;
-      if (!moment(dueDate).isValid() && !moment(dueDate, 'DD-MM-YYYY', false).isValid() && !_.some(wordedTimes, {
-        'expr': dueDate.toLowerCase()
-      })) {
+      if(!getEuropeanDate(dueDate) && !getWordedTime(dueDate)) {
         toastr.error('Invalid date', 'Error', {
           preventDuplicates: true
         });
         return false;
       }
 
-      //Edge case: to avoid conflict, remove dueDate if set
-      if (Collections.tasks.index.getComponentDict().get('searchOptions').props && Collections.tasks.index.getComponentDict().get('searchOptions').props.after) {
+      //Edge case: to avoid conflict, remove dueBefore/dueAfter if set
+      if(_.get(Collections.tasks.index.getComponentDict().get('searchOptions'), 'props.after')) {
         Collections.tasks.index.getComponentMethods().removeProps('after');
       }
-      if (Collections.tasks.index.getComponentDict().get('searchOptions').props && Collections.tasks.index.getComponentDict().get('searchOptions').props.before) {
+      if(_.get(Collections.tasks.index.getComponentDict().get('searchOptions'), 'props.before')) {
         Collections.tasks.index.getComponentMethods().removeProps('before');
       }
       return true;
     },
     defaultOptions: function() {
-      return _.map(Collections.helpers.wordedTimes, function(obj) {
-        return obj.expr;
-      });
+      return _.map(wordedTimes, 'expr');
     }
   },
   before: {
     display: 'Due Before:',
     prop: 'before',
     verify: function(date) {
-      var afterOption = Collections.tasks.index.getComponentDict().get('searchOptions').props.after;
-      if (!moment(date).isValid() && !moment(date, 'DD-MM-YYYY', false).isValid()) {
+      var afterOption = _.get(Collections.tasks.index.getComponentDict().get('searchOptions'), 'props.after', null);
+      if(!getEuropeanDate(date)) {
         toastr.error('Invalid date', 'Error', {
           preventDuplicates: true
         });
         return false;
-      } else if (afterOption && moment(date).isBefore(moment(afterOption))) {
+      } else if(afterOption && moment(date).isBefore(moment(afterOption))) {
         toastr.error('The \'Before\' date is before the \'After\' date', 'Error', {
           preventDuplicates: true
         });
         return false;
 
         //Edge case: to avoid conflict, remove dueDate if set
-      } else if (Collections.tasks.index.getComponentDict().get('searchOptions').props.dueDate) {
+      } else if(_.get(Collections.tasks.index.getComponentDict().get('searchOptions'), 'props.dueDate')) {
         Collections.tasks.index.getComponentMethods().removeProps('dueDate');
       }
       return true;
@@ -156,23 +152,36 @@ Collections.tasks.filters = {
     display: 'Due After:',
     prop: 'after',
     verify: function(date) {
-      var beforeOption = Collections.tasks.index.getComponentDict().get('searchOptions').props.before;
-      if (!moment(date).isValid() && !moment(date, 'DD-MM-YYYY', false).isValid()) {
+      var beforeOption = _.get(Collections.tasks.index.getComponentDict().get('searchOptions'), 'props.before', null);
+      if(!getEuropeanDate(date)) {
         toastr.error('Invalid date', 'Error', {
           preventDuplicates: true
         });
         return false;
-      } else if (beforeOption && moment(date).isAfter(moment(beforeOption))) {
+      } else if(beforeOption && moment(date).isAfter(moment(beforeOption))) {
         toastr.error('The \'After\' date is after the \'Before\' date', 'Error', {
           preventDuplicates: true
         });
         return false;
 
         //Edge case: to avoid conflict, remove dueDate if set
-      } else if (Collections.tasks.index.getComponentDict().get('searchOptions').props.dueDate) {
+      } else if(_.get(Collections.tasks.index.getComponentDict().get('searchOptions'), 'props.dueDate')) {
         Collections.tasks.index.getComponentMethods().removeProps('dueDate');
       }
       return true;
+    }
+  },
+  completed: {
+    display: 'Completed:',
+    prop: 'completed',
+    defaultOptions: function() {
+      return ['Yes', 'No'];
+    },
+    strict: true,
+    allowMultiple: false,
+    verify: function(completed) {
+      if (!completed) return false;
+      return completed;
     }
   }
 };
@@ -208,77 +217,79 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
-      if (options.search.props.assignee) {
+      if(options.search.props.assignee) {
         // n.b. the array is passed as a comma separated string
         selector.assigneeId = {
           $in: options.search.props.assignee.split(',')
         };
       }
 
-      if (options.search.props.company) {
+      if(options.search.props.company) {
         // n.b. the array is passed as a comma separated string
         selector.entityId = {
           $in: options.search.props.company.split(',')
         };
       }
 
-      if (options.search.props.contact) {
+      if(options.search.props.contact) {
         // n.b. the array is passed as a comma separated string
         selector.entityId = {
           $in: options.search.props.contact.split(',')
         };
       }
 
-      if (options.search.props.opportunity) {
+      if(options.search.props.opportunity) {
         // n.b. the array is passed as a comma separated string
         selector.entityId = {
           $in: options.search.props.opportunity.split(',')
         };
       }
 
-      if (options.search.props.project) {
+      if(options.search.props.project) {
         // n.b. the array is passed as a comma separated string
         selector.entityId = {
           $in: options.search.props.project.split(',')
         };
       }
 
-      if (options.search.props.excludes) {
+      if(options.search.props.excludes) {
         selector._id = {
           $nin: options.search.props.excludes.split(',')
         };
       }
 
-      if (options.search.props.tags) {
+      if(options.search.props.tags) {
         // n.b. tags is a comma separated string
         selector.tags = {
           $in: options.search.props.tags.split(',')
         };
       }
 
-      if (options.search.props.dueDate) {
-        var dueDate = options.search.props.dueDate;
-        var wordedTimes = Collections.helpers.wordedTimes;
-        var formattedStartDate = null;
-        var formattedEndDate = null;
+      if (options.search.props.completed) {
+        if(options.search.props.completed === "Yes") {
+          selector.completed = true;
+        } else {
+          selector.completed = {
+            $ne: true
+          };
+        }
+      }
+      if(options.search.props.dueDate) {
+        const dueDate = options.search.props.dueDate;
+        const europeanDueDate = getEuropeanDate(dueDate);
+        const wordedDate = getWordedTime(dueDate);
+        let formattedStartDate = null;
+        let formattedEndDate = null;
 
-        if (moment(dueDate).isValid()) {
-          formattedStartDate = moment(dueDate).startOf('day').toDate();
-          formattedEndDate = moment(dueDate).endOf('day').toDate();
-        } else if (moment(dueDate, 'DD-MM-YYYY', false).isValid()) {
-          formattedStartDate = moment(dueDate, 'DD-MM-YYYY', false).startOf('day').toDate();
-          formattedEndDate = moment(dueDate, 'DD-MM-YYYY', false).endOf('day').toDate();
-        } else if (_.some(wordedTimes, {
-          'expr': dueDate.toLowerCase()
-        })) {
-          var index = _.findIndex(wordedTimes, {
-            'expr': dueDate.toLowerCase()
-          });
-          formattedStartDate = wordedTimes[index].start.toDate();
-          formattedEndDate = wordedTimes[index].end.toDate();
+        if(europeanDueDate) {
+          formattedStartDate = moment(europeanDueDate).startOf('day').toDate();
+          formattedEndDate = moment(europeanDueDate).endOf('day').toDate();
+        } else if(wordedDate) {
+          formattedStartDate = wordedDate.start.toDate();
+          formattedEndDate = wordedDate.end.toDate();
         }
 
-        if (formattedStartDate && formattedEndDate) {
+        if(formattedStartDate && formattedEndDate) {
           selector.dueDate = {
             $gte: formattedStartDate,
             $lte: formattedEndDate,
@@ -288,33 +299,29 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 
       }
 
-      if (options.search.props.after || options.search.props.before) {
-        var dueAfter = options.search.props.after;
-        var dueBefore = options.search.props.before;
-        var startDate = null;
-        var endDate = null;
+      if(options.search.props.after || options.search.props.before) {
+        const dueAfter = options.search.props.after;
+        const dueAfterMoment = getEuropeanDate(dueAfter);
+        const dueBefore = options.search.props.before;
+        const dueBeforeMoment = getEuropeanDate(dueBefore);
+        let startDate = null;
+        let endDate = null;
         selector.dueDate = {
           $ne: null
         };
 
-        if (dueAfter && moment(dueAfter).isValid()) {
-          startDate = moment(dueAfter).startOf('day').toDate();
-          selector.dueDate.$gte = startDate;
-        } else if (dueAfter && moment(dueAfter, 'DD-MM-YYYY', false).isValid()) {
-          startDate = moment(dueAfter, 'DD-MM-YYYY', false).startOf('day').toDate();
+        if(dueAfter && dueAfterMoment) {
+          startDate = moment(dueAfterMoment).startOf('day').toDate();
           selector.dueDate.$gte = startDate;
         }
 
-        if (dueBefore && moment(dueBefore).isValid()) {
-          endDate = moment(dueBefore).endOf('day').toDate();
-          selector.dueDate.$lte = endDate;
-        } else if (dueBefore && moment(dueBefore, 'DD-MM-YYYY', false).isValid()) {
-          endDate = moment(dueBefore, 'DD-MM-YYYY', false).endOf('day').toDate();
+        if(dueBefore && dueBeforeMoment) {
+          endDate = moment(dueBeforeMoment).endOf('day').toDate();
           selector.dueDate.$lte = endDate;
         }
       }
 
-      if (options.search.props.showCompleted) {
+      if(options.search.props.showCompleted) {
         selector.completed = true;
       } else {
         selector.completed = {
@@ -322,17 +329,7 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         };
       }
 
-      // if (options.search.props.showSubTasks) {
-      //   selector.parentTaskId = {
-      //     $exists: true
-      //   };
-      // } else {
-      //   selector.parentTaskId = {
-      //     $exists: false
-      //   };
-      // }
-
-      if (options.search.props.searchById) {
+      if(options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }
 
@@ -346,63 +343,63 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
 //////////////////////
 
 Tasks.after.insert(function(userId, doc) {
-  if (Roles.userIsInRole(userId, ['superadmin'])) return;
-  if (doc.remindMe && doc.reminder && Meteor.isServer) {
+  if(Roles.userIsInRole(userId, ['superadmin'])) return;
+  if(doc.remindMe && doc.reminder && Meteor.isServer) {
     Meteor.call('addTaskReminder', doc._id);
   }
 
   var user = Meteor.users.findOne({
     _id: userId
   });
-  if (user) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " created a new task", 'task', doc._id);
+  if(user) {
+    LogClientEvent(LogLevel.Info, `${user.profile.name} created a new task`, 'task', doc._id);
   }
 });
 
 Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
-  if (Roles.userIsInRole(userId, ['superadmin'])) return;
-  if (Meteor.isServer) {
+  if(Roles.userIsInRole(userId, ['superadmin'])) return;
+  if(Meteor.isServer) {
     Meteor.call('editTaskReminder', doc._id);
   }
   var user = Meteor.users.findOne({
     _id: userId
   });
 
-  if (user) {
-    if (doc.title !== this.previous.title) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's title", 'task', doc._id);
+  if(user) {
+    if(doc.title !== this.previous.title) {
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a task's title`, 'task', doc._id);
     }
-    if (doc.description !== this.previous.description) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's description", 'task', doc._id);
+    if(doc.description !== this.previous.description) {
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a task's description`, 'task', doc._id);
     }
-    if (doc.dueDate !== this.previous.dueDate) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's due date", 'task', doc._id);
+    if(doc.dueDate !== this.previous.dueDate) {
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a task's due date`, 'task', doc._id);
     }
-    if (doc.completed !== this.previous.completed) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's completed status", 'task', doc._id);
+    if(doc.completed !== this.previous.completed) {
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a task's completed status`, 'task', doc._id);
 
     }
-    if (doc.assigneeId !== this.previous.assigneeId) {
-      LogClientEvent(LogLevel.Info, user.profile.name + " updated a task's assigned user", 'task', doc._id);
+    if(doc.assigneeId !== this.previous.assigneeId) {
+      LogClientEvent(LogLevel.Info, `${user.profile.name} updated a task's assigned user`, 'task', doc._id);
     }
   }
 });
 
 Tasks.after.remove(function(userId, doc) {
-  if (Roles.userIsInRole(userId, ['superadmin'])) return;
-  if (ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
+  if(Roles.userIsInRole(userId, ['superadmin'])) return;
+  if(ServerSession.get('deletingTenant') === true && Roles.userIsInRole(userId, 'superadmin')) {
     return;
   }
 
-  if (doc.taskReminderJob && Meteor.isServer) {
+  if(doc.taskReminderJob && Meteor.isServer) {
     Meteor.call('deleteTaskReminder', doc.taskReminderJob);
   }
 
   var user = Meteor.users.findOne({
     _id: userId
   });
-  if (user) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " deleted task '" + doc.title + "'", 'task', doc._id);
+  if(user) {
+    LogClientEvent(LogLevel.Info, `${user.profile.name} deleted task '${doc.title}'`, 'task', doc._id);
   }
 
   var subTasks = Tasks.find({

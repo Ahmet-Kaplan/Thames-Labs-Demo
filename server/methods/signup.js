@@ -19,40 +19,34 @@ Meteor.methods({
     Roles.addUsersToRoles(userId, ["Administrator"]);
     Roles.addUsersToRoles(userId, defaultPermissionsList);
 
-    // tenancyDefaultSettings is from common/globals.js
     var tenantId = Tenants.insert({
       name: userDetails.companyName,
-      settings: tenancyDefaultSettings,
-      plan: 'free',
       stripe: {
         "coupon": userDetails.coupon
       },
       createdAt: new Date()
-    },
-    function(error, result) {
+    }, function(error, result) {
       if (error) {
-        //Remove user account as signup wasn't successful
         Meteor.users.remove(userId);
-        throw new Meteor.Error(500, "The tenant could not be created. Please contact support");
+        Email.send({
+          to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
+          from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
+          subject: 'FAILED RealTimeCRM sign up!',
+          text: `Failed sign up from ${userDetails.name} at company ${userDetails.companyName} with email address ${userDetails.email}\n\n${error}`
+        });
+        throw new Meteor.Error(error.sanitizedError.error, error.sanitizedError.reason);
       }
-    });
-
-    if (userId && tenantId) {
       Partitioner.setUserGroup(userId, tenantId);
 
       Accounts.sendEnrollmentEmail(userId);
 
-      var txt = 'New sign up from ' + userDetails.name + ' at company ' + userDetails.companyName + ' with email address ' + userDetails.email;
       Email.send({
         to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
         from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
         subject: 'New RealTimeCRM sign up!',
-        text: txt
+        text: `New sign up from ${userDetails.name} at company ${userDetails.companyName} with email address ${userDetails.email}`
       });
-
-      return true;
-    }
-    return false;
+    });
   },
 
   'notify.telephoneUpdated': function() {

@@ -1,0 +1,51 @@
+<template name="insertTaskHelper">
+  <div class="taskSettings">
+
+    <div class="row">
+      <div class="col-md-10" id="helperLabel">
+        Create a follow-up task from this activity?
+      </div>
+      <div class="col-md-1" id="helperToggle">
+        <input id="create-task-toggle" checked type="checkbox" />
+      </div>
+    </div>
+
+    <div id="helperContent">
+      <div class="row">
+        <div class="col-md-6" id="helperLabel">
+          Task reminder date
+        </div>
+        <div class="col-md-6">
+          <input class="taskdatetimepicker taskdate form-control" type="text"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-10" id="helperLabel">
+          Add a reminder to this follow-up task?
+        </div>
+        <div class="col-md-1" id="helperToggle">
+          <input id="add-reminder-toggle" checked type="checkbox" />
+        </div>
+      </div>
+
+      <div class="row setReminderArea">
+        <div class="col-md-3" id="helperLabel">
+          Remind me
+        </div>
+        <div class="col-md-3">
+          <input id="reminderValue" type="number" max="60" class="form-control" value="1">
+        </div>
+        <div class="col-md-6">
+          <select id="reminderUnit" class="form-control">
+            <option value="minutes">Minutes Before</option>
+            <option value="hours" selected>Hours Before</option>
+            <option value="days">Days Before</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <br />
+  </div>
+</template>

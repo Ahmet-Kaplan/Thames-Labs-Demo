@@ -1,0 +1,35 @@
+#favourites > i.pull-right {
+  margin-right: 0px;
+  margin-top: 5px;
+  font-size: 0.8em;
+  color: #4b4b4b;
+}
+
+#collapse-favourites {
+  max-height: 0;
+  background: white;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+#collapse-favourites.active {
+  opacity: 1;
+  max-height: 300px;
+}
+
+#collapse-favourites ul {
+  list-style: none;
+  padding: 0;
+}
+
+#collapse-favourites .favourite-item {
+  padding: 2px 15px;
+}
+
+.edit-favourite, .remove-favourite {
+  cursor: pointer;
+}
+
+#add-to-favourites {
+  padding: 2px 15px;
+}

@@ -28,7 +28,7 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanReadCompanies" permission
     And I have the "CanReadPurchaseOrders" permission
     And I have the "CanCreatePurchaseOrders" permission
-    And I click "#menuLinkPurchaseOrders"
+    And I click "#menu-link-purchaseorders"
     And I click "#add-purchase-order"
     And I set text field with selector "#description" to "test purchase order"
     And I selectize "supplierCompanyId" to "Test Ltd"
@@ -43,7 +43,7 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanReadPurchaseOrders" permission
     And I have the "CanEditPurchaseOrders" permission
     And I have the "CanCreatePurchaseOrders" permission
-    And I click "#menuLinkPurchaseOrders"
+    And I click "#menu-link-purchaseorders"
     And a "PurchaseOrder" has been created
     And I click "#list-item"
     Then I click "#edit-purchase-order"
@@ -60,7 +60,7 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanCreatePurchaseOrders" permission
     And I have the "CanCreatePurchaseOrders" permission
     And I have the "CanDeletePurchaseOrders" permission
-    And I click "#menuLinkPurchaseOrders"
+    And I click "#menu-link-purchaseorders"
     And a "PurchaseOrder" has been created
     And I click "#list-item"
     And I click "#remove-purchase-order"
@@ -75,7 +75,7 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanReadPurchaseOrders" permission
     And I have the "CanCreatePurchaseOrders" permission
     And I have the "CanEditPurchaseOrders" permission
-    And I click "#menuLinkPurchaseOrders"
+    And I click "#menu-link-purchaseorders"
     And a "PurchaseOrder" has been created
     And I click "#list-item"
     Then I click "#add-item"
@@ -94,7 +94,7 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanReadPurchaseOrders" permission
     And I have the "CanCreatePurchaseOrders" permission
     And I have the "CanEditPurchaseOrders" permission
-    And I click "#menuLinkPurchaseOrders"
+    And I click "#menu-link-purchaseorders"
     And a "PurchaseOrder" has been created
     And I click "#list-item"
     Then I click "#add-item"
@@ -117,7 +117,7 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanReadPurchaseOrders" permission
     And I have the "CanCreatePurchaseOrders" permission
     And I have the "CanEditPurchaseOrders" permission
-    And I click "#menuLinkPurchaseOrders"
+    And I click "#menu-link-purchaseorders"
     And a "PurchaseOrder" has been created
     And I click "#list-item"
     Then I click "#add-item"
@@ -133,7 +133,7 @@ Feature: Allow users to manage their Purchase Orders
 
   Scenario: A user can see the purchase orders overview
     Given I am on the pro plan
-    And I click "#menuLinkPurchaseOrders"
+    And I click "#menu-link-purchaseorders"
     And I click "#ref_poOverviewWidget"
     Then I should see "#poOverviewPop"
 
@@ -145,7 +145,7 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanReadPurchaseOrders" permission
     And I have the "CanEditPurchaseOrders" permission
     And a "PurchaseOrder" has been created
-    And I click "#menuLinkPurchaseOrders"
+    And I click "#menu-link-purchaseorders"
     And I click "#list-item"
     And I click "#general-dropdown"
     And I click "#add-activity"
@@ -176,7 +176,7 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanReadPurchaseOrders" permission
     And a "PurchaseOrder" has been created
     And an additional "PurchaseOrder" has been created
-    And I click "#menuLinkPurchaseOrders"
+    And I click "#menu-link-purchaseorders"
     And I set the filter to "Company:" then "Test Ltd"
     Then I should see ".removeProp"
     And "#resultsCount" should say "1 record"
@@ -186,7 +186,7 @@ Feature: Allow users to manage their Purchase Orders
     And I am on the pro plan
     And a "PurchaseOrder" has been created
     And an additional "PurchaseOrder" has been created
-    And I click "#menuLinkPurchaseOrders"
+    And I click "#menu-link-purchaseorders"
     And I set the filter to "Status:" then "Requested"
     Then I should see ".removeProp"
     And "#resultsCount" should say "1 record"
@@ -196,7 +196,7 @@ Feature: Allow users to manage their Purchase Orders
     Given I am on the pro plan
     And I have the "CanEditPurchaseOrders" permission
     And a "PurchaseOrder" has been created
-    When I click "#menuLinkPurchaseOrders"
+    When I click "#menu-link-purchaseorders"
     And I click "#list-item"
     And I click "#edit-purchase-order"
     And I select "Approved" from dropdown field "status"
@@ -210,7 +210,7 @@ Feature: Allow users to manage their Purchase Orders
     Given I am on the pro plan
     And I have the "CanEditPurchaseOrders" permission
     And a "PurchaseOrder" has been created
-    When I click "#menuLinkPurchaseOrders"
+    When I click "#menu-link-purchaseorders"
     And I click "#list-item"
     And I click "#edit-purchase-order"
     And I select "Rejected" from dropdown field "status"
@@ -224,7 +224,7 @@ Feature: Allow users to manage their Purchase Orders
     Given I am on the pro plan
     And I have the "CanEditPurchaseOrders" permission
     And a "PurchaseOrder" has been created
-    When I click "#menuLinkPurchaseOrders"
+    When I click "#menu-link-purchaseorders"
     And I click "#list-item"
     And I click "#edit-purchase-order"
     And I select "Rejected" from dropdown field "status"

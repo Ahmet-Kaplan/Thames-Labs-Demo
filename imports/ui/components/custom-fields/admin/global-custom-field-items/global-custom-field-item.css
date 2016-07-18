@@ -1,0 +1,11 @@
+.custom-field-controls {
+  line-height: 40px;
+  margin: 0 10px;
+}
+.custom-field-controls i {
+  cursor: pointer;
+}
+.custom-field-controls i.orderDisabled {
+  cursor: normal;
+  color: #999;
+}

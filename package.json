@@ -10,7 +10,9 @@
     "chart.js": "^2.1.5",
     "d3": "^3.5.17",
     "d3-tip": "^0.6.7",
+    "es6-denodeify": "^0.1.5",
     "fibers": "^1.0.10",
+    "jquery-ui": "^1.10.5",
     "jquery": "^2.2.3",
     "jszip": "^2.6.0",
     "lodash": "^4.13.1",
@@ -45,10 +47,7 @@
     "precommit": "npm run lint",
     "unit-test": "meteor test --once --driver-package linguahouse:mocha-phantomjs-junit",
     "unit-test:watch": "TEST_WATCH=1 meteor test --driver-package linguahouse:mocha-phantomjs-junit",
-    "unit-test:browser": "meteor test --driver-package dispatch:mocha-browser",
-    "full-app-test": "meteor test --once --full-app --driver-package linguahouse:mocha-phantomjs-junit",
-    "full-app-test:watch": "TEST_WATCH=1 meteor test --full-app --driver-package linguahouse:mocha-phantomjs-junit",
-    "full-app-test:browser": "meteor test --full-app --driver-package dispatch:mocha-browser"
+    "unit-test:browser": "meteor test --driver-package dispatch:mocha-browser"
   },
   "repository": {
     "type": "git",

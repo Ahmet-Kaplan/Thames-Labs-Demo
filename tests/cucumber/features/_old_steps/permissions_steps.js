@@ -21,12 +21,12 @@ module.exports = function() {
   });
 
   this.Then(/^the "([^"]*)" menu item is shown$/, function(menuText) {
-    browser.waitForExist('#menuLink' + menuText, 5000);
-    expect(browser.isExisting('#menuLink' + menuText)).toEqual(true);
+    browser.waitForExist('#menu-link-' + menuText.toLowerCase(), 5000);
+    expect(browser.isExisting('#menu-link-' + menuText.toLowerCase())).toEqual(true);
   });
 
   this.Then(/^the "([^"]*)" menu item is not shown$/, function(menuText) {
-    expect(browser.isExisting('#menuLink' + menuText)).toEqual(false);
+    expect(browser.isExisting('#menu-link-' + menuText.toLowerCase())).toEqual(false);
   });
 
   this.Then(/^I should have the "([^"]*)" permission$/, function(permissionName) {
@@ -82,82 +82,62 @@ module.exports = function() {
   });
 
   this.When(/^I add permission "([^"]*)" on "([^"]*)" to a restricted user$/, function(permissionName, entityName) {
-    browser.url(url.resolve(process.env.ROOT_URL, "/admin"));
-    browser.waitForExist("#userAdminPanelExpander", 5000);
-    browser.waitForVisible("#userAdminPanelExpander", 5000);
-    browser.click("#userAdminPanelExpander");
-
+    browser.url(url.resolve(process.env.ROOT_URL, "/settings/users"));
     //The admin is listed as well, need to select the last child which is the restricted user
-    browser.waitForExist("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions", 5000);
-    browser.waitForVisible("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions", 5000);
-    browser.scroll("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions", 0, 200);
-    browser.click("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions");
+    browser.waitForExist(".user-detail-link", 5000);
+    browser.scroll(".user-detail-link", 0, 200);
+    browser.click("#user-list .list-group-item:last-child a");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
     browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
     browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
     browser.click("#" + entityName + "PermissionSelector");
     browser.selectByValue("#" + entityName + "PermissionSelector", permissionName);
-    browser.click('#btnUpdateTenantUserPermissions');
+    browser.click('#update-user');
   });
 
   this.When(/^I add permission "([^"]*)" on "([^"]*)" to myself$/, function(permissionName, entityName) {
-    browser.url(url.resolve(process.env.ROOT_URL, "/admin"));
-    browser.waitForExist("#userAdminPanelExpander", 5000);
-    browser.waitForVisible("#userAdminPanelExpander", 5000);
-    browser.click("#userAdminPanelExpander");
-
-    //The admin is listed as first child
-    browser.waitForExist("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions", 5000);
-    browser.waitForVisible("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions", 5000);
-    browser.scroll("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions", 0, 200);
-    browser.click("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions");
+    browser.url(url.resolve(process.env.ROOT_URL, "/settings/users"));
+    //The admin is listed as well, need to select the last child which is the restricted user
+    browser.waitForExist(".user-detail-link", 5000);
+    browser.scroll(".user-detail-link", 0, 200);
+    browser.click("#user-list .list-group-item:last-child a");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
     browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
     browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
     browser.click("#" + entityName + "PermissionSelector");
     browser.selectByValue("#" + entityName + "PermissionSelector", permissionName);
-    browser.click('#btnUpdateTenantUserPermissions');
+    browser.click('#update-user');
   });
 
   this.When(/^I remove permissions on "([^"]*)" from a restricted user$/, function(entityName) {
-    browser.url(url.resolve(process.env.ROOT_URL, "/admin"));
-    browser.waitForExist("#userAdminPanelExpander", 5000);
-    browser.waitForVisible("#userAdminPanelExpander", 5000);
-    browser.click("#userAdminPanelExpander");
-
+    browser.url(url.resolve(process.env.ROOT_URL, "/settings/users"));
     //The admin is listed as well, need to select the last child which is the restricted user
-    browser.waitForExist("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions", 5000);
-    browser.waitForVisible("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions", 5000);
-    browser.scroll("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions", 0, 200);
-    browser.click("#user-list > .list-group-item:last-child #btnEditTenantUserPermissions");
+    browser.waitForExist(".user-detail-link", 5000);
+    browser.scroll(".user-detail-link", 0, 200);
+    browser.click("#user-list .list-group-item:last-child a");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
     browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
     browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
     browser.click("#" + entityName + "PermissionSelector");
     browser.selectByValue("#" + entityName + "PermissionSelector", "Restricted");
-    browser.click('#btnUpdateTenantUserPermissions');
+    browser.click('#update-user');
   });
 
   this.When(/^I remove permissions on "([^"]*)" for myself$/, function(entityName) {
-    browser.url(url.resolve(process.env.ROOT_URL, "/admin"));
-    browser.waitForExist("#userAdminPanelExpander", 5000);
-    browser.waitForVisible("#userAdminPanelExpander", 5000);
-    browser.click("#userAdminPanelExpander");
-
-    //The admin is listed as first child
-    browser.waitForExist("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions", 5000);
-    browser.waitForVisible("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions", 5000);
-    browser.scroll("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions", 0, 200);
-    browser.click("#user-list > .list-group-item:first-child #btnEditTenantUserPermissions");
+    browser.url(url.resolve(process.env.ROOT_URL, "/settings/users"));
+    //The admin is listed as well, need to select the last child which is the restricted user
+    browser.waitForExist(".user-detail-link", 5000);
+    browser.scroll(".user-detail-link", 0, 200);
+    browser.click("#user-list .list-group-item:last-child a");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
     browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
     browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
     browser.click("#" + entityName + "PermissionSelector");
     browser.selectByValue("#" + entityName + "PermissionSelector", "Restricted");
-    browser.click('#btnUpdateTenantUserPermissions');
+    browser.click('#update-user');
   });
 };
