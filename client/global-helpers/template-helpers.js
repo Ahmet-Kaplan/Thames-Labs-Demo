@@ -1,5 +1,6 @@
 import { userCurrencySymbol } from '/imports/ui/components/currency/currency-symbol.js';
 import { decimal } from '/imports/ui/components/currency/decimal.js';
+import { Tracker } from 'meteor/tracker';
 
 Template.registerHelper('greaterThan', function(a, b) {
   return a > b;
@@ -47,27 +48,24 @@ Template.registerHelper('friendlyDate', function(date) {
 });
 
 setRouteDetails = function(title) {
-  var user = Meteor.users.find({
-    _id: Meteor.userId()
-  }).fetch()[0];
+  Tracker.nonreactive(function() {
+    if (Meteor.userId()) {
+      const user = Meteor.user();
+      var profile = user.profile;
+      if (profile) {
+        profile.lastActivity = {
+          page: title,
+          url: FlowRouter.current().path
+        };
 
-  if (user) {
-
-    var profile = user.profile;
-    if (profile) {
-      profile.lastActivity = {
-        page: title,
-        url: FlowRouter.current().path
-      };
-
-      Meteor.users.update(user._id, {
-        $set: {
-          profile: profile
-        }
-      });
+        Meteor.users.update(user._id, {
+          $set: {
+            profile: profile
+          }
+        });
+      }
     }
-
-  }
+  });
 };
 
 Template.registerHelper("setPageTitle", function() {

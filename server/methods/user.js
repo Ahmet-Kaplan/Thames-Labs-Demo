@@ -40,6 +40,21 @@ Meteor.methods({
     return userArray;
   },
 
+  'user.checkPassword': function(userId, digest) {
+    if (typeof digest !== 'string') {
+      return false;
+    }
+    var user = Meteor.users.findOne({_id: userId});
+    var password = {
+      digest: digest,
+      algorithm: 'sha-256'
+    };
+
+    var passOK = Accounts._checkPassword(user, password);
+    if (passOK.error) return false;
+    return true;
+  },
+
   isEmailAvailable: function(emailAddress) {
     return !Accounts.findUserByEmail(emailAddress);
   },

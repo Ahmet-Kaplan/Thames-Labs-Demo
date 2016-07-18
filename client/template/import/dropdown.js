@@ -18,17 +18,20 @@ Template.importEntityDropdown.events({
       headers = [
         'Company Name',
         'Address',
+        'Address 2',
         'City',
         'County',
         'Post Code',
         'Country',
         'Website',
-        'Telephone'
+        'Telephone',
+        'Tags'
       ].join(',');
 
       sampleValues = [
         'Cambridge Software Ltd',
         'St John\'s Innovation Centre',
+        'Cowley Road',
         'Milton',
         'Cambridgeshire',
         'CB4 0WS',
@@ -54,7 +57,8 @@ Template.importEntityDropdown.events({
         'City',
         'County',
         'Post Code',
-        'Country'
+        'Country',
+        'Tags'
       ].join(',');
 
       sampleValues = [

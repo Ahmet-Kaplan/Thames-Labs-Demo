@@ -1,3 +1,4 @@
+import '/imports/ui/components/activity/insert-task-helper/insert-task-helper.js';
 
 Template.insertActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
@@ -28,15 +29,15 @@ Template.insertActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
-        var reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`;
+        const setReminder = $('#add-reminder-toggle').prop('checked');
+        const reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`;
+        const d = $('#helperContent .taskdatetimepicker');
+        const dtp = d.data('DateTimePicker');
+        const taskDate = dtp.date.toDate();
 
-        var d = $('#helperContent .taskdatetimepicker');
-        var dtp = d.data('DateTimePicker');
-        var taskDate = dtp.date.toDate();
-
-        var taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertActivityForm')}`;
+        let taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertActivityForm')}`;
         if (AutoForm.getFieldValue('contactId', 'insertActivityForm')) {
-          var contact = Contacts.findOne({
+          const contact = Contacts.findOne({
             _id: AutoForm.getFieldValue('contactId', 'insertActivityForm')
           });
           if (contact) {
@@ -48,8 +49,8 @@ Template.insertActivityModal.events({
               dueDate: taskDate,
               assigneeId: Meteor.userId(),
               completed: false,
-              remindMe: true,
-              reminder: reminder,
+              remindMe: setReminder,
+              reminder: (setReminder ? reminder : null),
               entityType: 'contact',
               entityId: AutoForm.getFieldValue('contactId', 'insertActivityForm'),
               createdBy: Meteor.userId()
@@ -67,8 +68,8 @@ Template.insertActivityModal.events({
           dueDate: taskDate,
           assigneeId: Meteor.userId(),
           completed: false,
-          remindMe: true,
-          reminder: reminder,
+          remindMe: setReminder,
+          reminder: (setReminder ? reminder : null),
           entityType: 'company',
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertActivityForm'),
           createdBy: Meteor.userId()
@@ -100,11 +101,12 @@ Template.insertContactActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertContactActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
-        var reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`;
-        var d = $('#helperContent .taskdatetimepicker');
-        var dtp = d.data('DateTimePicker');
-        var taskDate = dtp.date.toDate();
-        var taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertContactActivityForm')}`;
+        const setReminder = $('#add-reminder-toggle').prop('checked');
+        const reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`;
+        const d = $('#helperContent .taskdatetimepicker');
+        const dtp = d.data('DateTimePicker');
+        const taskDate = dtp.date.toDate();
+        const taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertContactActivityForm')}`;
 
         Tasks.insert({
           title: taskTitle,
@@ -112,8 +114,8 @@ Template.insertContactActivityModal.events({
           dueDate: taskDate,
           assigneeId: Meteor.userId(),
           completed: false,
-          remindMe: true,
-          reminder: reminder,
+          remindMe: setReminder,
+          reminder: (setReminder ? reminder : null),
           entityType: 'contact',
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertContactActivityForm'),
           createdBy: Meteor.userId()
@@ -148,12 +150,13 @@ Template.insertProjectActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertProjectActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
-        var reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`;
-        var d = $('#helperContent .taskdatetimepicker');
-        var dtp = d.data('DateTimePicker');
-        var taskDate = dtp.date.toDate();
+        const setReminder = $('#add-reminder-toggle').prop('checked');
+        const reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`;
+        const d = $('#helperContent .taskdatetimepicker');
+        const dtp = d.data('DateTimePicker');
+        const taskDate = dtp.date.toDate();
 
-        var taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertProjectActivityForm')}`;
+        const taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertProjectActivityForm')}`;
 
         Tasks.insert({
           title: taskTitle,
@@ -161,8 +164,8 @@ Template.insertProjectActivityModal.events({
           dueDate: taskDate,
           assigneeId: Meteor.userId(),
           completed: false,
-          remindMe: true,
-          reminder: reminder,
+          remindMe: setReminder,
+          reminder: (setReminder ? reminder : null),
           entityType: 'project',
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertProjectActivityForm'),
           createdBy: Meteor.userId()
@@ -210,12 +213,13 @@ Template.insertOpportunityActivityModal.events({
   'click #confirm': function(e, t) {
     if (AutoForm.validateForm('insertOpportunityActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
-        var reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`;
-        var d = $('#helperContent .taskdatetimepicker');
-        var dtp = d.data('DateTimePicker');
-        var taskDate = dtp.date.toDate();
+        const setReminder = $('#add-reminder-toggle').prop('checked');
+        const reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`;
+        const d = $('#helperContent .taskdatetimepicker');
+        const dtp = d.data('DateTimePicker');
+        const taskDate = dtp.date.toDate();
 
-        var taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertOpportunityActivityForm')}`;
+        const taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertOpportunityActivityForm')}`;
 
         Tasks.insert({
           title: taskTitle,
@@ -223,8 +227,8 @@ Template.insertOpportunityActivityModal.events({
           dueDate: taskDate,
           assigneeId: Meteor.userId(),
           completed: false,
-          remindMe: true,
-          reminder: reminder,
+          remindMe: setReminder,
+          reminder: (setReminder ? reminder : null),
           entityType: 'opportunity',
           entityId: AutoForm.getFieldValue('primaryEntityId', 'insertOpportunityActivityForm'),
           createdBy: Meteor.userId()

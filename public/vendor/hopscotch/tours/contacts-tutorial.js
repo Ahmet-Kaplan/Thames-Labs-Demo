@@ -38,7 +38,7 @@ var contactsTutorial = {
   }, {
     title: "Creating Contacts",
     content: "A CRM system isn't very useful without any Contacts, so lets take a look at how we create some. First, click the contacts button on the nav bar.",
-    target: document.querySelector('#menuLinkContacts'),
+    target: document.querySelector('#menu-link-contacts'),
     placement: "right",
 		nextOnTargetClick: true,
 		showNextButton: false,
@@ -46,7 +46,7 @@ var contactsTutorial = {
 	}, {
 		title: "",
 		content: "",
-		target: document.querySelector('#menuLinkContacts'),
+		target: document.querySelector('#menu-link-contacts'),
 		placement: "right",
 		smoothScroll: false,
 		onShow: function() {
@@ -115,7 +115,7 @@ var contactsTutorial = {
 	}, {
 		title: "",
 		content: "",
-		target: document.querySelector('#menuLinkContacts'),
+		target: document.querySelector('#menu-link-contacts'),
 		placement: "right",
 		smoothScroll: false,
 		onShow: function() {
