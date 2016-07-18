@@ -4,6 +4,11 @@ Template.projectListItem.onCreated(function() {
 });
 
 Template.projectListItem.helpers({
+  projName: function() {
+    const searchDef = Template.currentData().index.getComponentDict().get('searchDefinition');
+    var pattern = new RegExp(searchDef, 'gi');
+    return Template.currentData().name.replace(pattern, '<span class="highlighted-search">$&</span>');
+  },
   company: function() {
     return Companies.findOne(this.companyId);
   },
