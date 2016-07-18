@@ -143,7 +143,7 @@ Template.companyDetail.events({
     });
   },
   'click #inactive-projects': function(event, template) {
-    var url = "?f%5Bcompany%5D=" + this._id + "&f%5BshowArchived%5D=true";
+    var url = "?f%5Bcompany%5D=" + this._id + "&f%5Bactive%5D=No";
     FlowRouter.go("/projects" + url);
   },
   'click #archived-opportunities': function(event, template) {
