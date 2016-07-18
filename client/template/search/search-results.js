@@ -1,8 +1,8 @@
 Template.searchResults.onRendered(function() {
 
-  const index = this.data.index,
-        urlSearch = FlowRouter.getQueryParam("q"),
-        urlFilter = FlowRouter.getQueryParam("f");
+  const index = this.data.index;
+  const urlSearch = FlowRouter.getQueryParam("q") || '';
+  const urlFilter = FlowRouter.getQueryParam("f") || {};
 
   // Update search and filters on first render
   index.getComponentMethods().search(urlSearch);
