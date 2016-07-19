@@ -1,4 +1,4 @@
-<template name="createTaskHelper">
+<template name="insertTaskHelper">
   <div class="taskSettings">
 
     <div class="row">
@@ -19,7 +19,17 @@
           <input class="taskdatetimepicker taskdate form-control" type="text"/>
         </div>
       </div>
+
       <div class="row">
+        <div class="col-md-10" id="helperLabel">
+          Add a reminder to this follow-up task?
+        </div>
+        <div class="col-md-1" id="helperToggle">
+          <input id="add-reminder-toggle" checked type="checkbox" />
+        </div>
+      </div>
+
+      <div class="row setReminderArea">
         <div class="col-md-3" id="helperLabel">
           Remind me
         </div>
