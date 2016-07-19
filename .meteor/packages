@@ -116,3 +116,4 @@ linguahouse:mocha-phantomjs-junit
 practicalmeteor:chai
 dispatch:mocha-browser
 mrt:jquery-ui-sortable
+appcache
