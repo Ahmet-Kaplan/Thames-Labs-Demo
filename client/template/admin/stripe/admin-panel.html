@@ -32,6 +32,7 @@
         </li>
 
         <!-- COUPON -->
+        {{#unless isFreeProTenant}}{{#unless isProWithNoCoupon}}
         <li class="list-group-item panel-item-header">
           <h4 class="slim">
             <i class="fa fa-fw fa-ticket"></i> Coupon
@@ -43,6 +44,7 @@
             <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
           {{/if}}
         </li>
+        {{/unless}}{{/unless}}
 
         {{#if hasStripeAccount}}
         <!-- INVOICE EMAIL ADDRESS -->
@@ -75,13 +77,20 @@
         </li>
         {{/if}}
       </ul>
-      <p>
-        <a href="#" id="showStripeHow"><i class="fa fa-lock"></i> All payments are securely processed by Stripe, our payment partner</a>
-      </p>
+
+      <p><a href="#" id="showStripeHow"><i class="fa fa-lock"></i> All payments are securely processed by Stripe, our payment partner</a></p>
+
     {{else}}
       <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
     {{/if}}
   </div>
+
+  {{#if isFreeProTenant}}
+    <div class="settings-section">
+      <h4>Manage Plan</h4>
+      <p>To make changes to your account please contact <a href="mailto:support@cambridgesoftware.co.uk">support@cambridgesoftware.co.uk</a>.</p>
+    </div>    
+  {{/if}}
 
   {{#if hasStripeAccount}}
 
