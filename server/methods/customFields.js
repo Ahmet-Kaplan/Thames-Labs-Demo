@@ -127,11 +127,14 @@ Meteor.methods({
     return 2;
   },
   changeExtInfoOrder: function(extInfoObj, direction) {
+    console.log(extInfoObj);
+    console.log(direction);
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may edit global fields.');
     }
 
     var value = (direction === "up" ? -1 : 1);
+    console.log(value);
     var user = Meteor.users.findOne({
       _id: this.userId
     });
@@ -220,5 +223,30 @@ Meteor.methods({
       exitCode: 0,
       exitStatus: "Success."
     };
+  },
+  changeCfOrder: function(field, newIndex) {
+    const fields = CustomFields.find({
+      target: field.target,
+      global: true
+    });
+
+    const currentIndex = _.findIndex(fields, { '_id': field._id });
+
+    _.pullAt(fields, currentIndex);
+    fields.splice(newIndex, 0, field);
+
+    _.each(fields, function(value, key) {
+      value.order = key;
+    });
+
+    _.each(fields, function(value, key) {
+      CustomFields.update({
+        _id: value._id
+      }, {
+        $set: {
+          order: value.order
+        }
+      });
+    });
   }
 });

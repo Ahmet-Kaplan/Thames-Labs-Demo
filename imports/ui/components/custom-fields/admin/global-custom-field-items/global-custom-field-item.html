@@ -1,21 +1,27 @@
 <template name="globalCustomFieldItem">
   <li class="list-group-item custom-field-item">
+    <span class="pull-left handle">
+      <i class="fa fa-bars"></i>
+    </span>
     <div class="pull-right">
       <button class="btn btn-danger btn-xs delete-global-custom-field">Delete</button>
     </div>
-    <span class="pull-left custom-field-controls">
-      <i class="order-up fa fa-fw fa-arrow-up {{#if canMoveUp}} orderEnabled {{else}} orderDisabled {{/if}}" ></i>
-      <i class="order-down fa fa-fw fa-arrow-down  {{#if canMoveDown}} orderEnabled {{else}} orderDisabled {{/if}}" ></i>
-    </span>
-    {{#unless equals type 'label'}}
-        Name: {{name}} ({{niceType}})<br>
-      {{#if equals type 'picklist'}}
-        Value List: {{listValues}}
-      {{else}}
-        Default Value: {{value}}
-      {{/if}}
-    {{else}}
-        Label: <strong>{{name}}</strong>
-    {{/unless}}
+
+    <div class="row">
+      <div class="col-md-3">
+        <b>{{name}}</b><i> - {{niceType}}</i>
+      </div>
+      <div class="col-md-6">
+        {{#if equals type 'picklist'}}
+          Values: {{listValues}}
+        {{else}}
+          {{#if equals type 'label'}}
+            {{name}}
+          {{else}}
+            Default: {{value}}
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
   </li>
 </template>
