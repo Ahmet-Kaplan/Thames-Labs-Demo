@@ -9,11 +9,6 @@ Template.userDetailsLink.helpers({
 
 Template.userDetailsLink.events({
   'click a.user-detail-link': function() {
-    const tenant = Tenants.findOne(Meteor.user().group);
-    if (tenant.plan === 'free') {
-      showUpgradeToastr('To modify user permissions');
-      return;
-    }
     Modal.show('updateUser', Template.currentData());
   },
 
