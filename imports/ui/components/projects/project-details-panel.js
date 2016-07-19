@@ -110,30 +110,35 @@ Template.projectDetail.events({
       });
 
       doc.setData({
-        "companyName": companyName,
-        "contactName": contactName,
-        "companyAddress": companyAddress,
-        "date": date,
-        "accountManager": accountManager,
-        "name": project.name,
-        "description": project.description,
-        "author": userName,
-        "projectNumber": project.sequencedIdentifier,
-        "value": project.value,
-        "dueDate": project.dueDate,
-        "staff": staffList
+        "companyName": companyName || '',
+        "contactName": contactName || '',
+        "companyAddress": companyAddress || '',
+        "date": date || '',
+        "accountManager": accountManager || '',
+        "name": project.name || '',
+        "description": project.description || '',
+        "author": userName || '',
+        "projectNumber": project.sequencedIdentifier || '',
+        "value": project.value || '',
+        "dueDate": project.dueDate || '',
+        "staff": staffList || ''
       });
 
-      doc.render();
-      var docDataUri = doc.getZip().generate({
-        type: 'blob'
-      });
-      docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-      //Convert data into a blob format for sending to api
-      var blob = new Blob([docDataUri], {
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      });
-      saveAs(blob, file.name);
+      try {
+        doc.render();
+        var docDataUri = doc.getZip().generate({
+          type: 'blob'
+        });
+        docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        //Convert data into a blob format for sending to api
+        var blob = new Blob([docDataUri], {
+          type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        });
+        saveAs(blob, file.name);
+        toastr.success("Your data has been successfully extracted.");
+      } catch (err) {
+        toastr.error("Unable to extract to file.");
+      }
 
       $('#template-upload-docx').val('');
 

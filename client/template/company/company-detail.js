@@ -61,20 +61,33 @@ Template.companyDetail.events({
     reader.onload = function() {
       var doc = new Docxgen(reader.result);
       doc.setData({
-        "name": this.name,
-        "address": this.address,
-        "city": this.city,
-        "county": this.county,
-        "postcode": this.postcode,
-        "country": this.country,
-        "website": this.website,
-        "phone": this.phone
+        "name": this.name || '',
+        "address": this.address || '',
+        "city": this.city || '',
+        "county": this.county || '',
+        "postcode": this.postcode || '',
+        "country": this.country || '',
+        "website": this.website || '',
+        "phone": this.phone || ''
       });
-      doc.render();
-      var docDataUri = doc.getZip().generate({
-        type: 'blob'
-      });
-      saveAs(docDataUri, file.name);
+
+      try {
+        doc.render();
+        var docDataUri = doc.getZip().generate({
+          type: 'blob'
+        });
+        docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        //Convert data into a blob format for sending to api
+        var blob = new Blob([docDataUri], {
+          type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        });
+        saveAs(blob, file.name);
+        toastr.success("Your data has been successfully extracted.");
+      } catch (err) {
+        toastr.error("Unable to extract to file.");
+      }
+      $('#template-upload-docx').val('');
+
     }.bind(this);
     reader.readAsBinaryString(file);
   },
