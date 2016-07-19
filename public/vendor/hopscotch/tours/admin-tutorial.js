@@ -66,30 +66,6 @@ var adminTutorial = {
     target: document.querySelector('#settings-nav'),
     placement: "right"
   }, {
-    title: "Navigating to billing settings",
-    content: "Select 'Billing' from the menu",
-    target: document.querySelector('a[href="billing"]'),
-    placement: "right",
-		xOffset: "10px",
-    showNextButton: false,
-    nextOnTargetClick: true
-  }, {
-    title: "",
-		content: "",
-		target: document.querySelector('.entity-name'),
-    placement: "top"
-  }, {
-    title: "Subscription Details",
-    content: "These are the details of your subscription. You're on the free plan, you'll notice that certain features in RealTimeCRM are not active.",
-    target: document.querySelector('#planName'),
-    placement: "top"
-  }, {
-    title: "Upgrading Subscription",
-    content: "Use this button to upgrade to the paid plan at anytime. This will activate all features. See our website for more details at realtimecrm.co.uk",
-    target: document.querySelector('#upScheme'),
-    placement: "right",
-    yOffset: "-10px"
-  }, {
     title: "Navigating to user settings",
     content: "Select 'Users' from the menu",
     target: document.querySelector('a[href="users"]'),
@@ -113,33 +89,7 @@ var adminTutorial = {
 		nextOnTargetClick: true
 	}, {
 		title: "Adding Users",
-		content: "Type the users name here...",
-		yOffset: "-10px",
-		delay: 300,
-		target: document.querySelector('#addUserName'),
-		placement: "right",
-		showNextButton: false,
-		onShow: $("#addUserName").keyup(_.debounce(function(e) {
-			if (e.keyCode != 9) {
-				hopscotch.nextStep();
-				$(this).unbind('keyup');
-			}
-		}, 1000))
-	}, {
-		title: "Adding Users",
-		content: "... and their email address here. This is where the set up email is sent so please make sure it is a valid email address.",
-		yOffset: "-10px",
-		target: document.querySelector('#addUserEmail'),
-		placement: "right",
-		showNextButton: false,
-		onShow: $("#addUserEmail").keyup(_.debounce(function(e) {
-			if (e.keyCode != 9) {
-				hopscotch.nextStep();
-			}
-		}, 1000))
-	}, {
-		title: "Adding Users",
-		content: "Now click 'Create' and you're done!",
+		content: "Fill in the user details and click 'Create' when you're done!",
 		target: document.querySelector('#createUser'),
 		placement: "left",
 		showNextButton: false
