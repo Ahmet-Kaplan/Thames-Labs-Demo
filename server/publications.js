@@ -162,7 +162,7 @@ Meteor.publish("customFieldsById", function(fieldId) {
   });
 });
 Meteor.publish("customFieldsByEntityId", function(entityId, collectionName) {
-  var permissionRequired = permissionGenerator('read', collectionName);
+  const permissionRequired = permissionGenerator('read', collectionName);
   if (!Roles.userIsInRole(this.userId, [permissionRequired])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return CustomFields.find({
@@ -171,27 +171,21 @@ Meteor.publish("customFieldsByEntityId", function(entityId, collectionName) {
 });
 Meteor.publish("globalCustomFields", function() {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  var data = CustomFields.find({
-    global: true
-  }).fetch();
-
-  var ids = _.map(_.uniqBy(data, 'name'), function(fn) {
-    return fn._id;
-  });
+  console.log(this);
   return CustomFields.find({
-    _id: {
-      $in: ids
-    }
+    global: true,
+    entityId: Partitioner.getUserGroup(this.userId)
   });
+
 });
 Meteor.publish("globalCustomFieldsByEntityType", function(entityType) {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  var data = CustomFields.find({
+  const data = CustomFields.find({
     global: true,
     target: entityType
   }).fetch();
 
-  var ids = _.map(_.uniqBy(data, 'name'), function(fn) {
+  const ids = _.map(_.uniqBy(data, 'name'), function(fn) {
     return fn._id;
   });
   return CustomFields.find({

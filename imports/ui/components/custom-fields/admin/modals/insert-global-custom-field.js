@@ -4,7 +4,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './insert-global-custom-field.html';
 import '/imports/ui/components/custom-fields/customfield.css';
 
-const getVar = (type) => Template.instance().reactiveVars[type].get(),
+const duplicateFlag = false,
+      getVar = (type) => Template.instance().reactiveVars[type].get(),
 
       setVar = (type) => {
         _.forEach(Template.instance().reactiveVars, function(value, key) {
@@ -118,14 +119,12 @@ Template.insertGlobalCustomField.events({
     }
 
     const fields = CustomFields.find({target: cfEntity}).fetch();
-    console.log(fields.length);
 
     if(!isProTenant(Meteor.user().group) && fields.length === MAX_FREE_ENTITY_GLOBAL_FIELDS) {
       showUpgradeToastr(`To create more than 5 global custom fields for a ${cfEntity} record`);
       Modal.hide();
       return;
     }
-    console.log(freePlanMaxFlag);
 
     if (getVar('typeText')) {
       cfType = "text";
@@ -156,10 +155,9 @@ Template.insertGlobalCustomField.events({
       name: cfName,
       target: cfEntity
     })) {
-      const duplicateFlag = true;
-    }
+      toastr.error('A global custom field with that name already exists.');
+    }else {
 
-    if (!duplicateFlag) {
       UserSession.set("globalFieldProgress", 0);
       setVar('create');
 
@@ -185,8 +183,6 @@ Template.insertGlobalCustomField.events({
           }
         }
       });
-    }else {
-      toastr.error('A global custom field with that name already exists.');
     }
   }
 });
