@@ -1,26 +1,6 @@
 <template name="stripeAdmin">
-  {{#unless hasStripeAccount}}{{#unless isProTenant}}
-    <div class="settings-section">
-      <h4>Upgrade RealTimeCRM</h4>
-      <p>Subscribe to the Pro Plan to add more than 2 users.</p>
-      <ul>
-        <li><strong>Fixed price for life</strong> – The price you see is the price you will pay per user for the lifetime of your account;</li>
-        <li><strong>No hidden costs</strong> – We will not make any additional charges for using the system or for support;</li>
-        <li><strong>No contract</strong> – You can cancel your service at any time without incurring cancellation fees</li>
-        <li><strong>No cost to&nbsp;switch</strong> – You can switch from one plan to another without incurring any switching costs.</li>
-      </ul>
-      <br>
-      <p><button id="upScheme" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Upgrade to the Pro Plan</button></p>
-    </div>
-  {{/unless}}{{/unless}}
 
-  {{#if subscriptionCancelled}}
-    <div class="settings-section">
-      <h4>Resume Subscription </h4>
-      <p>The subscription for {{tenantName}} has been cancelled. You can resume it until the end of that period.</p>
-      <button id="resumeSubs" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Resume subscription</button>
-    </div>    
-  {{/if}}
+
 
   <div class="settings-section">
     <h4>Overview</h4>
@@ -61,7 +41,7 @@
         <!-- CARD DETAILS -->
         <li class="list-group-item panel-item-header">
           <h4 class="slim">
-            <i class="fa fa-fw fa-credit-card"></i> Card Details 
+            <i class="fa fa-fw fa-credit-card"></i> Card Details
             <button id="updateCardDetails" class="btn btn-xs btn-primary pull-right">Update Card Details</button>
           </h4>
           {{#if stripeCustomer.sources.total_count}}{{#with cardDetails}}{{#if cardDetails.last4}}

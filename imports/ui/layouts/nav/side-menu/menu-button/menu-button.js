@@ -11,6 +11,7 @@ Template.menuButton.helpers({
     return true;
   },
   hasFreeAccessOnly: function() {
+    if(!Meteor.user()) return false;
     return (Template.currentData().proFeature && !isProTenant(Meteor.user().group));
   },
   id: function() {
