@@ -78,3 +78,11 @@ Template.productList.helpers({
     return Template.instance().productCount.get() !== 1;
   }
 });
+
+Template.productListItem.helpers({
+  prodName: function() {
+    const searchDef = Template.currentData().index.getComponentDict().get('searchDefinition');
+    var pattern = new RegExp(searchDef, 'gi');
+    return Template.currentData().name.replace(pattern, '<span class="highlighted-search">$&</span>');
+  }
+});

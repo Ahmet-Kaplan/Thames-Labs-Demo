@@ -17,6 +17,11 @@ Template.purchaseOrderListItem.onRendered(function() {
 });
 
 Template.purchaseOrderListItem.helpers({
+  name: function() {
+    const searchDef = Template.currentData().index.getComponentDict().get('searchDefinition');
+    var pattern = new RegExp(searchDef, 'gi');
+    return Template.currentData().description.replace(pattern, '<span class="highlighted-search">$&</span>');
+  },
   showItems: function() {
     var value = Template.instance().showItems.get();
     return value;

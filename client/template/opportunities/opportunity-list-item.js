@@ -4,6 +4,11 @@ Template.opportunityListItem.onCreated(function() {
 });
 
 Template.opportunityListItem.helpers({
+  oppName: function() {
+    const searchDef = Template.currentData().index.getComponentDict().get('searchDefinition');
+    var pattern = new RegExp(searchDef, 'gi');
+    return Template.currentData().name.replace(pattern, '<span class="highlighted-search">$&</span>');
+  },
   salesManager: function() {
     var user = Meteor.users.findOne({
       _id: this.salesManagerId
