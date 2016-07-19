@@ -40,6 +40,19 @@ Collections.tenants.filters = {
       return true;
     }
   },
+  active: {
+    display: 'Activity:',
+    prop: 'active',
+    defaultOptions: function() {
+      return ['7 days', '14 days', '28 days'];
+    },
+    strict: true,
+    allowMultiple: false,
+    displayValue: function(active) {
+      if (!active) return false;
+      return true;
+    }
+  },
   toBeDeleted: {
     display: 'To Be Deleted:',
     prop: 'toBeDeleted',
@@ -137,6 +150,41 @@ Collections.tenants.index = TenantsIndex = new EasySearch.Index({
 
         selector._id = {
           $in: tenants
+        };
+      }
+
+      if (options.search.props.active) {
+        var active = options.search.props.active;
+        var currentDate = moment();
+        var cutOffDate = null;
+        var tenantIDs = [];
+
+        if (active === '7 days') {
+          cutOffDate = moment().subtract(7, 'day');
+        } else if (active === '14 days') {
+          cutOffDate = moment().subtract(14, 'day');
+        } else if (active === '28 days') {
+          cutOffDate = moment().subtract(28, 'day');
+        }
+
+        var users = Meteor.users.find({
+          "profile.lastLogin": {
+            $gte: cutOffDate.toDate(),
+            $lt: currentDate.toDate()
+          }
+        }).fetch();
+
+        _.each(users, function(user) {
+          if (user.group) {
+            var tenantId = user.group;
+            if (tenantIDs.indexOf(tenantId) === -1) {
+              tenantIDs.push(tenantId);
+            }
+          }
+        });
+
+        selector._id = {
+          $in: tenantIDs
         };
       }
 
