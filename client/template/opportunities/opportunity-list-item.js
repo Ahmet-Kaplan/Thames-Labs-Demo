@@ -11,7 +11,7 @@ Template.opportunityListItem.helpers({
     if (user) return user.profile.name;
   },
   friendlyEstClose: function() {
-    return this.estCloseDate ? moment(this.estCloseDate).format('MMMM Do YYYY, h:mma') : 'none';
+    return this.estCloseDate ? moment(this.estCloseDate).format('MMMM Do YYYY') : 'none';
   },
   company: function() {
     return Companies.findOne(this.companyId);
@@ -34,5 +34,15 @@ Template.opportunityListItem.helpers({
     });
 
     return stageValue;
+  },
+  cssClass: function() {
+    const closeDate = moment(this.estCloseDate);
+    const daysFromNow = closeDate.diff(new Date(), 'days');
+    if (daysFromNow <= 1 && !this.isArchived) {
+      return 'alert-red';
+    } else if (daysFromNow <= 7 && daysFromNow > 1 && !this.isArchived) {
+      return 'alert-yellow';
+    }
+    return '';
   }
 });

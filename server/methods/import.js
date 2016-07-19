@@ -42,9 +42,10 @@ Meteor.methods({
                 UserSession.set("importErrors", errorList, userId);
               }
 
-              Companies.insert({
+              const companyId = Companies.insert({
                 name: row[getFieldValueByKey(selectedValues, 'name')],
-                address: (getFieldValueByKey(selectedValues, 'address') ? row[getFieldValueByKey(selectedValues, 'website')] : null),
+                address: (getFieldValueByKey(selectedValues, 'address') ? row[getFieldValueByKey(selectedValues, 'address')] : null),
+                address2: (getFieldValueByKey(selectedValues, 'address2') ? row[getFieldValueByKey(selectedValues, 'address2')] : null),
                 city: (getFieldValueByKey(selectedValues, 'city') ? row[getFieldValueByKey(selectedValues, 'city')] : null),
                 county: (getFieldValueByKey(selectedValues, 'county') ? row[getFieldValueByKey(selectedValues, 'county')] : null),
                 postcode: (getFieldValueByKey(selectedValues, 'postcode') ? row[getFieldValueByKey(selectedValues, 'postcode')] : null),
@@ -78,6 +79,14 @@ Meteor.methods({
                   }
                 }
               });
+
+              if (row[getFieldValueByKey(selectedValues, 'tags')]) {
+                _.each(row[getFieldValueByKey(selectedValues, 'tags')].split(','), function(tag) {
+                  Companies.addTag(tag, {
+                    _id: companyId
+                  });
+                });
+              }
             });
             break;
 
@@ -117,7 +126,7 @@ Meteor.methods({
                 }
               }
 
-              Contacts.insert({
+              const contactId = Contacts.insert({
                 forename: row[getFieldValueByKey(selectedValues, 'forename')],
                 surname: row[getFieldValueByKey(selectedValues, 'surname')],
                 jobtitle: (getFieldValueByKey(selectedValues, 'jobtitle') ? row[getFieldValueByKey(selectedValues, 'jobtitle')] : null),
@@ -157,6 +166,14 @@ Meteor.methods({
                   }
                 }
               });
+
+              if (row[getFieldValueByKey(selectedValues, 'tags')]) {
+                _.each(row[getFieldValueByKey(selectedValues, 'tags')].split(','), function(tag) {
+                  Contacts.addTag(tag, {
+                    _id: contactId
+                  });
+                });
+              }
             });
             break;
 

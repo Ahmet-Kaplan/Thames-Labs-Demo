@@ -39,6 +39,19 @@ Collections.tenants.filters = {
       if (!plan) return false;
       return true;
     }
+  },
+  toBeDeleted: {
+    display: 'To Be Deleted:',
+    prop: 'toBeDeleted',
+    defaultOptions: function() {
+      return ['Yes', 'No'];
+    },
+    strict: true,
+    allowMultiple: false,
+    displayValue: function(flagged) {
+      if (!flagged) return false;
+      return true;
+    }
   }
 };
 
@@ -68,6 +81,27 @@ Collections.tenants.index = TenantsIndex = new EasySearch.Index({
     selector: function(searchObject, options, aggregation) {
       var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
       var tenants = [];
+
+      if(options.search.props.toBeDeleted) {
+        var flagged = options.search.props.toBeDeleted;
+        if (flagged === 'Yes') {
+          tenants = Tenants.find({
+            'settings.toBeDeleted': true
+          }).map(function(t) {
+            return t._id;
+          });
+        } else {
+          tenants = Tenants.find({
+            'settings.toBeDeleted': {$ne: true}
+          }).map(function(t) {
+            return t._id;
+          });
+        }
+
+        selector._id = {
+          $in: tenants
+        };
+      }
 
       if (options.search.props.plan) {
         var plan = options.search.props.plan;
@@ -145,16 +179,6 @@ Tenants.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (doc.name !== this.previous.name) {
     LogServerEvent(LogLevel.Verbose, "A tenant's name was updated", 'tenant', doc._id);
   }
-  // var prevdoc = this.previous;
-  // var key;
-  // for (key in doc.settings) {
-  //   if (doc.settings.hasOwnProperty(key)) {
-  //     if (doc.settings[key] !== prevdoc.settings[key]) {
-  //       console.log(doc.settings[key], prevdoc.settings[key])
-  //       LogServerEvent(LogLevel.Verbose, "The value of " + key + " setting was updated", 'tenant', doc._id);
-  //     }
-  //   }
-  // }
 });
 
 Tenants.after.remove(function(userId, doc) {

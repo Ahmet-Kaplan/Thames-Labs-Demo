@@ -47,7 +47,7 @@ Meteor.methods({
         console.log('Deleting tags...');
         Meteor.tags.remove({});
         console.log('Deleting events...');
-        //EventLog is not partitioned
+                //EventLog is not partitioned
         EventLog.remove({
           group: tenantId
         });
@@ -92,6 +92,70 @@ Meteor.methods({
     }
     ServerSession.set('deletingTenant', val);
   },
+
+  'tenant.flagForDeletion': function() {
+    const adminUser = Meteor.users.findOne(this.userId);
+    if(!adminUser) return;
+
+    const tenant = Tenants.findOne({
+      _id: adminUser.group
+    });
+
+    Tenants.update({
+      _id: tenant._id
+    }, {
+      $set: {
+        'settings.toBeDeleted': true
+      }
+    });
+
+    Partitioner.bindGroup(tenant._id, function() {
+      Meteor.users.find({
+        group: tenant._id
+      }).forEach(function(user) {
+        Roles.addUsersToRoles(user._id, ["Disabled"]);
+        Meteor.users.update({
+          _id: user._id
+        }, {
+          $set: {
+            "services.resume.loginTokens": []
+          }
+        });
+      });
+    });
+
+    const txt = 'Tenant administrator ' + adminUser.profile.name + ' for ' + tenant.name + ' has requested that their account be deleted. Please log into the administration area of RealTimeCRM to process this removal';
+    Email.send({
+      to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
+      from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
+      subject: 'A RealTimeCRM account has been flagged for deletion',
+      text: txt
+    });
+
+  },
+
+  'tenant.cancelDeletion': function(tenantId) {
+    const tenant = Tenants.findOne({
+      _id: tenantId
+    });
+
+    Tenants.update({
+      _id: tenant._id
+    }, {
+      $set: {
+        'settings.toBeDeleted': false
+      }
+    });
+
+    Partitioner.bindGroup(tenant._id, function() {
+      Meteor.users.find({
+        group: tenant._id
+      }).forEach(function(user) {
+        if(Roles.userIsInRole(user._id, "Disabled")) Roles.removeUsersFromRoles(user._id, ["Disabled"]);
+      });
+    });
+  },
+
   'tenant.generateDemoData': function(tenantId, options) {
     var userId = this.userId;
     if (!Roles.userIsInRole(userId, ['superadmin'])) {

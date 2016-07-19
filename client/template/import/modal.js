@@ -72,6 +72,10 @@ var contactFields = [{
   fieldLabel: 'Company Name',
   fieldIdentifier: 'companyName',
   required: false
+}, {
+  fieldLabel: 'Tags',
+  fieldIdentifier: 'tags',
+  required: false
 }];
 
 var companyFields = [{
@@ -81,6 +85,10 @@ var companyFields = [{
 }, {
   fieldLabel: 'Address',
   fieldIdentifier: 'address',
+  required: false
+}, {
+  fieldLabel: 'Address 2',
+  fieldIdentifier: 'address2',
   required: false
 }, {
   fieldLabel: 'City',
@@ -105,6 +113,10 @@ var companyFields = [{
 }, {
   fieldLabel: 'Telephone Number',
   fieldIdentifier: 'phone',
+  required: false
+}, {
+  fieldLabel: 'Tags',
+  fieldIdentifier: 'tags',
   required: false
 }];
 
