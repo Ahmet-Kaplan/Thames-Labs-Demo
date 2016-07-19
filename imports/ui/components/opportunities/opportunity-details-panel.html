@@ -90,7 +90,7 @@
 
     </ul>
     {{#if isDetailsPage}}
-      {{#unless opportunity.hasBeenWon}}
+      {{#unless opportunity.isArchived}}
         <a href="{{pathFor route='salespipeline' id=opportunity._id}}" class="text-muted small pull-right">
           <i class="fa fa-fw fa-signal"></i>
           View in sales pipeline
