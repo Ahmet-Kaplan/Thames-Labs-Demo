@@ -1,6 +1,15 @@
 import './top-menu.less';
 import './top-menu.html';
 
+import { WelcomeTour } from '/imports/ui/tutorials/welcome.js';
+
+Template.topMenu.events({
+  'click #tutorial': function(e) {
+    e.preventDefault;
+    WelcomeTour.start();
+  }
+});
+
 Template.topMenu.helpers({
   displayShowLess: function() {
     var showAll = Session.get('showAllNotices');
