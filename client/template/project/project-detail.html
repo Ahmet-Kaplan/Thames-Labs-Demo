@@ -7,131 +7,44 @@
         <div class="pull-right">
           <br>
           {{> milestoneControl}}
-        <div class="clearfix"></div>
-        <p class="pull-right">
-            <a href="#" id="invertProjectState">Mark {{#unless isMobile}}project{{/unless}} {{inverseState}}</a>
-          {{#if opportunityId}}
-               | <a href="{{pathFor route='opportunity' id=opportunityId}}">View opportunity</a>
-            {{/if}}
-        </p>
+          <div class="clearfix"></div>
+          <p class="pull-right">
+              <a href="#" id="invertProjectState">Mark {{#unless isMobile}}project{{/unless}} {{inverseState}}</a>
+            {{#if opportunityId}}
+                | <a href="{{pathFor route='opportunity' id=opportunityId}}">View opportunity</a>
+              {{/if}}
+          </p>
         </div>
         <h4 class="entity-title">Project ({{projectType}}) {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="projects"}}</h4>
         <h1 class="entity-name" id="project-details">{{name}}</h1>
 
-        <div id="d3-stage-chart">
-        </div>
+        <div id="d3-stage-chart"></div>
 
         {{> tagInput tags=tags collection='projects' entityId=_id permissionToEdit='CanEditProjects'}}
+        
+        {{> projectDetailsPanel }}
 
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <div class="btn-group pull-right">
-              <!-- {{#afModal class="btn btn-info btn-xs" collection="Projects" doc=_id operation="update" formId="updateProjectForm" omitFields="projectId, companyId"}} Edit project details {{/afModal}} -->
-              {{#if isInRole 'CanEditProjects'}}
-                {{#unless isMobile}}
-                <a class="btn btn-info btn-xs" href="#" id="edit-project">
-                  <i class="fa fa-fw fa-pencil"></i>Edit</a>
-                {{/unless}}
-              {{/if}}
+        <div>
+          {{#if isInRole 'CanEditProjects'}}
+            {{#with this}}
+              {{> customFieldDisplay entity_data=this entity_type='project'}}
+            {{/with}}
+          {{/if}}
+        </div>
 
-              <!-- {{#afModal class="btn btn-danger btn-xs" collection="Projects" doc=_id operation="remove" formId="removeProjectForm"}} Delete project {{/afModal}} -->
-              {{#if isInRole 'CanDeleteProjects'}}
-                <a class="btn btn-danger btn-xs" href="#" id="remove-project">
-                  <i class="fa fa-fw fa-times"></i>Delete</a>
-              {{/if}}
+        {{> documentContainer collectionName="projects" id=this._id permissionRequired="CanEditProjects"}}
 
+        {{#if isInRole 'CanReadTasks'}}
+          <div class="row">
+            <div class="col-md-12">
+              {{#with this}}
+                {{> taskDisplay entity_type="project" entity_id=_id}}
+              {{/with}}
             </div>
-            Project details</div>
-          <ul class="list-group">
-            {{#if description}}
-              {{#if isInRole 'CanReadCompanies'}}
-                <li class="list-group-item panel-item-header">
-                  <h4>
-                    <i class="fa fa-fw fa-align-left"></i>
-                    Description</h4>
-                  {{description}}
-                </li>
-              {{/if}}
-            {{/if}}
-            {{#if company}}
-              {{#if isInRole 'CanReadCompanies'}}
-                <a class="list-group-item panel-item-header" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='company' id=company._id}}" title="Navigate to company details">
-                  <h4>
-                    <i class="fa fa-fw fa-building"></i>
-                    Company</h4>
-                  <i class="fa fa-fw fa-chevron-right pull-right"></i>
-                  {{company.name}}
-                </a>
-              {{/if}}
-            {{/if}}
-            {{#if contactId}}
-              {{#if isInRole 'CanReadContacts'}}
-                <a class="list-group-item panel-item-header" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='contact' id=contact._id}}" title="Navigate to contact details">
-                  <h4>
-                    <i class="fa fa-fw fa-user"></i>
-                    Contact</h4>
-                  <i class="fa fa-fw fa-chevron-right pull-right"></i>
-                  {{contact.name}}
-                </a>
-              {{/if}}
-            {{/if}}
-            {{#if userId}}
-              <li class="list-group-item panel-item-header">
-                <h4>
-                  <i class="fa fa-fw fa-user"></i>
-                  Account Manager</h4>
-                {{managerName}}
-              </li>
-            {{/if}}
-            {{#if value}}
-              <li class="list-group-item panel-item-header">
-                <h4>
-                  <i class="fa fa-fw fa-money"></i>
-                  Value</h4>
-                {{decimal value}}
-              </li>
-            {{/if}}
-            {{#if dueDate}}
-              <li class="list-group-item panel-item-header">
-                <h4>
-                  <i class="fa fa-fw fa-calendar"></i>
-                  Due Date</h4>
-                {{friendlyDueDate}}
-              </li>
-            {{/if}}
-            {{#if staff}}
-              <li class="list-group-item panel-item-header">
-                <h4>
-                  <i class="fa fa-fw fa-users"></i>
-                  Staff</h4>
-                {{staffList}}
-              </li>
-            {{/if}}
-          </ul>
-        </div>
+          </div>
+        {{/if}}
       </div>
     </div>
-
-    <div>
-      {{#if isInRole 'CanEditProjects'}}
-        {{#with this}}
-          {{> customFieldDisplay entity_data=this entity_type='project'}}
-        {{/with}}
-      {{/if}}
-    </div>
-
-    {{> documentContainer collectionName="projects" id=this._id permissionRequired="CanEditProjects"}}
-
-    {{#if isInRole 'CanReadTasks'}}
-      <div class="row">
-        <div class="col-md-12">
-          {{#with this}}
-            {{> taskDisplay entity_type="project" entity_id=_id}}
-          {{/with}}
-        </div>
-      </div>
-    {{/if}}
-
 
     <div class="row">
       <div class="col-md-12">
@@ -144,6 +57,7 @@
         {{> activityTimeline activities=activities}}
       </div>
     </div>
+
     {{#if isInRole 'CanEditProjects'}}
       {{#if isMobile}}
         <div class="fab edit" id="fab">
