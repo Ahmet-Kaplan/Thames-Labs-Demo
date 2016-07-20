@@ -99,22 +99,22 @@ Template.purchaseOrderDetail.events({
   'change #template-upload-docx': function(event) {
     var file = event.target.files[0];
     if (!file) return;
+    if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+      toastr.error("Unable to extract to file. Please ensure the provided file is a word document (.docx)");
+      return;
+    }
 
     var reader = new FileReader();
     reader.onload = function() {
       var doc = new Docxgen(reader.result);
-
       var customerName = "",
-          // customerContact = "",
-          customerAddress = "",
-          orderNumber = "";
+          customerAddress = "";
 
-      var company = Companies.findOne(this.customerCompanyId);
+      var company = Companies.findOne(this.supplierCompanyId);
       customerName = company.name;
       customerAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
 
-      orderNumber = this.orderNumber;
-      var orderDate = moment().format("MMM Do YYYY");
+      var orderDate = moment(this.orderDate).format("MMM Do YYYY");
 
       var orderItems = PurchaseOrderItems.find({
         purchaseOrderId: this._id
@@ -124,10 +124,10 @@ Template.purchaseOrderDetail.events({
 
       _.each(orderItems, function(oi) {
         var obj = {
-          name: oi.description,
-          count: oi.quantity,
-          value: oi.value,
-          total: oi.totalPrice,
+          name: oi.description || '',
+          count: oi.quantity || '',
+          value: oi.value || '',
+          total: oi.totalPrice || '',
         };
 
         running += parseFloat(oi.totalPrice);
@@ -139,27 +139,38 @@ Template.purchaseOrderDetail.events({
       var totalValue = running + vatAmount;
 
       doc.setData({
-        "customerName": customerName,
-        // "customerContact": customerContact,
-        "customerAddress": customerAddress,
-        "orderNumber": orderNumber,
-        "orderDate": orderDate,
+        "supplierName": customerName || '',
+        "supplierAddress": customerAddress || '',
+        "supplierReference": this.supplierReference || '',
+        "orderNumber": this.sequencedIdentifier || '',
+        "orderDate": orderDate || '',
         "items": items,
-        "running": parseFloat(running).toFixed(2),
-        "vat": parseFloat(vatAmount).toFixed(2),
-        "total": parseFloat(totalValue).toFixed(2)
+        "running": parseFloat(running).toFixed(2) || '',
+        "vat": parseFloat(vatAmount).toFixed(2) || '',
+        "total": parseFloat(totalValue).toFixed(2) || '',
+        "description": this.description || '',
+        "paymentMethod": this.paymentMethod || '',
+        "notes": this.notes || '',
+        "status": this.status || ''
       });
 
-      doc.render();
-      var docDataUri = doc.getZip().generate({
-        type: 'blob'
-      });
-      docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-      //Convert data into a blob format for sending to api
-      var blob = new Blob([docDataUri], {
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      });
-      saveAs(blob, file.name);
+      try {
+        doc.render();
+        var docDataUri = doc.getZip().generate({
+          type: 'blob'
+        });
+        docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        //Convert data into a blob format for sending to api
+        var blob = new Blob([docDataUri], {
+          type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        });
+        saveAs(blob, file.name);
+        toastr.success("Your data has been successfully extracted.");
+
+      } catch (err) {
+        toastr.error("Unable to extract to file.");
+      }
+      $('#template-upload-docx').val('');
     }.bind(this);
     reader.readAsArrayBuffer(file);
   },

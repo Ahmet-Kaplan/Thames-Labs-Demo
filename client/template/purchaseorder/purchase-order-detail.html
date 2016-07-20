@@ -198,14 +198,18 @@
         <h4>Help on templates</h4>
       </div>
       <div class="modal-body">
+        
         <p>Start by creating a Microsoft Word Document to act as a template. Include the keywords below where needed in the document, and select "Microsoft Word Template". In the file finder, select the template file you just created. RealTime will replace the keywords with their relative values, and download a new version of the file for you.</p>
         <p>Keywords which are recognised by RealTime:</p>
         <ul>
-          <li>{customerName} - Company name</li>
-          <li>{customerContact} - Company contact name (if provided)</li>
-          <li>{customerAddress} - Company address</li>
+          <li>{supplierName} - Supplier company name</li>
+          <li>{supplierAddress} - Supplier address</li>
+          <li>{supplierReference} - Supplier reference</li>
           <li>{orderNumber} - The purchase order number</li>
-          <li>{orderDate} - The date that the template is generated on</li>
+          <li>{description} - The date that the template is generated on</li>
+          <li>{notes} - Notes against the purchase order</li>
+          <li>{paymentMethod} - Payment method of purchase order</li>
+          <li>{status} - Status of the purchase order</li>
         </ul>
 
         For each purchase order item, you can specify the following tags:
