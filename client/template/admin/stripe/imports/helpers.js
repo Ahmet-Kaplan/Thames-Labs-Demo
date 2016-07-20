@@ -1,45 +1,4 @@
-export function displayLocale(number, currency) {
-  if (typeof number !== 'number') return;
 
-  let locale = 'en-gb';
-  let curr = 'GBP';
-  switch (currency) {
-    case 'eur':
-      curr = 'EUR';
-      locale = 'fr';
-      break;
-
-    case 'usd':
-      curr = 'USD';
-      locale = 'en';
-      break;
-
-    default:
-      curr = 'GBP';
-      locale = 'en-gb';
-      break;
-  }
-  return number.toLocaleString(locale, {
-    style: 'currency',
-    currency: curr,
-  });
-}
-
-export function updateStripeCustomer(self) {
-  const tenant = Tenants.findOne({
-    _id: Meteor.user().group
-  });
-
-  if (tenant.stripe.stripeId) {
-    Meteor.call('stripe.getCustomerDetails', function(error, customer) {
-      if (error || customer === false) {
-        toastr.error('Unable to retrieve your customer details');
-        return false;
-      }
-      self.stripeCustomer.set(customer);
-    });
-  }
-}
 
 function beautifyInvoices(invoice) {
   const beautifiedInvoice = _.cloneDeep(invoice);

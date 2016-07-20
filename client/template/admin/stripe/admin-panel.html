@@ -1,68 +1,6 @@
 <template name="stripeAdmin">
 
 
-
-  <div class="settings-section">
-    <h4>Overview</h4>
-    {{#if subsLoaded}}
-      <ul class="list-group">
-        <li class="list-group-item panel-item-header">
-          <h4 class="slim"><i class="fa fa-fw fa-wrench"></i> Plan</h4>
-          <span id="planName">{{currentSubscription}}</span> - {{totalUsers}} users
-        </li>
-
-        <!-- COUPON -->
-        <li class="list-group-item panel-item-header">
-          <h4 class="slim">
-            <i class="fa fa-fw fa-ticket"></i> Coupon
-            {{#unless isProTenant}}<button id="updateCoupon" class="btn btn-xs btn-primary pull-right">Update Coupon</button>{{/unless}}
-          </h4>
-          {{#if couponLoaded}}
-            <span id="couponText">{{#if hasCoupon}}{{hasCoupon}}{{else}}No active coupon{{/if}}</span>
-          {{else}}
-            <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
-          {{/if}}
-        </li>
-
-        {{#if hasStripeAccount}}
-        <!-- INVOICE EMAIL ADDRESS -->
-        <li class="list-group-item panel-item-header">
-          <h4 class="slim">
-            <i class="fa fa-fw fa-envelope-o"></i> Invoice Email Address
-            <button id="updateEmail" class="btn btn-xs btn-primary pull-right">Update Email</button>
-          </h4>
-          {{#if stripeCustomer.email}}
-            <span id="stripeEmail">{{stripeCustomer.email}}</span>
-          {{else}}
-            <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
-          {{/if}}
-        </li>
-
-        <!-- CARD DETAILS -->
-        <li class="list-group-item panel-item-header">
-          <h4 class="slim">
-            <i class="fa fa-fw fa-credit-card"></i> Card Details
-            <button id="updateCardDetails" class="btn btn-xs btn-primary pull-right">Update Card Details</button>
-          </h4>
-          {{#if stripeCustomer.sources.total_count}}{{#with cardDetails}}{{#if cardDetails.last4}}
-            <small>Number: </small> **** **** **** {{last4}} <br>
-            <small>Expiration Date: </small> {{exp_month}} / <span id="cardExpYear">{{exp_year}}</span> <br>
-            <small>Type: </small> {{brand}} <br>
-            <small>Cardholder Name: </small> {{name}}
-          {{else}}
-            <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
-          {{/if}}{{/with}}{{/if}}
-        </li>
-        {{/if}}
-      </ul>
-      <p>
-        <a href="#" id="showStripeHow"><i class="fa fa-lock"></i> All payments are securely processed by Stripe, our payment partner</a>
-      </p>
-    {{else}}
-      <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
-    {{/if}}
-  </div>
-
   {{#if hasStripeAccount}}
 
     {{#if hasUpcomingInvoice}}
@@ -135,14 +73,7 @@
 
   {{/if}}
 
-  {{#if isProTenant}}{{#if hasStripeAccount}}
-  <div class="settings-section">
-    <h4 class="text-danger">Downgrade RealTimeCRM</h4>
-    <p>You can downgrade to the Free Plan at any time, but {{tenantName}} will <strong>no longer</strong> have access to any data created with Pro Plan only functionality.</p>
-    <p>Need to talk to us? Contact us - we'd love to help.</p>
-    <small><a id="downScheme" class="text-danger" style="text-decoration:underline">Unsubscribe from the Pro Plan</a></small>
-  </div>
-  {{/if}}{{/if}}
+
 
 </template>
 

@@ -1,4 +1,4 @@
-<template name="cardFormModal">
+<template name="updateCardModal">
   <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -8,7 +8,15 @@
           <h4>Update your card details</h4>
         </div>
 
-        {{> cardForm buttonText="Update" showEmail=false}}
+        <form id="updateCardForm">
+          <div class="modal-body">
+            {{> cardForm}}
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" id="submit" class="btn btn-primary"><i class="fa fa-fw fa-lock"></i> Update</button>
+          </div>
+        </form>
 
       </div>
     </div>

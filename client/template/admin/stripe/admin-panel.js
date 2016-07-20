@@ -7,12 +7,8 @@ import { displayLocale, updateStripeCustomer, updateUpcomingInvoice, updateLastI
 
 //Import html files
 import './admin-panel.html';
-import './stripe-how.html';
 
 //Import sub-templates js
-import './card-form-modal.js';
-import './coupon-modal.js';
-import './stripe-subscribe.js';
 import './stripe-unsubscribe.js';
 
 Template.stripeAdmin.onCreated(function() {
@@ -144,13 +140,6 @@ Template.stripeAdmin.helpers({
 });
 
 Template.stripeAdmin.events({
-  'click #upScheme': function(e) {
-    e.preventDefault();
-    Modal.show('stripeSubscribe', {
-      userCurrency: Template.instance().stripeCustomer.get().currency,
-      cardDetails: Template.instance().cardDetails,
-    });
-  },
 
   'click #downScheme': function(e) {
     e.preventDefault();
@@ -184,54 +173,6 @@ Template.stripeAdmin.events({
           }
         });
       }
-    });
-  },
-
-  'click #updateCardDetails': function(event) {
-    event.preventDefault();
-    Modal.show('cardFormModal', {
-      cardDetails: Template.instance().cardDetails,
-    });
-  },
-
-  'click #updateEmail': function(event) {
-    event.preventDefault();
-
-    var stripeCustomer = Template.instance().stripeCustomer;
-
-    bootbox.prompt("Please enter the new email for your invoices.", (newEmail) => {
-      if(!newEmail) {
-        return true;
-      }
-      var emailRegex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-      if(!emailRegex.test(newEmail)) {
-        $('.bootbox-form').addClass('has-error');
-        toastr.error('Please enter a valid email address');
-        return false;
-      }
-      toastr.clear();
-      toastr.info('Processing your email update');
-      Meteor.call('stripe.updateEmail', newEmail, (error, updatedCustomer) => {
-        if(error || updatedCustomer === false) {
-          toastr.error('Unable to update email address');
-          return false;
-        }
-        stripeCustomer.set(updatedCustomer);
-        toastr.clear();
-        toastr.success('Your email has been changed to: ' + newEmail);
-      });
-    });
-  },
-
-  'click #showStripeHow': function(event) {
-    event.preventDefault();
-    Modal.show('stripeHow');
-  },
-
-  'click #updateCoupon': function(event) {
-    event.preventDefault();
-    Modal.show('couponModal', {
-      couponDetails: Template.instance().couponDetails,
     });
   },
 });

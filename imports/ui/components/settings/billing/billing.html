@@ -1,6 +1,16 @@
 <template name="billing">
   <!-- {{> stripeAdmin }} -->
 
+  {{> billingOverview}}
+
+  {{#if subscriptionCancelled}}
+    <div class="settings-section">
+      <h4>Resume Subscription </h4>
+      <p>The subscription for {{tenantName}} has been cancelled. You can resume it until the end of that period.</p>
+      <button id="resumeSubs" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Resume subscription</button>
+    </div>
+  {{/if}}
+
   {{#unless isProTenant}}
     <div class="settings-section">
       <h4>Upgrade RealTimeCRM</h4>
@@ -16,14 +26,6 @@
     </div>
   {{/unless}}
 
-  {{#if subscriptionCancelled}}
-    <div class="settings-section">
-      <h4>Resume Subscription </h4>
-      <p>The subscription for {{tenantName}} has been cancelled. You can resume it until the end of that period.</p>
-      <button id="resumeSubs" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Resume subscription</button>
-    </div>
-  {{/if}}
-
   {{#if isFreeProTenant }}
     <div class="settings-section">
       <div class="well">
@@ -31,5 +33,16 @@
           <p>To make changes to your account please contact <a href="mailto:support@cambridgesoftware.co.uk">support@cambridgesoftware.co.uk</a>.</p>
       </div>
     </div>
+  {{/if}}
+
+  {{#if isProTenant}}
+  {{#unless isFreeProTenant}}
+    <div class="settings-section">
+      <h4 class="text-danger">Downgrade RealTimeCRM</h4>
+      <p>You can downgrade to the Free Plan at any time, but {{tenantName}} will <strong>no longer</strong> have access to any data created with Pro Plan only functionality.</p>
+      <p>Need to talk to us? Contact us - we'd love to help.</p>
+      <small><u><a id="downScheme" class="text-danger">Unsubscribe from the Pro Plan</a></u></small>
+    </div>
+  {{/unless}}
   {{/if}}
 </template>
