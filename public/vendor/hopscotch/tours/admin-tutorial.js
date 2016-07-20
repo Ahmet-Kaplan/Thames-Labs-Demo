@@ -89,10 +89,48 @@ var adminTutorial = {
 		nextOnTargetClick: true
 	}, {
 		title: "Adding Users",
-		content: "Fill in the user details and click 'Create' when you're done!",
+		content: "Type the users name here...",
+		yOffset: "-10px",
+		delay: 300,
+		target: document.querySelector('#addUserName'),
+		placement: "right",
+		showNextButton: false,
+		onShow: $("#addUserName").keyup(_.debounce(function(e) {
+			if (e.keyCode != 9) {
+				hopscotch.nextStep();
+				$(this).unbind('keyup');
+			}
+		}, 1000))
+	}, {
+		title: "Adding Users",
+		content: "... and their email address here. This is where the set up email is sent so please make sure it is a valid email address.",
+		yOffset: "-10px",
+		target: document.querySelector('#addUserEmail'),
+		placement: "right",
+		showNextButton: false,
+		onShow: $("#addUserEmail").keyup(_.debounce(function(e) {
+			if (e.keyCode != 9) {
+				hopscotch.nextStep();
+				$(this).unbind('keyup');
+			}
+		}, 1000))
+	}, {
+		title: "Adding Users",
+		content: "Now click 'Create' and you're done!",
 		target: document.querySelector('#createUser'),
 		placement: "left",
-		showNextButton: false
+		showNextButton: false,
+		onShow: $("#createUser").click(function() {
+			setTimeout(function() {
+				$(this).unbind('click');
+				$("#addUserEmail").unbind('keyup');
+				Session.set(sessionVar);
+				if ($("#draggableModal").is(':visible')) {
+					$.getScript('/vendor/hopscotch/tours/admin-tutorial-end.js');
+				}
+				hopscotch.endTour(true);
+			}, 500);
+		})
 	}],
   showCloseButton: true
 };
