@@ -12,7 +12,7 @@
 
         <div class="modal-body">
             {{#if lookupComplete}}
-              {{> companyDetailsForm companyData=companyData}}
+              {{> companyDetailsForm (detailFormArgs res)}}
             {{else}}
               {{> companyLookup (lookupResponse res)}}
             {{/if}}
