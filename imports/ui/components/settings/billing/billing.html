@@ -1,12 +1,4 @@
+<!-- Note: This template is here for consistency with other settings templates --> 
 <template name="billing">
   {{> stripeAdmin }}
-
-  {{#if isFreeProTenant }}
-    <div class="settings-section">
-      <div class="well">
-          <h3 class="plan-name text-success">Pro Plan</h3>
-          <p>To make changes to your account please contact <a href="mailto:support@cambridgesoftware.co.uk">support@cambridgesoftware.co.uk</a>.</p>
-      </div>
-    </div>
-  {{/if}}
 </template>

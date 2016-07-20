@@ -82,6 +82,11 @@ Template.stripeAdmin.helpers({
   },
   currentSubscription: function() {
     var stripeCustomer = Template.instance().stripeCustomer.get();
+
+    const tenant = Tenants.findOne(Meteor.user().group);
+    if (tenant.plan === 'pro' && !tenant.stripe.stripeSubs) {
+      return "Pro Plan";
+    }
     return (stripeCustomer.id) ? ((stripeCustomer.subscriptions.total_count && !stripeCustomer.subscriptions.data[0].cancel_at_period_end) ? stripeCustomer.subscriptions.data[0].plan.name : "Free Plan") : "Free Plan";
   },
   hasStripeAccount: function() {
@@ -133,6 +138,10 @@ Template.stripeAdmin.helpers({
     details = (!couponDetails || couponDetails.valid !== true) ? false : ((couponDetails.percent_off) ? couponDetails.id + ': ' + couponDetails.percent_off + ' % off' : couponDetails.id + ': ' + displayLocale(couponDetails.amount_off / 100, currency) + ' off');
     return details;
   },
+  isProWithNoCoupon: function() {
+    var couponDetails = Template.instance().couponDetails.get();
+    return ((!couponDetails || couponDetails.valid !== true) && isProTenant(Meteor.user().group));
+  },
   cardDetails: function() {
     return Template.instance().cardDetails.get();
   },
@@ -140,6 +149,11 @@ Template.stripeAdmin.helpers({
     return Tenants.findOne({
       _id: Meteor.user().group
     }).name;
+  },
+  isFreeProTenant: function() {
+    if (!Meteor.user() || !Meteor.user().group) return false;
+    const tenant = Tenants.findOne(Meteor.user().group);
+    return tenant.plan === 'pro' && !tenant.stripe.stripeSubs;
   }
 });
 
