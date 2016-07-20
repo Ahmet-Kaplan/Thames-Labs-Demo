@@ -19,15 +19,35 @@ Template.globalCustomFieldList.onRendered(function() {
             return;
           }
           // Setup needed variables
-          const field = Blaze.getData(ui.item[0]),
-                currentIndex = field.order,
+          const fieldId = Blaze.getData(ui.item[0])._id,
+                fieldTarget = Blaze.getData(ui.item[0]).target,
                 newIndex = $(this).find('.custom-field-item').index(ui.item);
-          console.log(field);
-          console.log(newIndex);
-          console.log(currentIndex);
 
           //Update data stores
-          Meteor.call('changeExtInfoOrder', field, newIndex);
+          // Meteor.call('changeExtInfoOrder', field, newIndex);
+
+          const fields = CustomFields.find({
+            target: fieldTarget,
+            global: true
+          }).fetch();
+
+          const currentField = _.find(fields, { '_id': fieldId });
+
+          const currentIndex = _.findIndex(fields, { '_id': currentField._id });
+
+          _.pullAt(fields, currentIndex);
+          fields.splice(newIndex, 0, currentField);
+
+          _.each(fields, function(value, key) {
+            value.order = key;
+            CustomFields.update({
+              _id: value._id
+            }, {
+              $set: {
+                order: value.order
+              }
+            });
+          });
 
           //Prevent DOM updates to let Meteor + Blaze handle it
           $(this).sortable('cancel');

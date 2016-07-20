@@ -171,7 +171,6 @@ Meteor.publish("customFieldsByEntityId", function(entityId, collectionName) {
 });
 Meteor.publish("globalCustomFields", function() {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  console.log(this);
   return CustomFields.find({
     global: true,
     entityId: Partitioner.getUserGroup(this.userId)
