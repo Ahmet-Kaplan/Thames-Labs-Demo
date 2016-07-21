@@ -6,6 +6,9 @@
   {{#if isLoading}}
     {{> loading}}
   {{else}}
+
+    {{> upcomingInvoice}}
+
     {{#unless isProTenant}}
       <div class="settings-section">
         <h4>Upgrade RealTimeCRM</h4>

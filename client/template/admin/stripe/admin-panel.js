@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { $ } from 'meteor/jquery';
 
 //Import helpers function from external file
 import { displayLocale, updateStripeCustomer, updateUpcomingInvoice, updateLastInvoice } from './imports/helpers.js';
@@ -29,33 +28,6 @@ Template.stripeAdmin.onCreated(function() {
       updateUpcomingInvoice(self);
     }
   });
-});
-
-Template.stripeAdmin.onRendered(function() {
-  var tenant = Tenants.findOne({
-    _id: Meteor.user().group
-  });
-
-  //Get coupon info
-  if(tenant.stripe.coupon) {
-    Meteor.call('stripe.getCoupon', tenant.stripe.coupon, (error, response) => {
-      if(!this.couponDetails.get() || error) {
-        this.couponDetails.set({});
-      } else {
-        this.couponDetails.set(response);
-      }
-    });
-  } else {
-    this.couponDetails.set({});
-  }
-
-  //Get card info
-  if(tenant.stripe.stripeId) {
-    Meteor.call('stripe.getCardDetails', (error, response) => {
-      this.cardDetails.set(response);
-    });
-  }
-
 });
 
 Template.stripeAdmin.helpers({

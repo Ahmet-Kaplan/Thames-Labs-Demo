@@ -1,9 +1,11 @@
 import { stripeCustomer } from './helpers.js';
+import { upcomingInvoice } from './invoices/helpers.js';
 
 import './overview/billing-overview.js';
 import './stripe-how.html';
 import './subscribe/stripe-subscribe.js';
 import './unsubscribe/stripe-unsubscribe.js';
+import './invoices/upcoming-invoice.js';
 
 import './billing.css';
 import './billing.html';
@@ -16,6 +18,7 @@ Template.billing.onRendered(function() {
 
     if(tenant) {
       stripeCustomer.update();
+      upcomingInvoice.update();
     }
   });
 });
