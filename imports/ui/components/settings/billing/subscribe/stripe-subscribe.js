@@ -91,7 +91,7 @@ Template.stripeSubscribe.events({
             toastr.clear();
             bootbox.alert({
               title: 'Error',
-              message: '<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to validate your card details.<br />Please contact us if the problem remains.',
+              message: `<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to validate your card details: ${error2.reason}<br />Please contact us if the problem remains.`,
               className: 'bootbox-danger',
             });
             return false;
@@ -101,7 +101,7 @@ Template.stripeSubscribe.events({
               Modal.hide();
               bootbox.alert({
                 title: 'Error',
-                message: '<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription.<br />Please contact us if the problem remains.',
+                message: `<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription: ${error3.reason}<br />Please contact us if the problem remains.`,
                 className: 'bootbox-danger',
               });
               return false;

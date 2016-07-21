@@ -1,5 +1,5 @@
 export function displayLocale(number, currency) {
-  if (typeof number !== 'number') return;
+  if (isNaN(number)) return '';
   currency = _.lowerCase(currency);
   let locale = 'en-gb';
   let curr = 'GBP';
@@ -54,8 +54,11 @@ export const stripeCustomer = {
           toastr.error('Unable to retrieve your coupon details');
           return false;
         }
+        this.data.set(null);
         this.coupon.set(coupon);
       });
+    } else {
+      this.data.set(null);
     }
 
   }

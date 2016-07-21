@@ -1,18 +1,14 @@
+import { Template } from 'meteor/templating';
+import { Meteor } from 'meteor/meteor';
 import { stripeCustomer, displayLocale } from '../helpers.js';
 
 import '../coupon/coupon-modal.js';
-import '../card/card-form-modal.js';
+import '../card/update-card-modal.js';
 import './billing-overview.html';
 
 Template.billingOverview.helpers({
-  subsLoaded: function() {
-    const stripeSubs = _.get(Tenants.findOne({
-      _id: Meteor.user().group
-    }), 'stripe.stripeSubs');
-    if (!!stripeSubs) {
-      return stripeCustomer.getData();
-    }
-    return true;
+  isLoading: function() {
+    return stripeCustomer.getData() === false;
   },
   stripeCustomer: function() {
     return stripeCustomer.getData();

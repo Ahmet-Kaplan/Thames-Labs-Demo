@@ -8,9 +8,6 @@ import { displayLocale, updateStripeCustomer, updateUpcomingInvoice, updateLastI
 //Import html files
 import './admin-panel.html';
 
-//Import sub-templates js
-import './stripe-unsubscribe.js';
-
 Template.stripeAdmin.onCreated(function() {
   this.stripeCustomer = new ReactiveVar('loading');
   this.couponDetails = new ReactiveVar('loading');
@@ -141,38 +138,4 @@ Template.stripeAdmin.helpers({
 
 Template.stripeAdmin.events({
 
-  'click #downScheme': function(e) {
-    e.preventDefault();
-    Modal.show('stripeUnsubscribe', this);
-  },
-
-  'click #resumeSubs': function(e) {
-    e.preventDefault();
-    bootbox.confirm('Do you wish to resume your subscription to RealTimeCRM?', function(result) {
-      if(result === true) {
-        bootbox.dialog({
-          message: 'Resuming your subscription...',
-          closeButton: false,
-          buttons: {},
-        });
-        Meteor.call('stripe.resumeSubscription', function(error, result) {
-          bootbox.hideAll();
-          if(error || result === false) {
-            bootbox.alert({
-              title: 'Error',
-              message: '<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to resume your subscription.<br />Please contact us if the problem remains.',
-              className: 'bootbox-danger',
-            });
-          } else {
-            bootbox.alert({
-              title: 'Subscription complete',
-              message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />We\'re glad to have you back!',
-              backdrop: false,
-              className: 'bootbox-success',
-            });
-          }
-        });
-      }
-    });
-  },
 });

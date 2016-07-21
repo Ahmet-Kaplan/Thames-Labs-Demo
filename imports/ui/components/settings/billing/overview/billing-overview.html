@@ -1,7 +1,7 @@
 <template name="billingOverview">
   <div class="settings-section">
-    <h4>Overview</h4>
-    {{#if subsLoaded}}
+    {{#unless isLoading}}
+      <h4>Overview</h4>
       <ul class="list-group">
         <li class="list-group-item panel-item-header">
           <h4 class="slim"><i class="fa fa-fw fa-wrench"></i> Plan</h4>
@@ -55,8 +55,6 @@
       <p>
         <a href="#" id="showStripeHow"><i class="fa fa-lock"></i> All payments are securely processed by Stripe, our payment partner</a>
       </p>
-    {{else}}
-      <i class="fa fa-circle-o-notch fa-spin"></i> <em>Loading...</em>
-    {{/if}}
+    {{/unless}}
   </div>
 </template>

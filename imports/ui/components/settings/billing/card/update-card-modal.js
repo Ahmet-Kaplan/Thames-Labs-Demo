@@ -8,7 +8,7 @@ import { stripeCustomer } from '../helpers.js';
 import './card-form.js';
 
 // import ui
-import './card-form-modal.html';
+import './update-card-modal.html';
 
 Template.updateCardModal.events({
   'submit #updateCardForm': function(event) {
