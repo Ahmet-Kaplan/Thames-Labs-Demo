@@ -33,6 +33,10 @@ Template.taskList.onRendered(function() {
   });
 
   this.autorun(() => {
+    const searchComponent = this.index.getComponentDict(),
+          searchOptions = searchComponent.get('searchOptions'),
+          props = searchOptions.props ? searchOptions.props : {};
+
     this.showMine.set(props.assignee && props.assignee === Meteor.userId());
   });
 
@@ -78,7 +82,5 @@ Template.taskList.events({
       indexMethods.addProps('assignee', Meteor.userId());
     }
     $(event.target).blur();
-
-    Template.instance().showMine.set(!Template.instance().showMine.get());
   }
 });
