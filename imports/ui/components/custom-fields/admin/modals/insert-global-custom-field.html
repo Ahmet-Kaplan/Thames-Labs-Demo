@@ -13,7 +13,7 @@
           <form>
             <div class="form-group">
               <label for="custom-field-name">Name</label>
-              <input type="text" class="form-control" placeholder="Global custom field name" id="custom-field-name" autofocus>
+              <input type="text" class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field name" id="custom-field-name" autofocus>
             </div>
 
             <label>Type</label>
@@ -41,7 +41,7 @@
             {{#if typeText}}
               <div class="form-group" id="text-input-area">
                 <label for="custom-field-text-value">Default Text Value</label>
-                <input type="text" class="form-control" placeholder="Global custom field value" id="custom-field-text-value">
+                <input type="text" class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field value" id="custom-field-text-value">
               </div>
               {{/if}}
 
@@ -55,13 +55,13 @@
               <label for="custom-field-check-value">Default True/False Value</label>
               <br />
               Set default value to true?
-              <input type="checkbox" placeholder="Global custom field value" id="custom-field-check-value">
+              <input type="checkbox" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field value" id="custom-field-check-value">
             </div>
             {{/if}}
 
             <div class="form-group datetimepicker" id="date-input-area" style="{{#unless typeDateTime}}display: none;{{/unless}}">
               <label for="custom-field-date-value">Default Date Value</label>
-              <input class="form-control" placeholder="Global custom field value" id="custom-field-date-value">
+              <input class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} custom field value" id="custom-field-date-value">
             </div>
 
             {{#if typePicklist}}

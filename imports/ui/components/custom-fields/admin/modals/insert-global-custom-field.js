@@ -4,8 +4,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './insert-global-custom-field.html';
 import '/imports/ui/components/custom-fields/customfield.css';
 
-const duplicateFlag = false,
-      getVar = (type) => Template.instance().reactiveVars[type].get(),
+//Functions for getting/setting reactive vars
+const getVar = (type) => Template.instance().reactiveVars[type].get(),
 
       setVar = (type) => {
         _.forEach(Template.instance().reactiveVars, function(value, key) {
@@ -47,6 +47,9 @@ Template.onCreated(function() {
 });
 
 Template.insertGlobalCustomField.helpers({
+  isLocal: function() {
+    return Template.currentData();
+  },
   typeText: function() {
     return getVar('typeText');
   },
@@ -103,6 +106,7 @@ Template.insertGlobalCustomField.events({
   'click #createCustomField': function(event, template) {
     event.preventDefault();
 
+    //Validate form
     const cfName = $('#custom-field-name').val(),
           cfEntity = $('#select-entity').val();
 
@@ -118,6 +122,7 @@ Template.insertGlobalCustomField.events({
       return;
     }
 
+    //Check if limit reached
     const fields = CustomFields.find({target: cfEntity}).fetch();
 
     if(!isProTenant(Meteor.user().group) && fields.length === MAX_FREE_ENTITY_GLOBAL_FIELDS) {
@@ -126,6 +131,7 @@ Template.insertGlobalCustomField.events({
       return;
     }
 
+    //Get data from form
     if (getVar('typeText')) {
       cfType = "text";
       cfValue = $('#custom-field-text-value').val();
@@ -151,38 +157,77 @@ Template.insertGlobalCustomField.events({
       cfValue = $('#custom-field-picklist-values').selectize().val();
     }
 
+    //Get id of entity if local or tenant if global
+    let entityId = '';
+
+    if(Template.currentData()) {
+      entityId = Template.currentData().entity_data._id;
+    }else {
+      entityId = Meteor.user().group;
+    }
+
+    //Check for duplicates
     if (CustomFields.findOne({
       name: cfName,
-      target: cfEntity
+      target: cfEntity,
+      entityId: entityId
     })) {
       toastr.error('A global custom field with that name already exists.');
+
     }else {
 
+      //Change modal to progress bar
       UserSession.set("globalFieldProgress", 0);
       setVar('create');
 
-      Meteor.call('extInfo.addNewGlobal', cfName, cfType, cfValue, cfEntity, Meteor.userId(), function(err, res) {
-
-        if (err) throw new Meteor.Error(err);
-        if (res === 0) {
-          toastr.success('Global field created successfully.');
-          Meteor.subscribe('globalCustomFields');
-
-          Modal.hide();
-        } else {
-
-          UserSession.set("globalFieldProgress", 0);
-
-          if (res === 1) {
-            toastr.error('Only admins may add global fields.');
-            Modal.hide();
-          }
-          if (res === 2) {
-            toastr.error('No user detected');
-            Modal.hide();
-          }
-        }
+      //Set maxValue so we know what the order field should be
+      const recordFields = CustomFields.find({
+        entityId: entityId
+      }).fetch();
+      let maxValue = -1;
+      _.each(recordFields, function(x) {
+        if (x.order > maxValue) maxValue = x.order;
       });
+
+      //If local, add local field, if global, add global field
+      if(Template.currentData()) {
+        console.log('local');
+
+        const entityType = Template.currentData().entity_type;
+        Meteor.call('customFields.create', cfName, cfValue, cfType, maxValue, entityType, entityId, function(err, res) {
+          if (err) {
+            toastr.error(err);
+          }
+          if (res) {
+            toastr.success('Custom field added.');
+            UserSession.set("globalFieldProgress", 0);
+            Modal.hide();
+          }
+        });
+
+      }else{
+
+        console.log('global');
+
+        Meteor.call('extInfo.addNewGlobal', cfName, cfType, cfValue, cfEntity, maxValue, Meteor.userId(), function(err, res) {
+          if (err) throw new Meteor.Error(err);
+          if (res === 0) {
+            toastr.success('Global field created successfully.');
+            Meteor.subscribe('globalCustomFields');
+            Modal.hide();
+          } else {
+            UserSession.set("globalFieldProgress", 0);
+            if (res === 1) {
+              toastr.error('Only admins may add global fields.');
+              Modal.hide();
+            }
+            if (res === 2) {
+              toastr.error('No user detected');
+              Modal.hide();
+            }
+          }
+        });
+      }
     }
   }
 });

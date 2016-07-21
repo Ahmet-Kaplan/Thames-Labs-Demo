@@ -43,7 +43,6 @@ Template.globalCustomFieldList.onCreated(function() {
     }, {
       sort: { order: 1 }
     });
-    console.log(currentFields);
     this.customFields.set(currentFields);
   });
 
@@ -52,12 +51,5 @@ Template.globalCustomFieldList.onCreated(function() {
 Template.globalCustomFieldList.helpers({
   fields: function() {
     return Template.instance().customFields.get();
-
-    // return CustomFields.find({
-    //   target: this.entity
-    // }, {
-    //   sort: { order: 1 }
-    // });
-
   }
 });

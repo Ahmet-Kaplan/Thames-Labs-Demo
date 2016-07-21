@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 import './custom-field-panel.html';
-import './add-custom-field.js';
 import './custom-field-list-item.js';
 import './update-custom-field-item.js';
 import './update-custom-field.js';
@@ -43,7 +42,7 @@ Template.customFieldDisplay.events({
       }
     }
 
-    Modal.show('addCustomField', this);
+    Modal.show('insertGlobalCustomField', this);
   },
   'click #edit-custom-fields': function(event) {
     event.preventDefault();
@@ -58,19 +57,15 @@ Template.customFieldDisplay.helpers({
     }).fetch().length > 0;
   },
   globalFields: function() {
-    var arr = CustomFields.find({
+    return CustomFields.find({
       entityId: this.entity_data._id,
       global: true
-    }).fetch();
-
-    return arr.sort(function(a, b) {
-      if (a.order < b.order) return -1;
-      if (a.order > b.order) return 1;
-      return 0;
+    }, {
+      sort: { order: 1 }
     });
   },
   customFields: function() {
-    var arr = CustomFields.find({
+    return CustomFields.find({
       entityId: this.entity_data._id,
       global: false
     }).fetch();

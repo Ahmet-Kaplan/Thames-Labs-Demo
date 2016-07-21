@@ -59,7 +59,7 @@ Meteor.methods({
       });
     }
   },
-  "extInfo.addNewGlobal": function(cfName, cfType, cfValue, cfEntity, userId) {
+  "extInfo.addNewGlobal": function(cfName, cfType, cfValue, cfEntity, maxValue, userId) {
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
       return 1;
     }
@@ -68,14 +68,6 @@ Meteor.methods({
 
     if (user) {
       Partitioner.bindGroup(user.group, function() {
-
-        var exData = CustomFields.find({
-          target: cfEntity
-        }).fetch();
-        var maxValue = -1;
-        _.each(exData, function(x) {
-          if (x.order > maxValue) maxValue = x.order;
-        });
 
         var targets = [];
         if (cfEntity === 'company') {
@@ -256,7 +248,8 @@ Meteor.methods({
     _.each(fields, function(value, key) {
       console.log(value._id);
       CustomFields.update({
-        _id: value._id
+        name: value.name,
+        target: value.target
       }, {
         $set: {
           order: value.order
