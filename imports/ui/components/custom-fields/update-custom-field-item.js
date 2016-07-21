@@ -1,84 +1,88 @@
+import MediumEditor from 'medium-editor';
+import { ReactiveVar } from 'meteor/reactive-var';
 import './update-custom-field-item.html';
 import './customfield.css';
+
+const getVar = (type) => Template.instance().reactiveVars[type].get(),
+      setVar = (type) => {
+        _.forEach(Template.instance().reactiveVars, function(value, key) {
+          Template.instance().reactiveVars[key].set(false);
+        });
+        Template.instance().reactiveVars[type].set(true);
+      };
+
+Template.extInfo.onCreated(function() {
+  this.reactiveVars = {};
+  this.reactiveVars.text = new ReactiveVar(false);
+  this.reactiveVars.advtext = new ReactiveVar(false);
+  this.reactiveVars.checkbox = new ReactiveVar(false);
+  this.reactiveVars.date = new ReactiveVar(false);
+  this.reactiveVars.label = new ReactiveVar(false);
+  this.reactiveVars.picklist = new ReactiveVar(false);
+
+  setVar(this.data.type);
+});
 
 Template.extInfo.helpers({
   extInfoId: function() {
     return this.name.replace(/ /g, '');
+  },
+  typeText: function() {
+    return getVar('text');
+  },
+  typeMultiText: function() {
+    return getVar('advtext');
+  },
+  typeCheckbox: function() {
+    return getVar('checkbox');
+  },
+  typeDateTime: function() {
+    return getVar('date');
+  },
+  typeLabel: function() {
+    return getVar('label');
+  },
+  typePicklist: function() {
+    return getVar('picklist');
   }
 });
 
 Template.extInfo.events({
   'change .TypeSelectionMenu': function(event, template) {
 
+    const field = this.data;
     var index = this.name;
     var safeName = '#extInfos' + index.replace(/ /g, '');
     var selectorName = safeName + "TypeOptions";
     var newType = $(selectorName).val();
 
-    switch (newType) {
-      case 'text':
-        $(safeName + "TextInputArea").show();
-        $(safeName + "BooleanInputArea").hide();
-        $(safeName + "AdvTextInputArea").hide();
-        $(safeName + "DateInputArea").hide();
-        $(safeName + "PicklistInputArea").hide();
-        break;
-      case 'advtext':
-        $(safeName + "TextInputArea").hide();
-        $(safeName + "AdvTextInputArea").show();
-        $(safeName + "BooleanInputArea").hide();
-        $(safeName + "DateInputArea").hide();
-        $(safeName + "PicklistInputArea").hide();
+    setVar(newType);
 
-        editor = new MediumEditor('.editable', {
-          placeholder: {
-            text: 'Type or paste your content here...'
-          },
-          toolbar: false,
-          autoLink: true
-        });
-        break;
-      case 'checkbox':
-        $(safeName + "TextInputArea").hide();
-        $(safeName + "BooleanInputArea").show();
-        $(safeName + "AdvTextInputArea").hide();
-        $(safeName + "DateInputArea").hide();
-        $(safeName + "PicklistInputArea").hide();
-        break;
-      case 'date':
-        $(safeName + "TextInputArea").hide();
-        $(safeName + "BooleanInputArea").hide();
-        $(safeName + "AdvTextInputArea").hide();
-        $(safeName + "DateInputArea").show();
-        $(safeName + "PicklistInputArea").hide();
-        break;
-      case 'picklist':
-        $(safeName + "TextInputArea").hide();
-        $(safeName + "BooleanInputArea").hide();
-        $(safeName + "AdvTextInputArea").hide();
-        $(safeName + "DateInputArea").hide();
-        $(safeName + "PicklistInputArea").show();
-        break;
+    if(newType == 'advtext') {
+      editor = new MediumEditor('.editable', {
+        placeholder: {
+          text: 'Type or paste your content here...'
+        },
+        toolbar: false,
+        autoLink: true
+      });
+    }else if(newType == 'date') {
+      this.$('.datetimepicker').datetimepicker();
     }
   }
-});
-
-Template.extInfo.onCreated(function() {
-  $.getScript('/vendor/medium/medium-editor.min.js');
 });
 
 Template.extInfo.onRendered(function() {
   this.$('.datetimepicker').datetimepicker();
 
-  var index = this.data.name;
-  var attr = this.data;
+  const field = this.data,
+        index = field.name,
+        safeName = '#extInfos' + index.replace(/ /g, '');
 
-  var safeName = '#extInfos' + index.replace(/ /g, '');
-  var selectorName = safeName + "TypeOptions";
-  $(selectorName).val(attr.type);
+  console.log(field.type);
 
-  if (attr.listValues) {
-    var options = _.map(attr.listValues.split(','), function(input) {
+  if(field.listValues) {
+    var options = _.map(field.listValues.split(','), function(input) {
       return {
         value: input,
         text: input
@@ -92,57 +96,18 @@ Template.extInfo.onRendered(function() {
     });
   }
 
-  switch (attr.type) {
-    case 'text':
-      $(safeName + "TextValue").val(attr.value);
-      $(safeName + "TextInputArea").show();
-      $(safeName + "AdvTextInputArea").hide();
-      $(safeName + "BooleanInputArea").hide();
-      $(safeName + "DateInputArea").hide();
-      $(safeName + "PicklistInputArea").hide();
-      break;
-    case 'advtext':
-      $(safeName + "AdvTextValue").html(attr.value);
-      $(safeName + "TextInputArea").hide();
-      $(safeName + "AdvTextInputArea").show();
-      $(safeName + "BooleanInputArea").hide();
-      $(safeName + "DateInputArea").hide();
-      $(safeName + "PicklistInputArea").hide();
-
-      editor = new MediumEditor('.editable', {
-        placeholder: {
-          text: 'Type or paste your content here...'
-        },
-        toolbar: false,
-        autoLink: true
-      });
-      break;
-    case 'checkbox':
-      $(safeName + "BooleanValue").prop('checked', attr.value);
-      $(safeName + "TextInputArea").hide();
-      $(safeName + "AdvTextInputArea").hide();
-      $(safeName + "BooleanInputArea").show();
-      $(safeName + "DateInputArea").hide();
-      $(safeName + "PicklistInputArea").hide();
-      break;
-    case 'date':
-      $(safeName + "DateValue").val(attr.value);
-      $(safeName + "TextInputArea").hide();
-      $(safeName + "AdvTextInputArea").hide();
-      $(safeName + "BooleanInputArea").hide();
-      $(safeName + "DateInputArea").show();
-      $(safeName + "PicklistInputArea").hide();
-      break;
-    case 'picklist':
-      $(safeName + "TextInputArea").hide();
-      $(safeName + "BooleanInputArea").hide();
-      $(safeName + "AdvTextInputArea").hide();
-      $(safeName + "DateInputArea").hide();
-      $(safeName + "PicklistInputArea").show();
-
-      var se = $(safeName + 'PicklistValue').selectize();
-      se[0].selectize.setValue(attr.value);
-      break;
+  if(field.type == 'advtext') {
+    $(`${safeName}AdvTextValue`).html(field.value);
+    editor = new MediumEditor('.editable', {
+      placeholder: {
+        text: 'Type or paste your content here...'
+      },
+      toolbar: false,
+      autoLink: true
+    });
+  }else if(field.type == 'checkbox') {
+    $(`${safeName}BooleanValue`).prop('checked', field.value);
+  }else if(field.type == 'picklist') {
+    $(safeName + 'PicklistValue').selectize();
   }
-
 });

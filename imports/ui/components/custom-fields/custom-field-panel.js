@@ -8,8 +8,8 @@ import './update-custom-field.js';
 import './customfield.css';
 
 Template.customFieldDisplay.onRendered(function() {
-  const collType = this.data.entity_type;
-  const entityId = this.data.entity_data._id;
+  const collType = this.data.entity_type,
+        entityId = this.data.entity_data._id;
 
   this.autorun(function() {
     switch (collType) {
@@ -58,7 +58,6 @@ Template.customFieldDisplay.helpers({
   },
   globalFields: function() {
     return CustomFields.find({
-      entityId: this.entity_data._id,
       global: true
     }, {
       sort: { order: 1 }
@@ -66,17 +65,13 @@ Template.customFieldDisplay.helpers({
   },
   customFields: function() {
     return CustomFields.find({
-      entityId: this.entity_data._id,
       global: false
-    }).fetch();
-
-    return arr.sort(function(a, b) {
-      return a.name.localeCompare(b.name);
+    }, {
+      sort: { order: 1 }
     });
   },
   noLabels: function() {
     return CustomFields.find({
-      entityId: this.entity_data._id,
       type: {
         $ne: 'label'
       }

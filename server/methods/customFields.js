@@ -217,36 +217,25 @@ Meteor.methods({
     };
   },
   changeCfOrder: function(fieldId, fieldTarget, newIndex, group) {
-    console.log('Change Order');
-    console.log(`Id: ${fieldId}, Target: ${fieldTarget}, New Order: ${newIndex}, GroupId: ${group}`);
 
     const fields = CustomFields.find({
-      target: fieldTarget,
-      global: true,
-      entityId: group
-    }, {
-      sort: { order: 1 }
-    }).fetch();
-
-    console.log(fields);
-
-    const currentField = _.find(fields, { '_id': fieldId });
-
-    const currentIndex = _.findIndex(fields, { '_id': currentField._id });
+            target: fieldTarget,
+            global: true,
+            entityId: group
+          }, {
+            sort: { order: 1 }
+          }).fetch(),
+          currentField = _.find(fields, { '_id': fieldId }),
+          currentIndex = _.findIndex(fields, { '_id': currentField._id });
 
     _.pullAt(fields, currentIndex);
-    console.log(fields);
     fields.splice(newIndex, 0, currentField);
-    console.log(fields);
 
     _.each(fields, function(value, key) {
-      console.log(key);
       value.order = key;
-      console.log(value.order);
     });
 
     _.each(fields, function(value, key) {
-      console.log(value._id);
       CustomFields.update({
         name: value.name,
         target: value.target

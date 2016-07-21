@@ -6,7 +6,6 @@ import '/imports/ui/components/custom-fields/customfield.css';
 
 //Functions for getting/setting reactive vars
 const getVar = (type) => Template.instance().reactiveVars[type].get(),
-
       setVar = (type) => {
         _.forEach(Template.instance().reactiveVars, function(value, key) {
           Template.instance().reactiveVars[key].set(false);
@@ -191,7 +190,6 @@ Template.insertGlobalCustomField.events({
 
       //If local, add local field, if global, add global field
       if(Template.currentData()) {
-        console.log('local');
 
         const entityType = Template.currentData().entity_type;
         Meteor.call('customFields.create', cfName, cfValue, cfType, maxValue, entityType, entityId, function(err, res) {
@@ -206,8 +204,6 @@ Template.insertGlobalCustomField.events({
         });
 
       }else{
-
-        console.log('global');
 
         Meteor.call('extInfo.addNewGlobal', cfName, cfType, cfValue, cfEntity, maxValue, Meteor.userId(), function(err, res) {
           if (err) throw new Meteor.Error(err);
