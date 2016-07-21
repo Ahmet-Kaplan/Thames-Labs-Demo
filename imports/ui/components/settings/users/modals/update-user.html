@@ -17,8 +17,9 @@
             <h4>Administrator</h4>
             <p>Determines whether {{name}} is an Administrator.</p>
             <div class="checkbox">
+              <input type="checkbox" id="admin-checkbox" disabled="{{#if isMe}}disabled{{/if}}">
               <label>
-                <input type="checkbox" id="admin-checkbox" disabled="{{#if isMe}}disabled{{/if}}"> Tenant Administrator
+                Tenant Administrator
               </label>
             </div>
           </div>
