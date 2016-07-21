@@ -9,22 +9,22 @@ import './update-custom-field.js';
 import './customfield.css';
 
 Template.customFieldDisplay.onRendered(function() {
-  var collType = this.data.entity_type;
-  var entityId = this.data.entity_data._id;
+  const collType = this.data.entity_type;
+  const entityId = this.data.entity_data._id;
 
   this.autorun(function() {
     switch (collType) {
       case 'company':
-        Meteor.subscribe('customFieldsByEntityId', entityId, 'companies');
+        Meteor.subscribe('customFieldsByEntityId', entityId, collType, 'companies');
         break;
       case 'contact':
-        Meteor.subscribe('customFieldsByEntityId', entityId, 'contacts');
+        Meteor.subscribe('customFieldsByEntityId', entityId, collType, 'contacts');
         break;
       case 'project':
-        Meteor.subscribe('customFieldsByEntityId', entityId, 'projects');
+        Meteor.subscribe('customFieldsByEntityId', entityId, collType, 'projects');
         break;
       case 'product':
-        Meteor.subscribe('customFieldsByEntityId', entityId, 'products');
+        Meteor.subscribe('customFieldsByEntityId', entityId, collType, 'products');
         break;
     }
   });
@@ -48,7 +48,7 @@ Template.customFieldDisplay.events({
   'click #edit-custom-fields': function(event) {
     event.preventDefault();
     Modal.show('updateCustomField', this);
-  },
+  }
 });
 
 Template.customFieldDisplay.helpers({

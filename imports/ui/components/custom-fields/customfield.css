@@ -4,9 +4,6 @@
 #custom-field-container li:last-child {
   border-bottom: 1px solid #dddddd;
 }
-#custom-field-container .list-group-item {
-  border: none;
-}
 .globalCFBackground {
   background: #fafafa !important;
 }

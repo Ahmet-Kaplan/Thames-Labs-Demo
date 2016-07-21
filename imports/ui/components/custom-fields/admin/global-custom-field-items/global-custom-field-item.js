@@ -1,4 +1,3 @@
-import './global-custom-field-item.css';
 import './global-custom-field-item.html';
 
 const setData = (type) => {
@@ -36,16 +35,12 @@ const setData = (type) => {
 };
 
 Template.globalCustomFieldItem.helpers({
-
   niceEntity: function() {
     return this.target.toUpperCase;
   },
   niceType: function() {
-
     const cf = setData(this.type);
-    console.log(cf.type);
     return cf.type;
-
   },
   icon: function() {
     const cf = setData(this.type);
@@ -54,7 +49,7 @@ Template.globalCustomFieldItem.helpers({
 });
 Template.globalCustomFieldItem.events({
   'click .delete-global-custom-field': function() {
-    var self = this;
+    const self = this;
 
     bootbox.confirm("Are you sure you wish to delete this custom field?", function(result) {
       if (result === true) {

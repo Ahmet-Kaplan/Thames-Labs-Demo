@@ -161,11 +161,12 @@ Meteor.publish("customFieldsById", function(fieldId) {
     _id: fieldId
   });
 });
-Meteor.publish("customFieldsByEntityId", function(entityId, collectionName) {
+Meteor.publish("customFieldsByEntityId", function(entityId, entityName, collectionName) {
   const permissionRequired = permissionGenerator('read', collectionName);
   if (!Roles.userIsInRole(this.userId, [permissionRequired])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return CustomFields.find({
+    target: entityName,
     entityId: entityId
   });
 });

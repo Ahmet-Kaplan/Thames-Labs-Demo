@@ -13,12 +13,12 @@
       </div>
       <div class="col-md-4">
         {{#if equals type 'picklist'}}
-          Values: {{listValues}}
+          Values: {{values}}
         {{else}}
           {{#if equals type 'label'}}
             {{name}}
           {{else}}
-            Default: {{value}}
+            Default: {{{value}}}
           {{/if}}
         {{/if}}
       </div>
