@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
-import { stripeCustomer } from '../helpers.js';
+import { stripeCustomer } from '/imports/api/billing/helpers.js';
 
 import './coupon-modal.html';
 

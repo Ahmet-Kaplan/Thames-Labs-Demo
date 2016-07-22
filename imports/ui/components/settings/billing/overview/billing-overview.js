@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
-import { stripeCustomer, displayLocale } from '../helpers.js';
+import { stripeCustomer, displayLocale } from '/imports/api/billing/helpers.js';
 
 import '../coupon/coupon-modal.js';
 import '../card/update-card-modal.js';

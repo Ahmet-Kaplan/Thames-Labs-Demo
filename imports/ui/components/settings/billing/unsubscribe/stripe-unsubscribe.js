@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
-import { stripeCustomer } from '../helpers.js';
+import { stripeCustomer, upcomingInvoice, lastInvoice } from '/imports/api/billing/helpers.js';
 
 import './stripe-unsubscribe.html';
 
@@ -37,6 +37,8 @@ Template.stripeUnsubscribe.events({
         className: 'bootbox-success',
       });
       stripeCustomer.update();
+      upcomingInvoice.update();
+      lastInvoice.update();
     });
   }
 });

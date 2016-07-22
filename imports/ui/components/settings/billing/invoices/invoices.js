@@ -1,4 +1,4 @@
-import { upcomingInvoice, lastInvoice } from './helpers';
+import { upcomingInvoice, lastInvoice } from '/imports/api/billing/helpers';
 
 import './invoice-details.html';
 import './invoices.html';
