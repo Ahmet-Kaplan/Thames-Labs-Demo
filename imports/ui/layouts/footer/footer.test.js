@@ -4,7 +4,12 @@ import $ from 'jquery';
 import { withRenderedTemplate } from '/imports/ui/test-helpers.js';
 
 if (Meteor.isClient) {
-  import './footer.js';
+  /*
+    Note: uses require so that import can happen inside if statement
+    Meteor guide allows use of require 'when requiring client or server-only code from a common file'
+    https://guide.meteor.com/structure.html#using-require
+  */
+  require('./footer.js');
 
   describe('footer', function() {
     it('renders correctly', function() {

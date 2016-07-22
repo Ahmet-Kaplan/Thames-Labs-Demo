@@ -3,11 +3,11 @@ import $ from 'jquery';
 
 import { withRenderedTemplate } from '/imports/ui/test-helpers.js';
 if (Meteor.isClient) {
-  import './menu-button.js';
+  require('./menu-button.js');
 
   describe('menu button', function() {
 
-    beforeEach(function () {
+    beforeEach(function() {
       //Stub meteor/alanning:roles
       Roles.userIsInRole = (userId, permissionList) => {
         if (permissionList == 'validPermission') return true;
