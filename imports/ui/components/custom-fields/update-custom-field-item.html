@@ -12,10 +12,10 @@
         {{#unless global}}
           <div class="col-md-2 modMyPosition">
             <select id="extInfos{{extInfoId}}TypeOptions" class="TypeSelectionMenu">
-              <option value="text">Text</option>
-              <option value="advtext">Multiline Text</option>
-              <option value="checkbox">Checkbox</option>
-              <option value="date">Date/Time</option>
+              <option value="text" selected="{{#if typeText}}selected{{/if}}">Text</option>
+              <option value="advtext" selected="{{#if typeMultiText}}selected{{/if}}">Multiline Text</option>
+              <option value="checkbox" selected="{{#if typecheckbox}}selected{{/if}}">Checkbox</option>
+              <option value="date" selected="{{#if typeDateTime}}selected{{/if}}">Date/Time</option>
             </select>
           </div>
         {{/unless}}
@@ -28,11 +28,9 @@
           </div>
           {{/if}}
 
-          {{#if typeMultiText}}
-          <div class="form-group modMyPosition" id="extInfos{{extInfoId}}AdvTextInputArea">
+          <div class="form-group" style="{{#unless typeMultiText}}display: none;{{/unless}}" id="extInfos{{extInfoId}}AdvTextInputArea">
             <div class="editable mediumWrapper form-control" id="extInfos{{extInfoId}}AdvTextValue" value="{{value}}"></div>
           </div>
-          {{/if}}
 
           {{#if typeCheckbox}}
           <div class="form-group" id="extInfos{{extInfoId}}BooleanInputArea">
@@ -40,15 +38,13 @@
           </div>
           {{/if}}
 
-          {{#if typeDateTime}}
-          <div class="form-group datetimepicker" id="extInfos{{extInfoId}}DateInputArea">
-            <input class="form-control" id="extInfos{{extInfoId}}DateValue" placeholder="Enter date" type="text" value="{{value}}">
+          <div class="form-group datetimepicker" style="{{#unless typeDateTime}}display: none;{{/unless}}" id="extInfos{{extInfoId}}DateInputArea">
+            <input class="form-control" id="extInfos{{extInfoId}}DateValue" placeholder="Enter date" type="text" value="{{#if equals type 'date'}}{{value}}{{/if}}">
           </div>
-          {{/if}}
 
           {{#if typePicklist}}
           <div class="form-group" id="extInfos{{extInfoId}}PicklistInputArea">
-            <input id="extInfos{{extInfoId}}PicklistValue" value="{{value}}">
+            <input id="extInfos{{extInfoId}}PicklistValue" value="{{value}}" >
           </div>
           {{/if}}
 

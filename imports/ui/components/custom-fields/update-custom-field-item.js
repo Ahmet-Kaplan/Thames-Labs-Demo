@@ -50,25 +50,13 @@ Template.extInfo.helpers({
 Template.extInfo.events({
   'change .TypeSelectionMenu': function(event, template) {
 
-    const field = this.data;
-    var index = this.name;
-    var safeName = '#extInfos' + index.replace(/ /g, '');
-    var selectorName = safeName + "TypeOptions";
-    var newType = $(selectorName).val();
+    const field = this,
+          index = this.name,
+          safeName = '#extInfos' + index.replace(/ /g, ''),
+          selectorName = safeName + "TypeOptions",
+          newType = $(selectorName).val();
 
     setVar(newType);
-
-    if(newType == 'advtext') {
-      editor = new MediumEditor('.editable', {
-        placeholder: {
-          text: 'Type or paste your content here...'
-        },
-        toolbar: false,
-        autoLink: true
-      });
-    }else if(newType == 'date') {
-      this.$('.datetimepicker').datetimepicker();
-    }
   }
 });
 
@@ -78,8 +66,6 @@ Template.extInfo.onRendered(function() {
   const field = this.data,
         index = field.name,
         safeName = '#extInfos' + index.replace(/ /g, '');
-
-  console.log(field.type);
 
   if(field.listValues) {
     var options = _.map(field.listValues.split(','), function(input) {
@@ -108,6 +94,7 @@ Template.extInfo.onRendered(function() {
   }else if(field.type == 'checkbox') {
     $(`${safeName}BooleanValue`).prop('checked', field.value);
   }else if(field.type == 'picklist') {
-    $(safeName + 'PicklistValue').selectize();
+    const se = $(safeName + 'PicklistValue').selectize();
+    se[0].selectize.setValue(field.value);
   }
 });
