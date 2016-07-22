@@ -5,17 +5,17 @@
         <div class="panel-heading">
           <div class="btn-group pull-right">
             {{#if isInRole 'CanCreateTasks'}}
-              <a href="#" id="create-sub-task" class="btn btn-info btn-xs"><i class="fa fa-fw fa-plus"></i> Create sub-task</a>
+              <a href="#" id="create-sub-task" class="btn btn-info btn-xs"><i class="fa fa-fw fa-plus"></i> Create subtask</a>
             {{/if}}
           </div>
-          Sub-tasks
+          Subtasks
         </div>
 
         <ul class="list-group">
         {{#each subtasks}}
           {{> task}}
         {{else}}
-          <li class="list-group-item">No sub-tasks</li>
+          <li class="list-group-item">No subtasks</li>
         {{/each}}
         </ul>
       </div>
