@@ -321,8 +321,7 @@ Meteor.methods({
     }
 
     var params = {
-      quantity: numberOfUsers,
-      cancel_at_period_end: false
+      quantity: numberOfUsers
     };
 
     if(coupon) {

@@ -1,13 +1,12 @@
 <template name="billing">
-  <!-- {{> stripeAdmin }} -->
-
-  {{> billingOverview}}
 
   {{#if isLoading}}
     {{> loading}}
   {{else}}
 
-    {{> upcomingInvoice}}
+    {{> billingOverview}}
+
+    {{> invoices}}
 
     {{#unless isProTenant}}
       <div class="settings-section">

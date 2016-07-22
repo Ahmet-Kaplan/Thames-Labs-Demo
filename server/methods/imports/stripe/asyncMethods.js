@@ -141,6 +141,7 @@ export const stripeMethodsAsync = {
         result = updateSubscriptionAsync(stripeId, subsId, parameters);
       } catch (error) {
         result = false;
+        console.log(error);
         throw new Meteor.Error('Error', error);
       } finally {
         return result;

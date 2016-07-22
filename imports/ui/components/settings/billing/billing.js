@@ -1,11 +1,11 @@
 import { stripeCustomer } from './helpers.js';
-import { upcomingInvoice } from './invoices/helpers.js';
+import { upcomingInvoice, lastInvoice } from './invoices/helpers.js';
 
 import './overview/billing-overview.js';
 import './stripe-how.html';
 import './subscribe/stripe-subscribe.js';
 import './unsubscribe/stripe-unsubscribe.js';
-import './invoices/upcoming-invoice.js';
+import './invoices/invoices.js';
 
 import './billing.css';
 import './billing.html';
@@ -19,6 +19,7 @@ Template.billing.onRendered(function() {
     if(tenant) {
       stripeCustomer.update();
       upcomingInvoice.update();
+      lastInvoice.update();
     }
   });
 });
@@ -78,7 +79,7 @@ Template.billing.events({
           if(error || result === false) {
             bootbox.alert({
               title: 'Error',
-              message: `<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to resume your subscription: ${error.reason}<br />Please contact us if the problem remains.`,
+              message: `<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to resume your subscription: ${_.get(error, 'reason', '')}<br />Please contact us if the problem remains.`,
               className: 'bootbox-danger',
             });
           } else {
@@ -90,6 +91,8 @@ Template.billing.events({
             });
           }
           stripeCustomer.update();
+          upcomingInvoice.update();
+          lastInvoice.update();
         });
       }
     });

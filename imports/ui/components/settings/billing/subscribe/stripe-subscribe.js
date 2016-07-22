@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
 import { stripeCustomer, stripePlan } from '../helpers.js';
+import { upcomingInvoice } from '../invoices/helpers.js';
 
 import './stripe-subscribe.html';
 
@@ -115,6 +116,7 @@ Template.stripeSubscribe.events({
               className: 'bootbox-success',
             });
             stripeCustomer.update();
+            upcomingInvoice.update();
           });
         });
 
@@ -142,6 +144,7 @@ Template.stripeSubscribe.events({
             className: 'bootbox-success',
           });
           stripeCustomer.update();
+          upcomingInvoice.update();
         });
       }
     });

@@ -14,14 +14,7 @@ Template.billingOverview.helpers({
     return stripeCustomer.getData();
   },
   planName: function() {
-    const planName = _.get(stripeCustomer.getData(), 'subscriptions.data[0].plan.name');
-    if(typeof planName === 'undefined') {
-      return 'Free Plan';
-    }
-    const perUserAmount = _.get(stripeCustomer.getData(), 'subscriptions.data[0].plan.amount', 0);
-    const planCurrency = _.get(stripeCustomer.getData(), 'subscriptions.data[0].plan.currency', 'gbp');
-    return `${planName} - (${displayLocale(perUserAmount / 100, planCurrency)}/user/month)`;
-
+    return _.get(stripeCustomer.getData(), 'subscriptions.data[0].plan.name', 'Free Plan');
   },
   totalUsers: function() {
     return Meteor.users.find({
