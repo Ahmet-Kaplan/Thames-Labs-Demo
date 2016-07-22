@@ -1,4 +1,4 @@
-import { assert } from 'meteor/practicalmeteor:chai';
+import { chai } from 'meteor/practicalmeteor:chai';
 
 import { getAddressFromLookup, getAddressFromGoogleMapsSearch } from './map-helpers.js';
 
@@ -63,7 +63,7 @@ describe("map helpers", () => {
       "lng": 0.15374210000004496
     };
 
-    assert.deepEqual(actualResult, expectedResult);
+    chai.assert.deepEqual(actualResult, expectedResult);
   });
 
   it("return an address from a clearbit.CompanyApiResponse.geo object", function() {
@@ -101,7 +101,7 @@ describe("map helpers", () => {
       "lng": -122.4175567
     };
 
-    assert.deepEqual(actualResult, expectedResult);
+    chai.assert.deepEqual(actualResult, expectedResult);
   });
 
 });
