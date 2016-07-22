@@ -99,13 +99,17 @@
               <h4><i class="fa fa-fw fa-user"></i> Task assignee</h4>
               {{taskAssignee}}
             </li>
-          {{/if}}
 
-          {{#if isInRole 'CanReadTasks'}}
             <li class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-user"></i> Created By</h4>
               {{taskCreator}}
             </li>
+
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-clock-o"></i> Reminder</h4>
+              {{reminderDetails}}
+            </li>
+
           {{/if}}
         </ul>
       </div>

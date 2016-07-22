@@ -38,7 +38,7 @@ var companiesTutorial = {
   }, {
     title: "Creating Companies",
     content: "In order to make the most of your experience with RealTime, you'll need some companies to work with. Let's go there now - just click the company option on the nav bar.",
-    target: document.querySelector('#menuLinkCompanies'),
+    target: document.querySelector('#menu-link-companies'),
     placement: "right",
     nextOnTargetClick: true,
     showNextButton: false,
@@ -46,7 +46,7 @@ var companiesTutorial = {
   }, {
     title: "",
     content: "",
-    target: document.querySelector('#menuLinkContacts'),
+    target: document.querySelector('#menu-link-companies'),
     placement: "right",
     smoothScroll: false,
     onShow: function() {
@@ -89,7 +89,7 @@ var companiesTutorial = {
   }, {
     title: "",
     content: "",
-    target: document.querySelector('#menuLinkCompanies'),
+    target: document.querySelector('#menu-link-companies'),
     placement: "right",
     smoothScroll: false,
     onShow: function() {

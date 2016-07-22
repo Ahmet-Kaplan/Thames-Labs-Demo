@@ -26,6 +26,7 @@ const OMITTEDCOLUMNS = [
   'entityType',
   'projectTypeId',
   'projectMilestoneId',
+  'stripe'
 ];
 
 Meteor.methods({

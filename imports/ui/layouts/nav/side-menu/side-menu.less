@@ -1,0 +1,70 @@
+@import "/client/bootstrap/custom.bootstrap.import.less";
+
+#id-view-sidemenu {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  bottom: 0;
+  width: @sidebar-width;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+  border-right: 1px solid #ddd;
+  transition: all 0.15s ease-in-out;
+  z-index: 999;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;
+
+}
+
+@media only screen and (max-width:767px) {
+  #id-view-sidemenu {
+    left: -@sidebar-width-mobile;
+    width: @sidebar-width-mobile;
+  }
+  #id-view-sidemenu.active {
+    left: 0;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+  }
+}
+
+#id-view-sidemenu > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#id-view-sidemenu > ul > li {
+  padding: 0;
+  width: 100%;
+}
+#id-view-sidemenu > ul > li > a {
+  transition: all 0.1s ease-in-out;
+  text-decoration: none;
+  padding: 8px 15px;
+  width: 100%;
+  display: block;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1.15em;
+  cursor: pointer;
+} 
+#id-view-sidemenu > ul > li > a:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+#id-view-sidemenu > ul > li.active {
+  background: rgba(0, 0, 0, 0.10);  
+}
+#id-view-sidemenu > ul > li > a > i {
+  margin-right: 9px;
+} 
+#id-view-sidemenu > ul > li .pro-feature {
+  cursor: default;
+  color: #737373
+}
+#id-view-sidemenu > ul > li .pro-feature:hover {
+  background-color: transparent;
+}

@@ -1,10 +1,25 @@
 <template name="tenantList">
+  {{setPageTitle 'Tenants'}}
 
-  <h1><i class="fa fa-fw fa-wrench"></i>Maintenance mode</h1>
-  <p>This locks all normal users out of the site without taking the site offline - it's for when we want to do things like database upgrade work.</p>
-  <p><b>Don't press unless you know what you're doing!</b></p>
+  <div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <h1><i class="fa fa-fw fa-wrench"></i> Maintenance mode</h1>
+      {{> maintenanceModeButton}}
 
-  {{> maintenanceModeButton}} {{setPageTitle 'Tenants'}}
+      <br /><br /><p>This locks all normal users out of the site without taking the site offline - it's for when we want to do things like database upgrade work.</p>
+      <p><b>Don't press unless you know what you're doing!</b></p>
+
+    </div>
+
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <h1><i class="fa fa-fw fa-cogs"></i> Utilities</h1>
+      <button class="btn btn-primary" id="export-tenants">Export Tenants</button>
+      <button class="btn btn-primary" id="export-users">Export Users</button>
+
+      <br /><br /><p><b>Export Tenants</b> will export all tenants listed below, based on your current search/filter set.</p>
+    </div>
+  </div>
+
   <h1>
     <i class="fa fa-fw fa-archive"></i> Current Tenants</h1>
   <div class="well well-sm">

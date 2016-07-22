@@ -1,5 +1,45 @@
 Meteor.methods({
 
+  'users.export': function(collectionName, searchDefinition, searchOptions) {
+    const userArray = [];
+
+    // We require a user as we make find calls on partitioned collections
+    if (!this.userId) throw new Meteor.Error('401', 'Must be a logged in user to perform export');
+
+    if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
+      throw new Meteor.Error(403, 'Only admins may export user data');
+    }
+
+    if (!Collections[collectionName] || !Collections[collectionName].index) {
+      throw new Meteor.Error('500', 'Search index not found');
+    }
+
+    searchOptions.limit = 99999;
+    if (!searchOptions.props) searchOptions.props = {};
+    searchOptions.props.export = true;
+    const index = Collections[collectionName].index;
+    const results = index.search(searchDefinition, searchOptions).fetch();
+
+    _.each(results, function(tenant) {
+      const users = Meteor.users.find({
+        group: tenant._id
+      }).fetch();
+      _.each(users, function(user) {
+        const data = {
+          name: user.profile.name,
+          createdAt: moment(user.createdAt).format('DD/MM/YYYY HH:mm'),
+          lastLogin: moment(user.profile.lastLogin).format('DD/MM/YYYY HH:mm'),
+          email: user.emails[0].address,
+          tenant: tenant.name,
+          administrator: (_.includes(user.roles, 'Administrator') ? 'Yes' : 'No')
+        };
+        userArray.push(data);
+      });
+    });
+
+    return userArray;
+  },
+
   'user.checkPassword': function(userId, digest) {
     if (typeof digest !== 'string') {
       return false;

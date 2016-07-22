@@ -1,8 +1,8 @@
 <template name="opportunityListItem">
-  <a class="list-group-item" href="{{pathFor route='opportunity' id=__originalId}}" id="list-item">
+  <a class="list-group-item opportunity-list-group-item {{cssClass}}" href="{{pathFor route='opportunity' id=__originalId}}" id="list-item">
     <div class="row">
       <div class="col-md-3">
-        <h4 class="list-group-item-heading">{{name}}</h4>
+        <h4 class="list-group-item-heading">{{{oppName}}}</h4>
       </div>
       <div class="col-md-3">
         {{#if companyId}}
@@ -19,7 +19,7 @@
         {{#if value}}
           <p class="list-group-item-text"><i class="fa fa-fw fa-money"></i> {{decimal value}}</p>
         {{/if}}
-        <p class="list-group-item-text"><i class="fa fa-fw fa-calendar"></i> Est. Close: {{friendlyEstClose}}</p>
+        <p class="list-group-item-text est-close"><i class="fa fa-fw fa-calendar"></i> Est. Close: {{friendlyEstClose}}</p>
         {{#if isArchived}}
           {{#if hasBeenWon}}
             <p class="text-success">Opportunity Won</p>

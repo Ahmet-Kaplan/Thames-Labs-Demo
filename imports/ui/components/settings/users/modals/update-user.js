@@ -119,5 +119,12 @@ Template.updateUser.events({
 
     toastr.success('User details updated.');
     Modal.hide('updateUser');
+  },
+  'click #password-reset': function() {
+    const options = {};
+    options.email = this.emails[0].address;
+    Accounts.forgotPassword(options);
+    toastr.success(`Reset password email sent to ${this.profile.name}`);
+    Modal.hide('updateUser');
   }
 });

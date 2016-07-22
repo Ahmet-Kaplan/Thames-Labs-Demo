@@ -1,3 +1,7 @@
+import './top-menu/top-menu.js';
+import './side-menu/side-menu.js';
+import './nav.html';
+
 Session.setDefault('notifications', []);
 Session.setDefault('showAllNotices', false);
 
@@ -194,45 +198,6 @@ Template.nav.events({
     var currentPageName = FlowRouter.getRouteName();
 
     $.getScript('/vendor/hopscotch/tours/' + currentPageName + '_tour.js');
-  },
-  'click #mnuAddToFavourites': function() {
-    var profile = Meteor.users.findOne(Meteor.userId()).profile;
-
-    if (profile.favourites) {
-      var favList = profile.favourites;
-      var exists = false;
-
-      _.each(favList, function(y) {
-        if (y.url === FlowRouter.current().path) {
-          exists = true;
-        }
-      });
-
-      if (exists) {
-        toastr.info('Page already favourited.');
-        return;
-      }
-      const x = {
-        name: document.title,
-        url: FlowRouter.current().path
-      };
-      favList.push(x);
-      profile.favourites = favList;
-    } else {
-      var fav = [];
-      const x = {
-        name: document.title,
-        url: FlowRouter.current().path
-      };
-      fav.push(x);
-      profile.favourites = fav;
-    }
-
-    Meteor.users.update(Meteor.userId(), {
-      $set: {
-        profile: profile
-      }
-    });
   },
   'click #tips': function(event, template) {
     event.preventDefault();
