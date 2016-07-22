@@ -1,4 +1,3 @@
-import './subtask-item.js';
 import './subtask-list.html';
 
 Template.subtaskList.events({
