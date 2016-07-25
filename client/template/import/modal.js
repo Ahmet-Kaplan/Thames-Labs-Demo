@@ -125,6 +125,44 @@ Template.importEntityModal.onCreated(function() {
   this.dataToImport = this.data.dataSet.data;
   this.entityType = this.data.entity;
   this.unusedAsCustoms = new ReactiveVar(true);
+  this.entityGCFs = new ReactiveArray();
+  var self = this;
+
+  this.autorun(function() {
+    var target = "company";
+    switch(this.entity) {
+      case 'companies':
+        target = 'company';
+        break;
+      case 'contacts':
+        target = 'contact';
+        break;
+    }
+
+    Meteor.call('extInfo.getTenantGlobals', target, function(err, res) {
+      _.each(res, function(gcf) {
+        if (gcf.type !== "label") {
+          gcf.fieldIdentifier = 'GCF-' + gcf.name.replace(' ', '') + '-';
+          self.entityGCFs.push(gcf);
+
+          $('#' + gcf.fieldIdentifier + '.selectpicker').selectpicker({
+            title: 'Do not import',
+            selectOnTab: true
+          });
+
+          $('#' + gcf.fieldIdentifier + '.selectpicker').each(function(i, obj) {
+            _.each(self.selectOptions, function(option) {
+              if (option === obj.id.replace('Selector', '')) {
+                $('#' + obj.id).selectpicker('val', option);
+              }
+            });
+          });
+        }
+      });
+    });
+
+
+  });
 });
 
 Template.importEntityModal.onRendered(function() {
@@ -180,8 +218,11 @@ Template.importEntityModal.helpers({
   'csvHeaders': function() {
     return Template.instance().selectOptions;
   },
-  percentComplete: function() {
+  'percentComplete': function() {
     return UserSession.get('importProgress');
+  },
+  'entityGlobalFields': function() {
+    return Template.instance().entityGCFs.array();
   }
 });
 

@@ -22,6 +22,27 @@
             </div>
           </div>
           {{/each}}
+
+          {{#if entityGlobalFields}}
+          <br /><div id="gcfMapper">
+            Use the following drop-downs to map your CSV data to your RealTimeCRM global custom fields.<br />
+
+            {{#each entityGlobalFields}}
+              <div class="row">
+                <div class="col-md-3 importFieldLabel">{{name}}</div>
+                <div class="col-md-9">
+                  <select id="{{fieldIdentifier}}Selector" class="selectpicker">
+                    <option value="">Do not import</option>
+                    {{#each csvHeaders}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+          {{/if}}
+
           <br>
           <div class="row customFieldSwitch">
             <div class="col-md-9 importFieldLabel" >Any fields in your CSV file that are not selected in the above drop-downs will be imported as custom fields. If you do not want this, to happen, set this slider to <strong>No</strong>.</div>
