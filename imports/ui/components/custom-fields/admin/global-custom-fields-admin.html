@@ -33,4 +33,8 @@
     {{> globalCustomFieldList entity='product'}}
   </div>
   {{/if}}
+
+  {{#unless hasCustomFields}}
+    <p>No Global Custom Fields found.</p>
+  {{/unless}}
  </template>

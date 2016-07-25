@@ -106,11 +106,16 @@ Template.insertGlobalCustomField.events({
     event.preventDefault();
 
     //Validate form
-    const cfName = $('#custom-field-name').val(),
-          cfEntity = $('#select-entity').val();
-
+    const cfName = $('#custom-field-name').val();
     let cfValue = "value",
-        cfType = "text";
+        cfType = "text",
+        cfEntity = "";
+
+    if(Template.currentData()) {
+       cfEntity = Template.currentData().entity_type;
+    }else {
+       cfEntity = $('#select-entity').val();
+    }
 
     if (cfName === "") {
       toastr.warning('Please provide a name.');
@@ -165,6 +170,7 @@ Template.insertGlobalCustomField.events({
       entityId = Meteor.user().group;
     }
 
+    console.log(cfName, cfEntity, entityId);
     //Check for duplicates
     if (CustomFields.findOne({
       name: cfName,
@@ -205,7 +211,7 @@ Template.insertGlobalCustomField.events({
 
       }else{
 
-        Meteor.call('extInfo.addNewGlobal', cfName, cfType, cfValue, cfEntity, maxValue, Meteor.userId(), function(err, res) {
+        Meteor.call('customFields.addNewGlobal', cfName, cfType, cfValue, cfEntity, maxValue, Meteor.userId(), function(err, res) {
           if (err) throw new Meteor.Error(err);
           if (res === 0) {
             toastr.success('Global field created successfully.');

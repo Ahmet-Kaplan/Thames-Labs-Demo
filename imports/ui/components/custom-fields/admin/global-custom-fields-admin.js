@@ -8,7 +8,9 @@ Template.globalCustomFieldsAdmin.onCreated(function() {
 });
 
 Template.globalCustomFieldsAdmin.helpers({
-
+  hasCustomFields: function() {
+    return CustomFields.find({}).fetch().length > 0;
+  },
   hasCompanyFields: function() {
     return CustomFields.find({
       target: 'company'

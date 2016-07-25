@@ -4,8 +4,13 @@ import 'meteor/mrt:jquery-ui-sortable';
 import './global-custom-field-list.html';
 
 Template.globalCustomFieldList.onRendered(function() {
-  const entity = Template.currentData().entity;
-  const selector = `#${entity}-custom-fields`;
+  const entity = Template.currentData().entity,
+        selector = `#${entity}-custom-fields`;
+
+  this.autorun(() => {
+    Meteor.subscribe('globalCustomFields');
+  });
+
   $(selector).sortable({
     handle:'.handle',
     axis: 'y',
@@ -22,34 +27,26 @@ Template.globalCustomFieldList.onRendered(function() {
             group = Meteor.user().group;
 
       //Update data stores
-      Meteor.call('changeCfOrder', fieldId, fieldTarget, newIndex, group);
+      Meteor.call('customFields.changeOrder', fieldId, fieldTarget, newIndex, group);
 
       //Prevent DOM updates to let Meteor + Blaze handle it
       $(this).sortable('cancel');
     }
   });
-
 });
 
 Template.globalCustomFieldList.onCreated(function() {
-
   this.entity = Template.currentData().entity;
-  Meteor.subscribe('globalCustomFields');
   this.customFields = new ReactiveVar();
-
-  this.autorun(() => {
-    var currentFields = CustomFields.find({
-      target: this.entity
-    }, {
-      sort: { order: 1 }
-    });
-    this.customFields.set(currentFields);
-  });
-
 });
 
 Template.globalCustomFieldList.helpers({
   fields: function() {
-    return Template.instance().customFields.get();
+    return CustomFields.find({
+      target: this.entity,
+      entityId: Meteor.user().group
+    }, {
+      sort: { order: 1 }
+    });
   }
 });

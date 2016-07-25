@@ -10,8 +10,8 @@
   </div>
   {{/unless}}
 
-  <h4><i class="fa fa-fw fa-{{icon}}"></i>{{#unless equals type 'label'}}{{name}}{{/unless}}</h4>
-  <p class="list-group-item-text">{{#if equals type 'label'}}{{name}}{{else}}{{{value}}}{{/if}}</p>
+  <h4><i class="fa fa-fw fa-{{icon}}"></i>{{name}}</h4>
+  <p class="list-group-item-text">{{#unless equals type 'label'}}{{{value}}}{{/unless}}</p>
 
 </li>
 </template>

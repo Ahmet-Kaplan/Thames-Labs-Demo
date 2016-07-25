@@ -76,6 +76,7 @@
             {{/if}}
             {{/unless}}
 
+            {{#unless isLocal}}
             <label for="select-entity">Target entity</label>
             <select id="select-entity" placeholder="Select an entity...">
               <option value="">Select an entity...</option>
@@ -84,6 +85,7 @@
               <option value="project">Project</option>
               <option value="product">Product</option>
             </select>
+            {{/unless}}
           </form>
 
           <button id="createCustomField" role="button" class="btn btn-primary">Create</button>

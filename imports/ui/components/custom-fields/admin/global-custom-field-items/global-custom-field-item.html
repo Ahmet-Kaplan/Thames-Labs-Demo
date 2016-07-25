@@ -7,11 +7,12 @@
       <button class="btn btn-danger btn-xs delete-global-custom-field">Delete</button>
     </div>
 
-    <div class="row">
+    <div class="row global-field-item">
       <div class="col-md-3">
+        <i class="fa fa-fw fa-{{icon}}"></i>
         <b>{{name}}</b>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         {{#if equals type 'picklist'}}
           Values: {{values}}
         {{else}}
@@ -21,9 +22,6 @@
             Default: {{{value}}}
           {{/if}}
         {{/if}}
-      </div>
-      <div class="col-md-3 hidden-xs">
-        <i class="fa fa-fw fa-{{icon}}"></i><i> - {{niceType}}</i>
       </div>
     </div>
   </li>

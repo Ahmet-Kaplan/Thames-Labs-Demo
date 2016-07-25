@@ -44,7 +44,7 @@ Template.cfDisplay.events({
     const self = this;
     bootbox.confirm("Are you sure you wish to delete this custom field?", function(result) {
       if (result === true) {
-        Meteor.call('extInfo.deleteLocal', self._id, function(err, res) {
+        Meteor.call('customFields.deleteLocal', self._id, function(err, res) {
           if (err) throw new Meteor.Error(err);
           toastr.success('Custom field removed.');
         });

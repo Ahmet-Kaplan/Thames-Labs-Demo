@@ -58,14 +58,16 @@ Template.customFieldDisplay.helpers({
   },
   globalFields: function() {
     return CustomFields.find({
-      global: true
+      global: true,
+      entityId: this.entity_data._id
     }, {
       sort: { order: 1 }
     });
   },
   customFields: function() {
     return CustomFields.find({
-      global: false
+      global: false,
+      entityId: this.entity_data._id
     }, {
       sort: { order: 1 }
     });

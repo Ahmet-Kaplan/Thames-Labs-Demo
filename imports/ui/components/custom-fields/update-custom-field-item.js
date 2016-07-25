@@ -11,7 +11,7 @@ const getVar = (type) => Template.instance().reactiveVars[type].get(),
         Template.instance().reactiveVars[type].set(true);
       };
 
-Template.extInfo.onCreated(function() {
+Template.customFieldItem.onCreated(function() {
   this.reactiveVars = {};
   this.reactiveVars.text = new ReactiveVar(false);
   this.reactiveVars.advtext = new ReactiveVar(false);
@@ -23,8 +23,8 @@ Template.extInfo.onCreated(function() {
   setVar(this.data.type);
 });
 
-Template.extInfo.helpers({
-  extInfoId: function() {
+Template.customFieldItem.helpers({
+  fieldName: function() {
     return this.name.replace(/ /g, '');
   },
   typeText: function() {
@@ -47,12 +47,11 @@ Template.extInfo.helpers({
   }
 });
 
-Template.extInfo.events({
+Template.customFieldItem.events({
   'change .TypeSelectionMenu': function(event, template) {
 
-    const field = this,
-          index = this.name,
-          safeName = '#extInfos' + index.replace(/ /g, ''),
+    const index = this.name,
+          safeName = '#customField' + index.replace(/ /g, ''),
           selectorName = safeName + "TypeOptions",
           newType = $(selectorName).val();
 
@@ -60,12 +59,12 @@ Template.extInfo.events({
   }
 });
 
-Template.extInfo.onRendered(function() {
+Template.customFieldItem.onRendered(function() {
   this.$('.datetimepicker').datetimepicker();
 
   const field = this.data,
         index = field.name,
-        safeName = '#extInfos' + index.replace(/ /g, '');
+        safeName = '#customField' + index.replace(/ /g, '');
 
   if(field.listValues) {
     var options = _.map(field.listValues.split(','), function(input) {
@@ -82,17 +81,19 @@ Template.extInfo.onRendered(function() {
     });
   }
 
-  if(field.type == 'advtext') {
-    $(`${safeName}AdvTextValue`).html(field.value);
-    editor = new MediumEditor('.editable', {
-      placeholder: {
-        text: 'Type or paste your content here...'
-      },
-      toolbar: false,
-      autoLink: true
-    });
-  }else if(field.type == 'checkbox') {
-    $(`${safeName}BooleanValue`).prop('checked', field.value);
+  $(`${safeName}AdvTextValue`).html(field.value);
+  editor = new MediumEditor('.editable', {
+    placeholder: {
+      text: 'Type or paste your content here...'
+    },
+    toolbar: false,
+    autoLink: true
+  });
+
+  if(field.type == 'checkbox') {
+    if(field.value == 'true') {
+      $(`${safeName}BooleanValue`).attr('checked', 'checked');
+    }
   }else if(field.type == 'picklist') {
     const se = $(safeName + 'PicklistValue').selectize();
     se[0].selectize.setValue(field.value);

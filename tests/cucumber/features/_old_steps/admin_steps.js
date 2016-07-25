@@ -22,7 +22,7 @@ module.exports = function() {
   this.Given(/^a global custom field has been created with the name "([^"]*)"$/, function(name) {
     browser
       .executeAsync(function(innerName, done) {
-        Meteor.call('extInfo.addNewGlobal', innerName, 'text', innerName + ' Test', 'company', function() {
+        Meteor.call('customFields.addNewGlobal', innerName, 'text', innerName + ' Test', 'company', function() {
           done();
         });
       }, name);

@@ -53,7 +53,7 @@ Template.globalCustomFieldItem.events({
 
     bootbox.confirm("Are you sure you wish to delete this custom field?", function(result) {
       if (result === true) {
-        Meteor.call('extInfo.deleteGlobal', self, function(err, res) {
+        Meteor.call('customFields.deleteGlobal', self, function(err, res) {
           if (err) throw new Meteor.Error(err);
           if (res === true) {
             toastr.success('Global field deleted successfully.');
