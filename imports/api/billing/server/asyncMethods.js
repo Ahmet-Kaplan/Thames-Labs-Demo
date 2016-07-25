@@ -172,28 +172,6 @@ export const stripeMethodsAsync = {
     },
 
     /**
-     * Calls for the card object to display in admin panel
-     * @memberOf stripeMethodsAsync.customers
-     * @method   retrieveCard
-     * @param    {String} stripeId  - The tenant Stripe customer ID ({Tenant}.stripe.stripeId)
-     * @param    {String} cardId    - The tenant card ID which can be fetched from the tenant's Stripe customer object
-     * @return   {(Object|Boolean)} - The Stripe card object or false on failure
-     * @see      https://stripe.com/docs/api#retrieve_card
-     */
-    retrieveCard: function(stripeId, cardId) {
-      const retriveCardDetailsAsync = Meteor.wrapAsync(Stripe.customers.retrieveCard, Stripe.customers);
-      let cardDetails = null;
-      try {
-        cardDetails = retriveCardDetailsAsync(stripeId, cardId);
-      } catch (error) {
-        cardDetails = false;
-        throw new Meteor.Error('Unable to retrieve card details', error.message);
-      } finally {
-        return cardDetails;
-      }
-    },
-
-    /**
      * Delete the card from the tenant customer account. This is called by the webhook when subscription ends
      * @memberOf stripeMethodsAsync.customers
      * @method   deleteCard
