@@ -166,7 +166,7 @@ Feature: Allow users to manage their Companies
     And I click "#add-custom-field"
     And I set text field with id "custom-field-name" to "velocity2"
     And I set text field with id "custom-field-text-value" to "velocity"
-    And I click "#submit-custom-field"
+    And I click "#createCustomField"
     Then I should see ".custom-field-display-item"
 
   Scenario: A user can delete an custom field
@@ -177,7 +177,7 @@ Feature: Allow users to manage their Companies
     Then I should see a modal
     When I set text field with id "custom-field-name" to "velocity2"
     And I set text field with id "custom-field-text-value" to "velocity"
-    And I click "#submit-custom-field"
+    And I click "#createCustomField"
     And I click "#delete-custom-field"
     And I click confirm on the modal
     Then "#custom-fields-panel" should contain "No custom fields"
@@ -189,9 +189,10 @@ Feature: Allow users to manage their Companies
     And I click "#add-custom-field"
     And I set text field with id "custom-field-name" to "velocity2"
     And I set text field with id "custom-field-text-value" to "velocity"
-    And I click "#submit-custom-field"
+    And I click "#createCustomField"
+    Then I should not see a modal
     And I click "#edit-custom-fields"
-    And I set text field with id "extInfosvelocity2TextValue" to "velocity"
+    And I set text field with id "customFieldvelocity2TextValue" to "velocity"
     And I click "#submit-ext-info"
     Then I see a field with the name "velocity" in the custom field list
 

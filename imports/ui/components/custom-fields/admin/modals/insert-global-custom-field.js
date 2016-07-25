@@ -170,7 +170,6 @@ Template.insertGlobalCustomField.events({
       entityId = Meteor.user().group;
     }
 
-    console.log(cfName, cfEntity, entityId);
     //Check for duplicates
     if (CustomFields.findOne({
       name: cfName,

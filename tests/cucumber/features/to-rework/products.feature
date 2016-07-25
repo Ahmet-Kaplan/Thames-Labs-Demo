@@ -184,6 +184,13 @@ Feature: Allow users to manage their Products
     Then I should not see a modal
     And I should not see ".custom-field-display-item"
 
+  #Custom fields
+  Scenario: A user can see the custom fields panel
+    Given I have the "CanEditProducts" permission
+    And a "Product" has been created
+    When I navigate to a product page
+    Then I should see "#custom-fields-panel"
+
   #Filtering and Searching
   Scenario: A user can filter products by sales price
     Given I have the "CanReadProducts" permission
