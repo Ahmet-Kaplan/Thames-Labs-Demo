@@ -1,21 +1,16 @@
 Template.searchResults.onRendered(function() {
 
-  const index = this.data.index,
-        urlSearch = FlowRouter.getQueryParam("q"),
-        urlFilter = FlowRouter.getQueryParam("f");
+  const index = this.data.index;
+  const urlSearch = FlowRouter.getQueryParam("q") || '';
+  const urlFilter = FlowRouter.getQueryParam("f") || {};
 
-  // Update search on first render if present in URL
-  if (urlSearch) {
-    index.getComponentMethods().search(urlSearch);
-    $('input.easysearch-input').val(urlSearch);
-  }
+  // Update search and filters on first render
+  index.getComponentMethods().search(urlSearch);
+  $('input.easysearch-input').val(urlSearch);
 
-  // Update filters on first render if present in URL
-  if (urlFilter) {
-    index.getComponentDict().set('searchOptions', {
-      props: urlFilter
-    });
-  }
+  index.getComponentDict().set('searchOptions', {
+    props: urlFilter
+  });
 
   // Update URL based on search and filters
   this.autorun(() => {

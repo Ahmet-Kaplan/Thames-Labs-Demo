@@ -1,24 +1,4 @@
 AutoForm.hooks({
-  insertNewCompanyForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Company created.');
-    },
-    after: {
-      insert: function(error, result) {
-        if (error) {
-          $("#address_details").show();
-          toastr.error('Company creation error: ' + error);
-          return false;
-        }
-
-        FlowRouter.go('/companies/' + result);
-      }
-    },
-    onError: function(formType, error) {
-      toastr.error('Company creation error: ' + error);
-    }
-  },
   editCompanyForm: {
     before: {
       update: function(doc) {

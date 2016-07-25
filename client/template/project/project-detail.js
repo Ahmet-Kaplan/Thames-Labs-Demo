@@ -1,4 +1,5 @@
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
+import '/imports/ui/components/projects/project-details-panel.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 
 Template.projectDetail.onCreated(function() {
@@ -118,31 +119,12 @@ Template.projectDetail.helpers({
     }
     return project;
   },
-  managerName: function() {
-    return Meteor.users.find({
-      _id: this.userId
-    }).fetch()[0].profile.name;
-  },
   opportunityId: function() {
     var opp = Opportunities.findOne({
       projectId: this._id
     });
     if (opp) return opp._id;
   },
-  friendlyDueDate: function() {
-    return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
-  },
-  staffList: function() {
-    var staffList = "";
-    for (var i = 0; i < this.staff.length; i++) {
-      var name = Meteor.users.find({
-        _id: this.staff[i]
-      }).fetch()[0].profile.name;
-      staffList = staffList + name + ", ";
-    }
-    staffList = staffList.substring(0, staffList.length - 2);
-    return staffList;
-  }
 });
 
 Template.projectDetail.events({
@@ -154,20 +136,6 @@ Template.projectDetail.events({
     event.preventDefault();
     Modal.show('insertProjectActivityModal', {
       project: this
-    });
-  },
-  'click #edit-project': function(event) {
-    event.preventDefault();
-    Modal.show('updateProjectForm', this);
-  },
-  'click #remove-project': function(event) {
-    event.preventDefault();
-    var projectId = this._id;
-
-    bootbox.confirm("Are you sure you wish to delete this project?", function(result) {
-      if (result === true) {
-        Projects.remove(projectId);
-      }
     });
   },
   'click #fab': function(event) {
