@@ -56,7 +56,7 @@ Template.updateCustomField.events({
           break;
         case 'checkbox':
           newValue = $(`${safeName}BooleanValue`).prop('checked');
-        break;
+          break;
         case 'date':
           newValue = $(`${safeName}DateValue`).val();
           break;

@@ -112,9 +112,9 @@ Template.insertGlobalCustomField.events({
         cfEntity = "";
 
     if(Template.currentData()) {
-       cfEntity = Template.currentData().entity_type;
+      cfEntity = Template.currentData().entity_type;
     }else {
-       cfEntity = $('#select-entity').val();
+      cfEntity = $('#select-entity').val();
     }
 
     if (cfName === "") {

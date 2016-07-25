@@ -12,7 +12,7 @@ Template.globalCustomFieldList.onRendered(function() {
   });
 
   $(selector).sortable({
-    handle:'.handle',
+    handle: '.handle',
     axis: 'y',
     stop: function(event, ui) {
       if (!isProTenant(Meteor.user().group)) {
