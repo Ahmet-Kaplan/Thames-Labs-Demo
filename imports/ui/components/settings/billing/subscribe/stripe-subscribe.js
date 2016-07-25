@@ -33,7 +33,10 @@ Template.stripeSubscribe.helpers({
   },
   hasCoupon: function() {
     return stripeCustomer.getCoupon();
-  }
+  },
+  userEmail: function() {
+    return Meteor.user().emails[0].address;
+  },
 });
 
 Template.stripeSubscribe.events({

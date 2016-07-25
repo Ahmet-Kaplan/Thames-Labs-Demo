@@ -1,5 +1,3 @@
-import { showDirectUpgradeModal } from '/imports/api/billing/helpers.js';
-
 import './top-menu.less';
 import './top-menu.html';
 

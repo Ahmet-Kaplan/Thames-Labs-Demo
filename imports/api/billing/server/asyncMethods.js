@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Stripe as StripeAPI } from 'stripe';
 
-var Stripe = StripeAPI(process.env.STRIPE_SK);
+const Stripe = StripeAPI(process.env.STRIPE_SK);
 
 /**
  * Wrapper for the stripe customers methods.
