@@ -74,7 +74,7 @@ Template.taskList.events({
       entity_type: entityType
     });
   },
-  'click #toggle-my-tasks': function(e) {
+  'click #toggle-my-tasks': function(event) {
     event.preventDefault();
     const indexMethods = Template.instance().index.getComponentMethods();
     indexMethods.removeProps('assignee');
