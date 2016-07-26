@@ -36,7 +36,8 @@ Meteor.methods({
 
     Partitioner.bindGroup(user.group, function() {
       data = CustomFields.find({
-        target: collectionType
+        target: collectionType,
+        global: true
       }).fetch();
     });
 

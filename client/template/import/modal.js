@@ -149,14 +149,12 @@ Template.importEntityModal.onCreated(function() {
             title: 'Do not import',
             selectOnTab: true
           });
-
-          $('#' + gcf.fieldIdentifier + '.selectpicker').each(function(i, obj) {
-            _.each(self.selectOptions, function(option) {
-              if (option === obj.id.replace('Selector', '')) {
-                $('#' + obj.id).selectpicker('val', option);
-              }
-            });
-          });
+          // _.each(self.selectOptions, function(option) {
+          //   if (option.toLowerCase() === gcf.name.toLowerCase()) {
+          //     console.log(gcf.fieldIdentifier);
+          //     $('#' + gcf.fieldIdentifier + 'Selector').selectpicker('val', option.toLowerCase());
+          //   }
+          // });
         }
       });
     });
@@ -198,6 +196,16 @@ Template.importEntityModal.onRendered(function() {
         $('#' + obj.id).selectpicker('val', option);
       }
     });
+  });
+
+  _.each(self.entityGCFs, function(gcf) {
+    if (gcf.type !== "label") {
+      _.each(self.selectOptions, function(option) {
+        if (option.toLowerCase() === gcf.name.toLowerCase()) {
+          $('#' + gcf.fieldIdentifier + 'Selector').selectpicker('val', option.toLowerCase());
+        }
+      });
+    }
   });
 });
 
@@ -242,37 +250,53 @@ Template.importEntityModal.events({
     var entityType = template.entityType;
     var unusedAsCustoms = template.unusedAsCustoms.get();
     var selectedValues = [];
+    var selectedGCFs = [];
     var requiredFieldsCompleted = true;
 
     $('.selectpicker').each(function(i, obj) {
-      if (obj.value !== "") {
-        var cfIndex = customFields.indexOf(obj.value);
-        if (cfIndex > -1) customFields.splice(cfIndex, 1);
-        var setting = {
-          schemaField: obj.id.replace('Selector', ''),
-          fieldValue: obj.value
-        };
-        selectedValues.push(setting);
-      } else {
-        var result = null;
-        if (entityType === "companies") {
-          result = $.grep(companyFields, function(e) {
-            return e.fieldIdentifier == obj.id.replace('Selector', '');
-          });
-        } else if (entityType === "contacts") {
-          result = $.grep(contactFields, function(e) {
-            return e.fieldIdentifier == obj.id.replace('Selector', '');
-          });
-        } else if (entityType === "tasks") {
-          result = $.grep(taskFields, function(e) {
-            return e.fieldIdentifier == obj.id.replace('Selector', '');
-          });
-        }
+      var objectIdentifier = obj.id;
+      var isGCFSelector = objectIdentifier.indexOf("GCF-") > -1;
 
-        if (result[0].required === true) {
-          toastr.warning(result[0].fieldLabel + " is a required field. Please assign it a value from the list.");
-          requiredFieldsCompleted = false;
-          return;
+      if(!isGCFSelector) {
+        if (obj.value !== "") {
+          var cfIndex = customFields.indexOf(obj.value);
+          if (cfIndex > -1) customFields.splice(cfIndex, 1);
+          var setting = {
+            schemaField: obj.id.replace('Selector', ''),
+            fieldValue: obj.value
+          };
+          selectedValues.push(setting);
+        } else {
+          var result = null;
+          if (entityType === "companies") {
+            result = $.grep(companyFields, function(e) {
+              return e.fieldIdentifier == obj.id.replace('Selector', '');
+            });
+          } else if (entityType === "contacts") {
+            result = $.grep(contactFields, function(e) {
+              return e.fieldIdentifier == obj.id.replace('Selector', '');
+            });
+          } else if (entityType === "tasks") {
+            result = $.grep(taskFields, function(e) {
+              return e.fieldIdentifier == obj.id.replace('Selector', '');
+            });
+          }
+
+          if (result[0].required === true) {
+            toastr.warning(result[0].fieldLabel + " is a required field. Please assign it a value from the list.");
+            requiredFieldsCompleted = false;
+            return;
+          }
+        }
+      } else {
+        if (obj.value !== "") {
+          var gcfIndex = customFields.indexOf(obj.value);
+          if (gcfIndex > -1) customFields.splice(gcfIndex, 1);
+          var gcfSetting = {
+            schemaField: obj.id.replace('-Selector', '').replace('GCF-', ''),
+            fieldValue: obj.value
+          };
+          selectedGCFs.push(gcfSetting);
         }
       }
     });
@@ -286,7 +310,7 @@ Template.importEntityModal.events({
       $('.modal-header').hide();
       $('.modal-footer').hide();
 
-      Meteor.call('import.do', Meteor.userId(), entityType, dataToImport, selectedValues, (unusedAsCustoms ? customFields : []), function(error, result) {
+      Meteor.call('import.do', Meteor.userId(), entityType, dataToImport, selectedValues, selectedGCFs, (unusedAsCustoms ? customFields : []), function(error, result) {
         if (error) {
           toastr.error(error);
           $('#startImport').prop('disabled', false);
