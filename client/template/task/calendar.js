@@ -277,10 +277,10 @@ Template.displayCalendar.helpers({
         $('.quick-add-task').on('click.RTCalendar', function(jsEvent) {
           jsEvent.preventDefault();
           var entityType = $(jsEvent.target).attr('id');
-          Modal.show('insertNewTask', {
+          Modal.show('insertNewTask', { entityData: {
             entity_type: entityType,
             dueDate: date
-          });
+          }});
         });
 
         //Add event handler to go to day view. This cannot be done with Template.events because of the toHTMWithData function

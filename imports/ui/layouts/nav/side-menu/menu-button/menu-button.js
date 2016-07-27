@@ -11,8 +11,10 @@ Template.menuButton.helpers({
     return true;
   },
   hasFreeAccessOnly: function() {
-    if(!Meteor.user()) return false;
-    return (Template.currentData().proFeature && !isProTenant(Meteor.user().group));
+    if (Meteor.user()) {
+      return (Template.currentData().proFeature && !isProTenant(Meteor.user().group));
+    }
+    return true;
   },
   id: function() {
     if (Template.currentData().linkId) {

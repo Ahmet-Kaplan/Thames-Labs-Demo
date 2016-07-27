@@ -1,5 +1,5 @@
-import './modal-parts/company-lookup.js';
-import './modal-parts/company-details-form.js';
+import '../modal-parts/company-lookup.js';
+import '../modal-parts/company-details-form.js';
 import './insert-company-modal.html';
 
 /*
@@ -32,6 +32,16 @@ Template.insertCompanyModal.helpers({
       completedLookup(data) {
         currentInstance.companyData.set(data);
         currentInstance.lookupComplete.set(true);
+      }
+    };
+  },
+  detailFormArgs(res) {
+    const currentInstance = Template.instance();
+    return {
+      companyData: currentInstance.companyData.get(),
+      searchAgain(res) {
+        currentInstance.companyData.set({});
+        currentInstance.lookupComplete.set(false);
       }
     };
   }
