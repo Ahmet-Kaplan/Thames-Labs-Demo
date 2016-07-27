@@ -1,6 +1,6 @@
 <template name="insertGlobalCustomField">
   <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
         <div class="modal-header">
@@ -77,9 +77,9 @@
             {{/unless}}
 
             {{#unless isLocal}}
-            <label for="select-entity">Target entity</label>
-            <select id="select-entity" placeholder="Select an entity...">
-              <option value="">Select an entity...</option>
+            <label for="select-entity">Target record type</label>
+            <select id="select-entity" placeholder="Select a record type...">
+              <option value="">Select a record type...</option>
               <option value="company">Company</option>
               <option value="contact">Contact</option>
               <option value="project">Project</option>
