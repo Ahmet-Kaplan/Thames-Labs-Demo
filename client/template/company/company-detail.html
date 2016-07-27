@@ -5,12 +5,15 @@
       {{> jumplist list=linksList}}
     </div>
     <div class="col-md-7">
+      {{> breadcrumbs parentPath="/companies" parentName="Companies" recordName=breadcrumbName watchlistData=this watchListCollection="companies"}}
+
       <h4 class="entity-title">
         <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
-        Company {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="companies"}}
       </h4>
 
       <h1 id="company-details" class="entity-name">{{name}}</h1>
+
+
 	    {{> tagInput tags=tags collection='companies' entityId=_id permissionToEdit='CanEditCompanies'}}
 
       <div class="panel panel-default" id="company-details-panel">
@@ -36,7 +39,7 @@
             {{/if}} {{#if isInRole 'CanDeleteCompanies'}}
             <a href="#" id="remove-company" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Delete</a>{{/if}}
           </div>
-          Company details
+          Company details {{> watchlistAdmin entityData=this collection='companies'}}
         </div>
         <ul class="list-group">
           {{#if website}}
