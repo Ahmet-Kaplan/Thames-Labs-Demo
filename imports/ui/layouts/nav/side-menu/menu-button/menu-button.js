@@ -29,6 +29,6 @@ Template.menuButton.events({
     $("#id-view-sidemenu").removeClass("active");
   },
   'click .pro-feature': function() {
-    showUpgradeToastr('To access ' + Template.currentData().title);
+    showUpgradeToastr(`To access ${Template.currentData().title}`);
   }
 });
