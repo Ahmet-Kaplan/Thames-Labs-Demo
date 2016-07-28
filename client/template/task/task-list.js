@@ -69,7 +69,7 @@ Template.taskList.events({
   },
   'click .add-task': function(event) {
     event.preventDefault();
-    const entityType = e.target.id;
+    const entityType = event.target.id;
     Modal.show('insertNewTask', { entity_data: {
       entity_type: entityType
     }});
