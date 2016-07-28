@@ -15,65 +15,64 @@
               <label for="custom-field-name">Name</label>
               <input type="text" class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field name" id="custom-field-name" autofocus>
             </div>
+            <div class="form-group">
+              <label>Type</label>
+              <div class="row">
+                <div class="col-md-2">
+                  <a id="typeText" class="{{#unless typeText}}text-muted{{/unless}} text-centre" href=""><i class="fa fa-fw fa-text-width"></i>Text</a>
+                </div>
+                <div class="col-md-2">
+                  <a id="typeMultiText" class="{{#unless typeMultiText}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-align-left"></i>Multiline Text</a>
+                </div>
+                <div class="col-md-2">
+                  <a id="typeCheckbox" class="{{#unless typeCheckbox}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-check-square-o"></i>Checkbox</a>
+                </div>
+                <div class="col-md-2">
+                  <a id="typeDateTime" class="{{#unless typeDateTime}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-calendar"></i>Date/Time</a>
+                </div>
 
-            <label>Type</label>
-            <div class="row">
-              <div class="col-md-2">
-                <a id="typeText" class="{{#unless typeText}}text-muted{{/unless}} text-centre" href=""><i class="fa fa-fw fa-text-width"></i>Text</a>
+                {{#unless isLocal}}
+                <div class="col-md-2">
+                  <a id="typeLabel" class="{{#unless typeLabel}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-tag"></i>Label</a>
+                </div>
+                <div class="col-md-2">
+                  <a id="typePicklist" class="{{#unless typePicklist}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-list-ol"></i>Picklist</a>
+                </div>
+                {{/unless}}
               </div>
-              <div class="col-md-2">
-                <a id="typeMultiText" class="{{#unless typeMultiText}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-align-left"></i>Multiline Text</a>
-              </div>
-              <div class="col-md-2">
-                <a id="typeCheckbox" class="{{#unless typeCheckbox}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-check-square-o"></i>Checkbox</a>
-              </div>
-              <div class="col-md-2">
-                <a id="typeDateTime" class="{{#unless typeDateTime}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-calendar"></i>Date/Time</a>
-              </div>
-
-              {{#unless isLocal}}
-              <div class="col-md-2">
-                <a id="typeLabel" class="{{#unless typeLabel}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-tag"></i>Label</a>
-              </div>
-              <div class="col-md-2">
-                <a id="typePicklist" class="{{#unless typePicklist}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-list-ol"></i>Picklist</a>
-              </div>
-              {{/unless}}
             </div>
 
             {{#if typeText}}
               <div class="form-group" id="text-input-area">
-                <label for="custom-field-text-value">Default Text Value</label>
-                <input type="text" class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field value" id="custom-field-text-value">
+                <label for="custom-field-text-value">{{#unless isLocal}}Default {{/unless}}Text Value</label>
+                <input type="text" class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field Value" id="custom-field-text-value">
               </div>
               {{/if}}
 
             <div class="form-group" id="advtext-input-area" style="{{#unless typeMultiText}}display: none;{{/unless}}">
               <label for="custom-field-advtext-value">Multiline Text Value</label>
-              <div class="editable form-control" id="custom-field-multitext-value"></div>
+              <div class="editable form-control mediumWrapper" id="custom-field-multitext-value"></div>
             </div>
 
             {{#if typeCheckbox}}
             <div class="form-group" id="check-input-area">
-              <label for="custom-field-check-value">Default True/False Value</label>
+              <label for="custom-field-check-value">{{#unless isLocal}}Default {{/unless}}True/False Value</label>
               <br />
-              Set default value to true?
+              Set {{#unless isLocal}}default {{/unless}}value to true?
               <input type="checkbox" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field value" id="custom-field-check-value">
             </div>
             {{/if}}
 
             <div class="form-group datetimepicker" id="date-input-area" style="{{#unless typeDateTime}}display: none;{{/unless}}">
-              <label for="custom-field-date-value">Default Date Value</label>
-              <input class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} custom field value" id="custom-field-date-value">
+              <label for="custom-field-date-value">{{#unless isLocal}}Default {{/unless}}Date Value</label>
+              <input class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field Value" id="custom-field-date-value">
             </div>
 
             {{#unless isLocal}}
-            {{#if typePicklist}}
-            <div class="form-group" id="picklist-input-area">
+            <div class="form-group" id="picklist-input-area" style="{{#unless typePicklist}}display: none;{{/unless}}">
               <label for="custom-field-picklist-value">List Values</label>
               <input class="form-control" id="custom-field-picklist-values">
             </div>
-            {{/if}}
             {{/unless}}
 
             {{#unless isLocal}}

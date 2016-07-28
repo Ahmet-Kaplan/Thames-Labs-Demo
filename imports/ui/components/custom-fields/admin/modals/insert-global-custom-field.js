@@ -101,6 +101,16 @@ Template.insertGlobalCustomField.events({
   },
   'click #typePicklist': function() {
     setVar('typePicklist');
+
+    this.$('custom-field-picklist-values').selectize({
+      delimiter: ',',
+      create: function(input) {
+        return {
+          value: input,
+          text: input
+        };
+      }
+    });
   },
   'click #createCustomField': function(event, template) {
     event.preventDefault();
