@@ -63,16 +63,16 @@ Template.taskList.helpers({
 Template.taskList.events({
   'click #tskToggleCalendar': function(event) {
     event.preventDefault();
-    var showCalendar = Template.instance().showCalendar.get();
+    const showCalendar = Template.instance().showCalendar.get();
     Template.instance().showCalendar.set(!showCalendar);
     $(event.target).blur();
   },
-  'click .add-task': function(e) {
-    e.preventDefault();
-    var entityType = e.target.id;
-    Modal.show('insertNewTask', {
+  'click .add-task': function(event) {
+    event.preventDefault();
+    const entityType = e.target.id;
+    Modal.show('insertNewTask', { entity_data: {
       entity_type: entityType
-    });
+    }});
   },
   'click #toggle-my-tasks': function(event) {
     event.preventDefault();
