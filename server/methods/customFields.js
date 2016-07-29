@@ -66,7 +66,7 @@ Meteor.methods({
 
         CustomFields.insert({
           name: cfName,
-          value: cfValue,
+          value: (cfType === 'picklist' ? '' : cfValue),
           defaultValue: (cfType === 'picklist' ? '' : cfValue),
           type: cfType,
           global: true,
@@ -85,7 +85,7 @@ Meteor.methods({
 
           CustomFields.insert({
             name: cfName,
-            value: cfValue,
+            value: (cfType === 'picklist' ? '' : cfValue),
             defaultValue: (cfType === 'picklist' ? '' : cfValue),
             type: cfType,
             global: true,

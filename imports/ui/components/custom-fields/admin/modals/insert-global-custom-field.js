@@ -8,11 +8,9 @@ import '/imports/ui/components/custom-fields/customfield.css';
 const getVar = (type) => Template.instance().reactiveVars[type].get(),
       setVar = (type) => {
         _.forEach(Template.instance().reactiveVars, function(value, key) {
-          Template.instance().reactiveVars[key].set(false);
+          value.set(key === type);
         });
-        Template.instance().reactiveVars[type].set(true);
       };
-
 
 Template.insertGlobalCustomField.onRendered(function() {
   $('#select-entity').selectize({
