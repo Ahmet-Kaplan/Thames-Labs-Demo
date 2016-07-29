@@ -5,7 +5,7 @@ Template.purchaseOrderDetail.onCreated(function() {
       FlowRouter.go('/');
     }
 
-    var purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
+    const purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
     if (purchaseOrder) {
       this.subscribe('companyById', purchaseOrder.supplierCompanyId);
       this.subscribe('contactById', purchaseOrder.supplierContactId);
@@ -16,7 +16,7 @@ Template.purchaseOrderDetail.onCreated(function() {
     }
   });
 
-  var purchaseOrderId = FlowRouter.getParam('id');
+  const purchaseOrderId = FlowRouter.getParam('id');
   this.subscribe('allPurchaseOrderItems', purchaseOrderId);
   this.subscribe('activityByPurchaseOrderId', purchaseOrderId);
   this.subscribe('tasksByEntityId', purchaseOrderId);
@@ -60,7 +60,7 @@ Template.purchaseOrderItem.helpers({
     }
   },
   projectName: function() {
-    var project = Projects.findOne(this.projectId);
+    const project = Projects.findOne(this.projectId);
     if (project) return project.name;
     return "No project";
   }
@@ -68,7 +68,7 @@ Template.purchaseOrderItem.helpers({
 
 Template.purchaseOrderDetail.helpers({
   purchaseOrderData: function() {
-    var purchaseOrderId = FlowRouter.getParam('id');
+    const purchaseOrderId = FlowRouter.getParam('id');
     return PurchaseOrders.findOne(purchaseOrderId);
   },
   hasItems: function() {
@@ -97,37 +97,40 @@ Template.purchaseOrderDetail.helpers({
 
 Template.purchaseOrderDetail.events({
   'change #template-upload-docx': function(event) {
-    var file = event.target.files[0];
+    const file = event.target.files[0];
     if (!file) return;
     if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
       toastr.error("Unable to extract to file. Please ensure the provided file is a word document (.docx)");
       return;
     }
 
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = function() {
-      var doc = new Docxgen(reader.result);
-      var customerName = "",
-          customerAddress = "";
+      const doc = new Docxgen(reader.result),
+            company = Companies.findOne(this.supplierCompanyId),
+            orderDate = moment(this.orderDate).format("MMM Do YYYY"),
+            orderItems = PurchaseOrderItems.find({
+              purchaseOrderId: this._id
+            }).fetch(),
+            items = [],
+            addressFields = ['address', 'address2', 'city', 'county', 'country', 'postcode'];
+      let running = 0,
+          customerAddress = [],
+          customerName = company.name;
 
-      var company = Companies.findOne(this.supplierCompanyId);
-      customerName = company.name;
-      customerAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
-
-      var orderDate = moment(this.orderDate).format("MMM Do YYYY");
-
-      var orderItems = PurchaseOrderItems.find({
-        purchaseOrderId: this._id
-      }).fetch();
-      var items = [];
-      var running = 0;
+      for (const field in company) {
+        if(addressFields.indexOf(field) != -1) {
+          const addressValue = _.get(company, field, '');
+          customerAddress.push(`${addressValue}\r\n`);
+        }
+      }
 
       _.each(orderItems, function(oi) {
-        var obj = {
+        const obj = {
           name: oi.description || '',
           count: oi.quantity || '',
           value: oi.value || '',
-          total: oi.totalPrice || '',
+          total: oi.totalPrice || ''
         };
 
         running += parseFloat(oi.totalPrice);
@@ -135,12 +138,12 @@ Template.purchaseOrderDetail.events({
         items.push(obj);
       });
 
-      var vatAmount = parseFloat((running / 100) * 20);
-      var totalValue = running + vatAmount;
+      const vatAmount = parseFloat((running / 100) * 20),
+            totalValue = running + vatAmount;
 
       doc.setData({
         "supplierName": customerName || '',
-        "supplierAddress": customerAddress || '',
+        "supplierAddress": customerAddress.join('') || '',
         "supplierReference": this.supplierReference || '',
         "orderNumber": this.sequencedIdentifier || '',
         "orderDate": orderDate || '',
@@ -156,12 +159,12 @@ Template.purchaseOrderDetail.events({
 
       try {
         doc.render();
-        var docDataUri = doc.getZip().generate({
+        const docDataUri = doc.getZip().generate({
           type: 'blob'
         });
         docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
         //Convert data into a blob format for sending to api
-        var blob = new Blob([docDataUri], {
+        const blob = new Blob([docDataUri], {
           type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         });
         saveAs(blob, file.name);
@@ -202,7 +205,7 @@ Template.purchaseOrderDetail.events({
   },
   'click #remove-purchase-order': function(event) {
     event.preventDefault();
-    var poId = this._id;
+    const poId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this purchase order?", function(result) {
       if (result === true) {
@@ -219,7 +222,7 @@ Template.purchaseOrderDetail.events({
 Template.purchaseOrderItem.events({
   'click #removePurchaseOrderItem': function(event) {
     event.preventDefault();
-    var itemId = this._id;
+    const itemId = this._id;
     bootbox.confirm("Are you sure you wish to delete this item?", function(result) {
       if (result === true) {
         PurchaseOrderItems.remove(itemId);
