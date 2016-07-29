@@ -16,7 +16,7 @@
           <br />Please find below the details of your subscription:
 
           <div class="well well-sm">
-          {{#if planDetails.name}}
+          {{#if planDetails}}
           {{#with planDetails}}
             <div class="row">
               <div class="col-xs-6"><em>Plan</em></div>
@@ -55,7 +55,25 @@
           <br />Please note that none of the card information is stored by us.
         </div>
 
-        {{>cardForm buttonText="Subscribe" showEmail=true}}
+        <form id="subscribe">
+          <div class="modal-body">
+            <div class="well well-sm">
+            {{>cardForm buttonText="Subscribe" showEmail=true}}
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <label for="email" class="control-label">Email for invoices</label>
+                    <input type="text" id="email" class="form-control" placeholder="you@domain.com" value="{{userEmail}}" required />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" id="submit" class="btn btn-primary"><i class="fa fa-lock"></i> Subscribe</button>
+          </div>
+        </form>
 
       </div>
     </div>

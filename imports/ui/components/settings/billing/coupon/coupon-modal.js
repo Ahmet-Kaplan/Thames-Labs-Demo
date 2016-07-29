@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
+import { stripeCustomer } from '/imports/api/billing/helpers.js';
+
 import './coupon-modal.html';
 
 Template.couponModal.helpers({
@@ -21,13 +23,10 @@ Template.couponModal.events({
   'click #setCoupon': function(evt) {
     evt.preventDefault();
 
-    //Retrieve couponDetails ReactiveVar from parent Template
-    var couponDetails = this.couponDetails;
-
     $('#setCoupon').prop('disabled', true);
     $('#setCoupon').html('<i class="fa fa-cog fa-spin"></i> Verifying coupon...');
 
-    var coupon = $('#couponName').val();
+    const coupon = $('#couponName').val();
     Meteor.call('stripe.updateCoupon', coupon, function(err, res) {
       if(err) {
         toastr.error('Unable to set your coupon', 'Error');
@@ -38,7 +37,7 @@ Template.couponModal.events({
         $('#setCoupon').prop('disabled', false);
         $('#setCoupon').html('Apply');
       } else {
-        couponDetails.set(res);
+        stripeCustomer.update();
         toastr.success('Your coupon has been updated successfully');
         Modal.hide();
       }
