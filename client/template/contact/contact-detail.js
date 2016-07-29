@@ -32,6 +32,9 @@ Template.contactDetail.onCreated(function() {
 });
 
 Template.contactDetail.helpers({
+  breadcrumbName: function() {
+    return (this.sequencedIdentifier ? "Contact #" + this.sequencedIdentifier : "Contact");
+  },
   canLinkAddress: function() {
     var company = Companies.findOne({
       _id: this.companyId

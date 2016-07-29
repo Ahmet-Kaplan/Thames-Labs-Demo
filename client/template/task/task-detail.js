@@ -37,6 +37,9 @@ Template.taskDetail.onRendered(function() {
 });
 
 Template.taskDetail.helpers({
+  breadcrumbName: function() {
+    return (this.sequencedIdentifier ? "Task #" + this.sequencedIdentifier : "Task");
+  },
   reminderDetails: function() {
     if(this.remindMe) {
       var reminderArray = this.reminder.split('.');

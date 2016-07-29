@@ -3,7 +3,11 @@
     {{setPageTitle "Purchase order - " description}}
     <div class="row">
       <div class="col-md-12">
-        <h4 class="entity-title">Purchase Order {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="purchaseorders"}}</h4>
+      {{> breadcrumbs parentPath="/purchaseorders" parentName="Purchase Orders" recordName=breadcrumbName }}
+
+      <div class="watchlist-container">
+        {{> watchlistAdmin entityData=this collection="purchaseorders"}}
+      </div>
         <h1 class="entity-name" id="purchase-order-details">{{description}}</h1>
         <div id="company-details-tags">
         {{> tagInput tags=tags collection='purchaseorders' entityId=_id permissionToEdit='CanEditPurchaseOrders'}}

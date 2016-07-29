@@ -2,7 +2,11 @@
   {{#with taskData}} {{setPageTitle "Task - " title }}
   <div class="row">
     <div class="col-md-12">
-      <h4 class="entity-title">Task {{> watchlistAdmin entityData=this collection="tasks"}}</h4>
+      {{> breadcrumbs parentPath="/tasks" parentName="Tasks" recordName=breadcrumbName }}
+
+      <div class="watchlist-container">
+        {{> watchlistAdmin entityData=this collection="tasks"}}
+      </div>
       <h4 class="pull-left">
         <span class="task-completed">
         {{#if completed}}

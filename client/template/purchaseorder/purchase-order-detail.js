@@ -67,6 +67,9 @@ Template.purchaseOrderItem.helpers({
 });
 
 Template.purchaseOrderDetail.helpers({
+  breadcrumbName: function() {
+    return (this.sequencedIdentifier ? "Purchase Order #" + this.sequencedIdentifier : "Purchase Order");
+  },
   purchaseOrderData: function() {
     var purchaseOrderId = FlowRouter.getParam('id');
     return PurchaseOrders.findOne(purchaseOrderId);
