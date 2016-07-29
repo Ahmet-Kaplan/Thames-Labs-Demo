@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Stripe as StripeAPI } from 'stripe';
 
-var Stripe = StripeAPI(process.env.STRIPE_SK);
+const Stripe = StripeAPI(process.env.STRIPE_SK);
 
 /**
  * Wrapper for the stripe customers methods.
@@ -141,6 +141,7 @@ export const stripeMethodsAsync = {
         result = updateSubscriptionAsync(stripeId, subsId, parameters);
       } catch (error) {
         result = false;
+        console.log(error);
         throw new Meteor.Error('Error', error);
       } finally {
         return result;
@@ -167,28 +168,6 @@ export const stripeMethodsAsync = {
         throw new Meteor.Error('Unable to cancel subscription', error.message);
       } finally {
         return !!confirmation;
-      }
-    },
-
-    /**
-     * Calls for the card object to display in admin panel
-     * @memberOf stripeMethodsAsync.customers
-     * @method   retrieveCard
-     * @param    {String} stripeId  - The tenant Stripe customer ID ({Tenant}.stripe.stripeId)
-     * @param    {String} cardId    - The tenant card ID which can be fetched from the tenant's Stripe customer object
-     * @return   {(Object|Boolean)} - The Stripe card object or false on failure
-     * @see      https://stripe.com/docs/api#retrieve_card
-     */
-    retrieveCard: function(stripeId, cardId) {
-      const retriveCardDetailsAsync = Meteor.wrapAsync(Stripe.customers.retrieveCard, Stripe.customers);
-      let cardDetails = null;
-      try {
-        cardDetails = retriveCardDetailsAsync(stripeId, cardId);
-      } catch (error) {
-        cardDetails = false;
-        throw new Meteor.Error('Unable to retrieve card details', error.message);
-      } finally {
-        return cardDetails;
       }
     },
 

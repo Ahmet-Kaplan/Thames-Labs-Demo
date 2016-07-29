@@ -1,52 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-import { stripeMethodsAsync } from './imports/stripe/asyncMethods.js';
-
-var postRoutes = Picker.filter(function(req, res) {
-  return req.method == "POST";
-});
-
-postRoutes.route('/webhook/stripe', function(params, request, response) {
-
-  if (request.body.object !== 'event') {
-    response.writeHead(400);
-    return response.end();
-  }
-
-  response.writeHead(200);
-  response.end();
-
-  var event = request.body;
-  var eventObject = event.data.object;
-
-  //--------------------------------------------------//
-  // Delete Card Details When Subscription is Deleted //
-  //--------------------------------------------------//
-  if(event.type === "customer.subscription.deleted") {
-    var message = "Result from webhook " + event.type + '/' + event.id + ":\n";
-
-    var customerObject = stripeMethodsAsync.customers.retrieve(eventObject.customer);
-
-    var deleteCard = stripeMethodsAsync.customers.deleteCard(customerObject.id, customerObject.default_source);
-    message += (deleteCard === true) ? "Card Details successfully deleted" : "Unable to remove card details";
-    message += " for RealTimeCRM customer " + customerObject.description + " with id " + customerObject.metadata.tenantId + " (Stripe account " + eventObject.customer + ")";
-
-    if(deleteCard === true) {
-      Tenants.update(customerObject.metadata.tenantId, {
-        $unset: {
-          'stripe.stripeSubs': ''
-        }
-      });
-    }
-
-    Email.send({
-      to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
-      from: 'stripe@realtimecrm.co.uk',
-      subject: 'RealtimeCRM received a webhook from Stripe! [' + event.type + ']',
-      text: message
-    });
-  }
-});
+import { stripeMethodsAsync } from './asyncMethods.js';
 
 /**
  * Meteor methods used to get responses from the Stripe API.
@@ -83,12 +37,12 @@ Meteor.methods({
       throw new Meteor.Error('400', 'Invalid plan name');
     }
 
-    var tenantId = Partitioner.getUserGroup(this.userId);
-    var mongoTenant = Tenants.findOne({
+    const tenantId = Partitioner.getUserGroup(this.userId);
+    const mongoTenant = Tenants.findOne({
       _id: tenantId
     });
-    var coupon = mongoTenant.stripe.coupon;
-    var numberUsers = Meteor.users.find({
+    const coupon = mongoTenant.stripe.coupon;
+    const numberUsers = Meteor.users.find({
       group: tenantId
     }).count();
 
@@ -96,7 +50,7 @@ Meteor.methods({
       throw new Meteor.Error(403, 'Only admins may subscribe.');
     }
 
-    var customerParameters = {
+    const customerParameters = {
       description: mongoTenant.name,
       source: token,
       plan: planId,
@@ -110,13 +64,13 @@ Meteor.methods({
     };
 
     if(coupon) {
-      var couponDetails = stripeMethodsAsync.coupons.retrieve(coupon);
+      const couponDetails = stripeMethodsAsync.coupons.retrieve(coupon);
       if(couponDetails !== false) {
         customerParameters.coupon = coupon;
       }
     }
 
-    var customer = stripeMethodsAsync.customers.create(customerParameters);
+    const customer = stripeMethodsAsync.customers.create(customerParameters);
     if(!!customer === true) {
       Tenants.update(tenantId, {
         $set: {
@@ -145,12 +99,12 @@ Meteor.methods({
       throw new Meteor.Error(401, 'Invalid plan name');
     }
 
-    var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
-    var mongoTenant = Tenants.findOne({
+    const tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
+    const mongoTenant = Tenants.findOne({
       _id: tenantId
     });
-    var stripeId = mongoTenant.stripe.stripeId;
-    var numberOfUsers = Meteor.users.find({
+    const stripeId = mongoTenant.stripe.stripeId;
+    const numberOfUsers = Meteor.users.find({
       group: tenantId
     }).count();
 
@@ -160,13 +114,16 @@ Meteor.methods({
       throw new Meteor.Error('Existing subscription', 'It appears you have already subscribed.');
     }
 
-    var subsParameters = {
+    // If createSubscription is called, tenant already has subscribed before so has already had the trial period.
+    // Hence the trial_end: now parameter value.
+    const subsParameters = {
       plan: planId,
       quantity: numberOfUsers,
-      tax_percent: 20.0
+      tax_percent: 20.0,
+      trial_end: 'now'
     };
 
-    var subscription = stripeMethodsAsync.customers.createSubscription(stripeId, subsParameters);
+    const subscription = stripeMethodsAsync.customers.createSubscription(stripeId, subsParameters);
 
     if(!!subscription === true) {
       Tenants.update(tenantId, {
@@ -194,8 +151,8 @@ Meteor.methods({
       throw new Meteor.Error(403, 'Only admins may add or remove users.');
     }
 
-    var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
-    var mongoTenant = Tenants.findOne({
+    const tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
+    const mongoTenant = Tenants.findOne({
       _id: tenantId
     });
 
@@ -208,21 +165,22 @@ Meteor.methods({
       return true;
     }
 
-    var stripeId = mongoTenant.stripe.stripeId;
-    var stripeSubs = mongoTenant.stripe.stripeSubs;
-    var numberUsers = Meteor.users.find({
+    const stripeId = mongoTenant.stripe.stripeId;
+    const stripeSubs = mongoTenant.stripe.stripeSubs;
+    const numberUsers = Meteor.users.find({
       group: tenantId
     }).count();
 
     //Check that subscription is not to be cancelled at period ends and returns true if so because it means the user is on free plan now.
-    var currentSubscription = stripeMethodsAsync.customers.retrieveSubscription(stripeId, stripeSubs);
+    const currentSubscription = stripeMethodsAsync.customers.retrieveSubscription(stripeId, stripeSubs);
     if(currentSubscription.cancel_at_period_end === true) {
       return true;
     }
 
     //Otherwise update subscription
-    var subsParameters = {
-      quantity: numberUsers
+    const subsParameters = {
+      quantity: numberUsers,
+      prorate: false
     };
 
     return !!stripeMethodsAsync.customers.updateSubscription(stripeId, stripeSubs, subsParameters);
@@ -239,13 +197,13 @@ Meteor.methods({
   * @return {Boolean}                    - Whether or not the cancellation was successful.
   */
   'stripe.cancelSubscription': function(superadminTenantId) {
-    var userId = this.userId;
-    var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
-    var mongoTenant = Tenants.findOne({
+    const userId = this.userId;
+    const tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
+    const mongoTenant = Tenants.findOne({
       _id: tenantId
     });
-    var stripeId = mongoTenant.stripe.stripeId;
-    var stripeSubs = mongoTenant.stripe.stripeSubs;
+    const stripeId = mongoTenant.stripe.stripeId;
+    const stripeSubs = mongoTenant.stripe.stripeSubs;
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may subscribe.');
@@ -253,22 +211,13 @@ Meteor.methods({
       throw new Meteor.Error(400, 'It appears you are not subscribed.');
     }
 
-    var subscriptionUpdated = stripeMethodsAsync.customers.updateSubscription(stripeId, stripeSubs, {quantity: 0});
-    if(!!subscriptionUpdated === false) {
-      return false;
-    }
-
-    var confirmation = stripeMethodsAsync.customers.cancelSubscription(stripeId, stripeSubs, {at_period_end: true});
+    const confirmation = stripeMethodsAsync.customers.cancelSubscription(stripeId, stripeSubs, {
+      at_period_end: true
+    });
     if(confirmation === true) {
-      Tenants.update(tenantId, {
-        $set: {
-          "plan": 'free'
-        }
-      });
-
       //Send confirmation email if Admin but not superadmin
       if (Roles.userIsInRole(userId, ['Administrator'])) {
-        var user = Meteor.users.findOne(userId);
+        const user = Meteor.users.findOne(userId);
 
         Email.send({
           to: user.emails[0].address,
@@ -297,14 +246,14 @@ Meteor.methods({
   * @return {(Object|Boolean)}          - The Stripe subscription Object updated (see {@link https://stripe.com/docs/api#subscription_object}) or false if failed.
   */
   'stripe.resumeSubscription': function(superadminTenantId) {
-    var tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
-    var mongoTenant = Tenants.findOne({
+    const tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
+    const mongoTenant = Tenants.findOne({
       _id: tenantId
     });
-    var stripeId = mongoTenant.stripe.stripeId;
-    var stripeSubs = mongoTenant.stripe.stripeSubs;
-    var coupon = mongoTenant.stripe.coupon;
-    var numberOfUsers = Meteor.users.find({
+    const stripeId = mongoTenant.stripe.stripeId;
+    const stripeSubs = mongoTenant.stripe.stripeSubs;
+    const coupon = mongoTenant.stripe.coupon;
+    const numberOfUsers = Meteor.users.find({
       group: tenantId
     }).count();
 
@@ -315,24 +264,24 @@ Meteor.methods({
     }
 
     //Check first that the tenant has a card registered
-    var customer = stripeMethodsAsync.customers.retrieve(stripeId);
+    const customer = stripeMethodsAsync.customers.retrieve(stripeId);
 
     if(!customer.default_source) {
       throw new Meteor.Error('No credit card associated');
     }
 
-    var params = {
-      quantity: numberOfUsers,
+    const params = {
+      quantity: numberOfUsers
     };
 
     if(coupon) {
-      var couponDetails = stripeMethodsAsync.coupons.retrieve(coupon);
+      const couponDetails = stripeMethodsAsync.coupons.retrieve(coupon);
       if(couponDetails !== false) {
         params.coupon = coupon;
       }
     }
 
-    var subscriptionUpdated = stripeMethodsAsync.customers.updateSubscription(stripeId, stripeSubs, params);
+    const subscriptionUpdated = stripeMethodsAsync.customers.updateSubscription(stripeId, stripeSubs, params);
     if(!!subscriptionUpdated === true) {
       Tenants.update(tenantId, {
         $set: {
@@ -358,45 +307,15 @@ Meteor.methods({
       throw new Meteor.Error(403, 'Only admins may access this data.');
     }
 
-    var tenantId = Partitioner.getUserGroup(this.userId);
-    var mongoTenant = Tenants.findOne({
+    const tenantId = Partitioner.getUserGroup(this.userId);
+    const mongoTenant = Tenants.findOne({
       _id: tenantId
     });
-    var stripeId = mongoTenant.stripe.stripeId;
+    const stripeId = mongoTenant.stripe.stripeId;
 
-    var customerObject = stripeMethodsAsync.customers.retrieve(stripeId);
+    const customerObject = stripeMethodsAsync.customers.retrieve(stripeId);
 
     return customerObject;
-  },
-
-
-
-
- /**
-  * Fetch card details to display in Administrator panel
-  * The stripe ID is retrieved _via_ Partitioner
-  * @method getCardDetails
-  * @return {(Object|Boolean)} - The Stripe card Object (see {@link https://stripe.com/docs/api#card_object}) or false on failure or if no card has been set up.
-  */
-  'stripe.getCardDetails': function() {
-    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
-      throw new Meteor.Error(403, 'Only admins may access this data.');
-    }
-
-    var tenantId = Partitioner.getUserGroup(this.userId);
-    var mongoTenant = Tenants.findOne({
-      _id: tenantId
-    });
-    var stripeId = mongoTenant.stripe.stripeId;
-
-    var customer = stripeMethodsAsync.customers.retrieve(stripeId);
-
-    var cardDetails = false;
-    if(customer.default_source) {
-      cardDetails = stripeMethodsAsync.customers.retrieveCard(stripeId, customer.default_source);
-    }
-
-    return cardDetails;
   },
 
 
@@ -410,11 +329,11 @@ Meteor.methods({
   * @return {(Object|Boolean)} - The new Stripe card Object (see {@link https://stripe.com/docs/api#card_object}) or false if failed.
   */
   'stripe.updateCard': function(token) {
-    var tenantId = Partitioner.getUserGroup(this.userId);
-    var mongoTenant = Tenants.findOne({
+    const tenantId = Partitioner.getUserGroup(this.userId);
+    const mongoTenant = Tenants.findOne({
       _id: tenantId
     });
-    var stripeId = mongoTenant.stripe.stripeId;
+    const stripeId = mongoTenant.stripe.stripeId;
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may update Card Details.');
@@ -422,9 +341,9 @@ Meteor.methods({
       throw new Meteor.Error('Missing user', 'It appears you do not have an account.');
     }
 
-    var updatedCustomer = stripeMethodsAsync.customers.update(stripeId, {source: token});
+    const updatedCustomer = stripeMethodsAsync.customers.update(stripeId, {source: token});
 
-    return (!!updatedCustomer === true) ? updatedCustomer.sources.data[0] : false;
+    return (!!updatedCustomer === true) ? _.get(updatedCustomer, 'sources.data[0]', false) : false;
   },
 
 
@@ -441,18 +360,18 @@ Meteor.methods({
       throw new Meteor.Error(403, 'Only admins may update Email Details.');
     }
 
-    var tenantId = Partitioner.getUserGroup(this.userId);
-    var mongoTenant = Tenants.findOne({
+    const tenantId = Partitioner.getUserGroup(this.userId);
+    const mongoTenant = Tenants.findOne({
       _id: tenantId
     });
-    var stripeId = mongoTenant.stripe.stripeId;
+    const stripeId = mongoTenant.stripe.stripeId;
 
-    var emailRegex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+    const emailRegex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
     if (!emailRegex.test(email)) {
       throw new Meteor.Error(400, 'Invalid Email address');
     }
 
-    var updatedCustomer = stripeMethodsAsync.customers.update(stripeId, {email: email});
+    const updatedCustomer = stripeMethodsAsync.customers.update(stripeId, {email: email});
 
     return updatedCustomer;
   },
@@ -488,11 +407,11 @@ Meteor.methods({
       throw new Meteor.Error(403, 'You do not have the rights to access this information.');
     }
 
-    var tenantId = Partitioner.getUserGroup(this.userId);
-    var mongoTenant = Tenants.findOne({
+    const tenantId = Partitioner.getUserGroup(this.userId);
+    const mongoTenant = Tenants.findOne({
       _id: tenantId
     });
-    var stripeId = mongoTenant.stripe.stripeId;
+    const stripeId = mongoTenant.stripe.stripeId;
 
     return stripeMethodsAsync.invoices.retrieveUpcoming(stripeId);
   },
@@ -511,18 +430,18 @@ Meteor.methods({
       throw new Meteor.Error(403, 'You do not have the rights to access this information.');
     }
 
-    var tenantId = Partitioner.getUserGroup(this.userId);
-    var mongoTenant = Tenants.findOne({
+    const tenantId = Partitioner.getUserGroup(this.userId);
+    const mongoTenant = Tenants.findOne({
       _id: tenantId
     });
-    var stripeId = mongoTenant.stripe.stripeId;
+    const stripeId = mongoTenant.stripe.stripeId;
 
-    var invoiceArray = stripeMethodsAsync.invoices.list({
+    const invoiceArray = stripeMethodsAsync.invoices.list({
       customer: stripeId,
       limit: 1,
     });
 
-    return (!!invoiceArray === true) ? invoiceArray.data[0] : false;
+    return (!!invoiceArray === true) ? _.get(invoiceArray, 'data[0]', false) : false;
   },
 
 
@@ -553,8 +472,8 @@ Meteor.methods({
       throw new Meteor.Error(403, 'You do not have the rights to update coupons.');
     }
 
-    var tenantId = Partitioner.getUserGroup(this.userId);
-    var couponDetails = null;
+    const tenantId = Partitioner.getUserGroup(this.userId);
+    let couponDetails = null;
 
     if (couponId === '') {
       Tenants.update(tenantId, {
