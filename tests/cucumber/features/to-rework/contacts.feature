@@ -221,7 +221,7 @@ Feature: Allow users to manage their Contacts
     When I set text field "title" to "task title"
     And I selectize "assigneeId" to "test user"
     And I submit the "newTask" form
-    Then I should see the heading "task title"
+    Then I should see "#taskContainer .list-group-item"
 
   Scenario: A user without the CanReadTasks permission cannot see tasks in a contact
     Given I do not have the "CanReadTasks" permission

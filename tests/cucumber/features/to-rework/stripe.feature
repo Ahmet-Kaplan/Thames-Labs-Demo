@@ -40,7 +40,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a bootbox
     Then I should see a modal with title "Subscription updated"
     When I click confirm on the modal
-    Then the Stripe field "#planName" should say "Free Plan"
+    Then I should see "#resumeSubs"
 
   Scenario: An administrator can resume to the Paying scheme
     Given I have subscribed to the paying plan
@@ -86,7 +86,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a modal
     When I set text field with id "couponName" to "chamber"
     When I click "#setCoupon"
-    Then the Stripe field "#couponText" should say "chamber: 50 % off"
+    Then the Stripe field "#couponText" should contain "chamber"
     When I click "#upScheme"
     Then I should see a modal
     When I set text field with id "cardNumber" to "4242424242424242"

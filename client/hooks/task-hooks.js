@@ -28,7 +28,9 @@ AutoForm.hooks({
       $('input[name=dueDate]').data("DateTimePicker").hide();
       Modal.hide();
       toastr.success('Task created.');
-      FlowRouter.go('/tasks/' + result);
+      if (!this.formAttributes.preventNavigateToTask) {
+        FlowRouter.go('/tasks/' + result);
+      }
     },
     onError: function(formType, error) {
       toastr.error('Task creation error: ' + error);

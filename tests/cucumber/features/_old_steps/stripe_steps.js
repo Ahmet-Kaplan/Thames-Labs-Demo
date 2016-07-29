@@ -46,11 +46,19 @@ module.exports = function() {
     expect(browser.isExisting('.modal-dialog')).toEqual(true);
   });
 
-  this.Then(/^the Stripe field "([^"]*)" should say "([^"]*)"$/, function(field, desiredText) {
+  this.Then(/^the Stripe field "([^"]*)" should (say|contain) "([^"]*)"$/, function(field, fullMatch, desiredText) {
+
     browser.waitForExist(field, 5000);
-    browser.waitUntil( function() {
-      return this.getText(field) === desiredText;
-    });
+    if(fullMatch === 'say') {
+      browser.waitUntil( function() {
+        return this.getText(field) === (desiredText);
+      });
+    } else {
+      browser.waitUntil( function() {
+        console.log(this.getText(field), desiredText);
+        return this.getText(field).indexOf(desiredText) > -1;
+      });
+    }
   });
 
   this.Then(/^delete stripe customer$/, function() {

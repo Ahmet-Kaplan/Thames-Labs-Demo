@@ -18,7 +18,7 @@
           <!--Branding -->
           <a class="navbar-brand" href="/">
             <img class="hidden-xs" alt="" src="/lighter-icon.svg">
-            <img class="visible-xs" alt="" src="/icon.svg"> RealTime<span>CRM</span>
+            <img class="visible-xs" alt="" src="/icon.svg"> RealTime<span>CRM</span> {{#if isProTenant}}Pro{{/if}}
           </a>
 
           <!-- Mobile header only -->
@@ -44,6 +44,15 @@
 
             <!-- Normal user top menu buttons -->
             {{#unless isInRole 'superadmin'}}
+              {{#unless isProTenant}}
+              {{#if isInRole 'Administrator'}}
+                <li>
+                  <a class="button-middle direct-upgrade" href="/settings/billing">
+                    <button class="btn btn-info">Upgrade to Pro Plan</button>
+                  </a>
+                </li>
+              {{/if}}
+              {{/unless}}
               <li id="tenant-name">{{tenantName}}</li>
               <li class="dropdown" id="global-search">
                 <a href="#" class="dropdown-toggle" id="toggle-search"><i class="fa fa-search"></i></a>
@@ -61,7 +70,7 @@
                   </a>
                 <ul class="dropdown-menu">
 
-                  {{#each notifications}} 
+                  {{#each notifications}}
                     {{> notice}}
                   {{else}}
                     <em>No notifications</em>
@@ -99,7 +108,7 @@
                   <li><a href="#" id="sign-out">Sign Out</a></li>
                 </ul>
               </li>
-            
+
             {{/unless}}
           </ul>
         </div>

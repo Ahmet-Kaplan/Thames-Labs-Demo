@@ -142,8 +142,34 @@
   margin-bottom: 0;
 }
 
-.timeline-body > p + p {
-  margin-top: 5px;
+.form-control.medium-editor p,
+.timeline-body p {
+  margin-bottom: 5px;
+}
+
+.form-control.medium-editor h2,
+.form-control.medium-editor h3,
+.form-control.medium-editor h4,
+.timeline-body h2,
+.timeline-body h3,
+.timeline-body h4 {
+  margin: 10px 0px 5px;
+  font-weight: normal;
+}
+
+.form-control.medium-editor h2,
+.timeline-body h2 {
+  font-size: 1.3em;
+}
+
+.form-control.medium-editor h3,
+.timeline-body h3 {
+  font-size: 1.2em;
+}
+
+.timeline-body h2:first-child,
+.timeline-body h3:first-child {
+  margin-top: 0;
 }
 
 @media (max-width:767px) {
