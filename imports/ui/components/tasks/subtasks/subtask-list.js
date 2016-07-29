@@ -6,7 +6,8 @@ Template.subtaskList.events({
     Modal.show('insertNewTask', {
       _id: this._id,
       entity_type: this.entityType,
-      entity_id: this.entityId
+      entity_id: this.entityId,
+      dueDate: (this.dueDate ? this.dueDate : null)
     });
   }
 });
