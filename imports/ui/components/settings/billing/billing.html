@@ -1,4 +1,60 @@
-<!-- Note: This template is here for consistency with other settings templates --> 
+<!-- Note: This template is here for consistency with other settings templates -->
 <template name="billing">
-  {{> stripeAdmin }}
+
+  {{#if isLoading}}
+    {{> loading}}
+  {{else}}
+
+    {{> billingOverview}}
+
+    {{> invoices}}
+
+    {{#unless isProTenant}}
+      <div class="settings-section">
+        <h4>Upgrade RealTimeCRM</h4>
+        <p>Subscribe to the Pro Plan to add more than 2 users.</p>
+        <ul>
+          <li><strong>Fixed price for life</strong> – The price you see is the price you will pay per user for the lifetime of your account;</li>
+          <li><strong>No hidden costs</strong> – We will not make any additional charges for using the system or for support;</li>
+          <li><strong>No contract</strong> – You can cancel your service at any time without incurring cancellation fees</li>
+          <li><strong>No cost to&nbsp;switch</strong> – You can switch from one plan to another without incurring any switching costs.</li>
+        </ul>
+        <br>
+        <p><button id="upScheme" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Upgrade to the Pro Plan</button></p>
+      </div>
+    {{/unless}}
+
+    {{#if isFreeProTenant }}
+      <div class="settings-section">
+        <div class="well">
+            <h3 class="text-success">Pro Plan</h3>
+            <p>To make changes to your account please contact <a href="mailto:support@cambridgesoftware.co.uk">support@cambridgesoftware.co.uk</a>.</p>
+        </div>
+      </div>
+    {{/if}}
+
+    {{#if isProTenant}}
+    {{#unless isFreeProTenant}}
+    {{#unless subscriptionCancelled}}
+      <div class="settings-section">
+        <h4 class="text-danger">Downgrade RealTimeCRM</h4>
+        {{#if isTrialPeriod}}
+          <p>Your <b>free trial period</b> is set to end on <b>{{trialPeriodEnd}}</b>.</p>
+        {{/if}}
+        <p>You can downgrade to the Free Plan at any time, but you will no longer have access to any data created with Pro Plan-only functionality.</p>
+        <p>Need to talk to us? Contact us - we'd love to help.</p>
+        <small><u><a id="downScheme" class="text-danger">Unsubscribe from the Pro Plan</a></u></small>
+      </div>
+    {{/unless}}
+    {{/unless}}
+    {{/if}}
+
+    {{#if subscriptionCancelled}}
+      <div class="settings-section">
+        <h4>Resume Subscription </h4>
+        <p>Your subscription is set to be cancelled on <b>{{endDate}}</b>. You can resume it until then.</p>
+        <button id="resumeSubs" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Resume subscription</button>
+      </div>
+    {{/if}}
+  {{/if}}
 </template>

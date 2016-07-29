@@ -2,6 +2,7 @@
 <template name="companyDetailsForm">
   {{#autoForm collection="Companies" id="insertNewCompanyForm" type="insert"}}
     {{> afQuickField name="name" value=companyName}}
+    <a id="search-again" href="#">Search again</a>
     {{> afQuickField name="website" value=website}}
 
     {{> companyLocationPicker companyData=companyData}}

@@ -1,7 +1,7 @@
 Template.insertNewTask.onRendered(function() {
   Session.set('showRemindMe', false);
   Session.set('hasDueDate', false);
-  if (this.data.dueDate) {
+  if (this.data.entity_data.dueDate) {
     $('#taskDueDate').data("DateTimePicker").setDate(this.data.dueDate);
   }
 });
@@ -17,20 +17,20 @@ Template.insertNewTask.helpers({
     return Session.get('showRemindMe');
   },
   getEntityType: function() {
-    return this.entity_type;
+    return this.entity_data.entity_type;
   },
   getEntityId: function() {
-    return this.entity_id;
+    return this.entity_data.entity_id;
   },
   isUserTask: function() {
-    return (this.entity_type === "user");
+    return (this.entity_data.entity_type === "user");
   },
   getCurrentUserId: function() {
     return Meteor.userId();
   },
   autosuggestIndex: function() {
     var searchIndex;
-    switch (this.entity_type) {
+    switch (this.entity_data.entity_type) {
       case 'company':
         Meteor.subscribe('allCompanies');
         searchIndex = CompaniesIndex;
@@ -51,10 +51,13 @@ Template.insertNewTask.helpers({
     return searchIndex;
   },
   displayLabel: function() {
-    if (this.entity_type === "user") {
+    if (this.entity_data.entity_type === "user") {
       return 'Personal';
     }
-    return this.entity_type.charAt(0).toUpperCase() + this.entity_type.slice(1);
+    return this.entity_data.entity_type.charAt(0).toUpperCase() + this.entity_data.entity_type.slice(1);
+  },
+  preventNavigateToTask: function() {
+    return this.preventNavigateToTask;
   }
 });
 

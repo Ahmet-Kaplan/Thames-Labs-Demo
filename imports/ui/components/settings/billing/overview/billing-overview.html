@@ -1,0 +1,62 @@
+<template name="billingOverview">
+  <div class="settings-section">
+    {{#unless isLoading}}
+      <h4>Overview</h4>
+      <p>
+        <ul class="list-group">
+          <li class="list-group-item panel-item-header">
+            <h4 class="slim"><i class="fa fa-fw fa-wrench"></i> Plan</h4>
+            <span id="planName">{{planName}}</span> - {{totalUsers}} users
+          </li>
+
+          <!-- COUPON -->
+          <li class="list-group-item panel-item-header">
+            <h4 class="slim">
+              <i class="fa fa-fw fa-ticket"></i> Coupon
+              {{#unless isProTenant}}<button id="updateCoupon" class="btn btn-xs btn-primary pull-right">Update Coupon</button>{{/unless}}
+            </h4>
+            {{#if hasCoupon}}
+              <span id="couponText">{{hasCoupon}} ({{discount}})</span>
+            {{else}}
+              No active coupon
+            {{/if}}
+          </li>
+
+          {{#if hasStripeAccount}}
+          <!-- INVOICE EMAIL ADDRESS -->
+          <li class="list-group-item panel-item-header">
+            <h4 class="slim">
+              <i class="fa fa-fw fa-envelope-o"></i> Invoice Email Address
+              <button id="updateEmail" class="btn btn-xs btn-primary pull-right">Update Email</button>
+            </h4>
+            {{#if stripeCustomer.email}}
+              <span id="stripeEmail">{{stripeCustomer.email}}</span>
+            {{else}}
+              <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
+            {{/if}}
+          </li>
+
+          <!-- CARD DETAILS -->
+          <li class="list-group-item panel-item-header">
+            <h4 class="slim">
+              <i class="fa fa-fw fa-credit-card"></i> Card Details
+              <button id="updateCardDetails" class="btn btn-xs btn-primary pull-right">Update Card Details</button>
+            </h4>
+            {{#if cardDetails}}
+              <small>Number: </small> **** **** **** {{cardDetails.last4}} <br>
+              <small>Expiration Date: </small> {{cardDetails.exp_month}} / <span id="cardExpYear">{{cardDetails.exp_year}}</span> <br>
+              <small>Type: </small> {{cardDetails.brand}} <br>
+              <small>Cardholder Name: </small> {{cardDetails.name}}
+            {{else}}
+              <em><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</em>
+            {{/if}}
+          </li>
+          {{/if}}
+        </ul>
+      </p>
+      <p class="text-right">
+        <a href="#" id="showStripeHow"><i class="fa fa-lock"></i> All payments are securely processed by Stripe, our payment partner</a>
+      </p>
+    {{/unless}}
+  </div>
+</template>

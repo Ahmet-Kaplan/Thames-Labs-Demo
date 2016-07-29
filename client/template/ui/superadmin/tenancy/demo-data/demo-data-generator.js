@@ -12,6 +12,9 @@ Template.demoDataGeneratorModal.helpers({
 Template.demoDataGeneratorModal.events({
   'click #randomize': function(event, template) {
     event.preventDefault();
+
+    $('#startGeneration').hide();
+
     var options = {
       users: _.random(2, 6),
       companies: _.random(2, 40),
@@ -30,6 +33,8 @@ Template.demoDataGeneratorModal.events({
     UserSession.set("importProgress", 0);
 
     Meteor.call('tenant.generateDemoData', this.__originalId, options, function(err, res) {
+      $('#startGeneration').show();
+
       if(err) {
         toastr.error("Error during demo data generation: " + err);
 
@@ -45,6 +50,9 @@ Template.demoDataGeneratorModal.events({
   },
   'click #startGeneration': function(event, template) {
     event.preventDefault();
+
+    $('#startGeneration').hide();
+
     var options = {
       users: ($('#userCount').val() === "" ? 0 : Number($('#userCount').val())),
       companies: ($('#companyCount').val() === "" ? 0 : Number($('#companyCount').val())),
@@ -63,6 +71,8 @@ Template.demoDataGeneratorModal.events({
     UserSession.set("importProgress", 0);
 
     Meteor.call('tenant.generateDemoData', this.__originalId, options, function(err, res) {
+      $('#startGeneration').show();
+
       if(err) {
         toastr.error("Error during demo data generation: " + err);
 

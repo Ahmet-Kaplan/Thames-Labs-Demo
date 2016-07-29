@@ -1,5 +1,23 @@
 .activityListDetailWrapper {
-	max-height: 30px;
+	max-height: 20px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.activityListDetailWrapper h2,
+.activityListDetailWrapper h3,
+.activityListDetailWrapper h4,
+.activityListDetailWrapper strong,
+.activityListDetailWrapper p,
+.activityListDetailWrapper b,
+.activityListDetailWrapper i {
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: normal;
+	font-style: normal;
+	color: black;
+	margin: 0px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
