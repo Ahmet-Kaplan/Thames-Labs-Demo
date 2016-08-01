@@ -7,30 +7,34 @@
       </button>
     </h4>
 
-    {{#if globalCompanyCustomFields}}
+    {{#if hasCompanyFields}}
       <h5>Companies</h5>
-      {{> globalCustomFieldList entity='company' items=globalCompanyCustomFields}}
+      {{> globalCustomFieldList entity='company'}}
     {{/if}}
   </div>
 
-  {{#if globalContactCustomFields}}
+  {{#if hasContactFields}}
   <div class="settings-section">
     <h5>Contacts</h5>
-    {{> globalCustomFieldList entity='contact' items=globalContactCustomFields}}
+    {{> globalCustomFieldList entity='contact'}}
   </div>
   {{/if}}
 
-  {{#if globalProjectCustomFields}}
+  {{#if hasProjectFields}}
   <div class="settings-section">
     <h5>Projects</h5>
-    {{> globalCustomFieldList entity='project' items=globalProjectCustomFields}}
+    {{> globalCustomFieldList entity='project'}}
   </div>
   {{/if}}
 
-  {{#if globalProductCustomFields}}
+  {{#if hasProductFields}}
   <div class="settings-section">
     <h5>Products</h5>
-    {{> globalCustomFieldList entity='product' items=globalProductCustomFields}}
+    {{> globalCustomFieldList entity='product'}}
   </div>
   {{/if}}
+
+  {{#unless hasCustomFields}}
+    <p>No Global Custom Fields found.</p>
+  {{/unless}}
  </template>

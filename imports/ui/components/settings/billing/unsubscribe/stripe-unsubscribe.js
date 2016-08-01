@@ -2,7 +2,16 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
+import { stripeCustomer, upcomingInvoice, lastInvoice } from '/imports/api/billing/helpers.js';
+
 import './stripe-unsubscribe.html';
+
+Template.stripeUnsubscribe.helpers({
+  endDate: function() {
+    const periodEnd = _.get(stripeCustomer.getData(), 'subscriptions.data[0].current_period_end');
+    return moment(periodEnd * 1000).format('Do MMMM YYYY');
+  }
+});
 
 Template.stripeUnsubscribe.events({
   'click #unsubscribe': function(event) {
@@ -27,6 +36,9 @@ Template.stripeUnsubscribe.events({
         backdrop: false,
         className: 'bootbox-success',
       });
+      stripeCustomer.update();
+      upcomingInvoice.update();
+      lastInvoice.update();
     });
   }
 });
