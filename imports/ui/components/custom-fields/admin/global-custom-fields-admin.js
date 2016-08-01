@@ -8,41 +8,28 @@ Template.globalCustomFieldsAdmin.onCreated(function() {
 });
 
 Template.globalCustomFieldsAdmin.helpers({
-  globalCompanyCustomFields: function() {
+  hasCustomFields: function() {
+    return CustomFields.find({}).fetch().length > 0;
+  },
+  hasCompanyFields: function() {
     return CustomFields.find({
       target: 'company'
-    }).fetch().sort(function(a, b) {
-      if (a.order < b.order) return -1;
-      if (a.order > b.order) return 1;
-      return 0;
-    });
+    }).fetch().length > 0;
   },
-  globalContactCustomFields: function() {
+  hasContactFields: function() {
     return CustomFields.find({
       target: 'contact'
-    }).fetch().sort(function(a, b) {
-      if (a.order < b.order) return -1;
-      if (a.order > b.order) return 1;
-      return 0;
-    });
+    }).fetch().length > 0;
   },
-  globalProjectCustomFields: function() {
+  hasProjectFields: function() {
     return CustomFields.find({
       target: 'project'
-    }).fetch().sort(function(a, b) {
-      if (a.order < b.order) return -1;
-      if (a.order > b.order) return 1;
-      return 0;
-    });
+    }).fetch().length > 0;
   },
-  globalProductCustomFields: function() {
+  hasProductFields: function() {
     return CustomFields.find({
       target: 'product'
-    }).fetch().sort(function(a, b) {
-      if (a.order < b.order) return -1;
-      if (a.order > b.order) return 1;
-      return 0;
-    });
+    }).fetch().length > 0;
   }
 });
 

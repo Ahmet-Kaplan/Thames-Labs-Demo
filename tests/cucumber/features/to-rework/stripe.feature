@@ -86,7 +86,8 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see a modal
     When I set text field with id "couponName" to "chamber"
     When I click "#setCoupon"
-    Then the Stripe field "#couponText" should contain "chamber"
+    Then I should not see a modal
+    And the Stripe field "#couponText" should contain "chamber"
     When I click "#upScheme"
     Then I should see a modal
     When I set text field with id "cardNumber" to "4242424242424242"
