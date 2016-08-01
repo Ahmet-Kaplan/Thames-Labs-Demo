@@ -9,7 +9,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Tasks" id="newTaskForm" type="insert" }}
+          {{#autoForm collection="Tasks" id="newTaskForm" type="insert" preventNavigateToTask=preventNavigateToTask }}
           {{> afQuickField name="title" id="taskTitle"}}
           {{> afQuickField name="description" rows=5 id="taskDescription"}}
           {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}

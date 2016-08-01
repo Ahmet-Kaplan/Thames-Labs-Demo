@@ -2,29 +2,28 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 import './custom-field-panel.html';
-import './add-custom-field.js';
 import './custom-field-list-item.js';
 import './update-custom-field-item.js';
 import './update-custom-field.js';
 import './customfield.css';
 
 Template.customFieldDisplay.onRendered(function() {
-  var collType = this.data.entity_type;
-  var entityId = this.data.entity_data._id;
+  const collType = this.data.entity_type,
+        entityId = this.data.entity_data._id;
 
   this.autorun(function() {
     switch (collType) {
       case 'company':
-        Meteor.subscribe('customFieldsByEntityId', entityId, 'companies');
+        Meteor.subscribe('customFieldsByEntityId', entityId, collType, 'companies');
         break;
       case 'contact':
-        Meteor.subscribe('customFieldsByEntityId', entityId, 'contacts');
+        Meteor.subscribe('customFieldsByEntityId', entityId, collType, 'contacts');
         break;
       case 'project':
-        Meteor.subscribe('customFieldsByEntityId', entityId, 'projects');
+        Meteor.subscribe('customFieldsByEntityId', entityId, collType, 'projects');
         break;
       case 'product':
-        Meteor.subscribe('customFieldsByEntityId', entityId, 'products');
+        Meteor.subscribe('customFieldsByEntityId', entityId, collType, 'products');
         break;
     }
   });
@@ -43,12 +42,12 @@ Template.customFieldDisplay.events({
       }
     }
 
-    Modal.show('addCustomField', this);
+    Modal.show('insertGlobalCustomField', this);
   },
   'click #edit-custom-fields': function(event) {
     event.preventDefault();
     Modal.show('updateCustomField', this);
-  },
+  }
 });
 
 Template.customFieldDisplay.helpers({
@@ -58,30 +57,23 @@ Template.customFieldDisplay.helpers({
     }).fetch().length > 0;
   },
   globalFields: function() {
-    var arr = CustomFields.find({
-      entityId: this.entity_data._id,
-      global: true
-    }).fetch();
-
-    return arr.sort(function(a, b) {
-      if (a.order < b.order) return -1;
-      if (a.order > b.order) return 1;
-      return 0;
+    return CustomFields.find({
+      global: true,
+      entityId: this.entity_data._id
+    }, {
+      sort: { order: 1 }
     });
   },
   customFields: function() {
-    var arr = CustomFields.find({
-      entityId: this.entity_data._id,
-      global: false
-    }).fetch();
-
-    return arr.sort(function(a, b) {
-      return a.name.localeCompare(b.name);
+    return CustomFields.find({
+      global: false,
+      entityId: this.entity_data._id
+    }, {
+      sort: { order: 1 }
     });
   },
   noLabels: function() {
     return CustomFields.find({
-      entityId: this.entity_data._id,
       type: {
         $ne: 'label'
       }

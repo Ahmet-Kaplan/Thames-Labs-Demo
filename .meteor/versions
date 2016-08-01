@@ -6,7 +6,6 @@ adain:meteor-guid@1.0.1
 alanning:roles@1.2.15
 aldeed:autoform@5.8.1
 aldeed:autoform-bs-datepicker@1.1.1
-aldeed:autoform-bs-datetimepicker@1.0.6
 aldeed:collection2@2.9.1
 aldeed:collection2-core@1.1.1
 aldeed:schema-deny@1.0.1
@@ -14,6 +13,7 @@ aldeed:schema-index@1.0.1
 aldeed:simple-schema@1.5.3
 aldeed:template-extension@3.4.3
 allow-deny@1.0.5
+appcache@1.0.11
 arillo:flow-router-helpers@0.5.1
 autoupdate@1.2.10
 babel-compiler@6.8.3
@@ -163,6 +163,7 @@ pfafman:filesaver@0.2.3
 practicalmeteor:chai@2.1.0_1
 practicalmeteor:mocha-core@0.1.4
 promise@0.7.2_1
+qubitdev:autoform-bs-datetimepicker-updated@1.0.0
 raix:eventemitter@0.1.3
 raix:handlebar-helpers@0.2.5
 rajit:bootstrap3-datepicker@1.5.1
@@ -190,7 +191,7 @@ templating@1.1.12_1
 templating-tools@1.0.4
 tmeasday:presence@1.0.6
 tracker@1.0.14
-tsega:bootstrap3-datetimepicker@3.1.3_3
+tsega:bootstrap3-datetimepicker@4.17.37_1
 ui@1.0.11
 underscore@1.0.9
 url@1.0.10
