@@ -1,4 +1,5 @@
 import { documentAPI } from './document-API/document-API-helpers.js';
+import './modals/url-document-modal.js';
 
 import './document-container.html';
 import './document-container.css';
@@ -14,7 +15,7 @@ Template.documentContainer.onRendered(function() {
 
 Template.documentContainer.helpers({
   documents: function() {
-    var mongoDoc = Collections[this.collectionName].findOne(this.id);
+    const mongoDoc = Collections[this.collectionName].findOne(this.id);
     if (!mongoDoc || !mongoDoc.documents) return;
     return _.map(mongoDoc.documents, (doc) => ({
       "docName": doc.docName,
@@ -61,6 +62,12 @@ Template.documentContainer.events({
       _.each(res, (file) => {
         documentAPI.addDocument(this.collectionName, this.id, file);
       });
+    });
+  },
+  'click #add-url-document': function() {
+    Modal.show('urlDocumentModal', {
+      collectionName: this.collectionName,
+      entityId: this.id
     });
   },
   'click #remove-document': function() {

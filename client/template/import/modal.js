@@ -139,22 +139,16 @@ Template.importEntityModal.onCreated(function() {
         break;
     }
 
-    Meteor.call('extInfo.getTenantGlobals', target, function(err, res) {
+    Meteor.call('customFields.getGlobalsByTenantEntity', Meteor.user().group, target, function(err, res) {
       _.each(res, function(gcf) {
         if (gcf.type !== "label") {
-          gcf.fieldIdentifier = 'GCF-' + gcf.name.replace(' ', '') + '-';
+          gcf.fieldIdentifier = 'GCF-' + gcf.name.replace(' ', '_') + '-';
           self.entityGCFs.push(gcf);
 
           $('#' + gcf.fieldIdentifier + '.selectpicker').selectpicker({
             title: 'Do not import',
             selectOnTab: true
           });
-          // _.each(self.selectOptions, function(option) {
-          //   if (option.toLowerCase() === gcf.name.toLowerCase()) {
-          //     console.log(gcf.fieldIdentifier);
-          //     $('#' + gcf.fieldIdentifier + 'Selector').selectpicker('val', option.toLowerCase());
-          //   }
-          // });
         }
       });
     });
@@ -293,7 +287,7 @@ Template.importEntityModal.events({
           var gcfIndex = customFields.indexOf(obj.value);
           if (gcfIndex > -1) customFields.splice(gcfIndex, 1);
           var gcfSetting = {
-            schemaField: obj.id.replace('-Selector', '').replace('GCF-', ''),
+            schemaField: obj.id.replace('-Selector', '').replace('GCF-', '').replace('_', ' '),
             fieldValue: obj.value
           };
           selectedGCFs.push(gcfSetting);

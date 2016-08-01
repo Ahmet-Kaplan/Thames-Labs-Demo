@@ -153,48 +153,11 @@ Feature: Allow users to manage their Contacts
     Then the "Contacts" menu item is shown
 
   #Custom fields
-  Scenario: A user can open the "Add Custom Fields" modal
+  Scenario: A user can see the custom fields panel
     Given I have the "CanEditContacts" permission
     And a "Contact" has been created
     When I navigate to a contact page
-    And I click "#add-custom-field"
-    Then I should see a modal
-
-  Scenario: A user can add a custom field
-    Given I have the "CanEditContacts" permission
-    And a "Contact" has been created
-    When I navigate to a contact page
-    And I click "#add-custom-field"
-    And I set text field with id "custom-field-name" to "velocity2"
-    And I set text field with id "custom-field-text-value" to "velocity"
-    And I click "#submit-custom-field"
-    Then I should see ".custom-field-display-item"
-
-  Scenario: A user can delete a custom field
-    Given I have the "CanEditContacts" permission
-    And a "Contact" has been created
-    When I navigate to a contact page
-    And I click "#add-custom-field"
-    And I set text field with id "custom-field-name" to "velocity2"
-    And I set text field with id "custom-field-text-value" to "velocity"
-    And I click "#submit-custom-field"
-    Then I click "#delete-custom-field"
-    Then I click confirm on the modal
-    Then I should not see a modal
-    Then I should not see ".custom-field-display-item"
-
-  Scenario: A user can edit a custom field
-    Given I have the "CanEditContacts" permission
-    And a "Contact" has been created
-    When I navigate to a contact page
-    And I click "#add-custom-field"
-    And I set text field with id "custom-field-name" to "velocity2"
-    And I set text field with id "custom-field-text-value" to "velocity"
-    And I click "#submit-custom-field"
-    And I click "#edit-custom-fields"
-    And I set text field with id "extInfosvelocity2TextValue" to "velocity"
-    And I click "#submit-ext-info"
-    Then I see a field with the name "velocity" in the custom field list
+    Then I should see "#custom-fields-panel"
 
   #Maps
   Scenario: A user can see the map on a contact's page
@@ -258,7 +221,7 @@ Feature: Allow users to manage their Contacts
     When I set text field "title" to "task title"
     And I selectize "assigneeId" to "test user"
     And I submit the "newTask" form
-    Then I should see the heading "task title"
+    Then I should see "#taskContainer .list-group-item"
 
   Scenario: A user without the CanReadTasks permission cannot see tasks in a contact
     Given I do not have the "CanReadTasks" permission
