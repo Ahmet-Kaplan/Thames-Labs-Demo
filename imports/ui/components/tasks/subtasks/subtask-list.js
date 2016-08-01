@@ -14,7 +14,7 @@ Template.subtaskList.events({
 
 Template.subtaskList.helpers({
   subtasks: function() {
-    var subs = ReactiveMethod.apply("tasks.getSubTasks", [Template.currentData()._id]);
+    const subs = ReactiveMethod.apply("tasks.getSubTasks", [Template.currentData()._id]);
     if (subs && subs.length > 0) return subs;
   }
 });

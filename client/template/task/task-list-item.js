@@ -8,11 +8,11 @@ Template.task.onRendered(function() {
 
 Template.task.helpers({
   formattedCompletionDate: function() {
-    var displayDate = this.isAllDay ? moment(this.completedAt).format('Do MMM YYYY') : moment(this.completedAt).format('Do MMM YYYY, HH:mm');
+    const displayDate = this.isAllDay ? moment(this.completedAt).format('Do MMM YYYY') : moment(this.completedAt).format('Do MMM YYYY, HH:mm');
     return displayDate;
   },
   taskParentName: function() {
-    var parent = Tasks.findOne({_id: this.parentTaskId});
+    const parent = Tasks.findOne({_id: this.parentTaskId});
     if(parent) return parent.title;
   },
   taskId: function() {
@@ -26,11 +26,11 @@ Template.task.helpers({
       return;
     }
     if (this.isAllDay) {
-      var a = moment(new Date());
+      const a = moment(new Date());
       a.hour(0);
       a.minute(0);
 
-      var b = moment(this.dueDate);
+      const b = moment(this.dueDate);
       if (b.dayOfYear() == a.dayOfYear()) return 'today';
       if (b.dayOfYear() == a.dayOfYear() - 1) return 'yesterday';
       if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
@@ -42,8 +42,8 @@ Template.task.helpers({
     return (FlowRouter.getRouteName() === "dashboard" || FlowRouter.getRouteName() === "tasks");
   },
   entityDetails: function() {
-    var entityData = "";
-    let handle = null;
+    let entityData = "",
+        handle = null;
 
     switch (this.entityType) {
       case 'user':
@@ -132,10 +132,36 @@ Template.task.helpers({
 Template.task.events({
   'click .task-completed': function(event) {
     event.preventDefault();
-    var self = this;
-    var listTarget = $(event.target).parents('.list-group-item');
+    const self = this,
+          listTarget = $(event.target).parents('.list-group-item'),
+          parent = $(event.target).parents('.task-completed'),
+          sub = () => {
+            //Checks if viewing as a subtask
+            if (Template.parentData()._id !== this._id) return true;
+            return false;
+          },
+          updateTask = () => {
+            const taskId = FlowRouter.getRouteName() === 'tasks' ? self.__originalId : self._id;
+            if (self.completed) {
+              Tasks.update(taskId, {
+                $set: {
+                  completed: false
+                },
+                $unset: {
+                  completedAt: null
+                }
+              });
+            } else {
+              Tasks.update(taskId, {
+                $set: {
+                  completed: true,
+                  completedAt: new Date()
+                }
+              });
+            }
+          };
+
     if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
-      var parent = $(event.target).parents('.task-completed');
       if (self.completed) {
         parent.children().remove();
         parent.html('<i class="fa fa-check fa-stack-1x"></i><i class="fa fa-circle-thin fa-stack-2x"></i>');
@@ -145,26 +171,14 @@ Template.task.events({
         parent.html('<i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-check fa-stack-1x fa-inverse"></i>');
         parent.addClass('task-green');
       }
-      listTarget.fadeOut(1000, 'easeInQuart', function() {
-        var taskId = FlowRouter.getRouteName() === 'tasks' ? self.__originalId : self._id;
-        if (self.completed) {
-          Tasks.update(taskId, {
-            $set: {
-              completed: false
-            },
-            $unset: {
-              completedAt: null
-            }
-          });
-        } else {
-          Tasks.update(taskId, {
-            $set: {
-              completed: true,
-              completedAt: new Date()
-            }
-          });
-        }
-      });
+      if (sub) {
+        updateTask();
+      }else {
+        listTarget.fadeOut(1000, 'easeInQuart', function() {
+          updateTask();
+        });
+      }
     }
   }
 });
+
