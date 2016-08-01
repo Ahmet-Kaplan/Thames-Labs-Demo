@@ -174,56 +174,12 @@ Feature: Allow users to manage their Projects
     When I navigate to a project page
     Then I should not see the edit tag button
 
-  #Extended information fields
-
-  Scenario: A user can open the "Add custom field" modal
+  #Custom fields
+  Scenario: A user can see the custom fields panel
     Given I have the "CanEditProjects" permission
     And a "Project" has been created
     When I navigate to a project page
-    And I click "#add-custom-field"
-    Then I should see a modal
-
-
-  Scenario: A user can add an custom field
-    Given I have the "CanEditProjects" permission
-    And a "Project" has been created
-    When I navigate to a project page
-    And I click "#add-custom-field"
-    And I set text field with id "custom-field-name" to "velocity2"
-    And I set text field with id "custom-field-text-value" to "velocity"
-    And I click "#submit-custom-field"
-    Then I should see ".custom-field-display-item"
-
-
-  Scenario: A user can delete a custom field
-    Given I have the "CanEditProjects" permission
-    And a "Project" has been created
-    When I navigate to a project page
-    And I click "#add-custom-field"
-    And I set text field with id "custom-field-name" to "velocity2"
-    And I set text field with id "custom-field-text-value" to "velocity"
-    And I click "#submit-custom-field"
-    Then I should see a "success" toastr with the message "Custom field added."
-    Given toastr are cleared
-    When I click "#delete-custom-field"
-    And I click confirm on the modal
-    Then I should not see a modal
-    And I should see a "success" toastr with the message "Custom field removed."
-    And I should not see ".custom-field-display-item"
-
-
-  Scenario: A user can edit an custom field
-    Given I have the "CanEditProjects" permission
-    And a "Project" has been created
-    When I navigate to a project page
-    And I click "#add-custom-field"
-    And I set text field with id "custom-field-name" to "velocity2"
-    And I set text field with id "custom-field-text-value" to "velocity"
-    And I click "#submit-custom-field"
-    And I click "#edit-custom-fields"
-    And I set text field with id "extInfosvelocity2TextValue" to "velocity"
-    And I click "#submit-ext-info"
-    Then I see a field with the name "velocity" in the custom field list
+    Then I should see "#custom-fields-panel"
 
   #Tasks
   Scenario: A user can add a task to a project
