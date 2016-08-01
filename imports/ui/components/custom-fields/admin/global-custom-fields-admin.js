@@ -13,21 +13,25 @@ Template.globalCustomFieldsAdmin.helpers({
   },
   hasCompanyFields: function() {
     return CustomFields.find({
+      global: true,
       target: 'company'
     }).fetch().length > 0;
   },
   hasContactFields: function() {
     return CustomFields.find({
+      global: true,
       target: 'contact'
     }).fetch().length > 0;
   },
   hasProjectFields: function() {
     return CustomFields.find({
+      global: true,
       target: 'project'
     }).fetch().length > 0;
   },
   hasProductFields: function() {
     return CustomFields.find({
+      global: true,
       target: 'product'
     }).fetch().length > 0;
   }
