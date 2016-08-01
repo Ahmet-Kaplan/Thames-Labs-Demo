@@ -90,6 +90,7 @@ Feature: Allow administrators to give users permissions
     And a restricted user exists
     When I navigate to "/settings/users"
     And I click "#user-list .list-group-item:last-child a"
+    Then I should see a modal
     And I click "#admin-checkbox"
     And I click "#update-user"
     Then the user "restricted user" should have the "Administrator" permission

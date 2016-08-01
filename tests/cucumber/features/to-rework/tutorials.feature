@@ -14,7 +14,7 @@ Feature: Allow users to take tutorials
     Given I click "#first-run-tour"
     Then I should not see a modal
     And I should see the tour
-
+@ignore
   Scenario: A user can take the company tutorial from the welcome modal
     Given I have the "CanReadCompanies" permission
     And I have the "CanCreateCompanies" permission
@@ -45,7 +45,7 @@ Feature: Allow users to take tutorials
     When I click "#first-run-tour"
     Then I should not see a modal
     Then I should see the tour
-
+@ignore
   Scenario: A user can take the company tutorial from the help modal
     Given I have the "CanReadCompanies" permission
     And I have the "CanCreateCompanies" permission
@@ -90,7 +90,7 @@ Feature: Allow users to take tutorials
     And I should see the tour
     And I click ".hopscotch-close"
     Then I should see a modal
-
+@ignore
   Scenario: A user can close the company tutorial and the end modal will show
     Given I have the "CanReadCompanies" permission
     And I have the "CanCreateCompanies" permission
