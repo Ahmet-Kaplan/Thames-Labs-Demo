@@ -1,5 +1,7 @@
 <template name="globalCustomFieldList">
   <ul class="list-group" id="{{entity}}-custom-fields">
-    {{#each items}} {{> globalCustomFieldItem}} {{/each}}
+    {{#each fields}}
+      {{> globalCustomFieldItem}}
+    {{/each}}
   </ul>
  </template>
