@@ -46,8 +46,6 @@ meteorhacks:ssr
 harrison:papa-parse
 useraccounts:bootstrap
 arillo:flow-router-helpers
-aldeed:autoform-bs-datetimepicker
-tsega:bootstrap3-datetimepicker@=3.1.3_3
 chart:chart
 percolate:migrations
 gildaspk:autoform-medium
@@ -116,3 +114,6 @@ linguahouse:mocha-phantomjs-junit
 practicalmeteor:chai
 dispatch:mocha-browser
 mrt:jquery-ui-sortable
+appcache
+qubitdev:autoform-bs-datetimepicker-updated
+tsega:bootstrap3-datetimepicker

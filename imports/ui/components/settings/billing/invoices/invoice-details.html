@@ -1,0 +1,37 @@
+<template name="invoiceDetails">
+  <ul class="list-group">
+      <li class="list-group-item panel-item-header">
+        <div class="row">
+          <div class="col-xs-10">
+            {{invoice.details.quantity}} users on {{invoice.details.plan.name}} at {{invoice.details.plan.amount}} each - <a href="users">View users</a>
+          </div>
+          <div class="col-xs-2">
+            {{invoice.details.amount}}
+          </div>
+        </div>
+      </li>
+
+      {{#if invoice.details.discount.name}}
+      <li class="list-group-item panel-item-header text-success">
+        <div class="row">
+          <div class="col-xs-10">Discount ({{invoice.details.discount.name}})</div>
+          <div class="col-xs-2">{{invoice.details.discount.amount}}</div>
+        </div>
+      </li>
+      {{/if}}
+
+      <li class="list-group-item panel-item-header">
+        <div class="row">
+          <div class="col-xs-10">Tax at {{invoice.tax_percent}}%</div>
+          <div class="col-xs-2">{{invoice.tax}}</div>
+        </div>
+      </li>
+
+      <li class="list-group-item panel-item-header panel-footer">
+        <div class="row">
+          <div class="col-xs-10">Total</div>
+          <div class="col-xs-2">{{invoice.amount_due}}</div>
+        </div>
+      </li>
+    </ul>
+</template>

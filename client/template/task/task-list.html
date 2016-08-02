@@ -3,7 +3,7 @@
 
   <div class="row list-header">
       <div class="col-md-5">
-        <h1>{{#if showMine}} My{{/if}} Tasks{{#if showComp}} - <em>Completed</em>{{/if}}</h1>
+        <h1>Tasks</h1>
         <p id="resultsCount" class="list-header-subtitle">{{taskCount}} record{{#if hasMultipleTasks}}s{{/if}}</p>
       </div>
       <div class="col-md-7 list-header-right">
@@ -24,6 +24,7 @@
         </div>
         <br>
         <ul class="list-toolbar pull-right">
+            <li><a id="toggle-my-tasks">View {{#if showMine}}all{{else}}my{{/if}} tasks</a></li>
             {{#if isInRole 'CanReadTasks'}}
               <li><a id="tskToggleCalendar">{{#if showCalendar}}Hide{{else}}Show{{/if}} calendar</a></li>
             {{/if}}
