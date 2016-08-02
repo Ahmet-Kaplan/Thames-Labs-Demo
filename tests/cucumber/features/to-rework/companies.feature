@@ -178,8 +178,10 @@ Feature: Allow users to manage their Companies
     When I set text field with id "custom-field-name" to "velocity2"
     And I set text field with id "custom-field-text-value" to "velocity"
     And I click "#createCustomField"
+    Then I should not see a modal
     And I click "#delete-custom-field"
     And I click confirm on the modal
+    Then I should not see a modal
     Then "#custom-fields-panel" should contain "No custom fields"
 
   Scenario: A user can edit an custom field
