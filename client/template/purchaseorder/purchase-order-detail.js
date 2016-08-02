@@ -115,14 +115,12 @@ Template.purchaseOrderDetail.events({
               })
               .fetch(),
             items = _
-              .map(orderItems, (item) => {
-                return {
-                  name: item.description || '',
-                  count: item.quantity || '',
-                  value: item.value || '',
-                  total: parseFloat(item.totalPrice) || 0
-                };
-              }),
+              .map(orderItems, (item) => ({
+                name: item.description || '',
+                count: item.quantity || '',
+                value: item.value || '',
+                total: parseFloat(item.totalPrice) || 0
+              })),
             totalExcVat = _.sumBy(items, 'total'),
             vat = totalExcVat * 0.2,
             totalIncVat = totalExcVat + vat,
