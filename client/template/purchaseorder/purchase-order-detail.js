@@ -109,48 +109,41 @@ Template.purchaseOrderDetail.events({
       const doc = new Docxgen(reader.result),
             company = Companies.findOne(this.supplierCompanyId),
             orderDate = moment(this.orderDate).format("MMM Do YYYY"),
-            orderItems = PurchaseOrderItems.find({
-              purchaseOrderId: this._id
-            }).fetch(),
-            items = [],
-            addressFields = ['address', 'address2', 'city', 'county', 'country', 'postcode'];
-      let running = 0,
-          customerAddress = [],
-          customerName = company.name;
-
-      for (const field in company) {
-        if(addressFields.indexOf(field) != -1) {
-          const addressValue = _.get(company, field, '');
-          customerAddress.push(`${addressValue}\r\n`);
-        }
-      }
-
-      _.each(orderItems, function(oi) {
-        const obj = {
-          name: oi.description || '',
-          count: oi.quantity || '',
-          value: oi.value || '',
-          total: oi.totalPrice || ''
-        };
-
-        running += parseFloat(oi.totalPrice);
-
-        items.push(obj);
-      });
-
-      const vatAmount = parseFloat((running / 100) * 20),
-            totalValue = running + vatAmount;
+            orderItems = PurchaseOrderItems
+              .find({
+                purchaseOrderId: this._id
+              })
+              .fetch(),
+            items = _
+              .map(orderItems, (item) => {
+                return {
+                  name: item.description || '',
+                  count: item.quantity || '',
+                  value: item.value || '',
+                  total: parseFloat(item.totalPrice) || 0
+                };
+              }),
+            totalExcVat = _.sumBy(items, 'total'),
+            vat = totalExcVat * 0.2,
+            totalIncVat = totalExcVat + vat,
+            addressFields = ['address', 'address2', 'city', 'county', 'country', 'postcode'],
+            customerAddress = _
+              .chain(company)
+              .pickBy( (value, key) => _.includes(addressFields, key) )
+              .values()
+              .join('\n')
+              .value();
 
       doc.setData({
-        "supplierName": customerName || '',
-        "supplierAddress": customerAddress.join('') || '',
+        "supplierName": _.get(company, 'name') || '',
+        "supplierAddress": customerAddress || '',
         "supplierReference": this.supplierReference || '',
         "orderNumber": this.sequencedIdentifier || '',
         "orderDate": orderDate || '',
         "items": items,
-        "running": parseFloat(running).toFixed(2) || '',
-        "vat": parseFloat(vatAmount).toFixed(2) || '',
-        "total": parseFloat(totalValue).toFixed(2) || '',
+        "totalExcVat": parseFloat(totalExcVat).toFixed(2) || '',
+        "vat": parseFloat(vat).toFixed(2) || '',
+        "totalIncVat": parseFloat(totalIncVat).toFixed(2) || '',
         "description": this.description || '',
         "paymentMethod": this.paymentMethod || '',
         "notes": this.notes || '',
