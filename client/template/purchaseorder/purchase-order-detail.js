@@ -5,7 +5,7 @@ Template.purchaseOrderDetail.onCreated(function() {
       FlowRouter.go('/');
     }
 
-    var purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
+    const purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
     if (purchaseOrder) {
       this.subscribe('companyById', purchaseOrder.supplierCompanyId);
       this.subscribe('contactById', purchaseOrder.supplierContactId);
@@ -16,7 +16,7 @@ Template.purchaseOrderDetail.onCreated(function() {
     }
   });
 
-  var purchaseOrderId = FlowRouter.getParam('id');
+  const purchaseOrderId = FlowRouter.getParam('id');
   this.subscribe('allPurchaseOrderItems', purchaseOrderId);
   this.subscribe('activityByPurchaseOrderId', purchaseOrderId);
   this.subscribe('tasksByEntityId', purchaseOrderId);
@@ -60,7 +60,7 @@ Template.purchaseOrderItem.helpers({
     }
   },
   projectName: function() {
-    var project = Projects.findOne(this.projectId);
+    const project = Projects.findOne(this.projectId);
     if (project) return project.name;
     return "No project";
   }
@@ -68,7 +68,7 @@ Template.purchaseOrderItem.helpers({
 
 Template.purchaseOrderDetail.helpers({
   purchaseOrderData: function() {
-    var purchaseOrderId = FlowRouter.getParam('id');
+    const purchaseOrderId = FlowRouter.getParam('id');
     return PurchaseOrders.findOne(purchaseOrderId);
   },
   hasItems: function() {
@@ -97,69 +97,74 @@ Template.purchaseOrderDetail.helpers({
 
 Template.purchaseOrderDetail.events({
   'change #template-upload-docx': function(event) {
-    var file = event.target.files[0];
+    const file = event.target.files[0];
     if (!file) return;
+    if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+      toastr.error("Unable to extract to file. Please ensure the provided file is a word document (.docx)");
+      return;
+    }
 
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = function() {
-      var doc = new Docxgen(reader.result);
-
-      var customerName = "",
-          // customerContact = "",
-          customerAddress = "",
-          orderNumber = "";
-
-      var company = Companies.findOne(this.customerCompanyId);
-      customerName = company.name;
-      customerAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
-
-      orderNumber = this.orderNumber;
-      var orderDate = moment().format("MMM Do YYYY");
-
-      var orderItems = PurchaseOrderItems.find({
-        purchaseOrderId: this._id
-      }).fetch();
-      var items = [];
-      var running = 0;
-
-      _.each(orderItems, function(oi) {
-        var obj = {
-          name: oi.description,
-          count: oi.quantity,
-          value: oi.value,
-          total: oi.totalPrice,
-        };
-
-        running += parseFloat(oi.totalPrice);
-
-        items.push(obj);
-      });
-
-      var vatAmount = parseFloat((running / 100) * 20);
-      var totalValue = running + vatAmount;
+      const doc = new Docxgen(reader.result),
+            company = Companies.findOne(this.supplierCompanyId),
+            orderDate = moment(this.orderDate).format("MMM Do YYYY"),
+            orderItems = PurchaseOrderItems
+              .find({
+                purchaseOrderId: this._id
+              })
+              .fetch(),
+            items = _
+              .map(orderItems, (item) => ({
+                name: item.description || '',
+                count: item.quantity || '',
+                value: item.value || '',
+                total: parseFloat(item.totalPrice) || 0
+              })),
+            totalExcVat = _.sumBy(items, 'total'),
+            vat = totalExcVat * 0.2,
+            totalIncVat = totalExcVat + vat,
+            addressFields = ['address', 'address2', 'city', 'county', 'country', 'postcode'],
+            customerAddress = _
+              .chain(company)
+              .pickBy( (value, key) => _.includes(addressFields, key) )
+              .values()
+              .join('\n')
+              .value();
 
       doc.setData({
-        "customerName": customerName,
-        // "customerContact": customerContact,
-        "customerAddress": customerAddress,
-        "orderNumber": orderNumber,
-        "orderDate": orderDate,
+        "supplierName": _.get(company, 'name') || '',
+        "supplierAddress": customerAddress || '',
+        "supplierReference": this.supplierReference || '',
+        "orderNumber": this.sequencedIdentifier || '',
+        "orderDate": orderDate || '',
         "items": items,
-        "running": parseFloat(running).toFixed(2),
-        "vat": parseFloat(vatAmount).toFixed(2),
-        "total": parseFloat(totalValue).toFixed(2)
+        "totalExcVat": parseFloat(totalExcVat).toFixed(2) || '',
+        "vat": parseFloat(vat).toFixed(2) || '',
+        "totalIncVat": parseFloat(totalIncVat).toFixed(2) || '',
+        "description": this.description || '',
+        "paymentMethod": this.paymentMethod || '',
+        "notes": this.notes || '',
+        "status": this.status || ''
       });
 
-      doc.render();
-      var docDataUri = doc.getZip().generate({
-        type: 'blob'
-      });
-      docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-      //Convert data into a blob format for sending to api
-      var blob = new Blob([docDataUri], {
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      });
-      saveAs(blob, file.name);
+      try {
+        doc.render();
+        const docDataUri = doc.getZip().generate({
+          type: 'blob'
+        });
+        docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        //Convert data into a blob format for sending to api
+        const blob = new Blob([docDataUri], {
+          type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        });
+        saveAs(blob, file.name);
+        toastr.success("Your data has been successfully extracted.");
+
+      } catch (err) {
+        toastr.error("Unable to extract to file.");
+      }
+      $('#template-upload-docx').val('');
     }.bind(this);
     reader.readAsArrayBuffer(file);
   },
@@ -191,7 +196,7 @@ Template.purchaseOrderDetail.events({
   },
   'click #remove-purchase-order': function(event) {
     event.preventDefault();
-    var poId = this._id;
+    const poId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this purchase order?", function(result) {
       if (result === true) {
@@ -208,7 +213,7 @@ Template.purchaseOrderDetail.events({
 Template.purchaseOrderItem.events({
   'click #removePurchaseOrderItem': function(event) {
     event.preventDefault();
-    var itemId = this._id;
+    const itemId = this._id;
     bootbox.confirm("Are you sure you wish to delete this item?", function(result) {
       if (result === true) {
         PurchaseOrderItems.remove(itemId);
