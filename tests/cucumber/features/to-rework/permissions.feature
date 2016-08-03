@@ -19,7 +19,8 @@ Feature: Allow administrators to give users permissions
     And I click "#btnEditTenantUser"
     And I click "#cbUserIsTenantAdministrator"
     And I click "#btnUpdateTenantUser"
-    Then the user "Test User" should have the "Administrator" permission
+    Then I should not see a modal
+    And the user "Test User" should have the "Administrator" permission
 
   Scenario: An administrator can see the correct menu items
     Given a user exists
