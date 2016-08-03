@@ -81,6 +81,10 @@ Schemas.Task = new SimpleSchema({
     type: String,
     optional: true,
     label: "Parent Task"
-  }
+  },
+  createdAt: {
+    type: Date,
+    defaultValue: new Date()
+  },
 });
 Tasks.attachSchema(Schemas.Task);

@@ -187,10 +187,10 @@ Template.taskDetail.helpers({
   },
   taskCreator: function() {
     Meteor.subscribe('currentTenantUserData');
-    var creator = Meteor.users.findOne({
+    const creator = Meteor.users.findOne({
       _id: this.createdBy
     });
-    return creator.profile.name;
+    return creator.profile.name + (this.createdAt ? ", " + moment(this.createdAt).fromNow() : "");
   }
 });
 
