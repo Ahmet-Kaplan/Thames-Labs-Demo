@@ -23,6 +23,7 @@ Template.watchlistAdmin.onCreated(function() {
 
 Template.watchlistAdmin.helpers({
   controlData: function() {
+    // return (Template.instance().watchState.get() === true ? "Watched" : "Not watched");
     return (Template.instance().watchState.get() === true ? "<i class='fa fa-fw fa-star'></i>" : "<i class='fa fa-fw fa-star-o'></i>");
   }
 });

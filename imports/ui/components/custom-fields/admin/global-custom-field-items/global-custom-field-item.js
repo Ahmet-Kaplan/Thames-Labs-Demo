@@ -1,88 +1,59 @@
-import './global-custom-field-item.css';
 import './global-custom-field-item.html';
 
+const setData = (type) => {
+
+  const customField = {};
+
+  switch (type) {
+    case 'text':
+      customField.type = 'Text';
+      customField.icon = 'text-width';
+      break;
+    case 'advtext':
+      customField.type = 'Multi-line Text';
+      customField.icon = 'align-left';
+      break;
+    case 'checkbox':
+      customField.type = 'Checkbox';
+      customField.icon = 'check-square-o';
+      break;
+    case 'date':
+      customField.type = 'Date/Time';
+      customField.icon = 'calendar';
+      break;
+    case 'label':
+      customField.type = 'Label';
+      customField.icon = 'tag';
+      break;
+    case 'picklist':
+      customField.type = 'Picklist';
+      customField.icon = 'list-ol';
+      break;
+  }
+
+  return customField;
+};
+
 Template.globalCustomFieldItem.helpers({
-  canMoveUp: function() {
-    return this.order > 0;
-  },
-  canMoveDown: function() {
-    return this.order < CustomFields.find({
-      target: this.target
-    }).fetch().length - 1;
-  },
-
   niceEntity: function() {
-    var retVal = "";
-
-    switch (this.target) {
-      case 'company':
-        retVal = 'Companies';
-        break;
-      case 'contact':
-        retVal = 'Contacts';
-        break;
-      case 'project':
-        retVal = 'Projects';
-        break;
-      case 'product':
-        retVal = 'Products';
-        break;
-    }
-
-    return retVal;
+    return this.target.toUpperCase;
   },
   niceType: function() {
-    var retVal = "";
-
-    switch (this.type) {
-      case 'text':
-        retVal = 'Text';
-        break;
-      case 'advtext':
-        retVal = 'Multi-line Text';
-        break;
-      case 'checkbox':
-        retVal = 'Checkbox';
-        break;
-      case 'date':
-        retVal = 'Date/Time';
-        break;
-      case 'label':
-        retVal = 'Label';
-        break;
-      case 'picklist':
-        retVal = 'Picklist';
-        break;
-    }
-
-    return retVal;
+    const cf = setData(this.type);
+    return cf.type;
+  },
+  icon: function() {
+    const cf = setData(this.type);
+    return cf.icon;
   }
 });
 Template.globalCustomFieldItem.events({
-  'click .order-up': function() {
-    var self = this;
-    Meteor.call('changeExtInfoOrder', self, "up", function(err, res) {
-      if (err) throw new Meteor.Error(err);
-      if (res.exitCode !== 0) {
-        toastr.error(res.exitStatus);
-      }
-    });
-  },
-  'click .order-down': function() {
-    var self = this;
-    Meteor.call('changeExtInfoOrder', self, "down", function(err, res) {
-      if (err) throw new Meteor.Error(err);
-      if (res.exitCode !== 0) {
-        toastr.error(res.exitStatus);
-      }
-    });
-  },
   'click .delete-global-custom-field': function() {
-    var self = this;
+    const self = this;
 
     bootbox.confirm("Are you sure you wish to delete this custom field?", function(result) {
       if (result === true) {
-        Meteor.call('extInfo.deleteGlobal', self, function(err, res) {
+        Meteor.call('customFields.deleteGlobal', self, function(err, res) {
           if (err) throw new Meteor.Error(err);
           if (res === true) {
             toastr.success('Global field deleted successfully.');

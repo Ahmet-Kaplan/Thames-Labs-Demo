@@ -188,9 +188,16 @@ Meteor.methods({
 
   addTenantUser: function(doc) {
     // This method is called by tenant admins to create users
-    var adminId = this.userId;
+    const adminId = this.userId;
+    const admin = Meteor.users.findOne({
+      _id: adminId
+    });
     if (!Roles.userIsInRole(adminId, ['Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may create users');
+    }
+
+    if(admin && !isProTenant(admin.group) && isTenantOverFreeUserLimit(admin.group)) {
+      throw new Meteor.Error(403, 'Users limit reached');
     }
 
     // Important - do server side schema check
@@ -210,11 +217,8 @@ Meteor.methods({
       }
     });
 
-    var admin = Meteor.users.findOne({
-      _id: adminId
-    });
-    if (admin) {
-      if (!isProTenant(admin.group)) {
+    if(admin) {
+      if(!isProTenant(admin.group)) {
         Roles.addUsersToRoles(userId, 'Administrator');
       }
     }
@@ -235,6 +239,21 @@ Meteor.methods({
     if(Accounts.findUserByEmail(newEmailAddress)) return false;
     Meteor.users.update({_id: userId}, {$set: {'emails.0.address': newEmailAddress}});
     return true;
+  },
+  "user.changeUsername": function(newUsername) {
+    const userId = this.userId;
+    const colleagues = Meteor.users.find({
+      _id: {$ne: userId},
+      group: Partitioner.getUserGroup(userId)
+    }).fetch();
+
+    let state = true;
+
+    _.each(colleagues, function(user) {
+      if(user.profile.name === newUsername) state = false;
+    });
+    Meteor.users.update({_id: userId}, {$set: {'profile.name': newUsername}});
+    return state;
   }
 
 });

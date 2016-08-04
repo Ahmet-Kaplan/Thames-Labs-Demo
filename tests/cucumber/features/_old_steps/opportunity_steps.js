@@ -22,7 +22,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see that an project has been created from the opportunity$/, function() {
-    browser.waitForExist('.entity-title*=Project', 2000);
+    browser.waitForExist('.panel*=Project', 2000);
     browser.waitForExist('a*=opportunity', 2000);
     browser.getText('a*=opportunity');
   });

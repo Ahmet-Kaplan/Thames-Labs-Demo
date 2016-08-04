@@ -60,6 +60,9 @@ Template.opportunityDetail.onRendered(function() {
 });
 
 Template.opportunityDetail.helpers({
+  breadcrumbName: function() {
+    return (this.sequencedIdentifier ? "Opportunity #" + this.sequencedIdentifier : "Opportunity");
+  },
   stages: function() {
     var userTenant = Tenants.findOne({
       _id: Meteor.user().group

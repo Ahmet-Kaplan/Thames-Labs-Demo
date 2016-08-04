@@ -37,6 +37,9 @@ Template.taskDetail.onRendered(function() {
 });
 
 Template.taskDetail.helpers({
+  breadcrumbName: function() {
+    return (this.sequencedIdentifier ? "Task #" + this.sequencedIdentifier : "Task");
+  },
   reminderDetails: function() {
     if(this.remindMe) {
       var reminderArray = this.reminder.split('.');
@@ -197,11 +200,11 @@ Template.taskDetail.helpers({
 Template.taskDetail.events({
   'click #create-sub-task': function(event, template) {
     event.preventDefault();
-    Modal.show('insertNewTask', {
+    Modal.show('insertNewTask', { entityData: {
       _id: this._id,
       entity_type: this.entityType,
       entity_id: this.entityId
-    });
+    }, preventNavigateToTask: true});
   },
   'click #add-activity': function(event) {
     event.preventDefault();

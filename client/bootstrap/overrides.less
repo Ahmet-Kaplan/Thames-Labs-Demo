@@ -67,7 +67,6 @@ input[type="color"]:focus,
   font-weight: lighter;
   font-size: 2em;
   color: #fff;
-  width: @sidebar-width;
 }
 
 .navbar-brand.with-menu,
@@ -267,11 +266,6 @@ div.af-checkbox-group {
   text-decoration: underline;
 }
 
-//Correction for Mongol edit CSS
-#Mongol pre, .MeteorToys pre {
-    color: rgba(0,0,0,1) !important;
-}
-
 .panel {
   box-shadow: none !important;
 }
@@ -310,3 +304,10 @@ a, button {
   box-shadow: none;
 }
 
+.bootbox-success .modal-body {
+  background-color: @state-success-bg;
+}
+
+.bootbox-error .modal-body {
+  background-color: @state-danger-bg;
+}

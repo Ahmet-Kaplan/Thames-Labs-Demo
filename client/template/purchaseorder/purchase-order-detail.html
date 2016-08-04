@@ -3,7 +3,11 @@
     {{setPageTitle "Purchase order - " description}}
     <div class="row">
       <div class="col-md-12">
-        <h4 class="entity-title">Purchase Order {{#if sequencedIdentifier}}#{{sequencedIdentifier}}{{/if}} {{> watchlistAdmin entityData=this collection="purchaseorders"}}</h4>
+      {{> breadcrumbs parentPath="/purchaseorders" parentName="Purchase Orders" recordName=breadcrumbName }}
+
+      <div class="watchlist-container">
+        {{> watchlistAdmin entityData=this collection="purchaseorders"}}
+      </div>
         <h1 class="entity-name" id="purchase-order-details">{{description}}</h1>
         <div id="company-details-tags">
         {{> tagInput tags=tags collection='purchaseorders' entityId=_id permissionToEdit='CanEditPurchaseOrders'}}
@@ -198,14 +202,18 @@
         <h4>Help on templates</h4>
       </div>
       <div class="modal-body">
+        
         <p>Start by creating a Microsoft Word Document to act as a template. Include the keywords below where needed in the document, and select "Microsoft Word Template". In the file finder, select the template file you just created. RealTime will replace the keywords with their relative values, and download a new version of the file for you.</p>
         <p>Keywords which are recognised by RealTime:</p>
         <ul>
-          <li>{customerName} - Company name</li>
-          <li>{customerContact} - Company contact name (if provided)</li>
-          <li>{customerAddress} - Company address</li>
+          <li>{supplierName} - Supplier company name</li>
+          <li>{supplierAddress} - Supplier address</li>
+          <li>{supplierReference} - Supplier reference</li>
           <li>{orderNumber} - The purchase order number</li>
-          <li>{orderDate} - The date that the template is generated on</li>
+          <li>{description} - The date that the template is generated on</li>
+          <li>{notes} - Notes against the purchase order</li>
+          <li>{paymentMethod} - Payment method of purchase order</li>
+          <li>{status} - Status of the purchase order</li>
         </ul>
 
         For each purchase order item, you can specify the following tags:
@@ -221,9 +229,9 @@
           </blockquote>
           <br /> We can also handle cost displays through the following tags:
           <ul>
-            <li>{running} - The purchase order total value before VAT</li>
+            <li>{totalExcVat} - The purchase order total value before VAT</li>
             <li>{vat} - The amount of VAT to pay on this purchase order </li>
-            <li>{total} - The total purchase order cost</li>
+            <li>{totalIncVat} - The total purchase order cost including VAT</li>
           </ul>
           <br /> All calculations are carried out by RealTime, so you don't need to do anything extra to generate a Purchase Order.
         </div>
