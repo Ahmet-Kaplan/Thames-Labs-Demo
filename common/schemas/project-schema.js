@@ -106,6 +106,10 @@ Schemas.Project = new SimpleSchema({
   projectMilestoneId: {
     type: Number,
     defaultValue: 0
+  },
+  createdAt: {
+    type: Date,
+    defaultValue: new Date()
   }
 });
 Schemas.Project.messages({
