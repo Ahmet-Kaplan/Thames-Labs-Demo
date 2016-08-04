@@ -16,17 +16,20 @@
           <div class="settings-section">
             <h4>Administrator</h4>
             <p>Determines whether {{name}} is an Administrator.</p>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" id="admin-checkbox" disabled="{{#if isMe}}disabled{{/if}}"> Tenant Administrator
-              </label>
-            </div>
+            <input type="checkbox" id="admin-checkbox" disabled="{{#if isMe}}disabled{{/if}}">
+            <label>Tenant Administrator</label>
           </div>
 
           <div id="nonAdminOptions" class="settings-section">
             <h4>User Permissions</h4>
             <p>Determines the access {{name}} has to sections of RealTimeCRM.</p>
             {{#each AvailablePermissions}} {{> permissionOptions}} {{/each}}
+          </div>
+
+          <div class="settings-section">
+            <h4>Password</h4>
+            <p>Sends a password reset email to {{name}}</p>
+            <button id="password-reset" role="button" class="btn btn-sm btn-default">Reset Password</button>
           </div>
 
           <div class="settings-section">

@@ -60,6 +60,9 @@ Template.opportunityDetail.onRendered(function() {
 });
 
 Template.opportunityDetail.helpers({
+  breadcrumbName: function() {
+    return (this.sequencedIdentifier ? "Opportunity #" + this.sequencedIdentifier : "Opportunity");
+  },
   stages: function() {
     var userTenant = Tenants.findOne({
       _id: Meteor.user().group
@@ -105,6 +108,10 @@ Template.opportunityDetail.events({
   'change #template-upload-docx': function(event) {
     var file = event.target.files[0];
     if (!file) return;
+    if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+      toastr.error("Unable to extract to file. Please ensure the provided file is a word document (.docx)");
+      return;
+    }
 
     var reader = new FileReader();
     reader.onload = function() {
@@ -132,9 +139,9 @@ Template.opportunityDetail.events({
       }
 
       var date = moment().format("MMM Do YYYY");
-      var oppId = this._id;
+      var oppId = this.opportunity._id;
       var opp = Opportunities.findOne({
-        _id: this._id
+        _id: oppId
       });
       var items = [];
       _.each(opp.items, function(oi) {
@@ -147,43 +154,49 @@ Template.opportunityDetail.events({
         };
         items.push(obj);
       });
+      if (!items) items = '';
 
       doc.setData({
-        "companyName": companyName,
-        "contactName": contactName,
-        "companyAddress": companyAddress,
-        "date": date,
-        "lineItems": items,
-        "opportunityName": opp.name,
-        "opportunityDescription": opp.description,
-        "author": userName,
-        "opportunityNumber": opp.sequencedIdentifier
+        "companyName": companyName || '',
+        "contactName": contactName || '',
+        "companyAddress": companyAddress || '',
+        "date": date || '',
+        "lineItems": items || '',
+        "opportunityName": opp.name || '',
+        "opportunityDescription": opp.description || '',
+        "author": userName || '',
+        "opportunityNumber": opp.sequencedIdentifier || ''
       });
 
-      doc.render();
-      var docDataUri = doc.getZip().generate({
-        type: 'blob'
-      });
-      docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-      //Convert data into a blob format for sending to api
-      var blob = new Blob([docDataUri], {
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      });
-      saveAs(blob, file.name);
+      try {
+        doc.render();
+        var docDataUri = doc.getZip().generate({
+          type: 'blob'
+        });
+        docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        //Convert data into a blob format for sending to api
+        var blob = new Blob([docDataUri], {
+          type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        });
+        saveAs(blob, file.name);
+        toastr.success("Your data has been successfully extracted.");
+
+        Activities.insert({
+          type: "Note",
+          notes: Meteor.user().profile.name + " generated a new quotation.",
+          createdAt: new Date(),
+          activityTimestamp: new Date(),
+          primaryEntityId: oppId,
+          primaryEntityType: "opportunities",
+          primaryEntityDisplayData: opp.name,
+          opportunityId: oppId,
+          createdBy: Meteor.userId()
+        });
+      } catch (err) {
+        toastr.error("Unable to extract to file.");
+      }
 
       $('#template-upload-docx').val('');
-
-      Activities.insert({
-        type: "Note",
-        notes: Meteor.user().profile.name + " generated a new quotation.",
-        createdAt: new Date(),
-        activityTimestamp: new Date(),
-        primaryEntityId: oppId,
-        primaryEntityType: "opportunities",
-        primaryEntityDisplayData: opp.name,
-        opportunityId: oppId,
-        createdBy: Meteor.userId()
-      });
 
     }.bind(this);
     reader.readAsArrayBuffer(file);

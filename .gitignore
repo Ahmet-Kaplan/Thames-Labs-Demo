@@ -3,6 +3,6 @@ server/ssl/*
 tests/cucumber/.screenshots
 tests/cucumber/$CIRCLE_TEST_REPORTS
 node_modules
-npm-debug.log
+npm-debug.log*
 .tern-port
 .vscode

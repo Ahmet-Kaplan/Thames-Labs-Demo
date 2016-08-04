@@ -321,14 +321,6 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         }
       }
 
-      if(options.search.props.showCompleted) {
-        selector.completed = true;
-      } else {
-        selector.completed = {
-          $ne: true
-        };
-      }
-
       if(options.search.props.searchById) {
         selector._id = options.search.props.searchById;
       }

@@ -1,45 +1,52 @@
-<template name="extInfo">
-  <div id="extInfos{{extInfoId}}DisplayItem" style="{{#if global}}background: #fafafa;{{/if}}padding-top:5px;">
-    <!-- <label for="extInfos{{extInfoId}}Information">{{name}}</label> -->
-    <div id="extInfos{{extInfoId}}Information">
+<template name="customFieldItem">
+  <div class="{{#if global}}globalCFBackground{{/if}}" id="customField{{fieldName}}DisplayItem">
+    <div id="customField{{fieldName}}Information">
       <div class="row">
 
+        {{#unless equals type 'label'}}
         <div class="col-md-3 modMyPosition">
           {{name}}
         </div>
+        {{/unless}}
 
         {{#unless global}}
-
           <div class="col-md-2 modMyPosition">
-            <select id="extInfos{{extInfoId}}TypeOptions" class="TypeSelectionMenu">
-              <option value="text">Text</option>
-              <option value="advtext">Multiline Text</option>
-              <option value="checkbox">Checkbox</option>
-              <option value="date">Date/Time</option>
+            <select id="customField{{fieldName}}TypeOptions" class="TypeSelectionMenu">
+              <option value="text" selected="{{#if typeText}}selected{{/if}}">Text</option>
+              <option value="advtext" selected="{{#if typeMultiText}}selected{{/if}}">Multiline Text</option>
+              <option value="checkbox" selected="{{#if typeCheckbox}}selected{{/if}}">Checkbox</option>
+              <option value="date" selected="{{#if typeDateTime}}selected{{/if}}">Date/Time</option>
             </select>
           </div>
         {{/unless}}
 
         <div class="{{#if global}}col-md-7{{else}}col-md-5{{/if}} col-md-offset-1">
-          <div class="form-group" type="hidden" id="extInfos{{extInfoId}}TextInputArea">
-            <input class="form-control" id="extInfos{{extInfoId}}TextValue" placeholder="Enter value" type="text">
+
+          {{#if typeText}}
+          <div class="form-group" id="customField{{fieldName}}TextInputArea">
+            <input class="form-control" id="customField{{fieldName}}TextValue" placeholder="Enter value" type="text" value="{{value}}">
+          </div>
+          {{/if}}
+
+          <div class="form-group" style="{{#unless typeMultiText}}display: none;{{/unless}}" id="customField{{fieldName}}AdvTextInputArea">
+            <div class="editable mediumWrapper form-control" id="customField{{fieldName}}AdvTextValue" value="{{value}}"></div>
           </div>
 
-          <div class="form-group modMyPosition" type="hidden" id="extInfos{{extInfoId}}AdvTextInputArea">
-            <div class="editable mediumWrapper" id="extInfos{{extInfoId}}AdvTextValue"></div>
+          {{#if typeCheckbox}}
+          <div class="form-group" id="customField{{fieldName}}BooleanInputArea">
+            <input class="form-control" id="customField{{fieldName}}BooleanValue" style="height:20px;width:20px;margin-top:7px;" type="checkbox">
+          </div>
+          {{/if}}
+
+          <div class="form-group" style="{{#unless typeDateTime}}display: none;{{/unless}}" id="customField{{fieldName}}DateInputArea">
+            <input class="form-control datetimepicker" id="customField{{fieldName}}DateValue" placeholder="Enter date" type="text" value="{{#if equals type 'date'}}{{value}}{{/if}}">
           </div>
 
-          <div class="form-group" type="hidden" id="extInfos{{extInfoId}}BooleanInputArea">
-            <input class="form-control" id="extInfos{{extInfoId}}BooleanValue" style="height:20px;width:20px;margin-top:7px;" type="checkbox">
+          {{#if typePicklist}}
+          <div class="form-group" id="customField{{fieldName}}PicklistInputArea">
+            <input id="customField{{fieldName}}PicklistValue" value="{{value}}" >
           </div>
-
-          <div class="form-group datetimepicker" type="hidden" id="extInfos{{extInfoId}}DateInputArea">
-            <input class="form-control" id="extInfos{{extInfoId}}DateValue" placeholder="Enter date" type="text">
-          </div>
-
-          <div class="form-group" id="extInfos{{extInfoId}}PicklistInputArea">
-            <input id="extInfos{{extInfoId}}PicklistValue">
-          </div>
+          {{/if}}
 
         </div>
 

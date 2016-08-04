@@ -380,7 +380,7 @@ Meteor.methods({
           if(options.activities > 0) {
             for (var xax = 0; xax < options.activities; xax++) {
               setPercentageComplete();
-              createActivityForEntity('contacts', contactId, cName);
+              createActivityForEntity('contacts', contactId, `${fname} ${sname}`);
             }
           }
         }

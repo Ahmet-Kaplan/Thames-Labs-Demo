@@ -19,7 +19,8 @@ Feature: Allow administrators to give users permissions
     And I click "#btnEditTenantUser"
     And I click "#cbUserIsTenantAdministrator"
     And I click "#btnUpdateTenantUser"
-    Then the user "Test User" should have the "Administrator" permission
+    Then I should not see a modal
+    And the user "Test User" should have the "Administrator" permission
 
   Scenario: An administrator can see the correct menu items
     Given a user exists
@@ -90,6 +91,7 @@ Feature: Allow administrators to give users permissions
     And a restricted user exists
     When I navigate to "/settings/users"
     And I click "#user-list .list-group-item:last-child a"
+    Then I should see a modal
     And I click "#admin-checkbox"
     And I click "#update-user"
     Then the user "restricted user" should have the "Administrator" permission

@@ -21,6 +21,12 @@ Template.companyDetailsForm.helpers({
   }
 });
 
+Template.companyDetailsForm.events({
+  'click #search-again': function() {
+    Template.instance().data.searchAgain();
+  }
+});
+
 AutoForm.hooks({
   insertNewCompanyForm: {
     onSuccess: function() {

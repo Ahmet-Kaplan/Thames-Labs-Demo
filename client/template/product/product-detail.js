@@ -16,6 +16,9 @@ Template.productDetail.onCreated(function() {
 });
 
 Template.productDetail.helpers({
+  breadcrumbName: function() {
+    return (this.sequencedIdentifier ? "Product #" + this.sequencedIdentifier : "Product");
+  },
   'productData': function() {
     var productId = FlowRouter.getParam('id');
     return Products.findOne({_id: productId});

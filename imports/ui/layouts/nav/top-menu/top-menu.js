@@ -12,19 +12,19 @@ Template.topMenu.events({
 
 Template.topMenu.helpers({
   displayShowLess: function() {
-    var showAll = Session.get('showAllNotices');
+    const showAll = Session.get('showAllNotices');
     return (showAll === true);
   },
   displayShowMore: function() {
-    var showAll = Session.get('showAllNotices');
+    const showAll = Session.get('showAllNotices');
     return (showAll === false);
   },
   notificationLimit: function() {
     return NOTICE_LIMIT;
   },
   showTourOption: function() {
-    var currRoute = FlowRouter.getRouteName();
-    var show = false;
+    const currRoute = FlowRouter.getRouteName();
+    let show = false;
 
     _.each(availableTours, function(at) {
       if (at === currRoute) {
@@ -42,9 +42,9 @@ Template.topMenu.helpers({
       return false;
     }
 
-    var sName = '';
+    let sName = '';
     if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
-      var user = Meteor.users.find({
+      const user = Meteor.users.find({
         _id: Meteor.userId()
       }).fetch()[0];
 
@@ -59,11 +59,11 @@ Template.topMenu.helpers({
     return Session.get('notifications');
   },
   recentNote: function() {
-    var today = new Date();
-    var yesterday = new Date(today);
+    const today = new Date();
+    const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    var recent = Notifications.find({
+    const recent = Notifications.find({
       target: {
         $in: [Meteor.userId(), 'all']
       }
@@ -79,8 +79,8 @@ Template.topMenu.helpers({
     }
   },
   recentNoteCount: function() {
-    var today = new Date();
-    var yesterday = new Date(today);
+    const today = new Date();
+    const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
     return Notifications.find({
@@ -98,9 +98,16 @@ Template.topMenu.helpers({
   tenantName: function() {
     if (!Meteor.user()) return;
 
-    var tenant = Tenants.findOne({
+    const tenant = Tenants.findOne({
       _id: Meteor.user().group
     });
     return !!tenant ? tenant.name : null;
+  }
+});
+
+Template.topMenu.events({
+  'click .direct-upgrade': function(evt) {
+    evt.preventDefault();
+    Modal.show('stripeSubscribe');
   }
 });

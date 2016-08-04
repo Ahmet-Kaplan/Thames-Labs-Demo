@@ -52,25 +52,42 @@ Template.companyDetail.events({
   'change #template-upload': function(event) {
     var file = event.target.files[0];
     if (!file) return;
+    if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+      toastr.error("Unable to extract to file. Please ensure the provided file is a word document (.docx)");
+      return;
+    }
 
     var reader = new FileReader();
     reader.onload = function() {
       var doc = new Docxgen(reader.result);
       doc.setData({
-        "name": this.name,
-        "address": this.address,
-        "city": this.city,
-        "county": this.county,
-        "postcode": this.postcode,
-        "country": this.country,
-        "website": this.website,
-        "phone": this.phone
+        "name": this.name || '',
+        "address": this.address || '',
+        "city": this.city || '',
+        "county": this.county || '',
+        "postcode": this.postcode || '',
+        "country": this.country || '',
+        "website": this.website || '',
+        "phone": this.phone || ''
       });
-      doc.render();
-      var docDataUri = doc.getZip().generate({
-        type: 'blob'
-      });
-      saveAs(docDataUri, file.name);
+
+      try {
+        doc.render();
+        var docDataUri = doc.getZip().generate({
+          type: 'blob'
+        });
+        docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        //Convert data into a blob format for sending to api
+        var blob = new Blob([docDataUri], {
+          type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        });
+        saveAs(blob, file.name);
+        toastr.success("Your data has been successfully extracted.");
+      } catch (err) {
+        toastr.error("Unable to extract to file.");
+      }
+      $('#template-upload-docx').val('');
+
     }.bind(this);
     reader.readAsBinaryString(file);
   },
@@ -157,6 +174,9 @@ Template.companyDetail.events({
 });
 
 Template.companyDetail.helpers({
+  breadcrumbName: function() {
+    return (this.sequencedIdentifier ? "Company #" + this.sequencedIdentifier : "Company");
+  },
   websiteHref: function(website) {
     return (website.indexOf('http://') > -1 ? website : 'http://' + website);
   },
