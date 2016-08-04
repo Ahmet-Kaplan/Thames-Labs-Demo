@@ -27,7 +27,6 @@ Template.opportunityList.onCreated(function() {
 });
 
 Template.opportunityList.onRendered(function() {
-  console.log('opps');
   this.autorun(() => {
     this.oppsListCount.set(Collections['opportunities'].index.getComponentDict().get('count'));
   });
