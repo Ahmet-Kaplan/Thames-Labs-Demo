@@ -174,6 +174,9 @@ Template.companyDetail.events({
 });
 
 Template.companyDetail.helpers({
+  breadcrumbName: function() {
+    return (this.sequencedIdentifier ? "Company #" + this.sequencedIdentifier : "Company");
+  },
   websiteHref: function(website) {
     return (website.indexOf('http://') > -1 ? website : 'http://' + website);
   },
