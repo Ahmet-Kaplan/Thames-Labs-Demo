@@ -5,7 +5,7 @@ Template.opportunityList.onCreated(function() {
   });
 
   // Summary stats
-  this.totalOpps = new ReactiveVar(0);
+  this.openOpps = new ReactiveVar(0);
   this.archivedOpps = new ReactiveVar(0);
   this.totalOppValue = new ReactiveVar(0);
   this.averageOppValue = new ReactiveVar(0);
@@ -37,8 +37,8 @@ Template.opportunityList.onRendered(function() {
     this.sortByValue.set(!!props.sortByValue);
   });
 
-  Meteor.call('report.numberOfOpportunities', (err, data) => {
-    this.totalOpps.set(data.Count);
+  Meteor.call('report.openOpportunities', (err, data) => {
+    this.openOpps.set(data.Count);
   });
   Meteor.call('report.archivedOpportunities', (err, data) => {
     this.archivedOpps.set(data.Count);
@@ -62,8 +62,8 @@ Template.opportunityList.onRendered(function() {
 });
 
 Template.opportunityList.helpers({
-  totalOpps: function() {
-    return Template.instance().totalOpps.get();
+  openOpps: function() {
+    return Template.instance().openOpps.get();
   },
   archivedOpps: function() {
     return Template.instance().archivedOpps.get();
@@ -117,8 +117,8 @@ Template.opportunityList.events({
   },
   'click #oppsOverviewWidget': function(event, template) {
 
-    Meteor.call('report.numberOfOpportunities', function(err, data) {
-      template.totalOpps.set(data.Count);
+    Meteor.call('report.openOpportunities', function(err, data) {
+      template.openOpps.set(data.Count);
     });
     Meteor.call('report.archivedOpportunities', function(err, data) {
       template.archivedOpps.set(data.Count);
