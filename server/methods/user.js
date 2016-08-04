@@ -239,6 +239,21 @@ Meteor.methods({
     if(Accounts.findUserByEmail(newEmailAddress)) return false;
     Meteor.users.update({_id: userId}, {$set: {'emails.0.address': newEmailAddress}});
     return true;
+  },
+  "user.changeUsername": function(newUsername) {
+    const userId = this.userId;
+    const colleagues = Meteor.users.find({
+      _id: {$ne: userId},
+      group: Partitioner.getUserGroup(userId)
+    }).fetch();
+
+    let state = true;
+
+    _.each(colleagues, function(user) {
+      if(user.profile.name === newUsername) state = false;
+    });
+    Meteor.users.update({_id: userId}, {$set: {'profile.name': newUsername}});
+    return state;
   }
 
 });
