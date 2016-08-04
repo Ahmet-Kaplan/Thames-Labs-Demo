@@ -1,18 +1,21 @@
 import '/imports/ui/components/opportunities/opportunity-details-panel.js';
-import '/imports/ui/components/opportunities/opportunity-previous-stage-button.js';
-import '/imports/ui/components/opportunities/opportunity-next-stage-button.js';
-import '/imports/ui/components/opportunities/opportunity-lost-link.js';
+import '/imports/ui/components/opportunities/stage-control/opportunity-previous-stage-button.js';
+import '/imports/ui/components/opportunities/stage-control/opportunity-next-stage-button.js';
+import '/imports/ui/components/opportunities/stage-control/opportunity-lost-link.js';
+import '/imports/ui/components/opportunities/modals/opportunities-modals.js';
+import './opportunities-detail.less';
+import './opportunities-detail.html';
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
 
 Template.opportunityDetail.onCreated(function() {
-  var id = FlowRouter.getParam('id');
+  const id = FlowRouter.getParam('id');
 
   // Subscribe to fixed data sources
   this.subscribe('activityByOpportunityId', id);
   this.subscribe('tasksByEntityId', id);
 
   this.autorun(() => {
-    var opportunity = Opportunities.findOne(id);
+    const opportunity = Opportunities.findOne(id);
 
     // Redirect if data doesn't exist
     if (FlowRouter.subsReady() && typeof opportunity === "undefined") {
@@ -32,13 +35,13 @@ Template.opportunityDetail.onRendered(function() {
   this.chart = new StageChart('#d3-stage-chart');
 
   const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
-  var opportunity = Opportunities.findOne(FlowRouter.getParam('id'));
+  let opportunity = Opportunities.findOne(FlowRouter.getParam('id'));
 
   opportunity.currentStageIndex = _.findIndex(stages, {id: opportunity.currentStageId});
 
   this.chart.draw(opportunity, stages);
 
-  var resize = () => {
+  const resize = () => {
     this.chart.resize(opportunity, stages);
   };
 
@@ -64,10 +67,10 @@ Template.opportunityDetail.helpers({
     return (this.sequencedIdentifier ? "Opportunity #" + this.sequencedIdentifier : "Opportunity");
   },
   stages: function() {
-    var userTenant = Tenants.findOne({
-      _id: Meteor.user().group
-    });
-    var stages = userTenant.settings.opportunity.stages;
+    const userTenant = Tenants.findOne({
+            _id: Meteor.user().group
+          }),
+          stages = userTenant.settings.opportunity.stages;
     return stages.sort(function(a, b) {
       if (a.order < b.order) return -1;
       if (a.order > b.order) return 1;
@@ -83,9 +86,9 @@ Template.opportunityDetail.helpers({
     return !this.isArchived;
   },
   getItems: function() {
-    var items = [];
-    for (var i = 0; i < this.items.length; i++) {
-      var item = {
+    const items = [];
+    for (let i = 0; i < this.items.length; i++) {
+      const item = {
         index: i,
         oppId: this._id,
         data: this.items[i]
@@ -106,46 +109,46 @@ Template.opportunityDetail.events({
   },
   //Template generation
   'change #template-upload-docx': function(event) {
-    var file = event.target.files[0];
+    const file = event.target.files[0];
     if (!file) return;
     if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
       toastr.error("Unable to extract to file. Please ensure the provided file is a word document (.docx)");
       return;
     }
 
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = function() {
       toastr.info("Extracting, please wait...");
 
-      var doc = new Docxgen(reader.result);
+      const doc = new Docxgen(reader.result),
+            userName = Meteor.user().profile.name;
 
-      var companyName = "";
-      var companyAddress = "";
-      var contactName = "";
-      var userName = Meteor.user().profile.name;
+      let companyName = "",
+          companyAddress = "",
+          contactName = "";
 
       if (this.companyId) {
-        var company = Companies.findOne(this.companyId);
+        const company = Companies.findOne(this.companyId);
         if (company) {
           companyName = company.name;
           companyAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
         }
       }
       if (this.contactId) {
-        var contact = Contacts.findOne(this.contactId);
+        const contact = Contacts.findOne(this.contactId);
         if (contact) {
           contactName = contact.forename + " " + contact.surname;
         }
       }
 
-      var date = moment().format("MMM Do YYYY");
-      var oppId = this.opportunity._id;
-      var opp = Opportunities.findOne({
-        _id: oppId
-      });
-      var items = [];
+      const date = moment().format("MMM Do YYYY"),
+            oppId = this.opportunity._id,
+            opp = Opportunities.findOne({
+              _id: oppId
+            });
+      let items = [];
       _.each(opp.items, function(oi) {
-        var obj = {
+        const obj = {
           name: oi.name,
           description: oi.description,
           value: oi.value,
@@ -170,12 +173,12 @@ Template.opportunityDetail.events({
 
       try {
         doc.render();
-        var docDataUri = doc.getZip().generate({
+        const docDataUri = doc.getZip().generate({
           type: 'blob'
         });
         docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
         //Convert data into a blob format for sending to api
-        var blob = new Blob([docDataUri], {
+        const blob = new Blob([docDataUri], {
           type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         });
         saveAs(blob, file.name);
@@ -228,7 +231,7 @@ Template.opportunityItem.helpers({
     return !Opportunities.findOne(this.oppId).isArchived;
   },
   totalValue: function() {
-    var value = (this.data.quantity * this.data.value).toFixed(2);
+    const value = (this.data.quantity * this.data.value).toFixed(2);
     if (!isNaN(value)) return value;
   }
 });
@@ -240,8 +243,8 @@ Template.opportunityItem.events({
   },
   'click .delete-line-item': function(event) {
     event.preventDefault();
-    var oppId = this.oppId;
-    var item = this.data;
+    const oppId = this.oppId,
+          item = this.data;
 
     bootbox.confirm("Are you sure you wish to delete this opportunity line item?", function(result) {
       if (result === true) {

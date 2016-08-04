@@ -1,10 +1,12 @@
+import './opportunities-modals.html';
+
 function verfiyOpportunityStagesExist() {
   if (FlowRouter.subsReady()) {
-    var userTenant = Tenants.findOne({
+    const userTenant = Tenants.findOne({
       _id: Meteor.user().group
     });
     if (userTenant) {
-      var stages = userTenant.settings.opportunity.stages;
+      const stages = userTenant.settings.opportunity.stages;
       if (!stages || stages.length === 0) {
         Meteor.call("createDefaultOpportunityStages");
       }
@@ -13,16 +15,15 @@ function verfiyOpportunityStagesExist() {
 }
 
 function findFirstStageId() {
-  var userTenant = Tenants.findOne({
-    _id: Meteor.user().group
-  });
-  var stages = userTenant.settings.opportunity.stages;
+  const userTenant = Tenants.findOne({
+          _id: Meteor.user().group
+        }),
+        stages = userTenant.settings.opportunity.stages,
+        id = _.result(_.find(stages, function(stg) {
+          return stg.order === 0;
+        }), 'id');
+
   if (!stages || stages.length === 0) return null;
-
-  var id = _.result(_.find(stages, function(stg) {
-    return stg.order === 0;
-  }), 'id');
-
   return id;
 }
 
@@ -37,6 +38,19 @@ Template.insertOpportunityModal.helpers({
   },
   createdBy: function() {
     return Meteor.userId();
+  }
+});
+
+Template.insertOpportunityModal.events({
+  'change #selectedCompany': function() {
+    const c = $('select#selectedCompany').val();
+    if (c) {
+      Session.set('oppComp', c);
+      Meteor.subscribe('contactsByCompanyId', c);
+    } else {
+      Meteor.subscribe('allContacts', c);
+      Session.set('oppComp', null);
+    }
   }
 });
 
@@ -56,18 +70,7 @@ Template.insertCompanyOpportunityModal.helpers({
   }
 });
 
-Template.insertOpportunityModal.events({
-  'change #selectedCompany': function() {
-    var c = $('select#selectedCompany').val();
-    if (c) {
-      Session.set('oppComp', c);
-      Meteor.subscribe('contactsByCompanyId', c);
-    } else {
-      Meteor.subscribe('allContacts', c);
-      Session.set('oppComp', null);
-    }
-  }
-});
+
 
 Template.insertContactOpportunityModal.onRendered(function() {
   verfiyOpportunityStagesExist();
@@ -86,8 +89,8 @@ Template.insertContactOpportunityModal.helpers({
     }).name;
   },
   contactName: function() {
-    var contact = Contacts.findOne(this.contactId);
-    return contact.forename + ' ' + contact.surname;
+    const contact = Contacts.findOne(this.contactId);
+    return `${contact.forename} ${contact.surname}`;
   }
 });
 

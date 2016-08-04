@@ -3,6 +3,7 @@ import '/imports/ui/components/companies/widgets/index.js';
 import '/imports/ui/components/charts/sales-history.js';
 import '/imports/ui/components/maps/map-viewer.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
+import '/imports/ui/components/opportunities/modals/opportunities-modals.js';
 
 Template.companyDetail.onCreated(function() {
   this.oppStats = new ReactiveVar({});

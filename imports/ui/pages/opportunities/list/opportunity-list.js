@@ -1,3 +1,8 @@
+import './opportunity-list.html';
+import '/imports/ui/components/opportunities/opportunity-list-item.js';
+import '/imports/ui/components/opportunities/modals/opportunities-modals.js';
+
+
 Template.opportunityList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
@@ -22,7 +27,7 @@ Template.opportunityList.onCreated(function() {
 });
 
 Template.opportunityList.onRendered(function() {
-
+  console.log('opps');
   this.autorun(() => {
     this.oppsListCount.set(Collections['opportunities'].index.getComponentDict().get('count'));
   });
