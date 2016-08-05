@@ -13,6 +13,9 @@ Template.opportunityDetailsPanel.onCreated(function() {
 });
 
 Template.opportunityDetailsPanel.helpers({
+  taskOverDue: function() {
+    return moment().isAfter(Template.currentData().opportunity.nextActionDue)
+  },
 
   company: function() {
     return Companies.findOne({

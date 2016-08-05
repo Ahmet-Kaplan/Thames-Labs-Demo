@@ -150,6 +150,19 @@ Collections.opportunities.filters = {
       return state;
     }
   },
+  nextAction: {
+    display: 'Next Action:',
+    prop: 'nextAction',
+    defaultOptions: function() {
+      return ['Overdue', 'Due Today', 'None'];
+    },
+    strict: true,
+    allowMultiple: false,
+    verify: function(nextAction) {
+      if (!nextAction) return false;
+      return nextAction;
+    }
+  },
 };
 
 ////////////////////
@@ -219,6 +232,25 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
           selector.hasBeenWon = false;
         } else {
           selector.hasBeenWon = {
+            $exists: false
+          };
+        }
+      }
+
+      if (options.search.props.nextAction) {
+        if(options.search.props.nextAction === "Overdue") {
+          selector.nextActionDue = {
+            $lt: moment().toDate()
+          };
+        } else if(options.search.props.nextAction === "Due Today") {
+          var startToday = new Date(moment().year(), moment().month(), moment().date(), '0', '0', '0');
+          var endToday = new Date(moment().year(), moment().month(), moment().date(), '23', '59', '59');
+          selector.nextActionDue = {
+            $gte: startToday,
+            $lt: endToday
+          };
+        } else {
+          selector.nextActionDue = {
             $exists: false
           };
         }

@@ -36,6 +36,13 @@ Schemas.Opportunity = new SimpleSchema({
       }
     }
   },
+  nextActionDue: {
+    type: Date,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
   value: {
     type: Number,
     decimal: true,
