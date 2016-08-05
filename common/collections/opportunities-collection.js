@@ -338,6 +338,12 @@ Opportunities.after.insert(function(userId, doc) {
   }
 });
 
+Opportunities.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(!!modifier.$set.estCloseDate === false) {
+    modifier.$set.estCloseDate = null;
+  }
+});
+
 Opportunities.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (Roles.userIsInRole(userId, ['superadmin'])) return;
 
