@@ -10,3 +10,10 @@ Template.profileSettings.helpers({
     return Meteor.user();
   }
 });
+
+Template.profileSettings.onCreated(function() {
+  // Redirect if superadmin
+  this.autorun(function() {
+    if (Roles.userIsInRole(Meteor.userId(), 'superadmin')) FlowRouter.go('tenants');
+  });
+});
