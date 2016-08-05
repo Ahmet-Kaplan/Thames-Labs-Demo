@@ -86,8 +86,25 @@
             {{else}}
               {{> afQuickField name="description" type="medium" class="form-control medium-editor" id="desc-field"}}
             {{/if}}
-            {{> afQuickField name="price"}}
-            {{> afQuickField name="cost"}}
+    
+            <div class="form-group">
+              <label for="sale-price" class="control-label">Sale Price</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="price" id="sale-price" data-schema-key="price" step="0.01" class="form-control" value={{this.price}}>
+              </div>
+              <span class="help-block"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="cost-price" class="control-label">Cost Price</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="cost" id="cost-price" data-schema-key="cost" step="0.01" class="form-control" value={{this.cost}}>
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
         </div>
