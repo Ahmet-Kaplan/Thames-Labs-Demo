@@ -1,6 +1,6 @@
 import './opportunity-list.html';
 import '/imports/ui/components/opportunities/opportunity-list-item.js';
-import '/imports/ui/components/opportunities/modals/opportunities-modals.js';
+import '/imports/ui/components/opportunities/modals/insert/insert-opportunity-modal.js';
 
 
 Template.opportunityList.onCreated(function() {

@@ -1,5 +1,5 @@
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
-import '/imports/ui/components/opportunities/modals/opportunities-modals.js';
+import '/imports/ui/components/opportunities/modals/insert/insert-contact-opp-modal.js';
 
 Template.contactDetail.onCreated(function() {
   var self = this;

@@ -1,0 +1,25 @@
+<template name="editOpportunityItemModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Edit opportunity line item</h4>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Opportunities" id="editOpportunityItemForm" type="update" doc=opportunity setArrayItems=true}}
+            {{> afQuickField id="fieldName" name=fieldName value=this.data.name id="name-field"}}
+            {{> afQuickField id="fieldDesc" name=fieldDesc value=this.data.description rows=3}}
+            {{> afQuickField id="fieldVal" name=fieldVal value=this.data.value}}
+            {{> afQuickField id="fieldQuantity" name=fieldQuantity value=this.data.quantity}}
+            {{> afQuickField type="text" readonly="true" id="oppLineTotal" label="Total" value=fieldLineTotal}}
+            <button type="submit" class="btn btn-primary">Update</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

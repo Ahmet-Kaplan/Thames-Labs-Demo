@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 import './opportunity-details-panel.html';
-import './modals/opportunities-modals.js';
+import './modals/update/update-opportunity-modal.js';
 
 Template.opportunityDetailsPanel.onCreated(function() {
   this.autorun( () => {

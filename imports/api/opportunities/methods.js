@@ -82,3 +82,30 @@ Meteor.methods({
   }
 
 });
+
+export function verifyOpportunityStagesExist() {
+  if (FlowRouter.subsReady()) {
+    const userTenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    if (userTenant) {
+      const stages = userTenant.settings.opportunity.stages;
+      if (!stages || stages.length === 0) {
+        Meteor.call("createDefaultOpportunityStages");
+      }
+    }
+  }
+}
+
+export function findFirstStageId() {
+  const userTenant = Tenants.findOne({
+          _id: Meteor.user().group
+        }),
+        stages = userTenant.settings.opportunity.stages,
+        id = _.result(_.find(stages, function(stg) {
+          return stg.order === 0;
+        }), 'id');
+
+  if (!stages || stages.length === 0) return null;
+  return id;
+}
