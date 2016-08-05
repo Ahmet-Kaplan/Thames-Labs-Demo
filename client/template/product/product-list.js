@@ -54,10 +54,6 @@ Template.productList.events({
     Meteor.call('report.averageProductsCost', function(err, data) {
       template.averageProductsCost.set(data.Value);
     });
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('insertProductModal', this);
   }
 });
 

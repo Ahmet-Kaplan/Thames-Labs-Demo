@@ -145,9 +145,7 @@
     </div>
     {{#if isInRole 'CanEditPurchaseOrders'}}
       {{#if isMobile}}
-        <div class="fab edit" id="fab">
-          <i class="fa fw-fa fa-pencil"></i>
-        </div>
+        {{> fabEdit entity="PurchaseOrder" record=this}}
       {{/if}}
     {{/if}}
 
@@ -202,7 +200,7 @@
         <h4>Help on templates</h4>
       </div>
       <div class="modal-body">
-        
+
         <p>Start by creating a Microsoft Word Document to act as a template. Include the keywords below where needed in the document, and select "Microsoft Word Template". In the file finder, select the template file you just created. RealTime will replace the keywords with their relative values, and download a new version of the file for you.</p>
         <p>Keywords which are recognised by RealTime:</p>
         <ul>

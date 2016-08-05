@@ -78,10 +78,6 @@ Template.projectsList.events({
     Meteor.call('report.projectsAverage', function(err, data) {
       template.projectsAverage.set(data.Value);
     });
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('newProjectForm', this);
   }
 });
 

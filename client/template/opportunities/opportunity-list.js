@@ -129,9 +129,5 @@ Template.opportunityList.events({
     Meteor.call('report.averageOpportunityValue', function(err, data) {
       template.averageOppValue.set(data.Value);
     });
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('insertOpportunityModal');
   }
 });

@@ -1,6 +1,6 @@
 Session.set('sc', null);
 
-Template.newProjectForm.events({
+Template.insertProjectModal.events({
   'change #companyId': function() {
     var c = AutoForm.getFieldValue('companyId', 'newProjectForm');
     if (c) {
@@ -11,7 +11,7 @@ Template.newProjectForm.events({
   }
 });
 
-Template.newProjectForm.helpers({
+Template.insertProjectModal.helpers({
   projectTypes: function() {
     return Tenants.findOne({
       _id: Meteor.user().group
@@ -38,7 +38,7 @@ Template.newProjectForm.helpers({
   }
 });
 
-Template.updateProjectForm.onRendered(function() {
+Template.editProjectModal.onRendered(function() {
   var c = this.data.companyId;
   if (c) {
     Session.set('sc', c);
@@ -47,7 +47,7 @@ Template.updateProjectForm.onRendered(function() {
   }
 });
 
-Template.updateProjectForm.helpers({
+Template.editProjectModal.helpers({
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
       return {

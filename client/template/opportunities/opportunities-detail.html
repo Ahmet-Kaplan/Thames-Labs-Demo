@@ -96,9 +96,7 @@
   {{#if isActive}}
     {{#if isInRole 'CanEditOpportunities'}}
       {{#if isMobile}}
-        <div class="fab edit" id="fab">
-          <i class="fa fw-fa fa-pencil"></i>
-        </div>
+        {{> fabEdit entity="Opportunity" record=this}}
       {{/if}}
     {{/if}}
   {{/if}}

@@ -1,4 +1,5 @@
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
+import '/imports/ui/components/fab/fab-edit.js';
 
 Template.contactDetail.onCreated(function() {
   var self = this;
@@ -252,10 +253,6 @@ Template.contactDetail.events({
       primaryEntityDisplayData: this.forename + ' ' + this.surname,
       createdBy: Meteor.userId()
     });
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('editContactModal', this);
   },
   'click #inactive-projects': function(event, template) {
     var url = "?f%5Bcontact%5D=" + this._id + "&f%5Bactive%5D=No";
