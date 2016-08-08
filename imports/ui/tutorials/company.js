@@ -19,13 +19,13 @@ const tour = new Tour({
     },
     {
       element: "#add-company",
-      title: "Add a company",
-      placement: "bottom",
+      template: TourTemplates.defaultStepWithTitle("Add a company"),
       content: "Below you can see a list of all your companies. To add a company, press the button above.",
+      placement: "bottom",
+      reflex: true,
       onNext: function() {
         FlowRouter.go('/companies');
-      },
-      reflex: true
+      }
     },
     {
       element: "#companyName",

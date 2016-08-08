@@ -37,8 +37,8 @@ const tour = new Tour({
     },
     {
       element: "#add-company",
-      title: "Click here",
       content: "Content of my step",
+      template: TourTemplates.defaultStepWithTitle("Click here"),
       reflex: true
     },
     {
