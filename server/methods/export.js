@@ -132,6 +132,10 @@ Meteor.methods({
         record.completed = record.completed ? 'Yes' : 'No';
       }
 
+      if ( _.has(record, 'isAllDay') ) {
+        record.isAllDay = record.isAllDay ? 'Yes' : 'No';
+      }
+
       if (record.salesManagerId) {
         const salesManager = Meteor.users.findOne({
           _id: record.salesManagerId,

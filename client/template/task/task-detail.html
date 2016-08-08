@@ -81,12 +81,12 @@
             {{/if}}
           {{/if}}
 
-                    {{#if completedAt}}
-                        <li class="list-group-item panel-item-header">
-                          <h4><i class="fa fa-fw fa-calendar"></i> Completion Date</h4>
-                          {{formattedCompletionDate}} - {{relativeCompletionDate}}
-                        </li>
-                      {{/if}}
+          {{#if completedAt}}
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-calendar"></i> Completion Date</h4>
+              {{formattedCompletionDate}} - {{relativeCompletionDate}}
+            </li>
+          {{/if}}
 
           {{#unless isPersonalTask}}
             {{#if entityDetails.permissionToRead}}
@@ -99,6 +99,7 @@
           {{/unless}}
 
           {{#if isInRole 'CanReadTasks'}}
+
             <li class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-user"></i> Task assignee</h4>
               {{taskAssignee}}
@@ -106,7 +107,7 @@
 
             <li class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-user"></i> Created By</h4>
-              {{taskCreator}}
+              <span  data-toggle="tooltip" data-placement="bottom" title="{{createdAt}}">{{taskCreator}}</span>
             </li>
 
             <li class="list-group-item panel-item-header">

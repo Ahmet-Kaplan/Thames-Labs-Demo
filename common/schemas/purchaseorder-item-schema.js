@@ -49,6 +49,10 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  createdAt: {
+    type: Date,
+    defaultValue: new Date()
   }
 });
 PurchaseOrderItems.attachSchema(Schemas.PurchaseOrderItem);

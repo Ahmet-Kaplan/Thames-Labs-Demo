@@ -51,6 +51,10 @@ Schemas.Product = new SimpleSchema({
       type: "hidden"
     }
   },
+  createdAt: {
+    type: Date,
+    defaultValue: new Date()
+  }
 });
 
 Products.attachSchema(Schemas.Product);

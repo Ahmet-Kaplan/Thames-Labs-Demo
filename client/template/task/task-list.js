@@ -82,5 +82,9 @@ Template.taskList.events({
       indexMethods.addProps('assignee', Meteor.userId());
     }
     $(event.target).blur();
+  },
+  'click #export': function(event) {
+    event.preventDefault();
+    exportFromSearchToCSV('tasks');
   }
 });

@@ -43,7 +43,8 @@ Schemas.Tenant = new SimpleSchema({
     label: "Coupon code"
   },
   createdAt: {
-    type: Date
+    type: Date,
+    defaultValue: new Date()
   }
 });
 Tenants.attachSchema(Schemas.Tenant);

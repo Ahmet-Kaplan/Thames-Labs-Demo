@@ -171,6 +171,10 @@ Schemas.Opportunity = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  createdAt: {
+    type: Date,
+    defaultValue: new Date()
   }
 });
 Schemas.Opportunity.messages({
