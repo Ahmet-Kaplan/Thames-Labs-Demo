@@ -15,7 +15,13 @@ const tour = new Tour({
       },
       reflex: true,
       backdropContainer: "#id-view-sidemenu",
-      template: TourTemplates.navStep
+      template: TourTemplates.navStep,
+      onShow: function(t) {
+        $('#id-view-sidemenu').css("overflow", "visible");
+      },
+      onHide: function(t) {
+        $('#id-view-sidemenu').css("overflow", "");
+      }
     },
     {
       element: "#add-company",

@@ -14,8 +14,14 @@ const tour = new Tour({
         FlowRouter.go('/');
       },
       reflex: true,
+      template: TourTemplates.navStep,
       backdropContainer: "#id-view-sidemenu",
-      template: TourTemplates.navStep
+      onShow: function(t) {
+        $('#id-view-sidemenu').css("overflow", "visible");
+      },
+      onHide: function(t) {
+        $('#id-view-sidemenu').css("overflow", "");
+      }
     },
     {
       element: "#addWidgetButton",
@@ -32,8 +38,14 @@ const tour = new Tour({
         FlowRouter.go('/companies');
       },
       reflex: true,
+      template: TourTemplates.navStep,
       backdropContainer: "#id-view-sidemenu",
-      template: TourTemplates.navStep
+      onShow: function(t) {
+        $('#id-view-sidemenu').css("overflow", "visible");
+      },
+      onHide: function(t) {
+        $('#id-view-sidemenu').css("overflow", "");
+      }
     },
     {
       element: "#add-company",
