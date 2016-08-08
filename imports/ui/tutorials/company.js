@@ -33,23 +33,21 @@ const tour = new Tour({
       content: "We understand filling out a huge form can be time consuming, so just provide RealTimeCRM with a company's name or website and it will do all the hard work for you!",
       placement: "right",
       backdrop: false,
-      backdropContainer: ".modal-body",
-      delay: 700,
+      delay: 500,
       onShown: function(t) {
+        $(".modal-header button").click(function() {
+          t.end();
+        });
         $("#companyName").keyup(function() {
           t.next();
-        });
-        $("#draggableModal").on("hidden.bs.modal", function() {
-          t.end();
-          $(".popover.tour.tour-tour").remove();
         });
         $("#manual-fill").click(function() {
           t.goTo(4);
         });
       },
       onHide: function(t) {
-        $("#manual-fill").unbind();
         $("#companyName").unbind();
+        $("#manual-fill").unbind();
       }
     },
     {
@@ -59,7 +57,14 @@ const tour = new Tour({
       reflex: true,
       placement: "right",
       backdrop: false,
-      backdropContainer: ".modal-body"
+      onShown: function(t) {
+        $("#manual-fill").click(function() {
+          t.next();
+        });
+      },
+      onHide: function(t) {
+        $("#manual-fill").unbind();
+      }
     },
     {
       element: "#btnCreate",
@@ -74,9 +79,6 @@ const tour = new Tour({
           t.goTo(2);
           $("#search-again").unbind('click');
         });
-      },
-      onHide: function(t) {
-        $("#draggableModal").off('hidden.bs.modal');
       }
     },
     {

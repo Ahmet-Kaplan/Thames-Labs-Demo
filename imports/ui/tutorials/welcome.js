@@ -39,7 +39,20 @@ const tour = new Tour({
       element: "#add-company",
       title: "Click here",
       content: "Content of my step",
-      reflex: true,
+      reflex: true
+    },
+    {
+      element: "#companyName",
+      title: "Example modal step",
+      content: "Ensure the delay is present, no backdrop, and the tour ends when the close button is pressed",
+      placement: "right",
+      backdrop: false,
+      delay: 500,
+      onShown: function(t) {
+        $(".modal-header button").click(function() {
+          t.end();
+        });
+      },
       template: TourTemplates.finalStep
     }
   ],
