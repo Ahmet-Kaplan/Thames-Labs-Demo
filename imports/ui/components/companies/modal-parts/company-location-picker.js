@@ -1,7 +1,7 @@
 import './company-location-picker.html';
 import _ from 'lodash';
 import '../../maps/map-editor.js';
-import { getAddressFromLookup, getAddressFromGoogleMapsSearch } from '../../maps/map-helpers.js';
+import { getAddressFromLookup, getAddressFromGoogleMapsSearch, isAddressEmpty } from '../../maps/map-helpers.js';
 
 //companyLocationPicker
 Template.companyLocationPicker.onCreated(function() {
@@ -33,16 +33,20 @@ Template.companyLocationPicker.onRendered(function() {
   this.autorun(() => {
     this.companyData.set(this.data.companyData);
 
-    if (this.data.companyData.geo) {
-      var addressData = getAddressFromLookup(this.data.companyData.geo);
-      Template.instance().address.set(addressData);
+    if (this.data.companyData) {
+      if (this.data.companyData.geo) {
+        const addressData = getAddressFromLookup(this.data.companyData.geo);
+        Template.instance().address.set(addressData);
+      }
+    } else if (this.data.addressData) {
+      Template.instance().address.set(this.data.addressData);
     }
   });
 
   this.autorun(() => {
-    var addressData = Template.instance().address.get();
+    const addressData = Template.instance().address.get();
     if (!Template.instance().showManualEntry.get()) {
-      if (_.isEmpty(addressData)) {
+      if (isAddressEmpty(addressData)) {
         Template.instance().showSearchedAddress.set(false);
         Template.instance().showSearchBox.set(true);
         Template.instance().showMap.set(false);
@@ -59,9 +63,9 @@ Template.companyLocationPicker.onRendered(function() {
   //Run the geocode search handler and return data into the companyData reactive var
   this.autorun(() => {
     if (GoogleMaps.loaded() && $('#geo').length > 0) {
-      var instance = Template.instance();
+      const instance = Template.instance();
       $("#geo").geocomplete().bind("geocode:result", (event, result) => {
-        var addressData = getAddressFromGoogleMapsSearch(result);
+        const addressData = getAddressFromGoogleMapsSearch(result);
         instance.address.set(addressData);
       });
     }
@@ -127,7 +131,7 @@ Template.companyLocationPicker.events({
     event.preventDefault();
 
     //Remove Lng Lat
-    var addressData = Template.instance().address.get();
+    const addressData = Template.instance().address.get();
     delete addressData.lng;
     delete addressData.lat;
     Template.instance().address.set(addressData);

@@ -12,10 +12,7 @@ Template.mapEditor.onRendered(function() {
   this.autorun(() => {
     var addressData = Template.currentData().address.get();
     if(addressData.lat && addressData.lng) {
-      var location = {
-        lat: addressData.lat,
-        lng: addressData.lng
-      };
+      var location = new google.maps.LatLng(addressData.lat, addressData.lng);
       $("#map_canvas").height("200px");
       var map = new google.maps.Map(document.getElementById("map_canvas"), {
         zoom: 12,
