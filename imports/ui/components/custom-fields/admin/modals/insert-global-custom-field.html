@@ -42,32 +42,30 @@
               </div>
             </div>
 
-            {{#if typeText}}
-              <div class="form-group" id="text-input-area">
-                <label for="custom-field-text-value">{{#unless isLocal}}Default {{/unless}} Value</label>
-                <p>This will be used as the default value of this field for all new and existing records</p>
-                <input type="text" class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field Value" id="custom-field-text-value">
+            {{#unless typeDateTime}}{{#unless typeMultiText}}{{#unless typePicklist}}{{#unless typeLabel}}
+              <div class="form-group" id="check-input-area">
+                <label for="custom-field-check-value">{{#unless isLocal}}Default {{/unless}} Value</label>
+                <p>This will be used as the {{#unless isLocal}}default{{/unless}} value of this field for {{#if isLocal}}this record{{else}}all new and existing records{{/if}}</p>
+                {{#if typeText}}
+                  <input type="text" class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field Value" id="custom-field-text-value">
+                {{/if}}
+
+                {{#if typeCheckbox}}
+                  Set {{#unless isLocal}}default {{/unless}}value to true?
+                  <input type="checkbox" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field Value" id="custom-field-check-value">
+                {{/if}}
               </div>
-              {{/if}}
+            {{/unless}}{{/unless}}{{/unless}}{{/unless}}
 
             <div class="form-group" id="advtext-input-area" style="{{#unless typeMultiText}}display: none;{{/unless}}">
               <label for="custom-field-advtext-value">Multiline Value</label>
-                <p>This will be used as the default value of this field for all new and existing records</p>
+              <p>This will be used as the {{#unless isLocal}}default{{/unless}} value of this field for {{#if isLocal}}this record{{else}}all new and existing records{{/if}}</p>
               <div class="editable form-control mediumWrapper" id="custom-field-multitext-value"></div>
             </div>
 
-            {{#if typeCheckbox}}
-            <div class="form-group" id="check-input-area">
-              <label for="custom-field-check-value">{{#unless isLocal}}Default {{/unless}} Value</label>
-              <p>This will be used as the default value of this field for all new and existing records</p>
-              Set {{#unless isLocal}}default {{/unless}}value to true?
-              <input type="checkbox" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field Value" id="custom-field-check-value">
-            </div>
-            {{/if}}
-
             <div class="form-group datetimepicker" id="date-input-area" style="{{#unless typeDateTime}}display: none;{{/unless}}">
               <label for="custom-field-date-value">{{#unless isLocal}}Default {{/unless}} Value</label>
-              <p>This will be used as the default value of this field for all new and existing records</p>
+              <p>This will be used as the {{#unless isLocal}}default{{/unless}} value of this field for {{#if isLocal}}this record{{else}}all new and existing records{{/if}}</p>
               <input class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field Value" id="custom-field-date-value">
             </div>
 
