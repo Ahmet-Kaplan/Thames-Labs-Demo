@@ -19,7 +19,16 @@
               {{> esSelectize name="contactId" index=ContactsIndex}}
             {{/if}}
             {{> esSelectize name="userId" index=UsersIndex}}
-            {{> afQuickField name="value"}}
+
+            <div class="form-group">
+              <label for="proj-value" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="proj-value" data-schema-key="value" step="0.01" class="form-control">
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             {{> afQuickField name="dueDate" }}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             <!-- {{> afQuickField name="nextActionBy" options=usersAsOptions}} -->
@@ -55,7 +64,16 @@
               {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
             {{/if}}
             {{> esSelectize name="userId" index=UsersIndex}}
-            {{> afQuickField name="value"}}
+
+            <div class="form-group">
+              <label for="proj-value" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="proj-value" data-schema-key="value" step="0.01" class="form-control">
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             {{> afQuickField name="dueDate" }}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             <!-- {{> afQuickField name="nextActionBy" options=usersAsOptions}} -->
@@ -92,7 +110,16 @@
             {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
             {{> afQuickField name="contactId" id="companyContacts" type="hidden" value=contactId}}
             {{> esSelectize name="userId" index=UsersIndex}}
-            {{> afQuickField name="value"}}
+
+            <div class="form-group">
+              <label for="proj-value" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="proj-value" data-schema-key="value" step="0.01" class="form-control">
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             {{> afQuickField name="dueDate" }}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             <!-- {{> afQuickField name="sequencedIdentifier"}} -->
@@ -130,7 +157,16 @@
               {{> afQuickField name="contactId" id="companyContacts" type="hidden" value=contactId}}
             {{/if}}
             {{> esSelectize name="userId" index=UsersIndex value=userId}}
-            {{> afQuickField name="value"}}
+
+            <div class="form-group">
+              <label for="proj-value" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="proj-value" data-schema-key="value" step="0.01" class="form-control" value={{value}}>
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             {{> afQuickField name="active"}}
             {{> afQuickField name="dueDate" }}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
