@@ -1,8 +1,9 @@
 Template.task.onCreated(function() {
   this.subscribe('taskTags');
-});
 
-Template.task.onRendered(function() {
+  // Store taskId depending on whether data comes from easysearch or directly via subscription
+  this.taskId = _.get(this.data, '__originalId', this.data._id);
+
   if (this.data.parentTaskId) this.subscribe('taskById', this.data.parentTaskId);
 });
 
@@ -16,10 +17,7 @@ Template.task.helpers({
     if(parent) return parent.title;
   },
   taskId: function() {
-    if (FlowRouter.getRouteName() === "tasks") {
-      return this.__originalId;
-    }
-    return this._id;
+    return Template.instance().taskId;
   },
   formattedDueDate: function() {
     if (!this.dueDate) {
@@ -47,7 +45,7 @@ Template.task.helpers({
 
     switch (this.entityType) {
       case 'user':
-        Meteor.subscribe('currentTenantUserData');
+        Template.instance().subscribe('currentTenantUserData');
         entityData = {
           icon: 'check',
           name: "Personal task",
@@ -56,7 +54,7 @@ Template.task.helpers({
         break;
 
       case 'company':
-        handle = Meteor.subscribe("companyById", this.entityId);
+        handle = Template.instance().subscribe("companyById", this.entityId);
         if (handle && handle.ready()) {
           const c = Companies.findOne({
             _id: this.entityId
@@ -70,7 +68,7 @@ Template.task.helpers({
         break;
 
       case 'contact':
-        handle = Meteor.subscribe("contactById", this.entityId);
+        handle = Template.instance().subscribe("contactById", this.entityId);
         if (handle && handle.ready()) {
           const c = Contacts.findOne({
             _id: this.entityId
@@ -84,7 +82,7 @@ Template.task.helpers({
         break;
 
       case 'project':
-        handle = Meteor.subscribe("projectById", this.entityId);
+        handle = Template.instance().subscribe("projectById", this.entityId);
         if (handle && handle.ready()) {
           const p = Projects.findOne({
             _id: this.entityId
@@ -96,9 +94,9 @@ Template.task.helpers({
           };
         }
         break;
-
+h
       case 'opportunity':
-        handle = Meteor.subscribe("opportunityById", this.entityId);
+        handle = Template.instance().subscribe("opportunityById", this.entityId);
         if (handle && handle.ready()) {
           const p = Opportunities.findOne({
             _id: this.entityId
@@ -122,18 +120,14 @@ Template.task.helpers({
     return entityData;
   },
   taskAssignee: function() {
-    Meteor.subscribe('currentTenantUserData');
-    return Meteor.users.findOne({
-      _id: this.assigneeId
-    }).profile.name;
+    return _.get(Meteor.user(), 'profile.name');
   }
 });
 
 Template.task.events({
   'click .task-completed': function(event) {
     event.preventDefault();
-    const self = this,
-          listTarget = $(event.target).parents('.list-group-item'),
+    const listTarget = $(event.target).parents('.list-group-item'),
           parent = $(event.target).parents('.task-completed'),
           sub = () => {
             //Checks if viewing as a subtask
@@ -141,8 +135,8 @@ Template.task.events({
             return false;
           },
           updateTask = () => {
-            const taskId = FlowRouter.getRouteName() === 'tasks' ? self.__originalId : self._id;
-            if (self.completed) {
+            const taskId = FlowRouter.getRouteName() === 'tasks' ? this.__originalId : this._id;
+            if (this.completed) {
               Tasks.update(taskId, {
                 $set: {
                   completed: false
@@ -162,7 +156,7 @@ Template.task.events({
           };
 
     if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
-      if (self.completed) {
+      if (this.completed) {
         parent.children().remove();
         parent.html('<i class="fa fa-check fa-stack-1x"></i><i class="fa fa-circle-thin fa-stack-2x"></i>');
         parent.removeClass('task-green');
