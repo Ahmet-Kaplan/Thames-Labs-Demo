@@ -4,6 +4,7 @@ import '/imports/ui/components/charts/sales-history.js';
 import '/imports/ui/components/maps/map-viewer.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/fab/fab-edit.js';
+import '/imports/ui/components/activity/activity-timeline.js';
 
 Template.companyDetail.onCreated(function() {
   this.oppStats = new ReactiveVar({});

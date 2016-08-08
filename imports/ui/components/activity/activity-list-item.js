@@ -1,12 +1,14 @@
+import './activity-list-item.html';
+
 Template.activityListItem.onCreated(function() {
-  var templateRef = this;
+  const templateRef = this;
   this.displayName = new ReactiveVar("<blank>");
   this.displayIcon = new ReactiveVar("<blank>");
 
   this.autorun(function() {
-    var ref = templateRef.data;
+    const ref = templateRef.data;
 
-    var icon = "fa fa-fw fa-";
+    let icon = "fa fa-fw fa-";
 
     if (ref.taskId) {
       templateRef.displayName.set(ref.primaryEntityDisplayData);
@@ -50,7 +52,7 @@ Template.activityListItem.helpers({
     return Template.instance().displayIcon.get();
   },
   listIcon: function(type) {
-    var icons = {
+    const icons = {
       'note': 'file-text-o',
       'email': 'envelope-o',
       'call': 'phone',
