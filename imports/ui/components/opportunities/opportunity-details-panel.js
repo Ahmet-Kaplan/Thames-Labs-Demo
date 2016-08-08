@@ -51,7 +51,7 @@ Template.opportunityDetailsPanel.events({
 
   'click #edit-opportunity': function(event) {
     event.preventDefault();
-    Modal.show('editOpportunityModal', this.opportunity);
+    Modal.show('updateOpportunityModal', this.opportunity);
   },
 
   'click #reopen-opportunity': function(event) {

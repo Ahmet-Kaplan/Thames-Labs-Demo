@@ -62,6 +62,8 @@ Meteor.methods({
         record.contactName = contact ? contact.name() : null;
       }
 
+      record.email = (record.email ? record.email : '');
+
       if (record.assigneeId) {
         const assignee = Meteor.users.findOne({
           _id: record.assigneeId,

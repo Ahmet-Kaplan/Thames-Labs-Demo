@@ -1,6 +1,6 @@
 import './update-opportunity-modal.html';
 
-Template.editOpportunityModal.helpers({
+Template.updateOpportunityModal.helpers({
   companyName: function() {
     return Companies.findOne({
       _id: this.companyId

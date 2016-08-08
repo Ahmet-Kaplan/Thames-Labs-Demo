@@ -223,7 +223,7 @@ Template.opportunityDetail.events({
   },
   'click #fab': function(event) {
     event.preventDefault();
-    Modal.show('editOpportunityModal', this);
+    Modal.show('updateOpportunityModal', this);
   }
 });
 
@@ -240,7 +240,7 @@ Template.opportunityItem.helpers({
 Template.opportunityItem.events({
   'click .edit-line-item': function(event) {
     event.preventDefault();
-    Modal.show('editOpportunityItemModal', this);
+    Modal.show('updateOpportunityItemModal', this);
   },
   'click .delete-line-item': function(event) {
     event.preventDefault();

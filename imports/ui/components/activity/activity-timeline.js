@@ -1,3 +1,8 @@
+import './activity-timeline.html';
+import './activity-timeline.css';
+import './modals/activity-update-form.js';
+import './modals/insert-activity-form.js';
+
 Template.activityTimeline.helpers({
   fromNow: function(date) {
     if (date) {
@@ -9,7 +14,7 @@ Template.activityTimeline.helpers({
     return index % 2 === 0 ? 'timeline-inverted' : '';
   },
   timelineIcon: function(type) {
-    var icons = {
+    const icons = {
       'note': 'file-text-o',
       'email': 'envelope-o',
       'call': 'phone',
@@ -26,7 +31,7 @@ Template.activityTimeline.helpers({
     return createdBy === Meteor.userId();
   },
   otherUser: function(createdBy) {
-    var user = Meteor.users.findOne({
+    const user = Meteor.users.findOne({
       _id: createdBy
     });
     if(user && user.profile) return user.profile.name;
@@ -35,7 +40,7 @@ Template.activityTimeline.helpers({
     if (!this.primaryEntityId || !this.primaryEntityType) return false;
     if (this.taskId) return true;
 
-    var urlString = FlowRouter.current().path;
+    const urlString = FlowRouter.current().path;
     return urlString.indexOf(this.primaryEntityId) > -1;
   },
   entityIcon: function() {
@@ -93,7 +98,7 @@ Template.activityTimeline.events({
   },
   'click #remove-activity': function(event) {
     event.preventDefault();
-    var activityId = this._id;
+    const activityId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this activity?", function(result) {
       if (result === true) {

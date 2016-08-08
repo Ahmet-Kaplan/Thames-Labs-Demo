@@ -1,6 +1,6 @@
 import './update-opp-item-modal.html';
 
-Template.editOpportunityItemModal.helpers({
+Template.updateOpportunityItemModal.helpers({
   opportunity: function() {
     return Opportunities.findOne(this.oppId);
   },
@@ -22,7 +22,7 @@ Template.editOpportunityItemModal.helpers({
   }
 });
 
-Template.editOpportunityItemModal.events({
+Template.updateOpportunityItemModal.events({
   'change #fieldVal, blur #fieldVal, change #fieldQuantity, blur #fieldQuantity': function(event) {
     const totalValue = (parseFloat($('#fieldVal').val()) * parseFloat($('#fieldQuantity').val())).toFixed(2);
     if(!isNaN(totalValue)) {
