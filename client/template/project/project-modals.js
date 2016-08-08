@@ -38,7 +38,7 @@ Template.insertProjectModal.helpers({
   }
 });
 
-Template.editProjectModal.onRendered(function() {
+Template.updateProjectModal.onRendered(function() {
   var c = this.data.companyId;
   if (c) {
     Session.set('sc', c);
@@ -47,7 +47,7 @@ Template.editProjectModal.onRendered(function() {
   }
 });
 
-Template.editProjectModal.helpers({
+Template.updateProjectModal.helpers({
   usersAsOptions: function() {
     return Meteor.users.find({}).map(function(user) {
       return {

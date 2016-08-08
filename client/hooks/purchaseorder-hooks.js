@@ -37,7 +37,7 @@ AutoForm.hooks({
       toastr.error('Purchase order item creation error: ' + error);
     }
   },
-  editPurchaseOrderItem: {
+  updatePurchaseOrderItem: {
     onSuccess: function() {
       Modal.hide();
       toastr.success('Purchase order item edited.');
