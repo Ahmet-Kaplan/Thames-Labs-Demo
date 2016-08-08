@@ -1,0 +1,21 @@
+.tour-backdrop {
+  opacity: 0.5 !important;
+  top: -50px;
+}
+
+.tour-step-backdrop.tour-tour-element{
+  z-index: 1102 !important;
+}
+
+.popover.tour {
+  min-width: 300px;
+}
+
+.popover-title {
+  font-weight: normal;
+}
+
+.popover-close-button {
+  margin-top: 4px;
+  margin-right: 4px;
+}

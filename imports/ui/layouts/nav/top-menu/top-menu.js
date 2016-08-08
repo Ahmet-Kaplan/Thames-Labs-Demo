@@ -2,11 +2,16 @@ import './top-menu.less';
 import './top-menu.html';
 
 import { WelcomeTour } from '/imports/ui/tutorials/welcome.js';
+import { CompanyTour } from '/imports/ui/tutorials/company.js';
 
 Template.topMenu.events({
   'click #tutorial': function(e) {
     e.preventDefault;
     WelcomeTour.start();
+  },
+  'click #company-tutorial': function(e) {
+    e.preventDefault;
+    CompanyTour.start();
   }
 });
 
