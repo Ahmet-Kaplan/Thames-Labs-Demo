@@ -8,24 +8,32 @@
         </div>
         <div class="modal-body">
          {{#autoForm collection="Opportunities" id="insertOpportunityForm" type="insert"}}
-            {{> afQuickField name="name"}}
-            {{> afQuickField name="description" rows=3}}
-            {{> afQuickField name="date" }}
-            {{> afQuickField name="estCloseDate" }}
-            {{> afQuickField name="value"}}
-            {{> esSelectize name="salesManagerId" index=UsersIndex allowEmptyOption=true}}
-            {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
-            {{> afQuickField name="isArchived" value=false type="hidden"}}
-            {{> afQuickField name="currentStageId" value=firstStageId type="hidden"}}
-            <!-- {{> afQuickField name="sequencedIdentifier"}} -->
-            {{> afQuickField name="createdBy" value=createdBy }}
-            {{#if companyId}}
-              {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
-              {{> afQuickField name="companyId" value=companyId type="hidden"}}
-            {{/if}}
-            {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
-            {{> afQuickField name="contactId" value=contactId type="hidden"}}
-            <button type="submit" class="btn btn-primary">Create</button>
+          {{> afQuickField name="name"}}
+          {{> afQuickField name="description" rows=3}}
+          {{> afQuickField name="date" }}
+          {{> afQuickField name="estCloseDate" }}
+          {{> afQuickField name="value"}}
+          <div class="form-group">
+            <label for="opp-value" class="control-label">Value</label>
+            <div class="input-group">
+              <span class="input-group-addon">{{userCurrencySymbol}}</span>
+              <input type="number" name="value" id="opp-value" data-schema-key="value" step="0.01" class="form-control">
+            </div>
+            <span class="help-block"></span>
+          </div>
+          {{> esSelectize name="salesManagerId" index=UsersIndex allowEmptyOption=true}}
+          {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
+          {{> afQuickField name="isArchived" value=false type="hidden"}}
+          {{> afQuickField name="currentStageId" value=firstStageId type="hidden"}}
+          <!-- {{> afQuickField name="sequencedIdentifier"}} -->
+          {{> afQuickField name="createdBy" value=createdBy }}
+          {{#if companyId}}
+          {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
+          {{> afQuickField name="companyId" value=companyId type="hidden"}}
+          {{/if}}
+          {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
+          {{> afQuickField name="contactId" value=contactId type="hidden"}}
+          <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
         </div>
       </div>

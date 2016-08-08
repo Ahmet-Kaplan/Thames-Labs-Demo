@@ -9,7 +9,14 @@
         <div class="modal-body">
            {{#autoForm collection="Opportunities" id="insertOpportunityItemForm" type="update-pushArray" doc=this scope="items"}}
             {{> afQuickField name="id" value=generatedId type="hidden"}}
-            {{> afQuickField name="name" value=""}}
+          <div class="form-group">
+            <label for="opp-value" class="control-label">Value</label>
+            <div class="input-group">
+              <span class="input-group-addon">{{userCurrencySymbol}}</span>
+              <input type="number" name="value" id="opp-value" data-schema-key="value" step="0.01" class="form-control">
+            </div>
+            <span class="help-block"></span>
+          </div>
             {{> afQuickField name="description" value="" rows=3}}
             {{> afQuickField name="value" value=""}}
             {{> afQuickField name="quantity" value=""}}

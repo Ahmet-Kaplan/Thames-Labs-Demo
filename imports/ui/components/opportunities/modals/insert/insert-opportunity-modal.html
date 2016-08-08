@@ -8,11 +8,19 @@
         </div>
         <div class="modal-body">
          {{#autoForm collection="Opportunities" id="insertOpportunityForm" type="insert"}}
-            {{> afQuickField name="name"}}
-            {{> afQuickField name="description" rows=3}}
-            {{> afQuickField name="date" }}
-            {{> afQuickField name="estCloseDate" }}
-            {{> afQuickField name="value"}}
+           {{> afQuickField name="name"}}
+           {{> afQuickField name="description" rows=3}}
+           {{> afQuickField name="date" }}
+           {{> afQuickField name="estCloseDate" }}
+
+           <div class="form-group">
+             <label for="opp-value" class="control-label">Value</label>
+             <div class="input-group">
+               <span class="input-group-addon">{{userCurrencySymbol}}</span>
+               <input type="number" name="value" id="opp-value" data-schema-key="value" step="0.01" class="form-control">
+             </div>
+             <span class="help-block"></span>
+           </div>
 
             {{> esSelectize name="companyId" index=CompaniesIndex}}
 
