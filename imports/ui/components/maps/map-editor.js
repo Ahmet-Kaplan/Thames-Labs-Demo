@@ -12,7 +12,7 @@ Template.mapEditor.onRendered(function() {
   this.autorun(() => {
     var addressData = Template.currentData().address.get();
     if(addressData.lat && addressData.lng) {
-      var location = new google.maps.LatLng(addressData.lat, addressData.lng);
+      var location = new google.maps.LatLng(Number(addressData.lat), Number(addressData.lng));
       $("#map_canvas").height("200px");
       var map = new google.maps.Map(document.getElementById("map_canvas"), {
         zoom: 12,
@@ -24,6 +24,12 @@ Template.mapEditor.onRendered(function() {
         position: location,
         draggable: true
       });
+
+      google.maps.event.addListenerOnce(map, 'idle', function() {
+        google.maps.event.trigger(map, 'resize');
+        map.setCenter(marker.getPosition());
+      });
+
       google.maps.event.addListener(marker, "dragend", function(event) {
         $("input[name=lat]").val(marker.getPosition().lat());
         $("input[name=lng]").val(marker.getPosition().lng());
