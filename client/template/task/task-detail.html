@@ -2,7 +2,11 @@
   {{#with taskData}} {{setPageTitle "Task - " title }}
   <div class="row">
     <div class="col-md-12">
-      <h4 class="entity-title">Task {{> watchlistAdmin entityData=this collection="tasks"}}</h4>
+      {{> breadcrumbs parentPath="/tasks" parentName="Tasks" recordName=breadcrumbName }}
+
+      <div class="watchlist-container">
+        {{> watchlistAdmin entityData=this collection="tasks"}}
+      </div>
       <h4 class="pull-left">
         <span class="task-completed">
         {{#if completed}}
@@ -77,12 +81,12 @@
             {{/if}}
           {{/if}}
 
-                    {{#if completedAt}}
-                        <li class="list-group-item panel-item-header">
-                          <h4><i class="fa fa-fw fa-calendar"></i> Completion Date</h4>
-                          {{formattedCompletionDate}} - {{relativeCompletionDate}}
-                        </li>
-                      {{/if}}
+          {{#if completedAt}}
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-calendar"></i> Completion Date</h4>
+              {{formattedCompletionDate}} - {{relativeCompletionDate}}
+            </li>
+          {{/if}}
 
           {{#unless isPersonalTask}}
             {{#if entityDetails.permissionToRead}}
@@ -95,6 +99,7 @@
           {{/unless}}
 
           {{#if isInRole 'CanReadTasks'}}
+
             <li class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-user"></i> Task assignee</h4>
               {{taskAssignee}}
@@ -102,7 +107,7 @@
 
             <li class="list-group-item panel-item-header">
               <h4><i class="fa fa-fw fa-user"></i> Created By</h4>
-              {{taskCreator}}
+              <span  data-toggle="tooltip" data-placement="bottom" title="{{createdAt}}">{{taskCreator}}</span>
             </li>
 
             <li class="list-group-item panel-item-header">

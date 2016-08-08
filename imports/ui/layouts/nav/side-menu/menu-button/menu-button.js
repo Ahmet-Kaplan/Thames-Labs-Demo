@@ -11,10 +11,7 @@ Template.menuButton.helpers({
     return true;
   },
   hasFreeAccessOnly: function() {
-    if (Meteor.user()) {
-      return (Template.currentData().proFeature && !isProTenant(Meteor.user().group));
-    }
-    return true;
+    return (Template.currentData().proFeature && !isProTenant(Partitioner.group()));
   },
   id: function() {
     if (Template.currentData().linkId) {

@@ -66,6 +66,9 @@ Template.projectDetail.onRendered(function() {
 });
 
 Template.projectDetail.helpers({
+  breadcrumbName: function() {
+    return (this.sequencedIdentifier ? "Project #" + this.sequencedIdentifier : "Project");
+  },
   inverseState: function() {
     if(this.active)return "inactive";
     return "active";

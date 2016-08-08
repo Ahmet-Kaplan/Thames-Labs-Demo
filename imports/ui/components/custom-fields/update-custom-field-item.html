@@ -38,8 +38,8 @@
           </div>
           {{/if}}
 
-          <div class="form-group datetimepicker" style="{{#unless typeDateTime}}display: none;{{/unless}}" id="customField{{fieldName}}DateInputArea">
-            <input class="form-control" id="customField{{fieldName}}DateValue" placeholder="Enter date" type="text" value="{{#if equals type 'date'}}{{value}}{{/if}}">
+          <div class="form-group" style="{{#unless typeDateTime}}display: none;{{/unless}}" id="customField{{fieldName}}DateInputArea">
+            <input class="form-control datetimepicker" id="customField{{fieldName}}DateValue" placeholder="Enter date" type="text" value="{{#if equals type 'date'}}{{value}}{{/if}}">
           </div>
 
           {{#if typePicklist}}

@@ -18,7 +18,7 @@ Template.insertGlobalCustomField.onRendered(function() {
     allowEmptyOption: false
   });
 
-  this.$('.datetimepicker').datetimepicker();
+  this.$('#custom-field-date-value').datetimepicker();
 
   this.$('#custom-field-picklist-values').selectize({
     delimiter: ',',

@@ -118,6 +118,10 @@ Schemas.Company = new SimpleSchema({
     autoform: {
       type: "hidden"
     }
+  },
+  createdAt: {
+    type: Date,
+    defaultValue: new Date()
   }
 });
 Companies.attachSchema(Schemas.Company);
