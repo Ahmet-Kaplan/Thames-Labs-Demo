@@ -89,13 +89,14 @@ Feature: Allow users to manage their Companies
 
 
   #Editing
+  @dev
   Scenario: A user can edit a company
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
     And I click "#edit-company"
     And I set text field "name" to "updated company name"
-    And I submit the "editCompany" form
+    And I submit the "updateCompany" form
     Then "#company-details" should say "updated company name"
 
   Scenario: A user without permission cannot edit a company
