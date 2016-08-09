@@ -89,7 +89,6 @@ Feature: Allow users to manage their Companies
 
 
   #Editing
-  @dev
   Scenario: A user can edit a company
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
