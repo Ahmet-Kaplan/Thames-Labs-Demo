@@ -54,6 +54,12 @@
           {{friendlyDate opportunity.estCloseDate}}
         </li>
       {{/if}}
+      {{#if opportunity.nextActionDue}}
+        <li class="list-group-item panel-item-header">
+          <h4><i class="fa fa-fw fa-calendar"></i> Next Action Due</h4>
+          {{friendlyDate opportunity.nextActionDue}} {{#if taskOverDue}}<span class="text-danger"><i class="fa fa-fw fa-exclamation-triangle" data-toggle="tooltip" data-placement="right" title="The next task against this opportunity is now overdue"></i></span>{{/if}}
+        </li>
+      {{/if}}
       {{#if opportunity.value}}
         <li class="list-group-item panel-item-header">
           <h4><i class="fa fa-fw fa-money"></i> Value</h4>
