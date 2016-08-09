@@ -1,3 +1,5 @@
+import { moment } from 'meteor/momentjs:moment';
+
 //This function takes an activity JSON object, and returns another JSON object with required headings for export
 const formatActivityForExport = (record) => {
   if (record.activityTimestamp) {

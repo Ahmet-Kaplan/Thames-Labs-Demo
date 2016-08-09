@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { moment } from 'meteor/momentjs:moment';
 import { Meteor } from 'meteor/meteor';
 
 import { formatActivityForExport } from './entities/activities.js';
@@ -42,10 +43,61 @@ const OMITTEDCOLUMNS = [
   'stripe'
 ];
 
+const getRowForExport = (record, collectionName) => {
+  //Common record values are calculated outside the formatEntityForExport functions, as this code is used frequently.
+  if (record.companyId) {
+    const company = Companies.findOne({
+      _id: record.companyId
+    });
+    record.companyName = company ? company.name : "";
+  }
+
+  if (record.contactId) {
+    const contact = Contacts.findOne({
+      _id: record.contactId
+    });
+    record.contactName = contact ? contact.name() : "";
+  }
+
+  if (record.createdAt) {
+    record.createdAt = moment(record.createdAt).format('DD/MM/YY');
+  }
+
+  //Format the record object for exporting
+  switch(collectionName) {
+    case "companies":
+      return formatCompanyForExport(record);
+
+    case "contacts":
+      return formatContactForExport(record);
+
+    case "opportunities":
+      return formatOpportunityForExport(record);
+
+    case "projects":
+      return formatProjectForExport(record);
+
+    case "products":
+      return formatProductForExport(record);
+
+    case "activities":
+      return formatActivityForExport(record);
+
+    case "purchaseorders":
+      return formatPurchaseOrderForExport(record);
+
+    case "tasks":
+      return formatTaskForExport(record);
+
+    default:
+      //With unknown objects return all values, except the excluded ones
+      return _.omit(record, OMITTEDCOLUMNS);
+  }
+};
+
 Meteor.methods({
 
   'search.export': function(collectionName, searchDefinition, searchOptions) {
-
     // We require a user as we make find calls on partitioned collections
     if (!this.userId) throw new Meteor.Error('401', 'Must be a logged in user to perform export');
 
@@ -59,57 +111,8 @@ Meteor.methods({
     var index = Collections[collectionName].index;
     var results = index.search(searchDefinition, searchOptions).fetch();
 
-    return results.map( (record) => {
-
-      //Common record values are calculated outside the formatEntityForExport functions, as this code is used frequently.
-      if (record.companyId) {
-        const company = Companies.findOne({
-          _id: record.companyId
-        });
-        record.companyName = company ? company.name : "";
-      }
-
-      if (record.contactId) {
-        const contact = Contacts.findOne({
-          _id: record.contactId
-        });
-        record.contactName = contact ? contact.name() : "";
-      }
-
-      if (record.createdAt) {
-        record.createdAt = moment(record.createdAt).format('DD/MM/YY');
-      }
-
-      //Format the record object for exporting
-      switch(collectionName) {
-        case "companies":
-          return formatCompanyForExport(record);
-
-        case "contacts":
-          return formatContactForExport(record);
-
-        case "opportunities":
-          return formatOpportunityForExport(record);
-
-        case "projects":
-          return formatProjectForExport(record);
-
-        case "products":
-          return formatProductForExport(record);
-
-        case "activities":
-          return formatActivityForExport(record);
-
-        case "purchaseorders":
-          return formatPurchaseOrderForExport(record);
-
-        case "tasks":
-          return formatTaskForExport(record);
-
-        default:
-          //With unknown objects return all values, except the excluded ones
-          return _.omit(record, OMITTEDCOLUMNS);
-      }
-    });
+    return results.map((record) => getRowForExport(record, collectionName));
   }
 });
+
+export { getRowForExport };

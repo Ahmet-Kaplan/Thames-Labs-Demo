@@ -2,7 +2,7 @@
 const formatContactForExport = (record) => ({
   forename: record.forename || "",
   surname: record.surname || "",
-  companyName: record.companyName,
+  companyName: record.companyName || "",
   jobtitle: record.jobtitle || "",
   phone: record.phone || "",
   mobile: record.mobile || "",
