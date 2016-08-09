@@ -6,7 +6,7 @@ function getFieldValueByKey(valueList, key) {
 }
 
 Meteor.methods({
-  'import.do': function(userId, entityType, dataToImport, selectedValues, customFields) {
+  'import.do': function(userId, entityType, dataToImport, selectedValues, globalCustomFields, customFields) {
     try {
       var importTotal = dataToImport.length;
       var user = Meteor.users.findOne({
@@ -73,6 +73,21 @@ Meteor.methods({
                         if (cfErr) {
                           errorList.push('<span class="label label-danger">ERROR</span> Could not add custom fields for "' + row[getFieldValueByKey(selectedValues, 'name')] + '": ' + cfErr);
                           UserSession.set("importErrors", errorList, userId);
+                        }
+                      });
+                    });
+                  }
+
+                  if(globalCustomFields.length > 0) {
+                    _.each(globalCustomFields, function(field, i) {
+                      CustomFields.update({
+                        name: field.schemaField,
+                        global: true,
+                        target: 'company',
+                        entityId: docId
+                      }, {
+                        $set: {
+                          value: (row[field.fieldValue] ? row[field.fieldValue] : ''),
                         }
                       });
                     });
