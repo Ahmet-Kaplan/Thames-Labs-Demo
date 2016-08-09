@@ -218,6 +218,7 @@ Feature: Allow users to manage their sales opportunities
     And an "Opportunity" has been created
     When I navigate to an opportunity page
     And I click "#add-line-item"
+    Then I should see a modal
     And I set text field "name" to "testItem1"
     And I set textarea "description" to "test item description"
     And I set text field "value" to "1"
