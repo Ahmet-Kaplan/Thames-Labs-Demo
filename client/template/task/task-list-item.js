@@ -94,7 +94,7 @@ Template.task.helpers({
           };
         }
         break;
-h
+
       case 'opportunity':
         handle = Template.instance().subscribe("opportunityById", this.entityId);
         if (handle && handle.ready()) {
@@ -120,7 +120,10 @@ h
     return entityData;
   },
   taskAssignee: function() {
-    return _.get(Meteor.user(), 'profile.name');
+    Meteor.subscribe('currentTenantUserData');
+    return Meteor.users.findOne({
+      _id: this.assigneeId
+    }).profile.name;
   }
 });
 
