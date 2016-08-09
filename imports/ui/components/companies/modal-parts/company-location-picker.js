@@ -1,5 +1,4 @@
 import './company-location-picker.html';
-import _ from 'lodash';
 import '../../maps/map-editor.js';
 import { getAddressFromLookup, getAddressFromGoogleMapsSearch, isAddressEmpty } from '../../maps/map-helpers.js';
 
@@ -8,7 +7,7 @@ Template.companyLocationPicker.onCreated(function() {
   // Load google maps
   GoogleMaps.load({
     libraries: 'places',
-    key: Meteor.settings.public.googleDeveloperKey,
+    key: Meteor.settings.public.googleDeveloperKey
   });
 
   this.companyData = new ReactiveVar({});
