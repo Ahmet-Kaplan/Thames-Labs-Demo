@@ -58,7 +58,7 @@ Template.projectsList.onRendered(function() {
 Template.projectsList.events({
   'click #add-project': function(event) {
     event.preventDefault();
-    Modal.show('newProjectForm', this);
+    Modal.show('insertProjectModal', this);
   },
   'click #export': function(event) {
     event.preventDefault();
