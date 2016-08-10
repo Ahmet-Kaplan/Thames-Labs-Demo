@@ -9,6 +9,8 @@ import '../../ui/layouts/footer/footer.js';
 import '../../ui/layouts/nav/nav.js';
 import '../../ui/pages/settings/settings.js';
 import '/imports/ui/components/breadcrumbs/breadcrumbs.js';
+import '../../ui/pages/opportunities/detail/opportunities-detail.js';
+import '../../ui/pages/opportunities/list/opportunity-list.js';
 import '../../ui/pages/activities/activity-list.js';
 import '../../ui/components/tags/tag-input/tag-input.js';
 import '../../ui/components/tags/tag-badges/tag-badges.js';

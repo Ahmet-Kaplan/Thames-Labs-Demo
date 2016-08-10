@@ -3,6 +3,7 @@ import '/imports/ui/components/companies/widgets/index.js';
 import '/imports/ui/components/charts/sales-history.js';
 import '/imports/ui/components/maps/map-viewer.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
+import '/imports/ui/components/opportunities/modals/insert/insert-company-opp-modal.js';
 import '/imports/ui/components/activity/activity-timeline.js';
 import '/imports/ui/components/companies/modals/update-company-modal.js';
 
