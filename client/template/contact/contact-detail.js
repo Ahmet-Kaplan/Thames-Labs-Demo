@@ -215,7 +215,7 @@ Template.contactDetail.events({
   },
   'click #edit-contact': function(event) {
     event.preventDefault();
-    Modal.show('editContactModal', this);
+    Modal.show('updateContactModal', this);
   },
   'click #remove-contact': function(event) {
     event.preventDefault();
