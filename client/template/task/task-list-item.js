@@ -130,52 +130,29 @@ Template.task.helpers({
 Template.task.events({
   'click .task-completed': function(event) {
     event.preventDefault();
-    const listTarget = $(event.target).parents('.list-group-item'),
-          parent = $(event.target).parents('.task-completed'),
-          sub = () => {
-            //Checks if viewing as a subtask
-            if (Template.parentData()._id !== this._id) return true;
-            return false;
+    const updateTask = () => {
+      const taskId = FlowRouter.getRouteName() === 'tasks' ? this.__originalId : this._id;
+      if (this.completed) {
+        Tasks.update(taskId, {
+          $set: {
+            completed: false
           },
-          updateTask = () => {
-            const taskId = FlowRouter.getRouteName() === 'tasks' ? this.__originalId : this._id;
-            if (this.completed) {
-              Tasks.update(taskId, {
-                $set: {
-                  completed: false
-                },
-                $unset: {
-                  completedAt: null
-                }
-              });
-            } else {
-              Tasks.update(taskId, {
-                $set: {
-                  completed: true,
-                  completedAt: new Date()
-                }
-              });
-            }
-          };
+          $unset: {
+            completedAt: null
+          }
+        });
+      } else {
+        Tasks.update(taskId, {
+          $set: {
+            completed: true,
+            completedAt: new Date()
+          }
+        });
+      }
+    };
 
     if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
       updateTask();
-      /*if (this.completed) {
-        parent.children().remove();
-        parent.html('<i class="fa fa-check fa-stack-1x"></i><i class="fa fa-circle-thin fa-stack-2x"></i>');
-        parent.removeClass('task-green');
-      } else {
-        parent.children().remove();
-        parent.html('<i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-check fa-stack-1x fa-inverse"></i>');
-        parent.addClass('task-green');
-      } 
-      if (sub) {
-        updateTask();
-      }else {
-        listTarget.fadeOut(1000, 'easeInQuart', function() {
-          updateTask();
-        });
-      }*/
     }
   }
 });
