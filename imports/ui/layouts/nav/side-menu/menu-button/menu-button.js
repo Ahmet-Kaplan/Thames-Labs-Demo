@@ -1,5 +1,9 @@
-import './menu-button.html';
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Roles } from 'meteor/alanning:roles';
 import _ from 'lodash';
+
+import './menu-button.html';
 
 Template.menuButton.helpers({
   hasPermission: function() {

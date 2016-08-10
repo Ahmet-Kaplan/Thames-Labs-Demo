@@ -1,3 +1,5 @@
+import '/imports/ui/components/tasks/task/task-item.js';
+
 function isDashboard() {
   return FlowRouter.getRouteName() === "dashboard";
 }
@@ -7,10 +9,12 @@ Template.taskDisplay.onCreated(function() {
   this.entityId = this.data.entity_id;
 
   Session.set('entityDescriptor', "");
+
+  this.showCompleted = ReactiveVar(false);
 });
 
 Template.taskDisplay.onRendered(function() {
-  Session.set('showCompleted', 0);
+  Template.instance().showCompleted.set(false);
   Session.set('entityDescriptor', $('.entity-name').text());
 });
 
@@ -19,14 +23,15 @@ Template.taskDisplay.helpers({
     return Template.instance().entityType;
   },
   showComp: function() {
-    return Session.get('showCompleted') === 1;
+    return Template.instance().showCompleted.get();
   },
   isDashboard: function() {
     return isDashboard();
   },
   tasks: function() {
     var cutOffDate = moment(new Date()).subtract(1, 'hours').toDate();
-    if (Session.get('showCompleted') === 0) cutOffDate = new Date();
+    const showCompleted = Template.instance().showCompleted.get();
+    if (!showCompleted) cutOffDate = new Date();
 
     if (isDashboard()) {
       return Tasks.find({
@@ -88,45 +93,16 @@ Template.taskDisplay.helpers({
 Template.taskDisplay.events({
   'click #btnAddTaskToEntity': function(event) {
     event.preventDefault();
-    Modal.show('insertNewTask', { entity_data: this, preventNavigateToTask: true });
+    console.log(this);
+    Modal.show('insertNewTask', {
+      entity_id: this.entity_id,
+      entity_type: this.entity_type,
+      preventNavigateToTask: true
+    });
   },
   'click #btnRecentlyCompleted': function(event) {
     event.preventDefault();
-    if (Session.get('showCompleted') === 1) {
-      Session.set('showCompleted', 0);
-    } else {
-      Session.set('showCompleted', 1);
-    }
-  },
-  'click .task-completed': function(event) {
-    event.preventDefault();
-    var self = this;
-    if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
-      var taskId = self._id;
-      if (self.completed) {
-        Tasks.update(taskId, {
-          $set: {
-            completed: false
-          },
-          $unset: {
-            completedAt: null
-          }
-        });
-      } else {
-        Tasks.update(taskId, {
-          $set: {
-            completed: true,
-            completedAt: new Date()
-          }
-        });
-      }
-    }
-    //Hack to artificially refresh display if completed are not showed
-    if (Session.get('showCompleted') === 0) {
-      $(event.target).parents('.list-group-item').fadeOut(500, () => {
-        Session.set('showCompleted', 1);
-        Session.set('showCompleted', 0);
-      });
-    }
-  },
+    const showCompleted = Template.instance().showCompleted.get();
+    Template.instance().showCompleted.set(!showCompleted);
+  }
 });

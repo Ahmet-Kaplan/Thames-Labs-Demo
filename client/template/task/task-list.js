@@ -70,9 +70,9 @@ Template.taskList.events({
   'click .add-task': function(event) {
     event.preventDefault();
     const entityType = event.target.id;
-    Modal.show('insertNewTask', { entity_data: {
+    Modal.show('insertNewTask', {
       entity_type: entityType
-    }});
+    });
   },
   'click #toggle-my-tasks': function(event) {
     event.preventDefault();

@@ -9,6 +9,8 @@ import '../../ui/layouts/footer/footer.js';
 import '../../ui/layouts/nav/nav.js';
 import '../../ui/pages/settings/settings.js';
 import '../../ui/components/breadcrumbs/breadcrumbs.js';
+import '../../ui/pages/opportunities/detail/opportunities-detail.js';
+import '../../ui/pages/opportunities/list/opportunity-list.js';
 import '../../ui/pages/activities/activity-list.js';
 import '../../ui/components/products/modals/insert-product-modal.js';
 import '../../ui/pages/products/product-list.js';

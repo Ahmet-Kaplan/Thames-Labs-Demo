@@ -1,0 +1,24 @@
+<template name="subtaskList">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="btn-group pull-right">
+            {{#if isInRole 'CanCreateTasks'}}
+              <a href="#" id="create-sub-task" class="btn btn-primary btn-xs"><i class="fa fa-fw fa-plus"></i> Add</a>
+            {{/if}}
+          </div>
+          Subtasks
+        </div>
+
+        <ul class="list-group">
+        {{#each subtasks}}
+          {{> taskItem taskId=_id}}
+        {{else}}
+          <li class="list-group-item">No subtasks</li>
+        {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
