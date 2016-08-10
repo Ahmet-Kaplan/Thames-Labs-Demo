@@ -1,8 +1,9 @@
 #taskContainer{
-  /*max-height: 180px;
-  overflow-x: hidden;
-  overflow-y: scroll;*/
   padding-top:0px;
+}
+#entityTaskList #taskContainer {
+  max-height: 260px;
+  overflow: auto;
 }
 
 #displayedTaskHeading{
