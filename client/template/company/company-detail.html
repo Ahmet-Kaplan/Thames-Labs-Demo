@@ -5,11 +5,9 @@
       {{> jumplist list=linksList}}
     </div>
     <div class="col-md-7">
-      {{> breadcrumbs parentPath="/companies" parentName="Companies" recordName=breadcrumbName }}
+      <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
 
-      <h4 class="entity-title">
-        <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
-      </h4>
+      {{> breadcrumbs parentPath="/companies" parentName="Companies" recordName=breadcrumbName }}
 
       <div class="watchlist-container">
         {{> watchlistAdmin entityData=this collection='companies'}}

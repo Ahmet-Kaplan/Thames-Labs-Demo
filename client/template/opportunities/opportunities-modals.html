@@ -12,7 +12,15 @@
             {{> afQuickField name="description" rows=3}}
             {{> afQuickField name="date" }}
             {{> afQuickField name="estCloseDate" }}
-            {{> afQuickField name="value"}}
+
+            <div class="form-group">
+              <label for="opp-value" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="opp-value" data-schema-key="value" step="0.01" class="form-control">
+              </div>
+              <span class="help-block"></span>
+            </div>
 
             {{> esSelectize name="companyId" index=CompaniesIndex}}
 
@@ -47,7 +55,16 @@
             {{> afQuickField name="description" rows=3}}
             {{> afQuickField name="date" }}
             {{> afQuickField name="estCloseDate" }}
-            {{> afQuickField name="value"}}
+
+            <div class="form-group">
+              <label for="opp-value" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="opp-value" data-schema-key="value" step="0.01" class="form-control">
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
             {{> afQuickField name="companyId" id="companyId" value=companyId type="hidden"}}
             {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
@@ -79,7 +96,16 @@
             {{> afQuickField name="description" rows=3}}
             {{> afQuickField name="date" }}
             {{> afQuickField name="estCloseDate" }}
-            {{> afQuickField name="value"}}
+
+            <div class="form-group">
+              <label for="opp-value" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="opp-value" data-schema-key="value" step="0.01" class="form-control">
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             {{> esSelectize name="salesManagerId" index=UsersIndex allowEmptyOption=true}}
             {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
             {{> afQuickField name="isArchived" value=false type="hidden"}}
@@ -116,7 +142,16 @@
             {{> afQuickField name="description" rows=3}}
             {{> afQuickField name="date" }}
             {{> afQuickField name="estCloseDate" }}
-            {{> afQuickField name="value"}}
+
+            <div class="form-group">
+              <label for="opp-value" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="opp-value" data-schema-key="value" step="0.01" class="form-control" value={{value}}>
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             {{#if companyId}}
               {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
               {{> afQuickField name="companyId" value=companyId type="hidden"}}
@@ -148,7 +183,16 @@
             {{> afQuickField name="id" value=generatedId type="hidden"}}
             {{> afQuickField name="name" value=""}}
             {{> afQuickField name="description" value="" rows=3}}
-            {{> afQuickField name="value" value=""}}
+
+            <div class="form-group">
+              <label for="opp-value" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="opp-value" data-schema-key="value" step="0.01" class="form-control">
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             {{> afQuickField name="quantity" value=""}}
             {{> afQuickField type="text" readonly="true" id="oppLineTotal" label="Total"}}
             <button type="submit" class="btn btn-primary">Create</button>
@@ -173,7 +217,16 @@
           {{#autoForm collection="Opportunities" id="editOpportunityItemForm" type="update" doc=opportunity setArrayItems=true}}
             {{> afQuickField id="fieldName" name=fieldName value=this.data.name id="name-field"}}
             {{> afQuickField id="fieldDesc" name=fieldDesc value=this.data.description rows=3}}
-            {{> afQuickField id="fieldVal" name=fieldVal value=this.data.value}}
+
+            <div class="form-group">
+              <label for="opp-value" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="opp-value" data-schema-key="value" step="0.01" class="form-control" value={{this.data.value}}>
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             {{> afQuickField id="fieldQuantity" name=fieldQuantity value=this.data.quantity}}
             {{> afQuickField type="text" readonly="true" id="oppLineTotal" label="Total" value=fieldLineTotal}}
             <button type="submit" class="btn btn-primary">Update</button>

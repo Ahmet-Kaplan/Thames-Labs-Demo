@@ -26,6 +26,23 @@ Meteor.methods({
       _id: id
     });
   },
+  "customFields.getTenantGlobals": function(collectionType) {
+    var user = Meteor.users.findOne({
+      _id: this.userId
+    });
+    if (!user) return [];
+
+    var data = [];
+
+    Partitioner.bindGroup(user.group, function() {
+      data = CustomFields.find({
+        target: collectionType,
+        global: true
+      }).fetch();
+    });
+
+    return _.uniqBy(data, 'name');
+  },
   'customFields.deleteGlobal': function(self) {
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may delete global fields.');

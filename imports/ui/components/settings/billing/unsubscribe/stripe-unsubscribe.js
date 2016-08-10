@@ -32,7 +32,7 @@ Template.stripeUnsubscribe.events({
       toastr.clear();
       bootbox.alert({
         title: 'Subscription updated',
-        message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been cancelled successfully.<br />We welcome any feedback on RealtimeCRM.',
+        message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been cancelled successfully.<br />We welcome any feedback on RealTimeCRM.',
         backdrop: false,
         className: 'bootbox-success',
       });
