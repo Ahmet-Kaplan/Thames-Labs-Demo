@@ -111,4 +111,6 @@ const getAddressFromLookup = (geo) => {
   return addressData;
 };
 
-export { getAddressFromLookup, getAddressFromGoogleMapsSearch };
+const isAddressEmpty = (addr) => (!addr.address && !addr.address2 && !addr.city && !addr.postcode && !addr.county && !addr.country && !addr.lng && !addr.lat);
+
+export { getAddressFromLookup, getAddressFromGoogleMapsSearch, isAddressEmpty };

@@ -95,7 +95,7 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     And I click "#edit-company"
     And I set text field "name" to "updated company name"
-    And I submit the "editCompany" form
+    And I submit the "updateCompany" form
     Then "#company-details" should say "updated company name"
 
   Scenario: A user without permission cannot edit a company
@@ -221,7 +221,7 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     And I click "#edit-company"
     And I should see a modal
-    And I click "#show-map"
+    And I click "#newLocationSearch"
     When I search for Cowley Road
     Then the field "postcode" should contain "CB4"
     And I should see a map

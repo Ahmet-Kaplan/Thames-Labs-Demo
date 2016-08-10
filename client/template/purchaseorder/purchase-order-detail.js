@@ -103,7 +103,7 @@ Template.purchaseOrderDetail.events({
     const file = event.target.files[0];
     if (!file) return;
     if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-      toastr.error("Unable to extract to file. Please ensure the provided file is a word document (.docx)");
+      toastr.error("Unable to process file. Please ensure the provided file is a word document (.docx)");
       return;
     }
 
@@ -165,7 +165,7 @@ Template.purchaseOrderDetail.events({
         toastr.success("Your data has been successfully extracted.");
 
       } catch (err) {
-        toastr.error("Unable to extract to file.");
+        toastr.error("Unable to process file.");
       }
       $('#template-upload-docx').val('');
     }.bind(this);
