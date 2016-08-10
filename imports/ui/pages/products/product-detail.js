@@ -1,4 +1,5 @@
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
+import './product-detail.html';
 
 Template.productDetail.onCreated(function() {
   // Redirect if data doesn't exist

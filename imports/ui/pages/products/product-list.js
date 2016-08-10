@@ -1,3 +1,5 @@
+import './product-list.html';
+
 Template.productList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {

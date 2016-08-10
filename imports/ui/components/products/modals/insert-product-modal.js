@@ -1,3 +1,5 @@
+import './insert-product-modal.html';
+
 Template.insertProductModal.helpers({
   currentUser: function() {
     return Meteor.userId();
