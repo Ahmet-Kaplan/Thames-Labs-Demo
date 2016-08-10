@@ -210,7 +210,7 @@ Template.taskDetail.events({
   'click #remove-task': function(event) {
     event.preventDefault();
     var taskId = this._id;
-    bootbox.confirm("Are you sure you wish to delete this task? Sub-tasks will not be deleted.", function(result) {
+    bootbox.confirm("Are you sure you wish to delete this task? Subtasks will not be deleted.", function(result) {
       if (result === true) {
         Tasks.remove(taskId);
         FlowRouter.go('tasks');

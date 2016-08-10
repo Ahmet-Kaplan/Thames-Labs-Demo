@@ -159,7 +159,8 @@ Template.task.events({
           };
 
     if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
-      if (this.completed) {
+      updateTask();
+      /*if (this.completed) {
         parent.children().remove();
         parent.html('<i class="fa fa-check fa-stack-1x"></i><i class="fa fa-circle-thin fa-stack-2x"></i>');
         parent.removeClass('task-green');
@@ -167,14 +168,14 @@ Template.task.events({
         parent.children().remove();
         parent.html('<i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-check fa-stack-1x fa-inverse"></i>');
         parent.addClass('task-green');
-      }
+      } 
       if (sub) {
         updateTask();
       }else {
         listTarget.fadeOut(1000, 'easeInQuart', function() {
           updateTask();
         });
-      }
+      }*/
     }
   }
 });

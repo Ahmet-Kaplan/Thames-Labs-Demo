@@ -4,31 +4,17 @@
     <div class="row">
       <div class="col-md-{{#if showEntityDetail}}3{{else}}6{{/if}}">
         <div class="pull-left" id="completed">
-        {{#if isInRole 'CanEditTasks'}}
           {{#if completed}}
-            <span class="fa-stack fa-1x task-green task-completed">
+            <span class="fa-stack fa-1x task-green {{#if isInRole 'CanEditTasks'}}task-completed{{/if}}">
               <i class="fa fa-circle fa-stack-2x"></i>
               <i class="fa fa-check fa-stack-1x fa-inverse"></i>
             </span>
           {{else}}
-            <span class="fa-stack fa-1x task-completed">
+            <span class="fa-stack fa-1x {{#if isInRole 'CanEditTasks'}}task-completed{{/if}}">
               <i class="fa fa-check fa-stack-1x"></i>
               <i class="fa fa-circle-thin fa-stack-2x"></i>
             </span>
           {{/if}}
-        {{else}}
-          {{#if completed}}
-            <span class="fa-stack fa-1x task-green">
-              <i class="fa fa-circle fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x fa-inverse"></i>
-            </span>
-          {{else}}
-            <span class="fa-stack fa-1x">
-              <i class="fa fa-check fa-stack-1x"></i>
-              <i class="fa fa-circle-thin fa-stack-2x"></i>
-            </span>
-          {{/if}}
-         {{/if}}
         </div>
         <h4 class="list-group-item-heading">{{title}}</h4>
       </div>

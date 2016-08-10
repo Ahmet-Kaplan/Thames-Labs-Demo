@@ -13,7 +13,7 @@
 
         <ul class="list-group">
         {{#each subtasks}}
-          {{> task}}
+          {{> taskItem taskId=_id}}
         {{else}}
           <li class="list-group-item">No subtasks</li>
         {{/each}}
