@@ -1,3 +1,5 @@
+import '/imports/ui/components/tasks/subtasks/subtask-list.js';
+
 Template.taskDetail.onCreated(function() {
   var taskId = FlowRouter.getParam('id');
   this.subscribe('activityByTaskId', taskId);
@@ -198,14 +200,6 @@ Template.taskDetail.helpers({
 });
 
 Template.taskDetail.events({
-  'click #create-sub-task': function(event, template) {
-    event.preventDefault();
-    Modal.show('insertNewTask', { entityData: {
-      _id: this._id,
-      entity_type: this.entityType,
-      entity_id: this.entityId
-    }, preventNavigateToTask: true});
-  },
   'click #add-activity': function(event) {
     event.preventDefault();
     Modal.show('insertTaskActivityModal', {
@@ -219,7 +213,7 @@ Template.taskDetail.events({
   'click #remove-task': function(event) {
     event.preventDefault();
     var taskId = this._id;
-    bootbox.confirm("Are you sure you wish to delete this task? Sub-tasks will not be deleted.", function(result) {
+    bootbox.confirm("Are you sure you wish to delete this task? Subtasks will not be deleted.", function(result) {
       if (result === true) {
         Tasks.remove(taskId);
         FlowRouter.go('tasks');
@@ -265,32 +259,5 @@ Template.taskDetail.events({
   'click #fab': function(event) {
     event.preventDefault();
     Modal.show('updateTaskModal', this);
-  }
-});
-
-Template.subTaskItem.onCreated(function() {
-  this.subscribe('taskById', this.data._id);
-  this.state = new ReactiveVar(this.data.completed);
-});
-
-Template.subTaskItem.onRendered(function() {
-  var myId = this.data._id;
-
-  this.autorun(function() {
-    var subTask = Tasks.findOne({
-      _id: myId
-    });
-    if (subTask) {
-      Template.instance().state.set(subTask.completed);
-    }
-  });
-});
-
-Template.subTaskItem.helpers({
-  subTaskCompleted: function() {
-    return Template.instance().state.get();
-  },
-  subTaskName: function() {
-    return this.title;
   }
 });

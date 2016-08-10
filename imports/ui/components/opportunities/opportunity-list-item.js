@@ -1,3 +1,6 @@
+import './opportunity-list-item.html';
+import './opportunity-list-item.less';
+
 Template.opportunityListItem.onCreated(function() {
   this.subscribe('companyById', this.data.companyId);
   this.subscribe('contactById', this.data.contactId);
@@ -5,12 +8,12 @@ Template.opportunityListItem.onCreated(function() {
 
 Template.opportunityListItem.helpers({
   oppName: function() {
-    const searchDef = Template.currentData().index.getComponentDict().get('searchDefinition');
-    var pattern = new RegExp(searchDef, 'gi');
+    const searchDef = Template.currentData().index.getComponentDict().get('searchDefinition'),
+          pattern = new RegExp(searchDef, 'gi');
     return Template.currentData().name.replace(pattern, '<span class="highlighted-search">$&</span>');
   },
   salesManager: function() {
-    var user = Meteor.users.findOne({
+    const user = Meteor.users.findOne({
       _id: this.salesManagerId
     });
     if (user) return user.profile.name;
@@ -25,12 +28,13 @@ Template.opportunityListItem.helpers({
     return Contacts.findOne(this.contactId);
   },
   lostAtStage: function() {
-    var self = this;
-    var tenant = Tenants.findOne({
-      _id: Meteor.user().group
-    });
-    var stages = tenant.settings.opportunity.stages;
-    var stageValue = "Unknown";
+    const self = this,
+          tenant = Tenants.findOne({
+            _id: Meteor.user().group
+          }),
+          stages = tenant.settings.opportunity.stages;
+
+    let stageValue = "Unknown";
 
     _.each(stages, function(s) {
       if (s.id === self.currentStageId) {
@@ -41,8 +45,8 @@ Template.opportunityListItem.helpers({
     return stageValue;
   },
   cssClass: function() {
-    const closeDate = moment(this.estCloseDate);
-    const daysFromNow = closeDate.diff(new Date(), 'days');
+    const closeDate = moment(this.estCloseDate),
+          daysFromNow = closeDate.diff(new Date(), 'days');
     if (daysFromNow <= 1 && !this.isArchived) {
       return 'alert-red';
     } else if (daysFromNow <= 7 && daysFromNow > 1 && !this.isArchived) {

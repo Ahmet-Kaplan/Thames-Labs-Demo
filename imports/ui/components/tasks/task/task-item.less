@@ -1,0 +1,86 @@
+@import "{}/client/bootstrap/custom.bootstrap.import.less";
+
+.task-item.list-group-item {
+  padding: 0;
+  min-height: 40px;
+}
+.task-item.list-group-item a:hover {
+  background: #f5f5f5;
+}
+.task-item.list-group-item > a {
+  padding: 10px 15px 10px 40px;
+  display: block;
+  color: #555555;
+  text-decoration: none;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+.task-item.list-group-item > button.pull-left {
+  outline: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  height: 40px;
+  width: 40px;
+  margin-right: -40px;
+}
+.task-item.list-group-item > .pull-left i {
+  padding: 2px;
+  color: #777;
+  border: 2px solid #777;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+}
+.task-item.list-group-item > button.pull-left:focus i {
+  border-color: #444;
+}
+.task-item.list-group-item > button.pull-left:hover i {
+  border-color:  darken(@brand-success, 5%);
+  color:  darken(@brand-success, 5%);
+}
+.task-item.list-group-item > .pull-left i.green {
+  border-color: darken(@brand-success, 5%);
+  color: white;
+  background: darken(@brand-success, 5%);
+}
+.task-item.list-group-item > button.pull-left:focus i.green {
+  border-color: darken(@brand-success, 15%);
+}
+.task-item.list-group-item > button.pull-left:hover i.green {
+  border-color: darken(@brand-success, 10%);
+  color: white;
+  background: darken(@brand-success, 10%);
+}
+.task-item .task-left {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -webkit-flex: 3;
+  flex: 3;
+  min-width: 200px;
+  padding-right: 10px;
+}
+.task-item .task-right {
+  -webkit-flex: none;
+  flex: none;
+  text-align: right;
+}
+.task-item .task-right > span {
+  padding: 0px 10px 0 0;
+}
+.task-title {
+  color: black;
+}
+.task-item .task-date.green {
+  color: darken(@brand-success, 15%);
+}
+.task-item .task-date.orange{
+  color: darken(@brand-warning, 15%);
+}
+.task-item .task-date.red{
+  color: darken(@brand-danger, 15%);
+}
