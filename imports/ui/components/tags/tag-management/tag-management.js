@@ -1,12 +1,16 @@
+import { Template } from 'meteor/templating';
+import './tag-management-modal.js';
+import './tag-management.html';
+
 Template.tagManagement.onCreated(function() {
   Session.setDefault('resultsCount', 0);
 });
 
 Template.tagManagement.onRendered(function() {
-  var collectionName = this.data.collectionName;
+  const collectionName = this.data.collectionName;
   this.autorun(function() {
     if (collectionName) {
-      var index = Collections[collectionName].index;
+      const index = Collections[collectionName].index;
       Session.set('resultsCount', index.getComponentDict().get('count'));
     }
   });

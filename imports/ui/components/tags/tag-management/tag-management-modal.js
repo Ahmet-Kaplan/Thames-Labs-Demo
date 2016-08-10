@@ -1,3 +1,10 @@
+import { Template } from 'meteor/templating';
+import { $ } from 'jquery';
+import _ from 'lodash';
+
+import './tag-management-modal.css';
+import './tag-management-modal.html';
+
 Template.tagManagementModal.onCreated(function() {
   this.collectionName = this.data.collectionName;
   this.addMode = new ReactiveVar(true);
@@ -12,12 +19,12 @@ Template.tagManagementModal.onRendered(function() {
     offstyle: 'danger'
   });
 
-  var self = this;
+  const self = this;
 
-  var collectionName = self.collectionName;
-  var index = Collections[collectionName].index,
-      searchDefinition = index.getComponentDict().get('searchDefinition'),
-      searchOptions = index.getComponentDict().get('searchOptions');
+  const collectionName = this.collectionName;
+  const index = Collections[collectionName].index,
+        searchDefinition = index.getComponentDict().get('searchDefinition'),
+        searchOptions = index.getComponentDict().get('searchOptions');
 
   // Subscribe to existing tags for autosuggest
   this.subscribe('tagsByCollection', collectionName);
@@ -31,7 +38,7 @@ Template.tagManagementModal.onRendered(function() {
     create: function(input, cb) {
       Meteor.call('tag.addTagToResults', collectionName, searchDefinition, searchOptions, input);
 
-      var tag = Meteor.tags.findOne({
+      const tag = Meteor.tags.findOne({
         collection: collectionName,
         name: input
       });
@@ -45,17 +52,12 @@ Template.tagManagementModal.onRendered(function() {
     options: [],
     render: {
       item: function(item, escape) {
-        return '<div>' +
-          (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
-          '</div>';
+        return `<div>${ item.name ? `<span class="name">${escape(item.name)}</span>` : '' }</div>`;
       },
       option: function(item, escape) {
-        var name = item.name;
-        var caption = item.nRefs;
-        return '<div>' +
-          '<span class="name">' + escape(name) + '</span>&nbsp;' +
-          (caption ? '<span class="badge">' + escape(caption) + '</span>' : '') +
-          '</div>';
+        const name = item.name;
+        const caption = item.nRefs;
+        return `<div><span class="name">${escape(name)}</span>&nbsp; ${(caption ? `<span class="badge">${escape(caption)}</span>` : '')}</div>`;
       }
     },
     onItemAdd: function(value, $item) {
@@ -73,7 +75,7 @@ Template.tagManagementModal.onRendered(function() {
   this.selectize = this.$('#tag-input')[0].selectize;
 
   this.autorun(() => {
-    var existingTags = Meteor.tags.find({
+    const existingTags = Meteor.tags.find({
       collection: collectionName,
     }).fetch();
     this.selectize.addOption(existingTags);
@@ -83,7 +85,7 @@ Template.tagManagementModal.onRendered(function() {
 
 Template.tagManagementModal.events({
   'change #mode-toggle': function(event, template) {
-    var state = template.addMode.get();
+    const state = template.addMode.get();
     template.addMode.set(!state);
   }
 });
@@ -93,15 +95,15 @@ Template.tagManagementModal.helpers({
     return this.recordCount;
   },
   showWarning: function() {
-    var state = Template.instance().addMode.get();
+    const state = Template.instance().addMode.get();
     return !state;
   },
   tags: function() {
-    var index = Collections[this.collectionName].index,
-        searchDefinition = index.getComponentDict().get('searchDefinition'),
-        searchOptions = index.getComponentDict().get('searchOptions');
-    var tags = [];
-    var result = index.search(searchDefinition, searchOptions).fetch();
+    const index = Collections[this.collectionName].index,
+          searchDefinition = index.getComponentDict().get('searchDefinition'),
+          searchOptions = index.getComponentDict().get('searchOptions');
+    const tags = [];
+    const result = index.search(searchDefinition, searchOptions).fetch();
     _.each(result, function(r) {
       _.each(r.tags, function(t) {
         tags.push(t);

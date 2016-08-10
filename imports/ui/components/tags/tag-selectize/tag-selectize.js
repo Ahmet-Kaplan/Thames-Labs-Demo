@@ -1,7 +1,11 @@
+import './tag-selectize.html';
+
+import { Template } from 'meteor/templating';
+
 Template.tagSelectize.onRendered(function() {
-  var collectionName = this.data.collection,
-      entityId = this.data.entityId,
-      self = this;
+  const collectionName = this.data.collection,
+        entityId = this.data.entityId,
+        self = this;
 
   // Subscribe to existing tags for autosuggest
   this.subscribe('tagsByCollection', collectionName);
@@ -17,7 +21,7 @@ Template.tagSelectize.onRendered(function() {
         _id: entityId
       });
 
-      var tag = Meteor.tags.findOne({
+      const tag = Meteor.tags.findOne({
         collection: collectionName,
         name: input
       });
@@ -31,17 +35,12 @@ Template.tagSelectize.onRendered(function() {
     options: [],
     render: {
       item: function(item, escape) {
-        return '<div>' +
-          (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
-          '</div>';
+        return `<div>${ item.name ? `<span class="name">${escape(item.name)}</span>` : '' }</div>`;
       },
       option: function(item, escape) {
-        var name = item.name;
-        var caption = item.nRefs;
-        return '<div>' +
-          '<span class="name">' + escape(name) + '</span>&nbsp;' +
-          (caption ? '<span class="badge">' + escape(caption) + '</span>' : '') +
-          '</div>';
+        const name = item.name;
+        const caption = item.nRefs;
+        return `<div><span class="name">${escape(name)}</span>&nbsp; ${(caption ? `<span class="badge">${escape(caption)}</span>` : '')}</div>`;
       }
     },
     onItemAdd: function(value, $item) {
@@ -56,11 +55,11 @@ Template.tagSelectize.onRendered(function() {
     },
     onInitialize: function() {
       // N.B. self refers to Template.tagInput
-      var tagInput = this,
-          permissionToEdit = self.data.permissionToEdit;
+      const tagInput = this,
+            permissionToEdit = self.data.permissionToEdit;
       tagInput.focus();
       self.autorun(function() {
-        var userId = Meteor.userId();
+        const userId = Meteor.userId();
         if (permissionToEdit && !Roles.userIsInRole(userId, [permissionToEdit])) {
           tagInput.lock();
         } else {
@@ -75,7 +74,7 @@ Template.tagSelectize.onRendered(function() {
 
   // Update tag suggestion based on subscription
   this.autorun(() => {
-    var existingTags = Meteor.tags.find({
+    const existingTags = Meteor.tags.find({
       collection: collectionName,
     }).fetch();
     this.selectize.addOption(existingTags);

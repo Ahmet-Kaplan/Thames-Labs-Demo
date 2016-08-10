@@ -1,3 +1,11 @@
+import { Template } from 'meteor/templating';
+import '../tag-badges/tag-badges.js';
+import '../tag-selectize/tag-selectize.js';
+
+import './tag-input.css';
+import './tag-input.html';
+
+
 Template.tagInput.onCreated(function() {
   this.inputMode = new ReactiveVar(false);
 });

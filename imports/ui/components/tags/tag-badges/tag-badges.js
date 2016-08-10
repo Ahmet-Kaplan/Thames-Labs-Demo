@@ -1,10 +1,15 @@
-function tagIsInList(tag, tagList) {
-  return _.some(tagList.split(','), (s) => (s === tag));
-}
+import './tag-badges.css';
+import './tag-badge.html';
+import './tag-badges.html';
 
-function toggleTag(tag, index) {
-  var searchOptions = index.getComponentDict().get('searchOptions'),
-      tags = (searchOptions && searchOptions.props && searchOptions.props.tags) ? searchOptions.props.tags : '';
+import { Template } from 'meteor/templating';
+import _ from 'lodash';
+
+const tagIsInList = (tag, tagList) => _.some(tagList.split(','), (s) => (s === tag));
+
+const toggleTag = (tag, index) => {
+  const searchOptions = index.getComponentDict().get('searchOptions');
+  let tags = (searchOptions && searchOptions.props && searchOptions.props.tags) ? searchOptions.props.tags : '';
 
   if (tags !== '' && tagIsInList(tag, tags)) {
     // Remove tag from props or unset if last tag
@@ -27,7 +32,7 @@ function toggleTag(tag, index) {
       index.getComponentMethods().addProps('tags', tags);
     }
   }
-}
+};
 
 Template.tagBadge.events({
   'click a': function(event) {
@@ -41,7 +46,7 @@ Template.tagBadge.events({
 Template.tagBadge.helpers({
   'selected': function() {
     if (!this.index) return '';
-    var searchOptions = this.index.getComponentDict().get('searchOptions');
+    const searchOptions = this.index.getComponentDict().get('searchOptions');
     if (searchOptions && searchOptions.props && searchOptions.props.tags) {
       return tagIsInList(this.tag, searchOptions.props.tags) ? 'active' : '';
     }
