@@ -1,36 +1,34 @@
 Template.task.onCreated(function() {
   this.subscribe('taskTags');
-});
 
-Template.task.onRendered(function() {
+  // Store taskId depending on whether data comes from easysearch or directly via subscription
+  this.taskId = _.get(this.data, '__originalId', this.data._id);
+
   if (this.data.parentTaskId) this.subscribe('taskById', this.data.parentTaskId);
 });
 
 Template.task.helpers({
   formattedCompletionDate: function() {
-    var displayDate = this.isAllDay ? moment(this.completedAt).format('Do MMM YYYY') : moment(this.completedAt).format('Do MMM YYYY, HH:mm');
+    const displayDate = this.isAllDay ? moment(this.completedAt).format('Do MMM YYYY') : moment(this.completedAt).format('Do MMM YYYY, HH:mm');
     return displayDate;
   },
   taskParentName: function() {
-    var parent = Tasks.findOne({_id: this.parentTaskId});
+    const parent = Tasks.findOne({_id: this.parentTaskId});
     if(parent) return parent.title;
   },
   taskId: function() {
-    if (FlowRouter.getRouteName() === "tasks") {
-      return this.__originalId;
-    }
-    return this._id;
+    return Template.instance().taskId;
   },
   formattedDueDate: function() {
     if (!this.dueDate) {
       return;
     }
     if (this.isAllDay) {
-      var a = moment(new Date());
+      const a = moment(new Date());
       a.hour(0);
       a.minute(0);
 
-      var b = moment(this.dueDate);
+      const b = moment(this.dueDate);
       if (b.dayOfYear() == a.dayOfYear()) return 'today';
       if (b.dayOfYear() == a.dayOfYear() - 1) return 'yesterday';
       if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
@@ -42,12 +40,12 @@ Template.task.helpers({
     return (FlowRouter.getRouteName() === "dashboard" || FlowRouter.getRouteName() === "tasks");
   },
   entityDetails: function() {
-    var entityData = "";
-    let handle = null;
+    let entityData = "",
+        handle = null;
 
     switch (this.entityType) {
       case 'user':
-        Meteor.subscribe('currentTenantUserData');
+        Template.instance().subscribe('currentTenantUserData');
         entityData = {
           icon: 'check',
           name: "Personal task",
@@ -56,7 +54,7 @@ Template.task.helpers({
         break;
 
       case 'company':
-        handle = Meteor.subscribe("companyById", this.entityId);
+        handle = Template.instance().subscribe("companyById", this.entityId);
         if (handle && handle.ready()) {
           const c = Companies.findOne({
             _id: this.entityId
@@ -70,7 +68,7 @@ Template.task.helpers({
         break;
 
       case 'contact':
-        handle = Meteor.subscribe("contactById", this.entityId);
+        handle = Template.instance().subscribe("contactById", this.entityId);
         if (handle && handle.ready()) {
           const c = Contacts.findOne({
             _id: this.entityId
@@ -84,7 +82,7 @@ Template.task.helpers({
         break;
 
       case 'project':
-        handle = Meteor.subscribe("projectById", this.entityId);
+        handle = Template.instance().subscribe("projectById", this.entityId);
         if (handle && handle.ready()) {
           const p = Projects.findOne({
             _id: this.entityId
@@ -98,7 +96,7 @@ Template.task.helpers({
         break;
 
       case 'opportunity':
-        handle = Meteor.subscribe("opportunityById", this.entityId);
+        handle = Template.instance().subscribe("opportunityById", this.entityId);
         if (handle && handle.ready()) {
           const p = Opportunities.findOne({
             _id: this.entityId
@@ -132,39 +130,30 @@ Template.task.helpers({
 Template.task.events({
   'click .task-completed': function(event) {
     event.preventDefault();
-    var self = this;
-    var listTarget = $(event.target).parents('.list-group-item');
-    if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
-      var parent = $(event.target).parents('.task-completed');
-      if (self.completed) {
-        parent.children().remove();
-        parent.html('<i class="fa fa-check fa-stack-1x"></i><i class="fa fa-circle-thin fa-stack-2x"></i>');
-        parent.removeClass('task-green');
+    const updateTask = () => {
+      const taskId = FlowRouter.getRouteName() === 'tasks' ? this.__originalId : this._id;
+      if (this.completed) {
+        Tasks.update(taskId, {
+          $set: {
+            completed: false
+          },
+          $unset: {
+            completedAt: null
+          }
+        });
       } else {
-        parent.children().remove();
-        parent.html('<i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-check fa-stack-1x fa-inverse"></i>');
-        parent.addClass('task-green');
+        Tasks.update(taskId, {
+          $set: {
+            completed: true,
+            completedAt: new Date()
+          }
+        });
       }
-      listTarget.fadeOut(1000, 'easeInQuart', function() {
-        var taskId = FlowRouter.getRouteName() === 'tasks' ? self.__originalId : self._id;
-        if (self.completed) {
-          Tasks.update(taskId, {
-            $set: {
-              completed: false
-            },
-            $unset: {
-              completedAt: null
-            }
-          });
-        } else {
-          Tasks.update(taskId, {
-            $set: {
-              completed: true,
-              completedAt: new Date()
-            }
-          });
-        }
-      });
+    };
+
+    if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
+      updateTask();
     }
   }
 });
+
