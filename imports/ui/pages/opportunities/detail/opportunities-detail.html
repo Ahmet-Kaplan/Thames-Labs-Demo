@@ -3,7 +3,6 @@
   {{setPageTitle "Opportunity - " name}}
   <div class="row">
     <div class="col-md-12">
-      {{> breadcrumbs parentPath="/opportunities" parentName="Opportunities" recordName=breadcrumbName }}
       <div class="pull-right">
         {{#if isActive}}
           <br>
@@ -30,6 +29,8 @@
           {{/if}}
         {{/if}}
       </div>
+
+      {{> breadcrumbs parentPath="/opportunities" parentName="Opportunities" recordName=breadcrumbName }}
 
       <div class="watchlist-container">
         {{> watchlistAdmin entityData=this collection="opportunities"}}
