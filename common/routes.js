@@ -200,6 +200,10 @@ router.route('/settings/:section', {
       case 'configuration':
         layoutTemplate = 'configurationSettings';
         break;
+
+      case 'company-info':
+        layoutTemplate = 'companyInfoSettings';
+        break;
     }
 
     layout.render('appLayout', {

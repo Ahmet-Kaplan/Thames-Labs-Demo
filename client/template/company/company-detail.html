@@ -5,11 +5,9 @@
       {{> jumplist list=linksList}}
     </div>
     <div class="col-md-7">
-      {{> breadcrumbs parentPath="/companies" parentName="Companies" recordName=breadcrumbName }}
+      <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
 
-      <h4 class="entity-title">
-        <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
-      </h4>
+      {{> breadcrumbs parentPath="/companies" parentName="Companies" recordName=breadcrumbName }}
 
       <div class="watchlist-container">
         {{> watchlistAdmin entityData=this collection='companies'}}
@@ -26,10 +24,10 @@
             <div class="btn-group">
               <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
-                Extract to...
+                Download as...
               </button>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#" id="template-upload-link">Microsoft Word template</a></li>
+                <li><a href="#" id="template-upload-link">Microsoft Word template (.docx)</a></li>
                 <li class="divider"></li>
                 <li><a href="#" id="template-help">How does this work?</a></li>
               </ul>

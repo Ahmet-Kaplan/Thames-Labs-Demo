@@ -36,6 +36,13 @@ Schemas.Opportunity = new SimpleSchema({
       }
     }
   },
+  nextActionDue: {
+    type: Date,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
   value: {
     type: Number,
     decimal: true,
@@ -47,9 +54,12 @@ Schemas.Opportunity = new SimpleSchema({
     label: "Estimated Close Date",
     autoform: {
       type: "bootstrap-datepicker",
+      // find more customisation options here:
+      // https://bootstrap-datepicker.readthedocs.io/en/stable/options.html
       datePickerOptions: {
         autoclose: true,
-        format: 'dd/mm/yyyy'
+        format: 'dd/mm/yyyy',
+        clearBtn: true
       }
     }
   },
