@@ -1,4 +1,5 @@
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
+import '/imports/ui/components/products/modals/update-product-modal.js';
 import './product-detail.html';
 
 Template.productDetail.onCreated(function() {
@@ -42,29 +43,10 @@ Template.productDetail.events({
   },
   'click #edit-product': function(event) {
     event.preventDefault();
-    Modal.show('editProductModal', this);
+    Modal.show('updateProductModal', this);
   },
   'click #fab': function(event) {
     event.preventDefault();
-    Modal.show('editProductModal', this);
-  }
-});
-
-Template.editProductModal.helpers({
-  IsIEAnd10OrGreater: function() {
-    if (bowser.msie && bowser.version > 9) {
-      return true;
-    }
-
-    return false;
-  }
-});
-
-AutoForm.hooks({
-  editProductForm: {
-    onSuccess: function() {
-      Modal.hide();
-      toastr.success('Product updated.');
-    }
+    Modal.show('updateProductModal', this);
   }
 });
