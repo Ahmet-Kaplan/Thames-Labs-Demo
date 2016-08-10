@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { $ } from 'jquery';
+import $ from 'jquery';
 import _ from 'lodash';
 
 import './tag-management-modal.css';

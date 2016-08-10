@@ -1,6 +1,7 @@
-import './tag-selectize.html';
-
+import $ from 'jquery';
 import { Template } from 'meteor/templating';
+
+import './tag-selectize.html';
 
 Template.tagSelectize.onRendered(function() {
   const collectionName = this.data.collection,
@@ -11,7 +12,7 @@ Template.tagSelectize.onRendered(function() {
   this.subscribe('tagsByCollection', collectionName);
 
   // Initialise selectize
-  this.$('.tag-input').selectize({
+  $('.tag-input').selectize({
     placeholder: 'Add tags ...',
     valueField: 'name',
     labelField: 'name',
