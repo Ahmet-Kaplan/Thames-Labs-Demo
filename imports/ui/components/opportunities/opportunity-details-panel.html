@@ -8,11 +8,11 @@
             {{#if isInRole 'CanEditOpportunities'}}
               <div class="btn-group">
                 <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                  <span class="caret"></span> Extract to...
+                  <span class="caret"></span> Download as...
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   {{#if canExportDocx}}
-                    <li><a href="#" id="template-upload-link-docx">Microsoft Word (.docx)</a></li>
+                    <li><a href="#" id="template-upload-link-docx">Microsoft Word template (.docx)</a></li>
                   {{/if}}
                   <li class="divider"></li>
                   <li><a href="#" id="opp-template-help">How does this work?</a></li>
