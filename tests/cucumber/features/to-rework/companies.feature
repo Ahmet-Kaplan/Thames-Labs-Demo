@@ -178,6 +178,7 @@ Feature: Allow users to manage their Companies
     When I set text field with id "custom-field-name" to "velocity2"
     And I set text field with id "custom-field-text-value" to "velocity"
     And I click "#createCustomField"
+    Then I should not see a modal
     And I click "#delete-custom-field"
     And I click confirm on the modal
     Then "#custom-fields-panel" should contain "No custom fields"
@@ -219,7 +220,7 @@ Feature: Allow users to manage their Companies
     When I navigate to a company page
     And I click "#edit-company"
     And I should see a modal
-    And I click "#show-map"
+    And I click "#newLocationSearch"
     When I search for Cowley Road
     Then the field "postcode" should contain "CB4"
     And I should see a map
