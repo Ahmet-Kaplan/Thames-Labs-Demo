@@ -20,6 +20,9 @@ Template.taskItem.helpers({
       _id: Template.instance().taskData.get().assigneeId
     }).profile.name;
   },
+  showAssignee: function() {
+    return !(FlowRouter.getRouteName() === "dashboard");
+  },
   formattedDueDate: function() {
     const taskData = Template.instance().taskData.get();
     if (!taskData.dueDate) {
@@ -36,7 +39,6 @@ Template.taskItem.helpers({
       if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
       return b.from(a);
     }
-    console.log('hi');
     return moment(taskData.dueDate).fromNow();
   },
   formattedCompletionDate: function() {
@@ -57,6 +59,90 @@ Template.taskItem.helpers({
       return 'orange';
     }
     return '';
+  },
+  showEntity: function() {
+    return (FlowRouter.getRouteName() === "dashboard" || FlowRouter.getRouteName() === "tasks");
+  },
+  entityDetails: function() {
+    const taskData = Template.instance().taskData.get();
+    let entityData = "",
+        handle = null;
+
+    switch (taskData.entityType) {
+      case 'user':
+        Template.instance().subscribe('currentTenantUserData');
+        entityData = {
+          icon: 'check',
+          name: "Personal task",
+          permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadTasks'])
+        };
+        break;
+
+      case 'company':
+        handle = Template.instance().subscribe("companyById", taskData.entityId);
+        if (handle && handle.ready()) {
+          const c = Companies.findOne({
+            _id: taskData.entityId
+          });
+          entityData = {
+            icon: 'building',
+            name: c.name,
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadCompanies'])
+          };
+        }
+        break;
+
+      case 'contact':
+        handle = Template.instance().subscribe("contactById", taskData.entityId);
+        if (handle && handle.ready()) {
+          const c = Contacts.findOne({
+            _id: taskData.entityId
+          });
+          entityData = {
+            icon: 'user',
+            name: c.forename + " " + c.surname,
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadContacts'])
+          };
+        }
+        break;
+
+      case 'project':
+        handle = Template.instance().subscribe("projectById", taskData.entityId);
+        if (handle && handle.ready()) {
+          const p = Projects.findOne({
+            _id: taskData.entityId
+          });
+          entityData = {
+            icon: 'sitemap',
+            name: p.name,
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadProjects'])
+          };
+        }
+        break;
+
+      case 'opportunity':
+        handle = Template.instance().subscribe("opportunityById", taskData.entityId);
+        if (handle && handle.ready()) {
+          const p = Opportunities.findOne({
+            _id: taskData.entityId
+          });
+          entityData = {
+            icon: 'lightbulb-o',
+            name: p.name,
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadOpportunities'])
+          };
+        }
+        break;
+
+      default:
+        entityData = {
+          icon: "check",
+          name: "Misc. task",
+          permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadTasks'])
+        };
+    }
+
+    return entityData;
   }
 });
 
