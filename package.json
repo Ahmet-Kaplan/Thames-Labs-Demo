@@ -19,6 +19,7 @@
     "medium-editor": "^5.21.0",
     "meteor-node-stubs": "^0.2.3",
     "multer": "^1.1.0",
+    "sinon": "^1.17.5",
     "stripe": "^4.5.0",
     "toastr": "^2.1.2"
   },
