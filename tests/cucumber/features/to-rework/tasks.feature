@@ -1,4 +1,5 @@
 # Testing green under new changes but needs reworking
+@dev
 Feature: Allow users to manage their Tasks
 
   As a user of the app
@@ -51,7 +52,7 @@ Feature: Allow users to manage their Tasks
     And I have the "CanReadTasks" permission
     And I have the "CanEditTasks" permission
     When I navigate to "/tasks"
-    Then I should see "#list-item"
+    Then I should see "#task-list-item"
     When I click ".task-completed"
     And I set the filter to "Completed:" then "Yes"
     Then I should see "#list-item"
