@@ -208,7 +208,7 @@ Template.taskDetail.events({
   },
   'click #edit-task': function(event) {
     event.preventDefault();
-    Modal.show('updateTask', this);
+    Modal.show('updateTaskModal', this);
   },
   'click #remove-task': function(event) {
     event.preventDefault();
@@ -258,6 +258,6 @@ Template.taskDetail.events({
   },
   'click #fab': function(event) {
     event.preventDefault();
-    Modal.show('updateTask', this);
+    Modal.show('updateTaskModal', this);
   }
 });

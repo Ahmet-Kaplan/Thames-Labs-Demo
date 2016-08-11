@@ -13,7 +13,7 @@
 var widgetsDefault = {
   'quotation': {
     id: 'quotation',
-    x: 1,
+    x: 0,
     y: 0,
     w: 1,
     h: 1,
@@ -22,7 +22,7 @@ var widgetsDefault = {
   },
   'online': {
     id: 'online',
-    x: 2,
+    x: 1,
     y: 0,
     w: 1,
     h: 1,
@@ -31,8 +31,8 @@ var widgetsDefault = {
   },
   'task': {
     id: 'task',
-    x: 0,
-    y: 1,
+    x: 1,
+    y: 2,
     w: 2,
     h: 1,
     displayed: true,
@@ -52,10 +52,10 @@ var widgetsDefault = {
   'taskInformation': {
     id: 'taskInformation',
     x: 0,
-    y: 0,
+    y: 2,
     w: 1,
     h: 1,
-    displayed: false,
+    displayed: true,
     name: 'Tasks Overview'
   },
   'opportunityInformation': {
@@ -100,20 +100,20 @@ var widgetsDefault = {
   },
   'companySummary': {
     id: 'companySummary',
-    x: 0,
+    x: 2,
     y: 0,
     w: 1,
     h: 1,
-    displayed: false,
+    displayed: true,
     name: 'Company Summary'
   },
   'watchedEntity': {
     id: 'watchedEntity',
     x: 0,
-    y: 0,
+    y: 1,
     w: 3,
     h: 1,
-    displayed: false,
+    displayed: true,
     name: 'Watched Items'
   }
 };

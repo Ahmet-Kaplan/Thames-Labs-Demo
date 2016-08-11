@@ -4,7 +4,6 @@
     <div class="row">
 
       <div class="col-md-12">
-      {{> breadcrumbs parentPath="/projects" parentName="Projects" recordName=breadcrumbName }}
         <div class="pull-right">
           <br>
           {{> milestoneControl}}
@@ -17,6 +16,7 @@
           </p>
         </div>
 
+      {{> breadcrumbs parentPath="/projects" parentName="Projects" recordName=breadcrumbName }}
       <div class="watchlist-container">
         {{> watchlistAdmin entityData=this collection="projects"}}
       </div>
@@ -64,9 +64,7 @@
 
     {{#if isInRole 'CanEditProjects'}}
       {{#if isMobile}}
-        <div class="fab edit" id="fab">
-          <i class="fa fw-fa fa-pencil"></i>
-        </div>
+        {{> fabEdit entity="Project" record=this}}
       {{/if}}
     {{/if}}
 
