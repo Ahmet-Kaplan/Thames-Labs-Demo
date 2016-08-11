@@ -38,9 +38,7 @@
   </div>
   {{#if isInRole 'CanCreateCompanies'}}
     {{#if isMobile}}
-      <div class="fab add" id="fab">
-        <i class="fa fw-fa fa-plus"></i>
-      </div>
+      {{> fabAdd entity="Company"}}
     {{/if}}
   {{/if}}
 </template>

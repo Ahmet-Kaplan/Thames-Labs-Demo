@@ -151,9 +151,7 @@
 
   {{#if isInRole 'CanEditContacts'}}
     {{#if isMobile}}
-      <div class="fab edit" id="fab">
-        <i class="fa fw-fa fa-pencil"></i>
-      </div>
+      {{> fabEdit entity="Contact" record=this}}
     {{/if}}
   {{/if}}
 

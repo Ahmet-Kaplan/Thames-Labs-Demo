@@ -195,7 +195,7 @@ Template.purchaseOrderDetail.events({
   },
   'click #edit-purchase-order': function(event) {
     event.preventDefault();
-    Modal.show('updatePurchaseOrderFormModal', this);
+    Modal.show('updatePurchaseOrderModal', this);
   },
   'click #remove-purchase-order': function(event) {
     event.preventDefault();
@@ -206,10 +206,6 @@ Template.purchaseOrderDetail.events({
         PurchaseOrders.remove(poId);
       }
     });
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('updatePurchaseOrderFormModal', this);
   }
 });
 
@@ -225,7 +221,7 @@ Template.purchaseOrderItem.events({
   },
   'click #edit-po-item': function(event) {
     event.preventDefault();
-    Modal.show('editPurchaseOrderItemModal', {
+    Modal.show('updatePurchaseOrderItemModal', {
       purchaseOrder: Template.parentData(),
       purchaseOrderItem: this
     });

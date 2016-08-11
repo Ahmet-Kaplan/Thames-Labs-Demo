@@ -87,7 +87,7 @@ Template.purchaseOrderList.events({
   },
   'click #add-purchase-order': function(event) {
     event.preventDefault();
-    Modal.show('newPurchaseOrderForm', this);
+    Modal.show('insertPurchaseOrderModal', this);
   },
   'click #export': function(event) {
     event.preventDefault();
@@ -114,10 +114,6 @@ Template.purchaseOrderList.events({
     Meteor.call('report.RejectedPo', function(err, data) {
       template.totalRejectedPo.set(data.Count);
     });
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('newPurchaseOrderForm', this);
   }
 });
 

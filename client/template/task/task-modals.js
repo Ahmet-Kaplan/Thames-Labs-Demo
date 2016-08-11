@@ -78,12 +78,12 @@ Template.insertNewTask.events({
   }
 });
 
-Template.updateTask.onRendered(function() {
+Template.updateTaskModal.onRendered(function() {
   Session.set('showRemindMe', this.data.remindMe);
   Session.set('hasDueDate', typeof this.data.dueDate !== "undefined");
 });
 
-Template.updateTask.helpers({
+Template.updateTaskModal.helpers({
   exclusions: function() {
     var excludes = [];
 
@@ -105,7 +105,7 @@ Template.updateTask.helpers({
   }
 });
 
-Template.updateTask.events({
+Template.updateTaskModal.events({
   'change input[name=dueDate]': function(e) {
     e.preventDefault();
     if ($('input[name=dueDate]').val()) {

@@ -140,10 +140,6 @@ Template.projectDetail.events({
     Modal.show('insertProjectActivityModal', {
       project: this
     });
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('updateProjectForm', this);
   }
 });
 

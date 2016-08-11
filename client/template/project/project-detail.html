@@ -64,9 +64,7 @@
 
     {{#if isInRole 'CanEditProjects'}}
       {{#if isMobile}}
-        <div class="fab edit" id="fab">
-          <i class="fa fw-fa fa-pencil"></i>
-        </div>
+        {{> fabEdit entity="Project" record=this}}
       {{/if}}
     {{/if}}
 

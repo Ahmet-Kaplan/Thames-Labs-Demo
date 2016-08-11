@@ -55,9 +55,7 @@
 
   {{#if isInRole 'CanCreateOpportunities'}}
     {{#if isMobile}}
-      <div class="fab add" id="fab">
-        <i class="fa fw-fa fa-plus"></i>
-      </div>
+      {{> fabAdd entity="Opportunity"}}
     {{/if}}
   {{/if}}
 

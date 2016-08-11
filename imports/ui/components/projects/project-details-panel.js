@@ -30,7 +30,7 @@ Template.projectDetailsPanel.helpers({
 Template.projectDetail.events({
   'click #edit-project': function(event) {
     event.preventDefault();
-    Modal.show('updateProjectForm', this);
+    Modal.show('updateProjectModal', this);
   },
   'click #remove-project': function(event) {
     event.preventDefault();

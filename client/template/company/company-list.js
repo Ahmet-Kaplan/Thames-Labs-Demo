@@ -1,3 +1,5 @@
+import '/imports/ui/components/fab/fab-add.js';
+
 Template.companyList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
@@ -30,8 +32,5 @@ Template.companyList.events({
   'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('companies');
-  },
-  'click #fab': function(event) {
-    Modal.show('insertCompanyModal', this);
   }
 });

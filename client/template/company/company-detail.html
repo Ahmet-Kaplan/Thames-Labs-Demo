@@ -184,9 +184,7 @@
 
   {{#if isInRole 'CanEditCompanies'}}
     {{#if isMobile}}
-      <div class="fab edit" id="fab">
-        <i class="fa fw-fa fa-pencil"></i>
-      </div>
+      {{> fabEdit entity="Company" record=this}}
     {{/if}}
   {{/if}}
 
