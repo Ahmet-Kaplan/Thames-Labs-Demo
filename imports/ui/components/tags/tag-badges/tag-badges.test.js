@@ -6,8 +6,8 @@ import { withRenderedTemplate } from '/imports/ui/test-helpers.js';
 if (Meteor.isClient) {
   require('./tag-badges.js');
 
-  describe('tags', function() {
-    it('tag badges render correctly', function() {
+  describe('tag badges', function() {
+    it('render correctly', function() {
       const data = {
         tags: ['tag1', 'tag2']
       };
@@ -18,7 +18,7 @@ if (Meteor.isClient) {
       });
     });
 
-    it('tag badges render correctly with an active search filter', function() {
+    it('render correctly with an active search filter', function() {
       const data = {
         tags: ['selectedTag', 'tag2'],
         index: {
@@ -39,7 +39,7 @@ if (Meteor.isClient) {
       });
     });
 
-    it('tag badges allow clicking to add a filter to a search', function(done) {
+    it('allow clicking to add a filter to a search', function(done) {
       const data = {
         tags: ['tag1'],
         index: {
@@ -64,7 +64,7 @@ if (Meteor.isClient) {
       });
     });
 
-    it('tag badges allow clicking to remove one of one tag filters from a search', function(done) {
+    it('allow clicking to remove one of one tag filters from a search', function(done) {
       const data = {
         tags: ['tag1'],
         index: {
@@ -88,7 +88,7 @@ if (Meteor.isClient) {
       });
     });
 
-    it('tag badges allow clicking to remove one of two tag filters from a search', function(done) {
+    it('allow clicking to remove one of two tag filters from a search', function(done) {
       const data = {
         tags: ['tag1'],
         index: {
