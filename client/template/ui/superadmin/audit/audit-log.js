@@ -1,4 +1,6 @@
+import { superAdminOnly } from '/imports/api/global-helpers/permissions-helpers.js';
 import bootbox from 'bootbox';
+
 Template.eventLog.onCreated(function() {
   // Redirect if not superadmin
   this.autorun(function() {

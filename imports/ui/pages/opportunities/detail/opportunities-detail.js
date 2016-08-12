@@ -6,6 +6,7 @@ import '/imports/ui/components/opportunities/modals/update/update-opp-item-modal
 import '/imports/ui/components/opportunities/modals/insert/insert-opp-item-modal.js';
 import './opportunities-detail.less';
 import './opportunities-detail.html';
+import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
 import bootbox from 'bootbox';
 

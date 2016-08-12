@@ -1,3 +1,4 @@
+import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
 Template.taskList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {

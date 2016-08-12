@@ -7,6 +7,7 @@ import '/imports/ui/components/fab/fab-edit.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-company-opp-modal.js';
 import '/imports/ui/components/activity/activity-timeline.js';
 import '/imports/ui/components/companies/modals/update-company-modal.js';
+import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
 import bootbox from 'bootbox';
 
 Template.companyDetail.onCreated(function() {

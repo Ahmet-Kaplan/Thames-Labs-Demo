@@ -7,6 +7,7 @@ import { Template } from 'meteor/templating';
 import { Tracker } from 'meteor/tracker';
 
 import { SalesPipelineChart } from '/imports/ui/components/sales-pipeline/sales-pipeline-chart';
+import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
 
 import '/imports/ui/components/opportunities/opportunity-details-panel.js';
 import '/imports/ui/components/opportunities/stage-control/opportunity-previous-stage-button.js';

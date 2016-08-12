@@ -1,3 +1,4 @@
+import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
 import './company-info.html';
 import '/imports/ui/components/settings/company-info/company-info.js';
 import '../settings.less';

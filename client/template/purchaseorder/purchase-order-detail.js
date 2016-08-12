@@ -1,4 +1,5 @@
 import bootbox from 'bootbox';
+import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
 Template.purchaseOrderDetail.onCreated(function() {
   this.autorun(() => {
     if (!isProTenant(Meteor.user().group)) {

@@ -1,3 +1,4 @@
+import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
 import bootbox from 'bootbox';
 Template.events.onCreated(function() {
   // Redirect if read permission changed

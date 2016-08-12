@@ -1,3 +1,5 @@
+import { superAdminOnly } from '/imports/api/global-helpers/permissions-helpers.js';
+
 Template.tenantList.onCreated(function() {
 
   ServerSession.set('demoDataProgress', {

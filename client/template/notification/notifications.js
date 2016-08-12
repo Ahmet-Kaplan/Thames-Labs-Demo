@@ -1,3 +1,5 @@
+import { superAdminOnly } from '/imports/api/global-helpers/permissions-helpers.js';
+
 Template.notificationAdmin.onCreated(function() {
   // Redirect if not superadmin
   this.autorun(function() {

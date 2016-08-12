@@ -1,7 +1,10 @@
+import { Roles } from 'meteor/alanning:roles';
+import { FlowRouter } from 'meteor/kadira:flow-router';
+
 // Helper which rediects if the current user doesn't have a given permission
 // Typically called in an autorun on a view, so we take the userId as a parameter
 // to force the autorun to call Meteor.userId() so that it updates
-redirectWithoutPermission = function(userId, permissionName) {
+const redirectWithoutPermission = (userId, permissionName) => {
   // Also keep superadmin off these routes
   if (Roles.userIsInRole(userId, 'superadmin')) return FlowRouter.go('tenants');
 
@@ -10,6 +13,8 @@ redirectWithoutPermission = function(userId, permissionName) {
   }
 };
 
-superAdminOnly = function(userId) {
+const superAdminOnly = (userId) => {
   if (!Roles.userIsInRole(userId, 'superadmin')) FlowRouter.go('dashboard');
 };
+
+export { redirectWithoutPermission, superAdminOnly };
