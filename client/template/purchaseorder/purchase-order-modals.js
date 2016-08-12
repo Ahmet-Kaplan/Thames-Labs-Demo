@@ -6,7 +6,7 @@ Session.set('poIsLocked', null);
                     newPurchaseOrderForm
 *******************************************************/
 
-Template.newPurchaseOrderForm.onRendered(function() {
+Template.insertPurchaseOrderModal.onRendered(function() {
   Session.set('posc', null);
 
   var c = this.data.supplierCompanyId;
@@ -17,7 +17,7 @@ Template.newPurchaseOrderForm.onRendered(function() {
   }
 });
 
-Template.newPurchaseOrderForm.helpers({
+Template.insertPurchaseOrderModal.helpers({
   // showSupplierContacts: function() {
   //   if (Session.get('posc') === null) {
   //     return false;
@@ -39,7 +39,7 @@ Template.newPurchaseOrderForm.helpers({
   }
 });
 
-Template.newPurchaseOrderForm.events({
+Template.insertPurchaseOrderModal.events({
   'change #supplierCompanyId': function() {
     var c = $('select#supplierCompanyId').val();
     if (c) {
@@ -123,7 +123,7 @@ Template.newContactPurchaseOrderForm.helpers({
               updatePurchaseOrderFormModal
 *******************************************************/
 
-Template.updatePurchaseOrderFormModal.onRendered(function() {
+Template.updatePurchaseOrderModal.onRendered(function() {
   Session.set('posc', null);
   Session.set('poStat', this.data.status);
   Session.set('poIsLocked', this.data.locked);
@@ -145,7 +145,7 @@ Template.updatePurchaseOrderFormModal.onRendered(function() {
   }
 });
 
-Template.updatePurchaseOrderFormModal.helpers({
+Template.updatePurchaseOrderModal.helpers({
   supplierCompanyName: function() {
     return Companies.findOne({
       _id: this.supplierCompanyId
@@ -159,7 +159,7 @@ Template.updatePurchaseOrderFormModal.helpers({
   }
 });
 
-Template.updatePurchaseOrderFormModal.events({
+Template.updatePurchaseOrderModal.events({
   'change #poStatus': function() {
     var user = Meteor.users.findOne(Meteor.userId());
     var level = parseFloat(user.profile.poAuthLevel);
@@ -185,7 +185,7 @@ Template.updatePurchaseOrderFormModal.events({
   }
 });
 
-Template.updatePurchaseOrderFormModal.onDestroyed(function() {
+Template.updatePurchaseOrderModal.onDestroyed(function() {
   Session.set('posc', null);
   Session.set('poStat', null);
   Session.set('poIsLocked', null);
@@ -244,7 +244,7 @@ Template.addPurchaseOrderItemModal.events({
               editPurchaseOrderItemModal
 *******************************************************/
 
-Template.editPurchaseOrderItemModal.onRendered(function() {
+Template.updatePurchaseOrderItemModal.onRendered(function() {
   var pid = this.data.projectId;
   Meteor.subscribe('allProjects');
 
@@ -253,7 +253,7 @@ Template.editPurchaseOrderItemModal.onRendered(function() {
   }
 });
 
-Template.editPurchaseOrderItemModal.helpers({
+Template.updatePurchaseOrderItemModal.helpers({
   projectsAsOptions: function() {
     var data = [];
     var projects = Projects.find().fetch();
@@ -282,7 +282,7 @@ Template.editPurchaseOrderItemModal.helpers({
   }
 });
 
-Template.editPurchaseOrderItemModal.events({
+Template.updatePurchaseOrderItemModal.events({
   'change #itemValue': function() {
 
     var v = $('#itemValue').val();

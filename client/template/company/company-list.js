@@ -1,4 +1,5 @@
 import '/imports/ui/components/tags/tag-management/tag-management.js';
+import '/imports/ui/components/fab/fab-add.js';
 
 Template.companyList.onCreated(function() {
   // Redirect if read permission changed
@@ -32,8 +33,5 @@ Template.companyList.events({
   'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('companies');
-  },
-  'click #fab': function(event) {
-    Modal.show('insertCompanyModal', this);
   }
 });

@@ -60,7 +60,7 @@ Template.projectsList.onRendered(function() {
 Template.projectsList.events({
   'click #add-project': function(event) {
     event.preventDefault();
-    Modal.show('newProjectForm', this);
+    Modal.show('insertProjectModal', this);
   },
   'click #export': function(event) {
     event.preventDefault();
@@ -80,10 +80,6 @@ Template.projectsList.events({
     Meteor.call('report.projectsAverage', function(err, data) {
       template.projectsAverage.set(data.Value);
     });
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('newProjectForm', this);
   }
 });
 

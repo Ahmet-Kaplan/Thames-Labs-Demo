@@ -1,4 +1,5 @@
 import '/imports/ui/components/tags/tag-management/tag-management.js';
+import '/imports/ui/components/fab/fab-add.js';
 
 Template.contactList.onCreated(function() {
   // Redirect if read permission changed
@@ -32,9 +33,5 @@ Template.contactList.events({
   'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('contacts');
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('insertContactModal', this);
   }
 });

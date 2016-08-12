@@ -42,15 +42,11 @@ Template.productDetail.events({
   },
   'click #edit-product': function(event) {
     event.preventDefault();
-    Modal.show('editProductModal', this);
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('editProductModal', this);
+    Modal.show('updateProductModal', this);
   }
 });
 
-Template.editProductModal.helpers({
+Template.updateProductModal.helpers({
   IsIEAnd10OrGreater: function() {
     if (bowser.msie && bowser.version > 9) {
       return true;
