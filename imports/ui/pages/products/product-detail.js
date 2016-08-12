@@ -6,6 +6,7 @@ import { redirectWithoutPermission } from '/imports/api/global-helpers/permissio
 
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/products/modals/update-product-modal.js';
+import '/imports/ui/components/tags/tag-input/tag-input.js';
 import './product-detail.css';
 import './product-detail.html';
 

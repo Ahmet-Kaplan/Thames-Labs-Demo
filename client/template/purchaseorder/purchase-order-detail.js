@@ -1,5 +1,8 @@
 import bootbox from 'bootbox';
 import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
+import '/imports/ui/components/tags/tag-input/tag-input.js';
+
+
 Template.purchaseOrderDetail.onCreated(function() {
   this.autorun(() => {
     if (!isProTenant(Meteor.user().group)) {

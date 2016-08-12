@@ -21,6 +21,12 @@ If you want tests, run the following in another terminal to automatically run an
 npm run watch
 ```
 
+## Unit tests
+
+To run all tests once: `npm run unit-test`. All test results will be shown in the console.
+
+To run all tests every time a file is changed: `npm run unit-test:browser`. Server tests will be shown in the console, client tests will be shown at http://localhost:3100/
+
 ## Full test run
 
 *Before beginning a full test run do `meteor reset` to clear the database - this is a consequence of our tests having been designed to run in the isolated velocity mirror DB. We should fix this so they can coincide, but it hasn't been done yet*

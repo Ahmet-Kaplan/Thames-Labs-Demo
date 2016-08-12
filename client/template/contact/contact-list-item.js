@@ -1,3 +1,5 @@
+import '/imports/ui/components/tags/tag-badges/tag-badges.js';
+
 Template.contactListItem.onRendered(function() {
   this.subscribe('companyById', this.data.companyId);
 });

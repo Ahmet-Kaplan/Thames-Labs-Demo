@@ -1,4 +1,6 @@
 import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
+import '/imports/ui/components/tags/tag-badges/tag-badges.js';
+import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/products/product-list-item.js';
 import './product-list.html';
 

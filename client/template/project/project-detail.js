@@ -2,6 +2,7 @@ import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
 import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
 import '/imports/ui/components/projects/project-details-panel.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
+import '/imports/ui/components/tags/tag-input/tag-input.js';
 
 Template.projectDetail.onCreated(function() {
   var self = this;

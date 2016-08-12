@@ -1,4 +1,6 @@
 import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
+
+import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/fab/fab-add.js';
 
 Template.companyList.onCreated(function() {

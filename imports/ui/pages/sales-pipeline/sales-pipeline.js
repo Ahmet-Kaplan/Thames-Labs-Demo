@@ -12,6 +12,7 @@ import { redirectWithoutPermission } from '/imports/api/global-helpers/permissio
 import '/imports/ui/components/opportunities/opportunity-details-panel.js';
 import '/imports/ui/components/opportunities/stage-control/opportunity-previous-stage-button.js';
 import '/imports/ui/components/opportunities/stage-control/opportunity-lost-link.js';
+import '/imports/ui/components/tags/tag-input/tag-input.js';
 
 import './sales-pipeline.html';
 import './sales-pipeline.css';
