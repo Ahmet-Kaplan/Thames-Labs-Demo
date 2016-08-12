@@ -1,3 +1,4 @@
+import bootbox from 'bootbox';
 Template.events.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {

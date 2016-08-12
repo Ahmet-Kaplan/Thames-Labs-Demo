@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import './merge-company-modal.html';
+import bootbox from 'bootbox';
 
 Template.mergeModal.onCreated(function() {
   var currentCompany = this.data;

@@ -1,5 +1,7 @@
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/products/modals/update-product-modal.js';
+import Modal from "meteor/peppelg:bootstrap-3-modal";
+import bootbox from 'bootbox';
 import './product-detail.html';
 
 Template.productDetail.onCreated(function() {

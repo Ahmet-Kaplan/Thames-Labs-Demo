@@ -1,3 +1,4 @@
+import bootbox from 'bootbox';
 Template.purchaseOrderDetail.onCreated(function() {
   this.autorun(() => {
     if (!isProTenant(Meteor.user().group)) {

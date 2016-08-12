@@ -7,6 +7,7 @@ import '/imports/ui/components/opportunities/modals/insert/insert-opp-item-modal
 import './opportunities-detail.less';
 import './opportunities-detail.html';
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
+import bootbox from 'bootbox';
 
 Template.opportunityDetail.onCreated(function() {
   const id = FlowRouter.getParam('id');

@@ -1,3 +1,4 @@
+import bootbox from 'bootbox';
 Template.eventLog.onCreated(function() {
   // Redirect if not superadmin
   this.autorun(function() {

@@ -7,6 +7,7 @@ import './project-type.html';
 
 import 'meteor/mrt:jquery-ui-sortable';
 import { Blaze } from 'meteor/blaze';
+import bootbox from 'bootbox';
 
 Template.projectType.onRendered(function() {
   const typeId = this.data.id;
