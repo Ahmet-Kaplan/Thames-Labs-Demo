@@ -1,5 +1,6 @@
 import './company-list.html';
 import '/imports/ui/components/companies/company-list-item.js';
+import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/fab/fab-add.js';
 
 Template.companyList.onCreated(function() {

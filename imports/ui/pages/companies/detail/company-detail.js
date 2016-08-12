@@ -10,6 +10,8 @@ import '/imports/ui/components/opportunities/modals/insert/insert-company-opp-mo
 import '/imports/ui/components/activity/activity-timeline.js';
 import '/imports/ui/components/companies/modals/update-company-modal.js';
 import '/imports/ui/components/companies/modals/word-help-modal.html';
+import '/imports/ui/components/tags/tag-input/tag-input.js';
+import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 
 Template.companyDetail.onCreated(function() {
   this.oppStats = new ReactiveVar({});

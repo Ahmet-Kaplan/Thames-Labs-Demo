@@ -1,3 +1,6 @@
+import '/imports/ui/components/tags/tag-badges/tag-badges.js';
+import '/imports/ui/components/tags/tag-management/tag-management.js';
+
 Template.productList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {

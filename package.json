@@ -19,6 +19,7 @@
     "medium-editor": "^5.21.0",
     "meteor-node-stubs": "^0.2.3",
     "multer": "^1.1.0",
+    "sinon": "^1.17.5",
     "stripe": "^4.5.0",
     "toastr": "^2.1.2"
   },
@@ -47,7 +48,7 @@
     "commit": "git commit -am",
     "precommit": "npm run lint",
     "unit-test": "meteor test --once --driver-package linguahouse:mocha-phantomjs-junit",
-    "unit-test:watch": "TEST_WATCH=1 meteor test --driver-package linguahouse:mocha-phantomjs-junit",
+    "unit-test:watch": "TEST_WATCH=1 meteor test --driver-package linguahouse:mocha-phantomjs-junit --port 3100",
     "unit-test:browser": "meteor test --driver-package dispatch:mocha-browser --port 3100"
   },
   "repository": {

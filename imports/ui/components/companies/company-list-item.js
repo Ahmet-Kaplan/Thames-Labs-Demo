@@ -1,4 +1,5 @@
 import './company-list-item.html';
+import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 
 Template.companyListItem.helpers({
   companyName: function() {

@@ -1,4 +1,5 @@
 import '/imports/ui/components/tasks/subtasks/subtask-list.js';
+import '/imports/ui/components/tags/tag-input/tag-input.js';
 
 Template.taskDetail.onCreated(function() {
   var taskId = FlowRouter.getParam('id');
