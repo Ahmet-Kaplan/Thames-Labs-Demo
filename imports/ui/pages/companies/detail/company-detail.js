@@ -1,3 +1,5 @@
+import './company-detail.html';
+
 import '/imports/ui/components/companies/merge/merge-company-modal.js';
 import '/imports/ui/components/companies/widgets/index.js';
 import '/imports/ui/components/charts/sales-history.js';
@@ -7,12 +9,13 @@ import '/imports/ui/components/fab/fab-edit.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-company-opp-modal.js';
 import '/imports/ui/components/activity/activity-timeline.js';
 import '/imports/ui/components/companies/modals/update-company-modal.js';
+import '/imports/ui/components/companies/modals/word-help-modal.html';
 
 Template.companyDetail.onCreated(function() {
   this.oppStats = new ReactiveVar({});
   // Redirect if data doesn't exist
   this.autorun(function() {
-    var company = Companies.findOne(FlowRouter.getParam('id'));
+    const company = Companies.findOne(FlowRouter.getParam('id'));
     if (FlowRouter.subsReady() && typeof company === "undefined") {
       FlowRouter.go('companies');
     } else if (FlowRouter.subsReady() && company.website !== '' && typeof company.website !== "undefined") {
@@ -21,8 +24,8 @@ Template.companyDetail.onCreated(function() {
   });
 
   this.autorun(function() {
-    var companyid = FlowRouter.getParam('id');
-    var currentInstance = Template.instance();
+    const companyid = FlowRouter.getParam('id'),
+          currentInstance = Template.instance();
     Meteor.call('opportunities.getCompanySalesHistory', companyid, function(err, res) {
       currentInstance.oppStats.set(res);
     });
@@ -34,7 +37,7 @@ Template.companyDetail.onCreated(function() {
   });
 
   // Subscribe to necessary data
-  var companyId = FlowRouter.getParam('id');
+  const companyId = FlowRouter.getParam('id');
   this.subscribe('contactsByCompanyId', companyId);
   this.subscribe('projectsByCompanyId', companyId);
   this.subscribe('activityByCompanyId', companyId);
@@ -54,16 +57,16 @@ Template.companyDetail.events({
     Modal.show('mergeModal', this);
   },
   'change #template-upload': function(event) {
-    var file = event.target.files[0];
+    const file = event.target.files[0];
     if (!file) return;
     if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
       toastr.error("Unable to process file. Please ensure the provided file is a word document (.docx)");
       return;
     }
 
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = function() {
-      var doc = new Docxgen(reader.result);
+      const doc = new Docxgen(reader.result);
       doc.setData({
         "name": this.name || '',
         "address": this.address || '',
@@ -77,12 +80,12 @@ Template.companyDetail.events({
 
       try {
         doc.render();
-        var docDataUri = doc.getZip().generate({
+        const docDataUri = doc.getZip().generate({
           type: 'blob'
         });
         docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
         //Convert data into a blob format for sending to api
-        var blob = new Blob([docDataUri], {
+        const blob = new Blob([docDataUri], {
           type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         });
         saveAs(blob, file.name);
@@ -132,7 +135,7 @@ Template.companyDetail.events({
   },
   'click #remove-company': function(event) {
     event.preventDefault();
-    var companyId = this._id;
+    const companyId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this company?", function(result) {
       if (result === true) {
@@ -154,6 +157,7 @@ Template.companyDetail.events({
     Activities.insert({
       type: 'Call',
       notes: Meteor.user().profile.name + ' made a call to ' + this.name,
+      notes: `${Meteor.user().profile.name} made a call to ${this.name}`,
       createdAt: new Date(),
       activityTimestamp: new Date(),
       companyId: this._id,
@@ -164,11 +168,11 @@ Template.companyDetail.events({
     });
   },
   'click #inactive-projects': function(event, template) {
-    var url = "?f%5Bcompany%5D=" + this._id + "&f%5Bactive%5D=No";
+    const url = "?f%5Bcompany%5D=" + this._id + "&f%5Bactive%5D=No";
     FlowRouter.go("/projects" + url);
   },
   'click #archived-opportunities': function(event, template) {
-    var url = "?f%5Bcompany%5D=" + this._id + "&f%5BshowArchived%5D=true";
+    const url = "?f%5Bcompany%5D=" + this._id + "&f%5BshowArchived%5D=true";
     FlowRouter.go("/opportunities" + url);
   }
 });
@@ -181,10 +185,10 @@ Template.companyDetail.helpers({
     return (website.indexOf('http://') > -1 ? website : 'http://' + website);
   },
   companyData: function() {
-    var companyId = FlowRouter.getParam('id');
-    var company = Companies.findOne({
-      _id: companyId
-    });
+    const companyId = FlowRouter.getParam('id'),
+          company = Companies.findOne({
+            _id: companyId
+          });
     if (company && company.tags) {
       company.tags.sort();
     }

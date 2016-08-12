@@ -1,12 +1,14 @@
+import './company-list-item.html';
+
 Template.companyListItem.helpers({
   companyName: function() {
-    const searchDef = Template.currentData().index.getComponentDict().get('searchDefinition');
-    var pattern = new RegExp(searchDef, 'gi');
+    const searchDef = Template.currentData().index.getComponentDict().get('searchDefinition'),
+          pattern = new RegExp(searchDef, 'gi');
     return Template.currentData().name.replace(pattern, '<span class="highlighted-search">$&</span>');
   },
 
   shortWebsite: function() {
-    var website = this.website;
+    let website = this.website;
 
     // Remove http(s)://
     if(website.substring(0, 4) === 'http') {
@@ -19,6 +21,7 @@ Template.companyListItem.helpers({
     website = website.replace('www.', '');
     if(website.length >= 14) {
       website = website.substring(0, 11) + '...';
+      website = `${website.substring(0, 11)}...`;
     }
     return website;
   }

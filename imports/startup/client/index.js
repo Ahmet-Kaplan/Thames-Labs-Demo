@@ -12,3 +12,5 @@ import '/imports/ui/components/breadcrumbs/breadcrumbs.js';
 import '../../ui/pages/opportunities/detail/opportunities-detail.js';
 import '../../ui/pages/opportunities/list/opportunity-list.js';
 import '../../ui/pages/activities/activity-list.js';
+import '../../ui/pages/companies/detail/company-detail.js';
+import '../../ui/pages/companies/list/company-list.js';
