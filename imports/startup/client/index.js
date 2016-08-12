@@ -12,6 +12,3 @@ import '/imports/ui/components/breadcrumbs/breadcrumbs.js';
 import '../../ui/pages/opportunities/detail/opportunities-detail.js';
 import '../../ui/pages/opportunities/list/opportunity-list.js';
 import '../../ui/pages/activities/activity-list.js';
-import '../../ui/components/tags/tag-input/tag-input.js';
-import '../../ui/components/tags/tag-badges/tag-badges.js';
-import '../../ui/components/tags/tag-management/tag-management.js';

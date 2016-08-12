@@ -1,3 +1,4 @@
+import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 import './task-item.less';
 import './task-item.html';
 

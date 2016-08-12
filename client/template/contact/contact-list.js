@@ -1,3 +1,5 @@
+import '/imports/ui/components/tags/tag-management/tag-management.js';
+
 Template.contactList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {

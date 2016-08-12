@@ -1,3 +1,4 @@
+import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 import './activity-list-item.html';
 
 Template.activityListItem.onCreated(function() {
