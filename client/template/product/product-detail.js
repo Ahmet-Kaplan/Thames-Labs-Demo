@@ -1,4 +1,5 @@
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
+import '/imports/ui/components/tags/tag-input/tag-input.js';
 
 Template.productDetail.onCreated(function() {
   // Redirect if data doesn't exist

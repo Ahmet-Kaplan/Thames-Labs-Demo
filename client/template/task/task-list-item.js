@@ -1,3 +1,5 @@
+import '/imports/ui/components/tags/tag-badges/tag-badges.js';
+
 Template.task.onCreated(function() {
   this.subscribe('taskTags');
 
