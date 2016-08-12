@@ -49,7 +49,6 @@ arillo:flow-router-helpers
 chart:chart
 percolate:migrations
 gildaspk:autoform-medium
-vazco:universe-html-purifier
 jeremy:geocomplete
 matb33:collection-hooks
 digilord:faker

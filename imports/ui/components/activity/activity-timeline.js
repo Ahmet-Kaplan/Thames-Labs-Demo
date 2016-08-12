@@ -3,6 +3,7 @@ import './activity-timeline.css';
 import './modals/activity-update-form.js';
 import './modals/insert-activity-form.js';
 import bootbox from 'bootbox';
+import sanitizeHtml from "sanitize-html";
 
 Template.activityTimeline.helpers({
   fromNow: function(date) {
@@ -26,7 +27,9 @@ Template.activityTimeline.helpers({
     return icons[type];
   },
   content: function() {
-    return UniHTML.purify(this.notes);
+    return sanitizeHtml(this.notes, {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'h2' ])
+    });
   },
   ownActivity: function(createdBy) {
     return createdBy === Meteor.userId();

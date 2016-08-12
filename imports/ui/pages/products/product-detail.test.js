@@ -11,10 +11,8 @@ if (Meteor.isClient) {
     beforeEach(function() {
       //stub out FlowRouter.subsReady, FlowRouter.getParam('id')
       //Move permission-helpers.js redirectWithoutPermission
-      //UniHTML whatever that is
       //Products.findOne
       //Products.remove
-      //Modal.show()
     });
 
     afterEach(function() {

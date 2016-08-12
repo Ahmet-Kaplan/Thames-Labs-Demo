@@ -1,7 +1,9 @@
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/products/modals/update-product-modal.js';
-import Modal from "meteor/peppelg:bootstrap-3-modal";
+import "meteor/peppelg:bootstrap-3-modal";
+import sanitizeHtml from "sanitize-html";
 import bootbox from 'bootbox';
+import './product-detail.css';
 import './product-detail.html';
 
 Template.productDetail.onCreated(function() {
@@ -28,7 +30,9 @@ Template.productDetail.helpers({
     return Products.findOne({_id: productId});
   },
   desc: function() {
-    return UniHTML.purify(this.description);
+    return sanitizeHtml(this.description, {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'h2' ])
+    });
   }
 });
 
