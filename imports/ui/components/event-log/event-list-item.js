@@ -1,32 +1,4 @@
-Template.events.onCreated(function() {
-  // Redirect if read permission changed
-  this.autorun(function() {
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To access the Event Log view');
-      FlowRouter.go('/');
-    }
-
-    redirectWithoutPermission(Meteor.userId(), 'CanReadEventLog');
-  });
-});
-
-Template.events.events({
-  'click #clear-log': function(event) {
-    event.preventDefault();
-    bootbox.confirm('Are you sure you wish to clear all the event log?', function(result) {
-      if(result === true) {
-        Meteor.call('clearEventLog', function(err, res) {
-          if(err) {
-            toastr.error('Unable to clear event log');
-            return false;
-          }
-          toastr.success('Event log cleared!');
-          return true;
-        });
-      }
-    });
-  },
-});
+import './event-list-item.html';
 
 Template.eventEntry.helpers({
 
@@ -37,8 +9,7 @@ Template.eventEntry.helpers({
 
   userName: function() {
     if (typeof this.user !== "undefined") {
-
-      var u = Meteor.users.findOne(this.user);
+      const u = Meteor.users.findOne(this.user);
       if (u) {
         return u.profile.name;
       }
@@ -46,7 +17,7 @@ Template.eventEntry.helpers({
   },
 
   displayLevel: function() {
-    var returnedData;
+    let returnedData;
 
     switch (this.level) {
       case 'fatal':
@@ -72,7 +43,7 @@ Template.eventEntry.helpers({
     return returnedData;
   },
   entityIcon: function() {
-    var icon = "building";
+    let icon;
     switch (this.entityType) {
       case 'company':
         icon = "building";
