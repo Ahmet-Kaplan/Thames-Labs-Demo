@@ -1,5 +1,5 @@
 const currencyHelpers = {
-  //Return the currency symbol from the currency code e.g gbp => £
+  //Return the currency symbol from the currency code (ISO 4217) e.g gbp => £
   getCurrencySymbol(currency) {
     const currencySymbol = {
       gbp: '£',
@@ -22,7 +22,7 @@ const currencyHelpers = {
     }
   },
 
-  //Returns the current tenant's currency type. e.g gbp
+  //Returns the current tenant's currency code (ISO 4217). e.g gbp
   userCurrency() {
     if(!Meteor.user()) return 'gbp';
 
