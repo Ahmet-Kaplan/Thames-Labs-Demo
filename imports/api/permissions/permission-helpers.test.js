@@ -6,8 +6,6 @@ import { permissionHelpers } from './permission-helpers.js';
 
 describe("permission helpers", () => {
   beforeEach(function() {
-    chai.assert.equal(true, false);
-
     sandbox = sinon.sandbox.create();
     sandbox.stub(Roles, 'userIsInRole', (userId, permissions) => {
       if (userId == "normaluser") {
@@ -18,13 +16,15 @@ describe("permission helpers", () => {
       return false;
     });
 
-    sandbox.stub(this, "permissionHelpers.redirectWithoutPermission").returns(true);
+    sandbox.spy(permissionHelpers, "redirectWithoutPermission");
   });
 
   afterEach(function() {
     sandbox.restore();
   });
 
+
+  //permissionHelpers.redirectWithoutPermission tests
   it("redirects user without permission", function(done) {
     sandbox.stub(FlowRouter, "go", (route) => {
       chai.assert.equal(route, 'dashboard');
@@ -34,7 +34,9 @@ describe("permission helpers", () => {
   });
 
   it("permits user with permission", function() {
-    chai.assert.equal(true, false);
+    const routerSpy = sandbox.spy(FlowRouter, "go");
+    permissionHelpers.redirectWithoutPermission("normaluser", "normalpermission");
+    chai.assert.equal(routerSpy.called, false);
   });
 
   it("redirects superuser without permission", function(done) {
@@ -45,6 +47,8 @@ describe("permission helpers", () => {
     permissionHelpers.redirectWithoutPermission("superuser", "superadmin");
   });
 
+
+  //permissionHelpers.superAdminOnly tests
   it("redirects normal user without superadmin permission", function(done) {
     sandbox.stub(FlowRouter, "go", (route) => {
       chai.assert.equal(route, 'dashboard');
@@ -54,6 +58,8 @@ describe("permission helpers", () => {
   });
 
   it("permits superadmin with permission", function() {
-    chai.assert.equal(true, false);
+    const routerSpy = sandbox.spy(FlowRouter, "go");
+    permissionHelpers.superAdminOnly("superuser", "superadmin");
+    chai.assert.equal(routerSpy.called, false);
   });
 });
