@@ -13,7 +13,7 @@ import './product-detail.html';
 Template.productDetail.onCreated(function() {
   // Redirect if data doesn't exist
   this.autorun(function() {
-    var product = Products.findOne(FlowRouter.getParam('id'));
+    const product = Products.findOne(FlowRouter.getParam('id'));
     if (FlowRouter.subsReady() && typeof product === "undefined") {
       FlowRouter.go('products');
     }
@@ -27,10 +27,10 @@ Template.productDetail.onCreated(function() {
 
 Template.productDetail.helpers({
   breadcrumbName: function() {
-    return (this.sequencedIdentifier ? "Product #" + this.sequencedIdentifier : "Product");
+    return (this.sequencedIdentifier ? `"Product #${this.sequencedIdentifier}` : "Product");
   },
-  'productData': function() {
-    var productId = FlowRouter.getParam('id');
+  productData: function() {
+    const productId = FlowRouter.getParam('id');
     return Products.findOne({_id: productId});
   },
   desc: function() {
@@ -43,7 +43,7 @@ Template.productDetail.helpers({
 Template.productDetail.events({
   'click #delete-product': function(event) {
     event.preventDefault();
-    var productId = this._id;
+    const productId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this product?", function(result) {
       if (result === true) {

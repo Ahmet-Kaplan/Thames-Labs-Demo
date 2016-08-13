@@ -17,7 +17,7 @@ Template.productList.onCreated(function() {
 });
 
 Template.productList.onRendered(function() {
-  var template = this;
+  const template = this;
 
   this.autorun(() => {
     this.productCount.set(Collections['products'].index.getComponentDict().get('count'));
