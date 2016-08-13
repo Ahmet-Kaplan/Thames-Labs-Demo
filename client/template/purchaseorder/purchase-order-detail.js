@@ -1,5 +1,5 @@
 import bootbox from 'bootbox';
-import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
+import { redirectWithoutPermission } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 
 

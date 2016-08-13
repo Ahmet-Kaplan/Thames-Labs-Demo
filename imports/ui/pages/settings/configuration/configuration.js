@@ -1,4 +1,4 @@
-import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
+import { redirectWithoutPermission } from '/imports/api/permissions/permission-helpers.js';
 import './configuration.html';
 import '/imports/ui/components/settings/configuration/configuration.js';
 import '../settings.less';

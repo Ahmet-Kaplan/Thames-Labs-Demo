@@ -7,7 +7,7 @@ import '/imports/ui/components/opportunities/modals/insert/insert-opp-item-modal
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import './opportunities-detail.less';
 import './opportunities-detail.html';
-import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
+import { redirectWithoutPermission } from '/imports/api/permissions/permission-helpers.js';
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
 import bootbox from 'bootbox';
 

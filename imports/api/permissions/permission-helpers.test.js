@@ -1,5 +1,5 @@
 import { chai } from 'meteor/practicalmeteor:chai';
-import { redirectWithoutPermission, superAdminOnly } from './permissions-helpers.js';
+import { redirectWithoutPermission, superAdminOnly } from './permission-helpers.js';
 
 describe("permission helpers", () => {
   beforeEach(function() {

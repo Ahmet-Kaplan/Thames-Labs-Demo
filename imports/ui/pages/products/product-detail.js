@@ -2,7 +2,7 @@ import "meteor/peppelg:bootstrap-3-modal";
 import sanitizeHtml from "sanitize-html";
 import bootbox from 'bootbox';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
+import { redirectWithoutPermission } from '/imports/api/permissions/permission-helpers.js';
 
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/products/modals/update-product-modal.js';

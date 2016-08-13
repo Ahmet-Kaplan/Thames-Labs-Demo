@@ -10,7 +10,7 @@ import '/imports/ui/components/companies/modals/update-company-modal.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 
-import { redirectWithoutPermission } from '/imports/api/global-helpers/permissions-helpers.js';
+import { redirectWithoutPermission } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
 
 Template.companyDetail.onCreated(function() {
