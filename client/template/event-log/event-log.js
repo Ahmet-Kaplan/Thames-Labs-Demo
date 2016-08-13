@@ -1,4 +1,4 @@
-import { redirectWithoutPermission } from '/imports/api/permissions/permission-helpers.js';
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
 Template.events.onCreated(function() {
   // Redirect if read permission changed
@@ -8,7 +8,7 @@ Template.events.onCreated(function() {
       FlowRouter.go('/');
     }
 
-    redirectWithoutPermission(Meteor.userId(), 'CanReadEventLog');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadEventLog');
   });
 });
 

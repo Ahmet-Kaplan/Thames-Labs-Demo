@@ -1,5 +1,5 @@
 import bootbox from 'bootbox';
-import { redirectWithoutPermission } from '/imports/api/permissions/permission-helpers.js';
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 
 
@@ -28,7 +28,7 @@ Template.purchaseOrderDetail.onCreated(function() {
 
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
   });
 });
 

@@ -10,7 +10,7 @@ if (Meteor.isClient) {
 
     beforeEach(function() {
       //stub out FlowRouter.subsReady, FlowRouter.getParam('id')
-      //Move permission-helpers.js redirectWithoutPermission
+      //Move permission-helpers.js permissionHelpers.redirectWithoutPermission
       //Products.findOne
       //Products.remove
     });

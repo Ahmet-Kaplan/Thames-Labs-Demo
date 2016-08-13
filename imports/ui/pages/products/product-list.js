@@ -1,4 +1,4 @@
-import { redirectWithoutPermission } from '/imports/api/permissions/permission-helpers.js';
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/products/product-list-item.js';
@@ -7,7 +7,7 @@ import './product-list.html';
 Template.productList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadProducts');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadProducts');
   });
   this.totalProducts = new ReactiveVar(0);
   this.totalProductsCost = new ReactiveVar(0);

@@ -3,7 +3,7 @@ import '/imports/ui/components/fab/fab-edit.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-contact-opp-modal.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 
-import { redirectWithoutPermission } from '/imports/api/permissions/permission-helpers.js';
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
 
 
@@ -26,7 +26,7 @@ Template.contactDetail.onCreated(function() {
 
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadContacts');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadContacts');
   });
 
   // Subscribe to necessary data

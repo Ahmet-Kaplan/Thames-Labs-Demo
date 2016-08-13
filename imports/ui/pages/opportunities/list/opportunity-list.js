@@ -1,4 +1,4 @@
-import { redirectWithoutPermission } from '/imports/api/permissions/permission-helpers.js';
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/opportunities/opportunity-list-item.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-opportunity-modal.js';
@@ -7,7 +7,7 @@ import './opportunity-list.html';
 Template.opportunityList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
   });
 
   // Summary stats

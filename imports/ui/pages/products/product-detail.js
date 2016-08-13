@@ -2,7 +2,7 @@ import "meteor/peppelg:bootstrap-3-modal";
 import sanitizeHtml from "sanitize-html";
 import bootbox from 'bootbox';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { redirectWithoutPermission } from '/imports/api/permissions/permission-helpers.js';
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/products/modals/update-product-modal.js';
@@ -21,7 +21,7 @@ Template.productDetail.onCreated(function() {
 
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadProducts');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadProducts');
   });
 });
 
