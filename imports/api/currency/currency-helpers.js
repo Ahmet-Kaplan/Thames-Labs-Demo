@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 const currencyHelpers = {
   //Return the currency symbol from the currency code (ISO 4217) e.g gbp => £
   getCurrencySymbol(currency) {
