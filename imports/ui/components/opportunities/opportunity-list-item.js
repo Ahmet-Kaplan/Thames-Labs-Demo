@@ -1,3 +1,5 @@
+import '/imports/ui/components/tags/tag-badges/tag-badges.js';
+
 import './opportunity-list-item.html';
 import './opportunity-list-item.less';
 

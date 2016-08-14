@@ -1,3 +1,5 @@
+import '/imports/ui/components/tags/tag-input/tag-input.js';
+
 Template.purchaseOrderDetail.onCreated(function() {
   this.autorun(() => {
     if (!isProTenant(Meteor.user().group)) {

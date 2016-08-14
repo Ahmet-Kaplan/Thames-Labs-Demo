@@ -4,6 +4,7 @@ import '/imports/ui/components/opportunities/stage-control/opportunity-next-stag
 import '/imports/ui/components/opportunities/stage-control/opportunity-lost-link.js';
 import '/imports/ui/components/opportunities/modals/update/update-opp-item-modal.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-opp-item-modal.js';
+import '/imports/ui/components/tags/tag-input/tag-input.js';
 import './opportunities-detail.less';
 import './opportunities-detail.html';
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';

@@ -1,5 +1,6 @@
 import { chai } from 'meteor/practicalmeteor:chai';
 import $ from 'jquery';
+import sinon from 'sinon';
 
 import { withRenderedTemplate } from '/imports/ui/test-helpers.js';
 if (Meteor.isClient) {
@@ -8,11 +9,16 @@ if (Meteor.isClient) {
   describe('menu button', function() {
 
     beforeEach(function() {
-      //Stub meteor/alanning:roles
-      Roles.userIsInRole = (userId, permissionList) => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(Roles, 'userIsInRole', function(userId, permissionList) {
         if (permissionList == 'validPermission') return true;
         return false;
-      };
+      });
+      sandbox.stub(Meteor, 'userId').returns('userId');
+    });
+
+    afterEach(function() {
+      sandbox.restore();
     });
 
     it("is shown if user has permission", function() {
