@@ -29,10 +29,10 @@ dependencies:
     - "/home/ubuntu/nvm/versions/node/v5.2.0/bin"
     - "/home/ubuntu/nvm/versions/node/v5.2.0/lib/node_modules"
   override:
-    - sh ./tests/cache-setup/cache_meteor.sh
+    - sh ./tests/cache-setup/cache-meteor.sh
     - npm install
     - npm install glob
-    - sh ./tests/cache-setup/cache_dependencies.sh
+    - sh ./tests/cache-setup/cache-dependencies.sh
 
 test:
   pre:
