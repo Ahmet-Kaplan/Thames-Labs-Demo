@@ -19,12 +19,20 @@ general:
 
 dependencies:
   cache_directories:
-    - ~/.meteor
-    - ~/node_modules
+    - "~/.npm"
+    - "~/.meteor"
+    - "node_modules"
+    - "./.meteor/local/build"
+    - "./.meteor/local/bundler-cache"
+    - "./.meteor/local/isopacks"
+    - "./.meteor/local/plugin-cache"
+    - "/home/ubuntu/nvm/versions/node/v5.2.0/bin"
+    - "/home/ubuntu/nvm/versions/node/v5.2.0/lib/node_modules"
   override:
-    - curl https://install.meteor.com/ | sh
+    - ./tests/cache-setup/cache_meteor.sh
     - npm install
     - npm install glob
+    - ./tests/cache-setup/cache_dependencies.sh
 
 test:
   pre:
