@@ -22,7 +22,6 @@ Picker
       res.end('Message received and parsed.');
     } else {
       var data = req.body;
-      console.log(data);
 
       if (data) {
         Meteor.call('mailgun.createActivityFromBodyData', data);

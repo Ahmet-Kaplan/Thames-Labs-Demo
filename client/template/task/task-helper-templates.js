@@ -93,7 +93,7 @@ Template.taskDisplay.helpers({
 Template.taskDisplay.events({
   'click #btnAddTaskToEntity': function(event) {
     event.preventDefault();
-    console.log(this);
+
     Modal.show('insertNewTask', {
       entity_id: this.entity_id,
       entity_type: this.entity_type,

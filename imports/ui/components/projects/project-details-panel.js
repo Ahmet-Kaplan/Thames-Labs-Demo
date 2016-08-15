@@ -6,6 +6,9 @@ Template.projectDetailsPanel.onRendered(function() {
 });
 
 Template.projectDetailsPanel.helpers({
+  taskOverDue: function() {
+    return moment().isAfter(this.nextActionDue);
+  },
   friendlyDueDate: function() {
     return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
   },
