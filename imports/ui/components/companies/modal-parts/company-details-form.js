@@ -18,6 +18,9 @@ Template.companyDetailsForm.helpers({
   },
   companyData: function() {
     return this.companyData;
+  },
+  companiesHouseId: function() {
+    return this.companyData.companyNumber;
   }
 });
 

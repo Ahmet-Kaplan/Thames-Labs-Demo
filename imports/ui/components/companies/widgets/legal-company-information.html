@@ -24,6 +24,11 @@
                   <p class="list-group-item-text">{{region}}</p>
                   <p class="list-group-item-text">{{postal_code}}</p>
                 {{/with}}
+                {{#if isInRole 'CanEditCompanies'}}{{#unless companyHasAddress}}
+                  <a href="#" class="list-group-item-text text-muted small use-address">
+                    Use this address for {{rtCompanyName}}
+                  </a>
+                {{/unless}}{{/if}}
               </li>
               <li class="list-group-item panel-item-header">
                 <h4><i class="fa fa-fw fa-check-square-o"></i>Company Type</h4>
