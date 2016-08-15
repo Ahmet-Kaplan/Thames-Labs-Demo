@@ -57,7 +57,7 @@ Schemas.Company = new SimpleSchema({
     label: "Website",
     optional: true,
     defaultValue: "",
-    regEx: /(^$)|((https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?)/,
+    regEx: SimpleSchema.RegEx.Url,
     autoform: {
       placeholder: 'http://'
     }
