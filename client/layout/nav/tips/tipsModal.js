@@ -1,3 +1,5 @@
+import '/imports/api/lookup/tips.js';
+
 Template.tipsModal.onCreated(function() {
   Session.set('currentTip', 0);
 });
