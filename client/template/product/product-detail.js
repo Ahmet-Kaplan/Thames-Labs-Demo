@@ -1,4 +1,5 @@
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
+import '/imports/ui/components/tags/tag-input/tag-input.js';
 
 Template.productDetail.onCreated(function() {
   // Redirect if data doesn't exist
@@ -41,15 +42,11 @@ Template.productDetail.events({
   },
   'click #edit-product': function(event) {
     event.preventDefault();
-    Modal.show('editProductModal', this);
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('editProductModal', this);
+    Modal.show('updateProductModal', this);
   }
 });
 
-Template.editProductModal.helpers({
+Template.updateProductModal.helpers({
   IsIEAnd10OrGreater: function() {
     if (bowser.msie && bowser.version > 9) {
       return true;

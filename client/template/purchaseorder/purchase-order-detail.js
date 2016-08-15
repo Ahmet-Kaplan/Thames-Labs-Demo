@@ -1,3 +1,5 @@
+import '/imports/ui/components/tags/tag-input/tag-input.js';
+
 Template.purchaseOrderDetail.onCreated(function() {
   this.autorun(() => {
     if (!isProTenant(Meteor.user().group)) {
@@ -103,7 +105,7 @@ Template.purchaseOrderDetail.events({
     const file = event.target.files[0];
     if (!file) return;
     if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-      toastr.error("Unable to extract to file. Please ensure the provided file is a word document (.docx)");
+      toastr.error("Unable to process file. Please ensure the provided file is a word document (.docx)");
       return;
     }
 
@@ -165,7 +167,7 @@ Template.purchaseOrderDetail.events({
         toastr.success("Your data has been successfully extracted.");
 
       } catch (err) {
-        toastr.error("Unable to extract to file.");
+        toastr.error("Unable to process file.");
       }
       $('#template-upload-docx').val('');
     }.bind(this);
@@ -195,7 +197,7 @@ Template.purchaseOrderDetail.events({
   },
   'click #edit-purchase-order': function(event) {
     event.preventDefault();
-    Modal.show('updatePurchaseOrderFormModal', this);
+    Modal.show('updatePurchaseOrderModal', this);
   },
   'click #remove-purchase-order': function(event) {
     event.preventDefault();
@@ -206,10 +208,6 @@ Template.purchaseOrderDetail.events({
         PurchaseOrders.remove(poId);
       }
     });
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('updatePurchaseOrderFormModal', this);
   }
 });
 
@@ -225,7 +223,7 @@ Template.purchaseOrderItem.events({
   },
   'click #edit-po-item': function(event) {
     event.preventDefault();
-    Modal.show('editPurchaseOrderItemModal', {
+    Modal.show('updatePurchaseOrderItemModal', {
       purchaseOrder: Template.parentData(),
       purchaseOrderItem: this
     });

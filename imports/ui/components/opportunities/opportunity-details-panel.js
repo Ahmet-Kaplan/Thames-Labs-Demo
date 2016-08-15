@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 import './opportunity-details-panel.html';
+import './modals/update/update-opportunity-modal.js';
 
 Template.opportunityDetailsPanel.onCreated(function() {
   this.autorun( () => {
@@ -13,6 +14,9 @@ Template.opportunityDetailsPanel.onCreated(function() {
 });
 
 Template.opportunityDetailsPanel.helpers({
+  taskOverDue: function() {
+    return moment().isAfter(Template.currentData().opportunity.nextActionDue);
+  },
 
   company: function() {
     return Companies.findOne({
@@ -27,7 +31,7 @@ Template.opportunityDetailsPanel.helpers({
   },
 
   salesManager: function() {
-    var user = Meteor.users.findOne({
+    const user = Meteor.users.findOne({
       _id: Template.currentData().opportunity.salesManagerId
     });
     if (user) return user.profile.name;
@@ -50,7 +54,7 @@ Template.opportunityDetailsPanel.events({
 
   'click #edit-opportunity': function(event) {
     event.preventDefault();
-    Modal.show('editOpportunityModal', this.opportunity);
+    Modal.show('updateOpportunityModal', this.opportunity);
   },
 
   'click #reopen-opportunity': function(event) {
@@ -58,9 +62,9 @@ Template.opportunityDetailsPanel.events({
     bootbox.confirm("Are you sure you wish to reopen this opportunity?", (result) => {
       if (result === false) return;
 
-      var user = Meteor.user();
-      var note = user.profile.name + ' reopened this opportunity';
-      var today = new Date();
+      const user = Meteor.user(),
+            note = `${user.profile.name} reopened this opportunity`,
+            today = new Date();
 
       Opportunities.update(this.opportunity._id, {
         $unset: {
@@ -93,6 +97,6 @@ Template.opportunityDetailsPanel.events({
         Opportunities.remove(oppId);
       }
     });
-  },
+  }
 
 });

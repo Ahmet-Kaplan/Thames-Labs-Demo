@@ -1,0 +1,172 @@
+<template name="opportunityDetail">
+  {{#with oppData}}
+  {{setPageTitle "Opportunity - " name}}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="pull-right">
+        {{#if isActive}}
+          <br>
+          <p>
+            {{> opportunityPreviousStageButton opportunity=this}}
+            {{> opportunityNextStageButton opportunity=this}}
+          </p>
+          <div class="clearfix"></div>
+          <p class="pull-right">
+            {{> opportunityLostLink opportunity=this}}
+          </p>
+        {{else}}
+          {{#if hasBeenWon}}
+            <h3 class="text-success" style="margin-top: 25px;">Opportunity won</h3>
+            {{#if isInRole 'CanReadProjects'}}
+              {{#if projectId}}
+                <p class="text-right"><a href="{{pathFor route='project' id=projectId}}">View project</a></p>
+              {{/if}}
+            {{/if}}
+          {{else}}
+            <br>
+            <h3 class="text-danger">Opportunity lost</h3>
+            <p class="text-right">{{reasonLost}}</p>
+          {{/if}}
+        {{/if}}
+      </div>
+
+      {{> breadcrumbs parentPath="/opportunities" parentName="Opportunities" recordName=breadcrumbName }}
+
+      <div class="watchlist-container">
+        {{> watchlistAdmin entityData=this collection="opportunities"}}
+      </div>
+      <h1 class="entity-name">{{name}}</h1>
+      {{#if isActive}}
+        <div id="d3-stage-chart">
+        </div>
+      {{/if}}
+
+      <div class="clearfix"></div>
+
+      {{> tagInput tags=tags collection='opportunities' entityId=_id permissionToEdit='CanEditOpportunities'}}
+
+      {{> opportunityDetailsPanel opportunity=this showButtons=true}}
+
+      <div class="panel panel-default" id="lines">
+        <div class="panel-heading">
+          Line items
+          {{#if isActive}}
+          <div class="pull-right">
+
+            {{#if isInRole 'CanEditOpportunities'}}
+            <button class="btn btn-primary btn-xs" id="add-line-item"><i class="fa fa-fw fa-plus"></i> Add line item</button>
+            {{/if}}
+          </div>
+          {{/if}}
+        </div>
+        <ul class="list-group">
+          {{#if items}}
+            {{#each getItems}}
+              {{> opportunityItem}}
+            {{/each}}
+          {{else}}
+            <li class="list-group-item" id="no-line-items">
+              No line items
+            </li>
+          {{/if}}
+        </ul>
+        {{#if items}}
+          <div class="panel-footer">
+            <b>Overall value</b>: {{decimal overallValue}}
+          </div>
+        {{/if}}
+      </div>
+
+{{> documentContainer collectionName="opportunities" id=this._id permissionRequired="CanEditOpportunities"}}
+
+      {{#if isInRole 'CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="opportunity" entity_id=_id}} {{/with}} {{/if}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h1 id="activity-timeline">
+        Activity Timeline
+        {{#if isActive}}
+          <a class="btn btn-primary{{#unless isMobile}} pull-right{{/unless}}" data-toggle="tooltip" data-placement="bottom" title="New activity for this opportunity" href="#" id="add-activity"><i class="fa fa-fw fa-plus"></i> Add
+            activity</a>
+        {{/if}}
+      </h1>
+      {{> activityTimeline activities=activities}}
+    </div>
+  </div>
+  {{#if isActive}}
+    {{#if isInRole 'CanEditOpportunities'}}
+      {{#if isMobile}}
+        {{> fabEdit entity="Opportunity" record=this}}
+      {{/if}}
+    {{/if}}
+  {{/if}}
+  {{/with}}
+</template>
+
+<template name="opportunityItem">
+  <li class="list-group-item">
+    {{#if isActive}}
+    <div class="btn-group pull-right">
+      <button class="btn btn-info btn-xs edit-line-item"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+      <button class="btn btn-danger btn-xs delete-line-item"><i class="fa fa-fw fa-times"></i> Delete</button>
+    </div>
+    {{/if}}
+    <h4 style="margin: 0 0 4px">{{data.name}}</h4>
+    {{#if data.description}}
+      {{data.description}}<br>
+    {{/if}}
+    {{#if data.value}}
+      <b>Value:</b> {{decimal data.value}}<br>
+    {{/if}}
+    {{#if data.quantity}}
+      <b>Quantity:</b> {{data.quantity}}<br>
+    {{/if}}
+    {{#if totalValue}}
+      <b>Total:</b> {{decimal totalValue}}
+    {{/if}}
+  </li>
+</template>
+
+<template name="oppHelpModal">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Help on templates</h4>
+        </div>
+        <div class="modal-body">
+          <p>Start by creating a Microsoft Word Document to act as a template. Include the keywords below where needed in the document, and select "Microsoft Word Template". In the file finder, select the template file you just created. RealTime will replace the keywords with their relative values, and download a new version of the file for you.</p>
+          <p>Keywords which are recognised by RealTime:</p>
+          <ul>
+            <li>{opportunityName} - Opportunity name</li>
+            <li>{opportunityDescription} - Opportunity description</li>
+            <li>{opportunityNumber} - Opportunity RealTime ID number</li>
+            <li>{author} - The name of the current user</li>
+
+            <li>{companyName} - Company name (if provided)</li>
+            <li>{companyAddress} - Address of company (if provided)</li>
+            <li>{contactName} - Company contact name (if provided)</li>
+
+            <li>{date} - The date that the template is generated on</li>
+          </ul>
+
+          For each line item, you can specify the following tags:
+          <ul>
+            <li>{name} - The name of the opportunity line item</li>
+            <li>{description} - The description of the opportunity line item</li>
+            <li>{value} - The value of the opportunity line item</li>
+            <li>{quantity} - The quantity of the opportunity line item</li>
+            <li>{total} - The total cost of the opportunity line item</li>
+          </ul>
+          You can loop through multiple items in your template by wrapping them as follows:
+          <blockquote>
+            {#lineItems} {name} {count} {value} {total} {/lineItems}
+          </blockquote>
+          <br /> All calculations are carried out by RealTime, so you don't need to do anything extra to generate a quotation.
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

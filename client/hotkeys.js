@@ -63,7 +63,7 @@ globalHotkeys.add({
   combo: "ctrl+alt+p",
   callback: function() {
     if(!$('.modal-header h4').text()) {
-      Modal.show('newPurchaseOrderForm');
+      Modal.show('insertPurchaseOrderModal');
     } else if($('.modal-header h4:contains("Add new purchase order")').length) {
       Modal.hide();
     }

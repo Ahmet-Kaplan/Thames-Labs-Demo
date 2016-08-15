@@ -1,3 +1,5 @@
+import '/imports/ui/components/tags/tag-badges/tag-badges.js';
+
 Template.purchaseOrderListItem.onCreated(function() {
   this.subscribe('companyById', this.data.supplierCompanyId);
   this.subscribe('contactById', this.data.supplierContactId);

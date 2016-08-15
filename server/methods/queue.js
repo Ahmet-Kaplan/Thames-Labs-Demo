@@ -34,8 +34,8 @@ Job.processJobs('jobsQueue', 'sendReminderEmail', function(job, callback) {
     });
 
     Notifications.insert({
-      title: task.title || 'RealtimeCRM Task Reminder',
-      shortDescription: 'RealtimeCRM Task Reminder',
+      title: task.title || 'RealTimeCRM Task Reminder',
+      shortDescription: 'RealTimeCRM Task Reminder',
       detail: task.description || 'No description provided',
       target: assigneeId,
       createdAt: new Date(),

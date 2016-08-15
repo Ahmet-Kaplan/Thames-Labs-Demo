@@ -248,7 +248,7 @@ Template.nav.events({
     }
 
     event.preventDefault();
-    Modal.show('newPurchaseOrderForm', this);
+    Modal.show('insertPurchaseOrderModal', this);
   },
   'click #feedback-link': function(event) {
     event.preventDefault();
@@ -314,7 +314,7 @@ Template.nav.events({
   },
   'click #fabAddPurchaseOrder': function(event) {
     event.preventDefault();
-    Modal.show('newPurchaseOrderForm', this);
+    Modal.show('insertPurchaseOrderModal', this);
   }
 });
 

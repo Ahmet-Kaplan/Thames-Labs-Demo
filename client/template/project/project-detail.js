@@ -1,6 +1,7 @@
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
 import '/imports/ui/components/projects/project-details-panel.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
+import '/imports/ui/components/tags/tag-input/tag-input.js';
 
 Template.projectDetail.onCreated(function() {
   var self = this;
@@ -140,10 +141,6 @@ Template.projectDetail.events({
     Modal.show('insertProjectActivityModal', {
       project: this
     });
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('updateProjectForm', this);
   }
 });
 

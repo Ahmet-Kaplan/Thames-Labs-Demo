@@ -3,6 +3,12 @@ import '/imports/ui/components/companies/widgets/index.js';
 import '/imports/ui/components/charts/sales-history.js';
 import '/imports/ui/components/maps/map-viewer.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
+import '/imports/ui/components/fab/fab-edit.js';
+import '/imports/ui/components/opportunities/modals/insert/insert-company-opp-modal.js';
+import '/imports/ui/components/activity/activity-timeline.js';
+import '/imports/ui/components/companies/modals/update-company-modal.js';
+import '/imports/ui/components/tags/tag-input/tag-input.js';
+import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 
 Template.companyDetail.onCreated(function() {
   this.oppStats = new ReactiveVar({});
@@ -53,7 +59,7 @@ Template.companyDetail.events({
     var file = event.target.files[0];
     if (!file) return;
     if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-      toastr.error("Unable to extract to file. Please ensure the provided file is a word document (.docx)");
+      toastr.error("Unable to process file. Please ensure the provided file is a word document (.docx)");
       return;
     }
 
@@ -84,7 +90,7 @@ Template.companyDetail.events({
         saveAs(blob, file.name);
         toastr.success("Your data has been successfully extracted.");
       } catch (err) {
-        toastr.error("Unable to extract to file.");
+        toastr.error("Unable to process file.");
       }
       $('#template-upload-docx').val('');
 
@@ -138,7 +144,7 @@ Template.companyDetail.events({
   },
   'click #edit-company': function(event) {
     event.preventDefault();
-    Modal.show('editCompanyModal', this);
+    Modal.show('updateCompanyModal', this);
   },
   'click #add-opportunity': function(event) {
     event.preventDefault();
@@ -166,10 +172,6 @@ Template.companyDetail.events({
   'click #archived-opportunities': function(event, template) {
     var url = "?f%5Bcompany%5D=" + this._id + "&f%5BshowArchived%5D=true";
     FlowRouter.go("/opportunities" + url);
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('editCompanyModal', this);
   }
 });
 

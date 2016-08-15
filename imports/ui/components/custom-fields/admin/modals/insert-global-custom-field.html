@@ -5,7 +5,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4>Add new custom field</h4>
+          <h4>Add new {{#if isLocal}}record-specific {{/if}}custom field</h4>
         </div>
 
         <div class="modal-body">
@@ -42,41 +42,44 @@
               </div>
             </div>
 
-            {{#if typeText}}
-              <div class="form-group" id="text-input-area">
-                <label for="custom-field-text-value">{{#unless isLocal}}Default {{/unless}}Text Value</label>
-                <input type="text" class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field Value" id="custom-field-text-value">
+            {{#unless typeDateTime}}{{#unless typeMultiText}}{{#unless typePicklist}}{{#unless typeLabel}}
+              <div class="form-group" id="check-input-area">
+                <label for="custom-field-check-value">{{#unless isLocal}}Default {{/unless}} Value</label>
+                <p>This will be used as the {{#unless isLocal}}default{{/unless}} value of this field for {{#if isLocal}}this record{{else}}all new and existing records{{/if}}</p>
+                {{#if typeText}}
+                  <input type="text" class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field Value" id="custom-field-text-value">
+                {{/if}}
+
+                {{#if typeCheckbox}}
+                  Set {{#unless isLocal}}default {{/unless}}value to true?
+                  <input type="checkbox" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field Value" id="custom-field-check-value">
+                {{/if}}
               </div>
-              {{/if}}
+            {{/unless}}{{/unless}}{{/unless}}{{/unless}}
 
             <div class="form-group" id="advtext-input-area" style="{{#unless typeMultiText}}display: none;{{/unless}}">
-              <label for="custom-field-advtext-value">Multiline Text Value</label>
+              <label for="custom-field-advtext-value">Multiline Value</label>
+              <p>This will be used as the {{#unless isLocal}}default{{/unless}} value of this field for {{#if isLocal}}this record{{else}}all new and existing records{{/if}}</p>
               <div class="editable form-control mediumWrapper" id="custom-field-multitext-value"></div>
             </div>
 
-            {{#if typeCheckbox}}
-            <div class="form-group" id="check-input-area">
-              <label for="custom-field-check-value">{{#unless isLocal}}Default {{/unless}}True/False Value</label>
-              <br />
-              Set {{#unless isLocal}}default {{/unless}}value to true?
-              <input type="checkbox" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field value" id="custom-field-check-value">
-            </div>
-            {{/if}}
-
             <div class="form-group datetimepicker" id="date-input-area" style="{{#unless typeDateTime}}display: none;{{/unless}}">
-              <label for="custom-field-date-value">{{#unless isLocal}}Default {{/unless}}Date Value</label>
+              <label for="custom-field-date-value">{{#unless isLocal}}Default {{/unless}} Value</label>
+              <p>This will be used as the {{#unless isLocal}}default{{/unless}} value of this field for {{#if isLocal}}this record{{else}}all new and existing records{{/if}}</p>
               <input class="form-control" placeholder="{{#unless isLocal}}Global{{/unless}} Custom Field Value" id="custom-field-date-value">
             </div>
 
             {{#unless isLocal}}
             <div class="form-group" id="picklist-input-area" style="{{#unless typePicklist}}display: none;{{/unless}}">
               <label for="custom-field-picklist-value">List Values</label>
+              <p>Enter all possible values for this picklist</p>
               <input class="form-control" id="custom-field-picklist-values">
             </div>
             {{/unless}}
 
             {{#unless isLocal}}
             <label for="select-entity">Target record type</label>
+            <p>This determines which type of record should have this custom field</p>
             <select id="select-entity" placeholder="Select a record type...">
               <option value="">Select a record type...</option>
               <option value="company">Company</option>

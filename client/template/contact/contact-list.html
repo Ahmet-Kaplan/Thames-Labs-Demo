@@ -31,9 +31,7 @@
 
   {{#if isInRole 'CanCreateContacts'}}
     {{#if isMobile}}
-      <div class="fab add" id="fab">
-        <i class="fa fw-fa fa-plus"></i>
-      </div>
+      {{> fabAdd entity="Contact"}}
     {{/if}}
   {{/if}}
 

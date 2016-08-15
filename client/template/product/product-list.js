@@ -1,3 +1,6 @@
+import '/imports/ui/components/tags/tag-badges/tag-badges.js';
+import '/imports/ui/components/tags/tag-management/tag-management.js';
+
 Template.productList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
@@ -54,10 +57,6 @@ Template.productList.events({
     Meteor.call('report.averageProductsCost', function(err, data) {
       template.averageProductsCost.set(data.Value);
     });
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('insertProductModal', this);
   }
 });
 

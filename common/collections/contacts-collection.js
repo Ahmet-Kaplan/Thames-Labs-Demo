@@ -267,19 +267,13 @@ Contacts.after.insert(function(userId, doc) {
     }
 
     if(doc.companyId && !doc.address && !doc.city && !doc.county && !doc.postcode && !doc.country) {
-      var company = Companies.findOne({_id: doc.companyId});
+      const company = Companies.findOne({_id: doc.companyId});
       if(company) {
-        Contacts.update({
-          _id: doc._id
-        }, {
-          $set: {
-            address: company.address,
-            city: company.city,
-            county: company.county,
-            postcode: company.postcode,
-            country: company.country,
-          }
-        });
+        if (company.address) Contacts.update({_id: doc._id}, {$set: {address: company.address}});
+        if (company.city) Contacts.update({_id: doc._id}, {$set: {city: company.city}});
+        if (company.county) Contacts.update({_id: doc._id}, {$set: {county: company.county}});
+        if (company.postcode) Contacts.update({_id: doc._id}, {$set: {postcode: company.postcode}});
+        if (company.country) Contacts.update({_id: doc._id}, {$set: {country: company.country}});
       }
     }
   }

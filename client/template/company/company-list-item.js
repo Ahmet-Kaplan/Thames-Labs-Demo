@@ -1,3 +1,5 @@
+import '/imports/ui/components/tags/tag-badges/tag-badges.js';
+
 Template.companyListItem.helpers({
   companyName: function() {
     const searchDef = Template.currentData().index.getComponentDict().get('searchDefinition');

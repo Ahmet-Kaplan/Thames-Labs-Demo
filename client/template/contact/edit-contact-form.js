@@ -1,4 +1,4 @@
-Template.editContactModal.onCreated(function() {
+Template.updateContactModal.onCreated(function() {
   // Load google maps
   GoogleMaps.load({
     libraries: 'places',
@@ -6,7 +6,7 @@ Template.editContactModal.onCreated(function() {
   });
 });
 
-Template.editContactModal.onRendered(function() {
+Template.updateContactModal.onRendered(function() {
   if (typeof this.data.companyId === "undefined") {
     $('#addressWrapper').show();
   }
@@ -87,7 +87,7 @@ Template.editContactModal.onRendered(function() {
   });
 });
 
-Template.editContactModal.helpers({
+Template.updateContactModal.helpers({
   noCompany: function() {
     return typeof this.companyId === "undefined";
   },
@@ -100,7 +100,7 @@ Template.editContactModal.helpers({
   }
 });
 
-Template.editContactModal.events({
+Template.updateContactModal.events({
   'click #show-map': function() {
     $("#show-map").hide();
     var mapData = this;
