@@ -54,6 +54,7 @@ Template.companyLookup.onRendered(function() {
             results: _.map(res.data.items, function(item, key) {
               return {
                 id: key.toString(),
+                companyNumber: item.company_number,
                 name: _.startCase((item.title).toLowerCase()),
                 geo: {
                   subPremise: _.startCase((item.address.address_line_1 || '').toLowerCase()),

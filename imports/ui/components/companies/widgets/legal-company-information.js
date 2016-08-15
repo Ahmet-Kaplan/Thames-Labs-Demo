@@ -1,6 +1,8 @@
 import './legal-company-information.css';
 import './legal-company-information.html';
 
+import { isAddressEmpty } from '/imports/ui/components/maps/map-helpers.js';
+
 // Expects arguments:
 // - company - the company object
 
@@ -48,10 +50,12 @@ var companiesHouseEnumerations = {
 Template.legalCompanyInformation.onCreated(function() {
   this.companiesHouseSearchResults = new ReactiveVar([]);
   this.companiesHouseSearchResultsCount = new ReactiveVar(null);
+  this.companyData = new ReactiveVar({});
 
   // Update companies house search if details change
   this.autorun( () => {
-    var company = Template.currentData().company;
+    const company = Template.currentData().company;
+    this.companyData.set(company);
     if (company.companiesHouseId || company.country !== 'United Kingdom') {
       return;
     }
@@ -109,6 +113,13 @@ Template.legalCompanyInformation.helpers({
     // n.b. - we're calling this in company.metadata.companiesHouse context!
     if (this.company_status !== 'active') return true;
     return false;
+  },
+  companyHasAddress: function() {
+    const data = Template.instance().companyData.get();
+    return !isAddressEmpty(data);
+  },
+  rtCompanyName: function() {
+    return Template.instance().companyData.get().name;
   }
 });
 
@@ -125,6 +136,21 @@ Template.legalCompanyInformation.events({
     if (!isProTenant(Meteor.user().group)) {
       showUpgradeToastr('To access this information');
     }
+  },
+  'click .use-address': function(event) {
+    event.preventDefault();
+    const company = Template.currentData().company;
+    const address = company.metadata.companiesHouse.registered_office_address;
+    Companies.update(company._id, {
+      $set: {
+        address: address.address_line_1,
+        address2: address.address_line_2,
+        city: address.locality,
+        county: address.region,
+        country: address.country,
+        postcode: address.postal_code
+      }
+    });
   }
 });
 
