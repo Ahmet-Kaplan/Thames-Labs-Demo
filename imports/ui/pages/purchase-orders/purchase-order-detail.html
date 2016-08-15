@@ -9,16 +9,16 @@
         {{> watchlistAdmin entityData=this collection="purchaseorders"}}
       </div>
         <h1 class="entity-name" id="purchase-order-details">{{description}}</h1>
-        <div id="company-details-tags">
+        <div id="tag-list-display">
         {{> tagInput tags=tags collection='purchaseorders' entityId=_id permissionToEdit='CanEditPurchaseOrders'}}
-       </div>
+        </div>
 
         <div class="panel panel-default">
           <div class="panel-heading">
             <div class="btn-group pull-right">
               {{#if isInRole 'CanEditPurchaseOrders'}}
               <div class="btn-group">
-                <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
+                <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                   <span class="caret"></span>
                   Download as...
                 </button>
@@ -48,9 +48,8 @@
           <ul class="list-group">
             {{#if supplierCompany}}
               {{#if isInRole 'CanReadCompanies'}}
-                <a class="list-group-item" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='company' id=supplierCompany._id}}" title="Navigate to supplier company details">
-                  <i class="fa fa-fw fa-building"></i>
-                  Supplier:
+                <a class="list-group-item panel-item-header" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='company' id=supplierCompany._id}}" title="Navigate to supplier company details">
+                  <h4><i class="fa fa-fw fa-user"></i> Supplier</h4>
                   {{supplierCompany.name}}
                   <i class="fa fa-fw fa-chevron-right pull-right"></i>
                 </a>
@@ -58,9 +57,8 @@
             {{/if}}
             {{#if supplierContact}}
               {{#if isInRole 'CanReadContacts'}}
-                <a class="list-group-item" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='contact' id=supplierContact._id}}" title="Navigate to supplier contact details">
-                  <i class="fa fa-fw fa-user"></i>
-                  Supplier Contact:
+                <a class="list-group-item panel-item-header" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='contact' id=supplierContact._id}}" title="Navigate to supplier contact details">
+                  <h4><i class="fa fa-fw fa-user"></i> Supplier Contact</h4>
                   {{supplierContact.forename}}
                   {{supplierContact.surname}}
                   <i class="fa fa-fw fa-chevron-right pull-right"></i>
@@ -68,35 +66,29 @@
               {{/if}}
             {{/if}}
 
-            <li class="list-group-item">
-              <i class="fa fa-fw fa-question"></i>
-              Status:
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-question"></i> Status</h4>
               {{status}}
             </li>
-            <li class="list-group-item">
-              <i class="fa fa-fw fa-calendar"></i>
-              Order Date:
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-calendar"></i> Order Date</h4>
               {{formatDateLocale orderDate 'GMT'}}
             </li>
-            <li class="list-group-item">
-              <i class="fa fa-fw fa-pencil"></i>
-              Supplier Reference:
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-pencil"></i> Supplier Reference</h4>
               {{supplierReference}}
             </li>
-            <li class="list-group-item">
-              <i class="fa fa-fw fa-credit-card"></i>
-              Payment Method:
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-credit-card"></i> Payment Methods</h4>
               {{paymentMethod}}
             </li>
-            <li class="list-group-item">
-              <i class="fa fa-fw fa-{{userCurrency}}"></i>
-              Total Price:
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-{{userCurrency}}"></i> Total Price</h4>
               {{decimal totalValue}}
             </li>
             {{#if notes}}
-            <li class="list-group-item">
-              <i class="fa fa-fw fa-paperclip"></i>
-              Notes:
+            <li class="list-group-item panel-item-header">
+              <h4><i class="fa fa-fw fa-paperclip"></i> Notes</h4>
               {{notes}}
             </li>
             {{/if}}
@@ -114,20 +106,17 @@
                   Add item</a>
               </div>
             {{/if}}
-            Items</div>
-          <div class="panel-body">
-            <ul class="list-group" id="purchase-order-items">
-              {{#if hasItems}}
-                {{#each purchaseOrderItems}}
-                  {{> purchaseOrderItem}}
-                {{/each}}
-                {{else}}
-                <li class="list-group-item">
-                  <em>No items</em>
-                </li>
-              {{/if}}
-            </ul>
+            Items
           </div>
+          <ul class="list-group" id="purchase-order-items">
+            {{#if hasItems}}
+              {{#each purchaseOrderItems}}
+                {{> purchaseOrderItem}}
+              {{/each}}
+              {{else}}
+              <li class="list-group-item">No items added</li>
+            {{/if}}
+          </ul>
         </div>
       </div>
       <div class="col-md-3"></div>
