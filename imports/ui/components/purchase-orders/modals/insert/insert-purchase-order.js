@@ -1,18 +1,5 @@
-import $ from 'jquery';
 import moment from 'moment';
 import './insert-purchase-order.html';
-
-//Todo: sort out session vars
-Template.insertPurchaseOrderModal.onRendered(function() {
-  Session.set('posc', null);
-
-  const c = this.data.supplierCompanyId;
-  if (c) {
-    Session.set('posc', c);
-  } else {
-    Session.set('posc', null);
-  }
-});
 
 Template.insertPurchaseOrderModal.helpers({
   currentUser: function() {
@@ -26,17 +13,6 @@ Template.insertPurchaseOrderModal.helpers({
       day: dateTime.date()
     });
     return dateValue;
-  }
-});
-
-Template.insertPurchaseOrderModal.events({
-  'change #supplierCompanyId': function() {
-    const c = $('select#supplierCompanyId').val();
-    if (c) {
-      Session.set('posc', c);
-    } else {
-      Session.set('posc', null);
-    }
   }
 });
 

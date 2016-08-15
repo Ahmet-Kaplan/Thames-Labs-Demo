@@ -16,7 +16,6 @@ Template.insertContactPurchaseOrderModal.helpers({
     return `${contact.forename} ${contact.surname}`;
   },
   currentDateTime: function() {
-    // return new Date();
     return moment();
   }
 });

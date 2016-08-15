@@ -1,28 +1,14 @@
-import $ from 'jquery';
 import moment from 'moment';
 import './insert-company-purchase-order.html';
 
-//TODO: sort out session variables
-Template.insertCompanyPurchaseOrderModal.onRendered(function() {
-  Session.set('posc', null);
-
-  const c = this.data.supplierCompanyId;
-  if (c) {
-    Session.set('posc', c);
-  } else {
-    Session.set('posc', null);
-  }
-});
-
 Template.insertCompanyPurchaseOrderModal.helpers({
   showSupplierContacts: function() {
-    return (Session.get('posc') !== null);
+    return (Template.currentData().supplierCompanyId !== null);
   },
   currentUser: function() {
     return Meteor.userId();
   },
   currentDateTime: function() {
-    // return new Date();
     return moment();
   },
   supplierCompanyName: function() {
@@ -31,18 +17,6 @@ Template.insertCompanyPurchaseOrderModal.helpers({
     }).name;
   }
 });
-
-Template.insertCompanyPurchaseOrderModal.events({
-  'change #supplierCompanyId': function() {
-    const c = $('select#supplierCompanyId').val();
-    if (c) {
-      Session.set('posc', c);
-    } else {
-      Session.set('posc', null);
-    }
-  }
-});
-
 
 AutoForm.hooks({
   insertCompanyPurchaseOrderForm: {

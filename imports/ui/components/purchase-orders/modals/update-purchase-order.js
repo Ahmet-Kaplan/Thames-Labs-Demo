@@ -1,12 +1,14 @@
 import $ from 'jquery';
 import './update-purchase-order.html';
 
-//TODO: Update these session variables
+Template.updatePurchaseOrderModal.onCreated(function() {
+  this.purchaseOrderStat = new ReactiveVar();
+  this.purchaseOrderIsLocked = new ReactiveVar();
+});
 
 Template.updatePurchaseOrderModal.onRendered(function() {
-  Session.set('posc', null);
-  Session.set('poStat', this.data.status);
-  Session.set('poIsLocked', this.data.locked);
+  this.purchaseOrderStat.set(this.data.status);
+  this.purchaseOrderIsLocked.set(this.data.locked);
 
   if (this.data.status !== "Requested" && this.data.status !== "Requested" && this.data.status !== "Cancelled") {
     PurchaseOrders.update(this.data._id, {
@@ -14,15 +16,11 @@ Template.updatePurchaseOrderModal.onRendered(function() {
         locked: true
       }
     });
-    Session.set('poIsLocked', true);
+    this.purchaseOrderIsLocked.set(true);
   }
 
-  const c = this.data.supplierCompanyId;
-  if (c) {
-    Session.set('posc', c);
-  } else {
-    Session.set('posc', null);
-  }
+  const companyId = this.data.supplierCompanyId;
+  if (companyId) this.purchaseOrderCompanyId.set(companyId);
 });
 
 Template.updatePurchaseOrderModal.helpers({
@@ -47,16 +45,16 @@ Template.updatePurchaseOrderModal.events({
 
     if (level === 0) {
       if (selected !== "Requested" && selected !== "Cancelled") {
-        const origVal = Session.get('poStat');
+        const origVal = Template.currentInstance.purchaseOrderStat.get();
         $('#poStatus').val(origVal);
         toastr.warning('Your authorisation level only permits you to set order status to "Requested" or "Cancelled".');
         return false;
       }
     }
 
-    if (Session.get('poIsLocked')) {
+    if (Template.currentInstance.purchaseOrderIsLocked.get()) {
       if (selected === "Requested") {
-        const origVal = Session.get('poStat');
+        const origVal = Template.currentInstance.purchaseOrderStat.get();
         $('#poStatus').val(origVal);
         toastr.warning('You cannot set the order status to "Requested" - it has already been submitted for authorisation.');
         return false;
@@ -65,8 +63,13 @@ Template.updatePurchaseOrderModal.events({
   }
 });
 
-Template.updatePurchaseOrderModal.onDestroyed(function() {
-  Session.set('posc', null);
-  Session.set('poStat', null);
-  Session.set('poIsLocked', null);
+AutoForm.hooks({
+  updatePurchaseOrderForm: {
+    onError: function(formType, error) {
+      toastr.error(`Purchase order editing error: ${error}`);
+    },
+    onSuccess: function() {
+      Modal.hide();
+    }
+  }
 });
