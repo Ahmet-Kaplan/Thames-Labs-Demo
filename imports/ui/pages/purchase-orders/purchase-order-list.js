@@ -2,6 +2,8 @@ import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-purchase-order.js';
 import '/imports/ui/components/purchase-orders/purchase-order-list-item.js';
 
+import './purchase-order-list.html';
+
 Template.purchaseOrderList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
@@ -34,16 +36,7 @@ Template.purchaseOrderList.onRendered(function() {
     this.totalPOs.set(Collections['purchaseorders'].index.getComponentDict().get('count'));
   });
 
-  var template = this;
-
-  var curr = Session.get("showItems");
-  if (curr === true) {
-    $(".po-list-item").css('margin-bottom', '4px');
-    $(".po-list-item").css('padding-bottom', '0');
-  } else {
-    $(".po-list-item").css('margin-bottom', '');
-    $(".po-list-item").css('padding-bottom', '');
-  }
+  const template = this;
 
   Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
     template.totalPurchaseOrders.set(data.Count);
@@ -80,14 +73,6 @@ Template.purchaseOrderList.events({
     var curr = Session.get("showItems");
     Session.set("showItems", !curr);
     template.showItems.set(!curr);
-
-    if (Session.get("showItems") === true) {
-      $(".po-list-item").css('margin-bottom', '4px');
-      $(".po-list-item").css('padding-bottom', '0');
-    } else {
-      $(".po-list-item").css('margin-bottom', '');
-      $(".po-list-item").css('padding-bottom', '');
-    }
   },
   'click #add-purchase-order': function(event) {
     event.preventDefault();

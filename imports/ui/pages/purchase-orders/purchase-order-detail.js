@@ -1,7 +1,13 @@
+import '/imports/ui/components/breadcrumbs/breadcrumbs.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/purchase-orders/purchase-order-items/modals/insert-purchase-order-item.js';
 import '/imports/ui/components/purchase-orders/purchase-order-items/modals/update-purchase-order-item.js';
+import '/imports/ui/components/purchase-orders/purchase-order-items/purchase-order-item.js';
 import '/imports/ui/components/purchase-orders/modals/update-purchase-order.js';
+import '/imports/ui/components/documents/document-container.js';
+import '/imports/ui/components/fab/fab-edit.js';
+
+import './purchase-order-detail.html';
 
 Template.purchaseOrderDetail.onCreated(function() {
   this.autorun(() => {
@@ -35,42 +41,6 @@ Template.purchaseOrderDetail.onCreated(function() {
 Template.purchaseOrderDetail.onRendered(function() {
   $.getScript('/vendor/docxgen.min.js');
 });
-
-Template.purchaseOrderItem.helpers({
-  currencySymbol: function() {
-    if (this.currency === "GBP") return "£";
-    if (this.currency === "USD") return "$";
-    if (this.currency === "EUR") return "€";
-  },
-  canAddMoreItems: function(parentContext) {
-    this.parentContext = parentContext;
-    return (this.parentContext.status === "Requested");
-  },
-  orderItemStatus: function() {
-    if (typeof this.status === "undefined") {
-      return "No status set.";
-    }
-    return this.status;
-  },
-  statusIcon: function() {
-    switch (this.status) {
-      case 'Dispatched':
-        return "fa fa-fw fa-truck text-warning";
-      case 'Delivered':
-        return "fa fa-fw fa-check text-success";
-      case 'Cancelled':
-        return "fa fa-fw fa-times text-danger";
-      default:
-        return "";
-    }
-  },
-  projectName: function() {
-    const project = Projects.findOne(this.projectId);
-    if (project) return project.name;
-    return "No project";
-  }
-});
-
 Template.purchaseOrderDetail.helpers({
   breadcrumbName: function() {
     return (this.sequencedIdentifier ? "Purchase Order #" + this.sequencedIdentifier : "Purchase Order");
@@ -210,25 +180,6 @@ Template.purchaseOrderDetail.events({
       if (result === true) {
         PurchaseOrders.remove(poId);
       }
-    });
-  }
-});
-
-Template.purchaseOrderItem.events({
-  'click #removePurchaseOrderItem': function(event) {
-    event.preventDefault();
-    const itemId = this._id;
-    bootbox.confirm("Are you sure you wish to delete this item?", function(result) {
-      if (result === true) {
-        PurchaseOrderItems.remove(itemId);
-      }
-    });
-  },
-  'click #edit-po-item': function(event) {
-    event.preventDefault();
-    Modal.show('updatePurchaseOrderItemModal', {
-      purchaseOrder: Template.parentData(),
-      purchaseOrderItem: this
     });
   }
 });
