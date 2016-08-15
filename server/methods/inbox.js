@@ -22,7 +22,6 @@ Picker
       res.end('Message received and parsed.');
     } else {
       var data = req.body;
-      console.log(data);
 
       if (data) {
         Meteor.call('mailgun.createActivityFromBodyData', data);
@@ -50,7 +49,7 @@ Meteor.methods({
 
     var notesFieldData = "<h4><strong>Subject: " + subject + "</strong></h4><p>" + mailText + "</p>";
 
-    var emailPattern = /([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,})/g;
+    var emailPattern = /([A-Za-z0-9_\.-]+)@([\dA-Za-z\.-]+)\.([A-Za-z\.]{2,})/g;
     var userEmail = bodyData.From.match(emailPattern);
 
     // if (userEmail[0].indexOf('@cambridgesoftware.co.uk') === -1) {
@@ -61,7 +60,7 @@ Meteor.methods({
     if (!userEmail) return;
 
     var MeteorUser = Meteor.users.findOne({
-      'emails.address': userEmail[0]
+      'emails.address': { $regex: new RegExp(userEmail[0], "i") }
     });
 
     if (!MeteorUser) {
@@ -82,7 +81,7 @@ Meteor.methods({
 
       _.each(addresses, function(address) {
         var contact = Contacts.findOne({
-          email: address
+          email: { $regex: new RegExp(address, "i") }
         });
 
         if (contact) {
