@@ -1,0 +1,39 @@
+<template name="insertContactPurchaseOrderModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4> Add new purchase order</h4>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="PurchaseOrders" id="insertContactPurchaseOrderForm" type="insert"}}
+            {{> afQuickField name="description" rows=3}}
+            {{#if supplierCompanyId}}
+              {{> afQuickField type="text" label="Supplier Company" readonly=true value=supplierCompanyName}}
+              {{> afQuickField name="supplierCompanyId" type="hidden" value=supplierCompanyId}}
+            {{/if}}
+            {{> afQuickField type="text" label="Supplier Contact" readonly=true value=supplierContactName}}
+            {{> afQuickField name="supplierContactId" type="hidden" value=supplierContactId}}
+            {{> afQuickField name="supplierReference" }}
+            {{> afQuickField name="userId" type="hidden" value=currentUser}}
+            {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}
+            {{> afQuickField name="orderDate" }}
+            {{> afQuickField name="paymentMethod" options="allowed"}}
+            {{> afQuickField name="notes"}}
+            <!-- {{> afQuickField name="sequencedIdentifier"}} -->
+            {{> afQuickField name="createdBy" value=currentUser }}
+
+            <p>Items can be added on the purchase order details page</p>
+            <br />
+
+            <button type="submit" class="btn btn-primary">Create</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,4 +1,5 @@
 import '/imports/ui/components/tags/tag-management/tag-management.js';
+import '/imports/ui/components/purchase-orders/modals/insert/insert-purchase-order.js';
 
 Template.purchaseOrderList.onCreated(function() {
   // Redirect if read permission changed

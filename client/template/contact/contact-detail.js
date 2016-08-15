@@ -2,6 +2,7 @@ import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/fab/fab-edit.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-contact-opp-modal.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
+import '/imports/ui/components/purchase-orders/modals/insert/insert-contact-purchase-order.js';
 
 Template.contactDetail.onCreated(function() {
   var self = this;
@@ -205,11 +206,11 @@ Template.contactDetail.events({
 
     var company = this.company();
     if (typeof company === "undefined") {
-      Modal.show('newContactPurchaseOrderForm', {
+      Modal.show('insertContactPurchaseOrderModal', {
         supplierContactId: this._id
       });
     } else {
-      Modal.show('newContactPurchaseOrderForm', {
+      Modal.show('insertContactPurchaseOrderModal', {
         supplierCompanyId: company._id,
         supplierContactId: this._id
       });

@@ -1,4 +1,7 @@
 import '/imports/ui/components/tags/tag-input/tag-input.js';
+import '/imports/ui/components/purchase-orders/purchase-order-items/modals/insert-purchase-order-item.js';
+import '/imports/ui/components/purchase-orders/purchase-order-items/modals/update-purchase-order-item.js';
+import '/imports/ui/components/purchase-orders/modals/update-purchase-order.js';
 
 Template.purchaseOrderDetail.onCreated(function() {
   this.autorun(() => {
@@ -185,7 +188,7 @@ Template.purchaseOrderDetail.events({
   },
   'click #add-item': function(event) {
     event.preventDefault();
-    Modal.show('addPurchaseOrderItemModal', {
+    Modal.show('insertPurchaseOrderItemModal', {
       purchaseOrder: this
     });
   },
