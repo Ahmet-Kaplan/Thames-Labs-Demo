@@ -91,6 +91,7 @@ Meteor.methods({
             createdAt: Date.now(),
             activityTimestamp: sendDate,
             contactId: contact._id,
+            companyId: contact.companyId,
             createdBy: MeteorUser._id,
             primaryEntityId: contact._id,
             primaryEntityType: 'contacts',
