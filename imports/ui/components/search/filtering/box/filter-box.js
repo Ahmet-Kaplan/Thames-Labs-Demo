@@ -1,3 +1,6 @@
+import './filter-box.html';
+import './filter-box.css';
+
 const currentFilter = new ReactiveVar({}),
       searchInput = new ReactiveVar(''),
       activeSelection = new ReactiveVar({});

@@ -1,3 +1,5 @@
+import './small-search-box.html';
+
 Template.smallSearchBox.helpers({
   index: function() {
     const mainCollectionName = Template.instance().data.collectionName;

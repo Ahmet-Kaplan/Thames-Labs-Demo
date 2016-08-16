@@ -1,3 +1,7 @@
+import '/imports/ui/components/search/search-results.js';
+import '/imports/ui/components/search/local/small-box/small-search-box.js';
+import '/imports/ui/components/search/filtering/panel/filter-panel.js';
+
 Template.taskList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {

@@ -1,3 +1,5 @@
+import './search-help.html';
+
 Template.searchHelp.helpers({
   options: function() {
     switch(this.collection) {

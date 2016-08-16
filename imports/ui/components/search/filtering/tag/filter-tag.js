@@ -1,76 +1,5 @@
-Template.searchBox.onRendered(function() {
-  Session.setDefault('search.showFilters', false);
-});
-
-export const getList = (collectionName) => {
-  const searchIndex = Collections[collectionName].index,
-        searchOptions = searchIndex.getComponentDict().get('searchOptions'),
-        filtersList = [];
-
-  if (searchOptions && searchOptions.props) {
-    _.each(searchOptions.props, function(propValues, propIndex) {
-      const values = propValues.split(','),
-            filter = Collections[collectionName].filters[propIndex];
-
-      //Check that the filter exist as some props might be defined independantly from filters
-      if (filter) {
-        const unified = _.union(values);
-        _.each(unified, function(value) {
-          filtersList.push({
-            filter: propIndex,
-            mainCollectionName: collectionName,
-            id: value
-          });
-        });
-      }
-    });
-  }
-  return filtersList;
-};
-
-Template.searchBox.helpers({
-  filtersList: function() {
-    return getList(Template.instance().data.collectionName);
-  },
-  index: function() {
-    const mainCollectionName = Template.instance().data.collectionName;
-    return Collections[mainCollectionName].index;
-  },
-  showFilters: function() {
-    return Session.get('search.showFilters');
-  }
-});
-
-Template.searchBox.events({
-  'click #toggleFilters': function(e) {
-    e.preventDefault();
-
-    if (Session.get('search.showFilters')) {
-      Session.set('search.showFilters', false);
-    } else {
-      const selectize = $('#filterBox')[0].selectize;
-      selectize.clearOptions();
-      Meteor.setTimeout(function() {
-        $('#filtersSearch input').focus();
-      }, 300);
-      Session.set('search.showFilters', true);
-    }
-    $(e.target).blur();
-  },
-  'click #resetSearch': function() {
-    const mainCollectionName = Template.instance().data.collectionName,
-          indexMethods = Collections[mainCollectionName].index.getComponentMethods();
-    indexMethods.removeProps();
-    indexMethods.search('');
-    $('input.easysearch-input').val('');
-  },
-  'click #searchHelp': function() {
-    const mainCollectionName = Template.instance().data.collectionName;
-    Modal.show('searchHelp', {
-      collection: mainCollectionName
-    });
-  }
-});
+import './filter-tag.html';
+import { getFilters } from '/imports/api/search/search-functions.js';
 
 function removeFilter(mainCollectionName, filter, val) {
   const searchOptions = Collections[mainCollectionName].index.getComponentDict().get('searchOptions'),
@@ -94,7 +23,7 @@ Template.filterTag.onCreated(function() {
 Template.filterTag.helpers({
   name: function() {
     const filter = Collections[this.mainCollectionName].filters[this.filter],
-          list = getList(this.mainCollectionName),
+          list = getFilters(this.mainCollectionName),
           filterKey = _.findKey(list, {'id': this.id}),
           prevIndex = filterKey - 1;
 
@@ -116,7 +45,7 @@ Template.filterTag.helpers({
     return filter.display + ' ' + this.id;
   },
   prefix: function() {
-    const list = getList(this.mainCollectionName),
+    const list = getFilters(this.mainCollectionName),
           filterKey = _.findKey(list, {'id': this.id}),
           existingFilters = [],
           existingId = [],

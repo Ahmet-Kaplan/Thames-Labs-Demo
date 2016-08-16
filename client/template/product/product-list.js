@@ -1,5 +1,7 @@
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
+import '/imports/ui/components/search/search-results.js';
+import '/imports/ui/components/search/local/small-box/small-search-box.js';
 
 Template.productList.onCreated(function() {
   // Redirect if read permission changed

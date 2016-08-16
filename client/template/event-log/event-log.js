@@ -1,3 +1,6 @@
+import '/imports/ui/components/search/search-results.js';
+import '/imports/ui/components/search/local/small-box/small-search-box.js';
+
 Template.events.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
