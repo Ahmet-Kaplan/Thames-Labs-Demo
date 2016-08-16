@@ -1,4 +1,5 @@
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/projects/project-details-panel.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
@@ -19,7 +20,7 @@ Template.projectDetail.onCreated(function() {
 
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadProjects');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadProjects');
   });
 
   // Subscribe to necessary data

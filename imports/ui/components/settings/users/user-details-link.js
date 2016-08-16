@@ -1,5 +1,6 @@
 import './modals/update-user.js';
 import './user-details-link.html';
+import bootbox from 'bootbox';
 
 Template.userDetailsLink.helpers({
   isSelf: function() {

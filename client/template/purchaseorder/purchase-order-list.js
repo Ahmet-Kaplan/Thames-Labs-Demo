@@ -1,3 +1,4 @@
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 
 Template.purchaseOrderList.onCreated(function() {
@@ -8,7 +9,7 @@ Template.purchaseOrderList.onCreated(function() {
       FlowRouter.go('/');
     }
 
-    redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
   });
   Session.set("showItems", false);
 

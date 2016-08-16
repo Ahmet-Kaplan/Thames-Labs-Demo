@@ -1,5 +1,6 @@
 import './favourite-item.html';
 import './modals/update-favourite-modal.js';
+import bootbox from 'bootbox';
 
 Template.favouriteItem.events({
   'click .edit-favourite': function() {

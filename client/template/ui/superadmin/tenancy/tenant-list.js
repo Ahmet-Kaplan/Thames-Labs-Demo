@@ -1,3 +1,5 @@
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+
 Template.tenantList.onCreated(function() {
 
   ServerSession.set('demoDataProgress', {
@@ -7,7 +9,7 @@ Template.tenantList.onCreated(function() {
   Meteor.call('setDemoDataFlag', false);
   // Redirect if not superadmin
   this.autorun(function() {
-    superAdminOnly(Meteor.userId());
+    permissionHelpers.superAdminOnly(Meteor.userId());
   });
 
   //Watch for demo data generation
