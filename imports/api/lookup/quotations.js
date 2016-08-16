@@ -1,4 +1,4 @@
-Quotations = [
+export const Quotations = [
   {
     "Quote": "Conversation should be pleasant without scurrility, witty without affectation, free without indecency, learned without conceitedness, novel without falsehood.",
     "Person": "William Shakespeare "

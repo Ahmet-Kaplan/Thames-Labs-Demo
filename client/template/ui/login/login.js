@@ -1,4 +1,4 @@
-import '/imports/api/lookup/quotations.js';
+import { Quotations } from '/imports/api/lookup/quotations.js';
 
 Template.login.onCreated(function() {
   this.subscribe('allNotifications');

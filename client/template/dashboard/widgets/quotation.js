@@ -1,4 +1,4 @@
-import '/imports/api/lookup/quotations.js';
+import { Quotations } from '/imports/api/lookup/quotations.js';
 Template.quotationWidget.helpers({
   quotationOfDay: function() {
     var date = new Date();
