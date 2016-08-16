@@ -1,4 +1,4 @@
-Schemas.Product = new SimpleSchema({
+export const ProductSchema = new SimpleSchema({
   sequencedIdentifier: {
     type: Number,
     label: "RealTime ID",
@@ -56,5 +56,3 @@ Schemas.Product = new SimpleSchema({
     defaultValue: new Date()
   }
 });
-
-Products.attachSchema(Schemas.Product);

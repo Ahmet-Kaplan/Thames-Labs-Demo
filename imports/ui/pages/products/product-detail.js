@@ -3,6 +3,7 @@ import sanitizeHtml from "sanitize-html";
 import bootbox from 'bootbox';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+import { Products } from '/imports/api/collections.js';
 
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/products/modals/update-product-modal.js';
