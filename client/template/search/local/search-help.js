@@ -5,33 +5,33 @@ Template.searchHelp.helpers({
         return [
           {
             name: 'Assignee',
-            description: 'Select amongst your users who the task is assigned to',
+            description: 'Show tasks assigned to the selected user',
             multiple: true
           },
           {
             name: 'Company',
-            description: 'The Company tasks have been raised against',
+            description: 'Shows tasks connected to the selected company',
             multiple: true
+          },
+          {
+            name: 'Completed',
+            description: 'Select whether to show or hide completed tasks',
+            multiple: false
           },
           {
             name: 'Contact',
-            description: 'The Contact tasks have been raised against',
+            description: 'Shows tasks connected to the selected contact',
             multiple: true
           },
           {
-            name: 'Opportunity',
-            description: 'The Opportunity tasks have been raised against',
-            multiple: true
+            name: 'Due After',
+            description: 'Shows tasks with a due date after the selected date',
+            multiple: false
           },
           {
-            name: 'Project',
-            description: 'The Project tasks have been raised against',
-            multiple: true
-          },
-          {
-            name: 'Tag',
-            description: 'Which tags are applied',
-            multiple: true
+            name: 'Due Before',
+            description: 'Shows tasks with a due date before the selected date',
+            multiple: false
           },
           {
             name: 'Due Date',
@@ -39,36 +39,41 @@ Template.searchHelp.helpers({
             multiple: false
           },
           {
-            name: 'Due After',
-            description: 'Start date',
-            multiple: false
+            name: 'Opportunity',
+            description: 'Shows tasks connected to the selected opportunity',
+            multiple: true
           },
           {
-            name: 'Due Before',
-            description: 'End date',
-            multiple: false
-          }
+            name: 'Project',
+            description: 'Shows tasks connected to the selected project',
+            multiple: true
+          },
+          {
+            name: 'Tag',
+            description: 'Shows tasks that have the selected tag',
+            multiple: true
+          },
         ];
       case 'companies':
         return [
           {
             name: 'City',
-            description: 'Displays the company if the city contains the searched value',
+            description: 'Shows the companies that are in the given city',
             multiple: true
           },
           {
             name: 'Country',
-            description: 'Displays the company if the country contains the searched value',
+            description: 'Shows the companies that are in the given country',
             multiple: true
           },
           {
             name: 'Postcode',
-            description: 'Displays the company if the postcode contains the searched value',
+            description: 'Shows the companies that are in the given postcode',
             multiple: true
           },
           {
             name: 'Tag',
-            description: 'Which tags are applied',
+            description: 'Shows companies that have the selected tag',
             multiple: true
           }
         ];
@@ -76,17 +81,27 @@ Template.searchHelp.helpers({
         return [
           {
             name: 'Company',
-            description: 'Select to which company(ies) the contact(s) belong to',
+            description: 'Shows the contacts connected to the given company',
             multiple: true
           },
           {
+            name: 'Forename',
+            description: 'Shows the contacts with a forename matching the given value. Useful for filtering by first letter of name (e.g "a" will return all contacts with forenames starting with the leter "a")',
+            multiple: false
+          },
+          {
+            name: 'Surname',
+            description: 'Works the same as forename, but for the surname',
+            multiple: false
+          },
+          {
             name: 'Phone',
-            description: 'Displays the contact if the phone number or mobile number contains the searched value',
+            description: 'Shows contacts with the given phone number',
             multiple: true
           },
           {
             name: 'Tag',
-            description: 'Which tags are applied',
+            description: 'Shows contacts that have the selected tag',
             multiple: true
           }
         ];
@@ -94,50 +109,80 @@ Template.searchHelp.helpers({
         return [
           {
             name: 'Company',
-            description: 'Select to which company(ies) the opportunity(ies) are related to',
+            description: 'Shows the opportunities connected to the given company',
+            multiple: true
+          },
+          {
+            name: 'Contact',
+            description: 'Shows the opportunities connected to the given contact',
+            multiple: true
+          },
+          {
+            name: 'Next Action',
+            description: 'Shows the opportunities were the next task is overdue or due today',
             multiple: true
           },
           {
             name: 'Phone',
-            description: 'Select to which contact(s) the opportunity(ies) are related to',
+            description: 'Shows opportunities with the given phone number',
+            multiple: true
+          },
+          {
+            name: 'Sales Manager',
+            description: 'Shows opportunities assigned to the selected user',
+            multiple: true
+          },
+          {
+            name: 'Stage',
+            description: 'Shows opportunities that are at the selected stage',
+            multiple: true
+          },
+          {
+            name: 'Status',
+            description: 'Shows opportunities with the selected status',
             multiple: true
           },
           {
             name: 'Tag',
-            description: 'Which tags are applied',
+            description: 'Shows opportunities with the selected tag',
             multiple: true
           },
           {
             name: 'Value <',
-            description: 'An upper limit for the value. Can be used together with Value >',
+            description: 'Shows opportunities with a value smaller than the given value. Can be used together with Value >',
             multiple: false
           },
           {
             name: 'Value >',
-            description: 'A lower limit for the value. Can be used together with Value <',
+            description: 'Shows opportunities with a value greater than the given value. Can be used together with Value <',
             multiple: false
           }
         ];
       case 'projects':
         return [
           {
+            name: 'Active',
+            description: 'Select whether to show or hide active projects',
+            mulitple: false
+          },
+          {
             name: 'Company',
-            description: 'Select to which company(ies) the project(s) are related to',
+            description: 'Shows the projects connected to the given company',
             multiple: true
           },
           {
             name: 'Contact',
-            description: 'Select to which contact(s) the project(s) are related to',
+            description: 'Shows the projects connected to the given contact',
             multiple: true
           },
           {
             name: 'Manager',
-            description: 'Select amongst your users who the task is assigned to',
+            description: 'Shows projects assigned to the given user',
             multiple: true
           },
           {
             name: 'Tag',
-            description: 'Which tags are applied',
+            description: 'Shows projects with the selected tag',
             multiple: true
           },
           {
@@ -147,58 +192,121 @@ Template.searchHelp.helpers({
           },
           {
             name: 'Due After',
-            description: 'Start date',
+            description: 'Shows projects with a due date after the selected date',
             multiple: false
           },
           {
             name: 'Due Before',
-            description: 'End date',
+            description: 'Shows projects with a due date before the selected date',
+            multiple: false
+          },
+          {
+            name: 'Value <',
+            description: 'Shows projects with a value smaller than the given value. Can be used together with Value >',
+            multiple: false
+          },
+          {
+            name: 'Value >',
+            description: 'Shows projects with a value greater than the given value. Can be used together with Value <',
             multiple: false
           }
         ];
       case 'purchaseorders':
         return [
           {
+            name: 'Active',
+            description: 'Select whether to show or hide active purchase orders',
+            mulitple: false
+          },
+          {
             name: 'Company',
-            description: 'Select to which company(ies) the purchase order(s) are related to',
+            description: 'Shows purchase orders connected to the given company',
             multiple: true
           },
           {
             name: 'Contact',
-            description: 'Select to which contact(s) the purchase order(s) are related to',
+            description: 'Shows purchase orders connected to the given company',
             multiple: true
           },
           {
             name: 'Status',
-            description: 'Select amongst the different statuses (' + Schemas.PurchaseOrder.schema().status.allowedValues.join(', ') + ')',
+            description: 'Shows projects with the selected status (' + Schemas.PurchaseOrder.schema().status.allowedValues.join(', ') + ')',
             multiple: true
+          },
+          {
+            name: 'Tag',
+            description: 'Shows products with the selected tag',
+            multiple: true
+          },
+          {
+            name: 'Total Price <',
+            description: 'Shows purchase orders with a total price smaller than the given value. Can be used together with Total Price >',
+            multiple: false
+          },
+          {
+            name: 'Total Price >',
+            description: 'Shows purchase orders with a total price greater than the given value. Can be used together with Total Price <',
+            multiple: false
           }
         ];
       case 'products':
         return [
           {
             name: 'Sales Price <',
-            description: 'An upper limit for the sales price. Can be used together with Sales Price >',
+            description: 'Shows products with a sales price smaller than the given value. Can be used together with Sales Price >',
             multiple: false
           },
           {
             name: 'Sales Price >',
-            description: 'A lower limit for the sales price. Can be used together with Sales Price <',
+            description: 'Shows products with a sales price greater than the given value. Can be used together with Sales Price <',
             multiple: false
           },
           {
             name: 'Cost Price <',
-            description: 'An upper limit for the cost price. Can be used together with Cost Price >',
+            description: 'Shows products with a cost price smaller than the given value. Can be used together with Cost Price >',
             multiple: false
           },
           {
             name: 'Cost Price >',
-            description: 'A lower limit for the cost price. Can be used together with Cost Price <',
+            description: 'Shows products with a cost price greater than the given value. Can be used together with Cost Price <',
             multiple: false
           },
           {
             name: 'Tag',
-            description: 'Which tags are applied',
+            description: 'Shows products with the selected tag',
+            multiple: true
+          }
+        ];
+      case 'activities':
+        return [
+          {
+            name: 'Activity Date',
+            description: 'Can be set by a specific date (e.g. ' + moment().format('DD/MM/YYYY') + ') or by an expression ([last/this/next] [week/month], today, tomorrow, yesterday',
+            mulitple: true
+          },
+          {
+            name: 'Date After',
+            description: 'Shows activities that happened after the selected date',
+            multiple: false
+          },
+          {
+            name: 'Date Before',
+            description: 'Shows activities that happened before the selected date',
+            multiple: false
+          },
+          {
+            name: 'Record Types',
+            description: 'Shows activities with the given record type (e.g companies)',
+            multiple: true
+          },
+          {
+            name: 'Tag',
+            description: 'Shows activities with the selected tag',
+            multiple: true
+          },
+          {
+            name: 'Type',
+            description: 'Shows activities of the selected type',
             multiple: true
           }
         ];
