@@ -161,7 +161,6 @@ Template.companyDetail.events({
   'click #companyTelephone': function(event, template) {
     Activities.insert({
       type: 'Call',
-      notes: Meteor.user().profile.name + ' made a call to ' + this.name,
       notes: `${Meteor.user().profile.name} made a call to ${this.name}`,
       createdAt: new Date(),
       activityTimestamp: new Date(),
