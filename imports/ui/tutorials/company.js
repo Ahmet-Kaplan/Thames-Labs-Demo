@@ -9,7 +9,7 @@ const tour = new Tour({
     {
       element: "#menu-link-companies",
       title: "Add a company",
-      content: "This interactive tutorial will take you through the steps for adding a company. In order to make the most of your experience with RealTimeCRM, you'll need some companies to work with. Let's go to the companies list - just click the company option on the nav bar.",
+      content: "This interactive tutorial will take you through the steps for adding a company. <br><br>  In order to make the most of your experience with RealTimeCRM, you'll need some companies to work with. Let's go to the companies list - just click the company option on the nav bar.",
       onNext: function() {
         FlowRouter.go('/companies');
       },
@@ -26,12 +26,9 @@ const tour = new Tour({
     {
       element: "#add-company",
       template: TourTemplates.defaultStepWithTitle("Add a company"),
-      content: "Below you can see a list of all your companies. To add a company, press the button above.",
+      content: "Below you can see a list of all your companies.  <br> To add a company, press the button above.",
       placement: "bottom",
-      reflex: true,
-      onNext: function() {
-        FlowRouter.go('/companies');
-      }
+      reflex: true
     },
     {
       element: "#companyName",
@@ -90,7 +87,7 @@ const tour = new Tour({
     {
       element: "#company-details",
       title: "Company details",
-      content: "This screen shows you the details about the selected company. From here, you can also edit and delete company information. This screen will show after creating a company and when a company is selected in the company list.",
+      content: "This screen shows you the details about the selected company. From here, you can also edit and delete company information.  <br><br>  This screen will show after creating a company and when a company is selected in the company list.",
       template: TourTemplates.finalStep,
       placement: "left",
       delay: 500

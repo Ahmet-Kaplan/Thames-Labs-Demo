@@ -75,7 +75,7 @@ const tour = new Tour({
   template: TourTemplates.defaultStep
 });
 
-const WelcomeTour = {
+const ExampleTour = {
   start() {
     tour.init();
     if (tour._current !== null) {
@@ -86,4 +86,4 @@ const WelcomeTour = {
   }
 };
 
-export { WelcomeTour };
+export { ExampleTour };
