@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Roles } from 'meteor/alanning:roles';
 import toastr from 'meteor/chrismbeckett:toastr';
+import bootbox from 'bootbox';
 
 import './opportunity-next-stage-button.html';
 

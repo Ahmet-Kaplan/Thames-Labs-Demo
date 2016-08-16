@@ -1,4 +1,5 @@
 import './insert-user.html';
+import bootbox from 'bootbox';
 
 AutoForm.hooks({
   insertUser: {

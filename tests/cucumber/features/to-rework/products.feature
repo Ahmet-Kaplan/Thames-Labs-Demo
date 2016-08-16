@@ -87,7 +87,7 @@ Feature: Allow users to manage their Products
     When I navigate to a product page
     And I click "#edit-product"
     And I set text field "name" to "updated product name"
-    And I submit the "editProduct" form
+    And I submit the "updateProduct" form
     Then "#product-name" should say "updated product name"
 
   Scenario: A user without permission cannot edit a product

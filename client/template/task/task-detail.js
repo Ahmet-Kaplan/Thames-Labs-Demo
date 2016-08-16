@@ -1,5 +1,6 @@
 import '/imports/ui/components/tasks/subtasks/subtask-list.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
+import bootbox from 'bootbox';
 
 Template.taskDetail.onCreated(function() {
   var taskId = FlowRouter.getParam('id');

@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "body-parser": "^1.15.0",
+    "bootbox": "^4.4.0",
     "chart.js": "^2.1.5",
     "d3": "^3.5.17",
     "d3-tip": "^0.6.7",
@@ -19,6 +20,7 @@
     "medium-editor": "^5.21.0",
     "meteor-node-stubs": "^0.2.3",
     "multer": "^1.1.0",
+    "sanitize-html": "^1.13.0",
     "sinon": "^1.17.5",
     "stripe": "^4.5.0",
     "toastr": "^2.1.2"
@@ -39,7 +41,7 @@
     "deploy": "modulus deploy --project-name realtimecrm --include-modules",
     "predeploy": "npm prune --production && npm install --production",
     "lint": "eslint --quiet .",
-    "precircle": "chmod +x .scripts/start.js && npm run lint",
+    "precircle": "chmod +x .scripts/start.js",
     "circle": "node .scripts/start.js",
     "android": "STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools meteor run android-device --settings settings.json",
     "ios": "STRIPE_PK=pk_test_W7Cx4LDFStOIaJ2g5DufAIaE STRIPE_SK=sk_test_CEgjj8xNKSrQMUrqC4puiHxA meteor run ios-device --settings settings.json",

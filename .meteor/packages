@@ -49,10 +49,8 @@ arillo:flow-router-helpers
 chart:chart
 percolate:migrations
 gildaspk:autoform-medium
-vazco:universe-html-purifier
 jeremy:geocomplete
 matb33:collection-hooks
-mizzao:bootboxjs
 digilord:faker
 kadira:flow-router
 kadira:blaze-layout

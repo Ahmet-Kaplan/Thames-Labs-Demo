@@ -1,5 +1,4 @@
-import { userCurrencySymbol } from '/imports/ui/components/currency/currency-symbol.js';
-import { decimal } from '/imports/ui/components/currency/decimal.js';
+import { currencyHelpers } from '/imports/api/currency/currency-helpers.js';
 import { Tracker } from 'meteor/tracker';
 
 Template.registerHelper('greaterThan', function(a, b) {
@@ -22,7 +21,7 @@ Template.registerHelper('indexedArray', function(context, options) {
 });
 
 Template.registerHelper('decimal', function(number) {
-  return decimal(number);
+  return currencyHelpers.toDecimal(number);
 });
 
 Template.registerHelper('longNumber', function(number) {
@@ -139,7 +138,7 @@ Template.registerHelper('userCurrency', function() {
 });
 
 Template.registerHelper('userCurrencySymbol', function() {
-  return userCurrencySymbol();
+  return currencyHelpers.userCurrencySymbol();
 });
 
 Template.registerHelper('setSelected', function(value, option) {

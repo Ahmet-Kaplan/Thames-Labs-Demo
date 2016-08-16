@@ -1,9 +1,11 @@
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
+
 
 Template.projectsList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadProjects');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadProjects');
   });
 
   // Store search index dict on template to allow helpers to access

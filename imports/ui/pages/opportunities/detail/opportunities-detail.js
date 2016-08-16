@@ -7,7 +7,9 @@ import '/imports/ui/components/opportunities/modals/insert/insert-opp-item-modal
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import './opportunities-detail.less';
 import './opportunities-detail.html';
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
+import bootbox from 'bootbox';
 
 Template.opportunityDetail.onCreated(function() {
   const id = FlowRouter.getParam('id');
@@ -25,7 +27,7 @@ Template.opportunityDetail.onCreated(function() {
     }
 
     // Redirect if read permission changed
-    redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
   });
 
 });
