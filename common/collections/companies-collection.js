@@ -199,8 +199,6 @@ Companies.before.insert(function(userId, doc) {
         doc.website = "http://" + currentWebsite;
       }
     }
-  } else {
-    doc.website = null;
   }
 
   var user = Meteor.users.findOne(userId);
