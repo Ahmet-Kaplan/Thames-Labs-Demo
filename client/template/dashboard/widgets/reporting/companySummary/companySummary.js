@@ -23,7 +23,7 @@ Template.companySummaryWidget.onRendered(function() {
   Meteor.call('report.numberOfProjects', function(err, data) {
     template.totalProjects.set(data.Count);
   });
-  Meteor.call('report.numberOfOpportunities', function(err, data) {
+  Meteor.call('report.openOpportunities', function(err, data) {
     template.totalOpportunities.set(data.Count);
   });
   Meteor.call('report.numberOfProducts', function(err, data) {
@@ -48,7 +48,7 @@ Template.companySummaryWidget.events({
     Meteor.call('report.numberOfProjects', function(err, data) {
       template.totalProjects.set(data.Count);
     });
-    Meteor.call('report.numberOfOpportunities', function(err, data) {
+    Meteor.call('report.openOpportunities', function(err, data) {
       template.totalOpportunities.set(data.Count);
     });
     Meteor.call('report.numberOfProducts', function(err, data) {
@@ -81,5 +81,5 @@ Template.companySummaryWidget.helpers({
   },
   totalPo: function() {
     return Template.instance().totalPo.get();
-  },
+  }
 });
