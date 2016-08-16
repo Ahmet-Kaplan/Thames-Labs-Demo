@@ -150,7 +150,7 @@ Template.filterBox.onRendered(function() {
   var self = this;
 
   var $select = $('#filterBox').selectize({
-    placeholder: 'Apply filters...',
+    placeholder: this.data.placeholder,
     valueField: '_id',
     labelField: 'name',
     searchField: ['name'],
