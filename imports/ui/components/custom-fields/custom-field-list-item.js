@@ -1,5 +1,6 @@
 import './custom-field-list-item.html';
 import './customfield.css';
+import bootbox from 'bootbox';
 
 Template.cfDisplay.helpers({
   parentHelper: function(parentContext) {

@@ -1,7 +1,8 @@
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 Template.taskList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadTasks');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadTasks');
   });
 
   // Store search index dict on template to allow helpers to access

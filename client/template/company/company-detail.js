@@ -11,6 +11,9 @@ import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-company-purchase-order.js';
 
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+import bootbox from 'bootbox';
+
 Template.companyDetail.onCreated(function() {
   this.oppStats = new ReactiveVar({});
   // Redirect if data doesn't exist
@@ -33,7 +36,7 @@ Template.companyDetail.onCreated(function() {
 
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
   });
 
   // Subscribe to necessary data

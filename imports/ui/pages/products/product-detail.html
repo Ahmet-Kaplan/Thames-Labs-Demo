@@ -30,7 +30,7 @@
           {{#if desc}}
           <li class="list-group-item panel-item-header">
             <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
-            {{{desc}}}
+            <span class="product-description">{{{desc}}}</span>
           </li>
           {{/if}}
           {{#if price}}
@@ -64,50 +64,4 @@
   {{/if}}
 
   {{/with}}
-</template>
-
-<template name="updateProductModal">
-  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4>Update product</h4>
-        </div>
-
-        <div class="modal-body">
-          {{#autoForm collection="Products" id="editProductForm" type="update" doc=this}}
-            {{> afQuickField name="name" id="name-field"}}
-            {{#if IsIEAnd10OrGreater}}
-              {{> afQuickField name="description"}}
-            {{else}}
-              {{> afQuickField name="description" type="medium" class="form-control medium-editor" id="desc-field"}}
-            {{/if}}
-    
-            <div class="form-group">
-              <label for="sale-price" class="control-label">Sale Price</label>
-              <div class="input-group">
-                <span class="input-group-addon">{{userCurrencySymbol}}</span>
-                <input type="number" name="price" id="sale-price" data-schema-key="price" step="0.01" class="form-control" value={{this.price}}>
-              </div>
-              <span class="help-block"></span>
-            </div>
-
-            <div class="form-group">
-              <label for="cost-price" class="control-label">Cost Price</label>
-              <div class="input-group">
-                <span class="input-group-addon">{{userCurrencySymbol}}</span>
-                <input type="number" name="cost" id="cost-price" data-schema-key="cost" step="0.01" class="form-control" value={{this.cost}}>
-              </div>
-              <span class="help-block"></span>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Update</button>
-          {{/autoForm}}
-        </div>
-
-      </div>
-    </div>
-  </div>
 </template>

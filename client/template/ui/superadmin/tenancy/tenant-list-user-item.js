@@ -1,3 +1,4 @@
+import bootbox from 'bootbox';
 Template.tenantListUserItem.helpers({
   friendlyLastLogin: function() {
     if (this.profile.lastLogin === null) {

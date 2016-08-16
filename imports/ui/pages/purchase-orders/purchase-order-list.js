@@ -1,3 +1,4 @@
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-purchase-order.js';
 import '/imports/ui/components/purchase-orders/purchase-order-list-item.js';
@@ -12,7 +13,7 @@ Template.purchaseOrderList.onCreated(function() {
       FlowRouter.go('/');
     }
 
-    redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
   });
   Session.set("showItems", false);
 

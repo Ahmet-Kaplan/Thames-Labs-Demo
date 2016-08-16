@@ -1,3 +1,4 @@
+import bootbox from 'bootbox';
 Template.signUp.onCreated(function() {
   // Redirect if logged in
   this.autorun(function() {

@@ -1,5 +1,6 @@
 import './project-details-panel.html';
 import './modals/project-extract-help-modal.html';
+import bootbox from 'bootbox';
 
 Template.projectDetailsPanel.onRendered(function() {
   $.getScript('/vendor/docxgen.min.js');

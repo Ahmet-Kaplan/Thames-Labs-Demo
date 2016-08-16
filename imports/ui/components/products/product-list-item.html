@@ -1,0 +1,22 @@
+<template name="productListItem">
+  <a class="list-group-item product-item" href="{{pathFor route='product' id=__originalId}}" id="list-item">
+    <div class="row">
+      <div class="col-md-3">
+        <h4 class="list-group-item-heading">{{{prodName}}}</h4>
+      </div>
+      <div class="col-md-3">
+        {{#if price}}
+          <i class="fa fa-fw fa-credit-card"></i> Sales Price: {{decimalPrice}}
+        {{/if}}
+      </div>
+      <div class="col-md-3">
+        {{#if cost}}
+          <i class="fa fa-fw fa-{{userCurrencyIcon}}"></i> Cost Price: {{decimalCost}}
+        {{/if}}
+      </div>
+      <div class="col-md-3">
+        {{> tagBadges tags=tags index=index pullRight=true}}
+      </div>
+    </div>
+  </a>
+</template>
