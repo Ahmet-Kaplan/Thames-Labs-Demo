@@ -24,7 +24,7 @@ const tour = new Tour({
       }
     },
     {
-      element: "#add-company",
+      element: "#add-contact",
       template: TourTemplates.defaultStepWithTitle("Add a contact"),
       content: "Below you can see a list of all your contacts. <br> To add a contact, press the button above.",
       placement: "bottom",

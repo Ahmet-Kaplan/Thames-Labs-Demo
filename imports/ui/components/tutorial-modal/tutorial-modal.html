@@ -1,0 +1,36 @@
+<template name="tutorialModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content panel panel-default tutorials">
+        <li class="list-group-item modal-header">
+          <h3>Tutorials
+            <button type="button" id="close" class="close pull-right" data-dismiss="modal" aria-hidden="true">×</button>
+          </h3>
+        </li>
+        <ul class="modal-body list-group">
+          <li class="list-group-item">
+            <p class="list-group-item-text">
+              We want to help you get the most out of RealTimeCRM, so we've put together some handy tutorials.
+              Click one of the below tutorials for a guided tour that will teach you how to use RealTimeCRM, at your own pace.
+              <br>
+            </p>
+            <h4 class="tutorials-title">Show me how to...</h4>
+          </li>
+          <li class="list-group-item tutorial-heading">Companies</li>
+          <a href="#" id="tutorial-add-company" class="list-group-item"><i class="fa fa-fw fa-building"></i>add a company</a>
+          <a href="#" id="tutorial-add-company-tag" class="list-group-item"><i class="fa fa-fw fa-tag"></i>add a tag to a company</a>
+          <li class="list-group-item tutorial-heading">Contacts</li>
+          <a href="#" id="tutorial-add-contact" class="list-group-item"><i class="fa fa-fw fa-user"></i>add a contact</a>
+          {{#if isInRole 'Administrator'}}
+            <li class="list-group-item tutorial-heading">Admin</li>
+            <a href="#" id="tutorial-add-user" class="list-group-item"><i class="fa fa-fw fa-users"></i>add a user to RealTimeCRM</a>
+          {{/if}}
+          <li class="list-group-item"><i class="fa fa-fw fa-wrench"></i>Watch this space! We'll be adding more tutorials soon.</li>
+          <li href="#" class="list-group-item">
+            <p>We always welcome your questions and feedback. Just click 'Give Feedback' in the user menu or chat to us by clicking 'Help and Support' at the bottom left of the screen.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
