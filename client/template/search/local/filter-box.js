@@ -1,6 +1,6 @@
-var currentFilter = new ReactiveVar({});
-var searchInput = new ReactiveVar('');
-var activeSelection = new ReactiveVar({});
+const currentFilter = new ReactiveVar({}),
+      searchInput = new ReactiveVar(''),
+      activeSelection = new ReactiveVar({});
 
 function updateActiveSelection() {
   if ($('#filtersSearch').find('.active').length) {
@@ -12,72 +12,72 @@ function updateActiveSelection() {
 }
 
 function displayFilter(mainCollectionName, selectize, template) {
-  var filters = Collections[mainCollectionName].filters;
+  let filters = Collections[mainCollectionName].filters;
   filters = _.sortBy(filters, 'display');
 
   template.handle = Tracker.autorun(function() {
-    var search = searchInput.get();
-    var matchedFilters = _.some(filters, function(filter) {
+    const search = searchInput.get(),
+          matchedFilters = _.some(filters, function(filter) {
 
-      var filterRegexp = new RegExp(filter.display.trim(), 'i');
+            const filterRegexp = new RegExp(filter.display.trim(), 'i');
 
-      if (filterRegexp.test(search)) {
+            if (filterRegexp.test(search)) {
 
-        currentFilter.set(filter);
+              currentFilter.set(filter);
 
-        //Retrieve search input to update the filter's dropdown
-        var searchString = search.toLowerCase().split(filter.display.toLowerCase())[1] ? search.toLowerCase().split(filter.display.toLowerCase())[1].trim() : '';
-        //Defined additional props if needed (e.g. tags are restricted to the current collection)
-        var props = filter.autosuggestFilter || {};
-        props.autosuggest = true;
+              //Retrieve search input to update the filter's dropdown
+              const searchString = search.toLowerCase().split(filter.display.toLowerCase())[1] ? search.toLowerCase().split(filter.display.toLowerCase())[1].trim() : '',
+                    //Defined additional props if needed (e.g. tags are restricted to the current collection)
+                    props = filter.autosuggestFilter || {};
+              props.autosuggest = true;
 
-        selectize.clearOptions();
+              selectize.clearOptions();
 
-        //If filter is searchable, i.e. has a collection (unlike date, value...)
-        if (filter.collectionName) {
-          var recordsCursor = Collections[filter.collectionName].index.search(searchString, {
-            props: props
-          });
-          if (recordsCursor.isReady()) {
-            var records = recordsCursor.fetch();
-            _.each(records, function(record) {
-              selectize.addOption({
-                _id: record[filter.valueField],
-                name: filter.display + ' ' + record[filter.nameField]
-              });
-            });
-          }
+              //If filter is searchable, i.e. has a collection (unlike date, value...)
+              if (filter.collectionName) {
+                const recordsCursor = Collections[filter.collectionName].index.search(searchString, {
+                  props: props
+                });
+                if (recordsCursor.isReady()) {
+                  const records = recordsCursor.fetch();
+                  _.each(records, function(record) {
+                    selectize.addOption({
+                      _id: record[filter.valueField],
+                      name: filter.display + ' ' + record[filter.nameField]
+                    });
+                  });
+                }
 
-          //If filter doesn't have collection, allow creation to handle the search
-        } else {
-          //If fixed default options have been set, list them
-          if (filter.defaultOptions) {
-            _.each(filter.defaultOptions(), function(option, i) {
-              selectize.addOption({
-                _id: 'setUnlistedFilter' + i,
-                name: filter.display + ' ' + option
-              });
-            });
-            //If defaultOptions are not the only possible values
-            if (filter.strict !== true) {
-              selectize.addOption({
-                _id: 'setUnlistedFilter',
-                name: search
-              });
+                //If filter doesn't have collection, allow creation to handle the search
+              } else {
+                //If fixed default options have been set, list them
+                if (filter.defaultOptions) {
+                  _.each(filter.defaultOptions(), function(option, i) {
+                    selectize.addOption({
+                      _id: 'setUnlistedFilter' + i,
+                      name: filter.display + ' ' + option
+                    });
+                  });
+                  //If defaultOptions are not the only possible values
+                  if (filter.strict !== true) {
+                    selectize.addOption({
+                      _id: 'setUnlistedFilter',
+                      name: search
+                    });
+                  }
+                } else {
+                  selectize.addOption({
+                    _id: 'setUnlistedFilter',
+                    name: search
+                  });
+                }
+              }
+
+              selectize.refreshOptions(true);
+              return true;
             }
-          } else {
-            selectize.addOption({
-              _id: 'setUnlistedFilter',
-              name: search
-            });
-          }
-        }
 
-        selectize.refreshOptions(true);
-        return true;
-      }
-
-    });
+          });
 
     //If no match, the user may have erased the entry
     //so the list is no longer valid
@@ -95,6 +95,11 @@ function displayFilter(mainCollectionName, selectize, template) {
 }
 
 function applyFilter(text, value, mainCollectionName, selectize) {
+
+  const filter = currentFilter.get(),
+        searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {},
+        updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
+
   //If user clicked on an item in the generated filters list, trigger filter display
   if (value.search('setFilter') !== -1) {
     selectize.clearOptions();
@@ -103,7 +108,6 @@ function applyFilter(text, value, mainCollectionName, selectize) {
 
     //If the filter is not a predefined value (e.g. date)
   } else if (value.search("setUnlistedFilter") !== -1) {
-    const filter = currentFilter.get();
     text = text.split(filter.display);
     value = text[text.length - 1].trim();
 
@@ -114,8 +118,6 @@ function applyFilter(text, value, mainCollectionName, selectize) {
     }
     //Apply prop taking into account whether the filter accepts multiple values or not
     if (filter.allowMultiple === true) {
-      const searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
-      const updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
       updatedProp.push(value);
       //Note that only strings can be passed, the array is passed as a comma separated list
       Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, updatedProp.join(','));
@@ -128,14 +130,10 @@ function applyFilter(text, value, mainCollectionName, selectize) {
 
     //Otherwise apply the said filter
   } else {
-    const filter = currentFilter.get();
-    var filterRegexp = new RegExp(filter.display.trim(), 'i');
+    const filterRegexp = new RegExp(filter.display.trim(), 'i');
 
     if (filterRegexp.test(text)) {
-      const searchProps = Collections[mainCollectionName].index.getComponentDict().get('searchOptions').props || {};
-      const updatedProp = (typeof searchProps[filter.prop] === 'string') ? searchProps[filter.prop].split(',') : [];
       updatedProp.push(value);
-
       //Note that only strings can be passed, the array is passed as a comma separated list
       Collections[mainCollectionName].index.getComponentMethods().addProps(filter.prop, updatedProp.join(','));
       selectize.clearOptions();
@@ -145,11 +143,11 @@ function applyFilter(text, value, mainCollectionName, selectize) {
 }
 
 Template.filterBox.onRendered(function() {
-  var mainCollectionName = this.data.collectionName;
+  const mainCollectionName = this.data.collectionName,
+        self = this;
   this.handle = null;
-  var self = this;
 
-  var $select = $('#filterBox').selectize({
+  const $select = $('#filterBox').selectize({
     placeholder: this.data.placeholder,
     valueField: '_id',
     labelField: 'name',
@@ -184,10 +182,10 @@ Template.filterBox.onRendered(function() {
   //Trick to handle the use of enter key twice which is not taken care of by Selectize
   $('#filtersSearch').on('keyup', function(evt) {
     if (evt.keyCode === 13) {
-      var data = activeSelection.get();
+      const data = activeSelection.get();
       if (data && data.text && data.value) {
-        var text = data.text;
-        var value = data.value;
+        const text = data.text,
+              value = data.value;
         applyFilter(text, value, mainCollectionName, $($select)[0].selectize);
       }
     }

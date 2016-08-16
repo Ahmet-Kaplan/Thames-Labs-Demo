@@ -25,7 +25,7 @@ Template.globalSearch.helpers({
 
 Template.globalSearch.events({
   "autocompleteselect input": function(event, template, doc) {
-    var url = template.firstNode.baseURI;
+    const url = template.firstNode.baseURI;
     if (url.indexOf("companies") > -1) {
       FlowRouter.go("/companies/" + doc._id);
     } else if (url.indexOf("contacts") > -1) {

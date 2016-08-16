@@ -3,18 +3,18 @@ Template.searchBox.onRendered(function() {
 });
 
 export const getList = (collectionName) => {
-  var searchIndex = Collections[collectionName].index;
-  var searchOptions = searchIndex.getComponentDict().get('searchOptions');
-  var filtersList = [];
+  const searchIndex = Collections[collectionName].index,
+        searchOptions = searchIndex.getComponentDict().get('searchOptions'),
+        filtersList = [];
 
   if (searchOptions && searchOptions.props) {
     _.each(searchOptions.props, function(propValues, propIndex) {
-      var values = propValues.split(',');
-      var filter = Collections[collectionName].filters[propIndex];
+      const values = propValues.split(','),
+            filter = Collections[collectionName].filters[propIndex];
 
       //Check that the filter exist as some props might be defined independantly from filters
       if (filter) {
-        var unified = _.union(values);
+        const unified = _.union(values);
         _.each(unified, function(value) {
           filtersList.push({
             filter: propIndex,
@@ -33,7 +33,7 @@ Template.searchBox.helpers({
     return getList(Template.instance().data.collectionName);
   },
   index: function() {
-    var mainCollectionName = Template.instance().data.collectionName;
+    const mainCollectionName = Template.instance().data.collectionName;
     return Collections[mainCollectionName].index;
   },
   showFilters: function() {
@@ -48,7 +48,7 @@ Template.searchBox.events({
     if (Session.get('search.showFilters')) {
       Session.set('search.showFilters', false);
     } else {
-      var selectize = $('#filterBox')[0].selectize;
+      const selectize = $('#filterBox')[0].selectize;
       selectize.clearOptions();
       Meteor.setTimeout(function() {
         $('#filtersSearch input').focus();
@@ -58,14 +58,14 @@ Template.searchBox.events({
     $(e.target).blur();
   },
   'click #resetSearch': function() {
-    var mainCollectionName = Template.instance().data.collectionName;
-    var indexMethods = Collections[mainCollectionName].index.getComponentMethods();
+    const mainCollectionName = Template.instance().data.collectionName,
+          indexMethods = Collections[mainCollectionName].index.getComponentMethods();
     indexMethods.removeProps();
     indexMethods.search('');
     $('input.easysearch-input').val('');
   },
   'click #searchHelp': function() {
-    var mainCollectionName = Template.instance().data.collectionName;
+    const mainCollectionName = Template.instance().data.collectionName;
     Modal.show('searchHelp', {
       collection: mainCollectionName
     });
@@ -73,8 +73,8 @@ Template.searchBox.events({
 });
 
 function removeFilter(mainCollectionName, filter, val) {
-  var searchOptions = Collections[mainCollectionName].index.getComponentDict().get('searchOptions');
-  var currentProp = searchOptions.props[filter].split(',');
+  const searchOptions = Collections[mainCollectionName].index.getComponentDict().get('searchOptions'),
+        currentProp = searchOptions.props[filter].split(',');
   currentProp.splice(currentProp.indexOf(val), 1);
 
   //If still have values, update prop. Otherwise remove it
@@ -147,10 +147,10 @@ Template.filterTag.helpers({
 Template.filterTag.events({
   'click .removeProp': function(e) {
     e.preventDefault();
-    var mainCollectionName = this.mainCollectionName;
-    var id = e.target.id;
-    var prop = id.split('_')[0];
-    var val = id.split('_')[1];
+    const mainCollectionName = this.mainCollectionName,
+          id = e.target.id,
+          prop = id.split('_')[0],
+          val = id.split('_')[1];
     removeFilter(mainCollectionName, prop, val);
   }
 });
