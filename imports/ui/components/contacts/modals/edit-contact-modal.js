@@ -1,3 +1,5 @@
+import './edit-contact-modal.html';
+
 Template.updateContactModal.onCreated(function() {
   // Load google maps
   GoogleMaps.load({

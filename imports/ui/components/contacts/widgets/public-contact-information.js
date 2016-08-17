@@ -1,3 +1,5 @@
+import './public-contact-information.html';
+
 Template.publicContactInformation.events({
   'click .upgrade-prompt': function(event, template) {
     event.preventDefault();

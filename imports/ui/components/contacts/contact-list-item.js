@@ -1,3 +1,5 @@
+import './contact-list-item.html';
+import './contact-list-item.css';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 
 Template.contactListItem.onRendered(function() {
