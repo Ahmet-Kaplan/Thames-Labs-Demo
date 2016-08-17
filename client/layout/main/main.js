@@ -1,4 +1,4 @@
-import { loadTawkTo, updateTawkToVisitor } from '/imports/ui/components/tawk-to/tawk-to.js';
+import { loadTawkTo, updateTawkToVisitor } from '/imports/api/tawk-to/tawk-to.js';
 
 Template.appLayout.onCreated(function() {
 });
