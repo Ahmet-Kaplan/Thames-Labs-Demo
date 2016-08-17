@@ -42,27 +42,3 @@
     {{/if}}
   {{/if}}
 </template>
-
-<template name="wordHelpModal">
-  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4>Help on templates</h4>
-        </div>
-        <div class="modal-body">
-          <p>Start by creating a Microsoft Word Document to act as a template. Include the keywords below where needed in the document, and select "Microsoft Word Template". In the file finder, select the template file you just created. RealTime will replace the keywords with their relative values, and download a new version of the file for you.</p>
-          <p>Keywords which are recognised by RealTime:</p>
-          <ul>
-            <li>{name} - Company name</li>
-            <li>{address} - 1st line of company address</li>
-            <li>{city} - Company's city / town</li>
-            <li>{county} - Company's county / state</li>
-            <li>{postcode} - Company's postcode / zip</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
