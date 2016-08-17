@@ -1,3 +1,4 @@
+import bootbox from 'bootbox';
 Template.tenantListItem.helpers({
   toBeDeleted: function() {
     return this.settings.toBeDeleted === true;

@@ -1,12 +1,15 @@
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/search/search-results.js';
 import '/imports/ui/components/search/local/small-box/small-search-box.js';
+import '/imports/ui/components/products/product-list-item.js';
+import './product-list.html';
 
 Template.productList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadProducts');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadProducts');
   });
   this.totalProducts = new ReactiveVar(0);
   this.totalProductsCost = new ReactiveVar(0);
@@ -16,7 +19,7 @@ Template.productList.onCreated(function() {
 });
 
 Template.productList.onRendered(function() {
-  var template = this;
+  const template = this;
 
   this.autorun(() => {
     this.productCount.set(Collections['products'].index.getComponentDict().get('count'));
@@ -77,13 +80,5 @@ Template.productList.helpers({
   },
   hasMultipleProducts: function() {
     return Template.instance().productCount.get() !== 1;
-  }
-});
-
-Template.productListItem.helpers({
-  prodName: function() {
-    const searchDef = Template.currentData().index.getComponentDict().get('searchDefinition');
-    var pattern = new RegExp(searchDef, 'gi');
-    return Template.currentData().name.replace(pattern, '<span class="highlighted-search">$&</span>');
   }
 });

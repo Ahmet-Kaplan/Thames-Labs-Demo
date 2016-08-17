@@ -1,11 +1,15 @@
 import './project-details-panel.html';
 import './modals/project-extract-help-modal.html';
+import bootbox from 'bootbox';
 
 Template.projectDetailsPanel.onRendered(function() {
   $.getScript('/vendor/docxgen.min.js');
 });
 
 Template.projectDetailsPanel.helpers({
+  taskOverDue: function() {
+    return moment().isAfter(this.nextActionDue);
+  },
   friendlyDueDate: function() {
     return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
   },

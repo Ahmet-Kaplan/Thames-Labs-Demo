@@ -209,6 +209,19 @@ Collections.projects.filters = {
       return true;
     }
   },
+  nextAction: {
+    display: 'Next Action:',
+    prop: 'nextAction',
+    defaultOptions: function() {
+      return ['Overdue', 'Due Today', 'None'];
+    },
+    strict: true,
+    allowMultiple: false,
+    verify: function(nextAction) {
+      if (!nextAction) return false;
+      return nextAction;
+    }
+  },
 };
 
 ////////////////////
@@ -260,6 +273,25 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
       //     $ne: false
       //   };
       // }
+
+      if (options.search.props.nextAction) {
+        if(options.search.props.nextAction === "Overdue") {
+          selector.nextActionDue = {
+            $lt: moment().toDate()
+          };
+        } else if(options.search.props.nextAction === "Due Today") {
+          var startToday = new Date(moment().year(), moment().month(), moment().date(), '0', '0', '0');
+          var endToday = new Date(moment().year(), moment().month(), moment().date(), '23', '59', '59');
+          selector.nextActionDue = {
+            $gte: startToday,
+            $lt: endToday
+          };
+        } else {
+          selector.nextActionDue = {
+            $exists: false
+          };
+        }
+      }
 
       if (options.search.props.supplierCompanyId) {
         selector.companyId = options.search.props.supplierCompanyId;

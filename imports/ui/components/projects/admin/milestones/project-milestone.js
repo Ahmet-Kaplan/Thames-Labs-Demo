@@ -1,5 +1,6 @@
 import './project-milestone.html';
 import './modals/update-project-milestone.js';
+import bootbox from 'bootbox';
 
 Template.projectMilestone.events({
   'click .project-milestone-link': function(event, template) {

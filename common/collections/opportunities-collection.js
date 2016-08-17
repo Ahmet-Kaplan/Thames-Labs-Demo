@@ -122,14 +122,12 @@ Collections.opportunities.filters = {
     strict: true,
     defaultOptions: function() {
       var tenant = Tenants.findOne();
-      console.log(tenant);
       var map = _.map(tenant.settings.opportunity.stages, function(s) {
         return s.title;
       });
       return map;
     },
     displayValue: function(stage) {
-      console.log(stage);
       if (stage) {
         return stage;
       }

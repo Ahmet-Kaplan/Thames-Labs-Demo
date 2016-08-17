@@ -1,7 +1,6 @@
-Template.insertProductModal.helpers({
-  currentUser: function() {
-    return Meteor.userId();
-  },
+import './update-product-modal.html';
+
+Template.updateProductModal.helpers({
   IsIEAnd10OrGreater: function() {
     if (bowser.msie && bowser.version > 9) {
       return true;
@@ -12,10 +11,10 @@ Template.insertProductModal.helpers({
 });
 
 AutoForm.hooks({
-  insertProductForm: {
+  updateProductForm: {
     onSuccess: function() {
       Modal.hide();
-      toastr.success('Product created.');
+      toastr.success('Product updated.');
     }
   }
 });
