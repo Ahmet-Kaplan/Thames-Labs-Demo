@@ -8,7 +8,7 @@ Template.insertCompanyContactModal.helpers({
     return this.name;
   },
   showTitleField: function() {
-    var tenant = Tenants.findOne({
+    const tenant = Tenants.findOne({
       _id: Meteor.user().group
     });
     if (tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) return true;
@@ -18,11 +18,11 @@ Template.insertCompanyContactModal.helpers({
 
 Template.insertCompanyContactModal.onRendered(function() {
   if (Meteor.user()) {
-    var tenant = Tenants.findOne({
+    const tenant = Tenants.findOne({
       _id: Meteor.user().group
     });
     if (tenant) {
-      var options = [];
+      let options = [];
       if (tenant.settings.contact.titles) {
         options = _.map(tenant.settings.contact.titles.split(','), function(input) {
           return {

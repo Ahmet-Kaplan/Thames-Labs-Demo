@@ -16,11 +16,11 @@ Template.insertContactModal.events({
 
 Template.insertContactModal.onRendered(function() {
   if (Meteor.user()) {
-    var tenant = Tenants.findOne({
+    const tenant = Tenants.findOne({
       _id: Meteor.user().group
     });
     if (tenant) {
-      var options = [];
+      let options = [];
       if (tenant.settings.contact.titles) {
         options = _.map(tenant.settings.contact.titles.split(','), function(input) {
           return {
@@ -45,7 +45,7 @@ Template.insertContactModal.onRendered(function() {
   $('#draggableModal').draggable({
     grid: [50, 50],
     handle: '.modal-header',
-    opacity: 0.35,
+    opacity: 0.35
   });
 
   this.autorun(function() {
@@ -54,17 +54,17 @@ Template.insertContactModal.onRendered(function() {
         details: "#insertContactForm",
         detailsAttribute: "data-geo"
       }).bind("geocode:result", function(event, result) {
-        var address = "";
-        var strNumber = _.find(result.address_components, function(elt) {
-          return elt.types[0] == "street_number";
-        });
+        let address = "",
+            strNumber = _.find(result.address_components, function(elt) {
+              return elt.types[0] == "street_number";
+            });
 
         if (typeof strNumber !== 'undefined') {
           strNumber = strNumber.long_name;
           address += strNumber + " ";
         }
 
-        var route = _.find(result.address_components, function(elt) {
+        let route = _.find(result.address_components, function(elt) {
           return elt.types[0] == "route";
         });
 
@@ -76,16 +76,16 @@ Template.insertContactModal.onRendered(function() {
         $("#address_details").show();
         $("#map_wrapper").show();
         $("#map_canvas").height("400px");
-        var map = new google.maps.Map(document.getElementById("map_canvas"), {
-          zoom: 16,
-          center: result.geometry.location,
-          scrollwheel: false
-        });
-        var marker = new google.maps.Marker({
-          map: map,
-          position: result.geometry.location,
-          draggable: true
-        });
+        const map = new google.maps.Map(document.getElementById("map_canvas"), {
+                zoom: 16,
+                center: result.geometry.location,
+                scrollwheel: false
+              }),
+              marker = new google.maps.Marker({
+                map: map,
+                position: result.geometry.location,
+                draggable: true
+              });
         google.maps.event.addListener(marker, "dragend", function() {
           $("input[name=lat]").val(marker.getPosition().lat());
           $("input[name=lng]").val(marker.getPosition().lng());
@@ -105,7 +105,7 @@ Template.insertContactModal.helpers({
     return Meteor.userId();
   },
   showTitleField: function() {
-    var tenant = Tenants.findOne({
+    const tenant = Tenants.findOne({
       _id: Meteor.user().group
     });
     if (tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) return true;
@@ -122,5 +122,3 @@ Template.insertContactModal.events({
     }
   }
 });
-
-

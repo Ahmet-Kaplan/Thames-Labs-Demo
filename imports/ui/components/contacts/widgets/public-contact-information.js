@@ -11,7 +11,7 @@ Template.publicContactInformation.events({
 
 Template.publicContactInformation.helpers({
   isProTenant: function() {
-    var user = Meteor.user();
+    const user = Meteor.user();
     return isProTenant(user.group);
   },
   hasMetadata: function() {
