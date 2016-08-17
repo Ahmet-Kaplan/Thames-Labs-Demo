@@ -1,7 +1,7 @@
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-purchase-order.js';
-import '/imports/ui/components/purchase-orders/purchase-order-list-item.js';
+import '/imports/ui/components/purchase-orders/list-item/purchase-order-list-item.js';
 
 import './purchase-order-list.html';
 
