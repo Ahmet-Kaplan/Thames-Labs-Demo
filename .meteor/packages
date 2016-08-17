@@ -27,10 +27,8 @@ http
 meteorhacks:kadira
 meteorhacks:kadira-profiler
 zimme:active-route
-erasaur:notification-badge
 tmeasday:presence
 manuel:reactivearray
-panphora:environment-template-helpers
 local:partitioner
 nemo64:bootstrap@=3.3.4_2
 less
