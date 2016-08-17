@@ -4,9 +4,7 @@ import { ProductFilters } from './filters.js';
 
 class ProductsCollection extends Mongo.Collection {
   insert(doc, callback) {
-    const ourDoc = doc;
-    ourDoc.createdAt = ourDoc.createdAt || new Date();
-    const result = super.insert(ourDoc, callback);
+    const result = super.insert(doc, callback);
     return result;
   }
   update(selector, modifier) {
@@ -33,6 +31,7 @@ Products.filters = ProductFilters;
 
 
 // COLLECTION HOOKS //
+// Eventually these should be migrated into the ProductsCollection class
 Products.before.insert(ProductHooks.beforeInsert);
 Products.after.insert(ProductHooks.afterInsert);
 Products.after.update(ProductHooks.afterUpdate);
