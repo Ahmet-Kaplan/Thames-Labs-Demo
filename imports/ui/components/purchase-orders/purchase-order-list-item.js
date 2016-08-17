@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { currencyHelpers } from '/imports/api/currency/currency-helpers.js';
 
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 import './purchase-order-list-item.css';
@@ -58,5 +59,11 @@ Template.purchaseOrderListItem.helpers({
   },
   project: function() {
     return Projects.findOne(this.projectId);
+  },
+  decimalTotalValue: function() {
+    return currencyHelpers.toDecimal(Template.currentData().totalValue);
+  },
+  userCurrencyIcon: function() {
+    return currencyHelpers.userCurrency();
   }
 });
