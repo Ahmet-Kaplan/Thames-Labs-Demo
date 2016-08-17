@@ -1,0 +1,25 @@
+<template name="eventEntry">
+  <li class="list-group-item" id="list-item">
+    <div class="row">
+      <div class="col-md-2">
+        {{friendlyDate date}}
+      </div>
+      <div class="col-md-1">
+        <span class="badge">{{source}}</span>
+      </div>
+      <div class="col-md-1">
+        {{{displayLevel}}}
+      </div>
+      <div class="col-md-5">
+        {{message}}
+      </div>
+      <div class="col-md-3 userDataDisplay">
+        {{#if entityType}}
+          {{#if isLinkable}}
+            <a href="{{pathFor route=entityType id=entityId}}"><i class="fa fa-fw fa-{{entityIcon}}"></i> View {{entityType}} record</a>
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+  </li>
+</template>

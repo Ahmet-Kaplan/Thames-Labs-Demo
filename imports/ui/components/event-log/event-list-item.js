@@ -1,5 +1,6 @@
 import '/imports/ui/components/search/search-results.js';
 import '/imports/ui/components/search/local/small-box/small-search-box.js';
+import './event-list-item.html';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
 
@@ -42,8 +43,7 @@ Template.eventEntry.helpers({
 
   userName: function() {
     if (typeof this.user !== "undefined") {
-
-      var u = Meteor.users.findOne(this.user);
+      const u = Meteor.users.findOne(this.user);
       if (u) {
         return u.profile.name;
       }
@@ -51,7 +51,7 @@ Template.eventEntry.helpers({
   },
 
   displayLevel: function() {
-    var returnedData;
+    let returnedData;
 
     switch (this.level) {
       case 'fatal':
@@ -77,7 +77,7 @@ Template.eventEntry.helpers({
     return returnedData;
   },
   entityIcon: function() {
-    var icon = "building";
+    let icon;
     switch (this.entityType) {
       case 'company':
         icon = "building";

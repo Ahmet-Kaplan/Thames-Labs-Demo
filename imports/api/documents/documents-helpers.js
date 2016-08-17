@@ -1,7 +1,7 @@
-import { boxChooser } from './document-API-box.js';
-import { dropboxChooser } from './document-API-dropbox.js';
-import { googleChooser } from './document-API-google.js';
-import { onedriveChooser } from './document-API-onedrive.js';
+import { boxChooser } from './documents-box.js';
+import { dropboxChooser } from './documents-dropbox.js';
+import { googleChooser } from './documents-google.js';
+import { onedriveChooser } from './documents-onedrive.js';
 
 const documentAPI = {
   boxChooser: boxChooser,
