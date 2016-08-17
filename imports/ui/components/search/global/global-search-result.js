@@ -1,4 +1,4 @@
-import './.#global-search-result.html';
+import './global-search-result.html';
 
 Template.resultPill.helpers({
   parsedData: function() {
