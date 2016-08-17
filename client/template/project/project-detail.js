@@ -3,7 +3,7 @@ import { permissionHelpers } from '/imports/api/permissions/permission-helpers.j
 import '/imports/ui/components/projects/project-details-panel.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
-
+import '/imports/ui/components/tasks/panel/task-panel.js';
 Template.projectDetail.onCreated(function() {
   var self = this;
   // Redirect if data doesn't exist
