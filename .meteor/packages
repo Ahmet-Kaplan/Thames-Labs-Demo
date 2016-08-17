@@ -52,7 +52,6 @@ kadira:flow-router
 kadira:blaze-layout
 aldeed:template-extension
 reactive-var
-csauer:accounts-phony
 copleykj:tagstripper
 flowkey:bowser
 mologie:autoform-selectize
@@ -72,8 +71,7 @@ dburles:google-maps
 ecmascript
 flowkey:hotkeys
 mizzao:autocomplete
-adain:meteor-guid
-ostrio:loggerconsole
+ostrio:loggerconsole@1.0.0
 msavin:mongol
 vsivsi:job-collection
 easy:search
@@ -111,4 +109,3 @@ mrt:jquery-ui-sortable
 appcache
 qubitdev:autoform-bs-datetimepicker-updated
 tsega:bootstrap3-datetimepicker
-hwillson:stub-collections
