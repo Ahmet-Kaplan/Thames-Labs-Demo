@@ -33,7 +33,7 @@ Template.insertNewTask.helpers({
     return Meteor.userId();
   },
   autosuggestIndex: function() {
-    const searchIndex;
+    let searchIndex;
     switch (this.entity_type) {
       case 'company':
         Meteor.subscribe('allCompanies');
@@ -76,7 +76,7 @@ Template.insertNewTask.events({
   },
   'change input[name=remindMe]': function(e) {
     e.preventDefault();
-    var remindMe = $('input[name=remindMe]').prop('checked');
+    const remindMe = $('input[name=remindMe]').prop('checked');
     Session.set('showRemindMe', remindMe);
   }
 });
