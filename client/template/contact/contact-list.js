@@ -1,6 +1,7 @@
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 
 import '/imports/ui/components/tags/tag-management/tag-management.js';
+import '/imports/ui/components/export/export.js';
 import '/imports/ui/components/fab/fab-add.js';
 
 Template.contactList.onCreated(function() {
@@ -31,9 +32,5 @@ Template.contactList.events({
   'click #add-contact': function(event) {
     event.preventDefault();
     Modal.show('insertContactModal', this);
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('contacts');
   }
 });
