@@ -1,3 +1,4 @@
+import { Mongo } from 'meteor/mongo';
 import { ProductSchema } from './schema.js';
 import { ProductHooks } from './collection-hooks.js';
 import { ProductFilters } from './filters.js';
@@ -19,7 +20,6 @@ class ProductsCollection extends Mongo.Collection {
 
 export const Products = new ProductsCollection('products');
 
-Collections.products = Products;
 Products.attachSchema(ProductSchema);
 
 Partitioner.partitionCollection(Products);

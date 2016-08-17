@@ -1,3 +1,4 @@
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 export const ProductSchema = new SimpleSchema({
   sequencedIdentifier: {
     type: Number,

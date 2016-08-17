@@ -7,12 +7,6 @@ Template.productListItem.helpers({
     const pattern = new RegExp(searchDef, 'gi');
     return Template.currentData().name.replace(pattern, '<span class="highlighted-search">$&</span>');
   },
-  decimalCost: function() {
-    return currencyHelpers.toDecimal(Template.currentData().cost);
-  },
-  decimalPrice: function() {
-    return currencyHelpers.toDecimal(Template.currentData().price);
-  },
   userCurrencyIcon: function() {
     return currencyHelpers.userCurrency();
   }

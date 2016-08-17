@@ -13,5 +13,5 @@ import '../../ui/pages/opportunities/detail/opportunities-detail.js';
 import '../../ui/pages/opportunities/list/opportunity-list.js';
 import '../../ui/pages/activities/activity-list.js';
 import '../../ui/components/products/modals/insert-product-modal.js';
-import '../../ui/pages/products/product-list.js';
-import '../../ui/pages/products/product-detail.js';
+import '../../ui/pages/products/list/product-list.js';
+import '../../ui/pages/products/detail/product-detail.js';

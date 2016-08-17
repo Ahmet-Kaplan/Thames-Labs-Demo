@@ -1,13 +1,12 @@
-import "meteor/peppelg:bootstrap-3-modal";
-import sanitizeHtml from "sanitize-html";
-import bootbox from 'bootbox';
+import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import { Products } from '/imports/api/collections.js';
 
+import '/imports/ui/components/breadcrumbs/breadcrumbs.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
-import '/imports/ui/components/products/modals/update-product-modal.js';
-import '/imports/ui/components/tags/tag-input/tag-input.js';
+import '/imports/ui/components/documents/document-container.js';
+import '/imports/ui/components/products/details-panel/product-details-panel.js';
 import './product-detail.css';
 import './product-detail.html';
 
@@ -33,27 +32,5 @@ Template.productDetail.helpers({
   productData: function() {
     const productId = FlowRouter.getParam('id');
     return Products.findOne({_id: productId});
-  },
-  desc: function() {
-    return sanitizeHtml(this.description, {
-      allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'h2' ])
-    });
-  }
-});
-
-Template.productDetail.events({
-  'click #delete-product': function(event) {
-    event.preventDefault();
-    const productId = this._id;
-
-    bootbox.confirm("Are you sure you wish to delete this product?", function(result) {
-      if (result === true) {
-        Products.remove(productId);
-      }
-    });
-  },
-  'click #edit-product': function(event) {
-    event.preventDefault();
-    Modal.show('updateProductModal', this);
   }
 });
