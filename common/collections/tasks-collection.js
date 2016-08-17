@@ -364,6 +364,24 @@ Tasks.after.insert(function(userId, doc) {
       Opportunities.update({_id: doc.entityId}, {$set: {nextActionDue: nextTask.dueDate}});
     }
   }
+
+  if(doc.entityType === "project" && doc.dueDate) {
+    const nextTask = Tasks.find({
+      entityId: doc.entityId,
+      completed: {
+        $ne: true
+      }
+    }, {
+      sort: {
+        dueDate: 1,
+      },
+      limit: 1
+    }).fetch()[0];
+
+    if (Meteor.isServer) {
+      Projects.update({_id: doc.entityId}, {$set: {nextActionDue: nextTask.dueDate}});
+    }
+  }
 });
 
 Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
@@ -409,6 +427,24 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
 
     if (Meteor.isServer) {
       Opportunities.update({_id: doc.entityId}, {$set: {nextActionDue: nextTask.dueDate}});
+    }
+  }
+
+  if(doc.entityType === "project" && doc.dueDate) {
+    const nextTask = Tasks.find({
+      entityId: doc.entityId,
+      completed: {
+        $ne: true
+      }
+    }, {
+      sort: {
+        dueDate: 1,
+      },
+      limit: 1
+    }).fetch()[0];
+
+    if (Meteor.isServer) {
+      Projects.update({_id: doc.entityId}, {$set: {nextActionDue: nextTask.dueDate}});
     }
   }
 });

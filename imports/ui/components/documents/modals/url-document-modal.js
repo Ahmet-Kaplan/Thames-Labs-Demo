@@ -1,4 +1,4 @@
-import { documentAPI } from '../document-API/document-API-helpers.js';
+import { documentAPI } from '/imports/api/documents/documents-helpers.js';
 import './url-document-modal.html';
 
 Template.urlDocumentModal.events({
