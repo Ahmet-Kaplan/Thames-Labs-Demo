@@ -1,0 +1,33 @@
+<template name="updateTaskModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Edit task</h4>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Tasks" id="editTaskForm" type="update" doc=this}}
+          {{> afQuickField name="title" id="taskTitle"}}
+          {{> afQuickField name="description" rows=5 id="taskDescription"}}
+          {{> afQuickField name="dueDate" id="taskDueDate" type="bootstrap-datetimepicker"}}
+          {{> afQuickField name="isAllDay"}}
+          {{#if hasDueDate}}
+            {{> afQuickField name="remindMe"}}
+            <div id="showRemindMeDate" style="{{#unless showRemindMe}}display: none;{{/unless}}">
+              {{> reminderSelector}}
+            </div>
+          {{/if}}
+          {{> esSelectize name="assigneeId" index=UsersIndex value=assigneeId}}
+          {{> esSelectize name="parentTaskId" index=TasksIndex value=parentTaskId excludes=exclusions}}
+
+          <button type="submit" class="btn btn-primary">Update</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
