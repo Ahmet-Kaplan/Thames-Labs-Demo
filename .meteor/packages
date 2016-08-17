@@ -15,7 +15,6 @@ ongoworks:security
 yogiben:autoform-modals
 chrismbeckett:toastr
 alanning:roles
-mrt:moment
 dburles:collection-helpers
 peppelg:bootstrap-3-modal
 lbee:lunr
@@ -25,7 +24,6 @@ email
 momentjs:moment
 meteorhacks:subs-manager
 http
-mystor:device-detection
 meteorhacks:kadira
 meteorhacks:kadira-profiler
 zimme:active-route
