@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { chai } from 'meteor/practicalmeteor:chai';
+import sinon from 'sinon';
 import { currencyHelpers } from './currency-helpers.js';
 
 describe("currency helpers", () => {
