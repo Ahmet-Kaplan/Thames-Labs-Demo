@@ -13,6 +13,7 @@ import '/imports/ui/components/companies/modals/word-help-modal.html';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-company-purchase-order.js';
+import '/imports/ui/components/contacts/modals/insert-company-contact-modal.js';
 
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
