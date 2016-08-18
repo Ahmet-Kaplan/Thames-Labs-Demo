@@ -23,10 +23,9 @@ const tour = new Tour({
       }
     },
     {
-      element: '.list-group:first-child',
+      element: '#companySearchResults',
       title: "Add a tag",
       content: "Let's start by adding a single tag to a company. <br><br> Click on the company you would like to add a tag to.",
-      backdrop: false,
       reflex: true,
       delay: 500,
       placement: "top",
@@ -37,7 +36,7 @@ const tour = new Tour({
       }
     },
     {
-      element: ".editTags",
+      element: "#company-tags .editTags",
       title: "Add a tag",
       content: "To add a tag, click here.",
       placement: "left",

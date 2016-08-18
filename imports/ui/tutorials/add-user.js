@@ -9,23 +9,35 @@ const tour = new Tour({
       element: "#general-dropdown",
       title: "Add a user",
       content: "This interactive tutorial will take you through the steps for adding a user to RealTimeCRM. <br><br> Click the menu button to start.",
-      backdrop: false,
       reflex: true,
+      backdropContainer: ".navbar-nav.navbar-right",
       placement: "left",
       onShown: function(t) {
         if (!Roles.userIsInRole(Meteor.userId(), 'Administrator')) {
           t.goTo(4);
         }
       },
+      onShow: function(t) {
+        $('#id-view-sidemenu').css("z-index", "800");
+      },
+      onHide: function(t) {
+        $('#id-view-sidemenu').css("z-index", "");
+      }
     },
     {
       element: "#settings",
       title: "Add a user",
       content: "Click 'Settings' to navigate to the RealTimeCRM configuration pages.",
-      backdrop: false,
       delay: 200,
       reflex: true,
+      backdropContainer: "#user-dropdown .dropdown-menu",
       placement: "left",
+      onShow: function(t) {
+        $('#id-view-sidemenu').css("z-index", "800");
+      },
+      onHide: function(t) {
+        $('#id-view-sidemenu').css("z-index", "");
+      }
     },
     {
       element: '#user-link',
