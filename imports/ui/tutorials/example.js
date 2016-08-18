@@ -1,4 +1,3 @@
-import 'jquery';
 import 'bootstrap-tour/build/css/bootstrap-tour.min.css';
 import 'bootstrap-tour/build/js/bootstrap-tour.min.js';
 import './bootstrap-tour.custom.css';

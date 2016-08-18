@@ -1,4 +1,3 @@
-import 'jquery';
 import 'bootstrap-tour/build/css/bootstrap-tour.css';
 import 'bootstrap-tour/build/js/bootstrap-tour.js';
 import './bootstrap-tour.custom.css';
@@ -30,7 +29,7 @@ const tour = new Tour({
       backdrop: false,
       reflex: true,
       delay: 500,
-      placement: "below",
+      placement: "top",
       onShown: function(t) {
         if ($('#companySearchResults').html().indexOf("No results found") >= 0) {
           t.goTo(4);
@@ -50,7 +49,7 @@ const tour = new Tour({
       title: "Add a tag",
       content: "Type the tag that you wish to create here and press the enter key to add it. To remove a tag, simply use the backspace button.",
       template: TourTemplates.finalStep,
-      placement: "left",
+      placement: "bottom",
     },
     {
       orphan: true,

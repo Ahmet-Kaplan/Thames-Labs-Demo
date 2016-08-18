@@ -1,3 +1,5 @@
+import '/imports/ui/components/tutorial-modals/welcome/first-mobile.js';
+import '/imports/ui/components/tutorial-modals/welcome/first-run-modal.js';
 /****************************************
     The widget list is generated from the following 'widgets' object.
     - to avoid conflict with other templates, the convention is to name the template widget.id + 'Widget', e.g. 'chatWidget'
@@ -249,8 +251,8 @@ Template.dashboard.onRendered(function() {
   });
 
   //Has user seen the welcome modal yet?
-  if (!Meteor.user().profile.welcomeTour) {
     Modal.show("firstRun");
+  if (!Meteor.user().profile.welcomeTour) {
   } else if (Meteor.isCordova) {
     if (!Meteor.user().profile.mobile) {
       Modal.show("firstRunMobile");

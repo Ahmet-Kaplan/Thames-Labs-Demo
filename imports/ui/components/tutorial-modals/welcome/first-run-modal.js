@@ -1,3 +1,4 @@
+import './first-run-modal.html';
 Template.firstRun.onCreated(function() {
   this.phoneRegistered = new ReactiveVar(false);
 });

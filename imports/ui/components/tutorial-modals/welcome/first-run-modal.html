@@ -9,15 +9,18 @@
         </div>
 
         <div class="modal-body">
-          <p>First of all, we'd love to know why you signed up to RealTimeCRM, and what problems you're trying to solve.
+          {{#if phoneRegistered}}
+            <div class="text-success text-center">We've got your phone number and we will get in touch soon!</div>
+          {{else}}
+            <p>First of all, we'd love to know why you signed up to RealTimeCRM, and what problems you're trying to solve.
           If you're happy for us to contact you about your needs, please enter your telephone number in the box below.</p>
-          <div class="form-group input-group" id="optional-phone">
-            <input type="text" class="form-control" placeholder="Telephone number" id="tenantPhone">
-            <span class="input-group-btn">
-              <button id='addMyPhone' class="btn btn-default" type="button"><i class="fa fa-fw fa-phone"></i> Call me!</button>
-            </span>
-          </div>
-          {{#if phoneRegistered}}<div class="text-success text-center">We've got your phone number and we will get in touch soon!</div>{{/if}}
+            <div class="form-group input-group" id="optional-phone">
+              <input type="text" class="form-control" placeholder="Telephone number" id="tenantPhone">
+              <span class="input-group-btn">
+                <button id='addMyPhone' class="btn btn-success" type="button"> Save</button>
+              </span>
+            </div>
+          {{/if}}
 
           {{#if isMobile}}
             <h3>What's next?</h3>
