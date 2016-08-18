@@ -1,3 +1,7 @@
+import './contact-detail.html';
+import './contact-detail.css';
+import '/imports/ui/components/contacts/modals/edit-contact-modal.js';
+import '/imports/ui/components/contacts/widgets/public-contact-information.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/fab/fab-edit.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-contact-opp-modal.js';
@@ -8,10 +12,10 @@ import bootbox from 'bootbox';
 
 
 Template.contactDetail.onCreated(function() {
-  var self = this;
+  const self = this;
   this.autorun(function() {
-    var contactId = FlowRouter.getParam('id');
-    var contact = Contacts.findOne(contactId);
+    const contactId = FlowRouter.getParam('id'),
+          contact = Contacts.findOne(contactId);
     // Redirect if data doesn't exist
     if (FlowRouter.subsReady() && typeof contact === "undefined") {
       FlowRouter.go('contacts');
@@ -30,7 +34,7 @@ Template.contactDetail.onCreated(function() {
   });
 
   // Subscribe to necessary data
-  var contactId = FlowRouter.getParam('id');
+  const contactId = FlowRouter.getParam('id');
   this.subscribe('activityByContactId', contactId);
   this.subscribe('tasksByEntityId', contactId);
   this.subscribe('projectsByContactId', contactId);
@@ -43,7 +47,7 @@ Template.contactDetail.helpers({
     return (this.sequencedIdentifier ? "Contact #" + this.sequencedIdentifier : "Contact");
   },
   canLinkAddress: function() {
-    var company = Companies.findOne({
+    const company = Companies.findOne({
       _id: this.companyId
     });
 
@@ -55,10 +59,10 @@ Template.contactDetail.helpers({
     return false;
   },
   contactData: function() {
-    var contactId = FlowRouter.getParam('id');
-    var contact = Contacts.findOne({
-      _id: contactId
-    });
+    const contactId = FlowRouter.getParam('id'),
+          contact = Contacts.findOne({
+            _id: contactId
+          });
     if (contact && contact.tags) {
       contact.tags.sort();
     }
@@ -73,7 +77,7 @@ Template.contactDetail.helpers({
     return 'tel:' + number;
   },
   projects: function() {
-    var contactId = FlowRouter.getParam('id');
+    const contactId = FlowRouter.getParam('id');
     return Projects.find({
       contactId: contactId,
       active: true
@@ -85,7 +89,7 @@ Template.contactDetail.helpers({
   },
   mapTitle: function() {
     if (this.companyId) {
-      var company = Companies.findOne({
+      const company = Companies.findOne({
         _id: this.companyId
       });
       if (company) {
@@ -97,7 +101,7 @@ Template.contactDetail.helpers({
   },
   mapAddress: function() {
     if (this.companyId) {
-      var company = Companies.findOne({
+      const company = Companies.findOne({
         _id: this.companyId
       });
       return company;
@@ -167,11 +171,11 @@ Template.contactDetail.helpers({
   },
   showTitle: function() {
     if (this.title) {
-      var tenant = Tenants.findOne({
+      const tenant = Tenants.findOne({
         _id: Meteor.user().group
       });
       if (tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) {
-        var titles = tenant.settings.contact.titles.split(',');
+        const titles = tenant.settings.contact.titles.split(',');
         return _.includes(titles, this.title);
       }
     }
@@ -207,7 +211,7 @@ Template.contactDetail.events({
       return;
     }
 
-    var company = this.company();
+    const company = this.company();
     if (typeof company === "undefined") {
       Modal.show('newContactPurchaseOrderForm', {
         supplierContactId: this._id
@@ -225,7 +229,7 @@ Template.contactDetail.events({
   },
   'click #remove-contact': function(event) {
     event.preventDefault();
-    var contactId = this._id;
+    const contactId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this contact?", function(result) {
       if (result === true) {
@@ -235,7 +239,7 @@ Template.contactDetail.events({
   },
   'click #add-opportunity': function(event) {
     event.preventDefault();
-    var company = this.company();
+    const company = this.company();
     if (typeof company === "undefined") {
       Modal.show('insertContactOpportunityModal', {
         contactId: this._id
@@ -261,11 +265,11 @@ Template.contactDetail.events({
     });
   },
   'click #inactive-projects': function(event, template) {
-    var url = "?f%5Bcontact%5D=" + this._id + "&f%5Bactive%5D=No";
+    const url = "?f%5Bcontact%5D=" + this._id + "&f%5Bactive%5D=No";
     FlowRouter.go("/projects" + url);
   },
   'click #archived-opportunities': function(event, template) {
-    var url = "?f%5Bcontact%5D=" + this._id + "&f%5BshowArchived%5D=true";
+    const url = "?f%5Bcontact%5D=" + this._id + "&f%5BshowArchived%5D=true";
     FlowRouter.go("/opportunities" + url);
   }
 });
@@ -276,7 +280,7 @@ Template.ContactProjectListItem.helpers({
   },
   projectCompanyName: function() {
     Template.instance().subscribe('companyById', this.companyId);
-    var company = Companies.findOne(this.companyId);
+    const company = Companies.findOne(this.companyId);
     return company ? company.name : null;
   }
 });
