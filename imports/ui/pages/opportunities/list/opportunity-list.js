@@ -2,6 +2,7 @@ import { permissionHelpers } from '/imports/api/permissions/permission-helpers.j
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/opportunities/opportunity-list-item.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-opportunity-modal.js';
+import '/imports/ui/components/opportunities/reports/overview.js';
 import './opportunity-list.html';
 
 Template.opportunityList.onCreated(function() {
@@ -9,12 +10,6 @@ Template.opportunityList.onCreated(function() {
   this.autorun(function() {
     permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
   });
-
-  // Summary stats
-  this.openOpps = new ReactiveVar(0);
-  this.archivedOpps = new ReactiveVar(0);
-  this.totalOppValue = new ReactiveVar(0);
-  this.averageOppValue = new ReactiveVar(0);
 
   this.oppsListCount = new ReactiveVar(0);
 
@@ -42,19 +37,6 @@ Template.opportunityList.onRendered(function() {
     this.sortByValue.set(!!props.sortByValue);
   });
 
-  Meteor.call('report.openOpportunities', (err, data) => {
-    this.openOpps.set(data.Count);
-  });
-  Meteor.call('report.archivedOpportunities', (err, data) => {
-    this.archivedOpps.set(data.Count);
-  });
-  Meteor.call('report.valueOfOpportunities', (err, data) => {
-    this.totalOppValue.set(data.Value);
-  });
-  Meteor.call('report.averageOpportunityValue', (err, data) => {
-    this.averageOppValue.set(data.Value);
-  });
-
   $('[data-toggle="popover"]').popover({
     html: true,
     placement: "bottom",
@@ -67,18 +49,7 @@ Template.opportunityList.onRendered(function() {
 });
 
 Template.opportunityList.helpers({
-  openOpps: function() {
-    return Template.instance().openOpps.get();
-  },
-  archivedOpps: function() {
-    return Template.instance().archivedOpps.get();
-  },
-  totalOppValue: function() {
-    return Template.instance().totalOppValue.get();
-  },
-  averageOppValue: function() {
-    return Template.instance().averageOppValue.get();
-  },
+
   sortByCloseDate: function() {
     return Template.instance().sortByCloseDate.get();
   },
@@ -119,20 +90,5 @@ Template.opportunityList.events({
   'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('opportunities');
-  },
-  'click #oppsOverviewWidget': function(event, template) {
-
-    Meteor.call('report.openOpportunities', function(err, data) {
-      template.openOpps.set(data.Count);
-    });
-    Meteor.call('report.archivedOpportunities', function(err, data) {
-      template.archivedOpps.set(data.Count);
-    });
-    Meteor.call('report.valueOfOpportunities', function(err, data) {
-      template.totalOppValue.set(data.Value);
-    });
-    Meteor.call('report.averageOpportunityValue', function(err, data) {
-      template.averageOppValue.set(data.Value);
-    });
   }
 });
