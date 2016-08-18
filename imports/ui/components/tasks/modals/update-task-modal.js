@@ -43,3 +43,74 @@ Template.updateTaskModal.events({
     Session.set('showRemindMe', remindMe);
   }
 });
+
+AutoForm.hooks({
+  insertTaskForm: {
+    before: {
+      insert: function(doc) {
+        if (doc.dueDate && doc.remindMe) {
+          if (!$('#reminderValue').val()) {
+            toastr.error('Invalid time for the reminder.');
+            return false;
+          }
+
+          const reminderValue = $('#reminderValue').val(),
+                reminderUnit = $('#reminderUnit').val(),
+                reminderDate = moment(doc.dueDate).subtract(parseInt(reminderValue, 10), reminderUnit);
+
+          if (reminderDate.isBefore(moment())) {
+            toastr.error('The reminder date is in the past.');
+            return false;
+          }
+
+          doc.reminder = reminderValue + '.' + reminderUnit;
+        }
+
+        doc.createdBy = Meteor.userId();
+        return doc;
+      }
+    },
+    onSuccess: function(formType, result) {
+      $('input[name=dueDate]').data("DateTimePicker").hide();
+      Modal.hide();
+      toastr.success('Task created.');
+      if (!this.formAttributes.preventNavigateToTask) {
+        FlowRouter.go('/tasks/' + result);
+      }
+    },
+    onError: function(formType, error) {
+      toastr.error('Task creation error: ' + error);
+    }
+  },
+  updateTaskForm: {
+    before: {
+      update: function(doc) {
+        if (doc.$set.dueDate && doc.$set.remindMe) {
+          if (!$('#reminderValue').val()) {
+            toastr.error('Invalid time for the reminder.');
+            return false;
+          }
+          const reminderValue = $('#reminderValue').val(),
+                reminderUnit = $('#reminderUnit').val(),
+                reminderDate = moment(doc.$set.dueDate).subtract(parseInt(reminderValue, 10), reminderUnit);
+
+          if (reminderDate.isBefore(moment())) {
+            toastr.error('The reminder date is in the past.');
+            return false;
+          }
+
+          doc.$set.reminder = reminderValue + '.' + reminderUnit;
+        }
+        return doc;
+      }
+    },
+    onSuccess: function() {
+      $('input[name=dueDate]').data("DateTimePicker").hide();
+      Modal.hide();
+      toastr.success('Task updated.');
+    },
+    onError: function(formType, error) {
+      toastr.error('Task update error: ' + error);
+    }
+  }
+});
