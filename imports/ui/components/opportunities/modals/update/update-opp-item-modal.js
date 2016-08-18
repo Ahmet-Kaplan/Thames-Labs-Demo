@@ -30,3 +30,15 @@ Template.updateOpportunityItemModal.events({
     }
   }
 });
+
+AutoForm.hooks({
+  updateOpportunityItemForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity line item edited.');
+      Modal.hide();
+    },
+    onError: function(formType, error) {
+      toastr.error('Opportunity line item update error: ' + error);
+    }
+  }
+});
