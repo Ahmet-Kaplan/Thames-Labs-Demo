@@ -1,5 +1,5 @@
 import "meteor/nemo64:bootstrap";
-import Modal from "meteor/peppelg:bootstrap-3-modal";
+import "meteor/peppelg:bootstrap-3-modal";
 import sanitizeHtml from "sanitize-html";
 import bootbox from 'bootbox';
 import { Template } from 'meteor/templating';

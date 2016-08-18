@@ -3,22 +3,7 @@ import { ProductSchema } from './schema.js';
 import { ProductHooks } from './collection-hooks.js';
 import { ProductFilters } from './filters.js';
 
-class ProductsCollection extends Mongo.Collection {
-  insert(doc, callback) {
-    const result = super.insert(doc, callback);
-    return result;
-  }
-  update(selector, modifier) {
-    const result = super.update(selector, modifier);
-    return result;
-  }
-  remove(selector) {
-    const result = super.remove(selector);
-    return result;
-  }
-}
-
-export const Products = new ProductsCollection('products');
+export const Products = new Mongo.Collection('products');
 
 Products.attachSchema(ProductSchema);
 

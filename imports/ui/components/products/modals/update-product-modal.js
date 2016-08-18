@@ -1,4 +1,5 @@
 import './update-product-modal.html';
+import "meteor/peppelg:bootstrap-3-modal";
 import { Products } from '/imports/api/collections.js';
 
 Template.updateProductModal.helpers({
