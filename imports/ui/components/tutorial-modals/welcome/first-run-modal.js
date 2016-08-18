@@ -1,4 +1,8 @@
 import './first-run-modal.html';
+
+import { CompanyTour } from '/imports/ui/tutorials/add-company.js';
+import { ContactTour } from '/imports/ui/tutorials/add-contact.js';
+
 Template.firstRun.onCreated(function() {
   this.phoneRegistered = new ReactiveVar(false);
 });
@@ -45,25 +49,13 @@ Template.firstRun.events({
     FlowRouter.go('administration');
     Modal.hide();
   },
-  'click #first-run-tour': function(event, template) {
-    Modal.hide();
-    hopscotch.endTour(true);
-    $.getScript('/vendor/hopscotch/tours/welcome_tour.js');
-  },
   'click #companies-tutorial': function(event, template) {
     Modal.hide();
-    hopscotch.endTour(true);
-    $.getScript('/vendor/hopscotch/tours/companies-tutorial.js');
+    CompanyTour.start();
   },
   'click #contacts-tutorial': function(event, template) {
     Modal.hide();
-    hopscotch.endTour(true);
-    $.getScript('/vendor/hopscotch/tours/contacts-tutorial.js');
-  },
-  'click #admin-tutorial': function(event, template) {
-    Modal.hide();
-    hopscotch.endTour(true);
-    $.getScript('/vendor/hopscotch/tours/admin-tutorial.js');
+    ContactTour.start();
   },
   'click #home': function(event) {
     FlowRouter.go('dashboard');
@@ -78,7 +70,7 @@ Template.firstRun.events({
     Modal.hide();
   },
   'click #admin': function(event) {
-    FlowRouter.go('administration');
+    FlowRouter.go('settings');
     Modal.hide();
   }
 });

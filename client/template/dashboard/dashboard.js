@@ -251,8 +251,8 @@ Template.dashboard.onRendered(function() {
   });
 
   //Has user seen the welcome modal yet?
-    Modal.show("firstRun");
   if (!Meteor.user().profile.welcomeTour) {
+    Modal.show("firstRun");
   } else if (Meteor.isCordova) {
     if (!Meteor.user().profile.mobile) {
       Modal.show("firstRunMobile");

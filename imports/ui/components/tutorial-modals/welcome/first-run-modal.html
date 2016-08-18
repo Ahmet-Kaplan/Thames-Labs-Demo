@@ -17,7 +17,7 @@
             <div class="form-group input-group" id="optional-phone">
               <input type="text" class="form-control" placeholder="Telephone number" id="tenantPhone">
               <span class="input-group-btn">
-                <button id='addMyPhone' class="btn btn-success" type="button"> Save</button>
+                <button id='addMyPhone' class="btn btn-default" type="button"> Save</button>
               </span>
             </div>
           {{/if}}
@@ -26,30 +26,26 @@
             <h3>What's next?</h3>
             <p>You are now all set and ready to run your business in real-time. Click a link below to get started!</p>
             <div class="quicklinks text-center">
-              <button class="btn btn-default btn-huge text-center" id="home"><i class="fa fa-fw fa-home"></i><br><h4 class="tutorial-title">To the Dashboard!</h4>Go to the homepage.</button>
+              <button class="btn btn-default btn-huge text-center" id="home"><h4 class="tutorial-title"><i class="fa fa-fw fa-home"></i> To the Dashboard!</h4>Go to the homepage.</button>
               {{#if isInRole 'CanCreateCompanies'}}
-                <button class="btn btn-default btn-huge text-center" id="companies"><i class="fa fa-fw fa-building"></i><br><h4 class="tutorial-title">Add a Company</h4>Why not start by adding a company?</button>
+                <button class="btn btn-default btn-huge text-center" id="companies"><h4 class="tutorial-title"><i class="fa fa-fw fa-building"></i> Add a company</h4>Why not start by adding a company?</button>
               {{/if}}
               {{#if isInRole 'CanCreateContacts'}}
-                <button class="btn btn-default btn-huge text-center" id="contacts"><i class="fa fa-fw fa-user"></i><br><h4 class="tutorial-title">Add a Contact</h4>Or a contact?</button>
+                <button class="btn btn-default btn-huge text-center" id="contacts"><h4 class="tutorial-title"><i class="fa fa-fw fa-user"></i> Add a contact</h4>Or a contact?</button>
               {{/if}}
               {{#if isInRole 'Administrator'}}
-                <button class="btn btn-default btn-huge text-center" id="admin"><i class="fa fa-fw fa-users"></i><br><h4 class="tutorial-title">Add a User [admin]</h4>So you're an admin? Click here to add a new user</button>
+                <button class="btn btn-default btn-huge text-center" id="admin"><h4 class="tutorial-title"><i class="fa fa-fw fa-users"></i> Add a user</h4> Click here to add a new user</button>
               {{/if}}
             </div>
           {{else}}
             <h3>What's next?</h3>
-            <p>You are now all set and ready to run your business in real-time. Why not try one of our interactive tutorials below to get you started?</p>
+            <p>You're all set and ready to run your business in real-time! Why not try one of our interactive tutorials below to get you started?</p>
             <div class="tutorials text-center">
-              <button class="btn btn-default btn-huge text-center" id="first-run-tour"><i class="fa fa-fw fa-map-signs"></i><br><h4 class="tutorial-title">Take a look around</h4>Take a short tour of the home screen and get aquainted with RealTimeCRM.</button>
               {{#if isInRole 'CanCreateCompanies'}}
-                <button class="btn btn-default btn-huge text-center" id="companies-tutorial"><i class="fa fa-fw fa-building"></i><br><h4 class="tutorial-title">Add a Company</h4>A short, interactive tutorial that shows you how to add your first company.</button>
+                <button class="btn btn-default btn-huge text-center" id="companies-tutorial"><h4 class="tutorial-title"><i class="fa fa-fw fa-building"></i> Add a company</h4>Show me how to add my first company.</button>
               {{/if}}
               {{#if isInRole 'CanCreateContacts'}}
-                <button class="btn btn-default btn-huge text-center" id="contacts-tutorial"><i class="fa fa-fw fa-user"></i><br><h4 class="tutorial-title">Add a Contact</h4>A short, interactive tutorial that shows you how to add your first contact.</button>
-              {{/if}}
-              {{#if isInRole 'Administrator'}}
-                <button class="btn btn-default btn-huge text-center" id="admin-tutorial"><i class="fa fa-fw fa-users"></i><br><h4 class="tutorial-title">Add a User [admin]</h4>A short, interactive tutorial that shows you how to add users and use your admin powers.</button>
+                <button class="btn btn-default btn-huge text-center" id="contacts-tutorial"><h4 class="tutorial-title"><i class="fa fa-fw fa-user"></i> Add a contact</h4>Show me how to add my first contact.</button>
               {{/if}}
             </div>
           {{/if}}
