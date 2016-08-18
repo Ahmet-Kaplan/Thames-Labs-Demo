@@ -1,5 +1,7 @@
+import './contact-list.html';
+import '/imports/ui/components/contacts/contact-list-item.js';
+import '/imports/ui/components/contacts/modals/insert-contact-modal.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
-
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/export/export.js';
 import '/imports/ui/components/fab/fab-add.js';
