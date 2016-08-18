@@ -1,3 +1,4 @@
+import '/imports/ui/components/search/local/box/search-box.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 
 Template.tenantList.onCreated(function() {
