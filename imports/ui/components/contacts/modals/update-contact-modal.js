@@ -1,16 +1,14 @@
-import './insert-contact-modal.html';
+import './update-contact-modal.html';
 
-Template.insertContactModal.onCreated(function() {
-  this.showAddress = new ReactiveVar(true);
+Template.updateContactModal.onCreated(function() {
+  // Load google maps
+  GoogleMaps.load({
+    libraries: 'places',
+    key: Meteor.settings.public.googleDeveloperKey
+  });
 });
 
-Template.insertContactModal.events({
-  'click #close': function() {
-    hopscotch.endTour(true);
-  }
-});
-
-Template.insertContactModal.onRendered(function() {
+Template.updateContactModal.onRendered(function() {
   if (Meteor.user()) {
     const tenant = Tenants.findOne({
       _id: Meteor.user().group
@@ -37,17 +35,11 @@ Template.insertContactModal.onRendered(function() {
       });
     }
   }
-
-  $('#draggableModal').draggable({
-    grid: [50, 50],
-    handle: '.modal-header',
-    opacity: 0.35
-  });
 });
 
-Template.insertContactModal.helpers({
-  currentUser: function() {
-    return Meteor.userId();
+Template.updateContactModal.helpers({
+  noCompany: function() {
+    return typeof this.companyId === "undefined";
   },
   showTitleField: function() {
     const tenant = Tenants.findOne({
@@ -56,17 +48,18 @@ Template.insertContactModal.helpers({
     if (tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) return true;
     return false;
   },
-  showAddress: function() {
-    return Template.instance().showAddress.get();
-  }
-});
-
-Template.insertContactModal.events({
-  'change #companyId': function() {
-    if ($('#companyId').val() != '') {
-      Template.instance().showAddress.set(false);
-    } else {
-      Template.instance().showAddress.set(true);
-    }
+  addressData: function() {
+    const currentData = Template.currentData();
+    const address = {
+      address: currentData.address,
+      address2: currentData.address2,
+      city: currentData.city,
+      postcode: currentData.postcode,
+      county: currentData.county,
+      country: currentData.country,
+      lng: currentData.lng,
+      lat: currentData.lat
+    };
+    return address;
   }
 });
