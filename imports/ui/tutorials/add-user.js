@@ -71,6 +71,9 @@ const tour = new Tour({
         $(".modal-header button").click(function() {
           t.end();
         });
+        $("#createUser").click(function() {
+          t.end();
+        });
       }
     },
     {
