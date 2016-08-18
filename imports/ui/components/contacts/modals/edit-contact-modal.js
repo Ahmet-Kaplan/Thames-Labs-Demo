@@ -1,3 +1,5 @@
+import './edit-contact-modal.html';
+
 Template.updateContactModal.onCreated(function() {
   // Load google maps
   GoogleMaps.load({
@@ -12,11 +14,11 @@ Template.updateContactModal.onRendered(function() {
   }
 
   if (Meteor.user()) {
-    var tenant = Tenants.findOne({
+    const tenant = Tenants.findOne({
       _id: Meteor.user().group
     });
     if (tenant) {
-      var options = [];
+      let options = [];
       if (tenant.settings.contact.titles) {
         options = _.map(tenant.settings.contact.titles.split(','), function(input) {
           return {
@@ -44,17 +46,17 @@ Template.updateContactModal.onRendered(function() {
         details: "#editContactForm",
         detailsAttribute: "data-geo"
       }).bind("geocode:result", function(event, result) {
-        var address = "";
-        var strNumber = _.find(result.address_components, function(elt) {
-          return elt.types[0] == "street_number";
-        });
+        let address = "",
+            strNumber = _.find(result.address_components, function(elt) {
+              return elt.types[0] == "street_number";
+            });
 
         if (typeof strNumber !== 'undefined') {
           strNumber = strNumber.long_name;
           address += strNumber + " ";
         }
 
-        var route = _.find(result.address_components, function(elt) {
+        let route = _.find(result.address_components, function(elt) {
           return elt.types[0] == "route";
         });
 
@@ -64,16 +66,16 @@ Template.updateContactModal.onRendered(function() {
         }
         $("#formatted_address").val(address);
         $("#mapModal_canvas").empty();
-        var map = new google.maps.Map(document.getElementById("mapModal_canvas"), {
-          zoom: 16,
-          center: result.geometry.location,
-          scrollwheel: false
-        });
-        var marker = new google.maps.Marker({
-          map: map,
-          position: result.geometry.location,
-          draggable: true
-        });
+        const map = new google.maps.Map(document.getElementById("mapModal_canvas"), {
+                zoom: 16,
+                center: result.geometry.location,
+                scrollwheel: false
+              }),
+              marker = new google.maps.Marker({
+                map: map,
+                position: result.geometry.location,
+                draggable: true
+              });
         google.maps.event.addListener(marker, "dragend", function() {
           $("input[name=lat]").val(marker.getPosition().lng());
           $("input[name=lng]").val(marker.getPosition().lat());
@@ -92,7 +94,7 @@ Template.updateContactModal.helpers({
     return typeof this.companyId === "undefined";
   },
   showTitleField: function() {
-    var tenant = Tenants.findOne({
+    const tenant = Tenants.findOne({
       _id: Meteor.user().group
     });
     if (tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) return true;
@@ -103,18 +105,19 @@ Template.updateContactModal.helpers({
 Template.updateContactModal.events({
   'click #show-map': function() {
     $("#show-map").hide();
-    var mapData = this;
     $("#map_wrapper").show();
     $("#mapModal_canvas").height("400px");
-    var location = {
+    let location = {
       lat: 52.234744,
       lng: 0.153752
     };
-    var mapModal = new google.maps.Map(document.getElementById("mapModal_canvas"), {
-      zoom: 10,
-      center: location,
-      scrollwheel: false
-    });
+    const mapData = this,
+          mapModal = new google.maps.Map(document.getElementById("mapModal_canvas"), {
+            zoom: 10,
+            center: location,
+            scrollwheel: false
+          });
+
     if (mapData !== null && typeof mapData.title !== "undefined") {
       mapData.title = mapData.forename + ' ' + mapData.surname;
     } else {
@@ -144,7 +147,7 @@ Template.updateContactModal.events({
       infowindow.setContent(mapData.title);
       infowindow.open(mapModal, markerModal);
     } else {
-      var gc = new google.maps.Geocoder();
+      const gc = new google.maps.Geocoder();
       gc.geocode({
         'address': mapData.address + mapData.postcode + mapData.city + mapData.country
       }, function(results, status) {

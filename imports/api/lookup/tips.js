@@ -1,4 +1,4 @@
-TipList = [{
+export const TipList = [{
   "Tip": "Report issues to the dev team (or simply provide us with feedback) by clicking on the <i class='fa fa-fw fa-user'></i> icon on the navigation bar, selecting the <strong>Give Feedback</strong> option and filling in the form that appears."
 }, {
   "Tip": "Not sure what a button does? Hover over it for a tooltip!"
