@@ -1,4 +1,4 @@
-import './update-tenant.js';
+import './update-tenant.html';
 
 Template.updateTenant.helpers({
   coupon: function() {
