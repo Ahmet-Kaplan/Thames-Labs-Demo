@@ -2,6 +2,7 @@ import '/imports/ui/components/tutorial-modal/tutorial-modal.js';
 
 import './top-menu.less';
 import './top-menu.html';
+import '/imports/ui/components/feedback/feedback.js';
 
 Template.topMenu.events({
   'click #tutorials': function(e) {

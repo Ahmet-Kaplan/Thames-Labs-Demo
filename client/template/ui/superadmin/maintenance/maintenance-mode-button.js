@@ -1,3 +1,4 @@
+import bootbox from 'bootbox';
 Template.maintenanceModeButton.helpers({
   maintenanceMode: function() {
     return ServerSession.get('maintenance');

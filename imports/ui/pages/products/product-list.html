@@ -1,0 +1,57 @@
+<template name="productList">
+
+  {{setPageTitle 'Products'}}
+
+  <div class="row list-header">
+      <div class="col-md-5">
+        <h1>Products</h1>
+        <p id="resultsCount" class="list-header-subtitle">{{productCount}} record{{#if hasMultipleProducts}}s{{/if}}</p>
+      </div>
+      <div class="col-md-7 list-header-right">
+        <div class="btn-group pull-right" role="group">
+            {{#if isInRole 'CanCreateProducts'}}
+              {{#unless isMobile}}
+                <button id="add-product" type="button" class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+R"><i class="fa fa-fw fa-plus"></i> Add product</button>
+              {{/unless}}
+            {{/if}}
+            {{> smallSearchBox collectionName='products'}}
+        </div>
+        <br>
+        <ul class="list-toolbar pull-right">
+           <li><a id="ref_productsOverviewWidget" data-toggle="popover" title="Products Overview" data-content="
+            <div id='productOverviewPop'>
+                <table class='table table-no-border'>
+                <tbody>
+                    <tr>
+                    <td>Products:</td>
+                    <td class='text-right'>{{totalProducts}}</td>
+                    </tr>
+                    <tr>
+                    <td>Total cost:</td>
+                    <td class='text-right'>{{decimal totalProductsCost}}</td>
+                    </tr>
+                    <tr>
+                    <td>Average cost:</td>
+                    <td class='text-right'>{{decimal averageProductsCost}}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>">Overview</a>
+            </li>
+            {{> tagManagement collectionName='products'}}
+            <li><a id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom">Export</a></li>
+        </ul>
+      </div>
+  </div>
+  {{> filterPanel collectionName='products'}}
+
+  {{> searchResults index=ProductsIndex listItemTemplateName='productListItem'}}
+
+  {{#if isInRole 'CanCreateProducts'}}
+    {{#if isMobile}}
+      {{> fabAdd entity="Product"}}
+    {{/if}}
+  {{/if}}
+
+  {{> autoformModals}}
+</template>

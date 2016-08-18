@@ -1,6 +1,7 @@
 import './opportunities-admin-stage.html';
 import './modals/update-opp-stage.js';
 import _ from 'lodash';
+import bootbox from 'bootbox';
 
 Template.opportunityAdminStage.helpers({
   isFirstStage: function() {

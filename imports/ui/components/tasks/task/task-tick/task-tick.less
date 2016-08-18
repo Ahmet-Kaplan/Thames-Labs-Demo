@@ -1,0 +1,56 @@
+@import "{}/client/bootstrap/custom.bootstrap.import.less";
+
+.task-tick {
+  outline: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+.task-tick i {
+  padding: 2px;
+  color: #777;
+  border: 2px solid #777;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+}
+.task-tick:focus i {
+  border-color: #444;
+}
+.task-tick:hover i {
+  border-color:  darken(@brand-success, 5%);
+  color:  darken(@brand-success, 5%);
+}
+.task-tick:active i {
+  border-color:  darken(@brand-success, 10%);
+  color:  darken(@brand-success, 10%);
+  background: #eee;
+}
+.task-tick i.green {
+  border-color: darken(@brand-success, 5%);
+  color: white;
+  background: darken(@brand-success, 5%);
+}
+.task-tick:focus i.green {
+  border-color: darken(@brand-success, 15%);
+}
+.task-tick:hover i.green {
+  border-color: darken(@brand-success, 10%);
+  color: white;
+  background: darken(@brand-success, 10%);
+}
+.task-tick:active i.green {
+  border-color: darken(@brand-success, 15%);
+  color: white;
+  background: darken(@brand-success, 15%);
+}
+
+.task-tick.task-tick-lg i{    
+  font-size: 20px;
+  padding: 4px;
+  display: block;
+  width: 32px;
+  height: 32px;
+}

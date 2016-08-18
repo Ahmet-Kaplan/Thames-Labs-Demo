@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
+import bootbox from 'bootbox';
 
 import { stripeCustomer, upcomingInvoice, lastInvoice } from '/imports/api/billing/helpers.js';
 

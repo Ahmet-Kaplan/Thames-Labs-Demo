@@ -1,6 +1,7 @@
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import bootbox from 'bootbox';
 
 import './opportunity-details-panel.html';
 import './modals/update/update-opportunity-modal.js';

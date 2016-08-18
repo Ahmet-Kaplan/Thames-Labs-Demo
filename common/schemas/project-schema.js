@@ -110,7 +110,14 @@ Schemas.Project = new SimpleSchema({
   createdAt: {
     type: Date,
     defaultValue: new Date()
-  }
+  },
+  nextActionDue: {
+    type: Date,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
 });
 Schemas.Project.messages({
   needsRelatedEntity: "A company or a contact is required"

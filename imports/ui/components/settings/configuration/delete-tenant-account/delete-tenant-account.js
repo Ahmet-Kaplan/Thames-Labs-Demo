@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import bootbox from 'bootbox';
 
 import './delete-tenant-account.html';
 

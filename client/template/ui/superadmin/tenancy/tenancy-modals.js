@@ -1,3 +1,4 @@
+import bootbox from 'bootbox';
 Template.updateTenantSettings.helpers({
   coupon: function() {
     return this.stripe.coupon;

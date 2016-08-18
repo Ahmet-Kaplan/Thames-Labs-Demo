@@ -1,8 +1,7 @@
 <template name="taskItem">
-  <li class="list-group-item task-item">
-    <button class="pull-left task-checkbox">
-      <i class="fa fa-check {{#if task.completed}}green{{/if}}"></i>
-    </button>
+{{#if entityDetails.permissionToRead}}
+  <li class="list-group-item task-item {{#if isListView}}task-list-item{{/if}}">
+    {{> taskTick checked=task.completed taskId=task._id}}
     <a href="{{pathFor route='task' id=task._id}}">
       <div class="task-left">
         <span class="task-title">{{task.title}}</span>
@@ -22,8 +21,9 @@
             <span class="task-date {{taskStatusCss}}">Due {{formattedDueDate}}</span>
           {{/if}}
         {{/if}}
-        {{> tagBadges tags=task.tags pullRight=false}}
+        {{> tagBadges tags=task.tags index=index pullRight=false}}
       </div>
     </a>
   </li>
+{{/if}}
 </template>

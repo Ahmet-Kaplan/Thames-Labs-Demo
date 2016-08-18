@@ -1,7 +1,10 @@
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+import bootbox from 'bootbox';
+
 Template.eventLog.onCreated(function() {
   // Redirect if not superadmin
   this.autorun(function() {
-    superAdminOnly(Meteor.userId());
+    permissionHelpers.superAdminOnly(Meteor.userId());
   });
 });
 
