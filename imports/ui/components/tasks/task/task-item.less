@@ -4,6 +4,9 @@
   padding: 0;
   min-height: 40px;
 }
+.task-item.list-group-item.task-list-item > a{
+  min-height: 60px;
+}
 .task-item.list-group-item a:hover {
   background: #f5f5f5;
 }
@@ -18,42 +21,8 @@
   flex-wrap: wrap;
   overflow: hidden;
 }
-.task-item.list-group-item > button.pull-left {
-  outline: none;
-  background: transparent;
-  border: none;
-  padding: 0;
-  height: 40px;
-  width: 40px;
+.task-item.list-group-item > .task-tick.pull-left {
   margin-right: -40px;
-}
-.task-item.list-group-item > .pull-left i {
-  padding: 2px;
-  color: #777;
-  border: 2px solid #777;
-  border-radius: 50%;
-  transition: all 0.2s ease-in-out;
-  -webkit-transition: all 0.2s ease-in-out;
-}
-.task-item.list-group-item > button.pull-left:focus i {
-  border-color: #444;
-}
-.task-item.list-group-item > button.pull-left:hover i {
-  border-color:  darken(@brand-success, 5%);
-  color:  darken(@brand-success, 5%);
-}
-.task-item.list-group-item > .pull-left i.green {
-  border-color: darken(@brand-success, 5%);
-  color: white;
-  background: darken(@brand-success, 5%);
-}
-.task-item.list-group-item > button.pull-left:focus i.green {
-  border-color: darken(@brand-success, 15%);
-}
-.task-item.list-group-item > button.pull-left:hover i.green {
-  border-color: darken(@brand-success, 10%);
-  color: white;
-  background: darken(@brand-success, 10%);
 }
 .task-item .task-left {
   overflow: hidden;

@@ -1,6 +1,6 @@
 import './company-location-picker.html';
 import '../../maps/map-editor.js';
-import { getAddressFromLookup, getAddressFromGoogleMapsSearch, isAddressEmpty } from '../../maps/map-helpers.js';
+import { getAddressFromLookup, getAddressFromGoogleMapsSearch, isAddressEmpty } from '/imports/api/maps/map-helpers.js';
 
 //companyLocationPicker
 Template.companyLocationPicker.onCreated(function() {
