@@ -18,11 +18,6 @@ Feature: Allow users to manage their Products
     When I navigate to "/products"
     Then I should see the heading "Dashboard"
 
-  Scenario: A user with read permissions can see a product
-    Given a "Product" has been created
-    When I navigate to a product page
-    Then I should see the heading "Imperial Blaster"
-
   Scenario: An administrator can add CanReadProducts permission
     Given I have the "Administrator" permission
     And I am on the pro plan
@@ -90,12 +85,6 @@ Feature: Allow users to manage their Products
     And I submit the "updateProduct" form
     Then "#product-name" should say "updated product name"
 
-  Scenario: A user without permission cannot edit a product
-    Given I do not have the "CanEditProducts" permission
-    And a "Product" has been created
-    When I navigate to a product page
-    Then I should not see "#edit-product"
-
   Scenario: An administrator can add CanEditProducts permission
     Given I have the "Administrator" permission
     And I am on the pro plan
@@ -112,20 +101,6 @@ Feature: Allow users to manage their Products
 
 
   #Deleting
-  Scenario: A user can delete a product
-    Given I have the "CanDeleteProducts" permission
-    And a "Product" has been created
-    When I navigate to a product page
-    And I click "#delete-product"
-    And I click confirm on the modal
-    Then ".list-group" should not contain "test product"
-
-  Scenario: A user without permission cannot delete a product
-    Given I do not have the "CanDeleteProducts" permission
-    And a "Product" has been created
-    When I navigate to a product page
-    Then I should not see "#delete-product"
-
   Scenario: An administrator can add CanDeleteProducts permission
     Given I have the "Administrator" permission
     And I am on the pro plan

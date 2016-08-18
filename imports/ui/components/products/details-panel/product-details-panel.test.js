@@ -6,6 +6,7 @@ import { Template } from 'meteor/templating';
 import { withRenderedTemplate } from '/imports/ui/test-helpers.js';
 import { currencyHelpers } from '/imports/api/currency/currency-helpers.js';
 import { Products } from '/imports/api/collections.js';
+import bootbox from 'bootbox';
 
 if (Meteor.isClient) {
   require('./product-details-panel.js');
@@ -90,6 +91,34 @@ if (Meteor.isClient) {
       });
     });
 
+    it("allows a user to delete a product", function(done) {
+      const data = {
+        productData: {
+          _id: 'oZBjDjqXJWfEuetPx',
+          name: "USS Enterprise"
+        }
+      };
+
+      Template.registerHelper('isInRole', (permission) => {
+        if (permission == "CanDeleteProducts") return true;
+      });
+
+      sandbox.stub(bootbox, 'confirm', (message, callback) => {
+        chai.assert.equal(message, "Are you sure you wish to delete this product?");
+        callback(true);
+      });
+
+      sandbox.stub(Products, 'remove', (id) => {
+        chai.assert.equal(id, data.productData._id);
+        done();
+      });
+
+      withRenderedTemplate('productDetailsPanel', data, (el) => {
+        chai.assert.include($(el).find('.btn-group.pull-right').html(), '<a href="#" id="delete-product" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>');
+        $(el).find('#delete-product').click();
+      });
+    });
+
     it("shows the delete button if user has permission", function() {
       const data = {
         productData: {
@@ -124,28 +153,5 @@ if (Meteor.isClient) {
       });
     });
 
-    it("allows a user to delete a product", function(done) {
-      const data = {
-        productData: {
-          _id: 'oZBjDjqXJWfEuetPx',
-          name: "USS Enterprise"
-        }
-      };
-
-      Template.registerHelper('isInRole', (permission) => {
-        if (permission == "CanDeleteProducts") return true;
-      });
-
-      sandbox.stub(Products, 'remove', (id) => {
-        chai.assert.equal(id, "oZBjDjqXJWfEuetPx");
-        done();
-      });
-
-      withRenderedTemplate('productDetailsPanel', data, (el) => {
-        chai.assert.include($(el).find('.btn-group.pull-right').html(), '<a href="#" id="delete-product" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>');
-        $(el).find('#delete-product').click();
-        console.log($(el).html());
-      });
-    });
   });
 }

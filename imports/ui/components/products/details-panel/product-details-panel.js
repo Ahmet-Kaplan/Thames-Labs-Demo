@@ -24,9 +24,9 @@ Template.productDetailsPanel.helpers({
 Template.productDetailsPanel.events({
   'click #delete-product': function(event) {
     event.preventDefault();
-    const productId = Template.currentData()._id;
+    const productId = Template.currentData().productData._id;
 
-    bootbox.confirm("Are you sure you wish to delete this product?", function(result) {
+    bootbox.confirm("Are you sure you wish to delete this product?", (result) => {
       if (result === true) {
         Products.remove(productId);
       }
