@@ -194,11 +194,6 @@ Template.nav.events({
     lastTutorial = "help";
     Modal.show("help");
   },
-  'click #tour-this-page': function() {
-    var currentPageName = FlowRouter.getRouteName();
-
-    $.getScript('/vendor/hopscotch/tours/' + currentPageName + '_tour.js');
-  },
   'click #tips': function(event, template) {
     event.preventDefault();
     Modal.show("tipsModal");

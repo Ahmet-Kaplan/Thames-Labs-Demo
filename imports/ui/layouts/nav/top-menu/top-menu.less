@@ -28,7 +28,9 @@
 #id-menu-button:active > .icon-bar {
   background-color: #ccc !important;
 }
-
+nav.navbar {
+  z-index: 999;
+}
 .nav > .dropdown > .dropdown-toggle {
   color: #fff;
   background: rgba(0, 0, 0, 0) !important;
@@ -42,6 +44,9 @@
 }
 .nav > .dropdown > .dropdown-toggle:active {
   background: rgba(0, 0, 0, 0.1) !important;
+}
+.nav > .dropdown > .dropdown-toggle.tour-step-backdrop.tour-tour-element {
+  background: @navbar-inverse-bg !important;
 }
 .nav .button-middle {
   padding: 8px 0;
