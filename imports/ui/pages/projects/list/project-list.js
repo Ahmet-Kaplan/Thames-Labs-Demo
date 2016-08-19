@@ -3,6 +3,7 @@ import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/projects/project-list-item.js';
 import '/imports/ui/components/projects/modals/insert-project-modal.js';
 
+import './project-list.html';
 
 Template.projectsList.onCreated(function() {
   // Redirect if read permission changed

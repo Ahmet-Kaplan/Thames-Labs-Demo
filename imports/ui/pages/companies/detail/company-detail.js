@@ -13,6 +13,7 @@ import '/imports/ui/components/companies/modals/word-help-modal.html';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 import '/imports/ui/components/contacts/modals/insert-company-contact-modal.js';
+import '/imports/ui/components/projects/modals/insert-company-project-modal.js';
 
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
@@ -123,7 +124,7 @@ Template.companyDetail.events({
   },
   'click #add-project': function(event) {
     event.preventDefault();
-    Modal.show('newCompanyProjectForm', {
+    Modal.show('insertCompanyProjectForm', {
       companyId: this._id
     });
   },

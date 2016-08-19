@@ -20,3 +20,5 @@ import '../../ui/pages/products/product-list.js';
 import '../../ui/pages/products/product-detail.js';
 import '../../ui/pages/contacts/list/contact-list.js';
 import '../../ui/pages/contacts/detail/contact-detail.js';
+import '../../ui/pages/projects/list/project-list.js';
+import '../../ui/pages/projects/detail/project-detail.js';

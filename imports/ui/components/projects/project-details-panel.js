@@ -32,7 +32,7 @@ Template.projectDetailsPanel.helpers({
   }
 });
 
-Template.projectDetail.events({
+Template.projectDetailsPanel.events({
   'click #edit-project': function(event) {
     event.preventDefault();
     Modal.show('updateProjectModal', this);
