@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { moment } from 'meteor/momentjs:moment';
 import './insert-purchase-order.html';
 
 Template.insertPurchaseOrderModal.helpers({
