@@ -1,0 +1,21 @@
+<template name="generatingDemoData">
+  <div class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h4>Generating Demo Data...</h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="{{currentStep}}" aria-valuemin="0" aria-valumax="{{totalStep}}" style="width: {{currentStep}}%">
+              <span class="sr-only">{{currentStep}}% complete</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

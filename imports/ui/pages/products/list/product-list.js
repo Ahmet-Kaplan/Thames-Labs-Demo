@@ -2,6 +2,7 @@ import { permissionHelpers } from '/imports/api/permissions/permission-helpers.j
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/products/list-item/product-list-item.js';
+import '/imports/ui/components/export/export.js';
 import './product-list.html';
 
 Template.productList.onCreated(function() {
@@ -44,10 +45,6 @@ Template.productList.events({
   'click #add-product': function(event) {
     event.preventDefault();
     Modal.show('insertProductModal', this);
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('products');
   },
   'click #ref_productsOverviewWidget': function(event, template) {
 
