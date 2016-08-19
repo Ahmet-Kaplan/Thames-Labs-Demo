@@ -1,3 +1,4 @@
+import './company-list.css';
 import './company-list.html';
 import '/imports/ui/components/companies/company-list-item.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';

@@ -1,16 +1,15 @@
-import './company-location-picker.html';
-import '../../maps/map-editor.js';
+import './location-picker.html';
+import '../editor/map-editor.js';
 import { getAddressFromLookup, getAddressFromGoogleMapsSearch, isAddressEmpty } from '/imports/api/maps/map-helpers.js';
 
-//companyLocationPicker
-Template.companyLocationPicker.onCreated(function() {
+//locationPicker
+Template.locationPicker.onCreated(function() {
   // Load google maps
   GoogleMaps.load({
     libraries: 'places',
     key: Meteor.settings.public.googleDeveloperKey
   });
 
-  this.companyData = new ReactiveVar({});
   this.showSearchBox = new ReactiveVar(true);
   this.showSearchedAddress = new ReactiveVar(false);
   this.showManualEntry = new ReactiveVar(false);
@@ -21,17 +20,15 @@ Template.companyLocationPicker.onCreated(function() {
 
 });
 
-Template.companyLocationPicker.onDestroyed(function() {
+Template.locationPicker.onDestroyed(function() {
   this.address = new ReactiveVar({});
 });
 
-Template.companyLocationPicker.onRendered(function() {
+Template.locationPicker.onRendered(function() {
 
   Template.instance().showManualEntry.set(false);
-  //Updates companyData and address if update on parent template
+  //Updates address if update on parent template
   this.autorun(() => {
-    this.companyData.set(this.data.companyData);
-
     if (this.data.companyData) {
       if (this.data.companyData.geo) {
         const addressData = getAddressFromLookup(this.data.companyData.geo);
@@ -59,7 +56,7 @@ Template.companyLocationPicker.onRendered(function() {
 
 
   //The location search box
-  //Run the geocode search handler and return data into the companyData reactive var
+  //Run the geocode search handler and return data into the addressData reactive var
   this.autorun(() => {
     if (GoogleMaps.loaded() && $('#geo').length > 0) {
       const instance = Template.instance();
@@ -72,7 +69,7 @@ Template.companyLocationPicker.onRendered(function() {
 
 });
 
-Template.companyLocationPicker.helpers({
+Template.locationPicker.helpers({
   showSearchBox: function() {
     return Template.instance().showSearchBox.get();
   },
@@ -117,7 +114,7 @@ Template.companyLocationPicker.helpers({
 });
 
 
-Template.companyLocationPicker.events({
+Template.locationPicker.events({
   'click #newLocationSearch': function(event) {
     event.preventDefault();
 

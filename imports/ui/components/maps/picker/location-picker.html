@@ -1,5 +1,8 @@
-<!-- companyLocationPicker - use for viewing/editing/creating company location -->
-<template name="companyLocationPicker">
+<!--
+  locationPicker - use for viewing/editing/creating company location 
+  Accepts addressData or companyData attributes
+-->
+<template name="locationPicker">
   <div class="{{#unless showSearchBox}}hidden{{/unless}}">
     <div class="form-group show">
       <label for="geo" class="control-label">Search for Address, City, etc.</label>
