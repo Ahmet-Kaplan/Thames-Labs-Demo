@@ -1,4 +1,4 @@
-import '../modal-parts/company-location-picker.js';
+import '/imports/ui/components/maps/picker/location-picker.js';
 import '../modal-parts/company-details-form.css';
 import './update-company-modal.html';
 

@@ -1,4 +1,4 @@
-import './company-location-picker.js';
+import '/imports/ui/components/maps/picker/location-picker.js';
 import './company-details-form.html';
 import './company-details-form.css';
 

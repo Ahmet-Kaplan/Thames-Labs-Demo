@@ -123,16 +123,6 @@ router.route('/audit', {
   }
 });
 
-// SUPERADMIN only route
-router.route('/jobs', {
-  name: 'jobs-queue',
-  action: function() {
-    layout.render('appLayout', {
-      main: "jobsQueue"
-    });
-  }
-});
-
 // LOGGED OUT USER ONLY route
 router.route('/sign-up', {
   name: 'sign-up',
