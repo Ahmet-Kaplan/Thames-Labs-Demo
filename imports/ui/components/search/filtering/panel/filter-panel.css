@@ -1,7 +1,6 @@
 .filter-panel {
     transition: 0.1s all ease-in-out;
-    margin-bottom: 0;
-    margin-top: -10px;
+    display: block;
 }
 
 #filtersSearch .selectize-input{
@@ -11,6 +10,7 @@
     border-radius: 0;
     color: blue;
     text-decoration: underline;
+    padding-bottom: 0px;
 }
 
 .filter-results {

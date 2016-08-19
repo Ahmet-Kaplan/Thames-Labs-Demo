@@ -1,24 +1,15 @@
 <template name="filterPanel">
   <div class="filter-panel">
-    {{#unless filtersList}}
-    <div id="filtersSearch">
-      {{> filterBox collectionName=collectionName placeholder="Apply filter..."}}
-    </div>
-    {{/unless}}
-    {{#if filtersList}}
-    <div class="row">
-      <div class="col-sm-12 filter-results">
-        <div class="filter-left">
-          <span>Showing {{#if friendlyName}}{{friendlyName}}{{else}}{{collectionName}}{{/if}} with</span>
-          {{#each filtersList}}
-          {{> filterTag filter=filter id=id mainCollectionName=mainCollectionName}}
-          {{/each}}
-        </div>
-        <div class="filter-right" id="filtersSearch">
-          {{> filterBox collectionName=collectionName placeholder="and/or..."}}
-        </div>
+    <div class="filter-results">
+      <div class="filter-left">
+        <span>Showing {{entityCount}} {{#unless multiple}}{{single}}{{else}}{{#if friendlyName}}{{friendlyName}}{{else}}{{collectionName}}{{/if}}{{/unless}} {{#if filtersList}}with{{/if}}</span>
+        {{#each filtersList}}
+        {{> filterTag filter=filter id=id mainCollectionName=mainCollectionName}}
+        {{/each}}
+      </div>
+      <div class="filter-right" id="filtersSearch">
+        {{> filterBox collectionName=collectionName placeholder="Add filter..."}}
       </div>
     </div>
-    {{/if}}
   </div>
 </template>
