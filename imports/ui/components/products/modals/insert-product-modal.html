@@ -9,7 +9,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Products" id="insertProductForm" type="insert"}}
+          {{#autoForm collection=formCollection id="insertProductForm" type="insert"}}
             {{> afQuickField name="name" id="name-field"}}
             {{#if IsIEAnd10OrGreater}}
               {{> afQuickField name="description" rows=3}}

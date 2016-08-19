@@ -1,3 +1,4 @@
+import { Products } from '/imports/api/collections.js';
 Meteor.methods({
   'tenant.getPayingUsers': function() {
     var tenants = Tenants.find({

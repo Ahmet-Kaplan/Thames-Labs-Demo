@@ -1,4 +1,6 @@
 import './insert-product-modal.html';
+import "meteor/peppelg:bootstrap-3-modal";
+import { Products } from '/imports/api/collections.js';
 
 Template.insertProductModal.helpers({
   currentUser: function() {
@@ -10,6 +12,9 @@ Template.insertProductModal.helpers({
     }
 
     return false;
+  },
+  formCollection() {
+    return Products;
   }
 });
 

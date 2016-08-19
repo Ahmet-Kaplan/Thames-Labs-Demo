@@ -1,7 +1,7 @@
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
-import '/imports/ui/components/products/product-list-item.js';
+import '/imports/ui/components/products/list-item/product-list-item.js';
 import '/imports/ui/components/export/export.js';
 import './product-list.html';
 

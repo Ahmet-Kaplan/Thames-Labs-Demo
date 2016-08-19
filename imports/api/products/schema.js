@@ -1,4 +1,5 @@
-Schemas.Product = new SimpleSchema({
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+export const ProductSchema = new SimpleSchema({
   sequencedIdentifier: {
     type: Number,
     label: "RealTime ID",
@@ -56,5 +57,3 @@ Schemas.Product = new SimpleSchema({
     defaultValue: new Date()
   }
 });
-
-Products.attachSchema(Schemas.Product);

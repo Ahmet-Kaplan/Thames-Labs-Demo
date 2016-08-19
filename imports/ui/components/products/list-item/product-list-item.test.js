@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { chai } from 'meteor/practicalmeteor:chai';
 import $ from 'jquery';
 import sinon from 'sinon';
+import { Template } from 'meteor/templating';
 import { withRenderedTemplate } from '/imports/ui/test-helpers.js';
 import { currencyHelpers } from '/imports/api/currency/currency-helpers.js';
 
@@ -16,9 +17,11 @@ if (Meteor.isClient) {
       sandbox.stub(currencyHelpers, 'toDecimal', function(number) {
         return `£${number.toFixed(2)}`;
       });
+      Template.registerHelper('decimal', (i) => currencyHelpers.toDecimal(i));
     });
 
     afterEach(function() {
+      Template.deregisterHelper('decimal');
       sandbox.restore();
     });
 
