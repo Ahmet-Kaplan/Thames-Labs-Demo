@@ -239,7 +239,7 @@ Template.nav.events({
     }
 
     event.preventDefault();
-    Modal.show('newProjectForm', this);
+    Modal.show('insertProjectForm', this);
   },
   'click #qckCreatePurchaseOrder': function(event) {
     if (!Roles.userIsInRole(Meteor.userId(), ['CanCreatePurchaseOrders'])) {
@@ -310,7 +310,7 @@ Template.nav.events({
   },
   'click #fabAddProject': function(event) {
     event.preventDefault();
-    Modal.show('newProjectForm', this);
+    Modal.show('insertProjectForm', this);
   },
   'click #fabAddPurchaseOrder': function(event) {
     event.preventDefault();

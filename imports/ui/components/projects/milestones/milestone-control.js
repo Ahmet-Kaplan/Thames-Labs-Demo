@@ -1,3 +1,5 @@
+import './milestone-control.html';
+
 Template.milestoneControl.helpers({
   milestones: function() {
     var projectId = FlowRouter.getParam('id');
