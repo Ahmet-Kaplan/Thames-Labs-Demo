@@ -1,4 +1,4 @@
-import './company-location-picker.js';
+import '/imports/ui/components/maps/picker/location-picker.js';
 import './company-details-form.html';
 import './company-details-form.css';
 
@@ -8,7 +8,7 @@ Template.companyDetailsForm.helpers({
     return this.companyData.name;
   },
   website: function() {
-    return this.companyData.url;
+    if (this.companyData.url) return this.companyData.url.toLowerCase();
   },
   phone: function() {
     return this.companyData.phone;
@@ -40,11 +40,11 @@ AutoForm.hooks({
       insert: function(error, result) {
         if (error) {
           $("#address_details").show();
-          toastr.error('Company creation error: ' + error);
+          toastr.error(`Company creation error: ${error}`);
           return false;
         }
 
-        FlowRouter.go('/companies/' + result);
+        FlowRouter.go(`/companies/${result}`);
       }
     }
   }

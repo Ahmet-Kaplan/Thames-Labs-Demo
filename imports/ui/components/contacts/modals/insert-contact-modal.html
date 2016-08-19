@@ -1,0 +1,35 @@
+<template name="insertContactModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button id="close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Add new contact</h4>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Contacts" id="insertContactForm" type="insert"}}
+            {{#if showTitleField}}
+              {{> afQuickField name="title" id="contactTitlePicklist"}}
+            {{/if}}
+            {{> afQuickField name="forename" id="addContactForename"}}
+            {{> afQuickField name="surname" id="addContactSurname"}}
+            {{> afQuickField name="jobtitle"}}
+            {{> afQuickField name="phone" value=phone}}
+            {{> afQuickField name="mobile"}}
+            {{> afQuickField name="email" id="addContactEmail"}}
+            {{> esSelectize name="companyId" index=CompaniesIndex allowCreate=true}}
+            {{#if showAddress}}
+              {{> locationPicker}}
+            {{/if}}
+            <!-- {{> afQuickField name="sequencedIdentifier"}} -->
+            {{> afQuickField name="createdBy" value=currentUser }}
+            <button type="submit" class="btn btn-primary" id="createContact">Create</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

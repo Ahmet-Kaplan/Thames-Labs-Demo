@@ -3,7 +3,7 @@ import './company-detail.html';
 import '/imports/ui/components/companies/merge/merge-company-modal.js';
 import '/imports/ui/components/companies/widgets/index.js';
 import '/imports/ui/components/charts/sales-history.js';
-import '/imports/ui/components/maps/map-viewer.js';
+import '/imports/ui/components/maps/viewer/map-viewer.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/fab/fab-edit.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-company-opp-modal.js';
@@ -12,6 +12,7 @@ import '/imports/ui/components/companies/modals/update-company-modal.js';
 import '/imports/ui/components/companies/modals/word-help-modal.html';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
+import '/imports/ui/components/contacts/modals/insert-company-contact-modal.js';
 
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';

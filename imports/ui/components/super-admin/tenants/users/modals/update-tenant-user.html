@@ -1,0 +1,30 @@
+<template name="updateTenantUser">
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+          <h4>Edit user</h4>
+        </div>
+
+        <div class="modal-body">
+          <form>
+
+            <div class="checkbox">
+              <label>
+                <input id="cbUserIsTenantAdministrator" type="checkbox">
+                Tenant Administrator
+              </label>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <a class="btn btn-primary" id="btnUpdateTenantUser" style="margin-top:5px;">Update</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

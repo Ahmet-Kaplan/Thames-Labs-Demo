@@ -1,3 +1,5 @@
+import '/imports/ui/components/tutorial-modals/welcome/first-mobile.js';
+import '/imports/ui/components/tutorial-modals/welcome/first-run-modal.js';
 /****************************************
     The widget list is generated from the following 'widgets' object.
     - to avoid conflict with other templates, the convention is to name the template widget.id + 'Widget', e.g. 'chatWidget'
