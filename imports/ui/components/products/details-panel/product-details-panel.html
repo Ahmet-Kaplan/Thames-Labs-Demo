@@ -1,0 +1,46 @@
+<template name='productDetailsPanel'>
+  {{#with productData}}
+    {{> tagInput tags=tags collection='products' entityId=_id permissionToEdit='CanEditProducts'}}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="btn-group pull-right">
+          {{#if isInRole 'CanEditProducts'}}
+            {{#unless isMobile}}
+          <a href="#" id="edit-product" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i>Edit</a>
+            {{/unless}}
+          {{/if}}
+            {{#if isInRole 'CanDeleteProducts'}}
+          <a href="#" id="delete-product" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i>Delete</a>
+          {{/if}}
+        </div>
+        Product details</div>
+      <ul class="list-group">
+        {{#if name}}
+        <li class="list-group-item panel-item-header" data-field="name">
+          <h4><i class="fa fa-fw fa-file-o"></i> Name</h4>
+          {{name}}
+        </li>
+        {{/if}}
+        {{#if desc}}
+        <li class="list-group-item panel-item-header" data-field="description">
+          <h4><i class="fa fa-fw fa-align-left"></i> Description</h4>
+          <span class="product-description">{{{desc}}}</span>
+        </li>
+        {{/if}}
+        {{#if price}}
+        <li class="list-group-item panel-item-header" data-field="price">
+          <h4><i class="fa fa-fw fa-credit-card"></i> Sale Price</h4>
+          {{decimal price}}
+        </li>
+        {{/if}}
+        {{#if cost}}
+        <li class="list-group-item panel-item-header" data-field="cost">
+          <h4><i class="fa fa-fw fa-{{userCurrencyIcon}}"></i> Cost Price</h4>
+          {{decimal cost}}
+        </li>
+        {{/if}}
+      </ul>
+    </div>
+  {{/with}}
+</template>
