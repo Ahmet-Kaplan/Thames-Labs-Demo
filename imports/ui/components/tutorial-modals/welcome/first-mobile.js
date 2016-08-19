@@ -1,3 +1,4 @@
+import './first-mobile.html';
 Template.firstRunMobile.onRendered(function() {
   Meteor.users.update({
     _id: Meteor.userId()

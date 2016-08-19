@@ -4,12 +4,6 @@ Template.insertContactModal.onCreated(function() {
   this.showAddress = new ReactiveVar(true);
 });
 
-Template.insertContactModal.events({
-  'click #close': function() {
-    hopscotch.endTour(true);
-  }
-});
-
 Template.insertContactModal.onRendered(function() {
   if (Meteor.user()) {
     const tenant = Tenants.findOne({
