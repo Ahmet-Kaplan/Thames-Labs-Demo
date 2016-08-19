@@ -2,10 +2,10 @@
   <div class="list-group hidden-sm hidden-xs" id="settings-nav">
     <a class="list-group-item {{isActivePath '/settings/profile'}}" href="profile">Profile</a>
     {{#if isInRole 'Administrator'}}
-      <a class="list-group-item {{isActivePath '/settings/company-info'}}" href="company-info">Company Information</a>
-      <a class="list-group-item {{isActivePath '/settings/configuration'}}" href="configuration">Configuration</a>
-      <a class="list-group-item {{isActivePath '/settings/users'}}" href="users">Users</a>
-      <a class="list-group-item {{isActivePath '/settings/billing'}}" href="billing">Billing</a>
+      <a id="company-info-link" class="list-group-item {{isActivePath '/settings/company-info'}}" href="company-info">Company Information</a>
+      <a id="config-link" class="list-group-item {{isActivePath '/settings/configuration'}}" href="configuration">Configuration</a>
+      <a id="user-link" class="list-group-item {{isActivePath '/settings/users'}}" href="users">Users</a>
+      <a id="billing-link" class="list-group-item {{isActivePath '/settings/billing'}}" href="billing">Billing</a>
     {{/if}}
   </div>
 

@@ -44,9 +44,3 @@ Template.insertUser.helpers({
     return isProTenant(tenantId);
   }
 });
-
-Template.insertUser.events({
-  'click #close': function() {
-    hopscotch.endTour(true);
-  }
-});
