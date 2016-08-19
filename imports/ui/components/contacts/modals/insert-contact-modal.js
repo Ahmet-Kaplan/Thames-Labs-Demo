@@ -64,3 +64,25 @@ Template.insertContactModal.events({
     }
   }
 });
+
+AutoForm.hooks({
+  insertContactForm: {
+    onSuccess: function() {
+      toastr.success('Contact created.');
+      Modal.hide();
+    },
+    after: {
+      insert: function(error, result) {
+        if (error) {
+          toastr.error('Contact creation error: ' + error);
+          return false;
+        }
+
+        FlowRouter.go('/contacts/' + result);
+      }
+    },
+    onError: function(formType, error) {
+      toastr.error('Contact creation error: ' + error);
+    }
+  }
+});

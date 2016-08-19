@@ -14,3 +14,15 @@ Template.insertOpportunityItemModal.events({
     }
   }
 });
+
+AutoForm.hooks({
+  insertOpportunityItemForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity line item added.');
+      Modal.hide();
+    },
+    onError: function(formType, error) {
+      toastr.error('Opportunity line item creation error: ' + error);
+    }
+  }
+});

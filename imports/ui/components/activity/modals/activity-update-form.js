@@ -9,3 +9,15 @@ Template.updateActivityModal.helpers({
     return false;
   }
 });
+
+AutoForm.hooks({
+  updateActivityForm: {
+    onSuccess: function() {
+      Modal.hide();
+      toastr.success('Activity updated.');
+    },
+    onError: function(formType, error) {
+      toastr.error('Activity creation error: ' + error);
+    }
+  }
+});
