@@ -86,14 +86,14 @@ module.exports = function() {
     //The admin is listed as well, need to select the last child which is the restricted user
     browser.waitForExist(".user-detail-link", 5000);
     browser.scroll(".user-detail-link", 0, 200);
-    browser.click("#user-list .list-group-item:last-child a");
+    browser.safeClick("#user-list .list-group-item:last-child a");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
     browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
     browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
-    browser.click("#" + entityName + "PermissionSelector");
+    browser.safeClick("#" + entityName + "PermissionSelector");
     browser.selectByValue("#" + entityName + "PermissionSelector", permissionName);
-    browser.click('#update-user');
+    browser.safeClick('#update-user');
   });
 
   this.When(/^I add permission "([^"]*)" on "([^"]*)" to myself$/, function(permissionName, entityName) {
@@ -101,14 +101,14 @@ module.exports = function() {
     //The admin is listed as well, need to select the last child which is the restricted user
     browser.waitForExist(".user-detail-link", 5000);
     browser.scroll(".user-detail-link", 0, 200);
-    browser.click("#user-list .list-group-item:last-child a");
+    browser.safeClick("#user-list .list-group-item:last-child a");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
     browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
     browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
-    browser.click("#" + entityName + "PermissionSelector");
+    browser.safeClick("#" + entityName + "PermissionSelector");
     browser.selectByValue("#" + entityName + "PermissionSelector", permissionName);
-    browser.click('#update-user');
+    browser.safeClick('#update-user');
   });
 
   this.When(/^I remove permissions on "([^"]*)" from a restricted user$/, function(entityName) {
@@ -116,14 +116,14 @@ module.exports = function() {
     //The admin is listed as well, need to select the last child which is the restricted user
     browser.waitForExist(".user-detail-link", 5000);
     browser.scroll(".user-detail-link", 0, 200);
-    browser.click("#user-list .list-group-item:last-child a");
+    browser.safeClick("#user-list .list-group-item:last-child a");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
     browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
     browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
-    browser.click("#" + entityName + "PermissionSelector");
+    browser.safeClick("#" + entityName + "PermissionSelector");
     browser.selectByValue("#" + entityName + "PermissionSelector", "Restricted");
-    browser.click('#update-user');
+    browser.safeClick('#update-user');
   });
 
   this.When(/^I remove permissions on "([^"]*)" for myself$/, function(entityName) {
@@ -131,13 +131,13 @@ module.exports = function() {
     //The admin is listed as well, need to select the last child which is the restricted user
     browser.waitForExist(".user-detail-link", 5000);
     browser.scroll(".user-detail-link", 0, 200);
-    browser.click("#user-list .list-group-item:last-child a");
+    browser.safeClick("#user-list .list-group-item:last-child a");
     browser.waitForExist(".modal-dialog", 5000);
     browser.waitForVisible(".modal-dialog", 5000);
     browser.waitForExist("#" + entityName + "PermissionSelector", 5000);
     browser.waitForVisible("#" + entityName + "PermissionSelector", 5000);
-    browser.click("#" + entityName + "PermissionSelector");
+    browser.safeClick("#" + entityName + "PermissionSelector");
     browser.selectByValue("#" + entityName + "PermissionSelector", "Restricted");
-    browser.click('#update-user');
+    browser.safeClick('#update-user');
   });
 };

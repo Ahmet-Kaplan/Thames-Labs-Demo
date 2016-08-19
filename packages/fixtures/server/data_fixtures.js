@@ -175,6 +175,7 @@ Meteor.methods({
   },
 
   addProduct: function(additional) {
+    const { Products } = require('/imports/api/collections.js');
     var name = (additional === true) ? 'Lightsabre (blue)' : 'Imperial Blaster',
         description = (additional === true) ? 'An elegant weapon, from a more civilised age' : 'Accurate and deadly',
         cost = (additional === true) ? 0 : 100,
