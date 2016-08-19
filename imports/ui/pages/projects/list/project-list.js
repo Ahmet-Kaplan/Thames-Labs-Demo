@@ -2,6 +2,7 @@ import { permissionHelpers } from '/imports/api/permissions/permission-helpers.j
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/projects/project-list-item.js';
 import '/imports/ui/components/projects/modals/insert-project-modal.js';
+import '/imports/ui/components/export/export.js';
 
 import './project-list.html';
 
@@ -66,10 +67,6 @@ Template.projectsList.events({
   'click #add-project': function(event) {
     event.preventDefault();
     Modal.show('insertProjectModal', this);
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('projects');
   },
   'click #ref_projectOverviewWidget': function(event, template) {
 

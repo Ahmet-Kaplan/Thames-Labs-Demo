@@ -1,0 +1,32 @@
+<template name="updateContactModal">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Edit contact details</h4>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Contacts" id="editContactForm" type="update" doc=this}}
+            {{#if showTitleField}}
+              {{> afQuickField name="title" id="contactTitlePicklist"}}
+            {{/if}}
+            {{> afQuickField name="forename"}}
+            {{> afQuickField name="surname"}}
+            {{> afQuickField name="jobtitle"}}
+            {{> afQuickField name="phone" value=phone}}
+            {{> afQuickField name="mobile"}}
+            {{> afQuickField name="email"}}
+            {{#if noCompany}}
+              {{> locationPicker addressData=addressData}}
+            {{/if}}
+            <button type="submit" class="btn btn-primary">Update</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

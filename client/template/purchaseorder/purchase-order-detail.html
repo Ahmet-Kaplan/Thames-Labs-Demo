@@ -18,16 +18,15 @@
             <div class="btn-group pull-right">
               {{#if isInRole 'CanEditPurchaseOrders'}}
               <div class="btn-group">
-                <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
-                  <span class="caret"></span>
-                  Download as...
-                </button>
+                {{#if hasDownloadSupport}}
+                  <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>Download as...</button>
+                {{else}}
+                  <button class="btn btn-xs btn-default" data-toggle="tooltip" title="This feature is currently unsupported by your browser." data-placement="bottom"><span class="caret"></span>Download as...</button>
+                {{/if}}
                 <ul class="dropdown-menu" role="menu">
-                  {{#if canExportDocx}}
-                    <li>
-                      <a href="#" id="template-upload-link-docx">Microsoft Word template (.docx)</a>
-                    </li>
-                  {{/if}}
+                  <li>
+                    <a href="#" id="template-upload-link-docx">Microsoft Word template (.docx)</a>
+                  </li>
                   <li class="divider"></li>
                   <li>
                     <a href="#" id="po-template-help">How does this work?</a>
