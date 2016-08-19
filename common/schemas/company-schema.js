@@ -57,7 +57,7 @@ Schemas.Company = new SimpleSchema({
     label: "Website",
     optional: true,
     defaultValue: "",
-    regEx: /(^$)|((https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?)/,
+    regEx: /(^$)|((https?:\/\/)?([\dA-Za-z\.-]+)\.([A-Za-z\.]{2,6})([\/\w \.-]*)*\/?)/,
     autoform: {
       placeholder: 'http://'
     }
@@ -124,4 +124,9 @@ Schemas.Company = new SimpleSchema({
     defaultValue: new Date()
   }
 });
+
+Schemas.Company.messages({
+  "regEx website": "The website address is not valid"
+});
+
 Companies.attachSchema(Schemas.Company);
