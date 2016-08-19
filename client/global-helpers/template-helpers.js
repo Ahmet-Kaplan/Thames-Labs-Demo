@@ -154,3 +154,12 @@ Template.registerHelper('isProTenant', function() {
   if (!tenant) return false;
   return isProTenant(tenant._id);
 });
+
+Template.registerHelper('hasDownloadSupport', function() {
+  const a = document.createElement('a');
+  if (typeof a.download != "undefined") {
+    // download attribute is supported
+    return true;
+  }
+  return false;
+});

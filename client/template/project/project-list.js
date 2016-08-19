@@ -1,6 +1,6 @@
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
-
+import '/imports/ui/components/export/export.js';
 
 Template.projectsList.onCreated(function() {
   // Redirect if read permission changed
@@ -63,10 +63,6 @@ Template.projectsList.events({
   'click #add-project': function(event) {
     event.preventDefault();
     Modal.show('insertProjectModal', this);
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('projects');
   },
   'click #ref_projectOverviewWidget': function(event, template) {
 

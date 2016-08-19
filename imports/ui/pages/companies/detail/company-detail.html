@@ -22,10 +22,11 @@
             {{#if isInRole 'CanEditCompanies'}}
             <button id="merge-company" class="btn btn-default btn-xs"><i class="fa fa-fw fa-compress"></i> Merge</button>
             <div class="btn-group">
-              <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-                Download as...
-              </button>
+              {{#if hasDownloadSupport}}
+                <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>Download as...</button>
+              {{else}}
+                <button class="btn btn-xs btn-default" data-toggle="tooltip" title="This feature is currently unsupported by your browser." data-placement="bottom"><span class="caret"></span>Download as...</button>
+              {{/if}}
               <ul class="dropdown-menu" role="menu">
                 <li><a href="#" id="template-upload-link">Microsoft Word template (.docx)</a></li>
                 <li class="divider"></li>

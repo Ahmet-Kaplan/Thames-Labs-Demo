@@ -2,6 +2,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
+import '/imports/ui/components/export/export.js';
 
 import './activity-list.html';
 import './activity-list.css';
@@ -32,12 +33,5 @@ Template.activityList.helpers({
   },
   hasMultipleActivities: function() {
     return Template.instance().totalActivities.get() !== 1;
-  }
-});
-
-Template.activityList.events({
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('activities');
   }
 });

@@ -179,7 +179,7 @@ Feature: Allow users to manage their Contacts
     And a "Contact" has been created
     When I navigate to a contact page
     And I click "#edit-contact"
-    Then I should see "#formatted_address"
+    Then I should see ".form-address"
 
   Scenario: A user cannot see the address fields for a contact belonging to a company
     Given I have the "CanCreateContacts" permission

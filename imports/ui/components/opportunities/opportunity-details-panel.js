@@ -38,13 +38,6 @@ Template.opportunityDetailsPanel.helpers({
     if (user) return user.profile.name;
   },
 
-  canExportDocx: function() {
-    if (bowser.safari) {
-      return false;
-    }
-    return true;
-  },
-
   isDetailsPage: function() {
     return FlowRouter.getRouteName() === 'opportunity';
   }
