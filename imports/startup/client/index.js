@@ -18,3 +18,5 @@ import '../../ui/pages/event-log/event-log.js';
 import '../../ui/components/products/modals/insert-product-modal.js';
 import '../../ui/pages/products/product-list.js';
 import '../../ui/pages/products/product-detail.js';
+import '../../ui/pages/contacts/list/contact-list.js';
+import '../../ui/pages/contacts/detail/contact-detail.js';
