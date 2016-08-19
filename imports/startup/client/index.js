@@ -20,3 +20,7 @@ import '../../ui/pages/products/product-list.js';
 import '../../ui/pages/products/product-detail.js';
 import '../../ui/pages/contacts/list/contact-list.js';
 import '../../ui/pages/contacts/detail/contact-detail.js';
+import '../../ui/pages/super-admin/global-event-log/event-log.js';
+import '../../ui/pages/super-admin/notifications/notifications.js';
+import '../../ui/pages/super-admin/tenants/tenant-list.js';
+import '../../ui/pages/super-admin/statistics/statistics.js';

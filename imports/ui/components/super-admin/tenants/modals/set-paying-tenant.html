@@ -1,0 +1,65 @@
+<template name="setPayingTenant">
+  <div class="modal fade" id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Switch to Paying Plan</h4>
+        </div>
+
+        <div class="modal-body">
+
+          <h5><strong>Free Unlimited</strong></h5>
+          <div class="form-group">
+            <label class="control-label">Using this option will set this tenant's payment plan to {{#if freeUnlimited}}free{{else}}unlimited without paying{{/if}}, use with care!</label>
+            <button id="setFreeUnlimited" class="btn btn-sm btn-warning">Set tenant to Free {{#unless freeUnlimited}}Unlimited{{/unless}}</button>
+          </div>
+
+          <hr>
+          <h5><strong>Manually Create Stripe Account</strong></h5>
+          <div class="form-group">
+            <label for="stripeAccountNumber" class="control-label">Stripe Account Number</label>
+            <div class="row">
+              <div class="col-xs-6">
+                <input type="text" id="stripeAccountNumber" class="form-control" placeholder="cus_" value="{{stripeId}}" />
+              </div>
+              <div class="col-xs-6">
+                <button id="btnSaveStripeAccount" class="btn btn-sm btn-primary">Save Account #</button>
+              </div>
+            </div>
+          </div>
+
+          {{#if stripeSubs}}
+          <div class="form-group">
+            <label for="stripeSubsNumber" class="control-label">Stripe Subscription Number</label>
+            <div class="row">
+              <div class="col-xs-6">
+                <input type="text" id="stripeSubsNumber" class="form-control " value= "{{stripeSubs}}" />
+              </div>
+              <div class="col-xs-6">
+                <button id="btnResumeStripeSubs" class="btn btn-sm btn-primary">Resume Subscription</button>
+                <button id="btnRemoveSubsId" class="btn btn-sm btn-danger">Delete Subscription ID</button>
+              </div>
+            </div>
+          </div>
+          {{else}}
+          <div class="form-group" id="showSubsNumberForm" style="{{#unless hasStripeAccount}}display: none;{{/unless}}">
+            <label for="stripeSubsNumber" class="control-label">Stripe Subscription Number</label>
+            <div class="row">
+              <div class="col-xs-6">
+                <input type="text" id="stripeSubsNumber" class="form-control " placeholder="sub_"/>
+              </div>
+              <div class="col-xs-6">
+                <button id="btnSaveStripeSubs" class="btn btn-sm btn-primary">Save Subscription #</button>
+                <button id="btnCreateStripeSubs" class="btn btn-sm btn-info">Create Subscription #</button>
+              </div>
+            </div>
+          </div>
+          {{/if}}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
