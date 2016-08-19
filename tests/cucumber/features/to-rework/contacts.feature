@@ -91,7 +91,7 @@ Feature: Allow users to manage their Contacts
     When I navigate to a contact page
     And I click "#edit-contact"
     And I set text field "forename" to "Forename"
-    And I submit the "editContact" form
+    And I submit the "updateContact" form
     Then "#contact-details" should say "Forename Surname"
 
   Scenario: A user without permission cannot edit a contact
