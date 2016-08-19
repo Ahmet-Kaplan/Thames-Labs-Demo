@@ -1,9 +1,10 @@
 import './contact-detail.html';
 import './contact-detail.css';
-import '/imports/ui/components/contacts/modals/edit-contact-modal.js';
+import '/imports/ui/components/contacts/modals/update-contact-modal.js';
 import '/imports/ui/components/contacts/widgets/public-contact-information.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/fab/fab-edit.js';
+import '/imports/ui/components/maps/viewer/map-viewer.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-contact-opp-modal.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-contact-purchase-order.js';

@@ -2,6 +2,7 @@ import { permissionHelpers } from '/imports/api/permissions/permission-helpers.j
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-purchase-order.js';
 import '/imports/ui/components/purchase-orders/list-item/purchase-order-list-item.js';
+import '/imports/ui/components/export/export.js';
 
 import './purchase-order-list.html';
 
@@ -78,10 +79,6 @@ Template.purchaseOrderList.events({
   'click #add-purchase-order': function(event) {
     event.preventDefault();
     Modal.show('insertPurchaseOrderModal', this);
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('purchaseorders');
   },
   'click #ref_poOverviewWidget': function(event, template) {
 

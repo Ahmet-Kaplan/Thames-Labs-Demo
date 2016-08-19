@@ -66,12 +66,6 @@ Template.purchaseOrderDetail.helpers({
   },
   canAddMoreItems: function() {
     return (this.status === "Requested");
-  },
-  canExportDocx: function() {
-    if (bowser.safari) {
-      return false;
-    }
-    return true;
   }
 });
 
