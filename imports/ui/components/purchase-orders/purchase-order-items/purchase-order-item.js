@@ -1,3 +1,5 @@
+import bootbox from 'bootbox';
+
 import './purchase-order-item.html';
 
 Template.purchaseOrderItem.helpers({

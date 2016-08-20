@@ -9,7 +9,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="PurchaseOrderItems" id="editPurchaseOrderItem" type="update" doc=purchaseOrderItem}}
+          {{#autoForm collection="PurchaseOrderItems" id="updatePurchaseOrderItemForm" type="update" doc=purchaseOrderItem}}
             {{> afQuickField name="description" id="description" rows=3}}
             {{> afQuickField name="productCode" id="code"}}
             {{> afQuickField name="status" options="allowed" id="status"}}

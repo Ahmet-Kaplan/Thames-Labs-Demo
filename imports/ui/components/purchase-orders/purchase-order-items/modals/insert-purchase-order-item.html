@@ -9,7 +9,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="PurchaseOrderItems" id="addPurchaseOrderItem" type="insert"}}
+          {{#autoForm collection="PurchaseOrderItems" id="insertPurchaseOrderItemForm" type="insert"}}
             {{> afQuickField name="purchaseOrderId" type="hidden" value=purchaseOrder._id}}
             {{> afQuickField name="description" id="description" rows=3}}
             {{> afQuickField name="productCode" id="code"}}

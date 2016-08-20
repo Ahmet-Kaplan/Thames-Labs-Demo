@@ -65,3 +65,14 @@ Template.updatePurchaseOrderItemModal.helpers({
     return data;
   }
 });
+
+AutoForm.hooks({
+  updatePurchaseOrderItemForm: {
+    onError: function(formType, error) {
+      toastr.error(`Failed to add a purchase order item, error: ${error}`);
+    },
+    onSuccess: function() {
+      Modal.hide();
+    }
+  }
+});
