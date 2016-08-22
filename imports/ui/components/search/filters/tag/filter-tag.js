@@ -39,11 +39,11 @@ Template.filterTag.helpers({
       const record = Collections[filter.collectionName].findOne({
         _id: this.id
       });
-      if(matchPrev) return _.capitalize(filter.displayValue(record));
-      return filter.display + ' ' + _.capitalize(filter.displayValue(record));
+      if(matchPrev) return filter.displayValue(record);
+      return `${filter.display} ${filter.displayValue(record)}`;
     }
     if(matchPrev) return this.id;
-    return filter.display + ' ' + this.id;
+    return `${filter.display} ${this.id}`;
   },
   prefix: function() {
     const list = getFilters(this.mainCollectionName),
