@@ -13,7 +13,7 @@
             {{> afQuickField name="description" id="description" rows=3}}
             {{> afQuickField name="supplierCompanyId" type="hidden" value=supplierCompanyId}}
             {{> afQuickField type="text" readonly=true label="Supplier Company" value=supplierCompanyName}}
-            {{> esSelectize name="supplierContactId" index=ContactsIndex parent="supplierCompanyId" filter="filterCompanyId"}}
+            {{> autosuggest name="supplierContactId" index=ContactsIndex parent="supplierCompanyId" filter="filterCompanyId"}}
             {{> afQuickField name="supplierReference" id="supRef"}}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}

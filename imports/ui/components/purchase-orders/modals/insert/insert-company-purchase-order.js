@@ -1,4 +1,5 @@
 import { moment } from 'meteor/momentjs:moment';
+import '/imports/ui/components/autosuggest/autosuggest.js';
 import './insert-company-purchase-order.html';
 
 Template.insertCompanyPurchaseOrderModal.helpers({

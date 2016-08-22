@@ -18,7 +18,7 @@
             {{/if}}
             {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
             {{> afQuickField name="contactId" id="companyContacts" type="hidden" value=contactId}}
-            {{> esSelectize name="userId" index=UsersIndex}}
+            {{> autosuggest name="userId" index=UsersIndex}}
 
             <div class="form-group">
               <label for="proj-value" class="control-label">Value</label>

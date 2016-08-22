@@ -22,8 +22,8 @@
           </div>
           {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
           {{> afQuickField name="companyId" id="companyId" value=companyId type="hidden"}}
-          {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
-          {{> esSelectize name="salesManagerId" index=UsersIndex allowEmptyOption=true}}
+          {{> autosuggest name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
+          {{> autosuggest name="salesManagerId" index=UsersIndex allowEmptyOption=true}}
           {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
           {{> afQuickField name="isArchived" value=false type="hidden"}}
           {{> afQuickField name="currentStageId" value=firstStageId type="hidden"}}

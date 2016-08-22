@@ -12,9 +12,9 @@
           {{#autoForm collection="Projects" id="insertProjectForm" type="insert"}}
             {{> afQuickField name="name"}}
             {{> afQuickField name="description" rows=3}}
-            {{> esSelectize name="companyId" index=CompaniesIndex}}
-            {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
-            {{> esSelectize name="userId" index=UsersIndex}}
+            {{> autosuggest name="companyId" index=CompaniesIndex}}
+            {{> autosuggest name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
+            {{> autosuggest name="userId" index=UsersIndex}}
 
             <div class="form-group">
               <label for="proj-value" class="control-label">Value</label>

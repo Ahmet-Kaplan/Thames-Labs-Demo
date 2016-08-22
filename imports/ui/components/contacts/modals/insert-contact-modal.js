@@ -1,3 +1,4 @@
+import '/imports/ui/components/autosuggest/autosuggest.js';
 import './insert-contact-modal.html';
 
 Template.insertContactModal.onCreated(function() {

@@ -20,8 +20,8 @@
               {{> reminderSelector}}
             </div>
           {{/if}}
-          {{> esSelectize name="assigneeId" index=UsersIndex value=assigneeId}}
-          {{> esSelectize name="parentTaskId" index=TasksIndex value=parentTaskId excludes=exclusions}}
+          {{> autosuggest name="assigneeId" index=UsersIndex value=assigneeId}}
+          {{> autosuggest name="parentTaskId" index=TasksIndex value=parentTaskId excludes=exclusions}}
 
           <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}

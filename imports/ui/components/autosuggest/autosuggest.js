@@ -1,4 +1,6 @@
-Template.esSelectize.onRendered(function() {
+import './autosuggest.html';
+
+Template.autosuggest.onRendered(function() {
   this.parent = new ReactiveVar('');
   this.query = new ReactiveVar(null);
   const selectize = $(`#${this.data.name}`)[0].selectize;
@@ -57,7 +59,7 @@ Template.esSelectize.onRendered(function() {
   });
 });
 
-Template.esSelectize.helpers({
+Template.autosuggest.helpers({
   initialize: function() {
     const tasksIndex = (this.index.config.name === "tasks");
 

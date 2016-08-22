@@ -14,7 +14,7 @@
             {{> afQuickField name="description" rows=3}}
             {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
             {{> afQuickField name="companyId" id="selectedCompany" value=companyId type="hidden"}}
-            {{> esSelectize name="userId" index=UsersIndex}}
+            {{> autosuggest name="userId" index=UsersIndex}}
 
             <div class="form-group">
               <label for="proj-value" class="control-label">Value</label>
