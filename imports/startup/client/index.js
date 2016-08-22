@@ -29,3 +29,5 @@ import '../../ui/pages/super-admin/global-event-log/event-log.js';
 import '../../ui/pages/super-admin/notifications/notifications.js';
 import '../../ui/pages/super-admin/tenants/tenant-list.js';
 import '../../ui/pages/super-admin/statistics/statistics.js';
+import '../../ui/pages/purchase-orders/purchase-order-list.js';
+import '../../ui/pages/purchase-orders/purchase-order-detail.js';
