@@ -42,6 +42,11 @@ Schemas.Tenant = new SimpleSchema({
     optional: true,
     label: "Coupon code"
   },
+  "stripe.maxFreeUsers": {
+    type: Number,
+    optional: false,
+    defaultValue: 1
+  },
   createdAt: {
     type: Date,
     defaultValue: new Date()

@@ -31,13 +31,6 @@ isProTenant = function(tenantId) {
   return false;
 };
 
-isTenantOverFreeUserLimit = function(tenantId) {
-  if (!tenantId) return false;
-  return Meteor.users.find({
-    group: tenantId
-  }).count() >= MAX_FREE_USERS;
-};
-
 getDisallowedPermissions = function(userId) {
   var collectionsToFilter = [];
   var perms = ['companies', 'contacts', 'opportunities', 'projects', 'tasks', 'purchaseorders'];
@@ -223,7 +216,7 @@ permissionGenerator = function(operation, collectionName) {
 };
 
 //Free plan user limit
-MAX_FREE_USERS = 2;
+MAX_FREE_USERS = 1;
 
 //Extended information field free plan limits
 MAX_FREE_ENTITY_GLOBAL_FIELDS = 5;

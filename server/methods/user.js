@@ -1,3 +1,5 @@
+import { isTenantOverFreeUserLimit } from '/imports/api/tenants/helpers.js';
+
 Meteor.methods({
 
   'users.export': function(collectionName, searchDefinition, searchOptions) {

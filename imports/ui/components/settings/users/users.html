@@ -10,10 +10,12 @@
   </div>
 
   {{#unless isProTenant}}
-  <div class="settings-section">
-      <h4>Upgrade RealTimeCRM</h4>
-      <p>Subscribe to the Pro Plan to add more than 2 users.</p>
-      <button id="upScheme" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Upgrade to the Pro Plan</button>
-  </div>
+    {{#if overFreeLimit}}
+    <div class="settings-section">
+        <h4>Upgrade RealTimeCRM</h4>
+        <p>Subscribe to the Pro Plan to add more users.</p>
+        <button id="upScheme" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Upgrade to the Pro Plan</button>
+    </div>
+    {{/if}}
   {{/unless}}
 </template>

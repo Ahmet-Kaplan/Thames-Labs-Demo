@@ -1,3 +1,7 @@
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { isTenantOverFreeUserLimit } from '/imports/api/tenants/helpers.js';
+
 import './user-details-link.js';
 import './modals/insert-user.js';
 import './users.html';
@@ -20,9 +24,8 @@ Template.users.helpers({
       _id: Meteor.user().group
     }).plan;
   },
-  isProTenant: function() {
-    var tenantId = Meteor.user().group;
-    return isProTenant(tenantId);
+  overFreeLimit: function() {
+    return isTenantOverFreeUserLimit(Meteor.user().group);
   }
 });
 
