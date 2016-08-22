@@ -1,6 +1,6 @@
 import '/imports/ui/components/search/search-results.js';
 import '/imports/ui/components/search/local/small-box/small-search-box.js';
-import '/imports/ui/components/search/filtering/panel/filter-panel.js';
+import '/imports/ui/components/search/filters';
 import '/imports/ui/components/tasks/task-item.js';
 import '/imports/ui/components/tasks/calendar/calendar.js';
 import '/imports/ui/components/tasks/modals/insert-task-modal.js';

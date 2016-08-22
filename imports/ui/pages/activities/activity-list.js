@@ -2,6 +2,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
+import '/imports/ui/components/search/filters';
 import '/imports/ui/components/export/export.js';
 
 import './activity-list.html';

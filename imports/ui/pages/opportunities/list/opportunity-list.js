@@ -2,6 +2,7 @@ import { permissionHelpers } from '/imports/api/permissions/permission-helpers.j
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/opportunities/opportunity-list-item.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-opportunity-modal.js';
+import '/imports/ui/components/search/filters';
 import '/imports/ui/components/search/search-results.js';
 import '/imports/ui/components/export/export.js';
 import './opportunity-list.html';

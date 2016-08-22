@@ -1,5 +1,5 @@
 import './filter-panel.html';
-import './filter-panel.css';
+import './filter-panel.less';
 import '../box/filter-box.js';
 import '../tag/filter-tag.js';
 import { getFilters } from '/imports/api/search/search-functions.js';
@@ -10,7 +10,6 @@ Template.filterPanel.onCreated(function() {
 
 Template.filterPanel.onRendered(function() {
   const mainCollectionName = Template.instance().data.collectionName;
-  console.log(Template.instance());
   this.autorun(() => {
     this.totalCount.set(Collections[mainCollectionName].index.getComponentDict().get('count'));
   });

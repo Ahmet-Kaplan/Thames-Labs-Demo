@@ -1,6 +1,6 @@
 import './search-box.html';
 import './search-box.css';
-import '../../filtering/box/filter-box.js';
+import '../../filters/box/filter-box.js';
 import { getFilters } from '/imports/api/search/search-functions.js';
 
 Template.searchBox.onRendered(function() {

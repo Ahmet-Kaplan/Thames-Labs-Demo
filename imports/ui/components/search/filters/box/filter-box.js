@@ -1,15 +1,14 @@
 import './filter-box.html';
-import './filter-box.css';
 
 const currentFilter = new ReactiveVar({}),
       searchInput = new ReactiveVar(''),
       activeSelection = new ReactiveVar({});
 
 function updateActiveSelection() {
-  if ($('#filtersSearch').find('.active').length) {
+  if ($('#filter-search').find('.active').length) {
     activeSelection.set({
-      text: $('#filtersSearch').find('.active').text(),
-      value: $('#filtersSearch').find('.active').data('value')
+      text: $('#filter-search').find('.active').text(),
+      value: $('#filter-search').find('.active').data('value')
     });
   }
 }
@@ -106,7 +105,7 @@ function applyFilter(text, value, mainCollectionName, selectize) {
   //If user clicked on an item in the generated filters list, trigger filter display
   if (value.search('setFilter') !== -1) {
     selectize.clearOptions();
-    $('#filtersSearch input').val(text + ' ');
+    $('#filter-search input').val(text + ' ');
     searchInput.set(text + ' ');
 
     //If the filter is not a predefined value (e.g. date)
@@ -150,7 +149,7 @@ Template.filterBox.onRendered(function() {
         self = this;
   this.handle = null;
 
-  const $select = $('#filterBox').selectize({
+  const $select = $('#filter-box').selectize({
     placeholder: this.data.placeholder,
     valueField: '_id',
     labelField: 'name',
@@ -183,7 +182,7 @@ Template.filterBox.onRendered(function() {
   });
 
   //Trick to handle the use of enter key twice which is not taken care of by Selectize
-  $('#filtersSearch').on('keyup', function(evt) {
+  $('#filter-search').on('keyup', function(evt) {
     if (evt.keyCode === 13) {
       const data = activeSelection.get();
       if (data && data.text && data.value) {

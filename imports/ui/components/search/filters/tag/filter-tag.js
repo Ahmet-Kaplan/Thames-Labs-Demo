@@ -1,3 +1,4 @@
+import './filter-tag.css';
 import './filter-tag.html';
 import { getFilters } from '/imports/api/search/search-functions.js';
 
@@ -74,7 +75,8 @@ Template.filterTag.helpers({
 });
 
 Template.filterTag.events({
-  'click .removeProp': function(e) {
+  'click .filter-tag': function(e) {
+    //Remove tag on click
     e.preventDefault();
     const mainCollectionName = this.mainCollectionName,
           id = e.target.id,

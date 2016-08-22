@@ -2,6 +2,7 @@ import { permissionHelpers } from '/imports/api/permissions/permission-helpers.j
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/search/search-results.js';
 import '/imports/ui/components/search/local/small-box/small-search-box.js';
+import '/imports/ui/components/search/filters';
 import '/imports/ui/components/projects/project-list-item.js';
 import '/imports/ui/components/projects/modals/insert-project-modal.js';
 import '/imports/ui/components/export/export.js';
