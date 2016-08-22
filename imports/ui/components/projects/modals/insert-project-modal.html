@@ -13,11 +13,7 @@
             {{> afQuickField name="name"}}
             {{> afQuickField name="description" rows=3}}
             {{> esSelectize name="companyId" index=CompaniesIndex}}
-            {{#if showContacts}}
-              {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
-            {{else}}
-              {{> esSelectize name="contactId" index=ContactsIndex}}
-            {{/if}}
+            {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
             {{> esSelectize name="userId" index=UsersIndex}}
 
             <div class="form-group">
