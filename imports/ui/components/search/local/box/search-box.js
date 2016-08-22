@@ -3,8 +3,8 @@ import './search-box.css';
 import '../../filters/box/filter-box.js';
 import { getFilters } from '/imports/api/search/search-functions.js';
 
-Template.searchBox.onRendered(function() {
-  Session.setDefault('search.showFilters', false);
+Template.searchBox.onCreated(function() {
+  this.showFilters = new ReactiveVar(false);
 });
 
 Template.searchBox.helpers({
@@ -16,7 +16,7 @@ Template.searchBox.helpers({
     return Collections[mainCollectionName].index;
   },
   showFilters: function() {
-    return Session.get('search.showFilters');
+    return Template.instance().showFilters.get();
   }
 });
 
@@ -24,15 +24,15 @@ Template.searchBox.events({
   'click #toggleFilters': function(e) {
     e.preventDefault();
 
-    if (Session.get('search.showFilters')) {
-      Session.set('search.showFilters', false);
+    if (Template.instance().showFilters.get()) {
+      Template.instance().showFilters.set(false);
     } else {
       const selectize = $('#filterBox')[0].selectize;
       selectize.clearOptions();
       Meteor.setTimeout(function() {
         $('#filtersSearch input').focus();
       }, 300);
-      Session.set('search.showFilters', true);
+      Template.instance().showFilters.set(true);
     }
     $(e.target).blur();
   },

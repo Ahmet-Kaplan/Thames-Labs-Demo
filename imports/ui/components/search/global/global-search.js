@@ -2,12 +2,6 @@ import './global-search.html';
 import './global-search.css';
 import './global-search-result.js';
 
-Session.set('globalSearchOpen', false);
-
-Template.globalSearch.onDestroyed(function() {
-  Session.set('globalSearchOpen', false);
-});
-
 Template.globalSearch.onRendered(function() {
   $('#globalSearchBox').addClass('form-control');
 });

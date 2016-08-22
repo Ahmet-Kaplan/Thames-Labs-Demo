@@ -1,6 +1,9 @@
 // Loads startup call to get stripe public key
 import './stripe-pk.js';
 
+// Loads api files
+import '../../api/client/hotkeys.js';
+
 // Loads pages
 import '../../ui/components/companies/modals/insert-company-modal.js';
 import '../../ui/components/documents/document-container.js';
