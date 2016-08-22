@@ -54,7 +54,7 @@ globalHotkeys.add({
   combo: "ctrl+alt+j",
   callback: function() {
     if(!$('.modal-header h4').text()) {
-      Modal.show('newProjectForm');
+      Modal.show('insertProjectModal');
     } else if($('.modal-header h4:contains("Add new project")').length) {
       Modal.hide();
     }
