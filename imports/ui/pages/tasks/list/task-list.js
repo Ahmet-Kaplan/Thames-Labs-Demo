@@ -1,8 +1,13 @@
 import '/imports/ui/components/search/search-results.js';
 import '/imports/ui/components/search/local/small-box/small-search-box.js';
 import '/imports/ui/components/search/filtering/panel/filter-panel.js';
+import '/imports/ui/components/tasks/task-item.js';
+import '/imports/ui/components/tasks/calendar/calendar.js';
+import '/imports/ui/components/tasks/modals/insert-task-modal.js';
 import '/imports/ui/components/export/export.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+
+import './task-list.html';
 
 Template.taskList.onCreated(function() {
   // Redirect if read permission changed
@@ -27,7 +32,7 @@ Template.taskList.onRendered(function() {
   // Watch for session variable setting search
   Session.set('taskSearchQuery', null);
   this.autorun(function() {
-    var searchQuery = Session.get('taskSearchQuery');
+    const searchQuery = Session.get('taskSearchQuery');
     if (searchQuery) {
       TasksIndex.getComponentMethods().search(searchQuery);
       $('.stick-bar input').val(searchQuery);
