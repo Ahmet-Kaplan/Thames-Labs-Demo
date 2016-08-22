@@ -1,0 +1,16 @@
+<template name="reminderSelector">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-3">
+        <input id="reminderValue" type="number" max="60" class="form-control" value="1">
+      </div>
+      <div class="col-md-6">
+        <select id="reminderUnit" class="form-control">
+          <option value="minutes">Minutes Before</option>
+          <option value="hours" selected>Hours Before</option>
+          <option value="days">Days Before</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</template>

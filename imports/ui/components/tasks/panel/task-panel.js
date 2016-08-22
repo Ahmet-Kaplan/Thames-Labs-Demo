@@ -1,4 +1,7 @@
-import '/imports/ui/components/tasks/task/task-item.js';
+import './task-panel.html';
+import './task-panel.css';
+import '../modals/insert-task-modal.js';
+import '../task-item.js';
 
 function isDashboard() {
   return FlowRouter.getRouteName() === "dashboard";
@@ -29,7 +32,7 @@ Template.taskDisplay.helpers({
     return isDashboard();
   },
   tasks: function() {
-    var cutOffDate = moment(new Date()).subtract(1, 'hours').toDate();
+    let cutOffDate = moment(new Date()).subtract(1, 'hours').toDate();
     const showCompleted = Template.instance().showCompleted.get();
     if (!showCompleted) cutOffDate = new Date();
 
@@ -76,18 +79,18 @@ Template.taskDisplay.helpers({
   },
   formattedDueDate: function() {
     if (this.isAllDay) {
-      var a = moment(new Date());
+      const a = moment(new Date());
       a.hour(0);
       a.minute(0);
 
-      var b = moment(this.dueDate);
+      const b = moment(this.dueDate);
       if (b.dayOfYear() == a.dayOfYear()) return 'today';
       if (b.dayOfYear() == a.dayOfYear() - 1) return 'yesterday';
       if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
       return b.from(a);
     }
     return moment(this.dueDate).fromNow();
-  },
+  }
 });
 
 Template.taskDisplay.events({

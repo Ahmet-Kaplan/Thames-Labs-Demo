@@ -8,6 +8,7 @@ import '/imports/ui/components/maps/viewer/map-viewer.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-contact-opp-modal.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-contact-purchase-order.js';
+import '/imports/ui/components/tasks/panel/task-panel.js';
 import '/imports/ui/components/projects/modals/insert-contact-project-modal.js';
 
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';

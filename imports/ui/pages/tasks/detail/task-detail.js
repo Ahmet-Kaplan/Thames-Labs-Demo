@@ -1,12 +1,14 @@
+import './task-detail.html';
 import '/imports/ui/components/tasks/subtasks/subtask-list.js';
-import '/imports/ui/components/tasks/task/task-tick/task-tick.js';
+import '/imports/ui/components/tasks/task-tick/task-tick.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
+import '/imports/ui/components/tasks/modals/update-task-modal.js';
 import bootbox from 'bootbox';
 
 Template.taskDetail.onCreated(function() {
-  var taskId = FlowRouter.getParam('id');
+  const taskId = FlowRouter.getParam('id');
   this.subscribe('activityByTaskId', taskId);
-  var task = Tasks.findOne({
+  const task = Tasks.findOne({
     _id: taskId
   });
   if (task) {
@@ -31,10 +33,10 @@ Template.taskDetail.onCreated(function() {
 
 Template.taskDetail.onRendered(function() {
   this.autorun(() => {
-    var taskId = FlowRouter.getParam('id');
-    var task = Tasks.findOne({
-      _id: taskId
-    });
+    const taskId = FlowRouter.getParam('id'),
+          task = Tasks.findOne({
+            _id: taskId
+          });
     if (task) {
       if (task.parentTaskId) this.subscribe('taskById', task.parentTaskId);
     }
@@ -47,8 +49,8 @@ Template.taskDetail.helpers({
   },
   reminderDetails: function() {
     if(this.remindMe) {
-      var reminderArray = this.reminder.split('.');
-      var reminderString = this.reminder.replace('.', ' ');
+      const reminderArray = this.reminder.split('.');
+      let reminderString = this.reminder.replace('.', ' ');
       if(reminderArray[0] === "1") {
         reminderString = reminderString.substring(0, reminderString.length - 1);
       }
@@ -57,20 +59,20 @@ Template.taskDetail.helpers({
     return "No reminder set";
   },
   subTasks: function() {
-    var subs = ReactiveMethod.call("tasks.getSubTasks", this._id);
+    const subs = ReactiveMethod.call("tasks.getSubTasks", this._id);
     if (subs && subs.length > 0) return subs;
   },
   parentTask: function() {
     if (this.parentTaskId) {
-      var task = Tasks.findOne({
+      const task = Tasks.findOne({
         _id: this.parentTaskId
       });
       if (task) return task.title;
     }
   },
   taskData: function() {
-    var taskId = FlowRouter.getParam('id');
-    var task = Tasks.findOne(taskId);
+    const taskId = FlowRouter.getParam('id'),
+          task = Tasks.findOne(taskId);
     if (task && task.tags) {
       task.tags.sort();
     }
@@ -78,11 +80,11 @@ Template.taskDetail.helpers({
   },
   relativeCompletionDate: function() {
     if (this.isAllDay) {
-      var a = moment(new Date());
+      const a = moment(new Date()),
+            b = moment(this.completedAt);
       a.hour(0);
       a.minute(0);
 
-      var b = moment(this.completedAt);
       if (b.dayOfYear() == a.dayOfYear()) return 'today';
       if (b.dayOfYear() == a.dayOfYear() - 1) return 'yesterday';
       if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
@@ -91,16 +93,16 @@ Template.taskDetail.helpers({
     return moment(this.completedAt).fromNow();
   },
   formattedCompletionDate: function() {
-    var displayDate = this.isAllDay ? moment(this.completedAt).format('Do MMM YYYY') : moment(this.completedAt).format('Do MMM YYYY, HH:mm');
+    const displayDate = this.isAllDay ? moment(this.completedAt).format('Do MMM YYYY') : moment(this.completedAt).format('Do MMM YYYY, HH:mm');
     return displayDate;
   },
   relativeDueDate: function() {
     if (this.isAllDay) {
-      var a = moment(new Date());
+      const a = moment(new Date()),
+            b = moment(this.dueDate);
       a.hour(0);
       a.minute(0);
 
-      var b = moment(this.dueDate);
       if (b.dayOfYear() == a.dayOfYear()) return 'today';
       if (b.dayOfYear() == a.dayOfYear() - 1) return 'yesterday';
       if (b.dayOfYear() == a.dayOfYear() + 1) return 'tomorrow';
@@ -109,13 +111,13 @@ Template.taskDetail.helpers({
     return moment(this.dueDate).fromNow();
   },
   formattedDueDate: function() {
-    var displayDate = this.isAllDay ? moment(this.dueDate).format('Do MMM YYYY') : moment(this.dueDate).format('Do MMM YYYY, HH:mm');
+    const displayDate = this.isAllDay ? moment(this.dueDate).format('Do MMM YYYY') : moment(this.dueDate).format('Do MMM YYYY, HH:mm');
     return displayDate;
   },
   entityDetails: function() {
-    var entityData = "";
-    var entityId = this.entityId;
-    let handle = null;
+    let entityData = "",
+        handle = null;
+    const entityId = this.entityId;
 
     if (!this || !entityId) return;
 
@@ -188,7 +190,7 @@ Template.taskDetail.helpers({
   },
   taskAssignee: function() {
     Meteor.subscribe('currentTenantUserData');
-    var assignee = Meteor.users.findOne({
+    const assignee = Meteor.users.findOne({
       _id: this.assigneeId
     });
     return assignee.profile.name;
@@ -215,7 +217,7 @@ Template.taskDetail.events({
   },
   'click #remove-task': function(event) {
     event.preventDefault();
-    var taskId = this._id;
+    const taskId = this._id;
     bootbox.confirm("Are you sure you wish to delete this task? Subtasks will not be deleted.", function(result) {
       if (result === true) {
         Tasks.remove(taskId);
@@ -226,7 +228,7 @@ Template.taskDetail.events({
   'click .task-completed, click #obvious-task-completion-button': function(event) {
     event.preventDefault();
     if (Roles.userIsInRole(Meteor.userId(), ['CanEditTasks'])) {
-      var taskId = FlowRouter.getRouteName() === 'tasks' ? this.__originalId : this._id;
+      const taskId = FlowRouter.getRouteName() === 'tasks' ? this.__originalId : this._id;
       if (this.completed) {
         Tasks.update(taskId, {
           $set: {

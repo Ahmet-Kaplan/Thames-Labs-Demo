@@ -1,4 +1,5 @@
-import '../task/task-item.js';
+import '../task-item.js';
+import '../modals/insert-task-modal.js';
 import './subtask-list.html';
 
 Template.subtaskList.events({
