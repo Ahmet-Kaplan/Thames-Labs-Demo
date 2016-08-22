@@ -3,7 +3,6 @@ import { findFirstStageId } from '/imports/api/opportunities/methods.js';
 import { verifyOpportunityStagesExist } from '/imports/api/opportunities/methods.js';
 
 Template.insertOpportunityModal.onRendered(function() {
-  Session.set('oppComp', null);
   this.oppComp = new ReactiveVar();
   verifyOpportunityStagesExist();
 });
