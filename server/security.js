@@ -53,8 +53,6 @@ Tasks.allowTags(function(userId) {
   return !!userId;
 });
 
-Chatterbox.permit(['insert']).ifLoggedIn().apply();
-
 EventLog.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 
 Opportunities.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateOpportunities').apply();
