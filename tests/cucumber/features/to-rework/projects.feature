@@ -63,7 +63,7 @@ Feature: Allow users to manage their Projects
     And I selectize "userId" to "test user"
     And I selectize "companyId" to "Test Ltd"
     And I set text field "value" to "999"
-    And I submit the "newProject" form
+    And I submit the "insertProject" form
     Then I should see the heading "test project 2"
 
   Scenario: A user without permission cannot create a projects
@@ -191,7 +191,7 @@ Feature: Allow users to manage their Projects
     Then I should see a modal
     When I set text field "title" to "task title"
     And I selectize "assigneeId" to "test user"
-    And I submit the "newTask" form
+    And I submit the "insertTask" form
     Then I should see "#taskContainer .list-group-item"
 
   Scenario: A user without the CanReadTasks permission cannot see tasks in a project

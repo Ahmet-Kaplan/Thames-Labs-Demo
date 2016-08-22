@@ -69,7 +69,7 @@ Feature: Allow users to manage their Tasks
     And I set textarea "description" to "This is another test task."
     And I selectize "assigneeId" to "test user"
     And I selectize "entityId" to "Test Ltd"
-    And I submit the "newTask" form
+    And I submit the "insertTask" form
     Then I should see the heading "test task 2"
 
   Scenario: A user without permission cannot create a tasks
@@ -100,7 +100,7 @@ Feature: Allow users to manage their Tasks
     And I click "#edit-task"
     Then I should see a modal
     When I set text field "title" to "updated task title"
-    And I submit the "editTask" form
+    And I submit the "updateTask" form
     Then I should see the heading "updated task title"
 
   Scenario: A user without permission cannot edit a task

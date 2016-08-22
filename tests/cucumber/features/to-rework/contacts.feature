@@ -91,7 +91,7 @@ Feature: Allow users to manage their Contacts
     When I navigate to a contact page
     And I click "#edit-contact"
     And I set text field "forename" to "Forename"
-    And I submit the "editContact" form
+    And I submit the "updateContact" form
     Then "#contact-details" should say "Forename Surname"
 
   Scenario: A user without permission cannot edit a contact
@@ -220,7 +220,7 @@ Feature: Allow users to manage their Contacts
     Then I should see a modal
     When I set text field "title" to "task title"
     And I selectize "assigneeId" to "test user"
-    And I submit the "newTask" form
+    And I submit the "insertTask" form
     Then I should see "#taskContainer .list-group-item"
 
   Scenario: A user without the CanReadTasks permission cannot see tasks in a contact
