@@ -2,6 +2,7 @@ import { permissionHelpers } from '/imports/api/permissions/permission-helpers.j
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/search/search-results.js';
 import '/imports/ui/components/search/local/small-box/small-search-box.js';
+import '/imports/ui/components/export/export.js';
 
 Template.purchaseOrderList.onCreated(function() {
   // Redirect if read permission changed
@@ -93,10 +94,6 @@ Template.purchaseOrderList.events({
   'click #add-purchase-order': function(event) {
     event.preventDefault();
     Modal.show('insertPurchaseOrderModal', this);
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('purchaseorders');
   },
   'click #ref_poOverviewWidget': function(event, template) {
 

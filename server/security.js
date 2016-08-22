@@ -53,16 +53,7 @@ Tasks.allowTags(function(userId) {
   return !!userId;
 });
 
-Chatterbox.permit(['insert']).ifLoggedIn().apply();
-
 EventLog.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
-
-Products.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateProducts').apply();
-Products.permit(['update']).ifLoggedIn().ifHasRole('CanEditProducts').apply();
-Products.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteProducts').apply();
-Products.allowTags(function(userId) {
-  return !!userId;
-});
 
 Opportunities.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateOpportunities').apply();
 Opportunities.permit(['update']).ifLoggedIn().ifHasRole('CanEditOpportunities').apply();

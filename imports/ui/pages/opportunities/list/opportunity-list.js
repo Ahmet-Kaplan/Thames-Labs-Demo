@@ -3,6 +3,7 @@ import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/opportunities/opportunity-list-item.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-opportunity-modal.js';
 import '/imports/ui/components/search/search-results.js';
+import '/imports/ui/components/export/export.js';
 import './opportunity-list.html';
 
 Template.opportunityList.onCreated(function() {
@@ -116,10 +117,6 @@ Template.opportunityList.events({
   'click #create-opportunity': function(event) {
     event.preventDefault();
     Modal.show('insertOpportunityModal');
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('opportunities');
   },
   'click #oppsOverviewWidget': function(event, template) {
 

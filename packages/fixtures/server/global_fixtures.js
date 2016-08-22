@@ -1,4 +1,5 @@
 var deleteTenant = function(tenantId) {
+  const { Products } = require('/imports/api/collections.js');
   // First remove all associated data
   // N.B. we don't need directOperation() as we're already using "direct" to bypass any collection hooks
   // TODO: Ideally this would use bindGroup() but if we then use "direct" it bypasses the partitioner
@@ -11,7 +12,6 @@ var deleteTenant = function(tenantId) {
   Projects.direct.remove({ _groupId: tenantId });
   PurchaseOrders.direct.remove({ _groupId: tenantId });
   PurchaseOrderItems.direct.remove({ _groupId: tenantId });
-  Chatterbox.direct.remove({ _groupId: tenantId });
   Products.direct.remove({ _groupId: tenantId });
 
   // N.B. Users uses field "group" rather than "_groupId"!

@@ -1,6 +1,7 @@
 import '/imports/ui/components/search/search-results.js';
 import '/imports/ui/components/search/local/small-box/small-search-box.js';
 import '/imports/ui/components/search/filtering/panel/filter-panel.js';
+import '/imports/ui/components/export/export.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 
 Template.taskList.onCreated(function() {
@@ -87,9 +88,5 @@ Template.taskList.events({
       indexMethods.addProps('assignee', Meteor.userId());
     }
     $(event.target).blur();
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('tasks');
   }
 });

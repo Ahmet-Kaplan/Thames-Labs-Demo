@@ -9,9 +9,9 @@
     <div class="col-md-7 list-header-right">
       <div class="btn-group pull-right" role="group">
         {{#unless isMobile}}
-        {{#if isInRole 'CanCreateCompanies'}}
-        <button type="button" class="btn btn-md btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
-        {{/if}}
+          {{#if isInRole 'CanCreateCompanies'}}
+            <button type="button" class="btn btn-md btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
+          {{/if}}
         {{/unless}}
         {{> smallSearchBox collectionName='companies'}}
       </div>
@@ -19,7 +19,6 @@
   </div>
 
   <div class="row">
-
     <div class="col-xs-12 col-sm-6">
       {{> filterPanel collectionName='companies' single='company'}}
     </div>
