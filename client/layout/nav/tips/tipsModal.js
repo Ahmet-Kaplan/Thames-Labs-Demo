@@ -1,41 +1,41 @@
 import { TipList } from '/imports/api/lookup/tips.js';
 
 Template.tipsModal.onCreated(function() {
-  Session.set('currentTip', 0);
+  this.currentTip = new ReactiveVar(0);
 });
 
 Template.tipsModal.onDestroyed(function() {
-  Session.set('currentTip', 0);
+  this.currentTip.set(0);
 });
 
 Template.tipsModal.events({
   'click #next-tip': function(event, template) {
-    var index = Session.get('currentTip');
-    Session.set('currentTip', index + 1);
+    const length = TipList.length;
+    let index = Template.instance().currentTip.get();
 
-    index = Session.get('currentTip');
-    var length = TipList.length;
+    Template.instance().currentTip.set(index + 1);
+    index = Template.instance().currentTip.get();
 
     if (index + 1 > length) {
-      Session.set('currentTip', 0);
+      Template.instance().currentTip.set(0);
     }
   },
   'click #previous-tip': function(event, template) {
-    var index = Session.get('currentTip');
-    Session.set('currentTip', index - 1);
+    const length = TipList.length;
+    let index = Template.instance().currentTip.get();
 
-    index = Session.get('currentTip');
-    var length = TipList.length;
+    Template.instance().currentTip.set(index - 1);
+    index = Template.instance().currentTip.get();
 
-    if (index < 0) {
-      Session.set('currentTip', length - 1);
+    if (index + 1 > length) {
+      Template.instance().currentTip.set(0);
     }
   }
 });
 
 Template.tipsModal.helpers({
   currentTip: function() {
-    var index = Session.get('currentTip');
+    const index = Template.instance().currentTip.get();
     if (index < 0 || index > TipList.length - 1) return;
 
     return TipList[index].Tip;
@@ -44,6 +44,6 @@ Template.tipsModal.helpers({
     return TipList.length;
   },
   tipIndex: function() {
-    return Session.get('currentTip') + 1;
+    return Template.instance().currentTip.get() + 1;
   }
 });
