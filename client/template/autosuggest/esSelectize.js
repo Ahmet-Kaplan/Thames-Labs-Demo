@@ -1,12 +1,11 @@
 Template.esSelectize.onRendered(function() {
   this.parent = new ReactiveVar('');
   this.query = new ReactiveVar(null);
-
-  var selectize = $('#' + this.data.name)[0].selectize;
+  const selectize = $(`#${this.data.name}`)[0].selectize;
 
   // If parent is set, listen for updates to it's value
   if (this.data.parent) {
-    var parentElt = $('#' + this.data.parent);
+    const parentElt = $(`#${this.data.parent}`);
     this.parent.set(parentElt.val());
     parentElt.change(() => {
       this.parent.set(parentElt.val());
@@ -15,14 +14,14 @@ Template.esSelectize.onRendered(function() {
 
   // search update listener
   this.autorun(() => {
-    var searchOptions = {
+    const searchOptions = {
       props: {
         autosuggest: true
       }
     };
 
-    var resultsCursor = null;
-    var searchInput = this.query.get();
+    let resultsCursor = null;
+    const searchInput = this.query.get();
 
     if (this.data.excludes) {
       searchOptions.props.excludes = this.data.excludes;
@@ -48,6 +47,7 @@ Template.esSelectize.onRendered(function() {
       }
       resultsCursor = this.data.index.search(searchInput, searchOptions);
       if (resultsCursor.isReady()) {
+        selectize.clearOptions();
         selectize.addOption(resultsCursor.fetch());
         // only open the selectize dropdown if the input is empty
         // to be honest, Max and I are not really sure why...
@@ -59,10 +59,10 @@ Template.esSelectize.onRendered(function() {
 
 Template.esSelectize.helpers({
   initialize: function() {
-    var tasksIndex = (this.index.config.name === "tasks");
+    const tasksIndex = (this.index.config.name === "tasks");
 
-    var self = Template.instance();
-    var options = {
+    const self = Template.instance();
+    const options = {
       closeAfterSelect: true,
       valueField: "__originalId",
       labelField: (tasksIndex ? "title" : "name"),
@@ -85,12 +85,12 @@ Template.esSelectize.helpers({
     if (this.allowCreate) {
       options.render = {
         option_create: function(data, escape) {
-          return '<div data-selectable class="create">This will create a new Company <strong>' + escape(data.input) + '</strong></div>';
+          return `<div data-selectable class="create">This will create a new Company <strong>${escape(data.input)}</strong></div>`;
         },
       };
       options.create = function(input, callback) {
         return {
-          __originalId: 'newRecord' + input,
+          __originalId: `newRecord${input}`,
           name: input
         };
       };
