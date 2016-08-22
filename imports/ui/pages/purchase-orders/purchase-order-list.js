@@ -32,15 +32,9 @@ Template.purchaseOrderList.onCreated(function() {
   this.totalRejectedPo = new ReactiveVar(0);
 
   this.showItems = new ReactiveVar(false);
-  this.totalPOs = new ReactiveVar(0);
 });
 
 Template.purchaseOrderList.onRendered(function() {
-
-  this.autorun(() => {
-    this.totalPOs.set(Collections['purchaseorders'].index.getComponentDict().get('count'));
-  });
-
   const template = this;
 
   Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
@@ -128,11 +122,5 @@ Template.purchaseOrderList.helpers({
   },
   showItems: function() {
     return Template.instance().showItems.get();
-  },
-  poCount: function() {
-    return Template.instance().totalPOs.get();
-  },
-  hasMultiplePOs: function() {
-    return Template.instance().totalPOs.get() !== 1;
   }
 });

@@ -23,15 +23,9 @@ Template.projectsList.onCreated(function() {
   this.activeProjects = new ReactiveVar(0);
   this.projectTotal = new ReactiveVar(0);
   this.projectsAverage = new ReactiveVar(0);
-
-  this.totalProjects = new ReactiveVar(0);
 });
 
 Template.projectsList.onRendered(function() {
-  this.autorun(() => {
-    this.totalProjects.set(Collections['projects'].index.getComponentDict().get('count'));
-  });
-
   // Watch for session variable setting search
   Session.set('projectListSearchQuery', null);
   this.autorun(function() {
@@ -100,11 +94,5 @@ Template.projectsList.helpers({
   },
   projectsAverage: function() {
     return Template.instance().projectsAverage.get();
-  },
-  projectCount: function() {
-    return Template.instance().totalProjects.get();
-  },
-  hasMultipleProjects: function() {
-    return Template.instance().totalProjects.get() !== 1;
   }
 });

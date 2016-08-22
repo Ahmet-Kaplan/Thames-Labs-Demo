@@ -14,23 +14,6 @@ Template.companyList.onCreated(function() {
   this.autorun(function() {
     permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
   });
-
-  this.totalCompanies = new ReactiveVar(0);
-});
-
-Template.companyList.onRendered(function() {
-  this.autorun(() => {
-    this.totalCompanies.set(Collections['companies'].index.getComponentDict().get('count'));
-  });
-});
-
-Template.companyList.helpers({
-  companyCount: function() {
-    return Template.instance().totalCompanies.get();
-  },
-  hasMultipleCompanies: function() {
-    return Template.instance().totalCompanies.get() !== 1;
-  }
 });
 
 Template.companyList.events({
