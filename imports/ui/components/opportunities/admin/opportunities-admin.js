@@ -12,11 +12,6 @@ Template.opportunitiesAdmin.onRendered(function() {
     handle: '.handle',
     axis: 'y',
     stop: function(event, ui) {
-      if (!isProTenant(Meteor.user().group)) {
-        showUpgradeToastr('To reorder opportunity stages');
-        $(this).sortable('cancel');
-        return;
-      }
       //Setup needed variables
       const stageId = Blaze.getData(ui.item[0]).id;
       const newIndex = $(this).find('.opportunity-stage').index(ui.item);
@@ -63,11 +58,6 @@ Template.opportunitiesAdmin.helpers({
 Template.opportunitiesAdmin.events({
   'click #btnAddStage': function(event) {
     event.preventDefault();
-
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To create your own opportunity stages');
-      return;
-    }
 
     Modal.show('insertOppStage', this);
   }

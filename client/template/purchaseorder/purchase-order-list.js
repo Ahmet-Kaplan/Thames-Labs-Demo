@@ -5,11 +5,6 @@ import '/imports/ui/components/export/export.js';
 Template.purchaseOrderList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To access Purchase Orders');
-      FlowRouter.go('/');
-    }
-
     permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
   });
   Session.set("showItems", false);
@@ -34,9 +29,9 @@ Template.purchaseOrderList.onRendered(function() {
     this.totalPOs.set(Collections['purchaseorders'].index.getComponentDict().get('count'));
   });
 
-  var template = this;
+  const template = this;
 
-  var curr = Session.get("showItems");
+  const curr = Session.get("showItems");
   if (curr === true) {
     $(".po-list-item").css('margin-bottom', '4px');
     $(".po-list-item").css('padding-bottom', '0');
@@ -77,7 +72,7 @@ Template.purchaseOrderList.onRendered(function() {
 
 Template.purchaseOrderList.events({
   'click #toggle-item-view': function(event, template) {
-    var curr = Session.get("showItems");
+    const curr = Session.get("showItems");
     Session.set("showItems", !curr);
     template.showItems.set(!curr);
 

@@ -209,11 +209,6 @@ Template.contactDetail.events({
   'click #add-purchase-order': function(event) {
     event.preventDefault();
 
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To raise purchase orders');
-      return;
-    }
-
     const company = this.company();
     if (typeof company === "undefined") {
       Modal.show('newContactPurchaseOrderForm', {

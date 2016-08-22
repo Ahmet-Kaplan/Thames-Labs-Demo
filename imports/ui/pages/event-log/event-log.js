@@ -4,11 +4,6 @@ import '/imports/ui/components/event-log/event-list-item.js';
 Template.events.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To access the Event Log view');
-      FlowRouter.go('/');
-    }
-
     redirectWithoutPermission(Meteor.userId(), 'CanReadEventLog');
   });
 });

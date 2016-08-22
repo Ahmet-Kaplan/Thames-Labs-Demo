@@ -172,9 +172,6 @@ Meteor.methods({
         Partitioner.setUserGroup(userId, doc.group);
 
         if (user) {
-          if (!isProTenant(user.group)) {
-            Roles.addUsersToRoles(userId, ["Administrator"]);
-          }
           Roles.addUsersToRoles(userId, defaultPermissionsList);
         }
 
@@ -217,11 +214,6 @@ Meteor.methods({
       }
     });
 
-    if(admin) {
-      if(!isProTenant(admin.group)) {
-        Roles.addUsersToRoles(userId, 'Administrator');
-      }
-    }
     Roles.addUsersToRoles(userId, defaultPermissionsList);
 
     // Add user to a group (partition) based on customer id

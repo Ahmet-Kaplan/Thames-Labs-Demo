@@ -1,8 +1,8 @@
-<template name="sideMenu"> 
+<template name="sideMenu">
   {{#if loggedIn}}
   <div id="id-view-sidemenu">
     <ul class="panel-group" id="menu">
-      {{#if isInRole 'superadmin'}}     
+      {{#if isInRole 'superadmin'}}
 
         {{> menuButton title='Tenants' page='tenants' icon='archive' permissions='superadmin' activeRoutes='tenants'}}
         {{> menuButton title='Notifications' page='notifications' icon='envelope' permissions='superadmin' activeRoutes='notifications'}}

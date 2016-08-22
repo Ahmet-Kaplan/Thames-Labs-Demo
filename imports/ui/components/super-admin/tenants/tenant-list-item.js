@@ -43,7 +43,7 @@ Template.tenantListItem.helpers({
 Template.tenantListItem.events({
   "click #btnCancelDeletion": function(event, template) {
     event.preventDefault();
-    var tenantId = this.__originalId;
+    const tenantId = this.__originalId;
 
 
     bootbox.confirm("Cancel deletion request?", function(result) {
@@ -55,7 +55,7 @@ Template.tenantListItem.events({
   },
   "click #btnAddNewTenantUser": function(event, template) {
     event.preventDefault();
-    var tenantId = this.__originalId;
+    const tenantId = this.__originalId;
 
     if (tenantId) {
       if (!isProTenant(tenantId) && isTenantOverFreeUserLimit(tenantId)) {
@@ -68,8 +68,8 @@ Template.tenantListItem.events({
   },
   "click #btnDeleteTenant": function(event, template) {
     event.preventDefault();
-    var tenantId = this.__originalId;
-    var name = this.name;
+    const tenantId = this.__originalId;
+    const name = this.name;
 
     bootbox.confirm("Are you sure you wish to delete this tenant?", function(result) {
       if (result === true) {
@@ -84,7 +84,7 @@ Template.tenantListItem.events({
                 return false;
               }
               if (res === true) {
-                toastr.success('Tenant "' + name + '" removed');
+                toastr.success(`Tenant "${name}" removed`);
                 Meteor.call('setTenantDeletionFlag', false);
                 return true;
               }

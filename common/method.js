@@ -112,9 +112,6 @@ LogClientEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
     var user = Meteor.users.findOne({
       _id: this._id
     });
-    if (user && user.group) {
-      if (!isProTenant(user.group)) return;
-    }
     Meteor.call('addEventToEventLog', logLevel, logMessage, logEntityType, logEntityId, 'client');
   }
 };
