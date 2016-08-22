@@ -1,3 +1,4 @@
+import { Products } from '/imports/api/collections.js';
 Meteor.methods({
   'customFields.getGlobalsByTenantEntity': function(tenantId, entityType) {
     const res = CustomFields.find({
@@ -25,6 +26,23 @@ Meteor.methods({
     CustomFields.remove({
       _id: id
     });
+  },
+  "customFields.getTenantGlobals": function(collectionType) {
+    var user = Meteor.users.findOne({
+      _id: this.userId
+    });
+    if (!user) return [];
+
+    var data = [];
+
+    Partitioner.bindGroup(user.group, function() {
+      data = CustomFields.find({
+        target: collectionType,
+        global: true
+      }).fetch();
+    });
+
+    return _.uniqBy(data, 'name');
   },
   'customFields.deleteGlobal': function(self) {
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {

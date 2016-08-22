@@ -1,4 +1,5 @@
 # Testing green under new changes but needs reworking
+
 Feature: Allow users to manage their Tasks
 
   As a user of the app
@@ -51,10 +52,10 @@ Feature: Allow users to manage their Tasks
     And I have the "CanReadTasks" permission
     And I have the "CanEditTasks" permission
     When I navigate to "/tasks"
-    Then I should see "#list-item"
-    When I click ".task-completed"
+    Then I should see ".task-list-item"
+    When I click ".task-tick"
     And I set the filter to "Completed:" then "Yes"
-    Then I should see "#list-item"
+    Then I should see ".task-list-item"
 
   #Creating
   Scenario: A user can create a task
@@ -66,8 +67,8 @@ Feature: Allow users to manage their Tasks
     And I click "#company"
     And I set text field "title" to "test task 2"
     And I set textarea "description" to "This is another test task."
-    And I selectize "entityId" to "Test Ltd"
     And I selectize "assigneeId" to "test user"
+    And I selectize "entityId" to "Test Ltd"
     And I submit the "newTask" form
     Then I should see the heading "test task 2"
 

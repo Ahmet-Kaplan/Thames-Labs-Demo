@@ -43,7 +43,7 @@
             </div>">Overview</a>
             </li>
             {{> tagManagement collectionName='projects'}}
-            <li><a id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom">Export</a></li>
+            {{> exportCollection entity="projects"}}
         </ul>
       </div>
   </div>
@@ -53,9 +53,7 @@
 
   {{#if isInRole 'CanCreateProjects'}}
     {{#if isMobile}}
-      <div class="fab add" id="fab">
-        <i class="fa fw-fa fa-plus"></i>
-      </div>
+      {{> fabAdd entity="Project"}}
     {{/if}}
   {{/if}}
 

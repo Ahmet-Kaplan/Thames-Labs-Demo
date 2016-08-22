@@ -1,3 +1,4 @@
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/settings/nav/nav.html';
 import '/imports/ui/components/settings/users/users.js';
 import '../settings.less';
@@ -12,7 +13,7 @@ Template.userSettings.helpers({
 Template.userSettings.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'Administrator');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'Administrator');
   });
   Meteor.subscribe('activeTenantData');
 });

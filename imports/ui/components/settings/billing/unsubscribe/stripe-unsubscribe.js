@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
+import bootbox from 'bootbox';
 
 import { stripeCustomer, upcomingInvoice, lastInvoice } from '/imports/api/billing/helpers.js';
 
@@ -32,7 +33,7 @@ Template.stripeUnsubscribe.events({
       toastr.clear();
       bootbox.alert({
         title: 'Subscription updated',
-        message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been cancelled successfully.<br />We welcome any feedback on RealtimeCRM.',
+        message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been cancelled successfully.<br />We welcome any feedback on RealTimeCRM.',
         backdrop: false,
         className: 'bootbox-success',
       });

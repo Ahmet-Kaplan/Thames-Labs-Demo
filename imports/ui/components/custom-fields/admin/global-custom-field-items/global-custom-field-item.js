@@ -1,4 +1,5 @@
 import './global-custom-field-item.html';
+import bootbox from 'bootbox';
 
 const setData = (type) => {
 

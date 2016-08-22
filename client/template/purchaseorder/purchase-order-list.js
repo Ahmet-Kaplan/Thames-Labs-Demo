@@ -1,3 +1,7 @@
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+import '/imports/ui/components/tags/tag-management/tag-management.js';
+import '/imports/ui/components/export/export.js';
+
 Template.purchaseOrderList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
@@ -6,7 +10,7 @@ Template.purchaseOrderList.onCreated(function() {
       FlowRouter.go('/');
     }
 
-    redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
   });
   Session.set("showItems", false);
 
@@ -87,11 +91,7 @@ Template.purchaseOrderList.events({
   },
   'click #add-purchase-order': function(event) {
     event.preventDefault();
-    Modal.show('newPurchaseOrderForm', this);
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('purchaseorders');
+    Modal.show('insertPurchaseOrderModal', this);
   },
   'click #ref_poOverviewWidget': function(event, template) {
 
@@ -114,10 +114,6 @@ Template.purchaseOrderList.events({
     Meteor.call('report.RejectedPo', function(err, data) {
       template.totalRejectedPo.set(data.Count);
     });
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('newPurchaseOrderForm', this);
   }
 });
 

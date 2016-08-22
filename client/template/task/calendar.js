@@ -1,3 +1,4 @@
+import bootbox from 'bootbox';
 Template.displayCalendar.onCreated(function() {
   this.startTime = new ReactiveVar({});
   this.endTime = new ReactiveVar({});
@@ -175,7 +176,7 @@ Template.displayCalendar.helpers({
           jsEvent.preventDefault();
           var task = _.find(instance.tasksList.get(), {'__originalId': event.__originalId});
           task._id = task.__originalId;
-          Modal.show('updateTask', task);
+          Modal.show('updateTaskModal', task);
         });
       },
       eventDrop: function(event, delta, revertFunc) {

@@ -1,0 +1,44 @@
+<template name="companyList">
+
+  {{setPageTitle 'Companies'}}
+
+  <div class="row list-header">
+      <div class="col-md-5">
+        <h1>Companies</h1>
+        <p id="resultsCount" class="list-header-subtitle">{{companyCount}} record{{#if hasMultipleCompanies}}s{{/if}}</p>
+      </div>
+      <div class="col-md-7 list-header-right">
+        <div class="btn-group pull-right" role="group">
+          {{#unless isMobile}}
+            {{#if isInRole 'CanCreateCompanies'}}
+              <button type="button" class="btn btn-md btn-primary" id="add-company" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+C"><i class="fa fa-fw fa-plus"></i> Add company</button>
+            {{/if}}
+          {{/unless}}
+          {{> smallSearchBox collectionName='companies'}}
+        </div>
+        <br>
+        <ul class="list-toolbar pull-right">
+            {{> tagManagement collectionName='companies'}}
+            {{> importEntityDropdown entity="companies"}}
+            {{> exportCollection entity="companies"}}
+        </ul>
+      </div>
+  </div>
+  {{> filterPanel collectionName='companies'}}
+
+
+  <div class="row" id="company-list">
+    <div class="col-md-12">
+
+      <div id="companySearchResults">
+	      {{> searchResults index=CompaniesIndex listItemTemplateName='companyListItem'}}
+      </div>
+
+    </div>
+  </div>
+  {{#if isInRole 'CanCreateCompanies'}}
+    {{#if isMobile}}
+      {{> fabAdd entity="Company"}}
+    {{/if}}
+  {{/if}}
+</template>

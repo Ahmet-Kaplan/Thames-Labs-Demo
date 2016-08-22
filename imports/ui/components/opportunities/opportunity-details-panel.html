@@ -7,13 +7,13 @@
           <div class="btn-group pull-right">
             {{#if isInRole 'CanEditOpportunities'}}
               <div class="btn-group">
-                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                  <span class="caret"></span> Extract to...
-                </button>
+                {{#if hasDownloadSupport}}
+                  <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>Download as...</button>
+                {{else}}
+                  <button class="btn btn-xs btn-default" data-toggle="tooltip" title="This feature is currently unsupported by your browser." data-placement="bottom"><span class="caret"></span>Download as...</button>
+                {{/if}}
                 <ul class="dropdown-menu" role="menu">
-                  {{#if canExportDocx}}
-                    <li><a href="#" id="template-upload-link-docx">Microsoft Word (.docx)</a></li>
-                  {{/if}}
+                  <li><a href="#" id="template-upload-link-docx">Microsoft Word template (.docx)</a></li>
                   <li class="divider"></li>
                   <li><a href="#" id="opp-template-help">How does this work?</a></li>
                 </ul>
@@ -52,6 +52,12 @@
         <li class="list-group-item panel-item-header">
           <h4><i class="fa fa-fw fa-calendar"></i> Estimated Close</h4>
           {{friendlyDate opportunity.estCloseDate}}
+        </li>
+      {{/if}}
+      {{#if opportunity.nextActionDue}}
+        <li class="list-group-item panel-item-header">
+          <h4><i class="fa fa-fw fa-calendar"></i> Next Action Due</h4>
+          {{friendlyDate opportunity.nextActionDue}} {{#if taskOverDue}}<span class="text-danger"><i class="fa fa-fw fa-exclamation-triangle" data-toggle="tooltip" data-placement="right" title="The next task against this opportunity is now overdue"></i></span>{{/if}}
         </li>
       {{/if}}
       {{#if opportunity.value}}

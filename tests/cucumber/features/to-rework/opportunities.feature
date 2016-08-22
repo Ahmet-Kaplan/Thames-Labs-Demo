@@ -99,7 +99,7 @@ Feature: Allow users to manage their sales opportunities
     When I click "#edit-opportunity"
     Then I should see a modal
     When I set text field "name" to "updated opportunity 2"
-    And I submit the "editOpportunity" form
+    And I submit the "updateOpportunity" form
     Then I should see the heading "updated opportunity 2"
 
   Scenario: A user without permission cannot edit an opportunity
@@ -218,6 +218,7 @@ Feature: Allow users to manage their sales opportunities
     And an "Opportunity" has been created
     When I navigate to an opportunity page
     And I click "#add-line-item"
+    Then I should see a modal
     And I set text field "name" to "testItem1"
     And I set textarea "description" to "test item description"
     And I set text field "value" to "1"
@@ -231,7 +232,7 @@ Feature: Allow users to manage their sales opportunities
     When I navigate to an opportunity page
     When I click ".edit-line-item"
     And I set text field with id "name-field" to "testItem2"
-    And I submit the "editOpportunityItem" form
+    And I submit the "updateOpportunityItem" form
     Then I should see an updated line item in an opportunity
 
   Scenario: A user can remove a line item from an opportunity

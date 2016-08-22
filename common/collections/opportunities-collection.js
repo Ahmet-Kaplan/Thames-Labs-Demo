@@ -122,14 +122,12 @@ Collections.opportunities.filters = {
     strict: true,
     defaultOptions: function() {
       var tenant = Tenants.findOne();
-      console.log(tenant);
       var map = _.map(tenant.settings.opportunity.stages, function(s) {
         return s.title;
       });
       return map;
     },
     displayValue: function(stage) {
-      console.log(stage);
       if (stage) {
         return stage;
       }
@@ -148,6 +146,19 @@ Collections.opportunities.filters = {
     verify: function(state) {
       if (!state) return false;
       return state;
+    }
+  },
+  nextAction: {
+    display: 'Next Action:',
+    prop: 'nextAction',
+    defaultOptions: function() {
+      return ['Overdue', 'Due Today', 'None'];
+    },
+    strict: true,
+    allowMultiple: false,
+    verify: function(nextAction) {
+      if (!nextAction) return false;
+      return nextAction;
     }
   },
 };
@@ -219,6 +230,25 @@ Collections.opportunities.index = OpportunitiesIndex = new EasySearch.Index({
           selector.hasBeenWon = false;
         } else {
           selector.hasBeenWon = {
+            $exists: false
+          };
+        }
+      }
+
+      if (options.search.props.nextAction) {
+        if(options.search.props.nextAction === "Overdue") {
+          selector.nextActionDue = {
+            $lt: moment().toDate()
+          };
+        } else if(options.search.props.nextAction === "Due Today") {
+          var startToday = new Date(moment().year(), moment().month(), moment().date(), '0', '0', '0');
+          var endToday = new Date(moment().year(), moment().month(), moment().date(), '23', '59', '59');
+          selector.nextActionDue = {
+            $gte: startToday,
+            $lt: endToday
+          };
+        } else {
+          selector.nextActionDue = {
             $exists: false
           };
         }
@@ -334,6 +364,14 @@ Opportunities.after.insert(function(userId, doc) {
           return;
         }
       });
+    }
+  }
+});
+
+Opportunities.before.update(function(userId, doc, fieldNames, modifier, options) {
+  if(modifier.$set) {
+    if(!!modifier.$set.estCloseDate === false) {
+      modifier.$set.estCloseDate = null;
     }
   }
 });

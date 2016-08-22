@@ -1,5 +1,6 @@
 import './purchaseorder-admin.css';
 import './purchaseorder-admin.html';
+import bootbox from 'bootbox';
 
 Template.purchaseOrderAdminPanel.onRendered(function() {
   var tenant = Tenants.findOne({

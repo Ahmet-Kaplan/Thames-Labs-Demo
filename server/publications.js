@@ -1,3 +1,4 @@
+import { Products } from '/imports/api/collections.js';
 Meteor.publish('userPresence', function() {
   var filter = {
     userId: {

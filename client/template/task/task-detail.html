@@ -7,22 +7,8 @@
       <div class="watchlist-container">
         {{> watchlistAdmin entityData=this collection="tasks"}}
       </div>
-      <h4 class="pull-left">
-        <span class="task-completed">
-        {{#if completed}}
-          <span class="fa-stack task-green">
-            <i class="fa fa-circle fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x fa-inverse"></i>
-          </span>
-        {{else}}
-          <span class="fa-stack">
-            <i class="fa fa-check fa-stack-1x"></i>
-            <i class="fa fa-circle-thin fa-stack-2x"></i>
-          </span>
-        {{/if}}
-        </span>
-      </h4>
       <h1 class="entity-name">
+        {{> taskTick checked=completed taskId=_id largeTick=true}}
         {{title}}
         <div  class="pull-right" id="obvious-task-completion-button">
           {{#if completed}}
@@ -121,29 +107,8 @@
 
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-md-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class="btn-group pull-right">
-            {{#if isInRole 'CanCreateTasks'}}
-              <a href="#" id="create-sub-task" class="btn btn-info btn-xs"><i class="fa fa-fw fa-plus"></i> Create sub-task</a>
-            {{/if}}
-          </div>
-          Sub-Tasks
-        </div>
-
-        <ul class="list-group">
-        {{#each subTasks}}
-          {{> subTaskItem}}
-        {{else}}
-          <li class="list-group-item">No sub-tasks</li>
-        {{/each}}
-        </ul>
-      </div>
-    </div>
-  </div>
+  
+  {{> subtaskList }}
 
   <div class="row">
     <div class="col-md-12">
@@ -162,24 +127,5 @@
       </div>
     {{/if}}
   {{/if}}
-
-
   {{/with}}
-</template>
-
-<template name="subTaskItem">
-    <a href="{{pathFor route='task' id=_id}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="Navigate to sub-task's details">
-    {{#if subTaskCompleted}}
-      <span class="fa-stack fa-1x task-green sub-task-completed">
-      <i class="fa fa-circle fa-stack-2x"></i>
-      <i class="fa fa-check fa-stack-1x fa-inverse"></i>
-      </span>
-      {{else}}
-      <span class="fa-stack fa-1x sub-task-completed">
-      <i class="fa fa-check fa-stack-1x"></i>
-      <i class="fa fa-circle-thin fa-stack-2x"></i>
-      </span>
-    {{/if}}
-    <i class="fa fa-fw fa-chevron-right pull-right"></i> {{subTaskName}}
-    </a>
 </template>

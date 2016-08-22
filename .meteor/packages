@@ -49,10 +49,8 @@ arillo:flow-router-helpers
 chart:chart
 percolate:migrations
 gildaspk:autoform-medium
-vazco:universe-html-purifier
 jeremy:geocomplete
 matb33:collection-hooks
-mizzao:bootboxjs
 digilord:faker
 kadira:flow-router
 kadira:blaze-layout
@@ -117,3 +115,4 @@ mrt:jquery-ui-sortable
 appcache
 qubitdev:autoform-bs-datetimepicker-updated
 tsega:bootstrap3-datetimepicker
+hwillson:stub-collections

@@ -1,11 +1,15 @@
 import './project-details-panel.html';
 import './modals/project-extract-help-modal.html';
+import bootbox from 'bootbox';
 
 Template.projectDetailsPanel.onRendered(function() {
   $.getScript('/vendor/docxgen.min.js');
 });
 
 Template.projectDetailsPanel.helpers({
+  taskOverDue: function() {
+    return moment().isAfter(this.nextActionDue);
+  },
   friendlyDueDate: function() {
     return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
   },
@@ -30,7 +34,7 @@ Template.projectDetailsPanel.helpers({
 Template.projectDetail.events({
   'click #edit-project': function(event) {
     event.preventDefault();
-    Modal.show('updateProjectForm', this);
+    Modal.show('updateProjectModal', this);
   },
   'click #remove-project': function(event) {
     event.preventDefault();
@@ -55,7 +59,7 @@ Template.projectDetail.events({
     var file = event.target.files[0];
     if (!file) return;
     if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-      toastr.error("Unable to extract to file. Please ensure the provided file is a word document (.docx)");
+      toastr.error("Unable to process file. Please ensure the provided file is a word document (.docx)");
       return;
     }
 
@@ -137,7 +141,7 @@ Template.projectDetail.events({
         saveAs(blob, file.name);
         toastr.success("Your data has been successfully extracted.");
       } catch (err) {
-        toastr.error("Unable to extract to file.");
+        toastr.error("Unable to process file.");
       }
 
       $('#template-upload-docx').val('');

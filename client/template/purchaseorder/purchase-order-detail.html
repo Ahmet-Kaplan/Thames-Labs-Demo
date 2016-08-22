@@ -18,16 +18,15 @@
             <div class="btn-group pull-right">
               {{#if isInRole 'CanEditPurchaseOrders'}}
               <div class="btn-group">
-                <button class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
-                  <span class="caret"></span>
-                  Extract to...
-                </button>
+                {{#if hasDownloadSupport}}
+                  <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>Download as...</button>
+                {{else}}
+                  <button class="btn btn-xs btn-default" data-toggle="tooltip" title="This feature is currently unsupported by your browser." data-placement="bottom"><span class="caret"></span>Download as...</button>
+                {{/if}}
                 <ul class="dropdown-menu" role="menu">
-                  {{#if canExportDocx}}
-                    <li>
-                      <a href="#" id="template-upload-link-docx">Word document (.docx)</a>
-                    </li>
-                  {{/if}}
+                  <li>
+                    <a href="#" id="template-upload-link-docx">Microsoft Word template (.docx)</a>
+                  </li>
                   <li class="divider"></li>
                   <li>
                     <a href="#" id="po-template-help">How does this work?</a>
@@ -145,9 +144,7 @@
     </div>
     {{#if isInRole 'CanEditPurchaseOrders'}}
       {{#if isMobile}}
-        <div class="fab edit" id="fab">
-          <i class="fa fw-fa fa-pencil"></i>
-        </div>
+        {{> fabEdit entity="PurchaseOrder" record=this}}
       {{/if}}
     {{/if}}
 
@@ -202,7 +199,7 @@
         <h4>Help on templates</h4>
       </div>
       <div class="modal-body">
-        
+
         <p>Start by creating a Microsoft Word Document to act as a template. Include the keywords below where needed in the document, and select "Microsoft Word Template". In the file finder, select the template file you just created. RealTime will replace the keywords with their relative values, and download a new version of the file for you.</p>
         <p>Keywords which are recognised by RealTime:</p>
         <ul>

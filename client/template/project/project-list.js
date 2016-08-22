@@ -1,7 +1,11 @@
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+import '/imports/ui/components/tags/tag-management/tag-management.js';
+import '/imports/ui/components/export/export.js';
+
 Template.projectsList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadProjects');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadProjects');
   });
 
   // Store search index dict on template to allow helpers to access
@@ -58,11 +62,7 @@ Template.projectsList.onRendered(function() {
 Template.projectsList.events({
   'click #add-project': function(event) {
     event.preventDefault();
-    Modal.show('newProjectForm', this);
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('projects');
+    Modal.show('insertProjectModal', this);
   },
   'click #ref_projectOverviewWidget': function(event, template) {
 
@@ -78,10 +78,6 @@ Template.projectsList.events({
     Meteor.call('report.projectsAverage', function(err, data) {
       template.projectsAverage.set(data.Value);
     });
-  },
-  'click #fab': function(event) {
-    event.preventDefault();
-    Modal.show('newProjectForm', this);
   }
 });
 

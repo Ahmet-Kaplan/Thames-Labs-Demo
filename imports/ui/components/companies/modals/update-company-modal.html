@@ -1,0 +1,23 @@
+<template name="updateCompanyModal"> 
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Edit company details</h4>
+        </div>
+        <div class="modal-body">
+          {{#autoForm collection="Companies" id="updateCompanyForm" type="update" doc=this}}
+            {{> afQuickField name="name" value=companyName}}
+            {{> afQuickField name="website" value=website}}
+
+            {{> locationPicker addressData=addressData}}
+            
+            {{> afQuickField name="phone" value=phone}}
+            <button type="submit" class="btn btn-primary" id="update-company">Update</button>
+          {{/autoForm}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

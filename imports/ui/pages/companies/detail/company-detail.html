@@ -1,0 +1,196 @@
+<template name="companyDetail">
+  {{#with companyData}} {{setPageTitle "Company - " name }}
+  <div class="row" id="mainPage">
+    <div class="col-md-1 hidden-sm hidden-xs">
+      {{> jumplist list=linksList}}
+    </div>
+    <div class="col-md-7">
+      <span class="pull-right">{{> companyLogo url=website class="logo-large img-rounded"}}</span>
+
+      {{> breadcrumbs parentPath="/companies" parentName="Companies" recordName=breadcrumbName }}
+
+      <div class="watchlist-container">
+        {{> watchlistAdmin entityData=this collection='companies'}}
+      </div>
+      <h1 id="company-details" class="entity-name">{{name}}</h1>
+
+      <div class="company-tags">
+	      {{> tagInput tags=tags collection='companies' entityId=_id permissionToEdit='CanEditCompanies'}}
+      </div>
+
+      <div class="panel panel-default" id="company-details-panel">
+        <div class="panel-heading">
+          <div class="btn-group pull-right">
+            {{#if isInRole 'CanEditCompanies'}}
+            <button id="merge-company" class="btn btn-default btn-xs"><i class="fa fa-fw fa-compress"></i> Merge</button>
+            <div class="btn-group">
+              {{#if hasDownloadSupport}}
+                <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>Download as...</button>
+              {{else}}
+                <button class="btn btn-xs btn-default" data-toggle="tooltip" title="This feature is currently unsupported by your browser." data-placement="bottom"><span class="caret"></span>Download as...</button>
+              {{/if}}
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#" id="template-upload-link">Microsoft Word template (.docx)</a></li>
+                <li class="divider"></li>
+                <li><a href="#" id="template-help">How does this work?</a></li>
+              </ul>
+            </div>
+            <input type="file" id="template-upload" style="display:none;">
+            {{#unless isMobile}}
+            <button id="edit-company" class="btn btn-info btn-xs"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+            {{/unless}}
+            {{/if}} {{#if isInRole 'CanDeleteCompanies'}}
+            <a href="#" id="remove-company" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-times"></i> Delete</a>{{/if}}
+          </div>
+          <!--Company details <span class="text-muted">| {{> watchlistAdmin entityData=this collection='companies'}} </span>-->
+          Company details
+        </div>
+        <ul class="list-group">
+          {{#if website}}
+          <a href="{{websiteHref website}}" data-toggle="tooltip" data-placement="bottom" title="Navigate to this website" target="_blank" class="list-group-item panel-item-header">
+            <h4><i class="fa fa-fw fa-laptop"></i> Website</h4>
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            <p class="list-group-item-text">{{website}}</p>
+          </a>
+          {{/if}} {{#if phone}}
+          <a href="{{phoneHref phone}}" id="companyTelephone" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="">
+            <h4><i class="fa fa-fw fa-phone"></i> Phone Number</h4>
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            <p class="list-group-item-text">{{phone}}</p>
+          </a>
+          {{/if}}
+        </ul>
+      </div>
+
+      <div>
+        {{#if isInRole 'CanEditCompanies'}} {{#with this}} {{> customFieldDisplay entity_data=this entity_type='company'}} {{/with}} {{/if}}
+      </div>
+
+      {{#if isInRole 'CanReadContacts'}}
+      <div class="panel panel-default">
+        <div class="panel-heading" id="contacts">
+          Contacts {{#if isInRole 'CanCreateContacts'}}
+          <a href="#" id="add-contact" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New contact for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
+        </div>
+        <ul class="list-group">
+          {{#each contacts}}
+          <a href="{{pathFor route='contact' id=_id}}" class="ContactDataRow list-group-item" data-toggle="tooltip" data-placement="bottom" title="Navigate to this contact">
+            <i class="fa fa-fw fa-user"></i> {{#if title}}{{title}} {{/if}}{{forename}} {{surname}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+
+            <span class="pull-right">
+              {{> tagBadges tags=tags index=index pullRight=true}}
+            </span>
+
+          </a>
+          {{else}}
+          <li class="list-group-item">No contacts added</li>
+          {{/each}}
+        </ul>
+      </div>
+      {{/if}} {{#if isInRole 'CanReadOpportunities'}}
+      <div class="panel panel-default">
+        <div class="panel-heading" id="opportunities">
+          Opportunities
+          {{#if archivedOpps}}
+            - <a href="#" id="archived-opportunities">Show Archived ({{archivedOpps}})</a>
+          {{/if}}
+          {{#if isInRole 'CanCreateOpportunities'}}
+            <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add</a>
+          {{/if}}
+        </div>
+        <ul class="list-group">
+          {{#each opportunities}}
+          <a href="{{pathFor route='opportunity' id=_id}}" class="list-group-item">
+            <i class="fa fa-fw fa-lightbulb-o"></i> {{name}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>
+          {{else}}
+          <li class="list-group-item">No opportunities</li>
+          {{/each}}
+        </ul>
+      </div>
+      {{/if}} {{#if isInRole 'CanReadProjects'}}
+      <div class="panel panel-default">
+        <div class="panel-heading" id="projects">
+          Projects
+          {{#if inactiveProjects}}
+            - <a href="#" id="inactive-projects">Show Inactive ({{inactiveProjects}})</a>
+          {{/if}}
+          {{#if isInRole 'CanCreateProjects'}}
+            <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
+        </div>
+        <ul class="list-group">
+          {{#each projects}}
+          <a href="{{pathFor route='project' id=_id}}" class="list-group-item">
+            <i class="fa fa-fw fa-sitemap"></i> {{name}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a> {{else}}
+          <li class="list-group-item">No projects</li>
+          {{/each}}
+        </ul>
+      </div>
+      {{/if}}
+
+      {{#if isInRole 'CanReadPurchaseOrders'}}
+      <div class="panel panel-default">
+        <div class="panel-heading" id="purchase-orders">
+          Purchase Orders {{#if isInRole 'CanCreatePurchaseOrders'}}
+          <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
+        </div>
+        <ul class="list-group">
+          {{#each purchaseOrders}}
+          <a href="{{pathFor route='purchaseOrder' id=_id}}" class="list-group-item">
+            <i class="fa fa-fw fa-shopping-cart"></i> {{description}}
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+          </a>{{else}}
+          <li class="list-group-item">No purchase orders</li>
+          {{/each}}
+        </ul>
+      </div>
+      {{/if}}
+
+      {{> documentContainer collectionName="companies" id=this._id permissionRequired="CanEditCompanies"}}
+
+      {{#if isInRole 'CanReadTasks'}} {{#with this}} {{> taskDisplay entity_type="company" entity_id=_id}} {{/with}} {{/if}}
+
+    </div>
+
+    <div class="col-md-4">
+      {{> publicCompanyInformation}}
+      {{> legalCompanyInformation company=this}}
+      {{#if hasAddress}}
+        {{> mapViewer title=mapTitle address=mapAddress}}
+      {{else}}
+        <p>
+          <br>
+          <em class="FadedText">This company has no address. Add it via the Edit button to see where they're based!</em>
+        </p>
+      {{/if}}
+      {{#if showOppStats}}
+        {{> salesHistory oppStats=oppStats}}
+      {{/if}}
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-11 col-md-offset-1">
+      <h1 id="activity-timeline">
+        Activity Timeline
+        <a href="#" class="btn btn-primary{{#unless isMobile}} pull-right{{/unless}}" id="add-activity" data-toggle="tooltip" data-placement="bottom" title="New activity for this company"><i class="fa fa-fw fa-plus"></i> Add</a>
+      </h1>
+
+      {{> activityTimeline activities=activities}}
+    </div>
+  </div>
+
+  {{#if isInRole 'CanEditCompanies'}}
+    {{#if isMobile}}
+      {{> fabEdit entity="Company" record=this}}
+    {{/if}}
+  {{/if}}
+
+  {{> autoformModals}} {{/with}}
+
+  </template>

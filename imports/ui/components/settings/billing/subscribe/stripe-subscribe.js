@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
+import bootbox from 'bootbox';
 
 import { stripeCustomer, stripePlan, upcomingInvoice } from '/imports/api/billing/helpers.js';
 
@@ -113,7 +114,7 @@ Template.stripeSubscribe.events({
             toastr.clear();
             bootbox.alert({
               title: 'Subscription complete',
-              message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />Thank you for using RealtimeCRM!',
+              message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />Thank you for using RealTimeCRM!',
               backdrop: false,
               className: 'bootbox-success',
             });
@@ -141,7 +142,7 @@ Template.stripeSubscribe.events({
           const noCoupon = (result2 === 'CouponNotApplied') ? '<br />However there has been an issue applying your coupon. Please contact us to correct this.' : '';
           bootbox.alert({
             title: 'Subscription complete',
-            message: `<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.${noCoupon}<br />Thank you for using RealtimeCRM!`,
+            message: `<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.${noCoupon}<br />Thank you for using RealTimeCRM!`,
             backdrop: false,
             className: 'bootbox-success',
           });

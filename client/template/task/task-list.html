@@ -31,7 +31,7 @@
             {{#if isInRole 'CanReadTasks'}}
             {{> importEntityDropdown entity="tasks"}}
             {{/if}}
-            <li><a id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom">Export</a></li>
+            {{> exportCollection entity="tasks"}}
           </ul>
       </div>
   </div>
@@ -40,6 +40,6 @@
   {{#if showCalendar}}
     {{> displayCalendar}}
   {{else}}
-    {{> searchResults index=TasksIndex listItemTemplateName='task'}}
+    {{> searchResults index=TasksIndex listItemTemplateName='taskItem'}}
   {{/if}}
 </template>

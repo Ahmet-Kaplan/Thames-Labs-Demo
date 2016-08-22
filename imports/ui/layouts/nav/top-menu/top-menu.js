@@ -1,5 +1,8 @@
+import '/imports/ui/components/tutorial-modals/help/help-menu.js';
+
 import './top-menu.less';
 import './top-menu.html';
+import '/imports/ui/components/feedback/feedback.js';
 
 Template.topMenu.helpers({
   displayShowLess: function() {

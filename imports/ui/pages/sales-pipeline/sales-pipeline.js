@@ -7,10 +7,12 @@ import { Template } from 'meteor/templating';
 import { Tracker } from 'meteor/tracker';
 
 import { SalesPipelineChart } from '/imports/ui/components/sales-pipeline/sales-pipeline-chart';
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 
 import '/imports/ui/components/opportunities/opportunity-details-panel.js';
-import '/imports/ui/components/opportunities/opportunity-previous-stage-button.js';
-import '/imports/ui/components/opportunities/opportunity-lost-link.js';
+import '/imports/ui/components/opportunities/stage-control/opportunity-previous-stage-button.js';
+import '/imports/ui/components/opportunities/stage-control/opportunity-lost-link.js';
+import '/imports/ui/components/tags/tag-input/tag-input.js';
 
 import './sales-pipeline.html';
 import './sales-pipeline.css';
@@ -18,7 +20,7 @@ import './sales-pipeline.css';
 Template.salesPipeline.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
   });
 
   // Get selected opportunity from URL if present

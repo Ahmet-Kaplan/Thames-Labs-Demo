@@ -1,0 +1,48 @@
+<template name="insertProductModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Add new product</h4>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection=formCollection id="insertProductForm" type="insert"}}
+            {{> afQuickField name="name" id="name-field"}}
+            {{#if IsIEAnd10OrGreater}}
+              {{> afQuickField name="description" rows=3}}
+            {{else}}
+              {{> afQuickField name="description" type="medium" class="form-control medium-editor" id="desc-field"}}
+            {{/if}}
+
+            <div class="form-group">
+              <label for="sale-price" class="control-label">Sale Price</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="price" id="sale-price" data-schema-key="price" step="0.01" class="form-control">
+              </div>
+              <span class="help-block"></span>
+            </div>
+
+
+            <div class="form-group">
+              <label for="cost-price" class="control-label">Cost Price</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="cost" id="cost-price" data-schema-key="cost" step="0.01" class="form-control">
+              </div>
+              <span class="help-block"></span>
+            </div>
+
+            <!-- {{> afQuickField name="sequencedIdentifier"}} -->
+            {{> afQuickField name="createdBy" value=currentUser type="hidden"}}
+            <button type="submit" class="btn btn-primary">Create</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

@@ -4,7 +4,7 @@ import d3tip from 'd3-tip';
 import toastr from 'meteor/chrismbeckett:toastr';
 import { Meteor } from 'meteor/meteor';
 
-import { decimal } from '/imports/ui/components/currency/decimal.js';
+import { currencyHelpers } from '/imports/api/currency/currency-helpers.js';
 import { colours } from '/imports/api/lookup/colours.js';
 
 d3tip(d3);
@@ -51,7 +51,7 @@ function SalesPipelineChart(el) {
     .size([this.w, this.h])
     .nodes(this.nodes);
 
-  this.tip = d3.tip().attr('class', 'd3-tip').html((d) => `${d.name} | ${decimal(d.value)}`);
+  this.tip = d3.tip().attr('class', 'd3-tip').html((d) => `${d.name} | ${currencyHelpers.toDecimal(d.value)}`);
   this.svg.call(this.tip);
 
   this.updateNodes = (newNodes, stages) => {
@@ -262,9 +262,9 @@ function SalesPipelineChart(el) {
         .append("p")
         .html( (d) => `${d.title} (${d.opportunityCount})` )
         .append("p")
-        .html( (d) => `Total: ${decimal(d.opportunityTotal)}` )
+        .html( (d) => `Total: ${currencyHelpers.toDecimal(d.opportunityTotal)}` )
         .append("p")
-        .html( (d) => `Average: ${decimal(d.opportunityAvg)}` );
+        .html( (d) => `Average: ${currencyHelpers.toDecimal(d.opportunityAvg)}` );
     }
 
   };

@@ -1,7 +1,10 @@
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+import '/imports/ui/components/export/export.js';
+
 Template.taskList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
-    redirectWithoutPermission(Meteor.userId(), 'CanReadTasks');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadTasks');
   });
 
   // Store search index dict on template to allow helpers to access
@@ -70,9 +73,9 @@ Template.taskList.events({
   'click .add-task': function(event) {
     event.preventDefault();
     const entityType = event.target.id;
-    Modal.show('insertNewTask', { entity_data: {
+    Modal.show('insertNewTask', {
       entity_type: entityType
-    }});
+    });
   },
   'click #toggle-my-tasks': function(event) {
     event.preventDefault();
@@ -82,9 +85,5 @@ Template.taskList.events({
       indexMethods.addProps('assignee', Meteor.userId());
     }
     $(event.target).blur();
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('tasks');
   }
 });

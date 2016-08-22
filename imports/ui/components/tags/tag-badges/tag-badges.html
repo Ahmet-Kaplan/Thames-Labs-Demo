@@ -1,0 +1,8 @@
+<!-- Context should be object with tags property -->
+<template name="tagBadges">
+  {{#each sortedTags}}
+    {{> tagBadge tag=this index=../index}}
+  {{else}}
+    <!-- intentionally left blank to prevent blaze error -->
+  {{/each}}
+</template>

@@ -5,10 +5,11 @@
     <a id="search-again" href="#">Search again</a>
     {{> afQuickField name="website" value=website}}
 
-    {{> companyLocationPicker companyData=companyData}}
+    {{> locationPicker entityData=companyData}}
     
     {{> afQuickField name="phone" value=phone}}
     {{> afQuickField name="createdBy" value=currentUser }}
+    {{> afQuickField name="companiesHouseId" value=companiesHouseId }}
     <button type="submit" class="btn btn-primary" id="btnCreate">Create</button>
   {{/autoForm}}
 </template>

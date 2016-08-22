@@ -48,13 +48,13 @@ Meteor.methods({
 
     const notesFieldData = "<h4><strong>Subject: " + subject + "</strong></h4><p>" + mailText + "</p>";
 
-    const emailPattern = /([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,})/g;
+    const emailPattern = /([A-Za-z0-9_\.-]+)@([\dA-Za-z\.-]+)\.([A-Za-z\.]{2,})/g;
     const userEmail = bodyData.From.match(emailPattern);
 
     if (!userEmail) return;
 
     const MeteorUser = Meteor.users.findOne({
-      'emails.address': userEmail[0]
+      'emails.address': { $regex: new RegExp(userEmail[0], "i") }
     });
 
     if (!MeteorUser) {
@@ -86,6 +86,7 @@ Meteor.methods({
             createdAt: Date.now(),
             activityTimestamp: sendDate,
             contactId: contact._id,
+            companyId: contact.companyId,
             createdBy: MeteorUser._id,
             primaryEntityId: contact._id,
             primaryEntityType: 'contacts',
@@ -97,7 +98,7 @@ Meteor.methods({
         }
       });
 
-      if(missingContacts.length > 0 ) {
+      if (missingContacts.length > 0) {
         let emailMessage = `Hello, ${MeteorUser.profile.name}, \r\rYou recently attempted to link an email to your RealTimeCRM account, however the following email addresses don't seem to correspond to any of your contacts: \r\r`;
 
         let contactsBody = "";

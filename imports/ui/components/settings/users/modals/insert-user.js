@@ -1,4 +1,5 @@
 import './insert-user.html';
+import bootbox from 'bootbox';
 
 AutoForm.hooks({
   insertUser: {
@@ -41,11 +42,5 @@ Template.insertUser.helpers({
   isProTenant: function() {
     const tenantId = Meteor.user().group;
     return isProTenant(tenantId);
-  }
-});
-
-Template.insertUser.events({
-  'click #close': function() {
-    hopscotch.endTour(true);
   }
 });

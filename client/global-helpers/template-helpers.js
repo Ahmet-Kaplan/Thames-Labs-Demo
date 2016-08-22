@@ -1,5 +1,5 @@
-import { userCurrencySymbol } from '/imports/ui/components/currency/currency-symbol.js';
-import { decimal } from '/imports/ui/components/currency/decimal.js';
+import { currencyHelpers } from '/imports/api/currency/currency-helpers.js';
+import { Products } from '/imports/api/collections.js';
 import { Tracker } from 'meteor/tracker';
 
 Template.registerHelper('greaterThan', function(a, b) {
@@ -22,7 +22,7 @@ Template.registerHelper('indexedArray', function(context, options) {
 });
 
 Template.registerHelper('decimal', function(number) {
-  return decimal(number);
+  return currencyHelpers.toDecimal(number);
 });
 
 Template.registerHelper('longNumber', function(number) {
@@ -97,7 +97,7 @@ Template.registerHelper('EventLogIndex', () => EventLogIndex);
 Template.registerHelper('CompaniesIndex', () => CompaniesIndex);
 Template.registerHelper('ContactsIndex', () => ContactsIndex);
 Template.registerHelper('OpportunitiesIndex', () => OpportunitiesIndex);
-Template.registerHelper('ProductsIndex', () => ProductsIndex);
+Template.registerHelper('ProductsIndex', () => Products.index);
 Template.registerHelper('ProjectsIndex', () => ProjectsIndex);
 Template.registerHelper('PurchaseOrdersIndex', () => PurchaseOrdersIndex);
 Template.registerHelper('UsersIndex', () => UsersIndex);
@@ -139,7 +139,7 @@ Template.registerHelper('userCurrency', function() {
 });
 
 Template.registerHelper('userCurrencySymbol', function() {
-  return userCurrencySymbol();
+  return currencyHelpers.userCurrencySymbol();
 });
 
 Template.registerHelper('setSelected', function(value, option) {
@@ -154,4 +154,13 @@ Template.registerHelper('isProTenant', function() {
   });
   if (!tenant) return false;
   return isProTenant(tenant._id);
+});
+
+Template.registerHelper('hasDownloadSupport', function() {
+  const a = document.createElement('a');
+  if (typeof a.download != "undefined") {
+    // download attribute is supported
+    return true;
+  }
+  return false;
 });

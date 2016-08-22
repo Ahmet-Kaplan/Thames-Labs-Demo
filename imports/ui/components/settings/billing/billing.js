@@ -1,4 +1,5 @@
 import { stripeCustomer, upcomingInvoice, lastInvoice } from '/imports/api/billing/helpers.js';
+import bootbox from 'bootbox';
 
 import './overview/billing-overview.js';
 import './stripe-how.html';
@@ -39,7 +40,8 @@ Template.billing.helpers({
     return moment(periodEnd * 1000).format('Do MMMM YYYY');
   },
   isTrialPeriod: function() {
-    return _.get(stripeCustomer.getData(), 'subscriptions.data[0].trial_end', false);
+    const trialPeriodEnd = _.get(stripeCustomer.getData(), 'subscriptions.data[0].trial_end', false);
+    return moment(trialPeriodEnd * 1000).isAfter(moment());
   },
   trialPeriodEnd: function() {
     const trialPeriodEnd = _.get(stripeCustomer.getData(), 'subscriptions.data[0].trial_end', false);

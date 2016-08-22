@@ -194,11 +194,6 @@ Template.nav.events({
     lastTutorial = "help";
     Modal.show("help");
   },
-  'click #tour-this-page': function() {
-    var currentPageName = FlowRouter.getRouteName();
-
-    $.getScript('/vendor/hopscotch/tours/' + currentPageName + '_tour.js');
-  },
   'click #tips': function(event, template) {
     event.preventDefault();
     Modal.show("tipsModal");
@@ -248,7 +243,7 @@ Template.nav.events({
     }
 
     event.preventDefault();
-    Modal.show('newPurchaseOrderForm', this);
+    Modal.show('insertPurchaseOrderModal', this);
   },
   'click #feedback-link': function(event) {
     event.preventDefault();
@@ -314,7 +309,7 @@ Template.nav.events({
   },
   'click #fabAddPurchaseOrder': function(event) {
     event.preventDefault();
-    Modal.show('newPurchaseOrderForm', this);
+    Modal.show('insertPurchaseOrderModal', this);
   }
 });
 

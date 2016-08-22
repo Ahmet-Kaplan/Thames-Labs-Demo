@@ -1,4 +1,4 @@
-<template name="newPurchaseOrderForm">
+<template name="insertPurchaseOrderModal">
   <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -108,7 +108,7 @@
   </div>
 </template>
 
-<template name="updatePurchaseOrderFormModal">
+<template name="updatePurchaseOrderModal">
   <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -159,9 +159,27 @@
             {{> afQuickField name="description" id="description" rows=3}}
             {{> afQuickField name="productCode" id="code"}}
             {{> afQuickField name="status" options="allowed" id="status"}}
-            {{> afQuickField name="value" id="itemValue" }}
+
+            <div class="form-group">
+              <label for="itemValue" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="itemValue" data-schema-key="value" step="0.01" class="form-control">
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             {{> afQuickField name="quantity" id="currQuant"}}
-            {{> afQuickField name="totalPrice" readonly=true id="activePrice" }}
+
+            <div class="form-group">
+              <label for="activePrice" class="control-label">Total Price</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input readonly type="number" name="value" id="activePrice" data-schema-key="value" step="0.01" class="form-control" value={{purchaseOrderItem.totalPrice}}>
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             {{#if purchaseOrder.supplierCompanyId}}
               <input type="hidden" id="supplierCompanyId" value="{{purchaseOrder.supplierCompanyId}}">
               {{> esSelectize name="projectId" index=ProjectsIndex }}
@@ -179,7 +197,7 @@
   </div>
 </template>
 
-<template name="editPurchaseOrderItemModal">
+<template name="updatePurchaseOrderItemModal">
   <div class="modal"  id="draggableModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -194,9 +212,27 @@
             {{> afQuickField name="description" id="description" rows=3}}
             {{> afQuickField name="productCode" id="code"}}
             {{> afQuickField name="status" options="allowed" id="status"}}
-            {{> afQuickField name="value" id="itemValue"}}
+
+            <div class="form-group">
+              <label for="itemValue" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="itemValue" data-schema-key="value" step="0.01" class="form-control" value={{purchaseOrderItem.value}}>
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             {{> afQuickField name="quantity" id="currQuant"}}
-            {{> afQuickField name="totalPrice" readonly=true id="activePrice"}}
+
+            <div class="form-group">
+              <label for="activePrice" class="control-label">Total Price</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input readonly type="number" name="value" id="activePrice" data-schema-key="value" step="0.01" class="form-control" value={{purchaseOrderItem.totalPrice}}>
+              </div>
+              <span class="help-block"></span>
+            </div>
+
             {{#if purchaseOrder.supplierCompanyId}}
               <input type="hidden" id="supplierCompanyId" value="{{purchaseOrder.supplierCompanyId}}">
               {{> esSelectize name="projectId" index=ProjectsIndex value=purchaseOrderItem.projectId}}

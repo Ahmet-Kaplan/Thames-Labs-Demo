@@ -1,0 +1,23 @@
+<!-- Takes parameters:
+  tags: the tags collection on the entity instance
+  collection: the mongo name of the collection in question
+  entityId: the _id of the instance of the collection
+  permissionToEdit: the name of the permission required to edit the tags - if not
+                    set then always show
+ -->
+<template name="tagInput">
+  <div id="tag-list-display">
+    {{#if inputMode}}
+      {{> tagSelectize}}
+    {{else}}
+      {{#if hasPermission}}
+        <a href="#" class="pull-right badge editTags"><i class="fa fa-fw fa-tag"></i></a>
+      {{/if}}
+      {{#if tags}}
+        {{> tagBadges}}
+      {{else}}
+        <a href="#" class="text-muted"><small>Click to add tags ...</small></a>
+      {{/if}}
+    {{/if}}
+  </div>
+</template>

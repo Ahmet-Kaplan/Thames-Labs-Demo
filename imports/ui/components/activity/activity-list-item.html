@@ -1,0 +1,33 @@
+<template name="activityListItem">
+  <div class="list-group-item clearfix" id='{{primaryEntityType}}ActivityDisplayItem'>
+    <div class="row">
+      <div class="col-md-1 text-muted" id="{{primaryEntityType}}ActivityDisplayItemType">
+        <i class="fa fa-fw fa-{{listIcon type}}"></i> {{type}}
+      </div>
+      <div class="col-md-4 activityListDetailWrapper" id="{{primaryEntityType}}ActivityDisplayItemNotes">
+        {{#striptags disallowedTags="<style>"}}
+          {{notes}}
+        {{/striptags}}
+      </div>
+      <div class="col-md-3 text-muted" id="{{primaryEntityType}}ActivityDisplayItemLink">
+      {{#if primaryEntityId}}
+        {{#if taskId}}
+          <a href="{{pathFor route='task' id=taskId}}" id='{{primaryEntityType}}ActivityLink'><i class="{{entityIcon}}"></i> {{entityName}}</a>
+        {{else}}
+          <a href="{{pathFor route=routeName id=primaryEntityId}}" id='{{primaryEntityType}}ActivityLink'><i class="{{entityIcon}}"></i> {{entityName}}</a>
+        {{/if}}
+      {{else}}
+        No primary record set
+      {{/if}}
+
+      </div>
+      <div class="col-md-2 text-muted" id="{{primaryEntityType}}ActivityDisplayItemTimestamp" title="{{activityTimestamp}}">
+        <i class="fa fa-clock-o"></i>
+        {{fromNow activityTimestamp}}
+      </div>
+      <div class="col-md-2" id="{{primaryEntityType}}ActivityDisplayItemTags">
+        <span class="pull-right">{{> tagBadges tags=tags index=index}}</span>
+      </div>
+    </div>
+  </div>
+</template>
