@@ -3,24 +3,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './update-custom-field-item.html';
 import './customfield.css';
 
-const getVar = (type) => Template.instance().reactiveVars[type].get(),
-      setVar = (type) => {
-        _.forEach(Template.instance().reactiveVars, function(value, key) {
-          Template.instance().reactiveVars[key].set(false);
-        });
-        Template.instance().reactiveVars[type].set(true);
-      };
-
 Template.customFieldItem.onCreated(function() {
-  this.reactiveVars = {};
-  this.reactiveVars.text = new ReactiveVar(false);
-  this.reactiveVars.advtext = new ReactiveVar(false);
-  this.reactiveVars.checkbox = new ReactiveVar(false);
-  this.reactiveVars.date = new ReactiveVar(false);
-  this.reactiveVars.label = new ReactiveVar(false);
-  this.reactiveVars.picklist = new ReactiveVar(false);
-
-  setVar(this.data.type);
+  this.type = new ReactiveVar("");
 });
 
 Template.customFieldItem.helpers({
@@ -28,22 +12,22 @@ Template.customFieldItem.helpers({
     return this.name.replace(/ /g, '');
   },
   typeText: function() {
-    return getVar('text');
+    return Template.instance().type.get() == 'text';
   },
   typeMultiText: function() {
-    return getVar('advtext');
+    return Template.instance().type.get() == 'advtext';
   },
   typeCheckbox: function() {
-    return getVar('checkbox');
+    return Template.instance().type.get() == 'checkbox';
   },
   typeDateTime: function() {
-    return getVar('date');
+    return Template.instance().type.get() == 'date';
   },
   typeLabel: function() {
-    return getVar('label');
+    return Template.instance().type.get() == 'label';
   },
   typePicklist: function() {
-    return getVar('picklist');
+    return Template.instance().type.get() == 'picklist';
   }
 });
 
@@ -54,8 +38,7 @@ Template.customFieldItem.events({
           safeName = '#customField' + index.replace(/ /g, ''),
           selectorName = safeName + "TypeOptions",
           newType = $(selectorName).val();
-
-    setVar(newType);
+    Template.instance().type.set(newType);
   }
 });
 
@@ -98,4 +81,6 @@ Template.customFieldItem.onRendered(function() {
     const se = $(safeName + 'PicklistValue').selectize();
     se[0].selectize.setValue(field.value);
   }
+
+  Template.instance().type.set(this.data.type);
 });
