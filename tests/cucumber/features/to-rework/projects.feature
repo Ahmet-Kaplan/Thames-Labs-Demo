@@ -63,7 +63,7 @@ Feature: Allow users to manage their Projects
     And I selectize "userId" to "test user"
     And I selectize "companyId" to "Test Ltd"
     And I set text field "value" to "999"
-    And I submit the "newProject" form
+    And I submit the "insertProject" form
     Then I should see the heading "test project 2"
 
   Scenario: A user without permission cannot create a projects
