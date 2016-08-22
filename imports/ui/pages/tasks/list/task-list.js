@@ -47,7 +47,11 @@ Template.taskList.onRendered(function() {
           props = searchOptions.props ? searchOptions.props : {};
 
     this.showMine.set(props.assignee && props.assignee === Meteor.userId());
-    if (props.subtasks && props.subtasks === "Hidden") this.showSubtasks.set(false);
+    if (props.subtasks && props.subtasks === "Hidden") {
+      this.showSubtasks.set(false);
+    } else {
+      this.showSubtasks.set(true);
+    }
   });
 
   if(!_.get(Collections['tasks'].index.getComponentDict().get('searchOptions').props, "completed")) {
