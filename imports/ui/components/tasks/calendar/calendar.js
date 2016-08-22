@@ -1,4 +1,9 @@
+import './calendar.html';
+import './calendar.css';
+import '../modals/insert-task-modal.js';
+import '../modals/update-task-modal.js';
 import bootbox from 'bootbox';
+
 Template.displayCalendar.onCreated(function() {
   this.startTime = new ReactiveVar({});
   this.endTime = new ReactiveVar({});
@@ -11,8 +16,8 @@ Template.displayCalendar.onRendered(function() {
 
   //Check first if the user had already been looking in a date/time window and if so go to it
   if(TasksIndex.getComponentDict().get('searchOptions').props) {
-    var getStartDate = TasksIndex.getComponentDict().get('searchOptions').props.after;
-    var getEndDate = TasksIndex.getComponentDict().get('searchOptions').props.before;
+    const getStartDate = TasksIndex.getComponentDict().get('searchOptions').props.after,
+          getEndDate = TasksIndex.getComponentDict().get('searchOptions').props.before;
     if(moment(getStartDate).isValid()) {
       $('#tasksCalendar').fullCalendar('gotoDate', moment(getStartDate).startOf('month'));
     } else if (moment(getEndDate).isValid()) {
@@ -22,8 +27,8 @@ Template.displayCalendar.onRendered(function() {
 
   //On change from month to week, renders current week if is current month
   this.autorun(() => {
-    var currentView = this.currentView.get();
-    var newView = $('#tasksCalendar').fullCalendar('getView');
+    const currentView = this.currentView.get(),
+          newView = $('#tasksCalendar').fullCalendar('getView');
     if( currentView.type === "month" && newView.type === "agendaWeek" && currentView.start.isBefore(moment()) && currentView.end.isAfter(moment()) ) {
       $('#tasksCalendar').fullCalendar('gotoDate', moment());
     }
@@ -31,8 +36,8 @@ Template.displayCalendar.onRendered(function() {
 
   //Looks for views rendering, i.e. when the user changes month or between day/week/month views
   this.autorun(() => {
-    var startTime = this.startTime.get();
-    var endTime = this.endTime.get();
+    const startTime = this.startTime.get(),
+          endTime = this.endTime.get();
 
     TasksIndex.getComponentMethods().addProps('after', startTime.format('DD MMM YYYY'));
     TasksIndex.getComponentMethods().addProps('before', endTime.format('DD MMM YYYY'));
@@ -40,11 +45,11 @@ Template.displayCalendar.onRendered(function() {
 
   //Update search index according to the view and trigger the update of the view with new events
   this.autorun(() => {
-    var name = TasksIndex.getComponentDict().name;
-    var searchDefinition = Session.get(name + '.searchDefinition') || '';
-    var searchOptions = TasksIndex.getComponentDict().get('searchOptions');
+    const name = TasksIndex.getComponentDict().name,
+          searchDefinition = Session.get(name + '.searchDefinition') || '',
+          searchOptions = TasksIndex.getComponentDict().get('searchOptions');
     searchOptions.limit = 200;
-    var tasksList = TasksIndex.search(searchDefinition, searchOptions);
+    const tasksList = TasksIndex.search(searchDefinition, searchOptions);
 
     if(tasksList.isReady()) {
       this.tasksList.set(tasksList.fetch());
@@ -56,7 +61,7 @@ Template.displayCalendar.onRendered(function() {
 
 Template.displayCalendar.helpers({
   calendarOptions: function() {
-    var instance = Template.instance();
+    const instance = Template.instance();
     return {
       id: 'tasksCalendar',
       firstDay: 1,
@@ -88,15 +93,15 @@ Template.displayCalendar.helpers({
       eventSources: [
         {
           events: function(start, end, timezone, callback) {
-            var tasksList = instance.tasksList.get();
-            var events = [];
+            const tasksList = instance.tasksList.get(),
+                  events = [];
             if(!!tasksList.length) {
               _.each(tasksList, (task) => {
                 //Check first that the event is not already displayed
-                var taskDisplayed = this.clientEvents('evt_' + task._id).length;
+                const taskDisplayed = this.clientEvents('evt_' + task._id).length;
 
                 if(typeof task.dueDate !== 'undefined' && !taskDisplayed) {
-                  var background = {
+                  const background = {
                     'company': 'primary',
                     'contact': 'info',
                     'opportunity': 'warning',
@@ -124,7 +129,7 @@ Template.displayCalendar.helpers({
         }
       ],
       eventClick: function(event, jsEvent, view) {
-        var popoverHolder = $(jsEvent.target).closest('.fc-content') || $(jsEvent.target).closest('.fc-time-grid-event');
+        const popoverHolder = $(jsEvent.target).closest('.fc-content') || $(jsEvent.target).closest('.fc-time-grid-event');
 
         //Creates popover only on first instance
         if(!popoverHolder.data('haspopover')) {
@@ -144,7 +149,7 @@ Template.displayCalendar.helpers({
             trigger: 'manual'
           });
 
-          var popoverHoldersList = instance.popoverHoldersList.get();
+          const popoverHoldersList = instance.popoverHoldersList.get();
           popoverHoldersList.push(popoverHolder);
           instance.popoverHoldersList.set(popoverHoldersList);
 
@@ -174,13 +179,13 @@ Template.displayCalendar.helpers({
         //Add event handler to show modal from link in popover. This cannot be done with Template.events because of the toHTMWithData function
         $('.popover-edit-task').on('click.RTCalendar', function(jsEvent) {
           jsEvent.preventDefault();
-          var task = _.find(instance.tasksList.get(), {'__originalId': event.__originalId});
+          const task = _.find(instance.tasksList.get(), {'__originalId': event.__originalId});
           task._id = task.__originalId;
           Modal.show('updateTaskModal', task);
         });
       },
       eventDrop: function(event, delta, revertFunc) {
-        var newStartDate = moment(event.start);
+        const newStartDate = moment(event.start);
         bootbox.confirm({
           message: 'Do you want to change the task due date to ' + newStartDate.format('Do MMM YYYY, HH:mm') + '?',
           title: 'Update task due date',
@@ -212,7 +217,7 @@ Template.displayCalendar.helpers({
         instance.currentView.set(view);
       },
       dayClick: function(date, jsEvent, view) {
-        var popoverHolder = $(jsEvent.target);
+        const popoverHolder = $(jsEvent.target);
 
         if(view.type === "month") {
           date.hours(12);
@@ -220,7 +225,7 @@ Template.displayCalendar.helpers({
 
         //Creates popover only on first instance
         if(!popoverHolder.data('haspopover')) {
-          var title = '<span class="fa-stack"><i class="fa fa-calendar-o fa-stack-2x"></i><i class="fa fa-stack-1x"><small>' + date.format('D') + '</small></i></span> ';
+          let title = '<span class="fa-stack"><i class="fa fa-calendar-o fa-stack-2x"></i><i class="fa fa-stack-1x"><small>' + date.format('D') + '</small></i></span> ';
           title += (view.type === 'agendaDay') ? 'Day view' : '<a href="#" class="go-to-day-view">Go to day view</a>';
           popoverHolder.popover({
             container: 'body',
@@ -233,7 +238,7 @@ Template.displayCalendar.helpers({
             trigger: 'manual'
           });
 
-          var popoverHoldersList = instance.popoverHoldersList.get();
+          const popoverHoldersList = instance.popoverHoldersList.get();
           popoverHoldersList.push(popoverHolder);
           instance.popoverHoldersList.set(popoverHoldersList);
 
@@ -262,11 +267,11 @@ Template.displayCalendar.helpers({
             popoverHolder.popover('hide');
           } else {
             popoverHolder.popover('show');
-            var day = date.format('ddd').toLowerCase();
-            var dayOffset = $('.fc-day.fc-' + day).offset().left;
-            var dayWidth = $('.fc-day-header.fc-' + day).width();
-            var popoverWidth = $('.popover').width();
-            var setLeftOffset = dayOffset - (popoverWidth - dayWidth) / 2;
+            const day = date.format('ddd').toLowerCase(),
+                  dayOffset = $('.fc-day.fc-' + day).offset().left,
+                  dayWidth = $('.fc-day-header.fc-' + day).width(),
+                  popoverWidth = $('.popover').width(),
+                  setLeftOffset = dayOffset - (popoverWidth - dayWidth) / 2;
             $('#' + popoverHolder.attr('aria-describedby')).offset({left: setLeftOffset});
             popoverHolder.data('day', day);
           }
@@ -277,7 +282,7 @@ Template.displayCalendar.helpers({
         //Add event handler to show modal. This cannot be done with Template.events because of the toHTMWithData function
         $('.quick-add-task').on('click.RTCalendar', function(jsEvent) {
           jsEvent.preventDefault();
-          var entityType = $(jsEvent.target).attr('id');
+          const entityType = $(jsEvent.target).attr('id');
           Modal.show('insertNewTask', { entityData: {
             entity_type: entityType,
             dueDate: date

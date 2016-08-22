@@ -1,3 +1,7 @@
+import './task-list.html';
+import '/imports/ui/components/tasks/task-item.js';
+import '/imports/ui/components/tasks/calendar/calendar.js';
+import '/imports/ui/components/tasks/modals/insert-task-modal.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/export/export.js';
 
@@ -24,7 +28,7 @@ Template.taskList.onRendered(function() {
   // Watch for session variable setting search
   Session.set('taskSearchQuery', null);
   this.autorun(function() {
-    var searchQuery = Session.get('taskSearchQuery');
+    const searchQuery = Session.get('taskSearchQuery');
     if (searchQuery) {
       TasksIndex.getComponentMethods().search(searchQuery);
       $('.stick-bar input').val(searchQuery);
