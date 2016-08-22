@@ -28,7 +28,6 @@ Template.oppOverview.onRendered(function() {
   Meteor.call('report.averageOpportunityValue', (err, data) => {
     this.averageOppValue.set(data.Value);
   });
-  console.log(Template.instance());
 });
 
 Template.oppOverview.helpers({
@@ -52,22 +51,5 @@ Template.oppOverview.helpers({
   },
   averageOppValue: function() {
     return Template.instance().averageOppValue.get();
-  }
-});
-
-Template.oppOverview.events({
-  'click #oppsOverviewWidget': function(event, template) {
-    Meteor.call('report.openOpportunities', function(err, data) {
-      template.openOpps.set(data.Count);
-    });
-    Meteor.call('report.archivedOpportunities', function(err, data) {
-      template.archivedOpps.set(data.Count);
-    });
-    Meteor.call('report.valueOfOpportunities', function(err, data) {
-      template.totalOppValue.set(data.Value);
-    });
-    Meteor.call('report.averageOpportunityValue', function(err, data) {
-      template.averageOppValue.set(data.Value);
-    });
   }
 });
