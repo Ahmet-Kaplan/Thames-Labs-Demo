@@ -91,7 +91,7 @@ Feature: Allow users to manage their Contacts
     When I navigate to a contact page
     And I click "#edit-contact"
     And I set text field "forename" to "Forename"
-    And I submit the "editContact" form
+    And I submit the "updateContact" form
     Then "#contact-details" should say "Forename Surname"
 
   Scenario: A user without permission cannot edit a contact
@@ -179,7 +179,7 @@ Feature: Allow users to manage their Contacts
     And a "Contact" has been created
     When I navigate to a contact page
     And I click "#edit-contact"
-    Then I should see "#formatted_address"
+    Then I should see ".form-address"
 
   Scenario: A user cannot see the address fields for a contact belonging to a company
     Given I have the "CanCreateContacts" permission

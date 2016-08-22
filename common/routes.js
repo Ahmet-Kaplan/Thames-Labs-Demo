@@ -11,17 +11,6 @@ function tidyUpUI(context) {
   Modal.hide();
   $(".modal-backdrop").remove();
   $("body").removeClass('modal-open');
-
-  //cancel any active tours (might need updating to prevent closing the Welcome Tour, should it actively switch between pages)
-  //we can do this using the following code (comparison might need changing)
-  if (hopscotch.getCurrTour()) {
-    // var tourName = hopscotch.getCurrTour();
-    // if (tourName !== "welcome") {
-
-    //For now, let's just brute-force cancel the tour
-    hopscotch.endTour();
-    // }
-  }
 }
 
 // Adjust Heap settings to replace their crazy user ID with something more readable
@@ -119,16 +108,6 @@ router.route('/audit', {
   action: function() {
     layout.render('appLayout', {
       main: "eventLog"
-    });
-  }
-});
-
-// SUPERADMIN only route
-router.route('/jobs', {
-  name: 'jobs-queue',
-  action: function() {
-    layout.render('appLayout', {
-      main: "jobsQueue"
     });
   }
 });

@@ -22,7 +22,7 @@
             <li><a id="toggle-value-sort" class="{{#if sortByValue}}text-success{{/if}}">Sort by value</a></li>
             {{> oppOverview}}
             {{> tagManagement collectionName='opportunities'}}
-            <li><a id="export" data-toggle="tooltip" title="Export results to CSV" data-placement="bottom">Export</a></li>
+            {{> exportCollection entity="opportunities"}}
         </ul>
       </div>
   </div>

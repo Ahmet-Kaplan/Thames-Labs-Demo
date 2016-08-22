@@ -1,0 +1,33 @@
+.tutorials .feedback-text {
+  padding: 0 20px 15px;
+}
+
+.tutorials .btn-huge {
+	width: 200px;
+	height: 100px;
+	white-space: normal !important;
+	margin-bottom: 10px !important;
+	margin-right: 10px !important;
+  padding: 5px 10px 10px;
+}
+
+.tutorials .modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.tutorials .modal-header h2{
+  margin: 10px 0px 5px
+}
+
+.tutorials .tab-content {
+  padding-top: 20px;
+}
+
+.tutorials .btn-huge h4{
+  margin-bottom: 10px;
+}
+
+.tutorials .btn-huge i{
+  font-size: 16px;
+}

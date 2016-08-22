@@ -1,6 +1,7 @@
 export function reset() {
   // We call this before EVERY test scenario and at the end of all features
   // It should completely reset the app for test tenants
+  const { Products } = require('/imports/api/collections.js');
 
   // Remove test tenants
   var testTenants = Tenants.find({
@@ -20,7 +21,6 @@ export function reset() {
     Projects.direct.remove({ _groupId: tenantId });
     PurchaseOrders.direct.remove({ _groupId: tenantId });
     PurchaseOrderItems.direct.remove({ _groupId: tenantId });
-    Chatterbox.direct.remove({ _groupId: tenantId });
     Products.direct.remove({ _groupId: tenantId });
     Opportunities.direct.remove({ _groupId: tenantId });
     CustomFields.direct.remove({ _groupId: tenantId });

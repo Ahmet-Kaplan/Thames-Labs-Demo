@@ -1,3 +1,4 @@
+import { Products } from '/imports/api/collections.js';
 Meteor.publish('userPresence', function() {
   var filter = {
     userId: {
@@ -262,12 +263,6 @@ Meteor.publish("allNotifications", function() {
     }
   });
 });
-
-// Meteor.publish("allChatter", function() {
-//   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-//   return Chatterbox.find({});
-// });
-
 
 Meteor.publish("allTasks", function() {
   if (!Roles.userIsInRole(this.userId, ['CanReadTasks'])) return this.ready();

@@ -1,5 +1,6 @@
 import './project-details-panel.html';
 import './modals/project-extract-help-modal.html';
+import './modals/update-project-modal.js';
 import bootbox from 'bootbox';
 
 Template.projectDetailsPanel.onRendered(function() {
@@ -31,7 +32,7 @@ Template.projectDetailsPanel.helpers({
   }
 });
 
-Template.projectDetail.events({
+Template.projectDetailsPanel.events({
   'click #edit-project': function(event) {
     event.preventDefault();
     Modal.show('updateProjectModal', this);

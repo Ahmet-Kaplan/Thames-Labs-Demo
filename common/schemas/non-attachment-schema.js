@@ -21,7 +21,7 @@ Schemas.User = new SimpleSchema({
         Meteor.call('isEmailAvailable', this.value, (error, result) => {
           if (result === false) {
             // Would be good to do this for any context, but unsure how to do this
-            Schemas.User.namedContext('addTenantUserModal').addInvalidKeys([
+            Schemas.User.namedContext('insertTenantUserModal').addInvalidKeys([
               { name: 'email', type: 'emailTaken' }
             ]);
           }

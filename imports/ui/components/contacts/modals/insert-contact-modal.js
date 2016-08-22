@@ -1,17 +1,7 @@
 import './insert-contact-modal.html';
 
 Template.insertContactModal.onCreated(function() {
-  // Load google maps
-  GoogleMaps.load({
-    libraries: 'places',
-    key: Meteor.settings.public.googleDeveloperKey
-  });
-});
-
-Template.insertContactModal.events({
-  'click #close': function() {
-    hopscotch.endTour(true);
-  }
+  this.showAddress = new ReactiveVar(true);
 });
 
 Template.insertContactModal.onRendered(function() {
@@ -47,57 +37,6 @@ Template.insertContactModal.onRendered(function() {
     handle: '.modal-header',
     opacity: 0.35
   });
-
-  this.autorun(function() {
-    if (GoogleMaps.loaded()) {
-      $("#geo").geocomplete({
-        details: "#insertContactForm",
-        detailsAttribute: "data-geo"
-      }).bind("geocode:result", function(event, result) {
-        let address = "",
-            strNumber = _.find(result.address_components, function(elt) {
-              return elt.types[0] == "street_number";
-            });
-
-        if (typeof strNumber !== 'undefined') {
-          strNumber = strNumber.long_name;
-          address += strNumber + " ";
-        }
-
-        let route = _.find(result.address_components, function(elt) {
-          return elt.types[0] == "route";
-        });
-
-        if (typeof route !== 'undefined') {
-          route = route.long_name;
-          address += route;
-        }
-        $("#formatted_address").val(address);
-        $("#address_details").show();
-        $("#map_wrapper").show();
-        $("#map_canvas").height("400px");
-        const map = new google.maps.Map(document.getElementById("map_canvas"), {
-                zoom: 16,
-                center: result.geometry.location,
-                scrollwheel: false
-              }),
-              marker = new google.maps.Marker({
-                map: map,
-                position: result.geometry.location,
-                draggable: true
-              });
-        google.maps.event.addListener(marker, "dragend", function() {
-          $("input[name=lat]").val(marker.getPosition().lat());
-          $("input[name=lng]").val(marker.getPosition().lng());
-        });
-      }).keypress(function(event) {
-        if (event.which == 13) {
-          $("#address_details").show();
-        }
-      });
-    }
-  });
-
 });
 
 Template.insertContactModal.helpers({
@@ -110,15 +49,40 @@ Template.insertContactModal.helpers({
     });
     if (tenant && tenant.settings.contact.titles && tenant.settings.contact.titles.length > 0) return true;
     return false;
+  },
+  showAddress: function() {
+    return Template.instance().showAddress.get();
   }
 });
 
 Template.insertContactModal.events({
   'change #companyId': function() {
     if ($('#companyId').val() != '') {
-      $('#addressWrapper').hide();
+      Template.instance().showAddress.set(false);
     } else {
-      $('#addressWrapper').show();
+      Template.instance().showAddress.set(true);
+    }
+  }
+});
+
+AutoForm.hooks({
+  insertContactForm: {
+    onSuccess: function() {
+      toastr.success('Contact created.');
+      Modal.hide();
+    },
+    after: {
+      insert: function(error, result) {
+        if (error) {
+          toastr.error('Contact creation error: ' + error);
+          return false;
+        }
+
+        FlowRouter.go('/contacts/' + result);
+      }
+    },
+    onError: function(formType, error) {
+      toastr.error('Contact creation error: ' + error);
     }
   }
 });

@@ -3,6 +3,7 @@ import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/opportunities/opportunity-list-item.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-opportunity-modal.js';
 import '/imports/ui/components/opportunities/reports/overview.js';
+import '/imports/ui/components/export/export.js';
 import './opportunity-list.html';
 
 Template.opportunityList.onCreated(function() {
@@ -87,8 +88,25 @@ Template.opportunityList.events({
     event.preventDefault();
     Modal.show('insertOpportunityModal');
   },
+<<<<<<< HEAD
   'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('opportunities');
+=======
+  'click #oppsOverviewWidget': function(event, template) {
+
+    Meteor.call('report.openOpportunities', function(err, data) {
+      template.openOpps.set(data.Count);
+    });
+    Meteor.call('report.archivedOpportunities', function(err, data) {
+      template.archivedOpps.set(data.Count);
+    });
+    Meteor.call('report.valueOfOpportunities', function(err, data) {
+      template.totalOppValue.set(data.Value);
+    });
+    Meteor.call('report.averageOpportunityValue', function(err, data) {
+      template.averageOppValue.set(data.Value);
+    });
+>>>>>>> master
   }
 });

@@ -23,3 +23,25 @@ Template.insertContactOpportunityModal.helpers({
     return `${contact.forename} ${contact.surname}`;
   }
 });
+
+AutoForm.hooks({
+  insertOpportunityForm: {
+    onSuccess: function() {
+      toastr.success('Opportunity added.');
+      Modal.hide();
+    },
+    after: {
+      insert: function(error, result) {
+        if (error) {
+          toastr.error('Opportunity creation error: ' + error);
+          return false;
+        }
+
+        FlowRouter.go('/opportunities/' + result);
+      }
+    },
+    onError: function(formType, error) {
+      toastr.error('Opportunity creation error: ' + error);
+    }
+  }
+});
