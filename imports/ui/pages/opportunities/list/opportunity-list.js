@@ -88,11 +88,10 @@ Template.opportunityList.events({
     event.preventDefault();
     Modal.show('insertOpportunityModal');
   },
-<<<<<<< HEAD
   'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('opportunities');
-=======
+  },
   'click #oppsOverviewWidget': function(event, template) {
 
     Meteor.call('report.openOpportunities', function(err, data) {
@@ -107,6 +106,5 @@ Template.opportunityList.events({
     Meteor.call('report.averageOpportunityValue', function(err, data) {
       template.averageOppValue.set(data.Value);
     });
->>>>>>> master
   }
 });
