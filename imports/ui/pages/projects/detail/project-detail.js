@@ -4,6 +4,7 @@ import '/imports/ui/components/projects/project-details-panel.js';
 import '/imports/ui/components/projects/milestones/milestone-control.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
+import '/imports/ui/components/tasks/panel/task-panel.js';
 import '/imports/ui/components/fab/fab-edit.js';
 import '/imports/ui/components/activity/activity-timeline.js';
 

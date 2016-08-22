@@ -10,6 +10,8 @@
 **  - ctrl+alt+w:   close any open modal
 */
 
+import '/imports/ui/components/purchase-orders/modals/insert/insert-purchase-order.js';
+
 globalHotkeys = new Hotkeys();
 
 globalHotkeys.add({
