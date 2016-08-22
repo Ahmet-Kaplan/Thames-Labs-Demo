@@ -1,7 +1,7 @@
 <template name="filterPanel">
   <div class="filter-panel">
     <div class="filter-results">
-      <span>Showing {{entityCount}} {{#unless multiple}}{{single}}{{else}}{{#if friendlyName}}{{friendlyName}}{{else}}{{collectionName}}{{/if}}{{/unless}} {{#if filtersList}}with{{/if}}</span>
+      <span id="results-count">Showing {{entityCount}} {{#unless multiple}}{{single}}{{else}}{{#if friendlyName}}{{friendlyName}}{{else}}{{collectionName}}{{/if}}{{/unless}} {{#if filtersList}}with{{/if}}</span>
         {{#each filtersList}}
         {{> filterTag filter=filter id=id mainCollectionName=mainCollectionName}}
       {{/each}}
