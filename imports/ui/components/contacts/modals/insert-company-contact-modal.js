@@ -44,3 +44,23 @@ Template.insertCompanyContactModal.onRendered(function() {
     }
   }
 });
+
+AutoForm.hooks({
+  insertCompanyContactForm: {
+    onSuccess: function() {
+      toastr.success('Contact created.');
+      Modal.hide();
+    },
+    after: {
+      insert: function(error, result) {
+        if (error) {
+          toastr.error('Contact creation error: ' + error);
+          return false;
+        }
+      }
+    },
+    onError: function(formType, error) {
+      toastr.error('Contact creation error: ' + error);
+    }
+  }
+});

@@ -64,8 +64,6 @@ Meteor.methods({
         PurchaseOrderItems.remove({});
         console.log('Deleting purchase orders...');
         PurchaseOrders.remove({});
-        console.log('Deleting chatter...');
-        Chatterbox.remove({});
         console.log('Deleting products...');
         Products.remove({});
         console.log('Deleting activities...');

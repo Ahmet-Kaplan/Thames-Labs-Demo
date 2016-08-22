@@ -12,7 +12,6 @@ var deleteTenant = function(tenantId) {
   Projects.direct.remove({ _groupId: tenantId });
   PurchaseOrders.direct.remove({ _groupId: tenantId });
   PurchaseOrderItems.direct.remove({ _groupId: tenantId });
-  Chatterbox.direct.remove({ _groupId: tenantId });
   Products.direct.remove({ _groupId: tenantId });
 
   // N.B. Users uses field "group" rather than "_groupId"!

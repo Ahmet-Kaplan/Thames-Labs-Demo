@@ -1,6 +1,14 @@
-import './update-opportunity-modal.html';
+import './update-project-modal.html';
 
-Template.updateOpportunityModal.helpers({
+Template.updateProjectModal.helpers({
+  usersAsOptions: function() {
+    return Meteor.users.find({}).map(function(user) {
+      return {
+        'label': user.profile.name,
+        'value': user._id
+      };
+    });
+  },
   companyName: function() {
     return Companies.findOne({
       _id: this.companyId
@@ -15,13 +23,13 @@ Template.updateOpportunityModal.helpers({
 });
 
 AutoForm.hooks({
-  updateOpportunityForm: {
+  updateProjectForm: {
     onSuccess: function() {
-      toastr.success('Opportunity details updated.');
       Modal.hide();
+      toastr.success('Project details updated.');
     },
     onError: function(formType, error) {
-      toastr.error('Opportunity update error: ' + error);
+      toastr.error(`Project update error: ${error}`);
     }
   }
 });

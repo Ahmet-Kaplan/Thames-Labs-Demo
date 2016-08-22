@@ -1,9 +1,15 @@
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/projects/project-details-panel.js';
+import '/imports/ui/components/projects/milestones/milestone-control.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/tasks/panel/task-panel.js';
+import '/imports/ui/components/fab/fab-edit.js';
+import '/imports/ui/components/activity/activity-timeline.js';
+
+import './project-detail.html';
+
 Template.projectDetail.onCreated(function() {
   var self = this;
   // Redirect if data doesn't exist

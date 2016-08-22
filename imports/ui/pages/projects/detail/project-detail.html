@@ -9,10 +9,10 @@
           {{> milestoneControl}}
           <div class="clearfix"></div>
           <p class="pull-right">
-              <a href="#" id="invertProjectState">Mark {{#unless isMobile}}project{{/unless}} {{inverseState}}</a>
+            <a href="#" id="invertProjectState">Mark {{#unless isMobile}}project{{/unless}} {{inverseState}}</a>
             {{#if opportunityId}}
-                | <a href="{{pathFor route='opportunity' id=opportunityId}}">View opportunity</a>
-              {{/if}}
+              | <a href="{{pathFor route='opportunity' id=opportunityId}}">View opportunity</a>
+            {{/if}}
           </p>
         </div>
 
