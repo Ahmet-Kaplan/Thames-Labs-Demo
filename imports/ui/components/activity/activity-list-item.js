@@ -1,4 +1,5 @@
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
+import htmlToText from "html-to-text";
 import './activity-list-item.html';
 
 Template.activityListItem.onCreated(function() {
@@ -76,5 +77,10 @@ Template.activityListItem.helpers({
       case 'purchaseorders':
         return 'purchaseOrder';
     }
+  },
+  activityNotes: function() {
+    return htmlToText.fromString(this.notes, {
+      uppercaseHeadings: false
+    });
   }
 });
