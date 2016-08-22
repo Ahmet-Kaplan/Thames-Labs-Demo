@@ -184,18 +184,14 @@ Collections.tasks.filters = {
       return completed;
     }
   },
-  parentTaskId: {
-    display: 'Show Subtasks:',
-    prop: 'parentTaskId',
+  subtasks: {
+    display: 'Subtasks:',
+    prop: 'subtasks',
     defaultOptions: function() {
-      return ['No'];
+      return ['Hidden'];
     },
     strict: true,
-    allowMultiple: false,
-    verify: function(s) {
-      if (!s) return false;
-      return s;
-    }
+    allowMultiple: false
   }
 };
 
@@ -338,8 +334,8 @@ Collections.tasks.index = TasksIndex = new EasySearch.Index({
         selector._id = options.search.props.searchById;
       }
 
-      if (options.search.props.parentTaskId) {
-        if(options.search.props.parentTaskId === "No") {
+      if (options.search.props.subtasks) {
+        if(options.search.props.subtasks === "Hidden") {
           selector.parentTaskId = {
             $exists: false
           };

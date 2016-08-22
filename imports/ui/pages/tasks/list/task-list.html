@@ -27,6 +27,7 @@
             <li><a id="toggle-my-tasks">View {{#if showMine}}all{{else}}my{{/if}} tasks</a></li>
             {{#if isInRole 'CanReadTasks'}}
               <li><a id="tskToggleCalendar">{{#if showCalendar}}Hide{{else}}Show{{/if}} calendar</a></li>
+              <li><a id="tskToggleSubtasks">{{#if showSubtasks}}Hide{{else}}Show{{/if}} subtasks</a></li>
             {{/if}}
             {{#if isInRole 'CanReadTasks'}}
             {{> importEntityDropdown entity="tasks"}}
