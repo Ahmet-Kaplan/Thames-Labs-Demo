@@ -32,3 +32,18 @@ Template.productsOverview.helpers({
     return Template.instance().averageProductsCost.get();
   }
 });
+
+Template.productsOverview.events({
+  'click #ref_productsInformationWidget': function(event) {
+
+    Meteor.call('report.numberOfProducts', (err, data) => {
+      this.instance().totalProducts.set(data.Count);
+    });
+    Meteor.call('report.costOfProducts', (err, data) => {
+      this.instance().totalProductsCost.set(data.Value);
+    });
+    Meteor.call('report.averageProductsCost', (err, data) => {
+      this.instance().averageProductsCost.set(data.Value);
+    });
+  }
+});

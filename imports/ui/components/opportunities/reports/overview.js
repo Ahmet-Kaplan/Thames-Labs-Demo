@@ -53,3 +53,26 @@ Template.oppOverview.helpers({
     return Template.instance().averageOppValue.get();
   }
 });
+
+Template.oppOverview.events({
+  'click #ref_opportunityInformationWidget': function(event) {
+    Meteor.call('report.openOpportunities', (err, data) => {
+      this.openOpps.set(data.Count);
+    });
+    Meteor.call('report.archivedOpportunities', (err, data) => {
+      this.archivedOpps.set(data.Count);
+    });
+    Meteor.call('report.wonOpportunities', (err, data) => {
+      this.wonOpps.set(data.Count);
+    });
+    Meteor.call('report.lostOpportunities', (err, data) => {
+      this.lostOpps.set(data.Count);
+    });
+    Meteor.call('report.valueOfOpportunities', (err, data) => {
+      this.totalOppValue.set(data.Value);
+    });
+    Meteor.call('report.averageOpportunityValue', (err, data) => {
+      this.averageOppValue.set(data.Value);
+    });
+  }
+});

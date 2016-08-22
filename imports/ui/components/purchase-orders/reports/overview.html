@@ -1,0 +1,72 @@
+<template name="poOverview">
+  {{#unless dashboard}}
+  <li>
+    <a id="ref_poOverviewWidget" data-toggle="popover" title="Purchase Orders Overview" data-content="
+            <div id='poOverviewPop'>
+              <table class='table table-no-border'>
+                <tbody>
+                  <tr>
+                    <td>Purchase orders:</td>
+                    <td class='text-right'>{{totalPurchaseOrders}}</td>
+                  </tr>
+                  <tr>
+                    <td>Orders approved:</td>
+                    <td class='text-right'>{{totalApprovedPo}}</td>
+                  </tr>
+                  <tr>
+                    <td>Orders Arrived:</td>
+                    <td class='text-right'>{{totalArrivedPo}}</td>
+                  </tr>
+                  <tr>
+                    <td>Orders closed:</td>
+                    <td class='text-right'>{{totalClosedPo}}</td>
+                  </tr>
+                  <tr>
+                    <td>Orders Cancelled:</td>
+                    <td class='text-right'>{{totalCancelledPo}}</td>
+                  </tr>
+                  <tr>
+                    <td>Orders Rejected:</td>
+                    <td class='text-right'>{{totalRejectedPo}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+     ">Overview</a>
+  </li>
+
+  {{else}}
+
+  <div id='poOverviewPop'>
+    <table class='table table-no-border'>
+      <tbody>
+        <tr>
+          <td>Purchase orders:</td>
+          <td class='text-right'>{{totalPurchaseOrders}}</td>
+        </tr>
+        <tr>
+          <td>Orders approved:</td>
+          <td class='text-right'>{{totalApprovedPo}}</td>
+        </tr>
+        <tr>
+          <td>Orders Arrived:</td>
+          <td class='text-right'>{{totalArrivedPo}}</td>
+        </tr>
+        <tr>
+          <td>Orders closed:</td>
+          <td class='text-right'>{{totalClosedPo}}</td>
+        </tr>
+        <tr>
+          <td>Orders Cancelled:</td>
+          <td class='text-right'>{{totalCancelledPo}}</td>
+        </tr>
+        <tr>
+          <td>Orders Rejected:</td>
+          <td class='text-right'>{{totalRejectedPo}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  {{/unless}}
+</template>

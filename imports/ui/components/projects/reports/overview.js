@@ -40,3 +40,21 @@ Template.projectsOverview.helpers({
     return Template.instance().projectsAverage.get();
   }
 });
+
+Template.projectsOverview.events({
+  'click #ref_projectInformationWidget': function(event) {
+
+    Meteor.call('report.numberOfProjects', (err, data) => {
+      this.totalProjects.set(data.Count);
+    });
+    Meteor.call('report.activeProjects', (err, data) => {
+      this.activeProjects.set(data.Count);
+    });
+    Meteor.call('report.projectValue', (err, data) => {
+      this.instance().projectTotal.set(data.Value);
+    });
+    Meteor.call('report.projectsAverage', (err, data) => {
+      this.projectsAverage.set(data.Value);
+    });
+  }
+});
