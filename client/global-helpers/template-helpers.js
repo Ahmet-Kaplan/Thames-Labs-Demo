@@ -87,6 +87,10 @@ Template.registerHelper("isMobile", function() {
   return bowser.mobile || bowser.tablet;
 });
 
+Template.registerHelper("isDesktop", function() {
+  return !bowser.mobile && !bowser.tablet;
+});
+
 Template.registerHelper("isApp", function() {
   return Meteor.isCordova;
 });
