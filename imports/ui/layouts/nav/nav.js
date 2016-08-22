@@ -10,7 +10,7 @@ Template.nav.onCreated(function() {
 
   this.subscribe('allNotifications');
 
-  this.autorun(function() {
+  this.autorun(() => {
 
     const getNotification = Notifications.findOne({
       target: {

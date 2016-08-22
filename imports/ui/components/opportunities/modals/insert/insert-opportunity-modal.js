@@ -4,6 +4,7 @@ import { verifyOpportunityStagesExist } from '/imports/api/opportunities/methods
 
 Template.insertOpportunityModal.onRendered(function() {
   Session.set('oppComp', null);
+  this.oppComp = new ReactiveVar();
   verifyOpportunityStagesExist();
 });
 
@@ -20,11 +21,11 @@ Template.insertOpportunityModal.events({
   'change #selectedCompany': function() {
     const c = $('select#selectedCompany').val();
     if (c) {
-      Session.set('oppComp', c);
+      Template.instance().oppComp.set(c);
       Meteor.subscribe('contactsByCompanyId', c);
     } else {
+      Template.instance().oppComp.set();
       Meteor.subscribe('allContacts', c);
-      Session.set('oppComp', null);
     }
   }
 });
