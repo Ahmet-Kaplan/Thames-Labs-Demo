@@ -8,8 +8,6 @@ Session.setDefault('showAllNotices', false);
 Template.nav.onCreated(function() {
 
   this.subscribe('allNotifications');
-  this.fab = new ReactiveVar(true);
-  this.fabOpen = new ReactiveVar(false);
 
   this.autorun(function() {
 
@@ -158,12 +156,6 @@ Template.nav.helpers({
       }
       return profile.favourites;
     }
-  },
-  fabEnabled: function() {
-    return Template.instance().fab.get();
-  },
-  fabOpen: function() {
-    return Template.instance().fabOpen.get();
   }
 });
 
@@ -273,43 +265,6 @@ Template.nav.events({
       document.getElementById("id-view-sidemenu").className =
         document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '');
     }
-  },
-
-  // 'click #toggleFab': function(event, template) {
-  //   if (Template.instance().fab.get() === true) {
-  //     template.fab.set(false);
-  //   } else {
-  //     template.fab.set(true);
-  //   };
-  // },
-  // 'click #fab-btn': function(event, template) {
-  //   var title = document.title;
-  //   if(title === "Companies") {
-  //     Modal.show('insertNewCompanyModal', this);
-  //   }else {
-  //     if (Template.instance().fabOpen.get() === true) {
-  //       template.fabOpen.set(false);
-  //     } else {
-  //       template.fabOpen.set(true);
-  //     };
-  //   }
-
-  // },
-  'click #fabAddContacts': function(event) {
-    event.preventDefault();
-    Modal.show('insertContactModal', this);
-  },
-  'click #fabAddCompanies': function(event) {
-    event.preventDefault();
-    Modal.show('insertNewCompanyModal', this);
-  },
-  'click #fabAddProject': function(event) {
-    event.preventDefault();
-    Modal.show('insertProjectForm', this);
-  },
-  'click #fabAddPurchaseOrder': function(event) {
-    event.preventDefault();
-    Modal.show('insertPurchaseOrderModal', this);
   }
 });
 
