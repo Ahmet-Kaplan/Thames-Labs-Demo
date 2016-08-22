@@ -45,6 +45,15 @@ Template.projectsList.onRendered(function() {
   }
 });
 
+Template.projectsList.helpers({
+  projectCount: function() {
+    return Template.instance().totalProjects.get();
+  },
+  hasMultipleProjects: function() {
+    return Template.instance().totalProjects.get() !== 1;
+  }
+});
+
 Template.projectsList.events({
   'click #add-project': function(event) {
     event.preventDefault();
