@@ -17,7 +17,7 @@ function displayFilter(mainCollectionName, selectize, template) {
   let filters = Collections[mainCollectionName].filters;
   filters = _.sortBy(filters, 'display');
 
-  template.handle = Tracker.autorun(function() {
+  template.handle = Meteor.autorun(function() {
     const search = searchInput.get(),
           matchedFilters = _.some(filters, function(filter) {
 
