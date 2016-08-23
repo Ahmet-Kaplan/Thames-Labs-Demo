@@ -514,7 +514,7 @@ Meteor.methods({
               }
 
               if (!entity) {
-                errorList.push('<span class="label label-danger">ERROR</span> Could not find entity "' + row[getFieldValueByKey(selectedValues, 'record')] + '" for task  "' + row[getFieldValueByKey(selectedValues, 'title')] + '".');
+                errorList.push('<span class="label label-danger">ERROR</span> Could not find entity "' + row[getFieldValueByKey(selectedValues, 'record')] + '" for ' + recType + '  "' + row[getFieldValueByKey(selectedValues, 'title')] + '".');
                 UserSession.set("importErrors", errorList, userId);
                 return;
               }
