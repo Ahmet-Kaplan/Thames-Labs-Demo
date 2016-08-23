@@ -8,6 +8,18 @@ Schemas.Company = new SimpleSchema({
     type: String,
     label: "Company name"
   },
+  name_sort: {
+    type: String,
+    optional: false,
+    autoValue: function() {
+      const name = this.field("name");
+      if (!name.isSet) {
+        this.unset();
+      } else {
+        return name.value.toLowerCase();
+      }
+    }
+  },
   address: {
     type: String,
     optional: true,
