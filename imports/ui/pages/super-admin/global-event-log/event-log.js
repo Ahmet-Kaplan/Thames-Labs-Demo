@@ -13,7 +13,7 @@ Template.eventLog.events({
   'click #clear-event-log': function() {
     bootbox.confirm("Are you sure you wish to delete all log entries?", function(result) {
       if (result === true) {
-        Meteor.call('clearEventLog', function(error, result) {
+        Meteor.call('eventLog.clearEventLog', function(error, result) {
           if (error) {
             LogClientEvent(LogLevel.Error, "An error occurred whilst attempting to clear the event log: " + error, null, null);
           } else {

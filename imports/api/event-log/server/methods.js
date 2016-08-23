@@ -2,7 +2,7 @@ import { EventLog } from '/imports/api/collections.js';
 
 Meteor.methods({
 
-  clearRecentEvents: function(days) {
+  "eventLog.clearRecentEvents": function(days) {
     var cutOffTime = moment().subtract(days, 'days');
     return EventLog.remove({
       date: {
@@ -11,7 +11,7 @@ Meteor.methods({
     });
   },
 
-  clearEventLog: function() {
+  "eventLog.clearEventLog": function() {
     if (Roles.userIsInRole(this.userId, ['CanDeleteEventLog', 'Administrator']) && !Roles.userIsInRole(this.userId, 'superadmin')) {
       var user = Meteor.users.findOne({
         _id: this.userId
@@ -28,7 +28,7 @@ Meteor.methods({
     }
   },
 
-  addEventToEventLog: function(logLevel, logMessage, logEntityType, logEntityId, logSource) {
+  "eventLog.addEventToEventLog": function(logLevel, logMessage, logEntityType, logEntityId, logSource) {
 
     logEntityType = (typeof logEntityType === 'undefined') ? null : logEntityType;
     logEntityId = (typeof logEntityId === 'undefined') ? null : logEntityId;
