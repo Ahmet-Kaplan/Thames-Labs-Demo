@@ -4,6 +4,7 @@ import '/imports/ui/components/tasks/calendar/calendar.js';
 import '/imports/ui/components/tasks/modals/insert-task-modal.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/export/export.js';
+import '/imports/ui/components/import/import.js';
 
 Template.taskList.onCreated(function() {
   // Redirect if read permission changed

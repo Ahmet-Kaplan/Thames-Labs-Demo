@@ -11,7 +11,7 @@
           Use the drop-downs below to map each of the fields in your CSV file to the relevant RealTimeCRM fields. RealTimeCRM will try and match the field names for you automatically based on field name - mouse over the field labels below to see what it's looking for.<br /><br />
           {{#each importFields}}
           <div class="row">
-            <div class="col-md-3 importFieldLabel" data-toggle="tooltip" data-placement="bottom" title="Auto-map field name: {{fieldIdentifier}}" >{{fieldLabel}}{{#if required}}<span class="required-marker">*</span>{{/if}}</div>
+            <div class="col-md-3 importFieldLabel" data-toggle="tooltip" data-placement="bottom" title="Auto-map field name: {{fieldIdentifier}}" >{{fieldLabel}}{{#if required}}<span class="text-danger">*</span>{{/if}}</div>
             <div class="col-md-9">
               <select id="{{fieldIdentifier}}Selector" class="selectpicker">
                 <option value="">Do not import</option>

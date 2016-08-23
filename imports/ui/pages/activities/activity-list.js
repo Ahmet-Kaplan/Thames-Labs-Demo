@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
 import '/imports/ui/components/export/export.js';
+import '/imports/ui/components/import/import.js';
 
 import './activity-list.html';
 import './activity-list.css';

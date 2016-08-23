@@ -29,7 +29,7 @@
               <li><a id="tskToggleCalendar">{{#if showCalendar}}Hide{{else}}Show{{/if}} calendar</a></li>
             {{/if}}
             {{#if isInRole 'CanReadTasks'}}
-            {{> importEntityDropdown entity="tasks"}}
+            {{> importCollection entity="tasks"}}
             {{/if}}
             {{> exportCollection entity="tasks"}}
           </ul>

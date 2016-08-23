@@ -1,3 +1,5 @@
+import './modal.html';
+
 var opportunityFields = [{
   fieldLabel: 'Name',
   fieldIdentifier: 'name',

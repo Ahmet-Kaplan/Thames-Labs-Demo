@@ -1,12 +1,15 @@
+import './modal.js';
+import './import.html';
+
 // Template variables
 var entityToImport = '';
 
-Template.importEntityDropdown.onCreated(function() {
+Template.importCollection.onCreated(function() {
   //Get entity type from template
   entityToImport = this.data.entity;
 });
 
-Template.importEntityDropdown.events({
+Template.importCollection.events({
   'click #upload-link': function(event, template) {
     document.getElementById('data-upload').click();
   },

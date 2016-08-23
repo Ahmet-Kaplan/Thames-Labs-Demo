@@ -4,6 +4,7 @@ import '/imports/ui/components/companies/company-list-item.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/fab/fab-add.js';
+import '/imports/ui/components/import/import.js';
 import '/imports/ui/components/export/export.js';
 
 Template.companyList.onCreated(function() {

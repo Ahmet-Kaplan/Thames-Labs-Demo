@@ -3,6 +3,7 @@ import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-purchase-order.js';
 import '/imports/ui/components/purchase-orders/list-item/purchase-order-list-item.js';
 import '/imports/ui/components/export/export.js';
+import '/imports/ui/components/import/import.js';
 
 import './purchase-order-list.html';
 
