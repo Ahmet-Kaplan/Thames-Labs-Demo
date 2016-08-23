@@ -6,19 +6,26 @@ Template.updateTenant.helpers({
   },
   companyName: function() {
     return this.name;
+  },
+  freeUsers: function() {
+    return Tenants.findOne({
+      _id: this.__originalId
+    }).stripe.maxFreeUsers;
   }
 });
 
 Template.updateTenant.events({
   'click #btnSubmitSettings': function() {
 
-    var coupon = $('#coupon').val();
-    var tenantCompanyName = $('#tenantCompanyName').val();
+    const coupon = $('#coupon').val();
+    const tenantCompanyName = $('#tenantCompanyName').val();
+    const freeUsers = parseInt($('#freeUsers').val(), 10);
 
     Tenants.update(this.__originalId, {
       $set: {
         name: tenantCompanyName,
-        "stripe.coupon": coupon
+        "stripe.coupon": coupon,
+        "stripe.maxFreeUsers": freeUsers
       }
     });
 

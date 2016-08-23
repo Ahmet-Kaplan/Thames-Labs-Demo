@@ -1,6 +1,21 @@
 <template name="users">
   <div class="settings-section">
+    {{#unless isProTenant}}
+      {{#if overFreeLimit}}
+        <div class="settings-section">
+          <h4>Upgrade RealTimeCRM</h4>
+          <p>Subscribe to the Pro Plan to add more users.</p>
+          <button id="upScheme" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Upgrade to the Pro Plan</button>
+        </div>
+      {{/if}}
+    {{/unless}}
+
     <h4>Current Users <a class="btn btn-xs btn-primary pull-right" id="add-user"><i class="fa fa-fw fa-plus"></i> Add user</a></h4>
+    {{#unless isProTenant}}
+    {{#unless overFreeLimit}}
+        <p>You can create {{remainingFreeUsers}} more user{{#if greaterThan remainingFreeUsers 1}}s{{/if}} on the Free Plan.</p>
+    {{/unless}}
+    {{/unless}}
     <p>Click on a user to change details, permissions and related settings.</p>
     <ul class="list-group" id="user-list">
       {{#each tenantUsers}}
@@ -8,14 +23,4 @@
       {{/each}}
     </ul>
   </div>
-
-  {{#unless isProTenant}}
-    {{#if overFreeLimit}}
-    <div class="settings-section">
-        <h4>Upgrade RealTimeCRM</h4>
-        <p>Subscribe to the Pro Plan to add more users.</p>
-        <button id="upScheme" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Upgrade to the Pro Plan</button>
-    </div>
-    {{/if}}
-  {{/unless}}
 </template>

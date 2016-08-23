@@ -26,6 +26,14 @@ Template.users.helpers({
   },
   overFreeLimit: function() {
     return isTenantOverFreeUserLimit(Meteor.user().group);
+  },
+  remainingFreeUsers: function() {
+    const tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    return _.get(tenant, 'stripe.maxFreeUsers', MAX_FREE_USERS) - Meteor.users.find({
+      group: tenant._id
+    }).count();
   }
 });
 
@@ -33,7 +41,7 @@ Template.users.events({
   'click #add-user': function(event) {
     event.preventDefault();
 
-    var tenantId = Meteor.user().group;
+    const tenantId = Meteor.user().group;
     if (!isProTenant(tenantId) && isTenantOverFreeUserLimit(tenantId)) {
       showUpgradeToastr('To add more users');
       return;

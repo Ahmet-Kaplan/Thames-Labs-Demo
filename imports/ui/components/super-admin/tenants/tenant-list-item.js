@@ -1,4 +1,6 @@
 import bootbox from 'bootbox';
+import { isTenantOverFreeUserLimit } from '/imports/api/tenants/helpers.js';
+
 import './users/tenant-list-user-item.js';
 import './users/modals/insert-tenant-user.js';
 import './modals/update-tenant.js';

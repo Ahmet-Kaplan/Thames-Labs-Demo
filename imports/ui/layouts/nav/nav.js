@@ -251,6 +251,7 @@ Template.nav.events({
   },
   'click #sign-out': function() {
     Meteor.logout(function(err) {
+      FlowRouter.go('/');
       FlowRouter.reload();
     });
   },

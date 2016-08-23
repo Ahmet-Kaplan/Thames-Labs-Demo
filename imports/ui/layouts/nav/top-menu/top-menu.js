@@ -98,10 +98,3 @@ Template.topMenu.helpers({
     return !!tenant ? tenant.name : null;
   }
 });
-
-Template.topMenu.events({
-  'click .direct-upgrade': function(evt) {
-    evt.preventDefault();
-    Modal.show('stripeSubscribe');
-  }
-});
