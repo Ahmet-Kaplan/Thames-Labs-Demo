@@ -1,0 +1,124 @@
+<template name="fullPageImport">
+  {{setPageTitle "Import " }}
+  <div class="row" id="importFullPage">
+    <div class="col-md-10 col-md-offset-1">
+      <h1 id="import-details" class="entity-name">Import </h1>
+
+      <a href="#" id="upload-link">Select CSV file to import</a>
+      <input type="file" id="data-upload" style="display:none;">
+      <br />
+      <br />
+
+      <div id="entity-selector-div">
+        What are you importing? <br>
+
+        <div class="btn-group" data-toggle="buttons" id="entity-selector">
+          <label class="btn btn-primary">
+            <input type="radio" name="options" id="company" autocomplete="off"> Companies
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" name="options" id="contact" autocomplete="off"> Contacts
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" name="options" id="task" autocomplete="off"> Tasks
+          </label>
+        </div>
+      </div><br />
+
+      <div id="fieldMapper">
+        Use the drop-downs below to map each of the fields in your CSV file to the relevant RealTimeCRM fields. RealTimeCRM will try and match the field names for you automatically based on field name - mouse over the field labels below to see what it's looking for.<br /><br />
+        <div id="companyFieldSelectors">
+          {{#each companyImportFields}}
+          <div class="row">
+            <div class="col-md-3 importFieldLabel" data-toggle="tooltip" data-placement="bottom" title="Auto-map field name: {{fieldIdentifier}}" >{{this.fieldLabel}}{{#if required}}<span class="required-marker">*</span>{{/if}}</div>
+            <div class="col-md-9">
+              <select id="{{fieldIdentifier}}Selector" class="selectpicker">
+                <option value="">Do not import</option>
+                {{#each csvHeaders}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+        <div id="contactFieldSelectors">
+          {{#each contactImportFields}}
+          <div class="row">
+            <div class="col-md-3 importFieldLabel" data-toggle="tooltip" data-placement="bottom" title="Auto-map field name: {{fieldIdentifier}}" >{{fieldLabel}}{{#if required}}<span class="required-marker">*</span>{{/if}}</div>
+            <div class="col-md-9">
+              <select id="{{fieldIdentifier}}Selector" class="selectpicker">
+                <option value="">Do not import</option>
+                {{#each csvHeaders}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+        <div id="taskFieldSelectors">
+          {{#each taskImportFields}}
+          <div class="row">
+            <div class="col-md-3 importFieldLabel" data-toggle="tooltip" data-placement="bottom" title="Auto-map field name: {{fieldIdentifier}}" >{{fieldLabel}}{{#if required}}<span class="required-marker">*</span>{{/if}}</div>
+            <div class="col-md-9">
+              <select id="{{fieldIdentifier}}Selector" class="selectpicker">
+                <option value="">Do not import</option>
+                {{#each csvHeaders}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+
+        {{#if entityGlobalFields}}
+        <br /><div id="gcfMapper">
+          Use the following drop-downs to map your CSV data to your RealTimeCRM global custom fields.<br /><br />
+          {{#each entityGlobalFields}}
+            <div class="row">
+              <div class="col-md-3 importFieldLabel">{{name}}</div>
+              <div class="col-md-9">
+                <select id="{{fieldIdentifier}}Selector" class="selectpicker">
+                  <option value="">Do not import</option>
+                  {{#each csvHeaders}}
+                  <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                </select>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+        {{/if}}
+        <br>
+
+        <div class="row customFieldSwitch">
+          <div class="col-md-10 importFieldLabel" >Any fields in your CSV file that are not selected in the above drop-downs will be imported as custom fields. If you do not want this, to happen, set this slider to <strong>No</strong>.</div>
+          <div class="col-md-2 toggle-container"><input id="mode-toggle" checked type="checkbox"></div>
+        </div>
+
+        <div class="row customFieldSwitch">
+          <div class="col-md-10 importFieldLabel" >Any records in your import dataset that already exist in RealTimeCRM will remain untouched. If you wish for these records to be updated, you should first update your import file to include <span>the unique identifier for each record</span>, and then slide this toggle to <strong>ON</strong>. You can then specify the identifier column below; the importer will update any record it finds with a matching identifier row value, instead of creating an entirely new record.</div>
+          <div class="col-md-2 toggle-container"><input id="overwrite-toggle" checked type="checkbox"></div>
+        </div>
+      </div>
+
+      <div id="progressIndicator">
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{percentComplete}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentComplete}}%">
+            {{percentComplete}}% Complete
+          </div>
+        </div>
+        <div class="errorOutput">
+          The following errors and warnings occurred whilst importing. Please correct them in your CSV file and then try to import your records again.<br /><br />
+          <ol id="errorList">
+          </ol>
+        </div>
+        <button class="btn btn-danger" id="closeErrors" role="button">Close</button>
+      </div>
+
+    </div>
+  </div>
+
+  </template>

@@ -1,3 +1,141 @@
+var opportunityFields = [{
+  fieldLabel: 'Name',
+  fieldIdentifier: 'name',
+  required: true
+}, {
+  fieldLabel: 'Description',
+  fieldIdentifier: 'description',
+  required: true
+}, {
+  fieldLabel: 'Date',
+  fieldIdentifier: 'date',
+  required: true
+}, {
+  fieldLabel: 'Estimated Close Date',
+  fieldIdentifier: 'estCloseDate',
+  required: false
+}, {
+  fieldLabel: 'Value',
+  fieldIdentifier: 'value',
+  required: false
+}, {
+  fieldLabel: 'Company Name',
+  fieldIdentifier: 'companyName',
+  required: true
+}, {
+  fieldLabel: 'Contact Name',
+  fieldIdentifier: 'contactName',
+  required: true
+}, {
+  fieldLabel: 'Sales Manager',
+  fieldIdentifier: 'salesManager',
+  required: false
+}];
+
+var projectFields = [{
+  fieldLabel: 'Name',
+  fieldIdentifier: 'name',
+  required: true
+}, {
+  fieldLabel: 'Description',
+  fieldIdentifier: 'description',
+  required: false
+}, {
+  fieldLabel: 'Company Name',
+  fieldIdentifier: 'companyName',
+  required: true
+}, {
+  fieldLabel: 'Contact Name',
+  fieldIdentifier: 'contactName',
+  required: true
+}, {
+  fieldLabel: 'Account Manager',
+  fieldIdentifier: 'accountManager',
+  required: true
+}, {
+  fieldLabel: 'Due Date',
+  fieldIdentifier: 'dueDate',
+  required: true
+}, {
+  fieldLabel: 'Value',
+  fieldIdentifier: 'value',
+  required: false
+}, {
+  fieldLabel: 'Staff',
+  fieldIdentifier: 'staff',
+  required: false
+}];
+
+var productFields = [{
+  fieldLabel: 'Name',
+  fieldIdentifier: 'name',
+  required: true
+}, {
+  fieldLabel: 'Description',
+  fieldIdentifier: 'description',
+  required: true
+}, {
+  fieldLabel: 'Sales Price',
+  fieldIdentifier: 'price',
+  required: false
+}, {
+  fieldLabel: 'Cost Price',
+  fieldIdentifier: 'cost',
+  required: false
+}];
+
+var activityFields = [{
+  fieldLabel: 'Type',
+  fieldIdentifier: 'type',
+  required: true
+}, {
+  fieldLabel: 'Date',
+  fieldIdentifier: 'date',
+  required: false
+}, {
+  fieldLabel: 'Notes',
+  fieldIdentifier: 'notes',
+  required: true
+}, {
+  fieldLabel: 'Record Name',
+  fieldIdentifier: 'record',
+  required: true
+}, {
+  fieldLabel: 'Record Type',
+  fieldIdentifier: 'recordType',
+  required: true
+}];
+
+var purchaseFields = [{
+  fieldLabel: 'Description',
+  fieldIdentifier: 'description',
+  required: true
+}, {
+  fieldLabel: 'Company Name',
+  fieldIdentifier: 'companyName',
+  required: true
+}, {
+  fieldLabel: 'Contact Name',
+  fieldIdentifier: 'contactName',
+  required: true
+}, {
+  fieldLabel: 'Supplier Reference',
+  fieldIdentifier: 'supplierReference',
+  required: false
+}, {
+  fieldLabel: 'Order Date',
+  fieldIdentifier: 'orderDate',
+  required: false
+}, {
+  fieldLabel: 'Payment Method',
+  fieldIdentifier: 'paymentMethod',
+  required: false
+}, {
+  fieldLabel: 'Notes',
+  fieldIdentifier: 'notes',
+  required: false
+}];
+
 var taskFields = [{
   fieldLabel: 'Title',
   fieldIdentifier: 'title',
@@ -137,6 +275,12 @@ Template.importEntityModal.onCreated(function() {
       case 'contacts':
         target = 'contact';
         break;
+      case 'projects':
+        target = 'project';
+        break;
+      case 'products':
+        target = 'product';
+        break;
     }
 
     Meteor.call('customFields.getGlobalsByTenantEntity', Meteor.user().group, target, function(err, res) {
@@ -215,6 +359,16 @@ Template.importEntityModal.helpers({
         return contactFields;
       case 'tasks':
         return taskFields;
+      case 'opportunities':
+        return opportunityFields;
+      case 'projects':
+        return projectFields;
+      case 'products':
+        return productFields;
+      case 'purchaseorders':
+        return purchaseFields;
+      case 'activities':
+        return activityFields;
     }
   },
   'csvHeaders': function() {
@@ -272,6 +426,26 @@ Template.importEntityModal.events({
             });
           } else if (entityType === "tasks") {
             result = $.grep(taskFields, function(e) {
+              return e.fieldIdentifier == obj.id.replace('Selector', '');
+            });
+          } else if (entityType === "opportunities") {
+            result = $.grep(opportunityFields, function(e) {
+              return e.fieldIdentifier == obj.id.replace('Selector', '');
+            });
+          } else if (entityType === "projects") {
+            result = $.grep(projectFields, function(e) {
+              return e.fieldIdentifier == obj.id.replace('Selector', '');
+            });
+          } else if (entityType === "purchaseorders") {
+            result = $.grep(purchaseFields, function(e) {
+              return e.fieldIdentifier == obj.id.replace('Selector', '');
+            });
+          } else if (entityType === "products") {
+            result = $.grep(productFields, function(e) {
+              return e.fieldIdentifier == obj.id.replace('Selector', '');
+            });
+          } else if (entityType === "activities") {
+            result = $.grep(activityFields, function(e) {
               return e.fieldIdentifier == obj.id.replace('Selector', '');
             });
           }
