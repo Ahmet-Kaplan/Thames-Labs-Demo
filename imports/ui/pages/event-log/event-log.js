@@ -1,4 +1,5 @@
 import './event-log.html';
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/event-log/event-list-item.js';
 
 Template.events.onCreated(function() {
@@ -9,7 +10,7 @@ Template.events.onCreated(function() {
       FlowRouter.go('/');
     }
 
-    redirectWithoutPermission(Meteor.userId(), 'CanReadEventLog');
+    permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadEventLog');
   });
 });
 
