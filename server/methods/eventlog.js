@@ -1,3 +1,5 @@
+import { EventLog } from '/imports/api/collections.js';
+
 Meteor.methods({
 
   clearRecentEvents: function(days) {

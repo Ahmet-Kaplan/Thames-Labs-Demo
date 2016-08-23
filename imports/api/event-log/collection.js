@@ -1,14 +1,18 @@
-Collections.eventLog = EventLog = new Mongo.Collection('eventlog');
+import { Mongo } from 'meteor/mongo';
+import { EventLogSchema } from './schema.js';
 
-////////////////////
+export const EventLog = new Mongo.Collection('eventlog');
+
+EventLog.attachSchema(EventLogSchema);
+
+EventLog.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+
 // SEARCH INDICES //
-////////////////////
-
-Collections.eventLog.index = EventLogIndex = new EasySearch.Index({
+EventLog.index = new EasySearch.Index({
   collection: EventLog,
   fields: ['message', 'level'],
   permission: function(options) {
-    var userId = options.userId;
+    const userId = options.userId;
     return Roles.userIsInRole(userId, ['CanReadEventLog', 'superadmin']);
   },
   engine: new EasySearch.MongoDB({
@@ -37,9 +41,9 @@ Collections.eventLog.index = EventLogIndex = new EasySearch.Index({
       };
     },
     selector: function(searchObject, options, aggregation) {
-      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      const selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
-      var userId = options.search.userId;
+      const userId = options.search.userId;
 
       if (userId) {
         if (!Roles.userIsInRole(userId, ['superadmin'])) {
