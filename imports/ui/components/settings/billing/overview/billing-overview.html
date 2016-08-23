@@ -7,20 +7,31 @@
           <li class="list-group-item panel-item-header">
             <h4 class="slim"><i class="fa fa-fw fa-wrench"></i> Plan</h4>
             <span id="planName">{{planName}}</span> - {{totalUsers}} user{{#if greaterThan totalUsers 1}}s{{/if}}
+            {{#if isProTenant}}
+              (including {{freeUserAccounts}} free user{{#if greaterThan freeUserAccounts 1}}s{{/if}})
+            {{/if}}
           </li>
 
           <!-- COUPON -->
-          <li class="list-group-item panel-item-header">
-            <h4 class="slim">
-              <i class="fa fa-fw fa-ticket"></i> Coupon
-              {{#unless isProTenant}}<button id="updateCoupon" class="btn btn-xs btn-primary pull-right">Update Coupon</button>{{/unless}}
-            </h4>
-            {{#if hasCoupon}}
-              <span id="couponText">{{hasCoupon}} ({{discount}})</span>
-            {{else}}
-              No active coupon
-            {{/if}}
-          </li>
+          {{#if hasCoupon}}
+            <li class="list-group-item panel-item-header">
+              <h4 class="slim">
+                <i class="fa fa-fw fa-ticket"></i> Coupon
+                {{#unless isProTenant}}<button id="updateCoupon" class="btn btn-xs btn-primary pull-right">Update Coupon</button>{{/unless}}
+              </h4>
+                <span id="couponText">{{hasCoupon}} ({{discount}})</span>
+            </li>
+          {{else}}
+            {{#unless isProTenant}}
+            <li class="list-group-item panel-item-header">
+              <h4 class="slim">
+                <i class="fa fa-fw fa-ticket"></i> Coupon
+                <button id="updateCoupon" class="btn btn-xs btn-primary pull-right">Update Coupon</button>
+              </h4>
+                <span id="couponText">No active coupon</span>
+            </li>
+            {{/unless}}
+          {{/if}}
 
           {{#if hasStripeAccount}}
           <!-- INVOICE EMAIL ADDRESS -->

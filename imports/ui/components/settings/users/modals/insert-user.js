@@ -1,5 +1,6 @@
-import './insert-user.html';
+import { isTenantOverFreeUserLimit } from '/imports/api/tenants/helpers.js';
 import bootbox from 'bootbox';
+import './insert-user.html';
 
 AutoForm.hooks({
   insertUser: {
@@ -42,5 +43,8 @@ Template.insertUser.helpers({
   isProTenant: function() {
     const tenantId = Meteor.user().group;
     return isProTenant(tenantId);
+  },
+  isOverFreeLimit: function() {
+    return isTenantOverFreeUserLimit(Meteor.user().group);
   }
 });

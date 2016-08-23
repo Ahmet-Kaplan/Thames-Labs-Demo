@@ -1,6 +1,8 @@
+import bootbox from 'bootbox';
+import { isTenantOverFreeUserLimit } from '/imports/api/tenants/helpers.js';
+
 import './modals/update-user.js';
 import './user-details-link.html';
-import bootbox from 'bootbox';
 
 Template.userDetailsLink.helpers({
   isSelf: function() {
@@ -22,10 +24,10 @@ Template.userDetailsLink.events({
       if (result === true) {
         Meteor.call('removeUser', this._id, (error, response) => {
           if (error) {
-            toastr.error(`Unable to remove user. ${error}`);
-            throw new Meteor.Error('User', 'Unable to remove user.');
+            toastr.error(`Unable to remove user. ${error.reason}`);
           }
-          const subsNotification = isProTenant(_.get(Meteor.user(), 'group')) ? `<br />Please note that your subscription has been updated accordingly.` : '';
+          const tenantId = _.get(Meteor.user(), 'group');
+          const subsNotification = (isProTenant(tenantId) && isTenantOverFreeUserLimit(tenantId)) ? `<br />Please note that your subscription has been updated accordingly.` : '';
           bootbox.alert({
             title: 'User removed',
             message: `<i class="fa fa-check fa-3x pull-left text-success"></i>User ${name} has been removed.${subsNotification}`,

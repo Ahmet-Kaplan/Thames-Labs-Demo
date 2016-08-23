@@ -6,11 +6,6 @@ Template.updateTenant.helpers({
   },
   companyName: function() {
     return this.name;
-  },
-  freeUsers: function() {
-    return Tenants.findOne({
-      _id: this.__originalId
-    }).stripe.maxFreeUsers;
   }
 });
 
@@ -19,7 +14,6 @@ Template.updateTenant.events({
 
     const coupon = $('#coupon').val();
     const tenantCompanyName = $('#tenantCompanyName').val();
-    const freeUsers = parseInt($('#freeUsers').val(), 10);
 
     Tenants.update(this.__originalId, {
       $set: {

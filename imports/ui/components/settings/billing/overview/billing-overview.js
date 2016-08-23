@@ -40,6 +40,16 @@ Template.billingOverview.helpers({
   },
   cardDetails: function() {
     return _.get(stripeCustomer.getData(), 'sources.data[0]', false);
+  },
+  freeUserAccounts: function() {
+    const tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    const maxFreeUsers = _.get(tenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
+    const numberOfAccounts = Meteor.users.find({
+      group: Meteor.user().group
+    }).count();
+    return _.min([numberOfAccounts, maxFreeUsers]);
   }
 });
 

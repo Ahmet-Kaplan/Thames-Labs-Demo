@@ -11,51 +11,41 @@ Template.setPayingTenant.helpers({
   stripeSubs: function() {
     return this.stripe.stripeSubs;
   },
-  freeUnlimited: function() {
-    return this.plan === "pro" && !this.stripe.stripeSubs;
+  freeUsers: function() {
+    return Tenants.findOne({
+      _id: this.__originalId
+    }).stripe.maxFreeUsers;
   }
 });
 
 Template.setPayingTenant.events({
-  'click #setFreeUnlimited': function() {
-    var tenantId = this.__originalId;
-    var tenant = Tenants.findOne(tenantId);
+  'click #updateMaxFreeUsers': function(evt) {
+    evt.preventDefault();
+    toastr.info('Processing changes...');
+    const freeUsers = parseInt($('#freeUsers').val(), 10);
 
-    if (tenant.plan) {
-      if (tenant.plan === "pro" && tenant.stripe.stripeSubs) {
-        Modal.hide();
-        toastr.info('This tenant is on the pro plan, and thus cannot be set to Free Unlimited.');
+    Tenants.update(this.__originalId, {
+      $set: {
+        "stripe.maxFreeUsers": freeUsers
+      }
+    }, function(err, res) {
+      if (err || !res) {
+        toastr.error('Unable to update the number of free users');
         return;
       }
-    }
-
-    var set = (tenant.plan && tenant.plan === 'pro') ? 'free' : 'pro';
-
-    bootbox.confirm({
-      message: 'Are you really really sure you want to do that? I mean, come on, that\'s a big deal!',
-      callback: function(result) {
-        if (result === true) {
-          Tenants.update(tenantId, {
-            $set: {
-              "plan": set
-            }
-          }, function(error, nUpdated) {
-            if (error || nUpdated === false) {
-              Modal.hide();
-              bootbox.alert({
-                title: 'Error',
-                message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Check connexion with database.</div>'
-              });
-            } else {
-              Modal.hide();
-              toastr.success('Tenant status updated.');
-            }
-          });
-        }
-      }
+      toastr.info('Free user limit updated...');
     });
-  },
 
+    Meteor.call('stripe.updateQuantity', this.__originalId, function(err, res) {
+      if(err || !res) {
+        toastr.error('Unable to update subscription. The number of free users may still have been updated.');
+        return;
+      }
+      toastr.clear();
+      toastr.success(`Account updated. Free user accounts is now ${freeUsers}.`);
+    });
+
+  },
   'keyup #stripeAccountNumber': function() {
     if ($('#stripeAccountNumber').val() != '') {
       $('#showSubsNumberForm').show();

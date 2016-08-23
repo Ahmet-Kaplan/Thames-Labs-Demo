@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
+import { isTenantOverFreeUserLimit } from '/imports/api/tenants/helpers.js';
 import { stripeMethodsAsync } from './asyncMethods.js';
 
 /**
@@ -45,6 +46,8 @@ Meteor.methods({
     const numberUsers = Meteor.users.find({
       group: tenantId
     }).count();
+    const freeUsers = _.get(mongoTenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
+    const quantity = numberUsers > freeUsers ? (numberUsers - freeUsers) : 0;
 
     if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may subscribe.');
@@ -54,7 +57,7 @@ Meteor.methods({
       description: mongoTenant.name,
       source: token,
       plan: planId,
-      quantity: numberUsers,
+      quantity: quantity,
       tax_percent: 20.0,
       email: userEmail,
       metadata: {
@@ -104,9 +107,11 @@ Meteor.methods({
       _id: tenantId
     });
     const stripeId = mongoTenant.stripe.stripeId;
-    const numberOfUsers = Meteor.users.find({
+    const numberUsers = Meteor.users.find({
       group: tenantId
     }).count();
+    const freeUsers = _.get(mongoTenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
+    const quantity = numberUsers > freeUsers ? (numberUsers - freeUsers) : 0;
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may subscribe.');
@@ -118,7 +123,7 @@ Meteor.methods({
     // Hence the trial_end: now parameter value.
     const subsParameters = {
       plan: planId,
-      quantity: numberOfUsers,
+      quantity: quantity,
       tax_percent: 20.0,
       trial_end: 'now'
     };
@@ -157,19 +162,28 @@ Meteor.methods({
     });
 
     if (!mongoTenant) {
-      LogServerEvent('error', 'Unable to get Mongo object to update Stripe Quantity for tenant of user ' + this.userId + '/tenant ' + tenantId);
+      LogServerEvent('error', `Unable to get Mongo object to update Stripe Quantity for tenant of user ${this.userId}/tenant ${tenantId}`);
       return false;
     }
 
-    if (mongoTenant.plan === 'free' || !mongoTenant.stripe || !mongoTenant.stripe.stripeId || !mongoTenant.stripe.stripeSubs) {
-      return true;
+    // Tenant can create account if free and under free user limit
+    if(mongoTenant.plan === 'free') {
+      return !isTenantOverFreeUserLimit(tenantId);
+
+    // If pro, need to have a stripe account. This is to avoid conflicts with the previous way of setting a tenant to 'free unlimited'.
+    // We now use the number of free user account to set an 'unlimited' tenant.
+    } else if(!_.get(mongoTenant, 'stripe.stripeId') || !_.get(mongoTenant, 'stripe.stripeSubs')) {
+      throw new Meteor.Error(403, 'Unable to retrieve subscription details');
     }
+
 
     const stripeId = mongoTenant.stripe.stripeId;
     const stripeSubs = mongoTenant.stripe.stripeSubs;
     const numberUsers = Meteor.users.find({
       group: tenantId
     }).count();
+    const freeUsers = _.get(mongoTenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
+    const quantity = numberUsers > freeUsers ? (numberUsers - freeUsers) : 0;
 
     //Check that subscription is not to be cancelled at period ends and returns true if so because it means the user is on free plan now.
     const currentSubscription = stripeMethodsAsync.customers.retrieveSubscription(stripeId, stripeSubs);
@@ -179,7 +193,7 @@ Meteor.methods({
 
     //Otherwise update subscription
     const subsParameters = {
-      quantity: numberUsers,
+      quantity: quantity,
       prorate: false
     };
 
@@ -253,9 +267,11 @@ Meteor.methods({
     const stripeId = mongoTenant.stripe.stripeId;
     const stripeSubs = mongoTenant.stripe.stripeSubs;
     const coupon = mongoTenant.stripe.coupon;
-    const numberOfUsers = Meteor.users.find({
+    const numberUsers = Meteor.users.find({
       group: tenantId
     }).count();
+    const freeUsers = _.get(mongoTenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
+    const quantity = numberUsers > freeUsers ? (numberUsers - freeUsers) : 0;
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may resume subscriptions.');
@@ -271,7 +287,7 @@ Meteor.methods({
     }
 
     const params = {
-      quantity: numberOfUsers
+      quantity: quantity
     };
 
     if(coupon) {

@@ -169,6 +169,7 @@ permissionOperations = [
 ];
 
 defaultPermissionsList = [
+  "Administrator",
   "CanReadContacts",
   "CanReadCompanies",
   "CanCreateCompanies",

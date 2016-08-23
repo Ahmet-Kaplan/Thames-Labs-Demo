@@ -92,7 +92,13 @@ Meteor.methods({
     });
 
     if (Roles.userIsInRole(this.userId, 'Administrator')) {
-      Meteor.call('stripe.updateQuantity');
+      Meteor.call('stripe.updateQuantity', function(err, res) {
+        if(err) {
+          throw new Meteor.Error(403, err.reason);
+        } else if(!res) {
+          throw new Meteor.Error(403, 'Unable to update your subscription');
+        }
+      });
     } else if (Roles.userIsInRole(this.userId, 'superadmin')) {
       Meteor.call('stripe.updateQuantity', Partitioner.getUserGroup(userId));
     }
@@ -148,8 +154,6 @@ Meteor.methods({
         Accounts.sendEnrollmentEmail(userId);
 
         LogServerEvent('verbose', 'User created', 'user', userId);
-
-        Meteor.call('stripe.updateQuantity', doc.group);
       } else {
         const userId = Accounts.createUser({
           email: doc.email.toLowerCase(),
@@ -166,7 +170,7 @@ Meteor.methods({
           }
         });
 
-        var user = Meteor.users.findOne({
+        const user = Meteor.users.findOne({
           _id: userId
         });
 
@@ -178,10 +182,17 @@ Meteor.methods({
         }
 
         LogServerEvent('verbose', 'User created', 'user', userId);
-
-        Meteor.call('stripe.updateQuantity', doc.group);
       }
     });
+
+    Meteor.call('stripe.updateQuantity', doc.group, function(err, res) {
+      if(err) {
+        throw new Meteor.Error(403, err.reason);
+      } else if(!res) {
+        throw new Meteor.Error(403, 'Unable to update subscription. Tenant may have reached the limit of free accounts.');
+      }
+    });
+
 
   },
 
@@ -203,7 +214,7 @@ Meteor.methods({
     check(doc, Schemas.User);
 
     // Create user account
-    var userId = Accounts.createUser({
+    const userId = Accounts.createUser({
       email: doc.email.toLowerCase(),
       profile: {
         name: doc.name,
@@ -225,7 +236,13 @@ Meteor.methods({
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 
-    Meteor.call('stripe.updateQuantity', Partitioner.getUserGroup(adminId));
+    Meteor.call('stripe.updateQuantity', function(err, res) {
+      if(err) {
+        throw new Meteor.Error(403, err.reason);
+      } else if (!res) {
+        throw new Meteor.Error(403, 'Unable to update subscription');
+      }
+    });
   },
 
   "user.changeEmail": function(newEmailAddress) {
