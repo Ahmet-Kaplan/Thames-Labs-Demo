@@ -1,12 +1,17 @@
 function getFieldValueByKey(valueList, key) {
   var result = _.result(_.find(valueList, function(obj) {
     return obj.schemaField === key;
-  }), 'fieldValue');
+  }), 'importField');
   return result;
 }
 
 Meteor.methods({
-  'import.do': function(userId, entityType, dataToImport, selectedValues, globalCustomFields, customFields) {
+  'import.dont': function(userId, entityType, dataToImport, selectedValues, globalCustomFields, customFields) {
+    console.log('entityType:' + entityType);
+    console.log('dataToImport:');
+    console.log(dataToImport[0]);
+    console.log('selectedValues:');
+    console.log(selectedValues);
     try {
       var importTotal = dataToImport.length;
       var user = Meteor.users.findOne({
@@ -410,7 +415,7 @@ Meteor.methods({
                 name: row[getFieldValueByKey(selectedValues, 'name')],
                 description: row[getFieldValueByKey(selectedValues, 'description')],
                 price: (getFieldValueByKey(selectedValues, 'price') ? row[getFieldValueByKey(selectedValues, 'price')] : null),
-                cost: (getFieldValueByKey(selectedValues, 'cost') ? row[getFieldValueByKey(selectedValues, 'cost')] : null),                
+                cost: (getFieldValueByKey(selectedValues, 'cost') ? row[getFieldValueByKey(selectedValues, 'cost')] : null),
                 createdBy: userId,
                 sequencedIdentifier: currRealTimeIndex
               }, function(error, docId) {

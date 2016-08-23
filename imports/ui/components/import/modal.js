@@ -413,7 +413,7 @@ Template.importEntityModal.events({
           if (cfIndex > -1) customFields.splice(cfIndex, 1);
           var setting = {
             schemaField: obj.id.replace('Selector', ''),
-            fieldValue: obj.value
+            importField: obj.value
           };
           selectedValues.push(setting);
         } else {
@@ -480,7 +480,7 @@ Template.importEntityModal.events({
       $('.modal-header').hide();
       $('.modal-footer').hide();
 
-      Meteor.call('import.do', Meteor.userId(), entityType, dataToImport, selectedValues, selectedGCFs, (unusedAsCustoms ? customFields : []), function(error, result) {
+      Meteor.call('import.do', dataToImport, entityType, selectedValues, Meteor.userId(), selectedGCFs, (unusedAsCustoms ? customFields : []), function(error, result) {
         if (error) {
           toastr.error(error);
           $('#startImport').prop('disabled', false);
