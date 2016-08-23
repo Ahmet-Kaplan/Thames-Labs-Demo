@@ -45,13 +45,13 @@ Feature: Stop users from seeing data from other tenants
     Then I should not see a project in the list
 
   Scenario: A user should not be able to see purchase orders created by a user under another tenant
-    Given the second tenant has a Purchase order
+    Given the second tenant has a PurchaseOrder
     And I have permission to read purchase orders
     And I visit PurchaseOrders
     Then I should not see a purchase order in the list
 
   Scenario: A user should not be able to see tasks created by a user under another tenant
-    Given the second tenant has a Task
+    Given the second tenant has a CompanyTask
     And I have permission to read tasks
     And I visit Tasks
     Then I should not see a task in the list
