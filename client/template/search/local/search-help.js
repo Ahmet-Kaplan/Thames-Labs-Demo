@@ -47,6 +47,11 @@ Template.searchHelp.helpers({
             name: 'Due Before',
             description: 'End date',
             multiple: false
+          },
+          {
+            name: 'Subtasks',
+            description: 'Show or hide subtasks on the list',
+            multiple: false
           }
         ];
       case 'companies':
