@@ -20,7 +20,7 @@ Template.insertCompanyOpportunityModal.helpers({
 });
 
 AutoForm.hooks({
-  insertOpportunityForm: {
+  insertCompanyOpportunityForm: {
     onSuccess: function() {
       toastr.success('Opportunity added.');
       Modal.hide();

@@ -1,6 +1,7 @@
 import '/imports/ui/components/activity/insert-task-helper/insert-task-helper.js';
 import '/imports/ui/components/autosuggest/autosuggest.js';
 import './insert-activity-form.html';
+import sanitizeHtml from "sanitize-html";
 
 Template.insertActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
@@ -39,16 +40,19 @@ Template.insertActivityModal.events({
 
         let taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertActivityForm')}`;
 
+        const desc = sanitizeHtml(AutoForm.getFieldValue('notes', 'insertActivityForm'), {
+          allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'h2' ])
+        });
+
         if (AutoForm.getFieldValue('contactId', 'insertActivityForm')) {
           const contact = Contacts.findOne({
             _id: AutoForm.getFieldValue('contactId', 'insertActivityForm')
           });
           if (contact) {
             taskTitle = `${taskTitle} with ${contact.forename} ${contact.surname}`;
-
             Tasks.insert({
               title: taskTitle,
-              description: TagStripper.strip(AutoForm.getFieldValue('notes', 'insertActivityForm')),
+              description: desc,
               dueDate: taskDate,
               assigneeId: Meteor.userId(),
               completed: false,
@@ -67,7 +71,7 @@ Template.insertActivityModal.events({
 
         Tasks.insert({
           title: taskTitle,
-          description: TagStripper.strip(AutoForm.getFieldValue('notes', 'insertActivityForm')),
+          description: desc,
           dueDate: taskDate,
           assigneeId: Meteor.userId(),
           completed: false,
@@ -111,9 +115,13 @@ Template.insertContactActivityModal.events({
               taskDate = dtp.date.toDate(),
               taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertContactActivityForm')}`;
 
+        const desc = sanitizeHtml(AutoForm.getFieldValue('notes', 'insertContactActivityForm'), {
+          allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'h2' ])
+        });
+
         Tasks.insert({
           title: taskTitle,
-          description: TagStripper.strip(AutoForm.getFieldValue('notes', 'insertContactActivityForm')),
+          description: desc,
           dueDate: taskDate,
           assigneeId: Meteor.userId(),
           completed: false,
@@ -160,9 +168,13 @@ Template.insertProjectActivityModal.events({
               taskDate = dtp.date.toDate(),
               taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertProjectActivityForm')}`;
 
+        const desc = sanitizeHtml(AutoForm.getFieldValue('notes', 'insertProjectActivityForm'), {
+          allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'h2' ])
+        });
+
         Tasks.insert({
           title: taskTitle,
-          description: TagStripper.strip(AutoForm.getFieldValue('notes', 'insertProjectActivityForm')),
+          description: desc,
           dueDate: taskDate,
           assigneeId: Meteor.userId(),
           completed: false,
@@ -222,9 +234,13 @@ Template.insertOpportunityActivityModal.events({
               taskDate = dtp.date.toDate(),
               taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertOpportunityActivityForm')}`;
 
+        const desc = sanitizeHtml(AutoForm.getFieldValue('notes', 'insertOpportunityActivityForm'), {
+          allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'h2' ])
+        });
+
         Tasks.insert({
           title: taskTitle,
-          description: TagStripper.strip(AutoForm.getFieldValue('notes', 'insertOpportunityActivityForm')),
+          description: desc,
           dueDate: taskDate,
           assigneeId: Meteor.userId(),
           completed: false,

@@ -26,7 +26,7 @@ Template.insertContactOpportunityModal.helpers({
 });
 
 AutoForm.hooks({
-  insertOpportunityForm: {
+  insertContactOpportunityForm: {
     onSuccess: function() {
       toastr.success('Opportunity added.');
       Modal.hide();
