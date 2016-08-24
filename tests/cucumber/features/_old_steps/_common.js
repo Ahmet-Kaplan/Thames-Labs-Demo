@@ -133,7 +133,7 @@ module.exports = function() {
 
   this.Given(/^an additional "([^"]*)" has been created$/, function(entity) {
     browser.executeAsync(function(innerEntity, done) {
-      Meteor.call('add' + innerEntity, true, function() {
+      Meteor.call('add' + innerEntity, '1', true, function() {
         done();
       });
     }, entity);

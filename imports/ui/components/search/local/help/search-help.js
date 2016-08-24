@@ -55,6 +55,11 @@ Template.searchHelp.helpers({
             description: 'Shows tasks that have the selected tag',
             multiple: true
           },
+          {
+            name: 'Subtasks',
+            description: 'Show or hide subtasks on the list',
+            multiple: false
+          }
         ];
       case 'companies':
         return [
