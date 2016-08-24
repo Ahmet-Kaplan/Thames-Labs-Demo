@@ -13,11 +13,7 @@ Schemas.Company = new SimpleSchema({
     optional: false,
     autoValue: function() {
       const name = this.field("name");
-      if (!name.isSet) {
-        this.unset();
-      } else {
-        return name.value.toLowerCase();
-      }
+      if (name.isSet) return name.value.toLowerCase();
     }
   },
   address: {
