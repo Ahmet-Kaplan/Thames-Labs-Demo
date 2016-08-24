@@ -101,6 +101,7 @@ Feature: Allow users to manage their Products
 
 
   #Deleting
+  @dev
   Scenario: An administrator can add CanDeleteProducts permission
     Given I have the "Administrator" permission
     And I am on the pro plan
