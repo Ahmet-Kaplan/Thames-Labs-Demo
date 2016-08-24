@@ -1,3 +1,4 @@
+import { importActivity } from './entities/activities.js';
 import { importCompany } from './entities/companies.js';
 import { importContact } from './entities/contacts.js';
 import { importOpportunity } from './entities/opportunities.js';
@@ -41,6 +42,19 @@ Meteor.methods({
       switch (entityType) {
 
         case "activities":
+          //Loop through importData
+          _.each(importData, function(row, i) {
+            rtId++;
+            const percentDone = ((i / importTotal) * 100).toFixed(0);
+            UserSession.set("importProgress", percentDone, userId);
+
+            const res = importActivity(row, getValueForField, userId, rtId);
+            //Handle result of importing the entity
+            if (res.error) {
+              errorList.push(`<span class="label label-danger">ERROR</span> ${res.error}`);
+            }
+            UserSession.set("importErrors", errorList, userId);
+          });
           break;
 
 
@@ -230,7 +244,6 @@ Meteor.methods({
 
       }
       UserSession.set("importProgress", 100, userId);
-      console.log(errorList);
     });
     return true;
   }

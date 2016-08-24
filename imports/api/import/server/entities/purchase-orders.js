@@ -52,7 +52,6 @@ export const importPurchaseOrder = (row, getValueForField, userId, rtId) => {
     userId: userId,
     sequencedIdentifier: rtId
   };
-  console.log(entityData);
 
   //Insert the record
   const entityId = PurchaseOrders.insert(entityData, function(error, docId) {
