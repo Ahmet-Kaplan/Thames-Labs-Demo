@@ -3,7 +3,7 @@ module.exports = function() {
 
     server.execute((EntityName) => {
       const secondTenant = Tenants.findOne({
-              name: "test"
+              name: "Acme Corp Rivals"
             }),
             secondTenantId = secondTenant._id,
             user = Accounts.findUserByEmail("test2@domain.com"),
