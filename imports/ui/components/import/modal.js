@@ -32,6 +32,14 @@ var opportunityFields = [{
   fieldLabel: 'Sales Manager',
   fieldIdentifier: 'salesManager',
   required: false
+}, {
+  fieldLabel: 'Is Opportunity Closed',
+  fieldIdentifier: 'isArchived',
+  required: false
+}, {
+  fieldLabel: 'Is Opportunity Won',
+  fieldIdentifier: 'isArchived',
+  required: false
 }];
 
 var projectFields = [{
@@ -65,6 +73,10 @@ var projectFields = [{
 }, {
   fieldLabel: 'Staff',
   fieldIdentifier: 'staff',
+  required: false
+}, {
+  fieldLabel: 'Active',
+  fieldIdentifier: 'active',
   required: false
 }];
 
@@ -131,6 +143,10 @@ var purchaseFields = [{
 }, {
   fieldLabel: 'Payment Method',
   fieldIdentifier: 'paymentMethod',
+  required: false
+}, {
+  fieldLabel: 'Status',
+  fieldIdentifier: 'status',
   required: false
 }, {
   fieldLabel: 'Notes',

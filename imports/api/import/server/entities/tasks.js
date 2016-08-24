@@ -1,4 +1,4 @@
-export const importTask = (row, getValueForField, userId, rtId, localCustomFields, globalCustomFields) => {
+export const importTask = (row, getValueForField, userId, rtId) => {
   const result = {};
 
   //Check if referenced assignee exists

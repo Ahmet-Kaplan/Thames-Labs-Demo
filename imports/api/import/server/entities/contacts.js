@@ -1,4 +1,4 @@
-export const importContact = (row, getValueForField, userId, rtId, localCustomFields, globalCustomFields) => {
+export const importContact = (row, getValueForField, userId, rtId, localCustomFields) => {
   const result = {};
 
   //Check for company
