@@ -55,9 +55,10 @@ Template.setPayingTenant.events({
   },
 
   'click #btnSaveStripeAccount': function() {
-    var tenantId = this._id;
-    var stripeId = $('#stripeAccountNumber').val();
+    const tenantId = this.__originalId;
+    const stripeId = $('#stripeAccountNumber').val();
     bootbox.confirm({
+      backdrop: false,
       message: '<div class="bg-warning"><i class="fa fa-exclamation fa-3x pull-left text-warning"></i>' +
         'The account number will be saved directly to the database. ' +
         'No verification will be made with Stripe. ' +
@@ -72,11 +73,12 @@ Template.setPayingTenant.events({
             if (error || nUpdated === false) {
               bootbox.alert({
                 title: 'Error',
-                message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Check connexion with database.</div>'
+                message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.</div>',
+                className: 'bootbox-danger'
               });
-            } else {
-              toastr.success('Account Number has been set successfully. You may now enter Subscription details.');
+              return;
             }
+            toastr.success('Account Number has been set successfully. You may now enter Subscription details.');
           });
         }
       }
@@ -85,21 +87,21 @@ Template.setPayingTenant.events({
 
   'click #btnResumeStripeSubs': function() {
     toastr.info('Processing update...');
-    Meteor.call('stripe.resumeSubscription', this._id, function(error, response) {
+    Meteor.call('stripe.resumeSubscription', this.__originalId, function(error, response) {
       if (error) {
-        Modal.hide();
+        toastr.clear();
         toastr.error('Unable to resume subscription.');
         return false;
       }
       toastr.clear();
       Modal.hide();
-      toastr.success('Subscription has been resumed.<br />Switched to Paying Scheme.');
+      toastr.success('Subscription has been resumed.');
     });
   },
 
   'click #btnRemoveSubsId': function() {
     toastr.info('Processing update...');
-    Tenants.update(this._id, {
+    Tenants.update(this.__originalId, {
       $unset: {
         "stripe.stripeSubs": ""
       }
@@ -110,8 +112,8 @@ Template.setPayingTenant.events({
   },
 
   'click #btnSaveStripeSubs': function() {
-    var newStripeSubs = $('#stripeSubsNumber').val();
-    Tenants.update(this._id, {
+    const newStripeSubs = $('#stripeSubsNumber').val();
+    Tenants.update(this.__originalId, {
       $set: {
         "plan": 'pro',
         "stripe.stripeSubs": newStripeSubs
@@ -121,7 +123,7 @@ Template.setPayingTenant.events({
       if (error || nUpdated === false) {
         bootbox.alert({
           title: 'Error',
-          message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Error: ' + error + '</div>'
+          message: `<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to update record.<br />Error: ${error}`
         });
         return false;
       }
@@ -134,14 +136,18 @@ Template.setPayingTenant.events({
     toastr.info('Processing subscription');
     $('#btnSaveStripeSubs').prop('disabled', true);
     $('#btnCreateStripeSubs').prop('disabled', true);
-    Meteor.call('stripe.createSubscription', this._id, function(error, response) {
+    let planCurrency = $('#subsCurrency').val();
+    if(!_.includes(['GBP', 'EUR', 'USD'], planCurrency)) {
+      planCurrency = 'GBP';
+    }
+    Meteor.call('stripe.createSubscription', `premier${planCurrency}`, this.__originalId, function(error, response) {
       if (error) {
-        Modal.hide();
-        toastr.error('Unable to create subscription. Check that the customer has a card set up.');
+        toastr.error(`Unable to create subscription. Check that the customer has a card set up.<br>Error: ${error.reason}`);
         return false;
       }
       Modal.hide();
-      toastr.success('Subscription has been successful.<br />Switched to Paying Scheme.');
+      toastr.clear();
+      toastr.success('Subscription has been successful.');
     });
   }
 });
