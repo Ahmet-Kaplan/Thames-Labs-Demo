@@ -115,10 +115,10 @@ LogClientEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
     if (user && user.group) {
       if (!isProTenant(user.group)) return;
     }
-    Meteor.call('addEventToEventLog', logLevel, logMessage, logEntityType, logEntityId, 'client');
+    Meteor.call('eventLog.addEventToEventLog', logLevel, logMessage, logEntityType, logEntityId, 'client');
   }
 };
 
 LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  Meteor.call('addEventToEventLog', logLevel, logMessage, logEntityType, logEntityId, 'server');
+  Meteor.call('eventLog.addEventToEventLog', logLevel, logMessage, logEntityType, logEntityId, 'server');
 };

@@ -53,8 +53,6 @@ Tasks.allowTags(function(userId) {
   return !!userId;
 });
 
-EventLog.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
-
 Opportunities.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateOpportunities').apply();
 Opportunities.permit(['update']).ifLoggedIn().ifHasRole('CanEditOpportunities').apply();
 Opportunities.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteOpportunities').apply();
