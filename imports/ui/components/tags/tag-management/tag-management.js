@@ -16,16 +16,15 @@ Template.tagManagement.onRendered(function() {
   });
 });
 
+Template.tagManagement.helpers({
+  resultsCount: function() {
+    return Session.get('resultsCount');
+  }
+});
 
 Template.tagManagement.events({
   'click #manage-tags': function(event, template) {
     this.recordCount = Session.get('resultsCount');
     Modal.show('tagManagementModal', this);
-  }
-});
-
-Template.tagManagement.helpers({
-  resultsCount: function() {
-    return Session.get('resultsCount');
   }
 });

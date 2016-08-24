@@ -1,6 +1,7 @@
 import '/imports/api/opportunities/methods.js';
 import '/imports/api/projects/methods.js';
 import '/imports/api/tawk-to/tawk-to-methods.js';
+import '/imports/api/activity/methods.js';
 
 Meteor.methods({
 
