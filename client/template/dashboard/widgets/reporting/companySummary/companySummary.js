@@ -1,3 +1,27 @@
+const setValues = (template) => {
+  Meteor.call('report.tasksCreated', function(err, data) {
+    template.totalTasks.set(data);
+  });
+  Meteor.call('report.companiesStored', function(err, data) {
+    template.totalCompanies.set(data);
+  });
+  Meteor.call('report.contactsStored', function(err, data) {
+    template.totalContacts.set(data);
+  });
+  Meteor.call('report.numberOfProjects', function(err, data) {
+    template.totalProjects.set(data);
+  });
+  Meteor.call('report.openOpportunities', function(err, data) {
+    template.totalOpportunities.set(data);
+  });
+  Meteor.call('report.numberOfProducts', function(err, data) {
+    template.totalProducts.set(data);
+  });
+  Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
+    template.totalPo.set(data);
+  });
+};
+
 Template.companySummaryWidget.onCreated(function() {
   this.totalTasks = new ReactiveVar(0);
   this.totalCompanies = new ReactiveVar(0);
@@ -9,54 +33,12 @@ Template.companySummaryWidget.onCreated(function() {
 });
 
 Template.companySummaryWidget.onRendered(function() {
-  var template = this;
-
-  Meteor.call('report.tasksCreated', function(err, data) {
-    template.totalTasks.set(data.Count);
-  });
-  Meteor.call('report.companiesStored', function(err, data) {
-    template.totalCompanies.set(data.Count);
-  });
-  Meteor.call('report.contactsStored', function(err, data) {
-    template.totalContacts.set(data.Count);
-  });
-  Meteor.call('report.numberOfProjects', function(err, data) {
-    template.totalProjects.set(data.Count);
-  });
-  Meteor.call('report.openOpportunities', function(err, data) {
-    template.totalOpportunities.set(data.Count);
-  });
-  Meteor.call('report.numberOfProducts', function(err, data) {
-    template.totalProducts.set(data.Count);
-  });
-  Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
-    template.totalPo.set(data.Count);
-  });
+  setValues(this);
 });
 
 Template.companySummaryWidget.events({
   'click #ref_companySummaryWidget': function(event, template) {
-    Meteor.call('report.tasksCreated', function(err, data) {
-      template.totalTasks.set(data.Count);
-    });
-    Meteor.call('report.companiesStored', function(err, data) {
-      template.totalCompanies.set(data.Count);
-    });
-    Meteor.call('report.contactsStored', function(err, data) {
-      template.totalContacts.set(data.Count);
-    });
-    Meteor.call('report.numberOfProjects', function(err, data) {
-      template.totalProjects.set(data.Count);
-    });
-    Meteor.call('report.openOpportunities', function(err, data) {
-      template.totalOpportunities.set(data.Count);
-    });
-    Meteor.call('report.numberOfProducts', function(err, data) {
-      template.totalProducts.set(data.Count);
-    });
-    Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
-      template.totalPo.set(data.Count);
-    });
+    setValues(template);
   }
 });
 

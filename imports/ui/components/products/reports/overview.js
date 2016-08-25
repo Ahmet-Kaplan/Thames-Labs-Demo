@@ -1,21 +1,29 @@
 import './overview.html';
 
+const setValues = (template) => {
+  Meteor.call('report.numberOfProducts', (err, data) => {
+    template.totalProducts.set(data);
+  });
+  Meteor.call('report.costOfProducts', (err, data) => {
+    template.totalProductsCost.set(data);
+  });
+  Meteor.call('report.averageProductsCost', (err, data) => {
+    template.averageProductsCost.set(data);
+  });
+  Meteor.call('report.averageProductsPrice', (err, data) => {
+    template.averageProductsPrice.set(data);
+  });
+};
+
 Template.productsOverview.onCreated(function() {
   this.totalProducts = new ReactiveVar(0);
   this.totalProductsCost = new ReactiveVar(0);
   this.averageProductsCost = new ReactiveVar(0);
+  this.averageProductsPrice = new ReactiveVar(0);
 });
 
 Template.productsOverview.onRendered(function() {
-  Meteor.call('report.numberOfProducts', (err, data) => {
-    this.totalProducts.set(data.Count);
-  });
-  Meteor.call('report.costOfProducts', (err, data) => {
-    this.totalProductsCost.set(data.Value);
-  });
-  Meteor.call('report.averageProductsCost', (err, data) => {
-    this.averageProductsCost.set(data.Value);
-  });
+  setValues(this);
 });
 
 Template.productsOverview.helpers({
@@ -30,20 +38,17 @@ Template.productsOverview.helpers({
   },
   averageProductsCost: function() {
     return Template.instance().averageProductsCost.get();
+  },
+  averageProductsPrice: function() {
+    return Template.instance().averageProductsPrice.get();
   }
 });
 
 Template.productsOverview.events({
-  'click #ref_productsInformationWidget': function(event) {
-
-    Meteor.call('report.numberOfProducts', (err, data) => {
-      this.instance().totalProducts.set(data.Count);
-    });
-    Meteor.call('report.costOfProducts', (err, data) => {
-      this.instance().totalProductsCost.set(data.Value);
-    });
-    Meteor.call('report.averageProductsCost', (err, data) => {
-      this.instance().averageProductsCost.set(data.Value);
-    });
+  'click #productOverviewWidget': function(event) {
+    setValues(this);
+  },
+  'click #ref_opportunityInformationWidget': function(event) {
+    console.log('clicked');
   }
 });

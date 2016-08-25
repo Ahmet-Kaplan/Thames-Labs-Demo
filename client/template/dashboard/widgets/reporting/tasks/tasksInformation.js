@@ -1,3 +1,18 @@
+const setValues = (template) => {
+  Meteor.call('report.tasksCreated', function(err, data) {
+    template.createdTaskCount.set(data);
+  });
+  Meteor.call('report.tasksCompleted', function(err, data) {
+    template.completedTaskCount.set(data);
+  });
+  Meteor.call('report.tasksDueInTheNextWeek', function(err, data) {
+    template.dueTaskCount.set(data);
+  });
+  Meteor.call('report.tasksOverdue', function(err, data) {
+    template.overdueTaskCount.set(data);
+  });
+};
+
 Template.taskInformationWidget.onCreated(function() {
   this.createdTaskCount = new ReactiveVar(0);
   this.completedTaskCount = new ReactiveVar(0);
@@ -6,37 +21,7 @@ Template.taskInformationWidget.onCreated(function() {
 });
 
 Template.taskInformationWidget.onRendered(function() {
-  var template = this;
-
-  Meteor.call('report.tasksCreated', function(err, data) {
-    template.createdTaskCount.set(data.Count);
-  });
-  Meteor.call('report.tasksCompleted', function(err, data) {
-    template.completedTaskCount.set(data.Count);
-  });
-  Meteor.call('report.tasksDueInTheNextWeek', function(err, data) {
-    template.dueTaskCount.set(data.Count);
-  });
-  Meteor.call('report.tasksOverdue', function(err, data) {
-    template.overdueTaskCount.set(data.Count);
-  });
-});
-
-Template.taskInformationWidget.events({
-  'click #ref_taskInformationWidget': function(event, template) {
-    Meteor.call('report.tasksCreated', function(err, data) {
-      template.createdTaskCount.set(data.Count);
-    });
-    Meteor.call('report.tasksCompleted', function(err, data) {
-      template.completedTaskCount.set(data.Count);
-    });
-    Meteor.call('report.tasksDueInTheNextWeek', function(err, data) {
-      template.dueTaskCount.set(data.Count);
-    });
-    Meteor.call('report.tasksOverdue', function(err, data) {
-      template.overdueTaskCount.set(data.Count);
-    });
-  }
+  setValues(this);
 });
 
 Template.taskInformationWidget.helpers({
@@ -51,5 +36,11 @@ Template.taskInformationWidget.helpers({
   },
   overdueTasks: function() {
     return Template.instance().overdueTaskCount.get();
+  }
+});
+
+Template.taskInformationWidget.events({
+  'click #ref_taskInformationWidget': function(event, template) {
+    setValues(template);
   }
 });

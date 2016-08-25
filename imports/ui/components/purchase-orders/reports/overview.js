@@ -1,5 +1,26 @@
 import './overview.html';
 
+const setValues = (template) => {
+  Meteor.call('report.numberOfPurchaseOrders', (err, data) => {
+    template.totalPurchaseOrders.set(data);
+  });
+  Meteor.call('report.ApprovedPo', (err, data) => {
+    template.totalApprovedPo.set(data);
+  });
+  Meteor.call('report.ArrivedPo', (err, data) => {
+    template.totalArrivedPo.set(data);
+  });
+  Meteor.call('report.ClosedPo', (err, data) => {
+    template.totalClosedPo.set(data);
+  });
+  Meteor.call('report.CancelledPo', (err, data) => {
+    template.totalCancelledPo.set(data);
+  });
+  Meteor.call('report.RejectedPo', (err, data) => {
+    template.totalRejectedPo.set(data);
+  });
+};
+
 Template.poOverview.onCreated(function() {
   this.totalPurchaseOrders = new ReactiveVar(0);
   this.totalApprovedPo = new ReactiveVar(0);
@@ -10,24 +31,7 @@ Template.poOverview.onCreated(function() {
 });
 
 Template.poOverview.onRendered(function() {
-  Meteor.call('report.numberOfPurchaseOrders', (err, data) => {
-    this.totalPurchaseOrders.set(data.Count);
-  });
-  Meteor.call('report.ApprovedPo', (err, data) => {
-    this.totalApprovedPo.set(data.Count);
-  });
-  Meteor.call('report.ArrivedPo', (err, data) => {
-    this.totalArrivedPo.set(data.Count);
-  });
-  Meteor.call('report.ClosedPo', (err, data) => {
-    this.totalClosedPo.set(data.Count);
-  });
-  Meteor.call('report.CancelledPo', (err, data) => {
-    this.totalCancelledPo.set(data.Count);
-  });
-  Meteor.call('report.RejectedPo', (err, data) => {
-    this.totalRejectedPo.set(data.Count);
-  });
+  setValues(this);
 });
 
 Template.poOverview.helpers({
@@ -56,25 +60,6 @@ Template.poOverview.helpers({
 
 Template.poOverview.events({
   'click #ref_poInformationWidget': function(event) {
-
-    Meteor.call('report.numberOfPurchaseOrders', (err, data) => {
-      this.totalPurchaseOrders.set(data.Count);
-    });
-    Meteor.call('report.ApprovedPo', (err, data) => {
-      this.totalApprovedPo.set(data.Count);
-    });
-    Meteor.call('report.ArrivedPo', (err, data) => {
-      this.totalArrivedPo.set(data.Count);
-    });
-
-    Meteor.call('report.ClosedPo', (err, data) => {
-      this.totalClosedPo.set(data.Count);
-    });
-    Meteor.call('report.CancelledPo', (err, data) => {
-      this.totalCancelledPo.set(data.Count);
-    });
-    Meteor.call('report.RejectedPo', (err, data) => {
-      this.totalRejectedPo.set(data.Count);
-    });
+    setValues(this);
   }
 });

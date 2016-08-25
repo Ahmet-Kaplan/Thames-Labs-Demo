@@ -1,5 +1,20 @@
 import './overview.html';
 
+const setValues = (template) => {
+  Meteor.call('report.numberOfProjects', (err, data) => {
+    template.totalProjects.set(data);
+  });
+  Meteor.call('report.activeProjects', (err, data) => {
+    template.activeProjects.set(data);
+  });
+  Meteor.call('report.projectValue', (err, data) => {
+    template.projectTotal.set(data);
+  });
+  Meteor.call('report.projectsAverage', (err, data) => {
+    template.projectsAverage.set(data);
+  });
+};
+
 Template.projectsOverview.onCreated(function() {
   this.totalProjects = new ReactiveVar(0);
   this.activeProjects = new ReactiveVar(0);
@@ -8,19 +23,7 @@ Template.projectsOverview.onCreated(function() {
 });
 
 Template.projectsOverview.onRendered(function() {
-
-  Meteor.call('report.numberOfProjects', (err, data) => {
-    this.totalProjects.set(data.Count);
-  });
-  Meteor.call('report.activeProjects', (err, data) => {
-    this.activeProjects.set(data.Count);
-  });
-  Meteor.call('report.projectValue', (err, data) => {
-    this.projectTotal.set(data.Value);
-  });
-  Meteor.call('report.projectsAverage', (err, data) => {
-    this.projectsAverage.set(data.Value);
-  });
+  setValues(this);
 });
 
 Template.projectsOverview.helpers({
@@ -28,7 +31,7 @@ Template.projectsOverview.helpers({
     return FlowRouter.getRouteName() === "dashboard";
   },
   totalProjects: function() {
-    return Template.instance().totalProjects.get();
+    return Template.instance().activeProjects.get();
   },
   activeProjects: function() {
     return Template.instance().activeProjects.get();
@@ -43,18 +46,6 @@ Template.projectsOverview.helpers({
 
 Template.projectsOverview.events({
   'click #ref_projectInformationWidget': function(event) {
-
-    Meteor.call('report.numberOfProjects', (err, data) => {
-      this.totalProjects.set(data.Count);
-    });
-    Meteor.call('report.activeProjects', (err, data) => {
-      this.activeProjects.set(data.Count);
-    });
-    Meteor.call('report.projectValue', (err, data) => {
-      this.instance().projectTotal.set(data.Value);
-    });
-    Meteor.call('report.projectsAverage', (err, data) => {
-      this.projectsAverage.set(data.Value);
-    });
+    setValues(this);
   }
 });

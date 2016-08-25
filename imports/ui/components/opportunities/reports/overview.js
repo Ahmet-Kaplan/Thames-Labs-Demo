@@ -1,4 +1,26 @@
+import { Meteor } from 'meteor/meteor';
 import './overview.html';
+
+export const setValues = (template) => {
+  Meteor.call('report.openOpportunities', (err, data) => {
+    template.openOpps.set(data);
+  });
+  Meteor.call('report.archivedOpportunities', (err, data) => {
+    template.archivedOpps.set(data);
+  });
+  Meteor.call('report.wonOpportunities', (err, data) => {
+    template.wonOpps.set(data);
+  });
+  Meteor.call('report.lostOpportunities', (err, data) => {
+    template.lostOpps.set(data);
+  });
+  Meteor.call('report.valueOfOpportunities', (err, data) => {
+    template.totalOppValue.set(data);
+  });
+  Meteor.call('report.averageOpportunityValue', (err, data) => {
+    template.averageOppValue.set(data);
+  });
+};
 
 Template.oppOverview.onCreated(function() {
   this.openOpps = new ReactiveVar(0);
@@ -10,24 +32,7 @@ Template.oppOverview.onCreated(function() {
 });
 
 Template.oppOverview.onRendered(function() {
-  Meteor.call('report.openOpportunities', (err, data) => {
-    this.openOpps.set(data.Count);
-  });
-  Meteor.call('report.archivedOpportunities', (err, data) => {
-    this.archivedOpps.set(data.Count);
-  });
-  Meteor.call('report.wonOpportunities', (err, data) => {
-    this.wonOpps.set(data.Count);
-  });
-  Meteor.call('report.lostOpportunities', (err, data) => {
-    this.lostOpps.set(data.Count);
-  });
-  Meteor.call('report.valueOfOpportunities', (err, data) => {
-    this.totalOppValue.set(data.Value);
-  });
-  Meteor.call('report.averageOpportunityValue', (err, data) => {
-    this.averageOppValue.set(data.Value);
-  });
+  setValues(this);
 });
 
 Template.oppOverview.helpers({
@@ -55,24 +60,7 @@ Template.oppOverview.helpers({
 });
 
 Template.oppOverview.events({
-  'click #ref_opportunityInformationWidget': function(event) {
-    Meteor.call('report.openOpportunities', (err, data) => {
-      this.openOpps.set(data.Count);
-    });
-    Meteor.call('report.archivedOpportunities', (err, data) => {
-      this.archivedOpps.set(data.Count);
-    });
-    Meteor.call('report.wonOpportunities', (err, data) => {
-      this.wonOpps.set(data.Count);
-    });
-    Meteor.call('report.lostOpportunities', (err, data) => {
-      this.lostOpps.set(data.Count);
-    });
-    Meteor.call('report.valueOfOpportunities', (err, data) => {
-      this.totalOppValue.set(data.Value);
-    });
-    Meteor.call('report.averageOpportunityValue', (err, data) => {
-      this.averageOppValue.set(data.Value);
-    });
+  'click #oppsOverviewWidget': function(event, template) {
+    setValues(template);
   }
 });
