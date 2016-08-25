@@ -18,7 +18,7 @@ Template.events.events({
     event.preventDefault();
     bootbox.confirm('Are you sure you wish to clear all the event log?', function(result) {
       if(result === true) {
-        Meteor.call('clearEventLog', function(err, res) {
+        Meteor.call('eventLog.clearEventLog', function(err, res) {
           if(err) {
             toastr.error('Unable to clear event log');
             return false;

@@ -1,0 +1,73 @@
+<!-- Due to the fact that popovers require content to be entered in the data-content attribute and blaze doesn't allow templates within html attributes, the table has to be written twice, once for the widget and again for the popover. -->
+<template name="oppOverview">
+  {{#unless dashboard}}
+  <li>
+    <a id="oppsOverviewWidget" data-toggle="popover" title="Opportunities Overview" data-content="
+       <div id='oppOverviewPop'>
+       <table class='table'>
+      <tbody>
+        <tr>
+          <td>Open Opportunities:</td>
+          <td class='text-right'>{{longNumber openOpps}}</td>
+        </tr>
+        <tr>
+          <td>Archived Opportunities:</td>
+          <td class='text-right'>{{longNumber archivedOpps}}</td>
+        </tr>
+        <tr>
+          <td>Won Opportunities:</td>
+          <td class='text-right'>{{longNumber wonOpps}}</td>
+        </tr>
+        <tr>
+          <td>Lost Opportunities:</td>
+          <td class='text-right'>{{longNumber lostOpps}}</td>
+        </tr>
+        <tr>
+          <td>Total Value:</td>
+          <td class='text-right'>{{decimal totalOppValue}}</td>
+        </tr>
+        <tr>
+          <td>Average Value:</td>
+          <td class='text-right'>{{decimal averageOppValue}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  ">Overview</a>
+  </li>
+
+  {{else}}
+
+  <table class='table'>
+    <tbody>
+      <tr>
+        <td>Open Opportunities:</td>
+        <td class='text-right'>{{longNumber openOpps}}</td>
+      </tr>
+      <tr>
+        <td>Archived Opportunities:</td>
+        <td class='text-right'>{{longNumber archivedOpps}}</td>
+      </tr>
+      <tr>
+        <td>Won Opportunities:</td>
+        <td class='text-right'>{{longNumber wonOpps}}</td>
+      </tr>
+      <tr>
+        <td>Lost Opportunities:</td>
+        <td class='text-right'>{{longNumber lostOpps}}</td>
+      </tr>
+      <tr>
+        <td>Total Value:</td>
+        <td class='text-right'>{{decimal totalOppValue}}</td>
+      </tr>
+      <tr>
+        <td>Average Value:</td>
+        <td class='text-right'>{{decimal averageOppValue}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  {{/unless}}
+
+</template>

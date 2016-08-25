@@ -15,6 +15,15 @@ Schemas.Contact = new SimpleSchema({
   surname: {
     type: String
   },
+  name_sort: {
+    type: String,
+    optional: false,
+    autoValue: function() {
+      const forename = this.field("forename");
+      const surname = this.field("surname");
+      if (forename.isSet && surname.isSet) return `${surname.value.toLowerCase()} ${forename.value.toLowerCase()}`;
+    }
+  },
   email: {
     type: String,
     regEx: SimpleSchema.RegEx.Email,
