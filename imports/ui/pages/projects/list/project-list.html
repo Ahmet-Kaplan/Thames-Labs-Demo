@@ -24,30 +24,7 @@
     </div>
     <div class="col-xs-12 col-sm-4">
       <ul class="list-toolbar pull-right">
-        <li><a id="ref_projectOverviewWidget" data-toggle="popover" title="Projects Overview" data-content="
-        <div id='projectOverviewPop'>
-            <table class='table table-no-border'>
-            <tbody>
-                <tr>
-                <td>Projects:</td>
-                <td class='text-right'>{{totalProjects}}</td>
-                </tr>
-                <tr>
-                <td>Active projects:</td>
-                <td class='text-right'>{{activeProjects}}</td>
-                </tr>
-                <tr>
-                <td>Active projects total value:</td>
-                <td class='text-right'>{{decimal projectTotal}}</td>
-                </tr>
-                <tr>
-                <td>Active projects average value:</td>
-                <td class='text-right'>{{decimal projectsAverage}}</td>
-                </tr>
-            </tbody>
-            </table>
-        </div>">Overview</a>
-        </li>
+        {{> projectsOverview}}
         {{> tagManagement collectionName='projects'}}
         {{> exportCollection entity="projects"}}
       </ul>

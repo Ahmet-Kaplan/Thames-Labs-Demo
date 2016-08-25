@@ -377,6 +377,8 @@ Meteor.methods({
   },
 
   addEvent: function() {
+    const { EventLog } = require('/imports/api/collections.js');
+
     var userGroup = Tenants.findOne({
       name: 'Acme Corp'
     });

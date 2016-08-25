@@ -7,6 +7,7 @@ import '/imports/ui/components/search/filters';
 import '/imports/ui/components/products/list-item/product-list-item.js';
 import '/imports/ui/components/export/export.js';
 import './product-list.html';
+import '/imports/ui/components/products/reports/overview.js';
 
 Template.productList.onCreated(function() {
   // Redirect if read permission changed
@@ -42,18 +43,6 @@ Template.productList.events({
   'click #add-product': function(event) {
     event.preventDefault();
     Modal.show('insertProductModal', this);
-  },
-  'click #ref_productsOverviewWidget': function(event, template) {
-
-    Meteor.call('report.numberOfProducts', function(err, data) {
-      template.totalProducts.set(data.Count);
-    });
-    Meteor.call('report.costOfProducts', function(err, data) {
-      template.totalProductsCost.set(data.Value);
-    });
-    Meteor.call('report.averageProductsCost', function(err, data) {
-      template.averageProductsCost.set(data.Value);
-    });
   }
 });
 

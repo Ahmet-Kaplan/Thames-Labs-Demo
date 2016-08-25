@@ -173,6 +173,33 @@ Meteor.methods({
           };
     return data;
   },
+  'report.wonOpportunities': function() {
+    if (!this.userId) return;
+    const oppData = Opportunities.find({
+            hasBeenWon: {
+              $eq: true
+            }
+          }).fetch(),
+          data = {
+            "Count": (oppData.length)
+          };
+    return data;
+  },
+  'report.lostOpportunities': function() {
+    if (!this.userId) return;
+    const oppData = Opportunities.find({
+            isArchived: {
+              $eq: true
+            },
+            hasBeenWon: {
+              $ne: true
+            }
+          }).fetch(),
+          data = {
+            "Count": (oppData.length)
+          };
+    return data;
+  },
   'report.valueOfOpportunities': function() {
     if (!this.userId) return;
     const oppData = Opportunities.find({

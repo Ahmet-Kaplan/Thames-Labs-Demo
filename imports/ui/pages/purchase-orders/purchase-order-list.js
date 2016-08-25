@@ -6,6 +6,7 @@ import '/imports/ui/components/search/local/small-box/small-search-box.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-purchase-order.js';
 import '/imports/ui/components/purchase-orders/list-item/purchase-order-list-item.js';
 import '/imports/ui/components/export/export.js';
+import '/imports/ui/components/purchase-orders/reports/overview.js';
 
 import './purchase-order-list.html';
 
@@ -69,35 +70,13 @@ Template.purchaseOrderList.onRendered(function() {
 
 Template.purchaseOrderList.events({
   'click #toggle-item-view': function(event, template) {
-    var curr = Session.get("showItems");
+    const curr = Session.get("showItems");
     Session.set("showItems", !curr);
     template.showItems.set(!curr);
   },
   'click #add-purchase-order': function(event) {
     event.preventDefault();
     Modal.show('insertPurchaseOrderModal', this);
-  },
-  'click #ref_poOverviewWidget': function(event, template) {
-
-    Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
-      template.totalPurchaseOrders.set(data.Count);
-    });
-    Meteor.call('report.ApprovedPo', function(err, data) {
-      template.totalApprovedPo.set(data.Count);
-    });
-    Meteor.call('report.ArrivedPo', function(err, data) {
-      template.totalArrivedPo.set(data.Count);
-    });
-
-    Meteor.call('report.ClosedPo', function(err, data) {
-      template.totalClosedPo.set(data.Count);
-    });
-    Meteor.call('report.CancelledPo', function(err, data) {
-      template.totalCancelledPo.set(data.Count);
-    });
-    Meteor.call('report.RejectedPo', function(err, data) {
-      template.totalRejectedPo.set(data.Count);
-    });
   }
 });
 

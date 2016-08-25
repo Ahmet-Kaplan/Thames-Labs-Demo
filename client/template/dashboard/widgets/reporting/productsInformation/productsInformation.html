@@ -8,22 +8,7 @@
     </div>
     <div class="panel-body">
       <div class="productsInformationList">
-        <table class="table table-no-border">
-          <tbody>
-            <tr>
-              <td>Total number of products:</td>
-              <td class="text-right">{{longNumber totalProducts}}</td>
-            </tr>
-            <tr>
-              <td>Total cost of products:</td>
-              <td class="text-right">{{decimal totalProductsCost}}</td>
-            </tr>
-            <tr>
-              <td>Average cost of products:</td>
-              <td class="text-right">{{decimal averageProductsCost}}</td>
-            </tr>
-          </tbody>
-        </table>
+        {{> productsOverview}}
       </div>
     </div>
   </div>
