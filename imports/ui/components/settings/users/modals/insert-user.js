@@ -1,5 +1,7 @@
 import { isTenantOverFreeUserLimit } from '/imports/api/tenants/helpers.js';
+import { stripePlan, stripeCustomer, displayLocale } from '/imports/api/billing/helpers.js';
 import bootbox from 'bootbox';
+
 import './insert-user.html';
 
 AutoForm.hooks({
@@ -39,6 +41,14 @@ AutoForm.hooks({
   }
 });
 
+Template.insertUser.onRendered(function() {
+  stripeCustomer.update();
+  //watch for updates on the plan currency
+  this.autorun(() => {
+    stripePlan.update(_.get(stripeCustomer.getData(), 'subscriptions.data[0].plan.id'), stripeCustomer.getCoupon());
+  });
+});
+
 Template.insertUser.helpers({
   isProTenant: function() {
     const tenantId = Meteor.user().group;
@@ -46,5 +56,37 @@ Template.insertUser.helpers({
   },
   isOverFreeLimit: function() {
     return isTenantOverFreeUserLimit(Meteor.user().group);
+  },
+  planDetails: function() {
+    return stripePlan.getData();
+  },
+  freeUsers: function() {
+    const tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    return _.get(tenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
+  },
+  additionalUsers: function() {
+    const tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    const freeUsers = _.get(tenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
+    const totalUsers = Meteor.users.find({
+      group: tenant._id
+    }).count();
+    return totalUsers - freeUsers + 1;
+  },
+  priceAfterNewUser: function() {
+    const tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    const freeUsers = _.get(tenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
+    const totalUsers = Meteor.users.find({
+      group: tenant._id
+    }).count();
+    const additionalUsers = totalUsers - freeUsers + 1;
+    const planDetails = stripePlan.getData();
+
+    return displayLocale(planDetails.rawCorrectedAmount * additionalUsers, planDetails.currency);
   }
 });

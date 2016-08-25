@@ -5,6 +5,8 @@ import bootbox from 'bootbox';
 
 import '../coupon/coupon-modal.js';
 import '../card/update-card-modal.js';
+
+import './billing-overview.css';
 import './billing-overview.html';
 
 Template.billingOverview.helpers({
@@ -50,6 +52,16 @@ Template.billingOverview.helpers({
       group: Meteor.user().group
     }).count();
     return _.min([numberOfAccounts, maxFreeUsers]);
+  },
+  payingUsers: function() {
+    const tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    const maxFreeUsers = _.get(tenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
+    const numberOfAccounts = Meteor.users.find({
+      group: Meteor.user().group
+    }).count();
+    return numberOfAccounts - maxFreeUsers;
   }
 });
 

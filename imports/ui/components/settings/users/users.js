@@ -34,22 +34,31 @@ Template.users.helpers({
     return _.get(tenant, 'stripe.maxFreeUsers', MAX_FREE_USERS) - Meteor.users.find({
       group: tenant._id
     }).count();
+  },
+  freeUsers: function() {
+    const tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    return _.get(tenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
   }
 });
 
 Template.users.events({
   'click #add-user': function(event) {
     event.preventDefault();
-
     const tenantId = Meteor.user().group;
     if (!isProTenant(tenantId) && isTenantOverFreeUserLimit(tenantId)) {
-      showUpgradeToastr('To add more users');
+      Modal.show('stripeSubscribe', {
+        showExplain: true
+      });
       return;
     }
     Modal.show('insertUser', this);
   },
   'click #upScheme': function(e) {
     e.preventDefault();
-    Modal.show('stripeSubscribe');
+    Modal.show('stripeSubscribe', {
+      showExplain: true
+    });
   },
 });

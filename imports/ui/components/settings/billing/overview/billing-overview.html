@@ -6,10 +6,15 @@
         <ul class="list-group">
           <li class="list-group-item panel-item-header">
             <h4 class="slim"><i class="fa fa-fw fa-wrench"></i> Plan</h4>
-            <span id="planName">{{planName}}</span> - {{totalUsers}} user{{#if greaterThan totalUsers 1}}s{{/if}}
-            {{#if isProTenant}}
-              (including {{freeUserAccounts}} free user{{#if greaterThan freeUserAccounts 1}}s{{/if}})
-            {{/if}}
+            {{totalUsers}} user{{#if greaterThan totalUsers 1}}s{{/if}}
+            <small>
+              <ul class="users-detailed">
+                <li>{{freeUserAccounts}} free user{{#unless equals freeUserAccouts 1}}s{{/unless}}</li>
+                {{#if isProTenant}}
+                  <li>{{payingUsers}} additional user{{#unless equals payingUsers 1}}s{{/unless}}</li>
+                {{/if}}
+              </ul>
+            </small>
           </li>
 
           <!-- COUPON -->

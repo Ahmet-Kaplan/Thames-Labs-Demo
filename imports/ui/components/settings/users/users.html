@@ -4,8 +4,17 @@
       {{#if overFreeLimit}}
         <div class="settings-section">
           <h4>Upgrade RealTimeCRM</h4>
-          <p>Subscribe to the Pro Plan to add more users.</p>
-          <button id="upScheme" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Upgrade to the Pro Plan</button>
+          <p>
+            Because we want to help your business grow, all features are available for free to {{#if equals freeUsers 1}}a single user{{else}}{{freeUsers}} users{{/if}}.
+            You can add more users to RealTimeCRM as your business grows.
+          </p>
+          <ul>
+            <li><strong>Fixed price for life</strong> – The price you see is the price you will pay per user for the lifetime of your account;</li>
+            <li><strong>No hidden costs</strong> – We will not make any additional charges for using the system or for support;</li>
+            <li><strong>{{freeUsers}} free user{{#unless equals freeUsers 1}}s{{/unless}} for life</strong> – You will always keep your free user{{#unless equals freeUsers 1}}s{{/unless}}, even after you subscribe to create more users.</li>
+          </ul>
+          <br>
+          <p><button id="upScheme" class="btn btn-success"><i class="fa fa-fw fa-check"></i> Add more users</button></p>
         </div>
       {{/if}}
     {{/unless}}
@@ -13,7 +22,7 @@
     <h4>Current Users <a class="btn btn-xs btn-primary pull-right" id="add-user"><i class="fa fa-fw fa-plus"></i> Add user</a></h4>
     {{#unless isProTenant}}
     {{#unless overFreeLimit}}
-        <p>You can create {{remainingFreeUsers}} more user{{#if greaterThan remainingFreeUsers 1}}s{{/if}} on the Free Plan.</p>
+        <p>You can create {{remainingFreeUsers}} more user{{#unless equals remainingFreeUsers 1}}s{{/unless}} on the Free Plan.</p>
     {{/unless}}
     {{/unless}}
     <p>Click on a user to change details, permissions and related settings.</p>

@@ -22,7 +22,9 @@ Template.userDetailsLink.events({
     Modal.hide('updateUser');
     bootbox.confirm(`Are you sure you wish to remove the user ${name}?<br />This action is not reversible.`, (result) => {
       if (result === true) {
+        toastr.info('Removing user...');
         Meteor.call('removeUser', this._id, (error, response) => {
+          toastr.clear();
           if (error) {
             toastr.error(`Unable to remove user. ${error.reason}`);
           }

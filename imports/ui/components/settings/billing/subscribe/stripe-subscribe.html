@@ -9,6 +9,13 @@
         </div>
 
         <div class="modal-body">
+          {{#if showExplain}}
+          <p>
+            You have reached the maximum number of free accounts. You can add additional users by setting up a payment plan.
+            Remember that <b>you will keep your free user{{#unless equals freeUsers 1}}s{{/unless}}</b>. Only the extra users will be charged.
+          </p>
+          {{/if}}
+
           Select your currency:
           <label class="currency"><input type="radio" name="selectCurrency" value="gbp" checked="{{#if equals paymentCurrency 'gbp'}}checked{{/if}}"> <i class="fa fa-fw fa-gbp"></i> (GBP) </label>
           <label class="currency"><input type="radio" name="selectCurrency" value="eur" checked="{{#if equals paymentCurrency 'eur'}}checked{{/if}}"> <i class="fa fa-fw fa-eur"></i> (EUR) </label>
@@ -19,31 +26,22 @@
           {{#if planDetails}}
           {{#with planDetails}}
             <div class="row">
+              <div class="col-xs-6"><em>Free user{{#unless equals freeUsers 1}}s{{/unless}}</em></div>
+              <div class="col-xs-6">{{freeUsers}}</div>
+            </div>
+            <div class="row">
               <div class="col-xs-6"><em>Plan</em></div>
-              <div class="col-xs-4">{{name}}</div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6"><em>Price</em></div>
-              <div class="col-xs-4">{{amount}} /user/{{interval}}</div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6"><em>Number of users</em></div>
-              <div class="col-xs-4">{{quantity}}</div>
+              <div class="col-xs-6">Additional User</div>
             </div>
             {{#if hasCoupon}}
             <div class="row">
-              <div class="col-xs-6" id="couponInfo"><em>Coupon {{couponName}}</em></div>
-              <div class="col-xs-4">{{couponDetails}}</div>
-              <div class="col-xs-6" id="couponInfo"><em>Coupon Expires</em></div>
-              <div class="col-xs-4">{{couponExpiry}}</div>
+              <div class="col-xs-6" id="couponInfo"><em>Coupon</em> {{couponName}}</div>
+              <div class="col-xs-6">{{couponDetails}}</div>
             </div>
             {{/if}}
             <div class="row">
-              <div class="col-xs-10"><hr /></div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6"><strong>Total Price of Subscription</strong></div>
-              <div class="col-xs-4">{{total}} /{{interval}} + VAT (20%)</div>
+              <div class="col-xs-6"><em>Price</em></div>
+              <div class="col-xs-6">{{#if equals amount correctedAmount}}{{amount}}{{else}}<del>{{amount}}</del> {{correctedAmount}}{{/if}} /additional user/{{interval}}</div>
             </div>
           {{/with}}
           {{else}}
@@ -51,7 +49,7 @@
           {{/if}}
           </div>
 
-          <br /><br />To complete your subscription, enter your card details below.
+          <br>To complete your payment plan, enter your card details below.
           <br />Please note that none of the card information is stored by us.
         </div>
 

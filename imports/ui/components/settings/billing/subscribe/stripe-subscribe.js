@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import bootbox from 'bootbox';
+import { showSuccessBootbox } from './helpers.js';
 
 import { stripeCustomer, stripePlan, upcomingInvoice } from '/imports/api/billing/helpers.js';
 
@@ -13,6 +14,7 @@ Template.stripeSubscribe.onCreated(function() {
 });
 
 Template.stripeSubscribe.onRendered(function() {
+  stripeCustomer.update();
   //watch for updates on the plan currency
   this.autorun(() => {
     const paymentCurrency = _.includes(['gbp', 'eur', 'usd'], this.paymentCurrency.get()) ? this.paymentCurrency.get() : 'gbp';
@@ -37,6 +39,12 @@ Template.stripeSubscribe.helpers({
   },
   userEmail: function() {
     return Meteor.user().emails[0].address;
+  },
+  freeUsers: function() {
+    const tenant = Tenants.findOne({
+      _id: Meteor.user().group
+    });
+    return _.get(tenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
   },
 });
 
@@ -112,12 +120,8 @@ Template.stripeSubscribe.events({
             }
             Modal.hide();
             toastr.clear();
-            bootbox.alert({
-              title: 'Subscription complete',
-              message: '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />Thank you for using RealTimeCRM!',
-              backdrop: false,
-              className: 'bootbox-success',
-            });
+            const message = '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />Thank you for using RealTimeCRM!';
+            showSuccessBootbox(message);
             stripeCustomer.update();
             upcomingInvoice.update();
           });
@@ -140,12 +144,8 @@ Template.stripeSubscribe.events({
           toastr.clear();
           Modal.hide();
           const noCoupon = (result2 === 'CouponNotApplied') ? '<br />However there has been an issue applying your coupon. Please contact us to correct this.' : '';
-          bootbox.alert({
-            title: 'Subscription complete',
-            message: `<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.${noCoupon}<br />Thank you for using RealTimeCRM!`,
-            backdrop: false,
-            className: 'bootbox-success',
-          });
+          const message = `<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful. You can now add more users.${noCoupon}<br />Thank you for using RealTimeCRM!`;
+          showSuccessBootbox(message);
           stripeCustomer.update();
           upcomingInvoice.update();
         });

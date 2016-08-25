@@ -1,3 +1,6 @@
+import { Meteor } from 'meteor/meteor';
+import { _ } from 'lodash';
+
 export function displayLocale(number, currency) {
   if (isNaN(number)) return '';
   currency = _.lowerCase(currency);
@@ -82,22 +85,19 @@ export const stripePlan = {
 
       const planDetails = _.cloneDeep(planObj);
 
-      planDetails.quantity = Meteor.users.find({
-        group: Meteor.user().group
-      }).count();
-      planDetails.total = planDetails.quantity * planDetails.amount / 100;
+      planDetails.correctedAmount = planDetails.amount / 100;
+      planDetails.rawCorrectedAmount = planDetails.amount / 100;
       planDetails.amount = displayLocale(planDetails.amount / 100, planDetails.currency);
 
       if (coupon) {
         planDetails.couponName = coupon.id;
         planDetails.couponDetails = (coupon.percent_off) ? `${coupon.percent_off} % off` : `${displayLocale(coupon.amount_off / 100, planDetails.currency)} off`;
-        planDetails.total = planDetails.total * (1 - (coupon.percent_off / 100)) - coupon.amount_off / 100 * planDetails.quantity;
-        planDetails.total = displayLocale(planDetails.total, planDetails.currency);
-        this.data.set(planDetails);
-      } else {
-        planDetails.total = displayLocale(planDetails.total, planDetails.currency);
-        this.data.set(planDetails);
+        planDetails.correctedAmount = planDetails.correctedAmount * (1 - (coupon.percent_off / 100)) - coupon.amount_off / 100;
+        planDetails.rawCorrectedAmount = planDetails.correctedAmount;
       }
+
+      planDetails.correctedAmount = displayLocale(planDetails.correctedAmount, planDetails.currency);
+      this.data.set(planDetails);
     });
   }
 };
