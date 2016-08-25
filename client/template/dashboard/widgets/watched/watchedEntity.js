@@ -1,4 +1,4 @@
-import { Activities } from '/imports/api/collections.js';
+import { Activities, Companies } from '/imports/api/collections.js';
 
 Template.watchedEntityWidget.onCreated(function() {
   Meteor.subscribe("allUserData");

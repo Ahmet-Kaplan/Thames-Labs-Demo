@@ -1,6 +1,7 @@
 import './legal-company-information.css';
 import './legal-company-information.html';
 
+import { Companies } from '/imports/api/collections.js';
 import { isAddressEmpty } from '/imports/api/maps/map-helpers.js';
 
 // Expects arguments:

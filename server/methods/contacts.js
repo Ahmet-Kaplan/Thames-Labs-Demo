@@ -1,3 +1,5 @@
+import { Companies } from '/imports/api/collections.js';
+
 Meteor.methods({
   'contact.linkCompanyAddress': function(contactId) {
     var contact = Contacts.findOne({_id: contactId});

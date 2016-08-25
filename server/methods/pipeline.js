@@ -1,3 +1,5 @@
+import { Companies } from '/imports/api/collections.js';
+
 Meteor.methods({
   'pipeline.getCompany': function(companyId) {
     var company = Companies.findOne({

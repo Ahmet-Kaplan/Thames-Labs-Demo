@@ -1,4 +1,4 @@
-Schemas.Company = new SimpleSchema({
+export const CompanySchema = new SimpleSchema({
   sequencedIdentifier: {
     type: Number,
     label: "RealTime ID",
@@ -132,9 +132,6 @@ Schemas.Company = new SimpleSchema({
     defaultValue: new Date()
   }
 });
-
-Schemas.Company.messages({
+CompanySchema.messages({
   "regEx website": "The website address is not valid"
 });
-
-Companies.attachSchema(Schemas.Company);

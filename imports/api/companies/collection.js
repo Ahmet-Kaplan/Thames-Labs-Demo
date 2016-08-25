@@ -1,10 +1,23 @@
-import { Projects, PurchaseOrders } from '/imports/api/collections.js';
+import { Activities, Projects, PurchaseOrders } from '/imports/api/collections.js';
+import { CompanySchema } from './schema.js';
+import { CompanyFilters } from './filters.js';
 
-Collections.companies = Companies = new Mongo.Collection('companies');
+export const Companies = new Mongo.Collection('companies');
 
-Collections.companies.subscribeById = 'CompanyById';
+Companies.attachSchema(CompanySchema);
+
+Companies.subscribeById = 'CompanyById';
 
 Partitioner.partitionCollection(Companies);
+
+Companies.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateCompanies').apply();
+Companies.permit(['update']).ifLoggedIn().ifHasRole('CanEditCompanies').apply();
+Companies.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteCompanies').apply();
+
+Tags.TagsMixin(Companies);
+Companies.allowTags(function(userId) {
+  return !!userId;
+});
 
 Companies.helpers({
   contacts: function() {
@@ -47,66 +60,18 @@ Companies.helpers({
   }
 });
 
-Tags.TagsMixin(Companies);
 
 ////////////////////
 // SEARCH FILTERS //
 ////////////////////
 
-Collections.companies.filters = {
-  city: {
-    display: 'City:',
-    prop: 'city',
-    allowMultiple: true,
-    verify: function(city) {
-      if (!city) return false;
-      return true;
-    }
-  },
-  country: {
-    display: 'Country:',
-    prop: 'country',
-    allowMultiple: true,
-    verify: function(country) {
-      if (!country) return false;
-      return true;
-    }
-  },
-  postcode: {
-    display: 'Postcode:',
-    prop: 'postcode',
-    allowMultiple: true,
-    verify: function(postcode) {
-      if (!postcode) return false;
-      return true;
-    }
-  },
-  tags: {
-    display: 'Tag:',
-    prop: 'tags',
-    collectionName: 'tags',
-    autosuggestFilter: {
-      collection: 'companies'
-    },
-    valueField: 'name',
-    nameField: 'name'
-  },
-  sequencedIdentifier: {
-    display: 'RealTime Company Identifier:',
-    prop: 'sequencedIdentifier',
-    allowMultiple: false,
-    verify: function(sequencedIdentifier) {
-      if (!sequencedIdentifier) return false;
-      return true;
-    }
-  }
-};
+Companies.filters = CompanyFilters;
 
 ////////////////////
 // SEARCH INDICES //
 ////////////////////
 
-Collections.companies.index = CompaniesIndex = new EasySearch.Index({
+Companies.index = CompaniesIndex = new EasySearch.Index({
   collection: Companies,
   fields: ['name'],
   permission: function(options) {

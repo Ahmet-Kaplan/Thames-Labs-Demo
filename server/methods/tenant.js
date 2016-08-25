@@ -1,4 +1,4 @@
-import { Activities, EventLog, Projects, Products, PurchaseOrders, PurchaseOrderItems, Opportunities, Tasks } from '/imports/api/collections.js';
+import { Activities, Companies, EventLog, Projects, Products, PurchaseOrders, PurchaseOrderItems, Opportunities, Tasks } from '/imports/api/collections.js';
 Meteor.methods({
   'tenant.getPayingUsers': function() {
     var tenants = Tenants.find({

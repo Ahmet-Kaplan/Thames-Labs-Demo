@@ -1,5 +1,5 @@
 import { currencyHelpers } from '/imports/api/currency/currency-helpers.js';
-import { Activities, EventLog, Opportunities, Projects, Products, PurchaseOrders, Tasks} from '/imports/api/collections.js';
+import { Activities, Companies, EventLog, Opportunities, Projects, Products, PurchaseOrders, Tasks} from '/imports/api/collections.js';
 import { Tracker } from 'meteor/tracker';
 
 Template.registerHelper('greaterThan', function(a, b) {
@@ -98,7 +98,7 @@ Template.registerHelper("isApp", function() {
 // Make search indices available to templates - e.g. for EasySearch components
 Template.registerHelper('ActivitiesIndex', () => Activities.index);
 Template.registerHelper('EventLogIndex', () => EventLog.index);
-Template.registerHelper('CompaniesIndex', () => CompaniesIndex);
+Template.registerHelper('CompaniesIndex', () => Companies.index);
 Template.registerHelper('ContactsIndex', () => ContactsIndex);
 Template.registerHelper('OpportunitiesIndex', () => Opportunities.index);
 Template.registerHelper('ProductsIndex', () => Products.index);

@@ -17,7 +17,7 @@ import '/imports/ui/components/tasks/panel/task-panel.js';
 import '/imports/ui/components/contacts/modals/insert-company-contact-modal.js';
 import '/imports/ui/components/projects/modals/insert-company-project-modal.js';
 
-import { Activities, Projects, Opportunities } from '/imports/api/collections.js';
+import { Activities, Companies, Projects, Opportunities } from '/imports/api/collections.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
 

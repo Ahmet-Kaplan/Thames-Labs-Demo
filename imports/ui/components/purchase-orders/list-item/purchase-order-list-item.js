@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Projects, PurchaseOrderItems } from '/imports/api/collections.js';
+import { Companies, Projects, PurchaseOrderItems } from '/imports/api/collections.js';
 import { currencyHelpers } from '/imports/api/currency/currency-helpers.js';
 
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';

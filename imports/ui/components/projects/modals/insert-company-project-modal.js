@@ -1,4 +1,5 @@
 import './insert-company-project-modal.html';
+import { Companies } from '/imports/api/collections.js';
 
 Template.insertCompanyProjectForm.helpers({
   projectTypes: function() {

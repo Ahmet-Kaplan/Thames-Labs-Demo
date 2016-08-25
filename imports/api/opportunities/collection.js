@@ -1,4 +1,4 @@
-import { Activities } from '/imports/api/collections.js';
+import { Activities, Companies } from '/imports/api/collections.js';
 import { OpportunitySchema } from './schema.js';
 import { OpportunityFilters } from './filters.js';
 

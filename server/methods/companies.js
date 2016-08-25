@@ -1,4 +1,4 @@
-import { Activities, Projects, PurchaseOrders, Opportunities, Tasks } from '/imports/api/collections.js';
+import { Activities, Companies, Projects, PurchaseOrders, Opportunities, Tasks } from '/imports/api/collections.js';
 Meteor.methods({
   'company.checkExistsByName': function(companyName) {
     var user = Meteor.users.findOne({

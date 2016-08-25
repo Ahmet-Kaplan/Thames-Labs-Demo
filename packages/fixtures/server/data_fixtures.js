@@ -1,9 +1,9 @@
 Meteor.methods({
 
   addCompanyActivity: function() {
+    const { Activities, Companies } = require('/imports/api/collections.js');
     var entity = Companies.findOne({});
     var data = entity.name;
-    const { Actvities } = require('/imports/api/collections.js');
     Activities.insert({
       type: "Note",
       notes: "Test company activity",
@@ -19,7 +19,7 @@ Meteor.methods({
   addContactActivity: function() {
     var entity = Contacts.findOne({});
     var data = entity.forename + " " + entity.surname;
-    const { Actvities } = require('/imports/api/collections.js');
+    const { Activities } = require('/imports/api/collections.js');
     Activities.insert({
       type: "Note",
       notes: "Test contact activity",
@@ -33,7 +33,7 @@ Meteor.methods({
     });
   },
   addOpportunityActivity: function() {
-    const { Actvities, Opportunities } = require('/imports/api/collections.js');
+    const { Activities, Opportunities } = require('/imports/api/collections.js');
     var entity = Opportunities.findOne({});
     var data = entity.name;
     Activities.insert({
@@ -110,6 +110,8 @@ Meteor.methods({
     }else {
       userId = this.userId;
     }
+
+    const { Companies } = require('/imports/api/collections.js');
     var data = Companies.insert({
       name: companyName,
       address: address,
@@ -166,6 +168,8 @@ Meteor.methods({
 
   addContactForCompany: function() {
     var userId = Meteor.userId();
+
+    const { Companies } = require('/imports/api/collections.js');
     var companyId = Companies.insert({
       name: 'Test Ltd',
       address: 'Cowley Road',
@@ -349,6 +353,7 @@ Meteor.methods({
 
   addPurchaseOrder: function(user, additional) {
 
+    const { Companies, PurchaseOrders } = require('/imports/api/collections.js');
     var name = (additional === true) ? 'Jawa Inc.' : "Test Ltd",
         address = (additional === true) ? 'Banthas Road' : "address",
         city = (additional === true) ? 'Mos Eisley' : "city",
@@ -373,7 +378,6 @@ Meteor.methods({
     var description = (additional === true) ? 'R2 type Droid' : "Test Purchase Order",
         status = (additional === true) ? 'Approved' : 'Requested';
 
-    const { PurchaseOrders } = require('/imports/api/collections.js');
     var data = PurchaseOrders.insert({
       userId: userId,
       description: description,
@@ -450,6 +454,8 @@ Meteor.methods({
     }else {
       userId = this.userId;
     }
+
+    const { Companies } = require('/imports/api/collections.js');
     var companyId = Companies.insert({
       name: "Test Ltd",
       address: "address",
@@ -503,6 +509,7 @@ Meteor.methods({
   },
 
   addOpportunityTask: function() {
+    const { Companies, Tasks, Opportunities } = require('/imports/api/collections.js');
     var userTenant = Tenants.findOne({});
     var stages = [];
     stages.push({
@@ -560,6 +567,8 @@ Meteor.methods({
   },
 
   addProjectTask: function() {
+    const { Companies, Projects, Tasks } = require('/imports/api/collections.js');
+
     var companyId = Companies.insert({
       name: "Test Task Ltd",
       address: "address",
@@ -570,7 +579,6 @@ Meteor.methods({
       sequencedIdentifier: 1
     });
 
-    const { Projects } = require('/imports/api/collections.js');
     var projectId = Projects.insert({
       name: 'test project for task',
       companyId: companyId,

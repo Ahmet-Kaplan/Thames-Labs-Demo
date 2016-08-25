@@ -1,4 +1,5 @@
 import './update-project-modal.html';
+import { Companies } from '/imports/api/collections.js';
 
 Template.updateProjectModal.helpers({
   usersAsOptions: function() {

@@ -1,4 +1,5 @@
 import './update-opportunity-modal.html';
+import { Companies } from '/imports/api/collections.js';
 
 Template.updateOpportunityModal.helpers({
   companyName: function() {

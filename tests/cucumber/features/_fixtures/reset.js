@@ -1,7 +1,7 @@
 export function reset() {
   // We call this before EVERY test scenario and at the end of all features
   // It should completely reset the app for test tenants
-  const { Activities, Notifications, Projects, Products, PurchaseOrders, PurchaseOrderItems, Opportunities, Tasks } = require('/imports/api/collections.js');
+  const { Activities, Companies, Notifications, Projects, Products, PurchaseOrders, PurchaseOrderItems, Opportunities, Tasks } = require('/imports/api/collections.js');
 
   // Remove test tenants
   var testTenants = Tenants.find({

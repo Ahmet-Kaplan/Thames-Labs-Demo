@@ -2,7 +2,7 @@ import './project-details-panel.html';
 import './modals/project-extract-help-modal.html';
 import './modals/update-project-modal.js';
 
-import { Projects } from '/imports/api/collections.js';
+import { Companies, Projects } from '/imports/api/collections.js';
 import bootbox from 'bootbox';
 
 Template.projectDetailsPanel.onRendered(function() {

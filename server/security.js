@@ -3,13 +3,6 @@ Tenants.permit('update').onlyProps(['settings', 'name']).ifHasRole('Administrato
 
 Meteor.users.permit(['insert', 'remove']).ifHasRole('superadmin').apply();
 
-Companies.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateCompanies').apply();
-Companies.permit(['update']).ifLoggedIn().ifHasRole('CanEditCompanies').apply();
-Companies.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteCompanies').apply();
-Companies.allowTags(function(userId) {
-  return !!userId;
-});
-
 Contacts.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateContacts').apply();
 Contacts.permit(['update']).ifLoggedIn().ifHasRole('CanEditContacts').apply();
 Contacts.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteContacts').apply();
