@@ -1,4 +1,5 @@
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+import { Notifications } from '/imports/api/collections.js';
 import './notifications.html';
 
 Template.notificationAdmin.onCreated(function() {

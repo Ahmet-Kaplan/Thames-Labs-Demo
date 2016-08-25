@@ -34,6 +34,7 @@ Meteor.methods({
       deleteTenant(testTenant._id);
     });
 
+    const { Notifications } = require('/imports/api/collections.js');
     // Remove items in unpartitioned collections
     Notifications.direct.remove({});
 

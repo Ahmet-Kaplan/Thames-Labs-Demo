@@ -1,3 +1,5 @@
+import { Notifications } from '/imports/api/collections.js';
+
 Meteor.methods({
   setNotified: function(notificationId) {
     var notification = Notifications.findOne(notificationId);

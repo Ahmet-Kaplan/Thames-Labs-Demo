@@ -1,4 +1,4 @@
-Schemas.Notification = new SimpleSchema({
+export const NotificationSchema = new SimpleSchema({
   title: {
     type: String
   },
@@ -30,4 +30,3 @@ Schemas.Notification = new SimpleSchema({
     optional: true
   },
 });
-Notifications.attachSchema(Schemas.Notification);
