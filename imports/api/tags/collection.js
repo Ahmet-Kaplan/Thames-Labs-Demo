@@ -1,12 +1,8 @@
 // The tags package introduces Meteor.tags as a collection
-Collections.tags = Meteor.tags;
+export const Tags = Meteor.tags;
 Partitioner.partitionCollection(Meteor.tags);
 
-////////////////////
-// SEARCH INDICES //
-////////////////////
-
-Collections.tags.index = TagsIndex = new EasySearch.Index({
+Tags.index = TagsIndex = new EasySearch.Index({
   collection: Meteor.tags,
   fields: ['name'],
   engine: new EasySearch.MongoDB({
