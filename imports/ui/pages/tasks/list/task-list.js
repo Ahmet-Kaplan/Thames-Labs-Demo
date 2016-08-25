@@ -27,16 +27,6 @@ Template.taskList.onCreated(function() {
 
 Template.taskList.onRendered(function() {
 
-  // Watch for session variable setting search
-  Session.set('taskSearchQuery', null);
-  this.autorun(function() {
-    const searchQuery = Session.get('taskSearchQuery');
-    if (searchQuery) {
-      TasksIndex.getComponentMethods().search(searchQuery);
-      $('.stick-bar input').val(searchQuery);
-    }
-  });
-
   this.autorun(() => {
     this.totalTasks.set(Collections['tasks'].index.getComponentDict().get('count'));
   });
