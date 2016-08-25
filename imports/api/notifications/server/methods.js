@@ -2,7 +2,7 @@ import { Notifications } from '/imports/api/collections.js';
 
 Meteor.methods({
   setNotified: function(notificationId) {
-    var notification = Notifications.findOne(notificationId);
+    const notification = Notifications.findOne(notificationId);
     if (notification.target !== this.userId) {
       throw new Meteor.Error(403, "You do not have the permission to alter this data.");
     }
@@ -15,7 +15,7 @@ Meteor.methods({
   },
 
   removeNotification: function(notificationId) {
-    var notification = Notifications.findOne(notificationId);
+    const notification = Notifications.findOne(notificationId);
     if (notification.target !== this.userId) {
       throw new Meteor.Error(403, "You do not have the permission to alter this data.");
     }
@@ -30,7 +30,7 @@ Meteor.methods({
   },
 
   addPoNotification: function(purchaseOrderId, status) {
-    var purchaseOrder = PurchaseOrders.findOne({
+    const purchaseOrder = PurchaseOrders.findOne({
       _id: purchaseOrderId
     });
     if (!purchaseOrder) {
