@@ -1,16 +1,29 @@
 import { PurchaseOrders } from '/imports/api/collections.js';
-import { wordedTimes, getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
+import { getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
 
-Collections.projects = Projects = new Mongo.Collection('projects');
+import { ProjectSchema } from './schema.js';
+import { ProjectFilters } from './filters.js';
+
+export const Projects = new Mongo.Collection('projects');
+
+Projects.attachSchema(ProjectSchema);
 Partitioner.partitionCollection(Projects);
+
 Tags.TagsMixin(Projects);
+
+Projects.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateProjects').apply();
+Projects.permit(['update']).ifLoggedIn().ifHasRole('CanEditProjects').apply();
+Projects.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteProjects').apply();
+Projects.allowTags(function(userId) {
+  return !!userId;
+});
 
 Projects.helpers({
   company: function() {
     return Companies.findOne(this.companyId);
   },
   activities: function() {
-    var collectionsToFilter = getDisallowedPermissions(Meteor.userId());
+    const collectionsToFilter = getDisallowedPermissions(Meteor.userId());
 
     return Activities.find({
       projectId: this._id,
@@ -41,200 +54,18 @@ Projects.helpers({
 // SEARCH FILTERS //
 ////////////////////
 
-Collections.projects.filters = {
-  company: {
-    display: 'Company:',
-    prop: 'company',
-    collectionName: 'companies',
-    valueField: '__originalId',
-    nameField: 'name',
-    subscriptionById: 'companyById',
-    displayValue: function(company) {
-      if (company) {
-        return company.name;
-      }
-      return 'N/A';
-    }
-  },
-  contact: {
-    display: 'Contact:',
-    prop: 'contact',
-    collectionName: 'contacts',
-    valueField: '__originalId',
-    nameField: 'name',
-    subscriptionById: 'contactById',
-    displayValue: function(contact) {
-      if (contact) {
-        return contact.name();
-      }
-      return 'N/A';
-    }
-  },
-  manager: {
-    display: 'Manager:',
-    prop: 'manager',
-    collectionName: 'users',
-    valueField: '__originalId',
-    nameField: 'name',
-    subscriptionById: 'allUserData',
-    displayValue: function(user) {
-      if (user) {
-        return user.profile.name;
-      }
-      return 'N/A';
-    }
-  },
-  dueDate: {
-    display: 'Due Date:',
-    prop: 'dueDate',
-    verify: function(dueDate) {
-      if(!getEuropeanDate(dueDate) && !getWordedTime(dueDate)) {
-        toastr.error('Invalid date', 'Error', {
-          preventDuplicates: true
-        });
-        return false;
-      }
-
-      //Edge case: to avoid conflict, remove dueBefore/dueAfter if set
-      if (_.get(Collections.projects.index.getComponentDict().get('searchOptions'), 'props.after')) {
-        Collections.projects.index.getComponentMethods().removeProps('after');
-      }
-      if (_.get(Collections.projects.index.getComponentDict().get('searchOptions'), 'props.before')) {
-        Collections.projects.index.getComponentMethods().removeProps('before');
-      }
-      return true;
-    },
-    defaultOptions: function() {
-      return _.map(wordedTimes, 'expr');
-    }
-  },
-  before: {
-    display: 'Due Before:',
-    prop: 'before',
-    verify: function(date) {
-      var afterOption = _.get(Collections.projects.index.getComponentDict().get('searchOptions'), 'props.after');
-      if(!getEuropeanDate(date)) {
-        toastr.error('Invalid date', 'Error', {
-          preventDuplicates: true
-        });
-        return false;
-      } else if (afterOption && moment(date).isBefore(moment(afterOption))) {
-        toastr.error('The \'Before\' date is before the \'After\' date', 'Error', {
-          preventDuplicates: true
-        });
-        return false;
-
-        //Edge case: to avoid conflict, remove dueDate if set
-      } else if (_.get(Collections.projects.index.getComponentDict().get('searchOptions'), 'props.dueDate')) {
-        Collections.projects.index.getComponentMethods().removeProps('dueDate');
-      }
-      return true;
-    }
-  },
-  after: {
-    display: 'Due After:',
-    prop: 'after',
-    verify: function(date) {
-      var beforeOption = _.get(Collections.projects.index.getComponentDict().get('searchOptions'), 'props.before');
-      if(!getEuropeanDate(date)) {
-        toastr.error('Invalid date', 'Error', {
-          preventDuplicates: true
-        });
-        return false;
-      } else if (beforeOption && moment(date).isAfter(moment(beforeOption))) {
-        toastr.error('The \'After\' date is after the \'Before\' date', 'Error', {
-          preventDuplicates: true
-        });
-        return false;
-
-        //Edge case: to avoid conflict, remove dueDate if set
-      } else if (_.get(Collections.projects.index.getComponentDict().get('searchOptions'), 'props.dueDate')) {
-        Collections.projects.index.getComponentMethods().removeProps('dueDate');
-      }
-      return true;
-    }
-  },
-  tags: {
-    display: 'Tag:',
-    prop: 'tags',
-    collectionName: 'tags',
-    autosuggestFilter: {
-      collection: 'projects'
-    },
-    valueField: 'name',
-    nameField: 'name'
-  },
-  sequencedIdentifier: {
-    display: 'RealTime Project Identifier:',
-    prop: 'sequencedIdentifier',
-    allowMultiple: false,
-    verify: function(sequencedIdentifier) {
-      if (!sequencedIdentifier) return false;
-      return true;
-    }
-  },
-  active: {
-    display: 'Active:',
-    prop: 'active',
-    defaultOptions: function() {
-      return ['Yes', 'No'];
-    },
-    strict: true,
-    allowMultiple: false,
-    verify: function(active) {
-      if (!active) return false;
-      return active;
-    }
-  },
-  valueLower: {
-    display: 'Value <',
-    prop: 'valueLower',
-    verify: function(value) {
-      value = parseInt(value, 10);
-      if (isNaN(value)) {
-        toastr.error('Please enter a numeric value.');
-        return false;
-      }
-      return true;
-    }
-  },
-  valueGreater: {
-    display: 'Value >',
-    prop: 'valueGreater',
-    verify: function(value) {
-      value = parseInt(value, 10);
-      if (isNaN(value)) {
-        toastr.error('Please enter a numeric value.');
-        return false;
-      }
-      return true;
-    }
-  },
-  nextAction: {
-    display: 'Next Action:',
-    prop: 'nextAction',
-    defaultOptions: function() {
-      return ['Overdue', 'Due Today', 'None'];
-    },
-    strict: true,
-    allowMultiple: false,
-    verify: function(nextAction) {
-      if (!nextAction) return false;
-      return nextAction;
-    }
-  },
-};
+Projects.filters = ProjectFilters;
 
 ////////////////////
 // SEARCH INDICES //
 ////////////////////
 
-Collections.projects.index = ProjectsIndex = new EasySearch.Index({
+Projects.index = ProjectsIndex = new EasySearch.Index({
   collection: Projects,
   fields: ['name'],
 
   permission: function(options) {
-    var userId = options.userId;
+    const userId = options.userId;
     return Roles.userIsInRole(userId, ['CanReadProjects']);
   },
   engine: new EasySearch.MongoDB({
@@ -261,19 +92,11 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
       };
     },
     selector: function(searchObject, options, aggregation) {
-      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      const selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.sequencedIdentifier) {
         selector.sequencedIdentifier = parseInt(options.search.props.sequencedIdentifier, 10);
       }
-
-      // if (options.search.props.showArchived) {
-      //   selector.active = false;
-      // } else {
-      //   selector.active = {
-      //     $ne: false
-      //   };
-      // }
 
       if (options.search.props.nextAction) {
         if(options.search.props.nextAction === "Overdue") {
@@ -326,8 +149,8 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
 
       if (options.search.props.valueLower || options.search.props.valueGreater) {
         selector.value = {};
-        var lowerThan = parseInt(options.search.props.valueLower, 10);
-        var greaterThan = parseInt(options.search.props.valueGreater, 10);
+        const lowerThan = parseInt(options.search.props.valueLower, 10);
+        const greaterThan = parseInt(options.search.props.valueGreater, 10);
 
         if (!isNaN(lowerThan)) {
           selector.value.$lte = lowerThan;
@@ -413,15 +236,15 @@ Collections.projects.index = ProjectsIndex = new EasySearch.Index({
 //////////////////////
 Projects.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    var user = Meteor.users.findOne(userId);
-    var tenant = Tenants.findOne(user.group);
+    const user = Meteor.users.findOne(userId);
+    const tenant = Tenants.findOne(user.group);
     doc.sequencedIdentifier = tenant.settings.project.defaultNumber;
   }
 });
 
 Projects.after.insert(function(userId, doc) {
   if (Roles.userIsInRole(userId, ['superadmin'])) return;
-  var user = Meteor.users.findOne({
+  const user = Meteor.users.findOne({
     _id: userId
   });
 
@@ -431,7 +254,7 @@ Projects.after.insert(function(userId, doc) {
 
   if (Meteor.isServer) {
     if (user) {
-      var tenant = Tenants.findOne({
+      const tenant = Tenants.findOne({
         _id: user.group
       });
       if (tenant) {
@@ -533,7 +356,7 @@ Projects.after.remove(function(userId, doc) {
     return;
   }
 
-  var user = Meteor.users.findOne({
+  const user = Meteor.users.findOne({
     _id: userId
   });
   if (user) {

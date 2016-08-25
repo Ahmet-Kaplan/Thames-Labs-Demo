@@ -1,4 +1,4 @@
-import { PurchaseOrders, Opportunities } from '/imports/api/collections.js';
+import { Projects, PurchaseOrders, Opportunities } from '/imports/api/collections.js';
 Meteor.methods({
   getActivityEntityData: function(primaryEntityType, primaryEntityId) {
     var result = "";

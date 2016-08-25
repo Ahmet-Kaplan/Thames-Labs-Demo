@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import _ from 'lodash';
+import { Projects } from '/imports/api/collections.js';
 import './update-purchase-order-item.html';
 
 Template.updatePurchaseOrderItemModal.onRendered(function() {

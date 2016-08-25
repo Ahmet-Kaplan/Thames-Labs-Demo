@@ -24,13 +24,6 @@ Activities.allowTags(function(userId) {
 
 CustomFields.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 
-Projects.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateProjects').apply();
-Projects.permit(['update']).ifLoggedIn().ifHasRole('CanEditProjects').apply();
-Projects.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteProjects').apply();
-Projects.allowTags(function(userId) {
-  return !!userId;
-});
-
 Tasks.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateTasks').apply();
 Tasks.permit(['update']).ifLoggedIn().ifHasRole('CanEditTasks').apply();
 Tasks.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteTasks').apply();

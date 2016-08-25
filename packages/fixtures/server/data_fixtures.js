@@ -48,6 +48,7 @@ Meteor.methods({
   },
 
   addProjectActivity: function() {
+    const { Projects } = require('/imports/api/collections.js');
     var entity = Projects.findOne({});
     var data = entity.name;
     Activities.insert({
@@ -226,6 +227,8 @@ Meteor.methods({
     }else {
       userId = this.userId;
     }
+
+    const { Projects } = require('/imports/api/collections.js');
     var projectId = Projects.insert({
       name: name,
       description: description,
@@ -564,6 +567,7 @@ Meteor.methods({
       sequencedIdentifier: 1
     });
 
+    const { Projects } = require('/imports/api/collections.js');
     var projectId = Projects.insert({
       name: 'test project for task',
       companyId: companyId,

@@ -1,4 +1,4 @@
-Schemas.Project = new SimpleSchema({
+export const ProjectSchema = new SimpleSchema({
   sequencedIdentifier: {
     type: Number,
     label: "RealTime ID",
@@ -119,7 +119,6 @@ Schemas.Project = new SimpleSchema({
     }
   },
 });
-Schemas.Project.messages({
+ProjectSchema.messages({
   needsRelatedEntity: "A company or a contact is required"
 });
-Projects.attachSchema(Schemas.Project);

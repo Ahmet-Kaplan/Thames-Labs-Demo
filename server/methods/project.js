@@ -1,4 +1,6 @@
 import { check, Match } from 'meteor/check';
+import { Projects } from '/imports/api/collections.js';
+
 Meteor.methods({
   'project.invertState': function(projectId) {
     var user = Meteor.users.findOne({_id: this.userId});
