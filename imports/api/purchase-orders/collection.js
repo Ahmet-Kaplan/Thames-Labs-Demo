@@ -1,6 +1,6 @@
 import { PurchaseOrderFilters } from './filters.js';
 import { PurchaseOrderSchema } from './schema.js';
-import { Projects } from '/imports/api/collections.js';
+import { Activities, Projects } from '/imports/api/collections.js';
 
 export const PurchaseOrders = new Mongo.Collection('purchaseorders');
 

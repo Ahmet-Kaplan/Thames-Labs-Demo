@@ -1,4 +1,4 @@
-Schemas.Activity = new SimpleSchema({
+export const ActivitySchema = new SimpleSchema({
   type: {
     type: String,
     allowedValues: [
@@ -86,4 +86,3 @@ Schemas.Activity = new SimpleSchema({
     }
   }
 });
-Activities.attachSchema(Schemas.Activity);

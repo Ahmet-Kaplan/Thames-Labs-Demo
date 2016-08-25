@@ -1,5 +1,5 @@
 var deleteTenant = function(tenantId) {
-  const { Projects, Products, PurchaseOrders, PurchaseOrderItems, Tasks } = require('/imports/api/collections.js');
+  const { Activities, Projects, Products, PurchaseOrders, PurchaseOrderItems, Tasks } = require('/imports/api/collections.js');
   // First remove all associated data
   // N.B. we don't need directOperation() as we're already using "direct" to bypass any collection hooks
   // TODO: Ideally this would use bindGroup() but if we then use "direct" it bypasses the partitioner

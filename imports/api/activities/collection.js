@@ -1,10 +1,11 @@
-import {
-  wordedTimes, getWordedTime, getEuropeanDate
-}
-from '/imports/api/collections-helpers/time-filters.js';
+import { getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
 import { Projects, PurchaseOrders, Tasks } from '/imports/api/collections.js';
+import { ActivitySchema } from './schema.js';
+import { ActivityFilters } from './filters.js';
 
-Collections.activities = Activities = new Mongo.Collection('activities');
+export const Activities = new Mongo.Collection('activities');
+
+Activities.attachSchema(ActivitySchema);
 
 Partitioner.partitionCollection(Activities);
 
@@ -28,126 +29,24 @@ Activities.helpers({
 
 Tags.TagsMixin(Activities);
 
+Activities.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
+Activities.allowTags(function(userId) {
+  return !!userId;
+});
+
+
 ////////////////////
 // SEARCH FILTERS //
 ////////////////////
 
-Collections.activities.filters = {
-  type: {
-    display: 'Type:',
-    prop: 'type',
-    defaultOptions: function() {
-      return ['Call', 'Note', 'Email'];
-    },
-    strict: true,
-    allowMultiple: true,
-    verify: function(type) {
-      if (!type) return false;
-      return true;
-    }
-  },
-  tags: {
-    display: 'Tag:',
-    prop: 'tags',
-    collectionName: 'tags',
-    autosuggestFilter: {
-      collection: 'activities'
-    },
-    valueField: 'name',
-    nameField: 'name'
-  },
-  activityDate: {
-    display: 'Activity Date:',
-    prop: 'activityDate',
-    verify: function(activityDate) {
-      if (!getEuropeanDate(activityDate) && !getWordedTime(activityDate)) {
-        toastr.error('Invalid date', 'Error', {
-          preventDuplicates: true
-        });
-        return false;
-      }
-
-      //Edge case: to avoid conflict, remove dateBefore/dateAfter if set
-      if (_.get(Collections.activities.index.getComponentDict().get('searchOptions'), 'props.after')) {
-        Collections.activities.index.getComponentMethods().removeProps('after');
-      }
-      if (_.get(Collections.activities.index.getComponentDict().get('searchOptions'), 'props.before')) {
-        Collections.activities.index.getComponentMethods().removeProps('before');
-      }
-      return true;
-    },
-    defaultOptions: function() {
-      return _.map(_.filter(wordedTimes, (word) => word.position === 'present' || word.position === 'past'), 'expr');
-    }
-  },
-  before: {
-    display: 'Date Before:',
-    prop: 'before',
-    verify: function(date) {
-      const afterOption = _.get(Collections.activities.index.getComponentDict().get('searchOptions'), 'props.after');
-      if (!getEuropeanDate(date)) {
-        toastr.error('Invalid date', 'Error', {
-          preventDuplicates: true
-        });
-        return false;
-      } else if (afterOption && moment(date).isBefore(moment(afterOption))) {
-        toastr.error(`The 'Before' date is before the 'After' date`, 'Error', {
-          preventDuplicates: true
-        });
-        return false;
-
-        //Edge case: to avoid conflict, remove activityDate if set
-      } else if (_.get(Collections.activities.index.getComponentDict().get('searchOptions'), 'props.activityDate')) {
-        Collections.activities.index.getComponentMethods().removeProps('activityDate');
-      }
-      return true;
-    }
-  },
-  after: {
-    display: 'Date After:',
-    prop: 'after',
-    verify: function(date) {
-      const beforeOption = _.get(Collections.activities.index.getComponentDict().get('searchOptions'), 'props.before');
-      if (!getEuropeanDate(date)) {
-        toastr.error('Invalid date', 'Error', {
-          preventDuplicates: true
-        });
-        return false;
-      } else if (beforeOption && moment(date).isAfter(moment(beforeOption))) {
-        toastr.error(`The 'After' date is after the 'Before' date`, 'Error', {
-          preventDuplicates: true
-        });
-        return false;
-
-        //Edge case: to avoid conflict, remove activityDate if set
-      } else if (_.get(Collections.activities.index.getComponentDict().get('searchOptions'), 'props.activityDate')) {
-        Collections.activities.index.getComponentMethods().removeProps('activityDate');
-      }
-      return true;
-    }
-  },
-  recordTypes: {
-    display: 'Record Types:',
-    prop: 'recordTypes',
-    defaultOptions: function() {
-      return _.filter(['Companies', 'Contacts', 'Opportunities', 'Projects', 'Purchase Orders'],
-        (type) => !_.includes(getDisallowedPermissions(Meteor.userId()), _.toLower(_.replace(type, ' ', '')))
-      );
-    },
-    strict: true,
-    allowMultiple: true,
-    verify: function(type) {
-      return _.includes(this.defaultOptions(), type);
-    }
-  }
-};
+Activities.filters = ActivityFilters;
 
 
 ////////////////////
 // SEARCH INDICES //
 ////////////////////
 
-Collections.activities.index = ActivitiesIndex = new EasySearch.Index({
+Activities.index = new EasySearch.Index({
   collection: Activities,
   fields: ['type', 'notes', 'primaryEntityDisplayData'],
   engine: new EasySearch.MongoDB({

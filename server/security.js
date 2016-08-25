@@ -17,11 +17,6 @@ Contacts.allowTags(function(userId) {
   return !!userId;
 });
 
-Activities.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
-Activities.allowTags(function(userId) {
-  return !!userId;
-});
-
 CustomFields.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 
 ServerSession.setCondition(function(key, value) {

@@ -1,3 +1,4 @@
+import { Activities as ActivitiesCollection } from './activities/collection.js';
 import { EventLog as EventLogCollection } from './event-log/collection.js';
 import { Notifications as NotificationsCollection } from './notifications/collection.js';
 import { Opportunities as OpportunitiesCollection } from './opportunities/collection.js';
@@ -7,6 +8,7 @@ import { PurchaseOrders as PurchaseOrderCollection } from './purchase-orders/col
 import { PurchaseOrderItems as PurchaseOrderItemCollection } from './purchase-orders/items/collection.js';
 import { Tasks as TaskCollection } from './tasks/collection.js';
 
+export const Activities = ActivitiesCollection;
 export const EventLog = EventLogCollection;
 export const Notifications = NotificationsCollection;
 export const Opportunities = OpportunitiesCollection;

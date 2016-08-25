@@ -1,5 +1,5 @@
 import { check, Match } from 'meteor/check';
-import { Projects } from '/imports/api/collections.js';
+import { Activities, Projects } from '/imports/api/collections.js';
 import _ from 'lodash';
 import { Meteor } from 'meteor/meteor';
 

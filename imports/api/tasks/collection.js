@@ -1,4 +1,4 @@
-import { Projects, Opportunities } from '/imports/api/collections.js';
+import { Activities, Projects, Opportunities } from '/imports/api/collections.js';
 import { getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
 
 import { TaskSchema } from './schema.js';

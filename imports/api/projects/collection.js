@@ -1,4 +1,4 @@
-import { PurchaseOrders } from '/imports/api/collections.js';
+import { Activities, PurchaseOrders } from '/imports/api/collections.js';
 import { getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
 
 import { ProjectSchema } from './schema.js';

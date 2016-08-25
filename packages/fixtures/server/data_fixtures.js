@@ -3,6 +3,7 @@ Meteor.methods({
   addCompanyActivity: function() {
     var entity = Companies.findOne({});
     var data = entity.name;
+    const { Actvities } = require('/imports/api/collections.js');
     Activities.insert({
       type: "Note",
       notes: "Test company activity",
@@ -18,6 +19,7 @@ Meteor.methods({
   addContactActivity: function() {
     var entity = Contacts.findOne({});
     var data = entity.forename + " " + entity.surname;
+    const { Actvities } = require('/imports/api/collections.js');
     Activities.insert({
       type: "Note",
       notes: "Test contact activity",
@@ -31,7 +33,7 @@ Meteor.methods({
     });
   },
   addOpportunityActivity: function() {
-    const { Opportunities } = require('/imports/api/collections.js');
+    const { Actvities, Opportunities } = require('/imports/api/collections.js');
     var entity = Opportunities.findOne({});
     var data = entity.name;
     Activities.insert({
@@ -48,7 +50,7 @@ Meteor.methods({
   },
 
   addProjectActivity: function() {
-    const { Projects } = require('/imports/api/collections.js');
+    const { Activities, Projects } = require('/imports/api/collections.js');
     var entity = Projects.findOne({});
     var data = entity.name;
     Activities.insert({
@@ -64,7 +66,7 @@ Meteor.methods({
     });
   },
   addPurchaseOrderActivity: function() {
-    const { PurchaseOrders } = require('/imports/api/collections.js');
+    const { Activities, PurchaseOrders } = require('/imports/api/collections.js');
     var entity = PurchaseOrders.findOne({});
     var data = entity.description;
     Activities.insert({
@@ -80,7 +82,7 @@ Meteor.methods({
     });
   },
   addTaskActivity: function() {
-    const { Tasks } = require('/imports/api/collections.js');
+    const { Activities, Tasks } = require('/imports/api/collections.js');
     var entity = Tasks.findOne({});
     var data = entity.title;
     Activities.insert({

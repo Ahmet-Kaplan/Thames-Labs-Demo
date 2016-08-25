@@ -4,7 +4,7 @@ import '/imports/ui/components/tasks/task-tick/task-tick.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/tasks/modals/update-task-modal.js';
 
-import { Projects, Opportunities, Tasks } from '/imports/api/collections.js';
+import { Activities, Projects, Opportunities, Tasks } from '/imports/api/collections.js';
 
 import bootbox from 'bootbox';
 
