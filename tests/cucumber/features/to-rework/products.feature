@@ -41,7 +41,7 @@ Feature: Allow users to manage their Products
 
   Scenario: A user can see the products overview
     When I navigate to "/products"
-    And I click "#ref_productsOverviewWidget"
+    And I click "#productOverviewWidget"
     Then I should see "#productOverviewPop"
 
   #Adding
