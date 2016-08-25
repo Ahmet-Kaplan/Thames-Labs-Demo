@@ -31,10 +31,6 @@ Projects.allowTags(function(userId) {
   return !!userId;
 });
 
-PurchaseOrderItems.permit(['insert']).ifLoggedIn().ifHasRole('CanEditPurchaseOrders').apply();
-PurchaseOrderItems.permit(['update']).ifLoggedIn().ifHasRole('CanEditPurchaseOrders').apply();
-PurchaseOrderItems.permit(['remove']).ifLoggedIn().ifHasRole('CanEditPurchaseOrders').apply();
-
 Tasks.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateTasks').apply();
 Tasks.permit(['update']).ifLoggedIn().ifHasRole('CanEditTasks').apply();
 Tasks.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteTasks').apply();

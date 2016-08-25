@@ -7,6 +7,8 @@ PurchaseOrders.attachSchema(PurchaseOrderSchema);
 
 Partitioner.partitionCollection(PurchaseOrders);
 
+Tags.TagsMixin(PurchaseOrders);
+
 PurchaseOrders.permit(['insert']).ifLoggedIn().ifHasRole('CanCreatePurchaseOrders').apply();
 PurchaseOrders.permit(['update']).ifLoggedIn().ifHasRole('CanEditPurchaseOrders').apply();
 PurchaseOrders.permit(['remove']).ifLoggedIn().ifHasRole('CanDeletePurchaseOrders').apply();
@@ -45,8 +47,6 @@ PurchaseOrders.helpers({
     return Projects.findOne(this.projectId);
   }
 });
-
-Tags.TagsMixin(PurchaseOrders);
 
 PurchaseOrders.filters = PurchaseOrderFilters;
 

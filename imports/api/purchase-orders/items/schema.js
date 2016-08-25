@@ -1,4 +1,4 @@
-Schemas.PurchaseOrderItem = new SimpleSchema({
+export const PurchaseOrderItemSchema = new SimpleSchema({
   purchaseOrderId: {
     type: String
   },
@@ -55,4 +55,3 @@ Schemas.PurchaseOrderItem = new SimpleSchema({
     defaultValue: new Date()
   }
 });
-PurchaseOrderItems.attachSchema(Schemas.PurchaseOrderItem);

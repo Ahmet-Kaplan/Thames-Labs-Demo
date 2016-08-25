@@ -1,7 +1,15 @@
 import { PurchaseOrders } from '/imports/api/collections.js';
-PurchaseOrderItems = new Mongo.Collection('purchaseorderitems');
+import { PurchaseOrderItemSchema } from './schema.js';
+
+export const PurchaseOrderItems = new Mongo.Collection('purchaseorderitems');
+
+PurchaseOrderItems.attachSchema(PurchaseOrderItemSchema);
 
 Partitioner.partitionCollection(PurchaseOrderItems);
+
+PurchaseOrderItems.permit(['insert']).ifLoggedIn().ifHasRole('CanEditPurchaseOrders').apply();
+PurchaseOrderItems.permit(['update']).ifLoggedIn().ifHasRole('CanEditPurchaseOrders').apply();
+PurchaseOrderItems.permit(['remove']).ifLoggedIn().ifHasRole('CanEditPurchaseOrders').apply();
 
 //////////////////////
 // COLLECTION HOOKS //
@@ -9,7 +17,7 @@ Partitioner.partitionCollection(PurchaseOrderItems);
 
 PurchaseOrderItems.after.insert(function(userId, doc) {
   if (Roles.userIsInRole(userId, ['superadmin'])) return;
-  var user = Meteor.users.findOne({
+  const user = Meteor.users.findOne({
     _id: userId
   });
 
@@ -36,7 +44,7 @@ PurchaseOrderItems.after.insert(function(userId, doc) {
 
 PurchaseOrderItems.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (Roles.userIsInRole(userId, ['superadmin'])) return;
-  var user = Meteor.users.findOne({
+  const user = Meteor.users.findOne({
     _id: userId
   });
   if (user) {
@@ -99,7 +107,7 @@ PurchaseOrderItems.after.remove(function(userId, doc) {
     }
   });
 
-  var user = Meteor.users.findOne({
+  const user = Meteor.users.findOne({
     _id: userId
   });
   if (user) {

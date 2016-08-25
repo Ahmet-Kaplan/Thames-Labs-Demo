@@ -1,4 +1,4 @@
-import { PurchaseOrders } from '/imports/api/collections.js';
+import { PurchaseOrders, PurchaseOrderItems } from '/imports/api/collections.js';
 
 Template.openPoWidget.onRendered(function() {
   Meteor.subscribe('allPurchaseOrders');
