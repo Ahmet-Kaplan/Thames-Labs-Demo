@@ -149,8 +149,6 @@ module.exports = function() {
   ***************************************************/
 
   this.When(/^I navigate to "([^"]*)"$/, function(relativePath) {
-    //var path = url.resolve(process.env.ROOT_URL, relativePath);
-    //browser.url(path);
     browser.executeAsync(function(path, done) {
       FlowRouter.go(path);
       done();

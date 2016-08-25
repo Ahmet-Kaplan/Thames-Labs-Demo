@@ -18,7 +18,10 @@ module.exports = function() {
     server.execute(createUser, tenantId, 'Test User', 'test@domain.com');
 
     // Navigate to root URL
-    browser.url(process.env.ROOT_URL);
+    browser.executeAsync(function(done) {
+      FlowRouter.go('/');
+      done();
+    });
 
     // Login as test user
     browser.executeAsync(login, 'test@domain.com', 'goodpassword');

@@ -250,7 +250,7 @@ Feature: Allow users to manage their Companies
     And I click "#btnAddTaskToEntity"
     Then I should see a modal
     When I set text field "title" to "task title"
-    And I selectize "assigneeId" to "test user"
+    And I selectize "assigneeId" to "Test User"
     And I submit the "insertTask" form
     Then I should see "#taskContainer .list-group-item"
 
@@ -323,7 +323,7 @@ Feature: Allow users to manage their Companies
     And I set the filter to "City:" then "city"
     Then I should see ".removeProp"
     And "#resultsCount" should say "0 records"
-    
+
   Scenario: Clicking a tag badge applies the filter
     Given I have the "Administrator" permission
     And a "Company" has been created
