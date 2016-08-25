@@ -14,7 +14,7 @@ export const importProduct = (row, getValueForField, userId, rtId) => {
   };
 
   //Check if an existing record exists
-  if (Products.findOne({ forename: entityData.forename, surname: entityData.surname })) {
+  if (Products.findOne({ name: entityData.name })) {
     result.warning = "product-exists";
   }
 
