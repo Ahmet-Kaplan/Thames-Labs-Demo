@@ -58,6 +58,7 @@ Feature: Allow users to manage their sales opportunities
     Then I should see "#oppOverviewPop"
 
   #Adding
+  @dev
   Scenario: A user can add an opportunity
     Given I have the "CanCreateOpportunities" permission
     And a "Company" has been created

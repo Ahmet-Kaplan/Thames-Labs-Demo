@@ -58,6 +58,7 @@ Feature: Allow users to manage their Tasks
     Then I should see ".task-list-item"
 
   #Creating
+  @dev
   Scenario: A user can create a task
     Given I have the "CanCreateTasks" permission
     And I have the "CanReadCompanies" permission
@@ -67,8 +68,8 @@ Feature: Allow users to manage their Tasks
     And I click "#company"
     And I set text field "title" to "test task 2"
     And I set textarea "description" to "This is another test task."
-    And I selectize "assigneeId" to "test user"
     And I selectize "entityId" to "Test Ltd"
+    And I selectize "assigneeId" to "Test User"
     And I submit the "insertTask" form
     Then I should see the heading "test task 2"
 
