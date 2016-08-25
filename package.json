@@ -6,6 +6,7 @@
     "test": "tests"
   },
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "body-parser": "^1.15.0",
     "bootbox": "^4.4.0",
     "bootstrap-tour": "^0.10.3",
