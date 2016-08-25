@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 
 import './event-log.html';
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/event-log/event-list-item.js';
 
 Template.events.onCreated(function() {
@@ -17,7 +18,7 @@ Template.events.events({
     event.preventDefault();
     bootbox.confirm('Are you sure you wish to clear all the event log?', function(result) {
       if(result === true) {
-        Meteor.call('clearEventLog', function(err, res) {
+        Meteor.call('eventLog.clearEventLog', function(err, res) {
           if(err) {
             toastr.error('Unable to clear event log');
             return false;

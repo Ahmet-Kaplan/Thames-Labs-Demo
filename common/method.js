@@ -109,13 +109,10 @@ Meteor.methods({
 
 LogClientEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
   if (Meteor.isServer) {
-    var user = Meteor.users.findOne({
-      _id: this._id
-    });
     Meteor.call('addEventToEventLog', logLevel, logMessage, logEntityType, logEntityId, 'client');
   }
 };
 
 LogServerEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
-  Meteor.call('addEventToEventLog', logLevel, logMessage, logEntityType, logEntityId, 'server');
+  Meteor.call('eventLog.addEventToEventLog', logLevel, logMessage, logEntityType, logEntityId, 'server');
 };

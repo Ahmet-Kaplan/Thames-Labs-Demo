@@ -310,7 +310,6 @@ Feature: Allow users to manage their Companies
     Then I should see "#no-activity"
 
   #Filtering and Searching
-
   Scenario: A user can filter companies by city
     Given I have the "Administrator" permission
     And a "Company" has been created
@@ -324,7 +323,7 @@ Feature: Allow users to manage their Companies
     And I set the filter to "City:" then "city"
     Then I should see ".removeProp"
     And "#resultsCount" should say "0 records"
-
+    
   Scenario: Clicking a tag badge applies the filter
     Given I have the "Administrator" permission
     And a "Company" has been created

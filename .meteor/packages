@@ -51,7 +51,6 @@ kadira:flow-router
 kadira:blaze-layout
 aldeed:template-extension
 reactive-var@1.0.10
-copleykj:tagstripper
 flowkey:bowser
 mologie:autoform-selectize
 meteor-base@1.0.4
