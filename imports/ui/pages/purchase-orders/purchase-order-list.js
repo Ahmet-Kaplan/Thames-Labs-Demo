@@ -1,4 +1,5 @@
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+import { PurchaseOrders } from '/imports/api/collections.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-purchase-order.js';
 import '/imports/ui/components/purchase-orders/list-item/purchase-order-list-item.js';
@@ -20,7 +21,7 @@ Template.purchaseOrderList.onCreated(function() {
   Session.set("showItems", false);
 
   // Store search index dict on template to allow helpers to access
-  this.index = PurchaseOrdersIndex;
+  this.index = PurchaseOrders.index;
 
   this.showItems = new ReactiveVar(false);
   this.totalPOs = new ReactiveVar(0);

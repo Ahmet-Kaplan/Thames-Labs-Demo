@@ -1,4 +1,4 @@
-Schemas.PurchaseOrder = new SimpleSchema({
+export const PurchaseOrderSchema = new SimpleSchema({
   sequencedIdentifier: {
     type: String,
     label: "RealTime ID",
@@ -122,7 +122,6 @@ Schemas.PurchaseOrder = new SimpleSchema({
     defaultValue: new Date()
   }
 });
-Schemas.PurchaseOrder.messages({
+PurchaseOrderSchema.messages({
   needsRelatedEntity: "A company or a contact is required"
 });
-PurchaseOrders.attachSchema(Schemas.PurchaseOrder);

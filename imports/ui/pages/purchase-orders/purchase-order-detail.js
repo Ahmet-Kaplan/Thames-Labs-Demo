@@ -1,5 +1,6 @@
 import bootbox from 'bootbox';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+import { PurchaseOrders } from '/imports/api/collections.js';
 import '/imports/ui/components/breadcrumbs/breadcrumbs.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/purchase-orders/purchase-order-items/modals/insert-purchase-order-item.js';

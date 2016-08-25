@@ -1,4 +1,4 @@
-import { Products } from '/imports/api/collections.js';
+import { Products, PurchaseOrders } from '/imports/api/collections.js';
 Migrations.add({
   version: 24,
   name: "Move all custom fields to new collection storage approach",

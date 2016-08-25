@@ -1,3 +1,4 @@
+import { PurchaseOrders } from '/imports/api/collections.js';
 Collections.contacts = Contacts = new Mongo.Collection('contacts');
 
 Partitioner.partitionCollection(Contacts);

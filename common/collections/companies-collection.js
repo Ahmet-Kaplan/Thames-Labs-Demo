@@ -1,3 +1,5 @@
+import { PurchaseOrders } from '/imports/api/collections.js';
+
 Collections.companies = Companies = new Mongo.Collection('companies');
 
 Collections.companies.subscribeById = 'CompanyById';

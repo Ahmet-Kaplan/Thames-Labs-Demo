@@ -1,3 +1,4 @@
+import { PurchaseOrders } from '/imports/api/collections.js';
 import { Notifications } from '/imports/api/collections.js';
 
 Meteor.methods({

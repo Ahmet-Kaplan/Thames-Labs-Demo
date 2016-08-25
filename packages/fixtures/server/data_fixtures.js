@@ -62,6 +62,7 @@ Meteor.methods({
     });
   },
   addPurchaseOrderActivity: function() {
+    const { PurchaseOrders } = require('/imports/api/collections.js');
     var entity = PurchaseOrders.findOne({});
     var data = entity.description;
     Activities.insert({

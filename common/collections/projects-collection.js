@@ -1,3 +1,4 @@
+import { PurchaseOrders } from '/imports/api/collections.js';
 import { wordedTimes, getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
 
 Collections.projects = Projects = new Mongo.Collection('projects');

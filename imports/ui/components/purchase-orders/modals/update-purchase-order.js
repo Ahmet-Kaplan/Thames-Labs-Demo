@@ -1,3 +1,4 @@
+import { PurchaseOrders } from '/imports/api/collections.js';
 import $ from 'jquery';
 import './update-purchase-order.html';
 

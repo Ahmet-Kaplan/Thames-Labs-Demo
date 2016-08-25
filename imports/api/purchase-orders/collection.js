@@ -1,6 +1,18 @@
-Collections.purchaseorders = PurchaseOrders = new Mongo.Collection('purchaseorders');
+import { PurchaseOrderFilters } from './filters.js';
+import { PurchaseOrderSchema } from './schema.js';
+
+export const PurchaseOrders = new Mongo.Collection('purchaseorders');
+
+PurchaseOrders.attachSchema(PurchaseOrderSchema);
 
 Partitioner.partitionCollection(PurchaseOrders);
+
+PurchaseOrders.permit(['insert']).ifLoggedIn().ifHasRole('CanCreatePurchaseOrders').apply();
+PurchaseOrders.permit(['update']).ifLoggedIn().ifHasRole('CanEditPurchaseOrders').apply();
+PurchaseOrders.permit(['remove']).ifLoggedIn().ifHasRole('CanDeletePurchaseOrders').apply();
+PurchaseOrders.allowTags(function(userId) {
+  return !!userId;
+});
 
 PurchaseOrders.helpers({
   supplierCompany: function() {
@@ -10,7 +22,7 @@ PurchaseOrders.helpers({
     return Companies.findOne(this.customerCompanyId);
   },
   activities: function() {
-    var collectionsToFilter = getDisallowedPermissions(Meteor.userId());
+    const collectionsToFilter = getDisallowedPermissions(Meteor.userId());
 
     return Activities.find({
       purchaseOrderId: this._id,
@@ -36,119 +48,17 @@ PurchaseOrders.helpers({
 
 Tags.TagsMixin(PurchaseOrders);
 
-////////////////////
-// SEARCH FILTERS //
-////////////////////
-
-Collections.purchaseorders.filters = {
-  company: {
-    display: 'Company:',
-    prop: 'company',
-    collectionName: 'companies',
-    valueField: '__originalId',
-    nameField: 'name',
-    subscriptionById: 'companyById',
-    displayValue: function(company) {
-      if (company) {
-        return company.name;
-      }
-      return 'N/A';
-    }
-  },
-  contact: {
-    display: 'Contact:',
-    prop: 'contact',
-    collectionName: 'contacts',
-    valueField: '__originalId',
-    nameField: 'name',
-    subscriptionById: 'contactById',
-    displayValue: function(contact) {
-      if (contact) {
-        return contact.name();
-      }
-      return 'N/A';
-    }
-  },
-  status: {
-    display: 'Status:',
-    prop: 'status',
-    verify: function(status) {
-      if (Schemas.PurchaseOrder.schema().status.allowedValues.indexOf(status) !== -1) {
-        return true;
-      }
-      return false;
-    },
-    defaultOptions: function() {
-      return Schemas.PurchaseOrder.schema('status').allowedValues;
-    }
-  },
-  totalValueLower: {
-    display: 'Total Price <',
-    prop: 'totalValueLower',
-    verify: function(value) {
-      value = parseFloat(value);
-      if (isNaN(value)) {
-        toastr.error('Please enter a numeric value.');
-        return false;
-      }
-      return true;
-    }
-  },
-  totalValueGreater: {
-    display: 'Total Price >',
-    prop: 'totalValueGreater',
-    verify: function(value) {
-      value = parseFloat(value);
-      if (isNaN(value)) {
-        toastr.error('Please enter a numeric value.');
-        return false;
-      }
-      return true;
-    }
-  },
-  sequencedIdentifier: {
-    display: 'RealTime Purchase Order Identifier:',
-    prop: 'sequencedIdentifier',
-    allowMultiple: false,
-    verify: function(sequencedIdentifier) {
-      if (!sequencedIdentifier) return false;
-      return true;
-    }
-  },
-  tags: {
-    display: 'Tag:',
-    prop: 'tags',
-    collectionName: 'tags',
-    autosuggestFilter: {
-      collection: 'purchaseorders'
-    },
-    valueField: 'name',
-    nameField: 'name'
-  },
-  active: {
-    display: 'Active:',
-    prop: 'active',
-    defaultOptions: function() {
-      return ['Yes', 'No'];
-    },
-    strict: true,
-    allowMultiple: false,
-    verify: function(active) {
-      if (!active) return false;
-      return active;
-    }
-  }
-};
+PurchaseOrders.filters = PurchaseOrderFilters;
 
 ////////////////////
 // SEARCH INDICES //
 ////////////////////
 
-Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
+PurchaseOrders.index = new EasySearch.Index({
   collection: PurchaseOrders,
   fields: ['description'],
   permission: function(options) {
-    var userId = options.userId;
+    const userId = options.userId;
     return Roles.userIsInRole(userId, ['CanReadPurchaseOrders']);
   },
   engine: new EasySearch.MongoDB({
@@ -170,7 +80,7 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
       };
     },
     selector: function(searchObject, options, aggregation) {
-      var selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      const selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       if (options.search.props.tags) {
         // n.b. tags is a comma separated string
@@ -219,8 +129,8 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
 
       if (options.search.props.totalValueLower || options.search.props.totalValueGreater) {
         selector.totalValue = {};
-        var costLowerThan = parseFloat(options.search.props.totalValueLower);
-        var costGreaterThan = parseFloat(options.search.props.totalValueGreater);
+        const costLowerThan = parseFloat(options.search.props.totalValueLower);
+        const costGreaterThan = parseFloat(options.search.props.totalValueGreater);
 
         if (!isNaN(costLowerThan)) {
           selector.totalValue.$lte = costLowerThan;
@@ -245,21 +155,21 @@ Collections.purchaseorders.index = PurchaseOrdersIndex = new EasySearch.Index({
 //////////////////////
 PurchaseOrders.before.insert(function(userId, doc) {
   if (!Roles.userIsInRole(userId, ['superadmin'])) {
-    var tenant = Tenants.findOne({
+    const tenant = Tenants.findOne({
       _id: doc._groupId
     });
-    doc.sequencedIdentifier = tenant.settings.purchaseorder.defaultPrefix + "" + tenant.settings.purchaseorder.defaultNumber;
+    doc.sequencedIdentifier = `${tenant.settings.purchaseorder.defaultPrefix}${tenant.settings.purchaseorder.defaultNumber}`;
   }
 });
 
 PurchaseOrders.after.insert(function(userId, doc) {
   if (Roles.userIsInRole(userId, ['superadmin'])) return;
-  var user = Meteor.users.findOne({
+  const user = Meteor.users.findOne({
     _id: userId
   });
 
   if (user) {
-    LogClientEvent(LogLevel.Info, user.profile.name + " created a new purchase order", 'purchaseOrder', doc._id);
+    LogClientEvent(LogLevel.Info, `${user.profile.name} created a new purchase order`, 'purchaseOrder', doc._id);
   }
 
   if (Meteor.isServer) {
@@ -272,7 +182,7 @@ PurchaseOrders.after.insert(function(userId, doc) {
         }
       }, function(err) {
         if (err) {
-          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's RealTime ID purchase order value: " + err, 'tenant', doc._groupId);
+          LogServerEvent(LogLevel.Error, `An error occurred whilst updating the tenant's RealTime ID purchase order value: ${err}`, 'tenant', doc._groupId);
           return;
         }
       });
@@ -282,7 +192,7 @@ PurchaseOrders.after.insert(function(userId, doc) {
 
 PurchaseOrders.after.update(function(userId, doc, fieldNames, modifier, options) {
   if (Roles.userIsInRole(userId, ['superadmin'])) return;
-  var user = Meteor.users.findOne({
+  const user = Meteor.users.findOne({
     _id: userId
   });
 
@@ -324,7 +234,7 @@ PurchaseOrders.after.remove(function(userId, doc) {
     return;
   }
 
-  var user = Meteor.users.findOne({
+  const user = Meteor.users.findOne({
     _id: userId
   });
   if (user) {

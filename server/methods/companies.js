@@ -1,3 +1,4 @@
+import { PurchaseOrders } from '/imports/api/collections.js';
 Meteor.methods({
   'company.checkExistsByName': function(companyName) {
     var user = Meteor.users.findOne({

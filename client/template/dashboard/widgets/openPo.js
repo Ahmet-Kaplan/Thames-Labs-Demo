@@ -1,10 +1,8 @@
+import { PurchaseOrders } from '/imports/api/collections.js';
+
 Template.openPoWidget.onRendered(function() {
   Meteor.subscribe('allPurchaseOrders');
   Meteor.subscribe('allPurchaseOrderItemsNoPOID');
-});
-
-Template.openPoWidget.events({
-
 });
 
 Template.openPoWidget.helpers({
