@@ -45,7 +45,7 @@ Template.projectsOverview.helpers({
 });
 
 Template.projectsOverview.events({
-  'click #ref_projectInformationWidget': function(event) {
-    setValues(this);
+  'click #ref_projectOverviewWidget': function(event, template) {
+    setValues(template);
   }
 });

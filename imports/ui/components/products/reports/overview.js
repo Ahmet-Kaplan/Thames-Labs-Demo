@@ -45,10 +45,7 @@ Template.productsOverview.helpers({
 });
 
 Template.productsOverview.events({
-  'click #productOverviewWidget': function(event) {
-    setValues(this);
-  },
-  'click #ref_opportunityInformationWidget': function(event) {
-    console.log('clicked');
+  'click #productOverviewWidget': function(event, template) {
+    setValues(template);
   }
 });

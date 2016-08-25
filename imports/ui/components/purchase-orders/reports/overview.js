@@ -59,7 +59,7 @@ Template.poOverview.helpers({
 });
 
 Template.poOverview.events({
-  'click #ref_poInformationWidget': function(event) {
-    setValues(this);
+  'click #ref_poOverviewWidget': function(event, template) {
+    setValues(template);
   }
 });
