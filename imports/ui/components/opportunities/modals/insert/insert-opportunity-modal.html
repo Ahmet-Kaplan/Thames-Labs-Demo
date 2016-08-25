@@ -22,9 +22,7 @@
              <span class="help-block"></span>
            </div>
 
-            {{> autosuggest name="companyId" index=CompaniesIndex}}
-
-            {{> autosuggest name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
+            {{> autosuggestCompanyContact }}
 
             {{> autosuggest name="salesManagerId" index=UsersIndex allowEmptyOption=true}}
 

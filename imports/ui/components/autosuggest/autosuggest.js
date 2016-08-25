@@ -70,6 +70,8 @@ Template.autosuggest.helpers({
       labelField: (tasksIndex ? "title" : "name"),
       searchField: (tasksIndex ? "title" : "name"),
       createOnBlur: false,
+      selectOnTab: true,
+      openOnFocus: true,
       load: (query) => {
         self.query.set(query);
       },
