@@ -31,6 +31,7 @@ Meteor.methods({
     });
   },
   addOpportunityActivity: function() {
+    const { Opportunities } = require('/imports/api/collections.js');
     var entity = Opportunities.findOne({});
     var data = entity.name;
     Activities.insert({
@@ -317,6 +318,8 @@ Meteor.methods({
     }else {
       userId = this.userId;
     }
+
+    const { Opportunities } = require('/imports/api/collections.js');
     var data = Opportunities.insert({
       name: name,
       description: description,
@@ -364,6 +367,7 @@ Meteor.methods({
     var description = (additional === true) ? 'R2 type Droid' : "Test Purchase Order",
         status = (additional === true) ? 'Approved' : 'Requested';
 
+    const { PurchaseOrders } = require('/imports/api/collections.js');
     var data = PurchaseOrders.insert({
       userId: userId,
       description: description,
@@ -399,6 +403,7 @@ Meteor.methods({
   },
 
   addOpportunityLineItem: function() {
+    const { Opportunities } = require('/imports/api/collections.js');
     var opp = Opportunities.findOne({});
     Opportunities.update(opp._id, {
       $push: {

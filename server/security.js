@@ -38,13 +38,6 @@ Tasks.allowTags(function(userId) {
   return !!userId;
 });
 
-Opportunities.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateOpportunities').apply();
-Opportunities.permit(['update']).ifLoggedIn().ifHasRole('CanEditOpportunities').apply();
-Opportunities.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteOpportunities').apply();
-Opportunities.allowTags(function(userId) {
-  return !!userId;
-});
-
 ServerSession.setCondition(function(key, value) {
   // Check for user ID. If not there, forcibly return true to ensure that the server can do whatever it needs to.
   // If this is a user request, check which key they're trying to set and whether or not they're a super

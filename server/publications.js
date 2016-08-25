@@ -1,4 +1,4 @@
-import { Notifications, Products, PurchaseOrders, PurchaseOrderItems } from '/imports/api/collections.js';
+import { Notifications, Products, PurchaseOrders, PurchaseOrderItems, Opportunities } from '/imports/api/collections.js';
 Meteor.publish('userPresence', function() {
   var filter = {
     userId: {

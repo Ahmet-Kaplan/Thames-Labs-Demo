@@ -1,3 +1,4 @@
+import { Opportunities } from '/imports/api/collections.js';
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/projects/project-details-panel.js';

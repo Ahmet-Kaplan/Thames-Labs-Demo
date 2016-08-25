@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
+import { Opportunities } from '/imports/api/collections.js';
 
 Meteor.methods({
 

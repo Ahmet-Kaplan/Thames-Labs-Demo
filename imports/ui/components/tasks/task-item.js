@@ -1,3 +1,5 @@
+import { Opportunities } from '/imports/api/collections.js';
+
 import './task-tick/task-tick.js';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 import '/imports/ui/components/opportunities/reports/overview.js';

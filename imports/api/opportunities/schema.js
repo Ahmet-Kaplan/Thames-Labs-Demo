@@ -1,4 +1,4 @@
-Schemas.Opportunity = new SimpleSchema({
+export const OpportunitySchema = new SimpleSchema({
   sequencedIdentifier: {
     type: Number,
     label: "RealTime ID",
@@ -187,8 +187,7 @@ Schemas.Opportunity = new SimpleSchema({
     defaultValue: new Date()
   }
 });
-Schemas.Opportunity.messages({
+OpportunitySchema.messages({
   needsRelatedEntity: "A company or a contact is required",
   valueTo2DecimalPlaces: "Value must be entered to two decimal places"
 });
-Opportunities.attachSchema(Schemas.Opportunity);

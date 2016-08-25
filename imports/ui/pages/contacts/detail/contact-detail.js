@@ -11,7 +11,7 @@ import '/imports/ui/components/purchase-orders/modals/insert/insert-contact-purc
 import '/imports/ui/components/tasks/panel/task-panel.js';
 import '/imports/ui/components/projects/modals/insert-contact-project-modal.js';
 
-import { PurchaseOrders } from '/imports/api/collections.js';
+import { PurchaseOrders, Opportunities } from '/imports/api/collections.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
 

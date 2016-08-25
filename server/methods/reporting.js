@@ -1,4 +1,4 @@
-import { Products, PurchaseOrders } from '/imports/api/collections.js';
+import { Products, PurchaseOrders, Opportunities } from '/imports/api/collections.js';
 Meteor.methods({
   //Tasks
   'report.tasksCreated': function() {

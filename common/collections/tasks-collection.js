@@ -1,3 +1,4 @@
+import { Opportunities } from '/imports/api/collections.js';
 import { wordedTimes, getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
 
 Collections.tasks = Tasks = new Mongo.Collection('tasks');

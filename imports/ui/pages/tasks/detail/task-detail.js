@@ -3,6 +3,9 @@ import '/imports/ui/components/tasks/subtasks/subtask-list.js';
 import '/imports/ui/components/tasks/task-tick/task-tick.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/tasks/modals/update-task-modal.js';
+
+import { Opportunities } from '/imports/api/collections.js';
+
 import bootbox from 'bootbox';
 
 Template.taskDetail.onCreated(function() {

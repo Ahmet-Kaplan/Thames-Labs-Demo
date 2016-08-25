@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { Opportunities } from '/imports/api/collections.js';
 
 Meteor.methods({
   'opportunities.getCompanySalesHistory': function(companyId) {
