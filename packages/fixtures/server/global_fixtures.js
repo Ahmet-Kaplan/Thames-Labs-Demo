@@ -6,7 +6,6 @@ var deleteTenant = function(tenantId) {
   Tasks.direct.remove({ _groupId: tenantId });
   Activities.direct.remove({ _groupId: tenantId });
   Meteor.tags.direct.remove({ _groupId: tenantId });
-  AuditLog.direct.remove({ _groupId: tenantId });
   Companies.direct.remove({ _groupId: tenantId });
   Contacts.direct.remove({ _groupId: tenantId });
   Projects.direct.remove({ _groupId: tenantId });
