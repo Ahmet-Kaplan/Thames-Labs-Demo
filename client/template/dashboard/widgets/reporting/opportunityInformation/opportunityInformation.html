@@ -8,26 +8,7 @@
     </div>
     <div class="panel-body">
       <div class="opportunityInformationList">
-        <table class="table table-no-border">
-          <tbody>
-            <tr>
-              <td>Open Opportunities:</td>
-              <td class="text-right">{{longNumber openOpps}}</td>
-            </tr>
-            <tr>
-              <td>Archived Opportunities:</td>
-              <td class="text-right">{{longNumber archivedOpps}}</td>
-            </tr>
-            <tr>
-              <td>Total Value:</td>
-              <td class="text-right">{{decimal totalOppValue}}</td>
-            </tr>
-            <tr>
-              <td>Average Value:</td>
-              <td class="text-right">{{decimal averageOppValue}}</td>
-            </tr>
-          </tbody>
-        </table>
+        {{> oppOverview}}
       </div>
     </div>
   </div>
