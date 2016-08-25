@@ -8,8 +8,6 @@ module.exports = function() {
     Meteor.loginWithPassword(email, password, done);
   }
 
-  var url = require('url');
-
   /***************************************************
                           GIVEN
   ***************************************************/
