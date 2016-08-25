@@ -29,16 +29,6 @@ Template.projectsList.onRendered(function() {
     this.totalProjects.set(Collections['projects'].index.getComponentDict().get('count'));
   });
 
-  // Watch for session variable setting search
-  Session.set('projectListSearchQuery', null);
-  this.autorun(function() {
-    var searchQuery = Session.get('projectListSearchQuery');
-    if (searchQuery) {
-      ProjectsIndex.getComponentMethods().search(searchQuery);
-      $('.stick-bar input').val(searchQuery);
-    }
-  });
-
   Meteor.call('report.numberOfProjects', (err, data) => {
     this.totalProjects.set(data.Count);
   });
