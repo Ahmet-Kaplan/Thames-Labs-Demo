@@ -58,7 +58,6 @@ Feature: Allow users to manage their Tasks
     Then I should see ".task-list-item"
 
   #Creating
-  @dev
   Scenario: A user can create a task
     Given I have the "CanCreateTasks" permission
     And I have the "CanReadCompanies" permission
