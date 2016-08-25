@@ -4,7 +4,7 @@ Template.insertTenantUser.helpers({
   isProTenant: function() {
     return isProTenant(this.__originalId);
   }
-})
+});
 
 AutoForm.hooks({
   insertTenantUserModal: {

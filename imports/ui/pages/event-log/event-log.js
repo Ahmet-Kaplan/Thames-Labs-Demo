@@ -3,7 +3,6 @@ import { Template } from 'meteor/templating';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 
 import './event-log.html';
-import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/event-log/event-list-item.js';
 
 Template.events.onCreated(function() {

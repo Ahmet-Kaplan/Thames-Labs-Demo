@@ -9,4 +9,4 @@ export function isTenantOverFreeUserLimit(tenantId) {
   return Meteor.users.find({
     group: tenantId
   }).count() >= maxFreeUsers;
-};
+}
