@@ -3,6 +3,7 @@ import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/projects/project-list-item.js';
 import '/imports/ui/components/projects/modals/insert-project-modal.js';
 import '/imports/ui/components/export/export.js';
+import '/imports/ui/components/projects/reports/overview.js';
 
 import './project-list.html';
 
@@ -15,31 +16,12 @@ Template.projectsList.onCreated(function() {
   // Store search index dict on template to allow helpers to access
   this.index = ProjectsIndex;
 
-  // Summary stats
-  this.totalProjects = new ReactiveVar(0);
-  this.activeProjects = new ReactiveVar(0);
-  this.projectTotal = new ReactiveVar(0);
-  this.projectsAverage = new ReactiveVar(0);
-
   this.totalProjects = new ReactiveVar(0);
 });
 
 Template.projectsList.onRendered(function() {
   this.autorun(() => {
     this.totalProjects.set(Collections['projects'].index.getComponentDict().get('count'));
-  });
-
-  Meteor.call('report.numberOfProjects', (err, data) => {
-    this.totalProjects.set(data.Count);
-  });
-  Meteor.call('report.activeProjects', (err, data) => {
-    this.activeProjects.set(data.Count);
-  });
-  Meteor.call('report.projectValue', (err, data) => {
-    this.projectTotal.set(data.Value);
-  });
-  Meteor.call('report.projectsAverage', (err, data) => {
-    this.projectsAverage.set(data.Value);
   });
 
   $('[data-toggle="popover"]').popover({
@@ -53,41 +35,7 @@ Template.projectsList.onRendered(function() {
   }
 });
 
-Template.projectsList.events({
-  'click #add-project': function(event) {
-    event.preventDefault();
-    Modal.show('insertProjectModal', this);
-  },
-  'click #ref_projectOverviewWidget': function(event, template) {
-
-    Meteor.call('report.numberOfProjects', function(err, data) {
-      template.totalProjects.set(data.Count);
-    });
-    Meteor.call('report.activeProjects', function(err, data) {
-      template.activeProjects.set(data.Count);
-    });
-    Meteor.call('report.projectValue', function(err, data) {
-      template.projectTotal.set(data.Value);
-    });
-    Meteor.call('report.projectsAverage', function(err, data) {
-      template.projectsAverage.set(data.Value);
-    });
-  }
-});
-
 Template.projectsList.helpers({
-  totalProjects: function() {
-    return Template.instance().totalProjects.get();
-  },
-  activeProjects: function() {
-    return Template.instance().activeProjects.get();
-  },
-  projectTotal: function() {
-    return Template.instance().projectTotal.get();
-  },
-  projectsAverage: function() {
-    return Template.instance().projectsAverage.get();
-  },
   projectCount: function() {
     return Template.instance().totalProjects.get();
   },
@@ -95,3 +43,12 @@ Template.projectsList.helpers({
     return Template.instance().totalProjects.get() !== 1;
   }
 });
+
+Template.projectsList.events({
+  'click #add-project': function(event) {
+    event.preventDefault();
+    Modal.show('insertProjectModal', this);
+  }
+});
+
+

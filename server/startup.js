@@ -88,7 +88,7 @@ Meteor.startup(function() {
 
   // Clear any event logs older than X days old
   var days = 45;
-  Meteor.call('clearRecentEvents', days, function(err, res) {
+  Meteor.call('eventLog.clearRecentEvents', days, function(err, res) {
     if (err) throw new Meteor.Error(err);
     if (res) {
       var cutOffTime = moment().subtract(days, 'days').format('Do MMMM YYYY, HH:mm');

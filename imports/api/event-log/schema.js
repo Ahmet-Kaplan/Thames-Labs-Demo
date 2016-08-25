@@ -1,4 +1,5 @@
-Schemas.EventLog = new SimpleSchema({
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+export const EventLogSchema = new SimpleSchema({
   date: {
     type: Date
   },
@@ -34,4 +35,3 @@ Schemas.EventLog = new SimpleSchema({
     optional: true
   }
 });
-EventLog.attachSchema(Schemas.EventLog);
