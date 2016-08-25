@@ -1,5 +1,4 @@
 module.exports = function() {
-  var url = require('url');
 
   function setPermission(permissionName, value, done) {
     Meteor.call('setPermission', permissionName, value, done);
