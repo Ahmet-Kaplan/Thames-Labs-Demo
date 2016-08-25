@@ -280,3 +280,51 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 26,
+  name: "Adds sort columns",
+  up: function() {
+    //ServerSession.set('maintenance', true);
+
+    const tenants = Tenants.find({}).fetch();
+
+    _.each(tenants, function(tenant) {
+      Partitioner.bindGroup(tenant._id, function() {
+        const companies = Companies.find({
+          _groupId: tenant._id
+        }).fetch();
+
+        _.each(companies, function(company) {
+          Companies.update( company._id, {
+            $set: {
+              name: company.name,
+              name_sort: company.name.toLowerCase()
+            }
+          }, {
+            upsert: false,
+            multi: true
+          });
+        });
+
+        const contacts = Contacts.find({
+          _groupId: tenant._id
+        }).fetch();
+
+        _.each(contacts, function(contact) {
+          Contacts.update( contact._id, {
+            $set: {
+              forename: contact.forename,
+              name_sort: `${contact.surname.toLowerCase()} ${contact.forename.toLowerCase()}`
+            }
+          }, {
+            upsert: false,
+            multi: true
+          });
+        });
+      });
+    });
+
+    ServerSession.set('maintenance', false);
+  }
+});
