@@ -24,13 +24,6 @@ Activities.allowTags(function(userId) {
 
 CustomFields.permit(['insert', 'update', 'remove']).ifLoggedIn().apply();
 
-Tasks.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateTasks').apply();
-Tasks.permit(['update']).ifLoggedIn().ifHasRole('CanEditTasks').apply();
-Tasks.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteTasks').apply();
-Tasks.allowTags(function(userId) {
-  return !!userId;
-});
-
 ServerSession.setCondition(function(key, value) {
   // Check for user ID. If not there, forcibly return true to ensure that the server can do whatever it needs to.
   // If this is a user request, check which key they're trying to set and whether or not they're a super

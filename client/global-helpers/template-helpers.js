@@ -1,5 +1,5 @@
 import { currencyHelpers } from '/imports/api/currency/currency-helpers.js';
-import { EventLog, Opportunities, Projects, Products, PurchaseOrders } from '/imports/api/collections.js';
+import { EventLog, Opportunities, Projects, Products, PurchaseOrders, Tasks} from '/imports/api/collections.js';
 import { Tracker } from 'meteor/tracker';
 
 Template.registerHelper('greaterThan', function(a, b) {
@@ -105,7 +105,7 @@ Template.registerHelper('ProductsIndex', () => Products.index);
 Template.registerHelper('ProjectsIndex', () => Projects.index);
 Template.registerHelper('PurchaseOrdersIndex', () => PurchaseOrders.index);
 Template.registerHelper('UsersIndex', () => UsersIndex);
-Template.registerHelper('TasksIndex', () => TasksIndex);
+Template.registerHelper('TasksIndex', () => Tasks.index);
 Template.registerHelper('TagsIndex', () => TagsIndex);
 Template.registerHelper('TenantsIndex', () => TenantsIndex);
 

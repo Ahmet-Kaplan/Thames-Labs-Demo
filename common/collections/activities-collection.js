@@ -2,7 +2,7 @@ import {
   wordedTimes, getWordedTime, getEuropeanDate
 }
 from '/imports/api/collections-helpers/time-filters.js';
-import { Projects, PurchaseOrders } from '/imports/api/collections.js';
+import { Projects, PurchaseOrders, Tasks } from '/imports/api/collections.js';
 
 Collections.activities = Activities = new Mongo.Collection('activities');
 

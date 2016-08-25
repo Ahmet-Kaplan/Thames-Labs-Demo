@@ -1,4 +1,4 @@
-Schemas.Task = new SimpleSchema({
+export const TaskSchema = new SimpleSchema({
   title: {
     type: String
   },
@@ -87,4 +87,3 @@ Schemas.Task = new SimpleSchema({
     defaultValue: new Date()
   },
 });
-Tasks.attachSchema(Schemas.Task);

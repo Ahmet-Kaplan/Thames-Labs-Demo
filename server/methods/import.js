@@ -1,3 +1,5 @@
+import { Tasks } from '/imports/api/collections.js';
+
 function getFieldValueByKey(valueList, key) {
   var result = _.result(_.find(valueList, function(obj) {
     return obj.schemaField === key;

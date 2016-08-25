@@ -80,6 +80,7 @@ Meteor.methods({
     });
   },
   addTaskActivity: function() {
+    const { Tasks } = require('/imports/api/collections.js');
     var entity = Tasks.findOne({});
     var data = entity.title;
     Activities.insert({

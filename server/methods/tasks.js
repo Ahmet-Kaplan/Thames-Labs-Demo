@@ -1,4 +1,6 @@
 import Future from 'fibers/future';
+import { Tasks } from '/imports/api/collections.js';
+
 Meteor.methods({
   "tasks.getSubTasks": function(taskId) {
     return Tasks.find({

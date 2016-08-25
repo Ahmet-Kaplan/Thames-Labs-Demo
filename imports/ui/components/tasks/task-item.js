@@ -1,4 +1,4 @@
-import { Projects, Opportunities } from '/imports/api/collections.js';
+import { Projects, Opportunities, Tasks } from '/imports/api/collections.js';
 
 import './task-tick/task-tick.js';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
