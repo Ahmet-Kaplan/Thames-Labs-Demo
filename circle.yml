@@ -5,10 +5,6 @@ machine:
     version: 5.2.0
   environment:
     CUCUMBER_JSON_OUTPUT: $CIRCLE_TEST_REPORTS/cucumber/chrome.cucumber
-    SERVER_TEST_REPORTER: junit
-    CLIENT_TEST_REPORTER: json
-    MOCHA_FILE: $CIRCLE_TEST_REPORTS/unit-test-server.xml
-    MOCHA_FILE_CLIENT: $CIRCLE_TEST_REPORTS/unit-test-client.xml
   post:
     - env
 
