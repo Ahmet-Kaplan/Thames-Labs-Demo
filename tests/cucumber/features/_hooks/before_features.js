@@ -1,5 +1,4 @@
 module.exports = function() {
-  const url = require('url');
 
   // called at the beginning of the full feature run
   this.registerHandler('BeforeFeatures', function() {
@@ -9,9 +8,6 @@ module.exports = function() {
       width: 1200,
       height: 700
     });
-
-    const path = url.resolve(process.env.ROOT_URL, '/');
-    browser.url(path);
 
     // Add extra webdriver commands
     browser.addCommand('selectize', function(selector, value) {

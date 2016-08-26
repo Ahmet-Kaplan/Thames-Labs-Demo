@@ -8,6 +8,8 @@ module.exports = function() {
     Meteor.loginWithPassword(email, password, done);
   }
 
+  var url = require('url');
+
   /***************************************************
                           GIVEN
   ***************************************************/
@@ -149,10 +151,8 @@ module.exports = function() {
   ***************************************************/
 
   this.When(/^I navigate to "([^"]*)"$/, function(relativePath) {
-    browser.executeAsync(function(path, done) {
-      FlowRouter.go(path);
-      done();
-    }, relativePath);
+    var path = url.resolve(process.env.ROOT_URL, relativePath);
+    browser.url(path);
   });
 
   this.When(/^I navigate backwards in the browser history$/, function() {

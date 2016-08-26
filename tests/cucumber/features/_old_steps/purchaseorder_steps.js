@@ -1,11 +1,10 @@
 module.exports = function() {
 
+  var url = require('url');
+
   //Reading
   this.When(/^I navigate to a purchase order page$/, function() {
-    browser.executeAsync(function(done) {
-      FlowRouter.go("/purchaseorders");
-      done();
-    });
+    browser.url(url.resolve(process.env.ROOT_URL, '/purchaseorders'));
     browser.waitForExist('.list-group-item:not(#moar)', 5000);
     browser.waitForVisible('.list-group-item:not(#moar)', 5000);
     browser.click('.list-group-item');
