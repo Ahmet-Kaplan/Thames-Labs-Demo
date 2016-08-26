@@ -1,3 +1,5 @@
+import { PurchaseOrderSchema } from '/imports/api/purchase-orders/schema.js';
+
 Template.searchHelp.helpers({
   options: function() {
     switch(this.collection) {
@@ -175,7 +177,7 @@ Template.searchHelp.helpers({
           },
           {
             name: 'Status',
-            description: 'Select amongst the different statuses (' + Schemas.PurchaseOrder.schema().status.allowedValues.join(', ') + ')',
+            description: 'Select amongst the different statuses (' + PurchaseOrderSchema.schema().status.allowedValues.join(', ') + ')',
             multiple: true
           }
         ];

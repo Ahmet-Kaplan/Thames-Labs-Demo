@@ -1,3 +1,4 @@
+import { PurchaseOrderSchema } from './schema.js';
 export const PurchaseOrderFilters = {
   company: {
     display: 'Company:',
@@ -31,13 +32,13 @@ export const PurchaseOrderFilters = {
     display: 'Status:',
     prop: 'status',
     verify: function(status) {
-      if (Schemas.PurchaseOrder.schema().status.allowedValues.indexOf(status) !== -1) {
+      if (PurchaseOrderSchema.schema().status.allowedValues.indexOf(status) !== -1) {
         return true;
       }
       return false;
     },
     defaultOptions: function() {
-      return Schemas.PurchaseOrder.schema('status').allowedValues;
+      return PurchaseOrderSchema.schema('status').allowedValues;
     }
   },
   totalValueLower: {

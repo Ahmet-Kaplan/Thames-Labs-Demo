@@ -1,4 +1,7 @@
 import { Activities, Companies, Contacts, EventLog, Projects, Products, PurchaseOrders, PurchaseOrderItems, Opportunities, Tasks } from '/imports/api/collections.js';
+import { ActivitySchema } from '/imports/api/activities/schema.js';
+import { PurchaseOrderSchema } from '/imports/api/purchase-orders/schema.js';
+
 Meteor.methods({
   'tenant.getPayingUsers': function() {
     var tenants = Tenants.find({
@@ -290,7 +293,7 @@ Meteor.methods({
 
         Partitioner.bindGroup(tenantId, function() {
           Activities.insert({
-            type: _.sample(Schemas.Activity._schema.type.allowedValues),
+            type: _.sample(ActivitySchema._schema.type.allowedValues),
             notes: faker.lorem.paragraphs(_.random(1, 3)),
             createdAt: faker.date.recent(100),
             activityTimestamp: faker.date.recent(100),
@@ -528,9 +531,9 @@ Meteor.methods({
             supplierContactId: poContId,
             description: poname,
             supplierReference: faker.finance.account(),
-            status: _.sample(Schemas.PurchaseOrder._schema.status.allowedValues),
+            status: _.sample(PurchaseOrderSchema._schema.status.allowedValues),
             orderDate: faker.date.past(100),
-            paymentMethod: _.sample(Schemas.PurchaseOrder._schema.paymentMethod.allowedValues),
+            paymentMethod: _.sample(PurchaseOrderSchema._schema.paymentMethod.allowedValues),
             createdBy: randomUser._id
           });
 
