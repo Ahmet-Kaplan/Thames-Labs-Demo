@@ -1,27 +1,3 @@
-const setValues = (template) => {
-  Meteor.call('report.tasksCreated', function(err, data) {
-    template.totalTasks.set(data);
-  });
-  Meteor.call('report.companiesStored', function(err, data) {
-    template.totalCompanies.set(data);
-  });
-  Meteor.call('report.contactsStored', function(err, data) {
-    template.totalContacts.set(data);
-  });
-  Meteor.call('report.numberOfProjects', function(err, data) {
-    template.totalProjects.set(data);
-  });
-  Meteor.call('report.openOpportunities', function(err, data) {
-    template.totalOpportunities.set(data);
-  });
-  Meteor.call('report.numberOfProducts', function(err, data) {
-    template.totalProducts.set(data);
-  });
-  Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
-    template.totalPo.set(data);
-  });
-};
-
 Template.companySummaryWidget.onCreated(function() {
   this.totalTasks = new ReactiveVar(0);
   this.totalCompanies = new ReactiveVar(0);
@@ -30,15 +6,39 @@ Template.companySummaryWidget.onCreated(function() {
   this.totalOpportunities = new ReactiveVar(0);
   this.totalProducts = new ReactiveVar(0);
   this.totalPo = new ReactiveVar(0);
+
+  this.setValues = () => {
+    Meteor.call('report.tasksCreated', (err, data) => {
+      this.totalTasks.set(data);
+    });
+    Meteor.call('report.companiesStored', (err, data) => {
+      this.totalCompanies.set(data);
+    });
+    Meteor.call('report.contactsStored', (err, data) => {
+      this.totalContacts.set(data);
+    });
+    Meteor.call('report.numberOfProjects', (err, data) => {
+      this.totalProjects.set(data);
+    });
+    Meteor.call('report.openOpportunities', (err, data) => {
+      this.totalOpportunities.set(data);
+    });
+    Meteor.call('report.numberOfProducts', (err, data) => {
+      this.totalProducts.set(data);
+    });
+    Meteor.call('report.numberOfPurchaseOrders', (err, data) => {
+      this.totalPo.set(data);
+    });
+  };
 });
 
 Template.companySummaryWidget.onRendered(function() {
-  setValues(this);
+  this.setValues();
 });
 
 Template.companySummaryWidget.events({
   'click #ref_companySummaryWidget': function(event, template) {
-    setValues(template);
+    template.setValues();
   }
 });
 

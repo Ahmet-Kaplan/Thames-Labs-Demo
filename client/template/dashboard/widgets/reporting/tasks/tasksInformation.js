@@ -1,27 +1,27 @@
-const setValues = (template) => {
-  Meteor.call('report.tasksCreated', function(err, data) {
-    template.createdTaskCount.set(data);
-  });
-  Meteor.call('report.tasksCompleted', function(err, data) {
-    template.completedTaskCount.set(data);
-  });
-  Meteor.call('report.tasksDueInTheNextWeek', function(err, data) {
-    template.dueTaskCount.set(data);
-  });
-  Meteor.call('report.tasksOverdue', function(err, data) {
-    template.overdueTaskCount.set(data);
-  });
-};
-
 Template.taskInformationWidget.onCreated(function() {
   this.createdTaskCount = new ReactiveVar(0);
   this.completedTaskCount = new ReactiveVar(0);
   this.dueTaskCount = new ReactiveVar(0);
   this.overdueTaskCount = new ReactiveVar(0);
+
+  this.setValues = () => {
+    Meteor.call('report.tasksCreated', (err, data) => {
+      this.createdTaskCount.set(data);
+    });
+    Meteor.call('report.tasksCompleted', (err, data) => {
+      this.completedTaskCount.set(data);
+    });
+    Meteor.call('report.tasksDueInTheNextWeek', (err, data) => {
+      this.dueTaskCount.set(data);
+    });
+    Meteor.call('report.tasksOverdue', (err, data) => {
+      this.overdueTaskCount.set(data);
+    });
+  };
 });
 
 Template.taskInformationWidget.onRendered(function() {
-  setValues(this);
+  this.setValues();
 });
 
 Template.taskInformationWidget.helpers({
@@ -36,11 +36,5 @@ Template.taskInformationWidget.helpers({
   },
   overdueTasks: function() {
     return Template.instance().overdueTaskCount.get();
-  }
-});
-
-Template.taskInformationWidget.events({
-  'click #ref_taskInformationWidget': function(event, template) {
-    setValues(template);
   }
 });

@@ -1,27 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import './overview.html';
 
-export const setValues = (template) => {
-  Meteor.call('report.openOpportunities', (err, data) => {
-    template.openOpps.set(data);
-  });
-  Meteor.call('report.archivedOpportunities', (err, data) => {
-    template.archivedOpps.set(data);
-  });
-  Meteor.call('report.wonOpportunities', (err, data) => {
-    template.wonOpps.set(data);
-  });
-  Meteor.call('report.lostOpportunities', (err, data) => {
-    template.lostOpps.set(data);
-  });
-  Meteor.call('report.valueOfOpportunities', (err, data) => {
-    template.totalOppValue.set(data);
-  });
-  Meteor.call('report.averageOpportunityValue', (err, data) => {
-    template.averageOppValue.set(data);
-  });
-};
-
 Template.oppOverview.onCreated(function() {
   this.openOpps = new ReactiveVar(0);
   this.archivedOpps = new ReactiveVar(0);
@@ -29,10 +8,31 @@ Template.oppOverview.onCreated(function() {
   this.lostOpps = new ReactiveVar(0);
   this.totalOppValue = new ReactiveVar(0);
   this.averageOppValue = new ReactiveVar(0);
+
+  this.setValues = () => {
+    Meteor.call('report.openOpportunities', (err, data) => {
+      this.openOpps.set(data);
+    });
+    Meteor.call('report.archivedOpportunities', (err, data) => {
+      this.archivedOpps.set(data);
+    });
+    Meteor.call('report.wonOpportunities', (err, data) => {
+      this.wonOpps.set(data);
+    });
+    Meteor.call('report.lostOpportunities', (err, data) => {
+      this.lostOpps.set(data);
+    });
+    Meteor.call('report.valueOfOpportunities', (err, data) => {
+      this.totalOppValue.set(data);
+    });
+    Meteor.call('report.averageOpportunityValue', (err, data) => {
+      this.averageOppValue.set(data);
+    });
+  };
 });
 
 Template.oppOverview.onRendered(function() {
-  setValues(this);
+  this.setValues();
 });
 
 Template.oppOverview.helpers({
@@ -61,6 +61,6 @@ Template.oppOverview.helpers({
 
 Template.oppOverview.events({
   'click #oppsOverviewWidget': function(event, template) {
-    setValues(template);
+    template.setValues();
   }
 });

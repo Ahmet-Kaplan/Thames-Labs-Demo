@@ -1,29 +1,29 @@
 import './overview.html';
 
-const setValues = (template) => {
-  Meteor.call('report.numberOfProducts', (err, data) => {
-    template.totalProducts.set(data);
-  });
-  Meteor.call('report.costOfProducts', (err, data) => {
-    template.totalProductsCost.set(data);
-  });
-  Meteor.call('report.averageProductsCost', (err, data) => {
-    template.averageProductsCost.set(data);
-  });
-  Meteor.call('report.averageProductsPrice', (err, data) => {
-    template.averageProductsPrice.set(data);
-  });
-};
-
 Template.productsOverview.onCreated(function() {
   this.totalProducts = new ReactiveVar(0);
   this.totalProductsCost = new ReactiveVar(0);
   this.averageProductsCost = new ReactiveVar(0);
   this.averageProductsPrice = new ReactiveVar(0);
+
+  this.setValues = () => {
+    Meteor.call('report.numberOfProducts', (err, data) => {
+      this.totalProducts.set(data);
+    });
+    Meteor.call('report.costOfProducts', (err, data) => {
+      this.totalProductsCost.set(data);
+    });
+    Meteor.call('report.averageProductsCost', (err, data) => {
+      this.averageProductsCost.set(data);
+    });
+    Meteor.call('report.averageProductsPrice', (err, data) => {
+      this.averageProductsPrice.set(data);
+    });
+  };
 });
 
 Template.productsOverview.onRendered(function() {
-  setValues(this);
+  this.setValues();
 });
 
 Template.productsOverview.helpers({
@@ -46,6 +46,6 @@ Template.productsOverview.helpers({
 
 Template.productsOverview.events({
   'click #productOverviewWidget': function(event, template) {
-    setValues(template);
+    template.setValues();
   }
 });
