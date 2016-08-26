@@ -28,10 +28,8 @@
           <!-- {{> afQuickField name="sequencedIdentifier"}} -->
           {{> afQuickField name="createdBy" value=createdBy }}
           {{#if companyId}}
-          {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
           {{> afQuickField name="companyId" value=companyId type="hidden"}}
           {{/if}}
-          {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
           {{> afQuickField name="contactId" value=contactId type="hidden"}}
           <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}

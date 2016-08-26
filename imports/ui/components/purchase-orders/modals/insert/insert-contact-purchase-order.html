@@ -12,10 +12,8 @@
           {{#autoForm collection="PurchaseOrders" id="insertContactPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description" rows=3}}
             {{#if supplierCompanyId}}
-              {{> afQuickField type="text" label="Supplier Company" readonly=true value=supplierCompanyName}}
               {{> afQuickField name="supplierCompanyId" type="hidden" value=supplierCompanyId}}
             {{/if}}
-            {{> afQuickField type="text" label="Supplier Contact" readonly=true value=supplierContactName}}
             {{> afQuickField name="supplierContactId" type="hidden" value=supplierContactId}}
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}

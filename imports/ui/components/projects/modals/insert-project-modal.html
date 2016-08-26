@@ -15,8 +15,6 @@
 
             {{> autosuggestCompanyContact contactFieldName='contactId' companyFieldName='companyId'}}
 
-            {{> autosuggest name="userId" index=UsersIndex}}
-
             <div class="form-group">
               <label for="proj-value" class="control-label">Value</label>
               <div class="input-group">
@@ -27,6 +25,7 @@
             </div>
 
             {{> afQuickField name="dueDate" }}
+            {{> autosuggest name="userId" index=UsersIndex}}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             {{> afQuickField name="createdBy" value=currentUser }}
             {{> afQuickField name="projectTypeId" options=projectTypes }}
