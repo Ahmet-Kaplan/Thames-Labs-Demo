@@ -26,7 +26,7 @@ if (Meteor.isClient) {
       const data = {"tags": ["tag1", "tag2"], "collection": "companies", "entityId": "JWMWg9RM3HSP4ctCK", "permissionToEdit": "invalidPermission"};
 
       withRenderedTemplate('tagInput', data, (el) => {
-        chai.assert.include($(el).html(), '<div id="tag-list-display">');
+        chai.assert.include($(el).html(), '<div id="tag-list-display"');
         chai.assert.include($(el).html(), '<a href="#"><span class="badge">tag1</span></a>');
         chai.assert.include($(el).html(), '<a href="#"><span class="badge">tag2</span></a>');
       });
