@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import _ from 'lodash';
-import { Companies, Projects } from '/imports/api/collections.js';
+import { Companies, Contacts, Projects } from '/imports/api/collections.js';
 import './update-purchase-order-item.html';
 
 Template.updatePurchaseOrderItemModal.onRendered(function() {

@@ -1,4 +1,4 @@
-import { Activities, Projects, PurchaseOrders } from '/imports/api/collections.js';
+import { Activities, Contacts, CustomFields, Projects, PurchaseOrders } from '/imports/api/collections.js';
 import { CompanySchema } from './schema.js';
 import { CompanyFilters } from './filters.js';
 

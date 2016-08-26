@@ -1,5 +1,5 @@
 import './insert-contact-opp-modal.html';
-import { Companies } from '/imports/api/collections.js';
+import { Companies, Contacts } from '/imports/api/collections.js';
 import { findFirstStageId } from '/imports/api/opportunities/methods.js';
 import { verifyOpportunityStagesExist } from '/imports/api/opportunities/methods.js';
 

@@ -1,6 +1,6 @@
 import url from 'url';
 import Future from 'fibers/future';
-import { Companies } from '/imports/api/collections.js';
+import { Companies, Contacts } from '/imports/api/collections.js';
 
 Meteor.methods({
 

@@ -1,7 +1,7 @@
 import '/imports/ui/components/activity/insert-task-helper/insert-task-helper.js';
 import './insert-activity-form.html';
 import sanitizeHtml from "sanitize-html";
-import { Tasks } from '/imports/api/collections.js';
+import { Contacts, Tasks } from '/imports/api/collections.js';
 
 Template.insertActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));

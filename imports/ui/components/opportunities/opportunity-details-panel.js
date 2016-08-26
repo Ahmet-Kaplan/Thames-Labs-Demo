@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import bootbox from 'bootbox';
 
-import { Activities, Companies, Opportunities } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, Opportunities } from '/imports/api/collections.js';
 
 import './opportunity-details-panel.html';
 import './modals/update/update-opportunity-modal.js';

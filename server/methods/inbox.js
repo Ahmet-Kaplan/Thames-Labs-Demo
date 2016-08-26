@@ -1,4 +1,4 @@
-import { Activities } from '/imports/api/collections.js';
+import { Activities, Contacts } from '/imports/api/collections.js';
 
 import multer from 'multer';
 import bodyParser from 'body-parser';

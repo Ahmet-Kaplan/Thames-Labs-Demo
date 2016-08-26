@@ -1,6 +1,6 @@
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 import './project-list-item.html';
-import { Companies } from '/imports/api/collections.js';
+import { Companies, Contacts } from '/imports/api/collections.js';
 
 Template.projectListItem.onCreated(function() {
   this.subscribe('companyById', this.data.companyId);

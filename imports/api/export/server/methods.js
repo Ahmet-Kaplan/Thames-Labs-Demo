@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { moment } from 'meteor/momentjs:moment';
 import { Meteor } from 'meteor/meteor';
-import { Companies } from '/imports/api/collections.js';
+import { Companies, Contacts } from '/imports/api/collections.js';
 
 import { formatActivityForExport } from './entities/activities.js';
 import { formatCompanyForExport } from './entities/companies.js';

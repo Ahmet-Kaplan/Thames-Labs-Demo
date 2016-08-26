@@ -1,5 +1,6 @@
 import { Blaze } from 'meteor/blaze';
 import { Template } from 'meteor/templating';
+import { CustomFields } from '/imports/api/collections.js';
 import 'meteor/mrt:jquery-ui-sortable';
 import './global-custom-field-list.html';
 

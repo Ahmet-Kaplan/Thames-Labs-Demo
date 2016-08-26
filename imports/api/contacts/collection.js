@@ -1,7 +1,22 @@
-import { Activities, Companies, PurchaseOrders } from '/imports/api/collections.js';
-Collections.contacts = Contacts = new Mongo.Collection('contacts');
+import { Activities, Companies, CustomFields, PurchaseOrders } from '/imports/api/collections.js';
+import { ContactSchema } from './schema.js';
+import { ContactFilters } from './filters.js';
+
+export const Contacts = new Mongo.Collection('contacts');
 
 Partitioner.partitionCollection(Contacts);
+
+Contacts.attachSchema(ContactSchema);
+
+
+Contacts.permit(['insert']).ifLoggedIn().ifHasRole('CanCreateContacts').apply();
+Contacts.permit(['update']).ifLoggedIn().ifHasRole('CanEditContacts').apply();
+Contacts.permit(['remove']).ifLoggedIn().ifHasRole('CanDeleteContacts').apply();
+
+Tags.TagsMixin(Contacts);
+Contacts.allowTags(function(userId) {
+  return !!userId;
+});
 
 Contacts.helpers({
   name: function() {
@@ -11,7 +26,7 @@ Contacts.helpers({
     return Companies.findOne(this.companyId);
   },
   activities: function() {
-    var collectionsToFilter = getDisallowedPermissions(Meteor.userId());
+    const collectionsToFilter = getDisallowedPermissions(Meteor.userId());
 
     return Activities.find({
       contactId: this._id,
@@ -35,66 +50,17 @@ Contacts.helpers({
   }
 });
 
-Tags.TagsMixin(Contacts);
-
 ////////////////////
 // SEARCH FILTERS //
 ////////////////////
 
-Collections.contacts.filters = {
-  company: {
-    display: 'Company:',
-    prop: 'company',
-    collectionName: 'companies',
-    valueField: '__originalId',
-    nameField: 'name',
-    subscriptionById: 'companyById',
-    displayValue: function(company) {
-      if (company) {
-        return company.name;
-      }
-      return 'N/A';
-    }
-  },
-  forename: {
-    display: 'Forename:',
-    prop: 'forename'
-  },
-  surname: {
-    display: 'Surname:',
-    prop: 'surname'
-  },
-  phone: {
-    display: 'Phone:',
-    prop: 'phone',
-    allowMultiple: true
-  },
-  tags: {
-    display: 'Tag:',
-    prop: 'tags',
-    collectionName: 'tags',
-    autosuggestFilter: {
-      collection: 'contacts'
-    },
-    valueField: 'name',
-    nameField: 'name'
-  },
-  sequencedIdentifier: {
-    display: 'RealTime Contact Identifier:',
-    prop: 'sequencedIdentifier',
-    allowMultiple: false,
-    verify: function(sequencedIdentifier) {
-      if (!sequencedIdentifier) return false;
-      return true;
-    }
-  }
-};
+Contacts.filters = ContactFilters;
 
 ////////////////////
 // SEARCH INDICES //
 ////////////////////
 
-Collections.contacts.index = ContactsIndex = new EasySearch.Index({
+Contacts.index = new EasySearch.Index({
   collection: Contacts,
   fields: ['forename', 'surname'],
   permission: function(options) {

@@ -1,9 +1,11 @@
-import { Activities, EventLog, Notifications, Opportunities, Projects, Products, PurchaseOrders, Tasks } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, EventLog, Notifications, Opportunities, Projects, Products, PurchaseOrders, Tasks } from '/imports/api/collections.js';
 import { Tags } from '/imports/api/tags/collection.js';
 Collections = {};
 Collections.helpers = {};
 
 Collections.activities = Activities;
+Collections.companies = Companies;
+Collections.contacts = Contacts;
 Collections.eventLog = EventLog;
 Collections.notifications = Notifications;
 Collections.opportunities = Opportunities;
@@ -12,3 +14,5 @@ Collections.products = Products;
 Collections.purchaseorders = PurchaseOrders;
 Collections.tags = Tags;
 Collections.tasks = Tasks;
+
+export { Collections };

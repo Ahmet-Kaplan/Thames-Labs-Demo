@@ -1,5 +1,7 @@
 import { Activities as ActivitiesCollection } from './activities/collection.js';
 import { Companies as CompaniesCollection } from './companies/collection.js';
+import { Contacts as ContactsCollection } from './contacts/collection.js';
+import { CustomFields as CustomFieldsCollection } from './custom-fields/collection.js';
 import { EventLog as EventLogCollection } from './event-log/collection.js';
 import { Notifications as NotificationsCollection } from './notifications/collection.js';
 import { Opportunities as OpportunitiesCollection } from './opportunities/collection.js';
@@ -11,6 +13,8 @@ import { Tasks as TaskCollection } from './tasks/collection.js';
 
 export const Activities = ActivitiesCollection;
 export const Companies = CompaniesCollection;
+export const Contacts = ContactsCollection;
+export const CustomFields = CustomFieldsCollection;
 export const EventLog = EventLogCollection;
 export const Notifications = NotificationsCollection;
 export const Opportunities = OpportunitiesCollection;

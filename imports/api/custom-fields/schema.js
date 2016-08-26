@@ -1,4 +1,4 @@
-Schemas.CustomField = new SimpleSchema({
+export const CustomFieldSchema = new SimpleSchema({
   name: {
     type: String,
     label: "Custom field name"
@@ -46,4 +46,3 @@ Schemas.CustomField = new SimpleSchema({
     type: String
   }
 });
-CustomFields.attachSchema(Schemas.CustomField);

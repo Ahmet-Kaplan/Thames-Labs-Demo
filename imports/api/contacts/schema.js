@@ -1,4 +1,4 @@
-Schemas.Contact = new SimpleSchema({
+export const ContactSchema = new SimpleSchema({
   sequencedIdentifier: {
     type: Number,
     label: "RealTime ID",
@@ -143,4 +143,3 @@ Schemas.Contact = new SimpleSchema({
     defaultValue: new Date()
   }
 });
-Contacts.attachSchema(Schemas.Contact);

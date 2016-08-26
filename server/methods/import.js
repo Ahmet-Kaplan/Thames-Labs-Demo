@@ -1,4 +1,4 @@
-import { Companies, Tasks } from '/imports/api/collections.js';
+import { Companies, Contacts, CustomFields, Tasks } from '/imports/api/collections.js';
 
 function getFieldValueByKey(valueList, key) {
   var result = _.result(_.find(valueList, function(obj) {

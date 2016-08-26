@@ -17,9 +17,9 @@ Meteor.methods({
     });
   },
   addContactActivity: function() {
+    const { Activities, Contacts } = require('/imports/api/collections.js');
     var entity = Contacts.findOne({});
     var data = entity.forename + " " + entity.surname;
-    const { Activities } = require('/imports/api/collections.js');
     Activities.insert({
       type: "Note",
       notes: "Test contact activity",
@@ -134,6 +134,7 @@ Meteor.methods({
   },
 
   addContact: function(user, forename, surname) {
+    const { Contacts } = require('/imports/api/collections.js');
     var contactForename = (forename === true) ? 'Obi-Wan' : (forename || 'Testy'),
         contactSurname = (forename === true) ? 'Kenobi' : (surname || 'Surname'),
         email = (forename === true) ? 'obiwan@kenobi.com' : 'testy@surname.com';
@@ -169,7 +170,7 @@ Meteor.methods({
   addContactForCompany: function() {
     var userId = Meteor.userId();
 
-    const { Companies } = require('/imports/api/collections.js');
+    const { Companies, Contacts } = require('/imports/api/collections.js');
     var companyId = Companies.insert({
       name: 'Test Ltd',
       address: 'Cowley Road',

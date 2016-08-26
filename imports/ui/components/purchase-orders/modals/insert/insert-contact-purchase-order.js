@@ -1,5 +1,5 @@
 import './insert-contact-purchase-order.html';
-import { Companies } from '/imports/api/collections.js';
+import { Companies, Contacts } from '/imports/api/collections.js';
 
 Template.insertContactPurchaseOrderModal.helpers({
   currentUser: function() {

@@ -1,5 +1,5 @@
 import { getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
-import { Companies, Projects, PurchaseOrders, Tasks } from '/imports/api/collections.js';
+import { Companies, Contacts, Projects, PurchaseOrders, Tasks } from '/imports/api/collections.js';
 import { ActivitySchema } from './schema.js';
 import { ActivityFilters } from './filters.js';
 

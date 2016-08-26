@@ -1,4 +1,4 @@
-import { Companies, Projects, Products } from '/imports/api/collections.js';
+import { Companies, Contacts, CustomFields, Projects, Products } from '/imports/api/collections.js';
 Meteor.methods({
   'customFields.getGlobalsByTenantEntity': function(tenantId, entityType) {
     const res = CustomFields.find({
