@@ -6,6 +6,7 @@
     "test": "tests"
   },
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "body-parser": "^1.15.0",
     "bootbox": "^4.4.0",
     "bootstrap-tour": "^0.10.3",
@@ -51,8 +52,8 @@
     "jsdoc": "./node_modules/.bin/jsdoc -c conf.json",
     "commit": "git commit -am",
     "precommit": "npm run lint",
-    "unit-test": "meteor test --once --driver-package linguahouse:mocha-phantomjs-junit",
-    "unit-test:watch": "TEST_WATCH=1 meteor test --driver-package linguahouse:mocha-phantomjs-junit --port 3100",
+    "unit-test": "meteor test --once --driver-package dispatch:mocha-phantomjs",
+    "unit-test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha-phantomjs --port 3100",
     "unit-test:browser": "meteor test --driver-package dispatch:mocha-browser --port 3100"
   },
   "repository": {

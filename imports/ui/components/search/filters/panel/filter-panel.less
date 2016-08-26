@@ -1,0 +1,96 @@
+@import "/client/bootstrap/custom.bootstrap.import.less";
+.filter-panel {
+  transition: 0.1s all ease-in-out;
+  display: block;
+}
+
+.filter-results {
+  line-height: 25px;
+  margin-bottom: 10px;
+}
+
+#filter-search .selectize-control {
+  display: inline-block;
+  min-width: 200px;
+  margin-left: 5px;
+}
+
+#filter-search .selectize-input {
+  border: none;
+  padding: 0 5px 0 0;
+  border-radius: 0;
+  min-height: 20px;
+  margin-bottom: -5px;
+}
+
+#filter-search .selectize-input > input[placeholder] {
+  width: 100% !important;
+  cursor: pointer;
+}
+
+#filter-search .selectize-input.input-active > input[placeholder] {
+  cursor: text;
+}
+
+
+#filter-search .selectize-dropdown {
+  margin-top: 10px;
+}
+
+/*
+  Change styling of placeholder colour to appear like a link
+  These styles can't be grouped or browsers ignore all of them!
+*/
+/* Normal selectize link */
+#filter-search .selectize-input > input[placeholder]::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color: @link-color !important;
+  text-decoration: underline !important;
+  opacity:  1;
+}
+#filter-search .selectize-input > input[placeholder]:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: @link-color !important;
+  text-decoration: underline !important;
+  opacity:  1;
+}
+#filter-search .selectize-input > input[placeholder]::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: @link-color !important;
+  text-decoration: underline !important;
+  opacity:  1;
+}
+#filter-search .selectize-input > input[placeholder]:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: @link-color !important;
+  text-decoration: underline !important;
+  opacity:  1;
+  cursor: pointer !important;
+}
+/* Hovering over selectize link */
+#filter-search .selectize-input > input[placeholder]:hover::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color: @link-hover-color !important;
+}
+#filter-search .selectize-input > input[placeholder]:hover:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: @link-hover-color !important;
+}
+#filter-search .selectize-input > input[placeholder]:hover::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: @link-hover-color !important;
+}
+#filter-search .selectize-input > input[placeholder]:hover:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: @link-hover-color !important;
+}
+
+/* Typing into selectize */
+#filter-search .selectize-input.input-active > input[placeholder]::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color: @gray-light !important;
+  text-decoration: none !important;
+}
+#filter-search .selectize-input.input-active > input[placeholder]:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: @gray-light !important;
+  text-decoration: none !important;
+}
+#filter-search .selectize-input.input-active > input[placeholder]::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: @gray-light !important;
+  text-decoration: none !important;
+}
+#filter-search .selectize-input.input-active > input[placeholder]:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: @gray-light !important;
+  text-decoration: none !important;
+}

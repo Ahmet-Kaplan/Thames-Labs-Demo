@@ -27,5 +27,5 @@ Template.events.events({
         });
       }
     });
-  },
+  }
 });

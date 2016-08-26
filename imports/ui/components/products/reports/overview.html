@@ -1,0 +1,47 @@
+<template name="productsOverview">
+{{#unless dashboard}}
+<li>
+  <a id="ref_productsOverviewWidget" data-toggle="popover" title="Products Overview" data-content="
+            <div id='productOverviewPop'>
+                <table class='table table-no-border'>
+                <tbody>
+                    <tr>
+                    <td>Products:</td>
+                    <td class='text-right'>{{totalProducts}}</td>
+                    </tr>
+                    <tr>
+                    <td>Total Cost:</td>
+                    <td class='text-right'>{{decimal totalProductsCost}}</td>
+                    </tr>
+                    <tr>
+                    <td>Average Cost:</td>
+                    <td class='text-right'>{{decimal averageProductsCost}}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+                                                                                ">Overview</a>
+</li>
+
+{{else}}
+
+<div id='productOverviewPop'>
+  <table class='table table-no-border'>
+    <tbody>
+      <tr>
+        <td>Products:</td>
+        <td class='text-right'>{{totalProducts}}</td>
+      </tr>
+      <tr>
+        <td>Total Cost:</td>
+        <td class='text-right'>{{decimal totalProductsCost}}</td>
+      </tr>
+      <tr>
+        <td>Average Cost:</td>
+        <td class='text-right'>{{decimal averageProductsCost}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{{/unless}}
+</template>

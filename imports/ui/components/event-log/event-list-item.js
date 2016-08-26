@@ -1,6 +1,9 @@
+import '/imports/ui/components/search/search-results.js';
+import '/imports/ui/components/search/local/small-box/small-search-box.js';
 import './event-list-item.html';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
+
 Template.events.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
