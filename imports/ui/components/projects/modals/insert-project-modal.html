@@ -13,7 +13,7 @@
             {{> afQuickField name="name"}}
             {{> afQuickField name="description" rows=3}}
 
-            {{> autosuggestCompanyContact}}
+            {{> autosuggestCompanyContact contactFieldName='contactId' companyFieldName='companyId'}}
 
             {{> autosuggest name="userId" index=UsersIndex}}
 
