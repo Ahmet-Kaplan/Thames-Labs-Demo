@@ -34,9 +34,9 @@ Meteor.methods({
           activityDetails.primaryEntityDisplayData = result.name;
           break;
         case 'contacts':
-          // activityDetails.companyId = result.companyId;
-          // activityDetails.contactId = result._id;
-          // activityDetails.primaryEntityDisplayData = `${result.title} ${result.forename} ${result.surname}`;
+          activityDetails.companyId = result.companyId;
+          activityDetails.contactId = result._id;
+          activityDetails.primaryEntityDisplayData = `${result.forename} ${result.surname}`;
           break;
         case 'projects':
           // activityDetails.companyId = result.companyId;

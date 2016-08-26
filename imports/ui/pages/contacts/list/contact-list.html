@@ -23,7 +23,16 @@
     </div>
     <div class="col-xs-12 col-sm-4">
       <ul class="list-toolbar pull-right">
-        {{> tagManagement collectionName='contacts'}}
+        <span class="dropdown">
+          <a href="#" id="bulkActionDropdown" type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Manage Records
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="bulkActionDropdown">
+            {{> tagManagement collectionName='contacts'}}
+            {{> activityManagement collectionName='contacts'}}
+          </ul>
+        </span>
         {{> importEntityDropdown entity="contacts"}}
         {{> exportCollection entity="contacts"}}
       </ul>
