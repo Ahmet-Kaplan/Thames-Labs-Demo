@@ -47,11 +47,6 @@ Template.autosuggestCompanyContact.helpers({
       load: (query) => {
         self.companyQuery.set(query);
       },
-      onFocus: () => {
-        if (!self.companyQuery.get()) {
-          self.companyQuery.set('');
-        }
-      },
       onChange: (value) => {
         self.companyValue.set(value);
       },

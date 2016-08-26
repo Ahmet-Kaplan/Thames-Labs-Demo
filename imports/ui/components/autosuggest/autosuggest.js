@@ -75,11 +75,6 @@ Template.autosuggest.helpers({
       load: (query) => {
         self.query.set(query);
       },
-      onFocus: function() {
-        if (!self.query.get()) {
-          self.query.set('');
-        }
-      },
       onInitialize: function() {
         if (self.data.readonly) {
           this.disable();
