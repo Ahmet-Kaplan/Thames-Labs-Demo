@@ -134,6 +134,7 @@ Feature: Allow users to manage their Purchase Orders
     Then I should see "#no-activity"
 
   #Filtering and Searching
+
   Scenario: A user can filter purchase orders by company
     Given I have the "CanReadCompanies" permission
     And I am on the pro plan
@@ -142,8 +143,8 @@ Feature: Allow users to manage their Purchase Orders
     And an additional "PurchaseOrder" has been created
     And I click "#menu-link-purchaseorders"
     And I set the filter to "Company:" then "Test Ltd"
-    Then I should see ".removeProp"
-    And "#resultsCount" should say "1 record"
+    Then I should see ".filter-tag"
+    And "#results-count" should contain "1 purchase order"
 
   Scenario: A user can filter purchase orders by status
     Given I have the "Administrator" permission
@@ -152,8 +153,8 @@ Feature: Allow users to manage their Purchase Orders
     And an additional "PurchaseOrder" has been created
     And I click "#menu-link-purchaseorders"
     And I set the filter to "Status:" then "Requested"
-    Then I should see ".removeProp"
-    And "#resultsCount" should say "1 record"
+    Then I should see ".filter-tag"
+    And "#results-count" should contain "1 purchase order"
 
   #Notifications
   Scenario: A user should see a notification when status is set to "Approved"

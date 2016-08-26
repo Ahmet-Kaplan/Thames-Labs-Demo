@@ -175,13 +175,10 @@ Template.nav.events({
   },
   'click #toggle-search': function(event) {
     event.preventDefault();
-    const state = Session.get('globalSearchOpen');
-    if (state === false) {
-      Session.set('globalSearchOpen', true);
-      Modal.show('globalSearch');
-    } else {
-      Session.set('globalSearchOpen', false);
+    if ($("#globalSearchBox").length) {
       Modal.hide('globalSearch');
+    } else {
+      Modal.show('globalSearch');
     }
   },
   'click #feedback-link': function(event) {

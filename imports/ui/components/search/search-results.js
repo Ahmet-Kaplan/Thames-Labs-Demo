@@ -1,3 +1,6 @@
+import './search-results.html';
+import './search-results.less';
+
 Template.searchResults.onRendered(function() {
 
   const index = this.data.index;
@@ -29,7 +32,7 @@ Template.searchResults.onRendered(function() {
 
 Template.searchResults.helpers({
   listItem: function() {
-    var templateName = Template.instance().data.listItemTemplateName;
+    const templateName = Template.instance().data.listItemTemplateName;
     return Template[templateName];
   },
   resultsCount: function() {
@@ -42,7 +45,7 @@ Template.searchResults.helpers({
 
 Template.searchResults.events({
   'click a.reset-search': function() {
-    var indexMethods = Template.instance().data.index.getComponentMethods();
+    const indexMethods = Template.instance().data.index.getComponentMethods();
     indexMethods.removeProps();
     indexMethods.search('');
     $('input.easysearch-input').val('');
