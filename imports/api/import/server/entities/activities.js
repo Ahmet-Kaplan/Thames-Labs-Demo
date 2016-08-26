@@ -5,48 +5,48 @@ export const importActivity = (row, getValueForField, userId) => {
   //Get linked entities
   const recordType = getValueForField(row, 'recordType').toLowerCase();
   let entity = {};
-  let entityName = "";
+  let entityName = getValueForField(row, 'record');
   switch (recordType) {
-    case 'company':
+    case 'companies':
       entity = Companies.findOne({
-        name: getValueForField(row, 'record')
+        name: entityName
       });
       if (entity) entityName = entity.name;
       break;
-    case 'contact':
+    case 'contacts':
       entity = Contacts.findOne({
-        forename: getValueForField(row, 'record').split(' ')[0],
-        surname: getValueForField(row, 'record').split(' ')[1]
+        forename: entityName.split(' ')[0],
+        surname: entityName.split(' ')[1]
       });
       if (entity) entityName = `${entity.forename} ${entity.surname}`;
       break;
-    case 'opportunity':
+    case 'opportunities':
       entity = Opportunities.findOne({
-        name: getValueForField(row, 'record')
+        name: entityName
       });
       if (entity) entityName = entity.name;
       break;
-    case 'project':
+    case 'projects':
       entity = Projects.findOne({
-        name: getValueForField(row, 'record')
+        name: entityName
       });
       if (entity) entityName = entity.name;
       break;
-    case 'purchaseOrder':
+    case 'purchaseorders':
       entity = PurchaseOrders.findOne({
-        description: getValueForField(row, 'record')
+        description: entityName
       });
       if (entity) entityName = entity.description;
       break;
-    case 'task':
+    case 'tasks':
       entity = Tasks.findOne({
-        title: getValueForField(row, 'record')
+        title: entityName
       });
       if (entity) entityName = entity.title;
       break;
   }
   if (!entity) {
-    result.error = `Could not find entity "${getValueForField(row, 'record')}" for activity "${getValueForField(row, 'notes')}"`;
+    result.error = `Could not find entity "${entityName}" for activity "${getValueForField(row, 'notes').slice(0, 25)}..."`;
     return result;
   }
 
