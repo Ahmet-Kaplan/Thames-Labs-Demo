@@ -3,18 +3,10 @@ import './modal.js';
 
 Template.notice.helpers({
   shortText: function() {
-    const title = this.title.substr(0, 40);
-    if (title.length > 37) {
-      return title + "...";
-    }
-    return title;
+    return _.truncate(this.title);
   },
   shortDetail: function() {
-    const detail = this.detail.substr(0, 40);
-    if (detail.length > 37) {
-      return detail + "...";
-    }
-    return detail;
+    return _.truncate(this.detail, {'length': 40});
   },
 
   recentNote: function() {
