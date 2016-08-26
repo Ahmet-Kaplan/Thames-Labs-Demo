@@ -10,20 +10,23 @@
 **  - ctrl+alt+w:   close any open modal
 */
 
+import '/imports/ui/components/companies/modals/insert-company-modal.js';
+import '/imports/ui/components/contacts/modals/insert-contact-modal.js';
+import '/imports/ui/components/opportunities/modals/insert/insert-opportunity-modal.js';
+import '/imports/ui/components/projects/modals/insert-project-modal.js';
+import '/imports/ui/components/products/modals/insert-product-modal.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-purchase-order.js';
 
-globalHotkeys = new Hotkeys();
+const globalHotkeys = new Hotkeys();
 
 globalHotkeys.add({
   combo: "ctrl+shift+f",
   callback: function() {
-    var state = Session.get('globalSearchOpen');
-    if (state === false) {
-      Session.set('globalSearchOpen', true);
-      Modal.show('globalSearch');
-    } else {
-      Session.set('globalSearchOpen', false);
+    //Check searchbox is open
+    if ($("#globalSearchBox").length) {
       Modal.hide('globalSearch');
+    } else {
+      Modal.show('globalSearch');
     }
   }
 });
@@ -32,7 +35,7 @@ globalHotkeys.add({
   combo: "ctrl+alt+c",
   callback: function() {
     if(!$('.modal-header h4').text()) {
-      Modal.show('insertNewCompanyModal');
+      Modal.show('insertCompanyModal');
     } else if($('.modal-header h4:contains("Add new company")').length) {
       Modal.hide();
     }

@@ -1,10 +1,14 @@
-import './task-list.html';
+import '/imports/ui/components/search/search-results.js';
+import '/imports/ui/components/search/local/small-box/small-search-box.js';
+import '/imports/ui/components/search/filters';
 import '/imports/ui/components/tasks/task-item.js';
 import '/imports/ui/components/tasks/calendar/calendar.js';
 import '/imports/ui/components/tasks/modals/insert-task-modal.js';
-import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/export/export.js';
 import '/imports/ui/components/import/import.js';
+import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+
+import './task-list.html';
 
 Template.taskList.onCreated(function() {
   // Redirect if read permission changed
@@ -22,8 +26,6 @@ Template.taskList.onCreated(function() {
 
   this.showSubtasks = new ReactiveVar(true);
 
-  // Total tasks in search results
-  this.totalTasks = new ReactiveVar(0);
 });
 
 Template.taskList.onRendered(function() {
@@ -36,10 +38,6 @@ Template.taskList.onRendered(function() {
       TasksIndex.getComponentMethods().search(searchQuery);
       $('.stick-bar input').val(searchQuery);
     }
-  });
-
-  this.autorun(() => {
-    this.totalTasks.set(Collections['tasks'].index.getComponentDict().get('count'));
   });
 
   this.autorun(() => {
@@ -63,12 +61,6 @@ Template.taskList.onRendered(function() {
 Template.taskList.helpers({
   showCalendar: function() {
     return Template.instance().showCalendar.get();
-  },
-  taskCount: function() {
-    return Template.instance().totalTasks.get();
-  },
-  hasMultipleTasks: function() {
-    return Template.instance().totalTasks.get() !== 1;
   },
   showMine: function() {
     return Template.instance().showMine.get();
