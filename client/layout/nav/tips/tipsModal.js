@@ -11,24 +11,16 @@ Template.tipsModal.onDestroyed(function() {
 Template.tipsModal.events({
   'click #next-tip': function(event, template) {
     const length = TipList.length;
-    let index = Template.instance().currentTip.get();
+    const index = Template.instance().currentTip.get();
 
-    Template.instance().currentTip.set(index + 1);
-    index = Template.instance().currentTip.get();
-
-    if (index + 1 > length) {
-      Template.instance().currentTip.set(0);
-    }
+    Template.instance().currentTip.set((index + 1) % length);
   },
   'click #previous-tip': function(event, template) {
     const length = TipList.length;
-    let index = Template.instance().currentTip.get();
+    const index = Template.instance().currentTip.get();
 
-    Template.instance().currentTip.set(index - 1);
-    index = Template.instance().currentTip.get();
-
-    if (index + 1 > length) {
-      Template.instance().currentTip.set(0);
+    if (index !== 0) {
+      Template.instance().currentTip.set((index - 1) % length);
     }
   }
 });
