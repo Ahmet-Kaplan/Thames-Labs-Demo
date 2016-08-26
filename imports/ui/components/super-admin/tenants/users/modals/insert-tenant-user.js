@@ -1,8 +1,12 @@
 import './insert-tenant-user.html';
+import { UserSchema } from '/imports/api/users/schema.js';
 
 Template.insertTenantUser.helpers({
   formId: function() {
     return 'form-' + this._id;
+  },
+  UserSchema: function() {
+    return UserSchema;
   }
 });
 

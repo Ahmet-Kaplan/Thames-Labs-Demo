@@ -9,7 +9,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm schema="Schemas.User" id="insertTenantUserModal" type="method" meteormethod="addUser"}}
+          {{#autoForm schema=UserSchema id="insertTenantUserModal" type="method" meteormethod="addUser"}}
             {{> afQuickField name="name" id="userName"}}
             {{> afQuickField name="email" id="userEmail"}}
             {{> afQuickField name="password" type="password" id="userPassword"}}

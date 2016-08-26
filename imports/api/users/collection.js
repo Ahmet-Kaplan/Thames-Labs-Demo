@@ -4,14 +4,14 @@ Meteor.users.helpers({
   }
 });
 
-Collections.users = Meteor.users;
+export const Users = Meteor.users;
 
-Collections.users.subscriptionById = 'allUserData';
+Users.subscriptionById = 'allUserData';
 
 ////////////////////
 // SEARCH INDICES //
 ////////////////////
-Collections.users.index = UsersIndex = new EasySearch.Index({
+Users.index = new EasySearch.Index({
   collection: Meteor.users,
   fields: ['profile.name'],
   permission: function(options) {

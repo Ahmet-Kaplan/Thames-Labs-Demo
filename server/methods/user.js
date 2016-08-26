@@ -1,3 +1,5 @@
+import { UserSchema } from '/imports/api/users/schema.js';
+
 Meteor.methods({
 
   'users.export': function(collectionName, searchDefinition, searchOptions) {
@@ -119,7 +121,7 @@ Meteor.methods({
     }
 
     // Important - do server side schema check
-    check(doc, Schemas.User);
+    check(doc, UserSchema);
 
     Partitioner.bindGroup(doc.group, function() {
       // Create user account
@@ -201,7 +203,7 @@ Meteor.methods({
     }
 
     // Important - do server side schema check
-    check(doc, Schemas.User);
+    check(doc, UserSchema);
 
     // Create user account
     var userId = Accounts.createUser({

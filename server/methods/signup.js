@@ -1,7 +1,9 @@
+import { UserSignUpSchema } from '/imports/api/users/schema.js';
+
 Meteor.methods({
   signUp: function(userDetails) {
 
-    check(userDetails, Schemas.UserSignUp);
+    check(userDetails, UserSignUpSchema);
 
     var userId = Accounts.createUser({
       email: userDetails.email,

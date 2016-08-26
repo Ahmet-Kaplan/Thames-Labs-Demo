@@ -1,5 +1,6 @@
 import './insert-user.html';
 import bootbox from 'bootbox';
+import { UserSchema } from '/imports/api/users/schema.js';
 
 AutoForm.hooks({
   insertUser: {
@@ -42,5 +43,8 @@ Template.insertUser.helpers({
   isProTenant: function() {
     const tenantId = Meteor.user().group;
     return isProTenant(tenantId);
+  },
+  UserSchema: function() {
+    return UserSchema;
   }
 });

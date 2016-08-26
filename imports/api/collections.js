@@ -10,6 +10,7 @@ import { Projects as ProjectCollection } from './projects/collection.js';
 import { PurchaseOrders as PurchaseOrderCollection } from './purchase-orders/collection.js';
 import { PurchaseOrderItems as PurchaseOrderItemCollection } from './purchase-orders/items/collection.js';
 import { Tasks as TaskCollection } from './tasks/collection.js';
+import { Users as UsersCollection } from './users/collection.js';
 
 export const Activities = ActivitiesCollection;
 export const Companies = CompaniesCollection;
@@ -23,3 +24,4 @@ export const Projects = ProjectCollection;
 export const PurchaseOrders = PurchaseOrderCollection;
 export const PurchaseOrderItems = PurchaseOrderItemCollection;
 export const Tasks = TaskCollection;
+export const Users = UsersCollection;

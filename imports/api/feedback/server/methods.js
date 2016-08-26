@@ -1,7 +1,9 @@
+import { FeedbackSchema } from '/imports/api/feedback/schema.js';
+
 Meteor.methods({
 
-  sendFeedback: function(doc) {
-    check(doc, Schemas.Feedback);
+  'feedback.sendFeedback': function(doc) {
+    check(doc, FeedbackSchema);
     this.unblock();
 
     var asanaApiKey = process.env.ASANA_API_KEY;

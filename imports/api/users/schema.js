@@ -1,4 +1,4 @@
-Schemas.User = new SimpleSchema({
+export const UserSchema = new SimpleSchema({
   username: {
     type: String,
     optional: true
@@ -21,7 +21,7 @@ Schemas.User = new SimpleSchema({
         Meteor.call('isEmailAvailable', this.value, (error, result) => {
           if (result === false) {
             // Would be good to do this for any context, but unsure how to do this
-            Schemas.User.namedContext('insertTenantUserModal').addInvalidKeys([
+            UserSchema.namedContext('insertTenantUserModal').addInvalidKeys([
               { name: 'email', type: 'emailTaken' }
             ]);
           }
@@ -42,27 +42,11 @@ Schemas.User = new SimpleSchema({
     type: String
   }
 });
-
-Schemas.User.messages({
+UserSchema.messages({
   emailTaken: "This email address is already registered with RealTimeCRM"
 });
 
-Schemas.Feedback = new SimpleSchema({
-  name: {
-    type: String
-  },
-  email: {
-    type: String
-  },
-  message: {
-    type: String
-  },
-  url: {
-    type: String
-  }
-});
-
-Schemas.UserSignUp = new SimpleSchema({
+export const UserSignUpSchema = new SimpleSchema({
   name: {
     type: String,
     label: 'Your name'
@@ -83,7 +67,7 @@ Schemas.UserSignUp = new SimpleSchema({
         Meteor.call('isEmailAvailable', this.value, (error, result) => {
           if (result === false) {
             // Would be good to do this for any context, but unsure how to do this
-            Schemas.UserSignUp.namedContext('signUpForm').addInvalidKeys([
+            UserSignUpSchema.namedContext('signUpForm').addInvalidKeys([
               { name: 'email', type: 'emailTaken' }
             ]);
           }
@@ -104,7 +88,6 @@ Schemas.UserSignUp = new SimpleSchema({
     label: "Coupon code"
   }
 });
-
-Schemas.UserSignUp.messages({
+UserSignUpSchema.messages({
   emailTaken: "This email address is already registered with RealTimeCRM"
 });
