@@ -129,6 +129,6 @@ Feature: Allow users to manage their Products
     And an additional "Product" has been created
     When I navigate to "/products"
     And I set the filter to "Sales Price >" then "1000"
-    Then I should see ".removeProp"
+    Then I should see ".filter-tag"
     And I should see ".product-item"
-    And "#resultsCount" should say "1 record"
+    And "#results-count" should contain "1 product"

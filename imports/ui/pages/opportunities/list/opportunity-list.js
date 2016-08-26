@@ -2,6 +2,8 @@ import { permissionHelpers } from '/imports/api/permissions/permission-helpers.j
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/opportunities/opportunity-list-item.js';
 import '/imports/ui/components/opportunities/modals/insert/insert-opportunity-modal.js';
+import '/imports/ui/components/search/filters';
+import '/imports/ui/components/search/search-results.js';
 import '/imports/ui/components/opportunities/reports/overview.js';
 import '/imports/ui/components/export/export.js';
 import './opportunity-list.html';
@@ -12,7 +14,11 @@ Template.opportunityList.onCreated(function() {
     permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadOpportunities');
   });
 
-  this.oppsListCount = new ReactiveVar(0);
+  // Summary stats
+  this.openOpps = new ReactiveVar(0);
+  this.archivedOpps = new ReactiveVar(0);
+  this.totalOppValue = new ReactiveVar(0);
+  this.averageOppValue = new ReactiveVar(0);
 
   // Store search index dict on template to allow helpers to access
   this.index = OpportunitiesIndex;
@@ -24,10 +30,6 @@ Template.opportunityList.onCreated(function() {
 });
 
 Template.opportunityList.onRendered(function() {
-  this.autorun(() => {
-    this.oppsListCount.set(Collections['opportunities'].index.getComponentDict().get('count'));
-  });
-
   // Update reactive vars if search props updated
   this.autorun(() => {
     const searchComponent = this.index.getComponentDict(),
@@ -56,12 +58,6 @@ Template.opportunityList.helpers({
   },
   sortByValue: function() {
     return Template.instance().sortByValue.get();
-  },
-  oppCount: function() {
-    return Template.instance().oppsListCount.get();
-  },
-  hasMultipleOpps: function() {
-    return Template.instance().oppsListCount.get() !== 1;
   }
 });
 
