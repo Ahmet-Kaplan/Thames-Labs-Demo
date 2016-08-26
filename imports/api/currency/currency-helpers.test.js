@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { chai } from 'meteor/practicalmeteor:chai';
 import sinon from 'sinon';
 import { currencyHelpers } from './currency-helpers.js';
+import { Tenants } from '/imports/api/collections.js';
 
 describe("currency helpers", () => {
   beforeEach(function() {
@@ -22,22 +23,6 @@ describe("currency helpers", () => {
     chai.assert.equal(currencyHelpers.getCurrencySymbol("usd"), "$");
   });
 
-
-/*  The below tests cannot be run successfully until the
-    Tenants collection has been fully modularized
-
-    This is because in order to stub a function, sinon
-    requires the Tenant object to be imported locally
-    which is not currently possible given the current
-    structure. The alternative is to directly replacing
-    the global Tenant object in this test file, which
-    will cause problems with other tests.
-
-    Uncomment below code once the Tenant collection has
-    been refactored for working tests.
-   */
-
-/*
   //currencyHelpers.userCurrencySymbol tests
   it("returns correct currency symbol for a British tenant", function() {
     sandbox.stub(Tenants, 'findOne', function() {
@@ -98,7 +83,8 @@ describe("currency helpers", () => {
       sandbox.stub(Tenants, 'findOne', function() {
         return {settings: { currency: "eur" }};
       });
-      chai.assert.equal(currencyHelpers.toDecimal(42), "42.00 €");
+      console.log(currencyHelpers.toDecimal(42));
+      chai.assert.equal(currencyHelpers.toDecimal(42), "42,00 €");
     });
 
     it("returns correct formatted prices for an American Tenant", function() {
@@ -107,5 +93,5 @@ describe("currency helpers", () => {
       });
       chai.assert.equal(currencyHelpers.toDecimal(42), "$42.00");
     });
-  } */
+  }
 });

@@ -1,4 +1,3 @@
-import { Opportunities } from '/imports/api/collections.js';
 import './insert-task-modal.html';
 import './reminder-selector.js';
 
