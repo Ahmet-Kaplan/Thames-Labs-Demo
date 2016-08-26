@@ -1,4 +1,4 @@
-import { Activities, Companies, Contacts, CustomFields, PurchaseOrders } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, CustomFields, PurchaseOrders, Tenants } from '/imports/api/collections.js';
 import { getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
 
 import { ProjectSchema } from './schema.js';

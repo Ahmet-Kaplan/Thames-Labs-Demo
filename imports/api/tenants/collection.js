@@ -1,4 +1,8 @@
-Collections.tenants = Tenants = new Mongo.Collection('tenants');
+import { TenantSchema } from './schema.js';
+import { TenantFilters } from './schema.js';
+
+export const Tenants = new Mongo.Collection('tenants');
+Tenants.attachSchema(TenantSchema);
 
 Tenants.helpers({
   users: function() {
@@ -7,72 +11,20 @@ Tenants.helpers({
     });
   }
 });
+Tenants.permit(['insert', 'update', 'remove']).ifHasRole('superadmin').apply();
+Tenants.permit('update').onlyProps(['settings', 'name']).ifHasRole('Administrator').apply();
 
 ////////////////////
 // SEARCH FILTERS //
 ////////////////////
 
-Collections.tenants.filters = {
-  user: {
-    display: 'User:',
-    prop: 'user',
-    collectionName: 'users',
-    valueField: '__originalId',
-    nameField: 'name',
-    subscriptionById: 'allUserData',
-    allowMultiple: false,
-    displayValue: function(user) {
-      if (user) {
-        return user.profile.name;
-      }
-    }
-  },
-  plan: {
-    display: 'Plan:',
-    prop: 'plan',
-    defaultOptions: function() {
-      return ['Free', 'Free+', 'Pro'];
-    },
-    strict: true,
-    allowMultiple: false,
-    displayValue: function(plan) {
-      if (!plan) return false;
-      return true;
-    }
-  },
-  active: {
-    display: 'Activity:',
-    prop: 'active',
-    defaultOptions: function() {
-      return ['7 days', '14 days', '28 days'];
-    },
-    strict: true,
-    allowMultiple: false,
-    displayValue: function(active) {
-      if (!active) return false;
-      return true;
-    }
-  },
-  toBeDeleted: {
-    display: 'To Be Deleted:',
-    prop: 'toBeDeleted',
-    defaultOptions: function() {
-      return ['Yes', 'No'];
-    },
-    strict: true,
-    allowMultiple: false,
-    displayValue: function(flagged) {
-      if (!flagged) return false;
-      return true;
-    }
-  }
-};
+Tenants.filters = TenantFilters;
 
 ////////////////////
 // SEARCH INDICES //
 ////////////////////
 
-Collections.tenants.index = TenantsIndex = new EasySearch.Index({
+Tenants.index = new EasySearch.Index({
   collection: Tenants,
   fields: ['name'],
   permission: function(options) {

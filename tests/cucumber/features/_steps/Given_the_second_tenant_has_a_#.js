@@ -2,6 +2,8 @@ module.exports = function() {
   this.Given(/^the second tenant has an? ([^"]*)$/, function(friendlyEntityName) {
 
     server.execute((EntityName) => {
+
+      const { Tenants } = require('/imports/api/collections.js');
       const secondTenant = Tenants.findOne({
               name: "Acme Corp Rivals"
             }),

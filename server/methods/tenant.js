@@ -1,4 +1,4 @@
-import { Activities, Companies, Contacts, EventLog, Projects, Products, PurchaseOrders, PurchaseOrderItems, Opportunities, Tasks } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, EventLog, Projects, Products, PurchaseOrders, PurchaseOrderItems, Opportunities, Tasks, Tenants } from '/imports/api/collections.js';
 import { ActivitySchema } from '/imports/api/activities/schema.js';
 import { PurchaseOrderSchema } from '/imports/api/purchase-orders/schema.js';
 

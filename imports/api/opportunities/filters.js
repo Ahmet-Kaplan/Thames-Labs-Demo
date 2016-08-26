@@ -1,3 +1,4 @@
+import { Tenants } from '/imports/api/collections.js';
 export const OpportunityFilters = {
   company: {
     display: 'Company:',

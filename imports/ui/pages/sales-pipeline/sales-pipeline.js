@@ -6,7 +6,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
 import { Tracker } from 'meteor/tracker';
 
-import { Opportunities } from '/imports/api/collections.js';
+import { Opportunities, Tenants } from '/imports/api/collections.js';
 
 import { SalesPipelineChart } from '/imports/ui/components/sales-pipeline/sales-pipeline-chart';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';

@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import { stripeCustomer, displayLocale } from '/imports/api/billing/helpers.js';
 import bootbox from 'bootbox';
+import { Tenants } from '/imports/api/collections.js';
 
 import '../coupon/coupon-modal.js';
 import '../card/update-card-modal.js';

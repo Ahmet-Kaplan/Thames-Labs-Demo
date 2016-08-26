@@ -1,4 +1,4 @@
-import { Activities, Companies, Contacts, CustomFields, Notifications, Projects, Products, PurchaseOrders, PurchaseOrderItems, Opportunities, Tasks } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, CustomFields, Notifications, Projects, Products, PurchaseOrders, PurchaseOrderItems, Opportunities, Tasks, Tenants } from '/imports/api/collections.js';
 Meteor.publish('userPresence', function() {
   var filter = {
     userId: {

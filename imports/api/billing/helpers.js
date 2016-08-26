@@ -1,3 +1,4 @@
+import { Tenants } from '/imports/api/collections.js';
 export function displayLocale(number, currency) {
   if (isNaN(number)) return '';
   currency = _.lowerCase(currency);

@@ -5,6 +5,7 @@ import './opportunities-admin.html';
 
 import 'meteor/mrt:jquery-ui-sortable';
 import { Blaze } from 'meteor/blaze';
+import { Tenants } from '/imports/api/collections.js';
 
 
 Template.opportunitiesAdmin.onRendered(function() {

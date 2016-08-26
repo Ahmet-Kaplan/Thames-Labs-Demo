@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { moment } from 'meteor/momentjs:moment';
+import { Tenants } from '/imports/api/collections.js';
 
 //This function takes an opportunity JSON object, and returns another JSON object with required headings for export
 const formatOpportunityForExport = (record) => {

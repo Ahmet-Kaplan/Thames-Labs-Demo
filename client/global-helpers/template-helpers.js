@@ -1,5 +1,5 @@
 import { currencyHelpers } from '/imports/api/currency/currency-helpers.js';
-import { Activities, Companies, Contacts, EventLog, Opportunities, Projects, Products, PurchaseOrders, Tasks} from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, EventLog, Opportunities, Projects, Products, PurchaseOrders, Tasks, Tenants, Users} from '/imports/api/collections.js';
 import { Tracker } from 'meteor/tracker';
 
 Template.registerHelper('greaterThan', function(a, b) {
@@ -104,10 +104,10 @@ Template.registerHelper('OpportunitiesIndex', () => Opportunities.index);
 Template.registerHelper('ProductsIndex', () => Products.index);
 Template.registerHelper('ProjectsIndex', () => Projects.index);
 Template.registerHelper('PurchaseOrdersIndex', () => PurchaseOrders.index);
-Template.registerHelper('UsersIndex', () => UsersIndex);
+Template.registerHelper('UsersIndex', () => Users.index);
 Template.registerHelper('TasksIndex', () => Tasks.index);
 Template.registerHelper('TagsIndex', () => TagsIndex);
-Template.registerHelper('TenantsIndex', () => TenantsIndex);
+Template.registerHelper('TenantsIndex', () => Tenants.index);
 
 // Return standard search input attributes for EasySearch
 Template.registerHelper('searchInputAttributes', () => {

@@ -1,4 +1,4 @@
-import { Companies, Contacts, CustomFields, Projects, Products, PurchaseOrders, Opportunities } from '/imports/api/collections.js';
+import { Companies, Contacts, CustomFields, Projects, Products, PurchaseOrders, Opportunities, Tenants } from '/imports/api/collections.js';
 Migrations.add({
   version: 24,
   name: "Move all custom fields to new collection storage approach",

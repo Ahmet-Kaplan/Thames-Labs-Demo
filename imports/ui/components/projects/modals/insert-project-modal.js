@@ -1,4 +1,5 @@
 import './insert-project-modal.html';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.insertProjectModal.onCreated(function() {
   this.showContacts = new ReactiveVar(true);

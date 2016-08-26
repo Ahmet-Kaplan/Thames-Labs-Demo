@@ -1,8 +1,3 @@
-Tenants.permit(['insert', 'update', 'remove']).ifHasRole('superadmin').apply();
-Tenants.permit('update').onlyProps(['settings', 'name']).ifHasRole('Administrator').apply();
-
-Meteor.users.permit(['insert', 'remove']).ifHasRole('superadmin').apply();
-
 ServerSession.setCondition(function(key, value) {
   // Check for user ID. If not there, forcibly return true to ensure that the server can do whatever it needs to.
   // If this is a user request, check which key they're trying to set and whether or not they're a super

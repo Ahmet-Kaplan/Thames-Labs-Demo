@@ -1,6 +1,6 @@
 import './milestone-control.html';
 
-import { Projects } from '/imports/api/collections.js';
+import { Projects, Tenants } from '/imports/api/collections.js';
 
 Template.milestoneControl.helpers({
   milestones: function() {

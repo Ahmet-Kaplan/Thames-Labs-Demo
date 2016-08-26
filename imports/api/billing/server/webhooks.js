@@ -1,5 +1,6 @@
 import { Email } from 'meteor/email';
 import { Picker } from 'meteor/meteorhacks:picker';
+import { Tenants } from '/imports/api/collections.js';
 
 const postRoutes = Picker.filter(function(req, res) {
   return req.method == "POST";

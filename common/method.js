@@ -1,4 +1,4 @@
-import { Activities, Projects, Opportunities, Tasks } from '/imports/api/collections.js';
+import { Activities, Projects, Opportunities, Tasks, Tenants } from '/imports/api/collections.js';
 import '/imports/api/tawk-to/tawk-to-methods.js';
 
 Meteor.methods({

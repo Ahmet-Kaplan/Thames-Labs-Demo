@@ -1,4 +1,5 @@
 import { UserSignUpSchema } from '/imports/api/users/schema.js';
+import { Tenants } from '/imports/api/collections.js';
 
 Meteor.methods({
   signUp: function(userDetails) {

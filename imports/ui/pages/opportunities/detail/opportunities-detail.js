@@ -8,7 +8,7 @@ import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/tasks/panel/task-panel.js';
 import './opportunities-detail.less';
 import './opportunities-detail.html';
-import { Activities, Companies, Contacts, Opportunities } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, Opportunities, Tenants } from '/imports/api/collections.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import { StageChart } from '/imports/ui/components/charts/stage-chart.js';
 import bootbox from 'bootbox';

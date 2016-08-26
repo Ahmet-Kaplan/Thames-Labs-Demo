@@ -1,12 +1,14 @@
+export const Users = Meteor.users;
+
+Users.subscriptionById = 'allUserData';
+
+Meteor.users.permit(['insert', 'remove']).ifHasRole('superadmin').apply();
+
 Meteor.users.helpers({
   name: function() {
     return Meteor.users.findOne(this._id).profile.name;
   }
 });
-
-export const Users = Meteor.users;
-
-Users.subscriptionById = 'allUserData';
 
 ////////////////////
 // SEARCH INDICES //

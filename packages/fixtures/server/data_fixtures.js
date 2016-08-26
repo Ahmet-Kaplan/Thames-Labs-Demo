@@ -272,7 +272,7 @@ Meteor.methods({
         id: 1
       }]
     };
-
+    const { Tenants } = require('/imports/api/collections.js');
     Tenants.update({
       name: tenantName
     }, {
@@ -288,6 +288,7 @@ Meteor.methods({
       milestones: []
     };
 
+    const { Tenants } = require('/imports/api/collections.js');
     Tenants.update({
       name: tenantName
     }, {
@@ -310,7 +311,7 @@ Meteor.methods({
       id: 1
     });
     var stage = stages[0];
-
+    const { Tenants, Opportunities } = require('/imports/api/collections.js');
     Tenants.update(Partitioner.group(), {
       $set: {
         'settings.opportunity.stages': stages
@@ -330,7 +331,6 @@ Meteor.methods({
       userId = this.userId;
     }
 
-    const { Opportunities } = require('/imports/api/collections.js');
     var data = Opportunities.insert({
       name: name,
       description: description,
@@ -393,7 +393,7 @@ Meteor.methods({
   },
 
   addEvent: function() {
-    const { EventLog } = require('/imports/api/collections.js');
+    const { EventLog, Tenants } = require('/imports/api/collections.js');
 
     var userGroup = Tenants.findOne({
       name: 'Acme Corp'
@@ -510,7 +510,7 @@ Meteor.methods({
   },
 
   addOpportunityTask: function() {
-    const { Companies, Tasks, Opportunities } = require('/imports/api/collections.js');
+    const { Companies, Tasks, Opportunities, Tenants } = require('/imports/api/collections.js');
     var userTenant = Tenants.findOne({});
     var stages = [];
     stages.push({

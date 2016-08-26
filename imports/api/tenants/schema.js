@@ -1,4 +1,4 @@
-Schemas.Tenant = new SimpleSchema({
+export const TenantSchema = new SimpleSchema({
   name: {
     type: String,
     label: "Name"
@@ -47,4 +47,3 @@ Schemas.Tenant = new SimpleSchema({
     defaultValue: new Date()
   }
 });
-Tenants.attachSchema(Schemas.Tenant);

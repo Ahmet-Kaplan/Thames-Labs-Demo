@@ -1,5 +1,5 @@
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
-import { Companies, Contacts } from '/imports/api/collections.js';
+import { Companies, Contacts, Tenants } from '/imports/api/collections.js';
 
 import './opportunity-list-item.html';
 import './opportunity-list-item.less';

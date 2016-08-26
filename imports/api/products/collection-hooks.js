@@ -1,4 +1,4 @@
-import { CustomFields } from '/imports/api/collections.js';
+import { CustomFields, Tenants } from '/imports/api/collections.js';
 // COLLECTION HOOKS //
 export const ProductHooks = {
   beforeInsert(userId, doc) {

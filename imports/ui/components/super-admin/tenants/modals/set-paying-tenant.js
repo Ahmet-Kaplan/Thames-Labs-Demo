@@ -1,5 +1,6 @@
 import bootbox from 'bootbox';
 import './set-paying-tenant.html';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.setPayingTenant.helpers({
   hasStripeAccount: function() {

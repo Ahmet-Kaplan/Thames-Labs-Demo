@@ -1,5 +1,6 @@
 import { stripeCustomer, upcomingInvoice, lastInvoice } from '/imports/api/billing/helpers.js';
 import bootbox from 'bootbox';
+import { Tenants } from '/imports/api/collections.js';
 
 import './overview/billing-overview.js';
 import './stripe-how.html';

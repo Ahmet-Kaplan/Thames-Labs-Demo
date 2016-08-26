@@ -1,5 +1,5 @@
 var deleteTenant = function(tenantId) {
-  const { Activities, Companies, Contacts, Projects, Products, PurchaseOrders, PurchaseOrderItems, Tasks } = require('/imports/api/collections.js');
+  const { Activities, Companies, Contacts, Projects, Products, PurchaseOrders, PurchaseOrderItems, Tasks, Tenants } = require('/imports/api/collections.js');
   // First remove all associated data
   // N.B. we don't need directOperation() as we're already using "direct" to bypass any collection hooks
   // TODO: Ideally this would use bindGroup() but if we then use "direct" it bypasses the partitioner
@@ -27,6 +27,7 @@ Meteor.methods({
     // It should completely reset the app for test tenants
 
     // Remove test tenants
+    const { Tenants, Notifications } = require('/imports/api/collections.js');
     var testTenants = Tenants.find({
       name: { $in: ['Acme Corp', 'Acme Corp Rivals'] }
     });
@@ -34,7 +35,6 @@ Meteor.methods({
       deleteTenant(testTenant._id);
     });
 
-    const { Notifications } = require('/imports/api/collections.js');
     // Remove items in unpartitioned collections
     Notifications.direct.remove({});
 

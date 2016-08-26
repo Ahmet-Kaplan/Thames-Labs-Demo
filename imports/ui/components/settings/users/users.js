@@ -1,6 +1,7 @@
 import './user-details-link.js';
 import './modals/insert-user.js';
 import './users.html';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.users.helpers({
   tenantUsers: function() {

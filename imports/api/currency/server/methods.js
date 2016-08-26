@@ -1,3 +1,4 @@
+import { Tenants } from '/imports/api/collections.js';
 Meteor.methods({
   setNewCurrency: function(currency) {
     var allowedCurrencies = ['gbp', 'eur', 'usd'];
