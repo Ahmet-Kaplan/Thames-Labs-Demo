@@ -333,8 +333,8 @@ Feature: Allow users to manage their sales opportunities
     And an additional "Opportunity" has been created
     When I navigate to "/opportunities"
     And I set the filter to "Company:" then "Test Ltd"
-    Then I should see ".removeProp"
-    And "#resultsCount" should say "1 record"
+    Then I should see ".filter-tag"
+    And "#results-count" should contain "1 opportunity"
 
   Scenario: A user can filter opportunities by value
     Given I have the "Administrator" permission
@@ -342,8 +342,8 @@ Feature: Allow users to manage their sales opportunities
     And an additional "Opportunity" has been created
     When I navigate to "/opportunities"
     And I set the filter to "Value <" then "50"
-    Then I should see ".removeProp"
-    And "#resultsCount" should say "1 record"
+    Then I should see ".filter-tag"
+    And "#results-count" should contain "1 opportunity"
 
   Scenario: Clicking a tag badge applies the filter
     Given I have the "Administrator" permission
@@ -351,5 +351,5 @@ Feature: Allow users to manage their sales opportunities
     And an additional "Opportunity" has been created
     When I navigate to "/opportunities"
     And I click ".badge"
-    Then I should see ".removeProp"
-    And "#resultsCount" should say "1 record"
+    Then I should see ".filter-tag"
+    And "#results-count" should contain "1 opportunity"

@@ -29,5 +29,5 @@ Template.events.events({
         });
       }
     });
-  },
+  }
 });

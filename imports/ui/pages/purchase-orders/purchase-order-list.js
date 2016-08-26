@@ -1,5 +1,8 @@
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
+import '/imports/ui/components/search/filters';
+import '/imports/ui/components/search/search-results.js';
+import '/imports/ui/components/search/local/small-box/small-search-box.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-purchase-order.js';
 import '/imports/ui/components/purchase-orders/list-item/purchase-order-list-item.js';
 import '/imports/ui/components/export/export.js';
@@ -22,14 +25,36 @@ Template.purchaseOrderList.onCreated(function() {
   // Store search index dict on template to allow helpers to access
   this.index = PurchaseOrdersIndex;
 
+  this.totalPurchaseOrders = new ReactiveVar(0);
+  this.totalApprovedPo = new ReactiveVar(0);
+  this.totalArrivedPo = new ReactiveVar(0);
+  this.totalClosedPo = new ReactiveVar(0);
+  this.totalCancelledPo = new ReactiveVar(0);
+  this.totalRejectedPo = new ReactiveVar(0);
+
   this.showItems = new ReactiveVar(false);
-  this.totalPOs = new ReactiveVar(0);
 });
 
 Template.purchaseOrderList.onRendered(function() {
+  const template = this;
 
-  this.autorun(() => {
-    this.totalPOs.set(Collections['purchaseorders'].index.getComponentDict().get('count'));
+  Meteor.call('report.numberOfPurchaseOrders', function(err, data) {
+    template.totalPurchaseOrders.set(data.Count);
+  });
+  Meteor.call('report.ApprovedPo', function(err, data) {
+    template.totalApprovedPo.set(data.Count);
+  });
+  Meteor.call('report.ArrivedPo', function(err, data) {
+    template.totalArrivedPo.set(data.Count);
+  });
+  Meteor.call('report.ClosedPo', function(err, data) {
+    template.totalClosedPo.set(data.Count);
+  });
+  Meteor.call('report.CancelledPo', function(err, data) {
+    template.totalCancelledPo.set(data.Count);
+  });
+  Meteor.call('report.RejectedPo', function(err, data) {
+    template.totalRejectedPo.set(data.Count);
   });
 
   $('[data-toggle="popover"]').popover({
@@ -56,10 +81,25 @@ Template.purchaseOrderList.events({
 });
 
 Template.purchaseOrderList.helpers({
-  poCount: function() {
-    return Template.instance().totalPOs.get();
+  totalPurchaseOrders: function() {
+    return Template.instance().totalPurchaseOrders.get();
   },
-  hasMultiplePOs: function() {
-    return Template.instance().totalPOs.get() !== 1;
+  totalApprovedPo: function() {
+    return Template.instance().totalApprovedPo.get();
+  },
+  totalArrivedPo: function() {
+    return Template.instance().totalArrivedPo.get();
+  },
+  totalClosedPo: function() {
+    return Template.instance().totalClosedPo.get();
+  },
+  totalCancelledPo: function() {
+    return Template.instance().totalCancelledPo.get();
+  },
+  totalRejectedPo: function() {
+    return Template.instance().totalRejectedPo.get();
+  },
+  showItems: function() {
+    return Template.instance().showItems.get();
   }
 });

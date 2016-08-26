@@ -190,9 +190,9 @@ Feature: Allow users to manage their Tasks
     And a "Contact" task has been created
     When I navigate to "/tasks"
     And I set the filter to "Company:" then "Test Ltd"
-    Then I should see ".removeProp"
+    Then I should see ".filter-tag"
     And I should not see "span.fa-user"
-    And "#resultsCount" should say "1 record"
+    And "#results-count" should contain "1 task"
 
   Scenario: A user can filter tasks by due date
     Given I have the "CanReadCompanies" permission
@@ -201,9 +201,9 @@ Feature: Allow users to manage their Tasks
     And a "Contact" task has been created
     When I navigate to "/tasks"
     And I set the filter to "Due Date:" then "today"
-    Then I should see ".removeProp"
+    Then I should see ".filter-tag"
     And I should not see "span.fa-user"
-    And "#resultsCount" should say "1 record"
+    And "#results-count" should contain "1 task"
 
   Scenario: Clicking a tag badge applies the filter
     Given I have the "CanReadCompanies" permission
@@ -212,9 +212,9 @@ Feature: Allow users to manage their Tasks
     And a "Contact" task has been created
     When I navigate to "/tasks"
     And I click ".badge"
-    Then I should see ".removeProp"
+    Then I should see ".filter-tag"
     And I should not see "span.fa-user"
-    And "#resultsCount" should say "1 record"
+    And "#results-count" should contain "1 task"
 
   Scenario: A user can remove a filter from the list
     Given I have the "CanReadCompanies" permission
@@ -223,8 +223,8 @@ Feature: Allow users to manage their Tasks
     And a "Contact" task has been created
     When I navigate to "/tasks"
     And I set the filter to "Company:" then "Test Ltd"
-    Then I should see ".removeProp"
+    Then I should see ".filter-tag"
     When I click "#resetSearch"
     And the page is loaded
     Then I should see "span.fa-user"
-    And "#resultsCount" should say "2 records"
+    And "#results-count" should contain "2 tasks"
