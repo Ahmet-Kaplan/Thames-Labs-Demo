@@ -68,30 +68,4 @@ describe("currency helpers", () => {
     chai.assert.equal(currencyHelpers.userCurrency(), "usd");
   });
 
-
-  //currencyHelpers.toDecimal tests
-  //Note: these only run client side because the server lacks the number.toLocaleString() method
-  if (Meteor.isClient) {
-    it("returns correct formatted prices for a British Tenant", function() {
-      sandbox.stub(Tenants, 'findOne', function() {
-        return {settings: { currency: "gbp" }};
-      });
-      chai.assert.equal(currencyHelpers.toDecimal(42), "£42.00");
-    });
-
-    it("returns correct formatted prices for an European Tenant", function() {
-      sandbox.stub(Tenants, 'findOne', function() {
-        return {settings: { currency: "eur" }};
-      });
-      console.log(currencyHelpers.toDecimal(42));
-      chai.assert.equal(currencyHelpers.toDecimal(42), "42,00 €");
-    });
-
-    it("returns correct formatted prices for an American Tenant", function() {
-      sandbox.stub(Tenants, 'findOne', function() {
-        return {settings: { currency: "usd" }};
-      });
-      chai.assert.equal(currencyHelpers.toDecimal(42), "$42.00");
-    });
-  }
 });

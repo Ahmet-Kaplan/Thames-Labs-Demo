@@ -456,7 +456,7 @@ Meteor.methods({
       userId = this.userId;
     }
 
-    const { Companies } = require('/imports/api/collections.js');
+    const { Companies, Tasks } = require('/imports/api/collections.js');
     var companyId = Companies.insert({
       name: "Test Ltd",
       address: "address",
@@ -481,6 +481,7 @@ Meteor.methods({
   },
 
   addContactTask: function() {
+    const { Contacts, Tasks } = require('/imports/api/collections.js');
     var contactId = Contacts.insert({
       forename: "Obi-Wan",
       surname: "Kenobi",
