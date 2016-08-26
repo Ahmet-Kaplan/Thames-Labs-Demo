@@ -1,5 +1,4 @@
-import { Activities, Companies, Contacts, EventLog, Notifications, Opportunities, Projects, Products, PurchaseOrders, Tasks, Tenants, Users } from '/imports/api/collections.js';
-import { Tags } from '/imports/api/tags/collection.js';
+import { Activities, Companies, Contacts, EventLog, Notifications, Opportunities, Projects, Products, PurchaseOrders, Tags, Tasks, Tenants, Users } from '/imports/api/collections.js';
 Collections = {};
 Collections.helpers = {};
 

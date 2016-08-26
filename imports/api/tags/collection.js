@@ -2,7 +2,7 @@
 export const Tags = Meteor.tags;
 Partitioner.partitionCollection(Meteor.tags);
 
-Tags.index = TagsIndex = new EasySearch.Index({
+Tags.index = new EasySearch.Index({
   collection: Meteor.tags,
   fields: ['name'],
   engine: new EasySearch.MongoDB({
