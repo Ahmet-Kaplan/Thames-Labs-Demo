@@ -1,5 +1,3 @@
-import { Tenants } from '/imports/api/collections.js';
-
 export function createTenant(name, plan) {
   const defaultTenant = {
     name: name,
@@ -42,6 +40,6 @@ export function createTenant(name, plan) {
     stripe: {},
     createdAt: new Date()
   };
-
+  const { Tenants } = require('/imports/api/collections.js');
   return Tenants.insert(defaultTenant);
 }
