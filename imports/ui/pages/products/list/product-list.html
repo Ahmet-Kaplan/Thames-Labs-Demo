@@ -5,7 +5,6 @@
   <div class="row list-header">
       <div class="col-md-5">
         <h1>Products</h1>
-        <p id="resultsCount" class="list-header-subtitle">{{productCount}} record{{#if hasMultipleProducts}}s{{/if}}</p>
       </div>
       <div class="col-md-7 list-header-right">
         <div class="btn-group pull-right" role="group">
@@ -16,15 +15,21 @@
             {{/if}}
             {{> smallSearchBox collectionName='products'}}
         </div>
-        <br>
-        <ul class="list-toolbar pull-right">
-          {{> productsOverview}}
-          {{> tagManagement collectionName='products'}}
-          {{> exportCollection entity="products"}}
-        </ul>
       </div>
   </div>
-  {{> filterPanel collectionName='products'}}
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-8">
+      {{> filterPanel collectionName='products' single='product'}}
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <ul class="list-toolbar pull-right">
+        {{> productsOverview}}
+        {{> tagManagement collectionName='products'}}
+        {{> exportCollection entity="products"}}
+      </ul>
+    </div>
+  </div>
 
   {{> searchResults index=ProductsIndex listItemTemplateName='productListItem'}}
 
