@@ -4,7 +4,7 @@ import { Companies, Contacts } from '/imports/api/collections.js';
 
 Meteor.methods({
 
-  getClearbitData: function(entityName, entityId) {
+  'clearbit.getClearbitData': function(entityName, entityId) {
     var clearbitApiKey = process.env.CLEARBIT_API_KEY;
     if (typeof clearbitApiKey == 'undefined') {
       throw new Meteor.Error(500, 'No clearbit API key set');

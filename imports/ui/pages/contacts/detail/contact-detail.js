@@ -25,7 +25,7 @@ Template.contactDetail.onCreated(function() {
     if (FlowRouter.subsReady() && typeof contact === "undefined") {
       FlowRouter.go('contacts');
     } else if (FlowRouter.subsReady() && contact.email !== '' && typeof contact.email !== "undefined") {
-      Meteor.call('getClearbitData', 'contact', contact._id);
+      Meteor.call('clearbit.getClearbitData', 'contact', contact._id);
     }
     // Update company subscription if contact record changes (e.g. we change company)
     if (contact) {

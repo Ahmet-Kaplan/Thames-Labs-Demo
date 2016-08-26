@@ -29,7 +29,7 @@ Template.companyDetail.onCreated(function() {
     if (FlowRouter.subsReady() && typeof company === "undefined") {
       FlowRouter.go('companies');
     } else if (FlowRouter.subsReady() && company.website !== '' && typeof company.website !== "undefined") {
-      Meteor.call('getClearbitData', 'company', company._id);
+      Meteor.call('clearbit.getClearbitData', 'company', company._id);
     }
   });
 

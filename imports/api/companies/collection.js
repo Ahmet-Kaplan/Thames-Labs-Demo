@@ -240,7 +240,7 @@ Companies.after.update(function(userId, doc, fieldNames, modifier, options) {
 
   if (user) {
     if (this.previous.website !== doc.website && doc.website !== '' && doc.website) {
-      Meteor.call('getClearbitData', 'company', doc._id);
+      Meteor.call('clearbit.getClearbitData', 'company', doc._id);
       LogClientEvent(LogLevel.Info, user.profile.name + " updated a company's public information", 'company', doc._id);
     }
     if (doc.name !== this.previous.name) {
