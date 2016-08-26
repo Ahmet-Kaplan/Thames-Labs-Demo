@@ -63,12 +63,12 @@ export const importActivity = (row, getValueForField, userId) => {
     primaryEntityType: recordType,
     primaryEntityId: entity._id,
     primaryEntityDisplayData: entityName,
-    companyId: (recordType === "company" ? entity._id : null),
-    contactId: (recordType === "contact" ? entity._id : null),
-    projectId: (recordType === "project" ? entity._id : null),
-    purchaseOrderId: (recordType === "purchaseOrder" ? entity._id : null),
-    opportunityId: (recordType === "opportunity" ? entity._id : null),
-    taskId: (recordType === "task" ? entity._id : null),
+    companyId: (recordType === "companies" ? entity._id : null),
+    contactId: (recordType === "contacts" ? entity._id : null),
+    projectId: (recordType === "projects" ? entity._id : null),
+    purchaseOrderId: (recordType === "purchaseorders" ? entity._id : null),
+    opportunityId: (recordType === "opportunities" ? entity._id : null),
+    taskId: (recordType === "tasks" ? entity._id : null),
     createdBy: userId,
     createdAt: new Date()
   };
