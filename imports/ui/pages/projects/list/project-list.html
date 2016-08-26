@@ -5,7 +5,6 @@
   <div class="row list-header">
       <div class="col-md-5">
         <h1>Projects {{#if archivedShown}} - <i>inactive</i>{{/if}}</h1>
-        <p id="resultsCount" class="list-header-subtitle">{{projectCount}} record{{#if hasMultipleProjects}}s{{/if}}</p>
       </div>
       <div class="col-md-7 list-header-right">
         <div class="btn-group pull-right" role="group">
@@ -16,38 +15,21 @@
             {{/if}}
             {{> smallSearchBox collectionName='projects'}}
         </div>
-        <br>
-        <ul class="list-toolbar pull-right">
-            <li><a id="ref_projectOverviewWidget" data-toggle="popover" title="Projects Overview" data-content="
-            <div id='projectOverviewPop'>
-                <table class='table table-no-border'>
-                <tbody>
-                    <tr>
-                    <td>Projects:</td>
-                    <td class='text-right'>{{totalProjects}}</td>
-                    </tr>
-                    <tr>
-                    <td>Active projects:</td>
-                    <td class='text-right'>{{activeProjects}}</td>
-                    </tr>
-                    <tr>
-                    <td>Active projects total value:</td>
-                    <td class='text-right'>{{decimal projectTotal}}</td>
-                    </tr>
-                    <tr>
-                    <td>Active projects average value:</td>
-                    <td class='text-right'>{{decimal projectsAverage}}</td>
-                    </tr>
-                </tbody>
-                </table>
-            </div>">Overview</a>
-            </li>
-            {{> tagManagement collectionName='projects'}}
-            {{> exportCollection entity="projects"}}
-        </ul>
       </div>
   </div>
-  {{> filterPanel collectionName='projects'}}
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-8">
+      {{> filterPanel collectionName='projects' single='project'}}
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <ul class="list-toolbar pull-right">
+        {{> projectsOverview}}
+        {{> tagManagement collectionName='projects'}}
+        {{> exportCollection entity="projects"}}
+      </ul>
+    </div>
+  </div>
 
   {{> searchResults index=ProjectsIndex listItemTemplateName='projectListItem'}}
 

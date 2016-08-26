@@ -5,19 +5,23 @@
   <div class="row list-header">
       <div class="col-md-5">
         <h1>Activities</h1>
-        <p id="resultsCount" class="list-header-subtitle">{{activityCount}} record{{#if hasMultipleActivities}}s{{/if}}</p>
       </div>
       <div class="col-md-7 list-header-right">
         <div class="btn-group pull-right" role="group">
             {{> smallSearchBox collectionName='activities'}}
         </div>
-        <br>
-        <ul class="list-toolbar pull-right">
-            {{> exportCollection entity="activities"}}
-        </ul>
       </div>
   </div>
-  {{> filterPanel collectionName='activities'}}
+  <div class="row">
+    <div class="col-xs-12 col-sm-8">
+      {{> filterPanel collectionName='activities' single='activity'}}
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <ul class="list-toolbar pull-right">
+        {{> exportCollection entity="activities"}}
+      </ul>
+    </div>
+  </div>
   <div id="activity-list">
     {{> searchResults index=ActivitiesIndex listItemTemplateName='activityListItem'}}
   </div>

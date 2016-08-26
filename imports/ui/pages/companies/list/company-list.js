@@ -1,9 +1,14 @@
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 
+import './company-list.css';
+import './company-list.html';
 import '/imports/ui/components/companies/company-list-item.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/activity/activity-management/activity-management.js';
 import '/imports/ui/components/fab/fab-add.js';
+import '/imports/ui/components/search/filters';
+import '/imports/ui/components/search/search-results.js';
+import '/imports/ui/components/search/local/small-box/small-search-box.js';
 import '/imports/ui/components/export/export.js';
 
 import './company-list.css';
@@ -14,23 +19,6 @@ Template.companyList.onCreated(function() {
   this.autorun(function() {
     permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadCompanies');
   });
-
-  this.totalCompanies = new ReactiveVar(0);
-});
-
-Template.companyList.onRendered(function() {
-  this.autorun(() => {
-    this.totalCompanies.set(Collections['companies'].index.getComponentDict().get('count'));
-  });
-});
-
-Template.companyList.helpers({
-  companyCount: function() {
-    return Template.instance().totalCompanies.get();
-  },
-  hasMultipleCompanies: function() {
-    return Template.instance().totalCompanies.get() !== 1;
-  }
 });
 
 Template.companyList.events({

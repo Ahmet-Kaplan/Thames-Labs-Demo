@@ -4,7 +4,6 @@
   <div class="row list-header">
       <div class="col-md-5">
         <h1>Tasks</h1>
-        <p id="resultsCount" class="list-header-subtitle">{{taskCount}} record{{#if hasMultipleTasks}}s{{/if}}</p>
       </div>
       <div class="col-md-7 list-header-right">
         <div class="btn-group" role="group">
@@ -22,20 +21,27 @@
             {{/if}}
             {{> smallSearchBox collectionName='tasks'}}
         </div>
-        <br>
-        <ul class="list-toolbar pull-right">
-            <li><a id="toggle-my-tasks">View {{#if showMine}}all{{else}}my{{/if}} tasks</a></li>
-            {{#if isInRole 'CanReadTasks'}}
-              <li><a id="tskToggleCalendar">{{#if showCalendar}}Hide{{else}}Show{{/if}} calendar</a></li>
-            {{/if}}
-            {{#if isInRole 'CanReadTasks'}}
-            {{> importEntityDropdown entity="tasks"}}
-            {{/if}}
-            {{> exportCollection entity="tasks"}}
-          </ul>
       </div>
   </div>
-  {{> filterPanel collectionName='tasks'}}
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-6">
+      {{> filterPanel collectionName='tasks' single='task'}}
+    </div>
+    <div class="col-xs-12 col-sm-6">
+      <ul class="list-toolbar pull-right">
+        <li><a id="toggle-my-tasks">View {{#if showMine}}all{{else}}my{{/if}} tasks</a></li>
+        {{#if isInRole 'CanReadTasks'}}
+          <li><a id="tskToggleCalendar">{{#if showCalendar}}Hide{{else}}Show{{/if}} calendar</a></li>
+          <li><a id="tskToggleSubtasks">{{#if showSubtasks}}Hide{{else}}Show{{/if}} subtasks</a></li>
+        {{/if}}
+        {{#if isInRole 'CanReadTasks'}}
+        {{> importEntityDropdown entity="tasks"}}
+        {{/if}}
+        {{> exportCollection entity="tasks"}}
+      </ul>
+    </div>
+  </div>
 
   {{#if showCalendar}}
     {{> displayCalendar}}

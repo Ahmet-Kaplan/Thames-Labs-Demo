@@ -94,7 +94,7 @@ Feature: Allow users to manage their Projects
     And I click "#edit-project"
     And I set text field "name" to "updated project name"
     And I submit the "updateProject" form
-    Then "#project-details" should say "updated project name"
+    Then "#project-details" should contain "updated project name"
 
   Scenario: A user without permission cannot edit a project
     Given I do not have the "CanEditProjects" permission
@@ -248,6 +248,7 @@ Feature: Allow users to manage their Projects
     Then I should see "#documents-container button"
 
   #Filtering and Searching
+
   Scenario: A user can filter projects by company
     Given I have the "Administrator" permission
     And I am on the pro plan
@@ -255,8 +256,8 @@ Feature: Allow users to manage their Projects
     And an additional "Project" has been created
     When I navigate to "/projects"
     And I set the filter to "Company:" then "Test Ltd"
-    Then I should see ".removeProp"
-    And "#resultsCount" should say "1 record"
+    Then I should see ".filter-tag"
+    And "#results-count" should contain "1 project"
 
   Scenario: Clicking a tag badge applies the filter
     Given I have the "Administrator" permission
@@ -265,5 +266,5 @@ Feature: Allow users to manage their Projects
     And an additional "Project" has been created
     When I navigate to "/projects"
     And I click ".badge"
-    Then I should see ".removeProp"
-    And "#resultsCount" should say "1 record"
+    Then I should see ".filter-tag"
+    And "#results-count" should contain "1 project"
