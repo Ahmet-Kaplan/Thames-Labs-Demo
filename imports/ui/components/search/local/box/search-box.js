@@ -27,7 +27,7 @@ Template.searchBox.events({
     if (Template.instance().showFilters.get()) {
       Template.instance().showFilters.set(false);
     } else {
-      const selectize = $('#filterBox')[0].selectize;
+      const selectize = $('#filter-box')[0].selectize;
       selectize.clearOptions();
       Meteor.setTimeout(function() {
         $('#filtersSearch input').focus();
@@ -42,12 +42,6 @@ Template.searchBox.events({
     indexMethods.removeProps();
     indexMethods.search('');
     $('input.easysearch-input').val('');
-  },
-  'click #searchHelp': function() {
-    const mainCollectionName = Template.instance().data.collectionName;
-    Modal.show('searchHelp', {
-      collection: mainCollectionName
-    });
   }
 });
 

@@ -1,4 +1,5 @@
 import './small-search-box.html';
+import '../help/search-help.js';
 
 Template.smallSearchBox.helpers({
   index: function() {
