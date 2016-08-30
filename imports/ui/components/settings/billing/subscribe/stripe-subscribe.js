@@ -95,61 +95,31 @@ Template.stripeSubscribe.events({
       /*If has stripeId, check if the new plan's currency is the same as before.
           Stripe only allows one currency per account. If tenant wants to use a different currency,
           we need to create a new stripeId (new Customer Object on Stripe).
-          Otherwise, update card details and call subscription method*/
+          Otherwise, simply call subscription method*/
+      let methodName = 'createCustomer';
       if (_.get(tenantDetails, 'stripe.stripeId') && newPlanCurrency === currentUserCurrency) {
-        Meteor.call('stripe.updateCard', response.id, function(error2, response2) {
-          if (error2 || response2 === false) {
-            Modal.hide();
-            toastr.clear();
-            bootbox.alert({
-              title: 'Error',
-              message: `<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to validate your card details: ${error2.reason}<br />Please contact us if the problem remains.`,
-              className: 'bootbox-danger',
-            });
-            return false;
-          }
-          Meteor.call('stripe.createSubscription', planId, function(error3, response3) {
-            if (error3 || response3 === false) {
-              Modal.hide();
-              bootbox.alert({
-                title: 'Error',
-                message: `<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription: ${error3.reason}<br />Please contact us if the problem remains.`,
-                className: 'bootbox-danger',
-              });
-              return false;
-            }
-            Modal.hide();
-            toastr.clear();
-            const message = '<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful.<br />Thank you for using RealTimeCRM!';
-            showSuccessBootbox(message);
-            stripeCustomer.update();
-            upcomingInvoice.update();
-          });
-        });
-
-        //If doesn't have stripeId, creates it and proceed subscription
-      } else {
-        const userEmail = $('#email').val();
-        Meteor.call('stripe.createCustomer', response.id, userEmail, planId, function(error2, result2) {
-          if (error2 || result2 === false) {
-            Modal.hide();
-            bootbox.alert({
-              title: 'Error',
-              message: `<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription.<br> ${error2.reason}`,
-              className: "bootbox-danger",
-            });
-            return false;
-          }
-
-          toastr.clear();
-          Modal.hide();
-          const noCoupon = (result2 === 'CouponNotApplied') ? '<br />However there has been an issue applying your coupon. Please contact us to correct this.' : '';
-          const message = `<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful. You can now add more users.${noCoupon}<br />Thank you for using RealTimeCRM!`;
-          showSuccessBootbox(message);
-          stripeCustomer.update();
-          upcomingInvoice.update();
-        });
+        methodName = 'createSubscription';
       }
+
+      const userEmail = $('#email').val();
+      Meteor.call(`stripe.${methodName}`, response.id, planId, userEmail, function(error2, result2) {
+        if (error2 || result2 === false) {
+          Modal.hide();
+          bootbox.alert({
+            title: 'Error',
+            message: `<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription.<br> ${error2.reason}`,
+            className: "bootbox-danger",
+          });
+          return false;
+        }
+
+        toastr.clear();
+        Modal.hide();
+        const message = `<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful. You can now add more users.<br />Thank you for using RealTimeCRM!`;
+        showSuccessBootbox(message);
+        stripeCustomer.update();
+        upcomingInvoice.update();
+      });
     });
   }
 });

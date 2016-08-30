@@ -139,7 +139,8 @@ export const Quotations = {
     }, {
       "Quote": "Don't raise your voice, improve your argument."
     }, {
-      "Quote": "What seems to us as bitter trials are often blessings in disguise.-  Oscar Wilde"
+      "Quote": "What seems to us as bitter trials are often blessings in disguise.",
+      "Person": "Oscar Wilde"
     }, {
       "Quote": "The meaning of life is to find your gift. The purpose of life is to give it away."
     }, {

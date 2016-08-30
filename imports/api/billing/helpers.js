@@ -111,8 +111,8 @@ function beautifyInvoices(invoice) {
   beautifiedInvoice.subtotal = displayLocale(invoice.subtotal / 100, beautifiedInvoice.currency);
   beautifiedInvoice.date = moment((invoice.next_payment_attempt ? invoice.next_payment_attempt : invoice.date) * 1000).format('DD/MM/YYYY');
   beautifiedInvoice.tax = displayLocale(invoice.tax / 100, beautifiedInvoice.currency);
-  beautifiedInvoice.periodStart = moment(invoice.period_start * 1000).format('DD/MM/YYYY');
-  beautifiedInvoice.periodEnd = moment(invoice.period_end * 1000).format('DD/MM/YYYY');
+  beautifiedInvoice.periodStart = moment(_.get(invoice, 'lines.data[0].period.start') * 1000).format('DD/MM/YYYY');
+  beautifiedInvoice.periodEnd = moment(_.get(invoice, 'lines.data[0].period.end') * 1000).format('DD/MM/YYYY');
 
   const pricePerUser = invoice.lines.data[0].plan.amount;
   beautifiedInvoice.details = {

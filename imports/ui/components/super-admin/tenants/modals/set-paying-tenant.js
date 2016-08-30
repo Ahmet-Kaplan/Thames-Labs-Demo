@@ -85,20 +85,6 @@ Template.setPayingTenant.events({
     });
   },
 
-  'click #btnResumeStripeSubs': function() {
-    toastr.info('Processing update...');
-    Meteor.call('stripe.resumeSubscription', this.__originalId, function(error, response) {
-      if (error) {
-        toastr.clear();
-        toastr.error('Unable to resume subscription.');
-        return false;
-      }
-      toastr.clear();
-      Modal.hide();
-      toastr.success('Subscription has been resumed.');
-    });
-  },
-
   'click #btnRemoveSubsId': function() {
     toastr.info('Processing update...');
     Tenants.update(this.__originalId, {
