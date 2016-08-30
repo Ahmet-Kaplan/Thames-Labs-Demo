@@ -1,5 +1,5 @@
 //Adds collections to window scope (needed for autoform, see https://github.com/aldeed/meteor-autoform/issues/1449)
-import { Activities, Companies, Contacts, EventLog, Notifications, Opportunities, Projects, Products, PurchaseOrders, Tags, Tasks, Tenants, Users } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, EventLog, Notifications, Opportunities, Projects, Products, PurchaseOrders, PurchaseOrderItems, Tags, Tasks, Tenants, Users } from '/imports/api/collections.js';
 
 window.Activities = Activities;
 window.Companies = Companies;
@@ -10,6 +10,7 @@ window.Opportunities = Opportunities;
 window.Projects = Projects;
 window.Products = Products;
 window.PurchaseOrders = PurchaseOrders;
+window.PurchaseOrderItems = PurchaseOrderItems;
 window.Tags = Tags;
 window.Tasks = Tasks;
 window.Tenants = Tenants;
