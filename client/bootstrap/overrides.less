@@ -311,3 +311,8 @@ a, button {
 .bootbox-error .modal-body {
   background-color: @state-danger-bg;
 }
+
+[data-required=true] label:after {
+  content: '*';
+  color: @brand-danger;
+}
