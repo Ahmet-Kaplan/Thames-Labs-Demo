@@ -46,13 +46,13 @@ Meteor.methods({
     if (typeof digest !== 'string') {
       return false;
     }
-    var user = Meteor.users.findOne({_id: userId});
-    var password = {
+    const user = Meteor.users.findOne({_id: userId});
+    const password = {
       digest: digest,
       algorithm: 'sha-256'
     };
 
-    var passOK = Accounts._checkPassword(user, password);
+    const passOK = Accounts._checkPassword(user, password);
     if (passOK.error) return false;
     return true;
   },

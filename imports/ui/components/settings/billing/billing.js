@@ -9,8 +9,10 @@ import './billing.html';
 
 Template.billing.onRendered(function() {
   this.autorun(() => {
+    const tenantId = _.get(Meteor.user(), 'group');
+    if(!tenantId) return;
     const tenant = Tenants.findOne({
-      _id: Meteor.user().group
+      _id: tenantId
     });
 
     if(tenant) {
@@ -26,7 +28,6 @@ Template.billing.helpers({
     return stripeCustomer.getData() === false;
   },
   isTrialPeriod: function() {
-    console.log(stripeCustomer.getData());
     const subsStatus = _.get(stripeCustomer.getData(), 'subscriptions.data[0].status', false);
     return subsStatus === 'trialing';
   },
