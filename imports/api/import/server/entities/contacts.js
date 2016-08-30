@@ -35,43 +35,53 @@ export const importContact = (row, getValueForField, userId, rtId, localCustomFi
     result.warning = "contact-exists";
   }
 
-  //Insert the record
-  const entityId = Contacts.insert(entityData, function(error, docId) {
-    if (error) {
-      result.error = error;
-      return result;
-    }
-  });
-
-  result._id = entityId;
-
-  //Add tags
-  const tags = getValueForField(row, 'tags');
-  if (tags) {
-    const tagList = _.split(tags, ',');
-    _.each(tagList, function(tag) {
-      Contacts.addTag(tag, { _id: entityId });
-    });
+  if (entityData.forename === null || entityData.surname === null) {
+    result.error = "Contact must have a forename and a surname";
+    return result;
   }
 
-  //Add local custom fields
-  if (localCustomFields.length > 0) {
-    _.each(localCustomFields, function(field, i) {
-      if (row[field].length > 0) {
-        CustomFields.insert({
-          name: field,
-          value: (row[field] ? row[field] : ''),
-          type: 'text',
-          global: false,
-          order: i,
-          target: 'contact',
-          entityId: entityId
-        }, function(cfErr) {
-          if (cfErr) result.warning = "custom-fields";
-        });
+  try {
+    //Insert the record
+    const entityId = Contacts.insert(entityData, function(error, docId) {
+      if (error) {
+        result.error = error;
+        return result;
       }
     });
-  }
 
-  return result;
+    result._id = entityId;
+
+    //Add tags
+    const tags = getValueForField(row, 'tags');
+    if (tags) {
+      const tagList = _.split(tags, ',');
+      _.each(tagList, function(tag) {
+        Contacts.addTag(tag, { _id: entityId });
+      });
+    }
+
+    //Add local custom fields
+    if (localCustomFields.length > 0) {
+      _.each(localCustomFields, function(field, i) {
+        if (row[field].length > 0) {
+          CustomFields.insert({
+            name: field,
+            value: (row[field] ? row[field] : ''),
+            type: 'text',
+            global: false,
+            order: i,
+            target: 'contact',
+            entityId: entityId
+          }, function(cfErr) {
+            if (cfErr) result.warning = "custom-fields";
+          });
+        }
+      });
+    }
+
+    return result;
+  } catch(err) {
+    result.error = err;
+    return result;
+  }
 };

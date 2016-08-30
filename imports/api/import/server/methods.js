@@ -54,7 +54,6 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
           if (res.error) {
             errorList.push(`<span class="label label-danger">ERROR</span> ${res.error}`);
           }
-          UserSession.set("importErrors", errorList, userId);
         });
         break;
 
@@ -74,8 +73,6 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
           } else if (res.warning == 'custom-fields') {
             errorList.push(`<span class="label label-warning">WARNING</span> Could not add custom fields for "${getValueForField(row, 'name')}".`);
           }
-
-          UserSession.set("importErrors", errorList, userId);
 
           const percentDone = ((i / importTotal) * 100).toFixed(0);
           UserSession.set("importProgress", percentDone, userId);
@@ -99,8 +96,6 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
             errorList.push(`<span class="label label-warning">WARNING</span> Could not add custom fields for "${getValueForField(row, 'forename')} ${getValueForField(row, 'surname')}".`);
           }
 
-          UserSession.set("importErrors", errorList, userId);
-
           const percentDone = ((i / importTotal) * 100).toFixed(0);
           UserSession.set("importProgress", percentDone, userId);
         });
@@ -111,9 +106,11 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
         rtId = tenant.settings.opportunity.defaultNumber;
         //Loop through importData
         _.each(importData, function(row, i) {
-          rtId++;
           const percentDone = ((i / importTotal) * 100).toFixed(0);
           UserSession.set("importProgress", percentDone, userId);
+          console.log(percentDone);
+
+          rtId++;
 
           const res = importOpportunity(row, getValueForField, userId, rtId);
 
@@ -135,7 +132,6 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
               }
             });
           }
-          UserSession.set("importErrors", errorList, userId);
         });
         break;
 
@@ -168,7 +164,6 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
               }
             });
           }
-          UserSession.set("importErrors", errorList, userId);
         });
         break;
 
@@ -184,8 +179,6 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
           if (res.error) {
             errorList.push(`<span class="label label-danger">ERROR</span> Could not import "${getValueForField(row, 'name')}": ${res.error}`);
           }
-
-          UserSession.set("importErrors", errorList, userId);
 
           const percentDone = ((i / importTotal) * 100).toFixed(0);
           UserSession.set("importProgress", percentDone, userId);
@@ -220,7 +213,6 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
               }
             });
           }
-          UserSession.set("importErrors", errorList, userId);
         });
         break;
 
@@ -236,8 +228,6 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
             errorList.push(`<span class="label label-danger">ERROR</span> Could not import "${getValueForField(row, 'title')}": ${res.error}`);
           }
 
-          UserSession.set("importErrors", errorList, userId);
-
           const percentDone = ((i / importTotal) * 100).toFixed(0);
           UserSession.set("importProgress", percentDone, userId);
         });
@@ -245,6 +235,7 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
 
     }
     UserSession.set("importProgress", 100, userId);
+    UserSession.set("importErrors", errorList, userId);
   });
   return true;
 };

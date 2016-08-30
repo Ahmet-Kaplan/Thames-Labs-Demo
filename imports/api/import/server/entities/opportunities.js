@@ -76,15 +76,20 @@ export const importOpportunity = (row, getValueForField, userId, rtId) => {
   if (hasBeenWon == 1) entityData.hasBeenWon = true;
   if (hasBeenWon == 0) entityData.hasBeenWon = false;
 
-  //Insert the record
-  const entityId = Opportunities.insert(entityData, function(error, docId) {
-    if (error) {
-      result.error = error;
-      return result;
-    }
-  });
+  try {
+    //Insert the record
+    const entityId = Opportunities.insert(entityData, function(error, docId) {
+      if (error) {
+        result.error = error;
+        return result;
+      }
+    });
 
-  result._id = entityId;
+    result._id = entityId;
 
-  return result;
+    return result;
+  } catch(err) {
+    result.error = err;
+    return result;
+  }
 };

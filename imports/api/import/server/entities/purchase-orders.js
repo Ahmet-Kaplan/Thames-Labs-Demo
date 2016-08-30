@@ -52,16 +52,20 @@ export const importPurchaseOrder = (row, getValueForField, userId, rtId) => {
     userId: userId,
     sequencedIdentifier: rtId
   };
+  try {
+    //Insert the record
+    const entityId = PurchaseOrders.insert(entityData, function(error, docId) {
+      if (error) {
+        result.error = error;
+        return result;
+      }
+    });
 
-  //Insert the record
-  const entityId = PurchaseOrders.insert(entityData, function(error, docId) {
-    if (error) {
-      result.error = error;
-      return result;
-    }
-  });
+    result._id = entityId;
 
-  result._id = entityId;
-
-  return result;
+    return result;
+  } catch(err) {
+    result.error = err;
+    return result;
+  }
 };

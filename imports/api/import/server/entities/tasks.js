@@ -63,25 +63,29 @@ export const importTask = (row, getValueForField, userId, rtId) => {
     createdBy: userId,
     sequencedIdentifier: rtId
   };
-
-  //Insert the record
-  const entityId = Tasks.insert(entityData, function(error, docId) {
-    if (error) {
-      result.error = error;
-      return result;
-    }
-  });
-
-  result._id = entityId;
-
-  //Add tags
-  const tags = getValueForField(row, 'tags');
-  if (tags) {
-    const tagList = _.split(tags, ',');
-    _.each(tagList, function(tag) {
-      Tasks.addTag(tag, { _id: entityId });
+  try {
+    //Insert the record
+    const entityId = Tasks.insert(entityData, function(error, docId) {
+      if (error) {
+        result.error = error;
+        return result;
+      }
     });
-  }
 
-  return result;
+    result._id = entityId;
+
+    //Add tags
+    const tags = getValueForField(row, 'tags');
+    if (tags) {
+      const tagList = _.split(tags, ',');
+      _.each(tagList, function(tag) {
+        Tasks.addTag(tag, { _id: entityId });
+      });
+    }
+
+    return result;
+  } catch(err) {
+    result.error = err;
+    return result;
+  }
 };

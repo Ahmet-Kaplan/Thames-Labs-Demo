@@ -17,15 +17,19 @@ export const importProduct = (row, getValueForField, userId, rtId) => {
   if (Products.findOne({ name: entityData.name })) {
     result.warning = "product-exists";
   }
+  try {
+    //Insert the record
+    const entityId = Products.insert(entityData, function(error, docId) {
+      if (error) {
+        result.error = error;
+        return result;
+      }
+    });
 
-  //Insert the record
-  const entityId = Products.insert(entityData, function(error, docId) {
-    if (error) {
-      result.error = error;
-      return result;
-    }
-  });
-
-  result._id = entityId;
-  return result;
+    result._id = entityId;
+    return result;
+  } catch(err) {
+    result.error = err;
+    return result;
+  }
 };

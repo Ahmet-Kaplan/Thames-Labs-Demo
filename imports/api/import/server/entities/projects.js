@@ -76,15 +76,20 @@ export const importProject = (row, getValueForField, userId, rtId) => {
     sequencedIdentifier: rtId
   };
 
-  //Insert the record
-  const entityId = Projects.insert(entityData, function(error, docId) {
-    if (error) {
-      result.error = error;
-      return result;
-    }
-  });
+  try {
+    //Insert the record
+    const entityId = Projects.insert(entityData, function(error, docId) {
+      if (error) {
+        result.error = error;
+        return result;
+      }
+    });
 
-  result._id = entityId;
+    result._id = entityId;
 
-  return result;
+    return result;
+  } catch(err) {
+    result.error = err;
+    return result;
+  }
 };

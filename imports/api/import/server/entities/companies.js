@@ -28,59 +28,64 @@ export const importCompany = (row, getValueForField, userId, rtId, localCustomFi
     result.warning = "company-exists";
   }
 
-  //Insert the company
-  const entityId = Companies.insert(entityData, function(error, docId) {
-    if (error) {
-      result.error = error;
-      return result;
-    }
-  });
-
-  result._id = entityId;
-
-  //Add tags
-  const tags = getValueForField(row, 'tags');
-  if (tags) {
-    const tagList = _.split(tags, ',');
-    _.each(tagList, function(tag) {
-      Companies.addTag(tag, { _id: entityId });
-    });
-  }
-
-  //Add local custom fields
-  if (localCustomFields.length > 0) {
-    _.each(localCustomFields, function(field, i) {
-      if (row[field].length > 0) {
-        CustomFields.insert({
-          name: field,
-          value: (row[field] ? row[field] : ''),
-          type: 'text',
-          global: false,
-          order: i,
-          target: 'company',
-          entityId: entityId
-        }, function(cfErr) {
-          if (cfErr) result.warning = "custom-fields";
-        });
+  try {
+    //Insert the company
+    const entityId = Companies.insert(entityData, function(error, docId) {
+      if (error) {
+        result.error = error;
+        return result;
       }
     });
-  }
 
-  //Add global custom fields
-  if(globalCustomFields.length > 0) {
-    _.each(globalCustomFields, function(field, i) {
-      CustomFields.update({
-        name: field.schemaField,
-        global: true,
-        target: 'company',
-        entityId: entityId
-      }, {
-        $set: {
-          value: (row[field.fieldValue] ? row[field.fieldValue] : ''),
+    result._id = entityId;
+
+    //Add tags
+    const tags = getValueForField(row, 'tags');
+    if (tags) {
+      const tagList = _.split(tags, ',');
+      _.each(tagList, function(tag) {
+        Companies.addTag(tag, { _id: entityId });
+      });
+    }
+
+    //Add local custom fields
+    if (localCustomFields.length > 0) {
+      _.each(localCustomFields, function(field, i) {
+        if (row[field].length > 0) {
+          CustomFields.insert({
+            name: field,
+            value: (row[field] ? row[field] : ''),
+            type: 'text',
+            global: false,
+            order: i,
+            target: 'company',
+            entityId: entityId
+          }, function(cfErr) {
+            if (cfErr) result.warning = "custom-fields";
+          });
         }
       });
-    });
-  }
+    }
 
-  return result;
+    //Add global custom fields
+    if(globalCustomFields.length > 0) {
+      _.each(globalCustomFields, function(field, i) {
+        CustomFields.update({
+          name: field.schemaField,
+          global: true,
+          target: 'company',
+          entityId: entityId
+        }, {
+          $set: {
+            value: (row[field.fieldValue] ? row[field.fieldValue] : ''),
+          }
+        });
+      });
+    }
+
+    return result;
+  } catch(err) {
+    result.error = err;
+    return result;
+  }
 };

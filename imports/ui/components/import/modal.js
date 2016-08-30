@@ -322,6 +322,8 @@ Template.importEntityModal.onCreated(function() {
 Template.importEntityModal.onRendered(function() {
   var self = this;
 
+  UserSession.set('importProgress', 0);
+
   $('#mode-toggle').bootstrapToggle({
     on: 'Yes',
     off: 'No',

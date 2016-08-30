@@ -3,9 +3,31 @@ export const importActivity = (row, getValueForField, userId) => {
   result.warning = [];
 
   //Get linked entities
-  const recordType = getValueForField(row, 'recordType').toLowerCase();
+  let recordType = getValueForField(row, 'recordType').toLowerCase();
   let entity = {};
   let entityName = getValueForField(row, 'record');
+
+  switch (recordType.toLowerCase()) {
+    case 'company':
+      recordType = 'companies';
+      break;
+    case 'contact':
+      recordType = 'contacts';
+      break;
+    case 'opportunity':
+      recordType = 'opportunities';
+      break;
+    case 'project':
+      recordType = 'projects';
+      break;
+    case 'purchaseorder':
+      recordType = 'purchaseorders';
+      break;
+    case 'task':
+      recordType = 'tasks';
+      break;
+  }
+
   switch (recordType) {
     case 'companies':
       entity = Companies.findOne({
@@ -46,14 +68,20 @@ export const importActivity = (row, getValueForField, userId) => {
       break;
   }
   if (!entity) {
-    result.error = `Could not find entity "${entityName}" for activity "${getValueForField(row, 'notes').slice(0, 25)}..."`;
+    let notesValue = getValueForField(row, 'notes');
+    if (notesValue) notesValue = notesValue.slice(0, 25);
+    else notesValue = "";
+
+    result.error = `Could not find entity "${entityName}" for activity "${notesValue}..."`;
     return result;
   }
 
   //Get dates
   let activityTimestamp = getValueForField(row, 'date');
   if (activityTimestamp) activityTimestamp = moment(activityTimestamp, 'DD/MM/YYYY hh:mm').toDate();
-
+  console.log(entityName);
+  console.log(recordType);
+  console.log(entity._id);
   //Setup JSON object for entity
   const entityData = {
     type: getValueForField(row, 'type'),
@@ -73,15 +101,20 @@ export const importActivity = (row, getValueForField, userId) => {
     createdAt: new Date()
   };
 
-  //Insert the record
-  const entityId = Activities.insert(entityData, function(error, docId) {
-    if (error) {
-      result.error = error;
-      return result;
-    }
-  });
+  try {
+    //Insert the record
+    const entityId = Activities.insert(entityData, function(error, docId) {
+      if (error) {
+        result.error = error;
+        return result;
+      }
+    });
 
-  result._id = entityId;
+    result._id = entityId;
 
-  return result;
+    return result;
+  } catch(err) {
+    result.error = err;
+    return result;
+  }
 };
