@@ -224,6 +224,7 @@ Meteor.methods({
   },
 
   addProject: function(user, additional) {
+    const { Companies, Projects } = require('/imports/api/collections.js');
     var companyId = (additional === true) ? Meteor.call('addCompany', user, true) : Companies.findOne({})._id,
         name = (additional === true) ? 'Restore Peace to the galaxy' : 'test project',
         description = (additional === true) ? 'Since the Sith took control, the galaxy is an awful place to live.' :
@@ -236,7 +237,6 @@ Meteor.methods({
       userId = this.userId;
     }
 
-    const { Projects } = require('/imports/api/collections.js');
     var projectId = Projects.insert({
       name: name,
       description: description,
