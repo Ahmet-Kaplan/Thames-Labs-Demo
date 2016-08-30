@@ -4,27 +4,9 @@
       <i class="fa fa-fw fa-barcode"></i>
       <button aria-hidden="true" class="close" id="close_productsInformationWidget" type="button">×</button>
        Products Overview
-      <a href="#" id="ref_productsInformationWidget" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
     </div>
     <div class="panel-body">
-      <div class="productsInformationList">
-        <table class="table table-no-border">
-          <tbody>
-            <tr>
-              <td>Total number of products:</td>
-              <td class="text-right">{{longNumber totalProducts}}</td>
-            </tr>
-            <tr>
-              <td>Total cost of products:</td>
-              <td class="text-right">{{decimal totalProductsCost}}</td>
-            </tr>
-            <tr>
-              <td>Average cost of products:</td>
-              <td class="text-right">{{decimal averageProductsCost}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {{> productsOverview}}
     </div>
   </div>
 </template>

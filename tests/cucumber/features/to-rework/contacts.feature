@@ -92,7 +92,7 @@ Feature: Allow users to manage their Contacts
     And I click "#edit-contact"
     And I set text field "forename" to "Forename"
     And I submit the "updateContact" form
-    Then "#contact-details" should say "Forename Surname"
+    Then "#contact-details" should contain "Forename Surname"
 
   Scenario: A user without permission cannot edit a contact
     Given I do not have the "CanEditContacts" permission
@@ -220,7 +220,7 @@ Feature: Allow users to manage their Contacts
     Then I should see a modal
     When I set text field "title" to "task title"
     And I selectize "assigneeId" to "test user"
-    And I submit the "newTask" form
+    And I submit the "insertTask" form
     Then I should see "#taskContainer .list-group-item"
 
   Scenario: A user without the CanReadTasks permission cannot see tasks in a contact
@@ -245,9 +245,9 @@ Feature: Allow users to manage their Contacts
     When I navigate to "/contacts"
     And I set the filter to "Company:" then "Test Ltd"
     And the page is loaded
-    Then I should see ".removeProp"
+    Then I should see ".filter-tag"
     And I should see ".fa-envelope"
-    And "#resultsCount" should say "1 record"
+    And "#results-count" should contain "1 contact"
 
   Scenario: Clicking a tag badge applies the filter
     Given I have the "Administrator" permission
@@ -255,8 +255,8 @@ Feature: Allow users to manage their Contacts
     And an additional "Contact" has been created
     When I navigate to "/contacts"
     And I click ".badge"
-    Then I should see ".removeProp"
-    And "#resultsCount" should say "1 record"
+    Then I should see ".filter-tag"
+    And "#results-count" should contain "1 contact"
 
   #Activities
   Scenario: A user can add an activity

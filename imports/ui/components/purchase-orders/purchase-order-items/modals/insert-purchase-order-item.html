@@ -1,0 +1,53 @@
+<template name="insertPurchaseOrderItemModal">
+  <div class="modal"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Add new purchase order item</h4>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="PurchaseOrderItems" id="insertPurchaseOrderItemForm" type="insert"}}
+            {{> afQuickField name="purchaseOrderId" type="hidden" value=purchaseOrder._id}}
+            {{> afQuickField name="description" id="description" rows=3}}
+            {{> afQuickField name="productCode" id="code"}}
+            {{> afQuickField name="status" options="allowed" id="status"}}
+
+            <div class="form-group">
+              <label for="itemValue" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="itemValue" data-schema-key="value" step="0.01" class="form-control">
+              </div>
+              <span class="help-block"></span>
+            </div>
+
+            {{> afQuickField name="quantity" id="currQuant"}}
+
+            <div class="form-group">
+              <label for="activePrice" class="control-label">Total Price</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input readonly type="number" name="totalPrice" id="activePrice" data-schema-key="totalPrice" step="0.01" class="form-control" value={{purchaseOrderItem.totalPrice}}>
+              </div>
+              <span class="help-block"></span>
+            </div>
+
+            {{#if purchaseOrder.supplierCompanyId}}
+              <input type="hidden" id="supplierCompanyId" value="{{purchaseOrder.supplierCompanyId}}">
+              {{> esSelectize name="projectId" index=ProjectsIndex }}
+            {{else}}
+              <input type="hidden" id="supplierContactId" value="{{purchaseOrder.supplierContactId}}">
+              {{> esSelectize name="projectId" index=ProjectsIndex }}
+            {{/if}}
+            {{> afQuickField name="createdBy" value=currentUser}}
+            <button type="submit" class="btn btn-primary" id="add-item-to-po">Create</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

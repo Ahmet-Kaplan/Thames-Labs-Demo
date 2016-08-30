@@ -4,39 +4,10 @@
       <i class="fa fa-fw fa-shopping-cart"></i>
       <button aria-hidden="true" class="close" id="close_poInformationWidget" type="button">×</button>
        Purchase Orders Overview
-      <a href="#" id="ref_poInformationWidget" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
-
     </div>
     <div class="panel-body">
       <div class="poInformationList">
-        <table class="table table-no-border">
-          <tbody>
-            <tr>
-              <td>Total number of purchase orders:</td>
-              <td class="text-right">{{longNumber totalPurchaseOrders}}</td>
-            </tr>
-            <tr>
-              <td>Orders approved:</td>
-              <td class="text-right">{{longNumber totalApprovedPo}}</td>
-            </tr>
-            <tr>
-              <td>Orders Arrived:</td>
-              <td class="text-right">{{longNumber totalArrivedPo}}</td>
-            </tr>
-            <tr>
-              <td>Orders closed:</td>
-              <td class="text-right">{{longNumber totalClosedPo}}</td>
-            </tr>
-            <tr>
-              <td>Orders Cancelled:</td>
-              <td class="text-right">{{longNumber totalCancelledPo}}</td>
-            </tr>
-            <tr>
-              <td>Orders Rejected:</td>
-              <td class="text-right">{{longNumber totalRejectedPo}}</td>
-            </tr>
-          </tbody>
-        </table>
+        {{> poOverview}}
       </div>
     </div>
   </div>

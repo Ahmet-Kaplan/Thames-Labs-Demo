@@ -45,7 +45,7 @@ describe("exporting records", () => {
     const record = {
       _id: 'GhQFkerCw6NPF3tHb',
       type: 'Email',
-      notes: "Emailed Captain Kirk on the USS Enterprise about his missing captain's log",
+      notes: "Emailed <b>Captain Kirk</b> on the <span style='font-color: green'>USS Enterprise</span> about his missing captain's log",
       activityTimestamp: new Date("November 11, 2011 11:11:11"),
       primaryEntityId: 'WcxPgRmBGZxFeXqAD',
       primaryEntityType: 'companies',

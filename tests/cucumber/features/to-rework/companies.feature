@@ -96,7 +96,7 @@ Feature: Allow users to manage their Companies
     And I click "#edit-company"
     And I set text field "name" to "updated company name"
     And I submit the "updateCompany" form
-    Then "#company-details" should say "updated company name"
+    Then "#company-details" should contain "updated company name"
 
   Scenario: A user without permission cannot edit a company
     Given I do not have the "CanEditCompanies" permission
@@ -251,7 +251,7 @@ Feature: Allow users to manage their Companies
     Then I should see a modal
     When I set text field "title" to "task title"
     And I selectize "assigneeId" to "test user"
-    And I submit the "newTask" form
+    And I submit the "insertTask" form
     Then I should see "#taskContainer .list-group-item"
 
   Scenario: A user without the CanReadTasks permission cannot see tasks in a company
@@ -310,20 +310,19 @@ Feature: Allow users to manage their Companies
     Then I should see "#no-activity"
 
   #Filtering and Searching
-
   Scenario: A user can filter companies by city
     Given I have the "Administrator" permission
     And a "Company" has been created
     And an additional "Company" has been created
     When I navigate to "/companies"
     And I set the filter to "City:" then "Cambridge"
-    Then I should see ".removeProp"
+    Then I should see ".filter-tag"
     And I should see ".fa-map-marker"
-    And "#resultsCount" should say "1 record"
-    When I click ".removeProp"
+    And "#results-count" should contain "1 company"
+    When I click ".remove-filter-tag"
     And I set the filter to "City:" then "city"
-    Then I should see ".removeProp"
-    And "#resultsCount" should say "0 records"
+    Then I should see ".filter-tag"
+    And "#results-count" should contain "0 companies"
 
   Scenario: Clicking a tag badge applies the filter
     Given I have the "Administrator" permission
@@ -331,9 +330,9 @@ Feature: Allow users to manage their Companies
     And an additional "Company" has been created
     When I navigate to "/companies"
     And I click ".badge"
-    Then I should see ".removeProp"
+    Then I should see ".filter-tag"
     And I should see ".fa-map-marker"
-    And "#resultsCount" should say "1 record"
+    And "#results-count" should contain "1 company"
 
   Scenario: Navigating to the company list with a search term
     When I navigate to "/companies?q=search"
@@ -343,7 +342,7 @@ Feature: Allow users to manage their Companies
   Scenario: Navigating to the company list with a filter
     When I navigate to "/companies?f%5Btags%5D=tag"
     Then I should see the heading "Companies"
-    And I should see ".removeProp"
+    And I should see ".filter-tag"
 
   Scenario: Searching in the company list should update the URL
     When I navigate to "/companies"

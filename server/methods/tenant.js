@@ -1,4 +1,4 @@
-import { Products } from '/imports/api/collections.js';
+import { EventLog, Products } from '/imports/api/collections.js';
 Meteor.methods({
   'tenant.getPayingUsers': function() {
     var tenants = Tenants.find({
@@ -64,8 +64,6 @@ Meteor.methods({
         PurchaseOrderItems.remove({});
         console.log('Deleting purchase orders...');
         PurchaseOrders.remove({});
-        console.log('Deleting chatter...');
-        Chatterbox.remove({});
         console.log('Deleting products...');
         Products.remove({});
         console.log('Deleting activities...');

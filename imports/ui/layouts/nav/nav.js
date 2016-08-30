@@ -200,13 +200,10 @@ Template.nav.events({
   },
   'click #toggle-search': function(event) {
     event.preventDefault();
-    var state = Session.get('globalSearchOpen');
-    if (state === false) {
-      Session.set('globalSearchOpen', true);
-      Modal.show('globalSearch');
-    } else {
-      Session.set('globalSearchOpen', false);
+    if ($("#globalSearchBox").length) {
       Modal.hide('globalSearch');
+    } else {
+      Modal.show('globalSearch');
     }
   },
   'click #qckCreateCompany': function(event) {
@@ -234,7 +231,7 @@ Template.nav.events({
     }
 
     event.preventDefault();
-    Modal.show('newProjectForm', this);
+    Modal.show('insertProjectForm', this);
   },
   'click #qckCreatePurchaseOrder': function(event) {
     if (!Roles.userIsInRole(Meteor.userId(), ['CanCreatePurchaseOrders'])) {
@@ -305,7 +302,7 @@ Template.nav.events({
   },
   'click #fabAddProject': function(event) {
     event.preventDefault();
-    Modal.show('newProjectForm', this);
+    Modal.show('insertProjectForm', this);
   },
   'click #fabAddPurchaseOrder': function(event) {
     event.preventDefault();

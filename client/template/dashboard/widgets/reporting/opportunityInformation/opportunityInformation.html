@@ -4,31 +4,9 @@
       <button aria-hidden="true" class="close" id="close_opportunityInformationWidget" type="button">×</button>
       <i class="fa fa-fw fa-lightbulb-o"></i>
        Opportunities Overview
-      <a href="#" id="ref_opportunityInformationWidget" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
     </div>
     <div class="panel-body">
-      <div class="opportunityInformationList">
-        <table class="table table-no-border">
-          <tbody>
-            <tr>
-              <td>Open Opportunities:</td>
-              <td class="text-right">{{longNumber openOpps}}</td>
-            </tr>
-            <tr>
-              <td>Archived Opportunities:</td>
-              <td class="text-right">{{longNumber archivedOpps}}</td>
-            </tr>
-            <tr>
-              <td>Total Value:</td>
-              <td class="text-right">{{decimal totalOppValue}}</td>
-            </tr>
-            <tr>
-              <td>Average Value:</td>
-              <td class="text-right">{{decimal averageOppValue}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {{> oppOverview}}
     </div>
   </div>
 </template>

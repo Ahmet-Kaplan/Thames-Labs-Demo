@@ -1,0 +1,42 @@
+<template name="projectsList">
+
+  {{setPageTitle 'Projects'}}
+
+  <div class="row list-header">
+      <div class="col-md-5">
+        <h1>Projects {{#if archivedShown}} - <i>inactive</i>{{/if}}</h1>
+      </div>
+      <div class="col-md-7 list-header-right">
+        <div class="btn-group pull-right" role="group">
+            {{#if isInRole 'CanCreateProjects'}}
+              {{#unless isMobile}}
+                <button id="add-project" type="button" class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</button>
+              {{/unless}}
+            {{/if}}
+            {{> smallSearchBox collectionName='projects'}}
+        </div>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-8">
+      {{> filterPanel collectionName='projects' single='project'}}
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <ul class="list-toolbar pull-right">
+        {{> projectsOverview}}
+        {{> tagManagement collectionName='projects'}}
+        {{> exportCollection entity="projects"}}
+      </ul>
+    </div>
+  </div>
+
+  {{> searchResults index=ProjectsIndex listItemTemplateName='projectListItem'}}
+
+  {{#if isInRole 'CanCreateProjects'}}
+    {{#if isMobile}}
+      {{> fabAdd entity="Project"}}
+    {{/if}}
+  {{/if}}
+
+</template>

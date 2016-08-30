@@ -31,7 +31,7 @@ Template.insertGlobalCustomField.onRendered(function() {
   });
 });
 
-Template.onCreated(function() {
+Template.insertGlobalCustomField.onCreated(function() {
   this.reactiveVars = {};
   this.reactiveVars.typeText = new ReactiveVar(true);
   this.reactiveVars.typeMultiText = new ReactiveVar(false);

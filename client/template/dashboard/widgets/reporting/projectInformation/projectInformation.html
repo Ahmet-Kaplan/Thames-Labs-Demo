@@ -4,30 +4,10 @@
       <i class="fa fa-fw fa-sitemap"></i>
       <button aria-hidden="true" class="close" id="close_projectInformationWidget" type="button">×</button>
        Projects Overview
-      <a href="#" id="ref_projectInformationWidget" type="button"><i class="fa fa-fw fa-refresh grayscale"></i></a>
     </div>
     <div class="panel-body">
       <div class="projectInformationList">
-          <table class="table table-no-border">
-            <tbody>
-              <tr>
-                <td>Total number of projects:</td>
-                <td class="text-right">{{longNumber totalProjects}}</td>
-              </tr>
-              <tr>
-                <td>Number of active projects:</td>
-                <td class="text-right">{{longNumber activeProjects}}</td>
-              </tr>
-              <tr>
-                <td>Active project total value:</td>
-                <td class="text-right">{{decimal projectTotal}}</td>
-              </tr>
-              <tr>
-                <td>Active project average value:</td>
-                <td class="text-right">{{decimal projectsAverage}}</td>
-              </tr>
-            </tbody>
-          </table>
+        {{> projectsOverview}}
       </div>
     </div>
   </div>
