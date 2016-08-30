@@ -163,16 +163,33 @@ Template.companyDetail.events({
     });
   },
   'click #companyTelephone': function(event, template) {
-    Activities.insert({
-      type: 'Call',
-      notes: `${Meteor.user().profile.name} made a call to ${this.name}`,
-      createdAt: new Date(),
-      activityTimestamp: new Date(),
-      companyId: this._id,
-      primaryEntityId: this._id,
-      primaryEntityType: 'companies',
-      primaryEntityDisplayData: this.name,
-      createdBy: Meteor.userId()
+    const data = this;
+    bootbox.dialog({
+      message: `This will add <i>"${Meteor.user().profile.name} made a call to ${this.name}"</i> to the activity timeline below.`,
+      title: "Would you like to add an activity for your call?",
+      buttons: {
+        cancel: {
+          label: "Cancel",
+          className: "btn-default"
+        },
+        main: {
+          label: "Add activity",
+          className: "btn-success",
+          callback: () => {
+            Activities.insert({
+              type: 'Call',
+              notes: `${Meteor.user().profile.name} made a call to ${data.name}`,
+              createdAt: new Date(),
+              activityTimestamp: new Date(),
+              companyId: data._id,
+              primaryEntityId: data._id,
+              primaryEntityType: 'companies',
+              primaryEntityDisplayData: data.name,
+              createdBy: Meteor.userId()
+            });
+          }
+        }
+      }
     });
   },
   'click #inactive-projects': function(event, template) {
