@@ -2,7 +2,7 @@ import './autosuggest.html';
 
 Template.autosuggest.onRendered(function() {
   this.parent = new ReactiveVar('');
-  this.query = new ReactiveVar(null);
+  this.query = new ReactiveVar('');
   const selectize = $(`#${this.data.name}`)[0].selectize;
 
   // If parent is set, listen for updates to it's value
@@ -16,45 +16,19 @@ Template.autosuggest.onRendered(function() {
 
   // search update listener
   this.autorun(() => {
-    const searchOptions = {
-      props: {
-        autosuggest: true
-      }
-    };
-
-    let resultsCursor = null;
-    const searchInput = this.query.get();
-
+    const searchOptions = {props: {autosuggest: true}};
     if (this.data.excludes) {
       searchOptions.props.excludes = this.data.excludes;
     }
-
-    if (searchInput === null && !this.data.value) {
-      // First run and no value set, so do nothing
-      return;
+    if (typeof this.parent.get() !== "undefined" && typeof this.data.filter !== "undefined") {
+      searchOptions.props[this.data.filter] = this.parent.get();
     }
-
-    if (searchInput === null) {
-      // First run and value set, so perform a searchById
-      searchOptions.props.searchById = this.data.value;
-      resultsCursor = this.data.index.search('', searchOptions);
-      if (resultsCursor.isReady()) {
-        selectize.addOption(resultsCursor.fetch());
-        selectize.setValue(this.data.value);
-      }
-    } else {
-      // Normal search
-      if (typeof this.parent.get() !== "undefined" && typeof this.data.filter !== "undefined") {
-        searchOptions.props[this.data.filter] = this.parent.get();
-      }
-      resultsCursor = this.data.index.search(searchInput, searchOptions);
-      if (resultsCursor.isReady()) {
-        selectize.clearOptions();
-        selectize.addOption(resultsCursor.fetch());
-        // only open the selectize dropdown if the input is empty
-        // to be honest, Max and I are not really sure why...
-        selectize.refreshOptions(searchInput === '');
-      }
+    const resultsCursor = this.data.index.search(this.query.get(), searchOptions);
+    if (resultsCursor.isReady()) {
+      selectize.clearOptions();
+      selectize.addOption(resultsCursor.fetch());
+      //Show options dropdown if user has typed something
+      selectize.refreshOptions(this.query.get() !== '');
     }
   });
 });
