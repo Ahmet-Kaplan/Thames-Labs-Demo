@@ -23,6 +23,7 @@ Template.projectsList.onCreated(function() {
   this.activeProjects = new ReactiveVar(0);
   this.projectTotal = new ReactiveVar(0);
   this.projectsAverage = new ReactiveVar(0);
+  this.totalProjects = new ReactiveVar(0);
 });
 
 Template.projectsList.onRendered(function() {
