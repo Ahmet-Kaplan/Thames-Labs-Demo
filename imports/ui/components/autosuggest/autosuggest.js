@@ -29,6 +29,10 @@ Template.autosuggest.onRendered(function() {
       selectize.addOption(resultsCursor.fetch());
       //Show options dropdown if user has typed something
       selectize.refreshOptions(this.query.get() !== '');
+
+      if (this.data.value) {
+        selectize.setValue(this.data.value);
+      }
     }
   });
 });
