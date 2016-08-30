@@ -1,7 +1,6 @@
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 
-import './company-list.css';
-import './company-list.html';
+import '/imports/ui/components/bulk-management/bulk-management.js';
 import '/imports/ui/components/companies/company-list-item.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/activity/activity-management/activity-management.js';
