@@ -16,9 +16,6 @@ Template.billingOverview.helpers({
   stripeCustomer: function() {
     return stripeCustomer.getData();
   },
-  planName: function() {
-    return _.get(stripeCustomer.getData(), 'subscriptions.data[0].plan.name', 'Free Plan');
-  },
   totalUsers: function() {
     return Meteor.users.find({
       group: Meteor.user().group

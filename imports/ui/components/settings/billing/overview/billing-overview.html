@@ -5,16 +5,16 @@
       <p>
         <ul class="list-group">
           <li class="list-group-item panel-item-header">
-            <h4 class="slim"><i class="fa fa-fw fa-wrench"></i> Plan</h4>
+            <h4 class="slim"><i class="fa fa-fw fa-users"></i> Users</h4>
             {{totalUsers}} user{{#if greaterThan totalUsers 1}}s{{/if}}
+            {{#if isProTenant}}
             <small>
               <ul class="users-detailed">
-                <li>{{freeUserAccounts}} free user{{#unless equals freeUserAccouts 1}}s{{/unless}}</li>
-                {{#if isProTenant}}
-                  <li>{{payingUsers}} additional user{{#unless equals payingUsers 1}}s{{/unless}}</li>
-                {{/if}}
+                <li>{{freeUserAccounts}} free user{{#unless equals freeUserAccounts 1}}s{{/unless}}</li>
+                <li>{{payingUsers}} additional user{{#unless equals payingUsers 1}}s{{/unless}}</li>
               </ul>
             </small>
+            {{/if}}
           </li>
 
           <!-- COUPON -->

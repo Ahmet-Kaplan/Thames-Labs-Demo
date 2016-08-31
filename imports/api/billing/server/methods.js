@@ -79,9 +79,9 @@ Meteor.methods({
         $set: {
           "stripe.stripeId": customer.id,
           "stripe.stripeSubs": customer.subscriptions.data[0].id,
-          "plan": 'pro'
         }
       });
+      return customer;
     }
 
     return !!customer;
@@ -135,13 +135,13 @@ Meteor.methods({
     if(!!subscription === true) {
       Tenants.update(tenantId, {
         $set: {
-          "stripe.stripeSubs": subscription.id,
-          "plan": 'pro'
+          "stripe.stripeSubs": subscription.id
         }
       });
+      return subscription;
     }
 
-    return subscription;
+    return !!subscription;
   },
 
 
@@ -169,8 +169,8 @@ Meteor.methods({
     }
 
     // Tenant can create account if free and under free user limit
-    if(mongoTenant.plan === 'free') {
-      return true;
+    if(!_.get(mongoTenant, 'stripe.stripeSubs')) {
+      return !isTenantOverFreeUserLimit(tenantId);
 
     // If pro, need to have a stripe account. This is to avoid conflicts with the previous way of setting a tenant to 'free unlimited'.
     // We now use the number of free user account to set an 'unlimited' tenant.
@@ -195,9 +195,6 @@ Meteor.methods({
       const cardDeleted = !!stripeMethodsAsync.customers.deleteCard(stripeId, customerObject.default_source);
       if(subsDeleted && cardDeleted) {
         Tenants.update(tenantId, {
-          $set: {
-            'plan': 'free'
-          },
           $unset: {
             'stripe.stripeSubs': '',
           }

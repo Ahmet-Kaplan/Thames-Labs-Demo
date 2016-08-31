@@ -19,11 +19,6 @@ Template.users.helpers({
   tenantHasMultipleUsers: function() {
     return (Meteor.users.find({}).count() > 1);
   },
-  tenantPlan: function() {
-    return Tenants.findOne({
-      _id: Meteor.user().group
-    }).plan;
-  },
   overFreeLimit: function() {
     return isTenantOverFreeUserLimit(Meteor.user().group);
   },

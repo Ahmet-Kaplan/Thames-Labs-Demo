@@ -101,7 +101,6 @@ Template.setPayingTenant.events({
     const newStripeSubs = $('#stripeSubsNumber').val();
     Tenants.update(this.__originalId, {
       $set: {
-        "plan": 'pro',
         "stripe.stripeSubs": newStripeSubs
       }
     }, function(error, nUpdated) {

@@ -10,13 +10,13 @@
 
         <div class="modal-body">
           {{#if isOverFreeLimit}}
-            <p>After adding this new user, your subscription will stand as below.</p>
+            <p>After adding this new user, your updated payments will be:</p>
 
             <div class="well well-sm">
             {{#if planDetails}}
             {{#with planDetails}}
               <div class="row">
-                <div class="col-xs-6"><em>Free user{{#unless equals freeUsers 1}}s{{/unless}}</em></div>
+                <div class="col-xs-6"><em>Free User{{#unless equals freeUsers 1}}s{{/unless}}</em></div>
                 <div class="col-xs-6">{{freeUsers}}</div>
               </div>
               <div class="row">
@@ -30,12 +30,12 @@
               </div>
               {{/if}}
               <div class="row">
-                <div class="col-xs-6"><em>Price</em></div>
-                <div class="col-xs-6">{{#if equals amount correctedAmount}}{{amount}}{{else}}<del>{{amount}}</del> {{correctedAmount}}{{/if}} /additional user/{{interval}}</div>
+                <div class="col-xs-6"><em>Price /additional user /{{interval}}</em></div>
+                <div class="col-xs-6">{{#if equals amount correctedAmount}}{{amount}}{{else}}<del>{{amount}}</del> {{correctedAmount}}{{/if}}</div>
               </div>
               <div class="row">
-                <div class="col-xs-6"><em>Total Price of subscription</em></div>
-                <div class="col-xs-6">{{priceAfterNewUser}} /{{interval}}</div>
+                <div class="col-xs-6"><em>Total Charge per {{interval}}</em></div>
+                <div class="col-xs-6">{{priceAfterNewUser}}</div>
               </div>
             {{/with}}
             {{else}}

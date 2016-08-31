@@ -6,7 +6,7 @@ isProTenant = function(tenantId) {
 
     if (!tenant || !tenant.stripe) return false;
 
-    if (tenant.plan === 'pro') {
+    if (typeof tenant.stripe.stripeSubs !== 'undefined') {
       return true;
     }
   }

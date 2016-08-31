@@ -8,4 +8,4 @@ Feature: Restrict free users from certain features
     Given I have the "Administrator" permission
     When I navigate to "/settings/users"
     And I click "#add-user"
-    Then I should see a modal with the title "Subscribe to Paying Plan"
+    Then I should see a modal with the title "Please enter your card details"

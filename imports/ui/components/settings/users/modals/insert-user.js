@@ -13,9 +13,11 @@ AutoForm.hooks({
     onSuccess: function(formType, result) {
       toastr.clear();
       Modal.hide();
+      const tenantId = _.get(Meteor.user(), 'group');
+      const subsNotification = isProTenant(tenantId) ? `<br />Please note that your payments will be updated accordingly.` : '';
       bootbox.alert({
         title: 'New user added',
-        message: `<i class="fa fa-check fa-3x pull-left text-success"></i>New user <strong>${this.insertDoc.name}</strong> created<br />An email containing a link to create the password has been sent.<br />Please note that your subscription will be updated accordingly.`,
+        message: `<i class="fa fa-check fa-3x pull-left text-success"></i>New user <strong>${this.insertDoc.name}</strong> created<br />An email containing a link to create the password has been sent.${subsNotification}`,
         className: 'bootbox-success'
       });
     },

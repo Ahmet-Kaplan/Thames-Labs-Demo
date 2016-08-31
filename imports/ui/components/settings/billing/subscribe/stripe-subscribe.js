@@ -2,8 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import bootbox from 'bootbox';
-import { showSuccessBootbox } from './helpers.js';
 import { stripeCustomer, stripePlan, upcomingInvoice } from '/imports/api/billing/helpers.js';
+import { AutoForm } from "meteor/aldeed:autoform";
+
+import '../card/card-form.js';
 
 import './stripe-subscribe.html';
 
@@ -54,7 +56,7 @@ Template.stripeSubscribe.events({
     const newCurrency = $(event.target).val();
     Template.instance().paymentCurrency.set(newCurrency);
   },
-  'submit #subscribe': function() {
+  'click #submit': function() {
     event.preventDefault();
     const tenantDetails = Tenants.findOne({
       _id: Meteor.user().group
@@ -63,6 +65,12 @@ Template.stripeSubscribe.events({
     // Previous currency used by the customer. Needed to define if new cus_ object is required
     const currentUserCurrency = _.get(stripeCustomer.getData(), 'currency');
     const newPlanCurrency = Template.instance().paymentCurrency.get();
+
+    if(!AutoForm.validateForm('insertUser')) {
+      return;
+    }
+
+    const newUserDetails = AutoForm.getFormValues('insertUser');
 
     //Disable the submit button to prevent repeated clicks
     $('#submit').prop('disabled', true);
@@ -89,7 +97,7 @@ Template.stripeSubscribe.events({
       }
 
       toastr.clear();
-      toastr.info('Please wait while we process your subscription...');
+      toastr.info('Please wait while we process your card details...');
 
       /*If has stripeId, check if the new plan's currency is the same as before.
           Stripe only allows one currency per account. If tenant wants to use a different currency,
@@ -102,22 +110,43 @@ Template.stripeSubscribe.events({
 
       const userEmail = $('#email').val();
       Meteor.call(`stripe.${methodName}`, response.id, planId, userEmail, function(error2, result2) {
-        if (error2 || result2 === false) {
+        if (error2 || !result2) {
           Modal.hide();
           bootbox.alert({
             title: 'Error',
-            message: `<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create subscription.<br> ${error2.reason}`,
+            message: `<i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to create account.<br> ${_.get(error2, 'reason', '')}`,
             className: "bootbox-danger",
           });
           return false;
         }
 
-        toastr.clear();
-        Modal.hide();
-        const message = `<i class="fa fa-check fa-3x pull-left text-success"></i>Your subscription has been successful. You can now add more users.<br />Thank you for using RealTimeCRM!`;
-        showSuccessBootbox(message);
-        stripeCustomer.update();
-        upcomingInvoice.update();
+        let nextPaymentDate = '';
+        if(result2.object === 'customer') {
+          nextPaymentDate = moment(_.get(result2, 'subscriptions.data[0].current_period_end') * 1000).format('DD/MM/YYYY');
+        } else if(result2.object === 'subscription') {
+          nextPaymentDate = moment(result2.current_period_end * 1000).format('DD/MM/YYYY');
+        }
+
+        Meteor.call('addTenantUser', _.get(newUserDetails, 'insertDoc'), function(error3, result3) {
+          if(error3 || result3 === false) {
+            Modal.hide();
+            bootbox.alert({
+              title: 'Error',
+              message: `<i class="fa fa-times fa-3x pull-left text-warning"></i>Your card details have been accepted but we were unable to add your new user.<br> ${_.get(error3, 'reason', '')}`,
+              className: "bootbox-warning",
+            });
+            return false;
+          }
+          toastr.clear();
+          Modal.hide();
+          bootbox.alert({
+            title: 'Card details accepted',
+            message: `<i class="fa fa-check fa-3x pull-left text-success"></i>Your card details have been accepted. You can now add more users.<br>Your first payment will be taken on ${nextPaymentDate} for the following month.<br>Thank you for using RealTimeCRM!`,
+            className: 'bootbox-success'
+          });
+          stripeCustomer.update();
+          upcomingInvoice.update();
+        });
       });
     });
   }

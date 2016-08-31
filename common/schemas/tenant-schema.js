@@ -3,6 +3,7 @@ Schemas.Tenant = new SimpleSchema({
     type: String,
     label: "Name"
   },
+  // Will need to be deleted once set to null for all tenants
   plan: {
     type: String,
     label: "Plan",

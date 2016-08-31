@@ -10,7 +10,7 @@
 
         <div class="modal-body">
           {{#if isProTenant}}
-          <p class="text-danger">This tenant has subscribed to the <b>Pro Plan</b>. Adding a user will update their subscription accordingly.</p>
+          <p class="text-danger">This tenant has subscribed. Adding a user will update their subscription accordingly.</p>
           {{/if}}
           {{#autoForm schema="Schemas.User" id="insertTenantUserModal" type="method" meteormethod="addUser"}}
             {{> afQuickField name="name" id="userName"}}

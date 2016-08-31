@@ -2,7 +2,6 @@ import { EventLog, Products } from '/imports/api/collections.js';
 Meteor.methods({
   'tenant.getPayingUsers': function() {
     var tenants = Tenants.find({
-      plan: 'pro',
       'stripe.stripeSubs': {
         $exists: true
       }

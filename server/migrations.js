@@ -338,6 +338,9 @@ Migrations.add({
       Tenants.update(tenant._id, {
         $set: {
           'stripe.maxFreeUsers': 1
+        },
+        $unset: {
+          plan: ''
         }
       });
     });

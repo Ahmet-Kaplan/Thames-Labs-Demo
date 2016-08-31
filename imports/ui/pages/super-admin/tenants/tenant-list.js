@@ -32,7 +32,6 @@ Template.tenantList.onCreated(function() {
 Template.tenantList.helpers({
   tenants: function(paying) {
     return Tenants.find({
-      "plan": 'pro',
       'stripe.stripeSubs': {
         $exists: true
       }

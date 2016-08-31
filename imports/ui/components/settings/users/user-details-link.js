@@ -1,5 +1,4 @@
 import bootbox from 'bootbox';
-import { isTenantOverFreeUserLimit } from '/imports/api/tenants/helpers.js';
 
 import './modals/update-user.js';
 import './user-details-link.html';
@@ -29,10 +28,25 @@ Template.userDetailsLink.events({
             toastr.error(`Unable to remove user. ${error.reason}`);
           }
           const tenantId = _.get(Meteor.user(), 'group');
-          const subsNotification = (isProTenant(tenantId) && isTenantOverFreeUserLimit(tenantId)) ? `<br />Please note that your subscription has been updated accordingly.` : '';
+
+          // If pro tenant, indicate payment will be modified
+          const subsNotification = isProTenant(tenantId) ? `<br />Please note that your payments will be updated accordingly.` : '';
+
+          // If removing last paying user, indicate that payment will stop
+          let paymentWillStop = '';
+          const tenant = Tenants.findOne({
+            _id: tenantId
+          });
+          const tenantUsers = Meteor.users.find({
+            group: tenantId
+          }).count();
+          if(_.get(tenant, 'stripe.stripeId') && _.get(tenant, 'stripe.maxFreeUsers') === tenantUsers) {
+            paymentWillStop = '<br>You are now left with only free users and will not be charged anymore.';
+          }
+
           bootbox.alert({
             title: 'User removed',
-            message: `<i class="fa fa-check fa-3x pull-left text-success"></i>User ${name} has been removed.${subsNotification}`,
+            message: `<i class="fa fa-check fa-3x pull-left text-success"></i>User ${name} has been removed.${subsNotification}${paymentWillStop}`,
             className: 'bootbox-success',
           });
         });
