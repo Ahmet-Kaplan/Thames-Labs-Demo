@@ -3,17 +3,16 @@ import './side-menu/side-menu.js';
 import './nav.html';
 
 Session.setDefault('notifications', []);
-Session.setDefault('showAllNotices', false);
 
 Template.nav.onCreated(function() {
 
+  this.showAllNotices = new ReactiveVar(false);
+
   this.subscribe('allNotifications');
-  this.fab = new ReactiveVar(true);
-  this.fabOpen = new ReactiveVar(false);
 
-  this.autorun(function() {
+  this.autorun(() => {
 
-    var getNotification = Notifications.findOne({
+    const getNotification = Notifications.findOne({
       target: {
         $in: [Meteor.userId(), 'all']
       }
@@ -26,7 +25,7 @@ Template.nav.onCreated(function() {
     if (getNotification && !getNotification.notified && getNotification.target === Meteor.userId()) {
       if ("Notification" in window) {
 
-        var options = {
+        const options = {
           body: getNotification.shortDescription + ": " + getNotification.detail,
           icon: '/dark-icon.svg'
         };
@@ -51,19 +50,18 @@ Template.nav.onCreated(function() {
 });
 
 Template.nav.onRendered(function() {
-  this.autorun(function() {
-    var showAll = Session.get('showAllNotices');
-
-    var notices = Notifications.find({
-      target: {
-        $in: [Meteor.userId(), 'all']
-      }
-    }, {
-      sort: {
-        createdAt: -1
-      },
-      limit: (showAll === true ? 99 : NOTICE_LIMIT)
-    }).fetch();
+  this.autorun(() => {
+    const showAll = this.showAllNotices.get(),
+          notices = Notifications.find({
+            target: {
+              $in: [Meteor.userId(), 'all']
+            }
+          }, {
+            sort: {
+              createdAt: -1
+            },
+            limit: (showAll === true ? 99 : NOTICE_LIMIT)
+          }).fetch();
 
     Session.set('notifications', notices);
   });
@@ -71,27 +69,15 @@ Template.nav.onRendered(function() {
 
 Template.nav.helpers({
   displayShowLess: function() {
-    var showAll = Session.get('showAllNotices');
+    const showAll = Template.instance().showAllNotices.get();
     return (showAll === true);
   },
   displayShowMore: function() {
-    var showAll = Session.get('showAllNotices');
+    const showAll = Template.instance().showAllNotices.get();
     return (showAll === false);
   },
   notificationLimit: function() {
     return NOTICE_LIMIT;
-  },
-  showTourOption: function() {
-    var currRoute = FlowRouter.getRouteName();
-    var show = false;
-
-    _.each(availableTours, function(at) {
-      if (at === currRoute) {
-        show = true;
-      }
-    });
-
-    return show;
   },
   loggedIn: function() {
     return !!Meteor.userId();
@@ -101,9 +87,9 @@ Template.nav.helpers({
       return false;
     }
 
-    var sName = '';
+    let sName = '';
     if (!Roles.userIsInRole(Meteor.user(), ['superadmin'])) {
-      var user = Meteor.users.find({
+      const user = Meteor.users.find({
         _id: Meteor.userId()
       }).fetch()[0];
 
@@ -118,30 +104,26 @@ Template.nav.helpers({
     return Session.get('notifications');
   },
   recentNote: function() {
-    var today = new Date();
-    var yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
+    const today = new Date(),
+          yesterday = new Date(today),
+          recent = Notifications.find({
+            target: {
+              $in: [Meteor.userId(), 'all']
+            }
+          }, {
+            sort: {
+              createdAt: -1
+            },
+            limit: 1
+          }).fetch()[0];
 
-    var recent = Notifications.find({
-      target: {
-        $in: [Meteor.userId(), 'all']
-      }
-    }, {
-      sort: {
-        createdAt: -1
-      },
-      limit: 1
-    }).fetch()[0];
+    yesterday.setDate(today.getDate() - 1);
 
     if (recent) {
       return (recent.createdAt >= yesterday);
     }
   },
   recentNoteCount: function() {
-    var today = new Date();
-    var yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-
     return Notifications.find({
       target: {
         $in: [Meteor.userId(), 'all']
@@ -149,21 +131,15 @@ Template.nav.helpers({
     }).count();
   },
   favourites: function() {
-    var ux = Meteor.users.findOne(Meteor.userId());
+    const ux = Meteor.users.findOne(Meteor.userId());
 
     if (ux) {
-      var profile = ux.profile;
+      const profile = ux.profile;
       if (!profile.favourites) {
         return null;
       }
       return profile.favourites;
     }
-  },
-  fabEnabled: function() {
-    return Template.instance().fab.get();
-  },
-  fabOpen: function() {
-    return Template.instance().fabOpen.get();
   }
 });
 
@@ -173,7 +149,7 @@ Template.nav.events({
     event.preventDefault();
     event.stopPropagation();
 
-    Session.set('showAllNotices', true);
+    Template.instance().showAllNotices.set(true);
 
     $('#show-more-notices').hide();
     $('#show-less-notices').show();
@@ -182,8 +158,7 @@ Template.nav.events({
     event.preventDefault();
     event.stopPropagation();
 
-    Session.set('showAllNotices', false);
-
+    Template.instance().showAllNotices.set(false);
     $('#show-more-notices').show();
     $('#show-less-notices').hide();
   },
@@ -205,42 +180,6 @@ Template.nav.events({
     } else {
       Modal.show('globalSearch');
     }
-  },
-  'click #qckCreateCompany': function(event) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['CanCreateCompanies'])) {
-      toastr.warning('You do not have permission to create companies. Please contact your system administrator.');
-      return;
-    }
-
-    event.preventDefault();
-    Modal.show('insertNewCompanyModal', this);
-  },
-  'click #qckCreateContact': function(event) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['CanCreateContacts'])) {
-      toastr.warning('You do not have permission to create contacts. Please contact your system administrator.');
-      return;
-    }
-
-    event.preventDefault();
-    Modal.show('insertContactModal', this);
-  },
-  'click #qckCreateProject': function(event) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['CanCreateProjects'])) {
-      toastr.warning('You do not have permission to create projects. Please contact your system administrator.');
-      return;
-    }
-
-    event.preventDefault();
-    Modal.show('insertProjectForm', this);
-  },
-  'click #qckCreatePurchaseOrder': function(event) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['CanCreatePurchaseOrders'])) {
-      toastr.warning('You do not have permission to create purchase orders. Please contact your system administrator.');
-      return;
-    }
-
-    event.preventDefault();
-    Modal.show('insertPurchaseOrderModal', this);
   },
   'click #feedback-link': function(event) {
     event.preventDefault();
@@ -270,58 +209,21 @@ Template.nav.events({
       document.getElementById("id-view-sidemenu").className =
         document.getElementById("id-view-sidemenu").className.replace(/(?:^|\s)active(?!\S)/g, '');
     }
-  },
-
-  // 'click #toggleFab': function(event, template) {
-  //   if (Template.instance().fab.get() === true) {
-  //     template.fab.set(false);
-  //   } else {
-  //     template.fab.set(true);
-  //   };
-  // },
-  // 'click #fab-btn': function(event, template) {
-  //   var title = document.title;
-  //   if(title === "Companies") {
-  //     Modal.show('insertNewCompanyModal', this);
-  //   }else {
-  //     if (Template.instance().fabOpen.get() === true) {
-  //       template.fabOpen.set(false);
-  //     } else {
-  //       template.fabOpen.set(true);
-  //     };
-  //   }
-
-  // },
-  'click #fabAddContacts': function(event) {
-    event.preventDefault();
-    Modal.show('insertContactModal', this);
-  },
-  'click #fabAddCompanies': function(event) {
-    event.preventDefault();
-    Modal.show('insertNewCompanyModal', this);
-  },
-  'click #fabAddProject': function(event) {
-    event.preventDefault();
-    Modal.show('insertProjectForm', this);
-  },
-  'click #fabAddPurchaseOrder': function(event) {
-    event.preventDefault();
-    Modal.show('insertPurchaseOrderModal', this);
   }
 });
 
 Template.notice.helpers({
   shortText: function() {
-    var c = this.title;
-    var s = c.substr(0, 40);
+    const c = this.title,
+          s = c.substr(0, 40);
     if (s.length > 37) {
       return s + "...";
     }
     return s;
   },
   shortDetail: function() {
-    var c = this.detail;
-    var s = c.substr(0, 40);
+    const c = this.detail,
+          s = c.substr(0, 40);
     if (s.length > 37) {
       return s + "...";
     }
@@ -329,8 +231,8 @@ Template.notice.helpers({
   },
 
   recentNote: function() {
-    var today = new Date();
-    var yesterday = new Date(today);
+    const today = new Date(),
+          yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
     return (this.createdAt >= yesterday);
@@ -346,16 +248,16 @@ Template.notice.events({
 
 Template.menuNotice.helpers({
   shortText: function() {
-    var c = this.title;
-    var s = c.substr(0, 40);
+    const c = this.title,
+          s = c.substr(0, 40);
     if (s.length > 37) {
       return s + "...";
     }
     return s;
   },
   recentNote: function() {
-    var today = new Date();
-    var yesterday = new Date(today);
+    const today = new Date(),
+          yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
     return (this.createdAt >= yesterday);

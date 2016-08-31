@@ -76,7 +76,7 @@ Template.tagManagementModal.onRendered(function() {
 
   this.autorun(() => {
     const existingTags = Meteor.tags.find({
-      collection: collectionName,
+      collection: collectionName
     }).fetch();
     this.selectize.addOption(existingTags);
     this.selectize.refreshOptions(true);

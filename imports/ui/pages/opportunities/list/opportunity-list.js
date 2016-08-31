@@ -87,20 +87,5 @@ Template.opportunityList.events({
   'click #export': function(event) {
     event.preventDefault();
     exportFromSearchToCSV('opportunities');
-  },
-  'click #oppsOverviewWidget': function(event, template) {
-
-    Meteor.call('report.openOpportunities', function(err, data) {
-      template.openOpps.set(data.Count);
-    });
-    Meteor.call('report.archivedOpportunities', function(err, data) {
-      template.archivedOpps.set(data.Count);
-    });
-    Meteor.call('report.valueOfOpportunities', function(err, data) {
-      template.totalOppValue.set(data.Value);
-    });
-    Meteor.call('report.averageOpportunityValue', function(err, data) {
-      template.averageOppValue.set(data.Value);
-    });
   }
 });
