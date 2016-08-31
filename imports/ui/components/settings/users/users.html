@@ -22,7 +22,7 @@
     <h4>Current Users <a class="btn btn-xs btn-primary pull-right" id="add-user"><i class="fa fa-fw fa-plus"></i> Add user</a></h4>
     {{#unless isProTenant}}
     {{#unless overFreeLimit}}
-        <p>You can create {{remainingFreeUsers}} more user{{#unless equals remainingFreeUsers 1}}s{{/unless}} on the Free Plan.</p>
+        <p>You can create <b>{{remainingFreeUsers}} more free user{{#unless equals remainingFreeUsers 1}}s{{/unless}}</b>.</p>
     {{/unless}}
     {{/unless}}
     <p>Click on a user to change details, permissions and related settings.</p>

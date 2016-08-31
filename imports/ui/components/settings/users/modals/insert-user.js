@@ -24,8 +24,6 @@ AutoForm.hooks({
       toastr.clear();
       if (error.reason === "Email already exists.") {
         toastr.error('A user with this email already exists.');
-      } else if(error.reason === "Users limit reached") {
-        showUpgradeToastr('To add more users');
       } else {
         toastr.error(`Unable to create user: ${error.reason}`);
       }

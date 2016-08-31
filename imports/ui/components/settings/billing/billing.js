@@ -36,15 +36,3 @@ Template.billing.helpers({
     return moment(trialPeriodEnd * 1000).format('Do MMMM YYYY');
   }
 });
-
-Template.billing.events({
-  'click #upScheme': function(evt) {
-    evt.preventDefault();
-    const tenant = Tenants.findOne({
-      _id: Meteor.user().group
-    });
-    Modal.show('stripeSubscribe', {
-      userCurrency: _.get(tenant, 'settings.currency', 'gbp')
-    });
-  },
-});

@@ -3,7 +3,6 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import bootbox from 'bootbox';
 import { showSuccessBootbox } from './helpers.js';
-
 import { stripeCustomer, stripePlan, upcomingInvoice } from '/imports/api/billing/helpers.js';
 
 import './stripe-subscribe.html';
@@ -95,7 +94,7 @@ Template.stripeSubscribe.events({
       /*If has stripeId, check if the new plan's currency is the same as before.
           Stripe only allows one currency per account. If tenant wants to use a different currency,
           we need to create a new stripeId (new Customer Object on Stripe).
-          Otherwise, simply call subscription method*/
+          Otherwise, simply call customer creation method*/
       let methodName = 'createCustomer';
       if (_.get(tenantDetails, 'stripe.stripeId') && newPlanCurrency === currentUserCurrency) {
         methodName = 'createSubscription';

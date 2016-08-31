@@ -34,24 +34,24 @@ Meteor.methods({
   * @return {Boolean}         - Whether or not the creation succeeded.
   */
   'stripe.createCustomer': function(token, planId, userEmail) {
+    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may subscribe.');
+    }
+
     if(!_.includes(['premierGBP', 'premierEUR', 'premierUSD'], planId)) {
-      throw new Meteor.Error('400', 'Invalid plan name');
+      throw new Meteor.Error(400, 'Invalid plan name');
     }
 
     const tenantId = Partitioner.getUserGroup(this.userId);
     const mongoTenant = Tenants.findOne({
       _id: tenantId
     });
-    const coupon = mongoTenant.stripe.coupon;
+    const coupon = _.get(mongoTenant, 'stripe.coupon');
     const numberUsers = Meteor.users.find({
       group: tenantId
     }).count();
     const freeUsers = _.get(mongoTenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
     const quantity = numberUsers > freeUsers ? (numberUsers - freeUsers) : 0;
-
-    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
-      throw new Meteor.Error(403, 'Only admins may subscribe.');
-    }
 
     const customerParameters = {
       description: mongoTenant.name,
@@ -170,7 +170,7 @@ Meteor.methods({
 
     // Tenant can create account if free and under free user limit
     if(mongoTenant.plan === 'free') {
-      return !isTenantOverFreeUserLimit(tenantId);
+      return true;
 
     // If pro, need to have a stripe account. This is to avoid conflicts with the previous way of setting a tenant to 'free unlimited'.
     // We now use the number of free user account to set an 'unlimited' tenant.

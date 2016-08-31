@@ -328,3 +328,18 @@ Migrations.add({
     ServerSession.set('maintenance', false);
   }
 });
+
+Migrations.add({
+  version: 27,
+  name: "Set tenants to the new Free/Pro model",
+  up: function() {
+    const tenants = Tenants.find({}).fetch();
+    _.each(tenants, function(tenant) {
+      Tenants.update(tenant._id, {
+        $set: {
+          'stripe.maxFreeUsers': 1
+        }
+      });
+    });
+  }
+});

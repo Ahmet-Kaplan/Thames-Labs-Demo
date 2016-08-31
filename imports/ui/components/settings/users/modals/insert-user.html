@@ -9,38 +9,40 @@
         </div>
 
         <div class="modal-body">
-          <p>After adding this new user, your subscription will stand as below.</p>
+          {{#if isOverFreeLimit}}
+            <p>After adding this new user, your subscription will stand as below.</p>
 
-          <div class="well well-sm">
-          {{#if planDetails}}
-          {{#with planDetails}}
-            <div class="row">
-              <div class="col-xs-6"><em>Free user{{#unless equals freeUsers 1}}s{{/unless}}</em></div>
-              <div class="col-xs-6">{{freeUsers}}</div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6"><em>Additional Users</em></div>
-              <div class="col-xs-6">{{additionalUsers}}</div>
-            </div>
-            {{#if couponName}}
-            <div class="row">
-              <div class="col-xs-6" id="couponInfo"><em>Coupon</em> {{couponName}}</div>
-              <div class="col-xs-6">{{couponDetails}}</div>
-            </div>
+            <div class="well well-sm">
+            {{#if planDetails}}
+            {{#with planDetails}}
+              <div class="row">
+                <div class="col-xs-6"><em>Free user{{#unless equals freeUsers 1}}s{{/unless}}</em></div>
+                <div class="col-xs-6">{{freeUsers}}</div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6"><em>Additional Users</em></div>
+                <div class="col-xs-6">{{additionalUsers}}</div>
+              </div>
+              {{#if couponName}}
+              <div class="row">
+                <div class="col-xs-6" id="couponInfo"><em>Coupon</em> {{couponName}}</div>
+                <div class="col-xs-6">{{couponDetails}}</div>
+              </div>
+              {{/if}}
+              <div class="row">
+                <div class="col-xs-6"><em>Price</em></div>
+                <div class="col-xs-6">{{#if equals amount correctedAmount}}{{amount}}{{else}}<del>{{amount}}</del> {{correctedAmount}}{{/if}} /additional user/{{interval}}</div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6"><em>Total Price of subscription</em></div>
+                <div class="col-xs-6">{{priceAfterNewUser}} /{{interval}}</div>
+              </div>
+            {{/with}}
+            {{else}}
+              {{> loadingSmall}}
             {{/if}}
-            <div class="row">
-              <div class="col-xs-6"><em>Price</em></div>
-              <div class="col-xs-6">{{#if equals amount correctedAmount}}{{amount}}{{else}}<del>{{amount}}</del> {{correctedAmount}}{{/if}} /additional user/{{interval}}</div>
             </div>
-            <div class="row">
-              <div class="col-xs-6"><em>Total Price of subscription</em></div>
-              <div class="col-xs-6">{{priceAfterNewUser}} /{{interval}}</div>
-            </div>
-          {{/with}}
-          {{else}}
-            {{> loadingSmall}}
           {{/if}}
-          </div>
 
           {{#autoForm schema="Schemas.User" id="insertUser" type="method" meteormethod="addTenantUser"}}
             {{> afQuickField name="name" autocomplete="off" id="addUserName" autofocus=''}}
