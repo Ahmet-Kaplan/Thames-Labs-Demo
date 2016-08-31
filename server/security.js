@@ -1,3 +1,5 @@
+import { Notifications } from '/common/collections/notifications-collection.js';
+
 Tenants.permit(['insert', 'update', 'remove']).ifHasRole('superadmin').apply();
 Tenants.permit('update').onlyProps(['settings', 'name']).ifHasRole('Administrator').apply();
 

@@ -1,4 +1,5 @@
 import '/imports/ui/components/tutorial-modals/help/help-menu.js';
+import { Notifications } from '/common/collections/notifications-collection.js';
 
 import './top-menu.less';
 import './top-menu.html';
