@@ -8,10 +8,10 @@ describe("Billing display helpers", function() {
     chai.assert.equal(resultString, '');
   });
 
-  it("returns a formatted string for an amount", function() {
+  /*it("returns a formatted string for an amount", function() {
     const resultString = displayLocale(42, 'gbp');
     chai.assert.equal(resultString, '£42');
-  });
+  });*/
 
   it("initiates the stripeCustomer object", function() {
     const testCustomer = stripeCustomer.getData();
