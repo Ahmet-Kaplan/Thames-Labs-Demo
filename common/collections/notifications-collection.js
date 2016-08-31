@@ -1,1 +1,1 @@
-export const Notifications = new Mongo.Collection('notifications');
+Notifications = new Mongo.Collection('notifications');

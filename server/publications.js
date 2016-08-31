@@ -1,5 +1,4 @@
 import { Products } from '/imports/api/collections.js';
-import { Notifications } from '/common/collections/notifications-collection.js';
 Meteor.publish('userPresence', function() {
   var filter = {
     userId: {

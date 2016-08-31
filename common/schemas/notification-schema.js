@@ -1,5 +1,3 @@
-import { Notifications } from '/common/collections/notifications-collection.js';
-
 Schemas.Notification = new SimpleSchema({
   title: {
     type: String
@@ -30,6 +28,6 @@ Schemas.Notification = new SimpleSchema({
   icon: {
     type: String,
     optional: true
-  }
+  },
 });
 Notifications.attachSchema(Schemas.Notification);
