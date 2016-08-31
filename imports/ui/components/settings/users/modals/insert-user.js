@@ -42,10 +42,6 @@ Template.insertUser.onRendered(function() {
 });
 
 Template.insertUser.helpers({
-  isProTenant: function() {
-    const tenantId = Meteor.user().group;
-    return isProTenant(tenantId);
-  },
   isOverFreeLimit: function() {
     return isTenantOverFreeUserLimit(Meteor.user().group);
   },
