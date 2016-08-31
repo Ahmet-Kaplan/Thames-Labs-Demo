@@ -108,7 +108,6 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
         _.each(importData, function(row, i) {
           const percentDone = ((i / importTotal) * 100).toFixed(0);
           UserSession.set("importProgress", percentDone, userId);
-          console.log(percentDone);
 
           rtId++;
 
