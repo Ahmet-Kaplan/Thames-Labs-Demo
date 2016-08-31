@@ -83,9 +83,5 @@ Template.opportunityList.events({
   'click #create-opportunity': function(event) {
     event.preventDefault();
     Modal.show('insertOpportunityModal');
-  },
-  'click #export': function(event) {
-    event.preventDefault();
-    exportFromSearchToCSV('opportunities');
   }
 });
