@@ -35,9 +35,6 @@
           <li><a id="tskToggleCalendar">{{#if showCalendar}}Hide{{else}}Show{{/if}} calendar</a></li>
           <li><a id="tskToggleSubtasks">{{#if showSubtasks}}Hide{{else}}Show{{/if}} subtasks</a></li>
         {{/if}}
-        {{#if isInRole 'CanReadTasks'}}
-        {{> importCollection entity="tasks"}}
-        {{/if}}
         {{> exportCollection entity="tasks"}}
       </ul>
     </div>

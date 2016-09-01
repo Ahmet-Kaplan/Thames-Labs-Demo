@@ -6,7 +6,6 @@ import '/imports/ui/components/search/local/small-box/small-search-box.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-purchase-order.js';
 import '/imports/ui/components/purchase-orders/list-item/purchase-order-list-item.js';
 import '/imports/ui/components/export/export.js';
-import '/imports/ui/components/import/import.js';
 import '/imports/ui/components/purchase-orders/reports/overview.js';
 
 import './purchase-order-list.html';

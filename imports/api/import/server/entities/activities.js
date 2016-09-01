@@ -79,9 +79,7 @@ export const importActivity = (row, getValueForField, userId) => {
   //Get dates
   let activityTimestamp = getValueForField(row, 'date');
   if (activityTimestamp) activityTimestamp = moment(activityTimestamp, 'DD/MM/YYYY hh:mm').toDate();
-  console.log(entityName);
-  console.log(recordType);
-  console.log(entity._id);
+
   //Setup JSON object for entity
   const entityData = {
     type: getValueForField(row, 'type'),

@@ -68,10 +68,11 @@ export const importCompany = (row, getValueForField, userId, rtId, localCustomFi
     }
 
     //Add global custom fields
+    console.log(globalCustomFields);
     if(globalCustomFields.length > 0) {
       _.each(globalCustomFields, function(field, i) {
         CustomFields.update({
-          name: field.schemaField,
+          name: field.fieldName,
           global: true,
           target: 'company',
           entityId: entityId

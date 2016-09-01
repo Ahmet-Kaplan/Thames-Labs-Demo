@@ -37,7 +37,7 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
   });
 
   Partitioner.bindUserGroup(userId, () => {
-    UserSession.set("importProgress", 0, userId);
+    UserSession.set("progressValue", 0, userId);
     var errorList = UserSession.get("importErrors", userId);
     let rtId = 0;
     switch (entityType) {
@@ -47,7 +47,7 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
         _.each(importData, function(row, i) {
           rtId++;
           const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
+          UserSession.set("progressValue", percentDone, userId);
 
           const res = importActivity(row, getValueForField, userId, rtId);
           //Handle result of importing the entity
@@ -75,7 +75,7 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
           }
 
           const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
+          UserSession.set("progressValue", percentDone, userId);
         });
         break;
 
@@ -97,7 +97,7 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
           }
 
           const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
+          UserSession.set("progressValue", percentDone, userId);
         });
         break;
 
@@ -107,8 +107,7 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
         //Loop through importData
         _.each(importData, function(row, i) {
           const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
-          console.log(percentDone);
+          UserSession.set("progressValue", percentDone, userId);
 
           rtId++;
 
@@ -142,7 +141,7 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
         _.each(importData, function(row, i) {
           rtId++;
           const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
+          UserSession.set("progressValue", percentDone, userId);
 
           const res = importProject(row, getValueForField, userId, rtId);
 
@@ -181,7 +180,7 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
           }
 
           const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
+          UserSession.set("progressValue", percentDone, userId);
         });
         break;
 
@@ -192,7 +191,7 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
         _.each(importData, function(row, i) {
           rtId++;
           const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
+          UserSession.set("progressValue", percentDone, userId);
 
           const res = importPurchaseOrder(row, getValueForField, userId, rtId);
           //Handle result of importing the entity
@@ -229,12 +228,12 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
           }
 
           const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
+          UserSession.set("progressValue", percentDone, userId);
         });
         break;
 
     }
-    UserSession.set("importProgress", 100, userId);
+    UserSession.set("progressValue", 100, userId);
     UserSession.set("importErrors", errorList, userId);
   });
   return true;

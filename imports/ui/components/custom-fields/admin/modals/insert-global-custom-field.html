@@ -18,24 +18,24 @@
             <div class="form-group">
               <label>Type</label>
               <div class="row">
-                <div class="col-md-2">
-                  <a id="typeText" class="{{#unless typeText}}text-muted{{/unless}} text-centre" href=""><i class="fa fa-fw fa-text-width"></i>Text</a>
+                <div class="col-md-2 text-center">
+                  <a id="typeText" class="{{#unless typeText}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-text-width"></i>Text</a>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 text-center">
                   <a id="typeMultiText" class="{{#unless typeMultiText}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-align-left"></i>Multiline Text</a>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 text-center">
                   <a id="typeCheckbox" class="{{#unless typeCheckbox}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-check-square-o"></i>Checkbox</a>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 text-center">
                   <a id="typeDateTime" class="{{#unless typeDateTime}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-calendar"></i>Date/Time</a>
                 </div>
 
                 {{#unless isLocal}}
-                <div class="col-md-2">
+                <div class="col-md-2 text-center">
                   <a id="typeLabel" class="{{#unless typeLabel}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-tag"></i>Label</a>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 text-center">
                   <a id="typePicklist" class="{{#unless typePicklist}}text-muted{{/unless}}" href=""><i class="fa fa-fw fa-list-ol"></i>Picklist</a>
                 </div>
                 {{/unless}}
