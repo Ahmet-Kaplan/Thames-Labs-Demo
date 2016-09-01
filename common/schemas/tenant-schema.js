@@ -7,6 +7,7 @@ Schemas.Tenant = new SimpleSchema({
   plan: {
     type: String,
     label: "Plan",
+    optional: true,
     autoform: {
       type: "hidden"
     },
