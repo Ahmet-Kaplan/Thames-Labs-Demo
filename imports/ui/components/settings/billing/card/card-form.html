@@ -1,28 +1,30 @@
 <template name="cardForm">
-  <div class="form-group">
-    <div class="card-wrapper"></div>
-  </div>
+  <div id="cardFormWrapper">
+    <div class="form-group">
+      <div class="card-wrapper"></div>
+    </div>
 
-  <div class="row form-group">
-    <div class="col-xs-6">
-      <label for="cardNumber" class="control-label">Card Number</label>
-      <input type="text" id="cardNumber" size="20" class="form-control" data-stripe="number" placeholder="**** **** **** ****" autocomplete="off" required />
+    <div class="row form-group">
+      <div class="col-xs-6">
+        <label for="cardNumber" class="control-label">Card Number</label>
+        <input type="text" id="cardNumber" size="20" class="form-control" data-stripe="number" placeholder="**** **** **** ****" autocomplete="off" required />
+      </div>
+      <div class="col-xs-6">
+        <label for="cardName" class="control-label">Name</label>
+        <input type="text" id="cardName" size="20" class="form-control" data-stripe="name" />
+      </div>
     </div>
-    <div class="col-xs-6">
-      <label for="cardName" class="control-label">Name</label>
-      <input type="text" id="cardName" size="20" class="form-control" data-stripe="name" />
-    </div>
-  </div>
 
-  <div class="form-group">
-    <div class="row">
-      <div class="col-xs-6"><label for="expMonth" class="control-label">Expiration</label></div>
-      <div class="col-xs-6"><label for="cardCVC" class="control-label">CVC</label></div>
-    </div>
-    <div class="row">
-      <div class="col-xs-3"><input type="text" id="expMonth" size="2" class="form-control" data-stripe="exp-month" placeholder="01" autocomplete="off" required /></div>
-      <div class="col-xs-3"><input type="text" id="expYear" size="4" class="form-control" data-stripe="exp-year" placeholder="2016" autocomplete="off" required /></div>
-      <div class="col-xs-3"><input type="text" id="cardCVC" size="4" class="form-control" data-stripe="cvc" placeholder="***" autocomplete="off" required /></div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-xs-6"><label for="expMonth" class="control-label">Expiration</label></div>
+        <div class="col-xs-6"><label for="cardCVC" class="control-label">CVC</label></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3"><input type="text" id="expMonth" size="2" class="form-control" data-stripe="exp-month" placeholder="01" autocomplete="off" required /></div>
+        <div class="col-xs-3"><input type="text" id="expYear" size="4" class="form-control" data-stripe="exp-year" placeholder="2016" autocomplete="off" required /></div>
+        <div class="col-xs-3"><input type="text" id="cardCVC" size="4" class="form-control" data-stripe="cvc" placeholder="***" autocomplete="off" required /></div>
+      </div>
     </div>
   </div>
 </template>

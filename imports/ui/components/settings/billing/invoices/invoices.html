@@ -1,20 +1,20 @@
 <template name="invoices">
-{{#if upcomingInvoice}}
-  <div class="settings-section">
-    <h4>Next Payment Due</h4>
-    <p>The next payment is {{upcomingInvoice.amount_due}} and is due on {{upcomingInvoice.date}} for the period {{upcomingInvoice.periodStart}} - {{upcomingInvoice.periodEnd}}. See below for the cost breakdown.</p>
-
-    {{> invoiceDetails invoice=upcomingInvoice}}
-
-  </div>
-{{/if}}
-
 {{#if lastInvoice}}
   <div class="settings-section">
     <h4>Last Payment</h4>
     <p>The last payment was {{lastInvoice.amount_due}} paid on {{lastInvoice.date}} for the period {{lastInvoice.periodStart}} - {{lastInvoice.periodEnd}}. See below for the cost breakdown.</p>
 
     {{> invoiceDetails invoice=lastInvoice}}
+
+  </div>
+{{/if}}
+
+{{#if upcomingInvoice}}
+  <div class="settings-section">
+    <h4>Next Payment Due</h4>
+    <p>The next payment is {{upcomingInvoice.amount_due}} and is due on {{upcomingInvoice.date}} for the period {{upcomingInvoice.periodStart}} - {{upcomingInvoice.periodEnd}}. See below for the cost breakdown.</p>
+
+    {{> invoiceDetails invoice=upcomingInvoice}}
 
   </div>
 {{/if}}

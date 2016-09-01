@@ -15,11 +15,6 @@ Template.globalCustomFieldList.onRendered(function() {
     handle: '.handle',
     axis: 'y',
     stop: function(event, ui) {
-      if (!isProTenant(Meteor.user().group)) {
-        showUpgradeToastr('To reorder custom fields');
-        $(this).sortable('cancel');
-        return;
-      }
       // Setup needed variables
       const fieldId = Blaze.getData(ui.item[0])._id,
             fieldTarget = Blaze.getData(ui.item[0]).target,

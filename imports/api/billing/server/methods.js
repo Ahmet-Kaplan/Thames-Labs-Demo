@@ -28,35 +28,38 @@ Meteor.methods({
   * Creates a customer and returns true if the creation succeeded, false otherwise.
   * @method createCustomer
   * @param {String} token     - card token returned by Stripe (see {@link https://stripe.com/docs/stripe.js})
-  * @param {String} userEmail - email provided on signup
   * @param {String} planId    - Stripe plan id ('premierGBP', 'premierEUR', 'premierUSD')
+  * @param {String} userEmail - email provided on signup
   * @return {Boolean}         - Whether or not the creation succeeded.
   */
-  'stripe.createCustomer': function(token, userEmail, planId) {
+  'stripe.createCustomer': function(token, planId, userEmail) {
+    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
+      throw new Meteor.Error(403, 'Only admins may subscribe.');
+    }
+
     if(!_.includes(['premierGBP', 'premierEUR', 'premierUSD'], planId)) {
-      throw new Meteor.Error('400', 'Invalid plan name');
+      throw new Meteor.Error(400, 'Invalid plan name');
     }
 
     const tenantId = Partitioner.getUserGroup(this.userId);
     const mongoTenant = Tenants.findOne({
       _id: tenantId
     });
-    const coupon = mongoTenant.stripe.coupon;
+    const coupon = _.get(mongoTenant, 'stripe.coupon');
     const numberUsers = Meteor.users.find({
       group: tenantId
     }).count();
-
-    if (!Roles.userIsInRole(this.userId, ['Administrator'])) {
-      throw new Meteor.Error(403, 'Only admins may subscribe.');
-    }
+    const freeUsers = _.get(mongoTenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
+    const quantity = numberUsers > freeUsers ? (numberUsers - freeUsers) : 0;
 
     const customerParameters = {
       description: mongoTenant.name,
       source: token,
       plan: planId,
-      quantity: numberUsers,
+      quantity: quantity,
       tax_percent: 20.0,
       email: userEmail,
+      trial_end: moment().add(1, 'd').startOf('day').unix(),
       metadata: {
         tenantId: tenantId,
         createdBy: this.userId
@@ -76,9 +79,9 @@ Meteor.methods({
         $set: {
           "stripe.stripeId": customer.id,
           "stripe.stripeSubs": customer.subscriptions.data[0].id,
-          "plan": 'pro'
         }
       });
+      return customer;
     }
 
     return !!customer;
@@ -90,11 +93,12 @@ Meteor.methods({
  /**
   * Creates a subscription object for a tenant which already has a stripe ID.
   * @method createSubscription
-  * @param {String} planId              - Stripe plan id ('premierGBP', 'premierEUR', 'premierUSD')
+  * @param {String} token     - card token returned by Stripe (see {@link https://stripe.com/docs/stripe.js})
+  * @param {String} planId    - Stripe plan id ('premierGBP', 'premierEUR', 'premierUSD')
   * @param {?String} superadminTenantId - Used when method is called from the superadmin interface in which case tenantId cannot be retrieved via partitioner
   * @return {(Object|Boolean)}          - The stripe subscription object (see {@link https://stripe.com/docs/api#subscription_object}) or false if failed.
   */
-  'stripe.createSubscription': function(planId, superadminTenantId) {
+  'stripe.createSubscription': function(token, planId, superadminTenantId) {
     if(!_.includes(['premierGBP', 'premierEUR', 'premierUSD'], planId)) {
       throw new Meteor.Error(401, 'Invalid plan name');
     }
@@ -104,9 +108,11 @@ Meteor.methods({
       _id: tenantId
     });
     const stripeId = mongoTenant.stripe.stripeId;
-    const numberOfUsers = Meteor.users.find({
+    const numberUsers = Meteor.users.find({
       group: tenantId
     }).count();
+    const freeUsers = _.get(mongoTenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
+    const quantity = numberUsers > freeUsers ? (numberUsers - freeUsers) : 0;
 
     if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
       throw new Meteor.Error(403, 'Only admins may subscribe.');
@@ -117,10 +123,11 @@ Meteor.methods({
     // If createSubscription is called, tenant already has subscribed before so has already had the trial period.
     // Hence the trial_end: now parameter value.
     const subsParameters = {
+      source: token,
       plan: planId,
-      quantity: numberOfUsers,
+      quantity: quantity,
       tax_percent: 20.0,
-      trial_end: 'now'
+      trial_end: moment().add(1, 'd').startOf('day').unix()
     };
 
     const subscription = stripeMethodsAsync.customers.createSubscription(stripeId, subsParameters);
@@ -128,13 +135,13 @@ Meteor.methods({
     if(!!subscription === true) {
       Tenants.update(tenantId, {
         $set: {
-          "stripe.stripeSubs": subscription.id,
-          "plan": 'pro'
+          "stripe.stripeSubs": subscription.id
         }
       });
+      return subscription;
     }
 
-    return subscription;
+    return !!subscription;
   },
 
 
@@ -157,140 +164,53 @@ Meteor.methods({
     });
 
     if (!mongoTenant) {
-      LogServerEvent('error', 'Unable to get Mongo object to update Stripe Quantity for tenant of user ' + this.userId + '/tenant ' + tenantId);
+      LogServerEvent('error', `Unable to get Mongo object to update Stripe Quantity for tenant of user ${this.userId}/tenant ${tenantId}`);
       return false;
     }
 
-    if (mongoTenant.plan === 'free' || !mongoTenant.stripe || !mongoTenant.stripe.stripeId || !mongoTenant.stripe.stripeSubs) {
+    // Tenant can create account if free and under free user limit
+    if(!_.get(mongoTenant, 'stripe.stripeSubs')) {
       return true;
+
+    // If pro, need to have a stripe account. This is to avoid conflicts with the previous way of setting a tenant to 'free unlimited'.
+    // We now use the number of free user account to set an 'unlimited' tenant.
+    } else if(!_.get(mongoTenant, 'stripe.stripeId') || !_.get(mongoTenant, 'stripe.stripeSubs')) {
+      throw new Meteor.Error(403, 'Unable to retrieve subscription details');
     }
+
 
     const stripeId = mongoTenant.stripe.stripeId;
     const stripeSubs = mongoTenant.stripe.stripeSubs;
     const numberUsers = Meteor.users.find({
       group: tenantId
     }).count();
+    const freeUsers = _.get(mongoTenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
+    const quantity = numberUsers > freeUsers ? (numberUsers - freeUsers) : 0;
 
-    //Check that subscription is not to be cancelled at period ends and returns true if so because it means the user is on free plan now.
-    const currentSubscription = stripeMethodsAsync.customers.retrieveSubscription(stripeId, stripeSubs);
-    if(currentSubscription.cancel_at_period_end === true) {
-      return true;
+    // If quantity = 0, tenant has deleted paying accounts.
+    // In that case, cancel subscription and delete card details.
+    if(quantity === 0) {
+      const customerObject = stripeMethodsAsync.customers.retrieve(stripeId);
+      const subsDeleted = !!stripeMethodsAsync.customers.cancelSubscription(stripeId, stripeSubs);
+      const cardDeleted = !!stripeMethodsAsync.customers.deleteCard(stripeId, customerObject.default_source);
+      if(subsDeleted && cardDeleted) {
+        Tenants.update(tenantId, {
+          $unset: {
+            'stripe.stripeSubs': '',
+          }
+        });
+        return true;
+      }
+      return false;
     }
 
     //Otherwise update subscription
     const subsParameters = {
-      quantity: numberUsers,
+      quantity: quantity,
       prorate: false
     };
 
     return !!stripeMethodsAsync.customers.updateSubscription(stripeId, stripeSubs, subsParameters);
-  },
-
-
-
-
- /**
-  * 'Cancels' subscription by updating number of users to 0 and setting subscription to terminate at period ends.
-  * On deletion, webhook will remove card details from Stripe and subscription ID from database.
-  * @method cancelSubscription
-  * @param  {?String} superadminTenantId - Used when method is called from the superadmin interface in which case tenantId cannot be retrieved via partitioner
-  * @return {Boolean}                    - Whether or not the cancellation was successful.
-  */
-  'stripe.cancelSubscription': function(superadminTenantId) {
-    const userId = this.userId;
-    const tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
-    const mongoTenant = Tenants.findOne({
-      _id: tenantId
-    });
-    const stripeId = mongoTenant.stripe.stripeId;
-    const stripeSubs = mongoTenant.stripe.stripeSubs;
-
-    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
-      throw new Meteor.Error(403, 'Only admins may subscribe.');
-    } else if (!stripeId || !stripeSubs) {
-      throw new Meteor.Error(400, 'It appears you are not subscribed.');
-    }
-
-    const confirmation = stripeMethodsAsync.customers.cancelSubscription(stripeId, stripeSubs, {
-      at_period_end: true
-    });
-    if(confirmation === true) {
-      //Send confirmation email if Admin but not superadmin
-      if (Roles.userIsInRole(userId, ['Administrator'])) {
-        const user = Meteor.users.findOne(userId);
-
-        Email.send({
-          to: user.emails[0].address,
-          from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
-          subject: 'Cancellation of your RealTimeCRM Subscription',
-          html: Accounts.buildHtmlEmail('email-stripe-cancel-subs.html', {
-            name: user.profile.name
-          }),
-          text: Accounts.buildHtmlEmail('email-stripe-cancel-subs.txt', {
-            name: user.profile.name
-          })
-        });
-      }
-    }
-
-    return confirmation;
-  },
-
-
-
-
- /**
-  * Resume subscription by updating the number of users.
-  * @method resumeSubscrption
-  * @param  {String} superadminTenantId - Used when method is called from the superadmin interface in which case tenantId cannot be retrieved via partitioner.
-  * @return {(Object|Boolean)}          - The Stripe subscription Object updated (see {@link https://stripe.com/docs/api#subscription_object}) or false if failed.
-  */
-  'stripe.resumeSubscription': function(superadminTenantId) {
-    const tenantId = (Roles.userIsInRole(this.userId, ['superadmin'])) ? superadminTenantId : Partitioner.getUserGroup(this.userId);
-    const mongoTenant = Tenants.findOne({
-      _id: tenantId
-    });
-    const stripeId = mongoTenant.stripe.stripeId;
-    const stripeSubs = mongoTenant.stripe.stripeSubs;
-    const coupon = mongoTenant.stripe.coupon;
-    const numberOfUsers = Meteor.users.find({
-      group: tenantId
-    }).count();
-
-    if (!Roles.userIsInRole(this.userId, ['superadmin', 'Administrator'])) {
-      throw new Meteor.Error(403, 'Only admins may resume subscriptions.');
-    } else if (!stripeId || !stripeSubs) {
-      throw new Meteor.Error(400, 'It appears you do not have a Stripe Account yet.');
-    }
-
-    //Check first that the tenant has a card registered
-    const customer = stripeMethodsAsync.customers.retrieve(stripeId);
-
-    if(!customer.default_source) {
-      throw new Meteor.Error('No credit card associated');
-    }
-
-    const params = {
-      quantity: numberOfUsers
-    };
-
-    if(coupon) {
-      const couponDetails = stripeMethodsAsync.coupons.retrieve(coupon);
-      if(couponDetails !== false) {
-        params.coupon = coupon;
-      }
-    }
-
-    const subscriptionUpdated = stripeMethodsAsync.customers.updateSubscription(stripeId, stripeSubs, params);
-    if(!!subscriptionUpdated === true) {
-      Tenants.update(tenantId, {
-        $set: {
-          "plan": 'pro'
-        }
-      });
-    }
-
-    return subscriptionUpdated;
   },
 
 

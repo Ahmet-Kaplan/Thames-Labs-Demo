@@ -14,7 +14,7 @@ module.exports = function() {
             return;
           }
           var userEmail = 'test@domain.com';
-          Meteor.call('stripe.createCustomer', response.id, userEmail, 'premierGBP', function(error, result) {
+          Meteor.call('stripe.createCustomer', response.id, 'premierGBP', userEmail, function(error, result) {
             if (error || !result) {
               return false;
             }
@@ -28,6 +28,23 @@ module.exports = function() {
     browser
       .executeAsync(function(done) {
         Meteor.call('stripe.cancelSubscription', function(error, result) {
+          if (error) {
+            return false;
+          }
+          done(result);
+        });
+      });
+  });
+
+  this.Given(/^I have an additional user$/, function() {
+    browser
+      .executeAsync(function(done) {
+        const doc = {
+          email: 'another@domain.com',
+          name: 'Another Tester',
+          group: Meteor.user().group
+        };
+        Meteor.call('addTenantUser', doc, function(error, result) {
           if (error) {
             return false;
           }
@@ -55,7 +72,6 @@ module.exports = function() {
       });
     } else {
       browser.waitUntil( function() {
-        console.log(this.getText(field), desiredText);
         return this.getText(field).indexOf(desiredText) > -1;
       });
     }

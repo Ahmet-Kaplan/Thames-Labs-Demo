@@ -1,3 +1,4 @@
+import '/imports/api/reports/reporting.js';
 import '/imports/api/opportunities/methods.js';
 import '/imports/api/projects/methods.js';
 import '/imports/api/tawk-to/tawk-to-methods.js';
@@ -109,12 +110,6 @@ Meteor.methods({
 
 LogClientEvent = function(logLevel, logMessage, logEntityType, logEntityId) {
   if (Meteor.isServer) {
-    var user = Meteor.users.findOne({
-      _id: this._id
-    });
-    if (user && user.group) {
-      if (!isProTenant(user.group)) return;
-    }
     Meteor.call('eventLog.addEventToEventLog', logLevel, logMessage, logEntityType, logEntityId, 'client');
   }
 };

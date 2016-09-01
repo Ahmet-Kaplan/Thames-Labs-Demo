@@ -13,11 +13,6 @@ import './purchase-order-detail.html';
 
 Template.purchaseOrderDetail.onCreated(function() {
   this.autorun(() => {
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To access Purchase Orders');
-      FlowRouter.go('/');
-    }
-
     const purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
     if (purchaseOrder) {
       this.subscribe('companyById', purchaseOrder.supplierCompanyId);
