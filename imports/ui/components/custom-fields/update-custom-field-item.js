@@ -4,7 +4,7 @@ import './update-custom-field-item.html';
 import './customfield.css';
 
 Template.customFieldItem.onCreated(function() {
-  this.type = new ReactiveVar("");
+  this.type = new ReactiveVar(this.data.type);
 });
 
 Template.customFieldItem.helpers({
@@ -28,17 +28,6 @@ Template.customFieldItem.helpers({
   },
   typePicklist: function() {
     return Template.instance().type.get() == 'picklist';
-  }
-});
-
-Template.customFieldItem.events({
-  'change .TypeSelectionMenu': function(event, template) {
-
-    const index = this.name,
-          safeName = '#customField' + index.replace(/ /g, ''),
-          selectorName = safeName + "TypeOptions",
-          newType = $(selectorName).val();
-    Template.instance().type.set(newType);
   }
 });
 
@@ -82,5 +71,4 @@ Template.customFieldItem.onRendered(function() {
     se[0].selectize.setValue(field.value);
   }
 
-  Template.instance().type.set(this.data.type);
 });
