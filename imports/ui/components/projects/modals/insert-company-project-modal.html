@@ -26,7 +26,7 @@
             {{> afQuickField name="dueDate" }}
             {{> autosuggest name="userId" index=UsersIndex}}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
-
+            {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
             {{> afQuickField name="companyId" id="companyId" value=companyId type="hidden"}}
             {{> autosuggest name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
 

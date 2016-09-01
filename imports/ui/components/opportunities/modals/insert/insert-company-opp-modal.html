@@ -22,6 +22,7 @@
           </div>
           {{> autosuggest name="salesManagerId" index=UsersIndex allowEmptyOption=true}}
 
+          {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
           {{> afQuickField name="companyId" id="companyId" value=companyId type="hidden"}}
           {{> autosuggest name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
 

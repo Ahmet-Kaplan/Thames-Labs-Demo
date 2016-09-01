@@ -11,11 +11,8 @@
         <div class="modal-body">
           {{#autoForm collection="Projects" id="insertProjectForm" type="insert"}}
             {{> afQuickField name="name"}}
+            {{> afQuickField name="projectTypeId" options=projectTypes }}
             {{> afQuickField name="description" rows=3}}
-            {{#if companyId}}
-              {{> afQuickField name="companyId" id="selectedCompany" type="hidden" }}
-            {{/if}}
-            {{> afQuickField name="contactId" id="companyContacts" type="hidden" value=contactId}}
 
             <div class="form-group">
               <label for="proj-value" class="control-label">Value</label>
@@ -30,7 +27,12 @@
             {{> autosuggest name="userId" index=UsersIndex}}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             {{> afQuickField name="createdBy" value=currentUser }}
-            {{> afQuickField name="projectTypeId" options=projectTypes }}
+            {{#if companyId}}
+              {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
+              {{> afQuickField name="companyId" id="selectedCompany" type="hidden" }}
+            {{/if}}
+            {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
+            {{> afQuickField name="contactId" id="companyContacts" type="hidden" value=contactId}}
             <button type="submit" class="btn btn-primary">Create</button>
           {{/autoForm}}
         </div>

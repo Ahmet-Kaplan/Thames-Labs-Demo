@@ -18,6 +18,7 @@
             {{> afQuickField name="paymentMethod" options="allowed" id="payMethod"}}
             {{> afQuickField name="notes" id="notes"}}
 
+            {{> afQuickField type="text" value=supplierCompanyName label="Company" readonly=true}}
             {{> afQuickField name="supplierCompanyId" id="supplierCompanyId" value=supplierCompanyId type="hidden"}}
             {{> autosuggest name="supplierContactId" index=ContactsIndex parent="supplierCompanyId" filter="filterCompanyId"}}
 

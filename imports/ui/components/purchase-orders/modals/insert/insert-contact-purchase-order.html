@@ -11,9 +11,6 @@
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrders" id="insertContactPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description" rows=3}}
-            {{#if supplierCompanyId}}
-              {{> afQuickField name="supplierCompanyId" type="hidden" value=supplierCompanyId}}
-            {{/if}}
             {{> afQuickField name="supplierContactId" type="hidden" value=supplierContactId}}
             {{> afQuickField name="supplierReference" }}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
@@ -21,6 +18,11 @@
             {{> afQuickField name="orderDate" }}
             {{> afQuickField name="paymentMethod" options="allowed"}}
             {{> afQuickField name="notes"}}
+            {{#if supplierCompanyId}}
+              {{> afQuickField type="text" value=supplierCompanyName label="Company" readonly=true}}
+              {{> afQuickField name="supplierCompanyId" type="hidden" value=supplierCompanyId}}
+            {{/if}}
+            {{> afQuickField type="text" value=supplierContactName label="Contact" readonly=true}}
             <!-- {{> afQuickField name="sequencedIdentifier"}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
 
