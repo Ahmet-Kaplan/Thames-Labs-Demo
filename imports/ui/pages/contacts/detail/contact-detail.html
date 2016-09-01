@@ -44,13 +44,13 @@
             <p class="list-group-item-text">{{email}}</p>
           </a>
           {{/if}} {{#if phone}}
-          <a href="{{phoneHref phone}}" id="contactTelephone" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="">
+          <a href="{{phoneHref phone}}" class="contact-telephone list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="">
             <h4><i class="fa fa-fw fa-phone"></i> Phone Number</h4>
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
             <p class="list-group-item-text">{{phone}}</p>
           </a>
           {{/if}} {{#if mobile}}
-          <a href="{{phoneHref mobile}}" class="list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="">
+          <a href="{{phoneHref mobile}}" class="contact-telephone list-group-item panel-item-header" data-toggle="tooltip" data-placement="bottom" title="">
             <h4><i class="fa fa-fw fa-mobile"></i> Mobile Number</h4>
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
             <p class="list-group-item-text">{{mobile}}</p>
