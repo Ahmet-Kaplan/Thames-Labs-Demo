@@ -1,31 +1,31 @@
 <template name="tagManagementModal">
-<div class="modal" id="draggableModal" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
-        <h4>Manage tags for {{resultsCount}} record{{#unless equals resultsCount 1}}s{{/unless}}</h4>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <p>Add tags by entering them into the box below. To remove tags, click the toggle button, and then delete the relevant entry from the box.</p>
-            <div id="switch-container">
-              <label for="mode-toggle">Current mode:</label>
-              <input id="mode-toggle" checked type="checkbox">
-              {{#if showWarning}}<label id="removal-warning" class="label label-danger">WARNING: Removals are non-reversible! Proceed with caution.</label>{{/if}}
+  <div class="modal" id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+          <h4>Manage tags for {{resultsCount}} record{{#unless equals resultsCount 1}}s{{/unless}}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <p>Add tags by entering them into the box below. To remove tags, click the toggle button, and then delete the relevant entry from the box.</p>
+              <div id="switch-container">
+                <label for="mode-toggle">Current mode:</label>
+                <input id="mode-toggle" checked type="checkbox">
+                {{#if showWarning}}<label id="removal-warning" class="label label-danger">WARNING: Removals are non-reversible! Proceed with caution.</label>{{/if}}
+              </div>
+              <select id="tag-input" name='tags[]' multiple="multiple">
+                {{#each tags}}
+                <option value="{{this}}" selected="true">{{this}}</option>
+                {{else}}
+                <!-- intentionally left blank to prevent blaze error -->
+                {{/each}}
+              </select>
             </div>
-            <select id="tag-input" name='tags[]' multiple="multiple">
-              {{#each tags}}
-              <option value="{{this}}" selected="true">{{this}}</option>
-              {{else}}
-              <!-- intentionally left blank to prevent blaze error -->
-              {{/each}}
-            </select>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </template>
