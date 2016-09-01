@@ -5,6 +5,7 @@ import './invoices.html';
 
 Template.invoices.helpers({
   upcomingInvoice: function() {
+    console.log(upcomingInvoice.getData());
     const upcoming = upcomingInvoice.getData();
     if(!upcoming || upcoming.total === 0) return false;
     return upcoming;

@@ -141,7 +141,7 @@ Template.stripeSubscribe.events({
           Modal.hide();
           bootbox.alert({
             title: 'Card details accepted',
-            message: `<i class="fa fa-check fa-3x pull-left text-success"></i>Your card details have been accepted. You can now add more users.<br>Your first payment will be taken on ${nextPaymentDate} for the following month.<br>Thank you for using RealTimeCRM!`,
+            message: `<i class="fa fa-check fa-3x pull-left text-success"></i>Your card details have been accepted. You can now add more users.<br>Your first payment for the upcoming month will be taken shortly.<br>Thank you for using RealTimeCRM!`,
             className: 'bootbox-success'
           });
           stripeCustomer.update();

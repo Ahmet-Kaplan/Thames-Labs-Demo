@@ -60,6 +60,7 @@ Meteor.methods({
       quantity: quantity,
       tax_percent: 20.0,
       email: userEmail,
+      trial_end: moment().add(1, 'd').startOf('day').unix(),
       metadata: {
         tenantId: tenantId,
         createdBy: this.userId
@@ -127,7 +128,7 @@ Meteor.methods({
       plan: planId,
       quantity: quantity,
       tax_percent: 20.0,
-      trial_end: 'now'
+      trial_end: moment().add(1, 'd').startOf('day').unix()
     };
 
     const subscription = stripeMethodsAsync.customers.createSubscription(stripeId, subsParameters);

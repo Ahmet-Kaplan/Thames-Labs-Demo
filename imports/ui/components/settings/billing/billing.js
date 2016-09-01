@@ -26,13 +26,5 @@ Template.billing.onRendered(function() {
 Template.billing.helpers({
   isLoading: function() {
     return stripeCustomer.getData() === false;
-  },
-  isTrialPeriod: function() {
-    const subsStatus = _.get(stripeCustomer.getData(), 'subscriptions.data[0].status', false);
-    return subsStatus === 'trialing';
-  },
-  trialPeriodEnd: function() {
-    const trialPeriodEnd = _.get(stripeCustomer.getData(), 'subscriptions.data[0].trial_end', false);
-    return moment(trialPeriodEnd * 1000).format('Do MMMM YYYY');
   }
 });

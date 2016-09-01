@@ -41,7 +41,7 @@ Template.userDetailsLink.events({
             group: tenantId
           }).count();
           if(_.get(tenant, 'stripe.stripeId') && _.get(tenant, 'stripe.maxFreeUsers') === tenantUsers) {
-            paymentWillStop = '<br>You are now left with only free users and will not be charged anymore.';
+            paymentWillStop = '<br>You are now within the free user limit and will only be charged if you create additional users.';
           }
 
           bootbox.alert({

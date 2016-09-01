@@ -18,6 +18,8 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I navigate to "/settings/users"
     When I click "#upScheme"
     Then I should see a modal
+    When I set text field with id "addUserName" to "Another User"
+    When I set text field with id "addUserEmail" to "another@domain.com"
     When I set text field with id "cardNumber" to "4242424242424242"
     When I set text field with id "expMonth" to "01"
     When I set text field with id "expYear" to "2021"
@@ -25,7 +27,8 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I click confirm on the modal
     Then I should see a toastr with the message containing "Validating your card details..."
     And I should see a bootbox
-    And I should see a modal with title "Subscription complete"
+    And I should see a modal with title "Card details accepted"
+    Then I click confirm on the modal
 
   Scenario: After subscribing, an administrator can add a new user
     Given I have subscribed to the paying plan
@@ -98,6 +101,8 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I navigate to "/settings/users"
     When I click "#upScheme"
     Then I should see a modal
+    When I set text field with id "addUserName" to "Another User"
+    When I set text field with id "addUserEmail" to "another@domain.com"
     When I set text field with id "cardNumber" to "121212121212121"
     When I set text field with id "expMonth" to "01"
     When I set text field with id "expYear" to "2021"
@@ -109,6 +114,8 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I navigate to "/settings/users"
     When I click "#upScheme"
     Then I should see a modal
+    When I set text field with id "addUserName" to "Another User"
+    When I set text field with id "addUserEmail" to "another@domain.com"
     When I set text field with id "cardNumber" to "4242424242424242"
     When I set text field with id "expMonth" to "14"
     When I set text field with id "expYear" to "2021"
@@ -120,6 +127,8 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I navigate to "/settings/users"
     When I click "#upScheme"
     Then I should see a modal
+    When I set text field with id "addUserName" to "Another User"
+    When I set text field with id "addUserEmail" to "another@domain.com"
     When I set text field with id "cardNumber" to "4242424242424242"
     When I set text field with id "expMonth" to "01"
     When I set text field with id "expYear" to "1987"
