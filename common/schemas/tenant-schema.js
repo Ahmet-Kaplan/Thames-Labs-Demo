@@ -3,6 +3,7 @@ Schemas.Tenant = new SimpleSchema({
     type: String,
     label: "Name"
   },
+  // Will need to be deleted once set to null for all tenants
   plan: {
     type: String,
     label: "Plan",
@@ -41,6 +42,11 @@ Schemas.Tenant = new SimpleSchema({
     type: String,
     optional: true,
     label: "Coupon code"
+  },
+  "stripe.maxFreeUsers": {
+    type: Number,
+    optional: false,
+    defaultValue: 1
   },
   createdAt: {
     type: Date,

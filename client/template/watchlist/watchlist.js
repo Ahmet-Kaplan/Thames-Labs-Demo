@@ -1,15 +1,15 @@
 Template.watchlistAdmin.onCreated(function() {
   this.watchState = new ReactiveVar(false);
-  var self = this;
+  const self = this;
   this.autorun(function() {
-    var entityId = self.data.entityData._id;
+    const entityId = self.data.entityData._id;
 
-    var user = Meteor.users.findOne({
+    const user = Meteor.users.findOne({
       _id: Meteor.userId()
     });
     if (user) {
       if (user.profile.watchlist) {
-        var found = false;
+        let found = false;
         _.each(user.profile.watchlist, function(watch) {
           if (watch.id === entityId) {
             found = true;
@@ -31,35 +31,28 @@ Template.watchlistAdmin.helpers({
 Template.watchlistAdmin.events({
   "click #watchlist-control": function(event, template) {
 
-    var watched = template.watchState.get();
-    var entityId = template.data.entityData._id;
-    var collectionName = template.data.collection;
+    const watched = template.watchState.get();
+    const entityId = template.data.entityData._id;
+    const collectionName = template.data.collection;
 
     if (watched) {
       unwatch(entityId);
     } else {
-      var user = Meteor.user();
-      var watchlist = user.profile.watchlist;
-
-      if (!isProTenant(user.group) && watchlist.length === MAX_FREE_WATCHLIST_RECORDS) {
-        showUpgradeToastr('To watch more than 5 records');
-        return;
-      }
       watch(entityId, collectionName);
     }
   }
 });
 
 watch = function(entityId, collectionName) {
-  var watchedItem = {
+  const watchedItem = {
     id: entityId,
     collection: collectionName
   };
 
-  var user = Meteor.users.findOne({
+  const user = Meteor.users.findOne({
     _id: Meteor.userId()
   });
-  var watchlist = user.profile.watchlist;
+  const watchlist = user.profile.watchlist;
 
   watchlist.push(watchedItem);
   Meteor.users.update({
@@ -72,11 +65,11 @@ watch = function(entityId, collectionName) {
 };
 
 unwatch = function(entityId) {
-  var user = Meteor.users.findOne({
+  const user = Meteor.users.findOne({
     _id: Meteor.userId()
   });
-  var watchlist = user.profile.watchlist;
-  for (var i = 0; i < watchlist.length; i++) {
+  const watchlist = user.profile.watchlist;
+  for (let i = 0; i < watchlist.length; i++) {
     if (watchlist[i].id == entityId) {
       watchlist.splice(i, 1);
       break;

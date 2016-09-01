@@ -1,23 +1,11 @@
 import './public-company-information.html';
 
-Template.publicCompanyInformation.events({
-  'click .upgrade-prompt': function(event, template) {
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To access this information');
-    }
-  }
-});
-
 Template.publicCompanyInformation.helpers({
   hasMetadata: function() {
-    var isPro = isProTenant(Meteor.user().group);
-    if (this.metadata && this.metadata.clearbit) {
-      if (this.metadata.clearbit.description) return true;
-      else if (this.metadata.clearbit.category.sector && isPro) return true;
-      else if (this.metadata.clearbit.linkedin.handle && isPro) return true;
-      else if (this.metadata.clearbit.twitter.handle) return true;
-      else if (this.metadata.clearbit.facebook.handle && isPro) return true;
-    }
-    return false;
+    return _.get(this, 'metadata.clearbit') && (this.metadata.clearbit.description
+      || this.metadata.clearbit.category.sector
+      || this.metadata.clearbit.linkedin.handle
+      || this.metadata.clearbit.twitter.handle
+      || this.metadata.clearbit.facebook.handle);
   }
 });

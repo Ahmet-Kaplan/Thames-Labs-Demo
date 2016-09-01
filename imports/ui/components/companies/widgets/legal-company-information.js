@@ -131,12 +131,6 @@ Template.legalCompanyInformation.events({
     });
     toastr.success('Link to Companies House removed');
   },
-  'click .upgrade-prompt': function(event, template) {
-    event.preventDefault();
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To access this information');
-    }
-  },
   'click .use-address': function(event) {
     event.preventDefault();
     const company = Template.currentData().company;

@@ -11,15 +11,10 @@ import bootbox from 'bootbox';
 
 Template.projectType.onRendered(function() {
   const typeId = this.data.id;
-  $('#milestone-list-' + this.data.id).sortable({
+  $(`#milestone-list-${typeId}`).sortable({
     handle: '.handle',
     axis: 'y',
     stop: function(event, ui) {
-      if (!isProTenant(Meteor.user().group)) {
-        showUpgradeToastr('To reorder project milestones');
-        $(this).sortable('cancel');
-        return;
-      }
       //Setup needed variables
       const milestoneId = Blaze.getData(ui.item[0]).id;
       const newIndex = $(this).find('.project-milestone').index(ui.item);
@@ -36,29 +31,16 @@ Template.projectType.onRendered(function() {
 Template.projectType.events({
   'click #addMilestone': function(event) {
     event.preventDefault();
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To create your own project type milestones');
-      return;
-    }
-
     Modal.show('insertProjectMilestone', this);
   },
   'click #editType': function(event) {
     event.preventDefault();
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To edit your project types');
-      return;
-    }
     Modal.show('updateProjectType', this);
   },
   'click #removeType': function(event) {
     event.preventDefault();
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To delete your project types');
-      return;
-    }
 
-    var typeId = this.id;
+    const typeId = this.id;
 
     bootbox.confirm("Are you sure you wish to delete this project type?", function(result) {
       if (result === true) {
@@ -73,7 +55,7 @@ Template.projectType.events({
               if (result.exitCode === 0) {
                 toastr.success('Project type deleted successfully.');
               } else {
-                toastr.error('Project type not deleted: ' + result.exitStatus);
+                toastr.error(`Project type not deleted: ${result.exitStatus}`);
               }
             });
           }
