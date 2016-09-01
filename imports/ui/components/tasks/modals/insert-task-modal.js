@@ -2,10 +2,12 @@ import '/imports/ui/components/autosuggest/autosuggest.js';
 import './insert-task-modal.html';
 import './reminder-selector.js';
 
-Template.insertNewTask.onRendered(function() {
-  Session.set('showRemindMe', false);
-  Session.set('hasDueDate', false);
+Template.insertNewTask.onCreated(function() {
+  this.showRemindMe = new ReactiveVar(false);
+  this.hasDueDate = new ReactiveVar(false);
+});
 
+Template.insertNewTask.onRendered(function() {
   if (this.data.dueDate) {
     $('#taskDueDate').data("DateTimePicker").date(moment(this.data.dueDate).toDate());
   }
@@ -16,10 +18,10 @@ Template.insertNewTask.helpers({
     return this._id;
   },
   hasDueDate: function() {
-    return Session.get('hasDueDate');
+    return Template.instance().hasDueDate.get();
   },
   showRemindMe: function() {
-    return Session.get('showRemindMe');
+    return Template.instance().showRemindMe.get();
   },
   getEntityType: function() {
     return this.entity_type;
@@ -67,17 +69,17 @@ Template.insertNewTask.helpers({
 });
 
 Template.insertNewTask.events({
-  'change input[name=dueDate]': function(e) {
+  'blur input[name=dueDate]': function(e) {
     e.preventDefault();
     if ($('input[name=dueDate]').val()) {
-      Session.set('hasDueDate', true);
+      Template.instance().hasDueDate.set(true);
     } else {
-      Session.set('hasDueDate', false);
+      Template.instance().hasDueDate.set(false);
     }
   },
   'change input[name=remindMe]': function(e) {
     e.preventDefault();
     const remindMe = $('input[name=remindMe]').prop('checked');
-    Session.set('showRemindMe', remindMe);
+    Template.instance().showRemindMe.set(remindMe);
   }
 });

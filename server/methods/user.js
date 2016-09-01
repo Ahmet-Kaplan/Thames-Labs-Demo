@@ -1,3 +1,5 @@
+import { isTenantOverFreeUserLimit } from '/imports/api/tenants/helpers.js';
+
 Meteor.methods({
 
   'users.export': function(collectionName, searchDefinition, searchOptions) {
@@ -44,13 +46,13 @@ Meteor.methods({
     if (typeof digest !== 'string') {
       return false;
     }
-    var user = Meteor.users.findOne({_id: userId});
-    var password = {
+    const user = Meteor.users.findOne({_id: userId});
+    const password = {
       digest: digest,
       algorithm: 'sha-256'
     };
 
-    var passOK = Accounts._checkPassword(user, password);
+    const passOK = Accounts._checkPassword(user, password);
     if (passOK.error) return false;
     return true;
   },
@@ -90,7 +92,13 @@ Meteor.methods({
     });
 
     if (Roles.userIsInRole(this.userId, 'Administrator')) {
-      Meteor.call('stripe.updateQuantity');
+      Meteor.call('stripe.updateQuantity', function(err, res) {
+        if(err) {
+          throw new Meteor.Error(403, err.reason);
+        } else if(!res) {
+          throw new Meteor.Error(403, 'Unable to update your subscription');
+        }
+      });
     } else if (Roles.userIsInRole(this.userId, 'superadmin')) {
       Meteor.call('stripe.updateQuantity', Partitioner.getUserGroup(userId));
     }
@@ -146,8 +154,6 @@ Meteor.methods({
         Accounts.sendEnrollmentEmail(userId);
 
         LogServerEvent('verbose', 'User created', 'user', userId);
-
-        Meteor.call('stripe.updateQuantity', doc.group);
       } else {
         const userId = Accounts.createUser({
           email: doc.email.toLowerCase(),
@@ -164,7 +170,7 @@ Meteor.methods({
           }
         });
 
-        var user = Meteor.users.findOne({
+        const user = Meteor.users.findOne({
           _id: userId
         });
 
@@ -172,17 +178,21 @@ Meteor.methods({
         Partitioner.setUserGroup(userId, doc.group);
 
         if (user) {
-          if (!isProTenant(user.group)) {
-            Roles.addUsersToRoles(userId, ["Administrator"]);
-          }
           Roles.addUsersToRoles(userId, defaultPermissionsList);
         }
 
         LogServerEvent('verbose', 'User created', 'user', userId);
-
-        Meteor.call('stripe.updateQuantity', doc.group);
       }
     });
+
+    Meteor.call('stripe.updateQuantity', doc.group, function(err, res) {
+      if(err) {
+        throw new Meteor.Error(403, err.reason);
+      } else if(!res) {
+        throw new Meteor.Error(403, 'Unable to update subscription. Tenant may have reached the limit of free accounts.');
+      }
+    });
+
 
   },
 
@@ -204,7 +214,7 @@ Meteor.methods({
     check(doc, Schemas.User);
 
     // Create user account
-    var userId = Accounts.createUser({
+    const userId = Accounts.createUser({
       email: doc.email.toLowerCase(),
       profile: {
         name: doc.name,
@@ -217,11 +227,6 @@ Meteor.methods({
       }
     });
 
-    if(admin) {
-      if(!isProTenant(admin.group)) {
-        Roles.addUsersToRoles(userId, 'Administrator');
-      }
-    }
     Roles.addUsersToRoles(userId, defaultPermissionsList);
 
     // Add user to a group (partition) based on customer id
@@ -231,7 +236,13 @@ Meteor.methods({
 
     LogServerEvent('verbose', 'User created', 'user', userId);
 
-    Meteor.call('stripe.updateQuantity', Partitioner.getUserGroup(adminId));
+    Meteor.call('stripe.updateQuantity', function(err, res) {
+      if(err) {
+        throw new Meteor.Error(403, err.reason);
+      } else if (!res) {
+        throw new Meteor.Error(403, 'Unable to update subscription');
+      }
+    });
   },
 
   "user.changeEmail": function(newEmailAddress) {

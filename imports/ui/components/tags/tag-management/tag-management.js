@@ -3,15 +3,16 @@ import './tag-management-modal.js';
 import './tag-management.html';
 
 Template.tagManagement.onCreated(function() {
-  Session.setDefault('resultsCount', 0);
+  this.resultsCount = new ReactiveVar(0);
 });
 
 Template.tagManagement.onRendered(function() {
   const collectionName = this.data.collectionName;
-  this.autorun(function() {
+  this.autorun(() => {
     if (collectionName) {
-      const index = Collections[collectionName].index;
-      Session.set('resultsCount', index.getComponentDict().get('count'));
+      const index = Collections[collectionName].index,
+            count = index.getComponentDict().get('count');
+      this.resultsCount.set(count);
     }
   });
 });
@@ -19,13 +20,12 @@ Template.tagManagement.onRendered(function() {
 
 Template.tagManagement.events({
   'click #manage-tags': function(event, template) {
-    this.recordCount = Session.get('resultsCount');
     Modal.show('tagManagementModal', this);
   }
 });
 
 Template.tagManagement.helpers({
   resultsCount: function() {
-    return Session.get('resultsCount');
+    return Template.instance().resultsCount.get();
   }
 });

@@ -27,19 +27,6 @@ Collections.tenants.filters = {
       }
     }
   },
-  plan: {
-    display: 'Plan:',
-    prop: 'plan',
-    defaultOptions: function() {
-      return ['Free', 'Free+', 'Pro'];
-    },
-    strict: true,
-    allowMultiple: false,
-    displayValue: function(plan) {
-      if (!plan) return false;
-      return true;
-    }
-  },
   active: {
     display: 'Activity:',
     prop: 'active',
@@ -106,43 +93,6 @@ Collections.tenants.index = TenantsIndex = new EasySearch.Index({
         } else {
           tenants = Tenants.find({
             'settings.toBeDeleted': {$ne: true}
-          }).map(function(t) {
-            return t._id;
-          });
-        }
-
-        selector._id = {
-          $in: tenants
-        };
-      }
-
-      if (options.search.props.plan) {
-        var plan = options.search.props.plan;
-        if (plan === 'Pro') {
-          tenants = Tenants.find({
-            plan: 'pro',
-            'stripe.stripeSubs': {
-              $exists: true
-            }
-          }).map(function(t) {
-            return t._id;
-          });
-        }
-
-        if (plan === 'Free+') {
-          tenants = Tenants.find({
-            plan: 'pro',
-            'stripe.stripeSubs': {
-              $exists: false
-            }
-          }).map(function(t) {
-            return t._id;
-          });
-        }
-
-        if (plan === 'Free') {
-          tenants = Tenants.find({
-            plan: 'free'
           }).map(function(t) {
             return t._id;
           });
