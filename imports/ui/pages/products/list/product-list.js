@@ -6,6 +6,7 @@ import '/imports/ui/components/search/local/small-box/small-search-box.js';
 import '/imports/ui/components/search/filters';
 import '/imports/ui/components/products/list-item/product-list-item.js';
 import '/imports/ui/components/export/export.js';
+import '/imports/ui/components/import/import.js';
 import './product-list.html';
 import '/imports/ui/components/products/reports/overview.js';
 
