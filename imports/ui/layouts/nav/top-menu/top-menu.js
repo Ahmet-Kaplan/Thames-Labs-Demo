@@ -84,12 +84,6 @@ Template.topMenu.helpers({
       }
     }).count();
   },
-  fabEnabled: function() {
-    return Template.instance().fab.get();
-  },
-  fabOpen: function() {
-    return Template.instance().fabOpen.get();
-  },
   tenantName: function() {
     if (!Meteor.user()) return;
 
