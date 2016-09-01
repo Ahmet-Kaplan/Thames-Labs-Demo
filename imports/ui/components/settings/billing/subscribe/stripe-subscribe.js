@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import bootbox from 'bootbox';
 import { Tenants } from '/imports/api/collections.js';
+import { UserSchema } from '/imports/api/users/schema.js';
 
 import { stripeCustomer, stripePlan, upcomingInvoice } from '/imports/api/billing/helpers.js';
 import { AutoForm } from "meteor/aldeed:autoform";
@@ -49,6 +50,9 @@ Template.stripeSubscribe.helpers({
     });
     return _.get(tenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
   },
+  userSchema: function() {
+    return UserSchema;
+  }
 });
 
 Template.stripeSubscribe.events({

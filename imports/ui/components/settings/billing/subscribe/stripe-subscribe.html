@@ -10,7 +10,7 @@
 
         <div class="modal-body">
 
-          {{#autoForm schema="Schemas.User" id="insertUser"}}
+          {{#autoForm schema=UserSchema id="insertUser"}}
             {{> afQuickField name="name" autocomplete="off" id="addUserName" autofocus=''}}
             {{> afQuickField name="email" autocomplete="off" id="addUserEmail"}}
             {{> afQuickField name="password" type="hidden" value="default123"}}
