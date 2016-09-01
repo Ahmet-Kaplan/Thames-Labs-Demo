@@ -1,0 +1,30 @@
+<template name="addBulkActivity">
+  <div class="modal" id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+          <h4>Add an activity to {{resultsCount}} record{{#unless equals resultsCount 1}}s{{/unless}}</h4>
+        </div>
+        <div class="modal-body">
+          {{#autoForm collection="Activities" id="insertBulkActivityForm"}}
+            {{> afQuickField name="type" options="allowed"}}
+            {{> afQuickField name="activityTimestamp" id="activityTimestamp" type="bootstrap-datetimepicker"}}
+            {{#if IsIEAnd10OrGreater}}
+              {{> afQuickField name="notes"}}
+              {{else}}
+              {{> afQuickField name="notes" type="medium" class="form-control medium-editor"}}
+            {{/if}}
+            {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
+
+            {{> afQuickField name="primaryEntityType" type="hidden" value='companies'}}
+
+            {{> afQuickField name="createdBy" value=currentUser }}
+
+            <button type="submit" class="btn btn-primary" id="addActivity">Add</button>
+          {{/autoForm}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
