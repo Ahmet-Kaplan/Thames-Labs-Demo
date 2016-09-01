@@ -1,3 +1,15 @@
 <template name="mapFields">
-
+ <!--{{#each importFields}}
+  <div class="row">
+    <div class="col-md-3 importFieldLabel" data-toggle="tooltip" data-placement="bottom" title="Auto-map field name: {{fieldIdentifier}}" >{{fieldLabel}}{{#if required}}<span class="text-danger">*</span>{{/if}}</div>
+    <div class="col-md-8">
+      <select id="{{fieldIdentifier}}-Selector" class="selectpicker field-selectpicker map-field">
+        <option value="">Do not import</option>
+        {{#each csvHeaders}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+  {{/each}} -->
 </template>
