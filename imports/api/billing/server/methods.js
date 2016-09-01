@@ -174,7 +174,7 @@ Meteor.methods({
 
     // If pro, need to have a stripe account. This is to avoid conflicts with the previous way of setting a tenant to 'free unlimited'.
     // We now use the number of free user account to set an 'unlimited' tenant.
-    } else if(!_.get(mongoTenant, 'stripe.stripeId') && !_.get(mongoTenant, 'stripe.stripeSubs')) {
+    } else if(!_.get(mongoTenant, 'stripe.stripeId') || !_.get(mongoTenant, 'stripe.stripeSubs')) {
       throw new Meteor.Error(403, 'Unable to retrieve subscription details');
     }
 
