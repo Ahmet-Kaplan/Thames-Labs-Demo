@@ -5,6 +5,7 @@ import '/imports/ui/components/companies/company-list-item.js';
 import '/imports/ui/components/tags/tag-management/tag-management.js';
 import '/imports/ui/components/activity/activity-management/activity-management.js';
 import '/imports/ui/components/fab/fab-add.js';
+import '/imports/ui/components/import/import.js';
 import '/imports/ui/components/search/filters';
 import '/imports/ui/components/search/search-results.js';
 import '/imports/ui/components/search/local/small-box/small-search-box.js';

@@ -5,6 +5,7 @@ import '/imports/ui/components/search/local/small-box/small-search-box.js';
 import '/imports/ui/components/search/filters';
 import '/imports/ui/components/projects/project-list-item.js';
 import '/imports/ui/components/projects/modals/insert-project-modal.js';
+import '/imports/ui/components/import/import.js';
 import '/imports/ui/components/export/export.js';
 import '/imports/ui/components/projects/reports/overview.js';
 

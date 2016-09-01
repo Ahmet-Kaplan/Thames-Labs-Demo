@@ -5,9 +5,13 @@ import './invoices.html';
 
 Template.invoices.helpers({
   upcomingInvoice: function() {
-    return upcomingInvoice.getData();
+    const upcoming = upcomingInvoice.getData();
+    if(!upcoming || upcoming.total === 0) return false;
+    return upcoming;
   },
   lastInvoice: function() {
-    return lastInvoice.getData();
+    const last = lastInvoice.getData();
+    if(!last || last.total === 0) return false;
+    return last;
   }
 });
