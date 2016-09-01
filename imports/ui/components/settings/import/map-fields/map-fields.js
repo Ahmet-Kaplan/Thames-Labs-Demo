@@ -2,30 +2,46 @@ import './map-fields.html';
 import { getFullImportSchema, mapCsvFieldsToImportSchema } from './helpers.js';
 
 Template.mapFields.onCreated(function() {
-  this.csvFields = this.data.fields;
   this.fieldMap = this.data.fieldMap;
-  this.importSchema = new ReactiveVar([]);
-
-  //Get compiled schema with custom fields and RT fields
-  getFullImportSchema(this.data.entity, (schema) => {
-    this.importSchema.set(schema);
-  });
+  this.schemaFields = new ReactiveVar([]);
 });
 
 Template.mapFields.onRendered(function() {
   this.autorun(() => {
     //Update schema if entityType is changed
     getFullImportSchema(this.data.entity, (schema) => {
-      this.importSchema.set(schema);
+      this.schemaFields.set(schema);
     });
   });
 
   this.autorun(() => {
     //Update mapping between csv fields and schema, if either value changes
-    const schema = this.importSchema.get();
-    this.fieldMap.set(mapCsvFieldsToImportSchema(this.data.csvFields, schema));
-    console.log(this.fieldMap.get());
+    const schema = this.schemaFields.get();
+    const currentFieldMap = mapCsvFieldsToImportSchema(this.data.csvFields, schema);
+    this.fieldMap.set(currentFieldMap);
+
+    //Delay to allow ui to update
+    Meteor.setTimeout(() => {
+      //Update UI selectpickers and select correct option from map
+      $('.import-field-picker').selectpicker({
+        title: 'Do not import',
+        selectOnTab: true
+      });
+      _.each(currentFieldMap, function(field) {
+        $(`#${field.schemaField}-field`).selectpicker('val', field.importField);
+      });
+    }, 500);
   });
+});
+
+Template.mapFields.helpers({
+  schemaFields: function() {
+    return Template.instance().schemaFields.get();
+  },
+
+  csvFields: function() {
+    return Template.instance().data.csvFields;
+  }
 });
 
 /*

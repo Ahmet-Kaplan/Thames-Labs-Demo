@@ -2,7 +2,8 @@ import { importSchema } from './field-lookup.js';
 
 //Returns entity schema specific to tenant (includes global custom fields)
 export const getFullImportSchema = (entityType, callback) => {
-  const fullSchema = importSchema[entityType];
+  //Deep copy import schema to avoid manipuating the lookup variable
+  const fullSchema = _.clone(importSchema[entityType], true);
 
   //Load global custom fields for entityType
   let entityTypeSingular;
