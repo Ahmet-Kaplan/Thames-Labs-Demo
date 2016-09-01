@@ -135,15 +135,6 @@ Template.insertGlobalCustomField.events({
       return;
     }
 
-    //Check if limit reached
-    const fields = CustomFields.find({target: cfEntity}).fetch();
-
-    if(!isProTenant(Meteor.user().group) && fields.length === MAX_FREE_ENTITY_GLOBAL_FIELDS) {
-      showUpgradeToastr(`To create more than 5 global custom fields for a ${cfEntity} record`);
-      Modal.hide();
-      return;
-    }
-
     //Get data from form
     if (getVar('typeText')) {
       cfType = "text";

@@ -7,6 +7,7 @@ import '/imports/ui/components/search/local/small-box/small-search-box.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-purchase-order.js';
 import '/imports/ui/components/purchase-orders/list-item/purchase-order-list-item.js';
 import '/imports/ui/components/export/export.js';
+import '/imports/ui/components/import/import.js';
 import '/imports/ui/components/purchase-orders/reports/overview.js';
 
 import './purchase-order-list.html';
@@ -14,11 +15,6 @@ import './purchase-order-list.html';
 Template.purchaseOrderList.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To access Purchase Orders');
-      FlowRouter.go('/');
-    }
-
     permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadPurchaseOrders');
   });
   Session.set("showItems", false);

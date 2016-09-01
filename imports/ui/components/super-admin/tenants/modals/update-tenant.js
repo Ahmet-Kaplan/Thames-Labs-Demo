@@ -13,13 +13,14 @@ Template.updateTenant.helpers({
 Template.updateTenant.events({
   'click #btnSubmitSettings': function() {
 
-    var coupon = $('#coupon').val();
-    var tenantCompanyName = $('#tenantCompanyName').val();
+    const coupon = $('#coupon').val();
+    const tenantCompanyName = $('#tenantCompanyName').val();
 
     Tenants.update(this.__originalId, {
       $set: {
         name: tenantCompanyName,
-        "stripe.coupon": coupon
+        "stripe.coupon": coupon,
+        "stripe.maxFreeUsers": freeUsers
       }
     });
 

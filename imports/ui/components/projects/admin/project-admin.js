@@ -15,12 +15,6 @@ Template.projectAdmin.helpers({
 Template.projectAdmin.events({
   'click #addProjectType': function(event) {
     event.preventDefault();
-
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To create your own project types');
-      return;
-    }
-
     Modal.show('insertProjectType');
   }
 });

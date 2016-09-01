@@ -36,7 +36,7 @@
           <li><a id="tskToggleSubtasks">{{#if showSubtasks}}Hide{{else}}Show{{/if}} subtasks</a></li>
         {{/if}}
         {{#if isInRole 'CanReadTasks'}}
-        {{> importEntityDropdown entity="tasks"}}
+        {{> importCollection entity="tasks"}}
         {{/if}}
         {{> exportCollection entity="tasks"}}
       </ul>

@@ -7,6 +7,7 @@ import '/imports/api/custom-fields/server/methods.js';
 import '/imports/api/export/server/methods.js';
 import '/imports/api/event-log/server/methods.js';
 import '/imports/api/feedback/server/methods.js';
+import '/imports/api/import/server/methods.js';
 import '/imports/api/lookup/server/clearbit-api.js';
 import '/imports/api/notifications/server/methods.js';
 import '/imports/api/opportunities/methods.js';

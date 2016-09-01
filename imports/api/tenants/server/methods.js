@@ -5,7 +5,6 @@ import { PurchaseOrderSchema } from '/imports/api/purchase-orders/schema.js';
 Meteor.methods({
   'tenant.getPayingUsers': function() {
     var tenants = Tenants.find({
-      plan: 'pro',
       'stripe.stripeSubs': {
         $exists: true
       }

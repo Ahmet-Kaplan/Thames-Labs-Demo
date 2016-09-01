@@ -1,6 +1,8 @@
+import bootbox from 'bootbox';
+
 import './modals/update-user.js';
 import './user-details-link.html';
-import bootbox from 'bootbox';
+
 import { Tenants } from '/imports/api/collections.js';
 
 Template.userDetailsLink.helpers({
@@ -11,11 +13,6 @@ Template.userDetailsLink.helpers({
 
 Template.userDetailsLink.events({
   'click a.user-detail-link': function() {
-    const tenant = Tenants.findOne(Meteor.user().group);
-    if (tenant.plan === 'free') {
-      showUpgradeToastr('To modify user permissions');
-      return;
-    }
     Modal.show('updateUser', Template.currentData());
   },
 
@@ -26,15 +23,32 @@ Template.userDetailsLink.events({
     Modal.hide('updateUser');
     bootbox.confirm(`Are you sure you wish to remove the user ${name}?<br />This action is not reversible.`, (result) => {
       if (result === true) {
+        toastr.info('Removing user...');
         Meteor.call('removeUser', this._id, (error, response) => {
+          toastr.clear();
           if (error) {
-            toastr.error(`Unable to remove user. ${error}`);
-            throw new Meteor.Error('User', 'Unable to remove user.');
+            toastr.error(`Unable to remove user. ${error.reason}`);
           }
-          const subsNotification = isProTenant(_.get(Meteor.user(), 'group')) ? `<br />Please note that your subscription has been updated accordingly.` : '';
+          const tenantId = _.get(Meteor.user(), 'group');
+
+          // If pro tenant, indicate payment will be modified
+          const subsNotification = isProTenant(tenantId) ? `<br />Please note that your payments will be updated accordingly.` : '';
+
+          // If removing last paying user, indicate that payment will stop
+          let paymentWillStop = '';
+          const tenant = Tenants.findOne({
+            _id: tenantId
+          });
+          const tenantUsers = Meteor.users.find({
+            group: tenantId
+          }).count();
+          if(_.get(tenant, 'stripe.stripeId') && _.get(tenant, 'stripe.maxFreeUsers') === tenantUsers) {
+            paymentWillStop = '<br>You are now within the free user limit and will only be charged if you create additional users.';
+          }
+
           bootbox.alert({
             title: 'User removed',
-            message: `<i class="fa fa-check fa-3x pull-left text-success"></i>User ${name} has been removed.${subsNotification}`,
+            message: `<i class="fa fa-check fa-3x pull-left text-success"></i>User ${name} has been removed.${subsNotification}${paymentWillStop}`,
             className: 'bootbox-success',
           });
         });

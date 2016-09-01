@@ -85,12 +85,6 @@ Template.topMenu.helpers({
       }
     }).count();
   },
-  fabEnabled: function() {
-    return Template.instance().fab.get();
-  },
-  fabOpen: function() {
-    return Template.instance().fabOpen.get();
-  },
   tenantName: function() {
     if (!Meteor.user()) return;
 
@@ -98,12 +92,5 @@ Template.topMenu.helpers({
       _id: Meteor.user().group
     });
     return !!tenant ? tenant.name : null;
-  }
-});
-
-Template.topMenu.events({
-  'click .direct-upgrade': function(evt) {
-    evt.preventDefault();
-    Modal.show('stripeSubscribe');
   }
 });

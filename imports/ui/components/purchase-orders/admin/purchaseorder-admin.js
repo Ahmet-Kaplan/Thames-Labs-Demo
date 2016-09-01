@@ -4,10 +4,10 @@ import bootbox from 'bootbox';
 import { Tenants } from '/imports/api/collections.js';
 
 Template.purchaseOrderAdminPanel.onRendered(function() {
-  var tenant = Tenants.findOne({
+  const tenant = Tenants.findOne({
     _id: Meteor.user().group
   });
-  var currVal = tenant.settings.purchaseorder.defaultPrefix;
+  const currVal = tenant.settings.purchaseorder.defaultPrefix;
   $('#poAdminCurrentPrefix').val((currVal === " " ? "" : currVal));
 });
 
@@ -15,16 +15,11 @@ Template.purchaseOrderAdminPanel.events({
   'click #poAdminUpdatePrefix': function(event) {
     event.preventDefault();
 
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To set your own purchase order prefix');
-      return;
-    }
-
-    var newVal = $('#poAdminCurrentPrefix').val();
+    const newVal = $('#poAdminCurrentPrefix').val();
 
     bootbox.confirm("Updating the purchase order prefix will not affect existing purchase orders - only new ones will reflect the new change. Update it anyway?", function(result) {
       if (result === true) {
-        var tenant = Tenants.findOne({
+        const tenant = Tenants.findOne({
           _id: Meteor.user().group
         });
         Tenants.update({

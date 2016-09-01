@@ -11,8 +11,7 @@ Feature: Allow administrators to give users permissions
   # N.B. this scenario was tweaked slightly and uses a mix of old and new steps
   # It should be reworked to be entirely new style
   Scenario: The super admin can set a user as an administrator for their tenant
-    Given I am on the pro plan
-    And I am a logged out user
+    Given I am a logged out user
     And a superadmin exists
     And I am a logged in superadmin user
     When I navigate to "/tenants"
@@ -54,7 +53,7 @@ Feature: Allow administrators to give users permissions
     Given a user exists
     And I am a logged in user
     And I have the "Administrator" permission
-    And I am on the pro plan
+    And I have "2" free users
     When I navigate to "/settings/users"
     And I click "#add-user"
     And I set text field "name" to "Mario"

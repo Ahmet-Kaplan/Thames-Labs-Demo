@@ -2,11 +2,11 @@ import './insert-tenant-user.html';
 import { UserSchema } from '/imports/api/users/schema.js';
 
 Template.insertTenantUser.helpers({
-  formId: function() {
-    return 'form-' + this._id;
-  },
   UserSchema: function() {
     return UserSchema;
+  },
+  isProTenant: function() {
+    return isProTenant(this.__originalId);
   }
 });
 
@@ -17,7 +17,7 @@ AutoForm.hooks({
       toastr.success('User created.');
     },
     onError: function(formType, error) {
-      toastr.error('User creation error: ' + error);
+      toastr.error(`User creation error: ${error}`);
     }
   }
 });

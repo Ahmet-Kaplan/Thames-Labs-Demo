@@ -13,19 +13,6 @@ export const TenantFilters = {
       }
     }
   },
-  plan: {
-    display: 'Plan:',
-    prop: 'plan',
-    defaultOptions: function() {
-      return ['Free', 'Free+', 'Pro'];
-    },
-    strict: true,
-    allowMultiple: false,
-    displayValue: function(plan) {
-      if (!plan) return false;
-      return true;
-    }
-  },
   active: {
     display: 'Activity:',
     prop: 'active',

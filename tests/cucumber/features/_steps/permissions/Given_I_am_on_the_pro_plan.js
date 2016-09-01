@@ -5,7 +5,8 @@ module.exports = function() {
       const { Tenants } = require('/imports/api/collections.js');
       Tenants.update(tenantId, {
         $set: {
-          plan: 'pro'
+          'stripe.stripeId': 'cus_123',
+          'stripe.stripeSubs': 'sub_123'
         }
       });
     }, browser.tenantId());
