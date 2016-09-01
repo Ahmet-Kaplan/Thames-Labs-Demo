@@ -37,7 +37,6 @@ Template.opportunitiesAdmin.onCreated(function() {
 
 Template.opportunitiesAdmin.helpers({
   stages: function() {
-    // console.log(Template.instance().stages.get());
     return Template.instance().stages.get();
   },
   hasStages: function() {
