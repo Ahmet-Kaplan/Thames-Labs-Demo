@@ -17,15 +17,14 @@ Template.tagManagement.onRendered(function() {
   });
 });
 
+Template.tagManagement.helpers({
+  resultsCount: function() {
+    return Session.get('resultsCount');
+  }
+});
 
 Template.tagManagement.events({
   'click #manage-tags': function(event, template) {
     Modal.show('tagManagementModal', this);
-  }
-});
-
-Template.tagManagement.helpers({
-  resultsCount: function() {
-    return Template.instance().resultsCount.get();
   }
 });
