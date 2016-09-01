@@ -120,13 +120,6 @@ Template.stripeSubscribe.events({
           return false;
         }
 
-        let nextPaymentDate = '';
-        if(result2.object === 'customer') {
-          nextPaymentDate = moment(_.get(result2, 'subscriptions.data[0].current_period_end') * 1000).format('DD/MM/YYYY');
-        } else if(result2.object === 'subscription') {
-          nextPaymentDate = moment(result2.current_period_end * 1000).format('DD/MM/YYYY');
-        }
-
         Meteor.call('addTenantUser', _.get(newUserDetails, 'insertDoc'), function(error3, result3) {
           if(error3 || result3 === false) {
             Modal.hide();
