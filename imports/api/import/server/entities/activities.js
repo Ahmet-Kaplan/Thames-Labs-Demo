@@ -3,7 +3,8 @@ export const importActivity = (row, getValueForField, userId) => {
   result.warning = [];
 
   //Get linked entities
-  let recordType = getValueForField(row, 'recordType').toLowerCase();
+  let recordType = getValueForField(row, 'recordType');
+  if (recordType !== null) recordType = recordType.toLowerCase();
   let entity = {};
   let entityName = getValueForField(row, 'record');
 

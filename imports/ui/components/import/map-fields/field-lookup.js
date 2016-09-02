@@ -339,13 +339,13 @@ export const importSchema = {
     }, {
       fieldLabel: 'Company Name',
       fieldIdentifier: 'companyName',
-      fieldOptions: ['companyname', 'company'],
+      fieldOptions: ['companyname', 'company', 'supplier', 'suppliercompany', 'supplier company'],
       fieldType: 'default',
       required: true
     }, {
       fieldLabel: 'Contact Name',
       fieldIdentifier: 'contactName',
-      fieldOptions: ['contactname', 'contact'],
+      fieldOptions: ['contactname', 'contact', 'suppliercontact', 'supplier contact'],
       fieldType: 'default',
       required: true
     }, {
@@ -417,13 +417,13 @@ export const importSchema = {
     }, {
       fieldLabel: 'Record Name',
       fieldIdentifier: 'record',
-      fieldOptions: ['record', 'recordname', 'record name'],
+      fieldOptions: ['record', 'recordname', 'record name', 'relatedrecord', 'related record'],
       fieldType: 'default',
       required: true
     }, {
       fieldLabel: 'Record Type',
       fieldIdentifier: 'recordType',
-      fieldOptions: ['record type', 'recordtype', 'entity', 'entitytype'],
+      fieldOptions: ['record type', 'recordtype', 'entity', 'entitytype', 'relatedrecordtype', 'related record type'],
       fieldType: 'default',
       required: true
     }, {
@@ -459,13 +459,13 @@ export const importSchema = {
     }, {
       fieldLabel: 'Record Name',
       fieldIdentifier: 'record',
-      fieldOptions: ['record', 'record name', 'recordname'],
+      fieldOptions: ['record', 'recordname', 'record name', 'relatedrecord', 'related record'],
       fieldType: 'default',
       required: true
     }, {
       fieldLabel: 'Record Type',
       fieldIdentifier: 'recordType',
-      fieldOptions: ['record type', 'recordtype', 'entity', 'entitytype'],
+      fieldOptions: ['record type', 'recordtype', 'entity', 'entitytype', 'relatedrecordtype', 'related record type'],
       fieldType: 'default',
       required: true
     }, {
