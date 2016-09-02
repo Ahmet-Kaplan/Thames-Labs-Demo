@@ -19,7 +19,7 @@
             {{> afQuickField name="phone" value=phone}}
             {{> afQuickField name="mobile"}}
             {{> afQuickField name="email" id="addContactEmail"}}
-            {{> esSelectize name="companyId" index=CompaniesIndex allowCreate=true}}
+            {{> autosuggest name="companyId" index=CompaniesIndex allowCreate=true}}
             {{#if showAddress}}
               {{> locationPicker}}
             {{/if}}

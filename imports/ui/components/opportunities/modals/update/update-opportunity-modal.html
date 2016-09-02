@@ -31,7 +31,7 @@
               {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
               {{> afQuickField name="contactId" value=contactId type="hidden"}}
             {{/if}}
-            {{> esSelectize name="salesManagerId" index=UsersIndex value=salesManagerId allowEmptyOption=true}}
+            {{> autosuggest name="salesManagerId" index=UsersIndex value=salesManagerId allowEmptyOption=true}}
             <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}
         </div>

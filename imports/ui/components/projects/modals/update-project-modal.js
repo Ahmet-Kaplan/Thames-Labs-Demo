@@ -1,3 +1,4 @@
+import '/imports/ui/components/autosuggest/autosuggest.js';
 import './update-project-modal.html';
 
 Template.updateProjectModal.helpers({

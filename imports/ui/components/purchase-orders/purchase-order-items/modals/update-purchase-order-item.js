@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import _ from 'lodash';
+import '/imports/ui/components/autosuggest/autosuggest.js';
 import './update-purchase-order-item.html';
 
 Template.updatePurchaseOrderItemModal.onRendered(function() {

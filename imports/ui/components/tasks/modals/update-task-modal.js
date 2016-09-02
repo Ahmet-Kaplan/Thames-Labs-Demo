@@ -1,4 +1,5 @@
 import './update-task-modal.html';
+import '/imports/ui/components/autosuggest/autosuggest.js';
 import './reminder-selector.js';
 
 Template.updateTaskModal.onCreated(function() {

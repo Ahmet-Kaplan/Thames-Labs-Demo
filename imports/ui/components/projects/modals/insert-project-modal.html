@@ -12,13 +12,8 @@
           {{#autoForm collection="Projects" id="insertProjectForm" type="insert"}}
             {{> afQuickField name="name"}}
             {{> afQuickField name="description" rows=3}}
-            {{> esSelectize name="companyId" index=CompaniesIndex}}
-            {{#if showContacts}}
-              {{> esSelectize name="contactId" index=ContactsIndex parent="companyId" filter="filterCompanyId"}}
-            {{else}}
-              {{> esSelectize name="contactId" index=ContactsIndex}}
-            {{/if}}
-            {{> esSelectize name="userId" index=UsersIndex}}
+
+            {{> autosuggestCompanyContact contactFieldName='contactId' companyFieldName='companyId'}}
 
             <div class="form-group">
               <label for="proj-value" class="control-label">Value</label>
@@ -30,6 +25,7 @@
             </div>
 
             {{> afQuickField name="dueDate" }}
+            {{> autosuggest name="userId" index=UsersIndex}}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             {{> afQuickField name="createdBy" value=currentUser }}
             {{> afQuickField name="projectTypeId" options=projectTypes }}
