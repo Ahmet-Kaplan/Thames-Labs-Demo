@@ -6,27 +6,27 @@ import { Contacts, Tasks } from '/imports/api/collections.js';
 
 Template.insertActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
-  $('#activityTimestamp').data('DateTimePicker').setDate(moment());
+  $('#activityTimestamp').data('DateTimePicker').date(moment());
 });
 Template.insertContactActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
-  $('#activityTimestamp').data('DateTimePicker').setDate(moment());
+  $('#activityTimestamp').data('DateTimePicker').date(moment());
 });
 Template.insertProjectActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
-  $('#activityTimestamp').data('DateTimePicker').setDate(moment());
+  $('#activityTimestamp').data('DateTimePicker').date(moment());
 });
 Template.insertPurchaseOrderActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
-  $('#activityTimestamp').data('DateTimePicker').setDate(moment());
+  $('#activityTimestamp').data('DateTimePicker').date(moment());
 });
 Template.insertOpportunityActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
-  $('#activityTimestamp').data('DateTimePicker').setDate(moment());
+  $('#activityTimestamp').data('DateTimePicker').date(moment());
 });
 Template.insertTaskActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
-  $('#activityTimestamp').data('DateTimePicker').setDate(moment());
+  $('#activityTimestamp').data('DateTimePicker').date(moment());
 });
 
 Template.insertActivityModal.events({
@@ -113,7 +113,7 @@ Template.insertContactActivityModal.events({
               reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`,
               d = $('#helperContent .taskdatetimepicker'),
               dtp = d.data('DateTimePicker'),
-              taskDate = dtp.date.toDate(),
+              taskDate = dtp.date().toDate(),
               taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertContactActivityForm')}`;
 
         const desc = sanitizeHtml(AutoForm.getFieldValue('notes', 'insertContactActivityForm'), {
@@ -166,7 +166,7 @@ Template.insertProjectActivityModal.events({
               reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`,
               d = $('#helperContent .taskdatetimepicker'),
               dtp = d.data('DateTimePicker'),
-              taskDate = dtp.date.toDate(),
+              taskDate = dtp.date().toDate(),
               taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertProjectActivityForm')}`;
 
         const desc = sanitizeHtml(AutoForm.getFieldValue('notes', 'insertProjectActivityForm'), {
@@ -232,7 +232,7 @@ Template.insertOpportunityActivityModal.events({
               reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`,
               d = $('#helperContent .taskdatetimepicker'),
               dtp = d.data('DateTimePicker'),
-              taskDate = dtp.date.toDate(),
+              taskDate = dtp.date().toDate(),
               taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertOpportunityActivityForm')}`;
 
         const desc = sanitizeHtml(AutoForm.getFieldValue('notes', 'insertOpportunityActivityForm'), {
