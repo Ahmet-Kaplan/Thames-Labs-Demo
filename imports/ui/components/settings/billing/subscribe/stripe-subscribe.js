@@ -50,7 +50,7 @@ Template.stripeSubscribe.helpers({
     });
     return _.get(tenant, 'stripe.maxFreeUsers', MAX_FREE_USERS);
   },
-  userSchema: function() {
+  UserSchema: function() {
     return UserSchema;
   }
 });
