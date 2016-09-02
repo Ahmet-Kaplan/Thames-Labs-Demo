@@ -11,8 +11,7 @@
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrders" id="insertPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description" id="description" rows=3}}
-            {{> esSelectize name="supplierCompanyId" index=CompaniesIndex}}
-            {{> esSelectize name="supplierContactId" index=ContactsIndex parent="supplierCompanyId" filter="filterCompanyId"}}
+            {{> autosuggestCompanyContact contactFieldName='supplierContactId' companyFieldName='supplierCompanyId'}}
             {{> afQuickField name="supplierReference" id="supRef"}}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}

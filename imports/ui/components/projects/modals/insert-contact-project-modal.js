@@ -1,3 +1,4 @@
+import '/imports/ui/components/autosuggest/autosuggest.js';
 import './insert-contact-project-modal.html';
 import { Companies, Contacts, Tenants } from '/imports/api/collections.js';
 
