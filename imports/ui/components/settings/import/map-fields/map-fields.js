@@ -20,6 +20,7 @@ Template.mapFields.onRendered(function() {
     const currentFieldMap = mapCsvFieldsToImportSchema(this.data.csvFields, schema);
     this.fieldMap.set(currentFieldMap);
 
+
     //Delay to allow ui to update
     Meteor.setTimeout(() => {
       //Update UI selectpickers and select correct option from map
@@ -30,6 +31,30 @@ Template.mapFields.onRendered(function() {
       _.each(currentFieldMap, function(field) {
         $(`#${field.schemaField}-field`).selectpicker('val', field.importField);
       });
+
+
+      //Add selectpicker event handlers
+      $('.import-field-picker').off('changed.bs.select');
+      $('.import-field-picker').on('changed.bs.select', (e) => {
+        const schemaField = e.target.id.replace('-field', '');
+        const mapIndex = _.findIndex(currentFieldMap, { schemaField: schemaField });
+        //If current field is already mapped, update the csv field name value
+        if (mapIndex !== -1) currentFieldMap[mapIndex].importField = e.target.value;
+        else {
+          //If not, add a mapping between the entity field name and the csv field name
+          const schemaValue = _.find(schema, { fieldIdentifier: schemaField });
+          if (schemaValue) {
+            currentFieldMap.push({
+              schemaField: schemaField,
+              importField: e.target.value,
+              fieldType: schemaValue.fieldType,
+              fieldLabel: schemaValue.fieldLabel
+            });
+          }
+        }
+        this.fieldMap.set(currentFieldMap);
+      });
+
     }, 500);
   });
 });
@@ -43,40 +68,3 @@ Template.mapFields.helpers({
     return Template.instance().data.csvFields;
   }
 });
-
-/*
-$('.selectpicker.map-field').selectpicker({
-        title: 'Do not import',
-        selectOnTab: true
-      });
-
-      //Setup event handlers, remove old ones
-      $('.field-selectpicker').off('changed.bs.select');
-      $('.field-selectpicker').on('changed.bs.select', (e) => {
-        //Update the mapping between importField (from csv) and schemaField
-        const currentFieldMap = instance.fieldMap.get();
-        const fieldArrayIndex = _.findIndex(currentFieldMap, ['schemaField', e.target.id.replace('-Selector', '')]);
-        currentFieldMap[fieldArrayIndex].importField = e.target.value;
-        instance.fieldMap.set(currentFieldMap);
-      });
-
-      $('.customfield-selectpicker').off('changed.bs.select');
-      $('.customfield-selectpicker').on('changed.bs.select', (e) => {
-        const globalCustomFields = instance.globalCustomFields.get();
-        const entityGCFs = instance.entityGCFs.get();
-        console.log(e);
-        const customFieldId = e.target.id.replace('-CustomFieldSelector', '');
-        globalCustomFields[fieldArrayIndex].importField = e.target.value;
-        instance.globalCustomFields.set(globalCustomFields);
-      });
-
-      //Preselect correct fields from CSV
-      const currentFieldMap = instance.fieldMap.get();
-      $('.field-selectpicker').each((i, obj) => {
-        const schemaFieldName = obj.id.replace('-Selector', '');
-        const field = _.find(currentFieldMap, { schemaField: schemaFieldName });
-        if (field) {
-          $(`#${obj.id}`).selectpicker('val', field.importField);
-        }
-      });
-      */

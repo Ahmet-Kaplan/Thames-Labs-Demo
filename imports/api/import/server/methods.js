@@ -9,7 +9,7 @@ import { importProject } from './entities/projects.js';
 import { importPurchaseOrder } from './entities/purchase-orders.js';
 import { importTask } from './entities/tasks.js';
 
-export const importRows = (importData, entityType, fieldMap, userId, globalCustomFields, localCustomFields) => {
+export const importRows = (importData, entityType, fieldMap, userId) => {
   //Get field name used for imported data from RT schema field name
   const getImportField = (fieldName) => {
     const result = _.result(_.find(fieldMap, function(obj) {
@@ -24,6 +24,8 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
     if (!result) return null;
     return result;
   };
+
+  const globalCustomFields = _.filter(fieldMap, { fieldType: 'globalCustomField'});
 
   //Get number of rows
   const importTotal = importData.length;
@@ -63,7 +65,7 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
         //Loop through importData
         _.each(importData, function(row, i) {
           rtId++;
-          const res = importCompany(row, getValueForField, userId, rtId, localCustomFields, globalCustomFields);
+          const res = importCompany(row, getValueForField, userId, rtId, globalCustomFields);
 
           //Handle result of importing the entity
           if (res.error) {
@@ -85,7 +87,7 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
         //Loop through importData
         _.each(importData, function(row, i) {
           rtId++;
-          const res = importContact(row, getValueForField, userId, rtId, localCustomFields);
+          const res = importContact(row, getValueForField, userId, rtId, globalCustomFields);
 
           //Handle result of importing the entity
           if (res.error) {
@@ -240,7 +242,7 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
 };
 
 Meteor.methods({
-  'import.do': function(importData, entityType, fieldMap, userId, globalCustomFields, localCustomFields) {
-    return importRows(importData, entityType, fieldMap, userId, globalCustomFields, localCustomFields);
+  'import.do': function(importData, entityType, fieldMap, userId) {
+    return importRows(importData, entityType, fieldMap, userId);
   }
 });

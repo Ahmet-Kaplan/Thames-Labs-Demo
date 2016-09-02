@@ -51,7 +51,8 @@ export const mapCsvFieldsToImportSchema = (csvFields, fullImportSchema) => {
         mappedFields.push({
           importField: csvField,
           schemaField: schemaField.fieldIdentifier,
-          fieldType: schemaField.fieldType
+          fieldType: schemaField.fieldType,
+          fieldLabel: schemaField.fieldLabel
         });
       }
     });

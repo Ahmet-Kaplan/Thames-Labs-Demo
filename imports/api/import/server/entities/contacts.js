@@ -1,4 +1,4 @@
-export const importContact = (row, getValueForField, userId, rtId, localCustomFields) => {
+export const importContact = (row, getValueForField, userId, rtId, globalCustomFields) => {
   const result = {};
 
   //Check for company
@@ -60,6 +60,22 @@ export const importContact = (row, getValueForField, userId, rtId, localCustomFi
       });
     }
 
+    //Add global custom fields
+    if (globalCustomFields.length > 0) {
+      _.each(globalCustomFields, function(field, i) {
+        CustomFields.update({
+          name: field.fieldLabel,
+          global: true,
+          target: 'contact',
+          entityId: entityId
+        }, {
+          $set: {
+            value: getValueForField(row, field.schemaField),
+          }
+        });
+      });
+    }
+/*
     //Add local custom fields
     if (localCustomFields.length > 0) {
       _.each(localCustomFields, function(field, i) {
@@ -77,7 +93,7 @@ export const importContact = (row, getValueForField, userId, rtId, localCustomFi
           });
         }
       });
-    }
+    }*/
 
     return result;
   } catch(err) {

@@ -26,7 +26,7 @@
           {{/unless}}
         </div>
         <div class="settings-section">
-          <h4 class="slim {{#if greaterThan currentStage 2}}text-muted{{/if}}">2. Select a CSV data file</h4>
+          <h4 class="{{#if greaterThan currentStage 2}}slim text-muted{{/if}}">2. Select a CSV data file</h4>
           {{#unless greaterThan currentStage 2}}
             <p>Pick a CSV file from your computer containing the records you wish to import into RealTimeCRM.</p>
             <button class="btn btn-primary upload-csv">Select a CSV file</button>{{#if fileName}} <span class="text-success"> <i class="fa fa-fw fa-check"></i></span> Selected "<span class="text-success">{{fileName}}</span>"{{/if}}
@@ -35,7 +35,7 @@
           {{/unless}}
         </div>
         <div class="settings-section">
-          <h4 class="slim {{#unless equals currentStage 2}}text-muted{{/unless}}">3. Choose data columns</h4>
+          <h4 class="{{#unless equals currentStage 2}}slim text-muted{{/unless}}">3. Choose data columns</h4>
           {{#if equals currentStage 2}}
             <p>Use the drop-downs below to map each of the fields in your CSV file to the relevant RealTimeCRM fields. RealTimeCRM will try and match the field names for you automatically based on the field name.</p>
 
