@@ -9,6 +9,8 @@ import { importProject } from './entities/projects.js';
 import { importPurchaseOrder } from './entities/purchase-orders.js';
 import { importTask } from './entities/tasks.js';
 
+import { importCustomFields } from './entities/custom-fields.js';
+
 export const importRows = (importData, entityType, fieldMap, userId) => {
   //Get field name used for imported data from RT schema field name
   const getImportField = (fieldName) => {
@@ -25,7 +27,9 @@ export const importRows = (importData, entityType, fieldMap, userId) => {
     return result;
   };
 
+  //Get custom fields from field map
   const globalCustomFields = _.filter(fieldMap, { fieldType: 'globalCustomField'});
+  const localCustomFields = _.filter(fieldMap, { fieldType: 'localCustomField'});
 
   //Get number of rows
   const importTotal = importData.length;
@@ -65,7 +69,8 @@ export const importRows = (importData, entityType, fieldMap, userId) => {
         //Loop through importData
         _.each(importData, function(row, i) {
           rtId++;
-          const res = importCompany(row, getValueForField, userId, rtId, globalCustomFields);
+          const res = importCompany(row, getValueForField, userId, rtId);
+          if (!res.error) importCustomFields(row, getValueForField, res._id, "company", globalCustomFields, localCustomFields);
 
           //Handle result of importing the entity
           if (res.error) {
@@ -88,6 +93,7 @@ export const importRows = (importData, entityType, fieldMap, userId) => {
         _.each(importData, function(row, i) {
           rtId++;
           const res = importContact(row, getValueForField, userId, rtId, globalCustomFields);
+          if (!res.error) importCustomFields(row, getValueForField, res._id, "contact", globalCustomFields, localCustomFields);
 
           //Handle result of importing the entity
           if (res.error) {
@@ -146,6 +152,7 @@ export const importRows = (importData, entityType, fieldMap, userId) => {
           UserSession.set("progressValue", percentDone, userId);
 
           const res = importProject(row, getValueForField, userId, rtId);
+          if (!res.error) importCustomFields(row, getValueForField, res._id, "project", globalCustomFields, localCustomFields);
 
           //Handle result of importing the entity
           if (res.error) {
@@ -175,6 +182,7 @@ export const importRows = (importData, entityType, fieldMap, userId) => {
         _.each(importData, function(row, i) {
           rtId++;
           const res = importProduct(row, getValueForField, userId, rtId);
+          if (!res.error) importCustomFields(row, getValueForField, res._id, "product", globalCustomFields, localCustomFields);
 
           //Handle result of importing the entity
           if (res.error) {

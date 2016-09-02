@@ -60,41 +60,6 @@ export const importContact = (row, getValueForField, userId, rtId, globalCustomF
       });
     }
 
-    //Add global custom fields
-    if (globalCustomFields.length > 0) {
-      _.each(globalCustomFields, function(field, i) {
-        CustomFields.update({
-          name: field.fieldLabel,
-          global: true,
-          target: 'contact',
-          entityId: entityId
-        }, {
-          $set: {
-            value: getValueForField(row, field.schemaField),
-          }
-        });
-      });
-    }
-/*
-    //Add local custom fields
-    if (localCustomFields.length > 0) {
-      _.each(localCustomFields, function(field, i) {
-        if (row[field].length > 0) {
-          CustomFields.insert({
-            name: field,
-            value: (row[field] ? row[field] : ''),
-            type: 'text',
-            global: false,
-            order: i,
-            target: 'contact',
-            entityId: entityId
-          }, function(cfErr) {
-            if (cfErr) result.warning = "custom-fields";
-          });
-        }
-      });
-    }*/
-
     return result;
   } catch(err) {
     result.error = err;

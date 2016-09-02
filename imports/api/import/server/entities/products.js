@@ -27,6 +27,16 @@ export const importProduct = (row, getValueForField, userId, rtId) => {
     });
 
     result._id = entityId;
+
+    //Add tags
+    const tags = getValueForField(row, 'tags');
+    if (tags) {
+      const tagList = _.split(tags, ',');
+      _.each(tagList, function(tag) {
+        Products.addTag(tag, { _id: entityId });
+      });
+    }
+
     return result;
   } catch(err) {
     result.error = err;

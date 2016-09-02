@@ -58,7 +58,7 @@ export const importProject = (row, getValueForField, userId, rtId) => {
   if (dueDate) dueDate = moment(dueDate, 'DD/MM/YYYY hh:mm').toDate();
 
   let active = getValueForField(row, 'active');
-  if (active == 0) active = false;
+  if (active == 0 || active == "No") active = false;
   else active = true;
 
   //Setup JSON object for entity
@@ -86,6 +86,15 @@ export const importProject = (row, getValueForField, userId, rtId) => {
     });
 
     result._id = entityId;
+
+    //Add tags
+    const tags = getValueForField(row, 'tags');
+    if (tags) {
+      const tagList = _.split(tags, ',');
+      _.each(tagList, function(tag) {
+        Projects.addTag(tag, { _id: entityId });
+      });
+    }
 
     return result;
   } catch(err) {

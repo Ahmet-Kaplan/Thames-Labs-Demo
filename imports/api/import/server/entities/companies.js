@@ -1,4 +1,4 @@
-export const importCompany = (row, getValueForField, userId, rtId, globalCustomFields) => {
+export const importCompany = (row, getValueForField, userId, rtId) => {
   const result = {};
 
   //Check formatting of web address
@@ -45,43 +45,6 @@ export const importCompany = (row, getValueForField, userId, rtId, globalCustomF
       const tagList = _.split(tags, ',');
       _.each(tagList, function(tag) {
         Companies.addTag(tag, { _id: entityId });
-      });
-    }
-
-    //Add local custom fields
-    /*if (localCustomFields.length > 0) {
-      _.each(localCustomFields, function(field, i) {
-        if (row[field].length > 0) {
-          CustomFields.insert({
-            name: field,
-            value: (row[field] ? row[field] : ''),
-            type: 'text',
-            global: false,
-            order: i,
-            target: 'company',
-            entityId: entityId
-          }, function(cfErr) {
-            if (cfErr) result.warning = "custom-fields";
-          });
-        }
-      });
-    } */
-
-    //Add global custom fields
-    if (globalCustomFields.length > 0) {
-      _.each(globalCustomFields, function(field, i) {
-        console.log(field);
-        console.log(getValueForField(row, field.schemaField));
-        CustomFields.update({
-          name: field.fieldLabel,
-          global: true,
-          target: 'company',
-          entityId: entityId
-        }, {
-          $set: {
-            value: getValueForField(row, field.schemaField),
-          }
-        });
       });
     }
 

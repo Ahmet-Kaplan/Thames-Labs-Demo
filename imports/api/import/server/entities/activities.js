@@ -110,6 +110,15 @@ export const importActivity = (row, getValueForField, userId) => {
 
     result._id = entityId;
 
+    //Add tags
+    const tags = getValueForField(row, 'tags');
+    if (tags) {
+      const tagList = _.split(tags, ',');
+      _.each(tagList, function(tag) {
+        Activities.addTag(tag, { _id: entityId });
+      });
+    }
+
     return result;
   } catch(err) {
     result.error = err;

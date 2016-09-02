@@ -22,6 +22,7 @@ export const getFullImportSchema = (entityType, callback) => {
       break;
   }
   if (entityTypeSingular) {
+    //Get custom fields from db, is asynchronous so using callback() when done.
     Meteor.call('customFields.getGlobalsByTenantEntity', Meteor.user().group, entityTypeSingular, (err, res) => {
       _.each(res, (field) => {
         if (field.type !== "label") {
@@ -37,7 +38,7 @@ export const getFullImportSchema = (entityType, callback) => {
       });
       callback(fullSchema);
     });
-  }
+  } else callback(fullSchema);
 };
 
 
@@ -59,4 +60,19 @@ export const mapCsvFieldsToImportSchema = (csvFields, fullImportSchema) => {
   });
 
   return mappedFields;
+};
+
+export const mapUnusedCsvFieldsToCustomFields = (csvFields, currentFieldMap) => {
+  _.each(csvFields, (csvField) => {
+    const map = _.find(currentFieldMap, {importField: csvField});
+    if (!map) {
+      currentFieldMap.push({
+        importField: csvField,
+        schemaField: csvField,
+        fieldLabel: csvField,
+        fieldType: "localCustomField"
+      });
+    }
+  });
+  return currentFieldMap;
 };

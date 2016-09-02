@@ -8,71 +8,7 @@
       <h4 class="entity-title">Settings</h4>
       <h1 id="top" class="entity-name">Import Data</h1>
       <div class="settings-content">
-        <div class="settings-section">
-          <h4 class="slim {{#if greaterThan currentStage 2}}text-muted{{/if}}">1. Select record type</h4>
-          {{#unless greaterThan currentStage 2}}
-            <p>Choose the type of record you would like to import from the options below.</p>
-            <select id="recordTypeSelect" class="selectpicker">
-              <option value="companies">Companies</option>
-              <option value="contacts">Contacts</option>
-              <option value="opportunities">Opportunities</option>
-              <option value="projects">Projects</option>
-              <option value="products">Products</option>
-              <option value="purchaseorders">Purchase Orders</option>
-              <option value="tasks">Tasks</option>
-              <option value="activities">Activities</option>
-            </select>
-            <br>
-          {{/unless}}
-        </div>
-        <div class="settings-section">
-          <h4 class="{{#if greaterThan currentStage 2}}slim text-muted{{/if}}">2. Select a CSV data file</h4>
-          {{#unless greaterThan currentStage 2}}
-            <p>Pick a CSV file from your computer containing the records you wish to import into RealTimeCRM.</p>
-            <button class="btn btn-primary upload-csv">Select a CSV file</button>{{#if fileName}} <span class="text-success"> <i class="fa fa-fw fa-check"></i></span> Selected "<span class="text-success">{{fileName}}</span>"{{/if}}
-            <input type="file" id="data-upload" style="display:none;">
-            <br>
-          {{/unless}}
-        </div>
-        <div class="settings-section">
-          <h4 class="{{#unless equals currentStage 2}}slim text-muted{{/unless}}">3. Choose data columns</h4>
-          {{#if equals currentStage 2}}
-            <p>Use the drop-downs below to map each of the fields in your CSV file to the relevant RealTimeCRM fields. RealTimeCRM will try and match the field names for you automatically based on the field name.</p>
-
-            {{> mapFields csvFields=unprocessedDataFields entity=entityType fieldMap=fieldMap}}
-
-            {{#if equals entityType "companies"}}
-              <p><br><input id="add-local-custom-fields" checked type="checkbox"> Import additional columns as custom fields against each record</p>
-            {{/if}}
-            <br>
-            <button class="btn btn-success import-data">Import Data</button>
-            <br>
-          {{/if}}
-        </div>
-        <div class="settings-section">
-          <h4 class="slim {{#unless equals currentStage 3}}text-muted{{/unless}}">4. Importing your data</h4>
-          <div class="{{#unless equals currentStage 3}}hidden{{/unless}}">
-            {{> progressBar }}
-          </div>
-        </div>
-        <div class="settings-section">
-          <h4 class="slim {{#unless equals currentStage 4}}text-muted {{else}}{{#if importErrors}}text-danger{{/if}}{{/unless}}">5. Review data import</h4>
-          {{#if equals currentStage 4}}
-            {{#if importErrors}}
-              <div class="errorOutput">
-                The following errors and warnings occurred whilst importing. Please correct them in your CSV file and then try to import your records again.<br /><br />
-                <ol id="errorList">
-                  {{#each importErrors}}
-                    <li>{{{this}}}</li>
-                  {{/each}}
-                </ol>
-              </div>
-            {{else}}
-            <p class="text-success">Your records were successfully imported into RealTimeCRM</p>
-            {{/if}}
-            <a href="#" id="import-more">Import more data</a>
-          {{/if}}
-        </div>
+        {{> importPage}}
       </div>
     </div>
   </div>
