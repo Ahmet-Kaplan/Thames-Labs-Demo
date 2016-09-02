@@ -1,7 +1,9 @@
 import { Products } from '/imports/api/collections.js';
+import { importCustomFields } from './custom-fields.js';
 
-export const importProduct = (row, getValueForField, userId, rtId) => {
+export const importProduct = (row, getValueForField, userId, rtId, globalCustomFields, localCustomFields) => {
   const result = {};
+  result.warning = [];
 
   //Setup JSON object for entity
   const entityData = {
@@ -15,7 +17,7 @@ export const importProduct = (row, getValueForField, userId, rtId) => {
 
   //Check if an existing record exists
   if (Products.findOne({ name: entityData.name })) {
-    result.warning = "product-exists";
+    result.warning.push(`A product already exists with the name "${entityData.name}"`);
   }
   try {
     //Insert the record
@@ -36,6 +38,8 @@ export const importProduct = (row, getValueForField, userId, rtId) => {
         Products.addTag(tag, { _id: entityId });
       });
     }
+
+    importCustomFields(row, getValueForField, entityId, "product", globalCustomFields, localCustomFields);
 
     return result;
   } catch(err) {

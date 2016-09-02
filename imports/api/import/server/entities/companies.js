@@ -1,6 +1,9 @@
 import { Companies } from '/imports/api/collections.js';
-export const importCompany = (row, getValueForField, userId, rtId) => {
+import { importCustomFields } from './custom-fields.js';
+
+export const importCompany = (row, getValueForField, userId, rtId, globalCustomFields, localCustomFields) => {
   const result = {};
+  result.warning = [];
 
   //Check formatting of web address
   let website = getValueForField(row, 'website');
@@ -26,7 +29,7 @@ export const importCompany = (row, getValueForField, userId, rtId) => {
 
   //Check if an existing company exists
   if (Companies.findOne({ name: entityData.name })) {
-    result.warning = "company-exists";
+    result.warning.push(`A company already exists with the name "${entityData.name}"`);
   }
 
   try {
@@ -48,6 +51,8 @@ export const importCompany = (row, getValueForField, userId, rtId) => {
         Companies.addTag(tag, { _id: entityId });
       });
     }
+
+    importCustomFields(row, getValueForField, entityId, "company", globalCustomFields, localCustomFields);
 
     return result;
   } catch(err) {

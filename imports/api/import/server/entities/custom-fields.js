@@ -1,5 +1,6 @@
 import { CustomFields } from '/imports/api/collections.js';
 export const importCustomFields = (row, getValueForField, entityId, entityType, globalCustomFields, localCustomFields) => {
+  const result = {};
   //Add local custom fields
   if (localCustomFields.length > 0) {
     _.each(localCustomFields, function(field, i) {
@@ -13,8 +14,6 @@ export const importCustomFields = (row, getValueForField, entityId, entityType, 
           order: i,
           target: entityType,
           entityId: entityId
-        }, function(cfErr) {
-          if (cfErr) result.warning = "custom-fields";
         });
       }
     });
@@ -36,4 +35,5 @@ export const importCustomFields = (row, getValueForField, entityId, entityType, 
       });
     });
   }
+  return result;
 };

@@ -7,7 +7,7 @@ export const importPurchaseOrder = (row, getValueForField, userId, rtId) => {
   if (PurchaseOrders.findOne({
     description: getValueForField(row, 'description')
   })) {
-    result.warning.push("already-exists");
+    result.warning.push(`A purchase order already exists with the name "${getValueForField(row, 'description')}"`);
   }
 
   //Get linked entities
@@ -20,7 +20,7 @@ export const importPurchaseOrder = (row, getValueForField, userId, rtId) => {
     });
     if (!company) {
       company = null;
-      result.warning.push("linked-company");
+      result.warning.push(`Cannot find referenced company "${getValueForField(row, 'supplier')}" for purchase order "${getValueForField(row, 'name')}"`);
     }
   }
 
@@ -31,7 +31,7 @@ export const importPurchaseOrder = (row, getValueForField, userId, rtId) => {
     });
     if (!contact) {
       contact = null;
-      result.warning.push("linked-contact");
+      result.warning.push(`Cannot find referenced contact "${getValueForField(row, 'supplierContact')}" for purchase order "${getValueForField(row, 'name')}"`);
     }
   }
 

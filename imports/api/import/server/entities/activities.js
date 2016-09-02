@@ -7,10 +7,16 @@ export const importActivity = (row, getValueForField, userId) => {
   //Get linked entities
   let recordType = getValueForField(row, 'recordType');
   if (recordType !== null) recordType = recordType.toLowerCase();
+  else {
+    let notesValue = getValueForField(row, 'notes');
+    if (notesValue) notesValue = notesValue.slice(0, 25);
+    else notesValue = "";
+    result.error = `Cannot find associated record for activity "${notesValue}"`;
+  }
   let entity = {};
   let entityName = getValueForField(row, 'record');
 
-  switch (recordType.toLowerCase()) {
+  switch (recordType) {
     case 'company':
       recordType = 'companies';
       break;
@@ -75,7 +81,7 @@ export const importActivity = (row, getValueForField, userId) => {
     if (notesValue) notesValue = notesValue.slice(0, 25);
     else notesValue = "";
 
-    result.error = `Could not find entity "${entityName}" for activity "${notesValue}..."`;
+    result.error = `Cannot find an associated record called "${entityName}" for activity "${notesValue}..."`;
     return result;
   }
 

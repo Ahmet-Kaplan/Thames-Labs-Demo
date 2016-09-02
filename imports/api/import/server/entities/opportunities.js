@@ -7,7 +7,7 @@ export const importOpportunity = (row, getValueForField, userId, rtId) => {
   if (Opportunities.findOne({
     name: getValueForField(row, 'name')
   })) {
-    result.warning.push("already-exists");
+    result.warning.push(`An opportunity already exists with the name "${getValueForField(row, 'name')}"`);
   }
 
   //Get linked entities
@@ -27,7 +27,7 @@ export const importOpportunity = (row, getValueForField, userId, rtId) => {
     });
     if (!company) {
       company = null;
-      result.warning.push("linked-company");
+      result.warning.push(`Cannot find referenced company "${getValueForField(row, 'companyName')}" for opportunity "${getValueForField(row, 'name')}"`);
     }
   }
 
@@ -38,7 +38,7 @@ export const importOpportunity = (row, getValueForField, userId, rtId) => {
     });
     if (!contact) {
       contact = null;
-      result.warning.push("linked-contact");
+      result.warning.push(`Cannot find referenced contact "${getValueForField(row, 'contactName')}" for opportunity "${getValueForField(row, 'name')}"`);
     }
   }
 

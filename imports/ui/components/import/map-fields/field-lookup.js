@@ -1,4 +1,5 @@
 //Note: the values in fieldOptions are the possible csv column names, they must be lowercase only
+//Todo: migrate these to api folders
 export const importSchema = {
   companies: [
     {
