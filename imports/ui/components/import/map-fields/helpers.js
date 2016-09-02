@@ -1,4 +1,4 @@
-import { importSchema } from './field-lookup.js';
+import { importSchema } from '/imports/api/import/field-lookup.js';
 
 //Returns entity schema specific to tenant (includes global custom fields)
 export const getFullImportSchema = (entityType, callback) => {
