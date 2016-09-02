@@ -1,3 +1,4 @@
+import '/imports/ui/components/autosuggest/autosuggest.js';
 import './insert-contact-project-modal.html';
 
 Template.insertContactProjectModal.helpers({

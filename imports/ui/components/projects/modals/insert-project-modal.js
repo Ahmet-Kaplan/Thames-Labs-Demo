@@ -1,19 +1,6 @@
+import '/imports/ui/components/autosuggest/autosuggest.js';
+import '/imports/ui/components/autosuggest/company-contact.js';
 import './insert-project-modal.html';
-
-Template.insertProjectModal.onCreated(function() {
-  this.showContacts = new ReactiveVar(true);
-});
-
-Template.insertProjectModal.events({
-  'change #companyId': function() {
-    const c = AutoForm.getFieldValue('companyId', 'insertProjectForm');
-    if (c) {
-      Template.instance().showContacts.set(false);
-    } else {
-      Template.instance().showContacts.set(true);
-    }
-  }
-});
 
 Template.insertProjectModal.helpers({
   projectTypes: function() {
@@ -25,9 +12,6 @@ Template.insertProjectModal.helpers({
         'value': type.id
       };
     });
-  },
-  showContacts: function() {
-    return Template.instance().showContacts.get();
   },
   currentUser: function() {
     return Meteor.userId();

@@ -11,15 +11,17 @@
         <div class="modal-body">
           {{#autoForm collection="PurchaseOrders" id="insertCompanyPurchaseOrderForm" type="insert"}}
             {{> afQuickField name="description" id="description" rows=3}}
-            {{> afQuickField name="supplierCompanyId" type="hidden" value=supplierCompanyId}}
-            {{> afQuickField type="text" readonly=true label="Supplier Company" value=supplierCompanyName}}
-            {{> esSelectize name="supplierContactId" index=ContactsIndex parent="supplierCompanyId" filter="filterCompanyId"}}
             {{> afQuickField name="supplierReference" id="supRef"}}
             {{> afQuickField name="userId" type="hidden" value=currentUser}}
             {{> afQuickField name="status" options="allowed" value="Requested" type="hidden"}}
             {{> afQuickField name="orderDate" }}
             {{> afQuickField name="paymentMethod" options="allowed" id="payMethod"}}
             {{> afQuickField name="notes" id="notes"}}
+
+            {{> afQuickField type="text" value=supplierCompanyName label="Company" readonly=true}}
+            {{> afQuickField name="supplierCompanyId" id="supplierCompanyId" value=supplierCompanyId type="hidden"}}
+            {{> autosuggest name="supplierContactId" index=ContactsIndex parent="supplierCompanyId" filter="filterCompanyId"}}
+
             <!-- {{> afQuickField name="sequencedIdentifier"}} -->
             {{> afQuickField name="createdBy" value=currentUser }}
             <p>Items can be added on the purchase order details page</p>

@@ -1,3 +1,4 @@
+import '/imports/ui/components/autosuggest/autosuggest.js';
 import './update-opportunity-modal.html';
 
 Template.updateOpportunityModal.helpers({

@@ -1,3 +1,4 @@
+import '/imports/ui/components/autosuggest/autosuggest.js';
 import './insert-task-modal.html';
 import './reminder-selector.js';
 
