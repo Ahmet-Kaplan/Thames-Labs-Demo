@@ -39,7 +39,7 @@ Template.updateCustomField.helpers({
     return CustomFields.find({
       entityId: this.entity_data._id,
       global: false
-    },{
+    }, {
       sort: { order: 1 }
     });
   }

@@ -54,7 +54,7 @@ Template.customFieldItem.onRendered(function() {
   }
 
   $(`${safeName}AdvTextValue`).html(field.value);
-  const editor = new MediumEditor('.editable', {
+  editor = new MediumEditor('.editable', {
     placeholder: false,
     toolbar: false,
     autoLink: true
