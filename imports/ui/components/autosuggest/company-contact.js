@@ -1,4 +1,5 @@
 import './company-contact.html';
+import { Companies, Contacts } from '/imports/api/collections.js';
 
 Template.autosuggestCompanyContact.onRendered(function() {
   this.companyQuery = new ReactiveVar("");

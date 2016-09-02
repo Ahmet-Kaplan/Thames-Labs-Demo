@@ -1,4 +1,5 @@
 import './update-tenant.html';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.updateTenant.helpers({
   coupon: function() {

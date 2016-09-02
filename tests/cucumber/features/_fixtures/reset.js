@@ -1,7 +1,7 @@
 export function reset() {
   // We call this before EVERY test scenario and at the end of all features
   // It should completely reset the app for test tenants
-  const { Products } = require('/imports/api/collections.js');
+  const { Activities, Companies, Contacts, CustomFields, Notifications, Projects, Products, PurchaseOrders, PurchaseOrderItems, Opportunities, Tasks, Tenants } = require('/imports/api/collections.js');
 
   // Remove test tenants
   var testTenants = Tenants.find({
@@ -15,7 +15,6 @@ export function reset() {
     Tasks.direct.remove({ _groupId: tenantId });
     Activities.direct.remove({ _groupId: tenantId });
     Meteor.tags.direct.remove({ _groupId: tenantId });
-    AuditLog.direct.remove({ _groupId: tenantId });
     Companies.direct.remove({ _groupId: tenantId });
     Contacts.direct.remove({ _groupId: tenantId });
     Projects.direct.remove({ _groupId: tenantId });

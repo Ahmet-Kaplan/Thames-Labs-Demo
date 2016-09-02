@@ -2,6 +2,8 @@ import './contact-list-item.html';
 import './contact-list-item.css';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 
+import { Companies } from '/imports/api/collections.js';
+
 Template.contactListItem.onRendered(function() {
   this.subscribe('companyById', this.data.companyId);
 });

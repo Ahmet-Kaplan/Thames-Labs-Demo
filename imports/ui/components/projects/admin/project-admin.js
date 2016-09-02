@@ -1,6 +1,7 @@
 import './project-admin.html';
 import './types/modals/insert-project-type.js';
 import './types/project-type.js';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.projectAdmin.helpers({
   projectTypes: function() {

@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { CustomFields } from '/imports/api/collections.js';
 
 import './custom-field-panel.html';
 import './custom-field-list-item.js';

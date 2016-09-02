@@ -1,6 +1,10 @@
 import './insert-tenant-user.html';
+import { UserSchema } from '/imports/api/users/schema.js';
 
 Template.insertTenantUser.helpers({
+  UserSchema: function() {
+    return UserSchema;
+  },
   isProTenant: function() {
     return isProTenant(this.__originalId);
   }

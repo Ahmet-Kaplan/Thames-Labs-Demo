@@ -1,5 +1,6 @@
 import './contacts-admin.css';
 import './contacts-admin.html';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.contactsAdmin.onRendered(function() {
   var tenant = Tenants.findOne({

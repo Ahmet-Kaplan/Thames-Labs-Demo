@@ -1,4 +1,5 @@
 import './insert-company-opp-modal.html';
+import { Companies } from '/imports/api/collections.js';
 import '/imports/ui/components/autosuggest/autosuggest.js';
 import { findFirstStageId } from '/imports/api/opportunities/methods.js';
 import { verifyOpportunityStagesExist } from '/imports/api/opportunities/methods.js';

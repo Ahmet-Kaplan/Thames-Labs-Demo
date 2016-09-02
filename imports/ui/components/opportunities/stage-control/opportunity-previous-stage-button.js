@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import toastr from 'meteor/chrismbeckett:toastr';
+import { Tenants } from '/imports/api/collections.js';
 
 import './opportunity-previous-stage-button.html';
 

@@ -1,43 +1,49 @@
 import { assert } from 'meteor/practicalmeteor:chai';
+import sinon from 'sinon';
+import { Meteor } from 'meteor/meteor';
+import { Companies, Contacts, Tenants } from '/imports/api/collections.js';
+import { Partitioner } from 'meteor/local:partitioner';
 
 import { getRowForExport } from './methods.js';
 
 describe("exporting records", () => {
   beforeEach(function() {
-    //Stub out required functions
-    Tenants = {
-      findOne() {
-        return { settings: {
-          opportunity: {
-            stages: [{ id: 0, title: "Investigate subspace transmissions"}]
-          },
-          project: {
-            types: [{ id: 0, name: "Build starship", milestones: [{ id: 0, name: "Construct warp drive"}]}]
-          }
-        }};
-      }
-    };
-    Partitioner.group = () => "id";
-    Meteor.users = {
-      findOne() {
-        return { id: "wqmRLP4RAbpD34iAL", profile: {
-          name: "Montgomery Scott"
-        }};
-      }
-    };
-    Companies = {
-      findOne() {
-        return { _id: "bmMLEbBHoRMAKXuQ6", name: "Starfleet Headquarters" };
-      }
-    };
 
-    Contacts = { findOne() {
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(Meteor.users, 'findOne', function() {
+      return { id: "wqmRLP4RAbpD34iAL", profile: {
+        name: "Montgomery Scott"
+      }};
+    });
+
+    sandbox.stub(Tenants, 'findOne', function() {
+      return { settings: {
+        opportunity: {
+          stages: [{ id: 0, title: "Investigate subspace transmissions"}]
+        },
+        project: {
+          types: [{ id: 0, name: "Build starship", milestones: [{ id: 0, name: "Construct warp drive"}]}]
+        }
+      }};
+    });
+
+    sandbox.stub(Companies, 'findOne', function() {
+      return { _id: "bmMLEbBHoRMAKXuQ6", name: "Starfleet Headquarters" };
+    });
+
+    sandbox.stub(Contacts, 'findOne', function() {
       return {
         _id: "fQodfHhv2wQCiHgHx",
         name() {
           return "Mr Spock";
         }};
-    }};
+    });
+
+    sandbox.stub(Partitioner, 'group').returns('id');
+  });
+
+  afterEach(function() {
+    sandbox.restore();
   });
 
   it("returns the correct row for an activity record", function() {

@@ -3,6 +3,8 @@ import bootbox from 'bootbox';
 import './modals/update-user.js';
 import './user-details-link.html';
 
+import { Tenants } from '/imports/api/collections.js';
+
 Template.userDetailsLink.helpers({
   isSelf: function() {
     return this._id === Meteor.userId();

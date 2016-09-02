@@ -1,3 +1,5 @@
+import { Activities, Contacts, Tenants } from '/imports/api/collections.js';
+
 import multer from 'multer';
 import bodyParser from 'body-parser';
 

@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Tenants } from '/imports/api/collections.js';
 
 export function isTenantOverFreeUserLimit(tenantId) {
   if (!tenantId) return false;

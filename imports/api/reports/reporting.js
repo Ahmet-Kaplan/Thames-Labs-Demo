@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { Products } from '/imports/api/collections.js';
+import { Companies, Contacts, Projects, Products, PurchaseOrders, Opportunities, Tasks } from '/imports/api/collections.js';
 
 Meteor.methods({
   //Tasks
