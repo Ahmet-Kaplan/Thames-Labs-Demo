@@ -92,7 +92,7 @@ export const importRows = (importData, entityType, fieldMap, userId) => {
         //Loop through importData
         _.each(importData, function(row, i) {
           rtId++;
-          const res = importContact(row, getValueForField, userId, rtId, globalCustomFields);
+          const res = importContact(row, getValueForField, userId, rtId);
           if (!res.error) importCustomFields(row, getValueForField, res._id, "contact", globalCustomFields, localCustomFields);
 
           //Handle result of importing the entity

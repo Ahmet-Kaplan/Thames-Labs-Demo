@@ -127,7 +127,7 @@ Template.importPage.events({
     const importData = instance.unprocessedData.get().data;
     const entityType = instance.entityType.get();
 
-    Meteor.call('import.do', importData, entityType, fieldMap, Meteor.userId(), [], [], (error, result) => {
+    Meteor.call('import.do', importData, entityType, fieldMap, Meteor.userId(), (error, result) => {
       instance.currentStage.set(4);
     });
   },
