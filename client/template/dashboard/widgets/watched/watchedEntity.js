@@ -1,3 +1,5 @@
+import { Activities, Companies, Contacts } from '/imports/api/collections.js';
+
 Template.watchedEntityWidget.onCreated(function() {
   Meteor.subscribe("allUserData");
 });

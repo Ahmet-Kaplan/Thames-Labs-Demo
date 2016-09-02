@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { moment } from 'meteor/momentjs:moment';
 import { Meteor } from 'meteor/meteor';
+import { Tenants } from '/imports/api/collections.js';
 
 //This function takes an project JSON object, and returns another JSON object with required headings for export
 const formatProjectForExport = (record) => {

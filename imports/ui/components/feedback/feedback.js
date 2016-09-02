@@ -1,3 +1,4 @@
+import { FeedbackSchema } from '/imports/api/feedback/schema.js';
 import './feedback.html';
 
 Template.feedbackModal.helpers({
@@ -17,6 +18,9 @@ Template.feedbackModal.helpers({
   },
   'currentUrl': function() {
     return FlowRouter.current().path;
+  },
+  FeedbackSchema: function() {
+    return FeedbackSchema;
   }
 });
 

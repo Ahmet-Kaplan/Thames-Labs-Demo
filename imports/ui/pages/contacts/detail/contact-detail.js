@@ -11,6 +11,7 @@ import '/imports/ui/components/purchase-orders/modals/insert/insert-contact-purc
 import '/imports/ui/components/tasks/panel/task-panel.js';
 import '/imports/ui/components/projects/modals/insert-contact-project-modal.js';
 
+import { Activities, Companies, Contacts, Projects, PurchaseOrders, Opportunities, Tenants } from '/imports/api/collections.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
 
@@ -24,7 +25,7 @@ Template.contactDetail.onCreated(function() {
     if (FlowRouter.subsReady() && typeof contact === "undefined") {
       FlowRouter.go('contacts');
     } else if (FlowRouter.subsReady() && contact.email !== '' && typeof contact.email !== "undefined") {
-      Meteor.call('getClearbitData', 'contact', contact._id);
+      Meteor.call('clearbit.getClearbitData', 'contact', contact._id);
     }
     // Update company subscription if contact record changes (e.g. we change company)
     if (contact) {

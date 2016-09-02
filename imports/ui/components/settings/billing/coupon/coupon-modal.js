@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
+import { Tenants } from '/imports/api/collections.js';
 
 import { stripeCustomer } from '/imports/api/billing/helpers.js';
 

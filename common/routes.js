@@ -2,6 +2,8 @@ var subs = new SubsManager(),
     router = FlowRouter,
     layout = BlazeLayout;
 
+import { Tenants } from '/imports/api/collections.js';
+
 // These are route trigger functions
 // They're used for before / after actions on routes
 

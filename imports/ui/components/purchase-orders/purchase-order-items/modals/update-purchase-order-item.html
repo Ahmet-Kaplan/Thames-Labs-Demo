@@ -36,10 +36,10 @@
 
             {{#if purchaseOrder.supplierCompanyId}}
               <input type="hidden" id="supplierCompanyId" value="{{purchaseOrder.supplierCompanyId}}">
-              {{> esSelectize name="projectId" index=ProjectsIndex value=purchaseOrderItem.projectId}}
+              {{> autosuggest name="projectId" index=ProjectsIndex value=purchaseOrderItem.projectId}}
             {{else}}
               <input type="hidden" id="supplierContactId" value="{{purchaseOrder.supplierContactId}}">
-              {{> esSelectize name="projectId" index=ProjectsIndex value=purchaseOrderItem.projectId}}
+              {{> autosuggest name="projectId" index=ProjectsIndex value=purchaseOrderItem.projectId}}
             {{/if}}
             <button type="submit" class="btn btn-primary" id="update-po-item">Update</button>
           {{/autoForm}}

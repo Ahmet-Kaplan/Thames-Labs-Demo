@@ -1,6 +1,7 @@
 import './top-menu/top-menu.js';
 import './side-menu/side-menu.js';
 import './nav.html';
+import { Notifications } from '/imports/api/collections.js';
 
 Session.setDefault('notifications', []);
 

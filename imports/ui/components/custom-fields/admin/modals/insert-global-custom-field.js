@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import MediumEditor from 'medium-editor';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { CustomFields } from '/imports/api/collections.js';
 import './insert-global-custom-field.html';
 import '/imports/ui/components/custom-fields/customfield.css';
 

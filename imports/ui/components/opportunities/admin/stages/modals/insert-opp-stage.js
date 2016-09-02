@@ -1,4 +1,5 @@
 import './insert-opp-stage.html';
+import { Tenants } from '/imports/api/collections.js';
 
 const getNewStageId = (stages) => {
   var maxVal = -1;

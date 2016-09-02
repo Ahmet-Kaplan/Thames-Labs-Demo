@@ -1,3 +1,4 @@
+import { Companies, Contacts, CustomFields } from '/imports/api/collections.js';
 export const importContact = (row, getValueForField, userId, rtId, localCustomFields) => {
   const result = {};
 

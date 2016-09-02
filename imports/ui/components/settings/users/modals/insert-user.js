@@ -1,6 +1,7 @@
 import { isTenantOverFreeUserLimit } from '/imports/api/tenants/helpers.js';
 import { stripePlan, stripeCustomer, displayLocale } from '/imports/api/billing/helpers.js';
 import bootbox from 'bootbox';
+import { UserSchema } from '/imports/api/users/schema.js';
 
 import './insert-user.html';
 
@@ -42,6 +43,9 @@ Template.insertUser.onRendered(function() {
 });
 
 Template.insertUser.helpers({
+  UserSchema: function() {
+    return UserSchema;
+  },
   isOverFreeLimit: function() {
     return isTenantOverFreeUserLimit(Meteor.user().group);
   },

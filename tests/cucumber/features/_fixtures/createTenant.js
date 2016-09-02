@@ -39,6 +39,6 @@ export function createTenant(name) {
     stripe: {},
     createdAt: new Date()
   };
-
+  const { Tenants } = require('/imports/api/collections.js');
   return Tenants.insert(defaultTenant);
 }

@@ -1,3 +1,4 @@
+import { Companies, Contacts, Projects } from '/imports/api/collections.js';
 export const importProject = (row, getValueForField, userId, rtId) => {
   const result = {};
   result.warning = [];

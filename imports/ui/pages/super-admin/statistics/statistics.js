@@ -1,4 +1,5 @@
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+import { Tenants } from '/imports/api/collections.js';
 import './statistics.html';
 
 Template.adminStatistics.onCreated(function() {
