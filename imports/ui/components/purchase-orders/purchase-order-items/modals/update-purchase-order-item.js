@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import _ from 'lodash';
+import { Companies, Contacts, Projects } from '/imports/api/collections.js';
 import '/imports/ui/components/autosuggest/autosuggest.js';
 import './update-purchase-order-item.html';
 

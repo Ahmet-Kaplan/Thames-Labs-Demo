@@ -1,3 +1,4 @@
+import { CustomFields } from '/imports/api/collections.js';
 export const importCustomFields = (row, getValueForField, entityId, entityType, globalCustomFields, localCustomFields) => {
   //Add local custom fields
   if (localCustomFields.length > 0) {

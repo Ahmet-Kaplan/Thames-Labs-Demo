@@ -4,6 +4,8 @@ import './modals/activity-update-form.js';
 import './modals/insert-activity-form.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 
+import { Activities } from '/imports/api/collections.js';
+
 import bootbox from 'bootbox';
 import sanitizeHtml from "sanitize-html";
 

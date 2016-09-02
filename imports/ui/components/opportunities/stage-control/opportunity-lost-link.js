@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import bootbox from 'bootbox';
+import { Activities, Opportunities } from '/imports/api/collections.js';
 
 import './opportunity-lost-link.html';
 

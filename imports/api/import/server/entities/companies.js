@@ -1,3 +1,4 @@
+import { Companies } from '/imports/api/collections.js';
 export const importCompany = (row, getValueForField, userId, rtId) => {
   const result = {};
 

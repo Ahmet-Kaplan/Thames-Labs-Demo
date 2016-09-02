@@ -1,4 +1,6 @@
 import { moment } from 'meteor/momentjs:moment';
+import { Companies, Contacts } from '/imports/api/collections.js';
+
 //This function takes an purchase order JSON object, and returns another JSON object with required headings for export
 const formatPurchaseOrderForExport = (record) => {
   record.supplierCompany = "";

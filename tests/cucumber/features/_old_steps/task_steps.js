@@ -13,6 +13,7 @@ module.exports = function() {
     browser.executeAsync(function(innerEntity, done) {
       Meteor.call('add' + innerEntity + 'Task', function(err, data) {
         if (innerEntity === "Company") {
+          const { Tasks } = require('/imports/api/collections.js');
           Tasks.addTag(innerEntity + ' Task', {
             _id: data
           });

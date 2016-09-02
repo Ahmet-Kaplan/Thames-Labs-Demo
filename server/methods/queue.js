@@ -1,3 +1,5 @@
+import { Notifications, Tasks } from '/imports/api/collections.js';
+
 jobsList = JobCollection('jobsQueue');
 
 

@@ -1,4 +1,5 @@
 import './update-opp-stage.html';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.updateOppStage.onCreated(function() {
   this.originalData = this.data;

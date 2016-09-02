@@ -2,7 +2,7 @@ import { chai } from 'meteor/practicalmeteor:chai';
 import sinon from 'sinon';
 import { Meteor } from 'meteor/meteor';
 import { importRows } from './methods.js';
-import { Products } from '/imports/api/collections.js';
+import { Tenants, Products } from '/imports/api/collections.js';
 import { UserSession } from 'meteor/benjaminrh:user-session';
 import { Partitioner } from 'meteor/local:partitioner';
 
@@ -14,15 +14,13 @@ describe("importing records", () => {
       return { _id: 'userId', group: 'groupId'};
     });
 
-    //Note: this needs to be updated to stub out Tenants once the collection
-    //has been modularised
     const tenantData = {
       settings: {
         product: { defaultNumber: 0 }
       }
     };
-    Tenants.findOne = () => tenantData;
 
+    sandbox.stub(Tenants, 'findOne').returns(tenantData);
     sandbox.stub(UserSession, 'set').returns("");
     sandbox.stub(UserSession, 'get').returns([]);
     sandbox.stub(Partitioner, 'bindUserGroup', function(userId, callback) {

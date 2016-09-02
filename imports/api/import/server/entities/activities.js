@@ -1,3 +1,5 @@
+import { Activities, Companies, Contacts, PurchaseOrders, Projects, Opportunities, Tasks } from '/imports/api/collections.js';
+
 export const importActivity = (row, getValueForField, userId) => {
   const result = {};
   result.warning = [];

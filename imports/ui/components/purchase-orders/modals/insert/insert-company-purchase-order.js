@@ -1,4 +1,5 @@
 import { moment } from 'meteor/momentjs:moment';
+import { Companies } from '/imports/api/collections.js';
 import '/imports/ui/components/autosuggest/autosuggest.js';
 import './insert-company-purchase-order.html';
 

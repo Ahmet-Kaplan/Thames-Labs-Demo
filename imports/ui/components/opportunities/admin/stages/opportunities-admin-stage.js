@@ -2,6 +2,7 @@ import './opportunities-admin-stage.html';
 import './modals/update-opp-stage.js';
 import _ from 'lodash';
 import bootbox from 'bootbox';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.opportunityAdminStage.helpers({
   isFirstStage: function() {

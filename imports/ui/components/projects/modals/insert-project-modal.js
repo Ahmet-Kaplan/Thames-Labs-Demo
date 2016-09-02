@@ -1,6 +1,7 @@
 import '/imports/ui/components/autosuggest/autosuggest.js';
 import '/imports/ui/components/autosuggest/company-contact.js';
 import './insert-project-modal.html';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.insertProjectModal.helpers({
   projectTypes: function() {

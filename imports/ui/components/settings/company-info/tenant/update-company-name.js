@@ -1,4 +1,5 @@
 import './update-company-name.html';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.updateCompanyName.helpers({
   tenant: function() {

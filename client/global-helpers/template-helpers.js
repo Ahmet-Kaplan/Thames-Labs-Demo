@@ -1,5 +1,5 @@
 import { currencyHelpers } from '/imports/api/currency/currency-helpers.js';
-import { EventLog, Products } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, EventLog, Opportunities, Projects, Products, PurchaseOrders, Tasks, Tenants, Users} from '/imports/api/collections.js';
 import { Tracker } from 'meteor/tracker';
 
 Template.registerHelper('greaterThan', function(a, b) {
@@ -96,18 +96,18 @@ Template.registerHelper("isApp", function() {
 });
 
 // Make search indices available to templates - e.g. for EasySearch components
-Template.registerHelper('ActivitiesIndex', () => ActivitiesIndex);
+Template.registerHelper('ActivitiesIndex', () => Activities.index);
 Template.registerHelper('EventLogIndex', () => EventLog.index);
-Template.registerHelper('CompaniesIndex', () => CompaniesIndex);
-Template.registerHelper('ContactsIndex', () => ContactsIndex);
-Template.registerHelper('OpportunitiesIndex', () => OpportunitiesIndex);
+Template.registerHelper('CompaniesIndex', () => Companies.index);
+Template.registerHelper('ContactsIndex', () => Contacts.index);
+Template.registerHelper('OpportunitiesIndex', () => Opportunities.index);
 Template.registerHelper('ProductsIndex', () => Products.index);
-Template.registerHelper('ProjectsIndex', () => ProjectsIndex);
-Template.registerHelper('PurchaseOrdersIndex', () => PurchaseOrdersIndex);
-Template.registerHelper('UsersIndex', () => UsersIndex);
-Template.registerHelper('TasksIndex', () => TasksIndex);
-Template.registerHelper('TagsIndex', () => TagsIndex);
-Template.registerHelper('TenantsIndex', () => TenantsIndex);
+Template.registerHelper('ProjectsIndex', () => Projects.index);
+Template.registerHelper('PurchaseOrdersIndex', () => PurchaseOrders.index);
+Template.registerHelper('UsersIndex', () => Users.index);
+Template.registerHelper('TasksIndex', () => Tasks.index);
+Template.registerHelper('TagsIndex', () => Tags.index);
+Template.registerHelper('TenantsIndex', () => Tenants.index);
 
 // Return standard search input attributes for EasySearch
 Template.registerHelper('searchInputAttributes', () => {

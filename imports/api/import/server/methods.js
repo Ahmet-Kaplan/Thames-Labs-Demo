@@ -9,6 +9,7 @@ import { importProject } from './entities/projects.js';
 import { importPurchaseOrder } from './entities/purchase-orders.js';
 import { importTask } from './entities/tasks.js';
 
+import { Tenants } from '/imports/api/collections.js';
 import { importCustomFields } from './entities/custom-fields.js';
 
 export const importRows = (importData, entityType, fieldMap, userId) => {

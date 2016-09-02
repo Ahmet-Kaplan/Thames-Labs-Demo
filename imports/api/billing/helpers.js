@@ -1,3 +1,4 @@
+import { Tenants } from '/imports/api/collections.js';
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'lodash';
 

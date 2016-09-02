@@ -2,7 +2,7 @@ Meteor.methods({
 
   createTestTenant: function() {
     var tenantName = 'Acme Corp';
-
+    const { Tenants } = require('/imports/api/collections.js');
     Tenants.insert({
       name: tenantName,
       plan: 'free',
@@ -49,7 +49,7 @@ Meteor.methods({
 
   createFreeTenant: function() {
     var tenantName = 'Acme Corp';
-
+    const { Tenants } = require('/imports/api/collections.js');
     Tenants.insert({
       name: tenantName,
       plan: 'free',
@@ -95,6 +95,7 @@ Meteor.methods({
   },
 
   setTenantToFreePlan: function() {
+    const { Tenants } = require('/imports/api/collections.js');
     var t = Tenants.findOne({
       name: 'Acme Corp'
     });
@@ -123,6 +124,7 @@ Meteor.methods({
     });
   },
   setTenantToProPlan: function() {
+    const { Tenants } = require('/imports/api/collections.js');
     var t = Tenants.findOne({
       name: 'Acme Corp'
     });
@@ -136,6 +138,7 @@ Meteor.methods({
     });
   },
   setSecondTenantToProPlan: function() {
+    const { Tenants } = require('/imports/api/collections.js');
     var t = Tenants.findOne({
       name: 'Acme Corp Rivals'
     });
@@ -151,7 +154,7 @@ Meteor.methods({
 
   createSecondTenant: function() {
     var tenantName = 'Acme Corp Rivals';
-
+    const { Tenants } = require('/imports/api/collections.js');
     Tenants.insert({
       name: tenantName,
       plan: 'free',
@@ -207,7 +210,7 @@ Meteor.methods({
         name: "test user"
       }
     });
-
+    const { Tenants } = require('/imports/api/collections.js');
     var tenantId = Tenants.findOne({
       name: tenantName
     })._id;
@@ -235,6 +238,8 @@ Meteor.methods({
       }
     });
 
+    const { Tenants } = require('/imports/api/collections.js');
+
     var tenantId = Tenants.findOne({
       name: tenantName
     })._id;
@@ -261,7 +266,7 @@ Meteor.methods({
         name: "test user two"
       }
     });
-
+    const { Tenants } = require('/imports/api/collections.js');
     var tenantId = Tenants.findOne({
       name: tenantName
     })._id;
@@ -337,6 +342,7 @@ Meteor.methods({
 
   createTestRestrictedUser: function() {
     var tenantName = 'Acme Corp';
+    const { Tenants } = require('/imports/api/collections.js');
 
     var userId = Accounts.createUser({
       username: "restricted user",
@@ -373,6 +379,7 @@ Meteor.methods({
   },
 
   deleteStripeTestCustomer: function() {
+    const { Tenants } = require('/imports/api/collections.js');
     var tenantId = Partitioner.getUserGroup(this.userId);
     var theTenant = Tenants.findOne({
       _id: tenantId

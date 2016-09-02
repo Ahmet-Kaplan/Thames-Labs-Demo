@@ -1,4 +1,5 @@
 import { loadTawkTo, updateTawkToVisitor } from '/imports/api/tawk-to/tawk-to.js';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.appLayout.onCreated(function() {
 });

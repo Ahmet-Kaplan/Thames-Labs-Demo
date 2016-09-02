@@ -1,3 +1,4 @@
+import { Companies, Contacts, Opportunities } from '/imports/api/collections.js';
 export const importOpportunity = (row, getValueForField, userId, rtId) => {
   const result = {};
   result.warning = [];

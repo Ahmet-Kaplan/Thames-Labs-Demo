@@ -6,6 +6,7 @@ import '/imports/ui/components/super-admin/demo-data/modals/generating-demo-data
 import '/imports/ui/components/super-admin/tenants/tenant-list-item.js';
 import '/imports/ui/components/super-admin/tenants/modals/insert-tenant.js';
 import './tenant-list.html';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.tenantList.onCreated(function() {
 

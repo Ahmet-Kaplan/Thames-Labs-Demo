@@ -2,6 +2,7 @@ import './modals/insert-global-custom-field.js';
 import './global-custom-field-items/global-custom-field-item.js';
 import './global-custom-field-list/global-custom-field-list.js';
 import './global-custom-fields-admin.html';
+import { CustomFields } from '/imports/api/collections.js';
 
 Template.globalCustomFieldsAdmin.onCreated(function() {
   Meteor.subscribe('globalCustomFields');
