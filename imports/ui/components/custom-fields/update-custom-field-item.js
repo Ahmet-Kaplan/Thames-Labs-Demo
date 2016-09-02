@@ -54,10 +54,8 @@ Template.customFieldItem.onRendered(function() {
   }
 
   $(`${safeName}AdvTextValue`).html(field.value);
-  editor = new MediumEditor('.editable', {
-    placeholder: {
-      text: 'Type or paste your content here...'
-    },
+  const editor = new MediumEditor('.editable', {
+    placeholder: false,
     toolbar: false,
     autoLink: true
   });

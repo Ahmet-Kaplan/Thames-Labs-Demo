@@ -1,56 +1,35 @@
 <template name="customFieldItem">
-  <div class="{{#if global}}globalCFBackground{{/if}}" id="customField{{fieldName}}DisplayItem">
-    <div id="customField{{fieldName}}Information">
-      <div class="row">
-
-        {{#unless equals type 'label'}}
-        <div class="col-md-3 modMyPosition">
-          {{name}}
-        </div>
-        {{/unless}}
-
-        {{#unless global}}
-          <div class="col-md-2 modMyPosition">
-            <select id="customField{{fieldName}}TypeOptions" class="TypeSelectionMenu">
-              <option value="text" selected="{{#if typeText}}selected{{/if}}">Text</option>
-              <option value="advtext" selected="{{#if typeMultiText}}selected{{/if}}">Multiline Text</option>
-              <option value="checkbox" selected="{{#if typeCheckbox}}selected{{/if}}">Checkbox</option>
-              <option value="date" selected="{{#if typeDateTime}}selected{{/if}}">Date/Time</option>
-            </select>
-          </div>
-        {{/unless}}
-
-        <div class="{{#if global}}col-md-7{{else}}col-md-5{{/if}} col-md-offset-1">
-
-          {{#if typeText}}
-          <div class="form-group" id="customField{{fieldName}}TextInputArea">
-            <input class="form-control" id="customField{{fieldName}}TextValue" placeholder="Enter value" type="text" value="{{value}}">
-          </div>
-          {{/if}}
-
-          <div class="form-group" style="{{#unless typeMultiText}}display: none;{{/unless}}" id="customField{{fieldName}}AdvTextInputArea">
-            <div class="editable mediumWrapper form-control" id="customField{{fieldName}}AdvTextValue" value="{{value}}"></div>
-          </div>
-
-          {{#if typeCheckbox}}
-          <div class="form-group" id="customField{{fieldName}}BooleanInputArea">
-            <input class="form-control" id="customField{{fieldName}}BooleanValue" style="height:20px;width:20px;margin-top:7px;" type="checkbox">
-          </div>
-          {{/if}}
-
-          <div class="form-group" style="{{#unless typeDateTime}}display: none;{{/unless}}" id="customField{{fieldName}}DateInputArea">
-            <input class="form-control datetimepicker" id="customField{{fieldName}}DateValue" placeholder="Enter date" type="text" value="{{#if equals type 'date'}}{{value}}{{/if}}">
-          </div>
-
-          {{#if typePicklist}}
-          <div class="form-group" id="customField{{fieldName}}PicklistInputArea">
-            <input id="customField{{fieldName}}PicklistValue" value="{{value}}" >
-          </div>
-          {{/if}}
-
-        </div>
-
-      </div>
+  <div id="customField{{fieldName}}DisplayItem">
+    {{#if typeText}}
+    <div class="form-group" id="customField{{fieldName}}TextInputArea">
+      <label class="control-label">{{name}}</label>
+      <input class="form-control" id="customField{{fieldName}}TextValue" placeholder="Enter value" type="text" value="{{value}}">
     </div>
+    {{/if}}
+
+    <div class="form-group" style="{{#unless typeMultiText}}display: none;{{/unless}}" id="customField{{fieldName}}AdvTextInputArea">
+      <label class="control-label">{{name}}</label>
+      <div class="editable mediumWrapper form-control" id="customField{{fieldName}}AdvTextValue" value="{{value}}"></div>
+    </div>
+
+    {{#if typeCheckbox}}
+    <div class="form-group" id="customField{{fieldName}}BooleanInputArea">
+      <label class="control-label">{{name}}</label>
+      <input class="form-control" id="customField{{fieldName}}BooleanValue" style="height:20px;width:20px;margin-top:7px;" type="checkbox">
+    </div>
+    {{/if}}
+
+    <div class="form-group" style="{{#unless typeDateTime}}display: none;{{/unless}}" id="customField{{fieldName}}DateInputArea">
+      <label class="control-label">{{name}}</label>
+      <input class="form-control datetimepicker" id="customField{{fieldName}}DateValue" placeholder="Enter date" type="text" value="{{#if equals type 'date'}}{{value}}{{/if}}">
+    </div>
+
+    {{#if typePicklist}}
+    <div class="form-group" id="customField{{fieldName}}PicklistInputArea">
+      <label class="control-label">{{name}}</label>
+      <input id="customField{{fieldName}}PicklistValue" value="{{value}}" >
+    </div>
+    {{/if}}
+
   </div>
 </template>

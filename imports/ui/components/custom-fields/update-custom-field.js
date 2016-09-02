@@ -28,8 +28,17 @@ Template.updateCustomField.onRendered(function() {
 Template.updateCustomField.helpers({
   globalFields: function() {
     return CustomFields.find({
-      entityId: this.entity_data._id
+      entityId: this.entity_data._id,
+      global: true
     }, {
+      sort: { order: 1 }
+    });
+  },
+  localFields: function() {
+    return CustomFields.find({
+      entityId: this.entity_data._id,
+      global: false
+    },{
       sort: { order: 1 }
     });
   }
