@@ -1,4 +1,6 @@
+import '/imports/ui/components/autosuggest/autosuggest.js';
 import './insert-contact-modal.html';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.insertContactModal.onCreated(function() {
   this.showAddress = new ReactiveVar(true);

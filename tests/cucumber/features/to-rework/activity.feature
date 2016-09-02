@@ -101,8 +101,3 @@ Feature: Allow users to access a central view of all activities
     And the task has an activity
     And I click "#menu-link-activities"
     Then I do not see activities from "tasks" in the list "#activity-list"
-
-  #Free plan
-  Scenario: A user on the free plan cannot get to the activities list
-    When I click "#menu-link-activities"
-    Then I should see a "warning" toastr

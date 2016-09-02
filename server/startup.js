@@ -1,3 +1,4 @@
+import { PurchaseOrders } from '/imports/api/collections.js';
 Meteor.startup(function() {
   if (Meteor.isDevelopment) {
     //Rewrite Email.send function to avoid displaying

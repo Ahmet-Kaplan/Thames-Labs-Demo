@@ -1,4 +1,12 @@
 import bootbox from 'bootbox';
+import { UserSignUpSchema } from '/imports/api/users/schema.js';
+
+Template.signUp.helpers({
+  UserSignUpSchema: function() {
+    return UserSignUpSchema;
+  }
+});
+
 Template.signUp.onCreated(function() {
   // Redirect if logged in
   this.autorun(function() {

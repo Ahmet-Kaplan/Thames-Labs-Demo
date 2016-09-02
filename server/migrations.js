@@ -1,4 +1,4 @@
-import { Products } from '/imports/api/collections.js';
+import { Companies, Contacts, CustomFields, Projects, Products, PurchaseOrders, Opportunities, Tenants } from '/imports/api/collections.js';
 Migrations.add({
   version: 24,
   name: "Move all custom fields to new collection storage approach",
@@ -326,5 +326,23 @@ Migrations.add({
     });
 
     ServerSession.set('maintenance', false);
+  }
+});
+
+Migrations.add({
+  version: 27,
+  name: "Set tenants to the new Free/Pro model",
+  up: function() {
+    const tenants = Tenants.find({}).fetch();
+    _.each(tenants, function(tenant) {
+      Tenants.update(tenant._id, {
+        $set: {
+          'stripe.maxFreeUsers': 1
+        },
+        $unset: {
+          plan: ''
+        }
+      });
+    });
   }
 });

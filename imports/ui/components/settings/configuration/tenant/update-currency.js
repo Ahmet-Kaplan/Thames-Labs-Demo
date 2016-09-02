@@ -1,4 +1,5 @@
 import './update-currency.html';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.updateCurrency.onRendered(function() {
   $('.selectpicker').selectpicker();

@@ -12,12 +12,6 @@ Feature: Allow users to see widgets
     When I add new widgets
     Then I see the new widgets on my dashboard
 
-  Scenario: A pro user can add the purchase orders widgets if they have permission
-    Given I have permission to read purchase orders
-    Then I can not add the purchase orders widgets
-    When I am on the pro plan
-    Then I can add the purchase orders widgets
-
   Scenario: A user can add the opportunities widget if they have permission
     Then I can not add the opportunities widget
     When I have permission to read opportunities

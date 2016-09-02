@@ -27,6 +27,7 @@
         <li><a id="toggle-item-view">{{#if showItems}}Hide{{else}}Show{{/if}} PO items</a></li>
         {{> poOverview}}
         {{> tagManagement collectionName='purchaseorders'}}
+        {{> importCollection entity="purchaseorders"}}
         {{> exportCollection entity="purchaseorders"}}
       </ul>
     </div>

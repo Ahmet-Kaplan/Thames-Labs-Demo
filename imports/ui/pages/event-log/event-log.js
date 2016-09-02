@@ -1,15 +1,13 @@
-import './event-log.html';
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+
+import './event-log.html';
 import '/imports/ui/components/event-log/event-list-item.js';
 
 Template.events.onCreated(function() {
   // Redirect if read permission changed
   this.autorun(function() {
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To access the Event Log view');
-      FlowRouter.go('/');
-    }
-
     permissionHelpers.redirectWithoutPermission(Meteor.userId(), 'CanReadEventLog');
   });
 });

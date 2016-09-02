@@ -15,7 +15,7 @@
       <div class="panel panel-default" style="background: #f5f5f5">
         <div class="panel-body" style="padding: 20px 25px">
           <h1 style="margin-top:0; text-align:center">Sign Up</h1>
-          {{#autoForm schema="Schemas.UserSignUp" type="method" id="signUpForm" meteormethod="signUp"}}
+          {{#autoForm schema=UserSignUpSchema type="method" id="signUpForm" meteormethod="signUp"}}
             {{> afQuickField name="companyName" id="company-name-field"}}
             {{> afQuickField name="name" id="name-field"}}
             {{> afQuickField name="email" id="email-field"}}

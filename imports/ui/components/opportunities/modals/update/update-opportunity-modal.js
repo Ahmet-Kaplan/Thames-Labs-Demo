@@ -1,4 +1,6 @@
+import '/imports/ui/components/autosuggest/autosuggest.js';
 import './update-opportunity-modal.html';
+import { Companies, Contacts } from '/imports/api/collections.js';
 
 Template.updateOpportunityModal.helpers({
   companyName: function() {

@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { CustomFields } from '/imports/api/collections.js';
 
 import './custom-field-panel.html';
 import './custom-field-list-item.js';
@@ -32,16 +33,6 @@ Template.customFieldDisplay.onRendered(function() {
 Template.customFieldDisplay.events({
   'click #add-custom-field': function(event) {
     event.preventDefault();
-
-    if (!isProTenant(Meteor.user().group)) {
-      if (CustomFields.find({
-        entityId: this.entity_data._id
-      }).fetch().length === MAX_FREE_ENTITY_LOCAL_FIELDS) {
-        showUpgradeToastr('To create more than 5 custom fields against this record');
-        return;
-      }
-    }
-
     Modal.show('insertGlobalCustomField', this);
   },
   'click #edit-custom-fields': function(event) {

@@ -1,5 +1,6 @@
 import './task-tick.less';
 import './task-tick.html';
+import { Tasks } from '/imports/api/collections.js';
 
 Template.taskTick.events({
   'click .task-tick': function() {

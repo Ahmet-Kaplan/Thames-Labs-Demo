@@ -1,6 +1,7 @@
 import './legal-company-information.css';
 import './legal-company-information.html';
 
+import { Companies } from '/imports/api/collections.js';
 import { isAddressEmpty } from '/imports/api/maps/map-helpers.js';
 
 // Expects arguments:
@@ -130,12 +131,6 @@ Template.legalCompanyInformation.events({
       $unset: { companiesHouseId: 1 }
     });
     toastr.success('Link to Companies House removed');
-  },
-  'click .upgrade-prompt': function(event, template) {
-    event.preventDefault();
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To access this information');
-    }
   },
   'click .use-address': function(event) {
     event.preventDefault();

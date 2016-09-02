@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import '/imports/ui/components/autosuggest/autosuggest.js';
 import './insert-purchase-order-item.html';
 
 Template.insertPurchaseOrderItemModal.onRendered(function() {

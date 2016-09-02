@@ -1,5 +1,6 @@
 import './update-custom-field.html';
 import './customfield.css';
+import { CustomFields } from '/imports/api/collections.js';
 
 Template.updateCustomField.onRendered(function() {
 

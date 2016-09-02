@@ -1,4 +1,5 @@
 import './update-contact-modal.html';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.updateContactModal.onCreated(function() {
   // Load google maps

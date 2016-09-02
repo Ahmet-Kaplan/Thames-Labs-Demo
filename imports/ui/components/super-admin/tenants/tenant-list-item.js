@@ -1,4 +1,6 @@
 import bootbox from 'bootbox';
+import { isTenantOverFreeUserLimit } from '/imports/api/tenants/helpers.js';
+
 import './users/tenant-list-user-item.js';
 import './users/modals/insert-tenant-user.js';
 import './modals/update-tenant.js';
@@ -22,10 +24,7 @@ Template.tenantListItem.helpers({
     return true;
   },
   isPayingTenant: function() {
-    return this.plan === "pro" && this.stripe.stripeSubs;
-  },
-  isFreePlusTenant: function() {
-    return this.plan === "pro" && !this.stripe.stripeSubs;
+    return typeof this.stripe.stripeSubs !== 'undefined';
   },
   generationInProgress: function() {
     return ServerSession.get('populatingDemoData');
@@ -43,7 +42,7 @@ Template.tenantListItem.helpers({
 Template.tenantListItem.events({
   "click #btnCancelDeletion": function(event, template) {
     event.preventDefault();
-    var tenantId = this.__originalId;
+    const tenantId = this.__originalId;
 
 
     bootbox.confirm("Cancel deletion request?", function(result) {
@@ -55,21 +54,16 @@ Template.tenantListItem.events({
   },
   "click #btnAddNewTenantUser": function(event, template) {
     event.preventDefault();
-    var tenantId = this.__originalId;
-
-    if (tenantId) {
-      if (!isProTenant(tenantId) && isTenantOverFreeUserLimit(tenantId)) {
-        toastr.warning('To add more users, this tenant must first upgrade to the Pro plan.');
-        return false;
-      }
+    if(!isProTenant(this.__originalId) && isTenantOverFreeUserLimit(this.__originalId)) {
+      toastr.error('This tenant has reached the maximum of free users. Increase it before adding a new user.');
+      return;
     }
-
     Modal.show('insertTenantUser', this);
   },
   "click #btnDeleteTenant": function(event, template) {
     event.preventDefault();
-    var tenantId = this.__originalId;
-    var name = this.name;
+    const tenantId = this.__originalId;
+    const name = this.name;
 
     bootbox.confirm("Are you sure you wish to delete this tenant?", function(result) {
       if (result === true) {
@@ -84,7 +78,7 @@ Template.tenantListItem.events({
                 return false;
               }
               if (res === true) {
-                toastr.success('Tenant "' + name + '" removed');
+                toastr.success(`Tenant "${name}" removed`);
                 Meteor.call('setTenantDeletionFlag', false);
                 return true;
               }
@@ -102,27 +96,7 @@ Template.tenantListItem.events({
     event.preventDefault();
     Modal.show('demoDataGeneratorModal', this);
   },
-  'click #btnSwitchToFree': function(event) {
-    event.preventDefault();
-    var tenantId = this._id;
-
-    bootbox.confirm("Are you sure you wish to set this tenant to the <strong>Free Scheme</strong><br />This will cancel any ongoing subscription?", function(result) {
-      if (result === true) {
-        toastr.info('Processing the update...');
-        Meteor.call('stripe.cancelSubscription', tenantId, function(error, response) {
-          if (error) {
-            bootbox.alert({
-              title: 'Error',
-              message: '<div class="bg-danger"><i class="fa fa-times fa-3x pull-left text-danger"></i>Unable to cancel subscription.<br />See Stripe dashboard to cancel manually.</div>'
-            });
-            return false;
-          }
-          toastr.success('The subscription has been cancelled successfully.<br />Switched to Free Scheme.');
-        });
-      }
-    });
-  },
-  'click #btnSwitchToPaying': function(event) {
+  'click #btnChangeScheme': function(event) {
     event.preventDefault();
     Modal.show('setPayingTenant', this);
   }

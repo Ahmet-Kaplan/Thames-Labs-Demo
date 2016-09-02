@@ -1,5 +1,6 @@
 import { Blaze } from 'meteor/blaze';
 import { Template } from 'meteor/templating';
+import { CustomFields } from '/imports/api/collections.js';
 import 'meteor/mrt:jquery-ui-sortable';
 import './global-custom-field-list.html';
 
@@ -15,11 +16,6 @@ Template.globalCustomFieldList.onRendered(function() {
     handle: '.handle',
     axis: 'y',
     stop: function(event, ui) {
-      if (!isProTenant(Meteor.user().group)) {
-        showUpgradeToastr('To reorder custom fields');
-        $(this).sortable('cancel');
-        return;
-      }
       // Setup needed variables
       const fieldId = Blaze.getData(ui.item[0])._id,
             fieldTarget = Blaze.getData(ui.item[0]).target,

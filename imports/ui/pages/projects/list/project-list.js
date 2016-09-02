@@ -5,6 +5,7 @@ import '/imports/ui/components/search/local/small-box/small-search-box.js';
 import '/imports/ui/components/search/filters';
 import '/imports/ui/components/projects/project-list-item.js';
 import '/imports/ui/components/projects/modals/insert-project-modal.js';
+import '/imports/ui/components/import/import.js';
 import '/imports/ui/components/export/export.js';
 import '/imports/ui/components/projects/reports/overview.js';
 
@@ -23,17 +24,12 @@ Template.projectsList.onCreated(function() {
   this.activeProjects = new ReactiveVar(0);
   this.projectTotal = new ReactiveVar(0);
   this.projectsAverage = new ReactiveVar(0);
+  this.totalProjects = new ReactiveVar(0);
 });
 
 Template.projectsList.onRendered(function() {
-  // Watch for session variable setting search
-  Session.set('projectListSearchQuery', null);
-  this.autorun(function() {
-    const searchQuery = Session.get('projectListSearchQuery');
-    if (searchQuery) {
-      ProjectsIndex.getComponentMethods().search(searchQuery);
-      $('.stick-bar input').val(searchQuery);
-    }
+  this.autorun(() => {
+    this.totalProjects.set(Collections['projects'].index.getComponentDict().get('count'));
   });
 
   $('[data-toggle="popover"]').popover({

@@ -14,9 +14,6 @@ Template.menuButton.helpers({
     }
     return true;
   },
-  hasFreeAccessOnly: function() {
-    return (Template.currentData().proFeature && !isProTenant(Partitioner.group()));
-  },
   id: function() {
     if (Template.currentData().linkId) {
       return Template.currentData().linkId;
@@ -28,8 +25,5 @@ Template.menuButton.helpers({
 Template.menuButton.events({
   'click .menu-button': function() {
     $("#id-view-sidemenu").removeClass("active");
-  },
-  'click .pro-feature': function() {
-    showUpgradeToastr(`To access ${Template.currentData().title}`);
   }
 });

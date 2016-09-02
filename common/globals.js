@@ -1,49 +1,26 @@
-showUpgradeToastr = function(preambleMessage) {
-  toastr.warning(preambleMessage + ", please upgrade to the Pro plan. You can do this by clicking this message.", "RealTimeCRM", {
-    timeOut: 0,
-    closeButton: true,
-    "debug": false,
-    "newestOnTop": true,
-    "positionClass": "toast-bottom-right",
-    "preventDuplicates": true,
-    "onclick": function() {
-      Modal.show('stripeSubscribe', this);
-    },
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-  });
-};
+import { Tenants } from '/imports/api/collections.js';
 
 isProTenant = function(tenantId) {
   if (tenantId) {
-    var tenant = Tenants.findOne({
+    const tenant = Tenants.findOne({
       _id: tenantId
     });
 
     if (!tenant || !tenant.stripe) return false;
 
-    if (tenant.plan === 'pro') {
+    if (typeof tenant.stripe.stripeSubs !== 'undefined') {
       return true;
     }
   }
   return false;
 };
 
-isTenantOverFreeUserLimit = function(tenantId) {
-  if (!tenantId) return false;
-  return Meteor.users.find({
-    group: tenantId
-  }).count() >= MAX_FREE_USERS;
-};
-
 getDisallowedPermissions = function(userId) {
-  var collectionsToFilter = [];
-  var perms = ['companies', 'contacts', 'opportunities', 'projects', 'tasks', 'purchaseorders'];
+  const collectionsToFilter = [];
+  const perms = ['companies', 'contacts', 'opportunities', 'projects', 'tasks', 'purchaseorders'];
 
   _.each(perms, function(p) {
-    var perm = permissionGenerator('read', p);
+    const perm = permissionGenerator('read', p);
     if (!Roles.userIsInRole(userId, perm)) {
       collectionsToFilter.push(p);
     }
@@ -176,6 +153,7 @@ permissionOperations = [
 ];
 
 defaultPermissionsList = [
+  "Administrator",
   "CanReadContacts",
   "CanReadCompanies",
   "CanCreateCompanies",
@@ -213,24 +191,17 @@ defaultPermissionsList = [
 permissionGenerator = function(operation, collectionName) {
   operation = operation.toLowerCase();
   if (!_.includes(permissionOperations, operation)) {
-    throw new Meteor.Error(operation + ' is not a valid operation');
+    throw new Meteor.Error(`${operation} is not a valid operation`);
   }
-  var permission = _.find(permissions, {'collectionName': collectionName});
+  const permission = _.find(permissions, {'collectionName': collectionName});
   if (!permission) {
-    throw new Meteor.Error('No permissions found for ' + collectionName);
+    throw new Meteor.Error(`No permissions found for ${collectionName}`);
   }
   return ['Can', _.startCase(operation), permission.value].join('');
 };
 
 //Free plan user limit
-MAX_FREE_USERS = 2;
-
-//Extended information field free plan limits
-MAX_FREE_ENTITY_GLOBAL_FIELDS = 5;
-MAX_FREE_ENTITY_LOCAL_FIELDS = 5;
-
-//Watchlist free plan limits
-MAX_FREE_WATCHLIST_RECORDS = 5;
+MAX_FREE_USERS = 1;
 
 //Default notification display limit
 NOTICE_LIMIT = 3;

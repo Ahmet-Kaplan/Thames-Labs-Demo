@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import MediumEditor from 'medium-editor';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { CustomFields } from '/imports/api/collections.js';
 import './insert-global-custom-field.html';
 import '/imports/ui/components/custom-fields/customfield.css';
 
@@ -131,15 +132,6 @@ Template.insertGlobalCustomField.events({
     }
     if (cfEntity === "") {
       toastr.warning('Please select an entity.');
-      return;
-    }
-
-    //Check if limit reached
-    const fields = CustomFields.find({target: cfEntity}).fetch();
-
-    if(!isProTenant(Meteor.user().group) && fields.length === MAX_FREE_ENTITY_GLOBAL_FIELDS) {
-      showUpgradeToastr(`To create more than 5 global custom fields for a ${cfEntity} record`);
-      Modal.hide();
       return;
     }
 
