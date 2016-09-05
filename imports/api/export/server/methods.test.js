@@ -8,6 +8,7 @@ import { getRowForExport } from './methods.js';
 
 describe("exporting records", function() {
   beforeEach(function(done) {
+    this.timeout(5000);
     sandbox = sinon.sandbox.create();
     console.log('a');
     sandbox.stub(Meteor.users, 'findOne').returns({
@@ -42,6 +43,7 @@ describe("exporting records", function() {
     sandbox.stub(Partitioner, 'group').returns('id');
     console.log('f');
     done();
+    console.log('g');
   });
 
   afterEach(function() {
