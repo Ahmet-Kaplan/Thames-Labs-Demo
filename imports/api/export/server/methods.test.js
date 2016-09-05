@@ -7,8 +7,8 @@ import { Partitioner } from 'meteor/local:partitioner';
 import { getRowForExport } from './methods.js';
 
 describe("exporting records", () => {
-  beforeEach(function() {
 
+  beforeEach(function(done) {
     sandbox = sinon.sandbox.create();
     sandbox.stub(Meteor.users, 'findOne', function() {
       return { id: "wqmRLP4RAbpD34iAL", profile: {
@@ -34,12 +34,13 @@ describe("exporting records", () => {
     sandbox.stub(Contacts, 'findOne', function() {
       return {
         _id: "fQodfHhv2wQCiHgHx",
-        name() {
+        name: function() {
           return "Mr Spock";
         }};
     });
 
     sandbox.stub(Partitioner, 'group').returns('id');
+    done();
   });
 
   afterEach(function() {
