@@ -7,7 +7,7 @@ import { Partitioner } from 'meteor/local:partitioner';
 import { getRowForExport } from './methods.js';
 
 describe("exporting records", () => {
-  beforeEach(function(done) {
+  beforeEach(function() {
 
     sandbox = sinon.sandbox.create();
     sandbox.stub(Meteor.users, 'findOne', function() {
@@ -40,7 +40,6 @@ describe("exporting records", () => {
     });
 
     sandbox.stub(Partitioner, 'group').returns('id');
-    done();
   });
 
   afterEach(function() {
