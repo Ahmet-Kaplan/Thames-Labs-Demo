@@ -12,9 +12,9 @@
           <p>Below are some guided tours that teach you how to use RealTimeCRM at your own pace.<br></p>
           <ul class="nav nav-tabs">
             <li class="active"><a href="#featured" data-toggle="tab">Featured</a></li>
-            {{#if isInRole 'Administrator'}}
+            {{#unless isMobile}}{{#if isInRole 'Administrator'}}
               <li><a href="#admin" data-toggle="tab">Admin</a></li>
-            {{/if}}
+            {{/if}}{{/unless}}
             {{#if isInRole 'CanCreateCompanies'}}
               <li><a href="#company" data-toggle="tab">Company</a></li>
             {{/if}}
@@ -36,9 +36,9 @@
                 {{#if isInRole 'CanEditCompanies'}}
                 <button class="btn btn-default btn-huge text-center" id="tags-tutorial"><h4 class="tutorial-title"><i class="fa fa-fw fa-tag"></i> Add tags</h4>Show me how to assign and use tags for a company</button>
                 {{/if}}
-                {{#if isInRole 'Administrator'}}
+                {{#unless isMobile}}{{#if isInRole 'Administrator'}}
                   <button class="btn btn-default btn-huge text-center" id="admin-tutorial"><h4 class="tutorial-title"><i class="fa fa-fw fa-users"></i> Add a user</h4>Show me how to add a user to RealTimeCRM</button>
-                {{/if}}
+                {{/if}}{{/unless}}
               </div>
             </div>
 

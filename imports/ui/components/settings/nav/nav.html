@@ -4,8 +4,10 @@
     {{#if isInRole 'Administrator'}}
       <a id="company-info-link" class="list-group-item {{isActivePath '/settings/company-info'}}" href="company-info">Company Information</a>
       <a id="config-link" class="list-group-item {{isActivePath '/settings/configuration'}}" href="configuration">Configuration</a>
+      {{#unless isMobile}}
       <a id="user-link" class="list-group-item {{isActivePath '/settings/users'}}" href="users">Users</a>
       <a id="billing-link" class="list-group-item {{isActivePath '/settings/billing'}}" href="billing">Billing</a>
+      {{/unless}}
     {{/if}}
   </div>
 
@@ -20,8 +22,10 @@
         <li><a class="{{isActivePath '/settings/profile'}}" href="profile">Profile</a></li>
           <li><a class="{{isActivePath '/settings/company-info'}}" href="company-info">Company Information</a></li>
           <li><a class="{{isActivePath '/settings/configuration'}}" href="configuration">Configuration</a></li>
+          {{#unless isMobile}}
           <li><a class="{{isActivePath '/settings/users'}}" href="users">Users</a></li>
           <li><a class="{{isActivePath '/settings/billing'}}" href="billing">Billing</a></li>
+          {{/unless}}
       </ul>
     </div>
   </div>
