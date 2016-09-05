@@ -21,7 +21,7 @@ const formatProjectForExport = (record) => {
 
   if ( _.has(record, 'projectTypeId') ) {
     const tenant = Tenants.findOne({
-      _id: Meteor.users.findOne(this.userId).group
+      _id: Partitioner.group()
     });
     const projects = tenant.settings.project.types,
           project = _.find(projects, { 'id': record.projectTypeId });

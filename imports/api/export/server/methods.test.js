@@ -2,12 +2,13 @@ import { assert } from 'meteor/practicalmeteor:chai';
 import sinon from 'sinon';
 import { Meteor } from 'meteor/meteor';
 import { Companies, Contacts, Tenants } from '/imports/api/collections.js';
+import { Partitioner } from 'meteor/local:partitioner';
 
 import { getRowForExport } from './methods.js';
 
-describe("exporting records", function() {
+describe("exporting records", () => {
+  beforeEach(function() {
 
-  beforeEach(function(done) {
     sandbox = sinon.sandbox.create();
     sandbox.stub(Meteor.users, 'findOne', function() {
       return { id: "wqmRLP4RAbpD34iAL", profile: {
@@ -33,12 +34,12 @@ describe("exporting records", function() {
     sandbox.stub(Contacts, 'findOne', function() {
       return {
         _id: "fQodfHhv2wQCiHgHx",
-        name: function() {
+        name() {
           return "Mr Spock";
         }};
     });
 
-    done();
+    sandbox.stub(Partitioner, 'group').returns('id');
   });
 
   afterEach(function() {
