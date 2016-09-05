@@ -6,7 +6,7 @@ import { Partitioner } from 'meteor/local:partitioner';
 
 import { getRowForExport } from './methods.js';
 
-describe("exporting records", () => {
+describe("exporting records", function() {
 
   beforeEach(function(done) {
     sandbox = sinon.sandbox.create();

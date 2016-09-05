@@ -8,7 +8,7 @@ import { Partitioner } from 'meteor/local:partitioner';
 
 /// HELP: if you get a 'timeout exceeded' message for a below failing test
 ///       it means one of the assertions inside the Collection.insert callback has failed.
-describe("importing records", () => {
+describe("importing records", function() {
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
 
