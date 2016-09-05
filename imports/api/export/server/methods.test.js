@@ -7,14 +7,15 @@ import { Partitioner } from 'meteor/local:partitioner';
 import { getRowForExport } from './methods.js';
 
 describe("exporting records", function() {
-  beforeEach(function(done) {
-
+  beforeEach(function() {
     sandbox = sinon.sandbox.create();
+    console.log('a');
     sandbox.stub(Meteor.users, 'findOne').returns({
       id: "wqmRLP4RAbpD34iAL",
       profile: { name: "Montgomery Scott" }
     });
 
+    console.log('b');
     sandbox.stub(Tenants, 'findOne').returns({
       settings: {
         opportunity: {
@@ -26,8 +27,10 @@ describe("exporting records", function() {
       }
     });
 
+    console.log('c');
     sandbox.stub(Companies, 'findOne').returns({ _id: "bmMLEbBHoRMAKXuQ6", name: "Starfleet Headquarters" });
 
+    console.log('d');
     sandbox.stub(Contacts, 'findOne').returns({
       _id: "fQodfHhv2wQCiHgHx",
       name: function() {
@@ -35,8 +38,9 @@ describe("exporting records", function() {
       }
     });
 
+    console.log('e');
     sandbox.stub(Partitioner, 'group').returns('id');
-    done();
+    console.log('f');
   });
 
   afterEach(function() {

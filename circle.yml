@@ -34,6 +34,6 @@ test:
   pre:
     - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
   override:
-    - npm run lint
+    #- npm run lint
     - npm run unit-test
-    - npm run circle
+   # - npm run circle
