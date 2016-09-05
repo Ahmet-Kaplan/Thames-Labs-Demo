@@ -8,35 +8,33 @@ d3tip(d3);
 
 function StageChart(el) {
 
-  var width = $(el).innerWidth(),
-      height = 100,
-      nodeR = 20,
-      markerR = 5;
+  const width = $(el).innerWidth(),
+        height = 100,
+        //Update this to change the radius of the circle
+        nodeR = 20,
+        //Update this to change the radius of the stage markers
+        markerR = 5,
+        color = d3.scale.ordinal()
+          .range([
+            colours.hex.csBlue,
+            colours.hex.blueGreen,
+            colours.hex.yellow,
+            colours.hex.redPink,
+            colours.hex.deepBlue,
+            colours.hex.turquoise,
+            colours.hex.green,
+            colours.hex.orange,
+            colours.hex.redViolet,
+          ]),
+        svg = d3.select(el).append("svg")
+          .attr("width", width)
+          .attr("height", height),
+        force = d3.layout.force()
+          .gravity(0.2)
+          .charge(0),
+        nodes = [],
+        tip = d3.tip().attr('class', 'd3-tip').html((d) => d.description);
 
-  var color = d3.scale.ordinal()
-        .range([
-          colours.hex.csBlue,
-          colours.hex.blueGreen,
-          colours.hex.yellow,
-          colours.hex.redPink,
-          colours.hex.deepBlue,
-          colours.hex.turquoise,
-          colours.hex.green,
-          colours.hex.orange,
-          colours.hex.redViolet,
-        ]);
-
-  var svg = d3.select(el).append("svg")
-        .attr("width", width)
-        .attr("height", height);
-
-  var force = d3.layout.force()
-        .gravity(0.2)
-        .charge(0);
-
-  var nodes = [];
-
-  var tip = d3.tip().attr('class', 'd3-tip').html((d) => d.description);
   svg.call(tip);
 
   this.draw = (entity, stages) => {
@@ -55,14 +53,14 @@ function StageChart(el) {
   };
 
   this.drawAxis = (entity, stages) => {
-    width = $(el).innerWidth();
+    const axisContainer = svg.selectAll(".axisContainer"),
+          stageWidth = _.divide(width, stages.length);
 
     svg
       .attr("width", width);
 
     nodes.push(entity);
 
-    const stageWidth = width / stages.length;
     stages.forEach( (stage, i) => {
       stage.x = (0.5 + i) * stageWidth;
       if( width < 375 && stage.id % 2 == 0) {
@@ -71,8 +69,6 @@ function StageChart(el) {
         stage.y = height - (height / 8);
       }
     });
-
-    const axisContainer = svg.selectAll(".axisContainer");
 
     axisContainer.append("g")
       .attr("class", "axis");
@@ -134,34 +130,34 @@ function StageChart(el) {
       .nodes(nodes);
 
     //Get current stage
-    const currentStage = stages[entity.currentStageIndex];
+    const currentStage = stages[entity.currentStageIndex],
 
-    //force.size divides by 2 so multiply stage.x by 2 for node x
-    var nodeX = currentStage.x * 2;
+          //force.size divides by 2 so multiply stage.x by 2 for node x
+          nodeX = currentStage.x * 2,
 
-    //Update node colours
-    var circle = svg.selectAll(".node")
-          .style("fill", color(entity.currentStageIndex))
-          .attr("stroke", d3.rgb(color(entity.currentStageIndex)).darker());
+          //Update node colours
+          circle = svg.selectAll(".node")
+            .style("fill", color(entity.currentStageIndex))
+            .attr("stroke", d3.rgb(color(entity.currentStageIndex)).darker()),
 
-    //Update node position
-    var tick = (e) => {
-      circle
-        .attr("cx", (d) => d.x)
-        .attr("cy", (d) => d.y);
+          //Update node position
+          moveNode = (e) => {
+            circle
+              .attr("cx", (d) => d.x)
+              .attr("cy", (d) => d.y);
 
-      force.drag()
-        .on("dragend", (d) => {
-          const closestStage = _.minBy(stages, (stage) => Math.abs(d.x - stage.x));
-          if (closestStage.id === entity.currentStageIndex) return;
-          this._dragCallBack(d._id, closestStage.id);
-        });
-    };
+            force.drag()
+              .on("dragend", (d) => {
+                const closestStage = _.minBy(stages, (stage) => Math.abs(d.x - stage.x));
+                if (closestStage.id === entity.currentStageIndex) return;
+                this._dragCallBack(d._id, closestStage.id);
+              });
+          };
 
     //Update force position
     force
       .size([nodeX, height])
-      .on("tick", tick)
+      .on("tick", moveNode)
       .start();
   };
 
