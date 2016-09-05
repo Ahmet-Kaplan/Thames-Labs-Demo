@@ -22,17 +22,24 @@ export const importCustomFields = (row, getValueForField, entityId, entityType, 
   //Add global custom fields
   if (globalCustomFields.length > 0) {
     _.each(globalCustomFields, function(field, i) {
-      //Todo: handle different data type validation
-      CustomFields.update({
+      const gcf = CustomFields.findOne({
         name: field.fieldLabel,
         global: true,
         target: entityType,
         entityId: entityId
-      }, {
-        $set: {
-          value: getValueForField(row, field.schemaField),
-        }
       });
+      if (gcf) {
+        let val = getValueForField(row, field.schemaField);
+        if (gcf.type == "checkbox") {
+          if (val == "true" || val == "TRUE" || val == "True" || val == "1" || val == "Yes" || val == "yes") val = "true";
+          else val = "false";
+        }
+        CustomFields.update(gcf._id, {
+          $set: {
+            value: val,
+          }
+        });
+      }
     });
   }
   return result;

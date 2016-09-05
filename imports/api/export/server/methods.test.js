@@ -2,7 +2,6 @@ import { assert } from 'meteor/practicalmeteor:chai';
 import sinon from 'sinon';
 import { Meteor } from 'meteor/meteor';
 import { Companies, Contacts, Tenants } from '/imports/api/collections.js';
-import { Partitioner } from 'meteor/local:partitioner';
 
 import { getRowForExport } from './methods.js';
 
@@ -39,7 +38,6 @@ describe("exporting records", function() {
         }};
     });
 
-    sandbox.stub(Partitioner, 'group').returns('id');
     done();
   });
 
