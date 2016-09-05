@@ -7,7 +7,7 @@ import { Partitioner } from 'meteor/local:partitioner';
 import { getRowForExport } from './methods.js';
 
 describe("exporting records", function() {
-  beforeEach(function() {
+  beforeEach(function(done) {
     sandbox = sinon.sandbox.create();
     console.log('a');
     sandbox.stub(Meteor.users, 'findOne').returns({
@@ -41,6 +41,7 @@ describe("exporting records", function() {
     console.log('e');
     sandbox.stub(Partitioner, 'group').returns('id');
     console.log('f');
+    done();
   });
 
   afterEach(function() {
@@ -48,7 +49,7 @@ describe("exporting records", function() {
   });
 
   it("returns the correct row for an activity record", function() {
-
+    console.log('a');
     const record = {
       _id: 'GhQFkerCw6NPF3tHb',
       type: 'Email',
