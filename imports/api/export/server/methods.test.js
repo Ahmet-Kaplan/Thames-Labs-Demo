@@ -10,13 +10,11 @@ describe("exporting records", function() {
   beforeEach(function(done) {
     this.timeout(5000);
     sandbox = sinon.sandbox.create();
-    console.log('a');
     sandbox.stub(Meteor.users, 'findOne').returns({
       id: "wqmRLP4RAbpD34iAL",
       profile: { name: "Montgomery Scott" }
     });
 
-    console.log('b');
     sandbox.stub(Tenants, 'findOne').returns({
       settings: {
         opportunity: {
@@ -28,10 +26,8 @@ describe("exporting records", function() {
       }
     });
 
-    console.log('c');
     sandbox.stub(Companies, 'findOne').returns({ _id: "bmMLEbBHoRMAKXuQ6", name: "Starfleet Headquarters" });
 
-    console.log('d');
     sandbox.stub(Contacts, 'findOne').returns({
       _id: "fQodfHhv2wQCiHgHx",
       name: function() {
@@ -39,11 +35,8 @@ describe("exporting records", function() {
       }
     });
 
-    console.log('e');
     sandbox.stub(Partitioner, 'group').returns('id');
-    console.log('f');
     done();
-    console.log('g');
   });
 
   afterEach(function() {
@@ -51,7 +44,6 @@ describe("exporting records", function() {
   });
 
   it("returns the correct row for an activity record", function() {
-    console.log('a');
     const record = {
       _id: 'GhQFkerCw6NPF3tHb',
       type: 'Email',
