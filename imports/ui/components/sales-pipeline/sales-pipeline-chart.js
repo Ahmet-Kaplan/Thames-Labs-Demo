@@ -74,7 +74,7 @@ function SalesPipelineChart(el) {
   this._addOrUpdateNode = (newNode) => {
     // Set defaults to prevent divide by zero errors on init
     newNode.value = _.isFinite(newNode.value) ? newNode.value : 0;
-    const existingNode = _.find(this.nodes, {'_id': newNode._id});
+    const existingNode = _.find(this.nodes, {'__originalId': newNode.__originalId});
     if (existingNode) {
       existingNode.name = newNode.name;
       existingNode.value = newNode.value;
@@ -87,10 +87,10 @@ function SalesPipelineChart(el) {
 
   this._cleanNodes = (newNodes) => {
     const idsToRemove = _.difference(
-      this.nodes.map( (node) => _.get(node, '_id')),
-      newNodes.map((node) => _.get(node, '_id'))
+      this.nodes.map( (node) => _.get(node, '__originalId')),
+      newNodes.map((node) => _.get(node, '__originalId'))
     );
-    this.nodes = _.reject(this.nodes, (node) => _.includes(idsToRemove, node._id));
+    this.nodes = _.reject(this.nodes, (node) => _.includes(idsToRemove, node.__originalId));
   };
 
   this._update = () => {
@@ -114,7 +114,7 @@ function SalesPipelineChart(el) {
 
   this._drawCircles = () => {
     this.circle = this.svg.selectAll(".node")
-      .data(this.nodes, (d) => d._id);
+      .data(this.nodes, (d) => d.__originalId);
 
     this.circle.enter()
       .append("circle")
@@ -127,27 +127,29 @@ function SalesPipelineChart(el) {
       .on('click', (d) => {
         if (d3.event.defaultPrevented) return;
         d3.event.stopPropagation();
-        this._selectionCallback(d._id);
+        this._selectionCallback(d.__originalId);
       })
       .on('mouseover', this.tip.show)
       .on('mouseout', this.tip.hide);
 
     this.circle
       .transition().duration(500)
+      .style("opacity", 1)
       .attr("fill", (d) => {
-        if (this.selectedNode == d._id) return d3.rgb(this.fillColor(d.currentStageIndex)).brighter();
+        if (this.selectedNode == d.__originalId) return d3.rgb(this.fillColor(d.currentStageIndex)).brighter();
         return this.fillColor(d.currentStageIndex);
       })
       .attr("stroke", (d) => {
-        if (this.selectedNode == d._id) return d3.rgb(this.fillColor(d.currentStageIndex)).darker(2);
+        if (this.selectedNode == d.__originalId) return d3.rgb(this.fillColor(d.currentStageIndex)).darker(2);
         return d3.rgb(this.fillColor(d.currentStageIndex)).darker();
       })
       .attr("stroke-width", 2)
       .attr("r", (d) => this.radiusScale(d.value));
 
     this.circle.exit()
-      .transition() .duration(1000)
+      .transition().duration(500)
       .attr("r", 0)
+      .style("opacity", 0)
       .remove();
   };
 
@@ -219,7 +221,7 @@ function SalesPipelineChart(el) {
         // Update opportunity to move it the closest stage
         const closestStage = _.minBy(this.stages, (stage) => Math.abs(d.y - stage.y));
         if (closestStage.id === d.currentStageId) return;
-        Meteor.call('opportunities.setStage', d._id, closestStage.id, (err) => {
+        Meteor.call('opportunities.setStage', d.__originalId, closestStage.id, (err) => {
           if (err) toastr.error(err.error);
         });
       });
@@ -235,7 +237,7 @@ function SalesPipelineChart(el) {
       .attr("x2", 12)
       .attr("y2", this.h - 5)
       .attr("stroke-width", 2)
-      .attr("stroke", "rgb(51,51,51)");
+      .attr("stroke", "#ccc");
 
     axisContainer.selectAll(".marker")
       .data(this.stages, (d) => d.id)

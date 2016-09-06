@@ -14,6 +14,7 @@ import { permissionHelpers } from '/imports/api/permissions/permission-helpers.j
 import '/imports/ui/components/opportunities/opportunity-details-panel.js';
 import '/imports/ui/components/opportunities/stage-control/opportunity-previous-stage-button.js';
 import '/imports/ui/components/opportunities/stage-control/opportunity-lost-link.js';
+import '/imports/ui/components/search/filters';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 
 import './sales-pipeline.html';
@@ -29,6 +30,8 @@ Template.salesPipeline.onCreated(function() {
   const opportunityId = FlowRouter.getParam("id");
   this.selectedOpportunity = new ReactiveVar(opportunityId);
 
+  Opportunities.index.registerComponent();
+
   this.subscribe('salesPipelineOpportunities');
 });
 
@@ -42,23 +45,34 @@ Template.salesPipeline.onRendered(function() {
   // triggering on ANY tenant update
   const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
 
+  // Update search and filters on first render
+  Opportunities.index.getComponentDict().set('searchOptions', {
+    props: { 'state': "Open" },
+    limit: 0
+  });
+
   this.autorun( () => {
     // Update chart data when opportunities change
-    // n.b. clone to prevent updates from within chart triggering autorun
-    const opportunities = _.clone(Opportunities.find({
-      isArchived: { $ne: true }
-    }).fetch());
-    opportunities.forEach( (d) => {
-      d.currentStageIndex = _.findIndex(stages, {id: d.currentStageId});
-    });
-    this.chart.updateNodes(opportunities, stages);
+    if (Opportunities.index.getComponentDict()) {
+      const searchOptions = Opportunities.index.getComponentDict().get('searchOptions');
 
-    // Check if currently selected opportunity is in dataset and set null if not
-    if (this.subscriptionsReady()) {
-      // Don't check unless all opps arrived to prevent overwriting selected opportunity from url
-      const selectedOpportunityId = Tracker.nonreactive( () => this.selectedOpportunity.get() );
-      if (!_.find(opportunities, {_id: selectedOpportunityId})) {
-        this.selectedOpportunity.set(null);
+      const resultsCursor = Opportunities.index.search("", searchOptions);
+
+      // n.b. clone to prevent updates from within chart triggering autorun
+      const opportunities = _.clone(resultsCursor.fetch());
+
+      opportunities.forEach( (d) => {
+        d.currentStageIndex = _.findIndex(stages, {id: d.currentStageId});
+      });
+      this.chart.updateNodes(opportunities, stages);
+
+      // Check if currently selected opportunity is in dataset and set null if not
+      if (this.subscriptionsReady()) {
+        // Don't check unless all opps arrived to prevent overwriting selected opportunity from url
+        const selectedOpportunityId = Tracker.nonreactive( () => this.selectedOpportunity.get() );
+        if (!_.find(opportunities, {_id: selectedOpportunityId})) {
+          this.selectedOpportunity.set(null);
+        }
       }
     }
   });
@@ -74,6 +88,7 @@ Template.salesPipeline.onRendered(function() {
       });
     });
   });
+
 });
 
 Template.salesPipeline.helpers({
