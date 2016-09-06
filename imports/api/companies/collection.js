@@ -2,6 +2,7 @@ import { Activities, Contacts, CustomFields, Projects, PurchaseOrders, Tenants }
 import { CompanySchema } from './schema.js';
 import { CompanyFilters } from './filters.js';
 
+
 export const Companies = new Mongo.Collection('companies');
 
 Companies.attachSchema(CompanySchema);
