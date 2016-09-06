@@ -301,30 +301,29 @@ Migrations.add({
   }
 });
 
+//Note: migration 26 & 28 had issues so was replaced by 29
+
 Migrations.add({
-  version: 28,
-  name: "Adds sort columns",
-  up: function() {
-    ServerSession.set('maintenance', true);
-
-    Partitioner.directOperation(function() {
-      Companies.find({name: {$exists: true}, name_sort: {$exists: false}}).forEach(function(company) {
-        Companies.update( company._id, {
-          $set: {
-            name_sort: company.name.toLowerCase()
-          }
-        });
+  version: 29,
+  name: "Adds sort column to companies",
+  up() {
+    // This is how to get access to the raw MongoDB node collection that the Meteor server collection wraps
+    const compBatch = Companies.rawCollection().initializeUnorderedBulkOp();
+    const contactBatch = Contacts.rawCollection().initializeUnorderedBulkOp();
+    Partitioner.directOperation(() => {
+      Companies.find({name: {$exists: true}}).forEach((elem) => {
+        compBatch.find({_id: elem._id}).updateOne({$set: {name_sort: elem.name.toLowerCase()}});
       });
-
-      Contacts.find({surname: {$exists: true}, forename: {$exists: true}, name_sort: {$exists: false}}).forEach(function(contact) {
-        Contacts.update( contact._id, {
-          $set: {
-            name_sort: `${contact.surname.toLowerCase()} ${contact.forename.toLowerCase()}`
-          }
-        });
+      Contacts.find({forename: {$exists: true}, surname: {$exists: true}}).forEach((elem) => {
+        contactBatch.find({_id: elem._id}).updateOne({$set: {name_sort: elem.surname.toLowerCase() + ' ' + elem.forename.toLowerCase()}});
       });
     });
 
-    ServerSession.set('maintenance', false);
+    // We need to wrap the async function to get a synchronous API that migrations expects
+    const companyExecute = Meteor.wrapAsync(compBatch.execute, compBatch);
+    companyExecute();
+    const contactExecute = Meteor.wrapAsync(compBatch.execute, contactBatch);
+    contactExecute();
+
   }
 });
