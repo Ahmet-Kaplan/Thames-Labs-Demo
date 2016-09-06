@@ -1,17 +1,6 @@
-import {
-  Activities,
-  Contacts,
-  CustomFields,
-  Projects,
-  PurchaseOrders,
-  Tenants
-} from '/imports/api/collections.js';
-import {
-  CompanySchema
-} from './schema.js';
-import {
-  CompanyFilters
-} from './filters.js';
+import { Activities, Contacts, CustomFields, Projects, PurchaseOrders, Tenants } from '/imports/api/collections.js';
+import { CompanySchema } from './schema.js';
+import { CompanyFilters } from './filters.js';
 
 
 export const Companies = new Mongo.Collection('companies');
