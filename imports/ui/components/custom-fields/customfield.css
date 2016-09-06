@@ -12,10 +12,15 @@
   margin-left: 4px;
 }
 .mediumWrapper {
-  max-height: 100px;
+  min-height: 80px;
   overflow-x: hidden;
   overflow-y: auto;
 }
 .global-field-item > div{
   margin-top: 10px;
+}
+
+.type > .row {
+  margin-left: 0px;
+  margin-right: 0px;
 }
