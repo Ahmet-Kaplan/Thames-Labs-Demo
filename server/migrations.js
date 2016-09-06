@@ -308,27 +308,19 @@ Migrations.add({
     ServerSession.set('maintenance', true);
 
     Partitioner.directOperation(function() {
-      Companies.find({}).forEach(function(company) {
+      Companies.find({name: {$exists: true}, name_sort: {$exists: false}}).forEach(function(company) {
         Companies.update( company._id, {
           $set: {
-            name: company.name,
             name_sort: company.name.toLowerCase()
           }
-        }, {
-          upsert: false,
-          multi: true
         });
       });
 
-      Contacts.find({}).forEach(function(contact) {
+      Contacts.find({surname: {$exists: true}, forename: {$exists: true}, name_sort: {$exists: false}}).forEach(function(contact) {
         Contacts.update( contact._id, {
           $set: {
-            forename: contact.forename,
             name_sort: `${contact.surname.toLowerCase()} ${contact.forename.toLowerCase()}`
           }
-        }, {
-          upsert: false,
-          multi: true
         });
       });
     });
