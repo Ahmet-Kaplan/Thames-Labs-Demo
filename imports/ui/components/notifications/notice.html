@@ -1,0 +1,13 @@
+<template name="notice">
+  <li class="list-item">
+    <a href="#" class="btnOpenNotice shortText" id="notification">
+      {{#if recentNote}}
+        <i class="fa fa-fw fa-{{icon}} text-primary"></i>
+      {{else}}
+        <i class="fa fa-fw fa-{{icon}}"></i>
+      {{/if}}
+      {{shortText}}<br />
+      <small><em>{{shortDetail}}</em></small>
+    </a>
+  </li>
+</template>
