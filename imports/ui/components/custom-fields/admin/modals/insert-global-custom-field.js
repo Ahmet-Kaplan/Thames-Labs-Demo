@@ -5,13 +5,10 @@ import { CustomFields } from '/imports/api/collections.js';
 import './insert-global-custom-field.html';
 import '/imports/ui/components/custom-fields/customfield.css';
 
-//Functions for getting/setting reactive vars
-const getVar = (type) => Template.instance().reactiveVars[type].get(),
-      setVar = (type) => {
-        _.forEach(Template.instance().reactiveVars, function(value, key) {
-          value.set(key === type);
-        });
-      };
+Template.insertGlobalCustomField.onCreated(function() {
+  this.type = new ReactiveVar("text");
+  this.create = new ReactiveVar(false);
+});
 
 Template.insertGlobalCustomField.onRendered(function() {
   $('#select-entity').selectize({
@@ -32,42 +29,30 @@ Template.insertGlobalCustomField.onRendered(function() {
   });
 });
 
-Template.insertGlobalCustomField.onCreated(function() {
-  this.reactiveVars = {};
-  this.reactiveVars.typeText = new ReactiveVar(true);
-  this.reactiveVars.typeMultiText = new ReactiveVar(false);
-  this.reactiveVars.typeCheckbox = new ReactiveVar(false);
-  this.reactiveVars.typeDateTime = new ReactiveVar(false);
-  this.reactiveVars.typeLabel = new ReactiveVar(false);
-  this.reactiveVars.typePicklist = new ReactiveVar(false);
-  this.reactiveVars.create = new ReactiveVar(false);
-
-});
-
 Template.insertGlobalCustomField.helpers({
   isLocal: function() {
     return Template.currentData();
   },
   typeText: function() {
-    return getVar('typeText');
+    return Template.instance().type.get() == 'text';
   },
   typeMultiText: function() {
-    return getVar('typeMultiText');
+    return Template.instance().type.get() == 'advtext';
   },
   typeCheckbox: function() {
-    return getVar('typeCheckbox');
+    return Template.instance().type.get() == 'checkbox';
   },
   typeDateTime: function() {
-    return getVar('typeDateTime');
+    return Template.instance().type.get() == 'date';
   },
   typeLabel: function() {
-    return getVar('typeLabel');
+    return Template.instance().type.get() == 'label';
   },
   typePicklist: function() {
-    return getVar('typePicklist');
+    return Template.instance().type.get() == 'picklist';
   },
   create: function() {
-    return getVar('create');
+    return Template.instance().create.get();
   },
   percentComplete: function() {
     return UserSession.get('globalFieldProgress');
@@ -76,10 +61,10 @@ Template.insertGlobalCustomField.helpers({
 
 Template.insertGlobalCustomField.events({
   'click #typeText': function() {
-    setVar('typeText');
+    Template.instance().type.set('text');
   },
   'click #typeMultiText': function() {
-    setVar('typeMultiText');
+    Template.instance().type.set('advtext');
 
     editor = new MediumEditor('.editable', {
       placeholder: {
@@ -90,26 +75,16 @@ Template.insertGlobalCustomField.events({
     });
   },
   'click #typeCheckbox': function() {
-    setVar('typeCheckbox');
+    Template.instance().type.set('checkbox');
   },
   'click #typeDateTime': function() {
-    setVar('typeDateTime');
+    Template.instance().type.set('date');
   },
   'click #typeLabel': function() {
-    setVar('typeLabel');
+    Template.instance().type.set('label');
   },
   'click #typePicklist': function() {
-    setVar('typePicklist');
-
-    this.$('custom-field-picklist-values').selectize({
-      delimiter: ',',
-      create: function(input) {
-        return {
-          value: input,
-          text: input
-        };
-      }
-    });
+    Template.instance().type.set('picklist');
   },
   'click #createCustomField': function(event, template) {
     event.preventDefault();
@@ -135,30 +110,32 @@ Template.insertGlobalCustomField.events({
       return;
     }
 
-    //Get data from form
-    if (getVar('typeText')) {
-      cfType = "text";
-      cfValue = $('#custom-field-text-value').val();
-    }
-    if (getVar('typeMultiText')) {
-      cfType = "advtext";
-      cfValue = $('#custom-field-multitext-value').html();
-    }
-    if (getVar('typeCheckbox')) {
-      cfType = "checkbox";
-      cfValue = $('#custom-field-check-value').prop('checked');
-    }
-    if (getVar('typeDateTime')) {
-      cfType = "date";
-      cfValue = $('#custom-field-date-value').val();
-    }
-    if (getVar('typeLabel')) {
-      cfType = "label";
-      cfValue = '';
-    }
-    if (getVar('typePicklist')) {
-      cfType = "picklist";
-      cfValue = $('#custom-field-picklist-values').selectize().val();
+    //Get values from form
+    switch (Template.instance().type.get()) {
+      case 'text':
+        cfType = "text";
+        cfValue = $('#custom-field-text-value').val();
+        break;
+      case 'advtext':
+        cfType = "advtext";
+        cfValue = $('#custom-field-multitext-value').html();
+        break;
+      case 'checkbox':
+        cfType = "checkbox";
+        cfValue = $('#custom-field-check-value').prop('checked');
+        break;
+      case 'date':
+        cfType = "date";
+        cfValue = $('#custom-field-date-value').val();
+        break;
+      case 'label':
+        cfType = "label";
+        cfValue = '';
+        break;
+      case 'picklist':
+        cfType = "picklist";
+        cfValue = $('#custom-field-picklist-values').selectize().val();
+        break;
     }
 
     //Get id of entity if local or tenant if global
@@ -182,7 +159,7 @@ Template.insertGlobalCustomField.events({
 
       //Change modal to progress bar
       UserSession.set("globalFieldProgress", 0);
-      setVar('create');
+      Template.instance().create.set(true);
 
       //Set maxValue so we know what the order field should be
       const recordFields = CustomFields.find({
@@ -208,7 +185,7 @@ Template.insertGlobalCustomField.events({
           }
         });
 
-      }else{
+      }else {
 
         Meteor.call('customFields.addNewGlobal', cfName, cfType, cfValue, cfEntity, maxValue, Meteor.userId(), function(err, res) {
           if (err) throw new Meteor.Error(err);
