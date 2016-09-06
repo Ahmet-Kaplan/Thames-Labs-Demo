@@ -86,4 +86,12 @@ export const TaskSchema = new SimpleSchema({
     type: Date,
     defaultValue: new Date()
   },
+  documents: {
+    type: [Object],
+    blackbox: true,
+    optional: true,
+    autoform: {
+      type: "hidden"
+    }
+  },
 });
