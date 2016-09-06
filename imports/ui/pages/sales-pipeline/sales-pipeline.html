@@ -4,7 +4,7 @@
     <div class="row list-header">
         <div class="col-md-8">
             <h1>Sales Pipeline</h1>
-            <div>{{> filterPanel collectionName='opportunities' single='opportunity'}}</div>
+            <div>{{> filterPanel collectionName='opportunities' single='opportunity' filters=salesPipelineFilters}}</div>
             <div id="d3-sales-pipeline"></div>
         </div>
         <div class="col-md-4">

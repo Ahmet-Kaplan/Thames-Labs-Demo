@@ -7,6 +7,7 @@ import { Template } from 'meteor/templating';
 import { Tracker } from 'meteor/tracker';
 
 import { Opportunities, Tenants } from '/imports/api/collections.js';
+import { SalesPipelineFilters } from '/imports/api/opportunities/sales-pipeline-filters.js';
 
 import { SalesPipelineChart } from '/imports/ui/components/sales-pipeline/sales-pipeline-chart';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
@@ -31,6 +32,10 @@ Template.salesPipeline.onCreated(function() {
   this.selectedOpportunity = new ReactiveVar(opportunityId);
 
   Opportunities.index.registerComponent();
+  Opportunities.index.getComponentDict().set('searchOptions', {
+    props: { 'state': "Open" },
+    limit: 0
+  });
 
   this.subscribe('salesPipelineOpportunities');
 });
@@ -40,13 +45,6 @@ Template.salesPipeline.onRendered(function() {
   this.chartResizeEventHandler = window.addEventListener("resize", this.chart._update);
 
   this.chart._selectionCallback = (id) => this.selectedOpportunity.set(id);
-
-
-  // Update search and filters on first render
-  Opportunities.index.getComponentDict().set('searchOptions', {
-    props: { 'state': "Open" },
-    limit: 0
-  });
 
   this.autorun( () => {
     const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
@@ -69,7 +67,7 @@ Template.salesPipeline.onRendered(function() {
       if (this.subscriptionsReady()) {
         // Don't check unless all opps arrived to prevent overwriting selected opportunity from url
         const selectedOpportunityId = Tracker.nonreactive( () => this.selectedOpportunity.get() );
-        if (!_.find(opportunities, {__originalId: selectedOpportunityId})) {
+        if (!_.find(opportunities, {_id: selectedOpportunityId})) {
           this.selectedOpportunity.set(null);
         }
       }
@@ -87,13 +85,15 @@ Template.salesPipeline.onRendered(function() {
       });
     });
   });
-
 });
 
 Template.salesPipeline.helpers({
   selectedOpportunity: () => {
     const opportunityId = Template.instance().selectedOpportunity.get();
     return Opportunities.findOne(opportunityId);
+  },
+  salesPipelineFilters: function() {
+    return SalesPipelineFilters;
   }
 });
 

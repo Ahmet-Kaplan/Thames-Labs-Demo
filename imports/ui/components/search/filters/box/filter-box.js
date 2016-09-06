@@ -13,8 +13,8 @@ function updateActiveSelection() {
   }
 }
 
-function displayFilter(mainCollectionName, selectize, template) {
-  let filters = Collections[mainCollectionName].filters;
+function displayFilter(mainCollectionName, selectize, template, filters) {
+  if (!filters) filters = Collections[mainCollectionName].filters;
   filters = _.sortBy(filters, 'display');
 
   template.handle = Meteor.autorun(function() {
@@ -146,6 +146,7 @@ function applyFilter(text, value, mainCollectionName, selectize) {
 
 Template.filterBox.onRendered(function() {
   const mainCollectionName = this.data.collectionName,
+        filters = this.data.filters,
         self = this;
   this.handle = null;
 
@@ -167,7 +168,7 @@ Template.filterBox.onRendered(function() {
     selectOnTab: true,
     onFocus: function() {
       searchInput.set('');
-      displayFilter(mainCollectionName, this, self);
+      displayFilter(mainCollectionName, this, self, filters);
     },
     onBlur: function() {
       this.clearOptions();
