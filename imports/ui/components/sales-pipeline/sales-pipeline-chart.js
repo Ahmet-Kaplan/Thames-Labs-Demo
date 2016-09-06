@@ -133,7 +133,7 @@ function SalesPipelineChart(el) {
       .on('mouseout', this.tip.hide);
 
     this.circle
-      .transition().duration(500)
+      .transition().duration(250)
       .style("opacity", 1)
       .attr("fill", (d) => {
         if (this.selectedNode == d.__originalId) return d3.rgb(this.fillColor(d.currentStageIndex)).brighter();

@@ -41,9 +41,6 @@ Template.salesPipeline.onRendered(function() {
 
   this.chart._selectionCallback = (id) => this.selectedOpportunity.set(id);
 
-  // n.b. stages are currently not reactive - need to find a way to watch for updates without
-  // triggering on ANY tenant update
-  const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
 
   // Update search and filters on first render
   Opportunities.index.getComponentDict().set('searchOptions', {
@@ -52,6 +49,8 @@ Template.salesPipeline.onRendered(function() {
   });
 
   this.autorun( () => {
+    const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
+
     // Update chart data when opportunities change
     if (Opportunities.index.getComponentDict()) {
       const searchOptions = Opportunities.index.getComponentDict().get('searchOptions');
@@ -70,7 +69,7 @@ Template.salesPipeline.onRendered(function() {
       if (this.subscriptionsReady()) {
         // Don't check unless all opps arrived to prevent overwriting selected opportunity from url
         const selectedOpportunityId = Tracker.nonreactive( () => this.selectedOpportunity.get() );
-        if (!_.find(opportunities, {_id: selectedOpportunityId})) {
+        if (!_.find(opportunities, {__originalId: selectedOpportunityId})) {
           this.selectedOpportunity.set(null);
         }
       }
