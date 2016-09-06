@@ -6,40 +6,37 @@ import { Partitioner } from 'meteor/local:partitioner';
 
 import { getRowForExport } from './methods.js';
 
-describe("exporting records", () => {
-  beforeEach(function() {
-
+describe("exporting records", function() {
+  beforeEach(function(done) {
+    this.timeout(5000);
     sandbox = sinon.sandbox.create();
-    sandbox.stub(Meteor.users, 'findOne', function() {
-      return { id: "wqmRLP4RAbpD34iAL", profile: {
-        name: "Montgomery Scott"
-      }};
+    sandbox.stub(Meteor.users, 'findOne').returns({
+      id: "wqmRLP4RAbpD34iAL",
+      profile: { name: "Montgomery Scott" }
     });
 
-    sandbox.stub(Tenants, 'findOne', function() {
-      return { settings: {
+    sandbox.stub(Tenants, 'findOne').returns({
+      settings: {
         opportunity: {
           stages: [{ id: 0, title: "Investigate subspace transmissions"}]
         },
         project: {
           types: [{ id: 0, name: "Build starship", milestones: [{ id: 0, name: "Construct warp drive"}]}]
         }
-      }};
+      }
     });
 
-    sandbox.stub(Companies, 'findOne', function() {
-      return { _id: "bmMLEbBHoRMAKXuQ6", name: "Starfleet Headquarters" };
-    });
+    sandbox.stub(Companies, 'findOne').returns({ _id: "bmMLEbBHoRMAKXuQ6", name: "Starfleet Headquarters" });
 
-    sandbox.stub(Contacts, 'findOne', function() {
-      return {
-        _id: "fQodfHhv2wQCiHgHx",
-        name() {
-          return "Mr Spock";
-        }};
+    sandbox.stub(Contacts, 'findOne').returns({
+      _id: "fQodfHhv2wQCiHgHx",
+      name: function() {
+        return "Mr Spock";
+      }
     });
 
     sandbox.stub(Partitioner, 'group').returns('id');
+    done();
   });
 
   afterEach(function() {
@@ -47,7 +44,6 @@ describe("exporting records", () => {
   });
 
   it("returns the correct row for an activity record", function() {
-
     const record = {
       _id: 'GhQFkerCw6NPF3tHb',
       type: 'Email',

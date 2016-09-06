@@ -2,6 +2,7 @@ import { Activities, Contacts, CustomFields, Projects, PurchaseOrders, Tenants }
 import { CompanySchema } from './schema.js';
 import { CompanyFilters } from './filters.js';
 
+
 export const Companies = new Mongo.Collection('companies');
 
 Companies.attachSchema(CompanySchema);
@@ -202,7 +203,7 @@ Companies.after.insert(function(userId, doc) {
                 global: true,
                 order: ex.order,
                 target: 'company',
-                listValues: '',
+                listValues: (ex.listValues ? ex.listValues : null ),
                 entityId: doc._id
               }, function(err) {
                 if (err) {
