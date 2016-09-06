@@ -38,19 +38,23 @@ Template.customFieldItem.onRendered(function() {
         index = field.name,
         safeName = '#customField' + index.replace(/ /g, '');
 
-  if(field.listValues) {
-    var options = _.map(field.listValues.split(','), function(input) {
+  let options = [];
+  if (field.listValues) {
+    options = _.map(field.listValues.split(','), function(input) {
       return {
         value: input,
         text: input
       };
     });
+  }
 
-    this.$(safeName + "PicklistValue").selectize({
+  if (field.type == 'picklist') {
+    $(".cf-selectize").selectize({
       create: false,
       options: options,
       maxItems: 1
     });
+    se[0].selectize.setValue(field.value);
   }
 
   $(`${safeName}AdvTextValue`).html(field.value);
@@ -64,9 +68,6 @@ Template.customFieldItem.onRendered(function() {
     if(field.value == 'true') {
       $(`${safeName}BooleanValue`).attr('checked', 'checked');
     }
-  }else if(field.type == 'picklist') {
-    const se = $(safeName + 'PicklistValue').selectize();
-    se[0].selectize.setValue(field.value);
   }
 
 });

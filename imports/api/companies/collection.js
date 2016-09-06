@@ -202,7 +202,7 @@ Companies.after.insert(function(userId, doc) {
                 global: true,
                 order: ex.order,
                 target: 'company',
-                listValues: '',
+                listValues: (ex.listValues ? ex.listValues : null ),
                 entityId: doc._id
               }, function(err) {
                 if (err) {
