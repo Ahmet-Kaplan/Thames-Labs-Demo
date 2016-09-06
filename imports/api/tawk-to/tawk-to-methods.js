@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Tenants } from '/imports/api/collections.js';
 
 Meteor.methods({
   'tawkTo.UserInfo': function() {

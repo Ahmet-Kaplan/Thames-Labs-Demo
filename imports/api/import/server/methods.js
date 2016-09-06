@@ -9,6 +9,8 @@ import { importProject } from './entities/projects.js';
 import { importPurchaseOrder } from './entities/purchase-orders.js';
 import { importTask } from './entities/tasks.js';
 
+import { Tenants } from '/imports/api/collections.js';
+
 export const importRows = (importData, entityType, fieldMap, userId, globalCustomFields, localCustomFields) => {
   //Get field name used for imported data from RT schema field name
   const getImportField = (fieldName) => {

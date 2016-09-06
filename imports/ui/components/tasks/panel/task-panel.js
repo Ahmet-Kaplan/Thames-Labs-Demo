@@ -2,6 +2,7 @@ import './task-panel.html';
 import './task-panel.css';
 import '../modals/insert-task-modal.js';
 import '../task-item.js';
+import { Tasks } from '/imports/api/collections.js';
 
 function isDashboard() {
   return FlowRouter.getRouteName() === "dashboard";

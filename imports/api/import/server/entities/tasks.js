@@ -1,3 +1,4 @@
+import { Contacts, Tasks } from '/imports/api/collections.js';
 export const importTask = (row, getValueForField, userId, rtId) => {
   const result = {};
 

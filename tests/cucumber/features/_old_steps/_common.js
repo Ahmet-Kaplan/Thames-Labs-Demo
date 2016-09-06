@@ -215,11 +215,12 @@ module.exports = function() {
 
   this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value) {
     var selectizeInput = '#' + selector + ' + .selectize-control>.selectize-input>input',
-        selectizeDropdown = '#' + selector + ' + .selectize-control>.selectize-dropdown';
-    browser.waitForExist(selectizeInput, 5000);
-    browser.waitForVisible(selectizeInput, 5000);
-    browser.setValue(selectizeInput, value);
-    browser.keys('Enter');
+        selectizeDropdown = '#' + selector + ' + .selectize-control>.selectize-dropdown',
+        selectizeOption = '#' + selector + ' + .selectize-control>.selectize-dropdown .option';
+    browser.safeClick(selectizeInput);
+    browser.waitForVisible(selectizeOption, 5000);
+    browser.waitForVisible('.option*=' + value, 5000);
+    browser.keys('Tab');
     browser.waitForVisible(selectizeDropdown, 5000, true);
   });
 

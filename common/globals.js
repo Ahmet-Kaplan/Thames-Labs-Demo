@@ -1,3 +1,5 @@
+import { Tenants } from '/imports/api/collections.js';
+
 isProTenant = function(tenantId) {
   if (tenantId) {
     const tenant = Tenants.findOne({

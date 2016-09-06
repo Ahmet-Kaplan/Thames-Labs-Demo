@@ -20,7 +20,6 @@
               {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
               {{> afQuickField name="contactId" id="companyContacts" type="hidden" value=contactId}}
             {{/if}}
-            {{> esSelectize name="userId" index=UsersIndex value=userId}}
 
             <div class="form-group">
               <label for="proj-value" class="control-label">Value</label>
@@ -33,6 +32,7 @@
 
             {{> afQuickField name="active"}}
             {{> afQuickField name="dueDate" }}
+            {{> autosuggest name="userId" index=UsersIndex value=userId}}
             {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
             <button type="submit" class="btn btn-primary">Update</button>
           {{/autoForm}}

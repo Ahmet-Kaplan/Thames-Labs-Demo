@@ -1,3 +1,4 @@
+import { Opportunities } from '/imports/api/collections.js';
 import './update-opp-item-modal.html';
 
 Template.updateOpportunityItemModal.helpers({

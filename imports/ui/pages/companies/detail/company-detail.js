@@ -17,6 +17,7 @@ import '/imports/ui/components/tasks/panel/task-panel.js';
 import '/imports/ui/components/contacts/modals/insert-company-contact-modal.js';
 import '/imports/ui/components/projects/modals/insert-company-project-modal.js';
 
+import { Activities, Companies, Projects, Opportunities } from '/imports/api/collections.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
 
@@ -28,7 +29,7 @@ Template.companyDetail.onCreated(function() {
     if (FlowRouter.subsReady() && typeof company === "undefined") {
       FlowRouter.go('companies');
     } else if (FlowRouter.subsReady() && company.website !== '' && typeof company.website !== "undefined") {
-      Meteor.call('getClearbitData', 'company', company._id);
+      Meteor.call('clearbit.getClearbitData', 'company', company._id);
     }
   });
 

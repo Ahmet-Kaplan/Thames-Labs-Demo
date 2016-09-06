@@ -22,9 +22,9 @@
           {{/if}}
           <!-- {{> afQuickField name="duration" type="duration-picker"}} -->
           {{#if isUserTask}}
-            {{> esSelectize name="assigneeId" index=UsersIndex value=getCurrentUserId}}
+            {{> autosuggest name="assigneeId" index=UsersIndex value=getCurrentUserId}}
           {{else}}
-            {{> esSelectize name="assigneeId" index=UsersIndex}}
+            {{> autosuggest name="assigneeId" index=UsersIndex}}
           {{/if}}
 
           {{> afQuickField name="entityType" value=getEntityType type='hidden'}}
@@ -36,14 +36,14 @@
               {{> afQuickField name="entityType" value=getEntityType type='hidden'}}
               {{> afQuickField name="entityId" value=getCurrentUserId type='hidden'}}
             {{else}}
-              {{> esSelectize name="entityId" label=displayLabel index=autosuggestIndex}}
+              {{> autosuggest name="entityId" label=displayLabel index=autosuggestIndex}}
             {{/if}}
           {{/if}}
 
           {{#if parentTask}}
             {{> afQuickField name="parentTaskId" value=parentTask type='hidden'}}
           {{else}}
-            {{> esSelectize name="parentTaskId" index=TasksIndex}}
+            {{> autosuggest name="parentTaskId" index=TasksIndex}}
           {{/if}}
 
           <button type="submit" class="btn btn-primary">Create</button>

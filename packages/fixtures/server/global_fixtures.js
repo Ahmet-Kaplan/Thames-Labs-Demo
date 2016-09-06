@@ -1,12 +1,11 @@
 var deleteTenant = function(tenantId) {
-  const { Products } = require('/imports/api/collections.js');
+  const { Activities, Companies, Contacts, Projects, Products, PurchaseOrders, PurchaseOrderItems, Tasks, Tenants } = require('/imports/api/collections.js');
   // First remove all associated data
   // N.B. we don't need directOperation() as we're already using "direct" to bypass any collection hooks
   // TODO: Ideally this would use bindGroup() but if we then use "direct" it bypasses the partitioner
   Tasks.direct.remove({ _groupId: tenantId });
   Activities.direct.remove({ _groupId: tenantId });
   Meteor.tags.direct.remove({ _groupId: tenantId });
-  AuditLog.direct.remove({ _groupId: tenantId });
   Companies.direct.remove({ _groupId: tenantId });
   Contacts.direct.remove({ _groupId: tenantId });
   Projects.direct.remove({ _groupId: tenantId });
@@ -28,6 +27,7 @@ Meteor.methods({
     // It should completely reset the app for test tenants
 
     // Remove test tenants
+    const { Tenants, Notifications } = require('/imports/api/collections.js');
     var testTenants = Tenants.find({
       name: { $in: ['Acme Corp', 'Acme Corp Rivals'] }
     });
