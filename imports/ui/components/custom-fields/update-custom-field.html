@@ -9,7 +9,10 @@
         </div>
 
         <div class="modal-body">
+          <div class="well well-sm">
           {{#each globalFields}} {{> customFieldItem}} {{/each}}
+          </div>
+          {{#each localFields}} {{> customFieldItem}} {{/each}}
         </div>
 
         <div class="modal-footer">
