@@ -32,9 +32,24 @@ export const importOpportunity = (row, getValueForField, userId, rtId) => {
   }
 
   if (contact) {
+    const names = contact.split(' ');
+    let fn, sn;
+    if (names.length === 2) {
+      fn = names[0];
+      sn = names[1];
+    } else if (names.length > 2) {
+      fn = names[0];
+      sn = "";
+
+      for(let i = 1; i < names.length; i++) {
+        sn = sn + names[i] + " ";
+      }
+      sn = sn.trim();
+    }
+
     contact = Contacts.findOne({
-      forename: contact.split(' ')[0],
-      surname: contact.split(' ')[1]
+      forename: fn,
+      surname: sn
     });
     if (!contact) {
       contact = null;

@@ -122,10 +122,10 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
             _.each(res.warning, function(message) {
               switch (message) {
                 case "linked-company":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced company for "${getValueForField(row, 'name')}".`);
+                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced company ("${getValueForField(row, 'companyName')}") for "${getValueForField(row, 'name')}".`);
                   break;
                 case "linked-contact":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced contact for "${getValueForField(row, 'name')}".`);
+                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced contact ("${getValueForField(row, 'contactName')}") for "${getValueForField(row, 'name')}".`);
                   break;
                 case "already-exists":
                   errorList.push(`<span class="label label-warning">WARNING</span> Another opportunity with the name "${getValueForField(row, 'name')}" exists.`);
@@ -154,10 +154,10 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
             _.each(res.warning, function(message) {
               switch (message) {
                 case "linked-company":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced company for "${getValueForField(row, 'name')}".`);
+                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced company ("${getValueForField(row, 'companyName')}") for "${getValueForField(row, 'name')}".`);
                   break;
                 case "linked-contact":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced contact for "${getValueForField(row, 'name')}".`);
+                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced contact ("${getValueForField(row, 'contactName')}") for "${getValueForField(row, 'name')}".`);
                   break;
                 case "already-exists":
                   errorList.push(`<span class="label label-warning">WARNING</span> Another project with the name "${getValueForField(row, 'name')}" exists.`);
@@ -203,10 +203,10 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
             _.each(res.warning, function(message) {
               switch (message) {
                 case "linked-company":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced company for "${getValueForField(row, 'name')}".`);
+                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced company ("${getValueForField(row, 'companyName')}") for "${getValueForField(row, 'name')}".`);
                   break;
                 case "linked-contact":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced contact for "${getValueForField(row, 'name')}".`);
+                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced contact ("${getValueForField(row, 'contactName')}") for "${getValueForField(row, 'name')}".`);
                   break;
                 case "already-exists":
                   errorList.push(`<span class="label label-warning">WARNING</span> Another purchase order with the name "${getValueForField(row, 'name')}" exists.`);
