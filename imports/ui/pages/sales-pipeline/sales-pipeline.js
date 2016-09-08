@@ -52,7 +52,10 @@ Template.salesPipeline.onRendered(function() {
     // Update chart data when opportunities change
     if (Opportunities.index.getComponentDict()) {
       const searchOptions = Opportunities.index.getComponentDict().get('searchOptions');
-
+      if (!searchOptions.props.state) {
+        searchOptions.props.state = "Open";
+        Opportunities.index.getComponentDict().set('searchOptions', searchOptions);
+      }
       const resultsCursor = Opportunities.index.search("", searchOptions);
 
       // n.b. clone to prevent updates from within chart triggering autorun

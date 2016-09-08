@@ -75,18 +75,5 @@ export const SalesPipelineFilters = {
       }
       return 'N/A';
     }
-  },
-  state: {
-    display: 'State:',
-    prop: 'state',
-    defaultOptions: function() {
-      return ['Lost', 'Open'];
-    },
-    strict: true,
-    allowMultiple: false,
-    verify: function(state) {
-      if (!state) return false;
-      return state;
-    }
-  },
+  }
 };
