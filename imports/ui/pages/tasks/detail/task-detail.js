@@ -3,6 +3,7 @@ import '/imports/ui/components/tasks/subtasks/subtask-list.js';
 import '/imports/ui/components/tasks/task-tick/task-tick.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/tasks/modals/update-task-modal.js';
+import '/imports/ui/components/documents/document-container.js';
 
 import { Activities, Companies, Contacts, Projects, Opportunities, Tasks } from '/imports/api/collections.js';
 
