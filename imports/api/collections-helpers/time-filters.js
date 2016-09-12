@@ -56,10 +56,10 @@ function getEuropeanDate(inputDate) {
   // Make sure the date is read the European way by default
   if (moment(inputDate, 'DD-MM-YYYY').isValid()) {
     return moment(inputDate, 'DD-MM-YYYY').hours(12);
-  } else if (!moment(inputDate).isValid()) {
+  } else if (!moment(new Date(inputDate)).isValid()) {
     return false;
   }
-  return moment(inputDate);
+  return moment(new Date(inputDate));
 }
 
 export { wordedTimes, getEuropeanDate, getWordedTime };
