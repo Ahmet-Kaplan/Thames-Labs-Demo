@@ -16,7 +16,7 @@
     </div>
     <div class="col-sm-2">
       <div class="panel panel-primary">
-        <div class="panel-heading" data-toggle="tooltip" title="The number of tenants on the Free plan">Free Plan</div>
+        <div class="panel-heading" data-toggle="tooltip" title="The number of tenants not paying">Free tenants</div>
         <div class="panel-body">
           <h1 class="stat">{{freeTenants}}</h1>
         </div>
@@ -24,17 +24,9 @@
     </div>
     <div class="col-sm-2">
       <div class="panel panel-primary">
-        <div class="panel-heading" data-toggle="tooltip" title="The number of tenants gifted the Pro plan">Free+ Plan</div>
+        <div class="panel-heading" data-toggle="tooltip" title="The number of tenants paying">Paying tenants</div>
         <div class="panel-body">
-          <h1 class="stat">{{freePlusTenants}}</h1>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-2">
-      <div class="panel panel-primary">
-        <div class="panel-heading" data-toggle="tooltip" title="The number of tenants on the Pro plan">Pro Plan</div>
-        <div class="panel-body">
-          <h1 class="stat">{{proTenants}}</h1>
+          <h1 class="stat">{{payingTenants}}</h1>
         </div>
       </div>
     </div>
@@ -85,7 +77,7 @@
   <div class="row">
     <div class="col-sm-2">
       <div class="panel panel-info">
-        <div class="panel-heading" data-toggle="tooltip" title="The total number of free users">Free Users</div>
+        <div class="panel-heading" data-toggle="tooltip" title="The total number of free users">Free users</div>
         <div class="panel-body">
           <h1 class="stat">{{freeUsers}}</h1>
         </div>
@@ -93,15 +85,7 @@
     </div>
     <div class="col-sm-2">
       <div class="panel panel-info">
-        <div class="panel-heading" data-toggle="tooltip" title="The total number of pro users. Includes users on both subscribed and gifted pro plans">Pro Users</div>
-        <div class="panel-body">
-          <h1 class="stat">{{proUsers}}</h1>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-2">
-      <div class="panel panel-info">
-        <div class="panel-heading" data-toggle="tooltip" title="The total number of paying Pro users">Paying Users</div>
+        <div class="panel-heading" data-toggle="tooltip" title="The total number of paying users">Paying users</div>
         <div class="panel-body">
           <h1 class="stat">{{payingUsers}}</h1>
         </div>
