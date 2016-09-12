@@ -105,6 +105,16 @@ router.route('/statistics', {
 });
 
 // SUPERADMIN only route
+router.route('/maintenance', {
+  name: 'maintenance',
+  action: function() {
+    layout.render('appLayout', {
+      main: "maintenanceAdmin"
+    });
+  }
+});
+
+// SUPERADMIN only route
 router.route('/audit', {
   name: 'audit',
   action: function() {
@@ -184,6 +194,10 @@ router.route('/settings/:section', {
 
       case 'company-info':
         layoutTemplate = 'companyInfoSettings';
+        break;
+
+      case 'import':
+        layoutTemplate = 'importSettings';
         break;
     }
 

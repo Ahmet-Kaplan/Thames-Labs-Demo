@@ -7,6 +7,7 @@
       {{#unless isiOSApp}}
       <a id="user-link" class="list-group-item {{isActivePath '/settings/users'}}" href="users">Users</a>
       <a id="billing-link" class="list-group-item {{isActivePath '/settings/billing'}}" href="billing">Billing</a>
+      <a id="import-link" class="list-group-item {{isActivePath '/settings/import'}}" href="import">Import Data</a>
       {{/unless}}
     {{/if}}
   </div>
@@ -25,6 +26,7 @@
           {{#unless isiOSApp}}
           <li><a class="{{isActivePath '/settings/users'}}" href="users">Users</a></li>
           <li><a class="{{isActivePath '/settings/billing'}}" href="billing">Billing</a></li>
+          <li><a class="{{isActivePath '/settings/import'}}" href="import">Import Data</a></li>
           {{/unless}}
       </ul>
     </div>

@@ -1,43 +1,28 @@
 <template name="tenantList">
   {{setPageTitle 'Tenants'}}
 
-  <div class="row">
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-      <h1><i class="fa fa-fw fa-wrench"></i> Maintenance mode</h1>
-      {{> maintenanceModeButton}}
-
-      <br /><br /><p>This locks all normal users out of the site without taking the site offline - it's for when we want to do things like database upgrade work.</p>
-      <p><b>Don't press unless you know what you're doing!</b></p>
-
-    </div>
-
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-      <h1><i class="fa fa-fw fa-cogs"></i> Utilities</h1>
-      <button class="btn btn-primary" id="export-tenants">Export Tenants</button>
-      <button class="btn btn-primary" id="export-users">Export Users</button>
-
-      <br /><br /><p><b>Export Tenants</b> will export all tenants listed below, based on your current search/filter set.</p>
-    </div>
-  </div>
-
-  <h1>
-    <i class="fa fa-fw fa-archive"></i> Current Tenants</h1>
-  <div class="well well-sm">
-    <div class="btn-group" role="group">
-      <button class="btn btn-primary pull-right btn-xs" id="btnAddNewTenant" type="button">
-        <i class="fa fa-fw fa-archive"></i> Add a new tenant
-      </button>
-    </div>
-    <span class="pull-right">Total Tenants: {{tenantCount}} &nbsp;&nbsp;&nbsp;&nbsp; Total Users: {{userCount}}</span>
-  </div>
-
-  <div class="stick-bar-placeholder">
-  </div>
-  <div class="stick-bar">
-    <div class="row">
-      <div class="col-md-12">
-        {{> searchBox collectionName='tenants'}}
+  <div class="row list-header">
+      <div class="col-md-5">
+        <h1>Current Tenants</h1>
       </div>
+      <div class="col-md-7 list-header-right">
+        <div class="btn-group pull-right" role="group">
+          <button type="button" class="btn btn-md btn-primary" id="btnAddNewTenant"  data-toggle="tooltip" data-placement="bottom"><i class="fa fa-fw fa-plus"></i> Add tenant</button>
+          {{> smallSearchBox collectionName='tenants'}}
+        </div>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-8">
+      {{> filterPanel collectionName='tenants' single='tenant'}}
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <ul class="list-toolbar pull-right">
+        <li>Total Users: {{userCount}}</li>
+        <li><a href="#" id="export-tenants">Export Tenants</a></li>
+        <li><a href="#" id="export-users">Export Users</a></li>
+      </ul>
     </div>
   </div>
 

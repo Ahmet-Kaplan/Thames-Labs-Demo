@@ -1,4 +1,4 @@
-import { PurchaseOrders } from '/imports/api/collections.js';
+import { Companies, Contacts, PurchaseOrders } from '/imports/api/collections.js';
 export const importPurchaseOrder = (row, getValueForField, userId, rtId) => {
   const result = {};
   result.warning = [];
@@ -7,7 +7,7 @@ export const importPurchaseOrder = (row, getValueForField, userId, rtId) => {
   if (PurchaseOrders.findOne({
     description: getValueForField(row, 'description')
   })) {
-    result.warning.push("already-exists");
+    result.warning.push(`A purchase order already exists with the name "${getValueForField(row, 'description')}"`);
   }
 
   //Get linked entities
@@ -20,18 +20,33 @@ export const importPurchaseOrder = (row, getValueForField, userId, rtId) => {
     });
     if (!company) {
       company = null;
-      result.warning.push("linked-company");
+      result.warning.push(`Cannot find referenced company "${getValueForField(row, 'supplier')}" for purchase order "${getValueForField(row, 'name')}"`);
     }
   }
 
   if (contact) {
+    const names = contact.split(' ');
+    let fn, sn;
+    if (names.length === 2) {
+      fn = names[0];
+      sn = names[1];
+    } else if (names.length > 2) {
+      fn = names[0];
+      sn = "";
+
+      for(let i = 1; i < names.length; i++) {
+        sn = sn + names[i] + " ";
+      }
+      sn = sn.trim();
+    }
+
     contact = Contacts.findOne({
-      forename: contact.split(' ')[0],
-      surname: contact.split(' ')[1]
+      forename: fn,
+      surname: sn
     });
     if (!contact) {
       contact = null;
-      result.warning.push("linked-contact");
+      result.warning.push(`Cannot find referenced contact "${getValueForField(row, 'supplierContact')}" for purchase order "${getValueForField(row, 'name')}"`);
     }
   }
 
@@ -63,6 +78,15 @@ export const importPurchaseOrder = (row, getValueForField, userId, rtId) => {
     });
 
     result._id = entityId;
+
+    //Add tags
+    const tags = getValueForField(row, 'tags');
+    if (tags) {
+      const tagList = _.split(tags, ',');
+      _.each(tagList, function(tag) {
+        PurchaseOrders.addTag(tag, { _id: entityId });
+      });
+    }
 
     return result;
   } catch(err) {

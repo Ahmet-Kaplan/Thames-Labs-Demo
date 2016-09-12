@@ -6,7 +6,6 @@ import '/imports/ui/components/search/filters';
 import '/imports/ui/components/search/search-results.js';
 import '/imports/ui/components/opportunities/reports/overview.js';
 import '/imports/ui/components/export/export.js';
-import '/imports/ui/components/import/import.js';
 import './opportunity-list.html';
 
 Template.opportunityList.onCreated(function() {

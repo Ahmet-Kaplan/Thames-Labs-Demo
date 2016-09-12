@@ -1,6 +1,7 @@
 import { Contacts, Tasks } from '/imports/api/collections.js';
 export const importTask = (row, getValueForField, userId, rtId) => {
   const result = {};
+  result.warning = [];
 
   //Check if referenced assignee exists
   const assignee = Meteor.users.findOne({
@@ -8,7 +9,7 @@ export const importTask = (row, getValueForField, userId, rtId) => {
   });
 
   if (!assignee) {
-    result.error = `Assigned user does not exist`;
+    result.error = `Assigned user "${getValueForField(row, 'assignee')}" does not exist for task "${getValueForField(row, 'title')}"`;
     return result;
   }
 
@@ -45,7 +46,7 @@ export const importTask = (row, getValueForField, userId, rtId) => {
   }
 
   if (!entity) {
-    result.error = `Could not find a "${getValueForField(row, 'recordType')}" record called "${getValueForField(row, 'record')}"`;
+    result.error = `Cannot find a ${getValueForField(row, 'recordType')} called "${getValueForField(row, 'record')}" for task "${getValueForField(row, 'title')}"`;
     return result;
   }
 

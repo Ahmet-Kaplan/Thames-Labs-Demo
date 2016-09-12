@@ -32,6 +32,7 @@ import '/imports/ui/pages/projects/detail/project-detail.js';
 import '/imports/ui/pages/sales-pipeline/sales-pipeline.js';
 import '/imports/ui/pages/settings/settings.js';
 import '/imports/ui/pages/super-admin/global-event-log/event-log.js';
+import '/imports/ui/pages/super-admin/maintenance/maintenance.js';
 import '/imports/ui/pages/super-admin/notifications/notifications.js';
 import '/imports/ui/pages/super-admin/tenants/tenant-list.js';
 import '/imports/ui/pages/super-admin/statistics/statistics.js';

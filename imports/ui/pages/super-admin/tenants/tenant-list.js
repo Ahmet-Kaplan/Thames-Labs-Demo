@@ -1,6 +1,5 @@
 import '/imports/ui/components/search/local/box/search-box.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
-import '/imports/ui/components/super-admin/maintenance/maintenance-mode-button.js';
 import '/imports/ui/components/super-admin/demo-data/demo-data-generator.js';
 import '/imports/ui/components/super-admin/demo-data/modals/generating-demo-data.js';
 import '/imports/ui/components/super-admin/tenants/tenant-list-item.js';

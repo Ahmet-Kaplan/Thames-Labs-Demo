@@ -1,6 +1,9 @@
-import { Companies, Contacts, CustomFields } from '/imports/api/collections.js';
-export const importContact = (row, getValueForField, userId, rtId, localCustomFields) => {
+import { Companies, Contacts } from '/imports/api/collections.js';
+import { importCustomFields } from './custom-fields.js';
+
+export const importContact = (row, getValueForField, userId, rtId, globalCustomFields, localCustomFields) => {
   const result = {};
+  result.warning = [];
 
   //Check for company
   let companyId = null;
@@ -33,11 +36,11 @@ export const importContact = (row, getValueForField, userId, rtId, localCustomFi
 
   //Check if an existing record exists
   if (Contacts.findOne({ forename: entityData.forename, surname: entityData.surname })) {
-    result.warning = "contact-exists";
+    result.warning.push(`A contact already exists with the name "${entityData.forename} ${entityData.surname}"`);
   }
 
   if (entityData.forename === null || entityData.surname === null) {
-    result.error = "Contact must have a forename and a surname";
+    result.error = "Contacts must have a forename and a surname";
     return result;
   }
 
@@ -61,24 +64,7 @@ export const importContact = (row, getValueForField, userId, rtId, localCustomFi
       });
     }
 
-    //Add local custom fields
-    if (localCustomFields.length > 0) {
-      _.each(localCustomFields, function(field, i) {
-        if (row[field].length > 0) {
-          CustomFields.insert({
-            name: field,
-            value: (row[field] ? row[field] : ''),
-            type: 'text',
-            global: false,
-            order: i,
-            target: 'contact',
-            entityId: entityId
-          }, function(cfErr) {
-            if (cfErr) result.warning = "custom-fields";
-          });
-        }
-      });
-    }
+    importCustomFields(row, getValueForField, entityId, "contact", globalCustomFields, localCustomFields);
 
     return result;
   } catch(err) {
