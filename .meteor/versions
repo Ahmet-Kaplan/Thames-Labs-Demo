@@ -31,7 +31,6 @@ check@1.2.3
 chrismbeckett:toastr@2.1.2_1
 coffeescript@1.2.4_1
 crosswalk@1.6.2
-dandv:caret-position@2.1.1
 dbernhard:jquery-ui-draggable@0.1.2
 dburles:collection-helpers@1.0.4
 dburles:google-maps@1.1.4
@@ -111,7 +110,6 @@ meteortoys:toykit@3.0.4
 minifier-css@1.2.14
 minifier-js@1.2.14
 minimongo@1.0.17
-mizzao:autocomplete@0.5.1
 mobile-experience@1.0.4
 mobile-status-bar@1.0.12
 modules@0.7.6

@@ -7,6 +7,7 @@ import { Template } from 'meteor/templating';
 import { Tracker } from 'meteor/tracker';
 
 import { Opportunities, Tenants } from '/imports/api/collections.js';
+import { SalesPipelineFilters } from '/imports/api/opportunities/sales-pipeline-filters.js';
 
 import { SalesPipelineChart } from '/imports/ui/components/sales-pipeline/sales-pipeline-chart';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
@@ -14,6 +15,7 @@ import { permissionHelpers } from '/imports/api/permissions/permission-helpers.j
 import '/imports/ui/components/opportunities/opportunity-details-panel.js';
 import '/imports/ui/components/opportunities/stage-control/opportunity-previous-stage-button.js';
 import '/imports/ui/components/opportunities/stage-control/opportunity-lost-link.js';
+import '/imports/ui/components/search/filters';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 
 import './sales-pipeline.html';
@@ -29,6 +31,12 @@ Template.salesPipeline.onCreated(function() {
   const opportunityId = FlowRouter.getParam("id");
   this.selectedOpportunity = new ReactiveVar(opportunityId);
 
+  Opportunities.index.registerComponent();
+  Opportunities.index.getComponentDict().set('searchOptions', {
+    props: { 'state': "Open" },
+    limit: 0
+  });
+
   this.subscribe('salesPipelineOpportunities');
 });
 
@@ -38,27 +46,33 @@ Template.salesPipeline.onRendered(function() {
 
   this.chart._selectionCallback = (id) => this.selectedOpportunity.set(id);
 
-  // n.b. stages are currently not reactive - need to find a way to watch for updates without
-  // triggering on ANY tenant update
-  const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
-
   this.autorun( () => {
-    // Update chart data when opportunities change
-    // n.b. clone to prevent updates from within chart triggering autorun
-    const opportunities = _.clone(Opportunities.find({
-      isArchived: { $ne: true }
-    }).fetch());
-    opportunities.forEach( (d) => {
-      d.currentStageIndex = _.findIndex(stages, {id: d.currentStageId});
-    });
-    this.chart.updateNodes(opportunities, stages);
+    const stages = Tenants.findOne(Meteor.user().group).settings.opportunity.stages;
 
-    // Check if currently selected opportunity is in dataset and set null if not
-    if (this.subscriptionsReady()) {
-      // Don't check unless all opps arrived to prevent overwriting selected opportunity from url
-      const selectedOpportunityId = Tracker.nonreactive( () => this.selectedOpportunity.get() );
-      if (!_.find(opportunities, {_id: selectedOpportunityId})) {
-        this.selectedOpportunity.set(null);
+    // Update chart data when opportunities change
+    if (Opportunities.index.getComponentDict()) {
+      const searchOptions = Opportunities.index.getComponentDict().get('searchOptions');
+      if (!searchOptions.props.state) {
+        searchOptions.props.state = "Open";
+        Opportunities.index.getComponentDict().set('searchOptions', searchOptions);
+      }
+      const resultsCursor = Opportunities.index.search("", searchOptions);
+
+      // n.b. clone to prevent updates from within chart triggering autorun
+      const opportunities = _.clone(resultsCursor.fetch());
+
+      opportunities.forEach( (d) => {
+        d.currentStageIndex = _.findIndex(stages, {id: d.currentStageId});
+      });
+      this.chart.updateNodes(opportunities, stages);
+
+      // Check if currently selected opportunity is in dataset and set null if not
+      if (this.subscriptionsReady()) {
+        // Don't check unless all opps arrived to prevent overwriting selected opportunity from url
+        const selectedOpportunityId = Tracker.nonreactive( () => this.selectedOpportunity.get() );
+        if (!_.find(opportunities, {_id: selectedOpportunityId})) {
+          this.selectedOpportunity.set(null);
+        }
       }
     }
   });
@@ -80,6 +94,9 @@ Template.salesPipeline.helpers({
   selectedOpportunity: () => {
     const opportunityId = Template.instance().selectedOpportunity.get();
     return Opportunities.findOne(opportunityId);
+  },
+  salesPipelineFilters: function() {
+    return SalesPipelineFilters;
   }
 });
 
