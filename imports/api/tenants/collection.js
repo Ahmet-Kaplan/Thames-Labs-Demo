@@ -1,5 +1,5 @@
 import { TenantSchema } from './schema.js';
-import { TenantFilters } from './schema.js';
+import { TenantFilters } from './filters.js';
 
 export const Tenants = new Mongo.Collection('tenants');
 Tenants.attachSchema(TenantSchema);

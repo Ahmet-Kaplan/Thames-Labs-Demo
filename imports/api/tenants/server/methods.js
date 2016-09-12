@@ -3,43 +3,13 @@ import { ActivitySchema } from '/imports/api/activities/schema.js';
 import { PurchaseOrderSchema } from '/imports/api/purchase-orders/schema.js';
 
 Meteor.methods({
-  'tenant.getPayingUsers': function() {
-    var tenants = Tenants.find({
-      'stripe.stripeSubs': {
-        $exists: true
-      }
-    }).fetch();
-
-    var userCount = 0;
-    _.each(tenants, function(t) {
-      userCount += Meteor.users.find({
-        group: t._id
-      }).fetch().length;
-    });
-
-    return userCount;
-  },
-  'tenant.getUsersForTenants': function(plan) {
-    var tenants = Tenants.find({
-      plan: plan
-    }).fetch();
-
-    var userCount = 0;
-    _.each(tenants, function(t) {
-      userCount += Meteor.users.find({
-        group: t._id
-      }).fetch().length;
-    });
-
-    return userCount;
-  },
   'tenant.remove': function(tenantId) {
     if (!Roles.userIsInRole(this.userId, ['superadmin'])) {
       throw new Meteor.Error(403, 'Only superadmins may completely delete a tenant');
     }
 
     if (!tenantId) return 'Tenant ID not supplied';
-    var tenant = Tenants.findOne({
+    const tenant = Tenants.findOne({
       _id: tenantId
     });
     if (!tenant) return 'Tenant not found';
