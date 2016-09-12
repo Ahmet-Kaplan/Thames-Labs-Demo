@@ -37,7 +37,7 @@ Template.insertActivityModal.events({
               reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`,
               d = $('#helperContent .taskdatetimepicker'),
               dtp = d.data('DateTimePicker'),
-              taskDate = dtp.date.toDate();
+              taskDate = dtp.date().toDate();
 
         let taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertActivityForm')}`;
 
