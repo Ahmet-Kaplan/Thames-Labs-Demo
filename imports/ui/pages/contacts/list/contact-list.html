@@ -24,6 +24,7 @@
     <div class="col-xs-12 col-sm-4">
       <ul class="list-toolbar pull-right">
         {{> bulkManagement collectionName='contacts'}}
+        {{#if isInRole 'Administrator'}}<li><a id="export" href="/settings/import">Import</a></li>{{/if}}
         {{> exportCollection entity="contacts"}}
       </ul>
     </div>
