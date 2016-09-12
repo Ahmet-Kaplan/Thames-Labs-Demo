@@ -195,6 +195,10 @@ router.route('/settings/:section', {
       case 'company-info':
         layoutTemplate = 'companyInfoSettings';
         break;
+
+      case 'import':
+        layoutTemplate = 'importSettings';
+        break;
     }
 
     layout.render('appLayout', {

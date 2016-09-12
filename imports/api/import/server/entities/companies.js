@@ -1,6 +1,9 @@
-import { Companies, CustomFields } from '/imports/api/collections.js';
-export const importCompany = (row, getValueForField, userId, rtId, localCustomFields, globalCustomFields) => {
+import { Companies } from '/imports/api/collections.js';
+import { importCustomFields } from './custom-fields.js';
+
+export const importCompany = (row, getValueForField, userId, rtId, globalCustomFields, localCustomFields) => {
   const result = {};
+  result.warning = [];
 
   //Check formatting of web address
   let website = getValueForField(row, 'website');
@@ -26,7 +29,7 @@ export const importCompany = (row, getValueForField, userId, rtId, localCustomFi
 
   //Check if an existing company exists
   if (Companies.findOne({ name: entityData.name })) {
-    result.warning = "company-exists";
+    result.warning.push(`A company already exists with the name "${entityData.name}"`);
   }
 
   try {
@@ -49,40 +52,7 @@ export const importCompany = (row, getValueForField, userId, rtId, localCustomFi
       });
     }
 
-    //Add local custom fields
-    if (localCustomFields.length > 0) {
-      _.each(localCustomFields, function(field, i) {
-        if (row[field].length > 0) {
-          CustomFields.insert({
-            name: field,
-            value: (row[field] ? row[field] : ''),
-            type: 'text',
-            global: false,
-            order: i,
-            target: 'company',
-            entityId: entityId
-          }, function(cfErr) {
-            if (cfErr) result.warning = "custom-fields";
-          });
-        }
-      });
-    }
-
-    //Add global custom fields
-    if(globalCustomFields.length > 0) {
-      _.each(globalCustomFields, function(field, i) {
-        CustomFields.update({
-          name: field.schemaField,
-          global: true,
-          target: 'company',
-          entityId: entityId
-        }, {
-          $set: {
-            value: (row[field.fieldValue] ? row[field.fieldValue] : ''),
-          }
-        });
-      });
-    }
+    importCustomFields(row, getValueForField, entityId, "company", globalCustomFields, localCustomFields);
 
     return result;
   } catch(err) {

@@ -7,7 +7,7 @@ export const importOpportunity = (row, getValueForField, userId, rtId) => {
   if (Opportunities.findOne({
     name: getValueForField(row, 'name')
   })) {
-    result.warning.push("already-exists");
+    result.warning.push(`An opportunity already exists with the name "${getValueForField(row, 'name')}"`);
   }
 
   //Get linked entities
@@ -27,7 +27,7 @@ export const importOpportunity = (row, getValueForField, userId, rtId) => {
     });
     if (!company) {
       company = null;
-      result.warning.push("linked-company");
+      result.warning.push(`Cannot find referenced company "${getValueForField(row, 'companyName')}" for opportunity "${getValueForField(row, 'name')}"`);
     }
   }
 
@@ -53,7 +53,7 @@ export const importOpportunity = (row, getValueForField, userId, rtId) => {
     });
     if (!contact) {
       contact = null;
-      result.warning.push("linked-contact");
+      result.warning.push(`Cannot find referenced contact "${getValueForField(row, 'contactName')}" for opportunity "${getValueForField(row, 'name')}"`);
     }
   }
 
@@ -65,7 +65,7 @@ export const importOpportunity = (row, getValueForField, userId, rtId) => {
   if (estCloseDate) estCloseDate = moment(estCloseDate, 'DD/MM/YYYY hh:mm').toDate();
 
   let isArchived = getValueForField(row, 'isArchived');
-  if (isArchived == 1) isArchived = true;
+  if (isArchived == 1 || isArchived == "Yes") isArchived = true;
   else isArchived = false;
 
   let desc = getValueForField(row, 'description');
@@ -89,8 +89,8 @@ export const importOpportunity = (row, getValueForField, userId, rtId) => {
 
   //Set hasBeenWon field - needs to be undefined if not strictly set
   const hasBeenWon = getValueForField(row, 'hasBeenWon');
-  if (hasBeenWon == 1) entityData.hasBeenWon = true;
-  if (hasBeenWon == 0) entityData.hasBeenWon = false;
+  if (hasBeenWon == 1 || hasBeenWon == "Yes") entityData.hasBeenWon = true;
+  if (hasBeenWon == 0 || hasBeenWon == "No") entityData.hasBeenWon = false;
 
   try {
     //Insert the record
@@ -102,6 +102,15 @@ export const importOpportunity = (row, getValueForField, userId, rtId) => {
     });
 
     result._id = entityId;
+
+    //Add tags
+    const tags = getValueForField(row, 'tags');
+    if (tags) {
+      const tagList = _.split(tags, ',');
+      _.each(tagList, function(tag) {
+        Opportunities.addTag(tag, { _id: entityId });
+      });
+    }
 
     return result;
   } catch(err) {

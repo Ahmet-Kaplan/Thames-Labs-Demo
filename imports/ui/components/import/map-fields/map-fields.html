@@ -1,0 +1,15 @@
+<template name="mapFields">
+ {{#each schemaFields}}
+  <div class="row">
+    <div class="col-md-3" data-toggle="tooltip" data-placement="bottom" title="Looking for field names: {{#each fieldOptions}}{{this}}, {{/each}}" >{{fieldLabel}}{{#if required}}<span class="text-danger">*</span>{{/if}}</div>
+    <div class="col-md-8">
+      <select id="{{fieldIdentifier}}-field" class="selectpicker import-field-picker">
+        <option value="">Do not import</option>
+        {{#each csvFields}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+  {{/each}}
+</template>

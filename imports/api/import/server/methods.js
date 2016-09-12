@@ -11,7 +11,7 @@ import { importTask } from './entities/tasks.js';
 
 import { Tenants } from '/imports/api/collections.js';
 
-export const importRows = (importData, entityType, fieldMap, userId, globalCustomFields, localCustomFields) => {
+export const importRows = (dataRows, entityType, fieldMap, userId) => {
   //Get field name used for imported data from RT schema field name
   const getImportField = (fieldName) => {
     const result = _.result(_.find(fieldMap, function(obj) {
@@ -27,222 +27,87 @@ export const importRows = (importData, entityType, fieldMap, userId, globalCusto
     return result;
   };
 
+  //Get custom fields from field map
+  const globalCustomFields = _.filter(fieldMap, { fieldType: 'globalCustomField'});
+  const localCustomFields = _.filter(fieldMap, { fieldType: 'localCustomField'});
+
   //Get number of rows
-  const importTotal = importData.length;
+  const importTotal = dataRows.length;
 
   //Get current user data
-  const user = Meteor.users.findOne({
-    _id: userId
-  });
-  const tenant = Tenants.findOne({
-    _id: user.group
-  });
+  const user = Meteor.users.findOne({ _id: userId });
+  const tenant = Tenants.findOne({ _id: user.group });
 
   Partitioner.bindUserGroup(userId, () => {
-    UserSession.set("importProgress", 0, userId);
-    var errorList = UserSession.get("importErrors", userId);
+    //Config tenant specific vars used for importing rows
     let rtId = 0;
+    let importFunction;
+    const errorList = UserSession.get("importErrors", userId);
+    UserSession.set("progressValue", 0, userId);
     switch (entityType) {
-
       case "activities":
-        //Loop through importData
-        _.each(importData, function(row, i) {
-          rtId++;
-          const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
-
-          const res = importActivity(row, getValueForField, userId, rtId);
-          //Handle result of importing the entity
-          if (res.error) {
-            errorList.push(`<span class="label label-danger">ERROR</span> ${res.error}`);
-          }
-        });
+        importFunction = importActivity;
+        rtId = tenant.settings.activity.defaultNumber;
         break;
-
-
       case "companies":
+        importFunction = importCompany;
         rtId = tenant.settings.company.defaultNumber;
-        //Loop through importData
-        _.each(importData, function(row, i) {
-          rtId++;
-          const res = importCompany(row, getValueForField, userId, rtId, localCustomFields, globalCustomFields);
-
-          //Handle result of importing the entity
-          if (res.error) {
-            errorList.push(`<span class="label label-danger">ERROR</span> Could not import "${getValueForField(row, 'name')}": ${res.error}`);
-          } else if (res.warning == 'company-exists') {
-            errorList.push(`<span class="label label-warning">WARNING</span> Another company with the name "${getValueForField(row, 'name')}" exists. If the record contained in your import file is the same company, you can use the <em>Merge tool</em> to combine them into a single record.`);
-          } else if (res.warning == 'custom-fields') {
-            errorList.push(`<span class="label label-warning">WARNING</span> Could not add custom fields for "${getValueForField(row, 'name')}".`);
-          }
-
-          const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
-        });
         break;
-
-
       case "contacts":
+        importFunction = importContact;
         rtId = tenant.settings.contact.defaultNumber;
-        //Loop through importData
-        _.each(importData, function(row, i) {
-          rtId++;
-          const res = importContact(row, getValueForField, userId, rtId, localCustomFields);
-
-          //Handle result of importing the entity
-          if (res.error) {
-            errorList.push(`<span class="label label-danger">ERROR</span> Could not import "${getValueForField(row, 'forename')} ${getValueForField(row, 'surname')}": ${res.error}`);
-          } else if (res.warning == 'contact-exists') {
-            errorList.push(`<span class="label label-warning">WARNING</span> Another contact with the name "${getValueForField(row, 'forename')} ${getValueForField(row, 'surname')}" exists. We have imported the record contained in your import file, but recommend you manually remove any unnecessary records.`);
-          } else if (res.warning == 'custom-fields') {
-            errorList.push(`<span class="label label-warning">WARNING</span> Could not add custom fields for "${getValueForField(row, 'forename')} ${getValueForField(row, 'surname')}".`);
-          }
-
-          const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
-        });
         break;
-
-
       case "opportunities":
+        importFunction = importOpportunity;
         rtId = tenant.settings.opportunity.defaultNumber;
-        //Loop through importData
-        _.each(importData, function(row, i) {
-          const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
-
-          rtId++;
-
-          const res = importOpportunity(row, getValueForField, userId, rtId);
-
-          //Handle result of importing the entity
-          if (res.error) {
-            errorList.push(`<span class="label label-danger">ERROR</span> Could not import "${getValueForField(row, 'name')}": ${res.error}`);
-          } else if (res.warning.length > 0) {
-            _.each(res.warning, function(message) {
-              switch (message) {
-                case "linked-company":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced company ("${getValueForField(row, 'companyName')}") for "${getValueForField(row, 'name')}".`);
-                  break;
-                case "linked-contact":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced contact ("${getValueForField(row, 'contactName')}") for "${getValueForField(row, 'name')}".`);
-                  break;
-                case "already-exists":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Another opportunity with the name "${getValueForField(row, 'name')}" exists.`);
-                  break;
-              }
-            });
-          }
-        });
         break;
-
-
-      case "projects":
-        rtId = tenant.settings.project.defaultNumber;
-        //Loop through importData
-        _.each(importData, function(row, i) {
-          rtId++;
-          const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
-
-          const res = importProject(row, getValueForField, userId, rtId);
-
-          //Handle result of importing the entity
-          if (res.error) {
-            errorList.push(`<span class="label label-danger">ERROR</span> Could not import "${getValueForField(row, 'name')}": ${res.error}`);
-          } else if (res.warning.length > 0) {
-            _.each(res.warning, function(message) {
-              switch (message) {
-                case "linked-company":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced company ("${getValueForField(row, 'companyName')}") for "${getValueForField(row, 'name')}".`);
-                  break;
-                case "linked-contact":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced contact ("${getValueForField(row, 'contactName')}") for "${getValueForField(row, 'name')}".`);
-                  break;
-                case "already-exists":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Another project with the name "${getValueForField(row, 'name')}" exists.`);
-                  break;
-              }
-            });
-          }
-        });
-        break;
-
-
       case "products":
+        importFunction = importProduct;
         rtId = tenant.settings.product.defaultNumber;
-        //Loop through importData
-        _.each(importData, function(row, i) {
-          rtId++;
-          const res = importProduct(row, getValueForField, userId, rtId);
-
-          //Handle result of importing the entity
-          if (res.error) {
-            errorList.push(`<span class="label label-danger">ERROR</span> Could not import "${getValueForField(row, 'name')}": ${res.error}`);
-          }
-
-          const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
-        });
         break;
-
-
+      case "projects":
+        importFunction = importProject;
+        rtId = tenant.settings.project.defaultNumber;
+        break;
       case "purchaseorders":
+        importFunction = importPurchaseOrder;
         rtId = tenant.settings.purchaseorder.defaultNumber;
-        //Loop through importData
-        _.each(importData, function(row, i) {
-          rtId++;
-          const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
-
-          const res = importPurchaseOrder(row, getValueForField, userId, rtId);
-          //Handle result of importing the entity
-          if (res.error) {
-            errorList.push(`<span class="label label-danger">ERROR</span> Could not import "${getValueForField(row, 'name')}": ${res.error}`);
-          } else if (res.warning.length > 0) {
-            _.each(res.warning, function(message) {
-              switch (message) {
-                case "linked-company":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced company ("${getValueForField(row, 'companyName')}") for "${getValueForField(row, 'name')}".`);
-                  break;
-                case "linked-contact":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Could not find referenced contact ("${getValueForField(row, 'contactName')}") for "${getValueForField(row, 'name')}".`);
-                  break;
-                case "already-exists":
-                  errorList.push(`<span class="label label-warning">WARNING</span> Another purchase order with the name "${getValueForField(row, 'name')}" exists.`);
-                  break;
-              }
-            });
-          }
-        });
         break;
-
       case "tasks":
+        importFunction = importTask;
         rtId = tenant.settings.task.defaultNumber;
-        //Loop through importData
-        _.each(importData, function(row, i) {
-          rtId++;
-          const res = importTask(row, getValueForField, userId, rtId);
-
-          //Handle result of importing the entity
-          if (res.error) {
-            errorList.push(`<span class="label label-danger">ERROR</span> Could not import "${getValueForField(row, 'title')}": ${res.error}`);
-          }
-
-          const percentDone = ((i / importTotal) * 100).toFixed(0);
-          UserSession.set("importProgress", percentDone, userId);
-        });
         break;
-
     }
-    UserSession.set("importProgress", 100, userId);
+
+    //Loop through data rows
+    _.each(dataRows, function(row, i) {
+      rtId++;
+      const percentDone = ((i / importTotal) * 100).toFixed(0);
+      UserSession.set("progressValue", percentDone, userId);
+
+      //Note: if entity doesn't have custom fields, globalCustomFields and localCustomFields should = []
+      const res = importFunction(row, getValueForField, userId, rtId, globalCustomFields, localCustomFields);
+
+      //Handle result of importing the entity
+      if (res.error) {
+        errorList.push(`<span class="label label-danger">ERROR</span> ${res.error}`);
+      }
+      if (res.warning.length > 0) {
+        _.each(res.warning, (warning) => {
+          errorList.push(`<span class="label label-warning">WARNING</span> ${warning} - <b>#${rtId}</b><br>`);
+        });
+      }
+    });
+
+    //Send results to client
+    UserSession.set("progressValue", 100, userId);
     UserSession.set("importErrors", errorList, userId);
   });
   return true;
 };
 
 Meteor.methods({
-  'import.do': function(importData, entityType, fieldMap, userId, globalCustomFields, localCustomFields) {
-    return importRows(importData, entityType, fieldMap, userId, globalCustomFields, localCustomFields);
+  'import.do': function(importData, entityType, fieldMap, userId) {
+    return importRows(importData, entityType, fieldMap, userId);
   }
 });

@@ -1,5 +1,7 @@
 import { Companies, Contacts, Projects } from '/imports/api/collections.js';
-export const importProject = (row, getValueForField, userId, rtId) => {
+import { importCustomFields } from './custom-fields.js';
+
+export const importProject = (row, getValueForField, userId, rtId, globalCustomFields, localCustomFields) => {
   const result = {};
   result.warning = [];
 
@@ -7,7 +9,7 @@ export const importProject = (row, getValueForField, userId, rtId) => {
   if (Projects.findOne({
     name: getValueForField(row, 'name')
   })) {
-    result.warning.push("already-exists");
+    result.warning.push(`A project already exists with the name "${getValueForField(row, 'name')}"`);
   }
 
   //Get linked entities
@@ -39,7 +41,7 @@ export const importProject = (row, getValueForField, userId, rtId) => {
     });
     if (!company) {
       company = null;
-      result.warning.push("linked-company");
+      result.warning.push(`Cannot find referenced company "${getValueForField(row, 'companyName')}" for project "${getValueForField(row, 'name')}"`);
     }
   }
 
@@ -65,7 +67,7 @@ export const importProject = (row, getValueForField, userId, rtId) => {
     });
     if (!contact) {
       contact = null;
-      result.warning.push("linked-contact");
+      result.warning.push(`Cannot find referenced contact "${getValueForField(row, 'contactName')}" for project "${getValueForField(row, 'name')}"`);
     }
   }
 
@@ -74,7 +76,7 @@ export const importProject = (row, getValueForField, userId, rtId) => {
   if (dueDate) dueDate = moment(dueDate, 'DD/MM/YYYY hh:mm').toDate();
 
   let active = getValueForField(row, 'active');
-  if (active == 0) active = false;
+  if (active == 0 || active == "No") active = false;
   else active = true;
 
   //Setup JSON object for entity
@@ -102,6 +104,17 @@ export const importProject = (row, getValueForField, userId, rtId) => {
     });
 
     result._id = entityId;
+
+    //Add tags
+    const tags = getValueForField(row, 'tags');
+    if (tags) {
+      const tagList = _.split(tags, ',');
+      _.each(tagList, function(tag) {
+        Projects.addTag(tag, { _id: entityId });
+      });
+    }
+
+    importCustomFields(row, getValueForField, entityId, "project", globalCustomFields, localCustomFields);
 
     return result;
   } catch(err) {
