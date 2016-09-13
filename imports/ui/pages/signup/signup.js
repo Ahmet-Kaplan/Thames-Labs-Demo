@@ -1,5 +1,6 @@
 import bootbox from 'bootbox';
 import { UserSignUpSchema } from '/imports/api/users/schema.js';
+import './signup.html';
 
 Template.signUp.helpers({
   UserSignUpSchema: function() {

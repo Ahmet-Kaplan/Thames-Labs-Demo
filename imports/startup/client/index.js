@@ -39,3 +39,4 @@ import '/imports/ui/pages/super-admin/statistics/statistics.js';
 import '/imports/ui/pages/purchase-orders/purchase-order-list.js';
 import '/imports/ui/pages/purchase-orders/purchase-order-detail.js';
 import '/imports/ui/pages/placeholder/placeholder.js';
+import '/imports/ui/pages/signup/signup.js';
