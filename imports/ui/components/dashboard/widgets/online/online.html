@@ -1,0 +1,40 @@
+<template name="onlineWidget">
+  <div class="grid-stack-item-content panel panel-default" id='onlineUsersBox'>
+    <div class="panel-heading">
+      <i class="fa fa-fw fa-users"></i>
+      <button type="button" class="close" id="close_onlineWidget" aria-hidden="true">×</button>
+      Online Users
+    </div>
+    <div class="panel-body">
+      <ul class="list-group">
+
+        {{#each onlineColleagues}} {{> colleagueData}} {{/each}}
+        {{#each offlineColleagues}} {{> colleagueData}} {{/each}}
+
+      </ul>
+    </div>
+  </div>
+</template>
+
+<template name="colleagueData">
+  <li class="list-group-item">
+    <i class="fa fa-circle text-{{#if isOnline}}success{{else}}danger{{/if}}" ></i> {{user}}
+    {{#if isOnline}}
+      {{#if last}}
+      <br />
+      <small>Currently viewing:
+        <em>
+          <span class="activeUserLink">{{last}}</span>
+        </em>
+      </small>
+      {{/if}}
+    {{else}}
+      <br />
+      <small>
+        <em>
+          <span class="activeUserLink">{{loginStatus}}</span>
+        </em>
+      </small>
+    {{/if}}
+  </li>
+</template>

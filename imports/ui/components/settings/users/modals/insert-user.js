@@ -4,6 +4,7 @@ import bootbox from 'bootbox';
 import { UserSchema } from '/imports/api/users/schema.js';
 
 import './insert-user.html';
+import '/imports/ui/components/loading/loading.js';
 
 AutoForm.hooks({
   insertUser: {

@@ -9,7 +9,7 @@ import '/imports/ui/components/purchase-orders/purchase-order-items/purchase-ord
 import '/imports/ui/components/purchase-orders/modals/update-purchase-order.js';
 import '/imports/ui/components/documents/document-container.js';
 import '/imports/ui/components/fab/fab-edit.js';
-
+import '/imports/ui/components/watchlist/watchlist.js';
 import './purchase-order-detail.html';
 
 Template.purchaseOrderDetail.onCreated(function() {

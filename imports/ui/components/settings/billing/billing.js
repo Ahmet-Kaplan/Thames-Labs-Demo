@@ -5,6 +5,7 @@ import './overview/billing-overview.js';
 import './stripe-how.html';
 import './subscribe/stripe-subscribe.js';
 import './invoices/invoices.js';
+import '/imports/ui/components/loading/loading.js';
 
 import './billing.html';
 

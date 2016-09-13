@@ -10,6 +10,8 @@ import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-contact-purchase-order.js';
 import '/imports/ui/components/tasks/panel/task-panel.js';
 import '/imports/ui/components/projects/modals/insert-contact-project-modal.js';
+import '/imports/ui/components/jumplist/jumplist.js';
+import '/imports/ui/components/watchlist/watchlist.js';
 
 import { Activities, Companies, Contacts, Projects, PurchaseOrders, Opportunities, Tenants } from '/imports/api/collections.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';

@@ -1,4 +1,5 @@
 import './fab-add.html';
+import './fab.css';
 
 Template.fabAdd.events({
   'click #fab': function(event) {

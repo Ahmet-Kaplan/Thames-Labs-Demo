@@ -1,5 +1,6 @@
 import './company-lookup.html';
 import './company-lookup.css';
+import '/imports/ui/components/loading/loading.js';
 
 /*
   This template looks up companies from their website or their name.

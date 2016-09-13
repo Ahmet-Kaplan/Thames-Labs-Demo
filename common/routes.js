@@ -19,21 +19,21 @@ function tidyUpUI(context) {
 function setHeapParams(context) {
   if (Roles.userIsInRole(Meteor.userId(), 'superadmin')) return;
 
-  var user = Meteor.users.findOne({
+  const user = Meteor.users.findOne({
     _id: Meteor.userId()
   });
   if (!user) return;
-  var profile = user.profile;
+  const profile = user.profile;
   if (!profile) return;
 
   if (heap) {
-    var name = profile.name;
-    var tenant = Tenants.findOne({
+    const name = profile.name;
+    const tenant = Tenants.findOne({
       _id: user.group
     });
-    var tenantName = (tenant ? " (" + tenant.name + ")" : '');
+    const tenantName = (tenant ? " (" + tenant.name + ")" : '');
 
-    var identifier = name + tenantName;
+    const identifier = name + tenantName;
     heap.identify(identifier);
     heap.addUserProperties({
       'Name': name,
@@ -214,7 +214,7 @@ router.route('/activities', {
     layout.render('appLayout', {
       main: 'activityList'
     });
-  },
+  }
 });
 
 router.route('/companies', {
@@ -223,7 +223,7 @@ router.route('/companies', {
     layout.render('appLayout', {
       main: 'companyList'
     });
-  },
+  }
 });
 
 router.route('/companies/:id', {

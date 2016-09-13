@@ -9,6 +9,7 @@ import { stripeCustomer, stripePlan, upcomingInvoice } from '/imports/api/billin
 import { AutoForm } from "meteor/aldeed:autoform";
 
 import '../card/card-form.js';
+import '/imports/ui/components/loading/loading.js';
 
 import './stripe-subscribe.html';
 
@@ -25,7 +26,7 @@ Template.stripeSubscribe.onRendered(function() {
     const plans = {
       gpb: 'premierGBP',
       eur: 'premierEUR',
-      usd: 'premierUSD',
+      usd: 'premierUSD'
     };
     stripePlan.update(plans[paymentCurrency], stripeCustomer.getCoupon());
   });

@@ -1,6 +1,8 @@
 import './search-results.html';
 import './search-results.less';
 
+import '/imports/ui/components/loadmore/loadmore.js';
+
 Template.searchResults.onRendered(function() {
 
   const index = this.data.index;
