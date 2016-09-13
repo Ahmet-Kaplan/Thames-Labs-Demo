@@ -95,6 +95,11 @@ Template.registerHelper("isApp", function() {
   return Meteor.isCordova;
 });
 
+Template.registerHelper("isiOSApp", function() {
+  const isiOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/g) !== null;
+  return Meteor.isCordova && isiOS;
+});
+
 // Make search indices available to templates - e.g. for EasySearch components
 Template.registerHelper('ActivitiesIndex', () => Activities.index);
 Template.registerHelper('EventLogIndex', () => EventLog.index);
