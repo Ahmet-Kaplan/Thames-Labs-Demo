@@ -38,5 +38,17 @@ export const TenantFilters = {
       if (!flagged) return false;
       return true;
     }
+  },
+  type: {
+    display: 'Type:',
+    prop: 'type',
+    defaultOptions: function() {
+      return ['Free', 'Paying'];
+    },
+    strict: true,
+    allowMultiple: false,
+    displayValue: function(type) {
+      return type;
+    }
   }
 };
