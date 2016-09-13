@@ -1,3 +1,6 @@
+import './watchlist.html';
+import './watchlist.css';
+
 Template.watchlistAdmin.onCreated(function() {
   this.watchState = new ReactiveVar(false);
   const self = this;
