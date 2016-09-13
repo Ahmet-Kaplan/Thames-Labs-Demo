@@ -1,3 +1,5 @@
+import './watchedEntity.html';
+import './watchedEntity.css';
 import { Activities, Companies, Contacts } from '/imports/api/collections.js';
 
 Template.watchedEntityWidget.onCreated(function() {

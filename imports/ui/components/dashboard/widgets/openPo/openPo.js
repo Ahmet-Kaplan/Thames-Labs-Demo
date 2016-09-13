@@ -1,3 +1,4 @@
+import './openPo.html';
 import { PurchaseOrders, PurchaseOrderItems } from '/imports/api/collections.js';
 
 Template.openPoWidget.onRendered(function() {

@@ -1,3 +1,6 @@
+import './tasksInformation.html';
+import '../report-widget.css';
+
 Template.taskInformationWidget.onCreated(function() {
   this.createdTaskCount = new ReactiveVar(0);
   this.completedTaskCount = new ReactiveVar(0);

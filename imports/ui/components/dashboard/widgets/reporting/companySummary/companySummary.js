@@ -1,3 +1,6 @@
+import './companySummary.html';
+import '../report-widget.css';
+
 Template.companySummaryWidget.onCreated(function() {
   this.totalTasks = new ReactiveVar(0);
   this.totalCompanies = new ReactiveVar(0);

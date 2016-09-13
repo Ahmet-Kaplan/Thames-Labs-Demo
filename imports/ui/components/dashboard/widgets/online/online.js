@@ -1,3 +1,4 @@
+import './online.html';
 Template.onlineWidget.onCreated(function() {
   this.subscribe('userPresence');
 });
