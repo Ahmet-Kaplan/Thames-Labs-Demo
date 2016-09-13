@@ -1,3 +1,7 @@
+import './loading.html';
+import './loading.css';
+import './loading.less';
+
 Template.loading.rendered = function() {
   $('#loading-page').fadeIn(200);
 };
