@@ -1,9 +1,12 @@
-var jumplistIndex = -1;
+import './jumplist.html';
+import './jumplist.css';
+
+let jumplistIndex = -1;
 
 Template.jumplist.onRendered(function() {
   this.$('.jumplist-elt a').on('click', function(event) {
     event.preventDefault();
-    var target = $(this).attr('href');
+    const target = $(this).attr('href');
 
     if(target.length) {
       $('html, body').animate({
