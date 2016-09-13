@@ -3,6 +3,8 @@ import { ContactTour } from '/imports/ui/tutorials/add-contact.js';
 import { TagsTour } from '/imports/ui/tutorials/add-tag.js';
 import { UserTour } from '/imports/ui/tutorials/add-user.js';
 
+import '/imports/ui/components/tips/tipsModal.js';
+
 import './help-menu.css';
 import './help-menu.html';
 

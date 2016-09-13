@@ -1,3 +1,6 @@
+import './tipsModal.html';
+import './tipsModal.css';
+
 import { TipList } from '/imports/api/lookup/tips.js';
 
 Template.tipsModal.onCreated(function() {
