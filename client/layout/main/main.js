@@ -1,6 +1,7 @@
 import { loadTawkTo, updateTawkToVisitor } from '/imports/api/tawk-to/tawk-to.js';
 import { Tenants } from '/imports/api/collections.js';
 import '/imports/ui/components/loading/loading.js';
+import '/imports/ui/components/login/login.js';
 
 Template.appLayout.onCreated(function() {
 });
