@@ -31,7 +31,6 @@ Template.dashboard.onCreated(function() {
   if (typeof savedWidgets === 'undefined' || savedWidgets === {}) {
     this.widgetListUser.set(widgetsDefault);
   } else {
-    console.log('saved');
     this.widgetListUser.set(savedWidgets);
   }
 });
