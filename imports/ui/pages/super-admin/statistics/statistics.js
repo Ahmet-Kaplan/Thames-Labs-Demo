@@ -12,9 +12,8 @@ Template.adminStatistics.onCreated(function() {
 Template.adminStatistics.helpers({
   totalUsers: function() {
     return Meteor.users.find({
-      group: {
-        $exists: true
-      }
+      group: { $exists: true },
+      profile: { $exists: true }
     }).count();
   },
   totalTenants: function() {
@@ -121,7 +120,7 @@ Template.adminStatistics.helpers({
       const tenantUserCount = Meteor.users.find({
         group: t._id
       }).fetch().length;
-      userCount += tenantUserCount - t.stripe.maxFreeUsers;
+      if (tenantUserCount > 0) userCount += tenantUserCount - t.stripe.maxFreeUsers;
     });
 
     return userCount;

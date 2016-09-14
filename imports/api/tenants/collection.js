@@ -118,6 +118,16 @@ Tenants.index = new EasySearch.Index({
         }
       }
 
+      if (options.search.props.type == "Paying") {
+        selector['stripe.stripeSubs'] = {
+          $exists: true
+        };
+      } else if (options.search.props.type == "Free") {
+        selector['stripe.stripeSubs'] = {
+          $exists: false
+        };
+      }
+
       return selector;
     }
   })
