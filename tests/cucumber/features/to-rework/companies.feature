@@ -24,27 +24,23 @@ Feature: Allow users to manage their Companies
 
   Scenario: An administrator can add CanReadCompanies permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Companies" to a restricted user
     Then the user "restricted user" should have the "CanReadCompanies" permission
 
   Scenario: An administrator can remove CanReadCompanies permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
     Then the user "restricted user" should not have the "CanReadCompanies" permission
 
   Scenario: An administrator can remove CanReadCompanies permission for itself
     Given I have the "Administrator" permission
-    And I am on the pro plan
     When I remove permissions on "Companies" for myself
     Then the user "test user" should not have the "CanReadCompanies" permission
 
   Scenario: An administrator can add back the CanReadCompanies permission for itself
     Given I have the "Administrator" permission
-    And I am on the pro plan
     When I remove permissions on "Companies" for myself
     And I add permission "CanRead" on "Companies" to myself
     Then the user "Test User" should have the "CanReadCompanies" permission
@@ -56,79 +52,63 @@ Feature: Allow users to manage their Companies
     When I navigate to "/companies"
     Then I should see the heading "Tenants"
 
-  #Adding
-  Scenario: A user can create a company
+  #Creat, edit and delete
+  Scenario: A user can create, edit and delete a company
     Given I have the "CanCreateCompanies" permission
+    And I have the "CanEditCompanies" permission
+    And I have the "CanDeleteCompanies" permission
     When I navigate to "/companies"
     And I click "#add-company"
     And I set text field with id "companyName" to "Test Company"
     And I click "#manual-fill"
     And I submit the "insertNewCompany" form
     Then I should see the heading "Test Company"
-
-  Scenario: A user without permission cannot create a companies
-    Given I do not have the "CanCreateCompanies" permission
-    When I navigate to "/companies"
-    Then I should not see "#add-company"
-
-
-  Scenario: An administrator can add CanCreateCompanies permission
-    Given I have the "Administrator" permission
-    And I am on the pro plan
-    And a restricted user exists
-    When I add permission "CanCreate" on "Companies" to a restricted user
-    Then the user "restricted user" should have the "CanCreateCompanies" permission
-
-
-  Scenario: An administrator can remove CanCreateCompanies permission
-    Given I have the "Administrator" permission
-    And I am on the pro plan
-    And a restricted user exists
-    When I remove permissions on "Companies" from a restricted user
-    Then the user "restricted user" should not have the "CanCreateCompanies" permission
-
-
-  #Editing
-  Scenario: A user can edit a company
-    Given I have the "CanEditCompanies" permission
-    And a "Company" has been created
-    When I navigate to a company page
     And I click "#edit-company"
     And I set text field "name" to "updated company name"
     And I submit the "updateCompany" form
     Then "#company-details" should contain "updated company name"
+    And I click "#remove-company"
+    And I click confirm on the modal
+    Then I should see the heading "Companies"
 
+  #Create permissions
+  Scenario: A user without permission cannot create a company
+    Given I do not have the "CanCreateCompanies" permission
+    When I navigate to "/companies"
+    Then I should not see "#add-company"
+
+  Scenario: An administrator can add CanCreateCompanies permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I add permission "CanCreate" on "Companies" to a restricted user
+    Then the user "restricted user" should have the "CanCreateCompanies" permission
+
+  Scenario: An administrator can remove CanCreateCompanies permission
+    Given I have the "Administrator" permission
+    And a restricted user exists
+    When I remove permissions on "Companies" from a restricted user
+    Then the user "restricted user" should not have the "CanCreateCompanies" permission
+
+  #Edit permissions
   Scenario: A user without permission cannot edit a company
     Given I do not have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
     Then I should not see "#edit-company"
 
-
   Scenario: An administrator can add CanEditCompanies permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanEdit" on "Companies" to a restricted user
     Then the user "restricted user" should have the "CanEditCompanies" permission
 
-
   Scenario: An administrator can remove CanEditCompanies permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
     Then the user "restricted user" should not have the "CanEditCompanies" permission
 
-  #Deleting
-  Scenario: A user can delete a company
-    Given I have the "CanDeleteCompanies" permission
-    And a "Company" has been created
-    When I navigate to a company page
-    And I click "#remove-company"
-    And I click confirm on the modal
-    Then I should see the heading "Companies"
-
+  #Delete permissions
   Scenario: A user without permission cannot delete a company
     Given I do not have the "CanDeleteCompanies" permission
     And a "Company" has been created
@@ -137,14 +117,12 @@ Feature: Allow users to manage their Companies
 
   Scenario: An administrator can add CanDeleteCompanies permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Companies" to a restricted user
     Then the user "restricted user" should have the "CanDeleteCompanies" permission
 
   Scenario: An administrator can remove CanDeleteCompanies permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
     Then the user "restricted user" should not have the "CanDeleteCompanies" permission
@@ -158,8 +136,8 @@ Feature: Allow users to manage their Companies
     Given I have the "CanReadCompanies" permission
     Then the "Companies" menu item is shown
 
-  #Extended information fields
-  Scenario: A user can add an custom field
+  #Local custom fields
+  Scenario: A user can add, edit and delete a custom field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
     When I navigate to a company page
@@ -167,40 +145,21 @@ Feature: Allow users to manage their Companies
     And I set text field with id "custom-field-name" to "velocity2"
     And I set text field with id "custom-field-text-value" to "velocity"
     And I click "#createCustomField"
-    Then I should see ".custom-field-display-item"
-
-  Scenario: A user can delete an custom field
-    Given I have the "CanEditCompanies" permission
-    And a "Company" has been created
-    When I navigate to a company page
-    And I click "#add-custom-field"
-    Then I should see a modal
-    When I set text field with id "custom-field-name" to "velocity2"
-    And I set text field with id "custom-field-text-value" to "velocity"
-    And I click "#createCustomField"
     Then I should not see a modal
+    And I should see ".custom-field-display-item"
+    And I click "#edit-custom-fields"
+    And I set text field with id "customFieldvelocity2TextValue" to "velocity"
+    And I click "#submit-ext-info"
+    Then I see a field with the name "velocity" in the custom field list
     And I click "#delete-custom-field"
     And I click confirm on the modal
     Then I should not see a modal
     Then "#custom-fields-panel" should contain "No custom fields"
 
-  Scenario: A user can edit an custom field
-    Given I have the "CanEditCompanies" permission
-    And a "Company" has been created
-    When I navigate to a company page
-    And I click "#add-custom-field"
-    And I set text field with id "custom-field-name" to "velocity2"
-    And I set text field with id "custom-field-text-value" to "velocity"
-    And I click "#createCustomField"
-    Then I should not see a modal
-    And I click "#edit-custom-fields"
-    And I set text field with id "customFieldvelocity2TextValue" to "velocity"
-    And I click "#submit-ext-info"
-    Then I see a field with the name "velocity" in the custom field list
-
   #Maps
-  Scenario: A user can do a location search and see the map when creating a company
+  Scenario: A user can do a location search and see the map when creating a company, on the details page and when editing the company
     Given I have the "CanCreateCompanies" permission
+    Given I have the "CanEditCompanies" permission
     When I navigate to "/companies"
     And I click "#add-company"
     And I set text field with id "companyName" to "Test Company"
@@ -208,19 +167,11 @@ Feature: Allow users to manage their Companies
     And I search for Cowley Road
     Then the field "postcode" should contain "CB4"
     And I should see a map
-
-  Scenario: A user can see the map on a company's page
-    Given I have the "CanCreateCompanies" permission
-    Given a "Company" has been created
-    When I navigate to a company page
-    Then I should see a map
-
-  Scenario: A user can do a location search and see the map when editing a company's details
-    Given I have the "CanEditCompanies" permission
-    And a "Company" has been created
-    When I navigate to a company page
+    And I submit the "insertNewCompany" form
+    Then I should not see a modal
+    And I should see a map
     And I click "#edit-company"
-    And I should see a modal
+    Then I should see a modal
     And I click "#newLocationSearch"
     When I search for Cowley Road
     Then the field "postcode" should contain "CB4"
@@ -269,18 +220,7 @@ Feature: Allow users to manage their Companies
     And I should not see "#btnAddTaskToEntity"
 
   #Activities
-  Scenario: A user can add an activity
-    Given a "Company" has been created
-    When I navigate to a company page
-    And I click "#general-dropdown"
-    And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
-    And I set rich text field "notes" to "test activity"
-    And I select "Note" from dropdown field "type"
-    And I click "#confirm"
-    Then I should see the activity in the timeline
-
-  Scenario: A user can edit an activity
+  Scenario: A user can add, edit and delete a company activity
     Given a "Company" has been created
     When I navigate to a company page
     And I click "#general-dropdown"
@@ -290,21 +230,11 @@ Feature: Allow users to manage their Companies
     And I select "Note" from dropdown field "type"
     And I click "#confirm"
     Then I should not see a modal
+    And I should see the activity in the timeline   
     And I click "#edit-activity"
     And I select "Email" from dropdown field "type"
     And I click "#update"
     Then I should see a toastr with the message containing "Activity updated."
-
-  Scenario: A user can delete an activity
-    Given a "Company" has been created
-    When I navigate to a company page
-    And I click "#general-dropdown"
-    And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
-    And I set rich text field "notes" to "test activity"
-    And I select "Note" from dropdown field "type"
-    And I click "#confirm"
-    Then I should not see a modal
     And I click "#remove-activity"
     And I click confirm on the modal
     Then I should see "#no-activity"
