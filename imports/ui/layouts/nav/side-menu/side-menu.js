@@ -8,3 +8,16 @@ Template.sideMenu.helpers({
     return !!Meteor.userId();
   }
 });
+
+Template.sideMenu.events({
+  'click #feedback-link-mobile': function(event) {
+    console.log('feedback');
+    event.preventDefault();
+    Modal.show('feedbackModal');
+  },
+  'click #sign-out-mobile': function() {
+    Meteor.logout(function(err) {
+      FlowRouter.reload();
+    });
+  }
+});
