@@ -1,24 +1,23 @@
 import './update-task-modal.html';
 import '/imports/ui/components/autosuggest/autosuggest.js';
 import './reminder-selector.js';
+import { Tasks } from '/imports/api/collections.js';
 
 Template.updateTaskModal.onCreated(function() {
   this.showRemindMe = new ReactiveVar(this.data.remindMe);
   this.hasDueDate = new ReactiveVar(typeof this.data.dueDate !== "undefined");
+  this.subscribe('subTasksByTaskId', this.data._id);
 });
 
 Template.updateTaskModal.helpers({
   exclusions: function() {
     const excludes = [];
 
-    excludes.push(this._id);
+    const subs = Tasks.find().fetch();
+    _.each(subs, (s) => {
+      excludes.push(s._id);
+    });
 
-    const subs = ReactiveMethod.call("tasks.getSubTasks", this._id);
-    if (subs && subs.length > 0) {
-      _.each(subs, (s) => {
-        excludes.push(s._id);
-      });
-    }
     return excludes.join(',');
   },
   hasDueDate: function() {

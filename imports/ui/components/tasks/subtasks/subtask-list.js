@@ -1,6 +1,11 @@
 import '../task-item.js';
 import '../modals/insert-task-modal.js';
 import './subtask-list.html';
+import { Tasks } from '/imports/api/collections.js';
+
+Template.subtaskList.onCreated(function() {
+  this.subscribe('subTasksByTaskId', Template.currentData()._id);
+});
 
 Template.subtaskList.events({
   'click #create-sub-task': function(event, template) {
@@ -16,7 +21,6 @@ Template.subtaskList.events({
 
 Template.subtaskList.helpers({
   subtasks: function() {
-    const subs = ReactiveMethod.apply("tasks.getSubTasks", [Template.currentData()._id]);
-    if (subs && subs.length > 0) return subs;
+    return Tasks.find({ parentTaskId: { $exists: true }});
   }
 });
