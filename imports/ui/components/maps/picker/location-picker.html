@@ -1,5 +1,5 @@
 <!--
-  locationPicker - use for viewing/editing/creating company location 
+  locationPicker - use for viewing/editing/creating company location
   Accepts addressData or companyData attributes
 -->
 <template name="locationPicker">
@@ -28,13 +28,13 @@
           or <a id="manualAddressEntry" href="#">edit it manually</a></i>
         </p>
       </div>
-      {{#if isDesktop}}
+      {{#unless isMobile}}
         <div class="col-md-7">
           {{#if showMap}}
             {{> mapEditor address=address}}
           {{/if}}
         </div>
-      {{/if}}
+      {{/unless}}
     </div>
   </div>
 
