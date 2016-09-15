@@ -21,6 +21,6 @@ Template.subtaskList.events({
 
 Template.subtaskList.helpers({
   subtasks: function() {
-    return Tasks.find({ parentTaskId: { $exists: true }});
+    return Tasks.find({ parentTaskId: Template.currentData()._id });
   }
 });

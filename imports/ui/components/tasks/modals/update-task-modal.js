@@ -13,7 +13,8 @@ Template.updateTaskModal.helpers({
   exclusions: function() {
     const excludes = [];
 
-    const subs = Tasks.find().fetch();
+    excludes.push(this._id);
+    const subs = Tasks.find({parentTaskId: Template.currentData()._id}).fetch();
     _.each(subs, (s) => {
       excludes.push(s._id);
     });
