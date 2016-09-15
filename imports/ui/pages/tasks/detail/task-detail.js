@@ -62,10 +62,6 @@ Template.taskDetail.helpers({
     }
     return "No reminder set";
   },
-  subTasks: function() {
-    const subs = ReactiveMethod.call("tasks.getSubTasks", this._id);
-    if (subs && subs.length > 0) return subs;
-  },
   parentTask: function() {
     if (this.parentTaskId) {
       const task = Tasks.findOne({
