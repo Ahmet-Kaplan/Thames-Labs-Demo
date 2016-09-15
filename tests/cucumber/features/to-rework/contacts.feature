@@ -24,14 +24,12 @@ Feature: Allow users to manage their Contacts
 
   Scenario: An administrator can add CanReadContacts permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Contacts" to a restricted user
     Then the user "restricted user" should have the "CanReadContacts" permission
 
   Scenario: An administrator can remove CanReadContacts permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Contacts" from a restricted user
     Then the user "restricted user" should not have the "CanReadContacts" permission
@@ -43,19 +41,12 @@ Feature: Allow users to manage their Contacts
     When I navigate to "/contacts"
     Then I should see the heading "Tenants"
 
-  #Adding
-  Scenario: A user can create a contact
+  #Create, edit and delete
+  Scenario: A user can create, edit and delete a contact
     Given I have the "CanCreateContacts" permission
-    When I navigate to "/contacts"
-    And I click "#add-contact"
-    And I set text field "forename" to "test"
-    And I set text field "surname" to "surname"
-    And I submit the "insertContact" form
-    Then I should see the heading "test surname"
-
-  Scenario: A user can create a contact belonging to a company
-    Given I have the "CanCreateContacts" permission
-    And I have the "CanReadCompanies" permission
+    Given I have the "CanEditContacts" permission
+    Given I have the "CanDeleteContacts" permission
+    Given I have the "CanReadCompanies" permission
     And a "Company" has been created
     When I navigate to "/contacts"
     And I click "#add-contact"
@@ -64,7 +55,19 @@ Feature: Allow users to manage their Contacts
     And I selectize "companyId" to "Test Ltd"
     And I submit the "insertContact" form
     Then I should see the heading "test surname"
+    And a "Contact" has been created
+    When I navigate to a contact page
+    And I click "#edit-contact"
+    And I set text field "forename" to "Forename"
+    And I submit the "updateContact" form
+    Then "#contact-details" should contain "Forename surname"
+    And a "Contact" has been created
+    When I navigate to a contact page
+    And I click "#remove-contact"
+    And I click confirm on the modal
+    Then I should see the heading "Contacts"
 
+  #Adding
   Scenario: A user without permission cannot create a contacts
     Given I do not have the "CanCreateContacts" permission
     When I navigate to "/contacts"
@@ -72,28 +75,17 @@ Feature: Allow users to manage their Contacts
 
   Scenario: An administrator can add CanCreateContacts permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanCreate" on "Contacts" to a restricted user
     Then the user "restricted user" should have the "CanCreateContacts" permission
 
   Scenario: An administrator can remove CanCreateContacts permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Contacts" from a restricted user
     Then the user "restricted user" should not have the "CanCreateContacts" permission
 
   #Editing
-  Scenario: A user can edit a contact
-    Given I have the "CanEditContacts" permission
-    And a "Contact" has been created
-    When I navigate to a contact page
-    And I click "#edit-contact"
-    And I set text field "forename" to "Forename"
-    And I submit the "updateContact" form
-    Then "#contact-details" should contain "Forename Surname"
-
   Scenario: A user without permission cannot edit a contact
     Given I do not have the "CanEditContacts" permission
     And a "Contact" has been created
@@ -102,27 +94,17 @@ Feature: Allow users to manage their Contacts
 
   Scenario: An administrator can add CanEditContacts permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanEdit" on "Contacts" to a restricted user
     Then the user "restricted user" should have the "CanEditContacts" permission
 
   Scenario: An administrator can remove CanEditContacts permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Contacts" from a restricted user
     Then the user "restricted user" should not have the "CanEditContacts" permission
 
   #Deleting
-  Scenario: A user can delete a contact
-    Given I have the "CanDeleteContacts" permission
-    And a "Contact" has been created
-    When I navigate to a contact page
-    And I click "#remove-contact"
-    And I click confirm on the modal
-    Then I should see the heading "Contacts"
-
   Scenario: A user without permission cannot delete a contact
     Given I do not have the "CanDeleteContacts" permission
     And a "Contact" has been created
@@ -131,14 +113,12 @@ Feature: Allow users to manage their Contacts
 
   Scenario: An administrator can add CanDeleteContacts permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Contacts" to a restricted user
     Then the user "restricted user" should have the "CanDeleteContacts" permission
 
   Scenario: An administrator can remove CanDeleteContacts permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Contacts" from a restricted user
     Then the user "restricted user" should not have the "CanDeleteContacts" permission
@@ -160,24 +140,19 @@ Feature: Allow users to manage their Contacts
     Then I should see "#custom-fields-panel"
 
   #Maps
-  Scenario: A user can see the map on a contact's page
-    Given a "Contact" has been created
-    When I navigate to a contact page
-    Then I should see a map
-
   Scenario: A user can do a location search and see the map when creating a contact
     Given I have the "CanCreateContacts" permission
+    Given I have the "CanEditContacts" permission
     When I navigate to "/contacts"
     And I click "#add-contact"
     And I set text field "forename" to "Test"
+    And I set text field "surname" to "surname"
     And I search for Cowley Road
     Then the field "postcode" should contain "CB4"
     And I should see a map
-
-  Scenario: A user can see the address fields for a contact not belonging to a company
-    Given I have the "CanEditContacts" permission
-    And a "Contact" has been created
-    When I navigate to a contact page
+    And I submit the "insertContact" form
+    Then I should not see a modal
+    Then I should see a map
     And I click "#edit-contact"
     Then I should see ".form-address"
 
@@ -267,32 +242,12 @@ Feature: Allow users to manage their Contacts
     And I select "Note" from dropdown field "type"
     And I set rich text field "notes" to "test activity"
     And I click "#confirm"
-    Then I should see the activity in the timeline
-
-  Scenario: A user can edit an activity
-    Given a "Contact" has been created
-    When I navigate to a contact page
-    And I click "#general-dropdown"
-    And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
-    And I set rich text field "notes" to "test activity"
-    And I select "Note" from dropdown field "type"
-    And I click "#confirm"
     Then I should not see a modal
+    Then I should see the activity in the timeline
     And I click "#edit-activity"
     And I select "Email" from dropdown field "type"
     And I click "#update"
     Then I should see a toastr with the message containing "Activity updated."
-
-  Scenario: A user can delete an activity
-    Given a "Contact" has been created
-    When I navigate to a contact page
-    And I click "#general-dropdown"
-    And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
-    And I set rich text field "notes" to "test activity"
-    And I select "Note" from dropdown field "type"
-    And I click "#confirm"
     Then I should not see a modal
     And I click "#remove-activity"
     And I click confirm on the modal
