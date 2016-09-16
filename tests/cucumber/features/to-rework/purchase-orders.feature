@@ -15,69 +15,38 @@ Feature: Allow users to manage their Purchase Orders
     Then I should see the heading "Tenants"
 
   Scenario: A user can see the Purchase Orders list
-    Given I am a logged in user
-    And I am on the pro plan
-    And I have the "CanReadPurchaseOrders" permission
-    When I navigate to "/purchaseorders"
+    Given I have the "CanReadPurchaseOrders" permission
+    When I visit purchaseorders
     Then I should see the heading "Purchase Orders"
 
-  Scenario: A user can add a new purchase order to a company
-    Given I am a logged in user
-    And I am on the pro plan
-    And a "Company" has been created
+  Scenario: A user can add, edit and delete a purchase order
+    Given a "Company" has been created
     And I have the "CanReadCompanies" permission
-    And I have the "CanReadPurchaseOrders" permission
     And I have the "CanCreatePurchaseOrders" permission
-    And I click "#menu-link-purchaseorders"
+    And I have the "CanEditPurchaseOrders" permission
+    And I have the "CanDeletePurchaseOrders" permission
+    And I visit purchaseorders
     And I click "#add-purchase-order"
     And I set text field with selector "#description" to "test purchase order"
     And I selectize "companyId" to "Test Ltd"
     And I click "#create-purchase-order"
     Then I should see the heading "test purchase order"
-
-  Scenario: A user can edit a purchase order
-    Given I am a logged in user
-    And I am on the pro plan
-    And a "Company" has been created
-    And I have the "CanReadCompanies" permission
-    And I have the "CanReadPurchaseOrders" permission
-    And I have the "CanEditPurchaseOrders" permission
-    And I have the "CanCreatePurchaseOrders" permission
-    And I click "#menu-link-purchaseorders"
-    And a "PurchaseOrder" has been created
-    And I click "#list-item"
     Then I click "#edit-purchase-order"
     And I set textarea "description" to "new purchase order"
     And I click "#update-purchase-order"
     Then I should see the heading "new purchase order"
-
-  Scenario: A user can delete a purchase order
-    Given I am a logged in user
-    And I am on the pro plan
-    And a "Company" has been created
-    And I have the "CanReadCompanies" permission
-    And I have the "CanReadPurchaseOrders" permission
-    And I have the "CanCreatePurchaseOrders" permission
-    And I have the "CanCreatePurchaseOrders" permission
-    And I have the "CanDeletePurchaseOrders" permission
-    And I click "#menu-link-purchaseorders"
-    And a "PurchaseOrder" has been created
-    And I click "#list-item"
     And I click "#remove-purchase-order"
     And I click confirm on the modal
     Then I should not see "#po-item"
 
   Scenario: A user can add, edit and delete a purchase order item
-    Given I am a logged in user
-    And I am on the pro plan
-    And a "Company" has been created
+    Given a "Company" has been created
     And I have the "CanReadCompanies" permission
     And I have the "CanReadPurchaseOrders" permission
     And I have the "CanCreatePurchaseOrders" permission
     And I have the "CanEditPurchaseOrders" permission
-    And I click "#menu-link-purchaseorders"
     And a "PurchaseOrder" has been created
-    And I click "#list-item"
+    And I go to a purchaseorders detail page
     Then I click "#add-item"
     And I set text field with selector "#description" to "test item"
     And I set text field with selector "#code" to "test00001"
@@ -96,22 +65,17 @@ Feature: Allow users to manage their Purchase Orders
     Then element "#purchase-order-items" should contain the text "No items"
 
   Scenario: A user can see the purchase orders overview
-    Given I am on the pro plan
-    And I click "#menu-link-purchaseorders"
+    When I visit purchaseorders
     And I click "#ref_poOverviewWidget"
     Then I should see "#poOverviewPop"
 
   #Activities
   Scenario: A user can add, edit and delete an activity
-    Given I am a logged in user
-    And I am on the pro plan
-    And I have the "CanReadCompanies" permission
+    Given I have the "CanReadCompanies" permission
     And I have the "CanReadPurchaseOrders" permission
     And I have the "CanEditPurchaseOrders" permission
     And a "PurchaseOrder" has been created
-    And I click "#menu-link-purchaseorders"
-    And I click "#list-item"
-    And I click "#general-dropdown"
+    And I go to a purchaseorders detail page
     And I click "#add-activity"
     Then I should see a modal
     When I set text field "activityTimestamp" to "05/05/2015 05:05"
@@ -137,32 +101,28 @@ Feature: Allow users to manage their Purchase Orders
 
   Scenario: A user can filter purchase orders by company
     Given I have the "CanReadCompanies" permission
-    And I am on the pro plan
     And I have the "CanReadPurchaseOrders" permission
     And a "PurchaseOrder" has been created
     And an additional "PurchaseOrder" has been created
-    And I click "#menu-link-purchaseorders"
+    And I visit purchaseorders
     And I set the filter to "Company:" then "Test Ltd"
     Then I should see ".filter-tag"
     And "#results-count" should contain "1 purchase order"
 
   Scenario: A user can filter purchase orders by status
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a "PurchaseOrder" has been created
     And an additional "PurchaseOrder" has been created
-    And I click "#menu-link-purchaseorders"
+    And I visit purchaseorders
     And I set the filter to "Status:" then "Requested"
     Then I should see ".filter-tag"
     And "#results-count" should contain "1 purchase order"
 
   #Notifications
   Scenario: A user should see a notification when status is set to "Approved"
-    Given I am on the pro plan
-    And I have the "CanEditPurchaseOrders" permission
+    Given I have the "CanEditPurchaseOrders" permission
     And a "PurchaseOrder" has been created
-    When I click "#menu-link-purchaseorders"
-    And I click "#list-item"
+    When I go to a purchaseorders detail page
     And I click "#edit-purchase-order"
     And I select "Approved" from dropdown field "status"
     And I click "#update-purchase-order"
@@ -171,12 +131,10 @@ Feature: Allow users to manage their Purchase Orders
     When I click "#notifications-menu"
     Then I should see "#notification"
 
-  Scenario: A user should see a notification when status is set to "Rejected"
-    Given I am on the pro plan
-    And I have the "CanEditPurchaseOrders" permission
+  Scenario: A user should see a notification when status is set to "Rejected" and be able to remove it
+    Given I have the "CanEditPurchaseOrders" permission
     And a "PurchaseOrder" has been created
-    When I click "#menu-link-purchaseorders"
-    And I click "#list-item"
+    When I go to a purchaseorders detail page
     And I click "#edit-purchase-order"
     And I select "Rejected" from dropdown field "status"
     And I click "#update-purchase-order"
@@ -184,19 +142,6 @@ Feature: Allow users to manage their Purchase Orders
     And I should see "#notifications-menu"
     When I click "#notifications-menu"
     Then I should see "#notification"
-
-  Scenario: A user can remove a notification
-    Given I am on the pro plan
-    And I have the "CanEditPurchaseOrders" permission
-    And a "PurchaseOrder" has been created
-    When I click "#menu-link-purchaseorders"
-    And I click "#list-item"
-    And I click "#edit-purchase-order"
-    And I select "Rejected" from dropdown field "status"
-    And I click "#update-purchase-order"
-    Then I should not see a modal
-    And I should see "#notifications-menu"
-    When I click "#notifications-menu"
     And I click "#notification"
     And I click "#removeNotification"
     Then I should not see a modal

@@ -9,13 +9,13 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Given I have the "Administrator" permission
 
   Scenario: An Administrator can see the subscription button and the modal
-    When I navigate to "/settings/users"
+    When I go to the user settings
     Then I should see "#upScheme"
     When I click "#upScheme"
     Then I should see a modal
 
   Scenario: An administrator can subscribe by entering the correct card details
-    When I navigate to "/settings/users"
+    When I go to the user settings 
     When I click "#upScheme"
     Then I should see a modal
     When I set text field with id "addUserName" to "Another User"
@@ -32,7 +32,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
 
   Scenario: After subscribing, an administrator can add a new user
     Given I have subscribed to the paying plan
-    When I navigate to "/settings/users"
+    When I go to the user settings
     And I click "#add-user"
     And I set text field with id "addUserName" to "Another User"
     And I set text field with id "addUserEmail" to "another@domain.com"
@@ -44,7 +44,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
   Scenario: When removing the last additional user, the administrator should see the upgrade button
     Given I have subscribed to the paying plan
     And I have an additional user
-    When I navigate to "/settings/users"
+    When I go to the user settings
     When I click ".list-group-item:nth-of-type(2) #delete-user"
     Then I should see a modal
     When I click confirm on the modal
@@ -56,7 +56,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
 
   Scenario: An administrator can update its card details
     Given I have subscribed to the paying plan
-    When I navigate to "/settings/billing"
+    When I go to the user settings
     Then I should see "#updateCardDetails"
     When I click "#updateCardDetails"
     When I set text field with id "cardNumber" to "4242424242424242"
@@ -70,7 +70,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
 
   Scenario: An administrator can update its email for invoices
     Given I have subscribed to the paying plan
-    When I navigate to "/settings/billing"
+    When I go to the billing settings 
     Then I should see "#updateEmail"
     When I click "#updateEmail"
     When I set text field with selector ".bootbox-input-text" to "newemail@domain.com"
@@ -81,7 +81,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then the Stripe field "#stripeEmail" should say "newemail@domain.com"
 
   Scenario: An administrator can add a coupon before subscribing
-    When I navigate to "/settings/billing"
+    When I go to the billing settings
     When I click "#updateCoupon"
     Then I should see a modal
     When I set text field with id "couponName" to "chamber"
@@ -90,7 +90,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     And the Stripe field "#couponText" should contain "chamber"
 
   Scenario: An administrator cannot add a fake coupon
-    When I navigate to "/settings/billing"
+    When I go to the billing settings
     When I click "#updateCoupon"
     Then I should see a modal
     When I set text field with id "couponName" to "fake"
@@ -98,7 +98,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see an "error" toastr
 
   Scenario: An administrator cannot subscribe with incorrect card Number
-    When I navigate to "/settings/users"
+    When I go to the user settings 
     When I click "#upScheme"
     Then I should see a modal
     When I set text field with id "addUserName" to "Another User"
@@ -111,7 +111,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see an "error" toastr with the message "Your card number is incorrect."
 
   Scenario: An administrator cannot subscribe with incorrect expiry month
-    When I navigate to "/settings/users"
+    When I go to the user settings
     When I click "#upScheme"
     Then I should see a modal
     When I set text field with id "addUserName" to "Another User"
@@ -124,7 +124,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see an "error" toastr with the message "Your card's expiration month is invalid."
 
   Scenario: An administrator cannot subscribe with incorrect expiry year
-    When I navigate to "/settings/users"
+    When I go to the user settings
     When I click "#upScheme"
     Then I should see a modal
     When I set text field with id "addUserName" to "Another User"
