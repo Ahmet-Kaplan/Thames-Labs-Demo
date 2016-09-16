@@ -56,7 +56,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
 
   Scenario: An administrator can update its card details
     Given I have subscribed to the paying plan
-    When I go to the user settings
+    When I go to the billing settings
     Then I should see "#updateCardDetails"
     When I click "#updateCardDetails"
     When I set text field with id "cardNumber" to "4242424242424242"
