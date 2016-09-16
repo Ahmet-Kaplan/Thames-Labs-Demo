@@ -59,6 +59,9 @@
             <div class="tab-pane fade" id="admin">
               <div class="text-center">
                 <button class="btn btn-default btn-huge text-center" id="admin-tutorial"><h4 class="tutorial-title"><i class="fa fa-fw fa-users"></i> Add a user</h4>Show me how to add a user to RealTimeCRM</button>
+                {{#unless isMobile}}
+                  <button class="btn btn-default btn-huge text-center" id="import-tutorial"><h4 class="tutorial-title"><i class="fa fa-fw fa-upload"></i> Import data</h4>Show me how to import my data to RealTimeCRM</button>
+                {{/unless}}
                 <button class="btn btn-default btn-huge text-center" id="placeholder"><h4 class="tutorial-title">Watch this space!</h4>We'll be adding more tutorials here soon</button>
               </div>
             </div>

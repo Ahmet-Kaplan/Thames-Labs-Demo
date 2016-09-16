@@ -2,6 +2,7 @@ import { CompanyTour } from '/imports/ui/tutorials/add-company.js';
 import { ContactTour } from '/imports/ui/tutorials/add-contact.js';
 import { TagsTour } from '/imports/ui/tutorials/add-tag.js';
 import { UserTour } from '/imports/ui/tutorials/add-user.js';
+import { ImportTour } from '/imports/ui/tutorials/import-data.js';
 
 import '/imports/ui/components/tips/tipsModal.js';
 
@@ -34,6 +35,10 @@ Template.help.events({
   'click #admin-tutorial'() {
     Modal.hide();
     UserTour.start();
+  },
+  'click #import-tutorial'() {
+    Modal.hide();
+    ImportTour.start();
   },
   'click #close-help': function(event, template) {
     Modal.hide();
