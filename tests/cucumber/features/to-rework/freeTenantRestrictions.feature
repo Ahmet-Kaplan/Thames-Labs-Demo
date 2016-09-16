@@ -6,7 +6,8 @@ Feature: Restrict free users from certain features
 
   Scenario: A free user should see the upgrade modal when trying to add a new user
     Given I have the "Administrator" permission
-    When I navigate to "/settings/users"
+    When I go to the admin screen
+    And I click "#user-link"
     And I click "#add-user"
     Then I should see a modal with the title "Add user"
     And I should see "#cardNumber"

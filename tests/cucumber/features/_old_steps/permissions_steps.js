@@ -1,5 +1,4 @@
 module.exports = function() {
-  var url = require('url');
 
   function setPermission(permissionName, value, done) {
     Meteor.call('setPermission', permissionName, value, done);
@@ -30,9 +29,9 @@ module.exports = function() {
   });
 
   this.Then(/^I should have the "([^"]*)" permission$/, function(permissionName) {
-    var result = browser
+    const result = browser
       .executeAsync(function(innerPermissionName, done) {
-        var user = Meteor.user();
+        const user = Meteor.user();
         Meteor.call('checkUserHasPermission', user.username, innerPermissionName, function(err, res) {
           done(res);
         });
@@ -41,9 +40,9 @@ module.exports = function() {
   });
 
   this.Then(/^I should not have the "([^"]*)" permission$/, function(permissionName) {
-    var result = browser
+    const result = browser
       .executeAsync(function(innerPermissionName, done) {
-        var user = Meteor.user();
+        const user = Meteor.user();
         Meteor.call('checkUserHasPermission', user.username, innerPermissionName, function(err, res) {
           done(res);
         });
@@ -52,7 +51,7 @@ module.exports = function() {
   });
 
   this.Then(/^the user "([^"]*)" should have the "([^"]*)" permission$/, function(userName, permissionName) {
-    var result = browser
+    const result = browser
       .executeAsync(function(innerUserName, innerPermissionName, done) {
         Meteor.call('checkUserHasPermission', innerUserName, innerPermissionName, function(err, res) {
           done(res);
@@ -62,7 +61,7 @@ module.exports = function() {
   });
 
   this.Then(/^the user "([^"]*)" should not have the "([^"]*)" permission$/, function(userName, permissionName) {
-    var result = browser
+    const result = browser
       .executeAsync(function(innerUserName, innerPermissionName, done) {
         Meteor.call('checkUserHasPermission', innerUserName, innerPermissionName, function(err, res) {
           done(res);
@@ -72,7 +71,7 @@ module.exports = function() {
   });
 
   this.Then(/^the restricted user should not exist in the database$/, function() {
-    var result = browser
+    const result = browser
       .executeAsync(function(done) {
         Meteor.call('getUserByEmail', 'restricted@domain.com', function(err, res) {
           done(res);
