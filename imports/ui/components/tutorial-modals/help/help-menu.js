@@ -3,6 +3,7 @@ import { ContactTour } from '/imports/ui/tutorials/add-contact.js';
 import { TagsTour } from '/imports/ui/tutorials/add-tag.js';
 import { UserTour } from '/imports/ui/tutorials/add-user.js';
 import { ImportTour } from '/imports/ui/tutorials/import-data.js';
+import { SearchFilterTour } from '/imports/ui/tutorials/search-filter.js';
 
 import '/imports/ui/components/tips/tipsModal.js';
 
@@ -39,6 +40,10 @@ Template.help.events({
   'click #import-tutorial'() {
     Modal.hide();
     ImportTour.start();
+  },
+  'click #search-filter-tutorial'() {
+    Modal.hide();
+    SearchFilterTour.start();
   },
   'click #close-help': function(event, template) {
     Modal.hide();
