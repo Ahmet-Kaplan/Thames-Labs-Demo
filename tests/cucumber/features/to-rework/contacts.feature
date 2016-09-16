@@ -194,7 +194,6 @@ Feature: Allow users to manage their Contacts
     And I create a new contact belonging to a company
     When I visit Contacts
     And I set the filter to "Company:" then "Test Ltd"
-    And the page is loaded
     Then I should see ".filter-tag"
     And I should see ".fa-envelope"
     And "#results-count" should contain "1 contact"

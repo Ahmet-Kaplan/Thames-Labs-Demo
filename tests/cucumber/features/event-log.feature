@@ -4,7 +4,7 @@ Feature: Allow users to view event logs
   So that I can manage the previous use of my account
 
   Background:
-    Given I have permission to read event logs 
+    Given I have the "CanReadEventLog" permission 
 
   Scenario: A user can see an event in the event log
     Given an "Event" has been created
