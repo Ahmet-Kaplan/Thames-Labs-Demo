@@ -54,6 +54,7 @@ Feature: Allow users to manage their Products
     And I click "#edit-product"
     And I set text field "name" to "updated product name"
     And I submit the "updateProduct" form
+    Then I should not see a modal
     Then "#product-name" should say "updated product name"
     And I click "#delete-product"
     And I click confirm on the modal

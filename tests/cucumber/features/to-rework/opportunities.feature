@@ -269,7 +269,7 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "Administrator" permission
     And an "Opportunity" has been created
     And an additional "Opportunity" has been created
-    When I vist Opportunities
+    When I visit Opportunities
     And I set the filter to "Value <" then "50"
     Then I should see ".filter-tag"
     And "#results-count" should contain "1 opportunity"
