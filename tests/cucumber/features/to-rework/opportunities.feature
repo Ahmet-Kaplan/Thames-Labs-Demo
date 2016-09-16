@@ -33,14 +33,12 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: An administrator can add CanReadOpportunities permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanRead" on "Opportunities" to a restricted user
     Then the user "restricted user" should have the "CanReadOpportunities" permission
 
   Scenario: An administrator can remove CanReadOpportunities permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
     Then the user "restricted user" should not have the "CanReadOpportunities" permission
@@ -58,18 +56,28 @@ Feature: Allow users to manage their sales opportunities
     Then I should see "#oppOverviewPop"
 
   #Adding
-  Scenario: A user can add an opportunity
+  Scenario: A user can add, edit and delete an opportunity
     Given I have the "CanCreateOpportunities" permission
+    Given I have the "CanEditOpportunities" permission
+    Given I have the "CanDeleteOpportunities" permission
     And a "Company" has been created
     When I navigate to "/opportunities"
     And I click "#create-opportunity"
-    And I set text field "name" to "test opportunity 2"
+    And I set text field "name" to "test opportunity"
     And I set textarea "description" to "test description"
     And I set text field "date" to "05/05/2015 05:05"
     And I set text field "value" to "500"
     And I selectize "companyId" to "Test Ltd"
     Then I submit the "insertOpportunity" form
-    Then I should see the heading "test opportunity 2"
+    Then I should see the heading "test opportunity"
+    When I click "#edit-opportunity"
+    Then I should see a modal
+    When I set text field "name" to "updated opportunity 2"
+    And I submit the "updateOpportunity" form
+    Then I should see the heading "updated opportunity 2"
+    And I click "#remove-opportunity"
+    And I click confirm on the modal
+    Then I should see the heading "Opportunities"
 
   Scenario: A user without permission cannot create a opportunity
     Given I do not have the "CanReadOpportunities" permission
@@ -78,30 +86,17 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: An administrator can add CanCreateOpportunities permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanCreate" on "Opportunities" to a restricted user
     Then the user "restricted user" should have the "CanCreateOpportunities" permission
 
   Scenario: An administrator can remove CanCreateOpportunities permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
     Then the user "restricted user" should not have the "CanCreateOpportunities" permission
 
   #Editing
-  Scenario: A user can edit an opportunity
-    Given I have the "CanEditOpportunities" permission
-    And an "Opportunity" has been created
-    When I navigate to an opportunity page
-    Then I should see the heading "test opportunity"
-    When I click "#edit-opportunity"
-    Then I should see a modal
-    When I set text field "name" to "updated opportunity 2"
-    And I submit the "updateOpportunity" form
-    Then I should see the heading "updated opportunity 2"
-
   Scenario: A user without permission cannot edit an opportunity
     Given I do not have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
@@ -110,7 +105,6 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: An administrator can add CanEditOpportunities permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanEdit" on "Opportunities" to a restricted user
     Then the user "restricted user" should have the "CanEditOpportunities" permission
@@ -123,14 +117,6 @@ Feature: Allow users to manage their sales opportunities
     Then the user "restricted user" should not have the "CanEditOpportunities" permission
 
   #Deleting
-  Scenario: A user can delete an opportunity
-    Given I have the "CanDeleteOpportunities" permission
-    And an "Opportunity" has been created
-    When I navigate to an opportunity page
-    And I click "#remove-opportunity"
-    And I click confirm on the modal
-    Then I should see the heading "Opportunities"
-
   Scenario: A user without permission cannot delete a opportunity
     Given I do not have the "CanDeleteOpportunities" permission
     And an "Opportunity" has been created
@@ -172,7 +158,7 @@ Feature: Allow users to manage their sales opportunities
     Then "#previous-stage" should be disabled
     And "#timeline" should contain "Test User moved this opportunity from stage"
 
-  Scenario: A user can mark an opportunity as lost and reopen it
+  Scenario: A user can mark an opportunity as lost and reopen it, a user without permission cannot do so
     Given I have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
     When I navigate to an opportunity page
@@ -185,11 +171,6 @@ Feature: Allow users to manage their sales opportunities
     And I click confirm on the modal
     Then I should see "#next-stage"
     And "#timeline" should contain "Test User reopened this opportunity"
-
-  Scenario: A user without edit permissions cannot reopen an opportunity
-    Given I have the "CanEditOpportunities" permission
-    And an "Opportunity" has been created
-    When I navigate to an opportunity page
     And I click "#lost-opportunity"
     And I click confirm on the modal
     Then I should see that the opportunity has been lost
@@ -213,7 +194,7 @@ Feature: Allow users to manage their sales opportunities
     And I should not see "#reopen-opportunity"
 
   #Opportunity Line Items
-  Scenario: A user can add a line item to an opportunity
+  Scenario: A user can add, edit and delete a line item to an opportunity
     Given I have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
     When I navigate to an opportunity page
@@ -224,39 +205,23 @@ Feature: Allow users to manage their sales opportunities
     And I set text field "value" to "1"
     And I submit the "insertOpportunityItem" form
     Then I should see a new line item in an opportunity
-
-  Scenario: A user can edit a line item in an opportunity
-    Given I have the "CanEditOpportunities" permission
-    And an "Opportunity" has been created
-    And the opportunity has a line item
-    When I navigate to an opportunity page
     When I click ".edit-line-item"
     And I set text field with id "name-field" to "testItem2"
     And I submit the "updateOpportunityItem" form
     Then I should see an updated line item in an opportunity
-
-  Scenario: A user can remove a line item from an opportunity
-    Given I have the "CanEditOpportunities" permission
-    And an "Opportunity" has been created
-    And the opportunity has a line item
-    When I navigate to an opportunity page
     When I click ".delete-line-item"
     And I click confirm on the modal
     Then I should see "#no-line-items"
 
   #Tags
-  Scenario: A user with the CanEditOpportunities permission can edit tags
+  Scenario: A user with the CanEditOpportunities permission can edit tags, a user without permission cannot
     Given I have the "CanEditOpportunities" permission
     And a "Opportunity" has been created
     When I navigate to an opportunity page
     And I click ".editTags"
     And I add the tag "test-tag"
     Then the tag field for the "opportunities" should contain "test-tag"
-
-  Scenario: A user without the CanEditOpportunities permission cannot edit tags
     Given I do not have the "CanEditOpportunities" permission
-    And an "Opportunity" has been created
-    When I navigate to an opportunity page
     Then I should not see the edit tag button
 
   #Tasks
@@ -286,18 +251,7 @@ Feature: Allow users to manage their sales opportunities
     Then I should not see "#btnAddTaskToEntity"
 
 #Activities
-  Scenario: A user can add an activity
-    Given a "Opportunity" has been created
-    When I navigate to an opportunity page
-    And I click "#general-dropdown"
-    And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
-    And I set rich text field "notes" to "test activity"
-    And I select "Note" from dropdown field "type"
-    And I click "#confirm"
-    Then I should see the activity in the timeline
-
-  Scenario: A user can edit an activity
+  Scenario: A user can add, edit and delete an activity
     Given a "Opportunity" has been created
     When I navigate to an opportunity page
     And I click "#general-dropdown"
@@ -307,24 +261,16 @@ Feature: Allow users to manage their sales opportunities
     And I select "Note" from dropdown field "type"
     And I click "#confirm"
     Then I should not see a modal
+    Then I should see the activity in the timeline
     And I click "#edit-activity"
     And I select "Email" from dropdown field "type"
     And I click "#update"
     Then I should see a toastr with the message containing "Activity updated."
-
-  Scenario: A user can delete an activity
-    Given an "Opportunity" has been created
-    When I navigate to an opportunity page
-    And I click "#general-dropdown"
-    And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
-    And I set rich text field "notes" to "test activity"
-    And I select "Note" from dropdown field "type"
-    And I click "#confirm"
     Then I should not see a modal
     And I click "#remove-activity"
     And I click confirm on the modal
     Then I should see "#no-activity"
+
 
   #Filtering and Searching
   Scenario: A user can filter opportunities by company

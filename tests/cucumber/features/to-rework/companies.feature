@@ -9,12 +9,12 @@ Feature: Allow users to manage their Companies
 
   #Reading
   Scenario: A user can see the companies list
-    When I navigate to "/companies"
+    When I visit Companies
     Then I should see the heading "Companies"
 
   Scenario: A user without permission cannot see the companies list
     Given I do not have the "CanReadCompanies" permission
-    When I navigate to "/companies"
+    When I visit Companies
     Then I should see the heading "Dashboard"
 
   Scenario: A user with read permissions can see a company

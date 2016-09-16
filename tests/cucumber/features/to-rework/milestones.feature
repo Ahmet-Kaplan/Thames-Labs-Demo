@@ -9,28 +9,19 @@ Feature: Allow users to manage their project types and milestones
   And a "Company" has been created
 
   #Milestones
-  Scenario: a user cannot delete a project type that is in use
+  Scenario: a user cannot delete a project type or milestone that is in use
     Given a project type has been created
-    And I am on the pro plan
     And a "Project" has been created
     And toastr are cleared
     When I navigate to "/settings/configuration"
     And I click "#removeType"
     And I click confirm on the modal
     Then I should see a "error" toastr with the message "This project type is currently in use, and cannot be deleted."
-
-  Scenario: a user cannot delete a project milestone that is in use
-    Given a project type has been created
-    And I am on the pro plan
-    And a "Project" has been created
-    And toastr are cleared
-    When I navigate to "/settings/configuration"
     And I click ".project-milestone #delete"
     And I click confirm on the modal
     Then I should see a "error" toastr with the message "This project milestone is currently in use, and cannot be deleted."
 
   Scenario: a user can create, edit and delete a project type
-    Given I am on the pro plan
     When I navigate to "/settings/configuration"
     And I click "#addProjectType"
     And I set text field with selector "#project-type-name" to "Cucumber"
@@ -51,7 +42,6 @@ Feature: Allow users to manage their project types and milestones
 
   Scenario: a user can create, edit and delete a project milestone
     Given a limited project type has been created
-    And I am on the pro plan
     When I navigate to "/settings/configuration"
     And I click "#addMilestone"
     And I set text field with selector "#project-milestone-name" to "Velocity"
