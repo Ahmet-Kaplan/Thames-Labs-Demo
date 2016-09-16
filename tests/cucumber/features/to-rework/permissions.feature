@@ -14,11 +14,10 @@ Feature: Allow administrators to give users permissions
     Given I am a logged out user
     And a superadmin exists
     And I am a logged in superadmin user
-    When I navigate to "/tenants"
+    When I visit Tenants
     And I click "#btnEditTenantUser"
     And I click "#cbUserIsTenantAdministrator"
     And I click "#btnUpdateTenantUser"
-    Then I should not see a modal
     And the user "Test User" should have the "Administrator" permission
 
   Scenario: An administrator can see the correct menu items
@@ -32,11 +31,11 @@ Feature: Allow administrators to give users permissions
     Given a user exists
     And I am a logged in user
     And I have the "Administrator" permission
-    When I navigate to "/settings/configuration"
+    When I go to the config settings 
     Then I should see the heading "Configuration"
-    When I navigate to "/settings/billing"
+    When I go to the billing settings
     Then I should see the heading "Billing"
-    When I navigate to "/settings/users"
+    When I go to the user settings
     Then I should see the heading "Users"
 
   Scenario: An restricted user cannot access the Administration page
@@ -49,24 +48,19 @@ Feature: Allow administrators to give users permissions
     When I navigate to "/settings/users"
     Then I should see the heading "Dashboard"
 
-  Scenario: An administrator can add a new user
+  Scenario: An administrator can add and delete new user
     Given a user exists
     And I am a logged in user
     And I have the "Administrator" permission
     And I have "2" free users
-    When I navigate to "/settings/users"
+    When I go to the user settings
     And I click "#add-user"
     And I set text field "name" to "Mario"
     And I set text field "email" to "mario@mariobros.com"
     And I click "#createUser"
     Then I should see a modal with the title "New user added"
-
-  Scenario: An administrator can delete a user
-    Given a user exists
-    And I am a logged in user
-    And I have the "Administrator" permission
-    And a restricted user exists
-    When I navigate to "/settings/users"
+    When I click confirm on the modal
+    Then I should not see a modal
     And I click "#user-list .list-group-item:last-child #delete-user"
     Then I should see a modal
     When I click confirm on the modal
@@ -78,7 +72,7 @@ Feature: Allow administrators to give users permissions
     Given a user exists
     And I am a logged in user
     And I have the "Administrator" permission
-    When I navigate to "/settings/users"
+    When I go to the user settings
     Then I cannot click "#user-list .list-group-item:last-child #delete-user"
     And the user "Test User" should have the "Administrator" permission
 
@@ -86,9 +80,8 @@ Feature: Allow administrators to give users permissions
     Given a user exists
     And I am a logged in user
     And I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
-    When I navigate to "/settings/users"
+    When I go to the user settings
     And I click "#user-list .list-group-item:last-child a"
     Then I should see a modal
     And I click "#admin-checkbox"
@@ -99,8 +92,7 @@ Feature: Allow administrators to give users permissions
     Given a user exists
     And I am a logged in user
     And I have the "Administrator" permission
-    And I am on the pro plan
-    When I navigate to "/settings/users"
+    When I go to the user settings
     And I click "#user-list .list-group-item:first-child a"
     Then "#admin-checkbox" should be disabled
     And I click "#update-user"

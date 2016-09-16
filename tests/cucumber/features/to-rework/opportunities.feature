@@ -11,13 +11,13 @@ Feature: Allow users to manage their sales opportunities
 
   #Reading
   Scenario: A user can see the opportunities list
-    When I navigate to "/opportunities"
+    When I visit Opportunities
     Then I should see the heading "Opportunities"
     And I should see the title "Opportunities"
 
   Scenario: The opportunities list contains company / contact name
     Given an "Opportunity" has been created
-    When I navigate to "/opportunities"
+    When I visit Opportunities
     Then I should not see "#moar"
     And ".list-group-item-text" should contain "Test Ltd"
 
@@ -28,18 +28,14 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: A user with read permissions can see a opportunity
     Given an "Opportunity" has been created
-    When I navigate to an opportunity page
+    When I go to an Opportunities detail page
     Then I should see the heading "test opportunity"
 
-  Scenario: An administrator can add CanReadOpportunities permission
+  Scenario: An administrator can add and remove CanReadOpportunities permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanRead" on "Opportunities" to a restricted user
     Then the user "restricted user" should have the "CanReadOpportunities" permission
-
-  Scenario: An administrator can remove CanReadOpportunities permission
-    Given I have the "Administrator" permission
-    And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
     Then the user "restricted user" should not have the "CanReadOpportunities" permission
 
@@ -51,7 +47,7 @@ Feature: Allow users to manage their sales opportunities
     Then I should see the heading "Tenants"
 
   Scenario: A user can see the opportunity overview
-    When I navigate to "/opportunities"
+    When I visit Opportunities
     And I click "#oppsOverviewWidget"
     Then I should see "#oppOverviewPop"
 
@@ -61,7 +57,7 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "CanEditOpportunities" permission
     Given I have the "CanDeleteOpportunities" permission
     And a "Company" has been created
-    When I navigate to "/opportunities"
+    When I visit Opportunities
     And I click "#create-opportunity"
     And I set text field "name" to "test opportunity"
     And I set textarea "description" to "test description"
@@ -80,8 +76,8 @@ Feature: Allow users to manage their sales opportunities
     Then I should see the heading "Opportunities"
 
   Scenario: A user without permission cannot create a opportunity
-    Given I do not have the "CanReadOpportunities" permission
-    When I navigate to "/opportunities"
+    Given I do not have the "CanCreateOpportunities" permission
+    When I visit Opportunities
     Then I should not see "#create-opportunity"
 
   Scenario: An administrator can add CanCreateOpportunities permission
@@ -89,10 +85,6 @@ Feature: Allow users to manage their sales opportunities
     And a restricted user exists
     When I add permission "CanCreate" on "Opportunities" to a restricted user
     Then the user "restricted user" should have the "CanCreateOpportunities" permission
-
-  Scenario: An administrator can remove CanCreateOpportunities permission
-    Given I have the "Administrator" permission
-    And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
     Then the user "restricted user" should not have the "CanCreateOpportunities" permission
 
@@ -100,7 +92,7 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user without permission cannot edit an opportunity
     Given I do not have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
-    When I navigate to an opportunity page
+    When I go to an Opportunities detail page
     Then I should not see "#edit-opportunity"
 
   Scenario: An administrator can add CanEditOpportunities permission
@@ -108,11 +100,6 @@ Feature: Allow users to manage their sales opportunities
     And a restricted user exists
     When I add permission "CanEdit" on "Opportunities" to a restricted user
     Then the user "restricted user" should have the "CanEditOpportunities" permission
-
-  Scenario: An administrator can remove CanEditOpportunities permission
-    Given I have the "Administrator" permission
-    And I am on the pro plan
-    And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
     Then the user "restricted user" should not have the "CanEditOpportunities" permission
 
@@ -120,20 +107,14 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user without permission cannot delete a opportunity
     Given I do not have the "CanDeleteOpportunities" permission
     And an "Opportunity" has been created
-    When I navigate to an opportunity page
+    When I go to an Opportunities detail page
     Then I should not see "#remove-opportunity"
 
   Scenario: An administrator can add CanDeleteOpportunities permission
     Given I have the "Administrator" permission
-    And I am on the pro plan
     And a restricted user exists
     When I add permission "CanDelete" on "Opportunities" to a restricted user
     Then the user "restricted user" should have the "CanDeleteOpportunities" permission
-
-  Scenario: An administrator can remove CanDeleteOpportunities permission
-    Given I have the "Administrator" permission
-    And I am on the pro plan
-    And a restricted user exists
     When I remove permissions on "Opportunities" from a restricted user
     Then the user "restricted user" should not have the "CanDeleteOpportunities" permission
 
@@ -142,15 +123,17 @@ Feature: Allow users to manage their sales opportunities
     Given I do not have the "CanReadOpportunities" permission
     Then the "Opportunities" menu item is not shown
 
-  Scenario: A user can see the Opportunities menu item with the correct permission
+  Scenario: A user with permission can see the Opportunities menu item, a user without permission cannot 
     Given I have the "CanReadOpportunities" permission
     Then the "Opportunities" menu item is shown
+    Given I do not have the "CanReadOpportunities" permission
+    Then the "Opportunities" menu item is not shown
 
   #Opportunity Stages
   Scenario: A user can change opportunity stage
     Given I have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
-    When I navigate to an opportunity page
+    When I go to an Opportunities detail page
     And I click "#next-stage"
     Then I should see "#previous-stage"
     And "#timeline" should contain "Test User moved this opportunity from stage"
@@ -161,7 +144,7 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user can mark an opportunity as lost and reopen it, a user without permission cannot do so
     Given I have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
-    When I navigate to an opportunity page
+    When I go to an Opportunities detail page
     And I click "#lost-opportunity"
     And I click confirm on the modal
     Then I should see that the opportunity has been lost
@@ -182,7 +165,7 @@ Feature: Allow users to manage their sales opportunities
     And a project type has been created
     And I have the "CanReadProjects" permission
     And an "Opportunity" has been created
-    When I navigate to an opportunity page
+    When I go to an Opportunities detail page
     And I click "#next-stage"
     Then I should see "#previous-stage"
     And I click "#won-opportunity"
@@ -197,7 +180,7 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user can add, edit and delete a line item to an opportunity
     Given I have the "CanEditOpportunities" permission
     And an "Opportunity" has been created
-    When I navigate to an opportunity page
+    When I go to an Opportunities detail page
     And I click "#add-line-item"
     Then I should see a modal
     And I set text field "name" to "testItem1"
@@ -217,7 +200,7 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user with the CanEditOpportunities permission can edit tags, a user without permission cannot
     Given I have the "CanEditOpportunities" permission
     And a "Opportunity" has been created
-    When I navigate to an opportunity page
+    When I go to an Opportunities detail page
     And I click ".editTags"
     And I add the tag "test-tag"
     Then the tag field for the "opportunities" should contain "test-tag"
@@ -229,7 +212,7 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "CanReadTasks" permission
     And I have the "CanCreateTasks" permission
     And a "Opportunity" has been created
-    When I navigate to an opportunity page
+    When I go to an Opportunities detail page
     And I click "#btnAddTaskToEntity"
     Then I should see a modal
     When I set text field "title" to "task title"
@@ -240,20 +223,20 @@ Feature: Allow users to manage their sales opportunities
   Scenario: A user without the CanReadTasks permission cannot see tasks in a opportunity
     Given I do not have the "CanReadTasks" permission
     And a "Opportunity" task has been created
-    When I navigate to an opportunity page
+    When I go to an Opportunities detail page
     Then I should not see "#entityTaskList"
 
   Scenario: A user without the CanCreateTasks permission cannot add a task to a opportunity
     Given I have the "CanReadTasks" permission
     And I do not have the "CanCreateTasks" permission
     And a "Opportunity" has been created
-    When I navigate to an opportunity page
+    When I go to an Opportunities detail page
     Then I should not see "#btnAddTaskToEntity"
 
 #Activities
   Scenario: A user can add, edit and delete an activity
     Given a "Opportunity" has been created
-    When I navigate to an opportunity page
+    When I go to an opportunities detail page
     And I click "#general-dropdown"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
@@ -277,7 +260,7 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "Administrator" permission
     And an "Opportunity" has been created
     And an additional "Opportunity" has been created
-    When I navigate to "/opportunities"
+    When I visit Opportunities
     And I set the filter to "Company:" then "Test Ltd"
     Then I should see ".filter-tag"
     And "#results-count" should contain "1 opportunity"
@@ -286,7 +269,7 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "Administrator" permission
     And an "Opportunity" has been created
     And an additional "Opportunity" has been created
-    When I navigate to "/opportunities"
+    When I vist Opportunities
     And I set the filter to "Value <" then "50"
     Then I should see ".filter-tag"
     And "#results-count" should contain "1 opportunity"
@@ -295,7 +278,7 @@ Feature: Allow users to manage their sales opportunities
     Given I have the "Administrator" permission
     And an "Opportunity" has been created
     And an additional "Opportunity" has been created
-    When I navigate to "/opportunities"
+    When I visit Opportunities
     And I click ".badge"
     Then I should see ".filter-tag"
     And "#results-count" should contain "1 opportunity"
