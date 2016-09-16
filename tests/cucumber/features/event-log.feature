@@ -5,7 +5,6 @@ Feature: Allow users to view event logs
 
   Background:
     Given I have permission to read event logs 
-    And I am on the pro plan
 
   Scenario: A user can see an event in the event log
     Given an "Event" has been created
