@@ -8,40 +8,40 @@ Feature: Allow users to manage their Companies
     Given I have the "CanReadCompanies" permission
 
   #Reading
-  Scenario: A user can see the companies list
+  Scenario: A user can see the companies list, a user without permission cannot
     When I visit Companies
     Then I should see the heading "Companies"
-
-  Scenario: A user without permission cannot see the companies list
     Given I do not have the "CanReadCompanies" permission
-    When I visit Companies
+    When I navigate to "/Companies"
     Then I should see the heading "Dashboard"
 
-  Scenario: A user with read permissions can see a company
+  Scenario: A user with read permissions can see a company, a user without permission cannot
     Given a "Company" has been created
-    When I navigate to a company page
+    When I go to a companies detail page
     Then I should see the heading "Test Ltd"
+    Given I do not have the "CanReadCompanies" permission
+    When I navigate to "/Companies"
+    Then I should see the heading "Dashboard"
 
-  Scenario: An administrator can add CanReadCompanies permission
+  Scenario: An administrator can add and remove CanReadCompanies permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanRead" on "Companies" to a restricted user
     Then the user "restricted user" should have the "CanReadCompanies" permission
+    When I remove permissions on "Companies" from a restricted user
+    Then the user "restricted user" should not have the "CanReadCompanies" permission
 
-  Scenario: An administrator can remove CanReadCompanies permission
+  Scenario: An administrator can remove CanReadCompanies permission from another user and itself
     Given I have the "Administrator" permission
     And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
     Then the user "restricted user" should not have the "CanReadCompanies" permission
-
-  Scenario: An administrator can remove CanReadCompanies permission for itself
-    Given I have the "Administrator" permission
     When I remove permissions on "Companies" for myself
     Then the user "test user" should not have the "CanReadCompanies" permission
 
   Scenario: An administrator can add back the CanReadCompanies permission for itself
     Given I have the "Administrator" permission
-    When I remove permissions on "Companies" for myself
+    Given I do not have the "CanReadCompanies" permission 
     And I add permission "CanRead" on "Companies" to myself
     Then the user "Test User" should have the "CanReadCompanies" permission
 
@@ -57,7 +57,7 @@ Feature: Allow users to manage their Companies
     Given I have the "CanCreateCompanies" permission
     And I have the "CanEditCompanies" permission
     And I have the "CanDeleteCompanies" permission
-    When I navigate to "/companies"
+    When I visit Companies
     And I click "#add-company"
     And I set text field with id "companyName" to "Test Company"
     And I click "#manual-fill"
@@ -74,18 +74,14 @@ Feature: Allow users to manage their Companies
   #Create permissions
   Scenario: A user without permission cannot create a company
     Given I do not have the "CanCreateCompanies" permission
-    When I navigate to "/companies"
+    When I visit Companies
     Then I should not see "#add-company"
 
-  Scenario: An administrator can add CanCreateCompanies permission
+  Scenario: An administrator can add and remove CanCreateCompanies permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanCreate" on "Companies" to a restricted user
     Then the user "restricted user" should have the "CanCreateCompanies" permission
-
-  Scenario: An administrator can remove CanCreateCompanies permission
-    Given I have the "Administrator" permission
-    And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
     Then the user "restricted user" should not have the "CanCreateCompanies" permission
 
@@ -93,18 +89,14 @@ Feature: Allow users to manage their Companies
   Scenario: A user without permission cannot edit a company
     Given I do not have the "CanEditCompanies" permission
     And a "Company" has been created
-    When I navigate to a company page
+    When I go to a companies detail page
     Then I should not see "#edit-company"
 
-  Scenario: An administrator can add CanEditCompanies permission
+  Scenario: An administrator can add and remove CanEditCompanies permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanEdit" on "Companies" to a restricted user
     Then the user "restricted user" should have the "CanEditCompanies" permission
-
-  Scenario: An administrator can remove CanEditCompanies permission
-    Given I have the "Administrator" permission
-    And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
     Then the user "restricted user" should not have the "CanEditCompanies" permission
 
@@ -112,18 +104,14 @@ Feature: Allow users to manage their Companies
   Scenario: A user without permission cannot delete a company
     Given I do not have the "CanDeleteCompanies" permission
     And a "Company" has been created
-    When I navigate to a company page
+    When I go to a companies detail page
     Then I should not see "#remove-company"
 
-  Scenario: An administrator can add CanDeleteCompanies permission
+  Scenario: An administrator can add and remove CanDeleteCompanies permission
     Given I have the "Administrator" permission
     And a restricted user exists
     When I add permission "CanDelete" on "Companies" to a restricted user
     Then the user "restricted user" should have the "CanDeleteCompanies" permission
-
-  Scenario: An administrator can remove CanDeleteCompanies permission
-    Given I have the "Administrator" permission
-    And a restricted user exists
     When I remove permissions on "Companies" from a restricted user
     Then the user "restricted user" should not have the "CanDeleteCompanies" permission
 
@@ -132,15 +120,17 @@ Feature: Allow users to manage their Companies
     Given I do not have the "CanReadCompanies" permission
     Then the "Companies" menu item is not shown
 
-  Scenario: A user can see the Companies menu item with the correct permission
+  Scenario: A user with permission can see the Companies menu item, a user without permission cannot 
     Given I have the "CanReadCompanies" permission
     Then the "Companies" menu item is shown
+    Given I do not have the "CanReadCompanies" permission
+    Then the "Companies" menu item is not shown
 
   #Local custom fields
   Scenario: A user can add, edit and delete a custom field
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
-    When I navigate to a company page
+    When I go to a companies detail page
     And I click "#add-custom-field"
     And I set text field with id "custom-field-name" to "velocity2"
     And I set text field with id "custom-field-text-value" to "velocity"
@@ -160,7 +150,7 @@ Feature: Allow users to manage their Companies
   Scenario: A user can do a location search and see the map when creating a company, on the details page and when editing the company
     Given I have the "CanCreateCompanies" permission
     Given I have the "CanEditCompanies" permission
-    When I navigate to "/companies"
+    When I visit Companies
     And I click "#add-company"
     And I set text field with id "companyName" to "Test Company"
     And I click "#manual-fill"
@@ -178,18 +168,14 @@ Feature: Allow users to manage their Companies
     And I should see a map
 
   #Tags
-  Scenario: A user with the CanEditCompanies permission can edit tags
+  Scenario: A user with the CanEditCompanies permission can edit tags, a user without permission cannot
     Given I have the "CanEditCompanies" permission
     And a "Company" has been created
-    When I navigate to a company page
+    When I go to a companies detail page
     And I click ".editTags"
     And I add the tag "test-tag"
     Then the tag field for the "companies" should contain "test-tag"
-
-  Scenario: A user without the CanEditCompanies permission cannot edit tags
     Given I do not have the "CanEditCompanies" permission
-    Given a "Company" has been created
-    When I navigate to a company page
     Then I should not see the edit tag button
 
   #Tasks
@@ -197,7 +183,7 @@ Feature: Allow users to manage their Companies
     Given I have the "CanReadTasks" permission
     And I have the "CanCreateTasks" permission
     And a "Company" has been created
-    When I navigate to a company page
+    When I go to a companies detail page
     And I click "#btnAddTaskToEntity"
     Then I should see a modal
     When I set text field "title" to "task title"
@@ -208,21 +194,21 @@ Feature: Allow users to manage their Companies
   Scenario: A user without the CanReadTasks permission cannot see tasks in a company
     Given I do not have the "CanReadTasks" permission
     And a "Company" task has been created
-    When I navigate to a company page
+    When I go to a companies detail page
     Then I should not see "#entityTaskList"
 
   Scenario: A user without the CanCreateTasks permission cannot add a task to a company
     Given I have the "CanReadTasks" permission
     And I do not have the "CanCreateTasks" permission
     And a "Company" has been created
-    When I navigate to a company page
+    When I go to a companies detail page
     Then I should see "#entityTaskList"
     And I should not see "#btnAddTaskToEntity"
 
   #Activities
   Scenario: A user can add, edit and delete a company activity
     Given a "Company" has been created
-    When I navigate to a company page
+    When I go to a companies detail page
     And I click "#general-dropdown"
     And I click "#add-activity"
     And I set text field "activityTimestamp" to "05/05/2015 05:05"
@@ -244,7 +230,7 @@ Feature: Allow users to manage their Companies
     Given I have the "Administrator" permission
     And a "Company" has been created
     And an additional "Company" has been created
-    When I navigate to "/companies"
+    When I visit Companies
     And I set the filter to "City:" then "Cambridge"
     Then I should see ".filter-tag"
     And I should see ".fa-map-marker"
@@ -258,7 +244,7 @@ Feature: Allow users to manage their Companies
     Given I have the "Administrator" permission
     And a "Company" has been created
     And an additional "Company" has been created
-    When I navigate to "/companies"
+    When I visit Companies
     And I click ".badge"
     Then I should see ".filter-tag"
     And I should see ".fa-map-marker"
@@ -275,7 +261,7 @@ Feature: Allow users to manage their Companies
     And I should see ".filter-tag"
 
   Scenario: Searching in the company list should update the URL
-    When I navigate to "/companies"
+    When I visit Companies
     Then I should see the heading "Companies"
     When I set text field with selector ".easysearch-input" to "search"
     Then I should see the url is "/companies?q=search"

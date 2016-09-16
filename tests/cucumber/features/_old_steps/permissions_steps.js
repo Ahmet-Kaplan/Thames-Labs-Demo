@@ -82,7 +82,9 @@ module.exports = function() {
   });
 
   this.When(/^I add permission "([^"]*)" on "([^"]*)" to a restricted user$/, function(permissionName, entityName) {
-    browser.url(url.resolve(process.env.ROOT_URL, "/settings/users"));
+    browser.safeClick('a#general-dropdown');
+    browser.safeClick('a#settings');
+    browser.safeClick('a#user-link');
     //The admin is listed as well, need to select the last child which is the restricted user
     browser.waitForExist(".user-detail-link", 5000);
     browser.scroll(".user-detail-link", 0, 200);
@@ -97,7 +99,9 @@ module.exports = function() {
   });
 
   this.When(/^I add permission "([^"]*)" on "([^"]*)" to myself$/, function(permissionName, entityName) {
-    browser.url(url.resolve(process.env.ROOT_URL, "/settings/users"));
+    browser.safeClick('a#general-dropdown');
+    browser.safeClick('a#settings');
+    browser.safeClick('a#user-link');
     //The admin is listed as well, need to select the last child which is the restricted user
     browser.waitForExist(".user-detail-link", 5000);
     browser.scroll(".user-detail-link", 0, 200);
@@ -112,7 +116,9 @@ module.exports = function() {
   });
 
   this.When(/^I remove permissions on "([^"]*)" from a restricted user$/, function(entityName) {
-    browser.url(url.resolve(process.env.ROOT_URL, "/settings/users"));
+    browser.safeClick('a#general-dropdown');
+    browser.safeClick('a#settings');
+    browser.safeClick('a#user-link');
     //The admin is listed as well, need to select the last child which is the restricted user
     browser.waitForExist(".user-detail-link", 5000);
     browser.scroll(".user-detail-link", 0, 200);
@@ -127,7 +133,9 @@ module.exports = function() {
   });
 
   this.When(/^I remove permissions on "([^"]*)" for myself$/, function(entityName) {
-    browser.url(url.resolve(process.env.ROOT_URL, "/settings/users"));
+    browser.safeClick('a#general-dropdown');
+    browser.safeClick('a#settings');
+    browser.safeClick('a#user-link');
     //The admin is listed as well, need to select the last child which is the restricted user
     browser.waitForExist(".user-detail-link", 5000);
     browser.scroll(".user-detail-link", 0, 200);
