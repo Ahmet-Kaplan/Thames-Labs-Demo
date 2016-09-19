@@ -13,7 +13,6 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Then I should see "#upScheme"
     When I click "#upScheme"
     Then I should see a modal
-    And I click ".close"
 
   Scenario: An administrator can subscribe by entering the correct card details
     When I go to the user settings 
@@ -98,7 +97,6 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "couponName" to "fake"
     When I click "#setCoupon"
     Then I should see an "error" toastr
-    And I click ".close"
 
   Scenario: An administrator cannot subscribe with incorrect card Number
     When I go to the user settings 
@@ -112,7 +110,6 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "cardCVC" to "123"
     When I click confirm on the modal
     Then I should see an "error" toastr with the message "Your card number is incorrect."
-    And I click ".close"
 
   Scenario: An administrator cannot subscribe with incorrect expiry month
     When I go to the user settings
@@ -126,7 +123,6 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "cardCVC" to "123"
     When I click confirm on the modal
     Then I should see an "error" toastr with the message "Your card's expiration month is invalid."
-    And I click ".close"
 
   Scenario: An administrator cannot subscribe with incorrect expiry year
     When I go to the user settings
@@ -140,4 +136,3 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I set text field with id "cardCVC" to "123"
     When I click confirm on the modal
     Then I should see an "error" toastr with the message "Your card's expiration year is invalid."
-    And I click ".close"

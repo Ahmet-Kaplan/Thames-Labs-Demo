@@ -17,14 +17,17 @@ module.exports = function() {
     const tenantId = server.execute(createTenant, 'Acme Corp');
     server.execute(createUser, tenantId, 'Test User', 'test@domain.com');
 
-    //Close any modals and Navigate to root URL
-    if(browser.isVisible('draggableModal')) {
-      browser.click('.close');
-    }
+    //Navigate to root url
     browser.click('.navbar-brand');
 
     // Login as test user
     browser.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
 
+  this.After(function() {
+    //Close any open modals
+    browser.execute(function() {
+      $("[data-dismiss=modal]").trigger({ type: "click" });
+    });
+  });
 };
