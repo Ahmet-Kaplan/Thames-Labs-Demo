@@ -75,7 +75,7 @@
         <ul class="list-group">
           {{#each contacts}}
           <a href="{{pathFor route='contact' id=_id}}" class="ContactDataRow list-group-item" data-toggle="tooltip" data-placement="bottom" title="Navigate to this contact">
-            <i class="fa fa-fw fa-user"></i> {{#if title}}{{title}} {{/if}}{{forename}} {{surname}}
+            <i class="fa fa-fw fa-user"></i> {{#if title}}{{title}} {{/if}}{{forename}} {{surname}} - <i>{{jobtitle}}</i>
             <i class="fa fa-fw fa-chevron-right pull-right"></i>
 
             <span class="pull-right">

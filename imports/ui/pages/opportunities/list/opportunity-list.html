@@ -28,6 +28,7 @@
         <li><a id="toggle-value-sort" class="{{#if sortByValue}}text-success{{/if}}">Sort by value</a></li>
         {{> oppOverview}}
         {{> tagManagement collectionName='opportunities'}}
+        {{#if isInRole 'Administrator'}}<li><a id="import" href="/settings/import">Import</a></li>{{/if}}
         {{> exportCollection entity="opportunities"}}
       </ul>
     </div>

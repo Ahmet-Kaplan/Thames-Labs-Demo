@@ -1,4 +1,5 @@
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+import { Tenants } from '/imports/api/collections.js';
 import './statistics.html';
 
 Template.adminStatistics.onCreated(function() {
@@ -11,9 +12,8 @@ Template.adminStatistics.onCreated(function() {
 Template.adminStatistics.helpers({
   totalUsers: function() {
     return Meteor.users.find({
-      group: {
-        $exists: true
-      }
+      group: { $exists: true },
+      profile: { $exists: true }
     }).count();
   },
   totalTenants: function() {
@@ -21,20 +21,13 @@ Template.adminStatistics.helpers({
   },
   freeTenants: function() {
     return Tenants.find({
-      plan: 'free'
-    }).count();
-  },
-  freePlusTenants: function() {
-    return Tenants.find({
-      plan: 'pro',
       'stripe.stripeSubs': {
         $exists: false
       }
     }).count();
   },
-  proTenants: function() {
+  payingTenants: function() {
     return Tenants.find({
-      plan: 'pro',
       'stripe.stripeSubs': {
         $exists: true
       }
@@ -101,12 +94,35 @@ Template.adminStatistics.helpers({
     }).count();
   },
   freeUsers: function() {
-    return ReactiveMethod.call('tenant.getUsersForTenants', 'free');
+    const tenants = Tenants.find({}).fetch();
+
+    let userCount = 0;
+    _.each(tenants, function(t) {
+      const tenantUserCount = Meteor.users.find({
+        group: t._id
+      }).fetch().length;
+
+      if (tenantUserCount <= t.stripe.maxFreeUsers) userCount += tenantUserCount;
+      else userCount += t.stripe.maxFreeUsers;
+    });
+
+    return userCount;
   },
   payingUsers: function() {
-    return ReactiveMethod.call('tenant.getPayingUsers');
-  },
-  proUsers: function() {
-    return ReactiveMethod.call('tenant.getUsersForTenants', 'pro');
+    const tenants = Tenants.find({
+      'stripe.stripeSubs': {
+        $exists: true
+      }
+    }).fetch();
+
+    let userCount = 0;
+    _.each(tenants, function(t) {
+      const tenantUserCount = Meteor.users.find({
+        group: t._id
+      }).fetch().length;
+      if (tenantUserCount > 0) userCount += tenantUserCount - t.stripe.maxFreeUsers;
+    });
+
+    return userCount;
   },
 });

@@ -5,75 +5,64 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4>Subscribe to Pro Plan</h4>
+          <h4>Add User</h4>
         </div>
 
         <div class="modal-body">
-          Select your currency:
-          <label class="currency"><input type="radio" name="selectCurrency" value="gbp" checked="{{#if equals paymentCurrency 'gbp'}}checked{{/if}}"> <i class="fa fa-fw fa-gbp"></i> (GBP) </label>
-          <label class="currency"><input type="radio" name="selectCurrency" value="eur" checked="{{#if equals paymentCurrency 'eur'}}checked{{/if}}"> <i class="fa fa-fw fa-eur"></i> (EUR) </label>
-          <label class="currency"><input type="radio" name="selectCurrency" value="usd" checked="{{#if equals paymentCurrency 'usd'}}checked{{/if}}"> <i class="fa fa-fw fa-usd"></i> (USD) </label>
-          <br />Please find below the details of your subscription:
+
+          {{#autoForm schema=UserSchema id="insertUser"}}
+            {{> afQuickField name="name" autocomplete="off" id="addUserName" autofocus=''}}
+            {{> afQuickField name="email" autocomplete="off" id="addUserEmail"}}
+            {{> afQuickField name="password" type="hidden" value="default123"}}
+            {{> afQuickField name="group" type="hidden" value="1"}}
+          {{/autoForm}}
 
           <div class="well well-sm">
-          {{#if planDetails}}
-          {{#with planDetails}}
-            <div class="row">
-              <div class="col-xs-6"><em>Plan</em></div>
-              <div class="col-xs-4">{{name}}</div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6"><em>Price</em></div>
-              <div class="col-xs-4">{{amount}} /user/{{interval}}</div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6"><em>Number of users</em></div>
-              <div class="col-xs-4">{{quantity}}</div>
-            </div>
-            {{#if hasCoupon}}
-            <div class="row">
-              <div class="col-xs-6" id="couponInfo"><em>Coupon {{couponName}}</em></div>
-              <div class="col-xs-4">{{couponDetails}}</div>
-              <div class="col-xs-6" id="couponInfo"><em>Coupon Expires</em></div>
-              <div class="col-xs-4">{{couponExpiry}}</div>
-            </div>
+            <p>You have reached the maximum number of free users. To add more users, please enter your card details below.</p>
+
+            Select your currency:
+            <label class="currency"><input type="radio" name="selectCurrency" value="gbp" checked="{{#if equals paymentCurrency 'gbp'}}checked{{/if}}"> <i class="fa fa-fw fa-gbp"></i> (GBP) </label>
+            <label class="currency"><input type="radio" name="selectCurrency" value="eur" checked="{{#if equals paymentCurrency 'eur'}}checked{{/if}}"> <i class="fa fa-fw fa-eur"></i> (EUR) </label>
+            <label class="currency"><input type="radio" name="selectCurrency" value="usd" checked="{{#if equals paymentCurrency 'usd'}}checked{{/if}}"> <i class="fa fa-fw fa-usd"></i> (USD) </label>
+
+            {{#if planDetails}}
+            {{#with planDetails}}
+              <div class="row">
+                <div class="col-xs-6"><em>Free users</em></div>
+                <div class="col-xs-6">{{freeUsers}}</div>
+              </div>
+              {{#if hasCoupon}}
+              <div class="row">
+                <div class="col-xs-6" id="couponInfo"><em>Coupon</em> {{couponName}}</div>
+                <div class="col-xs-6">{{couponDetails}}</div>
+              </div>
+              {{/if}}
+              <div class="row">
+                <div class="col-xs-6"><em>Price /additional user /{{interval}}</em></div>
+                <div class="col-xs-6">{{#if equals amount correctedAmount}}{{amount}}{{else}}<del>{{amount}}</del> {{correctedAmount}}{{/if}}</div>
+              </div>
+            {{/with}}
+            {{else}}
+              {{> loadingSmall}}
             {{/if}}
-            <div class="row">
-              <div class="col-xs-10"><hr /></div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6"><strong>Total Price of Subscription</strong></div>
-              <div class="col-xs-4">{{total}} /{{interval}} + VAT (20%)</div>
-            </div>
-          {{/with}}
-          {{else}}
-            {{> loadingSmall}}
-          {{/if}}
-          </div>
 
-          <br /><br />To complete your subscription, enter your card details below.
-          <br />Please note that none of the card information is stored by us.
-        </div>
+            <hr>
 
-        <form id="subscribe">
-          <div class="modal-body">
-            <div class="well well-sm">
-            {{>cardForm buttonText="Subscribe" showEmail=true}}
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-xs-6">
-                    <label for="email" class="control-label">Email for invoices</label>
-                    <input type="text" id="email" class="form-control" placeholder="you@domain.com" value="{{userEmail}}" required />
-                  </div>
+            {{> cardForm showEmail=true}}
+            <div class="form-group">
+              <div class="row">
+                <div class="col-xs-6">
+                  <label for="email" class="control-label">Email for invoices</label>
+                  <input type="text" id="email" class="form-control" placeholder="you@domain.com" value="{{userEmail}}" required />
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="modal-footer">
-            <button type="submit" id="submit" class="btn btn-primary"><i class="fa fa-lock"></i> Subscribe</button>
-          </div>
-        </form>
+        <div class="modal-footer">
+          <button type="submit" id="submit" class="btn btn-primary"><i class="fa fa-lock"></i> Add user</button>
+        </div>
 
       </div>
     </div>

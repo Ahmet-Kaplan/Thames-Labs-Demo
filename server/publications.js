@@ -1,4 +1,4 @@
-import { Products } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, CustomFields, Notifications, Projects, Products, PurchaseOrders, PurchaseOrderItems, Opportunities, Tasks, Tenants } from '/imports/api/collections.js';
 Meteor.publish('userPresence', function() {
   var filter = {
     userId: {
@@ -290,6 +290,13 @@ Meteor.publish("allUserTasks", function(userId) {
     assigneeId: userId
   });
 });
+Meteor.publish("subTasksByTaskId", function(taskId) {
+  if (!Roles.userIsInRole(this.userId, ['CanReadTasks'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Tasks.find({
+    parentTaskId: taskId
+  });
+});
 
 //Products
 Meteor.publish("allProducts", function() {
@@ -352,22 +359,6 @@ Meteor.publish("salesPipelineOpportunities", function() {
   return Opportunities.find({
     isArchived: { $ne: true }
   });
-});
-
-////////////////////////////////////////////////////////////////////
-// Global search publications
-////////////////////////////////////////////////////////////////////
-
-Meteor.publish("allRecords", function(selector, options) {
-
-  Autocomplete.publishCursor(Companies.find(selector, options), this);
-  Autocomplete.publishCursor(Contacts.find(selector, options), this);
-  Autocomplete.publishCursor(Opportunities.find(selector, options), this);
-  Autocomplete.publishCursor(Projects.find(selector, options), this);
-  Autocomplete.publishCursor(Products.find(selector, options), this);
-  Autocomplete.publishCursor(PurchaseOrders.find(selector, options), this);
-
-  this.ready();
 });
 
 ////////////////////////////////////////////////////////////////////

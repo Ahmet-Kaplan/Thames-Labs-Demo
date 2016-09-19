@@ -9,12 +9,46 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm schema="Schemas.User" id="insertUser" type="method" meteormethod="addTenantUser"}}
+          {{#if isOverFreeLimit}}
+            <p>After adding this new user, your updated payments will be:</p>
+
+            <div class="well well-sm">
+            {{#if planDetails}}
+            {{#with planDetails}}
+              <div class="row">
+                <div class="col-xs-6"><em>Free User{{#unless equals freeUsers 1}}s{{/unless}}</em></div>
+                <div class="col-xs-6">{{freeUsers}}</div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6"><em>Additional Users</em></div>
+                <div class="col-xs-6">{{additionalUsers}}</div>
+              </div>
+              {{#if couponName}}
+              <div class="row">
+                <div class="col-xs-6" id="couponInfo"><em>Coupon</em> {{couponName}}</div>
+                <div class="col-xs-6">{{couponDetails}}</div>
+              </div>
+              {{/if}}
+              <div class="row">
+                <div class="col-xs-6"><em>Price /additional user /{{interval}}</em></div>
+                <div class="col-xs-6">{{#if equals amount correctedAmount}}{{amount}}{{else}}<del>{{amount}}</del> {{correctedAmount}}{{/if}}</div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6"><em>Total Charge per {{interval}}</em></div>
+                <div class="col-xs-6">{{priceAfterNewUser}}</div>
+              </div>
+            {{/with}}
+            {{else}}
+              {{> loadingSmall}}
+            {{/if}}
+            </div>
+          {{/if}}
+
+          {{#autoForm schema=UserSchema id="insertUser" type="method" meteormethod="addTenantUser"}}
             {{> afQuickField name="name" autocomplete="off" id="addUserName" autofocus=''}}
             {{> afQuickField name="email" autocomplete="off" id="addUserEmail"}}
             {{> afQuickField name="password" type="hidden" value="default123"}}
             {{> afQuickField name="group" type="hidden" value="1"}}
-            {{#if isProTenant}}<p>This will add a new user to your Pro Plan subscription.</p>{{/if}}
             <button type="submit" class="btn btn-primary" id="createUser">Create</button>
           {{/autoForm}}
         </div>

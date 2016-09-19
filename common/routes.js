@@ -2,6 +2,8 @@ var subs = new SubsManager(),
     router = FlowRouter,
     layout = BlazeLayout;
 
+import { Tenants } from '/imports/api/collections.js';
+
 // These are route trigger functions
 // They're used for before / after actions on routes
 
@@ -17,21 +19,21 @@ function tidyUpUI(context) {
 function setHeapParams(context) {
   if (Roles.userIsInRole(Meteor.userId(), 'superadmin')) return;
 
-  var user = Meteor.users.findOne({
+  const user = Meteor.users.findOne({
     _id: Meteor.userId()
   });
   if (!user) return;
-  var profile = user.profile;
+  const profile = user.profile;
   if (!profile) return;
 
   if (heap) {
-    var name = profile.name;
-    var tenant = Tenants.findOne({
+    const name = profile.name;
+    const tenant = Tenants.findOne({
       _id: user.group
     });
-    var tenantName = (tenant ? " (" + tenant.name + ")" : '');
+    const tenantName = (tenant ? " (" + tenant.name + ")" : '');
 
-    var identifier = name + tenantName;
+    const identifier = name + tenantName;
     heap.identify(identifier);
     heap.addUserProperties({
       'Name': name,
@@ -98,6 +100,16 @@ router.route('/statistics', {
   action: function() {
     layout.render('appLayout', {
       main: "adminStatistics"
+    });
+  }
+});
+
+// SUPERADMIN only route
+router.route('/maintenance', {
+  name: 'maintenance',
+  action: function() {
+    layout.render('appLayout', {
+      main: "maintenanceAdmin"
     });
   }
 });
@@ -183,6 +195,10 @@ router.route('/settings/:section', {
       case 'company-info':
         layoutTemplate = 'companyInfoSettings';
         break;
+
+      case 'import':
+        layoutTemplate = 'importSettings';
+        break;
     }
 
     layout.render('appLayout', {
@@ -198,7 +214,7 @@ router.route('/activities', {
     layout.render('appLayout', {
       main: 'activityList'
     });
-  },
+  }
 });
 
 router.route('/companies', {
@@ -207,7 +223,7 @@ router.route('/companies', {
     layout.render('appLayout', {
       main: 'companyList'
     });
-  },
+  }
 });
 
 router.route('/companies/:id', {

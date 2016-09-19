@@ -1,4 +1,4 @@
-import { EventLog } from '/imports/api/collections.js';
+import { EventLog, Tenants } from '/imports/api/collections.js';
 
 Meteor.methods({
 

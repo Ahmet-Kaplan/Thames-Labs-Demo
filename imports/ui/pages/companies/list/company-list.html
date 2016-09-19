@@ -24,8 +24,8 @@
     </div>
     <div class="col-xs-12 col-sm-4">
       <ul class="list-toolbar pull-right">
-        {{> tagManagement collectionName='companies'}}
-        {{> importEntityDropdown entity="companies"}}
+        {{> bulkManagement collectionName='companies'}}
+        {{#if isInRole 'Administrator'}}<li><a id="import" href="/settings/import">Import</a></li>{{/if}}
         {{> exportCollection entity="companies"}}
       </ul>
     </div>

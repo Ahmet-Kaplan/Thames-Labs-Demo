@@ -1,4 +1,4 @@
-import { Products } from '/imports/api/collections.js';
+import { Companies, Contacts, CustomFields, Projects, Products, PurchaseOrders, Opportunities, Tenants } from '/imports/api/collections.js';
 Migrations.add({
   version: 24,
   name: "Move all custom fields to new collection storage approach",
@@ -281,50 +281,49 @@ Migrations.add({
   }
 });
 
+//Note: migration 26 had issues so was replaced by 28
+
 Migrations.add({
-  version: 26,
-  name: "Adds sort columns",
+  version: 27,
+  name: "Set tenants to the new Free/Pro model",
   up: function() {
-    //ServerSession.set('maintenance', true);
-
     const tenants = Tenants.find({}).fetch();
-
     _.each(tenants, function(tenant) {
-      Partitioner.bindGroup(tenant._id, function() {
-        const companies = Companies.find({
-          _groupId: tenant._id
-        }).fetch();
+      Tenants.update(tenant._id, {
+        $set: {
+          'stripe.maxFreeUsers': 1
+        },
+        $unset: {
+          plan: ''
+        }
+      });
+    });
+  }
+});
 
-        _.each(companies, function(company) {
-          Companies.update( company._id, {
-            $set: {
-              name: company.name,
-              name_sort: company.name.toLowerCase()
-            }
-          }, {
-            upsert: false,
-            multi: true
-          });
-        });
+//Note: migration 26 & 28 had issues so was replaced by 29
 
-        const contacts = Contacts.find({
-          _groupId: tenant._id
-        }).fetch();
-
-        _.each(contacts, function(contact) {
-          Contacts.update( contact._id, {
-            $set: {
-              forename: contact.forename,
-              name_sort: `${contact.surname.toLowerCase()} ${contact.forename.toLowerCase()}`
-            }
-          }, {
-            upsert: false,
-            multi: true
-          });
-        });
+Migrations.add({
+  version: 29,
+  name: "Adds sort column to companies",
+  up() {
+    // This is how to get access to the raw MongoDB node collection that the Meteor server collection wraps
+    const compBatch = Companies.rawCollection().initializeUnorderedBulkOp();
+    const contactBatch = Contacts.rawCollection().initializeUnorderedBulkOp();
+    Partitioner.directOperation(() => {
+      Companies.find({name: {$exists: true}}).forEach((elem) => {
+        compBatch.find({_id: elem._id}).updateOne({$set: {name_sort: elem.name.toLowerCase()}});
+      });
+      Contacts.find({forename: {$exists: true}, surname: {$exists: true}}).forEach((elem) => {
+        contactBatch.find({_id: elem._id}).updateOne({$set: {name_sort: elem.surname.toLowerCase() + ' ' + elem.forename.toLowerCase()}});
       });
     });
 
-    ServerSession.set('maintenance', false);
+    // We need to wrap the async function to get a synchronous API that migrations expects
+    const companyExecute = Meteor.wrapAsync(compBatch.execute, compBatch);
+    companyExecute();
+    const contactExecute = Meteor.wrapAsync(compBatch.execute, contactBatch);
+    contactExecute();
+
   }
 });

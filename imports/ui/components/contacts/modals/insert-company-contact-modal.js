@@ -1,4 +1,5 @@
 import './insert-company-contact-modal.html';
+import { Tenants } from '/imports/api/collections.js';
 
 Template.insertCompanyContactModal.helpers({
   currentUser: function() {

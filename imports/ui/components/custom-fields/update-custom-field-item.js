@@ -4,7 +4,7 @@ import './update-custom-field-item.html';
 import './customfield.css';
 
 Template.customFieldItem.onCreated(function() {
-  this.type = new ReactiveVar("");
+  this.type = new ReactiveVar(this.data.type);
 });
 
 Template.customFieldItem.helpers({
@@ -31,17 +31,6 @@ Template.customFieldItem.helpers({
   }
 });
 
-Template.customFieldItem.events({
-  'change .TypeSelectionMenu': function(event, template) {
-
-    const index = this.name,
-          safeName = '#customField' + index.replace(/ /g, ''),
-          selectorName = safeName + "TypeOptions",
-          newType = $(selectorName).val();
-    Template.instance().type.set(newType);
-  }
-});
-
 Template.customFieldItem.onRendered(function() {
   this.$('.datetimepicker').datetimepicker();
 
@@ -49,26 +38,28 @@ Template.customFieldItem.onRendered(function() {
         index = field.name,
         safeName = '#customField' + index.replace(/ /g, '');
 
-  if(field.listValues) {
-    var options = _.map(field.listValues.split(','), function(input) {
+  let options = [];
+  if (field.listValues) {
+    options = _.map(field.listValues.split(','), function(input) {
       return {
         value: input,
         text: input
       };
     });
+  }
 
-    this.$(safeName + "PicklistValue").selectize({
+  if (field.type == 'picklist') {
+    $(".cf-selectize").selectize({
       create: false,
       options: options,
       maxItems: 1
     });
+    se[0].selectize.setValue(field.value);
   }
 
   $(`${safeName}AdvTextValue`).html(field.value);
   editor = new MediumEditor('.editable', {
-    placeholder: {
-      text: 'Type or paste your content here...'
-    },
+    placeholder: false,
     toolbar: false,
     autoLink: true
   });
@@ -77,10 +68,6 @@ Template.customFieldItem.onRendered(function() {
     if(field.value == 'true') {
       $(`${safeName}BooleanValue`).attr('checked', 'checked');
     }
-  }else if(field.type == 'picklist') {
-    const se = $(safeName + 'PicklistValue').selectize();
-    se[0].selectize.setValue(field.value);
   }
 
-  Template.instance().type.set(this.data.type);
 });

@@ -2,6 +2,7 @@ import './task-panel.html';
 import './task-panel.css';
 import '../modals/insert-task-modal.js';
 import '../task-item.js';
+import { Tasks } from '/imports/api/collections.js';
 
 function isDashboard() {
   return FlowRouter.getRouteName() === "dashboard";
@@ -11,14 +12,11 @@ Template.taskDisplay.onCreated(function() {
   this.entityType = this.data.entity_type;
   this.entityId = this.data.entity_id;
 
-  Session.set('entityDescriptor', "");
-
   this.showCompleted = ReactiveVar(false);
 });
 
 Template.taskDisplay.onRendered(function() {
   Template.instance().showCompleted.set(false);
-  Session.set('entityDescriptor', $('.entity-name').text());
 });
 
 Template.taskDisplay.helpers({

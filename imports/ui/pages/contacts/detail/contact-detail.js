@@ -10,7 +10,10 @@ import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/purchase-orders/modals/insert/insert-contact-purchase-order.js';
 import '/imports/ui/components/tasks/panel/task-panel.js';
 import '/imports/ui/components/projects/modals/insert-contact-project-modal.js';
+import '/imports/ui/components/jumplist/jumplist.js';
+import '/imports/ui/components/watchlist/watchlist.js';
 
+import { Activities, Companies, Contacts, Projects, PurchaseOrders, Opportunities, Tenants } from '/imports/api/collections.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
 
@@ -24,7 +27,7 @@ Template.contactDetail.onCreated(function() {
     if (FlowRouter.subsReady() && typeof contact === "undefined") {
       FlowRouter.go('contacts');
     } else if (FlowRouter.subsReady() && contact.email !== '' && typeof contact.email !== "undefined") {
-      Meteor.call('getClearbitData', 'contact', contact._id);
+      Meteor.call('clearbit.getClearbitData', 'contact', contact._id);
     }
     // Update company subscription if contact record changes (e.g. we change company)
     if (contact) {
@@ -210,11 +213,6 @@ Template.contactDetail.events({
   'click #add-purchase-order': function(event) {
     event.preventDefault();
 
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To raise purchase orders');
-      return;
-    }
-
     const company = this.company();
     if (typeof company === "undefined") {
       Modal.show('insertContactPurchaseOrderModal', {
@@ -255,17 +253,34 @@ Template.contactDetail.events({
       });
     }
   },
-  'click #contactTelephone': function(event, template) {
-    Activities.insert({
-      type: 'Call',
-      notes: Meteor.user().profile.name + ' made a call to ' + this.forename + ' ' + this.surname,
-      createdAt: new Date(),
-      activityTimestamp: new Date(),
-      contactId: this._id,
-      primaryEntityId: this._id,
-      primaryEntityType: 'contacts',
-      primaryEntityDisplayData: this.forename + ' ' + this.surname,
-      createdBy: Meteor.userId()
+  'click .contact-telephone': function(event, template) {
+    const data = this;
+    bootbox.dialog({
+      message: `This will add <i>"${Meteor.user().profile.name} made a call to ${data.forename} ${data.surname}"</i> to the activity timeline below.`,
+      title: "Would you like to add an activity for your call?",
+      buttons: {
+        cancel: {
+          label: "Cancel",
+          className: "btn-default"
+        },
+        main: {
+          label: "Add activity",
+          className: "btn-success",
+          callback: () => {
+            Activities.insert({
+              type: 'Call',
+              notes: `${Meteor.user().profile.name} made a call to ${data.forename} ${data.surname}`,
+              createdAt: new Date(),
+              activityTimestamp: new Date(),
+              contactId: data._id,
+              primaryEntityId: data._id,
+              primaryEntityType: 'contacts',
+              primaryEntityDisplayData: `${data.forename} ${data.surname}`,
+              createdBy: Meteor.userId()
+            });
+          }
+        }
+      }
     });
   },
   'click #inactive-projects': function(event, template) {

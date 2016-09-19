@@ -1,5 +1,6 @@
 import bootbox from 'bootbox';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
+import { Companies, PurchaseOrders, PurchaseOrderItems } from '/imports/api/collections.js';
 import '/imports/ui/components/breadcrumbs/breadcrumbs.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/purchase-orders/purchase-order-items/modals/insert-purchase-order-item.js';
@@ -8,16 +9,11 @@ import '/imports/ui/components/purchase-orders/purchase-order-items/purchase-ord
 import '/imports/ui/components/purchase-orders/modals/update-purchase-order.js';
 import '/imports/ui/components/documents/document-container.js';
 import '/imports/ui/components/fab/fab-edit.js';
-
+import '/imports/ui/components/watchlist/watchlist.js';
 import './purchase-order-detail.html';
 
 Template.purchaseOrderDetail.onCreated(function() {
   this.autorun(() => {
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To access Purchase Orders');
-      FlowRouter.go('/');
-    }
-
     const purchaseOrder = PurchaseOrders.findOne(FlowRouter.getParam('id'));
     if (purchaseOrder) {
       this.subscribe('companyById', purchaseOrder.supplierCompanyId);

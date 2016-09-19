@@ -1,0 +1,32 @@
+<template name="signUpLayout">
+    <div class="container">
+      {{> nav}}
+        <div id="id-view-content" class="no-menu">
+          {{> Template.dynamic template=main}}
+          {{> footer}}
+        </div>
+    </div>
+</template>
+
+<template name="signUp">
+  {{setPageTitle 'RealTimeCRM - Sign Up'}}
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3" style="padding-top:20px">
+      <div class="panel panel-default" style="background: #f5f5f5">
+        <div class="panel-body" style="padding: 20px 25px">
+          <h1 style="margin-top:0; text-align:center">Sign Up</h1>
+          {{#autoForm schema=UserSignUpSchema type="method" id="signUpForm" meteormethod="signUp"}}
+            {{> afQuickField name="companyName" id="company-name-field"}}
+            {{> afQuickField name="name" id="name-field"}}
+            {{> afQuickField name="email" id="email-field"}}
+            {{#if coupon}}
+              {{> afQuickField name="coupon" value=coupon}}
+            {{/if}}
+            <div style="text-align:center; margin-bottom:5px"> By signing up, you agree to the product <a href='http://www.realtimecrm.co.uk/terms' target='_blank'>Terms &amp; Conditions</a></div>
+            <button type="submit" class="btn btn-primary pull-right"> Sign Up <span class="glyphicon glyphicon-chevron-right"></span></button>
+          {{/autoForm}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

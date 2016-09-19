@@ -1,5 +1,0 @@
-.meteor/.*
-
-smart.lock
-# the mongodb dump
-dump/*

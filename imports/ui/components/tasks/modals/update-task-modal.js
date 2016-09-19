@@ -1,9 +1,12 @@
 import './update-task-modal.html';
+import '/imports/ui/components/autosuggest/autosuggest.js';
 import './reminder-selector.js';
+import { Tasks } from '/imports/api/collections.js';
 
-Template.updateTaskModal.onRendered(function() {
-  Session.set('showRemindMe', this.data.remindMe);
-  Session.set('hasDueDate', typeof this.data.dueDate !== "undefined");
+Template.updateTaskModal.onCreated(function() {
+  this.showRemindMe = new ReactiveVar(this.data.remindMe);
+  this.hasDueDate = new ReactiveVar(typeof this.data.dueDate !== "undefined");
+  this.subscribe('subTasksByTaskId', this.data._id);
 });
 
 Template.updateTaskModal.helpers({
@@ -11,36 +14,35 @@ Template.updateTaskModal.helpers({
     const excludes = [];
 
     excludes.push(this._id);
+    const subs = Tasks.find({parentTaskId: Template.currentData()._id}).fetch();
+    _.each(subs, (s) => {
+      excludes.push(s._id);
+    });
 
-    const subs = ReactiveMethod.call("tasks.getSubTasks", this._id);
-    if (subs && subs.length > 0) {
-      _.each(subs, (s) => {
-        excludes.push(s._id);
-      });
-    }
     return excludes.join(',');
   },
   hasDueDate: function() {
-    return Session.get('hasDueDate');
+    return Template.instance().hasDueDate.get();
   },
   showRemindMe: function() {
-    return Session.get('showRemindMe');
+    return Template.instance().showRemindMe.get(
+    );
   }
 });
 
 Template.updateTaskModal.events({
-  'change input[name=dueDate]': function(e) {
+  'blur input[name=dueDate]': function(e) {
     e.preventDefault();
     if ($('input[name=dueDate]').val()) {
-      Session.set('hasDueDate', true);
+      Template.instance().hasDueDate.set(true);
     } else {
-      Session.set('hasDueDate', false);
+      Template.instance().hasDueDate.set(false);
     }
   },
   'change input[name=remindMe]': function(e) {
     e.preventDefault();
     const remindMe = $('input[name=remindMe]').prop('checked');
-    Session.set('showRemindMe', remindMe);
+    Template.instance().showRemindMe.set(remindMe);
   }
 });
 

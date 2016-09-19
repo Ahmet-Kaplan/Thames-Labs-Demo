@@ -21,7 +21,7 @@
             </div>
             <span class="help-block"></span>
           </div>
-          {{> esSelectize name="salesManagerId" index=UsersIndex allowEmptyOption=true}}
+          {{> autosuggest name="salesManagerId" index=UsersIndex allowEmptyOption=true}}
           {{> afQuickField name="hasBeenWon" value=false type="hidden"}}
           {{> afQuickField name="isArchived" value=false type="hidden"}}
           {{> afQuickField name="currentStageId" value=firstStageId type="hidden"}}

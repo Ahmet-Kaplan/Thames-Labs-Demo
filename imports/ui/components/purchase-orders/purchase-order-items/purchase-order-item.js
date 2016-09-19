@@ -1,4 +1,5 @@
 import bootbox from 'bootbox';
+import { Projects, PurchaseOrderItems } from '/imports/api/collections.js';
 
 import './purchase-order-item.html';
 

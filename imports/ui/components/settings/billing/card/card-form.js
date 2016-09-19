@@ -6,7 +6,7 @@ import './card-form.html';
 
 Template.cardForm.onRendered(function() {
   $.getScript('/vendor/jquery.card.js').then(function() {
-    $('form').card({
+    $('#cardFormWrapper').card({
       container: '.card-wrapper',
       formSelectors: {
         numberInput: 'input#cardNumber',

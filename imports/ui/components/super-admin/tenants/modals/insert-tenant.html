@@ -12,6 +12,7 @@
           {{#autoForm collection="Tenants" id="insertTenantModal" type="insert"}}
             {{> afQuickField name="name" id="tenantName"}}
             {{> afQuickField name="stripe.coupon" id="tenantCoupon"}}
+            {{> afQuickField name="stripe.maxFreeUsers" id="freeUsers" value="1"}}
             <button type="submit" id="btnCreateTenant" class="btn btn-primary">Create</button>
           {{/autoForm}}
         </div>

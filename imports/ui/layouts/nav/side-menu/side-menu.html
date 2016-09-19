@@ -1,17 +1,18 @@
-<template name="sideMenu"> 
+<template name="sideMenu">
   {{#if loggedIn}}
   <div id="id-view-sidemenu">
     <ul class="panel-group" id="menu">
-      {{#if isInRole 'superadmin'}}     
+      {{#if isInRole 'superadmin'}}
 
         {{> menuButton title='Tenants' page='tenants' icon='archive' permissions='superadmin' activeRoutes='tenants'}}
         {{> menuButton title='Notifications' page='notifications' icon='envelope' permissions='superadmin' activeRoutes='notifications'}}
         {{> menuButton title='Statistics' page='statistics' icon='bar-chart' permissions='superadmin' activeRoutes='statistics'}}
         {{> menuButton title='Global Event Log' page='audit' icon='user-secret' permissions='superadmin' activeRoutes='audit'}}
+        {{> menuButton title='Maintenance' page='maintenance' icon='wrench' permissions='superadmin' activeRoutes='maintenance'}}
 
       {{else}}
 
-        {{> menuButton title='Dashboard' page='' icon='home' permissions='' activeRoutes='dashboard' linkId='dashboard'}}
+        {{> menuButton title='Dashboard' page='/' icon='home' permissions='' activeRoutes='dashboard' linkId='dashboard'}}
         {{> favourites }}
         {{> menuButton title='Activities' page='activities' icon='history' permissions='' activeRoutes='activities' proFeature='true' linkId='activities'}}
         {{> menuButton title='Tasks' page='tasks' icon='check' permissions='Administrator,CanReadTasks' activeRoutes='tasks|task'}}
@@ -29,7 +30,7 @@
       <h5 class="visible-xs" style="padding-left: 20px;">Menu items</h5>
 
       <li class="visible-xs">
-        <a href='#' class="menu-button" id="feedback-link">
+        <a href='#' class="menu-button" id="feedback-link-mobile">
           <i class="fa fa-fw fa-comment-o"></i> Feedback
         </a>
       </li>
@@ -43,7 +44,7 @@
       {{/unless}}
 
       <li class="visible-xs">
-        <a href='#' class="menu-button" id="sign-out">
+        <a href='#' class="menu-button" id="sign-out-mobile">
           Sign out
         </a>
       </li>

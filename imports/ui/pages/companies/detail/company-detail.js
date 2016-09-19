@@ -16,7 +16,10 @@ import '/imports/ui/components/purchase-orders/modals/insert/insert-company-purc
 import '/imports/ui/components/tasks/panel/task-panel.js';
 import '/imports/ui/components/contacts/modals/insert-company-contact-modal.js';
 import '/imports/ui/components/projects/modals/insert-company-project-modal.js';
+import '/imports/ui/components/jumplist/jumplist.js';
+import '/imports/ui/components/watchlist/watchlist.js';
 
+import { Activities, Companies, Projects, Opportunities } from '/imports/api/collections.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
 
@@ -28,7 +31,7 @@ Template.companyDetail.onCreated(function() {
     if (FlowRouter.subsReady() && typeof company === "undefined") {
       FlowRouter.go('companies');
     } else if (FlowRouter.subsReady() && company.website !== '' && typeof company.website !== "undefined") {
-      Meteor.call('getClearbitData', 'company', company._id);
+      Meteor.call('clearbit.getClearbitData', 'company', company._id);
     }
   });
 
@@ -132,12 +135,6 @@ Template.companyDetail.events({
   },
   'click #add-purchase-order': function(event) {
     event.preventDefault();
-
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To raise purchase orders');
-      return;
-    }
-
     Modal.show('insertCompanyPurchaseOrderModal', {
       supplierCompanyId: this._id
     });
@@ -163,16 +160,33 @@ Template.companyDetail.events({
     });
   },
   'click #companyTelephone': function(event, template) {
-    Activities.insert({
-      type: 'Call',
-      notes: `${Meteor.user().profile.name} made a call to ${this.name}`,
-      createdAt: new Date(),
-      activityTimestamp: new Date(),
-      companyId: this._id,
-      primaryEntityId: this._id,
-      primaryEntityType: 'companies',
-      primaryEntityDisplayData: this.name,
-      createdBy: Meteor.userId()
+    const data = this;
+    bootbox.dialog({
+      message: `This will add <i>"${Meteor.user().profile.name} made a call to ${this.name}"</i> to the activity timeline below.`,
+      title: "Would you like to add an activity for your call?",
+      buttons: {
+        cancel: {
+          label: "Cancel",
+          className: "btn-default"
+        },
+        main: {
+          label: "Add activity",
+          className: "btn-success",
+          callback: () => {
+            Activities.insert({
+              type: 'Call',
+              notes: `${Meteor.user().profile.name} made a call to ${data.name}`,
+              createdAt: new Date(),
+              activityTimestamp: new Date(),
+              companyId: data._id,
+              primaryEntityId: data._id,
+              primaryEntityType: 'companies',
+              primaryEntityDisplayData: data.name,
+              createdBy: Meteor.userId()
+            });
+          }
+        }
+      }
     });
   },
   'click #inactive-projects': function(event, template) {

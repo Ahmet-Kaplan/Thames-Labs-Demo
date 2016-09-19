@@ -3,6 +3,10 @@ import '/imports/ui/components/tasks/subtasks/subtask-list.js';
 import '/imports/ui/components/tasks/task-tick/task-tick.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/tasks/modals/update-task-modal.js';
+import '/imports/ui/components/documents/document-container.js';
+
+import { Activities, Companies, Contacts, Projects, Opportunities, Tasks } from '/imports/api/collections.js';
+
 import bootbox from 'bootbox';
 
 Template.taskDetail.onCreated(function() {
@@ -57,10 +61,6 @@ Template.taskDetail.helpers({
       return reminderString + " before";
     }
     return "No reminder set";
-  },
-  subTasks: function() {
-    const subs = ReactiveMethod.call("tasks.getSubTasks", this._id);
-    if (subs && subs.length > 0) return subs;
   },
   parentTask: function() {
     if (this.parentTaskId) {

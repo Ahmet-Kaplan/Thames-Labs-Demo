@@ -5,6 +5,7 @@ import './opportunities-admin.html';
 
 import 'meteor/mrt:jquery-ui-sortable';
 import { Blaze } from 'meteor/blaze';
+import { Tenants } from '/imports/api/collections.js';
 
 
 Template.opportunitiesAdmin.onRendered(function() {
@@ -12,11 +13,6 @@ Template.opportunitiesAdmin.onRendered(function() {
     handle: '.handle',
     axis: 'y',
     stop: function(event, ui) {
-      if (!isProTenant(Meteor.user().group)) {
-        showUpgradeToastr('To reorder opportunity stages');
-        $(this).sortable('cancel');
-        return;
-      }
       //Setup needed variables
       const stageId = Blaze.getData(ui.item[0]).id;
       const newIndex = $(this).find('.opportunity-stage').index(ui.item);
@@ -42,7 +38,6 @@ Template.opportunitiesAdmin.onCreated(function() {
 
 Template.opportunitiesAdmin.helpers({
   stages: function() {
-    // console.log(Template.instance().stages.get());
     return Template.instance().stages.get();
   },
   hasStages: function() {
@@ -63,11 +58,6 @@ Template.opportunitiesAdmin.helpers({
 Template.opportunitiesAdmin.events({
   'click #btnAddStage': function(event) {
     event.preventDefault();
-
-    if (!isProTenant(Meteor.user().group)) {
-      showUpgradeToastr('To create your own opportunity stages');
-      return;
-    }
 
     Modal.show('insertOppStage', this);
   }

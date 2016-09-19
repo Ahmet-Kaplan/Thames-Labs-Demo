@@ -31,7 +31,7 @@ Feature: Allow users to manage their Purchase Orders
     And I click "#menu-link-purchaseorders"
     And I click "#add-purchase-order"
     And I set text field with selector "#description" to "test purchase order"
-    And I selectize "supplierCompanyId" to "Test Ltd"
+    And I selectize "companyId" to "Test Ltd"
     And I click "#create-purchase-order"
     Then I should see the heading "test purchase order"
 
