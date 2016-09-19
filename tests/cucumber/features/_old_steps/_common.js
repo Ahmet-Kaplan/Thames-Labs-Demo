@@ -284,13 +284,13 @@ module.exports = function() {
 
   this.Then(/^I should see a modal$/, function() {
     browser.waitForExist('.modal', 5000);
-    // browser.waitForVisible('.modal-dialog', 5000);
+    browser.waitForVisible('.modal', 5000);
     expect(browser.isExisting('.modal')).toEqual(true);
   });
 
   this.Then(/^I should see a modal with the title "([^"]*)"$/, function(expectedTitle) {
     browser.waitForExist('.modal', 5000);
-    // browser.waitForVisible('.modal-dialog', 5000);
+    browser.waitForVisible('.modal', 5000);
     expect(browser.waitForExist('h4*=' + expectedTitle, 5000)).toEqual(true);
   });
 
@@ -298,7 +298,7 @@ module.exports = function() {
     browser.executeAsync(function(done) {
       setTimeout(done, 1000);
     });
-    expect(browser.isVisible('.modal-dialog')).toEqual(false);
+    expect(browser.isVisible('.modal')).toEqual(false);
   });
 
   this.Then(/^"([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(selector, option, desiredText) {
