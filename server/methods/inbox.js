@@ -101,22 +101,24 @@ Meteor.methods({
       });
 
       if (missingContacts.length > 0) {
-        let emailMessage = `Hello, ${MeteorUser.profile.name}, \r\rYou recently attempted to link an email to your RealTimeCRM account, however the following email addresses don't seem to correspond to any of your contacts: \r\r`;
-
+        SSR.compileTemplate('htmlEmail', Assets.getText('email-link-fail.html'));
         let contactsBody = "";
         _.each(missingContacts, function(contact) {
           if (contact !== "inbox@realtimecrm.co.uk") {
-            contactsBody = contactsBody + " - " + contact + "\r\r";
+            contactsBody = contactsBody + " - " + contact + "<br><br>";
           }
         });
 
-        emailMessage = `${emailMessage}${contactsBody}Please check your RealTimeCRM contacts list and make sure that the addresses contained in your email are stored accordingly.\r\rKind regards,\rThe RealTimeCRM Team`;
+        const emailData = {
+          name: MeteorUser.profile.name,
+          issues: contactsBody
+        };
 
         Email.send({
           to: userEmail[0],
           from: 'realtimecrm-notifications@cambridgesoftware.co.uk',
           subject: `Email link failure notification`,
-          text: emailMessage
+          html: SSR.render('htmlEmail', emailData)
         });
       }
     });
