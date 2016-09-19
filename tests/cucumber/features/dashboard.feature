@@ -14,15 +14,15 @@ Feature: Allow users to see widgets
 
   Scenario: A user can add the opportunities widget if they have permission
     Then I can not add the opportunities widget
-    When I have permission to read opportunities
+    When I have the "CanReadOpportunities" permission
     Then I can add the opportunities widget
 
   Scenario: A user can add the project widget if they have permission
     Then I can not add the project widget
-    When I have permission to read projects
+    When I have the "CanReadProjects" permission
     Then I can add the project widget
 
   Scenario: A user can add the products widget if they have permission
     Then I can not add the products widget
-    When I have permission to read products
+    When I have the "CanReadProducts" permission
     Then I can add the products widget

@@ -239,7 +239,6 @@ Feature: Allow users to manage their sales opportunities
     When I go to an opportunities detail page
     And I click "#general-dropdown"
     And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I set rich text field "notes" to "test activity"
     And I select "Note" from dropdown field "type"
     And I click "#confirm"

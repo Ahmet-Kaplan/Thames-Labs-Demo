@@ -16,6 +16,7 @@ Feature: Allow administrators to give users permissions
     And I am a logged in superadmin user
     When I visit Tenants
     And I click "#btnEditTenantUser"
+    Then I should see a modal
     And I click "#cbUserIsTenantAdministrator"
     And I click "#btnUpdateTenantUser"
     And the user "Test User" should have the "Administrator" permission
@@ -94,6 +95,7 @@ Feature: Allow administrators to give users permissions
     And I have the "Administrator" permission
     When I go to the user settings
     And I click "#user-list .list-group-item:first-child a"
+    Then I should see a modal
     Then "#admin-checkbox" should be disabled
     And I click "#update-user"
     Then the user "Test User" should have the "Administrator" permission

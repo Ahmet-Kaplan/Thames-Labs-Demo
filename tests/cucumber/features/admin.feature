@@ -12,8 +12,8 @@ Feature: Allow users to manage general tenancy data
     And I add a global custom field
     Then I should see the global custom field has been created
     Given a "Company" has been created
-    And I have permission to read companies
-    And I have permission to edit companies
+    And I have the "CanReadCompanies" permission 
+    And I have the "CanEditCompanies" permission
     When I visit the company details screen for "Test Ltd"
     Then I should see the global custom field in the company details
     When I go to the config settings

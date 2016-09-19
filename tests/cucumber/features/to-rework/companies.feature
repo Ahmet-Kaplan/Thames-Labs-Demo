@@ -116,10 +116,6 @@ Feature: Allow users to manage their Companies
     Then the user "restricted user" should not have the "CanDeleteCompanies" permission
 
   #Menu item permissions
-  Scenario: A restricted user cannot see the Companies menu item without the correct permission
-    Given I do not have the "CanReadCompanies" permission
-    Then the "Companies" menu item is not shown
-
   Scenario: A user with permission can see the Companies menu item, a user without permission cannot 
     Given I have the "CanReadCompanies" permission
     Then the "Companies" menu item is shown

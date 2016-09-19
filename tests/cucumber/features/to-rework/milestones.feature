@@ -23,6 +23,7 @@ Feature: Allow users to manage their project types and milestones
   Scenario: a user can create, edit and delete a project type
     When I go to the config settings 
     And I click "#addProjectType"
+    Then I should see a modal
     And I set text field with selector "#project-type-name" to "Cucumber"
     And I click "#submit-new-project-type"
     Then I should see a "success" toastr with the message "Project type created successfully."
@@ -41,6 +42,7 @@ Feature: Allow users to manage their project types and milestones
     Given a limited project type has been created
     When I go to the config settings
     And I click "#addMilestone"
+    Then I should see a modal
     And I set text field with selector "#project-milestone-name" to "Velocity"
     And I click "#submit-new-milestone"
     Then I should see a "success" toastr with the message "Project milestone created successfully."

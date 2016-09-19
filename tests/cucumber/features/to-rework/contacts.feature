@@ -208,11 +208,10 @@ Feature: Allow users to manage their Contacts
     And "#results-count" should contain "1 contact"
 
   #Activities
-  Scenario: A user can add an activity
+  Scenario: A user can add, edit and delete an activity
     Given a "Contact" has been created
     When I go to a contacts detail page
     And I click "#add-activity"
-    And I set text field "activityTimestamp" to "05/05/2015 05:05"
     And I select "Note" from dropdown field "type"
     And I set rich text field "notes" to "test activity"
     And I click "#confirm"
