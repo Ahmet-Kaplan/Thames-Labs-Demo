@@ -187,6 +187,7 @@ Feature: Allow users to manage their sales opportunities
     And I set textarea "description" to "test item description"
     And I set text field "value" to "1"
     And I submit the "insertOpportunityItem" form
+    Then I should not see a modal
     Then I should see a new line item in an opportunity
     When I click ".edit-line-item"
     And I set text field with id "name-field" to "testItem2"

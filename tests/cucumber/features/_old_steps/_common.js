@@ -283,13 +283,13 @@ module.exports = function() {
   });
 
   this.Then(/^I should see a modal$/, function() {
-    browser.waitForExist('.modal-dialog', 5000);
+    browser.waitForExist('.modal', 5000);
     // browser.waitForVisible('.modal-dialog', 5000);
-    expect(browser.isExisting('.modal-dialog')).toEqual(true);
+    expect(browser.isExisting('.modal')).toEqual(true);
   });
 
   this.Then(/^I should see a modal with the title "([^"]*)"$/, function(expectedTitle) {
-    browser.waitForExist('.modal-dialog', 5000);
+    browser.waitForExist('.modal', 5000);
     // browser.waitForVisible('.modal-dialog', 5000);
     expect(browser.waitForExist('h4*=' + expectedTitle, 5000)).toEqual(true);
   });

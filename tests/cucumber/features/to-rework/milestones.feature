@@ -24,12 +24,12 @@ Feature: Allow users to manage their project types and milestones
     When I go to the config settings 
     And I click "#addProjectType"
     Then I should see a modal
-    And I set text field with selector "#project-type-name" to "Cucumber"
+    And I set text field with id "project-type-name" to "Cucumber"
     And I click "#submit-new-project-type"
     Then I should see a "success" toastr with the message "Project type created successfully."
     And I should not see a modal
     When I click "#editType"
-    And I set text field with selector "#project-type-name" to "Velocity"
+    And I set text field with id "project-type-name" to "Velocity"
     And I click "#update-project-type"
     Then I should see a "success" toastr with the message "Project type updated successfully."
     And I should not see a modal
@@ -43,12 +43,12 @@ Feature: Allow users to manage their project types and milestones
     When I go to the config settings
     And I click "#addMilestone"
     Then I should see a modal
-    And I set text field with selector "#project-milestone-name" to "Velocity"
+    And I set text field with id "project-milestone-name" to "Velocity"
     And I click "#submit-new-milestone"
     Then I should see a "success" toastr with the message "Project milestone created successfully."
     And I should not see a modal
     When I click ".project-milestone-link"
-    And I set text field with selector "#project-milestone-name" to "Cucumber"
+    And I set text field with id "project-milestone-name" to "Cucumber"
     And I click "#update-milestone"
     Then I should see a "success" toastr with the message "Project milestone updated successfully."
     And I should not see a modal

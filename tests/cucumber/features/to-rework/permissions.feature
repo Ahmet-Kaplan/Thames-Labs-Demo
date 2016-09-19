@@ -22,16 +22,12 @@ Feature: Allow administrators to give users permissions
     And the user "Test User" should have the "Administrator" permission
 
   Scenario: An administrator can see the correct menu items
-    Given a user exists
-    Given I am a logged in user
-    And I have the "Administrator" permission
+    Given I have the "Administrator" permission
     When I click "#general-dropdown"
     Then I should see "#settings"
 
   Scenario: An administrator can access the Administration page
-    Given a user exists
-    And I am a logged in user
-    And I have the "Administrator" permission
+    Given I have the "Administrator" permission
     When I go to the config settings 
     Then I should see the heading "Configuration"
     When I go to the billing settings
@@ -40,8 +36,6 @@ Feature: Allow administrators to give users permissions
     Then I should see the heading "Users"
 
   Scenario: An restricted user cannot access the Administration page
-    Given a user exists
-    And I am a logged in user
     When I navigate to "/settings/configuration"
     Then I should see the heading "Dashboard"
     When I navigate to "/settings/billing"
@@ -50,9 +44,7 @@ Feature: Allow administrators to give users permissions
     Then I should see the heading "Dashboard"
 
   Scenario: An administrator can add and delete new user
-    Given a user exists
-    And I am a logged in user
-    And I have the "Administrator" permission
+    Given I have the "Administrator" permission
     And I have "2" free users
     When I go to the user settings
     And I click "#add-user"
@@ -70,29 +62,24 @@ Feature: Allow administrators to give users permissions
     Then the restricted user should not exist in the database
 
   Scenario: An administrator cannot delete its own account
-    Given a user exists
-    And I am a logged in user
-    And I have the "Administrator" permission
+    Given I have the "Administrator" permission
     When I go to the user settings
     Then I cannot click "#user-list .list-group-item:last-child #delete-user"
     And the user "Test User" should have the "Administrator" permission
 
   Scenario: An Administrator can set another user to Administrator
-    Given a user exists
-    And I am a logged in user
-    And I have the "Administrator" permission
+    Given I have the "Administrator" permission
     And a restricted user exists
     When I go to the user settings
     And I click "#user-list .list-group-item:last-child a"
     Then I should see a modal
     And I click "#admin-checkbox"
     And I click "#update-user"
-    Then the user "restricted user" should have the "Administrator" permission
+    Then I should not see a modal
+    And the user "restricted user" should have the "Administrator" permission
 
   Scenario: An Administrator cannot unset its own 'Administrator' status
-    Given a user exists
-    And I am a logged in user
-    And I have the "Administrator" permission
+    Given I have the "Administrator" permission
     When I go to the user settings
     And I click "#user-list .list-group-item:first-child a"
     Then I should see a modal

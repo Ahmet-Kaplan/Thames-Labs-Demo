@@ -47,7 +47,7 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     Given I have subscribed to the paying plan
     And I have an additional user
     When I go to the user settings
-    When I click ".list-group-item:nth-of-type(2) #delete-user"
+    When I click "#user-list .list-group-item:last-child #delete-user"
     Then I should see a modal
     When I click confirm on the modal
     Then I should see a "info" toastr with the message "Removing user..."

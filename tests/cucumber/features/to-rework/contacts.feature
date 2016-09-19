@@ -212,6 +212,7 @@ Feature: Allow users to manage their Contacts
     Given a "Contact" has been created
     When I go to a contacts detail page
     And I click "#add-activity"
+    Then I should see a modal
     And I select "Note" from dropdown field "type"
     And I set rich text field "notes" to "test activity"
     And I click "#confirm"
