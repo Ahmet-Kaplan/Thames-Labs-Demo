@@ -100,7 +100,7 @@ Meteor.methods({
         }
       });
 
-      if (missingContacts.length > 0) {
+      if (missingContacts.length === addresses.length) {
         SSR.compileTemplate('htmlEmail', Assets.getText('email-link-fail.html'));
         let contactsBody = "";
         _.each(missingContacts, function(contact) {
