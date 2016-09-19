@@ -17,7 +17,10 @@ module.exports = function() {
     const tenantId = server.execute(createTenant, 'Acme Corp');
     server.execute(createUser, tenantId, 'Test User', 'test@domain.com');
 
-    // Navigate to root URL
+    //Close any modals and Navigate to root URL
+    if(browser.isVisible('draggableModal')) {
+      browser.click('.close');
+    }
     browser.click('.navbar-brand');
 
     // Login as test user
