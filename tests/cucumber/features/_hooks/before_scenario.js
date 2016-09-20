@@ -26,8 +26,9 @@ module.exports = function() {
 
   this.After(function() {
     //Close any open modals
-    browser.execute(function() {
+    browser.executeAsync(function(done) {
       $("[data-dismiss=modal]").trigger({ type: "click" });
+      done();
     });
   });
 };
