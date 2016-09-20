@@ -219,6 +219,7 @@ Feature: Allow users to manage their sales opportunities
     When I set text field "title" to "task title"
     And I selectize "assigneeId" to "Test User"
     And I submit the "insertTask" form
+    Then I should not see a modal
     Then I should see "#taskContainer .list-group-item"
 
   Scenario: A user without the CanReadTasks permission cannot see tasks in a opportunity
@@ -240,6 +241,7 @@ Feature: Allow users to manage their sales opportunities
     When I go to an opportunities detail page
     And I click "#general-dropdown"
     And I click "#add-activity"
+    Then I should see a modal
     And I set rich text field "notes" to "test activity"
     And I select "Note" from dropdown field "type"
     And I click "#confirm"

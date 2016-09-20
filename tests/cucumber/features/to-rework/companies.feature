@@ -185,6 +185,7 @@ Feature: Allow users to manage their Companies
     When I set text field "title" to "task title"
     And I selectize "assigneeId" to "Test User"
     And I submit the "insertTask" form
+    Then I should not see a modal
     Then I should see "#taskContainer .list-group-item"
 
   Scenario: A user without the CanReadTasks permission cannot see tasks in a company

@@ -37,6 +37,7 @@ Feature: Allow users to manage their Purchase Orders
     Then I should see the heading "new purchase order"
     And I click "#remove-purchase-order"
     And I click confirm on the modal
+    Then I should not see a modal
     Then I should not see "#po-item"
 
   Scenario: A user can add, edit and delete a purchase order item
@@ -62,6 +63,7 @@ Feature: Allow users to manage their Purchase Orders
     Then I should not see a modal
     And I click "#removePurchaseOrderItem"
     And I click confirm on the modal
+    Then I should not see a modal
     Then element "#purchase-order-items" should contain the text "No items"
 
   Scenario: A user can see the purchase orders overview
@@ -95,6 +97,7 @@ Feature: Allow users to manage their Purchase Orders
     Given toastr are cleared
     When I click "#remove-activity"
     And I click confirm on the modal
+    Then I should not see a modal
     Then I should see "#no-activity"
 
   #Filtering and Searching
