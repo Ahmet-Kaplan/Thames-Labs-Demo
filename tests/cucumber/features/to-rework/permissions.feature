@@ -59,6 +59,7 @@ Feature: Allow administrators to give users permissions
     When I click confirm on the modal
     Then I should see a modal with title "User removed"
     When I click confirm on the modal with title "User removed"
+    Then I should not see a modal
     Then the restricted user should not exist in the database
 
   Scenario: An administrator cannot delete its own account
@@ -81,7 +82,7 @@ Feature: Allow administrators to give users permissions
   Scenario: An Administrator cannot unset its own 'Administrator' status
     Given I have the "Administrator" permission
     When I go to the user settings
-    And I click "#user-list .list-group-item:first-child a"
+    And I click "#user-list .list-group-item:last-child a"
     Then I should see a modal
     Then "#admin-checkbox" should be disabled
     And I click "#update-user"

@@ -203,9 +203,9 @@ Feature: Allow users to manage their Companies
 
   #Activities
   Scenario: A user can add, edit and delete a company activity
+    Given I have the "CanEditCompanies" permission
     Given a "Company" has been created
     When I go to a companies detail page
-    And I click "#general-dropdown"
     And I click "#add-activity"
     Then I should see a modal
     And I set rich text field "notes" to "test activity"

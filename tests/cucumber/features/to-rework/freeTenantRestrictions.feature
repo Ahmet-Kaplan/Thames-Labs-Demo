@@ -10,4 +10,3 @@ Feature: Restrict free users from certain features
     And I click "#add-user"
     Then I should see a modal with the title "Add user"
     And I should see "#cardNumber"
-    And I click ".close"

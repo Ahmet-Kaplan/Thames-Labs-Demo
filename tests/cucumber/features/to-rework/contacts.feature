@@ -160,32 +160,6 @@ Feature: Allow users to manage their Contacts
     Given I do not have the "CanEditContacts" permission
     Then I should not see the edit tag button
 
-  #Tasks
-  Scenario: A user can add a task to a contact
-    Given I have the "CanReadTasks" permission
-    And I have the "CanCreateTasks" permission
-    And a "Contact" has been created
-    When I go to a contacts detail page
-    And I click "#btnAddTaskToEntity"
-    Then I should see a modal
-    When I set text field "title" to "task title"
-    And I selectize "assigneeId" to "Test User"
-    And I submit the "insertTask" form
-    Then I should see "#taskContainer .list-group-item"
-
-  Scenario: A user without the CanReadTasks permission cannot see tasks in a contact
-    Given I do not have the "CanReadTasks" permission
-    And a "Contact" task has been created
-    When I go to a contacts detail page
-    Then I should not see "#entityTaskList"
-
-  Scenario: A user without the CanCreateTasks permission cannot add a task to a contact
-    Given I have the "CanReadTasks" permission
-    And I do not have the "CanCreateTasks" permission
-    And a "Contact" has been created
-    When I go to a contacts detail page
-    Then I should not see "#btnAddTaskToEntity"
-
   #Filtering and Searching
   Scenario: A user can filter contacts by company
     Given I have the "CanReadCompanies" permission
@@ -209,6 +183,7 @@ Feature: Allow users to manage their Contacts
 
   #Activities
   Scenario: A user can add, edit and delete an activity
+    Given I have the "CanEditContacts" permission
     Given a "Contact" has been created
     When I go to a contacts detail page
     And I click "#add-activity"
@@ -226,3 +201,30 @@ Feature: Allow users to manage their Contacts
     And I click "#remove-activity"
     And I click confirm on the modal
     Then I should see "#no-activity"
+
+#Tasks
+  Scenario: A user can add a task to a contact
+    Given I have the "CanReadTasks" permission
+    And I have the "CanCreateTasks" permission
+    And a "Contact" has been created
+    When I go to a contacts detail page
+    And I click "#btnAddTaskToEntity"
+    Then I should see a modal
+    When I set text field "title" to "task title"
+    And I selectize "assigneeId" to "Test User"
+    And I submit the "insertTask" form
+    Then I should not see a modal
+    Then I should see "#taskContainer .list-group-item"
+
+  Scenario: A user without the CanReadTasks permission cannot see tasks in a contact
+    Given I do not have the "CanReadTasks" permission
+    And a "Contact" task has been created
+    When I go to a contacts detail page
+    Then I should not see "#entityTaskList"
+
+  Scenario: A user without the CanCreateTasks permission cannot add a task to a contact
+    Given I have the "CanReadTasks" permission
+    And I do not have the "CanCreateTasks" permission
+    And a "Contact" has been created
+    When I go to a contacts detail page
+    Then I should not see "#btnAddTaskToEntity"

@@ -151,6 +151,7 @@ Feature: Allow users to manage their Projects
     When I set text field "title" to "task title"
     And I selectize "assigneeId" to "Test User"
     And I submit the "insertTask" form
+    Then I should not see a modal
     Then I should see "#taskContainer .list-group-item"
 
   Scenario: A user without the CanReadTasks permission cannot see tasks in a project
@@ -169,8 +170,8 @@ Feature: Allow users to manage their Projects
   #Activities
   Scenario: A user can add, edit and delete an activity
     Given a "Project" has been created
+    And I have the "CanEditProjects" permission
     When I go to a projects detail page
-    And I click "#general-dropdown"
     And I click "#add-activity"
     Then I should see a modal
     And I set rich text field "notes" to "test activity"
