@@ -1,13 +1,13 @@
 <template name="settingsNav">
   <div class="list-group hidden-sm hidden-xs" id="settings-nav">
-    <a class="list-group-item {{isActivePath '/settings/profile'}}" href="profile">Profile</a>
+      <a class="list-group-item {{isActivePath '/settings/profile'}}" href={{pathFor route="settings" section="profile"}}>Profile</a>
     {{#if isInRole 'Administrator'}}
-      <a id="company-info-link" class="list-group-item {{isActivePath '/settings/company-info'}}" href="company-info">Company Information</a>
-      <a id="config-link" class="list-group-item {{isActivePath '/settings/configuration'}}" href="configuration">Configuration</a>
+      <a id="company-info-link" class="list-group-item {{isActivePath '/settings/company-info'}}" href={{pathFor route="settings" section="company-info"}}>Company Information</a>
+      <a id="config-link" class="list-group-item {{isActivePath '/settings/configuration'}}" href={{pathFor route="settings" section="configuration"}}>Configuration</a>
       {{#unless isiOSApp}}
-      <a id="user-link" class="list-group-item {{isActivePath '/settings/users'}}" href="users">Users</a>
-      <a id="billing-link" class="list-group-item {{isActivePath '/settings/billing'}}" href="billing">Billing</a>
-      <a id="import-link" class="list-group-item {{isActivePath '/settings/import'}}" href="import">Import Data</a>
+      <a id="user-link" class="list-group-item {{isActivePath '/settings/users'}}" href={{pathFor route="settings" section="users"}}>Users</a>
+      <a id="billing-link" class="list-group-item {{isActivePath '/settings/billing'}}" href={{pathFor route="settings" section="billing"}}>Billing</a>
+      <a id="import-link" class="list-group-item {{isActivePath '/settings/import'}}" href={{pathFor route="settings" section="import"}}>Import Data</a>
       {{/unless}}
     {{/if}}
   </div>
@@ -20,13 +20,13 @@
         Other settings <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
-        <li><a class="{{isActivePath '/settings/profile'}}" href="profile">Profile</a></li>
-          <li><a class="{{isActivePath '/settings/company-info'}}" href="company-info">Company Information</a></li>
-          <li><a class="{{isActivePath '/settings/configuration'}}" href="configuration">Configuration</a></li>
+          <li><a class="{{isActivePath '/settings/profile'}}" href={{pathFor route="settings" section="profile"}}>Profile</a></li>
+          <li><a class="{{isActivePath '/settings/company-info'}}" href={{pathFor route="settings" section="company-info"}}>Company Information</a></li>
+          <li><a class="{{isActivePath '/settings/configuration'}}" href={{pathFor route="settings" section="configuration"}}>Configuration</a></li>
           {{#unless isiOSApp}}
-          <li><a class="{{isActivePath '/settings/users'}}" href="users">Users</a></li>
-          <li><a class="{{isActivePath '/settings/billing'}}" href="billing">Billing</a></li>
-          <li><a class="{{isActivePath '/settings/import'}}" href="import">Import Data</a></li>
+          <li><a class="{{isActivePath '/settings/users'}}" href={{pathFor route="settings" section="users"}}>Users</a></li>
+          <li><a class="{{isActivePath '/settings/billing'}}" href={{pathFor route="settings" section="billing"}}>Billing</a></li>
+          <li><a class="{{isActivePath '/settings/import'}}" href={{pathFor route="settings" section="import"}}>Import Data</a></li>
           {{/unless}}
       </ul>
     </div>
