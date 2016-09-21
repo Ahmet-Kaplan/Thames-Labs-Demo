@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import './company-list-item.html';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
 
@@ -12,18 +13,13 @@ Template.companyListItem.helpers({
     let website = this.website;
 
     // Remove http(s)://
-    if(website.substring(0, 4) === 'http') {
-      website = website.substring(7);
-    } else if(website.substring(0, 5) === 'https') {
-      website = website.substring(8);
+    if(_.startsWith(website, 'http://')) {
+      website = _.replace(website, 'http://', '');
+    } else if(_.startsWith(website, 'https://')) {
+      website = _.replace(website, 'https://', '');
     }
-
-    // Remove www.
-    website = website.replace('www.', '');
-    if(website.length >= 14) {
-      website = website.substring(0, 11) + '...';
-      website = `${website.substring(0, 11)}...`;
-    }
+    website = _.replace(website, 'www.', '');
+    website = _.truncate(website);
     return website;
   }
 });
