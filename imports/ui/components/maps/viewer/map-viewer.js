@@ -94,5 +94,8 @@ Template.mapViewer.helpers({
         address.postcode
       ].join(', '));
     }
+  },
+  key: function() {
+    return Meteor.settings.public.googleDeveloperKey;
   }
 });

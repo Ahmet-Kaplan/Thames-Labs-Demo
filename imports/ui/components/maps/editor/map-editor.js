@@ -4,7 +4,7 @@ Template.mapEditor.onCreated(function() {
   // Load google maps
   GoogleMaps.load({
     libraries: 'places',
-    key: Meteor.settings.public.googleDeveloperKey,
+    key: Meteor.settings.public.googleDeveloperKey
   });
 });
 
