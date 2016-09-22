@@ -26,9 +26,11 @@ module.exports = function() {
 
   this.After(function() {
     //Close any open modals
-    browser.executeAsync(function(done) {
-      $("[data-dismiss=modal]").trigger({ type: "click" });
-      done();
-    });
+    if(browser.isVisible('#draggableModal')) {
+      browser.executeAsync(function(done) {
+        $("[data-dismiss=modal]").trigger({ type: "click" });
+        done();
+      });
+    }
   });
 };
