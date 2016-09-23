@@ -11,8 +11,8 @@ Meteor.methods({
     if (!Roles.userIsInRole(this.userId, ['CanEditTasks'])) {
       throw new Meteor.Error(403, 'You do not have the authorization to edit tasks');
     }
-    var status = new Future();
-    var setDueDate = moment(newDate).toDate();
+    const status = new Future();
+    const setDueDate = moment(newDate).toDate();
 
     taskUpdated = Tasks.update(taskId, {
       $set: {

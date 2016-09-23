@@ -3,7 +3,7 @@ import { Activities, Contacts, Tenants } from '/imports/api/collections.js';
 import multer from 'multer';
 import bodyParser from 'body-parser';
 
-var upload = multer();
+const upload = multer();
 
 Picker.middleware(upload.single());
 Picker.middleware(bodyParser.urlencoded({
@@ -17,13 +17,12 @@ Picker
   })
   .route('/mailbox', function(params, req, res) {
     if (Object.keys(req.body).length === 0) {
-      console.log('Email linkage: no body data found');
       res.writeHead(200, {
         'Content-Type': 'text/plain'
       });
-      res.end('Message received and parsed.');
+      res.end('Message received: no body data found.');
     } else {
-      var data = req.body;
+      const data = req.body;
 
       if (data) {
         Meteor.call('mailgun.createActivityFromBodyData', data);
@@ -43,25 +42,20 @@ Picker
 
 Meteor.methods({
   'mailgun.createActivityFromBodyData': function(bodyData) {
-    var subject = bodyData.Subject;
-    var mailText = bodyData["body-html"];
-    var timestamp = bodyData.timestamp;
-    var sendDate = new Date(0);
+    const subject = bodyData.Subject;
+    const mailText = bodyData["body-html"];
+    const timestamp = bodyData.timestamp;
+    const sendDate = new Date(0);
     sendDate.setUTCSeconds(timestamp);
 
-    var notesFieldData = "<h4><strong>Subject: " + subject + "</strong></h4><p>" + mailText + "</p>";
+    const notesFieldData = "<h4><strong>Subject: " + subject + "</strong></h4><p>" + mailText + "</p>";
 
-    var emailPattern = /([A-Za-z0-9_\.-]+)@([\dA-Za-z\.-]+)\.([A-Za-z\.]{2,})/g;
-    var userEmail = bodyData.From.match(emailPattern);
-
-    // if (userEmail[0].indexOf('@cambridgesoftware.co.uk') === -1) {
-    //   console.log('Email sent but not from Cambridge Software account, ignoring...');
-    //   return;
-    // }
+    const emailPattern = /([A-Za-z0-9_\.-]+)@([\dA-Za-z\.-]+)\.([A-Za-z\.]{2,})/g;
+    const userEmail = bodyData.From.match(emailPattern);
 
     if (!userEmail) return;
 
-    var MeteorUser = Meteor.users.findOne({
+    const MeteorUser = Meteor.users.findOne({
       'emails.address': { $regex: new RegExp(userEmail[0], "i") }
     });
 
@@ -69,7 +63,7 @@ Meteor.methods({
       return;
     }
 
-    var TheTenant = Tenants.findOne({
+    const TheTenant = Tenants.findOne({
       _id: MeteorUser.group
     });
     if (!TheTenant) {
@@ -77,13 +71,14 @@ Meteor.methods({
     }
 
     Partitioner.bindGroup(TheTenant._id, function() {
-      var toAddresses = bodyData.To.match(emailPattern);
-      var involvedParties = bodyData["body-plain"].match(emailPattern);
-      var addresses = _.union(toAddresses, involvedParties);
+      const toAddresses = bodyData.To.match(emailPattern);
+      const involvedParties = bodyData["body-plain"].match(emailPattern);
+      const addresses = _.union(toAddresses, involvedParties);
+      const missingContacts = [];
 
       _.each(addresses, function(address) {
-        var contact = Contacts.findOne({
-          email: { $regex: new RegExp(address, "i") }
+        const contact = Contacts.findOne({
+          email: address
         });
 
         if (contact) {
@@ -100,8 +95,32 @@ Meteor.methods({
             primaryEntityDisplayData: contact.name(),
             tags: ['Automated']
           });
+        } else {
+          missingContacts.push(address);
         }
       });
+
+      if (missingContacts.length === addresses.length) {
+        SSR.compileTemplate('htmlEmail', Assets.getText('email-link-fail.html'));
+        let contactsBody = "";
+        _.each(missingContacts, function(contact) {
+          if (contact !== "inbox@realtimecrm.co.uk") {
+            contactsBody = contactsBody + " - " + contact + "<br><br>";
+          }
+        });
+
+        const emailData = {
+          name: MeteorUser.profile.name,
+          issues: contactsBody
+        };
+
+        Email.send({
+          to: userEmail[0],
+          from: 'realtimecrm-notifications@cambridgesoftware.co.uk',
+          subject: `Email link failure notification`,
+          html: SSR.render('htmlEmail', emailData)
+        });
+      }
     });
   }
 });

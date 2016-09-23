@@ -290,6 +290,13 @@ Meteor.publish("allUserTasks", function(userId) {
     assigneeId: userId
   });
 });
+Meteor.publish("subTasksByTaskId", function(taskId) {
+  if (!Roles.userIsInRole(this.userId, ['CanReadTasks'])) return this.ready();
+  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
+  return Tasks.find({
+    parentTaskId: taskId
+  });
+});
 
 //Products
 Meteor.publish("allProducts", function() {
