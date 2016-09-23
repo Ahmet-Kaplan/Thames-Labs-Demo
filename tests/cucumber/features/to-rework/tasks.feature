@@ -179,6 +179,5 @@ Feature: Allow users to manage their Tasks
     And I should not see "span.fa-user"
     And "#results-count" should contain "1 task"
     When I click "#resetSearch"
-    And the page is loaded
     Then I should see "span.fa-user"
     And "#results-count" should contain "2 tasks"
