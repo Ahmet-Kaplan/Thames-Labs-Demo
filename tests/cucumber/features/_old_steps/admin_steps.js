@@ -5,9 +5,9 @@ module.exports = function() {
     expect(browser.getText('#glob-cust-field-display', 2000)).toContain(gfName);
   });
 
-  this.When(/^I click the button "([^"]*)"$/, function(button) {
-    browser.leftClick(button);
-  });
+  // this.When(/^I click the button "([^"]*)"$/, function(button) {
+  //   browser.leftClick(button);
+  // });
 
   this.Then(/^the global field should no longer be visible$/, function() {
     browser.waitForExist('#glob-cust-field-display', 2000, true);

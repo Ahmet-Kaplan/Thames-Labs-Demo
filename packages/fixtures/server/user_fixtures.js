@@ -1,296 +1,4 @@
 Meteor.methods({
-
-  createTestTenant: function() {
-    var tenantName = 'Acme Corp';
-    const { Tenants } = require('/imports/api/collections.js');
-    Tenants.insert({
-      name: tenantName,
-      plan: 'free',
-      settings: {
-        extInfo: {
-          company: [],
-          contact: [],
-          project: [],
-          product: []
-        },
-        activity: {
-          defaultNumber: 1,
-        },
-        task: {
-          defaultNumber: 1,
-        },
-        company: {
-          defaultNumber: 1,
-        },
-        contact: {
-          defaultNumber: 1,
-        },
-        opportunity: {
-          defaultNumber: 1,
-          stages: []
-        },
-        project: {
-          defaultNumber: 1,
-          types: []
-        },
-        purchaseorder: {
-          defaultPrefix: "",
-          defaultNumber: 1,
-        },
-        product: {
-          defaultNumber: 1,
-        }
-      },
-      stripe: {
-      },
-      createdAt: new Date()
-    });
-  },
-
-  createFreeTenant: function() {
-    var tenantName = 'Acme Corp';
-    const { Tenants } = require('/imports/api/collections.js');
-    Tenants.insert({
-      name: tenantName,
-      plan: 'free',
-      settings: {
-        extInfo: {
-          company: [],
-          contact: [],
-          project: [],
-          product: []
-        },
-        activity: {
-          defaultNumber: 1,
-        },
-        task: {
-          defaultNumber: 1,
-        },
-        company: {
-          defaultNumber: 1,
-        },
-        contact: {
-          defaultNumber: 1,
-        },
-        opportunity: {
-          defaultNumber: 1,
-          stages: []
-        },
-        project: {
-          defaultNumber: 1,
-          types: []
-        },
-        purchaseorder: {
-          defaultPrefix: "",
-          defaultNumber: 1,
-        },
-        product: {
-          defaultNumber: 1,
-        }
-      },
-      stripe: {
-      },
-      createdAt: new Date()
-    });
-  },
-
-  setTenantToFreePlan: function() {
-    const { Tenants } = require('/imports/api/collections.js');
-    var t = Tenants.findOne({
-      name: 'Acme Corp'
-    });
-
-    Tenants.update({
-      _id: t._id
-    }, {
-      $set: {
-        plan: 'free'
-      }
-    });
-    var users = Meteor.users.find({
-      group: t._id
-    }).fetch();
-
-    _.each(users, function(user) {
-      if (!Roles.userIsInRole(user._id, 'Administrator')) {
-        Roles.addUsersToRoles(user._id, ["Administrator"]);
-      }
-      _.each(defaultPermissionsList, function(p) {
-        if (!Roles.userIsInRole(user._id, p)) {
-          Roles.addUsersToRoles(user._id, p);
-        }
-      })
-
-    });
-  },
-  setTenantToProPlan: function() {
-    const { Tenants } = require('/imports/api/collections.js');
-    var t = Tenants.findOne({
-      name: 'Acme Corp'
-    });
-
-    Tenants.update({
-      _id: t._id
-    }, {
-      $set: {
-        plan: 'pro'
-      }
-    });
-  },
-  setSecondTenantToProPlan: function() {
-    const { Tenants } = require('/imports/api/collections.js');
-    var t = Tenants.findOne({
-      name: 'Acme Corp Rivals'
-    });
-
-    Tenants.update({
-      _id: t._id
-    }, {
-      $set: {
-        plan: 'pro'
-      }
-    });
-  },
-
-  createSecondTenant: function() {
-    var tenantName = 'Acme Corp Rivals';
-    const { Tenants } = require('/imports/api/collections.js');
-    Tenants.insert({
-      name: tenantName,
-      plan: 'free',
-      settings: {
-        extInfo: {
-          company: [],
-          contact: [],
-          project: [],
-          product: []
-        },
-        activity: {
-          defaultNumber: 1,
-        },
-        task: {
-          defaultNumber: 1,
-        },
-        company: {
-          defaultNumber: 1,
-        },
-        contact: {
-          defaultNumber: 1,
-        },
-        opportunity: {
-          defaultNumber: 1,
-          stages: []
-        },
-        project: {
-          defaultNumber: 1,
-          types: []
-        },
-        purchaseorder: {
-          defaultPrefix: "",
-          defaultNumber: 1,
-        },
-        product: {
-          defaultNumber: 1,
-        }
-      },
-      stripe: {
-      },
-      createdAt: new Date()
-    });
-  },
-
-  createTestUser: function() {
-    var tenantName = 'Acme Corp';
-
-    var userId = Accounts.createUser({
-      username: "test user",
-      email: "test@domain.com",
-      password: "goodpassword",
-      profile: {
-        name: "test user"
-      }
-    });
-    const { Tenants } = require('/imports/api/collections.js');
-    var tenantId = Tenants.findOne({
-      name: tenantName
-    })._id;
-    Partitioner.setUserGroup(userId, tenantId);
-
-    Meteor.users.update({
-      _id: userId
-    }, {
-      $set: {
-        "emails.0.verified": true
-      }
-    });
-  },
-
-  //used for creating a user on the same tenant
-  createAdditionalUser: function() {
-    var tenantName = 'Acme Corp';
-
-    var userId = Accounts.createUser({
-      username: "test user 2",
-      email: "test2@domain.com",
-      password: "goodpassword",
-      profile: {
-        name: "test user 2"
-      }
-    });
-
-    const { Tenants } = require('/imports/api/collections.js');
-
-    var tenantId = Tenants.findOne({
-      name: tenantName
-    })._id;
-    Partitioner.setUserGroup(userId, tenantId);
-
-    Meteor.users.update({
-      _id: userId
-    }, {
-      $set: {
-        "emails.0.verified": true
-      }
-    });
-  },
-
-  //used for partition tests
-  createSecondUser: function() {
-    var tenantName = 'Acme Corp Rivals';
-
-    var userId = Accounts.createUser({
-      username: "test user two",
-      email: "testtwo@domain.com",
-      password: "goodpassword",
-      profile: {
-        name: "test user two"
-      }
-    });
-    const { Tenants } = require('/imports/api/collections.js');
-    var tenantId = Tenants.findOne({
-      name: tenantName
-    })._id;
-    Partitioner.setUserGroup(userId, tenantId);
-
-    Meteor.users.update({
-      _id: userId
-    }, {
-      $set: {
-        "emails.0.verified": true
-      }
-    });
-  },
-
-  removeWelcome: function(email) {
-    Meteor.users.update({
-      'emails.address': email
-    }, {
-      $set: {
-        "profile.welcomeTour": true,
-      }
-    });
-  },
-
   createTestSuperAdmin: function() {
     var superadminId = Accounts.createUser({
       username: 'superadmin',
@@ -312,7 +20,6 @@ Meteor.methods({
       }
     });
   },
-
   setPermission: function(permission, statement) {
     var userId = Meteor.users.findOne({})._id;
     if (statement) {
@@ -321,25 +28,12 @@ Meteor.methods({
       Roles.removeUsersFromRoles(userId, permission);
     }
   },
-
-  setPermissionForUsername: function(permission, username, statement) {
-    var userId = Meteor.users.findOne({
-      username: username
-    })._id;
-    if (statement) {
-      Roles.addUsersToRoles(userId, permission);
-    } else {
-      Roles.removeUsersFromRoles(userId, permission);
-    }
-  },
-
   checkUserHasPermission: function(username, permissionName) {
     var user = Meteor.users.findOne({
       username: username
     });
     return Roles.userIsInRole(user, permissionName);
   },
-
   createTestRestrictedUser: function() {
     var tenantName = 'Acme Corp';
     const { Tenants } = require('/imports/api/collections.js');
@@ -367,7 +61,6 @@ Meteor.methods({
       }
     });
   },
-
   getUserByEmail: function(email) {
     return result = Meteor.users.findOne({
       emails: {
@@ -377,7 +70,6 @@ Meteor.methods({
       }
     });
   },
-
   deleteStripeTestCustomer: function() {
     const { Tenants } = require('/imports/api/collections.js');
     var tenantId = Partitioner.getUserGroup(this.userId);
@@ -389,14 +81,6 @@ Meteor.methods({
 
     if (stripeId) {
       Stripe.customers.del(stripeId);
-      // Tenants.direct.update({
-      //   _id: tenantId
-      // }, {
-      //   $unset: {
-      //     'stripe.stripeId': '',
-      //     'stripe.stripeSubs': ''
-      //   }
-      // });
     }
   }
 });

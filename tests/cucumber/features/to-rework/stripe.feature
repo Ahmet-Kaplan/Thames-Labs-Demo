@@ -76,8 +76,8 @@ Feature: Allow users to subscribe/unsubscribe to Stripe
     When I click "#updateEmail"
     When I set text field with selector ".bootbox-input-text" to "newemail@domain.com"
     When I click confirm on the modal
+    Then I should not see a modal
     Then I should see a "info" toastr with the message "Processing your email update"
-    When the page is loaded
     Then I should see a "success" toastr with the message "Your email has been changed to: newemail@domain.com"
     Then the Stripe field "#stripeEmail" should say "newemail@domain.com"
 

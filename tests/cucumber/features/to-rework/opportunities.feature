@@ -192,6 +192,7 @@ Feature: Allow users to manage their sales opportunities
     When I click ".edit-line-item"
     And I set text field with id "name-field" to "testItem2"
     And I submit the "updateOpportunityItem" form
+    Then I should not see a modal
     Then I should see an updated line item in an opportunity
     When I click ".delete-line-item"
     And I click confirm on the modal
