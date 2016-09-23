@@ -28,9 +28,8 @@ module.exports = function() {
     //Close any open modals
     browser.timeouts('implicit', 1000);
     if(browser.isExisting('#draggableModal')) {
-      browser.executeAsync(function(done) {
+      browser.execute(function(done) {
         $("[data-dismiss=modal]").trigger({ type: "click" });
-        done();
       });
     }
   });
