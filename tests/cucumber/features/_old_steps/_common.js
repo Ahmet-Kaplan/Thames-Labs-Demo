@@ -7,7 +7,7 @@ module.exports = function() {
   function login(email, password, done) {
     Meteor.loginWithPassword(email, password, done);
   }
-
+  const url = require('url');
   /***************************************************
                           GIVEN
   ***************************************************/

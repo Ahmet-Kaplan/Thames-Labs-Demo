@@ -18,15 +18,6 @@ module.exports = function() {
     browser.submitForm('form#at-pwd-form');
   });
 
-  // this.Then(/^I am logged in$/, function() {
-  //   browser.waitForExist('#menu-link-dashboard', 2000);
-  //   const userId = browser
-  //     .executeSync(function() {
-  //       return Meteor.userId();
-  //     }).value;
-  //   expect(userId).not.toBe(null);
-  // });
-
   this.Then(/^I am not logged in$/, function() {
     const userId = browser
       .executeSync(function() {

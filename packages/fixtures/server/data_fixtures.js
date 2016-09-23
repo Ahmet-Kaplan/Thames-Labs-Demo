@@ -1,5 +1,4 @@
 Meteor.methods({
-
   addCompanyActivity: function() {
     const { Activities, Companies } = require('/imports/api/collections.js');
     var entity = Companies.findOne({});
@@ -192,6 +191,37 @@ Meteor.methods({
       sequencedIdentifier: 1
     });
   },
+
+  addProduct: function(user, additional) {
+    const { Products } = require('/imports/api/collections.js');
+    var name = (additional === true) ? 'Lightsabre (blue)' : 'Imperial Blaster',
+        description = (additional === true) ? 'An elegant weapon, from a more civilised age' : 'Accurate and deadly',
+        cost = (additional === true) ? 0 : 100,
+        price = (additional === true) ? Infinity : 200;
+    let userId = '';
+    if(user) {
+      userId = user;
+    }else {
+      userId = this.userId;
+    }
+    var productId = Products.insert({
+      name: name,
+      description: description,
+      createdBy: userId,
+      cost: cost,
+      price: price,
+      sequencedIdentifier: 1
+    });
+
+    if (additional === true) {
+      Collections.products.addTag('Jedi', {
+        _id: productId
+      });
+    }
+
+    return productId;
+  },
+
   addProject: function(user, additional) {
     const { Companies, Projects } = require('/imports/api/collections.js');
     var companyId = (additional === true) ? Meteor.call('addCompany', user, true) : Companies.findOne({})._id,
@@ -320,6 +350,7 @@ Meteor.methods({
 
     return data;
   },
+
   addPurchaseOrder: function(user, additional) {
 
     const { Companies, PurchaseOrders } = require('/imports/api/collections.js');
@@ -359,6 +390,28 @@ Meteor.methods({
     return data;
 
   },
+
+  addEvent: function() {
+    const { EventLog, Tenants } = require('/imports/api/collections.js');
+
+    var userGroup = Tenants.findOne({
+      name: 'Acme Corp'
+    });
+    var data = EventLog.insert({
+      date: new Date(),
+      source: 'client',
+      level: 'info',
+      message: 'This is a test event',
+      user: 'test user',
+      entityType: null,
+      entityId: null,
+      tenant: 'Acme Corp',
+      group: userGroup._id
+    });
+
+    return data;
+  },
+
   addOpportunityLineItem: function() {
     const { Opportunities } = require('/imports/api/collections.js');
     var opp = Opportunities.findOne({});
@@ -372,5 +425,183 @@ Meteor.methods({
       }
     });
     return opp;
+  },
+
+  addRecordsToLimit: function() {
+    var Future = Npm.require('fibers/future');
+    var done = new Future();
+    var control = _.after(MAX_RECORDS, function() {
+      done.return(true);
+    });
+    var nComp = MAX_RECORDS - 20;
+    for (var i = 0; i < 20; i++) {
+      Meteor.call('addContact', 'Test ' + i, 'Surnamer', function(err, res) {
+        control();
+      });
+    }
+    for (var j = 0; j < nComp; j++) {
+      Meteor.call('addCompany', 'Test ' + i + ' Ltd', function(err, res) {
+        control();
+      });
+    }
+    return done.wait();
+  },
+
+  addCompanyTask: function(user) {
+    let userId = '';
+    if(user) {
+      userId = user;
+    }else {
+      userId = this.userId;
+    }
+
+    const { Companies, Tasks } = require('/imports/api/collections.js');
+    var companyId = Companies.insert({
+      name: "Test Ltd",
+      address: "address",
+      city: "city",
+      postcode: "postcode",
+      country: "country",
+      createdBy: userId,
+      sequencedIdentifier: 1
+    });
+
+    var taskId = Tasks.insert({
+      title: 'test task',
+      description: 'test description',
+      assigneeId: userId,
+      isAllDay: true,
+      dueDate: new Date(),
+      entityType: 'company',
+      entityId: companyId,
+      createdBy: userId
+    });
+    return taskId;
+  },
+
+  addContactTask: function() {
+    const { Contacts, Tasks } = require('/imports/api/collections.js');
+    var contactId = Contacts.insert({
+      forename: "Obi-Wan",
+      surname: "Kenobi",
+      email: "obiwan@screwthedarkside.com",
+      createdBy: Meteor.userId(),
+      customFields: {},
+      extendedInformation: [{
+        "dataName": "test",
+        "dataValue": "velocity",
+        "dataType": "text",
+        "isGlobal": false
+      }],
+      sequencedIdentifier: 1
+    });
+
+    var taskId = Tasks.insert({
+      title: 'test task',
+      description: 'test description',
+      assigneeId: Meteor.userId(),
+      isAllDay: true,
+      dueDate: moment().add(7, 'days').toDate(),
+      entityType: 'contact',
+      entityId: contactId,
+      createdBy: Meteor.userId()
+    });
+    return taskId;
+  },
+
+  addOpportunityTask: function() {
+    const { Companies, Tasks, Opportunities, Tenants } = require('/imports/api/collections.js');
+    var userTenant = Tenants.findOne({});
+    var stages = [];
+    stages.push({
+      title: 'Stage 1',
+      description: 'test description',
+      id: 0
+    });
+    stages.push({
+      title: 'Stage 2',
+      description: 'test description',
+      id: 1
+    });
+    var stage = stages[0];
+    Tenants.update(userTenant._id, {
+      $set: {
+        'settings.opportunity.stages': stages
+      }
+    });
+
+    var date = new Date();
+    var companyId = Companies.insert({
+      name: "Test Task Ltd",
+      address: "address",
+      city: "city",
+      postcode: "postcode",
+      country: "country",
+      createdBy: Meteor.userId(),
+      sequencedIdentifier: 1
+    });
+
+    var oppId = Opportunities.insert({
+      name: 'Test opportunity for Task',
+      description: 'test description',
+      date: date,
+      value: 100,
+      currentStageId: stage.id,
+      companyId: companyId,
+      createdBy: Meteor.userId(),
+      items: [],
+      sequencedIdentifier: 1
+    });
+
+    var taskId = Tasks.insert({
+      title: 'test task',
+      description: 'test description',
+      assigneeId: Meteor.userId(),
+      isAllDay: true,
+      dueDate: new Date(),
+      entityType: 'opportunity',
+      entityId: oppId,
+      createdBy: Meteor.userId(),
+      sequencedIdentifier: 1
+    });
+    return taskId;
+  },
+
+  addProjectTask: function() {
+    const { Companies, Projects, Tasks } = require('/imports/api/collections.js');
+
+    var companyId = Companies.insert({
+      name: "Test Task Ltd",
+      address: "address",
+      city: "city",
+      postcode: "postcode",
+      country: "country",
+      createdBy: Meteor.userId(),
+      sequencedIdentifier: 1
+    });
+
+    var projectId = Projects.insert({
+      name: 'test project for task',
+      companyId: companyId,
+      userId: Meteor.userId(),
+      value: 200,
+      createdBy: Meteor.userId(),
+      projectTypeId: 0,
+      projectMilestoneId: 0,
+      sequencedIdentifier: 1
+    });
+
+    var taskId = Tasks.insert({
+      title: 'test task',
+      description: 'test description',
+      assigneeId: Meteor.userId(),
+      isAllDay: true,
+      dueDate: new Date(),
+      entityType: 'project',
+      entityId: projectId,
+      createdBy: Meteor.userId(),
+      sequencedIdentifier: 1
+    });
+    return taskId;
   }
 });
