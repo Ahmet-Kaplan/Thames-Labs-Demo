@@ -42,7 +42,8 @@ Template.insertActivityModal.events({
         let taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertActivityForm')}`;
 
         const desc = sanitizeHtml(AutoForm.getFieldValue('notes', 'insertActivityForm'), {
-          allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'h2' ])
+          allowedTags: [],
+          allowedAttributes: []
         });
 
         if (AutoForm.getFieldValue('contactId', 'insertActivityForm')) {
@@ -117,7 +118,8 @@ Template.insertContactActivityModal.events({
               taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertContactActivityForm')}`;
 
         const desc = sanitizeHtml(AutoForm.getFieldValue('notes', 'insertContactActivityForm'), {
-          allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'h2' ])
+          allowedTags: [],
+          allowedAttributes: []
         });
 
         Tasks.insert({
@@ -170,7 +172,8 @@ Template.insertProjectActivityModal.events({
               taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertProjectActivityForm')}`;
 
         const desc = sanitizeHtml(AutoForm.getFieldValue('notes', 'insertProjectActivityForm'), {
-          allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'h2' ])
+          allowedTags: [],
+          allowedAttributes: []
         });
 
         Tasks.insert({
@@ -236,7 +239,8 @@ Template.insertOpportunityActivityModal.events({
               taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertOpportunityActivityForm')}`;
 
         const desc = sanitizeHtml(AutoForm.getFieldValue('notes', 'insertOpportunityActivityForm'), {
-          allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'h2' ])
+          allowedTags: [],
+          allowedAttibutes: []
         });
 
         Tasks.insert({
