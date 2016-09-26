@@ -16,6 +16,7 @@ Feature: Allow users to manage their project types and milestones
     And I click "#removeType"
     And I click confirm on the modal
     Then I should see a "error" toastr with the message "This project type is currently in use, and cannot be deleted."
+    Given toastr are cleared
     And I click ".project-milestone #delete"
     And I click confirm on the modal
     Then I should see a "error" toastr with the message "This project milestone is currently in use, and cannot be deleted."
@@ -28,11 +29,13 @@ Feature: Allow users to manage their project types and milestones
     And I click "#submit-new-project-type"
     Then I should see a "success" toastr with the message "Project type created successfully."
     And I should not see a modal
+    Given toastr are cleared
     When I click "#editType"
     And I set text field with id "project-type-name" to "Velocity"
     And I click "#update-project-type"
     Then I should see a "success" toastr with the message "Project type updated successfully."
     And I should not see a modal
+    Given toastr are cleared
     When I click "#removeType"
     And I click confirm on the modal
     Then I should see a "success" toastr with the message "Project type deleted successfully."
@@ -47,11 +50,13 @@ Feature: Allow users to manage their project types and milestones
     And I click "#submit-new-milestone"
     Then I should see a "success" toastr with the message "Project milestone created successfully."
     And I should not see a modal
+    Given toastr are cleared
     When I click ".project-milestone-link"
     And I set text field with id "project-milestone-name" to "Cucumber"
     And I click "#update-milestone"
     Then I should see a "success" toastr with the message "Project milestone updated successfully."
     And I should not see a modal
+    Given toastr are cleared
     When I click ".project-milestone #delete"
     And I click confirm on the modal
     Then I should see a "success" toastr with the message "Project milestone deleted successfully."
