@@ -193,8 +193,12 @@ Template.companyDetail.events({
     const url = "?f%5Bcompany%5D=" + this._id + "&f%5Bactive%5D=No";
     FlowRouter.go("/projects" + url);
   },
-  'click #archived-opportunities': function(event, template) {
-    const url = "?f%5Bcompany%5D=" + this._id + "&f%5BshowArchived%5D=true";
+  'click #won-opps': function(event, template) {
+    const url = "?f%5Bcompany%5D=" + this._id + "&f%5Bstate%5D=Won";
+    FlowRouter.go("/opportunities" + url);
+  },
+  'click #lost-opps': function(event, template) {
+    const url = "?f%5Bcompany%5D=" + this._id + "&f%5Bstate%5D=Lost";
     FlowRouter.go("/opportunities" + url);
   }
 });
@@ -238,10 +242,17 @@ Template.companyDetail.helpers({
       isArchived: { $ne: true }
     });
   },
-  archivedOpps: function() {
+  wonOpps: function() {
     return Opportunities.find({
       companyId: this._id,
-      isArchived: true
+      hasBeenWon: true
+    }).count();
+  },
+  lostOpps: function() {
+    return Opportunities.find({
+      companyId: this._id,
+      isArchived: true,
+      hasBeenWon: true
     }).count();
   },
   inactiveProjects: function() {

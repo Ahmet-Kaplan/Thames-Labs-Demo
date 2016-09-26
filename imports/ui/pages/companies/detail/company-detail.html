@@ -92,8 +92,11 @@
       <div class="panel panel-default">
         <div class="panel-heading" id="opportunities">
           Opportunities
-          {{#if archivedOpps}}
-            - <a href="#" id="archived-opportunities">Show Archived ({{archivedOpps}})</a>
+          {{#if wonOpps}}
+            - <a href="#" id="won-opps">Show won ({{wonOpps}})</a>
+          {{/if}}
+          {{#if lostOpps}}
+            - <a href="#" id="lost-opps">Show lost ({{lostOpps}})</a>
           {{/if}}
           {{#if isInRole 'CanCreateOpportunities'}}
             <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add</a>
