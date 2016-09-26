@@ -26,7 +26,7 @@ module.exports = function() {
 
   this.After(function() {
     //Close any open modals
-    browser.timeouts('implicit', 1000);
+    browser.timeouts('implicit', 1500);
     if(browser.isExisting('#draggableModal')) {
       browser.execute(function(done) {
         $("[data-dismiss=modal]").trigger({ type: "click" });
