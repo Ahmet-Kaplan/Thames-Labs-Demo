@@ -7,7 +7,7 @@
         <h1>Projects {{#if archivedShown}} - <i>inactive</i>{{/if}}</h1>
       </div>
       <div class="col-md-7 list-header-right">
-        <div class="btn-group pull-right" role="group">
+        <div class="btn-group pull-right btn-fullWidth" role="group">
             {{#if isInRole 'CanCreateProjects'}}
               {{#unless isMobile}}
                 <button id="add-project" type="button" class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add project</button>
