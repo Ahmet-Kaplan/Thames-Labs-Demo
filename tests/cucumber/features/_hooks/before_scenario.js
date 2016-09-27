@@ -17,11 +17,20 @@ module.exports = function() {
     const tenantId = server.execute(createTenant, 'Acme Corp');
     server.execute(createUser, tenantId, 'Test User', 'test@domain.com');
 
-    // Navigate to root URL
-    browser.url(process.env.ROOT_URL);
+    //Navigate to root url
+    browser.click('.navbar-brand');
 
     // Login as test user
     browser.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
 
+  this.After(function() {
+    //Close any open modals
+    browser.timeouts('implicit', 1500);
+    if(browser.isExisting('#draggableModal')) {
+      browser.execute(function(done) {
+        $("[data-dismiss=modal]").trigger({ type: "click" });
+      });
+    }
+  });
 };

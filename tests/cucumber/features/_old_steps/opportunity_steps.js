@@ -1,15 +1,5 @@
 module.exports = function() {
 
-  var url = require('url');
-
-  //Adding
-  this.When(/^I navigate to an opportunity page$/, function() {
-    browser.url(url.resolve(process.env.ROOT_URL, '/opportunities'));
-    browser.waitForExist('.list-group-item:not(#moar)', 5000);
-    browser.waitForVisible('.list-group-item:not(#moar)', 5000);
-    browser.click('.list-group-item');
-  });
-
   //Deleting
   this.Then(/^the opportunity should not exist$/, function() {
     browser.waitForExist('#mchNoOpportunityPlaceholder', 2000);

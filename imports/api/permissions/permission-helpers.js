@@ -17,5 +17,3 @@ export const permissionHelpers = {
     if (!Roles.userIsInRole(userId, 'superadmin')) FlowRouter.go('dashboard');
   }
 };
-
-export { permissionHelpers };
