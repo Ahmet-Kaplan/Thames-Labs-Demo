@@ -1,5 +1,4 @@
 Meteor.methods({
-
   addCompanyActivity: function() {
     const { Activities, Companies } = require('/imports/api/collections.js');
     var entity = Companies.findOne({});
