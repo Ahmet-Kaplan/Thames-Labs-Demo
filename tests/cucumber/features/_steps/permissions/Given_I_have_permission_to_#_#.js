@@ -21,6 +21,5 @@ module.exports = function() {
       const requiredPermission = permissionGenerator(innerAction, collectionName);
       Roles.addUsersToRoles(userId, requiredPermission);
     }, user, action, collectionMap[friendlyEntityName]);
-
   });
 };

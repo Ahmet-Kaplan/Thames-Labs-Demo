@@ -17,7 +17,7 @@ module.exports = function() {
   });
 
   this.Then(/^I am signed up$/, function() {
-    var userId = browser
+    const userId = browser
       .executeAsync(function(done) {
         Meteor.call('getUserByEmail', 'test3@domain.com', function(err, data) {
           done(data);
@@ -27,7 +27,7 @@ module.exports = function() {
   });
 
   this.Then(/^I am not signed up$/, function() {
-    var userId = browser
+    const userId = browser
       .executeAsync(function(done) {
         Meteor.call('getUserByEmail', 'test3@domain.com', function(err, data) {
           done(data);

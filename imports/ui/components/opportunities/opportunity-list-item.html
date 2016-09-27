@@ -5,13 +5,13 @@
         <h4 class="list-group-item-heading">{{{oppName}}}</h4>
       </div>
       <div class="col-md-3">
-        {{#if companyId}}
+        {{#if company}}
           <p class="list-group-item-text"><i class="fa fa-fw fa-building"></i> {{company.name}}</p>
         {{/if}}
-        {{#if contactId}}
+        {{#if contact}}
           <p class="list-group-item-text"><i class="fa fa-fw fa-user"></i> {{contact.name}}</p>
         {{/if}}
-        {{#if salesManagerId}}
+        {{#if salesManager}}
           <p class="list-group-item-text"><i class="fa fa-fw fa-user-secret"></i> {{salesManager}}</p>
         {{/if}}
       </div>

@@ -10,7 +10,6 @@ Feature: Superadmin can access special parts of the site
     Given a superadmin exists
     And I am a logged out user
     And I am a logged in superadmin user
-    When I navigate to "/tenants"
     Then I should see the heading "Tenants"
     And I should see the title "Tenants"
 
@@ -18,7 +17,7 @@ Feature: Superadmin can access special parts of the site
     Given a superadmin exists
     And I am a logged out user
     And I am a logged in superadmin user
-    When I navigate to "/notifications"
+    When I visit notifications
     Then I should see the heading "Notifications"
     And I should see the title "Notifications"
 
@@ -26,7 +25,7 @@ Feature: Superadmin can access special parts of the site
     Given a superadmin exists
     And I am a logged out user
     And I am a logged in superadmin user
-    When I navigate to "/statistics"
+    When I visit statistics
     Then I should see the heading "Statistics"
     And I should see the title "Statistics"
 
@@ -51,7 +50,6 @@ Feature: Superadmin can access special parts of the site
     Given a superadmin exists
     And I am a logged out user
     And I am a logged in superadmin user
-    When I navigate to "/tenants"
     And I click "#btnAddNewTenant"
     And I set text field with id "tenantName" to "Velocity"
     And I click "#btnCreateTenant"

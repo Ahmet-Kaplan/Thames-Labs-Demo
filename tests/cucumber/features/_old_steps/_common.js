@@ -7,130 +7,25 @@ module.exports = function() {
   function login(email, password, done) {
     Meteor.loginWithPassword(email, password, done);
   }
-
-  var url = require('url');
-
+  const url = require('url');
   /***************************************************
                           GIVEN
   ***************************************************/
-  this.Given(/^a user exists$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('createTestTenant', done);
-      });
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('createTestUser', done);
-      });
-  });
-
-  this.Given(/^I am on the free plan$/, function() {
-    server.call('setTenantToFreePlan');
-  });
-
-  this.Given(/^the second tenant is on the pro plan$/, function() {
-    server.call('setSecondTenantToProPlan');
-  });
-
-  this.Given(/^a free user exists$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('createFreeTenant', done);
-      });
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('createTestUser', done);
-      });
-  });
-
-  this.Given(/^a second user exists$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('createSecondUser', done);
-      });
-  });
-
-  this.Given(/^an additional user exists$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('createAdditionalUser', done);
-      });
-  });
-
   this.Given(/^a superadmin exists$/, function() {
     browser
       .executeAsync(function(done) {
         Meteor.call('createTestSuperAdmin', done);
       });
   });
-
-  this.Given(/^a tenant exists$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('createTestTenant', done);
-      });
-  });
-
-  this.Given(/^a free tenant exists$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('createFreeTenant', done);
-      });
-  });
-
-  this.Given(/^a second tenant exists$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('createSecondTenant', done);
-      });
-  });
-
   this.Given(/^I (?:am a logged out user)$/, function() {
     browser.executeAsync(logout);
   });
-
   this.Given(/^I am a logged in user$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('removeWelcome', 'test@domain.com', done);
-      });
     browser.executeAsync(login, 'test@domain.com', 'goodpassword');
   });
-
-  this.Given(/^I log in as user 2$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('removeWelcome', 'test2@domain.com', done);
-      });
-    browser.executeAsync(login, 'test2@domain.com', 'goodpassword');
-  });
-
-
-  this.Given(/^I log in as a second tenant user$/, function() {
-    browser
-      .executeAsync(function(done) {
-        Meteor.call('removeWelcome', 'testtwo@domain.com', done);
-      });
-    browser.executeAsync(login, 'testtwo@domain.com', 'goodpassword');
-  });
-
-  this.Given(/^I am logged in as a new user$/, function() {
-    browser.executeAsync(login, 'test@domain.com', 'goodpassword');
-  });
-
   this.Given(/^I am a logged in superadmin user$/, function() {
     browser.executeAsync(login, 'admin@cambridgesoftware.co.uk', 'admin');
   });
-
-  // this.Given(/^an? "([^"]*)" has been created$/, function(entity) {
-  //   browser
-  //     .executeAsync(function(entity, done) {
-  //       Meteor.call('add' + entity, function() {
-  //         done();
-  //       });
-  //     }, entity);
-  // });
-
   this.Given(/^an additional "([^"]*)" has been created$/, function(entity) {
     browser.executeAsync(function(innerEntity, done) {
       Meteor.call('add' + innerEntity, '1', true, function() {
@@ -138,7 +33,6 @@ module.exports = function() {
       });
     }, entity);
   });
-
   this.Given(/^toastr are cleared$/, function() {
     browser.executeAsync(function(done) {
       toastr.clear();
@@ -151,20 +45,12 @@ module.exports = function() {
   ***************************************************/
 
   this.When(/^I navigate to "([^"]*)"$/, function(relativePath) {
-    var path = url.resolve(process.env.ROOT_URL, relativePath);
+    const path = url.resolve(process.env.ROOT_URL, relativePath);
     browser.url(path);
   });
 
   this.When(/^I navigate backwards in the browser history$/, function() {
     browser.back();
-  });
-
-  this.When(/^the page is loaded$/, function() {
-    browser.executeAsync(function(done) {
-      //This is used to wait for the data to be loaded.
-      //Ideally this should look the the subscription instead.
-      setTimeout(done, 500);
-    });
   });
 
   this.When(/^I click "([^"]*)"$/, function(id) {
@@ -214,9 +100,9 @@ module.exports = function() {
   });
 
   this.When(/^I selectize "([^"]*)" to "([^"]*)"$/, function(selector, value) {
-    var selectizeInput = '#' + selector + ' + .selectize-control>.selectize-input>input',
-        selectizeDropdown = '#' + selector + ' + .selectize-control>.selectize-dropdown',
-        selectizeOption = '#' + selector + ' + .selectize-control>.selectize-dropdown .option';
+    const selectizeInput = '#' + selector + ' + .selectize-control>.selectize-input>input',
+          selectizeDropdown = '#' + selector + ' + .selectize-control>.selectize-dropdown',
+          selectizeOption = '#' + selector + ' + .selectize-control>.selectize-dropdown .option';
     browser.safeClick(selectizeInput);
     browser.waitForVisible(selectizeOption, 5000);
     browser.waitForVisible('.option*=' + value, 5000);
@@ -291,23 +177,15 @@ module.exports = function() {
     expect(browser.getTitle()).toBe(expectedTitle);
   });
 
-  // this.Then(/^I should see the heading "([^"]*)"$/, function(expectedHeading) {
-  //   browser.waitForExist('h1*=' + expectedHeading, 5000);
-  // });
-
-  // this.Then(/^I should not see the heading "([^"]*)"$/, function(expectedHeading) {
-  //   browser.waitForExist('h1*=' + expectedHeading, 5000, true);
-  // });
-
   this.Then(/^I should see a modal$/, function() {
-    browser.waitForExist('.modal-dialog', 5000);
-    browser.waitForVisible('.modal-dialog', 5000);
-    expect(browser.isExisting('.modal-dialog')).toEqual(true);
+    browser.waitForExist('.modal', 5000);
+    browser.waitForVisible('.modal', 5000);
+    expect(browser.isExisting('.modal')).toEqual(true);
   });
 
   this.Then(/^I should see a modal with the title "([^"]*)"$/, function(expectedTitle) {
-    browser.waitForExist('.modal-dialog', 5000);
-    browser.waitForVisible('.modal-dialog', 5000);
+    browser.waitForExist('.modal', 5000);
+    browser.waitForVisible('.modal', 5000);
     expect(browser.waitForExist('h4*=' + expectedTitle, 5000)).toEqual(true);
   });
 
@@ -315,7 +193,7 @@ module.exports = function() {
     browser.executeAsync(function(done) {
       setTimeout(done, 1000);
     });
-    expect(browser.isVisible('.modal-dialog')).toEqual(false);
+    expect(browser.isVisible('.modal')).toEqual(false);
   });
 
   this.Then(/^"([^"]*)" should (say|contain|not contain) "([^"]*)"$/, function(selector, option, desiredText) {
@@ -371,7 +249,7 @@ module.exports = function() {
   this.Then(/^the field with selector "([^"]*)" should (not )?contain "([^"]*)"$/, function(selector, negate, expectedValue) {
     browser.waitForExist(selector, 5000);
     browser.timeoutsImplicitWait(5000);
-    var actualValue = browser.getValue(selector);
+    const actualValue = browser.getValue(selector);
     if (negate) {
       expect(actualValue).not.toContain(expectedValue);
     } else {
@@ -380,7 +258,7 @@ module.exports = function() {
   });
 
   this.Then(/^the tag field for the "([^"]*)" should contain "([^"]*)"$/, function(entity, expectedText) {
-    var tagField = browser.getText('#tag-list-display');
+    const tagField = browser.getText('#tag-list-display');
     expect(tagField).toContain(expectedText);
   });
 
@@ -395,7 +273,7 @@ module.exports = function() {
   this.Then(/^element "([^"]*)" should contain the text "([^"]*)"$/, function(element, desiredText) {
     browser.waitForExist(element, 5000);
     browser.waitForVisible(element, 5000);
-    var elements = browser.getText(element, 2000);
+    const elements = browser.getText(element, 2000);
     if (typeof elements === 'object') {
       return elements.some(function(elt) {
         if (elt.search(new RegExp(desiredText))) return true;

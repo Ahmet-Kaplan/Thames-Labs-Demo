@@ -9,6 +9,8 @@ module.exports = function() {
       height: 700
     });
 
+    browser.url(process.env.ROOT_URL);
+
     // Add extra webdriver commands
     browser.addCommand('selectize', function(selector, value) {
       const selectizeInput = '' + selector + ' + .selectize-control>.selectize-input>input',

@@ -17,9 +17,9 @@ Template.projectDetailsPanel.helpers({
     return moment(this.dueDate).format('MMMM Do YYYY, h:mma');
   },
   staffList: function() {
-    var staffList = "";
-    for (var i = 0; i < this.staff.length; i++) {
-      var name = Meteor.users.find({
+    let staffList = "";
+    for (let i = 0; i < this.staff.length; i++) {
+      const name = Meteor.users.find({
         _id: this.staff[i]
       }).fetch()[0].profile.name;
       staffList = staffList + name + ", ";
@@ -41,7 +41,7 @@ Template.projectDetailsPanel.events({
   },
   'click #remove-project': function(event) {
     event.preventDefault();
-    var projectId = this._id;
+    const projectId = this._id;
 
     bootbox.confirm("Are you sure you wish to delete this project?", function(result) {
       if (result === true) {
@@ -59,18 +59,18 @@ Template.projectDetailsPanel.events({
   'change #template-upload-docx': function(event) {
     event.preventDefault();
 
-    var file = event.target.files[0];
+    const file = event.target.files[0];
     if (!file) return;
     if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
       toastr.error("Unable to process file. Please ensure the provided file is a word document (.docx)");
       return;
     }
 
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = function() {
       toastr.info("Extracting, please wait...");
 
-      var doc = new Docxgen(reader.result);
+      const doc = new Docxgen(reader.result);
 
       let companyName = "";
       let companyAddress = "";
@@ -78,14 +78,14 @@ Template.projectDetailsPanel.events({
       const userName = Meteor.user().profile.name;
 
       if (this.companyId) {
-        var company = Companies.findOne(this.companyId);
+        const company = Companies.findOne(this.companyId);
         if (company) {
           companyName = company.name;
           companyAddress = company.address + "\r\n" + company.address2 + "\r\n" + company.city + "\r\n" + company.county + "\r\n" + company.country + "\r\n" + company.postcode;
         }
       }
       if (this.contactId) {
-        var contact = Contacts.findOne(this.contactId);
+        const contact = Contacts.findOne(this.contactId);
         if (contact) {
           contactName = contact.forename + " " + contact.surname;
         }
@@ -93,8 +93,8 @@ Template.projectDetailsPanel.events({
 
       let staffList = "";
       if (this.staff) {
-        for (var i = 0; i < this.staff.length; i++) {
-          var name = Meteor.users.find({
+        for (let i = 0; i < this.staff.length; i++) {
+          const name = Meteor.users.find({
             _id: this.staff[i]
           }).fetch()[0].profile.name;
           staffList = staffList + name + ", ";
@@ -133,12 +133,12 @@ Template.projectDetailsPanel.events({
 
       try {
         doc.render();
-        var docDataUri = doc.getZip().generate({
+        const docDataUri = doc.getZip().generate({
           type: 'blob'
         });
         docDataUri.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
         //Convert data into a blob format for sending to api
-        var blob = new Blob([docDataUri], {
+        const blob = new Blob([docDataUri], {
           type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         });
         saveAs(blob, file.name);
