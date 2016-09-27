@@ -252,7 +252,7 @@ Template.companyDetail.helpers({
     return Opportunities.find({
       companyId: this._id,
       isArchived: true,
-      hasBeenWon: true
+      hasBeenWon: false
     }).count();
   },
   inactiveProjects: function() {
