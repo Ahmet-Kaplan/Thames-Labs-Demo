@@ -126,10 +126,17 @@ Template.contactDetail.helpers({
       supplierContactId: this._id
     });
   },
-  archivedOpps: function() {
+  wonOpps: function() {
     return Opportunities.find({
       contactId: this._id,
-      isArchived: true
+      hasBeenWon: true
+    }).count();
+  },
+  lostOpps: function() {
+    return Opportunities.find({
+      contactId: this._id,
+      isArchived: true,
+      hasBeenWon: false
     }).count();
   },
   inactiveProjects: function() {
@@ -287,10 +294,15 @@ Template.contactDetail.events({
     const url = "?f%5Bcontact%5D=" + this._id + "&f%5Bactive%5D=No";
     FlowRouter.go("/projects" + url);
   },
-  'click #archived-opportunities': function(event, template) {
-    const url = "?f%5Bcontact%5D=" + this._id + "&f%5BshowArchived%5D=true";
+  'click #won-opps': function(event, template) {
+    const url = "?f%5Bcontact%5D=" + this._id + "&f%5Bstate%5D=Won";
+    FlowRouter.go("/opportunities" + url);
+  },
+  'click #lost-opps': function(event, template) {
+    const url = "?f%5Bcontact%5D=" + this._id + "&f%5Bstate%5D=Lost";
     FlowRouter.go("/opportunities" + url);
   }
+
 });
 
 Template.ContactProjectListItem.helpers({
