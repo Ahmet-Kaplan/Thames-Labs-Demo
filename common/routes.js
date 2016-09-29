@@ -199,6 +199,8 @@ router.route('/settings/:section', {
       case 'import':
         layoutTemplate = 'importSettings';
         break;
+      case 'email':
+        layoutTemplate = 'emailSettings';
     }
 
     layout.render('appLayout', {
