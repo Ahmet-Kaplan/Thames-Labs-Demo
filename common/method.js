@@ -36,9 +36,14 @@ Meteor.methods({
     });
 
     if (opp.items) {
-      for (var i = 0; i < opp.items.length; i++) {
-        var title = opp.items[i].name;
-        var description = opp.items[i].description + " Value: " + opp.items[i].value + " Quantity: " + opp.items[i].quantity;
+      for (let i = 0; i < opp.items.length; i++) {
+        const title = opp.items[i].name;
+        let description = `Value: ${opp.items[i].value} Quantity: ${opp.items[i].quantity}`;
+
+        if(opp.items[i].description) {
+          description = `${opp.items[i].description} ${description}`;
+        }
+
         Tasks.insert({
           title: title,
           description: description,
