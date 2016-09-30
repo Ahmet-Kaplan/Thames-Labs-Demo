@@ -281,7 +281,7 @@ router.route('/projects/:id', {
 });
 
 router.route('/purchaseorders', {
-  name: 'purchaseOrders',
+  name: 'purchaseorders',
   action: function() {
     layout.render('appLayout', {
       main: 'purchaseOrderList'

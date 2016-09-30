@@ -25,7 +25,7 @@ Feature: Allow users to manage their Purchase Orders
     And I have the "CanCreatePurchaseOrders" permission
     And I have the "CanEditPurchaseOrders" permission
     And I have the "CanDeletePurchaseOrders" permission
-    And I visit purchaseorders
+    And I visit purchaseOrders
     And I click "#add-purchase-order"
     And I set text field with selector "#description" to "test purchase order"
     And I selectize "companyId" to "Test Ltd"
