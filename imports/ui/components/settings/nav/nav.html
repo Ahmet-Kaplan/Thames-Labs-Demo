@@ -10,9 +10,9 @@
       <a id="import-link" class="list-group-item {{isActivePath '/settings/import'}}" href={{pathFor route="settings" section="import"}}>Import Data</a>
       {{/unless}}
     {{/if}}
+      <a class="list-group-item {{isActivePath '/settings/email'}}" href={{pathFor route="settings" section="email"}}>Email</a>
   </div>
 
-  {{#if isInRole 'Administrator'}}
   <!-- Mobile menu is admin only as normal users only have one settings page -->
   <div class="visible-xs visible-sm">
     <div class="btn-group pull-right">
@@ -21,6 +21,7 @@
       </button>
       <ul class="dropdown-menu">
           <li><a class="{{isActivePath '/settings/profile'}}" href={{pathFor route="settings" section="profile"}}>Profile</a></li>
+          {{#if isInRole 'Administrator'}}
           <li><a class="{{isActivePath '/settings/company-info'}}" href={{pathFor route="settings" section="company-info"}}>Company Information</a></li>
           <li><a class="{{isActivePath '/settings/configuration'}}" href={{pathFor route="settings" section="configuration"}}>Configuration</a></li>
           {{#unless isiOSApp}}
@@ -28,8 +29,9 @@
           <li><a class="{{isActivePath '/settings/billing'}}" href={{pathFor route="settings" section="billing"}}>Billing</a></li>
           <li><a class="{{isActivePath '/settings/import'}}" href={{pathFor route="settings" section="import"}}>Import Data</a></li>
           {{/unless}}
+          {{/if}}
+          <li><a class="{{isActivePath '/settings/email'}}" href={{pathFor route="settings" section="email"}}>Email</a></li>
       </ul>
     </div>
   </div>
-  {{/if}}
 </template>
