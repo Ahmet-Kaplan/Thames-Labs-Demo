@@ -4,3 +4,4 @@ import './billing/billing.js';
 import './configuration/configuration.js';
 import './company-info/company-info.js';
 import './import/import.js';
+import './emails/emails.js';
