@@ -14,7 +14,7 @@
 
         {{> menuButton title='Dashboard' page='/' icon='home' permissions='' activeRoutes='dashboard' linkId='dashboard'}}
         {{> favourites }}
-        {{> menuButton title='Activities' page='activities' icon='history' permissions='' activeRoutes='activities' proFeature='true' linkId='activities'}}
+        {{> menuButton title='Activities' page='activities' icon='history' permissions='' activeRoutes='activities' linkId='activities'}}
         {{> menuButton title='Tasks' page='tasks' icon='check' permissions='Administrator,CanReadTasks' activeRoutes='tasks|task'}}
         {{> menuButton title='Companies' page='companies' icon='building' permissions='CanReadCompanies' activeRoutes='companies|company'}}
         {{> menuButton title='Contacts' page='contacts' icon='user' permissions='CanReadContacts' activeRoutes='contacts|contact'}}
@@ -22,8 +22,8 @@
         {{> menuButton title='Sales Pipeline' page='salespipeline' icon='signal' permissions='CanReadOpportunities' activeRoutes='salespipeline'}}
         {{> menuButton title='Projects' page='projects' icon='sitemap' permissions='CanReadProjects' activeRoutes='projects|project'}}
         {{> menuButton title='Products' page='products' icon='barcode' permissions='CanReadProducts' activeRoutes='products|product'}}
-        {{> menuButton title='Purchase Orders' page='purchaseorders' icon='shopping-cart' permissions='CanReadPurchaseOrders' activeRoutes='purchaseOrders|purchaseOrder' proFeature='true'}}
-        {{> menuButton title='Event Log' page='events' icon='book' permissions='CanReadEventLog' activeRoutes='events' proFeature='true' linkId='eventlog'}}
+        {{> menuButton title='Purchase Orders' page='purchaseorders' icon='shopping-cart' permissions='CanReadPurchaseOrders' activeRoutes='purchaseOrders|purchaseOrder'}}
+        {{> menuButton title='Event Log' page='events' icon='book' permissions='CanReadEventLog' activeRoutes='events' linkId='eventlog'}}
 
       {{/if}}
 

@@ -55,6 +55,30 @@ Template.importPage.helpers({
   hasCustomFields: function() {
     const t = Template.instance().entityType.get();
     if (t == "companies" || t == "contacts" || t == "products" || t == "projects") return true;
+  },
+  companies: function() {
+    if (FlowRouter.getQueryParam("entity") == "companies") return true;
+  },
+  contacts: function() {
+    if (FlowRouter.getQueryParam("entity") == "contacts") return true;
+  },
+  opportunities: function() {
+    if (FlowRouter.getQueryParam("entity") == "opportunities") return true;
+  },
+  projects: function() {
+    if (FlowRouter.getQueryParam("entity") == "projects") return true;
+  },
+  products: function() {
+    if (FlowRouter.getQueryParam("entity") == "products") return true;
+  },
+  purchaseOrders: function() {
+    if (FlowRouter.getQueryParam("entity") == "purchaseOrders") return true;
+  },
+  tasks: function() {
+    if (FlowRouter.getQueryParam("entity") == "tasks") return true;
+  },
+  activities: function() {
+    if (FlowRouter.getQueryParam("entity") == "activities") return true;
   }
 });
 

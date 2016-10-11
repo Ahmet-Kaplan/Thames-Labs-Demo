@@ -4,14 +4,14 @@
     {{#unless greaterThan currentStage 2}}
       <p>Choose the type of record you would like to import from the options below.</p>
       <select id="recordTypeSelect" class="selectpicker">
-        <option value="companies">Companies</option>
-        <option value="contacts">Contacts</option>
-        <option value="opportunities">Opportunities</option>
-        <option value="projects">Projects</option>
-        <option value="products">Products</option>
-        <option value="purchaseorders">Purchase Orders</option>
-        <option value="tasks">Tasks</option>
-        <option value="activities">Activities</option>
+        <option selected="{{#if companies}}selected{{/if}}" value="companies">Companies</option>
+        <option selected="{{#if contacts}}selected{{/if}}" value="contacts">Contacts</option>
+        <option selected="{{#if opportunities}}selected{{/if}}" value="opportunities">Opportunities</option>
+        <option selected="{{#if projects}}selected{{/if}}" value="projects">Projects</option>
+        <option selected="{{#if products}}selected{{/if}}" value="products">Products</option>
+        <option selected="{{#if purchaseOrders}}selected{{/if}}" value="purchaseorders">Purchase Orders</option>
+        <option selected="{{#if tasks}}selected{{/if}}" value="tasks">Tasks</option>
+        <option selected="{{#if activities}}selected{{/if}}" value="activities">Activities</option>
       </select>
       <br>
     {{/unless}}
